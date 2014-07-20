@@ -1,7 +1,7 @@
 package com.apexsoft.ysprj.user.service.impl;
 
-import com.apexsoft.ysprj.common.persistence.dao.CommonDAO;
-import com.apexsoft.ysprj.common.persistence.dao.handler.RowHandler;
+import com.apexsoft.framework.persistence.dao.CommonDAO;
+import com.apexsoft.framework.persistence.dao.handler.RowHandler;
 import com.apexsoft.ysprj.user.service.AuthoritiesVO;
 import com.apexsoft.ysprj.user.service.UsersService;
 import com.apexsoft.ysprj.user.service.UsersVO;
@@ -10,9 +10,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Service("usersService")
 public class UsersServiceImpl implements UsersService {

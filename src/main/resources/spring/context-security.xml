@@ -34,13 +34,13 @@
         <logout logout-url="/j_spring_security_logout.do" invalidate-session="true" logout-success-url="/user/login?logout=true"/>
     </http>
 
-    <beans:bean id="userDetailsService" class="com.apexsoft.ysprj.common.security.UserDetailsServiceImpl" />
+    <beans:bean id="userDetailsService" class="com.apexsoft.framework.security.UserDetailsServiceImpl" />
 
     <authentication-manager >
         <authentication-provider user-service-ref="userDetailsService">
         </authentication-provider>
     </authentication-manager>
 
-    <beans:bean id="authenticationFailureHandler" class="com.apexsoft.ysprj.common.security.handler.YsAuthenticationFailureHandler"></beans:bean>
+    <beans:bean id="authenticationFailureHandler" class="com.apexsoft.framework.security.handler.YsAuthenticationFailureHandler"></beans:bean>
 
 </beans:beans>
