@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="users">
+
+	<resultMap id="users" type="com.apexsoft.ysprj.user.service.UsersVO">
+		<result property="username" column="username"/>
+		<result property="password" column="password"/>
+		<result property="koreanName" column="korean_name"/>
+		<result property="engName" column="eng_name"/>
+		<result property="license" column="license"/>
+		<result property="nickname" column="nickname"/>
+		<result property="grade" column="grade"/>
+		<result property="birthDate" column="birth_date"/>
+        <result property="postNumber" column="post_number" />
+        <result property="postSeq" column="post_seq" />
+        <result property="address" column="address" />
+        <result property="addressDetail" column="address_detail" />
+        <result property="engAddress" column="eng_address" />
+        <result property="diveLog" column="dive_log" />
+        <result property="email" column="email" />
+        <result property="enabled" column="enabled" />
+        <result property="mailingService" column="mailing_service" />
+        <result property="passportNumber" column="passport_number" />
+        <result property="phoneNumber" column="phone_number" />
+        <result property="smsService" column="sms_service" />
+        <result property="regDate" column="reg_date" />
+	</resultMap>
+
+    <insert id="insert" parameterType="com.apexsoft.ysprj.user.service.UsersVO">
+        <![CDATA[
+		  INSERT INTO users(username,
+		                    post_number,
+		                    post_seq,
+		                    address,
+		                    address_detail,
+		                    eng_address,
+                            birth_date,
+                            dive_log,
+                            email,
+                            enabled,
+                            eng_name,
+                            grade,
+                            korean_name,
+                            license,
+                            mailing_service,
+                            nickname,
+                            passport_number,
+                            password,
+                            phone_number,
+                            sms_service,
+                            reg_date
+                            )
+		             VALUES(#{username},
+		                    #{postNumber},
+		                    #{postSeq},
+		                    #{address},
+		                    #{addressDetail},
+		                    #{engAddress},
+                            #{birthDate},
+                            #{diveLog},
+                            #{email},
+                            #{enabled},
+                            #{engName},
+                            #{grade},
+                            #{koreanName},
+                            #{license},
+                            #{mailingService},
+                            #{nickname},
+                            #{passportNumber},
+                            #{password},
+                            #{phoneNumber},
+                            #{smsService},
+                            now())
+		]]>
+    </insert>
+
+    <select id="selectByPk" resultMap="users"  parameterType="String">
+        <!-- [CDATA[
+		  SELECT post_number, post_seq, address, address_detail, eng_address, birth_date, dive_log, email, enabled, eng_name, korean_name, license, mailing_service, nickname, passport_number, password, phone_number, sms_service, username, grade, reg_date
+		    FROM users
+			WHERE 1=1
+			AND username = #{username}
+		]] -->
+        <![CDATA[
+		  SELECT username, password, enabled
+		    FROM users
+			WHERE 1=1
+			AND username = #{username}
+		]]>
+    </select>
+
+    <!-- select id="selectUserList" resultMap="users"  parameterType="com.apexsoft.ysprj.common.service.ComDefaultVO">
+		<![CDATA[
+		  SELECT post_number, post_seq, address, address_detail, eng_address, birth_date, dive_log, email, enabled, eng_name, korean_name, license, mailing_service, nickname, passport_number, password, phone_number, sms_service, username, grade, reg_date
+		    FROM users
+			WHERE 1=1
+		]]>
+        <if test="searchCondition == 1">
+            <![CDATA[AND username like concat( '%',#{searchKeyword}, '%' )]]>
+        </if>
+        <if test="searchCondition == 2">
+            <![CDATA[AND korean_name like concat( '%', #{searchKeyword}, '%' )]]>
+        </if>
+        ORDER BY reg_date desc
+        LIMIT  #{recordCountPerPage} OFFSET #{firstIndex}
+	</select>
+
+    <select id="selectTotalCount" resultType="java.lang.Integer" parameterType="com.apexsoft.ysprj.common.service.ComDefaultVO">
+        <![CDATA[
+		  SELECT count(*)
+		    FROM users
+			WHERE 1=1
+		]]>
+        <if test="searchCondition == 1">
+            <![CDATA[AND username like concat( '%',#{searchKeyword}, '%' )]]>
+        </if>
+        <if test="searchCondition == 2">
+            <![CDATA[AND korean_name like concat( '%', #{searchKeyword}, '%' )]]>
+        </if>
+    </select -->
+
+    <update id="updateUsers" parameterType="com.apexsoft.ysprj.user.service.UsersVO">
+        <![CDATA[
+		  UPDATE users SET
+		                    post_number = #{postNumber},
+		                    post_seq = #{postSeq},
+		                    address = #{address},
+		                    address_detail = #{addressDetail},
+		                    eng_address = #{engAddress},
+                            birth_date = #{birthDate},
+                            dive_log = #{diveLog},
+                            email = #{email},
+                            eng_name = #{engName},
+                            korean_name = #{koreanName},
+                            license = #{license},
+                            mailing_service = #{mailingService},
+                            nickname = #{nickname},
+                            passport_number = #{passportNumber},
+                            password = #{password},
+                            phone_number = #{phoneNumber},
+                            sms_service = #{smsService}
+			WHERE username = #{username}
+		]]>
+    </update>
+
+    <update id="updateUsersGrade" parameterType="map">
+        <![CDATA[
+		  UPDATE users SET
+		    grade = #{grade}
+			WHERE username = #{username}
+		]]>
+    </update>
+
+
+    <!-- Queuries for Autority      -->
+
+
+    <select id="selectAuthorities" resultType="com.apexsoft.ysprj.user.service.AuthoritiesVO"  parameterType="String">
+        <![CDATA[
+		  SELECT username, authority
+		    FROM authorities
+			WHERE 1=1
+			AND username = #{username}
+		]]>
+    </select>
+
+
+    <insert id="insertAuthority"  parameterType="com.apexsoft.ysprj.user.service.AuthoritiesVO" >
+        <![CDATA[
+		  INSERT INTO authorities
+		                   (authority,
+		                    username)
+		             VALUES(#{authority},
+		                    #{username})
+		]]>
+    </insert>
+
+    <delete id="deleteAuthority" parameterType="com.apexsoft.ysprj.user.service.AuthoritiesVO">
+        <![CDATA[
+		  DELETE FROM authorities
+			WHERE username = #{username}
+			AND authority = #{authority}
+		]]>
+    </delete>
+
+
+
+</mapper>

@@ -1,0 +1,102 @@
+package com.apexsoft.ysprj.user.service.impl;
+
+import com.apexsoft.ysprj.common.persistence.dao.CommonDAO;
+import com.apexsoft.ysprj.common.persistence.dao.handler.RowHandler;
+import com.apexsoft.ysprj.user.service.AuthoritiesVO;
+import com.apexsoft.ysprj.user.service.UsersService;
+import com.apexsoft.ysprj.user.service.UsersVO;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.stereotype.Service;
+
+import javax.annotation.Resource;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+@Service("usersService")
+public class UsersServiceImpl implements UsersService {
+
+    private static String NAME_SPACE="users.";
+
+    @Autowired
+    private CommonDAO commonDAO;
+
+	@Resource(name="usersDAO")
+	private UsersDAO usersDAO;
+
+
+//	public void registerUser(UsersVO usersVO){
+//		usersVO.setEnabled(true);
+//		usersDAO.insert(usersVO);
+//
+//		AuthoritiesVO authVO = new AuthoritiesVO();
+//		authVO.setUsername(usersVO.getUsername());
+//		authVO.setAuthority(ROLE_USER);
+//		usersDAO.insert(authVO);
+//
+//        smtpMailSender.send(
+//                usersVO.getEmail(),
+//                usersVO.getKoreanName(),
+//                "admin@aquascuba.co.kr",
+//                "아쿠아스쿠바 사이트관리자",
+//                usersVO.getKoreanName() + "님 아쿠아스쿠바 회원가입정보",
+//                "축하합니다. "+usersVO.getKoreanName()+"님 아쿠아스쿠바 회원으로 가입되셨습니다."
+//        );
+//	}
+
+	@Override
+	public UsersVO retrieveUser(String userName) {
+		return usersDAO.selectByPk(userName);
+	}
+
+    @Override
+    public List<SimpleGrantedAuthority> retrieveAuthorities(String userName) {
+        return commonDAO.queryWithResultHandler(NAME_SPACE+"selectAuthorities", userName, new RowHandler<AuthoritiesVO, SimpleGrantedAuthority>() {
+            @Override
+            public SimpleGrantedAuthority handleRow(AuthoritiesVO authoritiesVO) {
+                return new SimpleGrantedAuthority(authoritiesVO.getAuthority());
+            }
+        });
+    }
+
+
+//    @Override
+//    public Map<String, Object> getUserPaginatedList(ComDefaultVO searchVO) {
+//        Map<String, Object> rtnMap = new HashMap<String, Object>();
+//
+//        List<UsersVO> users = usersDAO.getUsersList(searchVO);
+//        int totalCount = usersDAO.getTotalCount(searchVO);
+//
+//        rtnMap.put("list", users);
+//        rtnMap.put("totalCount", totalCount);
+//
+//        return rtnMap;
+//    }
+
+//    @Override
+//    public void modifyUsersGrade(String[] usernames, String[] grades) {
+//        if ( usernames == null || grades == null ){
+//            return;
+//        }
+//        for (int inx=0 ; inx < usernames.length ; inx++ ){
+//            UsersVO usersVO = usersDAO.selectByPk(usernames[inx]);
+//            if ( Integer.parseInt(grades[inx])==usersVO.getGrade()) {
+//                continue;
+//            }
+//            usersDAO.updateUsersGrade(usernames[inx], grades[inx]);
+//
+//            if ( "8".equals(grades[inx]) ){
+//                usersDAO.insert(new AuthoritiesVO().setUsername(usernames[inx]).setAuthority(ROLE_ADMIN));
+//            } else {
+//                usersDAO.delete(new AuthoritiesVO().setUsername(usernames[inx]).setAuthority(ROLE_ADMIN));
+//            }
+//
+//        }
+//    }
+//
+//    @Override
+//    public void modifyUsers(UsersVO usersVO) {
+//        usersDAO.updateUsers(usersVO);
+//    }
+}
