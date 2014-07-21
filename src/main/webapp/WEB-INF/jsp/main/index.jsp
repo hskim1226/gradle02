@@ -19,6 +19,7 @@
 
       <div>
           <ul>
+              <li><a href="${contextPath}/user/signup" >go to sign up!</a></li>
               <li><a href="${contextPath}/user/login" >go to sign in!</a></li>
           </ul>
       </div>

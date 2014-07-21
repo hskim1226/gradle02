@@ -2,6 +2,7 @@ package com.apexsoft.ysprj.user.service.impl;
 
 import com.apexsoft.framework.persistence.dao.CommonDAO;
 import com.apexsoft.framework.persistence.dao.handler.RowHandler;
+import com.apexsoft.ysprj.code.AuthorityType;
 import com.apexsoft.ysprj.user.service.AuthoritiesVO;
 import com.apexsoft.ysprj.user.service.UsersService;
 import com.apexsoft.ysprj.user.service.UsersVO;
@@ -24,24 +25,15 @@ public class UsersServiceImpl implements UsersService {
 	private UsersDAO usersDAO;
 
 
-//	public void registerUser(UsersVO usersVO){
-//		usersVO.setEnabled(true);
-//		usersDAO.insert(usersVO);
-//
-//		AuthoritiesVO authVO = new AuthoritiesVO();
-//		authVO.setUsername(usersVO.getUsername());
-//		authVO.setAuthority(ROLE_USER);
-//		usersDAO.insert(authVO);
-//
-//        smtpMailSender.send(
-//                usersVO.getEmail(),
-//                usersVO.getKoreanName(),
-//                "admin@aquascuba.co.kr",
-//                "아쿠아스쿠바 사이트관리자",
-//                usersVO.getKoreanName() + "님 아쿠아스쿠바 회원가입정보",
-//                "축하합니다. "+usersVO.getKoreanName()+"님 아쿠아스쿠바 회원으로 가입되셨습니다."
-//        );
-//	}
+	public void registerUser(UsersVO usersVO){
+		usersVO.setEnabled(true);
+        commonDAO.insert(NAME_SPACE+"insert", usersVO);
+
+		AuthoritiesVO authVO = new AuthoritiesVO();
+		authVO.setUsername(usersVO.getUsername());
+		authVO.setAuthority(AuthorityType.ROLE_USER.getValue());
+        commonDAO.insert(NAME_SPACE+"insertAuthority", authVO);
+	}
 
 	@Override
 	public UsersVO retrieveUser(String userName) {

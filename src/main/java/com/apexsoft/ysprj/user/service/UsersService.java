@@ -1,17 +1,19 @@
 package com.apexsoft.ysprj.user.service;
 
+import com.apexsoft.framework.common.vo.ExecutionContext;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import java.util.List;
 
 public interface UsersService {
-	//void registerUser(UsersVO usersVO);
 
 	UsersVO retrieveUser(String userName);
 
     List<SimpleGrantedAuthority> retrieveAuthorities(String userName);
 
-   // List<UsersVO> retrieveUserList() throws Exception;
+    void registerUser(UsersVO usersVO);
+
+    // List<UsersVO> retrieveUserList() throws Exception;
 
    // Map<String, Object> getUserPaginatedList(ComDefaultVO searchVO);
 
