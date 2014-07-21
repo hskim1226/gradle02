@@ -12,11 +12,14 @@
 </head>
 <body>
       <h1>index page!!</h1>
-      <sec:authorize access="hasRole('ROLE_USER')">[ logined as <sec:authentication property="principal.username" />]</sec:authorize>
+      <sec:authorize access="hasRole('ROLE_USER')">
+          [ logined as <sec:authentication property="principal.username" />]
+          <a href="${contextPath}/j_spring_security_logout.do">sign out</a>
+      </sec:authorize>
 
       <div>
           <ul>
-              <li><a href="${contextPath}/user/login" >go to Login Page!</a></li>
+              <li><a href="${contextPath}/user/login" >go to sign in!</a></li>
           </ul>
       </div>
 </body>
