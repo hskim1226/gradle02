@@ -45,7 +45,7 @@ public class UsersServiceImpl implements UsersService {
 
 	@Override
 	public UsersVO retrieveUser(String userName) {
-		return usersDAO.selectByPk(userName);
+		return commonDAO.queryForObject(NAME_SPACE+"selectByPk",userName, UsersVO.class);
 	}
 
     @Override
