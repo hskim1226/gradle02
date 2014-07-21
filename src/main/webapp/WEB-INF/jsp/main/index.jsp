@@ -11,6 +11,13 @@
     <title></title>
 </head>
 <body>
-      index page!!
+      <h1>index page!!</h1>
+      <sec:authorize access="hasRole('ROLE_USER')">[ logined as <sec:authentication property="principal.username" />]</sec:authorize>
+
+      <div>
+          <ul>
+              <li><a href="${contextPath}/user/login" >go to Login Page!</a></li>
+          </ul>
+      </div>
 </body>
 </html>
