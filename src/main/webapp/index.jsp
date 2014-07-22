@@ -8,7 +8,6 @@
 <%@include file="/WEB-INF/jsp/common/env.jsp"%>
 <html>
 <head>
-    <title></title>
     <script type="text/javascript" >
         location.href = "${contextPath}/index";
     </script>
