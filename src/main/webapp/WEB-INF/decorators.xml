@@ -2,13 +2,13 @@
 
 <decorators defaultdir="/WEB-INF/decorators">
 
-	<decorator name="home" page="home.jsp">
-		<pattern>/index.do</pattern>
+	<decorator name="main" page="main_decorator.jsp">
+		<pattern>/index</pattern>
+		<pattern>/user/*</pattern>
 	</decorator>
 
     <excludes>
         <pattern>/index.jsp</pattern>
         <pattern>/upload/*</pattern>
-        <pattern>/fileupload/*</pattern>
     </excludes>
 </decorators>
