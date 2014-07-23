@@ -39,7 +39,7 @@ public class UsersServiceImpl implements UsersService {
 	}
 
     @Override
-    public PageInfo<UsersVO> getUserPaginatedList() {
+    public PageInfo<UsersVO> getUserPaginatedList(UserSearchForm userSearchForm) {
         return commonDAO.queryForPagenatedList(new PageStatement(){
             /**
              * @return the totalCountStatementId
@@ -54,13 +54,7 @@ public class UsersServiceImpl implements UsersService {
             public String getDataStatementId() {
                 return NAME_SPACE+"selectUserList";
             }
-        }, new UserSearchForm(), 1, 20 );
-
-//        List<UsersVO> users = usersDAO.getUsersList(searchVO);
-//        int totalCount = usersDAO.getTotalCount(searchVO);
-//
-//        rtnMap.put("list", users);
-//        rtnMap.put("totalCount", totalCount);
+        }, new UserSearchForm(), userSearchForm.getPageNum(), userSearchForm.getPageRows() );
 
     }
 

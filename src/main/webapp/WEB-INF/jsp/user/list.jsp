@@ -47,6 +47,16 @@
             </table>
         </div>
 
+        <div class="text-center">
+            <ul class="pagination">
+                <li><a href="?pageNum=1&pageRows=30">&laquo;</a></li>
+                <c:forEach begin="1" end="${user.usersTotal+30}" step="30" varStatus="status">
+                    <li><a href="?pageNum=${status.index}&pageRows=30">1</a></li>
+                </c:forEach>
+                <li><a href="#">&raquo;</a></li>
+            </ul>
+        </div>
+
     </div>
 
 </body>
