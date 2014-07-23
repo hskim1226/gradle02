@@ -5,6 +5,7 @@
 	<decorator name="main" page="main_decorator.jsp">
 		<pattern>/index</pattern>
 		<pattern>/user/*</pattern>
+		<pattern>/admin/user*</pattern>
 	</decorator>
 
     <excludes>

@@ -2,10 +2,13 @@ package com.apexsoft.ysprj.user.service.impl;
 
 import com.apexsoft.framework.persistence.dao.CommonDAO;
 import com.apexsoft.framework.persistence.dao.handler.RowHandler;
+import com.apexsoft.framework.persistence.dao.page.PageInfo;
+import com.apexsoft.framework.persistence.dao.page.PageStatement;
 import com.apexsoft.ysprj.code.AuthorityType;
 import com.apexsoft.ysprj.user.service.AuthoritiesVO;
 import com.apexsoft.ysprj.user.service.UsersService;
 import com.apexsoft.ysprj.user.service.UsersVO;
+import com.apexsoft.ysprj.user.web.form.UserSearchForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Service;
@@ -35,7 +38,33 @@ public class UsersServiceImpl implements UsersService {
         commonDAO.insert(NAME_SPACE+"insertAuthority", authVO);
 	}
 
-	@Override
+    @Override
+    public PageInfo<UsersVO> getUserPaginatedList() {
+        return commonDAO.queryForPagenatedList(new PageStatement(){
+            /**
+             * @return the totalCountStatementId
+             */
+            public String getTotalCountStatementId() {
+                return NAME_SPACE+"selectTotalCount";
+            }
+
+            /**
+             * @return the dataStatementId
+             */
+            public String getDataStatementId() {
+                return NAME_SPACE+"selectUserList";
+            }
+        }, new UserSearchForm(), 1, 20 );
+
+//        List<UsersVO> users = usersDAO.getUsersList(searchVO);
+//        int totalCount = usersDAO.getTotalCount(searchVO);
+//
+//        rtnMap.put("list", users);
+//        rtnMap.put("totalCount", totalCount);
+
+    }
+
+    @Override
 	public UsersVO retrieveUser(String userName) {
 		return commonDAO.queryForObject(NAME_SPACE+"selectByPk",userName, UsersVO.class);
 	}
@@ -51,18 +80,6 @@ public class UsersServiceImpl implements UsersService {
     }
 
 
-//    @Override
-//    public Map<String, Object> getUserPaginatedList(ComDefaultVO searchVO) {
-//        Map<String, Object> rtnMap = new HashMap<String, Object>();
-//
-//        List<UsersVO> users = usersDAO.getUsersList(searchVO);
-//        int totalCount = usersDAO.getTotalCount(searchVO);
-//
-//        rtnMap.put("list", users);
-//        rtnMap.put("totalCount", totalCount);
-//
-//        return rtnMap;
-//    }
 
 //    @Override
 //    public void modifyUsersGrade(String[] usernames, String[] grades) {

@@ -1,6 +1,6 @@
 package com.apexsoft.ysprj.user.service;
 
-import com.apexsoft.framework.common.vo.ExecutionContext;
+import com.apexsoft.framework.persistence.dao.page.PageInfo;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import java.util.List;
@@ -15,7 +15,7 @@ public interface UsersService {
 
     // List<UsersVO> retrieveUserList() throws Exception;
 
-   // Map<String, Object> getUserPaginatedList(ComDefaultVO searchVO);
+    PageInfo<UsersVO> getUserPaginatedList();
 
     //void modifyUsersGrade(String[] usernames, String[] grades);
 
