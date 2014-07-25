@@ -18,11 +18,12 @@ public class MailServiceImpl implements MailService {
     private SimpleMailMessage preConfiguredMessage;
 
     @Override
-    public void sendMail(String to, String subject, String body) {
+    public void sendMail(Mail mail) {
         SimpleMailMessage message = new SimpleMailMessage();
-        message.setTo(to);
-        message.setSubject(subject);
-        message.setText(body);
+        message.setFrom(mail.getFrom());
+        message.setTo(mail.getTo());
+        message.setSubject(mail.getSubject());
+        message.setText(mail.getContents());
         mailSender.send(message);
     }
 }

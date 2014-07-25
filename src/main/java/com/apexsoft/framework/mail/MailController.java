@@ -21,9 +21,15 @@ public class MailController {
     }
 
     @RequestMapping("/send")
-    public String sendMail() {
-        // compose.jsp에서 정보 가져와서 MailService 실행
-        //mailService.sendMail(to, subject, body);
-        return "mail/send";
+    public String sendMail(Mail mail) {
+        // compose.jsp에서 메일 정보 가져와서 MailService 실행
+
+        try {
+            mailService.sendMail(mail);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return "mail/result";
     }
 }
