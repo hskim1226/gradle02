@@ -23,7 +23,7 @@ public class MailController {
     @RequestMapping("/send")
     public String sendMail() {
         // compose.jsp에서 정보 가져와서 MailService 실행
-        mailService.sendMail(to, subject, body);
+        //mailService.sendMail(to, subject, body);
         return "mail/send";
     }
 }
