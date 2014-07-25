@@ -17,11 +17,11 @@ public class MailController {
 
     @RequestMapping("/compose")
     public String composeMail() {
-        return "/";
+        return "mail/compose";
     }
 
     @RequestMapping("/send")
     public String sendMail() {
-        return "/";
+        return "mail/send";
     }
 }
