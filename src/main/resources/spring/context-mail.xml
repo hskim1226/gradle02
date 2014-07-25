@@ -26,4 +26,10 @@
         <property name="subject" value="Predefined Mail"/>
     </bean>
 
+    <bean id="mail" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean"/>
+
+    <bean id="mailService" class="com.apexsoft.framework.mail.MailServiceImpl"/>
+
+
+
 </beans>

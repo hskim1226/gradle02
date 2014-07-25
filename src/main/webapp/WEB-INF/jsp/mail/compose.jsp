@@ -6,8 +6,9 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@include file="/WEB-INF/jsp/common/env.jsp"%>
-<html>
+<html lang="ko">
 <head>
+    <meta charset="UTF-8"/>
     <title>메일 작성</title>
 </head>
 <body>

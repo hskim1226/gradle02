@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class MailController {
 
     @Autowired
-    MailSender mailSender;
+    MailService mailService;
 
     @RequestMapping("/compose")
     public String composeMail() {
@@ -22,6 +22,8 @@ public class MailController {
 
     @RequestMapping("/send")
     public String sendMail() {
+        // compose.jsp에서 정보 가져와서 MailService 실행
+        mailService.sendMail(to, subject, body);
         return "mail/send";
     }
 }

@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
  * Created by hanmomhanda on 14. 7. 25.
  */
 @Service("mailService")
-public class MailServiceImpl {
+public class MailServiceImpl implements MailService {
 
     @Autowired
     private MailSender mailSender;
@@ -17,6 +17,7 @@ public class MailServiceImpl {
     @Autowired
     private SimpleMailMessage preConfiguredMessage;
 
+    @Override
     public void sendMail(String to, String subject, String body) {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(to);
