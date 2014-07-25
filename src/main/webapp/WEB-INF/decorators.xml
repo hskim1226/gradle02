@@ -8,6 +8,10 @@
 		<pattern>/admin/user*</pattern>
 	</decorator>
 
+    <decorator name="template" page="temp_decorator.jsp">
+		<pattern>/template/*</pattern>
+	</decorator>
+
     <excludes>
         <pattern>/index.jsp</pattern>
         <pattern>/upload/*</pattern>

@@ -1,12 +1,3 @@
-/*
- * Copyright (c) 2013 SK planet.
- * All right reserved.
- *
- * This software is the confidential and proprietary information of SK planet.
- * You shall not disclose such Confidential Information and
- * shall use it only in accordance with the terms of the license agreement
- * you entered into with SK planet.
- */
 package com.apexsoft.framework.persistence.dao.page;
 
 import java.io.Serializable;
@@ -16,7 +7,6 @@ import java.io.Serializable;
  * 페이지  정보를 가지는 Vo .
  * </pre>
  * 
- * Updated on : 2013-11-01 Updated by : 김상호, 에이엔비
  */
 @SuppressWarnings("serial")
 public class PagenateInfo implements Serializable {

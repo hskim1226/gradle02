@@ -15,24 +15,24 @@
         <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller" />
     </context:component-scan>
 
-    <mvc:annotation-driven />
+    <!-- mvc:annotation-driven / -->
 
-    <!-- mvc:annotation-driven>
+    <mvc:annotation-driven>
         <mvc:argument-resolvers>
-            <bean class="com.skplanet.store.web.bind.LocaleHandlerWebArgumentResolver">
+            <!--bean class="com.skplanet.store.web.bind.LocaleHandlerWebArgumentResolver">
                 <constructor-arg ref="localeResolver" />
-            </bean>
-            <bean class="com.skplanet.store.web.bind.FileHandlerWebArgumentResolver">
+            </bean -->
+            <bean class="com.apexsoft.framework.web.bind.FileHandlerWebArgumentResolver">
                 <property name="multiPartReceiver" ref="multiPartReceiver" />
                 <property name="persistenceManager" ref="persistenceManager" />
             </bean>
-            <bean class="com.skplanet.store.etc.excel.web.bind.ExcelHandlerWebArgumentResolver">
+            <!-- bean class="com.skplanet.store.etc.excel.web.bind.ExcelHandlerWebArgumentResolver">
                 <property name="velocityEngine" ref="velocityEngine" />
                 <property name="messageSourceAccessor" ref="messageSourceAccessor" />
             </bean>
-            <bean class="com.skplanet.icms.security.web.bind.UserInfoWebArgumentResolver" />
+            <bean class="com.skplanet.icms.security.web.bind.UserInfoWebArgumentResolver" / -->
         </mvc:argument-resolvers>
-        <mvc:message-converters>
+        <!-- mvc:message-converters>
             <bean class="org.springframework.http.converter.xml.Jaxb2RootElementHttpMessageConverter" />
             <bean class="com.skplanet.icms.commons.web.converter.MultipartRequestHttpMessageConverter">
                 <constructor-arg>
@@ -46,10 +46,10 @@
             <bean class="com.skplanet.store.web.converter.BinaryHttpMessageConverter">
                 <constructor-arg ref="persistenceManager" />
             </bean>
-        </mvc:message-converters>
+        </mvc:message-converters -->
     </mvc:annotation-driven>
 
-    <mvc:interceptors>
+    <!-- mvc:interceptors>
         <mvc:interceptor>
             <mvc:mapping path="/**"/>
             <bean class="com.skplanet.store.etc.trace.web.interceptor.TransactionLogInterceptor" />
