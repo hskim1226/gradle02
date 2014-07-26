@@ -28,7 +28,7 @@
             <div class="form-group">
                 <label for="username" class="col-sm-2 control-label">User Name</label>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control" id="username" name="username" placeholder="Email" />
+                    <input type="text" class="form-control" id="username" name="username" placeholder="username" />
                 </div>
             </div>
             <div class="form-group">
@@ -38,9 +38,9 @@
                 </div>
             </div>
             <div class="form-group">
-                <label for="email" class="col-sm-2 control-label">Password</label>
+                <label for="email" class="col-sm-2 control-label">email</label>
                 <div class="col-sm-10">
-                    <input type="email" class="form-control" id="email" name="email" placeholder="Password" />
+                    <input type="email" class="form-control" id="email" name="email" placeholder="email" />
                 </div>
             </div>
             <div class="form-group">
