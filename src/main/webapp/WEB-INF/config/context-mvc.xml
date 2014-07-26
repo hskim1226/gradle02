@@ -111,6 +111,8 @@
 
     <bean id="localeResolver" class="org.springframework.web.servlet.i18n.SessionLocaleResolver" />
 
+    <bean id="mailController" class="com.apexsoft.framework.mail.MailController"/>
+
     <mvc:default-servlet-handler/>
 
 </beans>
