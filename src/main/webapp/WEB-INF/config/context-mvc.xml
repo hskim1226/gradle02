@@ -79,7 +79,14 @@
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="prefix" value="/WEB-INF/jsp/"/>
         <property name="suffix" value=".jsp"/>
+        <property name="order" value="1"/>
     </bean>
+
+    <bean class="org.springframework.web.servlet.view.BeanNameViewResolver">
+        <property name="order" value="0"/>
+    </bean>
+
+    <bean id="downloadView" class="com.apexsoft.framework.web.view.FileDownloadView" ></bean>
 
     <!-- bean id="exceptionResolver" class="com.skplanet.icms.commons.exception.LoggingBusinessExceptionResolver">
         <property name="messageSourceAccessor" ref="messageSourceAccessor" />

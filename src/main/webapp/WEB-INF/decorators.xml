@@ -15,5 +15,6 @@
     <excludes>
         <pattern>/index.jsp</pattern>
         <pattern>/upload/*</pattern>
+        <pattern>/download/*</pattern>
     </excludes>
 </decorators>

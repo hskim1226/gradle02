@@ -111,7 +111,7 @@ public class FilePersistenceManager implements PersistenceManager {
 
 		}
 
-		return new FileInfo(folder, fileName, orgFileName, uploadFile.length());
+		return new FileInfo(uploadDirectory.getAbsolutePath(), fileName, orgFileName, uploadFile.length());
 	}
 
 	/*

@@ -1,16 +1,24 @@
-package com.apexsoft.ysprj.template.web.form;
+package com.apexsoft.ysprj.template.service;
 
 /**
  * Created with IntelliJ IDEA.
  * User: zbum
- * Date: 2014. 7. 23.
- * Time: 오후 10:42
+ * Date: 2014. 7. 26.
+ * Time: 오후 7:11
  * To change this template use File | Settings | File Templates.
  */
-public class FileMetaForm {
-
+public class TempFileVO {
+    private int seq;
     private String path;
     private String fileName;
+
+    public int getSeq() {
+        return seq;
+    }
+
+    public void setSeq(int seq) {
+        this.seq = seq;
+    }
 
     public String getPath() {
         return path;
@@ -30,8 +38,9 @@ public class FileMetaForm {
 
     @Override
     public String toString() {
-        return "FileMetaForm{" +
-                "path='" + path + '\'' +
+        return "TempFileVO{" +
+                "seq=" + seq +
+                ", path='" + path + '\'' +
                 ", fileName='" + fileName + '\'' +
                 '}';
     }
