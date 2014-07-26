@@ -5,10 +5,11 @@
 
     <!-- SET default mail properties -->
     <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
-        <property name="host" value="apexsoft-svr1.iptime.org"/>
-        <property name="port" value="25"/>
+        <property name="host" value="smtp.gmail.com"/>
+        <property name="port" value="587"/>
         <property name="username" value="hanmomhanda"/>
-        <property name="password" value="apex2369"/>
+        <property name="password" value="Google2048"/>
+        <property name="defaultEncoding" value="UTF-8"/>
         <property name="javaMailProperties">
             <props>
                 <prop key="mail.transport.protocol">smtp</prop>
