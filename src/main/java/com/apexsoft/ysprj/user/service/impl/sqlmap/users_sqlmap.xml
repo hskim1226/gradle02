@@ -31,11 +31,13 @@
 		  INSERT INTO users(username,
                             password,
                             enabled,
+                            email,
                             reg_date
                             )
 		             VALUES(#{username},
                             #{password},
                             #{enabled},
+                            #{email},
                             now())
 		]]>
     </insert>
