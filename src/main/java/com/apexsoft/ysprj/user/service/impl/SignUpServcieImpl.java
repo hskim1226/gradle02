@@ -6,6 +6,7 @@ import com.apexsoft.ysprj.user.service.SignUpService;
 import com.apexsoft.ysprj.user.service.UsersService;
 import com.apexsoft.ysprj.user.service.UsersVO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 /**
@@ -19,12 +20,20 @@ import org.springframework.stereotype.Service;
 public class SignUpServcieImpl implements SignUpService{
 
     @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    @Autowired
     private UsersService usersService;
 
     @Override
     public ExecutionContext registerUser(UsersVO usersVO) {
+        usersVO.setPassword(passwordEncoder.encode(usersVO.getPassword()));
         usersService.registerUser(usersVO);
 
         return new ExecutionContext();
+    }
+
+    public void setPasswordEncoder(PasswordEncoder passwordEncoder) {
+        this.passwordEncoder = passwordEncoder;
     }
 }

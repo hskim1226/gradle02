@@ -35,10 +35,14 @@
         <logout logout-url="/j_spring_security_logout.do" invalidate-session="true" logout-success-url="/user/login?logout=true"/>
     </http>
 
-    <beans:bean id="userDetailsService" class="com.apexsoft.framework.security.UserDetailsServiceImpl" />
+    <beans:bean id="encoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>
+
+    <beans:bean id="userDetailsService" class="com.apexsoft.framework.security.UserDetailsServiceImpl" >
+    </beans:bean>
 
     <authentication-manager >
         <authentication-provider user-service-ref="userDetailsService">
+            <password-encoder ref="encoder"  />
         </authentication-provider>
     </authentication-manager>
 

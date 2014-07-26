@@ -21,8 +21,11 @@ public class YsAuthenticationFailureHandler implements org.springframework.secur
 		logger.error("", exception);
 		
 		req.setAttribute("fail", true);
-		RequestDispatcher dispatcher = req.getRequestDispatcher("/user/login");
-		dispatcher.forward(req, res);
+
+        res.sendRedirect("/user/login");
+		//RequestDispatcher dispatcher = req.getRequestDispatcher("/user/login");
+
+		//dispatcher.forward(req, res);
 		
 	}
 

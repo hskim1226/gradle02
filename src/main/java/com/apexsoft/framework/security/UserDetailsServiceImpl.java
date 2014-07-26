@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 /**
  * Created with IntelliJ IDEA.
@@ -18,6 +19,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Autowired
     private UsersService usersService;
 
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         UsersVO usersVO = usersService.retrieveUser(username);
@@ -29,4 +31,5 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
         return usersVO;
     }
+
 }
