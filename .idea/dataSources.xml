@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DataSourceManagerImpl" format="xml" hash="788697039">
+    <data-source source="LOCAL" name="ysproject datasource" product="MySQL" version="5.5.27-log" jdbc-version="3.0" driver-name="MySQL-AB JDBC Driver" driver-version="mysql-connector-java-5.1.6 ( Revision: ${svn.Revision} )" uuid="84ef387d-1bcc-4f4d-bc71-d9dc51d052d2">
+      <extra-name-characters>#@</extra-name-characters>
+      <identifier-quote-string>`</identifier-quote-string>
+      <synchronize>true</synchronize>
+      <jdbc-driver>com.mysql.jdbc.Driver</jdbc-driver>
+      <jdbc-url>jdbc:mysql://localhost:3306/ysproject</jdbc-url>
+      <user-name>ysproject</user-name>
+      <user-password>dfd3dfd9dfdadfd8dfc5dfc0dfcfdfc9dfde</user-password>
+      <libraries>
+        <library>
+          <url>jar://$MAVEN_REPOSITORY$/mysql/mysql-connector-java/5.1.6/mysql-connector-java-5.1.6.jar!/</url>
+        </library>
+      </libraries>
+    </data-source>
+  </component>
+</project>
+
