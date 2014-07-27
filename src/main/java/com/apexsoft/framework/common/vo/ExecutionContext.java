@@ -12,7 +12,15 @@ public class ExecutionContext {
     public static String SUCCESS = "SUCCESS";
     public static String FAIL = "FAIL";
 
-    private String result = SUCCESS;
+    private String result;
+
+    public ExecutionContext() {
+        this.result = SUCCESS;
+    }
+
+    public ExecutionContext(String result) {
+        this.result = result;
+    }
 
     public String getResult() {
         return result;

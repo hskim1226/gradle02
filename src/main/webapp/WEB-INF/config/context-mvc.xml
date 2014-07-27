@@ -88,7 +88,7 @@
 
     <bean id="downloadView" class="com.apexsoft.framework.web.view.FileDownloadView" ></bean>
 
-    <!-- bean id="exceptionResolver" class="com.skplanet.icms.commons.exception.LoggingBusinessExceptionResolver">
+    <!--bean id="exceptionResolver" class="com.skplanet.icms.commons.exception.LoggingBusinessExceptionResolver">
         <property name="messageSourceAccessor" ref="messageSourceAccessor" />
         <property name="messageConverters">
             <list>
@@ -101,6 +101,15 @@
             </list>
         </property>
     </bean -->
+
+    <bean id="exceptionResolver" class="com.apexsoft.framework.web.exception.ExceptionResolver">
+        <property name="messageConverters">
+            <list>
+                <bean class="org.springframework.http.converter.xml.Jaxb2RootElementHttpMessageConverter" />
+                <bean class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter" />
+            </list>
+        </property>
+    </bean>
 
     <bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean"/>
 

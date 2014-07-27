@@ -10,8 +10,12 @@
                  $.post("${contextPath}/user/signup",
                          $("#sign-up-form").serialize(),
                          function(data){
-                             alert(data.result);
-                             location.href="${contextPath}/user/login"
+                             if(data.result == "SUCCESS"){
+                                 alert("성공적으로 등록였습니다.");
+                                 location.href="${contextPath}/user/login";
+                             }else{
+                                 alert("서비스에 문제가 발생하였습니다.");
+                             }
                          });
              });
         });
