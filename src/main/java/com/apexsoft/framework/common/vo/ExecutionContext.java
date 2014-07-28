@@ -7,12 +7,14 @@ package com.apexsoft.framework.common.vo;
  * Time: 오후 10:19
  * To change this template use File | Settings | File Templates.
  */
-public class ExecutionContext {
+public class ExecutionContext <T>{
 
     public static String SUCCESS = "SUCCESS";
     public static String FAIL = "FAIL";
 
     private String result;
+
+    private T data;
 
     private String message;
 
@@ -43,6 +45,14 @@ public class ExecutionContext {
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    public T getData() {
+        return data;
+    }
+
+    public void setData(T data) {
+        this.data = data;
     }
 
     @Override

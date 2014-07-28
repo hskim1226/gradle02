@@ -33,6 +33,15 @@ public class SignUpServcieImpl implements SignUpService{
         return new ExecutionContext();
     }
 
+    @Override
+    public ExecutionContext checkAvailable(UsersVO usersVO) {
+        if (usersService.retrieveUser(usersVO.getUsername()) != null ){
+            return new ExecutionContext(ExecutionContext.FAIL);
+        } else {
+            return new ExecutionContext(ExecutionContext.SUCCESS);
+        }
+    }
+
     public void setPasswordEncoder(PasswordEncoder passwordEncoder) {
         this.passwordEncoder = passwordEncoder;
     }

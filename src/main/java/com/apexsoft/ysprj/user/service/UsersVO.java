@@ -3,15 +3,21 @@ package com.apexsoft.ysprj.user.service;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.sql.Date;
 import java.util.Collection;
 
 
 public class UsersVO implements UserDetails {
 
-	private String username;
-	
-	private String password;
+    @NotNull
+    @Size(min=5, max=50)
+    private String username;
+
+    @NotNull
+    @Size(min=5, max=50)
+    private String password;
 	
 	private boolean enabled;
 	
@@ -40,8 +46,10 @@ public class UsersVO implements UserDetails {
 	private String phoneNumber2;
 	
 	private String phoneNumber3;
-	
-	private String email;
+
+    @NotNull
+    @Size(min=5, max=50)
+    private String email;
 	
 	private String passportNumber;
 	

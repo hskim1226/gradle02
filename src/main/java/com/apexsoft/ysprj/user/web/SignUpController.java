@@ -5,9 +5,12 @@ import com.apexsoft.ysprj.user.service.SignUpService;
 import com.apexsoft.ysprj.user.service.UsersVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import javax.validation.Valid;
 
 /**
  * Created with IntelliJ IDEA.
@@ -30,7 +33,16 @@ public class SignUpController {
 
     @RequestMapping(value="/signup", method= RequestMethod.POST)
     @ResponseBody
-    public ExecutionContext signUp( UsersVO usersVO) {
+    public ExecutionContext signUp( @Valid UsersVO usersVO, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()){
+            return new ExecutionContext(ExecutionContext.FAIL);
+        }
         return signUpService.registerUser(usersVO);
+    }
+
+    @RequestMapping(value="/available", method= RequestMethod.GET)
+    @ResponseBody
+    public ExecutionContext checkAvailable(UsersVO usersVO) {
+        return signUpService.checkAvailable(usersVO);
     }
 }

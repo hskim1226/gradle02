@@ -12,4 +12,6 @@ import com.apexsoft.framework.common.vo.ExecutionContext;
 public interface SignUpService {
 
     ExecutionContext registerUser(UsersVO usersVO);
+
+    ExecutionContext checkAvailable(UsersVO usersVO);
 }
