@@ -14,6 +14,8 @@ public class ExecutionContext {
 
     private String result;
 
+    private String message;
+
     public ExecutionContext() {
         this.result = SUCCESS;
     }
@@ -22,11 +24,32 @@ public class ExecutionContext {
         this.result = result;
     }
 
+    public ExecutionContext(String result, String message) {
+        this.result = result;
+        this.message = message;
+    }
+
     public String getResult() {
         return result;
     }
 
     public void setResult(String result) {
         this.result = result;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    @Override
+    public String toString() {
+        return "ExecutionContext{" +
+                "result='" + result + '\'' +
+                ", message='" + message + '\'' +
+                '}';
     }
 }
