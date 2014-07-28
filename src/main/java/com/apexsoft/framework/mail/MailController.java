@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class MailController {
 
     @Autowired
-    MailService mailService;
+    private MailService mailService;
 
     @RequestMapping("/compose")
     public String composeMail() {
