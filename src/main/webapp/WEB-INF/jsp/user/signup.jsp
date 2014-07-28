@@ -3,22 +3,29 @@
 <html>
 <head>
     <title></title>
-    <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
-    <script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
     <script type="text/javascript" >
         $(document).ready(function(){
              $("#sign-up-button").on("click", function(){
-                 $.post("${contextPath}/user/signup",
-                         $("#sign-up-form").serialize(),
-                         function(data){
-                             if(data.result == "SUCCESS"){
-                                 alert("성공적으로 등록였습니다.");
-                                 location.href="${contextPath}/user/login";
-                             }else{
-                                 alert("서비스에 문제가 발생하였습니다.");
-                             }
-                         });
+                 $('#sign-up-form').bootstrapValidator('validate');
              });
+
+            $('#sign-up-form').bootstrapValidator({
+                onError: function(e) {
+                },
+                onSuccess: function(e) {
+                    $.post("${contextPath}/user/signup",
+                    $("#sign-up-form").serialize(),
+                    function(data){
+                        if(data.result == "SUCCESS"){
+                            alert("성공적으로 등록였습니다.");
+                            location.href="${contextPath}/user/login";
+                        }else{
+                            alert("서비스에 문제가 발생하였습니다.");
+                        }
+                    });
+                }
+            });
+
         });
     </script>
 </head>
@@ -33,24 +40,27 @@
             <div class="form-group">
                 <label for="username" class="col-sm-2 control-label">User Name</label>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control" id="username" name="username" placeholder="username" />
+                    <input type="text" class="form-control" id="username" name="username" placeholder="username"
+                           data-bv-notempty data-bv-notempty-message="The user name is required" />
                 </div>
             </div>
             <div class="form-group">
                 <label for="password" class="col-sm-2 control-label">Password</label>
                 <div class="col-sm-10">
-                    <input type="password" class="form-control" id="password" name="password" placeholder="Password" />
+                    <input type="password" class="form-control" id="password" name="password" placeholder="Password"
+                           data-bv-notempty data-bv-notempty-message="Password is required" />
                 </div>
             </div>
             <div class="form-group">
                 <label for="email" class="col-sm-2 control-label">email</label>
                 <div class="col-sm-10">
-                    <input type="email" class="form-control" id="email" name="email" placeholder="email" />
+                    <input type="email" class="form-control" id="email" name="email" placeholder="email"
+                           data-bv-notempty data-bv-notempty-message="The e-mail is required" />
                 </div>
             </div>
             <div class="form-group">
                 <div class="col-sm-offset-2 col-sm-10">
-                    <button type="button" id="sign-up-button" class="btn btn-default">Sign up</button>
+                    <button type="button" id="sign-up-button" class="btn btn-default" >Sign up</button>
                 </div>
             </div>
         </form>
