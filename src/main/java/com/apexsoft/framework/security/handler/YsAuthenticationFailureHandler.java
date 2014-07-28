@@ -22,7 +22,7 @@ public class YsAuthenticationFailureHandler implements org.springframework.secur
 		
 		req.setAttribute("fail", true);
 
-        res.sendRedirect("/user/login");
+        res.sendRedirect(req.getContextPath()+"/user/login");
 		//RequestDispatcher dispatcher = req.getRequestDispatcher("/user/login");
 
 		//dispatcher.forward(req, res);
