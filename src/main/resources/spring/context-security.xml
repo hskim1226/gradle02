@@ -18,6 +18,7 @@
     <http pattern="/favicon.ico"  security="none"/>
     <http pattern="/mail/**"  security="none"/>
     <http pattern="/recaptcha/**"  security="none"/>
+    <http pattern="/preview/**"  security="none"/>
 
     <http auto-config="true"  use-expressions="true" access-denied-page="/user/login.do?auth=true" >
         <intercept-url pattern="/index"  access="isAnonymous() or isAuthenticated()"/>
