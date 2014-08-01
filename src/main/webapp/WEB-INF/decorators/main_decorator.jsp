@@ -67,6 +67,8 @@
                         <ul class="dropdown-menu" role="menu">
                             <li><a href="${contextPath}/template/upload">File Upload</a></li>
                             <li><a href="${contextPath}/template/download">File Download</a></li>
+                            <li><a href="${contextPath}/mail/compose">메일 작성</a></li>
+                            <li><a href="${contextPath}/recaptcha/show">Recaptcha</a></li>
                         </ul>
                     </li>
                 </ul>
