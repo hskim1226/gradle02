@@ -1,3 +1,4 @@
+<%@ page contentType="text/html; charset=utf-8"%>
 <!DOCTYPE html>
 <%@include file="/WEB-INF/jsp/common/env.jsp"%>
 <%@ taglib uri="http://www.opensymphony.com/sitemesh/decorator"	prefix="decorator"%>
