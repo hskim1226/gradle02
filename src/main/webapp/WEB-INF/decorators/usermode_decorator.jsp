@@ -78,19 +78,17 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery.bootstrapvalidator/0.5.0/js/bootstrapValidator.min.js"></script>
 
 
-    <script src="js/modernizr-2.6.2-respond-1.1.0.min.js"></script>
-    <script src="js/jquery.js"></script>
-    <script src="js/jquery.easing.1.3.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/jquery.isotope.min.js"></script>
-    <script src="js/jquery.nicescroll.min.js"></script>
-    <script src="js/fancybox/jquery.fancybox.pack.js"></script>
-    <script src="js/skrollr.min.js"></script>
-    <script src="js/jquery.scrollTo-1.4.3.1-min.js"></script>
-    <script src="js/jquery.localscroll-1.2.7-min.js"></script>
-    <script src="js/stellar.js"></script>
-    <script src="js/jquery.appear.js"></script>
-    <script src="js/validate.js"></script>
-    <script src="js/main.js"></script>
+    <script src="${contextPath}/js/modernizr-2.6.2-respond-1.1.0.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery.isotope/2.0.0/isotope.pkgd.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery.nicescroll/3.5.1/jquery.nicescroll.min.js"></script>
+    <script src="${contextPath}/js/fancybox/jquery.fancybox.pack.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/skrollr/0.6.26/skrollr.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-scrollTo/1.4.11/jquery.scrollTo.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-localScroll/1.3.5/jquery.localScroll.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/stellar.js/0.6.2/jquery.stellar.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery.appear/0.3.3/jquery.appear.min.js"></script>
+    <script src="${contextPath}/js/validate.min.js"></script>
+    <script src="${contextPath}/js/main.js"></script>
 </body>
 </html>
