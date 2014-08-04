@@ -72,7 +72,7 @@
                 </div>
                 <div class="spacer-small"></div>
                 <hr/>
-                <form class="form-horizontal" role="form">
+                <form class="form-horizontal" role="form" action="mylist.html">
                     <h2 class="slogan">지원자 정보</h2>
                     <div class="form-group">
                         <label for="inputName" class="col-sm-3 control-label">이름</label>
@@ -183,14 +183,13 @@
                             <input type="text" class="form-control" id="inputOAccount" placeholder="Bank Account Owner">
                         </div>
                     </div>
-
-                    <div class="spacer-small"></div>
-                    <div class="form-group">
-                        <div class="col-sm-offset-3 col-sm-6">
-                            <button type="submit" class="btn btn-default btn-lg btn-block">저장하기</button>
-                        </div>
-                    </div>
                 </form>
+                <div class="spacer-small"></div>
+                <div class="form-group">
+                    <div class="col-sm-offset-3 col-sm-6">
+                        <button type="submit" class="btn btn-default btn-lg btn-block" id="saveApplication">저장하기</button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -236,6 +235,7 @@
         autoclose: true,
         todayHighlight: true
     });
+    $('#saveApplication').click(function(){location.href='mylist.html';});
 </script>
 </body>
 </html>
