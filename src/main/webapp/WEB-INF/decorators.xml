@@ -6,8 +6,14 @@
 		<pattern>/index</pattern>
 		<pattern>/user/*</pattern>
 		<pattern>/admin/user*</pattern>
-        <pattern>/mail/*</pattern>
 	</decorator>
+
+    <decorator name="usermode" page="usermode_decorator.jsp">
+        <pattern>/notice/*</pattern>
+        <pattern>/application/*</pattern>
+        <pattern>/mail/*</pattern>
+        <pattern>/intro.jsp</pattern>
+    </decorator>
 
     <decorator name="template" page="temp_decorator.jsp">
 		<pattern>/template/*</pattern>
