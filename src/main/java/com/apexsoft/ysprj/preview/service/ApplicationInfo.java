@@ -25,7 +25,7 @@ public class ApplicationInfo {
     private String	urgentAddress;
     private String	urgentNo1;
     private String	urgentNo2;
-    private Boolean	varification;
+    private Boolean	verification;
 
     public String getId() {
         return id;
@@ -135,10 +135,10 @@ public class ApplicationInfo {
     public void setUrgentNo2(String urgentNo2) {
         this.urgentNo2 = urgentNo2;
     }
-    public Boolean getVarification() {
-        return varification;
+    public Boolean getVerification() {
+        return verification;
     }
-    public void setVarification(Boolean varification) {
-        this.varification = varification;
+    public void setVerification(Boolean verification) {
+        this.verification = verification;
     }
 }

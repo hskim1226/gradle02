@@ -47,9 +47,9 @@
 	<beans profile="local,stag,qa,real">
         <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
             <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
-            <property name="url" value="jdbc:mysql://localhost:3306/ysproject?useUnicode=true&amp;characterEncoding=UTF-8&amp;characterSetResults=UTF-8&amp;zeroDateTimeBehavior=convertToNull"/>
-            <property name="username" value="ysproject"/>
-            <property name="password" value="ysproject"/>
+            <property name="url" value="jdbc:mysql://apexsoft-svr1:3306/ysproject?useUnicode=true&amp;characterEncoding=UTF-8&amp;characterSetResults=UTF-8&amp;zeroDateTimeBehavior=convertToNull"/>
+            <property name="username" value="root"/>
+            <property name="password" value="apexmysql"/>
             <property name="defaultAutoCommit" value="false" />
             <property name="initialSize" value="20" />
             <property name="validationQuery" value="SELECT 1" />

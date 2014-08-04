@@ -13,7 +13,6 @@
 
     <context:component-scan base-package="com.apexsoft.ysprj" use-default-filters="false">
         <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller" />
-        <context:include-filter type="annotation" expression="org.springframework.stereotype.Service" />
     </context:component-scan>
 
     <!-- mvc:annotation-driven / -->
@@ -124,8 +123,6 @@
     <bean id="mailController" class="com.apexsoft.framework.mail.MailController"/>
 
     <bean id="RecaptchaController" class="com.apexsoft.framework.recaptcha.RecaptchaController"/>
-
-    <bean id="birtView" class="com.apexsoft.ysprj.preview.web.BirtView"/>
 
     <mvc:default-servlet-handler/>
 
