@@ -13,6 +13,26 @@
 	</properties>
 
 	<dependencies>
+        <dependency>
+            <groupId>org.eclipse.birt.runtime</groupId>
+            <artifactId>org.eclipse.birt.runtime</artifactId>
+            <version>4.3.0</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>org.apache.poi</artifactId>
+                    <groupId>org.eclipse.birt.runtime</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>org.apache.batik.pdf</artifactId>
+                    <groupId>org.eclipse.birt.runtime.3_7_1</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi</artifactId>
+            <version>3.9</version>
+        </dependency>
 
         <dependency>
             <groupId>opensymphony</groupId>

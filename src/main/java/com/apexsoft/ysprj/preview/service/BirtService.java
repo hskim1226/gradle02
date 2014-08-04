@@ -1,4 +1,4 @@
-package com.apexsoft.framework.birt;
+package com.apexsoft.ysprj.preview.service;
 
 import java.util.List;
 

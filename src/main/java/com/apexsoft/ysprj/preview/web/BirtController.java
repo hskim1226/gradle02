@@ -1,5 +1,6 @@
-package com.apexsoft.framework.birt;
+package com.apexsoft.ysprj.preview.web;
 
+import com.apexsoft.ysprj.preview.service.BirtService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,12 +19,18 @@ public class BirtController {
 
     @RequestMapping(value = "/application")
     public ModelAndView getApplications(Model model) {
-        model.addAttribute( "applicationList", birtService.getApplications() );
-        return new ModelAndView( "birtView" );
+        try {
+            Object applications = birtService.getApplications();
+            model.addAttribute("applicationList", applications);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return new ModelAndView("birtView");
     }
 
     @RequestMapping(value = "/application/{id}")
-    public ApplicationInfo getApplication(@PathVariable("id") String id) {
-        return birtService.getApplication(id);
+    public String getApplication(@PathVariable("id") String id) {
+        return "birt/preview";
     }
+
 }
