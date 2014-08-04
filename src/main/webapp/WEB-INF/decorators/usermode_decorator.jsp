@@ -20,9 +20,9 @@
     <!-- Optional theme -->
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
     <!-- custom style -->
-    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="${contextPath}/css/style.css">
     <!-- skin -->
-    <link rel="stylesheet" href="../../skin/default.css">
+    <link rel="stylesheet" href="${contextPath}/skin/default.css">
     <decorator:head />
 </head>
 <body>
