@@ -1,4 +1,5 @@
-<%@ page contentType="text/html; charset=utf-8"%>
+<%@ page contentType="text/html;charset=UTF-8"%>
+<%@ include file="/WEB-INF/jsp/common/env.jsp"%>
 <!DOCTYPE html>
     <head>
 		<!-- BASICS -->
@@ -68,8 +69,8 @@
 		</section>
         <content tag="local-script">
             <script>
-                $('#toList').click(function(){location.href='/notice/list'});
-                $('#toMyList').click(function(){location.href='/application/mylist'});
+                $('#toList').click(function(){location.href='${contextPath}/notice/list'});
+                $('#toMyList').click(function(){location.href='${contextPath}/application/mylist'});
             </script>
         </content>
 	</body>

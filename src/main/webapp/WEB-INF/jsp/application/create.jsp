@@ -6,6 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ include file="/WEB-INF/jsp/common/env.jsp"%>
 <html>
 <head>
     <title></title>
@@ -28,7 +29,7 @@
                         <tbody>
                         <tr>
                             <td>일반</td>
-                            <td><a href="apply.html">2015학년도 연세대학교 일반대학원 석사과정 수시 모집</a></td>
+                            <td>2015학년도 연세대학교 일반대학원 석사과정 수시 모집</td>
                             <td>2014-09-28 / 2014-10-03</td>
                         </tr>
                         </tbody>
@@ -36,7 +37,7 @@
                 </div>
                 <div class="spacer-small"></div>
                 <hr/>
-                <form class="form-horizontal" role="form" action="mylist.html">
+                <form class="form-horizontal" role="form">
                     <h2 class="slogan">지원자 정보</h2>
                     <div class="form-group">
                         <label for="inputName" class="col-sm-3 control-label">이름</label>
@@ -173,7 +174,7 @@
             autoclose: true,
             todayHighlight: true
         });
-        $('#saveApplication').click(function(){location.href='/application/mylist';});
+        $('#saveApplication').click(function(){location.href='${contextPath}/application/mylist';});
     </script>
 </content>
 </body>

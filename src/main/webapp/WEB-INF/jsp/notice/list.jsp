@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ include file="/WEB-INF/jsp/common/env.jsp"%>
 <html>
 <head>
     <title></title>
@@ -21,57 +22,57 @@
                         <tbody>
                         <tr>
                             <td>일반</td>
-                            <td><a href="/application/create">2015학년도 연세대학교 일반대학원 석사과정 수시 모집</a></td>
+                            <td><a href="${contextPath}/application/create">2015학년도 연세대학교 일반대학원 석사과정 수시 모집</a></td>
                             <td>2014-09-28 / 2014-10-03</td>
                         </tr>
                         <tr>
                             <td>행정</td>
-                            <td><a href="/application/create">2015학년도 연세대학교 행정대학원 석사과정 수시 모집</a></td>
+                            <td><a href="${contextPath}/application/create">2015학년도 연세대학교 행정대학원 석사과정 수시 모집</a></td>
                             <td>2014-09-28 / 2014-10-03</td>
                         </tr>
                         <tr>
                             <td>공학</td>
-                            <td><a href="/application/create">2015학년도 연세대학교 공학대학원 석박사 통합 과정 수시 모집</a></td>
+                            <td><a href="${contextPath}/application/create">2015학년도 연세대학교 공학대학원 석박사 통합 과정 수시 모집</a></td>
                             <td>2014-09-28 / 2014-10-03</td>
                         </tr>
                         <tr>
                             <td>의학</td>
-                            <td><a href="/application/create">2015학년도 연세대학교 의학대학원 박사과정 수시 모집</a></td>
+                            <td><a href="${contextPath}/application/create">2015학년도 연세대학교 의학대학원 박사과정 수시 모집</a></td>
                             <td>2014-09-28 / 2014-10-03</td>
                         </tr>
                         <tr>
                             <td>교육</td>
-                            <td><a href="/application/create">2015학년도 연세대학교 교육대학원 석사과정(야간) 수시 모집</a></td>
+                            <td><a href="${contextPath}/application/create">2015학년도 연세대학교 교육대학원 석사과정(야간) 수시 모집</a></td>
                             <td>2014-09-28 / 2014-10-03</td>
                         </tr>
                         <tr>
                             <td>음악</td>
-                            <td><a href="/application/create">2015학년도 연세대학교 음악대학원 석박사 통합 과정 수시 모집</a></td>
+                            <td><a href="${contextPath}/application/create">2015학년도 연세대학교 음악대학원 석박사 통합 과정 수시 모집</a></td>
                             <td>2014-09-28 / 2014-10-03</td>
                         </tr>
                         <tr>
                             <td>음악</td>
-                            <td><a href="/application/create">2015학년도 연세대학교 음악대학원 석박사 통합 과정 수시 모집</a></td>
+                            <td><a href="${contextPath}/application/create">2015학년도 연세대학교 음악대학원 석박사 통합 과정 수시 모집</a></td>
                             <td>2014-09-28 / 2014-10-03</td>
                         </tr>
                         <tr>
                             <td>음악</td>
-                            <td><a href="/application/create">2015학년도 연세대학교 음악대학원 석박사 통합 과정 수시 모집</a></td>
+                            <td><a href="${contextPath}/application/create">2015학년도 연세대학교 음악대학원 석박사 통합 과정 수시 모집</a></td>
                             <td>2014-09-28 / 2014-10-03</td>
                         </tr>
                         <tr>
                             <td>음악</td>
-                            <td><a href="/application/create">2015학년도 연세대학교 음악대학원 석박사 통합 과정 수시 모집</a></td>
+                            <td><a href="${contextPath}/application/create">2015학년도 연세대학교 음악대학원 석박사 통합 과정 수시 모집</a></td>
                             <td>2014-09-28 / 2014-10-03</td>
                         </tr>
                         <tr>
                             <td>음악</td>
-                            <td><a href="/application/create">2015학년도 연세대학교 음악대학원 석박사 통합 과정 수시 모집</a></td>
+                            <td><a href="${contextPath}/application/create">2015학년도 연세대학교 음악대학원 석박사 통합 과정 수시 모집</a></td>
                             <td>2014-09-28 / 2014-10-03</td>
                         </tr>
                         <tr>
                             <td>음악</td>
-                            <td><a href="/application/create">2015학년도 연세대학교 음악대학원 석박사 통합 과정 수시 모집</a></td>
+                            <td><a href="${contextPath}/application/create">2015학년도 연세대학교 음악대학원 석박사 통합 과정 수시 모집</a></td>
                             <td>2014-09-28 / 2014-10-03</td>
                         </tr>
                         </tbody>

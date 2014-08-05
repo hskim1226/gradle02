@@ -1,4 +1,4 @@
-<%@ page contentType="text/html; charset=utf-8"%>
+<%@ page contentType="text/html;charset=UTF-8"%>
 <%@include file="/WEB-INF/jsp/common/env.jsp"%>
 <%@ taglib uri="http://www.opensymphony.com/sitemesh/decorator"	prefix="decorator"%>
 <!DOCTYPE html>
@@ -44,9 +44,9 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav" data-0="margin-top:20px;" data-300="margin-top:5px;">
-                    <li class="active"><a href="/intro.jsp">Home</a></li>
-                    <li><a href="/notice/list">모집 공고</a></li>
-                    <li><a href="/application/mylist">내 원서</a></li>
+                    <li class="active"><a href="${contextPath}/intro.jsp">Home</a></li>
+                    <li><a href="${contextPath}/notice/list">모집 공고</a></li>
+                    <li><a href="${contextPath}/application/mylist">내 원서</a></li>
                     <li><a href="#section-contact">회원 가입</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
