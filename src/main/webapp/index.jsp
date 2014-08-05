@@ -1,10 +1,4 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: skplanet
-  Date: 2014. 7. 20.
-  Time: 오후 6:05
-  To change this template use File | Settings | File Templates.
---%>
+<%@ page contentType="text/html; charset=utf-8"%>
 <%@include file="/WEB-INF/jsp/common/env.jsp"%>
 <html>
 <head>
