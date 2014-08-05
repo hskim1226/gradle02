@@ -6,6 +6,12 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
         <title>연세대학교 대학원 입학 신청 시스템</title>
         <meta name="description" content="연세대학교 대학원">
+        <style>
+            #toList, #toMyList {
+                cursor: pointer;
+                cursor: hand;
+            }
+        </style>
     </head>
 	 
     <body>
@@ -30,7 +36,7 @@
 		
 			<div class="row mar-bot40">
 				<div class="col-lg-4" >
-					<div class="align-center">
+					<div class="align-center" id="toList">
 						<i class="fa fa-code fa-5x mar-bot20"></i>
 						<h2 class="text-bold">모집 공고</h2>
 						<p>연세대학교 대학원 모집 공고를 확인할 수 있습니다.
@@ -39,7 +45,7 @@
 				</div>
 					
 				<div class="col-lg-4" >
-					<div class="align-center">
+					<div class="align-center" id="toMyList">
 						<i class="fa fa-terminal fa-5x mar-bot20"></i>
 						<h2 class="text-bold">내 원서</h2>
 						<p>작성 중이거나 신청 중인 내 원서를 확인할 수 있습니다.
@@ -60,6 +66,11 @@
 
 		</div>
 		</section>
-
+        <content tag="local-script">
+            <script>
+                $('#toList').click(function(){location.href='/notice/list'});
+                $('#toMyList').click(function(){location.href='/application/mylist'});
+            </script>
+        </content>
 	</body>
 </html>

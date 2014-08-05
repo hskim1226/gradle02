@@ -39,14 +39,14 @@
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                     <span class="fa fa-bars color-white"></span>
                 </button>
-                <h1><a class="navbar-brand" href="intro.html" data-0="line-height:90px;" data-300="line-height:50px;">			YonseiApply
+                <h1><a class="navbar-brand" href="/intro.jsp" data-0="line-height:90px;" data-300="line-height:50px;">			YonseiApply
                 </a></h1>
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav" data-0="margin-top:20px;" data-300="margin-top:5px;">
-                    <li class="active"><a href="intro.html">Home</a></li>
-                    <li><a href="list.html">모집 공고</a></li>
-                    <li><a href="mylist.html">내 원서</a></li>
+                    <li class="active"><a href="/intro.jsp">Home</a></li>
+                    <li><a href="/notice/list">모집 공고</a></li>
+                    <li><a href="/application/mylist">내 원서</a></li>
                     <li><a href="#section-contact">회원 가입</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
@@ -98,5 +98,6 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery.appear/0.3.3/jquery.appear.min.js"></script>
     <script src="${contextPath}/js/validate.min.js"></script>
     <script src="${contextPath}/js/main.js"></script>
+    <decorator:getProperty property="page.local-script"/>
 </body>
 </html>
