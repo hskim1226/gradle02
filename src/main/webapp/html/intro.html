@@ -17,6 +17,12 @@
         <link rel="stylesheet" href="css/style.css">
 		<!-- skin -->
 		<link rel="stylesheet" href="skin/default.css">
+        <style>
+            #toList, #toMyList {
+                cursor: pointer;
+                cursor: hand;
+            }
+        </style>
     </head>
 	 
     <body>
@@ -62,7 +68,7 @@
 		
 			<div class="row mar-bot40">
 				<div class="col-lg-4" >
-					<div class="align-center">
+					<div class="align-center" id="toList">
 						<i class="fa fa-code fa-5x mar-bot20"></i>
 						<h2 class="text-bold">모집 공고</h2>
 						<p>연세대학교 대학원 모집 공고를 확인할 수 있습니다.
@@ -71,7 +77,7 @@
 				</div>
 					
 				<div class="col-lg-4" >
-					<div class="align-center">
+					<div class="align-center" id="toMyList">
 						<i class="fa fa-terminal fa-5x mar-bot20"></i>
 						<h2 class="text-bold">내 원서</h2>
 						<p>작성 중이거나 신청 중인 내 원서를 확인할 수 있습니다.
@@ -97,7 +103,7 @@
 		<div class="container">
             <div class="row align-center">
                 <div class="col-sm-12" style="font-size: 12px"><p>(주)에이펙스소프트 | 서울 마포구 양화로 156 | 대표이사 김도훈 | 사업자등록번호 105-87-66045 | 전화 ####-####</p></div>
-                <div class="col-sm-12" style="font-size: 12px"><p>통신판매업신고번호 마포####호 | 개인정보관리책임자 김도훈 | 개인정보보유기간 회원지 탈퇴시까</p></div>
+                <div class="col-sm-12" style="font-size: 12px"><p>통신판매업신고번호 마포####호 | 개인정보관리책임자 김도훈 | 개인정보보유기간 회원지 탈퇴시까지</p></div>
             </div>
             <div class="row align-center copyright">
                 <div class="col-sm-12"><p>Designed by <a href="http://bootstraptaste.com">Bootstraptaste</a></p></div>
@@ -121,6 +127,9 @@
 	<script src="js/jquery.appear.js"></script>
 	<script src="js/validate.js"></script>
     <script src="js/main.js"></script>
-
+    <script>
+        $('#toList').click(function(){location.href='list.html'});
+        $('#toMyList').click(function(){location.href='mylist.html'});
+    </script>
 	</body>
 </html>
