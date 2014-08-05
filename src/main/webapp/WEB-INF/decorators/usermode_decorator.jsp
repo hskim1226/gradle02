@@ -59,7 +59,7 @@
     <!-- FOOTER -->
     <section id="footer" class="section footer">
         <div class="container">
-            <div class="row align-center" style="position: absolute">
+            <div class="row align-center">
                 <div class="col-sm-12 legalnotice"><p>(주)에이펙스소프트 | 서울 마포구 양화로 156 | 대표이사 김도훈 | 사업자등록번호 105-87-66045 | 전화 ####-####</p></div>
                 <div class="col-sm-12 legalnotice"><p>통신판매업신고번호 마포####호 | 개인정보관리책임자 김도훈 | 개인정보보유기간 회원 탈퇴시까지</p></div>
             </div>
