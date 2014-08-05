@@ -160,8 +160,8 @@
     </div>
 </section>
 <content tag="local-script">
-    <script src="/js/bootstrap-datepicker.js"></script>
-    <script src="/js/bootstrap-datepicker.kr.js"></script>
+    <script src="${contextPath}/js/bootstrap-datepicker.js"></script>
+    <script src="${contextPath}/js/bootstrap-datepicker.kr.js"></script>
     <script>
         $('#datapickerBox input').datepicker({
             format: "yyyy-mm-dd",
