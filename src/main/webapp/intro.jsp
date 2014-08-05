@@ -4,13 +4,11 @@
 		<!-- BASICS -->
         <meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-        <title>연세대학교 대학원 입학지원 시스템</title>
+        <title>연세대학교 대학원 입학 신청 시스템</title>
         <meta name="description" content="연세대학교 대학원">
     </head>
 	 
     <body>
-
-
 		<section class="featured" id="intro" data-stellar-background-ratio="0.5">
 			<div class="container"> 
 				<div class="row mar-bot40">
