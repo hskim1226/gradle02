@@ -4,7 +4,6 @@
 
 	<decorator name="main" page="main_decorator.jsp">
 		<pattern>/index</pattern>
-		<pattern>/user/*</pattern>
 		<pattern>/admin/user*</pattern>
 	</decorator>
 
@@ -13,6 +12,7 @@
         <pattern>/application/*</pattern>
         <pattern>/mail/*</pattern>
         <pattern>/intro.jsp</pattern>
+        <pattern>/user/*</pattern>
     </decorator>
 
     <decorator name="template" page="temp_decorator.jsp">
