@@ -19,7 +19,7 @@ import java.util.List;
 @Service("usersService")
 public class UsersServiceImpl implements UsersService {
 
-    private static String NAME_SPACE="users.";
+    private static String NAME_SPACE="com.apexsoft.ysprj.user.Mapper.";
 
     @Autowired
     private CommonDAO commonDAO;
@@ -30,7 +30,7 @@ public class UsersServiceImpl implements UsersService {
 
 	public void registerUser(UsersVO usersVO){
 		usersVO.setEnabled(true);
-        commonDAO.insert(NAME_SPACE+"insert", usersVO);
+        commonDAO.insert(NAME_SPACE+"insertUser", usersVO);
 
 		AuthoritiesVO authVO = new AuthoritiesVO();
 		authVO.setUsername(usersVO.getUsername());

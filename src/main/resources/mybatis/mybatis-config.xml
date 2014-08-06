@@ -10,4 +10,8 @@
         <setting	name="localCacheScope"	value="STATEMENT"	/>
     </settings>
 
+    <typeAliases>
+        <typeAlias type="com.apexsoft.ysprj.user.service.UsersVO" alias="User"/>
+    </typeAliases>
+
 </configuration>
