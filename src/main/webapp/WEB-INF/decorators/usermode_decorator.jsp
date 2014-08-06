@@ -9,25 +9,28 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title><decorator:title default="연세대학교 대학원 입학 신청 시스템"/></title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!--<link rel="stylesheet" type="text/css" href="../css/isotope.css" media="screen" />-->
-    <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/jquery.isotope/2.0.0/isotope.pkgd.min.js" media="screen" />
-    <!--<link rel="stylesheet" href="../js/fancybox/jquery.fancybox.css" type="text/css" media="screen" />-->
-    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.pack.js" type="text/css" media="screen" />
-    <!-- Bootstrap -->
-    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
-    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/jquery.bootstrapvalidator/0.5.0/css/bootstrapValidator.min.css"/>
-    <!-- Optional theme -->
-    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
     <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
     <script src="${contextPath}/js/respond.min.js"></script>
     <![endif]-->
+    <!--<link rel="stylesheet" type="text/css" href="../css/isotope.css" media="screen" />-->
+    <!--<link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/jquery.isotope/2.0.0/isotope.pkgd.min.js" media="screen" />-->
+    <!--<link rel="stylesheet" href="../js/fancybox/jquery.fancybox.css" type="text/css" media="screen" />-->
+    <!--<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.pack.js" type="text/css" media="screen" />-->
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="${contextPath}/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="${contextPath}/css/bootstrap-theme.min.css"/>
+    <!-- Font-awesome -->
+    <link rel="stylesheet" href="${contextPath}/css/font-awesome.css"/>
+    <!-- Overwrite Bootstrap -->
+    <link rel="stylesheet" href="${contextPath}/css/overwrite.css"/>
+    <link rel="stylesheet" href="${contextPath}/css/animate.css"/>
     <!-- custom style -->
-    <link rel="stylesheet" href="${contextPath}/css/style.css">
+    <link rel="stylesheet" href="${contextPath}/css/style.css"/>
     <!-- skin -->
-    <link rel="stylesheet" href="${contextPath}/skin/default.css">
+    <link rel="stylesheet" href="${contextPath}/skin/default.css"/>
     <decorator:head />
 </head>
 <body>
