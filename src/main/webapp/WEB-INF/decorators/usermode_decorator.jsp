@@ -22,7 +22,7 @@
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
     <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-    <script src="${contextPath}/respond.min.js"></script>
+    <script src="${contextPath}/js/respond.min.js"></script>
     <![endif]-->
     <!-- custom style -->
     <link rel="stylesheet" href="${contextPath}/css/style.css">
