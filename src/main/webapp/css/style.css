@@ -1,10 +1,10 @@
 /* ==== Google font ==== */
 /*@import url('http://fonts.googleapis.com/css?family=Lato:400,300,700,900');*/
 /* === fontawesome === */
-@import url('font-awesome.css');
+/*@import url('font-awesome.css');*/
 /* ==== overwrite bootstrap standard ==== */
-@import url('overwrite.css');
-@import url('animate.css');
+/*@import url('overwrite.css');*/
+/*@import url('animate.css');*/
 /*==========================================================================
   General
   ========================================================================== */
@@ -341,7 +341,8 @@ section.section {
 .navbar {
 	line-height: 100px;
 	height: 100px;
-	background-color: rgba(0,0,0,0.3);
+	/*background-color: rgba(0,0,0,0.3);*/
+    background-image: url(../img/etc/alphagray.png);
 	display: block;
 	vertical-align: middle;
 	text-align: center;
