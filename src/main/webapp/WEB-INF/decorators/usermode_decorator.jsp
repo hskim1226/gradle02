@@ -39,7 +39,7 @@
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                     <span class="fa fa-bars color-white"></span>
                 </button>
-                <h1><a class="navbar-brand" href="/intro.jsp" data-0="line-height:90px;" data-300="line-height:50px;">			YonseiApply
+                <h1><a class="navbar-brand" href="${contextPath}/intro.jsp" data-0="line-height:90px;" data-300="line-height:50px;">			YonseiApply
                 </a></h1>
             </div>
             <div class="navbar-collapse collapse">
@@ -73,12 +73,7 @@
         </div>
     </section>
     <a href="#header" class="scrollup"><i class="fa fa-chevron-up"></i></a>
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
+
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
