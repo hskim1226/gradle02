@@ -6,9 +6,8 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title><decorator:title default="연세대학교 대학원 입학 신청 시스템"/></title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><decorator:title default="연세대학교 대학원 입학 신청 시스템"/></title>
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
