@@ -1,6 +1,7 @@
 package com.apexsoft.framework.xpay;
 
 import com.apexsoft.framework.recaptcha.RecaptchaService;
+import com.springcryptoutils.core.digest.Digester;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,6 +15,9 @@ import javax.servlet.http.HttpServletRequest;
 @Controller
 @RequestMapping("/pay")
 public class XPayController {
+
+    @Autowired
+    private Digester digester;
 
     String LGD_MID;
     String LGD_MERTKEY;
@@ -34,6 +38,8 @@ public class XPayController {
         String LGD_BUYERID;
         String LGD_BUYERIP;
         String LGD_HASHDATA;
+
+        String digest = digester.digest("eat me!");
 
         return "xpay/payreq";
     }
