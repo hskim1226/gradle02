@@ -6,9 +6,7 @@
         <result property="userId"       column="USER_ID"/>
         <result property="userType"     column="USER_TYPE"/>
         <result property="name"         column="NAME"/>
-        <result property="yearOfBirth"  column="BORN_YEAR"/>
-        <result property="monthOfBirth" column="BORN_MM"/>
-        <result property="dateOfBirth"  column="BORN_DD"/>
+        <result property="birth"        column="BORN_DAY"/>
         <result property="gender"       column="GEND"/>
         <result property="mobile"       column="MOBI_NUM"/>
         <result property="password"     column="PSWD"/>
@@ -25,7 +23,7 @@
     </resultMap>
 
     <sql id="userColumns">
-        USER_ID, USER_TYPE, NAME, BORN_YEAR, BORN_MM, BORN_DD, GEND, MOBI_NUM, PSWD, MAIL_ADDR, SMS_RECV_YN,
+        USER_ID, USER_TYPE, NAME, BORN_DAY, GEND, MOBI_NUM, PSWD, MAIL_ADDR, SMS_RECV_YN,
         MAIL_RECV_YN, USER_DIVS_CODE, USER_AGRE_YN, PRIV_INFO_YN, CRE_ID, CRE_DATE, MOD_ID, MOD_DATE
     </sql>
 
@@ -34,7 +32,9 @@
           INSERT INTO USER(USER_ID,
                              USER_TYPE,
                              NAME,
+                             BORN_DAY,
                              GEND,
+                             PSWD,
                              MOBI_NUM,
                              MAIL_ADDR,
                              SMS_RECV_YN,
@@ -42,14 +42,15 @@
                              USER_DIVS_CODE,
                              USER_AGRE_YN,
                              PRIV_INFO_YN,
+                             ENABLED,
                              CRE_ID,
-                             CRE_DATE,
-                             MOD_ID,
-                             MOD_DATE)
+                             CRE_DATE)
 		             VALUES(#{userId},
 		                     #{userType},
                              #{name},
+                             #{birth},
                              #{gender},
+                             #{password},
                              #{mobile},
                              #{email},
                              #{smsReceive},
@@ -57,9 +58,8 @@
                              #{divisionCode},
                              #{termsAgree},
                              #{privacyAgree},
-                             #{creator},
-                             now(),
-                             #{modifier},
+                             #{enabled},
+                             #{userId},
                              now())
 		]]>
     </insert>
@@ -68,12 +68,10 @@
         <![CDATA[
 		  UPDATE USER SET
                              NAME = #{name},
-                             BORN_YEAR = #{yearOfBirth},
-                             BORN_MM = #{monthOfBirth},
-                             BORN_DD = #{dateOfBirth},
+                             BORN_DAY = #{birth},
                              GEND = #{gender},
+                             PSWD = #{password},
                              MOBI_NUM = #{mobile},
-                             PSWD = password(#{password}),
                              MAIL_ADDR = #{email},
                              SMS_RECV_YN = #{smsReceive},
                              MAIL_RECV_YN = #{emailReceive},
@@ -88,7 +86,7 @@
 
     <select id="selectByPk" resultMap="user" parameterType="String">
         <![CDATA[
-		  SELECT USER_ID
+		  SELECT USER_ID, PSWD, ENABLED
 		    FROM USER
 			WHERE 1=1
 			AND USER_ID = #{userId}
