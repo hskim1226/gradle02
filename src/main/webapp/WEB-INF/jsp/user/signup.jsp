@@ -48,15 +48,11 @@
             });
 
             $('#sandbox-container .input-group.date').datepicker({
-                format: "yyyy-mm-dd",
+                format: "yyyymmdd",
                 startView: 2,
-                todayBtn:"linked",
                 language: "kr",
-                orientation: "top auto",
-                keyboardNavigation: false,
                 forceParse: false,
-                autoclose: true,
-                todayHighlight: true
+                autoclose: true
             });
 
         });
@@ -76,7 +72,7 @@
                 <div class="col-sm-10">
                     <textarea class="form-control" id="terms-of-service" rows="5" disabled>aaa</textarea>
                     <label for="terms-agree" class="control-label">
-                        <input type="checkbox" name="termsagree" id="terms-agree" value="y" />I agree
+                        <input type="checkbox" name="termsAgree" id="terms-agree" value="y" />I agree
                     </label>
                 </div>
             </div>
@@ -85,7 +81,7 @@
                 <div class="col-sm-10">
                     <textarea class="form-control" id="privacy-policy" rows="5" disabled>bbb</textarea>
                     <label for="privacy-agree" class="control-label">
-                        <input type="checkbox" name="privacyagree" id="privacy-agree" value="y"/>I agree
+                        <input type="checkbox" name="privacyAgree" id="privacy-agree" value="y"/>I agree
                     </label>
                 </div>
             </div>
@@ -95,13 +91,13 @@
                 <div class="col-sm-10">
                     <div class="btn-group" data-toggle="buttons">
                         <label class="btn btn-default active">
-                            <input type="radio" name="usertype" id="usertype-general" value="g" checked>General
+                            <input type="radio" name="userType" id="usertype-general" value="g" checked>General
                         </label>
                         <label class="btn btn-default">
-                            <input type="radio" name="usertype" id="usertype-child" value="c">Child
+                            <input type="radio" name="userType" id="usertype-child" value="c">Child
                         </label>
                         <label class="btn btn-default">
-                            <input type="radio" name="usertype" id="usertype-foreign" value="f">Foreign
+                            <input type="radio" name="userType" id="usertype-foreign" value="f">Foreign
                         </label>
                     </div>
                 </div>
@@ -134,7 +130,7 @@
                     <input type="email" class="form-control" id="email" name="email" placeholder="email" />
                 </div>
                 <label for="email-receive" class="control-label">
-                    <input type="checkbox" name="emailreceive" id="email-receive" value="y"/>Receive email
+                    <input type="checkbox" name="emailReceive" id="email-receive" value="y"/>Receive email
                 </label>
             </div>
             <%--mobile--%>
@@ -144,7 +140,7 @@
                     <input type="text" class="form-control" id="mobile" name="mobile" placeholder="###-####-####" />
                 </div>
                 <label for="sms-receive" class="control-label">
-                    <input type="checkbox" name="smsreceive" id="sms-receive" value="y" />Receive sms
+                    <input type="checkbox" name="smsReceive" id="sms-receive" value="y" />Receive sms
                 </label>
             </div>
             <%--name--%>
@@ -154,6 +150,7 @@
                     <input type="text" class="form-control" id="name" name="name" placeholder="Name" />
                 </div>
             </div>
+            <%--gender--%>
             <div class="form-group">
                 <label class="col-sm-2 control-label">Gender</label>
                 <div class="col-sm-10">
@@ -167,6 +164,7 @@
                     </div>
                 </div>
             </div>
+            <%--calendar--%>
             <div class="form-group">
                 <label for="birth" class="col-sm-2 control-label">Birthday</label>
                 <div class="col-sm-6 col-md-4" id="sandbox-container">
