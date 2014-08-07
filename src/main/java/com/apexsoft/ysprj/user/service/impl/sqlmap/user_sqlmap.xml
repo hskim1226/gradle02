@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.apexsoft.ysprj.user.Mapper">
+
+    <resultMap id="user" type="User">
+        <result property="userId"       column="USER_ID"/>
+        <result property="userType"     column="USER_TYPE"/>
+        <result property="name"         column="NAME"/>
+        <result property="birth"        column="BORN_DAY"/>
+        <result property="gender"       column="GEND"/>
+        <result property="mobile"       column="MOBI_NUM"/>
+        <result property="password"     column="PSWD"/>
+        <result property="email"        column="MAIL_ADDR"/>
+        <result property="smsReceive"   column="SMS_RECV_YN"/>
+        <result property="emailReceive" column="MAIL_RECV_YN"/>
+        <result property="divisionCode" column="USER_DIVS_CODE"/>
+        <result property="termsAgree"   column="USER_AGRE_YN"/>
+        <result property="privacyAgree" column="PRIV_INFO_YN"/>
+        <result property="creator"      column="CRE_ID"/>
+        <result property="createDate"   column="CRE_DATE"/>
+        <result property="modifier"     column="MOD_ID"/>
+        <result property="modifyDate"   column="MOD_DATE"/>
+    </resultMap>
+
+    <sql id="userColumns">
+        USER_ID, USER_TYPE, NAME, BORN_DAY, GEND, MOBI_NUM, PSWD, MAIL_ADDR, SMS_RECV_YN,
+        MAIL_RECV_YN, USER_DIVS_CODE, USER_AGRE_YN, PRIV_INFO_YN, CRE_ID, CRE_DATE, MOD_ID, MOD_DATE
+    </sql>
+
+    <insert id="insertUser" parameterType="User">
+        <![CDATA[
+          INSERT INTO USER(USER_ID,
+                             USER_TYPE,
+                             NAME,
+                             BORN_DAY,
+                             GEND,
+                             PSWD,
+                             MOBI_NUM,
+                             MAIL_ADDR,
+                             SMS_RECV_YN,
+                             MAIL_RECV_YN,
+                             USER_DIVS_CODE,
+                             USER_AGRE_YN,
+                             PRIV_INFO_YN,
+                             ENABLED,
+                             CRE_ID,
+                             CRE_DATE)
+		             VALUES(#{userId},
+		                     #{userType},
+                             #{name},
+                             #{birth},
+                             #{gender},
+                             #{password},
+                             #{mobile},
+                             #{email},
+                             #{smsReceive},
+                             #{emailReceive},
+                             #{divisionCode},
+                             #{termsAgree},
+                             #{privacyAgree},
+                             #{enabled},
+                             #{userId},
+                             now())
+		]]>
+    </insert>
+
+    <update id="updateUser" parameterType="User">
+        <![CDATA[
+		  UPDATE USER SET
+                             NAME = #{name},
+                             BORN_DAY = #{birth},
+                             GEND = #{gender},
+                             PSWD = #{password},
+                             MOBI_NUM = #{mobile},
+                             MAIL_ADDR = #{email},
+                             SMS_RECV_YN = #{smsReceive},
+                             MAIL_RECV_YN = #{emailReceive},
+                             USER_DIVS_CODE = #{divisionCode},
+                             USER_AGRE_YN = #{termsAgree},
+                             PRIV_INFO_YN = #{privacyAgree},
+                             MOD_ID = #{modifier},
+                             MOD_DATE = now()
+			WHERE USER_ID = #{userId}
+		]]>
+    </update>
+
+    <select id="selectByPk" resultMap="user" parameterType="String">
+        <![CDATA[
+		  SELECT USER_ID, PSWD, ENABLED
+		    FROM USER
+			WHERE 1=1
+			AND USER_ID = #{userId}
+		]]>
+    </select>
+
+
+    <!-- Queries for Authority      -->
+
+    <select id="selectAuthorities" resultType="com.apexsoft.ysprj.user.service.AuthoritiesVO"  parameterType="String">
+        <![CDATA[
+		  SELECT username, authority
+		    FROM authorities
+			WHERE 1=1
+			AND username = #{username}
+		]]>
+    </select>
+
+    <insert id="insertAuthority"  parameterType="com.apexsoft.ysprj.user.service.AuthoritiesVO" >
+        <![CDATA[
+		  INSERT INTO authorities
+		                   (authority,
+		                    username)
+		             VALUES(#{authority},
+		                    #{username})
+		]]>
+    </insert>
+
+    <delete id="deleteAuthority" parameterType="com.apexsoft.ysprj.user.service.AuthoritiesVO">
+        <![CDATA[
+		  DELETE FROM authorities
+			WHERE username = #{username}
+			AND authority = #{authority}
+		]]>
+    </delete>
+</mapper>

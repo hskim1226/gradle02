@@ -5,6 +5,7 @@
     <title></title>
 </head>
 <body>
+<section class="featured">
     <div class="container">
         <div class="page-header">
             <h1>YS Project <small>template pages</small></h1>
@@ -43,5 +44,6 @@
             </form>
         </div>
     </div>
+</section>
 </body>
 </html>

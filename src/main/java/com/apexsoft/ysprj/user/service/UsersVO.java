@@ -3,93 +3,32 @@ package com.apexsoft.ysprj.user.service;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-import java.sql.Date;
 import java.util.Collection;
-
+import java.util.Date;
 
 public class UsersVO implements UserDetails {
 
-    @NotNull
-    @Size(min=5, max=50)
-    private String username;
-
-    @NotNull
-    @Size(min=5, max=50)
-    private String password;
-	
-	private boolean enabled;
-	
-	private String nickname;
-	
-	private String koreanName;
-	
-	private String engName;
-	
-	private String birthDate;
-	
-	private int postNumber;
-
-	private int postSeq;
-
-	private String address;
-
-	private String addressDetail;
-
-    private String engAddress;
-
-	private String phoneNumber;
-
-	private String phoneNumber1;
-	
-	private String phoneNumber2;
-	
-	private String phoneNumber3;
-
-    @NotNull
-    @Size(min=5, max=50)
+    private String userId;
+    private String userType;
+    private String name;
+    private String birth;
+    private String gender;
+    private String mobile;
+    private String encryptedPassword;
     private String email;
-	
-	private String passportNumber;
-	
-	private String license;
-
-    private int grade;
-	
-	private int diveLog;
-	
-	private boolean mailingService;
-	
-	private boolean smsService;
-
-    private Date regDate;
+    private String smsReceive;
+    private String emailReceive;
+    private String divisionCode;
+    private String termsAgree;
+    private String privacyAgree;
+    private String creator;
+    private Date createDate;
+    private String modifier;
+    private Date modifyDate;
 
     private Collection<? extends GrantedAuthority> authorities;
 
-    public String getUsername() {
-        return username;
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;  //To change body of implemented methods use File | Settings | File Templates.
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-
-        return enabled;  //To change body of implemented methods use File | Settings | File Templates.
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;  //To change body of implemented methods use File | Settings | File Templates.
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
+    private boolean enabled;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -100,14 +39,40 @@ public class UsersVO implements UserDetails {
         this.authorities = authorities;
     }
 
+    @Override
     public String getPassword() {
-        return password;
+        return encryptedPassword;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setPassword(String encryptedPassword) {
+        this.encryptedPassword = encryptedPassword;
     }
 
+    @Override
+    public String getUsername() {
+        return getUserId();
+    }
+
+    public void setUsername(String username) {
+        setUserId(username);
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return enabled;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
     public boolean isEnabled() {
         return enabled;
     }
@@ -116,108 +81,56 @@ public class UsersVO implements UserDetails {
         this.enabled = enabled;
     }
 
-    public String getNickname() {
-        return nickname;
+    public String getUserId() {
+        return userId;
     }
 
-    public void setNickname(String nickname) {
-        this.nickname = nickname;
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
-    public String getKoreanName() {
-        return koreanName;
+    public String getUserType() {
+        return userType;
     }
 
-    public void setKoreanName(String koreanName) {
-        this.koreanName = koreanName;
+    public void setUserType(String userType) {
+        this.userType = userType;
     }
 
-    public String getEngName() {
-        return engName;
+    public String getName() {
+        return name;
     }
 
-    public void setEngName(String engName) {
-        this.engName = engName;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getBirthDate() {
-        return birthDate;
+    public String getBirth() {
+        return birth;
     }
 
-    public void setBirthDate(String birthDate) {
-        this.birthDate = birthDate;
+    public void setBirth(String birth) {
+        this.birth = birth;
     }
 
-    public int getPostNumber() {
-        return postNumber;
+    public String getGender() {
+        return gender;
     }
 
-    public void setPostNumber(int postNumber) {
-        this.postNumber = postNumber;
+    public void setGender(String gender) {
+        this.gender = gender;
     }
 
-    public int getPostSeq() {
-        return postSeq;
+    public String getMobile() {
+        return mobile;
     }
 
-    public void setPostSeq(int postSeq) {
-        this.postSeq = postSeq;
+    public void setMobile(String mobile) {
+        this.mobile = mobile;
     }
 
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public String getAddressDetail() {
-        return addressDetail;
-    }
-
-    public void setAddressDetail(String addressDetail) {
-        this.addressDetail = addressDetail;
-    }
-
-    public String getEngAddress() {
-        return engAddress;
-    }
-
-    public void setEngAddress(String engAddress) {
-        this.engAddress = engAddress;
-    }
-
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-
-    public String getPhoneNumber1() {
-        return phoneNumber1;
-    }
-
-    public void setPhoneNumber1(String phoneNumber1) {
-        this.phoneNumber1 = phoneNumber1;
-    }
-
-    public String getPhoneNumber2() {
-        return phoneNumber2;
-    }
-
-    public void setPhoneNumber2(String phoneNumber2) {
-        this.phoneNumber2 = phoneNumber2;
-    }
-
-    public String getPhoneNumber3() {
-        return phoneNumber3;
-    }
-
-    public void setPhoneNumber3(String phoneNumber3) {
-        this.phoneNumber3 = phoneNumber3;
+    public String getEncryptedPassword() {
+        return encryptedPassword;
     }
 
     public String getEmail() {
@@ -228,88 +141,98 @@ public class UsersVO implements UserDetails {
         this.email = email;
     }
 
-    public String getPassportNumber() {
-        return passportNumber;
+    public String getSmsReceive() {
+        return smsReceive;
     }
 
-    public void setPassportNumber(String passportNumber) {
-        this.passportNumber = passportNumber;
+    public void setSmsReceive(String smsReceive) {
+        this.smsReceive = smsReceive;
     }
 
-    public String getLicense() {
-        return license;
+    public String getEmailReceive() {
+        return emailReceive;
     }
 
-    public void setLicense(String license) {
-        this.license = license;
+    public void setEmailReceive(String emailReceive) {
+        this.emailReceive = emailReceive;
     }
 
-    public int getGrade() {
-        return grade;
+    public String getDivisionCode() {
+        return divisionCode;
     }
 
-    public void setGrade(int grade) {
-        this.grade = grade;
+    public void setDivisionCode(String divisionCode) {
+        this.divisionCode = divisionCode;
     }
 
-    public int getDiveLog() {
-        return diveLog;
+    public String getTermsAgree() {
+        return termsAgree;
     }
 
-    public void setDiveLog(int diveLog) {
-        this.diveLog = diveLog;
+    public void setTermsAgree(String termsAgree) {
+        this.termsAgree = termsAgree;
     }
 
-    public boolean isMailingService() {
-        return mailingService;
+    public String getPrivacyAgree() {
+        return privacyAgree;
     }
 
-    public void setMailingService(boolean mailingService) {
-        this.mailingService = mailingService;
+    public void setPrivacyAgree(String privacyAgree) {
+        this.privacyAgree = privacyAgree;
     }
 
-    public boolean isSmsService() {
-        return smsService;
+    public String getCreator() {
+        return creator;
     }
 
-    public void setSmsService(boolean smsService) {
-        this.smsService = smsService;
+    public void setCreator(String creator) {
+        this.creator = creator;
     }
 
-    public Date getRegDate() {
-        return regDate;
+    public java.util.Date getCreateDate() {
+        return createDate;
     }
 
-    public void setRegDate(Date regDate) {
-        this.regDate = regDate;
+    public void setCreateDate(java.util.Date createDate) {
+        this.createDate = createDate;
+    }
+
+    public String getModifier() {
+        return modifier;
+    }
+
+    public void setModifier(String modifier) {
+        this.modifier = modifier;
+    }
+
+    public java.util.Date getModifyDate() {
+        return modifyDate;
+    }
+
+    public void setModifyDate(java.util.Date modifyDate) {
+        this.modifyDate = modifyDate;
     }
 
     @Override
     public String toString() {
         return "UsersVO{" +
-                "username='" + username + '\'' +
-                ", password='" + password + '\'' +
-                ", enabled=" + enabled +
-                ", nickname='" + nickname + '\'' +
-                ", koreanName='" + koreanName + '\'' +
-                ", engName='" + engName + '\'' +
-                ", birthDate='" + birthDate + '\'' +
-                ", postNumber=" + postNumber +
-                ", postSeq=" + postSeq +
-                ", address='" + address + '\'' +
-                ", addressDetail='" + addressDetail + '\'' +
-                ", engAddress='" + engAddress + '\'' +
-                ", phoneNumber='" + phoneNumber + '\'' +
-                ", phoneNumber1='" + phoneNumber1 + '\'' +
-                ", phoneNumber2='" + phoneNumber2 + '\'' +
-                ", phoneNumber3='" + phoneNumber3 + '\'' +
-                ", email='" + email + '\'' +
-                ", passportNumber='" + passportNumber + '\'' +
-                ", license='" + license + '\'' +
-                ", grade=" + grade +
-                ", diveLog=" + diveLog +
-                ", mailingService=" + mailingService +
-                ", smsService=" + smsService +
-                '}';
+                "userId=" + userId +
+                ", userType=" + userType +
+                ", name=" + name +
+                ", birth=" + birth +
+                ", gender=" + gender +
+                ", mobile=" + mobile +
+                ", encryptedPassword=" + encryptedPassword +
+                ", email=" + email +
+                ", smsReceive=" + smsReceive +
+                ", emailReceive=" + emailReceive +
+                ", divisionCode=" + divisionCode +
+                ", termsAgree=" + termsAgree +
+                ", privacyAgree=" + privacyAgree +
+                ", creator=" + creator +
+                ", createDate=" + createDate +
+                ", modifier=" + modifier +
+                ", modifyDate=" + modifyDate +
+                "}";
     }
 }
