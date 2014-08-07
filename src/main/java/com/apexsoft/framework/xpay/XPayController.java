@@ -15,11 +15,26 @@ import javax.servlet.http.HttpServletRequest;
 @RequestMapping("/pay")
 public class XPayController {
 
-    //@Autowired
-    //private RecaptchaService recaptchaService;
+    String LGD_MID;
+    String LGD_MERTKEY;
+    String LGD_CUSTOM_SKIN;
+    String LGD_WINDOW_VER;
+    String LGD_CUSTOM_PROCESSTYPE;
+    String LGD_VERSION;
 
     @RequestMapping("/request")
-    public String forwardPayment() {
+    public String processXPay(HttpServletRequest request) {
+
+        String LGD_OID;
+        String LGD_AMOUNT;
+        String LGD_BUYER;
+        String LGD_PRODUCTINFO;
+        String LGD_BUYEREMAIL;
+        String LGD_TIMESTAMP;
+        String LGD_BUYERID;
+        String LGD_BUYERIP;
+        String LGD_HASHDATA;
+
         return "xpay/payreq";
     }
 }
