@@ -251,6 +251,37 @@
 
         <!-- Spring Frameworks -->
 
+        <!-- Libs from LGU+ Pay -->
+        <dependency>
+            <groupId>commons-codec</groupId>
+            <artifactId>commons-codec</artifactId>
+            <version>1.9</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-httpclient</groupId>
+            <artifactId>commons-httpclient</artifactId>
+            <version>3.1</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-logging</groupId>
+            <artifactId>commons-logging</artifactId>
+            <version>1.2</version>
+        </dependency>
+        <dependency>
+            <groupId>XPayClient</groupId>
+            <artifactId>XPayClient</artifactId>
+            <version>1.0</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/XPayClient.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>json_simple</groupId>
+            <artifactId>json_simple</artifactId>
+            <version>1.4.2</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/json_simple.jar</systemPath>
+        </dependency>
+        <!-- Libs from LGU+ Pay -->
     </dependencies>
 
     <build>
@@ -286,6 +317,19 @@
                     <verbose>true</verbose>
                     <fork>true</fork>
                     <compilerVersion>1.7</compilerVersion>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>2.4</version>
+                <configuration>
+                    <webResources>
+                        <resource>
+                            <!-- this is relative to the pom.xml directory -->
+                            <directory>src/main/webapp/WEB-INF/lib/</directory>
+                        </resource>
+                    </webResources>
                 </configuration>
             </plugin>
         </plugins>
