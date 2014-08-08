@@ -1,6 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="/WEB-INF/jsp/common/env.jsp"%>
-<% String a = "abcde"; %>
 <html>
 <head>
     <title></title>
@@ -26,15 +25,15 @@
                             <tbody>
                             <tr>
                                 <td>일반</td>
-                                <td><a href="${contextPath}/application/create">2015학년도 연세대학교 일반대학원 석사과정 수시 모집</a></td>
-                                <td>2014-10-03</td>
+                                <td><a href="${contextPath}/application/create">2015학년도 연세대학교 일반대학원 일반 전형</a></td>
+                                <td>2014-10-08</td>
                                 <td><button type="button" class="btn btn-info">수정하기</button></td>
                                 <td><button type="button" class="btn btn-primary" id="p1">결제하기</button></td>
                             </tr>
                             <tr>
                                 <td>의학</td>
-                                <td><a href="${contextPath}/application/create">2015학년도 연세대학교 의학대학원 박사과정 수시 모집</a></td>
-                                <td>2014-10-03</td>
+                                <td><a href="${contextPath}/application/create">2015학년도 연세대학교 일반대학원 외국인 전형</a></td>
+                                <td>2014-10-08</td>
                                 <td><button type="button" class="btn btn-info">수정하기</button></td>
                                 <td><button type="button" class="btn btn-primary" id="p2">결제하기</button></td>
                             </tr>
@@ -53,8 +52,51 @@
 </section>
 <content tag="local-script">
     <script>
+        /*
+         * 상점결제 인증요청후 PAYKEY를 받아서 최종결제 요청.
+         */
+        function doPay_ActiveX(){
+
+            ret = xpay_check(document.getElementById('LGD_PAYINFO'), '<%= CST_PLATFORM %>');
+
+            if (ret=="00"){     //ActiveX 로딩 성공
+                var LGD_RESPCODE        = dpop.getData('LGD_RESPCODE');       //결과코드
+                var LGD_RESPMSG         = dpop.getData('LGD_RESPMSG');        //결과메세지
+
+                if( "0000" == LGD_RESPCODE ) { //인증성공
+                    var LGD_PAYKEY      = dpop.getData('LGD_PAYKEY');         //LG유플러스 인증KEY
+                    var msg = "인증결과 : " + LGD_RESPMSG + "\n";
+                    msg += "LGD_PAYKEY : " + LGD_PAYKEY +"\n\n";
+                    document.getElementById('LGD_PAYKEY').value = LGD_PAYKEY;
+                    alert(msg);
+                    document.getElementById('LGD_PAYINFO').submit();
+                } else { //인증실패
+                    alert("인증이 실패하였습니다. " + LGD_RESPMSG);
+                    /*
+                     * 인증실패 화면 처리
+                     */
+                }
+            } else {
+                alert("LG U+ 전자결제를 위한 ActiveX Control이  설치되지 않았습니다.");
+                /*
+                 * 인증실패 화면 처리
+                 */
+            }
+        }
+
+        function isActiveXOK(){
+            if(lgdacom_atx_flag == true){
+                document.getElementById('LGD_BUTTON1').style.display='none';
+                document.getElementById('LGD_BUTTON2').style.display='';
+            }else{
+                document.getElementById('LGD_BUTTON1').style.display='';
+                document.getElementById('LGD_BUTTON2').style.display='none';
+            }
+        }
+
         $('.btn-primary').click(function(){
             $('#myListForm').submit();
+            doPay_ActiveX();
         });
     </script>
 </content>

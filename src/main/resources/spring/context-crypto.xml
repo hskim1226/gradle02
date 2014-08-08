@@ -8,5 +8,5 @@
            http://springcryptoutils.com/schema/crypt
            http://springcryptoutils.com/schema/crypt.xsd
            ">
-    <crypt:digester id="digester" algorithm="SHA1" outputMode="HEX" provider="BC"/>
+    <crypt:digester id="digester" algorithm="SHA1" outputMode="HEX"/>
 </beans>
