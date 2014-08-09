@@ -13,6 +13,7 @@
         <pattern>/mail/*</pattern>
         <pattern>/intro.jsp</pattern>
         <pattern>/user/*</pattern>
+        <pattern>/pay/*</pattern>
     </decorator>
 
     <decorator name="template" page="temp_decorator.jsp">

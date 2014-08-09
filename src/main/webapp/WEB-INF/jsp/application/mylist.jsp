@@ -11,7 +11,7 @@
             <div class="col-md-10 col-md-offset-1">
                 <h2 class="slogan">미결제 원서</h2>
                 <div class="align-center">
-                    <form class="form-horizontal" id="LGD_PAYINFO" role="form" action="${contextPath}/pay/request" method="post">
+                    <form class="form-horizontal" id="LGD_PAYINFO" role="form" action="${contextPath}/pay/confirm" method="post">
                         <table class="table table-stripped">
                             <thead>
                             <tr>
@@ -40,12 +40,10 @@
                             </tbody>
                         </table>
 
-                        <input type="hidden" name="LGD_MID" id="LGD_MID" value="tapex2739"> <!-- 상점아이디 -->
-                        <input type="hidden" name="LGD_OID" id="LGD_OID" value="abcde"> <!-- 주문번호 -->
-                        <input type="hidden" name="LGD_BUYER" id="LGD_BUYER" value="hanmomhanda"> <!-- 주문자이름 -->
-                        <input type="hidden" name="LGD_PRODUCTINFO" id="LGD_PRODUCTINFO" value="연세대학교 일반대학원 원서 접수"> <!-- 상품정보 -->
-                        <input type="hidden" name="LGD_AMOUNT" id="LGD_AMOUNT" value="75000"> <!-- 결제금액 -->
-                        <input type="hidden" name="LGD_TIMESTAMP" id="LGD_TIMESTAMP" value="20140808184832"> <!-- 타임스탬프 -->
+
+                        <input type="hidden" name="LGD_PRODUCTINFO" id="LGD_PRODUCTINFO"> <!-- 상품정보 -->
+                        <input type="hidden" name="LGD_AMOUNT" id="LGD_AMOUNT"> <!-- 결제금액 -->
+                        <input type="hidden" name="LGD_TIMESTAMP" id="LGD_TIMESTAMP"> <!-- 타임스탬프 -->
                         <input type="hidden" name="LGD_PAYKEY" id="LGD_PAYKEY"> <!-- LG유플러스 PAYKEY(인증후 자동셋팅)-->
                     </form>
                 </div>
@@ -129,9 +127,10 @@ alert('LGD_RESPCODE : ' + LGD_RESPCODE + '\n' + 'LGD_RESPMSG : ' + LGD_RESPMSG);
             document.getElementById('LGD_AMOUNT').value = $(this)[0].value;
             document.getElementById('LGD_TIMESTAMP').value = dateToFormat(new Date(), 'yyyyMMddhhmmss');
 //alert( 'LGD_PRODUCTINFO : ' + document.getElementById('LGD_PRODUCTINFO').value + '\n' +
-        'LGD_AMOUNT : ' + document.getElementById('LGD_AMOUNT').value + '\n' +
-        'LGD_TIMESTAMP : ' + document.getElementById('LGD_TIMESTAMP').value );
-            doPay_ActiveX();
+//        'LGD_AMOUNT : ' + document.getElementById('LGD_AMOUNT').value + '\n' +
+//        'LGD_TIMESTAMP : ' + document.getElementById('LGD_TIMESTAMP').value );
+//            doPay_ActiveX();
+            $('#LGD_PAYINFO').submit();
         });
 
         isActiveXOK();
