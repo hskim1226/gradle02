@@ -57,7 +57,7 @@ public class XPayController {
      * LG유플러스으로 부터 내려받은 LGD_PAYKEY(인증Key)를 가지고 최종 결제요청.(파라미터 전달시 POST를 사용하세요)
      */
 
-        String configPath = "/home/hanmomhanda/gitRepo/ysproject/src/main/webapp/WEB-INF/config/lgdacom";  //LG유플러스에서 제공한 환경파일("/conf/lgdacom.conf,/conf/mall.conf") 위치 지정.
+        String configPath = "/opt/ysproject/lgdacom";  //LG유플러스에서 제공한 환경파일("/conf/lgdacom.conf,/conf/mall.conf") 위치 지정.
 
     /*
      *************************************************
