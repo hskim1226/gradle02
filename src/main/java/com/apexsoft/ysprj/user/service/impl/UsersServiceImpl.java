@@ -64,6 +64,21 @@ public class UsersServiceImpl implements UsersService {
 	}
 
     @Override
+    public UsersVO retrieveUserByName(String name) {
+        return commonDAO.queryForObject(NAME_SPACE + "selectByName", name, UsersVO.class);
+    }
+
+    @Override
+    public String retrieveUsername(UsersVO usersVO) {
+        return commonDAO.queryForObject(NAME_SPACE + "selectUsername", usersVO, String.class);
+    }
+
+    @Override
+    public void resetPassword(UsersVO usersVO) {
+
+    }
+
+    @Override
     public List<SimpleGrantedAuthority> retrieveAuthorities(String userName) {
         return commonDAO.queryWithResultHandler(NAME_SPACE+"selectAuthorities", userName, new RowHandler<AuthoritiesVO, SimpleGrantedAuthority>() {
             @Override
