@@ -42,6 +42,8 @@ public class PaymentVO {
 
     private String LGD_CASNOTEURL;
 
+    private String LGD_PAYKEY;
+
     public String getLGD_MID() {
         return LGD_MID;
     }
@@ -178,4 +180,11 @@ public class PaymentVO {
         this.LGD_CASNOTEURL = LGD_CASNOTEURL;
     }
 
+    public String getLGD_PAYKEY() {
+        return LGD_PAYKEY;
+    }
+
+    public void setLGD_PAYKEY(String LGD_PAYKEY) {
+        this.LGD_PAYKEY = LGD_PAYKEY;
+    }
 }

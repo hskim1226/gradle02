@@ -14,7 +14,7 @@
      * LG유플러스으로 부터 내려받은 LGD_PAYKEY(인증Key)를 가지고 최종 결제요청.(파라미터 전달시 POST를 사용하세요)
      */
 
-    String configPath = "C:/lgdacom";  //LG유플러스에서 제공한 환경파일("/conf/lgdacom.conf,/conf/mall.conf") 위치 지정.
+    String configPath = "/home/hanmomhanda/gitRepo/ysproject/src/main/webapp/WEB-INF/config/lgdacom";  //LG유플러스에서 제공한 환경파일("/conf/lgdacom.conf,/conf/mall.conf") 위치 지정.
     
     /*
      *************************************************
@@ -27,6 +27,11 @@
     String CST_MID                      = request.getParameter("CST_MID");
     String LGD_MID                      = ("test".equals(CST_PLATFORM.trim())?"t":"")+CST_MID;
     String LGD_PAYKEY                   = request.getParameter("LGD_PAYKEY");
+
+out.println("CST_PLATFORM : " + CST_PLATFORM + "<br/>");
+out.println("CST_MID : " + CST_MID + "<br/>");
+out.println("LGD_MID : " + LGD_MID + "<br/>");
+out.println("LGD_PAYKEY : " + LGD_PAYKEY + "<br/>");
 
     //해당 API를 사용하기 위해 WEB-INF/lib/XPayClient.jar 를 Classpath 로 등록하셔야 합니다. 
     XPayClient xpay = new XPayClient();
