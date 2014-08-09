@@ -88,6 +88,8 @@ public class XPayController {
         request.setAttribute( "LGD_BUYERIP", LGD_BUYERIP );
         request.setAttribute( "LGD_HASHDATA", LGD_HASHDATA );
 
+        System.out.println(request.getAttribute( "LGD_HASHDATA" ));
+
         return "xpay/payreq";
     }
 
