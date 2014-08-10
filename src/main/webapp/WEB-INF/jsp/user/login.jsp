@@ -1,14 +1,50 @@
 <%@ page contentType="text/html;charset=UTF-8"%>
-<%@include file="/WEB-INF/jsp/common/env.jsp"%>
+<%@ include file="/WEB-INF/jsp/common/env.jsp"%>
 <html>
 <head>
     <title></title>
+    <style>
+        section.login {
+            padding: 200px 0 60px;
+            background: #336655;
+            color: #fdfdfd;
+        }
+
+        section.login h2.slogan {
+            color: #fff;
+            font-size: 48px;
+            font-weight: 900;
+        }
+
+        /* inner heading */
+        section.login.inner {
+            background: #eee;
+            padding: 150px 0 50px;
+        }
+
+        section.login .spacer-big {
+            margin-bottom: 7em;
+        }
+
+        section.login .spacer-mid {
+            margin-bottom: 5em;
+        }
+
+        section.login .spacer-small {
+            margin-bottom: 3em;
+        }
+
+        section.login .spacer-tiny {
+            margin-bottom: 1em;
+        }
+
+    </style>
 </head>
 <body>
-<section class="featured">
+<section class="login">
     <div class="container">
         <div class="page-header">
-            <h1 style="color: #ffffff">로그인</h1>
+            <h1 style="color: #fdfdfd">로그인</h1>
         </div>
         <div class="col-md-9 col-md-offset-1">
             <form class="form-horizontal" role="form" action="${contextPath}/j_spring_security_check.do" method="post">

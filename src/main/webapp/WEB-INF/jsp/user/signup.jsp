@@ -4,68 +4,48 @@
 <head>
     <title></title>
     <link rel="stylesheet" href="${contextPath}/css/datepicker3.css">
-    <script src="${contextPath}/js/bootstrap-datepicker.js"></script>
-    <script src="${contextPath}/js/bootstrap-datepicker.kr.js"></script>
+    <style>
+        section.signup {
+            padding: 200px 0 60px;
+            background: #556699;
+            color: #fdfdfd;
+        }
 
-    <script type="text/javascript" >
-        $(document).ready(function(){
-            $("#sign-up-button").on("click", function(){
-                console.log($("#sign-up-form").serialize());
-                $('#sign-up-form').bootstrapValidator('validate');
-            });
+        section.signup h2.slogan {
+            color: #fff;
+            font-size: 48px;
+            font-weight: 900;
+        }
 
-            $("#available-check-button").on("click", function(){
-                $.get("${contextPath}/user/available",
-                        $("#sign-up-form").serialize(),
-                        function(data){
-                            if(data.result == "SUCCESS"){
-                                alert("사용가능한 username 입니다.");
-                                $("#sign-up-button").prop('disabled', false);
-                            }else{
-                                alert("이미 사용 중인 username 입니다.");
-                                $("#sign-up-button").prop('disabled', true);
-                            }
-                        }
-                );
-            });
+        /* inner heading */
+        section.signup.inner {
+            background: #eee;
+            padding: 150px 0 50px;
+        }
 
-            $('#sign-up-form').bootstrapValidator({
-                onError: function(e) {
-                },
-                onSuccess: function(e) {
-                    $.post("${contextPath}/user/signup",
-                            $("#sign-up-form").serialize(),
-                            function(data){
-                                if(data.result == "SUCCESS"){
-                                    alert("성공적으로 등록였습니다.");
-                                    location.href="${contextPath}/user/login";
-                                }else{
-                                    alert("서비스에 문제가 발생하였습니다.");
-                                }
-                            }
-                    );
-                }
-            });
+        section.signup .spacer-big {
+            margin-bottom: 7em;
+        }
 
-            $('#sandbox-container .input-group.date').datepicker({
-                format: "yyyymmdd",
-                startView: 2,
-                language: "kr",
-                forceParse: false,
-                autoclose: true
-            });
+        section.signup .spacer-mid {
+            margin-bottom: 5em;
+        }
 
-        });
-    </script>
+        section.signup .spacer-small {
+            margin-bottom: 3em;
+        }
+
+        section.signup .spacer-tiny {
+            margin-bottom: 1em;
+        }
+    </style>
 </head>
 <body>
-<section class="featured">
+<section class="signup">
     <div class="container">
         <div class="page-header">
-            <h1>YS Project <small>template pages</small></h1>
+            <h1 style="color: #fdfdfd">회원 가입</h1>
         </div>
-        <h3> sign up </h3>
-
         <form class="form-horizontal" role="form" id="sign-up-form" action="${contextPath}/user/signup" method="post">
             <div class="form-group">
                 <label for="terms-of-service" class="col-sm-2 control-label">Terms of Service</label>
@@ -183,5 +163,60 @@
         </form>
     </div>
 </section>
+<content tag="local-script">
+    <script src="${contextPath}/js/bootstrap-datepicker.js"></script>
+    <script src="${contextPath}/js/bootstrap-datepicker.kr.js"></script>
+
+    <script type="text/javascript" >
+        $(document).ready(function(){
+            $("#sign-up-button").on("click", function(){
+                console.log($("#sign-up-form").serialize());
+                $('#sign-up-form').bootstrapValidator('validate');
+            });
+
+            $("#available-check-button").on("click", function(){
+                $.get("${contextPath}/user/available",
+                        $("#sign-up-form").serialize(),
+                        function(data){
+                            if(data.result == "SUCCESS"){
+                                alert("사용가능한 username 입니다.");
+                                $("#sign-up-button").prop('disabled', false);
+                            }else{
+                                alert("이미 사용 중인 username 입니다.");
+                                $("#sign-up-button").prop('disabled', true);
+                            }
+                        }
+                );
+            });
+
+            $('#sign-up-form').bootstrapValidator({
+                onError: function(e) {
+                },
+                onSuccess: function(e) {
+                    $.post("${contextPath}/user/signup",
+                            $("#sign-up-form").serialize(),
+                            function(data){
+                                if(data.result == "SUCCESS"){
+                                    alert("성공적으로 등록였습니다.");
+                                    location.href="${contextPath}/user/login";
+                                }else{
+                                    alert("서비스에 문제가 발생하였습니다.");
+                                }
+                            }
+                    );
+                }
+            });
+
+            $('#sandbox-container .input-group.date').datepicker({
+                format: "yyyymmdd",
+                startView: 2,
+                language: "kr",
+                forceParse: false,
+                autoclose: true
+            });
+
+        });
+    </script>
+</content>
 </body>
 </html>
