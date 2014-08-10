@@ -1,16 +1,21 @@
 package com.apexsoft.framework.xpay;
 
+import com.apexsoft.framework.common.vo.ExecutionContext;
 import com.apexsoft.framework.xpay.service.PaymentVO;
 import com.apexsoft.framework.xpay.service.TransactionVO;
 import com.apexsoft.ysprj.user.service.UsersVO;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Enumeration;
@@ -19,6 +24,7 @@ import lgdacom.XPayClient.XPayClient;
 
 @Controller
 @RequestMapping("/pay")
+@SessionAttributes("paymentVO")
 public class XPayController {
 
     String CST_PLATFORM = "test";
@@ -31,8 +37,25 @@ public class XPayController {
     String LGD_VERSION = "JSP_XPay_2.5";
     String LGD_CASNOTEURL = "http://cas_noteurl.jsp";
 
-    @RequestMapping("/confirm")
-    public String confirmPayment( HttpServletRequest request, HttpSession httpSession, @ModelAttribute PaymentVO paymentVO ) throws NoSuchAlgorithmException {
+    @RequestMapping(value = "/confirm", method = RequestMethod.POST)
+    public String confirmPayment( HttpSession httpSession, PaymentVO paymentVO) throws NoSuchAlgorithmException {
+
+        SecurityContext sc = (SecurityContext)httpSession.getAttribute("SPRING_SECURITY_CONTEXT");
+        Authentication auth = sc.getAuthentication();
+        UsersVO usersVO = (UsersVO)auth.getPrincipal();
+
+        paymentVO.setLGD_BUYER(usersVO.getName());
+        paymentVO.setLGD_BUYERID(usersVO.getUserId());
+
+        return "xpay/confirm";
+    }
+
+    @RequestMapping(value="/info", method= RequestMethod.GET, produces="text/plain;charset=UTF-8")
+    @ResponseBody
+    public String getFullPaymentVO(HttpServletRequest request,
+                                             HttpSession httpSession,
+                                             PaymentVO paymentVO)
+            throws NoSuchAlgorithmException, JsonProcessingException, UnsupportedEncodingException {
 
         SecurityContext sc = (SecurityContext)httpSession.getAttribute("SPRING_SECURITY_CONTEXT");
         Authentication auth = sc.getAuthentication();
@@ -40,13 +63,19 @@ public class XPayController {
 
         paymentVO.setLGD_MID(LGD_MID);
         paymentVO.setLGD_OID(getOrderNumber(usersVO.getUserId() + paymentVO.getLGD_TIMESTAMP()));
-        paymentVO.setLGD_BUYER(usersVO.getUsername());
+        //LGD_PRODUCTINFO와 LGD_AMOUNT는 confirm.jsp에서 직접 세팅하여 @SessionAttributes를 통해 저장하므로 여기선 세팅 불필요
+//        paymentVO.setLGD_BUYER(usersVO.getUsername());
+//        String fromJquerySerialze = paymentVO.getLGD_PRODUCTINFO();
+//        String urldecoded = URLDecoder.decode(fromJquerySerialze, "UTF-8");
+//        String fromPara = request.getParameter("LGD_PRODUCTINFO");
+//        paymentVO.setLGD_PRODUCTINFO(URLDecoder.decode(paymentVO.getLGD_PRODUCTINFO(), "UTF-8"));
         paymentVO.setLGD_BUYEREMAIL(usersVO.getEmail());
         paymentVO.setLGD_BUYERID(usersVO.getUserId());
         paymentVO.setLGD_BUYERIP((request.getHeader("HTTP_X_FORWARDED_FOR") != null) ? request.getHeader("HTTP_X_FORWARDED_FOR") : request.getRemoteAddr());
         paymentVO.setLGD_HASHDATA(getHashData( paymentVO.getLGD_OID(),
                                                paymentVO.getLGD_AMOUNT(),
                                                paymentVO.getLGD_TIMESTAMP()));
+
         paymentVO.setCST_PLATFORM(CST_PLATFORM);
         paymentVO.setCST_MID(CST_MID);
         paymentVO.setLGD_CUSTOM_SKIN(LGD_CUSTOM_SKIN);
@@ -54,11 +83,18 @@ public class XPayController {
         paymentVO.setLGD_CUSTOM_PROCESSTYPE(LGD_CUSTOM_PROCESSTYPE);
         paymentVO.setLGD_VERSION(LGD_VERSION);
         paymentVO.setLGD_CASNOTEURL(LGD_CASNOTEURL);
-        return "xpay/confirm";
+        String json = new ObjectMapper().writeValueAsString(paymentVO);
+        return json;
+//        String modJson = json.substring(0, json.length()-1);
+//        modJson += ", \"PRODUCTINFO\":"+paymentVO.getLGD_PRODUCTINFO()+", \"BUYER\":"+paymentVO.getLGD_BUYER()+"}";
+//        return modJson;
+//        ExecutionContext ec = new ExecutionContext(json);
+//        return ec;
+
     }
 
-    @RequestMapping("/process")
-    public String processXPay(@ModelAttribute PaymentVO paymentVO,
+    @RequestMapping(value = "/process", method = RequestMethod.POST)
+    public String processXPay(PaymentVO paymentVO,
                               @ModelAttribute TransactionVO transactionVO) throws NoSuchAlgorithmException {
     /*
      * [최종결제요청 페이지(STEP2-2)]

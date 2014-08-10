@@ -84,38 +84,16 @@
     <script>
     $(document).ready( function() {
 
-        function add0(d, l) {
-            var r = '', t0 = d.toString().length;
-            if ( l > t0 ) {
-                while( l-- > t0 ) {
-                    r += '0';
-                }
-                return r + d;
-            }
-            else return d;
-        }
 
-        function dateToFormat(d, f) {
-            if ( d instanceof Date ) {
-                return f.replace(/(yyyy|MM|dd|hh|mm|ss)/gi, function(t) {
-                    switch (t) {
-                        case 'yyyy' : return d.getFullYear();
-                        case 'MM'   : return add0(d.getMonth() + 1, 2);
-                        case 'dd'   : return add0(d.getDate(), 2);
-                        case 'hh'   : return add0(d.getHours(), 2);
-                        case 'mm'   : return add0(d.getMinutes(), 2);
-                        case 'ss'   : return add0(d.getSeconds(), 2);
-                        default     : return t;
-                    }
-                });
-            }
-        }
 
         $('.btn-primary').click(function(){
             document.getElementById('LGD_PRODUCTINFO').value = $(this)[0].id;
             document.getElementById('LGD_AMOUNT').value = $(this)[0].value;
-            document.getElementById('LGD_TIMESTAMP').value = dateToFormat(new Date(), 'yyyyMMddhhmmss');
 
+//alert(document.getElementById('LGD_PRODUCTINFO').value + '\n' +
+//        document.getElementById('LGD_AMOUNT').value + '\n' +
+//        document.getElementById('LGD_TIMESTAMP').value
+//);
             $('#LGD_PAYINFO').submit();
         });
     })

@@ -50,11 +50,11 @@ public class UsersVO implements UserDetails {
 
     @Override
     public String getUsername() {
-        return getUserId();
+        return getName();
     }
 
     public void setUsername(String username) {
-        setUserId(username);
+        setName(username);
     }
 
     @Override
