@@ -2,13 +2,18 @@ package com.apexsoft.framework.xpay;
 
 import com.apexsoft.framework.xpay.service.PaymentVO;
 import com.apexsoft.framework.xpay.service.TransactionVO;
+import com.apexsoft.ysprj.user.service.UsersVO;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Enumeration;
 
 import lgdacom.XPayClient.XPayClient;
 
@@ -27,13 +32,17 @@ public class XPayController {
     String LGD_CASNOTEURL = "http://cas_noteurl.jsp";
 
     @RequestMapping("/confirm")
-    public String confirmPayment( HttpServletRequest request, @ModelAttribute PaymentVO paymentVO ) throws NoSuchAlgorithmException {
+    public String confirmPayment( HttpServletRequest request, HttpSession httpSession, @ModelAttribute PaymentVO paymentVO ) throws NoSuchAlgorithmException {
+
+        SecurityContext sc = (SecurityContext)httpSession.getAttribute("SPRING_SECURITY_CONTEXT");
+        Authentication auth = sc.getAuthentication();
+        UsersVO usersVO = (UsersVO)auth.getPrincipal();
 
         paymentVO.setLGD_MID(LGD_MID);
-        paymentVO.setLGD_OID(getOrderNumber("hanmomhanda" + paymentVO.getLGD_TIMESTAMP())); // TODO ID는 세션에서
-        paymentVO.setLGD_BUYER("hanmomhanda"); // TODO 세션에서 읽어오도록
-        paymentVO.setLGD_BUYEREMAIL("hanmomhanda@naver.com"); // TODO 세션에서 읽어오도록
-        paymentVO.setLGD_BUYERID("hanmomhanda"); // TODO 세션에서 읽어오도록
+        paymentVO.setLGD_OID(getOrderNumber(usersVO.getUserId() + paymentVO.getLGD_TIMESTAMP()));
+        paymentVO.setLGD_BUYER(usersVO.getUsername());
+        paymentVO.setLGD_BUYEREMAIL(usersVO.getEmail());
+        paymentVO.setLGD_BUYERID(usersVO.getUserId());
         paymentVO.setLGD_BUYERIP((request.getHeader("HTTP_X_FORWARDED_FOR") != null) ? request.getHeader("HTTP_X_FORWARDED_FOR") : request.getRemoteAddr());
         paymentVO.setLGD_HASHDATA(getHashData( paymentVO.getLGD_OID(),
                                                paymentVO.getLGD_AMOUNT(),
