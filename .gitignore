@@ -4,4 +4,3 @@ target/
 src/main/resources/spring/context-repository.xml
 *.log
 src/main/resources/properties/config/app.local.properties
-
