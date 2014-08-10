@@ -43,11 +43,11 @@
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                     <span class="fa fa-bars color-white"></span>
                 </button>
-                <h1><a class="navbar-brand" href="${contextPath}/index.jsp" data-0="line-height:90px;" data-300="line-height:50px;">YonseiApply</a></h1>
+                <h1><a class="navbar-brand" href="${contextPath}/index" data-0="line-height:90px;" data-300="line-height:50px;">YonseiApply</a></h1>
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav" style="float: right;" data-0="margin-top:20px;" data-300="margin-top:5px;">
-                    <li class="active"><a href="${contextPath}/index.jsp">Home</a></li>
+                    <li class="active"><a href="${contextPath}/index">Home</a></li>
                     <li><a href="${contextPath}/notice/list">모집 공고</a></li>
                     <li><a href="${contextPath}/application/mylist">내 원서</a></li>
                     <li><a href="${contextPath}/user/signup">회원 가입</a></li>
