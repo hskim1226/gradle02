@@ -531,6 +531,22 @@ section.featured.inner {
 	background: #eee;
 	padding: 150px 0 50px;
 }
+
+section.featured .spacer-big {
+    margin-bottom: 7em;
+}
+
+section.featured .spacer-mid {
+    margin-bottom: 5em;
+}
+
+section.featured .spacer-small {
+    margin-bottom: 3em;
+}
+
+section.featured .spacer-tiny {
+    margin-bottom: 1em;
+}
   
   
 /* --- Flexslider --- */
