@@ -3,6 +3,26 @@
 <html>
 <head>
     <title></title>
+    <style>
+        section.application-list {
+            padding: 200px 0 60px;
+            background: #4f4f9f;
+            color: #fdfdfd;
+            position:relative;
+        }
+
+        section.application-list h2.slogan {
+            color: #fff;
+            font-size: 36px;
+            font-weight: 900;
+        }
+
+        /* inner heading */
+        section.application-list.inner {
+            background: #eee;
+            padding: 150px 0 50px;
+        }
+    </style>
 </head>
 <body>
 <section class="application-list" id="app-list">

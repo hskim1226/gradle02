@@ -1,18 +1,41 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: hanmomhanda
-  Date: 14. 8. 6
-  Time: 오전 1:24
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="/WEB-INF/jsp/common/env.jsp"%>
 <html>
 <head>
     <title></title>
+    <style>
+        section.application-create {
+            padding: 200px 0 60px;
+            background: #5f5f5f;
+            color: #fdfdfd;
+            position:relative;
+        }
+
+        section.application-create h2.slogan {
+            color: #fff;
+            font-size: 36px;
+            font-weight: 900;
+        }
+
+        section.application-create .spacer-big {
+            margin-bottom: 7em;
+        }
+
+        section.application-create .spacer-mid {
+            margin-bottom: 5em;
+        }
+
+        section.application-create .spacer-small {
+            margin-bottom: 3em;
+        }
+
+        section.application-create .spacer-tiny {
+            margin-bottom: 1em;
+        }
+    </style>
 </head>
 <body>
-<section class="application-compose" id="app-list">
+<section class="application-create" id="application-create">
     <div class="container">
         <div class="row mar-bot40">
             <div class="col-md-10 col-md-offset-1">

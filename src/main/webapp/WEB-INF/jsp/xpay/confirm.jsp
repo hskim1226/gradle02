@@ -5,12 +5,40 @@
     <title></title>
     <style>
         th.header {
-            background-color: #773344;
+            background-color: #444488;
+        }
+        section.confirmPayment {
+            padding: 200px 0 60px;
+            background: #333377;
+            color: #fdfdfd;
+            position:relative;
+        }
+
+        section.confirmPayment h2.slogan {
+            color: #fff;
+            font-size: 36px;
+            font-weight: 900;
+        }
+
+        section.confirmPayment .spacer-big {
+            margin-bottom: 7em;
+        }
+
+        section.confirmPayment .spacer-mid {
+            margin-bottom: 5em;
+        }
+
+        section.confirmPayment .spacer-small {
+            margin-bottom: 3em;
+        }
+
+        section.confirmPayment .spacer-tiny {
+            margin-bottom: 1em;
         }
     </style>
 </head>
 <body>
-<section class="application-mylist" id="app-mylist">
+<section class="confirmPayment" id="confirmPayment">
     <div class="container">
         <div class="row mar-bot40">
             <div class="col-md-6 col-md-offset-3">
@@ -18,7 +46,7 @@
                 <div class="align-center">
                     <form class="form-horizontal" id="LGD_PAYINFO" role="form" action="${contextPath}/pay/process" method="post">
                         <table class="table table-bordered">
-                            <tr><th class="header">회원ID</th><td>${paymentVO.LGD_BUYERID}</td></tr>
+                            <tr><th class="header col-md-4">회원ID</th><td class="col-md-8">${paymentVO.LGD_BUYERID}</td></tr>
                             <tr><th class="header">회원명</th><td>${paymentVO.LGD_BUYER}</td></tr>
                             <tr><th class="header">신청과정</th><td>${paymentVO.LGD_PRODUCTINFO}</td></tr>
                             <tr><th class="header">결제금액</th><td>${paymentVO.LGD_AMOUNT}원</td></tr>

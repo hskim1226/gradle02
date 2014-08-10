@@ -3,9 +3,40 @@
 <html>
 <head>
     <title></title>
+    <style>
+        section.application-mylist {
+            padding: 200px 0 60px;
+            background: #443355;
+            color: #fdfdfd;
+            position:relative;
+        }
+
+        section.application-mylist h2.slogan {
+            color: #fff;
+            font-size: 36px;
+            font-weight: 900;
+        }
+
+        section.application-mylist .spacer-big {
+            margin-bottom: 7em;
+        }
+
+        section.application-mylist .spacer-mid {
+            margin-bottom: 5em;
+        }
+
+        section.application-mylist .spacer-small {
+            margin-bottom: 3em;
+        }
+
+        section.application-mylist .spacer-tiny {
+            margin-bottom: 1em;
+        }
+
+    </style>
 </head>
 <body>
-<section class="application-mylist" id="app-mylist">
+<section class="application-mylist" id="application-mylist">
     <div class="container">
         <div class="row mar-bot40">
             <div class="col-md-10 col-md-offset-1">

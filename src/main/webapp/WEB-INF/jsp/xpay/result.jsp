@@ -4,9 +4,42 @@
 <html>
 <head>
     <title></title>
+    <style>
+        th.header {
+            background-color: #444488;
+        }
+        section.resultPayment {
+            padding: 200px 0 60px;
+            background: #333377;
+            color: #fdfdfd;
+            position:relative;
+        }
+
+        section.resultPayment h2.slogan {
+            color: #fff;
+            font-size: 36px;
+            font-weight: 900;
+        }
+
+        section.resultPayment .spacer-big {
+            margin-bottom: 7em;
+        }
+
+        section.resultPayment .spacer-mid {
+            margin-bottom: 5em;
+        }
+
+        section.resultPayment .spacer-small {
+            margin-bottom: 3em;
+        }
+
+        section.resultPayment .spacer-tiny {
+            margin-bottom: 1em;
+        }
+    </style>
 </head>
 <body>
-<section class="application-mylist" id="app-mylist">
+<section class="resultPayment" id="resultPayment">
     <div class="container">
         <div class="row mar-bot40">
             <div class="col-md-6 col-md-offset-3">
