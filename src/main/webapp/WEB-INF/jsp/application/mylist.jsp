@@ -71,9 +71,9 @@
                             </tbody>
                         </table>
 
-                        <input type="hidden" name="LGD_PRODUCTINFO" id="LGD_PRODUCTINFO"> <!-- 상품정보 -->
-                        <input type="hidden" name="LGD_AMOUNT" id="LGD_AMOUNT"> <!-- 결제금액 -->
-                        <input type="hidden" name="LGD_TIMESTAMP" id="LGD_TIMESTAMP"> <!-- 타임스탬프 -->
+                        <input type="hidden" name="LGD_PRODUCTINFO" id="LGD_PRODUCTINFO">
+                        <input type="hidden" name="LGD_AMOUNT" id="LGD_AMOUNT">
+                        <input type="hidden" name="LGD_TIMESTAMP" id="LGD_TIMESTAMP">
                     </form>
                 </div>
             </div>
@@ -83,17 +83,9 @@
 <content tag="local-script">
     <script>
     $(document).ready( function() {
-
-
-
         $('.btn-primary').click(function(){
             document.getElementById('LGD_PRODUCTINFO').value = $(this)[0].id;
             document.getElementById('LGD_AMOUNT').value = $(this)[0].value;
-
-//alert(document.getElementById('LGD_PRODUCTINFO').value + '\n' +
-//        document.getElementById('LGD_AMOUNT').value + '\n' +
-//        document.getElementById('LGD_TIMESTAMP').value
-//);
             $('#LGD_PAYINFO').submit();
         });
     })
