@@ -49,7 +49,7 @@
 
                     </form>
                 </div>
-                <div id="LGD_ACTIVEX_DIV"/> <!-- ActiveX 설치 안내 Layer 입니다. 수정하지 마세요. -->
+                <div id="LGD_ACTIVEX_DIV"></div> <!-- ActiveX 설치 안내 Layer 입니다. 수정하지 마세요. -->
                 <div id="xpayLoad"></div>
             </div>
         </div>
