@@ -50,9 +50,7 @@
                     <li class="active"><a href="${contextPath}/intro.jsp">Home</a></li>
                     <li><a href="${contextPath}/notice/list">모집 공고</a></li>
                     <li><a href="${contextPath}/application/mylist">내 원서</a></li>
-                    <li><a href="#section-contact">회원 가입</a></li>
-                </ul>
-                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="${contextPath}/user/signup">회원 가입</a></li>
                     <li>
                         <sec:authorize access="hasRole('ROLE_USER')">
                             <a href="${contextPath}/j_spring_security_logout.do">[<sec:authentication property="principal.username" />]sign out</a>
