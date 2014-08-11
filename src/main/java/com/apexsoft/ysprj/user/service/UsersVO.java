@@ -8,13 +8,13 @@ import java.util.Date;
 
 public class UsersVO implements UserDetails {
 
-    private String userId;
+    private String username;
     private String userType;
     private String name;
     private String birth;
     private String gender;
     private String mobile;
-    private String encryptedPassword;
+    private String password;
     private String email;
     private String smsReceive;
     private String emailReceive;
@@ -41,20 +41,20 @@ public class UsersVO implements UserDetails {
 
     @Override
     public String getPassword() {
-        return encryptedPassword;
+        return password;
     }
 
-    public void setPassword(String encryptedPassword) {
-        this.encryptedPassword = encryptedPassword;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     @Override
     public String getUsername() {
-        return getUserId();
+        return username;
     }
 
     public void setUsername(String username) {
-        setUserId(username);
+        this.username = username;
     }
 
     @Override
@@ -79,14 +79,6 @@ public class UsersVO implements UserDetails {
 
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
-    }
-
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
     }
 
     public String getUserType() {
@@ -127,10 +119,6 @@ public class UsersVO implements UserDetails {
 
     public void setMobile(String mobile) {
         this.mobile = mobile;
-    }
-
-    public String getEncryptedPassword() {
-        return encryptedPassword;
     }
 
     public String getEmail() {
@@ -216,13 +204,13 @@ public class UsersVO implements UserDetails {
     @Override
     public String toString() {
         return "UsersVO{" +
-                "userId=" + userId +
+                "userId=" + username +
                 ", userType=" + userType +
                 ", name=" + name +
                 ", birth=" + birth +
                 ", gender=" + gender +
                 ", mobile=" + mobile +
-                ", encryptedPassword=" + encryptedPassword +
+                ", password=" + password +
                 ", email=" + email +
                 ", smsReceive=" + smsReceive +
                 ", emailReceive=" + emailReceive +

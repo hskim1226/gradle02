@@ -14,7 +14,9 @@ public interface UsersService {
 
     String retrieveUsername(UsersVO usersVO);
 
-    void resetPassword(UsersVO usersVO);
+    Integer resetPassword(UsersVO usersVO);
+
+    Integer changePassword(UsersVO usersVO);
 
     List<SimpleGrantedAuthority> retrieveAuthorities(String userName);
 

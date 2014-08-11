@@ -11,6 +11,9 @@ import com.apexsoft.ysprj.user.service.UsersVO;
 import com.apexsoft.ysprj.user.web.form.UserSearchForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.crypto.keygen.BytesKeyGenerator;
+import org.springframework.security.crypto.keygen.KeyGenerators;
+import org.springframework.security.crypto.keygen.StringKeyGenerator;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -74,8 +77,16 @@ public class UsersServiceImpl implements UsersService {
     }
 
     @Override
-    public void resetPassword(UsersVO usersVO) {
+    public Integer resetPassword(UsersVO usersVO) {
+        StringKeyGenerator generator = KeyGenerators.string();
+        String key = generator.generateKey();
+        usersVO.setPassword(key);
+        return commonDAO.update(NAME_SPACE + "update", usersVO);
+    }
 
+    @Override
+    public Integer changePassword(UsersVO usersVO) {
+        return commonDAO.update(NAME_SPACE + "update", usersVO);
     }
 
     @Override

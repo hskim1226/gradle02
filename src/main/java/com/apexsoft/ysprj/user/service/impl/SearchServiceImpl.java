@@ -38,7 +38,7 @@ public class SearchServiceImpl implements SearchService {
     }
 
     @Override
-    public ExecutionContext searchPassword(UsersVO usersVO) {
+    public ExecutionContext resetPassword(UsersVO usersVO) {
         return new ExecutionContext();
     }
 }
