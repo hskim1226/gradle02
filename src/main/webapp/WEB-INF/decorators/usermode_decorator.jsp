@@ -53,7 +53,7 @@
                     <li><a href="${contextPath}/user/signup">회원 가입</a></li>
                     <li>
                         <sec:authorize access="hasRole('ROLE_USER')">
-                            <a href="${contextPath}/j_spring_security_logout.do">[<sec:authentication property="principal.username" />]sign out</a>
+                            <a href="${contextPath}/j_spring_security_logout.do">[<sec:authentication property="principal.name" />]sign out</a>
                         </sec:authorize>
                     </li>
                 </ul>

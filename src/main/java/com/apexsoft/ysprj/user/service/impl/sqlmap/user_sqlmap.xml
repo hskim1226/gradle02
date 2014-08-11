@@ -94,7 +94,7 @@
 
     <select id="selectByPk" resultMap="user" parameterType="String">
         <![CDATA[
-		  SELECT USER_ID, PSWD, ENABLED
+		  SELECT USER_ID, PSWD, NAME, MAIL_ADDR, ENABLED
 		    FROM USER
 			WHERE 1=1
 			AND USER_ID = #{username}
