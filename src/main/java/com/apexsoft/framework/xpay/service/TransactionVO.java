@@ -5,15 +5,24 @@ import java.util.Map;
 
 public class TransactionVO {
 
-    String msg;
+    private String sysMsg;
+    private String userMsg;
     Map<String, String> txMap = new HashMap<String, String>();
 
-    public String getMsg() {
-        return msg;
+    public String getSysMsg() {
+        return sysMsg;
     }
 
-    public void setMsg(String msg) {
-        this.msg = msg;
+    public void setSysMsg(String msg) {
+        this.sysMsg = msg;
+    }
+
+    public String getUserMsg() {
+        return userMsg;
+    }
+
+    public void setUserMsg(String userMsg) {
+        this.userMsg = userMsg;
     }
 
     public Map<String, String> getTxMap() {

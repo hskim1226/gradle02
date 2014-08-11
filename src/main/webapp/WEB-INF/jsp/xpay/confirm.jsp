@@ -96,13 +96,13 @@
                 if (ret=="00"){     //ActiveX 로딩 성공
                     var LGD_RESPCODE        = dpop.getData('LGD_RESPCODE');       //결과코드
                     var LGD_RESPMSG         = dpop.getData('LGD_RESPMSG');        //결과메세지
-                    alert('LGD_RESPCODE : ' + LGD_RESPCODE + '\n' + 'LGD_RESPMSG : ' + LGD_RESPMSG);
+//                    alert('LGD_RESPCODE : ' + LGD_RESPCODE + '\n' + 'LGD_RESPMSG : ' + LGD_RESPMSG);
                     if( "0000" == LGD_RESPCODE ) { //인증성공
                         var LGD_PAYKEY      = dpop.getData('LGD_PAYKEY');         //LG유플러스 인증KEY
                         var msg = "인증결과 : " + LGD_RESPMSG + "\n";
                         msg += "LGD_PAYKEY : " + LGD_PAYKEY +"\n\n";
                         document.getElementById('LGD_PAYKEY').value = LGD_PAYKEY;
-                        alert(msg);
+//                        alert(msg);
                         document.getElementById('LGD_PAYINFO').submit();
                     } else { //인증실패
                         alert("인증이 실패하였습니다. " + LGD_RESPMSG);
@@ -189,7 +189,6 @@
                         document.getElementById('LGD_CASNOTEURL').value = parsed.lgd_CASNOTEURL;
 
                         doPay_ActiveX();
-                        document.getElementById('LGD_PAYINFO').submit();
                     }
                 });
             });
