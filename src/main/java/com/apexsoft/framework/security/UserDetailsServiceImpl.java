@@ -27,9 +27,10 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             throw new UsernameNotFoundException("account name not found");
         }
 
-        usersVO.setAuthorities(usersService.retrieveAuthorities(username));
+        UserSessionVO userSessionVO = new UserSessionVO(usersVO);
+        userSessionVO.setAuthorities(usersService.retrieveAuthorities(username));
 
-        return usersVO;
+        return userSessionVO;
     }
 
 }
