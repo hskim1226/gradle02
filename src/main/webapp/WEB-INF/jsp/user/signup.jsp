@@ -38,6 +38,10 @@
         section.signup .spacer-tiny {
             margin-bottom: 1em;
         }
+
+        section.signup label.btn {
+            max-width: none;
+        }
     </style>
 </head>
 <body>
@@ -61,7 +65,7 @@
                 <div class="col-sm-10">
                     <textarea class="form-control" id="privacy-policy" rows="5" disabled>bbb</textarea>
                     <label for="privacy-agree" class="control-label">
-                        <input type="checkbox" name="privacyAgree" id="privacy-agree" value="y"/>I agree
+                        <input type="checkbox" name="privacyAgree" id="privacy-agree" value="y" />I agree
                     </label>
                 </div>
             </div>
@@ -71,13 +75,13 @@
                 <div class="col-sm-10">
                     <div class="btn-group" data-toggle="buttons">
                         <label class="btn btn-default active">
-                            <input type="radio" name="userType" id="usertype-general" value="g" checked>General
+                            <input type="radio" name="userType" id="usertype-general" value="g" checked />General
                         </label>
                         <label class="btn btn-default">
-                            <input type="radio" name="userType" id="usertype-child" value="c">Child
+                            <input type="radio" name="userType" id="usertype-child" value="c" />Child
                         </label>
                         <label class="btn btn-default">
-                            <input type="radio" name="userType" id="usertype-foreign" value="f">Foreign
+                            <input type="radio" name="userType" id="usertype-foreign" value="f" />Foreign
                         </label>
                     </div>
                 </div>
@@ -136,10 +140,10 @@
                 <div class="col-sm-10">
                     <div class="btn-group" data-toggle="buttons">
                         <label class="btn btn-default active">
-                            <input type="radio" name="gender" id="gender-male" value="m" checked>Male
+                            <input type="radio" name="gender" id="gender-male" value="m" checked />Male
                         </label>
                         <label class="btn btn-default">
-                            <input type="radio" name="gender" id="gender-female" value="f">Female
+                            <input type="radio" name="gender" id="gender-female" value="f" />Female
                         </label>
                     </div>
                 </div>
