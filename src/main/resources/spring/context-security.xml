@@ -36,7 +36,7 @@
                     always-use-default-target="false"
                     authentication-failure-handler-ref="authenticationFailureHandler"
                     authentication-failure-url="/user/login?fail=true" />
-        <logout logout-url="/j_spring_security_logout.do" invalidate-session="true" logout-success-url="/user/login?logout=true"/>
+        <logout logout-url="/j_spring_security_logout.do" invalidate-session="true" logout-success-url="/index"/>
     </http>
 
     <beans:bean id="encoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>

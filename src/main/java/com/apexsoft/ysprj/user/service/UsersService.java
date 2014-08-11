@@ -10,6 +10,14 @@ public interface UsersService {
 
 	UsersVO retrieveUser(String userName);
 
+    UsersVO retrieveUserByName(String name);
+
+    String retrieveUsername(UsersVO usersVO);
+
+    Integer resetPassword(UsersVO usersVO);
+
+    Integer changePassword(UsersVO usersVO);
+
     List<SimpleGrantedAuthority> retrieveAuthorities(String userName);
 
     void registerUser(UsersVO usersVO);

@@ -84,6 +84,14 @@
 		]]>
     </update>
 
+    <sql id="selectShort">
+        <![CDATA[
+          SELECT USER_ID, PSWD, ENABLED
+            FROM USER
+            WHERE 1=1
+        ]]>
+    </sql>
+
     <select id="selectByPk" resultMap="user" parameterType="String">
         <![CDATA[
 		  SELECT USER_ID, PSWD, ENABLED
@@ -91,6 +99,24 @@
 			WHERE 1=1
 			AND USER_ID = #{userId}
 		]]>
+    </select>
+
+    <select id="selectByName" resultMap="user" parameterType="User">
+        <include refid="selectShort"/>
+        <![CDATA[
+            AND NAME = #{name}
+        ]]>
+    </select>
+
+    <select id="selectUsername" resultType="String" parameterType="User">
+        <![CDATA[
+          SELECT USER_ID
+            FROM USER
+            WHERE 1=1
+            AND NAME = #{name}
+            AND IFNULL(#{email}, MAIL_ADDR) = MAIL_ADDR
+            AND IFNULL(#{mobile}, MOBI_NUM) = MOBI_NUM
+        ]]>
     </select>
 
 
