@@ -18,12 +18,17 @@
     String origin = "p2하루살이";
     String urlEncoded = URLEncoder.encode(origin, "UTF-8");
     String urlEncoded2 = URLEncoder.encode(urlEncoded, "UTF-8");
+    String urlEncoded3 = URLEncoder.encode(urlEncoded2, "UTF-8");
     String urlDecoded = URLDecoder.decode(urlEncoded, "UTF-8");
     String urlDecoded2 = URLDecoder.decode(urlDecoded, "UTF-8");
+
+    String utf8decoded = new String(urlEncoded.getBytes(), "UTF-8");
 %>
 <p>origin      : <%=origin%></p>
 <p>urlEncoded  : <%=urlEncoded%></p>
+<p>utf8decoded  : <%=utf8decoded%></p>
 <p>urlEncoded2 : <%=urlEncoded2%></p>
+<p>urlEncoded3 : <%=urlEncoded3%></p>
 <p>urlDecoded  : <%=urlDecoded%></p>
 <p>urlDecoded2  : <%=urlDecoded2%></p>
 <form id="test">
