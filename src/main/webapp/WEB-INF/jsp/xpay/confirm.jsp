@@ -60,8 +60,8 @@
                         <input type="hidden" name="LGD_MID"                     id="LGD_MID">                        <!-- 상점아이디 -->
                         <input type="hidden" name="LGD_OID"                     id="LGD_OID">                        <!-- 주문번호 -->
 <!--                        <input type="hidden" name="LGD_BUYER"                   id="LGD_BUYER">                      <!-- 구매자 -->
-<!--                       <input type="hidden" name="LGD_PRODUCTINFO"             id="LGD_PRODUCTINFO" value="${paymentVO.LGD_PRODUCTINFO}">                <!-- 상품정보 -->
-                        <input type="hidden" name="LGD_AMOUNT"                  id="LGD_AMOUNT" value="${paymentVO.LGD_AMOUNT}">                     <!-- 결제금액 -->
+<!--                        <input type="hidden" name="LGD_PRODUCTINFO"             id="LGD_PRODUCTINFO">                <!-- 상품정보 -->
+<!--                        <input type="hidden" name="LGD_AMOUNT"                  id="LGD_AMOUNT">                     <!-- 결제금액 -->
                         <input type="hidden" name="LGD_BUYEREMAIL"              id="LGD_BUYEREMAIL">                 <!-- 구매자 이메일 -->
                         <input type="hidden" name="LGD_CUSTOM_SKIN"             id="LGD_CUSTOM_SKIN">                <!-- 결제창 SKIN -->
                         <input type="hidden" name="LGD_WINDOW_VER"              id="LGD_WINDOW_VER">                 <!-- 결제창 버젼정보 -->
@@ -91,6 +91,7 @@
     <script language="javascript" src="http://xpay.uplus.co.kr:7080/xpay/js/xpay_utf-8.js" type="text/javascript"></script>
     <script>
         $(document).ready( function() {
+            isActiveXOK();
             /*
              * 상점결제 인증요청후 PAYKEY를 받아서 최종결제 요청.
              */
@@ -165,45 +166,39 @@
                     contentType: "application/x-www-form-urlencoded; charset=UTF-8",
                     success: function(data){
                         var parsed = $.parseJSON(data),
-                            hiddenProductInfo = document.createElement('input'),
-                            hiddenBuyer = document.createElement('input'),
-                            form = document.getElementById('LGD_PAYINFO');
-console.log(parsed);
-                        hiddenProductInfo.type="hidden";
-                        hiddenProductInfo.id="LGD_PRODUCTINFO";
-                        hiddenProductInfo.name="LGD_PRODUCTINFO";
-                        hiddenProductInfo.value=parsed.lgd_PRODUCTINFO;
-                        hiddenBuyer.type="hidden";
-                        hiddenBuyer.id="LGD_BUYER";
-                        hiddenBuyer.name="LGD_BUYER";
-                        hiddenBuyer.value=parsed.lgd_BUYER;
+                                hiddenProductInfo = document.createElement('input'),
+                                hiddenBuyer = document.createElement('input'),
+                                hiddenAmount = document.createElement('input'),
+                                form = document.getElementById('LGD_PAYINFO');
+                        hiddenProductInfo.type="hidden", hiddenProductInfo.id="LGD_PRODUCTINFO", hiddenProductInfo.name="LGD_PRODUCTINFO",
+                        hiddenBuyer.type="hidden",  hiddenBuyer.id="LGD_BUYER", hiddenBuyer.name="LGD_BUYER",
+                        hiddenAmount.type="hidden", hiddenAmount.id="LGD_AMOUNT", hiddenAmount.name="LGD_AMOUNT";
                         form.appendChild(hiddenProductInfo);
                         form.appendChild(hiddenBuyer);
-                        document.getElementById('CST_PLATFORM').value = parsed.cst_PLATFORM;
-                        document.getElementById('CST_MID').value = parsed.cst_MID;
-                        document.getElementById('LGD_MID').value = parsed.lgd_MID;
-                        document.getElementById('LGD_OID').value = parsed.lgd_OID;
-                        document.getElementById('LGD_BUYER').value = parsed.lgd_BUYER;
-                        document.getElementById('LGD_PRODUCTINFO').value = parsed.lgd_PRODUCTINFO;
-                        document.getElementById('LGD_AMOUNT').value = parsed.lgd_AMOUNT;
-                        document.getElementById('LGD_BUYEREMAIL').value = parsed.lgd_BUYEREMAIL;
-                        document.getElementById('LGD_CUSTOM_SKIN').value = parsed.lgd_CUSTOM_SKIN;
-                        document.getElementById('LGD_WINDOW_VER').value = parsed.lgd_WINDOW_VER;
-                        document.getElementById('LGD_CUSTOM_PROCESSTYPE').value = parsed.lgd_CUSTOM_PROCESSTYPE;
-                        document.getElementById('LGD_TIMESTAMP').value = parsed.lgd_TIMESTAMP;
-                        document.getElementById('LGD_HASHDATA').value = parsed.lgd_HASHDATA;
-                        document.getElementById('LGD_VERSION').value = parsed.lgd_VERSION;
-                        document.getElementById('LGD_BUYERIP').value = parsed.lgd_BUYERIP;
-                        document.getElementById('LGD_BUYERID').value = parsed.lgd_BUYERID;
+                        form.appendChild(hiddenAmount);
+                        document.getElementById('CST_PLATFORM').value = parsed.cst_PLATFORM,
+                        document.getElementById('CST_MID').value = parsed.cst_MID,
+                        document.getElementById('LGD_MID').value = parsed.lgd_MID,
+                        document.getElementById('LGD_OID').value = parsed.lgd_OID,
+                        document.getElementById('LGD_BUYER').value = parsed.lgd_BUYER,
+                        document.getElementById('LGD_PRODUCTINFO').value = parsed.lgd_PRODUCTINFO,
+                        document.getElementById('LGD_AMOUNT').value = parsed.lgd_AMOUNT,
+                        document.getElementById('LGD_BUYEREMAIL').value = parsed.lgd_BUYEREMAIL,
+                        document.getElementById('LGD_CUSTOM_SKIN').value = parsed.lgd_CUSTOM_SKIN,
+                        document.getElementById('LGD_WINDOW_VER').value = parsed.lgd_WINDOW_VER,
+                        document.getElementById('LGD_CUSTOM_PROCESSTYPE').value = parsed.lgd_CUSTOM_PROCESSTYPE,
+                        document.getElementById('LGD_TIMESTAMP').value = parsed.lgd_TIMESTAMP,
+                        document.getElementById('LGD_HASHDATA').value = parsed.lgd_HASHDATA,
+                        document.getElementById('LGD_VERSION').value = parsed.lgd_VERSION,
+                        document.getElementById('LGD_BUYERIP').value = parsed.lgd_BUYERIP,
+                        document.getElementById('LGD_BUYERID').value = parsed.lgd_BUYERID,
                         document.getElementById('LGD_CASNOTEURL').value = parsed.lgd_CASNOTEURL;
+
+                        doPay_ActiveX();
+                        document.getElementById('LGD_PAYINFO').submit();
                     }
                 });
-
-                doPay_ActiveX();
-                document.getElementById('LGD_PAYINFO').submit();
             });
-
-            isActiveXOK();
         })
     </script>
 </content>

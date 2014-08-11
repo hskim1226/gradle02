@@ -37,6 +37,14 @@ public class XPayController {
     String LGD_VERSION = "JSP_XPay_2.5";
     String LGD_CASNOTEURL = "http://cas_noteurl.jsp";
 
+    /**
+     * 사용자 이름과 아이디를 결제 확인 화면에 반환
+     *
+     * @param httpSession
+     * @param paymentVO
+     * @return
+     * @throws NoSuchAlgorithmException
+     */
     @RequestMapping(value = "/confirm", method = RequestMethod.POST)
     public String confirmPayment( HttpSession httpSession, PaymentVO paymentVO) throws NoSuchAlgorithmException {
 
@@ -44,17 +52,29 @@ public class XPayController {
         Authentication auth = sc.getAuthentication();
         UsersVO usersVO = (UsersVO)auth.getPrincipal();
 
-        paymentVO.setLGD_BUYER(usersVO.getName());
+        paymentVO.setLGD_BUYER("오명운");
         paymentVO.setLGD_BUYERID(usersVO.getUserId());
 
         return "xpay/confirm";
     }
 
+    /**
+     * 결제 확인 화면의 요청을 받아 결제 정보를 생성하여 JSON화 하 AJAX로 반환여
+     * 결제 확인 화면에서는 AJAX로 받은 값을 변수로 포장하여 hidden에 할당하므로 결제 정보 값 직접 노출 방지 가능
+     *
+     * @param request
+     * @param httpSession
+     * @param paymentVO
+     * @return
+     * @throws NoSuchAlgorithmException
+     * @throws JsonProcessingException
+     * @throws UnsupportedEncodingException
+     */
     @RequestMapping(value="/info", method= RequestMethod.GET, produces="text/plain;charset=UTF-8")
     @ResponseBody
     public String getFullPaymentVO(HttpServletRequest request,
-                                             HttpSession httpSession,
-                                             PaymentVO paymentVO)
+                                   HttpSession httpSession,
+                                   PaymentVO paymentVO)
             throws NoSuchAlgorithmException, JsonProcessingException, UnsupportedEncodingException {
 
         SecurityContext sc = (SecurityContext)httpSession.getAttribute("SPRING_SECURITY_CONTEXT");
@@ -63,12 +83,9 @@ public class XPayController {
 
         paymentVO.setLGD_MID(LGD_MID);
         paymentVO.setLGD_OID(getOrderNumber(usersVO.getUserId() + paymentVO.getLGD_TIMESTAMP()));
-        //LGD_PRODUCTINFO와 LGD_AMOUNT는 confirm.jsp에서 직접 세팅하여 @SessionAttributes를 통해 저장하므로 여기선 세팅 불필요
-//        paymentVO.setLGD_BUYER(usersVO.getUsername());
-//        String fromJquerySerialze = paymentVO.getLGD_PRODUCTINFO();
-//        String urldecoded = URLDecoder.decode(fromJquerySerialze, "UTF-8");
-//        String fromPara = request.getParameter("LGD_PRODUCTINFO");
-//        paymentVO.setLGD_PRODUCTINFO(URLDecoder.decode(paymentVO.getLGD_PRODUCTINFO(), "UTF-8"));
+        //LGD_PRODUCTINFO, LGD_BUYER, LGD_AMOUNT는 mylist.jsp에서 직접 세팅해준 값을
+        //confirm.jsp에서 hidden으로 다시 덮어쓰지 않으므로 @SessionAttributes에 의해 paymentVO 안에서 유지되므로
+        //여기선 세팅 불필요
         paymentVO.setLGD_BUYEREMAIL(usersVO.getEmail());
         paymentVO.setLGD_BUYERID(usersVO.getUserId());
         paymentVO.setLGD_BUYERIP((request.getHeader("HTTP_X_FORWARDED_FOR") != null) ? request.getHeader("HTTP_X_FORWARDED_FOR") : request.getRemoteAddr());
@@ -83,16 +100,19 @@ public class XPayController {
         paymentVO.setLGD_CUSTOM_PROCESSTYPE(LGD_CUSTOM_PROCESSTYPE);
         paymentVO.setLGD_VERSION(LGD_VERSION);
         paymentVO.setLGD_CASNOTEURL(LGD_CASNOTEURL);
+
         String json = new ObjectMapper().writeValueAsString(paymentVO);
         return json;
-//        String modJson = json.substring(0, json.length()-1);
-//        modJson += ", \"PRODUCTINFO\":"+paymentVO.getLGD_PRODUCTINFO()+", \"BUYER\":"+paymentVO.getLGD_BUYER()+"}";
-//        return modJson;
-//        ExecutionContext ec = new ExecutionContext(json);
-//        return ec;
-
     }
 
+    /**
+     * 결제화면에서 XPay 처리(결제 팝업 및 정보 입력) 후 실제 결제 처리 및 DB 처리
+     *
+     * @param paymentVO
+     * @param transactionVO
+     * @return
+     * @throws NoSuchAlgorithmException
+     */
     @RequestMapping(value = "/process", method = RequestMethod.POST)
     public String processXPay(PaymentVO paymentVO,
                               @ModelAttribute TransactionVO transactionVO) throws NoSuchAlgorithmException {
