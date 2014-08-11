@@ -3,7 +3,7 @@
 <mapper namespace="com.apexsoft.ysprj.user.Mapper">
 
     <resultMap id="user" type="User">
-        <result property="userId"       column="USER_ID"/>
+        <result property="username"       column="USER_ID"/>
         <result property="userType"     column="USER_TYPE"/>
         <result property="name"         column="NAME"/>
         <result property="birth"        column="BORN_DAY"/>
@@ -45,7 +45,7 @@
                              ENABLED,
                              CRE_ID,
                              CRE_DATE)
-		             VALUES(#{userId},
+		             VALUES(#{username},
 		                     #{userType},
                              #{name},
                              #{birth},
@@ -80,7 +80,7 @@
                              PRIV_INFO_YN = #{privacyAgree},
                              MOD_ID = #{modifier},
                              MOD_DATE = now()
-			WHERE USER_ID = #{userId}
+			WHERE USER_ID = #{username}
 		]]>
     </update>
 
@@ -97,7 +97,7 @@
 		  SELECT USER_ID, PSWD, ENABLED
 		    FROM USER
 			WHERE 1=1
-			AND USER_ID = #{userId}
+			AND USER_ID = #{username}
 		]]>
     </select>
 
