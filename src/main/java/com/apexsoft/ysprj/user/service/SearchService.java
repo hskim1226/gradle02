@@ -8,5 +8,5 @@ import com.apexsoft.framework.common.vo.ExecutionContext;
 public interface SearchService {
 
     ExecutionContext searchId(UsersVO usersVO);
-    ExecutionContext searchPassword(UsersVO usersVO);
+    ExecutionContext resetPassword(UsersVO usersVO);
 }

@@ -26,7 +26,7 @@ public class SearchController {
     private SearchService searchService;
 
     @RequestMapping(value = "/search/id", method = RequestMethod.GET)
-    public String displaySearchForm(HttpServletRequest req) {
+    public String displaySearchForm() {
         return "user/search";
     }
 
@@ -37,6 +37,11 @@ public class SearchController {
             return new ExecutionContext( ExecutionContext.FAIL );
         }
         return searchService.searchId(usersVO);
+    }
+
+    @RequestMapping(value = "/search/pw", method = RequestMethod.GET)
+    public String resetPassword() {
+        return "user/searchpw";
     }
 
 }
