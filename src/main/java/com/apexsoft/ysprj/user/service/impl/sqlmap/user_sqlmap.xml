@@ -3,7 +3,7 @@
 <mapper namespace="com.apexsoft.ysprj.user.Mapper">
 
     <resultMap id="user" type="User">
-        <result property="username"       column="USER_ID"/>
+        <result property="username"     column="USER_ID"/>
         <result property="userType"     column="USER_TYPE"/>
         <result property="name"         column="NAME"/>
         <result property="birth"        column="BORN_DAY"/>
@@ -17,15 +17,10 @@
         <result property="termsAgree"   column="USER_AGRE_YN"/>
         <result property="privacyAgree" column="PRIV_INFO_YN"/>
         <result property="creator"      column="CRE_ID"/>
-        <result property="createDate"   column="CRE_DATE"/>
+        <result property="createdDate"   column="CRE_DATE"/>
         <result property="modifier"     column="MOD_ID"/>
-        <result property="modifyDate"   column="MOD_DATE"/>
+        <result property="modifiedDate"   column="MOD_DATE"/>
     </resultMap>
-
-    <sql id="userColumns">
-        USER_ID, USER_TYPE, NAME, BORN_DAY, GEND, MOBI_NUM, PSWD, MAIL_ADDR, SMS_RECV_YN,
-        MAIL_RECV_YN, USER_DIVS_CODE, USER_AGRE_YN, PRIV_INFO_YN, CRE_ID, CRE_DATE, MOD_ID, MOD_DATE
-    </sql>
 
     <insert id="insertUser" parameterType="User">
         <![CDATA[
@@ -59,7 +54,7 @@
                              #{termsAgree},
                              #{privacyAgree},
                              #{enabled},
-                             #{userId},
+                             #{username},
                              now())
 		]]>
     </insert>
@@ -84,14 +79,6 @@
 		]]>
     </update>
 
-    <sql id="selectShort">
-        <![CDATA[
-          SELECT USER_ID, PSWD, ENABLED
-            FROM USER
-            WHERE 1=1
-        ]]>
-    </sql>
-
     <select id="selectByPk" resultMap="user" parameterType="String">
         <![CDATA[
 		  SELECT USER_ID, PSWD, NAME, MAIL_ADDR, ENABLED
@@ -99,13 +86,6 @@
 			WHERE 1=1
 			AND USER_ID = #{username}
 		]]>
-    </select>
-
-    <select id="selectByName" resultMap="user" parameterType="User">
-        <include refid="selectShort"/>
-        <![CDATA[
-            AND NAME = #{name}
-        ]]>
     </select>
 
     <select id="selectUsername" resultType="String" parameterType="User">
@@ -116,9 +96,18 @@
             AND NAME = #{name}
             AND IFNULL(#{email}, MAIL_ADDR) = MAIL_ADDR
             AND IFNULL(#{mobile}, MOBI_NUM) = MOBI_NUM
+            AND IFNULL(#{email}, #{mobile}) IS NOT NULL
         ]]>
     </select>
 
+    <select id="selectAllByPk" resultMap="user" parameterType="String">
+        <![CDATA[
+          SELECT *
+            FROM USER
+            WHERE 1=1
+            AND USER_ID = #{username}
+        ]]>
+    </select>
 
     <!-- Queries for Authority      -->
 

@@ -67,8 +67,8 @@ public class UsersServiceImpl implements UsersService {
 	}
 
     @Override
-    public UsersVO retrieveUserByName(String name) {
-        return commonDAO.queryForObject(NAME_SPACE + "selectByName", name, UsersVO.class);
+    public UsersVO retrieveUserDetail(String userName) {
+        return commonDAO.queryForObject(NAME_SPACE + "selectAllByPk", userName, UsersVO.class);
     }
 
     @Override
@@ -121,9 +121,9 @@ public class UsersServiceImpl implements UsersService {
 //
 //        }
 //    }
-//
-//    @Override
-//    public void modifyUsers(UsersVO usersVO) {
-//        usersDAO.updateUsers(usersVO);
-//    }
+
+    @Override
+    public Integer modifyUsers(UsersVO usersVO) {
+        return commonDAO.update(NAME_SPACE + "updateUser", usersVO);
+    }
 }

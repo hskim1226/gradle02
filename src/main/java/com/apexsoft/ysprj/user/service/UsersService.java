@@ -10,7 +10,7 @@ public interface UsersService {
 
 	UsersVO retrieveUser(String userName);
 
-    UsersVO retrieveUserByName(String name);
+    UsersVO retrieveUserDetail(String userName);
 
     String retrieveUsername(UsersVO usersVO);
 
@@ -28,5 +28,5 @@ public interface UsersService {
 
     //void modifyUsersGrade(String[] usernames, String[] grades);
 
-    //void modifyUsers(UsersVO usersVO);
+    Integer modifyUsers(UsersVO usersVO);
 }
