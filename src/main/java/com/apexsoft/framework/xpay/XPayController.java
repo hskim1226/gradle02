@@ -1,6 +1,7 @@
 package com.apexsoft.framework.xpay;
 
 import com.apexsoft.framework.message.MessageResolver;
+import com.apexsoft.framework.security.UserSessionVO;
 import com.apexsoft.framework.xpay.service.PaymentVO;
 import com.apexsoft.framework.xpay.service.TransactionVO;
 import com.apexsoft.ysprj.user.service.UsersVO;
@@ -53,10 +54,14 @@ public class XPayController {
 
         SecurityContext sc = (SecurityContext)httpSession.getAttribute("SPRING_SECURITY_CONTEXT");
         Authentication auth = sc.getAuthentication();
-        UsersVO usersVO = (UsersVO)auth.getPrincipal();
+        UserSessionVO userSessionVO = (UserSessionVO)auth.getPrincipal();
 
-        paymentVO.setLGD_BUYER(usersVO.getName());
-        paymentVO.setLGD_BUYERID(usersVO.getUsername());
+        paymentVO.setLGD_BUYER(userSessionVO.getName());
+        paymentVO.setLGD_BUYERID(userSessionVO.getUsername());
+
+        String tmp0 = messageResolver.getMessage("U000");
+        String tmp1 = messageResolver.getMessage("U100");
+        String tmp2 = messageResolver.getMessage("U200");
 
         return "xpay/confirm";
     }

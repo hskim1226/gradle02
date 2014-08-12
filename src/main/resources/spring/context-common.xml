@@ -32,6 +32,8 @@
         <property name="basenames">
         <list>
             <value>classpath:message/xpay</value>
+            <value>classpath:message/user</value>
+            <value>classpath:message/cs</value>
         </list>
         </property>
         <property name="defaultEncoding" value="utf-8" />
