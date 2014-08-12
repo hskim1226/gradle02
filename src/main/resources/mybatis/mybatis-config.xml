@@ -11,7 +11,8 @@
     </settings>
 
     <typeAliases>
-        <typeAlias type="com.apexsoft.ysprj.user.service.UsersVO" alias="User"/>
+        <typeAlias type="com.apexsoft.ysprj.user.service.UsersVO" alias="User" />
+        <typeAlias type="com.apexsoft.ysprj.application.service.ApplicationVO" alias="App" />
     </typeAliases>
 
 </configuration>

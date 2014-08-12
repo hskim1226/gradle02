@@ -37,8 +37,15 @@
 <body>
 <section class="application-create" id="application-create">
     <div class="container">
+        <ul class="nav nav-tabs">
+            <li class="active"><a href="#">Home</a></li>
+            <li><a href="#">Profile</a></li>
+            <li><a href="#">Messages</a></li>
+        </ul>
+<%--
         <div class="row mar-bot40">
             <div class="col-md-10 col-md-offset-1">
+--%>
                 <h2 class="slogan">선택 과정</h2>
                 <div class="align-center">
                     <table class="table table-stripped">
@@ -178,8 +185,10 @@
                     <button class="btn btn-default btn-lg btn-block" id="saveApplication">저장하기</button>
                 </div>
                 <!--</div>-->
+<%--
             </div>
         </div>
+--%>
     </div>
 </section>
 <content tag="local-script">
