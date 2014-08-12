@@ -39,7 +39,7 @@
             margin-bottom: 1em;
         }
 
-        section.signup label.btn {
+        section.signup div.btn-group>label.btn {
             max-width: none;
         }
     </style>
@@ -105,6 +105,7 @@
                 <div class="col-sm-10">
                     <input type="password" class="form-control" id="password" name="password" placeholder="Password"
                            data-bv-notempty data-bv-notempty-message="Password is required" />
+                    <input type="password" class="form-control" id="confirm" name="confirm" placeholder="Confirm Password"/>
                 </div>
             </div>
             <%--email--%>
