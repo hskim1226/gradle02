@@ -34,6 +34,7 @@
             <value>classpath:message/xpay</value>
             <value>classpath:message/user</value>
             <value>classpath:message/cs</value>
+            <value>classpath:message/application</value>
         </list>
         </property>
         <property name="defaultEncoding" value="utf-8" />
