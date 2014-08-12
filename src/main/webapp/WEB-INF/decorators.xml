@@ -15,6 +15,7 @@
         <pattern>/main/*</pattern>
         <pattern>/index.jsp</pattern>
         <pattern>/index</pattern>
+        <pattern>/mypage</pattern>
     </decorator>
 
     <decorator name="template" page="temp_decorator.jsp">
