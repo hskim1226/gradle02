@@ -9,6 +9,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 import javax.validation.Valid;
 
@@ -20,6 +21,7 @@ import javax.validation.Valid;
  * To change this template use File | Settings | File Templates.
  */
 @Controller
+@SessionAttributes("usersVO")
 @RequestMapping(value="/user")
 public class SignUpController {
 
