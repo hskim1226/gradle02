@@ -59,10 +59,6 @@ public class XPayController {
         paymentVO.setLGD_BUYER(userSessionVO.getName());
         paymentVO.setLGD_BUYERID(userSessionVO.getUsername());
 
-        String tmp0 = messageResolver.getMessage("U000");
-        String tmp1 = messageResolver.getMessage("U100");
-        String tmp2 = messageResolver.getMessage("U200");
-
         return "xpay/confirm";
     }
 
