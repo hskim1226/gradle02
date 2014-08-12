@@ -99,4 +99,13 @@ public class UserSessionVO implements UserDetails {
         this.email = email;
     }
 
+    @Override
+    public String toString() {
+        return "UsersSessionVO{" +
+                "username=" + username +
+                ", name=" + name +
+                ", password=" + password +
+                ", email=" + email +
+                "}";
+    }
 }

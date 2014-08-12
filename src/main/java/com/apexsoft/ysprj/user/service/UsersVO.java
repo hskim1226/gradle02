@@ -23,9 +23,9 @@ public class UsersVO extends UserSessionVO {
     private String termsAgree;
     private String privacyAgree;
     private String creator;
-    private Date createDate;
+    private Date createdDate;
     private String modifier;
-    private Date modifyDate;
+    private Date modifiedDate;
 
 //    private Collection<? extends GrantedAuthority> authorities;
 
@@ -178,12 +178,12 @@ public class UsersVO extends UserSessionVO {
         this.creator = creator;
     }
 
-    public java.util.Date getCreateDate() {
-        return createDate;
+    public java.util.Date getCreatedDate() {
+        return createdDate;
     }
 
-    public void setCreateDate(java.util.Date createDate) {
-        this.createDate = createDate;
+    public void setCreatedDate(java.util.Date createdDate) {
+        this.createdDate = createdDate;
     }
 
     public String getModifier() {
@@ -194,34 +194,34 @@ public class UsersVO extends UserSessionVO {
         this.modifier = modifier;
     }
 
-    public java.util.Date getModifyDate() {
-        return modifyDate;
+    public java.util.Date getModifiedDate() {
+        return modifiedDate;
     }
 
-    public void setModifyDate(java.util.Date modifyDate) {
-        this.modifyDate = modifyDate;
+    public void setModifiedDate(java.util.Date modifyDate) {
+        this.modifiedDate = modifyDate;
     }
 
     @Override
     public String toString() {
         return "UsersVO{" +
-//                "userId=" + username +
+                "username=" + getUsername() +
                 ", userType=" + userType +
-//                ", name=" + name +
+                ", name=" + getName() +
                 ", birth=" + birth +
                 ", gender=" + gender +
                 ", mobile=" + mobile +
-//                ", password=" + password +
-//                ", email=" + email +
+                ", password=" + getPassword() +
+                ", email=" + getEmail() +
                 ", smsReceive=" + smsReceive +
                 ", emailReceive=" + emailReceive +
                 ", divisionCode=" + divisionCode +
                 ", termsAgree=" + termsAgree +
                 ", privacyAgree=" + privacyAgree +
                 ", creator=" + creator +
-                ", createDate=" + createDate +
+                ", createDate=" + createdDate +
                 ", modifier=" + modifier +
-                ", modifyDate=" + modifyDate +
+                ", modifyDate=" + modifiedDate +
                 "}";
     }
 }
