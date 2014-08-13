@@ -420,7 +420,21 @@ h1 a.navbar-brand {
 	margin-top: -5px !important;
 }
 
+section .spacer-big {
+    margin-bottom: 7em;
+}
 
+section .spacer-mid {
+    margin-bottom: 5em;
+}
+
+section .spacer-small {
+    margin-bottom: 3em;
+}
+
+section .spacer-tiny {
+    margin-bottom: 1em;
+}
   
 /* --- Flexslider --- */
 .flexslider {

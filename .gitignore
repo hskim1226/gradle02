@@ -1,8 +1,22 @@
-*.iml
-.idea/
-target/
 src/main/resources/spring/context-repository.xml
-*.log
 src/main/resources/properties/config/app.local.properties
+*.class
+*.log
 
+#Eclipse
+.classpath
+.project
+.settings/
+bin/
+
+#IndelliJ
+.idea/
+*.iml
+*.iws
+
+#Mac
 .DS_Store
+
+#Maven
+log/
+target/

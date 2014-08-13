@@ -14,4 +14,9 @@ public class NoticeController {
     public String listNotice() {
         return "notice/list";
     }
+
+    @RequestMapping(value="/2015-1-general")
+    public String detailGeneral() {
+        return "notice/2015-1-general";
+    }
 }

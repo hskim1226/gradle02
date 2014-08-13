@@ -31,6 +31,7 @@
 <p>urlEncoded3 : <%=urlEncoded3%></p>
 <p>urlDecoded  : <%=urlDecoded%></p>
 <p>urlDecoded2  : <%=urlDecoded2%></p>
+<p>message : <%=%></p>
 <form id="test">
 
 </form>
