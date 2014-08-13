@@ -83,17 +83,17 @@ public class XPayController {
 
         SecurityContext sc = (SecurityContext)httpSession.getAttribute("SPRING_SECURITY_CONTEXT");
         Authentication auth = sc.getAuthentication();
-        UsersVO usersVO = (UsersVO)auth.getPrincipal();
+        UserSessionVO userSessionVO = (UserSessionVO)auth.getPrincipal();
 
         paymentVO.setLGD_MID(LGD_MID);
-        paymentVO.setLGD_OID(getOrderNumber(usersVO.getUsername() + paymentVO.getLGD_TIMESTAMP()));
+        paymentVO.setLGD_OID(getOrderNumber(userSessionVO.getUsername() + paymentVO.getLGD_TIMESTAMP()));
 
         //LGD_PRODUCTINFO, LGD_BUYER, LGD_AMOUNT는 mylist.jsp에서 직접 세팅해준 값을
         //confirm.jsp에서 hidden으로 다시 덮어쓰지 않으므로 @SessionAttributes에 의해 paymentVO 안에서 유지되므로
         //여기선 세팅 불필요
 
-        paymentVO.setLGD_BUYEREMAIL(usersVO.getEmail());
-        paymentVO.setLGD_BUYERID(usersVO.getUsername());
+        paymentVO.setLGD_BUYEREMAIL(userSessionVO.getEmail());
+        paymentVO.setLGD_BUYERID(userSessionVO.getUsername());
         paymentVO.setLGD_BUYERIP((request.getHeader("HTTP_X_FORWARDED_FOR") != null) ? request.getHeader("HTTP_X_FORWARDED_FOR") : request.getRemoteAddr());
         paymentVO.setLGD_HASHDATA(getHashData( paymentVO.getLGD_OID(),
                                                paymentVO.getLGD_AMOUNT(),

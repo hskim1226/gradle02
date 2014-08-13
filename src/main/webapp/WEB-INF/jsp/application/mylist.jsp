@@ -59,21 +59,21 @@
                                 <td><a href="${contextPath}/application/create">2015학년도 연세대학교 일반대학원 일반 전형</a></td>
                                 <td>2014-10-08</td>
                                 <td><button type="button" class="btn btn-info">수정하기</button></td>
-                                <td><button type="button" class="btn btn-primary" id="p1" value="80000">결제하기</button></td>
+                                <td><button type="button" class="btn btn-primary" id="notice1" name="2015학년도 연세대학교 일반대학원 일반 전형" value="80000">결제하기</button></td>
                             </tr>
                             <tr>
                                 <td>의학</td>
                                 <td><a href="${contextPath}/application/create">2015학년도 연세대학교 일반대학원 외국인 전형</a></td>
                                 <td>2014-10-08</td>
                                 <td><button type="button" class="btn btn-info">수정하기</button></td>
-                                <td><button type="button" class="btn btn-primary" id="p2하루살이" value="60000">결제하기</button></td>
+                                <td><button type="button" class="btn btn-primary" id="notice2" name="2015학년도 연세대학교 일반대학원 외국인 전형" value="60000">결제하기</button></td>
                             </tr>
                             </tbody>
                         </table>
 
-                        <input type="hidden" name="LGD_PRODUCTINFO" id="LGD_PRODUCTINFO">
-                        <input type="hidden" name="LGD_AMOUNT" id="LGD_AMOUNT">
-                        <input type="hidden" name="LGD_TIMESTAMP" id="LGD_TIMESTAMP">
+                        <input type="hidden" name="LGD_PRODUCTINFO" id="LGD_PRODUCTINFO"/>
+                        <input type="hidden" name="LGD_AMOUNT" id="LGD_AMOUNT"/>
+                        <input type="hidden" name="LGD_TIMESTAMP" id="LGD_TIMESTAMP"/>
                     </form>
                 </div>
             </div>
@@ -84,7 +84,7 @@
     <script>
     $(document).ready( function() {
         $('.btn-primary').click(function(){
-            document.getElementById('LGD_PRODUCTINFO').value = $(this)[0].id;
+            document.getElementById('LGD_PRODUCTINFO').value = $(this)[0].name;
             document.getElementById('LGD_AMOUNT').value = $(this)[0].value;
             $('#LGD_PAYINFO').submit();
         });
