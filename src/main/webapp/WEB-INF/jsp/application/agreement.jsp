@@ -65,7 +65,7 @@
 <section class="application-create" id="application-create">
     <div class="container">
         <div class="row mar-bot40">
-            <div class="col-md-10 col-md-offset-1">
+            <div class="col-md-offset-0 col-md-11">
                 <h2 class="slogan">원서 작성 사전 동의</h2>
                 <div>개인정보보호법』 제 15조 및 제 22조에 따라 연세대학교 대학원 신·편입생 선발과 관련하여 개인정보의 수집과 이용을 위해서 개인정보 수집 및 이용에 대한 귀하의 동의가 필요합니다.</div>
 
@@ -85,31 +85,34 @@
                         <li class="big-font">개인 정보의 보유 및 이용 기간</li>
                         <div>개인정보 보유기간의 경과, 처리목적 달성 등 개인정보가 불필요하게 되었을 때에는 지체 없이 해당 개인정보를 파기</div>
                     </ul>
-                    <div class="form-group">
-                        <label class="col-md-offset-1 col-md-6 control-label big-font slogan">개인 정보 수집 및 이용에 동의 하십니까?</label>
+                    <div class="spacer-small"></div>
+                    <div class="form-group" align="center">
+                        <label class="col-md-offset-1 col-md-6 big-font slogan text-center">개인 정보 수집 및 이용에 동의 하십니까?</label>
                         <label class="radio-inline">
                             <input type="radio" name="radio1" value="0">동의함
                         </label>
                         <label class="radio-inline">
                             <input type="radio" name="radio1" value="1">동의하지 않음
                         </label>
-                        <label class="col-md-offset-1 col-md-9 control-label mid-font slogan">개인정보 수집 및 이용에 동의하지 않을 경우 원서를 접수할 수 없습니다.</label>
+                        <div class="spacer-tiny"></div>
+                        <label class="col-md-offset-2 col-md-8 mid-font slogan text-center">개인정보 수집 및 이용에 동의하지 않을 경우 원서를 접수할 수 없습니다.</label>
                     </div>
                     <div class="spacer-small"></div>
 
                     <hr/>
                     <h3 class="slogan">고유식별정보 수집 및 이용에 대한 동의</h3>
                     <div>원서 접수 및 입학 전형을 위해 고유식별정보(주민등록번호, 외국인등록번호, 여권번호)를 수집하고 있습니다(근거 법령 : 고등교육법 시행령 제73조(고유식별정보의 처리)).</div>
-                    <div class="spacer-tiny"></div>
+                    <div class="spacer-small"></div>
                     <div class="form-group" align="center">
-                        <label class="col-md-offset-1 col-md-6 control-label big-font slogan">고유식별정보 수집 및 이용에 동의하십니까?</label>
+                        <label class="col-md-offset-1 col-md-6 big-font text-center slogan">고유식별정보 수집 및 이용에 동의하십니까?</label>
                         <label class="radio-inline">
                             <input type="radio" name="radio2" value="0">동의함
                         </label>
                         <label class="radio-inline">
                             <input type="radio" name="radio2" value="1">동의하지 않음
                         </label>
-                        <label class="col-md-offset-1 col-md-9 control-label mid-font slogan">고유식별정보 수집 및 이용에 동의하지 않을 경우 원서를 접수할 수 없습니다.</label>
+                        <div class="spacer-tiny"></div>
+                        <label class="col-md-offset-2 col-md-8 mid-font text-center slogan">고유식별정보 수집 및 이용에 동의하지 않을 경우 원서를 접수할 수 없습니다.</label>
                     </div>
                     <div class="spacer-small"></div>
 
@@ -138,14 +141,15 @@
                         </table>
                     </div>
                     <div class="form-group row" align="center">
-                        <label class="col-md-offset-1 col-md-6 control-label big-font slogan">개인정보 취급 위탁에 동의하십니까?</label>
+                        <label class="col-md-offset-1 col-md-6 text-center big-font slogan">개인정보 취급 위탁에 동의하십니까?</label>
                         <label class="radio-inline">
                             <input type="radio" name="radio3" value="0">동의함
                         </label>
                         <label class="radio-inline">
                             <input type="radio" name="radio3" value="1">동의하지 않음
                         </label>
-                        <label class="col-md-offset-1 col-md-9 control-label mid-font slogan">개인정보 취급 위탁에 동의하지 않을 경우 원서를 접수할 수 없습니다.</label>
+                        <div class="spacer-tiny"></div>
+                        <label class="col-md-offset-2 col-md-8 text-center mid-font slogan">개인정보 취급 위탁에 동의하지 않을 경우 원서를 접수할 수 없습니다.</label>
                     </div>
                     <div class="spacer-small"></div>
 
@@ -174,14 +178,15 @@
                         </table>
                     </div>
                     <div class="form-group" align="center">
-                        <label class="col-md-offset-1 col-md-6 control-label big-font slogan">개인정보의 제3자 제공에 동의하십니까?</label>
+                        <label class="col-md-offset-1 col-md-6 text-center big-font slogan">개인정보의 제3자 제공에 동의하십니까?</label>
                         <label class="radio-inline">
                             <input type="radio" name="radio4" value="0">동의함
                         </label>
                         <label class="radio-inline">
                             <input type="radio" name="radio4" value="1">동의하지 않음
                         </label>
-                        <label class="col-md-offset-1 col-md-9 control-label mid-font slogan">개인정보의 제3자 제공에 동의하지 않아도 원서를 접수할 수 있습니다.</label>
+                        <div class="spacer-tiny"></div>
+                        <label class="col-md-offset-2 col-md-8 text-center mid-font slogan">개인정보의 제3자 제공에 동의하지 않아도 원서를 접수할 수 있습니다.</label>
                     </div>
                     <div class="spacer-small"></div>
 
@@ -191,14 +196,15 @@
                     <div>지원 대학/기관의 모집요강을 확인하시기 바랍니다.</div>
                     <div class="spacer-tiny"></div>
                     <div class="form-group" align="center">
-                        <label class="col-md-offset-1 col-md-6 control-label big-font slogan">위 내용을 확인하셨습니까?</label>
+                        <label class="col-md-offset-1 col-md-6 text-center big-font slogan">위 내용을 확인하셨습니까?</label>
                         <label class="radio-inline">
                             <input type="radio" name="radio5" value="0">확인함
                         </label>
                         <label class="radio-inline">
                             <input type="radio" name="radio5" value="1">확인하지 않음
                         </label>
-                        <label class="col-md-offset-1 col-md-9 control-label mid-font slogan">본인 확인 및 지원 자격, 전형일자를 확인하지 않을 경우 원서를 접수할 수 없습니다.</label>
+                        <div class="spacer-tiny"></div>
+                        <label class="col-md-offset-2 col-md-8 text-center mid-font slogan">확인하지 않을 경우 원서를 접수할 수 없습니다.</label>
                     </div>
                     <div class="spacer-small"></div>
 
@@ -209,20 +215,21 @@
                     <div>지원 자격이 허위인 것으로 밝혀진 경우 합격이 취소됩니다.</div>
                     <div class="spacer-tiny"></div>
                     <div class="form-group" align="center">
-                        <label class="col-md-offset-1 col-md-6 control-label big-font slogan">위 내용을 확인하셨습니까?</label>
+                        <label class="col-md-offset-1 col-md-6 text-center big-font slogan">위 내용을 확인하셨습니까?</label>
                         <label class="radio-inline">
                             <input type="radio" name="radio6" value="0">확인함
                         </label>
                         <label class="radio-inline">
                             <input type="radio" name="radio6" value="1">확인하지 않음
                         </label>
-                        <label class="col-md-11 control-label mid-font slogan">허위지원 방지와 지원 자격 조작 방지에 관한 내용을 확인하지 않을 경우 원서를 접수할 수 없습니다.</label>
+                        <div class="spacer-tiny"></div>
+                        <label class="col-md-offset-2 col-md-8 text-center mid-font slogan">확인하지 않을 경우 원서를 접수할 수 없습니다.</label>
                     </div>
                     <div class="spacer-small"></div>
                 </form>
 
                 <hr/>
-                <div class="text-center "><h3 class="slogan" style="text-align: center">원서 접수 완료(전형료 걸제 완료) 후에는 접수 취소 및 변경이 불가능합니다.!!</h3></div>
+                <div><h3 class="slogan" style="text-align: center">원서 접수 완료(전형료 걸제 완료) 후에는 접수 취소 및 변경이 불가능합니다.!!</h3></div>
                 <div class="spacer-small"></div>
                 <div class="col-md-offset-2 col-md-8">
                     <button class="btn btn-primary btn-lg btn-block" id="composePaper">원서 작성</button>
@@ -236,7 +243,7 @@
         $(document).ready( function() {
             var o = $('#formAgreement input');
             o.on('change', function() {
-                if ( this.value == "1" ) {
+                if ( this.name != "radio4" && this.value == "1" ) {
                     nonagreeAlert();
                 }
             });
@@ -250,9 +257,15 @@
                 for (i = 1 ; i <= l ; i++) {
                     t0 = $('input[name=radio'+i+']:checked', '#formAgreement');
                     if ( !t0.val() || t0.val() == "1" ) {
-                        nonagreeAlert();
-                        $('input[name=radio'+i+']').focus();
-                        return;
+                        if(i !== 4) {
+                            nonagreeAlert();
+                            $('input[name=radio'+i+']').focus();
+                            return;
+                        } else if ( !t0.val() ) {
+                            alert("개인 정보의 제3자 제공 여부를 선택해 주십시오.");
+                            $('input[name=radio'+i+']').focus();
+                            return;
+                        }
                     }
                 }
                 $('#formAgreement').submit();
