@@ -1,11 +1,12 @@
 package com.apexsoft.ysprj.preview.service;
 
-import java.util.List;
+import com.apexsoft.framework.persistence.dao.page.PageInfo;
+import com.apexsoft.ysprj.application.service.ApplicationVO;
 
 /**
  * Created by Administrator on 2014-08-01.
  */
 public interface BirtService {
-    List<ApplicationInfo> getApplications();
-    ApplicationInfo getApplication(String id);
+    PageInfo<ApplicationVO> getApplications();
+    ApplicationVO getApplication(String id);
 }

@@ -1,13 +1,12 @@
 package com.apexsoft.ysprj.preview.service.impl;
 
-import com.apexsoft.ysprj.preview.service.ApplicationInfo;
+import com.apexsoft.framework.persistence.dao.page.PageInfo;
+import com.apexsoft.framework.persistence.dao.page.PageStatement;
+import com.apexsoft.ysprj.application.service.ApplicationVO;
 import com.apexsoft.ysprj.preview.service.BirtService;
 import com.apexsoft.framework.persistence.dao.CommonDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by Administrator on 2014-08-01.
@@ -20,15 +19,11 @@ public class BirtServiceImpl implements BirtService {
     @Autowired
     private CommonDAO birtDao;
 
-    public List<ApplicationInfo> getApplications() {
-        return birtDao.queryForList(NAME_SPACE + "selectList", null, ApplicationInfo.class);
-//        List<ApplicationInfo> result = new ArrayList<ApplicationInfo>();
-//        ApplicationInfo info = new ApplicationInfo();
-//        result.add(info);
-//        return result;
+    public PageInfo<ApplicationVO> getApplications() {
+        return birtDao.queryForPagenatedList( new PageStatement(), null, 0, 0);
     }
 
-    public ApplicationInfo getApplication(String id) {
-        return birtDao.queryForObject("", id, ApplicationInfo.class);
+    public ApplicationVO getApplication(String id) {
+        return birtDao.queryForObject("", id, ApplicationVO.class);
     }
 }

@@ -5,6 +5,7 @@ import java.util.Date;
 /**
  * Created by Administrator on 2014-08-01.
  */
+@Deprecated
 public class ApplicationInfo {
 
     private String	id;
