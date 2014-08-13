@@ -20,7 +20,7 @@
 			<property name="cacheManager" ref="cacheManager" />
 		</bean>
 
-		<bean id="cacheManager" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean" p:config-location="classpath:ehcache/ehcache.xml" p:shared="true"/>
+		<bean id="cacheManager" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean" p:configLocation="classpath:ehcache/ehcache.xml" p:shared="true"/>
 	</beans>
 
 </beans>
