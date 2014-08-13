@@ -37,11 +37,24 @@
 <body>
 <section class="application-create" id="application-create">
     <div class="container">
-        <ul class="nav nav-tabs">
-            <li class="active"><a href="#">Home</a></li>
-            <li><a href="#">Profile</a></li>
-            <li><a href="#">Messages</a></li>
+        <ul id="myTab" class="nav nav-tabs nav-justified">
+            <li><a href="#info" data-toggle="tab">기본정보</a></li>
+            <li><a href="#biography" data-toggle="tab">자기소개서</a></li>
+            <li><a href="#etc" data-toggle="tab">기타</a></li>
         </ul>
+        <div id="myTabContent" class="tab-content">
+            <div class="tab-pane fade" id="info">
+                <p>info</p>
+            </div>
+            <div class="tab-pane fade" id="biography">
+                <p>biography</p>
+            </div>
+            <div class="tab-pane fade" id="etc">
+                <p>etc</p>
+            </div>
+        </div>
+
+
 <%--
         <div class="row mar-bot40">
             <div class="col-md-10 col-md-offset-1">
@@ -195,6 +208,10 @@
     <script src="${contextPath}/js/bootstrap-datepicker.js"></script>
     <script src="${contextPath}/js/bootstrap-datepicker.kr.js"></script>
     <script>
+        $(function() {
+            $('#myTab a:first').tab('show');
+        });
+
         $('#datapickerBox input').datepicker({
             format: "yyyy-mm-dd",
             startView: 3,

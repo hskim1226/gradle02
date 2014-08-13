@@ -26,9 +26,20 @@
         <result property="modifiedDate" column="MOD_DATE" />
     </resultMap>
 
+    <insert id="insertApp" parameterType="App">
+
+    </insert>
+
+    <update id="updateApp" parameterType="App">
+
+    </update>
+
+    <delete id="deleteApp" parameterType="App">
+
+    </delete>
+
     <select id="selectByPk" resultMap="app">
 
     </select>
 
-    <select id="selectApps"
 </mapper>
