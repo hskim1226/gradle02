@@ -195,6 +195,9 @@
                         <label class="radio-inline">
                             <input type="radio" name="radio5" value="0">확인함
                         </label>
+                        <label class="radio-inline">
+                            <input type="radio" name="radio5" value="1">확인하지 않음
+                        </label>
                         <label class="col-md-offset-1 col-md-9 control-label mid-font slogan">본인 확인 및 지원 자격, 전형일자를 확인하지 않을 경우 원서를 접수할 수 없습니다.</label>
                     </div>
                     <div class="spacer-small"></div>
@@ -209,6 +212,9 @@
                         <label class="col-md-offset-1 col-md-6 control-label big-font slogan">위 내용을 확인하셨습니까?</label>
                         <label class="radio-inline">
                             <input type="radio" name="radio6" value="0">확인함
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" name="radio6" value="1">확인하지 않음
                         </label>
                         <label class="col-md-11 control-label mid-font slogan">허위지원 방지와 지원 자격 조작 방지에 관한 내용을 확인하지 않을 경우 원서를 접수할 수 없습니다.</label>
                     </div>
@@ -227,23 +233,30 @@
 </section>
 <content tag="local-script">
     <script>
-        $('#formAgreement input').on('change', function() {
-            if($('input[type="radio"]:checked', '#formAgreement').val()==1) {
-                alert("동의하지 않을 경우 원서를 접수할 수 없습니다.");
-            };
-        });
+        $(document).ready( function() {
+            var o = $('#formAgreement input');
+            o.on('change', function() {
+                if ( this.value == "1" ) {
+                    nonagreeAlert();
+                }
+            });
 
-        $('#composePaper').click(function(){
-            var radioList = document.getElementsByName('inlineRadioOptions')
-              , length = radioList.length
-              , i, t0
-            ;
-            for (i = 0 ; i < length ; i++) {
-                t0 = radioList[i];
-                console.log(t0.value);
+            function nonagreeAlert() {
+                alert("동의하지 않을 경우 원서를 접수할 수 없습니다.");
             }
 
-//            $('#formAgreement').submit();
+            $('#composePaper').click(function(){
+                var l = $('#formAgreement')[0].length/2 , i, t0;
+                for (i = 1 ; i <= l ; i++) {
+                    t0 = $('input[name=radio'+i+']:checked', '#formAgreement');
+                    if ( !t0.val() || t0.val() == "1" ) {
+                        nonagreeAlert();
+                        $('input[name=radio'+i+']').focus();
+                        return;
+                    }
+                }
+                $('#formAgreement').submit();
+            });
         });
     </script>
 </content>
