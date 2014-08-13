@@ -11,14 +11,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @RequestMapping(value="/application")
 public class ApplicationController {
 
-    @RequestMapping(value="/create", method = RequestMethod.GET)
+    @RequestMapping(value="/create", method = RequestMethod.POST)
     public String createApplication() {
         return "application/create";
-    }
-
-    @RequestMapping(value = "/create", method = RequestMethod.POST)
-    public String completeApplication() {
-        return "";
     }
 
     @RequestMapping(value="/mylist")
