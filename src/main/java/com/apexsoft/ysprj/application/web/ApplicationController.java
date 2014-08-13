@@ -20,4 +20,9 @@ public class ApplicationController {
         return "application/mylist";
     }
 
+    @RequestMapping(value="/agreement")
+    public String checkAgreement() {
+        return "application/agreement";
+    }
+
 }

@@ -1,6 +1,7 @@
 package com.apexsoft.framework.xpay;
 
-import com.apexsoft.framework.common.vo.ExecutionContext;
+import com.apexsoft.framework.message.MessageResolver;
+import com.apexsoft.framework.security.UserSessionVO;
 import com.apexsoft.framework.xpay.service.PaymentVO;
 import com.apexsoft.framework.xpay.service.TransactionVO;
 import com.apexsoft.ysprj.user.service.UsersVO;
@@ -9,16 +10,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.Enumeration;
 
 import lgdacom.XPayClient.XPayClient;
 
@@ -37,6 +36,10 @@ public class XPayController {
     String LGD_VERSION = "JSP_XPay_2.5";
     String LGD_CASNOTEURL = "http://cas_noteurl.jsp";
 
+    @Resource(name = "messageResolver")
+    MessageResolver messageResolver;
+
+
     /**
      * 사용자 이름과 아이디를 결제 확인 화면에 반환
      *
@@ -51,10 +54,10 @@ public class XPayController {
 
         SecurityContext sc = (SecurityContext)httpSession.getAttribute("SPRING_SECURITY_CONTEXT");
         Authentication auth = sc.getAuthentication();
-        UsersVO usersVO = (UsersVO)auth.getPrincipal();
+        UserSessionVO userSessionVO = (UserSessionVO)auth.getPrincipal();
 
-        paymentVO.setLGD_BUYER(usersVO.getName());
-        paymentVO.setLGD_BUYERID(usersVO.getUsername());
+        paymentVO.setLGD_BUYER(userSessionVO.getName());
+        paymentVO.setLGD_BUYERID(userSessionVO.getUsername());
 
         return "xpay/confirm";
     }
@@ -153,12 +156,8 @@ public class XPayController {
 //            out.println( "LG유플러스에서 제공한 환경파일이 정상적으로 설치 되었는지 확인하시기 바랍니다.<br>");
 //            out.println( "mall.conf에는 Mert ID = Mert Key 가 반드시 등록되어 있어야 합니다.<br><br>");
 //            out.println( "문의전화 LG유플러스 1544-7772<br>");
-            transactionVO.setMsg(
-                "결제요청을 초기화 하는데 실패하였습니다.<br>" +
-                "LG유플러스에서 제공한 환경파일이 정상적으로 설치 되었는지 확인하시기 바랍니다.<br>" +
-                "mall.conf에는 Mert ID = Mert Key 가 반드시 등록되어 있어야 합니다.<br><br>" +
-                "문의전화 LG유플러스 1544-7772<br>"
-            );
+            transactionVO.setSysMsg(messageResolver.getMessage("A000"));
+            transactionVO.setUserMsg(messageResolver.getMessage("U000"));
 
             return "xpay/result";
 
@@ -181,10 +180,8 @@ public class XPayController {
             }catch(Exception e) {
 //                out.println("LG유플러스 제공 API를 사용할 수 없습니다. 환경파일 설정을 확인해 주시기 바랍니다. ");
 //                out.println(""+e.getMessage());
-                transactionVO.setMsg(
-                    "LG유플러스 제공 API를 사용할 수 없습니다. 환경파일 설정을 확인해 주시기 바랍니다. <br/>" +
-                    e.getMessage()
-                );
+                transactionVO.setSysMsg(messageResolver.getMessage("A001") + e.getMessage());
+                transactionVO.setUserMsg(messageResolver.getMessage("U001"));
                 return "xpay/result";
             }
         }
@@ -207,17 +204,18 @@ public class XPayController {
 //            out.println("결과코드 : " + xpay.Response("LGD_RESPCODE",0) + "<br>");
 //            out.println("결과메세지 : " + xpay.Response("LGD_RESPMSG",0) + "<p>");
 
-            transactionVO.setMsg(
-                "결제요청이 완료되었습니다.  <br>" +
-                "TX 결제요청 Response_code = " + xpay.m_szResCode + "<br>" +
-                "TX 결제요청 Response_msg = " + xpay.m_szResMsg + "<p>" +
-                "거래번호 : " + xpay.Response("LGD_TID",0) + "<br>" +
-                "상점아이디 : " + xpay.Response("LGD_MID",0) + "<br>" +
-                "상점주문번호 : " + xpay.Response("LGD_OID",0) + "<br>" +
-                "결제금액 : " + xpay.Response("LGD_AMOUNT",0) + "<br>" +
-                "결과코드 : " + xpay.Response("LGD_RESPCODE",0) + "<br>" +
-                "결과메세지 : " + xpay.Response("LGD_RESPMSG",0) + "<p>"
+            transactionVO.setSysMsg(
+                    "결제요청이 완료되었습니다.  <br>" +
+                            "TX 결제요청 Response_code = " + xpay.m_szResCode + "<br>" +
+                            "TX 결제요청 Response_msg = " + xpay.m_szResMsg + "<p>" +
+                            "거래번호 : " + xpay.Response("LGD_TID", 0) + "<br>" +
+                            "상점아이디 : " + xpay.Response("LGD_MID", 0) + "<br>" +
+                            "상점주문번호 : " + xpay.Response("LGD_OID", 0) + "<br>" +
+                            "결제금액 : " + xpay.Response("LGD_AMOUNT", 0) + "<br>" +
+                            "결과코드 : " + xpay.Response("LGD_RESPCODE", 0) + "<br>" +
+                            "결과메세지 : " + xpay.Response("LGD_RESPMSG", 0) + "<p>"
             );
+            transactionVO.setUserMsg(messageResolver.getMessage("U002"));
 
 //            for (int i = 0; i < xpay.ResponseNameCount(); i++)
 //            {
@@ -241,7 +239,7 @@ public class XPayController {
             if( "0000".equals( xpay.m_szResCode ) ) {
                 //TODO 최종결제요청 결과 성공 DB처리
 //                out.println("최종결제요청 결과 성공 DB처리하시기 바랍니다.<br>");
-                transactionVO.setMsg(transactionVO.getMsg() + "최종결제요청 결과 성공 DB처리하시기 바랍니다.<br>");
+                transactionVO.setSysMsg(transactionVO.getSysMsg() + "최종결제요청 결과 성공 DB처리하시기 바랍니다.<br>");
 
                 //TODO 최종결제요청 결과 성공 DB처리 실패시 Rollback 처리
 //                boolean isDBOK = true; //DB처리 실패시 false로 변경해 주세요.
@@ -261,7 +259,7 @@ public class XPayController {
             }else{
                 //TODO 최종결제요청 결과 실패 DB처리
 //                out.println("최종결제요청 결과 실패 DB처리하시기 바랍니다.<br>");
-                transactionVO.setMsg(transactionVO.getMsg() + "최종결제요청 결과 실패 DB처리하시기 바랍니다.<br>");
+                transactionVO.setSysMsg(transactionVO.getSysMsg() + "최종결제요청 결과 실패 DB처리하시기 바랍니다.<br>");
             }
         }else {
             //TODO 2)API 요청실패 화면처리
@@ -269,15 +267,15 @@ public class XPayController {
 //            out.println( "TX 결제요청 Response_code = " + xpay.m_szResCode + "<br>");
 //            out.println( "TX 결제요청 Response_msg = " + xpay.m_szResMsg + "<p>");
 
-            transactionVO.setMsg(
-                "결제요청이 실패하였습니다.  <br>" +
-                "TX 결제요청 Response_code = " + xpay.m_szResCode + "<br>" +
-                "TX 결제요청 Response_msg = " + xpay.m_szResMsg + "<p>"
+            transactionVO.setSysMsg(
+                    "결제요청이 실패하였습니다.  <br>" +
+                            "TX 결제요청 Response_code = " + xpay.m_szResCode + "<br>" +
+                            "TX 결제요청 Response_msg = " + xpay.m_szResMsg + "<p>"
             );
 
             //TODO 최종결제요청 결과 실패 DB처리
 //            out.println("최종결제요청 결과 실패 DB처리하시기 바랍니다.<br>");
-            transactionVO.setMsg(transactionVO.getMsg() + "최종결제요청 결과 실패 DB처리하시기 바랍니다.<br>");
+            transactionVO.setSysMsg(transactionVO.getSysMsg() + "최종결제요청 결과 실패 DB처리하시기 바랍니다.<br>");
         }
 
         return "xpay/result";
