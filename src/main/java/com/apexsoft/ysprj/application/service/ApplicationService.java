@@ -9,7 +9,7 @@ public interface ApplicationService {
 
     void registerApplication(ApplicationVO applicationVO);
     ApplicationVO retrieveApplication(String id);
-    PageInfo<ApplicationVO> retrieveApplications(String username);
+    PageInfo<ApplicationVO> getApplicationPagenatedList(String username);
     Integer updateApplication(ApplicationVO applicationVO);
     Integer deleteApplication(ApplicationVO applicationVO);
     Integer disposalApplication(ApplicationVO applicationVO);

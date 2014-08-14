@@ -30,7 +30,7 @@ public class ApplicationServiceImpl implements ApplicationService {
     }
 
     @Override
-    public PageInfo<ApplicationVO> retrieveApplications(String username) {
+    public PageInfo<ApplicationVO> getApplicationPagenatedList(String username) {
         return commonDAO.queryForPagenatedList( new PageStatement() {
             @Override
             public String getTotalCountStatementId() {
