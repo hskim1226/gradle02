@@ -34,8 +34,20 @@ public class ApplicationController {
 
     @RequestMapping(value="/selfintro/save")
     public String saveSelfIntro() {
-        // TODO DB에 저장, AJAX로 처
+        // TODO DB에 저장, AJAX로 처리
         return "application/selfintro";
+    }
+
+    @RequestMapping(value="/studyplan")
+    public String studyPlan() {
+        // TODO DB에 내용 있으면 가져와서 보여주고 없으면 공란
+        return "application/studyplan";
+    }
+
+    @RequestMapping(value="/studyplan/save")
+    public String saveStudyPlan() {
+        // TODO DB에 저장, AJAX로 처리
+        return "application/studyplan";
     }
 
 }

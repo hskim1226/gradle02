@@ -47,7 +47,7 @@
     </style>
 </head>
 <body>
-<section class="application-selfintro" id="application-selfintro">
+<section class="application-studyplan" id="application-selfintro">
     <div class="container">
         <ul id="myTab" class="nav nav-tabs nav-justified">
             <li><a href="#info" data-toggle="tab">기본정보</a></li>
@@ -87,39 +87,27 @@
         </div>
         <div class="spacer-small"></div>
         <hr/>
-        <form class="form-horizontal" role="form" id="formSeflIntro" action="${contextPath}/application/selfintro/save">
-            <h2 class="slogan">자기소개서</h2>
+        <form class="form-horizontal" role="form" id="formSeflIntro" action="${contextPath}/application/studyplan/save">
+            <h2 class="slogan">학업계획서</h2>
             <div class="spacer-small"></div>
             <div class="col-md-offset-1 col-md-11">
                 <table class="table table-stripped">
                     <tr>
-                        <td class="col-sm-2 text-center" style="vertical-align: middle;"><label for="ta1" class="text-center"><h3 class="slogan text-center">희망 연구 분야<br/><br/>및<br/><br/>연구 계획</h3></label></td>
+                        <td class="col-sm-2 text-center" style="vertical-align: middle;"><label for="ta1" class="text-center"><h4 class="slogan text-center">희망 연구 분야<br/></br>및<br/></br>연구 계획</h4></label></td>
                         <td class="col-sm-10">
-                            <textarea class="form-control" id="ta1" name="ta1" placeholder="주요 경력사항을 작성해주세요" rows="12"></textarea>
+                            <textarea class="form-control" id="ta1" name="ta1" placeholder="희망 연구 분야와 연구 계획을 작성해주세요" rows="12"></textarea>
                         </td>
                     </tr>
                     <tr>
-                        <td class="col-sm-2 text-center" style="vertical-align: middle;"><label for="ta2" class="text-center"><h3 class="slogan">학부, 대학원<br/><br/>이수 과목 중<br/><br/>관심 과목</h3></label></td>
+                        <td class="col-sm-2 text-center" style="vertical-align: middle;"><label for="ta2" class="text-center"><h4 class="slogan">학부, 대학원<br/><br/>이수 과목 중<br/><br/>관심 과목</h4></label></td>
                         <td class="col-sm-10">
-                            <textarea class="form-control" id="ta2" placeholder="지원 동기와 장래 계획을 작성해주세요" rows="12"></textarea>
+                            <textarea class="form-control" id="ta2" placeholder="학부와 대학원에서 관심있게 수강한 과목에 대해 작성해주세" rows="12"></textarea>
                         </td>
                     </tr>
                     <tr>
-                        <td class="col-sm-2 text-center" style="vertical-align: middle;"><label for="ta3" class="text-center"><h3 class="slogan">성격<br/><br/>및<br/><br/>특기</h3></label></td>
+                        <td class="col-sm-2 text-center" style="vertical-align: middle;"><label for="ta3" class="text-center"><h4 class="slogan">석/박사 이후의<br/><br/>계획</h4></label></td>
                         <td class="col-sm-10">
-                            <textarea class="form-control" id="ta3" placeholder="성격의 장단점과 특기를 작성해주세요" rows="12"></textarea>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="col-sm-2 text-center" style="vertical-align: middle;"><label for="ta4" class="text-center"><h3 class="slogan">수상 내역</h3></label></td>
-                        <td class="col-sm-10">
-                            <textarea class="form-control" id="ta4" placeholder="주요 수상 내역을 작성해주세요" rows="12"></textarea>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="col-sm-2 text-center" style="vertical-align: middle;"><label for="ta5" class="text-center"><h3 class="slogan">기타</h3></label></td>
-                        <td class="col-sm-10">
-                            <textarea class="form-control" id="ta5" placeholder="본인을 잘 설명할 수 있는 내용을 작성해주세요" rows="12"></textarea>
+                            <textarea class="form-control" id="ta3" placeholder="석/박사 이후의 진로 계획에 대해 작성해주세요" rows="12"></textarea>
                         </td>
                     </tr>
                 </table>

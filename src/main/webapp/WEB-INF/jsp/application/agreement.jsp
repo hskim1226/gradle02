@@ -4,7 +4,7 @@
 <head>
     <title></title>
     <style>
-        section.application-selfintro {
+        section.application-studyplan {
             padding: 200px 0 60px;
             background: #5f5f5f;
             color: #fdfdfd;
