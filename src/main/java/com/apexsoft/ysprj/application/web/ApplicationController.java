@@ -50,4 +50,8 @@ public class ApplicationController {
         return "application/studyplan";
     }
 
+    @RequestMapping(value = "/appinfo")
+    public String displayAppInfo() {
+        return "application/appinfo";
+    }
 }
