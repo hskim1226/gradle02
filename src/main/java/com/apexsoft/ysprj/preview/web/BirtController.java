@@ -19,12 +19,6 @@ public class BirtController {
 
     @RequestMapping(value = "/application")
     public ModelAndView getApplications(Model model) {
-        try {
-            Object applications = birtService.getApplications();
-            model.addAttribute("applicationList", applications);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
         return new ModelAndView("birtView");
     }
 
@@ -32,5 +26,4 @@ public class BirtController {
     public String getApplication(@PathVariable("id") String id) {
         return "birt/preview";
     }
-
 }

@@ -18,6 +18,7 @@ import java.util.logging.Level;
 /**
  * Created by Administrator on 2014-08-04.
  */
+@Deprecated
 public class BirtEngine {
 
 
