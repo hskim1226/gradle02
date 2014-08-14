@@ -50,4 +50,9 @@ public class ApplicationController {
         return "application/studyplan";
     }
 
+    @RequestMapping(value="/tabsample")
+    public String tabSample() {
+        return "application/tabsample";
+    }
+
 }
