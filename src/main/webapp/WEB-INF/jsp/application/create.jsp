@@ -4,38 +4,38 @@
 <head>
     <title></title>
     <style>
-        section.application-create {
+        section.application-selfintro {
             padding: 200px 0 60px;
             background: #5f5f5f;
             color: #fdfdfd;
             position:relative;
         }
 
-        section.application-create h2.slogan {
+        section.application-selfintro h2.slogan {
             color: #fff;
             font-size: 36px;
             font-weight: 900;
         }
 
-        section.application-create .spacer-big {
+        section.application-selfintro .spacer-big {
             margin-bottom: 7em;
         }
 
-        section.application-create .spacer-mid {
+        section.application-selfintro .spacer-mid {
             margin-bottom: 5em;
         }
 
-        section.application-create .spacer-small {
+        section.application-selfintro .spacer-small {
             margin-bottom: 3em;
         }
 
-        section.application-create .spacer-tiny {
+        section.application-selfintro .spacer-tiny {
             margin-bottom: 1em;
         }
     </style>
 </head>
 <body>
-<section class="application-create" id="application-create">
+<section class="application-selfintro" id="application-create">
     <div class="container">
         <ul id="myTab" class="nav nav-tabs nav-justified">
             <li><a href="#info" data-toggle="tab">기본정보</a></li>

@@ -4,7 +4,7 @@
 <head>
     <title></title>
     <style>
-        section.application-create {
+        section.application-selfintro {
             padding: 200px 0 60px;
             background: #5f5f5f;
             color: #fdfdfd;
@@ -62,7 +62,7 @@
     </style>
 </head>
 <body>
-<section class="application-create" id="application-create">
+<section class="application-selfintro" id="application-create">
     <div class="container">
         <div class="row mar-bot40">
             <div class="col-md-offset-0 col-md-11">

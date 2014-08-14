@@ -26,4 +26,16 @@ public class ApplicationController {
         return "application/agreement";
     }
 
+    @RequestMapping(value="/selfintro")
+    public String selfIntro() {
+        // TODO DB에 내용 있으면 가져와서 보여주고 없으면 공란
+        return "application/selfintro";
+    }
+
+    @RequestMapping(value="/selfintro/save")
+    public String saveSelfIntro() {
+        // TODO DB에 저장, AJAX로 처
+        return "application/selfintro";
+    }
+
 }
