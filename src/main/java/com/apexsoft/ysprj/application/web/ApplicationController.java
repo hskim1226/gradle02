@@ -54,4 +54,10 @@ public class ApplicationController {
     public String displayAppInfo() {
         return "application/appinfo";
     }
+
+    @RequestMapping(value="/tabsample")
+    public String tabSample() {
+        return "application/tabsample";
+    }
+
 }
