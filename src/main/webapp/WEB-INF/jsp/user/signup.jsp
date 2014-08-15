@@ -175,7 +175,6 @@
     <script type="text/javascript" >
         $(document).ready(function(){
             $("#sign-up-button").on("click", function(){
-                console.log($("#sign-up-form").serialize());
                 $('#sign-up-form').bootstrapValidator('validate');
             });
 
