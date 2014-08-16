@@ -95,8 +95,8 @@
 	jQuery('.appear').appear();
 	jQuery(".appear").on("appear", function(data) {
 			var id = $(this).attr("id");
-			jQuery('.nav li').removeClass('active');
-			jQuery(".nav a[href='#" + id + "']").parent().addClass("active");					
+			jQuery('.navbar .nav li').removeClass('active');
+			jQuery(".navbar .nav a[href='#" + id + "']").parent().addClass("active");
 		});
 
 
