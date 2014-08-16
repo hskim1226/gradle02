@@ -54,13 +54,13 @@
         </div>
         <h3> detail </h3>
 
-        <form class="form-horizontal" role="form" id="sign-up-form" action="${contextPath}/mypage" method="post">
+        <form:form commandName="usersVO" class="form-horizontal" action="${contextPath}/mypage" method="post">
             <form:errors path="*" css="errors" />
             <%--user id--%>
             <div class="form-group">
-                <form:label path="usersVO.username" cssClass="col-sm-2 control-label">User ID</form:label>
+                <form:label path="username" cssClass="col-sm-2 control-label">User ID</form:label>
                 <div class="col-sm-10">
-                    <form:input path="usersVO.username" cssClass="form-control" disabled="true" />
+                    <form:input path="username" cssClass="form-control" disabled="true" />
                 </div>
             </div>
             <%--password--%>
@@ -78,51 +78,51 @@
 --%>
             <%--email--%>
             <div class="form-group">
-                <form:label path="usersVO.email" cssClass="col-sm-2 control-label" cssErrorClass="errorMessage">E-Mail</form:label>
+                <form:label path="email" cssClass="col-sm-2 control-label" cssErrorClass="errorMessage">E-Mail</form:label>
                 <div class="col-sm-6">
-                    <form:input path="usersVO.email" cssClass="form-control" />
+                    <form:input path="email" cssClass="form-control" />
                 </div>
-                <form:label path="usersVO.emailReceive" cssClass="control-label">
-                    <form:checkbox path="usersVO.emailReceive" value="y" label="I Agree" />
+                <form:label path="emailReceive" cssClass="control-label">
+                    <form:checkbox path="emailReceive" value="y" label="I Agree" />
                 </form:label>
             </div>
             <%--mobile--%>
             <div class="form-group">
-                <form:label path="usersVO.mobile" cssClass="col-sm-2 control-label">Mobile</form:label>
+                <form:label path="mobile" cssClass="col-sm-2 control-label">Mobile</form:label>
                 <div class="col-sm-6">
-                    <form:input path="usersVO.mobile" cssClass="form-control" placeholder="###-####-####" />
+                    <form:input path="mobile" cssClass="form-control" placeholder="###-####-####" />
                 </div>
-                <form:label path="usersVO.smsReceive" cssClass="control-label">
-                    <form:checkbox path="usersVO.smsReceive" value="y" label="I Agree" />
+                <form:label path="smsReceive" cssClass="control-label">
+                    <form:checkbox path="smsReceive" value="y" label="I Agree" />
                 </form:label>
             </div>
             <%--name--%>
             <div class="form-group">
-                <form:label path="usersVO.name" cssClass="col-sm-2 control-label">User Name</form:label>
+                <form:label path="name" cssClass="col-sm-2 control-label">User Name</form:label>
                 <div class="col-sm-10">
-                    <form:input path="usersVO.name" cssClass="form-control" placeholder="Name" />
+                    <form:input path="name" cssClass="form-control" placeholder="Name" />
                 </div>
             </div>
             <%--gender--%>
             <div class="form-group">
-                <form:label path="usersVO.gender" class="col-sm-2 control-label">Gender</form:label>
+                <form:label path="gender" class="col-sm-2 control-label">Gender</form:label>
                 <div class="col-sm-10">
                     <div class="btn-group" data-toggle="buttons">
                         <label class="btn btn-default">
-                            <form:radiobutton path="usersVO.gender" id="gender-male" value="m" />Male
+                            <form:radiobutton path="gender" id="gender-male" value="m" />Male
                         </label>
                         <label class="btn btn-default">
-                            <form:radiobutton path="usersVO.gender" id="gender-female" value="f" />Female
+                            <form:radiobutton path="gender" id="gender-female" value="f" />Female
                         </label>
                     </div>
                 </div>
             </div>
             <%--calendar--%>
             <div class="form-group">
-                <form:label path="usersVO.birth" cssClass="col-sm-2 control-label">Birthday</form:label>
+                <form:label path="birth" cssClass="col-sm-2 control-label">Birthday</form:label>
                 <div class="col-sm-10" id="sandbox-container">
                     <div class="input-group date">
-                        <form:input path="usersVO.birth" class="form-control" />
+                        <form:input path="birth" class="form-control" />
                         <span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
                     </div>
                 </div>
@@ -136,7 +136,7 @@
                     <button type="reset" id="cancel-button" class="btn btn-default btn-lg btn-block">취소</button>
                 </div>
             </div>
-        </form>
+        </form:form>
     </div>
 </section>
 </body>
