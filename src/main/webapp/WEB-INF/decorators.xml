@@ -18,6 +18,10 @@
         <pattern>/mypage</pattern>
     </decorator>
 
+    <decorator name="adminmode" page="adminmode_decorator.jsp">
+        <pattern>/admin/*</pattern>
+    </decorator>
+
     <decorator name="template" page="temp_decorator.jsp">
 		<pattern>/template/*</pattern>
 	</decorator>

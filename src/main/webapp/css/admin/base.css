@@ -1,0 +1,44 @@
+/* HTML Elements
+---------------------------------------------------------*/
+* {
+	margin:0;
+	padding:0;
+	vertical-align:middle;
+}
+body {
+	font:75%/1.5em Dotum;
+	color:#646656;
+	background:#fff;
+}
+ul {list-style:none;}
+a:link, a:visited {color: #21528D;text-decoration: none;}
+a:hover, a:active {color: #0770FF;text-decoration: underline;}
+hr { display: none; }
+h1 { font-size:1.2em; }
+img {	border:none;}
+img.Lbtn { cursor:pointer; }
+select, input.Ltext, textarea { 
+	font-family:Dotum;
+	font-size:1em; 
+	padding:2px;
+	border:1px solid #CCC;
+}
+
+/* Global Classes
+---------------------------------------------------------*/
+.Lclear:after {
+	content:" ";
+	height:0;
+	visibility:hidden;
+	display:block;
+	clear:both;
+}
+.Lclear {*zoom:1;} /* IE5.5~7 브라우저 대응 Hack */
+
+.Lhide { position:absolute; width:0; height:0; font-size:0; line-height:0; overflow:hidden; visibility:hidden; }
+.LtextLeft { text-align:left; }
+.LtextCenter { text-align:center; }
+.LtextRight { text-align:right; }
+
+
+
