@@ -48,7 +48,7 @@
                                 </td>
                             </tr>
                             <tr>
-                                <th><label for="sDate">지원일자</label></th>
+                                <th><label>지원일자</label></th>
                                 <td>
                                     <input type="radio" class="Lradio" id="dApplyDate_1" name="dApplyDate" /><label for="dApplyDate_1">금주</label>
                                     <input type="radio" class="Lradio" id="dApplyDate_2" name="dApplyDate" checked="checked" /><label for="dApplyDate_2">전주</label>
@@ -192,7 +192,6 @@
         <a href="#"><input type="button" value="엑셀파일 다운로드" onclick="doSomething(); return false;" /></a>
     </div>
 
-</div>
 
 </div>
 <content tag="local-script">

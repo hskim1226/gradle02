@@ -123,11 +123,7 @@
     </div>
 
 </div>
-
-<div id="LblockMain">
-    <a href src = "PL4-1_1대1또는n배치(L)" target=blank >
-</div>
-
+<decorator:body />
 <%--JS--%>
 <script src="${contextPath}/js/admin/prototype.js"></script>
 <script src="${contextPath}/js/admin/dui_base.js"></script>

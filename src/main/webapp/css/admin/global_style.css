@@ -12,7 +12,7 @@
 /* Block : header
 ---------------------------------------------------------*/
 #LblockHeader {
-	background:url(../images/header_bg.gif) repeat-x;
+	background:url(../../img/admin/header_bg.gif) repeat-x;
 }
 #LblockHeader .Lwrapper {
 	position:relative;	
@@ -30,7 +30,7 @@
 	display:inline;
 	padding:0px 7px 0px 10px;
 	font-size:0.9em;
-	background:url(../images/supportMenu_bar.gif) no-repeat 0 50%;
+	background:url(../../img/admin/supportMenu_bar.gif) no-repeat 0 50%;
 }
 #LblockSupportMenu li.Lfirst {
 	background:none;
@@ -77,11 +77,11 @@
 	padding-top:3px;
 }
 #LblockTopMenu li.Lcurrent {	
-	background:url(../images/topMenu_tab_on_left.gif) no-repeat left 1px;
+	background:url(../../img/admin/topMenu_tab_on_left.gif) no-repeat left 1px;
 	padding-bottom:2px;
 }
 #LblockTopMenu li.Lcurrent span {
-	background:url(../images/topMenu_tab_on_right.gif) no-repeat right 1px;	
+	background:url(../../img/admin/topMenu_tab_on_right.gif) no-repeat right 1px;	
 	padding-bottom:4px;
 }
 #LblockTopMenu li.Lcurrent span a,
@@ -151,7 +151,7 @@
 	height:23px;
 	color:#257E9E;
 	font-size:1.1em;
-	background:url(../images/leftTitle_bg.gif) no-repeat right top;
+	background:url(../../img/admin/leftTitle_bg.gif) no-repeat right top;
 }
 /* Block : leftMenuStyle
 ---------------------------------------------------------*/
@@ -166,10 +166,10 @@
 ---------------------------------------------------------*/
 /* --------- slide menu --------- */
 #LblockLeftMenu.LslideMenu{
-	background:url(../images/left_bg.gif) repeat-y left top;
+	background:url(../../img/admin/left_bg.gif) repeat-y left top;
 }
 #LblockLeftMenu.LslideMenu li {
-	background:url(../images/leftMenu_bg.gif) repeat-x left bottom;
+	background:url(../../img/admin/leftMenu_bg.gif) repeat-x left bottom;
 }
 #LblockLeftMenu.LslideMenu li.Lcurrent a {
 	color:#489CCA;
@@ -181,7 +181,7 @@
 	font-weight:normal;
 }
 #LblockLeftMenu.LslideMenu li.Llast{
-	background:url(../images/left_bg_Last.gif) no-repeat left bottom;
+	background:url(../../img/admin/left_bg_Last.gif) no-repeat left bottom;
 }
 #LblockLeftMenu.LslideMenu li span {
 	display:block;
@@ -194,7 +194,7 @@
 	font-weight:bold;
 	line-height:22px;
 	padding:0 0 0 8px;
-	background:url(../images/leftMenu_blt_01.gif) no-repeat 0 30%;
+	background:url(../../img/admin/leftMenu_blt.gif) no-repeat 0 30%;
 }
 
 #LblockLeftMenu.LslideMenu li span a:hover,
@@ -228,7 +228,7 @@
 	color:#898989;
 	padding:0 0 0 8px;
 	font-weight:normal;
-	background:url(../images/leftMenu_blt.gif) no-repeat 0 40%;
+	background:url(../../img/admin/leftMenu_blt.gif) no-repeat 0 40%;
 }
 /* 3 depth */
 #LblockLeftMenu.LslideMenu li li ul{
@@ -247,12 +247,12 @@
 	color:#898989;
 	padding:0 0 0 8px;
 	font-weight:normal;
-	background:url(../images/leftMenu_blt.gif) no-repeat 0 40%;
+	background:url(../../img/admin/leftMenu_blt.gif) no-repeat 0 40%;
 }
 /* --------- tree menu --------- */
 #LblockLeftMenu.LtreeMenu {
 	*zoom:1;
-	background:url(../images/left_bg.gif) no-repeat left bottom;
+	background:url(../../img/admin/left_bg.gif) no-repeat left bottom;
 	padding-bottom:3px;
 }
 #LblockLeftMenu.LtreeMenu ul {
@@ -307,7 +307,7 @@ span.LtreeDragItem span {
 	padding-top:0px;
 	color:#555;
 	font-size:0.9em;
-	background:url(../images/footer_bg.gif) repeat-x left bottom;
+	background:url(../../img/admin/footer_bg.gif) repeat-x left bottom;
 }
 #LblockFooter .Lwrapper {
 	position:relative;
@@ -335,7 +335,7 @@ span.LtreeDragItem span {
 	display:inline;
 	padding:0px 7px 0px 10px;
 	font-size:0.9em;
-	background:url(../images/supportMenu_bar.gif) no-repeat 0 50%;
+	background:url(../../img/admin/supportMenu_bar.gif) no-repeat 0 50%;
 }
 #LblockFooterMenu li.Lfirst {
 	background:none;
@@ -348,4 +348,5 @@ span.LtreeDragItem span {
 /* Block : banner
 ---------------------------------------------------------*/
 .LblockBanner {
-	text-align:center;
+    text-align: center;
+}
