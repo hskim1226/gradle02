@@ -6,12 +6,14 @@ import com.apexsoft.framework.persistence.dao.page.PageStatement;
 import com.apexsoft.ysprj.application.service.ApplicationService;
 import com.apexsoft.ysprj.application.service.ApplicationVO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 /**
  * Created by Administrator on 2014-08-12.
  */
+@Service
 public class ApplicationServiceImpl implements ApplicationService {
 
     private final static String NAME_SPACE = "com.apexsoft.ysprj.application.Mapper.";
@@ -26,7 +28,12 @@ public class ApplicationServiceImpl implements ApplicationService {
 
     @Override
     public ApplicationVO retrieveApplication(String id) {
-        return commonDAO.queryForObject(NAME_SPACE + "selectByPk", id, ApplicationVO.class);
+//        return commonDAO.queryForObject(NAME_SPACE + "selectByPk", id, ApplicationVO.class);
+        ApplicationVO applicationVO = new ApplicationVO();
+        applicationVO.setKorName("홍길동");
+        applicationVO.setEngName("Gil dong");
+        applicationVO.setEngSurName("Hong");
+        return applicationVO;
     }
 
     @Override
