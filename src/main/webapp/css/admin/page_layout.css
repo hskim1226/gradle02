@@ -1,0 +1,48 @@
+#LblockPageTitle {
+	position:relative;
+	top:13px;
+	height:45px;
+	margin:0 0 10px 0;
+}
+#LblockPageLocation {
+	position:absolute;
+	right:10px;
+	top:0;
+}
+#LblockButton {
+	margin:0 0 10px 0;
+}
+#LblockPageTitle {
+	position:relative;
+	top:13px;
+	margin:0px 0 10px 0;
+	height:45px;
+}
+#LblockPageLocation {
+	position:absolute;
+	right:10px;
+	top:0;
+}
+#LblockMainBody {
+}
+#LblockButton {
+	margin:0 0 10px 0;
+}
+.LblockTab{
+	margin-bottom:10px;
+}
+#LblockSearch {
+	margin:0px 0 20px 0;
+}
+.LblockPageSubtitle {
+	margin:20px 0 5px 0;
+}
+.LblockList {
+	margin:0 0 10px 0;
+}
+.LblockSubbutton {
+	margin:0 0 10px 0;
+}
+.LblockDetail {
+	margin:0 0 10px 0;
+}

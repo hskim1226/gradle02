@@ -33,7 +33,7 @@ public class BirtServiceImpl implements BirtService {
         applicationVO.setKorName("김지호");
         applicationVO.setEngName("Jiho");
         applicationVO.setEngSurName("Kim");
-        applicationVO.setRgstNo("830219-1446915");
+        applicationVO.setResidentNumber("830219-1446915");
         applicationVO.setEmail("go2zo@apexsoft.co.kr");
         applicationVO.setTelephone("02-2222-2222");
         applicationVO.setMobile("010-2207-1441");

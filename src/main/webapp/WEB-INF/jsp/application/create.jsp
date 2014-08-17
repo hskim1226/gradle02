@@ -4,32 +4,32 @@
 <head>
     <title></title>
     <style>
-        section.application-studyplan {
+        section.application-selfintro {
             padding: 200px 0 60px;
             background: #5f5f5f;
             color: #fdfdfd;
             position:relative;
         }
 
-        section.application-studyplan h2.slogan {
+        section.application-selfintro h2.slogan {
             color: #fff;
             font-size: 36px;
             font-weight: 900;
         }
 
-        section.application-studyplan .spacer-big {
+        section.application-selfintro .spacer-big {
             margin-bottom: 7em;
         }
 
-        section.application-studyplan .spacer-mid {
+        section.application-selfintro .spacer-mid {
             margin-bottom: 5em;
         }
 
-        section.application-studyplan .spacer-small {
+        section.application-selfintro .spacer-small {
             margin-bottom: 3em;
         }
 
-        section.application-studyplan .spacer-tiny {
+        section.application-selfintro .spacer-tiny {
             margin-bottom: 1em;
         }
     </style>
