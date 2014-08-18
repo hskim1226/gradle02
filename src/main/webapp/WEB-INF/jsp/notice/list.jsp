@@ -47,7 +47,8 @@
                         </tr>
                         <tr>
                             <td>외국인</td>
-                            <td><a href="${contextPath}/application/create">2015학년도 전기 연세대학교 대학원 외국인 전형</a></td>
+                            <%--//TODO 외국인전형 안내 화면--%>
+                            <td><a href="#">2015학년도 전기 연세대학교 대학원 외국인 전형</a></td>
                             <td>2014-09-28(월) / 2014-10-03(수)</td>
                         </tr>
                         </tbody>

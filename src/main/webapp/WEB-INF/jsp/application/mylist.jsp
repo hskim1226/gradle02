@@ -49,6 +49,7 @@
                                 <th>대학원</th>
                                 <th>신청과정</th>
                                 <th>접수마감</th>
+                                <th>원서확인</th>
                                 <th>원서수정</th>
                                 <th>결제하기</th>
                             </tr>
@@ -56,15 +57,17 @@
                             <tbody>
                             <tr>
                                 <td>일반</td>
-                                <td><a href="${contextPath}/application/create">2015학년도 연세대학교 일반대학원 일반 전형</a></td>
+                                <td><a href="${contextPath}/notice/2015-1-general">2015학년도 연세대학교 일반대학원 일반 전형</a></td>
                                 <td>2014-10-08</td>
+                                <td><button type="button" class="btn btn-success">확인하기</button></td>
                                 <td><button type="button" class="btn btn-info">수정하기</button></td>
                                 <td><button type="button" class="btn btn-primary" id="notice1" name="2015학년도 연세대학교 일반대학원 일반 전형" value="80000">결제하기</button></td>
                             </tr>
                             <tr>
-                                <td>의학</td>
-                                <td><a href="${contextPath}/application/create">2015학년도 연세대학교 일반대학원 외국인 전형</a></td>
+                                <td>외국인</td>
+                                <td>2015학년도 연세대학교 일반대학원 외국인 전형</td>
                                 <td>2014-10-08</td>
+                                <td><button type="button" class="btn btn-success">확인하기</button></td>
                                 <td><button type="button" class="btn btn-info">수정하기</button></td>
                                 <td><button type="button" class="btn btn-primary" id="notice2" name="2015학년도 연세대학교 일반대학원 외국인 전형" value="60000">결제하기</button></td>
                             </tr>
