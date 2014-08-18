@@ -73,24 +73,24 @@
             <li class="Lfirst">
                 <span><a href="#">통계</a></span>
                 <ul>
-                    <li class="Lfirst"><span><a href="#">전형별 지원현황</a></span></li>
-                    <li class="Llast"><span><a href="#">일자별 지원현황</a></span></li>
+                    <li class="Lfirst"><span><a href="${contextPath}/admin/stats/category">전형별 지원현황</a></span></li>
+                    <li class="Llast"><span><a href="${contextPath}/admin/stats/daily">일자별 지원현황</a></span></li>
                 </ul>
             </li>
             <li class="Lidx1">
                 <span><a href="#">지원자관리</a></span>
                 <ul>
-                    <li class="Lfirst"><span><a href="#">지원자검색</a></span></li>
-                    <li class="Llast"><span><a href="#">미결제자현황</a></span></li>
+                    <li class="Lfirst"><span><a href="${contextPath}/admin/search/applicants">지원자검색</a></span></li>
+                    <li class="Llast"><span><a href="${contextPath}/admin/stats/unpaid">미결제자현황</a></span></li>
                 </ul>
             </li>
             <li class="Lidx2">
                 <span><a href="#">지원변경/취소관리</a></span>
                 <ul>
-                    <li class="Lfirst"><span><a href="#">변경처리조회</a></span></li>
-                    <li class="Lidx1"><span><a href="#">원서수정</a></span></li>
-                    <li class="Lidx2"><span><a href="#">지원단위변경</a></span></li>
-                    <li class="Llast"><span><a href="#">지원취소</a></span></li>
+                    <li class="Lfirst"><span><a href="${contextPath}/admin/modification/list">변경처리조회</a></span></li>
+                    <li class="Lidx1"><span><a href="${contextPath}/admin/modification/request">원서수정</a></span></li>
+                    <li class="Lidx2"><span><a href="${contextPath}/admin/modification/unit">지원단위변경</a></span></li>
+                    <li class="Llast"><span><a href="${contextPath}/admin/cancel/application">지원취소</a></span></li>
                 </ul>
             </li>
             <li class="Lidx3"><span><a href="#">데이터다운로드</a></span></li>
