@@ -422,6 +422,19 @@
                 var $curPane = $('.tab-pane.active');
                 var $curForm = $curPane.find('form');
                 console.log($curForm.serialize());
+                alert("저장 되었습니다.")
+            });
+
+            $('#apply').on('click', function() {
+                alert("작성완료 되었습니다.")
+            });
+
+            $('reset').on('click', function() {
+                var $curPane = $('.tab-pane.active');
+                var $curForm = $curPane.find('form');
+                $curForm.each(function() {
+                    this.reset();
+                });
             });
         });
     </script>

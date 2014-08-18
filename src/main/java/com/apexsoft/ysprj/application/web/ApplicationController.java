@@ -24,8 +24,13 @@ public class ApplicationController {
     private ApplicationService applicationService;
 
     @RequestMapping(value="/create", method = RequestMethod.POST)
-    public String createApplication() {
-        return "application/create";
+    public String createApplication(@ModelAttribute("applicationVO") ApplicationVO applicationVO,
+                                    @ModelAttribute("campuses") Map campuses,
+                                    @ModelAttribute("schoolTypes") Map schoolTypes,
+                                    @ModelAttribute("graduationTypes") Map graduationTypes,
+                                    @ModelAttribute("selfIntro") SelfIntro selfIntro,
+                                    @ModelAttribute("studyPlan") StudyPlan studyPlan) {
+        return "application/appinfo";
     }
 
     @RequestMapping(value="/mylist")
