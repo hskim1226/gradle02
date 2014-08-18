@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.apexsoft.ysprj.application.Mapper">
 
-    <resultMap id="app" type="App">
+    <resultMap id="app" type="com.apexsoft.ysprj.application.service.ApplicationVO">
         <result property="applNo" column="APPL_NO" />
         <result property="admsNo" column="ADMS_NO" />
         <result property="deptCode" column="DEPT_CODE" />

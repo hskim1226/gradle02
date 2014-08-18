@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.apexsoft.ysprj.user.Mapper">
 
-    <resultMap id="user" type="User">
+    <resultMap id="user" type="com.apexsoft.ysprj.user.service.UsersVO">
         <result property="username"     column="USER_ID"/>
         <result property="userType"     column="USER_TYPE"/>
         <result property="name"         column="NAME"/>
