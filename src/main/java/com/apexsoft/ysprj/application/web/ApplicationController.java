@@ -38,22 +38,10 @@ public class ApplicationController {
         return "application/agreement";
     }
 
-    @RequestMapping(value="/selfintro")
-    public String selfIntro() {
-        // TODO DB에 내용 있으면 가져와서 보여주고 없으면 공란
-        return "application/selfintro";
-    }
-
     @RequestMapping(value="/selfintro/save")
     public String saveSelfIntro() {
         // TODO DB에 저장, AJAX로 처리
         return "application/selfintro";
-    }
-
-    @RequestMapping(value="/studyplan")
-    public String studyPlan() {
-        // TODO DB에 내용 있으면 가져와서 보여주고 없으면 공란
-        return "application/studyplan";
     }
 
     @RequestMapping(value="/studyplan/save")
@@ -66,7 +54,9 @@ public class ApplicationController {
     public String displayAppInfo(@ModelAttribute("applicationVO") ApplicationVO applicationVO,
                                  @ModelAttribute("campuses") Map campuses,
                                  @ModelAttribute("schoolTypes") Map schoolTypes,
-                                 @ModelAttribute("graduationTypes") Map graduationTypes) {
+                                 @ModelAttribute("graduationTypes") Map graduationTypes,
+                                 @ModelAttribute("selfIntro") SelfIntro selfIntro,
+                                 @ModelAttribute("studyPlan") StudyPlan studyPlan) {
         return "application/appinfo";
     }
 
@@ -78,11 +68,16 @@ public class ApplicationController {
     @ModelAttribute("applicationVO")
     public ApplicationVO applicationVO() {
         ApplicationVO applicationVO = new ApplicationVO();
+        applicationVO.setKorName("홍길동");
         AcademyVO academyVO = new AcademyVO();
         academyVO.setType("SCH02");
         academyVO.setName("서울대");
-        applicationVO.getAcademies().add( academyVO );
-        applicationVO.setKorName("홍길동");
+        applicationVO.getAcademies().add(academyVO);
+        CareerVO careerVO = new CareerVO();
+        careerVO.setOrgName("에이펙스소프트");
+        careerVO.setHire("2012.04.01");
+        careerVO.setDescription("솔루션사업부 책임");
+        applicationVO.getCareers().add(careerVO);
         return applicationVO;
     }
 
@@ -109,5 +104,13 @@ public class ApplicationController {
         result.put("CAM01", "서울");
         result.put("CAM02", "원주");
         return result;
+    }
+
+    @ModelAttribute("selfIntro")
+    public SelfIntro selfIntro() {
+        SelfIntro selfIntro = new SelfIntro();
+        selfIntro.setTa1("저의 주요 경력사항은...");
+        selfIntro.setTa2("이 학교에 지원하게 된 동기는...");
+        return selfIntro;
     }
 }

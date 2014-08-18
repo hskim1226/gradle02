@@ -197,9 +197,7 @@ public class ApplicationVO {
     }
 
 
-    private Map<String, String> campuses;
     private String campus;
-    private Map<String, String> courses;
     private String course;
     private String institution;
     private Map<String, String> departments;
@@ -207,26 +205,18 @@ public class ApplicationVO {
     private Map<String, String> detailMajors;
     private String detailMajor;
     private List<AcademyVO> academies;
+    private List<CareerVO> careers;
     private Map<String, String> bankList;
     private String bank;
     private String accountNumber;
     private String accountOwner;
 
     public ApplicationVO() {
-        this.campuses = new HashMap<String, String>();
-        this.courses = new HashMap<String, String>();
         this.departments = new HashMap<String, String>();
         this.detailMajors = new HashMap<String, String>();
         this.academies = new ArrayList<AcademyVO>();
+        this.careers = new ArrayList<CareerVO>();
         this.bankList = new HashMap<String, String>();
-    }
-
-    public Map<String, String> getCampuses() {
-        return campuses;
-    }
-
-    public void setCampuses(Map<String, String> campuses) {
-        this.campuses = campuses;
     }
 
     public String getCampus() {
@@ -235,14 +225,6 @@ public class ApplicationVO {
 
     public void setCampus(String campus) {
         this.campus = campus;
-    }
-
-    public Map<String, String> getCourses() {
-        return courses;
-    }
-
-    public void setCourses(Map<String, String> courses) {
-        this.courses = courses;
     }
 
     public String getCourse() {
@@ -299,6 +281,14 @@ public class ApplicationVO {
 
     public void setAcademies(List<AcademyVO> academies) {
         this.academies = academies;
+    }
+
+    public List<CareerVO> getCareers() {
+        return careers;
+    }
+
+    public void setCareers(List<CareerVO> careers) {
+        this.careers = careers;
     }
 
     public Map<String, String> getBankList() {

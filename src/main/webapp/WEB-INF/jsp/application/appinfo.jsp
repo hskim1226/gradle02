@@ -43,14 +43,12 @@
         }
 
         section.application .btn {
-            border-bottom-width: 1px;
+            border: 1px;
         }
 
-        section.application .input-group-addon .btn {
+        section.application .input-group-btn .btn {
             border-radius: 4px;
         }
-
-        section.application textarea
     </style>
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css" />
 </head>
@@ -196,62 +194,55 @@
                 <div class="col-sm-offset-2 col-sm-8">
                     <table class="table table-hover table-responsive table-condensed table-bordered">
                         <thead>
-                        <tr>
-                            <td><input type="checkbox" id="select-all-school" /></td>
-                            <td>학력</td>
-                            <td>학교명</td>
-                            <td>입학일자</td>
-                            <td>졸업일자</td>
-                            <td>졸업구분</td>
-                        </tr>
+                            <tr>
+                                <td><input type="checkbox" id="select-all-academies" /></td>
+                                <td>학력</td>
+                                <td>학교명</td>
+                                <td>입학일자</td>
+                                <td>졸업일자</td>
+                                <td>졸업구분</td>
+                            </tr>
                         </thead>
-                        <c:if test="${applicationVO.academies.size() == 0}">
-                            <tfoot>
-                                <tr>
-                                    <td colspan="6">현재 데이터가 없습니다.</td>
-                                </tr>
-                            </tfoot>
-                        </c:if>
                         <tbody>
                         <c:forEach items="${applicationVO.academies}" var="academy" varStatus="status">
                             <tr>
-                                <td>
-                                    <input type="checkbox" class="selectRow" />
-                                </td>
-                                <td>
-                                    <form:select path="academies[${status.index}].type" items="${requestScope.schoolTypes}" />
-                                </td>
-                                <td>
-                                    <form:input path="academies[${status.index}].name" />
-                                </td>
-                                <td>
-                                    <form:input path="academies[${status.index}].entrance" />
-                                </td>
-                                <td>
-                                    <form:input path="academies[${status.index}].graduation" />
-                                </td>
-                                <td>
-                                    <form:select path="academies[${status.index}].graduationType" items="${requestScope.graduationTypes}" />
-                                </td>
+                                <td><input type="checkbox" class="selectRow" /></td>
+                                <td><form:select path="academies[${status.index}].type" items="${requestScope.schoolTypes}" /></td>
+                                <td><form:input path="academies[${status.index}].name" /></td>
+                                <td><form:input path="academies[${status.index}].entrance" /></td>
+                                <td><form:input path="academies[${status.index}].graduation" /></td>
+                                <td><form:select path="academies[${status.index}].graduationType" items="${requestScope.graduationTypes}" /></td>
                             </tr>
                         </c:forEach>
+                        <c:if test="${applicationVO.academies.size() < 4}">
+                            <c:forEach begin="${applicationVO.academies.size()}" end="3" varStatus="status">
+                                <tr>
+                                    <td><input type="checkbox" class="selectRow" /></td>
+                                    <td><select id="academies${status.index}.type" name="academies[${status.index}].type" items="${requestScope.schoolTypes}" /></td>
+                                    <td><input id="academies${status.index}.name" name="academies[${status.index}].name" /></td>
+                                    <td><input id="academies${status.index}.entrance" name="academies[${status.index}].entrance" /></td>
+                                    <td><input id="academies${status.index}.graduation" name="academies[${status.index}].graduation" /></td>
+                                    <td><select id="academies${status.index}.graduationType" name="academies[${status.index}].graduationType" items="${requestScope.graduationTypes}" /></td>
+                                </tr>
+                            </c:forEach>
+                        </c:if>
                         </tbody>
                     </table>
                 </div>
             </div>
             <div class="row">
-                <div class="col-sm-offset-2">
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-default">
+                <div class="col-sm-offset-2 col-sm-8">
+                    <div class="btn-group pull-right">
+                        <button type="button" class="btn btn-default" id="academy-up">
                             <span class="glyphicon glyphicon-chevron-up"></span>
                         </button>
-                        <button type="button" class="btn btn-default">
+                        <button type="button" class="btn btn-default" id="academy-down">
                             <span class="glyphicon glyphicon-chevron-down"></span>
                         </button>
-                        <button type="button" class="btn btn-default">
+                        <button type="button" class="btn btn-default" id="academy-add">
                             <span class="glyphicon glyphicon-plus"></span>
                         </button>
-                        <button type="button" class="btn btn-default">
+                        <button type="button" class="btn btn-default" id="academy-del">
                             <span class="glyphicon glyphicon-minus"></span>
                         </button>
                     </div>
@@ -260,98 +251,158 @@
 
             <div class="spacer-small"></div>
             <hr/>
-            <h2 class="slogan">전형료 환불 계좌</h2>
-            <div class="form-group">
-                <form:label path="bank" cssClass="col-sm-3 control-label">은행명</form:label>
-                <div class="col-sm-6">
-                    <form:select path="bank" cssClass="form-control">
-                        <form:option value="-" label="--Please Select" />
-                        <form:options items="${bankList}" itemvalue="code" itemlabel="name" />
-                    </form:select>
+            <h2 class="slogan">경력 사항</h2>
+            <div class="row">
+                <div class="col-sm-offset-2 col-sm-8">
+                    <table class="table table-hover table-responsive table-condensed table-bordered">
+                        <thead>
+                        <tr>
+                            <td><input type="checkbox" id="select-all-careers" /></td>
+                            <td colspan="3">기간</td>
+                            <td>기관명</td>
+                            <td>직위(또는 상벌내용, 연수내용 등)</td>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <c:forEach items="${applicationVO.careers}" var="career" varStatus="status">
+                            <tr>
+                                <td><input type="checkbox" class="selectRow" /></td>
+                                <td><form:input path="careers[${status.index}].hire" /></td>
+                                <td><span>~</span></td>
+                                <td><form:input path="careers[${status.index}].retirement" /></td>
+                                <td><form:input path="careers[${status.index}].orgname" /></td>
+                                <td><form:input path="careers[${status.index}].description" /></td>
+                            </tr>
+                        </c:forEach>
+                        <c:if test="${applicationVO.academies.size() < 4}">
+                            <c:forEach begin="${applicationVO.careers.size()}" end="3" varStatus="status">
+                                <tr>
+                                    <td><input type="checkbox" class="selectRow" /></td>
+                                    <td><input id="careers${status.index}.hire" name="careers[${status.index}].description"/></td>
+                                    <td><span>~</span></td>
+                                    <td><input id="careers${status.index}.retirement" name="careers[${status.index}].description"/></td>
+                                    <td><input id="careers${status.index}.orgname" name="careers[${status.index}].description"/></td>
+                                    <td><input id="careers${status.index}.description" name="careers[${status.index}].description"/></td>
+                                </tr>
+                            </c:forEach>
+                        </c:if>
+                        </tbody>
+                    </table>
                 </div>
             </div>
-            <div class="form-group">
-                <form:label path="accountNumber" cssClass="col-sm-3 control-label">계좌 번호</form:label>
-                <div class="col-sm-6">
-                    <form:input path="accountNumber" cssClass="form-control" placeholder="Bank Account Number" />
+            <div class="row">
+                <div class="col-sm-offset-2 col-sm-8">
+                    <div class="btn-group pull-right">
+                        <button type="button" class="btn btn-default" id="career-up">
+                            <span class="glyphicon glyphicon-chevron-up"></span>
+                        </button>
+                        <button type="button" class="btn btn-default" id="career-down">
+                            <span class="glyphicon glyphicon-chevron-down"></span>
+                        </button>
+                        <button type="button" class="btn btn-default" id="career-add">
+                            <span class="glyphicon glyphicon-plus"></span>
+                        </button>
+                        <button type="button" class="btn btn-default" id="career-del">
+                            <span class="glyphicon glyphicon-minus"></span>
+                        </button>
+                    </div>
                 </div>
             </div>
-            <div class="form-group">
-                <form:label path="accountOwner" cssClass="col-sm-3 control-label">예금주</form:label>
-                <div class="col-sm-6">
-                    <form:input path="accountOwner" cssClass="form-control" placeholder="Bank Account Owner" />
-                </div>
-            </div>
+
+            <%--<div class="spacer-small"></div>--%>
+            <%--<hr/>--%>
+            <%--<h2 class="slogan">전형료 환불 계좌</h2>--%>
+            <%--<div class="form-group">--%>
+                <%--<form:label path="bank" cssClass="col-sm-3 control-label">은행명</form:label>--%>
+                <%--<div class="col-sm-6">--%>
+                    <%--<form:select path="bank" cssClass="form-control">--%>
+                        <%--<form:option value="-" label="--Please Select" />--%>
+                        <%--<form:options items="${bankList}" itemvalue="code" itemlabel="name" />--%>
+                    <%--</form:select>--%>
+                <%--</div>--%>
+            <%--</div>--%>
+            <%--<div class="form-group">--%>
+                <%--<form:label path="accountNumber" cssClass="col-sm-3 control-label">계좌 번호</form:label>--%>
+                <%--<div class="col-sm-6">--%>
+                    <%--<form:input path="accountNumber" cssClass="form-control" placeholder="Bank Account Number" />--%>
+                <%--</div>--%>
+            <%--</div>--%>
+            <%--<div class="form-group">--%>
+                <%--<form:label path="accountOwner" cssClass="col-sm-3 control-label">예금주</form:label>--%>
+                <%--<div class="col-sm-6">--%>
+                    <%--<form:input path="accountOwner" cssClass="form-control" placeholder="Bank Account Owner" />--%>
+                <%--</div>--%>
+            <%--</div>--%>
             <div class="spacer-tiny"></div>
         </form:form>
     </div>
     <%--selfintro--%>
     <div class="tab-pane fade" id="selfintro">
-        <%--<form:form commandName="selfIntro" cssClass="form-horizontal" role="form" id="formSeflIntro" action="${contextPath}/application/selfintro/save">--%>
-            <%--<div class="spacer-tiny"></div>--%>
-            <%--<div class="form-group">--%>
-                <%--<form:label path="ta1" cssClass="col-sm-3 control-label">주요 경력 사항</form:label>--%>
-                <%--<div class="col-sm-8">--%>
-                    <%--<form:textarea path="ta1" cssClass="form-control" rows="12" placeholder="주요 경력사항을 작성해주세요" />--%>
-                <%--</div>--%>
-            <%--</div>--%>
-            <%--<div class="form-group">--%>
-                <%--<form:label path="ta2" cssClass="col-sm-3 control-label">지원 동기 및 장례 계획</form:label>--%>
-                <%--<div class="col-sm-8">--%>
-                    <%--<form:textarea path="ta2" cssClass="form-control" rows="12" placeholder="지원 동기와 장래 계획을 작성해주세요" />--%>
-                <%--</div>--%>
-            <%--</div>--%>
-            <%--<div class="form-group">--%>
-                <%--<form:label path="ta3" cssClass="col-sm-3 control-label">성격 및 특기</form:label>--%>
-                <%--<div class="col-sm-8">--%>
-                    <%--<form:textarea path="ta3" cssClass="form-control" rows="12" placeholder="성격의 장단점과 특기를 작성해주세요" />--%>
-                <%--</div>--%>
-            <%--</div>--%>
-            <%--<div class="form-group">--%>
-                <%--<form:label path="ta4" cssClass="col-sm-3 control-label">수상 내역</form:label>--%>
-                <%--<div class="col-sm-8">--%>
-                    <%--<form:textarea path="ta4" cssClass="form-control" rows="12" placeholder="주요 수상 내역을 작성해주세요" />--%>
-                <%--</div>--%>
-            <%--</div>--%>
-            <%--<div class="form-group">--%>
-                <%--<form:label path="ta5" cssClass="col-sm-3 control-label">기타</form:label>--%>
-                <%--<div class="col-sm-8">--%>
-                    <%--<form:textarea path="ta5" cssClass="form-control" rows="12" placeholder="본인을 잘 설명할 수 있는 내용을 작성해주세요"/>--%>
-                <%--</div>--%>
-            <%--</div>--%>
-            <%--<div class="spacer-tiny"></div>--%>
-        <%--</form:form>--%>
+        <form:form commandName="selfIntro" cssClass="form-horizontal" role="form" id="formSeflIntro" action="${contextPath}/application/selfintro/save">
+            <div class="spacer-tiny"></div>
+            <div class="form-group">
+                <form:label path="ta1" cssClass="col-sm-3 control-label">주요 경력 사항</form:label>
+                <div class="col-sm-8">
+                    <form:textarea path="ta1" cssClass="form-control" rows="12" placeholder="주요 경력사항을 작성해주세요" />
+                </div>
+            </div>
+            <div class="form-group">
+                <form:label path="ta2" cssClass="col-sm-3 control-label">지원 동기 및 장례 계획</form:label>
+                <div class="col-sm-8">
+                    <form:textarea path="ta2" cssClass="form-control" rows="12" placeholder="지원 동기와 장래 계획을 작성해주세요" />
+                </div>
+            </div>
+            <div class="form-group">
+                <form:label path="ta3" cssClass="col-sm-3 control-label">성격 및 특기</form:label>
+                <div class="col-sm-8">
+                    <form:textarea path="ta3" cssClass="form-control" rows="12" placeholder="성격의 장단점과 특기를 작성해주세요" />
+                </div>
+            </div>
+            <div class="form-group">
+                <form:label path="ta4" cssClass="col-sm-3 control-label">수상 내역</form:label>
+                <div class="col-sm-8">
+                    <form:textarea path="ta4" cssClass="form-control" rows="12" placeholder="주요 수상 내역을 작성해주세요" />
+                </div>
+            </div>
+            <div class="form-group">
+                <form:label path="ta5" cssClass="col-sm-3 control-label">기타</form:label>
+                <div class="col-sm-8">
+                    <form:textarea path="ta5" cssClass="form-control" rows="12" placeholder="본인을 잘 설명할 수 있는 내용을 작성해주세요"/>
+                </div>
+            </div>
+            <div class="spacer-tiny"></div>
+        </form:form>
     </div>
     <%--studyplan--%>
     <div class="tab-pane fade" id="studyplan">
-        <%--<form:form commandName="studyPlan" cssClass="form-horizontal" role="form" action="${contextPath}/application/studyplan/save">--%>
-            <%--<div class="spacer-tiny"></div>--%>
-            <%--<div class="form-group">--%>
-                <%--<form:label path="ta1" cssClass="col-sm-3 control-label">희망 연구 분야 및 연구 계획</form:label>--%>
-                <%--<div class="col-sm-8">--%>
-                    <%--<form:textarea path="ta1" cssClass="form-control" rows="12" placeholder="희망 연구 분야와 연구 계획을 작성해주세요" />--%>
-                <%--</div>--%>
-            <%--</div>--%>
-            <%--<div class="form-group">--%>
-                <%--<form:label path="ta2" cssClass="col-sm-3 control-label">학부/대학원 이수과목 중 관심과목</form:label>--%>
-                <%--<div class="col-sm-8">--%>
-                    <%--<form:textarea path="ta2" cssClass="form-control" rows="12" placeholder="학부와 대학원에서 관심있게 수강한 과목에 대해 작성해주세요" />--%>
-                <%--</div>--%>
-            <%--</div>--%>
-            <%--<div class="form-group">--%>
-                <%--<form:label path="ta3" cssClass="col-sm-3 control-label">석/박사 이후의 계획</form:label>--%>
-                <%--<div class="col-sm-8">--%>
-                    <%--<form:textarea path="ta3" cssClass="form-control" rows="12" placeholder="석/박사 이후의 진로 계획에 대해 작성해주세요" />--%>
-                <%--</div>--%>
-            <%--</div>--%>
-            <%--<div class="spacer-tiny"></div>--%>
-        <%--</form:form>--%>
+        <form:form commandName="studyPlan" cssClass="form-horizontal" role="form" action="${contextPath}/application/studyplan/save">
+            <div class="spacer-tiny"></div>
+            <div class="form-group">
+                <form:label path="ta1" cssClass="col-sm-3 control-label">희망 연구 분야 및 연구 계획</form:label>
+                <div class="col-sm-8">
+                    <form:textarea path="ta1" cssClass="form-control" rows="12" placeholder="희망 연구 분야와 연구 계획을 작성해주세요" />
+                </div>
+            </div>
+            <div class="form-group">
+                <form:label path="ta2" cssClass="col-sm-3 control-label">학부/대학원 이수과목 중 관심과목</form:label>
+                <div class="col-sm-8">
+                    <form:textarea path="ta2" cssClass="form-control" rows="12" placeholder="학부와 대학원에서 관심있게 수강한 과목에 대해 작성해주세요" />
+                </div>
+            </div>
+            <div class="form-group">
+                <form:label path="ta3" cssClass="col-sm-3 control-label">석/박사 이후의 계획</form:label>
+                <div class="col-sm-8">
+                    <form:textarea path="ta3" cssClass="form-control" rows="12" placeholder="석/박사 이후의 진로 계획에 대해 작성해주세요" />
+                </div>
+            </div>
+            <div class="spacer-tiny"></div>
+        </form:form>
     </div>
 </div>
 
 <div>
-    <button type="button" class="btn btn-default btn-lg" id="temp-save">임시저장</button>
-    <button type="button" class="btn btn-primary btn-lg" id="save">저장</button>
+    <button type="button" class="btn btn-default btn-lg" id="save">저장</button>
+    <button type="button" class="btn btn-primary btn-lg" id="apply">작성완료</button>
     <button type="button" class="btn btn-waring btn-lg" id="reset">되돌리기</button>
 </div>
 <%--
@@ -367,7 +418,7 @@
         $(document).ready(function() {
             $('#myTab a:first').tab('show');
 
-            $('#temp-save').on('click', function() {
+            $('#save').on('click', function() {
                 var $curPane = $('.tab-pane.active');
                 var $curForm = $curPane.find('form');
                 console.log($curForm.serialize());
