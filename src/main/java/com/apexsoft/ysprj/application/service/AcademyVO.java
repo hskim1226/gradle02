@@ -6,16 +6,12 @@ import java.util.Map;
 /**
  * Created by go2zo on 2014. 8. 16..
  */
-public class School {
+public class AcademyVO {
     private String type;
     private String name;
     private String entrance;
     private String graduation;
-    private Map<String, String> graduationType;
-
-    public School() {
-        this.graduationType = new HashMap<String, String>();
-    }
+    private String graduationType;
 
     public String getType() {
         return type;
@@ -49,11 +45,11 @@ public class School {
         this.graduation = graduation;
     }
 
-    public Map<String, String> getGraduationType() {
+    public String getGraduationType() {
         return graduationType;
     }
 
-    public void setGraduationType(Map<String, String> graduationType) {
+    public void setGraduationType(String graduationType) {
         this.graduationType = graduationType;
     }
 }

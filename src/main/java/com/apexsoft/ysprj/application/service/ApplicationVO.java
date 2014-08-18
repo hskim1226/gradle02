@@ -206,7 +206,7 @@ public class ApplicationVO {
     private String department;
     private Map<String, String> detailMajors;
     private String detailMajor;
-    private List<School> schools;
+    private List<AcademyVO> academies;
     private Map<String, String> bankList;
     private String bank;
     private String accountNumber;
@@ -217,7 +217,7 @@ public class ApplicationVO {
         this.courses = new HashMap<String, String>();
         this.departments = new HashMap<String, String>();
         this.detailMajors = new HashMap<String, String>();
-        this.schools = new ArrayList<School>();
+        this.academies = new ArrayList<AcademyVO>();
         this.bankList = new HashMap<String, String>();
     }
 
@@ -293,12 +293,12 @@ public class ApplicationVO {
         this.detailMajor = detailMajor;
     }
 
-    public List<School> getSchools() {
-        return schools;
+    public List<AcademyVO> getAcademies() {
+        return academies;
     }
 
-    public void setSchools(List<School> schools) {
-        this.schools = schools;
+    public void setAcademies(List<AcademyVO> academies) {
+        this.academies = academies;
     }
 
     public Map<String, String> getBankList() {

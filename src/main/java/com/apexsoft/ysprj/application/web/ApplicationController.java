@@ -1,16 +1,17 @@
 package com.apexsoft.ysprj.application.web;
 
-import com.apexsoft.ysprj.application.service.ApplicationService;
-import com.apexsoft.ysprj.application.service.ApplicationVO;
-import com.apexsoft.ysprj.application.service.SelfIntro;
-import com.apexsoft.ysprj.application.service.StudyPlan;
+import com.apexsoft.ysprj.application.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 import java.security.Principal;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by hanmomhanda on 14. 8. 6.
@@ -61,16 +62,11 @@ public class ApplicationController {
         return "application/studyplan";
     }
 
-    @RequestMapping(value = "/appinfo", method = RequestMethod.GET)
-    public String displayAppInfo(Model model) {
-        ApplicationVO applicationVO = applicationService.retrieveApplication("");
-        SelfIntro selfIntro = new SelfIntro();
-        selfIntro.setTa1("첫번째 텍스트에어리어입니다.");
-        StudyPlan studyPlan = new StudyPlan();
-        studyPlan.setTa2("두번째 텍스트에어리어입니다.");
-        model.addAttribute("applicationVO", applicationVO);
-        model.addAttribute("selfIntro", selfIntro);
-        model.addAttribute("studyPlan", studyPlan);
+    @RequestMapping(value = "/apply", method = RequestMethod.GET)
+    public String displayAppInfo(@ModelAttribute("applicationVO") ApplicationVO applicationVO,
+                                 @ModelAttribute("campuses") Map campuses,
+                                 @ModelAttribute("schoolTypes") Map schoolTypes,
+                                 @ModelAttribute("graduationTypes") Map graduationTypes) {
         return "application/appinfo";
     }
 
@@ -79,4 +75,39 @@ public class ApplicationController {
         return "application/tabsample";
     }
 
+    @ModelAttribute("applicationVO")
+    public ApplicationVO applicationVO() {
+        ApplicationVO applicationVO = new ApplicationVO();
+        AcademyVO academyVO = new AcademyVO();
+        academyVO.setType("SCH02");
+        academyVO.setName("서울대");
+        applicationVO.getAcademies().add( academyVO );
+        applicationVO.setKorName("홍길동");
+        return applicationVO;
+    }
+
+    @ModelAttribute("schoolTypes")
+    public Map<String, String> schoolTypes() {
+        Map<String, String> schoolTypes = new HashMap<String, String>();
+        schoolTypes.put("SCH01", "고등학교");
+        schoolTypes.put("SCH02", "대학교");
+        schoolTypes.put("SCH03", "대학원");
+        return schoolTypes;
+    }
+
+    @ModelAttribute("graduationTypes")
+    public Map<String, String> graduationTypes() {
+        Map<String, String> result = new HashMap<String, String>();
+        result.put("GT01", "졸업");
+        result.put("GT01", "졸업예정");
+        return result;
+    }
+
+    @ModelAttribute("campuses")
+    public Map<String, String> campuses() {
+        Map<String, String> result = new HashMap<String, String>();
+        result.put("CAM01", "서울");
+        result.put("CAM02", "원주");
+        return result;
+    }
 }
