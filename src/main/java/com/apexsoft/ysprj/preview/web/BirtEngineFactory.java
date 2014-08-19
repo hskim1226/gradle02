@@ -20,6 +20,7 @@ import java.util.logging.Level;
 /**
  * Created by Administrator on 2014-08-13.
  */
+@Deprecated
 public class BirtEngineFactory implements FactoryBean<IReportEngine>, ApplicationContextAware, DisposableBean {
 
     private ApplicationContext context;
