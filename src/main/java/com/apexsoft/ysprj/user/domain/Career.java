@@ -1,9 +1,9 @@
-package com.apexsoft.ysprj.application.service;
+package com.apexsoft.ysprj.user.domain;
 
 /**
  * Created by go2zo on 2014. 8. 17..
  */
-public class CareerVO {
+public class Career {
     private String orgname;
     private String hire;
     private String retirement;

@@ -1,4 +1,4 @@
-package com.apexsoft.ysprj.user.service;
+package com.apexsoft.ysprj.user.domain;
 
 import com.apexsoft.framework.security.UserSessionVO;
 import org.springframework.security.core.GrantedAuthority;
@@ -7,7 +7,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.Date;
 
-public class UsersVO extends UserSessionVO {
+public class Users extends UserSessionVO {
 
 //    private String username;
     private String userType;
@@ -204,7 +204,7 @@ public class UsersVO extends UserSessionVO {
 
     @Override
     public String toString() {
-        return "UsersVO{" +
+        return "Users{" +
                 "username=" + getUsername() +
                 ", userType=" + userType +
                 ", name=" + getName() +

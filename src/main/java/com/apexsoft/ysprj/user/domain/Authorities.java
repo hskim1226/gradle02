@@ -1,7 +1,7 @@
-package com.apexsoft.ysprj.user.service;
+package com.apexsoft.ysprj.user.domain;
 
 
-public class AuthoritiesVO {
+public class Authorities {
 	
 	private String username;
 	
@@ -11,7 +11,7 @@ public class AuthoritiesVO {
 		return username;
 	}
 
-	public AuthoritiesVO setUsername(String username) {
+	public Authorities setUsername(String username) {
 		this.username = username;
         return this;
 	}
@@ -20,7 +20,7 @@ public class AuthoritiesVO {
 		return authority;
 	}
 
-	public AuthoritiesVO setAuthority(String authority) {
+	public Authorities setAuthority(String authority) {
 		this.authority = authority;
         return this;
 	}

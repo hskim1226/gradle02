@@ -2,7 +2,7 @@ package com.apexsoft.ysprj.user.web;
 
 import com.apexsoft.framework.common.vo.ExecutionContext;
 import com.apexsoft.ysprj.user.service.SignUpService;
-import com.apexsoft.ysprj.user.service.UsersVO;
+import com.apexsoft.ysprj.user.domain.Users;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -35,16 +35,16 @@ public class SignUpController {
 
     @RequestMapping(value="/signup", method= RequestMethod.POST)
     @ResponseBody
-    public ExecutionContext signUp( @Valid UsersVO usersVO, BindingResult bindingResult) {
+    public ExecutionContext signUp( @Valid Users users, BindingResult bindingResult) {
         if (bindingResult.hasErrors()){
             return new ExecutionContext(ExecutionContext.FAIL);
         }
-        return signUpService.registerUser(usersVO);
+        return signUpService.registerUser(users);
     }
 
     @RequestMapping(value="/available", method= RequestMethod.GET)
     @ResponseBody
-    public ExecutionContext checkAvailable(UsersVO usersVO) {
-        return signUpService.checkAvailable(usersVO);
+    public ExecutionContext checkAvailable(Users users) {
+        return signUpService.checkAvailable(users);
     }
 }

@@ -1,6 +1,7 @@
 package com.apexsoft.ysprj.user.service;
 
 import com.apexsoft.framework.persistence.dao.page.PageInfo;
+import com.apexsoft.ysprj.user.domain.Users;
 import com.apexsoft.ysprj.user.web.form.UserSearchForm;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
@@ -8,25 +9,25 @@ import java.util.List;
 
 public interface UsersService {
 
-	UsersVO retrieveUser(String userName);
+	Users retrieveUser(String userName);
 
-    UsersVO retrieveUserDetail(String userName);
+    Users retrieveUserDetail(String userName);
 
-    String retrieveUsername(UsersVO usersVO);
+    String retrieveUsername(Users users);
 
-    Integer resetPassword(UsersVO usersVO);
+    Integer resetPassword(Users users);
 
-    Integer changePassword(UsersVO usersVO);
+    Integer changePassword(Users users);
 
     List<SimpleGrantedAuthority> retrieveAuthorities(String userName);
 
-    void registerUser(UsersVO usersVO);
+    void registerUser(Users users);
 
-    // List<UsersVO> retrieveUserList() throws Exception;
+    // List<Users> retrieveUserList() throws Exception;
 
-    PageInfo<UsersVO> getUserPaginatedList(UserSearchForm userSearchForm);
+    PageInfo<Users> getUserPaginatedList(UserSearchForm userSearchForm);
 
     //void modifyUsersGrade(String[] usernames, String[] grades);
 
-    Integer modifyUsers(UsersVO usersVO);
+    Integer modifyUsers(Users users);
 }

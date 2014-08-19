@@ -1,15 +1,13 @@
-package com.apexsoft.ysprj.application.web;
+package com.apexsoft.ysprj.user.web;
 
-import com.apexsoft.ysprj.application.service.*;
+import com.apexsoft.ysprj.user.domain.*;
+import com.apexsoft.ysprj.user.service.ApplicationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.SessionAttributes;
 
-import java.security.Principal;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -24,7 +22,7 @@ public class ApplicationController {
     private ApplicationService applicationService;
 
     @RequestMapping(value="/create", method = RequestMethod.POST)
-    public String createApplication(@ModelAttribute("applicationVO") ApplicationVO applicationVO,
+    public String createApplication(@ModelAttribute("applicationVO") Application application,
                                     @ModelAttribute("campuses") Map campuses,
                                     @ModelAttribute("schoolTypes") Map schoolTypes,
                                     @ModelAttribute("graduationTypes") Map graduationTypes,
@@ -56,7 +54,7 @@ public class ApplicationController {
     }
 
     @RequestMapping(value = "/apply", method = RequestMethod.GET)
-    public String displayAppInfo(@ModelAttribute("applicationVO") ApplicationVO applicationVO,
+    public String displayAppInfo(@ModelAttribute("applicationVO") Application application,
                                  @ModelAttribute("campuses") Map campuses,
                                  @ModelAttribute("schoolTypes") Map schoolTypes,
                                  @ModelAttribute("graduationTypes") Map graduationTypes,
@@ -71,19 +69,19 @@ public class ApplicationController {
     }
 
     @ModelAttribute("applicationVO")
-    public ApplicationVO applicationVO() {
-        ApplicationVO applicationVO = new ApplicationVO();
-        applicationVO.setKorName("홍길동");
-        AcademyVO academyVO = new AcademyVO();
-        academyVO.setType("SCH02");
-        academyVO.setName("서울대");
-        applicationVO.getAcademies().add(academyVO);
-        CareerVO careerVO = new CareerVO();
-        careerVO.setOrgName("에이펙스소프트");
-        careerVO.setHire("2012.04.01");
-        careerVO.setDescription("솔루션사업부 책임");
-        applicationVO.getCareers().add(careerVO);
-        return applicationVO;
+    public Application applicationVO() {
+        Application application = new Application();
+        application.setKorName("홍길동");
+        Academy academy = new Academy();
+        academy.setType("SCH02");
+        academy.setName("서울대");
+        application.getAcademies().add(academy);
+        Career career = new Career();
+        career.setOrgName("에이펙스소프트");
+        career.setHire("2012.04.01");
+        career.setDescription("솔루션사업부 책임");
+        application.getCareers().add(career);
+        return application;
     }
 
     @ModelAttribute("schoolTypes")

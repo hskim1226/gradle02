@@ -84,7 +84,7 @@
 </ul>
 <div id="myTabContent" class="tab-content">
     <div class="tab-pane fade" id="appinfo">
-        <form:form commandName="applicationVO" cssClass="form-horizontal" role="form">
+        <form:form commandName="application" cssClass="form-horizontal" role="form">
             <div class="spacer-tiny"></div>
             <div class="form-group">
                 <form:label path="campus" cssClass="col-sm-3 control-label">지원캠퍼스</form:label>
@@ -204,7 +204,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                        <c:forEach items="${applicationVO.academies}" var="academy" varStatus="status">
+                        <c:forEach items="${application.academies}" var="academy" varStatus="status">
                             <tr>
                                 <td><input type="checkbox" class="selectRow" /></td>
                                 <td><form:select path="academies[${status.index}].type" items="${requestScope.schoolTypes}" /></td>
@@ -214,8 +214,8 @@
                                 <td><form:select path="academies[${status.index}].graduationType" items="${requestScope.graduationTypes}" /></td>
                             </tr>
                         </c:forEach>
-                        <c:if test="${applicationVO.academies.size() < 4}">
-                            <c:forEach begin="${applicationVO.academies.size()}" end="3" varStatus="status">
+                        <c:if test="${application.academies.size() < 4}">
+                            <c:forEach begin="${application.academies.size()}" end="3" varStatus="status">
                                 <tr>
                                     <td><input type="checkbox" class="selectRow" /></td>
                                     <td><select id="academies${status.index}.type" name="academies[${status.index}].type" items="${requestScope.schoolTypes}" /></td>
@@ -264,7 +264,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <c:forEach items="${applicationVO.careers}" var="career" varStatus="status">
+                        <c:forEach items="${application.careers}" var="career" varStatus="status">
                             <tr>
                                 <td><input type="checkbox" class="selectRow" /></td>
                                 <td><form:input path="careers[${status.index}].hire" /></td>
@@ -274,8 +274,8 @@
                                 <td><form:input path="careers[${status.index}].description" /></td>
                             </tr>
                         </c:forEach>
-                        <c:if test="${applicationVO.academies.size() < 4}">
-                            <c:forEach begin="${applicationVO.careers.size()}" end="3" varStatus="status">
+                        <c:if test="${application.academies.size() < 4}">
+                            <c:forEach begin="${application.careers.size()}" end="3" varStatus="status">
                                 <tr>
                                     <td><input type="checkbox" class="selectRow" /></td>
                                     <td><input id="careers${status.index}.hire" name="careers[${status.index}].description"/></td>

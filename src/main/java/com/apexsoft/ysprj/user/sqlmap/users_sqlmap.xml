@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="users">
 
-	<resultMap id="users" type="com.apexsoft.ysprj.user.service.UsersVO">
+	<resultMap id="users" type="com.apexsoft.ysprj.user.domain.Users">
 		<result property="username" column="username"/>
 		<result property="password" column="password"/>
 		<result property="koreanName" column="korean_name"/>
@@ -26,7 +26,7 @@
         <result property="regDate" column="reg_date" />
 	</resultMap>
 
-    <insert id="insert" parameterType="com.apexsoft.ysprj.user.service.UsersVO">
+    <insert id="insert" parameterType="com.apexsoft.ysprj.user.domain.Users">
         <![CDATA[
 		  INSERT INTO users(username,
                             password,
@@ -86,7 +86,7 @@
         </if>
     </select>
 
-    <update id="updateUsers" parameterType="com.apexsoft.ysprj.user.service.UsersVO">
+    <update id="updateUsers" parameterType="com.apexsoft.ysprj.user.domain.Users">
         <![CDATA[
 		  UPDATE users SET
 		                    post_number = #{postNumber},
@@ -122,7 +122,7 @@
     <!-- Queuries for Autority      -->
 
 
-    <select id="selectAuthorities" resultType="com.apexsoft.ysprj.user.service.AuthoritiesVO"  parameterType="String">
+    <select id="selectAuthorities" resultType="com.apexsoft.ysprj.user.domain.Authorities"  parameterType="String">
         <![CDATA[
 		  SELECT username, authority
 		    FROM authorities
@@ -132,7 +132,7 @@
     </select>
 
 
-    <insert id="insertAuthority"  parameterType="com.apexsoft.ysprj.user.service.AuthoritiesVO" >
+    <insert id="insertAuthority"  parameterType="com.apexsoft.ysprj.user.domain.Authorities" >
         <![CDATA[
 		  INSERT INTO authorities
 		                   (authority,
@@ -142,7 +142,7 @@
 		]]>
     </insert>
 
-    <delete id="deleteAuthority" parameterType="com.apexsoft.ysprj.user.service.AuthoritiesVO">
+    <delete id="deleteAuthority" parameterType="com.apexsoft.ysprj.user.domain.Authorities">
         <![CDATA[
 		  DELETE FROM authorities
 			WHERE username = #{username}

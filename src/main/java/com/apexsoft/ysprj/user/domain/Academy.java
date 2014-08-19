@@ -1,4 +1,4 @@
-package com.apexsoft.ysprj.application.service;
+package com.apexsoft.ysprj.user.domain;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -6,7 +6,7 @@ import java.util.Map;
 /**
  * Created by go2zo on 2014. 8. 16..
  */
-public class AcademyVO {
+public class Academy {
     private String type;
     private String name;
     private String entrance;

@@ -1,6 +1,7 @@
 package com.apexsoft.ysprj.user.service;
 
 import com.apexsoft.framework.common.vo.ExecutionContext;
+import com.apexsoft.ysprj.user.domain.Users;
 
 /**
  * Created with IntelliJ IDEA.
@@ -11,7 +12,7 @@ import com.apexsoft.framework.common.vo.ExecutionContext;
  */
 public interface SignUpService {
 
-    ExecutionContext registerUser(UsersVO usersVO);
+    ExecutionContext registerUser(Users users);
 
-    ExecutionContext checkAvailable(UsersVO usersVO);
+    ExecutionContext checkAvailable(Users users);
 }

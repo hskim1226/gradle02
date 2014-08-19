@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.apexsoft.ysprj.user.Mapper">
 
-    <resultMap id="user" type="com.apexsoft.ysprj.user.service.UsersVO">
+    <resultMap id="user" type="com.apexsoft.ysprj.user.domain.Users">
         <result property="username"     column="USER_ID"/>
         <result property="userType"     column="USER_TYPE"/>
         <result property="name"         column="NAME"/>
@@ -22,7 +22,7 @@
         <result property="modifiedDate"   column="MOD_DATE"/>
     </resultMap>
 
-    <insert id="insertUser" parameterType="com.apexsoft.ysprj.user.service.UsersVO">
+    <insert id="insertUser" parameterType="com.apexsoft.ysprj.user.domain.Users">
         <![CDATA[
           INSERT INTO USER(USER_ID,
                              USER_TYPE,
@@ -59,7 +59,7 @@
 		]]>
     </insert>
 
-    <update id="updateUser" parameterType="com.apexsoft.ysprj.user.service.UsersVO">
+    <update id="updateUser" parameterType="com.apexsoft.ysprj.user.domain.Users">
         <![CDATA[
 		  UPDATE USER SET
                              NAME = #{name},
@@ -88,7 +88,7 @@
 		]]>
     </select>
 
-    <select id="selectUsername" resultType="String" parameterType="com.apexsoft.ysprj.user.service.UsersVO">
+    <select id="selectUsername" resultType="String" parameterType="com.apexsoft.ysprj.user.domain.Users">
         <![CDATA[
           SELECT USER_ID
             FROM USER
@@ -111,7 +111,7 @@
 
     <!-- Queries for Authority      -->
 
-    <select id="selectAuthorities" resultType="com.apexsoft.ysprj.user.service.AuthoritiesVO"  parameterType="String">
+    <select id="selectAuthorities" resultType="com.apexsoft.ysprj.user.domain.Authorities"  parameterType="String">
         <![CDATA[
 		  SELECT username, authority
 		    FROM authorities
@@ -120,7 +120,7 @@
 		]]>
     </select>
 
-    <insert id="insertAuthority"  parameterType="com.apexsoft.ysprj.user.service.AuthoritiesVO" >
+    <insert id="insertAuthority"  parameterType="com.apexsoft.ysprj.user.domain.Authorities" >
         <![CDATA[
 		  INSERT INTO authorities
 		                   (authority,
@@ -130,7 +130,7 @@
 		]]>
     </insert>
 
-    <delete id="deleteAuthority" parameterType="com.apexsoft.ysprj.user.service.AuthoritiesVO">
+    <delete id="deleteAuthority" parameterType="com.apexsoft.ysprj.user.domain.Authorities">
         <![CDATA[
 		  DELETE FROM authorities
 			WHERE username = #{username}

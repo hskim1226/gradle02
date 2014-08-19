@@ -54,7 +54,7 @@
         </div>
         <h3> detail </h3>
 
-        <form:form commandName="usersVO" class="form-horizontal" action="${contextPath}/mypage" method="post">
+        <form:form commandName="users" class="form-horizontal" action="${contextPath}/mypage" method="post">
             <form:errors path="*" css="errors" />
             <%--user id--%>
             <div class="form-group">

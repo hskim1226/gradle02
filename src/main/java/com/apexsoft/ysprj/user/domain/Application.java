@@ -1,14 +1,11 @@
-package com.apexsoft.ysprj.application.service;
-
-import com.apexsoft.ysprj.application.service.AcademyVO;
-import com.apexsoft.ysprj.application.service.CareerVO;
+package com.apexsoft.ysprj.user.domain;
 
 import java.util.*;
 
 /**
  * Created by Administrator on 2014-08-12.
  */
-public class BAKApplicationVO {
+public class Application {
 
 
 
@@ -211,18 +208,18 @@ public class BAKApplicationVO {
     private String department;
     private Map<String, String> detailMajors;
     private String detailMajor;
-    private List<AcademyVO> academies;
-    private List<CareerVO> careers;
+    private List<Academy> academies;
+    private List<Career> careers;
     private Map<String, String> bankList;
     private String bank;
     private String accountNumber;
     private String accountOwner;
 
-    public BAKApplicationVO() {
+    public Application() {
         this.departments = new HashMap<String, String>();
         this.detailMajors = new HashMap<String, String>();
-        this.academies = new ArrayList<AcademyVO>();
-        this.careers = new ArrayList<CareerVO>();
+        this.academies = new ArrayList<Academy>();
+        this.careers = new ArrayList<Career>();
         this.bankList = new HashMap<String, String>();
     }
 
@@ -282,19 +279,19 @@ public class BAKApplicationVO {
         this.detailMajor = detailMajor;
     }
 
-    public List<AcademyVO> getAcademies() {
+    public List<Academy> getAcademies() {
         return academies;
     }
 
-    public void setAcademies(List<AcademyVO> academies) {
+    public void setAcademies(List<Academy> academies) {
         this.academies = academies;
     }
 
-    public List<CareerVO> getCareers() {
+    public List<Career> getCareers() {
         return careers;
     }
 
-    public void setCareers(List<CareerVO> careers) {
+    public void setCareers(List<Career> careers) {
         this.careers = careers;
     }
 

@@ -1,25 +1,23 @@
-package com.apexsoft.ysprj.user.service.impl;
+package com.apexsoft.ysprj.user.impl;
 
 import com.apexsoft.framework.persistence.dao.CommonDAO;
 import com.apexsoft.framework.persistence.dao.handler.RowHandler;
 import com.apexsoft.framework.persistence.dao.page.PageInfo;
 import com.apexsoft.framework.persistence.dao.page.PageStatement;
 import com.apexsoft.ysprj.code.AuthorityType;
-import com.apexsoft.ysprj.user.service.AuthoritiesVO;
+import com.apexsoft.ysprj.user.domain.Authorities;
+import com.apexsoft.ysprj.user.domain.Users;
 import com.apexsoft.ysprj.user.service.UsersService;
-import com.apexsoft.ysprj.user.service.UsersVO;
 import com.apexsoft.ysprj.user.web.form.UserSearchForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.crypto.keygen.BytesKeyGenerator;
 import org.springframework.security.crypto.keygen.KeyGenerators;
 import org.springframework.security.crypto.keygen.StringKeyGenerator;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
 import java.util.List;
 
-@Service("usersService")
+@Service
 public class UsersServiceImpl implements UsersService {
 
     private static String NAME_SPACE="com.apexsoft.ysprj.user.Mapper.";
@@ -27,22 +25,18 @@ public class UsersServiceImpl implements UsersService {
     @Autowired
     private CommonDAO commonDAO;
 
-	@Resource(name="usersDAO")
-	private UsersDAO usersDAO;
+	public void registerUser(Users users){
+		users.setEnabled(true);
+        commonDAO.insert(NAME_SPACE+"insertUser", users);
 
-
-	public void registerUser(UsersVO usersVO){
-		usersVO.setEnabled(true);
-        commonDAO.insert(NAME_SPACE+"insertUser", usersVO);
-
-		AuthoritiesVO authVO = new AuthoritiesVO();
-		authVO.setUsername(usersVO.getUsername());
+		Authorities authVO = new Authorities();
+		authVO.setUsername(users.getUsername());
 		authVO.setAuthority(AuthorityType.ROLE_USER.getValue());
         commonDAO.insert(NAME_SPACE+"insertAuthority", authVO);
 	}
 
     @Override
-    public PageInfo<UsersVO> getUserPaginatedList(UserSearchForm userSearchForm) {
+    public PageInfo<Users> getUserPaginatedList(UserSearchForm userSearchForm) {
         return commonDAO.queryForPagenatedList(new PageStatement(){
             /**
              * @return the totalCountStatementId
@@ -62,39 +56,39 @@ public class UsersServiceImpl implements UsersService {
     }
 
     @Override
-	public UsersVO retrieveUser(String userName) {
-		return commonDAO.queryForObject(NAME_SPACE+"selectByPk",userName, UsersVO.class);
+	public Users retrieveUser(String userName) {
+		return commonDAO.queryForObject(NAME_SPACE+"selectByPk",userName, Users.class);
 	}
 
     @Override
-    public UsersVO retrieveUserDetail(String userName) {
-        return commonDAO.queryForObject(NAME_SPACE + "selectAllByPk", userName, UsersVO.class);
+    public Users retrieveUserDetail(String userName) {
+        return commonDAO.queryForObject(NAME_SPACE + "selectAllByPk", userName, Users.class);
     }
 
     @Override
-    public String retrieveUsername(UsersVO usersVO) {
-        return commonDAO.queryForObject(NAME_SPACE + "selectUsername", usersVO, String.class);
+    public String retrieveUsername(Users users) {
+        return commonDAO.queryForObject(NAME_SPACE + "selectUsername", users, String.class);
     }
 
     @Override
-    public Integer resetPassword(UsersVO usersVO) {
+    public Integer resetPassword(Users users) {
         StringKeyGenerator generator = KeyGenerators.string();
         String key = generator.generateKey();
-        usersVO.setPassword(key);
-        return commonDAO.update(NAME_SPACE + "update", usersVO);
+        users.setPassword(key);
+        return commonDAO.update(NAME_SPACE + "update", users);
     }
 
     @Override
-    public Integer changePassword(UsersVO usersVO) {
-        return commonDAO.update(NAME_SPACE + "update", usersVO);
+    public Integer changePassword(Users users) {
+        return commonDAO.update(NAME_SPACE + "update", users);
     }
 
     @Override
     public List<SimpleGrantedAuthority> retrieveAuthorities(String userName) {
-        return commonDAO.queryWithResultHandler(NAME_SPACE+"selectAuthorities", userName, new RowHandler<AuthoritiesVO, SimpleGrantedAuthority>() {
+        return commonDAO.queryWithResultHandler(NAME_SPACE+"selectAuthorities", userName, new RowHandler<Authorities, SimpleGrantedAuthority>() {
             @Override
-            public SimpleGrantedAuthority handleRow(AuthoritiesVO authoritiesVO) {
-                return new SimpleGrantedAuthority(authoritiesVO.getAuthority());
+            public SimpleGrantedAuthority handleRow(Authorities authorities) {
+                return new SimpleGrantedAuthority(authorities.getAuthority());
             }
         });
     }
@@ -107,23 +101,23 @@ public class UsersServiceImpl implements UsersService {
 //            return;
 //        }
 //        for (int inx=0 ; inx < usernames.length ; inx++ ){
-//            UsersVO usersVO = usersDAO.selectByPk(usernames[inx]);
+//            Users usersVO = usersDAO.selectByPk(usernames[inx]);
 //            if ( Integer.parseInt(grades[inx])==usersVO.getGrade()) {
 //                continue;
 //            }
 //            usersDAO.updateUsersGrade(usernames[inx], grades[inx]);
 //
 //            if ( "8".equals(grades[inx]) ){
-//                usersDAO.insert(new AuthoritiesVO().setUsername(usernames[inx]).setAuthority(ROLE_ADMIN));
+//                usersDAO.insert(new Authorities().setUsername(usernames[inx]).setAuthority(ROLE_ADMIN));
 //            } else {
-//                usersDAO.delete(new AuthoritiesVO().setUsername(usernames[inx]).setAuthority(ROLE_ADMIN));
+//                usersDAO.delete(new Authorities().setUsername(usernames[inx]).setAuthority(ROLE_ADMIN));
 //            }
 //
 //        }
 //    }
 
     @Override
-    public Integer modifyUsers(UsersVO usersVO) {
-        return commonDAO.update(NAME_SPACE + "updateUser", usersVO);
+    public Integer modifyUsers(Users users) {
+        return commonDAO.update(NAME_SPACE + "updateUser", users);
     }
 }

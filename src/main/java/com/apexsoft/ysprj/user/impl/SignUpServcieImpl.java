@@ -1,10 +1,9 @@
-package com.apexsoft.ysprj.user.service.impl;
+package com.apexsoft.ysprj.user.impl;
 
 import com.apexsoft.framework.common.vo.ExecutionContext;
-import com.apexsoft.framework.persistence.dao.CommonDAO;
 import com.apexsoft.ysprj.user.service.SignUpService;
 import com.apexsoft.ysprj.user.service.UsersService;
-import com.apexsoft.ysprj.user.service.UsersVO;
+import com.apexsoft.ysprj.user.domain.Users;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -26,16 +25,16 @@ public class SignUpServcieImpl implements SignUpService{
     private UsersService usersService;
 
     @Override
-    public ExecutionContext registerUser(UsersVO usersVO) {
-        usersVO.setPassword(passwordEncoder.encode(usersVO.getPassword()));
-        usersService.registerUser(usersVO);
+    public ExecutionContext registerUser(Users users) {
+        users.setPassword(passwordEncoder.encode(users.getPassword()));
+        usersService.registerUser(users);
 
         return new ExecutionContext();
     }
 
     @Override
-    public ExecutionContext checkAvailable(UsersVO usersVO) {
-        if (usersService.retrieveUser(usersVO.getUsername()) != null ){
+    public ExecutionContext checkAvailable(Users users) {
+        if (usersService.retrieveUser(users.getUsername()) != null ){
             return new ExecutionContext(ExecutionContext.FAIL);
         } else {
             return new ExecutionContext(ExecutionContext.SUCCESS);
