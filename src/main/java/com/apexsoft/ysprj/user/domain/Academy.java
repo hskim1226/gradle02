@@ -14,7 +14,7 @@ public class Academy {
     private String schlName;       // 출신학교 이름
     private String majName;        // 전공학과 이름
     private String dualMajName;    // 복수전공학과 이름
-    private String grdaTyoeCode;   // 졸업구분코드
+    private String grdaTypeCode;   // 졸업구분코드
     private String qualExamDay;    // 검정고시합격일
     private String qualAreaCode;   // 검정고시합격지구코드
     private String creId;          // 생성자
@@ -94,12 +94,12 @@ public class Academy {
         this.dualMajName = dualMajName;
     }
 
-    public String getGrdaTyoeCode() {
-        return grdaTyoeCode;
+    public String getGrdaTypeCode() {
+        return grdaTypeCode;
     }
 
-    public void setGrdaTyoeCode(String grdaTyoeCode) {
-        this.grdaTyoeCode = grdaTyoeCode;
+    public void setGrdaTypeCode(String grdaTypeCode) {
+        this.grdaTypeCode = grdaTypeCode;
     }
 
     public String getQualExamDay() {
