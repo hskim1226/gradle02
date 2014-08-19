@@ -42,16 +42,18 @@
     </styles>
     <page-setup>
         <simple-master-page name="Simple MasterPage" id="2">
-            <page-footer>
-                <text id="3">
-                    <property name="contentType">html</property>
-                    <text-property name="content"><![CDATA[<value-of>new Date()</value-of>]]></text-property>
-                </text>
-            </page-footer>
+            <property name="type">a4</property>
+            <property name="topMargin">0.4in</property>
+            <property name="leftMargin">0.5in</property>
+            <property name="bottomMargin">0.4in</property>
+            <property name="rightMargin">0.5in</property>
+            <property name="headerHeight">0in</property>
+            <property name="footerHeight">0in</property>
         </simple-master-page>
     </page-setup>
     <body>
         <grid id="1200">
+            <property name="fontFamily">"나눔고딕"</property>
             <list-property name="boundDataColumns">
                 <structure>
                     <property name="name">Column Binding</property>
@@ -71,14 +73,14 @@ appvo = mypojo.getApplication("id");</expression>
             <row id="1202">
                 <cell id="1203">
                     <grid id="1168">
-                        <property name="height">0.6875in</property>
                         <column id="1169"/>
                         <row id="1170">
-                            <property name="height">0.6875in</property>
+                            <property name="height">0.5208333333333334in</property>
                             <cell id="1171">
                                 <property name="verticalAlign">middle</property>
                                 <text-data id="8">
-                                    <property name="fontSize">20pt</property>
+                                    <property name="fontFamily">"나눔명조"</property>
+                                    <property name="fontSize">18pt</property>
                                     <property name="textAlign">center</property>
                                     <expression name="valueExpr">"2014학년도 전기 대학원 입학원서(원본)"</expression>
                                     <property name="contentType">html</property>
@@ -129,6 +131,7 @@ appvo = mypojo.getApplication("id");</expression>
                         <row id="45">
                             <cell id="46"/>
                             <cell id="47">
+                                <property name="fontWeight">bold</property>
                                 <property name="borderLeftStyle">solid</property>
                                 <property name="borderLeftWidth">2px</property>
                                 <property name="borderRightStyle">solid</property>
@@ -162,15 +165,18 @@ appvo = mypojo.getApplication("id");</expression>
                     <grid id="9">
                         <property name="textAlign">center</property>
                         <column id="10">
+                            <property name="fontWeight">bold</property>
                             <property name="width">15%</property>
                         </column>
                         <column id="111">
+                            <property name="fontWeight">normal</property>
                             <property name="width">10%</property>
                         </column>
                         <column id="11">
                             <property name="width">30%</property>
                         </column>
                         <column id="12">
+                            <property name="fontWeight">bold</property>
                             <property name="width">10%</property>
                         </column>
                         <column id="13">
@@ -178,6 +184,7 @@ appvo = mypojo.getApplication("id");</expression>
                         </column>
                         <column id="15"/>
                         <row id="16">
+                            <property name="height">34px</property>
                             <cell id="17">
                                 <property name="borderBottomStyle">solid</property>
                                 <property name="borderBottomWidth">1px</property>
@@ -220,6 +227,7 @@ appvo = mypojo.getApplication("id");</expression>
                             </cell>
                         </row>
                         <row id="23">
+                            <property name="height">34px</property>
                             <cell id="24">
                                 <property name="borderBottomStyle">solid</property>
                                 <property name="borderBottomWidth">1px</property>
@@ -249,6 +257,7 @@ appvo = mypojo.getApplication("id");</expression>
                             </cell>
                         </row>
                         <row id="30">
+                            <property name="height">34px</property>
                             <cell id="31">
                                 <property name="borderBottomStyle">solid</property>
                                 <property name="borderBottomWidth">1px</property>
@@ -278,6 +287,7 @@ appvo = mypojo.getApplication("id");</expression>
                             </cell>
                         </row>
                         <row id="61">
+                            <property name="height">34px</property>
                             <cell id="62">
                                 <property name="borderBottomStyle">solid</property>
                                 <property name="borderBottomWidth">1px</property>
@@ -342,6 +352,7 @@ appvo = mypojo.getApplication("id");</expression>
                             </cell>
                         </row>
                         <row id="68">
+                            <property name="height">34px</property>
                             <cell id="69">
                                 <property name="borderBottomStyle">solid</property>
                                 <property name="borderBottomWidth">1px</property>
@@ -371,6 +382,7 @@ appvo = mypojo.getApplication("id");</expression>
                             </cell>
                         </row>
                         <row id="75">
+                            <property name="height">34px</property>
                             <cell id="76">
                                 <property name="colSpan">1</property>
                                 <property name="rowSpan">1</property>
@@ -388,6 +400,7 @@ appvo = mypojo.getApplication("id");</expression>
                                 </label>
                             </cell>
                             <cell id="108">
+                                <property name="fontWeight">bold</property>
                                 <property name="borderBottomStyle">solid</property>
                                 <property name="borderBottomWidth">1px</property>
                                 <property name="borderLeftStyle">solid</property>
@@ -446,8 +459,6 @@ appvo = mypojo.getApplication("id");</expression>
                                 <property name="borderLeftWidth">1px</property>
                                 <property name="borderRightStyle">solid</property>
                                 <property name="borderRightWidth">2px</property>
-                                <property name="borderTopStyle">solid</property>
-                                <property name="borderTopWidth">1px</property>
                                 <property name="verticalAlign">middle</property>
                                 <data id="1189">
                                     <list-property name="boundDataColumns">
@@ -462,6 +473,7 @@ appvo = mypojo.getApplication("id");</expression>
                             </cell>
                         </row>
                         <row id="82">
+                            <property name="height">34px</property>
                             <cell id="83">
                                 <property name="borderBottomStyle">solid</property>
                                 <property name="borderBottomWidth">1px</property>
@@ -538,6 +550,7 @@ appvo = mypojo.getApplication("id");</expression>
                             </cell>
                         </row>
                         <row id="93">
+                            <property name="height">34px</property>
                             <cell id="94">
                                 <property name="borderLeftStyle">solid</property>
                                 <property name="borderLeftWidth">2px</property>
@@ -609,16 +622,19 @@ appvo = mypojo.getApplication("id");</expression>
                     <grid id="255">
                         <property name="textAlign">center</property>
                         <column id="256">
+                            <property name="fontWeight">bold</property>
                             <property name="width">15%</property>
                         </column>
                         <column id="257">
                             <property name="width">50%</property>
                         </column>
                         <column id="1047">
+                            <property name="fontWeight">bold</property>
                             <property name="width">10%</property>
                         </column>
                         <column id="1051"/>
                         <row id="258">
+                            <property name="height">34px</property>
                             <cell id="259">
                                 <property name="borderBottomStyle">solid</property>
                                 <property name="borderBottomWidth">2px</property>
@@ -632,6 +648,7 @@ appvo = mypojo.getApplication("id");</expression>
                                 <property name="paddingLeft">0pt</property>
                                 <property name="paddingBottom">0pt</property>
                                 <property name="paddingRight">0pt</property>
+                                <property name="verticalAlign">middle</property>
                                 <label id="312">
                                     <text-property name="text">주소</text-property>
                                 </label>
@@ -651,6 +668,7 @@ appvo = mypojo.getApplication("id");</expression>
                                 <property name="paddingLeft">0pt</property>
                                 <property name="paddingBottom">0pt</property>
                                 <property name="paddingRight">0pt</property>
+                                <property name="verticalAlign">middle</property>
                                 <data id="1196">
                                     <property name="display">block</property>
                                     <list-property name="boundDataColumns">
@@ -666,6 +684,7 @@ appvo = mypojo.getApplication("id");</expression>
                             </cell>
                         </row>
                         <row id="261">
+                            <property name="height">34px</property>
                             <cell id="262">
                                 <property name="borderBottomStyle">solid</property>
                                 <property name="borderBottomWidth">2px</property>
@@ -679,6 +698,7 @@ appvo = mypojo.getApplication("id");</expression>
                                 <property name="paddingLeft">0pt</property>
                                 <property name="paddingBottom">0pt</property>
                                 <property name="paddingRight">0pt</property>
+                                <property name="verticalAlign">middle</property>
                                 <label id="313">
                                     <text-property name="text">현재근무처</text-property>
                                 </label>
@@ -696,6 +716,7 @@ appvo = mypojo.getApplication("id");</expression>
                                 <property name="paddingLeft">0pt</property>
                                 <property name="paddingBottom">0pt</property>
                                 <property name="paddingRight">0pt</property>
+                                <property name="verticalAlign">middle</property>
                             </cell>
                             <cell id="1045">
                                 <property name="borderBottomStyle">solid</property>
@@ -710,6 +731,7 @@ appvo = mypojo.getApplication("id");</expression>
                                 <property name="paddingLeft">0pt</property>
                                 <property name="paddingBottom">0pt</property>
                                 <property name="paddingRight">0pt</property>
+                                <property name="verticalAlign">middle</property>
                                 <label id="1052">
                                     <text-property name="text">연락처</text-property>
                                 </label>
@@ -727,6 +749,7 @@ appvo = mypojo.getApplication("id");</expression>
                                 <property name="paddingLeft">0pt</property>
                                 <property name="paddingBottom">0pt</property>
                                 <property name="paddingRight">0pt</property>
+                                <property name="verticalAlign">middle</property>
                             </cell>
                         </row>
                         <row id="267">
@@ -741,6 +764,7 @@ appvo = mypojo.getApplication("id");</expression>
                                 <property name="paddingLeft">0pt</property>
                                 <property name="paddingBottom">0pt</property>
                                 <property name="paddingRight">0pt</property>
+                                <property name="verticalAlign">middle</property>
                                 <label id="315">
                                     <text-property name="text">학력사항</text-property>
                                 </label>
@@ -758,25 +782,71 @@ appvo = mypojo.getApplication("id");</expression>
                                 <property name="paddingLeft">0pt</property>
                                 <property name="paddingBottom">0pt</property>
                                 <property name="paddingRight">0pt</property>
+                                <property name="verticalAlign">middle</property>
+                                <grid id="1205">
+                                    <column id="1206"/>
+                                    <row id="1207">
+                                        <property name="height">28px</property>
+                                        <cell id="1208">
+                                            <property name="borderBottomStyle">solid</property>
+                                            <property name="borderBottomWidth">1px</property>
+                                            <property name="verticalAlign">middle</property>
+                                        </cell>
+                                    </row>
+                                    <row id="1209">
+                                        <property name="height">28px</property>
+                                        <cell id="1210">
+                                            <property name="borderBottomStyle">solid</property>
+                                            <property name="borderBottomWidth">1px</property>
+                                            <property name="verticalAlign">middle</property>
+                                        </cell>
+                                    </row>
+                                    <row id="1211">
+                                        <property name="height">28px</property>
+                                        <cell id="1212">
+                                            <property name="borderBottomStyle">solid</property>
+                                            <property name="borderBottomWidth">1px</property>
+                                            <property name="verticalAlign">middle</property>
+                                        </cell>
+                                    </row>
+                                    <row id="1213">
+                                        <property name="height">28px</property>
+                                        <cell id="1214">
+                                            <property name="borderBottomStyle">solid</property>
+                                            <property name="borderBottomWidth">1px</property>
+                                            <property name="verticalAlign">middle</property>
+                                        </cell>
+                                    </row>
+                                    <row id="1215">
+                                        <property name="height">28px</property>
+                                        <cell id="1216">
+                                            <property name="verticalAlign">middle</property>
+                                        </cell>
+                                    </row>
+                                </grid>
                             </cell>
                         </row>
                     </grid>
                     <grid id="932">
                         <property name="textAlign">center</property>
                         <column id="933">
+                            <property name="fontWeight">bold</property>
                             <property name="width">15%</property>
                         </column>
                         <column id="934">
+                            <property name="fontWeight">bold</property>
                             <property name="width">10%</property>
                         </column>
                         <column id="935">
                             <property name="width">25%</property>
                         </column>
                         <column id="943">
+                            <property name="fontWeight">bold</property>
                             <property name="width">10%</property>
                         </column>
                         <column id="936"/>
                         <row id="937">
+                            <property name="height">34px</property>
                             <cell id="938">
                                 <property name="borderLeftStyle">solid</property>
                                 <property name="borderLeftWidth">2px</property>
@@ -784,6 +854,7 @@ appvo = mypojo.getApplication("id");</expression>
                                 <property name="borderRightWidth">2px</property>
                                 <property name="borderTopStyle">solid</property>
                                 <property name="borderTopWidth">2px</property>
+                                <property name="verticalAlign">middle</property>
                                 <label id="491">
                                     <text-property name="text">장애사항</text-property>
                                 </label>
@@ -795,6 +866,7 @@ appvo = mypojo.getApplication("id");</expression>
                                 <property name="borderRightWidth">1px</property>
                                 <property name="borderTopStyle">solid</property>
                                 <property name="borderTopWidth">2px</property>
+                                <property name="verticalAlign">middle</property>
                                 <label id="500">
                                     <text-property name="text">장애등급</text-property>
                                 </label>
@@ -806,6 +878,7 @@ appvo = mypojo.getApplication("id");</expression>
                                 <property name="borderRightWidth">2px</property>
                                 <property name="borderTopStyle">solid</property>
                                 <property name="borderTopWidth">2px</property>
+                                <property name="verticalAlign">middle</property>
                             </cell>
                             <cell id="942">
                                 <property name="borderLeftStyle">solid</property>
@@ -814,6 +887,7 @@ appvo = mypojo.getApplication("id");</expression>
                                 <property name="borderRightWidth">1px</property>
                                 <property name="borderTopStyle">solid</property>
                                 <property name="borderTopWidth">2px</property>
+                                <property name="verticalAlign">middle</property>
                                 <label id="503">
                                     <text-property name="text">장애유형</text-property>
                                 </label>
@@ -825,12 +899,14 @@ appvo = mypojo.getApplication("id");</expression>
                                 <property name="borderRightWidth">2px</property>
                                 <property name="borderTopStyle">solid</property>
                                 <property name="borderTopWidth">2px</property>
+                                <property name="verticalAlign">middle</property>
                             </cell>
                         </row>
                     </grid>
                     <grid id="980">
                         <property name="textAlign">center</property>
                         <column id="981">
+                            <property name="fontWeight">bold</property>
                             <property name="width">15%</property>
                         </column>
                         <column id="982">
@@ -843,6 +919,7 @@ appvo = mypojo.getApplication("id");</expression>
                         <column id="1068"/>
                         <column id="1064"/>
                         <row id="984">
+                            <property name="height">28px</property>
                             <cell id="985">
                                 <property name="borderBottomStyle">solid</property>
                                 <property name="borderBottomWidth">1px</property>
@@ -852,11 +929,14 @@ appvo = mypojo.getApplication("id");</expression>
                                 <property name="borderRightWidth">2px</property>
                                 <property name="borderTopStyle">solid</property>
                                 <property name="borderTopWidth">2px</property>
+                                <property name="verticalAlign">middle</property>
                                 <label id="507">
                                     <text-property name="text">성적</text-property>
                                 </label>
                             </cell>
                             <cell id="986">
+                                <property name="backgroundColor">#D9D9D9</property>
+                                <property name="fontWeight">bold</property>
                                 <property name="borderBottomStyle">solid</property>
                                 <property name="borderBottomWidth">1px</property>
                                 <property name="borderLeftStyle">solid</property>
@@ -865,6 +945,7 @@ appvo = mypojo.getApplication("id");</expression>
                                 <property name="borderRightWidth">1px</property>
                                 <property name="borderTopStyle">solid</property>
                                 <property name="borderTopWidth">2px</property>
+                                <property name="verticalAlign">middle</property>
                                 <label id="519">
                                     <text-property name="text">전체평균/만점</text-property>
                                 </label>
@@ -872,6 +953,8 @@ appvo = mypojo.getApplication("id");</expression>
                             <cell id="987">
                                 <property name="colSpan">6</property>
                                 <property name="rowSpan">1</property>
+                                <property name="backgroundColor">#D9D9D9</property>
+                                <property name="fontWeight">bold</property>
                                 <property name="borderBottomStyle">solid</property>
                                 <property name="borderBottomWidth">1px</property>
                                 <property name="borderLeftStyle">solid</property>
@@ -880,12 +963,14 @@ appvo = mypojo.getApplication("id");</expression>
                                 <property name="borderRightWidth">2px</property>
                                 <property name="borderTopStyle">solid</property>
                                 <property name="borderTopWidth">2px</property>
+                                <property name="verticalAlign">middle</property>
                                 <label id="996">
                                     <text-property name="text">외국어 성적</text-property>
                                 </label>
                             </cell>
                         </row>
                         <row id="988">
+                            <property name="height">28px</property>
                             <cell id="989">
                                 <property name="borderBottomStyle">solid</property>
                                 <property name="borderBottomWidth">1px</property>
@@ -895,6 +980,7 @@ appvo = mypojo.getApplication("id");</expression>
                                 <property name="borderRightWidth">2px</property>
                                 <property name="borderTopStyle">solid</property>
                                 <property name="borderTopWidth">1px</property>
+                                <property name="verticalAlign">middle</property>
                                 <label id="528">
                                     <text-property name="text">대학</text-property>
                                 </label>
@@ -908,6 +994,7 @@ appvo = mypojo.getApplication("id");</expression>
                                 <property name="borderRightWidth">1px</property>
                                 <property name="borderTopStyle">solid</property>
                                 <property name="borderTopWidth">1px</property>
+                                <property name="verticalAlign">middle</property>
                             </cell>
                             <cell id="991">
                                 <property name="borderBottomStyle">solid</property>
@@ -918,6 +1005,7 @@ appvo = mypojo.getApplication("id");</expression>
                                 <property name="borderRightWidth">1px</property>
                                 <property name="borderTopStyle">solid</property>
                                 <property name="borderTopWidth">1px</property>
+                                <property name="verticalAlign">middle</property>
                                 <label id="1081">
                                     <text-property name="text">TOEFL</text-property>
                                 </label>
@@ -931,6 +1019,7 @@ appvo = mypojo.getApplication("id");</expression>
                                 <property name="borderRightWidth">1px</property>
                                 <property name="borderTopStyle">solid</property>
                                 <property name="borderTopWidth">1px</property>
+                                <property name="verticalAlign">middle</property>
                                 <label id="1082">
                                     <text-property name="text">TOEIC</text-property>
                                 </label>
@@ -944,6 +1033,7 @@ appvo = mypojo.getApplication("id");</expression>
                                 <property name="borderRightWidth">1px</property>
                                 <property name="borderTopStyle">solid</property>
                                 <property name="borderTopWidth">1px</property>
+                                <property name="verticalAlign">middle</property>
                                 <label id="1083">
                                     <text-property name="text">TEPS</text-property>
                                 </label>
@@ -957,6 +1047,7 @@ appvo = mypojo.getApplication("id");</expression>
                                 <property name="borderRightWidth">1px</property>
                                 <property name="borderTopStyle">solid</property>
                                 <property name="borderTopWidth">1px</property>
+                                <property name="verticalAlign">middle</property>
                                 <label id="1084">
                                     <text-property name="text">IELTS</text-property>
                                 </label>
@@ -970,6 +1061,7 @@ appvo = mypojo.getApplication("id");</expression>
                                 <property name="borderRightWidth">1px</property>
                                 <property name="borderTopStyle">solid</property>
                                 <property name="borderTopWidth">1px</property>
+                                <property name="verticalAlign">middle</property>
                                 <label id="1085">
                                     <text-property name="text">GRE</text-property>
                                 </label>
@@ -983,12 +1075,14 @@ appvo = mypojo.getApplication("id");</expression>
                                 <property name="borderRightWidth">2px</property>
                                 <property name="borderTopStyle">solid</property>
                                 <property name="borderTopWidth">1px</property>
+                                <property name="verticalAlign">middle</property>
                                 <label id="1086">
                                     <text-property name="text">면제</text-property>
                                 </label>
                             </cell>
                         </row>
                         <row id="992">
+                            <property name="height">28px</property>
                             <cell id="993">
                                 <property name="borderLeftStyle">solid</property>
                                 <property name="borderLeftWidth">2px</property>
@@ -996,6 +1090,7 @@ appvo = mypojo.getApplication("id");</expression>
                                 <property name="borderRightWidth">2px</property>
                                 <property name="borderTopStyle">solid</property>
                                 <property name="borderTopWidth">1px</property>
+                                <property name="verticalAlign">middle</property>
                                 <label id="548">
                                     <text-property name="text">대학원</text-property>
                                 </label>
@@ -1007,6 +1102,7 @@ appvo = mypojo.getApplication("id");</expression>
                                 <property name="borderRightWidth">1px</property>
                                 <property name="borderTopStyle">solid</property>
                                 <property name="borderTopWidth">1px</property>
+                                <property name="verticalAlign">middle</property>
                             </cell>
                             <cell id="995">
                                 <property name="borderLeftStyle">solid</property>
@@ -1015,6 +1111,7 @@ appvo = mypojo.getApplication("id");</expression>
                                 <property name="borderRightWidth">1px</property>
                                 <property name="borderTopStyle">solid</property>
                                 <property name="borderTopWidth">1px</property>
+                                <property name="verticalAlign">middle</property>
                             </cell>
                             <cell id="1079">
                                 <property name="borderLeftStyle">solid</property>
@@ -1023,6 +1120,7 @@ appvo = mypojo.getApplication("id");</expression>
                                 <property name="borderRightWidth">1px</property>
                                 <property name="borderTopStyle">solid</property>
                                 <property name="borderTopWidth">1px</property>
+                                <property name="verticalAlign">middle</property>
                             </cell>
                             <cell id="1075">
                                 <property name="borderLeftStyle">solid</property>
@@ -1031,6 +1129,7 @@ appvo = mypojo.getApplication("id");</expression>
                                 <property name="borderRightWidth">1px</property>
                                 <property name="borderTopStyle">solid</property>
                                 <property name="borderTopWidth">1px</property>
+                                <property name="verticalAlign">middle</property>
                             </cell>
                             <cell id="1071">
                                 <property name="borderLeftStyle">solid</property>
@@ -1039,6 +1138,7 @@ appvo = mypojo.getApplication("id");</expression>
                                 <property name="borderRightWidth">1px</property>
                                 <property name="borderTopStyle">solid</property>
                                 <property name="borderTopWidth">1px</property>
+                                <property name="verticalAlign">middle</property>
                             </cell>
                             <cell id="1067">
                                 <property name="borderLeftStyle">solid</property>
@@ -1047,6 +1147,7 @@ appvo = mypojo.getApplication("id");</expression>
                                 <property name="borderRightWidth">1px</property>
                                 <property name="borderTopStyle">solid</property>
                                 <property name="borderTopWidth">1px</property>
+                                <property name="verticalAlign">middle</property>
                             </cell>
                             <cell id="1063">
                                 <property name="borderLeftStyle">solid</property>
@@ -1055,254 +1156,287 @@ appvo = mypojo.getApplication("id");</expression>
                                 <property name="borderRightWidth">2px</property>
                                 <property name="borderTopStyle">solid</property>
                                 <property name="borderTopWidth">1px</property>
+                                <property name="verticalAlign">middle</property>
                             </cell>
                         </row>
                     </grid>
-                    <grid id="1087">
-                        <property name="textAlign">center</property>
-                        <column id="1088">
+                    <grid id="1217">
+                        <column id="1218">
+                            <property name="fontWeight">bold</property>
                             <property name="width">15%</property>
                         </column>
-                        <column id="1089">
-                            <property name="width">20%</property>
-                        </column>
-                        <column id="1090">
-                            <property name="width">17%</property>
-                        </column>
-                        <column id="1091"/>
-                        <row id="1092">
-                            <cell id="1093">
-                                <property name="colSpan">1</property>
-                                <property name="rowSpan">1</property>
+                        <column id="1219"/>
+                        <row id="1220">
+                            <cell id="1221">
                                 <property name="borderLeftStyle">solid</property>
                                 <property name="borderLeftWidth">2px</property>
                                 <property name="borderRightStyle">solid</property>
                                 <property name="borderRightWidth">2px</property>
                                 <property name="borderTopStyle">solid</property>
                                 <property name="borderTopWidth">2px</property>
-                                <property name="verticalAlign">middle</property>
-                            </cell>
-                            <cell id="1094">
-                                <property name="borderLeftStyle">solid</property>
-                                <property name="borderLeftWidth">1px</property>
-                                <property name="borderRightStyle">solid</property>
-                                <property name="borderRightWidth">1px</property>
-                                <property name="borderTopStyle">solid</property>
-                                <property name="borderTopWidth">2px</property>
-                                <label id="577">
-                                    <text-property name="text">기간</text-property>
-                                </label>
-                            </cell>
-                            <cell id="1095">
-                                <property name="borderLeftStyle">solid</property>
-                                <property name="borderLeftWidth">1px</property>
-                                <property name="borderRightStyle">solid</property>
-                                <property name="borderRightWidth">1px</property>
-                                <property name="borderTopStyle">solid</property>
-                                <property name="borderTopWidth">2px</property>
-                                <label id="579">
-                                    <text-property name="text">기관명</text-property>
-                                </label>
-                            </cell>
-                            <cell id="1096">
-                                <property name="borderLeftStyle">solid</property>
-                                <property name="borderLeftWidth">1px</property>
-                                <property name="borderRightStyle">solid</property>
-                                <property name="borderRightWidth">2px</property>
-                                <property name="borderTopStyle">solid</property>
-                                <property name="borderTopWidth">2px</property>
-                                <label id="581">
-                                    <text-property name="text">직위(또는 상벌내용, 현장경험내용, 연수내용 등)</text-property>
-                                </label>
-                            </cell>
-                        </row>
-                        <row id="1097">
-                            <cell id="1178">
-                                <property name="borderLeftStyle">solid</property>
-                                <property name="borderLeftWidth">2px</property>
-                                <property name="borderRightStyle">solid</property>
-                                <property name="borderRightWidth">2px</property>
-                                <property name="verticalAlign">middle</property>
-                            </cell>
-                            <cell id="1099">
-                                <property name="borderLeftStyle">solid</property>
-                                <property name="borderLeftWidth">1px</property>
-                                <property name="borderRightStyle">solid</property>
-                                <property name="borderRightWidth">1px</property>
-                                <property name="borderTopStyle">solid</property>
-                                <property name="borderTopWidth">1px</property>
-                                <label id="1173">
-                                    <text-property name="text">~</text-property>
-                                </label>
-                            </cell>
-                            <cell id="1100">
-                                <property name="borderLeftStyle">solid</property>
-                                <property name="borderLeftWidth">1px</property>
-                                <property name="borderRightStyle">solid</property>
-                                <property name="borderRightWidth">1px</property>
-                                <property name="borderTopStyle">solid</property>
-                                <property name="borderTopWidth">1px</property>
-                            </cell>
-                            <cell id="1101">
-                                <property name="borderLeftStyle">solid</property>
-                                <property name="borderLeftWidth">1px</property>
-                                <property name="borderRightStyle">solid</property>
-                                <property name="borderRightWidth">2px</property>
-                                <property name="borderTopStyle">solid</property>
-                                <property name="borderTopWidth">1px</property>
-                            </cell>
-                        </row>
-                        <row id="1102">
-                            <cell id="1179">
-                                <property name="borderLeftStyle">solid</property>
-                                <property name="borderLeftWidth">2px</property>
-                                <property name="borderRightStyle">solid</property>
-                                <property name="borderRightWidth">2px</property>
+                                <property name="textAlign">center</property>
                                 <property name="verticalAlign">middle</property>
                                 <label id="568">
                                     <text-property name="text">경력</text-property>
                                 </label>
                             </cell>
-                            <cell id="1104">
-                                <property name="borderLeftStyle">solid</property>
-                                <property name="borderLeftWidth">1px</property>
-                                <property name="borderRightStyle">solid</property>
-                                <property name="borderRightWidth">1px</property>
-                                <property name="borderTopStyle">solid</property>
-                                <property name="borderTopWidth">1px</property>
-                                <label id="1174">
-                                    <text-property name="text">~</text-property>
-                                </label>
-                            </cell>
-                            <cell id="1105">
-                                <property name="borderLeftStyle">solid</property>
-                                <property name="borderLeftWidth">1px</property>
-                                <property name="borderRightStyle">solid</property>
-                                <property name="borderRightWidth">1px</property>
-                                <property name="borderTopStyle">solid</property>
-                                <property name="borderTopWidth">1px</property>
-                            </cell>
-                            <cell id="1106">
-                                <property name="borderLeftStyle">solid</property>
-                                <property name="borderLeftWidth">1px</property>
-                                <property name="borderRightStyle">solid</property>
-                                <property name="borderRightWidth">2px</property>
-                                <property name="borderTopStyle">solid</property>
-                                <property name="borderTopWidth">1px</property>
-                            </cell>
-                        </row>
-                        <row id="1107">
-                            <cell id="1180">
+                            <cell id="1222">
                                 <property name="borderLeftStyle">solid</property>
                                 <property name="borderLeftWidth">2px</property>
                                 <property name="borderRightStyle">solid</property>
                                 <property name="borderRightWidth">2px</property>
+                                <property name="borderTopStyle">solid</property>
+                                <property name="borderTopWidth">2px</property>
+                                <property name="paddingTop">0pt</property>
+                                <property name="paddingLeft">0pt</property>
+                                <property name="paddingBottom">0pt</property>
+                                <property name="paddingRight">0pt</property>
+                                <property name="textAlign">center</property>
                                 <property name="verticalAlign">middle</property>
-                            </cell>
-                            <cell id="1109">
-                                <property name="borderLeftStyle">solid</property>
-                                <property name="borderLeftWidth">1px</property>
-                                <property name="borderRightStyle">solid</property>
-                                <property name="borderRightWidth">1px</property>
-                                <property name="borderTopStyle">solid</property>
-                                <property name="borderTopWidth">1px</property>
-                                <label id="1175">
-                                    <text-property name="text">~</text-property>
-                                </label>
-                            </cell>
-                            <cell id="1110">
-                                <property name="borderLeftStyle">solid</property>
-                                <property name="borderLeftWidth">1px</property>
-                                <property name="borderRightStyle">solid</property>
-                                <property name="borderRightWidth">1px</property>
-                                <property name="borderTopStyle">solid</property>
-                                <property name="borderTopWidth">1px</property>
-                            </cell>
-                            <cell id="1111">
-                                <property name="borderLeftStyle">solid</property>
-                                <property name="borderLeftWidth">1px</property>
-                                <property name="borderRightStyle">solid</property>
-                                <property name="borderRightWidth">2px</property>
-                                <property name="borderTopStyle">solid</property>
-                                <property name="borderTopWidth">1px</property>
-                            </cell>
-                        </row>
-                        <row id="1112">
-                            <cell id="1181">
-                                <property name="borderLeftStyle">solid</property>
-                                <property name="borderLeftWidth">2px</property>
-                                <property name="borderRightStyle">solid</property>
-                                <property name="borderRightWidth">2px</property>
-                                <property name="verticalAlign">middle</property>
-                            </cell>
-                            <cell id="1114">
-                                <property name="borderLeftStyle">solid</property>
-                                <property name="borderLeftWidth">1px</property>
-                                <property name="borderRightStyle">solid</property>
-                                <property name="borderRightWidth">1px</property>
-                                <property name="borderTopStyle">solid</property>
-                                <property name="borderTopWidth">1px</property>
-                                <label id="1176">
-                                    <text-property name="text">~</text-property>
-                                </label>
-                            </cell>
-                            <cell id="1115">
-                                <property name="borderLeftStyle">solid</property>
-                                <property name="borderLeftWidth">1px</property>
-                                <property name="borderRightStyle">solid</property>
-                                <property name="borderRightWidth">1px</property>
-                                <property name="borderTopStyle">solid</property>
-                                <property name="borderTopWidth">1px</property>
-                            </cell>
-                            <cell id="1116">
-                                <property name="borderLeftStyle">solid</property>
-                                <property name="borderLeftWidth">1px</property>
-                                <property name="borderRightStyle">solid</property>
-                                <property name="borderRightWidth">2px</property>
-                                <property name="borderTopStyle">solid</property>
-                                <property name="borderTopWidth">1px</property>
-                            </cell>
-                        </row>
-                        <row id="1117">
-                            <cell id="1182">
-                                <property name="borderLeftStyle">solid</property>
-                                <property name="borderLeftWidth">2px</property>
-                                <property name="borderRightStyle">solid</property>
-                                <property name="borderRightWidth">2px</property>
-                                <property name="verticalAlign">middle</property>
-                            </cell>
-                            <cell id="1119">
-                                <property name="borderLeftStyle">solid</property>
-                                <property name="borderLeftWidth">1px</property>
-                                <property name="borderRightStyle">solid</property>
-                                <property name="borderRightWidth">1px</property>
-                                <property name="borderTopStyle">solid</property>
-                                <property name="borderTopWidth">1px</property>
-                                <label id="1177">
-                                    <text-property name="text">~</text-property>
-                                </label>
-                            </cell>
-                            <cell id="1120">
-                                <property name="borderLeftStyle">solid</property>
-                                <property name="borderLeftWidth">1px</property>
-                                <property name="borderRightStyle">solid</property>
-                                <property name="borderRightWidth">1px</property>
-                                <property name="borderTopStyle">solid</property>
-                                <property name="borderTopWidth">1px</property>
-                            </cell>
-                            <cell id="1121">
-                                <property name="borderLeftStyle">solid</property>
-                                <property name="borderLeftWidth">1px</property>
-                                <property name="borderRightStyle">solid</property>
-                                <property name="borderRightWidth">2px</property>
-                                <property name="borderTopStyle">solid</property>
-                                <property name="borderTopWidth">1px</property>
+                                <grid id="1223">
+                                    <column id="1224">
+                                        <property name="width">25%</property>
+                                    </column>
+                                    <column id="1225">
+                                        <property name="width">20%</property>
+                                    </column>
+                                    <column id="1226"/>
+                                    <row id="1227">
+                                        <property name="height">28px</property>
+                                        <cell id="1228">
+                                            <property name="backgroundColor">#D9D9D9</property>
+                                            <property name="fontWeight">bold</property>
+                                            <property name="borderBottomStyle">solid</property>
+                                            <property name="borderBottomWidth">1px</property>
+                                            <property name="paddingTop">0pt</property>
+                                            <property name="paddingLeft">0pt</property>
+                                            <property name="paddingBottom">0pt</property>
+                                            <property name="paddingRight">0pt</property>
+                                            <property name="verticalAlign">middle</property>
+                                            <label id="577">
+                                                <text-property name="text">기간</text-property>
+                                            </label>
+                                        </cell>
+                                        <cell id="1229">
+                                            <property name="backgroundColor">#D9D9D9</property>
+                                            <property name="fontWeight">bold</property>
+                                            <property name="borderBottomStyle">solid</property>
+                                            <property name="borderBottomWidth">1px</property>
+                                            <property name="borderLeftStyle">solid</property>
+                                            <property name="borderLeftWidth">1px</property>
+                                            <property name="paddingTop">0pt</property>
+                                            <property name="paddingLeft">0pt</property>
+                                            <property name="paddingBottom">0pt</property>
+                                            <property name="paddingRight">0pt</property>
+                                            <property name="verticalAlign">middle</property>
+                                            <label id="579">
+                                                <text-property name="text">기관명</text-property>
+                                            </label>
+                                        </cell>
+                                        <cell id="1230">
+                                            <property name="backgroundColor">#D9D9D9</property>
+                                            <property name="fontWeight">bold</property>
+                                            <property name="borderBottomStyle">solid</property>
+                                            <property name="borderBottomWidth">1px</property>
+                                            <property name="borderLeftStyle">solid</property>
+                                            <property name="borderLeftWidth">1px</property>
+                                            <property name="paddingTop">0pt</property>
+                                            <property name="paddingLeft">0pt</property>
+                                            <property name="paddingBottom">0pt</property>
+                                            <property name="paddingRight">0pt</property>
+                                            <property name="verticalAlign">middle</property>
+                                            <label id="581">
+                                                <text-property name="text">직위(또는 상벌내용, 현장경험내용, 연수내용 등)</text-property>
+                                            </label>
+                                        </cell>
+                                    </row>
+                                    <row id="1247">
+                                        <property name="height">28px</property>
+                                        <cell id="1248">
+                                            <property name="borderBottomStyle">solid</property>
+                                            <property name="borderBottomWidth">1px</property>
+                                            <property name="paddingTop">0pt</property>
+                                            <property name="paddingLeft">0pt</property>
+                                            <property name="paddingBottom">0pt</property>
+                                            <property name="paddingRight">0pt</property>
+                                            <property name="verticalAlign">middle</property>
+                                            <label id="1173">
+                                                <text-property name="text">~</text-property>
+                                            </label>
+                                        </cell>
+                                        <cell id="1249">
+                                            <property name="borderBottomStyle">solid</property>
+                                            <property name="borderBottomWidth">1px</property>
+                                            <property name="borderLeftStyle">solid</property>
+                                            <property name="borderLeftWidth">1px</property>
+                                            <property name="paddingTop">0pt</property>
+                                            <property name="paddingLeft">0pt</property>
+                                            <property name="paddingBottom">0pt</property>
+                                            <property name="paddingRight">0pt</property>
+                                            <property name="verticalAlign">middle</property>
+                                        </cell>
+                                        <cell id="1250">
+                                            <property name="borderBottomStyle">solid</property>
+                                            <property name="borderBottomWidth">1px</property>
+                                            <property name="borderLeftStyle">solid</property>
+                                            <property name="borderLeftWidth">1px</property>
+                                            <property name="paddingTop">0pt</property>
+                                            <property name="paddingLeft">0pt</property>
+                                            <property name="paddingBottom">0pt</property>
+                                            <property name="paddingRight">0pt</property>
+                                            <property name="verticalAlign">middle</property>
+                                        </cell>
+                                    </row>
+                                    <row id="1231">
+                                        <property name="height">28px</property>
+                                        <cell id="1232">
+                                            <property name="borderBottomStyle">solid</property>
+                                            <property name="borderBottomWidth">1px</property>
+                                            <property name="paddingTop">0pt</property>
+                                            <property name="paddingLeft">0pt</property>
+                                            <property name="paddingBottom">0pt</property>
+                                            <property name="paddingRight">0pt</property>
+                                            <property name="verticalAlign">middle</property>
+                                            <label id="1174">
+                                                <text-property name="text">~</text-property>
+                                            </label>
+                                        </cell>
+                                        <cell id="1233">
+                                            <property name="borderBottomStyle">solid</property>
+                                            <property name="borderBottomWidth">1px</property>
+                                            <property name="borderLeftStyle">solid</property>
+                                            <property name="borderLeftWidth">1px</property>
+                                            <property name="paddingTop">0pt</property>
+                                            <property name="paddingLeft">0pt</property>
+                                            <property name="paddingBottom">0pt</property>
+                                            <property name="paddingRight">0pt</property>
+                                            <property name="verticalAlign">middle</property>
+                                        </cell>
+                                        <cell id="1234">
+                                            <property name="borderBottomStyle">solid</property>
+                                            <property name="borderBottomWidth">1px</property>
+                                            <property name="borderLeftStyle">solid</property>
+                                            <property name="borderLeftWidth">1px</property>
+                                            <property name="paddingTop">0pt</property>
+                                            <property name="paddingLeft">0pt</property>
+                                            <property name="paddingBottom">0pt</property>
+                                            <property name="paddingRight">0pt</property>
+                                            <property name="verticalAlign">middle</property>
+                                        </cell>
+                                    </row>
+                                    <row id="1235">
+                                        <property name="height">28px</property>
+                                        <cell id="1236">
+                                            <property name="borderBottomStyle">solid</property>
+                                            <property name="borderBottomWidth">1px</property>
+                                            <property name="paddingTop">0pt</property>
+                                            <property name="paddingLeft">0pt</property>
+                                            <property name="paddingBottom">0pt</property>
+                                            <property name="paddingRight">0pt</property>
+                                            <property name="verticalAlign">middle</property>
+                                            <label id="1175">
+                                                <text-property name="text">~</text-property>
+                                            </label>
+                                        </cell>
+                                        <cell id="1237">
+                                            <property name="borderBottomStyle">solid</property>
+                                            <property name="borderBottomWidth">1px</property>
+                                            <property name="borderLeftStyle">solid</property>
+                                            <property name="borderLeftWidth">1px</property>
+                                            <property name="paddingTop">0pt</property>
+                                            <property name="paddingLeft">0pt</property>
+                                            <property name="paddingBottom">0pt</property>
+                                            <property name="paddingRight">0pt</property>
+                                            <property name="verticalAlign">middle</property>
+                                        </cell>
+                                        <cell id="1238">
+                                            <property name="borderBottomStyle">solid</property>
+                                            <property name="borderBottomWidth">1px</property>
+                                            <property name="borderLeftStyle">solid</property>
+                                            <property name="borderLeftWidth">1px</property>
+                                            <property name="paddingTop">0pt</property>
+                                            <property name="paddingLeft">0pt</property>
+                                            <property name="paddingBottom">0pt</property>
+                                            <property name="paddingRight">0pt</property>
+                                            <property name="verticalAlign">middle</property>
+                                        </cell>
+                                    </row>
+                                    <row id="1239">
+                                        <property name="height">28px</property>
+                                        <cell id="1240">
+                                            <property name="borderBottomStyle">solid</property>
+                                            <property name="borderBottomWidth">1px</property>
+                                            <property name="paddingTop">0pt</property>
+                                            <property name="paddingLeft">0pt</property>
+                                            <property name="paddingBottom">0pt</property>
+                                            <property name="paddingRight">0pt</property>
+                                            <property name="verticalAlign">middle</property>
+                                            <label id="1176">
+                                                <text-property name="text">~</text-property>
+                                            </label>
+                                        </cell>
+                                        <cell id="1241">
+                                            <property name="borderBottomStyle">solid</property>
+                                            <property name="borderBottomWidth">1px</property>
+                                            <property name="borderLeftStyle">solid</property>
+                                            <property name="borderLeftWidth">1px</property>
+                                            <property name="paddingTop">0pt</property>
+                                            <property name="paddingLeft">0pt</property>
+                                            <property name="paddingBottom">0pt</property>
+                                            <property name="paddingRight">0pt</property>
+                                            <property name="verticalAlign">middle</property>
+                                        </cell>
+                                        <cell id="1242">
+                                            <property name="borderBottomStyle">solid</property>
+                                            <property name="borderBottomWidth">1px</property>
+                                            <property name="borderLeftStyle">solid</property>
+                                            <property name="borderLeftWidth">1px</property>
+                                            <property name="paddingTop">0pt</property>
+                                            <property name="paddingLeft">0pt</property>
+                                            <property name="paddingBottom">0pt</property>
+                                            <property name="paddingRight">0pt</property>
+                                            <property name="verticalAlign">middle</property>
+                                        </cell>
+                                    </row>
+                                    <row id="1243">
+                                        <property name="height">28px</property>
+                                        <cell id="1244">
+                                            <property name="paddingTop">0pt</property>
+                                            <property name="paddingLeft">0pt</property>
+                                            <property name="paddingBottom">0pt</property>
+                                            <property name="paddingRight">0pt</property>
+                                            <property name="verticalAlign">middle</property>
+                                            <label id="1177">
+                                                <text-property name="text">~</text-property>
+                                            </label>
+                                        </cell>
+                                        <cell id="1245">
+                                            <property name="borderLeftStyle">solid</property>
+                                            <property name="borderLeftWidth">1px</property>
+                                            <property name="paddingTop">0pt</property>
+                                            <property name="paddingLeft">0pt</property>
+                                            <property name="paddingBottom">0pt</property>
+                                            <property name="paddingRight">0pt</property>
+                                            <property name="verticalAlign">middle</property>
+                                        </cell>
+                                        <cell id="1246">
+                                            <property name="borderLeftStyle">solid</property>
+                                            <property name="borderLeftWidth">1px</property>
+                                            <property name="paddingTop">0pt</property>
+                                            <property name="paddingLeft">0pt</property>
+                                            <property name="paddingBottom">0pt</property>
+                                            <property name="paddingRight">0pt</property>
+                                            <property name="verticalAlign">middle</property>
+                                        </cell>
+                                    </row>
+                                </grid>
                             </cell>
                         </row>
                     </grid>
                     <grid id="1122">
                         <property name="textAlign">center</property>
                         <column id="1123">
+                            <property name="fontWeight">normal</property>
                             <property name="width">15%</property>
                         </column>
                         <column id="1124">
@@ -1316,6 +1450,7 @@ appvo = mypojo.getApplication("id");</expression>
                             <cell id="1127">
                                 <property name="colSpan">1</property>
                                 <property name="rowSpan">3</property>
+                                <property name="fontWeight">bold</property>
                                 <property name="borderLeftStyle">solid</property>
                                 <property name="borderLeftWidth">2px</property>
                                 <property name="borderRightStyle">solid</property>
@@ -1335,9 +1470,6 @@ appvo = mypojo.getApplication("id");</expression>
                                 <property name="borderTopStyle">solid</property>
                                 <property name="borderTopWidth">2px</property>
                                 <property name="verticalAlign">middle</property>
-                                <label id="1139">
-                                    <text-property name="text">여성지원자</text-property>
-                                </label>
                             </cell>
                             <cell id="1129">
                                 <property name="borderBottomStyle">solid</property>
@@ -1395,6 +1527,8 @@ appvo = mypojo.getApplication("id");</expression>
                         <column id="1148"/>
                         <column id="1156"/>
                         <row id="1149">
+                            <property name="verticalAlign">middle</property>
+                            <property name="height">28px</property>
                             <cell id="1150">
                                 <property name="colSpan">2</property>
                                 <property name="rowSpan">1</property>
@@ -1405,11 +1539,14 @@ appvo = mypojo.getApplication("id");</expression>
                                 <property name="borderTopStyle">solid</property>
                                 <property name="borderTopWidth">2px</property>
                                 <label id="1151">
+                                    <property name="fontWeight">bold</property>
                                     <text-property name="text">위와 같이 귀 대학교 대학원에 입학하고자 소정의 서류를 갖추어 지원합니다.</text-property>
                                 </label>
                             </cell>
                         </row>
                         <row id="1152">
+                            <property name="verticalAlign">middle</property>
+                            <property name="height">28px</property>
                             <cell id="1153">
                                 <property name="borderLeftStyle">solid</property>
                                 <property name="borderLeftWidth">2px</property>
@@ -1419,6 +1556,7 @@ appvo = mypojo.getApplication("id");</expression>
                                 <property name="borderRightWidth">2px</property>
                                 <property name="textAlign">justify</property>
                                 <label id="1157">
+                                    <property name="fontWeight">bold</property>
                                     <property name="display">inline</property>
                                     <text-property name="text">지원자 : </text-property>
                                 </label>
@@ -1434,6 +1572,7 @@ appvo = mypojo.getApplication("id");</expression>
                                     <property name="resultSetColumn">Column Binding</property>
                                 </data>
                                 <label id="1204">
+                                    <property name="fontWeight">bold</property>
                                     <property name="display">inline</property>
                                     <text-property name="text">		(서명)</text-property>
                                 </label>
@@ -1441,10 +1580,10 @@ appvo = mypojo.getApplication("id");</expression>
                         </row>
                     </grid>
                     <grid id="1164">
-                        <property name="height">0.7291666666666666in</property>
+                        <property name="height">0.5208333333333334in</property>
                         <column id="1165"/>
                         <row id="1166">
-                            <property name="height">0.7291666666666666in</property>
+                            <property name="height">0.5208333333333334in</property>
                             <cell id="1167">
                                 <property name="borderBottomStyle">solid</property>
                                 <property name="borderBottomWidth">2px</property>
@@ -1456,7 +1595,8 @@ appvo = mypojo.getApplication("id");</expression>
                                 <property name="borderTopWidth">2px</property>
                                 <property name="verticalAlign">middle</property>
                                 <label id="1163">
-                                    <property name="fontSize">24pt</property>
+                                    <property name="fontFamily">"궁서"</property>
+                                    <property name="fontSize">20pt</property>
                                     <property name="textAlign">center</property>
                                     <text-property name="text">연세대학교 대학원장 귀하</text-property>
                                 </label>

@@ -22,7 +22,7 @@
         <result property="modifiedDate"   column="MOD_DATE"/>
     </resultMap>
 
-    <insert id="insertUser" parameterType="User">
+    <insert id="insertUser" parameterType="com.apexsoft.ysprj.user.service.UsersVO">
         <![CDATA[
           INSERT INTO USER(USER_ID,
                              USER_TYPE,
@@ -59,7 +59,7 @@
 		]]>
     </insert>
 
-    <update id="updateUser" parameterType="User">
+    <update id="updateUser" parameterType="com.apexsoft.ysprj.user.service.UsersVO">
         <![CDATA[
 		  UPDATE USER SET
                              NAME = #{name},
@@ -88,7 +88,7 @@
 		]]>
     </select>
 
-    <select id="selectUsername" resultType="String" parameterType="User">
+    <select id="selectUsername" resultType="String" parameterType="com.apexsoft.ysprj.user.service.UsersVO">
         <![CDATA[
           SELECT USER_ID
             FROM USER
