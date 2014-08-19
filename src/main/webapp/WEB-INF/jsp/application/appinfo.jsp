@@ -207,22 +207,22 @@
                         <c:forEach items="${application.academies}" var="academy" varStatus="status">
                             <tr>
                                 <td><input type="checkbox" class="selectRow" /></td>
-                                <td><form:select path="academies[${status.index}].type" items="${requestScope.schoolTypes}" /></td>
-                                <td><form:input path="academies[${status.index}].name" /></td>
-                                <td><form:input path="academies[${status.index}].entrance" /></td>
-                                <td><form:input path="academies[${status.index}].graduation" /></td>
-                                <td><form:select path="academies[${status.index}].graduationType" items="${requestScope.graduationTypes}" /></td>
+                                <td><form:select path="academies[${status.index}].acadTypeCode" items="${requestScope.schoolTypes}" /></td>
+                                <td><form:input path="academies[${status.index}].schlName" /></td>
+                                <td><form:input path="academies[${status.index}].entrDay" /></td>
+                                <td><form:input path="academies[${status.index}].grdaDay" /></td>
+                                <td><form:select path="academies[${status.index}].grdaTypeCode" items="${requestScope.graduationTypes}" /></td>
                             </tr>
                         </c:forEach>
                         <c:if test="${application.academies.size() < 4}">
                             <c:forEach begin="${application.academies.size()}" end="3" varStatus="status">
                                 <tr>
                                     <td><input type="checkbox" class="selectRow" /></td>
-                                    <td><select id="academies${status.index}.type" name="academies[${status.index}].type" items="${requestScope.schoolTypes}" /></td>
-                                    <td><input id="academies${status.index}.name" name="academies[${status.index}].name" /></td>
-                                    <td><input id="academies${status.index}.entrance" name="academies[${status.index}].entrance" /></td>
-                                    <td><input id="academies${status.index}.graduation" name="academies[${status.index}].graduation" /></td>
-                                    <td><select id="academies${status.index}.graduationType" name="academies[${status.index}].graduationType" items="${requestScope.graduationTypes}" /></td>
+                                    <td><select id="academies${status.index}.acadTypeCode" name="academies[${status.index}].acadTypeCode" items="${requestScope.acadTypeCode}" /></td>
+                                    <td><input id="academies${status.index}.schlName" name="academies[${status.index}].schlName" /></td>
+                                    <td><input id="academies${status.index}.entrDay" name="academies[${status.index}].entrDay" /></td>
+                                    <td><input id="academies${status.index}.grdaDay" name="academies[${status.index}].grdaDay" /></td>
+                                    <td><select id="academies${status.index}.grdaTypeCode" name="academies[${status.index}].grdaTypeCode" items="${requestScope.grdaTypeCode}" /></td>
                                 </tr>
                             </c:forEach>
                         </c:if>
@@ -267,22 +267,22 @@
                         <c:forEach items="${application.careers}" var="career" varStatus="status">
                             <tr>
                                 <td><input type="checkbox" class="selectRow" /></td>
-                                <td><form:input path="careers[${status.index}].hire" /></td>
+                                <td><form:input path="careers[${status.index}].joinYmd" /></td>
                                 <td><span>~</span></td>
-                                <td><form:input path="careers[${status.index}].retirement" /></td>
-                                <td><form:input path="careers[${status.index}].orgname" /></td>
-                                <td><form:input path="careers[${status.index}].description" /></td>
+                                <td><form:input path="careers[${status.index}].retrYmd" /></td>
+                                <td><form:input path="careers[${status.index}].corpName" /></td>
+                                <td><form:input path="careers[${status.index}].exprDesc" /></td>
                             </tr>
                         </c:forEach>
                         <c:if test="${application.academies.size() < 4}">
                             <c:forEach begin="${application.careers.size()}" end="3" varStatus="status">
                                 <tr>
                                     <td><input type="checkbox" class="selectRow" /></td>
-                                    <td><input id="careers${status.index}.hire" name="careers[${status.index}].description"/></td>
+                                    <td><input id="careers${status.index}.joinYmd" name="careers[${status.index}].joinYmd"/></td>
                                     <td><span>~</span></td>
-                                    <td><input id="careers${status.index}.retirement" name="careers[${status.index}].description"/></td>
-                                    <td><input id="careers${status.index}.orgname" name="careers[${status.index}].description"/></td>
-                                    <td><input id="careers${status.index}.description" name="careers[${status.index}].description"/></td>
+                                    <td><input id="careers${status.index}.retrYmd" name="careers[${status.index}].retrYmd"/></td>
+                                    <td><input id="careers${status.index}.corpName" name="careers[${status.index}].corpName"/></td>
+                                    <td><input id="careers${status.index}.exprDesc" name="careers[${status.index}].exprDesc"/></td>
                                 </tr>
                             </c:forEach>
                         </c:if>

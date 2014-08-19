@@ -22,7 +22,7 @@ public class ApplicationController {
     private ApplicationService applicationService;
 
     @RequestMapping(value="/create", method = RequestMethod.POST)
-    public String createApplication(@ModelAttribute("applicationVO") Application application,
+    public String createApplication(@ModelAttribute("application") Application application,
                                     @ModelAttribute("campuses") Map campuses,
                                     @ModelAttribute("schoolTypes") Map schoolTypes,
                                     @ModelAttribute("graduationTypes") Map graduationTypes,
@@ -54,7 +54,7 @@ public class ApplicationController {
     }
 
     @RequestMapping(value = "/apply", method = RequestMethod.GET)
-    public String displayAppInfo(@ModelAttribute("applicationVO") Application application,
+    public String displayAppInfo(@ModelAttribute("application") Application application,
                                  @ModelAttribute("campuses") Map campuses,
                                  @ModelAttribute("schoolTypes") Map schoolTypes,
                                  @ModelAttribute("graduationTypes") Map graduationTypes,
@@ -73,13 +73,14 @@ public class ApplicationController {
         Application application = new Application();
         application.setKorName("홍길동");
         Academy academy = new Academy();
-        academy.setType("SCH02");
-        academy.setName("서울대");
+        academy.setSchlUnivCode("SCH02");
+        academy.setSchlName("서울대");
         application.getAcademies().add(academy);
         Career career = new Career();
-        career.setOrgName("에이펙스소프트");
-        career.setHire("2012.04.01");
-        career.setDescription("솔루션사업부 책임");
+        career.setCorpName("에이펙스소프트");
+        career.setJoinYmd("2012.04.01");
+        career.setRetrYmd("2014.08.15");
+        career.setExprDesc("솔루션사업부 책임");
         application.getCareers().add(career);
         return application;
     }
