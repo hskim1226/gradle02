@@ -106,6 +106,19 @@ public interface CommonDAO {
 	 */
 	List<?> queryForList(String statementId, Object parameter);
 
+    /**
+     * 전체 조회 연산을 수행한다.
+     *
+     * @param statementId
+     *              MyBatis namespace + statementId
+     * @param clazz
+     *              generic type class
+     * @param <T>
+     *              generic type class
+     * @return 조회된 데이터 (0건 이상)
+     */
+    <T> List<T> queryForList(String statementId, Class<T> clazz);
+
 	/**
 	 * @param <T>
 	 *            generic type class 다건 조회 연산을 수행한다.

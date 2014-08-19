@@ -6,6 +6,7 @@ import com.apexsoft.framework.persistence.dao.handler.StreamHandler;
 import com.apexsoft.framework.persistence.dao.page.PageInfo;
 import com.apexsoft.framework.persistence.dao.page.PageStatement;
 import com.apexsoft.framework.persistence.dao.page.PagenateInfo;
+import com.apexsoft.ysprj.template.service.TempFileService;
 import org.apache.ibatis.session.ResultContext;
 import org.apache.ibatis.session.ResultHandler;
 import org.apache.ibatis.session.RowBounds;
@@ -121,6 +122,15 @@ public class CommonDAOMyBatisImpl implements CommonDAO {
 
 		return list;
 	}
+
+    public <T> List<T> queryForList(String statementId, Class<T> clazz) {
+        List<T> list = (List<T>) this.template.selectList(statementId);
+
+        LOGGER.debug("Statement[{}] Executed ({}) : {} Records retrieved.", new Object[] { statementId, new Date(),
+                list == null ? 0 : list.size() });
+
+        return list;
+    }
 
 	@SuppressWarnings("unchecked")
 	@Override

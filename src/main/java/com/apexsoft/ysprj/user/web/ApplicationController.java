@@ -2,6 +2,7 @@ package com.apexsoft.ysprj.user.web;
 
 import com.apexsoft.ysprj.user.domain.*;
 import com.apexsoft.ysprj.user.service.ApplicationService;
+import com.apexsoft.ysprj.user.service.CampusService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -20,6 +22,9 @@ public class ApplicationController {
 
     @Autowired
     private ApplicationService applicationService;
+
+    @Autowired
+    private CampusService campusService;
 
     @RequestMapping(value="/create", method = RequestMethod.POST)
     public String createApplication(@ModelAttribute("application") Application application,
@@ -102,12 +107,17 @@ public class ApplicationController {
         return result;
     }
 
+//    @ModelAttribute("campuses")
+//    public Map<String, String> campuses() {
+//        Map<String, String> result = new HashMap<String, String>();
+//        result.put("CAM01", "서울");
+//        result.put("CAM02", "원주");
+//        return result;
+//    }
+
     @ModelAttribute("campuses")
-    public Map<String, String> campuses() {
-        Map<String, String> result = new HashMap<String, String>();
-        result.put("CAM01", "서울");
-        result.put("CAM02", "원주");
-        return result;
+    public List<Campus> campuses() {
+        return campusService.retriveCampusList();
     }
 
     @ModelAttribute("selfIntro")
