@@ -1,11 +1,14 @@
 package com.apexsoft.ysprj.application.service;
 
+import com.apexsoft.ysprj.application.service.AcademyVO;
+import com.apexsoft.ysprj.application.service.CareerVO;
+
 import java.util.*;
 
 /**
  * Created by Administrator on 2014-08-12.
  */
-public class ApplicationVO {
+public class BAKApplicationVO {
 
 
 
@@ -215,7 +218,7 @@ public class ApplicationVO {
     private String accountNumber;
     private String accountOwner;
 
-    public ApplicationVO() {
+    public BAKApplicationVO() {
         this.departments = new HashMap<String, String>();
         this.detailMajors = new HashMap<String, String>();
         this.academies = new ArrayList<AcademyVO>();
