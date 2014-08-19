@@ -41,11 +41,6 @@ public class ApplicationController {
         return "application/mylist";
     }
 
-    @RequestMapping(value="/agreement")
-    public String checkAgreement() {
-        return "application/agreement";
-    }
-
     @RequestMapping(value="/selfintro/save")
     public String saveSelfIntro() {
         // TODO DB에 저장, AJAX로 처리
