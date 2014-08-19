@@ -68,8 +68,8 @@ public class ApplicationController {
         return "application/tabsample";
     }
 
-    @ModelAttribute("applicationVO")
-    public Application applicationVO() {
+    @ModelAttribute("application")
+    public Application application() {
         Application application = new Application();
         application.setKorName("홍길동");
         Academy academy = new Academy();
