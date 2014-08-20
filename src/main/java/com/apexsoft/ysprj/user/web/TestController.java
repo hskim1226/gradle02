@@ -28,7 +28,7 @@ public class TestController {
         List<Campus> campusList = campusService.retriveCampusList();
         Map<String, String> campusMap = new HashMap<String, String>();
         for( Campus campus : campusList ) {
-            campusMap.put(campus.getCode(), campus.getName());
+            campusMap.put(campus.getCampCode(), campus.getCampName());
         }
 
         modelAndView.addObject("campusList", campusList);

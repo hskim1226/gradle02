@@ -5,11 +5,9 @@ import com.apexsoft.ysprj.user.service.SignUpService;
 import com.apexsoft.ysprj.user.domain.Users;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -21,7 +19,7 @@ import javax.validation.Valid;
  * To change this template use File | Settings | File Templates.
  */
 @Controller
-@SessionAttributes("usersVO")
+@SessionAttributes("users")
 @RequestMapping(value="/user")
 public class SignUpController {
 
@@ -46,5 +44,16 @@ public class SignUpController {
     @ResponseBody
     public ExecutionContext checkAvailable(Users users) {
         return signUpService.checkAvailable(users);
+    }
+
+    @RequestMapping(value = "/detail")
+    public String detail(@ModelAttribute Users users, Model model) {
+        model.addAttribute(users);
+        return "user/detail";
+    }
+
+    @ModelAttribute("users")
+    public Users initUsers() {
+        return new Users();
     }
 }

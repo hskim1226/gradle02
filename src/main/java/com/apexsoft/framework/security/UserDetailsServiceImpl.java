@@ -18,7 +18,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Autowired
     private UsersService usersService;
 
-
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Users users = usersService.retrieveUser(username);
@@ -26,7 +25,12 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             throw new UsernameNotFoundException("account name not found");
         }
 
-        UserSessionVO userSessionVO = new UserSessionVO(users);
+        UserSessionVO userSessionVO = new UserSessionVO();
+        userSessionVO.setUsername( users.getUserId() );
+        userSessionVO.setName( users.getName() );
+        userSessionVO.setPassword( users.getPswd() );
+        userSessionVO.setEnabled( users.isEnabled() );
+        userSessionVO.setEmail( users.getMailAddr() );
         userSessionVO.setAuthorities(usersService.retrieveAuthorities(username));
 
         return userSessionVO;
