@@ -102,18 +102,18 @@ public class ApplicationController {
         return result;
     }
 
-//    @ModelAttribute("campuses")
-//    public Map<String, String> campuses() {
-//        Map<String, String> result = new HashMap<String, String>();
-//        result.put("CAM01", "서울");
-//        result.put("CAM02", "원주");
-//        return result;
-//    }
-
     @ModelAttribute("campuses")
-    public List<Campus> campuses() {
-        return campusService.retriveCampusList();
+    public Map<String, String> campuses() {
+        Map<String, String> result = new HashMap<String, String>();
+        result.put("CAM01", "서울");
+        result.put("CAM02", "원주");
+        return result;
     }
+
+//    @ModelAttribute("campuses")
+//    public List<Campus> campuses() {
+//        return campusService.retriveCampusList();
+//    }
 
     @ModelAttribute("selfIntro")
     public SelfIntro selfIntro() {
