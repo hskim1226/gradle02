@@ -19,6 +19,8 @@ import java.util.Map;
 @Service
 public class ApplicationServiceImpl implements ApplicationService {
 
+    // TODO 제3자 정보제공 동의 여부 providePrivateInfo 처리
+
     private final static String NAME_SPACE = "com.apexsoft.ysprj.application.Mapper.";
 
     @Autowired
