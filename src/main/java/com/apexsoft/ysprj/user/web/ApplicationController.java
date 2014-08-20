@@ -5,9 +5,11 @@ import com.apexsoft.ysprj.user.service.ApplicationService;
 import com.apexsoft.ysprj.user.service.CampusService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.HashMap;
 import java.util.List;
@@ -53,13 +55,18 @@ public class ApplicationController {
         return "application/studyplan";
     }
 
-    @RequestMapping(value = "/apply", method = RequestMethod.GET)
+    @RequestMapping(value = "/apply", method = RequestMethod.POST)
     public String displayAppInfo(@ModelAttribute("application") Application application,
                                  @ModelAttribute("campuses") Map campuses,
                                  @ModelAttribute("schoolTypes") Map schoolTypes,
                                  @ModelAttribute("graduationTypes") Map graduationTypes,
                                  @ModelAttribute("selfIntro") SelfIntro selfIntro,
-                                 @ModelAttribute("studyPlan") StudyPlan studyPlan) {
+                                 @ModelAttribute("studyPlan") StudyPlan studyPlan,
+                                 @RequestParam("radio4") String providePrivateInfo,
+                                 Model model) {
+
+        model.addAttribute("providePrivateInfo", providePrivateInfo);
+
         return "application/appinfo";
     }
 
