@@ -1,9 +1,11 @@
-package com.apexsoft.ysprj.user.web;
+package com.apexsoft.ysprj.user.test;
 
 import com.apexsoft.ysprj.user.domain.Campus;
 import com.apexsoft.ysprj.user.service.CampusService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -21,6 +23,9 @@ public class TestController {
     @Autowired
     private CampusService campusService;
 
+    @Autowired
+    private TestService testService;
+
     @RequestMapping(value = "/campusList")
     public ModelAndView campusList() {
 
@@ -36,5 +41,17 @@ public class TestController {
         modelAndView.addObject("campus", new Campus());
 
         return modelAndView;
+    }
+
+    @RequestMapping(value = "/complexResultMap")
+    public String showJoinedResult(Model model) {
+
+        model.addAttribute("application", testService.retrieveApplication());
+
+        model.addAttribute("joinedApplication", testService.retrieveJoinedApplication());
+
+        model.addAttribute("entireApplication", testService.retrieveEntireApplication("a00001"));
+
+        return "test/complexResultMap";
     }
 }

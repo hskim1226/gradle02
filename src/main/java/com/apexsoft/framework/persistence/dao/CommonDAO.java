@@ -64,6 +64,18 @@ public interface CommonDAO {
 	 */
 	Object queryForObject(String statementId, Object parameter);
 
+    /**
+     * 단건 조회 연산을 수행한다.
+     *
+     * @param statementId
+     *            MyBatis namespace + statementId
+     * @param clazz
+     *            반환 타입
+     *
+     * @return 조회된 데이터 (단건) or null
+     */
+    <T> T queryForObject(String statementId, Class<T> clazz);
+
 	/**
 	 * 단건 조회 연산을 수행한다.
 	 * 

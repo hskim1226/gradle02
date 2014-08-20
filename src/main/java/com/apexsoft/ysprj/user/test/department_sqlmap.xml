@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.apexsoft.ysprj.test.department.Mapper">
+
+    <select id="selectListAll" resultType="com.apexsoft.ysprj.user.test.Department">
+        <![CDATA[
+		  SELECT code,
+		         name,
+		         phone_number
+		    FROM tmp_department
+		  WHERE appl_no = #{applNo}
+		  ORDER BY seq_no
+		]]>
+    </select>
+
+</mapper>

@@ -79,6 +79,11 @@ public class CommonDAOMyBatisImpl implements CommonDAO {
 		return this.template.selectOne(statementId, parameter);
 	}
 
+    @Override
+    public <T> T queryForObject(String statementId, Class<T> clazz) {
+        return this.template.selectOne(statementId, clazz);
+    }
+
 	/*
 	 * (non-Javadoc)
 	 * 
