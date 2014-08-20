@@ -65,7 +65,7 @@
 <section class="application-selfintro" id="application-create">
     <div class="container">
         <div class="row mar-bot40">
-            <div class="col-md-offset-0 col-md-11">
+            <div class="col-md-offset-0 col-md-12">
                 <h2 class="slogan">원서 작성 사전 동의</h2>
                 <div>개인정보보호법』 제 15조 및 제 22조에 따라 연세대학교 대학원 신·편입생 선발과 관련하여 개인정보의 수집과 이용을 위해서 개인정보 수집 및 이용에 대한 귀하의 동의가 필요합니다.</div>
 

@@ -22,6 +22,8 @@
             background: #eee;
             padding: 150px 0 50px;
         }
+
+        a { color: #fdfdfd; }
     </style>
 </head>
 <body>
@@ -43,13 +45,12 @@
                         <tr>
                             <td>일반</td>
                             <td><a href="${contextPath}/notice/2015-1-general">2015학년도 전기 연세대학교 대학원 일반 전형</a></td>
-                            <td>2014-09-28(월) / 2014-10-03(수)</td>
+                            <td>2014-09-28(월) / 2014-10-08(수)</td>
                         </tr>
                         <tr>
                             <td>외국인</td>
-                            <%--//TODO 외국인전형 안내 화면--%>
-                            <td><a href="#">2015학년도 전기 연세대학교 대학원 외국인 전형</a></td>
-                            <td>2014-09-28(월) / 2014-10-03(수)</td>
+                            <td><a href="${contextPath}/notice/2015-1-foreign">2015학년도 전기 연세대학교 대학원 외국인 전형</a></td>
+                            <td>2014-09-28(월) / 2014-10-08(수)</td>
                         </tr>
                         </tbody>
                     </table>

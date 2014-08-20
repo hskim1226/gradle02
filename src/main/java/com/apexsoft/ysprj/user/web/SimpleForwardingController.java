@@ -20,5 +20,18 @@ public class SimpleForwardingController {
         return "application/agreement";
     }
 
+    @RequestMapping(value="notice/list")
+    public String listNotice() {
+        return "notice/list";
+    }
 
+    @RequestMapping(value="notice/2015-1-general")
+    public String detailGeneral() {
+        return "notice/2015-1-general";
+    }
+
+    @RequestMapping(value="notice/2015-1-foreign")
+    public String detailForeign() {
+        return "notice/2015-1-foreign";
+    }
 }
