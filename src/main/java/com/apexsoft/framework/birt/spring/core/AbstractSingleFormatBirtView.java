@@ -78,7 +78,7 @@ abstract public class AbstractSingleFormatBirtView extends AbstractUrlBasedView 
 
     private String reportOutputFormat;
 
-    private Map<String, Object> reportParameters = new HashMap<String, Object>();
+    private Map<String, Object> reportParameters;
 
     public String getReportName() {
         return reportName;

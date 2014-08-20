@@ -23,8 +23,9 @@ public class HtmlSingleFormatBirtView extends AbstractSingleFormatBirtView {
     }
 
     @Override
-    protected RenderOption renderReport(Map<String, Object> modelData, HttpServletRequest request, HttpServletResponse response, BirtViewResourcePathCallback resourcePathCallback, Map<String, Object> appContextValuesMap, String reportName, String format, IRenderOption options) throws Throwable {
-
+    protected RenderOption renderReport(Map<String, Object> modelData, HttpServletRequest request, HttpServletResponse response,
+                                        BirtViewResourcePathCallback resourcePathCallback, Map<String, Object> appContextValuesMap,
+                                        String reportName, String format, IRenderOption options) throws Throwable {
 
         ServletContext sc = request.getSession().getServletContext();
         HTMLRenderOption htmlOptions = new HTMLRenderOption(options);
@@ -34,7 +35,6 @@ public class HtmlSingleFormatBirtView extends AbstractSingleFormatBirtView {
         htmlOptions.setBaseImageURL(birtViewResourcePathCallback.baseImageUrl(sc, request, reportName));
         htmlOptions.setImageDirectory(birtViewResourcePathCallback.imageDirectory(sc, request, reportName));
         htmlOptions.setBaseURL(birtViewResourcePathCallback.baseUrl(sc, request, reportName));
-
 
         return htmlOptions;
     }

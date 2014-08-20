@@ -23,7 +23,9 @@ public class PdfSingleFormatBirtView extends AbstractSingleFormatBirtView {
     }
 
     @Override
-    protected RenderOption renderReport(Map<String, Object> map, HttpServletRequest request, HttpServletResponse response, BirtViewResourcePathCallback resourcePathCallback, Map<String, Object> appContextValuesMap, String reportName, String format, IRenderOption options) throws Throwable {
+    protected RenderOption renderReport(Map<String, Object> map, HttpServletRequest request, HttpServletResponse response,
+                                        BirtViewResourcePathCallback resourcePathCallback, Map<String, Object> appContextValuesMap,
+                                        String reportName, String format, IRenderOption options) throws Throwable {
 
         String oName = reportName;
         if( oName.toLowerCase().endsWith(".rptdesign")){

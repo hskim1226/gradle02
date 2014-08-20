@@ -22,24 +22,18 @@
 
     <bean id="pdfSingleFormatBirtView" class="com.apexsoft.framework.birt.spring.core.PdfSingleFormatBirtView">
         <property name="birtEngine" ref="birtEngineFactory" />
-        <property name="reportFormatRequestParameter" value="format" />
+        <property name="reportFormatRequestParameter" value="reportFormat" />
         <property name="reportNameRequestParameter" value="reportName" />
         <property name="documentNameRequestParameter" value="documentName" />
-        <property name="reportName" value="application_kr.rptdesign" />
         <property name="reportsDirectory" value="reports" />
     </bean>
 
     <bean id="htmlSingleFormatBirtView" class="com.apexsoft.framework.birt.spring.core.HtmlSingleFormatBirtView">
         <property name="birtEngine" ref="birtEngineFactory" />
-        <property name="reportFormatRequestParameter" value="format" />
+        <property name="reportFormatRequestParameter" value="reportFormat" />
         <property name="reportNameRequestParameter" value="reportName" />
         <property name="documentNameRequestParameter" value="documentName" />
-        <property name="reportName" value="application_kr.rptdesign" />
         <property name="reportsDirectory" value="reports" />
-    </bean>
-
-    <bean id="birtViewFactory" class="com.apexsoft.ysprj.preview.web.BirtViewFactory" scope="request">
-        <property name="format" value="pdf" />
     </bean>
 
     <bean id="birtEngineFactory" class="com.apexsoft.framework.birt.spring.core.BirtEngineFactory">

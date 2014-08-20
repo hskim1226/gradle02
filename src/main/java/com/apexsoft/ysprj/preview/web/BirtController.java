@@ -31,9 +31,12 @@ public class BirtController {
 //    }
 
     @RequestMapping(value = "/application/{appNo}")
-    public ModelAndView displayApplication(@PathVariable("appNo") String appNo, Model model) {
+    public ModelAndView displayApplication(@PathVariable("appNo") String appNo, Model model, HttpServletRequest request) {
         ApplicationVO applicationVO = birtService.getApplication(appNo);
         model.addAttribute("applicationVO", applicationVO);
-        return new ModelAndView("birtViewFactory");
+        if( "pdf".equalsIgnoreCase(request.getParameter("reportFormat")) ) {
+            return new ModelAndView("pdfSingleFormatBirtView");
+        }
+        return new ModelAndView("htmlSingleFormatBirtView");
     }
 }
