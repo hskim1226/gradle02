@@ -58,9 +58,9 @@
             <form:errors path="*" css="errors" />
             <%--user id--%>
             <div class="form-group">
-                <form:label path="username" cssClass="col-sm-2 control-label">User ID</form:label>
+                <form:label path="userId" cssClass="col-sm-2 control-label">User ID</form:label>
                 <div class="col-sm-10">
-                    <form:input path="username" cssClass="form-control" disabled="true" />
+                    <form:input path="userId" cssClass="form-control" disabled="true" />
                 </div>
             </div>
             <%--password--%>
@@ -78,22 +78,22 @@
 --%>
             <%--email--%>
             <div class="form-group">
-                <form:label path="email" cssClass="col-sm-2 control-label" cssErrorClass="errorMessage">E-Mail</form:label>
+                <form:label path="mailAddr" cssClass="col-sm-2 control-label" cssErrorClass="errorMessage">E-Mail</form:label>
                 <div class="col-sm-6">
-                    <form:input path="email" cssClass="form-control" />
+                    <form:input path="mailAddr" cssClass="form-control" />
                 </div>
-                <form:label path="emailReceive" cssClass="control-label">
-                    <form:checkbox path="emailReceive" value="y" label="I Agree" />
+                <form:label path="mailRecvYn" cssClass="control-label">
+                    <form:checkbox path="mailRecvYn" value="y" label="I Agree" />
                 </form:label>
             </div>
-            <%--mobile--%>
+            <%--mobiNum--%>
             <div class="form-group">
-                <form:label path="mobile" cssClass="col-sm-2 control-label">Mobile</form:label>
+                <form:label path="mobiNum" cssClass="col-sm-2 control-label">Mobile</form:label>
                 <div class="col-sm-6">
-                    <form:input path="mobile" cssClass="form-control" placeholder="###-####-####" />
+                    <form:input path="mobiNum" cssClass="form-control" placeholder="###-####-####" />
                 </div>
-                <form:label path="smsReceive" cssClass="control-label">
-                    <form:checkbox path="smsReceive" value="y" label="I Agree" />
+                <form:label path="smsRecvYn" cssClass="control-label">
+                    <form:checkbox path="smsRecvYn" value="y" label="I Agree" />
                 </form:label>
             </div>
             <%--name--%>
@@ -103,26 +103,26 @@
                     <form:input path="name" cssClass="form-control" placeholder="Name" />
                 </div>
             </div>
-            <%--gender--%>
+            <%--gend--%>
             <div class="form-group">
-                <form:label path="gender" class="col-sm-2 control-label">Gender</form:label>
+                <form:label path="gend" class="col-sm-2 control-label">Gender</form:label>
                 <div class="col-sm-10">
                     <div class="btn-group" data-toggle="buttons">
                         <label class="btn btn-default">
-                            <form:radiobutton path="gender" id="gender-male" value="m" />Male
+                            <form:radiobutton path="gend" id="gend-male" value="m" />Male
                         </label>
                         <label class="btn btn-default">
-                            <form:radiobutton path="gender" id="gender-female" value="f" />Female
+                            <form:radiobutton path="gend" id="gend-female" value="f" />Female
                         </label>
                     </div>
                 </div>
             </div>
             <%--calendar--%>
             <div class="form-group">
-                <form:label path="birth" cssClass="col-sm-2 control-label">Birthday</form:label>
+                <form:label path="bornDay" cssClass="col-sm-2 control-label">Birthday</form:label>
                 <div class="col-sm-10" id="sandbox-container">
                     <div class="input-group date">
-                        <form:input path="birth" class="form-control" />
+                        <form:input path="bornDay" class="form-control" />
                         <span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
                     </div>
                 </div>

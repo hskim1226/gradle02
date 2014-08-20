@@ -92,7 +92,7 @@
                 <div class="col-sm-6">
                     <form:select path="campus" cssClass="form-control">
                         <form:option value="-" label="--Please Select" />
-                        <form:options items="${requestScope.campuses}" />
+                        <form:options items="${campuses}" />
                     </form:select>
                 </div>
             </div>
@@ -141,41 +141,41 @@
                     <form:input path="engName" cssClass="form-control" />
                 </div>
                 <div class="col-sm-3">
-                    <form:input path="engSurName" cssClass="form-control" />
+                    <form:input path="engSur" cssClass="form-control" />
                 </div>
             </div>
             <div class="form-group">
-                <form:label path="residentNumber" cssClass="col-sm-3 control-label">주민등록번호</form:label>
+                <form:label path="rgstNo" cssClass="col-sm-3 control-label">주민등록번호</form:label>
                 <div class="col-sm-6">
-                    <form:input path="residentNumber" cssClass="form-control" />
+                    <form:input path="rgstNo" cssClass="form-control" />
                 </div>
             </div>
             <div class="form-group">
-                <form:label path="email" cssClass="col-sm-3 control-label">E-mail</form:label>
+                <form:label path="mailAddr" cssClass="col-sm-3 control-label">E-mail</form:label>
                 <div class="col-sm-6">
-                    <form:input path="email" cssClass="form-control" />
+                    <form:input path="mailAddr" cssClass="form-control" />
                 </div>
             </div>
             <div class="form-group">
-                <form:label path="telephone" cssClass="col-sm-3 control-label">전화번호</form:label>
+                <form:label path="telNum" cssClass="col-sm-3 control-label">전화번호</form:label>
                 <div class="col-sm-6">
-                    <form:input path="telephone" cssClass="form-control" />
+                    <form:input path="telNum" cssClass="form-control" />
                 </div>
             </div>
             <div class="form-group">
-                <form:label path="mobile" cssClass="col-sm-3 control-label">휴대폰</form:label>
+                <form:label path="mobiNum" cssClass="col-sm-3 control-label">휴대폰</form:label>
                 <div class="col-sm-6">
-                    <form:input path="mobile" cssClass="form-control" />
+                    <form:input path="mobiNum" cssClass="form-control" />
                 </div>
             </div>
             <div class="form-group">
-                <form:label path="address" cssClass="col-sm-3 control-label">주소</form:label>
+                <form:label path="addr" cssClass="col-sm-3 control-label">주소</form:label>
                 <div class="col-sm-1">
                     <form:input path="zipCode" cssClass="form-control" />
                 </div>
                 <div class="col-sm-5">
                     <div class="input-group">
-                        <form:input path="address" cssClass="form-control" />
+                        <form:input path="addr" cssClass="form-control" />
                         <span class="input-group-btn">
                             <button type="button" class="btn btn-default" id="search-zipcode">
                                 <span class="glyphicon glyphicon-search"></span> Search
@@ -184,7 +184,7 @@
                     </div>
                 </div>
                 <div class="col-sm-offset-3 col-sm-6">
-                    <form:input path="detailAddr" cssClass="form-control" />
+                    <form:input path="detlAddr" cssClass="form-control" />
                 </div>
             </div>
 

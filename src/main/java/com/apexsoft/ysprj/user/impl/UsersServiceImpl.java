@@ -26,11 +26,11 @@ public class UsersServiceImpl implements UsersService {
     private CommonDAO commonDAO;
 
 	public void registerUser(Users users){
-		users.setEnabled(true);
+//		users.setEnabled(true);
         commonDAO.insert(NAME_SPACE+"insertUser", users);
 
 		Authorities authVO = new Authorities();
-		authVO.setUsername(users.getUsername());
+		authVO.setUsername(users.getUserId());
 		authVO.setAuthority(AuthorityType.ROLE_USER.getValue());
         commonDAO.insert(NAME_SPACE+"insertAuthority", authVO);
 	}
@@ -74,7 +74,7 @@ public class UsersServiceImpl implements UsersService {
     public Integer resetPassword(Users users) {
         StringKeyGenerator generator = KeyGenerators.string();
         String key = generator.generateKey();
-        users.setPassword(key);
+//        users.setPswd(key);
         return commonDAO.update(NAME_SPACE + "update", users);
     }
 
