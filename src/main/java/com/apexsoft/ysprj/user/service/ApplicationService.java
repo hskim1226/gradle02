@@ -12,7 +12,11 @@ import java.util.Map;
  */
 public interface ApplicationService {
 
-    void registerApplication(Application application);
+    Application retrieveEntireApplication(int applNo);
+
+
+
+//    void registerApplication(Application application);
     Application retrieveApplication(int applNo);
     Application retrieveApplication(Application application);
     PageInfo<Application> getApplicationsPaginatedList(String username);

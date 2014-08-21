@@ -1,52 +1,221 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.apexsoft.ysprj.application.Mapper">
+<mapper namespace="user.applicationMapper">
 
-    <resultMap id="app" type="com.apexsoft.ysprj.user.domain.Application">
-        <result property="applNo" column="APPL_NO" />
-        <result property="userId" column="USER_ID" />
-        <result property="admsNo" column="ADMS_NO" />
-        <result property="deptCode" column="DEPT_CODE" />
-        <result property="ariInstCode" column="ARI_INST_CODE" />
-        <result property="corsTypeCode" column="CORS_TYPE_CODE" />
-        <result property="detlMajCode" column="DETL_MAJ_CODE" />
-        <result property="inpDetlMaj" column="INP_DETL_MAJ" />
-        <result property="partTimeYn" column="PART_TIME_YN" />
-        <result property="korName" column="KOR_NAME" />
-        <result property="chnName" column="CHN_NAME" />
-        <result property="engSur" column="ENG_SUR_NAME" />
-        <result property="engName" column="ENG_NAME" />
-        <result property="rgstNo" column="RGST_NO" />
-        <result property="zipCode" column="ZIP_CODE" />
-        <result property="addr" column="ADDR" />
-        <result property="detlAddr" column="DETL_ADDR" />
-        <result property="telNum" column="TEL_NUM" />
-        <result property="mobiNum" column="MOBI_NUM" />
-        <result property="faxNum" column="FAX_NUM" />
-        <result property="mailAddr" column="MAIL_ADDR" />
-        <result property="applId" column="APPL_ID" />
-        <result property="applStsCode" column="APPL_STS_CODE" />
-        <result property="privInfoYn" column="PRIV_INFO_YN" />
-        <result property="creId" column="CRE_ID" />
-        <result property="creDate" column="CRE_DATE" />
-        <result property="modId" column="MOD_ID" />
-        <result property="modDate" column="MOD_DATE" />
+    <resultMap id="entireApplicationByNestedSelect"
+               type="com.apexsoft.ysprj.user.test.EntireApplication">
+        <id property="applNo" column="appl_no"/>
+        <result property="userId" column="user_id"/>
+        <result property="admsNo" column="adms_no"/>
+        <result property="deptCode" column="dept_code"/>
+        <result property="ariInsstCode" column="ari_insst_code"/>
+        <result property="corsTypeCode" column="cors_type_code"/>
+        <result property="detlMajCode" column="detl_maj_code"/>
+        <result property="inpDetlMaj" column="inp_detl_maj"/>
+        <result property="partTimeYn" column="part_time_yn"/>
+        <result property="korName" column="kor_name"/>
+        <result property="chnName" column="chn_name"/>
+        <result property="engSur" column="eng_sur"/>
+        <result property="engName" column="eng_name"/>
+        <result property="rgstNo" column="rgst_no"/>
+        <result property="zipCode" column="zip_code"/>
+        <result property="addr" column="addr"/>
+        <result property="detlAddr" column="detl_addr"/>
+        <result property="telNum" column="tel_num"/>
+        <result property="mobiNum" column="mobi_num"/>
+        <result property="faxNum" column="fax_num"/>
+        <result property="mailAddr" column="mail_addr"/>
+        <result property="applId" column="appl_id"/>
+        <result property="applStsCode" column="appl_sts_code"/>
+        <result property="privInfoYn" column="priv_info_yn"/>
+        <result property="creId" column="cre_id"/>
+        <result property="creDate" column="cre_date"/>
+        <result property="modId" column="mod_id"/>
+        <result property="modDate" column="mod_date"/>
+        <association property="applicationGeneral"
+                     javaType="com.apexsoft.ysprj.user.domain.ApplicationGeneral">
+            <id property="applNo" column="appl_no"/>
+            <result property="currWrkpName" column="curr_wrkp_name"/>
+            <result property="currWrkpDay" column="curr_wrkp_day"/>
+            <result property="currWrkpTel" column="curr_wrkp_tel"/>
+            <result property="emerContCode" column="emer_cont_code"/>
+            <result property="emerContName" column="emer_cont_name"/>
+            <result property="emerContTel" column="emer_cont_tel"/>
+            <result property="hndcGrad" column="hndc_grad"/>
+            <result property="hndcTypeCode" column="hndc_type_code"/>
+            <result property="mltrServCode" column="mltr_serv_code"/>
+            <result property="mltrJoinDay" column="mltr_join_day"/>
+            <result property="mltrDschDay" column="mltr_dsch_day"/>
+            <result property="mltrTypeCode" column="mltr_type_code"/>
+            <result property="mltrRankCode" column="mltr_rank_code"/>
+            <result property="bachGradAvr" column="bach_grad_avr"/>
+            <result property="bachGradFull" column="bach_grad_full"/>
+            <result property="mastGradAvr" column="mast_grad_avr"/>
+            <result property="mastGradFull" column="mast_grad_full"/>
+            <result property="forlExmpCode" column="forl_exmp_code"/>
+            <result property="creId" column="gene_cre_id"/>
+            <result property="creDate" column="gene_cre_date"/>
+            <result property="modId" column="gene_mod_id"/>
+            <result property="modDate" column="gene_mod_date"/>
+        </association>
+        <association property="applicationEtc"
+                     javaType="com.apexsoft.ysprj.user.domain.ApplicationEtc">
+            <id property="applNo" column="appl_no"/>
+            <result property="covLett" column="cov_lett"/>
+            <result property="studPlan" column="stud_plan"/>
+            <result property="creId" column="etc_cre_id"/>
+            <result property="creDate" column="etc_cre_date"/>
+            <result property="modId" column="etc_mod_id"/>
+            <result property="modDate" column="etc_mod_date"/>
+        </association>
+        <collection property="applicationAcademyList" column="appl_no"
+                    ofType="com.apexsoft.ysprj.user.domain.ApplicationAcademy"
+                    select="selectAcademyListForEntireApplication"/>
+        <collection property="applicationExperiencesList" column="appl_no"
+                    ofType="com.apexsoft.ysprj.user.domain.ApplicationExperiences"
+                    select="selectExperiencesListForEntireApplication"/>
+        <collection property="applicationEngGradeList" column="appl_no"
+                    ofType="com.apexsoft.ysprj.user.domain.ApplicationEngGrade"
+                    select="selectEngGradeListForEntireApplication"/>
+
     </resultMap>
 
-    <insert id="insertApp" parameterType="com.apexsoft.ysprj.user.domain.Application">
+    <select id="selectEntireApplicationByApplNoNestedSelect"
+            resultMap="entireApplicationByNestedSelect"
+            parameterType="int">
+        <![CDATA[
+        select
+                a.APPL_NO
+                a.USER_ID
+                a.ADMS_NO
+                a.DEPT_CODE
+                a.ARI_INST_CODE
+                a.CORS_TYPE_CODE
+                a.DETL_MAJ_CODE
+                a.INP_DETL_MAJ
+                a.PART_TIME_YN
+                a.KOR_NAME
+                a.CHN_NAME
+                a.ENG_SUR
+                a.ENG_NAME
+                a.RGST_NO
+                a.ZIP_CODE
+                a.ADDR
+                a.DETL_ADDR
+                a.TEL_NUM
+                a.MOBI_NUM
+                a.FAX_NUM
+                a.MAIL_ADDR
+                a.APPL_ID
+                a.APPL_STS_CODE
+                a.PRIV_INFO_YN
+                a.CRE_ID as APPL_CRE_ID
+                a.CRE_DATE as APPL_CRE_ID
+                a.MOD_ID as APPL_MOD_ID
+                a.MOD_DATE as APPL_MOD_DATA
+                b.CURR_WRKP_NAME
+                b.CURR_WRKP_DAY
+                b.CURR_WRKP_TEL
+                b.EMER_CONT_CODE
+                b.EMER_CONT_NAME
+                b.EMER_CONT_TEL
+                b.HNDC_GRAD
+                b.HNDC_TYPE_CODE
+                b.MLTR_SERV_CODE
+                b.MLTR_JOIN_DAY
+                b.MLTR_DSCH_DAY
+                b.MLTR_TYPE_CODE
+                b.MLTR_RANK_CODE
+                b.BACH_GRAD_AVR
+                b.BACH_GRAD_FULL
+                b.MAST_GRAD_AVR
+                b.MAST_GRAD_FULL
+                b.FORL_EXMP_CODE
+                b.CRE_ID as GENE_CRE_ID
+                b.CRE_DATE as GENE_CRE_ID
+                b.MOD_ID as GENE_MOD_ID
+                b.MOD_DATE as GENE_MOD_DATA
+                c.COV_LETT
+                c.STUD_PLAN
+                c.CRE_ID as ETC_CRE_ID
+                c.CRE_DATE as ETC_CRE_ID
+                c.MOD_ID as ETC_MOD_ID
+                c.MOD_DATE as ETC_MOD_DATA
+        from APPL a, APPL_GENE b, APPL_ETC c
+        where a.APPL_NO = b.APPL_NO
+        and   b.APPL_NO = c.APPL_NO
+        and   a.APPL_NO = #{applNo}
+        ]]>
+    </select>
 
-    </insert>
+    <select id="selectAcademyListForEntireApplication"
+            resultType="com.apexsoft.ysprj.user.domain.ApplicationAcademy"
+            parameterType="int">
+        <![CDATA[
+        select
+                APPL_NO
+                ACAD_SEQ
+                ACAD_TYPE_CODE
+                LAST_SCHL_YN
+                ENTR_DAY
+                GRDA_DAY
+                SCHL_CODE
+                SCHL_NAME
+                COLL_NAME
+                MAJ_NAME
+                GRAD_AVR
+                GRAD_FULL
+                GRDA_TYPE_CODE
+                QUAL_EXAM_DAY
+                QUAL_AREA_CODE
+                CRE_ID
+                CRE_DATE
+                MOD_ID
+                MOD_DATE
+        from APPL_ACAD
+        where APPL_NO = #{applno}
+        ]]>
+    </select>
 
-    <update id="updateApp" parameterType="com.apexsoft.ysprj.user.domain.Application">
+    <select id="selectExperiencesListForEntireApplication"
+            resultType="com.apexsoft.ysprj.user.domain.ApplicationExperiences"
+            parameterType="int">
+        <![CDATA[
+        select
+                APPL_NO
+                EXPR_SEQ
+                JOIN_DAY
+                RETR_DAY
+                CORP_NAME
+                EXPR_DESC
+                CRE_ID
+                CRE_DATE
+                MOD_ID
+                MOD_DATE
+        from APPL_EXPR
+        where APPL_NO = #{applno}
+        ]]>
+    </select>
 
-    </update>
-
-    <delete id="deleteApp" parameterType="com.apexsoft.ysprj.user.domain.Application">
-
-    </delete>
-
-    <select id="selectByPk" resultMap="app">
-
+    <select id="selectEngGradeListForEntireApplication"
+            resultType="com.apexsoft.ysprj.user.domain.ApplicationExperiences"
+            parameterType="int">
+        <![CDATA[
+        select
+                APPL_NO
+                FORL_SEQ
+                FORL_TYPE_CODE
+                TOFL_TYPE_CODE
+                FORL_GRAD
+                EXAM_DAY
+                EXPR_DAY
+                CRE_ID
+                CRE_DATE
+                MOD_ID
+                MOD_DATE
+        from APPL_FORL
+        where APPL_NO = #{applno}
+        ]]>
     </select>
 
 </mapper>

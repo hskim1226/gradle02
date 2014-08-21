@@ -24,6 +24,16 @@ public class TestController {
     @Autowired
     private TestService testService;
 
+    @RequestMapping(value="/tabsample")
+    public String tabSample() {
+        return "test/tabsample";
+    }
+
+    @RequestMapping(value = "/showAll")
+    public String showEntireApplication() {
+        return "test/showEntireApplication";
+    }
+
     @RequestMapping(value = "/complexResultMapByOneQuery")
     public String showComplexResultMapByOneQuery(Model model) {
 

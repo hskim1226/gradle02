@@ -6,7 +6,7 @@ import java.util.Date;
  * Created by go2zo on 2014. 8. 17.
  * TABLE : APPL_ACAD
  */
-public class Academy {
+public class ApplicationAcademy {
 
     private String applNo;         // 입학지원번호
     private String acadSeq;        // 학력순번

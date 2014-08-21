@@ -208,8 +208,8 @@ public class BAKApplicationVO {
     private String department;
     private Map<String, String> detailMajors;
     private String detailMajor;
-    private List<Academy> academies;
-    private List<Career> careers;
+    private List<ApplicationAcademy> academies;
+    private List<ApplicationExperiences> careers;
     private Map<String, String> bankList;
     private String bank;
     private String accountNumber;
@@ -218,8 +218,8 @@ public class BAKApplicationVO {
     public BAKApplicationVO() {
         this.departments = new HashMap<String, String>();
         this.detailMajors = new HashMap<String, String>();
-        this.academies = new ArrayList<Academy>();
-        this.careers = new ArrayList<Career>();
+        this.academies = new ArrayList<ApplicationAcademy>();
+        this.careers = new ArrayList<ApplicationExperiences>();
         this.bankList = new HashMap<String, String>();
     }
 
@@ -279,19 +279,19 @@ public class BAKApplicationVO {
         this.detailMajor = detailMajor;
     }
 
-    public List<Academy> getAcademies() {
+    public List<ApplicationAcademy> getAcademies() {
         return academies;
     }
 
-    public void setAcademies(List<Academy> academies) {
+    public void setAcademies(List<ApplicationAcademy> academies) {
         this.academies = academies;
     }
 
-    public List<Career> getCareers() {
+    public List<ApplicationExperiences> getCareers() {
         return careers;
     }
 
-    public void setCareers(List<Career> careers) {
+    public void setCareers(List<ApplicationExperiences> careers) {
         this.careers = careers;
     }
 

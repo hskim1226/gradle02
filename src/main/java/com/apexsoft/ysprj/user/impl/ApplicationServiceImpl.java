@@ -3,9 +3,10 @@ package com.apexsoft.ysprj.user.impl;
 import com.apexsoft.framework.persistence.dao.CommonDAO;
 import com.apexsoft.framework.persistence.dao.page.PageInfo;
 import com.apexsoft.framework.persistence.dao.page.PageStatement;
-import com.apexsoft.ysprj.user.domain.Academy;
+import com.apexsoft.ysprj.user.domain.ApplicationAcademy;
 import com.apexsoft.ysprj.user.domain.Application;
 import com.apexsoft.ysprj.user.domain.Department;
+import com.apexsoft.ysprj.user.domain.EntireApplication;
 import com.apexsoft.ysprj.user.service.ApplicationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,19 +22,24 @@ public class ApplicationServiceImpl implements ApplicationService {
 
     // TODO 제3자 정보제공 동의 여부 providePrivateInfo 처리
 
-    private final static String NAME_SPACE = "com.apexsoft.ysprj.application.Mapper.";
+    private final static String NAME_SPACE = "user.applicationMapper.";
 
     @Autowired
     private CommonDAO commonDAO;
 
     @Override
-    public void registerApplication(Application application) {
-        commonDAO.insert(NAME_SPACE + "insertApp", application);
-        List<Academy> academies = application.getAcademies();
-        for( Academy academy : academies ) {
-            commonDAO.insert(NAME_SPACE + "insertAcad", academy);
-        }
+    public Application retrieveEntireApplication(int applNo) {
+        return commonDAO.queryForObject(NAME_SPACE + "entireApplicationByNestedSelect", applNo, EntireApplication.class);
     }
+
+//    @Override
+//    public void registerApplication(Application application) {
+//        commonDAO.insert(NAME_SPACE + "insertApp", application);
+//        List<ApplicationAcademy> academies = application.getAcademies();
+//        for( ApplicationAcademy applicationAcademy : academies ) {
+//            commonDAO.insert(NAME_SPACE + "insertAcad", applicationAcademy);
+//        }
+//    }
 
     @Override
     public Application retrieveApplication(int appNo) {
