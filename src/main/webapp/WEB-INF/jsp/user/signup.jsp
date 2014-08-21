@@ -65,55 +65,9 @@
         <div class="page-header">
             <h1 style="color: #fdfdfd">회원 가입</h1>
         </div>
-        <form class="form-horizontal" role="form" id="sign-up-form" action="${contextPath}/user/signup" method="post">
-            <div class="form-group">
-                <label for="terms-of-service" class="col-sm-2 control-label">연세어플라이 이용 약관에 대한 동의</label>
-                <div class="col-sm-10">
-                    <%
-                        String file = application.getRealPath("/") + "/WEB-INF/terms-of-service.txt";
-                        URL url = new URL("file:///" + file);
-                        URLConnection conn = url.openConnection();
-                        StringBuilder buffer = new StringBuilder();
-                        BufferedReader input = new BufferedReader(new InputStreamReader(conn.getInputStream(), "utf-8"));
-                        String str = null;
-                        while( (str = input.readLine()) != null) {
-                            str = str.trim();
-                            if (str != "") {
-                                buffer.append(str).append("\n");
-                            }
-                        }
-                        String fileOutput = buffer.toString();
-                    %>
-                    <textarea class="form-control" id="terms-of-service" rows="10" readonly><%=fileOutput == null ? "" : fileOutput%></textarea>
-                    <label for="terms-agree" class="control-label">
-                        <input type="checkbox" name="userAgreYn" id="terms-agree" value="y" />I agree
-                    </label>
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="privacy-policy" class="col-sm-2 control-label">Privacy Policy</label>
-                <div class="col-sm-10">
-                    <%
-                        file = application.getRealPath("/") + "/WEB-INF/privacy-policy.txt";
-                        url = new URL("file:///" + file);
-                        conn = url.openConnection();
-                        buffer = new StringBuilder();
-                        input = new BufferedReader(new InputStreamReader(conn.getInputStream(), "utf-8"));
-                        str = null;
-                        while( (str = input.readLine()) != null) {
-                            str = str.trim();
-                            if (str != "") {
-                                buffer.append(str).append("\n");
-                            }
-                        }
-                        fileOutput = buffer.toString();
-                    %>
-                    <textarea class="form-control" id="privacy-policy" rows="5" readonly><%=fileOutput == null ? "" : fileOutput%></textarea>
-                    <label for="privacy-agree" class="control-label">
-                        <input type="checkbox" name="privInfoYn" id="privacy-agree" value="y" />I agree
-                    </label>
-                </div>
-            </div>
+        <form class="form-horizontal" role="form" id="sign-up-form" action="${contextPath}/user/signup/save" method="post">
+            <form:hidden path="terms-of-service" />
+            <form:hidden path="privacy-policy" />
             <%--usertype--%>
             <div class="form-group">
                 <label class="col-sm-2 control-label">User Type</label>
@@ -224,7 +178,7 @@
             });
 
             $("#available-check-button").on("click", function(){
-                $.get("${contextPath}/user/available",
+                $.get("${contextPath}/user/idCheck",
                         $("#sign-up-form").serialize(),
                         function(data){
                             if(data.result == "SUCCESS"){
