@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.HashMap;
@@ -21,27 +22,7 @@ import java.util.Map;
 public class TestController {
 
     @Autowired
-    private CampusService campusService;
-
-    @Autowired
     private TestService testService;
-
-    @RequestMapping(value = "/campusList")
-    public ModelAndView campusList() {
-
-        ModelAndView modelAndView = new ModelAndView("test/formTest");
-        List<Campus> campusList = campusService.retriveCampusList();
-        Map<String, String> campusMap = new HashMap<String, String>();
-        for( Campus campus : campusList ) {
-            campusMap.put(campus.getCampCode(), campus.getCampName());
-        }
-
-        modelAndView.addObject("campusList", campusList);
-        modelAndView.addObject("campusMap", campusMap);
-        modelAndView.addObject("campus", new Campus());
-
-        return modelAndView;
-    }
 
     @RequestMapping(value = "/complexResultMapByOneQuery")
     public String showComplexResultMapByOneQuery(Model model) {
@@ -65,5 +46,14 @@ public class TestController {
         model.addAttribute("entireApplication", testService.retrieveEntireApplicationByNestedQuery("a00001"));
 
         return "test/complexResultMap";
+    }
+
+    @RequestMapping(value = "/checkNullValue")
+    public String checkNullValue(@RequestParam String p1, @ModelAttribute String p2) {
+
+        System.out.println("["+p1+"]");
+        System.out.println("["+p2+"]");
+
+        return "test/checkNullValue";
     }
 }
