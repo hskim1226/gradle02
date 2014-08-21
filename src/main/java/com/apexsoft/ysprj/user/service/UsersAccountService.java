@@ -1,5 +1,6 @@
 package com.apexsoft.ysprj.user.service;
 
+import com.apexsoft.framework.common.vo.ExecutionContext;
 import com.apexsoft.framework.persistence.dao.page.PageInfo;
 import com.apexsoft.ysprj.user.domain.Users;
 import com.apexsoft.ysprj.user.web.form.UserSearchForm;
@@ -7,21 +8,19 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import java.util.List;
 
-public interface UsersService {
+public interface UsersAccountService {
 
-	Users retrieveUser(String userName);
+    void registerUserAndAuthority(Users users);
 
-    Users retrieveUserDetail(String userName);
+    ExecutionContext registerUser(Users users);
 
-    String retrieveUsername(Users users);
+    Users retrieveUser(String userName);
 
     Integer resetPassword(Users users);
 
     Integer changePassword(Users users);
 
     List<SimpleGrantedAuthority> retrieveAuthorities(String userName);
-
-    void registerUser(Users users);
 
     // List<Users> retrieveUserList() throws Exception;
 
@@ -30,4 +29,8 @@ public interface UsersService {
     //void modifyUsersGrade(String[] usernames, String[] grades);
 
     Integer modifyUsers(Users users);
+
+    ExecutionContext retrieveUserIds(Users users, int showLength);
+
+    ExecutionContext isUserIdAvailable(Users users);
 }

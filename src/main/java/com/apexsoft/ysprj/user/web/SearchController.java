@@ -15,7 +15,7 @@ import javax.validation.Valid;
 /**
  * Created by Administrator on 2014-08-08.
  */
-@Controller
+@Deprecated
 @RequestMapping(value = "/user")
 public class SearchController {
 

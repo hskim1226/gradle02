@@ -6,6 +6,7 @@ import com.apexsoft.ysprj.user.domain.Users;
 /**
  * Created by Administrator on 2014-08-08.
  */
+@Deprecated
 public interface SearchService {
 
     ExecutionContext searchId(Users users);

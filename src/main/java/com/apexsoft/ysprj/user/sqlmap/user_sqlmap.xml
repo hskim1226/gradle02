@@ -86,7 +86,7 @@
 
     <select id="selectByPk" resultMap="user" parameterType="String">
         <![CDATA[
-		  SELECT USER_ID, PSWD, NAME, MAIL_ADDR, ENABLED
+		  SELECT *
 		    FROM USER
 			WHERE 1=1
 			AND USER_ID = #{userId}
@@ -101,20 +101,39 @@
             AND NAME = #{name}
         ]]>
         <if test="mailAddr != null">
-            AND MAIL_ADDR = #{mailAddr}
+            <![CDATA[AND MAIL_ADDR = #{mailAddr}]]>
         </if>
         <if test="mobiNum != null">
-            AND MOBI_NUM = #{mobiNum}
+            <![CDATA[AND MOBI_NUM = #{mobiNum}]]>
         </if>
     </select>
 
-    <select id="selectAllByPk" resultMap="user" parameterType="String">
+    <!-- Queries for Authority      -->
+
+    <select id="selectAuthorities" resultType="com.apexsoft.ysprj.user.domain.Authorities"  parameterType="String">
         <![CDATA[
-          SELECT *
-            FROM USER
-            WHERE 1=1
-            AND USER_ID = #{userId}
-        ]]>
+		  SELECT username, authority
+		    FROM authorities
+			WHERE 1=1
+			AND username = #{username}
+		]]>
     </select>
 
+    <insert id="insertAuthority"  parameterType="com.apexsoft.ysprj.user.domain.Authorities" >
+        <![CDATA[
+		  INSERT INTO authorities
+		                   (authority,
+		                    username)
+		             VALUES(#{authority},
+		                    #{username})
+		]]>
+    </insert>
+
+    <delete id="deleteAuthority" parameterType="com.apexsoft.ysprj.user.domain.Authorities">
+        <![CDATA[
+		  DELETE FROM authorities
+			WHERE username = #{username}
+			AND authority = #{authority}
+		]]>
+    </delete>
 </mapper>

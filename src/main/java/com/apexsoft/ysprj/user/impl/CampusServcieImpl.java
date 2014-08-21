@@ -1,14 +1,9 @@
 package com.apexsoft.ysprj.user.impl;
 
-import com.apexsoft.framework.common.vo.ExecutionContext;
 import com.apexsoft.framework.persistence.dao.CommonDAO;
 import com.apexsoft.ysprj.user.domain.Campus;
-import com.apexsoft.ysprj.user.domain.Users;
 import com.apexsoft.ysprj.user.service.CampusService;
-import com.apexsoft.ysprj.user.service.SignUpService;
-import com.apexsoft.ysprj.user.service.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

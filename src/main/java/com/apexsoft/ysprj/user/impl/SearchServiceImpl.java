@@ -3,7 +3,7 @@ package com.apexsoft.ysprj.user.impl;
 import com.apexsoft.framework.common.vo.ExecutionContext;
 import com.apexsoft.ysprj.user.domain.Users;
 import com.apexsoft.ysprj.user.service.SearchService;
-import com.apexsoft.ysprj.user.service.UsersService;
+import com.apexsoft.ysprj.user.service.UsersAccountService;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,15 +11,16 @@ import org.springframework.stereotype.Service;
 /**
  * Created by Administrator on 2014-08-08.
  */
+@Deprecated
 @Service
 public class SearchServiceImpl implements SearchService {
 
     @Autowired
-    private UsersService usersService;
+    private UsersAccountService usersAccountService;
 
     @Override
     public ExecutionContext searchId(Users users) {
-//        Users usersVO1 = usersService.retrieveUserByName(users.getName());
+//        Users usersVO1 = usersAccountService.retrieveUserByName(users.getName());
 //        if( usersVO1 != null ) {
 //            ExecutionContext context = new ExecutionContext();
 //            String userId = usersVO1.getUsername();
@@ -27,7 +28,7 @@ public class SearchServiceImpl implements SearchService {
 //            context.setData( userId );
 //            return context;
 //        }
-        String userId = usersService.retrieveUsername(users);
+        String userId = null/*usersAccountService.retrieveUsername(users)*/;
         if( userId != null ) {
             ExecutionContext context = new ExecutionContext();
             userId = userId.substring(0, 3) + StringUtils.repeat("*", userId.length() - 3);
