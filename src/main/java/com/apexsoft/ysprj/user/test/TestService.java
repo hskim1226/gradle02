@@ -11,6 +11,8 @@ public interface TestService {
 
     public JoinedApplication retrieveJoinedApplication();
 
-    public List<EntireApplication> retrieveEntireApplication(String applNo);
+    public List<EntireApplication> retrieveEntireApplicationByOneQuery(String applNo);
+
+    public List<EntireApplication> retrieveEntireApplicationByNestedQuery(String applNo);
 
 }

@@ -43,14 +43,26 @@ public class TestController {
         return modelAndView;
     }
 
-    @RequestMapping(value = "/complexResultMap")
-    public String showJoinedResult(Model model) {
+    @RequestMapping(value = "/complexResultMapByOneQuery")
+    public String showComplexResultMapByOneQuery(Model model) {
 
         model.addAttribute("application", testService.retrieveApplication());
 
         model.addAttribute("joinedApplication", testService.retrieveJoinedApplication());
 
-        model.addAttribute("entireApplication", testService.retrieveEntireApplication("a00001"));
+        model.addAttribute("entireApplication", testService.retrieveEntireApplicationByOneQuery("a00001"));
+
+        return "test/complexResultMap";
+    }
+
+    @RequestMapping(value = "/complexResultMapByNestedQuery")
+    public String showComplexResultMapByNestedQuery(Model model) {
+
+        model.addAttribute("application", testService.retrieveApplication());
+
+        model.addAttribute("joinedApplication", testService.retrieveJoinedApplication());
+
+        model.addAttribute("entireApplication", testService.retrieveEntireApplicationByNestedQuery("a00001"));
 
         return "test/complexResultMap";
     }
