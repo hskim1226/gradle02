@@ -18,7 +18,7 @@ import javax.validation.Valid;
  * Time: 오후 3:13
  * To change this template use File | Settings | File Templates.
  */
-@Controller
+@Deprecated
 @SessionAttributes("users")
 @RequestMapping(value="/user")
 public class SignUpController {

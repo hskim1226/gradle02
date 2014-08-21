@@ -2,7 +2,7 @@ package com.apexsoft.ysprj.user.web;
 
 import com.apexsoft.framework.persistence.dao.page.PageInfo;
 import com.apexsoft.ysprj.user.domain.Users;
-import com.apexsoft.ysprj.user.service.UsersService;
+import com.apexsoft.ysprj.user.service.UsersAccountService;
 import com.apexsoft.ysprj.user.web.form.UserSearchForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -23,11 +23,11 @@ import javax.servlet.http.HttpServletRequest;
 public class UserManageController {
 
     @Autowired
-    private UsersService usersService;
+    private UsersAccountService usersAccountService;
 
     @RequestMapping(method= RequestMethod.GET)
     public String displayUserManageList(UserSearchForm userSearchForm, HttpServletRequest request){
-        PageInfo<Users> usersVOPageInfo = usersService.getUserPaginatedList(userSearchForm);
+        PageInfo<Users> usersVOPageInfo = usersAccountService.getUserPaginatedList(userSearchForm);
 
         request.setAttribute("users", usersVOPageInfo.getData());
         request.setAttribute("usersTotal", usersVOPageInfo.getTotalRowCount());
