@@ -32,13 +32,13 @@ public class BirtServiceImpl implements BirtService {
         application.setDeptCode("010");
         application.setKorName("김지호");
         application.setEngName("Jiho");
-        application.setEngSurName("Kim");
-        application.setResidentNumber("830219-1446915");
-        application.setEmail("go2zo@apexsoft.co.kr");
-        application.setTelephone("02-2222-2222");
-        application.setMobile("010-2207-1441");
-        application.setAddress("서울시 마포구");
-        application.setDetailAddr("동교동 LG팰리스빌딩 1121호");
+        application.setEngSur("Kim");
+        application.setRgstNo("830219-1446915");
+        application.setMailAddr("go2zo@apexsoft.co.kr");
+        application.setTelNum("02-2222-2222");
+        application.setMobiNum("010-2207-1441");
+        application.setAddr("서울시 마포구");
+        application.setDetlAddr("동교동 LG팰리스빌딩 1121호");
         return application;
     }
 }

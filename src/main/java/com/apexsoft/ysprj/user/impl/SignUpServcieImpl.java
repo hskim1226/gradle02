@@ -26,7 +26,7 @@ public class SignUpServcieImpl implements SignUpService{
 
     @Override
     public ExecutionContext registerUser(Users users) {
-        users.setPassword(passwordEncoder.encode(users.getPassword()));
+        users.setPswd(passwordEncoder.encode(users.getPswd()));
         usersService.registerUser(users);
 
         return new ExecutionContext();
@@ -34,7 +34,7 @@ public class SignUpServcieImpl implements SignUpService{
 
     @Override
     public ExecutionContext checkAvailable(Users users) {
-        if (usersService.retrieveUser(users.getUsername()) != null ){
+        if (usersService.retrieveUser(users.getUserId()) != null ){
             return new ExecutionContext(ExecutionContext.FAIL);
         } else {
             return new ExecutionContext(ExecutionContext.SUCCESS);

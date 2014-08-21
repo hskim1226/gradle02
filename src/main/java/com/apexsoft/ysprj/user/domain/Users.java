@@ -1,86 +1,36 @@
 package com.apexsoft.ysprj.user.domain;
 
-import com.apexsoft.framework.security.UserSessionVO;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-
-import java.util.Collection;
 import java.util.Date;
 
-public class Users extends UserSessionVO {
+public class Users {
 
-//    private String username;
+    private String userId;
     private String userType;
-//    private String name;
-    private String birth;
-    private String gender;
-    private String mobile;
-//    private String password;
-//    private String email;
-    private String smsReceive;
-    private String emailReceive;
-    private String divisionCode;
-    private String termsAgree;
-    private String privacyAgree;
-    private String creator;
-    private Date createdDate;
-    private String modifier;
-    private Date modifiedDate;
+    private String name;
+    private String bornDay;
+    private String gend;
+    private String mobiNum;
+    private String pswd;
+    private String mailAddr;
+    private String smsRecvYn;
+    private String mailRecvYn;
+    private String userDivsCode;
+    private String userAgreYn;
+    private String privInfoYn;
+    private String userStsCode;
+    private boolean enabled;
+    private String creId;
+    private Date   creDate;
+    private String modId;
+    private Date   modDate;
 
-//    private Collection<? extends GrantedAuthority> authorities;
+    public String getUserId() {
+        return userId;
+    }
 
-//    private boolean enabled;
-
-//    @Override
-//    public Collection<? extends GrantedAuthority> getAuthorities() {
-//        return authorities;
-//    }
-//
-//    public void setAuthorities(Collection<? extends GrantedAuthority> authorities) {
-//        this.authorities = authorities;
-//    }
-//
-//    @Override
-//    public String getPassword() {
-//        return password;
-//    }
-//
-//    public void setPassword(String password) {
-//        this.password = password;
-//    }
-//
-//    @Override
-//    public String getUsername() {
-//        return username;
-//    }
-//
-//    public void setUsername(String username) {
-//        this.username = username;
-//    }
-//
-//    @Override
-//    public boolean isAccountNonExpired() {
-//        return true;
-//    }
-//
-//    @Override
-//    public boolean isAccountNonLocked() {
-//        return enabled;
-//    }
-//
-//    @Override
-//    public boolean isCredentialsNonExpired() {
-//        return true;
-//    }
-//
-//    @Override
-//    public boolean isEnabled() {
-//        return enabled;
-//    }
-//
-//    public void setEnabled(boolean enabled) {
-//        this.enabled = enabled;
-//    }
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
 
     public String getUserType() {
         return userType;
@@ -90,138 +40,164 @@ public class Users extends UserSessionVO {
         this.userType = userType;
     }
 
-//    public String getName() {
-//        return name;
-//    }
-//
-//    public void setName(String name) {
-//        this.name = name;
-//    }
-
-    public String getBirth() {
-        return birth;
+    public String getName() {
+        return name;
     }
 
-    public void setBirth(String birth) {
-        this.birth = birth;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getGender() {
-        return gender;
+    public String getBornDay() {
+        return bornDay;
     }
 
-    public void setGender(String gender) {
-        this.gender = gender;
+    public void setBornDay(String bornDay) {
+        this.bornDay = bornDay;
     }
 
-    public String getMobile() {
-        return mobile;
+    public String getGend() {
+        return gend;
     }
 
-    public void setMobile(String mobile) {
-        this.mobile = mobile;
+    public void setGend(String gend) {
+        this.gend = gend;
     }
 
-//    public String getEmail() {
-//        return email;
-//    }
-//
-//    public void setEmail(String email) {
-//        this.email = email;
-//    }
-
-    public String getSmsReceive() {
-        return smsReceive;
+    public String getMobiNum() {
+        return mobiNum;
     }
 
-    public void setSmsReceive(String smsReceive) {
-        this.smsReceive = smsReceive;
+    public void setMobiNum(String mobiNum) {
+        this.mobiNum = mobiNum;
     }
 
-    public String getEmailReceive() {
-        return emailReceive;
+    public String getPswd() {
+        return pswd;
     }
 
-    public void setEmailReceive(String emailReceive) {
-        this.emailReceive = emailReceive;
+    public void setPswd(String pswd) {
+        this.pswd = pswd;
     }
 
-    public String getDivisionCode() {
-        return divisionCode;
+    public String getMailAddr() {
+        return mailAddr;
     }
 
-    public void setDivisionCode(String divisionCode) {
-        this.divisionCode = divisionCode;
+    public void setMailAddr(String mailAddr) {
+        this.mailAddr = mailAddr;
     }
 
-    public String getTermsAgree() {
-        return termsAgree;
+    public String getSmsRecvYn() {
+        return smsRecvYn;
     }
 
-    public void setTermsAgree(String termsAgree) {
-        this.termsAgree = termsAgree;
+    public void setSmsRecvYn(String smsRecvYn) {
+        this.smsRecvYn = smsRecvYn;
     }
 
-    public String getPrivacyAgree() {
-        return privacyAgree;
+    public String getMailRecvYn() {
+        return mailRecvYn;
     }
 
-    public void setPrivacyAgree(String privacyAgree) {
-        this.privacyAgree = privacyAgree;
+    public void setMailRecvYn(String mailRecvYn) {
+        this.mailRecvYn = mailRecvYn;
     }
 
-    public String getCreator() {
-        return creator;
+    public String getUserDivsCode() {
+        return userDivsCode;
     }
 
-    public void setCreator(String creator) {
-        this.creator = creator;
+    public void setUserDivsCode(String userDivsCode) {
+        this.userDivsCode = userDivsCode;
     }
 
-    public java.util.Date getCreatedDate() {
-        return createdDate;
+    public String getUserAgreYn() {
+        return userAgreYn;
     }
 
-    public void setCreatedDate(java.util.Date createdDate) {
-        this.createdDate = createdDate;
+    public void setUserAgreYn(String userAgreYn) {
+        this.userAgreYn = userAgreYn;
     }
 
-    public String getModifier() {
-        return modifier;
+    public String getPrivInfoYn() {
+        return privInfoYn;
     }
 
-    public void setModifier(String modifier) {
-        this.modifier = modifier;
+    public void setPrivInfoYn(String privInfoYn) {
+        this.privInfoYn = privInfoYn;
     }
 
-    public java.util.Date getModifiedDate() {
-        return modifiedDate;
+    public String getUserStsCode() {
+        return userStsCode;
     }
 
-    public void setModifiedDate(java.util.Date modifyDate) {
-        this.modifiedDate = modifyDate;
+    public void setUserStsCode(String userStsCode) {
+        this.userStsCode = userStsCode;
+    }
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    public String getCreId() {
+        return creId;
+    }
+
+    public void setCreId(String creId) {
+        this.creId = creId;
+    }
+
+    public Date getCreDate() {
+        return creDate;
+    }
+
+    public void setCreDate(Date creDate) {
+        this.creDate = creDate;
+    }
+
+    public String getModId() {
+        return modId;
+    }
+
+    public void setModId(String modId) {
+        this.modId = modId;
+    }
+
+    public Date getModDate() {
+        return modDate;
+    }
+
+    public void setModDate(Date modDate) {
+        this.modDate = modDate;
     }
 
     @Override
     public String toString() {
         return "Users{" +
-                "username=" + getUsername() +
+                "userId=" + userId +
                 ", userType=" + userType +
-                ", name=" + getName() +
-                ", birth=" + birth +
-                ", gender=" + gender +
-                ", mobile=" + mobile +
-                ", password=" + getPassword() +
-                ", email=" + getEmail() +
-                ", smsReceive=" + smsReceive +
-                ", emailReceive=" + emailReceive +
-                ", divisionCode=" + divisionCode +
-                ", termsAgree=" + termsAgree +
-                ", privacyAgree=" + privacyAgree +
-                ", creator=" + creator +
-                ", createDate=" + createdDate +
-                ", modifier=" + modifier +
-                ", modifyDate=" + modifiedDate +
+                ", name=" + name +
+                ", bornDay=" + bornDay +
+                ", gend=" + gend +
+                ", mobiNum=" + mobiNum +
+                ", pswd=" + pswd +
+                ", mailAddr=" + mailAddr +
+                ", smsRecvYn=" + smsRecvYn +
+                ", mailRecvYn=" + mailRecvYn +
+                ", userDivsCode=" + userDivsCode +
+                ", userAgreYn=" + userAgreYn +
+                ", privInfoYn=" + privInfoYn +
+                ", userStsCode" + userStsCode +
+                ", enable" + enabled +
+                ", creId=" + creId +
+                ", createDate=" + creDate +
+                ", modId=" + modId +
+                ", modifyDate=" + modDate +
                 "}";
     }
 }

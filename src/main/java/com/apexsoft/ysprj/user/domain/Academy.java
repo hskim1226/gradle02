@@ -1,6 +1,9 @@
 package com.apexsoft.ysprj.user.domain;
 
+import java.util.Date;
+
 /**
+ * Created by go2zo on 2014. 8. 17.
  * TABLE : APPL_ACAD
  */
 public class Academy {
@@ -18,9 +21,9 @@ public class Academy {
     private String qualExamDay;    // 검정고시합격일
     private String qualAreaCode;   // 검정고시합격지구코드
     private String creId;          // 생성자
-    private String creDate;        // 생성일자
+    private Date   creDate;        // 생성일자
     private String modId;          // 수정자
-    private String modDate;        // 수정일자
+    private Date   modDate;        // 수정일자
 
     public String getApplNo() {
         return applNo;
@@ -126,11 +129,11 @@ public class Academy {
         this.creId = creId;
     }
 
-    public String getCreDate() {
+    public Date getCreDate() {
         return creDate;
     }
 
-    public void setCreDate(String creDate) {
+    public void setCreDate(Date creDate) {
         this.creDate = creDate;
     }
 
@@ -142,11 +145,11 @@ public class Academy {
         this.modId = modId;
     }
 
-    public String getModDate() {
+    public Date getModDate() {
         return modDate;
     }
 
-    public void setModDate(String modDate) {
+    public void setModDate(Date modDate) {
         this.modDate = modDate;
     }
 }

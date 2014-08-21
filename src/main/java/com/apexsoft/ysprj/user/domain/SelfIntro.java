@@ -3,6 +3,7 @@ package com.apexsoft.ysprj.user.domain;
 /**
  * Created by go2zo on 2014. 8. 16..
  */
+@Deprecated
 public class SelfIntro {
     private String ta1;
     private String ta2;

@@ -4,26 +4,33 @@
 
     <resultMap id="app" type="com.apexsoft.ysprj.user.domain.Application">
         <result property="applNo" column="APPL_NO" />
+        <result property="userId" column="USER_ID" />
         <result property="admsNo" column="ADMS_NO" />
         <result property="deptCode" column="DEPT_CODE" />
-        <result property="username" column="USER_ID" />
+        <result property="ariInstCode" column="ARI_INST_CODE" />
+        <result property="corsTypeCode" column="CORS_TYPE_CODE" />
+        <result property="detlMajCode" column="DETL_MAJ_CODE" />
+        <result property="inpDetlMaj" column="INP_DETL_MAJ" />
+        <result property="partTimeYn" column="PART_TIME_YN" />
         <result property="korName" column="KOR_NAME" />
         <result property="chnName" column="CHN_NAME" />
-        <result property="engSurName" column="ENG_SUR_NAME" />
+        <result property="engSur" column="ENG_SUR_NAME" />
         <result property="engName" column="ENG_NAME" />
-        <result property="residentNumber" column="RGST_NO" />
-        <result property="mltrServCode" column="MLTR_SERV_CODE" />
-        <result property="mltrTypeCode" column="MLTR_TYPE_CODE" />
+        <result property="rgstNo" column="RGST_NO" />
         <result property="zipCode" column="ZIP_CODE" />
-        <result property="address" column="ADDR" />
-        <result property="detailAddress" column="DETL_ADDR" />
-        <result property="telephone" column="TEL_NUM" />
-        <result property="mobile" column="MOBI_NUM" />
-        <result property="email" column="MAIL_ADDR" />
-        <result property="creator" column="CRE_ID" />
-        <result property="createdDate" column="CRE_DATE" />
-        <result property="modifier" column="MOD_ID" />
-        <result property="modifiedDate" column="MOD_DATE" />
+        <result property="addr" column="ADDR" />
+        <result property="detlAddr" column="DETL_ADDR" />
+        <result property="telNum" column="TEL_NUM" />
+        <result property="mobiNum" column="MOBI_NUM" />
+        <result property="faxNum" column="FAX_NUM" />
+        <result property="mailAddr" column="MAIL_ADDR" />
+        <result property="applId" column="APPL_ID" />
+        <result property="applStsCode" column="APPL_STS_CODE" />
+        <result property="privInfoYn" column="PRIV_INFO_YN" />
+        <result property="creId" column="CRE_ID" />
+        <result property="creDate" column="CRE_DATE" />
+        <result property="modId" column="MOD_ID" />
+        <result property="modDate" column="MOD_DATE" />
     </resultMap>
 
     <insert id="insertApp" parameterType="com.apexsoft.ysprj.user.domain.Application">

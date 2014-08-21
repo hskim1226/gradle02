@@ -86,7 +86,7 @@
                     %>
                     <textarea class="form-control" id="terms-of-service" rows="10" readonly><%=fileOutput == null ? "" : fileOutput%></textarea>
                     <label for="terms-agree" class="control-label">
-                        <input type="checkbox" name="termsAgree" id="terms-agree" value="y" />I agree
+                        <input type="checkbox" name="userAgreYn" id="terms-agree" value="y" />I agree
                     </label>
                 </div>
             </div>
@@ -110,7 +110,7 @@
                     %>
                     <textarea class="form-control" id="privacy-policy" rows="5" readonly><%=fileOutput == null ? "" : fileOutput%></textarea>
                     <label for="privacy-agree" class="control-label">
-                        <input type="checkbox" name="privacyAgree" id="privacy-agree" value="y" />I agree
+                        <input type="checkbox" name="privInfoYn" id="privacy-agree" value="y" />I agree
                     </label>
                 </div>
             </div>
@@ -133,10 +133,10 @@
             </div>
             <%--user id--%>
             <div class="form-group">
-                <label for="username" class="col-sm-2 control-label">User ID</label>
+                <label for="userId" class="col-sm-2 control-label">User ID</label>
                 <div class="col-sm-6 col-md-4">
                     <div class="input-group">
-                        <input type="text" class="form-control" id="username" name="username" placeholder="User ID"
+                        <input type="text" class="form-control" id="userId" name="userId" placeholder="User ID"
                                data-bv-notempty data-bv-notempty-message="The user id is required" />
                         <span class="input-group-btn">
                             <button class="btn btn-default" type="button" id="available-check-button">Check</button>
@@ -146,31 +146,31 @@
             </div>
             <%--password--%>
             <div class="form-group">
-                <label for="password" class="col-sm-2 control-label">Password</label>
+                <label for="pswd" class="col-sm-2 control-label">Password</label>
                 <div class="col-sm-10">
-                    <input type="password" class="form-control" id="password" name="password" placeholder="Password"
+                    <input type="password" class="form-control" id="pswd" name="pswd" placeholder="Password"
                            data-bv-notempty data-bv-notempty-message="Password is required" />
                     <input type="password" class="form-control" id="confirm" name="confirm" placeholder="Confirm Password"/>
                 </div>
             </div>
             <%--email--%>
             <div class="form-group">
-                <label for="email" class="col-sm-2 control-label">E-Mail</label>
+                <label for="mailAddr" class="col-sm-2 control-label">E-Mail</label>
                 <div class="col-sm-6">
-                    <input type="email" class="form-control" id="email" name="email" placeholder="email" />
+                    <input type="email" class="form-control" id="mailAddr" name="mailAddr" placeholder="email" />
                 </div>
-                <label for="email-receive" class="control-label">
-                    <input type="checkbox" name="emailReceive" id="email-receive" value="y"/>Receive email
+                <label for="mailRecvYn" class="control-label">
+                    <input type="checkbox" name="mailRecvYn" id="mailRecvYn" value="y"/>Receive email
                 </label>
             </div>
-            <%--mobile--%>
+            <%--mobiNum--%>
             <div class="form-group">
-                <label for="mobile" class="col-sm-2 control-label">Mobile</label>
+                <label for="mobiNum" class="col-sm-2 control-label">Mobile</label>
                 <div class="col-sm-6">
-                    <input type="text" class="form-control" id="mobile" name="mobile" placeholder="###-####-####" />
+                    <input type="text" class="form-control" id="mobiNum" name="mobiNum" placeholder="###-####-####" />
                 </div>
                 <label for="sms-receive" class="control-label">
-                    <input type="checkbox" name="smsReceive" id="sms-receive" value="y" />Receive sms
+                    <input type="checkbox" name="smsRecvYn" id="sms-receive" value="y" />Receive sms
                 </label>
             </div>
             <%--name--%>
@@ -180,26 +180,26 @@
                     <input type="text" class="form-control" id="name" name="name" placeholder="Name" />
                 </div>
             </div>
-            <%--gender--%>
+            <%--gend--%>
             <div class="form-group">
                 <label class="col-sm-2 control-label">Gender</label>
                 <div class="col-sm-10">
                     <div class="btn-group" data-toggle="buttons">
                         <label class="btn btn-default active">
-                            <input type="radio" name="gender" id="gender-male" value="m" checked />Male
+                            <input type="radio" name="gend" id="gend-male" value="m" checked />Male
                         </label>
                         <label class="btn btn-default">
-                            <input type="radio" name="gender" id="gender-female" value="f" />Female
+                            <input type="radio" name="gend" id="gend-female" value="f" />Female
                         </label>
                     </div>
                 </div>
             </div>
             <%--calendar--%>
             <div class="form-group">
-                <label for="birth" class="col-sm-2 control-label">Birthday</label>
+                <label for="bornDay" class="col-sm-2 control-label">Birthday</label>
                 <div class="col-sm-6 col-md-4" id="sandbox-container">
                     <div class="input-group date">
-                        <input type="text" class="form-control" id="birth" name="birth"/>
+                        <input type="text" class="form-control" id="bornDay" name="bornDay"/>
                         <span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
                     </div>
                 </div>
