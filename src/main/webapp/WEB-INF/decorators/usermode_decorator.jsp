@@ -11,7 +11,7 @@
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="${contextPath}/js/html5shiv.min.js"></script>
     <script src="${contextPath}/js/respond.min.js"></script>
     <![endif]-->
     <!--<link rel="stylesheet" type="text/css" href="../css/isotope.css" media="screen" />-->
@@ -31,7 +31,7 @@
     <!-- skin -->
     <link rel="stylesheet" href="${contextPath}/skin/default.css">
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="${contextPath}/js/jquery.min.js"></script>
     <decorator:head />
 </head>
 <body>
@@ -76,20 +76,20 @@
     <a href="#header" class="scrollup"><i class="fa fa-chevron-up"></i></a>
 
     <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery.bootstrapvalidator/0.5.0/js/bootstrapValidator.min.js"></script>
+    <script src="${contextPath}/js/bootstrap.min.js"></script>
+    <script src="${contextPath}/js/bootstrapValidator.min.js"></script>
 
 
     <script src="${contextPath}/js/modernizr-2.6.2-respond-1.1.0.min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery.isotope/2.0.0/isotope.pkgd.min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery.nicescroll/3.5.1/jquery.nicescroll.min.js"></script>
+    <script src="${contextPath}/js/jquery.easing.min.js"></script>
+    <script src="${contextPath}/js/isotope.pkgd.min.js"></script>
+    <script src="${contextPath}/js/jquery.nicescroll.min.js"></script>
     <script src="${contextPath}/js/fancybox/jquery.fancybox.pack.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/skrollr/0.6.26/skrollr.min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-scrollTo/1.4.11/jquery.scrollTo.min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-localScroll/1.3.5/jquery.localScroll.min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/stellar.js/0.6.2/jquery.stellar.min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery.appear/0.3.3/jquery.appear.min.js"></script>
+    <script src="${contextPath}/js/skrollr.min.js"></script>
+    <script src="${contextPath}/js/jquery.scrollTo.min.js"></script>
+    <script src="${contextPath}/js/jquery.localScroll.min.js"></script>
+    <script src="${contextPath}/js/jquery.stellar.min.js"></script>
+    <script src="${contextPath}/js/jquery.appear.min.js"></script>
     <script src="${contextPath}/js/validate.min.js"></script>
     <script src="${contextPath}/js/main.js"></script>
     <decorator:getProperty property="page.local-script"/>
