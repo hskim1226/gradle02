@@ -85,61 +85,61 @@
             parameterType="int">
         <![CDATA[
         select
-                a.APPL_NO
-                a.USER_ID
-                a.ADMS_NO
-                a.DEPT_CODE
-                a.ARI_INST_CODE
-                a.CORS_TYPE_CODE
-                a.DETL_MAJ_CODE
-                a.INP_DETL_MAJ
-                a.PART_TIME_YN
-                a.KOR_NAME
-                a.CHN_NAME
-                a.ENG_SUR
-                a.ENG_NAME
-                a.RGST_NO
-                a.ZIP_CODE
-                a.ADDR
-                a.DETL_ADDR
-                a.TEL_NUM
-                a.MOBI_NUM
-                a.FAX_NUM
-                a.MAIL_ADDR
-                a.APPL_ID
-                a.APPL_STS_CODE
-                a.PRIV_INFO_YN
-                a.CRE_ID as APPL_CRE_ID
-                a.CRE_DATE as APPL_CRE_ID
-                a.MOD_ID as APPL_MOD_ID
-                a.MOD_DATE as APPL_MOD_DATA
-                b.CURR_WRKP_NAME
-                b.CURR_WRKP_DAY
-                b.CURR_WRKP_TEL
-                b.EMER_CONT_CODE
-                b.EMER_CONT_NAME
-                b.EMER_CONT_TEL
-                b.HNDC_GRAD
-                b.HNDC_TYPE_CODE
-                b.MLTR_SERV_CODE
-                b.MLTR_JOIN_DAY
-                b.MLTR_DSCH_DAY
-                b.MLTR_TYPE_CODE
-                b.MLTR_RANK_CODE
-                b.BACH_GRAD_AVR
-                b.BACH_GRAD_FULL
-                b.MAST_GRAD_AVR
-                b.MAST_GRAD_FULL
-                b.FORL_EXMP_CODE
-                b.CRE_ID as GENE_CRE_ID
-                b.CRE_DATE as GENE_CRE_ID
-                b.MOD_ID as GENE_MOD_ID
-                b.MOD_DATE as GENE_MOD_DATA
-                c.COV_LETT
-                c.STUD_PLAN
-                c.CRE_ID as ETC_CRE_ID
-                c.CRE_DATE as ETC_CRE_ID
-                c.MOD_ID as ETC_MOD_ID
+                a.APPL_NO,
+                a.USER_ID,
+                a.ADMS_NO,
+                a.DEPT_CODE,
+                a.ARI_INST_CODE,
+                a.CORS_TYPE_CODE,
+                a.DETL_MAJ_CODE,
+                a.INP_DETL_MAJ,
+                a.PART_TIME_YN,
+                a.KOR_NAME,
+                a.CHN_NAME,
+                a.ENG_SUR,
+                a.ENG_NAME,
+                a.RGST_NO,
+                a.ZIP_CODE,
+                a.ADDR,
+                a.DETL_ADDR,
+                a.TEL_NUM,
+                a.MOBI_NUM,
+                a.FAX_NUM,
+                a.MAIL_ADDR,
+                a.APPL_ID,
+                a.APPL_STS_CODE,
+                a.PRIV_INFO_YN,
+                a.CRE_ID as APPL_CRE_ID,
+                a.CRE_DATE as APPL_CRE_ID,
+                a.MOD_ID as APPL_MOD_ID,
+                a.MOD_DATE as APPL_MOD_DATA,
+                b.CURR_WRKP_NAME,
+                b.CURR_WRKP_DAY,
+                b.CURR_WRKP_TEL,
+                b.EMER_CONT_CODE,
+                b.EMER_CONT_NAME,
+                b.EMER_CONT_TEL,
+                b.HNDC_GRAD,
+                b.HNDC_TYPE_CODE,
+                b.MLTR_SERV_CODE,
+                b.MLTR_JOIN_DAY,
+                b.MLTR_DSCH_DAY,
+                b.MLTR_TYPE_CODE,
+                b.MLTR_RANK_CODE,
+                b.BACH_GRAD_AVR,
+                b.BACH_GRAD_FULL,
+                b.MAST_GRAD_AVR,
+                b.MAST_GRAD_FULL,
+                b.FORL_EXMP_CODE,
+                b.CRE_ID as GENE_CRE_ID,
+                b.CRE_DATE as GENE_CRE_ID,
+                b.MOD_ID as GENE_MOD_ID,
+                b.MOD_DATE as GENE_MOD_DATA,
+                c.COV_LETT,
+                c.STUD_PLAN,
+                c.CRE_ID as ETC_CRE_ID,
+                c.CRE_DATE as ETC_CRE_ID,
+                c.MOD_ID as ETC_MOD_ID,
                 c.MOD_DATE as ETC_MOD_DATA
         from APPL a, APPL_GENE b, APPL_ETC c
         where a.APPL_NO = b.APPL_NO
@@ -153,24 +153,24 @@
             parameterType="int">
         <![CDATA[
         select
-                APPL_NO
-                ACAD_SEQ
-                ACAD_TYPE_CODE
-                LAST_SCHL_YN
-                ENTR_DAY
-                GRDA_DAY
-                SCHL_CODE
-                SCHL_NAME
-                COLL_NAME
-                MAJ_NAME
-                GRAD_AVR
-                GRAD_FULL
-                GRDA_TYPE_CODE
-                QUAL_EXAM_DAY
-                QUAL_AREA_CODE
-                CRE_ID
-                CRE_DATE
-                MOD_ID
+                APPL_NO,
+                ACAD_SEQ,
+                ACAD_TYPE_CODE,
+                LAST_SCHL_YN,
+                ENTR_DAY,
+                GRDA_DAY,
+                SCHL_CODE,
+                SCHL_NAME,
+                COLL_NAME,
+                MAJ_NAME,
+                GRAD_AVR,
+                GRAD_FULL,
+                GRDA_TYPE_CODE,
+                QUAL_EXAM_DAY,
+                QUAL_AREA_CODE,
+                CRE_ID,
+                CRE_DATE,
+                MOD_ID,
                 MOD_DATE
         from APPL_ACAD
         where APPL_NO = #{applno}
@@ -182,15 +182,15 @@
             parameterType="int">
         <![CDATA[
         select
-                APPL_NO
-                EXPR_SEQ
-                JOIN_DAY
-                RETR_DAY
-                CORP_NAME
-                EXPR_DESC
-                CRE_ID
-                CRE_DATE
-                MOD_ID
+                APPL_NO,
+                EXPR_SEQ,
+                JOIN_DAY,
+                RETR_DAY,
+                CORP_NAME,
+                EXPR_DESC,
+                CRE_ID,
+                CRE_DATE,
+                MOD_ID,
                 MOD_DATE
         from APPL_EXPR
         where APPL_NO = #{applno}
@@ -202,20 +202,153 @@
             parameterType="int">
         <![CDATA[
         select
-                APPL_NO
-                FORL_SEQ
-                FORL_TYPE_CODE
-                TOFL_TYPE_CODE
-                FORL_GRAD
-                EXAM_DAY
-                EXPR_DAY
-                CRE_ID
-                CRE_DATE
-                MOD_ID
+                APPL_NO,
+                FORL_SEQ,
+                FORL_TYPE_CODE,
+                TOFL_TYPE_CODE,
+                FORL_GRAD,
+                EXAM_DAY,
+                EXPR_DAY,
+                CRE_ID,
+                CRE_DATE,
+                MOD_ID,
                 MOD_DATE
         from APPL_FORL
         where APPL_NO = #{applno}
         ]]>
     </select>
+
+    <select id="selectApplicationByApplNo"
+            resultType="com.apexsoft.ysprj.user.domain.Application"
+            parameterType="int">
+        <![CDATA[
+        select
+                a.APPL_NO,
+                a.USER_ID,
+                a.ADMS_NO,
+                a.DEPT_CODE,
+                a.ARI_INST_CODE,
+                a.CORS_TYPE_CODE,
+                a.DETL_MAJ_CODE,
+                a.INP_DETL_MAJ,
+                a.PART_TIME_YN,
+                a.KOR_NAME,
+                a.CHN_NAME,
+                a.ENG_SUR,
+                a.ENG_NAME,
+                a.RGST_NO,
+                a.ZIP_CODE,
+                a.ADDR,
+                a.DETL_ADDR,
+                a.TEL_NUM,
+                a.MOBI_NUM,
+                a.FAX_NUM,
+                a.MAIL_ADDR,
+                a.APPL_ID,
+                a.APPL_STS_CODE,
+                a.PRIV_INFO_YN,
+                a.CRE_ID,
+                a.CRE_DATE,
+                a.MOD_ID,
+                a.MOD_DATE
+        from APPL a
+        where a.APPL_NO = #{applNo}
+        ]]>
+    </select>
+
+    <insert id="insertApplication" parameterType="com.apexsoft.ysprj.user.domain.Application">
+        <![CDATA[
+        INSERT INTO APPL (
+                USER_ID,
+                ADMS_NO,
+                DEPT_CODE,
+                ARI_INST_CODE,
+                CORS_TYPE_CODE,
+                DETL_MAJ_CODE,
+                INP_DETL_MAJ,
+                PART_TIME_YN,
+                KOR_NAME,
+                CHN_NAME,
+                ENG_SUR,
+                ENG_NAME,
+                RGST_NO,
+                ZIP_CODE,
+                ADDR,
+                DETL_ADDR,
+                TEL_NUM,
+                MOBI_NUM,
+                FAX_NUM,
+                MAIL_ADDR,
+                APPL_ID,
+                APPL_STS_CODE,
+                PRIV_INFO_YN,
+                CRE_ID,
+                CRE_DATE
+        ) VALUES (
+                #{applNo},
+                #{userId},
+                #{admsNo},
+                #{deptCode},
+                #{ariInsstCode},
+                #{corsTypeCode},
+                #{detlMajCode},
+                #{inpDetlMaj},
+                #{partTimeYn},
+                #{korName},
+                #{chnName},
+                #{engSur},
+                #{engName},
+                #{rgstNo},
+                #{zipCode},
+                #{addr},
+                #{detlAddr},
+                #{telNum},
+                #{mobiNum},
+                #{faxNum},
+                #{mailAddr},
+                #{applId},
+                #{applStsCode},
+                #{privInfoYn},
+                #{creId},
+                #{creDate},
+                #{modId},
+                #{modDate}
+        )
+        ]]>
+    </insert>
+
+    <update id="updateApplicationByApplNo" parameterType="com.apexsoft.ysprj.user.domain.Application">
+        <![CDATA[
+		  update APPL set
+                USER_ID = #{userId},
+                ADMS_NO = #{admsNo},
+                DEPT_CODE = #{deptCode},
+                ARI_INSST_CODE = #{ariInsstCode},
+                CORS_TYPE_CODE = #{corsTypeCode},
+                DETL_MAJ_CODE = #{detlMajCode},
+                INP_DETL_MAJ = #{inpDetlMaj},
+                PART_TIME_YN = #{partTimeYn},
+                KOR_NAME = #{korName},
+                CHN_NAME = #{chnName},
+                ENG_SUR = #{engSur},
+                ENG_NAME = #{engName},
+                RGST_NO = #{rgstNo},
+                ZIP_CODE = #{zipCode},
+                ADDR = #{addr},
+                DETL_ADDR = #{detlAddr},
+                TEL_NUM = #{telNum},
+                MOBI_NUM = #{mobiNum},
+                FAX_NUM = #{faxNum},
+                MAIL_ADDR = #{mailAddr},
+                APPL_ID = #{applId},
+                APPL_STS_CODE = #{applStsCode},
+                PRIV_INFO_YN = #{privInfoYn},
+                CRE_ID = #{creId},
+                CRE_DATE = #{creDate},
+                MOD_ID = #{modId},
+                MOD_DATE = #{modDate}
+			WHERE APPL_NO = #{applNo}
+		]]>
+    </update>
 
 </mapper>

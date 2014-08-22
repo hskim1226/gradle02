@@ -17,7 +17,13 @@ public interface ApplicationService {
 
 
 //    void registerApplication(Application application);
+    void createApplication(Application application);
     Application retrieveApplication(int applNo);
+    Integer update(Application application);
+
+
+
+
     Application retrieveApplication(Application application);
     PageInfo<Application> getApplicationsPaginatedList(String username);
     Integer updateApplication(Application application);

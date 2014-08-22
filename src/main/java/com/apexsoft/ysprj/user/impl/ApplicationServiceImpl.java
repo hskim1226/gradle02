@@ -28,6 +28,35 @@ public class ApplicationServiceImpl implements ApplicationService {
     private CommonDAO commonDAO;
 
     @Override
+    public void createApplication(Application application) {
+        commonDAO.insert(NAME_SPACE + "insertApplication", application);
+    }
+
+    @Override
+    public Application retrieveApplication(int applNo) {
+        Application application = null;
+//        try {
+            application = commonDAO.queryForObject(NAME_SPACE + "selectApplicationByApplNo", applNo, Application.class);
+//        } catch (Exception e) {
+////            e.printStackTrace();
+//        }
+        return application;
+    }
+
+    @Override
+    public Integer update(Application application) {
+        return commonDAO.update(NAME_SPACE + "updateApplicationByApplNo", application);
+    }
+
+
+
+
+
+
+
+
+
+    @Override
     public Application retrieveEntireApplication(int applNo) {
         return commonDAO.queryForObject(NAME_SPACE + "entireApplicationByNestedSelect", applNo, EntireApplication.class);
     }
@@ -41,10 +70,7 @@ public class ApplicationServiceImpl implements ApplicationService {
 //        }
 //    }
 
-    @Override
-    public Application retrieveApplication(int appNo) {
-        return commonDAO.queryForObject(NAME_SPACE + "selectByPk", appNo, Application.class);
-    }
+
 
     @Override
     public Application retrieveApplication(Application application) {
