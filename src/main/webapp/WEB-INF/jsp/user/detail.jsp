@@ -1,4 +1,3 @@
-<%@ taglib prefix="ui" uri="http://www.springframework.org/tags/form" %>
 <%@ page contentType="text/html;charset=UTF-8"%>
 <%@include file="/WEB-INF/jsp/common/env.jsp"%>
 <html>

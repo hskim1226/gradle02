@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
  * Time: 오후 6:20
  * To change this template use File | Settings | File Templates.
  */
-@Controller
+@Deprecated
 @RequestMapping(value="/user")
 public class LoginController {
 

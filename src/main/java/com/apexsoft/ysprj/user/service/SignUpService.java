@@ -10,6 +10,7 @@ import com.apexsoft.ysprj.user.domain.Users;
  * Time: 오후 10:17
  * To change this template use File | Settings | File Templates.
  */
+@Deprecated
 public interface SignUpService {
 
     ExecutionContext registerUser(Users users);

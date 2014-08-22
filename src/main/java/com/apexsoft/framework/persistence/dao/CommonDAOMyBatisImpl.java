@@ -331,7 +331,7 @@ public class CommonDAOMyBatisImpl implements CommonDAO {
 	 * java.lang.Object)
 	 */
 	@Override
-	public Object insert(String statementId, Object parameter) {
+	public Integer insert(String statementId, Object parameter) {
 		return this.template.insert(statementId, parameter);
 	}
 

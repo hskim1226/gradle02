@@ -223,7 +223,7 @@ public interface CommonDAO {
 	 * 
 	 * @return affected row count
 	 */
-	Object insert(String statementId, Object parameter);
+	Integer insert(String statementId, Object parameter);
 
 	/**
 	 * 삭제 연산을 수행한다.
