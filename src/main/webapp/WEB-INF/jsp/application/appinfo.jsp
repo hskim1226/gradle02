@@ -51,7 +51,7 @@
             border-radius: 4px;
         }
     </style>
-    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css" />
+    <link rel="stylesheet" href="${contextPath}/css/bootstrap-glyphicons.css" />
 </head>
 <body>
 <section class="application">
