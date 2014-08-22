@@ -52,16 +52,17 @@ public class ApplicationController {
     }
 
     @RequestMapping(value = "/apply", method = RequestMethod.POST)
-    public String displayAppInfo(@ModelAttribute("application") Application application,
-                                 @ModelAttribute("campuses") Map campuses,
+    public String displayAppInfo(/*@ModelAttribute("application") Application application,*/
+                                 /*@ModelAttribute("campuses") Map campuses,
                                  @ModelAttribute("schoolTypes") Map schoolTypes,
                                  @ModelAttribute("graduationTypes") Map graduationTypes,
                                  @ModelAttribute("selfIntro") SelfIntro selfIntro,
-                                 @ModelAttribute("studyPlan") StudyPlan studyPlan,
+                                 @ModelAttribute("studyPlan") StudyPlan studyPlan,*/
                                  @RequestParam("radio4") String providePrivateInfo,
                                  Model model) {
 
         model.addAttribute("providePrivateInfo", providePrivateInfo);
+        model.addAttribute("application", applicationService.retrieveApplication(1));
 
         return "application/appinfo";
     }
