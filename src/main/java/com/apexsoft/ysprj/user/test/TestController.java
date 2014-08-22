@@ -1,18 +1,12 @@
 package com.apexsoft.ysprj.user.test;
 
-import com.apexsoft.ysprj.user.domain.Campus;
-import com.apexsoft.ysprj.user.service.CampusService;
+import com.apexsoft.ysprj.user.service.ApplicationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.ModelAndView;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * Created by hanmomhanda on 14. 8. 20.
@@ -23,6 +17,26 @@ public class TestController {
 
     @Autowired
     private TestService testService;
+
+    @Autowired
+    private ApplicationService applicationService;
+
+    @RequestMapping(value="/tabsample")
+    public String tabSample() {
+        return "test/tabsample";
+    }
+
+    @RequestMapping(value = "/showAll")
+    public String showEntireApplication() {
+        return "test/showEntireApplication";
+    }
+
+    @RequestMapping(value = "/showApplication")
+    public String showApplication(Model model) {
+
+        model.addAttribute("application", applicationService.retrieveApplication(1));
+        return "test/showApplication";
+    }
 
     @RequestMapping(value = "/complexResultMapByOneQuery")
     public String showComplexResultMapByOneQuery(Model model) {

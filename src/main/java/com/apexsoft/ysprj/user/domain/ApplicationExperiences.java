@@ -6,7 +6,7 @@ import java.util.Date;
  * Created by go2zo on 2014. 8. 18.
  * TABLE : APPL_EXPR
  */
-public class Career {
+public class ApplicationExperiences {
 
     private String applNo;        // 입학지원번호
     private String exprSeq;       // 경력순번
