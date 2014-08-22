@@ -7,8 +7,8 @@
     <style>
         section.application {
             padding: 200px 0 60px;
-            background: #5f5f5f;
-            color: #fdfdfd;
+            background: #fff;
+            color: #000;
             position:relative;
         }
 
@@ -56,259 +56,425 @@
 <body>
 <section class="application">
 <div class="container">
-<h2 class="slogan">선택 과정</h2>
-<div class="align-center">
-    <table class="table table-stripped">
-        <thead>
-        <tr>
-            <th>대학원</th>
-            <th>공고명</th>
-            <th>접수 기간</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-            <td>일반</td>
-            <td>2015학년도 연세대학교 일반대학원 석사과정 수시 모집</td>
-            <td>2014-09-28 / 2014-10-03</td>
-        </tr>
-        </tbody>
-    </table>
-</div>
-<div class="spacer-tiny"></div>
-<hr/>
-
 <ul id="myTab" class="nav nav-tabs nav-justified">
     <li><a href="#appinfo" data-toggle="tab">기본정보</a></li>
     <li><a href="#selfintro" data-toggle="tab">자기소개서</a></li>
-    <li><a href="#studyplan" data-toggle="tab">기타</a></li>
+    <li><a href="#studyplan" data-toggle="tab">학업 및 연구 계획서</a></li>
+    <li><a href="#fileupload" data-toggle="tab">첨부파일</a></li>
 </ul>
 <div id="myTabContent" class="tab-content">
     <div class="tab-pane fade" id="appinfo">
         <form:form commandName="application" cssClass="form-horizontal" role="form">
-            <div class="spacer-tiny"></div>
-            <div class="form-group">
-                <form:label path="campus" cssClass="col-sm-3 control-label">지원캠퍼스</form:label>
-                <div class="col-sm-6">
-                    <form:select path="campus" cssClass="form-control">
-                        <form:option value="-" label="--Please Select" />
-                        <form:options items="${campuses}" />
-                    </form:select>
-                </div>
-            </div>
-            <div class="form-group">
-                <form:label path="course" cssClass="col-sm-3 control-label">지원과정</form:label>
-                <div class="col-sm-6">
-                    <form:select path="course" cssClass="form-control">
-                        <form:option value="-" label="--Please Select" />
-                        <form:options items="${courses}" />
-                    </form:select>
-                </div>
-            </div>
-            <div class="form-group">
-                <form:label path="institution" cssClass="col-sm-3 control-label">학연산 연구기관명</form:label>
-                <div class="col-sm-6">
-                    <form:input path="institution" cssClass="form-control" />
-                </div>
-            </div>
-            <div class="form-group">
-                <form:label path="department" cssClass="col-sm-3 control-label">지원학과</form:label>
-                <div class="col-sm-6">
-                    <form:select path="department" cssClass="form-control">
-                        <form:option value="-" label="--Please Select" />
-                        <form:options items="${departments}" />
-                    </form:select>
-                </div>
-            </div>
-            <div class="form-group">
-                <form:label path="detailMajor" cssClass="col-sm-3 control-label">세부전공</form:label>
-                <div class="col-sm-6">
-                    <form:select path="detailMajor" cssClass="form-control">
-                        <form:option value="-" label="--Please Select" />
-                        <form:options items="${detailMajors}" />
-                    </form:select>
-                </div>
-            </div>
-            <div class="form-group">
-                <form:label path="korName" cssClass="col-sm-3 control-label">이름</form:label>
-                <div class="col-sm-6">
-                    <form:input path="korName" cssClass="form-control" />
-                </div>
-            </div>
-            <div class="form-group">
-                <form:label path="engName" cssClass="col-sm-3 control-label">영문</form:label>
-                <div class="col-sm-3">
-                    <form:input path="engName" cssClass="form-control" />
-                </div>
-                <div class="col-sm-3">
-                    <form:input path="engSur" cssClass="form-control" />
-                </div>
-            </div>
-            <div class="form-group">
-                <form:label path="rgstNo" cssClass="col-sm-3 control-label">주민등록번호</form:label>
-                <div class="col-sm-6">
-                    <form:input path="rgstNo" cssClass="form-control" />
-                </div>
-            </div>
-            <div class="form-group">
-                <form:label path="mailAddr" cssClass="col-sm-3 control-label">E-mail</form:label>
-                <div class="col-sm-6">
-                    <form:input path="mailAddr" cssClass="form-control" />
-                </div>
-            </div>
-            <div class="form-group">
-                <form:label path="telNum" cssClass="col-sm-3 control-label">전화번호</form:label>
-                <div class="col-sm-6">
-                    <form:input path="telNum" cssClass="form-control" />
-                </div>
-            </div>
-            <div class="form-group">
-                <form:label path="mobiNum" cssClass="col-sm-3 control-label">휴대폰</form:label>
-                <div class="col-sm-6">
-                    <form:input path="mobiNum" cssClass="form-control" />
-                </div>
-            </div>
-            <div class="form-group">
-                <form:label path="addr" cssClass="col-sm-3 control-label">주소</form:label>
-                <div class="col-sm-1">
-                    <form:input path="zipCode" cssClass="form-control" />
-                </div>
-                <div class="col-sm-5">
-                    <div class="input-group">
-                        <form:input path="addr" cssClass="form-control" />
-                        <span class="input-group-btn">
-                            <button type="button" class="btn btn-default" id="search-zipcode">
-                                <span class="glyphicon glyphicon-search"></span> Search
-                            </button>
-                        </span>
+        <div class="row">
+            <div class="col-sm-offset-1 col-sm-10">
+                <div class="panel panel-default">
+                    <div class="panel-heading">지원자 정보</div>
+                    <div class="panel-body">
+                        <div class="form-group">
+                            <form:label path="korName" cssClass="col-sm-3 control-label">한글이름</form:label>
+                            <div class="col-sm-8">
+                                <form:input path="korName" cssClass="form-control" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">영문성명</label>
+                            <div class="col-sm-9">
+                                <div class="input-group">
+                                    <span class="input-group-addon">[성]</span>
+                                    <form:input path="engSur" cssClass="col-sm-6 form-control" />
+                                </div>
+                                <div class="input-group">
+                                    <span class="input-group-addon">[이름]</span>
+                                    <form:input path="engName" cssClass="col-sm-6 form-control" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <form:label path="rgstNo" cssClass="col-sm-3 control-label">주민등록번호</form:label>
+                            <div class="col-sm-9">
+                                <form:input path="rgstNo" cssClass="form-control" />
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="col-sm-offset-3 col-sm-6">
-                    <form:input path="detlAddr" cssClass="form-control" />
-                </div>
-            </div>
+                <c:if test="${application.deptCode == '086' || application.deptCode == '013'}">
+                <div class="panel panel-default">
+                    <div class="panel-heading">현재 근무처</div>
+                    <div class="panel-body">
 
-            <div class="spacer-small"></div>
-            <hr/>
-            <h2 class="slogan">학력 사항</h2>
-            <div class="row">
-                <div class="col-sm-offset-2 col-sm-8">
-                    <table class="table table-hover table-responsive table-condensed table-bordered">
-                        <thead>
-                            <tr>
-                                <td><input type="checkbox" id="select-all-academies" /></td>
-                                <td>학력</td>
-                                <td>학교명</td>
-                                <td>입학일자</td>
-                                <td>졸업일자</td>
-                                <td>졸업구분</td>
-                            </tr>
-                        </thead>
-                        <tbody>
-                        <c:forEach items="${application.academies}" var="academy" varStatus="status">
-                            <tr>
-                                <td><input type="checkbox" class="selectRow" /></td>
-                                <td><form:select path="academies[${status.index}].acadTypeCode" items="${requestScope.schoolTypes}" /></td>
-                                <td><form:input path="academies[${status.index}].schlName" /></td>
-                                <td><form:input path="academies[${status.index}].entrDay" /></td>
-                                <td><form:input path="academies[${status.index}].grdaDay" /></td>
-                                <td><form:select path="academies[${status.index}].grdaTypeCode" items="${requestScope.graduationTypes}" /></td>
-                            </tr>
-                        </c:forEach>
-                        <c:if test="${application.academies.size() < 4}">
-                            <c:forEach begin="${application.academies.size()}" end="3" varStatus="status">
-                                <tr>
-                                    <td><input type="checkbox" class="selectRow" /></td>
-                                    <td><select id="academies${status.index}.acadTypeCode" name="academies[${status.index}].acadTypeCode" items="${requestScope.acadTypeCode}" /></td>
-                                    <td><input id="academies${status.index}.schlName" name="academies[${status.index}].schlName" /></td>
-                                    <td><input id="academies${status.index}.entrDay" name="academies[${status.index}].entrDay" /></td>
-                                    <td><input id="academies${status.index}.grdaDay" name="academies[${status.index}].grdaDay" /></td>
-                                    <td><select id="academies${status.index}.grdaTypeCode" name="academies[${status.index}].grdaTypeCode" items="${requestScope.grdaTypeCode}" /></td>
-                                </tr>
-                            </c:forEach>
-                        </c:if>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-offset-2 col-sm-8">
-                    <div class="btn-group pull-right">
-                        <button type="button" class="btn btn-default" id="academy-up">
-                            <span class="glyphicon glyphicon-chevron-up"></span>
-                        </button>
-                        <button type="button" class="btn btn-default" id="academy-down">
-                            <span class="glyphicon glyphicon-chevron-down"></span>
-                        </button>
-                        <button type="button" class="btn btn-default" id="academy-add">
-                            <span class="glyphicon glyphicon-plus"></span>
-                        </button>
-                        <button type="button" class="btn btn-default" id="academy-del">
-                            <span class="glyphicon glyphicon-minus"></span>
-                        </button>
                     </div>
                 </div>
-            </div>
+                </c:if>
+                <div class="panel panel-default">
+                    <div class="panel-heading">지원자 상세정보</div>
+                    <div class="panel-body">
+                        <%--<div class="form-group">--%>
+                            <%--<form:label path="citzCntrCode" cssClass="col-sm-3 control-label">국적</form:label>--%>
+                            <%--<div class="col-sm-9">--%>
+                                <%--<div class="input-group">--%>
+                                    <%--<form:input path="citzCntrCode" cssClass="form-control" />--%>
+                                    <%--<span class="input-group-btn">--%>
+                                        <%--<button type="button" class="btn btn-default" id="search-citz-cntr-code">--%>
+                                            <%--<span class="glyphicon glyphicon-search"></span> 검색--%>
+                                        <%--</button>--%>
+                                    <%--</span>--%>
+                                <%--</div>--%>
+                            <%--</div>--%>
+                        <%--</div>--%>
+                        <%--<div class="form-group">--%>
+                            <%--<label class="col-sm-3 control-label">장애사항</label>--%>
+                            <%--<div class="col-sm-9">--%>
+                                <%--<div class="input-group">--%>
+                                    <%--<span class="input-group-addon">[장애유형]</span>--%>
+                                    <%--<form:input path="hndcGrad" cssClass="col-sm-6 form-control" />--%>
+                                <%--</div>--%>
+                                <%--<div class="input-group">--%>
+                                    <%--<span class="input-group-addon">[장애등급]</span>--%>
+                                    <%--<form:input path="hndcType" cssClass="col-sm-6 form-control" />--%>
+                                <%--</div>--%>
+                            <%--</div>--%>
+                        <%--</div>--%>
 
-            <div class="spacer-small"></div>
-            <hr/>
-            <h2 class="slogan">경력 사항</h2>
-            <div class="row">
-                <div class="col-sm-offset-2 col-sm-8">
-                    <table class="table table-hover table-responsive table-condensed table-bordered">
-                        <thead>
-                        <tr>
-                            <td><input type="checkbox" id="select-all-careers" /></td>
-                            <td colspan="3">기간</td>
-                            <td>기관명</td>
-                            <td>직위(또는 상벌내용, 연수내용 등)</td>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <c:forEach items="${application.careers}" var="career" varStatus="status">
-                            <tr>
-                                <td><input type="checkbox" class="selectRow" /></td>
-                                <td><form:input path="careers[${status.index}].joinYmd" /></td>
-                                <td><span>~</span></td>
-                                <td><form:input path="careers[${status.index}].retrYmd" /></td>
-                                <td><form:input path="careers[${status.index}].corpName" /></td>
-                                <td><form:input path="careers[${status.index}].exprDesc" /></td>
-                            </tr>
-                        </c:forEach>
-                        <c:if test="${application.academies.size() < 4}">
-                            <c:forEach begin="${application.careers.size()}" end="3" varStatus="status">
-                                <tr>
-                                    <td><input type="checkbox" class="selectRow" /></td>
-                                    <td><input id="careers${status.index}.joinYmd" name="careers[${status.index}].joinYmd"/></td>
-                                    <td><span>~</span></td>
-                                    <td><input id="careers${status.index}.retrYmd" name="careers[${status.index}].retrYmd"/></td>
-                                    <td><input id="careers${status.index}.corpName" name="careers[${status.index}].corpName"/></td>
-                                    <td><input id="careers${status.index}.exprDesc" name="careers[${status.index}].exprDesc"/></td>
-                                </tr>
-                            </c:forEach>
-                        </c:if>
-                        </tbody>
-                    </table>
+                    </div>
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-offset-2 col-sm-8">
-                    <div class="btn-group pull-right">
-                        <button type="button" class="btn btn-default" id="career-up">
-                            <span class="glyphicon glyphicon-chevron-up"></span>
-                        </button>
-                        <button type="button" class="btn btn-default" id="career-down">
-                            <span class="glyphicon glyphicon-chevron-down"></span>
-                        </button>
-                        <button type="button" class="btn btn-default" id="career-add">
-                            <span class="glyphicon glyphicon-plus"></span>
-                        </button>
-                        <button type="button" class="btn btn-default" id="career-del">
-                            <span class="glyphicon glyphicon-minus"></span>
-                        </button>
+                <div class="panel panel-default">
+                    <div class="panel-heading">지원자 연락처</div>
+                    <div class="panel-body">
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">주소</label>
+                            <div class="col-sm-1">
+                                <form:input path="zipCode" cssClass="form-control" />
+                            </div>
+                            <div class="col-sm-8">
+                                <div class="input-group">
+                                    <span class="input-group-btn">
+                                        <button type="button" class="btn btn-default" id="search-zipcode">
+                                            <span class="glyphicon glyphicon-search"></span> 검색
+                                        </button>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-sm-offset-3 col-sm-8">
+                                <form:input path="addr" cssClass="form-control" />
+                            </div>
+                            <div class="col-sm-offset-3 col-sm-8">
+                                <form:input path="detlAddr" cssClass="form-control" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <form:label path="telNum" cssClass="col-sm-3 control-label">전화번호</form:label>
+                            <div class="col-sm-9">
+                                <%--TODO--%>
+                                <%--<form:select path="telNumFirst" cssClass="form-control">--%>
+                                    <%--<form:options items="${common.telNumFirst}" />--%>
+                                <%--</form:select> --%>
+                                <form:input path="telNum" cssClass="form-control" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <form:label path="mobiNum" cssClass="col-sm-3 control-label">휴대폰</form:label>
+                            <div class="col-sm-9">
+                                <%--TODO--%>
+                                <%--<form:select path="mobiNumFirst" cssClass="form-control">--%>
+                                    <%--<form:options items="${common.telNumFirst}" />--%>
+                                <%--</form:select>--%>
+                                <form:input path="mobiNum" cssClass="form-control" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <form:label path="mailAddr" cssClass="col-sm-3 control-label">E-mail</form:label>
+                            <div class="col-sm-9">
+                                <form:input path="mailAddr" cssClass="form-control" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel panel-default">
+                    <div class="panel-heading">비상연락처</div>
+                    <div class="panel-body">
+                        <%--<div class="form-group">--%>
+                            <%--<form:label path="emerContName" cssClass="col-sm-3 control-label">이름</form:label>--%>
+                            <%--<div class="col-sm-9">--%>
+                                <%--<form:input path="emerContName" cssClass="form-control" />--%>
+                            <%--</div>--%>
+                        <%--</div>--%>
+                        <%--<div class="form-group">--%>
+                            <%--<form:label path="emerContCode" cssClass="col-sm-3 control-label">관계</form:label>--%>
+                            <%--<div class="col-sm-9">--%>
+                                <%--<form:select path="emerContCode" cssClass="form-control">--%>
+                                    <%--<form:options items="${common.emerCont}" />--%>
+                                <%--</form:select>--%>
+                            <%--</div>--%>
+                        <%--</div>--%>
+                        <%--<div class="form-group">--%>
+                            <%--<form:label path="emerContTel" cssClass="col-sm-3 control-label">전화번호</form:label>--%>
+                            <%--<div class="col-sm-9">--%>
+                                <%--&lt;%&ndash;TODO&ndash;%&gt;--%>
+                                <%--<form:select path="telNumFirst" cssClass="form-control">--%>
+                                    <%--<form:options items="${common.telNumFirst}" />--%>
+                                <%--</form:select> --%>
+                                <%--<form:input path="emerContTel" cssClass="form-control" />--%>
+                            <%--</div>--%>
+                        <%--</div>--%>
+
+                    </div>
+                </div>
+                <div class="panel panel-default">
+                    <div class="panel-heading">고등학교</div>
+                    <div class="panel-body">
+
+                    </div>
+                </div>
+                <div class="panel panel-default">
+                    <div class="panel-heading">대학교</div>
+                    <div class="panel-body">
+
+                    </div>
+                </div>
+                <div class="panel panel-default">
+                    <div class="panel-heading">대학원</div>
+                    <div class="panel-body">
+
+                    </div>
+                </div>
+                <div class="panel panel-default">
+                    <div class="panel-heading">어학성적</div>
+                    <div class="panel-body">
+
+                    </div>
+                </div>
+                <div class="panel panel-default">
+                    <div class="panel-heading">경력사항</div>
+                    <div class="panel-body">
+
                     </div>
                 </div>
             </div>
+        </div>
+
+
+        <%--<div class="form-group">--%>
+            <%--<form:label path="campus" cssClass="col-sm-3 control-label">지원캠퍼스</form:label>--%>
+            <%--<div class="col-sm-6">--%>
+                <%--<form:select path="campus" cssClass="form-control">--%>
+                    <%--<form:option value="-" label="--Please Select" />--%>
+                    <%--<form:options items="${campuses}" />--%>
+                <%--</form:select>--%>
+            <%--</div>--%>
+    <%--</div>--%>
+    <%--<div class="form-group">--%>
+        <%--<form:label path="course" cssClass="col-sm-3 control-label">지원과정</form:label>--%>
+        <%--<div class="col-sm-6">--%>
+            <%--<form:select path="course" cssClass="form-control">--%>
+                <%--<form:option value="-" label="--Please Select" />--%>
+                <%--<form:options items="${courses}" />--%>
+            <%--</form:select>--%>
+        <%--</div>--%>
+    <%--</div>--%>
+            <%--<div class="form-group">--%>
+                <%--<form:label path="institution" cssClass="col-sm-3 control-label">학연산 연구기관명</form:label>--%>
+                <%--<div class="col-sm-6">--%>
+                    <%--<form:input path="institution" cssClass="form-control" />--%>
+                <%--</div>--%>
+            <%--</div>--%>
+            <%--<div class="form-group">--%>
+                <%--<form:label path="department" cssClass="col-sm-3 control-label">지원학과</form:label>--%>
+                <%--<div class="col-sm-6">--%>
+                    <%--<form:select path="department" cssClass="form-control">--%>
+                        <%--<form:option value="-" label="--Please Select" />--%>
+                        <%--<form:options items="${departments}" />--%>
+                    <%--</form:select>--%>
+                <%--</div>--%>
+            <%--</div>--%>
+            <%--<div class="form-group">--%>
+                <%--<form:label path="detailMajor" cssClass="col-sm-3 control-label">세부전공</form:label>--%>
+                <%--<div class="col-sm-6">--%>
+                    <%--<form:select path="detailMajor" cssClass="form-control">--%>
+                        <%--<form:option value="-" label="--Please Select" />--%>
+                        <%--<form:options items="${detailMajors}" />--%>
+                    <%--</form:select>--%>
+                <%--</div>--%>
+            <%--</div>--%>
+            <%--<div class="form-group">--%>
+                <%--<form:label path="korName" cssClass="col-sm-3 control-label">이름</form:label>--%>
+                <%--<div class="col-sm-6">--%>
+                    <%--<form:input path="korName" cssClass="form-control" />--%>
+                <%--</div>--%>
+            <%--</div>--%>
+            <%--<div class="form-group">--%>
+                <%--<form:label path="engName" cssClass="col-sm-3 control-label">영문</form:label>--%>
+                <%--<div class="col-sm-3">--%>
+                    <%--<form:input path="engName" cssClass="form-control" />--%>
+                <%--</div>--%>
+                <%--<div class="col-sm-3">--%>
+                    <%--<form:input path="engSur" cssClass="form-control" />--%>
+                <%--</div>--%>
+            <%--</div>--%>
+            <%--<div class="form-group">--%>
+                <%--<form:label path="rgstNo" cssClass="col-sm-3 control-label">주민등록번호</form:label>--%>
+                <%--<div class="col-sm-6">--%>
+                    <%--<form:input path="rgstNo" cssClass="form-control" />--%>
+                <%--</div>--%>
+            <%--</div>--%>
+            <%--<div class="form-group">--%>
+                <%--<form:label path="mailAddr" cssClass="col-sm-3 control-label">E-mail</form:label>--%>
+                <%--<div class="col-sm-6">--%>
+                    <%--<form:input path="mailAddr" cssClass="form-control" />--%>
+                <%--</div>--%>
+            <%--</div>--%>
+            <%--<div class="form-group">--%>
+                <%--<form:label path="telNum" cssClass="col-sm-3 control-label">전화번호</form:label>--%>
+                <%--<div class="col-sm-6">--%>
+                    <%--<form:input path="telNum" cssClass="form-control" />--%>
+                <%--</div>--%>
+            <%--</div>--%>
+            <%--<div class="form-group">--%>
+                <%--<form:label path="mobiNum" cssClass="col-sm-3 control-label">휴대폰</form:label>--%>
+                <%--<div class="col-sm-6">--%>
+                    <%--<form:input path="mobiNum" cssClass="form-control" />--%>
+                <%--</div>--%>
+            <%--</div>--%>
+            <%--<div class="form-group">--%>
+                <%--<form:label path="addr" cssClass="col-sm-3 control-label">주소</form:label>--%>
+                <%--<div class="col-sm-1">--%>
+                    <%--<form:input path="zipCode" cssClass="form-control" />--%>
+                <%--</div>--%>
+                <%--<div class="col-sm-5">--%>
+                    <%--<div class="input-group">--%>
+                        <%--<form:input path="addr" cssClass="form-control" />--%>
+                        <%--<span class="input-group-btn">--%>
+                            <%--<button type="button" class="btn btn-default" id="search-zipcode">--%>
+                                <%--<span class="glyphicon glyphicon-search"></span> Search--%>
+                            <%--</button>--%>
+                        <%--</span>--%>
+                    <%--</div>--%>
+                <%--</div>--%>
+                <%--<div class="col-sm-offset-3 col-sm-6">--%>
+                    <%--<form:input path="detlAddr" cssClass="form-control" />--%>
+                <%--</div>--%>
+            <%--</div>--%>
+
+            <%--<div class="spacer-small"></div>--%>
+            <%--<hr/>--%>
+            <%--<h2 class="slogan">학력 사항</h2>--%>
+            <%--<div class="row">--%>
+                <%--<div class="col-sm-offset-2 col-sm-8">--%>
+                    <%--<table class="table table-hover table-responsive table-condensed table-bordered">--%>
+                        <%--<thead>--%>
+                            <%--<tr>--%>
+                                <%--<td><input type="checkbox" id="select-all-academies" /></td>--%>
+                                <%--<td>학력</td>--%>
+                                <%--<td>학교명</td>--%>
+                                <%--<td>입학일자</td>--%>
+                                <%--<td>졸업일자</td>--%>
+                                <%--<td>졸업구분</td>--%>
+                            <%--</tr>--%>
+                        <%--</thead>--%>
+                        <%--<tbody>--%>
+                        <%--<c:forEach items="${application.academies}" var="academy" varStatus="status">--%>
+                            <%--<tr>--%>
+                                <%--<td><input type="checkbox" class="selectRow" /></td>--%>
+                                <%--<td><form:select path="academies[${status.index}].acadTypeCode" items="${requestScope.schoolTypes}" /></td>--%>
+                                <%--<td><form:input path="academies[${status.index}].schlName" /></td>--%>
+                                <%--<td><form:input path="academies[${status.index}].entrDay" /></td>--%>
+                                <%--<td><form:input path="academies[${status.index}].grdaDay" /></td>--%>
+                                <%--<td><form:select path="academies[${status.index}].grdaTypeCode" items="${requestScope.graduationTypes}" /></td>--%>
+                            <%--</tr>--%>
+                        <%--</c:forEach>--%>
+                        <%--<c:if test="${application.academies.size() < 4}">--%>
+                            <%--<c:forEach begin="${application.academies.size()}" end="3" varStatus="status">--%>
+                                <%--<tr>--%>
+                                    <%--<td><input type="checkbox" class="selectRow" /></td>--%>
+                                    <%--<td><select id="academies${status.index}.acadTypeCode" name="academies[${status.index}].acadTypeCode" items="${requestScope.acadTypeCode}" /></td>--%>
+                                    <%--<td><input id="academies${status.index}.schlName" name="academies[${status.index}].schlName" /></td>--%>
+                                    <%--<td><input id="academies${status.index}.entrDay" name="academies[${status.index}].entrDay" /></td>--%>
+                                    <%--<td><input id="academies${status.index}.grdaDay" name="academies[${status.index}].grdaDay" /></td>--%>
+                                    <%--<td><select id="academies${status.index}.grdaTypeCode" name="academies[${status.index}].grdaTypeCode" items="${requestScope.grdaTypeCode}" /></td>--%>
+                                <%--</tr>--%>
+                            <%--</c:forEach>--%>
+                        <%--</c:if>--%>
+                        <%--</tbody>--%>
+                    <%--</table>--%>
+                <%--</div>--%>
+            <%--</div>--%>
+            <%--<div class="row">--%>
+                <%--<div class="col-sm-offset-2 col-sm-8">--%>
+                    <%--<div class="btn-group pull-right">--%>
+                        <%--<button type="button" class="btn btn-default" id="academy-up">--%>
+                            <%--<span class="glyphicon glyphicon-chevron-up"></span>--%>
+                        <%--</button>--%>
+                        <%--<button type="button" class="btn btn-default" id="academy-down">--%>
+                            <%--<span class="glyphicon glyphicon-chevron-down"></span>--%>
+                        <%--</button>--%>
+                        <%--<button type="button" class="btn btn-default" id="academy-add">--%>
+                            <%--<span class="glyphicon glyphicon-plus"></span>--%>
+                        <%--</button>--%>
+                        <%--<button type="button" class="btn btn-default" id="academy-del">--%>
+                            <%--<span class="glyphicon glyphicon-minus"></span>--%>
+                        <%--</button>--%>
+                    <%--</div>--%>
+                <%--</div>--%>
+            <%--</div>--%>
+
+            <%--<div class="spacer-small"></div>--%>
+            <%--<hr/>--%>
+            <%--<h2 class="slogan">경력 사항</h2>--%>
+            <%--<div class="row">--%>
+                <%--<div class="col-sm-offset-2 col-sm-8">--%>
+                    <%--<table class="table table-hover table-responsive table-condensed table-bordered">--%>
+                        <%--<thead>--%>
+                        <%--<tr>--%>
+                            <%--<td><input type="checkbox" id="select-all-careers" /></td>--%>
+                            <%--<td colspan="3">기간</td>--%>
+                            <%--<td>기관명</td>--%>
+                            <%--<td>직위(또는 상벌내용, 연수내용 등)</td>--%>
+                        <%--</tr>--%>
+                        <%--</thead>--%>
+                        <%--<tbody>--%>
+                        <%--<c:forEach items="${application.careers}" var="career" varStatus="status">--%>
+                            <%--<tr>--%>
+                                <%--<td><input type="checkbox" class="selectRow" /></td>--%>
+                                <%--<td><form:input path="careers[${status.index}].joinYmd" /></td>--%>
+                                <%--<td><span>~</span></td>--%>
+                                <%--<td><form:input path="careers[${status.index}].retrYmd" /></td>--%>
+                                <%--<td><form:input path="careers[${status.index}].corpName" /></td>--%>
+                                <%--<td><form:input path="careers[${status.index}].exprDesc" /></td>--%>
+                            <%--</tr>--%>
+                        <%--</c:forEach>--%>
+                        <%--<c:if test="${application.academies.size() < 4}">--%>
+                            <%--<c:forEach begin="${application.careers.size()}" end="3" varStatus="status">--%>
+                                <%--<tr>--%>
+                                    <%--<td><input type="checkbox" class="selectRow" /></td>--%>
+                                    <%--<td><input id="careers${status.index}.joinYmd" name="careers[${status.index}].joinYmd"/></td>--%>
+                                    <%--<td><span>~</span></td>--%>
+                                    <%--<td><input id="careers${status.index}.retrYmd" name="careers[${status.index}].retrYmd"/></td>--%>
+                                    <%--<td><input id="careers${status.index}.corpName" name="careers[${status.index}].corpName"/></td>--%>
+                                    <%--<td><input id="careers${status.index}.exprDesc" name="careers[${status.index}].exprDesc"/></td>--%>
+                                <%--</tr>--%>
+                            <%--</c:forEach>--%>
+                        <%--</c:if>--%>
+                        <%--</tbody>--%>
+                    <%--</table>--%>
+                <%--</div>--%>
+            <%--</div>--%>
+            <%--<div class="row">--%>
+                <%--<div class="col-sm-offset-2 col-sm-8">--%>
+                    <%--<div class="btn-group pull-right">--%>
+                        <%--<button type="button" class="btn btn-default" id="career-up">--%>
+                            <%--<span class="glyphicon glyphicon-chevron-up"></span>--%>
+                        <%--</button>--%>
+                        <%--<button type="button" class="btn btn-default" id="career-down">--%>
+                            <%--<span class="glyphicon glyphicon-chevron-down"></span>--%>
+                        <%--</button>--%>
+                        <%--<button type="button" class="btn btn-default" id="career-add">--%>
+                            <%--<span class="glyphicon glyphicon-plus"></span>--%>
+                        <%--</button>--%>
+                        <%--<button type="button" class="btn btn-default" id="career-del">--%>
+                            <%--<span class="glyphicon glyphicon-minus"></span>--%>
+                        <%--</button>--%>
+                    <%--</div>--%>
+                <%--</div>--%>
+            <%--</div>--%>
 
             <%--<div class="spacer-small"></div>--%>
             <%--<hr/>--%>
@@ -414,7 +580,7 @@
 --%>
 </div>
 </section>
-<content tag="local-script">
+    <content tag="local-script">
     <script type="text/javascript">
         $(document).ready(function() {
             $('#myTab a:first').tab('show');
