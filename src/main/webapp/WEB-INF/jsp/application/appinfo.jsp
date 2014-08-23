@@ -7,7 +7,7 @@
     <style>
         section.application {
             padding: 200px 0 60px;
-            background: #fff;
+            background: #8a8a8a;
             color: #000;
             position:relative;
         }
@@ -64,6 +64,7 @@
 </ul>
 <div id="myTabContent" class="tab-content">
     <div class="tab-pane fade" id="appinfo">
+        <div class="spacer-tiny"></div>
         <form:form commandName="application" cssClass="form-horizontal" role="form">
         <div class="row">
             <div class="col-sm-offset-1 col-sm-10">
@@ -71,13 +72,13 @@
                     <div class="panel-heading">지원자 정보</div>
                     <div class="panel-body">
                         <div class="form-group">
-                            <form:label path="korName" cssClass="col-sm-3 control-label">한글이름</form:label>
-                            <div class="col-sm-8">
+                            <form:label path="korName" cssClass="col-sm-2 control-label">한글이름</form:label>
+                            <div class="col-sm-9">
                                 <form:input path="korName" cssClass="form-control" />
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-sm-3 control-label">영문성명</label>
+                            <label class="col-sm-2 control-label">영문성명</label>
                             <div class="col-sm-9">
                                 <div class="input-group">
                                     <span class="input-group-addon">[성]</span>
@@ -90,7 +91,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <form:label path="rgstNo" cssClass="col-sm-3 control-label">주민등록번호</form:label>
+                            <form:label path="rgstNo" cssClass="col-sm-2 control-label">주민등록번호</form:label>
                             <div class="col-sm-9">
                                 <form:input path="rgstNo" cssClass="form-control" />
                             </div>
@@ -101,7 +102,26 @@
                 <div class="panel panel-default">
                     <div class="panel-heading">현재 근무처</div>
                     <div class="panel-body">
-
+                        <div class="form-group">
+                            <form:label path="currWrkpName" cssClass="col-sm-2 control-label">회사이름</form:label>
+                            <div class="col-sm-9">
+                                <form:input path="currWrkpName" cssClass="form-control" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">입사일</label>
+                            <div class="col-sm-9">
+                                <div class="input-group">
+                                    <form:input path="currWrkpDay" cssClass="col-sm-6 form-control" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <form:label path="currWrkpTel" cssClass="col-sm-2 control-label">연락처</form:label>
+                            <div class="col-sm-9">
+                                <form:input path="currWrkpTel" cssClass="form-control" />
+                            </div>
+                        </div>
                     </div>
                 </div>
                 </c:if>
@@ -142,24 +162,29 @@
                     <div class="panel-body">
                         <div class="form-group">
                             <label class="col-sm-3 control-label">주소</label>
-                            <div class="col-sm-1">
-                                <form:input path="zipCode" cssClass="form-control" />
-                            </div>
-                            <div class="col-sm-8">
-                                <div class="input-group">
-                                    <span class="input-group-btn">
-                                        <button type="button" class="btn btn-default" id="search-zipcode">
-                                            <span class="glyphicon glyphicon-search"></span> 검색
-                                        </button>
-                                    </span>
-                                </div>
-                            </div>
-                            <div class="col-sm-offset-3 col-sm-8">
-                                <form:input path="addr" cssClass="form-control" />
-                            </div>
-                            <div class="col-sm-offset-3 col-sm-8">
-                                <form:input path="detlAddr" cssClass="form-control" />
-                            </div>
+                            <input type="text" id="postcode1"> - <input type="text" id="postcode2"/>
+                            <input type="hidden" id="zipCode" name="zipCode"/>
+                            <button type="button" id="searchAddress">우편번호 찾기</button>
+                            <input type="text" id="address" name="addr"/>
+                            <input type="text" id="addressDetail" name="detlAddr">
+                            <%--<div class="col-sm-1">--%>
+                                <%--<form:input path="zipCode" cssClass="form-control" />--%>
+                            <%--</div>--%>
+                            <%--<div class="col-sm-8">--%>
+                                <%--<div class="input-group">--%>
+                                    <%--<span class="input-group-btn">--%>
+                                        <%--<button type="button" class="btn btn-default" id="search-zipcode">--%>
+                                            <%--<span class="glyphicon glyphicon-search"></span> 검색--%>
+                                        <%--</button>--%>
+                                    <%--</span>--%>
+                                <%--</div>--%>
+                            <%--</div>--%>
+                            <%--<div class="col-sm-offset-3 col-sm-8">--%>
+                                <%--<form:input path="addr" cssClass="form-control" />--%>
+                            <%--</div>--%>
+                            <%--<div class="col-sm-offset-3 col-sm-8">--%>
+                                <%--<form:input path="detlAddr" cssClass="form-control" />--%>
+                            <%--</div>--%>
                         </div>
                         <div class="form-group">
                             <form:label path="telNum" cssClass="col-sm-3 control-label">전화번호</form:label>
@@ -567,11 +592,27 @@
     </div>
 </div>
 
-<div>
-    <button type="button" class="btn btn-default btn-lg" id="save">저장</button>
-    <button type="button" class="btn btn-primary btn-lg" id="apply">작성완료</button>
-    <button type="button" class="btn btn-waring btn-lg" id="reset">되돌리기</button>
+
+<%--<div class="">--%>
+    <%--<button type="button" class="col-md-3 btn btn-info btn-lg" id="save">저장</button>--%>
+    <%--<button type="button" class="col-md-offset-1 col-md-4 btn btn-primary btn-lg" id="apply">작성완료</button>--%>
+    <%--<button type="button" class="col-md-offset-1 col-md-3 btn btn-warning btn-lg" id="reset">되돌리기</button>--%>
+<%--</div>--%>
+<div class="btn-group btn-group-justified">
+    <div class="btn-group">
+        <button id="save" type="button" class="btn btn-info btn-lg">저장</button>
+    </div>
+    <div class="btn-group">
+        <button id="appply" type="button" class="btn btn-primary btn-lg">작성완료</button>
+    </div>
+    <div class="btn-group">
+        <button id="reset" type="button" class="btn btn-warning btn-lg">되돌리기</button>
+    </div>
 </div>
+<div id="layer" style="display:none;border:3px solid;position:fixed;width:300px;height:460px;left:50%;margin-left:-155px;top:50%;margin-top:-235px;overflow:hidden;-webkit-overflow-scrolling:touch;">
+    <img src="${contextPath}/img/user/addr-close.png" id="btnCloseLayer" style="cursor:pointer;position:absolute;right:-3px;top:-3px" alt="닫기 버튼">
+</div>
+
 <%--
         <div class="row mar-bot40">
             <div class="col-md-10 col-md-offset-1">
@@ -581,6 +622,8 @@
 </div>
 </section>
     <content tag="local-script">
+    <%--<script src="${contextPath}/js/postcode.js"></script>--%>
+    <script src="http://dmaps.daum.net/map_js_init/postcode.js"></script>
     <script type="text/javascript">
         $(document).ready(function() {
             $('#myTab a:first').tab('show');
@@ -603,7 +646,41 @@
                     this.reset();
                 });
             });
+
+
+            // 우편번호 찾기 iframe을 넣을 element
+            var element = document.getElementById('layer');
+
+            var closeDaumPostcode = function () {
+                // iframe을 넣은 element를 안보이게 한다.
+                element.style.display = 'none';
+            };
+
+            var showDaumPostcode = function () {
+                new daum.Postcode({
+                    oncomplete: function(data) {
+                        // 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+                        // 우편번호와 주소 및 영문주소 정보를 해당 필드에 넣는다.
+                        document.getElementById('postcode1').value = data.postcode1;
+                        document.getElementById('postcode2').value = data.postcode2;
+                        document.getElementById('address').value = data.address;
+                        document.getElementById('addressDetail').focus();
+                        // iframe을 넣은 element를 안보이게 한다.
+                        closeDaumPostcode();
+                    },
+                    width : '100%',
+                    height : '100%'
+                }).embed(element);
+
+                // iframe을 넣은 element를 보이게 한다.
+                element.style.display = 'block';
+            };
+
+            $('#btnCloseLayer').on('click', closeDaumPostcode);
+
+            $('#searchAddress').on('click', showDaumPostcode);
         });
+
     </script>
 </content>
 </body>
