@@ -26,10 +26,11 @@
     <!-- Overwrite Bootstrap -->
     <link rel="stylesheet" href="${contextPath}/css/overwrite.css"/>
     <link rel="stylesheet" href="${contextPath}/css/animate.css"/>
-    <!-- custom style -->
-    <link rel="stylesheet" href="${contextPath}/css/style.css"/>
     <!-- skin -->
     <link rel="stylesheet" href="${contextPath}/skin/default.css">
+    <!-- custom style -->
+    <link rel="stylesheet" href="${contextPath}/css/style.css"/>
+
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="${contextPath}/js/jquery.min.js"></script>
     <decorator:head />
