@@ -26,6 +26,11 @@ public class TestController {
         return "test/tabsample";
     }
 
+    @RequestMapping(value="/formTest")
+    public String formTest() {
+        return "test/formTest";
+    }
+
     @RequestMapping(value = "/showAll")
     public String showEntireApplication() {
         return "test/showEntireApplication";

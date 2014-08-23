@@ -65,7 +65,7 @@
 <section class="application-selfintro" id="application-create">
     <div class="container">
         <div class="row mar-bot40">
-            <div class="col-md-offset-0 col-md-11">
+            <div class="col-md-offset-0 col-md-11" id="buttonContainer">
                 <h2 class="slogan">Form Test</h2>
 
                 <div class="spacer-small"></div>
@@ -75,12 +75,12 @@
                     <%--${campus.code} : ${campus.name}<br/>--%>
                 <%--</c:forEach>--%>
 
-                <form:form commandName="campus">
-                    <form:select path="name" items="${campusMap}"/>
-                        <%--<form:option value="**" label="---Choose---"/>--%>
-                        <%--<form:options items="${campusMap}"/>--%>
-                    <%--</form:select>--%>
-                </form:form>
+                <%--<form:form commandName="campus">--%>
+                    <%--<form:select path="name" items="${campusMap}"/>--%>
+                        <%--&lt;%&ndash;<form:option value="**" label="---Choose---"/>&ndash;%&gt;--%>
+                        <%--&lt;%&ndash;<form:options items="${campusMap}"/>&ndash;%&gt;--%>
+                    <%--&lt;%&ndash;</form:select>&ndash;%&gt;--%>
+                <%--</form:form>--%>
 
                 <%--<form:form commandName="campus">--%>
                     <%--<form:select path="name">--%>
@@ -88,14 +88,22 @@
                         <%--<form:options items="${campusList}" itemValue="${campus.code}" itemLabel="${campus.name}"/>--%>
                     <%--</form:select>--%>
                 <%--</form:form>--%>
-
+                <div class="abc btn btn-danger">버튼1</div>
+                <div class="abc btn btn-danger">버튼2</div>
+                <div class="abc btn btn-danger">버튼3</div>
             </div>
         </div>
     </div>
 </section>
 <content tag="local-script">
     <script>
+        $(document).ready(function() {
+            $('.abc').on('click', function(e) {
+                console.log(e);
+                $('#buttonContainer').append('<div class="abc btn btn-danger" onclick="javascript:alert(\"ddd\")">버튼3</div>');
+            });
 
+        });
     </script>
 </content>
 </body>

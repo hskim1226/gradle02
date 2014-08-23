@@ -4,6 +4,7 @@
 <html>
 <head>
     <title></title>
+    <link rel="stylesheet" href="${contextPath}/css/datepicker3.css">
     <style>
         section.application {
             padding: 200px 0 60px;
@@ -35,7 +36,7 @@
         }
 
         section.application .tab-content {
-            background-color: #f0f0f0;
+            background-color: #d0d0d0;
             color: #000;
         }
 
@@ -310,7 +311,73 @@
                         <div class="panel panel-default">
                             <div class="panel-heading">대학교</div>
                             <div class="panel-body">
-
+                                <div id="college-container">
+                                    <div class="collegeInfo">
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label">소재 국가</label>
+                                            <div class="btn btn-default btn-md col-md-2">검색</div>
+                                            <div class="col-sm-6">
+                                                <input name="korCntrName" class="form-control" id="korCntrName1"/>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label">학교 이름</label>
+                                            <div class="btn btn-default btn-md col-md-2">검색</div>
+                                            <div class="col-sm-4">
+                                                <input name="schlName" class="form-control" id="schlName1" />
+                                            </div>
+                                            <div class="col-sm-2">
+                                                <label class="radio inline">
+                                                    <input type="radio" name="lastSchlYn" id="lastSchlYn1" value="Y" checked>&nbsp;&nbsp;최종 학교
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label">단과 대학</label>
+                                            <div class="col-sm-8">
+                                                <input name="collName" class="form-control" id="collName1"/>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label">학과 이름</label>
+                                            <div class="col-sm-8">
+                                                <input name="majName" class="form-control" id="majName1" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label">재학 기간</label>
+                                            <div class="col-sm-4 start-date-container">
+                                                <div class="input-group date">
+                                                    <span class="input-group-addon">입학일</span>
+                                                    <input type="text" class="form-control" name="entrDay" id="entrDay1"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-4 start-date-container">
+                                                <div class="input-group date">
+                                                    <span class="input-group-addon">졸업일</span>
+                                                    <input type="text" class="form-control" name="grdaDay" id="grdaDay1"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label">평균 평점</label>
+                                            <div class="col-sm-2">
+                                                <div class="input-group date">
+                                                    <span class="input-group-addon">평점</span>
+                                                    <input class="form-control" name="gradAvr" id="gradAvr1"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-2">
+                                                <div class="input-group date">
+                                                    <span class="input-group-addon">만점</span>
+                                                    <input class="form-control" name="gradFull" id="gradFull1"/>
+                                                </div>
+                                            </div>
+                                            <div id="addCollege1" class="addCollege col-sm-2 btn btn-info">입력란 추가</div>
+                                            <div id="removeCollege1" class="removeCollege col-sm-2 btn btn-danger">입력란 삭제</div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div class="panel panel-default">
@@ -890,8 +957,12 @@
     <content tag="local-script">
     <%--<script src="${contextPath}/js/postcode.js"></script>--%>
     <script src="http://dmaps.daum.net/map_js_init/postcode.js"></script>
+    <script src="${contextPath}/js/bootstrap-datepicker.js"></script>
+    <script src="${contextPath}/js/bootstrap-datepicker.kr.js"></script>
     <script type="text/javascript">
         $(document).ready(function() {
+
+
             $('#myTab a:first').tab('show');
 
             $('#save').on('click', function() {
@@ -912,6 +983,76 @@
                     this.reset();
                 });
             });
+
+            <%-- 대학 입력란 동적 처리 시작 --%>
+            var createCollegeHtml = function(n) {
+                return '<div class="collegeInfo"><hr/>'+
+                        '<div class="form-group">'+
+                        '<label class="col-sm-2 control-label">소재 국가</label>'+
+                        '<div class="btn btn-default btn-md col-md-2">검색</div>'+
+                        '<div class="col-sm-6"><input name="korCntrName" class="form-control" id="korCntrName'+n+'"/></div>'+
+                        '</div>'+
+                        '<div class="form-group">'+
+                        '<label class="col-sm-2 control-label">학교 이름</label>'+
+                        '<div class="btn btn-default btn-md col-md-2">검색</div>'+
+                        '<div class="col-sm-4"><input name="schlName" class="form-control" id="schlName'+n+'"/></div>'+
+                        '<div class="col-sm-2"><label class="radio inline"><input type="radio" name="lastSchlYn" value="N">&nbsp;&nbsp;최종 학교</label>'+
+                        '</div>'+
+                        '</div>'+
+                        '<div class="form-group">'+
+                        '<label class="col-sm-2 control-label">단과 대학</label>'+
+                        '<div class="col-sm-8"><input name="collName" class="form-control" id="collName'+n+'"/></div>'+
+                        '</div>'+
+                        '<div class="form-group">'+
+                        '<label class="col-sm-2 control-label">학과 이름</label>'+
+                        '<div class="col-sm-8"><input name="majName" class="form-control" id="majName'+n+'"/></div>'+
+                        '</div>'+
+                        '<div class="form-group">'+
+                        '<label class="col-sm-2 control-label">재학 기간</label>'+
+                        '<div class="col-sm-4 start-date-container">'+
+                        '<div class="input-group date"><span class="input-group-addon">입학일</span>'+
+                        '<input type="text" class="form-control" name="entrDay" id="entrDay'+n+'"/>'+
+                        '</div>'+
+                        '</div>'+
+                        '<div class="col-sm-4 start-date-container">'+
+                        '<div class="input-group date"><span class="input-group-addon">졸업일</span>'+
+                        '<input type="text" class="form-control" name="grdaDay" id="grdaDay'+n+'"/>'+
+                        '</div>'+
+                        '</div>'+
+                        '</div>'+
+                        '<div class="form-group">'+
+                        '<label class="col-sm-2 control-label">평균 평점</label>'+
+                        '<div class="col-sm-2">'+
+                        '<div class="input-group date"><span class="input-group-addon">평점</span>'+
+                        '<input class="form-control" name="gradAvr" id="gradAvr'+n+'"/>'+
+                        '</div>'+
+                        '</div>'+
+                        '<div class="col-sm-2">'+
+                        '<div class="input-group date"><span class="input-group-addon">만점</span>'+
+                        '<input class="form-control" name="gradFull id="gradFull'+n+'"/>'+
+                        '</div>'+
+                        '</div>'+
+                        '<div id="addCollege'+n+'" class="addCollege col-sm-2 btn btn-info">입력란 추가</div>'+
+                        '<div id="removeCollege'+n+'" class="removeCollege col-sm-2 btn btn-danger">입력란 삭제</div>'+
+                        '</div>'+
+                        '</div>';
+            };
+
+
+            $('.addCollege').on('click', function addCollege(e) {
+                var nColleges = ($('.collegeInfo').length + 1).toString();
+                $('#college-container').append(createCollegeHtml(nColleges));
+            });
+
+            $('.removeCollege').on('click', function removeCollege(e) {
+                var nColleges = $('.collegeInfo').length;
+                if ((nColleges-1) < 1) alert('더 이상 삭제할 수 없습니다.');
+                else {
+                    e.target.parentElement.parentElement.remove();
+                }
+
+            });
+            <%-- 대학 입력란 동적 처리 끝 --%>
 
             <%-- 다음 주소 검색 시작 --%>
             var element = document.getElementById('postLayer');
@@ -967,6 +1108,15 @@
 
             });
             <%-- 사진 업로드 끝 --%>
+<%-- 달력 끝 --%>
+            $('.start-date-container .input-group.date').datepicker({
+                format: "yyyymmdd",
+                startView: 2,
+                language: "kr",
+                forceParse: false,
+                autoclose: true
+            });
+            <%-- 달력 끝 --%>
         });
 
     </script>
