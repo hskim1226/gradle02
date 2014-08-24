@@ -96,16 +96,11 @@
                         <option name="r1" value="1">라디오1</option>
                         <option name="r1" value="2">라디오2</option>
                     </select>
-                    <div class="btn btn-primary btn-block addUnit">유닛추가</div>
-                </div>
-                <div id="acadUnit2">
-                    <hr/>
-                    <input type="text" id="t2" name="t1"/>
-                    <select id="s2" name="s1">
-                        <option name="r1" value="0">라디오0</option>
-                        <option name="r1" value="1">라디오1</option>
-                        <option name="r1" value="2">라디오2</option>
-                    </select>
+                    <div id="inDiv1">
+                        <div id="inDiv1DivA1" class="btn btn-info"></div>
+                        <div id="inDiv1DivB1" class="btn btn-primary"></div>
+                        <div id="inDiv1DivC1" class="btn btn-warning"></div>
+                    </div>
                     <div class="btn btn-primary btn-block addUnit">유닛추가</div>
                 </div>
             </div>
@@ -121,7 +116,7 @@
 //console.log(ele);
                 clo = ele.cloneNode(true);
 
-                renameChildren(clo);
+                renameChildren(clo, $('.addUnit').length+1);
 //console.log(clo);
                 clo.addEventListener('click', addUnit);
                 parent = document.getElementById('innerContainer');
@@ -132,16 +127,20 @@
                 console.log($('.addUnit'));
             }
 
-            var renameChildren = function (o) {
-                var children = o.childNodes, l, t0;
+            var renameChildren = function (o, n) {
+                var children = o.childNodes, l, t0, tid;
 
                 if ( children ) {
                     for( l = 0 ; l < children.length ; l++ ) {
                         t0 = children[l];
-
+                        if ( t0.id ) {
+                            tid = t0.id.toString();
+                            t0.id = tid.substring(0, tid.length - 1) + n.toString();
+                        }
+                        renameChildren(t0, n);
                     }
-                    return;
                 }
+                return;
             };
 
             $('.addUnit').on('click', addUnit);

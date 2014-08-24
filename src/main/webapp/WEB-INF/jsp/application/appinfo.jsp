@@ -313,6 +313,7 @@
                             <div class="panel-body">
                                 <div id="college-container">
                                     <div class="collegeInfo">
+                                        <hr/>
                                         <div class="form-group">
                                             <label class="col-sm-2 control-label">소재 국가</label>
                                             <div class="btn btn-default btn-md col-md-2">검색</div>
@@ -328,7 +329,7 @@
                                             </div>
                                             <div class="col-sm-2">
                                                 <label class="radio inline">
-                                                    <input type="radio" name="lastSchlYn" id="lastSchlYn1" value="Y" checked>&nbsp;&nbsp;최종 학교
+                                                    <input type="radio" name="lastSchlYn" id="lastSchlYn1" class="lastSchl">&nbsp;&nbsp;최종 학교
                                                 </label>
                                             </div>
                                         </div>
@@ -352,7 +353,7 @@
                                                     <input type="text" class="form-control" name="entrDay" id="entrDay1"/>
                                                 </div>
                                             </div>
-                                            <div class="col-sm-4 start-date-container">
+                                            <div class="col-sm-4 end-date-container">
                                                 <div class="input-group date">
                                                     <span class="input-group-addon">졸업일</span>
                                                     <input type="text" class="form-control" name="grdaDay" id="grdaDay1"/>
@@ -362,13 +363,13 @@
                                         <div class="form-group">
                                             <label class="col-sm-2 control-label">평균 평점</label>
                                             <div class="col-sm-2">
-                                                <div class="input-group date">
+                                                <div class="input-group">
                                                     <span class="input-group-addon">평점</span>
                                                     <input class="form-control" name="gradAvr" id="gradAvr1"/>
                                                 </div>
                                             </div>
                                             <div class="col-sm-2">
-                                                <div class="input-group date">
+                                                <div class="input-group">
                                                     <span class="input-group-addon">만점</span>
                                                     <input class="form-control" name="gradFull" id="gradFull1"/>
                                                 </div>
@@ -952,6 +953,8 @@
 
 
 
+
+
 </div>
 </section>
     <content tag="local-script">
@@ -984,74 +987,144 @@
                 });
             });
 
+            <%-- 최종 대학 체크 처리 시작 --%>
+            var setLastSchool = function (e) {
+                var i, l, radioList = document.getElementsByClassName('lastSchl');
+                for ( i = 0, l = radioList.length ; i < l ;i++ ) {
+                    radioList[i].value="N";
+                }
+console.dir(e.target);
+                e.target.value="Y";
+            }
+            $('.lastSchl').on('click', setLastSchool);
+            <%-- 최종 대학 체크 처리 끝 --%>
+
             <%-- 대학 입력란 동적 처리 시작 --%>
-            var createCollegeHtml = function(n) {
-                return '<div class="collegeInfo"><hr/>'+
-                        '<div class="form-group">'+
-                        '<label class="col-sm-2 control-label">소재 국가</label>'+
-                        '<div class="btn btn-default btn-md col-md-2">검색</div>'+
-                        '<div class="col-sm-6"><input name="korCntrName" class="form-control" id="korCntrName'+n+'"/></div>'+
-                        '</div>'+
-                        '<div class="form-group">'+
-                        '<label class="col-sm-2 control-label">학교 이름</label>'+
-                        '<div class="btn btn-default btn-md col-md-2">검색</div>'+
-                        '<div class="col-sm-4"><input name="schlName" class="form-control" id="schlName'+n+'"/></div>'+
-                        '<div class="col-sm-2"><label class="radio inline"><input type="radio" name="lastSchlYn" value="N">&nbsp;&nbsp;최종 학교</label>'+
-                        '</div>'+
-                        '</div>'+
-                        '<div class="form-group">'+
-                        '<label class="col-sm-2 control-label">단과 대학</label>'+
-                        '<div class="col-sm-8"><input name="collName" class="form-control" id="collName'+n+'"/></div>'+
-                        '</div>'+
-                        '<div class="form-group">'+
-                        '<label class="col-sm-2 control-label">학과 이름</label>'+
-                        '<div class="col-sm-8"><input name="majName" class="form-control" id="majName'+n+'"/></div>'+
-                        '</div>'+
-                        '<div class="form-group">'+
-                        '<label class="col-sm-2 control-label">재학 기간</label>'+
-                        '<div class="col-sm-4 start-date-container">'+
-                        '<div class="input-group date"><span class="input-group-addon">입학일</span>'+
-                        '<input type="text" class="form-control" name="entrDay" id="entrDay'+n+'"/>'+
-                        '</div>'+
-                        '</div>'+
-                        '<div class="col-sm-4 start-date-container">'+
-                        '<div class="input-group date"><span class="input-group-addon">졸업일</span>'+
-                        '<input type="text" class="form-control" name="grdaDay" id="grdaDay'+n+'"/>'+
-                        '</div>'+
-                        '</div>'+
-                        '</div>'+
-                        '<div class="form-group">'+
-                        '<label class="col-sm-2 control-label">평균 평점</label>'+
-                        '<div class="col-sm-2">'+
-                        '<div class="input-group date"><span class="input-group-addon">평점</span>'+
-                        '<input class="form-control" name="gradAvr" id="gradAvr'+n+'"/>'+
-                        '</div>'+
-                        '</div>'+
-                        '<div class="col-sm-2">'+
-                        '<div class="input-group date"><span class="input-group-addon">만점</span>'+
-                        '<input class="form-control" name="gradFull id="gradFull'+n+'"/>'+
-                        '</div>'+
-                        '</div>'+
-                        '<div id="addCollege'+n+'" class="addCollege col-sm-2 btn btn-info">입력란 추가</div>'+
-                        '<div id="removeCollege'+n+'" class="removeCollege col-sm-2 btn btn-danger">입력란 삭제</div>'+
-                        '</div>'+
-                        '</div>';
+
+            <%-- 대학 입력란 동적 처리 시작 --%>
+            var addCollegeUnit = function (e) {
+                var collegeInfo, clo, parent, btnidx, addBtn, removeBtn, lastGroup;
+                collegeInfo = e.target.parentNode.parentNode;
+//                clo = collegeInfo.cloneNode(true);
+                clo = $(collegeInfo).clone(true);
+                incrementChildren(clo, $('.addCollege').length+1);
+//                lastGroup = clo.children[clo.children.length-1];
+//                btnidx = lastGroup.children.length;
+//                addBtn = lastGroup.children[btnidx-2];
+//                removeBtn = lastGroup.children[btnidx-1];
+//                handleAddEventListener(addBtn, 'click', addCollegeUnit);
+//                handleAddEventListener(removeBtn, 'click', removeCollegeUnit);
+//                handleAddEventListener(removeBtn, 'click', removeCollegeUnit);
+//                parent = document.getElementById('college-container');
+//                parent.appendChild(clo);
+                $('#college-container').append(clo);
             };
 
-
-            $('.addCollege').on('click', function addCollege(e) {
-                var nColleges = ($('.collegeInfo').length + 1).toString();
-                $('#college-container').append(createCollegeHtml(nColleges));
-            });
-
-            $('.removeCollege').on('click', function removeCollege(e) {
+            var removeCollegeUnit = function (e) {
                 var nColleges = $('.collegeInfo').length;
                 if ((nColleges-1) < 1) alert('더 이상 삭제할 수 없습니다.');
                 else {
-                    e.target.parentElement.parentElement.remove();
+                    $(e.target.parentElement.parentElement).remove();
+                }
+            }
+            <%-- 대학 입력란 동적 처리  끝 --%>
+
+            <%-- o 내의 모든 children의 id 값 마지막 숫자를 n으로 변경, value를 ""로 --%>
+            var incrementChildren = function (o, n) {
+
+                var childList = o instanceof jQuery ? o.children() : o.children, i, l, t0, tid;
+
+                if ( childList ) {
+                    for( i = 0, l = childList.length ; i < l ; i++ ) {
+                        t0 = childList[i];
+                        if ( t0.id ) {
+                            tid = t0.id.toString();
+                            t0.id = tid.substring(0, tid.length - 1) + n.toString();
+                        }
+                        if ( t0.value ) t0.value = "";
+                        if ( t0.type == 'radio' ) t0.checked = false;
+                        incrementChildren(t0, n);
+                    }
                 }
 
-            });
+                return;
+            };
+
+            // IE8 처리
+            var handleAddEventListener = function(target, event, handler) {
+                if (window.addEventListener) {
+                    target.addEventListener(event, handler);
+                }
+                else {
+                    target.attachEvent('on'+event, handler);
+                }
+            };
+
+            $('.addCollege').on('click', addCollegeUnit);
+            $('.removeCollege').on('click', removeCollegeUnit);
+
+//            $('.removeCollege').on('click', function removeCollege(e) {
+//                var nColleges = $('.collegeInfo').length;
+//                if ((nColleges-1) < 1) alert('더 이상 삭제할 수 없습니다.');
+//                else {
+//                    e.target.parentNode.parentNode.remove();
+//                }
+//
+//            });
+
+            <%--var createCollegeHtml = function(n) {--%>
+            <%--return '<div class="collegeInfo"><hr/>'+--%>
+            <%--'<div class="form-group">'+--%>
+            <%--'<label class="col-sm-2 control-label">소재 국가</label>'+--%>
+            <%--'<div class="btn btn-default btn-md col-md-2">검색</div>'+--%>
+            <%--'<div class="col-sm-6"><input name="korCntrName" class="form-control" id="korCntrName'+n+'"/></div>'+--%>
+            <%--'</div>'+--%>
+            <%--'<div class="form-group">'+--%>
+            <%--'<label class="col-sm-2 control-label">학교 이름</label>'+--%>
+            <%--'<div class="btn btn-default btn-md col-md-2">검색</div>'+--%>
+            <%--'<div class="col-sm-4"><input name="schlName" class="form-control" id="schlName'+n+'"/></div>'+--%>
+            <%--'<div class="col-sm-2"><label class="radio inline"><input type="radio" name="lastSchlYn" value="N">&nbsp;&nbsp;최종 학교</label>'+--%>
+            <%--'</div>'+--%>
+            <%--'</div>'+--%>
+            <%--'<div class="form-group">'+--%>
+            <%--'<label class="col-sm-2 control-label">단과 대학</label>'+--%>
+            <%--'<div class="col-sm-8"><input name="collName" class="form-control" id="collName'+n+'"/></div>'+--%>
+            <%--'</div>'+--%>
+            <%--'<div class="form-group">'+--%>
+            <%--'<label class="col-sm-2 control-label">학과 이름</label>'+--%>
+            <%--'<div class="col-sm-8"><input name="majName" class="form-control" id="majName'+n+'"/></div>'+--%>
+            <%--'</div>'+--%>
+            <%--'<div class="form-group">'+--%>
+            <%--'<label class="col-sm-2 control-label">재학 기간</label>'+--%>
+            <%--'<div class="col-sm-4 start-date-container">'+--%>
+            <%--'<div class="input-group date"><span class="input-group-addon">입학일</span>'+--%>
+            <%--'<input type="text" class="form-control" name="entrDay" id="entrDay'+n+'"/>'+--%>
+            <%--'</div>'+--%>
+            <%--'</div>'+--%>
+            <%--'<div class="col-sm-4 start-date-container">'+--%>
+            <%--'<div class="input-group date"><span class="input-group-addon">졸업일</span>'+--%>
+            <%--'<input type="text" class="form-control" name="grdaDay" id="grdaDay'+n+'"/>'+--%>
+            <%--'</div>'+--%>
+            <%--'</div>'+--%>
+            <%--'</div>'+--%>
+            <%--'<div class="form-group">'+--%>
+            <%--'<label class="col-sm-2 control-label">평균 평점</label>'+--%>
+            <%--'<div class="col-sm-2">'+--%>
+            <%--'<div class="input-group date"><span class="input-group-addon">평점</span>'+--%>
+            <%--'<input class="form-control" name="gradAvr" id="gradAvr'+n+'"/>'+--%>
+            <%--'</div>'+--%>
+            <%--'</div>'+--%>
+            <%--'<div class="col-sm-2">'+--%>
+            <%--'<div class="input-group date"><span class="input-group-addon">만점</span>'+--%>
+            <%--'<input class="form-control" name="gradFull id="gradFull'+n+'"/>'+--%>
+            <%--'</div>'+--%>
+            <%--'</div>'+--%>
+            <%--'<div id="addCollege'+n+'" class="addCollege col-sm-2 btn btn-info">입력란 추가</div>'+--%>
+            <%--'<div id="removeCollege'+n+'" class="removeCollege col-sm-2 btn btn-danger">입력란 삭제</div>'+--%>
+            <%--'</div>'+--%>
+            <%--'</div>';--%>
+            <%--};--%>
+
             <%-- 대학 입력란 동적 처리 끝 --%>
 
             <%-- 다음 주소 검색 시작 --%>
@@ -1108,8 +1181,10 @@
 
             });
             <%-- 사진 업로드 끝 --%>
-<%-- 달력 끝 --%>
-            $('.start-date-container .input-group.date').datepicker({
+
+
+            <%-- 달력 시작 --%>
+            $('.input-group.date').datepicker({
                 format: "yyyymmdd",
                 startView: 2,
                 language: "kr",
