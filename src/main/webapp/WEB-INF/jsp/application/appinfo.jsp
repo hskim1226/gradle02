@@ -1055,11 +1055,11 @@
             <%-- 대학 입력란 동적 처리 끝 --%>
 
             <%-- 다음 주소 검색 시작 --%>
-            var element = document.getElementById('postLayer');
+            var postLayer = document.getElementById('postLayer');
 
             var closeDaumPostcode = function () {
                 // iframe을 넣은 element를 안보이게 한다.
-                element.style.display = 'none';
+                postLayer.style.display = 'none';
             };
 
             var showDaumPostcode = function () {
@@ -1076,10 +1076,10 @@
                     },
                     width : '100%',
                     height : '100%'
-                }).embed(element);
+                }).embed(postLayer);
 
                 // iframe을 넣은 element를 보이게 한다.
-                element.style.display = 'block';
+                postLayer.style.display = 'block';
             };
 
             $('#btnCloseLayer').on('click', closeDaumPostcode);
