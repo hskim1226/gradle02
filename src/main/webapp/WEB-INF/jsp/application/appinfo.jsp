@@ -350,13 +350,13 @@
                                             <div class="col-sm-4 start-date-container">
                                                 <div class="input-group date">
                                                     <span class="input-group-addon">입학일</span>
-                                                    <input type="text" class="form-control" name="entrDay" id="entrDay1"/>
+                                                    <input type="text" class="form-control" name="entrDay" id="entrDay1" readonly/>
                                                 </div>
                                             </div>
                                             <div class="col-sm-4 end-date-container">
                                                 <div class="input-group date">
                                                     <span class="input-group-addon">졸업일</span>
-                                                    <input type="text" class="form-control" name="grdaDay" id="grdaDay1"/>
+                                                    <input type="text" class="form-control" name="grdaDay" id="grdaDay1" readonly/>
                                                 </div>
                                             </div>
                                         </div>
@@ -1015,7 +1015,7 @@
                     $(e.target.parentElement.parentElement).remove();
                 }
             }
-            <%-- 대학 입력란 동적 처리  끝 --%>
+            
 
             <%-- o 내의 모든 children의 id 값 마지막 숫자를 n으로 변경, value를 ""로 --%>
             var incrementChildren = function (o, n) {

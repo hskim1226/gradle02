@@ -71,27 +71,7 @@
                 <div class="spacer-small"></div>
 
                 <hr/>
-                <%--<c:forEach items="${campusList}" var="campus">--%>
-                    <%--${campus.code} : ${campus.name}<br/>--%>
-                <%--</c:forEach>--%>
 
-                <%--<form:form commandName="campus">--%>
-                    <%--<form:select path="name" items="${campusMap}"/>--%>
-                        <%--&lt;%&ndash;<form:option value="**" label="---Choose---"/>&ndash;%&gt;--%>
-                        <%--&lt;%&ndash;<form:options items="${campusMap}"/>&ndash;%&gt;--%>
-                    <%--&lt;%&ndash;</form:select>&ndash;%&gt;--%>
-                <%--</form:form>--%>
-
-                <%--<form:form commandName="campus">--%>
-                    <%--<form:select path="name">--%>
-                        <%--<form:option value="**" label="---Choose---"/>--%>
-                        <%--<form:options items="${campusList}" itemValue="${campus.code}" itemLabel="${campus.name}"/>--%>
-                    <%--</form:select>--%>
-                <%--</form:form>--%>
-                <div class="input-group date">
-                    <span class="input-group-addon">졸업일</span>
-                    <input type="text" class="form-control" name="grdaDay" id="grdaDay1"/>
-                </div>
 
 
                 <div id="acadUnit1">
@@ -110,6 +90,23 @@
                     <div class="btn btn-primary btn-block addUnit">유닛추가</div>
                 </div>
             </div>
+
+            <div class="col-sm-4 start-date-container">
+                <div class="input-group date">
+                    <span class="input-group-addon">입학일</span>
+                    <input type="text" class="form-control" name="entrDay" id="entrDay1"/>
+                </div>
+            </div>
+
+            <div class="col-sm-4 end-date-container">
+                <div class="input-group date">
+                    <span class="input-group-addon">졸업일</span>
+                    <input type="text" class="form-control" name="grdaDay" id="grdaDay1"/>
+                </div>
+            </div>
+
+            <div id="addCalendar" class="btn btn-primary btn-block">달력복사</div>
+
         </div>
     </div>
 </section>
@@ -152,6 +149,18 @@
             };
 
             $('.addUnit').on('click', addUnit);
+
+            <%-- 달력 시작 --%>
+            $('.input-group.date').datepicker({
+                format: "yyyymmdd",
+                startView: 2,
+                language: "kr",
+                forceParse: false,
+                autoclose: true
+            });
+
+
+            <%-- 달력 끝 --%>
         });
     </script>
 </content>
