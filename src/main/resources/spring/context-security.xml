@@ -30,6 +30,7 @@
         <intercept-url pattern="/user/**"  access="isAnonymous() or isAuthenticated()"/>
         <intercept-url pattern="/upload/**"  access="isAuthenticated()"/>
         <intercept-url pattern="/admin/**" access="hasRole('ROLE_ADMIN')" />
+        <intercept-url pattern="/qna/**" access="isAnonymous() or isAuthenticated()" />
         <intercept-url pattern="/**" access="hasRole('ROLE_USER')" />
 
         <form-login login-processing-url="/j_spring_security_check.do"
