@@ -999,23 +999,29 @@
             <%-- 최종 대학 체크 처리 끝 --%>
 
 
-            <%-- 대학 입력란 동적 처리 시작 --%>
+            <%-- 대학, 대학원 입력란 동적 처리 시작 --%>
+            <%-- 추가/삭제 버튼의 부모의 부모가 복사할 블록이어야 하고--%>
+            <%-- 복사한 블록은 바로 위의 부모에 append 함--%>
             var addCollegeUnit = function (e) {
-                var collegeInfo, clo;
-                collegeInfo = e.target.parentNode.parentNode;
-                clo = $(collegeInfo).clone(true);
-                incrementChildren(clo, $('.addCollege').length+1);
-                $('#college-container').append(clo);
+                var originalBlock, clo, parentToAppend;
+                originalBlock = e.target.parentNode.parentNode;
+                parentToAppend = originalBlock.parentNode;
+                clo = $(originalBlock).clone(true);
+                incrementChildren(clo, parentToAppend.children.length+1);
+                $(parentToAppend).append(clo);
             };
 
             var removeCollegeUnit = function (e) {
-                var nColleges = $('.collegeInfo').length;
-                if ((nColleges-1) < 1) alert('더 이상 삭제할 수 없습니다.');
+                var blockToRemove, parentOfBlock, nOfBlocks;
+                blockToRemove = e.target.parentNode.parentNode;
+                parentOfBlock = blockToRemove.parentNode;
+                nOfBlocks = parentOfBlock.children.length;
+                if ((nOfBlocks-1) < 1) alert('더 이상 삭제할 수 없습니다.');
                 else {
-                    $(e.target.parentElement.parentElement).remove();
+                    $(blockToRemove).remove();
                 }
             }
-            
+
 
             <%-- o 내의 모든 children의 id 값 마지막 숫자를 n으로 변경, value를 ""로 --%>
             var incrementChildren = function (o, n) {
