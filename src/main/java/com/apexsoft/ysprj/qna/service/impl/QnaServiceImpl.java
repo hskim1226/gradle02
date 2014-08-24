@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class QnaServiceImpl implements QnaService{
 
-    private static String NAME_SPACE = "qna";
+    private static String NAME_SPACE = "qna.";
 
     @Autowired
     private CommonDAO commonDAO;

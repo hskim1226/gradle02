@@ -30,7 +30,7 @@
 		]]>
     </insert>
 
-    <select id="selectByPk" resultMap="users"  parameterType="String">
+    <select id="selectByPk" resultMap="qna"  parameterType="String">
         <!-- [CDATA[
 		  SELECT post_number, post_seq, address, address_detail, eng_address, birth_date, dive_log, email, enabled, eng_name, korean_name, license, mailing_service, nickname, passport_number, password, phone_number, sms_service, username, grade, reg_date
 		    FROM users
@@ -48,7 +48,7 @@
     <select id="selectQnaList" resultMap="qna" >
 		<![CDATA[
 		  SELECT id, title, contents, read_cnt, use_yn, cre_id, cre_date, mod_id, mod_date
-		    FROM qna
+		    FROM QNA
 			WHERE 1=1
 		]]>
         <if test="searchCondition == 1">
@@ -63,7 +63,7 @@
     <select id="selectTotalCount" resultType="java.lang.Integer" >
         <![CDATA[
 		  SELECT count(*)
-		    FROM qna
+		    FROM QNA
 			WHERE 1=1
 		]]>
         <if test="searchCondition == 1">

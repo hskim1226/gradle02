@@ -55,13 +55,15 @@
                             </tr>
                             </thead>
                             <tbody>
+                            <c:forEach var="qna" items="${qna}" varStatus="status">
                             <tr>
-                                <td>1</td>
-                                <td>결재가 정상적으로 진행되지 않습니다.</td>
-                                <td>53</td>
-                                <td>2014-10-08</td>
+                                <td>${qna.id}</td>
+                                <td>${qna.title}</td>
+                                <td>${qna.readCnt}</td>
+                                <td>${qna.creDate}</td>
                                 <td>Yes</td>
                             </tr>
+                            </c:forEach>
                             </tbody>
                         </table>
                     </form>
