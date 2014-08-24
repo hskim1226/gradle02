@@ -68,6 +68,15 @@
                         </table>
                     </form>
                 </div>
+                <div class="align-center">
+                    <ul class="pagination pagination-sm">
+                        <li><a href="#">&laquo;</a></li>
+                        <c:forEach begin="1" end="${qnaTotal/30}" varStatus="status">
+                            <li><a href="#">${status.index+1}</a></li>
+                        </c:forEach>
+                        <li><a href="#">&raquo;</a></li>
+                    </ul>
+                </div>
             </div>
         </div>
     </div>
