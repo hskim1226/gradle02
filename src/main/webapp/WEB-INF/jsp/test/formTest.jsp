@@ -88,6 +88,12 @@
                         <%--<form:options items="${campusList}" itemValue="${campus.code}" itemLabel="${campus.name}"/>--%>
                     <%--</form:select>--%>
                 <%--</form:form>--%>
+                <div class="input-group date">
+                    <span class="input-group-addon">졸업일</span>
+                    <input type="text" class="form-control" name="grdaDay" id="grdaDay1"/>
+                </div>
+
+
                 <div id="acadUnit1">
                     <hr/>
                     <input type="text" id="t1" name="t1"/>
@@ -108,6 +114,8 @@
     </div>
 </section>
 <content tag="local-script">
+    <script src="${contextPath}/js/bootstrap-datepicker.js"></script>
+    <script src="${contextPath}/js/bootstrap-datepicker.kr.js"></script>
     <script>
         $(document).ready( function() {
             var addUnit = function (e) {
