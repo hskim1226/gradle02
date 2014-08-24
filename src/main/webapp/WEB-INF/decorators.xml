@@ -16,6 +16,8 @@
         <pattern>/index.jsp</pattern>
         <pattern>/index</pattern>
         <pattern>/mypage</pattern>
+        <pattern>/qna/*</pattern>
+        <pattern>/pds/*</pattern>
         <pattern>/test/*</pattern>
     </decorator>
 
