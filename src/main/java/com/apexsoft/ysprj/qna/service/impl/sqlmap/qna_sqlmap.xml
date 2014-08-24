@@ -12,6 +12,7 @@
 		<result property="creDate" column="cre_date"/>
 		<result property="modId" column="mod_id"/>
         <result property="modDate" column="modDate" />
+        <result property="answer" column="answer" />
 	</resultMap>
 
     <insert id="insert" parameterType="com.apexsoft.ysprj.user.domain.Users">
@@ -47,7 +48,7 @@
 
     <select id="selectQnaList" resultMap="qna" >
 		<![CDATA[
-		  SELECT id, title, contents, read_cnt, use_yn, cre_id, cre_date, mod_id, mod_date
+		  SELECT id, title, contents, read_cnt, use_yn, cre_id, cre_date, mod_id, mod_date, answer
 		    FROM QNA
 			WHERE 1=1
 		]]>

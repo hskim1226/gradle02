@@ -61,7 +61,7 @@
                                 <td>${qna.title}</td>
                                 <td>${qna.readCnt}</td>
                                 <td>${qna.creDate}</td>
-                                <td>Yes</td>
+                                <td><c:if test="${empty qna.answer}" >Not Yet</c:if><c:if test="${not empty qna.answer}" >Yes</c:if></td>
                             </tr>
                             </c:forEach>
                             </tbody>

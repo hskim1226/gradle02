@@ -20,6 +20,7 @@ public class QnaVO {
     private Date creDate;
     private String modId;
     private Date modDate;
+    private String answer;
 
     public int getId() {
         return id;
@@ -93,6 +94,14 @@ public class QnaVO {
         this.modDate = modDate;
     }
 
+    public String getAnswer() {
+        return answer;
+    }
+
+    public void setAnswer(String answer) {
+        this.answer = answer;
+    }
+
     @Override
     public String toString() {
         return "QnaVO{" +
@@ -105,6 +114,7 @@ public class QnaVO {
                 ", creDate=" + creDate +
                 ", modId='" + modId + '\'' +
                 ", modDate=" + modDate +
+                ", answer='" + answer + '\'' +
                 '}';
     }
 }
