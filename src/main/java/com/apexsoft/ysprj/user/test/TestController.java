@@ -26,6 +26,11 @@ public class TestController {
         return "test/tabsample";
     }
 
+    @RequestMapping(value="/calendar")
+    public String calendar() {
+        return "test/calendar";
+    }
+
     @RequestMapping(value="/formTest")
     public String formTest() {
         return "test/formTest";
