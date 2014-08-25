@@ -6,10 +6,11 @@ package com.apexsoft.ysprj.user.domain;
 public class ApplicationEngGrade {
 
     private int applNo;             // 입학지원번호
-    private String forlSeq;         // 외국어 성적 순번
-    private String forlTypeCode;    // 외국어 성적 구분코드
+    private String langSeq;         // 외국어 성적 순번
+    private String langExamCode;    // 외국어 성적 구분코드
     private String toflTypeCode;    // 토플 유형 구분코드
-    private String forlGrad;        // 성적
+    private String langGrad;        // 성적
+    private String examNo;          // 수험번호
     private String examDay;         // 응시일자
     private String exprDay;         // 만료일자
     private String creId;           // 생성자
@@ -25,20 +26,20 @@ public class ApplicationEngGrade {
         this.applNo = applNo;
     }
 
-    public String getForlSeq() {
-        return forlSeq;
+    public String getLangSeq() {
+        return langSeq;
     }
 
-    public void setForlSeq(String forlSeq) {
-        this.forlSeq = forlSeq;
+    public void setLangSeq(String langSeq) {
+        this.langSeq = langSeq;
     }
 
-    public String getForlTypeCode() {
-        return forlTypeCode;
+    public String getLangExamCode() {
+        return langExamCode;
     }
 
-    public void setForlTypeCode(String forlTypeCode) {
-        this.forlTypeCode = forlTypeCode;
+    public void setLangExamCode(String langExamCode) {
+        this.langExamCode = langExamCode;
     }
 
     public String getToflTypeCode() {
@@ -49,12 +50,20 @@ public class ApplicationEngGrade {
         this.toflTypeCode = toflTypeCode;
     }
 
-    public String getForlGrad() {
-        return forlGrad;
+    public String getLangGrad() {
+        return langGrad;
     }
 
-    public void setForlGrad(String forlGrad) {
-        this.forlGrad = forlGrad;
+    public void setLangGrad(String langGrad) {
+        this.langGrad = langGrad;
+    }
+
+    public String getExamNo() {
+        return examNo;
+    }
+
+    public void setExamNo(String examNo) {
+        this.examNo = examNo;
     }
 
     public String getExamDay() {
