@@ -1,13 +1,11 @@
-package com.apexsoft.ysprj.user.impl;
+package com.apexsoft.ysprj.applicants.application.service;
 
 import com.apexsoft.framework.persistence.dao.CommonDAO;
 import com.apexsoft.framework.persistence.dao.page.PageInfo;
 import com.apexsoft.framework.persistence.dao.page.PageStatement;
-import com.apexsoft.ysprj.user.domain.ApplicationAcademy;
 import com.apexsoft.ysprj.user.domain.Application;
 import com.apexsoft.ysprj.user.domain.Department;
 import com.apexsoft.ysprj.user.domain.EntireApplication;
-import com.apexsoft.ysprj.user.service.ApplicationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

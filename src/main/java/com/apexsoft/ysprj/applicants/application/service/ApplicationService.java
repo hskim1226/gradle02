@@ -1,4 +1,4 @@
-package com.apexsoft.ysprj.user.service;
+package com.apexsoft.ysprj.applicants.application.service;
 
 import com.apexsoft.framework.persistence.dao.page.PageInfo;
 import com.apexsoft.ysprj.user.domain.Application;
