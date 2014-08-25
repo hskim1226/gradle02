@@ -5,6 +5,7 @@
 <head>
     <title></title>
     <link rel="stylesheet" href="${contextPath}/css/datepicker3.css">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css">
     <style>
         section.application {
             padding: 200px 0 60px;
@@ -348,15 +349,15 @@
                                         <div class="form-group">
                                             <label class="col-sm-2 control-label">재학 기간</label>
                                             <div class="col-sm-4 start-date-container">
-                                                <div class="input-group date">
+                                                <div class="input-group date" id="divCalEntrDay1">
                                                     <span class="input-group-addon">입학일</span>
-                                                    <input type="text" class="form-control" name="entrDay" id="entrDay1" readonly/>
+                                                    <input type="text" class="form-control calendar" name="entrDay" id="entrDay1" readonly/>
                                                 </div>
                                             </div>
                                             <div class="col-sm-4 end-date-container">
-                                                <div class="input-group date">
+                                                <div class="input-group date" id="divCalGrdaDay1">
                                                     <span class="input-group-addon">졸업일</span>
-                                                    <input type="text" class="form-control" name="grdaDay" id="grdaDay1" readonly/>
+                                                    <input type="text" class="form-control calendar" name="grdaDay" id="grdaDay1" readonly/>
                                                 </div>
                                             </div>
                                         </div>
@@ -960,10 +961,29 @@
     <content tag="local-script">
     <%--<script src="${contextPath}/js/postcode.js"></script>--%>
     <script src="http://dmaps.daum.net/map_js_init/postcode.js"></script>
-    <script src="${contextPath}/js/bootstrap-datepicker.js"></script>
-    <script src="${contextPath}/js/bootstrap-datepicker.kr.js"></script>
+    <%--<script src="${contextPath}/js/bootstrap-datepicker.js"></script>--%>
+    <%--<script src="${contextPath}/js/bootstrap-datepicker.kr.js"></script>--%>
+    <script src="//code.jquery.com/ui/1.11.1/jquery-ui.js"></script>
     <script type="text/javascript">
         $(document).ready(function() {
+
+            var datePickerOption = {
+//                format: "yyyymmdd",
+//                startView: 2,
+//                language: "kr",
+//                forceParse: false,
+//                autoclose: true
+                dateFormat: 'yymmdd',
+                monthNamesShort: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
+                dayNamesMin: ['일','월','화','수','목','금','토'],
+                changeMonth: true, //월변경가능
+                changeYear: true, //년변경가능
+                showMonthAfterYear: true //년 뒤에 월 표시
+            };
+
+            <%-- 달력 시작 --%>
+            $('#entrDay1, #grdaDay1').datepicker(datePickerOption);
+            <%-- 달력 끝 --%>
 
 
             $('#myTab a:first').tab('show');
@@ -1002,16 +1022,18 @@
             <%-- 대학, 대학원 입력란 동적 처리 시작 --%>
             <%-- 추가/삭제 버튼의 부모의 부모가 복사할 블록이어야 하고--%>
             <%-- 복사한 블록은 바로 위의 부모에 append 함--%>
-            var addCollegeUnit = function (e) {
-                var originalBlock, clo, parentToAppend;
-                originalBlock = e.target.parentNode.parentNode;
-                parentToAppend = originalBlock.parentNode;
-                clo = $(originalBlock).clone(true);
-                incrementChildren(clo, parentToAppend.children.length+1);
-                $(parentToAppend).append(clo);
+            var addInputBlock = function (e) {
+                var originalBlock = e.target.parentNode.parentNode,
+                    cloneObj, targetParent = originalBlock.parentNode;
+                $('.calendar').datepicker('destroy');
+                cloneObj = $(originalBlock).clone(true);
+                incrementChildren(cloneObj, targetParent.children.length+1);
+                $(targetParent).append(cloneObj);
+                $('.calendar').datepicker(datePickerOption);
+
             };
 
-            var removeCollegeUnit = function (e) {
+            var removeInputBlock = function (e) {
                 var blockToRemove, parentOfBlock, nOfBlocks;
                 blockToRemove = e.target.parentNode.parentNode;
                 parentOfBlock = blockToRemove.parentNode;
@@ -1037,11 +1059,10 @@
                         }
                         if ( t0.value ) t0.value = "";
                         if ( t0.type == 'radio' ) t0.checked = false;
+
                         incrementChildren(t0, n);
                     }
                 }
-
-                return;
             };
 
             // IE8 처리
@@ -1054,8 +1075,8 @@
                 }
             };
 
-            $('.addCollege').on('click', addCollegeUnit);
-            $('.removeCollege').on('click', removeCollegeUnit);
+            $('.addCollege').on('click', addInputBlock);
+            $('.removeCollege').on('click', removeInputBlock);
             <%-- 대학 입력란 동적 처리 끝 --%>
 
             <%-- 다음 주소 검색 시작 --%>
@@ -1114,15 +1135,7 @@
             <%-- 사진 업로드 끝 --%>
 
 
-            <%-- 달력 시작 --%>
-            $('.input-group.date').datepicker({
-                format: "yyyymmdd",
-                startView: 2,
-                language: "kr",
-                forceParse: false,
-                autoclose: true
-            });
-            <%-- 달력 끝 --%>
+
         });
 
     </script>
