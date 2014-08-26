@@ -3,6 +3,7 @@ package com.apexsoft.ysprj.applicants.application.service;
 import com.apexsoft.framework.persistence.dao.CommonDAO;
 import com.apexsoft.framework.persistence.dao.page.PageInfo;
 import com.apexsoft.framework.persistence.dao.page.PageStatement;
+import com.apexsoft.ysprj.applicants.application.domain.ApplicationGeneral;
 import com.apexsoft.ysprj.user.domain.Application;
 import com.apexsoft.ysprj.user.domain.Department;
 import com.apexsoft.ysprj.user.domain.EntireApplication;
@@ -21,13 +22,18 @@ public class ApplicationServiceImpl implements ApplicationService {
     // TODO 제3자 정보제공 동의 여부 providePrivateInfo 처리
 
     private final static String NAME_SPACE = "user.applicationMapper.";
+    private final static String GEN_NAME_SPACE = "com.apexsoft.ysprj.applicants.application.sqlmap.";
 
     @Autowired
     private CommonDAO commonDAO;
 
     @Override
-    public void createApplication(Application application) {
-        commonDAO.insert(NAME_SPACE + "insertApplication", application);
+    public void createApplication(com.apexsoft.ysprj.applicants.application.domain.Application application) {
+        commonDAO.insert("ApplicationMapper.insert", application);
+    }
+
+    public void createApplicationGeneral(ApplicationGeneral applicationGeneral) {
+        commonDAO.insert("ApplicationGeneralMapper.insert", applicationGeneral);
     }
 
     @Override
