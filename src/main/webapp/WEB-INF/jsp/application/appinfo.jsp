@@ -45,6 +45,7 @@
             display: block;
         }
 
+/*
         section.application .btn {
             border: 1px;
         }
@@ -52,6 +53,7 @@
         section.application .input-group-btn .btn {
             border-radius: 4px;
         }
+*/
 
         .panel-darkgray > .panel-heading {
             background-image: -webkit-linear-gradient(top, #7a7a7a 0%, #888888 100%);
@@ -83,6 +85,10 @@
             cursor: inherit;
             display: block;
         }
+        .btn-fill {
+            width: 100%;
+            white-space: normal;
+        }
         input[readonly] {
             background-color: white !important;
             cursor: text !important;
@@ -113,7 +119,6 @@
 <body>
 <section class="application">
     <div class="container">
-    <form:form commandName="application" cssClass="form-horizontal" role="form">
         <ul id="myTab" class="nav nav-tabs nav-justified tab-gray">
             <li><a href="#appinfo" data-toggle="tab">기본정보</a></li>
             <li><a href="#selfintro" data-toggle="tab">자기소개서</a></li>
@@ -121,538 +126,450 @@
             <li><a href="#fileupload" data-toggle="tab">첨부파일</a></li>
         </ul>
         <div id="myTabContent" class="tab-content">
-
-                <div class="tab-pane fade" id="appinfo">
-                <div class="spacer-tiny"></div>
-
-                <div class="row">
-                    <div class="col-sm-offset-1 col-sm-10">
-                        <div class="panel panel-default">
-                            <div class="panel-heading">지원자 정보</div>
-                            <div class="panel-body">
-                                <div class="form-group">
-                                    <form:label path="korName" cssClass="col-sm-2 control-label">한글이름</form:label>
-                                    <div class="col-sm-9">
-                                        <form:input path="korName" cssClass="form-control" />
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-sm-2 control-label">영문성명</label>
-                                    <div class="col-sm-9">
-                                        <div class="input-group">
-                                            <span class="input-group-addon">[성]</span>
-                                            <form:input path="engSur" cssClass="col-sm-6 form-control" />
-                                        </div>
-                                        <div class="input-group">
-                                            <span class="input-group-addon">[이름]</span>
-                                            <form:input path="engName" cssClass="col-sm-6 form-control" />
+            <div class="tab-pane fade" id="appinfo">
+                <form:form commandName="entireApplication" cssClass="form-horizontal" action="apply/save" role="form">
+                    <div class="spacer-tiny"></div>
+                    <div class="row">
+                        <div class="col-sm-offset-1 col-sm-10">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">지원자 정보</div>
+                                <div class="panel-body">
+                                    <div class="form-group">
+                                        <form:label path="korName" cssClass="col-sm-2 control-label">한글이름</form:label>
+                                        <div class="col-sm-9">
+                                            <form:input path="korName" cssClass="form-control" />
                                         </div>
                                     </div>
-                                </div>
-                                <div class="form-group">
-                                    <form:label path="rgstNo" cssClass="col-sm-2 control-label">주민등록번호</form:label>
-                                    <div class="col-sm-9">
-                                        <form:input path="rgstNo" cssClass="form-control" />
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">영문성명</label>
+                                        <div class="col-sm-9">
+                                            <div class="input-group">
+                                                <span class="input-group-addon">[ 성 ]</span>
+                                                <form:input path="engSur" cssClass="col-sm-6 form-control" />
+                                            </div>
+                                            <div class="input-group">
+                                                <span class="input-group-addon">[이름]</span>
+                                                <form:input path="engName" cssClass="col-sm-6 form-control" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <form:label path="rgstNo" cssClass="col-sm-2 control-label">주민등록번호</form:label>
+                                        <div class="col-sm-9">
+                                            <form:input path="rgstNo" cssClass="form-control" />
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <c:if test="${application.deptCode == '086' || application.deptCode == '013'}">
-                        <div class="panel panel-default">
-                            <div class="panel-heading">현재 근무처</div>
-                            <div class="panel-body">
-                                <div class="form-group">
-                                    <form:label path="currWrkpName" cssClass="col-sm-2 control-label">회사이름</form:label>
-                                    <div class="col-sm-9">
-                                        <form:input path="currWrkpName" cssClass="form-control" />
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-sm-2 control-label">입사일</label>
-                                    <div class="col-sm-9">
-                                        <div class="input-group">
-                                            <form:input path="currWrkpDay" cssClass="col-sm-6 form-control" />
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <form:label path="currWrkpTel" cssClass="col-sm-2 control-label">연락처</form:label>
-                                    <div class="col-sm-9">
-                                        <form:input path="currWrkpTel" cssClass="form-control" />
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        </c:if>
-                        <div class="panel panel-default">
-                            <div class="panel-heading">지원자 상세정보</div>
-                            <div class="panel-body">
-                                <%--<div class="form-group">--%>
-                                    <%--<form:label path="citzCntrCode" cssClass="col-sm-3 control-label">국적</form:label>--%>
-                                    <%--<div class="col-sm-9">--%>
-                                        <%--<div class="input-group">--%>
-                                            <%--<form:input path="citzCntrCode" cssClass="form-control" />--%>
-                                            <%--<span class="input-group-btn">--%>
-                                                <%--<button type="button" class="btn btn-default" id="search-citz-cntr-code">--%>
-                                                    <%--<span class="glyphicon glyphicon-search"></span> 검색--%>
-                                                <%--</button>--%>
-                                            <%--</span>--%>
-                                        <%--</div>--%>
-                                    <%--</div>--%>
-                                <%--</div>--%>
-                                <%--<div class="form-group">--%>
-                                    <%--<label class="col-sm-3 control-label">장애사항</label>--%>
-                                    <%--<div class="col-sm-9">--%>
-                                        <%--<div class="input-group">--%>
-                                            <%--<span class="input-group-addon">[장애유형]</span>--%>
-                                            <%--<form:input path="hndcGrad" cssClass="col-sm-6 form-control" />--%>
-                                        <%--</div>--%>
-                                        <%--<div class="input-group">--%>
-                                            <%--<span class="input-group-addon">[장애등급]</span>--%>
-                                            <%--<form:input path="hndcType" cssClass="col-sm-6 form-control" />--%>
-                                        <%--</div>--%>
-                                    <%--</div>--%>
-                                <%--</div>--%>
-
-                            </div>
-                        </div>
-                        <div class="panel panel-default">
-                            <div class="panel-heading">지원자 연락처</div>
-                            <div class="panel-body">
-                                <div class="form-group">
-                                    <label class="col-sm-3 control-label">주소</label>
-                                    <input type="text" id="postcode1"> - <input type="text" id="postcode2"/>
-                                    <input type="hidden" id="zipCode" name="zipCode"/>
-                                    <button type="button" id="searchAddress">우편번호 찾기</button>
-                                    <input type="text" id="address" name="addr"/>
-                                    <input type="text" id="addressDetail" name="detlAddr">
-                                    <%--<div class="col-sm-1">--%>
-                                        <%--<form:input path="zipCode" cssClass="form-control" />--%>
-                                    <%--</div>--%>
-                                    <%--<div class="col-sm-8">--%>
-                                        <%--<div class="input-group">--%>
-                                            <%--<span class="input-group-btn">--%>
-                                                <%--<button type="button" class="btn btn-default" id="search-zipcode">--%>
-                                                    <%--<span class="glyphicon glyphicon-search"></span> 검색--%>
-                                                <%--</button>--%>
-                                            <%--</span>--%>
-                                        <%--</div>--%>
-                                    <%--</div>--%>
-                                    <%--<div class="col-sm-offset-3 col-sm-8">--%>
-                                        <%--<form:input path="addr" cssClass="form-control" />--%>
-                                    <%--</div>--%>
-                                    <%--<div class="col-sm-offset-3 col-sm-8">--%>
-                                        <%--<form:input path="detlAddr" cssClass="form-control" />--%>
-                                    <%--</div>--%>
-                                </div>
-                                <div class="form-group">
-                                    <form:label path="telNum" cssClass="col-sm-3 control-label">전화번호</form:label>
-                                    <div class="col-sm-9">
-                                        <%--TODO--%>
-                                        <%--<form:select path="telNumFirst" cssClass="form-control">--%>
-                                            <%--<form:options items="${common.telNumFirst}" />--%>
-                                        <%--</form:select> --%>
-                                        <form:input path="telNum" cssClass="form-control" />
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <form:label path="mobiNum" cssClass="col-sm-3 control-label">휴대폰</form:label>
-                                    <div class="col-sm-9">
-                                        <%--TODO--%>
-                                        <%--<form:select path="mobiNumFirst" cssClass="form-control">--%>
-                                            <%--<form:options items="${common.telNumFirst}" />--%>
-                                        <%--</form:select>--%>
-                                        <form:input path="mobiNum" cssClass="form-control" />
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <form:label path="mailAddr" cssClass="col-sm-3 control-label">E-mail</form:label>
-                                    <div class="col-sm-9">
-                                        <form:input path="mailAddr" cssClass="form-control" />
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="panel panel-default">
-                            <div class="panel-heading">비상연락처</div>
-                            <div class="panel-body">
-                                <%--<div class="form-group">--%>
-                                    <%--<form:label path="emerContName" cssClass="col-sm-3 control-label">이름</form:label>--%>
-                                    <%--<div class="col-sm-9">--%>
-                                        <%--<form:input path="emerContName" cssClass="form-control" />--%>
-                                    <%--</div>--%>
-                                <%--</div>--%>
-                                <%--<div class="form-group">--%>
-                                    <%--<form:label path="emerContCode" cssClass="col-sm-3 control-label">관계</form:label>--%>
-                                    <%--<div class="col-sm-9">--%>
-                                        <%--<form:select path="emerContCode" cssClass="form-control">--%>
-                                            <%--<form:options items="${common.emerCont}" />--%>
-                                        <%--</form:select>--%>
-                                    <%--</div>--%>
-                                <%--</div>--%>
-                                <%--<div class="form-group">--%>
-                                    <%--<form:label path="emerContTel" cssClass="col-sm-3 control-label">전화번호</form:label>--%>
-                                    <%--<div class="col-sm-9">--%>
-                                        <%--&lt;%&ndash;TODO&ndash;%&gt;--%>
-                                        <%--<form:select path="telNumFirst" cssClass="form-control">--%>
-                                            <%--<form:options items="${common.telNumFirst}" />--%>
-                                        <%--</form:select> --%>
-                                        <%--<form:input path="emerContTel" cssClass="form-control" />--%>
-                                    <%--</div>--%>
-                                <%--</div>--%>
-
-                            </div>
-                        </div>
-                        <div class="panel panel-default">
-                            <div class="panel-heading">고등학교</div>
-                            <div class="panel-body">
-
-                            </div>
-                        </div>
-                        <div class="panel panel-default">
-                            <div class="panel-heading">대학교</div>
-                            <div class="panel-body">
-                                <div id="college-container">
-                                    <div class="collegeInfo">
-                                        <hr/>
+                            <c:if test="${application.deptCode == '086' || application.deptCode == '013'}">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">현재 근무처</div>
+                                    <div class="panel-body">
                                         <div class="form-group">
-                                            <label class="col-sm-2 control-label">소재 국가</label>
-                                            <div class="btn btn-default btn-md col-md-2">검색</div>
-                                            <div class="col-sm-6">
-                                                <input name="korCntrName" class="form-control" id="korCntrName1"/>
+                                            <form:label path="applicationGeneral.currWrkpName" cssClass="col-sm-2 control-label">회사이름</form:label>
+                                            <div class="col-sm-9">
+                                                <form:input path="applicationGeneral.currWrkpName" cssClass="form-control" />
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label class="col-sm-2 control-label">학교 이름</label>
-                                            <div class="btn btn-default btn-md col-md-2">검색</div>
-                                            <div class="col-sm-4">
-                                                <input name="schlName" class="form-control" id="schlName1" />
-                                            </div>
-                                            <div class="col-sm-2">
-                                                <label class="radio inline">
-                                                    <input type="radio" name="lastSchlYn" id="lastSchlYn1" class="lastSchl">&nbsp;&nbsp;최종 학교
-                                                </label>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="col-sm-2 control-label">단과 대학</label>
-                                            <div class="col-sm-8">
-                                                <input name="collName" class="form-control" id="collName1"/>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="col-sm-2 control-label">학과 이름</label>
-                                            <div class="col-sm-8">
-                                                <input name="majName" class="form-control" id="majName1" />
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="col-sm-2 control-label">재학 기간</label>
-                                            <div class="col-sm-4 start-date-container">
-                                                <div class="input-group date" id="divCalEntrDay1">
-                                                    <span class="input-group-addon">입학일</span>
-                                                    <input type="text" class="form-control calendar" name="entrDay" id="entrDay1" readonly/>
-                                                </div>
-                                            </div>
-                                            <div class="col-sm-4 end-date-container">
-                                                <div class="input-group date" id="divCalGrdaDay1">
-                                                    <span class="input-group-addon">졸업일</span>
-                                                    <input type="text" class="form-control calendar" name="grdaDay" id="grdaDay1" readonly/>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="col-sm-2 control-label">평균 평점</label>
-                                            <div class="col-sm-2">
+                                            <form:label path="applicationGeneral.currWrkpDay" cssClass="col-sm-2 control-label">입사일</form:label>
+                                            <div class="col-sm-9">
                                                 <div class="input-group">
-                                                    <span class="input-group-addon">평점</span>
-                                                    <input class="form-control" name="gradAvr" id="gradAvr1"/>
+                                                    <form:input path="applicationGeneral.currWrkpDay" cssClass="col-sm-6 form-control" />
                                                 </div>
                                             </div>
-                                            <div class="col-sm-2">
-                                                <div class="input-group">
-                                                    <span class="input-group-addon">만점</span>
-                                                    <input class="form-control" name="gradFull" id="gradFull1"/>
-                                                </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <form:label path="applicationGeneral.currWrkpTel" cssClass="col-sm-2 control-label">연락처</form:label>
+                                            <div class="col-sm-9">
+                                                <form:input path="applicationGeneral.currWrkpTel" cssClass="form-control" />
                                             </div>
-                                            <div id="addCollege1" class="addCollege col-sm-2 btn btn-info">입력란 추가</div>
-                                            <div id="removeCollege1" class="removeCollege col-sm-2 btn btn-danger">입력란 삭제</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </c:if>
+                            <div class="panel panel-default">
+                                <div class="panel-heading">지원자 상세정보</div>
+                                <div class="panel-body">
+                                    <%--<div class="form-group">--%>
+                                        <%--<form:label path="applicationGeneral.citzCntrCode" cssClass="col-sm-3 control-label">국적</form:label>--%>
+                                        <%--<div class="col-sm-9">--%>
+                                            <%--<div class="input-group">--%>
+                                                <%--<form:input path="applicationGeneral.citzCntrCode" cssClass="form-control" />--%>
+                                                <%--<span class="input-group-btn">--%>
+                                                    <%--<button type="button" class="btn btn-default" id="search-citz-cntr-code">--%>
+                                                        <%--<span class="glyphicon glyphicon-search"></span> 검색--%>
+                                                    <%--</button>--%>
+                                                <%--</span>--%>
+                                            <%--</div>--%>
+                                        <%--</div>--%>
+                                    <%--</div>--%>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">장애사항</label>
+                                        <div class="col-sm-9">
+                                            <div class="input-group">
+                                                <span class="input-group-addon">[장애유형]</span>
+                                                <form:input path="applicationGeneral.hndcGrad" cssClass="col-sm-6 form-control" />
+                                            </div>
+                                            <div class="input-group">
+                                                <span class="input-group-addon">[장애등급]</span>
+                                                <form:input path="applicationGeneral.hndcType" cssClass="col-sm-6 form-control" />
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="panel panel-default">
-                            <div class="panel-heading">대학원</div>
-                            <div class="panel-body">
-
+                            <div class="panel panel-default">
+                                <div class="panel-heading">지원자 연락처</div>
+                                <div class="panel-body">
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">주소</label>
+                                        <input type="text" id="postcode1"> - <input type="text" id="postcode2"/>
+                                        <input type="hidden" id="zipCode" name="zipCode"/>
+                                        <button type="button" id="searchAddress">우편번호 찾기</button>
+                                        <input type="text" id="address" name="addr"/>
+                                        <input type="text" id="addressDetail" name="detlAddr">
+                                        <%--<div class="col-sm-1">--%>
+                                            <%--<form:input path="zipCode" cssClass="form-control" />--%>
+                                        <%--</div>--%>
+                                        <%--<div class="col-sm-8">--%>
+                                            <%--<div class="input-group">--%>
+                                                <%--<span class="input-group-btn">--%>
+                                                    <%--<button type="button" class="btn btn-default" id="search-zipcode">--%>
+                                                        <%--<span class="glyphicon glyphicon-search"></span> 검색--%>
+                                                    <%--</button>--%>
+                                                <%--</span>--%>
+                                            <%--</div>--%>
+                                        <%--</div>--%>
+                                        <%--<div class="col-sm-offset-3 col-sm-8">--%>
+                                            <%--<form:input path="addr" cssClass="form-control" />--%>
+                                        <%--</div>--%>
+                                        <%--<div class="col-sm-offset-3 col-sm-8">--%>
+                                            <%--<form:input path="detlAddr" cssClass="form-control" />--%>
+                                        <%--</div>--%>
+                                    </div>
+                                    <div class="form-group">
+                                        <form:label path="telNum" cssClass="col-sm-2 control-label">전화번호</form:label>
+                                        <div class="col-sm-9">
+                                            <%--TODO--%>
+                                            <%--<form:select path="telNumFirst" cssClass="form-control">--%>
+                                                <%--<form:options items="${common.telNumFirst}" />--%>
+                                            <%--</form:select> --%>
+                                            <form:input path="telNum" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <form:label path="mobiNum" cssClass="col-sm-2 control-label">휴대폰</form:label>
+                                        <div class="col-sm-9">
+                                            <%--TODO--%>
+                                            <%--<form:select path="mobiNumFirst" cssClass="form-control">--%>
+                                                <%--<form:options items="${common.telNumFirst}" />--%>
+                                            <%--</form:select>--%>
+                                            <form:input path="mobiNum" cssClass="form-control" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <form:label path="mailAddr" cssClass="col-sm-2 control-label">E-mail</form:label>
+                                        <div class="col-sm-9">
+                                            <form:input path="mailAddr" cssClass="form-control" />
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                        <div class="panel panel-default">
-                            <div class="panel-heading">어학성적</div>
-                            <div class="panel-body">
-
+                            <div class="panel panel-default">
+                                <div class="panel-heading">비상연락처</div>
+                                <div class="panel-body">
+                                    <div class="form-group">
+                                        <form:label path="applicationGeneral.emerContName" cssClass="col-sm-2 control-label">이름</form:label>
+                                        <div class="col-sm-9">
+                                            <form:input path="applicationGeneral.emerContName" cssClass="form-control" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <form:label path="applicationGeneral.emerContCode" cssClass="col-sm-2 control-label">관계</form:label>
+                                        <div class="col-sm-9">
+                                            <form:select path="applicationGeneral.emerContCode" cssClass="form-control">
+                                                <form:options items="${common.emerCont}" />
+                                            </form:select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <form:label path="applicationGeneral.emerContTel" cssClass="col-sm-2 control-label">전화번호</form:label>
+                                        <div class="col-sm-9">
+                                            <%--TODO--%>
+                                            <%--<form:select path="telNumFirst" cssClass="form-control">--%>
+                                                <%--<form:options items="${common.telNumFirst}" />--%>
+                                            <%--</form:select>--%>
+                                            <form:input path="applicationGeneral.emerContTel" cssClass="form-control" />
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                        <div class="panel panel-default">
-                            <div class="panel-heading">경력사항</div>
-                            <div class="panel-body">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">고등학교</div>
+                                <div class="panel-body">
+                                    <div id="highschoolContainer">
+                                        <div class="form-group">
+                                            <div class="col-sm-2 control-label">졸업구분</div>
+                                            <div class="col-sm-9">
+                                                <div class="btn-group">
+                                                    <label class="radio-inline">
+                                                        <input type="radio" id="acadType1" name="acadType" value="00001">졸업</label>
+                                                    </label>
+                                                    <label class="radio-inline">
+                                                        <input type="radio" id="acadType2" name="acadType" value="00005">검정고시</label>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div id="highschoolDynamic">
+                                        <div id="highschoolSubContainer1">
+                                            <div class="form-group">
+                                                <div class="col-sm-2 control-label">재학기간</div>
+                                                <div class="col-sm-9">
+                                                    <div class="input-daterange input-group">
+                                                        <input type="text" class="input-sm form-control" name="entrDay" />
+                                                        <span class="input-group-addon">to</span>
+                                                        <input type="text" class="input-sm form-control" name="grdaDay" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div for="schlName" class="col-sm-2 control-label">학교명</div>
+                                                <div class="col-sm-9">
+                                                    <div class="input-group">
+                                                        <span class="input-group-btn">
+                                                            <button type="button" class="btn btn-default">검색</button>
+                                                        </span>
+                                                        <input type="text" class="form-control" id="schlName">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                            <div id="highschoolSubContainer2">
+                                                <div class="form-group">
+                                                    <div class="col-sm-2 control-label">검정고시합격일</div>
+                                                    <div class="col-sm-9">
+                                                        <div class="input-group date">
+                                                            <span class="input-group-addon">합격일</span>
+                                                            <input type="text" class="form-control" name="qualExamDay" id="qualExamDay" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <div for="schlName" class="col-sm-2 control-label">검정고시합격지구</div>
+                                                    <div class="col-sm-9">
+                                                        <div class="input-group">
+                                                        <span class="input-group-btn">
+                                                            <button type="button" class="btn btn-default">검색</button>
+                                                        </span>
+                                                            <input type="text" class="form-control" id="schlName">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel panel-default">
+                                <div class="panel-heading">대학교</div>
+                                <div class="panel-body">
+                                    <div id="college-container">
+                                        <div class="collegeInfo">
+                                            <hr/>
+                                            <div class="form-group">
+                                                <label class="col-sm-2 control-label">소재 국가</label>
+                                                <div class="btn btn-default btn-md col-md-2">검색</div>
+                                                <div class="col-sm-6">
+                                                    <input name="applicationAcademyList[0].korCntrName" class="form-control" id="korCntrName201"/>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-sm-2 control-label">학교 이름</label>
+                                                <div class="btn btn-default btn-md col-md-2">검색</div>
+                                                <div class="col-sm-4">
+                                                    <input name="applicationAcademyList[0].schlName" class="form-control" id="schlName1" />
+                                                </div>
+                                                <div class="col-sm-2">
+                                                    <label class="radio inline">
+                                                        <input type="radio" name="applicationAcademyList[0].lastSchlYn" id="lastSchlYn1" class="lastSchl">&nbsp;&nbsp;최종 학교
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-sm-2 control-label">단과 대학</label>
+                                                <div class="col-sm-8">
+                                                    <input name="applicationAcademyList[0].collName" class="form-control" id="collName1"/>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-sm-2 control-label">학과 이름</label>
+                                                <div class="col-sm-8">
+                                                    <input name="applicationAcademyList[0].majName" class="form-control" id="majName1" />
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-sm-2 control-label">재학 기간</label>
+                                                <div class="col-sm-4 start-date-container">
+                                                    <div class="input-group date">
+                                                        <span class="input-group-addon">입학일</span>
+                                                        <input type="text" class="form-control" name="applicationAcademyList[0].entrDay" id="entrDay1" readonly/>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-4 end-date-container">
+                                                    <div class="input-group date">
+                                                        <span class="input-group-addon">졸업일</span>
+                                                        <input type="text" class="form-control" name="applicationAcademyList[0].grdaDay" id="grdaDay1" readonly/>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-sm-2 control-label">평균 평점</label>
+                                                <div class="col-sm-2">
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon">평점</span>
+                                                        <input class="form-control" name="applicationAcademyList[0].gradAvr" id="gradAvr1"/>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-2">
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon">만점</span>
+                                                        <input class="form-control" name="applicationAcademyList[0].gradFull" id="gradFull1"/>
+                                                    </div>
+                                                </div>
+                                                <div id="addCollege1" class="addCollege col-sm-2 btn btn-info">입력란 추가</div>
+                                                <div id="removeCollege1" class="removeCollege col-sm-2 btn btn-danger">입력란 삭제</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel panel-default">
+                                <div class="panel-heading">대학원</div>
+                                <div class="panel-body">
+                                    <div id="gradschool-container" class="block-list">
+                                        <div id="gradschool-info" class="form-group-block">
+                                            <hr/>
+                                            <div class="form-group">
+                                                <label class="col-xs-6 col-sm-2 control-label">소재 국가</label>
+                                                <div class="co-xs-6 col-sm-2">
+                                                    <button type="button" class="btn btn-default">검색</button>
+                                                </div>
+                                                <div class="col-xs-12 col-sm-7">
+                                                    <input type="text" class="form-control" id="korCntrName301" name="korCntrName" />
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-sm-2 control-label">학교 이름</label>
+                                                <div class="btn btn-default btn-md col-md-2">검색</div>
+                                                <div class="col-sm-4">
+                                                    <input name="schlName" class="form-control" id="schlName1" />
+                                                </div>
+                                                <div class="col-sm-2">
+                                                    <label class="radio inline">
+                                                        <input type="radio" name="lastSchlYn" id="lastSchlYn1" class="lastSchl">&nbsp;&nbsp;최종 학교
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-sm-2 control-label">단과 대학</label>
+                                                <div class="col-sm-8">
+                                                    <input name="collName" class="form-control" id="collName1"/>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-sm-2 control-label">학과 이름</label>
+                                                <div class="col-sm-8">
+                                                    <input name="majName" class="form-control" id="majName1" />
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-sm-2 control-label">재학 기간</label>
+                                                <div class="col-sm-4 start-date-container">
+                                                    <div class="input-group date" id="divCalEntrDay1">
+                                                        <span class="input-group-addon">입학일</span>
+                                                        <input type="text" class="form-control calendar" name="entrDay" id="entrDay2" readonly/>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-4 end-date-container">
+                                                    <div class="input-group date" id="divCalGrdaDay1">
+                                                        <span class="input-group-addon">졸업일</span>
+                                                        <input type="text" class="form-control calendar" name="grdaDay" id="grdaDay2" readonly/>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-sm-2 control-label">평균 평점</label>
+                                                <div class="col-sm-2">
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon">평점</span>
+                                                        <input class="form-control" name="gradAvr" id="gradAvr1"/>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-2">
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon">만점</span>
+                                                        <input class="form-control" name="gradFull" id="gradFull1"/>
+                                                    </div>
+                                                </div>
+                                                <div id="addCollege1" class="addCollege col-sm-2 btn btn-info">입력란 추가</div>
+                                                <div id="removeCollege1" class="removeCollege col-sm-2 btn btn-danger">입력란 삭제</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel panel-default">
+                                <div class="panel-heading">어학성적</div>
+                                <div class="panel-body">
 
+                                </div>
+                            </div>
+                            <div class="panel panel-default">
+                                <div class="panel-heading">경력사항</div>
+                                <div class="panel-body">
+                                    <div id="career-container">
+                                        <div class="careerInfo">
+                                            <div class="form-group">
+                                                <label class="col-sm-2 control-label">재직 기간</label>
+                                                <div class="col-sm-4 start-date-container">
+                                                    <div class="input-group date">
+                                                        <span class="input-group-addon">입사일</span>
+                                                        <input type="text" class="form-control" name="joinDay" id="joinDay1" readonly/>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-4 end-date-container">
+                                                    <div class="input-group date">
+                                                        <span class="input-group-addon">퇴사일</span>
+                                                        <input type="text" class="form-control" name="retrDay" id="retrDay1" readonly/>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <form:label path="applicationExperiencesList[0].corpName" cssClass="col-sm-2 control-label">기관명</form:label>
+                                                <div class="col-sm-9">
+                                                    <form:input path="applicationExperiencesList[0].corpName" cssClass="form-control" />
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <form:label path="applicationExperiencesList[0].exprDesc" cssClass="col-sm-2 control-label">직위명</form:label>
+                                                <div class="col-sm-9">
+                                                    <form:input path="applicationExperiencesList[0].exprDesc" cssClass="form-control" />
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div id="addCollege1" class="addCollege col-sm-2 btn btn-info">입력란 추가</div>
+                                                <div id="removeCollege1" class="removeCollege col-sm-2 btn btn-danger">입력란 삭제</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-
-
-                <%--<div class="form-group">--%>
-                    <%--<form:label path="campus" cssClass="col-sm-3 control-label">지원캠퍼스</form:label>--%>
-                    <%--<div class="col-sm-6">--%>
-                        <%--<form:select path="campus" cssClass="form-control">--%>
-                            <%--<form:option value="-" label="--Please Select" />--%>
-                            <%--<form:options items="${campuses}" />--%>
-                        <%--</form:select>--%>
-                    <%--</div>--%>
-            <%--</div>--%>
-            <%--<div class="form-group">--%>
-                <%--<form:label path="course" cssClass="col-sm-3 control-label">지원과정</form:label>--%>
-                <%--<div class="col-sm-6">--%>
-                    <%--<form:select path="course" cssClass="form-control">--%>
-                        <%--<form:option value="-" label="--Please Select" />--%>
-                        <%--<form:options items="${courses}" />--%>
-                    <%--</form:select>--%>
-                <%--</div>--%>
-            <%--</div>--%>
-                    <%--<div class="form-group">--%>
-                        <%--<form:label path="institution" cssClass="col-sm-3 control-label">학연산 연구기관명</form:label>--%>
-                        <%--<div class="col-sm-6">--%>
-                            <%--<form:input path="institution" cssClass="form-control" />--%>
-                        <%--</div>--%>
-                    <%--</div>--%>
-                    <%--<div class="form-group">--%>
-                        <%--<form:label path="department" cssClass="col-sm-3 control-label">지원학과</form:label>--%>
-                        <%--<div class="col-sm-6">--%>
-                            <%--<form:select path="department" cssClass="form-control">--%>
-                                <%--<form:option value="-" label="--Please Select" />--%>
-                                <%--<form:options items="${departments}" />--%>
-                            <%--</form:select>--%>
-                        <%--</div>--%>
-                    <%--</div>--%>
-                    <%--<div class="form-group">--%>
-                        <%--<form:label path="detailMajor" cssClass="col-sm-3 control-label">세부전공</form:label>--%>
-                        <%--<div class="col-sm-6">--%>
-                            <%--<form:select path="detailMajor" cssClass="form-control">--%>
-                                <%--<form:option value="-" label="--Please Select" />--%>
-                                <%--<form:options items="${detailMajors}" />--%>
-                            <%--</form:select>--%>
-                        <%--</div>--%>
-                    <%--</div>--%>
-                    <%--<div class="form-group">--%>
-                        <%--<form:label path="korName" cssClass="col-sm-3 control-label">이름</form:label>--%>
-                        <%--<div class="col-sm-6">--%>
-                            <%--<form:input path="korName" cssClass="form-control" />--%>
-                        <%--</div>--%>
-                    <%--</div>--%>
-                    <%--<div class="form-group">--%>
-                        <%--<form:label path="engName" cssClass="col-sm-3 control-label">영문</form:label>--%>
-                        <%--<div class="col-sm-3">--%>
-                            <%--<form:input path="engName" cssClass="form-control" />--%>
-                        <%--</div>--%>
-                        <%--<div class="col-sm-3">--%>
-                            <%--<form:input path="engSur" cssClass="form-control" />--%>
-                        <%--</div>--%>
-                    <%--</div>--%>
-                    <%--<div class="form-group">--%>
-                        <%--<form:label path="rgstNo" cssClass="col-sm-3 control-label">주민등록번호</form:label>--%>
-                        <%--<div class="col-sm-6">--%>
-                            <%--<form:input path="rgstNo" cssClass="form-control" />--%>
-                        <%--</div>--%>
-                    <%--</div>--%>
-                    <%--<div class="form-group">--%>
-                        <%--<form:label path="mailAddr" cssClass="col-sm-3 control-label">E-mail</form:label>--%>
-                        <%--<div class="col-sm-6">--%>
-                            <%--<form:input path="mailAddr" cssClass="form-control" />--%>
-                        <%--</div>--%>
-                    <%--</div>--%>
-                    <%--<div class="form-group">--%>
-                        <%--<form:label path="telNum" cssClass="col-sm-3 control-label">전화번호</form:label>--%>
-                        <%--<div class="col-sm-6">--%>
-                            <%--<form:input path="telNum" cssClass="form-control" />--%>
-                        <%--</div>--%>
-                    <%--</div>--%>
-                    <%--<div class="form-group">--%>
-                        <%--<form:label path="mobiNum" cssClass="col-sm-3 control-label">휴대폰</form:label>--%>
-                        <%--<div class="col-sm-6">--%>
-                            <%--<form:input path="mobiNum" cssClass="form-control" />--%>
-                        <%--</div>--%>
-                    <%--</div>--%>
-                    <%--<div class="form-group">--%>
-                        <%--<form:label path="addr" cssClass="col-sm-3 control-label">주소</form:label>--%>
-                        <%--<div class="col-sm-1">--%>
-                            <%--<form:input path="zipCode" cssClass="form-control" />--%>
-                        <%--</div>--%>
-                        <%--<div class="col-sm-5">--%>
-                            <%--<div class="input-group">--%>
-                                <%--<form:input path="addr" cssClass="form-control" />--%>
-                                <%--<span class="input-group-btn">--%>
-                                    <%--<button type="button" class="btn btn-default" id="search-zipcode">--%>
-                                        <%--<span class="glyphicon glyphicon-search"></span> Search--%>
-                                    <%--</button>--%>
-                                <%--</span>--%>
-                            <%--</div>--%>
-                        <%--</div>--%>
-                        <%--<div class="col-sm-offset-3 col-sm-6">--%>
-                            <%--<form:input path="detlAddr" cssClass="form-control" />--%>
-                        <%--</div>--%>
-                    <%--</div>--%>
-
-                    <%--<div class="spacer-small"></div>--%>
-                    <%--<hr/>--%>
-                    <%--<h2 class="slogan">학력 사항</h2>--%>
-                    <%--<div class="row">--%>
-                        <%--<div class="col-sm-offset-2 col-sm-8">--%>
-                            <%--<table class="table table-hover table-responsive table-condensed table-bordered">--%>
-                                <%--<thead>--%>
-                                    <%--<tr>--%>
-                                        <%--<td><input type="checkbox" id="select-all-academies" /></td>--%>
-                                        <%--<td>학력</td>--%>
-                                        <%--<td>학교명</td>--%>
-                                        <%--<td>입학일자</td>--%>
-                                        <%--<td>졸업일자</td>--%>
-                                        <%--<td>졸업구분</td>--%>
-                                    <%--</tr>--%>
-                                <%--</thead>--%>
-                                <%--<tbody>--%>
-                                <%--<c:forEach items="${application.academies}" var="academy" varStatus="status">--%>
-                                    <%--<tr>--%>
-                                        <%--<td><input type="checkbox" class="selectRow" /></td>--%>
-                                        <%--<td><form:select path="academies[${status.index}].acadTypeCode" items="${requestScope.schoolTypes}" /></td>--%>
-                                        <%--<td><form:input path="academies[${status.index}].schlName" /></td>--%>
-                                        <%--<td><form:input path="academies[${status.index}].entrDay" /></td>--%>
-                                        <%--<td><form:input path="academies[${status.index}].grdaDay" /></td>--%>
-                                        <%--<td><form:select path="academies[${status.index}].grdaTypeCode" items="${requestScope.graduationTypes}" /></td>--%>
-                                    <%--</tr>--%>
-                                <%--</c:forEach>--%>
-                                <%--<c:if test="${application.academies.size() < 4}">--%>
-                                    <%--<c:forEach begin="${application.academies.size()}" end="3" varStatus="status">--%>
-                                        <%--<tr>--%>
-                                            <%--<td><input type="checkbox" class="selectRow" /></td>--%>
-                                            <%--<td><select id="academies${status.index}.acadTypeCode" name="academies[${status.index}].acadTypeCode" items="${requestScope.acadTypeCode}" /></td>--%>
-                                            <%--<td><input id="academies${status.index}.schlName" name="academies[${status.index}].schlName" /></td>--%>
-                                            <%--<td><input id="academies${status.index}.entrDay" name="academies[${status.index}].entrDay" /></td>--%>
-                                            <%--<td><input id="academies${status.index}.grdaDay" name="academies[${status.index}].grdaDay" /></td>--%>
-                                            <%--<td><select id="academies${status.index}.grdaTypeCode" name="academies[${status.index}].grdaTypeCode" items="${requestScope.grdaTypeCode}" /></td>--%>
-                                        <%--</tr>--%>
-                                    <%--</c:forEach>--%>
-                                <%--</c:if>--%>
-                                <%--</tbody>--%>
-                            <%--</table>--%>
-                        <%--</div>--%>
-                    <%--</div>--%>
-                    <%--<div class="row">--%>
-                        <%--<div class="col-sm-offset-2 col-sm-8">--%>
-                            <%--<div class="btn-group pull-right">--%>
-                                <%--<button type="button" class="btn btn-default" id="academy-up">--%>
-                                    <%--<span class="glyphicon glyphicon-chevron-up"></span>--%>
-                                <%--</button>--%>
-                                <%--<button type="button" class="btn btn-default" id="academy-down">--%>
-                                    <%--<span class="glyphicon glyphicon-chevron-down"></span>--%>
-                                <%--</button>--%>
-                                <%--<button type="button" class="btn btn-default" id="academy-add">--%>
-                                    <%--<span class="glyphicon glyphicon-plus"></span>--%>
-                                <%--</button>--%>
-                                <%--<button type="button" class="btn btn-default" id="academy-del">--%>
-                                    <%--<span class="glyphicon glyphicon-minus"></span>--%>
-                                <%--</button>--%>
-                            <%--</div>--%>
-                        <%--</div>--%>
-                    <%--</div>--%>
-
-                    <%--<div class="spacer-small"></div>--%>
-                    <%--<hr/>--%>
-                    <%--<h2 class="slogan">경력 사항</h2>--%>
-                    <%--<div class="row">--%>
-                        <%--<div class="col-sm-offset-2 col-sm-8">--%>
-                            <%--<table class="table table-hover table-responsive table-condensed table-bordered">--%>
-                                <%--<thead>--%>
-                                <%--<tr>--%>
-                                    <%--<td><input type="checkbox" id="select-all-careers" /></td>--%>
-                                    <%--<td colspan="3">기간</td>--%>
-                                    <%--<td>기관명</td>--%>
-                                    <%--<td>직위(또는 상벌내용, 연수내용 등)</td>--%>
-                                <%--</tr>--%>
-                                <%--</thead>--%>
-                                <%--<tbody>--%>
-                                <%--<c:forEach items="${application.careers}" var="career" varStatus="status">--%>
-                                    <%--<tr>--%>
-                                        <%--<td><input type="checkbox" class="selectRow" /></td>--%>
-                                        <%--<td><form:input path="careers[${status.index}].joinYmd" /></td>--%>
-                                        <%--<td><span>~</span></td>--%>
-                                        <%--<td><form:input path="careers[${status.index}].retrYmd" /></td>--%>
-                                        <%--<td><form:input path="careers[${status.index}].corpName" /></td>--%>
-                                        <%--<td><form:input path="careers[${status.index}].exprDesc" /></td>--%>
-                                    <%--</tr>--%>
-                                <%--</c:forEach>--%>
-                                <%--<c:if test="${application.academies.size() < 4}">--%>
-                                    <%--<c:forEach begin="${application.careers.size()}" end="3" varStatus="status">--%>
-                                        <%--<tr>--%>
-                                            <%--<td><input type="checkbox" class="selectRow" /></td>--%>
-                                            <%--<td><input id="careers${status.index}.joinYmd" name="careers[${status.index}].joinYmd"/></td>--%>
-                                            <%--<td><span>~</span></td>--%>
-                                            <%--<td><input id="careers${status.index}.retrYmd" name="careers[${status.index}].retrYmd"/></td>--%>
-                                            <%--<td><input id="careers${status.index}.corpName" name="careers[${status.index}].corpName"/></td>--%>
-                                            <%--<td><input id="careers${status.index}.exprDesc" name="careers[${status.index}].exprDesc"/></td>--%>
-                                        <%--</tr>--%>
-                                    <%--</c:forEach>--%>
-                                <%--</c:if>--%>
-                                <%--</tbody>--%>
-                            <%--</table>--%>
-                        <%--</div>--%>
-                    <%--</div>--%>
-                    <%--<div class="row">--%>
-                        <%--<div class="col-sm-offset-2 col-sm-8">--%>
-                            <%--<div class="btn-group pull-right">--%>
-                                <%--<button type="button" class="btn btn-default" id="career-up">--%>
-                                    <%--<span class="glyphicon glyphicon-chevron-up"></span>--%>
-                                <%--</button>--%>
-                                <%--<button type="button" class="btn btn-default" id="career-down">--%>
-                                    <%--<span class="glyphicon glyphicon-chevron-down"></span>--%>
-                                <%--</button>--%>
-                                <%--<button type="button" class="btn btn-default" id="career-add">--%>
-                                    <%--<span class="glyphicon glyphicon-plus"></span>--%>
-                                <%--</button>--%>
-                                <%--<button type="button" class="btn btn-default" id="career-del">--%>
-                                    <%--<span class="glyphicon glyphicon-minus"></span>--%>
-                                <%--</button>--%>
-                            <%--</div>--%>
-                        <%--</div>--%>
-                    <%--</div>--%>
-
-                    <%--<div class="spacer-small"></div>--%>
-                    <%--<hr/>--%>
-                    <%--<h2 class="slogan">전형료 환불 계좌</h2>--%>
-                    <%--<div class="form-group">--%>
-                        <%--<form:label path="bank" cssClass="col-sm-3 control-label">은행명</form:label>--%>
-                        <%--<div class="col-sm-6">--%>
-                            <%--<form:select path="bank" cssClass="form-control">--%>
-                                <%--<form:option value="-" label="--Please Select" />--%>
-                                <%--<form:options items="${bankList}" itemvalue="code" itemlabel="name" />--%>
-                            <%--</form:select>--%>
-                        <%--</div>--%>
-                    <%--</div>--%>
-                    <%--<div class="form-group">--%>
-                        <%--<form:label path="accountNumber" cssClass="col-sm-3 control-label">계좌 번호</form:label>--%>
-                        <%--<div class="col-sm-6">--%>
-                            <%--<form:input path="accountNumber" cssClass="form-control" placeholder="Bank Account Number" />--%>
-                        <%--</div>--%>
-                    <%--</div>--%>
-                    <%--<div class="form-group">--%>
-                        <%--<form:label path="accountOwner" cssClass="col-sm-3 control-label">예금주</form:label>--%>
-                        <%--<div class="col-sm-6">--%>
-                            <%--<form:input path="accountOwner" cssClass="form-control" placeholder="Bank Account Owner" />--%>
-                        <%--</div>--%>
-                    <%--</div>--%>
                     <div class="spacer-tiny"></div>
-            <%--</form:form>--%>
+                </form:form>
             </div>
             <%--selfintro--%>
             <div class="tab-pane fade" id="selfintro">
@@ -934,7 +851,6 @@
                 <div class="spacer-tiny"></div>
             </div>
         </div> <%--myTabContent--%>
-    </form:form>
 
         <div class="btn-group btn-group-justified">
             <div class="btn-group">
@@ -951,14 +867,8 @@
             <img src="${contextPath}/img/user/addr-close.png" id="btnCloseLayer" style="cursor:pointer;position:absolute;right:-3px;top:-3px" alt="닫기 버튼">
         </div>
     </div> <%--container--%>
-
-
-
-
-
-</div>
 </section>
-    <content tag="local-script">
+<content tag="local-script">
     <%--<script src="${contextPath}/js/postcode.js"></script>--%>
     <script src="http://dmaps.daum.net/map_js_init/postcode.js"></script>
     <%--<script src="${contextPath}/js/bootstrap-datepicker.js"></script>--%>
@@ -982,17 +892,22 @@
             };
 
             <%-- 달력 시작 --%>
-            $('#entrDay1, #grdaDay1').datepicker(datePickerOption);
+//            $('#entrDay1, #grdaDay1').datepicker(datePickerOption);
+            $('.input-group.date>input').each(function() {
+                $(this).datepicker(datePickerOption);
+            });
+//            $('.input-group.date>input').datepicker(datePickerOption);
+            $('.input-daterange>input').datepicker(datePickerOption);
             <%-- 달력 끝 --%>
 
-
+            /*처음 탭 표시*/
             $('#myTab a:first').tab('show');
 
             $('#save').on('click', function() {
                 var $curPane = $('.tab-pane.active');
                 var $curForm = $curPane.find('form');
                 console.log($curForm.serialize());
-                alert("저장 되었습니다.")
+                $curForm.submit();
             });
 
             $('#apply').on('click', function() {
@@ -1134,7 +1049,42 @@
             });
             <%-- 사진 업로드 끝 --%>
 
+            <%-- 달력 시작 --%>
+//            $('.input-group.date').datepicker({
+//                format: "yyyy-mm-dd",
+//                startView: 2,
+//                language: "kr",
+//                forceParse: false,
+//                autoclose: true
+//            });
+            <%-- 달력 끝 --%>
 
+            <%-- 재학기간 달력 시작 --%>
+//            $('.input-daterange').datepicker({
+//                format: "yyyy-mm-dd",
+//                startView: 2,
+//                language: "kr",
+//                forceParse: false,
+//                autoclose: true
+//            });
+            <%-- 재학기간 달력 끝 --%>
+
+            $('input[name=acadType]').change(function() {
+                var radioValue = $(this).val();
+                if (radioValue == '00001') {
+                    hideExclude('highschoolSubContainer1');
+                } else {
+                    hideExclude('highschoolSubContainer2');
+                }
+            });
+
+            function hideExclude(excludeId) {
+                $('#highschoolDynamic').children().each(function() {
+                    $(this).hide();
+                });
+                $('#' + excludeId).show();
+            }
+            $('input[name=acadType]').eq(0).click();
 
         });
 

@@ -1,14 +1,18 @@
 package com.apexsoft.ysprj.applicants.application.control;
 
+import com.apexsoft.framework.common.vo.ExecutionContext;
 import com.apexsoft.ysprj.user.domain.*;
 import com.apexsoft.ysprj.applicants.application.service.ApplicationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.Map;
 
 /**
@@ -56,12 +60,33 @@ public class ApplicationController {
                                  @ModelAttribute("selfIntro") SelfIntro selfIntro,
                                  @ModelAttribute("studyPlan") StudyPlan studyPlan,*/
                                  /*@RequestParam("radio4") String providePrivateInfo,*/
+                                 @ModelAttribute EntireApplication entireApplication,
                                  Model model) {
 
 //        model.addAttribute("providePrivateInfo", providePrivateInfo);
-        model.addAttribute("application", applicationService.retrieveApplication(1));
+//        model.addAttribute("application", applicationService.retrieveApplication(1));
+        model.addAttribute("entireApplication", entireApplication);
 
         return "application/appinfo";
+    }
+
+    @RequestMapping(value = "/apply/save", method = RequestMethod.POST)
+    public ExecutionContext saveAcademy(@Valid @ModelAttribute EntireApplication entireApplication, BindingResult binding) {
+        if( binding.hasErrors() ) {
+            return new ExecutionContext(ExecutionContext.FAIL);
+        }
+        return new ExecutionContext();
+    }
+
+    @ModelAttribute("entireApplication")
+    public EntireApplication entireApplication() {
+        EntireApplication entireApplication = new EntireApplication();
+        entireApplication.setApplicationGeneral(new ApplicationGeneral());
+        entireApplication.setApplicationEtc(new ApplicationEtc());
+        entireApplication.setApplicationAcademyList(new ArrayList<ApplicationAcademy>());
+        entireApplication.setApplicationExperiencesList(new ArrayList<ApplicationExperiences>());
+        entireApplication.setApplicationEngGradeList(new ArrayList<ApplicationEngGrade>());
+        return entireApplication;
     }
 
 //    @ModelAttribute("application")
@@ -118,4 +143,5 @@ public class ApplicationController {
 //        selfIntro.setTa2("이 학교에 지원하게 된 동기는...");
 //        return selfIntro;
 //    }
+
 }

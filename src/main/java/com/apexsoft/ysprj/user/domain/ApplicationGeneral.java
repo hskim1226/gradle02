@@ -14,7 +14,7 @@ public class ApplicationGeneral {
     private String emerContName;    // 비상연락처 이름
     private String emerContTel;     // 비상연락처 번호
     private String hndcGrad;        // 장애등급코드
-    private String hndcTypeCode;    // 장애유형코드
+    private String hndcType;        // 장애유형코드
     private String mltrServCode;    // 병역구분코드
     private String mltrJoinDay;     // 입대일자
     private String mltrDschDay;     // 제대일자
@@ -94,12 +94,12 @@ public class ApplicationGeneral {
         this.hndcGrad = hndcGrad;
     }
 
-    public String getHndcTypeCode() {
-        return hndcTypeCode;
+    public String getHndcType() {
+        return hndcType;
     }
 
-    public void setHndcTypeCode(String hndcTypeCode) {
-        this.hndcTypeCode = hndcTypeCode;
+    public void setHndcType(String hndcType) {
+        this.hndcType = hndcType;
     }
 
     public String getMltrServCode() {

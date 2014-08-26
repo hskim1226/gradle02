@@ -42,7 +42,7 @@
             <result property="emerContName" column="emer_cont_name"/>
             <result property="emerContTel" column="emer_cont_tel"/>
             <result property="hndcGrad" column="hndc_grad"/>
-            <result property="hndcTypeCode" column="hndc_type_code"/>
+            <result property="hndcType" column="hndc_type"/>
             <result property="mltrServCode" column="mltr_serv_code"/>
             <result property="mltrJoinDay" column="mltr_join_day"/>
             <result property="mltrDschDay" column="mltr_dsch_day"/>
@@ -120,7 +120,7 @@
                 b.EMER_CONT_NAME,
                 b.EMER_CONT_TEL,
                 b.HNDC_GRAD,
-                b.HNDC_TYPE_CODE,
+                b.HNDC_TYPE,
                 b.MLTR_SERV_CODE,
                 b.MLTR_JOIN_DAY,
                 b.MLTR_DSCH_DAY,
