@@ -89,7 +89,7 @@
                     <div class="form-group" align="center">
                         <label class="col-md-offset-1 col-md-6 big-font slogan text-center">개인 정보 수집 및 이용에 동의 하십니까?</label>
                         <label class="radio-inline">
-                            <input type="radio" name="radio1" value="0">동의함
+                            <input type="radio" name="radio1" value="0" checked>동의함
                         </label>
                         <label class="radio-inline">
                             <input type="radio" name="radio1" value="1">동의하지 않음
@@ -106,7 +106,7 @@
                     <div class="form-group" align="center">
                         <label class="col-md-offset-1 col-md-6 big-font text-center slogan">고유식별정보 수집 및 이용에 동의하십니까?</label>
                         <label class="radio-inline">
-                            <input type="radio" name="radio2" value="0">동의함
+                            <input type="radio" name="radio2" value="0" checked>동의함
                         </label>
                         <label class="radio-inline">
                             <input type="radio" name="radio2" value="1">동의하지 않음
@@ -143,7 +143,7 @@
                     <div class="form-group row" align="center">
                         <label class="col-md-offset-1 col-md-6 text-center big-font slogan">개인정보 취급 위탁에 동의하십니까?</label>
                         <label class="radio-inline">
-                            <input type="radio" name="radio3" value="0">동의함
+                            <input type="radio" name="radio3" value="0" checked>동의함
                         </label>
                         <label class="radio-inline">
                             <input type="radio" name="radio3" value="1">동의하지 않음
@@ -180,7 +180,7 @@
                     <div class="form-group" align="center">
                         <label class="col-md-offset-1 col-md-6 text-center big-font slogan">개인정보의 제3자 제공에 동의하십니까?</label>
                         <label class="radio-inline">
-                            <input type="radio" name="radio4" value="0">동의함
+                            <input type="radio" name="radio4" value="0" checked>동의함
                         </label>
                         <label class="radio-inline">
                             <input type="radio" name="radio4" value="1">동의하지 않음
@@ -198,7 +198,7 @@
                     <div class="form-group" align="center">
                         <label class="col-md-offset-1 col-md-6 text-center big-font slogan">위 내용을 확인하셨습니까?</label>
                         <label class="radio-inline">
-                            <input type="radio" name="radio5" value="0">확인함
+                            <input type="radio" name="radio5" value="0" checked>확인함
                         </label>
                         <label class="radio-inline">
                             <input type="radio" name="radio5" value="1">확인하지 않음
@@ -217,7 +217,7 @@
                     <div class="form-group" align="center">
                         <label class="col-md-offset-1 col-md-6 text-center big-font slogan">위 내용을 확인하셨습니까?</label>
                         <label class="radio-inline">
-                            <input type="radio" name="radio6" value="0">확인함
+                            <input type="radio" name="radio6" value="0" checked>확인함
                         </label>
                         <label class="radio-inline">
                             <input type="radio" name="radio6" value="1">확인하지 않음
