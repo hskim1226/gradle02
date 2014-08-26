@@ -58,7 +58,37 @@
             text-align: center;
         }
 
+        /* 팝업창이 보여질 부분 */
+        #popup, #popup2, .bMulti {
+            background-color: #fff;
+            color: #111;
+            display: none;
+            min-width: 450px;
+            padding: 25px;
+        }
 
+        #popup, .bMulti {
+            min-height: 250px;
+        }
+        /* 클릭할 버튼 */
+        .button {
+            background-color: #2b91af;
+            color: #fff;
+            cursor: pointer;
+            display: inline-block;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+        }
+        /* 닫기 버튼 */
+        .button.b-close, .button.bClose {
+            box-shadow: none;
+            font: bold 131% sans-serif;
+            padding: 0 6px 2px;
+            position: absolute;
+            right: -7px;
+            top: -7px;
+        }
     </style>
 </head>
 <body>
@@ -67,30 +97,23 @@
         <h2 class="slogan">Calendar Test</h2>
 
         <div class="spacer-small"></div>
+        <!-- default -->
+        <span class="button small pop1">Example 1:default</span>
 
-        <div class="col-sm-12 start-date-container">
-            <div class="input-group date">
-                <span class="input-group-addon">입학일</span>
-                <input type="text" class="form-control" name="entrDay" id="entrDay1"/>
-            </div>
+        <!-- easing plugin을 사용하는 예제 -->
+        <span class="button small pop1" data-bpopup='{"transition":"slideDown","speed":850,"easing":"easeOutBack"}'>Example 3a(transition,speed,easing)</span>
+
+        <!-- 'ajax', 'iframe' or 'image' 를 사용하는 예제- 여기서는 image 를 사용했습니다. -->
+        <span class="button small pop2" data-bpopup='{"content":"image","contentContainer":".content","loadUrl":"../images/image.jpg"}'>Example 5b(Image popup)</span>
+
+
+        <div id="popup">
+            <span class="button b-close"><span>X</span></span>
+            <p>처음부터 팝업 문서에 포함되어 있는 div - 클릭시 레이어로 나옴.</p>
         </div>
-
-        <div class="col-sm-12 end-date-container">
-            <div class="input-group date">
-                <span class="input-group-addon">졸업일</span>
-                <input type="text" class="form-control" name="grdaDay" id="grdaDay1"/>
-            </div>
-        </div>
-
-        <div class="col-sm-12" id="org">
-            <div class="input-group date" id="dp3">
-                <span class="input-group-addon">날짜</span>
-                <input type="text" class="form-control" name="vDate" id="vDate"/>
-            </div>
-        </div>
-
-        <div class="col-md-12">
-            <div id="addCalendar" class="btn btn-primary btn-block">달력복사</div>
+        <div id="popup2">
+            <span class="button b-close"><span>X</span></span>
+            <div class="content"></div>
         </div>
     </div>
 </section>
@@ -99,31 +122,30 @@
     <script src="${contextPath}/js/bootstrap-datepicker.kr.js"></script>
     <script>
         $(document).ready( function() {
-            var addCalender = function() {
-                var clonedElement = $('#org').clone(true);
-                clonedElement.attr('id', 'cloned');
-                $('#container').append(clonedElement);
-            };
+            $(function() {
+                var $p1 = $('#popup'),
+                        $p2 = $('#popup2');
+                // i = 0;
 
-            $('#addCalendar').on('click', addCalender);
+//                $('body').on('click', '.small', function(e) {
+//                    e.preventDefault();
+//                    var popup = $(this).hasClass('pop1') ? $p1 : $p2,
+//                            content = $('.content'),
+//                            self = $(this);
+//
+//                    popup.bPopup(self.data('bpopup') || {});
+//                });
 
-            <%-- 달력 시작 --%>
-            $('.input-group.date').datepicker({
-                format: "yyyymmdd",
-                startView: 2,
-                language: "kr",
-                forceParse: false,
-                autoclose: true
+                $('.small').on('click', function(e) {
+                    e.preventDefault();
+                    var popup = $(this).hasClass('pop1') ? $p1 : $p2,
+                            content = $('.content'),
+                            self = $(this);
+
+                    popup.bPopup(self.data('bpopup') || {});
+                });
+
             });
-
-            $('.input-append.date').datepicker({
-                format: "yyyymmdd",
-                startView: 2,
-                language: "kr",
-                forceParse: false,
-                autoclose: true
-            });
-            <%-- 달력 끝 --%>
         });
     </script>
 </content>

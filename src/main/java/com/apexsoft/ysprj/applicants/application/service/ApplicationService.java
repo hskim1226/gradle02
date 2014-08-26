@@ -23,6 +23,9 @@ public interface ApplicationService {
 
 
 
+// 아래는 일단 미사용
+
+
 
     Application retrieveApplication(Application application);
     PageInfo<Application> getApplicationsPaginatedList(String username);
