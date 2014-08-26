@@ -52,6 +52,12 @@ public class ApplicationController {
         return "application/studyplan";
     }
 
+    @RequestMapping(value="/apply-work")
+    public String displayApplyWork(Model model) {
+        model.addAttribute("application", applicationService.retrieveApplication(1));
+        return "application/appinfo-work";
+    }
+
     @RequestMapping(value = "/apply"/*, /method = RequestMethod.POST(*/)
     public String displayAppInfo(/*@ModelAttribute("application") Application application,*/
                                  /*@ModelAttribute("campuses") Map campuses,

@@ -66,8 +66,8 @@
             <h1 style="color: #fdfdfd">회원 가입</h1>
         </div>
         <form class="form-horizontal" role="form" id="sign-up-form" action="${contextPath}/user/signup/save" method="post">
-            <form:hidden path="terms-of-service" />
-            <form:hidden path="privacy-policy" />
+            <form:hidden path="userAgreYn" />
+            <form:hidden path="privInfoYn" />
             <%--usertype--%>
             <div class="form-group">
                 <label class="col-sm-2 control-label">User Type</label>
@@ -194,9 +194,11 @@
 
             $('#sign-up-form').bootstrapValidator({
                 onError: function(e) {
+console.log(e);
                 },
                 onSuccess: function(e) {
-                    $.post("${contextPath}/user/signup",
+console.log(e);
+                    $.post("${contextPath}/user/signup/save",
                             $("#sign-up-form").serialize(),
                             function(data){
                                 if(data.result == "SUCCESS"){

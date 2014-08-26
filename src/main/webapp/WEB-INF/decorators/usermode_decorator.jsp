@@ -93,6 +93,7 @@
     <script src="${contextPath}/js/jquery.localScroll.min.js"></script>
     <script src="${contextPath}/js/jquery.stellar.min.js"></script>
     <script src="${contextPath}/js/jquery.appear.min.js"></script>
+    <script src="${contextPath}/js/jquery.bpopup.min.js"></script>
     <script src="${contextPath}/js/validate.min.js"></script>
     <script src="${contextPath}/js/main.js"></script>
     <decorator:getProperty property="page.local-script"/>
