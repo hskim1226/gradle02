@@ -46,6 +46,9 @@
         <property name="messageSourceAccessor" ref="messageSourceAccessor" />
     </bean>
 
+    <bean id="jacksonObjectMapper"
+          class="com.fasterxml.jackson.databind.ObjectMapper"/>
+
     <beans profile="dev,stag,qa,real">
     </beans>
 

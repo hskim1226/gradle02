@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.apexsoft.ysprj.applicants.common.sqlmap.CustomDetailMajorMapper" >
+
+  <select id="selectGeneralByAdmsDeptCors"
+          resultType="com.apexsoft.ysprj.applicants.common.domain.CodeNameDetailMajor"
+          parameterType="com.apexsoft.ysprj.applicants.common.domain.ParamForSetupCourses" >
+      SELECT B.DETL_MAJ_CODE, C.DETL_MAJ_NAME, B.DETL_MAJ_DESC, B.PART_TIME_YN
+      FROM ADMS_CORS A, ADMS_CORS_MAJ B, DETL_MAJ C
+      WHERE A.ADMS_CORS_NO = B.ADMS_CORS_NO
+      AND B.DETL_MAJ_CODE = C.DETL_MAJ_CODE
+      AND A.ADMS_NO = #{admsNo,jdbcType=VARCHAR}
+      AND A.DEPT_CODE = #{deptCode,jdbcType=VARCHAR}
+      AND A.CORS_TYPE_CODE = #{corsTypeCode,jdbcType=VARCHAR}
+  </select>
+
+  <select id="selectAriInstByAdmsDeptAriInstCors"
+          resultType="com.apexsoft.ysprj.applicants.common.domain.CodeNameDetailMajor"
+          parameterType="com.apexsoft.ysprj.applicants.common.domain.ParamForSetupCourses" >
+      SELECT B.DETL_MAJ_CODE, C.DETL_MAJ_NAME, B.DETL_MAJ_DESC, B.PART_TIME_YN
+      FROM ADMS_CORS A, ADMS_CORS_MAJ B, DETL_MAJ C
+      WHERE A.ADMS_CORS_NO = B.ADMS_CORS_NO
+      AND B.DETL_MAJ_CODE = C.DETL_MAJ_CODE
+      AND A.ADMS_NO = #{admsNo,jdbcType=VARCHAR}
+      AND A.DEPT_CODE = #{deptCode,jdbcType=VARCHAR}
+      AND A.ARI_INST_CODE = #{ariInstCode,jdbcType=VARCHAR}
+      AND A.CORS_TYPE_CODE = #{corsTypeCode,jdbcType=VARCHAR}
+  </select>
+
+</mapper>
