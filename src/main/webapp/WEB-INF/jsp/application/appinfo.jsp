@@ -1245,30 +1245,70 @@
             /*지원 구분 변경 처리 끝*/
 
             /*ajax 처리 시작*/
-            $('#applyKind').change(function() {
-                var selectedValue = $(this).val();
-                var json = getOptions('','');
-                data = JSON.parse(json);
-                $.each( data.collCode, function(i, item) {
-                    $('<option>').attr('value', item.code).attr('label', item.value).appendTo($('#collCode'));
-                });
-                $.ajax({
-                    type: 'GET',
-                    url: '${contextPath}/common/code/campus',
-                    dataType: 'json',
-                    success: function(data) {
-                        var obj = JSON.parse(data);
-                        $.each(obj, function(i, item) {
-                            $('<option>').attr('value', item.campCode).attr('label', item.campName).appendTo('#campCode');
-                        });
-                    }
-                });
-            });
+            <%--$('#applyKind').change(function() {--%>
+                <%--$.ajax({--%>
+                    <%--type: 'GET',--%>
+                    <%--url: '${contextPath}/common/code/campus',--%>
+                    <%--dataType: 'json',--%>
+                    <%--success: function(data) {--%>
+                        <%--$.each(data, function(i, item) {--%>
+                            <%--$('<option>').attr('value', item.campCode).attr('label', item.campName).appendTo('#campCode');--%>
+                        <%--});--%>
+                    <%--}--%>
+                <%--});--%>
+            <%--});--%>
 
-            function getOptions( srcId, tgtId) {
-//                var srcSelect = $('#' + srcId);
-                return '[{"code" : "CAMP001", "value" : "신촌"}, {"code" : "CAMP002", "value" : "원주"}]';
+            function attachChangeEvent( sourceId, targetId, valueKey, labelKey, appendUrl ) {
+                var source = $('#' + sourceId);
+                var target = $('#' + targetId);
+                source.change( function() {
+                    var url = '${contextPath}/common/code';
+                    if( appendUrl && typeof(appendUrl) === 'string' ) {
+                        url += appendUrl;
+                    } else if( appendUrl && typeof(appendUrl) === 'function' ) {
+                        url += appendUrl(source.val());
+                    }
+
+                    $.ajax({
+                        type: 'GET',
+                        url: url,
+                        dataType: 'JSON',
+                        success: function(data) {
+                            $(target).children('option').filter(function() {
+                                return this.value !== '-';
+                            }).remove();
+                            $(data).each( function(i, item) {
+                                target.append( createOption( item[valueKey], item[labelKey] ) );
+                            });
+                        }
+                    });
+                });
             }
+
+            function createOption( value, label ) {
+                return $('<option>').attr('value', value).attr('label', label);
+            }
+
+            attachChangeEvent( 'applyKind', 'campCode', 'campCode', 'campName', '/campus' );
+            attachChangeEvent( 'campCode', 'collCode', 'collCode', 'collName',
+                    function(args) {
+                        return '/college/' + args;
+                    }
+            );
+            attachChangeEvent( 'collCode', 'deptCode', 'deptCode', 'deptName',
+                    function(args) {
+                        <%--var admsNo = ${requestScope.admsNo};--%>
+                        var admsNo = '15-A';
+                        return '/general/department/' + admsNo + '/' + args;
+                    }
+            );
+            attachChangeEvent( 'deptCode', 'corsTypeCode', 'corsTypeCode', 'codeVal',
+                    function(args) {
+                        <%--var admsNo = ${requestScope.admsNo};--%>
+                        var admsNo = '15-A';
+                        return '/general/course/' + admsNo + '/' + args;
+                    }
+            );
             /*ajax 처리 끝*/
 
         });
