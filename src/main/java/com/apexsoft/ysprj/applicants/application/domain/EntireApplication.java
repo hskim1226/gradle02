@@ -13,6 +13,8 @@ public class EntireApplication extends Application {
     private List<ApplicationExperience> applicationExperienceList;
     private List<ApplicationLanguage> applicationLanguageList;
 
+    public Application getApplication() { return super.getApplication(); }
+
     public ApplicationGeneral getApplicationGeneral() {
         return applicationGeneral;
     }

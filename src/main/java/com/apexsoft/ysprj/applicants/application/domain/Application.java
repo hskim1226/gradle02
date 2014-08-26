@@ -898,4 +898,11 @@ public class Application {
     public void setModDate(Date modDate) {
         this.modDate = modDate;
     }
+
+    /**
+     * added by hanmomhanda
+     */
+    public Application getApplication() {
+        return this;
+    }
 }
