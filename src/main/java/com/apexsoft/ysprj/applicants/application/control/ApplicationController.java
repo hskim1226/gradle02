@@ -57,20 +57,7 @@ public class ApplicationController {
     }
 
     @RequestMapping(value = "/apply"/*, /method = RequestMethod.POST(*/)
-    public String displayAppInfo(/*@ModelAttribute("application") Application application,*/
-                                 /*@ModelAttribute("campuses") Map campuses,
-                                 @ModelAttribute("schoolTypes") Map schoolTypes,
-                                 @ModelAttribute("graduationTypes") Map graduationTypes,
-                                 @ModelAttribute("selfIntro") SelfIntro selfIntro,
-                                 @ModelAttribute("studyPlan") StudyPlan studyPlan,*/
-                                 /*@RequestParam("radio4") String providePrivateInfo,*/
-                                 @ModelAttribute EntireApplication entireApplication,
-                                 Model model) {
-
-//        model.addAttribute("providePrivateInfo", providePrivateInfo);
-//        model.addAttribute("application", applicationService.retrieveApplication(1));
-        model.addAttribute("entireApplication", entireApplication);
-
+    public String displayAppInfo(Model model) {
         return "application/appinfo";
     }
 
@@ -78,6 +65,12 @@ public class ApplicationController {
     public ExecutionContext saveAcademy(@Valid @ModelAttribute EntireApplication entireApplication, BindingResult binding) {
         if( binding.hasErrors() ) {
             return new ExecutionContext(ExecutionContext.FAIL);
+        }
+        if( entireApplication.getApplNo() == null ) {   // insert
+            applicationService.createApplication(null);
+            applicationService.createApplicationGeneral(null);
+        } else {    // update
+
         }
         return new ExecutionContext();
     }

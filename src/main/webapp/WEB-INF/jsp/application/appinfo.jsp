@@ -112,6 +112,11 @@
             cursor: default;
         }
 
+        .form-group-block {
+            position: relative;
+            background-color: #FFFFB4;
+            border: solid 1px #edd061;
+        }
     </style>
     <%--body의 글자 속성을 #333333으로 강제 지정하여 Footer 글자가 안나옴, 꼭 필요하지 않으면 안쓰기로
     <link rel="stylesheet" href="${contextPath}/css/bootstrap-glyphicons.css" />--%>
@@ -147,6 +152,8 @@
                                                 <span class="input-group-addon">[ 성 ]</span>
                                                 <form:input path="engSur" cssClass="col-sm-6 form-control" />
                                             </div>
+                                        </div>
+                                        <div class="col-sm-offset-2 col-sm-9">
                                             <div class="input-group">
                                                 <span class="input-group-addon">[이름]</span>
                                                 <form:input path="engName" cssClass="col-sm-6 form-control" />
@@ -211,9 +218,50 @@
                                                 <span class="input-group-addon">[장애유형]</span>
                                                 <form:input path="applicationGeneral.hndcGrad" cssClass="col-sm-6 form-control" />
                                             </div>
+                                        </div>
+                                        <div class="col-sm-offset-2 col-sm-9">
                                             <div class="input-group">
                                                 <span class="input-group-addon">[장애등급]</span>
                                                 <form:input path="applicationGeneral.hndcType" cssClass="col-sm-6 form-control" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">병역사항</label>
+                                        <div class="col-sm-9">
+                                            <div class="input-group">
+                                                <span class="input-group-addon">[병역구분]</span>
+                                                <select id="applicationGeneral.mltrServCode">
+                                                    <option value="-">선택</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-9">
+                                            <div class="input-group">
+                                                <span class="input-group-addon">[병역군별]</span>
+                                                <select id="applicationGeneral.mltrTypeCode">
+                                                    <option value="-">선택</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-9">
+                                            <div class="input-group">
+                                                <span class="input-group-addon">[병역계급]</span>
+                                                <select id="applicationGeneral.mltrRankCode">
+                                                    <option value="-">선택</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-offset-2 col-sm-4 start-date-container">
+                                            <div class="input-group date">
+                                                <span class="input-group-addon">입대일자</span>
+                                                <input type="text" class="form-control" name="applicationGeneral.mltrJoinDay" id="applicationGeneral.mltrJoinDay" readonly/>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4 end-date-container">
+                                            <div class="input-group date">
+                                                <span class="input-group-addon">제대일자</span>
+                                                <input type="text" class="form-control" name="applicationGeneral.mltrJoinDay" id="applicationGeneral.mltrDschDay" readonly/>
                                             </div>
                                         </div>
                                     </div>
@@ -310,7 +358,7 @@
                                 <div class="panel-body">
                                     <div id="highschoolContainer">
                                         <div class="form-group">
-                                            <div class="col-sm-2 control-label">졸업구분</div>
+                                            <label class="col-sm-2 control-label">졸업구분</label>
                                             <div class="col-sm-9">
                                                 <div class="btn-group">
                                                     <label class="radio-inline">
@@ -375,8 +423,8 @@
                             <div class="panel panel-default">
                                 <div class="panel-heading">대학교</div>
                                 <div class="panel-body">
-                                    <div id="college-container">
-                                        <div class="collegeInfo">
+                                    <div id="college-container" class="form-group-block-list">
+                                        <div id="college-info" class="form-group-block">
                                             <hr/>
                                             <div class="form-group">
                                                 <label class="col-sm-2 control-label">소재 국가</label>
@@ -448,7 +496,7 @@
                             <div class="panel panel-default">
                                 <div class="panel-heading">대학원</div>
                                 <div class="panel-body">
-                                    <div id="gradschool-container" class="block-list">
+                                    <div id="gradschool-container" class="form-group-block-list">
                                         <div id="gradschool-info" class="form-group-block">
                                             <hr/>
                                             <div class="form-group">
@@ -529,8 +577,42 @@
                             <div class="panel panel-default">
                                 <div class="panel-heading">경력사항</div>
                                 <div class="panel-body">
-                                    <div id="career-container">
-                                        <div class="careerInfo">
+                                    <div id="career-container" class="form-group-block-list">
+                                        <c:forEach items="${entireApplication.applicationExperiencesList}" var="applicationExperiences" varStatus="exprStatus">
+                                        <div id="career-info" class="form-group-block">
+                                            <div class="form-group">
+                                                <label class="col-sm-2 control-label">재직 기간</label>
+                                                <div class="col-sm-4 start-date-container">
+                                                    <div class="input-group date">
+                                                        <span class="input-group-addon">입사일</span>
+                                                        <form:input path="applicationExperiencesList[${exprStatus.index}].joinDay" cssClass="form-control" readonly="true" />
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-4 end-date-container">
+                                                    <div class="input-group date">
+                                                        <span class="input-group-addon">퇴사일</span>
+                                                        <form:input path="applicationExperiencesList[${exprStatus.index}].retrDay" cssclass="form-control" readonly="true" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <form:label path="applicationExperiencesList[${exprStatus.index}].corpName" cssClass="col-sm-2 control-label">기관명</form:label>
+                                                <div class="col-sm-9">
+                                                    <form:input path="applicationExperiencesList[${exprStatus.index}].corpName" cssClass="form-control" />
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <form:label path="applicationExperiencesList[${exprStatus.index}].exprDesc" cssClass="col-sm-2 control-label">직위명</form:label>
+                                                <div class="col-sm-9">
+                                                    <form:input path="applicationExperiencesList[${exprStatus.index}].exprDesc" cssClass="form-control" />
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div id="removeCollege1" class="removeCollege col-sm-2 btn btn-danger" style="position: absolute; top:0; right:0;">입력란 삭제</div>
+                                            </div>
+                                        </div>
+                                        </c:forEach>
+                                        <div id="career-info" class="form-group-block">
                                             <div class="form-group">
                                                 <label class="col-sm-2 control-label">재직 기간</label>
                                                 <div class="col-sm-4 start-date-container">
@@ -558,10 +640,7 @@
                                                     <form:input path="applicationExperiencesList[0].exprDesc" cssClass="form-control" />
                                                 </div>
                                             </div>
-                                            <div class="form-group">
-                                                <div id="addCollege1" class="addCollege col-sm-2 btn btn-info">입력란 추가</div>
-                                                <div id="removeCollege1" class="removeCollege col-sm-2 btn btn-danger">입력란 삭제</div>
-                                            </div>
+                                            <div id="removeCollege1" class="removeCollege col-sm-2 btn btn-danger">입력란 삭제</div>
                                         </div>
                                     </div>
                                 </div>
