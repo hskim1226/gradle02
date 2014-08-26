@@ -192,8 +192,8 @@ public class Users {
                 ", userDivsCode=" + userDivsCode +
                 ", userAgreYn=" + userAgreYn +
                 ", privInfoYn=" + privInfoYn +
-                ", userStsCode" + userStsCode +
-                ", enable" + enabled +
+                ", userStsCode=" + userStsCode +
+                ", enable=" + enabled +
                 ", creId=" + creId +
                 ", createDate=" + creDate +
                 ", modId=" + modId +

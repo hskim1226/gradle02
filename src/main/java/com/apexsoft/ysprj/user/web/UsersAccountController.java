@@ -13,6 +13,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.io.*;
@@ -77,7 +78,8 @@ public class UsersAccountController {
     @RequestMapping(value="/signup", method= RequestMethod.POST)
     public String displaySignUpForm(Model model,
                                     @RequestParam("privInfoYn") String privInfoYn,
-                                    @RequestParam("userAgreYn") String userAgreYn) {
+                                    @RequestParam("userAgreYn") String userAgreYn,
+                                    HttpServletRequest request) {
         model.addAttribute("userAgreYn", userAgreYn);
         model.addAttribute("privInfoYn", privInfoYn);
         return"user/signup";
@@ -86,7 +88,6 @@ public class UsersAccountController {
     @RequestMapping(value="/signup/save", method= RequestMethod.POST)
     @ResponseBody
     public ExecutionContext signUp(@Valid Users users, BindingResult bindingResult) {
-System.out.println(users);
         if (bindingResult.hasErrors()){
             return new ExecutionContext(ExecutionContext.FAIL);
         }

@@ -194,10 +194,9 @@
 
             $('#sign-up-form').bootstrapValidator({
                 onError: function(e) {
-console.log(e);
+                    console.log(e);
                 },
                 onSuccess: function(e) {
-console.log(e);
                     $.post("${contextPath}/user/signup/save",
                             $("#sign-up-form").serialize(),
                             function(data){

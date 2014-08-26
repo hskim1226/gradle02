@@ -56,7 +56,7 @@
                              #{userDivsCode},
                              #{userAgreYn},
                              #{privInfoYn},
-                             #{userStsCode}
+                             #{userStsCode},
                              #{enabled},
                              #{userId},
                              now())

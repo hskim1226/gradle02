@@ -29,11 +29,11 @@ public class ApplicationServiceImpl implements ApplicationService {
 
     @Override
     public void createApplication(com.apexsoft.ysprj.applicants.application.domain.Application application) {
-        commonDAO.insert("ApplicationMapper.insert", application);
+        commonDAO.insert(GEN_NAME_SPACE + "ApplicationMapper.insert", application);
     }
 
     public void createApplicationGeneral(ApplicationGeneral applicationGeneral) {
-        commonDAO.insert("ApplicationGeneralMapper.insert", applicationGeneral);
+        commonDAO.insert(GEN_NAME_SPACE + "ApplicationGeneralMapper.insert", applicationGeneral);
     }
 
     @Override
