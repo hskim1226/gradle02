@@ -1,7 +1,7 @@
 package com.apexsoft.ysprj.applicants.application.control;
 
 import com.apexsoft.framework.common.vo.ExecutionContext;
-import com.apexsoft.ysprj.user.domain.*;
+import com.apexsoft.ysprj.applicants.application.domain.*;
 import com.apexsoft.ysprj.applicants.application.service.ApplicationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -29,9 +29,7 @@ public class ApplicationController {
     public String createApplication(@ModelAttribute("application") Application application,
                                     @ModelAttribute("campuses") Map campuses,
                                     @ModelAttribute("schoolTypes") Map schoolTypes,
-                                    @ModelAttribute("graduationTypes") Map graduationTypes,
-                                    @ModelAttribute("selfIntro") SelfIntro selfIntro,
-                                    @ModelAttribute("studyPlan") StudyPlan studyPlan) {
+                                    @ModelAttribute("graduationTypes") Map graduationTypes) {
         return "application/appinfo";
     }
 
@@ -88,10 +86,10 @@ public class ApplicationController {
     public EntireApplication entireApplication() {
         EntireApplication entireApplication = new EntireApplication();
         entireApplication.setApplicationGeneral(new ApplicationGeneral());
-        entireApplication.setApplicationEtc(new ApplicationEtc());
+        entireApplication.setApplicationETC(new ApplicationETC());
         entireApplication.setApplicationAcademyList(new ArrayList<ApplicationAcademy>());
-        entireApplication.setApplicationExperiencesList(new ArrayList<ApplicationExperiences>());
-        entireApplication.setApplicationEngGradeList(new ArrayList<ApplicationEngGrade>());
+        entireApplication.setApplicationExperienceList(new ArrayList<ApplicationExperience>());
+        entireApplication.setApplicationLanguageList(new ArrayList<ApplicationLanguage>());
         return entireApplication;
     }
 

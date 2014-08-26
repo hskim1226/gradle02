@@ -1,30 +1,25 @@
 package com.apexsoft.ysprj.applicants.application.service;
 
-import com.apexsoft.framework.persistence.dao.page.PageInfo;
+import com.apexsoft.ysprj.applicants.application.domain.Application;
 import com.apexsoft.ysprj.applicants.application.domain.ApplicationGeneral;
-import com.apexsoft.ysprj.user.domain.Application;
-import com.apexsoft.ysprj.user.domain.Department;
-
-import java.util.List;
-import java.util.Map;
 
 /**
  * Created by Administrator on 2014-08-12.
  */
 public interface ApplicationService {
 
-    Application retrieveEntireApplication(int applNo);
+
 
     void createApplication(com.apexsoft.ysprj.applicants.application.domain.Application application);
     void createApplicationGeneral(ApplicationGeneral applicationGeneral);
-    //void createApplicationAcademy
-
+    Application retrieveEntireApplication(int applNo);
+    Application retrieveApplication(int applNo);
 
 
 //    void registerApplication(Application application);
 //    void createApplication(Application application);
-    Application retrieveApplication(int applNo);
-    Integer update(Application application);
+//    Application retrieveApplication(int applNo);
+//    Integer update(Application application);
 
 
 
@@ -32,13 +27,13 @@ public interface ApplicationService {
 
 
 
-    Application retrieveApplication(Application application);
-    PageInfo<Application> getApplicationsPaginatedList(String username);
-    Integer updateApplication(Application application);
-    Integer deleteApplication(Application application);
-    Integer disposalApplication(Application application);
 
-    List<Department> retrieveDepartmentsByAdmission(String admsNo);
-
-    Map<String, String> getGraduationTypes();
+//    PageInfo<Application> getApplicationsPaginatedList(String username);
+//    Integer updateApplication(Application application);
+//    Integer deleteApplication(Application application);
+//    Integer disposalApplication(Application application);
+//
+//    List<Department> retrieveDepartmentsByAdmission(String admsNo);
+//
+//    Map<String, String> getGraduationTypes();
 }
