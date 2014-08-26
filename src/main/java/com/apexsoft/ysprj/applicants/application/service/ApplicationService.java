@@ -2,6 +2,8 @@ package com.apexsoft.ysprj.applicants.application.service;
 
 import com.apexsoft.ysprj.applicants.application.domain.Application;
 import com.apexsoft.ysprj.applicants.application.domain.ApplicationGeneral;
+import com.apexsoft.ysprj.applicants.application.domain.EntireApplication;
+import com.apexsoft.ysprj.applicants.application.domain.ParamForInitialApply;
 
 /**
  * Created by Administrator on 2014-08-12.
@@ -10,10 +12,13 @@ public interface ApplicationService {
 
 
 
-    void createApplication(com.apexsoft.ysprj.applicants.application.domain.Application application);
-    void createApplicationGeneral(ApplicationGeneral applicationGeneral);
+    int createApplication(Application application);
+    int createApplicationGeneral(ApplicationGeneral applicationGeneral);
     Application retrieveEntireApplication(int applNo);
     Application retrieveApplication(int applNo);
+
+    int createEntireApplication(EntireApplication entireApplication);
+    Application retrieveApplicationForInsertOthers(ParamForInitialApply paramForInitialApply);
 
 
 //    void registerApplication(Application application);

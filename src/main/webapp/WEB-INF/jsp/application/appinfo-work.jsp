@@ -219,32 +219,6 @@
                         <div class="panel panel-default">
                             <div class="panel-heading">지원자 상세정보</div>
                             <div class="panel-body">
-                                <%--<div class="form-group">--%>
-                                    <%--<form:label path="citzCntrCode" cssClass="col-sm-3 control-label">국적</form:label>--%>
-                                    <%--<div class="col-sm-9">--%>
-                                        <%--<div class="input-group">--%>
-                                            <%--<form:input path="citzCntrCode" cssClass="form-control" />--%>
-                                            <%--<span class="input-group-btn">--%>
-                                                <%--<button type="button" class="btn btn-default" id="search-citz-cntr-code">--%>
-                                                    <%--<span class="glyphicon glyphicon-search"></span> 검색--%>
-                                                <%--</button>--%>
-                                            <%--</span>--%>
-                                        <%--</div>--%>
-                                    <%--</div>--%>
-                                <%--</div>--%>
-                                <%--<div class="form-group">--%>
-                                    <%--<label class="col-sm-3 control-label">장애사항</label>--%>
-                                    <%--<div class="col-sm-9">--%>
-                                        <%--<div class="input-group">--%>
-                                            <%--<span class="input-group-addon">[장애유형]</span>--%>
-                                            <%--<form:input path="hndcGrad" cssClass="col-sm-6 form-control" />--%>
-                                        <%--</div>--%>
-                                        <%--<div class="input-group">--%>
-                                            <%--<span class="input-group-addon">[장애등급]</span>--%>
-                                            <%--<form:input path="hndcType" cssClass="col-sm-6 form-control" />--%>
-                                        <%--</div>--%>
-                                    <%--</div>--%>
-                                <%--</div>--%>
 
                             </div>
                         </div>
@@ -258,24 +232,7 @@
                                     <button type="button" id="searchAddress">우편번호 찾기</button>
                                     <input type="text" id="address" name="addr"/>
                                     <input type="text" id="addressDetail" name="detlAddr">
-                                    <%--<div class="col-sm-1">--%>
-                                        <%--<form:input path="zipCode" cssClass="form-control" />--%>
-                                    <%--</div>--%>
-                                    <%--<div class="col-sm-8">--%>
-                                        <%--<div class="input-group">--%>
-                                            <%--<span class="input-group-btn">--%>
-                                                <%--<button type="button" class="btn btn-default" id="search-zipcode">--%>
-                                                    <%--<span class="glyphicon glyphicon-search"></span> 검색--%>
-                                                <%--</button>--%>
-                                            <%--</span>--%>
-                                        <%--</div>--%>
-                                    <%--</div>--%>
-                                    <%--<div class="col-sm-offset-3 col-sm-8">--%>
-                                        <%--<form:input path="addr" cssClass="form-control" />--%>
-                                    <%--</div>--%>
-                                    <%--<div class="col-sm-offset-3 col-sm-8">--%>
-                                        <%--<form:input path="detlAddr" cssClass="form-control" />--%>
-                                    <%--</div>--%>
+
                                 </div>
                                 <div class="form-group">
                                     <form:label path="telNum" cssClass="col-sm-3 control-label">전화번호</form:label>
@@ -308,30 +265,6 @@
                         <div class="panel panel-default">
                             <div class="panel-heading">비상연락처</div>
                             <div class="panel-body">
-                                <%--<div class="form-group">--%>
-                                    <%--<form:label path="emerContName" cssClass="col-sm-3 control-label">이름</form:label>--%>
-                                    <%--<div class="col-sm-9">--%>
-                                        <%--<form:input path="emerContName" cssClass="form-control" />--%>
-                                    <%--</div>--%>
-                                <%--</div>--%>
-                                <%--<div class="form-group">--%>
-                                    <%--<form:label path="emerContCode" cssClass="col-sm-3 control-label">관계</form:label>--%>
-                                    <%--<div class="col-sm-9">--%>
-                                        <%--<form:select path="emerContCode" cssClass="form-control">--%>
-                                            <%--<form:options items="${common.emerCont}" />--%>
-                                        <%--</form:select>--%>
-                                    <%--</div>--%>
-                                <%--</div>--%>
-                                <%--<div class="form-group">--%>
-                                    <%--<form:label path="emerContTel" cssClass="col-sm-3 control-label">전화번호</form:label>--%>
-                                    <%--<div class="col-sm-9">--%>
-                                        <%--&lt;%&ndash;TODO&ndash;%&gt;--%>
-                                        <%--<form:select path="telNumFirst" cssClass="form-control">--%>
-                                            <%--<form:options items="${common.telNumFirst}" />--%>
-                                        <%--</form:select> --%>
-                                        <%--<form:input path="emerContTel" cssClass="form-control" />--%>
-                                    <%--</div>--%>
-                                <%--</div>--%>
 
                             </div>
                         </div>
