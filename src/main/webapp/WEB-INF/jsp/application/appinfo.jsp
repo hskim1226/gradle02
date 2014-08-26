@@ -1003,9 +1003,9 @@
                 <button id="reset" type="button" class="btn btn-warning btn-lg">되돌리기</button>
             </div>
         </div>
-        <div id="postLayer" style="display:none;border:3px solid;position:fixed;width:300px;height:460px;left:50%;margin-left:-155px;top:50%;margin-top:-235px;overflow:hidden;-webkit-overflow-scrolling:touch;">
-            <img src="${contextPath}/img/user/addr-close.png" id="btnCloseLayer" style="cursor:pointer;position:absolute;right:-3px;top:-3px" alt="닫기 버튼">
-        </div>
+        <%--<div id="postLayer" style="display:none;border:3px solid;position:fixed;width:300px;height:460px;left:50%;margin-left:-155px;top:50%;margin-top:-235px;overflow:hidden;-webkit-overflow-scrolling:touch;">--%>
+            <%--<img src="${contextPath}/img/user/addr-close.png" id="btnCloseLayer" style="cursor:pointer;position:absolute;right:-3px;top:-3px" alt="닫기 버튼">--%>
+        <%--</div>--%>
     </div> <%--container--%>
 </section>
 <content tag="local-script">
@@ -1156,10 +1156,11 @@
                     },
                     width : '100%',
                     height : '100%'
-                }).embed(postLayer);
+//                }).embed(postLayer);
+                }).open();
 
                 // iframe을 넣은 element를 보이게 한다.
-                postLayer.style.display = 'block';
+//                postLayer.style.display = 'block';
             };
 
             $('#btnCloseLayer').on('click', closeDaumPostcode);
