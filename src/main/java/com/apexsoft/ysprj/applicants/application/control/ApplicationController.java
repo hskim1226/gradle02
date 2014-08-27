@@ -1,13 +1,10 @@
 package com.apexsoft.ysprj.applicants.application.control;
 
 import com.apexsoft.framework.common.vo.ExecutionContext;
-import com.apexsoft.framework.security.UserSessionVO;
 import com.apexsoft.ysprj.applicants.application.domain.*;
 import com.apexsoft.ysprj.applicants.application.service.ApplicationService;
 import com.apexsoft.ysprj.applicants.common.service.CommonService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -17,6 +14,8 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.security.Principal;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
@@ -69,41 +68,32 @@ public class ApplicationController {
                                  @RequestParam("admsTypeCode") String admsTypeCode,
                                  @ModelAttribute("entireApplication") EntireApplication entireApplication,
                                  Model model) {
-        /*TODO 삭제예정 시작*/
-//        Map<String, String> applyKindMap = new LinkedHashMap<String, String>();
-//        applyKindMap.put("AK01", "일반 지원자");
-//        applyKindMap.put("AK02", "학·연·산 지원자");
-//        applyKindMap.put("AK03", "위탁 지원자");
-//        Map<String, String> mltrServMap = new LinkedHashMap<String, String>();
-//        mltrServMap.put("01", "지원자");
-//        mltrServMap.put("02", "제1국민역(군미필)");
-//        mltrServMap.put("03", "예비역");
-//        mltrServMap.put("04", "현역");
-//        mltrServMap.put("99", "여성지원자");
-//        Map<String, String> mltrTypeMap = new LinkedHashMap<String, String>();
-//        mltrTypeMap.put("01", "육군");
-//        mltrTypeMap.put("02", "해군");
-//        mltrTypeMap.put("03", "공군");
-//        Map<String, String> mltrRankMap = new LinkedHashMap<String, String>();
-//        mltrRankMap.put("01", "이병");
-//        mltrRankMap.put("02", "일병");
-//        mltrRankMap.put("03", "상병");
-//        mltrRankMap.put("04", "병장");
-//
-//        model.addAttribute("applyKindList", applyKindMap);
-//        model.addAttribute("mltrServList", mltrServMap);
-//        model.addAttribute("mltrTypeList", mltrTypeMap);
-//        model.addAttribute("mltrRankList", mltrRankMap);
-
-//        model.addAttribute("admsNo", admsNo);
-//        model.addAttribute("entrYear", entrYear);
-//        model.addAttribute("admsTypeCode", admsTypeCode);
-        /*TODO 삭제예정 끝*/
 
         entireApplication.setAdmsNo(admsNo);
-        /*VO 변경 후 주석제거*/
+        /*TODO VO 변경 후 주석제거*/
 //        entireApplication.setEntrYear(entrYear);
 //        entireApplication.setAdmsTypeCode(admsTypeCode);
+        /*TODO VO 변경 후 주석제거*/
+
+        Map<String, String> applAttrMap = new LinkedHashMap<String, String>();
+        applAttrMap.put("AK01", "일반 지원자");
+        applAttrMap.put("AK02", "학·연·산 지원자");
+        applAttrMap.put("AK03", "위탁 지원자");
+        model.addAttribute( "applAttrList", applAttrMap );
+//        model.addAttribute( "applAttrList", commonService.retrieveCommonCodeValueByCodeGroup("APPL_ATTR")  );
+//        model.addAttribute( "mltrServList", commonService.retrieveCommonCodeValueByCodeGroup("MLTR_SERV") );
+//        model.addAttribute( "mltrTypeList", commonService.retrieveCommonCodeValueByCodeGroup("MLTR_TYPE") );
+//        model.addAttribute( "mltrRankList", commonService.retrieveCommonCodeValueByCodeGroup("MLTR_RANK") );
+//        model.addAttribute( "emerContList", commonService.retrieveCommonCodeValueByCodeGroup("EMER_CONT") );
+
+        Map<String, Object> commonCodeMap = new HashMap<String, Object>();
+        commonCodeMap.put( "applAttrList", applAttrMap );
+        commonCodeMap.put( "mltrServList", commonService.retrieveCommonCodeValueByCodeGroup("MLTR_SERV") );
+        commonCodeMap.put( "mltrTypeList", commonService.retrieveCommonCodeValueByCodeGroup("MLTR_TYPE") );
+        commonCodeMap.put( "mltrRankList", commonService.retrieveCommonCodeValueByCodeGroup("MLTR_RANK") );
+        commonCodeMap.put( "emerContList", commonService.retrieveCommonCodeValueByCodeGroup("EMER_CONT") );
+
+        model.addAttribute( "common", commonCodeMap );
 
         return "application/appinfo";
     }
@@ -114,16 +104,16 @@ public class ApplicationController {
         if( binding.hasErrors() ) {
             return new ExecutionContext(ExecutionContext.FAIL);
         }
-        SecurityContext sc = (SecurityContext)httpSession.getAttribute("SPRING_SECURITY_CONTEXT");
-        Authentication auth = sc.getAuthentication();
-        UserSessionVO userSessionVO = (UserSessionVO)auth.getPrincipal();
-        String userId = principal != null ? principal.getName() : userSessionVO.getUsername();
-        if( entireApplication.getApplNo() == null ) {   // insert
-            applicationService.createApplication(null);
-            applicationService.createApplicationGeneral(null);
-        } else {    // update
-
-        }
+//        SecurityContext sc = (SecurityContext)httpSession.getAttribute("SPRING_SECURITY_CONTEXT");
+//        Authentication auth = sc.getAuthentication();
+//        UserSessionVO userSessionVO = (UserSessionVO)auth.getPrincipal();
+//        String userId = principal != null ? principal.getName() : userSessionVO.getUsername();
+//        if( entireApplication.getApplNo() == null ) {   // insert
+//            applicationService.createApplication(null);
+//            applicationService.createApplicationGeneral(null);
+//        } else {    // update
+//
+//        }
         return new ExecutionContext();
     }
 
