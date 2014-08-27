@@ -162,7 +162,7 @@
                                             <label for="applAttrCode" class="col-sm-2 control-label">지원구분</label>
                                             <div class="col-sm-9">
                                                 <form:select path="" id="applAttrCode" cssClass="form-control">
-                                                    <form:options items="${applyKindList}" />
+                                                    <form:options items="${applAttrList}" />
                                                 </form:select>
                                             </div>
                                         </div>
@@ -312,7 +312,7 @@
                                                 <span class="input-group-addon">병역구분</span>
                                                 <form:select path="applicationGeneral.mltrServCode" cssClass="form-control">
                                                     <form:option value="-" label="--선택--" />
-                                                    <form:options items="${mltrServList}" />
+                                                    <form:options items="${common.mltrServList}" itemValue="code" itemLabel="codeVal" />
                                                 </form:select>
                                             </div>
                                         </div>
@@ -321,7 +321,7 @@
                                                 <span class="input-group-addon">병역군별</span>
                                                 <form:select path="applicationGeneral.mltrTypeCode" cssClass="form-control">
                                                     <form:option value="-" label="--선택--" />
-                                                    <form:options items="${mltrTypeList}" />
+                                                    <form:options items="${common.mltrTypeList}" itemValue="code" itemLabel="codeVal" />
                                                 </form:select>
                                             </div>
                                         </div>
@@ -330,7 +330,7 @@
                                                 <span class="input-group-addon">병역계급</span>
                                                 <form:select path="applicationGeneral.mltrRankCode" cssClass="form-control">
                                                     <form:option value="-" label="--선택--" />
-                                                    <form:options items="${mltrRankList}" />
+                                                    <form:options items="${common.mltrRankList}" itemValue="code" itemLabel="codeVal" />
                                                 </form:select>
                                             </div>
                                         </div>
@@ -354,29 +354,23 @@
                                 <div class="panel-body">
                                     <div class="form-group">
                                         <label class="col-sm-2 control-label">주소</label>
-                                        <input type="text" id="postcode1"> - <input type="text" id="postcode2"/>
+                                        <div class="col-sm-5">
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="postcode1" />
+                                                <span class="input-group-addon"> - </span>
+                                                <input type="text" class="form-control" id="postcode2" />
+                                            </div>
+                                        </div>
                                         <input type="hidden" id="zipCode" name="zipCode"/>
-                                        <button type="button" id="searchAddress">우편번호 찾기</button>
-                                        <input type="text" id="address" name="addr"/>
-                                        <input type="text" id="addressDetail" name="detlAddr">
-                                        <%--<div class="col-sm-1">--%>
-                                            <%--<form:input path="zipCode" cssClass="form-control" />--%>
-                                        <%--</div>--%>
-                                        <%--<div class="col-sm-8">--%>
-                                            <%--<div class="input-group">--%>
-                                                <%--<span class="input-group-btn">--%>
-                                                    <%--<button type="button" class="btn btn-default" id="search-zipcode">--%>
-                                                        <%--<span class="glyphicon glyphicon-search"></span> 검색--%>
-                                                    <%--</button>--%>
-                                                <%--</span>--%>
-                                            <%--</div>--%>
-                                        <%--</div>--%>
-                                        <%--<div class="col-sm-offset-3 col-sm-8">--%>
-                                            <%--<form:input path="addr" cssClass="form-control" />--%>
-                                        <%--</div>--%>
-                                        <%--<div class="col-sm-offset-3 col-sm-8">--%>
-                                            <%--<form:input path="detlAddr" cssClass="form-control" />--%>
-                                        <%--</div>--%>
+                                        <div class="col-sm-4">
+                                            <button type="button" class="btn btn-default" id="searchAddress">우편번호 찾기</button>
+                                        </div>
+                                        <div class="col-sm-offset-2 col-sm-4">
+                                            <input type="text" class="form-control" id="address" name="addr"/>
+                                        </div>
+                                        <div class="col-sm-5">
+                                            <input type="text" class="form-control" id="addressDetail" name="detlAddr" placeholder="세부주소">
+                                        </div>
                                     </div>
                                     <div class="form-group">
                                         <form:label path="telNum" cssClass="col-sm-2 control-label">전화번호</form:label>
@@ -385,7 +379,7 @@
                                             <%--<form:select path="telNumFirst" cssClass="form-control">--%>
                                                 <%--<form:options items="${common.telNumFirst}" />--%>
                                             <%--</form:select> --%>
-                                            <form:input path="telNum" />
+                                            <form:input path="telNum" cssClass="form-control" />
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -419,7 +413,8 @@
                                         <form:label path="applicationGeneral.emerContCode" cssClass="col-sm-2 control-label">관계</form:label>
                                         <div class="col-sm-9">
                                             <form:select path="applicationGeneral.emerContCode" cssClass="form-control">
-                                                <form:options items="${common.emerCont}" />
+                                                <form:option value="-" label="--선택--" />
+                                                <form:options items="${common.emerContList}" itemValue="code" itemLabel="codeVal" />
                                             </form:select>
                                         </div>
                                     </div>
@@ -505,37 +500,37 @@
                             <div class="panel panel-default">
                                 <div class="panel-heading">대학교</div>
                                 <div class="panel-body">
-                                    <div id="college-container" class="form-group-block-list">
-                                        <div id="college-info" class="form-group-block">
+                                    <div class="form-group-block-list">
+                                        <div class="form-group-block">
                                             <div class="form-group">
                                                 <label class="col-sm-2 control-label">소재 국가</label>
                                                 <div class="btn btn-default btn-md col-md-2">검색</div>
                                                 <div class="col-sm-6">
-                                                    <input name="applicationAcademyList[0].korCntrName" class="form-control" id="korCntrName201"/>
+                                                    <input name="applicationAcademyList.korCntrName" class="form-control" id="korCntrName201"/>
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <label class="col-sm-2 control-label">학교 이름</label>
                                                 <div class="btn btn-default btn-md col-md-2">검색</div>
                                                 <div class="col-sm-4">
-                                                    <input name="applicationAcademyList[0].schlName" class="form-control" id="schlName1" />
+                                                    <input name="applicationAcademyList.schlName" class="form-control" id="schlName1" />
                                                 </div>
                                                 <div class="col-sm-2">
                                                     <label class="radio inline">
-                                                        <input type="radio" name="applicationAcademyList[0].lastSchlYn" id="lastSchlYn1" class="lastSchl">&nbsp;&nbsp;최종 학교
+                                                        <input type="radio" name="applicationAcademyList.lastSchlYn" id="lastSchlYn1" class="lastSchl">&nbsp;&nbsp;최종 학교
                                                     </label>
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <label class="col-sm-2 control-label">단과 대학</label>
                                                 <div class="col-sm-8">
-                                                    <input name="applicationAcademyList[0].collName" class="form-control" id="collName1"/>
+                                                    <input name="applicationAcademyList.collName" class="form-control" id="collName1"/>
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <label class="col-sm-2 control-label">학과 이름</label>
                                                 <div class="col-sm-8">
-                                                    <input name="applicationAcademyList[0].majName" class="form-control" id="majName1" />
+                                                    <input name="applicationAcademyList.majName" class="form-control" id="majName1" />
                                                 </div>
                                             </div>
                                             <div class="form-group">
@@ -543,13 +538,13 @@
                                                 <div class="col-sm-4 start-date-container">
                                                     <div class="input-group date">
                                                         <span class="input-group-addon">입학일</span>
-                                                        <input type="text" class="form-control" name="applicationAcademyList[0].entrDay" id="entrDay1" readonly/>
+                                                        <input type="text" class="form-control" name="applicationAcademyList.entrDay" id="entrDay1" readonly/>
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-4 end-date-container">
                                                     <div class="input-group date">
                                                         <span class="input-group-addon">졸업일</span>
-                                                        <input type="text" class="form-control" name="applicationAcademyList[0].grdaDay" id="grdaDay1" readonly/>
+                                                        <input type="text" class="form-control" name="applicationAcademyList.grdaDay" id="grdaDay1" readonly/>
                                                     </div>
                                                 </div>
                                             </div>
@@ -558,13 +553,13 @@
                                                 <div class="col-sm-2">
                                                     <div class="input-group">
                                                         <span class="input-group-addon">평점</span>
-                                                        <input class="form-control" name="applicationAcademyList[0].gradAvr" id="gradAvr1"/>
+                                                        <input class="form-control" name="applicationAcademyList.gradAvr" id="gradAvr1"/>
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-2">
                                                     <div class="input-group">
                                                         <span class="input-group-addon">만점</span>
-                                                        <input class="form-control" name="applicationAcademyList[0].gradFull" id="gradFull1"/>
+                                                        <input class="form-control" name="applicationAcademyList.gradFull" id="gradFull1"/>
                                                     </div>
                                                 </div>
                                             </div>
@@ -577,39 +572,39 @@
                             <div class="panel panel-default">
                                 <div class="panel-heading">대학원</div>
                                 <div class="panel-body">
-                                    <div id="gradschool-container" class="form-group-block-list">
-                                        <div id="gradschool-info" class="form-group-block">
+                                    <div class="form-group-block-list">
+                                        <div class="form-group-block">
                                             <div class="form-group">
                                                 <label class="col-xs-6 col-sm-2 control-label">소재 국가</label>
                                                 <div class="co-xs-6 col-sm-2">
                                                     <button type="button" class="btn btn-default">검색</button>
                                                 </div>
                                                 <div class="col-xs-12 col-sm-7">
-                                                    <input type="text" class="form-control" id="korCntrName301" name="korCntrName" />
+                                                    <input name="applicationAcademyList.korCntrName" type="text" class="form-control" id="korCntrName301" />
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <label class="col-sm-2 control-label">학교 이름</label>
                                                 <div class="btn btn-default btn-md col-md-2">검색</div>
                                                 <div class="col-sm-4">
-                                                    <input name="schlName" class="form-control" id="schlName1" />
+                                                    <input name="applicationAcademyList.schlName" class="form-control" id="schlName1" />
                                                 </div>
                                                 <div class="col-sm-2">
                                                     <label class="radio inline">
-                                                        <input type="radio" name="lastSchlYn" id="lastSchlYn1" class="lastSchl">&nbsp;&nbsp;최종 학교
+                                                        <input type="radio" name="applicationAcademyList.lastSchlYn" id="lastSchlYn1" />&nbsp;&nbsp;최종 학교
                                                     </label>
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <label class="col-sm-2 control-label">단과 대학</label>
-                                                <div class="col-sm-8">
-                                                    <input name="collName" class="form-control" id="collName1"/>
+                                                <div class="col-sm-9">
+                                                    <input name="applicationAcademyList.collName" class="form-control" id="collName1"/>
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <label class="col-sm-2 control-label">학과 이름</label>
-                                                <div class="col-sm-8">
-                                                    <input name="majName" class="form-control" id="majName1" />
+                                                <div class="col-sm-9">
+                                                    <input name="applicationAcademyList.majName" class="form-control" id="majName1" />
                                                 </div>
                                             </div>
                                             <div class="form-group">
@@ -617,13 +612,13 @@
                                                 <div class="col-sm-4 start-date-container">
                                                     <div class="input-group date" id="divCalEntrDay1">
                                                         <span class="input-group-addon">입학일</span>
-                                                        <input type="text" class="form-control calendar" name="entrDay" id="entrDay2" readonly/>
+                                                        <input type="text" name="applicationAcademyList.entrDay" class="form-control calendar" id="entrDay2" readonly/>
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-4 end-date-container">
                                                     <div class="input-group date" id="divCalGrdaDay1">
                                                         <span class="input-group-addon">졸업일</span>
-                                                        <input type="text" class="form-control calendar" name="grdaDay" id="grdaDay2" readonly/>
+                                                        <input type="text" name="applicationAcademyList.grdaDay" class="form-control calendar" id="grdaDay2" readonly/>
                                                     </div>
                                                 </div>
                                             </div>
@@ -632,13 +627,13 @@
                                                 <div class="col-sm-2">
                                                     <div class="input-group">
                                                         <span class="input-group-addon">평점</span>
-                                                        <input class="form-control" name="gradAvr" id="gradAvr1"/>
+                                                        <input name="applicationAcademyList.gradAvr" class="form-control" id="gradAvr1"/>
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-2">
                                                     <div class="input-group">
                                                         <span class="input-group-addon">만점</span>
-                                                        <input class="form-control" name="gradFull" id="gradFull1"/>
+                                                        <input name="applicationAcademyList.gradFull" class="form-control" id="gradFull1"/>
                                                     </div>
                                                 </div>
                                             </div>
@@ -809,7 +804,7 @@
                                                 <div class="col-sm-4 end-date-container">
                                                     <div class="input-group date">
                                                         <span class="input-group-addon">퇴사일</span>
-                                                        <form:input path="applicationExperienceList[${exprStatus.index}].retrDay" cssclass="form-control" readonly="true" />
+                                                        <form:input path="applicationExperienceList[${exprStatus.index}].retrDay" cssClass="form-control" readonly="true" />
                                                     </div>
                                                 </div>
                                             </div>
@@ -1213,8 +1208,10 @@
                 var $cloneObj;
                 if (originBlock) {
                     $cloneObj = $(originBlock).clone(true);
+                    $cloneObj.find('.input-group.date>input').datepicker('destroy');
                     incrementChildren($cloneObj, blocks.length);
                     container.insertBefore($cloneObj[0], originBlock.nextSibling);
+                    $cloneObj.find('.input-group.date>input').datepicker(datePickerOption);
                 }
             });
 
@@ -1233,6 +1230,17 @@
                     blockToRemove.parentNode.removeChild(blockToRemove);
                 }
             });
+
+            function updateIdAndName( block, index ) {
+                var i, name, prefix, suffix;
+                var inputs = block.querySelectorAll('input');
+                if (inputs) {
+                    inputs[0].name
+                    for (i = 0; i <inputs.length; i++) {
+
+                    }
+                }
+            }
 
             /*form-group-block 추가/삭제에 대한 처리 끝*/
 
