@@ -42,4 +42,11 @@ public class AdminQnaController {
 
         return "admin/qna/detail";
     }
+
+    @RequestMapping(value="/answer", method = RequestMethod.POST)
+    public String saveAnswer(QnaVO qna){
+        qnaService.saveAnswer(qna);
+
+        return "redirect:/admin/qna/list";
+    }
 }

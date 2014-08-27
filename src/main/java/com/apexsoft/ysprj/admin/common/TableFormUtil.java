@@ -34,8 +34,8 @@ public class TableFormUtil {
 			if( dataHeaderList.size() >1){
 				this.titleColNum = titleHeaderList.size();
 				this.dataColNum	= dataHeaderList.size();
-				if( dataList.size()!= (titleColNum+dataColNum))
-					result=true;
+//				if( dataList.size()!= (titleColNum+dataColNum))
+//					result=true;
 			}
 
 		List <String> titleCol;
@@ -76,26 +76,26 @@ public class TableFormUtil {
 		HtmlTag formerTag;
 
 		List <HtmlTag> formerTagList = new ArrayList<HtmlTag>();
-		for (int idx=0; idx < titleColNum+dataColNum;idx++){
-			if( formerTagList.get(formerTagList.size())!=null){//전번테그가 있는경우
-				formerTag = formerTagList.get(formerTagList.size());
-				
-				dataList.
-				 if(formerTag.get(formerTag.size()).getValue().equals(dataList.get(idx).toString()))//테그값이 같은경우
-					 
-				 
-				 
-				formerTag.get(fo)
-				tag = new HtmlTag();			
-				tag.setTagName("TD");
-				if( idx < titleColNum)
-					tag.setCssClass("");
-				else
-					tag.setCssClass("LRdata");
-				htmlTag.add(tag);	
-				formerTag.add(tag);
-			}
-		}
+//		for (int idx=0; idx < titleColNum+dataColNum;idx++){
+//			if( formerTagList.get(formerTagList.size())!=null){//전번테그가 있는경우
+//				formerTag = formerTagList.get(formerTagList.size());
+//
+//				dataList.
+//				 if(formerTag.get(formerTag.size()).getValue().equals(dataList.get(idx).toString()))//테그값이 같은경우
+//
+//
+//
+//				formerTag.get(fo)
+//				tag = new HtmlTag();
+//				tag.setTagName("TD");
+//				if( idx < titleColNum)
+//					tag.setCssClass("");
+//				else
+//					tag.setCssClass("LRdata");
+//				htmlTag.add(tag);
+//				formerTag.add(tag);
+//			}
+//		}
 		tag = new HtmlTag();			
 		tag.setTagName("TD");
 		tag.setCssClass("LCSum");		

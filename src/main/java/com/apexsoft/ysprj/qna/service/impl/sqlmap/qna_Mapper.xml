@@ -74,27 +74,11 @@
         </if>
     </select>
 
-    <update id="updateUsers" parameterType="com.apexsoft.ysprj.user.domain.Users">
+    <update id="updateAnswer" parameterType="com.apexsoft.ysprj.qna.service.QnaVO">
         <![CDATA[
-		  UPDATE users SET
-		                    post_number = #{postNumber},
-		                    post_seq = #{postSeq},
-		                    address = #{address},
-		                    address_detail = #{addressDetail},
-		                    eng_address = #{engAddress},
-                            birth_date = #{birthDate},
-                            dive_log = #{diveLog},
-                            email = #{email},
-                            eng_name = #{engName},
-                            korean_name = #{koreanName},
-                            license = #{license},
-                            mailing_service = #{mailingService},
-                            nickname = #{nickname},
-                            passport_number = #{passportNumber},
-                            password = #{password},
-                            phone_number = #{phoneNumber},
-                            sms_service = #{smsService}
-			WHERE username = #{username}
+		    UPDATE QNA SET
+		           answer = #{answer}
+		    WHERE id = #{id}
 		]]>
     </update>
 

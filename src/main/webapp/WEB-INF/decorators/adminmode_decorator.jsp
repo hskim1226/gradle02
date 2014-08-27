@@ -117,7 +117,7 @@
                     <li class="Llast"><span><a href="#">권한관리</a></span></li>
                 </ul>
             </li>
-            <li class="Llast"><span><a href="#">공지사항</a></span></li>
+            <li class="Lidx8"><span><a href="#">공지사항</a></span></li>
             <li class="Llast"><span><a href="#">Q&A</a></span></li>
         </ul>
     </div>

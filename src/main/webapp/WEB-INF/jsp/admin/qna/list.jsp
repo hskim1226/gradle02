@@ -3,6 +3,14 @@
 <html>
 <head>
     <title></title>
+    <script type="text/javascript">
+        $.noConflict();
+        jQuery(document).ready( function(){
+            jQuery(".qna").on('click', function(){
+                location.href = "${contextPath}/admin/qna/detail?id="+jQuery(this).attr('qna-id');
+            }).css("cursor","pointer");
+        });
+    </script>
 </head>
 <body>
 <div id="LblockMain">
@@ -91,9 +99,9 @@
 
     </div>
 
-    <div id="LblockButton">
+    <!--div id="LblockButton">
         <a href="#"><input type="button" value="엑셀파일 다운로드" onclick="doSomething(); return false;" /></a>
-    </div>
+    </div -->
 
 
 </div>
@@ -103,12 +111,5 @@
     </script>
 </content>
 
-<script type="text/javascript">
-    $(document).ready( function(){
-        $(".qna").on('click', function(){
-            location.href = "${contextPath}/qna/detail?id="+$(this).attr('qna-id');
-        }).css("cursor","pointer");
-    });
-</script>
 </body>
 </html>

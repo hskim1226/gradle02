@@ -42,4 +42,9 @@ public class QnaServiceImpl implements QnaService{
     public QnaVO getQna(int id) {
         return commonDAO.queryForObject(NAME_SPACE+"selectByPk", id, QnaVO.class);
     }
+
+    @Override
+    public void saveAnswer(QnaVO qna) {
+        commonDAO.update(NAME_SPACE + "updateAnswer", qna);
+    }
 }
