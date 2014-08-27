@@ -1,9 +1,8 @@
 package com.apexsoft.ysprj.applicants.application.service;
 
-import com.apexsoft.ysprj.applicants.application.domain.Application;
-import com.apexsoft.ysprj.applicants.application.domain.ApplicationGeneral;
-import com.apexsoft.ysprj.applicants.application.domain.EntireApplication;
-import com.apexsoft.ysprj.applicants.application.domain.ParamForInitialApply;
+import com.apexsoft.ysprj.applicants.application.domain.*;
+
+import java.util.List;
 
 /**
  * Created by Administrator on 2014-08-12.
@@ -14,6 +13,9 @@ public interface ApplicationService {
 
     int createApplication(Application application);
     int createApplicationGeneral(ApplicationGeneral applicationGeneral);
+    int createApplicationETCWithBLOBs(ApplicationETCWithBLOBs applicationETCWithBLOBs);
+    int createApplicationAcademy(List<ApplicationAcademy> applicationAcademyList);
+
     Application retrieveEntireApplication(int applNo);
     Application retrieveApplication(int applNo);
 
