@@ -1,5 +1,7 @@
 package com.apexsoft.ysprj.applicants.common.control;
 
+import com.apexsoft.framework.common.vo.ExecutionContext;
+import com.apexsoft.framework.message.MessageResolver;
 import com.apexsoft.ysprj.applicants.common.domain.*;
 import com.apexsoft.ysprj.applicants.common.service.CommonService;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -8,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
@@ -25,6 +28,9 @@ public class CommonController {
     @Autowired
     private ObjectMapper jacksonObjectMapper;
 
+    @Resource(name = "messageResolver")
+    private MessageResolver messageResolver;
+
     @RequestMapping(value="/code/campus", method= RequestMethod.GET, produces="text/plain;charset=UTF-8")
     @ResponseBody
     public String getCampusCode()
@@ -33,6 +39,7 @@ public class CommonController {
         List<Campus> campusList = commonService.retrieveCampus();
 
         String json = jacksonObjectMapper.writeValueAsString(campusList);
+
         return json;
     }
 
