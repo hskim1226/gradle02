@@ -136,6 +136,7 @@
 <script src="${contextPath}/js/admin/dui_tree.js"></script>
 <script src="${contextPath}/js/admin/dui_slidemenu.js"></script>
 <script src="${contextPath}/js/admin/common.js"></script>
+<script src="${contextPath}/js/json2.js"></script>
 <decorator:getProperty property="page.local-script"/>
 </body>
 </html>

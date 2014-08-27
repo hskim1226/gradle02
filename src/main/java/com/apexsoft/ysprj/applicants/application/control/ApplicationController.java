@@ -1,18 +1,25 @@
 package com.apexsoft.ysprj.applicants.application.control;
 
 import com.apexsoft.framework.common.vo.ExecutionContext;
+import com.apexsoft.framework.security.UserSessionVO;
 import com.apexsoft.ysprj.applicants.application.domain.*;
 import com.apexsoft.ysprj.applicants.application.service.ApplicationService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.security.Principal;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
@@ -57,27 +64,31 @@ public class ApplicationController {
     }
 
     @RequestMapping(value = "/apply"/*, /method = RequestMethod.POST(*/)
-    public String displayAppInfo(/*@ModelAttribute("application") Application application,*/
-                                 /*@ModelAttribute("campuses") Map campuses,
-                                 @ModelAttribute("schoolTypes") Map schoolTypes,
-                                 @ModelAttribute("graduationTypes") Map graduationTypes,
-                                 @ModelAttribute("selfIntro") SelfIntro selfIntro,
-                                 @ModelAttribute("studyPlan") StudyPlan studyPlan,*/
-                                 /*@RequestParam("radio4") String providePrivateInfo,*/
-                                 @ModelAttribute EntireApplication entireApplication,
-                                 Model model) {
-
-//        model.addAttribute("providePrivateInfo", providePrivateInfo);
-//        model.addAttribute("application", applicationService.retrieveApplication(1));
-        model.addAttribute("entireApplication", entireApplication);
-
+    public String displayAppInfo(Model model) {
+        Map<String, String> applyKindMap = new LinkedHashMap<String, String>();
+        applyKindMap.put("AK01", "일반 지원자");
+        applyKindMap.put("AK02", "학·연·산 지원자");
+        applyKindMap.put("AK03", "위탁 지원자");
+        model.addAttribute("applyKindList", applyKindMap);
+        model.addAttribute("applyKind", "AK01");
         return "application/appinfo";
     }
 
     @RequestMapping(value = "/apply/save", method = RequestMethod.POST)
-    public ExecutionContext saveAcademy(@Valid @ModelAttribute EntireApplication entireApplication, BindingResult binding) {
+    @ResponseBody
+    public ExecutionContext saveAcademy(@Valid @ModelAttribute EntireApplication entireApplication, BindingResult binding, Principal principal, HttpSession httpSession) {
         if( binding.hasErrors() ) {
             return new ExecutionContext(ExecutionContext.FAIL);
+        }
+        SecurityContext sc = (SecurityContext)httpSession.getAttribute("SPRING_SECURITY_CONTEXT");
+        Authentication auth = sc.getAuthentication();
+        UserSessionVO userSessionVO = (UserSessionVO)auth.getPrincipal();
+        String userId = principal != null ? principal.getName() : userSessionVO.getUsername();
+        if( entireApplication.getApplNo() == null ) {   // insert
+            applicationService.createApplication(null);
+            applicationService.createApplicationGeneral(null);
+        } else {    // update
+
         }
         return new ExecutionContext();
     }

@@ -4,6 +4,7 @@ import com.apexsoft.framework.persistence.dao.CommonDAO;
 import com.apexsoft.ysprj.applicants.application.domain.Application;
 import com.apexsoft.ysprj.applicants.application.domain.ApplicationGeneral;
 import com.apexsoft.ysprj.applicants.application.domain.EntireApplication;
+import com.apexsoft.ysprj.applicants.application.domain.ParamForInitialApply;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,13 +22,13 @@ public class ApplicationServiceImpl implements ApplicationService {
     private CommonDAO commonDAO;
 
     @Override
-    public void createApplication(Application application) {
-        commonDAO.insert(NAME_SPACE + "ApplicationMapper.insert", application);
+    public int createApplication(Application application) {
+        return commonDAO.insert(NAME_SPACE + "ApplicationMapper.insert", application);
     }
 
     @Override
-    public void createApplicationGeneral(ApplicationGeneral applicationGeneral) {
-        commonDAO.insert(NAME_SPACE + "ApplicationGeneralMapper.insert", applicationGeneral);
+    public int createApplicationGeneral(ApplicationGeneral applicationGeneral) {
+        return commonDAO.insert(NAME_SPACE + "ApplicationGeneralMapper.insert", applicationGeneral);
     }
 
     @Override
@@ -40,14 +41,42 @@ public class ApplicationServiceImpl implements ApplicationService {
         Application application = null;
         try {
             application = commonDAO.queryForObject(NAME_SPACE + "ApplicationMapper.selectByPrimaryKey", applNo, Application.class);
-//            com.apexsoft.ysprj.applicants.application.sqlmap.
-//            com.apexsoft.ysprj.applicants.application.sqlmap.ApplicationMapper
-//              com.apexsoft.ysprj.applicants.application.sqlmap.ApplicationMapper
         } catch (Exception e) {
             e.printStackTrace();
         }
 
         return application;
+    }
+
+    @Override
+    public Application retrieveApplicationForInsertOthers(ParamForInitialApply paramForInitialApply) {
+        Application application = null;
+        try {
+            application = commonDAO.queryForObject(NAME_SPACE + "CustomApplicationMapper.selectApplForInsertOthers", paramForInitialApply, Application.class);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return application;
+    }
+
+    @Override
+    public int createEntireApplication(EntireApplication entireApplication) {
+
+        int resultNo1=0;
+        int applNo=0;
+        int resultNo2=0;
+
+        try {
+            resultNo1 = createApplication(entireApplication.getApplication());
+
+            applNo = retrieveApplicationForInsertOthers(new ParamForInitialApply()/*TODO 원서 작성 화면 뜰때부터 가져와야 함*/).getApplNo();
+
+            resultNo2 = createApplicationGeneral(entireApplication.getApplicationGeneral());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return applNo;
     }
 
 //    @Override
