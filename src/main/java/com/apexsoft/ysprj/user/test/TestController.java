@@ -1,6 +1,6 @@
 package com.apexsoft.ysprj.user.test;
 
-import com.apexsoft.ysprj.user.service.ApplicationService;
+import com.apexsoft.ysprj.applicants.application.service.ApplicationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,6 +24,16 @@ public class TestController {
     @RequestMapping(value="/tabsample")
     public String tabSample() {
         return "test/tabsample";
+    }
+
+    @RequestMapping(value="/calendar")
+    public String calendar() {
+        return "test/calendar";
+    }
+
+    @RequestMapping(value="/formTest")
+    public String formTest() {
+        return "test/formTest";
     }
 
     @RequestMapping(value = "/showAll")

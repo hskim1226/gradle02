@@ -65,37 +65,103 @@
 <section class="application-selfintro" id="application-create">
     <div class="container">
         <div class="row mar-bot40">
-            <div class="col-md-offset-0 col-md-11">
+            <div class="col-md-offset-0 col-md-11" id="innerContainer">
                 <h2 class="slogan">Form Test</h2>
 
                 <div class="spacer-small"></div>
 
                 <hr/>
-                <%--<c:forEach items="${campusList}" var="campus">--%>
-                    <%--${campus.code} : ${campus.name}<br/>--%>
-                <%--</c:forEach>--%>
 
-                <form:form commandName="campus">
-                    <form:select path="name" items="${campusMap}"/>
-                        <%--<form:option value="**" label="---Choose---"/>--%>
-                        <%--<form:options items="${campusMap}"/>--%>
-                    <%--</form:select>--%>
-                </form:form>
 
-                <%--<form:form commandName="campus">--%>
-                    <%--<form:select path="name">--%>
-                        <%--<form:option value="**" label="---Choose---"/>--%>
-                        <%--<form:options items="${campusList}" itemValue="${campus.code}" itemLabel="${campus.name}"/>--%>
-                    <%--</form:select>--%>
-                <%--</form:form>--%>
 
+                <div id="acadUnit1">
+                    <hr/>
+                    <input type="text" id="t1" name="t1"/>
+                    <select id="s1" name="s1">
+                        <option name="r1" value="0">라디오0</option>
+                        <option name="r1" value="1">라디오1</option>
+                        <option name="r1" value="2">라디오2</option>
+                    </select>
+                    <div id="inDiv1">
+                        <div id="inDiv1DivA1" class="btn btn-info"></div>
+                        <div id="inDiv1DivB1" class="btn btn-primary"></div>
+                        <div id="inDiv1DivC1" class="btn btn-warning"></div>
+                    </div>
+                    <div class="btn btn-primary btn-block addUnit">유닛추가</div>
+                </div>
             </div>
+
+            <div class="col-sm-4 start-date-container">
+                <div class="input-group date">
+                    <span class="input-group-addon">입학일</span>
+                    <input type="text" class="form-control" name="entrDay" id="entrDay1"/>
+                </div>
+            </div>
+
+            <div class="col-sm-4 end-date-container">
+                <div class="input-group date">
+                    <span class="input-group-addon">졸업일</span>
+                    <input type="text" class="form-control" name="grdaDay" id="grdaDay1"/>
+                </div>
+            </div>
+
+            <div id="addCalendar" class="btn btn-primary btn-block">달력복사</div>
+
         </div>
     </div>
 </section>
 <content tag="local-script">
+    <script src="${contextPath}/js/bootstrap-datepicker.js"></script>
+    <script src="${contextPath}/js/bootstrap-datepicker.kr.js"></script>
     <script>
+        $(document).ready( function() {
+            var addUnit = function (e) {
+                var ele, clo, parent;
+                ele = e.target.parentNode;
+//console.log(ele);
+                clo = ele.cloneNode(true);
 
+                renameChildren(clo, $('.addUnit').length+1);
+//console.log(clo);
+                clo.addEventListener('click', addUnit);
+                parent = document.getElementById('innerContainer');
+
+
+//console.log(parent);
+                parent.appendChild(clo);
+                console.log($('.addUnit'));
+            }
+
+            var renameChildren = function (o, n) {
+                var children = o.childNodes, l, t0, tid;
+
+                if ( children ) {
+                    for( l = 0 ; l < children.length ; l++ ) {
+                        t0 = children[l];
+                        if ( t0.id ) {
+                            tid = t0.id.toString();
+                            t0.id = tid.substring(0, tid.length - 1) + n.toString();
+                        }
+                        renameChildren(t0, n);
+                    }
+                }
+                return;
+            };
+
+            $('.addUnit').on('click', addUnit);
+
+            <%-- 달력 시작 --%>
+            $('.input-group.date').datepicker({
+                format: "yyyymmdd",
+                startView: 2,
+                language: "kr",
+                forceParse: false,
+                autoclose: true
+            });
+
+
+            <%-- 달력 끝 --%>
+        });
     </script>
 </content>
 </body>

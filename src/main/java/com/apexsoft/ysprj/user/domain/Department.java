@@ -4,6 +4,7 @@ import java.util.Date;
 
 /**
  * Created by go2zo on 2014. 8. 17.
+ * TABLE : DEPT
  */
 public class Department {
 

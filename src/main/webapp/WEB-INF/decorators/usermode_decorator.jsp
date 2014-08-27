@@ -26,10 +26,11 @@
     <!-- Overwrite Bootstrap -->
     <link rel="stylesheet" href="${contextPath}/css/overwrite.css"/>
     <link rel="stylesheet" href="${contextPath}/css/animate.css"/>
-    <!-- custom style -->
-    <link rel="stylesheet" href="${contextPath}/css/style.css"/>
     <!-- skin -->
     <link rel="stylesheet" href="${contextPath}/skin/default.css">
+    <!-- custom style -->
+    <link rel="stylesheet" href="${contextPath}/css/style.css"/>
+
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="${contextPath}/js/jquery.min.js"></script>
     <decorator:head />
@@ -48,9 +49,11 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav" style="float: right;" data-0="margin-top:20px;" data-300="margin-top:5px;">
                     <li class="active"><a href="${contextPath}/index">Home</a></li>
-                    <li><a href="${contextPath}/notice/list">모집 공고</a></li>
+                    <li><a href="${contextPath}/notice/list">원서 접수</a></li>
                     <li><a href="${contextPath}/application/mylist">내 원서</a></li>
                     <li><a href="${contextPath}/user/agreement">회원 가입</a></li>
+                    <li><a href="${contextPath}/qna/list">Q&A</a></li>
+                    <li><a href="${contextPath}/pds/list">자료실</a></li>
                     <li>
                         <sec:authorize access="hasRole('ROLE_USER')">
                             <a href="${contextPath}/j_spring_security_logout.do">[<sec:authentication property="principal.name" />]sign out</a>
@@ -65,7 +68,7 @@
     <section id="footer" class="section footer">
         <div class="container">
             <div class="row align-center">
-                <div class="col-sm-12 legalnotice"><p>(주)에이펙스소프트 | 서울 마포구 양화로 156 | 대표이사 김도훈 | 사업자등록번호 105-87-66045 | 전화 070-8892-0534</p></div>
+                <div class="col-sm-12 legalnotice"><p>(주)에이펙스소프트 | 서울 마포구 양화로 156, 1121(동교동, 엘지팰리스) | 대표이사 김도훈 | 사업자등록번호 105-87-66045 | 전화 070-8892-0534</p></div>
                 <div class="col-sm-12 legalnotice"><p>통신판매업신고번호 서울마포-1109호 | 개인정보관리책임자 김도훈 | 개인정보보유기간 회원 탈퇴시까지</p></div>
             </div>
             <div class="row align-center copyright">
@@ -90,7 +93,9 @@
     <script src="${contextPath}/js/jquery.localScroll.min.js"></script>
     <script src="${contextPath}/js/jquery.stellar.min.js"></script>
     <script src="${contextPath}/js/jquery.appear.min.js"></script>
+    <script src="${contextPath}/js/jquery.bpopup.min.js"></script>
     <script src="${contextPath}/js/validate.min.js"></script>
+    <script src="${contextPath}/js/json2.js"></script>
     <script src="${contextPath}/js/main.js"></script>
     <decorator:getProperty property="page.local-script"/>
 </body>
