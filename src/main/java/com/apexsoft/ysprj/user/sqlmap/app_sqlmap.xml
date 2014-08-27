@@ -350,5 +350,72 @@
 			WHERE APPL_NO = #{applNo}
 		]]>
     </update>
-
+    
+    <update id="updateApplicationKorNameByAdmin" parameterType="com.apexsoft.ysprj.user.domain.Application">
+        <![CDATA[
+		  update APPL set
+                KOR_NAME = #{korName}},
+                MOD_ID = #{modId},
+                MOD_DATE = #{modDate}
+			WHERE APPL_NO = #{applNo}
+		]]>
+    </update>
+    <update id="updateApplicationEngNameByAdmin" parameterType="com.apexsoft.ysprj.user.domain.Application">
+        <![CDATA[
+		  update APPL set
+                ENG_SUR = #{engSur},
+                ENG_NAME = #{engName},
+                MOD_ID = #{modId},
+                MOD_DATE = #{modDate}
+			WHERE APPL_NO = #{applNo}
+		]]>
+    </update>
+    <update id="updateApplicationRgstNoByAdmin" parameterType="com.apexsoft.ysprj.user.domain.Application">
+        <![CDATA[
+		  update APPL set
+                RGST_NO = #{rgstNo},
+                MOD_ID = #{modId},
+                MOD_DATE = #{modDate}
+			WHERE APPL_NO = #{applNo}
+		]]>
+    </update>
+    <update id="updateApplicationAddrByAdmin" parameterType="com.apexsoft.ysprj.user.domain.Application">
+        <![CDATA[
+		  update APPL set
+                ZIP_CODE = #{zipCode},
+                ADDR = #{addr},
+                DETL_ADDR = #{detlAddr},
+                MOD_ID = #{modId},
+                MOD_DATE = #{modDate}
+			WHERE APPL_NO = #{applNo}
+		]]>
+    </update> 
+    <update id="updateApplicationMailAddrByAdmin" parameterType="com.apexsoft.ysprj.user.domain.Application">
+        <![CDATA[
+		  update APPL set
+                MAIL_ADDR = #{mailAddr},
+                MOD_ID = #{modId},
+                MOD_DATE = #{modDate}
+			WHERE APPL_NO = #{applNo}
+		]]>
+    </update> 
+    <update id="updateApplicationTelNumByAdmin" parameterType="com.apexsoft.ysprj.user.domain.Application">
+        <![CDATA[
+		  update APPL set
+                TEL_NUM = #{telNum},
+                MOD_ID = #{modId},
+                MOD_DATE = #{modDate}
+			WHERE APPL_NO = #{applNo}
+		]]>
+    </update> 
+    <update id="updateApplicationMobiNumByAdmin" parameterType="com.apexsoft.ysprj.user.domain.Application">
+        <![CDATA[
+		  update APPL set
+                MOBI_NUM = #{mobiNum},
+                MOD_ID = #{modId},
+                MOD_DATE = #{modDate}
+			WHERE APPL_NO = #{applNo}
+		]]>
+    </update>   
+    
 </mapper>

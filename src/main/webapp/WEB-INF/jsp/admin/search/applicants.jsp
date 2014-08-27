@@ -23,7 +23,7 @@
         <div id="LblockSearch">
             <div>
                 <div>
-                    <form action="">
+                    <form id="searchForm" action="">
                         <table summary="지원현황 검색조건">
                             <caption>지원현황 검색조건</caption>
                             <tbody>
@@ -73,7 +73,7 @@
                             </tr>
                             </tbody>
                         </table>
-                        <input type="image" class="Limage" src="${contextPath}/img/admin/btn_search.gif" /></a>
+                        <input id="searchBtn" type="image" class="Limage" src="${contextPath}/img/admin/btn_search.gif" /></a>
                     </form>
                 </div>
             </div>
@@ -96,7 +96,7 @@
                     <th class="Llast">수정요청</th>
                 </tr>
                 </thead>
-                <tbody>
+                <tbody id="aInfoList">
                 <tr class="Lfirst">
                     <td>15-A010001</td>
                     <td>서울캠퍼스</td>
@@ -172,8 +172,36 @@
 </div>
 
 <content tag="local-script">
-    <script>
 
+    <script language="javascript" src="http://xpay.uplus.co.kr:7080/xpay/js/xpay_utf-8.js" type="text/javascript"></script>
+    <script>
+            $('#searchBtn').click(function(){
+                $.ajax({
+                    url: "${contextPath}/admin/search/applicants",
+                    type: "GET",
+                    data: $("#searchForm").serialize(),
+                    contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+                    success: function(data){
+                        var aList = $.parseJSON(data),
+                    	$("#aInfoList").remove();
+                        for(var idx = 1, l=aList.length; idx <= l; idx ++){
+                        	var aInfo = aList[idx];
+                        	$("#aInfoList").append(
+                        		$('<tr>')
+                        			.append($('<td>').append("15-A010002 idx"+idx))
+									.append($('<td>').append("서울캠퍼스"))    
+									.append($('<td>').append("토목환경공학과"))      
+									.append($('<td>').append("일반<br>박사학위과정"))      
+									.append($('<td>').append("권율<br>900101"))      
+									.append($('<td>').append("2014-09-29<br>15:00:11")) 
+									.append($('<td>').append("계좌이체<br>85,00000"))      
+									.append($('<td>').append("문서목록"))      
+									.append($('<td>').append("버튼"))  
+                        	);//aInfoList
+                        };//for
+                    }//function
+                })//ajax
+            });
     </script>
 </content>
 </body>
