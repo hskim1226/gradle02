@@ -56,7 +56,7 @@
                             </thead>
                             <tbody>
                             <c:forEach var="qna" items="${qna}" varStatus="status">
-                            <tr>
+                            <tr qna-id="${qna.id}" class="qna">
                                 <td>${qna.id}</td>
                                 <td>${qna.title}</td>
                                 <td>${qna.readCnt}</td>
@@ -82,5 +82,14 @@
     </div>
 </section>
 
+    <script type="text/javascript">
+        $(document).ready( function(){
+            $(".qna").on('click', function(){
+                location.href = "${contextPath}/qna/detail?id="+$(this).attr('qna-id');
+            }).css("cursor","pointer");
+        });
+    </script>
 </body>
+
+
 </html>

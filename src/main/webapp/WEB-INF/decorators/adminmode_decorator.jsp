@@ -19,6 +19,8 @@
     <link rel="stylesheet" href="${contextPath}/css/admin/global_layout.css"/>
     <link rel="stylesheet" href="${contextPath}/css/admin/page_style.css"/>
     <link rel="stylesheet" href="${contextPath}/css/admin/page_layout.css"/>
+
+    <script src="${contextPath}/js/jquery.min.js"></script>
     <decorator:head />
 </head>
 <body>
@@ -116,6 +118,7 @@
                 </ul>
             </li>
             <li class="Llast"><span><a href="#">공지사항</a></span></li>
+            <li class="Llast"><span><a href="#">Q&A</a></span></li>
         </ul>
     </div>
 

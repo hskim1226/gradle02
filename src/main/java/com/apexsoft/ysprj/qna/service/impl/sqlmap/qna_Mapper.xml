@@ -39,10 +39,9 @@
 			AND username = #{username}
 		]] -->
         <![CDATA[
-		  SELECT username, password, enabled
-		    FROM users
-			WHERE 1=1
-			AND username = #{username}
+		  SELECT id, title, contents, read_cnt, use_yn, cre_id, cre_date, mod_id, mod_date, answer
+		    FROM QNA
+			WHERE id = #{id}
 		]]>
     </select>
 

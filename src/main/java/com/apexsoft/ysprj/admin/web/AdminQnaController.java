@@ -1,6 +1,5 @@
-package com.apexsoft.ysprj.qna.web;
+package com.apexsoft.ysprj.admin.web;
 
-import com.apexsoft.framework.common.vo.ExecutionContext;
 import com.apexsoft.framework.persistence.dao.page.PageInfo;
 import com.apexsoft.ysprj.qna.service.QnaService;
 import com.apexsoft.ysprj.qna.service.QnaVO;
@@ -11,19 +10,17 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  * Created with IntelliJ IDEA.
  * User: zbum
- * Date: 2014. 8. 24.
- * Time: 오후 5:46
+ * Date: 2014. 8. 27.
+ * Time: 오후 9:08
  * To change this template use File | Settings | File Templates.
  */
 @Controller
-@RequestMapping("/qna")
-public class QnaController {
-
+@RequestMapping("/admin/qna")
+public class AdminQnaController {
     @Autowired
     private QnaService qnaService;
 
@@ -34,7 +31,7 @@ public class QnaController {
         model.addAttribute("qna", qnaVOPageInfo.getData());
         model.addAttribute("qnaTotal", qnaVOPageInfo.getTotalRowCount());
 
-        return "qna/list";
+        return "admin/qna/list";
     }
 
     @RequestMapping(value="/detail", method = RequestMethod.GET)
@@ -43,6 +40,6 @@ public class QnaController {
 
         model.addAttribute("qna", qnaVO);
 
-        return "qna/detail";
+        return "admin/qna/detail";
     }
 }
