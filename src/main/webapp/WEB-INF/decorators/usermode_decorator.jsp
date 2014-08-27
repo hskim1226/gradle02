@@ -49,7 +49,7 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav" style="float: right;" data-0="margin-top:20px;" data-300="margin-top:5px;">
                     <li class="active"><a href="${contextPath}/index">Home</a></li>
-                    <li><a href="${contextPath}/notice/list">모집 공고</a></li>
+                    <li><a href="${contextPath}/notice/list">원서 접수</a></li>
                     <li><a href="${contextPath}/application/mylist">내 원서</a></li>
                     <li><a href="${contextPath}/user/agreement">회원 가입</a></li>
                     <li><a href="${contextPath}/qna/list">Q&A</a></li>
