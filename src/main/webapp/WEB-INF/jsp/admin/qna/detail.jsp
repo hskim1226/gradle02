@@ -13,6 +13,10 @@
             jQuery("#answer-button").on('click', function(){
                 jQuery("#answer-form").submit();
             }).css("cursor","pointer");
+
+            jQuery("#list-button").on('click', function(){
+                location.href = "${contextPath}/admin/qna/list";
+            }).css("cursor","pointer");
         });
     </script>
 </head>
