@@ -39,14 +39,13 @@
 			AND username = #{username}
 		]] -->
         <![CDATA[
-		  SELECT username, password, enabled
-		    FROM users
-			WHERE 1=1
-			AND username = #{username}
+		  SELECT id, title, contents, read_cnt, use_yn, cre_id, cre_date, mod_id, mod_date, answer
+		    FROM QNA
+			WHERE id = #{id}
 		]]>
     </select>
 
-    <select id="selectQnaList" resultMap="qna" >
+    <select id="selectQnaList" parameterType="com.apexsoft.ysprj.qna.web.form.QnaSearchForm" resultMap="qna" >
 		<![CDATA[
 		  SELECT id, title, contents, read_cnt, use_yn, cre_id, cre_date, mod_id, mod_date, answer
 		    FROM QNA
@@ -61,7 +60,7 @@
         ORDER BY cre_date desc
 	</select>
 
-    <select id="selectTotalCount" resultType="java.lang.Integer" >
+    <select id="selectTotalCount" parameterType="com.apexsoft.ysprj.qna.web.form.QnaSearchForm" resultType="java.lang.Integer" >
         <![CDATA[
 		  SELECT count(*)
 		    FROM QNA
@@ -75,27 +74,11 @@
         </if>
     </select>
 
-    <update id="updateUsers" parameterType="com.apexsoft.ysprj.user.domain.Users">
+    <update id="updateAnswer" parameterType="com.apexsoft.ysprj.qna.service.QnaVO">
         <![CDATA[
-		  UPDATE users SET
-		                    post_number = #{postNumber},
-		                    post_seq = #{postSeq},
-		                    address = #{address},
-		                    address_detail = #{addressDetail},
-		                    eng_address = #{engAddress},
-                            birth_date = #{birthDate},
-                            dive_log = #{diveLog},
-                            email = #{email},
-                            eng_name = #{engName},
-                            korean_name = #{koreanName},
-                            license = #{license},
-                            mailing_service = #{mailingService},
-                            nickname = #{nickname},
-                            passport_number = #{passportNumber},
-                            password = #{password},
-                            phone_number = #{phoneNumber},
-                            sms_service = #{smsService}
-			WHERE username = #{username}
+		    UPDATE QNA SET
+		           answer = #{answer}
+		    WHERE id = #{id}
 		]]>
     </update>
 

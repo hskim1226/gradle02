@@ -31,6 +31,12 @@ public class ExecutionContext <T>{
         this.message = message;
     }
 
+    public ExecutionContext(String result, String message, T data) {
+        this.result = result;
+        this.message = message;
+        this.data = data;
+    }
+
     public String getResult() {
         return result;
     }
