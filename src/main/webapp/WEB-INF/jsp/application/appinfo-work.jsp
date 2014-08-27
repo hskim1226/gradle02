@@ -216,6 +216,70 @@
                                     </div>
                                 </div>
                             </div>
+
+                            <div class="tab-pane fade" id="selfintro">
+                                    <form:form commandName="selfIntro" cssClass="form-horizontal" role="form" id="formSeflIntro" action="${contextPath}/application/selfintro/save">
+                                    <div class="spacer-tiny"></div>
+                                    <div class="form-group">
+                                    <form:label path="ta1" cssClass="col-sm-3 control-label">주요 경력 사항</form:label>
+                                    <div class="col-sm-8">
+                                    <form:textarea path="ta1" cssClass="form-control" rows="12" placeholder="주요 경력사항을 작성해주세요" />
+                                    </div>
+                                    </div>
+                                    <div class="form-group">
+                                    <form:label path="ta2" cssClass="col-sm-3 control-label">지원 동기 및 장례 계획</form:label>
+                                    <div class="col-sm-8">
+                                    <form:textarea path="ta2" cssClass="form-control" rows="12" placeholder="지원 동기와 장래 계획을 작성해주세요" />
+                                    </div>
+                                    </div>
+                                    <div class="form-group">
+                                    <form:label path="ta3" cssClass="col-sm-3 control-label">성격 및 특기</form:label>
+                                    <div class="col-sm-8">
+                                    <form:textarea path="ta3" cssClass="form-control" rows="12" placeholder="성격의 장단점과 특기를 작성해주세요" />
+                                    </div>
+                                    </div>
+                                    <div class="form-group">
+                                    <form:label path="ta4" cssClass="col-sm-3 control-label">수상 내역</form:label>
+                                    <div class="col-sm-8">
+                                    <form:textarea path="ta4" cssClass="form-control" rows="12" placeholder="주요 수상 내역을 작성해주세요" />
+                                    </div>
+                                    </div>
+                                    <div class="form-group">
+                                    <form:label path="ta5" cssClass="col-sm-3 control-label">기타</form:label>
+                                    <div class="col-sm-8">
+                                    <form:textarea path="ta5" cssClass="form-control" rows="12" placeholder="본인을 잘 설명할 수 있는 내용을 작성해주세요"/>
+                                    </div>
+                                    </div>
+                                    <div class="spacer-tiny"></div>
+                                    </form:form>
+                                <div class="spacer-tiny"></div>
+                            </div>
+                                <%--studyplan--%>
+                            <div class="tab-pane fade" id="studyplan">
+                                    <%--<form:form commandName="studyPlan" cssClass="form-horizontal" role="form" action="${contextPath}/application/studyplan/save">--%>
+                                    <%--<div class="spacer-tiny"></div>--%>
+                                    <%--<div class="form-group">--%>
+                                    <%--<form:label path="ta1" cssClass="col-sm-3 control-label">희망 연구 분야 및 연구 계획</form:label>--%>
+                                    <%--<div class="col-sm-8">--%>
+                                    <%--<form:textarea path="ta1" cssClass="form-control" rows="12" placeholder="희망 연구 분야와 연구 계획을 작성해주세요" />--%>
+                                    <%--</div>--%>
+                                    <%--</div>--%>
+                                    <%--<div class="form-group">--%>
+                                    <%--<form:label path="ta2" cssClass="col-sm-3 control-label">학부/대학원 이수과목 중 관심과목</form:label>--%>
+                                    <%--<div class="col-sm-8">--%>
+                                    <%--<form:textarea path="ta2" cssClass="form-control" rows="12" placeholder="학부와 대학원에서 관심있게 수강한 과목에 대해 작성해주세요" />--%>
+                                    <%--</div>--%>
+                                    <%--</div>--%>
+                                    <%--<div class="form-group">--%>
+                                    <%--<form:label path="ta3" cssClass="col-sm-3 control-label">석/박사 이후의 계획</form:label>--%>
+                                    <%--<div class="col-sm-8">--%>
+                                    <%--<form:textarea path="ta3" cssClass="form-control" rows="12" placeholder="석/박사 이후의 진로 계획에 대해 작성해주세요" />--%>
+                                    <%--</div>--%>
+                                    <%--</div>--%>
+                                    <%--<div class="spacer-tiny"></div>--%>
+                                    <%--</form:form>--%>
+                                <div class="spacer-tiny"></div>
+                            </div>
                         </div>
                     </div>
                     <div class="spacer-tiny"></div>

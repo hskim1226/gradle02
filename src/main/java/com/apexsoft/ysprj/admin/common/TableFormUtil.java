@@ -76,7 +76,7 @@ public class TableFormUtil {
 		HtmlTag formerTag;
 
 		List <HtmlTag> formerTagList = new ArrayList<HtmlTag>();
-		}
+//		}
 //		for (int idx=0; idx < titleColNum+dataColNum;idx++){
 //			if( formerTagList.get(formerTagList.size())!=null){//전번테그가 있는경우
 //				formerTag = formerTagList.get(formerTagList.size());
