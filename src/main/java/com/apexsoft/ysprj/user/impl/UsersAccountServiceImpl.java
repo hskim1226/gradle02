@@ -6,7 +6,7 @@ import com.apexsoft.framework.persistence.dao.handler.RowHandler;
 import com.apexsoft.framework.persistence.dao.page.PageInfo;
 import com.apexsoft.framework.persistence.dao.page.PageStatement;
 import com.apexsoft.ysprj.code.AuthorityType;
-import com.apexsoft.ysprj.user.domain.Authorities;
+import com.apexsoft.ysprj.applicants.user.domain.Authorities;
 import com.apexsoft.ysprj.user.domain.Users;
 import com.apexsoft.ysprj.user.service.UsersAccountService;
 import com.apexsoft.ysprj.user.web.form.UserSearchForm;

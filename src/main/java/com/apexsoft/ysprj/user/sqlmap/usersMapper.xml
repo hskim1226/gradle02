@@ -122,7 +122,7 @@
     <!-- Queuries for Autority      -->
 
 
-    <select id="selectAuthorities" resultType="com.apexsoft.ysprj.user.domain.Authorities"  parameterType="String">
+    <select id="selectAuthorities" resultType="com.apexsoft.ysprj.applicants.user.domain.Authorities"  parameterType="String">
         <![CDATA[
 		  SELECT username, authority
 		    FROM authorities
@@ -132,7 +132,7 @@
     </select>
 
 
-    <insert id="insertAuthority"  parameterType="com.apexsoft.ysprj.user.domain.Authorities" >
+    <insert id="insertAuthority"  parameterType="com.apexsoft.ysprj.applicants.user.domain.Authorities" >
         <![CDATA[
 		  INSERT INTO authorities
 		                   (authority,
@@ -142,7 +142,7 @@
 		]]>
     </insert>
 
-    <delete id="deleteAuthority" parameterType="com.apexsoft.ysprj.user.domain.Authorities">
+    <delete id="deleteAuthority" parameterType="com.apexsoft.ysprj.applicants.user.domain.Authorities">
         <![CDATA[
 		  DELETE FROM authorities
 			WHERE username = #{username}

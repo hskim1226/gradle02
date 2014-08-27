@@ -1,4 +1,4 @@
-package com.apexsoft.ysprj.user.domain;
+package com.apexsoft.ysprj.applicants.user.domain;
 
 
 public class Authorities {
