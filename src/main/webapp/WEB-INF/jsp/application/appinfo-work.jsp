@@ -373,7 +373,7 @@
                                                       document.getElementById('targetNode3').value ],
                                     tr = e.target.parentNode.parentNode;
                                 for ( var i = 0 , len = tr.children.length, t0 ; i < len ; i++ ) {
-                                    document.getElementById(targetInputId[i]).value = tr.children[i].firstChild.textContent;
+                                    document.getElementById(targetInputId[i]).value = tr.children[i].firstChild.innerText;
                                 }
 
                             });
@@ -415,7 +415,7 @@
                                                       document.getElementById('targetNode2').value ],
                                     tr = e.target.parentNode.parentNode;
                                 for ( var i = 0 , len = tr.children.length, t0 ; i < len ; i++ ) {
-                                    document.getElementById(targetInputId[i]).value = tr.children[i].firstChild.textContent;
+                                    document.getElementById(targetInputId[i]).value = tr.children[i].firstChild.innerText;
                                 }
                             });
                         }
