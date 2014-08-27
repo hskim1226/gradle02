@@ -114,8 +114,26 @@
 
         .form-group-block {
             position: relative;
-            background-color: #FFFFB4;
-            border: solid 1px #edd061;
+            /*background-color: #3c3f41;*/
+            border: solid 1px #65686a;
+            margin-bottom: 5px;
+            padding-top: 5px;
+            /*color: #ffffff;*/
+        }
+
+        .form-group-block .form-group {
+            margin-bottom: 5px;
+        }
+
+        .btn-remove {
+            position: absolute;
+            top: 0;
+            right: 0;
+        }
+
+        .btn-add {
+            position: relative;
+            float: right;
         }
     </style>
     <%--body의 글자 속성을 #333333으로 강제 지정하여 Footer 글자가 안나옴, 꼭 필요하지 않으면 안쓰기로
@@ -132,7 +150,7 @@
         </ul>
         <div id="myTabContent" class="tab-content">
             <div class="tab-pane fade" id="appinfo">
-                <form:form commandName="entireApplication" cssClass="form-horizontal" action="apply/save" role="form">
+                <form:form commandName="entireApplication" cssClass="form-horizontal" action="apply/save" method="post" role="form">
                     <div class="spacer-tiny"></div>
                     <div class="row">
                         <div class="col-sm-offset-1 col-sm-10">
@@ -210,13 +228,13 @@
                                         <label class="col-sm-2 control-label">영문성명</label>
                                         <div class="col-sm-9">
                                             <div class="input-group">
-                                                <span class="input-group-addon">[ 성 ]</span>
+                                                <span class="input-group-addon">&nbsp;성&nbsp;</span>
                                                 <form:input path="engSur" cssClass="col-sm-6 form-control" />
                                             </div>
                                         </div>
                                         <div class="col-sm-offset-2 col-sm-9">
                                             <div class="input-group">
-                                                <span class="input-group-addon">[이름]</span>
+                                                <span class="input-group-addon">이름</span>
                                                 <form:input path="engName" cssClass="col-sm-6 form-control" />
                                             </div>
                                         </div>
@@ -276,13 +294,13 @@
                                         <label class="col-sm-2 control-label">장애사항</label>
                                         <div class="col-sm-9">
                                             <div class="input-group">
-                                                <span class="input-group-addon">[장애유형]</span>
+                                                <span class="input-group-addon">장애유형</span>
                                                 <form:input path="applicationGeneral.hndcGrad" cssClass="col-sm-6 form-control" />
                                             </div>
                                         </div>
                                         <div class="col-sm-offset-2 col-sm-9">
                                             <div class="input-group">
-                                                <span class="input-group-addon">[장애등급]</span>
+                                                <span class="input-group-addon">장애등급</span>
                                                 <form:input path="applicationGeneral.hndcType" cssClass="col-sm-6 form-control" />
                                             </div>
                                         </div>
@@ -291,26 +309,29 @@
                                         <label class="col-sm-2 control-label">병역사항</label>
                                         <div class="col-sm-9">
                                             <div class="input-group">
-                                                <span class="input-group-addon">[병역구분]</span>
-                                                <select id="applicationGeneral.mltrServCode">
-                                                    <option value="-">선택</option>
-                                                </select>
+                                                <span class="input-group-addon">병역구분</span>
+                                                <form:select path="applicationGeneral.mltrServCode" cssClass="form-control">
+                                                    <form:option value="-" label="--선택--" />
+                                                    <form:options items="${mltrServList}" />
+                                                </form:select>
                                             </div>
                                         </div>
-                                        <div class="col-sm-9">
+                                        <div class="col-sm-offset-2 col-sm-9">
                                             <div class="input-group">
-                                                <span class="input-group-addon">[병역군별]</span>
-                                                <select id="applicationGeneral.mltrTypeCode">
-                                                    <option value="-">선택</option>
-                                                </select>
+                                                <span class="input-group-addon">병역군별</span>
+                                                <form:select path="applicationGeneral.mltrTypeCode" cssClass="form-control">
+                                                    <form:option value="-" label="--선택--" />
+                                                    <form:options items="${mltrTypeList}" />
+                                                </form:select>
                                             </div>
                                         </div>
-                                        <div class="col-sm-9">
+                                        <div class="col-sm-offset-2 col-sm-9">
                                             <div class="input-group">
-                                                <span class="input-group-addon">[병역계급]</span>
-                                                <select id="applicationGeneral.mltrRankCode">
-                                                    <option value="-">선택</option>
-                                                </select>
+                                                <span class="input-group-addon">병역계급</span>
+                                                <form:select path="applicationGeneral.mltrRankCode" cssClass="form-control">
+                                                    <form:option value="-" label="--선택--" />
+                                                    <form:options items="${mltrRankList}" />
+                                                </form:select>
                                             </div>
                                         </div>
                                         <div class="col-sm-offset-2 col-sm-4 start-date-container">
@@ -434,7 +455,7 @@
                                         <div id="highschoolDynamic">
                                         <div id="highschoolSubContainer1">
                                             <div class="form-group">
-                                                <div class="col-sm-2 control-label">재학기간</div>
+                                                <label class="col-sm-2 control-label">재학기간</label>
                                                 <div class="col-sm-9">
                                                     <div class="input-daterange input-group">
                                                         <input type="text" class="input-sm form-control" name="entrDay" />
@@ -444,7 +465,7 @@
                                                 </div>
                                             </div>
                                             <div class="form-group">
-                                                <div for="schlName" class="col-sm-2 control-label">학교명</div>
+                                                <label for="schlName" class="col-sm-2 control-label">학교명</label>
                                                 <div class="col-sm-9">
                                                     <div class="input-group">
                                                         <span class="input-group-btn">
@@ -457,7 +478,7 @@
                                         </div>
                                             <div id="highschoolSubContainer2">
                                                 <div class="form-group">
-                                                    <div class="col-sm-2 control-label">검정고시합격일</div>
+                                                    <label class="col-sm-2 control-label">검정고시합격일</label>
                                                     <div class="col-sm-9">
                                                         <div class="input-group date">
                                                             <span class="input-group-addon">합격일</span>
@@ -466,7 +487,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
-                                                    <div for="schlName" class="col-sm-2 control-label">검정고시합격지구</div>
+                                                    <label for="schlName" class="col-sm-2 control-label">검정고시합격지구</label>
                                                     <div class="col-sm-9">
                                                         <div class="input-group">
                                                         <span class="input-group-btn">
@@ -486,7 +507,6 @@
                                 <div class="panel-body">
                                     <div id="college-container" class="form-group-block-list">
                                         <div id="college-info" class="form-group-block">
-                                            <hr/>
                                             <div class="form-group">
                                                 <label class="col-sm-2 control-label">소재 국가</label>
                                                 <div class="btn btn-default btn-md col-md-2">검색</div>
@@ -547,10 +567,10 @@
                                                         <input class="form-control" name="applicationAcademyList[0].gradFull" id="gradFull1"/>
                                                     </div>
                                                 </div>
-                                                <div id="addCollege1" class="addCollege col-sm-2 btn btn-info">입력란 추가</div>
-                                                <div id="removeCollege1" class="removeCollege col-sm-2 btn btn-danger">입력란 삭제</div>
                                             </div>
+                                            <div class="btn btn-remove"><button type="button" class="close" aria-hidden="true">×</button></div>
                                         </div>
+                                        <div class="btn btn-info btn-add">추가</div>
                                     </div>
                                 </div>
                             </div>
@@ -559,7 +579,6 @@
                                 <div class="panel-body">
                                     <div id="gradschool-container" class="form-group-block-list">
                                         <div id="gradschool-info" class="form-group-block">
-                                            <hr/>
                                             <div class="form-group">
                                                 <label class="col-xs-6 col-sm-2 control-label">소재 국가</label>
                                                 <div class="co-xs-6 col-sm-2">
@@ -622,24 +641,162 @@
                                                         <input class="form-control" name="gradFull" id="gradFull1"/>
                                                     </div>
                                                 </div>
-                                                <div id="addCollege1" class="addCollege col-sm-2 btn btn-info">입력란 추가</div>
-                                                <div id="removeCollege1" class="removeCollege col-sm-2 btn btn-danger">입력란 삭제</div>
                                             </div>
+                                            <div class="btn btn-remove"><button type="button" class="close" aria-hidden="true">×</button></div>
                                         </div>
+                                        <div class="btn btn-info btn-add">추가</div>
                                     </div>
                                 </div>
                             </div>
                             <div class="panel panel-default">
                                 <div class="panel-heading">어학성적</div>
                                 <div class="panel-body">
-
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">영어</label>
+                                        <div class="col-sm-3">
+                                            <div class="input-group">
+                                                <span class="input-group-addon"><input type="checkbox" />TOEFL</span>
+                                                <select class="form-control">
+                                                    <option value="-" label="--선택--" />
+                                                    <option value="cbt" label="CBT" />
+                                                    <option value="ibt" label="IBT" />
+                                                    <option value="pbt" label="PBT" />
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <div class="input-group">
+                                                <span class="input-group-addon">시험일</span>
+                                                <input type="text" class="form-control" />
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <div class="input-group">
+                                                <span class="input-group-addon">점수</span>
+                                                <input type="text" class="form-control" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-sm-offset-2 col-sm-3">
+                                            <div class="input-group">
+                                                <span class="input-group-addon">
+                                                    <span class="pull-left"><input type="checkbox" />TOEIC</span>
+                                                </span>
+                                                <span class="input-group-addon"></span>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <div class="input-group">
+                                                <span class="input-group-addon">시험일</span>
+                                                <input type="text" class="form-control" />
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <div class="input-group">
+                                                <span class="input-group-addon">점수</span>
+                                                <input type="text" class="form-control" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-sm-offset-2 col-sm-3">
+                                            <div class="input-group">
+                                                <span class="input-group-addon"><input type="checkbox" />TEPS</span>
+                                                <select class="form-control">
+                                                    <option value="-" label="--선택--" />
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <div class="input-group">
+                                                <span class="input-group-addon">시험일</span>
+                                                <input type="text" class="form-control" />
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <div class="input-group">
+                                                <span class="input-group-addon">점수</span>
+                                                <input type="text" class="form-control" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-sm-offset-2 col-sm-4">
+                                            <div class="checkbox">
+                                                <label><input type="checkbox" />GRE</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <div class="input-group">
+                                                <span class="input-group-addon">시험일</span>
+                                                <input type="text" class="form-control" />
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <div class="input-group">
+                                                <span class="input-group-addon">점수</span>
+                                                <input type="text" class="form-control" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-sm-offset-2 col-sm-4">
+                                            <div class="checkbox" style="float:left;">
+                                                <label><input type="checkbox" />IELTS</label>
+                                            </div>
+                                            <div style="width:70%; float:right;">
+                                                <select class="form-control">
+                                                    <option value="-" label="--선택--" />
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <div class="input-group">
+                                                <span class="input-group-addon">시험일</span>
+                                                <input type="text" class="form-control" />
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <div class="input-group">
+                                                <span class="input-group-addon">점수</span>
+                                                <input type="text" class="form-control" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-sm-offset-2 col-sm-9">
+                                            <div class="checkbox">
+                                                <label>
+                                                    <input type="checkbox" />외국어 성적 면제 해당자
+                                                </label>
+                                            </div>
+                                            <div class="well">
+                                                <div class="radio">
+                                                    <label>
+                                                        <input type="radio" name="reasonOption" id="reasonOption1" />옵션 1
+                                                    </label>
+                                                </div>
+                                                <div class="radio">
+                                                    <label>
+                                                        <input type="radio" name="reasonOption" id="reasonOption2" />옵션 2
+                                                    </label>
+                                                </div>
+                                                <div class="radio">
+                                                    <label>
+                                                        <input type="radio" name="reasonOption" id="reasonOption3" />옵션 3
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             <div class="panel panel-default">
                                 <div class="panel-heading">경력사항</div>
                                 <div class="panel-body">
                                     <div id="career-container" class="form-group-block-list">
-                                        <c:forEach items="${entireApplication.applicationExperienceList}" var="applicationExperiences" varStatus="exprStatus">
+                                        <c:forEach varStatus="exprStatus" begin="0" end="${entireApplication.applicationExperienceList.size()}">
                                         <div id="career-info" class="form-group-block">
                                             <div class="form-group">
                                                 <label class="col-sm-2 control-label">재직 기간</label>
@@ -668,41 +825,12 @@
                                                     <form:input path="applicationExperienceList[${exprStatus.index}].exprDesc" cssClass="form-control" />
                                                 </div>
                                             </div>
-                                            <div class="form-group">
-                                                <div id="removeCollege1" class="removeCollege col-sm-2 btn btn-danger" style="position: absolute; top:0; right:0;">입력란 삭제</div>
+                                            <div class="btn btn-remove">
+                                                <button type="button" class="close" aria-hidden="true">×</button>
                                             </div>
                                         </div>
                                         </c:forEach>
-                                        <div id="career-info" class="form-group-block">
-                                            <div class="form-group">
-                                                <label class="col-sm-2 control-label">재직 기간</label>
-                                                <div class="col-sm-4 start-date-container">
-                                                    <div class="input-group date">
-                                                        <span class="input-group-addon">입사일</span>
-                                                        <input type="text" class="form-control" name="joinDay" id="joinDay1" readonly/>
-                                                    </div>
-                                                </div>
-                                                <div class="col-sm-4 end-date-container">
-                                                    <div class="input-group date">
-                                                        <span class="input-group-addon">퇴사일</span>
-                                                        <input type="text" class="form-control" name="retrDay" id="retrDay1" readonly/>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <form:label path="applicationExperienceList[0].corpName" cssClass="col-sm-2 control-label">기관명</form:label>
-                                                <div class="col-sm-9">
-                                                    <form:input path="applicationExperienceList[0].corpName" cssClass="form-control" />
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <form:label path="applicationExperienceList[0].exprDesc" cssClass="col-sm-2 control-label">직위명</form:label>
-                                                <div class="col-sm-9">
-                                                    <form:input path="applicationExperienceList[0].exprDesc" cssClass="form-control" />
-                                                </div>
-                                            </div>
-                                            <div id="removeCollege1" class="removeCollege col-sm-2 btn btn-danger">입력란 삭제</div>
-                                        </div>
+                                        <div class="btn btn-info btn-add">추가</div>
                                     </div>
                                 </div>
                             </div>
@@ -1073,6 +1201,40 @@
             $('.lastSchl').on('click', setLastSchool);
             <%-- 최종 대학 체크 처리 끝 --%>
 
+            /*form-group-block 추가/삭제에 대한 처리 시작*/
+            $('.btn-add').click(function(e) {
+                var target = e.currentTarget ? e.currentTarget : e.target;
+                var container = target.parentNode;
+                while (container && !container.classList.contains('form-group-block-list')) {
+                    container = container.parentNode;
+                }
+                var blocks = container.querySelectorAll('.form-group-block');
+                var originBlock = blocks[blocks.length - 1];
+                var $cloneObj;
+                if (originBlock) {
+                    $cloneObj = $(originBlock).clone(true);
+                    incrementChildren($cloneObj, blocks.length);
+                    container.insertBefore($cloneObj[0], originBlock.nextSibling);
+                }
+            });
+
+            $('.btn-remove').click(function(e) {
+                var target = e.currentTarget ? e.currentTarget : e.target;
+                var blockToRemove = target.parentNode;
+                while (blockToRemove && !blockToRemove.classList.contains('form-group-block')) {
+                    blockToRemove = blockToRemove.parentNode;
+                }
+                var container = blockToRemove.parentNode;
+                var length = container.querySelectorAll('.form-group-block').length;
+                var $cloneObj
+                if (length <= 1) {
+//                    eraseChildren(blockToRemove);
+                } else {
+                    blockToRemove.parentNode.removeChild(blockToRemove);
+                }
+            });
+
+            /*form-group-block 추가/삭제에 대한 처리 끝*/
 
             <%-- 대학, 대학원 입력란 동적 처리 시작 --%>
             <%-- 추가/삭제 버튼의 부모의 부모가 복사할 블록이어야 하고--%>
@@ -1232,7 +1394,6 @@
 //                var index = $('#applyKind option:selected').index() + 1;
                 hideByClassname('applyKindDynamic', 'hidden-apply-kind-' + index)
             });
-            $('#applAttrCode').change();
 
             function hideByClassname(parentId, hideClassname) {
                 $('#' + parentId).children().each(function() {
@@ -1245,7 +1406,7 @@
             }
             /*지원 구분 변경 처리 끝*/
 
-            /*ajax 처리 시작*/
+            /*select 폼 change 이벤트 처리 시작*/
             function attachChangeEvent( sourceId, targetId, valueKey, labelKey, appendUrl ) {
                 var source = $('#' + sourceId);
                 var target = $('#' + targetId);
@@ -1267,7 +1428,8 @@
                                     return this.value !== '-';
                                 }).remove();
                                 $(data).each(function (i, item) {
-                                    target.append(createOption(item[valueKey], item[labelKey]));
+                                    var opt = $('<option>').attr('value', item[valueKey]).attr('label', item[labelKey]);
+                                    target.append(opt);
                                 });
                             }
                         },
@@ -1277,17 +1439,20 @@
                     });
                 });
             }
+            /*select 폼 change 이벤트 처리 끝*/
 
-            function createOption( value, label ) {
-                return $('<option>').attr('value', value).attr('label', label);
-            }
-
+            /*지원사항 select 폼 change 이벤트 핸들러 등록 시작*/
+            // 지원구분 변경
             attachChangeEvent( 'applAttrCode', 'campCode', 'campCode', 'campName', '/campus' );
+
+            // 캠퍼스 변경
             attachChangeEvent( 'campCode', 'collCode', 'collCode', 'collName',
                     function(args) {
                         return '/college/' + args;
                     }
             );
+
+            // 대학변경
             attachChangeEvent( 'collCode', 'deptCode', 'deptCode', 'deptName',
                     function(args) {
                         <%--var admsNo = ${requestScope.admsNo};--%>
@@ -1295,6 +1460,8 @@
                         return '/general/department/' + admsNo + '/' + args;
                     }
             );
+
+            // 지원학과 변경
             attachChangeEvent( 'deptCode', 'corsTypeCode', 'corsTypeCode', 'codeVal',
                     function(args) {
                         <%--var admsNo = ${requestScope.admsNo};--%>
@@ -1302,7 +1469,37 @@
                         return '/general/course/' + admsNo + '/' + args;
                     }
             );
-            /*ajax 처리 끝*/
+            /*지원사항 select 폼 change 이벤트 핸들러 등록 끝*/
+
+            /*병역사항 select 폼 change 이벤트 핸들러 등록 시작*/
+            attachChangeEvent( 'mltrServCode', '')
+            /*병역사항 select 폼 change 이벤트 핸들러 등록 끝*/
+
+            $('#applAttrCode').change();
+
+            function initOptions( selectId, valueKey, labelKey ) {
+                var select = $('#' + selectId);
+                var url;
+                $.ajax({
+                    type: 'GET',
+                    url: url,
+                    success: function(e) {
+                        if(e.result && e.result === 'SUCCESS') {
+                            var data = JSON && JSON.parse(e.data) || $.parseJSON(e.data);
+                            $(target).children('option').filter(function () {
+                                return this.value !== '-';
+                            }).remove();
+                            $(data).each(function (i, item) {
+                                var opt = $('<option>').attr('value', item[valueKey]).attr('label', item[labelKey]);
+                                target.append(opt);
+                            });
+                        }
+                    },
+                    error: function(e) {
+                        console.log(e);
+                    }
+                });
+            }
 
         });
 
