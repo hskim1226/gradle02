@@ -141,9 +141,9 @@
                                     <div class="panel-heading">지원 사항</div>
                                     <div class="panel-body">
                                         <div class="form-group">
-                                            <label for="applyKind" class="col-sm-2 control-label">지원구분</label>
+                                            <label for="applAttrCode" class="col-sm-2 control-label">지원구분</label>
                                             <div class="col-sm-9">
-                                                <form:select path="" id="applyKind" cssClass="form-control">
+                                                <form:select path="" id="applAttrCode" cssClass="form-control">
                                                     <form:options items="${applyKindList}" />
                                                 </form:select>
                                             </div>
@@ -1040,7 +1040,7 @@
             $('.input-daterange>input').datepicker(datePickerOption);
             <%-- 달력 끝 --%>
 
-            /*처음 탭 표시*/
+            <%-- 처음 탭 표시 --%>
             $('#myTab a:first').tab('show');
 
             $('#save').on('click', function() {
@@ -1227,11 +1227,12 @@
             $('input[name=acadType]').eq(0).click();
 
             /*지원 구분 변경 처리 시작*/
-            $('#applyKind').change(function() {
-                var index = $('#applyKind option:selected').index() + 1;
+            $('#applAttrCode').change(function() {
+                var index = $(this).children('option:selected').index() + 1;
+//                var index = $('#applyKind option:selected').index() + 1;
                 hideByClassname('applyKindDynamic', 'hidden-apply-kind-' + index)
             });
-            $('#applyKind').change();
+            $('#applAttrCode').change();
 
             function hideByClassname(parentId, hideClassname) {
                 $('#' + parentId).children().each(function() {
@@ -1245,19 +1246,6 @@
             /*지원 구분 변경 처리 끝*/
 
             /*ajax 처리 시작*/
-            <%--$('#applyKind').change(function() {--%>
-                <%--$.ajax({--%>
-                    <%--type: 'GET',--%>
-                    <%--url: '${contextPath}/common/code/campus',--%>
-                    <%--dataType: 'json',--%>
-                    <%--success: function(data) {--%>
-                        <%--$.each(data, function(i, item) {--%>
-                            <%--$('<option>').attr('value', item.campCode).attr('label', item.campName).appendTo('#campCode');--%>
-                        <%--});--%>
-                    <%--}--%>
-                <%--});--%>
-            <%--});--%>
-
             function attachChangeEvent( sourceId, targetId, valueKey, labelKey, appendUrl ) {
                 var source = $('#' + sourceId);
                 var target = $('#' + targetId);
@@ -1273,13 +1261,16 @@
                         type: 'GET',
                         url: url,
                         dataType: 'JSON',
-                        success: function(data) {
-                            $(target).children('option').filter(function() {
-                                return this.value !== '-';
-                            }).remove();
-                            $(data).each( function(i, item) {
-                                target.append( createOption( item[valueKey], item[labelKey] ) );
-                            });
+                        success: function(e) {
+                            if(e.result && e.result === 'SUCCESS') {
+                                var data = e.data;
+                                $(target).children('option').filter(function () {
+                                    return this.value !== '-';
+                                }).remove();
+                                $(data).each(function (i, item) {
+                                    target.append(createOption(item[valueKey], item[labelKey]));
+                                });
+                            }
                         }
                     });
                 });
