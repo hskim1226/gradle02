@@ -33,30 +33,43 @@ public class CommonController {
 
     @RequestMapping(value="/code/campus", method= RequestMethod.GET, produces="text/plain;charset=UTF-8")
     @ResponseBody
-    public String getCampusCode()
+    public ExecutionContext getCampusCode()
             throws NoSuchAlgorithmException, JsonProcessingException, UnsupportedEncodingException {
 
         List<Campus> campusList = commonService.retrieveCampus();
 
         String json = jacksonObjectMapper.writeValueAsString(campusList);
 
-        return json;
+        ExecutionContext executionContext = new ExecutionContext();
+        if (!(campusList.size() > 0)) {
+            executionContext.setMessage(messageResolver.getMessage("U300"));
+        }
+        executionContext.setData(json);
+
+        return executionContext;
     }
 
     @RequestMapping(value="/code/college/{campCode}", method= RequestMethod.GET, produces="text/plain;charset=UTF-8")
     @ResponseBody
-    public String getCollegeByCampus(@PathVariable("campCode") String campCode)
+    public ExecutionContext getCollegeByCampus(@PathVariable("campCode") String campCode)
             throws NoSuchAlgorithmException, JsonProcessingException, UnsupportedEncodingException {
 
         List<College> collegeList = commonService.retrieveCollegeByCampus(campCode);
 
         String json = jacksonObjectMapper.writeValueAsString(collegeList);
-        return json;
+
+        ExecutionContext executionContext = new ExecutionContext();
+        if (!(collegeList.size() > 0)) {
+            executionContext.setMessage(messageResolver.getMessage("U300"));
+        }
+        executionContext.setData(json);
+
+        return executionContext;
     }
 
     @RequestMapping(value="/code/general/department/{admsNo}/{collCode}", method= RequestMethod.GET, produces="text/plain;charset=UTF-8")
     @ResponseBody
-    public String retrieveGeneralDepartmentByAdmsColl(@PathVariable("admsNo") String admsNo,
+    public ExecutionContext retrieveGeneralDepartmentByAdmsColl(@PathVariable("admsNo") String admsNo,
                                                       @PathVariable("collCode") String collCode)
             throws NoSuchAlgorithmException, JsonProcessingException, UnsupportedEncodingException {
 
@@ -66,12 +79,19 @@ public class CommonController {
         List<CodeNameDepartment> codeNameDepartmentList = commonService.retrieveGeneralDepartmentByAdmsColl(paramForSetupCourses);
 
         String json = jacksonObjectMapper.writeValueAsString(codeNameDepartmentList);
-        return json;
+
+        ExecutionContext executionContext = new ExecutionContext();
+        if (!(codeNameDepartmentList.size() > 0)) {
+            executionContext.setMessage(messageResolver.getMessage("U300"));
+        }
+        executionContext.setData(json);
+
+        return executionContext;
     }
 
     @RequestMapping(value="/code/general/course/{admsNo}/{deptCode}", method= RequestMethod.GET, produces="text/plain;charset=UTF-8")
     @ResponseBody
-    public String retrieveGeneralCourseByAdmsDept(@PathVariable("admsNo") String admsNo,
+    public ExecutionContext retrieveGeneralCourseByAdmsDept(@PathVariable("admsNo") String admsNo,
                                        @PathVariable("deptCode") String deptCode)
             throws NoSuchAlgorithmException, JsonProcessingException, UnsupportedEncodingException {
 
@@ -81,12 +101,19 @@ public class CommonController {
         List<CodeNameCourse> codeNameCourseList = commonService.retrieveGeneralCourseByAdmsDept(paramForSetupCourses);
 
         String json = jacksonObjectMapper.writeValueAsString(codeNameCourseList);
-        return json;
+
+        ExecutionContext executionContext = new ExecutionContext();
+        if (!(codeNameCourseList.size() > 0)) {
+            executionContext.setMessage(messageResolver.getMessage("U300"));
+        }
+        executionContext.setData(json);
+
+        return executionContext;
     }
 
     @RequestMapping(value="/code/general/detailMajor/{admsNo}/{deptCode}/{corsTypeCode}", method= RequestMethod.GET, produces="text/plain;charset=UTF-8")
     @ResponseBody
-    public String retrieveGeneralDetailMajorByAdmsDeptCors(@PathVariable("admsNo") String admsNo,
+    public ExecutionContext retrieveGeneralDetailMajorByAdmsDeptCors(@PathVariable("admsNo") String admsNo,
                                                   @PathVariable("deptCode") String deptCode,
                                                   @PathVariable("corsTypeCode") String corsTypeCode)
             throws NoSuchAlgorithmException, JsonProcessingException, UnsupportedEncodingException {
@@ -98,12 +125,19 @@ public class CommonController {
         List<CodeNameDetailMajor> codeNameDetailMajorList = commonService.retrieveGeneralDetailMajorByAdmsDeptCors(paramForSetupCourses);
 
         String json = jacksonObjectMapper.writeValueAsString(codeNameDetailMajorList);
-        return json;
+
+        ExecutionContext executionContext = new ExecutionContext();
+        if (!(codeNameDetailMajorList.size() > 0)) {
+            executionContext.setMessage(messageResolver.getMessage("U300"));
+        }
+        executionContext.setData(json);
+
+        return executionContext;
     }
 
     @RequestMapping(value="/code/commission/course/{admsNo}/{deptCode}", method= RequestMethod.GET, produces="text/plain;charset=UTF-8")
     @ResponseBody
-    public String retrieveCommissionCourseByAdmsDept(@PathVariable("admsNo") String admsNo,
+    public ExecutionContext retrieveCommissionCourseByAdmsDept(@PathVariable("admsNo") String admsNo,
                                                      @PathVariable("deptCode") String deptCode)
             throws NoSuchAlgorithmException, JsonProcessingException, UnsupportedEncodingException {
 
@@ -113,23 +147,37 @@ public class CommonController {
         List<CodeNameCourse> codeNameCourseList = commonService.retrieveCommissionCourseByAdmsDept(paramForSetupCourses);
 
         String json = jacksonObjectMapper.writeValueAsString(codeNameCourseList);
-        return json;
+
+        ExecutionContext executionContext = new ExecutionContext();
+        if (!(codeNameCourseList.size() > 0)) {
+            executionContext.setMessage(messageResolver.getMessage("U300"));
+        }
+        executionContext.setData(json);
+
+        return executionContext;
     }
 
     @RequestMapping(value="/code/ariInst", method= RequestMethod.GET, produces="text/plain;charset=UTF-8")
     @ResponseBody
-    public String retrieveAriInst()
+    public ExecutionContext retrieveAriInst()
             throws NoSuchAlgorithmException, JsonProcessingException, UnsupportedEncodingException {
 
         List<AcademyResearchIndustryInstitution> academyResearchIndustryInstitutionList = commonService.retrieveAriInst();
 
         String json = jacksonObjectMapper.writeValueAsString(academyResearchIndustryInstitutionList);
-        return json;
+
+        ExecutionContext executionContext = new ExecutionContext();
+        if (!(academyResearchIndustryInstitutionList.size() > 0)) {
+            executionContext.setMessage(messageResolver.getMessage("U300"));
+        }
+        executionContext.setData(json);
+
+        return executionContext;
     }
 
     @RequestMapping(value="/code/ariInst/department/{admsNo}/{ariInstCode}", method= RequestMethod.GET, produces="text/plain;charset=UTF-8")
     @ResponseBody
-    public String retrieveAriInstDepartmentByAdmsAriInst(@PathVariable("admsNo") String admsNo,
+    public ExecutionContext retrieveAriInstDepartmentByAdmsAriInst(@PathVariable("admsNo") String admsNo,
                                                      @PathVariable("ariInstCode") String ariInstCode)
             throws NoSuchAlgorithmException, JsonProcessingException, UnsupportedEncodingException {
 
@@ -139,12 +187,19 @@ public class CommonController {
         List<CodeNameDepartment> codeNameDepartmentList = commonService.retrieveAriInstDepartmentByAdmsAriInst(paramForSetupCourses);
 
         String json = jacksonObjectMapper.writeValueAsString(codeNameDepartmentList);
-        return json;
+
+        ExecutionContext executionContext = new ExecutionContext();
+        if (!(codeNameDepartmentList.size() > 0)) {
+            executionContext.setMessage(messageResolver.getMessage("U300"));
+        }
+        executionContext.setData(json);
+
+        return executionContext;
     }
 
     @RequestMapping(value="/code/ariInst/course/{admsNo}/{deptCode}/{ariInstCode}", method= RequestMethod.GET, produces="text/plain;charset=UTF-8")
     @ResponseBody
-    public String retrieveAriInstCourseByAdmsDeptAriInst(@PathVariable("admsNo") String admsNo,
+    public ExecutionContext retrieveAriInstCourseByAdmsDeptAriInst(@PathVariable("admsNo") String admsNo,
                                                          @PathVariable("deptCode") String deptCode,
                                                          @PathVariable("ariInstCode") String ariInstCode)
             throws NoSuchAlgorithmException, JsonProcessingException, UnsupportedEncodingException {
@@ -156,12 +211,19 @@ public class CommonController {
         List<CodeNameCourse> codeNameDepartmentList = commonService.retrieveAriInstCourseByAdmsDeptAriInst(paramForSetupCourses);
 
         String json = jacksonObjectMapper.writeValueAsString(codeNameDepartmentList);
-        return json;
+
+        ExecutionContext executionContext = new ExecutionContext();
+        if (!(codeNameDepartmentList.size() > 0)) {
+            executionContext.setMessage(messageResolver.getMessage("U300"));
+        }
+        executionContext.setData(json);
+
+        return executionContext;
     }
 
     @RequestMapping(value="/code/ariInst/detailMajor/{admsNo}/{deptCode}/{ariInstCode}/{corsTypeCode}", method= RequestMethod.GET, produces="text/plain;charset=UTF-8")
     @ResponseBody
-    public String retrieveAriInstDetailMajorByAdmsDeptAriInst(@PathVariable("admsNo") String admsNo,
+    public ExecutionContext retrieveAriInstDetailMajorByAdmsDeptAriInst(@PathVariable("admsNo") String admsNo,
                                                          @PathVariable("deptCode") String deptCode,
                                                          @PathVariable("ariInstCode") String ariInstCode,
                                                          @PathVariable("corsTypeCode") String corsTypeCode)
@@ -175,7 +237,14 @@ public class CommonController {
         List<CodeNameDetailMajor> codeNameDepartmentList = commonService.retrieveAriInstDetailMajorByAdmsDeptAriInst(paramForSetupCourses);
 
         String json = jacksonObjectMapper.writeValueAsString(codeNameDepartmentList);
-        return json;
+
+        ExecutionContext executionContext = new ExecutionContext();
+        if (!(codeNameDepartmentList.size() > 0)) {
+            executionContext.setMessage(messageResolver.getMessage("U300"));
+        }
+        executionContext.setData(json);
+
+        return executionContext;
     }
 
 }
