@@ -28,7 +28,7 @@ public class TableFormUtil {
 		this.rightSumIdx=rightSumIdx;
 	}
 	
-	public boolean makeTableFromList( ArrayList titleHeaderList, ArrayList dataHeaderList, ResultSet dataList){
+	public boolean makeTableFromList( ArrayList titleHeaderList, ArrayList dataHeaderList, List<ResultSet> dataList){
 		boolean result = false;
 		if( titleHeaderList.size() > 1 )
 			if( dataHeaderList.size() >1){
@@ -80,12 +80,12 @@ public class TableFormUtil {
 			if( formerTagList.get(formerTagList.size())!=null){//전번테그가 있는경우
 				formerTag = formerTagList.get(formerTagList.size());
 				
-				dataList.
-				 if(formerTag.get(formerTag.size()).getValue().equals(dataList.get(idx).toString()))//테그값이 같은경우
+//				dataList.
+//				 if(formerTag.get(formerTag.size()).getValue().equals(dataList.get(idx).toString()))//테그값이 같은경우
 					 
 				 
 				 
-				formerTag.get(fo)
+//				formerTag.get(fo)
 				tag = new HtmlTag();			
 				tag.setTagName("TD");
 				if( idx < titleColNum)
@@ -93,7 +93,7 @@ public class TableFormUtil {
 				else
 					tag.setCssClass("LRdata");
 				htmlTag.add(tag);	
-				formerTag.add(tag);
+//				formerTag.add(tag);
 			}
 		}
 		tag = new HtmlTag();			
