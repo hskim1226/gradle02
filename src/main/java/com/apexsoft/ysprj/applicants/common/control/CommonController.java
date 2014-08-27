@@ -31,7 +31,7 @@ public class CommonController {
     @Resource(name = "messageResolver")
     private MessageResolver messageResolver;
 
-    @RequestMapping(value="/code/campus", method= RequestMethod.GET, produces="text/plain;charset=UTF-8")
+    @RequestMapping(value="/code/campus", method= RequestMethod.GET)
     @ResponseBody
     public ExecutionContext getCampusCode()
             throws NoSuchAlgorithmException, JsonProcessingException, UnsupportedEncodingException {
@@ -49,7 +49,7 @@ public class CommonController {
         return executionContext;
     }
 
-    @RequestMapping(value="/code/college/{campCode}", method= RequestMethod.GET, produces="text/plain;charset=UTF-8")
+    @RequestMapping(value="/code/college/{campCode}", method= RequestMethod.GET)
     @ResponseBody
     public ExecutionContext getCollegeByCampus(@PathVariable("campCode") String campCode)
             throws NoSuchAlgorithmException, JsonProcessingException, UnsupportedEncodingException {
@@ -67,7 +67,7 @@ public class CommonController {
         return executionContext;
     }
 
-    @RequestMapping(value="/code/general/department/{admsNo}/{collCode}", method= RequestMethod.GET, produces="text/plain;charset=UTF-8")
+    @RequestMapping(value="/code/general/department/{admsNo}/{collCode}", method= RequestMethod.GET)
     @ResponseBody
     public ExecutionContext retrieveGeneralDepartmentByAdmsColl(@PathVariable("admsNo") String admsNo,
                                                       @PathVariable("collCode") String collCode)
@@ -89,7 +89,7 @@ public class CommonController {
         return executionContext;
     }
 
-    @RequestMapping(value="/code/general/course/{admsNo}/{deptCode}", method= RequestMethod.GET, produces="text/plain;charset=UTF-8")
+    @RequestMapping(value="/code/general/course/{admsNo}/{deptCode}", method= RequestMethod.GET)
     @ResponseBody
     public ExecutionContext retrieveGeneralCourseByAdmsDept(@PathVariable("admsNo") String admsNo,
                                        @PathVariable("deptCode") String deptCode)
@@ -111,7 +111,7 @@ public class CommonController {
         return executionContext;
     }
 
-    @RequestMapping(value="/code/general/detailMajor/{admsNo}/{deptCode}/{corsTypeCode}", method= RequestMethod.GET, produces="text/plain;charset=UTF-8")
+    @RequestMapping(value="/code/general/detailMajor/{admsNo}/{deptCode}/{corsTypeCode}", method= RequestMethod.GET)
     @ResponseBody
     public ExecutionContext retrieveGeneralDetailMajorByAdmsDeptCors(@PathVariable("admsNo") String admsNo,
                                                   @PathVariable("deptCode") String deptCode,
@@ -135,7 +135,7 @@ public class CommonController {
         return executionContext;
     }
 
-    @RequestMapping(value="/code/commission/course/{admsNo}/{deptCode}", method= RequestMethod.GET, produces="text/plain;charset=UTF-8")
+    @RequestMapping(value="/code/commission/course/{admsNo}/{deptCode}", method= RequestMethod.GET)
     @ResponseBody
     public ExecutionContext retrieveCommissionCourseByAdmsDept(@PathVariable("admsNo") String admsNo,
                                                      @PathVariable("deptCode") String deptCode)
@@ -157,7 +157,7 @@ public class CommonController {
         return executionContext;
     }
 
-    @RequestMapping(value="/code/ariInst", method= RequestMethod.GET, produces="text/plain;charset=UTF-8")
+    @RequestMapping(value="/code/ariInst", method= RequestMethod.GET)
     @ResponseBody
     public ExecutionContext retrieveAriInst()
             throws NoSuchAlgorithmException, JsonProcessingException, UnsupportedEncodingException {
@@ -175,7 +175,7 @@ public class CommonController {
         return executionContext;
     }
 
-    @RequestMapping(value="/code/ariInst/department/{admsNo}/{ariInstCode}", method= RequestMethod.GET, produces="text/plain;charset=UTF-8")
+    @RequestMapping(value="/code/ariInst/department/{admsNo}/{ariInstCode}", method= RequestMethod.GET)
     @ResponseBody
     public ExecutionContext retrieveAriInstDepartmentByAdmsAriInst(@PathVariable("admsNo") String admsNo,
                                                      @PathVariable("ariInstCode") String ariInstCode)
@@ -197,7 +197,7 @@ public class CommonController {
         return executionContext;
     }
 
-    @RequestMapping(value="/code/ariInst/course/{admsNo}/{deptCode}/{ariInstCode}", method= RequestMethod.GET, produces="text/plain;charset=UTF-8")
+    @RequestMapping(value="/code/ariInst/course/{admsNo}/{deptCode}/{ariInstCode}", method= RequestMethod.GET)
     @ResponseBody
     public ExecutionContext retrieveAriInstCourseByAdmsDeptAriInst(@PathVariable("admsNo") String admsNo,
                                                          @PathVariable("deptCode") String deptCode,
@@ -221,7 +221,7 @@ public class CommonController {
         return executionContext;
     }
 
-    @RequestMapping(value="/code/ariInst/detailMajor/{admsNo}/{deptCode}/{ariInstCode}/{corsTypeCode}", method= RequestMethod.GET, produces="text/plain;charset=UTF-8")
+    @RequestMapping(value="/code/ariInst/detailMajor/{admsNo}/{deptCode}/{ariInstCode}/{corsTypeCode}", method= RequestMethod.GET)
     @ResponseBody
     public ExecutionContext retrieveAriInstDetailMajorByAdmsDeptAriInst(@PathVariable("admsNo") String admsNo,
                                                          @PathVariable("deptCode") String deptCode,

@@ -1260,10 +1260,9 @@
                     $.ajax({
                         type: 'GET',
                         url: url,
-                        dataType: 'JSON',
                         success: function(e) {
                             if(e.result && e.result === 'SUCCESS') {
-                                var data = e.data;
+                                var data = JSON && JSON.parse(e.data) || $.parseJSON(e.data);
                                 $(target).children('option').filter(function () {
                                     return this.value !== '-';
                                 }).remove();
@@ -1271,6 +1270,9 @@
                                     target.append(createOption(item[valueKey], item[labelKey]));
                                 });
                             }
+                        },
+                        error: function(e) {
+                            console.log(e);
                         }
                     });
                 });
@@ -1280,7 +1282,7 @@
                 return $('<option>').attr('value', value).attr('label', label);
             }
 
-            attachChangeEvent( 'applyKind', 'campCode', 'campCode', 'campName', '/campus' );
+            attachChangeEvent( 'applAttrCode', 'campCode', 'campCode', 'campName', '/campus' );
             attachChangeEvent( 'campCode', 'collCode', 'collCode', 'collName',
                     function(args) {
                         return '/college/' + args;
