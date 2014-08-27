@@ -160,7 +160,18 @@ public class CommonServiceImpl implements CommonService {
         return countryList;
     }
 
-
+    @Override
+    public List<CommonCode> retrieveCommonCodeValueByCodeGroup(String codeGrp) {
+        List<CommonCode> commonCodeList = null;
+        try {
+            commonCodeList = commonDAO.queryForList(NAME_SPACE+"CustomCommonCodeMapper.selectAllByCodeGroup",
+                    codeGrp,
+                    CommonCode.class);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return commonCodeList;
+    }
 
 
 }

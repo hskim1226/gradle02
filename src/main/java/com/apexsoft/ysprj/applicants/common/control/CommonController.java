@@ -262,4 +262,21 @@ public class CommonController {
 
         return executionContext;
     }
+
+    @RequestMapping(value="/code/codeGroup/{codeGrp}", method= RequestMethod.GET)
+    @ResponseBody
+    public ExecutionContext retrieveCodeValueByCodeGroup(@PathVariable("codeGrp") String codeGrp)
+            throws NoSuchAlgorithmException, JsonProcessingException, UnsupportedEncodingException {
+
+        List<CommonCode> commonCodeList = commonService.retrieveCommonCodeValueByCodeGroup(codeGrp);
+        String json = jacksonObjectMapper.writeValueAsString(commonCodeList);
+
+        ExecutionContext executionContext = new ExecutionContext();
+        if (!(commonCodeList.size() > 0)) {
+            executionContext.setMessage(messageResolver.getMessage("U300"));
+        }
+        executionContext.setData(json);
+
+        return executionContext;
+    }
 }

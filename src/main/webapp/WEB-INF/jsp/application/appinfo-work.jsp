@@ -184,20 +184,22 @@
                                     <div id="college-container">
                                         <div class="collegeInfo">
                                             <hr/>
+<%-- TODO 국가 검색 팝업 블록 --%>
                                             <div class="form-group">
-                                                <label class="col-sm-2 control-label">소재 국가</label>
-                                                <div class="btn btn-default btn-md col-md-2 bpopper" data-targetCntrCode="cntrCode1" data-targetKorCntrName='korCntrName1' data-targetEngCntrName='engCntrName1'>검색</div>
+                                                <label class="col-sm-2 control-label">소재 국가<br/>Country</label>
+                                                <div class="btn btn-default btn-md col-md-2 bpopper" data-targetNode1="cntrCode1" data-targetNode2='korCntrName1' data-targetNode3='engCntrName1' data-category="country">검색</div>
                                                 <div class="col-sm-6">
-                                                    <input type="hidden" name="cntrCode" class="form-control" id="cntrCode1"/>
+                                                    <input type="hidden" name="cntrCode" id="cntrCode1"/>
                                                     <input name="korCntrName" class="form-control" id="korCntrName1" readonly/>
                                                     <input name="engCntrName" class="form-control" id="engCntrName1" readonly/>
                                                 </div>
                                             </div>
+<%-- TODO 국가 검색 팝업 블록 --%>
                                             <div class="form-group">
                                                 <label class="col-sm-2 control-label">학교 이름</label>
                                                 <div class="btn btn-default btn-md col-md-2">검색</div>
                                                 <div class="col-sm-4">
-                                                    <input type="hidden" name="schlCode" class="form-control" id="schlCode1" />
+                                                    <input type="hidden" name="schlCode" id="schlCode1" />
                                                     <input name="schlName" class="form-control" id="schlName1" readonly/>
                                                 </div>
                                                 <div class="col-sm-2">
@@ -240,22 +242,23 @@
         <%--</div>--%>
     </div> <%--container--%>
 
-
+    <%--TODO 국가 검색 팝업 --%>
     <div id="bpopContainerCountry">
         <span class="button b-close"><span>X</span></span>
         <div id="bpopContentCountry">
             <div class="form-group">
-                <input type="text" id="bpopCntr" name="cntr" />
-                <button id="bpopBtnSearchCountry">검색</button>
-                <button id="bpopBtnResultCountry">호출처에 값세팅</button>
+                <div class="col-sm-10">
+                    <input type="text" id="bpopCntr" name="cntr" class="form-control" />
+                </div>
+                <button id="bpopBtnSearchCountry" class="btn btn-info col-sm-2">검색</button>
             </div>
             <div>
                 <table class="table table-stripped">
                     <thead>
                     <tr>
-                        <td>&nbsp;</td>
-                        <td>한글 이름</td>
-                        <td>영문 이름</td>
+                        <th>&nbsp;</th>
+                        <th>한글 이름</th>
+                        <th>영문 이름</th>
                     </tr>
                     </thead>
                     <tbody id="bpopResultCountry">
@@ -263,10 +266,11 @@
                 </table>
             </div>
         </div>
-        <input type="hidden" id="targetCntrCode" />
-        <input type="hidden" id="targetKorName" />
-        <input type="hidden" id="targetEngName" />
     </div>
+    <input type="hidden" id="targetNode1" />
+    <input type="hidden" id="targetNode2" />
+    <input type="hidden" id="targetNode3" />
+    <%--TODO 국가 검색 팝업 --%>
 
 </section>
 <content tag="local-script">
@@ -281,25 +285,25 @@
 
             $('#myTab a:first').tab('show');
 
-            <%-- bpopup --%>
+<%-- TODO 국가 검색 시작 --%>
             $('.bpopper').on('click', function (e) {
                 e.preventDefault();
-                document.getElementById('targetCntrCode').value = $(this).attr('data-targetCntrCode');
-                document.getElementById('targetKorName').value = $(this).attr('data-targetKorCntrName');
-                document.getElementById('targetEngName').value = $(this).attr('data-targetEngCntrName');
+                $('#bpopResultCountry').empty();
+                document.getElementById('bpopCntr').value="";
+                $(this).attr('data-category') === "country" ? (
+                    document.getElementById('targetNode1').value = $(this).attr('data-targetNode1'),
+                    document.getElementById('targetNode2').value = $(this).attr('data-targetNode2'),
+                    document.getElementById('targetNode3').value = $(this).attr('data-targetNode3')
+                ) : (
+                    document.getElementById('targetNode1').value = $(this).attr('data-targetNode1'),
+                    document.getElementById('targetNode2').value = $(this).attr('data-targetNode2'),
+                    document.getElementById('targetNode3').value = null
+                );
                 $('#bpopContainerCountry').bPopup();
             });
 
-//            $('#bpopBtnResultCountry').on('click', function (e) {
-//                var targetInputId1 = document.getElementById('targetCntrCode').value,
-//                    targetInputId2 = document.getElementById('targetKorName').value,
-//                    targetInputId3 = document.getElementById('targetEngName').value,
-//                        keyword = document.getElementById('bpopCntr').value;
-//                document.getElementById(targetInputId).value = keyword;
-//            });
-
-            <%-- 국가 검색 시작 --%>
             $('#bpopBtnSearchCountry').on('click', function() {
+
                 $.ajax({
                     type: 'GET',
                     url: '${contextPath}/common/code/country/'+$('#bpopCntr').val(),
@@ -308,29 +312,23 @@
                         var obj = JSON.parse(data.data);
 
                         for ( i = 0, l = obj.length ; i < l ; i++ ) {
-                            var record = $('<tr>'+'<td><span style="display:none">'+obj[i].cntrCode+'</span></td>'+'<td>'+obj[i].korCntrName+'</td>'+'<td>'+obj[i].engCntrName+'</td>'+'</tr>');
-                            var record = $('<tr>'+'<td>'+obj[i].cntrCode+'</td>'+'<td>'+obj[i].korCntrName+'</td>'+'<td>'+obj[i].engCntrName+'</td>'+'</tr>');
+                            var record = $('<tr>'+'<td><span style="display: none;" class="b-close">'+obj[i].cntrCode+'</span></td>'+'<td><span class="b-close">'+obj[i].korCntrName+'</span></td>'+'<td><span class="b-close">'+obj[i].engCntrName+'</span></td>'+'</tr>');
                             $('#bpopResultCountry').append(record);
                             $(record).on('click', function(e) {
-                                var targetInputId = [ document.getElementById('targetCntrCode').value,
-                                                      document.getElementById('targetKorName').value,
-                                                      document.getElementById('targetEngName').value ];
-                                    tr = e.target.parentNode;
+                                var targetInputId = [ document.getElementById('targetNode1').value,
+                                                      document.getElementById('targetNode2').value,
+                                                      document.getElementById('targetNode3').value ],
+                                    tr = e.target.parentNode.parentNode;
                                 for ( var i = 0 , len = tr.children.length, t0 ; i < len ; i++ ) {
-
-                                    document.getElementById(targetInputId[i]).value = tr.children[i].textContent;
+                                    document.getElementById(targetInputId[i]).value = tr.children[i].firstChild.textContent;
                                 }
-//                                document.getElementById(targetInputId1).value = obj[i].cntrCode;
-//                                document.getElementById(targetInputId2).value = obj[i].korCntrName;
-//                                document.getElementById(targetInputId3).value = obj[i].engCntrName;
+
                             });
                         }
                     }
                 });
             });
-
-
-            <%-- 국가 검색 끝 --%>
+<%-- TODO 국가 검색 끝 --%>
 
 
             <%-- 최종 대학 체크 처리 시작 --%>
@@ -375,8 +373,8 @@
             var incrementChildren = function (o, n) {
 
                 var childList = o instanceof jQuery ? o.children() : o.children,
-                                i, l, t0, tid,
-                                targetNodeId1, targetNodeId2, targetNodeId3;
+                        i, j, l, t0, tid, targetNode = [],
+                        targetNodeId1, targetNodeId2, targetNodeId3;
 
                 if (childList) {
                     for (i = 0, l = childList.length; i < l; i++) {
@@ -387,15 +385,13 @@
                         }
                         if (t0.value) t0.value = "";
                         if (t0.type == 'radio') t0.checked = false;
-                        if (t0.hasAttribute('data-targetCntrCode')) {
-                            targetNodeId1 = t0.getAttribute('data-targetCntrCode');
-                            t0.setAttribute('data-targetCntrCode',targetNodeId1.substring(0, targetNodeId1.length-1) + n.toString());
-                            targetNodeId2 = t0.getAttribute('data-targetKorCntrName');
-                            t0.setAttribute('data-targetCntrCode',targetNodeId2.substring(0, targetNodeId2.length-1) + n.toString());
-                            targetNodeId3 = t0.getAttribute('data-targetEngCntrName');
-                            t0.setAttribute('data-targetCntrCode',targetNodeId3.substring(0, targetNodeId3.length-1) + n.toString());
+                        if (t0.hasAttribute('data-targetNode1')) {
+                            for ( j = 0 ; j <= 2 ; j++ ) {
+                                targetNode[i] = t0.getAttribute('data-targetNode'+(j+1));
+                                if ( targetNode[i] )
+                                    t0.setAttribute('data-targetNode'+(j+1),targetNode[i].substring(0, targetNode[i].length-1) + n.toString());
+                            }
                         }
-
                         incrementChildren(t0, n);
                     }
                 }
