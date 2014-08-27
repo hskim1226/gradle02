@@ -11,7 +11,33 @@
 <html>
 <head>
     <title></title>
-    <script>
+</head>
+<body>
+<section class="featured">
+    <div class="container">
+        <form class="form-horizontal" id="search-form" role="form" action="${contextPath}/user/search/id" method="post">
+            <div class="form-group">
+                <label for="name" class="col-sm-2 control-label">Name</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" name="name" id="name"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="email" class="col-sm-2 control-label">E-mail</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" name="email" id="email"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <input type="submit" class="btn btn-default" id="search-btn" value="Search"/>
+                </div>
+            </div>
+        </form>
+    </div>
+</section>
+<content tag="local-script">
+    <script type="text/javascript">
         $(document).ready(function() {
             $('#search-form').submit( function(e) {
                 var $form = $(this);
@@ -43,30 +69,6 @@
             });
         });
     </script>
-</head>
-<body>
-<section class="featured">
-    <div class="container">
-        <form class="form-horizontal" id="search-form" role="form" action="${contextPath}/user/search/id" method="post">
-            <div class="form-group">
-                <label for="name" class="col-sm-2 control-label">Name</label>
-                <div class="col-sm-10">
-                    <input type="text" class="form-control" name="name" id="name"/>
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="email" class="col-sm-2 control-label">E-mail</label>
-                <div class="col-sm-10">
-                    <input type="text" class="form-control" name="email" id="email"/>
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="col-sm-offset-2 col-sm-10">
-                    <input type="submit" class="btn btn-default" id="search-btn" value="Search"/>
-                </div>
-            </div>
-        </form>
-    </div>
-</section>
+</content>
 </body>
 </html>
