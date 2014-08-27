@@ -61,7 +61,7 @@
             <result property="modId" column="gene_mod_id"/>
             <result property="modDate" column="gene_mod_date"/>
         </association>
-        <association property="applicationEtc"
+        <association property="applicationETCWithBLOBs"
                      javaType="com.apexsoft.ysprj.applicants.application.domain.ApplicationETCWithBLOBs">
             <id property="applNo" column="appl_no"/>
             <result property="covLett" column="cov_lett"/>
@@ -71,17 +71,69 @@
             <result property="modId" column="etc_mod_id"/>
             <result property="modDate" column="etc_mod_date"/>
         </association>
-        <collection property="applicationAcademyList" column="appl_no"
-                    ofType="com.apexsoft.ysprj.applicants.application.domain.ApplicationAcademy"
-                    select="selectAcademyListForEntireApplication"/>
-        <collection property="applicationExperienceList" column="appl_no"
-                    ofType="com.apexsoft.ysprj.applicants.application.domain.ApplicationExperience"
-                    select="selectExperienceListForEntireApplication"/>
-        <collection property="applicationLanguageList" column="appl_no"
-                    ofType="com.apexsoft.ysprj.applicants.application.domain.ApplicationLanguage"
-                    select="selectLanguageListForEntireApplication"/>
+        <association property="highSchool"
+                     javaType="com.apexsoft.ysprj.applicants.application.domain.ApplicationAcademy">
+            <id property="applNo" column="APPL_NO"/>
+            <result property="applNo" column="APPL_NO"/>
+            <result property="acadSeq" column="ACAD_SEQ"/>
+            <result property="acadTypeCode" column="ACAD_TYPE_CODE"/>
+            <result property="lastSchlYn" column="LAST_SCHL_YN"/>
+            <result property="entrDay" column="ENTR_DAY"/>
+            <result property="grdaDay" column="GRDA_DAY"/>
+            <result property="schlCode" column="SCHL_CODE"/>
+            <result property="schlName" column="SCHL_NAME"/>
+            <result property="collName" column="COLL_NAME"/>
+            <result property="majName" column="MAJ_NAME"/>
+            <result property="gradAvr" column="GRAD_AVR"/>
+            <result property="gradFull" column="GRAD_FULL"/>
+            <result property="grdaTypeCode" column="GRDA_TYPE_CODE"/>
+            <result property="qualExamDay" column="QUAL_EXAM_DAY"/>
+            <result property="qualAreaCode" column="QUAL_AREA_CODE"/>
+            <result property="schlAddr" column="SCHL_ADDR"/>
+            <result property="schlTel" column="SCHL_TEL"/>
+            <result property="creId" column="CRE_ID"/>
+            <result property="creDate" column="CRE_DATE"/>
+            <result property="modId" column="MOD_ID"/>
+            <result property="modDate" column="MOD_DATE"/>
+        </association>
+        <!--<collection property="collegeList" column="appl_no"-->
+                    <!--ofType="com.apexsoft.ysprj.applicants.application.domain.ApplicationAcademy"-->
+                    <!--select="selectAcademyForEntireApplication"/>-->
+        <!--<collection property="graduateList" column="appl_no"-->
+                    <!--ofType="com.apexsoft.ysprj.applicants.application.domain.ApplicationAcademy"-->
+                    <!--select="selectAcademyForEntireApplication"/>-->
+        <!--<collection property="applicationExperienceList" column="appl_no"-->
+                    <!--ofType="com.apexsoft.ysprj.applicants.application.domain.ApplicationExperience"-->
+                    <!--select="selectExperienceListForEntireApplication"/>-->
+        <!--<collection property="applicationLanguageList" column="appl_no"-->
+                    <!--ofType="com.apexsoft.ysprj.applicants.application.domain.ApplicationLanguage"-->
+                    <!--select="selectLanguageListForEntireApplication"/>-->
 
     </resultMap>
+
+    <sql id="Academy_Column_List" >
+        APPL_NO,
+        ACAD_SEQ,
+        ACAD_TYPE_CODE,
+        LAST_SCHL_YN,
+        ENTR_DAY,
+        GRDA_DAY,
+        SCHL_CODE,
+        SCHL_NAME,
+        COLL_NAME,
+        MAJ_NAME,
+        GRAD_AVR,
+        GRAD_FULL,
+        GRDA_TYPE_CODE,
+        QUAL_EXAM_DAY,
+        QUAL_AREA_CODE,
+        SCHL_ADDR,
+        SCHL_TEL,
+        CRE_ID,
+        CRE_DATE,
+        MOD_ID,
+        MOD_DATE
+    </sql>
 
     <select id="selectEntireApplicationByApplNoNestedSelect"
             resultMap="entireApplicationByNestedSelect"
@@ -147,40 +199,23 @@
                 c.CRE_DATE as ETC_CRE_ID,
                 c.MOD_ID as ETC_MOD_ID,
                 c.MOD_DATE as ETC_MOD_DATA
-        from APPL a, APPL_GENE b, APPL_ETC c
+        from APPL a, APPL_GENE b, APPL_ETC c, APPL_ACAD d
         where a.APPL_NO = b.APPL_NO
         and   b.APPL_NO = c.APPL_NO
+        and   c.APPL_NO = d.APPL_NO
+        and   d.ACAD_TYPE_CODE = '00001'
         and   a.APPL_NO = #{applNo}
         ]]>
     </select>
 
-    <select id="selectAcademyListForEntireApplication"
+    <select id="selectAcademyForEntireApplication"
             resultType="com.apexsoft.ysprj.applicants.application.domain.ApplicationAcademy"
-            parameterType="int">
-        <![CDATA[
+            parameterType="com.apexsoft.ysprj.applicants.application.domain.ParamForAcademy">
         select
-                APPL_NO,
-                ACAD_SEQ,
-                ACAD_TYPE_CODE,
-                LAST_SCHL_YN,
-                ENTR_DAY,
-                GRDA_DAY,
-                SCHL_CODE,
-                SCHL_NAME,
-                COLL_NAME,
-                MAJ_NAME,
-                GRAD_AVR,
-                GRAD_FULL,
-                GRDA_TYPE_CODE,
-                QUAL_EXAM_DAY,
-                QUAL_AREA_CODE,
-                CRE_ID,
-                CRE_DATE,
-                MOD_ID,
-                MOD_DATE
+                <include refid="Academy_Column_List" />
         from APPL_ACAD
         where APPL_NO = #{applno}
-        ]]>
+          and ACAD_TYPE_CODE = #{acadTypeCode}
     </select>
 
     <select id="selectExperienceListForEntireApplication"

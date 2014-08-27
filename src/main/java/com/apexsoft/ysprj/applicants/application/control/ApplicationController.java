@@ -122,7 +122,7 @@ public class ApplicationController {
         EntireApplication entireApplication = new EntireApplication();
         entireApplication.setApplicationGeneral(new ApplicationGeneral());
         entireApplication.setApplicationETCWithBLOBs(new ApplicationETCWithBLOBs());
-        entireApplication.setApplicationAcademyList(new ArrayList<ApplicationAcademy>());
+        entireApplication.setCollegeList(new ArrayList<ApplicationAcademy>());
         entireApplication.setApplicationExperienceList(new ArrayList<ApplicationExperience>());
         entireApplication.setApplicationLanguageList(new ArrayList<ApplicationLanguage>());
         return entireApplication;
