@@ -148,9 +148,9 @@
             <li><a href="#studyplan" data-toggle="tab">학업 및 연구 계획서</a></li>
             <li><a href="#fileupload" data-toggle="tab">첨부파일</a></li>
         </ul>
-        <div id="myTabContent" class="tab-content">
-            <div class="tab-pane fade" id="appinfo">
-                <form:form commandName="entireApplication" cssClass="form-horizontal" action="apply/save" method="post" role="form">
+        <form:form commandName="entireApplication" cssClass="form-horizontal" action="apply/save" method="post" role="form">
+            <div id="myTabContent" class="tab-content">
+                <div class="tab-pane fade" id="appinfo">
                     <div class="spacer-tiny"></div>
                     <div class="row">
                         <div class="col-sm-offset-1 col-sm-10">
@@ -337,13 +337,13 @@
                                         <div class="col-sm-offset-2 col-sm-4 start-date-container">
                                             <div class="input-group date">
                                                 <span class="input-group-addon">입대일자</span>
-                                                <input type="text" class="form-control" name="applicationGeneral.mltrJoinDay" id="applicationGeneral.mltrJoinDay" readonly/>
+                                                <form:input path="applicationGeneral.mltrJoinDay" cssClass="form-control" readonly="true" />
                                             </div>
                                         </div>
                                         <div class="col-sm-4 end-date-container">
                                             <div class="input-group date">
                                                 <span class="input-group-addon">제대일자</span>
-                                                <input type="text" class="form-control" name="applicationGeneral.mltrJoinDay" id="applicationGeneral.mltrDschDay" readonly/>
+                                                <form:input path="applicationGeneral.mltrJoinDay" cssClass="form-control" readonly="true" />
                                             </div>
                                         </div>
                                     </div>
@@ -439,56 +439,56 @@
                                             <div class="col-sm-9">
                                                 <div class="btn-group">
                                                     <label class="radio-inline">
-                                                        <input type="radio" id="acadType1" name="acadType" value="00001" />졸업
+                                                        <form:radiobutton path="highSchool.acadTypeCode" value="00001" />졸업
                                                     </label>
                                                     <label class="radio-inline">
-                                                        <input type="radio" id="acadType2" name="acadType" value="00005" />검정고시
+                                                        <form:radiobutton path="highSchool.acadType" value="00005" />검정고시
                                                     </label>
                                                 </div>
                                             </div>
                                         </div>
                                         <div id="highschoolDynamic">
-                                        <div id="highschoolSubContainer1">
-                                            <div class="form-group">
-                                                <label class="col-sm-2 control-label">재학기간</label>
-                                                <div class="col-sm-9">
-                                                    <div class="input-daterange input-group">
-                                                        <input type="text" class="input-sm form-control" name="entrDay" />
-                                                        <span class="input-group-addon">to</span>
-                                                        <input type="text" class="input-sm form-control" name="grdaDay" />
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="schlName" class="col-sm-2 control-label">학교명</label>
-                                                <div class="col-sm-9">
-                                                    <div class="input-group">
-                                                        <span class="input-group-btn">
-                                                            <button type="button" class="btn btn-default">검색</button>
-                                                        </span>
-                                                        <input type="text" class="form-control" id="schlName">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                            <div id="highschoolSubContainer2">
+                                            <div id="highschoolSubContainer1">
                                                 <div class="form-group">
-                                                    <label class="col-sm-2 control-label">검정고시합격일</label>
+                                                    <label class="col-sm-2 control-label">재학기간</label>
                                                     <div class="col-sm-9">
-                                                        <div class="input-group date">
-                                                            <span class="input-group-addon">합격일</span>
-                                                            <input type="text" class="form-control" name="qualExamDay" id="qualExamDay" />
+                                                        <div class="input-daterange input-group">
+                                                            <form:input path="highSchool.entrDay" cssClass="input-sm form-control" />
+                                                            <span class="input-group-addon">to</span>
+                                                            <form:input path="highSchool.grdaDay" cssClass="input-sm form-control" />
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
-                                                    <label for="schlName" class="col-sm-2 control-label">검정고시합격지구</label>
+                                                    <form:label path="highSchool.schlName" cssClass="col-sm-2 control-label">학교명</form:label>
+                                                    <div class="col-sm-9">
+                                                        <div class="input-group">
+                                                            <span class="input-group-btn">
+                                                                <button type="button" class="btn btn-default">검색</button>
+                                                            </span>
+                                                            <form:input path="highSchool.schlName" cssClass="form-control" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div id="highschoolSubContainer2">
+                                                <div class="form-group">
+                                                    <form:label path="highSchool.qualExamDay" cssClass="col-sm-2 control-label">검정고시합격일</form:label>
+                                                    <div class="col-sm-9">
+                                                        <div class="input-group date">
+                                                            <span class="input-group-addon">합격일</span>
+                                                            <form:input path="highSchool.qualExamDay" cssClass="form-control" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <form:label path="highSchool.schlName" cssClass="col-sm-2 control-label">검정고시합격지구</form:label>
                                                     <div class="col-sm-9">
                                                         <div class="input-group">
                                                         <span class="input-group-btn">
                                                             <button type="button" class="btn btn-default">검색</button>
                                                         </span>
-                                                            <input type="text" class="form-control" id="schlName">
+                                                            <form:input path="highSchool.schlName" cssClass="form-control" />
                                                         </div>
                                                     </div>
                                                 </div>
@@ -501,36 +501,37 @@
                                 <div class="panel-heading">대학교</div>
                                 <div class="panel-body">
                                     <div class="form-group-block-list">
+                                        <c:forEach begin="0" end="${collegeList.size() > 0 ? collegeList.size()-1 : collegeList.size()}" varStatus="stat">
                                         <div class="form-group-block">
                                             <div class="form-group">
-                                                <label class="col-sm-2 control-label">소재 국가</label>
+                                                <form:label path="collegeList[${stat.index}]korCntrName" cssClass="col-sm-2 control-label">소재 국가</form:label>
                                                 <div class="btn btn-default btn-md col-md-2">검색</div>
                                                 <div class="col-sm-6">
-                                                    <input name="applicationAcademyList.korCntrName" class="form-control" id="korCntrName201"/>
+                                                    <form:input path="collegeList[${stat.index}].korCntrName" cssClass="form-control" />
                                                 </div>
                                             </div>
                                             <div class="form-group">
-                                                <label class="col-sm-2 control-label">학교 이름</label>
+                                                <form:label path="collegeList[${stat.index}]schlName" cssClass="col-sm-2 control-label">학교 이름</form:label>
                                                 <div class="btn btn-default btn-md col-md-2">검색</div>
                                                 <div class="col-sm-4">
-                                                    <input name="applicationAcademyList.schlName" class="form-control" id="schlName1" />
+                                                    <form:input path="collegeList[${stat.index}]schlName" cssClass="form-control" />
                                                 </div>
                                                 <div class="col-sm-2">
                                                     <label class="radio inline">
-                                                        <input type="radio" name="applicationAcademyList.lastSchlYn" id="lastSchlYn1" class="lastSchl">&nbsp;&nbsp;최종 학교
+                                                        <form:radiobutton path="collegeList[${stat.index}]lastSchlYn" value="y" />&nbsp;&nbsp;최종 학교
                                                     </label>
                                                 </div>
                                             </div>
                                             <div class="form-group">
-                                                <label class="col-sm-2 control-label">단과 대학</label>
+                                                <form:label path="collegeList[${stat.index}]collName" cssClass="col-sm-2 control-label">단과 대학</form:label>
                                                 <div class="col-sm-8">
-                                                    <input name="applicationAcademyList.collName" class="form-control" id="collName1"/>
+                                                    <form:input path="collegeList[${stat.index}]collName" cssClass="form-control" />
                                                 </div>
                                             </div>
                                             <div class="form-group">
-                                                <label class="col-sm-2 control-label">학과 이름</label>
+                                                <form:label path="collegeList[${stat.index}]majName" cssClass="col-sm-2 control-label">학과 이름</form:label>
                                                 <div class="col-sm-8">
-                                                    <input name="applicationAcademyList.majName" class="form-control" id="majName1" />
+                                                    <form:input path="collegeList[${stat.index}]majName" cssClass="form-control" />
                                                 </div>
                                             </div>
                                             <div class="form-group">
@@ -538,13 +539,13 @@
                                                 <div class="col-sm-4 start-date-container">
                                                     <div class="input-group date">
                                                         <span class="input-group-addon">입학일</span>
-                                                        <input type="text" class="form-control" name="applicationAcademyList.entrDay" id="entrDay1" readonly/>
+                                                        <form:input path="collegeList[${stat.index}]entrDay" cssClass="form-control" readonly="true" />
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-4 end-date-container">
                                                     <div class="input-group date">
                                                         <span class="input-group-addon">졸업일</span>
-                                                        <input type="text" class="form-control" name="applicationAcademyList.grdaDay" id="grdaDay1" readonly/>
+                                                        <form:input path="collegeList[${stat.index}]grdaDay" cssClass="form-control" readonly="true" />
                                                     </div>
                                                 </div>
                                             </div>
@@ -553,18 +554,19 @@
                                                 <div class="col-sm-2">
                                                     <div class="input-group">
                                                         <span class="input-group-addon">평점</span>
-                                                        <input class="form-control" name="applicationAcademyList.gradAvr" id="gradAvr1"/>
+                                                        <form:input path="collegeList[${stat.index}]gradAvr" cssClass="form-control" />
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-2">
                                                     <div class="input-group">
                                                         <span class="input-group-addon">만점</span>
-                                                        <input class="form-control" name="applicationAcademyList.gradFull" id="gradFull1"/>
+                                                        <form:input path="collegeList[${stat.index}]gradFull" cssClass="form-control" />
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="btn btn-remove"><button type="button" class="close" aria-hidden="true">×</button></div>
                                         </div>
+                                        </c:forEach>
                                         <div class="btn btn-info btn-add">추가</div>
                                     </div>
                                 </div>
@@ -573,52 +575,53 @@
                                 <div class="panel-heading">대학원</div>
                                 <div class="panel-body">
                                     <div class="form-group-block-list">
+                                        <c:forEach begin="0" end="${graduateList.size() > 0 ? graduateList.size()-1 : graduateList.size()}" varStatus="stat">
                                         <div class="form-group-block">
                                             <div class="form-group">
-                                                <label class="col-xs-6 col-sm-2 control-label">소재 국가</label>
+                                                <form:label path="graduateList[${stat.index}]korCntrName" cssClass="col-sm-2 control-label">소재 국가</form:label>
                                                 <div class="co-xs-6 col-sm-2">
                                                     <button type="button" class="btn btn-default">검색</button>
                                                 </div>
-                                                <div class="col-xs-12 col-sm-7">
-                                                    <input name="applicationAcademyList.korCntrName" type="text" class="form-control" id="korCntrName301" />
+                                                <div class="col-sm-6">
+                                                    <form:input path="graduateList[${stat.index}].korCntrName" cssClass="form-control" />
                                                 </div>
                                             </div>
                                             <div class="form-group">
-                                                <label class="col-sm-2 control-label">학교 이름</label>
+                                                <form:label path="graduateList[${stat.index}]schlName" cssClass="col-sm-2 control-label">학교 이름</form:label>
                                                 <div class="btn btn-default btn-md col-md-2">검색</div>
                                                 <div class="col-sm-4">
-                                                    <input name="applicationAcademyList.schlName" class="form-control" id="schlName1" />
+                                                    <form:input path="graduateList[${stat.index}]schlName" cssClass="form-control" />
                                                 </div>
                                                 <div class="col-sm-2">
                                                     <label class="radio inline">
-                                                        <input type="radio" name="applicationAcademyList.lastSchlYn" id="lastSchlYn1" />&nbsp;&nbsp;최종 학교
+                                                        <form:radiobutton path="graduateList[${stat.index}]lastSchlYn" value="y" />&nbsp;&nbsp;최종 학교
                                                     </label>
                                                 </div>
                                             </div>
                                             <div class="form-group">
-                                                <label class="col-sm-2 control-label">단과 대학</label>
-                                                <div class="col-sm-9">
-                                                    <input name="applicationAcademyList.collName" class="form-control" id="collName1"/>
+                                                <form:label path="graduateList[${stat.index}]collName" cssClass="col-sm-2 control-label">단과 대학</form:label>
+                                                <div class="col-sm-8">
+                                                    <form:input path="graduateList[${stat.index}]collName" cssClass="form-control" />
                                                 </div>
                                             </div>
                                             <div class="form-group">
-                                                <label class="col-sm-2 control-label">학과 이름</label>
-                                                <div class="col-sm-9">
-                                                    <input name="applicationAcademyList.majName" class="form-control" id="majName1" />
+                                                <form:label path="graduateList[${stat.index}]majName" cssClass="col-sm-2 control-label">학과 이름</form:label>
+                                                <div class="col-sm-8">
+                                                    <form:input path="graduateList[${stat.index}]majName" cssClass="form-control" />
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <label class="col-sm-2 control-label">재학 기간</label>
                                                 <div class="col-sm-4 start-date-container">
-                                                    <div class="input-group date" id="divCalEntrDay1">
+                                                    <div class="input-group date">
                                                         <span class="input-group-addon">입학일</span>
-                                                        <input type="text" name="applicationAcademyList.entrDay" class="form-control calendar" id="entrDay2" readonly/>
+                                                        <form:input path="graduateList[${stat.index}]entrDay" cssClass="form-control" readonly="true" />
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-4 end-date-container">
-                                                    <div class="input-group date" id="divCalGrdaDay1">
+                                                    <div class="input-group date">
                                                         <span class="input-group-addon">졸업일</span>
-                                                        <input type="text" name="applicationAcademyList.grdaDay" class="form-control calendar" id="grdaDay2" readonly/>
+                                                        <form:input path="graduateList[${stat.index}]grdaDay" cssClass="form-control" readonly="true" />
                                                     </div>
                                                 </div>
                                             </div>
@@ -627,18 +630,19 @@
                                                 <div class="col-sm-2">
                                                     <div class="input-group">
                                                         <span class="input-group-addon">평점</span>
-                                                        <input name="applicationAcademyList.gradAvr" class="form-control" id="gradAvr1"/>
+                                                        <form:input path="graduateList[${stat.index}]gradAvr" cssClass="form-control" />
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-2">
                                                     <div class="input-group">
                                                         <span class="input-group-addon">만점</span>
-                                                        <input name="applicationAcademyList.gradFull" class="form-control" id="gradFull1"/>
+                                                        <form:input path="graduateList[${stat.index}]gradFull" cssClass="form-control" />
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="btn btn-remove"><button type="button" class="close" aria-hidden="true">×</button></div>
                                         </div>
+                                        </c:forEach>
                                         <div class="btn btn-info btn-add">추가</div>
                                     </div>
                                 </div>
@@ -791,33 +795,33 @@
                                 <div class="panel-heading">경력사항</div>
                                 <div class="panel-body">
                                     <div id="career-container" class="form-group-block-list">
-                                        <c:forEach varStatus="exprStatus" begin="0" end="${entireApplication.applicationExperienceList.size()}">
+                                        <c:forEach varStatus="stat" begin="0" end="${entireApplication.applicationExperienceList.size()}">
                                         <div id="career-info" class="form-group-block">
                                             <div class="form-group">
                                                 <label class="col-sm-2 control-label">재직 기간</label>
                                                 <div class="col-sm-4 start-date-container">
                                                     <div class="input-group date">
                                                         <span class="input-group-addon">입사일</span>
-                                                        <form:input path="applicationExperienceList[${exprStatus.index}].joinDay" cssClass="form-control" readonly="true" />
+                                                        <form:input path="applicationExperienceList[${stat.index}].joinDay" cssClass="form-control" readonly="true" />
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-4 end-date-container">
                                                     <div class="input-group date">
                                                         <span class="input-group-addon">퇴사일</span>
-                                                        <form:input path="applicationExperienceList[${exprStatus.index}].retrDay" cssClass="form-control" readonly="true" />
+                                                        <form:input path="applicationExperienceList[${stat.index}].retrDay" cssClass="form-control" readonly="true" />
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="form-group">
-                                                <form:label path="applicationExperienceList[${exprStatus.index}].corpName" cssClass="col-sm-2 control-label">기관명</form:label>
+                                                <form:label path="applicationExperienceList[${stat.index}].corpName" cssClass="col-sm-2 control-label">기관명</form:label>
                                                 <div class="col-sm-9">
-                                                    <form:input path="applicationExperienceList[${exprStatus.index}].corpName" cssClass="form-control" />
+                                                    <form:input path="applicationExperienceList[${stat.index}].corpName" cssClass="form-control" />
                                                 </div>
                                             </div>
                                             <div class="form-group">
-                                                <form:label path="applicationExperienceList[${exprStatus.index}].exprDesc" cssClass="col-sm-2 control-label">직위명</form:label>
+                                                <form:label path="applicationExperienceList[${stat.index}].exprDesc" cssClass="col-sm-2 control-label">직위명</form:label>
                                                 <div class="col-sm-9">
-                                                    <form:input path="applicationExperienceList[${exprStatus.index}].exprDesc" cssClass="form-control" />
+                                                    <form:input path="applicationExperienceList[${stat.index}].exprDesc" cssClass="form-control" />
                                                 </div>
                                             </div>
                                             <div class="btn btn-remove">
@@ -832,288 +836,254 @@
                         </div>
                     </div>
                     <div class="spacer-tiny"></div>
-                </form:form>
-            </div>
-            <%--selfintro--%>
-            <div class="tab-pane fade" id="selfintro">
-                <%--<form:form commandName="selfIntro" cssClass="form-horizontal" role="form" id="formSeflIntro" action="${contextPath}/application/selfintro/save">--%>
-                    <%--<div class="spacer-tiny"></div>--%>
-                    <%--<div class="form-group">--%>
-                        <%--<form:label path="ta1" cssClass="col-sm-3 control-label">주요 경력 사항</form:label>--%>
-                        <%--<div class="col-sm-8">--%>
-                            <%--<form:textarea path="ta1" cssClass="form-control" rows="12" placeholder="주요 경력사항을 작성해주세요" />--%>
-                        <%--</div>--%>
-                    <%--</div>--%>
-                    <%--<div class="form-group">--%>
-                        <%--<form:label path="ta2" cssClass="col-sm-3 control-label">지원 동기 및 장례 계획</form:label>--%>
-                        <%--<div class="col-sm-8">--%>
-                            <%--<form:textarea path="ta2" cssClass="form-control" rows="12" placeholder="지원 동기와 장래 계획을 작성해주세요" />--%>
-                        <%--</div>--%>
-                    <%--</div>--%>
-                    <%--<div class="form-group">--%>
-                        <%--<form:label path="ta3" cssClass="col-sm-3 control-label">성격 및 특기</form:label>--%>
-                        <%--<div class="col-sm-8">--%>
-                            <%--<form:textarea path="ta3" cssClass="form-control" rows="12" placeholder="성격의 장단점과 특기를 작성해주세요" />--%>
-                        <%--</div>--%>
-                    <%--</div>--%>
-                    <%--<div class="form-group">--%>
-                        <%--<form:label path="ta4" cssClass="col-sm-3 control-label">수상 내역</form:label>--%>
-                        <%--<div class="col-sm-8">--%>
-                            <%--<form:textarea path="ta4" cssClass="form-control" rows="12" placeholder="주요 수상 내역을 작성해주세요" />--%>
-                        <%--</div>--%>
-                    <%--</div>--%>
-                    <%--<div class="form-group">--%>
-                        <%--<form:label path="ta5" cssClass="col-sm-3 control-label">기타</form:label>--%>
-                        <%--<div class="col-sm-8">--%>
-                            <%--<form:textarea path="ta5" cssClass="form-control" rows="12" placeholder="본인을 잘 설명할 수 있는 내용을 작성해주세요"/>--%>
-                        <%--</div>--%>
-                    <%--</div>--%>
-                    <%--<div class="spacer-tiny"></div>--%>
-                <%--</form:form>--%>
-                <div class="spacer-tiny"></div>
-            </div>
-            <%--studyplan--%>
-            <div class="tab-pane fade" id="studyplan">
-                <%--<form:form commandName="studyPlan" cssClass="form-horizontal" role="form" action="${contextPath}/application/studyplan/save">--%>
-                    <%--<div class="spacer-tiny"></div>--%>
-                    <%--<div class="form-group">--%>
-                        <%--<form:label path="ta1" cssClass="col-sm-3 control-label">희망 연구 분야 및 연구 계획</form:label>--%>
-                        <%--<div class="col-sm-8">--%>
-                            <%--<form:textarea path="ta1" cssClass="form-control" rows="12" placeholder="희망 연구 분야와 연구 계획을 작성해주세요" />--%>
-                        <%--</div>--%>
-                    <%--</div>--%>
-                    <%--<div class="form-group">--%>
-                        <%--<form:label path="ta2" cssClass="col-sm-3 control-label">학부/대학원 이수과목 중 관심과목</form:label>--%>
-                        <%--<div class="col-sm-8">--%>
-                            <%--<form:textarea path="ta2" cssClass="form-control" rows="12" placeholder="학부와 대학원에서 관심있게 수강한 과목에 대해 작성해주세요" />--%>
-                        <%--</div>--%>
-                    <%--</div>--%>
-                    <%--<div class="form-group">--%>
-                        <%--<form:label path="ta3" cssClass="col-sm-3 control-label">석/박사 이후의 계획</form:label>--%>
-                        <%--<div class="col-sm-8">--%>
-                            <%--<form:textarea path="ta3" cssClass="form-control" rows="12" placeholder="석/박사 이후의 진로 계획에 대해 작성해주세요" />--%>
-                        <%--</div>--%>
-                    <%--</div>--%>
-                    <%--<div class="spacer-tiny"></div>--%>
-                <%--</form:form>--%>
-                    <div class="spacer-tiny"></div>
-            </div>
-
-            <div class="tab-pane fade" id="fileupload">
-                <div class="spacer-tiny"></div>
-                <div class="row">
-                    <div class="col-sm-offset-1 col-sm-10">
-                        <div class="panel panel-darkgray">
-                            <div class="panel-heading">사진 업로드</div>
-                            <div class="panel-body">
-                                <div class="form-group">
-                                    <label class="col-sm-2 control-label">파일 선택</label>
-                                    <div class="col-sm-9">
-                                        <div class="input-group">
-                                            <span class="input-group-btn">
-                                                <span class="btn btn-default btn_lg btn-file">
-                                                    Browse&hellip; <input type="file" name="" multiple>
-                                                </span>
-                                            </span>
-                                            <input type="text" class="form-control" readonly>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="spacer-tiny"></div>
-
-                        <div class="panel panel-darkgray">
-                            <div class="panel-heading">학력 관련 서류 업로드</div>
-                            <div class="panel-body">
-                                <div class="form-group">
-                                    <label class="col-sm-2 control-label">졸업(예정)증명서</label>
-                                    <div class="col-sm-9">
-                                        <div class="input-group">
-                                            <span class="input-group-btn">
-                                                <span class="btn btn-default btn_lg btn-file">
-                                                    Browse&hellip; <input type="file" multiple>
-                                                </span>
-                                            </span>
-                                            <input type="text" class="form-control" readonly>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-sm-2 control-label">성적증명서</label>
-                                    <div class="col-sm-9">
-                                        <div class="input-group">
-                                            <span class="input-group-btn">
-                                                <span class="btn btn-default btn_lg btn-file">
-                                                    Browse&hellip; <input type="file" multiple>
-                                                </span>
-                                            </span>
-                                            <input type="text" class="form-control" readonly>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-sm-2 control-label">성적증명서</label>
-                                    <div class="col-sm-9">
-                                        <div class="input-group">
-                                                <span class="input-group-btn">
-                                                    <span class="btn btn-default btn_lg btn-file">
-                                                        Browse&hellip; <input type="file" multiple>
-                                                    </span>
-                                                </span>
-                                            <input type="text" class="form-control" readonly>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-sm-2 control-label">학력조회 동의서</label>
-                                    <div class="col-sm-9">
-                                        <div class="input-group">
-                                                <span class="input-group-btn">
-                                                    <span class="btn btn-default btn_lg btn-file">
-                                                        Browse&hellip; <input type="file" multiple>
-                                                    </span>
-                                                </span>
-                                            <input type="text" class="form-control" readonly>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-sm-2 control-label">출신대학(원) 확인서</label>
-                                    <div class="col-sm-9">
-                                        <div class="input-group">
-                                                <span class="input-group-btn">
-                                                    <span class="btn btn-default btn_lg btn-file">
-                                                        Browse&hellip; <input type="file" multiple>
-                                                    </span>
-                                                </span>
-                                            <input type="text" class="form-control" readonly>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-sm-2 control-label">출신대학(원) 확인서</label>
-                                    <div class="col-sm-9">
-                                        <div class="input-group">
-                                                <span class="input-group-btn">
-                                                    <span class="btn btn-default btn_lg btn-file">
-                                                        Browse&hellip; <input type="file" multiple>
-                                                    </span>
-                                                </span>
-                                            <input type="text" class="form-control" readonly>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-sm-2 control-label">학위증명서 원본</label>
-                                    <div class="col-sm-9">
-                                        <div class="input-group">
-                                                <span class="input-group-btn">
-                                                    <span class="btn btn-default btn_lg btn-file">
-                                                        Browse&hellip; <input type="file" multiple>
-                                                    </span>
-                                                </span>
-                                            <input type="text" class="form-control" readonly>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-sm-2 control-label">학위증 사본</label>
-                                    <div class="col-sm-9">
-                                        <div class="input-group">
-                                                <span class="input-group-btn">
-                                                    <span class="btn btn-default btn_lg btn-file">
-                                                        Browse&hellip; <input type="file" multiple>
-                                                    </span>
-                                                </span>
-                                            <input type="text" class="form-control" readonly>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="spacer-tiny"></div>
-
-                        <div class="panel panel-darkgray">
-                            <div class="panel-heading">어학 관련 서류 업로드</div>
-                            <div class="panel-body">
-                                <div class="form-group">
-                                    <label class="col-sm-2 control-label">TOEFL</label>
-                                    <div class="col-sm-9">
-                                        <div class="input-group">
-                                            <span class="input-group-btn">
-                                                <span class="btn btn-default btn_lg btn-file">
-                                                    Browse&hellip; <input type="file" multiple>
-                                                </span>
-                                            </span>
-                                            <input type="text" class="form-control" readonly>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-sm-2 control-label">GRE</label>
-                                    <div class="col-sm-9">
-                                        <div class="input-group">
-                                            <span class="input-group-btn">
-                                                <span class="btn btn-default btn_lg btn-file">
-                                                    Browse&hellip; <input type="file" multiple>
-                                                </span>
-                                            </span>
-                                            <input type="text" class="form-control" readonly>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="spacer-tiny"></div>
-
-                        <div class="panel panel-darkgray">
-                            <div class="panel-heading">지원 과정/학과별 제출 서류</div>
-                            <div class="panel-body">
-                                <div class="form-group">
-                                    <label class="col-sm-2 control-label">경력증명서</label>
-                                    <div class="col-sm-9">
-                                        <div class="input-group">
-                                            <span class="input-group-btn">
-                                                <span class="btn btn-default btn_lg btn-file">
-                                                    Browse&hellip; <input type="file" multiple>
-                                                </span>
-                                            </span>
-                                            <input type="text" class="form-control" readonly>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-sm-2 control-label">석사 학위 논문 초록</label>
-                                    <div class="col-sm-9">
-                                        <div class="input-group">
-                                            <span class="input-group-btn">
-                                                <span class="btn btn-default btn_lg btn-file">
-                                                    Browse&hellip; <input type="file" multiple>
-                                                </span>
-                                            </span>
-                                            <input type="text" class="form-control" readonly>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-sm-2 control-label">석사 학위 논문</label>
-                                    <div class="col-sm-9 control-label" style="text-align: left;">
-                                            <h4>학교로 원본을 제출해 주세요</h4>
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-
-                    </div>
                 </div>
-                <div class="spacer-tiny"></div>
-            </div>
-        </div> <%--myTabContent--%>
+                <%--selfintro--%>
+                <div class="tab-pane fade" id="selfintro">
+                    <div class="spacer-tiny"></div>
+                    <div class="row">
+                        <div class="col-sm-11">
+                            <div class="form-group">
+                                <form:label path="applicationETCWithBLOBs.covLett" cssClass="col-sm-2 control-label">자기소개</form:label>
+                                <div class="col-sm-10">
+                                    <form:textarea path="applicationETCWithBLOBs.covLett" cssClass="form-control" rows="24" placeholder="성격의 장단점과 특기 등 본인을 잘 설명할 수 있는 내용을 작성해주세요" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="spacer-tiny"></div>
+                </div>
+                <%--studyplan--%>
+                <div class="tab-pane fade" id="studyplan">
+                    <div class="spacer-tiny"></div>
+                    <div class="row">
+                        <div class="col-sm-11">
+                            <div class="form-group">
+                                <form:label path="applicationETCWithBLOBs.studPlan" cssClass="col-sm-2 control-label">학업 및 연구계획서</form:label>
+                                <div class="col-sm-10">
+                                    <form:textarea path="applicationETCWithBLOBs.studPlan" cssClass="form-control" rows="24" placeholder="희망 연구 분야와 연구 계획을 작성해주세요" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="spacer-tiny"></div>
+                </div>
+
+                <div class="tab-pane fade" id="fileupload">
+                    <div class="spacer-tiny"></div>
+                    <div class="row">
+                        <div class="col-sm-offset-1 col-sm-10">
+                            <div class="panel panel-darkgray">
+                                <div class="panel-heading">사진 업로드</div>
+                                <div class="panel-body">
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">파일 선택</label>
+                                        <div class="col-sm-9">
+                                            <div class="input-group">
+                                                <span class="input-group-btn">
+                                                    <span class="btn btn-default btn_lg btn-file">
+                                                        Browse&hellip; <input type="file" name="" multiple>
+                                                    </span>
+                                                </span>
+                                                <input type="text" class="form-control" readonly>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="spacer-tiny"></div>
+
+                            <div class="panel panel-darkgray">
+                                <div class="panel-heading">학력 관련 서류 업로드</div>
+                                <div class="panel-body">
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">졸업(예정)증명서</label>
+                                        <div class="col-sm-9">
+                                            <div class="input-group">
+                                                <span class="input-group-btn">
+                                                    <span class="btn btn-default btn_lg btn-file">
+                                                        Browse&hellip; <input type="file" multiple>
+                                                    </span>
+                                                </span>
+                                                <input type="text" class="form-control" readonly>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">성적증명서</label>
+                                        <div class="col-sm-9">
+                                            <div class="input-group">
+                                                <span class="input-group-btn">
+                                                    <span class="btn btn-default btn_lg btn-file">
+                                                        Browse&hellip; <input type="file" multiple>
+                                                    </span>
+                                                </span>
+                                                <input type="text" class="form-control" readonly>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">성적증명서</label>
+                                        <div class="col-sm-9">
+                                            <div class="input-group">
+                                                    <span class="input-group-btn">
+                                                        <span class="btn btn-default btn_lg btn-file">
+                                                            Browse&hellip; <input type="file" multiple>
+                                                        </span>
+                                                    </span>
+                                                <input type="text" class="form-control" readonly>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">학력조회 동의서</label>
+                                        <div class="col-sm-9">
+                                            <div class="input-group">
+                                                    <span class="input-group-btn">
+                                                        <span class="btn btn-default btn_lg btn-file">
+                                                            Browse&hellip; <input type="file" multiple>
+                                                        </span>
+                                                    </span>
+                                                <input type="text" class="form-control" readonly>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">출신대학(원) 확인서</label>
+                                        <div class="col-sm-9">
+                                            <div class="input-group">
+                                                    <span class="input-group-btn">
+                                                        <span class="btn btn-default btn_lg btn-file">
+                                                            Browse&hellip; <input type="file" multiple>
+                                                        </span>
+                                                    </span>
+                                                <input type="text" class="form-control" readonly>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">출신대학(원) 확인서</label>
+                                        <div class="col-sm-9">
+                                            <div class="input-group">
+                                                    <span class="input-group-btn">
+                                                        <span class="btn btn-default btn_lg btn-file">
+                                                            Browse&hellip; <input type="file" multiple>
+                                                        </span>
+                                                    </span>
+                                                <input type="text" class="form-control" readonly>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">학위증명서 원본</label>
+                                        <div class="col-sm-9">
+                                            <div class="input-group">
+                                                    <span class="input-group-btn">
+                                                        <span class="btn btn-default btn_lg btn-file">
+                                                            Browse&hellip; <input type="file" multiple>
+                                                        </span>
+                                                    </span>
+                                                <input type="text" class="form-control" readonly>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">학위증 사본</label>
+                                        <div class="col-sm-9">
+                                            <div class="input-group">
+                                                    <span class="input-group-btn">
+                                                        <span class="btn btn-default btn_lg btn-file">
+                                                            Browse&hellip; <input type="file" multiple>
+                                                        </span>
+                                                    </span>
+                                                <input type="text" class="form-control" readonly>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="spacer-tiny"></div>
+
+                            <div class="panel panel-darkgray">
+                                <div class="panel-heading">어학 관련 서류 업로드</div>
+                                <div class="panel-body">
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">TOEFL</label>
+                                        <div class="col-sm-9">
+                                            <div class="input-group">
+                                                <span class="input-group-btn">
+                                                    <span class="btn btn-default btn_lg btn-file">
+                                                        Browse&hellip; <input type="file" multiple>
+                                                    </span>
+                                                </span>
+                                                <input type="text" class="form-control" readonly>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">GRE</label>
+                                        <div class="col-sm-9">
+                                            <div class="input-group">
+                                                <span class="input-group-btn">
+                                                    <span class="btn btn-default btn_lg btn-file">
+                                                        Browse&hellip; <input type="file" multiple>
+                                                    </span>
+                                                </span>
+                                                <input type="text" class="form-control" readonly>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="spacer-tiny"></div>
+
+                            <div class="panel panel-darkgray">
+                                <div class="panel-heading">지원 과정/학과별 제출 서류</div>
+                                <div class="panel-body">
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">경력증명서</label>
+                                        <div class="col-sm-9">
+                                            <div class="input-group">
+                                                <span class="input-group-btn">
+                                                    <span class="btn btn-default btn_lg btn-file">
+                                                        Browse&hellip; <input type="file" multiple>
+                                                    </span>
+                                                </span>
+                                                <input type="text" class="form-control" readonly>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">석사 학위 논문 초록</label>
+                                        <div class="col-sm-9">
+                                            <div class="input-group">
+                                                <span class="input-group-btn">
+                                                    <span class="btn btn-default btn_lg btn-file">
+                                                        Browse&hellip; <input type="file" multiple>
+                                                    </span>
+                                                </span>
+                                                <input type="text" class="form-control" readonly>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">석사 학위 논문</label>
+                                        <div class="col-sm-9 control-label" style="text-align: left;">
+                                                <h4>학교로 원본을 제출해 주세요</h4>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="spacer-tiny"></div>
+                </div>
+            </div> <%--myTabContent--%>
+        </form:form>
 
         <div class="btn-group btn-group-justified">
             <div class="btn-group">
@@ -1167,9 +1137,9 @@
             $('#myTab a:first').tab('show');
 
             $('#save').on('click', function() {
-                var $curPane = $('.tab-pane.active');
-                var $curForm = $curPane.find('form');
-                console.log($curForm.serialize());
+//                var $curPane = $('.tab-pane.active');
+//                var $curForm = $curPane.find('form');
+                var $curForm = $('#entireApplication');
                 $curForm.submit();
             });
 
