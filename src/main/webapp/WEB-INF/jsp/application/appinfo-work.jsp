@@ -359,7 +359,7 @@
 
                 $.ajax({
                     type: 'GET',
-                    url: '${contextPath}/common/code/country/'+$('#bpopCntr').val(),
+                    url: '${contextPath}/common/code/country/'+encodeURIComponent($('#bpopCntr').val()),
                     success: function(data) {
 
                         var obj = JSON.parse(data.data);
@@ -402,7 +402,7 @@
 
                 $.ajax({
                     type: 'GET',
-                    url: '${contextPath}/common/code/school/'+$('#bpopSchl').val(),
+                    url: '${contextPath}/common/code/school/'+encodeURIComponent($('#bpopSchl').val()),
                     success: function(data) {
 
                         var obj = JSON.parse(data.data);
