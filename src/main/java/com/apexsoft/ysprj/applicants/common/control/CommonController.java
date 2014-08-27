@@ -249,13 +249,29 @@ public class CommonController {
 
     @RequestMapping(value="/code/country/{cntr}", method= RequestMethod.GET)
     @ResponseBody
-    public ExecutionContext retrieveAriInstDetailMajorByAdmsDeptAriInst(@PathVariable("cntr") String cntr)
+    public ExecutionContext retrieveCountryByKeyword(@PathVariable("cntr") String cntr)
             throws NoSuchAlgorithmException, JsonProcessingException, UnsupportedEncodingException {
         List<Country> countryList = commonService.retrieveCountryByName(cntr);
         String json = jacksonObjectMapper.writeValueAsString(countryList);
 
         ExecutionContext executionContext = new ExecutionContext();
         if (!(countryList.size() > 0)) {
+            executionContext.setMessage(messageResolver.getMessage("U300"));
+        }
+        executionContext.setData(json);
+
+        return executionContext;
+    }
+
+    @RequestMapping(value="/code/school/{schl}", method= RequestMethod.GET)
+    @ResponseBody
+    public ExecutionContext retrieveSchoolByKeyword(@PathVariable("schl") String schl)
+            throws NoSuchAlgorithmException, JsonProcessingException, UnsupportedEncodingException {
+        List<School> schoolList = commonService.retrieveSchoolByName(schl);
+        String json = jacksonObjectMapper.writeValueAsString(schoolList);
+
+        ExecutionContext executionContext = new ExecutionContext();
+        if (!(schoolList.size() > 0)) {
             executionContext.setMessage(messageResolver.getMessage("U300"));
         }
         executionContext.setData(json);

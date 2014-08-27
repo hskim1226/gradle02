@@ -107,7 +107,7 @@
         }
 
         /* 팝업창이 보여질 부분 */
-        #bpopContainerCountry, #popup2, .bMulti {
+        .bpopContainer, #popup2, .bMulti {
             background-color: #fff;
             color: #111;
             display: none;
@@ -115,7 +115,7 @@
             padding: 25px;
         }
 
-        #bpopContainerCountry, .bMulti {
+        .bpopContainer, .bMulti {
             min-height: 250px;
         }
         /* 클릭할 버튼 */
@@ -187,7 +187,7 @@
 
                                             <div class="form-group">
                                                 <label class="col-sm-2 control-label">소재 국가<br/>Country</label>
-                                                <div class="btn btn-default btn-md col-md-2 bpopper" data-targetNode1="cntrCode1" data-targetNode2='korCntrName1' data-targetNode3='engCntrName1' data-category="country">검색</div>
+                                                <div class="btn btn-default btn-md col-md-2" id="bpopperCntr" data-targetNode1="cntrCode1" data-targetNode2='korCntrName1' data-targetNode3='engCntrName1' data-category="country">검색</div>
                                                 <div class="col-sm-6">
                                                     <input type="hidden" name="cntrCode" id="cntrCode1"/>
                                                     <input name="korCntrName" class="form-control" id="korCntrName1" readonly/>
@@ -197,7 +197,7 @@
 
                                             <div class="form-group">
                                                 <label class="col-sm-2 control-label">학교 이름</label>
-                                                <div class="btn btn-default btn-md col-md-2">검색</div>
+                                                <div class="btn btn-default btn-md col-md-2" id="bpopperSchl" data-targetNode1="schlCode1" data-targetNode2='schlName1'>검색</div>
                                                 <div class="col-sm-4">
                                                     <input type="hidden" name="schlCode" id="schlCode1" />
                                                     <input name="schlName" class="form-control" id="schlName1" readonly/>
@@ -269,7 +269,7 @@
     </div> <%--container--%>
 
     <%--TODO 국가 검색 팝업 --%>
-    <div id="bpopContainerCountry">
+    <div id="bpopContainerCountry" class="bpopContainer">
         <span class="button b-close"><span>X</span></span>
         <div id="bpopContentCountry">
             <div class="form-group">
@@ -293,10 +293,37 @@
             </div>
         </div>
     </div>
+
+    <%--TODO 국가 검색 팝업 --%>
+
+    <%--TODO 학교 검색 팝업 --%>
+    <div id="bpopContainerSchool" class="bpopContainer">
+        <span class="button b-close"><span>X</span></span>
+        <div id="bpopContentSchool">
+            <div class="form-group">
+                <div class="col-sm-10">
+                    <input type="text" id="bpopSchl" name="schl" class="form-control" />
+                </div>
+                <button id="bpopBtnSearchSchool" class="btn btn-info col-sm-2">검색</button>
+            </div>
+            <div>
+                <table class="table table-stripped">
+                    <thead>
+                    <tr>
+                        <th>&nbsp;</th>
+                        <th>학교 이름</th>
+                    </tr>
+                    </thead>
+                    <tbody id="bpopResultSchool">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
     <input type="hidden" id="targetNode1" />
     <input type="hidden" id="targetNode2" />
     <input type="hidden" id="targetNode3" />
-    <%--TODO 국가 검색 팝업 --%>
+    <%--TODO 학교 검색 팝업 --%>
 
 </section>
 <content tag="local-script">
@@ -312,7 +339,7 @@
             $('#myTab a:first').tab('show');
 
 <%-- TODO 국가 검색 시작 --%>
-            $('.bpopper').on('click', function (e) {
+            $('#bpopperCntr').on('click', function (e) {
                 e.preventDefault();
                 $('#bpopResultCountry').empty();
                 document.getElementById('bpopCntr').value="";
@@ -355,6 +382,47 @@
                 });
             });
 <%-- TODO 국가 검색 끝 --%>
+
+<%-- TODO 학교 검색 시작 --%>
+            $('#bpopperSchl').on('click', function (e) {
+                e.preventDefault();
+                $('#bpopResultSchool').empty();
+                document.getElementById('bpopSchl').value="";
+                $(this).attr('data-category') === "school" ? (
+                    document.getElementById('targetNode1').value = $(this).attr('data-targetNode1'),
+                    document.getElementById('targetNode2').value = $(this).attr('data-targetNode2')
+                ) : (
+                    document.getElementById('targetNode1').value = $(this).attr('data-targetNode1'),
+                    document.getElementById('targetNode2').value = $(this).attr('data-targetNode2')
+                );
+                $('#bpopContainerSchool').bPopup();
+            });
+
+            $('#bpopBtnSearchSchool').on('click', function() {
+
+                $.ajax({
+                    type: 'GET',
+                    url: '${contextPath}/common/code/school/'+$('#bpopSchl').val(),
+                    success: function(data) {
+
+                        var obj = JSON.parse(data.data);
+
+                        for ( i = 0, l = obj.length ; i < l ; i++ ) {
+                            var record = $('<tr>'+'<td><span style="display: none;" class="b-close">'+obj[i].schlCode+'</span></td>'+'<td><span class="b-close">'+obj[i].schlName+'</span></td>'+'</tr>');
+                            $('#bpopResultSchool').append(record);
+                            $(record).on('click', function(e) {
+                                var targetInputId = [ document.getElementById('targetNode1').value,
+                                                      document.getElementById('targetNode2').value ],
+                                    tr = e.target.parentNode.parentNode;
+                                for ( var i = 0 , len = tr.children.length, t0 ; i < len ; i++ ) {
+                                    document.getElementById(targetInputId[i]).value = tr.children[i].firstChild.textContent;
+                                }
+                            });
+                        }
+                    }
+                });
+            });
+<%-- TODO 학교 검색 끝 --%>
 
 
             <%-- 최종 대학 체크 처리 시작 --%>

@@ -151,9 +151,22 @@ public class CommonServiceImpl implements CommonService {
     public List<Country> retrieveCountryByName(String keyword) {
         List<Country> countryList = null;
         try {
-            countryList = commonDAO.queryForList(NAME_SPACE+"CustomCountryMapper.retrieveCountryByName",
+            countryList = commonDAO.queryForList(NAME_SPACE+"CustomCountryMapper.selectCountryListByName",
                     keyword,
                     Country.class);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return countryList;
+    }
+
+    @Override
+    public List<School> retrieveSchoolByName(String keyword) {
+        List<School> countryList = null;
+        try {
+            countryList = commonDAO.queryForList(NAME_SPACE+"CustomSchoolMapper.selectSchoolListByName",
+                    keyword,
+                    School.class);
         } catch (Exception e) {
             e.printStackTrace();
         }
