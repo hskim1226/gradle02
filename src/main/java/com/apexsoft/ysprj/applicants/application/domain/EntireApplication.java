@@ -8,7 +8,7 @@ import java.util.List;
 public class EntireApplication extends Application {
 
     private ApplicationGeneral applicationGeneral;
-    private ApplicationETC applicationETC;
+    private ApplicationETCWithBLOBs applicationETCWithBLOBs;
     private List<ApplicationAcademy> applicationAcademyList;
     private List<ApplicationExperience> applicationExperienceList;
     private List<ApplicationLanguage> applicationLanguageList;
@@ -23,12 +23,12 @@ public class EntireApplication extends Application {
         this.applicationGeneral = applicationGeneral;
     }
 
-    public ApplicationETC getApplicationETC() {
-        return applicationETC;
+    public ApplicationETCWithBLOBs getApplicationETCWithBLOBs() {
+        return applicationETCWithBLOBs;
     }
 
-    public void setApplicationETC(ApplicationETC applicationETC) {
-        this.applicationETC = applicationETC;
+    public void setApplicationETCWithBLOBs(ApplicationETCWithBLOBs applicationETCWithBLOBs) {
+        this.applicationETCWithBLOBs = applicationETCWithBLOBs;
     }
 
     public List<ApplicationAcademy> getApplicationAcademyList() {

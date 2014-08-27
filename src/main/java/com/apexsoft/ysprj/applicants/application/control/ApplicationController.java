@@ -97,7 +97,7 @@ public class ApplicationController {
     public EntireApplication entireApplication() {
         EntireApplication entireApplication = new EntireApplication();
         entireApplication.setApplicationGeneral(new ApplicationGeneral());
-        entireApplication.setApplicationETC(new ApplicationETC());
+        entireApplication.setApplicationETCWithBLOBs(new ApplicationETCWithBLOBs());
         entireApplication.setApplicationAcademyList(new ArrayList<ApplicationAcademy>());
         entireApplication.setApplicationExperienceList(new ArrayList<ApplicationExperience>());
         entireApplication.setApplicationLanguageList(new ArrayList<ApplicationLanguage>());

@@ -7,6 +7,9 @@
         <id property="applNo" column="appl_no"/>
         <result property="userId" column="user_id"/>
         <result property="admsNo" column="adms_no"/>
+        <result property="entrYear" column="entr_year"/>
+        <result property="admsTypeCode" column="adms_type_code"/>
+        <result property="applAttrCode" column="appl_attr_code"/>
         <result property="deptCode" column="dept_code"/>
         <result property="ariInsstCode" column="ari_insst_code"/>
         <result property="corsTypeCode" column="cors_type_code"/>
@@ -88,6 +91,9 @@
                 a.APPL_NO,
                 a.USER_ID,
                 a.ADMS_NO,
+                a.ENTR_YEAR,
+                a.ADMS_TYPE_CODE,
+                a.APPL_ATTR_CODE,
                 a.DEPT_CODE,
                 a.ARI_INST_CODE,
                 a.CORS_TYPE_CODE,
@@ -227,6 +233,9 @@
                 a.APPL_NO,
                 a.USER_ID,
                 a.ADMS_NO,
+                a.ENTR_YEAR,
+                a.ADMS_TYPE_CODE,
+                a.APPL_ATTR_CODE,
                 a.DEPT_CODE,
                 a.ARI_INST_CODE,
                 a.CORS_TYPE_CODE,
@@ -262,6 +271,9 @@
         INSERT INTO APPL (
                 USER_ID,
                 ADMS_NO,
+                ENTR_YEAR,
+                ADMS_TYPE_CODE,
+                APPL_ATTR_CODE,
                 DEPT_CODE,
                 ARI_INST_CODE,
                 CORS_TYPE_CODE,
@@ -289,6 +301,9 @@
                 #{applNo},
                 #{userId},
                 #{admsNo},
+                #{entrYear},
+                #{admsTypeCode},
+                #{applAttrCode},
                 #{deptCode},
                 #{ariInsstCode},
                 #{corsTypeCode},
@@ -323,6 +338,9 @@
 		  update APPL set
                 USER_ID = #{userId},
                 ADMS_NO = #{admsNo},
+                ENTR_YEAR = #{entrYear},
+                ADMS_TYPE_CODE = #{admsTypeCode},
+                APPL_ATTR_CODE = #{applAttrCode},
                 DEPT_CODE = #{deptCode},
                 ARI_INSST_CODE = #{ariInsstCode},
                 CORS_TYPE_CODE = #{corsTypeCode},
