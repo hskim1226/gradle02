@@ -147,4 +147,20 @@ public class CommonServiceImpl implements CommonService {
         return codeNameDetailMajorList;
     }
 
+    @Override
+    public List<Country> retrieveCountryByName(String keyword) {
+        List<Country> countryList = null;
+        try {
+            countryList = commonDAO.queryForList(NAME_SPACE+"CustomCountryMapper.retrieveCountryByName",
+                    keyword,
+                    Country.class);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return countryList;
+    }
+
+
+
+
 }

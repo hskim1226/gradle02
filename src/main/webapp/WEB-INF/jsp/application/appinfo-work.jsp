@@ -186,18 +186,19 @@
                                             <hr/>
                                             <div class="form-group">
                                                 <label class="col-sm-2 control-label">소재 국가</label>
-                                                <div class="btn btn-default btn-md col-md-2 bpopper" data-targetTextNodeId="korCntrName1">검색</div>
+                                                <div class="btn btn-default btn-md col-md-2 bpopper" data-targetCntrCode="cntrCode1" data-targetKorCntrName='korCntrName1' data-targetEngCntrName='engCntrName1'>검색</div>
                                                 <div class="col-sm-6">
-                                                    <input name="korCntrName" class="form-control" id="korCntrName1" readonly/>
                                                     <input type="hidden" name="cntrCode" class="form-control" id="cntrCode1"/>
+                                                    <input name="korCntrName" class="form-control" id="korCntrName1" readonly/>
+                                                    <input name="engCntrName" class="form-control" id="engCntrName1" readonly/>
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <label class="col-sm-2 control-label">학교 이름</label>
                                                 <div class="btn btn-default btn-md col-md-2">검색</div>
                                                 <div class="col-sm-4">
-                                                    <input name="schlName" class="form-control" id="schlName1" readonly/>
                                                     <input type="hidden" name="schlCode" class="form-control" id="schlCode1" />
+                                                    <input name="schlName" class="form-control" id="schlName1" readonly/>
                                                 </div>
                                                 <div class="col-sm-2">
                                                     <label class="radio inline">
@@ -248,9 +249,23 @@
                 <button id="bpopBtnSearchCountry">검색</button>
                 <button id="bpopBtnResultCountry">호출처에 값세팅</button>
             </div>
-            <div id="bpopResultCountry"></div>
+            <div>
+                <table class="table table-stripped">
+                    <thead>
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td>한글 이름</td>
+                        <td>영문 이름</td>
+                    </tr>
+                    </thead>
+                    <tbody id="bpopResultCountry">
+                    </tbody>
+                </table>
+            </div>
         </div>
-        <input type="hidden" id="targetTextNodeId" />
+        <input type="hidden" id="targetCntrCode" />
+        <input type="hidden" id="targetKorName" />
+        <input type="hidden" id="targetEngName" />
     </div>
 
 </section>
@@ -269,15 +284,19 @@
             <%-- bpopup --%>
             $('.bpopper').on('click', function (e) {
                 e.preventDefault();
-                document.getElementById('targetTextNodeId').value = $(this).attr('data-targetTextNodeId');
+                document.getElementById('targetCntrCode').value = $(this).attr('data-targetCntrCode');
+                document.getElementById('targetKorName').value = $(this).attr('data-targetKorCntrName');
+                document.getElementById('targetEngName').value = $(this).attr('data-targetEngCntrName');
                 $('#bpopContainerCountry').bPopup();
             });
 
-            $('#bpopBtnResultCountry').on('click', function (e) {
-                var targetInputId = document.getElementById('targetTextNodeId').value,
-                    keyword = document.getElementById('bpopCntr').value;
-                document.getElementById(targetInputId).value = keyword;
-            });
+//            $('#bpopBtnResultCountry').on('click', function (e) {
+//                var targetInputId1 = document.getElementById('targetCntrCode').value,
+//                    targetInputId2 = document.getElementById('targetKorName').value,
+//                    targetInputId3 = document.getElementById('targetEngName').value,
+//                        keyword = document.getElementById('bpopCntr').value;
+//                document.getElementById(targetInputId).value = keyword;
+//            });
 
             <%-- 국가 검색 시작 --%>
             $('#bpopBtnSearchCountry').on('click', function() {
@@ -285,18 +304,31 @@
                     type: 'GET',
                     url: '${contextPath}/common/code/country/'+$('#bpopCntr').val(),
                     success: function(data) {
-                        var table = $('<table class="table table-stripped">'),
-                            thead = $('<thead>'),
-                            tbody = $('<tbody>');
-                        $('#bpopResultCountry').append(table).append(thead)
-                                .append('<tr><th>한글 이름</th><th>영문 이름</th></tr>')
-                                .apend(tbody);
-                        $(data.data).each( function(i, item) {
-                            $('#bpopResultCountry').append('<tr>'+'<td>'+item.korCntrName+'</td>'+'<td>'+item.engCntrName+'</td>'+'</tr>');
-                        });
+
+                        var obj = JSON.parse(data.data);
+
+                        for ( i = 0, l = obj.length ; i < l ; i++ ) {
+                            var record = $('<tr>'+'<td><span style="display:none">'+obj[i].cntrCode+'</span></td>'+'<td>'+obj[i].korCntrName+'</td>'+'<td>'+obj[i].engCntrName+'</td>'+'</tr>');
+                            var record = $('<tr>'+'<td>'+obj[i].cntrCode+'</td>'+'<td>'+obj[i].korCntrName+'</td>'+'<td>'+obj[i].engCntrName+'</td>'+'</tr>');
+                            $('#bpopResultCountry').append(record);
+                            $(record).on('click', function(e) {
+                                var targetInputId = [ document.getElementById('targetCntrCode').value,
+                                                      document.getElementById('targetKorName').value,
+                                                      document.getElementById('targetEngName').value ];
+                                    tr = e.target.parentNode;
+                                for ( var i = 0 , len = tr.children.length, t0 ; i < len ; i++ ) {
+
+                                    document.getElementById(targetInputId[i]).value = tr.children[i].textContent;
+                                }
+//                                document.getElementById(targetInputId1).value = obj[i].cntrCode;
+//                                document.getElementById(targetInputId2).value = obj[i].korCntrName;
+//                                document.getElementById(targetInputId3).value = obj[i].engCntrName;
+                            });
+                        }
                     }
                 });
             });
+
 
             <%-- 국가 검색 끝 --%>
 
@@ -342,7 +374,9 @@
             <%-- o 내의 모든 children의 id 값 마지막 숫자를 n으로 변경, value를 ""로 --%>
             var incrementChildren = function (o, n) {
 
-                var childList = o instanceof jQuery ? o.children() : o.children, i, l, t0, tid, targetNodeId;
+                var childList = o instanceof jQuery ? o.children() : o.children,
+                                i, l, t0, tid,
+                                targetNodeId1, targetNodeId2, targetNodeId3;
 
                 if (childList) {
                     for (i = 0, l = childList.length; i < l; i++) {
@@ -353,9 +387,13 @@
                         }
                         if (t0.value) t0.value = "";
                         if (t0.type == 'radio') t0.checked = false;
-                        if (t0.hasAttribute('data-targetTextNodeId')) {
-                            targetNodeId = t0.getAttribute('data-targetTextNodeId');
-                            t0.setAttribute('data-targetTextNodeId',targetNodeId.substring(0, targetNodeId.length-1) + n.toString());
+                        if (t0.hasAttribute('data-targetCntrCode')) {
+                            targetNodeId1 = t0.getAttribute('data-targetCntrCode');
+                            t0.setAttribute('data-targetCntrCode',targetNodeId1.substring(0, targetNodeId1.length-1) + n.toString());
+                            targetNodeId2 = t0.getAttribute('data-targetKorCntrName');
+                            t0.setAttribute('data-targetCntrCode',targetNodeId2.substring(0, targetNodeId2.length-1) + n.toString());
+                            targetNodeId3 = t0.getAttribute('data-targetEngCntrName');
+                            t0.setAttribute('data-targetCntrCode',targetNodeId3.substring(0, targetNodeId3.length-1) + n.toString());
                         }
 
                         incrementChildren(t0, n);
