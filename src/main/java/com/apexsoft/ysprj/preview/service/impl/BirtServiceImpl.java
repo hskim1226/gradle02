@@ -2,7 +2,7 @@ package com.apexsoft.ysprj.preview.service.impl;
 
 import com.apexsoft.framework.persistence.dao.page.PageInfo;
 import com.apexsoft.framework.persistence.dao.page.PageStatement;
-import com.apexsoft.ysprj.user.domain.Application;
+import com.apexsoft.ysprj.applicants.application.domain.Application;
 import com.apexsoft.ysprj.preview.service.BirtService;
 import com.apexsoft.framework.persistence.dao.CommonDAO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +28,7 @@ public class BirtServiceImpl implements BirtService {
          * 임시 데이터.
          */
         Application application = new Application();
-        application.setApplNo("15A10001-10001");
+        application.setApplNo(1);
         application.setDeptCode("010");
         application.setKorName("김지호");
         application.setEngName("Jiho");
