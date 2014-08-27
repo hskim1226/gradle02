@@ -442,7 +442,7 @@
                                                         <form:radiobutton path="highSchool.acadTypeCode" value="00001" />졸업
                                                     </label>
                                                     <label class="radio-inline">
-                                                        <form:radiobutton path="highSchool.acadType" value="00005" />검정고시
+                                                        <form:radiobutton path="highSchool.acadTypeCode" value="00005" />검정고시
                                                     </label>
                                                 </div>
                                             </div>
@@ -503,35 +503,38 @@
                                     <div class="form-group-block-list">
                                         <c:forEach begin="0" end="${collegeList.size() > 0 ? collegeList.size()-1 : collegeList.size()}" varStatus="stat">
                                         <div class="form-group-block">
+                                            <form:hidden path="collegeList[${stat.index}].acadTypeCode" value="00002" />
+                                            <%--TODO 테이블에 국가이름 누락--%>
+                                            <%--<div class="form-group">--%>
+                                                <%--<form:label path="collegeList[${stat.index}]korCntrName" cssClass="col-sm-2 control-label">소재 국가</form:label>--%>
+                                                <%--<div class="btn btn-default btn-md col-md-2 bpopperCntr">검색</div>--%>
+                                                <%--<div class="col-sm-6">--%>
+                                                    <%--<form:input path="collegeList[${stat.index}].korCntrName" cssClass="form-control" />--%>
+                                                <%--</div>--%>
+                                            <%--</div>--%>
+                                            <%--TODO 테이블에 국가이름 누락--%>
                                             <div class="form-group">
-                                                <form:label path="collegeList[${stat.index}]korCntrName" cssClass="col-sm-2 control-label">소재 국가</form:label>
-                                                <div class="btn btn-default btn-md col-md-2">검색</div>
-                                                <div class="col-sm-6">
-                                                    <form:input path="collegeList[${stat.index}].korCntrName" cssClass="form-control" />
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <form:label path="collegeList[${stat.index}]schlName" cssClass="col-sm-2 control-label">학교 이름</form:label>
+                                                <form:label path="collegeList[${stat.index}].schlName" cssClass="col-sm-2 control-label">학교 이름</form:label>
                                                 <div class="btn btn-default btn-md col-md-2">검색</div>
                                                 <div class="col-sm-4">
-                                                    <form:input path="collegeList[${stat.index}]schlName" cssClass="form-control" />
+                                                    <form:input path="collegeList[${stat.index}].schlName" cssClass="form-control" />
                                                 </div>
                                                 <div class="col-sm-2">
                                                     <label class="radio inline">
-                                                        <form:radiobutton path="collegeList[${stat.index}]lastSchlYn" value="y" />&nbsp;&nbsp;최종 학교
+                                                        <form:radiobutton path="collegeList[${stat.index}].lastSchlYn" value="y" />&nbsp;&nbsp;최종 학교
                                                     </label>
                                                 </div>
                                             </div>
                                             <div class="form-group">
-                                                <form:label path="collegeList[${stat.index}]collName" cssClass="col-sm-2 control-label">단과 대학</form:label>
+                                                <form:label path="collegeList[${stat.index}].collName" cssClass="col-sm-2 control-label">단과 대학</form:label>
                                                 <div class="col-sm-8">
-                                                    <form:input path="collegeList[${stat.index}]collName" cssClass="form-control" />
+                                                    <form:input path="collegeList[${stat.index}].collName" cssClass="form-control" />
                                                 </div>
                                             </div>
                                             <div class="form-group">
-                                                <form:label path="collegeList[${stat.index}]majName" cssClass="col-sm-2 control-label">학과 이름</form:label>
+                                                <form:label path="collegeList[${stat.index}].majName" cssClass="col-sm-2 control-label">학과 이름</form:label>
                                                 <div class="col-sm-8">
-                                                    <form:input path="collegeList[${stat.index}]majName" cssClass="form-control" />
+                                                    <form:input path="collegeList[${stat.index}].majName" cssClass="form-control" />
                                                 </div>
                                             </div>
                                             <div class="form-group">
@@ -539,13 +542,13 @@
                                                 <div class="col-sm-4 start-date-container">
                                                     <div class="input-group date">
                                                         <span class="input-group-addon">입학일</span>
-                                                        <form:input path="collegeList[${stat.index}]entrDay" cssClass="form-control" readonly="true" />
+                                                        <form:input path="collegeList[${stat.index}].entrDay" cssClass="form-control" readonly="true" />
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-4 end-date-container">
                                                     <div class="input-group date">
                                                         <span class="input-group-addon">졸업일</span>
-                                                        <form:input path="collegeList[${stat.index}]grdaDay" cssClass="form-control" readonly="true" />
+                                                        <form:input path="collegeList[${stat.index}].grdaDay" cssClass="form-control" readonly="true" />
                                                     </div>
                                                 </div>
                                             </div>
@@ -554,13 +557,13 @@
                                                 <div class="col-sm-2">
                                                     <div class="input-group">
                                                         <span class="input-group-addon">평점</span>
-                                                        <form:input path="collegeList[${stat.index}]gradAvr" cssClass="form-control" />
+                                                        <form:input path="collegeList[${stat.index}].gradAvr" cssClass="form-control" />
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-2">
                                                     <div class="input-group">
                                                         <span class="input-group-addon">만점</span>
-                                                        <form:input path="collegeList[${stat.index}]gradFull" cssClass="form-control" />
+                                                        <form:input path="collegeList[${stat.index}].gradFull" cssClass="form-control" />
                                                     </div>
                                                 </div>
                                             </div>
@@ -577,37 +580,40 @@
                                     <div class="form-group-block-list">
                                         <c:forEach begin="0" end="${graduateList.size() > 0 ? graduateList.size()-1 : graduateList.size()}" varStatus="stat">
                                         <div class="form-group-block">
+                                            <form:hidden path="graduateList[${stat.index}].acadTypeCode" value="00003" />
+                                            <%--TODO 테이블에 국가이름 누락--%>
+                                            <%--<div class="form-group">--%>
+                                                <%--<form:label path="graduateList[${stat.index}]korCntrName" cssClass="col-sm-2 control-label">소재 국가</form:label>--%>
+                                                <%--<div class="co-xs-6 col-sm-2">--%>
+                                                    <%--<button type="button" class="btn btn-default">검색</button>--%>
+                                                <%--</div>--%>
+                                                <%--<div class="col-sm-6">--%>
+                                                    <%--<form:input path="graduateList[${stat.index}].korCntrName" cssClass="form-control" />--%>
+                                                <%--</div>--%>
+                                            <%--</div>--%>
+                                            <%--TODO 테이블에 국가이름 누락--%>
                                             <div class="form-group">
-                                                <form:label path="graduateList[${stat.index}]korCntrName" cssClass="col-sm-2 control-label">소재 국가</form:label>
-                                                <div class="co-xs-6 col-sm-2">
-                                                    <button type="button" class="btn btn-default">검색</button>
-                                                </div>
-                                                <div class="col-sm-6">
-                                                    <form:input path="graduateList[${stat.index}].korCntrName" cssClass="form-control" />
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <form:label path="graduateList[${stat.index}]schlName" cssClass="col-sm-2 control-label">학교 이름</form:label>
+                                                <form:label path="graduateList[${stat.index}].schlName" cssClass="col-sm-2 control-label">학교 이름</form:label>
                                                 <div class="btn btn-default btn-md col-md-2">검색</div>
                                                 <div class="col-sm-4">
-                                                    <form:input path="graduateList[${stat.index}]schlName" cssClass="form-control" />
+                                                    <form:input path="graduateList[${stat.index}].schlName" cssClass="form-control" />
                                                 </div>
                                                 <div class="col-sm-2">
                                                     <label class="radio inline">
-                                                        <form:radiobutton path="graduateList[${stat.index}]lastSchlYn" value="y" />&nbsp;&nbsp;최종 학교
+                                                        <form:radiobutton path="graduateList[${stat.index}].lastSchlYn" value="y" />&nbsp;&nbsp;최종 학교
                                                     </label>
                                                 </div>
                                             </div>
                                             <div class="form-group">
-                                                <form:label path="graduateList[${stat.index}]collName" cssClass="col-sm-2 control-label">단과 대학</form:label>
+                                                <form:label path="graduateList[${stat.index}].collName" cssClass="col-sm-2 control-label">단과 대학</form:label>
                                                 <div class="col-sm-8">
-                                                    <form:input path="graduateList[${stat.index}]collName" cssClass="form-control" />
+                                                    <form:input path="graduateList[${stat.index}].collName" cssClass="form-control" />
                                                 </div>
                                             </div>
                                             <div class="form-group">
-                                                <form:label path="graduateList[${stat.index}]majName" cssClass="col-sm-2 control-label">학과 이름</form:label>
+                                                <form:label path="graduateList[${stat.index}].majName" cssClass="col-sm-2 control-label">학과 이름</form:label>
                                                 <div class="col-sm-8">
-                                                    <form:input path="graduateList[${stat.index}]majName" cssClass="form-control" />
+                                                    <form:input path="graduateList[${stat.index}].majName" cssClass="form-control" />
                                                 </div>
                                             </div>
                                             <div class="form-group">
@@ -615,13 +621,13 @@
                                                 <div class="col-sm-4 start-date-container">
                                                     <div class="input-group date">
                                                         <span class="input-group-addon">입학일</span>
-                                                        <form:input path="graduateList[${stat.index}]entrDay" cssClass="form-control" readonly="true" />
+                                                        <form:input path="graduateList[${stat.index}].entrDay" cssClass="form-control" readonly="true" />
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-4 end-date-container">
                                                     <div class="input-group date">
                                                         <span class="input-group-addon">졸업일</span>
-                                                        <form:input path="graduateList[${stat.index}]grdaDay" cssClass="form-control" readonly="true" />
+                                                        <form:input path="graduateList[${stat.index}].grdaDay" cssClass="form-control" readonly="true" />
                                                     </div>
                                                 </div>
                                             </div>
@@ -630,13 +636,13 @@
                                                 <div class="col-sm-2">
                                                     <div class="input-group">
                                                         <span class="input-group-addon">평점</span>
-                                                        <form:input path="graduateList[${stat.index}]gradAvr" cssClass="form-control" />
+                                                        <form:input path="graduateList[${stat.index}].gradAvr" cssClass="form-control" />
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-2">
                                                     <div class="input-group">
                                                         <span class="input-group-addon">만점</span>
-                                                        <form:input path="graduateList[${stat.index}]gradFull" cssClass="form-control" />
+                                                        <form:input path="graduateList[${stat.index}].gradFull" cssClass="form-control" />
                                                     </div>
                                                 </div>
                                             </div>
@@ -795,7 +801,7 @@
                                 <div class="panel-heading">경력사항</div>
                                 <div class="panel-body">
                                     <div id="career-container" class="form-group-block-list">
-                                        <c:forEach varStatus="stat" begin="0" end="${entireApplication.applicationExperienceList.size()}">
+                                        <c:forEach varStatus="stat" begin="0" end="${applicationExperienceList.size() > 0 ? applicationExperienceList.size()-1 : applicationExperienceList.size()}">
                                         <div id="career-info" class="form-group-block">
                                             <div class="form-group">
                                                 <label class="col-sm-2 control-label">재직 기간</label>
@@ -1100,6 +1106,63 @@
             <img src="${contextPath}/img/user/addr-close.png" id="btnCloseLayer" style="cursor:pointer;position:absolute;right:-3px;top:-3px" alt="닫기 버튼">
         </div>
     </div> <%--container--%>
+
+    <%--TODO 국가 검색 팝업 --%>
+    <div id="bpopContainerCountry" class="bpopContainer">
+        <span class="button b-close"><span>X</span></span>
+        <div id="bpopContentCountry">
+            <div class="form-group">
+                <div class="col-sm-10">
+                    <input type="text" id="bpopCntr" name="cntr" class="form-control" />
+                </div>
+                <button id="bpopBtnSearchCountry" class="btn btn-info col-sm-2">검색</button>
+            </div>
+            <div>
+                <table class="table table-stripped">
+                    <thead>
+                    <tr>
+                        <th>&nbsp;</th>
+                        <th>한글 이름</th>
+                        <th>영문 이름</th>
+                    </tr>
+                    </thead>
+                    <tbody id="bpopResultCountry">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <%--TODO 국가 검색 팝업 --%>
+
+    <%--TODO 학교 검색 팝업 --%>
+    <div id="bpopContainerSchool" class="bpopContainer">
+        <span class="button b-close"><span>X</span></span>
+        <div id="bpopContentSchool">
+            <div class="form-group">
+                <div class="col-sm-10">
+                    <input type="text" id="bpopSchl" name="schl" class="form-control" />
+                </div>
+                <button id="bpopBtnSearchSchool" class="btn btn-info col-sm-2">검색</button>
+            </div>
+            <div>
+                <table class="table table-stripped">
+                    <thead>
+                    <tr>
+                        <th>&nbsp;</th>
+                        <th>학교 이름</th>
+                    </tr>
+                    </thead>
+                    <tbody id="bpopResultSchool">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <input type="hidden" id="targetNode1" />
+    <input type="hidden" id="targetNode2" />
+    <input type="hidden" id="targetNode3" />
+    <%--TODO 학교 검색 팝업 --%>
+
 </section>
 <content tag="local-script">
     <%--<script src="${contextPath}/js/postcode.js"></script>--%>
@@ -1109,6 +1172,92 @@
     <script src="//code.jquery.com/ui/1.11.1/jquery-ui.js"></script>
     <script type="text/javascript">
         $(document).ready(function() {
+
+            <%-- TODO 국가 검색 시작 --%>
+            $('.bpopperCntr').on('click', function (e) {
+                e.preventDefault();
+                $('#bpopResultCountry').empty();
+                document.getElementById('bpopCntr').value="";
+                $(this).attr('data-category') === "country" ? (
+                        document.getElementById('targetNode1').value = $(this).attr('data-targetNode1'),
+                                document.getElementById('targetNode2').value = $(this).attr('data-targetNode2'),
+                                document.getElementById('targetNode3').value = $(this).attr('data-targetNode3')
+                        ) : (
+                        document.getElementById('targetNode1').value = $(this).attr('data-targetNode1'),
+                                document.getElementById('targetNode2').value = $(this).attr('data-targetNode2'),
+                                document.getElementById('targetNode3').value = null
+                        );
+                $('#bpopContainerCountry').bPopup();
+            });
+
+            $('#bpopBtnSearchCountry').on('click', function() {
+
+                $.ajax({
+                    type: 'GET',
+                    url: '${contextPath}/common/code/country/'+encodeURIComponent($('#bpopCntr').val()),
+                    success: function(data) {
+
+                        var obj = JSON.parse(data.data);
+
+                        for ( i = 0, l = obj.length ; i < l ; i++ ) {
+                            var record = $('<tr>'+'<td><span style="display: none;" class="b-close">'+obj[i].cntrCode+'</span></td>'+'<td><span class="b-close">'+obj[i].korCntrName+'</span></td>'+'<td><span class="b-close">'+obj[i].engCntrName+'</span></td>'+'</tr>');
+                            $('#bpopResultCountry').append(record);
+                            $(record).on('click', function(e) {
+                                var targetInputId = [ document.getElementById('targetNode1').value,
+                                            document.getElementById('targetNode2').value,
+                                            document.getElementById('targetNode3').value ],
+                                        tr = e.target.parentNode.parentNode;
+                                for ( var i = 0 , len = tr.children.length, t0 ; i < len ; i++ ) {
+                                    document.getElementById(targetInputId[i]).value = tr.children[i].firstChild.innerText;
+                                }
+
+                            });
+                        }
+                    }
+                });
+            });
+            <%-- TODO 국가 검색 끝 --%>
+
+            <%-- TODO 학교 검색 시작 --%>
+            $('#bpopperSchl').on('click', function (e) {
+                e.preventDefault();
+                $('#bpopResultSchool').empty();
+                document.getElementById('bpopSchl').value="";
+                $(this).attr('data-category') === "school" ? (
+                        document.getElementById('targetNode1').value = $(this).attr('data-targetNode1'),
+                                document.getElementById('targetNode2').value = $(this).attr('data-targetNode2')
+                        ) : (
+                        document.getElementById('targetNode1').value = $(this).attr('data-targetNode1'),
+                                document.getElementById('targetNode2').value = $(this).attr('data-targetNode2')
+                        );
+                $('#bpopContainerSchool').bPopup();
+            });
+
+            $('#bpopBtnSearchSchool').on('click', function() {
+
+                $.ajax({
+                    type: 'GET',
+                    url: '${contextPath}/common/code/school/'+encodeURIComponent($('#bpopSchl').val()),
+                    success: function(data) {
+
+                        var obj = JSON.parse(data.data);
+
+                        for ( i = 0, l = obj.length ; i < l ; i++ ) {
+                            var record = $('<tr>'+'<td><span style="display: none;" class="b-close">'+obj[i].schlCode+'</span></td>'+'<td><span class="b-close">'+obj[i].schlName+'</span></td>'+'</tr>');
+                            $('#bpopResultSchool').append(record);
+                            $(record).on('click', function(e) {
+                                var targetInputId = [ document.getElementById('targetNode1').value,
+                                            document.getElementById('targetNode2').value ],
+                                        tr = e.target.parentNode.parentNode;
+                                for ( var i = 0 , len = tr.children.length, t0 ; i < len ; i++ ) {
+                                    document.getElementById(targetInputId[i]).value = tr.children[i].firstChild.innerText;
+                                }
+                            });
+                        }
+                    }
+                });
+            });
+            <%-- TODO 학교 검색 끝 --%>
 
             var datePickerOption = {
 //                format: "yyyymmdd",
@@ -1140,6 +1289,7 @@
 //                var $curPane = $('.tab-pane.active');
 //                var $curForm = $curPane.find('form');
                 var $curForm = $('#entireApplication');
+                console.log($curForm.serializeArray());
                 $curForm.submit();
             });
 
@@ -1179,7 +1329,8 @@
                 if (originBlock) {
                     $cloneObj = $(originBlock).clone(true);
                     $cloneObj.find('.input-group.date>input').datepicker('destroy');
-                    incrementChildren($cloneObj, blocks.length);
+//                    incrementChildren($cloneObj, blocks.length);
+                    updateIdAndName($cloneObj[0], blocks.length);
                     container.insertBefore($cloneObj[0], originBlock.nextSibling);
                     $cloneObj.find('.input-group.date>input').datepicker(datePickerOption);
                 }
@@ -1202,12 +1353,24 @@
             });
 
             function updateIdAndName( block, index ) {
-                var i, name, prefix, suffix;
-                var inputs = block.querySelectorAll('input');
-                if (inputs) {
-                    inputs[0].name
-                    for (i = 0; i <inputs.length; i++) {
+                var i, name, prefix, suffix, input, items, label;
+                var input = block.querySelector('input');
 
+                name = input.name;
+                prefix = name.substring(0, name.indexOf('['))
+
+                items = block.querySelectorAll('input, select');
+                if (items) {
+                    for (i = 0; i <items.length; i++) {
+                        name = items[i].name;
+                        suffix = name.substring(name.lastIndexOf(']') + 1, name.length);
+                        items[i].name = prefix + '[' + index + ']' + suffix;
+                        items[i].id = prefix + index + suffix;
+
+                        label = block.querySelector('label[for="' + name + '"]');
+                        if (label) {
+                            label.for = items[i].id;
+                        }
                     }
                 }
             }
