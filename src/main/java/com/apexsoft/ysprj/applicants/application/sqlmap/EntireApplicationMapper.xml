@@ -3,7 +3,7 @@
 <mapper namespace="com.apexsoft.ysprj.applicants.application.sqlmap.EntireApplicationMapper">
 
     <resultMap id="entireApplicationByNestedSelect"
-               type="com.apexsoft.ysprj.user.test.EntireApplication">
+               type="com.apexsoft.ysprj.applicants.application.domain.EntireApplication">
         <id property="applNo" column="appl_no"/>
         <result property="userId" column="user_id"/>
         <result property="admsNo" column="adms_no"/>
@@ -36,7 +36,7 @@
         <result property="modId" column="mod_id"/>
         <result property="modDate" column="mod_date"/>
         <association property="applicationGeneral"
-                     javaType="com.apexsoft.ysprj.user.domain.ApplicationGeneral">
+                     javaType="com.apexsoft.ysprj.applicants.application.domain.ApplicationGeneral">
             <id property="applNo" column="appl_no"/>
             <result property="currWrkpName" column="curr_wrkp_name"/>
             <result property="currWrkpDay" column="curr_wrkp_day"/>
@@ -62,7 +62,7 @@
             <result property="modDate" column="gene_mod_date"/>
         </association>
         <association property="applicationEtc"
-                     javaType="com.apexsoft.ysprj.user.domain.ApplicationEtc">
+                     javaType="com.apexsoft.ysprj.applicants.application.domain.ApplicationETCWithBLOBs">
             <id property="applNo" column="appl_no"/>
             <result property="covLett" column="cov_lett"/>
             <result property="studPlan" column="stud_plan"/>
@@ -72,14 +72,14 @@
             <result property="modDate" column="etc_mod_date"/>
         </association>
         <collection property="applicationAcademyList" column="appl_no"
-                    ofType="com.apexsoft.ysprj.user.domain.ApplicationAcademy"
+                    ofType="com.apexsoft.ysprj.applicants.application.domain.ApplicationAcademy"
                     select="selectAcademyListForEntireApplication"/>
-        <collection property="applicationExperiencesList" column="appl_no"
-                    ofType="com.apexsoft.ysprj.user.domain.ApplicationExperiences"
-                    select="selectExperiencesListForEntireApplication"/>
-        <collection property="applicationEngGradeList" column="appl_no"
-                    ofType="com.apexsoft.ysprj.user.domain.ApplicationEngGrade"
-                    select="selectEngGradeListForEntireApplication"/>
+        <collection property="applicationExperienceList" column="appl_no"
+                    ofType="com.apexsoft.ysprj.applicants.application.domain.ApplicationExperience"
+                    select="selectExperienceListForEntireApplication"/>
+        <collection property="applicationLanguageList" column="appl_no"
+                    ofType="com.apexsoft.ysprj.applicants.application.domain.ApplicationLanguage"
+                    select="selectLanguageListForEntireApplication"/>
 
     </resultMap>
 
@@ -155,7 +155,7 @@
     </select>
 
     <select id="selectAcademyListForEntireApplication"
-            resultType="com.apexsoft.ysprj.user.domain.ApplicationAcademy"
+            resultType="com.apexsoft.ysprj.applicants.application.domain.ApplicationAcademy"
             parameterType="int">
         <![CDATA[
         select
@@ -183,8 +183,8 @@
         ]]>
     </select>
 
-    <select id="selectExperiencesListForEntireApplication"
-            resultType="com.apexsoft.ysprj.user.domain.ApplicationExperiences"
+    <select id="selectExperienceListForEntireApplication"
+            resultType="com.apexsoft.ysprj.applicants.application.domain.ApplicationExperience"
             parameterType="int">
         <![CDATA[
         select
@@ -203,8 +203,8 @@
         ]]>
     </select>
 
-    <select id="selectEngGradeListForEntireApplication"
-            resultType="com.apexsoft.ysprj.user.domain.ApplicationEngGrade"
+    <select id="selectLanguageListForEntireApplication"
+            resultType="com.apexsoft.ysprj.applicants.application.domain.ApplicationLanguage"
             parameterType="int">
         <![CDATA[
         select
@@ -226,7 +226,7 @@
     </select>
 
     <select id="selectApplicationByApplNo"
-            resultType="com.apexsoft.ysprj.user.domain.Application"
+            resultType="com.apexsoft.ysprj.applicants.application.domain.Application"
             parameterType="int">
         <![CDATA[
         select
@@ -266,7 +266,7 @@
         ]]>
     </select>
 
-    <insert id="insertApplication" parameterType="com.apexsoft.ysprj.user.domain.Application">
+    <insert id="insertApplication" parameterType="com.apexsoft.ysprj.applicants.application.domain.Application">
         <![CDATA[
         INSERT INTO APPL (
                 USER_ID,
@@ -333,7 +333,7 @@
         ]]>
     </insert>
 
-    <update id="updateApplicationByApplNo" parameterType="com.apexsoft.ysprj.user.domain.Application">
+    <update id="updateApplicationByApplNo" parameterType="com.apexsoft.ysprj.applicants.application.domain.Application">
         <![CDATA[
 		  update APPL set
                 USER_ID = #{userId},
@@ -370,7 +370,7 @@
 		]]>
     </update>
     
-    <update id="updateApplicationKorNameByAdmin" parameterType="com.apexsoft.ysprj.user.domain.Application">
+    <update id="updateApplicationKorNameByAdmin" parameterType="com.apexsoft.ysprj.applicants.application.domain.Application">
         <![CDATA[
 		  update APPL set
                 KOR_NAME = #{korName}},
@@ -379,7 +379,7 @@
 			WHERE APPL_NO = #{applNo}
 		]]>
     </update>
-    <update id="updateApplicationEngNameByAdmin" parameterType="com.apexsoft.ysprj.user.domain.Application">
+    <update id="updateApplicationEngNameByAdmin" parameterType="com.apexsoft.ysprj.applicants.application.domain.Application">
         <![CDATA[
 		  update APPL set
                 ENG_SUR = #{engSur},
@@ -389,7 +389,7 @@
 			WHERE APPL_NO = #{applNo}
 		]]>
     </update>
-    <update id="updateApplicationRgstNoByAdmin" parameterType="com.apexsoft.ysprj.user.domain.Application">
+    <update id="updateApplicationRgstNoByAdmin" parameterType="com.apexsoft.ysprj.applicants.application.domain.Application">
         <![CDATA[
 		  update APPL set
                 RGST_NO = #{rgstNo},
@@ -398,7 +398,7 @@
 			WHERE APPL_NO = #{applNo}
 		]]>
     </update>
-    <update id="updateApplicationAddrByAdmin" parameterType="com.apexsoft.ysprj.user.domain.Application">
+    <update id="updateApplicationAddrByAdmin" parameterType="com.apexsoft.ysprj.applicants.application.domain.Application">
         <![CDATA[
 		  update APPL set
                 ZIP_CODE = #{zipCode},
@@ -409,7 +409,7 @@
 			WHERE APPL_NO = #{applNo}
 		]]>
     </update> 
-    <update id="updateApplicationMailAddrByAdmin" parameterType="com.apexsoft.ysprj.user.domain.Application">
+    <update id="updateApplicationMailAddrByAdmin" parameterType="com.apexsoft.ysprj.applicants.application.domain.Application">
         <![CDATA[
 		  update APPL set
                 MAIL_ADDR = #{mailAddr},
@@ -418,7 +418,7 @@
 			WHERE APPL_NO = #{applNo}
 		]]>
     </update> 
-    <update id="updateApplicationTelNumByAdmin" parameterType="com.apexsoft.ysprj.user.domain.Application">
+    <update id="updateApplicationTelNumByAdmin" parameterType="com.apexsoft.ysprj.applicants.application.domain.Application">
         <![CDATA[
 		  update APPL set
                 TEL_NUM = #{telNum},
@@ -427,7 +427,7 @@
 			WHERE APPL_NO = #{applNo}
 		]]>
     </update> 
-    <update id="updateApplicationMobiNumByAdmin" parameterType="com.apexsoft.ysprj.user.domain.Application">
+    <update id="updateApplicationMobiNumByAdmin" parameterType="com.apexsoft.ysprj.applicants.application.domain.Application">
         <![CDATA[
 		  update APPL set
                 MOBI_NUM = #{mobiNum},
