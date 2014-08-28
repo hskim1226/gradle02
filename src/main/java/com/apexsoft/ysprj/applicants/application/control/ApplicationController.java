@@ -4,6 +4,7 @@ import com.apexsoft.framework.common.vo.ExecutionContext;
 import com.apexsoft.ysprj.applicants.application.domain.*;
 import com.apexsoft.ysprj.applicants.application.service.ApplicationService;
 import com.apexsoft.ysprj.applicants.common.service.CommonService;
+import org.apache.commons.lang.math.RandomUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,10 +14,8 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.security.Principal;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.sql.Timestamp;
+import java.util.*;
 
 /**
  * Created by hanmomhanda on 14. 8. 6.
@@ -183,4 +182,105 @@ public class ApplicationController {
 //        return selfIntro;
 //    }
 
+    @RequestMapping(value="/in/{applNo}")
+    public EntireApplication createEntireApplication(@PathVariable("applNo") int applNo) {
+
+        EntireApplication ea = new EntireApplication();
+        ApplicationGeneral applGene = new ApplicationGeneral();
+        ApplicationETCWithBLOBs applEtc = new ApplicationETCWithBLOBs();
+        ApplicationAcademy highschool = new ApplicationAcademy();
+        List<ApplicationAcademy> collegeList = new ArrayList<ApplicationAcademy>();
+        List<ApplicationAcademy> graduateList = new ArrayList<ApplicationAcademy>();
+        List<ApplicationExperience> experienceListList = new ArrayList<ApplicationExperience>();
+        List<ApplicationLanguage> languageListList = new ArrayList<ApplicationLanguage>();
+
+        String id = RandomUtils.nextInt(100000)+"";
+        Timestamp timestamp = new Timestamp(new Date().getTime());
+
+        ea.setApplNo(applNo);
+        ea.setUserId(id);
+        ea.setAdmsNo("15A");
+        ea.setApplStsCode("00001");
+        ea.setCreDate(timestamp);
+        ea.setCreId(id);
+
+        applGene.setApplNo(applNo);
+        applGene.setCurrWrkpName("에이펙스");
+        applGene.setCreDate(timestamp);
+        applGene.setCreId(id);
+        ea.setApplicationGeneral(applGene);
+
+
+        applEtc.setCovLett("자기 소개 입니다.");
+        applEtc.setStudPlan("연구계획 입니다.");
+        applEtc.setCreDate(timestamp);
+        applEtc.setCreId(id);
+        ea.setApplicationETCWithBLOBs(applEtc);
+
+
+        highschool.setAcadTypeCode("00001");
+        highschool.setSchlName("깨똥고등학교");
+        highschool.setCreDate(timestamp);
+        highschool.setCreId(id);
+        ea.setHighSchool(highschool);
+
+        ApplicationAcademy aa0 = new ApplicationAcademy();
+        aa0.setAcadSeq(1);
+        aa0.setAcadTypeCode("00002");
+        aa0.setSchlName("연세대학교");
+        aa0.setCreDate(timestamp);
+        aa0.setCreId(id);
+        collegeList.add(aa0);
+
+        ApplicationAcademy aa1 = new ApplicationAcademy();
+        aa1.setAcadSeq(2);
+        aa1.setAcadTypeCode("00002");
+        aa1.setSchlName("면세대학교");
+        aa1.setCreDate(timestamp);
+        aa1.setCreId(id);
+        collegeList.add(aa1);
+
+        ApplicationAcademy aa2 = new ApplicationAcademy();
+        aa2.setAcadSeq(3);
+        aa2.setAcadTypeCode("00002");
+        aa2.setSchlName("면제대학교");
+        aa2.setCreDate(timestamp);
+        aa2.setCreId(id);
+        collegeList.add(aa2);
+        ea.setCollegeList(collegeList);
+
+        ApplicationExperience ae0 = new ApplicationExperience();
+        aa0.setAcadSeq(1);
+        ae0.setCorpName("보국전자");
+        ae0.setCreDate(timestamp);
+        ae0.setCreId(id);
+        experienceListList.add(ae0);
+
+        ApplicationExperience ae1 = new ApplicationExperience();
+        aa1.setAcadSeq(2);
+        ae1.setCorpName("가우스전자");
+        ae1.setCreDate(timestamp);
+        ae1.setCreId(id);
+        experienceListList.add(ae1);
+        ea.setApplicationExperienceList(experienceListList);
+
+        ApplicationLanguage al0 = new ApplicationLanguage();
+        al0.setLangSeq(1);
+        al0.setLangExamCode("ToefL33333");
+        al0.setCreDate(timestamp);
+        al0.setCreId(id);
+        languageListList.add(al0);
+
+        ApplicationLanguage al1 = new ApplicationLanguage();
+        al1.setLangSeq(2);
+        al1.setLangExamCode("ToeiC");
+        al1.setCreDate(timestamp);
+        al1.setCreId(id);
+        languageListList.add(al1);
+        ea.setApplicationLanguageList(languageListList);
+
+        applicationService.createEntireApplication(ea);
+
+        return ea;
+    }
 }
