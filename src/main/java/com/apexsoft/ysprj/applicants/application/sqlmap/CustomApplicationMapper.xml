@@ -70,6 +70,7 @@
                 COLL_CODE, COLL_NAME,
                 DEPT_CODE, DEPT_NAME,
                 DETL_MAJ_CODE, DETL_MAJ_NAME
+        FROM CAMP A, ADMS B, COLL C, DEPT D, DETL_MAJ E
     </select>
 
 </mapper>
