@@ -1421,7 +1421,7 @@
                     },
                     width : '100%',
                     height : '100%'
-                }).open;
+                }).open();
 
                 // iframe을 넣은 element를 보이게 한다.
 //                postLayer.style.display = 'block';
