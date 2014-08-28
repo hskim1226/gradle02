@@ -31,7 +31,10 @@ public class ApplicationController {
     private CommonService commonService;
 
     @RequestMapping(value="/mylist")
-    public String myApplicationList() {
+    public String myApplicationList(Principal principal) {
+        ParamForApplication p = new ParamForApplication();
+        p.setUserId(principal.getName());
+        List<CustomMyList> applications = applicationService.retrieveMyList(p);
         return "application/mylist";
     }
 

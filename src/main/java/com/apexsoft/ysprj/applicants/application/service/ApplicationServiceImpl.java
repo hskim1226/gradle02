@@ -243,6 +243,16 @@ public class ApplicationServiceImpl implements ApplicationService {
         return application;
     }
 
+    public List<CustomMyList> retrieveMyList(ParamForApplication paramForApplication) {
+        List<CustomMyList> applications = null;
+        try {
+            applications = commonDAO.queryForList(NAME_SPACE + "CustomApplicationMapper.selectApplByUserId",
+                    paramForApplication, CustomMyList.class);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
+        return applications;
+    }
 
 }
