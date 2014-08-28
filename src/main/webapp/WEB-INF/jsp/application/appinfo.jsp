@@ -162,7 +162,7 @@
                                             <label for="applAttrCode" class="col-sm-2 control-label">지원구분</label>
                                             <div class="col-sm-9">
                                                 <form:select path="" id="applAttrCode" cssClass="form-control">
-                                                    <form:options items="${applAttrList}" />
+                                                    <form:options items="${common.applAttrList}" />
                                                 </form:select>
                                             </div>
                                         </div>
@@ -343,7 +343,7 @@
                                         <div class="col-sm-4 end-date-container">
                                             <div class="input-group date">
                                                 <span class="input-group-addon">제대일자</span>
-                                                <form:input path="applicationGeneral.mltrJoinDay" cssClass="form-control" readonly="true" />
+                                                <form:input path="applicationGeneral.mltrDschDay" cssClass="form-control" readonly="true" />
                                             </div>
                                         </div>
                                     </div>
@@ -527,13 +527,13 @@
                                             </div>
                                             <div class="form-group">
                                                 <form:label path="collegeList[${stat.index}].collName" cssClass="col-sm-2 control-label">단과 대학</form:label>
-                                                <div class="col-sm-8">
+                                                <div class="col-sm-9">
                                                     <form:input path="collegeList[${stat.index}].collName" cssClass="form-control" />
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <form:label path="collegeList[${stat.index}].majName" cssClass="col-sm-2 control-label">학과 이름</form:label>
-                                                <div class="col-sm-8">
+                                                <div class="col-sm-9">
                                                     <form:input path="collegeList[${stat.index}].majName" cssClass="form-control" />
                                                 </div>
                                             </div>
@@ -554,13 +554,13 @@
                                             </div>
                                             <div class="form-group">
                                                 <label class="col-sm-2 control-label">평균 평점</label>
-                                                <div class="col-sm-2">
+                                                <div class="col-sm-4">
                                                     <div class="input-group">
                                                         <span class="input-group-addon">평점</span>
                                                         <form:input path="collegeList[${stat.index}].gradAvr" cssClass="form-control" />
                                                     </div>
                                                 </div>
-                                                <div class="col-sm-2">
+                                                <div class="col-sm-4">
                                                     <div class="input-group">
                                                         <span class="input-group-addon">만점</span>
                                                         <form:input path="collegeList[${stat.index}].gradFull" cssClass="form-control" />
@@ -606,13 +606,13 @@
                                             </div>
                                             <div class="form-group">
                                                 <form:label path="graduateList[${stat.index}].collName" cssClass="col-sm-2 control-label">단과 대학</form:label>
-                                                <div class="col-sm-8">
+                                                <div class="col-sm-9">
                                                     <form:input path="graduateList[${stat.index}].collName" cssClass="form-control" />
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <form:label path="graduateList[${stat.index}].majName" cssClass="col-sm-2 control-label">학과 이름</form:label>
-                                                <div class="col-sm-8">
+                                                <div class="col-sm-9">
                                                     <form:input path="graduateList[${stat.index}].majName" cssClass="form-control" />
                                                 </div>
                                             </div>
@@ -633,13 +633,13 @@
                                             </div>
                                             <div class="form-group">
                                                 <label class="col-sm-2 control-label">평균 평점</label>
-                                                <div class="col-sm-2">
+                                                <div class="col-sm-4">
                                                     <div class="input-group">
                                                         <span class="input-group-addon">평점</span>
                                                         <form:input path="graduateList[${stat.index}].gradAvr" cssClass="form-control" />
                                                     </div>
                                                 </div>
-                                                <div class="col-sm-2">
+                                                <div class="col-sm-4">
                                                     <div class="input-group">
                                                         <span class="input-group-addon">만점</span>
                                                         <form:input path="graduateList[${stat.index}].gradFull" cssClass="form-control" />
@@ -658,56 +658,11 @@
                                 <div class="panel-body">
                                     <div class="form-group">
                                         <label class="col-sm-2 control-label">영어</label>
-                                        <div class="col-sm-3">
-                                            <div class="input-group">
-                                                <span class="input-group-addon"><input type="checkbox" />TOEFL</span>
-                                                <select class="form-control">
-                                                    <option value="-" label="--선택--" />
-                                                    <option value="cbt" label="CBT" />
-                                                    <option value="ibt" label="IBT" />
-                                                    <option value="pbt" label="PBT" />
-                                                </select>
+                                        <div class="col-sm-4">
+                                            <div class="checkbox" style="float:left;">
+                                                <label><input type="checkbox" />TOEFL</label>
                                             </div>
-                                        </div>
-                                        <div class="col-sm-3">
-                                            <div class="input-group">
-                                                <span class="input-group-addon">시험일</span>
-                                                <input type="text" class="form-control" />
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-3">
-                                            <div class="input-group">
-                                                <span class="input-group-addon">점수</span>
-                                                <input type="text" class="form-control" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <div class="col-sm-offset-2 col-sm-3">
-                                            <div class="input-group">
-                                                <span class="input-group-addon">
-                                                    <span class="pull-left"><input type="checkbox" />TOEIC</span>
-                                                </span>
-                                                <span class="input-group-addon"></span>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-3">
-                                            <div class="input-group">
-                                                <span class="input-group-addon">시험일</span>
-                                                <input type="text" class="form-control" />
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-3">
-                                            <div class="input-group">
-                                                <span class="input-group-addon">점수</span>
-                                                <input type="text" class="form-control" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <div class="col-sm-offset-2 col-sm-3">
-                                            <div class="input-group">
-                                                <span class="input-group-addon"><input type="checkbox" />TEPS</span>
+                                            <div style="width:70%; float:right;">
                                                 <select class="form-control">
                                                     <option value="-" label="--선택--" />
                                                 </select>
@@ -719,7 +674,50 @@
                                                 <input type="text" class="form-control" />
                                             </div>
                                         </div>
+                                        <div class="col-sm-2">
+                                            <div class="input-group">
+                                                <span class="input-group-addon">점수</span>
+                                                <input type="text" class="form-control" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-sm-offset-2 col-sm-4">
+                                            <div class="checkbox">
+                                                <label><input type="checkbox" />GRE</label>
+                                            </div>
+                                        </div>
                                         <div class="col-sm-3">
+                                            <div class="input-group">
+                                                <span class="input-group-addon">시험일</span>
+                                                <input type="text" class="form-control" />
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <div class="input-group">
+                                                <span class="input-group-addon">점수</span>
+                                                <input type="text" class="form-control" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-sm-offset-2 col-sm-4">
+                                            <div class="checkbox" style="float:left;">
+                                                <label><input type="checkbox" />TEPS</label>
+                                            </div>
+                                            <div style="width:70%; float:right;">
+                                                <select class="form-control">
+                                                    <option value="-" label="--선택--" />
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <div class="input-group">
+                                                <span class="input-group-addon">시험일</span>
+                                                <input type="text" class="form-control" />
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-2">
                                             <div class="input-group">
                                                 <span class="input-group-addon">점수</span>
                                                 <input type="text" class="form-control" />
@@ -1548,15 +1546,34 @@
             /*지원 구분 변경 처리 끝*/
 
             /*select 폼 change 이벤트 처리 시작*/
-            function attachChangeEvent( sourceId, targetId, valueKey, labelKey, appendUrl ) {
-                var source = $('#' + sourceId);
-                var target = $('#' + targetId);
-                source.change( function() {
-                    var url = '${contextPath}/common/code';
-                    if( appendUrl && typeof(appendUrl) === 'string' ) {
+            function attachChangeEvent( sourceId, context, valueKey, labelKey, appendUrl ) {
+                var $source = $('#' + sourceId);
+                $source.change( function(event) {
+                    var url = '${contextPath}/common/code', targetId, info;
+
+                    if( typeof(context) === 'string' ) {
+                        targetId = context;
+                    } else if( typeof(context) === 'object' ) {
+                        info = context[$source.val()];
+                        if( !info ) {
+                            info = context.other;
+                        }
+                        if( info ) {
+                            targetId = info.targetId ? info.targetId : '';
+                            valueKey = info.valueKey ? info.valueKey : valueKey;
+                            labelKey = info.labelKey ? info.labelKey : labelKey;
+                            appendUrl = info.url ? info.url : appendUrl;
+                        }
+                    }
+
+                    if( !targetId ) {
+                        return;
+                    }
+
+                    if( appendUrl && typeof(appendUrl) === 'function' ) {
+                        url += appendUrl($source.val());
+                    } else if( appendUrl ) {
                         url += appendUrl;
-                    } else if( appendUrl && typeof(appendUrl) === 'function' ) {
-                        url += appendUrl(source.val());
                     }
 
                     $.ajax({
@@ -1564,6 +1581,7 @@
                         url: url,
                         success: function(e) {
                             if(e.result && e.result === 'SUCCESS') {
+                                var target = $('#' + targetId);
                                 var data = JSON && JSON.parse(e.data) || $.parseJSON(e.data);
                                 $(target).children('option').filter(function () {
                                     return this.value !== '-';
@@ -1584,7 +1602,12 @@
 
             /*지원사항 select 폼 change 이벤트 핸들러 등록 시작*/
             // 지원구분 변경
-            attachChangeEvent( 'applAttrCode', 'campCode', 'campCode', 'campName', '/campus' );
+            attachChangeEvent( 'applAttrCode',
+                    {
+                        other: {targetId: 'campCode', valueKey: 'campCode', labelKey: 'campName', url: '/campus'},
+                        '02': {targetId: 'ariInstCode', valueKey: 'ariInstCode', labelKey: 'ariInstName', url: '/ariInst'}
+                    }
+            );
 
             // 캠퍼스 변경
             attachChangeEvent( 'campCode', 'collCode', 'collCode', 'collName',
@@ -1596,25 +1619,31 @@
             // 대학변경
             attachChangeEvent( 'collCode', 'deptCode', 'deptCode', 'deptName',
                     function(args) {
-                        <%--var admsNo = ${requestScope.admsNo};--%>
-                        var admsNo = '15-A';
+                        var admsNo = '${entireApplication.admsNo}';
                         return '/general/department/' + admsNo + '/' + args;
+                    }
+            );
+
+            // 학연산 변경
+            attachChangeEvent( 'ariInstCode', 'deptCode', 'deptCode', 'deptName',
+                    function(args) {
+                        var admsNo = '${entireApplication.admsNo}';
+                        return '/ariInst/department/' + admsNo + '/' + args;
                     }
             );
 
             // 지원학과 변경
             attachChangeEvent( 'deptCode', 'corsTypeCode', 'corsTypeCode', 'codeVal',
                     function(args) {
-                        <%--var admsNo = ${requestScope.admsNo};--%>
-                        var admsNo = '15-A';
+                        var admsNo = '${entireApplication.admsNo}';
+                        var ariInstCode = $('#ariInstCode:visible').val();
+                        if( ariInstCode && ariInstCode != '-') {
+                            return '/ariInst/course/' + admsNo + "/" + args + "/" + ariInstCode;
+                        }
                         return '/general/course/' + admsNo + '/' + args;
                     }
             );
             /*지원사항 select 폼 change 이벤트 핸들러 등록 끝*/
-
-            /*병역사항 select 폼 change 이벤트 핸들러 등록 시작*/
-            attachChangeEvent( 'mltrServCode', '')
-            /*병역사항 select 폼 change 이벤트 핸들러 등록 끝*/
 
             $('#applAttrCode').change();
 

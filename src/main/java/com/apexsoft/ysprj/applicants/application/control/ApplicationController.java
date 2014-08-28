@@ -30,29 +30,9 @@ public class ApplicationController {
     @Autowired
     private CommonService commonService;
 
-    @RequestMapping(value="/create", method = RequestMethod.POST)
-    public String createApplication(@ModelAttribute("application") Application application,
-                                    @ModelAttribute("campuses") Map campuses,
-                                    @ModelAttribute("schoolTypes") Map schoolTypes,
-                                    @ModelAttribute("graduationTypes") Map graduationTypes) {
-        return "application/appinfo";
-    }
-
     @RequestMapping(value="/mylist")
     public String myApplicationList() {
         return "application/mylist";
-    }
-
-    @RequestMapping(value="/selfintro/save")
-    public String saveSelfIntro() {
-        // TODO DB에 저장, AJAX로 처리
-        return "application/selfintro";
-    }
-
-    @RequestMapping(value="/studyplan/save")
-    public String saveStudyPlan() {
-        // TODO DB에 저장, AJAX로 처리
-        return "application/studyplan";
     }
 
     @RequestMapping(value="/apply-work")
@@ -80,9 +60,9 @@ public class ApplicationController {
 
         /* 지원구분 공통코드로 수정 필요 */
         Map<String, String> applAttrMap = new LinkedHashMap<String, String>();
-        applAttrMap.put("AK01", "일반 지원자");
-        applAttrMap.put("AK02", "학·연·산 지원자");
-        applAttrMap.put("AK03", "위탁 지원자");
+        applAttrMap.put("01", "일반 지원자");
+        applAttrMap.put("02", "학·연·산 지원자");
+        applAttrMap.put("03", "위탁 지원자");
 
         Map<String, Object> commonCodeMap = new HashMap<String, Object>();
         commonCodeMap.put( "applAttrList", applAttrMap );
@@ -119,7 +99,9 @@ public class ApplicationController {
         EntireApplication entireApplication = new EntireApplication();
         entireApplication.setApplicationGeneral(new ApplicationGeneral());
         entireApplication.setApplicationETCWithBLOBs(new ApplicationETCWithBLOBs());
+        entireApplication.setHighSchool(new ApplicationAcademy());
         entireApplication.setCollegeList(new ArrayList<ApplicationAcademy>());
+        entireApplication.setGraduateList(new ArrayList<ApplicationAcademy>());
         entireApplication.setApplicationExperienceList(new ArrayList<ApplicationExperience>());
         entireApplication.setApplicationLanguageList(new ArrayList<ApplicationLanguage>());
         return entireApplication;
