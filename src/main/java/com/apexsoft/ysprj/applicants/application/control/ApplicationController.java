@@ -11,7 +11,6 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.security.Principal;
 import java.sql.Timestamp;
@@ -21,6 +20,7 @@ import java.util.*;
  * Created by hanmomhanda on 14. 8. 6.
  */
 @Controller
+@SessionAttributes("entireApplication")
 @RequestMapping(value="/application")
 public class ApplicationController {
 
@@ -62,28 +62,27 @@ public class ApplicationController {
     }
 
     @RequestMapping(value = "/apply"/*, /method = RequestMethod.POST(*/)
-    public String displayAppInfo(@RequestParam("admsNo") String admsNo,
-                                 @RequestParam("entrYear") String entrYear,
-                                 @RequestParam("admsTypeCode") String admsTypeCode,
+    public String displayAppInfo(@RequestParam(value = "applNo", required = false) Integer applNo,
+                                 @RequestParam(value = "admsNo", required = false) String admsNo,
+                                 @RequestParam(value = "entrYear", required = false) String entrYear,
+                                 @RequestParam(value = "admsTypeCode", required = false) String admsTypeCode,
                                  @ModelAttribute("entireApplication") EntireApplication entireApplication,
                                  Model model) {
 
-        entireApplication.setAdmsNo(admsNo);
-        /*TODO VO 변경 후 주석제거*/
-//        entireApplication.setEntrYear(entrYear);
-//        entireApplication.setAdmsTypeCode(admsTypeCode);
-        /*TODO VO 변경 후 주석제거*/
+        if (applNo != null) {
+            model.addAttribute("entireApplication", applicationService.retrieveEntireApplication(applNo));
+        } else {
+            entireApplication.setAdmsNo(admsNo);
+            entireApplication.setEntrYear(entrYear);
+            entireApplication.setAdmsTypeCode(admsTypeCode);
+            model.addAttribute("entireApplication", entireApplication);
+        }
 
+        /* 지원구분 공통코드로 수정 필요 */
         Map<String, String> applAttrMap = new LinkedHashMap<String, String>();
         applAttrMap.put("AK01", "일반 지원자");
         applAttrMap.put("AK02", "학·연·산 지원자");
         applAttrMap.put("AK03", "위탁 지원자");
-        model.addAttribute( "applAttrList", applAttrMap );
-//        model.addAttribute( "applAttrList", commonService.retrieveCommonCodeValueByCodeGroup("APPL_ATTR")  );
-//        model.addAttribute( "mltrServList", commonService.retrieveCommonCodeValueByCodeGroup("MLTR_SERV") );
-//        model.addAttribute( "mltrTypeList", commonService.retrieveCommonCodeValueByCodeGroup("MLTR_TYPE") );
-//        model.addAttribute( "mltrRankList", commonService.retrieveCommonCodeValueByCodeGroup("MLTR_RANK") );
-//        model.addAttribute( "emerContList", commonService.retrieveCommonCodeValueByCodeGroup("EMER_CONT") );
 
         Map<String, Object> commonCodeMap = new HashMap<String, Object>();
         commonCodeMap.put( "applAttrList", applAttrMap );
@@ -99,20 +98,19 @@ public class ApplicationController {
 
     @RequestMapping(value = "/apply/save", method = RequestMethod.POST)
     @ResponseBody
-    public ExecutionContext saveAcademy(@Valid @ModelAttribute EntireApplication entireApplication, BindingResult binding, Principal principal, HttpSession httpSession) {
+    public ExecutionContext saveAcademy(@Valid @ModelAttribute EntireApplication entireApplication, BindingResult binding, Principal principal) {
         if( binding.hasErrors() ) {
             return new ExecutionContext(ExecutionContext.FAIL);
         }
-//        SecurityContext sc = (SecurityContext)httpSession.getAttribute("SPRING_SECURITY_CONTEXT");
-//        Authentication auth = sc.getAuthentication();
-//        UserSessionVO userSessionVO = (UserSessionVO)auth.getPrincipal();
-//        String userId = principal != null ? principal.getName() : userSessionVO.getUsername();
-//        if( entireApplication.getApplNo() == null ) {   // insert
-//            applicationService.createApplication(null);
-//            applicationService.createApplicationGeneral(null);
-//        } else {    // update
-//
-//        }
+
+        if( principal == null ) {
+            return new ExecutionContext(ExecutionContext.FAIL);
+        }
+
+        if( entireApplication.getApplNo() == null ) {   // insert
+            applicationService.createEntireApplication( entireApplication );
+        } else {    // update
+        }
         return new ExecutionContext();
     }
 
@@ -126,61 +124,6 @@ public class ApplicationController {
         entireApplication.setApplicationLanguageList(new ArrayList<ApplicationLanguage>());
         return entireApplication;
     }
-
-//    @ModelAttribute("application")
-//    public Application application() {
-//        Application application = new Application();
-//        application.setKorName("홍길동");
-//        ApplicationAcademy applicationAcademy = new ApplicationAcademy();
-//        applicationAcademy.setSchlUnivCode("SCH02");
-//        applicationAcademy.setSchlName("서울대");
-//        application.getAcademies().add(applicationAcademy);
-//        ApplicationExperiences career = new ApplicationExperiences();
-//        career.setCorpName("에이펙스소프트");
-//        career.setJoinYmd("2012.04.01");
-//        career.setRetrYmd("2014.08.15");
-//        career.setExprDesc("솔루션사업부 책임");
-//        application.getCareers().add(career);
-//        return application;
-//    }
-//
-//    @ModelAttribute("schoolTypes")
-//    public Map<String, String> schoolTypes() {
-//        Map<String, String> schoolTypes = new HashMap<String, String>();
-//        schoolTypes.put("SCH01", "고등학교");
-//        schoolTypes.put("SCH02", "대학교");
-//        schoolTypes.put("SCH03", "대학원");
-//        return schoolTypes;
-//    }
-//
-//    @ModelAttribute("graduationTypes")
-//    public Map<String, String> graduationTypes() {
-//        Map<String, String> result = new HashMap<String, String>();
-//        result.put("GT01", "졸업");
-//        result.put("GT01", "졸업예정");
-//        return result;
-//    }
-//
-//    @ModelAttribute("campuses")
-//    public Map<String, String> campuses() {
-//        Map<String, String> result = new HashMap<String, String>();
-//        result.put("CAM01", "서울");
-//        result.put("CAM02", "원주");
-//        return result;
-//    }
-//
-////    @ModelAttribute("campuses")
-////    public List<Campus> campuses() {
-////        return campusService.retriveCampusList();
-////    }
-//
-//    @ModelAttribute("selfIntro")
-//    public SelfIntro selfIntro() {
-//        SelfIntro selfIntro = new SelfIntro();
-//        selfIntro.setTa1("저의 주요 경력사항은...");
-//        selfIntro.setTa2("이 학교에 지원하게 된 동기는...");
-//        return selfIntro;
-//    }
 
     @RequestMapping(value="/in/{applNo}")
     public EntireApplication createEntireApplication(@PathVariable("applNo") int applNo) {
