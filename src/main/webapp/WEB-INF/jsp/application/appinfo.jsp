@@ -1180,7 +1180,7 @@
         $(document).ready(function() {
 
             <%-- TODO 학교 검색 시작 --%>
-            $('.bpopper').on('click', function (e) {
+            $('.bpoppear').on('click', function (e) {
                 e.preventDefault();
                 $('#bpopResultSchool').empty();
                 document.getElementById('bpopSchl').value="";
@@ -1331,7 +1331,7 @@
 
                         label = block.querySelector('label[for="' + name + '"]');
                         if (label) {
-                            label.for = items[i].id;
+                            label.setAttribute('for', items[i].id);
                         }
                     }
                 }
@@ -1454,27 +1454,8 @@
             });
             <%-- 사진 업로드 끝 --%>
 
-            <%-- 달력 시작 --%>
-//            $('.input-group.date').datepicker({
-//                format: "yyyy-mm-dd",
-//                startView: 2,
-//                language: "kr",
-//                forceParse: false,
-//                autoclose: true
-//            });
-            <%-- 달력 끝 --%>
-
-            <%-- 재학기간 달력 시작 --%>
-//            $('.input-daterange').datepicker({
-//                format: "yyyy-mm-dd",
-//                startView: 2,
-//                language: "kr",
-//                forceParse: false,
-//                autoclose: true
-//            });
-            <%-- 재학기간 달력 끝 --%>
-
-            $('input[name=acadType]').change(function() {
+            /*고등학교 졸업/검정고시 동적 변경 시작*/
+            $('input[name="highSchool.acadTypeCode"]').change(function() {
                 var radioValue = $(this).val();
                 if (radioValue == '00001') {
                     hideExclude('highschoolSubContainer1');
@@ -1489,7 +1470,8 @@
                 });
                 $('#' + excludeId).show();
             }
-            $('input[name=acadType]').eq(0).click();
+            $('input[name="highSchool.acadTypeCode"]').eq(0).click();
+            /*고등학교 졸업/검정고시 동적 변경 시작*/
 
             /*지원 구분 변경 처리 시작*/
             $('#applAttrCode').change(function() {
