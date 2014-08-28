@@ -63,14 +63,4 @@
           and APPL_STS_CODE = #{applStsCode,jdbcType=VARCHAR}
     </select>
 
-    <select id="selectApplByUserId" resultType="com.apexsoft.ysprj.applicants.application.domain.CustomMyList" parameterType="com.apexsoft.ysprj.applicants.application.domain.ParamForApplication" >
-        SELECT
-                CAMP_CODE, CAMP_NAME,
-                ADMS_TYPE_CODE, ADMS_DESC,
-                COLL_CODE, COLL_NAME,
-                DEPT_CODE, DEPT_NAME,
-                DETL_MAJ_CODE, DETL_MAJ_NAME
-        FROM CAMP A, ADMS B, COLL C, DEPT D, DETL_MAJ E
-    </select>
-
 </mapper>
