@@ -63,15 +63,13 @@
           and APPL_STS_CODE = #{applStsCode,jdbcType=VARCHAR}
     </select>
 
-    <select id="selectApplByUserId" resultMap="com.apexsoft.ysprj.applicants.application.domain.CustomMyList" parameterType="com.apexsoft.ysprj.applicants.application.domain.ParamForApplication" >
-        select a.appl_no applNo, b.camp_name campName, f.adms_desc admsDesc, c.coll_name collName, d.dept_name deptName, e.DETL_MAJ_NAME detlMajName, a.appl_sts_code
-        from application a, campus b, coll c, dept d, detl_maj e
-        where a.camp_code = b.camp_code
-        and   a.coll_code = c.coll_code
-        and   a.dept_code = d.dept_code
-        and   a.DETL_MAJ_CODE = e.DETL_MAJ_CODE
-        and   a.adms_type_code = f.adms_type_code
-        and   a.user_id = #{userId}
+    <select id="selectApplByUserId" resultType="com.apexsoft.ysprj.applicants.application.domain.CustomMyList" parameterType="com.apexsoft.ysprj.applicants.application.domain.ParamForApplication" >
+        SELECT
+                CAMP_CODE, CAMP_NAME,
+                ADMS_TYPE_CODE, ADMS_DESC,
+                COLL_CODE, COLL_NAME,
+                DEPT_CODE, DEPT_NAME,
+                DETL_MAJ_CODE, DETL_MAJ_NAME
     </select>
 
 </mapper>
