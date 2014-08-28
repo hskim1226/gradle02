@@ -135,6 +135,38 @@
             position: relative;
             float: right;
         }
+
+        /* 팝업창이 보여질 부분 */
+        .bpopContainer, #popup2, .bMulti {
+            background-color: #fff;
+            color: #111;
+            display: none;
+            min-width: 450px;
+            padding: 25px;
+        }
+
+        .bpopContainer, .bMulti {
+            min-height: 250px;
+        }
+        /* 클릭할 버튼 */
+        .button {
+            background-color: #2b91af;
+            color: #fff;
+            cursor: pointer;
+            display: inline-block;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+        }
+        /* 닫기 버튼 */
+        .button.b-close, .button.bClose {
+            box-shadow: none;
+            font: bold 131% sans-serif;
+            padding: 0 6px 2px;
+            position: absolute;
+            right: -7px;
+            top: -7px;
+        }
     </style>
     <%--body의 글자 속성을 #333333으로 강제 지정하여 Footer 글자가 안나옴, 꼭 필요하지 않으면 안쓰기로
     <link rel="stylesheet" href="${contextPath}/css/bootstrap-glyphicons.css" />--%>
@@ -161,20 +193,20 @@
                                         <div class="form-group">
                                             <label for="applAttrCode" class="col-sm-2 control-label">지원구분</label>
                                             <div class="col-sm-9">
-                                                <form:select path="" id="applAttrCode" cssClass="form-control">
+                                                <form:select path="applAttrCode" cssClass="form-control">
                                                     <form:options items="${common.applAttrList}" />
                                                 </form:select>
                                             </div>
                                         </div>
                                         <div id="applyKindDynamic">
                                             <div class="form-group hidden-apply-kind-2">
-                                                <label class="col-sm-2 control-label">캠퍼스</label>
+                                                <label for="campCode" class="col-sm-2 control-label">캠퍼스</label>
                                                 <div class="col-sm-3">
                                                     <select id="campCode" class="form-control">
                                                         <option value="-" label="--선택--" />
                                                     </select>
                                                 </div>
-                                                <label class="col-sm-2 control-label">대학</label>
+                                                <label for="collCode" class="col-sm-2 control-label">대학</label>
                                                 <div class="col-sm-4">
                                                     <select id="collCode" class="form-control">
                                                         <option value="-" label="--선택--" />
@@ -182,35 +214,35 @@
                                                 </div>
                                             </div>
                                             <div class="form-group hidden-apply-kind-1 hidden-apply-kind-3">
-                                                <label class="col-sm-2 control-label">학·연·산 연구기관</label>
+                                                <form:label path="ariInstCode" cssClass="col-sm-2 control-label">학·연·산 연구기관</form:label>
                                                 <div class="col-sm-9">
-                                                    <select id="ariInstCode" class="form-control">
-                                                        <option value="-" label="--선택--" />
-                                                    </select>
+                                                    <form:select path="ariInstCode" cssClass="form-control">
+                                                        <form:option value="-" label="--선택--" />
+                                                    </form:select>
                                                 </div>
                                             </div>
                                             <div class="form-group">
-                                                <label class="col-sm-2 control-label">지원학과</label>
+                                                <form:label path="deptCode" class="col-sm-2 control-label">지원학과</form:label>
                                                 <div class="col-sm-9">
-                                                    <select id="deptCode" class="form-control">
-                                                        <option value="-" label="--선택--" />
-                                                    </select>
+                                                    <form:select path="deptCode" cssClass="form-control">
+                                                        <form:option value="-" label="--선택--" />
+                                                    </form:select>
                                                 </div>
                                             </div>
                                             <div class="form-group">
-                                                <label class="col-sm-2 control-label">지원과정</label>
+                                                <form:label path="corsTypeCode" cssClass="col-sm-2 control-label">지원과정</form:label>
                                                 <div class="col-sm-9">
-                                                    <select id="corsTypeCode" class="form-control">
-                                                        <option value="-" label="--선택--" />
-                                                    </select>
+                                                    <form:select path="corsTypeCode" cssClass="form-control">
+                                                        <form:option value="-" label="--선택--" />
+                                                    </form:select>
                                                 </div>
                                             </div>
                                             <div class="form-group">
-                                                <label class="col-sm-2 control-label">세부전공</label>
+                                                <form:label path="detlMajCode" cssClass="col-sm-2 control-label">세부전공</form:label>
                                                 <div class="col-sm-9">
-                                                    <select id="detlMajCode" class="form-control">
-                                                        <option value="-" label="--선택--" />
-                                                    </select>
+                                                    <form:select path="detlMajCode" cssClass="form-control">
+                                                        <form:option value="-" label="--선택--" />
+                                                    </form:select>
                                                 </div>
                                             </div>
                                         </div>
@@ -464,8 +496,9 @@
                                                     <div class="col-sm-9">
                                                         <div class="input-group">
                                                             <span class="input-group-btn">
-                                                                <button type="button" class="btn btn-default">검색</button>
+                                                                <button type="button" class="btn btn-default bpopper" data-targetNode1="highSchool.schlCode" data-targetNode2='highSchool.schlName'>검색</button>
                                                             </span>
+                                                            <form:hidden path="highSchool.schlCode" />
                                                             <form:input path="highSchool.schlName" cssClass="form-control" />
                                                         </div>
                                                     </div>
@@ -515,8 +548,9 @@
                                             <%--TODO 테이블에 국가이름 누락--%>
                                             <div class="form-group">
                                                 <form:label path="collegeList[${stat.index}].schlName" cssClass="col-sm-2 control-label">학교 이름</form:label>
-                                                <div class="btn btn-default btn-md col-md-2">검색</div>
+                                                <div class="btn btn-default btn-md col-md-2 bpopper" data-targetNode1="collegeList${stat.index}.schlCode" data-targetNode2='collegeList${stat.index}.schlName'>검색</div>
                                                 <div class="col-sm-4">
+                                                    <form:hidden path="collegeList[${stat.index}].schlCode" />
                                                     <form:input path="collegeList[${stat.index}].schlName" cssClass="form-control" />
                                                 </div>
                                                 <div class="col-sm-2">
@@ -594,8 +628,9 @@
                                             <%--TODO 테이블에 국가이름 누락--%>
                                             <div class="form-group">
                                                 <form:label path="graduateList[${stat.index}].schlName" cssClass="col-sm-2 control-label">학교 이름</form:label>
-                                                <div class="btn btn-default btn-md col-md-2">검색</div>
+                                                <div class="btn btn-default btn-md col-md-2 bpopper" data-targetNode1="graduateList${stat.index}.schlCode" data-targetNode2='graduateList${stat.index}.schlName'>검색</div>
                                                 <div class="col-sm-4">
+                                                    <form:hidden path="graduateList[${stat.index}].schlCode" />
                                                     <form:input path="graduateList[${stat.index}].schlName" cssClass="form-control" />
                                                 </div>
                                                 <div class="col-sm-2">
@@ -1105,33 +1140,6 @@
         </div>
     </div> <%--container--%>
 
-    <%--TODO 국가 검색 팝업 --%>
-    <div id="bpopContainerCountry" class="bpopContainer">
-        <span class="button b-close"><span>X</span></span>
-        <div id="bpopContentCountry">
-            <div class="form-group">
-                <div class="col-sm-10">
-                    <input type="text" id="bpopCntr" name="cntr" class="form-control" />
-                </div>
-                <button id="bpopBtnSearchCountry" class="btn btn-info col-sm-2">검색</button>
-            </div>
-            <div>
-                <table class="table table-stripped">
-                    <thead>
-                    <tr>
-                        <th>&nbsp;</th>
-                        <th>한글 이름</th>
-                        <th>영문 이름</th>
-                    </tr>
-                    </thead>
-                    <tbody id="bpopResultCountry">
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-    <%--TODO 국가 검색 팝업 --%>
-
     <%--TODO 학교 검색 팝업 --%>
     <div id="bpopContainerSchool" class="bpopContainer">
         <span class="button b-close"><span>X</span></span>
@@ -1171,53 +1179,8 @@
     <script type="text/javascript">
         $(document).ready(function() {
 
-            <%-- TODO 국가 검색 시작 --%>
-            $('.bpopperCntr').on('click', function (e) {
-                e.preventDefault();
-                $('#bpopResultCountry').empty();
-                document.getElementById('bpopCntr').value="";
-                $(this).attr('data-category') === "country" ? (
-                        document.getElementById('targetNode1').value = $(this).attr('data-targetNode1'),
-                                document.getElementById('targetNode2').value = $(this).attr('data-targetNode2'),
-                                document.getElementById('targetNode3').value = $(this).attr('data-targetNode3')
-                        ) : (
-                        document.getElementById('targetNode1').value = $(this).attr('data-targetNode1'),
-                                document.getElementById('targetNode2').value = $(this).attr('data-targetNode2'),
-                                document.getElementById('targetNode3').value = null
-                        );
-                $('#bpopContainerCountry').bPopup();
-            });
-
-            $('#bpopBtnSearchCountry').on('click', function() {
-
-                $.ajax({
-                    type: 'GET',
-                    url: '${contextPath}/common/code/country/'+encodeURIComponent($('#bpopCntr').val()),
-                    success: function(data) {
-
-                        var obj = JSON.parse(data.data);
-
-                        for ( i = 0, l = obj.length ; i < l ; i++ ) {
-                            var record = $('<tr>'+'<td><span style="display: none;" class="b-close">'+obj[i].cntrCode+'</span></td>'+'<td><span class="b-close">'+obj[i].korCntrName+'</span></td>'+'<td><span class="b-close">'+obj[i].engCntrName+'</span></td>'+'</tr>');
-                            $('#bpopResultCountry').append(record);
-                            $(record).on('click', function(e) {
-                                var targetInputId = [ document.getElementById('targetNode1').value,
-                                            document.getElementById('targetNode2').value,
-                                            document.getElementById('targetNode3').value ],
-                                        tr = e.target.parentNode.parentNode;
-                                for ( var i = 0 , len = tr.children.length, t0 ; i < len ; i++ ) {
-                                    document.getElementById(targetInputId[i]).value = tr.children[i].firstChild.innerText;
-                                }
-
-                            });
-                        }
-                    }
-                });
-            });
-            <%-- TODO 국가 검색 끝 --%>
-
             <%-- TODO 학교 검색 시작 --%>
-            $('#bpopperSchl').on('click', function (e) {
+            $('.bpopper').on('click', function (e) {
                 e.preventDefault();
                 $('#bpopResultSchool').empty();
                 document.getElementById('bpopSchl').value="";
@@ -1364,6 +1327,7 @@
                         suffix = name.substring(name.lastIndexOf(']') + 1, name.length);
                         items[i].name = prefix + '[' + index + ']' + suffix;
                         items[i].id = prefix + index + suffix;
+                        items[i].value = "";
 
                         label = block.querySelector('label[for="' + name + '"]');
                         if (label) {
@@ -1453,14 +1417,14 @@
                         document.getElementById('address').value = data.address;
                         document.getElementById('addressDetail').focus();
                         // iframe을 넣은 element를 안보이게 한다.
-                        closeDaumPostcode();
+//                        closeDaumPostcode();
                     },
                     width : '100%',
                     height : '100%'
-                }).embed(postLayer);
+                }).open;
 
                 // iframe을 넣은 element를 보이게 한다.
-                postLayer.style.display = 'block';
+//                postLayer.style.display = 'block';
             };
 
             $('#btnCloseLayer').on('click', closeDaumPostcode);

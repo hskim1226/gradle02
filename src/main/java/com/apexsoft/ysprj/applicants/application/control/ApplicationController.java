@@ -87,6 +87,8 @@ public class ApplicationController {
             return new ExecutionContext(ExecutionContext.FAIL);
         }
 
+        entireApplication.setUserId(principal.getName());
+        entireApplication.setApplStsCode("00001");
         if( entireApplication.getApplNo() == null ) {   // insert
             applicationService.createEntireApplication( entireApplication );
         } else {    // update

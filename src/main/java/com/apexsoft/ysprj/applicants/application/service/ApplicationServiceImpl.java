@@ -2,11 +2,8 @@ package com.apexsoft.ysprj.applicants.application.service;
 
 import com.apexsoft.framework.persistence.dao.CommonDAO;
 import com.apexsoft.ysprj.applicants.application.domain.*;
-import org.apache.commons.lang.math.RandomUtils;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -107,7 +104,7 @@ public class ApplicationServiceImpl implements ApplicationService {
         p.setAdmsNo(entireApplication.getAdmsNo());
         p.setApplStsCode(entireApplication.getApplStsCode());
 
-//        try {
+        try {
 
             r1 = createApplication(entireApplication.getApplication());
             applNo = retrieveApplicationForInsertOthers(p).getApplNo();
@@ -162,9 +159,9 @@ public class ApplicationServiceImpl implements ApplicationService {
             }
 
 
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         String parity = "" + r1 + r2 + r3 + r4 + r5 + r6 + r7 + r8;
         System.out.println(parity);
         return parity;
