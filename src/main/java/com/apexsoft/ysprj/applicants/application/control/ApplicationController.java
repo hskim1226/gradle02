@@ -125,8 +125,9 @@ public class ApplicationController {
         return entireApplication;
     }
 
-    @RequestMapping(value="/in/{applNo}")
-    public EntireApplication createEntireApplication(@PathVariable("applNo") int applNo) {
+    @RequestMapping(value="/in/{applNo}/{examCode}")
+    public EntireApplication createEntireApplication(@PathVariable("applNo") int applNo,
+                                                     @PathVariable("examCode") String examCode) {
 
         EntireApplication ea = new EntireApplication();
         ApplicationGeneral applGene = new ApplicationGeneral();
@@ -209,14 +210,14 @@ public class ApplicationController {
 
         ApplicationLanguage al0 = new ApplicationLanguage();
         al0.setLangSeq(1);
-        al0.setLangExamCode("ToefL33333");
+        al0.setLangExamCode("ToefL");
         al0.setCreDate(timestamp);
         al0.setCreId(id);
         languageListList.add(al0);
 
         ApplicationLanguage al1 = new ApplicationLanguage();
         al1.setLangSeq(2);
-        al1.setLangExamCode("ToeiC");
+        al1.setLangExamCode(examCode);
         al1.setCreDate(timestamp);
         al1.setCreId(id);
         languageListList.add(al1);
