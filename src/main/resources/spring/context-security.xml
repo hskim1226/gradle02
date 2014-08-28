@@ -22,7 +22,6 @@
     <http pattern="/intro.html"  security="none"/>
     <http pattern="/test/**"  security="none"/>
     <http pattern="/admin/**"  security="none"/>
-    <http pattern="/application/**"  security="none"/>
     <http pattern="/common/**"  security="none"/>
 
     <http auto-config="true"  use-expressions="true" access-denied-page="/user/login.do?auth=true" >
