@@ -2,21 +2,21 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.apexsoft.ysprj.test.joinedApplication.Mapper">
 
-    <resultMap id="joinedApplication" type="com.apexsoft.ysprj.user.test.JoinedApplication">
+    <resultMap id="joinedApplication" type="com.apexsoft.ysprj.applicants.test.JoinedApplication">
         <id property="applNo" column="appl_no"/>
         <result property="userId" column="user_id"/>
         <result property="userName" column="user_name"/>
         <result property="phoneNumber" column="user_phone_number"/>
         <result property="address" column="address"/>
         <result property="deptCode" column="dept_code"/>
-        <association property="department" javaType="com.apexsoft.ysprj.user.test.Department">
+        <association property="department" javaType="com.apexsoft.ysprj.applicants.test.Department">
             <id property="code" column="code"/>
             <result property="name" column="name"/>
             <result property="phoneNumber" column="dept_phone_number"/>
         </association>
     </resultMap>
 
-    <select id="selectApplByApplNo" resultType="com.apexsoft.ysprj.user.test.Application">
+    <select id="selectApplByApplNo" resultType="com.apexsoft.ysprj.applicants.test.Application">
         <![CDATA[
 		  SELECT a.appl_no as appl_no,
 		         a.user_id as user_id,
@@ -46,7 +46,7 @@
 		]]>
     </select>
 
-    <select id="selectEntireApplicationByApplNo" resultType="com.apexsoft.ysprj.user.test.EntireApplication">
+    <select id="selectEntireApplicationByApplNo" resultType="com.apexsoft.ysprj.applicants.test.EntireApplication">
         <![CDATA[
         select a.appl_no as appl_no,
                b.name as dept,

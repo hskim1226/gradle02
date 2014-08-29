@@ -1,4 +1,4 @@
-package com.apexsoft.ysprj.user.test;
+package com.apexsoft.ysprj.applicants.test;
 
 import java.util.List;
 

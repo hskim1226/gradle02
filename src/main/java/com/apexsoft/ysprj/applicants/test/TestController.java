@@ -1,4 +1,4 @@
-package com.apexsoft.ysprj.user.test;
+package com.apexsoft.ysprj.applicants.test;
 
 import com.apexsoft.ysprj.applicants.application.service.ApplicationService;
 import org.springframework.beans.factory.annotation.Autowired;

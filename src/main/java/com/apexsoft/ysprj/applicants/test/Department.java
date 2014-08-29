@@ -1,28 +1,19 @@
-package com.apexsoft.ysprj.user.test;
+package com.apexsoft.ysprj.applicants.test;
 
 /**
  * Created by hanmomhanda on 14. 8. 20.
  */
-public class Academy {
-    private String applNo;
-    private String seqNo;
+public class Department {
+    private String code;
     private String name;
     private String phoneNumber;
 
-    public String getApplNo() {
-        return applNo;
+    public String getCode() {
+        return code;
     }
 
-    public void setApplNo(String applNo) {
-        this.applNo = applNo;
-    }
-
-    public String getSeqNo() {
-        return seqNo;
-    }
-
-    public void setSeqNo(String seqNo) {
-        this.seqNo = seqNo;
+    public void setCode(String code) {
+        this.code = code;
     }
 
     public String getName() {

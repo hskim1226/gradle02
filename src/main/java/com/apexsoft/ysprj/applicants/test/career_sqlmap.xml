@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.apexsoft.ysprj.test.academy.Mapper">
+<mapper namespace="com.apexsoft.ysprj.test.career.Mapper">
 
-    <select id="selectListByApplNo" resultType="com.apexsoft.ysprj.user.test.Academy">
+    <select id="selectListByApplNo" resultType="com.apexsoft.ysprj.applicants.test.Career">
         <![CDATA[
 		  SELECT appl_no,
 		         seq_no,
 		         name,
 		         phone_number
-		    FROM tmp_academy
+		    FROM tmp_career
 		  WHERE appl_no = #{applNo}
 		  ORDER BY seq_no
 		]]>

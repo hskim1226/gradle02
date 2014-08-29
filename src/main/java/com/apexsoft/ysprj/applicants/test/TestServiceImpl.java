@@ -1,4 +1,4 @@
-package com.apexsoft.ysprj.user.test;
+package com.apexsoft.ysprj.applicants.test;
 
 import com.apexsoft.framework.persistence.dao.CommonDAO;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,4 +1,4 @@
-package com.apexsoft.ysprj.user.test;
+package com.apexsoft.ysprj.applicants.test;
 
 /**
  * Created by hanmomhanda on 14. 8. 20.
