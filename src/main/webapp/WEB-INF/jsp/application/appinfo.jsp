@@ -1543,9 +1543,10 @@
             function attachChangeEvent( sourceId, context ) {
                 var $source = $('#' + sourceId);
 
-                $source.change( function(event) {
-                    var info, targetId, valueKey, labelKey, url, clean;
+                $source.on('change', function(event) {
+                    var info, targetId, valueKey, labelKey, url, clean, addon, i;
                     var baseUrl = '${contextPath}/common/code';
+                    var val = this.options[this.selectedIndex].value;
 
                     info = context;
                     if (context.hasOwnProperty($source.val())) {
@@ -1561,17 +1562,17 @@
                     labelKey = info.labelKey ? info.labelKey : context.labelKey;
                     url = info.url ? info.url : context.url;
                     if( url && typeof url === 'function' ) {
-                        baseUrl += url($source.val());
+                        baseUrl += url(val);
                     } else if( url ) {
                         baseUrl += url;
                     }
 
                     clean = info.clean ? info.clean : context.clean;
                     if (typeof clean === 'string') {
-                        clean = [ clean ];
+                        clean = [].concat( clean );
                     }
                     clean = [].concat( targetId, clean );
-                    for (i in clean) {
+                    for (i = 0; i < clean.length; i++) {
                         $('#' + clean[i]).children('option').filter(function() {
                             return this.value !== '-';
                         }).remove();
@@ -1582,11 +1583,19 @@
                         url: baseUrl,
                         success: function(e) {
                             if(e.result && e.result === 'SUCCESS') {
-                                var target = $('#' + targetId);
+                                var $target = $('#' + targetId);
                                 var data = JSON && JSON.parse(e.data) || $.parseJSON(e.data);
                                 $(data).each(function (i, item) {
-                                    var opt = $('<option>').attr('value', item[valueKey]).attr('label', item[labelKey]);
-                                    target.append(opt);
+                                    var $op = $('<option>').attr({
+                                        'value': item[valueKey],
+                                        'label': item[labelKey]}
+                                    )
+                                    for (var key in item) {
+                                        if (key !== valueKey && key !== labelKey) {
+                                            $op.attr(key, item[key]);
+                                        }
+                                    }
+                                    $op.appendTo($target);
                                 });
                             }
                         },
@@ -1688,7 +1697,52 @@
                         }
                     }
             );
-            /*지원사항 select 폼 change 이벤트 핸들러 등록 끝*/
+
+            $('#detlMajCode').on('change', function(event) {
+                var selected = this.options[this.selectedIndex];
+                var val = selected.value;
+                var parent = this.parentNode.parentNode;
+                var $divNode, $childNode, $childNode2;
+
+                if (val.slice(0, 1) == '9') {
+                    $(parent).find('#detlMajRadio').remove();
+                    if ($(parent).find('#detlMajText').length == 0) {
+                        $divNode = $('<div/>').addClass('col-sm-offset-2 col-sm-9').attr({
+                                    'id': 'detlMajText'
+                                });
+                        $childNode = $('<input/>').addClass('form-control').attr({
+                                    'type': 'text',
+                                    'id': 'detlMajDesc',
+                                    'name': 'detlMajDesc'
+                                });
+                        $childNode.appendTo($divNode)
+                        $divNode.appendTo($(parent));
+                    }
+                } else {
+                    $(parent).find('#detlMajText').remove();
+                    if ($(parent).find('#detlMajRadio').length == 0) {
+                        $divNode = $('<div/>').addClass('col-sm-offset-2 col-sm-9').attr({
+                                    'id': 'detlMajText'
+                                });
+                        $childNode = $('<input/>').attr({
+                                    'type': 'checkbox',
+                                    'id': 'partTimeYn',
+                                    'name': 'partTimeYn'
+                                });
+                        $childNode2 = $('<label/>').addClass('checkbox-inline').text('파트타임 여부');
+                        if ($(selected).attr('partTimeYn') === 'Y' || $(selected).attr('partTimeYn') === 'y') {
+                            $childNode.attr('checked', true);
+                        } else {
+                            $childNode.attr('checked', false);
+                        }
+                        $childNode.prependTo($childNode2);
+                        $childNode2.appendTo($divNode);
+                        $divNode.appendTo($(parent));
+                    }
+                }
+            });
+
+            <%-- 지원사항 select 폼 change 이벤트 핸들러 등록 끝 --%>
 
             $('#applAttrCode').change();
 
@@ -1705,8 +1759,7 @@
                                 return this.value !== '-';
                             }).remove();
                             $(data).each(function (i, item) {
-                                var opt = $('<option>').attr('value', item[valueKey]).attr('label', item[labelKey]);
-                                target.append(opt);
+                                $('<option>').attr('value', item[valueKey]).attr('label', item[labelKey]).appendTo(target);
                             });
                         }
                     },
