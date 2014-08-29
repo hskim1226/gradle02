@@ -4,9 +4,9 @@ import com.apexsoft.ysprj.applicants.application.service.ApplicationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * Created by hanmomhanda on 14. 8. 20.
@@ -20,6 +20,20 @@ public class TestController {
 
     @Autowired
     private ApplicationService applicationService;
+
+    @RequestMapping(value="/qstestForm", method = RequestMethod.GET)
+    public String showQueryString(HttpServletRequest request) {
+        return "test/qstest";
+    }
+
+    @RequestMapping(value="/qstest")
+    @ResponseBody
+    public String testQueryString(HttpServletRequest request) {
+        String r = request.getQueryString();
+        return r;
+    }
+
+
 
     @RequestMapping(value="/tabsample")
     public String tabSample() {
