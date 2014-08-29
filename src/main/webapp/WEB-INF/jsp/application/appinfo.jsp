@@ -167,12 +167,26 @@
             right: -7px;
             top: -7px;
         }
+
+        #alert-container {
+            position: fixed;
+            top: 110px;
+            right: 10px;
+            text-align: right;
+            z-index: 1029;
+        }
+
+        #alert-container .alert-box {
+            padding: 5px;
+            display:inline-block;
+        }
     </style>
     <%--body의 글자 속성을 #333333으로 강제 지정하여 Footer 글자가 안나옴, 꼭 필요하지 않으면 안쓰기로
     <link rel="stylesheet" href="${contextPath}/css/bootstrap-glyphicons.css" />--%>
 </head>
 <body>
 <section class="application">
+    <div id="alert-container"></div>
     <div class="container">
         <ul id="myTab" class="nav nav-tabs nav-justified tab-gray">
             <li><a href="#appinfo" data-toggle="tab">기본정보</a></li>
@@ -1180,7 +1194,7 @@
         $(document).ready(function() {
 
             <%-- TODO 학교 검색 시작 --%>
-            $('.bpoppear').on('click', function (e) {
+            $('.bpopper').on('click', function(e) {
                 e.preventDefault();
                 $('#bpopResultSchool').empty();
                 document.getElementById('bpopSchl').value="";
@@ -1194,7 +1208,7 @@
                 $('#bpopContainerSchool').bPopup();
             });
 
-            $('#bpopBtnSearchSchool').on('click', function() {
+            $('#bpopBtnSearchSchool').on('click', function(e) {
 
                 $.ajax({
                     type: 'GET',
@@ -1217,6 +1231,12 @@
                         }
                     }
                 });
+            });
+
+            $('#bpopSchl').on('keyup', function(e) {
+                if(e.keyCode == 13) {
+                    $('#bpopBtnSearchSchool').trigger('click');
+                }
             });
             <%-- TODO 학교 검색 끝 --%>
 
@@ -1247,19 +1267,50 @@
             <%-- 처음 탭 표시 --%>
             $('#myTab a:first').tab('show');
 
+            $('#entireApplication').on('submit', function(event) {
+                var $form = $(this);
+                var $formUrl = $form.attr('action');
+                var $formData = $form.serializeArray();
+                $.ajax({
+                    url: $formUrl,
+                    type: 'POST',
+                    data: $formData,
+                    timeout: 5000,
+                    success: function (context) {
+                        if (context.result == 'SUCCESS') {
+                            var innerData = context.data;
+                            var message = context.message;
+                            var alert = createAlert(message);
+                            $('#alert-container').append(alert);
+                            window.setTimeout(function() { alert.alert('close') }, 2000);
+                        }
+                    },
+                    error: function(e) {
+                    }
+                });
+                event.preventDefault();
+            });
+
+            function createAlert(message) {
+                var alert = $('<div></div>').addClass('alert alert-success alert-dismissable fade in');
+                alert.append($('<button></button>').attr({
+                    'type': 'button',
+                    'data-dismiss': 'alert',
+                    'aria-hidden': 'true'
+                }).addClass('close').text('✖'));
+                alert.append($('<span></span>').text(message));
+                return alert;
+            }
+
             $('#save').on('click', function() {
-//                var $curPane = $('.tab-pane.active');
-//                var $curForm = $curPane.find('form');
-                var $curForm = $('#entireApplication');
-                console.log($curForm.serializeArray());
-                $curForm.submit();
+                $('#entireApplication').trigger('submit');
             });
 
             $('#apply').on('click', function() {
                 alert("작성완료 되었습니다.")
             });
 
-            $('reset').on('click', function() {
+            $('#reset').on('click', function() {
                 var $curPane = $('.tab-pane.active');
                 var $curForm = $curPane.find('form');
                 $curForm.each(function() {
@@ -1305,15 +1356,27 @@
                     blockToRemove = blockToRemove.parentNode;
                 }
                 var container = blockToRemove.parentNode;
-                var length = container.querySelectorAll('.form-group-block').length;
-                var $cloneObj
+                var blocks = container.querySelectorAll('.form-group-block');
+                var length = blocks.length, i;
+
+                for (i = 0; i < length; i++) {
+                    if (blockToRemove == blocks[i]) {
+                        break;
+                    }
+                }
+
+                for (i = i + 1; i < length; i++) {
+                    updateIdAndName(blocks[i], i - 1);
+                }
+
                 if (length <= 1) {
-//                    eraseChildren(blockToRemove);
+                    eraseContents(blockToRemove);
                 } else {
                     blockToRemove.parentNode.removeChild(blockToRemove);
                 }
             });
 
+            // id, name 재설정
             function updateIdAndName( block, index ) {
                 var i, name, prefix, suffix, input, items, label;
                 var input = block.querySelector('input');
@@ -1325,15 +1388,34 @@
                 if (items) {
                     for (i = 0; i <items.length; i++) {
                         name = items[i].name;
+                        var oldid = items[i].id;
                         suffix = name.substring(name.lastIndexOf(']') + 1, name.length);
                         items[i].name = prefix + '[' + index + ']' + suffix;
                         items[i].id = prefix + index + suffix;
                         items[i].value = "";
 
-                        label = block.querySelector('label[for="' + name + '"]');
+                        label = block.querySelector('label[for="' + oldid + '"]');
                         if (label) {
                             label.setAttribute('for', items[i].id);
                         }
+                    }
+                }
+
+                var searchBtn = block.querySelector('[data-targetNode1]');
+                var target1 = searchBtn.getAttribute('data-targetNode1');
+                var target2 = searchBtn.getAttribute('data-targetNode2');
+                suffix = target1.substring(target1.indexOf('.') + 1, target1.length);
+                searchBtn.setAttribute('data-targetNode1', prefix + index + '.' + suffix);
+                suffix = target2.substring(target2.indexOf('.') + 1, target2.length);
+                searchBtn.setAttribute('data-targetNode2', prefix + index + '.' + suffix);
+            }
+
+            function eraseContents( block ) {
+                var i, items;
+                items = block.querySelectorAll('input, select');
+                if (items) {
+                    for (i = 0; i <items.length; i++) {
+                        items[i].value = "";
                     }
                 }
             }
@@ -1343,7 +1425,7 @@
             <%-- 대학, 대학원 입력란 동적 처리 시작 --%>
             <%-- 추가/삭제 버튼의 부모의 부모가 복사할 블록이어야 하고--%>
             <%-- 복사한 블록은 바로 위의 부모에 append 함--%>
-            var addInputBlock = function (e) {
+/*            var addInputBlock = function (e) {
                 var originalBlock = e.target.parentNode.parentNode,
                     cloneObj, targetParent = originalBlock.parentNode;
                 $('.calendar').datepicker('destroy');
@@ -1397,7 +1479,7 @@
             };
 
             $('.addCollege').on('click', addInputBlock);
-            $('.removeCollege').on('click', removeInputBlock);
+            $('.removeCollege').on('click', removeInputBlock);*/
             <%-- 대학 입력란 동적 처리 끝 --%>
 
             <%-- 다음 주소 검색 시작 --%>
