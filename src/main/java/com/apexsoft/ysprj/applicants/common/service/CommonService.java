@@ -24,6 +24,6 @@ public interface CommonService {
     List<CodeNameCourse> retrieveAriInstCourseByAdmsDeptAriInst(ParamForSetupCourses paramForSetupCourses);
     List<CodeNameDetailMajor> retrieveAriInstDetailMajorByAdmsDeptAriInst(ParamForSetupCourses paramForSetupCourses);
     List<Country> retrieveCountryByName(String keyword);
-    List<School> retrieveSchoolByName(String keyword);
+    List<School> retrieveSchoolByTypeName(String type, String keyword);
     List<CommonCode> retrieveCommonCodeValueByCodeGroup(String codeGrp);
 }

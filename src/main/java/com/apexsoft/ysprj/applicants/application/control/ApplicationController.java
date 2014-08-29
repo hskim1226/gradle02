@@ -44,6 +44,11 @@ public class ApplicationController {
         return "application/appinfo-work";
     }
 
+    @RequestMapping(value="/apply-file")
+    public String displayApplyFile(Model model) {
+        return "application/appinfo-fileupload";
+    }
+
     @RequestMapping(value = "/apply"/*, /method = RequestMethod.POST(*/)
     public String displayAppInfo(@RequestParam(value = "applNo", required = false) Integer applNo,
                                  @RequestParam(value = "admsNo", required = false) String admsNo,

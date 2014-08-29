@@ -263,11 +263,12 @@ public class CommonController {
         return executionContext;
     }
 
-    @RequestMapping(value="/code/school/{schl}", method= RequestMethod.GET)
+    @RequestMapping(value="/code/school/{type}/{name}", method= RequestMethod.GET)
     @ResponseBody
-    public ExecutionContext retrieveSchoolByKeyword(@PathVariable("schl") String schl)
+    public ExecutionContext retrieveSchoolByTypeName(@PathVariable("type") String type,
+                                                    @PathVariable("name") String name)
             throws NoSuchAlgorithmException, JsonProcessingException, UnsupportedEncodingException {
-        List<School> schoolList = commonService.retrieveSchoolByName(schl);
+        List<School> schoolList = commonService.retrieveSchoolByTypeName(type, name);
         String json = jacksonObjectMapper.writeValueAsString(schoolList);
 
         ExecutionContext executionContext = new ExecutionContext();
