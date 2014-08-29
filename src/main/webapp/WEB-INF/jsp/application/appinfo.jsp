@@ -510,7 +510,7 @@
                                                     <div class="col-sm-9">
                                                         <div class="input-group">
                                                             <span class="input-group-btn">
-                                                                <button type="button" class="btn btn-default bpopper" data-targetNode1="highSchool.schlCode" data-targetNode2='highSchool.schlName'>검색</button>
+                                                                <button type="button" class="btn btn-default bpopper" data-targetNode1="highSchool.schlCode" data-targetNode2='highSchool.schlName' data-category="school-h">검색</button>
                                                             </span>
                                                             <form:hidden path="highSchool.schlCode" />
                                                             <form:input path="highSchool.schlName" cssClass="form-control" />
@@ -562,7 +562,7 @@
                                             <%--TODO 테이블에 국가이름 누락--%>
                                             <div class="form-group">
                                                 <form:label path="collegeList[${stat.index}].schlName" cssClass="col-sm-2 control-label">학교 이름</form:label>
-                                                <div class="btn btn-default btn-md col-md-2 bpopper" data-targetNode1="collegeList${stat.index}.schlCode" data-targetNode2='collegeList${stat.index}.schlName'>검색</div>
+                                                <div class="btn btn-default btn-md col-md-2 bpopper" data-targetNode1="collegeList${stat.index}.schlCode" data-targetNode2='collegeList${stat.index}.schlName' data-category="school-u">검색</div>
                                                 <div class="col-sm-4">
                                                     <form:hidden path="collegeList[${stat.index}].schlCode" />
                                                     <form:input path="collegeList[${stat.index}].schlName" cssClass="form-control" />
@@ -642,7 +642,7 @@
                                             <%--TODO 테이블에 국가이름 누락--%>
                                             <div class="form-group">
                                                 <form:label path="graduateList[${stat.index}].schlName" cssClass="col-sm-2 control-label">학교 이름</form:label>
-                                                <div class="btn btn-default btn-md col-md-2 bpopper" data-targetNode1="graduateList${stat.index}.schlCode" data-targetNode2='graduateList${stat.index}.schlName'>검색</div>
+                                                <div class="btn btn-default btn-md col-md-2 bpopper" data-targetNode1="graduateList${stat.index}.schlCode" data-targetNode2='graduateList${stat.index}.schlName' data-category="school-g">검색</div>
                                                 <div class="col-sm-4">
                                                     <form:hidden path="graduateList[${stat.index}].schlCode" />
                                                     <form:input path="graduateList[${stat.index}].schlName" cssClass="form-control" />
@@ -1159,6 +1159,9 @@
         <span class="button b-close"><span>X</span></span>
         <div id="bpopContentSchool">
             <div class="form-group">
+                <label id="searchTitle"></label>
+            </div>
+            <div class="form-group">
                 <div class="col-sm-10">
                     <input type="text" id="bpopSchl" name="schl" class="form-control" />
                 </div>
@@ -1198,21 +1201,34 @@
                 e.preventDefault();
                 $('#bpopResultSchool').empty();
                 document.getElementById('bpopSchl').value="";
-                $(this).attr('data-category') === "school" ? (
-                        document.getElementById('targetNode1').value = $(this).attr('data-targetNode1'),
-                                document.getElementById('targetNode2').value = $(this).attr('data-targetNode2')
-                        ) : (
-                        document.getElementById('targetNode1').value = $(this).attr('data-targetNode1'),
-                                document.getElementById('targetNode2').value = $(this).attr('data-targetNode2')
-                        );
+
+                var dataCategory = this.getAttribute('data-category');
+                var title = null;
+                document.getElementById('targetNode1').value = $(this).attr('data-targetNode1');
+                document.getElementById('targetNode2').value = $(this).attr('data-targetNode2');
+                if (dataCategory === 'school-h') {
+                    document.getElementById('bpopContentSchool').setAttribute('data-category', 'H');
+                    title = '고등학교 검색';
+                } else if (dataCategory === 'school-u') {
+                    document.getElementById('bpopContentSchool').setAttribute('data-category', 'U');
+                    title = '대학교 검색';
+                } else if (dataCategory === 'school-g') {
+                    document.getElementById('bpopContentSchool').setAttribute('data-category', 'U');
+                    title = '대학원 검색';
+                } else {
+                }
+
+                if (title != null) {
+                    $('#bpopContentSchool').find('#searchTitle').text(title);
+                }
                 $('#bpopContainerSchool').bPopup();
             });
 
             $('#bpopBtnSearchSchool').on('click', function(e) {
-
+                var c = $('#bpopContentSchool').attr('data-category')
                 $.ajax({
                     type: 'GET',
-                    url: '${contextPath}/common/code/school/'+encodeURIComponent($('#bpopSchl').val()),
+                    url: '${contextPath}/common/code/school/' + c + '/' + encodeURIComponent($('#bpopSchl').val()),
                     success: function(data) {
 
                         var obj = JSON.parse(data.data);
