@@ -86,7 +86,7 @@ public class ApplicationController {
 
     @RequestMapping(value = "/apply/save", method = RequestMethod.POST)
     @ResponseBody
-    public ExecutionContext saveAcademy(@Valid @ModelAttribute EntireApplication entireApplication, BindingResult binding, Principal principal) {
+    public ExecutionContext saveApplication(@Valid @ModelAttribute EntireApplication entireApplication, BindingResult binding, Principal principal) {
         if( binding.hasErrors() ) {
             return new ExecutionContext(ExecutionContext.FAIL);
         }
@@ -97,11 +97,14 @@ public class ApplicationController {
 
         entireApplication.setUserId(principal.getName());
         entireApplication.setApplStsCode("00001");
+        String message = "저장 실패";
         if( entireApplication.getApplNo() == null ) {   // insert
             applicationService.createEntireApplication( entireApplication );
+            message = "저장 성공";
         } else {    // update
+            message = "업데이트 성공";
         }
-        return new ExecutionContext();
+        return new ExecutionContext(ExecutionContext.SUCCESS, message);
     }
 
     @ModelAttribute("entireApplication")
