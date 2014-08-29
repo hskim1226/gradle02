@@ -529,13 +529,14 @@
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
-                                                    <form:label path="highSchool.schlName" cssClass="col-sm-2 control-label">검정고시합격지구</form:label>
+                                                    <label for="qualAreaName" class="col-sm-2 control-label">검정고시합격지구</label>
                                                     <div class="col-sm-9">
                                                         <div class="input-group">
                                                         <span class="input-group-btn">
                                                             <button type="button" class="btn btn-default">검색</button>
                                                         </span>
-                                                            <form:input path="highSchool.schlName" cssClass="form-control" />
+                                                            <form:hidden path="highSchool.qualAreaCode" />
+                                                            <input id="qualAreaName" class="form-control" />
                                                         </div>
                                                     </div>
                                                 </div>
@@ -1272,17 +1273,16 @@
             };
 
             <%-- 달력 시작 --%>
-//            $('#entrDay1, #grdaDay1').datepicker(datePickerOption);
             $('.input-group.date>input').each(function() {
                 $(this).datepicker(datePickerOption);
             });
-//            $('.input-group.date>input').datepicker(datePickerOption);
             $('.input-daterange>input').datepicker(datePickerOption);
             <%-- 달력 끝 --%>
 
             <%-- 처음 탭 표시 --%>
             $('#myTab a:first').tab('show');
 
+            <%-- 지원정보 submit 이벤트 --%>
             $('#entireApplication').on('submit', function(event) {
                 var $form = $(this);
                 var $formUrl = $form.attr('action');
@@ -1307,6 +1307,7 @@
                 event.preventDefault();
             });
 
+            <%-- alert 생성 --%>
             function createAlert(message) {
                 var alert = $('<div></div>').addClass('alert alert-success alert-dismissable fade in');
                 alert.append($('<button></button>').attr({
@@ -1345,7 +1346,7 @@
             $('.lastSchl').on('click', setLastSchool);
             <%-- 최종 대학 체크 처리 끝 --%>
 
-            /*form-group-block 추가/삭제에 대한 처리 시작*/
+            <%-- form-group-block 추가/삭제에 대한 처리 시작 --%>
             $('.btn-add').click(function(e) {
                 var target = e.currentTarget ? e.currentTarget : e.target;
                 var container = target.parentNode;
@@ -1358,7 +1359,6 @@
                 if (originBlock) {
                     $cloneObj = $(originBlock).clone(true);
                     $cloneObj.find('.input-group.date>input').datepicker('destroy');
-//                    incrementChildren($cloneObj, blocks.length);
                     updateIdAndName($cloneObj[0], blocks.length);
                     container.insertBefore($cloneObj[0], originBlock.nextSibling);
                     $cloneObj.find('.input-group.date>input').datepicker(datePickerOption);
@@ -1392,7 +1392,7 @@
                 }
             });
 
-            // id, name 재설정
+            <%-- id, name 재설정 시작 --%>
             function updateIdAndName( block, index ) {
                 var i, name, prefix, suffix, input, items, label;
                 var input = block.querySelector('input');
@@ -1425,7 +1425,9 @@
                 suffix = target2.substring(target2.indexOf('.') + 1, target2.length);
                 searchBtn.setAttribute('data-targetNode2', prefix + index + '.' + suffix);
             }
+            <%-- id, name 재설정 끝 --%>
 
+            <%-- 복제된 입력폼 내용 초기화 시작 --%>
             function eraseContents( block ) {
                 var i, items;
                 items = block.querySelectorAll('input, select');
@@ -1435,68 +1437,8 @@
                     }
                 }
             }
-
-            /*form-group-block 추가/삭제에 대한 처리 끝*/
-
-            <%-- 대학, 대학원 입력란 동적 처리 시작 --%>
-            <%-- 추가/삭제 버튼의 부모의 부모가 복사할 블록이어야 하고--%>
-            <%-- 복사한 블록은 바로 위의 부모에 append 함--%>
-/*            var addInputBlock = function (e) {
-                var originalBlock = e.target.parentNode.parentNode,
-                    cloneObj, targetParent = originalBlock.parentNode;
-                $('.calendar').datepicker('destroy');
-                cloneObj = $(originalBlock).clone(true);
-                incrementChildren(cloneObj, targetParent.children.length+1);
-                $(targetParent).append(cloneObj);
-                $('.calendar').datepicker(datePickerOption);
-
-            };
-
-            var removeInputBlock = function (e) {
-                var blockToRemove, parentOfBlock, nOfBlocks;
-                blockToRemove = e.target.parentNode.parentNode;
-                parentOfBlock = blockToRemove.parentNode;
-                nOfBlocks = parentOfBlock.children.length;
-                if ((nOfBlocks-1) < 1) alert('더 이상 삭제할 수 없습니다.');
-                else {
-                    $(blockToRemove).remove();
-                }
-            }
-
-
-            <%-- o 내의 모든 children의 id 값 마지막 숫자를 n으로 변경, value를 ""로 --%>
-            var incrementChildren = function (o, n) {
-
-                var childList = o instanceof jQuery ? o.children() : o.children, i, l, t0, tid;
-
-                if ( childList ) {
-                    for( i = 0, l = childList.length ; i < l ; i++ ) {
-                        t0 = childList[i];
-                        if ( t0.id ) {
-                            tid = t0.id.toString();
-                            t0.id = tid.substring(0, tid.length - 1) + n.toString();
-                        }
-                        if ( t0.value ) t0.value = "";
-                        if ( t0.type == 'radio' ) t0.checked = false;
-
-                        incrementChildren(t0, n);
-                    }
-                }
-            };
-
-            // IE8 처리
-            var handleAddEventListener = function(target, event, handler) {
-                if (window.addEventListener) {
-                    target.addEventListener(event, handler);
-                }
-                else {
-                    target.attachEvent('on'+event, handler);
-                }
-            };
-
-            $('.addCollege').on('click', addInputBlock);
-            $('.removeCollege').on('click', removeInputBlock);*/
-            <%-- 대학 입력란 동적 처리 끝 --%>
+            <%-- 복제된 입력폼 내용 초기화 끝 --%>
+            <%-- form-group-block 추가/삭제에 대한 처리 끝 --%>
 
             <%-- 다음 주소 검색 시작 --%>
             var postLayer = document.getElementById('postLayer');
@@ -1553,7 +1495,7 @@
             });
             <%-- 사진 업로드 끝 --%>
 
-            /*고등학교 졸업/검정고시 동적 변경 시작*/
+            <%-- 고등학교 졸업/검정고시 동적 변경 시작 --%>
             $('input[name="highSchool.acadTypeCode"]').change(function() {
                 var radioValue = $(this).val();
                 if (radioValue == '00001') {
@@ -1570,12 +1512,11 @@
                 $('#' + excludeId).show();
             }
             $('input[name="highSchool.acadTypeCode"]').eq(0).click();
-            /*고등학교 졸업/검정고시 동적 변경 시작*/
+            <%-- 고등학교 졸업/검정고시 동적 변경 시작 --%>
 
-            /*지원 구분 변경 처리 시작*/
+            <%-- 학연산 선택에 따른 화면 변경 시작 --%>
             $('#applAttrCode').change(function() {
                 var index = $(this).children('option:selected').index() + 1;
-//                var index = $('#applyKind option:selected').index() + 1;
                 hideByClassname('applyKindDynamic', 'hidden-apply-kind-' + index)
             });
 
@@ -1588,49 +1529,61 @@
                     }
                 });
             }
-            /*지원 구분 변경 처리 끝*/
+            <%-- 학연산 선택에 따른 화면 변경 끝 --%>
 
-            /*select 폼 change 이벤트 처리 시작*/
-            function attachChangeEvent( sourceId, context, valueKey, labelKey, appendUrl ) {
+            <%--**select 폼 change 이벤트 처리 시작
+                * sourceId: 이벤트 발생되는 <select> id
+                * context: 변하는 <select>정보 (json)
+                *          targetId:변하는 <select> id
+                *          valueKey: <option>의 value로 쓰인 property 명
+                *          labelKey: <option>의 label로 쓰인 property 명
+                *          clean: option 지울 <select> id
+                *          url: url의 나머지 부분, string이거나 function
+            --%>
+            function attachChangeEvent( sourceId, context ) {
                 var $source = $('#' + sourceId);
-                $source.change( function(event) {
-                    var url = '${contextPath}/common/code', targetId, info;
 
-                    if( typeof(context) === 'string' ) {
-                        targetId = context;
-                    } else if( typeof(context) === 'object' ) {
+                $source.change( function(event) {
+                    var info, targetId, valueKey, labelKey, url, clean;
+                    var baseUrl = '${contextPath}/common/code';
+
+                    info = context;
+                    if (context.hasOwnProperty($source.val())) {
                         info = context[$source.val()];
-                        if( !info ) {
-                            info = context.other;
-                        }
-                        if( info ) {
-                            targetId = info.targetId ? info.targetId : '';
-                            valueKey = info.valueKey ? info.valueKey : valueKey;
-                            labelKey = info.labelKey ? info.labelKey : labelKey;
-                            appendUrl = info.url ? info.url : appendUrl;
-                        }
                     }
 
+                    targetId = info.targetId ? info.targetId : context.targetId;
                     if( !targetId ) {
                         return;
                     }
 
-                    if( appendUrl && typeof(appendUrl) === 'function' ) {
-                        url += appendUrl($source.val());
-                    } else if( appendUrl ) {
-                        url += appendUrl;
+                    valueKey = info.valueKey ? info.valueKey : context.valueKey;
+                    labelKey = info.labelKey ? info.labelKey : context.labelKey;
+                    url = info.url ? info.url : context.url;
+                    if( url && typeof url === 'function' ) {
+                        baseUrl += url($source.val());
+                    } else if( url ) {
+                        baseUrl += url;
+                    }
+
+                    clean = info.clean ? info.clean : context.clean;
+                    if (typeof clean === 'string') {
+                        clean = [ clean ];
+                    }
+                    clean = [].concat( targetId, clean );
+                    for (i in clean) {
+                        $('#' + clean[i]).children('option').filter(function() {
+                            return this.value !== '-';
+                        }).remove();
                     }
 
                     $.ajax({
                         type: 'GET',
-                        url: url,
+                        url: baseUrl,
                         success: function(e) {
                             if(e.result && e.result === 'SUCCESS') {
                                 var target = $('#' + targetId);
                                 var data = JSON && JSON.parse(e.data) || $.parseJSON(e.data);
-                                $(target).children('option').filter(function () {
-                                    return this.value !== '-';
-                                }).remove();
                                 $(data).each(function (i, item) {
                                     var opt = $('<option>').attr('value', item[valueKey]).attr('label', item[labelKey]);
                                     target.append(opt);
@@ -1643,49 +1596,96 @@
                     });
                 });
             }
-            /*select 폼 change 이벤트 처리 끝*/
+            <%-- select 폼 change 이벤트 처리 끝 --%>
 
-            /*지원사항 select 폼 change 이벤트 핸들러 등록 시작*/
-            // 지원구분 변경
+            <%--지원사항 select 폼 change 이벤트 핸들러 등록 시작 --%>
+            <%-- 지원구분 변경 --%>
             attachChangeEvent( 'applAttrCode',
                     {
-                        other: {targetId: 'campCode', valueKey: 'campCode', labelKey: 'campName', url: '/campus'},
-                        '02': {targetId: 'ariInstCode', valueKey: 'ariInstCode', labelKey: 'ariInstName', url: '/ariInst'}
+                        '02': {targetId: 'ariInstCode', valueKey: 'ariInstCode', labelKey: 'ariInstName', url: '/ariInst'}, // applAttrCode == '02'
+                        targetId: 'campCode',
+                        valueKey: 'campCode',
+                        labelKey: 'campName',
+                        clean: ['collCode', 'ariInstCode', 'deptCode', 'corsTypeCode', 'detlMajCode'],
+                        url: '/campus'
                     }
             );
 
-            // 캠퍼스 변경
-            attachChangeEvent( 'campCode', 'collCode', 'collCode', 'collName',
-                    function(args) {
-                        return '/college/' + args;
-                    }
-            );
-
-            // 대학변경
-            attachChangeEvent( 'collCode', 'deptCode', 'deptCode', 'deptName',
-                    function(args) {
-                        var admsNo = '${entireApplication.admsNo}';
-                        return '/general/department/' + admsNo + '/' + args;
-                    }
-            );
-
-            // 학연산 변경
-            attachChangeEvent( 'ariInstCode', 'deptCode', 'deptCode', 'deptName',
-                    function(args) {
-                        var admsNo = '${entireApplication.admsNo}';
-                        return '/ariInst/department/' + admsNo + '/' + args;
-                    }
-            );
-
-            // 지원학과 변경
-            attachChangeEvent( 'deptCode', 'corsTypeCode', 'corsTypeCode', 'codeVal',
-                    function(args) {
-                        var admsNo = '${entireApplication.admsNo}';
-                        var ariInstCode = $('#ariInstCode:visible').val();
-                        if( ariInstCode && ariInstCode != '-') {
-                            return '/ariInst/course/' + admsNo + "/" + args + "/" + ariInstCode;
+            <%-- 캠퍼스 변경 --%>
+            attachChangeEvent( 'campCode',
+                    {
+                        targetId: 'collCode',
+                        valueKey: 'collCode',
+                        labelKey: 'collName',
+                        url: function(arg) {
+                            return '/college/' + arg;
                         }
-                        return '/general/course/' + admsNo + '/' + args;
+                    }
+            );
+
+            <%-- 대학변경 --%>
+            attachChangeEvent( 'collCode',
+                    {
+                        targetId: 'deptCode',
+                        valueKey: 'deptCode',
+                        labelKey: 'deptName',
+                        url: function(arg) {
+                            var admsNo = '${entireApplication.admsNo}';
+                            return '/general/department/' + admsNo + '/' + arg;
+                        }
+                    }
+            );
+
+            <%-- 학연산 변경 --%>
+            attachChangeEvent( 'ariInstCode',
+                    {
+                        targetId: 'deptCode',
+                        valueKey: 'deptCode',
+                        labelKey: 'deptName',
+                        url: function(arg) {
+                            var admsNo = '${entireApplication.admsNo}';
+                            return '/ariInst/department/' + admsNo + '/' + arg;
+                        }
+                }
+            );
+
+            <%-- 지원학과 변경 --%>
+            attachChangeEvent( 'deptCode',
+                    {
+                        targetId: 'corsTypeCode',
+                        valueKey: 'corsTypeCode',
+                        labelKey: 'codeVal',
+                        url: function(arg) {   <%-- 지원과정 조회 --%>
+                            var admsNo = '${entireApplication.admsNo}';
+                            var applAttrCode = $('#applAttrCode').val();
+                            if (applAttrCode == '01') {
+                                return '/general/course/' + admsNo + '/' + arg;
+                            } else if (applAttrCode == '02') {
+                                return '/ariInst/course/' + admsNo + "/" + arg + "/" + $('#ariInstCode').val();
+                            } else if (applAttrCode == '03') {
+                                return '/commission/course/' + admsNo + '/' + arg;
+                            }
+                        }
+                    }
+            );
+
+            <%-- 지원과정 변경 --%>
+            attachChangeEvent( 'corsTypeCode',
+                    {
+                        targetId: 'detlMajCode',
+                        valueKey: 'detlMajCode',
+                        labelKey: 'detlMajName',
+                        url: function(arg) {
+                            var admsNo = '${entireApplication.admsNo}';
+                            var applAttrCode = $('#applAttrCode').val();
+                            if (applAttrCode == '01') {
+                                return '/general/detailMajor/' + admsNo + '/' + $('#deptCode').val() + '/' + arg;
+                            } else if (applAttrCode == '02') {
+                                return '/ariInst/detailMajor/' + admsNo + "/" + $('#deptCode').val() + "/" + $('#ariInstCode').val() + '/' + arg;
+                            } else if (applAttrCode == '03') {
+                                // nothing
+                            }
+                        }
                     }
             );
             /*지원사항 select 폼 change 이벤트 핸들러 등록 끝*/
