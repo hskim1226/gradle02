@@ -37,4 +37,14 @@ public class QnaServiceImpl implements QnaService{
             }
         }, new UserSearchForm(), qnaSearchForm.getPageNum(), qnaSearchForm.getPageRows() );
     }
+
+    @Override
+    public QnaVO getQna(int id) {
+        return commonDAO.queryForObject(NAME_SPACE+"selectByPk", id, QnaVO.class);
+    }
+
+    @Override
+    public void saveAnswer(QnaVO qna) {
+        commonDAO.update(NAME_SPACE + "updateAnswer", qna);
+    }
 }

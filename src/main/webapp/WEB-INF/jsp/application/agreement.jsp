@@ -70,7 +70,7 @@
                 <div>개인정보보호법』 제 15조 및 제 22조에 따라 연세대학교 대학원 신·편입생 선발과 관련하여 개인정보의 수집과 이용을 위해서 개인정보 수집 및 이용에 대한 귀하의 동의가 필요합니다.</div>
 
                 <div class="spacer-small"></div>
-                <form class="form-horizontal" id="formAgreement" role="form" action="${contextPath}/application/apply" method="post">
+                <form class="form-horizontal" id="formAgreement" role="form" action="${contextPath}/application/apply?admsNo=15A&entrYear=2015&admsTypeCode=A" method="post">
                     <hr/>
                     <h3 class="slogan">개인 정보 수집 및 이용에 관한 동의</h3>
                     <div>원서 접수 및 입학 전형을 위해 개인정보를 수집 및 이용하며, 이외의 다른 목적에는 절대 사용되지 않습니다.</div>

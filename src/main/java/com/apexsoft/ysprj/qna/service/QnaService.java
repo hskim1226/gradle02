@@ -12,4 +12,8 @@ import com.apexsoft.ysprj.qna.web.form.QnaSearchForm;
  */
 public interface QnaService {
     PageInfo<QnaVO> getQnaPaginatedList(QnaSearchForm searchForm);
+
+    QnaVO getQna(int id);
+
+    void saveAnswer(QnaVO qna);
 }

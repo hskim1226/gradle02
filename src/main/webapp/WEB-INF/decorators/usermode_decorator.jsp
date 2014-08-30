@@ -6,8 +6,9 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><decorator:title default="연세대학교 대학원 입학 신청 시스템"/></title>
+    <title><decorator:title default="연세대학교 대학원 입학원서 접수 시스템"/></title>
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -49,7 +50,7 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav" style="float: right;" data-0="margin-top:20px;" data-300="margin-top:5px;">
                     <li class="active"><a href="${contextPath}/index">Home</a></li>
-                    <li><a href="${contextPath}/notice/list">모집 공고</a></li>
+                    <li><a href="${contextPath}/notice/list">원서 접수</a></li>
                     <li><a href="${contextPath}/application/mylist">내 원서</a></li>
                     <li><a href="${contextPath}/user/agreement">회원 가입</a></li>
                     <li><a href="${contextPath}/qna/list">Q&A</a></li>
@@ -68,7 +69,7 @@
     <section id="footer" class="section footer">
         <div class="container">
             <div class="row align-center">
-                <div class="col-sm-12 legalnotice"><p>(주)에이펙스소프트 | 서울 마포구 양화로 156 | 대표이사 김도훈 | 사업자등록번호 105-87-66045 | 전화 070-8892-0534</p></div>
+                <div class="col-sm-12 legalnotice"><p>(주)에이펙스소프트 | 서울 마포구 양화로 156, 1121(동교동, 엘지팰리스) | 대표이사 김도훈 | 사업자등록번호 105-87-66045 | 전화 070-8892-0534</p></div>
                 <div class="col-sm-12 legalnotice"><p>통신판매업신고번호 서울마포-1109호 | 개인정보관리책임자 김도훈 | 개인정보보유기간 회원 탈퇴시까지</p></div>
             </div>
             <div class="row align-center copyright">
@@ -95,6 +96,7 @@
     <script src="${contextPath}/js/jquery.appear.min.js"></script>
     <script src="${contextPath}/js/jquery.bpopup.min.js"></script>
     <script src="${contextPath}/js/validate.min.js"></script>
+    <script src="${contextPath}/js/json2.js"></script>
     <script src="${contextPath}/js/main.js"></script>
     <decorator:getProperty property="page.local-script"/>
 </body>

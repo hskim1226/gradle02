@@ -6,8 +6,9 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><decorator:title default="연세대학교 대학원 입학 신청 시스템"/></title>
+    <title><decorator:title default="연세대학교 대학원 입학원서 접수 시스템"/></title>
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -19,6 +20,8 @@
     <link rel="stylesheet" href="${contextPath}/css/admin/global_layout.css"/>
     <link rel="stylesheet" href="${contextPath}/css/admin/page_style.css"/>
     <link rel="stylesheet" href="${contextPath}/css/admin/page_layout.css"/>
+
+    <script src="${contextPath}/js/jquery.min.js"></script>
     <decorator:head />
 </head>
 <body>
@@ -115,7 +118,8 @@
                     <li class="Llast"><span><a href="#">권한관리</a></span></li>
                 </ul>
             </li>
-            <li class="Llast"><span><a href="#">공지사항</a></span></li>
+            <li class="Lidx8"><span><a href="#">공지사항</a></span></li>
+            <li class="Llast"><span><a href="#">Q&A</a></span></li>
         </ul>
     </div>
 
@@ -133,6 +137,7 @@
 <script src="${contextPath}/js/admin/dui_tree.js"></script>
 <script src="${contextPath}/js/admin/dui_slidemenu.js"></script>
 <script src="${contextPath}/js/admin/common.js"></script>
+<script src="${contextPath}/js/json2.js"></script>
 <decorator:getProperty property="page.local-script"/>
 </body>
 </html>

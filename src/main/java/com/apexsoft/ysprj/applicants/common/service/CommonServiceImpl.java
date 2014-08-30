@@ -147,4 +147,48 @@ public class CommonServiceImpl implements CommonService {
         return codeNameDetailMajorList;
     }
 
+    @Override
+    public List<Country> retrieveCountryByName(String keyword) {
+        List<Country> countryList = null;
+        try {
+            countryList = commonDAO.queryForList(NAME_SPACE+"CustomCountryMapper.selectCountryListByName",
+                    keyword,
+                    Country.class);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return countryList;
+    }
+
+    @Override
+    public List<School> retrieveSchoolByTypeName(String schlType, String keyword) {
+        List<School> schoolList = null;
+        ParamForSchoolSearch paramForSchoolSearch = new ParamForSchoolSearch();
+        paramForSchoolSearch.setSchlType(schlType);
+        paramForSchoolSearch.setKeyword(keyword);
+
+        try {
+            schoolList = commonDAO.queryForList(NAME_SPACE+"CustomSchoolMapper.selectSchoolListByTypeName",
+                    paramForSchoolSearch,
+                    School.class);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return schoolList;
+    }
+
+    @Override
+    public List<CommonCode> retrieveCommonCodeValueByCodeGroup(String codeGrp) {
+        List<CommonCode> commonCodeList = null;
+        try {
+            commonCodeList = commonDAO.queryForList(NAME_SPACE+"CustomCommonCodeMapper.selectAllByCodeGroup",
+                    codeGrp,
+                    CommonCode.class);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return commonCodeList;
+    }
+
+
 }

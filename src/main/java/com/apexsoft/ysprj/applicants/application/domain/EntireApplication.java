@@ -8,8 +8,10 @@ import java.util.List;
 public class EntireApplication extends Application {
 
     private ApplicationGeneral applicationGeneral;
-    private ApplicationETC applicationETC;
-    private List<ApplicationAcademy> applicationAcademyList;
+    private ApplicationETCWithBLOBs applicationETCWithBLOBs;
+    private ApplicationAcademy highSchool;
+    private List<ApplicationAcademy> collegeList;
+    private List<ApplicationAcademy> graduateList;
     private List<ApplicationExperience> applicationExperienceList;
     private List<ApplicationLanguage> applicationLanguageList;
 
@@ -23,20 +25,36 @@ public class EntireApplication extends Application {
         this.applicationGeneral = applicationGeneral;
     }
 
-    public ApplicationETC getApplicationETC() {
-        return applicationETC;
+    public ApplicationETCWithBLOBs getApplicationETCWithBLOBs() {
+        return applicationETCWithBLOBs;
     }
 
-    public void setApplicationETC(ApplicationETC applicationETC) {
-        this.applicationETC = applicationETC;
+    public void setApplicationETCWithBLOBs(ApplicationETCWithBLOBs applicationETCWithBLOBs) {
+        this.applicationETCWithBLOBs = applicationETCWithBLOBs;
     }
 
-    public List<ApplicationAcademy> getApplicationAcademyList() {
-        return applicationAcademyList;
+    public ApplicationAcademy getHighSchool() {
+        return highSchool;
     }
 
-    public void setApplicationAcademyList(List<ApplicationAcademy> applicationAcademyList) {
-        this.applicationAcademyList = applicationAcademyList;
+    public void setHighSchool(ApplicationAcademy highSchool) {
+        this.highSchool = highSchool;
+    }
+
+    public List<ApplicationAcademy> getCollegeList() {
+        return collegeList;
+    }
+
+    public void setCollegeList(List<ApplicationAcademy> collegeList) {
+        this.collegeList = collegeList;
+    }
+
+    public List<ApplicationAcademy> getGraduateList() {
+        return graduateList;
+    }
+
+    public void setGraduateList(List<ApplicationAcademy> graduateList) {
+        this.graduateList = graduateList;
     }
 
     public List<ApplicationExperience> getApplicationExperienceList() {

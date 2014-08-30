@@ -85,13 +85,13 @@
 </section>
 <content tag="local-script">
     <script>
-    $(document).ready( function() {
-        $('.btn-primary').click(function(){
-            document.getElementById('LGD_PRODUCTINFO').value = $(this)[0].name;
-            document.getElementById('LGD_AMOUNT').value = $(this)[0].value;
-            $('#LGD_PAYINFO').submit();
-        });
-    })
+        $(document).ready( function() {
+            $('.btn-primary').click(function(){
+                document.getElementById('LGD_PRODUCTINFO').value = $(this)[0].name;
+                document.getElementById('LGD_AMOUNT').value = $(this)[0].value;
+                $('#LGD_PAYINFO').submit();
+            });
+        })
     </script>
 </content>
 </body>

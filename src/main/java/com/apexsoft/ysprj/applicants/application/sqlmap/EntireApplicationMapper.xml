@@ -3,10 +3,13 @@
 <mapper namespace="com.apexsoft.ysprj.applicants.application.sqlmap.EntireApplicationMapper">
 
     <resultMap id="entireApplicationByNestedSelect"
-               type="com.apexsoft.ysprj.user.test.EntireApplication">
+               type="com.apexsoft.ysprj.applicants.application.domain.EntireApplication">
         <id property="applNo" column="appl_no"/>
         <result property="userId" column="user_id"/>
         <result property="admsNo" column="adms_no"/>
+        <result property="entrYear" column="entr_year"/>
+        <result property="admsTypeCode" column="adms_type_code"/>
+        <result property="applAttrCode" column="appl_attr_code"/>
         <result property="deptCode" column="dept_code"/>
         <result property="ariInsstCode" column="ari_insst_code"/>
         <result property="corsTypeCode" column="cors_type_code"/>
@@ -33,7 +36,7 @@
         <result property="modId" column="mod_id"/>
         <result property="modDate" column="mod_date"/>
         <association property="applicationGeneral"
-                     javaType="com.apexsoft.ysprj.user.domain.ApplicationGeneral">
+                     javaType="com.apexsoft.ysprj.applicants.application.domain.ApplicationGeneral">
             <id property="applNo" column="appl_no"/>
             <result property="currWrkpName" column="curr_wrkp_name"/>
             <result property="currWrkpDay" column="curr_wrkp_day"/>
@@ -58,8 +61,8 @@
             <result property="modId" column="gene_mod_id"/>
             <result property="modDate" column="gene_mod_date"/>
         </association>
-        <association property="applicationEtc"
-                     javaType="com.apexsoft.ysprj.user.domain.ApplicationEtc">
+        <association property="applicationETCWithBLOBs"
+                     javaType="com.apexsoft.ysprj.applicants.application.domain.ApplicationETCWithBLOBs">
             <id property="applNo" column="appl_no"/>
             <result property="covLett" column="cov_lett"/>
             <result property="studPlan" column="stud_plan"/>
@@ -68,17 +71,69 @@
             <result property="modId" column="etc_mod_id"/>
             <result property="modDate" column="etc_mod_date"/>
         </association>
-        <collection property="applicationAcademyList" column="appl_no"
-                    ofType="com.apexsoft.ysprj.user.domain.ApplicationAcademy"
-                    select="selectAcademyListForEntireApplication"/>
-        <collection property="applicationExperiencesList" column="appl_no"
-                    ofType="com.apexsoft.ysprj.user.domain.ApplicationExperiences"
-                    select="selectExperiencesListForEntireApplication"/>
-        <collection property="applicationEngGradeList" column="appl_no"
-                    ofType="com.apexsoft.ysprj.user.domain.ApplicationEngGrade"
-                    select="selectEngGradeListForEntireApplication"/>
+        <association property="highSchool"
+                     javaType="com.apexsoft.ysprj.applicants.application.domain.ApplicationAcademy">
+            <id property="applNo" column="APPL_NO"/>
+            <result property="applNo" column="APPL_NO"/>
+            <result property="acadSeq" column="ACAD_SEQ"/>
+            <result property="acadTypeCode" column="ACAD_TYPE_CODE"/>
+            <result property="lastSchlYn" column="LAST_SCHL_YN"/>
+            <result property="entrDay" column="ENTR_DAY"/>
+            <result property="grdaDay" column="GRDA_DAY"/>
+            <result property="schlCode" column="SCHL_CODE"/>
+            <result property="schlName" column="SCHL_NAME"/>
+            <result property="collName" column="COLL_NAME"/>
+            <result property="majName" column="MAJ_NAME"/>
+            <result property="gradAvr" column="GRAD_AVR"/>
+            <result property="gradFull" column="GRAD_FULL"/>
+            <result property="grdaTypeCode" column="GRDA_TYPE_CODE"/>
+            <result property="qualExamDay" column="QUAL_EXAM_DAY"/>
+            <result property="qualAreaCode" column="QUAL_AREA_CODE"/>
+            <result property="schlAddr" column="SCHL_ADDR"/>
+            <result property="schlTel" column="SCHL_TEL"/>
+            <result property="creId" column="CRE_ID"/>
+            <result property="creDate" column="CRE_DATE"/>
+            <result property="modId" column="MOD_ID"/>
+            <result property="modDate" column="MOD_DATE"/>
+        </association>
+        <!--<collection property="collegeList" column="appl_no"-->
+                    <!--ofType="com.apexsoft.ysprj.applicants.application.domain.ApplicationAcademy"-->
+                    <!--select="selectAcademyForEntireApplication"/>-->
+        <!--<collection property="graduateList" column="appl_no"-->
+                    <!--ofType="com.apexsoft.ysprj.applicants.application.domain.ApplicationAcademy"-->
+                    <!--select="selectAcademyForEntireApplication"/>-->
+        <!--<collection property="applicationExperienceList" column="appl_no"-->
+                    <!--ofType="com.apexsoft.ysprj.applicants.application.domain.ApplicationExperience"-->
+                    <!--select="selectExperienceListForEntireApplication"/>-->
+        <!--<collection property="applicationLanguageList" column="appl_no"-->
+                    <!--ofType="com.apexsoft.ysprj.applicants.application.domain.ApplicationLanguage"-->
+                    <!--select="selectLanguageListForEntireApplication"/>-->
 
     </resultMap>
+
+    <sql id="Academy_Column_List" >
+        APPL_NO,
+        ACAD_SEQ,
+        ACAD_TYPE_CODE,
+        LAST_SCHL_YN,
+        ENTR_DAY,
+        GRDA_DAY,
+        SCHL_CODE,
+        SCHL_NAME,
+        COLL_NAME,
+        MAJ_NAME,
+        GRAD_AVR,
+        GRAD_FULL,
+        GRDA_TYPE_CODE,
+        QUAL_EXAM_DAY,
+        QUAL_AREA_CODE,
+        SCHL_ADDR,
+        SCHL_TEL,
+        CRE_ID,
+        CRE_DATE,
+        MOD_ID,
+        MOD_DATE
+    </sql>
 
     <select id="selectEntireApplicationByApplNoNestedSelect"
             resultMap="entireApplicationByNestedSelect"
@@ -88,6 +143,9 @@
                 a.APPL_NO,
                 a.USER_ID,
                 a.ADMS_NO,
+                a.ENTR_YEAR,
+                a.ADMS_TYPE_CODE,
+                a.APPL_ATTR_CODE,
                 a.DEPT_CODE,
                 a.ARI_INST_CODE,
                 a.CORS_TYPE_CODE,
@@ -141,44 +199,27 @@
                 c.CRE_DATE as ETC_CRE_ID,
                 c.MOD_ID as ETC_MOD_ID,
                 c.MOD_DATE as ETC_MOD_DATA
-        from APPL a, APPL_GENE b, APPL_ETC c
+        from APPL a, APPL_GENE b, APPL_ETC c, APPL_ACAD d
         where a.APPL_NO = b.APPL_NO
         and   b.APPL_NO = c.APPL_NO
+        and   c.APPL_NO = d.APPL_NO
+        and   d.ACAD_TYPE_CODE = '00001'
         and   a.APPL_NO = #{applNo}
         ]]>
     </select>
 
-    <select id="selectAcademyListForEntireApplication"
-            resultType="com.apexsoft.ysprj.user.domain.ApplicationAcademy"
-            parameterType="int">
-        <![CDATA[
+    <select id="selectAcademyForEntireApplication"
+            resultType="com.apexsoft.ysprj.applicants.application.domain.ApplicationAcademy"
+            parameterType="com.apexsoft.ysprj.applicants.application.domain.ParamForAcademy">
         select
-                APPL_NO,
-                ACAD_SEQ,
-                ACAD_TYPE_CODE,
-                LAST_SCHL_YN,
-                ENTR_DAY,
-                GRDA_DAY,
-                SCHL_CODE,
-                SCHL_NAME,
-                COLL_NAME,
-                MAJ_NAME,
-                GRAD_AVR,
-                GRAD_FULL,
-                GRDA_TYPE_CODE,
-                QUAL_EXAM_DAY,
-                QUAL_AREA_CODE,
-                CRE_ID,
-                CRE_DATE,
-                MOD_ID,
-                MOD_DATE
+                <include refid="Academy_Column_List" />
         from APPL_ACAD
         where APPL_NO = #{applno}
-        ]]>
+          and ACAD_TYPE_CODE = #{acadTypeCode}
     </select>
 
-    <select id="selectExperiencesListForEntireApplication"
-            resultType="com.apexsoft.ysprj.user.domain.ApplicationExperiences"
+    <select id="selectExperienceListForEntireApplication"
+            resultType="com.apexsoft.ysprj.applicants.application.domain.ApplicationExperience"
             parameterType="int">
         <![CDATA[
         select
@@ -197,8 +238,8 @@
         ]]>
     </select>
 
-    <select id="selectEngGradeListForEntireApplication"
-            resultType="com.apexsoft.ysprj.user.domain.ApplicationEngGrade"
+    <select id="selectLanguageListForEntireApplication"
+            resultType="com.apexsoft.ysprj.applicants.application.domain.ApplicationLanguage"
             parameterType="int">
         <![CDATA[
         select
@@ -220,13 +261,16 @@
     </select>
 
     <select id="selectApplicationByApplNo"
-            resultType="com.apexsoft.ysprj.user.domain.Application"
+            resultType="com.apexsoft.ysprj.applicants.application.domain.Application"
             parameterType="int">
         <![CDATA[
         select
                 a.APPL_NO,
                 a.USER_ID,
                 a.ADMS_NO,
+                a.ENTR_YEAR,
+                a.ADMS_TYPE_CODE,
+                a.APPL_ATTR_CODE,
                 a.DEPT_CODE,
                 a.ARI_INST_CODE,
                 a.CORS_TYPE_CODE,
@@ -256,5 +300,177 @@
         where a.APPL_NO = #{applNo}
         ]]>
     </select>
+
+    <insert id="insertApplication" parameterType="com.apexsoft.ysprj.applicants.application.domain.Application">
+        <![CDATA[
+        INSERT INTO APPL (
+                USER_ID,
+                ADMS_NO,
+                ENTR_YEAR,
+                ADMS_TYPE_CODE,
+                APPL_ATTR_CODE,
+                DEPT_CODE,
+                ARI_INST_CODE,
+                CORS_TYPE_CODE,
+                DETL_MAJ_CODE,
+                INP_DETL_MAJ,
+                PART_TIME_YN,
+                KOR_NAME,
+                CHN_NAME,
+                ENG_SUR,
+                ENG_NAME,
+                RGST_NO,
+                ZIP_CODE,
+                ADDR,
+                DETL_ADDR,
+                TEL_NUM,
+                MOBI_NUM,
+                FAX_NUM,
+                MAIL_ADDR,
+                APPL_ID,
+                APPL_STS_CODE,
+                PRIV_INFO_YN,
+                CRE_ID,
+                CRE_DATE
+        ) VALUES (
+                #{applNo},
+                #{userId},
+                #{admsNo},
+                #{entrYear},
+                #{admsTypeCode},
+                #{applAttrCode},
+                #{deptCode},
+                #{ariInsstCode},
+                #{corsTypeCode},
+                #{detlMajCode},
+                #{inpDetlMaj},
+                #{partTimeYn},
+                #{korName},
+                #{chnName},
+                #{engSur},
+                #{engName},
+                #{rgstNo},
+                #{zipCode},
+                #{addr},
+                #{detlAddr},
+                #{telNum},
+                #{mobiNum},
+                #{faxNum},
+                #{mailAddr},
+                #{applId},
+                #{applStsCode},
+                #{privInfoYn},
+                #{creId},
+                #{creDate},
+                #{modId},
+                #{modDate}
+        )
+        ]]>
+    </insert>
+
+    <update id="updateApplicationByApplNo" parameterType="com.apexsoft.ysprj.applicants.application.domain.Application">
+        <![CDATA[
+		  update APPL set
+                USER_ID = #{userId},
+                ADMS_NO = #{admsNo},
+                ENTR_YEAR = #{entrYear},
+                ADMS_TYPE_CODE = #{admsTypeCode},
+                APPL_ATTR_CODE = #{applAttrCode},
+                DEPT_CODE = #{deptCode},
+                ARI_INSST_CODE = #{ariInsstCode},
+                CORS_TYPE_CODE = #{corsTypeCode},
+                DETL_MAJ_CODE = #{detlMajCode},
+                INP_DETL_MAJ = #{inpDetlMaj},
+                PART_TIME_YN = #{partTimeYn},
+                KOR_NAME = #{korName},
+                CHN_NAME = #{chnName},
+                ENG_SUR = #{engSur},
+                ENG_NAME = #{engName},
+                RGST_NO = #{rgstNo},
+                ZIP_CODE = #{zipCode},
+                ADDR = #{addr},
+                DETL_ADDR = #{detlAddr},
+                TEL_NUM = #{telNum},
+                MOBI_NUM = #{mobiNum},
+                FAX_NUM = #{faxNum},
+                MAIL_ADDR = #{mailAddr},
+                APPL_ID = #{applId},
+                APPL_STS_CODE = #{applStsCode},
+                PRIV_INFO_YN = #{privInfoYn},
+                CRE_ID = #{creId},
+                CRE_DATE = #{creDate},
+                MOD_ID = #{modId},
+                MOD_DATE = #{modDate}
+			WHERE APPL_NO = #{applNo}
+		]]>
+    </update>
+    
+    <update id="updateApplicationKorNameByAdmin" parameterType="com.apexsoft.ysprj.applicants.application.domain.Application">
+        <![CDATA[
+		  update APPL set
+                KOR_NAME = #{korName}},
+                MOD_ID = #{modId},
+                MOD_DATE = #{modDate}
+			WHERE APPL_NO = #{applNo}
+		]]>
+    </update>
+    <update id="updateApplicationEngNameByAdmin" parameterType="com.apexsoft.ysprj.applicants.application.domain.Application">
+        <![CDATA[
+		  update APPL set
+                ENG_SUR = #{engSur},
+                ENG_NAME = #{engName},
+                MOD_ID = #{modId},
+                MOD_DATE = #{modDate}
+			WHERE APPL_NO = #{applNo}
+		]]>
+    </update>
+    <update id="updateApplicationRgstNoByAdmin" parameterType="com.apexsoft.ysprj.applicants.application.domain.Application">
+        <![CDATA[
+		  update APPL set
+                RGST_NO = #{rgstNo},
+                MOD_ID = #{modId},
+                MOD_DATE = #{modDate}
+			WHERE APPL_NO = #{applNo}
+		]]>
+    </update>
+    <update id="updateApplicationAddrByAdmin" parameterType="com.apexsoft.ysprj.applicants.application.domain.Application">
+        <![CDATA[
+		  update APPL set
+                ZIP_CODE = #{zipCode},
+                ADDR = #{addr},
+                DETL_ADDR = #{detlAddr},
+                MOD_ID = #{modId},
+                MOD_DATE = #{modDate}
+			WHERE APPL_NO = #{applNo}
+		]]>
+    </update> 
+    <update id="updateApplicationMailAddrByAdmin" parameterType="com.apexsoft.ysprj.applicants.application.domain.Application">
+        <![CDATA[
+		  update APPL set
+                MAIL_ADDR = #{mailAddr},
+                MOD_ID = #{modId},
+                MOD_DATE = #{modDate}
+			WHERE APPL_NO = #{applNo}
+		]]>
+    </update> 
+    <update id="updateApplicationTelNumByAdmin" parameterType="com.apexsoft.ysprj.applicants.application.domain.Application">
+        <![CDATA[
+		  update APPL set
+                TEL_NUM = #{telNum},
+                MOD_ID = #{modId},
+                MOD_DATE = #{modDate}
+			WHERE APPL_NO = #{applNo}
+		]]>
+    </update> 
+    <update id="updateApplicationMobiNumByAdmin" parameterType="com.apexsoft.ysprj.applicants.application.domain.Application">
+        <![CDATA[
+		  update APPL set
+                MOBI_NUM = #{mobiNum},
+                MOD_ID = #{modId},
+                MOD_DATE = #{modDate}
+			WHERE APPL_NO = #{applNo}
+		]]>
+    </update>   
+    
 
 </mapper>
