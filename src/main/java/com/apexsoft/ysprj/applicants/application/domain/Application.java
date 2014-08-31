@@ -994,8 +994,4 @@ public class Application {
     public void setModDate(Date modDate) {
         this.modDate = modDate;
     }
-
-    protected Application getApplication() { return this; }
-
-
 }
