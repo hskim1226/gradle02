@@ -7,6 +7,7 @@ import com.apexsoft.ysprj.applicants.application.domain.EntireApplication;
 import com.apexsoft.ysprj.applicants.application.domain.ParamForInitialApply;
 import com.apexsoft.ysprj.applicants.common.domain.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -178,6 +179,7 @@ public class CommonServiceImpl implements CommonService {
     }
 
     @Override
+    @Cacheable(value = "commonCodeListCache")
     public List<CommonCode> retrieveCommonCodeValueByCodeGroup(String codeGrp) {
         List<CommonCode> commonCodeList = null;
         try {
@@ -188,6 +190,20 @@ public class CommonServiceImpl implements CommonService {
             e.printStackTrace();
         }
         return commonCodeList;
+    }
+
+    @Override
+    @Cacheable(value = "commonCodeCache")
+    public CommonCode retrieveCommonCodeValueByCodeGroupCode(ParamForCommonCode paramForCommonCode) {
+        CommonCode commonCode = null;
+        try {
+            commonCode = commonDAO.queryForObject(NAME_SPACE+"CustomCommonCodeMapper.selectAllByCodeGroupCode",
+                    paramForCommonCode,
+                    CommonCode.class);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return commonCode;
     }
 
 

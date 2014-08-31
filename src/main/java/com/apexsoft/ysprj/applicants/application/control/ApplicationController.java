@@ -4,6 +4,8 @@ import com.apexsoft.framework.common.vo.ExecutionContext;
 import com.apexsoft.ysprj.applicants.application.domain.*;
 import com.apexsoft.ysprj.applicants.application.service.ApplicationService;
 import com.apexsoft.ysprj.applicants.common.service.CommonService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.lang.math.RandomUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -30,12 +32,22 @@ public class ApplicationController {
     @Autowired
     private CommonService commonService;
 
+    @Autowired
+    private ObjectMapper objectMapper;
+
     @RequestMapping(value="/mylist")
-    public String myApplicationList(Principal principal) {
-//        ParamForApplication p = new ParamForApplication();
-//        p.setUserId(principal.getName());
-//        List<CustomMyList> applications = applicationService.retrieveMyList(p);
-        return "application/mylist";
+    @ResponseBody
+    public String myApplicationList(Principal principal, Model model)
+        throws JsonProcessingException {
+
+        ParamForApplication p = new ParamForApplication();
+        p.setUserId(principal.getName());
+
+        List<CustomMyList> myList = applicationService.retrieveMyList(p);
+//        model.addAttribute("myList", myList);
+//        return "application/mylist";
+        String r = objectMapper.writeValueAsString(myList);
+        return r;
     }
 
     @RequestMapping(value="/apply-work")

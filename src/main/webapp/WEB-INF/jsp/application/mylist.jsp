@@ -46,30 +46,24 @@
                         <table class="table table-stripped">
                             <thead>
                             <tr>
-                                <th>대학원</th>
-                                <th>신청과정</th>
-                                <th>접수마감</th>
-                                <th>원서확인</th>
-                                <th>원서수정</th>
-                                <th>결제하기</th>
+                                <th>캠퍼스</th>
+                                <th>전형</th>
+                                <th>학과</th>
+                                <th>과정</th>
+                                <th>세부전공</th>
+                                <th>지원상태</th>
                             </tr>
                             </thead>
                             <tbody>
                             <tr>
-                                <td>일반</td>
-                                <td><a href="${contextPath}/notice/2015-1-general">2015학년도 연세대학교 일반대학원 일반 전형</a></td>
+                                <td>${customMyList.campCode}</td>
+                                <td>${customMyList.admsDesc}</td>
+                                <td>${customMyList.deptName}</td>
+                                <td>${customMyList.deptName}</td>
                                 <td>2014-10-08</td>
                                 <td><button type="button" class="btn btn-success">확인하기</button></td>
                                 <td><button type="button" class="btn btn-info">수정하기</button></td>
                                 <td><button type="button" class="btn btn-primary" id="notice1" name="2015학년도 연세대학교 일반대학원 일반 전형" value="80000">결제하기</button></td>
-                            </tr>
-                            <tr>
-                                <td>외국인</td>
-                                <td>2015학년도 연세대학교 일반대학원 외국인 전형</td>
-                                <td>2014-10-08</td>
-                                <td><button type="button" class="btn btn-success">확인하기</button></td>
-                                <td><button type="button" class="btn btn-info">수정하기</button></td>
-                                <td><button type="button" class="btn btn-primary" id="notice2" name="2015학년도 연세대학교 일반대학원 외국인 전형" value="60000">결제하기</button></td>
                             </tr>
                             </tbody>
                         </table>

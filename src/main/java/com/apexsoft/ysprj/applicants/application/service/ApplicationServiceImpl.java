@@ -244,15 +244,15 @@ public class ApplicationServiceImpl implements ApplicationService {
     }
 
     public List<CustomMyList> retrieveMyList(ParamForApplication paramForApplication) {
-        List<CustomMyList> applications = null;
+        List<CustomMyList> customMyLists = null;
         try {
-            applications = commonDAO.queryForList(NAME_SPACE + "CustomApplicationMapper.selectApplByUserId",
+            customMyLists = commonDAO.queryForList(NAME_SPACE + "CustomApplicationMapper.selectApplByUserId",
                     paramForApplication, CustomMyList.class);
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        return applications;
+        return customMyLists;
     }
 
 }

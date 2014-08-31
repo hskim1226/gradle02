@@ -833,13 +833,13 @@ $(document).ready(function() {
     // 지원구분 변경
     attachChangeEvent( 'applAttrCode',
             {
-                other: {targetId: 'campCode', valueKey: 'campCode', labelKey: 'campName', url: '/campus'},
+                other: {targetId: 'campName', valueKey: 'campName', labelKey: 'campName', url: '/campus'},
                 '02': {targetId: 'ariInstCode', valueKey: 'ariInstCode', labelKey: 'ariInstName', url: '/ariInst'}
             }
     );
 
     // 캠퍼스 변경
-    attachChangeEvent( 'campCode', 'collCode', 'collCode', 'collName',
+    attachChangeEvent( 'campName', 'collCode', 'collCode', 'collName',
             function(args) {
                 return '/college/' + args;
             }
