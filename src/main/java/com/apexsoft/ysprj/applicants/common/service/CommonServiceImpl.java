@@ -23,6 +23,11 @@ public class CommonServiceImpl implements CommonService {
     @Autowired
     private CommonDAO commonDAO;
 
+    /**
+     * 캠퍼스 조회
+     *
+     * @return
+     */
     @Override
     public List<Campus> retrieveCampus() {
         List<Campus> campusList = null;
@@ -34,6 +39,12 @@ public class CommonServiceImpl implements CommonService {
         return campusList;
     }
 
+    /**
+     * 캠퍼스 별 단과대학 조회
+     *
+     * @param campusCode
+     * @return
+     */
     @Override
     public List<College> retrieveCollegeByCampus(String campusCode) {
         List<College> collegeList = null;
@@ -45,6 +56,12 @@ public class CommonServiceImpl implements CommonService {
         return collegeList;
     }
 
+    /**
+     * 단과대별 학과 조회
+     *
+     * @param paramForSetupCourses
+     * @return
+     */
     @Override
     public List<CodeNameDepartment> retrieveGeneralDepartmentByAdmsColl(ParamForSetupCourses paramForSetupCourses) {
         List<CodeNameDepartment> codeNameDepartmentList = null;
@@ -58,6 +75,12 @@ public class CommonServiceImpl implements CommonService {
         return codeNameDepartmentList;
     }
 
+    /**
+     * 학과별 세부 과정 조회
+     *
+     * @param paramForSetupCourses
+     * @return
+     */
     @Override
     public List<CodeNameCourse> retrieveGeneralCourseByAdmsDept(ParamForSetupCourses paramForSetupCourses) {
         List<CodeNameCourse> codeNameCourseList = null;
@@ -71,6 +94,12 @@ public class CommonServiceImpl implements CommonService {
         return codeNameCourseList;
     }
 
+    /**
+     * 학과, 과정 별 세부 전공 조회
+     *
+     * @param paramForSetupCourses
+     * @return
+     */
     @Override
     public List<CodeNameDetailMajor> retrieveGeneralDetailMajorByAdmsDeptCors(ParamForSetupCourses paramForSetupCourses) {
         List<CodeNameDetailMajor> codeNameDetailMajorList = null;
@@ -84,6 +113,12 @@ public class CommonServiceImpl implements CommonService {
         return codeNameDetailMajorList;
     }
 
+    /**
+     * 학과별 위탁과정 조회
+     *
+     * @param paramForSetupCourses
+     * @return
+     */
     @Override
     public List<CodeNameCourse> retrieveCommissionCourseByAdmsDept(ParamForSetupCourses paramForSetupCourses) {
         List<CodeNameCourse> codeNameCourseList = null;
@@ -97,6 +132,11 @@ public class CommonServiceImpl implements CommonService {
         return codeNameCourseList;
     }
 
+    /**
+     * 학연산 조회
+     *
+     * @return
+     */
     @Override
     public List<AcademyResearchIndustryInstitution> retrieveAriInst() {
         List<AcademyResearchIndustryInstitution> academyResearchIndustryInstitutionList = null;
@@ -109,6 +149,12 @@ public class CommonServiceImpl implements CommonService {
         return academyResearchIndustryInstitutionList;
     }
 
+    /**
+     * 학연산 학과 조회
+     *
+     * @param paramForSetupCourses
+     * @return
+     */
     @Override
     public List<CodeNameDepartment> retrieveAriInstDepartmentByAdmsAriInst(ParamForSetupCourses paramForSetupCourses) {
         List<CodeNameDepartment> codeNameDepartmentList = null;
@@ -122,6 +168,12 @@ public class CommonServiceImpl implements CommonService {
         return codeNameDepartmentList;
     }
 
+    /**
+     * 학연산 학과별 과정 조회
+     *
+     * @param paramForSetupCourses
+     * @return
+     */
     @Override
     public List<CodeNameCourse> retrieveAriInstCourseByAdmsDeptAriInst(ParamForSetupCourses paramForSetupCourses) {
         List<CodeNameCourse> codeNameCourseList = null;
@@ -135,6 +187,12 @@ public class CommonServiceImpl implements CommonService {
         return codeNameCourseList;
     }
 
+    /**
+     * 학연산 학과별 세부전공 조회
+     *
+     * @param paramForSetupCourses
+     * @return
+     */
     @Override
     public List<CodeNameDetailMajor> retrieveAriInstDetailMajorByAdmsDeptAriInst(ParamForSetupCourses paramForSetupCourses) {
         List<CodeNameDetailMajor> codeNameDetailMajorList = null;
@@ -148,6 +206,12 @@ public class CommonServiceImpl implements CommonService {
         return codeNameDetailMajorList;
     }
 
+    /**
+     * 검색어로 국가 조회
+     *
+     * @param keyword
+     * @return
+     */
     @Override
     public List<Country> retrieveCountryByName(String keyword) {
         List<Country> countryList = null;
@@ -161,6 +225,13 @@ public class CommonServiceImpl implements CommonService {
         return countryList;
     }
 
+    /**
+     * 학교유형, 검색어로 학교 조회
+     *
+     * @param schlType
+     * @param keyword
+     * @return
+     */
     @Override
     public List<School> retrieveSchoolByTypeName(String schlType, String keyword) {
         List<School> schoolList = null;
@@ -178,6 +249,12 @@ public class CommonServiceImpl implements CommonService {
         return schoolList;
     }
 
+    /**
+     * 코드그룹으로 공통코드 목록 조회
+     *
+     * @param codeGrp
+     * @return
+     */
     @Override
     @Cacheable(value = "commonCodeListCache")
     public List<CommonCode> retrieveCommonCodeValueByCodeGroup(String codeGrp) {
@@ -192,6 +269,12 @@ public class CommonServiceImpl implements CommonService {
         return commonCodeList;
     }
 
+    /**
+     * 코드 그룹, 코드로 공통 코드 값 조회
+     *
+     * @param paramForCommonCode
+     * @return
+     */
     @Override
     @Cacheable(value = "commonCodeCache")
     public CommonCode retrieveCommonCodeValueByCodeGroupCode(ParamForCommonCode paramForCommonCode) {
@@ -205,6 +288,4 @@ public class CommonServiceImpl implements CommonService {
         }
         return commonCode;
     }
-
-
 }

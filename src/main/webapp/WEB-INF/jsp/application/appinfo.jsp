@@ -205,10 +205,10 @@
                                     <div class="panel-heading">지원 사항</div>
                                     <div class="panel-body">
                                         <div class="form-group">
-                                            <label for="application.applAttrCode" class="col-sm-2 control-label">지원구분</label>
+                                            <form:label path="application.applAttrCode" cssClass="col-sm-2 control-label">지원구분</form:label>
                                             <div class="col-sm-9">
                                                 <form:select path="application.applAttrCode" cssClass="form-control">
-                                                    <form:options items="${common.applAttrList}" />
+                                                    <form:options items="${common.applAttrList}" itemValue="code" itemLabel="codeVal"/>
                                                 </form:select>
                                             </div>
                                         </div>
@@ -1150,12 +1150,9 @@
                 <button id="reset" type="button" class="btn btn-warning btn-lg">되돌리기</button>
             </div>
         </div>
-        <%--<div id="postLayer" style="display:none;border:3px solid;position:fixed;width:300px;height:460px;left:50%;margin-left:-155px;top:50%;margin-top:-235px;overflow:hidden;-webkit-overflow-scrolling:touch;">--%>
-            <%--<img src="${contextPath}/img/user/addr-close.png" id="btnCloseLayer" style="cursor:pointer;position:absolute;right:-3px;top:-3px" alt="닫기 버튼">--%>
-        <%--</div>--%>
     </div> <%--container--%>
 
-    <%--TODO 학교 검색 팝업 --%>
+    <%-- 학교 검색 팝업 --%>
     <div id="bpopContainerSchool" class="bpopContainer">
         <span class="button b-close"><span>X</span></span>
         <div id="bpopContentSchool">
@@ -1185,7 +1182,7 @@
     <input type="hidden" id="targetNode1" />
     <input type="hidden" id="targetNode2" />
     <input type="hidden" id="targetNode3" />
-    <%--TODO 학교 검색 팝업 --%>
+    <%-- 학교 검색 팝업 --%>
 
 </section>
 <content tag="local-script">
@@ -1197,7 +1194,7 @@
     <script type="text/javascript">
         $(document).ready(function() {
 
-            <%-- TODO 학교 검색 시작 --%>
+            <%-- 학교 검색 시작 --%>
             $('.bpopper').on('click', function(e) {
                 e.preventDefault();
                 $('#bpopResultSchool').empty();
@@ -1255,7 +1252,7 @@
                     $('#bpopBtnSearchSchool').trigger('click');
                 }
             });
-            <%-- TODO 학교 검색 끝 --%>
+            <%-- 학교 검색 끝 --%>
 
             var datePickerOption = {
 //                format: "yyyymmdd",
@@ -1477,11 +1474,6 @@
             <%-- 다음 주소 검색 시작 --%>
             var postLayer = document.getElementById('postLayer');
 
-            var closeDaumPostcode = function () {
-                // iframe을 넣은 element를 안보이게 한다.
-                postLayer.style.display = 'none';
-            };
-
             var showDaumPostcode = function () {
                 new daum.Postcode({
                     oncomplete: function(data) {
@@ -1491,18 +1483,11 @@
                         document.getElementById('postcode2').value = data.postcode2;
                         document.getElementById('address').value = data.address;
                         document.getElementById('addressDetail').focus();
-                        // iframe을 넣은 element를 안보이게 한다.
-//                        closeDaumPostcode();
                     },
                     width : '100%',
                     height : '100%'
                 }).open();
-
-                // iframe을 넣은 element를 보이게 한다.
-//                postLayer.style.display = 'block';
             };
-
-            $('#btnCloseLayer').on('click', closeDaumPostcode);
 
             $('#searchAddress').on('click', showDaumPostcode);
             <%-- 다음 주소 검색 끝 -->
@@ -1643,9 +1628,9 @@
 
             <%--지원사항 select 폼 change 이벤트 핸들러 등록 시작 --%>
             <%-- 지원구분 변경 --%>
-            attachChangeEvent( 'applAttrCode',
+            attachChangeEvent( 'application.applAttrCode',
                     {
-                        '02': {targetId: 'ariInstCode', valueKey: 'ariInstCode', labelKey: 'ariInstName', url: '/ariInst'}, // applAttrCode == '02'
+                        '02': {targetId: 'application.ariInstCode', valueKey: 'ariInstCode', labelKey: 'ariInstName', url: '/ariInst'}, // applAttrCode == '02'
                         targetId: 'campCode',
                         valueKey: 'campCode',
                         labelKey: 'campName',
@@ -1732,7 +1717,7 @@
                     }
             );
 
-            $('#detlMajCode').on('change', function(event) {
+            $('#application.detlMajCode').on('change', function(event) {
                 var selected = this.options[this.selectedIndex];
                 var val = selected.value;
                 var parent = this.parentNode.parentNode;
