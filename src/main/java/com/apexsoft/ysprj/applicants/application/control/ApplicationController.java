@@ -4,6 +4,7 @@ import com.apexsoft.framework.common.vo.ExecutionContext;
 import com.apexsoft.framework.message.MessageResolver;
 import com.apexsoft.ysprj.applicants.application.domain.*;
 import com.apexsoft.ysprj.applicants.application.service.ApplicationService;
+import com.apexsoft.ysprj.applicants.common.domain.Campus;
 import com.apexsoft.ysprj.applicants.common.domain.CommonCode;
 import com.apexsoft.ysprj.applicants.common.service.CommonService;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -129,43 +130,15 @@ public class ApplicationController {
 
         /* 지원구분 공통코드로 수정 필요 */
         List<CommonCode> applAttrList = commonService.retrieveCommonCodeValueByCodeGroup("APPL_ATTR");
-//        Map<String, String> applAttrMap = new HashMap<String, String>();
-//        for(CommonCode codeItem : applAttrList) {
-//            applAttrMap.put(codeItem.getCode(), codeItem.getCodeVal());
-//        }
-
-
-//        Map<String, String> applAttrMap = new LinkedHashMap<String, String>();
-//        applAttrMap.put("01", "일반 지원자");
-//        applAttrMap.put("02", "학·연·산 지원자");
-//        applAttrMap.put("03", "위탁 지원자");
-
+        List<Campus> campusList = commonService.retrieveCampus();
         List<CommonCode> mltrServList = commonService.retrieveCommonCodeValueByCodeGroup("MLTR_SERV");
-//        Map<String, String> mltrServMap = new HashMap<String, String>();
-//        for(CommonCode codeItem : mltrServList) {
-//            mltrServMap.put(codeItem.getCode(), codeItem.getCodeVal());
-//        }
-
         List<CommonCode> mltrTypeList = commonService.retrieveCommonCodeValueByCodeGroup("MLTR_TYPE");
-//        Map<String, String> mltrTypeMap = new HashMap<String, String>();
-//        for(CommonCode codeItem : mltrTypeList) {
-//            mltrTypeMap.put(codeItem.getCode(), codeItem.getCodeVal());
-//        }
-
         List<CommonCode> mltrRankList = commonService.retrieveCommonCodeValueByCodeGroup("MLTR_RANK");
-//        Map<String, String> mltrRankMap = new HashMap<String, String>();
-//        for(CommonCode codeItem : mltrRankList) {
-//            mltrRankMap.put(codeItem.getCode(), codeItem.getCodeVal());
-//        }
-
         List<CommonCode> emerContList = commonService.retrieveCommonCodeValueByCodeGroup("EMER_CONT");
-//        Map<String, String> emerContMap = new HashMap<String, String>();
-//        for(CommonCode codeItem : emerContList) {
-//            emerContMap.put(codeItem.getCode(), codeItem.getCodeVal());
-//        }
 
         Map<String, Object> commonCodeMap = new HashMap<String, Object>();
         commonCodeMap.put( "applAttrList", applAttrList );
+        commonCodeMap.put( "campusList", campusList );
         commonCodeMap.put( "mltrServList", mltrServList );
         commonCodeMap.put( "mltrTypeList", mltrTypeList );
         commonCodeMap.put( "mltrRankList", mltrRankList );

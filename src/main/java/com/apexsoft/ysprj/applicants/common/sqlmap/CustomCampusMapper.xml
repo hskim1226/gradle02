@@ -8,7 +8,7 @@
       This element was generated on Mon Aug 25 20:25:07 KST 2014.
     -->
     <id column="CAMP_CODE" property="campCode" jdbcType="VARCHAR" />
-    <result column="CAMP_NAME" property="campCode" jdbcType="VARCHAR" />
+    <result column="CAMP_NAME" property="campName" jdbcType="VARCHAR" />
     <result column="USE_YN" property="useYn" jdbcType="VARCHAR" />
     <result column="CRE_ID" property="creId" jdbcType="VARCHAR" />
     <result column="CRE_DATE" property="creDate" jdbcType="DATE" />

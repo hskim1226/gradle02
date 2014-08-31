@@ -218,6 +218,10 @@
                                                 <div class="col-sm-3">
                                                     <select id="campCode" class="form-control">
                                                         <option value="-" label="--선택--" />
+                                                        <c:forEach items="${common.campusList}" var="camp">
+                                                            <option value="${camp.campCode}" label="${camp.campName}"/>
+                                                        </c:forEach>
+
                                                     </select>
                                                 </div>
                                                 <label for="collCode" class="col-sm-2 control-label">대학</label>
@@ -1634,7 +1638,7 @@
                         targetId: 'campCode',
                         valueKey: 'campCode',
                         labelKey: 'campName',
-                        clean: ['collCode', 'ariInstCode', 'deptCode', 'corsTypeCode', 'detlMajCode'],
+                        clean: ['collCode', 'application.ariInstCode', 'application.deptCode', 'application.corsTypeCode', 'application.detlMajCode'],
                         url: '/campus'
                     }
             );
@@ -1654,7 +1658,7 @@
             <%-- 대학변경 --%>
             attachChangeEvent( 'collCode',
                     {
-                        targetId: 'deptCode',
+                        targetId: 'application.deptCode',
                         valueKey: 'deptCode',
                         labelKey: 'deptName',
                         url: function(arg) {
@@ -1665,9 +1669,9 @@
             );
 
             <%-- 학연산 변경 --%>
-            attachChangeEvent( 'ariInstCode',
+            attachChangeEvent( 'application.ariInstCode',
                     {
-                        targetId: 'deptCode',
+                        targetId: 'application.deptCode',
                         valueKey: 'deptCode',
                         labelKey: 'deptName',
                         url: function(arg) {
@@ -1678,9 +1682,9 @@
             );
 
             <%-- 지원학과 변경 --%>
-            attachChangeEvent( 'deptCode',
+            attachChangeEvent( 'application.deptCode',
                     {
-                        targetId: 'corsTypeCode',
+                        targetId: 'application.corsTypeCode',
                         valueKey: 'corsTypeCode',
                         labelKey: 'codeVal',
                         url: function(arg) {   <%-- 지원과정 조회 --%>
@@ -1698,9 +1702,9 @@
             );
 
             <%-- 지원과정 변경 --%>
-            attachChangeEvent( 'corsTypeCode',
+            attachChangeEvent( 'application.corsTypeCode',
                     {
-                        targetId: 'detlMajCode',
+                        targetId: 'application.detlMajCode',
                         valueKey: 'detlMajCode',
                         labelKey: 'detlMajName',
                         url: function(arg) {
