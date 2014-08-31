@@ -307,6 +307,7 @@
             <scope>system</scope>
             <systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/json_simple.jar</systemPath>
         </dependency>
+
         <!-- Libs from LGU+ Pay -->
     </dependencies>
 
