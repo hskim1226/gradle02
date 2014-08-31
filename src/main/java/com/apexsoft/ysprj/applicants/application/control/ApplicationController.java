@@ -55,6 +55,21 @@ public class ApplicationController {
 //        return r;
     }
 
+    @RequestMapping(value="/showEA/{applNo}", produces="text/plain;charset=UTF-8")
+    @ResponseBody
+    public String showEA(@PathVariable("applNo") int applNo)
+            /*throws JsonProcessingException*/ {
+
+        EntireApplication ea = applicationService.retrieveEntireApplication(applNo);
+        String r = null;
+        try {
+            r = objectMapper.writeValueAsString(ea);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        return r;
+    }
+
     @RequestMapping(value="/apply-work")
     public String displayApplyWork(Model model) {
         model.addAttribute("application", applicationService.retrieveApplication(1));

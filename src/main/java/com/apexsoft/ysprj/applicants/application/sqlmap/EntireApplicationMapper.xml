@@ -2,110 +2,109 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.apexsoft.ysprj.applicants.application.sqlmap.EntireApplicationMapper">
 
-    <resultMap id="entireApplicationByNestedSelect"
+    <resultMap id="entireApplicationOneToOne"
                type="com.apexsoft.ysprj.applicants.application.domain.EntireApplication">
-        <id property="applNo" column="appl_no"/>
-        <result property="userId" column="user_id"/>
-        <result property="admsNo" column="adms_no"/>
-        <result property="entrYear" column="entr_year"/>
-        <result property="admsTypeCode" column="adms_type_code"/>
-        <result property="applAttrCode" column="appl_attr_code"/>
-        <result property="deptCode" column="dept_code"/>
-        <result property="ariInsstCode" column="ari_insst_code"/>
-        <result property="corsTypeCode" column="cors_type_code"/>
-        <result property="detlMajCode" column="detl_maj_code"/>
-        <result property="inpDetlMaj" column="inp_detl_maj"/>
-        <result property="partTimeYn" column="part_time_yn"/>
-        <result property="korName" column="kor_name"/>
-        <result property="chnName" column="chn_name"/>
-        <result property="engSur" column="eng_sur"/>
-        <result property="engName" column="eng_name"/>
-        <result property="rgstNo" column="rgst_no"/>
-        <result property="zipCode" column="zip_code"/>
-        <result property="addr" column="addr"/>
-        <result property="detlAddr" column="detl_addr"/>
-        <result property="telNum" column="tel_num"/>
-        <result property="mobiNum" column="mobi_num"/>
-        <result property="faxNum" column="fax_num"/>
-        <result property="mailAddr" column="mail_addr"/>
-        <result property="applId" column="appl_id"/>
-        <result property="applStsCode" column="appl_sts_code"/>
-        <result property="privInfoYn" column="priv_info_yn"/>
-        <result property="creId" column="cre_id"/>
-        <result property="creDate" column="cre_date"/>
-        <result property="modId" column="mod_id"/>
-        <result property="modDate" column="mod_date"/>
+        <id column="APPL_NO" jdbcType="INTEGER" property="applNo" />
+        <result column="USER_ID" jdbcType="VARCHAR" property="userId" />
+        <result column="ADMS_NO" jdbcType="VARCHAR" property="admsNo" />
+        <result column="ENTR_YEAR" jdbcType="VARCHAR" property="entrYear" />
+        <result column="ADMS_TYPE_CODE" jdbcType="VARCHAR" property="admsTypeCode" />
+        <result column="APPL_ATTR_CODE" jdbcType="VARCHAR" property="applAttrCode" />
+        <result column="DEPT_CODE" jdbcType="VARCHAR" property="deptCode" />
+        <result column="ARI_INST_CODE" jdbcType="VARCHAR" property="ariInstCode" />
+        <result column="CORS_TYPE_CODE" jdbcType="VARCHAR" property="corsTypeCode" />
+        <result column="DETL_MAJ_CODE" jdbcType="VARCHAR" property="detlMajCode" />
+        <result column="INP_DETL_MAJ" jdbcType="VARCHAR" property="inpDetlMaj" />
+        <result column="PART_TIME_YN" jdbcType="VARCHAR" property="partTimeYn" />
+        <result column="KOR_NAME" jdbcType="VARCHAR" property="korName" />
+        <result column="CHN_NAME" jdbcType="VARCHAR" property="chnName" />
+        <result column="ENG_SUR" jdbcType="VARCHAR" property="engSur" />
+        <result column="ENG_NAME" jdbcType="VARCHAR" property="engName" />
+        <result column="RGST_NO" jdbcType="VARCHAR" property="rgstNo" />
+        <result column="ZIP_CODE" jdbcType="VARCHAR" property="zipCode" />
+        <result column="ADDR" jdbcType="VARCHAR" property="addr" />
+        <result column="DETL_ADDR" jdbcType="VARCHAR" property="detlAddr" />
+        <result column="TEL_NUM" jdbcType="VARCHAR" property="telNum" />
+        <result column="MOBI_NUM" jdbcType="VARCHAR" property="mobiNum" />
+        <result column="FAX_NUM" jdbcType="VARCHAR" property="faxNum" />
+        <result column="MAIL_ADDR" jdbcType="VARCHAR" property="mailAddr" />
+        <result column="APPL_ID" jdbcType="VARCHAR" property="applId" />
+        <result column="APPL_STS_CODE" jdbcType="VARCHAR" property="applStsCode" />
+        <result column="PRIV_INFO_YN" jdbcType="VARCHAR" property="privInfoYn" />
+        <result column="APPL_CRE_ID" jdbcType="VARCHAR" property="creId" />
+        <result column="APPL_CRE_DATE" jdbcType="DATE" property="creDate" />
+        <result column="APPL_MOD_ID" jdbcType="VARCHAR" property="modId" />
+        <result column="APPL_MOD_DATE" jdbcType="DATE" property="modDate" />
         <association property="applicationGeneral"
                      javaType="com.apexsoft.ysprj.applicants.application.domain.ApplicationGeneral">
-            <id property="applNo" column="appl_no"/>
-            <result property="currWrkpName" column="curr_wrkp_name"/>
-            <result property="currWrkpDay" column="curr_wrkp_day"/>
-            <result property="currWrkpTel" column="curr_wrkp_tel"/>
-            <result property="emerContCode" column="emer_cont_code"/>
-            <result property="emerContName" column="emer_cont_name"/>
-            <result property="emerContTel" column="emer_cont_tel"/>
-            <result property="hndcGrad" column="hndc_grad"/>
-            <result property="hndcType" column="hndc_type"/>
-            <result property="mltrServCode" column="mltr_serv_code"/>
-            <result property="mltrJoinDay" column="mltr_join_day"/>
-            <result property="mltrDschDay" column="mltr_dsch_day"/>
-            <result property="mltrTypeCode" column="mltr_type_code"/>
-            <result property="mltrRankCode" column="mltr_rank_code"/>
-            <result property="bachGradAvr" column="bach_grad_avr"/>
-            <result property="bachGradFull" column="bach_grad_full"/>
-            <result property="mastGradAvr" column="mast_grad_avr"/>
-            <result property="mastGradFull" column="mast_grad_full"/>
-            <result property="forlExmpCode" column="forl_exmp_code"/>
-            <result property="creId" column="gene_cre_id"/>
-            <result property="creDate" column="gene_cre_date"/>
-            <result property="modId" column="gene_mod_id"/>
-            <result property="modDate" column="gene_mod_date"/>
+            <id column="APPL_NO" property="applNo" jdbcType="INTEGER" />
+            <result column="CURR_WRKP_NAME" property="currWrkpName" jdbcType="VARCHAR" />
+            <result column="CURR_WRKP_DAY" property="currWrkpDay" jdbcType="VARCHAR" />
+            <result column="CURR_WRKP_TEL" property="currWrkpTel" jdbcType="VARCHAR" />
+            <result column="EMER_CONT_CODE" property="emerContCode" jdbcType="VARCHAR" />
+            <result column="EMER_CONT_NAME" property="emerContName" jdbcType="VARCHAR" />
+            <result column="EMER_CONT_TEL" property="emerContTel" jdbcType="VARCHAR" />
+            <result column="HNDC_GRAD" property="hndcGrad" jdbcType="VARCHAR" />
+            <result column="HNDC_TYPE" property="hndcType" jdbcType="VARCHAR" />
+            <result column="MLTR_SERV_CODE" property="mltrServCode" jdbcType="VARCHAR" />
+            <result column="MLTR_JOIN_DAY" property="mltrJoinDay" jdbcType="VARCHAR" />
+            <result column="MLTR_DSCH_DAY" property="mltrDschDay" jdbcType="VARCHAR" />
+            <result column="MLTR_TYPE_CODE" property="mltrTypeCode" jdbcType="VARCHAR" />
+            <result column="MLTR_RANK_CODE" property="mltrRankCode" jdbcType="VARCHAR" />
+            <result column="BACH_GRAD_AVR" property="bachGradAvr" jdbcType="VARCHAR" />
+            <result column="BACH_GRAD_FULL" property="bachGradFull" jdbcType="VARCHAR" />
+            <result column="MAST_GRAD_AVR" property="mastGradAvr" jdbcType="VARCHAR" />
+            <result column="MAST_GRAD_FULL" property="mastGradFull" jdbcType="VARCHAR" />
+            <result column="FORL_EXMP_CODE" property="forlExmpCode" jdbcType="VARCHAR" />
+            <result column="GENE_CRE_ID" property="creId" jdbcType="VARCHAR" />
+            <result column="GENE_CRE_DATE" property="creDate" jdbcType="DATE" />
+            <result column="GENE_MOD_ID" property="modId" jdbcType="VARCHAR" />
+            <result column="GENE_MOD_DATE" property="modDate" jdbcType="DATE" />
         </association>
         <association property="applicationETCWithBLOBs"
                      javaType="com.apexsoft.ysprj.applicants.application.domain.ApplicationETCWithBLOBs">
-            <id property="applNo" column="appl_no"/>
-            <result property="covLett" column="cov_lett"/>
-            <result property="studPlan" column="stud_plan"/>
-            <result property="creId" column="etc_cre_id"/>
-            <result property="creDate" column="etc_cre_date"/>
-            <result property="modId" column="etc_mod_id"/>
-            <result property="modDate" column="etc_mod_date"/>
+            <id column="APPL_NO" property="applNo" jdbcType="INTEGER" />
+            <result column="COV_LETT" property="covLett" jdbcType="LONGVARCHAR" />
+            <result column="STUD_PLAN" property="studPlan" jdbcType="LONGVARCHAR" />
+            <result column="ETC_CRE_ID" property="creId" jdbcType="VARCHAR" />
+            <result column="ETC_CRE_DATE" property="creDate" jdbcType="DATE" />
+            <result column="ETC_MOD_ID" property="modId" jdbcType="VARCHAR" />
+            <result column="ETC_MOD_DATE" property="modDate" jdbcType="DATE" />
         </association>
         <association property="highSchool"
                      javaType="com.apexsoft.ysprj.applicants.application.domain.ApplicationAcademy">
-            <id property="applNo" column="APPL_NO"/>
-            <result property="applNo" column="APPL_NO"/>
-            <result property="acadSeq" column="ACAD_SEQ"/>
-            <result property="acadTypeCode" column="ACAD_TYPE_CODE"/>
-            <result property="lastSchlYn" column="LAST_SCHL_YN"/>
-            <result property="entrDay" column="ENTR_DAY"/>
-            <result property="grdaDay" column="GRDA_DAY"/>
-            <result property="schlCode" column="SCHL_CODE"/>
-            <result property="schlName" column="SCHL_NAME"/>
-            <result property="collName" column="COLL_NAME"/>
-            <result property="majName" column="MAJ_NAME"/>
-            <result property="gradAvr" column="GRAD_AVR"/>
-            <result property="gradFull" column="GRAD_FULL"/>
-            <result property="grdaTypeCode" column="GRDA_TYPE_CODE"/>
-            <result property="qualExamDay" column="QUAL_EXAM_DAY"/>
-            <result property="qualAreaCode" column="QUAL_AREA_CODE"/>
-            <result property="schlAddr" column="SCHL_ADDR"/>
-            <result property="schlTel" column="SCHL_TEL"/>
-            <result property="creId" column="CRE_ID"/>
-            <result property="creDate" column="CRE_DATE"/>
-            <result property="modId" column="MOD_ID"/>
-            <result property="modDate" column="MOD_DATE"/>
+            <id column="APPL_NO" property="applNo" jdbcType="INTEGER" />
+            <id column="ACAD_SEQ" property="acadSeq" jdbcType="INTEGER" />
+            <result column="ACAD_TYPE_CODE" property="acadTypeCode" jdbcType="VARCHAR" />
+            <result column="LAST_SCHL_YN" property="lastSchlYn" jdbcType="VARCHAR" />
+            <result column="ENTR_DAY" property="entrDay" jdbcType="VARCHAR" />
+            <result column="GRDA_DAY" property="grdaDay" jdbcType="VARCHAR" />
+            <result column="SCHL_CODE" property="schlCode" jdbcType="VARCHAR" />
+            <result column="SCHL_NAME" property="schlName" jdbcType="VARCHAR" />
+            <result column="COLL_NAME" property="collName" jdbcType="VARCHAR" />
+            <result column="MAJ_NAME" property="majName" jdbcType="VARCHAR" />
+            <result column="GRAD_AVR" property="gradAvr" jdbcType="VARCHAR" />
+            <result column="GRAD_FULL" property="gradFull" jdbcType="VARCHAR" />
+            <result column="GRDA_TYPE_CODE" property="grdaTypeCode" jdbcType="VARCHAR" />
+            <result column="QUAL_EXAM_DAY" property="qualExamDay" jdbcType="VARCHAR" />
+            <result column="QUAL_AREA_CODE" property="qualAreaCode" jdbcType="VARCHAR" />
+            <result column="SCHL_ADDR" property="schlAddr" jdbcType="VARCHAR" />
+            <result column="SCHL_TEL" property="schlTel" jdbcType="VARCHAR" />
+            <result column="HIGH_CRE_ID" property="creId" jdbcType="VARCHAR" />
+            <result column="HIGH_CRE_DATE" property="creDate" jdbcType="DATE" />
+            <result column="HIGH_MOD_ID" property="modId" jdbcType="VARCHAR" />
+            <result column="HIGH_MOD_DATE" property="modDate" jdbcType="DATE" />
         </association>
-        <!--<collection property="collegeList" column="appl_no"-->
+        <!--<collection property="collegeList" column="{applNo=APPL_NO, acadTypeCode=ACAD_TYPE_CODE}"-->
                     <!--ofType="com.apexsoft.ysprj.applicants.application.domain.ApplicationAcademy"-->
-                    <!--select="selectAcademyForEntireApplication"/>-->
-        <!--<collection property="graduateList" column="appl_no"-->
+                    <!--select="selectCollegeListForEntireApplication"/>-->
+        <!--<collection property="graduateList" column="{applNo=APPL_NO, acadTypeCode=ACAD_TYPE_CODE}"-->
                     <!--ofType="com.apexsoft.ysprj.applicants.application.domain.ApplicationAcademy"-->
-                    <!--select="selectAcademyForEntireApplication"/>-->
-        <!--<collection property="applicationExperienceList" column="appl_no"-->
+                    <!--select="selectGraduateListForEntireApplication"/>-->
+        <!--<collection property="applicationExperienceList" column="APPL_NO"-->
                     <!--ofType="com.apexsoft.ysprj.applicants.application.domain.ApplicationExperience"-->
                     <!--select="selectExperienceListForEntireApplication"/>-->
-        <!--<collection property="applicationLanguageList" column="appl_no"-->
+        <!--<collection property="applicationLanguageList" column="APPL_NO"-->
                     <!--ofType="com.apexsoft.ysprj.applicants.application.domain.ApplicationLanguage"-->
                     <!--select="selectLanguageListForEntireApplication"/>-->
 
@@ -135,10 +134,9 @@
         MOD_DATE
     </sql>
 
-    <select id="selectEntireApplicationByApplNoNestedSelect"
-            resultMap="entireApplicationByNestedSelect"
+    <select id="selectOneToOneEntireApplicationByApplNo"
+            resultMap="entireApplicationOneToOne"
             parameterType="int">
-        <![CDATA[
         select
                 a.APPL_NO,
                 a.USER_ID,
@@ -198,30 +196,48 @@
                 c.CRE_ID as ETC_CRE_ID,
                 c.CRE_DATE as ETC_CRE_ID,
                 c.MOD_ID as ETC_MOD_ID,
-                c.MOD_DATE as ETC_MOD_DATA
+                c.MOD_DATE as ETC_MOD_DATA,
+                d.ACAD_SEQ,
+                d.ACAD_TYPE_CODE,
+                d.LAST_SCHL_YN,
+                d.ENTR_DAY,
+                d.GRDA_DAY,
+                d.SCHL_CODE,
+                d.SCHL_NAME,
+                d.COLL_NAME,
+                d.MAJ_NAME,
+                d.GRAD_AVR,
+                d.GRAD_FULL,
+                d.GRDA_TYPE_CODE,
+                d.QUAL_EXAM_DAY,
+                d.QUAL_AREA_CODE,
+                d.SCHL_ADDR,
+                d.SCHL_TEL,
+                d.CRE_ID as HIGH_CRE_ID,
+                d.CRE_DATE as HIGH_CRE_DATE,
+                d.MOD_ID as HIGH_MOD_ID,
+                d.MOD_DATE as HIGH_MOD_DATE
         from APPL a, APPL_GENE b, APPL_ETC c, APPL_ACAD d
         where a.APPL_NO = b.APPL_NO
         and   b.APPL_NO = c.APPL_NO
         and   c.APPL_NO = d.APPL_NO
         and   d.ACAD_TYPE_CODE = '00001'
         and   a.APPL_NO = #{applNo}
-        ]]>
     </select>
 
-    <select id="selectAcademyForEntireApplication"
+    <select id="selectAcademyListForEntireApplication"
             resultType="com.apexsoft.ysprj.applicants.application.domain.ApplicationAcademy"
             parameterType="com.apexsoft.ysprj.applicants.application.domain.ParamForAcademy">
         select
                 <include refid="Academy_Column_List" />
         from APPL_ACAD
-        where APPL_NO = #{applno}
+        where APPL_NO = #{applNo}
           and ACAD_TYPE_CODE = #{acadTypeCode}
     </select>
 
     <select id="selectExperienceListForEntireApplication"
             resultType="com.apexsoft.ysprj.applicants.application.domain.ApplicationExperience"
             parameterType="int">
-        <![CDATA[
         select
                 APPL_NO,
                 EXPR_SEQ,
@@ -235,13 +251,11 @@
                 MOD_DATE
         from APPL_EXPR
         where APPL_NO = #{applno}
-        ]]>
     </select>
 
     <select id="selectLanguageListForEntireApplication"
             resultType="com.apexsoft.ysprj.applicants.application.domain.ApplicationLanguage"
             parameterType="int">
-        <![CDATA[
         select
                 APPL_NO,
                 LANG_SEQ,
@@ -257,13 +271,11 @@
                 MOD_DATE
         from APPL_LANG
         where APPL_NO = #{applno}
-        ]]>
     </select>
 
     <select id="selectApplicationByApplNo"
             resultType="com.apexsoft.ysprj.applicants.application.domain.Application"
             parameterType="int">
-        <![CDATA[
         select
                 a.APPL_NO,
                 a.USER_ID,
@@ -298,78 +310,11 @@
                 a.MOD_DATE
         from APPL a
         where a.APPL_NO = #{applNo}
-        ]]>
     </select>
 
-    <insert id="insertApplication" parameterType="com.apexsoft.ysprj.applicants.application.domain.Application">
-        <![CDATA[
-        INSERT INTO APPL (
-                USER_ID,
-                ADMS_NO,
-                ENTR_YEAR,
-                ADMS_TYPE_CODE,
-                APPL_ATTR_CODE,
-                DEPT_CODE,
-                ARI_INST_CODE,
-                CORS_TYPE_CODE,
-                DETL_MAJ_CODE,
-                INP_DETL_MAJ,
-                PART_TIME_YN,
-                KOR_NAME,
-                CHN_NAME,
-                ENG_SUR,
-                ENG_NAME,
-                RGST_NO,
-                ZIP_CODE,
-                ADDR,
-                DETL_ADDR,
-                TEL_NUM,
-                MOBI_NUM,
-                FAX_NUM,
-                MAIL_ADDR,
-                APPL_ID,
-                APPL_STS_CODE,
-                PRIV_INFO_YN,
-                CRE_ID,
-                CRE_DATE
-        ) VALUES (
-                #{applNo},
-                #{userId},
-                #{admsNo},
-                #{entrYear},
-                #{admsTypeCode},
-                #{applAttrCode},
-                #{deptCode},
-                #{ariInsstCode},
-                #{corsTypeCode},
-                #{detlMajCode},
-                #{inpDetlMaj},
-                #{partTimeYn},
-                #{korName},
-                #{chnName},
-                #{engSur},
-                #{engName},
-                #{rgstNo},
-                #{zipCode},
-                #{addr},
-                #{detlAddr},
-                #{telNum},
-                #{mobiNum},
-                #{faxNum},
-                #{mailAddr},
-                #{applId},
-                #{applStsCode},
-                #{privInfoYn},
-                #{creId},
-                #{creDate},
-                #{modId},
-                #{modDate}
-        )
-        ]]>
-    </insert>
+
 
     <update id="updateApplicationByApplNo" parameterType="com.apexsoft.ysprj.applicants.application.domain.Application">
-        <![CDATA[
 		  update APPL set
                 USER_ID = #{userId},
                 ADMS_NO = #{admsNo},
@@ -402,39 +347,31 @@
                 MOD_ID = #{modId},
                 MOD_DATE = #{modDate}
 			WHERE APPL_NO = #{applNo}
-		]]>
     </update>
     
     <update id="updateApplicationKorNameByAdmin" parameterType="com.apexsoft.ysprj.applicants.application.domain.Application">
-        <![CDATA[
 		  update APPL set
                 KOR_NAME = #{korName}},
                 MOD_ID = #{modId},
                 MOD_DATE = #{modDate}
 			WHERE APPL_NO = #{applNo}
-		]]>
     </update>
     <update id="updateApplicationEngNameByAdmin" parameterType="com.apexsoft.ysprj.applicants.application.domain.Application">
-        <![CDATA[
 		  update APPL set
                 ENG_SUR = #{engSur},
                 ENG_NAME = #{engName},
                 MOD_ID = #{modId},
                 MOD_DATE = #{modDate}
 			WHERE APPL_NO = #{applNo}
-		]]>
     </update>
     <update id="updateApplicationRgstNoByAdmin" parameterType="com.apexsoft.ysprj.applicants.application.domain.Application">
-        <![CDATA[
 		  update APPL set
                 RGST_NO = #{rgstNo},
                 MOD_ID = #{modId},
                 MOD_DATE = #{modDate}
 			WHERE APPL_NO = #{applNo}
-		]]>
     </update>
     <update id="updateApplicationAddrByAdmin" parameterType="com.apexsoft.ysprj.applicants.application.domain.Application">
-        <![CDATA[
 		  update APPL set
                 ZIP_CODE = #{zipCode},
                 ADDR = #{addr},
@@ -442,35 +379,27 @@
                 MOD_ID = #{modId},
                 MOD_DATE = #{modDate}
 			WHERE APPL_NO = #{applNo}
-		]]>
     </update> 
     <update id="updateApplicationMailAddrByAdmin" parameterType="com.apexsoft.ysprj.applicants.application.domain.Application">
-        <![CDATA[
 		  update APPL set
                 MAIL_ADDR = #{mailAddr},
                 MOD_ID = #{modId},
                 MOD_DATE = #{modDate}
 			WHERE APPL_NO = #{applNo}
-		]]>
     </update> 
     <update id="updateApplicationTelNumByAdmin" parameterType="com.apexsoft.ysprj.applicants.application.domain.Application">
-        <![CDATA[
 		  update APPL set
                 TEL_NUM = #{telNum},
                 MOD_ID = #{modId},
                 MOD_DATE = #{modDate}
 			WHERE APPL_NO = #{applNo}
-		]]>
     </update> 
     <update id="updateApplicationMobiNumByAdmin" parameterType="com.apexsoft.ysprj.applicants.application.domain.Application">
-        <![CDATA[
 		  update APPL set
                 MOBI_NUM = #{mobiNum},
                 MOD_ID = #{modId},
                 MOD_DATE = #{modDate}
 			WHERE APPL_NO = #{applNo}
-		]]>
-    </update>   
-    
+    </update>
 
 </mapper>

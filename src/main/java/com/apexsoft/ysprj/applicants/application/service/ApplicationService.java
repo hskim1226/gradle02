@@ -18,10 +18,10 @@ public interface ApplicationService {
     int createLanguage(List<ApplicationLanguage> applicationLanguageList);
     String createEntireApplication(EntireApplication entireApplication);
 
-    Application retrieveEntireApplication(int applNo);
-    List<ApplicationAcademy> retrieveCollegeList(ParamForAcademy paramForAcademy);
-    List<ApplicationExperience> retrieveExperienceList(ApplicationExperienceKey applicationAcademyKey);
-    List<ApplicationLanguage> retrieveLanguageList(ApplicationLanguageKey applicationLanguageKey);
+    EntireApplication retrieveEntireApplication(int applNo);
+    List<ApplicationAcademy> retrieveAcademyList(ParamForAcademy paramForAcademy);
+    List<ApplicationExperience> retrieveExperienceList(int applNo);
+    List<ApplicationLanguage> retrieveLanguageList(int applNo);
     Application retrieveApplication(int applNo);
 
     Application retrieveApplicationForInsertOthers(ParamForInitialApply paramForInitialApply);

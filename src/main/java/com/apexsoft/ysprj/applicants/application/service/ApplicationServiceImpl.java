@@ -172,16 +172,28 @@ public class ApplicationServiceImpl implements ApplicationService {
 
     @Override
     public EntireApplication retrieveEntireApplication(int applNo) {
-        EntireApplication entireApplication = commonDAO.queryForObject(NAME_SPACE + "EntireApplicationMapper.entireApplicationByNestedSelect", applNo, EntireApplication.class);
+        EntireApplication entireApplication = null;
+        try {
+            entireApplication = commonDAO.queryForObject(NAME_SPACE + "EntireApplicationMapper.selectOneToOneEntireApplicationByApplNo",
+                    new Integer(applNo),
+                    EntireApplication.class);
+        } catch ( Exception e ) {
+            e.printStackTrace();
+        }
+
         ParamForAcademy paramForAcademy = new ParamForAcademy();
         paramForAcademy.setApplNo(applNo);
         paramForAcademy.setAcadTypeCode("00002");
-        entireApplication.setCollegeList(retrieveCollegeList(paramForAcademy));
+        entireApplication.setCollegeList(retrieveAcademyList(paramForAcademy));
+        paramForAcademy.setAcadTypeCode(("00003"));
+        entireApplication.setGraduateList(retrieveAcademyList(paramForAcademy));
+        entireApplication.setApplicationExperienceList(retrieveExperienceList(applNo));
+        entireApplication.setApplicationLanguageList(retrieveLanguageList(applNo));
         return entireApplication;
     }
 
     @Override
-    public List<ApplicationAcademy> retrieveCollegeList(ParamForAcademy paramForAcademy) {
+    public List<ApplicationAcademy> retrieveAcademyList(ParamForAcademy paramForAcademy) {
         List<ApplicationAcademy> applicationAcademyList = null;
         try {
             applicationAcademyList = commonDAO.queryForList(NAME_SPACE + "CustomApplicationAcademyMapper.selectByApplNoAcadTypeCode",
@@ -194,11 +206,11 @@ public class ApplicationServiceImpl implements ApplicationService {
     }
 
     @Override
-    public List<ApplicationExperience> retrieveExperienceList(ApplicationExperienceKey applicationAcademyKey) {
+    public List<ApplicationExperience> retrieveExperienceList(int applNo) {
         List<ApplicationExperience> applicationExperienceList = null;
         try {
-            applicationExperienceList = commonDAO.queryForList(NAME_SPACE + "ApplicationExperienceMapper.selectByPrimaryKey",
-                    applicationAcademyKey, ApplicationExperience.class);
+            applicationExperienceList = commonDAO.queryForList(NAME_SPACE + "CustomApplicationExperienceMapper.selectByApplNo",
+                    applNo, ApplicationExperience.class);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -207,11 +219,11 @@ public class ApplicationServiceImpl implements ApplicationService {
     }
 
     @Override
-    public List<ApplicationLanguage> retrieveLanguageList(ApplicationLanguageKey applicationLanguageKey) {
+    public List<ApplicationLanguage> retrieveLanguageList(int applNo) {
         List<ApplicationLanguage> applicationLanguageList = null;
         try {
-            applicationLanguageList = commonDAO.queryForList(NAME_SPACE + "ApplicationLanguageMapper.selectByPrimaryKey",
-                    applicationLanguageKey, ApplicationLanguage.class);
+            applicationLanguageList = commonDAO.queryForList(NAME_SPACE + "CustomApplicationLanguageMapper.selectByApplNo",
+                    applNo, ApplicationLanguage.class);
         } catch (Exception e) {
             e.printStackTrace();
         }
