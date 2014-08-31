@@ -5,10 +5,8 @@ import com.apexsoft.framework.message.MessageResolver;
 import com.apexsoft.ysprj.applicants.application.domain.*;
 import com.apexsoft.ysprj.applicants.application.service.ApplicationService;
 import com.apexsoft.ysprj.applicants.common.service.CommonService;
-import com.apexsoft.ysprj.applicants.test.Academy;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.apache.commons.lang.math.RandomUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -72,8 +70,7 @@ public class ApplicationController {
 
         EntireApplication ea = applicationService.retrieveEntireApplication(applNo);
         String r = null;
-        r = objectMapper.writeValueAsString(ea);
-
+        r = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(ea);
         return r;
     }
 
@@ -316,6 +313,6 @@ public class ApplicationController {
 
         applicationService.createEntireApplication(ea);
 
-        return objectMapper.writeValueAsString(ea);
+        return objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(ea);
     }
 }
