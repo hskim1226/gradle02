@@ -32,7 +32,6 @@
         section.application-mylist .spacer-tiny {
             margin-bottom: 1em;
         }
-
     </style>
 </head>
 <body>
@@ -40,7 +39,7 @@
     <div class="container">
         <div class="row mar-bot40">
             <div class="col-md-10 col-md-offset-1">
-                <h2 class="slogan">미결제 원서</h2>
+                <h2 class="slogan">지원 내역</h2>
                 <div class="align-center">
                     <form class="form-horizontal" id="LGD_PAYINFO" role="form" action="${contextPath}/pay/confirm" method="post">
                         <table class="table table-stripped">
@@ -52,19 +51,29 @@
                                 <th>과정</th>
                                 <th>세부전공</th>
                                 <th>지원상태</th>
+                                <th>작업</th>
                             </tr>
                             </thead>
                             <tbody>
+                            <c:forEach items="${myList}" var="item">
                             <tr>
-                                <td>${customMyList.campCode}</td>
-                                <td>${customMyList.admsDesc}</td>
-                                <td>${customMyList.deptName}</td>
-                                <td>${customMyList.deptName}</td>
-                                <td>2014-10-08</td>
-                                <td><button type="button" class="btn btn-success">확인하기</button></td>
-                                <td><button type="button" class="btn btn-info">수정하기</button></td>
-                                <td><button type="button" class="btn btn-primary" id="notice1" name="2015학년도 연세대학교 일반대학원 일반 전형" value="80000">결제하기</button></td>
+                                <td valign="middle" style="vertical-align: middle;">${item.campName}</td>
+                                <td valign="middle" style="vertical-align: middle;">${item.admsTypeName}</td>
+                                <td valign="middle" style="vertical-align: middle;">${item.deptName}</td>
+                                <td valign="middle" style="vertical-align: middle;">${item.corsTypeName}</td>
+                                <td valign="middle" style="vertical-align: middle;">${item.detlMajName}</td>
+                                <td valign="middle" style="vertical-align: middle;">${item.applStsName}</td>
+                                <td valign="middle" style="vertical-align: middle;">
+                                    <button type="button" class="btn btn-default btn-block" disabled>수정하기</button>
+                                    <button type="button" class="btn btn-info btn-block" disabled>확인하기</button>
+                                    <button type="button" class="btn btn-primary btn-block"
+                                            id="notice1" name="2015학년도 ${item.campName} ${item.admsTypeName} ${item.deptName} ${item.corsTypeName}"
+                                            value="80000">결제하기</button>
+                                    <button type="button" class="btn btn-success btn-block">지원서보기</button>
+                                    <button type="button" class="btn btn-success btn-block">수험표출력</button>
+                                </td>
                             </tr>
+                            </c:forEach>
                             </tbody>
                         </table>
 

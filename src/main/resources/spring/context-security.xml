@@ -22,7 +22,7 @@
     <http pattern="/intro.html"  security="none"/>
     <http pattern="/test/**"  security="none"/>
     <http pattern="/admin/**"  security="none"/>
-    <http pattern="/application/**"  security="none"/>
+    <!--<http pattern="/application/**"  security="none"/>-->
     <http pattern="/common/**"  security="none"/>
     <http pattern="/template/**"  security="none"/>
 

@@ -35,8 +35,8 @@ public class ApplicationController {
     @Autowired
     private ObjectMapper objectMapper;
 
-    @RequestMapping(value="/mylist")
-    @ResponseBody
+    @RequestMapping(value="/mylist", produces="text/plain;charset=UTF-8")
+    //@ResponseBody
     public String myApplicationList(Principal principal, Model model)
         throws JsonProcessingException {
 
@@ -44,10 +44,10 @@ public class ApplicationController {
         p.setUserId(principal.getName());
 
         List<CustomMyList> myList = applicationService.retrieveMyList(p);
-//        model.addAttribute("myList", myList);
-//        return "application/mylist";
-        String r = objectMapper.writeValueAsString(myList);
-        return r;
+        model.addAttribute("myList", myList);
+        return "application/mylist";
+//        String r = objectMapper.writeValueAsString(myList);
+//        return r;
     }
 
     @RequestMapping(value="/apply-work")
