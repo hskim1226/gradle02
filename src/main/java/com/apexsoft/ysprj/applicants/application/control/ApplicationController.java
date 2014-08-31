@@ -132,10 +132,10 @@ public class ApplicationController {
         return entireApplication;
     }
 
-    @RequestMapping(value="/in/{userId}/{applNo}/{examCode}")
+    @RequestMapping(value="/in/{userId}/{examCode}/{applStsCode}")
     public EntireApplication createEntireApplication(@PathVariable("userId") String userId,
-                                                     @PathVariable("applNo") int applNo,
-                                                     @PathVariable("examCode") String examCode) {
+                                                     @PathVariable("examCode") String examCode,
+                                                     @PathVariable("applStsCode") String applStsCode) {
 
         EntireApplication ea = new EntireApplication();
         ApplicationGeneral applGene = new ApplicationGeneral();
@@ -149,7 +149,6 @@ public class ApplicationController {
 //        String userId = RandomUtils.nextInt(100000)+"";
         Timestamp timestamp = new Timestamp(new Date().getTime());
 
-        ea.setApplNo(applNo);
         ea.setUserId(userId);
         ea.setAdmsNo("15A");
         ea.setApplStsCode("00001");
@@ -157,7 +156,7 @@ public class ApplicationController {
         ea.setAdmsTypeCode("A");
         ea.setApplAttrCode("");
         ea.setDeptCode("10101");
-        ea.setCorsTypeCode("1");
+        ea.setCorsTypeCode("2");
         ea.setDetlMajCode("DM002");
         ea.setPartTimeYn("N");
         ea.setKorName("대조영");
@@ -171,12 +170,11 @@ public class ApplicationController {
         ea.setTelNum("01087451254");
         ea.setMobiNum("01085693214");
         ea.setMailAddr("hanmomhanda@naver.com");
-        ea.setApplStsCode("00001");
+        ea.setApplStsCode(applStsCode);
         ea.setPrivInfoYn("Y");
         ea.setCreId(userId);
         ea.setCreDate(timestamp);
 
-        applGene.setApplNo(applNo);
         applGene.setCurrWrkpName("에이펙스");
         applGene.setCreDate(timestamp);
         applGene.setCreId(userId);

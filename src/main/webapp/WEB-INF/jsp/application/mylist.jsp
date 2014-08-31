@@ -64,13 +64,13 @@
                                 <td valign="middle" style="vertical-align: middle;">${item.detlMajName}</td>
                                 <td valign="middle" style="vertical-align: middle;">${item.applStsName}</td>
                                 <td valign="middle" style="vertical-align: middle;">
-                                    <button type="button" class="btn btn-default btn-block" disabled>수정하기</button>
-                                    <button type="button" class="btn btn-info btn-block" disabled>확인하기</button>
+                                    <button type="button" class="btn btn-default btn-block" ${item.applStsCode=="00001"?"":"disabled"}>수정하기</button>
+                                    <button type="button" class="btn btn-info btn-block" ${item.applStsCode=="00010"?"":"disabled"}>확인하기</button>
                                     <button type="button" class="btn btn-primary btn-block"
                                             id="notice1" name="2015학년도 ${item.campName} ${item.admsTypeName} ${item.deptName} ${item.corsTypeName}"
-                                            value="80000">결제하기</button>
-                                    <button type="button" class="btn btn-success btn-block">지원서보기</button>
-                                    <button type="button" class="btn btn-success btn-block">수험표출력</button>
+                                            value="80000" ${item.applStsCode=="00010"?"":(item.applStsCode=="00021"?"":"disabled")}>결제하기</button>
+                                    <button type="button" class="btn btn-success btn-block" ${item.applStsCode=='00020'?"":"disabled"}>지원서보기</button>
+                                    <button type="button" class="btn btn-success btn-block" ${item.applStsCode=='00020'?"":"disabled"}>수험표출력</button>
                                 </td>
                             </tr>
                             </c:forEach>
