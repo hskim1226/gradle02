@@ -117,9 +117,12 @@ public class ApplicationController {
         if (applNo != null) {
             model.addAttribute("entireApplication", applicationService.retrieveEntireApplication(applNo));
         } else {
-            entireApplication.getApplication().setAdmsNo(admsNo);
-            entireApplication.getApplication().setEntrYear(entrYear);
-            entireApplication.getApplication().setAdmsTypeCode(admsTypeCode);
+            Application application = new Application();
+            application.setAdmsNo(admsNo);
+            application.setEntrYear(entrYear);
+            application.setAdmsTypeCode(admsTypeCode);
+            entireApplication.setApplication(application);
+
             model.addAttribute("entireApplication", entireApplication);
         }
 
