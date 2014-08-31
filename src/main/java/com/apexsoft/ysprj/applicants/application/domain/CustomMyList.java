@@ -5,6 +5,7 @@ package com.apexsoft.ysprj.applicants.application.domain;
  */
 public class CustomMyList {
 
+    private int applNo;
     private String userId;
     private String korName;
     private String admsTypeCode;
@@ -17,6 +18,14 @@ public class CustomMyList {
     private String detlMajName;
     private String applStsCode;
     private String applStsName;
+
+    public int getApplNo() {
+        return applNo;
+    }
+
+    public void setApplNo(int applNo) {
+        this.applNo = applNo;
+    }
 
     public String getUserId() {
         return userId;

@@ -64,18 +64,21 @@
                                 <td valign="middle" style="vertical-align: middle;">${item.detlMajName}</td>
                                 <td valign="middle" style="vertical-align: middle;">${item.applStsName}</td>
                                 <td valign="middle" style="vertical-align: middle;">
-                                    <button type="button" class="btn btn-default btn-block" ${item.applStsCode=="00001"?"":"disabled"}>수정하기</button>
-                                    <button type="button" class="btn btn-info btn-block" ${item.applStsCode=="00010"?"":"disabled"}>확인하기</button>
-                                    <button type="button" class="btn btn-primary btn-block"
-                                            id="notice1" name="2015학년도 ${item.campName} ${item.admsTypeName} ${item.deptName} ${item.corsTypeName}"
-                                            value="80000" ${item.applStsCode=="00010"?"":(item.applStsCode=="00021"?"":"disabled")}>결제하기</button>
-                                    <button type="button" class="btn btn-success btn-block" ${item.applStsCode=='00020'?"":"disabled"}>지원서보기</button>
-                                    <button type="button" class="btn btn-success btn-block" ${item.applStsCode=='00020'?"":"disabled"}>수험표출력</button>
+                                    <button id="modify" class="btn btn-default btn-block" data-applNo="${item.applNo}" ${item.applStsCode=="00001"?"":"disabled"}>수정하기</button>
+                                    <%--<button id="verify" class="btn btn-info btn-block" ${item.applStsCode=="00010"?"":"disabled"}>확인하기</button>--%>
+                                    <button id="verify" class="btn btn-info btn-block" data-applNo="${item.applNo}">확인하기</button>
+                                    <button id="pay" class="btn btn-primary btn-block"
+                                            name="2015학년도 ${item.campName} ${item.admsTypeName} ${item.deptName} ${item.corsTypeName}"
+                                            <%--value="80000" ${item.applStsCode=="00010"?"":(item.applStsCode=="00021"?"":"disabled")}>결제하기</button>--%>
+                                            value="80000">결제하기</button>
+                                    <button id="showApplicationBirt" class="btn btn-success btn-block" ${item.applStsCode=='00020'?"":"disabled"}>지원서보기</button>
+                                    <button id="showAppLableBirt" class="btn btn-success btn-block" ${item.applStsCode=='00020'?"":"disabled"}>수험표출력</button>
                                 </td>
                             </tr>
                             </c:forEach>
                             </tbody>
                         </table>
+
 
                         <input type="hidden" name="LGD_PRODUCTINFO" id="LGD_PRODUCTINFO"/>
                         <input type="hidden" name="LGD_AMOUNT" id="LGD_AMOUNT"/>
@@ -89,10 +92,28 @@
 <content tag="local-script">
     <script>
         $(document).ready( function() {
-            $('.btn-primary').click(function(){
-                document.getElementById('LGD_PRODUCTINFO').value = $(this)[0].name;
-                document.getElementById('LGD_AMOUNT').value = $(this)[0].value;
+            $('#modify').click(function(){
+                <%--location.href="${contextPath}/application/modify";--%>
+                return;
+            });
+            $('#verify').click(function(e){
+                e.preventDefault();
+                var applNo = e.target.getAttribute("data-applNo");
+                location.href="${contextPath}/application/show/" + applNo;
+                return;
+            });
+            $('#pay').click(function(){
+                document.getElementById('LGD_PRODUCTINFO').value = $(this).name;
+                document.getElementById('LGD_AMOUNT').value = $(this).value;
                 $('#LGD_PAYINFO').submit();
+            });
+            $('#showApplicationBirt').click(function(){
+                <%--location.href="${contextPath}/application/show";--%>
+                return;
+            });
+            $('#showAppLabel').click(function(){
+                <%--location.href="${contextPath}/application/show";--%>
+                return;
             });
         })
     </script>
