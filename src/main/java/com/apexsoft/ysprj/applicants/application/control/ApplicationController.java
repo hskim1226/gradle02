@@ -132,8 +132,9 @@ public class ApplicationController {
         return entireApplication;
     }
 
-    @RequestMapping(value="/in/{applNo}/{examCode}")
-    public EntireApplication createEntireApplication(@PathVariable("applNo") int applNo,
+    @RequestMapping(value="/in/{userId}/{applNo}/{examCode}")
+    public EntireApplication createEntireApplication(@PathVariable("userId") String userId,
+                                                     @PathVariable("applNo") int applNo,
                                                      @PathVariable("examCode") String examCode) {
 
         EntireApplication ea = new EntireApplication();
@@ -145,34 +146,54 @@ public class ApplicationController {
         List<ApplicationExperience> experienceListList = new ArrayList<ApplicationExperience>();
         List<ApplicationLanguage> languageListList = new ArrayList<ApplicationLanguage>();
 
-        String id = RandomUtils.nextInt(100000)+"";
+//        String userId = RandomUtils.nextInt(100000)+"";
         Timestamp timestamp = new Timestamp(new Date().getTime());
 
         ea.setApplNo(applNo);
-        ea.setUserId(id);
+        ea.setUserId(userId);
         ea.setAdmsNo("15A");
         ea.setApplStsCode("00001");
+        ea.setEntrYear("2015");
+        ea.setAdmsTypeCode("A");
+        ea.setApplAttrCode("");
+        ea.setDeptCode("10101");
+        ea.setCorsTypeCode("1");
+        ea.setDetlMajCode("DM002");
+        ea.setPartTimeYn("N");
+        ea.setKorName("대조영");
+        ea.setChnName("大조영");
+        ea.setEngSur("DAE");
+        ea.setEngName("JOYOUNG");
+        ea.setRgstNo("9009091111118");
+        ea.setZipCode("151742");
+        ea.setAddr("인천 서구 경서동");
+        ea.setAddr("88 활어회집");
+        ea.setTelNum("01087451254");
+        ea.setMobiNum("01085693214");
+        ea.setMailAddr("hanmomhanda@naver.com");
+        ea.setApplStsCode("00001");
+        ea.setPrivInfoYn("Y");
+        ea.setCreId(userId);
         ea.setCreDate(timestamp);
-        ea.setCreId(id);
 
         applGene.setApplNo(applNo);
         applGene.setCurrWrkpName("에이펙스");
         applGene.setCreDate(timestamp);
-        applGene.setCreId(id);
+        applGene.setCreId(userId);
         ea.setApplicationGeneral(applGene);
 
 
         applEtc.setCovLett("자기 소개 입니다.");
         applEtc.setStudPlan("연구계획 입니다.");
         applEtc.setCreDate(timestamp);
-        applEtc.setCreId(id);
+        applEtc.setCreId(userId);
         ea.setApplicationETCWithBLOBs(applEtc);
 
 
         highschool.setAcadTypeCode("00001");
         highschool.setSchlName("깨똥고등학교");
         highschool.setCreDate(timestamp);
-        highschool.setCreId(id);
+        highschool.setCreId(userId);
         ea.setHighSchool(highschool);
 
         ApplicationAcademy aa0 = new ApplicationAcademy();
@@ -180,7 +201,7 @@ public class ApplicationController {
         aa0.setAcadTypeCode("00002");
         aa0.setSchlName("연세대학교");
         aa0.setCreDate(timestamp);
-        aa0.setCreId(id);
+        aa0.setCreId(userId);
         collegeList.add(aa0);
 
         ApplicationAcademy aa1 = new ApplicationAcademy();
@@ -188,7 +209,7 @@ public class ApplicationController {
         aa1.setAcadTypeCode("00002");
         aa1.setSchlName("면세대학교");
         aa1.setCreDate(timestamp);
-        aa1.setCreId(id);
+        aa1.setCreId(userId);
         collegeList.add(aa1);
 
         ApplicationAcademy aa2 = new ApplicationAcademy();
@@ -196,7 +217,7 @@ public class ApplicationController {
         aa2.setAcadTypeCode("00002");
         aa2.setSchlName("면제대학교");
         aa2.setCreDate(timestamp);
-        aa2.setCreId(id);
+        aa2.setCreId(userId);
         collegeList.add(aa2);
         ea.setCollegeList(collegeList);
 
@@ -204,14 +225,14 @@ public class ApplicationController {
         aa0.setAcadSeq(1);
         ae0.setCorpName("보국전자");
         ae0.setCreDate(timestamp);
-        ae0.setCreId(id);
+        ae0.setCreId(userId);
         experienceListList.add(ae0);
 
         ApplicationExperience ae1 = new ApplicationExperience();
         aa1.setAcadSeq(2);
         ae1.setCorpName("가우스전자");
         ae1.setCreDate(timestamp);
-        ae1.setCreId(id);
+        ae1.setCreId(userId);
         experienceListList.add(ae1);
         ea.setApplicationExperienceList(experienceListList);
 
@@ -219,14 +240,14 @@ public class ApplicationController {
         al0.setLangSeq(1);
         al0.setLangExamCode("ToefL");
         al0.setCreDate(timestamp);
-        al0.setCreId(id);
+        al0.setCreId(userId);
         languageListList.add(al0);
 
         ApplicationLanguage al1 = new ApplicationLanguage();
         al1.setLangSeq(2);
         al1.setLangExamCode(examCode);
         al1.setCreDate(timestamp);
-        al1.setCreId(id);
+        al1.setCreId(userId);
         languageListList.add(al1);
         ea.setApplicationLanguageList(languageListList);
 
