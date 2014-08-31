@@ -178,6 +178,7 @@ public class ApplicationController {
     @ModelAttribute("entireApplication")
     public EntireApplication entireApplication() {
         EntireApplication entireApplication = new EntireApplication();
+        entireApplication.setApplication(new Application());
         entireApplication.setApplicationGeneral(new ApplicationGeneral());
         entireApplication.setApplicationETCWithBLOBs(new ApplicationETCWithBLOBs());
         entireApplication.setHighSchool(new ApplicationAcademy());

@@ -207,7 +207,7 @@
                                         <div class="form-group">
                                             <label for="applAttrCode" class="col-sm-2 control-label">지원구분</label>
                                             <div class="col-sm-9">
-                                                <form:select path="applAttrCode" cssClass="form-control">
+                                                <form:select path="application.applAttrCode" id="applAttrCode" cssClass="form-control">
                                                     <form:options items="${common.applAttrList}" />
                                                 </form:select>
                                             </div>
@@ -228,33 +228,33 @@
                                                 </div>
                                             </div>
                                             <div class="form-group hidden-apply-kind-1 hidden-apply-kind-3">
-                                                <form:label path="ariInstCode" cssClass="col-sm-2 control-label">학·연·산 연구기관</form:label>
+                                                <label for="ariInstCode" class="col-sm-2 control-label">학·연·산 연구기관</label>
                                                 <div class="col-sm-9">
-                                                    <form:select path="ariInstCode" cssClass="form-control">
+                                                    <form:select path="application.ariInstCode" id="ariInstCode" cssClass="form-control">
                                                         <form:option value="-" label="--선택--" />
                                                     </form:select>
                                                 </div>
                                             </div>
                                             <div class="form-group">
-                                                <form:label path="deptCode" class="col-sm-2 control-label">지원학과</form:label>
+                                                <label for="deptCode" class="col-sm-2 control-label">지원학과</label>
                                                 <div class="col-sm-9">
-                                                    <form:select path="deptCode" cssClass="form-control">
+                                                    <form:select path="application.deptCode" id="deptCode" cssClass="form-control">
                                                         <form:option value="-" label="--선택--" />
                                                     </form:select>
                                                 </div>
                                             </div>
                                             <div class="form-group">
-                                                <form:label path="corsTypeCode" cssClass="col-sm-2 control-label">지원과정</form:label>
+                                                <label for="corsTypeCode" class="col-sm-2 control-label">지원과정</label>
                                                 <div class="col-sm-9">
-                                                    <form:select path="corsTypeCode" cssClass="form-control">
+                                                    <form:select path="application.corsTypeCode" id="corsTypeCode" cssClass="form-control">
                                                         <form:option value="-" label="--선택--" />
                                                     </form:select>
                                                 </div>
                                             </div>
                                             <div class="form-group">
-                                                <form:label path="detlMajCode" cssClass="col-sm-2 control-label">세부전공</form:label>
+                                                <label for="detlMajCode" class="col-sm-2 control-label">세부전공</label>
                                                 <div class="col-sm-9">
-                                                    <form:select path="detlMajCode" cssClass="form-control">
+                                                    <form:select path="application.detlMajCode" id="detlMajCode" cssClass="form-control">
                                                         <form:option value="-" label="--선택--" />
                                                     </form:select>
                                                 </div>
@@ -265,9 +265,9 @@
                                 <div class="panel-heading">지원자 정보</div>
                                 <div class="panel-body">
                                     <div class="form-group">
-                                        <form:label path="korName" cssClass="col-sm-2 control-label">한글이름</form:label>
+                                        <form:label path="application.korName" cssClass="col-sm-2 control-label">한글이름</form:label>
                                         <div class="col-sm-9">
-                                            <form:input path="korName" cssClass="form-control" />
+                                            <form:input path="application.korName" cssClass="form-control" />
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -275,51 +275,49 @@
                                         <div class="col-sm-9">
                                             <div class="input-group">
                                                 <span class="input-group-addon">&nbsp;성&nbsp;</span>
-                                                <form:input path="engSur" cssClass="col-sm-6 form-control" />
+                                                <form:input path="application.engSur" cssClass="col-sm-6 form-control" />
                                             </div>
                                         </div>
                                         <div class="col-sm-offset-2 col-sm-9">
                                             <div class="input-group">
                                                 <span class="input-group-addon">이름</span>
-                                                <form:input path="engName" cssClass="col-sm-6 form-control" />
+                                                <form:input path="application.engName" cssClass="col-sm-6 form-control" />
                                             </div>
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <form:label path="rgstNo" cssClass="col-sm-2 control-label">주민등록번호</form:label>
+                                        <form:label path="application.rgstNo" cssClass="col-sm-2 control-label">주민등록번호</form:label>
                                         <div class="col-sm-9">
-                                            <form:input path="rgstNo" cssClass="form-control" />
+                                            <form:input path="application.rgstNo" cssClass="form-control" />
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <c:if test="${application.deptCode == '086' || application.deptCode == '013'}">
-                                <div class="panel panel-default">
-                                    <div class="panel-heading">현재 근무처</div>
-                                    <div class="panel-body">
-                                        <div class="form-group">
-                                            <form:label path="applicationGeneral.currWrkpName" cssClass="col-sm-2 control-label">회사이름</form:label>
-                                            <div class="col-sm-9">
-                                                <form:input path="applicationGeneral.currWrkpName" cssClass="form-control" />
-                                            </div>
+                            <div class="panel panel-default" hidden>
+                                <div class="panel-heading">현재 근무처</div>
+                                <div class="panel-body">
+                                    <div class="form-group">
+                                        <form:label path="applicationGeneral.currWrkpName" cssClass="col-sm-2 control-label">회사이름</form:label>
+                                        <div class="col-sm-9">
+                                            <form:input path="applicationGeneral.currWrkpName" cssClass="form-control" />
                                         </div>
-                                        <div class="form-group">
-                                            <form:label path="applicationGeneral.currWrkpDay" cssClass="col-sm-2 control-label">입사일</form:label>
-                                            <div class="col-sm-9">
-                                                <div class="input-group">
-                                                    <form:input path="applicationGeneral.currWrkpDay" cssClass="col-sm-6 form-control" />
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <form:label path="applicationGeneral.currWrkpTel" cssClass="col-sm-2 control-label">연락처</form:label>
-                                            <div class="col-sm-9">
-                                                <form:input path="applicationGeneral.currWrkpTel" cssClass="form-control" />
+                                    </div>
+                                    <div class="form-group">
+                                        <form:label path="applicationGeneral.currWrkpDay" cssClass="col-sm-2 control-label">입사일</form:label>
+                                        <div class="col-sm-9">
+                                            <div class="input-group">
+                                                <form:input path="applicationGeneral.currWrkpDay" cssClass="col-sm-6 form-control" />
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="form-group">
+                                        <form:label path="applicationGeneral.currWrkpTel" cssClass="col-sm-2 control-label">연락처</form:label>
+                                        <div class="col-sm-9">
+                                            <form:input path="applicationGeneral.currWrkpTel" cssClass="form-control" />
+                                        </div>
+                                    </div>
                                 </div>
-                            </c:if>
+                            </div>
                             <div class="panel panel-default">
                                 <div class="panel-heading">지원자 상세정보</div>
                                 <div class="panel-body">
@@ -410,38 +408,38 @@
                                                 <input type="text" class="form-control" id="postcode2" />
                                             </div>
                                         </div>
-                                        <input type="hidden" id="zipCode" name="zipCode"/>
+                                        <form:hidden path="application.zipCode" />
                                         <div class="col-sm-offset-2 col-sm-4">
-                                            <input type="text" class="form-control" id="address" name="addr"/>
+                                            <form:input path="application.addr" cssClass="form-control" id="address" />
                                         </div>
                                         <div class="col-sm-5">
-                                            <input type="text" class="form-control" id="addressDetail" name="detlAddr" placeholder="세부주소">
+                                            <form:input path="application.detlAddr" cssClass="form-control" id="addressDetail" placeholder="세부주소" />
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <form:label path="telNum" cssClass="col-sm-2 control-label">전화번호</form:label>
+                                        <form:label path="application.telNum" cssClass="col-sm-2 control-label">전화번호</form:label>
                                         <div class="col-sm-9">
                                             <%--TODO--%>
                                             <%--<form:select path="telNumFirst" cssClass="form-control">--%>
                                                 <%--<form:options items="${common.telNumFirst}" />--%>
                                             <%--</form:select> --%>
-                                            <form:input path="telNum" cssClass="form-control" />
+                                            <form:input path="application.telNum" cssClass="form-control" />
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <form:label path="mobiNum" cssClass="col-sm-2 control-label">휴대폰</form:label>
+                                        <form:label path="application.mobiNum" cssClass="col-sm-2 control-label">휴대폰</form:label>
                                         <div class="col-sm-9">
                                             <%--TODO--%>
                                             <%--<form:select path="mobiNumFirst" cssClass="form-control">--%>
                                                 <%--<form:options items="${common.telNumFirst}" />--%>
                                             <%--</form:select>--%>
-                                            <form:input path="mobiNum" cssClass="form-control" />
+                                            <form:input path="application.mobiNum" cssClass="form-control" />
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <form:label path="mailAddr" cssClass="col-sm-2 control-label">E-mail</form:label>
+                                        <form:label path="application.mailAddr" cssClass="col-sm-2 control-label">E-mail</form:label>
                                         <div class="col-sm-9">
-                                            <form:input path="mailAddr" cssClass="form-control" />
+                                            <form:input path="application.mailAddr" cssClass="form-control" />
                                         </div>
                                     </div>
                                 </div>
@@ -1673,7 +1671,7 @@
                         valueKey: 'deptCode',
                         labelKey: 'deptName',
                         url: function(arg) {
-                            var admsNo = '${entireApplication.admsNo}';
+                            var admsNo = '${entireApplication.application.admsNo}';
                             return '/general/department/' + admsNo + '/' + arg;
                         }
                     }
@@ -1686,7 +1684,7 @@
                         valueKey: 'deptCode',
                         labelKey: 'deptName',
                         url: function(arg) {
-                            var admsNo = '${entireApplication.admsNo}';
+                            var admsNo = '${entireApplication.application.admsNo}';
                             return '/ariInst/department/' + admsNo + '/' + arg;
                         }
                 }
@@ -1699,8 +1697,8 @@
                         valueKey: 'corsTypeCode',
                         labelKey: 'codeVal',
                         url: function(arg) {   <%-- 지원과정 조회 --%>
-                            var admsNo = '${entireApplication.admsNo}';
-                            var applAttrCode = $('#applAttrCode').val();
+                            var admsNo = '${entireApplication.application.admsNo}';
+                            var applAttrCode = $('#application.applAttrCode').val();
                             if (applAttrCode == '01') {
                                 return '/general/course/' + admsNo + '/' + arg;
                             } else if (applAttrCode == '02') {
@@ -1719,8 +1717,8 @@
                         valueKey: 'detlMajCode',
                         labelKey: 'detlMajName',
                         url: function(arg) {
-                            var admsNo = '${entireApplication.admsNo}';
-                            var applAttrCode = $('#applAttrCode').val();
+                            var admsNo = '${entireApplication.application.admsNo}';
+                            var applAttrCode = $('#application.applAttrCode').val();
                             if (applAttrCode == '01') {
                                 return '/general/detailMajor/' + admsNo + '/' + $('#deptCode').val() + '/' + arg;
                             } else if (applAttrCode == '02') {
