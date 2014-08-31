@@ -5,8 +5,9 @@ import java.util.List;
 /**
  * Created by hanmomhanda on 14. 8. 20.
  */
-public class EntireApplication extends Application {
+public class EntireApplication {
 
+    private Application application;
     private ApplicationGeneral applicationGeneral;
     private ApplicationETCWithBLOBs applicationETCWithBLOBs;
     private ApplicationAcademy highSchool;
@@ -15,7 +16,13 @@ public class EntireApplication extends Application {
     private List<ApplicationExperience> applicationExperienceList;
     private List<ApplicationLanguage> applicationLanguageList;
 
-    public Application getApplication() { return super.getApplication(); }
+    public Application getApplication() {
+        return application;
+    }
+
+    public void setApplication(Application application) {
+        this.application = application;
+    }
 
     public ApplicationGeneral getApplicationGeneral() {
         return applicationGeneral;

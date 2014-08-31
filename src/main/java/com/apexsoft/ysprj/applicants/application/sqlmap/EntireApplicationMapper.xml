@@ -4,37 +4,40 @@
 
     <resultMap id="entireApplicationOneToOne"
                type="com.apexsoft.ysprj.applicants.application.domain.EntireApplication">
-        <id column="APPL_NO" jdbcType="INTEGER" property="applNo" />
-        <result column="USER_ID" jdbcType="VARCHAR" property="userId" />
-        <result column="ADMS_NO" jdbcType="VARCHAR" property="admsNo" />
-        <result column="ENTR_YEAR" jdbcType="VARCHAR" property="entrYear" />
-        <result column="ADMS_TYPE_CODE" jdbcType="VARCHAR" property="admsTypeCode" />
-        <result column="APPL_ATTR_CODE" jdbcType="VARCHAR" property="applAttrCode" />
-        <result column="DEPT_CODE" jdbcType="VARCHAR" property="deptCode" />
-        <result column="ARI_INST_CODE" jdbcType="VARCHAR" property="ariInstCode" />
-        <result column="CORS_TYPE_CODE" jdbcType="VARCHAR" property="corsTypeCode" />
-        <result column="DETL_MAJ_CODE" jdbcType="VARCHAR" property="detlMajCode" />
-        <result column="INP_DETL_MAJ" jdbcType="VARCHAR" property="inpDetlMaj" />
-        <result column="PART_TIME_YN" jdbcType="VARCHAR" property="partTimeYn" />
-        <result column="KOR_NAME" jdbcType="VARCHAR" property="korName" />
-        <result column="CHN_NAME" jdbcType="VARCHAR" property="chnName" />
-        <result column="ENG_SUR" jdbcType="VARCHAR" property="engSur" />
-        <result column="ENG_NAME" jdbcType="VARCHAR" property="engName" />
-        <result column="RGST_NO" jdbcType="VARCHAR" property="rgstNo" />
-        <result column="ZIP_CODE" jdbcType="VARCHAR" property="zipCode" />
-        <result column="ADDR" jdbcType="VARCHAR" property="addr" />
-        <result column="DETL_ADDR" jdbcType="VARCHAR" property="detlAddr" />
-        <result column="TEL_NUM" jdbcType="VARCHAR" property="telNum" />
-        <result column="MOBI_NUM" jdbcType="VARCHAR" property="mobiNum" />
-        <result column="FAX_NUM" jdbcType="VARCHAR" property="faxNum" />
-        <result column="MAIL_ADDR" jdbcType="VARCHAR" property="mailAddr" />
-        <result column="APPL_ID" jdbcType="VARCHAR" property="applId" />
-        <result column="APPL_STS_CODE" jdbcType="VARCHAR" property="applStsCode" />
-        <result column="PRIV_INFO_YN" jdbcType="VARCHAR" property="privInfoYn" />
-        <result column="APPL_CRE_ID" jdbcType="VARCHAR" property="creId" />
-        <result column="APPL_CRE_DATE" jdbcType="DATE" property="creDate" />
-        <result column="APPL_MOD_ID" jdbcType="VARCHAR" property="modId" />
-        <result column="APPL_MOD_DATE" jdbcType="DATE" property="modDate" />
+        <association property="application"
+                     javaType="com.apexsoft.ysprj.applicants.application.domain.Application">
+            <id column="APPL_NO" jdbcType="INTEGER" property="applNo" />
+            <result column="USER_ID" jdbcType="VARCHAR" property="userId" />
+            <result column="ADMS_NO" jdbcType="VARCHAR" property="admsNo" />
+            <result column="ENTR_YEAR" jdbcType="VARCHAR" property="entrYear" />
+            <result column="ADMS_TYPE_CODE" jdbcType="VARCHAR" property="admsTypeCode" />
+            <result column="APPL_ATTR_CODE" jdbcType="VARCHAR" property="applAttrCode" />
+            <result column="DEPT_CODE" jdbcType="VARCHAR" property="deptCode" />
+            <result column="ARI_INST_CODE" jdbcType="VARCHAR" property="ariInstCode" />
+            <result column="CORS_TYPE_CODE" jdbcType="VARCHAR" property="corsTypeCode" />
+            <result column="DETL_MAJ_CODE" jdbcType="VARCHAR" property="detlMajCode" />
+            <result column="INP_DETL_MAJ" jdbcType="VARCHAR" property="inpDetlMaj" />
+            <result column="PART_TIME_YN" jdbcType="VARCHAR" property="partTimeYn" />
+            <result column="KOR_NAME" jdbcType="VARCHAR" property="korName" />
+            <result column="CHN_NAME" jdbcType="VARCHAR" property="chnName" />
+            <result column="ENG_SUR" jdbcType="VARCHAR" property="engSur" />
+            <result column="ENG_NAME" jdbcType="VARCHAR" property="engName" />
+            <result column="RGST_NO" jdbcType="VARCHAR" property="rgstNo" />
+            <result column="ZIP_CODE" jdbcType="VARCHAR" property="zipCode" />
+            <result column="ADDR" jdbcType="VARCHAR" property="addr" />
+            <result column="DETL_ADDR" jdbcType="VARCHAR" property="detlAddr" />
+            <result column="TEL_NUM" jdbcType="VARCHAR" property="telNum" />
+            <result column="MOBI_NUM" jdbcType="VARCHAR" property="mobiNum" />
+            <result column="FAX_NUM" jdbcType="VARCHAR" property="faxNum" />
+            <result column="MAIL_ADDR" jdbcType="VARCHAR" property="mailAddr" />
+            <result column="APPL_ID" jdbcType="VARCHAR" property="applId" />
+            <result column="APPL_STS_CODE" jdbcType="VARCHAR" property="applStsCode" />
+            <result column="PRIV_INFO_YN" jdbcType="VARCHAR" property="privInfoYn" />
+            <result column="APPL_CRE_ID" jdbcType="VARCHAR" property="creId" />
+            <result column="APPL_CRE_DATE" jdbcType="DATE" property="creDate" />
+            <result column="APPL_MOD_ID" jdbcType="VARCHAR" property="modId" />
+            <result column="APPL_MOD_DATE" jdbcType="DATE" property="modDate" />
+        </association>
         <association property="applicationGeneral"
                      javaType="com.apexsoft.ysprj.applicants.application.domain.ApplicationGeneral">
             <id column="APPL_NO" property="applNo" jdbcType="INTEGER" />

@@ -100,9 +100,9 @@ public class ApplicationServiceImpl implements ApplicationService {
         int r7 = 0;
         int r8 = 0;
         ParamForInitialApply p = new ParamForInitialApply();
-        p.setUserId(entireApplication.getUserId());
-        p.setAdmsNo(entireApplication.getAdmsNo());
-        p.setApplStsCode(entireApplication.getApplStsCode());
+        p.setUserId(entireApplication.getApplication().getUserId());
+        p.setAdmsNo(entireApplication.getApplication().getAdmsNo());
+        p.setApplStsCode(entireApplication.getApplication().getApplStsCode());
 
         try {
 
