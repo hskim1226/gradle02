@@ -400,7 +400,10 @@
                                 <div class="panel-body">
                                     <div class="form-group">
                                         <label class="col-sm-2 control-label">주소</label>
-                                        <div class="col-sm-5">
+                                        <div class="col-sm-2">
+                                            <button type="button" class="btn btn-default btn-block" id="searchAddress">우편번호 찾기</button>
+                                        </div>
+                                        <div class="col-sm-4">
                                             <div class="input-group">
                                                 <input type="text" class="form-control" id="postcode1" />
                                                 <span class="input-group-addon"> - </span>
@@ -408,9 +411,6 @@
                                             </div>
                                         </div>
                                         <input type="hidden" id="zipCode" name="zipCode"/>
-                                        <div class="col-sm-4">
-                                            <button type="button" class="btn btn-default" id="searchAddress">우편번호 찾기</button>
-                                        </div>
                                         <div class="col-sm-offset-2 col-sm-4">
                                             <input type="text" class="form-control" id="address" name="addr"/>
                                         </div>
@@ -1281,6 +1281,40 @@
 
             <%-- 처음 탭 표시 --%>
             $('#myTab a:first').tab('show');
+
+            <%-- BootStrap Validator --%>
+            var numericValidator = {
+                numeric: {
+                    separator: '',
+                    message: '${msgPhoneNo}'
+                }
+            }
+            $('#entireApplication').bootstrapValidator({
+                feedbackIcons: {
+                    valid: 'glyphicon glyphicon-ok',
+                    invalid: 'glyphicon glyphicon-remove',
+                    validating: 'glyphicon glyphicon-refresh'
+                },
+                fields: {
+                    rgstNo: {
+                        validators: {
+                            regexp: {
+                                regexp: /^\d{6}-[1234]\d{6}/,
+                                message: '${msgRgstNo}'
+                            }
+                        }
+                    },
+                    telNum: {
+                        validators: numericValidator
+                    },
+                    mobiNum: {
+                        validators: numericValidator
+                    },
+                    "applicationGeneral.emerContTel": {
+                        validators: numericValidator
+                    }
+                }
+            });
 
             <%-- 지원정보 submit 이벤트 --%>
             $('#entireApplication').on('submit', function(event) {

@@ -1,6 +1,7 @@
 package com.apexsoft.ysprj.applicants.application.control;
 
 import com.apexsoft.framework.common.vo.ExecutionContext;
+import com.apexsoft.framework.message.MessageResolver;
 import com.apexsoft.ysprj.applicants.application.domain.*;
 import com.apexsoft.ysprj.applicants.application.service.ApplicationService;
 import com.apexsoft.ysprj.applicants.common.service.CommonService;
@@ -13,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import javax.validation.Valid;
 import java.security.Principal;
 import java.sql.Timestamp;
@@ -34,6 +36,9 @@ public class ApplicationController {
 
     @Autowired
     private ObjectMapper objectMapper;
+
+    @Resource(name = "messageResolver")
+    MessageResolver messageResolver;
 
     @RequestMapping(value="/mylist", produces="text/plain;charset=UTF-8")
     //@ResponseBody
@@ -93,6 +98,9 @@ public class ApplicationController {
 
         model.addAttribute( "common", commonCodeMap );
 
+        model.addAttribute( "msgRgstNo", messageResolver.getMessage("U304"));
+        model.addAttribute( "msgPhoneNo", messageResolver.getMessage("U305"));
+
         return "application/appinfo";
     }
 
@@ -112,9 +120,9 @@ public class ApplicationController {
         String message = "저장 실패";
         if( entireApplication.getApplNo() == null ) {   // insert
             applicationService.createEntireApplication( entireApplication );
-            message = "저장 성공";
+            message = messageResolver.getMessage("U301");
         } else {    // update
-            message = "업데이트 성공";
+            message = messageResolver.getMessage("U303");
         }
         return new ExecutionContext(ExecutionContext.SUCCESS, message);
     }
