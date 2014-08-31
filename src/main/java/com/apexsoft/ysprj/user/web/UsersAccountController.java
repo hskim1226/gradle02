@@ -1,6 +1,7 @@
 package com.apexsoft.ysprj.user.web;
 
 import com.apexsoft.framework.common.vo.ExecutionContext;
+import com.apexsoft.framework.message.MessageResolver;
 import com.apexsoft.ysprj.user.domain.Users;
 import com.apexsoft.ysprj.user.service.UsersAccountService;
 import org.apache.commons.io.IOUtils;
@@ -35,8 +36,12 @@ public class UsersAccountController {
 
     @Autowired
     private ServletContext context;
+
     @Autowired
     private UsersAccountService usersAccountService;
+
+    @Autowired
+    private MessageResolver messageResolver;
 
     @RequestMapping(value="/login", method= RequestMethod.GET)
     public String displayLoginForm() {
@@ -47,7 +52,9 @@ public class UsersAccountController {
     public String displaySignupAgreementForm(Model model, HttpServletResponse response) {
         Map<String, String> contentFiles = new HashMap<String, String>();
         contentFiles.put("terms-of-service", "/WEB-INF/terms-of-service.txt");
-        contentFiles.put("privacy-policy", "/WEB-INF/privacy-policy.txt");
+        contentFiles.put("privacy-policy1", "/WEB-INF/privacy-policy1.txt");
+        contentFiles.put("privacy-policy2", "/WEB-INF/privacy-policy2.txt");
+        contentFiles.put("privacy-policy3", "/WEB-INF/privacy-policy3.txt");
 
         FileReader fileReader = null;
         BufferedReader bufferedReader = null;
@@ -64,6 +71,7 @@ public class UsersAccountController {
                     }
                 }
                 model.addAttribute(key, buffer.toString());
+                buffer.setLength(0);
                 bufferedReader.close();
                 inputStream.close();
             }
@@ -71,6 +79,9 @@ public class UsersAccountController {
         catch (Exception ignored) {
             // ignore
         }
+
+        model.addAttribute("msg1", messageResolver.getMessage("U101"));
+        model.addAttribute("msg2", messageResolver.getMessage("U102"));
 
         return "user/agreement";
     }

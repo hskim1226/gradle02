@@ -65,31 +65,42 @@
                 <div class="col-sm-10">
                     <textarea id="terms-of-service" class="form-control" rows="10" readonly><%=request.getAttribute("terms-of-service")%></textarea>
                     <label for="terms-agree" class="control-label">
-                        <input type="checkbox" name="userAgreYn" id="terms-agree" value="y" />I agree
+                        <input type="checkbox" name="userAgreYn" id="terms-agree" value="y" />동의합니다.
                     </label>
                 </div>
             </div>
             <div class="form-group">
-                <label for="privacy-policy" class="col-sm-2 control-label">Privacy Policy</label>
+                <label for="privacy-policy1" class="col-sm-2 control-label">개인 정보 수집 및 이용에 대한 동의</label>
                 <div class="col-sm-10">
-                    <textarea id="privacy-policy" class="form-control" rows="5" readonly><%=request.getAttribute("privacy-policy")%></textarea>
+                    <textarea id="privacy-policy1" class="form-control" rows="10" readonly><%=request.getAttribute("privacy-policy1")%></textarea>
+                    <textarea id="privacy-policy2" class="form-control" rows="10" readonly><%=request.getAttribute("privacy-policy2")%></textarea>
+                    <textarea id="privacy-policy3" class="form-control" rows="10" readonly><%=request.getAttribute("privacy-policy3")%></textarea>
                     <label for="privacy-agree" class="control-label">
-                        <input type="checkbox" name="privInfoYn" id="privacy-agree" value="y" />I agree
+                        <input type="checkbox" name="privInfoYn" id="privacy-agree" value="y" />동의합니다.
                     </label>
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="col-sm-offset-2 col-sm-10">
-                    <button type="submit" id="sign-up-button" class="btn btn-default">계속하기</button>
                 </div>
             </div>
         </form>
+        <div class="col-sm-offset-2 col-sm-10">
+            <button id="sign-up-button" class="btn btn-info btn-lg btn-block">계속하기</button>
+        </div>
     </div>
 </section>
 <content tag="local-script">
     <script type="text/javascript" >
         $(document).ready(function(){
+            $('#sign-up-button').on('click', function() {
+                if ( !$("input:checkbox[id='terms-agree']").is(":checked") ) {
+                    alert("${msg1}");
+                    return;
+                }
 
+                if ( !$("input:checkbox[id='privacy-agree']").is(":checked") ) {
+                    alert("${msg2}");
+                    return;
+                }
+                $('#sign-up-form').submit();
+            });
         });
     </script>
 </content>
