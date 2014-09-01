@@ -1350,6 +1350,19 @@
                 }
             }
 
+            function checkGrad(validator, $field, options) {
+                if ($field) {
+                    return {
+                        valid: true,
+                        message: "The error message"
+                    }
+                }
+                return {
+                    valid: false,
+                    message: 'Other error message'
+                }
+            }
+
             $('#entireApplication').bootstrapValidator({
                 feedbackIcons: {
                     valid: 'glyphicon glyphicon-ok',
@@ -1376,11 +1389,41 @@
                     },
                     gradAvr: {
                         selector: '[name$="gradAvr"]',
-                        validators: numericValidator
+                        validators: {
+                            numeric: {
+                                separator: '',
+                                message: '${msgPhoneNo}'
+                            },
+                            lessThan: {
+                                value: function (value, validator, $field) {
+                                    var $parent = $field.parents('.form-group');
+                                    var name = $field.attr('name');
+                                    name = name.substring(0, name.indexOf('.') + 1) + 'gradFull';
+                                    var $avr = $parent.find('[name="' + name + '"]');
+                                    return $avr.val();
+                                },
+                                message: '평점보다 만점이 커야합니다'
+                            }
+                        }
                     },
                     gradFull: {
                         selector: '[name$="gradFull"]',
-                        validators: numericValidator
+                        validators: {
+                            numeric: {
+                                separator: '',
+                                message: '${msgPhoneNo}'
+                            },
+                            greaterThan: {
+                                value: function(value, validator, $field) {
+                                    var $parent = $field.parents('.form-group');
+                                    var name = $field.attr('name');
+                                    name = name.substring(0, name.indexOf('.') + 1) + 'gradAvr';
+                                    var $avr = $parent.find('[name="' + name + '"]');
+                                    return $avr.val();
+                                },
+                                message: '평점보다 만점이 커야합니다'
+                            }
+                        }
                     }
                 }
             });
@@ -1510,7 +1553,7 @@
                     for (i = 0; i <items.length; i++) {
                         name = items[i].name;
                         var oldid = items[i].id;
-                        suffix = name.substring(name.lastIndexOf(']') + 1, name.length);
+                        suffix = name.substring(name.indexOf(']') + 1, name.length);
                         items[i].name = prefix + '[' + index + ']' + suffix;
                         items[i].id = prefix + index + suffix;
 
