@@ -1631,7 +1631,7 @@
             <%-- 지원구분 변경 --%>
             attachChangeEvent( 'applAttrCode',
                     {
-                        '02': {targetId: 'ariInstCode', valueKey: 'ariInstCode', labelKey: 'ariInstName', url: '/ariInst'}, // applAttrCode == '02'
+                        '00002': {targetId: 'ariInstCode', valueKey: 'ariInstCode', labelKey: 'ariInstName', url: '/ariInst'}, // applAttrCode == '02'
                         targetId: 'campCode',
                         valueKey: 'campCode',
                         labelKey: 'campName',
