@@ -168,7 +168,29 @@ public class ApplicationController {
             return new ExecutionContext(ExecutionContext.FAIL);
         }
 
-        entireApplication.getApplication().setUserId(principal.getName());
+        String userId = principal.getName();
+        entireApplication.getApplication().setUserId(userId);
+        entireApplication.getApplication().setCreId(userId);
+        entireApplication.getApplicationGeneral().setCreId(userId);
+        entireApplication.getApplicationETCWithBLOBs().setCreId(userId);
+        entireApplication.getHighSchool().setCreId(userId);
+        List<ApplicationAcademy> collegeList = entireApplication.getCollegeList();
+        for(ApplicationAcademy item : collegeList) {
+            item.setCreId(userId);
+        }
+        List<ApplicationAcademy> graduateList = entireApplication.getGraduateList();
+        for(ApplicationAcademy item : graduateList) {
+            item.setCreId(userId);
+        }
+        List<ApplicationExperience> experienceList = entireApplication.getApplicationExperienceList();
+        for(ApplicationExperience item : experienceList) {
+            item.setCreId(userId);
+        }
+        List<ApplicationLanguage> languageList = entireApplication.getApplicationLanguageList();
+        for(ApplicationLanguage item : languageList) {
+            item.setCreId(userId);
+        }
+
         entireApplication.getApplication().setApplStsCode("00001");
         String message = messageResolver.getMessage("U302"); // TODO 아래 if/else 에 의해 302메시지는 사용될 수 없음, 로직 보완 필요
         if( entireApplication.getApplication().getApplNo() == null ) {   // insert

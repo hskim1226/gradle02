@@ -1299,12 +1299,7 @@
                 },
                 fields: {
                     "application.rgstNo": {
-                        validators: {
-                            regexp: {
-                                regexp: /^\d{6}-[1234]\d{6}/,
-                                message: '${msgRgstNo}'
-                            }
-                        }
+                        validators: numericValidator
                     },
                     "application.telNum": {
                         validators: numericValidator

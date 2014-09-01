@@ -5,6 +5,7 @@ import com.apexsoft.ysprj.applicants.application.domain.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -105,36 +106,43 @@ public class ApplicationServiceImpl implements ApplicationService {
         p.setApplStsCode(entireApplication.getApplication().getApplStsCode());
 
         try {
-
+            entireApplication.getApplication().setCreDate(new Date());
             r1 = createApplication(entireApplication.getApplication());
             Application tA = retrieveApplicationForInsertOthers(entireApplication.getApplication());
             applNo = tA.getApplNo();
 
             entireApplication.getApplicationGeneral().setApplNo(applNo);
+            entireApplication.getApplicationGeneral().setCreDate(new Date());
             r2 = createApplicationGeneral(entireApplication.getApplicationGeneral());
 
             entireApplication.getApplicationETCWithBLOBs().setApplNo(applNo);
+            entireApplication.getApplicationETCWithBLOBs().setCreDate(new Date());
             r3 = createApplicationETCWithBLOBs(entireApplication.getApplicationETCWithBLOBs());
 
             entireApplication.getHighSchool().setApplNo(applNo);
             entireApplication.getHighSchool().setAcadSeq(1);
+            entireApplication.getHighSchool().setCreDate(new Date());
             r4 = createApplicationHighSchool(entireApplication.getHighSchool());
 
             List<ApplicationAcademy> collegeList = entireApplication.getCollegeList();
             int idx = 1;
             if ( collegeList != null ) {
+                Date date = new Date();
                 for( ApplicationAcademy college : collegeList) {
                     college.setApplNo(applNo);
                     college.setAcadSeq(++idx);
+                    college.setCreDate(date);
                 }
                 r5 = createApplicationAcademy(collegeList);
             }
 
             List<ApplicationAcademy> graduateList = entireApplication.getGraduateList();
             if ( graduateList != null ) {
+                Date date = new Date();
                 for( ApplicationAcademy graduate : graduateList) {
                     graduate.setApplNo(applNo);
                     graduate.setAcadSeq(++idx);
+                    graduate.setCreDate(date);
                 }
                 r6 = createApplicationAcademy(graduateList);
             }
@@ -142,9 +150,11 @@ public class ApplicationServiceImpl implements ApplicationService {
             List<ApplicationExperience> applicationExperienceList = entireApplication.getApplicationExperienceList();
             idx = 0;
             if ( applicationExperienceList != null ) {
+                Date date = new Date();
                 for( ApplicationExperience experience : applicationExperienceList) {
                     experience.setApplNo(applNo);
                     experience.setExprSeq(++idx);
+                    experience.setCreDate(date);
                 }
                 r7 = createExperience(applicationExperienceList);
             }
@@ -152,9 +162,11 @@ public class ApplicationServiceImpl implements ApplicationService {
             List<ApplicationLanguage> applicationLanguageList = entireApplication.getApplicationLanguageList();
             idx = 0;
             if ( applicationLanguageList != null ) {
+                Date date = new Date();
                 for( ApplicationLanguage applicationLanguage : applicationLanguageList) {
                     applicationLanguage.setApplNo(applNo);
                     applicationLanguage.setLangSeq(++idx);
+                    applicationLanguage.setCreDate(date);
                 }
                 r8 = createLanguage(applicationLanguageList);
             }
