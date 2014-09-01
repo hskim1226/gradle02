@@ -1221,10 +1221,12 @@
                     $('#bpopContentSchool').find('#searchTitle').text(title);
                 }
                 $('#bpopContainerSchool').bPopup();
+                document.getElementById('bpopSchl').focus();
             });
 
             $('#bpopBtnSearchSchool').on('click', function(e) {
-                var c = $('#bpopContentSchool').attr('data-category')
+                var c = $('#bpopContentSchool').attr('data-category');
+                $('#bpopResultSchool').empty();
                 $.ajax({
                     type: 'GET',
                     url: '${contextPath}/common/code/school/' + c + '/' + encodeURIComponent($('#bpopSchl').val()),
