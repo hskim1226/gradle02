@@ -60,28 +60,29 @@ public class ApplicationServiceImpl implements ApplicationService {
         p.setApplStsCode(entireApplication.getApplication().getApplStsCode());
 
         try {
-            entireApplication.getApplication().setCreDate(new Date());
+            Date date = new Date();
+
+            entireApplication.getApplication().setCreDate(date);
             r1 = insertItem(entireApplication.getApplication(), "ApplicationMapper");
             Application tA = retrieveApplicationForInsertOthers(entireApplication.getApplication());
             applNo = tA.getApplNo();
 
             entireApplication.getApplicationGeneral().setApplNo(applNo);
-            entireApplication.getApplicationGeneral().setCreDate(new Date());
+            entireApplication.getApplicationGeneral().setCreDate(date);
             r2 = insertItem(entireApplication.getApplicationGeneral(), "ApplicationGeneralMapper");
 
             entireApplication.getApplicationETCWithBLOBs().setApplNo(applNo);
-            entireApplication.getApplicationETCWithBLOBs().setCreDate(new Date());
+            entireApplication.getApplicationETCWithBLOBs().setCreDate(date);
             r3 = insertItem(entireApplication.getApplicationETCWithBLOBs(), "ApplicationETCMapper");
 
             entireApplication.getHighSchool().setApplNo(applNo);
             entireApplication.getHighSchool().setAcadSeq(1);
-            entireApplication.getHighSchool().setCreDate(new Date());
+            entireApplication.getHighSchool().setCreDate(date);
             r4 = insertItem(entireApplication.getHighSchool(), "ApplicationAcademyMapper");
 
             List<ApplicationAcademy> collegeList = entireApplication.getCollegeList();
             int idx = 1;
             if ( collegeList != null ) {
-                Date date = new Date();
                 for( ApplicationAcademy college : collegeList) {
                     college.setApplNo(applNo);
                     college.setAcadSeq(++idx);
@@ -92,7 +93,6 @@ public class ApplicationServiceImpl implements ApplicationService {
 
             List<ApplicationAcademy> graduateList = entireApplication.getGraduateList();
             if ( graduateList != null ) {
-                Date date = new Date();
                 for( ApplicationAcademy graduate : graduateList) {
                     graduate.setApplNo(applNo);
                     graduate.setAcadSeq(++idx);
@@ -104,7 +104,6 @@ public class ApplicationServiceImpl implements ApplicationService {
             List<ApplicationExperience> applicationExperienceList = entireApplication.getApplicationExperienceList();
             idx = 0;
             if ( applicationExperienceList != null ) {
-                Date date = new Date();
                 for( ApplicationExperience experience : applicationExperienceList) {
                     experience.setApplNo(applNo);
                     experience.setExprSeq(++idx);
@@ -116,7 +115,6 @@ public class ApplicationServiceImpl implements ApplicationService {
             List<ApplicationLanguage> applicationLanguageList = entireApplication.getApplicationLanguageList();
             idx = 0;
             if ( applicationLanguageList != null ) {
-                Date date = new Date();
                 for( ApplicationLanguage applicationLanguage : applicationLanguageList) {
                     applicationLanguage.setApplNo(applNo);
                     applicationLanguage.setLangSeq(++idx);
@@ -136,9 +134,11 @@ public class ApplicationServiceImpl implements ApplicationService {
 
     @Override
     public <T> int updateItem(T item, String MapperName) {
-        if ( item != null)
-            return commonDAO.update(NAME_SPACE + MapperName + ".updateByPrimaryKeySelective", item);
-        return 0;
+        int idx = 0;
+        if ( item != null) {
+            idx = commonDAO.update(NAME_SPACE + MapperName + ".updateByPrimaryKeySelective", item);
+        }
+        return idx;
     }
 
     @Override
@@ -153,33 +153,91 @@ public class ApplicationServiceImpl implements ApplicationService {
         }
         return idx;
     }
-//
-//    @Override
-//    public String updateEntireApplication(EntireApplication entireApplication) {
-//        int r1 = 0;
-//        int applNo = entireApplication.getApplication().getApplNo();
-//        int r2 = 0;
-//        int r3 = 0;
-//        int r4 = 0;
-//        int r5 = 0;
-//        int r6 = 0;
-//        int r7 = 0;
-//        int r8 = 0;
-//
-//        try {
-//            entireApplication.getApplication().setModDate(new Date());
-//            r1 = createApplication(entireApplication.getApplication());
-//            Application tA = retrieveApplicationForInsertOthers(entireApplication.getApplication());
-//            applNo = tA.getApplNo();
-//
-//            entireApplication.getApplicationGeneral().setApplNo(applNo);
-//            entireApplication.getApplicationGeneral().setCreDate(new Date());
-//            r2 = createApplicationGeneral(entireApplication.getApplicationGeneral());
-//        } catch ( Exception e ) {
-//            e.printStackTrace();
-//        }
-//        return null;
-//    }
+
+    @Override
+    public int deleteListByApplNo(int applNo, String MapperName) {
+        return commonDAO.delete(NAME_SPACE + MapperName + ".deleteListByApplNo", applNo);
+    }
+
+    @Override
+    public String updateEntireApplication(EntireApplication entireApplication) {
+        int r1 = 0;
+        int applNo = entireApplication.getApplication().getApplNo();
+        int r2 = 0;
+        int r3 = 0;
+        int r4 = 0;
+        int r5 = 0;
+        int r6 = 0;
+        int r7 = 0;
+        int r8 = 0;
+
+        try {
+            Date date = new Date();
+            entireApplication.getApplication().setModDate(date);
+            r1 = updateItem(entireApplication.getApplication(), "ApplicationMapper");
+
+            entireApplication.getApplicationGeneral().setModDate(date);
+            r2 = updateItem(entireApplication.getApplicationGeneral(), "ApplicationGeneralMapper");
+
+            entireApplication.getApplicationETCWithBLOBs().setModDate(date);
+            r3 = updateItem(entireApplication.getApplicationETCWithBLOBs(), "ApplicationETCMapper");
+
+            deleteListByApplNo(applNo, "ApplicationAcademyMapper");
+            entireApplication.getHighSchool().setApplNo(applNo);
+            entireApplication.getHighSchool().setAcadSeq(1);
+            entireApplication.getHighSchool().setModDate(date);
+            r4 = insertItem(entireApplication.getHighSchool(), "ApplicationAcademyMapper");
+
+            List<ApplicationAcademy> collegeList = entireApplication.getCollegeList();
+            int idx = 1;
+            if ( collegeList != null ) {
+                for( ApplicationAcademy college : collegeList) {
+                    college.setApplNo(applNo);
+                    college.setAcadSeq(++idx);
+                    college.setModDate(date);
+                }
+                r5 = insertList(collegeList, "ApplicationAcademyMapper");
+            }
+
+            List<ApplicationAcademy> graduateList = entireApplication.getGraduateList();
+            if ( graduateList != null ) {
+                for( ApplicationAcademy graduate : graduateList) {
+                    graduate.setApplNo(applNo);
+                    graduate.setAcadSeq(++idx);
+                    graduate.setModDate(date);
+                }
+                r6 = insertList(graduateList, "ApplicationAcademyMapper");
+            }
+
+            List<ApplicationExperience> experienceList = entireApplication.getApplicationExperienceList();
+            idx = 0;
+            if ( experienceList != null ) {
+                for(ApplicationExperience item : experienceList) {
+                    item.setApplNo(applNo);
+                    item.setModDate(date);
+                    item.setExprSeq(++idx);
+                }
+                r7 = insertList(experienceList, "ApplicationExperienceMapper");
+            }
+
+            List<ApplicationLanguage> languageList = entireApplication.getApplicationLanguageList();
+            idx = 0;
+            if ( languageList != null ) {
+                for(ApplicationLanguage item : languageList) {
+                    item.setApplNo(applNo);
+                    item.setModDate(date);
+                    item.setLangSeq(++idx);
+                }
+                r8 = insertList(languageList, "ApplicationLanguageMapper");
+            }
+
+        } catch ( Exception e ) {
+            e.printStackTrace();
+        }
+        String parity = "" + r1 + r2 + r3 + r4 + r5 + r6 + r7 + r8;
+        System.out.println("update : " + parity);
+        return parity;
+    }
 
     @Override
     public EntireApplication retrieveEntireApplication(int applNo) {

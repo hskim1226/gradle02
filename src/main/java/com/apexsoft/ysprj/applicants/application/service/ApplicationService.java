@@ -15,6 +15,8 @@ public interface ApplicationService {
 
     <T> int updateItem(T item, String MapperName);
     <T> int updateList(List<T> list, String MapperName);
+    int deleteListByApplNo(int applNo, String MapperName);
+    String updateEntireApplication(EntireApplication entireApplication);
 
     EntireApplication retrieveEntireApplication(int applNo);
     List<ApplicationAcademy> retrieveAcademyList(ParamForAcademy paramForAcademy);
