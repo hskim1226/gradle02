@@ -4,7 +4,6 @@ import com.apexsoft.framework.common.vo.ExecutionContext;
 import com.apexsoft.framework.message.MessageResolver;
 import com.apexsoft.ysprj.applicants.application.domain.*;
 import com.apexsoft.ysprj.applicants.application.service.ApplicationService;
-import com.apexsoft.ysprj.applicants.common.domain.Campus;
 import com.apexsoft.ysprj.applicants.common.domain.CommonCode;
 import com.apexsoft.ysprj.applicants.common.service.CommonService;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -130,7 +129,6 @@ public class ApplicationController {
 
         /* 지원구분 공통코드로 수정 필요 */
         List<CommonCode> applAttrList = commonService.retrieveCommonCodeValueByCodeGroup("APPL_ATTR");
-        List<Campus> campusList = commonService.retrieveCampus();
         List<CommonCode> mltrServList = commonService.retrieveCommonCodeValueByCodeGroup("MLTR_SERV");
         List<CommonCode> mltrTypeList = commonService.retrieveCommonCodeValueByCodeGroup("MLTR_TYPE");
         List<CommonCode> mltrRankList = commonService.retrieveCommonCodeValueByCodeGroup("MLTR_RANK");
@@ -138,7 +136,6 @@ public class ApplicationController {
 
         Map<String, Object> commonCodeMap = new HashMap<String, Object>();
         commonCodeMap.put( "applAttrList", applAttrList );
-        commonCodeMap.put( "campusList", campusList );
         commonCodeMap.put( "mltrServList", mltrServList );
         commonCodeMap.put( "mltrTypeList", mltrTypeList );
         commonCodeMap.put( "mltrRankList", mltrRankList );
