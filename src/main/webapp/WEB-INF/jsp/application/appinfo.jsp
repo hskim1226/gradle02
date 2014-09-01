@@ -571,7 +571,7 @@
                                                 </div>
                                                 <div class="col-sm-2">
                                                     <label class="radio inline">
-                                                        <form:radiobutton path="collegeList[${stat.index}].lastSchlYn" value="y" />&nbsp;&nbsp;최종 학교
+                                                        <form:radiobutton path="collegeList[${stat.index}].lastSchlYn" cssClass="radio-group" value="Y" />&nbsp;&nbsp;최종 학교
                                                     </label>
                                                 </div>
                                             </div>
@@ -651,7 +651,7 @@
                                                 </div>
                                                 <div class="col-sm-2">
                                                     <label class="radio inline">
-                                                        <form:radiobutton path="graduateList[${stat.index}].lastSchlYn" value="y" />&nbsp;&nbsp;최종 학교
+                                                        <form:radiobutton path="graduateList[${stat.index}].lastSchlYn" cssClass="radio-group" value="Y" />&nbsp;&nbsp;최종 학교
                                                     </label>
                                                 </div>
                                             </div>
@@ -1298,7 +1298,7 @@
                     validating: 'glyphicon glyphicon-refresh'
                 },
                 fields: {
-                    rgstNo: {
+                    "application.rgstNo": {
                         validators: {
                             regexp: {
                                 regexp: /^\d{6}-[1234]\d{6}/,
@@ -1306,10 +1306,10 @@
                             }
                         }
                     },
-                    telNum: {
+                    "application.telNum": {
                         validators: numericValidator
                     },
-                    mobiNum: {
+                    "application.mobiNum": {
                         validators: numericValidator
                     },
                     "applicationGeneral.emerContTel": {
@@ -1323,6 +1323,14 @@
                 var $form = $(this);
                 var $formUrl = $form.attr('action');
                 var $formData = $form.serializeArray();
+
+                var $radioGroup;
+                $('input[type="radio"]').filter(function() {
+                    return $('[name="' + this.name + '"]').length == 1;
+                }).each(function() {
+                    $formData.push({name: this.name, value: this.checked ? this.value ? this.value : 'Y' : 'N'});
+                });
+
                 $.ajax({
                     url: $formUrl,
                     type: 'POST',
@@ -1371,22 +1379,11 @@
                 });
             });
 
-            <%-- 최종 대학 체크 처리 시작 --%>
-            var setLastSchool = function (e) {
-                var i, l, radioList = document.getElementsByClassName('lastSchl');
-                for ( i = 0, l = radioList.length ; i < l ;i++ ) {
-                    radioList[i].value="N";
-                }
-                e.target.value="Y";
-            }
-            $('.lastSchl').on('click', setLastSchool);
-            <%-- 최종 대학 체크 처리 끝 --%>
-
             <%-- form-group-block 추가/삭제에 대한 처리 시작 --%>
             $('.btn-add').click(function(e) {
                 var target = e.currentTarget ? e.currentTarget : e.target;
                 var container = target.parentNode;
-                while (container && !container.classList.contains('form-group-block-list')) {
+                while (container && !$(container).hasClass('form-group-block-list')) {
                     container = container.parentNode;
                 }
                 var blocks = container.querySelectorAll('.form-group-block');
@@ -1404,7 +1401,7 @@
             $('.btn-remove').click(function(e) {
                 var target = e.currentTarget ? e.currentTarget : e.target;
                 var blockToRemove = target.parentNode;
-                while (blockToRemove && !blockToRemove.classList.contains('form-group-block')) {
+                while (blockToRemove && !$(blockToRemove).hasClass('form-group-block')) {
                     blockToRemove = blockToRemove.parentNode;
                 }
                 var container = blockToRemove.parentNode;
@@ -1444,7 +1441,10 @@
                         suffix = name.substring(name.lastIndexOf(']') + 1, name.length);
                         items[i].name = prefix + '[' + index + ']' + suffix;
                         items[i].id = prefix + index + suffix;
-                        items[i].value = "";
+                        items[i].checked = false;
+                        if (items[i].type == 'text' || items[i].type == 'hidden') {
+                            items[i].value = '';
+                        }
 
                         label = block.querySelector('label[for="' + oldid + '"]');
                         if (label) {
@@ -1537,6 +1537,16 @@
             }
             $('input[name="highSchool.acadTypeCode"]').eq(0).click();
             <%-- 고등학교 졸업/검정고시 동적 변경 시작 --%>
+
+            <%-- 최종 대학 체크 처리 시작 --%>
+            $('.radio-group').on('click', function(e) {
+                var $target = $(this);
+                var $container = $target.parents('.form-group-block-list');
+                $container.find('.radio-group').each(function() {
+                    $(this).attr('checked', $target[0] === $(this)[0]);
+                });
+            });
+            <%-- 최종 대학 체크 처리 끝 --%>
 
             <%-- 학연산 선택에 따른 화면 변경 시작 --%>
             $('#applAttrCode').on('change', function() {
