@@ -281,7 +281,7 @@
                                         <div class="col-sm-9">
                                             <div class="input-group">
                                                 <span class="input-group-addon">&nbsp;성&nbsp;</span>
-                                                <form:input path="application.engSur" cssClass="col-sm-6 form-control" />
+                                                <form:input path="application.engSur" cssClass="col-sm-6 form-control" style="text-transform: uppercase;" />
                                             </div>
                                         </div>
                                         <div class="col-sm-offset-2 col-sm-9">
@@ -1349,6 +1349,14 @@
                     message: '${msgPhoneNo}'
                 }
             }
+
+            function createDynamicFields() {
+                var fields;
+                $('input[name$="gradAvr"]').each(function() {
+                });
+                return fields;
+            }
+
             $('#entireApplication').bootstrapValidator({
                 feedbackIcons: {
                     valid: 'glyphicon glyphicon-ok',
@@ -1383,10 +1391,10 @@
                 var $formData = $form.serializeArray();
 
                 var $radioGroup;
-                $('input[type="radio"]').filter(function() {
-                    return $('[name="' + this.name + '"]').length == 1;
+                $('input.radio-group').filter(function() {
+                    return this.checked == false;
                 }).each(function() {
-                    $formData.push({name: this.name, value: this.checked ? this.value ? this.value : 'Y' : 'N'});
+                    $formData.push({name: this.name, value: 'N'});
                 });
 
                 $.ajax({
