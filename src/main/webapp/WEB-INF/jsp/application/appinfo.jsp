@@ -1331,26 +1331,24 @@
                     $formData.push({name: this.name, value: this.checked ? this.value ? this.value : 'Y' : 'N'});
                 });
 
-                console.log($formData);
-
-//                $.ajax({
-//                    url: $formUrl,
-//                    type: 'POST',
-//                    data: $formData,
-//                    timeout: 5000,
-//                    success: function (context) {
-//                        if (context.result == 'SUCCESS') {
-//                            var innerData = context.data;
-//                            var message = context.message;
-//                            var alert = createAlert(message);
-//                            $('#alert-container').append(alert);
-//                            window.setTimeout(function() { alert.alert('close') }, 2000);
-//                        }
-//                    },
-//                    error: function(e) {
-//                    }
-//                });
-//                event.preventDefault();
+                $.ajax({
+                    url: $formUrl,
+                    type: 'POST',
+                    data: $formData,
+                    timeout: 5000,
+                    success: function (context) {
+                        if (context.result == 'SUCCESS') {
+                            var innerData = context.data;
+                            var message = context.message;
+                            var alert = createAlert(message);
+                            $('#alert-container').append(alert);
+                            window.setTimeout(function() { alert.alert('close') }, 2000);
+                        }
+                    },
+                    error: function(e) {
+                    }
+                });
+                event.preventDefault();
             });
 
             <%-- alert 생성 --%>
