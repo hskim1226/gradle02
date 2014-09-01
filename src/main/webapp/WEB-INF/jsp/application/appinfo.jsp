@@ -1350,13 +1350,6 @@
                 }
             }
 
-            function createDynamicFields() {
-                var fields;
-                $('input[name$="gradAvr"]').each(function() {
-                });
-                return fields;
-            }
-
             $('#entireApplication').bootstrapValidator({
                 feedbackIcons: {
                     valid: 'glyphicon glyphicon-ok',
@@ -1379,6 +1372,14 @@
                         validators: numericValidator
                     },
                     "applicationGeneral.emerContTel": {
+                        validators: numericValidator
+                    },
+                    gradAvr: {
+                        selector: '[name$="gradAvr"]',
+                        validators: numericValidator
+                    },
+                    gradFull: {
+                        selector: '[name$="gradFull"]',
                         validators: numericValidator
                     }
                 }
@@ -1446,7 +1447,7 @@
             });
 
             <%-- form-group-block 추가/삭제에 대한 처리 시작 --%>
-            $('.btn-add').click(function(e) {
+            $('.btn-add').on('click', function(e) {
                 var target = e.currentTarget ? e.currentTarget : e.target;
                 var container = target.parentNode;
                 while (container && !$(container).hasClass('form-group-block-list')) {
@@ -1463,9 +1464,11 @@
                     container.insertBefore($cloneObj[0], originBlock.nextSibling);
                     $cloneObj.find('.input-group.date>input').datepicker(datePickerOption);
                 }
+
+//                $('#entireApplication').bootstrapValidator('addFiend', $cloneObj);
             });
 
-            $('.btn-remove').click(function(e) {
+            $('.btn-remove').on('click', function(e) {
                 var target = e.currentTarget ? e.currentTarget : e.target;
                 var blockToRemove = target.parentNode;
                 while (blockToRemove && !$(blockToRemove).hasClass('form-group-block')) {
@@ -1519,12 +1522,14 @@
                 }
 
                 var searchBtn = block.querySelector('[data-targetNode1]');
-                var target1 = searchBtn.getAttribute('data-targetNode1');
-                var target2 = searchBtn.getAttribute('data-targetNode2');
-                suffix = target1.substring(target1.indexOf('.') + 1, target1.length);
-                searchBtn.setAttribute('data-targetNode1', prefix + index + '.' + suffix);
-                suffix = target2.substring(target2.indexOf('.') + 1, target2.length);
-                searchBtn.setAttribute('data-targetNode2', prefix + index + '.' + suffix);
+                if (searchBtn) {
+                    var target1 = searchBtn.getAttribute('data-targetNode1');
+                    var target2 = searchBtn.getAttribute('data-targetNode2');
+                    suffix = target1.substring(target1.indexOf('.') + 1, target1.length);
+                    searchBtn.setAttribute('data-targetNode1', prefix + index + '.' + suffix);
+                    suffix = target2.substring(target2.indexOf('.') + 1, target2.length);
+                    searchBtn.setAttribute('data-targetNode2', prefix + index + '.' + suffix);
+                }
             }
             <%-- id, name 재설정 끝 --%>
 
@@ -1560,6 +1565,7 @@
                 });
                 $('#' + excludeId).show();
             }
+
             $('input[name="highSchool.acadTypeCode"]').eq(0).click();
             <%-- 고등학교 졸업/검정고시 동적 변경 시작 --%>
 
