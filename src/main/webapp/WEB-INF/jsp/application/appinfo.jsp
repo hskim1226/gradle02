@@ -1687,11 +1687,11 @@
                         url: function(arg) {   <%-- 지원과정 조회 --%>
                             var admsNo = '${entireApplication.application.admsNo}';
                             var applAttrCode = $('#applAttrCode').val();
-                            if (applAttrCode == '01') {
+                            if (applAttrCode == '00001') {
                                 return '/general/course/' + admsNo + '/' + arg;
-                            } else if (applAttrCode == '02') {
+                            } else if (applAttrCode == '00002') {
                                 return '/ariInst/course/' + admsNo + "/" + arg + "/" + $('#ariInstCode').val();
-                            } else if (applAttrCode == '03') {
+                            } else if (applAttrCode == '00003') {
                                 return '/commission/course/' + admsNo + '/' + arg;
                             }
                         }
@@ -1707,11 +1707,11 @@
                         url: function(arg) {
                             var admsNo = '${entireApplication.application.admsNo}';
                             var applAttrCode = $('#applAttrCode').val();
-                            if (applAttrCode == '01') {
+                            if (applAttrCode == '00001') {
                                 return '/general/detailMajor/' + admsNo + '/' + $('#deptCode').val() + '/' + arg;
-                            } else if (applAttrCode == '02') {
+                            } else if (applAttrCode == '00002') {
                                 return '/ariInst/detailMajor/' + admsNo + "/" + $('#deptCode').val() + "/" + $('#ariInstCode').val() + '/' + arg;
-                            } else if (applAttrCode == '03') {
+                            } else if (applAttrCode == '00003') {
                                 // nothing
                             }
                         }
