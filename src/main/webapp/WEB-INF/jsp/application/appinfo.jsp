@@ -1354,7 +1354,12 @@
                 },
                 fields: {
                     "application.rgstNo": {
-                        validators: numericValidator
+                        validators: {
+                            regexp: {
+                                regexp: /^\d{13}/,
+                                message: '${msgRgstNo}'
+                            }
+                        }
                     },
                     "application.telNum": {
                         validators: numericValidator
