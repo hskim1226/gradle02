@@ -4,7 +4,7 @@ import com.apexsoft.framework.common.vo.ExecutionContext;
 import com.apexsoft.framework.message.MessageResolver;
 import com.apexsoft.ysprj.applicants.application.domain.*;
 import com.apexsoft.ysprj.applicants.application.service.ApplicationService;
-import com.apexsoft.ysprj.applicants.common.domain.CommonCode;
+import com.apexsoft.ysprj.applicants.common.domain.*;
 import com.apexsoft.ysprj.applicants.common.service.CommonService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -103,7 +103,6 @@ public class ApplicationController {
      * @param admsNo
      * @param entrYear
      * @param admsTypeCode
-     * @param entireApplication
      * @param model
      * @return
      */
@@ -115,31 +114,68 @@ public class ApplicationController {
                                  @ModelAttribute("entireApplication") EntireApplication entireApplication,
                                  Model model) {
 
-        if (applNo != null) {
-            EntireApplication entireApplication1 = applicationService.retrieveEntireApplication(applNo);
-            CampusCollege campusCollege = applicationService.retriveCampusCollege(applNo);
-            entireApplication1.setCampCode(campusCollege.getCampCode());
-            entireApplication1.setCollCode(campusCollege.getCollCode());
+        Map<String, Object> commonCodeMap = new HashMap<String, Object>();
 
-            model.addAttribute("entireApplication", entireApplication1);
-        } else {
-            Application application = new Application();
-            application.setAdmsNo(admsNo);
-            application.setEntrYear(entrYear);
-            application.setAdmsTypeCode(admsTypeCode);
-            entireApplication.setApplication(application);
+        if (applNo != null) {
+            entireApplication = applicationService.retrieveEntireApplication(applNo);
+            CampusCollege campusCollege = applicationService.retriveCampusCollege(applNo);
+            entireApplication.setCampCode(campusCollege.getCampCode());
+            entireApplication.setCollCode(campusCollege.getCollCode());
 
             model.addAttribute("entireApplication", entireApplication);
+
+            // 지원사항 select 초기값 설정
+            List<Campus> campList = null;
+            List<College> collList = null;
+            List<AcademyResearchIndustryInstitution> ariInstList = null;
+            List<CodeNameDepartment> deptList = null;
+            List<CodeNameCourse> corsTypeList = null;
+            List<CodeNameDetailMajor> detlMajList = null;
+
+            ParamForSetupCourses param = new ParamForSetupCourses();
+            param.setAdmsNo( entireApplication.getApplication().getAdmsNo() );
+            param.setCollCode( entireApplication.getCollCode() );
+            param.setDeptCode( entireApplication.getApplication().getDeptCode() );
+            param.setCorsTypeCode( entireApplication.getApplication().getCorsTypeCode() );
+            param.setAriInstCode( entireApplication.getApplication().getAriInstCode() );
+
+            String applAttrCode = entireApplication.getApplication().getApplAttrCode();
+            if( "00001".equals( applAttrCode ) ) {
+                campList = commonService.retrieveCampus();
+                collList = commonService.retrieveCollegeByCampus( entireApplication.getCampCode() );
+                deptList = commonService.retrieveGeneralDepartmentByAdmsColl(param);
+                corsTypeList = commonService.retrieveGeneralCourseByAdmsDept(param);
+                detlMajList = commonService.retrieveGeneralDetailMajorByAdmsDeptCors(param);
+            } else if( "00002".equals( applAttrCode ) ) {
+                ariInstList = commonService.retrieveAriInst();
+                deptList = commonService.retrieveAriInstDepartmentByAdmsAriInst(param);
+                corsTypeList = commonService.retrieveAriInstCourseByAdmsDeptAriInst(param);
+                detlMajList = commonService.retrieveAriInstDetailMajorByAdmsDeptAriInst(param);
+            } else if( "00003".equals( applAttrCode ) ) {
+                campList = commonService.retrieveCampus();
+                collList = commonService.retrieveCollegeByCampus( entireApplication.getCampCode() );
+                deptList = commonService.retrieveGeneralDepartmentByAdmsColl(param);
+                corsTypeList = commonService.retrieveCommissionCourseByAdmsDept(param);
+            }
+
+            if( campList != null )      commonCodeMap.put( "campList", campList );
+            if( collList != null )      commonCodeMap.put( "collList", collList );
+            if( ariInstList != null)    commonCodeMap.put( "ariInstList", ariInstList );
+            if( deptList != null )      commonCodeMap.put( "deptList", deptList );
+            if( corsTypeList != null )  commonCodeMap.put( "corsTypeList", corsTypeList );
+            if( detlMajList != null )   commonCodeMap.put( "detlMajList", detlMajList );
+        } else {
+            entireApplication.getApplication().setAdmsNo(admsNo);
+            entireApplication.getApplication().setEntrYear(entrYear);
+            entireApplication.getApplication().setAdmsTypeCode(admsTypeCode);
         }
 
-        /* 지원구분 공통코드로 수정 필요 */
         List<CommonCode> applAttrList = commonService.retrieveCommonCodeValueByCodeGroup("APPL_ATTR");
         List<CommonCode> mltrServList = commonService.retrieveCommonCodeValueByCodeGroup("MLTR_SERV");
         List<CommonCode> mltrTypeList = commonService.retrieveCommonCodeValueByCodeGroup("MLTR_TYPE");
         List<CommonCode> mltrRankList = commonService.retrieveCommonCodeValueByCodeGroup("MLTR_RANK");
         List<CommonCode> emerContList = commonService.retrieveCommonCodeValueByCodeGroup("EMER_CONT");
 
-        Map<String, Object> commonCodeMap = new HashMap<String, Object>();
         commonCodeMap.put( "applAttrList", applAttrList );
         commonCodeMap.put( "mltrServList", mltrServList );
         commonCodeMap.put( "mltrTypeList", mltrTypeList );
@@ -245,6 +281,13 @@ public class ApplicationController {
         String message = messageResolver.getMessage("U303");
 
         return new ExecutionContext(ExecutionContext.SUCCESS, message);
+    }
+
+    @RequestMapping(value = "/modify")
+    public String modifyAppinfo(@RequestParam(value = "applNo", required = false) Integer applNo,
+                                Model model) {
+        model.addAttribute("entireApplication", applicationService.retrieveEntireApplication(applNo));
+        return "application/appinfo";
     }
 
     /**
