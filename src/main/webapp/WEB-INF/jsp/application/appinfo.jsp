@@ -1259,12 +1259,50 @@
             });
             <%-- 학교 검색 끝 --%>
 
+            <%-- 다음 주소 검색 시작 --%>
+            var postLayer = document.getElementById('postLayer');
+
+            var showDaumPostcode = function () {
+                new daum.Postcode({
+                    oncomplete: function(data) {
+                        // 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+                        // 우편번호와 주소 및 영문주소 정보를 해당 필드에 넣는다.
+                        document.getElementById('postcode1').value = data.postcode1;
+                        document.getElementById('postcode2').value = data.postcode2;
+                        document.getElementById('address').value = data.address;
+                        document.getElementById('addressDetail').focus();
+                    },
+                    width : '100%',
+                    height : '100%'
+                }).open();
+            };
+
+            $('#searchAddress').on('click', showDaumPostcode);
+            <%-- 다음 주소 검색 끝 -->
+
+            <%-- 사진 업로드 시작 --%>
+            $(document).on('change', '.btn-file :file', function() {
+                var input = $(this),
+                        numFiles = input.get(0).files ? input.get(0).files.length : 1,
+                        label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
+                input.trigger('fileselect', [numFiles, label]);
+            });
+
+            $('.btn-file :file').on('fileselect', function(event, numFiles, label) {
+
+                var input = $(this).parents('.input-group').find(':text'),
+                        log = numFiles > 1 ? numFiles + ' files selected' : label;
+
+                if( input.length ) {
+                    input.val(log);
+                } else {
+                    if( log ) alert(log);
+                }
+
+            });
+            <%-- 사진 업로드 끝 --%>
+
             var datePickerOption = {
-//                format: "yyyymmdd",
-//                startView: 2,
-//                language: "kr",
-//                forceParse: false,
-//                autoclose: true
                 dateFormat: 'yymmdd',
                 yearRange: "1950:",
                 monthNamesShort: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
@@ -1388,6 +1426,7 @@
                     $cloneObj = $(originBlock).clone(true);
                     $cloneObj.find('.input-group.date>input').datepicker('destroy');
                     updateIdAndName($cloneObj[0], blocks.length);
+                    eraseContents($cloneObj[0]);
                     container.insertBefore($cloneObj[0], originBlock.nextSibling);
                     $cloneObj.find('.input-group.date>input').datepicker(datePickerOption);
                 }
@@ -1418,6 +1457,8 @@
                 } else {
                     blockToRemove.parentNode.removeChild(blockToRemove);
                 }
+
+                mustCheckedOneRadio();
             });
 
             <%-- id, name 재설정 시작 --%>
@@ -1436,10 +1477,6 @@
                         suffix = name.substring(name.lastIndexOf(']') + 1, name.length);
                         items[i].name = prefix + '[' + index + ']' + suffix;
                         items[i].id = prefix + index + suffix;
-                        items[i].checked = false;
-                        if (items[i].type == 'text' || items[i].type == 'hidden') {
-                            items[i].value = '';
-                        }
 
                         label = block.querySelector('label[for="' + oldid + '"]');
                         if (label) {
@@ -1464,55 +1501,15 @@
                 items = block.querySelectorAll('input, select');
                 if (items) {
                     for (i = 0; i <items.length; i++) {
-                        items[i].value = "";
+                        if (items[i].type != 'checkbox' || items[i].type != 'radio') {
+                            items[i].value = "";
+                        }
+                        items[i].checked = false;
                     }
                 }
             }
             <%-- 복제된 입력폼 내용 초기화 끝 --%>
             <%-- form-group-block 추가/삭제에 대한 처리 끝 --%>
-
-            <%-- 다음 주소 검색 시작 --%>
-            var postLayer = document.getElementById('postLayer');
-
-            var showDaumPostcode = function () {
-                new daum.Postcode({
-                    oncomplete: function(data) {
-                        // 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
-                        // 우편번호와 주소 및 영문주소 정보를 해당 필드에 넣는다.
-                        document.getElementById('postcode1').value = data.postcode1;
-                        document.getElementById('postcode2').value = data.postcode2;
-                        document.getElementById('address').value = data.address;
-                        document.getElementById('addressDetail').focus();
-                    },
-                    width : '100%',
-                    height : '100%'
-                }).open();
-            };
-
-            $('#searchAddress').on('click', showDaumPostcode);
-            <%-- 다음 주소 검색 끝 -->
-
-            <%-- 사진 업로드 시작 --%>
-            $(document).on('change', '.btn-file :file', function() {
-                var input = $(this),
-                    numFiles = input.get(0).files ? input.get(0).files.length : 1,
-                    label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
-                input.trigger('fileselect', [numFiles, label]);
-            });
-
-            $('.btn-file :file').on('fileselect', function(event, numFiles, label) {
-
-                var input = $(this).parents('.input-group').find(':text'),
-                        log = numFiles > 1 ? numFiles + ' files selected' : label;
-
-                if( input.length ) {
-                    input.val(log);
-                } else {
-                    if( log ) alert(log);
-                }
-
-            });
-            <%-- 사진 업로드 끝 --%>
 
             <%-- 고등학교 졸업/검정고시 동적 변경 시작 --%>
             $('input[name="highSchool.acadTypeCode"]').change(function() {
@@ -1541,6 +1538,24 @@
                     $(this).attr('checked', $target[0] === $(this)[0]);
                 });
             });
+
+            function mustCheckedOneRadio() {
+                var list = document.querySelectorAll('.form-group-block-list'), i, j, radioGroup, checkedCount = 0;
+                for (i = 0; i < list.length; i++) {
+                    radioGroup = list[i].querySelectorAll('.radio-group');
+                    if (radioGroup && radioGroup.length > 0) {
+                        for (j = 0; j < radioGroup.length; j++) {
+                            if (radioGroup.checked) {
+                                checkedCount++;
+                            }
+                        }
+                        if (checkedCount == 0) {
+                            radioGroup[0].checked = true;
+                        }
+                    }
+                }
+            };
+            mustCheckedOneRadio();
             <%-- 최종 대학 체크 처리 끝 --%>
 
             <%-- 학연산 선택에 따른 화면 변경 시작 --%>
@@ -1655,6 +1670,7 @@
                         targetId: 'collCode',
                         valueKey: 'collCode',
                         labelKey: 'collName',
+                        clean: ['ariInstCode', 'deptCode', 'corsTypeCode', 'detlMajCode'],
                         url: function(arg) {
                             return '/college/' + arg;
                         }
@@ -1667,6 +1683,7 @@
                         targetId: 'deptCode',
                         valueKey: 'deptCode',
                         labelKey: 'deptName',
+                        clean: ['corsTypeCode', 'detlMajCode'],
                         url: function(arg) {
                             var admsNo = '${entireApplication.application.admsNo}';
                             return '/general/department/' + admsNo + '/' + arg;
@@ -1680,6 +1697,7 @@
                         targetId: 'deptCode',
                         valueKey: 'deptCode',
                         labelKey: 'deptName',
+                        clean: ['corsTypeCode', 'detlMajCode'],
                         url: function(arg) {
                             var admsNo = '${entireApplication.application.admsNo}';
                             return '/ariInst/department/' + admsNo + '/' + arg;
@@ -1693,6 +1711,7 @@
                         targetId: 'corsTypeCode',
                         valueKey: 'corsTypeCode',
                         labelKey: 'codeVal',
+                        clean: ['detlMajCode'],
                         url: function(arg) {   <%-- 지원과정 조회 --%>
                             var admsNo = '${entireApplication.application.admsNo}';
                             var applAttrCode = $('#applAttrCode').val();
