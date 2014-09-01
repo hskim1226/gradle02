@@ -159,7 +159,9 @@ public class ApplicationController {
      */
     @RequestMapping(value = "/apply/save", method = RequestMethod.POST)
     @ResponseBody
-    public ExecutionContext saveApplication(@Valid @ModelAttribute EntireApplication entireApplication, BindingResult binding, Principal principal) {
+    public ExecutionContext saveApplication(@Valid @ModelAttribute EntireApplication entireApplication,
+                                            BindingResult binding,
+                                            Principal principal) {
         if( binding.hasErrors() ) {
             return new ExecutionContext(ExecutionContext.FAIL);
         }
@@ -192,13 +194,51 @@ public class ApplicationController {
         }
 
         entireApplication.getApplication().setApplStsCode("00001");
-        String message = messageResolver.getMessage("U302"); // TODO 아래 if/else 에 의해 302메시지는 사용될 수 없음, 로직 보완 필요
+        String message = messageResolver.getMessage("U302");
         if( entireApplication.getApplication().getApplNo() == null ) {   // insert
             applicationService.createEntireApplication( entireApplication );
             message = messageResolver.getMessage("U301");
-        } else {    // update
-            message = messageResolver.getMessage("U303");
         }
+        return new ExecutionContext(ExecutionContext.SUCCESS, message);
+    }
+
+    @RequestMapping(value="/apply/update")
+    public ExecutionContext updateEntireApplication(@ModelAttribute EntireApplication entireApplication,
+                                          BindingResult binding,
+                                          Principal principal) {
+
+        if( binding.hasErrors() ) {
+            return new ExecutionContext(ExecutionContext.FAIL);
+        }
+
+        if( principal == null ) {
+            return new ExecutionContext(ExecutionContext.FAIL);
+        }
+        String userId = principal.getName();
+        entireApplication.getApplication().setModId(userId);
+        entireApplication.getApplicationGeneral().setModId(userId);
+        entireApplication.getApplicationETCWithBLOBs().setModId(userId);
+        entireApplication.getHighSchool().setModId(userId);
+        List<ApplicationAcademy> collegeList = entireApplication.getCollegeList();
+        for(ApplicationAcademy item : collegeList) {
+            item.setModId(userId);
+        }
+        List<ApplicationAcademy> graduateList = entireApplication.getGraduateList();
+        for(ApplicationAcademy item : graduateList) {
+            item.setModId(userId);
+        }
+        List<ApplicationExperience> experienceList = entireApplication.getApplicationExperienceList();
+        for(ApplicationExperience item : experienceList) {
+            item.setModId(userId);
+        }
+        List<ApplicationLanguage> languageList = entireApplication.getApplicationLanguageList();
+        for(ApplicationLanguage item : languageList) {
+            item.setModId(userId);
+        }
+
+        //TODO Call impl.updateEntireApplication
+        String message = messageResolver.getMessage("U303");
+
         return new ExecutionContext(ExecutionContext.SUCCESS, message);
     }
 
