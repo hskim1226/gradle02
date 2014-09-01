@@ -216,18 +216,29 @@
                                             <div class="form-group hidden-apply-kind-2">
                                                 <label for="campCode" class="col-sm-2 control-label">캠퍼스</label>
                                                 <div class="col-sm-3">
-                                                    <select id="campCode" class="form-control">
-                                                        <option value="-" label="--선택--" />
-                                                        <%--<c:forEach items="${common.campusList}" var="camp">--%>
+                                                    <form:select path="campCode" cssClass="form-control">
+                                                        <form:option value="-" label="--선택--" />
+                                                        <form:options items="${common.campList}" itemValue="campCode" itemLabel="campName" />
+                                                    </form:select>
+                                                    <%--<select id="campCode" class="form-control">--%>
+                                                        <%--<option value="-" label="--선택--" />--%>
+                                                        <%--<c:forEach items="${common.campList}" var="camp">--%>
                                                             <%--<option value="${camp.campCode}" label="${camp.campName}"/>--%>
                                                         <%--</c:forEach>--%>
-                                                    </select>
+                                                    <%--</select>--%>
                                                 </div>
                                                 <label for="collCode" class="col-sm-2 control-label">대학</label>
                                                 <div class="col-sm-4">
-                                                    <select id="collCode" class="form-control">
-                                                        <option value="-" label="--선택--" />
-                                                    </select>
+                                                    <form:select path="collCode" cssClass="form-control">
+                                                        <form:option value="-" label="--선택--" />
+                                                        <form:options items="${common.collList}" itemValue="collCode" itemLabel="collName" />
+                                                    </form:select>
+                                                    <%--<select id="collCode" class="form-control">--%>
+                                                        <%--<option value="-" label="--선택--" />--%>
+                                                        <%--<c:forEach items="${common.collList}" var="coll">--%>
+                                                            <%--<option value="${coll.collCode}" label="${coll.collName}"--%>
+                                                        <%--</c:forEach>--%>
+                                                    <%--</select>--%>
                                                 </div>
                                             </div>
                                             <div class="form-group hidden-apply-kind-1 hidden-apply-kind-3">
@@ -235,6 +246,7 @@
                                                 <div class="col-sm-9">
                                                     <form:select path="application.ariInstCode" id="ariInstCode" cssClass="form-control">
                                                         <form:option value="-" label="--선택--" />
+                                                        <form:options items="${common.ariInstList}" itemValue="ariInstCode" itemLabel="ariInstName" />
                                                     </form:select>
                                                 </div>
                                             </div>
@@ -243,6 +255,7 @@
                                                 <div class="col-sm-9">
                                                     <form:select path="application.deptCode" id="deptCode" cssClass="form-control">
                                                         <form:option value="-" label="--선택--" />
+                                                        <form:options items="${common.deptList}" itemValue="deptCode" itemLabel="deptCode" />
                                                     </form:select>
                                                 </div>
                                             </div>
@@ -251,6 +264,7 @@
                                                 <div class="col-sm-9">
                                                     <form:select path="application.corsTypeCode" id="corsTypeCode" cssClass="form-control">
                                                         <form:option value="-" label="--선택--" />
+                                                        <form:options items="${common.corsTypeList}" itemValue="corsTypeCode" itemLabel="codeVal" />
                                                     </form:select>
                                                 </div>
                                             </div>
@@ -259,6 +273,7 @@
                                                 <div class="col-sm-9">
                                                     <form:select path="application.detlMajCode" id="detlMajCode" cssClass="form-control">
                                                         <form:option value="-" label="--선택--" />
+                                                        <form:options items="${common.detlMajList}" itemValue="detlMajCode" itemLabel="detlMajName" />
                                                     </form:select>
                                                 </div>
                                             </div>
@@ -1559,10 +1574,12 @@
             <%-- 최종 대학 체크 처리 끝 --%>
 
             <%-- 학연산 선택에 따른 화면 변경 시작 --%>
-            $('#applAttrCode').on('change', function() {
-                var index = $(this).children('option:selected').index() + 1;
+            $('#applAttrCode').on('change', changeApplAttrCode);
+
+            function changeApplAttrCode() {
+                var index = $('#applAttrCode').find('option').filter(':selected').index() + 1;
                 hideByClassname('applyKindDynamic', 'hidden-apply-kind-' + index);
-            });
+            }
 
             function hideByClassname(parentId, hideClassname) {
                 $('#' + parentId).children().each(function() {
@@ -1573,6 +1590,8 @@
                     }
                 });
             }
+
+            changeApplAttrCode('#applAttrCode');
             <%-- 학연산 선택에 따른 화면 변경 끝 --%>
 
             <%--**select 폼 change 이벤트 처리 시작
@@ -1791,8 +1810,6 @@
             });
 
             <%-- 지원사항 select 폼 change 이벤트 핸들러 등록 끝 --%>
-
-            $('#applAttrCode').trigger('change');
 
             function initOptions( selectId, valueKey, labelKey ) {
                 var select = $('#' + selectId);
