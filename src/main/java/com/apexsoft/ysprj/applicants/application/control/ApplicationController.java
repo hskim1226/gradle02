@@ -125,9 +125,9 @@ public class ApplicationController {
             model.addAttribute("entireApplication", entireApplication);
 
             // 지원사항 select 초기값 설정
-            List<Campus> campList = null;
+            List<Campus> campList = commonService.retrieveCampus();
+            List<AcademyResearchIndustryInstitution> ariInstList = commonService.retrieveAriInst();
             List<College> collList = null;
-            List<AcademyResearchIndustryInstitution> ariInstList = null;
             List<CodeNameDepartment> deptList = null;
             List<CodeNameCourse> corsTypeList = null;
             List<CodeNameDetailMajor> detlMajList = null;
@@ -141,18 +141,18 @@ public class ApplicationController {
 
             String applAttrCode = entireApplication.getApplication().getApplAttrCode();
             if( "00001".equals( applAttrCode ) ) {
-                campList = commonService.retrieveCampus();
+//                campList = commonService.retrieveCampus();
                 collList = commonService.retrieveCollegeByCampus( entireApplication.getCampCode() );
                 deptList = commonService.retrieveGeneralDepartmentByAdmsColl(param);
                 corsTypeList = commonService.retrieveGeneralCourseByAdmsDept(param);
                 detlMajList = commonService.retrieveGeneralDetailMajorByAdmsDeptCors(param);
             } else if( "00002".equals( applAttrCode ) ) {
-                ariInstList = commonService.retrieveAriInst();
+//                ariInstList = commonService.retrieveAriInst();
                 deptList = commonService.retrieveAriInstDepartmentByAdmsAriInst(param);
                 corsTypeList = commonService.retrieveAriInstCourseByAdmsDeptAriInst(param);
                 detlMajList = commonService.retrieveAriInstDetailMajorByAdmsDeptAriInst(param);
             } else if( "00003".equals( applAttrCode ) ) {
-                campList = commonService.retrieveCampus();
+//                campList = commonService.retrieveCampus();
                 collList = commonService.retrieveCollegeByCampus( entireApplication.getCampCode() );
                 deptList = commonService.retrieveGeneralDepartmentByAdmsColl(param);
                 corsTypeList = commonService.retrieveCommissionCourseByAdmsDept(param);
