@@ -315,6 +315,24 @@
         where a.APPL_NO = #{applNo}
     </select>
 
+    <select id="selectCampusCollegeCode" parameterType="java.lang.Integer"
+            resultType="com.apexsoft.ysprj.applicants.application.domain.CampusCollege">
+        SELECT F.CAMP_CODE as campCode, E.COLL_CODE as collCode
+        FROM APPL A left outer join ARI_INST G
+        on A.ARI_INST_CODE = G.ARI_INST_CODE ,
+        APPL_ETC B, ADMS_CORS C, DEPT D, COLL E, CAMP F, DETL_MAJ I
+        WHERE
+        A.APPL_NO = B.APPL_NO
+        AND A.ADMS_NO = C.ADMS_NO
+        AND A.DEPT_CODE = C.DEPT_CODE
+        AND A.CORS_TYPE_CODE = C.CORS_TYPE_CODE
+        AND A.DEPT_CODE = D.DEPT_CODE
+        AND D.COLL_CODE = E.COLL_CODE
+        AND E.CAMP_CODE = F.CAMP_CODE
+        AND A.DETL_MAJ_CODE = I.DETL_MAJ_CODE
+        AND A.APPL_NO = #{applNo}
+    </select>
+
 
 
     <update id="updateApplicationByApplNo" parameterType="com.apexsoft.ysprj.applicants.application.domain.Application">

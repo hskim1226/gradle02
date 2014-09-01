@@ -116,7 +116,12 @@ public class ApplicationController {
                                  Model model) {
 
         if (applNo != null) {
-            model.addAttribute("entireApplication", applicationService.retrieveEntireApplication(applNo));
+            EntireApplication entireApplication1 = applicationService.retrieveEntireApplication(applNo);
+            CampusCollege campusCollege = applicationService.retriveCampusCollege(applNo);
+            entireApplication1.setCampCode(campusCollege.getCampCode());
+            entireApplication1.setCollCode(campusCollege.getCollCode());
+
+            model.addAttribute("entireApplication", entireApplication1);
         } else {
             Application application = new Application();
             application.setAdmsNo(admsNo);

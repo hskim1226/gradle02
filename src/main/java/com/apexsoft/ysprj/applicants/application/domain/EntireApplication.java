@@ -7,6 +7,9 @@ import java.util.List;
  */
 public class EntireApplication {
 
+    private String campCode;
+    private String collCode;
+
     private Application application;
     private ApplicationGeneral applicationGeneral;
     private ApplicationETCWithBLOBs applicationETCWithBLOBs;
@@ -15,6 +18,22 @@ public class EntireApplication {
     private List<ApplicationAcademy> graduateList;
     private List<ApplicationExperience> applicationExperienceList;
     private List<ApplicationLanguage> applicationLanguageList;
+
+    public String getCampCode() {
+        return campCode;
+    }
+
+    public void setCampCode(String campCode) {
+        this.campCode = campCode;
+    }
+
+    public String getCollCode() {
+        return collCode;
+    }
+
+    public void setCollCode(String collCode) {
+        this.collCode = collCode;
+    }
 
     public Application getApplication() {
         return application;
