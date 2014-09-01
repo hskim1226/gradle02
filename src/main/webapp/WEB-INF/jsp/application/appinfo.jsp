@@ -205,9 +205,9 @@
                                     <div class="panel-heading">지원 사항</div>
                                     <div class="panel-body">
                                         <div class="form-group">
-                                            <form:label path="application.applAttrCode" cssClass="col-sm-2 control-label">지원구분</form:label>
+                                            <label for="applAttrCode" class="col-sm-2 control-label">지원구분</label>
                                             <div class="col-sm-9">
-                                                <form:select path="application.applAttrCode" cssClass="form-control">
+                                                <form:select path="application.applAttrCode" id="applAttrCode" cssClass="form-control">
                                                     <form:options items="${common.applAttrList}" itemValue="code" itemLabel="codeVal"/>
                                                 </form:select>
                                             </div>
@@ -218,10 +218,9 @@
                                                 <div class="col-sm-3">
                                                     <select id="campCode" class="form-control">
                                                         <option value="-" label="--선택--" />
-                                                        <c:forEach items="${common.campusList}" var="camp">
-                                                            <option value="${camp.campCode}" label="${camp.campName}"/>
-                                                        </c:forEach>
-
+                                                        <%--<c:forEach items="${common.campusList}" var="camp">--%>
+                                                            <%--<option value="${camp.campCode}" label="${camp.campName}"/>--%>
+                                                        <%--</c:forEach>--%>
                                                     </select>
                                                 </div>
                                                 <label for="collCode" class="col-sm-2 control-label">대학</label>
@@ -1536,9 +1535,9 @@
             <%-- 고등학교 졸업/검정고시 동적 변경 시작 --%>
 
             <%-- 학연산 선택에 따른 화면 변경 시작 --%>
-            $('#applAttrCode').change(function() {
+            $('#applAttrCode').on('change', function() {
                 var index = $(this).children('option:selected').index() + 1;
-                hideByClassname('applyKindDynamic', 'hidden-apply-kind-' + index)
+                hideByClassname('applyKindDynamic', 'hidden-apply-kind-' + index);
             });
 
             function hideByClassname(parentId, hideClassname) {
@@ -1630,13 +1629,13 @@
 
             <%--지원사항 select 폼 change 이벤트 핸들러 등록 시작 --%>
             <%-- 지원구분 변경 --%>
-            attachChangeEvent( 'application.applAttrCode',
+            attachChangeEvent( 'applAttrCode',
                     {
-                        '02': {targetId: 'application.ariInstCode', valueKey: 'ariInstCode', labelKey: 'ariInstName', url: '/ariInst'}, // applAttrCode == '02'
+                        '00002': {targetId: 'ariInstCode', valueKey: 'ariInstCode', labelKey: 'ariInstName', url: '/ariInst'}, // applAttrCode == '02'
                         targetId: 'campCode',
                         valueKey: 'campCode',
                         labelKey: 'campName',
-                        clean: ['collCode', 'application.ariInstCode', 'application.deptCode', 'application.corsTypeCode', 'application.detlMajCode'],
+                        clean: ['collCode', 'ariInstCode', 'deptCode', 'corsTypeCode', 'detlMajCode'],
                         url: '/campus'
                     }
             );
@@ -1656,7 +1655,7 @@
             <%-- 대학변경 --%>
             attachChangeEvent( 'collCode',
                     {
-                        targetId: 'application.deptCode',
+                        targetId: 'deptCode',
                         valueKey: 'deptCode',
                         labelKey: 'deptName',
                         url: function(arg) {
@@ -1667,9 +1666,9 @@
             );
 
             <%-- 학연산 변경 --%>
-            attachChangeEvent( 'application.ariInstCode',
+            attachChangeEvent( 'ariInstCode',
                     {
-                        targetId: 'application.deptCode',
+                        targetId: 'deptCode',
                         valueKey: 'deptCode',
                         labelKey: 'deptName',
                         url: function(arg) {
@@ -1680,19 +1679,19 @@
             );
 
             <%-- 지원학과 변경 --%>
-            attachChangeEvent( 'application.deptCode',
+            attachChangeEvent( 'deptCode',
                     {
-                        targetId: 'application.corsTypeCode',
+                        targetId: 'corsTypeCode',
                         valueKey: 'corsTypeCode',
                         labelKey: 'codeVal',
                         url: function(arg) {   <%-- 지원과정 조회 --%>
                             var admsNo = '${entireApplication.application.admsNo}';
-                            var applAttrCode = $('#application.applAttrCode').val();
-                            if (applAttrCode == '01') {
+                            var applAttrCode = $('#applAttrCode').val();
+                            if (applAttrCode == '00001') {
                                 return '/general/course/' + admsNo + '/' + arg;
-                            } else if (applAttrCode == '02') {
+                            } else if (applAttrCode == '00002') {
                                 return '/ariInst/course/' + admsNo + "/" + arg + "/" + $('#ariInstCode').val();
-                            } else if (applAttrCode == '03') {
+                            } else if (applAttrCode == '00003') {
                                 return '/commission/course/' + admsNo + '/' + arg;
                             }
                         }
@@ -1700,26 +1699,26 @@
             );
 
             <%-- 지원과정 변경 --%>
-            attachChangeEvent( 'application.corsTypeCode',
+            attachChangeEvent( 'corsTypeCode',
                     {
-                        targetId: 'application.detlMajCode',
+                        targetId: 'detlMajCode',
                         valueKey: 'detlMajCode',
                         labelKey: 'detlMajName',
                         url: function(arg) {
                             var admsNo = '${entireApplication.application.admsNo}';
-                            var applAttrCode = $('#application.applAttrCode').val();
-                            if (applAttrCode == '01') {
+                            var applAttrCode = $('#applAttrCode').val();
+                            if (applAttrCode == '00001') {
                                 return '/general/detailMajor/' + admsNo + '/' + $('#deptCode').val() + '/' + arg;
-                            } else if (applAttrCode == '02') {
+                            } else if (applAttrCode == '00002') {
                                 return '/ariInst/detailMajor/' + admsNo + "/" + $('#deptCode').val() + "/" + $('#ariInstCode').val() + '/' + arg;
-                            } else if (applAttrCode == '03') {
+                            } else if (applAttrCode == '00003') {
                                 // nothing
                             }
                         }
                     }
             );
 
-            $('#application.detlMajCode').on('change', function(event) {
+            $('#detlMajCode').on('change', function(event) {
                 var selected = this.options[this.selectedIndex];
                 var val = selected.value;
                 var parent = this.parentNode.parentNode;
@@ -1765,7 +1764,7 @@
 
             <%-- 지원사항 select 폼 change 이벤트 핸들러 등록 끝 --%>
 
-            $('#applAttrCode').change();
+            $('#applAttrCode').trigger('change');
 
             function initOptions( selectId, valueKey, labelKey ) {
                 var select = $('#' + selectId);
