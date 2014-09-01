@@ -9,14 +9,12 @@ import java.util.List;
  */
 public interface ApplicationService {
 
-    int createApplication(Application application);
-    int createApplicationGeneral(ApplicationGeneral applicationGeneral);
-    int createApplicationETCWithBLOBs(ApplicationETCWithBLOBs applicationETCWithBLOBs);
-    int createApplicationHighSchool(ApplicationAcademy applicationAcademy);
-    int createApplicationAcademy(List<ApplicationAcademy> applicationAcademyList);
-    int createExperience(List<ApplicationExperience> applicationExperienceList);
-    int createLanguage(List<ApplicationLanguage> applicationLanguageList);
+    <T> int insertItem(T item, String MapperName);
+    <T> int insertList(List<T> list, String MapperName);
     String createEntireApplication(EntireApplication entireApplication);
+
+    <T> int updateItem(T item, String MapperName);
+    <T> int updateList(List<T> list, String MapperName);
 
     EntireApplication retrieveEntireApplication(int applNo);
     List<ApplicationAcademy> retrieveAcademyList(ParamForAcademy paramForAcademy);

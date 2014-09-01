@@ -1,5 +1,6 @@
 package com.apexsoft.ysprj.applicants.application.service;
 
+import com.apexsoft.framework.common.vo.ExecutionContext;
 import com.apexsoft.framework.persistence.dao.CommonDAO;
 import com.apexsoft.ysprj.applicants.application.domain.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,69 +23,22 @@ public class ApplicationServiceImpl implements ApplicationService {
     private CommonDAO commonDAO;
 
     @Override
-    public int createApplication(Application application) {
-        if ( application != null)
-            return commonDAO.insert(NAME_SPACE + "ApplicationMapper.insertSelective", application);
+    public <T> int insertItem(T item, String MapperName) {
+        if ( item != null) {
+            return commonDAO.insert(NAME_SPACE + MapperName + ".insertSelective", item);
+        }
         return 0;
     }
 
     @Override
-    public int createApplicationGeneral(ApplicationGeneral applicationGeneral) {
-        if ( applicationGeneral != null)
-            return commonDAO.insert(NAME_SPACE + "ApplicationGeneralMapper.insertSelective", applicationGeneral);
-        return 0;
-    }
-
-    @Override
-    public int createApplicationETCWithBLOBs(ApplicationETCWithBLOBs applicationETCWithBLOBs) {
-        if ( applicationETCWithBLOBs != null )
-            return commonDAO.insert(NAME_SPACE + "ApplicationETCMapper.insertSelective", applicationETCWithBLOBs);
-        return 0;
-    }
-
-    @Override
-    public int createApplicationHighSchool(ApplicationAcademy applicationAcademy) {
-        if ( applicationAcademy != null )
-            return commonDAO.insert(NAME_SPACE + "ApplicationAcademyMapper.insertSelective", applicationAcademy);
-        return 0;
-    }
-
-    @Override
-    public int createApplicationAcademy(List<ApplicationAcademy> applicationAcademyList) {
+    public <T> int insertList(List<T> list, String MapperName) {
         int i = 0;
-        if ( applicationAcademyList != null ) {
-            for ( ApplicationAcademy applicationAcademy : applicationAcademyList) {
-                commonDAO.insert(NAME_SPACE + "ApplicationAcademyMapper.insertSelective", applicationAcademy);
+        if ( list != null ) {
+            for ( T item : list) {
+                insertItem(item, MapperName);
                 i++;
             }
         }
-
-        return i;
-    }
-
-    @Override
-    public int createLanguage(List<ApplicationLanguage> applicationLanguageList) {
-        int i = 0;
-        if ( applicationLanguageList != null ) {
-            for ( ApplicationLanguage applicationLanguage : applicationLanguageList) {
-                commonDAO.insert(NAME_SPACE + "ApplicationLanguageMapper.insertSelective", applicationLanguage);
-                i++;
-            }
-        }
-
-        return i;
-    }
-
-    @Override
-    public int createExperience(List<ApplicationExperience> applicationExperienceList) {
-        int i = 0;
-        if ( applicationExperienceList != null ) {
-            for ( ApplicationExperience applicationExprience : applicationExperienceList) {
-                commonDAO.insert(NAME_SPACE + "ApplicationExperienceMapper.insertSelective", applicationExprience);
-                i++;
-            }
-        }
-
         return i;
     }
 
@@ -107,22 +61,22 @@ public class ApplicationServiceImpl implements ApplicationService {
 
         try {
             entireApplication.getApplication().setCreDate(new Date());
-            r1 = createApplication(entireApplication.getApplication());
+            r1 = insertItem(entireApplication.getApplication(), "ApplicationMapper");
             Application tA = retrieveApplicationForInsertOthers(entireApplication.getApplication());
             applNo = tA.getApplNo();
 
             entireApplication.getApplicationGeneral().setApplNo(applNo);
             entireApplication.getApplicationGeneral().setCreDate(new Date());
-            r2 = createApplicationGeneral(entireApplication.getApplicationGeneral());
+            r2 = insertItem(entireApplication.getApplicationGeneral(), "ApplicationGeneralMapper");
 
             entireApplication.getApplicationETCWithBLOBs().setApplNo(applNo);
             entireApplication.getApplicationETCWithBLOBs().setCreDate(new Date());
-            r3 = createApplicationETCWithBLOBs(entireApplication.getApplicationETCWithBLOBs());
+            r3 = insertItem(entireApplication.getApplicationETCWithBLOBs(), "ApplicationETCMapper");
 
             entireApplication.getHighSchool().setApplNo(applNo);
             entireApplication.getHighSchool().setAcadSeq(1);
             entireApplication.getHighSchool().setCreDate(new Date());
-            r4 = createApplicationHighSchool(entireApplication.getHighSchool());
+            r4 = insertItem(entireApplication.getHighSchool(), "ApplicationAcademyMapper");
 
             List<ApplicationAcademy> collegeList = entireApplication.getCollegeList();
             int idx = 1;
@@ -133,7 +87,7 @@ public class ApplicationServiceImpl implements ApplicationService {
                     college.setAcadSeq(++idx);
                     college.setCreDate(date);
                 }
-                r5 = createApplicationAcademy(collegeList);
+                r5 = insertList(collegeList, "ApplicationAcademyMapper");
             }
 
             List<ApplicationAcademy> graduateList = entireApplication.getGraduateList();
@@ -144,7 +98,7 @@ public class ApplicationServiceImpl implements ApplicationService {
                     graduate.setAcadSeq(++idx);
                     graduate.setCreDate(date);
                 }
-                r6 = createApplicationAcademy(graduateList);
+                r6 = insertList(graduateList, "ApplicationAcademyMapper");
             }
 
             List<ApplicationExperience> applicationExperienceList = entireApplication.getApplicationExperienceList();
@@ -156,7 +110,7 @@ public class ApplicationServiceImpl implements ApplicationService {
                     experience.setExprSeq(++idx);
                     experience.setCreDate(date);
                 }
-                r7 = createExperience(applicationExperienceList);
+                r7 = insertList(applicationExperienceList, "ApplicationExperienceMapper");
             }
 
             List<ApplicationLanguage> applicationLanguageList = entireApplication.getApplicationLanguageList();
@@ -168,7 +122,7 @@ public class ApplicationServiceImpl implements ApplicationService {
                     applicationLanguage.setLangSeq(++idx);
                     applicationLanguage.setCreDate(date);
                 }
-                r8 = createLanguage(applicationLanguageList);
+                r8 = insertList(applicationLanguageList, "ApplicationLanguageMapper");
             }
 
 
@@ -180,8 +134,52 @@ public class ApplicationServiceImpl implements ApplicationService {
         return parity;
     }
 
+    @Override
+    public <T> int updateItem(T item, String MapperName) {
+        if ( item != null)
+            return commonDAO.update(NAME_SPACE + MapperName + ".updateByPrimaryKeySelective", item);
+        return 0;
+    }
 
+    @Override
+    public <T> int updateList(List<T> list, String MapperName) {
+        int idx = 0;
+        if ( list != null) {
 
+            for (T item : list) {
+                updateItem(item, MapperName);
+                ++idx;
+            }
+        }
+        return idx;
+    }
+//
+//    @Override
+//    public String updateEntireApplication(EntireApplication entireApplication) {
+//        int r1 = 0;
+//        int applNo = entireApplication.getApplication().getApplNo();
+//        int r2 = 0;
+//        int r3 = 0;
+//        int r4 = 0;
+//        int r5 = 0;
+//        int r6 = 0;
+//        int r7 = 0;
+//        int r8 = 0;
+//
+//        try {
+//            entireApplication.getApplication().setModDate(new Date());
+//            r1 = createApplication(entireApplication.getApplication());
+//            Application tA = retrieveApplicationForInsertOthers(entireApplication.getApplication());
+//            applNo = tA.getApplNo();
+//
+//            entireApplication.getApplicationGeneral().setApplNo(applNo);
+//            entireApplication.getApplicationGeneral().setCreDate(new Date());
+//            r2 = createApplicationGeneral(entireApplication.getApplicationGeneral());
+//        } catch ( Exception e ) {
+//            e.printStackTrace();
+//        }
+//        return null;
+//    }
 
     @Override
     public EntireApplication retrieveEntireApplication(int applNo) {
