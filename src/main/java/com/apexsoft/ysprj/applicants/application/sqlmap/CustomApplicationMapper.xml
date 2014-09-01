@@ -72,15 +72,36 @@
         select
         <include refid="Base_Column_List" />
         from APPL
-        where USER_ID = #{userId},
-        and ADMS_NO = #{admsNo},
-        and ENTR_YEAR = #{deptCode},
-        and ADMS_TYPE_CODE = #{ariInsstCode},
-        and APPL_ATTR_CODE = #{corsTypeCode},
-        and DEPT_CODE = #{detlMajCode},
-        and ARI_INST_CODE = #{inpDetlMaj},
-        and CORS_TYPE_CODE = #{partTimeYn},
-        and DETL_MAJ_CODE = #{korName}
+        where USER_ID = #{userId}
+        and ADMS_NO = #{admsNo}
+        and ENTR_YEAR = #{entrYear}
+        and ADMS_TYPE_CODE = #{admsTypeCode}
+        and APPL_ATTR_CODE = #{applAttrCode}
+        and DEPT_CODE = #{deptCode}
+        and ARI_INST_CODE = #{ariInstCode}
+        and CORS_TYPE_CODE = #{corsTypeCode}
+        and DETL_MAJ_CODE = #{detlMajCode}
+        <!--and INP_DETL_MAJ = #{inpDetlMaj}-->
+        <!--and PART_TIME_YN = #{partTimeYn}-->
+        <!--and KOR_NAME = #{korName}-->
+        <!--and CHN_NAME = #{chnName}-->
+        <!--and ENG_SUR = #{engSur}-->
+        <!--and ENG_NAME = #{engName}-->
+        <!--and RGST_NO = #{rgstNo}-->
+        <!--and ZIP_CODE = #{zipCode}-->
+        <!--and ADDR = #{addr}-->
+        <!--and DETL_ADDR = #{detlAddr}-->
+        <!--and TEL_NUM = #{telNum}-->
+        <!--and MOBI_NUM = #{mobiNum}-->
+        <!--and FAX_NUM = #{faxNum}-->
+        <!--and MAIL_ADDR = #{mailAddr}-->
+        <!--and APPL_ID = #{applId}-->
+        <!--and APPL_STS_CODE = #{applStsCode}-->
+        <!--and PRIV_INFO_YN = #{privInfoYn}-->
+        <!--and CRE_ID = #{creId}-->
+        <!--and CRE_DATE = #{creDate}-->
+        <!--and MOD_ID = #{modId}-->
+        <!--and MOD_DATE = #{modDate}-->
     </select>
 
     <select id="selectApplByUserId"
