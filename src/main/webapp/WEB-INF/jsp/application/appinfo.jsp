@@ -1187,6 +1187,11 @@
     <input type="hidden" id="targetNode3" />
     <%-- 학교 검색 팝업 --%>
 
+    <%-- 다음 주소 검색 팝업 --%>
+    <div id="postLayer" style="display:none;border:5px solid;position:fixed;width:300px;height:460px;left:50%;margin-left:-155px;top:50%;margin-top:-235px;overflow:hidden;-webkit-overflow-scrolling:touch;z-index:2;background-color:#fff;color: #111;">
+        <img src="${contextPath}/img/user/addr-close.png" id="btnClosePostLayer" style="cursor:pointer;position:absolute;right:-3px;top:-3px" alt="닫기 버튼">
+    </div>
+
 </section>
 <content tag="local-script">
     <%--<script src="${contextPath}/js/postcode.js"></script>--%>
@@ -1262,6 +1267,13 @@
             <%-- 다음 주소 검색 시작 --%>
             var postLayer = document.getElementById('postLayer');
 
+            var closeDaumPostCode = function () {
+                // iframe을 넣은 element를 안보이게 한다.
+                postLayer.style.display = 'none';
+            };
+
+            $('#btnClosePostLayer').on('click', closeDaumPostCode);
+
             var showDaumPostcode = function () {
                 new daum.Postcode({
                     oncomplete: function(data) {
@@ -1271,10 +1283,15 @@
                         document.getElementById('postcode2').value = data.postcode2;
                         document.getElementById('address').value = data.address;
                         document.getElementById('addressDetail').focus();
+                        // iframe을 넣은 element를 안보이게 한다.
+                        closeDaumPostCode();
                     },
                     width : '100%',
                     height : '100%'
-                }).open();
+                }).embed(postLayer);
+
+                // iframe을 넣은 element를 보이게 한다.
+                postLayer.style.display = 'block';
             };
 
             $('#searchAddress').on('click', showDaumPostcode);
