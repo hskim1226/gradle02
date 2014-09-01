@@ -445,7 +445,7 @@
                                     <div class="form-group">
                                         <form:label path="application.mailAddr" cssClass="col-sm-2 control-label">E-mail</form:label>
                                         <div class="col-sm-9">
-                                            <form:input path="application.mailAddr" cssClass="form-control" />
+                                            <form:input path="application.mailAddr" type="email" cssClass="form-control" />
                                         </div>
                                     </div>
                                 </div>
