@@ -25,5 +25,6 @@ public interface ApplicationService {
     Application retrieveApplication(int applNo);
 
     Application retrieveApplicationForInsertOthers(ParamForInitialApply paramForInitialApply);
+    Application retrieveApplicationForInsertOthers(Application application);
     List<CustomMyList> retrieveMyList(ParamForApplication paramForApplication);
 }

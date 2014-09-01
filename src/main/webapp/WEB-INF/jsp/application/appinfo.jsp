@@ -1166,17 +1166,19 @@
                 </div>
                 <button id="bpopBtnSearchSchool" class="btn btn-info col-sm-2">검색</button>
             </div>
-            <div>
-                <table class="table table-stripped">
-                    <thead>
-                    <tr>
-                        <th>&nbsp;</th>
-                        <th>학교 이름</th>
-                    </tr>
-                    </thead>
-                    <tbody id="bpopResultSchool">
-                    </tbody>
-                </table>
+            <div class="form-group">
+                <div class="col-sm-12" style="overflow-y: auto; height: 300px;">
+                    <table class="table table-stripped">
+                        <thead>
+                        <tr>
+                            <th>&nbsp;</th>
+                            <th>학교 이름</th>
+                        </tr>
+                        </thead>
+                        <tbody id="bpopResultSchool">
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
@@ -1221,10 +1223,12 @@
                     $('#bpopContentSchool').find('#searchTitle').text(title);
                 }
                 $('#bpopContainerSchool').bPopup();
+                document.getElementById('bpopSchl').focus();
             });
 
             $('#bpopBtnSearchSchool').on('click', function(e) {
-                var c = $('#bpopContentSchool').attr('data-category')
+                var c = $('#bpopContentSchool').attr('data-category');
+                $('#bpopResultSchool').empty();
                 $.ajax({
                     type: 'GET',
                     url: '${contextPath}/common/code/school/' + c + '/' + encodeURIComponent($('#bpopSchl').val()),

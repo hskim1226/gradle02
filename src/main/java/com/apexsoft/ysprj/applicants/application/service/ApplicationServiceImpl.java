@@ -107,7 +107,8 @@ public class ApplicationServiceImpl implements ApplicationService {
         try {
 
             r1 = createApplication(entireApplication.getApplication());
-            applNo = retrieveApplicationForInsertOthers(p).getApplNo();
+            Application tA = retrieveApplicationForInsertOthers(entireApplication.getApplication());
+            applNo = tA.getApplNo();
 
             entireApplication.getApplicationGeneral().setApplNo(applNo);
             r2 = createApplicationGeneral(entireApplication.getApplicationGeneral());
@@ -253,6 +254,20 @@ public class ApplicationServiceImpl implements ApplicationService {
         }
 
         return application;
+    }
+
+    @Override
+    public Application retrieveApplicationForInsertOthers(Application application) {
+        Application rApplication = null;
+        try {
+            rApplication = commonDAO.queryForObject(NAME_SPACE + "CustomApplicationMapper.selectApplByApplForInsertOthers",
+                    application,
+                    Application.class);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return rApplication;
     }
 
     public List<CustomMyList> retrieveMyList(ParamForApplication paramForApplication) {
