@@ -1294,7 +1294,7 @@
                     validating: 'glyphicon glyphicon-refresh'
                 },
                 fields: {
-                    rgstNo: {
+                    "application.rgstNo": {
                         validators: {
                             regexp: {
                                 regexp: /^\d{6}-[1234]\d{6}/,
@@ -1302,10 +1302,10 @@
                             }
                         }
                     },
-                    telNum: {
+                    "application.telNum": {
                         validators: numericValidator
                     },
-                    mobiNum: {
+                    "application.mobiNum": {
                         validators: numericValidator
                     },
                     "applicationGeneral.emerContTel": {
@@ -1537,7 +1537,6 @@
             <%-- 고등학교 졸업/검정고시 동적 변경 시작 --%>
 
             <%-- 최종 대학 체크 처리 시작 --%>
-
             $('.radio-group').on('click', function(e) {
                 var $target = $(this);
                 var $container = $target.parents('.form-group-block-list');
