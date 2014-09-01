@@ -220,12 +220,6 @@
                                                         <form:option value="-" label="--선택--" />
                                                         <form:options items="${common.campList}" itemValue="campCode" itemLabel="campName" />
                                                     </form:select>
-                                                    <%--<select id="campCode" class="form-control">--%>
-                                                        <%--<option value="-" label="--선택--" />--%>
-                                                        <%--<c:forEach items="${common.campList}" var="camp">--%>
-                                                            <%--<option value="${camp.campCode}" label="${camp.campName}"/>--%>
-                                                        <%--</c:forEach>--%>
-                                                    <%--</select>--%>
                                                 </div>
                                                 <label for="collCode" class="col-sm-2 control-label">대학</label>
                                                 <div class="col-sm-4">
@@ -233,12 +227,6 @@
                                                         <form:option value="-" label="--선택--" />
                                                         <form:options items="${common.collList}" itemValue="collCode" itemLabel="collName" />
                                                     </form:select>
-                                                    <%--<select id="collCode" class="form-control">--%>
-                                                        <%--<option value="-" label="--선택--" />--%>
-                                                        <%--<c:forEach items="${common.collList}" var="coll">--%>
-                                                            <%--<option value="${coll.collCode}" label="${coll.collName}"--%>
-                                                        <%--</c:forEach>--%>
-                                                    <%--</select>--%>
                                                 </div>
                                             </div>
                                             <div class="form-group hidden-apply-kind-1 hidden-apply-kind-3">
