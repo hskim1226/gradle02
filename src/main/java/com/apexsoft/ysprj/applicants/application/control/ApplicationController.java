@@ -180,6 +180,14 @@ public class ApplicationController {
         return new ExecutionContext(ExecutionContext.SUCCESS, message);
     }
 
+    /**
+     * application 표시
+     *
+     * @param applNo
+     * @param model
+     * @return
+     * @throws JsonProcessingException
+     */
     @RequestMapping(value="/show/{applNo}", produces="text/html;charset=UTF-8")
     @ResponseBody
     public String showApplication(@PathVariable("applNo") int applNo, Model model)
