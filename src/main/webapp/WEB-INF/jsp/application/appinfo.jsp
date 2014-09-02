@@ -194,7 +194,7 @@
             <li><a href="#studyplan" data-toggle="tab">학업 및 연구 계획서</a></li>
             <li><a href="#fileupload" data-toggle="tab">첨부파일</a></li>
         </ul>
-        <form:form commandName="entireApplication" cssClass="form-horizontal" action="apply/save" method="post" role="form">
+        <form:form commandName="entireApplication" cssClass="form-horizontal" action="apply/save" method="post" enctype="multipart/form-data" role="form">
             <div id="myTabContent" class="tab-content">
                 <div class="tab-pane fade" id="appinfo">
                     <div class="spacer-tiny"></div>
@@ -1433,39 +1433,69 @@
             });
 
             <%-- 지원정보 submit 이벤트 --%>
-            $('#entireApplication').on('submit', function(event) {
-                var $form = $(this);
-                var $formUrl = $form.attr('action');
-
+//            var beforeFormSubmit = function (arr, formObj, options) {
+//                $('input.radio-group').filter(function() {
+//                    return this.checked == false;
+//                }).each(function() {
+//                    arr.push({name: this.name, value: 'N'});
+//                });
+//console.log('in beforeSubmit');
+//console.dir(formObj);
+//            };
+//
+//            var beforeFormSerialize = function (formObj, options) {
+//
+//console.log('in beforeSerialize');
+//console.dir(formObj);
+//            };
+//
+            var makeFormData = function (formObj) {
                 $('input.radio-group').filter(function() {
                     return this.checked == false;
                 }).each(function() {
-                    $formData.push({name: this.name, value: 'N'});
+                    formObj.serializeArray().push({name: this.name, value: 'N'});
                 });
+            };
 
-                $(this).ajaxSubmit({
-                    url: 'apply/saveandupload',
-                    type: 'POST',
-                    timeout: 5000,
-                    success: function (context) {
-                        if (context.result == 'SUCCESS') {
-                            var innerData = context.data;
-                            var message = context.message;
-                            var alert = createAlert(message);
-                            $('#alert-container').append(alert);
-                            window.setTimeout(function() { alert.alert('close') }, 2000);
+            $('#entireApplication').on('submit', function(event) {
+                var $form = $(this),
+                    options = {
+//                        beforeSubmit: beforeFormSubmit,
+//                        beforeSerialize: beforeFormSerialize,
+                        data: makeFormData($form),
+                        timeout: 5000,
+                        success: function (context) {
+                            if (context.result == 'SUCCESS') {
+                                var message = context.message;
+                                var alert = createAlert(message);
+                                $('#alert-container').append(alert);
+                                window.setTimeout(function() { alert.alert('close') }, 2000);
+                            }
+                        },
+                        error: function(e) {
+                            if (console) console.log(e);
                         }
-                    },
-                    error: function(e) {
-                        alert(e);
-                    }
-                });
+                    };
+
+                $(this).ajaxSubmit(options);
 
                 // !!! Important !!!
                 // always return false to prevent standard browser submit and page navigation
                 event.preventDefault();
                 return false;
+            });
 
+//            $('#entireApplication').on('submit', function(event) {
+//                var $form = $(this);
+//                var $formUrl = $form.attr('action');
+//                var $formData = $form.serializeArray();
+//
+//                $('input.radio-group').filter(function() {
+//                    return this.checked == false;
+//                }).each(function() {
+//                    $formData.push({name: this.name, value: 'N'});
+//                });
+//
 //                $.ajax({
 //                    url: $formUrl,
 //                    type: 'POST',
@@ -1473,7 +1503,6 @@
 //                    timeout: 5000,
 //                    success: function (context) {
 //                        if (context.result == 'SUCCESS') {
-//                            var innerData = context.data;
 //                            var message = context.message;
 //                            var alert = createAlert(message);
 //                            $('#alert-container').append(alert);
@@ -1484,7 +1513,7 @@
 //                    }
 //                });
 //                event.preventDefault();
-            });
+//            });
 
             <%-- alert 생성 --%>
             function createAlert(message) {
@@ -1512,15 +1541,6 @@
                 $curForm.each(function() {
                     this.reset();
                 });
-            });
-
-            <%-- TODO 파일업로드용 버튼 --%>
-            $('#saveandupload').on('click', function() {
-                var ea = document.getElementById('entireApplication');
-                ea.setAttribute("enctype", "multipart/form-data");
-                ea.setAttribute("action", "apply/saveandupload");
-                console.dir(ea);
-                $('#entireApplication').trigger('submit');
             });
 
             <%-- form-group-block 추가/삭제에 대한 처리 시작 --%>
