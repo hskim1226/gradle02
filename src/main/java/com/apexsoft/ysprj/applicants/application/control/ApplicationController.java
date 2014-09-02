@@ -116,13 +116,13 @@ public class ApplicationController {
 
         Map<String, Object> commonCodeMap = new HashMap<String, Object>();
 
-        if (applNo != null) {
-            entireApplication = applicationService.retrieveEntireApplication(applNo);
+        if( applNo != null ) {
+//            if( applNo != entireApplication.getApplication().getApplNo() ) {
+                entireApplication = applicationService.retrieveEntireApplication(applNo);
+//            }
             CampusCollege campusCollege = applicationService.retriveCampusCollege(applNo);
             entireApplication.setCampCode(campusCollege.getCampCode());
             entireApplication.setCollCode(campusCollege.getCollCode());
-
-            model.addAttribute("entireApplication", entireApplication);
 
             // 지원사항 select 초기값 설정
             List<Campus> campList = null;
@@ -165,6 +165,9 @@ public class ApplicationController {
             if( corsTypeList != null )  commonCodeMap.put( "corsTypeList", corsTypeList );
             if( detlMajList != null )   commonCodeMap.put( "detlMajList", detlMajList );
         } else {
+//            if( entireApplication.getApplication().getApplNo() != null) {
+//                entireApplication = entireApplication();
+//            }
             entireApplication.getApplication().setAdmsNo(admsNo);
             entireApplication.getApplication().setEntrYear(entrYear);
             entireApplication.getApplication().setAdmsTypeCode(admsTypeCode);
@@ -175,17 +178,23 @@ public class ApplicationController {
             if( ariInstList != null)    commonCodeMap.put( "ariInstList", ariInstList );
         }
 
+        model.addAttribute("entireApplication", entireApplication);
+
         List<CommonCode> applAttrList = commonService.retrieveCommonCodeValueByCodeGroup("APPL_ATTR");
         List<CommonCode> mltrServList = commonService.retrieveCommonCodeValueByCodeGroup("MLTR_SERV");
         List<CommonCode> mltrTypeList = commonService.retrieveCommonCodeValueByCodeGroup("MLTR_TYPE");
         List<CommonCode> mltrRankList = commonService.retrieveCommonCodeValueByCodeGroup("MLTR_RANK");
         List<CommonCode> emerContList = commonService.retrieveCommonCodeValueByCodeGroup("EMER_CONT");
+        List<CommonCode> toflTypeList = commonService.retrieveCommonCodeValueByCodeGroup("TOFL_TYPE");
+        List<CommonCode> fornExmpList = commonService.retrieveCommonCodeValueByCodeGroup("TOFL_TYPE");
 
         commonCodeMap.put( "applAttrList", applAttrList );
         commonCodeMap.put( "mltrServList", mltrServList );
         commonCodeMap.put( "mltrTypeList", mltrTypeList );
         commonCodeMap.put( "mltrRankList", mltrRankList );
         commonCodeMap.put( "emerContList", emerContList );
+        commonCodeMap.put( "toflTypeList", toflTypeList );
+        commonCodeMap.put( "fornExmpList", fornExmpList );
 
         model.addAttribute( "common", commonCodeMap );
 
@@ -244,6 +253,8 @@ public class ApplicationController {
         if( entireApplication.getApplication().getApplNo() == null ) {   // insert
             applicationService.createEntireApplication( entireApplication );
             message = messageResolver.getMessage("U301");
+        } else {    // update
+            applicationService.updateEntireApplication( entireApplication );
         }
         return new ExecutionContext(ExecutionContext.SUCCESS, message);
     }

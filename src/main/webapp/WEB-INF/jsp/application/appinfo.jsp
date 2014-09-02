@@ -710,14 +710,14 @@
                             <div class="panel panel-default">
                                 <div class="panel-heading">어학성적</div>
                                 <div class="panel-body">
-                                    <div class="form-group">
+                                    <div class="form-group" id="foreign-toefl">
                                         <label class="col-sm-2 control-label">영어</label>
                                         <div class="col-sm-4">
                                             <div class="checkbox" style="float:left;">
-                                                <label><input type="checkbox" />TOEFL</label>
+                                                <label><input type="checkbox" class="check-submit" disabled />TOEFL</label>
                                             </div>
                                             <div style="width:70%; float:right;">
-                                                <select class="form-control">
+                                                <select pathcssClass="form-control">
                                                     <option value="-" label="--선택--" />
                                                 </select>
                                             </div>
@@ -738,7 +738,7 @@
                                     <div class="form-group">
                                         <div class="col-sm-offset-2 col-sm-4">
                                             <div class="checkbox">
-                                                <label><input type="checkbox" />GRE</label>
+                                                <label><input type="checkbox" />TOEIC</label>
                                             </div>
                                         </div>
                                         <div class="col-sm-3">
@@ -1616,10 +1616,12 @@
                 items = block.querySelectorAll('input, select');
                 if (items) {
                     for (i = 0; i <items.length; i++) {
-                        if (items[i].type != 'checkbox' || items[i].type != 'radio') {
-                            items[i].value = "";
+                        if (items[i].type != 'hidden' && items[i].type != 'radio' && items[i].type != 'checkbox') {
+                            items[i].value = '';
                         }
-                        items[i].checked = false;
+                        if (items[i].checked != null) {
+                            items[i].checked = false;
+                        }
                     }
                 }
             }
@@ -1627,7 +1629,7 @@
             <%-- form-group-block 추가/삭제에 대한 처리 끝 --%>
 
             <%-- 고등학교 졸업/검정고시 동적 변경 시작 --%>
-            $('input[name="highSchool.acadTypeCode"]').change(function() {
+            $('input[name="highSchool.acadTypeCode"]').on('change', function() {
                 var radioValue = $(this).val();
                 if (radioValue == '00001') {
                     hideExclude('highschoolSubContainer1');
@@ -1643,7 +1645,7 @@
                 $('#' + excludeId).show();
             }
 
-            $('input[name="highSchool.acadTypeCode"]').eq(0).click();
+            $('input[name="highSchool.acadTypeCode"]').trigger('change');
             <%-- 고등학교 졸업/검정고시 동적 변경 시작 --%>
 
             <%-- 최종 대학 체크 처리 시작 --%>
