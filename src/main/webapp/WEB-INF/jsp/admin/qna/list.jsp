@@ -37,7 +37,7 @@
                             <tr>
                                 <th><label for="sCampus">검색대상</label></th>
                                 <td>
-                                    <select id="sCampus">
+                                    <select id="sCampus" name="searchCondition">
                                         <option value="1">제목</option>
                                         <option value="2">질문</option>
                                     </select>

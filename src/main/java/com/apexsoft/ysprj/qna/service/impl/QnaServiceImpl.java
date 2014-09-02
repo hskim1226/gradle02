@@ -35,7 +35,7 @@ public class QnaServiceImpl implements QnaService{
             public String getDataStatementId() {
                 return NAME_SPACE+"selectQnaList";
             }
-        }, new UserSearchForm(), qnaSearchForm.getPageNum(), qnaSearchForm.getPageRows() );
+        }, qnaSearchForm, qnaSearchForm.getPageNum(), qnaSearchForm.getPageRows() );
     }
 
     @Override

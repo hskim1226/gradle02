@@ -1,5 +1,8 @@
 package com.apexsoft.ysprj.qna.web.form;
 
+import com.apexsoft.framework.persistence.dao.page.PageInfo;
+import com.apexsoft.framework.persistence.dao.page.PagenateInfo;
+
 /**
  * Created with IntelliJ IDEA.
  * User: zbum
