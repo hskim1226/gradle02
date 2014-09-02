@@ -1,6 +1,6 @@
 package com.apexsoft.framework.web.bind;
 
-import com.apexsoft.framework.persistence.file.PersistenceManager;
+import com.apexsoft.framework.persistence.file.FilePersistenceManager;
 import com.apexsoft.framework.web.file.FileHandler;
 import com.apexsoft.framework.web.file.FileHandlerImpl;
 import com.apexsoft.framework.web.file.receiver.MultiPartReceiver;
@@ -18,7 +18,7 @@ import javax.validation.Validator;
 public class FileHandlerWebArgumentResolver implements WebArgumentResolver {
 
 	private MultiPartReceiver multiPartReceiver;
-	private PersistenceManager persistenceManager;
+	private FilePersistenceManager filePersistenceManager;
 	private Validator validator;
 	
 	/*
@@ -28,7 +28,7 @@ public class FileHandlerWebArgumentResolver implements WebArgumentResolver {
 	public Object resolveArgument(MethodParameter methodParameter, NativeWebRequest webRequest) throws Exception {
 		
 		if(FileHandler.class.isAssignableFrom(methodParameter.getParameterType()))	{
-			return new FileHandlerImpl((HttpServletRequest) webRequest.getNativeRequest(), (HttpServletResponse) webRequest.getNativeResponse(), multiPartReceiver, persistenceManager, validator);
+			return new FileHandlerImpl((HttpServletRequest) webRequest.getNativeRequest(), (HttpServletResponse) webRequest.getNativeResponse(), multiPartReceiver, filePersistenceManager, validator);
 		}
 		
 		return UNRESOLVED;
@@ -44,10 +44,10 @@ public class FileHandlerWebArgumentResolver implements WebArgumentResolver {
 	
 	/**
 	 * 
-	 * @param persistenceManager
+	 * @param filePersistenceManager
 	 */
-	public void setPersistenceManager(PersistenceManager persistenceManager) {
-		this.persistenceManager = persistenceManager;
+	public void setFilePersistenceManager(FilePersistenceManager filePersistenceManager) {
+		this.filePersistenceManager = filePersistenceManager;
 	}
 	
 	/**

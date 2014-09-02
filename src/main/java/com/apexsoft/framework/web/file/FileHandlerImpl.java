@@ -1,6 +1,6 @@
 package com.apexsoft.framework.web.file;
 
-import com.apexsoft.framework.persistence.file.PersistenceManager;
+import com.apexsoft.framework.persistence.file.FilePersistenceManager;
 import com.apexsoft.framework.persistence.file.model.FileItem;
 import com.apexsoft.framework.web.file.callback.UploadEventCallbackHandler;
 import com.apexsoft.framework.web.file.exception.UploadException;
@@ -34,7 +34,7 @@ public class FileHandlerImpl implements FileHandler {
 	private HttpServletRequest request;
 	private HttpServletResponse response;
 	private MultiPartReceiver receiver;
-	private PersistenceManager persistence;
+	private FilePersistenceManager persistence;
 	private Validator validator;
 	
 	/**
@@ -44,7 +44,7 @@ public class FileHandlerImpl implements FileHandler {
 	 * @param receiver
 	 * @param persistence
 	 */
-	public FileHandlerImpl(HttpServletRequest request, HttpServletResponse response, MultiPartReceiver receiver, PersistenceManager persistence) {
+	public FileHandlerImpl(HttpServletRequest request, HttpServletResponse response, MultiPartReceiver receiver, FilePersistenceManager persistence) {
 		this(request, response, receiver, persistence, null);
 	}
 
@@ -56,7 +56,7 @@ public class FileHandlerImpl implements FileHandler {
 	 * @param persistence
 	 * @param validator
 	 */
-	public FileHandlerImpl(HttpServletRequest request, HttpServletResponse response, MultiPartReceiver receiver, PersistenceManager persistence, Validator validator) {
+	public FileHandlerImpl(HttpServletRequest request, HttpServletResponse response, MultiPartReceiver receiver, FilePersistenceManager persistence, Validator validator) {
 		this.request = request;
 		this.response = response;
 		this.receiver = receiver;
