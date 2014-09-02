@@ -297,24 +297,6 @@ public class ApplicationController {
         return "application/appinfo";
     }
 
-    /**
-     * application 표시
-     *
-     * @param applNo
-     * @param model
-     * @return
-     * @throws JsonProcessingException
-     */
-    @RequestMapping(value="/show/{applNo}", produces="text/html;charset=UTF-8")
-    @ResponseBody
-    public String showApplication(@PathVariable("applNo") int applNo, Model model)
-            throws JsonProcessingException {
-        EntireApplication entireApplication = applicationService.retrieveEntireApplication(applNo);
-        model.addAttribute(entireApplication);
-        return objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(entireApplication);
-//        return "application/showapplication";
-    }
-
     @ModelAttribute("entireApplication")
     public EntireApplication entireApplication() {
         EntireApplication entireApplication = new EntireApplication();
