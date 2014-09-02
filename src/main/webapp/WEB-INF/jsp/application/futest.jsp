@@ -70,15 +70,17 @@
         $(document).ready(function() {
             <%-- TODO 파일업로드용 버튼 --%>
             $('#saveandupload').on('click', function() {
-                var ea = document.getElementById('entireApplication');
+                var ea = document.getElementById('entireApplication'),
+                    actionUrl = "${contextPath}/application/apply/saveandupload";
                 ea.setAttribute("enctype", "multipart/form-data");
-                ea.setAttribute("action", "/test-ysproject/application/apply/saveandupload");
-                console.dir(ea);
-                ea.submit();
+                ea.setAttribute("action", actionUrl);
+
+//                console.dir(ea);
+//                ea.submit();
 //                $.ajax({
-//                    url: ea.getAttribute("action"),
+//                    url: actionUrl,
 //                    type: 'POST',
-//                    data: 'abcde',
+//                    data: formData3,
 //                    timeout: 5000,
 //                    success: function (context) {
 //                        alert("done");
@@ -86,8 +88,17 @@
 //                    error: function(e) {
 //                    }
 //                });
+                ea.submit();
             });
 
+            $('#entireApplication').ajaxForm({
+                success: function (context) {
+                    alert("done");
+                },
+                error: function(e) {
+                    alert(e);
+                }
+            });
         });
 
     </script>
