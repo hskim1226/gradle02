@@ -38,12 +38,12 @@
                                 <th><label for="sCampus">검색대상</label></th>
                                 <td>
                                     <select id="sCampus" name="searchCondition">
-                                        <option value="1">제목</option>
-                                        <option value="2">질문</option>
+                                        <option value="1" <c:if test="${param.searchCondition==1}">selected="selected"</c:if>>질문제목</option>
+                                        <option value="2" <c:if test="${param.searchCondition==2}">selected="selected"</c:if>>질문내용</option>
                                     </select>
                                 </td>
                                 <td>
-                                    <input type="text" name="searchKeyword" class="Ltext" size="30" />
+                                    <input type="text" name="searchKeyword" class="Ltext" size="30" value="${param.searchKeyword}"/>
                                 </td>
                             </tr>
                             </tbody>
