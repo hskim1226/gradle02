@@ -2,6 +2,7 @@ package com.apexsoft.ysprj.applicants.application.control;
 
 import com.apexsoft.framework.common.vo.ExecutionContext;
 import com.apexsoft.framework.message.MessageResolver;
+import com.apexsoft.framework.web.file.FileHandler;
 import com.apexsoft.ysprj.applicants.application.domain.*;
 import com.apexsoft.ysprj.applicants.application.service.ApplicationService;
 import com.apexsoft.ysprj.applicants.common.domain.*;
@@ -207,7 +208,8 @@ public class ApplicationController {
     @ResponseBody
     public ExecutionContext saveApplication(@Valid @ModelAttribute EntireApplication entireApplication,
                                             BindingResult binding,
-                                            Principal principal) {
+                                            Principal principal,
+                                            FileHandler fileHandler) {
         if( binding.hasErrors() ) {
             return new ExecutionContext(ExecutionContext.FAIL);
         }
