@@ -91,14 +91,40 @@
                 ea.submit();
             });
 
-            $('#entireApplication').ajaxForm({
-                success: function (context) {
-                    alert("done");
-                },
-                error: function(e) {
-                    alert(e);
-                }
+            $('#entireApplication').submit(function() {
+                // inside event callbacks 'this' is the DOM element so we first
+                // wrap it in a jQuery object and then invoke ajaxSubmit
+                $(this).ajaxSubmit({
+                    success: function (context) {
+                        alert("done");
+                    },
+                    error: function(e) {
+                        alert(e);
+                    }
+                });
+
+                // !!! Important !!!
+                // always return false to prevent standard browser submit and page navigation
+                return false;
             });
+
+//            $('#entireApplication').ajaxForm({
+//                success: function (context) {
+//                    alert("done");
+//                },
+//                error: function(e) {
+//                    alert(e);
+//                }
+//            });
+
+//            $('#entireApplication').ajaxSubmit({
+//                success: function (context) {
+//                    alert("done");
+//                },
+//                error: function(e) {
+//                    alert(e);
+//                }
+//            });
         });
 
     </script>

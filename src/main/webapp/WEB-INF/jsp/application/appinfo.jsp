@@ -1436,19 +1436,16 @@
             $('#entireApplication').on('submit', function(event) {
                 var $form = $(this);
                 var $formUrl = $form.attr('action');
-                var $formData = $form.serializeArray();
 
-                var $radioGroup;
                 $('input.radio-group').filter(function() {
                     return this.checked == false;
                 }).each(function() {
                     $formData.push({name: this.name, value: 'N'});
                 });
 
-                $.ajax({
-                    url: $formUrl,
+                $(this).ajaxSubmit({
+                    url: 'apply/saveandupload',
                     type: 'POST',
-                    data: $formData,
                     timeout: 5000,
                     success: function (context) {
                         if (context.result == 'SUCCESS') {
@@ -1460,9 +1457,33 @@
                         }
                     },
                     error: function(e) {
+                        alert(e);
                     }
                 });
+
+                // !!! Important !!!
+                // always return false to prevent standard browser submit and page navigation
                 event.preventDefault();
+                return false;
+
+//                $.ajax({
+//                    url: $formUrl,
+//                    type: 'POST',
+//                    data: $formData,
+//                    timeout: 5000,
+//                    success: function (context) {
+//                        if (context.result == 'SUCCESS') {
+//                            var innerData = context.data;
+//                            var message = context.message;
+//                            var alert = createAlert(message);
+//                            $('#alert-container').append(alert);
+//                            window.setTimeout(function() { alert.alert('close') }, 2000);
+//                        }
+//                    },
+//                    error: function(e) {
+//                    }
+//                });
+//                event.preventDefault();
             });
 
             <%-- alert 생성 --%>
