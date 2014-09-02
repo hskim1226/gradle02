@@ -1,5 +1,7 @@
 package com.apexsoft.ysprj.qna.web.form;
 
+import com.apexsoft.framework.persistence.dao.page.PagenateInfo;
+
 /**
  * Created with IntelliJ IDEA.
  * User: zbum
@@ -9,13 +11,12 @@ package com.apexsoft.ysprj.qna.web.form;
  */
 public class QnaSearchForm {
 
-    private int pageNum = 1;
-
-    private int pageRows = 30;
 
     private String searchKeyword;
 
     private String searchCondition;
+
+    private PagenateInfo page = new PagenateInfo(15);
 
     public String getSearchKeyword() {
         return searchKeyword;
@@ -33,19 +34,11 @@ public class QnaSearchForm {
         this.searchCondition = searchCondition;
     }
 
-    public int getPageNum() {
-        return pageNum;
+    public PagenateInfo getPage() {
+        return page;
     }
 
-    public void setPageNum(int pageNum) {
-        this.pageNum = pageNum;
-    }
-
-    public int getPageRows() {
-        return pageRows;
-    }
-
-    public void setPageRows(int pageRows) {
-        this.pageRows = pageRows;
+    public void setPage(PagenateInfo page) {
+        this.page = page;
     }
 }

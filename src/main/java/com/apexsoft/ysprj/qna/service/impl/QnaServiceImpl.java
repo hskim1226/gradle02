@@ -6,7 +6,6 @@ import com.apexsoft.framework.persistence.dao.page.PageStatement;
 import com.apexsoft.ysprj.qna.service.QnaService;
 import com.apexsoft.ysprj.qna.service.QnaVO;
 import com.apexsoft.ysprj.qna.web.form.QnaSearchForm;
-import com.apexsoft.ysprj.user.web.form.UserSearchForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -35,7 +34,7 @@ public class QnaServiceImpl implements QnaService{
             public String getDataStatementId() {
                 return NAME_SPACE+"selectQnaList";
             }
-        }, new UserSearchForm(), qnaSearchForm.getPageNum(), qnaSearchForm.getPageRows() );
+        }, qnaSearchForm, qnaSearchForm.getPage().getNo(), qnaSearchForm.getPage().getRows() );
     }
 
     @Override

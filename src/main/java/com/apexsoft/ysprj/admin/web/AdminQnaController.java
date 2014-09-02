@@ -7,6 +7,7 @@ import com.apexsoft.ysprj.qna.web.form.QnaSearchForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -25,11 +26,11 @@ public class AdminQnaController {
     private QnaService qnaService;
 
     @RequestMapping(value="/list", method = RequestMethod.GET)
-    public String displayQnaList(QnaSearchForm searchForm, Model model){
+    public String displayQnaList(@ModelAttribute("searchForm") QnaSearchForm searchForm, Model model){
         PageInfo<QnaVO> qnaVOPageInfo = qnaService.getQnaPaginatedList(searchForm);
 
         model.addAttribute("qna", qnaVOPageInfo.getData());
-        model.addAttribute("qnaTotal", qnaVOPageInfo.getTotalRowCount());
+        model.addAttribute("totalCount", qnaVOPageInfo.getTotalRowCount());
 
         return "admin/qna/list";
     }

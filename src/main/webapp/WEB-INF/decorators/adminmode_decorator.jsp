@@ -119,7 +119,7 @@
                 </ul>
             </li>
             <li class="Lidx8"><span><a href="#">공지사항</a></span></li>
-            <li class="Llast"><span><a href="#">Q&A</a></span></li>
+            <li class="Llast"><span><a href="${contextPath}/admin/qna/list">Q&A</a></span></li>
         </ul>
     </div>
 
