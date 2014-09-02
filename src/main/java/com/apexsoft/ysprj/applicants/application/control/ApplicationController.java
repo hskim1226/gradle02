@@ -257,6 +257,7 @@ public class ApplicationController {
             message = messageResolver.getMessage("U301");
         } else {    // update
             applicationService.updateEntireApplication( entireApplication );
+            message = messageResolver.getMessage("U303");
         }
         return new ExecutionContext(ExecutionContext.SUCCESS, message);
     }

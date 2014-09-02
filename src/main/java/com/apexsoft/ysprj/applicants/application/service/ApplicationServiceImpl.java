@@ -1,6 +1,5 @@
 package com.apexsoft.ysprj.applicants.application.service;
 
-import com.apexsoft.framework.common.vo.ExecutionContext;
 import com.apexsoft.framework.persistence.dao.CommonDAO;
 import com.apexsoft.ysprj.applicants.application.domain.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -182,7 +181,7 @@ public class ApplicationServiceImpl implements ApplicationService {
             entireApplication.getApplicationETCWithBLOBs().setModDate(date);
             r3 = updateItem(entireApplication.getApplicationETCWithBLOBs(), "ApplicationETCMapper");
 
-            deleteListByApplNo(applNo, "ApplicationAcademyMapper");
+            deleteListByApplNo(applNo, "CustomApplicationAcademyMapper");
             entireApplication.getHighSchool().setApplNo(applNo);
             entireApplication.getHighSchool().setAcadSeq(1);
             entireApplication.getHighSchool().setModDate(date);
@@ -209,6 +208,7 @@ public class ApplicationServiceImpl implements ApplicationService {
                 r6 = insertList(graduateList, "ApplicationAcademyMapper");
             }
 
+            deleteListByApplNo(applNo, "CustomApplicationExperienceMapper");
             List<ApplicationExperience> experienceList = entireApplication.getApplicationExperienceList();
             idx = 0;
             if ( experienceList != null ) {
@@ -220,6 +220,7 @@ public class ApplicationServiceImpl implements ApplicationService {
                 r7 = insertList(experienceList, "ApplicationExperienceMapper");
             }
 
+            deleteListByApplNo(applNo, "CustomApplicationLanguageMapper");
             List<ApplicationLanguage> languageList = entireApplication.getApplicationLanguageList();
             idx = 0;
             if ( languageList != null ) {

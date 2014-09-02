@@ -200,74 +200,74 @@
                     <div class="spacer-tiny"></div>
                     <div class="row">
                         <div class="col-sm-offset-1 col-sm-10">
-                            <div class="panel panel-default">
-                                <div class="panel panel-default">
-                                    <div class="panel-heading">지원 사항</div>
-                                    <div class="panel-body">
-                                        <div class="form-group">
-                                            <label for="applAttrCode" class="col-sm-2 control-label">지원구분</label>
-                                            <div class="col-sm-9">
-                                                <form:select path="application.applAttrCode" id="applAttrCode" cssClass="form-control">
-                                                    <form:options items="${common.applAttrList}" itemValue="code" itemLabel="codeVal"/>
-                                                </form:select>
-                                            </div>
+                        <div class="panel panel-default">
+                            <div class="panel-heading">지원 사항</div>
+                            <div class="panel-body">
+                                <div class="form-group">
+                                    <label for="applAttrCode" class="col-sm-2 control-label">지원구분</label>
+                                    <div class="col-sm-9">
+                                        <form:select path="application.applAttrCode" id="applAttrCode" cssClass="form-control">
+                                            <form:options items="${common.applAttrList}" itemValue="code" itemLabel="codeVal"/>
+                                        </form:select>
+                                    </div>
+                                </div>
+                                <div id="applyKindDynamic">
+                                    <div class="form-group hidden-apply-kind-2">
+                                        <label for="campCode" class="col-sm-2 control-label">캠퍼스</label>
+                                        <div class="col-sm-3">
+                                            <form:select path="campCode" cssClass="form-control">
+                                                <form:option value="-" label="--선택--" />
+                                                <form:options items="${common.campList}" itemValue="campCode" itemLabel="campName" />
+                                            </form:select>
                                         </div>
-                                        <div id="applyKindDynamic">
-                                            <div class="form-group hidden-apply-kind-2">
-                                                <label for="campCode" class="col-sm-2 control-label">캠퍼스</label>
-                                                <div class="col-sm-3">
-                                                    <form:select path="campCode" cssClass="form-control">
-                                                        <form:option value="-" label="--선택--" />
-                                                        <form:options items="${common.campList}" itemValue="campCode" itemLabel="campName" />
-                                                    </form:select>
-                                                </div>
-                                                <label for="collCode" class="col-sm-2 control-label">대학</label>
-                                                <div class="col-sm-4">
-                                                    <form:select path="collCode" cssClass="form-control">
-                                                        <form:option value="-" label="--선택--" />
-                                                        <form:options items="${common.collList}" itemValue="collCode" itemLabel="collName" />
-                                                    </form:select>
-                                                </div>
-                                            </div>
-                                            <div class="form-group hidden-apply-kind-1 hidden-apply-kind-3">
-                                                <label for="ariInstCode" class="col-sm-2 control-label">학·연·산 연구기관</label>
-                                                <div class="col-sm-9">
-                                                    <form:select path="application.ariInstCode" id="ariInstCode" cssClass="form-control">
-                                                        <form:option value="-" label="--선택--" />
-                                                        <form:options items="${common.ariInstList}" itemValue="ariInstCode" itemLabel="ariInstName" />
-                                                    </form:select>
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="deptCode" class="col-sm-2 control-label">지원학과</label>
-                                                <div class="col-sm-9">
-                                                    <form:select path="application.deptCode" id="deptCode" cssClass="form-control">
-                                                        <form:option value="-" label="--선택--" />
-                                                        <form:options items="${common.deptList}" itemValue="deptCode" itemLabel="deptName" />
-                                                    </form:select>
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="corsTypeCode" class="col-sm-2 control-label">지원과정</label>
-                                                <div class="col-sm-9">
-                                                    <form:select path="application.corsTypeCode" id="corsTypeCode" cssClass="form-control">
-                                                        <form:option value="-" label="--선택--" />
-                                                        <form:options items="${common.corsTypeList}" itemValue="corsTypeCode" itemLabel="codeVal" />
-                                                    </form:select>
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="detlMajCode" class="col-sm-2 control-label">세부전공</label>
-                                                <div class="col-sm-9">
-                                                    <form:select path="application.detlMajCode" id="detlMajCode" cssClass="form-control">
-                                                        <form:option value="-" label="--선택--" />
-                                                        <form:options items="${common.detlMajList}" itemValue="detlMajCode" itemLabel="detlMajName" />
-                                                    </form:select>
-                                                </div>
-                                            </div>
+                                        <label for="collCode" class="col-sm-2 control-label">대학</label>
+                                        <div class="col-sm-4">
+                                            <form:select path="collCode" cssClass="form-control">
+                                                <form:option value="-" label="--선택--" />
+                                                <form:options items="${common.collList}" itemValue="collCode" itemLabel="collName" />
+                                            </form:select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group hidden-apply-kind-1 hidden-apply-kind-3">
+                                        <label for="ariInstCode" class="col-sm-2 control-label">학·연·산 연구기관</label>
+                                        <div class="col-sm-9">
+                                            <form:select path="application.ariInstCode" id="ariInstCode" cssClass="form-control">
+                                                <form:option value="-" label="--선택--" />
+                                                <form:options items="${common.ariInstList}" itemValue="ariInstCode" itemLabel="ariInstName" />
+                                            </form:select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="deptCode" class="col-sm-2 control-label">지원학과</label>
+                                        <div class="col-sm-9">
+                                            <form:select path="application.deptCode" id="deptCode" cssClass="form-control">
+                                                <form:option value="-" label="--선택--" />
+                                                <form:options items="${common.deptList}" itemValue="deptCode" itemLabel="deptName" />
+                                            </form:select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="corsTypeCode" class="col-sm-2 control-label">지원과정</label>
+                                        <div class="col-sm-9">
+                                            <form:select path="application.corsTypeCode" id="corsTypeCode" cssClass="form-control">
+                                                <form:option value="-" label="--선택--" />
+                                                <form:options items="${common.corsTypeList}" itemValue="corsTypeCode" itemLabel="codeVal" />
+                                            </form:select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="detlMajCode" class="col-sm-2 control-label">세부전공</label>
+                                        <div class="col-sm-9">
+                                            <form:select path="application.detlMajCode" id="detlMajCode" cssClass="form-control">
+                                                <form:option value="-" label="--선택--" />
+                                                <form:options items="${common.detlMajList}" itemValue="detlMajCode" itemLabel="detlMajName" />
+                                            </form:select>
                                         </div>
                                     </div>
                                 </div>
+                            </div>
+                        </div>
+                        <div class="panel panel-default">
                                 <div class="panel-heading">지원자 정보</div>
                                 <div class="panel-body">
                                     <div class="form-group">
@@ -553,7 +553,7 @@
                                 <div class="panel-heading">대학교</div>
                                 <div class="panel-body">
                                     <div class="form-group-block-list">
-                                        <c:forEach begin="0" end="${collegeList.size() > 0 ? collegeList.size()-1 : collegeList.size()}" varStatus="stat">
+                                        <c:forEach begin="0" end="${entireApplication.collegeList.size() > 0 ? entireApplication.collegeList.size() - 1 : 0}" varStatus="stat">
                                         <div class="form-group-block">
                                             <form:hidden path="collegeList[${stat.index}].acadTypeCode" value="00002" />
                                             <%--TODO 테이블에 국가이름 누락--%>
@@ -631,7 +631,7 @@
                                 <div class="panel-heading">대학원</div>
                                 <div class="panel-body">
                                     <div class="form-group-block-list">
-                                        <c:forEach begin="0" end="${graduateList.size() > 0 ? graduateList.size()-1 : graduateList.size()}" varStatus="stat">
+                                        <c:forEach begin="0" end="${entireApplication.graduateList.size() > 0 ? entireApplication.graduateList.size() - 1 : 0}" varStatus="stat">
                                         <div class="form-group-block">
                                             <form:hidden path="graduateList[${stat.index}].acadTypeCode" value="00003" />
                                             <%--TODO 테이블에 국가이름 누락--%>
@@ -853,7 +853,7 @@
                                 <div class="panel-heading">경력사항</div>
                                 <div class="panel-body">
                                     <div id="career-container" class="form-group-block-list">
-                                        <c:forEach varStatus="stat" begin="0" end="${applicationExperienceList.size() > 0 ? applicationExperienceList.size()-1 : applicationExperienceList.size()}">
+                                        <c:forEach varStatus="stat" begin="0" end="${entireApplication.applicationExperienceList.size() > 0 ? entireApplication.applicationExperienceList.size() - 1 : 0}">
                                         <div id="career-info" class="form-group-block">
                                             <div class="form-group">
                                                 <label class="col-sm-2 control-label">재직 기간</label>
