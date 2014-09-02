@@ -2,7 +2,10 @@ package com.apexsoft.ysprj.applicants.application.control;
 
 import com.apexsoft.framework.common.vo.ExecutionContext;
 import com.apexsoft.framework.message.MessageResolver;
+import com.apexsoft.framework.persistence.file.FilePersistenceManager;
+import com.apexsoft.framework.persistence.file.model.FileItem;
 import com.apexsoft.framework.web.file.FileHandler;
+import com.apexsoft.framework.web.file.callback.UploadEventCallbackHandler;
 import com.apexsoft.ysprj.applicants.application.domain.*;
 import com.apexsoft.ysprj.applicants.application.service.ApplicationService;
 import com.apexsoft.ysprj.applicants.common.domain.*;
@@ -208,8 +211,7 @@ public class ApplicationController {
     @ResponseBody
     public ExecutionContext saveApplication(@Valid @ModelAttribute EntireApplication entireApplication,
                                             BindingResult binding,
-                                            Principal principal,
-                                            FileHandler fileHandler) {
+                                            Principal principal) {
         if( binding.hasErrors() ) {
             return new ExecutionContext(ExecutionContext.FAIL);
         }
@@ -247,7 +249,60 @@ public class ApplicationController {
             applicationService.createEntireApplication( entireApplication );
             message = messageResolver.getMessage("U301");
         }
+
         return new ExecutionContext(ExecutionContext.SUCCESS, message);
+    }
+
+    @RequestMapping(value = "/apply/saveandupload", method = RequestMethod.POST)
+    @ResponseBody
+    public ExecutionContext saveandupload(@Valid @ModelAttribute EntireApplication entireApplication,
+                                            BindingResult binding,
+                                            Principal principal,
+                                            FileHandler fileHandler) {
+//        saveApplication(entireApplication, binding, principal);
+
+        //TODO 파일 업로드
+        fileHandler.handleMultiPartRequest(new UploadEventCallbackHandler<Object, Object>() {
+            /**
+             * target 폴더 반환
+             *
+             * @param fileFieldName
+             * @param attributes
+             * @param leafDirectory
+             *
+             * @return
+             */
+            @Override
+            protected String getDirectory(String fileFieldName, Object attributes, String leafDirectory) {
+                return null;
+            }
+
+            /**
+             * 실제 저장될 파일 이름 반환
+             *
+             * @param fileFieldName
+             * @param originalFileName
+             * @param attribute
+             * @return
+             */
+            @Override
+            protected String createFileName(String fileFieldName, String originalFileName, Object attribute) {
+                return null;
+            }
+
+            /**
+             * 
+             * @param fileItems
+             * @param attribute
+             * @param persistence
+             * @return
+             */
+            @Override
+            public Object handleEvent(List<FileItem> fileItems, Object attribute, FilePersistenceManager persistence) {
+                return null;
+            }
+        }, Object.class);
+        return new ExecutionContext(ExecutionContext.SUCCESS, "TODO 성공 또는 실패");
     }
 
     @RequestMapping(value="/apply/update")

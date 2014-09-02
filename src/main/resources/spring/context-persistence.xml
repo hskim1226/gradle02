@@ -14,7 +14,7 @@
 							default-autowire="byType">
 					
 
-	<bean id="persistenceManager" class="com.apexsoft.framework.persistence.file.FilePersistenceManager">
+	<bean id="persistenceManager" class="com.apexsoft.framework.persistence.file.FilePersistenceManagerImpl">
 		<property name="baseDirectory" value="${file.basedir}" />
 	</bean>	
 	

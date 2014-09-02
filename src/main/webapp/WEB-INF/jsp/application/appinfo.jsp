@@ -1153,6 +1153,10 @@
             <div class="btn-group">
                 <button id="reset" type="button" class="btn btn-warning btn-lg">되돌리기</button>
             </div>
+            <%-- TODO 파일 업로드 테스트 추후 삭제 요 --%>
+            <div class="btn-group">
+                <button id="saveandupload" type="button" class="btn btn-error btn-lg">파일업로드</button>
+            </div>
         </div>
     </div> <%--container--%>
 
@@ -1487,6 +1491,13 @@
                 $curForm.each(function() {
                     this.reset();
                 });
+            });
+
+            <%-- TODO 파일업로드용 버튼 --%>
+            $('#saveandupload').on('click', function() {
+                document.getElementById('entireApplication').setAttribute("enctype", "multipart/form-data");
+                document.getElementById('entireApplication').setAttribute("action", "apply/saveandupload");
+                $('#entireApplication').trigger('submit');
             });
 
             <%-- form-group-block 추가/삭제에 대한 처리 시작 --%>
