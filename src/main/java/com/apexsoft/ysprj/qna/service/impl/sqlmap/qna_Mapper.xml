@@ -57,7 +57,7 @@
         <if test="searchCondition == 2">
             <![CDATA[AND contents like concat( '%', #{searchKeyword}, '%' )]]>
         </if>
-        ORDER BY cre_date desc
+        ORDER BY id desc
 	</select>
 
     <select id="selectTotalCount" parameterType="com.apexsoft.ysprj.qna.web.form.QnaSearchForm" resultType="java.lang.Integer" >

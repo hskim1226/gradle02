@@ -10,6 +10,11 @@
                 location.href = "${contextPath}/admin/qna/detail?id="+jQuery(this).attr('qna-id');
             }).css("cursor","pointer");
         });
+
+        function movePage(pageNumIndex){
+            jQuery("#page-number-hidden").val(pageNumIndex);
+            jQuery("#search-form").submit();
+        }
     </script>
 </head>
 <body>
@@ -30,7 +35,8 @@
         <div id="LblockSearch">
             <div>
                 <div>
-                    <form action="">
+                    <form action="${contextPath}/admin/qna/list" id="search-form" method="get">
+                        <input type="hidden" id="page-number-hidden" name="page.no" value="${searchForm.page.no}" />
                         <table summary="Q&A 검색조건">
                             <caption>Q&A 검색조건</caption>
                             <tbody>
@@ -78,6 +84,31 @@
                 </c:forEach>
                 </tbody>
             </table>
+
+            <ul>
+                <fmt:parseNumber var="indexCount" integerOnly= "true" value="${totalCount/searchForm.page.rows + 1}" />
+                <c:if test="${indexCount != 0}">
+                    <li class="Lbegin"><span><a href="#" onclick="movePage(1); return false;">1page</a></span></li>
+                    <c:if test="${searchForm.page.no-1 > 0}">
+                        <li class="Lprevious"><span><a href="#" onclick="movePage(${searchForm.page.no-1}); return false;"><img src="${contextPath}/img/admin/list_page_previous.gif" alt="이전페이지" /></a></span></li>
+                    </c:if>
+                    <c:forEach begin="1" end="${indexCount}" var="pageNumIndex">
+                        <c:if test="${searchForm.page.no==pageNumIndex}">
+                            <li class="Lfirst"><span>${pageNumIndex}</span></li>
+                        </c:if>
+                        <c:if test="${searchForm.page.no!=pageNumIndex}">
+                            <li><span><a href="#" onclick="movePage(${pageNumIndex}); return false;">${pageNumIndex}</a></span></li>
+                        </c:if>
+                    </c:forEach>
+                    <c:if test="${searchForm.page.no < indexCount}">
+                        <li class="Lnext"><span><a href="#" onclick="movePage(${searchForm.page.no+1}); return false;"><img src="${contextPath}/img/admin/list_page_next.gif" alt="다음페이지" /></a></span></li>
+                    </c:if>
+                    <li class="Lend"><span><a href="#" onclick="movePage(${indexCount}); return false;">${indexCount}page</a></span></li>
+                </c:if>
+            </ul>
+
+
+
         </div>
 
     </div>
