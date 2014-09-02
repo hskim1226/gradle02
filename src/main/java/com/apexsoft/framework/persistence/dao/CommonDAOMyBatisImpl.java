@@ -202,7 +202,10 @@ public class CommonDAOMyBatisImpl implements CommonDAO {
 			}
 
 			if (totalCount > 0) {
-				list = (List<T>) this.template.selectList(statement.getDataStatementId(), parameter);
+                int skipRows = (pageNum - 1) * pageRows;
+
+				list = (List<T>) this.template.selectList(statement.getDataStatementId(), parameter, new RowBounds(
+                        skipRows, pageRows));
 
 				LOGGER.debug("Statement[{}] Executed ({}) : {} Records retrieved.",
 						new Object[] { statement.getDataStatementId(), new Date(), list == null ? 0 : list.size() });

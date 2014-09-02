@@ -2,6 +2,7 @@ package com.apexsoft.ysprj.applicants.application.control;
 
 import com.apexsoft.framework.common.vo.ExecutionContext;
 import com.apexsoft.framework.message.MessageResolver;
+import com.apexsoft.framework.web.file.FileHandler;
 import com.apexsoft.ysprj.applicants.application.domain.*;
 import com.apexsoft.ysprj.applicants.application.service.ApplicationService;
 import com.apexsoft.ysprj.applicants.common.domain.*;
@@ -216,7 +217,8 @@ public class ApplicationController {
     @ResponseBody
     public ExecutionContext saveApplication(@Valid @ModelAttribute EntireApplication entireApplication,
                                             BindingResult binding,
-                                            Principal principal) {
+                                            Principal principal,
+                                            FileHandler fileHandler) {
         if( binding.hasErrors() ) {
             return new ExecutionContext(ExecutionContext.FAIL);
         }
@@ -304,24 +306,6 @@ public class ApplicationController {
                                 Model model) {
         model.addAttribute("entireApplication", applicationService.retrieveEntireApplication(applNo));
         return "application/appinfo";
-    }
-
-    /**
-     * application 표시
-     *
-     * @param applNo
-     * @param model
-     * @return
-     * @throws JsonProcessingException
-     */
-    @RequestMapping(value="/show/{applNo}", produces="text/html;charset=UTF-8")
-    @ResponseBody
-    public String showApplication(@PathVariable("applNo") int applNo, Model model)
-            throws JsonProcessingException {
-        EntireApplication entireApplication = applicationService.retrieveEntireApplication(applNo);
-        model.addAttribute(entireApplication);
-        return objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(entireApplication);
-//        return "application/showapplication";
     }
 
     @ModelAttribute("entireApplication")

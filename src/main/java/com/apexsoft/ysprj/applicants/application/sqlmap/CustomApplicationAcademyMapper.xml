@@ -51,7 +51,7 @@
     <include refid="Base_Column_List" />
     from APPL_ACAD
     where APPL_NO = #{applNo,jdbcType=INTEGER}
-      and ACAD_SEQ = #{acadTypeCode,jdbcType=INTEGER}
+      and ACAD_TYPE_CODE = #{acadTypeCode,jdbcType=INTEGER}
   </select>
 
     <delete id="deleteListByApplNo" parameterType="java.lang.Integer" >
