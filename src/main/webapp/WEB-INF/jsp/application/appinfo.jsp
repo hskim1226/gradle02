@@ -200,74 +200,74 @@
                     <div class="spacer-tiny"></div>
                     <div class="row">
                         <div class="col-sm-offset-1 col-sm-10">
-                            <div class="panel panel-default">
-                                <div class="panel panel-default">
-                                    <div class="panel-heading">지원 사항</div>
-                                    <div class="panel-body">
-                                        <div class="form-group">
-                                            <label for="applAttrCode" class="col-sm-2 control-label">지원구분</label>
-                                            <div class="col-sm-9">
-                                                <form:select path="application.applAttrCode" id="applAttrCode" cssClass="form-control">
-                                                    <form:options items="${common.applAttrList}" itemValue="code" itemLabel="codeVal"/>
-                                                </form:select>
-                                            </div>
+                        <div class="panel panel-default">
+                            <div class="panel-heading">지원 사항</div>
+                            <div class="panel-body">
+                                <div class="form-group">
+                                    <label for="applAttrCode" class="col-sm-2 control-label">지원구분</label>
+                                    <div class="col-sm-9">
+                                        <form:select path="application.applAttrCode" id="applAttrCode" cssClass="form-control">
+                                            <form:options items="${common.applAttrList}" itemValue="code" itemLabel="codeVal"/>
+                                        </form:select>
+                                    </div>
+                                </div>
+                                <div id="applyKindDynamic">
+                                    <div class="form-group hidden-apply-kind-2">
+                                        <label for="campCode" class="col-sm-2 control-label">캠퍼스</label>
+                                        <div class="col-sm-3">
+                                            <form:select path="campCode" cssClass="form-control">
+                                                <form:option value="-" label="--선택--" />
+                                                <form:options items="${common.campList}" itemValue="campCode" itemLabel="campName" />
+                                            </form:select>
                                         </div>
-                                        <div id="applyKindDynamic">
-                                            <div class="form-group hidden-apply-kind-2">
-                                                <label for="campCode" class="col-sm-2 control-label">캠퍼스</label>
-                                                <div class="col-sm-3">
-                                                    <form:select path="campCode" cssClass="form-control">
-                                                        <form:option value="-" label="--선택--" />
-                                                        <form:options items="${common.campList}" itemValue="campCode" itemLabel="campName" />
-                                                    </form:select>
-                                                </div>
-                                                <label for="collCode" class="col-sm-2 control-label">대학</label>
-                                                <div class="col-sm-4">
-                                                    <form:select path="collCode" cssClass="form-control">
-                                                        <form:option value="-" label="--선택--" />
-                                                        <form:options items="${common.collList}" itemValue="collCode" itemLabel="collName" />
-                                                    </form:select>
-                                                </div>
-                                            </div>
-                                            <div class="form-group hidden-apply-kind-1 hidden-apply-kind-3">
-                                                <label for="ariInstCode" class="col-sm-2 control-label">학·연·산 연구기관</label>
-                                                <div class="col-sm-9">
-                                                    <form:select path="application.ariInstCode" id="ariInstCode" cssClass="form-control">
-                                                        <form:option value="-" label="--선택--" />
-                                                        <form:options items="${common.ariInstList}" itemValue="ariInstCode" itemLabel="ariInstName" />
-                                                    </form:select>
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="deptCode" class="col-sm-2 control-label">지원학과</label>
-                                                <div class="col-sm-9">
-                                                    <form:select path="application.deptCode" id="deptCode" cssClass="form-control">
-                                                        <form:option value="-" label="--선택--" />
-                                                        <form:options items="${common.deptList}" itemValue="deptCode" itemLabel="deptCode" />
-                                                    </form:select>
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="corsTypeCode" class="col-sm-2 control-label">지원과정</label>
-                                                <div class="col-sm-9">
-                                                    <form:select path="application.corsTypeCode" id="corsTypeCode" cssClass="form-control">
-                                                        <form:option value="-" label="--선택--" />
-                                                        <form:options items="${common.corsTypeList}" itemValue="corsTypeCode" itemLabel="codeVal" />
-                                                    </form:select>
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="detlMajCode" class="col-sm-2 control-label">세부전공</label>
-                                                <div class="col-sm-9">
-                                                    <form:select path="application.detlMajCode" id="detlMajCode" cssClass="form-control">
-                                                        <form:option value="-" label="--선택--" />
-                                                        <form:options items="${common.detlMajList}" itemValue="detlMajCode" itemLabel="detlMajName" />
-                                                    </form:select>
-                                                </div>
-                                            </div>
+                                        <label for="collCode" class="col-sm-2 control-label">대학</label>
+                                        <div class="col-sm-4">
+                                            <form:select path="collCode" cssClass="form-control">
+                                                <form:option value="-" label="--선택--" />
+                                                <form:options items="${common.collList}" itemValue="collCode" itemLabel="collName" />
+                                            </form:select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group hidden-apply-kind-1 hidden-apply-kind-3">
+                                        <label for="ariInstCode" class="col-sm-2 control-label">학·연·산 연구기관</label>
+                                        <div class="col-sm-9">
+                                            <form:select path="application.ariInstCode" id="ariInstCode" cssClass="form-control">
+                                                <form:option value="-" label="--선택--" />
+                                                <form:options items="${common.ariInstList}" itemValue="ariInstCode" itemLabel="ariInstName" />
+                                            </form:select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="deptCode" class="col-sm-2 control-label">지원학과</label>
+                                        <div class="col-sm-9">
+                                            <form:select path="application.deptCode" id="deptCode" cssClass="form-control">
+                                                <form:option value="-" label="--선택--" />
+                                                <form:options items="${common.deptList}" itemValue="deptCode" itemLabel="deptName" />
+                                            </form:select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="corsTypeCode" class="col-sm-2 control-label">지원과정</label>
+                                        <div class="col-sm-9">
+                                            <form:select path="application.corsTypeCode" id="corsTypeCode" cssClass="form-control">
+                                                <form:option value="-" label="--선택--" />
+                                                <form:options items="${common.corsTypeList}" itemValue="corsTypeCode" itemLabel="codeVal" />
+                                            </form:select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="detlMajCode" class="col-sm-2 control-label">세부전공</label>
+                                        <div class="col-sm-9">
+                                            <form:select path="application.detlMajCode" id="detlMajCode" cssClass="form-control">
+                                                <form:option value="-" label="--선택--" />
+                                                <form:options items="${common.detlMajList}" itemValue="detlMajCode" itemLabel="detlMajName" />
+                                            </form:select>
                                         </div>
                                     </div>
                                 </div>
+                            </div>
+                        </div>
+                        <div class="panel panel-default">
                                 <div class="panel-heading">지원자 정보</div>
                                 <div class="panel-body">
                                     <div class="form-group">
@@ -287,7 +287,7 @@
                                         <div class="col-sm-offset-2 col-sm-9">
                                             <div class="input-group">
                                                 <span class="input-group-addon">이름</span>
-                                                <form:input path="application.engName" cssClass="col-sm-6 form-control" />
+                                                <form:input path="application.engName" cssClass="col-sm-6 form-control" style="text-transform: uppercase;" />
                                             </div>
                                         </div>
                                     </div>
@@ -553,7 +553,7 @@
                                 <div class="panel-heading">대학교</div>
                                 <div class="panel-body">
                                     <div class="form-group-block-list">
-                                        <c:forEach begin="0" end="${collegeList.size() > 0 ? collegeList.size()-1 : collegeList.size()}" varStatus="stat">
+                                        <c:forEach begin="0" end="${entireApplication.collegeList.size() > 0 ? entireApplication.collegeList.size() - 1 : 0}" varStatus="stat">
                                         <div class="form-group-block">
                                             <form:hidden path="collegeList[${stat.index}].acadTypeCode" value="00002" />
                                             <%--TODO 테이블에 국가이름 누락--%>
@@ -631,7 +631,7 @@
                                 <div class="panel-heading">대학원</div>
                                 <div class="panel-body">
                                     <div class="form-group-block-list">
-                                        <c:forEach begin="0" end="${graduateList.size() > 0 ? graduateList.size()-1 : graduateList.size()}" varStatus="stat">
+                                        <c:forEach begin="0" end="${entireApplication.graduateList.size() > 0 ? entireApplication.graduateList.size() - 1 : 0}" varStatus="stat">
                                         <div class="form-group-block">
                                             <form:hidden path="graduateList[${stat.index}].acadTypeCode" value="00003" />
                                             <%--TODO 테이블에 국가이름 누락--%>
@@ -710,14 +710,14 @@
                             <div class="panel panel-default">
                                 <div class="panel-heading">어학성적</div>
                                 <div class="panel-body">
-                                    <div class="form-group">
+                                    <div class="form-group" id="foreign-toefl">
                                         <label class="col-sm-2 control-label">영어</label>
                                         <div class="col-sm-4">
                                             <div class="checkbox" style="float:left;">
-                                                <label><input type="checkbox" />TOEFL</label>
+                                                <label><input type="checkbox" class="check-submit" disabled />TOEFL</label>
                                             </div>
                                             <div style="width:70%; float:right;">
-                                                <select class="form-control">
+                                                <select pathcssClass="form-control">
                                                     <option value="-" label="--선택--" />
                                                 </select>
                                             </div>
@@ -738,7 +738,7 @@
                                     <div class="form-group">
                                         <div class="col-sm-offset-2 col-sm-4">
                                             <div class="checkbox">
-                                                <label><input type="checkbox" />GRE</label>
+                                                <label><input type="checkbox" />TOEIC</label>
                                             </div>
                                         </div>
                                         <div class="col-sm-3">
@@ -853,7 +853,7 @@
                                 <div class="panel-heading">경력사항</div>
                                 <div class="panel-body">
                                     <div id="career-container" class="form-group-block-list">
-                                        <c:forEach varStatus="stat" begin="0" end="${applicationExperienceList.size() > 0 ? applicationExperienceList.size()-1 : applicationExperienceList.size()}">
+                                        <c:forEach varStatus="stat" begin="0" end="${entireApplication.applicationExperienceList.size() > 0 ? entireApplication.applicationExperienceList.size() - 1 : 0}">
                                         <div id="career-info" class="form-group-block">
                                             <div class="form-group">
                                                 <label class="col-sm-2 control-label">재직 기간</label>
@@ -1394,38 +1394,72 @@
                     gradAvr: {
                         selector: '[name$="gradAvr"]',
                         validators: {
-                            numeric: {
-                                separator: '',
-                                message: '${msgPhoneNo}'
-                            },
-                            lessThan: {
-                                value: function (value, validator, $field) {
+                            callback: {
+                                callback: function (value, validator, $field) {
+                                    if (value === '') {
+                                        return true;
+                                    }
+                                    var regexp = /^([0-9]*(.)?([0-9])?)$/;
+                                    if (!regexp.test(value)) {
+                                        return {
+                                            value: false,
+                                            message: '${msgPhoneNo}'
+                                        }
+                                    }
+
                                     var $parent = $field.parents('.form-group');
                                     var name = $field.attr('name');
-                                    name = name.substring(0, name.indexOf('.') + 1) + 'gradFull';
-                                    var $avr = $parent.find('[name="' + name + '"]');
-                                    return $avr.val();
-                                },
-                                message: '평점보다 만점이 커야합니다'
+                                    name = name.substring(0, name.indexOf('.')) + '.gradFull';
+                                    var $gradFull = $parent.find('[name="' + name + '"]');
+                                    var gradFullValue = $gradFull.val();
+                                    if (gradFullValue === '' || !regexp.test(gradFullValue)) {
+                                        return true;
+                                    }
+                                    if (Number(value) > Number(gradFullValue)) {
+                                        return {
+                                            valid: false,
+                                            message: '평점보다 만점이 커야합니다'
+                                        };
+                                    }
+
+                                    return true;
+                                }
                             }
                         }
                     },
                     gradFull: {
                         selector: '[name$="gradFull"]',
                         validators: {
-                            numeric: {
-                                separator: '',
-                                message: '${msgPhoneNo}'
-                            },
-                            greaterThan: {
-                                value: function(value, validator, $field) {
+                            callback: {
+                                callback: function (value, validator, $field) {
+                                    if (value === '') {
+                                        return true;
+                                    }
+                                    var regexp = /^([0-9]*(.)?([0-9])?)$/;
+                                    if (!regexp.test(value)) {
+                                        return {
+                                            value: false,
+                                            message: '${msgPhoneNo}'
+                                        }
+                                    }
+
                                     var $parent = $field.parents('.form-group');
                                     var name = $field.attr('name');
-                                    name = name.substring(0, name.indexOf('.') + 1) + 'gradAvr';
-                                    var $avr = $parent.find('[name="' + name + '"]');
-                                    return $avr.val();
-                                },
-                                message: '평점보다 만점이 커야합니다'
+                                    name = name.substring(0, name.indexOf('.')) + '.gradAvr';
+                                    var $gradFull = $parent.find('[name="' + name + '"]');
+                                    var gradFullValue = $gradFull.val();
+                                    if (gradFullValue === '' || !regexp.test(gradFullValue)) {
+                                        return true;
+                                    }
+                                    if (Number(value) < Number(gradFullValue)) {
+                                        return {
+                                            valid: false,
+                                            message: '평점보다 만점이 커야합니다'
+                                        };
+                                    }
+
+                                    return true;
+                                }
                             }
                         }
                     }
@@ -1636,10 +1670,12 @@
                 items = block.querySelectorAll('input, select');
                 if (items) {
                     for (i = 0; i <items.length; i++) {
-                        if (items[i].type != 'checkbox' || items[i].type != 'radio') {
-                            items[i].value = "";
+                        if (items[i].type != 'hidden' && items[i].type != 'radio' && items[i].type != 'checkbox') {
+                            items[i].value = '';
                         }
-                        items[i].checked = false;
+                        if (items[i].checked != null) {
+                            items[i].checked = false;
+                        }
                     }
                 }
             }
@@ -1647,7 +1683,7 @@
             <%-- form-group-block 추가/삭제에 대한 처리 끝 --%>
 
             <%-- 고등학교 졸업/검정고시 동적 변경 시작 --%>
-            $('input[name="highSchool.acadTypeCode"]').change(function() {
+            $('input[name="highSchool.acadTypeCode"]').on('change', function() {
                 var radioValue = $(this).val();
                 if (radioValue == '00001') {
                     hideExclude('highschoolSubContainer1');
@@ -1663,7 +1699,7 @@
                 $('#' + excludeId).show();
             }
 
-            $('input[name="highSchool.acadTypeCode"]').eq(0).click();
+            $('input[name="highSchool.acadTypeCode"]').trigger('change');
             <%-- 고등학교 졸업/검정고시 동적 변경 시작 --%>
 
             <%-- 최종 대학 체크 처리 시작 --%>
