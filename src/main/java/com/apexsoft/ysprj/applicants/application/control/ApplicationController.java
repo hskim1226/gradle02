@@ -187,7 +187,7 @@ public class ApplicationController {
         List<CommonCode> mltrRankList = commonService.retrieveCommonCodeValueByCodeGroup("MLTR_RANK");
         List<CommonCode> emerContList = commonService.retrieveCommonCodeValueByCodeGroup("EMER_CONT");
         List<CommonCode> toflTypeList = commonService.retrieveCommonCodeValueByCodeGroup("TOFL_TYPE");
-        List<CommonCode> fornExmpList = commonService.retrieveCommonCodeValueByCodeGroup("TOFL_TYPE");
+        List<CommonCode> fornExmpList = commonService.retrieveCommonCodeValueByCodeGroup("FORN_EXMP");
 
         commonCodeMap.put( "applAttrList", applAttrList );
         commonCodeMap.put( "mltrServList", mltrServList );

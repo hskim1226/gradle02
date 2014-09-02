@@ -707,144 +707,128 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="panel panel-default">
+                            <div class="panel panel-default" id="english-score-list">
                                 <div class="panel-heading">어학성적</div>
                                 <div class="panel-body">
-                                    <div class="form-group" id="foreign-toefl">
+                                    <div class="form-group">
                                         <label class="col-sm-2 control-label">영어</label>
                                         <div class="col-sm-4">
                                             <div class="checkbox" style="float:left;">
-                                                <label><input type="checkbox" class="check-submit" disabled />TOEFL</label>
+                                                <input type="hidden" id="langExamCode.1" value="00001" />
+                                                <label><input type="checkbox" class="check-submit" />TOEFL</label>
                                             </div>
                                             <div style="width:70%; float:right;">
-                                                <select pathcssClass="form-control">
+                                                <select id="toflTypeCode.1" class="form-control">
                                                     <option value="-" label="--선택--" />
+                                                    <c:forEach items="${common.toflTypeList}" var="toflType" varStatus="stat">
+                                                        <option value="${toflType.code}" label="${toflType.codeVal}" />
+                                                    </c:forEach>
                                                 </select>
                                             </div>
                                         </div>
                                         <div class="col-sm-3">
-                                            <div class="input-group">
+                                            <div class="input-group date">
                                                 <span class="input-group-addon">시험일</span>
-                                                <input type="text" class="form-control" />
+                                                <input type="text" class="form-control" id="examDay.1" />
                                             </div>
                                         </div>
                                         <div class="col-sm-2">
                                             <div class="input-group">
                                                 <span class="input-group-addon">점수</span>
-                                                <input type="text" class="form-control" />
+                                                <input type="text" class="form-control" id="langGrad.1" />
                                             </div>
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <div class="col-sm-offset-2 col-sm-4">
                                             <div class="checkbox">
-                                                <label><input type="checkbox" />TOEIC</label>
+                                                <input type="hidden" id="langExamCode.2" value="00002" />
+                                                <label><input type="checkbox" class="check-submit" />TOEIC</label>
                                             </div>
                                         </div>
                                         <div class="col-sm-3">
-                                            <div class="input-group">
+                                            <div class="input-group date">
                                                 <span class="input-group-addon">시험일</span>
-                                                <input type="text" class="form-control" />
+                                                <input type="text" class="form-control" id="examDay.2" />
                                             </div>
                                         </div>
                                         <div class="col-sm-2">
                                             <div class="input-group">
                                                 <span class="input-group-addon">점수</span>
-                                                <input type="text" class="form-control" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <div class="col-sm-offset-2 col-sm-4">
-                                            <div class="checkbox" style="float:left;">
-                                                <label><input type="checkbox" />TEPS</label>
-                                            </div>
-                                            <div style="width:70%; float:right;">
-                                                <select class="form-control">
-                                                    <option value="-" label="--선택--" />
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-3">
-                                            <div class="input-group">
-                                                <span class="input-group-addon">시험일</span>
-                                                <input type="text" class="form-control" />
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-2">
-                                            <div class="input-group">
-                                                <span class="input-group-addon">점수</span>
-                                                <input type="text" class="form-control" />
+                                                <input type="text" class="form-control" id="langGrad.2" />
                                             </div>
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <div class="col-sm-offset-2 col-sm-4">
                                             <div class="checkbox">
-                                                <label><input type="checkbox" />GRE</label>
+                                                <input type="hidden" id="langExamCode.3" value="00003" />
+                                                <label><input type="checkbox" class="check-submit" />TEPS</label>
                                             </div>
                                         </div>
                                         <div class="col-sm-3">
-                                            <div class="input-group">
+                                            <div class="input-group date">
                                                 <span class="input-group-addon">시험일</span>
-                                                <input type="text" class="form-control" />
+                                                <input type="text" class="form-control" id="examDay.3" />
                                             </div>
                                         </div>
                                         <div class="col-sm-2">
                                             <div class="input-group">
                                                 <span class="input-group-addon">점수</span>
-                                                <input type="text" class="form-control" />
+                                                <input type="text" class="form-control" id="langGrad.3" />
                                             </div>
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <div class="col-sm-offset-2 col-sm-4">
-                                            <div class="checkbox" style="float:left;">
-                                                <label><input type="checkbox" />IELTS</label>
-                                            </div>
-                                            <div style="width:70%; float:right;">
-                                                <select class="form-control">
-                                                    <option value="-" label="--선택--" />
-                                                </select>
+                                            <div class="checkbox">
+                                                <input type="hidden" id="langExamCode.4" value="00004" />
+                                                <label><input type="checkbox" class="check-submit" />IELTS</label>
                                             </div>
                                         </div>
                                         <div class="col-sm-3">
-                                            <div class="input-group">
+                                            <div class="input-group date">
                                                 <span class="input-group-addon">시험일</span>
-                                                <input type="text" class="form-control" />
+                                                <input type="text" class="form-control" id="examDay.4" />
                                             </div>
                                         </div>
                                         <div class="col-sm-2">
                                             <div class="input-group">
                                                 <span class="input-group-addon">점수</span>
-                                                <input type="text" class="form-control" />
+                                                <input type="text" class="form-control" id="langGrad.4" />
                                             </div>
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <div class="col-sm-offset-2 col-sm-9">
+                                        <div class="col-sm-offset-2 col-sm-4">
+                                            <div class="checkbox">
+                                                <input type="hidden" id="langExamCode.5" value="00005" />
+                                                <label><input type="checkbox" class="check-submit" />GRE</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <div class="input-group date">
+                                                <span class="input-group-addon">시험일</span>
+                                                <input type="text" class="form-control" id="examDay.5" />
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <div class="input-group">
+                                                <span class="input-group-addon">점수</span>
+                                                <input type="text" class="form-control" id="langGrad.5" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-sm-offset-2 col-sm-4">
                                             <div class="checkbox">
                                                 <label>
                                                     <input type="checkbox" />외국어 성적 면제 해당자
                                                 </label>
                                             </div>
-                                            <div class="well">
-                                                <div class="radio">
-                                                    <label>
-                                                        <input type="radio" name="reasonOption" id="reasonOption1" />옵션 1
-                                                    </label>
-                                                </div>
-                                                <div class="radio">
-                                                    <label>
-                                                        <input type="radio" name="reasonOption" id="reasonOption2" />옵션 2
-                                                    </label>
-                                                </div>
-                                                <div class="radio">
-                                                    <label>
-                                                        <input type="radio" name="reasonOption" id="reasonOption3" />옵션 3
-                                                    </label>
-                                                </div>
-                                            </div>
+                                        </div>
+                                        <div class="col-sm-5">
+                                            <form:select path="applicationGeneral.forlExmpCode" cssClass="form-control" items="${common.fornExmpList}" itemValue="code" itemLabel="codeVal" />
                                         </div>
                                     </div>
                                 </div>
@@ -1469,12 +1453,15 @@
                 var $formData = $form.serializeArray();
 
                 var $radioGroup;
-                $('input.radio-group').filter(function() {
+                $form.find('input.radio-group').filter(function() {
                     return this.checked == false;
                 }).each(function() {
                     $formData.push({name: this.name, value: 'N'});
                 });
 
+                $formData = $formData.concat(getEnglishScoreSerializeArray());
+
+console.log($formData);
                 $.ajax({
                     url: $formUrl,
                     type: 'POST',
@@ -1494,6 +1481,34 @@
                 });
                 event.preventDefault();
             });
+
+            function getEnglishScoreSerializeArray(form) {
+                var array = [], $groups, $items, val, id, name, i, j;
+                $groups = $('#english-score-list').find('.form-group').filter(function() {
+                    var check = $(this).find('input.check-submit')[0];
+                    return check ? check.checked : false;
+                });
+
+                for (i = 0; i < $groups.length; i++) {
+                    $items = $($groups[i]).find('input, select').filter(function () {
+                        val = $(this).val();
+                        return val !== '' && val !== '-';
+                    });
+
+                    for (j = 0; j < $items.length; j++) {
+                        id = $items[j].id;
+                        if (!id) {
+                            continue;
+                        }
+                        id = id.substring(0, id.indexOf('.'));
+                        name = 'applicationLanguageList[' + i + '].' + id;
+                        array.push({name: name, value: $items[j].value})
+                    }
+                }
+
+                return array;
+            }
+
 
             <%-- alert 생성 --%>
             function createAlert(message) {
@@ -1868,15 +1883,16 @@
                     }
             );
 
+            <%-- 세부전공 변경 시 세부전공 하위 변경 --%>
             $('#detlMajCode').on('change', function(event) {
                 var selected = this.options[this.selectedIndex];
                 var val = selected.value;
                 var parent = this.parentNode.parentNode;
                 var $divNode, $childNode, $childNode2;
 
-                if (val.slice(0, 1) == '9') {
+                if (val.slice(0, 1) == '9') {   // 직전 학위과정의 학과명 입력
                     $(parent).find('#detlMajRadio').remove();
-                    if ($(parent).find('#detlMajText').length == 0) {
+                    if ($(parent).find('#detlMajText').length == 0) {   // text 없으면 생성
                         $divNode = $('<div/>').addClass('col-sm-offset-2 col-sm-9').attr({
                                     'id': 'detlMajText'
                                 });
@@ -1890,26 +1906,39 @@
                     }
                 } else {
                     $(parent).find('#detlMajText').remove();
-                    if ($(parent).find('#detlMajRadio').length == 0) {
-                        $divNode = $('<div/>').addClass('col-sm-offset-2 col-sm-9').attr({
-                                    'id': 'detlMajText'
-                                });
-                        $childNode = $('<input/>').attr({
-                                    'type': 'checkbox',
-                                    'id': 'partTimeYn',
-                                    'name': 'partTimeYn'
-                                });
-                        $childNode2 = $('<label/>').addClass('checkbox-inline').text('파트타임 여부');
-                        if ($(selected).attr('partTimeYn') === 'Y' || $(selected).attr('partTimeYn') === 'y') {
-                            $childNode.attr('checked', true);
-                        } else {
-                            $childNode.attr('checked', false);
+                    if ($(selected).attr('partTimeYn') === 'Y' || $(selected).attr('partTimeYn') === 'y') { // 세부전공 PART_TIME_YN이 Y인 경우
+                        if ($(parent).find('#detlMajRadio').length == 0) {  // 체크박스 없으면 생성
+                            $divNode = $('<div/>').addClass('col-sm-offset-2 col-sm-9').attr({
+                                'id': 'detlMajRadio'
+                            });
+                            $childNode = $('<input/>').attr({
+                                'type': 'checkbox',
+                                'id': 'partTimeYn',
+                                'name': 'partTimeYn'
+                            });
+                            $childNode2 = $('<label/>').addClass('checkbox-inline').text('파트타임 여부');
+                            $childNode.prependTo($childNode2);
+                            $childNode2.appendTo($divNode);
+                            $divNode.appendTo($(parent));
                         }
-                        $childNode.prependTo($childNode2);
-                        $childNode2.appendTo($divNode);
-                        $divNode.appendTo($(parent));
                     }
                 }
+            });
+
+            <%-- 세부전공 변경 시 어학 변경 --%>
+            $('#detlMajCode').on('change', function(event) {
+                var val = this.options[this.selectedIndex].value;
+                var baseUrl = '${contextPath}/common/code/required/engScore/';    // 세부전공별 어학성적 필수여부 경로
+                $.ajax({
+                    type: 'GET',
+                    url: baseUrl + val,
+                    success: function(e) {
+                        $('#applicationGeneral\\.forlExmpCode').find('option').filter('[value="6"]').each(function() {
+                            $(this).hide(e.data == 'Y' || e.data == 'y');
+                        });
+                    },
+                    error: function(e) {}
+                });
             });
 
             <%-- 지원사항 select 폼 change 이벤트 핸들러 등록 끝 --%>

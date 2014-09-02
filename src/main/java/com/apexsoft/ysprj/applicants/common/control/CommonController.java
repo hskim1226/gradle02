@@ -296,4 +296,12 @@ public class CommonController {
 
         return executionContext;
     }
+
+    @RequestMapping(value = "/code/required/engScore/{detlMaj}", method = RequestMethod.GET)
+    @ResponseBody
+    public ExecutionContext retrieveRequiredEnglishScoreByDetlMaj(@PathVariable("detlMaj") String detlMaj) {
+        ExecutionContext executionContext = new ExecutionContext();
+        executionContext.setData("Y");
+        return executionContext;
+    }
 }
