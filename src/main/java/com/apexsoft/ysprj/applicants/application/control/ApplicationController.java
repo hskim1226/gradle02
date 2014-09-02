@@ -2,11 +2,15 @@ package com.apexsoft.ysprj.applicants.application.control;
 
 import com.apexsoft.framework.common.vo.ExecutionContext;
 import com.apexsoft.framework.message.MessageResolver;
+import com.apexsoft.framework.persistence.file.PersistenceManager;
+import com.apexsoft.framework.persistence.file.model.FileItem;
 import com.apexsoft.framework.web.file.FileHandler;
+import com.apexsoft.framework.web.file.callback.UploadEventCallbackHandler;
 import com.apexsoft.ysprj.applicants.application.domain.*;
 import com.apexsoft.ysprj.applicants.application.service.ApplicationService;
 import com.apexsoft.ysprj.applicants.common.domain.*;
 import com.apexsoft.ysprj.applicants.common.service.CommonService;
+import com.apexsoft.ysprj.template.web.form.FileMetaForm;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -208,8 +212,7 @@ public class ApplicationController {
     @ResponseBody
     public ExecutionContext saveApplication(@Valid @ModelAttribute EntireApplication entireApplication,
                                             BindingResult binding,
-                                            Principal principal,
-                                            FileHandler fileHandler) {
+                                            Principal principal) {
         if( binding.hasErrors() ) {
             return new ExecutionContext(ExecutionContext.FAIL);
         }
@@ -248,6 +251,41 @@ public class ApplicationController {
             message = messageResolver.getMessage("U301");
         }
         return new ExecutionContext(ExecutionContext.SUCCESS, message);
+    }
+
+    /**
+     * 입학원서 저장
+     *
+     * @param entireApplication
+     * @param binding
+     * @param principal
+     * @return
+     */
+    @RequestMapping(value = "/apply/saveandupload", method = RequestMethod.POST)
+    @ResponseBody
+    public ExecutionContext saveAndUpload(@Valid @ModelAttribute EntireApplication entireApplication,
+                                          BindingResult binding,
+                                          Principal principal,
+                                          FileHandler fileHandler) {
+        saveApplication(entireApplication, binding, principal);
+        fileHandler.handleMultiPartRequest(new UploadEventCallbackHandler<String, FileMetaForm>() {
+            @Override
+            protected String getDirectory(String fileFieldName, FileMetaForm attributes, String leafDirectory) {
+                return null;
+            }
+
+            @Override
+            protected String createFileName(String fileFieldName, String originalFileName, FileMetaForm attribute) {
+                return null;
+            }
+
+            @Override
+            public String handleEvent(List<FileItem> fileItems, FileMetaForm attribute, PersistenceManager persistence) {
+                return null;
+            }
+        }, FileMetaForm.class);
+
+        return new ExecutionContext(ExecutionContext.SUCCESS, "성공 또는 실패");
     }
 
     @RequestMapping(value="/apply/update")
