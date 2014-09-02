@@ -243,7 +243,7 @@
                                                 <div class="col-sm-9">
                                                     <form:select path="application.deptCode" id="deptCode" cssClass="form-control">
                                                         <form:option value="-" label="--선택--" />
-                                                        <form:options items="${common.deptList}" itemValue="deptCode" itemLabel="deptCode" />
+                                                        <form:options items="${common.deptList}" itemValue="deptCode" itemLabel="deptName" />
                                                     </form:select>
                                                 </div>
                                             </div>
@@ -287,7 +287,7 @@
                                         <div class="col-sm-offset-2 col-sm-9">
                                             <div class="input-group">
                                                 <span class="input-group-addon">이름</span>
-                                                <form:input path="application.engName" cssClass="col-sm-6 form-control" />
+                                                <form:input path="application.engName" cssClass="col-sm-6 form-control" style="text-transform: uppercase;" />
                                             </div>
                                         </div>
                                     </div>
@@ -1390,38 +1390,72 @@
                     gradAvr: {
                         selector: '[name$="gradAvr"]',
                         validators: {
-                            numeric: {
-                                separator: '',
-                                message: '${msgPhoneNo}'
-                            },
-                            lessThan: {
-                                value: function (value, validator, $field) {
+                            callback: {
+                                callback: function (value, validator, $field) {
+                                    if (value === '') {
+                                        return true;
+                                    }
+                                    var regexp = /^([0-9]*(.)?([0-9])?)$/;
+                                    if (!regexp.test(value)) {
+                                        return {
+                                            value: false,
+                                            message: '${msgPhoneNo}'
+                                        }
+                                    }
+
                                     var $parent = $field.parents('.form-group');
                                     var name = $field.attr('name');
-                                    name = name.substring(0, name.indexOf('.') + 1) + 'gradFull';
-                                    var $avr = $parent.find('[name="' + name + '"]');
-                                    return $avr.val();
-                                },
-                                message: '평점보다 만점이 커야합니다'
+                                    name = name.substring(0, name.indexOf('.')) + '.gradFull';
+                                    var $gradFull = $parent.find('[name="' + name + '"]');
+                                    var gradFullValue = $gradFull.val();
+                                    if (gradFullValue === '' || !regexp.test(gradFullValue)) {
+                                        return true;
+                                    }
+                                    if (Number(value) > Number(gradFullValue)) {
+                                        return {
+                                            valid: false,
+                                            message: '평점보다 만점이 커야합니다'
+                                        };
+                                    }
+
+                                    return true;
+                                }
                             }
                         }
                     },
                     gradFull: {
                         selector: '[name$="gradFull"]',
                         validators: {
-                            numeric: {
-                                separator: '',
-                                message: '${msgPhoneNo}'
-                            },
-                            greaterThan: {
-                                value: function(value, validator, $field) {
+                            callback: {
+                                callback: function (value, validator, $field) {
+                                    if (value === '') {
+                                        return true;
+                                    }
+                                    var regexp = /^([0-9]*(.)?([0-9])?)$/;
+                                    if (!regexp.test(value)) {
+                                        return {
+                                            value: false,
+                                            message: '${msgPhoneNo}'
+                                        }
+                                    }
+
                                     var $parent = $field.parents('.form-group');
                                     var name = $field.attr('name');
-                                    name = name.substring(0, name.indexOf('.') + 1) + 'gradAvr';
-                                    var $avr = $parent.find('[name="' + name + '"]');
-                                    return $avr.val();
-                                },
-                                message: '평점보다 만점이 커야합니다'
+                                    name = name.substring(0, name.indexOf('.')) + '.gradAvr';
+                                    var $gradFull = $parent.find('[name="' + name + '"]');
+                                    var gradFullValue = $gradFull.val();
+                                    if (gradFullValue === '' || !regexp.test(gradFullValue)) {
+                                        return true;
+                                    }
+                                    if (Number(value) < Number(gradFullValue)) {
+                                        return {
+                                            valid: false,
+                                            message: '평점보다 만점이 커야합니다'
+                                        };
+                                    }
+
+                                    return true;
+                                }
                             }
                         }
                     }
