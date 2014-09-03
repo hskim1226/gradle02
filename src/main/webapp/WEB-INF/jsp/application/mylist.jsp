@@ -41,7 +41,7 @@
             <div class="col-md-10 col-md-offset-1">
                 <h2 class="slogan">지원 내역</h2>
                 <div class="align-center">
-                    <form class="form-horizontal" id="LGD_PAYINFO" role="form" action="${contextPath}/pay/confirm" method="post">
+                    <form class="form-horizontal" id="LGD_PAYINFO" role="form" method="post">
                         <table class="table table-stripped">
                             <thead>
                             <tr>
@@ -64,15 +64,15 @@
                                 <td valign="middle" style="vertical-align: middle;">${item.detlMajName}</td>
                                 <td valign="middle" style="vertical-align: middle;">${item.applStsName}</td>
                                 <td valign="middle" style="vertical-align: middle;">
-                                    <button id="modify" class="btn btn-default btn-block" data-applNo="${item.applNo}" ${item.applStsCode=="00001"?"":"disabled"}>수정하기</button>
+                                    <button id="modify" class="btn btn-default btn-block modify" data-applNo="${item.applNo}" data-admsNo="${item.admsNo}" data-entrYear="${item.entrYear}" data-admsTypeCode="${item.admsTypeCode}" ${item.applStsCode=="00001"?"":"disabled"}>수정하기</button>
                                     <%--<button id="verify" class="btn btn-info btn-block" ${item.applStsCode=="00010"?"":"disabled"}>확인하기</button>--%>
-                                    <button id="verify" class="btn btn-info btn-block" data-applNo="${item.applNo}">확인하기</button>
-                                    <button id="pay" class="btn btn-primary btn-block"
+                                    <button id="verify" class="btn btn-info btn-block verify" data-applNo="${item.applNo}" data-admsNo="${item.admsNo}" data-entrYear="${item.entrYear}" data-admsTypeCode="${item.admsTypeCode}">확인하기</button>
+                                    <button id="pay" class="btn btn-primary btn-block pay"
                                             name="2015학년도 ${item.campName} ${item.admsTypeName} ${item.deptName} ${item.corsTypeName}"
                                             <%--value="80000" ${item.applStsCode=="00010"?"":(item.applStsCode=="00021"?"":"disabled")}>결제하기</button>--%>
                                             value="80000">결제하기</button>
-                                    <button id="showApplicationBirt" class="btn btn-success btn-block" ${item.applStsCode=='00020'?"":"disabled"}>지원서보기</button>
-                                    <button id="showAppLableBirt" class="btn btn-success btn-block" ${item.applStsCode=='00020'?"":"disabled"}>수험표출력</button>
+                                    <button id="showApplicationBirt" class="btn btn-success btn-block showApplicationBirt" data-applNo="${item.applNo}" data-admsNo="${item.admsNo}" data-entrYear="${item.entrYear}" data-admsTypeCode="${item.admsTypeCode}" ${item.applStsCode=='00020'?"":"disabled"}>지원서보기</button>
+                                    <button id="showAppLableBirt" class="btn btn-success btn-block showAppLableBirt" data-applNo="${item.applNo}" data-admsNo="${item.admsNo}" data-entrYear="${item.entrYear}" data-admsTypeCode="${item.admsTypeCode}" ${item.applStsCode=='00020'?"":"disabled"}>수험표출력</button>
                                 </td>
                             </tr>
                             </c:forEach>
@@ -92,29 +92,35 @@
 <content tag="local-script">
     <script>
         $(document).ready( function() {
-            $('#modify').click(function(){
-                <%--location.href="${contextPath}/application/modify";--%>
-                return;
-            });
-            $('#verify').click(function(e){
+            $('.modify').click(function(e){
+                location.href="${contextPath}/application/apply" + getQueryString(e.target, true);
                 e.preventDefault();
-                var applNo = e.target.getAttribute("data-applNo");
-                location.href="${contextPath}/application/show/" + applNo;
-                return;
             });
-            $('#pay').click(function(){
+            $('.verify').click(function(e){
+                location.href="${contextPath}/application/apply" + getQueryString(e.target, true);
+                e.preventDefault();
+            });
+            $('.pay').click(function(e){
                 document.getElementById('LGD_PRODUCTINFO').value = $(this).name;
                 document.getElementById('LGD_AMOUNT').value = $(this).value;
+                document.getElementById('LGD_PAYINFO').setAttribute("action", "${contextPath}/pay/confirm");
                 $('#LGD_PAYINFO').submit();
             });
-            $('#showApplicationBirt').click(function(){
+            $('.showApplicationBirt').click(function(e){
                 <%--location.href="${contextPath}/application/show";--%>
-                return;
+                e.preventDefault();
             });
-            $('#showAppLabel').click(function(){
+            $('.showAppLabel').click(function(e){
                 <%--location.href="${contextPath}/application/show";--%>
-                return;
+                e.preventDefault();
             });
+            var getQueryString = function (obj, includeApplNo) {
+                var withoutApplNo = "?admsNo=" + obj.getAttribute("data-admsNo") + "&" +
+                                  "entrYear=" + obj.getAttribute("data-entrYear") + "&" +
+                                  "admsTypeCode=" + obj.getAttribute("data-admsTypeCode"),
+                    withApplNo = withoutApplNo + "&applNo=" + obj.getAttribute("data-applNo");
+                return includeApplNo ? withApplNo : withoutApplNo;
+            }
         })
     </script>
 </content>

@@ -1454,13 +1454,13 @@
             <%-- 지원정보 submit 이벤트 --%>
 //            var beforeFormSubmit = function (arr, formObj, options) {
 //alert("beforeFormSubmit");
-//console.dir(arr);
+//if(console) console.dir(arr);
 //            };
 //
 //            var beforeFormSerialize = function (formObj, options) {
 //
-//console.log('in beforeSerialize');
-//console.dir(formObj);
+//if(console) console.log('in beforeSerialize');
+//if(console) console.dir(formObj);
 //            };
 //
 //            var makeFormData = function (formObj) {
@@ -1470,7 +1470,7 @@
 //                }).each(function() {
 //                    data.push({name: this.name, value: 'N'});
 //                });
-//console.dir(data);
+//if(console) console.dir(data);
 //            };
 //
 //            $('#entireApplication').on('submit', function(event) {
@@ -1513,7 +1513,7 @@
                     $formData.push({name: this.name, value: 'N'});
                 });
 
-console.dir($formData);
+if(console) console.dir($formData);
 
                 $formData = $formData.concat(getEnglishScoreSerializeArray());
                 $.ajax({
@@ -1847,7 +1847,7 @@ console.dir($formData);
                             }
                         },
                         error: function(e) {
-                            console.log(e);
+                            if(console) console.log(e);
                         }
                     });
                 });
@@ -2055,7 +2055,7 @@ console.dir($formData);
                         }
                     },
                     error: function(e) {
-                        console.log(e);
+                        if(console) console.log(e);
                     }
                 });
             }

@@ -107,7 +107,7 @@
     <select id="selectApplByUserId"
             resultType="com.apexsoft.ysprj.applicants.application.domain.CustomMyList"
             parameterType="com.apexsoft.ysprj.applicants.application.domain.ParamForApplication" >
-        select  a.APPL_NO,
+        select  a.APPL_NO, a.ADMS_NO, a.ENTR_YEAR, a.ADMS_TYPE_CODE,
                 a.USER_ID, a.KOR_NAME,
                 a.ADMS_TYPE_CODE, H.CODE_VAL ADMS_TYPE_NAME,
                 F.CAMP_NAME, b.DEPT_NAME,

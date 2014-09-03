@@ -117,17 +117,17 @@ public class ApplicationServiceImpl implements ApplicationService {
                 r7 = insertList(applicationExperienceList, "ApplicationExperienceMapper");
             }
 
-// TODO 어학 완료되면 주석 해제
-//            List<ApplicationLanguage> applicationLanguageList = entireApplication.getApplicationLanguageList();
-//            idx = 0;
-//            if ( applicationLanguageList != null ) {
-//                for( ApplicationLanguage applicationLanguage : applicationLanguageList) {
-//                    applicationLanguage.setApplNo(applNo);
-//                    applicationLanguage.setLangSeq(++idx);
-//                    applicationLanguage.setCreDate(date);
-//                }
-//                r8 = insertList(applicationLanguageList, "ApplicationLanguageMapper");
-//            }
+
+            List<ApplicationLanguage> applicationLanguageList = entireApplication.getApplicationLanguageList();
+            idx = 0;
+            if ( applicationLanguageList != null ) {
+                for( ApplicationLanguage applicationLanguage : applicationLanguageList) {
+                    applicationLanguage.setApplNo(applNo);
+                    applicationLanguage.setLangSeq(++idx);
+                    applicationLanguage.setCreDate(date);
+                }
+                r8 = insertList(applicationLanguageList, "ApplicationLanguageMapper");
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -234,18 +234,17 @@ public class ApplicationServiceImpl implements ApplicationService {
                 r7 = insertList(experienceList, "ApplicationExperienceMapper");
             }
 
-// TODO 어학 완료되면 주석 해제
-//            deleteListByApplNo(applNo, "CustomApplicationLanguageMapper");
-//            List<ApplicationLanguage> languageList = entireApplication.getApplicationLanguageList();
-//            idx = 0;
-//            if ( languageList != null ) {
-//                for(ApplicationLanguage item : languageList) {
-//                    item.setApplNo(applNo);
-//                    item.setModDate(date);
-//                    item.setLangSeq(++idx);
-//                }
-//                r8 = insertList(languageList, "ApplicationLanguageMapper");
-//            }
+            deleteListByApplNo(applNo, "CustomApplicationLanguageMapper");
+            List<ApplicationLanguage> languageList = entireApplication.getApplicationLanguageList();
+            idx = 0;
+            if ( languageList != null ) {
+                for(ApplicationLanguage item : languageList) {
+                    item.setApplNo(applNo);
+                    item.setModDate(date);
+                    item.setLangSeq(++idx);
+                }
+                r8 = insertList(languageList, "ApplicationLanguageMapper");
+            }
 
         } catch ( Exception e ) {
             e.printStackTrace();
