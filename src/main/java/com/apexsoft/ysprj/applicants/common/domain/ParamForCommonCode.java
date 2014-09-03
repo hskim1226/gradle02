@@ -7,6 +7,7 @@ public class ParamForCommonCode {
 
     private String codeGrp;
     private String code;
+    private String codeVal;
 
     public String getCodeGrp() {
         return codeGrp;
@@ -22,5 +23,13 @@ public class ParamForCommonCode {
 
     public void setCode(String code) {
         this.code = code;
+    }
+
+    public String getCodeVal() {
+        return codeVal;
+    }
+
+    public void setCodeVal(String codeVal) {
+        this.codeVal = codeVal;
     }
 }

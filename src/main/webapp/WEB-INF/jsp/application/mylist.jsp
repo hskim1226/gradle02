@@ -101,8 +101,8 @@
                 e.preventDefault();
             });
             $('.pay').click(function(e){
-                document.getElementById('LGD_PRODUCTINFO').value = $(this).name;
-                document.getElementById('LGD_AMOUNT').value = $(this).value;
+                document.getElementById('LGD_PRODUCTINFO').value = e.target.name;
+                document.getElementById('LGD_AMOUNT').value = e.target.value;
                 document.getElementById('LGD_PAYINFO').setAttribute("action", "${contextPath}/pay/confirm");
                 $('#LGD_PAYINFO').submit();
             });
