@@ -65,12 +65,12 @@
 <section class="application-selfintro" id="application-create">
     <div class="container">
         <div class="row mar-bot40">
-            <div class="col-md-offset-0 col-md-11">
+            <div class="col-md-offset-0 col-md-12">
                 <h2 class="slogan">원서 작성 사전 동의</h2>
                 <div>개인정보보호법』 제 15조 및 제 22조에 따라 연세대학교 대학원 신·편입생 선발과 관련하여 개인정보의 수집과 이용을 위해서 개인정보 수집 및 이용에 대한 귀하의 동의가 필요합니다.</div>
 
                 <div class="spacer-small"></div>
-                <form class="form-horizontal" id="formAgreement" role="form" action="${contextPath}/application/create" method="post">
+                <form class="form-horizontal" id="formAgreement" role="form" action="${contextPath}/application/apply?admsNo=15A&entrYear=2015&admsTypeCode=A" method="post">
                     <hr/>
                     <h3 class="slogan">개인 정보 수집 및 이용에 관한 동의</h3>
                     <div>원서 접수 및 입학 전형을 위해 개인정보를 수집 및 이용하며, 이외의 다른 목적에는 절대 사용되지 않습니다.</div>
@@ -89,7 +89,7 @@
                     <div class="form-group" align="center">
                         <label class="col-md-offset-1 col-md-6 big-font slogan text-center">개인 정보 수집 및 이용에 동의 하십니까?</label>
                         <label class="radio-inline">
-                            <input type="radio" name="radio1" value="0">동의함
+                            <input type="radio" name="radio1" value="0" checked>동의함
                         </label>
                         <label class="radio-inline">
                             <input type="radio" name="radio1" value="1">동의하지 않음
@@ -106,7 +106,7 @@
                     <div class="form-group" align="center">
                         <label class="col-md-offset-1 col-md-6 big-font text-center slogan">고유식별정보 수집 및 이용에 동의하십니까?</label>
                         <label class="radio-inline">
-                            <input type="radio" name="radio2" value="0">동의함
+                            <input type="radio" name="radio2" value="0" checked>동의함
                         </label>
                         <label class="radio-inline">
                             <input type="radio" name="radio2" value="1">동의하지 않음
@@ -143,7 +143,7 @@
                     <div class="form-group row" align="center">
                         <label class="col-md-offset-1 col-md-6 text-center big-font slogan">개인정보 취급 위탁에 동의하십니까?</label>
                         <label class="radio-inline">
-                            <input type="radio" name="radio3" value="0">동의함
+                            <input type="radio" name="radio3" value="0" checked>동의함
                         </label>
                         <label class="radio-inline">
                             <input type="radio" name="radio3" value="1">동의하지 않음
@@ -180,7 +180,7 @@
                     <div class="form-group" align="center">
                         <label class="col-md-offset-1 col-md-6 text-center big-font slogan">개인정보의 제3자 제공에 동의하십니까?</label>
                         <label class="radio-inline">
-                            <input type="radio" name="radio4" value="0">동의함
+                            <input type="radio" name="radio4" value="0" checked>동의함
                         </label>
                         <label class="radio-inline">
                             <input type="radio" name="radio4" value="1">동의하지 않음
@@ -198,7 +198,7 @@
                     <div class="form-group" align="center">
                         <label class="col-md-offset-1 col-md-6 text-center big-font slogan">위 내용을 확인하셨습니까?</label>
                         <label class="radio-inline">
-                            <input type="radio" name="radio5" value="0">확인함
+                            <input type="radio" name="radio5" value="0" checked>확인함
                         </label>
                         <label class="radio-inline">
                             <input type="radio" name="radio5" value="1">확인하지 않음
@@ -217,7 +217,7 @@
                     <div class="form-group" align="center">
                         <label class="col-md-offset-1 col-md-6 text-center big-font slogan">위 내용을 확인하셨습니까?</label>
                         <label class="radio-inline">
-                            <input type="radio" name="radio6" value="0">확인함
+                            <input type="radio" name="radio6" value="0" checked>확인함
                         </label>
                         <label class="radio-inline">
                             <input type="radio" name="radio6" value="1">확인하지 않음

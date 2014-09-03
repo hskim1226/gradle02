@@ -6,7 +6,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 
 /**
- * Created by Administrator on 2014-08-11.
+ * Created by go2zo on 2014-08-11.
  */
 public class UserSessionVO implements UserDetails {
 
@@ -21,15 +21,6 @@ public class UserSessionVO implements UserDetails {
 
     public UserSessionVO() {
 
-    }
-
-    public UserSessionVO(UserSessionVO vo) {
-        this.username = vo.username;
-        this.password = vo.password;
-        this.name = vo.name;
-        this.email = vo.email;
-        this.authorities = vo.authorities;
-        this.enabled = vo.enabled;
     }
 
     @Override
@@ -103,8 +94,8 @@ public class UserSessionVO implements UserDetails {
     public String toString() {
         return "UsersSessionVO{" +
                 "username=" + username +
-                ", name=" + name +
                 ", password=" + password +
+                ", name=" + name +
                 ", email=" + email +
                 "}";
     }

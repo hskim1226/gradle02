@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.apexsoft.ysprj.test.joinedApplication.Mapper">
+
+    <resultMap id="joinedApplication" type="com.apexsoft.ysprj.applicants.test.JoinedApplication">
+        <id property="applNo" column="appl_no"/>
+        <result property="userId" column="user_id"/>
+        <result property="userName" column="user_name"/>
+        <result property="phoneNumber" column="user_phone_number"/>
+        <result property="address" column="address"/>
+        <result property="deptCode" column="dept_code"/>
+        <association property="department" javaType="com.apexsoft.ysprj.applicants.test.Department">
+            <id property="code" column="code"/>
+            <result property="name" column="name"/>
+            <result property="phoneNumber" column="dept_phone_number"/>
+        </association>
+    </resultMap>
+
+    <select id="selectApplByApplNo" resultType="com.apexsoft.ysprj.applicants.test.Application">
+        <![CDATA[
+		  SELECT a.appl_no as appl_no,
+		         a.user_id as user_id,
+		         a.user_name as user_name,
+		         a.phone_number as user_phone_number,
+		         a.address as address,
+		         a.dept_code as dept_code
+		    FROM tmp_application a
+		  WHERE a.appl_no = 'a00001'
+		]]>
+    </select>
+
+    <select id="selectByApplNo" resultMap="joinedApplication">
+        <![CDATA[
+		  SELECT a.appl_no as appl_no,
+		         a.user_id as user_id,
+		         a.user_name as user_name,
+		         a.phone_number as user_phone_number,
+		         a.address as address,
+		         a.dept_code as dept_code,
+		         b.code as code,
+		         b.name as name,
+		         b.phone_number as dept_phone_number
+		    FROM tmp_application a, tmp_department b
+		  WHERE a.appl_no = 'a00001'
+		    AND a.dept_code = b.code
+		]]>
+    </select>
+
+    <select id="selectEntireApplicationByApplNo" resultType="com.apexsoft.ysprj.applicants.test.EntireApplication">
+        <![CDATA[
+        select a.appl_no as appl_no,
+               b.name as dept,
+               a.user_name as name,
+               a.phone_number as phone,
+               a.address as addr,
+               c.name as school,
+               d.name as workplace
+        from tmp_application a, tmp_department b, tmp_academy c, tmp_career d
+        where a.dept_code = b.code
+        and a.appl_no = c.appl_no
+        and a.appl_no = d.appl_no
+        ]]>
+    </select>
+
+</mapper>

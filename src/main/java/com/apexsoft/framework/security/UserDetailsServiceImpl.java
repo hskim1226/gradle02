@@ -1,12 +1,11 @@
 package com.apexsoft.framework.security;
 
-import com.apexsoft.ysprj.user.service.UsersService;
-import com.apexsoft.ysprj.user.service.UsersVO;
+import com.apexsoft.ysprj.user.domain.Users;
+import com.apexsoft.ysprj.user.service.UsersAccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 /**
  * Created with IntelliJ IDEA.
@@ -17,18 +16,22 @@ import org.springframework.security.crypto.password.PasswordEncoder;
  */
 public class UserDetailsServiceImpl implements UserDetailsService {
     @Autowired
-    private UsersService usersService;
-
+    private UsersAccountService usersAccountService;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        UsersVO usersVO = usersService.retrieveUser(username);
-        if (usersVO == null) {
+        Users users = usersAccountService.retrieveUser(username);
+        if (users == null) {
             throw new UsernameNotFoundException("account name not found");
         }
 
-        UserSessionVO userSessionVO = new UserSessionVO(usersVO);
-        userSessionVO.setAuthorities(usersService.retrieveAuthorities(username));
+        UserSessionVO userSessionVO = new UserSessionVO();
+        userSessionVO.setUsername( users.getUserId() );
+        userSessionVO.setName( users.getName() );
+        userSessionVO.setPassword( users.getPswd() );
+        userSessionVO.setEnabled( users.isEnabled() );
+        userSessionVO.setEmail( users.getMailAddr() );
+        userSessionVO.setAuthorities(usersAccountService.retrieveAuthorities(username));
 
         return userSessionVO;
     }

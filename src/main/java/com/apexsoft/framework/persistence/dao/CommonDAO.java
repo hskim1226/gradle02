@@ -64,6 +64,18 @@ public interface CommonDAO {
 	 */
 	Object queryForObject(String statementId, Object parameter);
 
+    /**
+     * 단건 조회 연산을 수행한다.
+     *
+     * @param statementId
+     *            MyBatis namespace + statementId
+     * @param clazz
+     *            반환 타입
+     *
+     * @return 조회된 데이터 (단건) or null
+     */
+    <T> T queryForObject(String statementId, Class<T> clazz);
+
 	/**
 	 * 단건 조회 연산을 수행한다.
 	 * 
@@ -105,6 +117,19 @@ public interface CommonDAO {
 	 * @return 조회된 데이터 (0건 이상)
 	 */
 	List<?> queryForList(String statementId, Object parameter);
+
+    /**
+     * 전체 조회 연산을 수행한다.
+     *
+     * @param statementId
+     *              MyBatis namespace + statementId
+     * @param clazz
+     *              generic type class
+     * @param <T>
+     *              generic type class
+     * @return 조회된 데이터 (0건 이상)
+     */
+    <T> List<T> queryForList(String statementId, Class<T> clazz);
 
 	/**
 	 * @param <T>
@@ -198,7 +223,7 @@ public interface CommonDAO {
 	 * 
 	 * @return affected row count
 	 */
-	Object insert(String statementId, Object parameter);
+	Integer insert(String statementId, Object parameter);
 
 	/**
 	 * 삭제 연산을 수행한다.

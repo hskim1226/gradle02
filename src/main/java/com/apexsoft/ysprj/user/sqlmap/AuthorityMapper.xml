@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.apexsoft.ysprj.user.authorities.Mapper">
+    <!-- Queries for Authority      -->
+
+    <select id="selectAuthorities" resultType="com.apexsoft.ysprj.applicants.user.domain.Authorities"  parameterType="String">
+        <![CDATA[
+		  SELECT username, authority
+		    FROM authorities
+			WHERE 1=1
+			AND username = #{username}
+		]]>
+    </select>
+
+    <insert id="insertAuthority"  parameterType="com.apexsoft.ysprj.applicants.user.domain.Authorities" >
+        <![CDATA[
+		  INSERT INTO authorities
+		                   (authority,
+		                    username)
+		             VALUES(#{authority},
+		                    #{username})
+		]]>
+    </insert>
+
+    <delete id="deleteAuthority" parameterType="com.apexsoft.ysprj.applicants.user.domain.Authorities">
+        <![CDATA[
+		  DELETE FROM authorities
+			WHERE username = #{username}
+			AND authority = #{authority}
+		]]>
+    </delete>
+</mapper>

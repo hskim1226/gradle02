@@ -4,7 +4,6 @@ import com.apexsoft.framework.message.MessageResolver;
 import com.apexsoft.framework.security.UserSessionVO;
 import com.apexsoft.framework.xpay.service.PaymentVO;
 import com.apexsoft.framework.xpay.service.TransactionVO;
-import com.apexsoft.ysprj.user.service.UsersVO;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.security.core.Authentication;

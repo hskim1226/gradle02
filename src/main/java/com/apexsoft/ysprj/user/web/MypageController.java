@@ -1,17 +1,14 @@
 package com.apexsoft.ysprj.user.web;
 
 import com.apexsoft.framework.common.vo.ExecutionContext;
-import com.apexsoft.ysprj.user.service.UsersService;
-import com.apexsoft.ysprj.user.service.UsersVO;
+import com.apexsoft.ysprj.user.domain.Users;
+import com.apexsoft.ysprj.user.service.UsersAccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.security.Principal;
 
@@ -23,22 +20,22 @@ import java.security.Principal;
 public class MypageController {
 
     @Autowired
-    private UsersService usersService;
+    private UsersAccountService usersAccountService;
 
     @RequestMapping(value = "/mypage", method = RequestMethod.GET)
     public String displayMypage(ModelMap model, Principal principal) {
         String name = principal.getName();
-        model.addAttribute("usersVO", usersService.retrieveUserDetail(name));
+        model.addAttribute("usersVO", usersAccountService.retrieveUser(name));
         return "user/detail";
     }
 
     @RequestMapping(value = "/mypage", method = RequestMethod.POST)
     @ResponseBody
-    public ExecutionContext editAccount(@ModelAttribute @Valid UsersVO usersVO, BindingResult bindingResult) {
+    public ExecutionContext editAccount(@ModelAttribute @Valid Users users, BindingResult bindingResult) {
         if( bindingResult.hasErrors() ) {
             return new ExecutionContext( ExecutionContext.FAIL );
         }
-        if( usersService.modifyUsers(usersVO) != 1 ) {
+        if( usersAccountService.modifyUsers(users) != 1 ) {
             String message = bindingResult.toString();
             return new ExecutionContext( ExecutionContext.FAIL, message );
         }

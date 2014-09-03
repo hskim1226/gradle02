@@ -31,10 +31,10 @@
           class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
         <property name="basenames">
         <list>
-            <value>classpath:message/xpay</value>
-            <value>classpath:message/user</value>
-            <value>classpath:message/cs</value>
-            <value>classpath:message/application</value>
+            <value>classpath:message/applicants/xpay</value>
+            <value>classpath:message/applicants/user</value>
+            <value>classpath:message/applicants/cs</value>
+            <value>classpath:message/applicants/application</value>
         </list>
         </property>
         <property name="defaultEncoding" value="utf-8" />
@@ -45,6 +45,9 @@
           class="com.apexsoft.framework.message.MessageResolver">
         <property name="messageSourceAccessor" ref="messageSourceAccessor" />
     </bean>
+
+    <bean id="jacksonObjectMapper"
+          class="com.fasterxml.jackson.databind.ObjectMapper"/>
 
     <beans profile="dev,stag,qa,real">
     </beans>

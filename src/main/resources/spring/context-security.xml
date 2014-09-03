@@ -22,6 +22,9 @@
     <http pattern="/intro.html"  security="none"/>
     <http pattern="/test/**"  security="none"/>
     <http pattern="/admin/**"  security="none"/>
+    <!--<http pattern="/application/**"  security="none"/>-->
+    <http pattern="/common/**"  security="none"/>
+    <http pattern="/template/**"  security="none"/>
 
     <http auto-config="true"  use-expressions="true" access-denied-page="/user/login.do?auth=true" >
         <intercept-url pattern="/index"  access="isAnonymous() or isAuthenticated()"/>
@@ -29,6 +32,7 @@
         <intercept-url pattern="/user/**"  access="isAnonymous() or isAuthenticated()"/>
         <intercept-url pattern="/upload/**"  access="isAuthenticated()"/>
         <intercept-url pattern="/admin/**" access="hasRole('ROLE_ADMIN')" />
+        <intercept-url pattern="/qna/**" access="isAnonymous() or isAuthenticated()" />
         <intercept-url pattern="/**" access="hasRole('ROLE_USER')" />
 
         <form-login login-processing-url="/j_spring_security_check.do"

@@ -5,7 +5,7 @@
 		<!-- BASICS -->
         <meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-        <title>연세대학교 대학원 입학 신청 시스템</title>
+        <title>연세대학교 대학원 입학원서 접수 시스템</title>
         <meta name="description" content="연세대학교 대학원">
         <style>
             #toList, #toMyList, #toSignUp {
@@ -57,7 +57,7 @@
 						
 						<div class="align-center">
 							<h2 class="slogan">연세대학교 대학원</h2>
-							<h2 class="slogan">입학 신청 시스템</h2>							
+							<h2 class="slogan">입학원서 접수 시스템</h2>
 						</div>
 					</div>
 				</div>
@@ -73,7 +73,7 @@
 				<div class="col-lg-4" >
 					<div class="align-center" id="toList">
 						<i class="fa fa-code fa-5x mar-bot20"></i>
-						<h2 class="text-bold">모집 공고</h2>
+						<h2 class="text-bold">원서 접수</h2>
 						<p>연세대학교 대학원 모집 공고를 확인할 수 있습니다.
 						</p>
 					</div>
@@ -105,7 +105,7 @@
             <script>
                 $('#toList').click(function(){location.href='${contextPath}/notice/list'});
                 $('#toMyList').click(function(){location.href='${contextPath}/application/mylist'});
-                $('#toSignUp').click(function(){location.href='${contextPath}/user/signup'});
+                $('#toSignUp').click(function(){location.href='${contextPath}/user/agreement'});
             </script>
         </content>
 	</body>
