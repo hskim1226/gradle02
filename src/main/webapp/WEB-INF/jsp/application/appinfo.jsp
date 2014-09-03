@@ -191,6 +191,10 @@
             -ms-ime-mode: active !important;
             ime-mode: active !important;
         }
+
+        .engExam {
+            display: none;
+        }
     </style>
     <%--body의 글자 속성을 #333333으로 강제 지정하여 Footer 글자가 안나옴, 꼭 필요하지 않으면 안쓰기로
     <link rel="stylesheet" href="${contextPath}/css/bootstrap-glyphicons.css" />--%>
@@ -1060,7 +1064,7 @@
                             <div class="panel panel-darkgray">
                                 <div class="panel-heading">어학 관련 서류 업로드</div>
                                 <div class="panel-body">
-                                    <div class="form-group">
+                                    <div class="form-group engExam" id="examTOEFL">
                                         <label class="col-sm-2 control-label">TOEFL</label>
                                         <div class="col-sm-9">
                                             <div class="input-group">
@@ -1073,8 +1077,60 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="form-group">
+                                    <div class="form-group engExam" id="examTOEIC">
+                                        <label class="col-sm-2 control-label">TOEIC</label>
+                                        <div class="col-sm-9">
+                                            <div class="input-group">
+                                                <span class="input-group-btn">
+                                                    <span class="btn btn-default btn_lg btn-file">
+                                                        Browse&hellip; <input type="file" multiple/>
+                                                    </span>
+                                                </span>
+                                                <input type="text" class="form-control" readonly/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group engExam" id="examTEPS">
+                                        <label class="col-sm-2 control-label">TEPS</label>
+                                        <div class="col-sm-9">
+                                            <div class="input-group">
+                                                <span class="input-group-btn">
+                                                    <span class="btn btn-default btn_lg btn-file">
+                                                        Browse&hellip; <input type="file" multiple/>
+                                                    </span>
+                                                </span>
+                                                <input type="text" class="form-control" readonly/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group engExam" id="examIELTS">
+                                        <label class="col-sm-2 control-label">IELTS</label>
+                                        <div class="col-sm-9">
+                                            <div class="input-group">
+                                                <span class="input-group-btn">
+                                                    <span class="btn btn-default btn_lg btn-file">
+                                                        Browse&hellip; <input type="file" multiple/>
+                                                    </span>
+                                                </span>
+                                                <input type="text" class="form-control" readonly/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group engExam" id="examGRE">
                                         <label class="col-sm-2 control-label">GRE</label>
+                                        <div class="col-sm-9">
+                                            <div class="input-group">
+                                                <span class="input-group-btn">
+                                                    <span class="btn btn-default btn_lg btn-file">
+                                                        Browse&hellip; <input type="file" multiple/>
+                                                    </span>
+                                                </span>
+                                                <input type="text" class="form-control" readonly/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group engExam" id="examTOKIC">
+                                        <label class="col-sm-2 control-label">TOKIC</label>
                                         <div class="col-sm-9">
                                             <div class="input-group">
                                                 <span class="input-group-btn">
@@ -2068,6 +2124,16 @@ if(console) console.dir($formData);
                     }
                 });
             }
+
+            <%-- 어학 선택 시 어학 증빙 파일 첨부 양식 처리 --%>
+            $('.checkbox').on('click', function(e) {
+                var childCheckbox = $(this).find("input[type=checkbox]"),
+                    targetExamName = "#exam"+ $(this).find("label").text();
+                childCheckbox.is(":checked") ?
+                        $(targetExamName).css("display", "block") :
+                        $(targetExamName).css("display", "none");
+
+            })
 
         });
 
