@@ -3,6 +3,8 @@ package com.apexsoft.ysprj.applicants.admission.service;
 import com.apexsoft.framework.persistence.dao.CommonDAO;
 import com.apexsoft.ysprj.applicants.admission.domain.AdmissionCourseMajor;
 import com.apexsoft.ysprj.applicants.admission.domain.AdmissionCourseMajorKey;
+import com.apexsoft.ysprj.applicants.admission.domain.AdmissionCourseMajorLanguage;
+import com.apexsoft.ysprj.applicants.admission.domain.ParamForAdmissionCourseMajor;
 import com.apexsoft.ysprj.applicants.application.domain.*;
 import com.apexsoft.ysprj.applicants.application.service.ApplicationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,8 +18,6 @@ import java.util.List;
 @Service
 public class AdmissionServiceImpl implements AdmissionService {
 
-    // TODO 제3자 정보제공 동의 여부 providePrivateInfo 처리
-
     private final static String NAME_SPACE = "com.apexsoft.ysprj.applicants.admission.sqlmap.";
 
     @Autowired
@@ -27,19 +27,38 @@ public class AdmissionServiceImpl implements AdmissionService {
     /**
      * 세부 전공에 따른 어학 필수 여부
      *
-     * @param admissionCourseMajorKey
+     * @param param
      * @return
      */
     @Override
-    public AdmissionCourseMajor retrieveEngMdtYn(AdmissionCourseMajorKey admissionCourseMajorKey) {
+    public AdmissionCourseMajor retrieveEngMdtYn(ParamForAdmissionCourseMajor param) {
         AdmissionCourseMajor admissionCourseMajor = null;
         try {
-            admissionCourseMajor = commonDAO.queryForObject(NAME_SPACE + "AdmissionCourseMajorMapper.selectByPK",
-                    admissionCourseMajorKey, AdmissionCourseMajor.class);
+            admissionCourseMajor = commonDAO.queryForObject(NAME_SPACE + "CustomAdmissionCourseMajorMapper.selectYnByAdmsCorsNoDetlMajCode",
+                    param, AdmissionCourseMajor.class);
         } catch (Exception e) {
             e.printStackTrace();
         }
 
         return admissionCourseMajor;
+    }
+
+    /**
+     * 세부 전공 별 제출 가능 영어시험목록 조회
+     *
+     * @param param
+     * @return
+     */
+    @Override
+    public List<AdmissionCourseMajorLanguage> retrieveAvailableEngExamList(ParamForAdmissionCourseMajor param) {
+        List<AdmissionCourseMajorLanguage> admissionCourseMajorLanguageList = null;
+        try {
+            admissionCourseMajorLanguageList = commonDAO.queryForList(NAME_SPACE + "CustomAdmissionCourseMajorLanguageMapper.selectAvailableExamListByAdmsCorsNoDetlMajCode",
+                    param, AdmissionCourseMajorLanguage.class);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return admissionCourseMajorLanguageList;
     }
 }

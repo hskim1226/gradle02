@@ -405,6 +405,7 @@ public class ApplicationController {
         return new ExecutionContext(ExecutionContext.SUCCESS, message);
     }
 
+    //TODO 이거 안 쓰는 건지 확인 요
     @RequestMapping(value = "/modify")
     public String modifyAppinfo(@RequestParam(value = "applNo", required = false) Integer applNo,
                                 Model model) {
