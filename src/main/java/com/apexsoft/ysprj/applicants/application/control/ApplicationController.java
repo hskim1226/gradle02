@@ -269,16 +269,14 @@ public class ApplicationController {
         }
 
         entireApplication.getApplication().setApplStsCode("00001");
-        String message = messageResolver.getMessage("U302");
+        ExecutionContext ec = null;
         if( entireApplication.getApplication().getApplNo() == null ) {   // insert
-            applicationService.createEntireApplication( entireApplication );
-            message = messageResolver.getMessage("U301");
+            ec = applicationService.createEntireApplication( entireApplication );
         } else {    // update
-            applicationService.updateEntireApplication( entireApplication );
-            message = messageResolver.getMessage("U303");
+            ec = applicationService.updateEntireApplication( entireApplication );
         }
 
-        return new ExecutionContext(ExecutionContext.SUCCESS, message);
+        return ec;
     }
 
 
@@ -288,79 +286,80 @@ public class ApplicationController {
                                             BindingResult binding,
                                             Principal principal,
                                             FileHandler fileHandler) {
-        String resultMsg = saveApplication(entireApplication, binding, principal).getMessage();
-        if ( resultMsg.equals(messageResolver.getMessage("U301")) ) {
-            //TODO 파일 업로드
-            fileHandler.handleMultiPartRequest(new UploadEventCallbackHandler<String, FileMetaForm>() {
-                /**
-                 * target 폴더 반환
-                 *
-                 * @param fileFieldName
-                 * @param attributes
-                 * @param leafDirectory
-                 *
-                 * @returnattribute
-                 */
-                @Override
-                protected String getDirectory(String fileFieldName, FileMetaForm attributes, String leafDirectory) {
-                    return "omwtemp";
-                }
+        ExecutionContext ec = saveApplication(entireApplication, binding, principal);
 
-                /**
-                 * 실제 저장될 파일 이름 반환
-                 *
-                 * @param fileFieldName
-                 * @param originalFileName
-                 * @param attribute
-                 * @return
-                 */
-                @Override
-                protected String createFileName(String fileFieldName, String originalFileName, FileMetaForm attribute) {
-                    return "omw-" + fileFieldName + "-" + originalFileName;
-                }
+//        if ( ec.getResult() == ExecutionContext.SUCCESS ) {
+//            //TODO 파일 업로드
+//            fileHandler.handleMultiPartRequest(new UploadEventCallbackHandler<String, FileMetaForm>() {
+//                /**
+//                 * target 폴더 반환
+//                 *
+//                 * @param fileFieldName
+//                 * @param attributes
+//                 * @param leafDirectory
+//                 *
+//                 * @returnattribute
+//                 */
+//                @Override
+//                protected String getDirectory(String fileFieldName, FileMetaForm attributes, String leafDirectory) {
+//                    return "omwtemp";
+//                }
+//
+//                /**
+//                 * 실제 저장될 파일 이름 반환
+//                 *
+//                 * @param fileFieldName
+//                 * @param originalFileName
+//                 * @param attribute
+//                 * @return
+//                 */
+//                @Override
+//                protected String createFileName(String fileFieldName, String originalFileName, FileMetaForm attribute) {
+//                    return "omw-" + fileFieldName + "-" + originalFileName;
+//                }
+//
+//                /**
+//                 * 실제 업로드 처리
+//                 *
+//                 * @param fileItems
+//                 * @param fileMetaForm
+//                 * @param persistence
+//                 * @return
+//                 */
+//                @Override
+//                public String handleEvent(List<FileItem> fileItems, FileMetaForm fileMetaForm, FilePersistenceManager persistence) {
+//
+//                    FileInfo fileInfo;
+//                    TempFileVO tempFileVO = new TempFileVO();
+//
+//                    for ( FileItem fileItem : fileItems){
+//                        FileInputStream fis = null;
+//                        try{
+//                            // persistence.save()의 첫번째 인자로 baseDir/첫번째인자 라는 폴더 생성
+//                            //
+//                            fileInfo = persistence.save(baseDir, fileItem.getOriginalFileName(), fileItem.getOriginalFileName(), fis = new FileInputStream(fileItem.getFile()));
+//                            tempFileVO.setPath(fileInfo.getDirectory());
+//                            tempFileVO.setFileName(fileInfo.getFileName());
+//                        }catch(FileNotFoundException fnfe){
+//                            throw new UploadException("", fnfe);
+//                        }finally {
+//                            try {
+//                                if (fis!= null) fis.close();
+//                            } catch (IOException e) {}
+//                            FileUtils.deleteQuietly(fileItem.getFile());
+//                        }
+//                    }
+//
+//                    fileUploadService.saveFileMeta(tempFileVO);
+//
+//                    return "redirect:/template/download";
+//                }
+//            }, FileMetaForm.class);
+//        }
 
-                /**
-                 * 실제 업로드 처리
-                 *
-                 * @param fileItems
-                 * @param fileMetaForm
-                 * @param persistence
-                 * @return
-                 */
-                @Override
-                public String handleEvent(List<FileItem> fileItems, FileMetaForm fileMetaForm, FilePersistenceManager persistence) {
-
-                    FileInfo fileInfo;
-                    TempFileVO tempFileVO = new TempFileVO();
-
-                    for ( FileItem fileItem : fileItems){
-                        FileInputStream fis = null;
-                        try{
-                            // persistence.save()의 첫번째 인자로 baseDir/첫번째인자 라는 폴더 생성
-                            //
-                            fileInfo = persistence.save(baseDir, fileItem.getOriginalFileName(), fileItem.getOriginalFileName(), fis = new FileInputStream(fileItem.getFile()));
-                            tempFileVO.setPath(fileInfo.getDirectory());
-                            tempFileVO.setFileName(fileInfo.getFileName());
-                        }catch(FileNotFoundException fnfe){
-                            throw new UploadException("", fnfe);
-                        }finally {
-                            try {
-                                if (fis!= null) fis.close();
-                            } catch (IOException e) {}
-                            FileUtils.deleteQuietly(fileItem.getFile());
-                        }
-                    }
-
-                    fileUploadService.saveFileMeta(tempFileVO);
-
-                    return "redirect:/template/download";
-                }
-            }, FileMetaForm.class);
-        }
 
 
-
-        return new ExecutionContext(ExecutionContext.SUCCESS, "TODO 성공 또는 실패");
+        return ec;
     }
 
     @RequestMapping(value="/apply/update")

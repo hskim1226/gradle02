@@ -1468,13 +1468,8 @@
 
             <%-- 지원정보 submit 이벤트 --%>
 //            var beforeFormSubmit = function (arr, formObj, options) {
-//                $('input.radio-group').filter(function() {
-//                    return this.checked == false;
-//                }).each(function() {
-//                    arr.push({name: this.name, value: 'N'});
-//                });
-//console.log('in beforeSubmit');
-//console.dir(formObj);
+//alert("beforeFormSubmit");
+//console.dir(arr);
 //            };
 //
 //            var beforeFormSerialize = function (formObj, options) {
@@ -1483,71 +1478,73 @@
 //console.dir(formObj);
 //            };
 //
-            var makeFormData = function (formObj) {
-                $('input.radio-group').filter(function() {
-                    return this.checked == false;
-                }).each(function() {
-                    formObj.serializeArray().push({name: this.name, value: 'N'});
-                });
-            };
-
-            $('#entireApplication').on('submit', function(event) {
-                var $form = $(this),
-                    options = {
-//                        beforeSubmit: beforeFormSubmit,
-//                        beforeSerialize: beforeFormSerialize,
-                        data: makeFormData($form),
-                        timeout: 5000,
-                        success: function (context) {
-                            if (context.result == 'SUCCESS') {
-                                var message = context.message;
-                                var alert = createAlert(message);
-                                $('#alert-container').append(alert);
-                                window.setTimeout(function() { alert.alert('close') }, 2000);
-                            }
-                        },
-                        error: function(e) {
-                            if (console) console.log(e);
-                        }
-                    };
-
-                $(this).ajaxSubmit(options);
-
-                // !!! Important !!!
-                // always return false to prevent standard browser submit and page navigation
-                event.preventDefault();
-                return false;
-            });
-
-//            $('#entireApplication').on('submit', function(event) {
-//                var $form = $(this);
-//                var $formUrl = $form.attr('action');
-//                var $formData = $form.serializeArray();
-//
+//            var makeFormData = function (formObj) {
+//                var data = formObj.serializeArray();
 //                $('input.radio-group').filter(function() {
 //                    return this.checked == false;
 //                }).each(function() {
-//                    $formData.push({name: this.name, value: 'N'});
+//                    data.push({name: this.name, value: 'N'});
 //                });
+//console.dir(data);
+//            };
 //
-//                $.ajax({
-//                    url: $formUrl,
-//                    type: 'POST',
-//                    data: $formData,
-//                    timeout: 5000,
-//                    success: function (context) {
-//                        if (context.result == 'SUCCESS') {
-//                            var message = context.message;
-//                            var alert = createAlert(message);
-//                            $('#alert-container').append(alert);
-//                            window.setTimeout(function() { alert.alert('close') }, 2000);
+//            $('#entireApplication').on('submit', function(event) {
+//                var $form = $(this),
+//                    options = {
+////                        beforeSubmit: beforeFormSubmit,
+////                        beforeSerialize: beforeFormSerialize,
+//                        data: makeFormData($form),
+//                        timeout: 5000,
+//                        success: function (context) {
+//                            if (context.result == 'SUCCESS') {
+//                                var message = context.message;
+//                                var alert = createAlert(message);
+//                                $('#alert-container').append(alert);
+//                                window.setTimeout(function() { alert.alert('close') }, 2000);
+//                            }
+//                        },
+//                        error: function(e) {
+//                            if (console) console.log(e);
 //                        }
-//                    },
-//                    error: function(e) {
-//                    }
-//                });
+//                    };
+//
+//                $(this).ajaxSubmit(options);
+//
+//                // !!! Important !!!
+//                // always return false to prevent standard browser submit and page navigation
 //                event.preventDefault();
+//                return false;
 //            });
+
+            $('#entireApplication').on('submit', function(event) {
+                var $form = $(this);
+                var $formUrl = $form.attr('action');
+                var $formData = $form.serializeArray();
+
+                $('input.radio-group').filter(function() {
+                    return this.checked == false;
+                }).each(function() {
+                    $formData.push({name: this.name, value: 'N'});
+                });
+console.dir($formData);
+                $.ajax({
+                    url: $formUrl,
+                    type: 'POST',
+                    data: $formData,
+                    timeout: 5000,
+                    success: function (context) {
+                        if (context.result == 'SUCCESS') {
+                            var message = context.message;
+                            var alert = createAlert(message);
+                            $('#alert-container').append(alert);
+                            window.setTimeout(function() { alert.alert('close') }, 2000);
+                        }
+                    },
+                    error: function(e) {
+                    }
+                });
+                event.preventDefault();
+            });
 
             <%-- alert 생성 --%>
             function createAlert(message) {
