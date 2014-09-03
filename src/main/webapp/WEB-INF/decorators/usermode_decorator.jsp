@@ -82,8 +82,6 @@
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="${contextPath}/js/bootstrap.min.js"></script>
     <script src="${contextPath}/js/bootstrapValidator.min.js"></script>
-
-
     <script src="${contextPath}/js/modernizr-2.6.2-respond-1.1.0.min.js"></script>
     <script src="${contextPath}/js/jquery.easing.min.js"></script>
     <script src="${contextPath}/js/isotope.pkgd.min.js"></script>
@@ -95,6 +93,7 @@
     <script src="${contextPath}/js/jquery.stellar.min.js"></script>
     <script src="${contextPath}/js/jquery.appear.min.js"></script>
     <script src="${contextPath}/js/jquery.bpopup.min.js"></script>
+    <script src="${contextPath}/js/jquery.form.min.js"></script>
     <script src="${contextPath}/js/validate.min.js"></script>
     <script src="${contextPath}/js/json2.js"></script>
     <script src="${contextPath}/js/main.js"></script>

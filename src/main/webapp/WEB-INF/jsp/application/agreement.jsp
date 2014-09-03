@@ -268,7 +268,8 @@
                         }
                     }
                 }
-                $('#formAgreement').submit();
+                location.href='${contextPath}/application/apply?admsNo=15A&entrYear=2015&admsTypeCode=A';
+//                $('#formAgreement').submit();
             });
         });
     </script>

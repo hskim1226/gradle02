@@ -205,7 +205,7 @@
             <li><a href="#studyplan" data-toggle="tab">학업 및 연구 계획서</a></li>
             <li><a href="#fileupload" data-toggle="tab">첨부파일</a></li>
         </ul>
-        <form:form commandName="entireApplication" cssClass="form-horizontal" action="apply/save" method="post" role="form">
+        <form:form commandName="entireApplication" cssClass="form-horizontal" action="apply/save" method="post" enctype="multipart/form-data" role="form">
             <div id="myTabContent" class="tab-content">
                 <div class="tab-pane fade" id="appinfo">
                     <div class="spacer-tiny"></div>
@@ -933,10 +933,10 @@
                                             <div class="input-group">
                                                 <span class="input-group-btn">
                                                     <span class="btn btn-default btn_lg btn-file">
-                                                        Browse&hellip; <input type="file" name="" multiple>
+                                                        Browse&hellip; <input type="file" name="" multiple/>
                                                     </span>
                                                 </span>
-                                                <input type="text" class="form-control" readonly>
+                                                <input type="text" class="form-control" readonly/>
                                             </div>
                                         </div>
                                     </div>
@@ -954,10 +954,10 @@
                                             <div class="input-group">
                                                 <span class="input-group-btn">
                                                     <span class="btn btn-default btn_lg btn-file">
-                                                        Browse&hellip; <input type="file" multiple>
+                                                        Browse&hellip; <input type="file" multiple/>
                                                     </span>
                                                 </span>
-                                                <input type="text" class="form-control" readonly>
+                                                <input type="text" class="form-control" readonly/>
                                             </div>
                                         </div>
                                     </div>
@@ -967,10 +967,10 @@
                                             <div class="input-group">
                                                 <span class="input-group-btn">
                                                     <span class="btn btn-default btn_lg btn-file">
-                                                        Browse&hellip; <input type="file" multiple>
+                                                        Browse&hellip; <input type="file" multiple/>
                                                     </span>
                                                 </span>
-                                                <input type="text" class="form-control" readonly>
+                                                <input type="text" class="form-control" readonly/>
                                             </div>
                                         </div>
                                     </div>
@@ -980,10 +980,10 @@
                                             <div class="input-group">
                                                     <span class="input-group-btn">
                                                         <span class="btn btn-default btn_lg btn-file">
-                                                            Browse&hellip; <input type="file" multiple>
+                                                            Browse&hellip; <input type="file" multiple/>
                                                         </span>
                                                     </span>
-                                                <input type="text" class="form-control" readonly>
+                                                <input type="text" class="form-control" readonly/>
                                             </div>
                                         </div>
                                     </div>
@@ -993,10 +993,10 @@
                                             <div class="input-group">
                                                     <span class="input-group-btn">
                                                         <span class="btn btn-default btn_lg btn-file">
-                                                            Browse&hellip; <input type="file" multiple>
+                                                            Browse&hellip; <input type="file" multiple/>
                                                         </span>
                                                     </span>
-                                                <input type="text" class="form-control" readonly>
+                                                <input type="text" class="form-control" readonly/>
                                             </div>
                                         </div>
                                     </div>
@@ -1006,10 +1006,10 @@
                                             <div class="input-group">
                                                     <span class="input-group-btn">
                                                         <span class="btn btn-default btn_lg btn-file">
-                                                            Browse&hellip; <input type="file" multiple>
+                                                            Browse&hellip; <input type="file" multiple/>
                                                         </span>
                                                     </span>
-                                                <input type="text" class="form-control" readonly>
+                                                <input type="text" class="form-control" readonly/>
                                             </div>
                                         </div>
                                     </div>
@@ -1019,7 +1019,7 @@
                                             <div class="input-group">
                                                     <span class="input-group-btn">
                                                         <span class="btn btn-default btn_lg btn-file">
-                                                            Browse&hellip; <input type="file" multiple>
+                                                            Browse&hellip; <input type="file" multiple/>
                                                         </span>
                                                     </span>
                                                 <input type="text" class="form-control" readonly>
@@ -1032,10 +1032,10 @@
                                             <div class="input-group">
                                                     <span class="input-group-btn">
                                                         <span class="btn btn-default btn_lg btn-file">
-                                                            Browse&hellip; <input type="file" multiple>
+                                                            Browse&hellip; <input type="file" multiple/>
                                                         </span>
                                                     </span>
-                                                <input type="text" class="form-control" readonly>
+                                                <input type="text" class="form-control" readonly/>
                                             </div>
                                         </div>
                                     </div>
@@ -1045,10 +1045,10 @@
                                             <div class="input-group">
                                                     <span class="input-group-btn">
                                                         <span class="btn btn-default btn_lg btn-file">
-                                                            Browse&hellip; <input type="file" multiple>
+                                                            Browse&hellip; <input type="file" multiple/>
                                                         </span>
                                                     </span>
-                                                <input type="text" class="form-control" readonly>
+                                                <input type="text" class="form-control" readonly/>
                                             </div>
                                         </div>
                                     </div>
@@ -1066,10 +1066,10 @@
                                             <div class="input-group">
                                                 <span class="input-group-btn">
                                                     <span class="btn btn-default btn_lg btn-file">
-                                                        Browse&hellip; <input type="file" multiple>
+                                                        Browse&hellip; <input type="file" multiple/>
                                                     </span>
                                                 </span>
-                                                <input type="text" class="form-control" readonly>
+                                                <input type="text" class="form-control" readonly/>
                                             </div>
                                         </div>
                                     </div>
@@ -1079,10 +1079,10 @@
                                             <div class="input-group">
                                                 <span class="input-group-btn">
                                                     <span class="btn btn-default btn_lg btn-file">
-                                                        Browse&hellip; <input type="file" multiple>
+                                                        Browse&hellip; <input type="file" multiple/>
                                                     </span>
                                                 </span>
-                                                <input type="text" class="form-control" readonly>
+                                                <input type="text" class="form-control" readonly/>
                                             </div>
                                         </div>
                                     </div>
@@ -1100,10 +1100,10 @@
                                             <div class="input-group">
                                                 <span class="input-group-btn">
                                                     <span class="btn btn-default btn_lg btn-file">
-                                                        Browse&hellip; <input type="file" multiple>
+                                                        Browse&hellip; <input type="file" multiple/>
                                                     </span>
                                                 </span>
-                                                <input type="text" class="form-control" readonly>
+                                                <input type="text" class="form-control" readonly/>
                                             </div>
                                         </div>
                                     </div>
@@ -1113,10 +1113,10 @@
                                             <div class="input-group">
                                                 <span class="input-group-btn">
                                                     <span class="btn btn-default btn_lg btn-file">
-                                                        Browse&hellip; <input type="file" multiple>
+                                                        Browse&hellip; <input type="file" multiple/>
                                                     </span>
                                                 </span>
-                                                <input type="text" class="form-control" readonly>
+                                                <input type="text" class="form-control" readonly/>
                                             </div>
                                         </div>
                                     </div>
@@ -1146,6 +1146,10 @@
             </div>
             <div class="btn-group">
                 <button id="reset" type="button" class="btn btn-warning btn-lg">되돌리기</button>
+            </div>
+            <%-- TODO 파일 업로드 테스트 추후 삭제 요 --%>
+            <div class="btn-group">
+                <button id="saveandupload" type="button" class="btn btn-error btn-lg">파일업로드</button>
             </div>
         </div>
     </div> <%--container--%>
@@ -1457,6 +1461,55 @@
             });
 
             <%-- 지원정보 submit 이벤트 --%>
+//            var beforeFormSubmit = function (arr, formObj, options) {
+//alert("beforeFormSubmit");
+//console.dir(arr);
+//            };
+//
+//            var beforeFormSerialize = function (formObj, options) {
+//
+//console.log('in beforeSerialize');
+//console.dir(formObj);
+//            };
+//
+//            var makeFormData = function (formObj) {
+//                var data = formObj.serializeArray();
+//                $('input.radio-group').filter(function() {
+//                    return this.checked == false;
+//                }).each(function() {
+//                    data.push({name: this.name, value: 'N'});
+//                });
+//console.dir(data);
+//            };
+//
+//            $('#entireApplication').on('submit', function(event) {
+//                var $form = $(this),
+//                    options = {
+////                        beforeSubmit: beforeFormSubmit,
+////                        beforeSerialize: beforeFormSerialize,
+//                        data: makeFormData($form),
+//                        timeout: 5000,
+//                        success: function (context) {
+//                            if (context.result == 'SUCCESS') {
+//                                var message = context.message;
+//                                var alert = createAlert(message);
+//                                $('#alert-container').append(alert);
+//                                window.setTimeout(function() { alert.alert('close') }, 2000);
+//                            }
+//                        },
+//                        error: function(e) {
+//                            if (console) console.log(e);
+//                        }
+//                    };
+//
+//                $(this).ajaxSubmit(options);
+//
+//                // !!! Important !!!
+//                // always return false to prevent standard browser submit and page navigation
+//                event.preventDefault();
+//                return false;
+//            });
+
             $('#entireApplication').on('submit', function(event) {
                 var $form = $(this);
                 var $formUrl = $form.attr('action');
@@ -1469,6 +1522,8 @@
                     $formData.push({name: this.name, value: 'N'});
                 });
 
+console.dir($formData);
+
                 $formData = $formData.concat(getEnglishScoreSerializeArray());
                 $.ajax({
                     url: $formUrl,
@@ -1477,7 +1532,6 @@
                     timeout: 5000,
                     success: function (context) {
                         if (context.result == 'SUCCESS') {
-                            var innerData = context.data;
                             var message = context.message;
                             var alert = createAlert(message);
                             $('#alert-container').append(alert);

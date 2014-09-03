@@ -33,7 +33,10 @@ public class TestController {
         return r;
     }
 
-
+    @RequestMapping(value="/fileuploadform")
+    public String fileuploadForm() {
+        return "application/futest";
+    }
 
     @RequestMapping(value="/tabsample")
     public String tabSample() {

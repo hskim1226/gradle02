@@ -1,6 +1,6 @@
 package com.apexsoft.framework.web.file.callback;
 
-import com.apexsoft.framework.persistence.file.PersistenceManager;
+import com.apexsoft.framework.persistence.file.FilePersistenceManager;
 import com.apexsoft.framework.persistence.file.model.FileInfo;
 import com.apexsoft.framework.persistence.file.model.FileItem;
 import com.apexsoft.framework.web.file.exception.UploadException;
@@ -42,9 +42,9 @@ public abstract class DefaultUploadEventCallback<T, P> extends UploadEventCallba
 
 	/*
 	 * (non-Javadoc)
-	 * @see com.skp.commons.web.file.callback.UploadEventCallbackHandler#handleEvent(java.util.List, java.lang.Object, com.skp.commons.web.file.persistence.PersistenceManager)
+	 * @see com.skp.commons.web.file.callback.UploadEventCallbackHandler#handleEvent(java.util.List, java.lang.Object, com.skp.commons.web.file.persistence.FilePersistenceManager)
 	 */
-	public T handleEvent(List<FileItem> fileItems, P attribute, PersistenceManager persistence)	{
+	public T handleEvent(List<FileItem> fileItems, P attribute, FilePersistenceManager persistence)	{
 		List<FileInfo> serverFileInfos = new ArrayList<FileInfo>();
 		
 		for (FileItem fileItem : fileItems) {
