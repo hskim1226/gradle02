@@ -172,6 +172,7 @@ public class ApplicationController {
             entireApplication.getApplication().setAdmsNo(admsNo);
             entireApplication.getApplication().setEntrYear(entrYear);
             entireApplication.getApplication().setAdmsTypeCode(admsTypeCode);
+            entireApplication.getHighSchool().setAcadTypeCode("00001");
 
             List<Campus> campList = commonService.retrieveCampus();
             List<AcademyResearchIndustryInstitution> ariInstList = commonService.retrieveAriInst();
@@ -188,6 +189,7 @@ public class ApplicationController {
         List<CommonCode> emerContList = commonService.retrieveCommonCodeValueByCodeGroup("EMER_CONT");
         List<CommonCode> toflTypeList = commonService.retrieveCommonCodeValueByCodeGroup("TOFL_TYPE");
         List<CommonCode> fornExmpList = commonService.retrieveCommonCodeValueByCodeGroup("FORN_EXMP");
+        List<CommonCode> qualAreaList = commonService.retrieveCommonCodeValueByCodeGroup("QUAL_AREA");
 
         commonCodeMap.put( "applAttrList", applAttrList );
         commonCodeMap.put( "mltrServList", mltrServList );
@@ -196,6 +198,7 @@ public class ApplicationController {
         commonCodeMap.put( "emerContList", emerContList );
         commonCodeMap.put( "toflTypeList", toflTypeList );
         commonCodeMap.put( "fornExmpList", fornExmpList );
+        commonCodeMap.put( "qualAreaList", qualAreaList );
 
         model.addAttribute( "common", commonCodeMap );
 

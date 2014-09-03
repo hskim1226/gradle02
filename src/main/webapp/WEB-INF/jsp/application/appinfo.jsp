@@ -299,7 +299,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="panel panel-default" hidden>
+                            <div class="panel panel-default" id="currentCompany" hidden>
                                 <div class="panel-heading">현재 근무처</div>
                                 <div class="panel-body">
                                     <div class="form-group">
@@ -489,10 +489,10 @@
                                             <div class="col-sm-9">
                                                 <div class="btn-group">
                                                     <label class="radio-inline">
-                                                        <form:radiobutton path="highSchool.acadTypeCode" value="00001" />졸업
+                                                        <form:radiobutton path="highSchool.acadTypeCode" id="highSchoolAcadTypeCode1" value="00001" />졸업
                                                     </label>
                                                     <label class="radio-inline">
-                                                        <form:radiobutton path="highSchool.acadTypeCode" value="00005" />검정고시
+                                                        <form:radiobutton path="highSchool.acadTypeCode" id="highSchoolAcadTypeCode2" value="00005" />검정고시
                                                     </label>
                                                 </div>
                                             </div>
@@ -535,13 +535,10 @@
                                                 <div class="form-group">
                                                     <label for="qualAreaName" class="col-sm-2 control-label">검정고시합격지구</label>
                                                     <div class="col-sm-9">
-                                                        <div class="input-group">
-                                                        <span class="input-group-btn">
-                                                            <button type="button" class="btn btn-default">검색</button>
-                                                        </span>
-                                                            <form:hidden path="highSchool.qualAreaCode" />
-                                                            <input id="qualAreaName" class="form-control" />
-                                                        </div>
+                                                        <form:select path="highSchool.qualAreaCode" id="qualAreaName" cssClass="form-control">
+                                                            <form:option value="-" label="--선택--" />
+                                                            <form:options items="${common.qualAreaList}" itemValue="code" itemLabel="codeVal" />
+                                                        </form:select>
                                                     </div>
                                                 </div>
                                             </div>
@@ -567,7 +564,9 @@
                                             <%--TODO 테이블에 국가이름 누락--%>
                                             <div class="form-group">
                                                 <form:label path="collegeList[${stat.index}].schlName" cssClass="col-sm-2 control-label">학교 이름</form:label>
-                                                <div class="btn btn-default btn-md col-md-2 bpopper" data-targetNode1="collegeList${stat.index}.schlCode" data-targetNode2='collegeList${stat.index}.schlName' data-category="school-u">검색</div>
+                                                <div class="col-sm-2">
+                                                    <button type="button" class="btn btn-default btn-md col-md-2 bpopper" data-targetNode1="collegeList${stat.index}.schlCode" data-targetNode2='collegeList${stat.index}.schlName' data-category="school-u">검색</button>
+                                                </div>
                                                 <div class="col-sm-4">
                                                     <form:hidden path="collegeList[${stat.index}].schlCode" />
                                                     <form:input path="collegeList[${stat.index}].schlName" cssClass="form-control" />
@@ -647,7 +646,9 @@
                                             <%--TODO 테이블에 국가이름 누락--%>
                                             <div class="form-group">
                                                 <form:label path="graduateList[${stat.index}].schlName" cssClass="col-sm-2 control-label">학교 이름</form:label>
-                                                <div class="btn btn-default btn-md col-md-2 bpopper" data-targetNode1="graduateList${stat.index}.schlCode" data-targetNode2='graduateList${stat.index}.schlName' data-category="school-g">검색</div>
+                                                <div class="col-sm-2">
+                                                    <button type="button" class="btn btn-default btn-md col-md-2 bpopper" data-targetNode1="graduateList${stat.index}.schlCode" data-targetNode2='graduateList${stat.index}.schlName' data-category="school-g">검색</button>
+                                                </div>
                                                 <div class="col-sm-4">
                                                     <form:hidden path="graduateList[${stat.index}].schlCode" />
                                                     <form:input path="graduateList[${stat.index}].schlName" cssClass="form-control" />
@@ -707,9 +708,9 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="panel panel-default" id="english-score-list">
+                            <div class="panel panel-default">
                                 <div class="panel-heading">어학성적</div>
-                                <div class="panel-body">
+                                <div class="panel-body" id="english-score-list">
                                     <div class="form-group">
                                         <label class="col-sm-2 control-label">영어</label>
                                         <div class="col-sm-4">
@@ -1460,8 +1461,6 @@
                 });
 
                 $formData = $formData.concat(getEnglishScoreSerializeArray());
-
-console.log($formData);
                 $.ajax({
                     url: $formUrl,
                     type: 'POST',
@@ -1490,12 +1489,13 @@ console.log($formData);
                 });
 
                 for (i = 0; i < $groups.length; i++) {
-                    $items = $($groups[i]).find('input, select').filter(function () {
-                        val = $(this).val();
-                        return val !== '' && val !== '-';
-                    });
+                    $items = $($groups[i]).find('input, select');
 
                     for (j = 0; j < $items.length; j++) {
+                        val = $items[j].value;
+                        if (val === '' || val === '-') {
+                            continue;
+                        }
                         id = $items[j].id;
                         if (!id) {
                             continue;
@@ -1646,10 +1646,12 @@ console.log($formData);
             <%-- 고등학교 졸업/검정고시 동적 변경 시작 --%>
             $('input[name="highSchool.acadTypeCode"]').on('change', function() {
                 var radioValue = $(this).val();
-                if (radioValue == '00001') {
-                    hideExclude('highschoolSubContainer1');
-                } else {
-                    hideExclude('highschoolSubContainer2');
+                if (this.checked) {
+                    if (radioValue == '00001') {
+                        hideExclude('highschoolSubContainer1');
+                    } else {
+                        hideExclude('highschoolSubContainer2');
+                    }
                 }
             });
 
@@ -1661,6 +1663,14 @@ console.log($formData);
             }
 
             $('input[name="highSchool.acadTypeCode"]').trigger('change');
+            <%--<c:choose>--%>
+                <%--<c:when test="${entireApplication.highSchool.acadTypeCode == '00005'}">--%>
+            <%--$('#highSchoolAcadTypeCode2').trigger('change');--%>
+                <%--</c:when>--%>
+                <%--<c:otherwise>--%>
+            <%--$('#highSchoolAcadTypeCode1').trigger('change');--%>
+                <%--</c:otherwise>--%>
+            <%--</c:choose>--%>
             <%-- 고등학교 졸업/검정고시 동적 변경 시작 --%>
 
             <%-- 최종 대학 체크 처리 시작 --%>
@@ -1757,6 +1767,8 @@ console.log($formData);
                         $('#' + clean[i]).children('option').filter(function() {
                             return this.value !== '-';
                         }).remove();
+
+                        $('#' + clean[i]).trigger('change');
                     }
 
                     $.ajax({
@@ -1883,6 +1895,16 @@ console.log($formData);
                     }
             );
 
+            <%-- 지원학과 경영대일 경우 --%>
+            $('#deptCode').on('change', function() {
+                var val = $(this).val();
+                if (val === '10202' || val === '11202') {
+                    $('#currentCompany').show();
+                } else {
+                    $('#currentCompany').hide();
+                }
+            });
+
             <%-- 세부전공 변경 시 세부전공 하위 변경 --%>
             $('#detlMajCode').on('change', function(event) {
                 var selected = this.options[this.selectedIndex];
@@ -1890,37 +1912,33 @@ console.log($formData);
                 var parent = this.parentNode.parentNode;
                 var $divNode, $childNode, $childNode2;
 
+                $(parent).find('#detlMajRadio').remove();
+                $(parent).find('#detlMajText').remove();
                 if (val.slice(0, 1) == '9') {   // 직전 학위과정의 학과명 입력
-                    $(parent).find('#detlMajRadio').remove();
-                    if ($(parent).find('#detlMajText').length == 0) {   // text 없으면 생성
-                        $divNode = $('<div/>').addClass('col-sm-offset-2 col-sm-9').attr({
-                                    'id': 'detlMajText'
-                                });
-                        $childNode = $('<input/>').addClass('form-control').attr({
-                                    'type': 'text',
-                                    'id': 'detlMajDesc',
-                                    'name': 'detlMajDesc'
-                                });
-                        $childNode.appendTo($divNode)
-                        $divNode.appendTo($(parent));
-                    }
+                    $divNode = $('<div/>').addClass('col-sm-offset-2 col-sm-9').attr({
+                        'id': 'detlMajText'
+                    });
+                    $childNode = $('<input/>').addClass('form-control').attr({
+                        'type': 'text',
+                        'id': 'detlMajDesc',
+                        'name': 'detlMajDesc'
+                    });
+                    $childNode.appendTo($divNode)
+                    $divNode.appendTo($(parent));
                 } else {
-                    $(parent).find('#detlMajText').remove();
                     if ($(selected).attr('partTimeYn') === 'Y' || $(selected).attr('partTimeYn') === 'y') { // 세부전공 PART_TIME_YN이 Y인 경우
-                        if ($(parent).find('#detlMajRadio').length == 0) {  // 체크박스 없으면 생성
-                            $divNode = $('<div/>').addClass('col-sm-offset-2 col-sm-9').attr({
-                                'id': 'detlMajRadio'
-                            });
-                            $childNode = $('<input/>').attr({
-                                'type': 'checkbox',
-                                'id': 'partTimeYn',
-                                'name': 'partTimeYn'
-                            });
-                            $childNode2 = $('<label/>').addClass('checkbox-inline').text('파트타임 여부');
-                            $childNode.prependTo($childNode2);
-                            $childNode2.appendTo($divNode);
-                            $divNode.appendTo($(parent));
-                        }
+                        $divNode = $('<div/>').addClass('col-sm-offset-2 col-sm-9').attr({
+                            'id': 'detlMajRadio'
+                        });
+                        $childNode = $('<input/>').attr({
+                            'type': 'checkbox',
+                            'id': 'partTimeYn',
+                            'name': 'partTimeYn'
+                        });
+                        $childNode2 = $('<label/>').addClass('checkbox-inline').text('파트타임 여부');
+                        $childNode.prependTo($childNode2);
+                        $childNode2.appendTo($divNode);
+                        $divNode.appendTo($(parent));
                     }
                 }
             });
@@ -1928,17 +1946,39 @@ console.log($formData);
             <%-- 세부전공 변경 시 어학 변경 --%>
             $('#detlMajCode').on('change', function(event) {
                 var val = this.options[this.selectedIndex].value;
-                var baseUrl = '${contextPath}/common/code/required/engScore/';    // 세부전공별 어학성적 필수여부 경로
+                var baseUrl = '${contextPath}/common/code/';
                 $.ajax({
                     type: 'GET',
-                    url: baseUrl + val,
+                    url: baseUrl + "required/engScore/" + val,
                     success: function(e) {
-                        $('#applicationGeneral\\.forlExmpCode').find('option').filter('[value="6"]').each(function() {
-                            $(this).hide(e.data == 'Y' || e.data == 'y');
-                        });
+                        if (e.result == 'SUCCESS') {
+                            <%-- 학과면제인정 보이지 않게 처리 --%>
+                            $('#applicationGeneral\\.forlExmpCode').children('option').filter('[value="6"]').each(function () {
+                                $(this).hide(e.data == 'Y' || e.data == 'y');
+                            });
+                        }
                     },
                     error: function(e) {}
                 });
+                $.ajax({
+                    type: 'GET',
+                    url: baseUrl + "examlist/" + val,
+                    success: function(e) {
+                        if (e.result == 'SUCCESS') {
+                            var data = JSON && JSON.parse(e.data) || $.parseJSON(e.data);
+                            var groups = $('#english-score-list').children('.form-group');
+                            var i, check, val;
+                            for (i = 0; i < groups.length; i++) {
+                                check = $(groups[i]).find('input').filter('[id^="langExamCode"]')[0];
+                                val = check ? check.value : undefined;
+                                if (val && data[val]) {
+                                    // 입력가능
+                                }
+                            }
+                        }
+                    },
+                    error: function(e) {}
+                })
             });
 
             <%-- 지원사항 select 폼 change 이벤트 핸들러 등록 끝 --%>
