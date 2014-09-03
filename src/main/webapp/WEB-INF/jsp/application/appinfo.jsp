@@ -1584,6 +1584,7 @@ if(console) console.dir($formData);
                 $.ajax({
                     url: $formUrl,
                     type: 'POST',
+                    contentType: 'multipart/form-data',
                     data: $formData,
                     timeout: 5000,
                     success: function (context) {
