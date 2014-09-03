@@ -41,6 +41,10 @@ abstract public class AbstractSingleFormatBirtView extends AbstractUrlBasedView 
     public static final int RUNRENDERTASK = 0;
     public static final int RUNTHENRENDERTASK = 1;
 
+    private static final String DEFAULT_REPORT_EXT = ".rptdesign";
+    private static final String DEFAULT_TEMPLATE_EXT = ".rpttemplate";
+    private static final String DEFAULT_DOCUMENT_EXT = ".rptdocument";
+
 
     private DataSource dataSource;
     private String reportName;
@@ -265,14 +269,14 @@ abstract public class AbstractSingleFormatBirtView extends AbstractUrlBasedView 
         if (!StringUtils.hasText(reportName))
             return null;
 
-        return !reportName.toLowerCase().endsWith(".rptdesign") ? reportName + ".rptdesign" : reportName;
+        return !reportName.toLowerCase().endsWith( DEFAULT_REPORT_EXT ) ? reportName + DEFAULT_REPORT_EXT : reportName;
     }
     private String canonicalizeDocName(String docName) {
         ///Assert.hasText(reportName);
         if (!StringUtils.hasText(docName))
             return null;
 
-        return !docName.toLowerCase().endsWith(".rptdocument") ? docName + ".rptdocument" : docName;
+        return !docName.toLowerCase().endsWith( DEFAULT_DOCUMENT_EXT ) ? docName + DEFAULT_DOCUMENT_EXT : docName;
     }
     @SuppressWarnings("unchecked")
     protected void renderMergedOutputModel(Map<String, Object> modelData, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -281,33 +285,43 @@ abstract public class AbstractSingleFormatBirtView extends AbstractUrlBasedView 
         IReportDocument document = null;
         try {
 
-            if (this.reportParameters == null)
+            if (this.reportParameters == null) {
                 this.reportParameters = new HashMap<String, Object>();
+            }
 
-            for (String k : modelData.keySet())
+            for (String k : modelData.keySet()) {
                 this.reportParameters.put(k, modelData.get(k));
+            }
 
             // 2) reportName property
             // 1) report name parameter is available, use that
 
             String reportName;
-            reportName = StringUtils.hasText(this.reportName) ? this.reportName : request.getParameter(this.reportNameRequestParameter);    // 'cat'
+            reportName = StringUtils.hasText(this.reportName) ? this.reportName : request.getParameter(this.reportNameRequestParameter);
+            if( !StringUtils.hasText(reportName) ) {
+                Object tempReportName = modelData.get( this.reportNameRequestParameter );
+                reportName = tempReportName instanceof String ? (String) tempReportName : null;
+            }
             String fullReportName = canonicalizeName(reportName);
 
             String documentName;
-            documentName = StringUtils.hasText(this.documentName) ? this.documentName : request.getParameter(this.documentNameRequestParameter);    // 'cat'
-            String fullDocumentName = canonicalizeDocName(documentName);
-            if( documentName == null){
-                fullDocumentName = reportName.replaceAll(".rptdesign", ".rptdocument");
+            documentName = StringUtils.hasText(this.documentName) ? this.documentName : request.getParameter(this.documentNameRequestParameter);
+            if( !StringUtils.hasText(documentName) ) {
+                Object tempDocumentName = modelData.get( this.documentNameRequestParameter );
+                documentName = tempDocumentName instanceof String ? (String) tempDocumentName : null;
             }
-
+            String fullDocumentName = canonicalizeDocName(documentName);
+            if( !StringUtils.hasText(fullDocumentName) && StringUtils.hasText(fullReportName) ){
+                fullDocumentName = fullReportName.replaceAll( DEFAULT_REPORT_EXT, DEFAULT_DOCUMENT_EXT );
+            }
 
             String format;
-            if( this.reportOutputFormat != null){
-                format = this.reportOutputFormat;
-            }else{
-                format= request.getParameter(this.reportFormatRequestParameter);
+            format = StringUtils.hasText(this.reportOutputFormat) ? this.reportOutputFormat : request.getParameter(this.reportFormatRequestParameter);
+            if( !StringUtils.hasText(format) ) {
+                Object tempFormat = modelData.get( this.reportFormatRequestParameter );
+                format = tempFormat instanceof String ? (String) tempFormat : null;
             }
+
             ServletContext sc = request.getSession().getServletContext(); /// avoid creating an HTTP session if possible.
 
             if (format == null) {
@@ -416,7 +430,6 @@ abstract public class AbstractSingleFormatBirtView extends AbstractUrlBasedView 
                 String format = scalar.getDisplayFormat();
                 // todo will this step on the Spring MVC converters?
                 ReportParameterConverter converter = new ReportParameterConverter(format, request.getLocale());
-
 
                 Object value = this.reportParameters.get(param.getName());
                 parms.put(param.getName(), value);

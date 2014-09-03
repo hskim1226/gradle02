@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="APP">
+    <resultMap type="com.apexsoft.ysprj.preview.service.ApplicationInfo"
+               id="applicationInfo">
+        <result property="id" column="id" />
+        <result property="type" column="type" />
+        <result property="department" column="department" />
+        <result property="name" column="name" />
+        <result property="socialNo" column="social_no" />
+        <result property="engname" column="engname" />
+        <result property="gender" column="gender" />
+        <result property="nationality" column="nationality" />
+        <result property="address" column="address" />
+        <result property="phone" column="phone" />
+        <result property="mobile" column="mobile" />
+        <result property="email" column="email" />
+        <result property="highschool" column="highschool" />
+        <result property="country" column="country" />
+        <result property="urgentAddress" column="urgent_address" />
+        <result property="urgentNo1" column="urgent_no1" />
+        <result property="urgentNo2" column="urgent_no2" />
+        <result property="verification" column="verification" />
+    </resultMap>
+
+    <select id="selectList" resultMap="applicationInfo">
+        <![CDATA[
+			SELECT id, type, department, name, social_no, engname, gender, nationality, address, phone, mobile, email, highschool, country, urgent_address, urgent_no1, urgent_no2, verification
+			FROM application
+			WHERE 1=1
+		]]>
+    </select>
+
+    <select id="selectByPk" parameterType="String" resultMap="applicationInfo">
+        <![CDATA[
+			SELECT *
+			FROM application
+			WHERE id=#{id}
+		]]>
+    </select>
+</mapper>
