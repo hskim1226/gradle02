@@ -1,6 +1,6 @@
 package com.apexsoft.ysprj.preview.web;
 
-import com.apexsoft.ysprj.application.service.ApplicationVO;
+import com.apexsoft.ysprj.applicants.application.domain.Application;
 import com.apexsoft.ysprj.preview.service.BirtService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -32,8 +32,8 @@ public class BirtController {
 
     @RequestMapping(value = "/application/{appNo}")
     public ModelAndView displayApplication(@PathVariable("appNo") String appNo, Model model, HttpServletRequest request) {
-        ApplicationVO applicationVO = birtService.getApplication(appNo);
-        model.addAttribute("applicationVO", applicationVO);
+        Application application = birtService.getApplication(appNo);
+        model.addAttribute("applicationVO", application);
         if( "pdf".equalsIgnoreCase(request.getParameter("reportFormat")) ) {
             return new ModelAndView("pdfSingleFormatBirtView");
         }
