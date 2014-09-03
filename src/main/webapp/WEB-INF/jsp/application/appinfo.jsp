@@ -180,6 +180,17 @@
             padding: 5px;
             display:inline-block;
         }
+
+        .btn-search {
+            width: 100%;
+        }
+
+        .ime-mode-kr {
+            -webkit-ime-mode: active !important;
+            -moz-ime-mode: active !important;
+            -ms-ime-mode: active !important;
+            ime-mode: active !important;
+        }
     </style>
     <%--body의 글자 속성을 #333333으로 강제 지정하여 Footer 글자가 안나옴, 꼭 필요하지 않으면 안쓰기로
     <link rel="stylesheet" href="${contextPath}/css/bootstrap-glyphicons.css" />--%>
@@ -405,7 +416,7 @@
                                     <div class="form-group">
                                         <label class="col-sm-2 control-label">주소</label>
                                         <div class="col-sm-2">
-                                            <button type="button" class="btn btn-default btn-block" id="searchAddress">우편번호 찾기</button>
+                                            <button type="button" class="btn btn-default btn-block btn-search" id="searchAddress">우편번호 찾기</button>
                                         </div>
                                         <div class="col-sm-4">
                                             <div class="input-group">
@@ -488,10 +499,10 @@
                                             <label class="col-sm-2 control-label">졸업구분</label>
                                             <div class="col-sm-9">
                                                 <div class="btn-group">
-                                                    <label class="radio-inline">
+                                                    <label>
                                                         <form:radiobutton path="highSchool.acadTypeCode" id="highSchoolAcadTypeCode1" value="00001" />졸업
                                                     </label>
-                                                    <label class="radio-inline">
+                                                    <label>
                                                         <form:radiobutton path="highSchool.acadTypeCode" id="highSchoolAcadTypeCode2" value="00005" />검정고시
                                                     </label>
                                                 </div>
@@ -511,14 +522,12 @@
                                                 </div>
                                                 <div class="form-group">
                                                     <form:label path="highSchool.schlName" cssClass="col-sm-2 control-label">학교명</form:label>
-                                                    <div class="col-sm-9">
-                                                        <div class="input-group">
-                                                            <span class="input-group-btn">
-                                                                <button type="button" class="btn btn-default bpopper" data-targetNode1="highSchool.schlCode" data-targetNode2='highSchool.schlName' data-category="school-h">검색</button>
-                                                            </span>
-                                                            <form:hidden path="highSchool.schlCode" />
-                                                            <form:input path="highSchool.schlName" cssClass="form-control" />
-                                                        </div>
+                                                    <div class="col-sm-2">
+                                                        <button type="button" class="btn btn-default btn-search bpopper" data-targetNode1="highSchool.schlCode" data-targetNode2='highSchool.schlName' data-category="school-h">검색</button>
+                                                    </div>
+                                                    <div class="col-sm-7">
+                                                        <form:hidden path="highSchool.schlCode" />
+                                                        <form:input path="highSchool.schlName" cssClass="form-control" />
                                                     </div>
                                                 </div>
                                             </div>
@@ -565,7 +574,7 @@
                                             <div class="form-group">
                                                 <form:label path="collegeList[${stat.index}].schlName" cssClass="col-sm-2 control-label">학교 이름</form:label>
                                                 <div class="col-sm-2">
-                                                    <button type="button" class="btn btn-default btn-md col-md-2 bpopper" data-targetNode1="collegeList${stat.index}.schlCode" data-targetNode2='collegeList${stat.index}.schlName' data-category="school-u">검색</button>
+                                                    <button type="button" class="btn btn-default btn-search bpopper" data-targetNode1="collegeList${stat.index}.schlCode" data-targetNode2='collegeList${stat.index}.schlName' data-category="school-u">검색</button>
                                                 </div>
                                                 <div class="col-sm-4">
                                                     <form:hidden path="collegeList[${stat.index}].schlCode" />
@@ -647,7 +656,7 @@
                                             <div class="form-group">
                                                 <form:label path="graduateList[${stat.index}].schlName" cssClass="col-sm-2 control-label">학교 이름</form:label>
                                                 <div class="col-sm-2">
-                                                    <button type="button" class="btn btn-default btn-md col-md-2 bpopper" data-targetNode1="graduateList${stat.index}.schlCode" data-targetNode2='graduateList${stat.index}.schlName' data-category="school-g">검색</button>
+                                                    <button type="button" class="btn btn-default btn-search bpopper" data-targetNode1="graduateList${stat.index}.schlCode" data-targetNode2='graduateList${stat.index}.schlName' data-category="school-g">검색</button>
                                                 </div>
                                                 <div class="col-sm-4">
                                                     <form:hidden path="graduateList[${stat.index}].schlCode" />
@@ -1150,7 +1159,7 @@
             </div>
             <div class="form-group">
                 <div class="col-sm-10">
-                    <input type="text" id="bpopSchl" name="schl" class="form-control" />
+                    <input type="text" id="bpopSchl" name="schl" class="form-control ime-mode-kr" />
                 </div>
                 <button id="bpopBtnSearchSchool" class="btn btn-info col-sm-2">검색</button>
             </div>
