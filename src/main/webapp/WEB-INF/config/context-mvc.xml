@@ -107,6 +107,7 @@
     </bean -->
 
     <bean id="exceptionResolver" class="com.apexsoft.framework.web.exception.ExceptionResolver">
+        <property name="htmlErrorView" value="common/error"></property>
         <property name="messageConverters">
             <list>
                 <bean class="org.springframework.http.converter.xml.Jaxb2RootElementHttpMessageConverter" />
@@ -128,6 +129,7 @@
 
     <bean id="RecaptchaController" class="com.apexsoft.framework.recaptcha.RecaptchaController"/>
 -->
+
     <mvc:default-servlet-handler/>
 
 </beans>

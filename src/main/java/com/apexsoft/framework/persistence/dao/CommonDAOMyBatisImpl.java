@@ -1,12 +1,11 @@
 package com.apexsoft.framework.persistence.dao;
 
+import com.apexsoft.framework.exception.BusinessException;
 import com.apexsoft.framework.exception.ErrorMessageBuilder;
-import com.apexsoft.framework.exception.StorePlatformException;
 import com.apexsoft.framework.persistence.dao.handler.StreamHandler;
 import com.apexsoft.framework.persistence.dao.page.PageInfo;
 import com.apexsoft.framework.persistence.dao.page.PageStatement;
 import com.apexsoft.framework.persistence.dao.page.PagenateInfo;
-import com.apexsoft.ysprj.template.service.TempFileService;
 import org.apache.ibatis.session.ResultContext;
 import org.apache.ibatis.session.ResultHandler;
 import org.apache.ibatis.session.RowBounds;
@@ -151,8 +150,7 @@ public class CommonDAOMyBatisImpl implements CommonDAO {
 			(parameter.getClass().getMethod("setPage", PagenateInfo.class)).invoke(parameter, pim);
 		} catch (Exception ex) {
 			LOGGER.error("queryForPagenatedList 중 에러가 발생 했습니다. \\n{}", ex);
-			throw new StorePlatformException(ErrorMessageBuilder.create()
-					.code("ValueObject : " + parameter.getClass() + "에 PagenateInfoVO 객체를 확인 하세요.").build(), ex);
+			throw new BusinessException("ValueObject : " + parameter.getClass() + "에 PagenateInfoVO 객체를 확인 하세요.", ex);
 		}
 
 		if (totalCount > 0) {
@@ -197,8 +195,7 @@ public class CommonDAOMyBatisImpl implements CommonDAO {
 				(parameter.getClass().getMethod("setPage", PagenateInfo.class)).invoke(parameter, pim);
 			} catch (Exception ex) {
 				LOGGER.error("queryForPagenatedList 중 에러가 발생 했습니다. \\n{}", ex);
-				throw new StorePlatformException(ErrorMessageBuilder.create()
-						.code("ValueObject : " + parameter.getClass() + "에 PagenateInfoVO 객체를 확인 하세요.").build(), ex);
+				throw new BusinessException("ValueObject : " + parameter.getClass() + "에 PagenateInfoVO 객체를 확인 하세요.", ex);
 			}
 
 			if (totalCount > 0) {
