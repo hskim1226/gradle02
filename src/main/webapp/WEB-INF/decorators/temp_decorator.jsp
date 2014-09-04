@@ -21,6 +21,10 @@
     <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
     <style>
         body {
             padding-top: 50px;
@@ -58,6 +62,7 @@
                         <ul class="dropdown-menu" role="menu">
                             <li><a href="${contextPath}/template/upload">File Upload</a></li>
                             <li><a href="${contextPath}/template/download">File Download</a></li>
+                            <li><a href="${contextPath}/template/exception">Exception Example</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -73,8 +78,7 @@
         </div>
     </div>
     <decorator:body />
-    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
 </body>

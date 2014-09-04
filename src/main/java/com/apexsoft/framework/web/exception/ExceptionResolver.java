@@ -1,6 +1,7 @@
 package com.apexsoft.framework.web.exception;
 
 import com.apexsoft.framework.common.vo.ExecutionContext;
+import com.apexsoft.framework.exception.BusinessException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpOutputMessage;
@@ -28,7 +29,13 @@ public class ExceptionResolver implements HandlerExceptionResolver{
 
     private final static Logger logger = LoggerFactory.getLogger(ExceptionResolver.class);
 
+    private String htmlErrorView;
+
     private HttpMessageConverter<?>[] messageConverters;
+
+    public void setHtmlErrorView(String htmlErrorView) {
+        this.htmlErrorView = htmlErrorView;
+    }
 
     public void setMessageConverters(HttpMessageConverter<?>[] messageConverters) {
         this.messageConverters = messageConverters;
@@ -41,6 +48,16 @@ public class ExceptionResolver implements HandlerExceptionResolver{
         ServletServerHttpRequest httpRequest = new ServletServerHttpRequest(request);
         HttpOutputMessage outputMessage = new ServletServerHttpResponse(response);
 
+        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+
+        String message;
+        if ( ex.getClass().isAssignableFrom(BusinessException.class)){
+            BusinessException businessException = (BusinessException)ex;
+            message = businessException.getMessage();
+        }else{
+            message = ex.getLocalizedMessage().replaceAll("\\n","");
+        }
+
         List<MediaType> acceptedMediaTypes = httpRequest.getHeaders().getAccept();
 
         if (acceptedMediaTypes.isEmpty()) {
@@ -49,21 +66,28 @@ public class ExceptionResolver implements HandlerExceptionResolver{
 
         MediaType.sortByQualityValue(acceptedMediaTypes);
 
-        ExecutionContext returnValue = new ExecutionContext(ExecutionContext.FAIL);
+        if ( !acceptedMediaTypes.get(0).equals( MediaType.TEXT_HTML ) ){
 
-        if (this.messageConverters != null) {
-            for (MediaType acceptedMediaType : acceptedMediaTypes) {
-                for (@SuppressWarnings("rawtypes") HttpMessageConverter messageConverter : this.messageConverters) {
-                    if (messageConverter.canWrite(ExecutionContext.class, acceptedMediaType)) {
-                        try {
-                            messageConverter.write(returnValue, acceptedMediaType, outputMessage);
-                        } catch (Exception e) {
+            ExecutionContext returnValue = new ExecutionContext(ExecutionContext.FAIL, message);
+
+            if (this.messageConverters != null) {
+                for (MediaType acceptedMediaType : acceptedMediaTypes) {
+                    for (@SuppressWarnings("rawtypes") HttpMessageConverter messageConverter : this.messageConverters) {
+                        if (messageConverter.canWrite(ExecutionContext.class, acceptedMediaType)) {
+                            try {
+                                messageConverter.write(returnValue, acceptedMediaType, outputMessage);
+                            } catch (Exception e) {
+                            }
+
+                            return new ModelAndView();
                         }
-
-                        return new ModelAndView();
                     }
                 }
             }
+        } else {
+            ModelAndView htmlMav = new ModelAndView(htmlErrorView).addObject("message", message);
+
+            return htmlMav;
         }
         return new ModelAndView();
     }

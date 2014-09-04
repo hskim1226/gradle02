@@ -9,7 +9,7 @@ import org.springframework.validation.ObjectError;
  * 
  * Updated on : 2013-09-01 Updated by : 최현식, 에이엔비.
  */
-public class StorePlatformMethodArgumentNotValidException extends StorePlatformException {
+public class StorePlatformMethodArgumentNotValidException extends BusinessException {
 	/**
 	 * 
 	 */
