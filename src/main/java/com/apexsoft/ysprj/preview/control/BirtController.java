@@ -21,14 +21,14 @@ public class BirtController {
     @Autowired
     ApplicationService applicationService;
 
-    @RequestMapping(value = "/application/{appNo}/{reportFormat}/{reportName}")
-    public ModelAndView displayApplication(@PathVariable("appNo") Integer appNo,
+    @RequestMapping(value = "/application/{applNo}/{reportFormat}/{reportName}")
+    public ModelAndView displayApplication(@PathVariable("applNo") Integer applNo,
                                            @PathVariable("reportFormat") String reportFormat,
                                            @PathVariable("reportName") String reportName,
                                            Model model, HttpServletRequest request) {
 //        String reportName = request.getParameter("reportName");
 //        String reportFormat = request.getParameter("reportFormat");
-        EntireApplication entireApplication = applicationService.retrieveEntireApplication(appNo);
+        EntireApplication entireApplication = applicationService.retrieveEntireApplication(applNo);
         model.addAttribute("entireApplication", entireApplication);
 //        model.addAttribute("reportName", reportName);
         if(IRenderOption.OUTPUT_FORMAT_HTML.equalsIgnoreCase(reportFormat) ) {

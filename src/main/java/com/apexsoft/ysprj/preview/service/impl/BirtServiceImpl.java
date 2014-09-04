@@ -3,6 +3,8 @@ package com.apexsoft.ysprj.preview.service.impl;
 import com.apexsoft.framework.persistence.dao.page.PageInfo;
 import com.apexsoft.framework.persistence.dao.page.PageStatement;
 import com.apexsoft.ysprj.applicants.application.domain.Application;
+import com.apexsoft.ysprj.applicants.application.domain.EntireApplication;
+import com.apexsoft.ysprj.applicants.application.service.ApplicationService;
 import com.apexsoft.ysprj.preview.service.BirtService;
 import com.apexsoft.framework.persistence.dao.CommonDAO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +20,9 @@ public class BirtServiceImpl implements BirtService {
 
     @Autowired
     private CommonDAO birtDao;
+
+    @Autowired
+    private ApplicationService applicationService;
 
     public PageInfo<Application> getApplications() {
         return birtDao.queryForPagenatedList( new PageStatement(), null, 0, 0);
@@ -40,5 +45,9 @@ public class BirtServiceImpl implements BirtService {
         application.setAddr("서울시 마포구");
         application.setDetlAddr("동교동 LG팰리스빌딩 1121호");
         return application;
+    }
+
+    public EntireApplication retrieveEntireApplication(int applNo) {
+        return applicationService.retrieveEntireApplication(applNo);
     }
 }

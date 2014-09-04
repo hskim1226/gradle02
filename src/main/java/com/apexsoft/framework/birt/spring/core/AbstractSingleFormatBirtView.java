@@ -432,9 +432,10 @@ abstract public class AbstractSingleFormatBirtView extends AbstractUrlBasedView 
                 ReportParameterConverter converter = new ReportParameterConverter(format, request.getLocale());
 
                 Object value = this.reportParameters.get(param.getName());
+                if( value instanceof String ) {
+                    value = converter.parse( (String) value, scalar.getDataType() );
+                }
                 parms.put(param.getName(), value);
-
-//                       /* converter.parse(*/  this.reportParameters.get(param.getName()), scalar.getDataType()/*)*/);
             } else if (StringUtils.hasText(getParameter(request, param.getName()))) {
                 parms.put(param.getName(), getParamValueObject(request, scalar));
             }
