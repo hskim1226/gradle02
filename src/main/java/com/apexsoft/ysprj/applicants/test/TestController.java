@@ -46,6 +46,13 @@ public class TestController {
         return "application/futest";
     }
 
+    @RequestMapping(value="/fileupload")
+    @ResponseBody
+    public String fileupload() {
+
+        return "abc";
+    }
+
     @RequestMapping(value="/tabsample")
     public String tabSample() {
         return "test/tabsample";

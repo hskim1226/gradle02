@@ -308,4 +308,27 @@ public class CommonServiceImpl implements CommonService {
         }
         return commonCodeList;
     }
+
+    /**
+     * 코드 그룹, 코드로 공통 코드 조회
+     *
+     * @param paramForCommonCode
+     * @return
+     */
+    @Override
+    @Cacheable(value = "commonCodeCache")
+    public CommonCode retrieveCommonCodeListByCodeGroupCode(ParamForCommonCode paramForCommonCode) {
+        CommonCode commonCode = null;
+        try {
+            commonCode = commonDAO.queryForObject(NAME_SPACE+"CustomCommonCodeMapper.selectListByCodeGroupCode",
+                    paramForCommonCode,
+                    CommonCode.class);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return commonCode;
+    }
+
+
+
 }

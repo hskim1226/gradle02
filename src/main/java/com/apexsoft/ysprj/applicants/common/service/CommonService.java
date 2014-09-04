@@ -28,4 +28,5 @@ public interface CommonService {
     List<CommonCode> retrieveCommonCodeValueByCodeGroup(String codeGrp);
     CommonCode retrieveCommonCodeValueByCodeGroupCode(ParamForCommonCode paramForCommonCode);
     List<CommonCode> retrieveCommonCodeListByCodeGroupKeyword(ParamForCommonCode paramForCommonCode);
+    CommonCode retrieveCommonCodeListByCodeGroupCode(ParamForCommonCode paramForCommonCode);
 }

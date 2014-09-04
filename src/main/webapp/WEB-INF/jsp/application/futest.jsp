@@ -53,15 +53,17 @@
 <section class="application">
     <div>
         <form id="entireApplication" method="post">
-            <input type="file" multiple/>
-            <input type="file" multiple/>
-            <input type="file" multiple/>
-            <input type="file" multiple/>
-            <input type="file" multiple/>
+            <input type="text" name="txt1"/>
+            <input type="file" name="file1"/>
+            <input type="file" name="file2"/>
+            <input type="file" name="file3"/>
+            <input type="file" name="file4"/>
+            <input type="file" name="file5"/>
         </form>
     </div>
     <div>
-        <button id="saveandupload" class="btn btn-lg btn-primary">파일업로드</button>
+        <button id="ajaxUpload" class="btn btn-lg btn-primary">AJAX 파일업로드</button>
+        <button id="plainUpload" class="btn btn-lg btn-warning">일반 파일업로드</button>
     </div>
 </section>
 
@@ -69,62 +71,33 @@
     <script type="text/javascript">
         $(document).ready(function() {
             <%-- TODO 파일업로드용 버튼 --%>
-            $('#saveandupload').on('click', function() {
+            $('#ajaxUpload').on('click', function() {
                 var ea = document.getElementById('entireApplication'),
-                    actionUrl = "${contextPath}/application/apply/saveandupload";
+                    actionUrl = "${contextPath}/application/apply/savetest",
+                    formData = $(ea).serialize();
                 ea.setAttribute("enctype", "multipart/form-data");
                 ea.setAttribute("action", actionUrl);
 
-//                console.dir(ea);
-//                ea.submit();
-//                $.ajax({
-//                    url: actionUrl,
-//                    type: 'POST',
-//                    data: formData3,
-//                    timeout: 5000,
-//                    success: function (context) {
-//                        alert("done");
-//                    },
-//                    error: function(e) {
-//                    }
-//                });
-                ea.submit();
-            });
-
-            $('#entireApplication').submit(function() {
-                // inside event callbacks 'this' is the DOM element so we first
-                // wrap it in a jQuery object and then invoke ajaxSubmit
-                $(this).ajaxSubmit({
-                    success: function (context) {
-                        alert("done");
+                $.ajax({
+                    url: actionUrl,
+                    type: 'POST',
+                    data: formData,
+                    contentType: 'multipart/form-data',
+                    timeout: 5000,
+                    success: function (data) {
+                        alert(data);
                     },
                     error: function(e) {
-                        alert(e);
+                        alert("error");
                     }
                 });
-
-                // !!! Important !!!
-                // always return false to prevent standard browser submit and page navigation
-                return false;
             });
 
-//            $('#entireApplication').ajaxForm({
-//                success: function (context) {
-//                    alert("done");
-//                },
-//                error: function(e) {
-//                    alert(e);
-//                }
-//            });
-
-//            $('#entireApplication').ajaxSubmit({
-//                success: function (context) {
-//                    alert("done");
-//                },
-//                error: function(e) {
-//                    alert(e);
-//                }
-//            });
+            $('#plainUpload').on('click', function() {
+                var ea = document.getElementById('entireApplication');
+                ea.setAttribute("action", "${contextPath}/application/apply/savetest");
+                ea.submit();
+            });
         });
 
     </script>
