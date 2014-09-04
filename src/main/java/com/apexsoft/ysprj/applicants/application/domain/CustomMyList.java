@@ -6,6 +6,8 @@ package com.apexsoft.ysprj.applicants.application.domain;
 public class CustomMyList {
 
     private int applNo;
+    private String admsNo;
+    private String entrYear;
     private String userId;
     private String korName;
     private String admsTypeCode;
@@ -25,6 +27,22 @@ public class CustomMyList {
 
     public void setApplNo(int applNo) {
         this.applNo = applNo;
+    }
+
+    public String getAdmsNo() {
+        return admsNo;
+    }
+
+    public void setAdmsNo(String admsNo) {
+        this.admsNo = admsNo;
+    }
+
+    public String getEntrYear() {
+        return entrYear;
+    }
+
+    public void setEntrYear(String entrYear) {
+        this.entrYear = entrYear;
     }
 
     public String getUserId() {

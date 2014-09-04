@@ -2,6 +2,10 @@ package com.apexsoft.ysprj.applicants.common.control;
 
 import com.apexsoft.framework.common.vo.ExecutionContext;
 import com.apexsoft.framework.message.MessageResolver;
+import com.apexsoft.ysprj.applicants.admission.domain.AdmissionCourseMajor;
+import com.apexsoft.ysprj.applicants.admission.domain.AdmissionCourseMajorLanguage;
+import com.apexsoft.ysprj.applicants.admission.domain.ParamForAdmissionCourseMajor;
+import com.apexsoft.ysprj.applicants.admission.service.AdmissionService;
 import com.apexsoft.ysprj.applicants.common.domain.*;
 import com.apexsoft.ysprj.applicants.common.service.CommonService;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -24,6 +28,9 @@ public class CommonController {
 
     @Autowired
     private CommonService commonService;
+
+    @Autowired
+    private AdmissionService admissionService;
 
     @Autowired
     private ObjectMapper jacksonObjectMapper;
@@ -297,11 +304,71 @@ public class CommonController {
         return executionContext;
     }
 
+    @RequestMapping(value="/code/codeGroup/{codeGrp}/{keyword}", method= RequestMethod.GET)
+    @ResponseBody
+    public ExecutionContext retrieveCodeValueByCodeGroup(@PathVariable("codeGrp") String codeGrp,
+                                                         @PathVariable("keyword") String keyword)
+            throws NoSuchAlgorithmException, JsonProcessingException, UnsupportedEncodingException {
+
+        ParamForCommonCode param = new ParamForCommonCode();
+        param.setCodeGrp(codeGrp);
+        param.setCodeVal(keyword);
+        List<CommonCode> commonCodeList = commonService.retrieveCommonCodeListByCodeGroupKeyword(param);
+        String json = jacksonObjectMapper.writeValueAsString(commonCodeList);
+
+        ExecutionContext executionContext = new ExecutionContext();
+        if (!(commonCodeList.size() > 0)) {
+            executionContext.setMessage(messageResolver.getMessage("U300"));
+        }
+        executionContext.setData(json);
+
+        return executionContext;
+    }
+
     @RequestMapping(value = "/code/required/engScore/{detlMaj}", method = RequestMethod.GET)
     @ResponseBody
     public ExecutionContext retrieveRequiredEnglishScoreByDetlMaj(@PathVariable("detlMaj") String detlMaj) {
         ExecutionContext executionContext = new ExecutionContext();
         executionContext.setData("Y");
+        return executionContext;
+    }
+
+    @RequestMapping(value = "/code/engMdtYn/{admsCorsNo}/{detlMajCode}", method = RequestMethod.GET)
+    @ResponseBody
+    public ExecutionContext retriveEngMdtYnByAdmissionCourseMajor(@PathVariable(value = "admsCorsNo") String admsCorsNo,
+                                                                  @PathVariable(value = "detlMajCode") String detlMajCode) {
+        ParamForAdmissionCourseMajor param = new ParamForAdmissionCourseMajor();
+        param.setAdmsCorsNo(admsCorsNo);
+        param.setDetlMajCode(detlMajCode);
+
+        AdmissionCourseMajor admissionCourseMajor = admissionService.retrieveEngMdtYn(param);
+
+        String yn = admissionCourseMajor.getEngMdtYn();
+        ExecutionContext executionContext = new ExecutionContext();
+        executionContext.setData(yn);
+
+        return executionContext;
+    }
+
+    @RequestMapping(value = "/code/availableEngExam/{admsCorsNo}/{detlMajCode}", method = RequestMethod.GET)
+    @ResponseBody
+    public ExecutionContext retrieveAvailableEngExamList(@PathVariable(value = "admsCorsNo") String admsCorsNo,
+                                                         @PathVariable(value = "detlMajCode") String detlMajCode)
+            throws JsonProcessingException {
+        ParamForAdmissionCourseMajor param = new ParamForAdmissionCourseMajor();
+        param.setAdmsCorsNo(admsCorsNo);
+        param.setDetlMajCode(detlMajCode);
+
+        List<AdmissionCourseMajorLanguage> acmlList = admissionService.retrieveAvailableEngExamList(param);
+
+        String json = jacksonObjectMapper.writeValueAsString(acmlList);
+
+        ExecutionContext executionContext = new ExecutionContext();
+        if (!(acmlList.size() > 0)) {
+            executionContext.setMessage(messageResolver.getMessage("U300"));
+        }
+        executionContext.setData(json);
+
         return executionContext;
     }
 }

@@ -28,7 +28,7 @@
             </bean -->
             <bean class="com.apexsoft.framework.web.bind.FileHandlerWebArgumentResolver">
                 <property name="multiPartReceiver" ref="multiPartReceiver" />
-                <property name="persistenceManager" ref="persistenceManager" />
+                <property name="filePersistenceManager" ref="persistenceManager" />
             </bean>
             <!-- bean class="com.skplanet.store.etc.excel.web.bind.ExcelHandlerWebArgumentResolver">
                 <property name="velocityEngine" ref="velocityEngine" />

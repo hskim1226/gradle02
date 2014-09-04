@@ -1,7 +1,9 @@
 package com.apexsoft.ysprj.preview.control;
 
+import com.apexsoft.ysprj.applicants.application.domain.Application;
 import com.apexsoft.ysprj.applicants.application.domain.EntireApplication;
 import com.apexsoft.ysprj.applicants.application.service.ApplicationService;
+import com.apexsoft.ysprj.preview.service.BirtService;
 import org.eclipse.birt.report.engine.api.IRenderOption;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

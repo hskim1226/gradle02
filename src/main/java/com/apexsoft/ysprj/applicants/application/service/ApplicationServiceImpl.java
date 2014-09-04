@@ -1,10 +1,13 @@
 package com.apexsoft.ysprj.applicants.application.service;
 
+import com.apexsoft.framework.common.vo.ExecutionContext;
+import com.apexsoft.framework.message.MessageResolver;
 import com.apexsoft.framework.persistence.dao.CommonDAO;
 import com.apexsoft.ysprj.applicants.application.domain.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.Date;
 import java.util.List;
 
@@ -20,6 +23,9 @@ public class ApplicationServiceImpl implements ApplicationService {
 
     @Autowired
     private CommonDAO commonDAO;
+
+    @Resource(name = "messageResolver")
+    MessageResolver messageResolver;
 
     @Override
     public <T> int insertItem(T item, String MapperName) {
@@ -42,7 +48,7 @@ public class ApplicationServiceImpl implements ApplicationService {
     }
 
     @Override
-    public String createEntireApplication(EntireApplication entireApplication) {
+    public ExecutionContext createEntireApplication(EntireApplication entireApplication) {
 
         int r1 = 0;
         int applNo;
@@ -111,6 +117,7 @@ public class ApplicationServiceImpl implements ApplicationService {
                 r7 = insertList(applicationExperienceList, "ApplicationExperienceMapper");
             }
 
+
             List<ApplicationLanguage> applicationLanguageList = entireApplication.getApplicationLanguageList();
             idx = 0;
             if ( applicationLanguageList != null ) {
@@ -121,14 +128,21 @@ public class ApplicationServiceImpl implements ApplicationService {
                 }
                 r8 = insertList(applicationLanguageList, "ApplicationLanguageMapper");
             }
-
-
         } catch (Exception e) {
             e.printStackTrace();
         }
         String parity = "" + r1 + r2 + r3 + r4 + r5 + r6 + r7 + r8;
-        System.out.println(parity);
-        return parity;
+
+        ExecutionContext ec = null;
+        int errPosition = parity.indexOf('0');
+        if (errPosition  > 0) {
+            ec = new ExecutionContext(ExecutionContext.FAIL,
+                    messageResolver.getMessage("U306") + " : " + errPosition);
+        } else {
+            ec = new ExecutionContext(ExecutionContext.SUCCESS,
+                    messageResolver.getMessage("U301"));
+        }
+        return ec;
     }
 
     @Override
@@ -159,7 +173,7 @@ public class ApplicationServiceImpl implements ApplicationService {
     }
 
     @Override
-    public String updateEntireApplication(EntireApplication entireApplication) {
+    public ExecutionContext updateEntireApplication(EntireApplication entireApplication) {
         int r1 = 0;
         int applNo = entireApplication.getApplication().getApplNo();
         int r2 = 0;
@@ -236,8 +250,17 @@ public class ApplicationServiceImpl implements ApplicationService {
             e.printStackTrace();
         }
         String parity = "" + r1 + r2 + r3 + r4 + r5 + r6 + r7 + r8;
-        System.out.println("update : " + parity);
-        return parity;
+
+        ExecutionContext ec = null;
+        int errPosition = parity.indexOf('0');
+        if (errPosition  > 0) {
+            ec = new ExecutionContext(ExecutionContext.FAIL,
+                    messageResolver.getMessage("U307") + " : " + errPosition);
+        } else {
+            ec = new ExecutionContext(ExecutionContext.SUCCESS,
+                    messageResolver.getMessage("U301"));
+        }
+        return ec;
     }
 
     @Override

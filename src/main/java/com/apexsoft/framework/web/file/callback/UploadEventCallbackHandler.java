@@ -1,6 +1,6 @@
 package com.apexsoft.framework.web.file.callback;
 
-import com.apexsoft.framework.persistence.file.PersistenceManager;
+import com.apexsoft.framework.persistence.file.FilePersistenceManager;
 import com.apexsoft.framework.persistence.file.model.FileInfo;
 import com.apexsoft.framework.persistence.file.model.FileItem;
 import com.apexsoft.framework.web.file.exception.UploadException;
@@ -43,7 +43,7 @@ public abstract class UploadEventCallbackHandler<T, P> {
 	 * @param directory
 	 * @param fileName
 	 */
-	protected FileInfo savePhysicalFile(PersistenceManager persistence, FileItem fileItem, String directory, String fileName) {
+	protected FileInfo savePhysicalFile(FilePersistenceManager persistence, FileItem fileItem, String directory, String fileName) {
 		FileInputStream fis = null;
 		
 		try	{
@@ -63,6 +63,7 @@ public abstract class UploadEventCallbackHandler<T, P> {
 
 	/**
      * 어느 폴더로 업로드할 것인지 지정.
+     * omw - target 폴더 이름 반환
      * <p>
      * @param fileFieldName
      * @param attributes
@@ -74,6 +75,7 @@ public abstract class UploadEventCallbackHandler<T, P> {
 	
 	/**
      * 멀티파트 업로드 요청 안의 개별 파일에 대한 Persistence 이름을 결정.
+     * omw - 새로 저장될 이름 반환.
      * <p>
      *
      * @param fileFieldName
@@ -90,6 +92,6 @@ public abstract class UploadEventCallbackHandler<T, P> {
      * @param persistence
      * @return
      */
-	public abstract T handleEvent(List<FileItem> fileItems, P attribute, PersistenceManager persistence);
+	public abstract T handleEvent(List<FileItem> fileItems, P attribute, FilePersistenceManager persistence);
     
 }

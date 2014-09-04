@@ -27,4 +27,5 @@ public interface CommonService {
     List<School> retrieveSchoolByTypeName(String type, String keyword);
     List<CommonCode> retrieveCommonCodeValueByCodeGroup(String codeGrp);
     CommonCode retrieveCommonCodeValueByCodeGroupCode(ParamForCommonCode paramForCommonCode);
+    List<CommonCode> retrieveCommonCodeListByCodeGroupKeyword(ParamForCommonCode paramForCommonCode);
 }

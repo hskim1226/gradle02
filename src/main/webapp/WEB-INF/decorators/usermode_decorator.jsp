@@ -69,11 +69,11 @@
     <section id="footer" class="section footer">
         <div class="container">
             <div class="row align-center">
-                <div class="col-sm-12 legalnotice"><p>(주)에이펙스소프트 | 서울 마포구 양화로 156, 1121(동교동, 엘지팰리스) | 대표이사 김도훈 | 사업자등록번호 105-87-66045 | 전화 070-8892-0534</p></div>
+                <div class="col-sm-12 legalnotice"><p>(주)에이펙스소프트 | 서울 마포구 양화로 156, 1121(동교동, 엘지팰리스) | 대표이사 김도훈 | 사업자등록번호 105-87-66045 | 전화 <spring:eval expression="@app.getProperty('site.tel')" /></p></div>
                 <div class="col-sm-12 legalnotice"><p>통신판매업신고번호 서울마포-1109호 | 개인정보관리책임자 김도훈 | 개인정보보유기간 회원 탈퇴시까지</p></div>
             </div>
             <div class="row align-center copyright">
-                <div class="col-sm-12"><p>Designed by <a href="http://bootstraptaste.com">Bootstraptaste</a></p></div>
+                <div class="col-sm-12"><p>Designed by <a href="http://bootstraptaste.com" style="color: darkseagreen;">Bootstraptaste</a></p></div>
             </div>
         </div>
     </section>
@@ -82,8 +82,6 @@
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="${contextPath}/js/bootstrap.min.js"></script>
     <script src="${contextPath}/js/bootstrapValidator.min.js"></script>
-
-
     <script src="${contextPath}/js/modernizr-2.6.2-respond-1.1.0.min.js"></script>
     <script src="${contextPath}/js/jquery.easing.min.js"></script>
     <script src="${contextPath}/js/isotope.pkgd.min.js"></script>
@@ -95,6 +93,7 @@
     <script src="${contextPath}/js/jquery.stellar.min.js"></script>
     <script src="${contextPath}/js/jquery.appear.min.js"></script>
     <script src="${contextPath}/js/jquery.bpopup.min.js"></script>
+    <script src="${contextPath}/js/jquery.form.min.js"></script>
     <script src="${contextPath}/js/validate.min.js"></script>
     <script src="${contextPath}/js/json2.js"></script>
     <script src="${contextPath}/js/main.js"></script>

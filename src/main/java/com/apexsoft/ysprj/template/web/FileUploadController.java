@@ -1,6 +1,6 @@
 package com.apexsoft.ysprj.template.web;
 
-import com.apexsoft.framework.persistence.file.PersistenceManager;
+import com.apexsoft.framework.persistence.file.FilePersistenceManager;
 import com.apexsoft.framework.persistence.file.model.FileInfo;
 import com.apexsoft.framework.persistence.file.model.FileItem;
 import com.apexsoft.framework.web.file.FileHandler;
@@ -55,7 +55,7 @@ public class FileUploadController {
             }
 
             @Override
-            public String handleEvent(List<FileItem> fileItems, FileMetaForm fileMetaForm, PersistenceManager persistence) {
+            public String handleEvent(List<FileItem> fileItems, FileMetaForm fileMetaForm, FilePersistenceManager persistence) {
 
                 FileInfo fileInfo;
                 TempFileVO tempFileVO = new TempFileVO();

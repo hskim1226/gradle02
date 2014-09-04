@@ -11,6 +11,7 @@
       AND A.ADMS_NO = #{admsNo,jdbcType=VARCHAR}
       AND B.COLL_CODE = #{collCode,jdbcType=VARCHAR}
       AND A.NOR_YN = 'Y'
+      ORDER BY B.DEPT_SEQ
   </select>
 
   <select id="selectByAdmsAriInst"
@@ -21,6 +22,7 @@
       WHERE A.DEPT_CODE = B.DEPT_CODE
       AND A.ADMS_NO = #{admsNo,jdbcType=VARCHAR}
       AND A.ARI_INST_CODE = #{ariInstCode,jdbcType=VARCHAR}
+      ORDER BY B.DEPT_SEQ
   </select>
 
 </mapper>

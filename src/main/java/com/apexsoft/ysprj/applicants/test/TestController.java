@@ -7,6 +7,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import java.util.Locale;
 
 /**
  * Created by hanmomhanda on 14. 8. 20.
@@ -33,7 +35,16 @@ public class TestController {
         return r;
     }
 
+    @RequestMapping(value="/localeMessage/{locale}")
+    public String localeMessage(HttpSession session, @PathVariable("locale") String locale) {
+        session.setAttribute("org.springframework.web.servlet.i18n.SessionLocaleResolver.LOCALE", new Locale(locale));
+        return "test/localeMessage";
+    }
 
+    @RequestMapping(value="/fileuploadform")
+    public String fileuploadForm() {
+        return "application/futest";
+    }
 
     @RequestMapping(value="/tabsample")
     public String tabSample() {
