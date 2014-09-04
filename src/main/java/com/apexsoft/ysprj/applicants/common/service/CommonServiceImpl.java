@@ -1,10 +1,6 @@
 package com.apexsoft.ysprj.applicants.common.service;
 
 import com.apexsoft.framework.persistence.dao.CommonDAO;
-import com.apexsoft.ysprj.applicants.application.domain.Application;
-import com.apexsoft.ysprj.applicants.application.domain.ApplicationGeneral;
-import com.apexsoft.ysprj.applicants.application.domain.EntireApplication;
-import com.apexsoft.ysprj.applicants.application.domain.ParamForInitialApply;
 import com.apexsoft.ysprj.applicants.common.domain.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;

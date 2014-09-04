@@ -1,9 +1,5 @@
 package com.apexsoft.ysprj.applicants.common.service;
 
-import com.apexsoft.ysprj.applicants.application.domain.Application;
-import com.apexsoft.ysprj.applicants.application.domain.ApplicationGeneral;
-import com.apexsoft.ysprj.applicants.application.domain.EntireApplication;
-import com.apexsoft.ysprj.applicants.application.domain.ParamForInitialApply;
 import com.apexsoft.ysprj.applicants.common.domain.*;
 
 import java.util.List;
