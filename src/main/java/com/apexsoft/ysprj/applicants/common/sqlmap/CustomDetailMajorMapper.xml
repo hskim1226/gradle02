@@ -27,4 +27,11 @@
       AND A.CORS_TYPE_CODE = #{corsTypeCode,jdbcType=VARCHAR}
   </select>
 
+    <select id="selectNameByCode" resultType="java.lang.String" parameterType="java.lang.String">
+        select DETL_MAJ_NAME
+        from DETL_MAJ
+        where DETL_MAJ_CODE = #{detlMajCode,jdbcType=VARCHAR}
+    </select>
+
+
 </mapper>

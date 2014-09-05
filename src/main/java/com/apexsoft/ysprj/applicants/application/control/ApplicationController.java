@@ -129,7 +129,7 @@ public class ApplicationController {
 //            if( applNo != entireApplication.getApplication().getApplNo() ) {
                 entireApplication = applicationService.retrieveEntireApplication(applNo);
 //            }
-            CampusCollege campusCollege = applicationService.retriveCampusCollege(applNo);
+            CampusCollege campusCollege = applicationService.retrieveCampusCollege(applNo);
             entireApplication.setCampCode(campusCollege.getCampCode());
             entireApplication.setCollCode(campusCollege.getCollCode());
 

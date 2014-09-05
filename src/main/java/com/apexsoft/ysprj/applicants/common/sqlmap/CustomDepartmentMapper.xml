@@ -25,4 +25,10 @@
       ORDER BY B.DEPT_SEQ
   </select>
 
+    <select id="selectNameByCode" resultType="java.lang.String" parameterType="java.lang.String">
+        select DEPT_NAME
+        from DEPT
+        where DEPT_CODE = #{deptCode,jdbcType=VARCHAR}
+    </select>
+
 </mapper>

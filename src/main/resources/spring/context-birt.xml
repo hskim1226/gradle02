@@ -6,19 +6,6 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
 
     <bean id="birtService" class="com.apexsoft.ysprj.preview.service.impl.BirtServiceImpl"/>
-    <!--<bean id="birtView" class="com.apexsoft.ysprj.preview.web.BirtView">-->
-        <!--<property name="birtEngine" ref="birtEngineFactory" />-->
-        <!--<property name="reportFormatRequestParameter" value="format" />-->
-        <!--<property name="reportNameRequestParameter" value="reportname" />-->
-        <!--<property name="renderOption" value="org.eclipse.birt.report.engine.api.RenderOption" />-->
-    <!--</bean>-->
-
-    <!--<bean id="birtEngineFactory" class="com.apexsoft.ysprj.preview.web.BirtEngineFactory">-->
-        <!--<property name="logLevel">-->
-            <!--<util:constant static-field="java.util.logging.Level.INFO" />-->
-        <!--</property>-->
-        <!--<property name="logDirectory" value="$(birt.logDirectory}" />-->
-    <!--</bean>-->
 
     <bean id="pdfSingleFormatBirtView" class="com.apexsoft.framework.birt.spring.core.PdfSingleFormatBirtView">
         <property name="birtEngine" ref="birtEngineFactory" />

@@ -29,5 +29,5 @@ public interface ApplicationService {
     Application retrieveApplicationForInsertOthers(Application application);
     List<CustomMyList> retrieveMyList(ParamForApplication paramForApplication);
 
-    CampusCollege retriveCampusCollege(int applNo);
+    CampusCollege retrieveCampusCollege(int applNo);
 }

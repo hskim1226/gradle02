@@ -36,4 +36,10 @@
     from ARI_INST
   </select>
 
+    <select id="selectNameByCode" resultType="java.lang.String" parameterType="java.lang.String">
+        select ARI_INST_NAME
+        from ARI_INST
+        where ARI_INST_CODE = #{campCode,jdbcType=VARCHAR}
+    </select>
+
 </mapper>

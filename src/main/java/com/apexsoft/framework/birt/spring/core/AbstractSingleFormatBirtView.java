@@ -45,7 +45,6 @@ abstract public class AbstractSingleFormatBirtView extends AbstractUrlBasedView 
     private static final String DEFAULT_TEMPLATE_EXT = ".rpttemplate";
     private static final String DEFAULT_DOCUMENT_EXT = ".rptdocument";
 
-
     private DataSource dataSource;
     private String reportName;
     private IReportEngine birtEngine;
@@ -347,6 +346,9 @@ abstract public class AbstractSingleFormatBirtView extends AbstractUrlBasedView 
                     appContextMap.put(IConnectionFactory.CLOSE_PASS_IN_CONNECTION, Boolean.TRUE);
             }
 
+            for (String k : modelData.keySet()) {
+                appContextMap.put(k, modelData.get(k));
+            }
 
             IEngineTask task = null;
             String pathForReport = birtViewResourcePathCallback.pathForReport(sc, request, fullReportName);
@@ -432,9 +434,6 @@ abstract public class AbstractSingleFormatBirtView extends AbstractUrlBasedView 
                 ReportParameterConverter converter = new ReportParameterConverter(format, request.getLocale());
 
                 Object value = this.reportParameters.get(param.getName());
-                if( value instanceof String ) {
-                    value = converter.parse( (String) value, scalar.getDataType() );
-                }
                 parms.put(param.getName(), value);
             } else if (StringUtils.hasText(getParameter(request, param.getName()))) {
                 parms.put(param.getName(), getParamValueObject(request, scalar));
