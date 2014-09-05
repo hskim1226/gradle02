@@ -33,7 +33,7 @@ public class PdfSingleFormatBirtView extends AbstractSingleFormatBirtView {
         }
 
         String header = null;
-        header = "filename=" + oName + ".pdf";
+        header = "attachment;filename=" + oName + ".pdf";
 
         response.setHeader ("Content-Disposition", header);
 

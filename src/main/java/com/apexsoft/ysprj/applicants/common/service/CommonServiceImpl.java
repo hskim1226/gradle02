@@ -1,10 +1,6 @@
 package com.apexsoft.ysprj.applicants.common.service;
 
 import com.apexsoft.framework.persistence.dao.CommonDAO;
-import com.apexsoft.ysprj.applicants.application.domain.Application;
-import com.apexsoft.ysprj.applicants.application.domain.ApplicationGeneral;
-import com.apexsoft.ysprj.applicants.application.domain.EntireApplication;
-import com.apexsoft.ysprj.applicants.application.domain.ParamForInitialApply;
 import com.apexsoft.ysprj.applicants.common.domain.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
@@ -272,15 +268,20 @@ public class CommonServiceImpl implements CommonService {
     /**
      * 코드 그룹, 코드로 공통 코드 값 조회
      *
-     * @param paramForCommonCode
+     * @param codeGrp
+     * @param code
      * @return
      */
     @Override
     @Cacheable(value = "commonCodeCache")
-    public CommonCode retrieveCommonCodeValueByCodeGroupCode(ParamForCommonCode paramForCommonCode) {
+    public CommonCode retrieveCommonCodeValueByCodeGroupCode(String codeGrp, String code) {
         CommonCode commonCode = null;
+        ParamForCommonCode paramForCommonCode = new ParamForCommonCode();
+        paramForCommonCode.setCodeGrp(codeGrp);
+        paramForCommonCode.setCode(code);
+
         try {
-            commonCode = commonDAO.queryForObject(NAME_SPACE+"CustomCommonCodeMapper.selectByCodeGroupCode",
+            commonCode = commonDAO.queryForObject(NAME_SPACE + "CustomCommonCodeMapper.selectByCodeGroupCode",
                     paramForCommonCode,
                     CommonCode.class);
         } catch (Exception e) {
@@ -300,7 +301,7 @@ public class CommonServiceImpl implements CommonService {
     public List<CommonCode> retrieveCommonCodeListByCodeGroupKeyword(ParamForCommonCode paramForCommonCode) {
         List<CommonCode> commonCodeList = null;
         try {
-            commonCodeList = commonDAO.queryForList(NAME_SPACE+"CustomCommonCodeMapper.selectListByCodeGroupKeyword",
+            commonCodeList = commonDAO.queryForList(NAME_SPACE + "CustomCommonCodeMapper.selectListByCodeGroupKeyword",
                     paramForCommonCode,
                     CommonCode.class);
         } catch (Exception e) {
@@ -329,6 +330,117 @@ public class CommonServiceImpl implements CommonService {
         return commonCode;
     }
 
+    /**
+     * 코드로 캠퍼스 이름 검색
+     *
+     * @param campCode
+     * @return
+     */
+    @Override
+    public String retrieveCampNameByCode(String campCode) {
+        String campName = null;
+        try {
+            campName = commonDAO.queryForObject(NAME_SPACE + "CustomCampusMapper.selectNameByCode",
+                    campCode,
+                    String.class);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return campName;
+    }
 
+    /**
+     * 코드로 대학 이름 검색
+     *
+     * @param collCode
+     * @return
+     */
+    @Override
+    public String retrieveCollNameByCode(String collCode) {
+        String collName = null;
+        try {
+            collName = commonDAO.queryForObject(NAME_SPACE + "CustomCollegeMapper.selectNameByCode",
+                    collCode,
+                    String.class);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return collName;
+    }
 
+    /**
+     * 코드로 학연산 이름 검색
+     *
+     * @param ariInstCode
+     * @return
+     */
+    @Override
+    public String retrieveAriInstNameByCode(String ariInstCode) {
+        String ariInstName = null;
+        try {
+            ariInstName = commonDAO.queryForObject(NAME_SPACE + "CustomAcademyResearchIndustryInstitutionMapper.selectNameByCode",
+                    ariInstCode,
+                    String.class);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return ariInstName;
+    }
+
+    /**
+     * 코드로 학과 이름 검색
+     *
+     * @param deptCode
+     * @return
+     */
+    @Override
+    public String retrieveDeptNameByCode(String deptCode) {
+        String deptName = null;
+        try {
+            deptName = commonDAO.queryForObject(NAME_SPACE + "CustomDepartmentMapper.selectNameByCode",
+                    deptCode,
+                    String.class);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return deptName;
+    }
+
+    /**
+     * 코드로 지원과정 이름 검색
+     *
+     * @param corsTypeCode
+     * @return
+     */
+    @Override
+    public String retrieveCorsTypeNameByCode(String corsTypeCode) {
+        String corsTypeName = null;
+        try {
+            corsTypeName = commonDAO.queryForObject(NAME_SPACE + "CustomCourseMapper.selectNameByCode",
+                    corsTypeCode,
+                    String.class);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return corsTypeName;
+    }
+
+    /**
+     * 코드로 세부전공 이름 검색
+     *
+     * @param detlMajCode
+     * @return
+     */
+    @Override
+    public String retrieveDetlMajNameByCode(String detlMajCode) {
+        String detlMajName = null;
+        try {
+            detlMajName = commonDAO.queryForObject(NAME_SPACE + "CustomDetailMajorMapper.selectNameByCode",
+                    detlMajCode,
+                    String.class);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return detlMajName;
+    }
 }

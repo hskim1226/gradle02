@@ -2,10 +2,194 @@
 <report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.23" id="1">
     <property name="createdBy">Eclipse BIRT Designer Version 4.3.2.v20140211-1400 Build &lt;4.3.2.v20140218-1056></property>
     <property name="units">in</property>
+    <method name="beforeFactory"><![CDATA[importPackage(Packages.org.springframework.context);
+importPackage(Packages.org.springframework.web.context.support );
+//ServletContext
+var sc = reportContext.getHttpServletRequest().getSession().getServletContext();
+//ApplicationContext 
+var spring = WebApplicationContextUtils.getWebApplicationContext(sc);
+var commonService = spring.getBean("commonServiceImpl");
+
+entire = reportContext.getAppContext().get("entireApplication");
+application = entire.getApplication();
+general = entire.getApplicationGeneral();
+etc = entire.getApplicationETCWithBLOBs();
+highSchool = entire.getHighSchool();
+collegeList = entire.getCollegeList();
+graduateList = entire.getGraduateList();
+experienceList = entire.getApplicationExperienceList();
+languageList = entire.getApplicationLanguageList();
+
+function getLangScore(code) {
+	var i, size, res="";
+	for(i=0, size=languageList.size(); i<size; i++) {
+		var item = languageList.get(i);
+		if(code == item.getLangExamCode()) {
+			res = item.getLangGrad();
+			break;
+		}
+	}
+	return res;
+}
+reportContext.setPersistentGlobalVariable("getLangScore", getLangScore);
+
+function getAcademyText(academy) {
+	var res="";
+	if (!academy) {
+		return res;
+	}
+	var entrDay = academy.getEntrDay();
+	var grdaDay = academy.getEntrDay();
+	var schlName = academy.getSchlName();
+	var grdaTypeCode = academy.getGrdaTypeCode();
+
+	if (entrDay &amp;&amp; entrDay.length() == 8) {
+		res += entrDay.substr(0, 4) + "년" + entrDay.substr(4, 2) + "월" + entrDay.substr(6, 2) + "일";
+	}
+	if (grdaDay &amp;&amp; grdaDay.length() == 8) {
+		res += " ~ ";
+		res += grdaDay.substr(0, 4) + "년" + grdaDay.substr(4, 2) + "월" + grdaDay.substr(6, 2) + "일";
+	}
+	if (schlName &amp;&amp; schlName.length() > 0) {
+		res += "\t";
+		res += schlName;
+	}
+	if (grdaTypeCode &amp;&amp; grdaTypeCode.length() > 0) {
+		res += "\t";
+		var commonCode = commonService.retrieveCommonCodeValueByCodeGroupCode("GRDA_TYPE", String(grdaTypeCode));
+		if (commonCode) {
+			res += commonCode.getCodeVal();
+		}
+	}
+	return res;
+}
+reportContext.setPersistentGlobalVariable("getAcademyText", getAcademyText);]]></method>
     <text-property name="displayName">입학원서</text-property>
     <property name="layoutPreference">auto layout</property>
     <property name="bidiLayoutOrientation">ltr</property>
     <property name="imageDPI">96</property>
+    <parameters>
+        <scalar-parameter name="campName" id="1275">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant"></value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="collName" id="1276">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant"></value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="deptName" id="1277">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant"></value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="corsTypeName" id="1278">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant"></value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="detlMajName" id="1279">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant"></value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="ariInstName" id="1280">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant"></value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="mltrServName" id="1288">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant"></value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="mltrRankName" id="1289">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant"></value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+    </parameters>
     <styles>
         <style name="report" id="4">
             <property name="fontFamily">"Arial"</property>
@@ -54,21 +238,6 @@
     <body>
         <grid id="1200">
             <property name="fontFamily">"나눔고딕"</property>
-            <list-property name="boundDataColumns">
-                <structure>
-                    <property name="name">Column Binding</property>
-                    <expression name="expression" type="javascript">//BIRT label report item onCreate Script&#13;
-importPackage(Packages.org.springframework.context);&#13;
-importPackage(Packages.org.springframework.web.context.support );&#13;
-var sc = reportContext.getHttpServletRequest().getSession().getServletContext();&#13;
-//ApplicationContext &#13;
-spring = WebApplicationContextUtils.getWebApplicationContext(sc);&#13;
-mypojo = spring.getBean("birtService");&#13;
-appvo = mypojo.getApplication("id");</expression>
-                    <property name="dataType">string</property>
-                    <property name="allowExport">true</property>
-                </structure>
-            </list-property>
             <column id="1201"/>
             <row id="1202">
                 <cell id="1203">
@@ -113,14 +282,6 @@ appvo = mypojo.getApplication("id");</expression>
                     </grid>
                     <grid id="41">
                         <property name="textAlign">center</property>
-                        <list-property name="boundDataColumns">
-                            <structure>
-                                <property name="name">Column Binding</property>
-                                <expression name="expression" type="javascript">appvo.getApplNo();</expression>
-                                <property name="dataType">string</property>
-                                <property name="allowExport">true</property>
-                            </structure>
-                        </list-property>
                         <column id="42"/>
                         <column id="43">
                             <property name="width">15%</property>
@@ -153,8 +314,10 @@ appvo = mypojo.getApplication("id");</expression>
                                     <list-property name="boundDataColumns">
                                         <structure>
                                             <property name="name">Column Binding</property>
-                                            <expression name="expression" type="javascript">appvo.getApplNo();</expression>
+                                            <text-property name="displayName">applId</text-property>
+                                            <expression name="expression" type="javascript">application.getApplId();</expression>
                                             <property name="dataType">string</property>
+                                            <property name="allowExport">true</property>
                                         </structure>
                                     </list-property>
                                     <property name="resultSetColumn">Column Binding</property>
@@ -211,6 +374,16 @@ appvo = mypojo.getApplication("id");</expression>
                                 <property name="borderTopStyle">solid</property>
                                 <property name="borderTopWidth">2px</property>
                                 <property name="verticalAlign">middle</property>
+                                <data id="1281">
+                                    <list-property name="boundDataColumns">
+                                        <structure>
+                                            <property name="name">campName</property>
+                                            <expression name="expression" type="javascript">params["campName"]</expression>
+                                            <property name="dataType">string</property>
+                                        </structure>
+                                    </list-property>
+                                    <property name="resultSetColumn">campName</property>
+                                </data>
                             </cell>
                             <cell id="22">
                                 <property name="colSpan">1</property>
@@ -254,6 +427,16 @@ appvo = mypojo.getApplication("id");</expression>
                                 <property name="borderTopStyle">solid</property>
                                 <property name="borderTopWidth">1px</property>
                                 <property name="verticalAlign">middle</property>
+                                <data id="1283">
+                                    <list-property name="boundDataColumns">
+                                        <structure>
+                                            <property name="name">corsTypeName</property>
+                                            <expression name="expression" type="javascript">params["corsTypeName"]</expression>
+                                            <property name="dataType">string</property>
+                                        </structure>
+                                    </list-property>
+                                    <property name="resultSetColumn">corsTypeName</property>
+                                </data>
                             </cell>
                         </row>
                         <row id="30">
@@ -284,6 +467,16 @@ appvo = mypojo.getApplication("id");</expression>
                                 <property name="borderTopStyle">solid</property>
                                 <property name="borderTopWidth">1px</property>
                                 <property name="verticalAlign">middle</property>
+                                <data id="1284">
+                                    <list-property name="boundDataColumns">
+                                        <structure>
+                                            <property name="name">ariInstName</property>
+                                            <expression name="expression" type="javascript">params["ariInstName"]</expression>
+                                            <property name="dataType">string</property>
+                                        </structure>
+                                    </list-property>
+                                    <property name="resultSetColumn">ariInstName</property>
+                                </data>
                             </cell>
                         </row>
                         <row id="61">
@@ -314,6 +507,16 @@ appvo = mypojo.getApplication("id");</expression>
                                 <property name="borderTopStyle">solid</property>
                                 <property name="borderTopWidth">1px</property>
                                 <property name="verticalAlign">middle</property>
+                                <data id="1282">
+                                    <list-property name="boundDataColumns">
+                                        <structure>
+                                            <property name="name">deptName</property>
+                                            <expression name="expression" type="javascript">params["deptName"]</expression>
+                                            <property name="dataType">string</property>
+                                        </structure>
+                                    </list-property>
+                                    <property name="resultSetColumn">deptName</property>
+                                </data>
                             </cell>
                             <cell id="64">
                                 <property name="borderBottomStyle">solid</property>
@@ -343,8 +546,10 @@ appvo = mypojo.getApplication("id");</expression>
                                     <list-property name="boundDataColumns">
                                         <structure>
                                             <property name="name">Column Binding</property>
-                                            <expression name="expression" type="javascript">appvo.getDeptCode();</expression>
+                                            <text-property name="displayName">deptCode</text-property>
+                                            <expression name="expression" type="javascript">application.getDeptCode();</expression>
                                             <property name="dataType">string</property>
+                                            <property name="allowExport">true</property>
                                         </structure>
                                     </list-property>
                                     <property name="resultSetColumn">Column Binding</property>
@@ -379,6 +584,16 @@ appvo = mypojo.getApplication("id");</expression>
                                 <property name="borderTopStyle">solid</property>
                                 <property name="borderTopWidth">1px</property>
                                 <property name="verticalAlign">middle</property>
+                                <data id="1285">
+                                    <list-property name="boundDataColumns">
+                                        <structure>
+                                            <property name="name">detlMajName</property>
+                                            <expression name="expression" type="javascript">params["detlMajName"]</expression>
+                                            <property name="dataType">string</property>
+                                        </structure>
+                                    </list-property>
+                                    <property name="resultSetColumn">detlMajName</property>
+                                </data>
                             </cell>
                         </row>
                         <row id="75">
@@ -428,7 +643,8 @@ appvo = mypojo.getApplication("id");</expression>
                                     <list-property name="boundDataColumns">
                                         <structure>
                                             <property name="name">Column Binding</property>
-                                            <expression name="expression" type="javascript">appvo.getKorName();</expression>
+                                            <text-property name="displayName">korName</text-property>
+                                            <expression name="expression" type="javascript">application.getKorName();</expression>
                                             <property name="dataType">string</property>
                                             <property name="allowExport">true</property>
                                         </structure>
@@ -464,8 +680,10 @@ appvo = mypojo.getApplication("id");</expression>
                                     <list-property name="boundDataColumns">
                                         <structure>
                                             <property name="name">Column Binding</property>
-                                            <expression name="expression" type="javascript">appvo.getEngName() + " " + appvo.getEngSurName();</expression>
+                                            <text-property name="displayName">engName + engSur</text-property>
+                                            <expression name="expression" type="javascript">application.getEngName() + " " + application.getEngSur();</expression>
                                             <property name="dataType">string</property>
+                                            <property name="allowExport">true</property>
                                         </structure>
                                     </list-property>
                                     <property name="resultSetColumn">Column Binding</property>
@@ -504,8 +722,10 @@ appvo = mypojo.getApplication("id");</expression>
                                     <list-property name="boundDataColumns">
                                         <structure>
                                             <property name="name">Column Binding</property>
-                                            <expression name="expression" type="javascript">appvo.getRgstNo();</expression>
+                                            <text-property name="displayName">rgstNo</text-property>
+                                            <expression name="expression" type="javascript">application.getRgstNo();</expression>
                                             <property name="dataType">string</property>
+                                            <property name="allowExport">true</property>
                                         </structure>
                                     </list-property>
                                     <property name="resultSetColumn">Column Binding</property>
@@ -541,8 +761,10 @@ appvo = mypojo.getApplication("id");</expression>
                                     <list-property name="boundDataColumns">
                                         <structure>
                                             <property name="name">Column Binding</property>
-                                            <expression name="expression" type="javascript">appvo.getEmail();</expression>
+                                            <text-property name="displayName">mailAddr</text-property>
+                                            <expression name="expression" type="javascript">application.getMailAddr();</expression>
                                             <property name="dataType">string</property>
+                                            <property name="allowExport">true</property>
                                         </structure>
                                     </list-property>
                                     <property name="resultSetColumn">Column Binding</property>
@@ -577,8 +799,10 @@ appvo = mypojo.getApplication("id");</expression>
                                     <list-property name="boundDataColumns">
                                         <structure>
                                             <property name="name">Column Binding</property>
-                                            <expression name="expression" type="javascript">appvo.getTelephone();</expression>
+                                            <text-property name="displayName">telNum</text-property>
+                                            <expression name="expression" type="javascript">application.getTelNum();</expression>
                                             <property name="dataType">string</property>
+                                            <property name="allowExport">true</property>
                                         </structure>
                                     </list-property>
                                     <property name="resultSetColumn">Column Binding</property>
@@ -610,8 +834,10 @@ appvo = mypojo.getApplication("id");</expression>
                                     <list-property name="boundDataColumns">
                                         <structure>
                                             <property name="name">Column Binding</property>
-                                            <expression name="expression" type="javascript">appvo.getMobile();</expression>
+                                            <text-property name="displayName">mobiNum</text-property>
+                                            <expression name="expression" type="javascript">application.getMobiNum();</expression>
                                             <property name="dataType">string</property>
+                                            <property name="allowExport">true</property>
                                         </structure>
                                     </list-property>
                                     <property name="resultSetColumn">Column Binding</property>
@@ -674,7 +900,8 @@ appvo = mypojo.getApplication("id");</expression>
                                     <list-property name="boundDataColumns">
                                         <structure>
                                             <property name="name">Column Binding</property>
-                                            <expression name="expression" type="javascript">appvo.getAddress() + " " + appvo.getDetailAddr();</expression>
+                                            <text-property name="displayName">addr + detlAddr</text-property>
+                                            <expression name="expression" type="javascript">application.getAddr() + " " + application.getDetlAddr();</expression>
                                             <property name="dataType">string</property>
                                             <property name="allowExport">true</property>
                                         </structure>
@@ -717,6 +944,18 @@ appvo = mypojo.getApplication("id");</expression>
                                 <property name="paddingBottom">0pt</property>
                                 <property name="paddingRight">0pt</property>
                                 <property name="verticalAlign">middle</property>
+                                <data id="1286">
+                                    <list-property name="boundDataColumns">
+                                        <structure>
+                                            <property name="name">Column Binding</property>
+                                            <text-property name="displayName">currWrkpName</text-property>
+                                            <expression name="expression" type="javascript">general.getCurrWrkpName();</expression>
+                                            <property name="dataType">string</property>
+                                            <property name="allowExport">true</property>
+                                        </structure>
+                                    </list-property>
+                                    <property name="resultSetColumn">Column Binding</property>
+                                </data>
                             </cell>
                             <cell id="1045">
                                 <property name="borderBottomStyle">solid</property>
@@ -750,6 +989,18 @@ appvo = mypojo.getApplication("id");</expression>
                                 <property name="paddingBottom">0pt</property>
                                 <property name="paddingRight">0pt</property>
                                 <property name="verticalAlign">middle</property>
+                                <data id="1287">
+                                    <list-property name="boundDataColumns">
+                                        <structure>
+                                            <property name="name">Column Binding</property>
+                                            <text-property name="displayName">currWrkpTel</text-property>
+                                            <expression name="expression" type="javascript">general.getCurrWrkpTel();</expression>
+                                            <property name="dataType">string</property>
+                                            <property name="allowExport">true</property>
+                                        </structure>
+                                    </list-property>
+                                    <property name="resultSetColumn">Column Binding</property>
+                                </data>
                             </cell>
                         </row>
                         <row id="267">
@@ -784,6 +1035,7 @@ appvo = mypojo.getApplication("id");</expression>
                                 <property name="paddingRight">0pt</property>
                                 <property name="verticalAlign">middle</property>
                                 <grid id="1205">
+                                    <property name="textAlign">left</property>
                                     <column id="1206"/>
                                     <row id="1207">
                                         <property name="height">28px</property>
@@ -791,6 +1043,18 @@ appvo = mypojo.getApplication("id");</expression>
                                             <property name="borderBottomStyle">solid</property>
                                             <property name="borderBottomWidth">1px</property>
                                             <property name="verticalAlign">middle</property>
+                                            <data id="1292">
+                                                <list-property name="boundDataColumns">
+                                                    <structure>
+                                                        <property name="name">Column Binding</property>
+                                                        <text-property name="displayName">highSchool</text-property>
+                                                        <expression name="expression" type="javascript">getAcademyText(highSchool);</expression>
+                                                        <property name="dataType">string</property>
+                                                        <property name="allowExport">true</property>
+                                                    </structure>
+                                                </list-property>
+                                                <property name="resultSetColumn">Column Binding</property>
+                                            </data>
                                         </cell>
                                     </row>
                                     <row id="1209">
@@ -799,6 +1063,18 @@ appvo = mypojo.getApplication("id");</expression>
                                             <property name="borderBottomStyle">solid</property>
                                             <property name="borderBottomWidth">1px</property>
                                             <property name="verticalAlign">middle</property>
+                                            <data id="1297">
+                                                <list-property name="boundDataColumns">
+                                                    <structure>
+                                                        <property name="name">Column Binding</property>
+                                                        <text-property name="displayName">college1</text-property>
+                                                        <expression name="expression" type="javascript">getAcademyText(collegeList.get(0));</expression>
+                                                        <property name="dataType">string</property>
+                                                        <property name="allowExport">true</property>
+                                                    </structure>
+                                                </list-property>
+                                                <property name="resultSetColumn">Column Binding</property>
+                                            </data>
                                         </cell>
                                     </row>
                                     <row id="1211">
@@ -807,6 +1083,18 @@ appvo = mypojo.getApplication("id");</expression>
                                             <property name="borderBottomStyle">solid</property>
                                             <property name="borderBottomWidth">1px</property>
                                             <property name="verticalAlign">middle</property>
+                                            <data id="1298">
+                                                <list-property name="boundDataColumns">
+                                                    <structure>
+                                                        <property name="name">Column Binding</property>
+                                                        <text-property name="displayName">college2</text-property>
+                                                        <expression name="expression" type="javascript">getAcademyText(collegeList.get(1));</expression>
+                                                        <property name="dataType">string</property>
+                                                        <property name="allowExport">true</property>
+                                                    </structure>
+                                                </list-property>
+                                                <property name="resultSetColumn">Column Binding</property>
+                                            </data>
                                         </cell>
                                     </row>
                                     <row id="1213">
@@ -815,12 +1103,36 @@ appvo = mypojo.getApplication("id");</expression>
                                             <property name="borderBottomStyle">solid</property>
                                             <property name="borderBottomWidth">1px</property>
                                             <property name="verticalAlign">middle</property>
+                                            <data id="1299">
+                                                <list-property name="boundDataColumns">
+                                                    <structure>
+                                                        <property name="name">Column Binding</property>
+                                                        <text-property name="displayName">graduate1</text-property>
+                                                        <expression name="expression" type="javascript">getAcademyText(graduateList.get(0));</expression>
+                                                        <property name="dataType">string</property>
+                                                        <property name="allowExport">true</property>
+                                                    </structure>
+                                                </list-property>
+                                                <property name="resultSetColumn">Column Binding</property>
+                                            </data>
                                         </cell>
                                     </row>
                                     <row id="1215">
                                         <property name="height">28px</property>
                                         <cell id="1216">
                                             <property name="verticalAlign">middle</property>
+                                            <data id="1300">
+                                                <list-property name="boundDataColumns">
+                                                    <structure>
+                                                        <property name="name">Column Binding</property>
+                                                        <text-property name="displayName">graduate2</text-property>
+                                                        <expression name="expression" type="javascript">getAcademyText(graduateList.get(1));</expression>
+                                                        <property name="dataType">string</property>
+                                                        <property name="allowExport">true</property>
+                                                    </structure>
+                                                </list-property>
+                                                <property name="resultSetColumn">Column Binding</property>
+                                            </data>
                                         </cell>
                                     </row>
                                 </grid>
@@ -879,6 +1191,18 @@ appvo = mypojo.getApplication("id");</expression>
                                 <property name="borderTopStyle">solid</property>
                                 <property name="borderTopWidth">2px</property>
                                 <property name="verticalAlign">middle</property>
+                                <data id="1259">
+                                    <list-property name="boundDataColumns">
+                                        <structure>
+                                            <property name="name">Column Binding</property>
+                                            <text-property name="displayName">hndcGrad</text-property>
+                                            <expression name="expression" type="javascript">general.getHndcGrad();</expression>
+                                            <property name="dataType">string</property>
+                                            <property name="allowExport">true</property>
+                                        </structure>
+                                    </list-property>
+                                    <property name="resultSetColumn">Column Binding</property>
+                                </data>
                             </cell>
                             <cell id="942">
                                 <property name="borderLeftStyle">solid</property>
@@ -900,6 +1224,18 @@ appvo = mypojo.getApplication("id");</expression>
                                 <property name="borderTopStyle">solid</property>
                                 <property name="borderTopWidth">2px</property>
                                 <property name="verticalAlign">middle</property>
+                                <data id="1260">
+                                    <list-property name="boundDataColumns">
+                                        <structure>
+                                            <property name="name">Column Binding</property>
+                                            <text-property name="displayName">hndcType</text-property>
+                                            <expression name="expression" type="javascript">general.getHndcType();</expression>
+                                            <property name="dataType">string</property>
+                                            <property name="allowExport">true</property>
+                                        </structure>
+                                    </list-property>
+                                    <property name="resultSetColumn">Column Binding</property>
+                                </data>
                             </cell>
                         </row>
                     </grid>
@@ -1112,6 +1448,18 @@ appvo = mypojo.getApplication("id");</expression>
                                 <property name="borderTopStyle">solid</property>
                                 <property name="borderTopWidth">1px</property>
                                 <property name="verticalAlign">middle</property>
+                                <data id="1270">
+                                    <list-property name="boundDataColumns">
+                                        <structure>
+                                            <property name="name">Column Binding</property>
+                                            <text-property name="displayName">toeflScore</text-property>
+                                            <expression name="expression" type="javascript">getLangScore("00001");</expression>
+                                            <property name="dataType">string</property>
+                                            <property name="allowExport">true</property>
+                                        </structure>
+                                    </list-property>
+                                    <property name="resultSetColumn">Column Binding</property>
+                                </data>
                             </cell>
                             <cell id="1079">
                                 <property name="borderLeftStyle">solid</property>
@@ -1121,6 +1469,18 @@ appvo = mypojo.getApplication("id");</expression>
                                 <property name="borderTopStyle">solid</property>
                                 <property name="borderTopWidth">1px</property>
                                 <property name="verticalAlign">middle</property>
+                                <data id="1271">
+                                    <list-property name="boundDataColumns">
+                                        <structure>
+                                            <property name="name">Column Binding</property>
+                                            <text-property name="displayName">toeicScore</text-property>
+                                            <expression name="expression" type="javascript">getLangScore("00002");</expression>
+                                            <property name="dataType">string</property>
+                                            <property name="allowExport">true</property>
+                                        </structure>
+                                    </list-property>
+                                    <property name="resultSetColumn">Column Binding</property>
+                                </data>
                             </cell>
                             <cell id="1075">
                                 <property name="borderLeftStyle">solid</property>
@@ -1130,6 +1490,18 @@ appvo = mypojo.getApplication("id");</expression>
                                 <property name="borderTopStyle">solid</property>
                                 <property name="borderTopWidth">1px</property>
                                 <property name="verticalAlign">middle</property>
+                                <data id="1272">
+                                    <list-property name="boundDataColumns">
+                                        <structure>
+                                            <property name="name">Column Binding</property>
+                                            <text-property name="displayName">tepsScore</text-property>
+                                            <expression name="expression" type="javascript">getLangScore("00003")</expression>
+                                            <property name="dataType">string</property>
+                                            <property name="allowExport">true</property>
+                                        </structure>
+                                    </list-property>
+                                    <property name="resultSetColumn">Column Binding</property>
+                                </data>
                             </cell>
                             <cell id="1071">
                                 <property name="borderLeftStyle">solid</property>
@@ -1139,6 +1511,18 @@ appvo = mypojo.getApplication("id");</expression>
                                 <property name="borderTopStyle">solid</property>
                                 <property name="borderTopWidth">1px</property>
                                 <property name="verticalAlign">middle</property>
+                                <data id="1273">
+                                    <list-property name="boundDataColumns">
+                                        <structure>
+                                            <property name="name">Column Binding</property>
+                                            <text-property name="displayName">ieltsScore</text-property>
+                                            <expression name="expression" type="javascript">getLangScore("00004")</expression>
+                                            <property name="dataType">string</property>
+                                            <property name="allowExport">true</property>
+                                        </structure>
+                                    </list-property>
+                                    <property name="resultSetColumn">Column Binding</property>
+                                </data>
                             </cell>
                             <cell id="1067">
                                 <property name="borderLeftStyle">solid</property>
@@ -1148,6 +1532,18 @@ appvo = mypojo.getApplication("id");</expression>
                                 <property name="borderTopStyle">solid</property>
                                 <property name="borderTopWidth">1px</property>
                                 <property name="verticalAlign">middle</property>
+                                <data id="1274">
+                                    <list-property name="boundDataColumns">
+                                        <structure>
+                                            <property name="name">Column Binding</property>
+                                            <text-property name="displayName">greScore</text-property>
+                                            <expression name="expression" type="javascript">getLangScore("00006")</expression>
+                                            <property name="dataType">string</property>
+                                            <property name="allowExport">true</property>
+                                        </structure>
+                                    </list-property>
+                                    <property name="resultSetColumn">Column Binding</property>
+                                </data>
                             </cell>
                             <cell id="1063">
                                 <property name="borderLeftStyle">solid</property>
@@ -1470,6 +1866,16 @@ appvo = mypojo.getApplication("id");</expression>
                                 <property name="borderTopStyle">solid</property>
                                 <property name="borderTopWidth">2px</property>
                                 <property name="verticalAlign">middle</property>
+                                <data id="1290">
+                                    <list-property name="boundDataColumns">
+                                        <structure>
+                                            <property name="name">mltrServName</property>
+                                            <expression name="expression" type="javascript">params["mltrServName"]</expression>
+                                            <property name="dataType">string</property>
+                                        </structure>
+                                    </list-property>
+                                    <property name="resultSetColumn">mltrServName</property>
+                                </data>
                             </cell>
                             <cell id="1129">
                                 <property name="borderBottomStyle">solid</property>
@@ -1489,6 +1895,18 @@ appvo = mypojo.getApplication("id");</expression>
                                 <property name="borderRightWidth">2px</property>
                                 <property name="borderTopStyle">solid</property>
                                 <property name="borderTopWidth">2px</property>
+                                <data id="1261">
+                                    <list-property name="boundDataColumns">
+                                        <structure>
+                                            <property name="name">Column Binding</property>
+                                            <text-property name="displayName">mltrJoinDay</text-property>
+                                            <expression name="expression" type="javascript">general.getMltrJoinDay();</expression>
+                                            <property name="dataType">string</property>
+                                            <property name="allowExport">true</property>
+                                        </structure>
+                                    </list-property>
+                                    <property name="resultSetColumn">Column Binding</property>
+                                </data>
                             </cell>
                         </row>
                         <row id="1130">
@@ -1506,6 +1924,18 @@ appvo = mypojo.getApplication("id");</expression>
                                 <property name="borderBottomWidth">1px</property>
                                 <property name="borderRightStyle">solid</property>
                                 <property name="borderRightWidth">2px</property>
+                                <data id="1262">
+                                    <list-property name="boundDataColumns">
+                                        <structure>
+                                            <property name="name">Column Binding</property>
+                                            <text-property name="displayName">mltrDschDay</text-property>
+                                            <expression name="expression" type="javascript">general.getMltrDschDay();</expression>
+                                            <property name="dataType">string</property>
+                                            <property name="allowExport">true</property>
+                                        </structure>
+                                    </list-property>
+                                    <property name="resultSetColumn">Column Binding</property>
+                                </data>
                             </cell>
                         </row>
                         <row id="1134">
@@ -1519,18 +1949,33 @@ appvo = mypojo.getApplication("id");</expression>
                             <cell id="1142">
                                 <property name="borderRightStyle">solid</property>
                                 <property name="borderRightWidth">2px</property>
+                                <data id="1291">
+                                    <list-property name="boundDataColumns">
+                                        <structure>
+                                            <property name="name">mltrRankName</property>
+                                            <expression name="expression" type="javascript">params["mltrRankName"]</expression>
+                                            <property name="dataType">string</property>
+                                        </structure>
+                                    </list-property>
+                                    <property name="resultSetColumn">mltrRankName</property>
+                                </data>
                             </cell>
                         </row>
                     </grid>
                     <grid id="1147">
                         <property name="display">block</property>
-                        <column id="1148"/>
-                        <column id="1156"/>
+                        <column id="1148">
+                            <property name="width">50%</property>
+                        </column>
+                        <column id="1156">
+                            <property name="width">40%</property>
+                        </column>
+                        <column id="1295"/>
                         <row id="1149">
                             <property name="verticalAlign">middle</property>
                             <property name="height">28px</property>
                             <cell id="1150">
-                                <property name="colSpan">2</property>
+                                <property name="colSpan">3</property>
                                 <property name="rowSpan">1</property>
                                 <property name="borderLeftStyle">solid</property>
                                 <property name="borderLeftWidth">2px</property>
@@ -1552,8 +1997,6 @@ appvo = mypojo.getApplication("id");</expression>
                                 <property name="borderLeftWidth">2px</property>
                             </cell>
                             <cell id="1155">
-                                <property name="borderRightStyle">solid</property>
-                                <property name="borderRightWidth">2px</property>
                                 <property name="textAlign">justify</property>
                                 <label id="1157">
                                     <property name="fontWeight">bold</property>
@@ -1565,16 +2008,22 @@ appvo = mypojo.getApplication("id");</expression>
                                     <list-property name="boundDataColumns">
                                         <structure>
                                             <property name="name">Column Binding</property>
-                                            <expression name="expression" type="javascript">appvo.getKorName();</expression>
+                                            <text-property name="displayName">korName</text-property>
+                                            <expression name="expression" type="javascript">application.getKorName();</expression>
                                             <property name="dataType">string</property>
+                                            <property name="allowExport">true</property>
                                         </structure>
                                     </list-property>
                                     <property name="resultSetColumn">Column Binding</property>
                                 </data>
-                                <label id="1204">
+                            </cell>
+                            <cell id="1294">
+                                <property name="borderRightStyle">solid</property>
+                                <property name="borderRightWidth">2px</property>
+                                <property name="textAlign">justify</property>
+                                <label id="1296">
                                     <property name="fontWeight">bold</property>
-                                    <property name="display">inline</property>
-                                    <text-property name="text">		(서명)</text-property>
+                                    <text-property name="text">(서명)</text-property>
                                 </label>
                             </cell>
                         </row>

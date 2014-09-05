@@ -286,7 +286,7 @@ public class ApplicationServiceImpl implements ApplicationService {
     }
 
     @Override
-    public CampusCollege retriveCampusCollege(int applNo) {
+    public CampusCollege retrieveCampusCollege(int applNo) {
         return commonDAO.queryForObject(NAME_SPACE + "EntireApplicationMapper.selectCampusCollegeCode",
                 applNo, CampusCollege.class);
     }
