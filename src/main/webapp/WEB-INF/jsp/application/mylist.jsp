@@ -93,7 +93,7 @@
                                             data-admsTypeCode="${item.admsTypeCode}">원서 수정하기<span class="my-tooltip">작성 중인 상태에서만 수정 가능합니다.</span></button>
                                     <button id="verify" class="btn btn-info verify ${item.applStsCode=="00010"?"":"disabled"}"
                                             data-applNo="${item.applNo}" data-admsNo="${item.admsNo}" data-entrYear="${item.entrYear}"
-                                            data-admsTypeCode="${item.admsTypeCode}">원서 미리보기<span class="my-tooltip">작성 완료 상태에서 미리볼 수 있습니다.</span></button>
+                                            data-admsTypeCode="${item.admsTypeCode}">원서 미리보기</button>
                                     <button id="pay" class="btn btn-primary pay ${item.applStsCode=="00010"?"":(item.applStsCode=="00021"?"":"disabled")}"
                                         name="2015학년도 ${item.campName} ${item.admsTypeName} ${item.deptName} ${item.corsTypeName}"
                                         value="80000">전형료 결제하기</button>
@@ -128,6 +128,7 @@
                                 "admsTypeCode=" + obj.getAttribute("data-admsTypeCode"),
                         withApplNo = withoutApplNo + "&applNo=" + obj.getAttribute("data-applNo");
                 return includeApplNo ? withApplNo : withoutApplNo;
+            };
 
             $('.modify').click(function(e){
                 location.href="${contextPath}/application/apply" + getQueryString(e.target, true);
@@ -151,9 +152,7 @@
                 <%--location.href="${contextPath}/application/show";--%>
                 e.preventDefault();
             });
-
-            }
-        })
+        });
     </script>
 </content>
 </body>
