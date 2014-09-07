@@ -946,7 +946,7 @@
                                                     </span>
                                                 </span>
                                                 <span class="col-sm-8 nopadding"><input type="text" class="form-control" readonly/></span>
-                                                <span class="col-sm-4 nopadding"><button class="btn btn-default btn-block">올리기</button></span>
+                                                <span class="col-sm-4 nopadding"><button id="uploadPicture" class="btn btn-default btn-block">올리기</button></span>
                                             </div>
                                         </div>
                                     </div>
@@ -2142,6 +2142,9 @@ if(console) console.dir($formData);
 
             })
 
+            $('#uploadPicture').on('click', function (e) {
+
+            });
         });
 
     </script>
