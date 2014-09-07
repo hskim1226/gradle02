@@ -74,7 +74,7 @@
 					<div class="align-center" id="toList">
 						<i class="fa fa-code fa-5x mar-bot20"></i>
 						<h2 class="text-bold">원서 접수</h2>
-						<p>연세대학교 대학원 모집 공고를 확인할 수 있습니다.
+						<p>연세대학교 대학원 입학 신청서를 작성할 수 있습니다.
 						</p>
 					</div>
 				</div>

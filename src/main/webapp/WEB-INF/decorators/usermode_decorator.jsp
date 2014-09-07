@@ -53,8 +53,6 @@
                     <li><a href="${contextPath}/notice/list">원서 접수</a></li>
                     <li><a href="${contextPath}/application/mylist">내 원서</a></li>
                     <li><a href="${contextPath}/user/agreement">회원 가입</a></li>
-                    <li><a href="${contextPath}/qna/list">Q&A</a></li>
-                    <li><a href="${contextPath}/pds/list">자료실</a></li>
                     <li>
                         <sec:authorize access="hasRole('ROLE_USER')">
                             <a href="${contextPath}/j_spring_security_logout.do">[<sec:authentication property="principal.name" />]sign out</a>
