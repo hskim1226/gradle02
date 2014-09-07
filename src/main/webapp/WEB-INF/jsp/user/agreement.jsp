@@ -80,11 +80,6 @@
                     </label>
                 </div>
             </div>
-            <div class="col-sm-offset-2 col-sm-10">
-                <label for="agreeAll" class="control-label">
-                    <input type="checkbox" name="agreeAll" id="agreeAll" value="y" />&nbsp;&nbsp;연세어플라이 이용 약관 및 개인 정보 수집 및 이용에 모두 동의합니다.
-                </label>
-            </div>
         </form>
         <div class="col-sm-offset-2 col-sm-10">
             <button id="sign-up-button" class="btn btn-info btn-lg btn-block">계속하기</button>
@@ -94,12 +89,6 @@
 <content tag="local-script">
     <script type="text/javascript" >
         $(document).ready(function(){
-            $('#agreeAll').on('click', function() {
-                var isChecked = this.checked;
-                $("input:checkbox").each(function() {
-                    $(this).prop("checked", isChecked);
-                });
-            });
 
             $('#sign-up-button').on('click', function() {
                 if ( !$("input:checkbox[id='terms-agree']").is(":checked") ) {
