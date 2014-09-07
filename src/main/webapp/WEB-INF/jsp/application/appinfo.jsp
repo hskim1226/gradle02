@@ -195,6 +195,11 @@
         .engExam {
             display: none;
         }
+
+        .nopadding {
+            padding: 0 !important;
+            margin: 0 !important;
+        }
     </style>
     <%--body의 글자 속성을 #333333으로 강제 지정하여 Footer 글자가 안나옴, 꼭 필요하지 않으면 안쓰기로
     <link rel="stylesheet" href="${contextPath}/css/bootstrap-glyphicons.css" />--%>
@@ -937,10 +942,11 @@
                                             <div class="input-group">
                                                 <span class="input-group-btn">
                                                     <span class="btn btn-default btn_lg btn-file">
-                                                        Browse&hellip; <input type="file" name="" multiple/>
+                                                        Browse&hellip; <input type="file" name="picture"/>
                                                     </span>
                                                 </span>
-                                                <input type="text" class="form-control" readonly/>
+                                                <span class="col-sm-8 nopadding"><input type="text" class="form-control" readonly/></span>
+                                                <span class="col-sm-4 nopadding"><button class="btn btn-default btn-block">올리기</button></span>
                                             </div>
                                         </div>
                                     </div>

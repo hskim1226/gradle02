@@ -31,7 +31,6 @@
     <link rel="stylesheet" href="${contextPath}/skin/default.css">
     <!-- custom style -->
     <link rel="stylesheet" href="${contextPath}/css/style.css"/>
-
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="${contextPath}/js/jquery.min.js"></script>
     <decorator:head />
