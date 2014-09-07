@@ -38,18 +38,24 @@
                         <tr>
                             <th>전형 구분</th>
                             <th>공고명</th>
+                            <th>모집 요강</th>
+                            <th>원서 작성</th>
                             <th>접수 기간</th>
                         </tr>
                         </thead>
                         <tbody>
                         <tr>
                             <td>일반</td>
-                            <td><a href="${contextPath}/notice/2015-1-general">2015학년도 전기 연세대학교 대학원 일반 전형</a></td>
+                            <td>2015학년도 전기 연세대학교 대학원 일반 전형</td>
+                            <td><button id="toGeneralInfo" class="btn btn-info">모집 요강</button></td>
+                            <td><button id="toGeneralApply" class="btn btn-primary">원서 작성</button></td>
                             <td>2014-09-28(월) / 2014-10-08(수)</td>
                         </tr>
                         <tr>
                             <td>외국인</td>
                             <td><a href="${contextPath}/notice/2015-1-foreign">2015학년도 전기 연세대학교 대학원 외국인 전형</a></td>
+                            <td><button id="toForeignInfo" class="btn btn-info">모집 요강</button></td>
+                            <td><button id="toForeignApply" class="btn btn-primary">원서 작성</button></td>
                             <td>2014-09-28(월) / 2014-10-08(수)</td>
                         </tr>
                         </tbody>
@@ -59,5 +65,23 @@
         </div>
     </div>
 </section>
+<content tag="local-script">
+    <script>
+        $(document).ready( function() {
+            $('#toGeneralInfo').click(function(){
+                location.href="${contextPath}/notice/2015-1-general";
+            });
+            $('#toGeneralApply').click(function(){
+                location.href="${contextPath}/application/agreement";
+            });
+            $('#toForeignInfo').click(function(){
+                location.href="${contextPath}/notice/2015-1-foreign";
+            });
+            $('#toForeignApply').click(function(){
+                location.href="${contextPath}/application/agreement";
+            });
+        })
+    </script>
+</content>
 </body>
 </html>
