@@ -32,6 +32,17 @@
         section.application-mylist .spacer-tiny {
             margin-bottom: 1em;
         }
+        .my-tooltip {
+            display: none;
+            background: #505050;
+            color: #e0e0e0;
+            margin-left: 5px;
+            padding: 10px;
+            position: absolute;
+            z-index: 2;
+            width:400px;
+            height:30px;
+        }
     </style>
 </head>
 <body>
@@ -51,7 +62,7 @@
                                 <th>과정</th>
                                 <th>세부전공</th>
                                 <th>지원상태</th>
-                                <th>작업</th>
+                                <%--<th>작업</th>--%>
                             </tr>
                             </thead>
                             <tbody>
@@ -63,22 +74,41 @@
                                 <td valign="middle" style="vertical-align: middle;">${item.corsTypeName}</td>
                                 <td valign="middle" style="vertical-align: middle;">${item.detlMajName}</td>
                                 <td valign="middle" style="vertical-align: middle;">${item.applStsName}</td>
-                                <td valign="middle" style="vertical-align: middle;">
-                                    <button id="modify" class="btn btn-default btn-block modify" data-applNo="${item.applNo}" data-admsNo="${item.admsNo}" data-entrYear="${item.entrYear}" data-admsTypeCode="${item.admsTypeCode}" ${item.applStsCode=="00001"?"":"disabled"}>수정하기</button>
-                                    <%--<button id="verify" class="btn btn-info btn-block" ${item.applStsCode=="00010"?"":"disabled"}>확인하기</button>--%>
-                                    <button id="verify" class="btn btn-info btn-block verify" data-applNo="${item.applNo}" data-admsNo="${item.admsNo}" data-entrYear="${item.entrYear}" data-admsTypeCode="${item.admsTypeCode}">확인하기</button>
-                                    <button id="pay" class="btn btn-primary btn-block pay"
-                                            name="2015학년도 ${item.campName} ${item.admsTypeName} ${item.deptName} ${item.corsTypeName}"
-                                            <%--value="80000" ${item.applStsCode=="00010"?"":(item.applStsCode=="00021"?"":"disabled")}>결제하기</button>--%>
-                                            value="80000">결제하기</button>
-                                    <button id="showApplicationBirt" class="btn btn-success btn-block showApplicationBirt" data-applNo="${item.applNo}" data-admsNo="${item.admsNo}" data-entrYear="${item.entrYear}" data-admsTypeCode="${item.admsTypeCode}" ${item.applStsCode=='00020'?"":"disabled"}>지원서보기</button>
-                                    <button id="showAppLableBirt" class="btn btn-success btn-block showAppLableBirt" data-applNo="${item.applNo}" data-admsNo="${item.admsNo}" data-entrYear="${item.entrYear}" data-admsTypeCode="${item.admsTypeCode}" ${item.applStsCode=='00020'?"":"disabled"}>수험표출력</button>
+                                <%--<td valign="middle" style="vertical-align: middle;">--%>
+                                    <%--<button id="modify" class="btn btn-default btn-block modify" data-applNo="${item.applNo}" data-admsNo="${item.admsNo}" data-entrYear="${item.entrYear}" data-admsTypeCode="${item.admsTypeCode}" ${item.applStsCode=="00001"?"":"disabled"}>수정하기</button>--%>
+                                    <%--&lt;%&ndash;<button id="verify" class="btn btn-info btn-block" ${item.applStsCode=="00010"?"":"disabled"}>확인하기</button>&ndash;%&gt;--%>
+                                    <%--<button id="verify" class="btn btn-info btn-block verify" data-applNo="${item.applNo}" data-admsNo="${item.admsNo}" data-entrYear="${item.entrYear}" data-admsTypeCode="${item.admsTypeCode}">확인하기</button>--%>
+                                    <%--<button id="pay" class="btn btn-primary btn-block pay"--%>
+                                            <%--name="2015학년도 ${item.campName} ${item.admsTypeName} ${item.deptName} ${item.corsTypeName}"--%>
+                                            <%--&lt;%&ndash;value="80000" ${item.applStsCode=="00010"?"":(item.applStsCode=="00021"?"":"disabled")}>결제하기</button>&ndash;%&gt;--%>
+                                            <%--value="80000">결제하기</button>--%>
+                                    <%--<button id="showApplicationBirt" class="btn btn-success btn-block showApplicationBirt" data-applNo="${item.applNo}" data-admsNo="${item.admsNo}" data-entrYear="${item.entrYear}" data-admsTypeCode="${item.admsTypeCode}" ${item.applStsCode=='00020'?"":"disabled"}>지원서보기</button>--%>
+                                    <%--<button id="showAppLableBirt" class="btn btn-success btn-block showAppLableBirt" data-applNo="${item.applNo}" data-admsNo="${item.admsNo}" data-entrYear="${item.entrYear}" data-admsTypeCode="${item.admsTypeCode}" ${item.applStsCode=='00020'?"":"disabled"}>수험표출력</button>--%>
+                                <%--</td>--%>
+                            </tr>
+                            <tr>
+                                <td colspan="6">
+                                    <button id="modify" class="btn btn-default modify ${item.applStsCode=="00001"?"":"disabled"}"
+                                            data-applNo="${item.applNo}" data-admsNo="${item.admsNo}" data-entrYear="${item.entrYear}"
+                                            data-admsTypeCode="${item.admsTypeCode}">원서 수정하기<span class="my-tooltip">작성 중인 상태에서만 수정 가능합니다.</span></button>
+                                    <button id="verify" class="btn btn-info verify ${item.applStsCode=="00010"?"":"disabled"}"
+                                            data-applNo="${item.applNo}" data-admsNo="${item.admsNo}" data-entrYear="${item.entrYear}"
+                                            data-admsTypeCode="${item.admsTypeCode}">원서 미리보기<span class="my-tooltip">작성 완료 상태에서 미리볼 수 있습니다.</span></button>
+                                    <button id="pay" class="btn btn-primary pay ${item.applStsCode=="00010"?"":(item.applStsCode=="00021"?"":"disabled")}"
+                                        name="2015학년도 ${item.campName} ${item.admsTypeName} ${item.deptName} ${item.corsTypeName}"
+                                        value="80000">전형료 결제하기</button>
+                                            <%--value="80000">결제하기</button>--%>
+                                    <button id="showApplicationBirt" class="btn btn-success showApplicationBirt ${item.applStsCode=='00020'?"":"disabled"}"
+                                            data-applNo="${item.applNo}" data-admsNo="${item.admsNo}" data-entrYear="${item.entrYear}"
+                                            data-admsTypeCode="${item.admsTypeCode}">지원서 보기</button>
+                                    <button id="showAppLableBirt" class="btn btn-success showAppLableBirt ${item.applStsCode=='00020'?"":"disabled"}"
+                                            data-applNo="${item.applNo}" data-admsNo="${item.admsNo}" data-entrYear="${item.entrYear}"
+                                            data-admsTypeCode="${item.admsTypeCode}">수험표 출력</button>
                                 </td>
                             </tr>
                             </c:forEach>
                             </tbody>
                         </table>
-
 
                         <input type="hidden" name="LGD_PRODUCTINFO" id="LGD_PRODUCTINFO"/>
                         <input type="hidden" name="LGD_AMOUNT" id="LGD_AMOUNT"/>
@@ -92,6 +122,13 @@
 <content tag="local-script">
     <script>
         $(document).ready( function() {
+            var getQueryString = function (obj, includeApplNo) {
+                var withoutApplNo = "?admsNo=" + obj.getAttribute("data-admsNo") + "&" +
+                                "entrYear=" + obj.getAttribute("data-entrYear") + "&" +
+                                "admsTypeCode=" + obj.getAttribute("data-admsTypeCode"),
+                        withApplNo = withoutApplNo + "&applNo=" + obj.getAttribute("data-applNo");
+                return includeApplNo ? withApplNo : withoutApplNo;
+
             $('.modify').click(function(e){
                 location.href="${contextPath}/application/apply" + getQueryString(e.target, true);
                 e.preventDefault();
@@ -114,12 +151,7 @@
                 <%--location.href="${contextPath}/application/show";--%>
                 e.preventDefault();
             });
-            var getQueryString = function (obj, includeApplNo) {
-                var withoutApplNo = "?admsNo=" + obj.getAttribute("data-admsNo") + "&" +
-                                  "entrYear=" + obj.getAttribute("data-entrYear") + "&" +
-                                  "admsTypeCode=" + obj.getAttribute("data-admsTypeCode"),
-                    withApplNo = withoutApplNo + "&applNo=" + obj.getAttribute("data-applNo");
-                return includeApplNo ? withApplNo : withoutApplNo;
+
             }
         })
     </script>
