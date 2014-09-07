@@ -214,7 +214,7 @@
             <li><a href="#studyplan" data-toggle="tab">학업 및 연구 계획서</a></li>
             <li><a href="#fileupload" data-toggle="tab">첨부파일</a></li>
         </ul>
-        <form:form commandName="entireApplication" cssClass="form-horizontal" action="apply/save" method="post" enctype="multipart/form-data" role="form">
+        <form:form commandName="entireApplication" cssClass="form-horizontal" action="apply/saveandupload" method="post" enctype="multipart/form-data" role="form">
             <div id="myTabContent" class="tab-content">
                 <div class="tab-pane fade" id="appinfo">
                     <div class="spacer-tiny"></div>
@@ -1356,7 +1356,7 @@
             <%-- 다음 주소 검색 끝 -->
 
             <%-- 사진 업로드 시작 --%>
-            $(document).on('change', '.btn-file :file', function() {
+            $('.btn-file :file').on('change', function() {
                 var input = $(this),
                         numFiles = input.get(0).files ? input.get(0).files.length : 1,
                         label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
@@ -1579,7 +1579,7 @@
                     $formData.push({name: this.name, value: 'N'});
                 });
 
-if(console) console.dir($formData);
+//if(console) console.dir($formData);
 
                 $formData = $formData.concat(getEnglishScoreSerializeArray());
                 $.ajax({

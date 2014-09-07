@@ -96,6 +96,7 @@
             $('#plainUpload').on('click', function() {
                 var ea = document.getElementById('entireApplication');
                 ea.setAttribute("action", "${contextPath}/application/apply/savetest");
+                ea.setAttribute("enctype", "multipart/form-data");
                 ea.submit();
             });
         });
