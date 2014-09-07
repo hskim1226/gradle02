@@ -77,7 +77,7 @@
 		var s = skrollr.init({
 			mobileDeceleration: 1,
 			edgeStrategy: 'set',
-			forceHeight: true,
+			forceHeight: false,
 			smoothScrolling: true,
 			smoothScrollingDuration: 300,
 				easing: {
@@ -124,12 +124,12 @@
         }
 	
 	//nicescroll
-	$("html").niceScroll({zindex:999,cursorborder:"",cursorborderradius:"2px",cursorcolor:"#191919",cursoropacitymin:.5});
+	$("html").niceScroll({zindex:999,cursorborder:"",cursorwidth:"8px",cursorborderradius:"4px",cursorcolor:"#888888",cursoropacitymin:.5,horizrailenabled:false});
 	function initNice() {
 		if($(window).innerWidth() <= 960) {
 			$('html').niceScroll().remove();
 		} else {
-			$("html").niceScroll({zindex:999,cursorborder:"",cursorborderradius:"2px",cursorcolor:"#191919",cursoropacitymin:.5});
+			$("html").niceScroll({zindex:999,cursorborder:"",cursorwidth:"8px",cursorborderradius:"4px",cursorcolor:"#888888",cursoropacitymin:.5,horizrailenabled:false});
 		}
 	}
 	$(window).load(initNice);

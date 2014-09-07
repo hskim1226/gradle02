@@ -8,6 +8,7 @@
             padding: 200px 0 60px;
             background: #336655;
             color: #fdfdfd;
+            min-height: 615px;
         }
 
         section.login h2.slogan {

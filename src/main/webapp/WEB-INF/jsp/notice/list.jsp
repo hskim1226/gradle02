@@ -9,6 +9,7 @@
             background: #4f4f9f;
             color: #fdfdfd;
             position:relative;
+            min-height: 615px;
         }
 
         section.notice-detail h2.slogan {

@@ -9,6 +9,7 @@
             background: #443355;
             color: #fdfdfd;
             position:relative;
+            min-height: 615px;
         }
 
         section.application-mylist h2.slogan {

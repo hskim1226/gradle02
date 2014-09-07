@@ -13,6 +13,7 @@
             background: #333377;
             color: #fdfdfd;
             position:relative;
+            min-height: 615px;
         }
 
         section.resultPayment h2.slogan {
