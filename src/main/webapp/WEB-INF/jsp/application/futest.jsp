@@ -53,16 +53,17 @@
 <section class="application">
     <div>
         <form id="entireApplication" method="post">
-            <input type="text" name="txt1"/>
-            <input type="file" name="file1"/>
-            <input type="file" name="file2"/>
-            <input type="file" name="file3"/>
-            <input type="file" name="file4"/>
-            <input type="file" name="file5"/>
+            <input type="text" id='txt1' name="txt1"/>
+            <input type="file" id='file1' name="file1"/><button id="btnFU1" class="btnFU" data-input-file-id="file1">업로드</button>
+            <input type="file" id='file2' name="file2"/><button id="btnFU2" class="btnFU" data-input-file-id="file2">업로드</button>
+            <input type="file" id='file3' name="file3"/><button id="btnFU3" class="btnFU" data-input-file-id="file3">업로드</button>
+            <input type="file" id='file4' name="file4"/><button id="btnFU4" class="btnFU" data-input-file-id="file4">업로드</button>
+            <input type="file" id='file5' name="file5"/><button id="btnFU5" class="btnFU" data-input-file-id="file5">업로드</button>
         </form>
     </div>
     <div>
-        <button id="ajaxUpload" class="btn btn-lg btn-primary">AJAX 파일업로드</button>
+        <button id="pureAjaxUpload" class="btn btn-lg btn-primary">AJAX 파일업로드</button>
+        <button id="ajaxFileUpload" class="btn btn-lg btn-danger">ajaxfileupload 파일업로드</button>
         <button id="plainUpload" class="btn btn-lg btn-warning">일반 파일업로드</button>
     </div>
 </section>
@@ -71,7 +72,7 @@
     <script type="text/javascript">
         $(document).ready(function() {
             <%-- TODO 파일업로드용 버튼 --%>
-            $('#ajaxUpload').on('click', function() {
+            $('#pureAjaxUpload').on('click', function() {
                 var ea = document.getElementById('entireApplication'),
                     actionUrl = "${contextPath}/application/apply/savetest",
                     formData = $(ea).serialize();
@@ -92,6 +93,39 @@
                     }
                 });
             });
+
+            $('.btnFU').on('click', function() {
+                var ea = document.getElementById('entireApplication'),
+                    actionUrl = "${contextPath}/application/apply/savetest";
+                    fileInputId = $(this).attr("data-input-file-id");
+//                ea.setAttribute("enctype", "multipart/form-data");
+//                ea.setAttribute("action", actionUrl);
+                $.ajaxFileUpload({
+                    url: actionUrl,
+                    secureuri:false,
+                    fileElementId:fileInputId,
+                    dataType: 'json',
+                    success: function (data, status) {
+                        if(typeof(data.error) != 'undefined')
+                        {
+                            if(data.error != '')
+                            {
+                                alert(data.error);
+                            }else
+                            {
+                                alert(data.msg);
+                            }
+                        }
+                    },
+                    error: function (data, status, e) {
+                        alert(e);
+                    }
+                });
+
+                return false;
+            });
+
+
 
             $('#plainUpload').on('click', function() {
                 var ea = document.getElementById('entireApplication');
