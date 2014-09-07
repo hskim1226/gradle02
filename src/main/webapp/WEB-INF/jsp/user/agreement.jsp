@@ -65,7 +65,7 @@
                 <div class="col-sm-10">
                     <textarea id="terms-of-service" class="form-control" rows="10" readonly><%=request.getAttribute("terms-of-service")%></textarea>
                     <label for="terms-agree" class="control-label">
-                        <input type="checkbox" name="userAgreYn" id="terms-agree" value="y" />동의합니다.
+                        <input type="checkbox" name="userAgreYn" id="terms-agree" value="y" />&nbsp;&nbsp;동의합니다.
                     </label>
                 </div>
             </div>
@@ -76,9 +76,14 @@
                     <textarea id="privacy-policy2" class="form-control" rows="10" readonly><%=request.getAttribute("privacy-policy2")%></textarea>
                     <textarea id="privacy-policy3" class="form-control" rows="10" readonly><%=request.getAttribute("privacy-policy3")%></textarea>
                     <label for="privacy-agree" class="control-label">
-                        <input type="checkbox" name="privInfoYn" id="privacy-agree" value="y" />동의합니다.
+                        <input type="checkbox" name="privInfoYn" id="privacy-agree" value="y" />&nbsp;&nbsp;동의합니다.
                     </label>
                 </div>
+            </div>
+            <div class="col-sm-offset-2 col-sm-10">
+                <label for="agreeAll" class="control-label">
+                    <input type="checkbox" name="agreeAll" id="agreeAll" value="y" />&nbsp;&nbsp;연세어플라이 이용 약관 및 개인 정보 수집 및 이용에 모두 동의합니다.
+                </label>
             </div>
         </form>
         <div class="col-sm-offset-2 col-sm-10">
@@ -89,6 +94,13 @@
 <content tag="local-script">
     <script type="text/javascript" >
         $(document).ready(function(){
+            $('#agreeAll').on('click', function() {
+                var isChecked = this.checked;
+                $("input:checkbox").each(function() {
+                    $(this).prop("checked", isChecked);
+                });
+            });
+
             $('#sign-up-button').on('click', function() {
                 if ( !$("input:checkbox[id='terms-agree']").is(":checked") ) {
                     alert("${msg1}");
