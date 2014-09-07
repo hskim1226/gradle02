@@ -214,7 +214,7 @@
             <li><a href="#studyplan" data-toggle="tab">학업 및 연구 계획서</a></li>
             <li><a href="#fileupload" data-toggle="tab">첨부파일</a></li>
         </ul>
-        <form:form commandName="entireApplication" cssClass="form-horizontal" action="apply/save" method="post" enctype="multipart/form-data" role="form">
+        <form:form commandName="entireApplication" cssClass="form-horizontal" action="apply/save" method="post" role="form">
             <div id="myTabContent" class="tab-content">
                 <div class="tab-pane fade" id="appinfo">
                     <div class="spacer-tiny"></div>
