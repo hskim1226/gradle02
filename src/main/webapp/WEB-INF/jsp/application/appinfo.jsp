@@ -507,14 +507,9 @@
                                         <div class="form-group">
                                             <label class="col-sm-2 control-label">졸업구분</label>
                                             <div class="col-sm-9">
-                                                <div class="btn-group">
-                                                    <label>
-                                                        <form:radiobutton path="highSchool.acadTypeCode" id="highSchoolAcadTypeCode1" value="00001" />졸업
-                                                    </label>
-                                                    <label>
-                                                        <form:radiobutton path="highSchool.acadTypeCode" id="highSchoolAcadTypeCode2" value="00005" />검정고시
-                                                    </label>
-                                                </div>
+                                                <label class="radio-inline"><form:radiobutton path="highSchool.acadTypeCode" id="highSchoolAcadTypeCode1" value="00001" />&nbsp;졸업</label>
+                                                &nbsp;&nbsp;&nbsp;
+                                                <label class="radio-inline"><form:radiobutton path="highSchool.acadTypeCode" id="highSchoolAcadTypeCode2" value="00005" />&nbsp;검정고시</label>
                                             </div>
                                         </div>
                                         <div id="highschoolDynamic">
@@ -590,7 +585,7 @@
                                                     <form:input path="collegeList[${stat.index}].schlName" cssClass="form-control" />
                                                 </div>
                                                 <div class="col-sm-2">
-                                                    <label class="radio inline">
+                                                    <label class="radio-inline">
                                                         <form:radiobutton path="collegeList[${stat.index}].lastSchlYn" cssClass="radio-group" value="Y" />&nbsp;&nbsp;최종 학교
                                                     </label>
                                                 </div>
@@ -672,7 +667,7 @@
                                                     <form:input path="graduateList[${stat.index}].schlName" cssClass="form-control" />
                                                 </div>
                                                 <div class="col-sm-2">
-                                                    <label class="radio inline">
+                                                    <label class="radio-inline">
                                                         <form:radiobutton path="graduateList[${stat.index}].lastSchlYn" cssClass="radio-group" value="Y" />&nbsp;&nbsp;최종 학교
                                                     </label>
                                                 </div>
