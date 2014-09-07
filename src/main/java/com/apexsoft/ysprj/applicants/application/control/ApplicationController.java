@@ -235,9 +235,9 @@ public class ApplicationController {
      * @param principal
      * @return
      */
-    @RequestMapping(value = "/apply/save", method = RequestMethod.POST)
-    @ResponseBody
-    public ExecutionContext saveApplication(@Valid @ModelAttribute EntireApplication entireApplication,
+//    @RequestMapping(value = "/apply/save", method = RequestMethod.POST)
+//    @ResponseBody
+    private ExecutionContext saveApplication(@Valid @ModelAttribute EntireApplication entireApplication,
                                             BindingResult binding,
                                             Principal principal) {
         if( binding.hasErrors() ) {
@@ -283,14 +283,14 @@ public class ApplicationController {
     }
 
 
-    @RequestMapping(value = "/apply/upload", method = RequestMethod.POST)
+    @RequestMapping(value = "/apply/saveandupload", method = RequestMethod.POST)
     @ResponseBody
     public ExecutionContext fileUpload(@Valid @ModelAttribute EntireApplication entireApplication,
                                        BindingResult binding,
                                        Principal principal,
                                        FileHandler fileHandler) {
-//        ExecutionContext ec = saveApplication(entireApplication, binding, principal);
-        ExecutionContext ec = new ExecutionContext();
+        ExecutionContext ec = saveApplication(entireApplication, binding, principal);
+//        ExecutionContext ec = new ExecutionContext();
 
 //        if ( ec.getResult() == ExecutionContext.SUCCESS ) {
             //TODO 파일 업로드
@@ -366,9 +366,10 @@ public class ApplicationController {
 
     @RequestMapping(value = "/apply/savetest", method = RequestMethod.POST)
     @ResponseBody
-    public ExecutionContext savetest(BindingResult binding,
-                                          Principal principal,
-                                          FileHandler fileHandler) {
+    public ExecutionContext savetest(@Valid @ModelAttribute EntireApplication entireApplication,
+                                     BindingResult binding,
+                                     Principal principal,
+                                     FileHandler fileHandler) {
         ExecutionContext ec = new ExecutionContext();
 
         if ( ec.getResult() == ExecutionContext.SUCCESS ) {
