@@ -45,4 +45,21 @@
       and DETL_MAJ_CODE = #{detlMajCode,jdbcType=VARCHAR}
   </select>
 
+    <select id="selectAvailableExamListByAdmsNoDetlMajCode"
+            parameterType="com.apexsoft.ysprj.applicants.admission.domain.ParamForAdmissionCourseMajor"
+            resultMap="BaseResultMap">
+      SELECT A.EXAM_CODE, A.EXAM_NAME, ifnull(D.CAN_YN,'N') AS CAN_YN
+      FROM LANG_EXAM A
+      LEFT OUTER JOIN ( SELECT B.EXAM_CODE, B.CAN_YN
+        FROM ADMS_CORS_MAJ_LANG B, ADMS_CORS C
+        WHERE B.ADMS_CORS_NO = C.ADMS_CORS_NO
+          AND C.ADMS_NO = #{admsNo,jdbcType=VARCHAR}
+          AND C.DEPT_CODE = #{deptCode,jdbcType=VARCHAR}
+          AND IFNULL(C.ARI_INST_CODE,'') = IFNULL(#{ariInstCode,jdbcType=VARCHAR},'')
+          AND C.CORS_TYPE_CODE = #{corsTypeCode,jdbcType=VARCHAR}
+          AND B.DETL_MAJ_CODE = #{detlMajCode,jdbcType=VARCHAR} ) D
+      ON A.EXAM_CODE = D.EXAM_CODE
+      WHERE A.LANG_CODE = 'ENG'
+      order by 1
+    </select>
 </mapper>

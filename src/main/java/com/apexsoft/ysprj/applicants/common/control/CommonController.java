@@ -325,20 +325,16 @@ public class CommonController {
         return executionContext;
     }
 
-    @RequestMapping(value = "/code/required/engScore/{detlMaj}", method = RequestMethod.GET)
+    @RequestMapping(value = "/code/general/engMdtYn/{admsNo}/{deptCode}/{corsTypeCode}/{detlMajCode}", method = RequestMethod.GET)
     @ResponseBody
-    public ExecutionContext retrieveRequiredEnglishScoreByDetlMaj(@PathVariable("detlMaj") String detlMaj) {
-        ExecutionContext executionContext = new ExecutionContext();
-        executionContext.setData("Y");
-        return executionContext;
-    }
-
-    @RequestMapping(value = "/code/engMdtYn/{admsCorsNo}/{detlMajCode}", method = RequestMethod.GET)
-    @ResponseBody
-    public ExecutionContext retriveEngMdtYnByAdmissionCourseMajor(@PathVariable(value = "admsCorsNo") String admsCorsNo,
-                                                                  @PathVariable(value = "detlMajCode") String detlMajCode) {
+    public ExecutionContext retriveGeneralEngMdtYnByAdmissionCourseMajor(@PathVariable(value = "admsNo") String admsNo,
+                                                                         @PathVariable(value = "deptCode") String deptCode,
+                                                                         @PathVariable(value = "corsTypeCode") String corsTypeCode,
+                                                                         @PathVariable(value = "detlMajCode") String detlMajCode) {
         ParamForAdmissionCourseMajor param = new ParamForAdmissionCourseMajor();
-        param.setAdmsCorsNo(admsCorsNo);
+        param.setAdmsNo(admsNo);
+        param.setDeptCode(deptCode);
+        param.setCorsTypeCode(corsTypeCode);
         param.setDetlMajCode(detlMajCode);
 
         AdmissionCourseMajor admissionCourseMajor = admissionService.retrieveEngMdtYn(param);
@@ -350,13 +346,68 @@ public class CommonController {
         return executionContext;
     }
 
-    @RequestMapping(value = "/code/availableEngExam/{admsCorsNo}/{detlMajCode}", method = RequestMethod.GET)
+    @RequestMapping(value = "/code/ariInst/engMdtYn/{admsNo}/{deptCode}/{corsTypeCode}/{detlMajCode}", method = RequestMethod.GET)
     @ResponseBody
-    public ExecutionContext retrieveAvailableEngExamList(@PathVariable(value = "admsCorsNo") String admsCorsNo,
+    public ExecutionContext retriveAriInstEngMdtYnByAdmissionCourseMajor(@PathVariable(value = "admsNo") String admsNo,
+                                                                         @PathVariable(value = "deptCode") String deptCode,
+                                                                         @PathVariable(value = "ariInstCode") String ariInstCode,
+                                                                         @PathVariable(value = "corsTypeCode") String corsTypeCode,
+                                                                         @PathVariable(value = "detlMajCode") String detlMajCode) {
+        ParamForAdmissionCourseMajor param = new ParamForAdmissionCourseMajor();
+        param.setAdmsNo(admsNo);
+        param.setDeptCode(deptCode);
+        param.setAriInstCode(ariInstCode);
+        param.setCorsTypeCode(corsTypeCode);
+        param.setDetlMajCode(detlMajCode);
+
+        AdmissionCourseMajor admissionCourseMajor = admissionService.retrieveEngMdtYn(param);
+
+        String yn = admissionCourseMajor.getEngMdtYn();
+        ExecutionContext executionContext = new ExecutionContext();
+        executionContext.setData(yn);
+
+        return executionContext;
+    }
+
+    @RequestMapping(value = "/code/general/availableEngExam/{admsNo}/{deptCode}/{corsTypeCode}/{detlMajCode}", method = RequestMethod.GET)
+    @ResponseBody
+    public ExecutionContext retrieveGeneralAvailableEngExamList(@PathVariable(value = "admsNo") String admsNo,
+                                                         @PathVariable(value = "deptCode") String deptCode,
+                                                         @PathVariable(value = "corsTypeCode") String corsTypeCode,
                                                          @PathVariable(value = "detlMajCode") String detlMajCode)
             throws JsonProcessingException {
         ParamForAdmissionCourseMajor param = new ParamForAdmissionCourseMajor();
-        param.setAdmsCorsNo(admsCorsNo);
+        param.setAdmsNo(admsNo);
+        param.setDeptCode(deptCode);
+        param.setCorsTypeCode(corsTypeCode);
+        param.setDetlMajCode(detlMajCode);
+
+        List<AdmissionCourseMajorLanguage> acmlList = admissionService.retrieveAvailableEngExamList(param);
+
+        String json = jacksonObjectMapper.writeValueAsString(acmlList);
+
+        ExecutionContext executionContext = new ExecutionContext();
+        if (!(acmlList.size() > 0)) {
+            executionContext.setMessage(messageResolver.getMessage("U300"));
+        }
+        executionContext.setData(json);
+
+        return executionContext;
+    }
+
+    @RequestMapping(value = "/code/ariInst/avaliableEngExam/{admsNo}/{deptCode}/{ariInstCode}/{corsTypeCode}/{detlMajCode}", method = RequestMethod.GET)
+    @ResponseBody
+    public ExecutionContext retrieveAriInstAvaliableEngExamList(@PathVariable(value = "admsNo") String admsNo,
+                                                                @PathVariable(value = "deptCode") String deptCode,
+                                                                @PathVariable(value = "ariInstCode") String ariInstCode,
+                                                                @PathVariable(value = "corsTypeCode") String corsTypeCode,
+                                                                @PathVariable(value = "detlMajCode") String detlMajCode)
+            throws JsonProcessingException {
+        ParamForAdmissionCourseMajor param = new ParamForAdmissionCourseMajor();
+        param.setAdmsNo(admsNo);
+        param.setDeptCode(deptCode);
+        param.setAriInstCode(ariInstCode);
+        param.setCorsTypeCode(corsTypeCode);
         param.setDetlMajCode(detlMajCode);
 
         List<AdmissionCourseMajorLanguage> acmlList = admissionService.retrieveAvailableEngExamList(param);

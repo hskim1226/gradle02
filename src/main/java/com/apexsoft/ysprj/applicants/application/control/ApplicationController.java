@@ -206,6 +206,7 @@ public class ApplicationController {
         List<CommonCode> toflTypeList = commonService.retrieveCommonCodeValueByCodeGroup("TOFL_TYPE");
         List<CommonCode> fornExmpList = commonService.retrieveCommonCodeValueByCodeGroup("FORN_EXMP");
         List<CommonCode> qualAreaList = commonService.retrieveCommonCodeValueByCodeGroup("QUAL_AREA");
+        List<LanguageExam> langExamList = commonService.retrieveLangExamByLangCode("ENG");
 
         commonCodeMap.put( "applAttrList", applAttrList );
         commonCodeMap.put( "mltrServList", mltrServList );
@@ -215,6 +216,7 @@ public class ApplicationController {
         commonCodeMap.put( "toflTypeList", toflTypeList );
         commonCodeMap.put( "fornExmpList", fornExmpList );
         commonCodeMap.put( "qualAreaList", qualAreaList );
+        commonCodeMap.put( "langExamList", langExamList );
 
         model.addAttribute( "common", commonCodeMap );
 

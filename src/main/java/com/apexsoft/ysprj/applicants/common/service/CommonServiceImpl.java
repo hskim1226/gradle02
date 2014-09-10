@@ -443,4 +443,16 @@ public class CommonServiceImpl implements CommonService {
         }
         return detlMajName;
     }
+
+    @Override
+    public List<LanguageExam> retrieveLangExamByLangCode(String langCode) {
+        List<LanguageExam> langExamList = null;
+        try {
+            langExamList = commonDAO.queryForList(NAME_SPACE+"CustomLanguageExamMapper.selectByLangCode", langCode, LanguageExam.class);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return langExamList;
+
+    }
 }

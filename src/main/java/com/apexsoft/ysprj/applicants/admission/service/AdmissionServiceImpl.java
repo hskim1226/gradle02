@@ -2,11 +2,8 @@ package com.apexsoft.ysprj.applicants.admission.service;
 
 import com.apexsoft.framework.persistence.dao.CommonDAO;
 import com.apexsoft.ysprj.applicants.admission.domain.AdmissionCourseMajor;
-import com.apexsoft.ysprj.applicants.admission.domain.AdmissionCourseMajorKey;
 import com.apexsoft.ysprj.applicants.admission.domain.AdmissionCourseMajorLanguage;
 import com.apexsoft.ysprj.applicants.admission.domain.ParamForAdmissionCourseMajor;
-import com.apexsoft.ysprj.applicants.application.domain.*;
-import com.apexsoft.ysprj.applicants.application.service.ApplicationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -34,7 +31,7 @@ public class AdmissionServiceImpl implements AdmissionService {
     public AdmissionCourseMajor retrieveEngMdtYn(ParamForAdmissionCourseMajor param) {
         AdmissionCourseMajor admissionCourseMajor = null;
         try {
-            admissionCourseMajor = commonDAO.queryForObject(NAME_SPACE + "CustomAdmissionCourseMajorMapper.selectYnByAdmsCorsNoDetlMajCode",
+            admissionCourseMajor = commonDAO.queryForObject(NAME_SPACE + "CustomAdmissionCourseMajorMapper.selectYnByAdmsNoDetlMajCode",
                     param, AdmissionCourseMajor.class);
         } catch (Exception e) {
             e.printStackTrace();
@@ -53,7 +50,7 @@ public class AdmissionServiceImpl implements AdmissionService {
     public List<AdmissionCourseMajorLanguage> retrieveAvailableEngExamList(ParamForAdmissionCourseMajor param) {
         List<AdmissionCourseMajorLanguage> admissionCourseMajorLanguageList = null;
         try {
-            admissionCourseMajorLanguageList = commonDAO.queryForList(NAME_SPACE + "CustomAdmissionCourseMajorLanguageMapper.selectAvailableExamListByAdmsCorsNoDetlMajCode",
+            admissionCourseMajorLanguageList = commonDAO.queryForList(NAME_SPACE + "CustomAdmissionCourseMajorLanguageMapper.selectAvailableExamListByAdmsNoDetlMajCode",
                     param, AdmissionCourseMajorLanguage.class);
         } catch (Exception e) {
             e.printStackTrace();
