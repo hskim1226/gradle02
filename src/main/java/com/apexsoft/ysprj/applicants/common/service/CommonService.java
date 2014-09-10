@@ -32,4 +32,6 @@ public interface CommonService {
     String retrieveDeptNameByCode(String deptCode);
     String retrieveCorsTypeNameByCode(String corsTypeCode);
     String retrieveDetlMajNameByCode(String detlMajCode);
+
+    List<LanguageExam> retrieveLangExamByLangCode(String langCode);
 }
