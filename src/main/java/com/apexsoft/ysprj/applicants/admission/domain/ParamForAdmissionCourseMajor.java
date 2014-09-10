@@ -8,6 +8,10 @@ public class ParamForAdmissionCourseMajor {
     private String admsCorsNo;
     private String detlMajSeq;
     private String detlMajCode;
+    private String admsNo;
+    private String deptCode;
+    private String ariInstCode;
+    private String corsTypeCode;
 
     public String getAdmsCorsNo() {
         return admsCorsNo;
@@ -31,5 +35,37 @@ public class ParamForAdmissionCourseMajor {
 
     public void setDetlMajCode(String detlMajCode) {
         this.detlMajCode = detlMajCode;
+    }
+
+    public String getAdmsNo() {
+        return admsNo;
+    }
+
+    public void setAdmsNo(String admsNo) {
+        this.admsNo = admsNo;
+    }
+
+    public String getDeptCode() {
+        return deptCode;
+    }
+
+    public void setDeptCode(String deptCode) {
+        this.deptCode = deptCode;
+    }
+
+    public String getAriInstCode() {
+        return ariInstCode;
+    }
+
+    public void setAriInstCode(String ariInstCode) {
+        this.ariInstCode = ariInstCode;
+    }
+
+    public String getCorsTypeCode() {
+        return corsTypeCode;
+    }
+
+    public void setCorsTypeCode(String corsTypeCode) {
+        this.corsTypeCode = corsTypeCode;
     }
 }
