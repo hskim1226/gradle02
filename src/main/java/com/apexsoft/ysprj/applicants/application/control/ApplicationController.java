@@ -2,24 +2,23 @@ package com.apexsoft.ysprj.applicants.application.control;
 
 import com.apexsoft.framework.common.vo.ExecutionContext;
 import com.apexsoft.framework.message.MessageResolver;
-import com.apexsoft.framework.persistence.file.FilePersistenceManager;
+import com.apexsoft.framework.persistence.file.manager.FilePersistenceManager;
+import com.apexsoft.framework.persistence.file.callback.FileUploadEventCallbackHandler;
+import com.apexsoft.framework.persistence.file.exception.FileUploadException;
+import com.apexsoft.framework.persistence.file.handler.FileHandler;
 import com.apexsoft.framework.persistence.file.model.FileInfo;
 import com.apexsoft.framework.persistence.file.model.FileItem;
-import com.apexsoft.framework.web.file.FileHandler;
-import com.apexsoft.framework.web.file.callback.UploadEventCallbackHandler;
-import com.apexsoft.framework.web.file.exception.UploadException;
+import com.apexsoft.framework.persistence.file.model.FileMetaForm;
+import com.apexsoft.framework.persistence.file.model.FileVO;
+import com.apexsoft.framework.persistence.file.service.FileService;
 import com.apexsoft.ysprj.applicants.application.domain.*;
 import com.apexsoft.ysprj.applicants.application.service.ApplicationService;
 import com.apexsoft.ysprj.applicants.common.domain.*;
 import com.apexsoft.ysprj.applicants.common.service.CommonService;
-import com.apexsoft.ysprj.template.service.TempFileService;
-import com.apexsoft.ysprj.template.service.TempFileVO;
-import com.apexsoft.ysprj.template.web.form.FileMetaForm;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -55,7 +54,7 @@ public class ApplicationController {
     MessageResolver messageResolver;
 
     @Autowired
-    private TempFileService fileUploadService;
+    private FileService fileService;
 
     /**
      * 내원서 화면
@@ -291,7 +290,7 @@ public class ApplicationController {
 
 //        if ( ec.getResult() == ExecutionContext.SUCCESS ) {
             //TODO 파일 업로드
-            fileHandler.handleMultiPartRequest(new UploadEventCallbackHandler<String, FileMetaForm>() {
+            fileHandler.handleMultiPartRequest(new FileUploadEventCallbackHandler<String, FileMetaForm>() {
                 /**
                  * target 폴더 반환
                  *
@@ -331,7 +330,7 @@ public class ApplicationController {
                 public String handleEvent(List<FileItem> fileItems, FileMetaForm fileMetaForm, FilePersistenceManager persistence) {
 
                     FileInfo fileInfo;
-                    TempFileVO tempFileVO = new TempFileVO();
+                    FileVO fileVO = new FileVO();
 
                     for ( FileItem fileItem : fileItems){
                         FileInputStream fis = null;
@@ -339,10 +338,10 @@ public class ApplicationController {
                             // persistence.save()의 첫번째 인자로 baseDir/첫번째인자 라는 폴더 생성
                             //
                             fileInfo = persistence.save(getDirectory("fileFieldName", fileMetaForm, "leafDirectory"), fileItem.getOriginalFileName(), fileItem.getOriginalFileName(), fis = new FileInputStream(fileItem.getFile()));
-                            tempFileVO.setPath(fileInfo.getDirectory());
-                            tempFileVO.setFileName(fileInfo.getFileName());
+                            fileVO.setPath(fileInfo.getDirectory());
+                            fileVO.setFileName(fileInfo.getFileName());
                         }catch(FileNotFoundException fnfe){
-                            throw new UploadException("", fnfe);
+                            throw new FileUploadException("", fnfe);
                         }finally {
                             try {
                                 if (fis!= null) fis.close();
@@ -351,7 +350,7 @@ public class ApplicationController {
                         }
                     }
 
-                    fileUploadService.saveFileMeta(tempFileVO);
+                    fileService.saveFileMeta(fileVO);
 
                     return "redirect:/template/download";
                 }
@@ -363,15 +362,24 @@ public class ApplicationController {
 
     @RequestMapping(value = "/apply/savetest", method = RequestMethod.POST)
     @ResponseBody
-    public ExecutionContext savetest(@Valid @ModelAttribute EntireApplication entireApplication,
+    public ExecutionContext savetest(@Valid @ModelAttribute final EntireApplication entireApplication,
                                      BindingResult binding,
-                                     Principal principal,
+                                     final Principal principal,
                                      FileHandler fileHandler) {
+
+        if( binding.hasErrors() ) {
+            return new ExecutionContext(ExecutionContext.FAIL);
+        }
+
+        if( principal == null ) {
+            return new ExecutionContext(ExecutionContext.FAIL);
+        }
+
         ExecutionContext ec = new ExecutionContext();
 
         if ( ec.getResult() == ExecutionContext.SUCCESS ) {
             //TODO 파일 업로드
-            fileHandler.handleMultiPartRequest(new UploadEventCallbackHandler<String, FileMetaForm>() {
+            String resultMsg = fileHandler.handleMultiPartRequest(new FileUploadEventCallbackHandler<String, FileMetaForm>() {
                 /**
                  * target 폴더 반환
                  *
@@ -383,7 +391,14 @@ public class ApplicationController {
                  */
                 @Override
                 protected String getDirectory(String fileFieldName, FileMetaForm attributes, String leafDirectory) {
-                    return "omwtemp";
+                    String admsTypeCode = entireApplication.getApplication().getAdmsTypeCode();
+                    CommonCode commonCode = commonService.retrieveCommonCodeValueByCodeGroupCode("ADMS_TYPE", admsTypeCode);
+                    String admsTypeName = commonCode.getCodeVal();
+
+                    String userId = principal.getName();
+                    String firstString = userId.substring(0, 1);
+
+                    return admsTypeName + "/" + firstString + "/" + userId;
                 }
 
                 /**
@@ -396,7 +411,7 @@ public class ApplicationController {
                  */
                 @Override
                 protected String createFileName(String fileFieldName, String originalFileName, FileMetaForm attribute) {
-                    return "omw-" + fileFieldName + "-" + originalFileName;
+                    return fileFieldName + "-" + originalFileName;
                 }
 
                 /**
@@ -411,18 +426,23 @@ public class ApplicationController {
                 public String handleEvent(List<FileItem> fileItems, FileMetaForm fileMetaForm, FilePersistenceManager persistence) {
 
                     FileInfo fileInfo;
-                    TempFileVO tempFileVO = new TempFileVO();
+                    FileVO fileVO = new FileVO();
 
                     for ( FileItem fileItem : fileItems){
                         FileInputStream fis = null;
                         try{
                             // persistence.save()의 첫번째 인자로 baseDir/첫번째인자 라는 폴더 생성
                             //
-                            fileInfo = persistence.save(getDirectory("fileFieldName", fileMetaForm, "leafDirectory"), fileItem.getOriginalFileName(), fileItem.getOriginalFileName(), fis = new FileInputStream(fileItem.getFile()));
-                            tempFileVO.setPath(fileInfo.getDirectory());
-                            tempFileVO.setFileName(fileInfo.getFileName());
+                            String uploadDir = getDirectory("fileFieldName", fileMetaForm, "leafDirectory");
+                            String uploadFileName = createFileName("fileFieldName", fileItem.getOriginalFileName(), fileMetaForm);
+                            fileInfo = persistence.save(uploadDir,
+                                                        uploadFileName,
+                                                        fileItem.getOriginalFileName(),
+                                                        fis = new FileInputStream(fileItem.getFile()));
+                            fileVO.setPath(fileInfo.getDirectory());
+                            fileVO.setFileName(fileInfo.getFileName());
                         }catch(FileNotFoundException fnfe){
-                            throw new UploadException("", fnfe);
+                            throw new FileUploadException("", fnfe);
                         }finally {
                             try {
                                 if (fis!= null) fis.close();
@@ -431,11 +451,13 @@ public class ApplicationController {
                         }
                     }
 
-                    fileUploadService.saveFileMeta(tempFileVO);
-
-                    return "redirect:/template/download";
+//                    fileService.saveFileMeta(fileVO);
+                    return fileVO.getPath() +"/" + fileVO.getFileName() + " is uploaded.";
+//                    return "redirect:/template/download";
                 }
             }, FileMetaForm.class);
+
+            ec.setMessage(resultMsg);
         }
 
         ec.setData("왓더뻑");

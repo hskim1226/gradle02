@@ -1,4 +1,4 @@
-package com.apexsoft.framework.web.file.callback;
+package com.apexsoft.framework.persistence.file.callback;
 
 import com.apexsoft.framework.persistence.file.manager.FilePersistenceManager;
 import com.apexsoft.framework.persistence.file.model.FileInfo;
@@ -21,9 +21,10 @@ import java.util.List;
  * 2. 첨부파일 이외의 내용들에 대하여 데이터베이스에 저장하는등의 동작을 처리
  *
  */
-public abstract class UploadEventCallbackHandler<T, P> {
+public abstract class FileUploadEventCallbackHandler<T, P> {
 	
 	protected static final int UNLIMITED = Integer.MIN_VALUE;
+    protected static final int MAX_LENGTH = 3*1024*1024;
 	
 	/**
      * 최대 업로드 사이즈 지정. (주 : 파일 단위가 아닌 멀티파트 요청 단위임)
@@ -33,7 +34,7 @@ public abstract class UploadEventCallbackHandler<T, P> {
      * @return 멀티파트 업로드 사이즈 in bytes.
      */
     protected long getMaxUploadSize() {
-    	return UNLIMITED;
+    	return MAX_LENGTH;
     }
     
 	/**
@@ -88,7 +89,7 @@ public abstract class UploadEventCallbackHandler<T, P> {
     /**
      * 
      * @param fileItems
-     * @param attributes
+     * @param attribute
      * @param persistence
      * @return
      */

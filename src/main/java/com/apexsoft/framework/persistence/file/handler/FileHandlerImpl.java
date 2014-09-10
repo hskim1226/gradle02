@@ -1,11 +1,11 @@
-package com.apexsoft.framework.web.file;
+package com.apexsoft.framework.persistence.file.handler;
 
 import com.apexsoft.framework.persistence.file.manager.FilePersistenceManager;
+import com.apexsoft.framework.persistence.file.callback.FileUploadEventCallbackHandler;
+import com.apexsoft.framework.persistence.file.exception.FileUploadException;
 import com.apexsoft.framework.persistence.file.model.FileItem;
-import com.apexsoft.framework.web.file.callback.UploadEventCallbackHandler;
-import com.apexsoft.framework.web.file.exception.UploadException;
-import com.apexsoft.framework.web.file.model.MultiPartInfo;
-import com.apexsoft.framework.web.file.receiver.MultiPartReceiver;
+import com.apexsoft.framework.persistence.file.model.MultiPartInfo;
+import com.apexsoft.framework.persistence.file.receiver.MultiPartReceiver;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.springframework.http.MediaType;
 import org.springframework.util.ReflectionUtils;
@@ -25,7 +25,7 @@ import java.util.Set;
 /**
  * 
  * {@link FileHandler} 의 구현체
- * 
+ *
  */
 public class FileHandlerImpl implements FileHandler {
 
@@ -76,10 +76,10 @@ public class FileHandlerImpl implements FileHandler {
 	 * (non-Javadoc)
 	 * @see com.skp.icms.commons.file.FileHandler#handMultiPartRequest(com.skp.icms.commons.file.callback.UploadEventCallbackHandler)
 	 */
-	public <T, P> T handleMultiPartRequest(UploadEventCallbackHandler<T, P> callback, Class<P> type) {
+	public <T, P> T handleMultiPartRequest(FileUploadEventCallbackHandler<T, P> callback, Class<P> type) {
 
 		if (callback == null) {
-			throw new UploadException("UploadEventCallback가 정의되지 않았습니다.");
+			throw new FileUploadException("UploadEventCallback가 정의되지 않았습니다.");
 		}
 		
 		MultiPartInfo info = extractMultiPartInfo(request);
@@ -177,14 +177,14 @@ public class FileHandlerImpl implements FileHandler {
 		boolean isMultipart = isMultiPartRequest(request);
 		
 		if (!isMultipart) {
-			throw new UploadException("not a multipart request.");
+			throw new FileUploadException("not a multipart request.");
 		}
 		
 		if (request.getCharacterEncoding() == null) {
 			try {
 				request.setCharacterEncoding(defaultEncoding);
 			} catch (UnsupportedEncodingException e) {
-				throw new UploadException("error setting character encoding on request.", e);
+				throw new FileUploadException("error setting character encoding on request.", e);
 			}
 		}
 

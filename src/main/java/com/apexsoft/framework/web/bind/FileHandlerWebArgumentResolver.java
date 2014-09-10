@@ -1,9 +1,12 @@
 package com.apexsoft.framework.web.bind;
 
-import com.apexsoft.framework.persistence.file.FilePersistenceManager;
-import com.apexsoft.framework.web.file.FileHandler;
-import com.apexsoft.framework.web.file.FileHandlerImpl;
-import com.apexsoft.framework.web.file.receiver.MultiPartReceiver;
+import com.apexsoft.framework.persistence.file.manager.FilePersistenceManager;
+//import com.apexsoft.framework.web.file.FileHandler;
+//import com.apexsoft.framework.web.file.FileHandlerImpl;
+//import com.apexsoft.framework.web.file.receiver.MultiPartReceiver;
+import com.apexsoft.framework.persistence.file.handler.FileHandler;
+import com.apexsoft.framework.persistence.file.handler.FileHandlerImpl;
+import com.apexsoft.framework.persistence.file.receiver.MultiPartReceiver;
 import org.springframework.core.MethodParameter;
 import org.springframework.web.bind.support.WebArgumentResolver;
 import org.springframework.web.context.request.NativeWebRequest;

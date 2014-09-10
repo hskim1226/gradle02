@@ -1,26 +1,11 @@
 package com.apexsoft.ysprj.template.web;
 
 import com.apexsoft.framework.common.vo.ExecutionContext;
-import com.apexsoft.framework.persistence.file.FilePersistenceManager;
-import com.apexsoft.framework.persistence.file.model.FileInfo;
-import com.apexsoft.framework.persistence.file.model.FileItem;
-import com.apexsoft.framework.web.file.FileHandler;
-import com.apexsoft.framework.web.file.callback.UploadEventCallbackHandler;
-import com.apexsoft.framework.web.file.exception.UploadException;
 import com.apexsoft.ysprj.template.service.ExceptionService;
-import com.apexsoft.ysprj.template.service.TempFileService;
-import com.apexsoft.ysprj.template.service.TempFileVO;
-import com.apexsoft.ysprj.template.web.form.FileMetaForm;
-import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.

@@ -106,16 +106,20 @@
                     fileElementId:fileInputId,
                     dataType: 'json',
                     success: function (data, status) {
-                        if(typeof(data.error) != 'undefined')
-                        {
-                            if(data.error != '')
-                            {
-                                alert(data.error);
-                            }else
-                            {
-                                alert(data.msg);
-                            }
-                        }
+                        console.log("msg : ", data.message);
+                        console.log("data : ", data.data);
+                        console.log("status : ", status);
+
+//                        if(typeof(data.error) != 'undefined')
+//                        {
+//                            if(data.error != '')
+//                            {
+//                                alert(data.error);
+//                            }else
+//                            {
+//                                alert(data.msg);
+//                            }
+//                        }
                     },
                     error: function (data, status, e) {
                         alert(e);

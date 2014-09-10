@@ -1,4 +1,4 @@
-package com.apexsoft.framework.persistence.file;
+package com.apexsoft.framework.persistence.file.manager;
 
 import com.apexsoft.framework.persistence.file.model.FileInfo;
 import com.apexsoft.framework.web.file.exception.UploadException;

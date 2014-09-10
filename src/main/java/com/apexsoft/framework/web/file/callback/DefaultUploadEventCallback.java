@@ -1,6 +1,6 @@
 package com.apexsoft.framework.web.file.callback;
 
-import com.apexsoft.framework.persistence.file.FilePersistenceManager;
+import com.apexsoft.framework.persistence.file.manager.FilePersistenceManager;
 import com.apexsoft.framework.persistence.file.model.FileInfo;
 import com.apexsoft.framework.persistence.file.model.FileItem;
 import com.apexsoft.framework.web.file.exception.UploadException;

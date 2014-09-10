@@ -14,10 +14,12 @@
 							default-autowire="byType">
 					
 
-	<bean id="persistenceManager" class="com.apexsoft.framework.persistence.file.FilePersistenceManagerImpl">
+	<bean id="persistenceManager" class="com.apexsoft.framework.persistence.file.manager.FilePersistenceManagerImpl">
 		<property name="baseDirectory" value="${file.baseDir}" />
 	</bean>	
 	
-	<bean id="multiPartReceiver" class="com.apexsoft.framework.web.file.receiver.MultiPartReceiverImpl" />
+	<bean id="multiPartReceiver" class="com.apexsoft.framework.persistence.file.receiver.MultiPartReceiverImpl" />
+
+    <bean id="fileService" class="com.apexsoft.framework.persistence.file.service.FileServiceImpl" />
 	
 </beans>
