@@ -91,6 +91,7 @@
     <script src="${contextPath}/js/jquery.appear.min.js"></script>
     <script src="${contextPath}/js/jquery.bpopup.min.js"></script>
     <script src="${contextPath}/js/jquery.form.min.js"></script>
+    <script src="${contextPath}/js/ajaxfileupload.js"></script>
     <script src="${contextPath}/js/validate.min.js"></script>
     <script src="${contextPath}/js/json2.js"></script>
     <script src="${contextPath}/js/main.js"></script>
