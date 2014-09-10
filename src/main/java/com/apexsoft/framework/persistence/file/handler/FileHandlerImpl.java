@@ -90,12 +90,12 @@ public class FileHandlerImpl implements FileHandler {
 		P parameter = convertAttribute(attributes, type);
 		
 		T result = callback.handleEvent(fileItems, parameter, persistence);
-		
-		String contentType = MediaType.TEXT_HTML_VALUE;
-		
-		if (StringUtils.hasText(request.getHeader("Accept"))) {
-			contentType = request.getHeader("Accept");
-		}
+
+        String contentType = MediaType.APPLICATION_JSON_VALUE;
+//		String contentType = MediaType.TEXT_HTML_VALUE;
+//		if (StringUtils.hasText(request.getHeader("Accept"))) {
+//			contentType = request.getHeader("Accept");
+//		}
 		
 		response.setContentType(contentType);
 		

@@ -55,7 +55,7 @@ jQuery.extend({
     ajaxFileUpload: function(s) {
         // TODO introduce global settings, allowing the client to modify them for all requests, not only timeout		
         s = jQuery.extend({}, jQuery.ajaxSettings, s);
-        var id = new Date().getTime()        
+        var id = new Date().getTime();
 		var form = jQuery.createUploadForm(id, s.fileElementId, (typeof(s.data)=='undefined'?false:s.data));
 		var io = jQuery.createUploadIframe(id, s.secureuri);
 		var frameId = 'jUploadFrame' + id;
@@ -67,7 +67,7 @@ jQuery.extend({
 		}            
         var requestDone = false;
         // Create the request object
-        var xml = {}   
+        var xml = {};
         if ( s.global )
             jQuery.event.trigger("ajaxSend", [xml, s]);
         // Wait for a response to come back
@@ -78,7 +78,8 @@ jQuery.extend({
 			{				
 				if(io.contentWindow)
 				{
-					 xml.responseText = io.contentWindow.document.body?io.contentWindow.document.body.innerHTML:null;
+if(console) console.log('in ajaxfileupload, callback, responseText : ', io.contentWindow.document.body.firstChild.innerHTML);
+					 xml.responseText = io.contentWindow.document.body?io.contentWindow.document.body.firstChild.innerHTML:null;
                 	 xml.responseXML = io.contentWindow.document.XMLDocument?io.contentWindow.document.XMLDocument:io.contentWindow.document;
 					 
 				}else if(io.contentDocument)
@@ -88,7 +89,7 @@ jQuery.extend({
 				}						
             }catch(e)
 			{
-				jQuery.handleError(s, xml, null, e);
+                jQuery.handleError(s, xml, null, e);
 			}
             if ( xml || isTimeout == "timeout") 
 			{				
@@ -138,7 +139,7 @@ jQuery.extend({
 											
 										} catch(e) 
 										{
-											jQuery.handleError(s, xml, null, e);
+                                            jQuery.handleError(s, xml, null, e);
 										}									
 
 									}, 100)
@@ -146,7 +147,7 @@ jQuery.extend({
                 xml = null
 
             }
-        }
+        };
         // Timeout checker
         if ( s.timeout > 0 ) 
 		{
@@ -196,6 +197,18 @@ jQuery.extend({
             jQuery("<div>").html(data).evalScripts();
 
         return data;
+    },
+
+    handleError: function( s, xhr, status, e ) {
+        // If a local callback was specified, fire it
+        if ( s.error ) {
+            s.error.call( s.context || window, xhr, status, e );
+        }
+
+        // Fire the global callback
+        if ( s.global ) {
+            (s.context ? jQuery(s.context) : jQuery.event).trigger( "ajaxError", [xhr, s, e] );
+        }
     }
-})
+});
 

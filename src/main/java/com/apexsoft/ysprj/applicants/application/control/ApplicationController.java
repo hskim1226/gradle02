@@ -25,6 +25,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -360,11 +361,14 @@ public class ApplicationController {
         return ec;
     }
 
-    @RequestMapping(value = "/apply/savetest", method = RequestMethod.POST)
+    @RequestMapping(value = "/apply/savetest", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
     @ResponseBody
     public ExecutionContext savetest(@Valid @ModelAttribute final EntireApplication entireApplication,
                                      BindingResult binding,
                                      final Principal principal,
+//                                     @RequestParam("picture") final String picture,
+//                                     @RequestParam("fieldName") final String fieldName,
+//                                     @RequestParam("targetButton") final String targetButton,
                                      FileHandler fileHandler) {
 
         if( binding.hasErrors() ) {
@@ -379,7 +383,7 @@ public class ApplicationController {
 
         if ( ec.getResult() == ExecutionContext.SUCCESS ) {
             //TODO 파일 업로드
-            String resultMsg = fileHandler.handleMultiPartRequest(new FileUploadEventCallbackHandler<String, FileMetaForm>() {
+            String targetButton = fileHandler.handleMultiPartRequest(new FileUploadEventCallbackHandler<String, FileMetaForm>() {
                 /**
                  * target 폴더 반환
                  *
@@ -433,8 +437,8 @@ public class ApplicationController {
                         try{
                             // persistence.save()의 첫번째 인자로 baseDir/첫번째인자 라는 폴더 생성
                             //
-                            String uploadDir = getDirectory("fileFieldName", fileMetaForm, "leafDirectory");
-                            String uploadFileName = createFileName("fileFieldName", fileItem.getOriginalFileName(), fileMetaForm);
+                            String uploadDir = getDirectory(fileMetaForm.getFieldName(), fileMetaForm, "leafDirectory");
+                            String uploadFileName = createFileName(fileMetaForm.getFieldName(), fileItem.getOriginalFileName(), fileMetaForm);
                             fileInfo = persistence.save(uploadDir,
                                                         uploadFileName,
                                                         fileItem.getOriginalFileName(),
@@ -452,15 +456,15 @@ public class ApplicationController {
                     }
 
 //                    fileService.saveFileMeta(fileVO);
-                    return fileVO.getPath() +"/" + fileVO.getFileName() + " is uploaded.";
 //                    return "redirect:/template/download";
+                    return fileMetaForm.getTargetButton();
                 }
             }, FileMetaForm.class);
 
-            ec.setMessage(resultMsg);
+            ec.setMessage(targetButton);
         }
 
-        ec.setData("왓더뻑");
+
         return ec;
     }
 

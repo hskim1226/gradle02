@@ -55,7 +55,7 @@ public class FilePersistenceManagerImpl implements FilePersistenceManager {
 
 	public FileInfo save(String folder, String fileName, String orgFileName, InputStream inputStream) {
 
-		File uploadDirectory = new File(baseDirectory, folder); // TODO baseDirectory, folder 중복
+		File uploadDirectory = new File(baseDirectory, folder);
 		File uploadFile = new File(uploadDirectory, fileName);
 
 		File tempFile;

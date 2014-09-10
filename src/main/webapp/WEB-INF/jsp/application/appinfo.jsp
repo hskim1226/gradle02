@@ -937,11 +937,11 @@
                                             <div class="input-group">
                                                 <span class="input-group-btn">
                                                     <span class="btn btn-default btn_lg btn-file">
-                                                        Browse&hellip; <input type="file" name="picture"/>
+                                                        Browse&hellip; <input type="file" id="fuPicture" name="picture"/>
                                                     </span>
                                                 </span>
                                                 <span class="col-sm-8 nopadding"><input type="text" class="form-control" readonly/></span>
-                                                <span class="col-sm-4 nopadding"><button id="uploadPicture" class="btn btn-default btn-block">올리기</button></span>
+                                                <span class="col-sm-4 nopadding"><button id="uploadPicture" data-input-file-id="fuPicture" class="btn btn-default btn-block">올리기</button></span>
                                             </div>
                                         </div>
                                     </div>
@@ -959,7 +959,7 @@
                                             <div class="input-group">
                                                 <span class="input-group-btn">
                                                     <span class="btn btn-default btn_lg btn-file">
-                                                        Browse&hellip; <input type="file" multiple/>
+                                                        Browse&hellip; <input type="file" id="fuDiploma" name="diploma"/>
                                                     </span>
                                                 </span>
                                                 <input type="text" class="form-control" readonly/>
@@ -979,19 +979,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="form-group">
-                                        <label class="col-sm-2 control-label">성적증명서</label>
-                                        <div class="col-sm-9">
-                                            <div class="input-group">
-                                                    <span class="input-group-btn">
-                                                        <span class="btn btn-default btn_lg btn-file">
-                                                            Browse&hellip; <input type="file" multiple/>
-                                                        </span>
-                                                    </span>
-                                                <input type="text" class="form-control" readonly/>
-                                            </div>
-                                        </div>
-                                    </div>
+
                                     <div class="form-group">
                                         <label class="col-sm-2 control-label">학력조회 동의서</label>
                                         <div class="col-sm-9">
@@ -1071,7 +1059,7 @@
                                             <div class="input-group">
                                                 <span class="input-group-btn">
                                                     <span class="btn btn-default btn_lg btn-file">
-                                                        Browse&hellip; <input type="file" multiple/>
+                                                        Browse&hellip; <input type="file" name="fileTOEFL"/>
                                                     </span>
                                                 </span>
                                                 <input type="text" class="form-control" readonly/>
@@ -1084,7 +1072,7 @@
                                             <div class="input-group">
                                                 <span class="input-group-btn">
                                                     <span class="btn btn-default btn_lg btn-file">
-                                                        Browse&hellip; <input type="file" multiple/>
+                                                        Browse&hellip; <input type="file" name="fileTOEIC"/>
                                                     </span>
                                                 </span>
                                                 <input type="text" class="form-control" readonly/>
@@ -1097,7 +1085,7 @@
                                             <div class="input-group">
                                                 <span class="input-group-btn">
                                                     <span class="btn btn-default btn_lg btn-file">
-                                                        Browse&hellip; <input type="file" multiple/>
+                                                        Browse&hellip; <input type="file" name="fileTEPS"/>
                                                     </span>
                                                 </span>
                                                 <input type="text" class="form-control" readonly/>
@@ -1110,7 +1098,7 @@
                                             <div class="input-group">
                                                 <span class="input-group-btn">
                                                     <span class="btn btn-default btn_lg btn-file">
-                                                        Browse&hellip; <input type="file" multiple/>
+                                                        Browse&hellip; <input type="file" name="fileIELTS"/>
                                                     </span>
                                                 </span>
                                                 <input type="text" class="form-control" readonly/>
@@ -1123,7 +1111,7 @@
                                             <div class="input-group">
                                                 <span class="input-group-btn">
                                                     <span class="btn btn-default btn_lg btn-file">
-                                                        Browse&hellip; <input type="file" multiple/>
+                                                        Browse&hellip; <input type="file" name="fileGRE"/>
                                                     </span>
                                                 </span>
                                                 <input type="text" class="form-control" readonly/>
@@ -1136,7 +1124,7 @@
                                             <div class="input-group">
                                                 <span class="input-group-btn">
                                                     <span class="btn btn-default btn_lg btn-file">
-                                                        Browse&hellip; <input type="file" multiple/>
+                                                        Browse&hellip; <input type="file" name="fileTOKIC"/>
                                                     </span>
                                                 </span>
                                                 <input type="text" class="form-control" readonly/>
@@ -1568,24 +1556,22 @@
 //            });
 
             $('#entireApplication').on('submit', function(event) {
-                var $form = $(this);
-                var $formUrl = $form.attr('action');
-                var $formData = $form.serializeArray();
+                var $form = $(this),
+                    $formUrl = $form.attr('action'),
+                    $formData = $form.serializeArray();
 
-                var $radioGroup;
                 $form.find('input.radio-group').filter(function() {
                     return this.checked == false;
                 }).each(function() {
                     $formData.push({name: this.name, value: 'N'});
                 });
 
-//if(console) console.dir($formData);
-
                 $formData = $formData.concat(getEnglishScoreSerializeArray());
+//if(console) console.dir($formData);
                 $.ajax({
                     url: $formUrl,
                     type: 'POST',
-                    contentType: 'multipart/form-data',
+//                    contentType: 'multipart/form-data',
                     data: $formData,
                     timeout: 5000,
                     success: function (context) {
@@ -2081,25 +2067,25 @@
                     },
                     error: function(e) {}
                 });
-                $.ajax({
-                    type: 'GET',
-                    url: baseUrl + "examlist/" + val,
-                    success: function(e) {
-                        if (e.result == 'SUCCESS') {
-                            var data = JSON && JSON.parse(e.data) || $.parseJSON(e.data);
-                            var groups = $('#english-score-list').children('.form-group');
-                            var i, check, val;
-                            for (i = 0; i < groups.length; i++) {
-                                check = $(groups[i]).find('input').filter('[id^="langExamCode"]')[0];
-                                val = check ? check.value : undefined;
-                                if (val && data[val]) {
-                                    // 입력가능
-                                }
-                            }
-                        }
-                    },
-                    error: function(e) {}
-                })
+//                $.ajax({
+//                    type: 'GET',
+//                    url: baseUrl + "examlist/" + val,
+//                    success: function(e) {
+//                        if (e.result == 'SUCCESS') {
+//                            var data = JSON && JSON.parse(e.data) || $.parseJSON(e.data);
+//                            var groups = $('#english-score-list').children('.form-group');
+//                            var i, check, val;
+//                            for (i = 0; i < groups.length; i++) {
+//                                check = $(groups[i]).find('input').filter('[id^="langExamCode"]')[0];
+//                                val = check ? check.value : undefined;
+//                                if (val && data[val]) {
+//                                    // 입력가능
+//                                }
+//                            }
+//                        }
+//                    },
+//                    error: function(e) {}
+//                })
             });
 
             <%-- 지원사항 select 폼 change 이벤트 핸들러 등록 끝 --%>
@@ -2138,7 +2124,48 @@
             })
 
             $('#uploadPicture').on('click', function (e) {
+                var ea = document.getElementById('entireApplication'),
+                    actionUrl = "${contextPath}/application/apply/savetest",
+                    fileInputId = $(this).attr("data-input-file-id"),
+                    fileInputName = document.getElementById(fileInputId).getAttribute("name")
+                    ;
+                $.ajaxFileUpload({
+                    url: actionUrl,
+                    secureuri:false,
+                    fileElementId:fileInputId,
+                    dataType: 'json',
+                    data: {fieldName: fileInputName,targetButton: $(this).attr('id')},
+                    success: function (data, status) {
+                        if (console) {
+                            console.log("msg : ", data.message);
+                            console.log("data : ", data.data);
+                            console.log("status : ", status);
+                        }
+                        $('#'+data.message).removeClass("btn-default");
+                        $('#'+data.message).addClass("btn-info");
+                        $('#'+data.message).text("올리기 성공");
 
+//                        if(typeof(data.error) != 'undefined')
+//                        {
+//                            if(data.error != '')
+//                            {
+//                                alert(data.error);
+//                            }else
+//                            {
+//                                alert(data.msg);
+//                            }
+//                        }
+                    },
+                    error: function (data, status, e) {
+                        if(console) {
+                            console.log("data : ", data);
+                            console.log("status : ", status);
+                            console.log("e : ", e);
+                        }
+                    }
+                });
+
+                return false;
             });
         });
 

@@ -11,6 +11,8 @@ public class FileMetaForm {
 
     private String path;
     private String fileName;
+    private String fieldName;
+    private String targetButton;
 
     public String getPath() {
         return path;
@@ -28,11 +30,29 @@ public class FileMetaForm {
         this.fileName = fileName;
     }
 
+    public String getFieldName() {
+        return fieldName;
+    }
+
+    public void setFieldName(String fieldName) {
+        this.fieldName = fieldName;
+    }
+
+    public String getTargetButton() {
+        return targetButton;
+    }
+
+    public void setTargetButton(String targetButton) {
+        this.targetButton = targetButton;
+    }
+
     @Override
     public String toString() {
         return "FileMetaForm{" +
                 "path='" + path + '\'' +
                 ", fileName='" + fileName + '\'' +
+                ", fieldName='" + fieldName+ '\'' +
+                ", targetButton='" + targetButton+ '\'' +
                 '}';
     }
 }
