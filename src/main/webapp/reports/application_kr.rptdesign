@@ -20,6 +20,18 @@ graduateList = entire.getGraduateList();
 experienceList = entire.getApplicationExperienceList();
 languageList = entire.getApplicationLanguageList();
 
+academyList = [];
+
+(function getAcademyList() {
+	var i, size;
+	for(i=0, size=collegeList.size(); i<size; i++) {
+		academyList.push(collegeList.get(i));
+	}
+	for(i=0, size=graduateList.size(); i<size; i++) {
+		academyList.push(graduateList.get(i));
+	}
+})();
+
 function getLangScore(code) {
 	var i, size, res="";
 	for(i=0, size=languageList.size(); i<size; i++) {
@@ -63,7 +75,44 @@ function getAcademyText(academy) {
 	}
 	return res;
 }
-reportContext.setPersistentGlobalVariable("getAcademyText", getAcademyText);]]></method>
+reportContext.setPersistentGlobalVariable("getAcademyText", getAcademyText);
+
+function getExprText(experience, columnIndex) {
+	var res = "";
+	if(!experience) {
+		return res;
+	}
+	if (columnIndex == 0) {
+		res += experience.getJoinDay();
+		res += "~";
+		res += experience.getRetrDay();
+	} else if (columnIndex == 1) {
+		res += experience.getCorpName();
+	} else if (columnIndex == 2) {
+		res += experience.getExprDesc();
+	}
+	return res;
+}
+reportContext.setPersistentGlobalVariable("getExprText", getExprText);
+
+function getLastSchoolScoreText(list) {
+	var res="", i, size, last, item;
+	for (i=0, size=list.size(); i<size; i++) {
+		item = list.get(i);
+		if(item &amp;&amp; item.getLastSchlYn() == "Y" || item.getLastSchlYn() == "y") {
+			last = item;
+			break;
+		}
+	}
+
+	if (last) {
+		res += last.getGradAvr() + " / " + last.getGradFull();
+	} else {
+		res += "/";
+	}
+	return res;
+}
+reportContext.setPersistentGlobalVariable("getLastSchoolScoreText", getLastSchoolScoreText);]]></method>
     <text-property name="displayName">입학원서</text-property>
     <property name="layoutPreference">auto layout</property>
     <property name="bidiLayoutOrientation">ltr</property>
@@ -189,6 +238,47 @@ reportContext.setPersistentGlobalVariable("getAcademyText", getAcademyText);]]><
                 <property name="category">Unformatted</property>
             </structure>
         </scalar-parameter>
+        <scalar-parameter name="entrYear" id="1358">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant"></value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="admsTypeName1" id="1359">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant"></value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="admsTypeName2" id="1360">
+            <property name="valueType">static</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
     </parameters>
     <styles>
         <style name="report" id="4">
@@ -247,13 +337,20 @@ reportContext.setPersistentGlobalVariable("getAcademyText", getAcademyText);]]><
                             <property name="height">0.5208333333333334in</property>
                             <cell id="1171">
                                 <property name="verticalAlign">middle</property>
-                                <text-data id="8">
+                                <data id="1362">
                                     <property name="fontFamily">"나눔명조"</property>
                                     <property name="fontSize">18pt</property>
                                     <property name="textAlign">center</property>
-                                    <expression name="valueExpr">"2014학년도 전기 대학원 입학원서(원본)"</expression>
-                                    <property name="contentType">html</property>
-                                </text-data>
+                                    <list-property name="boundDataColumns">
+                                        <structure>
+                                            <property name="name">entrYear</property>
+                                            <expression name="expression" type="javascript">params["entrYear"] + " 학년도 " + params["admsTypeName1"] + " 대학원 입학원서"</expression>
+                                            <property name="dataType">string</property>
+                                            <property name="allowExport">true</property>
+                                        </structure>
+                                    </list-property>
+                                    <property name="resultSetColumn">entrYear</property>
+                                </data>
                             </cell>
                         </row>
                     </grid>
@@ -277,6 +374,16 @@ reportContext.setPersistentGlobalVariable("getAcademyText", getAcademyText);]]><
                             <cell id="644">
                                 <property name="borderBottomStyle">solid</property>
                                 <property name="borderBottomWidth">1px</property>
+                                <data id="1361">
+                                    <list-property name="boundDataColumns">
+                                        <structure>
+                                            <property name="name">admsTypeName2</property>
+                                            <expression name="expression" type="javascript">params["admsTypeName2"]</expression>
+                                            <property name="dataType">string</property>
+                                        </structure>
+                                    </list-property>
+                                    <property name="resultSetColumn">admsTypeName2</property>
+                                </data>
                             </cell>
                         </row>
                     </grid>
@@ -313,14 +420,12 @@ reportContext.setPersistentGlobalVariable("getAcademyText", getAcademyText);]]><
                                 <data id="1172">
                                     <list-property name="boundDataColumns">
                                         <structure>
-                                            <property name="name">Column Binding</property>
-                                            <text-property name="displayName">applId</text-property>
-                                            <expression name="expression" type="javascript">application.getApplId();</expression>
+                                            <property name="name">applNo</property>
+                                            <expression name="expression" type="javascript">application.getApplNo();</expression>
                                             <property name="dataType">string</property>
-                                            <property name="allowExport">true</property>
                                         </structure>
                                     </list-property>
-                                    <property name="resultSetColumn">Column Binding</property>
+                                    <property name="resultSetColumn">applNo</property>
                                 </data>
                             </cell>
                         </row>
@@ -374,7 +479,7 @@ reportContext.setPersistentGlobalVariable("getAcademyText", getAcademyText);]]><
                                 <property name="borderTopStyle">solid</property>
                                 <property name="borderTopWidth">2px</property>
                                 <property name="verticalAlign">middle</property>
-                                <data id="1281">
+                                <data id="1320">
                                     <list-property name="boundDataColumns">
                                         <structure>
                                             <property name="name">campName</property>
@@ -545,14 +650,12 @@ reportContext.setPersistentGlobalVariable("getAcademyText", getAcademyText);]]><
                                 <data id="1195">
                                     <list-property name="boundDataColumns">
                                         <structure>
-                                            <property name="name">Column Binding</property>
-                                            <text-property name="displayName">deptCode</text-property>
+                                            <property name="name">deptCode</property>
                                             <expression name="expression" type="javascript">application.getDeptCode();</expression>
                                             <property name="dataType">string</property>
-                                            <property name="allowExport">true</property>
                                         </structure>
                                     </list-property>
-                                    <property name="resultSetColumn">Column Binding</property>
+                                    <property name="resultSetColumn">deptCode</property>
                                 </data>
                             </cell>
                         </row>
@@ -642,14 +745,12 @@ reportContext.setPersistentGlobalVariable("getAcademyText", getAcademyText);]]><
                                 <data id="1188">
                                     <list-property name="boundDataColumns">
                                         <structure>
-                                            <property name="name">Column Binding</property>
-                                            <text-property name="displayName">korName</text-property>
+                                            <property name="name">korName</property>
                                             <expression name="expression" type="javascript">application.getKorName();</expression>
                                             <property name="dataType">string</property>
-                                            <property name="allowExport">true</property>
                                         </structure>
                                     </list-property>
-                                    <property name="resultSetColumn">Column Binding</property>
+                                    <property name="resultSetColumn">korName</property>
                                 </data>
                             </cell>
                             <cell id="78">
@@ -679,14 +780,12 @@ reportContext.setPersistentGlobalVariable("getAcademyText", getAcademyText);]]><
                                 <data id="1189">
                                     <list-property name="boundDataColumns">
                                         <structure>
-                                            <property name="name">Column Binding</property>
-                                            <text-property name="displayName">engName + engSur</text-property>
+                                            <property name="name">engName + engSur</property>
                                             <expression name="expression" type="javascript">application.getEngName() + " " + application.getEngSur();</expression>
                                             <property name="dataType">string</property>
-                                            <property name="allowExport">true</property>
                                         </structure>
                                     </list-property>
-                                    <property name="resultSetColumn">Column Binding</property>
+                                    <property name="resultSetColumn">engName + engSur</property>
                                 </data>
                             </cell>
                         </row>
@@ -721,14 +820,12 @@ reportContext.setPersistentGlobalVariable("getAcademyText", getAcademyText);]]><
                                 <data id="1190">
                                     <list-property name="boundDataColumns">
                                         <structure>
-                                            <property name="name">Column Binding</property>
-                                            <text-property name="displayName">rgstNo</text-property>
+                                            <property name="name">rgstNo</property>
                                             <expression name="expression" type="javascript">application.getRgstNo();</expression>
                                             <property name="dataType">string</property>
-                                            <property name="allowExport">true</property>
                                         </structure>
                                     </list-property>
-                                    <property name="resultSetColumn">Column Binding</property>
+                                    <property name="resultSetColumn">rgstNo</property>
                                 </data>
                             </cell>
                             <cell id="85">
@@ -760,14 +857,12 @@ reportContext.setPersistentGlobalVariable("getAcademyText", getAcademyText);]]><
                                 <data id="1191">
                                     <list-property name="boundDataColumns">
                                         <structure>
-                                            <property name="name">Column Binding</property>
-                                            <text-property name="displayName">mailAddr</text-property>
+                                            <property name="name">mailAddr</property>
                                             <expression name="expression" type="javascript">application.getMailAddr();</expression>
                                             <property name="dataType">string</property>
-                                            <property name="allowExport">true</property>
                                         </structure>
                                     </list-property>
-                                    <property name="resultSetColumn">Column Binding</property>
+                                    <property name="resultSetColumn">mailAddr</property>
                                 </data>
                             </cell>
                         </row>
@@ -798,14 +893,12 @@ reportContext.setPersistentGlobalVariable("getAcademyText", getAcademyText);]]><
                                 <data id="1192">
                                     <list-property name="boundDataColumns">
                                         <structure>
-                                            <property name="name">Column Binding</property>
-                                            <text-property name="displayName">telNum</text-property>
+                                            <property name="name">telNum</property>
                                             <expression name="expression" type="javascript">application.getTelNum();</expression>
                                             <property name="dataType">string</property>
-                                            <property name="allowExport">true</property>
                                         </structure>
                                     </list-property>
-                                    <property name="resultSetColumn">Column Binding</property>
+                                    <property name="resultSetColumn">telNum</property>
                                 </data>
                             </cell>
                             <cell id="96">
@@ -833,14 +926,12 @@ reportContext.setPersistentGlobalVariable("getAcademyText", getAcademyText);]]><
                                 <data id="1193">
                                     <list-property name="boundDataColumns">
                                         <structure>
-                                            <property name="name">Column Binding</property>
-                                            <text-property name="displayName">mobiNum</text-property>
+                                            <property name="name">mobiNum</property>
                                             <expression name="expression" type="javascript">application.getMobiNum();</expression>
                                             <property name="dataType">string</property>
-                                            <property name="allowExport">true</property>
                                         </structure>
                                     </list-property>
-                                    <property name="resultSetColumn">Column Binding</property>
+                                    <property name="resultSetColumn">mobiNum</property>
                                 </data>
                             </cell>
                         </row>
@@ -899,14 +990,12 @@ reportContext.setPersistentGlobalVariable("getAcademyText", getAcademyText);]]><
                                     <property name="display">block</property>
                                     <list-property name="boundDataColumns">
                                         <structure>
-                                            <property name="name">Column Binding</property>
-                                            <text-property name="displayName">addr + detlAddr</text-property>
+                                            <property name="name">addr + detlAddr</property>
                                             <expression name="expression" type="javascript">application.getAddr() + " " + application.getDetlAddr();</expression>
                                             <property name="dataType">string</property>
-                                            <property name="allowExport">true</property>
                                         </structure>
                                     </list-property>
-                                    <property name="resultSetColumn">Column Binding</property>
+                                    <property name="resultSetColumn">addr + detlAddr</property>
                                 </data>
                             </cell>
                         </row>
@@ -947,14 +1036,12 @@ reportContext.setPersistentGlobalVariable("getAcademyText", getAcademyText);]]><
                                 <data id="1286">
                                     <list-property name="boundDataColumns">
                                         <structure>
-                                            <property name="name">Column Binding</property>
-                                            <text-property name="displayName">currWrkpName</text-property>
+                                            <property name="name">currWrkpName</property>
                                             <expression name="expression" type="javascript">general.getCurrWrkpName();</expression>
                                             <property name="dataType">string</property>
-                                            <property name="allowExport">true</property>
                                         </structure>
                                     </list-property>
-                                    <property name="resultSetColumn">Column Binding</property>
+                                    <property name="resultSetColumn">currWrkpName</property>
                                 </data>
                             </cell>
                             <cell id="1045">
@@ -992,14 +1079,12 @@ reportContext.setPersistentGlobalVariable("getAcademyText", getAcademyText);]]><
                                 <data id="1287">
                                     <list-property name="boundDataColumns">
                                         <structure>
-                                            <property name="name">Column Binding</property>
-                                            <text-property name="displayName">currWrkpTel</text-property>
+                                            <property name="name">currWrkpTel</property>
                                             <expression name="expression" type="javascript">general.getCurrWrkpTel();</expression>
                                             <property name="dataType">string</property>
-                                            <property name="allowExport">true</property>
                                         </structure>
                                     </list-property>
-                                    <property name="resultSetColumn">Column Binding</property>
+                                    <property name="resultSetColumn">currWrkpTel</property>
                                 </data>
                             </cell>
                         </row>
@@ -1043,17 +1128,15 @@ reportContext.setPersistentGlobalVariable("getAcademyText", getAcademyText);]]><
                                             <property name="borderBottomStyle">solid</property>
                                             <property name="borderBottomWidth">1px</property>
                                             <property name="verticalAlign">middle</property>
-                                            <data id="1292">
+                                            <data id="1330">
                                                 <list-property name="boundDataColumns">
                                                     <structure>
-                                                        <property name="name">Column Binding</property>
-                                                        <text-property name="displayName">highSchool</text-property>
-                                                        <expression name="expression" type="javascript">getAcademyText(highSchool);</expression>
+                                                        <property name="name">academy0</property>
+                                                        <expression name="expression" type="javascript">getAcademyText(academyList[0]);</expression>
                                                         <property name="dataType">string</property>
-                                                        <property name="allowExport">true</property>
                                                     </structure>
                                                 </list-property>
-                                                <property name="resultSetColumn">Column Binding</property>
+                                                <property name="resultSetColumn">academy0</property>
                                             </data>
                                         </cell>
                                     </row>
@@ -1063,17 +1146,15 @@ reportContext.setPersistentGlobalVariable("getAcademyText", getAcademyText);]]><
                                             <property name="borderBottomStyle">solid</property>
                                             <property name="borderBottomWidth">1px</property>
                                             <property name="verticalAlign">middle</property>
-                                            <data id="1297">
+                                            <data id="1333">
                                                 <list-property name="boundDataColumns">
                                                     <structure>
-                                                        <property name="name">Column Binding</property>
-                                                        <text-property name="displayName">college1</text-property>
-                                                        <expression name="expression" type="javascript">getAcademyText(collegeList.get(0));</expression>
+                                                        <property name="name">academy1</property>
+                                                        <expression name="expression" type="javascript">getAcademyText(academyList[1]);</expression>
                                                         <property name="dataType">string</property>
-                                                        <property name="allowExport">true</property>
                                                     </structure>
                                                 </list-property>
-                                                <property name="resultSetColumn">Column Binding</property>
+                                                <property name="resultSetColumn">academy1</property>
                                             </data>
                                         </cell>
                                     </row>
@@ -1083,17 +1164,15 @@ reportContext.setPersistentGlobalVariable("getAcademyText", getAcademyText);]]><
                                             <property name="borderBottomStyle">solid</property>
                                             <property name="borderBottomWidth">1px</property>
                                             <property name="verticalAlign">middle</property>
-                                            <data id="1298">
+                                            <data id="1334">
                                                 <list-property name="boundDataColumns">
                                                     <structure>
-                                                        <property name="name">Column Binding</property>
-                                                        <text-property name="displayName">college2</text-property>
-                                                        <expression name="expression" type="javascript">getAcademyText(collegeList.get(1));</expression>
+                                                        <property name="name">academy2</property>
+                                                        <expression name="expression" type="javascript">getAcademyText(academyList[2]);</expression>
                                                         <property name="dataType">string</property>
-                                                        <property name="allowExport">true</property>
                                                     </structure>
                                                 </list-property>
-                                                <property name="resultSetColumn">Column Binding</property>
+                                                <property name="resultSetColumn">academy2</property>
                                             </data>
                                         </cell>
                                     </row>
@@ -1103,17 +1182,15 @@ reportContext.setPersistentGlobalVariable("getAcademyText", getAcademyText);]]><
                                             <property name="borderBottomStyle">solid</property>
                                             <property name="borderBottomWidth">1px</property>
                                             <property name="verticalAlign">middle</property>
-                                            <data id="1299">
+                                            <data id="1335">
                                                 <list-property name="boundDataColumns">
                                                     <structure>
-                                                        <property name="name">Column Binding</property>
-                                                        <text-property name="displayName">graduate1</text-property>
-                                                        <expression name="expression" type="javascript">getAcademyText(graduateList.get(0));</expression>
+                                                        <property name="name">academy3</property>
+                                                        <expression name="expression" type="javascript">getAcademyText(academyList[3]);</expression>
                                                         <property name="dataType">string</property>
-                                                        <property name="allowExport">true</property>
                                                     </structure>
                                                 </list-property>
-                                                <property name="resultSetColumn">Column Binding</property>
+                                                <property name="resultSetColumn">academy3</property>
                                             </data>
                                         </cell>
                                     </row>
@@ -1121,17 +1198,15 @@ reportContext.setPersistentGlobalVariable("getAcademyText", getAcademyText);]]><
                                         <property name="height">28px</property>
                                         <cell id="1216">
                                             <property name="verticalAlign">middle</property>
-                                            <data id="1300">
+                                            <data id="1336">
                                                 <list-property name="boundDataColumns">
                                                     <structure>
-                                                        <property name="name">Column Binding</property>
-                                                        <text-property name="displayName">graduate2</text-property>
-                                                        <expression name="expression" type="javascript">getAcademyText(graduateList.get(1));</expression>
+                                                        <property name="name">academy4</property>
+                                                        <expression name="expression" type="javascript">getAcademyText(academyList[4]);</expression>
                                                         <property name="dataType">string</property>
-                                                        <property name="allowExport">true</property>
                                                     </structure>
                                                 </list-property>
-                                                <property name="resultSetColumn">Column Binding</property>
+                                                <property name="resultSetColumn">academy4</property>
                                             </data>
                                         </cell>
                                     </row>
@@ -1194,14 +1269,12 @@ reportContext.setPersistentGlobalVariable("getAcademyText", getAcademyText);]]><
                                 <data id="1259">
                                     <list-property name="boundDataColumns">
                                         <structure>
-                                            <property name="name">Column Binding</property>
-                                            <text-property name="displayName">hndcGrad</text-property>
+                                            <property name="name">hndcGrad</property>
                                             <expression name="expression" type="javascript">general.getHndcGrad();</expression>
                                             <property name="dataType">string</property>
-                                            <property name="allowExport">true</property>
                                         </structure>
                                     </list-property>
-                                    <property name="resultSetColumn">Column Binding</property>
+                                    <property name="resultSetColumn">hndcGrad</property>
                                 </data>
                             </cell>
                             <cell id="942">
@@ -1227,14 +1300,12 @@ reportContext.setPersistentGlobalVariable("getAcademyText", getAcademyText);]]><
                                 <data id="1260">
                                     <list-property name="boundDataColumns">
                                         <structure>
-                                            <property name="name">Column Binding</property>
-                                            <text-property name="displayName">hndcType</text-property>
+                                            <property name="name">hndcType</property>
                                             <expression name="expression" type="javascript">general.getHndcType();</expression>
                                             <property name="dataType">string</property>
-                                            <property name="allowExport">true</property>
                                         </structure>
                                     </list-property>
-                                    <property name="resultSetColumn">Column Binding</property>
+                                    <property name="resultSetColumn">hndcType</property>
                                 </data>
                             </cell>
                         </row>
@@ -1331,6 +1402,16 @@ reportContext.setPersistentGlobalVariable("getAcademyText", getAcademyText);]]><
                                 <property name="borderTopStyle">solid</property>
                                 <property name="borderTopWidth">1px</property>
                                 <property name="verticalAlign">middle</property>
+                                <data id="1352">
+                                    <list-property name="boundDataColumns">
+                                        <structure>
+                                            <property name="name">lastCollegeScore</property>
+                                            <expression name="expression" type="javascript">getLastSchoolScoreText(collegeList);</expression>
+                                            <property name="dataType">string</property>
+                                        </structure>
+                                    </list-property>
+                                    <property name="resultSetColumn">lastCollegeScore</property>
+                                </data>
                             </cell>
                             <cell id="991">
                                 <property name="borderBottomStyle">solid</property>
@@ -1439,6 +1520,17 @@ reportContext.setPersistentGlobalVariable("getAcademyText", getAcademyText);]]><
                                 <property name="borderTopStyle">solid</property>
                                 <property name="borderTopWidth">1px</property>
                                 <property name="verticalAlign">middle</property>
+                                <data id="1353">
+                                    <list-property name="boundDataColumns">
+                                        <structure>
+                                            <property name="name">lastGraduateScore</property>
+                                            <expression name="expression" type="javascript">getLastSchoolScoreText(graduateList);</expression>
+                                            <property name="dataType">string</property>
+                                            <property name="allowExport">true</property>
+                                        </structure>
+                                    </list-property>
+                                    <property name="resultSetColumn">lastGraduateScore</property>
+                                </data>
                             </cell>
                             <cell id="995">
                                 <property name="borderLeftStyle">solid</property>
@@ -1451,14 +1543,12 @@ reportContext.setPersistentGlobalVariable("getAcademyText", getAcademyText);]]><
                                 <data id="1270">
                                     <list-property name="boundDataColumns">
                                         <structure>
-                                            <property name="name">Column Binding</property>
-                                            <text-property name="displayName">toeflScore</text-property>
+                                            <property name="name">toeflScore</property>
                                             <expression name="expression" type="javascript">getLangScore("00001");</expression>
                                             <property name="dataType">string</property>
-                                            <property name="allowExport">true</property>
                                         </structure>
                                     </list-property>
-                                    <property name="resultSetColumn">Column Binding</property>
+                                    <property name="resultSetColumn">toeflScore</property>
                                 </data>
                             </cell>
                             <cell id="1079">
@@ -1472,14 +1562,12 @@ reportContext.setPersistentGlobalVariable("getAcademyText", getAcademyText);]]><
                                 <data id="1271">
                                     <list-property name="boundDataColumns">
                                         <structure>
-                                            <property name="name">Column Binding</property>
-                                            <text-property name="displayName">toeicScore</text-property>
+                                            <property name="name">toeicScore</property>
                                             <expression name="expression" type="javascript">getLangScore("00002");</expression>
                                             <property name="dataType">string</property>
-                                            <property name="allowExport">true</property>
                                         </structure>
                                     </list-property>
-                                    <property name="resultSetColumn">Column Binding</property>
+                                    <property name="resultSetColumn">toeicScore</property>
                                 </data>
                             </cell>
                             <cell id="1075">
@@ -1493,14 +1581,12 @@ reportContext.setPersistentGlobalVariable("getAcademyText", getAcademyText);]]><
                                 <data id="1272">
                                     <list-property name="boundDataColumns">
                                         <structure>
-                                            <property name="name">Column Binding</property>
-                                            <text-property name="displayName">tepsScore</text-property>
+                                            <property name="name">tepsScore</property>
                                             <expression name="expression" type="javascript">getLangScore("00003")</expression>
                                             <property name="dataType">string</property>
-                                            <property name="allowExport">true</property>
                                         </structure>
                                     </list-property>
-                                    <property name="resultSetColumn">Column Binding</property>
+                                    <property name="resultSetColumn">tepsScore</property>
                                 </data>
                             </cell>
                             <cell id="1071">
@@ -1514,14 +1600,12 @@ reportContext.setPersistentGlobalVariable("getAcademyText", getAcademyText);]]><
                                 <data id="1273">
                                     <list-property name="boundDataColumns">
                                         <structure>
-                                            <property name="name">Column Binding</property>
-                                            <text-property name="displayName">ieltsScore</text-property>
+                                            <property name="name">ieltsScore</property>
                                             <expression name="expression" type="javascript">getLangScore("00004")</expression>
                                             <property name="dataType">string</property>
-                                            <property name="allowExport">true</property>
                                         </structure>
                                     </list-property>
-                                    <property name="resultSetColumn">Column Binding</property>
+                                    <property name="resultSetColumn">ieltsScore</property>
                                 </data>
                             </cell>
                             <cell id="1067">
@@ -1535,14 +1619,12 @@ reportContext.setPersistentGlobalVariable("getAcademyText", getAcademyText);]]><
                                 <data id="1274">
                                     <list-property name="boundDataColumns">
                                         <structure>
-                                            <property name="name">Column Binding</property>
-                                            <text-property name="displayName">greScore</text-property>
+                                            <property name="name">greScore</property>
                                             <expression name="expression" type="javascript">getLangScore("00006")</expression>
                                             <property name="dataType">string</property>
-                                            <property name="allowExport">true</property>
                                         </structure>
                                     </list-property>
-                                    <property name="resultSetColumn">Column Binding</property>
+                                    <property name="resultSetColumn">greScore</property>
                                 </data>
                             </cell>
                             <cell id="1063">
@@ -1656,9 +1738,16 @@ reportContext.setPersistentGlobalVariable("getAcademyText", getAcademyText);]]><
                                             <property name="paddingBottom">0pt</property>
                                             <property name="paddingRight">0pt</property>
                                             <property name="verticalAlign">middle</property>
-                                            <label id="1173">
-                                                <text-property name="text">~</text-property>
-                                            </label>
+                                            <data id="1339">
+                                                <list-property name="boundDataColumns">
+                                                    <structure>
+                                                        <property name="name">range0</property>
+                                                        <expression name="expression" type="javascript">getExprText(experienceList.get(0), 0);</expression>
+                                                        <property name="dataType">string</property>
+                                                    </structure>
+                                                </list-property>
+                                                <property name="resultSetColumn">range0</property>
+                                            </data>
                                         </cell>
                                         <cell id="1249">
                                             <property name="borderBottomStyle">solid</property>
@@ -1670,6 +1759,16 @@ reportContext.setPersistentGlobalVariable("getAcademyText", getAcademyText);]]><
                                             <property name="paddingBottom">0pt</property>
                                             <property name="paddingRight">0pt</property>
                                             <property name="verticalAlign">middle</property>
+                                            <data id="1337">
+                                                <list-property name="boundDataColumns">
+                                                    <structure>
+                                                        <property name="name">corpName0</property>
+                                                        <expression name="expression" type="javascript">getExprText(experienceList.get(0), 1);</expression>
+                                                        <property name="dataType">string</property>
+                                                    </structure>
+                                                </list-property>
+                                                <property name="resultSetColumn">corpName0</property>
+                                            </data>
                                         </cell>
                                         <cell id="1250">
                                             <property name="borderBottomStyle">solid</property>
@@ -1681,6 +1780,16 @@ reportContext.setPersistentGlobalVariable("getAcademyText", getAcademyText);]]><
                                             <property name="paddingBottom">0pt</property>
                                             <property name="paddingRight">0pt</property>
                                             <property name="verticalAlign">middle</property>
+                                            <data id="1354">
+                                                <list-property name="boundDataColumns">
+                                                    <structure>
+                                                        <property name="name">exprDesc0</property>
+                                                        <expression name="expression" type="javascript">getExprText(experienceList.get(0), 2);</expression>
+                                                        <property name="dataType">string</property>
+                                                    </structure>
+                                                </list-property>
+                                                <property name="resultSetColumn">exprDesc0</property>
+                                            </data>
                                         </cell>
                                     </row>
                                     <row id="1231">
@@ -1693,9 +1802,17 @@ reportContext.setPersistentGlobalVariable("getAcademyText", getAcademyText);]]><
                                             <property name="paddingBottom">0pt</property>
                                             <property name="paddingRight">0pt</property>
                                             <property name="verticalAlign">middle</property>
-                                            <label id="1174">
-                                                <text-property name="text">~</text-property>
-                                            </label>
+                                            <data id="1340">
+                                                <list-property name="boundDataColumns">
+                                                    <structure>
+                                                        <property name="name">range1</property>
+                                                        <expression name="expression" type="javascript">getExprText(experienceList.get(1), 0);</expression>
+                                                        <property name="dataType">string</property>
+                                                        <property name="allowExport">true</property>
+                                                    </structure>
+                                                </list-property>
+                                                <property name="resultSetColumn">range1</property>
+                                            </data>
                                         </cell>
                                         <cell id="1233">
                                             <property name="borderBottomStyle">solid</property>
@@ -1707,6 +1824,17 @@ reportContext.setPersistentGlobalVariable("getAcademyText", getAcademyText);]]><
                                             <property name="paddingBottom">0pt</property>
                                             <property name="paddingRight">0pt</property>
                                             <property name="verticalAlign">middle</property>
+                                            <data id="1344">
+                                                <list-property name="boundDataColumns">
+                                                    <structure>
+                                                        <property name="name">corpName1</property>
+                                                        <expression name="expression" type="javascript">getExprText(experienceList.get(1), 1);</expression>
+                                                        <property name="dataType">string</property>
+                                                        <property name="allowExport">true</property>
+                                                    </structure>
+                                                </list-property>
+                                                <property name="resultSetColumn">corpName1</property>
+                                            </data>
                                         </cell>
                                         <cell id="1234">
                                             <property name="borderBottomStyle">solid</property>
@@ -1718,6 +1846,17 @@ reportContext.setPersistentGlobalVariable("getAcademyText", getAcademyText);]]><
                                             <property name="paddingBottom">0pt</property>
                                             <property name="paddingRight">0pt</property>
                                             <property name="verticalAlign">middle</property>
+                                            <data id="1348">
+                                                <list-property name="boundDataColumns">
+                                                    <structure>
+                                                        <property name="name">exprDesc1</property>
+                                                        <expression name="expression" type="javascript">getExprText(experienceList.get(1), 2);</expression>
+                                                        <property name="dataType">string</property>
+                                                        <property name="allowExport">true</property>
+                                                    </structure>
+                                                </list-property>
+                                                <property name="resultSetColumn">exprDesc1</property>
+                                            </data>
                                         </cell>
                                     </row>
                                     <row id="1235">
@@ -1730,9 +1869,17 @@ reportContext.setPersistentGlobalVariable("getAcademyText", getAcademyText);]]><
                                             <property name="paddingBottom">0pt</property>
                                             <property name="paddingRight">0pt</property>
                                             <property name="verticalAlign">middle</property>
-                                            <label id="1175">
-                                                <text-property name="text">~</text-property>
-                                            </label>
+                                            <data id="1341">
+                                                <list-property name="boundDataColumns">
+                                                    <structure>
+                                                        <property name="name">range2</property>
+                                                        <expression name="expression" type="javascript">getExprText(experienceList.get(2), 0);</expression>
+                                                        <property name="dataType">string</property>
+                                                        <property name="allowExport">true</property>
+                                                    </structure>
+                                                </list-property>
+                                                <property name="resultSetColumn">range2</property>
+                                            </data>
                                         </cell>
                                         <cell id="1237">
                                             <property name="borderBottomStyle">solid</property>
@@ -1744,6 +1891,17 @@ reportContext.setPersistentGlobalVariable("getAcademyText", getAcademyText);]]><
                                             <property name="paddingBottom">0pt</property>
                                             <property name="paddingRight">0pt</property>
                                             <property name="verticalAlign">middle</property>
+                                            <data id="1345">
+                                                <list-property name="boundDataColumns">
+                                                    <structure>
+                                                        <property name="name">corpName2</property>
+                                                        <expression name="expression" type="javascript">getExprText(experienceList.get(2), 1);</expression>
+                                                        <property name="dataType">string</property>
+                                                        <property name="allowExport">true</property>
+                                                    </structure>
+                                                </list-property>
+                                                <property name="resultSetColumn">corpName2</property>
+                                            </data>
                                         </cell>
                                         <cell id="1238">
                                             <property name="borderBottomStyle">solid</property>
@@ -1755,6 +1913,17 @@ reportContext.setPersistentGlobalVariable("getAcademyText", getAcademyText);]]><
                                             <property name="paddingBottom">0pt</property>
                                             <property name="paddingRight">0pt</property>
                                             <property name="verticalAlign">middle</property>
+                                            <data id="1349">
+                                                <list-property name="boundDataColumns">
+                                                    <structure>
+                                                        <property name="name">exprDesc2</property>
+                                                        <expression name="expression" type="javascript">getExprText(experienceList.get(2), 2);</expression>
+                                                        <property name="dataType">string</property>
+                                                        <property name="allowExport">true</property>
+                                                    </structure>
+                                                </list-property>
+                                                <property name="resultSetColumn">exprDesc2</property>
+                                            </data>
                                         </cell>
                                     </row>
                                     <row id="1239">
@@ -1767,9 +1936,17 @@ reportContext.setPersistentGlobalVariable("getAcademyText", getAcademyText);]]><
                                             <property name="paddingBottom">0pt</property>
                                             <property name="paddingRight">0pt</property>
                                             <property name="verticalAlign">middle</property>
-                                            <label id="1176">
-                                                <text-property name="text">~</text-property>
-                                            </label>
+                                            <data id="1342">
+                                                <list-property name="boundDataColumns">
+                                                    <structure>
+                                                        <property name="name">range3</property>
+                                                        <expression name="expression" type="javascript">getExprText(experienceList.get(3), 0);</expression>
+                                                        <property name="dataType">string</property>
+                                                        <property name="allowExport">true</property>
+                                                    </structure>
+                                                </list-property>
+                                                <property name="resultSetColumn">range3</property>
+                                            </data>
                                         </cell>
                                         <cell id="1241">
                                             <property name="borderBottomStyle">solid</property>
@@ -1781,6 +1958,17 @@ reportContext.setPersistentGlobalVariable("getAcademyText", getAcademyText);]]><
                                             <property name="paddingBottom">0pt</property>
                                             <property name="paddingRight">0pt</property>
                                             <property name="verticalAlign">middle</property>
+                                            <data id="1346">
+                                                <list-property name="boundDataColumns">
+                                                    <structure>
+                                                        <property name="name">corpName3</property>
+                                                        <expression name="expression" type="javascript">getExprText(experienceList.get(3), 1);</expression>
+                                                        <property name="dataType">string</property>
+                                                        <property name="allowExport">true</property>
+                                                    </structure>
+                                                </list-property>
+                                                <property name="resultSetColumn">corpName3</property>
+                                            </data>
                                         </cell>
                                         <cell id="1242">
                                             <property name="borderBottomStyle">solid</property>
@@ -1792,6 +1980,17 @@ reportContext.setPersistentGlobalVariable("getAcademyText", getAcademyText);]]><
                                             <property name="paddingBottom">0pt</property>
                                             <property name="paddingRight">0pt</property>
                                             <property name="verticalAlign">middle</property>
+                                            <data id="1350">
+                                                <list-property name="boundDataColumns">
+                                                    <structure>
+                                                        <property name="name">exprDesc3</property>
+                                                        <expression name="expression" type="javascript">getExprText(experienceList.get(3), 2);</expression>
+                                                        <property name="dataType">string</property>
+                                                        <property name="allowExport">true</property>
+                                                    </structure>
+                                                </list-property>
+                                                <property name="resultSetColumn">exprDesc3</property>
+                                            </data>
                                         </cell>
                                     </row>
                                     <row id="1243">
@@ -1802,9 +2001,17 @@ reportContext.setPersistentGlobalVariable("getAcademyText", getAcademyText);]]><
                                             <property name="paddingBottom">0pt</property>
                                             <property name="paddingRight">0pt</property>
                                             <property name="verticalAlign">middle</property>
-                                            <label id="1177">
-                                                <text-property name="text">~</text-property>
-                                            </label>
+                                            <data id="1343">
+                                                <list-property name="boundDataColumns">
+                                                    <structure>
+                                                        <property name="name">range4</property>
+                                                        <expression name="expression" type="javascript">getExprText(experienceList.get(4), 0);</expression>
+                                                        <property name="dataType">string</property>
+                                                        <property name="allowExport">true</property>
+                                                    </structure>
+                                                </list-property>
+                                                <property name="resultSetColumn">range4</property>
+                                            </data>
                                         </cell>
                                         <cell id="1245">
                                             <property name="borderLeftStyle">solid</property>
@@ -1814,6 +2021,17 @@ reportContext.setPersistentGlobalVariable("getAcademyText", getAcademyText);]]><
                                             <property name="paddingBottom">0pt</property>
                                             <property name="paddingRight">0pt</property>
                                             <property name="verticalAlign">middle</property>
+                                            <data id="1347">
+                                                <list-property name="boundDataColumns">
+                                                    <structure>
+                                                        <property name="name">corpName4</property>
+                                                        <expression name="expression" type="javascript">getExprText(experienceList.get(4), 1);</expression>
+                                                        <property name="dataType">string</property>
+                                                        <property name="allowExport">true</property>
+                                                    </structure>
+                                                </list-property>
+                                                <property name="resultSetColumn">corpName4</property>
+                                            </data>
                                         </cell>
                                         <cell id="1246">
                                             <property name="borderLeftStyle">solid</property>
@@ -1823,6 +2041,17 @@ reportContext.setPersistentGlobalVariable("getAcademyText", getAcademyText);]]><
                                             <property name="paddingBottom">0pt</property>
                                             <property name="paddingRight">0pt</property>
                                             <property name="verticalAlign">middle</property>
+                                            <data id="1351">
+                                                <list-property name="boundDataColumns">
+                                                    <structure>
+                                                        <property name="name">exprDesc4</property>
+                                                        <expression name="expression" type="javascript">getExprText(experienceList.get(4), 2);</expression>
+                                                        <property name="dataType">string</property>
+                                                        <property name="allowExport">true</property>
+                                                    </structure>
+                                                </list-property>
+                                                <property name="resultSetColumn">exprDesc4</property>
+                                            </data>
                                         </cell>
                                     </row>
                                 </grid>
@@ -1898,14 +2127,12 @@ reportContext.setPersistentGlobalVariable("getAcademyText", getAcademyText);]]><
                                 <data id="1261">
                                     <list-property name="boundDataColumns">
                                         <structure>
-                                            <property name="name">Column Binding</property>
-                                            <text-property name="displayName">mltrJoinDay</text-property>
+                                            <property name="name">mltrJoinDay</property>
                                             <expression name="expression" type="javascript">general.getMltrJoinDay();</expression>
                                             <property name="dataType">string</property>
-                                            <property name="allowExport">true</property>
                                         </structure>
                                     </list-property>
-                                    <property name="resultSetColumn">Column Binding</property>
+                                    <property name="resultSetColumn">mltrJoinDay</property>
                                 </data>
                             </cell>
                         </row>
@@ -1927,14 +2154,12 @@ reportContext.setPersistentGlobalVariable("getAcademyText", getAcademyText);]]><
                                 <data id="1262">
                                     <list-property name="boundDataColumns">
                                         <structure>
-                                            <property name="name">Column Binding</property>
-                                            <text-property name="displayName">mltrDschDay</text-property>
+                                            <property name="name">mltrDschDay</property>
                                             <expression name="expression" type="javascript">general.getMltrDschDay();</expression>
                                             <property name="dataType">string</property>
-                                            <property name="allowExport">true</property>
                                         </structure>
                                     </list-property>
-                                    <property name="resultSetColumn">Column Binding</property>
+                                    <property name="resultSetColumn">mltrDschDay</property>
                                 </data>
                             </cell>
                         </row>
@@ -1968,14 +2193,18 @@ reportContext.setPersistentGlobalVariable("getAcademyText", getAcademyText);]]><
                             <property name="width">50%</property>
                         </column>
                         <column id="1156">
-                            <property name="width">40%</property>
+                            <property name="suppressDuplicates">true</property>
+                            <property name="width">10%</property>
+                        </column>
+                        <column id="1357">
+                            <property name="width">30%</property>
                         </column>
                         <column id="1295"/>
                         <row id="1149">
                             <property name="verticalAlign">middle</property>
                             <property name="height">28px</property>
                             <cell id="1150">
-                                <property name="colSpan">3</property>
+                                <property name="colSpan">4</property>
                                 <property name="rowSpan">1</property>
                                 <property name="borderLeftStyle">solid</property>
                                 <property name="borderLeftWidth">2px</property>
@@ -2003,18 +2232,23 @@ reportContext.setPersistentGlobalVariable("getAcademyText", getAcademyText);]]><
                                     <property name="display">inline</property>
                                     <text-property name="text">지원자 : </text-property>
                                 </label>
+                            </cell>
+                            <cell id="1356">
+                                <property name="textAlign">center</property>
                                 <data id="1199">
+                                    <structure name="stringFormat">
+                                        <property name="category">Unformatted</property>
+                                    </structure>
+                                    <property name="textAlign">justify</property>
                                     <property name="display">inline</property>
                                     <list-property name="boundDataColumns">
                                         <structure>
-                                            <property name="name">Column Binding</property>
-                                            <text-property name="displayName">korName</text-property>
+                                            <property name="name">korName</property>
                                             <expression name="expression" type="javascript">application.getKorName();</expression>
                                             <property name="dataType">string</property>
-                                            <property name="allowExport">true</property>
                                         </structure>
                                     </list-property>
-                                    <property name="resultSetColumn">Column Binding</property>
+                                    <property name="resultSetColumn">korName</property>
                                 </data>
                             </cell>
                             <cell id="1294">
