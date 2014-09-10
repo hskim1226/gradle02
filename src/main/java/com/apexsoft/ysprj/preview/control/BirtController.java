@@ -71,6 +71,17 @@ public class BirtController {
         model.addAttribute("mltrServName", mltrServName);
         model.addAttribute("mltrRankName", mltrRankName);
 
+        /* TODO ENTR_YEAR, ADMS_TYPE_CODE 구하는 부분 수정 필요 */
+        commonCode = commonService.retrieveCommonCodeValueByCodeGroupCode("ADMS_TYPE", "A");
+        String admsTypeName = commonCode != null ? commonCode.getCodeVal() : null;
+        String[] admsTypeNames = admsTypeName.split(" ");
+        model.addAttribute("entrYear", "2015");
+        if( admsTypeNames.length > 1) {
+            model.addAttribute("admsTypeName1", admsTypeNames[0]);
+            model.addAttribute("admsTypeName2", admsTypeNames[1]);
+        }
+        /* TODO ENTR_YEAR, ADMS_TYPE_CODE 구하는 부분 수정 필요 */
+
         model.addAttribute("entireApplication", entireApplication);
         if(IRenderOption.OUTPUT_FORMAT_HTML.equalsIgnoreCase(reportFormat) ) {
             return new ModelAndView("htmlSingleFormatBirtView");
