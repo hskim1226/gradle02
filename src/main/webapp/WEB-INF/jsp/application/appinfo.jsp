@@ -953,32 +953,63 @@
                             <div class="panel panel-darkgray">
                                 <div class="panel-heading">학력 관련 서류 업로드</div>
                                 <div class="panel-body">
-                                    <div class="form-group">
-                                        <label class="col-sm-2 control-label">졸업(예정)증명서</label>
-                                        <div class="col-sm-9">
-                                            <div class="input-group">
-                                                <span class="input-group-btn">
-                                                    <span class="btn btn-default btn_lg btn-file">
-                                                        Browse&hellip; <input type="file" id="fuDiploma" name="diploma"/>
-                                                    </span>
-                                                </span>
-                                                <input type="text" class="form-control" readonly/>
+                                    <div class="form-group-block-list">
+                                        <div class="form-group-block">
+                                            <div class="form-group">
+                                                <label class="col-sm-2 control-label">졸업(예정)증명서</label>
+                                                <div class="col-sm-9">
+                                                    <div class="input-group">
+                                                        <span class="input-group-btn">
+                                                            <span class="btn btn-default btn_lg btn-file">
+                                                                Browse&hellip; <input type="file" id="collegeDiploma0.file" name="collegeDiploma[0].file"/>
+                                                            </span>
+                                                        </span>
+                                                        <input type="text" class="form-control" readonly/>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-sm-2 control-label">성적증명서</label>
+                                                <div class="col-sm-9">
+                                                    <div class="input-group">
+                                                        <span class="input-group-btn">
+                                                            <span class="btn btn-default btn_lg btn-file">
+                                                                Browse&hellip; <input type="file" id="collegeGrade0.file" name="collegeGrade[0].file"/>
+                                                            </span>
+                                                        </span>
+                                                        <input type="text" class="form-control" readonly/>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="form-group">
-                                        <label class="col-sm-2 control-label">성적증명서</label>
-                                        <div class="col-sm-9">
-                                            <div class="input-group">
-                                                <span class="input-group-btn">
-                                                    <span class="btn btn-default btn_lg btn-file">
-                                                        Browse&hellip; <input type="file" multiple/>
-                                                    </span>
-                                                </span>
-                                                <input type="text" class="form-control" readonly/>
-                                            </div>
-                                        </div>
-                                    </div>
+
+                                    <%--<div class="form-group">--%>
+                                        <%--<label class="col-sm-2 control-label">졸업(예정)증명서</label>--%>
+                                        <%--<div class="col-sm-9">--%>
+                                            <%--<div class="input-group">--%>
+                                                <%--<span class="input-group-btn">--%>
+                                                    <%--<span class="btn btn-default btn_lg btn-file">--%>
+                                                        <%--Browse&hellip; <input type="file" id="collegeDiploma0.file" name="collegeDiploma[0].file"/>--%>
+                                                    <%--</span>--%>
+                                                <%--</span>--%>
+                                                <%--<input type="text" class="form-control" readonly/>--%>
+                                            <%--</div>--%>
+                                        <%--</div>--%>
+                                    <%--</div>--%>
+                                    <%--<div class="form-group">--%>
+                                        <%--<label class="col-sm-2 control-label">성적증명서</label>--%>
+                                        <%--<div class="col-sm-9">--%>
+                                            <%--<div class="input-group">--%>
+                                                <%--<span class="input-group-btn">--%>
+                                                    <%--<span class="btn btn-default btn_lg btn-file">--%>
+                                                        <%--Browse&hellip; <input type="file" id="collegeGrade0.file" name="collegeGrade[0].file"/>--%>
+                                                    <%--</span>--%>
+                                                <%--</span>--%>
+                                                <%--<input type="text" class="form-control" readonly/>--%>
+                                            <%--</div>--%>
+                                        <%--</div>--%>
+                                    <%--</div>--%>
 
                                     <div class="form-group">
                                         <label class="col-sm-2 control-label">학력조회 동의서</label>
@@ -1506,55 +1537,6 @@
             });
 
             <%-- 지원정보 submit 이벤트 --%>
-//            var beforeFormSubmit = function (arr, formObj, options) {
-//alert("beforeFormSubmit");
-//if(console) console.dir(arr);
-//            };
-//
-//            var beforeFormSerialize = function (formObj, options) {
-//
-//if(console) console.log('in beforeSerialize');
-//if(console) console.dir(formObj);
-//            };
-//
-//            var makeFormData = function (formObj) {
-//                var data = formObj.serializeArray();
-//                $('input.radio-group').filter(function() {
-//                    return this.checked == false;
-//                }).each(function() {
-//                    data.push({name: this.name, value: 'N'});
-//                });
-//if(console) console.dir(data);
-//            };
-//
-//            $('#entireApplication').on('submit', function(event) {
-//                var $form = $(this),
-//                    options = {
-////                        beforeSubmit: beforeFormSubmit,
-////                        beforeSerialize: beforeFormSerialize,
-//                        data: makeFormData($form),
-//                        timeout: 5000,
-//                        success: function (context) {
-//                            if (context.result == 'SUCCESS') {
-//                                var message = context.message;
-//                                var alert = createAlert(message);
-//                                $('#alert-container').append(alert);
-//                                window.setTimeout(function() { alert.alert('close') }, 2000);
-//                            }
-//                        },
-//                        error: function(e) {
-//                            if (console) console.log(e);
-//                        }
-//                    };
-//
-//                $(this).ajaxSubmit(options);
-//
-//                // !!! Important !!!
-//                // always return false to prevent standard browser submit and page navigation
-//                event.preventDefault();
-//                return false;
-//            });
-
             $('#entireApplication').on('submit', function(event) {
                 var $form = $(this),
                     $formUrl = $form.attr('action'),
@@ -1567,11 +1549,9 @@
                 });
 
                 $formData = $formData.concat(getEnglishScoreSerializeArray());
-//if(console) console.dir($formData);
                 $.ajax({
                     url: $formUrl,
                     type: 'POST',
-//                    contentType: 'multipart/form-data',
                     data: $formData,
                     timeout: 5000,
                     success: function (context) {
