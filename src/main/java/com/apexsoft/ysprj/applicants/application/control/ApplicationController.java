@@ -57,9 +57,6 @@ public class ApplicationController {
     @Autowired
     private TempFileService fileUploadService;
 
-    @Value("#{app['file.baseDir']}")
-    private String baseDir;
-
     /**
      * 내원서 화면
      * @param principal
@@ -341,7 +338,7 @@ public class ApplicationController {
                         try{
                             // persistence.save()의 첫번째 인자로 baseDir/첫번째인자 라는 폴더 생성
                             //
-                            fileInfo = persistence.save(baseDir, fileItem.getOriginalFileName(), fileItem.getOriginalFileName(), fis = new FileInputStream(fileItem.getFile()));
+                            fileInfo = persistence.save(getDirectory("fileFieldName", fileMetaForm, "leafDirectory"), fileItem.getOriginalFileName(), fileItem.getOriginalFileName(), fis = new FileInputStream(fileItem.getFile()));
                             tempFileVO.setPath(fileInfo.getDirectory());
                             tempFileVO.setFileName(fileInfo.getFileName());
                         }catch(FileNotFoundException fnfe){
@@ -421,7 +418,7 @@ public class ApplicationController {
                         try{
                             // persistence.save()의 첫번째 인자로 baseDir/첫번째인자 라는 폴더 생성
                             //
-                            fileInfo = persistence.save(baseDir, fileItem.getOriginalFileName(), fileItem.getOriginalFileName(), fis = new FileInputStream(fileItem.getFile()));
+                            fileInfo = persistence.save(getDirectory("fileFieldName", fileMetaForm, "leafDirectory"), fileItem.getOriginalFileName(), fileItem.getOriginalFileName(), fis = new FileInputStream(fileItem.getFile()));
                             tempFileVO.setPath(fileInfo.getDirectory());
                             tempFileVO.setFileName(fileInfo.getFileName());
                         }catch(FileNotFoundException fnfe){

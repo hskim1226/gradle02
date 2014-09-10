@@ -96,7 +96,7 @@
 
             $('.btnFU').on('click', function() {
                 var ea = document.getElementById('entireApplication'),
-                    actionUrl = "${contextPath}/application/apply/savetest";
+                    actionUrl = "${contextPath}/application/apply/savetest",
                     fileInputId = $(this).attr("data-input-file-id");
 //                ea.setAttribute("enctype", "multipart/form-data");
 //                ea.setAttribute("action", actionUrl);
