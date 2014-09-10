@@ -1,7 +1,6 @@
 package com.apexsoft.ysprj.applicants.admission.service;
 
 import com.apexsoft.ysprj.applicants.admission.domain.AdmissionCourseMajor;
-import com.apexsoft.ysprj.applicants.admission.domain.AdmissionCourseMajorKey;
 import com.apexsoft.ysprj.applicants.admission.domain.AdmissionCourseMajorLanguage;
 import com.apexsoft.ysprj.applicants.admission.domain.ParamForAdmissionCourseMajor;
 
