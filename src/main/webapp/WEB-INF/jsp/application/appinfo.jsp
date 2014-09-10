@@ -85,10 +85,6 @@
             cursor: inherit;
             display: block;
         }
-        .btn-fill {
-            width: 100%;
-            white-space: normal;
-        }
         input[readonly] {
             background-color: white !important;
             cursor: text !important;
@@ -135,6 +131,12 @@
             position: relative;
             float: right;
         }
+        .btn-lang {
+            display: block;
+        }
+        .btn-lang-disabled {
+            display: none;
+        }        
 
         /* 팝업창이 보여질 부분 */
         .bpopContainer, #popup2, .bMulti {
@@ -215,6 +217,9 @@
             <li><a href="#fileupload" data-toggle="tab">첨부파일</a></li>
         </ul>
         <form:form commandName="entireApplication" cssClass="form-horizontal" action="apply/saveandupload" method="post" enctype="multipart/form-data" role="form">
+            <form:hidden path="application.admsNo" id="admsNo" />
+            <form:hidden path="application.entrYear" id="entrYear" />
+            <form:hidden path="application.admsTypeCode" id="admsTypeCode" />
             <div id="myTabContent" class="tab-content">
                 <div class="tab-pane fade" id="appinfo">
                     <div class="spacer-tiny"></div>
@@ -500,65 +505,65 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="panel panel-default">
-                                <div class="panel-heading">고등학교</div>
-                                <div class="panel-body">
-                                    <div id="highschoolContainer">
-                                        <div class="form-group">
-                                            <label class="col-sm-2 control-label">졸업구분</label>
-                                            <div class="col-sm-9">
-                                                <label class="radio-inline"><form:radiobutton path="highSchool.acadTypeCode" id="highSchoolAcadTypeCode1" value="00001" />&nbsp;졸업</label>
-                                                &nbsp;&nbsp;&nbsp;
-                                                <label class="radio-inline"><form:radiobutton path="highSchool.acadTypeCode" id="highSchoolAcadTypeCode2" value="00005" />&nbsp;검정고시</label>
-                                            </div>
-                                        </div>
-                                        <div id="highschoolDynamic">
-                                            <div id="highschoolSubContainer1">
-                                                <div class="form-group">
-                                                    <label class="col-sm-2 control-label">재학기간</label>
-                                                    <div class="col-sm-9">
-                                                        <div class="input-daterange input-group">
-                                                            <form:input path="highSchool.entrDay" cssClass="input-sm form-control" />
-                                                            <span class="input-group-addon">to</span>
-                                                            <form:input path="highSchool.grdaDay" cssClass="input-sm form-control" />
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group">
-                                                    <form:label path="highSchool.schlName" cssClass="col-sm-2 control-label">학교명</form:label>
-                                                    <div class="col-sm-2">
-                                                        <button type="button" class="btn btn-default btn-search bpopper" data-targetNode1="highSchool.schlCode" data-targetNode2='highSchool.schlName' data-category="school-h">검색</button>
-                                                    </div>
-                                                    <div class="col-sm-7">
-                                                        <form:hidden path="highSchool.schlCode" />
-                                                        <form:input path="highSchool.schlName" cssClass="form-control" />
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div id="highschoolSubContainer2">
-                                                <div class="form-group">
-                                                    <form:label path="highSchool.qualExamDay" cssClass="col-sm-2 control-label">검정고시합격일</form:label>
-                                                    <div class="col-sm-9">
-                                                        <div class="input-group date">
-                                                            <span class="input-group-addon">합격일</span>
-                                                            <form:input path="highSchool.qualExamDay" cssClass="form-control" />
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="qualAreaName" class="col-sm-2 control-label">검정고시합격지구</label>
-                                                    <div class="col-sm-9">
-                                                        <form:select path="highSchool.qualAreaCode" id="qualAreaName" cssClass="form-control">
-                                                            <form:option value="-" label="--선택--" />
-                                                            <form:options items="${common.qualAreaList}" itemValue="code" itemLabel="codeVal" />
-                                                        </form:select>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            <%--<div class="panel panel-default">--%>
+                                <%--<div class="panel-heading">고등학교</div>--%>
+                                <%--<div class="panel-body">--%>
+                                    <%--<div id="highschoolContainer">--%>
+                                        <%--<div class="form-group">--%>
+                                            <%--<label class="col-sm-2 control-label">졸업구분</label>--%>
+                                            <%--<div class="col-sm-9">--%>
+                                                <%--<label class="radio-inline"><form:radiobutton path="highSchool.acadTypeCode" id="highSchoolAcadTypeCode1" value="00001" />&nbsp;졸업</label>--%>
+                                                <%--&nbsp;&nbsp;&nbsp;--%>
+                                                <%--<label class="radio-inline"><form:radiobutton path="highSchool.acadTypeCode" id="highSchoolAcadTypeCode2" value="00005" />&nbsp;검정고시</label>--%>
+                                            <%--</div>--%>
+                                        <%--</div>--%>
+                                        <%--<div id="highschoolDynamic">--%>
+                                            <%--<div id="highschoolSubContainer1">--%>
+                                                <%--<div class="form-group">--%>
+                                                    <%--<label class="col-sm-2 control-label">재학기간</label>--%>
+                                                    <%--<div class="col-sm-9">--%>
+                                                        <%--<div class="input-daterange input-group">--%>
+                                                            <%--<form:input path="highSchool.entrDay" cssClass="input-sm form-control" />--%>
+                                                            <%--<span class="input-group-addon">to</span>--%>
+                                                            <%--<form:input path="highSchool.grdaDay" cssClass="input-sm form-control" />--%>
+                                                        <%--</div>--%>
+                                                    <%--</div>--%>
+                                                <%--</div>--%>
+                                                <%--<div class="form-group">--%>
+                                                    <%--<form:label path="highSchool.schlName" cssClass="col-sm-2 control-label">학교명</form:label>--%>
+                                                    <%--<div class="col-sm-2">--%>
+                                                        <%--<button type="button" class="btn btn-default btn-search bpopper" data-targetNode1="highSchool.schlCode" data-targetNode2='highSchool.schlName' data-category="school-h">검색</button>--%>
+                                                    <%--</div>--%>
+                                                    <%--<div class="col-sm-7">--%>
+                                                        <%--<form:hidden path="highSchool.schlCode" />--%>
+                                                        <%--<form:input path="highSchool.schlName" cssClass="form-control" />--%>
+                                                    <%--</div>--%>
+                                                <%--</div>--%>
+                                            <%--</div>--%>
+                                            <%--<div id="highschoolSubContainer2">--%>
+                                                <%--<div class="form-group">--%>
+                                                    <%--<form:label path="highSchool.qualExamDay" cssClass="col-sm-2 control-label">검정고시합격일</form:label>--%>
+                                                    <%--<div class="col-sm-9">--%>
+                                                        <%--<div class="input-group date">--%>
+                                                            <%--<span class="input-group-addon">합격일</span>--%>
+                                                            <%--<form:input path="highSchool.qualExamDay" cssClass="form-control" />--%>
+                                                        <%--</div>--%>
+                                                    <%--</div>--%>
+                                                <%--</div>--%>
+                                                <%--<div class="form-group">--%>
+                                                    <%--<label for="qualAreaName" class="col-sm-2 control-label">검정고시합격지구</label>--%>
+                                                    <%--<div class="col-sm-9">--%>
+                                                        <%--<form:select path="highSchool.qualAreaCode" id="qualAreaName" cssClass="form-control">--%>
+                                                            <%--<form:option value="-" label="--선택--" />--%>
+                                                            <%--<form:options items="${common.qualAreaList}" itemValue="code" itemLabel="codeVal" />--%>
+                                                        <%--</form:select>--%>
+                                                    <%--</div>--%>
+                                                <%--</div>--%>
+                                            <%--</div>--%>
+                                        <%--</div>--%>
+                                    <%--</div>--%>
+                                <%--</div>--%>
+                            <%--</div>--%>
                             <div class="panel panel-default">
                                 <div class="panel-heading">대학교</div>
                                 <div class="panel-body">
@@ -612,7 +617,7 @@
                                                 </div>
                                                 <div class="col-sm-4 end-date-container">
                                                     <div class="input-group date">
-                                                        <span class="input-group-addon">졸업일</span>
+                                                        <span class="input-group-addon">졸업(예정)일</span>
                                                         <form:input path="collegeList[${stat.index}].grdaDay" cssClass="form-control" readonly="true" />
                                                     </div>
                                                 </div>
@@ -694,7 +699,7 @@
                                                 </div>
                                                 <div class="col-sm-4 end-date-container">
                                                     <div class="input-group date">
-                                                        <span class="input-group-addon">졸업일</span>
+                                                        <span class="input-group-addon">졸업(예정)일</span>
                                                         <form:input path="graduateList[${stat.index}].grdaDay" cssClass="form-control" readonly="true" />
                                                     </div>
                                                 </div>
@@ -724,115 +729,47 @@
                             <div class="panel panel-default">
                                 <div class="panel-heading">어학성적</div>
                                 <div class="panel-body" id="english-score-list">
+                                    <c:forEach items="${common.langExamList}" var="langExam" varStatus="stat">
                                     <div class="form-group">
+                                        <c:if test="${stat.index == 0}">
                                         <label class="col-sm-2 control-label">영어</label>
-                                        <div class="col-sm-4">
-                                            <div class="checkbox" style="float:left;">
-                                                <input type="hidden" id="langExamCode.1" value="00001" />
-                                                <label><input type="checkbox" class="check-submit" />TOEFL</label>
-                                            </div>
-                                            <div style="width:70%; float:right;">
-                                                <select id="toflTypeCode.1" class="form-control">
-                                                    <option value="-" label="--선택--" />
-                                                    <c:forEach items="${common.toflTypeList}" var="toflType" varStatus="stat">
-                                                        <option value="${toflType.code}" label="${toflType.codeVal}" />
-                                                    </c:forEach>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-3">
-                                            <div class="input-group date">
-                                                <span class="input-group-addon">시험일</span>
-                                                <input type="text" class="form-control" id="examDay.1" />
-                                            </div>
-                                        </div>
                                         <div class="col-sm-2">
-                                            <div class="input-group">
-                                                <span class="input-group-addon">점수</span>
-                                                <input type="text" class="form-control" id="langGrad.1" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <div class="col-sm-offset-2 col-sm-4">
+                                        </c:if>
+                                        <c:if test="${stat.index != 0}">
+                                        <div class="col-sm-offset-2 col-sm-2">
+                                        </c:if>
+                                            <input type="hidden" name="applicationLanguageList[${stat.index}].langExamCode" id="applicationLanguageList${stat.index}.langExamCode" value="${langExam.examCode}" />
                                             <div class="checkbox">
-                                                <input type="hidden" id="langExamCode.2" value="00002" />
-                                                <label><input type="checkbox" class="check-submit" />TOEIC</label>
+                                                <label for="checkLang${stat.index}">
+                                                    <input type="checkbox" class="btn-lang" id="checkLang${stat.index}" <c:if test="${entireApplication.applicationLanguageList[stat.index] != null}">checked</c:if>/>${langExam.examName}
+                                                </label>
                                             </div>
                                         </div>
+                                        <c:if test="${langExam.examCode == '00001'}">
+                                        <div class="col-sm-2">
+                                            <form:select path="applicationLanguageList[${stat.index}].toflTypeCode" cssClass="form-control">
+                                                <form:option value="-" label="--선택--" />
+                                                <form:options items="${common.toflTypeList}" itemValue="code" itemLabel="codeVal" />
+                                            </form:select>
+                                        </div>
+                                        </c:if>
+                                        <c:if test="${langExam.examCode != '00001'}">
+                                        <div class="col-sm-2"></div>
+                                        </c:if>
                                         <div class="col-sm-3">
                                             <div class="input-group date">
                                                 <span class="input-group-addon">시험일</span>
-                                                <input type="text" class="form-control" id="examDay.2" />
+                                                <form:input path="applicationLanguageList[${stat.index}].examDay" cssClass="form-control" />
                                             </div>
                                         </div>
                                         <div class="col-sm-2">
                                             <div class="input-group">
                                                 <span class="input-group-addon">점수</span>
-                                                <input type="text" class="form-control" id="langGrad.2" />
+                                                <form:input path="applicationLanguageList[${stat.index}].langGrad" cssClass="form-control" />
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="form-group">
-                                        <div class="col-sm-offset-2 col-sm-4">
-                                            <div class="checkbox">
-                                                <input type="hidden" id="langExamCode.3" value="00003" />
-                                                <label><input type="checkbox" class="check-submit" />TEPS</label>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-3">
-                                            <div class="input-group date">
-                                                <span class="input-group-addon">시험일</span>
-                                                <input type="text" class="form-control" id="examDay.3" />
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-2">
-                                            <div class="input-group">
-                                                <span class="input-group-addon">점수</span>
-                                                <input type="text" class="form-control" id="langGrad.3" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <div class="col-sm-offset-2 col-sm-4">
-                                            <div class="checkbox">
-                                                <input type="hidden" id="langExamCode.4" value="00004" />
-                                                <label><input type="checkbox" class="check-submit" />IELTS</label>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-3">
-                                            <div class="input-group date">
-                                                <span class="input-group-addon">시험일</span>
-                                                <input type="text" class="form-control" id="examDay.4" />
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-2">
-                                            <div class="input-group">
-                                                <span class="input-group-addon">점수</span>
-                                                <input type="text" class="form-control" id="langGrad.4" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <div class="col-sm-offset-2 col-sm-4">
-                                            <div class="checkbox">
-                                                <input type="hidden" id="langExamCode.5" value="00005" />
-                                                <label><input type="checkbox" class="check-submit" />GRE</label>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-3">
-                                            <div class="input-group date">
-                                                <span class="input-group-addon">시험일</span>
-                                                <input type="text" class="form-control" id="examDay.5" />
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-2">
-                                            <div class="input-group">
-                                                <span class="input-group-addon">점수</span>
-                                                <input type="text" class="form-control" id="langGrad.5" />
-                                            </div>
-                                        </div>
-                                    </div>
+                                    </c:forEach>
                                     <div class="form-group">
                                         <div class="col-sm-offset-2 col-sm-4">
                                             <div class="checkbox">
@@ -1605,7 +1542,7 @@
             function getEnglishScoreSerializeArray(form) {
                 var array = [], $groups, $items, val, id, name, i, j;
                 $groups = $('#english-score-list').find('.form-group').filter(function() {
-                    var check = $(this).find('input.check-submit')[0];
+                    var check = $(this).find('input.btn-lang')[0];
                     return check ? check.checked : false;
                 });
 
@@ -1880,16 +1817,19 @@
                     }
 
                     clean = info.clean ? info.clean : context.clean;
-                    if (typeof clean === 'string') {
-                        clean = [].concat( clean );
-                    }
                     clean = [].concat( targetId, clean );
+                    var $clean, oldVal;
                     for (i = 0; i < clean.length; i++) {
-                        $('#' + clean[i]).children('option').filter(function() {
-                            return this.value !== '-';
-                        }).remove();
-
-                        $('#' + clean[i]).trigger('change');
+                        if (clean[i]) {
+                            $clean = $('#' + clean[i]);
+                            oldVal = $clean.val();
+                            $clean.children('option').filter(function() {
+                                return this.value !== '-';
+                            }).remove();
+                            if (oldVal !== $clean.val()) {
+                                $clean.trigger('change');
+                            }
+                        }
                     }
 
                     $.ajax({
@@ -1940,7 +1880,7 @@
                         targetId: 'collCode',
                         valueKey: 'collCode',
                         labelKey: 'collName',
-                        clean: ['ariInstCode', 'deptCode', 'corsTypeCode', 'detlMajCode'],
+                        // clean: ['ariInstCode', 'deptCode', 'corsTypeCode', 'detlMajCode'],
                         url: function(arg) {
                             return '/college/' + arg;
                         }
@@ -1953,7 +1893,7 @@
                         targetId: 'deptCode',
                         valueKey: 'deptCode',
                         labelKey: 'deptName',
-                        clean: ['corsTypeCode', 'detlMajCode'],
+                        // clean: ['corsTypeCode', 'detlMajCode'],
                         url: function(arg) {
                             var admsNo = '${entireApplication.application.admsNo}';
                             return '/general/department/' + admsNo + '/' + arg;
@@ -1967,7 +1907,7 @@
                         targetId: 'deptCode',
                         valueKey: 'deptCode',
                         labelKey: 'deptName',
-                        clean: ['corsTypeCode', 'detlMajCode'],
+                        // clean: ['corsTypeCode', 'detlMajCode'],
                         url: function(arg) {
                             var admsNo = '${entireApplication.application.admsNo}';
                             return '/ariInst/department/' + admsNo + '/' + arg;
@@ -1981,7 +1921,7 @@
                         targetId: 'corsTypeCode',
                         valueKey: 'corsTypeCode',
                         labelKey: 'codeVal',
-                        clean: ['detlMajCode'],
+                        // clean: ['detlMajCode'],
                         url: function(arg) {   <%-- 지원과정 조회 --%>
                             var admsNo = '${entireApplication.application.admsNo}';
                             var applAttrCode = $('#applAttrCode').val();
@@ -2029,13 +1969,13 @@
             <%-- 세부전공 변경 시 세부전공 하위 변경 --%>
             $('#detlMajCode').on('change', function(event) {
                 var selected = this.options[this.selectedIndex];
-                var val = selected.value;
+                var detlMajCode = selected.value;
                 var parent = this.parentNode.parentNode;
                 var $divNode, $childNode, $childNode2;
 
                 $(parent).find('#detlMajRadio').remove();
                 $(parent).find('#detlMajText').remove();
-                if (val.slice(0, 1) == '9') {   // 직전 학위과정의 학과명 입력
+                if (detlMajCode.slice(0, 1) == '9') {   // 직전 학위과정의 학과명 입력
                     $divNode = $('<div/>').addClass('col-sm-offset-2 col-sm-9').attr({
                         'id': 'detlMajText'
                     });
@@ -2066,16 +2006,35 @@
 
             <%-- 세부전공 변경 시 어학 변경 --%>
             $('#detlMajCode').on('change', function(event) {
-                var val = this.options[this.selectedIndex].value;
-                var baseUrl = '${contextPath}/common/code/';
+                var detlMajCode = this.options[this.selectedIndex].value;
+                if (detlMajCode === '-') {
+                    return;
+                }
+                var baseUrl = '${contextPath}/common/code';
+                var url;
+                var admsNo = $('#admsNo').val();;
+                var applAttrCode = $('#applAttrCode').val();
+                if (applAttrCode == '00001') {
+                    baseUrl += '/general';
+                    url = admsNo + '/' + $('#deptCode').val() + '/' + $('#corsTypeCode').val() + '/' + detlMajCode;
+                } else if (applAttrCode == '00002') {
+                    baseUrl += '/ariInst';
+                    url = admsNo + '/' + $('#deptCode').val() + '/' + $('#ariInstCode').val() + '/' + $('#corsTypeCode').val() + '/' + detlMajCode;
+                } else if (applAttrCode == '00003') {
+                    baseUrl += '/general';
+                    url = admsNo + '/' + $('#deptCode').val() + '/' + $('#corsTypeCode').val() + '/' + detlMajCode;
+                }
+
                 $.ajax({
                     type: 'GET',
-                    url: baseUrl + "required/engScore/" + val,
+                    url: baseUrl + '/engMdtYn/' + url,
                     success: function(e) {
                         if (e.result == 'SUCCESS') {
                             <%-- 학과면제인정 보이지 않게 처리 --%>
-                            $('#applicationGeneral\\.forlExmpCode').children('option').filter('[value="6"]').each(function () {
-                                $(this).hide(e.data == 'Y' || e.data == 'y');
+                            $('#applicationGeneral\\.forlExmpCode').children('option').each(function () {
+                                if (this.value && this.value == '6') {
+                                    $(this).hide(e.data == 'Y' || e.data == 'y');
+                                }
                             });
                         }
                     },
@@ -2083,17 +2042,34 @@
                 });
                 $.ajax({
                     type: 'GET',
-                    url: baseUrl + "examlist/" + val,
+                    url: baseUrl + "/availableEngExam/" + url,
                     success: function(e) {
                         if (e.result == 'SUCCESS') {
                             var data = JSON && JSON.parse(e.data) || $.parseJSON(e.data);
                             var groups = $('#english-score-list').children('.form-group');
-                            var i, check, val;
-                            for (i = 0; i < groups.length; i++) {
-                                check = $(groups[i]).find('input').filter('[id^="langExamCode"]')[0];
-                                val = check ? check.value : undefined;
-                                if (val && data[val]) {
-                                    // 입력가능
+                            var langExamCode, item, val, check, isExist, cn;
+                            for (var i = 0, len = groups.length; i < len; i++) {
+                                langExamCode = $(groups[i]).find('input').filter('[name$="langExamCode"]')[0];
+                                check = $(groups[i]).find('.btn-lang, .btn-lang-disabled')[0];
+                                if (!check) {
+                                    continue;
+                                }
+                                val = langExamCode ? langExamCode.value : null;
+                                isExist = false;
+                                for (var j = 0; j < data.length; j++) {
+                                    item = data[j];
+                                    if (val == item['examCode']) {
+                                        if ('Y' == item['canYn'] || 'y' == item['canYn']) {
+                                            check.className = 'btn-lang';
+                                            check.removeAttribute('disabled');
+                                            isExist = true;
+                                        }
+                                        break;
+                                    }
+                                }
+                                if (!isExist) {
+                                    check.className = 'btn-lang-disabled';
+                                    check.setAttribute('disabled', 'disabled');
                                 }
                             }
                         }
@@ -2102,30 +2078,8 @@
                 })
             });
 
+            $('#detlMajCode').trigger('change');
             <%-- 지원사항 select 폼 change 이벤트 핸들러 등록 끝 --%>
-
-            function initOptions( selectId, valueKey, labelKey ) {
-                var select = $('#' + selectId);
-                var url;
-                $.ajax({
-                    type: 'GET',
-                    url: url,
-                    success: function(e) {
-                        if(e.result && e.result === 'SUCCESS') {
-                            var data = JSON && JSON.parse(e.data) || $.parseJSON(e.data);
-                            $(target).children('option').filter(function () {
-                                return this.value !== '-';
-                            }).remove();
-                            $(data).each(function (i, item) {
-                                $('<option>').attr('value', item[valueKey]).attr('label', item[labelKey]).appendTo(target);
-                            });
-                        }
-                    },
-                    error: function(e) {
-                        if(console) console.log(e);
-                    }
-                });
-            }
 
             <%-- 어학 선택 시 어학 증빙 파일 첨부 양식 처리 --%>
             $('.checkbox').on('click', function(e) {
