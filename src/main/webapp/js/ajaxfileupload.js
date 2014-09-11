@@ -78,7 +78,7 @@ jQuery.extend({
 			{				
 				if(io.contentWindow)
 				{
-if(console) console.log('in ajaxfileupload, callback, responseText : ', io.contentWindow.document.body.firstChild.innerHTML);
+//if(console) console.log('in ajaxfileupload, callback, responseText : ', io.contentWindow.document.body.firstChild.innerHTML);
 					 xml.responseText = io.contentWindow.document.body?io.contentWindow.document.body.firstChild.innerHTML:null;
                 	 xml.responseXML = io.contentWindow.document.XMLDocument?io.contentWindow.document.XMLDocument:io.contentWindow.document;
 					 

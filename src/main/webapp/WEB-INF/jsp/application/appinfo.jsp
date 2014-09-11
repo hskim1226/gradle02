@@ -640,7 +640,7 @@
                                             <div class="btn btn-remove"><button type="button" class="close" aria-hidden="true">×</button></div>
                                         </div>
                                         </c:forEach>
-                                        <div class="btn btn-info btn-add">추가</div>
+                                        <div class="btn btn-info btn-add" data-fileupload-block-list="fuCollegeDocBlockList">추가</div>
                                     </div>
                                 </div>
                             </div>
@@ -878,7 +878,21 @@
                                                     </span>
                                                 </span>
                                                 <span class="col-sm-8 nopadding"><input type="text" class="form-control" readonly/></span>
-                                                <span class="col-sm-4 nopadding"><button id="uploadPicture" data-input-file-id="fuPicture" class="btn btn-default btn-block">올리기</button></span>
+                                                <span class="col-sm-4 nopadding"><input type="button" id="btnPicture" class="btn btn-default btn-block btn-upload" value="올리기"/></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">파일 선택</label>
+                                        <div class="col-sm-9">
+                                            <div class="input-group">
+                                                <span class="input-group-btn">
+                                                    <span class="btn btn-default btn_lg btn-file">
+                                                        Browse&hellip; <input type="file" id="fuPicture1" name="picture1"/>
+                                                    </span>
+                                                </span>
+                                                <span class="col-sm-8 nopadding"><input type="text" class="form-control" readonly/></span>
+                                                <span class="col-sm-4 nopadding"><input type="button" id="btnPicture1" class="btn btn-default btn-block btn-upload" value="올리기"/></span>
                                             </div>
                                         </div>
                                     </div>
@@ -890,7 +904,7 @@
                             <div class="panel panel-darkgray">
                                 <div class="panel-heading">학력 관련 서류 업로드</div>
                                 <div class="panel-body">
-                                    <div class="form-group-block-list">
+                                    <div class="form-group-block-list" id="fuCollegeDocBlockList">
                                         <div class="form-group-block">
                                             <div class="form-group">
                                                 <label class="col-sm-2 control-label">졸업(예정)증명서</label>
@@ -901,7 +915,8 @@
                                                                 Browse&hellip; <input type="file" id="collegeDiploma0.file" name="collegeDiploma[0].file"/>
                                                             </span>
                                                         </span>
-                                                        <input type="text" class="form-control" readonly/>
+                                                        <span class="col-sm-8 nopadding"><input type="text" class="form-control" readonly/></span>
+                                                        <span class="col-sm-4 nopadding"><input type="button" id="collegeDiploma0.btn" name="collegeDiploma[0].btn" class="btn btn-default btn-block btn-upload" value="올리기"/></span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -914,7 +929,8 @@
                                                                 Browse&hellip; <input type="file" id="collegeGrade0.file" name="collegeGrade[0].file"/>
                                                             </span>
                                                         </span>
-                                                        <input type="text" class="form-control" readonly/>
+                                                        <span class="col-sm-8 nopadding"><input type="text" class="form-control" readonly/></span>
+                                                        <span class="col-sm-4 nopadding"><input type="button" id="collegeGrade0.btn" name="collegeGrade[0].btn" class="btn btn-default btn-block btn-upload" value="올리기"/></span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -1581,6 +1597,17 @@
                     $cloneObj.find('.input-group.date>input').datepicker(datePickerOption);
                 }
 
+                var fileUploadContainer = document.getElementById(target.getAttribute("data-fileupload-block-list"));
+                var fuBlocks = fileUploadContainer.querySelectorAll('.form-group-block');
+                var fuOriginBlock = fuBlocks[fuBlocks.length - 1];
+                var $fuCloneObj;
+                if (fuOriginBlock) {
+                    $fuCloneObj = $(fuOriginBlock).clone(true);
+                    updateIdAndName($fuCloneObj[0], fuBlocks.length);
+                    eraseContents($fuCloneObj[0]);
+                    fileUploadContainer.insertBefore($fuCloneObj[0], fuOriginBlock.nextSibling);
+                }
+
 //                $('#entireApplication').bootstrapValidator('addFiend', $cloneObj);
             });
 
@@ -1655,7 +1682,7 @@
                 items = block.querySelectorAll('input, select');
                 if (items) {
                     for (i = 0; i <items.length; i++) {
-                        if (items[i].type != 'hidden' && items[i].type != 'radio' && items[i].type != 'checkbox') {
+                        if (items[i].type != 'hidden' && items[i].type != 'radio' && items[i].type != 'checkbox' && items[i].type != 'button') {
                             items[i].value = '';
                         }
                         if (items[i].checked != null) {
@@ -2057,12 +2084,14 @@
 
             })
 
-            $('#uploadPicture').on('click', function (e) {
+//            $('#uploadPicture').on('click', function (e) {
+            $('.btn-upload').on('click', function (e) {
                 var ea = document.getElementById('entireApplication'),
                     actionUrl = "${contextPath}/application/apply/savetest",
-                    fileInputId = $(this).attr("data-input-file-id"),
+                    fileInputId = e.target.parentNode.parentNode.querySelector('input').getAttribute('id'),
                     fileInputName = document.getElementById(fileInputId).getAttribute("name")
                     ;
+console.log(fileInputId);
                 $.ajaxFileUpload({
                     url: actionUrl,
                     secureuri:false,
@@ -2077,7 +2106,7 @@
                         }
                         $('#'+data.message).removeClass("btn-default");
                         $('#'+data.message).addClass("btn-info");
-                        $('#'+data.message).text("올리기 성공");
+                        $('#'+data.message).val("올리기 성공");
 
 //                        if(typeof(data.error) != 'undefined')
 //                        {
