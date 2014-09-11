@@ -1261,24 +1261,24 @@
             <%-- 다음 주소 검색 끝 -->
 
             <%-- 파일 업로드 시작 - 한 번 업로드 후 동작 안해서 안쓰기고 함--%>
-            $('.btn-file :file').on('change', function() {
-                var input = $(this),
-                        numFiles = input.get(0).files ? input.get(0).files.length : 1,
-                        label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
-                input.trigger('fileselect', [numFiles, label]);
-            });
-
-            $('.btn-file :file').on('fileselect', function(event, numFiles, label) {
-                var input = $(this).parents('.input-group').find(':text'),
-                        log = numFiles > 1 ? numFiles + ' files selected' : label;
-
-                if( input.length ) {
-                    input.val(log);
-                } else {
-                    if( log ) alert(log);
-                }
-
-            });
+//            $('.btn-file :file').on('change', function() {
+//                var input = $(this),
+//                        numFiles = input.get(0).files ? input.get(0).files.length : 1,
+//                        label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
+//                input.trigger('fileselect', [numFiles, label]);
+//            });
+//
+//            $('.btn-file :file').on('fileselect', function(event, numFiles, label) {
+//                var input = $(this).parents('.input-group').find(':text'),
+//                        log = numFiles > 1 ? numFiles + ' files selected' : label;
+//
+//                if( input.length ) {
+//                    input.val(log);
+//                } else {
+//                    if( log ) alert(log);
+//                }
+//
+//            });
             <%-- 사진 업로드 끝 --%>
 
             var datePickerOption = {
@@ -1608,7 +1608,6 @@
                 if (removeBtn) {
                    removeBtn.setAttribute('data-block-index', index);
                 }
-console.log(removeBtn);
 
                 var searchBtn = block.querySelector('[data-targetNode1]');
                 if (searchBtn) {
@@ -2039,6 +2038,20 @@ console.log(removeBtn);
 
             });
 
+            <%-- 파일 선택 버튼 이벤트 --%>
+            $('.btn-file').on('change', function (e) { // 한번 업로드한 inputfile은 이벤트가 발생 안한다.
+                var target = e.target,
+                    inputGroup = target.parentNode.parentNode,
+                    uploadButton = $(inputGroup).find('input[type="button"]');
+console.log(uploadButton);
+                $(uploadButton).removeClass('disabled');
+                $(uploadButton).val('올리기');
+console.log(uploadButton);
+
+
+            });
+            <%-- 파일 선택 버튼 이벤트 --%>
+
             <%-- 파일 업로드 버튼 이벤트 --%>
             $('.btn-upload').on('click', function (e) {
                 var actionUrl = "${contextPath}/application/apply/savetest",
@@ -2060,8 +2073,8 @@ console.log(removeBtn);
                                 console.log("status : ", status);
                             }
                             var targetBtnId = data.message,
-                                    targetBtn = document.getElementById(targetBtnId),
-                                    $targetBtn = $(targetBtn);
+                                targetBtn = document.getElementById(targetBtnId),
+                                $targetBtn = $(targetBtn);
                             $targetBtn.removeClass("btn-default");
                             $targetBtn.addClass("btn-info");
                             $targetBtn.val("올리기 성공");
