@@ -2,10 +2,10 @@ package com.apexsoft.ysprj.applicants.application.control;
 
 import com.apexsoft.framework.common.vo.ExecutionContext;
 import com.apexsoft.framework.message.MessageResolver;
-import com.apexsoft.framework.persistence.file.manager.FilePersistenceManager;
 import com.apexsoft.framework.persistence.file.callback.FileUploadEventCallbackHandler;
 import com.apexsoft.framework.persistence.file.exception.FileUploadException;
 import com.apexsoft.framework.persistence.file.handler.FileHandler;
+import com.apexsoft.framework.persistence.file.manager.FilePersistenceManager;
 import com.apexsoft.framework.persistence.file.model.FileInfo;
 import com.apexsoft.framework.persistence.file.model.FileItem;
 import com.apexsoft.framework.persistence.file.model.FileMetaForm;
@@ -25,7 +25,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -188,6 +187,7 @@ public class ApplicationController {
             entireApplication.getApplication().setAdmsNo(admsNo);
             entireApplication.getApplication().setEntrYear(entrYear);
             entireApplication.getApplication().setAdmsTypeCode(admsTypeCode);
+            entireApplication.getApplication().setApplAttrCode("00001");
             entireApplication.getHighSchool().setAcadTypeCode("00001");
 
             List<Campus> campList = commonService.retrieveCampus();
