@@ -637,7 +637,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="btn btn-remove"><button type="button" class="close" aria-hidden="true">×</button></div>
+                                            <div class="btn btn-remove" data-block-index="${stat.index}" data-fileupload-block-list="fuCollegeDocBlockList"><button type="button" class="close" aria-hidden="true">×</button></div>
                                         </div>
                                         </c:forEach>
                                         <div class="btn btn-info btn-add" data-fileupload-block-list="fuCollegeDocBlockList">추가</div>
@@ -719,10 +719,10 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="btn btn-remove"><button type="button" class="close" aria-hidden="true">×</button></div>
+                                            <div class="btn btn-remove" data-block-index="${stat.index}" data-fileupload-block-list="fuGraduateDocBlockList"><button type="button" class="close" aria-hidden="true">×</button></div>
                                         </div>
                                         </c:forEach>
-                                        <div class="btn btn-info btn-add">추가</div>
+                                        <div class="btn btn-info btn-add" data-fileupload-block-list="fuGraduateDocBlockList">추가</div>
                                     </div>
                                 </div>
                             </div>
@@ -882,20 +882,6 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="form-group">
-                                        <label class="col-sm-2 control-label">파일 선택</label>
-                                        <div class="col-sm-9">
-                                            <div class="input-group">
-                                                <span class="input-group-btn">
-                                                    <span class="btn btn-default btn_lg btn-file">
-                                                        Browse&hellip; <input type="file" id="fuPicture1" name="picture1"/>
-                                                    </span>
-                                                </span>
-                                                <span class="col-sm-8 nopadding"><input type="text" class="form-control" readonly/></span>
-                                                <span class="col-sm-4 nopadding"><input type="button" id="btnPicture1" class="btn btn-default btn-block btn-upload" value="올리기"/></span>
-                                            </div>
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
 
@@ -910,13 +896,11 @@
                                                 <label class="col-sm-2 control-label">졸업(예정)증명서</label>
                                                 <div class="col-sm-9">
                                                     <div class="input-group">
-                                                        <span class="input-group-btn">
-                                                            <span class="btn btn-default btn_lg btn-file">
-                                                                Browse&hellip; <input type="file" id="collegeDiploma0.file" name="collegeDiploma[0].file"/>
-                                                            </span>
-                                                        </span>
-                                                        <span class="col-sm-8 nopadding"><input type="text" class="form-control" readonly/></span>
-                                                        <span class="col-sm-4 nopadding"><input type="button" id="collegeDiploma0.btn" name="collegeDiploma[0].btn" class="btn btn-default btn-block btn-upload" value="올리기"/></span>
+                                                        <div class="input-group-btn">
+                                                            <input type="file" class="btn btn_lg btn-file" id="collegeDiploma0.file" name="collegeDiploma[0].file"/>
+                                                        </div>
+                                                        <div class="col-sm-4 nopadding"><input type="button" id="collegeDiploma0.btn" name="collegeDiploma[0].btn" class="btn btn-default btn-block btn-upload" value="올리기"/></div>
+                                                        <label style="vertical-align: middle;">업로드된파일명</label>
                                                     </div>
                                                 </div>
                                             </div>
@@ -924,108 +908,61 @@
                                                 <label class="col-sm-2 control-label">성적증명서</label>
                                                 <div class="col-sm-9">
                                                     <div class="input-group">
-                                                        <span class="input-group-btn">
-                                                            <span class="btn btn-default btn_lg btn-file">
-                                                                Browse&hellip; <input type="file" id="collegeGrade0.file" name="collegeGrade[0].file"/>
-                                                            </span>
-                                                        </span>
-                                                        <span class="col-sm-8 nopadding"><input type="text" class="form-control" readonly/></span>
-                                                        <span class="col-sm-4 nopadding"><input type="button" id="collegeGrade0.btn" name="collegeGrade[0].btn" class="btn btn-default btn-block btn-upload" value="올리기"/></span>
+                                                        <div class="input-group-btn">
+                                                            <input type="file" class="btn btn_lg btn-file" id="collegeGrade0.file" name="collegeGrade[0].file"/>
+                                                        </div>
+                                                        <div class="col-sm-4 nopadding"><input type="button" id="collegeGrade0.btn" name="collegeGrade[0].btn" class="btn btn-default btn-block btn-upload" value="올리기"/></div>
+                                                        <label style="vertical-align: middle;">업로드된파일명</label>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    </div>
-
-                                    <%--<div class="form-group">--%>
-                                        <%--<label class="col-sm-2 control-label">졸업(예정)증명서</label>--%>
-                                        <%--<div class="col-sm-9">--%>
-                                            <%--<div class="input-group">--%>
-                                                <%--<span class="input-group-btn">--%>
-                                                    <%--<span class="btn btn-default btn_lg btn-file">--%>
-                                                        <%--Browse&hellip; <input type="file" id="collegeDiploma0.file" name="collegeDiploma[0].file"/>--%>
-                                                    <%--</span>--%>
-                                                <%--</span>--%>
-                                                <%--<input type="text" class="form-control" readonly/>--%>
-                                            <%--</div>--%>
-                                        <%--</div>--%>
-                                    <%--</div>--%>
-                                    <%--<div class="form-group">--%>
-                                        <%--<label class="col-sm-2 control-label">성적증명서</label>--%>
-                                        <%--<div class="col-sm-9">--%>
-                                            <%--<div class="input-group">--%>
-                                                <%--<span class="input-group-btn">--%>
-                                                    <%--<span class="btn btn-default btn_lg btn-file">--%>
-                                                        <%--Browse&hellip; <input type="file" id="collegeGrade0.file" name="collegeGrade[0].file"/>--%>
-                                                    <%--</span>--%>
-                                                <%--</span>--%>
-                                                <%--<input type="text" class="form-control" readonly/>--%>
-                                            <%--</div>--%>
-                                        <%--</div>--%>
-                                    <%--</div>--%>
-
-                                    <div class="form-group">
-                                        <label class="col-sm-2 control-label">학력조회 동의서</label>
-                                        <div class="col-sm-9">
-                                            <div class="input-group">
-                                                    <span class="input-group-btn">
-                                                        <span class="btn btn-default btn_lg btn-file">
-                                                            Browse&hellip; <input type="file" multiple/>
-                                                        </span>
-                                                    </span>
-                                                <input type="text" class="form-control" readonly/>
+                                            <div class="form-group block-china">
+                                                <label class="col-sm-2 control-label">학력조회 동의서</label>
+                                                <div class="col-sm-9">
+                                                    <div class="input-group">
+                                                        <div class="input-group-btn">
+                                                            <input type="file" class="btn btn_lg btn-file" id="retrieveGradeAgree0.file" name="retrieveGradeAgree[0].file"/>
+                                                        </div>
+                                                        <div class="col-sm-4 nopadding"><input type="button" id="retrieveGradeAgree0.btn" name="retrieveGradeAgree[0].btn" class="btn btn-default btn-block btn-upload" value="올리기"/></div>
+                                                        <label style="vertical-align: middle;">업로드된파일명</label>
+                                                    </div>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="col-sm-2 control-label">출신대학(원) 확인서</label>
-                                        <div class="col-sm-9">
-                                            <div class="input-group">
-                                                    <span class="input-group-btn">
-                                                        <span class="btn btn-default btn_lg btn-file">
-                                                            Browse&hellip; <input type="file" multiple/>
-                                                        </span>
-                                                    </span>
-                                                <input type="text" class="form-control" readonly/>
+                                            <div class="form-group block-foreign-common">
+                                                <label class="col-sm-2 control-label">출신대학(원) 확인서</label>
+                                                <div class="col-sm-9">
+                                                    <div class="input-group">
+                                                        <div class="input-group-btn">
+                                                            <input type="file" class="btn btn_lg btn-file" id="verifySchool0.file" name="verifySchool[0].file"/>
+                                                        </div>
+                                                        <div class="col-sm-4 nopadding"><input type="button" id="verifySchool0.btn" name="verifySchool[0].btn" class="btn btn-default btn-block btn-upload" value="올리기"/></div>
+                                                        <label style="vertical-align: middle;">업로드된파일명</label>
+                                                    </div>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="col-sm-2 control-label">출신대학(원) 확인서</label>
-                                        <div class="col-sm-9">
-                                            <div class="input-group">
-                                                    <span class="input-group-btn">
-                                                        <span class="btn btn-default btn_lg btn-file">
-                                                            Browse&hellip; <input type="file" multiple/>
-                                                        </span>
-                                                    </span>
-                                                <input type="text" class="form-control" readonly>
+                                            <div class="form-group block-non-china">
+                                                <label class="col-sm-2 control-label">학위증명서 원본</label>
+                                                <div class="col-sm-9">
+                                                    <div class="input-group">
+                                                        <div class="input-group-btn">
+                                                            <input type="file" class="btn btn_lg btn-file" id="originDegree0.file" name="originDegree[0].file"/>
+                                                        </div>
+                                                        <div class="col-sm-4 nopadding"><input type="button" id="originDegree0.btn" name="originDegree[0].btn" class="btn btn-default btn-block btn-upload" value="올리기"/></div>
+                                                        <label style="vertical-align: middle;">업로드된파일명</label>
+                                                    </div>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="col-sm-2 control-label">학위증명서 원본</label>
-                                        <div class="col-sm-9">
-                                            <div class="input-group">
-                                                    <span class="input-group-btn">
-                                                        <span class="btn btn-default btn_lg btn-file">
-                                                            Browse&hellip; <input type="file" multiple/>
-                                                        </span>
-                                                    </span>
-                                                <input type="text" class="form-control" readonly/>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="col-sm-2 control-label">학위증 사본</label>
-                                        <div class="col-sm-9">
-                                            <div class="input-group">
-                                                    <span class="input-group-btn">
-                                                        <span class="btn btn-default btn_lg btn-file">
-                                                            Browse&hellip; <input type="file" multiple/>
-                                                        </span>
-                                                    </span>
-                                                <input type="text" class="form-control" readonly/>
+                                            <div class="form-group block-non-china">
+                                                <label class="col-sm-2 control-label">학위증 사본</label>
+                                                <div class="col-sm-9">
+                                                    <div class="input-group">
+                                                        <div class="input-group-btn">
+                                                            <input type="file" class="btn btn_lg btn-file" id="copyDegree0.file" name="copyDegree[0].file"/>
+                                                        </div>
+                                                        <div class="col-sm-4 nopadding"><input type="button" id="copyDegree0.btn" name="copyDegree[0].btn" class="btn btn-default btn-block btn-upload" value="올리기"/></div>
+                                                        <label style="vertical-align: middle;">업로드된파일명</label>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -1176,10 +1113,6 @@
             <div class="btn-group">
                 <button id="reset" type="button" class="btn btn-warning btn-lg">되돌리기</button>
             </div>
-            <%-- TODO 파일 업로드 테스트 추후 삭제 요 --%>
-            <div class="btn-group">
-                <button id="saveandupload" type="button" class="btn btn-error btn-lg">파일업로드</button>
-            </div>
         </div>
     </div> <%--container--%>
 
@@ -1327,7 +1260,7 @@
             $('#searchAddress').on('click', showDaumPostcode);
             <%-- 다음 주소 검색 끝 -->
 
-            <%-- 사진 업로드 시작 --%>
+            <%-- 파일 업로드 시작 - 한 번 업로드 후 동작 안해서 안쓰기고 함--%>
             $('.btn-file :file').on('change', function() {
                 var input = $(this),
                         numFiles = input.get(0).files ? input.get(0).files.length : 1,
@@ -1336,7 +1269,6 @@
             });
 
             $('.btn-file :file').on('fileselect', function(event, numFiles, label) {
-
                 var input = $(this).parents('.input-group').find(':text'),
                         log = numFiles > 1 ? numFiles + ' files selected' : label;
 
@@ -1597,6 +1529,7 @@
                     $cloneObj.find('.input-group.date>input').datepicker(datePickerOption);
                 }
 
+                // 파일업로드 부분
                 var fileUploadContainer = document.getElementById(target.getAttribute("data-fileupload-block-list"));
                 var fuBlocks = fileUploadContainer.querySelectorAll('.form-group-block');
                 var fuOriginBlock = fuBlocks[fuBlocks.length - 1];
@@ -1638,6 +1571,13 @@
                 }
 
                 mustCheckedOneRadio();
+
+                // 파일업로드 부분 제거
+                var fileUploadContainer = document.getElementById(target.getAttribute("data-fileupload-block-list")),
+                    indexOfBlockToRemove = target.getAttribute('data-block-index'),
+                    blockToRemove = fileUploadContainer.children[indexOfBlockToRemove];
+                fileUploadContainer.removeChild(blockToRemove);
+
             });
 
             <%-- id, name 재설정 시작 --%>
@@ -1646,23 +1586,29 @@
                 var input = block.querySelector('input');
 
                 name = input.name;
-                prefix = name.substring(0, name.indexOf('['))
+//                prefix = name.substring(0, name.indexOf('['));
 
                 items = block.querySelectorAll('input, select');
                 if (items) {
                     for (i = 0; i <items.length; i++) {
                         name = items[i].name;
                         var oldid = items[i].id;
+                        prefix = name.substring(0, name.indexOf('['));
                         suffix = name.substring(name.indexOf(']') + 1, name.length);
                         items[i].name = prefix + '[' + index + ']' + suffix;
                         items[i].id = prefix + index + suffix;
-
                         label = block.querySelector('label[for="' + oldid + '"]');
                         if (label) {
                             label.setAttribute('for', items[i].id);
                         }
                     }
                 }
+
+                var removeBtn = block.querySelector('.btn-remove');
+                if (removeBtn) {
+                   removeBtn.setAttribute('data-block-index', index);
+                }
+console.log(removeBtn);
 
                 var searchBtn = block.querySelector('[data-targetNode1]');
                 if (searchBtn) {
@@ -1687,6 +1633,14 @@
                         }
                         if (items[i].checked != null) {
                             items[i].checked = false;
+                        }
+                        if (items[i].type == 'button') {
+                            $(items[i]).removeClass('btn-info');
+                            $(items[i]).addClass('btn-default');
+                            $(items[i]).val('올리기');
+                        }
+                        if (items[i].type == 'file') {
+                            $(items[i]).val('');
                         }
                     }
                 }
@@ -2075,61 +2029,59 @@
             <%-- 지원사항 select 폼 change 이벤트 핸들러 등록 끝 --%>
 
             <%-- 어학 선택 시 어학 증빙 파일 첨부 양식 처리 --%>
-            $('.checkbox').on('click', function(e) {
+            $('.checkbox').on('change', function(e) {
+
                 var childCheckbox = $(this).find("input[type=checkbox]"),
-                    targetExamName = "#exam"+ $(this).find("label").text();
+                    targetExamName = "#exam"+ $(this).find("label").text().trim();
                 childCheckbox.is(":checked") ?
                         $(targetExamName).css("display", "block") :
                         $(targetExamName).css("display", "none");
 
-            })
+            });
 
-//            $('#uploadPicture').on('click', function (e) {
+            <%-- 파일 업로드 버튼 이벤트 --%>
             $('.btn-upload').on('click', function (e) {
-                var ea = document.getElementById('entireApplication'),
-                    actionUrl = "${contextPath}/application/apply/savetest",
+                var actionUrl = "${contextPath}/application/apply/savetest",
                     fileInputId = e.target.parentNode.parentNode.querySelector('input').getAttribute('id'),
-                    fileInputName = document.getElementById(fileInputId).getAttribute("name")
+                    fileInput = document.getElementById(fileInputId),
+                    fileInputName = fileInput.getAttribute("name")
                     ;
-console.log(fileInputId);
-                $.ajaxFileUpload({
-                    url: actionUrl,
-                    secureuri:false,
-                    fileElementId:fileInputId,
-                    dataType: 'json',
-                    data: {fieldName: fileInputName,targetButton: $(this).attr('id')},
-                    success: function (data, status) {
-                        if (console) {
-                            console.log("msg : ", data.message);
-                            console.log("data : ", data.data);
-                            console.log("status : ", status);
+                if ((fileInput.files && fileInput.files.length) || fileInput.value != "") {
+                    $.ajaxFileUpload({
+                        url: actionUrl,
+                        secureuri:false,
+                        fileElementId:fileInputId,
+                        dataType: 'json',
+                        data: {fieldName: fileInputName,targetButton: $(this).attr('id')},
+                        success: function (data, status) {
+                            if (console) {
+                                console.log("msg : ", data.message);
+                                console.log("data : ", data.data);
+                                console.log("status : ", status);
+                            }
+                            var targetBtnId = data.message,
+                                    targetBtn = document.getElementById(targetBtnId),
+                                    $targetBtn = $(targetBtn);
+                            $targetBtn.removeClass("btn-default");
+                            $targetBtn.addClass("btn-info");
+                            $targetBtn.val("올리기 성공");
+                        },
+                        error: function (data, status, e) {
+                            if(console) {
+                                console.log("data : ", data);
+                                console.log("status : ", status);
+                                console.log("e : ", e);
+                            }
                         }
-                        $('#'+data.message).removeClass("btn-default");
-                        $('#'+data.message).addClass("btn-info");
-                        $('#'+data.message).val("올리기 성공");
+                    });
+                } else {
+                    alert("파일을 선택해 주십시오");
+                }
 
-//                        if(typeof(data.error) != 'undefined')
-//                        {
-//                            if(data.error != '')
-//                            {
-//                                alert(data.error);
-//                            }else
-//                            {
-//                                alert(data.msg);
-//                            }
-//                        }
-                    },
-                    error: function (data, status, e) {
-                        if(console) {
-                            console.log("data : ", data);
-                            console.log("status : ", status);
-                            console.log("e : ", e);
-                        }
-                    }
-                });
 
                 return false;
             });
+            <%-- 파일 업로드 버튼 이벤트 --%>
         });
 
     </script>
