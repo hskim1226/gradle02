@@ -995,39 +995,26 @@
 
                             <div class="panel panel-darkgray">
                                 <div class="panel-heading">지원 과정/학과별 제출 서류</div>
-                                <div class="panel-body">
-                                    <div class="form-group">
-                                        <label class="col-sm-2 control-label">경력증명서</label>
-                                        <div class="col-sm-9">
+                                <div class="panel-body" id="attach-doc-list">
+                                    <c:forEach items="${common.attachDocList}" var="attachDoc" varStatus="stat">
+                                    <hr/>
+                                    <div class="form-group attachDoc${attachDoc.code}">
+                                        <label class="col-sm-3 control-label word-keep-all">${attachDoc.codeVal}</label>
+                                        <div class="col-sm-8">
                                             <div class="input-group">
-                                                <span class="input-group-btn">
-                                                    <span class="btn btn-default btn_lg btn-file">
-                                                        Browse&hellip; <input type="file" multiple/>
-                                                    </span>
-                                                </span>
-                                                <input type="text" class="form-control" readonly/>
+                                                <div class="input-group-btn">
+                                                    <input type="file" class="btn btn_lg btn-file" id="applicationDocumentList${stat.index}.docName" name="applicationDocumentList${stat.index}.docName"/>
+                                                </div>
+                                                <div class="col-sm-4 nopadding"><input type="button" id="attachDoc${stat.index}.btn" name="attachDoc${stat.index}.btn" class="btn btn-default btn-block btn-upload" value="올리기"/></div>
+                                                <span class="col-sm-6" id="uploadedFileLabel${stat.index}"><!--TODO DB에서 가져오기--></span>
                                             </div>
                                         </div>
+                                        <input type="hidden" name="applicationDocumentList[${stat.index}].docItemCode" id="applicationDocumentList${stat.index}.docItemCode" value="${attachDoc.code}" />
+                                        <input type="hidden" name="applicationDocumentList[${stat.index}].docItemName" id="applicationDocumentList${stat.index}.docItemName" value="${attachDoc.codeVal}" />
+                                        <input type="hidden" name="applicationDocumentList[${stat.index}].filePath" id="applicationDocumentList${stat.index}.filePath"/>
+                                        <input type="hidden" name="applicationDocumentList[${stat.index}].fileName" id="applicationDocumentList${stat.index}.fileName"/>
                                     </div>
-                                    <div class="form-group">
-                                        <label class="col-sm-2 control-label">석사 학위 논문 초록</label>
-                                        <div class="col-sm-9">
-                                            <div class="input-group">
-                                                <span class="input-group-btn">
-                                                    <span class="btn btn-default btn_lg btn-file">
-                                                        Browse&hellip; <input type="file" multiple/>
-                                                    </span>
-                                                </span>
-                                                <input type="text" class="form-control" readonly/>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="col-sm-2 control-label">석사 학위 논문</label>
-                                        <div class="col-sm-9 control-label" style="text-align: left;">
-                                                <h4>학교로 원본을 제출해 주세요</h4>
-                                        </div>
-                                    </div>
+                                    </c:forEach>
                                 </div>
                             </div>
                         </div>
@@ -2033,6 +2020,7 @@ console.log(uploadButton);
                     fileInputId = e.target.parentNode.parentNode.querySelector('input').getAttribute('id'),
                     fileInput = document.getElementById(fileInputId),
                     fileInputName = fileInput.getAttribute("name")
+                    targetLabelId = e.target.parentNode.parentNode.querySelector('span').getAttribute('id')
                     ;
                 if ((fileInput.files && fileInput.files.length) || fileInput.value != "") {
                     $.ajaxFileUpload({
@@ -2040,19 +2028,37 @@ console.log(uploadButton);
                         secureuri:false,
                         fileElementId:fileInputId,
                         dataType: 'json',
-                        data: {fieldName: fileInputName,targetButton: $(this).attr('id')},
+                        data: {
+                            fieldName: fileInputName,
+                            targetButton: $(this).attr('id'),
+                            targetLabel: targetLabelId
+                        },
                         success: function (data, status) {
+                            var d = JSON.parse(data.data);
                             if (console) {
-                                console.log("msg : ", data.message);
+                                console.log("targetButton : ", d.targetButton);
+                                console.log("targetLabel : ", d.targetLabel);
+                                console.log("applNo : ", d.applNo);
+                                console.log("docSeq : ", d.docSeq);
+                                console.log("originalFileName : ", d.originalFileName);
                                 console.log("data : ", data.data);
                                 console.log("status : ", status);
                             }
-                            var targetBtnId = data.message,
+                            var targetBtnId = d.targetButton,
                                 targetBtn = document.getElementById(targetBtnId),
                                 $targetBtn = $(targetBtn);
+                                originalFileName = d.originalFileName,
+                                path = d.path,
+                                fileName = d.fileName,
+                                targetLabel = d.targetLabel;
                             $targetBtn.removeClass("btn-default");
                             $targetBtn.addClass("btn-info");
                             $targetBtn.val("올리기 성공");
+                            var linkText = '<a href="'+path+'/'+fileName+'" target="_blank">' + originalFileName + '</a>';
+console.log(linkText);
+                            document.getElementById(targetLabel).innerHTML = linkText;
+                            document.getElementById(targetLabel).innerTEXT = linkText;
+
                         },
                         error: function (data, status, e) {
                             if(console) {
@@ -2070,7 +2076,12 @@ console.log(uploadButton);
                 return false;
             });
             <%-- 파일 업로드 버튼 이벤트 --%>
+
+            <%-- 단어 잘림 방지 --%>
+            $('.word-keep-all').wordBreakKeepAll();
+
         });
+
 
     </script>
 </content>

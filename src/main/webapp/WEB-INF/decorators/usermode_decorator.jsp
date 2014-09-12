@@ -93,6 +93,7 @@
     <script src="${contextPath}/js/jquery.form.min.js"></script>
     <script src="${contextPath}/js/ajaxfileupload.js"></script>
     <script src="${contextPath}/js/validate.min.js"></script>
+    <script src="${contextPath}/js/jquery.word-break-keep-all.min.js"></script>
     <script src="${contextPath}/js/json2.js"></script>
     <script src="${contextPath}/js/main.js"></script>
     <decorator:getProperty property="page.local-script"/>

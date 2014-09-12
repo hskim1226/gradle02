@@ -207,6 +207,7 @@ public class ApplicationController {
         List<CommonCode> fornExmpList = commonService.retrieveCommonCodeValueByCodeGroup("FORN_EXMP");
         List<CommonCode> qualAreaList = commonService.retrieveCommonCodeValueByCodeGroup("QUAL_AREA");
         List<LanguageExam> langExamList = commonService.retrieveLangExamByLangCode("ENG");
+        List<CommonCode> attachDocList = commonService.retrieveCommonCodeValueByCodeGroup("DOC_TYPE");
 
         commonCodeMap.put( "applAttrList", applAttrList );
         commonCodeMap.put( "mltrServList", mltrServList );
@@ -217,6 +218,7 @@ public class ApplicationController {
         commonCodeMap.put( "fornExmpList", fornExmpList );
         commonCodeMap.put( "qualAreaList", qualAreaList );
         commonCodeMap.put( "langExamList", langExamList );
+        commonCodeMap.put( "attachDocList", attachDocList );
 
         model.addAttribute( "common", commonCodeMap );
 
@@ -385,7 +387,7 @@ public class ApplicationController {
 
         if ( ec.getResult() == ExecutionContext.SUCCESS ) {
             //TODO 파일 업로드
-            String targetButton = fileHandler.handleMultiPartRequest(new FileUploadEventCallbackHandler<String, FileMetaForm>() {
+            String returnFileMetaForm = fileHandler.handleMultiPartRequest(new FileUploadEventCallbackHandler<String, FileMetaForm>() {
                 /**
                  * target 폴더 반환
                  *
@@ -429,7 +431,9 @@ public class ApplicationController {
                  * @return
                  */
                 @Override
-                public String handleEvent(List<FileItem> fileItems, FileMetaForm fileMetaForm, FilePersistenceManager persistence) {
+                public String handleEvent(List<FileItem> fileItems,
+                                          FileMetaForm fileMetaForm,
+                                          FilePersistenceManager persistence) {
 
                     FileInfo fileInfo;
                     FileVO fileVO = new FileVO();
@@ -447,6 +451,12 @@ public class ApplicationController {
                                                         fis = new FileInputStream(fileItem.getFile()));
                             fileVO.setPath(fileInfo.getDirectory());
                             fileVO.setFileName(fileInfo.getFileName());
+                            fileMetaForm.setPath(fileInfo.getDirectory());
+                            fileMetaForm.setFileName(fileInfo.getFileName());
+                            fileMetaForm.setOriginalFileName(fileItem.getOriginalFileName());
+                            //TODO
+                            fileMetaForm.setApplNo(3);
+                            fileMetaForm.setDocSeq(3);
                         }catch(FileNotFoundException fnfe){
                             throw new FileUploadException("", fnfe);
                         }finally {
@@ -457,13 +467,20 @@ public class ApplicationController {
                         }
                     }
 
-//                    fileService.saveFileMeta(fileVO);
+//                    fileService.saveFileMeta(fileVO); // DB에 저장 > appinfo의 저장버튼에서 하기로
 //                    return "redirect:/template/download";
-                    return fileMetaForm.getTargetButton();
+                    String jsonFileMetaForm = null;
+                    try {
+                        jsonFileMetaForm = objectMapper.writeValueAsString(fileMetaForm);
+                    } catch (JsonProcessingException e) {
+                        e.printStackTrace();
+                    }
+
+                    return jsonFileMetaForm;
                 }
             }, FileMetaForm.class);
 
-            ec.setMessage(targetButton);
+            ec.setData(returnFileMetaForm);
         }
 
 

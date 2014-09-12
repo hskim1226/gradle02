@@ -18,6 +18,7 @@ public class EntireApplication {
     private List<ApplicationAcademy> graduateList;
     private List<ApplicationExperience> applicationExperienceList;
     private List<ApplicationLanguage> applicationLanguageList;
+    private List<ApplicationDocument> applicationDocumentList;
 
     public String getCampCode() {
         return campCode;
@@ -97,5 +98,13 @@ public class EntireApplication {
 
     public void setApplicationLanguageList(List<ApplicationLanguage> applicationLanguageList) {
         this.applicationLanguageList = applicationLanguageList;
+    }
+
+    public List<ApplicationDocument> getApplicationDocumentList() {
+        return applicationDocumentList;
+    }
+
+    public void setApplicationDocumentList(List<ApplicationDocument> applicationDocumentList) {
+        this.applicationDocumentList = applicationDocumentList;
     }
 }
