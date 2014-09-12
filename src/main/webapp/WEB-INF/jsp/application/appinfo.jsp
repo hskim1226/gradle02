@@ -996,7 +996,7 @@
                             <div class="panel panel-darkgray">
                                 <div class="panel-heading">지원 과정/학과별 제출 서류</div>
                                 <div class="panel-body" id="attach-doc-list">
-                                    <c:forEach items="${common.attachDocList}" var="attachDoc" varStatus="stat">
+                                    <c:forEach items="${common.docItemList}" var="attachDoc" varStatus="stat">
                                     <hr/>
                                     <div class="form-group attachDoc${attachDoc.code}">
                                         <label class="col-sm-3 control-label word-keep-all">${attachDoc.codeVal}</label>
@@ -1023,6 +1023,7 @@
                 </div>
             </div> <%--myTabContent--%>
             <input type="hidden" id="applNo"/>
+            <input type="hidden" id="admsNo"/>
         </form:form>
 
         <div class="btn-group btn-group-justified">
@@ -1086,6 +1087,8 @@
     <script src="//code.jquery.com/ui/1.11.1/jquery-ui.js"></script>
     <script type="text/javascript">
         $(document).ready(function() {
+            document.getElementById('applNo').value='${entireApplication.application.applNo}';
+            document.getElementById('admsNo').value='${entireApplication.application.admsNo}';
 
             <%-- 학교 검색 시작 --%>
             $('.bpopper').on('click', function(e) {
@@ -2031,7 +2034,9 @@ console.log(uploadButton);
                         data: {
                             fieldName: fileInputName,
                             targetButton: $(this).attr('id'),
-                            targetLabel: targetLabelId
+                            targetLabel: targetLabelId,
+                            applNo: document.getElementById('applNo').value,
+                            admsNo: document.getElementById('admsNo').value
                         },
                         success: function (data, status) {
                             var d = JSON.parse(data.data);
@@ -2039,25 +2044,29 @@ console.log(uploadButton);
                                 console.log("targetButton : ", d.targetButton);
                                 console.log("targetLabel : ", d.targetLabel);
                                 console.log("applNo : ", d.applNo);
-                                console.log("docSeq : ", d.docSeq);
+                                console.log("admsNo : ", d.admsNo);
                                 console.log("originalFileName : ", d.originalFileName);
+                                console.log("fileName : ", d.fileName);
                                 console.log("data : ", data.data);
                                 console.log("status : ", status);
                             }
                             var targetBtnId = d.targetButton,
                                 targetBtn = document.getElementById(targetBtnId),
-                                $targetBtn = $(targetBtn);
+                                $targetBtn = $(targetBtn),
                                 originalFileName = d.originalFileName,
                                 path = d.path,
                                 fileName = d.fileName,
-                                targetLabel = d.targetLabel;
+                                targetLabel = d.targetLabel,
+                                applNo = d.applNo,
+                                admsNo = d.admsNo,
+                                downloadURL,
+                                linkHtml;
                             $targetBtn.removeClass("btn-default");
                             $targetBtn.addClass("btn-info");
                             $targetBtn.val("올리기 성공");
-                            var linkText = '<a href="'+path+'/'+fileName+'" target="_blank">' + originalFileName + '</a>';
-console.log(linkText);
-                            document.getElementById(targetLabel).innerHTML = linkText;
-                            document.getElementById(targetLabel).innerTEXT = linkText;
+                            downloadURL = '${contextPath}/filedownload/attached/'+admsNo+'/'+applNo+'/'+fileName;
+                            linkHtml = '<a href="' + downloadURL + '">' + originalFileName + '</a>';
+                            document.getElementById(targetLabel).innerHTML = linkHtml;
 
                         },
                         error: function (data, status, e) {

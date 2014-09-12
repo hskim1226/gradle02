@@ -3,6 +3,7 @@ package com.apexsoft.framework.persistence.file.service;
 import com.apexsoft.framework.persistence.dao.CommonDAO;
 import com.apexsoft.framework.persistence.file.model.FileVO;
 import com.apexsoft.ysprj.applicants.application.domain.ApplicationDocumentKey;
+import com.apexsoft.ysprj.applicants.application.domain.ParamForApplicationDocument;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -46,6 +47,14 @@ public class FileServiceImpl implements FileService {
         FileVO fileVO = commonDAO.queryForObject(FILE_NAME_SPACE + "ApplicationDocumentMapper.selectByPrimaryKey",
                                                  applicationDocumentKey,
                                                  FileVO.class);
+        return new File(fileVO.getPath(), fileVO.getFileName());
+    }
+
+    @Override
+    public File getFile(ParamForApplicationDocument paramForApplicationDocument) {
+        FileVO fileVO = commonDAO.queryForObject(FILE_NAME_SPACE + "CustomApplicationDocumentMapper.selectByApplNoFileName",
+                paramForApplicationDocument,
+                FileVO.class);
         return new File(fileVO.getPath(), fileVO.getFileName());
     }
 

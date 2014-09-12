@@ -19,6 +19,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -55,6 +56,9 @@ public class ApplicationController {
 
     @Autowired
     private FileService fileService;
+
+    @Value("${file.baseDir}")
+    String fileBaseDir;
 
     /**
      * 내원서 화면
@@ -207,7 +211,7 @@ public class ApplicationController {
         List<CommonCode> fornExmpList = commonService.retrieveCommonCodeValueByCodeGroup("FORN_EXMP");
         List<CommonCode> qualAreaList = commonService.retrieveCommonCodeValueByCodeGroup("QUAL_AREA");
         List<LanguageExam> langExamList = commonService.retrieveLangExamByLangCode("ENG");
-        List<CommonCode> attachDocList = commonService.retrieveCommonCodeValueByCodeGroup("DOC_TYPE");
+        List<CommonCode> docItemList = commonService.retrieveCommonCodeValueByCodeGroup("DOC_ITEM");
 
         commonCodeMap.put( "applAttrList", applAttrList );
         commonCodeMap.put( "mltrServList", mltrServList );
@@ -218,7 +222,7 @@ public class ApplicationController {
         commonCodeMap.put( "fornExmpList", fornExmpList );
         commonCodeMap.put( "qualAreaList", qualAreaList );
         commonCodeMap.put( "langExamList", langExamList );
-        commonCodeMap.put( "attachDocList", attachDocList );
+        commonCodeMap.put( "docItemList", docItemList );
 
         model.addAttribute( "common", commonCodeMap );
 
@@ -399,14 +403,16 @@ public class ApplicationController {
                  */
                 @Override
                 protected String getDirectory(String fileFieldName, FileMetaForm attributes, String leafDirectory) {
-                    String admsTypeCode = entireApplication.getApplication().getAdmsTypeCode();
-                    CommonCode commonCode = commonService.retrieveCommonCodeValueByCodeGroupCode("ADMS_TYPE", admsTypeCode);
-                    String admsTypeName = commonCode.getCodeVal();
+//                    String admsTypeCode = entireApplication.getApplication().getAdmsTypeCode();
+//                    CommonCode commonCode = commonService.retrieveCommonCodeValueByCodeGroupCode("ADMS_TYPE", admsTypeCode);
+//                    String admsTypeName = commonCode.getCodeVal();
 
+                    String admsNo = entireApplication.getApplication().getAdmsNo();
                     String userId = principal.getName();
                     String firstString = userId.substring(0, 1);
+                    int applNo = entireApplication.getApplication().getApplNo();
 
-                    return admsTypeName + "/" + firstString + "/" + userId;
+                    return admsNo + "/" + firstString + "/" + userId + "/" + applNo;
                 }
 
                 /**
@@ -454,9 +460,6 @@ public class ApplicationController {
                             fileMetaForm.setPath(fileInfo.getDirectory());
                             fileMetaForm.setFileName(fileInfo.getFileName());
                             fileMetaForm.setOriginalFileName(fileItem.getOriginalFileName());
-                            //TODO
-                            fileMetaForm.setApplNo(3);
-                            fileMetaForm.setDocSeq(3);
                         }catch(FileNotFoundException fnfe){
                             throw new FileUploadException("", fnfe);
                         }finally {

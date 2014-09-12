@@ -15,8 +15,8 @@ public class FileMetaForm {
     private String fieldName;
     private String targetButton;
     private String targetLabel;
-    private int applNo;
-    private int docSeq;
+    private String applNo;
+    private String admsNo;
 
     public String getPath() {
         return path;
@@ -66,20 +66,20 @@ public class FileMetaForm {
         this.targetLabel = targetLabel;
     }
 
-    public int getApplNo() {
+    public String getApplNo() {
         return applNo;
     }
 
-    public void setApplNo(int applNo) {
+    public void setApplNo(String applNo) {
         this.applNo = applNo;
     }
 
-    public int getDocSeq() {
-        return docSeq;
+    public String getAdmsNo() {
+        return admsNo;
     }
 
-    public void setDocSeq(int docSeq) {
-        this.docSeq = docSeq;
+    public void setAdmsNo(String admsNo) {
+        this.admsNo = admsNo;
     }
 
     @Override

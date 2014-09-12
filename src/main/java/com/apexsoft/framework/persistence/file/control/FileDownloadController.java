@@ -3,8 +3,10 @@ package com.apexsoft.framework.persistence.file.control;
 import com.apexsoft.framework.persistence.file.service.FileService;
 import com.apexsoft.ysprj.applicants.application.domain.ApplicationDocument;
 import com.apexsoft.ysprj.applicants.application.domain.ApplicationDocumentKey;
+import com.apexsoft.ysprj.applicants.application.domain.ParamForApplicationDocument;
 import com.apexsoft.ysprj.applicants.application.service.ApplicationService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,17 +27,28 @@ public class FileDownloadController {
     @Autowired
     private FileService fileService;
 
-    @RequestMapping(value="/attached/{applNo}/{docSeq}")
-    @ResponseBody
-    public byte[] downloadAttachedFile(@PathVariable("applNo") int applNo,
-                                       @PathVariable("docSeq") int docSeq,
-                                       HttpServletResponse response)
-            throws IOException {
+    @Value("#{app['file.baseDir']}")
+    private String fileBaseDir;
 
-        ApplicationDocumentKey adKey = new ApplicationDocumentKey();
-        adKey.setApplNo(applNo);
-        adKey.setDocSeq(docSeq);
-        File file = fileService.getFile(adKey);
+    /**
+     * 업로드 직후 DB에 쓰기 전 상태에서 파일 다운로드
+     * @param applNo
+     * @param fileName
+     * @param response
+     * @return
+     * @throws IOException
+     */
+    @RequestMapping(value="/attached/{admsNo}/{applNo}/{fileName:.+}")
+    @ResponseBody
+    public byte[] downloadAttachedFile(@PathVariable("admsNo") String admsNo,
+                                       @PathVariable("applNo") int applNo,
+                                       @PathVariable("fileName") String fileName,
+                                       HttpServletResponse response,
+                                       Principal principal)
+            throws IOException {
+        String userId = principal.getName();
+        String firstString = userId.substring(0, 1);
+        File file = new File(fileBaseDir + "/" + admsNo + "/" + firstString + "/" + userId + "/" + applNo, fileName);
         byte[] bytes = org.springframework.util.FileCopyUtils.copyToByteArray(file);
 
         response.setHeader("Content-Disposition", "attachment; filename=\"" + file.getName() + "\"");
