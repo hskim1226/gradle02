@@ -369,7 +369,7 @@ public class ApplicationController {
         return ec;
     }
 
-    @RequestMapping(value = "/apply/savetest", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+    @RequestMapping(value = "/apply/savetest", method = RequestMethod.POST)
     @ResponseBody
     public ExecutionContext savetest(@Valid @ModelAttribute final EntireApplication entireApplication,
                                      BindingResult binding,

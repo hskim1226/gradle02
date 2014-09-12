@@ -51,8 +51,13 @@ public class FileDownloadController {
         File file = new File(fileBaseDir + "/" + admsNo + "/" + firstString + "/" + userId + "/" + applNo, fileName);
         byte[] bytes = org.springframework.util.FileCopyUtils.copyToByteArray(file);
 
-        response.setHeader("Content-Disposition", "attachment; filename=\"" + file.getName() + "\"");
+        response.setHeader("Content-Disposition", "attachment; filename=\"" + new String(file.getName().getBytes("UTF-8"), "ISO-8859-1") + "\"");
+        response.setHeader("Content-Transfer-Encoding", "binary;");
+        response.setHeader("Pragma", "no-cache;");
+        response.setHeader("Expires", "-1;");
+        response.setHeader("Content-Type", "application/octet-stream");
         response.setContentLength(bytes.length);
+
 
         return bytes;
     }
