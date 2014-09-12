@@ -224,9 +224,9 @@
     <div id="alert-container"></div>
     <div class="container">
         <ul id="myTab" class="nav nav-tabs nav-justified tab-gray">
-            <li><a href="#appinfo" data-toggle="tab">기본 정보</a></li>
-            <li><a href="#langcareer" data-toggle="tab">어학 및 경력</a></li>
-            <li><a href="#fileupload" data-toggle="tab">첨부파일</a></li>
+            <li><a href="#appinfo" data-toggle="tab"><spring:message code="U311" /></a></li>
+            <li><a href="#langcareer" data-toggle="tab"><spring:message code="U312" /></a></li>
+            <li><a href="#fileupload" data-toggle="tab"><spring:message code="U313" /></a></li>
         </ul>
         <form:form commandName="entireApplication" cssClass="form-horizontal" action="apply/saveandupload" method="post" enctype="multipart/form-data" role="form">
             <form:hidden path="application.admsNo" id="admsNo" />
@@ -238,71 +238,58 @@
                     <div class="row">
                         <div class="col-sm-offset-1 col-sm-10">
                             <div class="panel panel-default">
-                                <div class="panel-heading">지원 사항</div>
+                                <div class="panel-heading"><spring:message code="U314" /></div>
                                 <div class="panel-body">
                                     <div class="form-group">
-                                        <label for="applAttrCode" class="col-sm-2 control-label">지원 구분</label>
+                                        <label class="col-sm-2 control-label"><spring:message code="U316" /></label>
                                         <div class="col-sm-9">
-                                            <form:select path="application.applAttrCode" id="applAttrCode" cssClass="form-control">
-                                                <form:options items="${common.applAttrList}" itemValue="code" itemLabel="codeVal"/>
-                                            </form:select>
+                                            <form:radiobuttons path="application.fornTypeCode" items="${common.fornTypeList}" itemValue="code" itemLabel="codeVal" />
+                                            <%--<form:select path="applicationForeigner.applAttrCode" id="fornTypeCode" cssClass="form-control">--%>
+                                                <%--<form:options items="${common.applAttrList}" itemValue="code" itemLabel="codeVal"/>--%>
+                                            <%--</form:select>--%>
                                         </div>
                                     </div>
                                     <div id="applyKindDynamic">
                                         <div class="form-group hidden-apply-kind-2">
-                                            <form:label path="campCode" cssClass="col-sm-2 control-label">캠퍼스</form:label>
+                                            <form:label path="campCode" cssClass="col-sm-2 control-label"><spring:message code="U317" /></form:label>
                                             <div class="col-sm-3">
                                                 <form:select path="campCode" cssClass="form-control">
-                                                    <form:option value="-" label="--선택--" />
-                                                    <c:if test="${entireApplication.application.applAttrCode == '00001' || entireApplication.application.applAttrCode == '00003'}">
+                                                    <spring:message code="U315" var="U315"/>
+                                                    <form:option value="-" label="${U315}" />
                                                     <form:options items="${common.campList}" itemValue="campCode" itemLabel="campName" />
-                                                    </c:if>
                                                 </form:select>
                                             </div>
-                                            <form:label path="collCode" cssClass="col-sm-2 control-label">대학</form:label>
+                                            <form:label path="collCode" cssClass="col-sm-2 control-label"><spring:message code="U318" /></form:label>
                                             <div class="col-sm-4">
                                                 <form:select path="collCode" cssClass="form-control">
-                                                    <form:option value="-" label="--선택--" />
-                                                    <c:if test="${entireApplication.application.applAttrCode == '00001' || entireApplication.application.applAttrCode == '00003'}">
+                                                    <form:option value="-" label="${U315}" />
                                                     <form:options items="${common.collList}" itemValue="collCode" itemLabel="collName" />
-                                                    </c:if>
-                                                </form:select>
-                                            </div>
-                                        </div>
-                                        <div class="form-group hidden-apply-kind-1 hidden-apply-kind-3">
-                                            <label for="ariInstCode" class="col-sm-2 control-label">학·연·산 연구기관</label>
-                                            <div class="col-sm-9">
-                                                <form:select path="application.ariInstCode" id="ariInstCode" cssClass="form-control">
-                                                    <form:option value="-" label="--선택--" />
-                                                    <c:if test="${entireApplication.application.applAttrCode == '00002'}">
-                                                    <form:options items="${common.ariInstList}" itemValue="ariInstCode" itemLabel="ariInstName" />
-                                                    </c:if>
                                                 </form:select>
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label for="deptCode" class="col-sm-2 control-label">지원 학과</label>
+                                            <label for="deptCode" class="col-sm-2 control-label"><spring:message code="U319" /></label>
                                             <div class="col-sm-9">
                                                 <form:select path="application.deptCode" id="deptCode" cssClass="form-control">
-                                                    <form:option value="-" label="--선택--" />
+                                                    <form:option value="-" label="${U315}" />
                                                     <form:options items="${common.deptList}" itemValue="deptCode" itemLabel="deptName" />
                                                 </form:select>
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label for="corsTypeCode" class="col-sm-2 control-label">지원 과정</label>
+                                            <label for="corsTypeCode" class="col-sm-2 control-label"><spring:message code="U320" /></label>
                                             <div class="col-sm-9">
                                                 <form:select path="application.corsTypeCode" id="corsTypeCode" cssClass="form-control">
-                                                    <form:option value="-" label="--선택--" />
+                                                    <form:option value="-" label="${U315}" />
                                                     <form:options items="${common.corsTypeList}" itemValue="corsTypeCode" itemLabel="codeVal" />
                                                 </form:select>
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label for="detlMajCode" class="col-sm-2 control-label">세부 전공</label>
+                                            <label for="detlMajCode" class="col-sm-2 control-label"><spring:message code="U321" /></label>
                                             <div class="col-sm-9">
                                                 <form:select path="application.detlMajCode" id="detlMajCode" cssClass="form-control">
-                                                    <form:option value="-" label="--선택--" />
+                                                    <form:option value="-" label="${U315}" />
                                                     <form:options items="${common.detlMajList}" itemValue="detlMajCode" itemLabel="detlMajName" />
                                                 </form:select>
                                             </div>
@@ -311,145 +298,136 @@
                                 </div>
                             </div>
                             <div class="panel panel-default">
-                                <div class="panel-heading">지원자 정보</div>
+                                <div class="panel-heading"><spring:message code="U322" /></div>
                                 <div class="panel-body">
                                     <div class="form-group">
-                                        <form:label path="application.korName" cssClass="col-sm-2 control-label">한글 이름</form:label>
-                                        <div class="col-sm-9">
-                                            <form:input path="application.korName" cssClass="form-control" />
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="col-sm-2 control-label">영문 이름</label>
+                                        <label class="col-sm-2 control-label"><spring:message code="U323" /></label>
                                         <div class="col-sm-4">
                                             <div class="input-group">
-                                                <span class="input-group-addon">&nbsp;성&nbsp;</span>
+                                                <span class="input-group-addon"><spring:message code="U324" /></span>
                                                 <form:input path="application.engSur" cssClass="form-control" style="text-transform: uppercase;" />
                                             </div>
                                         </div>
                                         <div class="col-sm-5">
                                             <div class="input-group">
-                                                <span class="input-group-addon">이름</span>
+                                                <span class="input-group-addon"><spring:message code="U325" /></span>
                                                 <form:input path="application.engName" cssClass="form-control" style="text-transform: uppercase;" />
                                             </div>
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <form:label path="application.rgstNo" cssClass="col-sm-2 control-label">주민등록번호</form:label>
+                                        <form:label path="application.rgstNo" cssClass="col-sm-2 control-label"><spring:message code="U326" /></form:label>
                                         <div class="col-sm-9">
                                             <form:input path="application.rgstNo" cssClass="form-control" />
                                         </div>
                                     </div>
-                                </div>
-                            </div>
-                            <div class="panel panel-default" id="currentCompany" hidden>
-                                <div class="panel-heading">현재 근무처</div>
-                                <div class="panel-body">
                                     <div class="form-group">
-                                        <form:label path="applicationGeneral.currWrkpName" cssClass="col-sm-2 control-label">회사 이름</form:label>
-                                        <div class="col-sm-9">
-                                            <form:input path="applicationGeneral.currWrkpName" cssClass="form-control" />
+                                        <form:label path="applicationForeigner.bornDay" cssClass="col-sm-2 control-label"><spring:message code="U327" /></form:label>
+                                        <div class="col-sm-4">
+                                            <form:input path="applicationForeigner.bornDay" cssClass="form-control date" readonly="true" />
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <form:label path="applicationGeneral.currWrkpDay" cssClass="col-sm-2 control-label">입사 일자</form:label>
+                                        <form:label path="applicationForeigner.gend" class="col-sm-2 control-label"><spring:message code="U328" /></form:label>
+                                        <div class="col-sm-9">
+                                            <label class="radio-inline"><form:radiobutton path="applicationForeigner.gend" id="male" value="M" /><spring:message code="U329" /></label>
+                                            &nbsp;&nbsp;&nbsp;
+                                            <label class="radio-inline"><form:radiobutton path="applicationForeigner.gend" id="female" value="F" /><spring:message code="U330" /></label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel panel-default">
+                                <div class="panel-heading"><spring:message code="U331" /></div>
+                                <div class="panel-body">
+                                    <div class="form-group">
+                                        <label for="citzCntrName" class="col-sm-2 control-label"><spring:message code="U332" /></label>
+                                        <div class="col-sm-2">
+                                            <button type="button" class="btn btn-default btn-search bpopper" data-targetNode1="citzCntrCode" data-targetNode2='citzCntrName' data-category="country-c"><spring:message code="U333" /></button>
+                                        </div>
+                                        <div class="col-sm-7">
+                                            <form:hidden path="applicationForeigner.citzCntrCode" id="citzCntrCode" cssClass="form-control" />
+                                            <input id="citzCntrName" class="form-control" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="bornCntrName" class="col-sm-2 control-label"><spring:message code="U334" /></label>
+                                        <div class="col-sm-2">
+                                            <button type="button" class="btn btn-default btn-search bpopper" data-targetNode1="bornCntrCode" data-targetNode2='bornCntrName' data-category="country-b"><spring:message code="U333" /></button>
+                                        </div>
+                                        <div class="col-sm-7">
+                                            <form:hidden path="applicationForeigner.bornCntrCode" id="bornCntrCode" cssClass="form-control" />
+                                            <input id="bornCntrName" class="form-control" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel panel-default">
+                                <div class="panel-heading"><spring:message code="U335" /></div>
+                                <div class="panel-body">
+                                    <div class="form-group">
+                                        <form:label path="applicationForeigner.paspNo" cssClass="col-sm-2 control-label"><spring:message code="U336" /></form:label>
+                                        <div class="col-sm-9">
+                                            <form:input path="applicationForeigner.paspNo" cssClass="form-control" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <form:label path="applicationForeigner.visaNo" cssClass="col-sm-2 control-label"><spring:message code="U337" /></form:label>
+                                        <div class="col-sm-5">
+                                            <div class="input-group">
+                                                <span class="input-group-addon"><spring:message code="U338" /></span>
+                                                <form:input path="applicationForeigner.visaNo" cssClass="form-control" />
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <div class="input-group">
+                                                <span class="input-group-addon"><spring:message code="U339" /></span>
+                                                <select id="visaType" class="form-control">
+                                                    <optgroup label="A visas">
+                                                        <option value="A-1" label="Diplomat"></option>
+                                                        <option value="A-2" label="Government official"></option>
+                                                        <option value="A-3" label="Agreement"></option>
+                                                    </optgroup>
+                                                    <optgroup label="B visas">
+                                                        <option value="B-1" label="Visa exemption"></option>
+                                                        <option value="B-2" label="Tourist/transit"></option>
+                                                    </optgroup>
+                                                    <optgroup label="C visas"></optgroup>
+                                                    <optgroup label="D visas"></optgroup>
+                                                    <optgroup label="E visas"></optgroup>
+                                                    <optgroup label="F visas"></optgroup>
+                                                    <optgroup label="G visas">
+                                                        <option value="G-1" label="Miscellaneous"></option>
+                                                    </optgroup>
+                                                    <optgroup label="H visas">
+                                                        <option value="H-1" label="Working holiday"></option>
+                                                        <option value="H-2" label="Working visit"></option>
+                                                    </optgroup>
+                                                    <optgroup label="M visas">
+                                                        <option value="M-1" label="Military"></option>
+                                                    </optgroup>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <form:label path="applicationForeigner.visaExprDay" cssClass="col-sm-2 control-label"><spring:message code="U340" /></form:label>
                                         <div class="col-sm-9">
                                             <div class="input-group date">
-                                                <form:input path="applicationGeneral.currWrkpDay" cssClass="col-sm-6 form-control" readonly="true" />
+                                                <form:input path="applicationForeigner.visaExprDay" cssClass="form-control" readonly="true" />
                                                 <span class="input-group-addon"></span>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="form-group">
-                                        <form:label path="applicationGeneral.currWrkpTel" cssClass="col-sm-2 control-label">연락처</form:label>
-                                        <div class="col-sm-9">
-                                            <form:input path="applicationGeneral.currWrkpTel" cssClass="form-control" />
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
                             <div class="panel panel-default">
-                                <div class="panel-heading">지원자 상세정보</div>
-                                <div class="panel-body">
-                                    <%--<div class="form-group">--%>
-                                        <%--<form:label path="applicationGeneral.citzCntrCode" cssClass="col-sm-3 control-label">국적</form:label>--%>
-                                        <%--<div class="col-sm-9">--%>
-                                            <%--<div class="input-group">--%>
-                                                <%--<form:input path="applicationGeneral.citzCntrCode" cssClass="form-control" />--%>
-                                                <%--<span class="input-group-btn">--%>
-                                                    <%--<button type="button" class="btn btn-default" id="search-citz-cntr-code">--%>
-                                                        <%--<span class="glyphicon glyphicon-search"></span> 검색--%>
-                                                    <%--</button>--%>
-                                                <%--</span>--%>
-                                            <%--</div>--%>
-                                        <%--</div>--%>
-                                    <%--</div>--%>
-                                    <div class="form-group">
-                                        <label class="col-sm-2 control-label">장애 사항</label>
-                                        <div class="col-sm-9">
-                                            <div class="input-group">
-                                                <span class="input-group-addon">장애유형</span>
-                                                <form:input path="applicationGeneral.hndcGrad" cssClass="col-sm-6 form-control" />
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-offset-2 col-sm-9">
-                                            <div class="input-group">
-                                                <span class="input-group-addon">장애등급</span>
-                                                <form:input path="applicationGeneral.hndcType" cssClass="col-sm-6 form-control" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="col-sm-2 control-label">병역 사항</label>
-                                        <div class="col-sm-9">
-                                            <div class="input-group">
-                                                <span class="input-group-addon">병역구분</span>
-                                                <form:select path="applicationGeneral.mltrServCode" cssClass="form-control">
-                                                    <form:option value="-" label="--선택--" />
-                                                    <form:options items="${common.mltrServList}" itemValue="code" itemLabel="codeVal" />
-                                                </form:select>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-offset-2 col-sm-9">
-                                            <div class="input-group">
-                                                <span class="input-group-addon">병역군별</span>
-                                                <form:select path="applicationGeneral.mltrTypeCode" cssClass="form-control">
-                                                    <form:option value="-" label="--선택--" />
-                                                    <form:options items="${common.mltrTypeList}" itemValue="code" itemLabel="codeVal" />
-                                                </form:select>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-offset-2 col-sm-9">
-                                            <div class="input-group">
-                                                <span class="input-group-addon">병역계급</span>
-                                                <form:select path="applicationGeneral.mltrRankCode" cssClass="form-control">
-                                                    <form:option value="-" label="--선택--" />
-                                                    <form:options items="${common.mltrRankList}" itemValue="code" itemLabel="codeVal" />
-                                                </form:select>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-offset-2 col-sm-4 start-date-container">
-                                            <div class="input-group date">
-                                                <span class="input-group-addon">입대일자</span>
-                                                <form:input path="applicationGeneral.mltrJoinDay" cssClass="form-control" readonly="true" />
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-4 end-date-container">
-                                            <div class="input-group date">
-                                                <span class="input-group-addon">제대일자</span>
-                                                <form:input path="applicationGeneral.mltrDschDay" cssClass="form-control" readonly="true" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="panel panel-default">
-                                <div class="panel-heading">지원자 연락처</div>
+                                <div class="panel-heading"><spring:message code="U341" /></div>
                                 <div class="panel-body">
                                     <div class="form-group">
-                                        <label class="col-sm-2 control-label">주소</label>
+                                        <label class="col-sm-2 control-label"><spring:message code="U342" /></label>
                                         <div class="col-sm-2">
-                                            <button type="button" class="btn btn-default btn-block btn-search" id="searchAddress">우편번호 찾기</button>
+                                            <button type="button" class="btn btn-default btn-block btn-search" id="searchAddress"><spring:message code="U343" /></button>
                                         </div>
                                         <div class="col-sm-4">
                                             <div class="input-group">
@@ -463,31 +441,32 @@
                                             <form:input path="application.addr" cssClass="form-control" id="address" />
                                         </div>
                                         <div class="col-sm-5">
-                                            <form:input path="application.detlAddr" cssClass="form-control" id="addressDetail" placeholder="세부주소" />
+                                            <spring:message code="U344" var="U344"/>
+                                            <form:input path="application.detlAddr" cssClass="form-control" id="addressDetail" placeholder="${U344}" />
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <form:label path="application.telNum" cssClass="col-sm-2 control-label">전화번호</form:label>
+                                        <form:label path="application.telNum" cssClass="col-sm-2 control-label"><spring:message code="U345" /></form:label>
                                         <div class="col-sm-9">
-                                            <%--TODO--%>
-                                            <%--<form:select path="telNumFirst" cssClass="form-control">--%>
+                                                <%--TODO--%>
+                                                <%--<form:select path="telNumFirst" cssClass="form-control">--%>
                                                 <%--<form:options items="${common.telNumFirst}" />--%>
-                                            <%--</form:select> --%>
+                                                <%--</form:select> --%>
                                             <form:input path="application.telNum" cssClass="form-control" />
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <form:label path="application.mobiNum" cssClass="col-sm-2 control-label">휴대폰</form:label>
+                                        <form:label path="application.mobiNum" cssClass="col-sm-2 control-label"><spring:message code="U346" /></form:label>
                                         <div class="col-sm-9">
-                                            <%--TODO--%>
-                                            <%--<form:select path="mobiNumFirst" cssClass="form-control">--%>
+                                                <%--TODO--%>
+                                                <%--<form:select path="mobiNumFirst" cssClass="form-control">--%>
                                                 <%--<form:options items="${common.telNumFirst}" />--%>
-                                            <%--</form:select>--%>
+                                                <%--</form:select>--%>
                                             <form:input path="application.mobiNum" cssClass="form-control" />
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <form:label path="application.mailAddr" cssClass="col-sm-2 control-label">E-mail</form:label>
+                                        <form:label path="application.mailAddr" cssClass="col-sm-2 control-label"><spring:message code="U347" /></form:label>
                                         <div class="col-sm-9">
                                             <form:input path="application.mailAddr" type="email" cssClass="form-control" />
                                         </div>
@@ -495,198 +474,261 @@
                                 </div>
                             </div>
                             <div class="panel panel-default">
-                                <div class="panel-heading">비상연락처</div>
+                                <div class="panel-heading"><spring:message code="U348" /></div>
                                 <div class="panel-body">
                                     <div class="form-group">
-                                        <form:label path="applicationGeneral.emerContName" cssClass="col-sm-2 control-label">이름</form:label>
+                                        <form:label path="applicationForeigner.homeAddr" cssClass="col-sm-2 control-label"><spring:message code="U342" /></form:label>
                                         <div class="col-sm-9">
-                                            <form:input path="applicationGeneral.emerContName" cssClass="form-control" />
+                                            <form:input path="applicationForeigner.homeAddr" cssClass="form-control" />
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <form:label path="applicationGeneral.emerContCode" cssClass="col-sm-2 control-label">관계</form:label>
+                                        <form:label path="applicationForeigner.homeTel" cssClass="col-sm-2 control-label"><spring:message code="U345" /></form:label>
                                         <div class="col-sm-9">
-                                            <form:select path="applicationGeneral.emerContCode" cssClass="form-control">
-                                                <form:option value="-" label="--선택--" />
+                                            <form:input path="applicationForeigner.homeTel" cssClass="form-control" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel panel-default">
+                                <div class="panel-heading"><spring:message code="U349" /></div>
+                                <div class="panel-body">
+                                    <div class="form-group">
+                                        <form:label path="applicationForeigner.korEmerName" cssClass="col-sm-2 control-label"><spring:message code="U350" /></form:label>
+                                        <div class="col-sm-9">
+                                            <form:input path="applicationForeigner.korEmerName" cssClass="form-control" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <form:label path="applicationForeigner.korEmerRela" cssClass="col-sm-2 control-label"><spring:message code="U351" /></form:label>
+                                        <div class="col-sm-9">
+                                            <form:select path="applicationForeigner.korEmerRela" cssClass="form-control">
+                                                <form:option value="-" label="${U315}" />
                                                 <form:options items="${common.emerContList}" itemValue="code" itemLabel="codeVal" />
                                             </form:select>
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <form:label path="applicationGeneral.emerContTel" cssClass="col-sm-2 control-label">전화번호</form:label>
+                                        <form:label path="applicationForeigner.korEmerTel" cssClass="col-sm-2 control-label"><spring:message code="U345" /></form:label>
                                         <div class="col-sm-9">
-                                            <%--TODO--%>
-                                            <%--<form:select path="telNumFirst" cssClass="form-control">--%>
-                                                <%--<form:options items="${common.telNumFirst}" />--%>
-                                            <%--</form:select>--%>
-                                            <form:input path="applicationGeneral.emerContTel" cssClass="form-control" />
+                                            <form:input path="applicationForeigner.korEmerTel" cssClass="form-control" />
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="panel panel-default">
-                                <div class="panel-heading">대학교</div>
+                                <div class="panel-heading"><spring:message code="U352" /></div>
+                                <div class="panel-body">
+                                    <div class="form-group">
+                                        <form:label path="applicationForeigner.homeEmerName" cssClass="col-sm-2 control-label"><spring:message code="U350" /></form:label>
+                                        <div class="col-sm-9">
+                                            <form:input path="applicationForeigner.homeEmerName" cssClass="form-control" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <form:label path="applicationForeigner.homeEmerRela" cssClass="col-sm-2 control-label"><spring:message code="U351" /></form:label>
+                                        <div class="col-sm-9">
+                                            <form:select path="applicationForeigner.homeEmerRela" cssClass="form-control">
+                                                <form:option value="-" label="${U315}" />
+                                                <form:options items="${common.emerContList}" itemValue="code" itemLabel="codeVal" />
+                                            </form:select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <form:label path="applicationForeigner.homeEmerTel" cssClass="col-sm-2 control-label"><spring:message code="U345" /></form:label>
+                                        <div class="col-sm-9">
+                                            <form:input path="applicationForeigner.homeEmerTel" cssClass="form-control" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel panel-default">
+                                <div class="panel-heading"><spring:message code="U398" /></div>
                                 <div class="panel-body">
                                     <div class="form-group-block-list">
                                         <c:forEach begin="0" end="${entireApplication.collegeList.size() > 0 ? entireApplication.collegeList.size() - 1 : 0}" varStatus="stat">
-                                        <div class="form-group-block">
-                                            <form:hidden path="collegeList[${stat.index}].acadTypeCode" value="00002" />
-                                            <%--TODO domain 업데이트 후 주석해제--%>
-                                            <%--<div class="form-group">--%>
-                                                <%--<label for="collegeList${stat.index}.schlCntrName" class="col-sm-2 control-label">소재 국가</label>--%>
-                                                <%--<div class="col-sm-2">--%>
+                                            <div class="form-group-block">
+                                                <form:hidden path="collegeList[${stat.index}].acadTypeCode" value="00002" />
+                                                    <%--TODO domain 업데이트 후 주석해제--%>
+                                                    <%--<div class="form-group">--%>
+                                                    <%--<label for="collegeList${stat.index}.schlCntrName" class="col-sm-2 control-label"><spring:message code="U353" /></label>--%>
+                                                    <%--<div class="col-sm-2">--%>
                                                     <%--<button type="button" class="btn btn-default btn-search bpopper" data-targetNode1="collegeList${stat.index}.schlCntrCode" data-targetNode2='collegeList${stat.index}.schlCntrName' data-category="country-u">검색</button>--%>
-                                                <%--</div>--%>
-                                                <%--<div class="col-sm-6">--%>
+                                                    <%--</div>--%>
+                                                    <%--<div class="col-sm-6">--%>
                                                     <%--<form:hidden path="collegeList[${stat.index}].schlCntrCode" />--%>
                                                     <%--<input id="collegeList${stat.index}.schlCntrName" cssClass="form-control" />--%>
-                                                <%--</div>--%>
-                                            <%--</div>--%>
-                                            <%--TODO domain 업데이트 후 주석해제--%>
-                                            <div class="form-group">
-                                                <label class="col-sm-2 control-label">재학 기간</label>
-                                                <div class="col-sm-4 start-date-container">
-                                                    <div class="input-group date">
-                                                        <span class="input-group-addon">입학일</span>
-                                                        <form:input path="collegeList[${stat.index}].entrDay" cssClass="form-control" readonly="true" />
+                                                    <%--</div>--%>
+                                                    <%--</div>--%>
+                                                    <%--TODO domain 업데이트 후 주석해제--%>
+                                                <div class="form-group">
+                                                    <label class="col-sm-2 control-label"><spring:message code="U354" /></label>
+                                                    <div class="col-sm-4 start-date-container">
+                                                        <div class="input-group date">
+                                                            <span class="input-group-addon"><spring:message code="U355" /></span>
+                                                            <form:input path="collegeList[${stat.index}].entrDay" cssClass="form-control" readonly="true" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-4 end-date-container">
+                                                        <div class="input-group date">
+                                                            <span class="input-group-addon"><spring:message code="U356" /></span>
+                                                            <form:input path="collegeList[${stat.index}].grdaDay" cssClass="form-control" readonly="true" />
+                                                        </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-sm-4 end-date-container">
-                                                    <div class="input-group date">
-                                                        <span class="input-group-addon">졸업(예정)일</span>
-                                                        <form:input path="collegeList[${stat.index}].grdaDay" cssClass="form-control" readonly="true" />
+                                                <div class="form-group">
+                                                    <form:label path="collegeList[${stat.index}].schlName" cssClass="col-sm-2 control-label"><spring:message code="U357" /></form:label>
+                                                    <div class="col-sm-2">
+                                                        <button type="button" class="btn btn-default btn-search bpopper" data-targetNode1="collegeList${stat.index}.schlCode" data-targetNode2='collegeList${stat.index}.schlName' data-category="school-u">검색</button>
+                                                    </div>
+                                                    <div class="col-sm-4">
+                                                        <form:hidden path="collegeList[${stat.index}].schlCode" />
+                                                        <form:input path="collegeList[${stat.index}].schlName" cssClass="form-control" />
+                                                    </div>
+                                                    <div class="col-sm-2">
+                                                        <label class="radio-inline">
+                                                            <form:radiobutton path="collegeList[${stat.index}].lastSchlYn" cssClass="radio-group" value="Y" /><spring:message code="U358" />
+                                                        </label>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <form:label path="collegeList[${stat.index}].schlName" cssClass="col-sm-2 control-label">학교 이름</form:label>
-                                                <div class="col-sm-2">
-                                                    <button type="button" class="btn btn-default btn-search bpopper" data-targetNode1="collegeList${stat.index}.schlCode" data-targetNode2='collegeList${stat.index}.schlName' data-category="school-u">검색</button>
-                                                </div>
-                                                <div class="col-sm-4">
-                                                    <form:hidden path="collegeList[${stat.index}].schlCode" />
-                                                    <form:input path="collegeList[${stat.index}].schlName" cssClass="form-control" />
-                                                </div>
-                                                <div class="col-sm-2">
-                                                    <label class="radio-inline">
-                                                        <form:radiobutton path="collegeList[${stat.index}].lastSchlYn" cssClass="radio-group" value="Y" />&nbsp;&nbsp;최종 학교
-                                                    </label>
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <form:label path="collegeList[${stat.index}].collName" cssClass="col-sm-2 control-label">단과 대학</form:label>
-                                                <div class="col-sm-9">
-                                                    <form:input path="collegeList[${stat.index}].collName" cssClass="form-control" />
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <form:label path="collegeList[${stat.index}].majName" cssClass="col-sm-2 control-label">학과 이름</form:label>
-                                                <div class="col-sm-9">
-                                                    <form:input path="collegeList[${stat.index}].majName" cssClass="form-control" />
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label class="col-sm-2 control-label">평균 평점</label>
-                                                <div class="col-sm-4">
-                                                    <div class="input-group">
-                                                        <span class="input-group-addon">평점</span>
-                                                        <form:input path="collegeList[${stat.index}].gradAvr" cssClass="form-control" />
+                                                <div class="form-group">
+                                                    <form:label path="collegeList[${stat.index}].majName" cssClass="col-sm-2 control-label"><spring:message code="U359" /></form:label>
+                                                    <div class="col-sm-9">
+                                                        <form:input path="collegeList[${stat.index}].majName" cssClass="form-control" />
                                                     </div>
                                                 </div>
-                                                <div class="col-sm-4">
-                                                    <div class="input-group">
-                                                        <span class="input-group-addon">만점</span>
-                                                        <form:input path="collegeList[${stat.index}].gradFull" cssClass="form-control" />
+                                                <div class="form-group">
+                                                    <form:label path="collegeList[${stat.index}].degrNo" cssClass="col-sm-2 control-label"><spring:message code="U360" /></form:label>
+                                                    <div class="col-sm-9">
+                                                        <form:input path="collegeList[${stat.index}].degrNo" cssClass="form-control" />
                                                     </div>
                                                 </div>
+                                                <div class="form-group">
+                                                    <form:label path="collegeList[${stat.index}].schlAddr" cssClass="col-sm-2 control-label"><spring:message code="U361" /></form:label>
+                                                    <div class="col-sm-9">
+                                                        <form:input path="collegeList[${stat.index}].schlAddr" cssClass="form-control" />
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <form:label path="collegeList[${stat.index}].schlTel" cssClass="col-sm-2 control-label"><spring:message code="U362" /></form:label>
+                                                    <div class="col-sm-9">
+                                                        <form:input path="collegeList[${stat.index}].schlTel" cssClass="form-control" />
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="col-sm-2 control-label"><spring:message code="U363" /></label>
+                                                    <div class="col-sm-4">
+                                                        <div class="input-group">
+                                                            <span class="input-group-addon"><spring:message code="U364" /></span>
+                                                            <form:input path="collegeList[${stat.index}].gradAvr" cssClass="form-control" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-4">
+                                                        <div class="input-group">
+                                                            <span class="input-group-addon"><spring:message code="U365" /></span>
+                                                            <form:input path="collegeList[${stat.index}].gradFull" cssClass="form-control" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="btn btn-remove"><button type="button" class="close" aria-hidden="true">×</button></div>
                                             </div>
-                                            <div class="btn btn-remove" data-block-index="${stat.index}" data-fileupload-block-list="fuCollegeDocBlockList"><button type="button" class="close" aria-hidden="true">×</button></div>
-                                        </div>
                                         </c:forEach>
-                                        <div class="btn btn-info btn-add" data-fileupload-block-list="fuCollegeDocBlockList">추가</div>
+                                        <div class="btn btn-info btn-add" data-fileupload-block-list="fuCollegeDocBlockList"><spring:message code="U366" /></div>
                                     </div>
                                 </div>
                             </div>
                             <div class="panel panel-default">
-                                <div class="panel-heading">대학원</div>
+                                <div class="panel-heading"><spring:message code="U367" /></div>
                                 <div class="panel-body">
                                     <div class="form-group-block-list">
                                         <c:forEach begin="0" end="${entireApplication.graduateList.size() > 0 ? entireApplication.graduateList.size() - 1 : 0}" varStatus="stat">
-                                        <div class="form-group-block">
-                                            <form:hidden path="graduateList[${stat.index}].acadTypeCode" value="00003" />
-                                            <%--TODO domain 업데이트 후 주석해제--%>
-                                            <%--<div class="form-group">--%>
-                                                <%--<label for="graduateList${stat.index}.schlCntrName" class="col-sm-2 control-label">소재 국가</label>--%>
-                                                <%--<div class="col-sm-2">--%>
+                                            <div class="form-group-block">
+                                                <form:hidden path="graduateList[${stat.index}].acadTypeCode" value="00003" />
+                                                    <%--TODO domain 업데이트 후 주석해제--%>
+                                                    <%--<div class="form-group">--%>
+                                                    <%--<label for="graduateList${stat.index}.schlCntrName" class="col-sm-2 control-label"><spring:message code="U353" /></label>--%>
+                                                    <%--<div class="col-sm-2">--%>
                                                     <%--<button type="button" class="btn btn-default btn-search bpopper" data-targetNode1="graduateList${stat.index}.schlCntrCode" data-targetNode2='graduateList${stat.index}.schlCntrName' data-category="country-g">검색</button>--%>
-                                                <%--</div>--%>
-                                                <%--<div class="col-sm-6">--%>
+                                                    <%--</div>--%>
+                                                    <%--<div class="col-sm-6">--%>
                                                     <%--<form:hidden path="graduateList[${stat.index}].schlCntrCode" />--%>
                                                     <%--<input id="graduateList${stat.index}.schlCntrName" cssClass="form-control" />--%>
-                                                <%--</div>--%>
-                                            <%--</div>--%>
-                                            <%--TODO domain 업데이트 후 주석해제--%>
-                                            <div class="form-group">
-                                                <label class="col-sm-2 control-label">재학 기간</label>
-                                                <div class="col-sm-4 start-date-container">
-                                                    <div class="input-group date">
-                                                        <span class="input-group-addon">입학일</span>
-                                                        <form:input path="graduateList[${stat.index}].entrDay" cssClass="form-control" readonly="true" />
+                                                    <%--</div>--%>
+                                                    <%--</div>--%>
+                                                    <%--TODO domain 업데이트 후 주석해제--%>
+                                                <div class="form-group">
+                                                    <label class="col-sm-2 control-label"><spring:message code="U354" /></label>
+                                                    <div class="col-sm-4 start-date-container">
+                                                        <div class="input-group date">
+                                                            <span class="input-group-addon"><spring:message code="U355" /></span>
+                                                            <form:input path="graduateList[${stat.index}].entrDay" cssClass="form-control" readonly="true" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-4 end-date-container">
+                                                        <div class="input-group date">
+                                                            <span class="input-group-addon"><spring:message code="U356" /></span>
+                                                            <form:input path="graduateList[${stat.index}].grdaDay" cssClass="form-control" readonly="true" />
+                                                        </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-sm-4 end-date-container">
-                                                    <div class="input-group date">
-                                                        <span class="input-group-addon">졸업(예정)일</span>
-                                                        <form:input path="graduateList[${stat.index}].grdaDay" cssClass="form-control" readonly="true" />
+                                                <div class="form-group">
+                                                    <form:label path="graduateList[${stat.index}].schlName" cssClass="col-sm-2 control-label"><spring:message code="U357" /></form:label>
+                                                    <div class="col-sm-2">
+                                                        <button type="button" class="btn btn-default btn-search bpopper" data-targetNode1="graduateList${stat.index}.schlCode" data-targetNode2='graduateList${stat.index}.schlName' data-category="school-g">검색</button>
+                                                    </div>
+                                                    <div class="col-sm-4">
+                                                        <form:hidden path="graduateList[${stat.index}].schlCode" />
+                                                        <form:input path="graduateList[${stat.index}].schlName" cssClass="form-control" />
+                                                    </div>
+                                                    <div class="col-sm-2">
+                                                        <label class="radio-inline">
+                                                            <form:radiobutton path="graduateList[${stat.index}].lastSchlYn" cssClass="radio-group" value="Y" /><spring:message code="U358" />
+                                                        </label>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <form:label path="graduateList[${stat.index}].schlName" cssClass="col-sm-2 control-label">학교 이름</form:label>
-                                                <div class="col-sm-2">
-                                                    <button type="button" class="btn btn-default btn-search bpopper" data-targetNode1="graduateList${stat.index}.schlCode" data-targetNode2='graduateList${stat.index}.schlName' data-category="school-g">검색</button>
-                                                </div>
-                                                <div class="col-sm-4">
-                                                    <form:hidden path="graduateList[${stat.index}].schlCode" />
-                                                    <form:input path="graduateList[${stat.index}].schlName" cssClass="form-control" />
-                                                </div>
-                                                <div class="col-sm-2">
-                                                    <label class="radio-inline">
-                                                        <form:radiobutton path="graduateList[${stat.index}].lastSchlYn" cssClass="radio-group" value="Y" />&nbsp;&nbsp;최종 학교
-                                                    </label>
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <form:label path="graduateList[${stat.index}].collName" cssClass="col-sm-2 control-label">단과 대학</form:label>
-                                                <div class="col-sm-9">
-                                                    <form:input path="graduateList[${stat.index}].collName" cssClass="form-control" />
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <form:label path="graduateList[${stat.index}].majName" cssClass="col-sm-2 control-label">학과 이름</form:label>
-                                                <div class="col-sm-9">
-                                                    <form:input path="graduateList[${stat.index}].majName" cssClass="form-control" />
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label class="col-sm-2 control-label">평균 평점</label>
-                                                <div class="col-sm-4">
-                                                    <div class="input-group">
-                                                        <span class="input-group-addon">평점</span>
-                                                        <form:input path="graduateList[${stat.index}].gradAvr" cssClass="form-control" />
+                                                <div class="form-group">
+                                                    <form:label path="graduateList[${stat.index}].majName" cssClass="col-sm-2 control-label"><spring:message code="U359" /></form:label>
+                                                    <div class="col-sm-9">
+                                                        <form:input path="graduateList[${stat.index}].majName" cssClass="form-control" />
                                                     </div>
                                                 </div>
-                                                <div class="col-sm-4">
-                                                    <div class="input-group">
-                                                        <span class="input-group-addon">만점</span>
-                                                        <form:input path="graduateList[${stat.index}].gradFull" cssClass="form-control" />
+                                                <div class="form-group">
+                                                    <form:label path="collegeList[${stat.index}].degrNo" cssClass="col-sm-2 control-label"><spring:message code="U360" /></form:label>
+                                                    <div class="col-sm-9">
+                                                        <form:input path="collegeList[${stat.index}].degrNo" cssClass="form-control" />
                                                     </div>
                                                 </div>
+                                                <div class="form-group">
+                                                    <form:label path="collegeList[${stat.index}].schlAddr" cssClass="col-sm-2 control-label"><spring:message code="U361" /></form:label>
+                                                    <div class="col-sm-9">
+                                                        <form:input path="collegeList[${stat.index}].schlAddr" cssClass="form-control" />
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <form:label path="collegeList[${stat.index}].schlTel" cssClass="col-sm-2 control-label"><spring:message code="U362" /></form:label>
+                                                    <div class="col-sm-9">
+                                                        <form:input path="collegeList[${stat.index}].schlTel" cssClass="form-control" />
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="col-sm-2 control-label"><spring:message code="U363" /></label>
+                                                    <div class="col-sm-4">
+                                                        <div class="input-group">
+                                                            <span class="input-group-addon"><spring:message code="U364" /></span>
+                                                            <form:input path="graduateList[${stat.index}].gradAvr" cssClass="form-control" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-4">
+                                                        <div class="input-group">
+                                                            <span class="input-group-addon"><spring:message code="U365" /></span>
+                                                            <form:input path="graduateList[${stat.index}].gradFull" cssClass="form-control" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="btn btn-remove"><button type="button" class="close" aria-hidden="true">×</button></div>
                                             </div>
-                                            <div class="btn btn-remove" data-block-index="${stat.index}" data-fileupload-block-list="fuGraduateDocBlockList"><button type="button" class="close" aria-hidden="true">×</button></div>
-                                        </div>
                                         </c:forEach>
-                                        <div class="btn btn-info btn-add" data-fileupload-block-list="fuGraduateDocBlockList">추가</div>
+                                        <div class="btn btn-info btn-add"><spring:message code="U366" /></div>
                                     </div>
                                 </div>
                             </div>
@@ -699,13 +741,13 @@
                     <div class="row">
                         <div class="col-sm-offset-1 col-sm-10">
                             <div class="panel panel-default">
-                                <div class="panel-heading">어학성적</div>
+                                <div class="panel-heading"><spring:message code="U368" /></div>
                                 <div class="panel-body" id="english-score-list">
-                                    <c:forEach items="${common.engExamList}" var="langExam" varStatus="stat">
+                                    <c:forEach items="${common.korExamList}" var="langExam" varStatus="stat">
                                     <div class="form-group hide-lang">
                                         <c:choose>
                                         <c:when test="${stat.index == 0}">
-                                        <label class="col-sm-2 control-label">영어</label>
+                                        <label class="col-sm-2 control-label"><spring:message code="U369" /></label>
                                         <div class="col-sm-2">
                                         </c:when>
                                         <c:otherwise>
@@ -724,26 +766,68 @@
                                         </div>
                                         </c:otherwise>
                                         </c:choose>
+                                        <div class="col-sm-3">
+                                            <div class="input-group">
+                                                <span class="input-group-addon"><spring:message code="U370" /></span>
+                                                <form:input path="examNo" cssClass="form-control" />
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <div class="input-group">
+                                                <span class="input-group-addon"><spring:message code="U371" /></span>
+                                                <form:input path="langGrad" cssClass="form-control" />
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <div class="input-group date">
+                                                <span class="input-group-addon"><spring:message code="U372" /></span>
+                                                <form:input path="applicationLanguageList[${stat.index}].examDay" cssClass="form-control" />
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <div class="input-group date">
+                                                <span class="input-group-addon"><spring:message code="U373" /></span>
+                                                <form:input path="applicationLanguageList[${stat.index}].exprDay" cssClass="form-control" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    </c:forEach>
+                                    <c:forEach items="${common.engExamList}" var="langExam" varStatus="stat">
+                                    <div class="form-group hide-lang">
+                                        <c:choose>
+                                        <c:when test="${stat.index == 0}">
+                                        <label class="col-sm-2 control-label"><spring:message code="U374" /></label>
+                                        <div class="col-sm-2">
+                                        </c:when>
+                                        <c:otherwise>
+                                        <div class="col-sm-offset-2 col-sm-2">
+                                        </c:otherwise>
+                                        </c:choose>
+                                            <input type="hidden" name="applicationLanguageList[${stat.index}].langExamCode" id="applicationLanguageList${stat.index}.langExamCode" value="${langExam.examCode}" />
+                                            <div class="checkbox">
+                                                <label for="checkLang${stat.index}"><input type="checkbox" class="btn-lang-disabled" id="checkLang${stat.index}" <c:if test="entireApplication.applicationLanguageList['${stat.index}'] != null">checked</c:if>/>${langExam.examName}</label>
+                                            </div>
+                                        </div>
                                         <div class="col-sm-2 show-lang">
                                             <c:if test="${langExam.examCode == '00001'}">
                                             <form:select path="applicationLanguageList[${stat.index}].toflTypeCode" cssClass="form-control">
-                                                <form:option value="-" label="--선택--" />
+                                                <form:option value="-" label="${U315}" />
                                                 <form:options items="${common.toflTypeList}" itemValue="code" itemLabel="codeVal" />
                                             </form:select>
                                             </c:if>
                                         </div>
                                         <div class="col-sm-2 hide-lang">
-                                            <p class="form-control-static">인정 불가</p>
+                                            <p class="form-control-static"><spring:message code="U375" /></p>
                                         </div>
                                         <div class="col-sm-3 show-lang">
                                             <div class="input-group date">
-                                                <span class="input-group-addon">시험일</span>
+                                                <span class="input-group-addon"><spring:message code="U372" /></span>
                                                 <form:input path="applicationLanguageList[${stat.index}].examDay" cssClass="form-control" />
                                             </div>
                                         </div>
                                         <div class="col-sm-2 show-lang">
                                             <div class="input-group">
-                                                <span class="input-group-addon">점수</span>
+                                                <span class="input-group-addon"><spring:message code="U371" /></span>
                                                 <form:input path="applicationLanguageList[${stat.index}].langGrad" cssClass="form-control" />
                                             </div>
                                         </div>
@@ -752,56 +836,12 @@
                                     <div class="form-group">
                                         <div class="col-sm-offset-2 col-sm-4">
                                             <div class="checkbox">
-                                                <label>
-                                                    <input type="checkbox" />외국어 성적 면제 해당자
-                                                </label>
+                                                <label><input type="checkbox" /><spring:message code="U376" /></label>
                                             </div>
                                         </div>
                                         <div class="col-sm-5">
                                             <form:select path="applicationGeneral.forlExmpCode" id="forlExamCode" cssClass="form-control" items="${common.fornExmpList}" itemValue="code" itemLabel="codeVal" />
                                         </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="panel panel-default">
-                                <div class="panel-heading">경력 사항</div>
-                                <div class="panel-body">
-                                    <div id="career-container" class="form-group-block-list">
-                                        <c:forEach varStatus="stat" begin="0" end="${entireApplication.applicationExperienceList.size() > 0 ? entireApplication.applicationExperienceList.size() - 1 : 0}">
-                                        <div id="career-info" class="form-group-block">
-                                            <div class="form-group">
-                                                <label class="col-sm-2 control-label">재직 기간</label>
-                                                <div class="col-sm-4 start-date-container">
-                                                    <div class="input-group date">
-                                                        <span class="input-group-addon">입사일</span>
-                                                        <form:input path="applicationExperienceList[${stat.index}].joinDay" cssClass="form-control" readonly="true" />
-                                                    </div>
-                                                </div>
-                                                <div class="col-sm-4 end-date-container">
-                                                    <div class="input-group date">
-                                                        <span class="input-group-addon">퇴사일</span>
-                                                        <form:input path="applicationExperienceList[${stat.index}].retrDay" cssClass="form-control" readonly="true" />
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <form:label path="applicationExperienceList[${stat.index}].corpName" cssClass="col-sm-2 control-label">기관명</form:label>
-                                                <div class="col-sm-9">
-                                                    <form:input path="applicationExperienceList[${stat.index}].corpName" cssClass="form-control" />
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <form:label path="applicationExperienceList[${stat.index}].exprDesc" cssClass="col-sm-2 control-label">직위명</form:label>
-                                                <div class="col-sm-9">
-                                                    <form:input path="applicationExperienceList[${stat.index}].exprDesc" cssClass="form-control" />
-                                                </div>
-                                            </div>
-                                            <div class="btn btn-remove">
-                                                <button type="button" class="close" aria-hidden="true">×</button>
-                                            </div>
-                                        </div>
-                                        </c:forEach>
-                                        <div class="btn btn-info btn-add">추가</div>
                                     </div>
                                 </div>
                             </div>
@@ -814,10 +854,10 @@
                     <div class="row">
                         <div class="col-sm-offset-1 col-sm-10">
                             <div class="panel panel-darkgray">
-                                <div class="panel-heading">사진 업로드</div>
+                                <div class="panel-heading"><spring:message code="U377" /></div>
                                 <div class="panel-body">
                                     <div class="form-group">
-                                        <label class="col-sm-2 control-label">파일 선택</label>
+                                        <label class="col-sm-2 control-label"><spring:message code="U378" /></label>
                                         <div class="col-sm-9">
                                             <div class="input-group">
                                                 <span class="input-group-btn">
@@ -826,7 +866,22 @@
                                                     </span>
                                                 </span>
                                                 <span class="col-sm-8 nopadding"><input type="text" class="form-control" readonly/></span>
-                                                <span class="col-sm-4 nopadding"><input type="button" id="btnPicture" class="btn btn-default btn-block btn-upload" value="올리기"/></span>
+                                                <spring:message code="U379" var="U379" />
+                                                <span class="col-sm-4 nopadding"><input type="button" id="btnPicture" class="btn btn-default btn-block btn-upload" value="${U379}"/></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label"><spring:message code="U378" /></label>
+                                        <div class="col-sm-9">
+                                            <div class="input-group">
+                                                <span class="input-group-btn">
+                                                    <span class="btn btn-default btn_lg btn-file">
+                                                        Browse&hellip; <input type="file" id="fuPicture1" name="picture1"/>
+                                                    </span>
+                                                </span>
+                                                <span class="col-sm-8 nopadding"><input type="text" class="form-control" readonly/></span>
+                                                <span class="col-sm-4 nopadding"><input type="button" id="btnPicture1" class="btn btn-default btn-block btn-upload" value="${U379}"/></span>
                                             </div>
                                         </div>
                                     </div>
@@ -836,7 +891,7 @@
                             <div class="spacer-tiny"></div>
 
                             <div class="panel panel-darkgray">
-                                <div class="panel-heading">학력 관련 서류 업로드</div>
+                                <div class="panel-heading"><spring:message code="U380" /></div>
                                 <div class="panel-body">
                                     <div class="form-group-block-list" id="fuCollegeDocBlockList">
                                         <div class="form-group-block">
@@ -844,11 +899,13 @@
                                                 <label class="col-sm-2 control-label">졸업(예정)증명서</label>
                                                 <div class="col-sm-9">
                                                     <div class="input-group">
-                                                        <div class="input-group-btn">
-                                                            <input type="file" class="btn btn_lg btn-file" id="collegeDiploma0.file" name="collegeDiploma[0].file"/>
-                                                        </div>
-                                                        <div class="col-sm-4 nopadding"><input type="button" id="collegeDiploma0.btn" name="collegeDiploma[0].btn" class="btn btn-default btn-block btn-upload" value="올리기"/></div>
-                                                        <label style="vertical-align: middle;">업로드된파일명</label>
+                                                        <span class="input-group-btn">
+                                                            <span class="btn btn-default btn_lg btn-file">
+                                                                Browse&hellip; <input type="file" id="collegeDiploma0.file" name="collegeDiploma[0].file"/>
+                                                            </span>
+                                                        </span>
+                                                        <span class="col-sm-8 nopadding"><input type="text" class="form-control" readonly/></span>
+                                                        <span class="col-sm-4 nopadding"><input type="button" id="collegeDiploma0.btn" name="collegeDiploma[0].btn" class="btn btn-default btn-block btn-upload" value="${U379}"/></span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -856,61 +913,108 @@
                                                 <label class="col-sm-2 control-label">성적증명서</label>
                                                 <div class="col-sm-9">
                                                     <div class="input-group">
-                                                        <div class="input-group-btn">
-                                                            <input type="file" class="btn btn_lg btn-file" id="collegeGrade0.file" name="collegeGrade[0].file"/>
-                                                        </div>
-                                                        <div class="col-sm-4 nopadding"><input type="button" id="collegeGrade0.btn" name="collegeGrade[0].btn" class="btn btn-default btn-block btn-upload" value="올리기"/></div>
-                                                        <label style="vertical-align: middle;">업로드된파일명</label>
+                                                        <span class="input-group-btn">
+                                                            <span class="btn btn-default btn_lg btn-file">
+                                                                Browse&hellip; <input type="file" id="collegeGrade0.file" name="collegeGrade[0].file"/>
+                                                            </span>
+                                                        </span>
+                                                        <span class="col-sm-8 nopadding"><input type="text" class="form-control" readonly/></span>
+                                                        <span class="col-sm-4 nopadding"><input type="button" id="collegeGrade0.btn" name="collegeGrade[0].btn" class="btn btn-default btn-block btn-upload" value="${U379}"/></span>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="form-group block-china">
-                                                <label class="col-sm-2 control-label">학력조회 동의서</label>
-                                                <div class="col-sm-9">
-                                                    <div class="input-group">
-                                                        <div class="input-group-btn">
-                                                            <input type="file" class="btn btn_lg btn-file" id="retrieveGradeAgree0.file" name="retrieveGradeAgree[0].file"/>
-                                                        </div>
-                                                        <div class="col-sm-4 nopadding"><input type="button" id="retrieveGradeAgree0.btn" name="retrieveGradeAgree[0].btn" class="btn btn-default btn-block btn-upload" value="올리기"/></div>
-                                                        <label style="vertical-align: middle;">업로드된파일명</label>
-                                                    </div>
-                                                </div>
+                                        </div>
+                                    </div>
+
+                                    <%--<div class="form-group">--%>
+                                        <%--<label class="col-sm-2 control-label">졸업(예정)증명서</label>--%>
+                                        <%--<div class="col-sm-9">--%>
+                                            <%--<div class="input-group">--%>
+                                                <%--<span class="input-group-btn">--%>
+                                                    <%--<span class="btn btn-default btn_lg btn-file">--%>
+                                                        <%--Browse&hellip; <input type="file" id="collegeDiploma0.file" name="collegeDiploma[0].file"/>--%>
+                                                    <%--</span>--%>
+                                                <%--</span>--%>
+                                                <%--<input type="text" class="form-control" readonly/>--%>
+                                            <%--</div>--%>
+                                        <%--</div>--%>
+                                    <%--</div>--%>
+                                    <%--<div class="form-group">--%>
+                                        <%--<label class="col-sm-2 control-label">성적증명서</label>--%>
+                                        <%--<div class="col-sm-9">--%>
+                                            <%--<div class="input-group">--%>
+                                                <%--<span class="input-group-btn">--%>
+                                                    <%--<span class="btn btn-default btn_lg btn-file">--%>
+                                                        <%--Browse&hellip; <input type="file" id="collegeGrade0.file" name="collegeGrade[0].file"/>--%>
+                                                    <%--</span>--%>
+                                                <%--</span>--%>
+                                                <%--<input type="text" class="form-control" readonly/>--%>
+                                            <%--</div>--%>
+                                        <%--</div>--%>
+                                    <%--</div>--%>
+
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">학력조회 동의서</label>
+                                        <div class="col-sm-9">
+                                            <div class="input-group">
+                                                    <span class="input-group-btn">
+                                                        <span class="btn btn-default btn_lg btn-file">
+                                                            Browse&hellip; <input type="file" multiple/>
+                                                        </span>
+                                                    </span>
+                                                <input type="text" class="form-control" readonly/>
                                             </div>
-                                            <div class="form-group block-foreign-common">
-                                                <label class="col-sm-2 control-label">출신대학(원) 확인서</label>
-                                                <div class="col-sm-9">
-                                                    <div class="input-group">
-                                                        <div class="input-group-btn">
-                                                            <input type="file" class="btn btn_lg btn-file" id="verifySchool0.file" name="verifySchool[0].file"/>
-                                                        </div>
-                                                        <div class="col-sm-4 nopadding"><input type="button" id="verifySchool0.btn" name="verifySchool[0].btn" class="btn btn-default btn-block btn-upload" value="올리기"/></div>
-                                                        <label style="vertical-align: middle;">업로드된파일명</label>
-                                                    </div>
-                                                </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">출신대학(원) 확인서</label>
+                                        <div class="col-sm-9">
+                                            <div class="input-group">
+                                                    <span class="input-group-btn">
+                                                        <span class="btn btn-default btn_lg btn-file">
+                                                            Browse&hellip; <input type="file" multiple/>
+                                                        </span>
+                                                    </span>
+                                                <input type="text" class="form-control" readonly/>
                                             </div>
-                                            <div class="form-group block-non-china">
-                                                <label class="col-sm-2 control-label">학위증명서 원본</label>
-                                                <div class="col-sm-9">
-                                                    <div class="input-group">
-                                                        <div class="input-group-btn">
-                                                            <input type="file" class="btn btn_lg btn-file" id="originDegree0.file" name="originDegree[0].file"/>
-                                                        </div>
-                                                        <div class="col-sm-4 nopadding"><input type="button" id="originDegree0.btn" name="originDegree[0].btn" class="btn btn-default btn-block btn-upload" value="올리기"/></div>
-                                                        <label style="vertical-align: middle;">업로드된파일명</label>
-                                                    </div>
-                                                </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">출신대학(원) 확인서</label>
+                                        <div class="col-sm-9">
+                                            <div class="input-group">
+                                                    <span class="input-group-btn">
+                                                        <span class="btn btn-default btn_lg btn-file">
+                                                            Browse&hellip; <input type="file" multiple/>
+                                                        </span>
+                                                    </span>
+                                                <input type="text" class="form-control" readonly>
                                             </div>
-                                            <div class="form-group block-non-china">
-                                                <label class="col-sm-2 control-label">학위증 사본</label>
-                                                <div class="col-sm-9">
-                                                    <div class="input-group">
-                                                        <div class="input-group-btn">
-                                                            <input type="file" class="btn btn_lg btn-file" id="copyDegree0.file" name="copyDegree[0].file"/>
-                                                        </div>
-                                                        <div class="col-sm-4 nopadding"><input type="button" id="copyDegree0.btn" name="copyDegree[0].btn" class="btn btn-default btn-block btn-upload" value="올리기"/></div>
-                                                        <label style="vertical-align: middle;">업로드된파일명</label>
-                                                    </div>
-                                                </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">학위증명서 원본</label>
+                                        <div class="col-sm-9">
+                                            <div class="input-group">
+                                                    <span class="input-group-btn">
+                                                        <span class="btn btn-default btn_lg btn-file">
+                                                            Browse&hellip; <input type="file" multiple/>
+                                                        </span>
+                                                    </span>
+                                                <input type="text" class="form-control" readonly/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">학위증 사본</label>
+                                        <div class="col-sm-9">
+                                            <div class="input-group">
+                                                    <span class="input-group-btn">
+                                                        <span class="btn btn-default btn_lg btn-file">
+                                                            Browse&hellip; <input type="file" multiple/>
+                                                        </span>
+                                                    </span>
+                                                <input type="text" class="form-control" readonly/>
                                             </div>
                                         </div>
                                     </div>
@@ -920,7 +1024,7 @@
                             <div class="spacer-tiny"></div>
 
                             <div class="panel panel-darkgray">
-                                <div class="panel-heading">어학 관련 서류 업로드</div>
+                                <div class="panel-heading"><spring:message code="U393" /></div>
                                 <div class="panel-body">
                                     <div class="form-group engExam" id="examTOEFL">
                                         <label class="col-sm-2 control-label">TOEFL</label>
@@ -1006,7 +1110,7 @@
                             <div class="spacer-tiny"></div>
 
                             <div class="panel panel-darkgray">
-                                <div class="panel-heading">지원 과정/학과별 제출 서류</div>
+                                <div class="panel-heading"><spring:message code="U394" /></div>
                                 <div class="panel-body">
                                     <div class="form-group">
                                         <label class="col-sm-2 control-label">경력증명서</label>
@@ -1051,13 +1155,17 @@
 
         <div class="btn-group btn-group-justified">
             <div class="btn-group">
-                <button id="save" type="button" class="btn btn-info btn-lg">저장</button>
+                <button id="save" type="button" class="btn btn-info btn-lg"><spring:message code="U308" /></button>
             </div>
             <div class="btn-group">
-                <button id="appply" type="button" class="btn btn-primary btn-lg">작성완료</button>
+                <button id="appply" type="button" class="btn btn-primary btn-lg"><spring:message code="U309" /></button>
             </div>
             <div class="btn-group">
-                <button id="reset" type="button" class="btn btn-warning btn-lg">되돌리기</button>
+                <button id="reset" type="button" class="btn btn-warning btn-lg"><spring:message code="U310" /></button>
+            </div>
+            <%-- TODO 파일 업로드 테스트 추후 삭제 요 --%>
+            <div class="btn-group">
+                <button id="saveandupload" type="button" class="btn btn-error btn-lg">파일업로드</button>
             </div>
         </div>
     </div> <%--container--%>
@@ -1073,7 +1181,7 @@
                 <div class="col-sm-10">
                     <input type="text" id="bpop" name="bpop" class="form-control ime-mode-kr" />
                 </div>
-                <button id="bpopBtnSearch" class="btn btn-info col-sm-2">검색</button>
+                <button id="bpopBtnSearch" class="btn btn-info col-sm-2"><spring:message code="U333" /></button>
             </div>
             <div class="form-group">
                 <div class="col-sm-12" style="overflow-y: auto; height: 300px;">
@@ -1229,25 +1337,26 @@
             $('#searchAddress').on('click', showDaumPostcode);
             <%-- 다음 주소 검색 끝 -->
 
-            <%-- 파일 업로드 시작 - 한 번 업로드 후 동작 안해서 안쓰기고 함--%>
-//            $('.btn-file :file').on('change', function() {
-//                var input = $(this),
-//                        numFiles = input.get(0).files ? input.get(0).files.length : 1,
-//                        label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
-//                input.trigger('fileselect', [numFiles, label]);
-//            });
-//
-//            $('.btn-file :file').on('fileselect', function(event, numFiles, label) {
-//                var input = $(this).parents('.input-group').find(':text'),
-//                        log = numFiles > 1 ? numFiles + ' files selected' : label;
-//
-//                if( input.length ) {
-//                    input.val(log);
-//                } else {
-//                    if( log ) alert(log);
-//                }
-//
-//            });
+            <%-- 사진 업로드 시작 --%>
+            $('.btn-file :file').on('change', function() {
+                var input = $(this),
+                        numFiles = input.get(0).files ? input.get(0).files.length : 1,
+                        label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
+                input.trigger('fileselect', [numFiles, label]);
+            });
+
+            $('.btn-file :file').on('fileselect', function(event, numFiles, label) {
+
+                var input = $(this).parents('.input-group').find(':text'),
+                        log = numFiles > 1 ? numFiles + ' files selected' : label;
+
+                if( input.length ) {
+                    input.val(log);
+                } else {
+                    if( log ) alert(log);
+                }
+
+            });
             <%-- 사진 업로드 끝 --%>
 
             var datePickerOption = {
@@ -1261,9 +1370,7 @@
             };
 
             <%-- 달력 시작 --%>
-            $('.input-group.date>input').each(function() {
-                $(this).datepicker(datePickerOption);
-            });
+            $('.input-group.date>input').datepicker(datePickerOption);
             $('.input-daterange>input').datepicker(datePickerOption);
             <%-- 달력 끝 --%>
 
@@ -1498,7 +1605,6 @@
                     $cloneObj.find('.input-group.date>input').datepicker(datePickerOption);
                 }
 
-                // 파일업로드 부분
                 var fileUploadContainer = document.getElementById(target.getAttribute("data-fileupload-block-list"));
                 var fuBlocks = fileUploadContainer.querySelectorAll('.form-group-block');
                 var fuOriginBlock = fuBlocks[fuBlocks.length - 1];
@@ -1540,13 +1646,6 @@
                 }
 
                 mustCheckedOneRadio();
-
-                // 파일업로드 부분 제거
-                var fileUploadContainer = document.getElementById(target.getAttribute("data-fileupload-block-list")),
-                    indexOfBlockToRemove = target.getAttribute('data-block-index'),
-                    blockToRemove = fileUploadContainer.children[indexOfBlockToRemove];
-                fileUploadContainer.removeChild(blockToRemove);
-
             });
 
             <%-- id, name 재설정 시작 --%>
@@ -1555,26 +1654,22 @@
                 var input = block.querySelector('input');
 
                 name = input.name;
-                prefix = name.substring(0, name.indexOf('['));
+                prefix = name.substring(0, name.indexOf('['))
 
                 items = block.querySelectorAll('input, select');
                 if (items) {
                     for (i = 0; i <items.length; i++) {
                         name = items[i].name;
                         var oldid = items[i].id;
-                        suffix = name.substring(name.indexOf('.'), name.length);
+                        suffix = name.substring(name.indexOf(']') + 1, name.length);
                         items[i].name = prefix + '[' + index + ']' + suffix;
                         items[i].id = prefix + index + suffix;
+
                         label = block.querySelector('label[for="' + oldid + '"]');
                         if (label) {
                             label.setAttribute('for', items[i].id);
                         }
                     }
-                }
-
-                var removeBtn = block.querySelector('.btn-remove');
-                if (removeBtn) {
-                   removeBtn.setAttribute('data-block-index', index);
                 }
 
                 var searchBtn = block.querySelector('[data-targetNode1]');
@@ -1600,14 +1695,6 @@
                         }
                         if (items[i].checked != null) {
                             items[i].checked = false;
-                        }
-                        if (items[i].type == 'button') {
-                            $(items[i]).removeClass('btn-info');
-                            $(items[i]).addClass('btn-default');
-                            $(items[i]).val('올리기');
-                        }
-                        if (items[i].type == 'file') {
-                            $(items[i]).val('');
                         }
                     }
                 }
@@ -1991,7 +2078,6 @@
                 })
             }
 
-            <%-- checkbox hide/show --%>
             function updateLanguageGroup(group, data) {
                 var langExamCode = $(group).find('input').filter('[name$="langExamCode"]')[0];
                 var check = $(group).find('.btn-lang, .btn-lang-disabled')[0];
@@ -2012,8 +2098,6 @@
                     if (!isExist) {
                         check.className = 'btn-lang-disabled';
                         check.setAttribute('disabled', 'disabled');
-                        $(group).removeClass('show-lang');
-                        $(group).addClass('hide-lang');
                     }
                 }
             }
@@ -2037,73 +2121,61 @@
             <%-- 어학 체크박스 클릭 시 처리 끝 --%>
 
             <%-- 어학 선택 시 어학 증빙 파일 첨부 양식 처리 --%>
-            $('.checkbox').on('change', function(e) {
-
+            $('.checkbox').on('click', function(e) {
                 var childCheckbox = $(this).find("input[type=checkbox]"),
-                    targetExamName = "#exam"+ $(this).find("label").text().trim();
+                    targetExamName = "#exam"+ $(this).find("label").text();
                 childCheckbox.is(":checked") ?
                         $(targetExamName).css("display", "block") :
                         $(targetExamName).css("display", "none");
 
-            });
+            })
 
-            <%-- 파일 선택 버튼 이벤트 --%>
-            $('.btn-file').on('change', function (e) { // 한번 업로드한 inputfile은 이벤트가 발생 안한다.
-                var target = e.target,
-                    inputGroup = target.parentNode.parentNode,
-                    uploadButton = $(inputGroup).find('input[type="button"]');
-console.log(uploadButton);
-                $(uploadButton).removeClass('disabled');
-                $(uploadButton).val('올리기');
-console.log(uploadButton);
-
-
-            });
-            <%-- 파일 선택 버튼 이벤트 --%>
-
-            <%-- 파일 업로드 버튼 이벤트 --%>
+//            $('#uploadPicture').on('click', function (e) {
             $('.btn-upload').on('click', function (e) {
-                var actionUrl = "${contextPath}/application/apply/savetest",
+                var ea = document.getElementById('entireApplication'),
+                    actionUrl = "${contextPath}/application/apply/savetest",
                     fileInputId = e.target.parentNode.parentNode.querySelector('input').getAttribute('id'),
-                    fileInput = document.getElementById(fileInputId),
-                    fileInputName = fileInput.getAttribute("name")
+                    fileInputName = document.getElementById(fileInputId).getAttribute("name")
                     ;
-                if ((fileInput.files && fileInput.files.length) || fileInput.value != "") {
-                    $.ajaxFileUpload({
-                        url: actionUrl,
-                        secureuri:false,
-                        fileElementId:fileInputId,
-                        dataType: 'json',
-                        data: {fieldName: fileInputName,targetButton: $(this).attr('id')},
-                        success: function (data, status) {
-                            if (console) {
-                                console.log("msg : ", data.message);
-                                console.log("data : ", data.data);
-                                console.log("status : ", status);
-                            }
-                            var targetBtnId = data.message,
-                                targetBtn = document.getElementById(targetBtnId),
-                                $targetBtn = $(targetBtn);
-                            $targetBtn.removeClass("btn-default");
-                            $targetBtn.addClass("btn-info");
-                            $targetBtn.val("올리기 성공");
-                        },
-                        error: function (data, status, e) {
-                            if(console) {
-                                console.log("data : ", data);
-                                console.log("status : ", status);
-                                console.log("e : ", e);
-                            }
+console.log(fileInputId);
+                $.ajaxFileUpload({
+                    url: actionUrl,
+                    secureuri:false,
+                    fileElementId:fileInputId,
+                    dataType: 'json',
+                    data: {fieldName: fileInputName,targetButton: $(this).attr('id')},
+                    success: function (data, status) {
+                        if (console) {
+                            console.log("msg : ", data.message);
+                            console.log("data : ", data.data);
+                            console.log("status : ", status);
                         }
-                    });
-                } else {
-                    alert("파일을 선택해 주십시오");
-                }
+                        $('#'+data.message).removeClass("btn-default");
+                        $('#'+data.message).addClass("btn-info");
+                        $('#'+data.message).val("${U379} 성공");
 
+//                        if(typeof(data.error) != 'undefined')
+//                        {
+//                            if(data.error != '')
+//                            {
+//                                alert(data.error);
+//                            }else
+//                            {
+//                                alert(data.msg);
+//                            }
+//                        }
+                    },
+                    error: function (data, status, e) {
+                        if(console) {
+                            console.log("data : ", data);
+                            console.log("status : ", status);
+                            console.log("e : ", e);
+                        }
+                    }
+                });
 
                 return false;
             });
-            <%-- 파일 업로드 버튼 이벤트 --%>
         });
 
     </script>
