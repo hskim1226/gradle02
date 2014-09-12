@@ -2039,6 +2039,7 @@
                 })
             }
 
+            <%-- checkbox hide/show --%>
             function updateLanguageGroup(group, data) {
                 var langExamCode = $(group).find('input').filter('[name$="langExamCode"]')[0];
                 var check = $(group).find('.btn-lang, .btn-lang-disabled')[0];
@@ -2059,6 +2060,8 @@
                     if (!isExist) {
                         check.className = 'btn-lang-disabled';
                         check.setAttribute('disabled', 'disabled');
+                        $(group).removeClass('show-lang');
+                        $(group).addClass('hide-lang');
                     }
                 }
             }
