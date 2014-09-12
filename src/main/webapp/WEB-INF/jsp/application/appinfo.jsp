@@ -1022,6 +1022,7 @@
                     <div class="spacer-tiny"></div>
                 </div>
             </div> <%--myTabContent--%>
+            <input
         </form:form>
 
         <div class="btn-group btn-group-justified">
