@@ -2,6 +2,7 @@ package com.apexsoft.framework.persistence.file.service;
 
 import com.apexsoft.framework.persistence.dao.CommonDAO;
 import com.apexsoft.framework.persistence.file.model.FileVO;
+import com.apexsoft.ysprj.applicants.application.domain.ApplicationDocumentKey;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +20,8 @@ import java.util.List;
 public class FileServiceImpl implements FileService {
 
     private static String NAME_SPACE = "TEMP_FILE.";
+    private final static String FILE_NAME_SPACE = "com.apexsoft.ysprj.applicants.application.sqlmap.";
+
     @Autowired
     private CommonDAO commonDAO;
 
@@ -36,5 +39,20 @@ public class FileServiceImpl implements FileService {
     public File getFile(int fileSeq) {
         FileVO tempFileVO = commonDAO.queryForObject(NAME_SPACE+"selectByPk", fileSeq, FileVO.class);
         return new File(tempFileVO.getPath(), tempFileVO.getFileName());
+    }
+
+    @Override
+    public File getFile(ApplicationDocumentKey applicationDocumentKey) {
+        FileVO fileVO = commonDAO.queryForObject(FILE_NAME_SPACE + "ApplicationDocumentMapper.selectByPrimaryKey",
+                                                 applicationDocumentKey,
+                                                 FileVO.class);
+        return new File(fileVO.getPath(), fileVO.getFileName());
+    }
+
+    @Override
+    public List<FileVO> getFiles(int applNo) {
+        return commonDAO.queryForList(FILE_NAME_SPACE + "CustomApplicationDocumentMapper.selectByApplNo",
+                                      applNo,
+                                      FileVO.class);
     }
 }

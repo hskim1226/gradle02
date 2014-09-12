@@ -2035,6 +2035,8 @@ console.log(uploadButton);
                             if (console) {
                                 console.log("targetButton : ", d.targetButton);
                                 console.log("targetLabel : ", d.targetLabel);
+                                console.log("applNo : ", d.applNo);
+                                console.log("docSeq : ", d.docSeq);
                                 console.log("originalFileName : ", d.originalFileName);
                                 console.log("data : ", data.data);
                                 console.log("status : ", status);

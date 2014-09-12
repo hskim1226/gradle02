@@ -21,7 +21,7 @@ import java.util.List;
  */
 @Controller
 @RequestMapping("/template")
-public class FileDownloadController {
+public class TemplateFileDownloadController {
 
     @Autowired
     private TempFileService tempFileService;

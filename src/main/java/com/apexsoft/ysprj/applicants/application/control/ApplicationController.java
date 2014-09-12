@@ -451,9 +451,12 @@ public class ApplicationController {
                                                         fis = new FileInputStream(fileItem.getFile()));
                             fileVO.setPath(fileInfo.getDirectory());
                             fileVO.setFileName(fileInfo.getFileName());
-                            fileMetaForm.setPath(uploadDir);
-                            fileMetaForm.setFileName(uploadFileName);
+                            fileMetaForm.setPath(fileInfo.getDirectory());
+                            fileMetaForm.setFileName(fileInfo.getFileName());
                             fileMetaForm.setOriginalFileName(fileItem.getOriginalFileName());
+                            //TODO
+                            fileMetaForm.setApplNo(3);
+                            fileMetaForm.setDocSeq(3);
                         }catch(FileNotFoundException fnfe){
                             throw new FileUploadException("", fnfe);
                         }finally {
