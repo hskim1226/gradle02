@@ -51,7 +51,7 @@ public class ApplicationServiceImpl implements ApplicationService {
     public ExecutionContext createEntireApplication(EntireApplication entireApplication) {
 
         int r1 = 0;
-        int applNo;
+        int applNo = 0;
         int r2 = 0;
         int r3 = 0;
         int r4 = 0;
@@ -140,7 +140,8 @@ public class ApplicationServiceImpl implements ApplicationService {
                     messageResolver.getMessage("U306") + " : " + errPosition);
         } else {
             ec = new ExecutionContext(ExecutionContext.SUCCESS,
-                    messageResolver.getMessage("U301"));
+                    messageResolver.getMessage("U301"),
+                    new Integer(applNo));
         }
         return ec;
     }
@@ -258,7 +259,8 @@ public class ApplicationServiceImpl implements ApplicationService {
                     messageResolver.getMessage("U307") + " : " + errPosition);
         } else {
             ec = new ExecutionContext(ExecutionContext.SUCCESS,
-                    messageResolver.getMessage("U301"));
+                    messageResolver.getMessage("U301"),
+                    new Integer(applNo));
         }
         return ec;
     }

@@ -1035,6 +1035,7 @@
                     <div class="spacer-tiny"></div>
                 </div>
             </div> <%--myTabContent--%>
+            <input type="hidden" id="applNo"/>
         </form:form>
 
         <div class="btn-group btn-group-justified">
@@ -1377,7 +1378,9 @@
                         if (context.result == 'SUCCESS') {
                             var message = context.message;
                             var alert = createAlert(message);
+                            var applNo = context.data;
                             $('#alert-container').append(alert);
+                            document.getElementById('#applNo').value = applNo;
                             window.setTimeout(function() { alert.alert('close') }, 2000);
                         }
                     },
