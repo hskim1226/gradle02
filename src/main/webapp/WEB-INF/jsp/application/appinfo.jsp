@@ -89,10 +89,10 @@
             background-color: white !important;
             cursor: text !important;
         }
-        a:hover, a:visited, a:link {
-            text-decoration: none;
-            color: #fdfdfd;
-        }
+        /*a:hover, a:visited, a:link {*/
+            /*text-decoration: none;*/
+            /*color: #fdfdfd;*/
+        /*}*/
         body {
             font-size: 14px;
         }
@@ -998,7 +998,7 @@
                                 <div class="panel-body" id="attach-doc-list">
                                     <c:forEach items="${common.docItemList}" var="attachDoc" varStatus="stat">
                                     <hr/>
-                                    <div class="form-group attachDoc${attachDoc.code}">
+                                    <div class="form-group" id="attachDoc${attachDoc.code}">
                                         <label class="col-sm-3 control-label word-keep-all">${attachDoc.codeVal}</label>
                                         <div class="col-sm-8">
                                             <div class="input-group">
@@ -1006,7 +1006,7 @@
                                                     <input type="file" class="btn btn_lg btn-file" id="applicationDocumentList${stat.index}.docName" name="applicationDocumentList${stat.index}.docName"/>
                                                 </div>
                                                 <div class="col-sm-4 nopadding"><input type="button" id="attachDoc${stat.index}.btn" name="attachDoc${stat.index}.btn" class="btn btn-default btn-block btn-upload" value="올리기"/></div>
-                                                <span class="col-sm-6" id="uploadedFileLabel${stat.index}"><!--TODO DB에서 가져오기--></span>
+                                                <span class="col-sm-8" id="uploadedFileLabel${stat.index}" style="text-decoration: none;"><!--TODO DB에서 가져오기--></span>
                                             </div>
                                         </div>
                                         <input type="hidden" name="applicationDocumentList[${stat.index}].docItemCode" id="applicationDocumentList${stat.index}.docItemCode" value="${attachDoc.code}" />
@@ -2022,61 +2022,82 @@ console.log(uploadButton);
                 var actionUrl = "${contextPath}/application/apply/savetest",
                     fileInputId = e.target.parentNode.parentNode.querySelector('input').getAttribute('id'),
                     fileInput = document.getElementById(fileInputId),
-                    fileInputName = fileInput.getAttribute("name")
-                    targetLabelId = e.target.parentNode.parentNode.querySelector('span').getAttribute('id')
+                    fileInputName = fileInput.getAttribute("name"),
+                    fileName = fileInput.value,
+                    targetLabelId = e.target.parentNode.parentNode.querySelector('span').getAttribute('id'),
+                    regexpImage = (/\.(gif|jpg|png)$/i),
+                    regexpPDF = (/\.(pdf)$/i),
+                    extIsOk = false
                     ;
                 if ((fileInput.files && fileInput.files.length) || fileInput.value != "") {
-                    $.ajaxFileUpload({
-                        url: actionUrl,
-                        secureuri:false,
-                        fileElementId:fileInputId,
-                        dataType: 'json',
-                        data: {
-                            fieldName: fileInputName,
-                            targetButton: $(this).attr('id'),
-                            targetLabel: targetLabelId,
-                            applNo: document.getElementById('applNo').value,
-                            admsNo: document.getElementById('admsNo').value
-                        },
-                        success: function (data, status) {
-                            var d = JSON.parse(data.data);
-                            if (console) {
-                                console.log("targetButton : ", d.targetButton);
-                                console.log("targetLabel : ", d.targetLabel);
-                                console.log("applNo : ", d.applNo);
-                                console.log("admsNo : ", d.admsNo);
-                                console.log("originalFileName : ", d.originalFileName);
-                                console.log("fileName : ", d.fileName);
-                                console.log("data : ", data.data);
-                                console.log("status : ", status);
-                            }
-                            var targetBtnId = d.targetButton,
-                                targetBtn = document.getElementById(targetBtnId),
-                                $targetBtn = $(targetBtn),
-                                originalFileName = d.originalFileName,
-                                path = d.path,
-                                fileName = d.fileName,
-                                targetLabel = d.targetLabel,
-                                applNo = d.applNo,
-                                admsNo = d.admsNo,
-                                downloadURL,
-                                linkHtml;
-                            $targetBtn.removeClass("btn-default");
-                            $targetBtn.addClass("btn-info");
-                            $targetBtn.val("올리기 성공");
-                            downloadURL = '${contextPath}/filedownload/attached/'+admsNo+'/'+applNo+'/'+fileName;
-                            linkHtml = '<a href="' + downloadURL + '">' + originalFileName + '</a>';
-                            document.getElementById(targetLabel).innerHTML = linkHtml;
-
-                        },
-                        error: function (data, status, e) {
-                            if(console) {
-                                console.log("data : ", data);
-                                console.log("status : ", status);
-                                console.log("e : ", e);
-                            }
+                    if (fileInputId === 'fuPicture') {
+                        if (regexpImage.test(fileName)) {
+                            extIsOk = true;
+                        } else {
+                            alert('${msgImageOnly}');
+                            return false;
                         }
-                    });
+                    } else if (regexpPDF.test(fileName)) {
+                        extIsOk = true;
+                    } else {
+                        alert('${msgPDFOnly}')
+                        return false;
+                    }
+
+                    if (extIsOk) {
+                        $.ajaxFileUpload({
+                            url: actionUrl,
+                            secureuri:false,
+                            fileElementId:fileInputId,
+                            dataType: 'json',
+                            data: {
+                                fieldName: fileInputName,
+                                targetButton: $(this).attr('id'),
+                                targetLabel: targetLabelId,
+                                applNo: document.getElementById('applNo').value,
+                                admsNo: document.getElementById('admsNo').value
+                            },
+                            success: function (data, status) {
+                                var d = JSON.parse(data.data);
+                                if (console) {
+                                    console.log("targetButton : ", d.targetButton);
+                                    console.log("targetLabel : ", d.targetLabel);
+                                    console.log("applNo : ", d.applNo);
+                                    console.log("admsNo : ", d.admsNo);
+                                    console.log("originalFileName : ", d.originalFileName);
+                                    console.log("fileName : ", d.fileName);
+                                    console.log("data : ", data.data);
+                                    console.log("status : ", status);
+                                }
+                                var targetBtnId = d.targetButton,
+                                        targetBtn = document.getElementById(targetBtnId),
+                                        $targetBtn = $(targetBtn),
+                                        originalFileName = d.originalFileName,
+                                        path = d.path,
+                                        fileName = d.fileName,
+                                        targetLabel = d.targetLabel,
+                                        applNo = d.applNo,
+                                        admsNo = d.admsNo,
+                                        downloadURL,
+                                        linkHtml;
+                                $targetBtn.removeClass("btn-default");
+                                $targetBtn.addClass("btn-info");
+                                $targetBtn.val("올리기 성공");
+                                downloadURL = '${contextPath}/filedownload/attached/'+admsNo+'/'+applNo+'/'+fileName;
+                                linkHtml = '<a href="' + downloadURL + '">' + originalFileName + '</a>';
+                                document.getElementById(targetLabel).innerHTML = linkHtml;
+
+                            },
+                            error: function (data, status, e) {
+                                if(console) {
+                                    console.log("data : ", data);
+                                    console.log("status : ", status);
+                                    console.log("e : ", e);
+                                }
+                            }
+                        });
+                    }
+
                 } else {
                     alert("파일을 선택해 주십시오");
                 }
