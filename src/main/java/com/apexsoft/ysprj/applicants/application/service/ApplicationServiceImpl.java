@@ -69,7 +69,9 @@ public class ApplicationServiceImpl implements ApplicationService {
 
             entireApplication.getApplication().setCreDate(date);
             r1 = insertItem(entireApplication.getApplication(), "ApplicationMapper");
-            Application tA = retrieveApplicationForInsertOthers(entireApplication.getApplication());
+            Application tA = retrieveInfoByParamObj(entireApplication.getApplication(),
+                    "CustomApplicationMapper.selectApplByApplForInsertOthers",
+                    Application.class);
             applNo = tA.getApplNo();
 
             entireApplication.getApplicationGeneral().setApplNo(applNo);
@@ -276,117 +278,113 @@ public class ApplicationServiceImpl implements ApplicationService {
             e.printStackTrace();
         }
 
+        String aaMapperSqlId = "CustomApplicationAcademyMapper.selectByApplNoAcadTypeCode";
         ParamForAcademy paramForAcademy = new ParamForAcademy();
         paramForAcademy.setApplNo(applNo);
         paramForAcademy.setAcadTypeCode("00002");
-        entireApplication.setCollegeList(retrieveAcademyList(paramForAcademy));
+        entireApplication.setCollegeList(retrieveInfoListByParamObj(paramForAcademy, aaMapperSqlId, ApplicationAcademy.class));
         paramForAcademy.setAcadTypeCode(("00003"));
-        entireApplication.setGraduateList(retrieveAcademyList(paramForAcademy));
-        entireApplication.setApplicationExperienceList(retrieveExperienceList(applNo));
-        entireApplication.setApplicationLanguageList(retrieveLanguageList(applNo));
+        entireApplication.setGraduateList(retrieveInfoListByParamObj(paramForAcademy, aaMapperSqlId, ApplicationAcademy.class));
+
+        entireApplication.setApplicationExperienceList(retrieveInfoListByApplNo(applNo, "CustomApplicationExperienceMapper", ApplicationExperience.class));
+        entireApplication.setApplicationLanguageList(retrieveInfoListByApplNo(applNo, "CustomApplicationLanguageMapper", ApplicationLanguage.class));
+
+        String adMapperSqlId = "CustomApplicationDocumentMapper.selectByApplNoDocTypeCode";
+        ParamForApplicationDocument paramForApplicationDocument = new ParamForApplicationDocument();
+        paramForApplicationDocument.setApplNo(applNo);
+        paramForApplicationDocument.setDocTypeCode("00001");
+        entireApplication.setGeneralDocList(retrieveInfoListByParamObj(paramForApplicationDocument,
+                adMapperSqlId,
+                ApplicationDocument.class));
+        paramForApplicationDocument.setDocTypeCode("00002");
+        entireApplication.setCollegeDocList(retrieveInfoListByParamObj(paramForApplicationDocument,
+                adMapperSqlId,
+                ApplicationDocument.class));
+        paramForApplicationDocument.setDocTypeCode("00003");
+        entireApplication.setGraduageDocList(retrieveInfoListByParamObj(paramForApplicationDocument,
+                adMapperSqlId,
+                ApplicationDocument.class));
+        paramForApplicationDocument.setDocTypeCode("00004");
+        entireApplication.setLanguageDocList(retrieveInfoListByParamObj(paramForApplicationDocument,
+                adMapperSqlId,
+                ApplicationDocument.class));
+        paramForApplicationDocument.setDocTypeCode("00005");
+        entireApplication.setAriInstDocList(retrieveInfoListByParamObj(paramForApplicationDocument,
+                adMapperSqlId,
+                ApplicationDocument.class));
+        paramForApplicationDocument.setDocTypeCode("00006");
+        entireApplication.setDeptDocList(retrieveInfoListByParamObj(paramForApplicationDocument,
+                adMapperSqlId,
+                ApplicationDocument.class));
+        paramForApplicationDocument.setDocTypeCode("00007");
+        entireApplication.setForeignCollegeDocList(retrieveInfoListByParamObj(paramForApplicationDocument,
+                adMapperSqlId,
+                ApplicationDocument.class));
+        paramForApplicationDocument.setDocTypeCode("00008");
+        entireApplication.setForeignGraduageDocList(retrieveInfoListByParamObj(paramForApplicationDocument,
+                adMapperSqlId,
+                ApplicationDocument.class));
+        paramForApplicationDocument.setDocTypeCode("00009");
+        entireApplication.setForeignDocList(retrieveInfoListByParamObj(paramForApplicationDocument,
+                adMapperSqlId,
+                ApplicationDocument.class));
+        paramForApplicationDocument.setDocTypeCode("00099");
+        entireApplication.setEtcDocList(retrieveInfoListByParamObj(paramForApplicationDocument,
+                adMapperSqlId,
+                ApplicationDocument.class));
+
         return entireApplication;
     }
 
     @Override
-    public CampusCollege retrieveCampusCollege(int applNo) {
-        CampusCollege campusCollege = null;
+    public <T> T retrieveInfoByApplNo(int applNo, String mapperNameSqlId, Class<T> clazz) {
+        T item = null;
         try {
-            campusCollege = commonDAO.queryForObject(NAME_SPACE + "EntireApplicationMapper.selectCampusCollegeCode",
-                    applNo, CampusCollege.class);
+            item = commonDAO.queryForObject(NAME_SPACE + "EntireApplicationMapper.selectCampusCollegeCode",
+                    applNo, clazz);
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        return campusCollege;
+        return item;
     }
 
     @Override
-    public List<ApplicationAcademy> retrieveAcademyList(ParamForAcademy paramForAcademy) {
-        List<ApplicationAcademy> applicationAcademyList = null;
+    public <T> T retrieveInfoByParamObj(Object parameter, String mapperNameSqlId, Class<T> clazz) {
+        T item = null;
         try {
-            applicationAcademyList = commonDAO.queryForList(NAME_SPACE + "CustomApplicationAcademyMapper.selectByApplNoAcadTypeCode",
-                    paramForAcademy, ApplicationAcademy.class);
+            item = commonDAO.queryForObject(NAME_SPACE + "EntireApplicationMapper.selectCampusCollegeCode",
+                    parameter, clazz);
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        return applicationAcademyList;
+        return item;
     }
 
     @Override
-    public List<ApplicationExperience> retrieveExperienceList(int applNo) {
-        List<ApplicationExperience> applicationExperienceList = null;
+    public <T> List<T> retrieveInfoListByApplNo(int applNo, String mapperName, Class<T> clazz) {
+        List<T> infoList = null;
         try {
-            applicationExperienceList = commonDAO.queryForList(NAME_SPACE + "CustomApplicationExperienceMapper.selectByApplNo",
-                    applNo, ApplicationExperience.class);
+            infoList = commonDAO.queryForList(NAME_SPACE + mapperName + ".selectByApplNo",
+                                              applNo, clazz);
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        return applicationExperienceList;
+        return infoList;
     }
 
     @Override
-    public List<ApplicationLanguage> retrieveLanguageList(int applNo) {
-        List<ApplicationLanguage> applicationLanguageList = null;
+    public <T> List<T> retrieveInfoListByParamObj(Object parameter, String mapperNameSqlId, Class<T> clazz) {
+        List<T> infoList = null;
         try {
-            applicationLanguageList = commonDAO.queryForList(NAME_SPACE + "CustomApplicationLanguageMapper.selectByApplNo",
-                    applNo, ApplicationLanguage.class);
+            infoList = commonDAO.queryForList(NAME_SPACE + mapperNameSqlId,
+                    parameter, clazz);
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        return applicationLanguageList;
+        return infoList;
     }
-
-    @Override
-    public Application retrieveApplication(int applNo) {
-        Application application = null;
-        try {
-            application = commonDAO.queryForObject(NAME_SPACE + "ApplicationMapper.selectByPrimaryKey", applNo, Application.class);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return application;
-    }
-
-    @Override
-    public Application retrieveApplicationForInsertOthers(ParamForInitialApply paramForInitialApply) {
-        Application application = null;
-        try {
-            application = commonDAO.queryForObject(NAME_SPACE + "CustomApplicationMapper.selectApplForInsertOthers", paramForInitialApply, Application.class);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return application;
-    }
-
-    @Override
-    public Application retrieveApplicationForInsertOthers(Application application) {
-        Application rApplication = null;
-        try {
-            rApplication = commonDAO.queryForObject(NAME_SPACE + "CustomApplicationMapper.selectApplByApplForInsertOthers",
-                    application,
-                    Application.class);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return rApplication;
-    }
-
-    public List<CustomMyList> retrieveMyList(ParamForApplication paramForApplication) {
-        List<CustomMyList> customMyLists = null;
-        try {
-            customMyLists = commonDAO.queryForList(NAME_SPACE + "CustomApplicationMapper.selectApplByUserId",
-                    paramForApplication, CustomMyList.class);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return customMyLists;
-    }
-
 }

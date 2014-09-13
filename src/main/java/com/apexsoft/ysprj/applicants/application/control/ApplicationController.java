@@ -72,7 +72,8 @@ public class ApplicationController {
         ParamForApplication p = new ParamForApplication();
         p.setUserId(principal.getName());
 
-        List<CustomMyList> myList = applicationService.retrieveMyList(p);
+        List<CustomMyList> myList = applicationService.retrieveInfoListByParamObj(p, "CustomApplicationMapper.selectApplByUserId", CustomMyList.class);
+
         model.addAttribute("myList", myList);
         return "application/mylist";
     }
@@ -93,27 +94,6 @@ public class ApplicationController {
         String r = null;
         r = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(ea);
         return r;
-    }
-
-    /**
-     * appinfo 분할 작업용
-     * @param model
-     * @return
-     */
-    @RequestMapping(value="/apply-work")
-    public String displayApplyWork(Model model) {
-        model.addAttribute("application", applicationService.retrieveApplication(1));
-        return "application/appinfo-work";
-    }
-
-    /**
-     * appinfo 파일업로 작업용
-     * @param model
-     * @return
-     */
-    @RequestMapping(value="/apply-file")
-    public String displayApplyFile(Model model) {
-        return "application/appinfo-fileupload";
     }
 
     /**
@@ -140,7 +120,10 @@ public class ApplicationController {
 //            if( applNo != entireApplication.getApplication().getApplNo() ) {
                 entireApplication = applicationService.retrieveEntireApplication(applNo);
 //            }
-            CampusCollege campusCollege = applicationService.retrieveCampusCollege(applNo);
+            CampusCollege campusCollege = applicationService.retrieveInfoByApplNo(applNo,
+                    "EntireApplicationMapper.selectCampusCollegeCode",
+                    CampusCollege.class);
+
             entireApplication.setCampCode(campusCollege.getCampCode());
             entireApplication.setCollCode(campusCollege.getCollCode());
 

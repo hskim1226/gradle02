@@ -10,24 +10,19 @@ import java.util.List;
  */
 public interface ApplicationService {
 
+    ExecutionContext createEntireApplication(EntireApplication entireApplication);
     <T> int insertItem(T item, String MapperName);
     <T> int insertList(List<T> list, String MapperName);
-    ExecutionContext createEntireApplication(EntireApplication entireApplication);
-
-    <T> int updateItem(T item, String MapperName);
-    <T> int updateList(List<T> list, String MapperName);
-    int deleteListByApplNo(int applNo, String MapperName);
-    ExecutionContext updateEntireApplication(EntireApplication entireApplication);
 
     EntireApplication retrieveEntireApplication(int applNo);
-    List<ApplicationAcademy> retrieveAcademyList(ParamForAcademy paramForAcademy);
-    List<ApplicationExperience> retrieveExperienceList(int applNo);
-    List<ApplicationLanguage> retrieveLanguageList(int applNo);
-    Application retrieveApplication(int applNo);
+    <T> T retrieveInfoByApplNo(int applNo, String mapperNameSqlId, Class<T> clazz);
+    <T> T retrieveInfoByParamObj(Object parameter, String mapperNameSqlId, Class<T> clazz);
+    <T> List<T> retrieveInfoListByApplNo(int applNo, String mapperName, Class<T> clazz);
+    <T> List<T> retrieveInfoListByParamObj(Object parameter, String mapperNameSqlId, Class<T> clazz);
 
-    Application retrieveApplicationForInsertOthers(ParamForInitialApply paramForInitialApply);
-    Application retrieveApplicationForInsertOthers(Application application);
-    List<CustomMyList> retrieveMyList(ParamForApplication paramForApplication);
+    ExecutionContext updateEntireApplication(EntireApplication entireApplication);
+    <T> int updateItem(T item, String MapperName);
+    <T> int updateList(List<T> list, String MapperName);
 
-    CampusCollege retrieveCampusCollege(int applNo);
+    int deleteListByApplNo(int applNo, String MapperName);
 }

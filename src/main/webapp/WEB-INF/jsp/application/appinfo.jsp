@@ -808,13 +808,11 @@
                                         <label class="col-sm-2 control-label">파일 선택</label>
                                         <div class="col-sm-9">
                                             <div class="input-group">
-                                                <span class="input-group-btn">
-                                                    <span class="btn btn-default btn_lg btn-file">
-                                                        Browse&hellip; <input type="file" id="fuPicture" name="picture"/>
-                                                    </span>
-                                                </span>
-                                                <span class="col-sm-8 nopadding"><input type="text" class="form-control" readonly/></span>
-                                                <span class="col-sm-4 nopadding"><input type="button" id="btnPicture" class="btn btn-default btn-block btn-upload" value="올리기"/></span>
+                                                <div class="input-group-btn">
+                                                    <input type="file" class="btn btn_lg btn-file" id="fuPicture" name="picture"/>
+                                                </div>
+                                                <div class="col-sm-4 nopadding"><input type="button" id="fuPicture.btn" name="picture.btn" class="btn btn-default btn-block btn-upload" value="올리기"/></div>
+                                                <span class="col-sm-8" id="uploadedPicture" style="text-decoration: none;"><!--TODO DB에서 가져오기--></span>
                                             </div>
                                         </div>
                                     </div>
@@ -836,7 +834,7 @@
                                                             <input type="file" class="btn btn_lg btn-file" id="collegeDiploma0.file" name="collegeDiploma[0].file"/>
                                                         </div>
                                                         <div class="col-sm-4 nopadding"><input type="button" id="collegeDiploma0.btn" name="collegeDiploma[0].btn" class="btn btn-default btn-block btn-upload" value="올리기"/></div>
-                                                        <label style="vertical-align: middle;">업로드된파일명</label>
+                                                        <span class="col-sm-8" style="text-decoration: none;"><!--TODO DB에서 가져오기--></span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -848,7 +846,7 @@
                                                             <input type="file" class="btn btn_lg btn-file" id="collegeGrade0.file" name="collegeGrade[0].file"/>
                                                         </div>
                                                         <div class="col-sm-4 nopadding"><input type="button" id="collegeGrade0.btn" name="collegeGrade[0].btn" class="btn btn-default btn-block btn-upload" value="올리기"/></div>
-                                                        <label style="vertical-align: middle;">업로드된파일명</label>
+                                                        <span class="col-sm-8" style="text-decoration: none;"><!--TODO DB에서 가져오기--></span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -860,7 +858,7 @@
                                                             <input type="file" class="btn btn_lg btn-file" id="retrieveGradeAgree0.file" name="retrieveGradeAgree[0].file"/>
                                                         </div>
                                                         <div class="col-sm-4 nopadding"><input type="button" id="retrieveGradeAgree0.btn" name="retrieveGradeAgree[0].btn" class="btn btn-default btn-block btn-upload" value="올리기"/></div>
-                                                        <label style="vertical-align: middle;">업로드된파일명</label>
+                                                        <span class="col-sm-8" style="text-decoration: none;"><!--TODO DB에서 가져오기--></span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -872,7 +870,7 @@
                                                             <input type="file" class="btn btn_lg btn-file" id="verifySchool0.file" name="verifySchool[0].file"/>
                                                         </div>
                                                         <div class="col-sm-4 nopadding"><input type="button" id="verifySchool0.btn" name="verifySchool[0].btn" class="btn btn-default btn-block btn-upload" value="올리기"/></div>
-                                                        <label style="vertical-align: middle;">업로드된파일명</label>
+                                                        <span class="col-sm-8" style="text-decoration: none;"><!--TODO DB에서 가져오기--></span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -884,7 +882,7 @@
                                                             <input type="file" class="btn btn_lg btn-file" id="originDegree0.file" name="originDegree[0].file"/>
                                                         </div>
                                                         <div class="col-sm-4 nopadding"><input type="button" id="originDegree0.btn" name="originDegree[0].btn" class="btn btn-default btn-block btn-upload" value="올리기"/></div>
-                                                        <label style="vertical-align: middle;">업로드된파일명</label>
+                                                        <span class="col-sm-8" style="text-decoration: none;"><!--TODO DB에서 가져오기--></span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -896,7 +894,7 @@
                                                             <input type="file" class="btn btn_lg btn-file" id="copyDegree0.file" name="copyDegree[0].file"/>
                                                         </div>
                                                         <div class="col-sm-4 nopadding"><input type="button" id="copyDegree0.btn" name="copyDegree[0].btn" class="btn btn-default btn-block btn-upload" value="올리기"/></div>
-                                                        <label style="vertical-align: middle;">업로드된파일명</label>
+                                                        <span class="col-sm-8" style="text-decoration: none;"><!--TODO DB에서 가져오기--></span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -1009,10 +1007,14 @@
                                                 <span class="col-sm-8" id="uploadedFileLabel${stat.index}" style="text-decoration: none;"><!--TODO DB에서 가져오기--></span>
                                             </div>
                                         </div>
-                                        <input type="hidden" name="applicationDocumentList[${stat.index}].docItemCode" id="applicationDocumentList${stat.index}.docItemCode" value="${attachDoc.code}" />
-                                        <input type="hidden" name="applicationDocumentList[${stat.index}].docItemName" id="applicationDocumentList${stat.index}.docItemName" value="${attachDoc.codeVal}" />
-                                        <input type="hidden" name="applicationDocumentList[${stat.index}].filePath" id="applicationDocumentList${stat.index}.filePath"/>
-                                        <input type="hidden" name="applicationDocumentList[${stat.index}].fileName" id="applicationDocumentList${stat.index}.fileName"/>
+                                        <%--<form:hidden path="docItemList[${stat.index}].docItemCode" value="${attachDoc.code}"/>--%>
+                                        <%--<form:hidden path="docItemList[${stat.index}].docItemName" value="${attachDoc.codeVal}"/>--%>
+                                        <%--<form:hidden path="docItemList[${stat.index}].filePath"/>--%>
+                                        <%--<form:hidden path="docItemList[${stat.index}].fileName"/>--%>
+                                        <input type="hidden" name="docItemList[${stat.index}].docItemCode" id="applicationDocumentList${stat.index}.docItemCode" value="${attachDoc.code}" />
+                                        <input type="hidden" name="docItemList[${stat.index}].docItemName" id="applicationDocumentList${stat.index}.docItemName" value="${attachDoc.codeVal}" />
+                                        <input type="hidden" name="docItemList[${stat.index}].filePath" id="applicationDocumentList${stat.index}.filePath"/>
+                                        <input type="hidden" name="docItemList[${stat.index}].fileName" id="applicationDocumentList${stat.index}.fileName"/>
                                     </div>
                                     </c:forEach>
                                 </div>
