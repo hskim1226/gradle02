@@ -168,9 +168,6 @@ public class ApplicationController {
             if( corsTypeList != null )  commonCodeMap.put( "corsTypeList", corsTypeList );
             if( detlMajList != null )   commonCodeMap.put( "detlMajList", detlMajList );
         } else {
-//            if( entireApplication.getApplication().getApplNo() != null) {
-//                entireApplication = entireApplication();
-//            }
             entireApplication = entireApplication();
             entireApplication.getApplication().setAdmsNo(admsNo);
             entireApplication.getApplication().setEntrYear(entrYear);
@@ -360,9 +357,6 @@ public class ApplicationController {
     public ExecutionContext savetest(@Valid @ModelAttribute final EntireApplication entireApplication,
                                      BindingResult binding,
                                      final Principal principal,
-//                                     @RequestParam("picture") final String picture,
-//                                     @RequestParam("fieldName") final String fieldName,
-//                                     @RequestParam("targetButton") final String targetButton,
                                      FileHandler fileHandler) {
 
         if( binding.hasErrors() ) {
@@ -514,14 +508,6 @@ public class ApplicationController {
         String message = messageResolver.getMessage("U303");
 
         return new ExecutionContext(ExecutionContext.SUCCESS, message);
-    }
-
-    //TODO 이거 안 쓰는 건지 확인 요
-    @RequestMapping(value = "/modify")
-    public String modifyAppinfo(@RequestParam(value = "applNo", required = false) Integer applNo,
-                                Model model) {
-        model.addAttribute("entireApplication", applicationService.retrieveEntireApplication(applNo));
-        return "application/appinfo";
     }
 
     @ModelAttribute("entireApplication")
