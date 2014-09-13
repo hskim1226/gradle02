@@ -3,6 +3,7 @@
 <html>
 <head>
     <title></title>
+
 </head>
 <body>
 
@@ -23,25 +24,18 @@
         <div id="LblockSearch">
             <div>
                 <div>
-                    <form action="">
+                    <form action="${contextPath}/admin/modification/searchAdms" method="post">
                         <table summary="원서수정 대상자검색">
                             <caption>원서수정 대상자검색</caption>
                             <tbody>
                             <tr>
-                                <th><label for="sApplyNo">수험번호</label></th>
-                                <td><input type="text" class="Ltext" id="sApplyNo" size="15" /></td>
+                                <th><label for="applId">수험번호</label></th>
+                                <td><input type="text" class="Ltext" id="applId" name="applId" size="15" /></td>
                             </tr>
-                            <tr>
-                            <tr>
-                                <th><label for="sApplyNm">성명</label></th>
-                                <td><input type="text" class="Ltext" id="sApplyNm" size="15" /></td>
-                                <th colspan=2><label for="sRsdnNo" >생년월일(YYMMDD)</label></th>
-                                <td><input type="text" class="Ltext" id="sRsdnNo" size="6" /></td>
-                            </tr>
-
                             </tbody>
                         </table>
-                        <input type="image" class="Limage" src="${contextPath}/img/admin/btn_search.gif" /></a>
+                        <input type="image" class="Limage"  id="searchBtn" src="${contextPath}/img/admin/btn_search.gif" /></a>
+
                     </form>
                 </div>
             </div>
@@ -133,11 +127,27 @@
     <div id="LblockButton">
         <a href="#"><input type="button" value="수정요청" onclick="doSomething(); return false;" /></a>
     </div>
-</div>
-
+    
+ 
+	    
+    	      
+	</div>
+	
+	    
 <content tag="local-script">
     <script>
+    jQuery(document).ready(function() {
 
+        jQuery('#searchBtn').on('click', function(e) {
+            var newUrl= "${contextPath}/admin/modification/searchAdms";
+/* 			newUrl = newUrl +"?applId="+jQuery("#applId").val();
+			newUrl = newUrl +"&korName="+jQuery("#korName").val();
+			newUrl = newUrl +"&rsdnNo="+jQuery("#rsdnNo").val();    */		
+			location.href =newUrl;
+/* 			jQuery('#searchBtn').submit(); */
+        
+        });    
+    });          
     </script>
 </content>
 </body>
