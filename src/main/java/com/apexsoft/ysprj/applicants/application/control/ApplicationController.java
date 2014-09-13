@@ -171,6 +171,7 @@ public class ApplicationController {
 //            if( entireApplication.getApplication().getApplNo() != null) {
 //                entireApplication = entireApplication();
 //            }
+            entireApplication = entireApplication();
             entireApplication.getApplication().setAdmsNo(admsNo);
             entireApplication.getApplication().setEntrYear(entrYear);
             entireApplication.getApplication().setAdmsTypeCode(admsTypeCode);
@@ -534,6 +535,16 @@ public class ApplicationController {
         entireApplication.setGraduateList(new ArrayList<ApplicationAcademy>());
         entireApplication.setApplicationExperienceList(new ArrayList<ApplicationExperience>());
         entireApplication.setApplicationLanguageList(new ArrayList<ApplicationLanguage>());
+        entireApplication.setGeneralDocList(new ArrayList<ApplicationDocument>());
+        entireApplication.setCollegeDocList(new ArrayList<ApplicationDocument>());
+        entireApplication.setGraduageDocList(new ArrayList<ApplicationDocument>());
+        entireApplication.setLanguageDocList(new ArrayList<ApplicationDocument>());
+        entireApplication.setAriInstDocList(new ArrayList<ApplicationDocument>());
+        entireApplication.setDeptDocList(new ArrayList<ApplicationDocument>());
+        entireApplication.setForeignCollegeDocList(new ArrayList<ApplicationDocument>());
+        entireApplication.setForeignGraduageDocList(new ArrayList<ApplicationDocument>());
+        entireApplication.setForeignDocList(new ArrayList<ApplicationDocument>());
+        entireApplication.setEtcDocList(new ArrayList<ApplicationDocument>());
         return entireApplication;
     }
 
