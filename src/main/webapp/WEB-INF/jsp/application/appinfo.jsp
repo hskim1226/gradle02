@@ -327,7 +327,7 @@
                                     </div>
                                     <div class="form-group required">
                                         <label class="col-sm-2 control-label">영문 이름</label>
-                                        <div class="col-sm-9">
+                                        <div class="col-sm-4">
                                             <div class="input-group">
                                                 <span class="input-group-addon">&nbsp;성&nbsp;</span>
                                                 <form:input path="application.engSur" cssClass="form-control" style="text-transform: uppercase;" />
@@ -609,30 +609,16 @@
                                                         <span class="input-group-addon">평점</span>
                                                         <form:input path="collegeList[${stat.index}].gradAvr" cssClass="form-control" />
                                                     </div>
-                                                    <div class="col-sm-4 end-date-container">
-                                                        <div class="input-group date">
-                                                            <span class="input-group-addon">졸업(예정)일</span>
-                                                            <form:input path="collegeList[${stat.index}].grdaDay" cssClass="form-control" readonly="true" />
-                                                        </div>
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon">만점</span>
+                                                        <form:input path="collegeList[${stat.index}].gradFull" cssClass="form-control" />
                                                     </div>
                                                 </div>
-                                                <div class="form-group">
-                                                    <label class="col-sm-2 control-label">평균 평점</label>
-                                                    <div class="col-sm-4">
-                                                        <div class="input-group">
-                                                            <span class="input-group-addon">평점</span>
-                                                            <form:input path="collegeList[${stat.index}].gradAvr" cssClass="form-control" />
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-sm-4">
-                                                        <div class="input-group">
-                                                            <span class="input-group-addon">만점</span>
-                                                            <form:input path="collegeList[${stat.index}].gradFull" cssClass="form-control" />
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="btn btn-remove" data-block-index="${stat.index}" data-fileupload-block-list="fuCollegeDocBlockList"><button type="button" class="close" aria-hidden="true">×</button></div>
                                             </div>
+                                            <div class="btn btn-remove" data-block-index="${stat.index}" data-fileupload-block-list="fuCollegeDocBlockList"><button type="button" class="close" aria-hidden="true">×</button></div>
+                                        </div>
                                         </c:forEach>
                                         <div class="btn btn-info btn-add" data-fileupload-block-list="fuCollegeDocBlockList">추가</div>
                                     </div>
@@ -706,30 +692,16 @@
                                                         <span class="input-group-addon">평점</span>
                                                         <form:input path="graduateList[${stat.index}].gradAvr" cssClass="form-control" />
                                                     </div>
-                                                    <div class="col-sm-4 end-date-container">
-                                                        <div class="input-group date">
-                                                            <span class="input-group-addon">졸업(예정)일</span>
-                                                            <form:input path="graduateList[${stat.index}].grdaDay" cssClass="form-control" readonly="true" />
-                                                        </div>
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon">만점</span>
+                                                        <form:input path="graduateList[${stat.index}].gradFull" cssClass="form-control" />
                                                     </div>
                                                 </div>
-                                                <div class="form-group">
-                                                    <label class="col-sm-2 control-label">평균 평점</label>
-                                                    <div class="col-sm-4">
-                                                        <div class="input-group">
-                                                            <span class="input-group-addon">평점</span>
-                                                            <form:input path="graduateList[${stat.index}].gradAvr" cssClass="form-control" />
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-sm-4">
-                                                        <div class="input-group">
-                                                            <span class="input-group-addon">만점</span>
-                                                            <form:input path="graduateList[${stat.index}].gradFull" cssClass="form-control" />
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="btn btn-remove" data-block-index="${stat.index}" data-fileupload-block-list="fuGraduateDocBlockList"><button type="button" class="close" aria-hidden="true">×</button></div>
                                             </div>
+                                            <div class="btn btn-remove" data-block-index="${stat.index}" data-fileupload-block-list="fuGraduateDocBlockList"><button type="button" class="close" aria-hidden="true">×</button></div>
+                                        </div>
                                         </c:forEach>
                                         <div class="btn btn-info btn-add" data-fileupload-block-list="fuGraduateDocBlockList">추가</div>
                                     </div>
