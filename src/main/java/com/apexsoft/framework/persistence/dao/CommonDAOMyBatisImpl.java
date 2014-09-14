@@ -346,6 +346,48 @@ public class CommonDAOMyBatisImpl implements CommonDAO {
 		return this.template.delete(statementId, parameter);
 	}
 
+    @Override
+    public <T> int insertItem(T item, String nameSpace, String MapperName) {
+        if ( item != null) {
+            return insert(nameSpace + MapperName + ".insertSelective", item);
+        }
+        return 0;
+    }
+
+    @Override
+    public <T> int insertList(List<T> list, String nameSpace, String MapperName) {
+        int i = 0;
+        if ( list != null ) {
+            for ( T item : list) {
+                insertItem(item, nameSpace, MapperName);
+                i++;
+            }
+        }
+        return i;
+    }
+
+    @Override
+    public <T> int updateItem(T item, String nameSpace, String MapperName) {
+        int idx = 0;
+        if ( item != null) {
+            idx = update(nameSpace + MapperName + ".updateByPrimaryKeySelective", item);
+        }
+        return idx;
+    }
+
+    @Override
+    public <T> int updateList(List<T> list, String nameSpace, String MapperName) {
+        int idx = 0;
+        if ( list != null) {
+
+            for (T item : list) {
+                updateItem(item, nameSpace, MapperName);
+                ++idx;
+            }
+        }
+        return idx;
+    }
+
 	/**
 	 * {@link org.mybatis.spring.SqlSessionTemplate}에 대한 의존성을 직접 주입.
 	 * 

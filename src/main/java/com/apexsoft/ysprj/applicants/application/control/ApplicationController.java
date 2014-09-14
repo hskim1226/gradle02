@@ -15,6 +15,7 @@ import com.apexsoft.ysprj.applicants.application.domain.*;
 import com.apexsoft.ysprj.applicants.application.service.ApplicationService;
 import com.apexsoft.ysprj.applicants.common.domain.*;
 import com.apexsoft.ysprj.applicants.common.service.CommonService;
+import com.apexsoft.ysprj.applicants.payment.domain.ApplicationPayment;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.io.FileUtils;
@@ -281,7 +282,7 @@ public class ApplicationController {
                                              BindingResult binding,
                                              Principal principal) {
 
-        ExecutionContext ec = applicationService.confirmEntireApplication(entireApplication);
+
 //        if( binding.hasErrors() ) {
 //            return new ExecutionContext(ExecutionContext.FAIL);
 //        }
@@ -323,6 +324,11 @@ public class ApplicationController {
 //
 //        return ec;
 
+        ApplicationPayment ap = new ApplicationPayment();
+        ap.setCreId(principal.getName());
+        entireApplication.setApplicationPayment(ap);
+
+        ExecutionContext ec = applicationService.confirmEntireApplication(entireApplication);
         return ec;
     }
 

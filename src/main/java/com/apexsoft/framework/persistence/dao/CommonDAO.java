@@ -237,4 +237,48 @@ public interface CommonDAO {
 	 */
 	Integer delete(String statementId, Object parameter);
 
+    /**
+     * 도메인 객체 단건 입력
+     *
+     * @param item
+     * @param nameSpace
+     * @param MapperName
+     * @param <T>
+     * @return
+     */
+    <T> int insertItem(T item, String nameSpace, String MapperName);
+
+    /**
+     * 도메인 객체 리스트 다건 입력
+     *
+     * @param list
+     * @param nameSpace
+     * @param MapperName
+     * @param <T>
+     * @return
+     */
+    <T> int insertList(List<T> list, String nameSpace, String MapperName);
+
+    /**
+     * 도메인 객체 단건 수정
+     *
+     * @param item
+     * @param nameSpace
+     * @param MapperName
+     * @param <T>
+     * @return
+     */
+    <T> int updateItem(T item, String nameSpace, String MapperName);
+
+    /**
+     * 도메인 객체 리스트 다건 수정
+     *
+     * @param list
+     * @param nameSpace
+     * @param MapperName
+     * @param <T>
+     * @return
+     */
+    <T> int updateList(List<T> list, String nameSpace, String MapperName);
+
 }

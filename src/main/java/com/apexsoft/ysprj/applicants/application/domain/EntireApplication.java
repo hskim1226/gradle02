@@ -1,5 +1,7 @@
 package com.apexsoft.ysprj.applicants.application.domain;
 
+import com.apexsoft.ysprj.applicants.payment.domain.ApplicationPayment;
+
 import java.util.List;
 
 /**
@@ -28,7 +30,7 @@ public class EntireApplication {
     private List<ApplicationDocument> foreignGraduageDocList;
     private List<ApplicationDocument> foreignDocList;
     private List<ApplicationDocument> etcDocList;
-
+    private ApplicationPayment applicationPayment;
 
     public String getCampCode() {
         return campCode;
@@ -188,5 +190,13 @@ public class EntireApplication {
 
     public void setEtcDocList(List<ApplicationDocument> etcDocList) {
         this.etcDocList = etcDocList;
+    }
+
+    public ApplicationPayment getApplicationPayment() {
+        return applicationPayment;
+    }
+
+    public void setApplicationPayment(ApplicationPayment applicationPayment) {
+        this.applicationPayment = applicationPayment;
     }
 }

@@ -11,8 +11,6 @@ import java.util.List;
 public interface ApplicationService {
 
     ExecutionContext createEntireApplication(EntireApplication entireApplication);
-    <T> int insertItem(T item, String MapperName);
-    <T> int insertList(List<T> list, String MapperName);
 
     EntireApplication retrieveEntireApplication(int applNo);
     <T> T retrieveInfoByApplNo(int applNo, String mapperNameSqlId, Class<T> clazz);
@@ -21,8 +19,6 @@ public interface ApplicationService {
     <T> List<T> retrieveInfoListByParamObj(Object parameter, String mapperNameSqlId, Class<T> clazz);
 
     ExecutionContext updateEntireApplication(EntireApplication entireApplication);
-    <T> int updateItem(T item, String MapperName);
-    <T> int updateList(List<T> list, String MapperName);
 
     ExecutionContext confirmEntireApplication(EntireApplication entireApplication);
 

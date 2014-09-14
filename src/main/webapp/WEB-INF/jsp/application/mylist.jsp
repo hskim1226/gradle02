@@ -97,7 +97,7 @@
                                             data-admsTypeCode="${item.admsTypeCode}">원서 미리보기</button>
                                     <button id="pay" class="btn btn-primary pay ${item.applStsCode=="00010"?"":(item.applStsCode=="00021"?"":"disabled")}"
                                         name="2015학년도 ${item.campName} ${item.admsTypeName} ${item.deptName} ${item.corsTypeName}"
-                                        value="80000">전형료 결제하기</button>
+                                        value="${item.admsFee}">전형료 결제하기</button>
                                             <%--value="80000">결제하기</button>--%>
                                     <button id="showApplicationBirt" class="btn btn-success showApplicationBirt ${item.applStsCode=='00020'?"":"disabled"}"
                                             data-applNo="${item.applNo}" data-admsNo="${item.admsNo}" data-entrYear="${item.entrYear}"

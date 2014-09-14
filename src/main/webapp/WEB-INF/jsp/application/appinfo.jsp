@@ -253,7 +253,7 @@
                                             <label for="campCode" class="col-sm-2 control-label">캠퍼스</label>
                                             <div class="col-sm-3">
                                                 <form:select path="campCode" cssClass="form-control">
-                                                    <form:option value="-" label="--선택--" />
+                                                    <form:option value="" label="--선택--" />
                                                     <c:if test="${entireApplication.application.applAttrCode == '00001' || entireApplication.application.applAttrCode == '00003'}">
                                                     <form:options items="${common.campList}" itemValue="campCode" itemLabel="campName" />
                                                     </c:if>
@@ -262,7 +262,7 @@
                                             <label for="collCode" class="col-sm-2 control-label">대학</label>
                                             <div class="col-sm-4">
                                                 <form:select path="collCode" cssClass="form-control">
-                                                    <form:option value="-" label="--선택--" />
+                                                    <form:option value="" label="--선택--" />
                                                     <c:if test="${entireApplication.application.applAttrCode == '00001' || entireApplication.application.applAttrCode == '00003'}">
                                                     <form:options items="${common.collList}" itemValue="collCode" itemLabel="collName" />
                                                     </c:if>
@@ -273,7 +273,7 @@
                                             <label for="ariInstCode" class="col-sm-2 control-label">학·연·산 연구기관</label>
                                             <div class="col-sm-9">
                                                 <form:select path="application.ariInstCode" id="ariInstCode" cssClass="form-control">
-                                                    <form:option value="-" label="--선택--" />
+                                                    <form:option value="" label="--선택--" />
                                                     <c:if test="${entireApplication.application.applAttrCode == '00002'}">
                                                     <form:options items="${common.ariInstList}" itemValue="ariInstCode" itemLabel="ariInstName" />
                                                     </c:if>
@@ -284,7 +284,7 @@
                                             <label for="deptCode" class="col-sm-2 control-label">지원학과</label>
                                             <div class="col-sm-9">
                                                 <form:select path="application.deptCode" id="deptCode" cssClass="form-control">
-                                                    <form:option value="-" label="--선택--" />
+                                                    <form:option value="" label="--선택--" />
                                                     <form:options items="${common.deptList}" itemValue="deptCode" itemLabel="deptName" />
                                                 </form:select>
                                             </div>
@@ -293,7 +293,7 @@
                                             <label for="corsTypeCode" class="col-sm-2 control-label">지원과정</label>
                                             <div class="col-sm-9">
                                                 <form:select path="application.corsTypeCode" id="corsTypeCode" cssClass="form-control">
-                                                    <form:option value="-" label="--선택--" />
+                                                    <form:option value="" label="--선택--" />
                                                     <form:options items="${common.corsTypeList}" itemValue="corsTypeCode" itemLabel="codeVal" />
                                                 </form:select>
                                             </div>
@@ -302,7 +302,7 @@
                                             <label for="detlMajCode" class="col-sm-2 control-label">세부전공</label>
                                             <div class="col-sm-9">
                                                 <form:select path="application.detlMajCode" id="detlMajCode" cssClass="form-control">
-                                                    <form:option value="-" label="--선택--" />
+                                                    <form:option value="" label="--선택--" />
                                                     <form:options items="${common.detlMajList}" itemValue="detlMajCode" itemLabel="detlMajName" />
                                                 </form:select>
                                             </div>
@@ -404,7 +404,7 @@
                                             <div class="input-group">
                                                 <span class="input-group-addon">병역구분</span>
                                                 <form:select path="applicationGeneral.mltrServCode" cssClass="form-control">
-                                                    <form:option value="-" label="--선택--" />
+                                                    <form:option value="" label="--선택--" />
                                                     <form:options items="${common.mltrServList}" itemValue="code" itemLabel="codeVal" />
                                                 </form:select>
                                             </div>
@@ -413,7 +413,7 @@
                                             <div class="input-group">
                                                 <span class="input-group-addon">병역군별</span>
                                                 <form:select path="applicationGeneral.mltrTypeCode" cssClass="form-control">
-                                                    <form:option value="-" label="--선택--" />
+                                                    <form:option value="" label="--선택--" />
                                                     <form:options items="${common.mltrTypeList}" itemValue="code" itemLabel="codeVal" />
                                                 </form:select>
                                             </div>
@@ -422,7 +422,7 @@
                                             <div class="input-group">
                                                 <span class="input-group-addon">병역계급</span>
                                                 <form:select path="applicationGeneral.mltrRankCode" cssClass="form-control">
-                                                    <form:option value="-" label="--선택--" />
+                                                    <form:option value="" label="--선택--" />
                                                     <form:options items="${common.mltrRankList}" itemValue="code" itemLabel="codeVal" />
                                                 </form:select>
                                             </div>
@@ -506,7 +506,7 @@
                                         <form:label path="applicationGeneral.emerContCode" cssClass="col-sm-2 control-label">관계</form:label>
                                         <div class="col-sm-9">
                                             <form:select path="applicationGeneral.emerContCode" cssClass="form-control">
-                                                <form:option value="-" label="--선택--" />
+                                                <form:option value="" label="--선택--" />
                                                 <form:options items="${common.emerContList}" itemValue="code" itemLabel="codeVal" />
                                             </form:select>
                                         </div>
@@ -715,7 +715,7 @@
                                         <div class="col-sm-2 show-lang">
                                             <c:if test="${langExam.examCode == '00001'}">
                                             <form:select path="applicationLanguageList[${stat.index}].toflTypeCode" cssClass="form-control">
-                                                <form:option value="-" label="--선택--" />
+                                                <form:option value="" label="--선택--" />
                                                 <form:options items="${common.toflTypeList}" itemValue="code" itemLabel="codeVal" />
                                             </form:select>
                                             </c:if>
@@ -1442,16 +1442,16 @@
                     timeout: 5000,
                     success: function (context) {
                         if (context.result == 'SUCCESS') {
-                            var message = context.message;
-                            var alert = createAlert(message);
-                            var applNo = context.data;
+                            var message = context.message,
+                                alert = createAlert(message),
+                                applNo = context.data;
                             $('#alert-container').append(alert);
                             document.getElementById('#applNo').value = applNo;
                             window.setTimeout(function() { alert.alert('close') }, 2000);
                         }
                     },
                     error: function(e) {
-console.log(e);
+console.log(e.statusText);
                     }
                 });
                 event.preventDefault();

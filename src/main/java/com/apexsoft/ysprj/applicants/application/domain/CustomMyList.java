@@ -20,6 +20,7 @@ public class CustomMyList {
     private String detlMajName;
     private String applStsCode;
     private String applStsName;
+    private int admsFee;
 
     public int getApplNo() {
         return applNo;
@@ -139,5 +140,13 @@ public class CustomMyList {
 
     public void setApplStsName(String applStsName) {
         this.applStsName = applStsName;
+    }
+
+    public int getAdmsFee() {
+        return admsFee;
+    }
+
+    public void setAdmsFee(int admsFee) {
+        this.admsFee = admsFee;
     }
 }

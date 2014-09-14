@@ -113,8 +113,9 @@
                 F.CAMP_NAME, b.DEPT_NAME,
                 a.CORS_TYPE_CODE, G.CODE_VAL CORS_TYPE_NAME,
                 a.DETL_MAJ_CODE, C.DETL_MAJ_NAME,
-                a.APPL_STS_CODE, I.CODE_VAL APPL_STS_NAME
-        from  APPL a, DEPT b, DETL_MAJ C, COLL e, CAMP F, COMM_CODE G, COMM_CODE H, COMM_CODE I
+                a.APPL_STS_CODE, I.CODE_VAL APPL_STS_NAME,
+                J.ADMS_FEE
+        from  APPL a, DEPT b, DETL_MAJ C, COLL e, CAMP F, COMM_CODE G, COMM_CODE H, COMM_CODE I, ADMS_CORS J
         where 1=1
         AND a.DEPT_CODE = b.DEPT_CODE
         AND b.COLL_CODE= e.COLL_CODE
@@ -126,6 +127,10 @@
         AND G.CODE_GRP='CORS_TYPE'
         AND H.CODE_GRP='ADMS_TYPE'
         AND I.CODE_GRP='APPL_STS'
+        AND a.ADMS_NO=J.ADMS_NO
+        AND a.DEPT_CODE=J.DEPT_CODE
+        AND IFNULL(a.ARI_INST_CODE,'') = IFNULL(J.ARI_INST_CODE,'')
+        AND a.CORS_TYPE_CODE = J.CORS_TYPE_CODE
         AND a.USER_ID =#{userId}
     </select>
 </mapper>
