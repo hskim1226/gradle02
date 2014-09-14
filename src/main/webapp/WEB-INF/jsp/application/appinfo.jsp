@@ -548,18 +548,16 @@
                                         <c:forEach begin="0" end="${entireApplication.collegeList.size() > 0 ? entireApplication.collegeList.size() - 1 : 0}" varStatus="stat">
                                         <div class="form-group-block">
                                             <form:hidden path="collegeList[${stat.index}].acadTypeCode" value="00002" />
-                                            <%--TODO domain 업데이트 후 주석해제--%>
-                                            <%--<div class="form-group">--%>
-                                                <%--<label for="collegeList${stat.index}.schlCntrName" class="col-sm-2 control-label">소재 국가</label>--%>
-                                                <%--<div class="col-sm-2">--%>
-                                                    <%--<button type="button" class="btn btn-default btn-search bpopper" data-targetNode1="collegeList${stat.index}.schlCntrCode" data-targetNode2='collegeList${stat.index}.schlCntrName' data-category="country-u">검색</button>--%>
-                                                <%--</div>--%>
-                                                <%--<div class="col-sm-6">--%>
-                                                    <%--<form:hidden path="collegeList[${stat.index}].schlCntrCode" />--%>
-                                                    <%--<input id="collegeList${stat.index}.schlCntrName" cssClass="form-control" />--%>
-                                                <%--</div>--%>
-                                            <%--</div>--%>
-                                            <%--TODO domain 업데이트 후 주석해제--%>
+                                            <div class="form-group">
+                                                <label for="collegeList${stat.index}.schlCntrName" class="col-sm-2 control-label">소재 국가</label>
+                                                <div class="col-sm-2">
+                                                    <button type="button" class="btn btn-default btn-search bpopper" data-targetNode1="collegeList${stat.index}.schlCntrCode" data-targetNode2='collegeList${stat.index}.schlCntrName' data-category="country">검색</button>
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <form:hidden path="collegeList[${stat.index}].schlCntrCode" />
+                                                    <input id="collegeList${stat.index}.schlCntrName" cssClass="form-control" />
+                                                </div>
+                                            </div>
                                             <div class="form-group">
                                                 <label class="col-sm-2 control-label">재학 기간</label>
                                                 <div class="col-sm-4 start-date-container">
@@ -631,18 +629,16 @@
                                         <c:forEach begin="0" end="${entireApplication.graduateList.size() > 0 ? entireApplication.graduateList.size() - 1 : 0}" varStatus="stat">
                                         <div class="form-group-block">
                                             <form:hidden path="graduateList[${stat.index}].acadTypeCode" value="00003" />
-                                            <%--TODO domain 업데이트 후 주석해제--%>
-                                            <%--<div class="form-group">--%>
-                                                <%--<label for="graduateList${stat.index}.schlCntrName" class="col-sm-2 control-label">소재 국가</label>--%>
-                                                <%--<div class="col-sm-2">--%>
-                                                    <%--<button type="button" class="btn btn-default btn-search bpopper" data-targetNode1="graduateList${stat.index}.schlCntrCode" data-targetNode2='graduateList${stat.index}.schlCntrName' data-category="country-g">검색</button>--%>
-                                                <%--</div>--%>
-                                                <%--<div class="col-sm-6">--%>
-                                                    <%--<form:hidden path="graduateList[${stat.index}].schlCntrCode" />--%>
-                                                    <%--<input id="graduateList${stat.index}.schlCntrName" cssClass="form-control" />--%>
-                                                <%--</div>--%>
-                                            <%--</div>--%>
-                                            <%--TODO domain 업데이트 후 주석해제--%>
+                                            <div class="form-group">
+                                                <label for="graduateList${stat.index}.schlCntrName" class="col-sm-2 control-label">소재 국가</label>
+                                                <div class="col-sm-2">
+                                                    <button type="button" class="btn btn-default btn-search bpopper" data-targetNode1="graduateList${stat.index}.schlCntrCode" data-targetNode2='graduateList${stat.index}.schlCntrName' data-category="country">검색</button>
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <form:hidden path="graduateList[${stat.index}].schlCntrCode" />
+                                                    <input id="graduateList${stat.index}.schlCntrName" cssClass="form-control" />
+                                                </div>
+                                            </div>
                                             <div class="form-group">
                                                 <label class="col-sm-2 control-label">재학 기간</label>
                                                 <div class="col-sm-4 start-date-container">
@@ -848,10 +844,10 @@
                                                     <%--<span class="col-sm-8" id="uploadedFileLabel${stat.index}" style="text-decoration: none;"><!--TODO DB에서 가져오기--></span>--%>
                                                 <%--</div>--%>
                                             <%--</div>--%>
-                                                <%--&lt;%&ndash;<form:hidden path="docItemList[${stat.index}].docItemCode" value="${attachDoc.code}"/>&ndash;%&gt;--%>
-                                                <%--&lt;%&ndash;<form:hidden path="docItemList[${stat.index}].docItemName" value="${attachDoc.codeVal}"/>&ndash;%&gt;--%>
-                                                <%--&lt;%&ndash;<form:hidden path="docItemList[${stat.index}].filePath"/>&ndash;%&gt;--%>
-                                                <%--&lt;%&ndash;<form:hidden path="docItemList[${stat.index}].fileName"/>&ndash;%&gt;--%>
+                                                <%--<%--<form:hidden path="docItemList[${stat.index}].docItemCode" value="${attachDoc.code}"/>--%>--%>
+                                                <%--<%--<form:hidden path="docItemList[${stat.index}].docItemName" value="${attachDoc.codeVal}"/>--%>--%>
+                                                <%--<%--<form:hidden path="docItemList[${stat.index}].filePath"/>--%>--%>
+                                                <%--<%--<form:hidden path="docItemList[${stat.index}].fileName"/>--%>--%>
                                             <%--<input type="hidden" name="docItemList[${stat.index}].docItemCode" id="applicationDocumentList${stat.index}.docItemCode" value="${attachDoc.code}" />--%>
                                             <%--<input type="hidden" name="docItemList[${stat.index}].docItemName" id="applicationDocumentList${stat.index}.docItemName" value="${attachDoc.codeVal}" />--%>
                                             <%--<input type="hidden" name="docItemList[${stat.index}].filePath" id="applicationDocumentList${stat.index}.filePath"/>--%>
@@ -1269,6 +1265,7 @@
                 for (var i = 0, len = columnHead.length; i < len; i++) {
                     $thead.append($('<td>' + columnHead[i] + '</td>'));
                 }
+                $('#bpopHead').empty();
                 $('#bpopHead').append($thead);
                 $('#bpopContainer').bPopup();
                 document.getElementById('bpop').focus();
@@ -1295,7 +1292,7 @@
                         for ( i = 0, l = obj.length ; i < l ; i++ ) {
                             var record;
                             if (category.isCountry) {
-                                record = $('<tr>' + '<td><span style="display: none;" class="b-close">' + obj[i].cntrCode + '</span></td>' + '<td><span class="b-close">' + obj[i].cntrName + '</span></td>' + '<td><span class="b-close">' + obj[i].engCntrName + '</span></td>' + '</tr>');
+                                record = $('<tr>' + '<td><span style="display: none;" class="b-close">' + obj[i].cntrCode + '</span></td>' + '<td><span class="b-close">' + obj[i].korCntrName + '</span></td>' + '<td><span class="b-close">' + obj[i].engCntrName + '</span></td>' + '</tr>');
                             } else if (category.isSchool) {
                                 record = $('<tr>' + '<td><span style="display: none;" class="b-close">' + obj[i].schlCode + '</span></td>' + '<td><span class="b-close">' + obj[i].schlName + '</span></td>' + '</tr>');
                             }
@@ -1303,10 +1300,12 @@
                             $(record).on('click', function(e) {
                                 var targetInputId = [ document.getElementById('targetNode1').value,
                                     document.getElementById('targetNode2').value,
-                                    document.getElementById('targetNode3').value];
+                                    document.getElementById('targetNode3').value ];
                                 var tr = this;
                                 for ( var i = 0 , len = tr.children.length; i < len; i++ ) {
-                                    document.getElementById(targetInputId[i]).value = tr.children[i].firstChild.innerText;
+                                    if (document.getElementById(targetInputId[i])) {
+                                        document.getElementById(targetInputId[i]).value = tr.children[i].firstChild.innerText;
+                                    }
                                 }
                             });
                         }
