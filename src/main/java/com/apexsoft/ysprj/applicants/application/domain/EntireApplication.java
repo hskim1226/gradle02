@@ -1,5 +1,7 @@
 package com.apexsoft.ysprj.applicants.application.domain;
 
+import com.apexsoft.ysprj.applicants.payment.domain.ApplicationPayment;
+
 import java.util.List;
 
 /**
@@ -18,6 +20,17 @@ public class EntireApplication {
     private List<ApplicationAcademy> graduateList;
     private List<ApplicationExperience> applicationExperienceList;
     private List<ApplicationLanguage> applicationLanguageList;
+    private List<ApplicationDocument> generalDocList;
+    private List<ApplicationDocument> collegeDocList;
+    private List<ApplicationDocument> graduageDocList;
+    private List<ApplicationDocument> languageDocList;
+    private List<ApplicationDocument> ariInstDocList;
+    private List<ApplicationDocument> deptDocList;
+    private List<ApplicationDocument> foreignCollegeDocList;
+    private List<ApplicationDocument> foreignGraduageDocList;
+    private List<ApplicationDocument> foreignDocList;
+    private List<ApplicationDocument> etcDocList;
+    private ApplicationPayment applicationPayment;
 
     public String getCampCode() {
         return campCode;
@@ -97,5 +110,93 @@ public class EntireApplication {
 
     public void setApplicationLanguageList(List<ApplicationLanguage> applicationLanguageList) {
         this.applicationLanguageList = applicationLanguageList;
+    }
+
+    public List<ApplicationDocument> getGeneralDocList() {
+        return generalDocList;
+    }
+
+    public void setGeneralDocList(List<ApplicationDocument> generalDocList) {
+        this.generalDocList = generalDocList;
+    }
+
+    public List<ApplicationDocument> getCollegeDocList() {
+        return collegeDocList;
+    }
+
+    public void setCollegeDocList(List<ApplicationDocument> collegeDocList) {
+        this.collegeDocList = collegeDocList;
+    }
+
+    public List<ApplicationDocument> getGraduageDocList() {
+        return graduageDocList;
+    }
+
+    public void setGraduageDocList(List<ApplicationDocument> graduageDocList) {
+        this.graduageDocList = graduageDocList;
+    }
+
+    public List<ApplicationDocument> getLanguageDocList() {
+        return languageDocList;
+    }
+
+    public void setLanguageDocList(List<ApplicationDocument> languageDocList) {
+        this.languageDocList = languageDocList;
+    }
+
+    public List<ApplicationDocument> getAriInstDocList() {
+        return ariInstDocList;
+    }
+
+    public void setAriInstDocList(List<ApplicationDocument> ariInstDocList) {
+        this.ariInstDocList = ariInstDocList;
+    }
+
+    public List<ApplicationDocument> getDeptDocList() {
+        return deptDocList;
+    }
+
+    public void setDeptDocList(List<ApplicationDocument> deptDocList) {
+        this.deptDocList = deptDocList;
+    }
+
+    public List<ApplicationDocument> getForeignCollegeDocList() {
+        return foreignCollegeDocList;
+    }
+
+    public void setForeignCollegeDocList(List<ApplicationDocument> foreignCollegeDocList) {
+        this.foreignCollegeDocList = foreignCollegeDocList;
+    }
+
+    public List<ApplicationDocument> getForeignGraduageDocList() {
+        return foreignGraduageDocList;
+    }
+
+    public void setForeignGraduageDocList(List<ApplicationDocument> foreignGraduageDocList) {
+        this.foreignGraduageDocList = foreignGraduageDocList;
+    }
+
+    public List<ApplicationDocument> getForeignDocList() {
+        return foreignDocList;
+    }
+
+    public void setForeignDocList(List<ApplicationDocument> foreignDocList) {
+        this.foreignDocList = foreignDocList;
+    }
+
+    public List<ApplicationDocument> getEtcDocList() {
+        return etcDocList;
+    }
+
+    public void setEtcDocList(List<ApplicationDocument> etcDocList) {
+        this.etcDocList = etcDocList;
+    }
+
+    public ApplicationPayment getApplicationPayment() {
+        return applicationPayment;
+    }
+
+    public void setApplicationPayment(ApplicationPayment applicationPayment) {
+        this.applicationPayment = applicationPayment;
     }
 }

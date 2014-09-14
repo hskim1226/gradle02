@@ -74,7 +74,13 @@ public class UsersAccountServiceImpl implements UsersAccountService {
 
     @Override
 	public Users retrieveUser(String userName) {
-		return commonDAO.queryForObject(NAME_SPACE+"selectByPk",userName, Users.class);
+        Users users = null;
+        try {
+            users = commonDAO.queryForObject(NAME_SPACE+"selectByPk",userName, Users.class);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+		return users;
 	}
 
     @Override

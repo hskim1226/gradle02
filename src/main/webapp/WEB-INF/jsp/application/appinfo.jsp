@@ -89,10 +89,10 @@
             background-color: white !important;
             cursor: text !important;
         }
-        a:hover, a:visited, a:link {
-            text-decoration: none;
-            color: #fdfdfd;
-        }
+        /*a:hover, a:visited, a:link {*/
+            /*text-decoration: none;*/
+            /*color: #fdfdfd;*/
+        /*}*/
         body {
             font-size: 14px;
         }
@@ -106,6 +106,11 @@
             background-color: #f0f0f0;
             color: #333;
             cursor: default;
+        }
+
+        .form-group.required .control-label:after {
+            content:"*";
+            color:red;
         }
 
         .form-group-block {
@@ -225,10 +230,11 @@
     <div class="container">
         <ul id="myTab" class="nav nav-tabs nav-justified tab-gray">
             <li><a href="#appinfo" data-toggle="tab">기본 정보</a></li>
+            <li><a href="#academy" data-toggle="tab">학력</a></li>
             <li><a href="#langcareer" data-toggle="tab">어학 및 경력</a></li>
             <li><a href="#fileupload" data-toggle="tab">첨부파일</a></li>
         </ul>
-        <form:form commandName="entireApplication" cssClass="form-horizontal" action="apply/saveandupload" method="post" enctype="multipart/form-data" role="form">
+        <form:form commandName="entireApplication" cssClass="form-horizontal" method="post" enctype="multipart/form-data" role="form">
             <form:hidden path="application.admsNo" id="admsNo" />
             <form:hidden path="application.entrYear" id="entrYear" />
             <form:hidden path="application.admsTypeCode" id="admsTypeCode" />
@@ -240,7 +246,7 @@
                             <div class="panel panel-default">
                                 <div class="panel-heading">지원 사항</div>
                                 <div class="panel-body">
-                                    <div class="form-group">
+                                    <div class="form-group required">
                                         <label for="applAttrCode" class="col-sm-2 control-label">지원구분</label>
                                         <div class="col-sm-9">
                                             <form:select path="application.applAttrCode" id="applAttrCode" cssClass="form-control">
@@ -249,11 +255,11 @@
                                         </div>
                                     </div>
                                     <div id="applyKindDynamic">
-                                        <div class="form-group hidden-apply-kind-2">
+                                        <div class="form-group hidden-apply-kind-2 required">
                                             <label for="campCode" class="col-sm-2 control-label">캠퍼스</label>
                                             <div class="col-sm-3">
                                                 <form:select path="campCode" cssClass="form-control">
-                                                    <form:option value="-" label="--선택--" />
+                                                    <form:option value="" label="--선택--" />
                                                     <c:if test="${entireApplication.application.applAttrCode == '00001' || entireApplication.application.applAttrCode == '00003'}">
                                                     <form:options items="${common.campList}" itemValue="campCode" itemLabel="campName" />
                                                     </c:if>
@@ -262,47 +268,47 @@
                                             <label for="collCode" class="col-sm-2 control-label">대학</label>
                                             <div class="col-sm-4">
                                                 <form:select path="collCode" cssClass="form-control">
-                                                    <form:option value="-" label="--선택--" />
+                                                    <form:option value="" label="--선택--" />
                                                     <c:if test="${entireApplication.application.applAttrCode == '00001' || entireApplication.application.applAttrCode == '00003'}">
                                                     <form:options items="${common.collList}" itemValue="collCode" itemLabel="collName" />
                                                     </c:if>
                                                 </form:select>
                                             </div>
                                         </div>
-                                        <div class="form-group hidden-apply-kind-1 hidden-apply-kind-3">
+                                        <div class="form-group hidden-apply-kind-1 hidden-apply-kind-3 required">
                                             <label for="ariInstCode" class="col-sm-2 control-label">학·연·산 연구기관</label>
                                             <div class="col-sm-9">
                                                 <form:select path="application.ariInstCode" id="ariInstCode" cssClass="form-control">
-                                                    <form:option value="-" label="--선택--" />
+                                                    <form:option value="" label="--선택--" />
                                                     <c:if test="${entireApplication.application.applAttrCode == '00002'}">
                                                     <form:options items="${common.ariInstList}" itemValue="ariInstCode" itemLabel="ariInstName" />
                                                     </c:if>
                                                 </form:select>
                                             </div>
                                         </div>
-                                        <div class="form-group">
+                                        <div class="form-group required">
                                             <label for="deptCode" class="col-sm-2 control-label">지원학과</label>
                                             <div class="col-sm-9">
                                                 <form:select path="application.deptCode" id="deptCode" cssClass="form-control">
-                                                    <form:option value="-" label="--선택--" />
+                                                    <form:option value="" label="--선택--" />
                                                     <form:options items="${common.deptList}" itemValue="deptCode" itemLabel="deptName" />
                                                 </form:select>
                                             </div>
                                         </div>
-                                        <div class="form-group">
+                                        <div class="form-group required">
                                             <label for="corsTypeCode" class="col-sm-2 control-label">지원과정</label>
                                             <div class="col-sm-9">
                                                 <form:select path="application.corsTypeCode" id="corsTypeCode" cssClass="form-control">
-                                                    <form:option value="-" label="--선택--" />
+                                                    <form:option value="" label="--선택--" />
                                                     <form:options items="${common.corsTypeList}" itemValue="corsTypeCode" itemLabel="codeVal" />
                                                 </form:select>
                                             </div>
                                         </div>
-                                        <div class="form-group">
+                                        <div class="form-group required">
                                             <label for="detlMajCode" class="col-sm-2 control-label">세부전공</label>
                                             <div class="col-sm-9">
                                                 <form:select path="application.detlMajCode" id="detlMajCode" cssClass="form-control">
-                                                    <form:option value="-" label="--선택--" />
+                                                    <form:option value="" label="--선택--" />
                                                     <form:options items="${common.detlMajList}" itemValue="detlMajCode" itemLabel="detlMajName" />
                                                 </form:select>
                                             </div>
@@ -313,13 +319,13 @@
                             <div class="panel panel-default">
                                 <div class="panel-heading">지원자 정보</div>
                                 <div class="panel-body">
-                                    <div class="form-group">
+                                    <div class="form-group required">
                                         <form:label path="application.korName" cssClass="col-sm-2 control-label">한글이름</form:label>
                                         <div class="col-sm-9">
                                             <form:input path="application.korName" cssClass="form-control" />
                                         </div>
                                     </div>
-                                    <div class="form-group">
+                                    <div class="form-group required">
                                         <label class="col-sm-2 control-label">영문성명</label>
                                         <div class="col-sm-9">
                                             <div class="input-group">
@@ -334,7 +340,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="form-group">
+                                    <div class="form-group required">
                                         <form:label path="application.rgstNo" cssClass="col-sm-2 control-label">주민등록번호</form:label>
                                         <div class="col-sm-9">
                                             <form:input path="application.rgstNo" cssClass="form-control" />
@@ -383,7 +389,7 @@
                                             <%--</div>--%>
                                         <%--</div>--%>
                                     <%--</div>--%>
-                                    <div class="form-group">
+                                    <div class="form-group required">
                                         <label class="col-sm-2 control-label">장애사항</label>
                                         <div class="col-sm-9">
                                             <div class="input-group">
@@ -398,13 +404,13 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="form-group">
+                                    <div class="form-group required">
                                         <label class="col-sm-2 control-label">병역사항</label>
                                         <div class="col-sm-9">
                                             <div class="input-group">
                                                 <span class="input-group-addon">병역구분</span>
                                                 <form:select path="applicationGeneral.mltrServCode" cssClass="form-control">
-                                                    <form:option value="-" label="--선택--" />
+                                                    <form:option value="" label="--선택--" />
                                                     <form:options items="${common.mltrServList}" itemValue="code" itemLabel="codeVal" />
                                                 </form:select>
                                             </div>
@@ -413,7 +419,7 @@
                                             <div class="input-group">
                                                 <span class="input-group-addon">병역군별</span>
                                                 <form:select path="applicationGeneral.mltrTypeCode" cssClass="form-control">
-                                                    <form:option value="-" label="--선택--" />
+                                                    <form:option value="" label="--선택--" />
                                                     <form:options items="${common.mltrTypeList}" itemValue="code" itemLabel="codeVal" />
                                                 </form:select>
                                             </div>
@@ -422,7 +428,7 @@
                                             <div class="input-group">
                                                 <span class="input-group-addon">병역계급</span>
                                                 <form:select path="applicationGeneral.mltrRankCode" cssClass="form-control">
-                                                    <form:option value="-" label="--선택--" />
+                                                    <form:option value="" label="--선택--" />
                                                     <form:options items="${common.mltrRankList}" itemValue="code" itemLabel="codeVal" />
                                                 </form:select>
                                             </div>
@@ -445,7 +451,7 @@
                             <div class="panel panel-default">
                                 <div class="panel-heading">지원자 연락처</div>
                                 <div class="panel-body">
-                                    <div class="form-group">
+                                    <div class="form-group required">
                                         <label class="col-sm-2 control-label">주소</label>
                                         <div class="col-sm-2">
                                             <button type="button" class="btn btn-default btn-block btn-search" id="searchAddress">우편번호 찾기</button>
@@ -465,7 +471,7 @@
                                             <form:input path="application.detlAddr" cssClass="form-control" id="addressDetail" placeholder="세부주소" />
                                         </div>
                                     </div>
-                                    <div class="form-group">
+                                    <div class="form-group required">
                                         <form:label path="application.telNum" cssClass="col-sm-2 control-label">전화번호</form:label>
                                         <div class="col-sm-9">
                                             <%--TODO--%>
@@ -475,7 +481,7 @@
                                             <form:input path="application.telNum" cssClass="form-control" />
                                         </div>
                                     </div>
-                                    <div class="form-group">
+                                    <div class="form-group required">
                                         <form:label path="application.mobiNum" cssClass="col-sm-2 control-label">휴대폰</form:label>
                                         <div class="col-sm-9">
                                             <%--TODO--%>
@@ -485,7 +491,7 @@
                                             <form:input path="application.mobiNum" cssClass="form-control" />
                                         </div>
                                     </div>
-                                    <div class="form-group">
+                                    <div class="form-group required">
                                         <form:label path="application.mailAddr" cssClass="col-sm-2 control-label">E-mail</form:label>
                                         <div class="col-sm-9">
                                             <form:input path="application.mailAddr" type="email" cssClass="form-control" />
@@ -496,22 +502,22 @@
                             <div class="panel panel-default">
                                 <div class="panel-heading">비상연락처</div>
                                 <div class="panel-body">
-                                    <div class="form-group">
+                                    <div class="form-group required">
                                         <form:label path="applicationGeneral.emerContName" cssClass="col-sm-2 control-label">이름</form:label>
                                         <div class="col-sm-9">
                                             <form:input path="applicationGeneral.emerContName" cssClass="form-control" />
                                         </div>
                                     </div>
-                                    <div class="form-group">
+                                    <div class="form-group required">
                                         <form:label path="applicationGeneral.emerContCode" cssClass="col-sm-2 control-label">관계</form:label>
                                         <div class="col-sm-9">
                                             <form:select path="applicationGeneral.emerContCode" cssClass="form-control">
-                                                <form:option value="-" label="--선택--" />
+                                                <form:option value="" label="--선택--" />
                                                 <form:options items="${common.emerContList}" itemValue="code" itemLabel="codeVal" />
                                             </form:select>
                                         </div>
                                     </div>
-                                    <div class="form-group">
+                                    <div class="form-group required">
                                         <form:label path="applicationGeneral.emerContTel" cssClass="col-sm-2 control-label">전화번호</form:label>
                                         <div class="col-sm-9">
                                             <%--TODO--%>
@@ -523,81 +529,92 @@
                                     </div>
                                 </div>
                             </div>
+
+                        </div>
+                    </div>
+                </div>
+
+
+                <%-- Academy --%>
+                <div class="tab-pane fade" id="academy">
+                    <div class="spacer-tiny"></div>
+                    <div class="row">
+                        <div class="col-sm-offset-1 col-sm-10">
                             <div class="panel panel-default">
                                 <div class="panel-heading">대학교</div>
                                 <div class="panel-body">
                                     <div class="form-group-block-list">
                                         <c:forEach begin="0" end="${entireApplication.collegeList.size() > 0 ? entireApplication.collegeList.size() - 1 : 0}" varStatus="stat">
-                                        <div class="form-group-block">
-                                            <form:hidden path="collegeList[${stat.index}].acadTypeCode" value="00002" />
-                                            <%--TODO 테이블에 국가이름 누락--%>
-                                            <%--<div class="form-group">--%>
-                                                <%--<form:label path="collegeList[${stat.index}]korCntrName" cssClass="col-sm-2 control-label">소재 국가</form:label>--%>
-                                                <%--<div class="btn btn-default btn-md col-md-2 bpopperCntr">검색</div>--%>
-                                                <%--<div class="col-sm-6">--%>
+                                            <div class="form-group-block">
+                                                <form:hidden path="collegeList[${stat.index}].acadTypeCode" value="00002" />
+                                                    <%--TODO 테이블에 국가이름 누락--%>
+                                                    <%--<div class="form-group">--%>
+                                                    <%--<form:label path="collegeList[${stat.index}]korCntrName" cssClass="col-sm-2 control-label">소재 국가</form:label>--%>
+                                                    <%--<div class="btn btn-default btn-md col-md-2 bpopperCntr">검색</div>--%>
+                                                    <%--<div class="col-sm-6">--%>
                                                     <%--<form:input path="collegeList[${stat.index}].korCntrName" cssClass="form-control" />--%>
-                                                <%--</div>--%>
-                                            <%--</div>--%>
-                                            <%--TODO 테이블에 국가이름 누락--%>
-                                            <div class="form-group">
-                                                <form:label path="collegeList[${stat.index}].schlName" cssClass="col-sm-2 control-label">학교 이름</form:label>
-                                                <div class="col-sm-2">
-                                                    <button type="button" class="btn btn-default btn-search bpopper" data-targetNode1="collegeList${stat.index}.schlCode" data-targetNode2='collegeList${stat.index}.schlName' data-category="school-u">검색</button>
-                                                </div>
-                                                <div class="col-sm-4">
-                                                    <form:hidden path="collegeList[${stat.index}].schlCode" />
-                                                    <form:input path="collegeList[${stat.index}].schlName" cssClass="form-control" />
-                                                </div>
-                                                <div class="col-sm-2">
-                                                    <label class="radio-inline">
-                                                        <form:radiobutton path="collegeList[${stat.index}].lastSchlYn" cssClass="radio-group" value="Y" />&nbsp;&nbsp;최종 학교
-                                                    </label>
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <form:label path="collegeList[${stat.index}].collName" cssClass="col-sm-2 control-label">단과 대학</form:label>
-                                                <div class="col-sm-9">
-                                                    <form:input path="collegeList[${stat.index}].collName" cssClass="form-control" />
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <form:label path="collegeList[${stat.index}].majName" cssClass="col-sm-2 control-label">학과 이름</form:label>
-                                                <div class="col-sm-9">
-                                                    <form:input path="collegeList[${stat.index}].majName" cssClass="form-control" />
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label class="col-sm-2 control-label">재학 기간</label>
-                                                <div class="col-sm-4 start-date-container">
-                                                    <div class="input-group date">
-                                                        <span class="input-group-addon">입학일</span>
-                                                        <form:input path="collegeList[${stat.index}].entrDay" cssClass="form-control" readonly="true" />
+                                                    <%--</div>--%>
+                                                    <%--</div>--%>
+                                                    <%--TODO 테이블에 국가이름 누락--%>
+                                                <div class="form-group">
+                                                    <form:label path="collegeList[${stat.index}].schlName" cssClass="col-sm-2 control-label">학교 이름</form:label>
+                                                    <div class="col-sm-2">
+                                                        <button type="button" class="btn btn-default btn-search bpopper" data-targetNode1="collegeList${stat.index}.schlCode" data-targetNode2='collegeList${stat.index}.schlName' data-category="school-u">검색</button>
+                                                    </div>
+                                                    <div class="col-sm-4">
+                                                        <form:hidden path="collegeList[${stat.index}].schlCode" />
+                                                        <form:input path="collegeList[${stat.index}].schlName" cssClass="form-control" />
+                                                    </div>
+                                                    <div class="col-sm-2">
+                                                        <label class="radio-inline">
+                                                            <form:radiobutton path="collegeList[${stat.index}].lastSchlYn" cssClass="radio-group" value="Y" />&nbsp;&nbsp;최종 학교
+                                                        </label>
                                                     </div>
                                                 </div>
-                                                <div class="col-sm-4 end-date-container">
-                                                    <div class="input-group date">
-                                                        <span class="input-group-addon">졸업(예정)일</span>
-                                                        <form:input path="collegeList[${stat.index}].grdaDay" cssClass="form-control" readonly="true" />
+                                                <div class="form-group">
+                                                    <form:label path="collegeList[${stat.index}].collName" cssClass="col-sm-2 control-label">단과 대학</form:label>
+                                                    <div class="col-sm-9">
+                                                        <form:input path="collegeList[${stat.index}].collName" cssClass="form-control" />
                                                     </div>
                                                 </div>
+                                                <div class="form-group">
+                                                    <form:label path="collegeList[${stat.index}].majName" cssClass="col-sm-2 control-label">학과 이름</form:label>
+                                                    <div class="col-sm-9">
+                                                        <form:input path="collegeList[${stat.index}].majName" cssClass="form-control" />
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="col-sm-2 control-label">재학 기간</label>
+                                                    <div class="col-sm-4 start-date-container">
+                                                        <div class="input-group date">
+                                                            <span class="input-group-addon">입학일</span>
+                                                            <form:input path="collegeList[${stat.index}].entrDay" cssClass="form-control" readonly="true" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-4 end-date-container">
+                                                        <div class="input-group date">
+                                                            <span class="input-group-addon">졸업(예정)일</span>
+                                                            <form:input path="collegeList[${stat.index}].grdaDay" cssClass="form-control" readonly="true" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="col-sm-2 control-label">평균 평점</label>
+                                                    <div class="col-sm-4">
+                                                        <div class="input-group">
+                                                            <span class="input-group-addon">평점</span>
+                                                            <form:input path="collegeList[${stat.index}].gradAvr" cssClass="form-control" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-4">
+                                                        <div class="input-group">
+                                                            <span class="input-group-addon">만점</span>
+                                                            <form:input path="collegeList[${stat.index}].gradFull" cssClass="form-control" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="btn btn-remove" data-block-index="${stat.index}" data-fileupload-block-list="fuCollegeDocBlockList"><button type="button" class="close" aria-hidden="true">×</button></div>
                                             </div>
-                                            <div class="form-group">
-                                                <label class="col-sm-2 control-label">평균 평점</label>
-                                                <div class="col-sm-4">
-                                                    <div class="input-group">
-                                                        <span class="input-group-addon">평점</span>
-                                                        <form:input path="collegeList[${stat.index}].gradAvr" cssClass="form-control" />
-                                                    </div>
-                                                </div>
-                                                <div class="col-sm-4">
-                                                    <div class="input-group">
-                                                        <span class="input-group-addon">만점</span>
-                                                        <form:input path="collegeList[${stat.index}].gradFull" cssClass="form-control" />
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="btn btn-remove" data-block-index="${stat.index}" data-fileupload-block-list="fuCollegeDocBlockList"><button type="button" class="close" aria-hidden="true">×</button></div>
-                                        </div>
                                         </c:forEach>
                                         <div class="btn btn-info btn-add" data-fileupload-block-list="fuCollegeDocBlockList">추가</div>
                                     </div>
@@ -608,78 +625,78 @@
                                 <div class="panel-body">
                                     <div class="form-group-block-list">
                                         <c:forEach begin="0" end="${entireApplication.graduateList.size() > 0 ? entireApplication.graduateList.size() - 1 : 0}" varStatus="stat">
-                                        <div class="form-group-block">
-                                            <form:hidden path="graduateList[${stat.index}].acadTypeCode" value="00003" />
-                                            <%--TODO 테이블에 국가이름 누락--%>
-                                            <%--<div class="form-group">--%>
-                                                <%--<form:label path="graduateList[${stat.index}]korCntrName" cssClass="col-sm-2 control-label">소재 국가</form:label>--%>
-                                                <%--<div class="co-xs-6 col-sm-2">--%>
+                                            <div class="form-group-block">
+                                                <form:hidden path="graduateList[${stat.index}].acadTypeCode" value="00003" />
+                                                    <%--TODO 테이블에 국가이름 누락--%>
+                                                    <%--<div class="form-group">--%>
+                                                    <%--<form:label path="graduateList[${stat.index}]korCntrName" cssClass="col-sm-2 control-label">소재 국가</form:label>--%>
+                                                    <%--<div class="co-xs-6 col-sm-2">--%>
                                                     <%--<button type="button" class="btn btn-default">검색</button>--%>
-                                                <%--</div>--%>
-                                                <%--<div class="col-sm-6">--%>
+                                                    <%--</div>--%>
+                                                    <%--<div class="col-sm-6">--%>
                                                     <%--<form:input path="graduateList[${stat.index}].korCntrName" cssClass="form-control" />--%>
-                                                <%--</div>--%>
-                                            <%--</div>--%>
-                                            <%--TODO 테이블에 국가이름 누락--%>
-                                            <div class="form-group">
-                                                <form:label path="graduateList[${stat.index}].schlName" cssClass="col-sm-2 control-label">학교 이름</form:label>
-                                                <div class="col-sm-2">
-                                                    <button type="button" class="btn btn-default btn-search bpopper" data-targetNode1="graduateList${stat.index}.schlCode" data-targetNode2='graduateList${stat.index}.schlName' data-category="school-g">검색</button>
-                                                </div>
-                                                <div class="col-sm-4">
-                                                    <form:hidden path="graduateList[${stat.index}].schlCode" />
-                                                    <form:input path="graduateList[${stat.index}].schlName" cssClass="form-control" />
-                                                </div>
-                                                <div class="col-sm-2">
-                                                    <label class="radio-inline">
-                                                        <form:radiobutton path="graduateList[${stat.index}].lastSchlYn" cssClass="radio-group" value="Y" />&nbsp;&nbsp;최종 학교
-                                                    </label>
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <form:label path="graduateList[${stat.index}].collName" cssClass="col-sm-2 control-label">단과 대학</form:label>
-                                                <div class="col-sm-9">
-                                                    <form:input path="graduateList[${stat.index}].collName" cssClass="form-control" />
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <form:label path="graduateList[${stat.index}].majName" cssClass="col-sm-2 control-label">학과 이름</form:label>
-                                                <div class="col-sm-9">
-                                                    <form:input path="graduateList[${stat.index}].majName" cssClass="form-control" />
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label class="col-sm-2 control-label">재학 기간</label>
-                                                <div class="col-sm-4 start-date-container">
-                                                    <div class="input-group date">
-                                                        <span class="input-group-addon">입학일</span>
-                                                        <form:input path="graduateList[${stat.index}].entrDay" cssClass="form-control" readonly="true" />
+                                                    <%--</div>--%>
+                                                    <%--</div>--%>
+                                                    <%--TODO 테이블에 국가이름 누락--%>
+                                                <div class="form-group">
+                                                    <form:label path="graduateList[${stat.index}].schlName" cssClass="col-sm-2 control-label">학교 이름</form:label>
+                                                    <div class="col-sm-2">
+                                                        <button type="button" class="btn btn-default btn-search bpopper" data-targetNode1="graduateList${stat.index}.schlCode" data-targetNode2='graduateList${stat.index}.schlName' data-category="school-g">검색</button>
+                                                    </div>
+                                                    <div class="col-sm-4">
+                                                        <form:hidden path="graduateList[${stat.index}].schlCode" />
+                                                        <form:input path="graduateList[${stat.index}].schlName" cssClass="form-control" />
+                                                    </div>
+                                                    <div class="col-sm-2">
+                                                        <label class="radio-inline">
+                                                            <form:radiobutton path="graduateList[${stat.index}].lastSchlYn" cssClass="radio-group" value="Y" />&nbsp;&nbsp;최종 학교
+                                                        </label>
                                                     </div>
                                                 </div>
-                                                <div class="col-sm-4 end-date-container">
-                                                    <div class="input-group date">
-                                                        <span class="input-group-addon">졸업(예정)일</span>
-                                                        <form:input path="graduateList[${stat.index}].grdaDay" cssClass="form-control" readonly="true" />
+                                                <div class="form-group">
+                                                    <form:label path="graduateList[${stat.index}].collName" cssClass="col-sm-2 control-label">단과 대학</form:label>
+                                                    <div class="col-sm-9">
+                                                        <form:input path="graduateList[${stat.index}].collName" cssClass="form-control" />
                                                     </div>
                                                 </div>
+                                                <div class="form-group">
+                                                    <form:label path="graduateList[${stat.index}].majName" cssClass="col-sm-2 control-label">학과 이름</form:label>
+                                                    <div class="col-sm-9">
+                                                        <form:input path="graduateList[${stat.index}].majName" cssClass="form-control" />
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="col-sm-2 control-label">재학 기간</label>
+                                                    <div class="col-sm-4 start-date-container">
+                                                        <div class="input-group date">
+                                                            <span class="input-group-addon">입학일</span>
+                                                            <form:input path="graduateList[${stat.index}].entrDay" cssClass="form-control" readonly="true" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-4 end-date-container">
+                                                        <div class="input-group date">
+                                                            <span class="input-group-addon">졸업(예정)일</span>
+                                                            <form:input path="graduateList[${stat.index}].grdaDay" cssClass="form-control" readonly="true" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="col-sm-2 control-label">평균 평점</label>
+                                                    <div class="col-sm-4">
+                                                        <div class="input-group">
+                                                            <span class="input-group-addon">평점</span>
+                                                            <form:input path="graduateList[${stat.index}].gradAvr" cssClass="form-control" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-4">
+                                                        <div class="input-group">
+                                                            <span class="input-group-addon">만점</span>
+                                                            <form:input path="graduateList[${stat.index}].gradFull" cssClass="form-control" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="btn btn-remove" data-block-index="${stat.index}" data-fileupload-block-list="fuGraduateDocBlockList"><button type="button" class="close" aria-hidden="true">×</button></div>
                                             </div>
-                                            <div class="form-group">
-                                                <label class="col-sm-2 control-label">평균 평점</label>
-                                                <div class="col-sm-4">
-                                                    <div class="input-group">
-                                                        <span class="input-group-addon">평점</span>
-                                                        <form:input path="graduateList[${stat.index}].gradAvr" cssClass="form-control" />
-                                                    </div>
-                                                </div>
-                                                <div class="col-sm-4">
-                                                    <div class="input-group">
-                                                        <span class="input-group-addon">만점</span>
-                                                        <form:input path="graduateList[${stat.index}].gradFull" cssClass="form-control" />
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="btn btn-remove" data-block-index="${stat.index}" data-fileupload-block-list="fuGraduateDocBlockList"><button type="button" class="close" aria-hidden="true">×</button></div>
-                                        </div>
                                         </c:forEach>
                                         <div class="btn btn-info btn-add" data-fileupload-block-list="fuGraduateDocBlockList">추가</div>
                                     </div>
@@ -688,6 +705,7 @@
                         </div>
                     </div>
                 </div>
+
                 <%--language & career--%>
                 <div class="tab-pane fade" id="langcareer">
                     <div class="spacer-tiny"></div>
@@ -715,7 +733,7 @@
                                         <div class="col-sm-2 show-lang">
                                             <c:if test="${langExam.examCode == '00001'}">
                                             <form:select path="applicationLanguageList[${stat.index}].toflTypeCode" cssClass="form-control">
-                                                <form:option value="-" label="--선택--" />
+                                                <form:option value="" label="--선택--" />
                                                 <form:options items="${common.toflTypeList}" itemValue="code" itemLabel="codeVal" />
                                             </form:select>
                                             </c:if>
@@ -801,20 +819,48 @@
                     <div class="spacer-tiny"></div>
                     <div class="row">
                         <div class="col-sm-offset-1 col-sm-10">
+
+                            <%--<div class="panel panel-darkgray">--%>
+                                <%--<div class="panel-heading">기본 서류</div>--%>
+                                <%--<div class="panel-body" id="general-doc-list">--%>
+                                    <%--<c:forEach items="${entireApplication.generalDocList}" var="attachDoc" varStatus="stat">--%>
+                                        <%--<hr/>--%>
+                                        <%--<div class="form-group" id="attachDoc${attachDoc.code}">--%>
+                                            <%--<label class="col-sm-3 control-label word-keep-all">${attachDoc.codeVal}</label>--%>
+                                            <%--<div class="col-sm-8">--%>
+                                                <%--<div class="input-group">--%>
+                                                    <%--<div class="input-group-btn">--%>
+                                                        <%--<input type="file" class="btn btn_lg btn-file" id="applicationDocumentList${stat.index}.docName" name="applicationDocumentList${stat.index}.docName"/>--%>
+                                                    <%--</div>--%>
+                                                    <%--<div class="col-sm-4 nopadding"><input type="button" id="attachDoc${stat.index}.btn" name="attachDoc${stat.index}.btn" class="btn btn-default btn-block btn-upload" value="올리기"/></div>--%>
+                                                    <%--<span class="col-sm-8" id="uploadedFileLabel${stat.index}" style="text-decoration: none;"><!--TODO DB에서 가져오기--></span>--%>
+                                                <%--</div>--%>
+                                            <%--</div>--%>
+                                                <%--&lt;%&ndash;<form:hidden path="docItemList[${stat.index}].docItemCode" value="${attachDoc.code}"/>&ndash;%&gt;--%>
+                                                <%--&lt;%&ndash;<form:hidden path="docItemList[${stat.index}].docItemName" value="${attachDoc.codeVal}"/>&ndash;%&gt;--%>
+                                                <%--&lt;%&ndash;<form:hidden path="docItemList[${stat.index}].filePath"/>&ndash;%&gt;--%>
+                                                <%--&lt;%&ndash;<form:hidden path="docItemList[${stat.index}].fileName"/>&ndash;%&gt;--%>
+                                            <%--<input type="hidden" name="docItemList[${stat.index}].docItemCode" id="applicationDocumentList${stat.index}.docItemCode" value="${attachDoc.code}" />--%>
+                                            <%--<input type="hidden" name="docItemList[${stat.index}].docItemName" id="applicationDocumentList${stat.index}.docItemName" value="${attachDoc.codeVal}" />--%>
+                                            <%--<input type="hidden" name="docItemList[${stat.index}].filePath" id="applicationDocumentList${stat.index}.filePath"/>--%>
+                                            <%--<input type="hidden" name="docItemList[${stat.index}].fileName" id="applicationDocumentList${stat.index}.fileName"/>--%>
+                                        <%--</div>--%>
+                                    <%--</c:forEach>--%>
+                                <%--</div>--%>
+                            <%--</div>--%>
+
                             <div class="panel panel-darkgray">
-                                <div class="panel-heading">사진 업로드</div>
+                                <div class="panel-heading">기본 서류</div>
                                 <div class="panel-body">
                                     <div class="form-group">
                                         <label class="col-sm-2 control-label">파일 선택</label>
                                         <div class="col-sm-9">
                                             <div class="input-group">
-                                                <span class="input-group-btn">
-                                                    <span class="btn btn-default btn_lg btn-file">
-                                                        Browse&hellip; <input type="file" id="fuPicture" name="picture"/>
-                                                    </span>
-                                                </span>
-                                                <span class="col-sm-8 nopadding"><input type="text" class="form-control" readonly/></span>
-                                                <span class="col-sm-4 nopadding"><input type="button" id="btnPicture" class="btn btn-default btn-block btn-upload" value="올리기"/></span>
+                                                <div class="input-group-btn">
+                                                    <input type="file" class="btn btn_lg btn-file" id="fuPicture" name="picture"/>
+                                                </div>
+                                                <div class="col-sm-4 nopadding"><input type="button" id="fuPicture.btn" name="picture.btn" class="btn btn-default btn-block btn-upload" value="올리기"/></div>
+                                                <span class="col-sm-8" id="uploadedPicture" style="text-decoration: none;"><!--TODO DB에서 가져오기--></span>
                                             </div>
                                         </div>
                                     </div>
@@ -824,7 +870,7 @@
                             <div class="spacer-tiny"></div>
 
                             <div class="panel panel-darkgray">
-                                <div class="panel-heading">학력 관련 서류 업로드</div>
+                                <div class="panel-heading">대학 학력 관련 서류 업로드</div>
                                 <div class="panel-body">
                                     <div class="form-group-block-list" id="fuCollegeDocBlockList">
                                         <div class="form-group-block">
@@ -836,7 +882,7 @@
                                                             <input type="file" class="btn btn_lg btn-file" id="collegeDiploma0.file" name="collegeDiploma[0].file"/>
                                                         </div>
                                                         <div class="col-sm-4 nopadding"><input type="button" id="collegeDiploma0.btn" name="collegeDiploma[0].btn" class="btn btn-default btn-block btn-upload" value="올리기"/></div>
-                                                        <label style="vertical-align: middle;">업로드된파일명</label>
+                                                        <span class="col-sm-8" style="text-decoration: none;"><!--TODO DB에서 가져오기--></span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -848,7 +894,7 @@
                                                             <input type="file" class="btn btn_lg btn-file" id="collegeGrade0.file" name="collegeGrade[0].file"/>
                                                         </div>
                                                         <div class="col-sm-4 nopadding"><input type="button" id="collegeGrade0.btn" name="collegeGrade[0].btn" class="btn btn-default btn-block btn-upload" value="올리기"/></div>
-                                                        <label style="vertical-align: middle;">업로드된파일명</label>
+                                                        <span class="col-sm-8" style="text-decoration: none;"><!--TODO DB에서 가져오기--></span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -857,10 +903,10 @@
                                                 <div class="col-sm-9">
                                                     <div class="input-group">
                                                         <div class="input-group-btn">
-                                                            <input type="file" class="btn btn_lg btn-file" id="retrieveGradeAgree0.file" name="retrieveGradeAgree[0].file"/>
+                                                            <input type="file" class="btn btn_lg btn-file" id="retrieveCollegeGradeAgree0.file" name="retrieveCollegeGradeAgree[0].file"/>
                                                         </div>
-                                                        <div class="col-sm-4 nopadding"><input type="button" id="retrieveGradeAgree0.btn" name="retrieveGradeAgree[0].btn" class="btn btn-default btn-block btn-upload" value="올리기"/></div>
-                                                        <label style="vertical-align: middle;">업로드된파일명</label>
+                                                        <div class="col-sm-4 nopadding"><input type="button" id="retrieveCollegeGradeAgree0.btn" name="retrieveCollegeGradeAgree[0].btn" class="btn btn-default btn-block btn-upload" value="올리기"/></div>
+                                                        <span class="col-sm-8" style="text-decoration: none;"><!--TODO DB에서 가져오기--></span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -869,10 +915,10 @@
                                                 <div class="col-sm-9">
                                                     <div class="input-group">
                                                         <div class="input-group-btn">
-                                                            <input type="file" class="btn btn_lg btn-file" id="verifySchool0.file" name="verifySchool[0].file"/>
+                                                            <input type="file" class="btn btn_lg btn-file" id="verifyCollegeSchool0.file" name="verifyCollegeSchool[0].file"/>
                                                         </div>
-                                                        <div class="col-sm-4 nopadding"><input type="button" id="verifySchool0.btn" name="verifySchool[0].btn" class="btn btn-default btn-block btn-upload" value="올리기"/></div>
-                                                        <label style="vertical-align: middle;">업로드된파일명</label>
+                                                        <div class="col-sm-4 nopadding"><input type="button" id="verifyCollegeSchool0.btn" name="verifyCollegeSchool[0].btn" class="btn btn-default btn-block btn-upload" value="올리기"/></div>
+                                                        <span class="col-sm-8" style="text-decoration: none;"><!--TODO DB에서 가져오기--></span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -881,10 +927,10 @@
                                                 <div class="col-sm-9">
                                                     <div class="input-group">
                                                         <div class="input-group-btn">
-                                                            <input type="file" class="btn btn_lg btn-file" id="originDegree0.file" name="originDegree[0].file"/>
+                                                            <input type="file" class="btn btn_lg btn-file" id="originCollegeDegree0.file" name="originCollegeDegree[0].file"/>
                                                         </div>
-                                                        <div class="col-sm-4 nopadding"><input type="button" id="originDegree0.btn" name="originDegree[0].btn" class="btn btn-default btn-block btn-upload" value="올리기"/></div>
-                                                        <label style="vertical-align: middle;">업로드된파일명</label>
+                                                        <div class="col-sm-4 nopadding"><input type="button" id="originCollegeDegree0.btn" name="originCollegeDegree[0].btn" class="btn btn-default btn-block btn-upload" value="올리기"/></div>
+                                                        <span class="col-sm-8" style="text-decoration: none;"><!--TODO DB에서 가져오기--></span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -893,10 +939,94 @@
                                                 <div class="col-sm-9">
                                                     <div class="input-group">
                                                         <div class="input-group-btn">
-                                                            <input type="file" class="btn btn_lg btn-file" id="copyDegree0.file" name="copyDegree[0].file"/>
+                                                            <input type="file" class="btn btn_lg btn-file" id="copyCollegeDegree0.file" name="copyCollegeDegree[0].file"/>
                                                         </div>
-                                                        <div class="col-sm-4 nopadding"><input type="button" id="copyDegree0.btn" name="copyDegree[0].btn" class="btn btn-default btn-block btn-upload" value="올리기"/></div>
-                                                        <label style="vertical-align: middle;">업로드된파일명</label>
+                                                        <div class="col-sm-4 nopadding"><input type="button" id="copyCollegeDegree0.btn" name="copyCollegeDegree[0].btn" class="btn btn-default btn-block btn-upload" value="올리기"/></div>
+                                                        <span class="col-sm-8" style="text-decoration: none;"><!--TODO DB에서 가져오기--></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="spacer-tiny"></div>
+
+                            <div class="panel panel-darkgray">
+                                <div class="panel-heading">대학원 학력 관련 서류 업로드</div>
+                                <div class="panel-body">
+                                    <div class="form-group-block-list" id="fuGraduateDocBlockList">
+                                        <div class="form-group-block">
+                                            <div class="form-group">
+                                                <label class="col-sm-2 control-label">졸업(예정)증명서</label>
+                                                <div class="col-sm-9">
+                                                    <div class="input-group">
+                                                        <div class="input-group-btn">
+                                                            <input type="file" class="btn btn_lg btn-file" id="graduateDiploma0.file" name="graduateDiploma[0].file"/>
+                                                        </div>
+                                                        <div class="col-sm-4 nopadding"><input type="button" id="graduateDiploma0.btn" name="graduateDiploma[0].btn" class="btn btn-default btn-block btn-upload" value="올리기"/></div>
+                                                        <span class="col-sm-8" style="text-decoration: none;"><!--TODO DB에서 가져오기--></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-sm-2 control-label">성적증명서</label>
+                                                <div class="col-sm-9">
+                                                    <div class="input-group">
+                                                        <div class="input-group-btn">
+                                                            <input type="file" class="btn btn_lg btn-file" id="graduateGrade0.file" name="graduateGrade[0].file"/>
+                                                        </div>
+                                                        <div class="col-sm-4 nopadding"><input type="button" id="graduateGrade0.btn" name="graduateGrade[0].btn" class="btn btn-default btn-block btn-upload" value="올리기"/></div>
+                                                        <span class="col-sm-8" style="text-decoration: none;"><!--TODO DB에서 가져오기--></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group block-china">
+                                                <label class="col-sm-2 control-label">학력조회 동의서</label>
+                                                <div class="col-sm-9">
+                                                    <div class="input-group">
+                                                        <div class="input-group-btn">
+                                                            <input type="file" class="btn btn_lg btn-file" id="retrieveGraduateGradeAgree0.file" name="retrieveGraduateGradeAgree[0].file"/>
+                                                        </div>
+                                                        <div class="col-sm-4 nopadding"><input type="button" id="retrieveGraduateGradeAgree0.btn" name="retrieveGraduateGradeAgree[0].btn" class="btn btn-default btn-block btn-upload" value="올리기"/></div>
+                                                        <span class="col-sm-8" style="text-decoration: none;"><!--TODO DB에서 가져오기--></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group block-foreign-common">
+                                                <label class="col-sm-2 control-label">출신대학(원) 확인서</label>
+                                                <div class="col-sm-9">
+                                                    <div class="input-group">
+                                                        <div class="input-group-btn">
+                                                            <input type="file" class="btn btn_lg btn-file" id="verifyGraduateSchool0.file" name="verifyGraduateSchool[0].file"/>
+                                                        </div>
+                                                        <div class="col-sm-4 nopadding"><input type="button" id="verifyGraduateSchool0.btn" name="verifyGraduateSchool[0].btn" class="btn btn-default btn-block btn-upload" value="올리기"/></div>
+                                                        <span class="col-sm-8" style="text-decoration: none;"><!--TODO DB에서 가져오기--></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group block-non-china">
+                                                <label class="col-sm-2 control-label">학위증명서 원본</label>
+                                                <div class="col-sm-9">
+                                                    <div class="input-group">
+                                                        <div class="input-group-btn">
+                                                            <input type="file" class="btn btn_lg btn-file" id="originGraduateDegree0.file" name="originGraduateDegree[0].file"/>
+                                                        </div>
+                                                        <div class="col-sm-4 nopadding"><input type="button" id="originGraduateDegree0.btn" name="originGraduateDegree[0].btn" class="btn btn-default btn-block btn-upload" value="올리기"/></div>
+                                                        <span class="col-sm-8" style="text-decoration: none;"><!--TODO DB에서 가져오기--></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group block-non-china">
+                                                <label class="col-sm-2 control-label">학위증 사본</label>
+                                                <div class="col-sm-9">
+                                                    <div class="input-group">
+                                                        <div class="input-group-btn">
+                                                            <input type="file" class="btn btn_lg btn-file" id="copyGraduateDegree0.file" name="copyGraduateDegree[0].file"/>
+                                                        </div>
+                                                        <div class="col-sm-4 nopadding"><input type="button" id="copyGraduateDegree0.btn" name="copyGraduateDegree[0].btn" class="btn btn-default btn-block btn-upload" value="올리기"/></div>
+                                                        <span class="col-sm-8" style="text-decoration: none;"><!--TODO DB에서 가져오기--></span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -995,39 +1125,30 @@
 
                             <div class="panel panel-darkgray">
                                 <div class="panel-heading">지원 과정/학과별 제출 서류</div>
-                                <div class="panel-body">
-                                    <div class="form-group">
-                                        <label class="col-sm-2 control-label">경력증명서</label>
-                                        <div class="col-sm-9">
+                                <div class="panel-body" id="attach-doc-list">
+                                    <c:forEach items="${common.docItemList}" var="attachDoc" varStatus="stat">
+                                    <hr/>
+                                    <div class="form-group" id="attachDoc${attachDoc.code}">
+                                        <label class="col-sm-3 control-label word-keep-all">${attachDoc.codeVal}</label>
+                                        <div class="col-sm-8">
                                             <div class="input-group">
-                                                <span class="input-group-btn">
-                                                    <span class="btn btn-default btn_lg btn-file">
-                                                        Browse&hellip; <input type="file" multiple/>
-                                                    </span>
-                                                </span>
-                                                <input type="text" class="form-control" readonly/>
+                                                <div class="input-group-btn">
+                                                    <input type="file" class="btn btn_lg btn-file" id="applicationDocumentList${stat.index}.docName" name="applicationDocumentList${stat.index}.docName"/>
+                                                </div>
+                                                <div class="col-sm-4 nopadding"><input type="button" id="attachDoc${stat.index}.btn" name="attachDoc${stat.index}.btn" class="btn btn-default btn-block btn-upload" value="올리기"/></div>
+                                                <span class="col-sm-8" id="uploadedFileLabel${stat.index}" style="text-decoration: none;"><!--TODO DB에서 가져오기--></span>
                                             </div>
                                         </div>
+                                        <%--<form:hidden path="docItemList[${stat.index}].docItemCode" value="${attachDoc.code}"/>--%>
+                                        <%--<form:hidden path="docItemList[${stat.index}].docItemName" value="${attachDoc.codeVal}"/>--%>
+                                        <%--<form:hidden path="docItemList[${stat.index}].filePath"/>--%>
+                                        <%--<form:hidden path="docItemList[${stat.index}].fileName"/>--%>
+                                        <input type="hidden" name="docItemList[${stat.index}].docItemCode" id="applicationDocumentList${stat.index}.docItemCode" value="${attachDoc.code}" />
+                                        <input type="hidden" name="docItemList[${stat.index}].docItemName" id="applicationDocumentList${stat.index}.docItemName" value="${attachDoc.codeVal}" />
+                                        <input type="hidden" name="docItemList[${stat.index}].filePath" id="applicationDocumentList${stat.index}.filePath"/>
+                                        <input type="hidden" name="docItemList[${stat.index}].fileName" id="applicationDocumentList${stat.index}.fileName"/>
                                     </div>
-                                    <div class="form-group">
-                                        <label class="col-sm-2 control-label">석사 학위 논문 초록</label>
-                                        <div class="col-sm-9">
-                                            <div class="input-group">
-                                                <span class="input-group-btn">
-                                                    <span class="btn btn-default btn_lg btn-file">
-                                                        Browse&hellip; <input type="file" multiple/>
-                                                    </span>
-                                                </span>
-                                                <input type="text" class="form-control" readonly/>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="col-sm-2 control-label">석사 학위 논문</label>
-                                        <div class="col-sm-9 control-label" style="text-align: left;">
-                                                <h4>학교로 원본을 제출해 주세요</h4>
-                                        </div>
-                                    </div>
+                                    </c:forEach>
                                 </div>
                             </div>
                         </div>
@@ -1035,6 +1156,8 @@
                     <div class="spacer-tiny"></div>
                 </div>
             </div> <%--myTabContent--%>
+            <input type="hidden" id="applNo"/>
+            <input type="hidden" id="admsNo"/>
         </form:form>
 
         <div class="btn-group btn-group-justified">
@@ -1042,7 +1165,7 @@
                 <button id="save" type="button" class="btn btn-info btn-lg">저장</button>
             </div>
             <div class="btn-group">
-                <button id="appply" type="button" class="btn btn-primary btn-lg">작성완료</button>
+                <button id="apply" type="button" class="btn btn-primary btn-lg">작성완료</button>
             </div>
             <div class="btn-group">
                 <button id="reset" type="button" class="btn btn-warning btn-lg">되돌리기</button>
@@ -1098,6 +1221,8 @@
     <script src="//code.jquery.com/ui/1.11.1/jquery-ui.js"></script>
     <script type="text/javascript">
         $(document).ready(function() {
+            document.getElementById('applNo').value='${entireApplication.application.applNo}';
+            document.getElementById('admsNo').value='${entireApplication.application.admsNo}';
 
             <%-- 학교 검색 시작 --%>
             $('.bpopper').on('click', function(e) {
@@ -1355,37 +1480,7 @@
                 }
             });
 
-            <%-- 지원정보 submit 이벤트 --%>
-            $('#entireApplication').on('submit', function(event) {
-                var $form = $(this),
-                    $formUrl = $form.attr('action'),
-                    $formData = $form.serializeArray();
 
-                $form.find('input.radio-group').filter(function() {
-                    return this.checked == false;
-                }).each(function() {
-                    $formData.push({name: this.name, value: 'N'});
-                });
-
-//                $formData = $formData.concat(getEnglishScoreSerializeArray());
-                $.ajax({
-                    url: $formUrl,
-                    type: 'POST',
-                    data: $formData,
-                    timeout: 5000,
-                    success: function (context) {
-                        if (context.result == 'SUCCESS') {
-                            var message = context.message;
-                            var alert = createAlert(message);
-                            $('#alert-container').append(alert);
-                            window.setTimeout(function() { alert.alert('close') }, 2000);
-                        }
-                    },
-                    error: function(e) {
-                    }
-                });
-                event.preventDefault();
-            });
 
             function getEnglishScoreSerializeArray(form) {
                 var array = [], $groups, $items, val, id, name, i, j;
@@ -1428,12 +1523,52 @@
                 return alert;
             }
 
+            <%-- 지원정보 submit 이벤트 --%>
+
+
+            var formProcess = function(event) {
+                var $form = $(this),
+                    $formUrl = event.type==='save'?"apply/save":"apply/apply",
+                    $formData = $form.serializeArray();
+                $form.find('input.radio-group').filter(function() {
+                    return this.checked == false;
+                }).each(function() {
+                    $formData.push({name: this.name, value: 'N'});
+                });
+
+//                $formData = $formData.concat(getEnglishScoreSerializeArray());
+                $.ajax({
+                    url: $formUrl,
+                    type: 'POST',
+                    data: $formData,
+                    timeout: 5000,
+                    success: function (context) {
+                        if (context.result == 'SUCCESS') {
+                            var message = context.message,
+                                alert = createAlert(message),
+                                applNo = context.data;
+                            $('#alert-container').append(alert);
+                            document.getElementById('#applNo').value = applNo;
+                            window.setTimeout(function() { alert.alert('close') }, 2000);
+                        }
+                    },
+                    error: function(e) {
+console.log(e.statusText);
+                    }
+                });
+                event.preventDefault();
+            };
+
+            $('#entireApplication').on('save', formProcess);
+
+            $('#entireApplication').on('apply', formProcess);
+
             $('#save').on('click', function() {
-                $('#entireApplication').trigger('submit');
+                $('#entireApplication').trigger('save');
             });
 
             $('#apply').on('click', function() {
-                alert("작성완료 되었습니다.")
+                $('#entireApplication').trigger('apply');
             });
 
             $('#reset').on('click', function() {
@@ -2015,10 +2150,8 @@
                 var target = e.target,
                     inputGroup = target.parentNode.parentNode,
                     uploadButton = $(inputGroup).find('input[type="button"]');
-console.log(uploadButton);
                 $(uploadButton).removeClass('disabled');
                 $(uploadButton).val('올리기');
-console.log(uploadButton);
 
 
             });
@@ -2026,39 +2159,85 @@ console.log(uploadButton);
 
             <%-- 파일 업로드 버튼 이벤트 --%>
             $('.btn-upload').on('click', function (e) {
-                var actionUrl = "${contextPath}/application/apply/savetest",
+                var actionUrl = "${contextPath}/application/apply/fileUpload",
                     fileInputId = e.target.parentNode.parentNode.querySelector('input').getAttribute('id'),
                     fileInput = document.getElementById(fileInputId),
-                    fileInputName = fileInput.getAttribute("name")
+                    fileInputName = fileInput.getAttribute("name"),
+                    fileName = fileInput.value,
+                    targetLabelId = e.target.parentNode.parentNode.querySelector('span').getAttribute('id'),
+                    regexpImage = (/\.(gif|jpg|png)$/i),
+                    regexpPDF = (/\.(pdf)$/i),
+                    extIsOk = false
                     ;
                 if ((fileInput.files && fileInput.files.length) || fileInput.value != "") {
-                    $.ajaxFileUpload({
-                        url: actionUrl,
-                        secureuri:false,
-                        fileElementId:fileInputId,
-                        dataType: 'json',
-                        data: {fieldName: fileInputName,targetButton: $(this).attr('id')},
-                        success: function (data, status) {
-                            if (console) {
-                                console.log("msg : ", data.message);
-                                console.log("data : ", data.data);
-                                console.log("status : ", status);
-                            }
-                            var targetBtnId = data.message,
-                                targetBtn = document.getElementById(targetBtnId),
-                                $targetBtn = $(targetBtn);
-                            $targetBtn.removeClass("btn-default");
-                            $targetBtn.addClass("btn-info");
-                            $targetBtn.val("올리기 성공");
-                        },
-                        error: function (data, status, e) {
-                            if(console) {
-                                console.log("data : ", data);
-                                console.log("status : ", status);
-                                console.log("e : ", e);
-                            }
+                    if (fileInputId === 'fuPicture') {
+                        if (regexpImage.test(fileName)) {
+                            extIsOk = true;
+                        } else {
+                            alert('${msgImageOnly}');
+                            return false;
                         }
-                    });
+                    } else if (regexpPDF.test(fileName)) {
+                        extIsOk = true;
+                    } else {
+                        alert('${msgPDFOnly}')
+                        return false;
+                    }
+
+                    if (extIsOk) {
+                        $.ajaxFileUpload({
+                            url: actionUrl,
+                            secureuri:false,
+                            fileElementId: fileInputId,
+                            dataType: 'json',
+                            data: {
+                                fieldName: fileInputName,
+                                targetButton: $(this).attr('id'),
+                                targetLabel: targetLabelId,
+                                applNo: document.getElementById('applNo').value,
+                                admsNo: document.getElementById('admsNo').value
+                            },
+                            success: function (data, status) {
+                                var d = JSON.parse(data.data);
+                                if (console) {
+                                    console.log("targetButton : ", d.targetButton);
+                                    console.log("targetLabel : ", d.targetLabel);
+                                    console.log("applNo : ", d.applNo);
+                                    console.log("admsNo : ", d.admsNo);
+                                    console.log("originalFileName : ", d.originalFileName);
+                                    console.log("fileName : ", d.fileName);
+                                    console.log("data : ", data.data);
+                                    console.log("status : ", status);
+                                }
+                                var targetBtnId = d.targetButton,
+                                        targetBtn = document.getElementById(targetBtnId),
+                                        $targetBtn = $(targetBtn),
+                                        originalFileName = d.originalFileName,
+                                        path = d.path,
+                                        fileName = d.fileName,
+                                        targetLabel = d.targetLabel,
+                                        applNo = d.applNo,
+                                        admsNo = d.admsNo,
+                                        downloadURL,
+                                        linkHtml;
+                                $targetBtn.removeClass("btn-default");
+                                $targetBtn.addClass("btn-info");
+                                $targetBtn.val("올리기 성공");
+                                downloadURL = '${contextPath}/filedownload/attached/'+admsNo+'/'+applNo+'/'+fileName+'/'+originalFileName;
+                                linkHtml = '<a href="' + downloadURL + '">' + originalFileName + '</a>';
+                                document.getElementById(targetLabel).innerHTML = linkHtml;
+
+                            },
+                            error: function (data, status, e) {
+                                if(console) {
+                                    console.log("data : ", data);
+                                    console.log("status : ", status);
+                                    console.log("e : ", e);
+                                }
+                            }
+                        });
+                    }
+
                 } else {
                     alert("파일을 선택해 주십시오");
                 }
@@ -2067,7 +2246,12 @@ console.log(uploadButton);
                 return false;
             });
             <%-- 파일 업로드 버튼 이벤트 --%>
+
+            <%-- 단어 잘림 방지 --%>
+            $('.word-keep-all').wordBreakKeepAll();
+
         });
+
 
     </script>
 </content>

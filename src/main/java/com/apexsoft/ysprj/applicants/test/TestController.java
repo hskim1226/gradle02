@@ -73,13 +73,6 @@ public class TestController {
         return "test/showEntireApplication";
     }
 
-    @RequestMapping(value = "/showApplication")
-    public String showApplication(Model model) {
-
-        model.addAttribute("application", applicationService.retrieveApplication(1));
-        return "test/showApplication";
-    }
-
     @RequestMapping(value = "/complexResultMapByOneQuery")
     public String showComplexResultMapByOneQuery(Model model) {
 

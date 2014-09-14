@@ -45,7 +45,9 @@ public class BirtController {
         EntireApplication entireApplication = applicationService.retrieveEntireApplication(applNo);
 
         /* TODO APPL DB 변경되면 수정되어야 할 부분 */
-        CampusCollege campusCollege = applicationService.retrieveCampusCollege(applNo);
+        CampusCollege campusCollege = applicationService.retrieveInfoByApplNo(applNo,
+                "EntireApplicationMapper.selectCampusCollegeCode",
+                CampusCollege.class);
         entireApplication.setCampCode( campusCollege.getCampCode() );
         entireApplication.setCollCode( campusCollege.getCollCode() );
 

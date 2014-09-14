@@ -11,8 +11,12 @@ public class FileMetaForm {
 
     private String path;
     private String fileName;
+    private String originalFileName;
     private String fieldName;
     private String targetButton;
+    private String targetLabel;
+    private String applNo;
+    private String admsNo;
 
     public String getPath() {
         return path;
@@ -30,6 +34,14 @@ public class FileMetaForm {
         this.fileName = fileName;
     }
 
+    public String getOriginalFileName() {
+        return originalFileName;
+    }
+
+    public void setOriginalFileName(String originalFileName) {
+        this.originalFileName = originalFileName;
+    }
+
     public String getFieldName() {
         return fieldName;
     }
@@ -44,6 +56,30 @@ public class FileMetaForm {
 
     public void setTargetButton(String targetButton) {
         this.targetButton = targetButton;
+    }
+
+    public String getTargetLabel() {
+        return targetLabel;
+    }
+
+    public void setTargetLabel(String targetLabel) {
+        this.targetLabel = targetLabel;
+    }
+
+    public String getApplNo() {
+        return applNo;
+    }
+
+    public void setApplNo(String applNo) {
+        this.applNo = applNo;
+    }
+
+    public String getAdmsNo() {
+        return admsNo;
+    }
+
+    public void setAdmsNo(String admsNo) {
+        this.admsNo = admsNo;
     }
 
     @Override
