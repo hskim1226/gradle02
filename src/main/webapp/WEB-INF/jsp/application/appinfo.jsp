@@ -1872,7 +1872,7 @@ console.log(e.statusText);
                             $clean = $('#' + clean[i]);
                             oldVal = $clean.val();
                             $clean.children('option').filter(function() {
-                                return this.value !== '-';
+                                return this.value !== '';
                             }).remove();
                             if (oldVal !== $clean.val()) {
                                 $clean.trigger('change');
