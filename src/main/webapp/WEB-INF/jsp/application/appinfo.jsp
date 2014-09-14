@@ -228,7 +228,7 @@
             <li><a href="#langcareer" data-toggle="tab">어학 및 경력</a></li>
             <li><a href="#fileupload" data-toggle="tab">첨부파일</a></li>
         </ul>
-        <form:form commandName="entireApplication" cssClass="form-horizontal" action="apply/saveandupload" method="post" enctype="multipart/form-data" role="form">
+        <form:form commandName="entireApplication" cssClass="form-horizontal" method="post" enctype="multipart/form-data" role="form">
             <form:hidden path="application.admsNo" id="admsNo" />
             <form:hidden path="application.entrYear" id="entrYear" />
             <form:hidden path="application.admsTypeCode" id="admsTypeCode" />
@@ -1063,7 +1063,7 @@
                 <button id="save" type="button" class="btn btn-info btn-lg">저장</button>
             </div>
             <div class="btn-group">
-                <button id="appply" type="button" class="btn btn-primary btn-lg">작성완료</button>
+                <button id="apply" type="button" class="btn btn-primary btn-lg">작성완료</button>
             </div>
             <div class="btn-group">
                 <button id="reset" type="button" class="btn btn-warning btn-lg">되돌리기</button>
@@ -1378,39 +1378,7 @@
                 }
             });
 
-            <%-- 지원정보 submit 이벤트 --%>
-            $('#entireApplication').on('submit', function(event) {
-                var $form = $(this),
-                    $formUrl = $form.attr('action'),
-                    $formData = $form.serializeArray();
 
-                $form.find('input.radio-group').filter(function() {
-                    return this.checked == false;
-                }).each(function() {
-                    $formData.push({name: this.name, value: 'N'});
-                });
-
-//                $formData = $formData.concat(getEnglishScoreSerializeArray());
-                $.ajax({
-                    url: $formUrl,
-                    type: 'POST',
-                    data: $formData,
-                    timeout: 5000,
-                    success: function (context) {
-                        if (context.result == 'SUCCESS') {
-                            var message = context.message;
-                            var alert = createAlert(message);
-                            var applNo = context.data;
-                            $('#alert-container').append(alert);
-                            document.getElementById('#applNo').value = applNo;
-                            window.setTimeout(function() { alert.alert('close') }, 2000);
-                        }
-                    },
-                    error: function(e) {
-                    }
-                });
-                event.preventDefault();
-            });
 
             function getEnglishScoreSerializeArray(form) {
                 var array = [], $groups, $items, val, id, name, i, j;
@@ -1453,12 +1421,51 @@
                 return alert;
             }
 
+            <%-- 지원정보 submit 이벤트 --%>
+
+
+            var formProcess = function(event) {
+                var $form = $(this),
+                    $formUrl = event.type==='save'?"apply/save":"apply/apply",
+                    $formData = $form.serializeArray();
+                $form.find('input.radio-group').filter(function() {
+                    return this.checked == false;
+                }).each(function() {
+                    $formData.push({name: this.name, value: 'N'});
+                });
+
+//                $formData = $formData.concat(getEnglishScoreSerializeArray());
+                $.ajax({
+                    url: $formUrl,
+                    type: 'POST',
+                    data: $formData,
+                    timeout: 5000,
+                    success: function (context) {
+                        if (context.result == 'SUCCESS') {
+                            var message = context.message;
+                            var alert = createAlert(message);
+                            var applNo = context.data;
+                            $('#alert-container').append(alert);
+                            document.getElementById('#applNo').value = applNo;
+                            window.setTimeout(function() { alert.alert('close') }, 2000);
+                        }
+                    },
+                    error: function(e) {
+                    }
+                });
+                event.preventDefault();
+            };
+
+            $('#entireApplication').on('save', formProcess);
+
+            $('#entireApplication').on('apply', formProcess);
+
             $('#save').on('click', function() {
-                $('#entireApplication').trigger('submit');
+                $('#entireApplication').trigger('save');
             });
 
             $('#apply').on('click', function() {
-                alert("작성완료 되었습니다.")
+                $('#entireApplication').trigger('apply');
             });
 
             $('#reset').on('click', function() {
@@ -2051,7 +2058,7 @@ console.log(uploadButton);
 
             <%-- 파일 업로드 버튼 이벤트 --%>
             $('.btn-upload').on('click', function (e) {
-                var actionUrl = "${contextPath}/application/apply/savetest",
+                var actionUrl = "${contextPath}/application/apply/fileUpload",
                     fileInputId = e.target.parentNode.parentNode.querySelector('input').getAttribute('id'),
                     fileInput = document.getElementById(fileInputId),
                     fileInputName = fileInput.getAttribute("name"),

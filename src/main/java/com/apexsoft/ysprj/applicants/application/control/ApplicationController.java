@@ -57,9 +57,6 @@ public class ApplicationController {
     @Autowired
     private FileService fileService;
 
-    @Value("${file.baseDir}")
-    String fileBaseDir;
-
     /**
      * 내원서 화면
      * @param principal
@@ -223,9 +220,9 @@ public class ApplicationController {
      * @param principal
      * @return
      */
-//    @RequestMapping(value = "/apply/save", method = RequestMethod.POST)
-//    @ResponseBody
-    private ExecutionContext saveApplication(@Valid @ModelAttribute EntireApplication entireApplication,
+    @RequestMapping(value = "/apply/save", method = RequestMethod.POST)
+    @ResponseBody
+    public ExecutionContext saveApplication(@Valid @ModelAttribute EntireApplication entireApplication,
                                             BindingResult binding,
                                             Principal principal) {
         if( binding.hasErrors() ) {
@@ -270,94 +267,23 @@ public class ApplicationController {
         return ec;
     }
 
-
-    @RequestMapping(value = "/apply/saveandupload", method = RequestMethod.POST)
+    /**
+     * 파일 업로드
+     * 개별 파일 단위로 물리적 업로드만 하고,
+     * 파일 업로드 테이블은 건드리지 않는다.
+     *
+     * @param entireApplication
+     * @param binding
+     * @param principal
+     * @param fileHandler
+     * @return
+     */
+    @RequestMapping(value = "/apply/fileUpload", method = RequestMethod.POST)
     @ResponseBody
-    public ExecutionContext fileUpload(@Valid @ModelAttribute EntireApplication entireApplication,
+    public ExecutionContext fileUpload(@Valid @ModelAttribute final EntireApplication entireApplication,
                                        BindingResult binding,
-                                       Principal principal,
+                                       final Principal principal,
                                        FileHandler fileHandler) {
-        ExecutionContext ec = saveApplication(entireApplication, binding, principal);
-//        ExecutionContext ec = new ExecutionContext();
-
-//        if ( ec.getResult() == ExecutionContext.SUCCESS ) {
-            //TODO 파일 업로드
-            fileHandler.handleMultiPartRequest(new FileUploadEventCallbackHandler<String, FileMetaForm>() {
-                /**
-                 * target 폴더 반환
-                 *
-                 * @param fileFieldName
-                 * @param attributes
-                 * @param leafDirectory
-                 *
-                 * @returnattribute
-                 */
-                @Override
-                protected String getDirectory(String fileFieldName, FileMetaForm attributes, String leafDirectory) {
-                    return "omwtemp";
-                }
-
-                /**
-                 * 실제 저장될 파일 이름 반환
-                 *
-                 * @param fileFieldName
-                 * @param originalFileName
-                 * @param attribute
-                 * @return
-                 */
-                @Override
-                protected String createFileName(String fileFieldName, String originalFileName, FileMetaForm attribute) {
-                    return "omw-" + fileFieldName + "-" + originalFileName;
-                }
-
-                /**
-                 * 실제 업로드 처리
-                 *
-                 * @param fileItems
-                 * @param fileMetaForm
-                 * @param persistence
-                 * @return
-                 */
-                @Override
-                public String handleEvent(List<FileItem> fileItems, FileMetaForm fileMetaForm, FilePersistenceManager persistence) {
-
-                    FileInfo fileInfo;
-                    FileVO fileVO = new FileVO();
-
-                    for ( FileItem fileItem : fileItems){
-                        FileInputStream fis = null;
-                        try{
-                            // persistence.save()의 첫번째 인자로 baseDir/첫번째인자 라는 폴더 생성
-                            //
-                            fileInfo = persistence.save(getDirectory("fileFieldName", fileMetaForm, "leafDirectory"), fileItem.getOriginalFileName(), fileItem.getOriginalFileName(), fis = new FileInputStream(fileItem.getFile()));
-                            fileVO.setPath(fileInfo.getDirectory());
-                            fileVO.setFileName(fileInfo.getFileName());
-                        }catch(FileNotFoundException fnfe){
-                            throw new FileUploadException("", fnfe);
-                        }finally {
-                            try {
-                                if (fis!= null) fis.close();
-                            } catch (IOException e) {}
-                            FileUtils.deleteQuietly(fileItem.getFile());
-                        }
-                    }
-
-                    fileService.saveFileMeta(fileVO);
-
-                    return "redirect:/template/download";
-                }
-            }, FileMetaForm.class);
-//        }
-
-        return ec;
-    }
-
-    @RequestMapping(value = "/apply/savetest", method = RequestMethod.POST)
-    @ResponseBody
-    public ExecutionContext savetest(@Valid @ModelAttribute final EntireApplication entireApplication,
-                                     BindingResult binding,
-                                     final Principal principal,
-                                     FileHandler fileHandler) {
 
         if( binding.hasErrors() ) {
             return new ExecutionContext(ExecutionContext.FAIL);
@@ -370,7 +296,7 @@ public class ApplicationController {
         ExecutionContext ec = new ExecutionContext();
 
         if ( ec.getResult() == ExecutionContext.SUCCESS ) {
-            //TODO 파일 업로드
+
             String returnFileMetaForm = fileHandler.handleMultiPartRequest(new FileUploadEventCallbackHandler<String, FileMetaForm>() {
                 /**
                  * target 폴더 반환
@@ -427,8 +353,6 @@ public class ApplicationController {
                     for ( FileItem fileItem : fileItems){
                         FileInputStream fis = null;
                         try{
-                            // persistence.save()의 첫번째 인자로 baseDir/첫번째인자 라는 폴더 생성
-                            //
                             String uploadDir = getDirectory(fileMetaForm.getFieldName(), fileMetaForm, "leafDirectory");
                             String uploadFileName = createFileName(fileMetaForm.getFieldName(), fileItem.getOriginalFileName(), fileMetaForm);
                             fileInfo = persistence.save(uploadDir,
@@ -450,8 +374,6 @@ public class ApplicationController {
                         }
                     }
 
-//                    fileService.saveFileMeta(fileVO); // DB에 저장 > appinfo의 저장버튼에서 하기로
-//                    return "redirect:/template/download";
                     String jsonFileMetaForm = null;
                     try {
                         jsonFileMetaForm = objectMapper.writeValueAsString(fileMetaForm);
@@ -468,46 +390,6 @@ public class ApplicationController {
 
 
         return ec;
-    }
-
-    @RequestMapping(value="/apply/update")
-    public ExecutionContext updateEntireApplication(@ModelAttribute EntireApplication entireApplication,
-                                          BindingResult binding,
-                                          Principal principal) {
-
-        if( binding.hasErrors() ) {
-            return new ExecutionContext(ExecutionContext.FAIL);
-        }
-
-        if( principal == null ) {
-            return new ExecutionContext(ExecutionContext.FAIL);
-        }
-        String userId = principal.getName();
-        entireApplication.getApplication().setModId(userId);
-        entireApplication.getApplicationGeneral().setModId(userId);
-        entireApplication.getApplicationETCWithBLOBs().setModId(userId);
-        entireApplication.getHighSchool().setModId(userId);
-        List<ApplicationAcademy> collegeList = entireApplication.getCollegeList();
-        for(ApplicationAcademy item : collegeList) {
-            item.setModId(userId);
-        }
-        List<ApplicationAcademy> graduateList = entireApplication.getGraduateList();
-        for(ApplicationAcademy item : graduateList) {
-            item.setModId(userId);
-        }
-        List<ApplicationExperience> experienceList = entireApplication.getApplicationExperienceList();
-        for(ApplicationExperience item : experienceList) {
-            item.setModId(userId);
-        }
-        List<ApplicationLanguage> languageList = entireApplication.getApplicationLanguageList();
-        for(ApplicationLanguage item : languageList) {
-            item.setModId(userId);
-        }
-
-        //TODO Call impl.updateEntireApplication
-        String message = messageResolver.getMessage("U303");
-
-        return new ExecutionContext(ExecutionContext.SUCCESS, message);
     }
 
     @ModelAttribute("entireApplication")
