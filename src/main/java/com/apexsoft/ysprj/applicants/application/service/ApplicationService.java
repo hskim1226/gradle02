@@ -24,5 +24,7 @@ public interface ApplicationService {
     <T> int updateItem(T item, String MapperName);
     <T> int updateList(List<T> list, String MapperName);
 
+    ExecutionContext confirmEntireApplication(EntireApplication entireApplication);
+
     int deleteListByApplNo(int applNo, String MapperName);
 }

@@ -17,8 +17,6 @@ import java.util.List;
 @Service
 public class ApplicationServiceImpl implements ApplicationService {
 
-    // TODO 제3자 정보제공 동의 여부 providePrivateInfo 처리
-
     private final static String NAME_SPACE = "com.apexsoft.ysprj.applicants.application.sqlmap.";
 
     @Autowired
@@ -248,6 +246,107 @@ public class ApplicationServiceImpl implements ApplicationService {
                 }
                 r8 = insertList(languageList, "ApplicationLanguageMapper");
             }
+
+        } catch ( Exception e ) {
+            e.printStackTrace();
+        }
+        String parity = "" + r1 + r2 + r3 + r4 + r5 + r6 + r7 + r8;
+
+        ExecutionContext ec = null;
+        int errPosition = parity.indexOf('0');
+        if (errPosition  > 0) {
+            ec = new ExecutionContext(ExecutionContext.FAIL,
+                    messageResolver.getMessage("U307") + " : " + errPosition);
+        } else {
+            ec = new ExecutionContext(ExecutionContext.SUCCESS,
+                    messageResolver.getMessage("U301"),
+                    new Integer(applNo));
+        }
+        return ec;
+    }
+
+    @Override
+    public ExecutionContext confirmEntireApplication(EntireApplication entireApplication) {
+        int r1 = 0;
+        int applNo = entireApplication.getApplication().getApplNo();
+        int r2 = 0;
+        int r3 = 0;
+        int r4 = 0;
+        int r5 = 0;
+        int r6 = 0;
+        int r7 = 0;
+        int r8 = 0;
+
+        try {
+//            Date date = new Date();
+//            entireApplication.getApplication().setModDate(date);
+//            entireApplication.getApplication().setApplStsCode("00010");
+//            r1 = updateItem(entireApplication.getApplication(), "ApplicationMapper");
+//
+//            entireApplication.getApplicationGeneral().setModDate(date);
+//            r2 = updateItem(entireApplication.getApplicationGeneral(), "ApplicationGeneralMapper");
+//
+//            entireApplication.getApplicationETCWithBLOBs().setModDate(date);
+//            r3 = updateItem(entireApplication.getApplicationETCWithBLOBs(), "ApplicationETCMapper");
+//
+//            deleteListByApplNo(applNo, "CustomApplicationAcademyMapper");
+//            entireApplication.getHighSchool().setApplNo(applNo);
+//            entireApplication.getHighSchool().setAcadSeq(1);
+//            entireApplication.getHighSchool().setModDate(date);
+//            r4 = insertItem(entireApplication.getHighSchool(), "ApplicationAcademyMapper");
+//
+//            List<ApplicationAcademy> collegeList = entireApplication.getCollegeList();
+//            int idx = 1;
+//            if ( collegeList != null ) {
+//                for( ApplicationAcademy college : collegeList) {
+//                    college.setApplNo(applNo);
+//                    college.setAcadSeq(++idx);
+//                    college.setModDate(date);
+//                }
+//                r5 = insertList(collegeList, "ApplicationAcademyMapper");
+//            }
+//
+//            List<ApplicationAcademy> graduateList = entireApplication.getGraduateList();
+//            if ( graduateList != null ) {
+//                for( ApplicationAcademy graduate : graduateList) {
+//                    graduate.setApplNo(applNo);
+//                    graduate.setAcadSeq(++idx);
+//                    graduate.setModDate(date);
+//                }
+//                r6 = insertList(graduateList, "ApplicationAcademyMapper");
+//            }
+//
+//            deleteListByApplNo(applNo, "CustomApplicationExperienceMapper");
+//            List<ApplicationExperience> experienceList = entireApplication.getApplicationExperienceList();
+//            idx = 0;
+//            if ( experienceList != null ) {
+//                for(ApplicationExperience item : experienceList) {
+//                    item.setApplNo(applNo);
+//                    item.setModDate(date);
+//                    item.setExprSeq(++idx);
+//                }
+//                r7 = insertList(experienceList, "ApplicationExperienceMapper");
+//            }
+//
+//            deleteListByApplNo(applNo, "CustomApplicationLanguageMapper");
+//            List<ApplicationLanguage> languageList = entireApplication.getApplicationLanguageList();
+//            idx = 0;
+//            if ( languageList != null ) {
+//                for(ApplicationLanguage item : languageList) {
+//                    item.setApplNo(applNo);
+//                    item.setModDate(date);
+//                    item.setLangSeq(++idx);
+//                }
+//                r8 = insertList(languageList, "ApplicationLanguageMapper");
+//            }
+
+            //TODO APPL_DOC 관련
+
+            //TODO Pay 관련
+            CustomPayInfo customPayInfo = commonDAO.queryForObject(NAME_SPACE + "CustomPayInfoMapper.selectPayInfoByApplNo",
+                    applNo, CustomPayInfo.class);
+            int paySeq = customPayInfo.getPaySeq();
+            int applNo1 = customPayInfo.getApplNo();
 
         } catch ( Exception e ) {
             e.printStackTrace();
