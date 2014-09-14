@@ -92,9 +92,13 @@
                                     <button id="modify" class="btn btn-default modify ${item.applStsCode=="00001"?"":"disabled"}"
                                             data-applNo="${item.applNo}" data-admsNo="${item.admsNo}" data-entrYear="${item.entrYear}"
                                             data-admsTypeCode="${item.admsTypeCode}">원서 수정하기<span class="my-tooltip">작성 중인 상태에서만 수정 가능합니다.</span></button>
-                                    <button id="verify" class="btn btn-info verify ${item.applStsCode=="00010"?"":"disabled"}"
-                                            data-applNo="${item.applNo}" data-admsNo="${item.admsNo}" data-entrYear="${item.entrYear}"
-                                            data-admsTypeCode="${item.admsTypeCode}">원서 미리보기</button>
+                                    <div class="btn-group">
+                                        <a type="button" class="btn btn-info dropdown-toggle ${item.applStsCode=="00010"?"":"disabled"}" data-toggle="dropdown" data-target="#">원서 미리보기<span class="caret"></span></a>
+                                        <ul class="dropdown-menu" role="menu">
+                                            <li><a class="verify" data-applNo="${item.applNo}" data-filename="application_kr">원서(PDF)</a></li>
+                                            <li><a class="verify" data-applNo="${item.applNo}" data-filename="admission_kr">수험표(PDF)</a></li>
+                                        </ul>
+                                    </div>
                                     <button id="pay" class="btn btn-primary pay ${item.applStsCode=="00010"?"":(item.applStsCode=="00021"?"":"disabled")}"
                                         name="2015학년도 ${item.campName} ${item.admsTypeName} ${item.deptName} ${item.corsTypeName}"
                                         value="${item.admsFee}">전형료 결제하기</button>
@@ -136,8 +140,11 @@
                 e.preventDefault();
             });
             $('.verify').click(function(e){
-                location.href="${contextPath}/application/apply" + getQueryString(e.target, true);
-                e.preventDefault();
+                var target = e.target;
+                var applNo = target.getAttribute('data-applNo');
+                var reportName = target.getAttribute('data-filename');
+                window.open('${contextPath}/application/preview?applNo=' + applNo +
+                        '&reportFormat=pdf&reportName=' + reportName);
             });
             $('.pay').click(function(e){
                 document.getElementById('LGD_PRODUCTINFO').value = e.target.name;
