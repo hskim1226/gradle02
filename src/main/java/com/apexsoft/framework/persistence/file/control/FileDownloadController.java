@@ -38,11 +38,12 @@ public class FileDownloadController {
      * @return
      * @throws IOException
      */
-    @RequestMapping(value="/attached/{admsNo}/{applNo}/{fileName:.+}")
+    @RequestMapping(value="/attached/{admsNo}/{applNo}/{fileName:.+}/{originalFileName}")
     @ResponseBody
     public byte[] downloadAttachedFile(@PathVariable("admsNo") String admsNo,
                                        @PathVariable("applNo") int applNo,
                                        @PathVariable("fileName") String fileName,
+                                       @PathVariable("originalFileName") String originalFileName,
                                        HttpServletResponse response,
                                        Principal principal)
             throws IOException {
@@ -51,13 +52,12 @@ public class FileDownloadController {
         File file = new File(fileBaseDir + "/" + admsNo + "/" + firstString + "/" + userId + "/" + applNo, fileName);
         byte[] bytes = org.springframework.util.FileCopyUtils.copyToByteArray(file);
 
-        response.setHeader("Content-Disposition", "attachment; filename=\"" + new String(file.getName().getBytes("UTF-8"), "ISO-8859-1") + "\"");
+        response.setHeader("Content-Disposition", "attachment; filename=\"" + new String(originalFileName.getBytes("UTF-8"), "ISO-8859-1") + "\"");
         response.setHeader("Content-Transfer-Encoding", "binary;");
         response.setHeader("Pragma", "no-cache;");
         response.setHeader("Expires", "-1;");
         response.setHeader("Content-Type", "application/octet-stream");
         response.setContentLength(bytes.length);
-
 
         return bytes;
     }

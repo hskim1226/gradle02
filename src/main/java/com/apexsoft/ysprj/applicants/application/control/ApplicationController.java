@@ -301,22 +301,17 @@ public class ApplicationController {
                 /**
                  * target 폴더 반환
                  *
-                 * @param fileFieldName
-                 * @param attributes
-                 * @param leafDirectory
+                 * @param fileMetaForm
                  *
                  * @returnattribute
                  */
                 @Override
-                protected String getDirectory(String fileFieldName, FileMetaForm attributes, String leafDirectory) {
-//                    String admsTypeCode = entireApplication.getApplication().getAdmsTypeCode();
-//                    CommonCode commonCode = commonService.retrieveCommonCodeValueByCodeGroupCode("ADMS_TYPE", admsTypeCode);
-//                    String admsTypeName = commonCode.getCodeVal();
+                protected String getDirectory(FileMetaForm fileMetaForm) {
 
-                    String admsNo = entireApplication.getApplication().getAdmsNo();
+                    String admsNo = fileMetaForm.getAdmsNo();
                     String userId = principal.getName();
                     String firstString = userId.substring(0, 1);
-                    int applNo = entireApplication.getApplication().getApplNo();
+                    String applNo = fileMetaForm.getApplNo();
 
                     return admsNo + "/" + firstString + "/" + userId + "/" + applNo;
                 }
@@ -324,14 +319,11 @@ public class ApplicationController {
                 /**
                  * 실제 저장될 파일 이름 반환
                  *
-                 * @param fileFieldName
-                 * @param originalFileName
-                 * @param attribute
                  * @return
                  */
                 @Override
-                protected String createFileName(String fileFieldName, String originalFileName, FileMetaForm attribute) {
-                    return fileFieldName + "-" + originalFileName;
+                protected String createFileName(FileMetaForm fileMetaForm, FileItem fileItem) {
+                    return fileMetaForm.getFieldName() + "-" + fileItem.getOriginalFileName();
                 }
 
                 /**
@@ -353,8 +345,8 @@ public class ApplicationController {
                     for ( FileItem fileItem : fileItems){
                         FileInputStream fis = null;
                         try{
-                            String uploadDir = getDirectory(fileMetaForm.getFieldName(), fileMetaForm, "leafDirectory");
-                            String uploadFileName = createFileName(fileMetaForm.getFieldName(), fileItem.getOriginalFileName(), fileMetaForm);
+                            String uploadDir = getDirectory(fileMetaForm);
+                            String uploadFileName = createFileName(fileMetaForm, fileItem);
                             fileInfo = persistence.save(uploadDir,
                                                         uploadFileName,
                                                         fileItem.getOriginalFileName(),

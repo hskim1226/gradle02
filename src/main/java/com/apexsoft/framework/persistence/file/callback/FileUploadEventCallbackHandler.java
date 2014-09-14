@@ -3,6 +3,7 @@ package com.apexsoft.framework.persistence.file.callback;
 import com.apexsoft.framework.persistence.file.manager.FilePersistenceManager;
 import com.apexsoft.framework.persistence.file.model.FileInfo;
 import com.apexsoft.framework.persistence.file.model.FileItem;
+import com.apexsoft.framework.persistence.file.model.FileMetaForm;
 import com.apexsoft.framework.web.file.exception.UploadException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.apache.commons.io.FileUtils;
@@ -67,25 +68,22 @@ public abstract class FileUploadEventCallbackHandler<T, P> {
      * 어느 폴더로 업로드할 것인지 지정.
      * omw - target 폴더 이름 반환
      * <p>
-     * @param fileFieldName
      * @param attributes
-	 * @param leafDirectory 
      * 
      * @return
      */
-    protected abstract String getDirectory(String fileFieldName, P attributes, String leafDirectory);
+    protected abstract String getDirectory(P attributes);
 	
 	/**
      * 멀티파트 업로드 요청 안의 개별 파일에 대한 Persistence 이름을 결정.
      * omw - 새로 저장될 이름 반환.
      * <p>
      *
-     * @param fileFieldName
-	 * @param originalFileName
-	 * @param attribute 
+     * @param fileMetaForm
+	 * @param fileItem
 	 * @return
      */
-    protected abstract String createFileName(String fileFieldName, String originalFileName, P attribute);
+    protected abstract String createFileName(FileMetaForm fileMetaForm, FileItem fileItem);
 
     /**
      * 

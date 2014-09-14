@@ -2087,7 +2087,7 @@ console.log(uploadButton);
                         $.ajaxFileUpload({
                             url: actionUrl,
                             secureuri:false,
-                            fileElementId:fileInputId,
+                            fileElementId: fileInputId,
                             dataType: 'json',
                             data: {
                                 fieldName: fileInputName,
@@ -2122,7 +2122,7 @@ console.log(uploadButton);
                                 $targetBtn.removeClass("btn-default");
                                 $targetBtn.addClass("btn-info");
                                 $targetBtn.val("올리기 성공");
-                                downloadURL = '${contextPath}/filedownload/attached/'+admsNo+'/'+applNo+'/'+fileName;
+                                downloadURL = '${contextPath}/filedownload/attached/'+admsNo+'/'+applNo+'/'+fileName+'/'+originalFileName;
                                 linkHtml = '<a href="' + downloadURL + '">' + originalFileName + '</a>';
                                 document.getElementById(targetLabel).innerHTML = linkHtml;
 
