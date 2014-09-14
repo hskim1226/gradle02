@@ -346,6 +346,9 @@ public class ApplicationServiceImpl implements ApplicationService {
             CustomPayInfo customPayInfo = commonDAO.queryForObject(NAME_SPACE + "CustomPayInfoMapper.selectPayInfoByApplNo",
                     applNo, CustomPayInfo.class);
             int paySeq = customPayInfo.getPaySeq();
+            if (paySeq > 0) {
+
+            }
             int applNo1 = customPayInfo.getApplNo();
 
         } catch ( Exception e ) {

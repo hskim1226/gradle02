@@ -802,34 +802,34 @@
                     <div class="row">
                         <div class="col-sm-offset-1 col-sm-10">
 
-                            <div class="panel panel-darkgray">
-                                <div class="panel-heading">기본 서류</div>
-                                <div class="panel-body" id="general-doc-list">
-                                    <c:forEach items="${entireApplication.generalDocList}" var="attachDoc" varStatus="stat">
-                                        <hr/>
-                                        <div class="form-group" id="attachDoc${attachDoc.code}">
-                                            <label class="col-sm-3 control-label word-keep-all">${attachDoc.codeVal}</label>
-                                            <div class="col-sm-8">
-                                                <div class="input-group">
-                                                    <div class="input-group-btn">
-                                                        <input type="file" class="btn btn_lg btn-file" id="applicationDocumentList${stat.index}.docName" name="applicationDocumentList${stat.index}.docName"/>
-                                                    </div>
-                                                    <div class="col-sm-4 nopadding"><input type="button" id="attachDoc${stat.index}.btn" name="attachDoc${stat.index}.btn" class="btn btn-default btn-block btn-upload" value="올리기"/></div>
-                                                    <span class="col-sm-8" id="uploadedFileLabel${stat.index}" style="text-decoration: none;"><!--TODO DB에서 가져오기--></span>
-                                                </div>
-                                            </div>
-                                                <%--<form:hidden path="docItemList[${stat.index}].docItemCode" value="${attachDoc.code}"/>--%>
-                                                <%--<form:hidden path="docItemList[${stat.index}].docItemName" value="${attachDoc.codeVal}"/>--%>
-                                                <%--<form:hidden path="docItemList[${stat.index}].filePath"/>--%>
-                                                <%--<form:hidden path="docItemList[${stat.index}].fileName"/>--%>
-                                            <input type="hidden" name="docItemList[${stat.index}].docItemCode" id="applicationDocumentList${stat.index}.docItemCode" value="${attachDoc.code}" />
-                                            <input type="hidden" name="docItemList[${stat.index}].docItemName" id="applicationDocumentList${stat.index}.docItemName" value="${attachDoc.codeVal}" />
-                                            <input type="hidden" name="docItemList[${stat.index}].filePath" id="applicationDocumentList${stat.index}.filePath"/>
-                                            <input type="hidden" name="docItemList[${stat.index}].fileName" id="applicationDocumentList${stat.index}.fileName"/>
-                                        </div>
-                                    </c:forEach>
-                                </div>
-                            </div>
+                            <%--<div class="panel panel-darkgray">--%>
+                                <%--<div class="panel-heading">기본 서류</div>--%>
+                                <%--<div class="panel-body" id="general-doc-list">--%>
+                                    <%--<c:forEach items="${entireApplication.generalDocList}" var="attachDoc" varStatus="stat">--%>
+                                        <%--<hr/>--%>
+                                        <%--<div class="form-group" id="attachDoc${attachDoc.code}">--%>
+                                            <%--<label class="col-sm-3 control-label word-keep-all">${attachDoc.codeVal}</label>--%>
+                                            <%--<div class="col-sm-8">--%>
+                                                <%--<div class="input-group">--%>
+                                                    <%--<div class="input-group-btn">--%>
+                                                        <%--<input type="file" class="btn btn_lg btn-file" id="applicationDocumentList${stat.index}.docName" name="applicationDocumentList${stat.index}.docName"/>--%>
+                                                    <%--</div>--%>
+                                                    <%--<div class="col-sm-4 nopadding"><input type="button" id="attachDoc${stat.index}.btn" name="attachDoc${stat.index}.btn" class="btn btn-default btn-block btn-upload" value="올리기"/></div>--%>
+                                                    <%--<span class="col-sm-8" id="uploadedFileLabel${stat.index}" style="text-decoration: none;"><!--TODO DB에서 가져오기--></span>--%>
+                                                <%--</div>--%>
+                                            <%--</div>--%>
+                                                <%--&lt;%&ndash;<form:hidden path="docItemList[${stat.index}].docItemCode" value="${attachDoc.code}"/>&ndash;%&gt;--%>
+                                                <%--&lt;%&ndash;<form:hidden path="docItemList[${stat.index}].docItemName" value="${attachDoc.codeVal}"/>&ndash;%&gt;--%>
+                                                <%--&lt;%&ndash;<form:hidden path="docItemList[${stat.index}].filePath"/>&ndash;%&gt;--%>
+                                                <%--&lt;%&ndash;<form:hidden path="docItemList[${stat.index}].fileName"/>&ndash;%&gt;--%>
+                                            <%--<input type="hidden" name="docItemList[${stat.index}].docItemCode" id="applicationDocumentList${stat.index}.docItemCode" value="${attachDoc.code}" />--%>
+                                            <%--<input type="hidden" name="docItemList[${stat.index}].docItemName" id="applicationDocumentList${stat.index}.docItemName" value="${attachDoc.codeVal}" />--%>
+                                            <%--<input type="hidden" name="docItemList[${stat.index}].filePath" id="applicationDocumentList${stat.index}.filePath"/>--%>
+                                            <%--<input type="hidden" name="docItemList[${stat.index}].fileName" id="applicationDocumentList${stat.index}.fileName"/>--%>
+                                        <%--</div>--%>
+                                    <%--</c:forEach>--%>
+                                <%--</div>--%>
+                            <%--</div>--%>
 
                             <div class="panel panel-darkgray">
                                 <div class="panel-heading">기본 서류</div>
@@ -1451,6 +1451,7 @@
                         }
                     },
                     error: function(e) {
+console.log(e);
                     }
                 });
                 event.preventDefault();
@@ -2047,10 +2048,8 @@
                 var target = e.target,
                     inputGroup = target.parentNode.parentNode,
                     uploadButton = $(inputGroup).find('input[type="button"]');
-console.log(uploadButton);
                 $(uploadButton).removeClass('disabled');
                 $(uploadButton).val('올리기');
-console.log(uploadButton);
 
 
             });

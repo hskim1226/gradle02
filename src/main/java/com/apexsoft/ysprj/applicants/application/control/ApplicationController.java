@@ -268,6 +268,65 @@ public class ApplicationController {
     }
 
     /**
+     * 입학원서 저장
+     *
+     * @param entireApplication
+     * @param binding
+     * @param principal
+     * @return
+     */
+    @RequestMapping(value = "/apply/apply", method = RequestMethod.POST)
+    @ResponseBody
+    public ExecutionContext applyApplication(@Valid @ModelAttribute EntireApplication entireApplication,
+                                             BindingResult binding,
+                                             Principal principal) {
+
+        ExecutionContext ec = applicationService.confirmEntireApplication(entireApplication);
+//        if( binding.hasErrors() ) {
+//            return new ExecutionContext(ExecutionContext.FAIL);
+//        }
+//
+//        if( principal == null ) {
+//            return new ExecutionContext(ExecutionContext.FAIL);
+//        }
+//
+//        String userId = principal.getName();
+//        entireApplication.getApplication().setUserId(userId);
+//        entireApplication.getApplication().setCreId(userId);
+//        entireApplication.getApplicationGeneral().setCreId(userId);
+//        entireApplication.getApplicationETCWithBLOBs().setCreId(userId);
+//        entireApplication.getHighSchool().setCreId(userId);
+//        List<ApplicationAcademy> collegeList = entireApplication.getCollegeList();
+//        for(ApplicationAcademy item : collegeList) {
+//            item.setCreId(userId);
+//        }
+//        List<ApplicationAcademy> graduateList = entireApplication.getGraduateList();
+//        for(ApplicationAcademy item : graduateList) {
+//            item.setCreId(userId);
+//        }
+//        List<ApplicationExperience> experienceList = entireApplication.getApplicationExperienceList();
+//        for(ApplicationExperience item : experienceList) {
+//            item.setCreId(userId);
+//        }
+//        List<ApplicationLanguage> languageList = entireApplication.getApplicationLanguageList();
+//        for(ApplicationLanguage item : languageList) {
+//            item.setCreId(userId);
+//        }
+//
+//        entireApplication.getApplication().setApplStsCode("00001");
+//        ExecutionContext ec = null;
+//        if( entireApplication.getApplication().getApplNo() == null ) {   // insert
+//            ec = applicationService.createEntireApplication( entireApplication );
+//        } else {    // update
+//            ec = applicationService.updateEntireApplication( entireApplication );
+//        }
+//
+//        return ec;
+
+        return ec;
+    }
+
+    /**
      * 파일 업로드
      * 개별 파일 단위로 물리적 업로드만 하고,
      * 파일 업로드 테이블은 건드리지 않는다.
