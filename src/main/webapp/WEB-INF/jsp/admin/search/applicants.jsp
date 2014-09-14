@@ -164,7 +164,7 @@
 
     jQuery(document).ready( function(){
         jQuery(".applList").on('click', function(){
-            location.href = "${contextPath}/admin/search/applicant/detail?applNo="+jQuery(this).attr('applNo');
+            location.href = "${contextPath}/admin/search/applicant/applInfoDetail?applNo="+jQuery(this).attr('applNo');
         }).css("cursor","pointer"); 
         
 	        
@@ -182,10 +182,10 @@
 		jQuery('#korName, #rsdnNo, #engSur, #engName').on('click', function(event) {
         	event.preventDefault();
     		jQuery("#applId").val('');
-    		jQuery('#admsNo,#campCode,collCode').val(''); 	
+    		jQuery('#admsNo, #campCode, #collCode').val('');
     	});	
 		
-		jQuery('#admsNo,#campCode,collCode').on('click', function(event) {
+		jQuery('#admsNo, #campCode, #collCode').on('click', function(event) {
         	event.preventDefault();
     		jQuery("#applId").val('');
     		jQuery('#korName, #rsdnNo, #engSur, #engName').val(''); 	

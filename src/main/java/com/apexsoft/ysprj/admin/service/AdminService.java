@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.apexsoft.framework.persistence.dao.page.PageInfo;
 import com.apexsoft.ysprj.admin.control.form.ApplicantSearchForm;
+import com.apexsoft.ysprj.admin.control.form.ChangeInfoForm;
 import com.apexsoft.ysprj.admin.control.form.CourseSearchForm;
 import com.apexsoft.ysprj.admin.domain.*;
 
@@ -23,5 +24,7 @@ public interface AdminService {
 	 List<ApplicantInfo> getApplicantListForSelect(ApplicantSearchForm searchForm);	 
 	 
 	 ApplicantInfo getApplicantInfo(ApplicantSearchForm applicantSearchForm);
+
+
 	 
 }
