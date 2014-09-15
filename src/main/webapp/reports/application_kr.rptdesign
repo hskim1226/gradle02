@@ -420,12 +420,13 @@ reportContext.setPersistentGlobalVariable("getLastSchoolScoreText", getLastSchoo
                                 <data id="1172">
                                     <list-property name="boundDataColumns">
                                         <structure>
-                                            <property name="name">applNo</property>
-                                            <expression name="expression" type="javascript">application.getApplNo();</expression>
+                                            <property name="name">applId</property>
+                                            <expression name="expression" type="javascript">application.getApplId();</expression>
                                             <property name="dataType">string</property>
+                                            <property name="allowExport">true</property>
                                         </structure>
                                     </list-property>
-                                    <property name="resultSetColumn">applNo</property>
+                                    <property name="resultSetColumn">applId</property>
                                 </data>
                             </cell>
                         </row>

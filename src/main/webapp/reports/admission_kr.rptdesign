@@ -309,12 +309,13 @@ languageList = entire.getApplicationLanguageList();]]></method>
                                 <data id="1172">
                                     <list-property name="boundDataColumns">
                                         <structure>
-                                            <property name="name">applNo</property>
-                                            <expression name="expression" type="javascript">application.getApplNo();</expression>
+                                            <property name="name">applId</property>
+                                            <expression name="expression" type="javascript">application.getApplId();</expression>
                                             <property name="dataType">string</property>
+                                            <property name="allowExport">true</property>
                                         </structure>
                                     </list-property>
-                                    <property name="resultSetColumn">applNo</property>
+                                    <property name="resultSetColumn">applId</property>
                                 </data>
                             </cell>
                         </row>
@@ -485,10 +486,10 @@ languageList = entire.getApplicationLanguageList();]]></method>
                                 <property name="borderTopWidth">1px</property>
                                 <property name="verticalAlign">middle</property>
                                 <image id="44">
-                                    <property name="height">2.6979166666666665in</property>
-                                    <property name="width">2.0208333333333335in</property>
+                                    <property name="height">2.8541666666666665in</property>
+                                    <property name="width">2.1979166666666665in</property>
                                     <property name="source">url</property>
-                                    <expression name="uri" type="constant">http://www.vipstudio.co.kr/bbs/data/gallery01/1229339860/%EB%B0%98%EB%AA%85%ED%95%A806_s.jpg</expression>
+                                    <expression name="uri" type="constant">http://www.madcoffin.com/wp-content/uploads/2011/11/ideal_woman.jpg</expression>
                                 </image>
                                 <label id="43">
                                     <property name="whiteSpace">nowrap</property>
