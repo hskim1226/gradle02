@@ -156,6 +156,7 @@
 
             $('#processPayment').click(function(){
                 document.getElementById('LGD_TIMESTAMP').value = dateToFormat(new Date(), 'yyyyMMddhhmmss');
+                document.getElementById('applNo').value = "${paymentVO.applNo}";
                 $.ajax({
                     url: "${contextPath}/pay/info",
                     type: "GET",

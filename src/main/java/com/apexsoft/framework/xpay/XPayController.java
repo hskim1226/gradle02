@@ -55,7 +55,7 @@ public class XPayController {
      * @throws NoSuchAlgorithmException
      */
     @RequestMapping(value = "/confirm", method = RequestMethod.POST)
-    public String confirmPayment( HttpSession httpSession, PaymentVO paymentVO) throws NoSuchAlgorithmException {
+    public String confirmPayment( HttpSession httpSession, PaymentVO paymentVO, @RequestParam("applNo") int applNo ) throws NoSuchAlgorithmException {
 
         SecurityContext sc = (SecurityContext)httpSession.getAttribute("SPRING_SECURITY_CONTEXT");
         Authentication auth = sc.getAuthentication();
@@ -63,7 +63,7 @@ public class XPayController {
 
         paymentVO.setLGD_BUYER(userSessionVO.getName());
         paymentVO.setLGD_BUYERID(userSessionVO.getUsername());
-        paymentVO.setApplNo(3); //TODO
+        paymentVO.setApplNo(applNo);
 
         return "xpay/confirm";
     }
@@ -84,7 +84,8 @@ public class XPayController {
     @ResponseBody
     public String getFullPaymentVO(HttpServletRequest request,
                                    HttpSession httpSession,
-                                   PaymentVO paymentVO)
+                                   PaymentVO paymentVO,
+                                   @RequestParam("applNo") int applNo)
             throws NoSuchAlgorithmException, JsonProcessingException, UnsupportedEncodingException {
 
         SecurityContext sc = (SecurityContext)httpSession.getAttribute("SPRING_SECURITY_CONTEXT");
