@@ -187,14 +187,24 @@
         </div>
 
         <div id="LblockButton">
-            <a href="#"><input type="button" value="변경요청" onclick="doSomething(); return false;" /></a>
+            <a href="#"><input type="button"  id="changeBtn" value="변경요청" /></a>
         </div>
     </div>
 </div>
 
 <content tag="local-script">
     <script>
-
+        jQuery(document).ready(function() {
+            jQuery('#changeBtn').on('click', function(e) {
+                event.preventDefault();
+                alert("아직 개발중입니다")
+                <%--
+                if (confirm('지원자 정보를 수정하시겠습니까?')) {
+                    jQuery('#changeForm').submit();
+                }
+                --%>
+            });
+        });
     </script>
 </content>
 </body>

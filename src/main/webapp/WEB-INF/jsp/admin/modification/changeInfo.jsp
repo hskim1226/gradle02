@@ -24,7 +24,7 @@
         <div id="LblockSearch">
             <div>
                 <div>
-                    <form action="${contextPath}/admin/modification/searchAdms" method="post">
+                    <form action="" method="post">
                         <table summary="원서수정 대상자검색">
                             <caption>원서수정 대상자검색</caption>
                             <tbody>
@@ -163,18 +163,25 @@
         });
 
         jQuery('#changeBtn').on('click', function(e) {
+            event.preventDefault();
+            alert("아직 개발중입니다")
+            <%--
             if (confirm('지원자 정보를 수정하시겠습니까?')) {
                 jQuery('#changeForm').submit();
             }
+            --%>
         });
         jQuery('#searchBtn').on('click', function(e) {
-                var newUrl= "${contextPath}/admin/modification/searchAdms";
+            event.preventDefault();
+            alert("아직 개발중입니다")
+                var newUrl= "${contextPath}/admin/modification/changeInfo";
+            <%--
                 /* 			newUrl = newUrl +"?applId="+jQuery("#applId").val();
                  newUrl = newUrl +"&korName="+jQuery("#korName").val();
                  newUrl = newUrl +"&rsdnNo="+jQuery("#rsdnNo").val();    */
                 location.href =newUrl;
                 /* 			jQuery('#searchBtn').submit(); */
-
+            --%>
          });
     });
     </script>

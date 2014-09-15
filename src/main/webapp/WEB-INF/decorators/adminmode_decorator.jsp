@@ -97,20 +97,20 @@
                 <span><a href="#">지원변경/취소관리</a></span>
                 <ul>
                     <li class="Lfirst"><span><a href="${contextPath}/admin/modification/changeList">변경처리조회</a></span></li>
-                    <li class="Lidx1"><span><a href="${contextPath}/admin/modification/changeInfoInit">원서수정</a></span></li>
-                    <li class="Lidx2"><span><a href="${contextPath}/admin/modification/changeUnit">지원단위변경</a></span></li>
-                    <li class="Llast"><span><a href="${contextPath}/admin/cancel/application">지원취소</a></span></li>
-                </ul>
-            </li>
-            <li class="Lidx3"><span><a href="${contextPath}/admin/data/download">데이터다운로드</a></span></li>
-          <%-- 
-            <li class="Lidx4">
-                <span><a href="#">합격자관리</a></span>
-                <ul>
-                    <li class="Lfirst"><span><a href="#">합격자검색</a></span></li>
-                    <li class="Llast"><span><a href="#">합격자일괄등록</a></span></li>
-                </ul>
-            --%>  
+                    <%--   <li class="Lidx1"><span><a href="${contextPath}/admin/modification/changeInfoInit">원서수정</a></span></li>--%>
+                     <li class="Lidx2"><span><a href="${contextPath}/admin/modification/changeUnit">지원단위변경</a></span></li>
+                     <li class="Llast"><span><a href="${contextPath}/admin/cancel/application">지원취소</a></span></li>
+                 </ul>
+             </li>
+             <li class="Lidx3"><span><a href="${contextPath}/admin/data/download">데이터다운로드</a></span></li>
+           <%--
+             <li class="Lidx4">
+                 <span><a href="#">합격자관리</a></span>
+                 <ul>
+                     <li class="Lfirst"><span><a href="#">합격자검색</a></span></li>
+                     <li class="Llast"><span><a href="#">합격자일괄등록</a></span></li>
+                 </ul>
+             --%>
             <li class="Lidx5"><span><a href="${contextPath}/admin/data/payment">전형료정산</a></span></li>
            <%-- 
             <li class="Lidx6">
@@ -128,17 +128,17 @@
                 </ul>
             </li>
             <li class="Lidx8"><span><a href="#">공지사항</a></span></li>
-            --%>  
-            <li class="Llast"><span><a href="${contextPath}/admin/qna/list">Q&A</a></span></li>
-        </ul>
-    </div>
+            --%>
+            <%--   <li class="Llast"><span><a href="${contextPath}/admin/qna/list">Q&A</a></span></li> --%>
+         </ul>
+     </div>
 
-    <div id="LblockBanner01">
-    </div>
+     <div id="LblockBanner01">
+     </div>
 
-</div>
-<decorator:body />
-<%--JS--%>
+ </div>
+ <decorator:body />
+ <%--JS--%>
 
 <%-- <script src="${contextPath}/js/jquery.min.js"></script> --%>
 
