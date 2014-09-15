@@ -548,7 +548,7 @@
                                         <c:forEach begin="0" end="${entireApplication.collegeList.size() > 0 ? entireApplication.collegeList.size() - 1 : 0}" varStatus="stat">
                                         <div class="form-group-block">
                                             <form:hidden path="collegeList[${stat.index}].acadTypeCode" value="00002" />
-                                            <div class="form-group">
+                                            <div class="form-group required">
                                                 <label for="collegeList${stat.index}.schlCntrName" class="col-sm-2 control-label">소재 국가</label>
                                                 <div class="col-sm-2">
                                                     <button type="button" class="btn btn-default btn-search bpopper" data-targetNode1="collegeList${stat.index}.schlCntrCode" data-targetNode2='collegeList${stat.index}.schlCntrName' data-category="country">검색</button>
@@ -558,7 +558,7 @@
                                                     <input id="collegeList${stat.index}.schlCntrName" cssClass="form-control" />
                                                 </div>
                                             </div>
-                                            <div class="form-group">
+                                            <div class="form-group required">
                                                 <label class="col-sm-2 control-label">재학 기간</label>
                                                 <div class="col-sm-4 start-date-container">
                                                     <div class="input-group date">
@@ -573,7 +573,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="form-group">
+                                            <div class="form-group required">
                                                 <form:label path="collegeList[${stat.index}].schlName" cssClass="col-sm-2 control-label">학교 이름</form:label>
                                                 <div class="col-sm-2">
                                                     <button type="button" class="btn btn-default btn-search bpopper" data-targetNode1="collegeList${stat.index}.schlCode" data-targetNode2='collegeList${stat.index}.schlName' data-category="school-u">검색</button>
@@ -588,19 +588,19 @@
                                                     </label>
                                                 </div>
                                             </div>
-                                            <div class="form-group">
+                                            <div class="form-group required">
                                                 <form:label path="collegeList[${stat.index}].collName" cssClass="col-sm-2 control-label">단과 대학</form:label>
                                                 <div class="col-sm-9">
                                                     <form:input path="collegeList[${stat.index}].collName" cssClass="form-control" />
                                                 </div>
                                             </div>
-                                            <div class="form-group">
+                                            <div class="form-group required">
                                                 <form:label path="collegeList[${stat.index}].majName" cssClass="col-sm-2 control-label">학과 이름</form:label>
                                                 <div class="col-sm-9">
                                                     <form:input path="collegeList[${stat.index}].majName" cssClass="form-control" />
                                                 </div>
                                             </div>
-                                            <div class="form-group">
+                                            <div class="form-group required">
                                                 <label class="col-sm-2 control-label">평균 평점</label>
                                                 <div class="col-sm-4">
                                                     <div class="input-group">
@@ -629,7 +629,7 @@
                                         <c:forEach begin="0" end="${entireApplication.graduateList.size() > 0 ? entireApplication.graduateList.size() - 1 : 0}" varStatus="stat">
                                         <div class="form-group-block">
                                             <form:hidden path="graduateList[${stat.index}].acadTypeCode" value="00003" />
-                                            <div class="form-group">
+                                            <div class="form-group required">
                                                 <label for="graduateList${stat.index}.schlCntrName" class="col-sm-2 control-label">소재 국가</label>
                                                 <div class="col-sm-2">
                                                     <button type="button" class="btn btn-default btn-search bpopper" data-targetNode1="graduateList${stat.index}.schlCntrCode" data-targetNode2='graduateList${stat.index}.schlCntrName' data-category="country">검색</button>
@@ -639,7 +639,7 @@
                                                     <input id="graduateList${stat.index}.schlCntrName" cssClass="form-control" />
                                                 </div>
                                             </div>
-                                            <div class="form-group">
+                                            <div class="form-group required">
                                                 <label class="col-sm-2 control-label">재학 기간</label>
                                                 <div class="col-sm-4 start-date-container">
                                                     <div class="input-group date">
@@ -654,7 +654,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="form-group">
+                                            <div class="form-group required">
                                                 <form:label path="graduateList[${stat.index}].schlName" cssClass="col-sm-2 control-label">학교 이름</form:label>
                                                 <div class="col-sm-2">
                                                     <button type="button" class="btn btn-default btn-search bpopper" data-targetNode1="graduateList${stat.index}.schlCode" data-targetNode2='graduateList${stat.index}.schlName' data-category="school-g">검색</button>
@@ -669,19 +669,19 @@
                                                     </label>
                                                 </div>
                                             </div>
-                                            <div class="form-group">
+                                            <div class="form-group required">
                                                 <form:label path="graduateList[${stat.index}].collName" cssClass="col-sm-2 control-label">단과 대학</form:label>
                                                 <div class="col-sm-9">
                                                     <form:input path="graduateList[${stat.index}].collName" cssClass="form-control" />
                                                 </div>
                                             </div>
-                                            <div class="form-group">
+                                            <div class="form-group required">
                                                 <form:label path="graduateList[${stat.index}].majName" cssClass="col-sm-2 control-label">학과 이름</form:label>
                                                 <div class="col-sm-9">
                                                     <form:input path="graduateList[${stat.index}].majName" cssClass="form-control" />
                                                 </div>
                                             </div>
-                                            <div class="form-group">
+                                            <div class="form-group required">
                                                 <label class="col-sm-2 control-label">평균 평점</label>
                                                 <div class="col-sm-4">
                                                     <div class="input-group">
@@ -716,7 +716,7 @@
                                 <div class="panel-heading">어학성적</div>
                                 <div class="panel-body" id="english-score-list">
                                     <c:forEach items="${common.engExamList}" var="langExam" varStatus="stat">
-                                    <div class="form-group hide-lang">
+                                    <div class="form-group hide-lang required">
                                         <c:choose>
                                         <c:when test="${stat.index == 0}">
                                         <label class="col-sm-2 control-label">영어</label>
@@ -763,7 +763,7 @@
                                         </div>
                                     </div>
                                     </c:forEach>
-                                    <div class="form-group">
+                                    <div class="form-group required">
                                         <div class="col-sm-offset-2 col-sm-4">
                                             <div class="checkbox">
                                                 <label>
@@ -783,7 +783,7 @@
                                     <div id="career-container" class="form-group-block-list">
                                         <c:forEach varStatus="stat" begin="0" end="${entireApplication.applicationExperienceList.size() > 0 ? entireApplication.applicationExperienceList.size() - 1 : 0}">
                                         <div id="career-info" class="form-group-block">
-                                            <div class="form-group">
+                                            <div class="form-group required">
                                                 <label class="col-sm-2 control-label">재직 기간</label>
                                                 <div class="col-sm-4 start-date-container">
                                                     <div class="input-group date">
@@ -1676,7 +1676,13 @@
             var formProcess = function(event) {
                 var $form = $(this),
                     $formUrl = event.type==='save'?"apply/save":"apply/apply",
+                    gotoMyList = event.type==='apply'?true:false,
                     $formData = $form.serializeArray();
+                if (gotoMyList) {
+                    $('#save').prop('disabled', true);
+                    $('#apply').prop('disabled', true);
+                    $('#reset').prop('disabled', true);
+                }
                 $form.find('input.radio-group').filter(function() {
                     return this.checked == false;
                 }).each(function() {
@@ -1698,7 +1704,9 @@
                             document.getElementById('applNo').value = applNo;
                             window.setTimeout(function() {
                                 alert.alert('close');
-                                if (gotoMyList)  location.href="${contextPath}/application/mylist"
+                                if (gotoMyList) {
+                                    location.href="${contextPath}/application/mylist";
+                                }
                             }, 2000);
                         }
                     },
