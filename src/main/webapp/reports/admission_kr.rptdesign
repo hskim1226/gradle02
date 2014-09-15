@@ -486,10 +486,10 @@ languageList = entire.getApplicationLanguageList();]]></method>
                                 <property name="borderTopWidth">1px</property>
                                 <property name="verticalAlign">middle</property>
                                 <image id="44">
-                                    <property name="height">2.8541666666666665in</property>
-                                    <property name="width">2.1979166666666665in</property>
+                                    <property name="height">2.7708333333333335in</property>
+                                    <property name="width">2.15625in</property>
                                     <property name="source">url</property>
-                                    <expression name="uri" type="constant">http://www.madcoffin.com/wp-content/uploads/2011/11/ideal_woman.jpg</expression>
+                                    <expression name="uri" type="constant">http://cfile7.uf.tistory.com/image/1359A9384DC0D9E22668D4</expression>
                                 </image>
                                 <label id="43">
                                     <property name="whiteSpace">nowrap</property>
