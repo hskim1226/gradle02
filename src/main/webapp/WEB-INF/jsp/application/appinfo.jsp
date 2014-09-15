@@ -2285,7 +2285,7 @@ console.log(e.statusText);
                 var cn;
                 if (parent) {
                     if (target.checked) {
-                        $(parent).removeClass('hide-lang');
+                         $(parent).removeClass('hide-lang');
                         $(parent).addClass('show-lang');
                     } else {
                         $(parent).removeClass('show-lang');
@@ -2313,7 +2313,6 @@ console.log(e.statusText);
                     uploadButton = $(inputGroup).find('input[type="button"]');
                 $(uploadButton).removeClass('disabled');
                 $(uploadButton).val('올리기');
-
 
             });
             <%-- 파일 선택 버튼 이벤트 --%>

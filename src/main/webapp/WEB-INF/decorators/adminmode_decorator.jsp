@@ -15,13 +15,17 @@
     <script src="${contextPath}/js/html5shiv.min.js"></script>
     <script src="${contextPath}/js/respond.min.js"></script>
     <![endif]-->
+    <script src="${contextPath}/jqgrid/js/jquery-1.11.0.min.js"></script>
     <link rel="stylesheet" href="${contextPath}/css/admin/base.css"/>
     <link rel="stylesheet" href="${contextPath}/css/admin/global_style.css"/>
     <link rel="stylesheet" href="${contextPath}/css/admin/global_layout.css"/>
     <link rel="stylesheet" href="${contextPath}/css/admin/page_style.css"/>
     <link rel="stylesheet" href="${contextPath}/css/admin/page_layout.css"/>
+    <link rel="stylesheet" href="${contextPath}/jquery-ui/jquery-ui.css"/>    
+    <link rel="stylesheet" href="${contextPath}/jquery-ui/jquery-ui.structure.css"/>    
+    <link rel="stylesheet" href="${contextPath}/jquery-ui/jquery-ui.theme.css"/>      
+	<link rel="stylesheet" href="${contextPath}/jqgrid/css/ui.jqgrid.css"/>    
 
-    <script src="${contextPath}/js/jquery.min.js"></script>
     <decorator:head />
 </head>
 <body>
@@ -40,10 +44,10 @@
             <div id="LblockTopMenu">
                 <ul class="Lclear">
                     <li class="Lidx1"><span><a href="#"></a></span>
-                        어쩌구
+                   
                     </li>
                     <li class="Llast"><span><a href="#"></a></span>
-                        저쩌구
+                     
                     </li>
                 </ul>
             </div>
@@ -83,27 +87,32 @@
             <li class="Lidx1">
                 <span><a href="#">지원자관리</a></span>
                 <ul>
-                    <li class="Lfirst"><span><a href="${contextPath}/admin/search/applicants">지원자검색</a></span></li>
-                    <li class="Llast"><span><a href="${contextPath}/admin/stats/unpaid">미결제자현황</a></span></li>
+                    <li class="Lfirst"><span><a href="${contextPath}/admin/search/applicantsId">지원자검색(수험번호)</a></span></li>
+                    <li class="Lfirst"><span><a href="${contextPath}/admin/search/applicantsDept">지원자검색(학과)</a></span></li>
+                    <li class="Lfirst"><span><a href="${contextPath}/admin/search/applicantsName">지원자검색(성명)</a></span></li>
+                    <li class="Llast"><span><a href="${contextPath}/admin/search/unpaid">미결제자현황</a></span></li>
                 </ul>
             </li>
             <li class="Lidx2">
                 <span><a href="#">지원변경/취소관리</a></span>
                 <ul>
-                    <li class="Lfirst"><span><a href="${contextPath}/admin/modification/list">변경처리조회</a></span></li>
-                    <li class="Lidx1"><span><a href="${contextPath}/admin/modification/request">원서수정</a></span></li>
-                    <li class="Lidx2"><span><a href="${contextPath}/admin/modification/unit">지원단위변경</a></span></li>
-                    <li class="Llast"><span><a href="${contextPath}/admin/cancel/application">지원취소</a></span></li>
-                </ul>
-            </li>
-            <li class="Lidx3"><span><a href="#">데이터다운로드</a></span></li>
-            <li class="Lidx4">
-                <span><a href="#">합격자관리</a></span>
-                <ul>
-                    <li class="Lfirst"><span><a href="#">합격자검색</a></span></li>
-                    <li class="Llast"><span><a href="#">합격자일괄등록</a></span></li>
-                </ul>
-            <li class="Lidx5"><span><a href="#">전형료정산</a></span></li>
+                    <li class="Lfirst"><span><a href="${contextPath}/admin/modification/changeList">변경처리조회</a></span></li>
+                    <%--   <li class="Lidx1"><span><a href="${contextPath}/admin/modification/changeInfoInit">원서수정</a></span></li>--%>
+                     <li class="Lidx2"><span><a href="${contextPath}/admin/modification/changeUnit">지원단위변경</a></span></li>
+                     <li class="Llast"><span><a href="${contextPath}/admin/cancel/application">지원취소</a></span></li>
+                 </ul>
+             </li>
+             <li class="Lidx3"><span><a href="${contextPath}/admin/data/download">데이터다운로드</a></span></li>
+           <%--
+             <li class="Lidx4">
+                 <span><a href="#">합격자관리</a></span>
+                 <ul>
+                     <li class="Lfirst"><span><a href="#">합격자검색</a></span></li>
+                     <li class="Llast"><span><a href="#">합격자일괄등록</a></span></li>
+                 </ul>
+             --%>
+            <li class="Lidx5"><span><a href="${contextPath}/admin/data/payment">전형료정산</a></span></li>
+           <%-- 
             <li class="Lidx6">
                 <span><a href="#">기준정보관리</a></span>
                 <ul>
@@ -119,16 +128,24 @@
                 </ul>
             </li>
             <li class="Lidx8"><span><a href="#">공지사항</a></span></li>
-            <li class="Llast"><span><a href="${contextPath}/admin/qna/list">Q&A</a></span></li>
-        </ul>
-    </div>
+            --%>
+            <%--   <li class="Llast"><span><a href="${contextPath}/admin/qna/list">Q&A</a></span></li> --%>
+         </ul>
+     </div>
 
-    <div id="LblockBanner01">
-    </div>
+     <div id="LblockBanner01">
+     </div>
 
-</div>
-<decorator:body />
-<%--JS--%>
+ </div>
+ <decorator:body />
+ <%--JS--%>
+
+<%-- <script src="${contextPath}/js/jquery.min.js"></script> --%>
+
+<script src="${contextPath}/jquery-ui/jquery-ui.min.js"></script>    
+<script src="${contextPath}/jqgrid/js/jquery.jqGrid.min.js"></script>    
+<script src="${contextPath}/jquery-ui/i18n/grid.locale-kr.js"></script> 
+<script src="${contextPath}/js/jquery.bpopup.min.js"></script>
 <script src="${contextPath}/js/admin/prototype.js"></script>
 <script src="${contextPath}/js/admin/dui_base.js"></script>
 <script src="${contextPath}/js/admin/dui_effect.js"></script>
@@ -138,6 +155,9 @@
 <script src="${contextPath}/js/admin/dui_slidemenu.js"></script>
 <script src="${contextPath}/js/admin/common.js"></script>
 <script src="${contextPath}/js/json2.js"></script>
+
+
+	
 <decorator:getProperty property="page.local-script"/>
 </body>
 </html>
