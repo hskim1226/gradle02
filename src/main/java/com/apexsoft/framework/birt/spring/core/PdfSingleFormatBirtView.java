@@ -32,8 +32,9 @@ public class PdfSingleFormatBirtView extends AbstractSingleFormatBirtView {
             oName = oName.replaceAll("(?i).rptdesign", "");
         }
 
-        String header = null;
-        header = "attachment;filename=" + oName + ".pdf";
+        String header = "";
+//        header += "attachment;";
+        header += "filename=" + oName + ".pdf";
 
         response.setHeader ("Content-Disposition", header);
 

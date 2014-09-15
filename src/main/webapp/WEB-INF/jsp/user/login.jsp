@@ -74,5 +74,12 @@
         </div>
     </div>
 </section>
+<content tag="local-script">
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('#username').focus();
+        });
+    </script>
+</content>
 </body>
 </html>

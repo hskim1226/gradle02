@@ -9,7 +9,6 @@ import org.eclipse.birt.report.engine.api.IRenderOption;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -20,7 +19,7 @@ import javax.servlet.http.HttpServletRequest;
  * Created by Administrator on 2014-08-01.
  */
 @Controller
-@RequestMapping("/preview")
+@RequestMapping("/application")
 public class BirtController {
     @Autowired
     ApplicationService applicationService;
@@ -28,20 +27,26 @@ public class BirtController {
     @Autowired
     CommonService commonService;
 
-    @RequestMapping(value = "/application/{applNo}/{reportFormat}/{reportName}")
-    public ModelAndView displayApplication(@PathVariable("applNo") Integer applNo,
+    @RequestMapping(value = "/preview")
+    public ModelAndView previewApplicationByParam(Model model, HttpServletRequest request) {
+        Integer applNo = Integer.parseInt( request.getParameter("applNo") );
+        String reportFormat = request.getParameter("reportFormat");
+        String reportName = request.getParameter("reportName");;
+
+        return previewApplication(applNo, reportFormat, reportName, model, request);
+    }
+
+    @RequestMapping(value = "/preview/{applNo}/{reportFormat}/{reportName}")
+    public ModelAndView previewApplicationByRESTful(@PathVariable("applNo") Integer applNo,
                                            @PathVariable("reportFormat") String reportFormat,
                                            @PathVariable("reportName") String reportName,
                                            Model model, HttpServletRequest request) {
-        if( !StringUtils.hasText(reportName) ) {
-            reportName = request.getParameter("reportName");
-            model.addAttribute( "reportName", reportName );
-        }
-        if( !StringUtils.hasText(reportFormat) ) {
-            reportFormat = request.getParameter("reportFormat");
-            model.addAttribute( "reportFormat", reportFormat );
-        }
+        return previewApplication(applNo, reportFormat, reportName, model, request);
+    }
 
+    private ModelAndView previewApplication(Integer applNo, String reportFormat, String reportName, Model model, HttpServletRequest request) {
+        model.addAttribute( "reportFormat", reportFormat );
+        model.addAttribute( "reportName", reportName );
         EntireApplication entireApplication = applicationService.retrieveEntireApplication(applNo);
 
         /* TODO APPL DB 변경되면 수정되어야 할 부분 */

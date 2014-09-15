@@ -20,7 +20,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -54,9 +53,6 @@ public class ApplicationController {
 
     @Resource(name = "messageResolver")
     MessageResolver messageResolver;
-
-    @Autowired
-    private FileService fileService;
 
     /**
      * 내원서 화면
@@ -111,7 +107,6 @@ public class ApplicationController {
                                  @RequestParam(value = "admsTypeCode", required = false) String admsTypeCode,
                                  @ModelAttribute("entireApplication") EntireApplication entireApplication,
                                  Model model) {
-
         Map<String, Object> commonCodeMap = new HashMap<String, Object>();
 
         if( applNo != null ) {
@@ -181,15 +176,26 @@ public class ApplicationController {
 
         model.addAttribute("entireApplication", entireApplication);
 
-        List<CommonCode> applAttrList = commonService.retrieveCommonCodeValueByCodeGroup("APPL_ATTR");
-        List<CommonCode> mltrServList = commonService.retrieveCommonCodeValueByCodeGroup("MLTR_SERV");
-        List<CommonCode> mltrTypeList = commonService.retrieveCommonCodeValueByCodeGroup("MLTR_TYPE");
-        List<CommonCode> mltrRankList = commonService.retrieveCommonCodeValueByCodeGroup("MLTR_RANK");
-        List<CommonCode> emerContList = commonService.retrieveCommonCodeValueByCodeGroup("EMER_CONT");
-        List<CommonCode> toflTypeList = commonService.retrieveCommonCodeValueByCodeGroup("TOFL_TYPE");
-        List<CommonCode> fornExmpList = commonService.retrieveCommonCodeValueByCodeGroup("FORN_EXMP");
-        List<CommonCode> qualAreaList = commonService.retrieveCommonCodeValueByCodeGroup("QUAL_AREA");
-        List<LanguageExam> langExamList = commonService.retrieveLangExamByLangCode("ENG");
+        String result = "application/";
+        if( "A".equals(admsTypeCode) || "B".equals(admsTypeCode) ) {
+            result += "appinfo";
+
+            commonCodeMap.put( "applAttrList", commonService.retrieveCommonCodeValueByCodeGroup("APPL_ATTR") );
+            commonCodeMap.put( "mltrServList", commonService.retrieveCommonCodeValueByCodeGroup("MLTR_SERV") );
+            commonCodeMap.put( "mltrTypeList", commonService.retrieveCommonCodeValueByCodeGroup("MLTR_TYPE") );
+            commonCodeMap.put( "mltrRankList", commonService.retrieveCommonCodeValueByCodeGroup("MLTR_RANK") );
+        } else if( "C".equals(admsTypeCode) ) {
+            result += "appinfo-fore";
+
+            commonCodeMap.put( "fornTypeList", commonService.retrieveCommonCodeValueByCodeGroup("FORN_TYPE") );
+        }
+
+        commonCodeMap.put( "emerContList", commonService.retrieveCommonCodeValueByCodeGroup("EMER_CONT") );
+        commonCodeMap.put( "toflTypeList", commonService.retrieveCommonCodeValueByCodeGroup("TOFL_TYPE") );
+        commonCodeMap.put( "fornExmpList", commonService.retrieveCommonCodeValueByCodeGroup("FORN_EXMP") );
+        commonCodeMap.put( "qualAreaList", commonService.retrieveCommonCodeValueByCodeGroup("QUAL_AREA") );
+        commonCodeMap.put( "korExamList", commonService.retrieveLangExamByLangCode("KOR") );
+        commonCodeMap.put( "engExamList", commonService.retrieveLangExamByLangCode("ENG") );
 
         List<CustomApplicationDoc> geneDocList = null;
         List<CustomApplicationDoc> fDegDocList = null;
@@ -245,15 +251,6 @@ public class ApplicationController {
         langDocList = applicationService.retrieveInfoListByParamObj(pad,
                 "CustomApplicationDocumentMapper.selectByAdmsNoDocTypeCode", CustomApplicationDoc.class);
 
-        commonCodeMap.put( "applAttrList", applAttrList );
-        commonCodeMap.put( "mltrServList", mltrServList );
-        commonCodeMap.put( "mltrTypeList", mltrTypeList );
-        commonCodeMap.put( "mltrRankList", mltrRankList );
-        commonCodeMap.put( "emerContList", emerContList );
-        commonCodeMap.put( "toflTypeList", toflTypeList );
-        commonCodeMap.put( "fornExmpList", fornExmpList );
-        commonCodeMap.put( "qualAreaList", qualAreaList );
-        commonCodeMap.put( "langExamList", langExamList );
         commonCodeMap.put( "geneDocList", geneDocList==null?new ArrayList<CustomApplicationDoc>():geneDocList );
         commonCodeMap.put( "fDegDocList", fDegDocList==null?new ArrayList<CustomApplicationDoc>():fDegDocList );
         commonCodeMap.put( "collDocList", collDocList );
@@ -270,7 +267,8 @@ public class ApplicationController {
         model.addAttribute( "msgImageOnly", messageResolver.getMessage("U308"));
         model.addAttribute( "msgPDFOnly", messageResolver.getMessage("U309"));
 
-        return "application/appinfo";
+        model.addAttribute( "L311", messageResolver.getMessage("L311"));
+        return result;
     }
 
     /**
@@ -576,6 +574,7 @@ public class ApplicationController {
         EntireApplication entireApplication = new EntireApplication();
         entireApplication.setApplication(new Application());
         entireApplication.setApplicationGeneral(new ApplicationGeneral());
+        entireApplication.setApplicationForeigner(new ApplicationForeigner());
         entireApplication.setApplicationETCWithBLOBs(new ApplicationETCWithBLOBs());
         entireApplication.setHighSchool(new ApplicationAcademy());
         entireApplication.setCollegeList(new ArrayList<ApplicationAcademy>());
