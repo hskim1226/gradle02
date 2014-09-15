@@ -4,7 +4,6 @@
 <html>
 <head>
     <title></title>
-    <link rel="stylesheet" href="${contextPath}/css/datepicker3.css">
     <link rel="stylesheet" href="//code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css">
     <style>
         section.application {

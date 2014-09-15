@@ -1,15 +1,9 @@
-<%@ page import="java.io.FileWriter" %>
-<%@ page import="java.io.FileReader" %>
-<%@ page import="java.net.URL" %>
-<%@ page import="java.net.URLConnection" %>
-<%@ page import="java.io.InputStreamReader" %>
-<%@ page import="java.io.BufferedReader" %>
-<%@ page contentType="text/html;charset=UTF-8"%>
-<%@include file="/WEB-INF/jsp/common/env.jsp"%>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ include file="/WEB-INF/jsp/common/env.jsp"%>
 <html>
 <head>
     <title></title>
-    <link rel="stylesheet" href="${contextPath}/css/datepicker3.css">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css">
     <style>
         section.signup {
             padding: 200px 0 60px;
@@ -65,32 +59,32 @@
         <div class="page-header">
             <h1 style="color: #fdfdfd">회원 가입</h1>
         </div>
-        <form class="form-horizontal" role="form" id="sign-up-form" action="${contextPath}/user/signup/save" method="post">
-            <form:hidden path="userAgreYn" />
-            <form:hidden path="privInfoYn" />
+        <form class="form-horizontal" id="sign-up-form" action="${contextPath}/user/signup/save" method="post" role="form">
+            <form:hidden path="users.userAgreYn" id="userAgreYn" />
+            <form:hidden path="users.privInfoYn" id="privInfoYn" />
             <%--usertype--%>
             <div class="form-group">
-                <label class="col-sm-2 control-label">User Type</label>
-                <div class="col-sm-10">
-                    <div class="btn-group" data-toggle="buttons">
+                <label class="col-sm-4 control-label"><spring:message code="L100" /></label>
+                <div class="col-sm-4">
+                    <div class="btn-group btn-group-justified" data-toggle="buttons">
                         <label class="btn btn-default active">
-                            <input type="radio" name="userType" id="usertype-general" value="g" checked />General
+                            <input type="radio" name="users.userType" id="usertype[]" value="g" checked /><spring:message code="L108" />
                         </label>
                         <label class="btn btn-default">
-                            <input type="radio" name="userType" id="usertype-child" value="c" />Child
+                            <input type="radio" name="users.userType" id="usertype[]" value="c" /><spring:message code="L109" />
                         </label>
                         <label class="btn btn-default">
-                            <input type="radio" name="userType" id="usertype-foreign" value="f" />Foreign
+                            <input type="radio" name="users.userType" id="usertype[]" value="f" /><spring:message code="L110" />
                         </label>
                     </div>
                 </div>
             </div>
             <%--user id--%>
             <div class="form-group">
-                <label for="userId" class="col-sm-2 control-label">User ID</label>
-                <div class="col-sm-6 col-md-4">
+                <label for="userId" class="col-sm-4 control-label"><spring:message code="L101" /></label>
+                <div class="col-sm-4">
                     <div class="input-group">
-                        <input type="text" class="form-control" id="userId" name="userId" placeholder="User ID"
+                        <input type="text" class="form-control" name="users.userId" id="userId" placeholder="User ID"
                                data-bv-notempty data-bv-notempty-message="The user id is required" />
                         <span class="input-group-btn">
                             <button class="btn btn-default" type="button" id="available-check-button">Check</button>
@@ -100,78 +94,84 @@
             </div>
             <%--password--%>
             <div class="form-group">
-                <label for="pswd" class="col-sm-2 control-label">Password</label>
-                <div class="col-sm-10">
-                    <input type="password" class="form-control" id="pswd" name="pswd" placeholder="Password"
+                <label for="pswd" class="col-sm-4 control-label"><spring:message code="L102" /></label>
+                <div class="col-sm-4">
+                    <input type="password" class="form-control" name="users.pswd" id="pswd" placeholder="Password"
                            data-bv-notempty data-bv-notempty-message="Password is required" />
-                    <input type="password" class="form-control" id="confirm" name="confirm" placeholder="Confirm Password"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="confirm" class="col-sm-4 control-label"><spring:message code="L117" /></label>
+                <div class="col-sm-4">
+                    <input type="password" class="form-control" id="confirm" placeholder="Confirm"
+                           data-bv-notempty data-bv-notempty-message="Confirm is required" />
                 </div>
             </div>
             <%--email--%>
             <div class="form-group">
-                <label for="mailAddr" class="col-sm-2 control-label">E-Mail</label>
-                <div class="col-sm-6">
-                    <input type="email" class="form-control" id="mailAddr" name="mailAddr" placeholder="email" />
+                <label for="mailAddr" class="col-sm-4 control-label"><spring:message code="L103" /></label>
+                <div class="col-sm-4">
+                    <input type="email" class="form-control" name="users.mailAddr" id="mailAddr" placeholder="email" />
                 </div>
                 <label for="mailRecvYn" class="control-label">
-                    <input type="checkbox" name="mailRecvYn" id="mailRecvYn" value="y"/>Receive email
+                    <input type="checkbox" name="users.mailRecvYn" id="mailRecvYn" value="y"/><spring:message code="L112" />
                 </label>
             </div>
             <%--mobiNum--%>
             <div class="form-group">
-                <label for="mobiNum" class="col-sm-2 control-label">Mobile</label>
-                <div class="col-sm-6">
-                    <input type="text" class="form-control" id="mobiNum" name="mobiNum" placeholder="###-####-####" />
+                <label for="mobiNum" class="col-sm-4 control-label"><spring:message code="L104" /></label>
+                <div class="col-sm-4">
+                    <input type="text" class="form-control" name="users.mobiNum" id="mobiNum" placeholder="###-####-####" />
                 </div>
-                <label for="sms-receive" class="control-label">
-                    <input type="checkbox" name="smsRecvYn" id="sms-receive" value="y" />Receive sms
+                <label for="smsRecvYn" class="control-label">
+                    <input type="checkbox" name="users.smsRecvYn" id="smsRecvYn" value="y" /><spring:message code="L113" />
                 </label>
             </div>
             <%--name--%>
             <div class="form-group">
-                <label for="name" class="col-sm-2 control-label">User Name</label>
-                <div class="col-sm-10">
-                    <input type="text" class="form-control" id="name" name="name" placeholder="Name" />
+                <label for="name" class="col-sm-4 control-label"><spring:message code="L105" /></label>
+                <div class="col-sm-4">
+                    <input type="text" class="form-control" name="users.name" id="name" placeholder="Name" />
                 </div>
             </div>
             <%--gend--%>
             <div class="form-group">
-                <label class="col-sm-2 control-label">Gender</label>
-                <div class="col-sm-10">
-                    <div class="btn-group" data-toggle="buttons">
+                <label class="col-sm-4 control-label"><spring:message code="L106" /></label>
+                <div class="col-sm-4">
+                    <div class="btn-group btn-group-justified" data-toggle="buttons">
                         <label class="btn btn-default active">
-                            <input type="radio" name="gend" id="gend-male" value="m" checked />Male
+                            <input type="radio" name="users.gend" id="gend[]" value="m" checked /><spring:message code="L114" />
                         </label>
                         <label class="btn btn-default">
-                            <input type="radio" name="gend" id="gend-female" value="f" />Female
+                            <input type="radio" name="users.gend" id="gend[]" value="f" /><spring:message code="L115" />
                         </label>
                     </div>
                 </div>
             </div>
             <%--calendar--%>
             <div class="form-group">
-                <label for="bornDay" class="col-sm-2 control-label">Birthday</label>
-                <div class="col-sm-6 col-md-4" id="sandbox-container">
+                <label for="bornDay" class="col-sm-4 control-label"><spring:message code="L107" /></label>
+                <div class="col-sm-4">
                     <div class="input-group date">
-                        <input type="text" class="form-control" id="bornDay" name="bornDay"/>
+                        <input type="text" class="form-control" name="users.bornDay" id="bornDay" />
                         <span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
                     </div>
                 </div>
             </div>
             <%--submit--%>
             <div class="form-group">
-                <div class="col-sm-offset-2 col-sm-10">
-                    <button type="button" id="sign-up-button" class="btn btn-default" disabled="disabled" >Sign up</button>
+                <div class="col-sm-offset-4 col-sm-4">
+                    <button type="button" id="sign-up-button" class="btn btn-default" disabled="disabled" ><spring:message code="L116" /></button>
                 </div>
             </div>
         </form>
     </div>
 </section>
 <content tag="local-script">
-    <script src="${contextPath}/js/bootstrap-datepicker.js"></script>
-    <script src="${contextPath}/js/bootstrap-datepicker.kr.js"></script>
-
-    <script type="text/javascript" >
+    <%--<script src="${contextPath}/js/bootstrap-datepicker.js"></script>--%>
+    <%--<script src="${contextPath}/js/bootstrap-datepicker.kr.js"></script>--%>
+    <script src="${contextPath}/js/jquery-ui.min.js"></script>
+    <script type="text/javascript">
         $(document).ready(function(){
             $("#sign-up-button").on("click", function(){
                 $('#sign-up-form').bootstrapValidator('validate');
@@ -211,13 +211,21 @@
                 }
             });
 
-            $('#sandbox-container .input-group.date').datepicker({
-                format: "yyyymmdd",
-                startView: 2,
-                language: "kr",
-                forceParse: false,
-                autoclose: true
+            <%-- 달력 시작 --%>
+            var datePickerOption = {
+                dateFormat: 'yymmdd',
+                yearRange: "1950:",
+                monthNamesShort: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
+                dayNamesMin: ['일','월','화','수','목','금','토'],
+                changeMonth: true, //월변경가능
+                changeYear: true, //년변경가능
+                showMonthAfterYear: true //년 뒤에 월 표시
+            };
+
+            $('.input-group.date>input').each(function() {
+                $(this).datepicker(datePickerOption);
             });
+            <%-- 달력 끝 --%>
 
         });
     </script>

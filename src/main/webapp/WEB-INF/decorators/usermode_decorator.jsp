@@ -106,11 +106,21 @@
     <script type="text/javascript">
         $(document).ready(function() {
             $('div[role=locale]').on('click', function(e) {
-                var target = e.target, dataTarget;
+                var target = e.target, dataTarget, f, input;
                 if (target) {
                     dataTarget = target.getAttribute('data-target');
                     if (dataTarget) {
-                        location.href = UpdateQueryString('${localeParam}', dataTarget, location.href);
+                        <%--location.href = UpdateQueryString('${localeParam}', dataTarget, location.href);--%>
+                        f = $('form')[0];
+                        if (f) {
+                            f.action = location.href;
+                            input = document.createElement('input');
+                            input.setAttribute('type', 'hidden');
+                            input.setAttribute('name', '${localeParam}')
+                            input.setAttribute('value', dataTarget);
+                            f.appendChild(input);
+                            f.submit();
+                        }
                     }
                 }
             });
