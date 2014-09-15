@@ -146,6 +146,7 @@ public class ApplicationServiceImpl implements ApplicationService {
         int r6 = 0;
         int r7 = 0;
         int r8 = 0;
+        int r9 = 0;
 
         try {
             Date date = new Date();
@@ -209,10 +210,22 @@ public class ApplicationServiceImpl implements ApplicationService {
                 r8 = commonDAO.insertList(languageList, NAME_SPACE, "ApplicationLanguageMapper");
             }
 
+            deleteListByApplNo(applNo, "CustomApplicationDocumentMapper");
+            List<ApplicationDocument> generalDocList = entireApplication.getGeneralDocList();
+            idx = 0;
+            if ( languageList != null ) {
+                for(ApplicationDocument item : generalDocList) {
+                    item.setApplNo(applNo);
+                    item.setModDate(date);
+                    item.setDocSeq(++idx);
+                }
+                r9 = commonDAO.insertList(generalDocList, NAME_SPACE, "ApplicationDocumentMapper");
+            }
+
         } catch ( Exception e ) {
             e.printStackTrace();
         }
-        String parity = "" + r1 + r2 + r3 + r4 + r5 + r6 + r7 + r8;
+        String parity = "" + r1 + r2 + r3 + r4 + r5 + r6 + r7 + r8 + r9;
 
         ExecutionContext ec = null;
         int errPosition = parity.indexOf('0');

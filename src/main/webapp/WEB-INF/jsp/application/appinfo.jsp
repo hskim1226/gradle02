@@ -832,7 +832,10 @@
                                                     <div class="input-group-btn">
                                                         <input type="file" class="btn btn_lg btn-file" id="generalDocList${stat.index}.docName" name="generalDocList[${stat.index}].docName"/>
                                                     </div>
-                                                    <div class="col-sm-4 nopadding"><input type="button" id="attachDoc${stat.index}.btn" name="attachDoc${stat.index}.btn" class="btn btn-default btn-block btn-upload" value="올리기"/></div>
+                                                    <div class="col-sm-4 nopadding"><input type="button" id="attachDoc${stat.index}.btn" name="attachDoc${stat.index}.btn"
+                                                                                           class="btn btn-default btn-block btn-upload" value="올리기"
+                                                                                           data-file-path="generalDocList${stat.index}.filePath" data-file-name="generalDocList${stat.index}.fileName"/>
+                                                    </div>
                                                     <span class="col-sm-8" id="uploadedFileLabel${stat.index}" style="text-decoration: none;"><!--TODO DB에서 가져오기--></span>
                                                 </div>
                                             </div>
@@ -845,6 +848,8 @@
                                             <input type="hidden" name="generalDocList[${stat.index}].docGrp" id="generalDocList${stat.index}.docGrp" value="1" />
                                             <input type="hidden" name="generalDocList[${stat.index}].docItemCode" id="generalDocList${stat.index}.docItemCode" value="${customDoc.docItemCode}" />
                                             <input type="hidden" name="generalDocList[${stat.index}].docItemName" id="generalDocList${stat.index}.docItemName" value="${customDoc.itemName}" />
+                                            <form:hidden path="generalDocList[${stat.index}].filePath"/>
+                                            <form:hidden path="generalDocList[${stat.index}].fileName"/>
                                         </div>
                                     </c:forEach>
                                 </div>
@@ -1556,7 +1561,7 @@
                                 alert = createAlert(message),
                                 applNo = context.data;
                             $('#alert-container').append(alert);
-                            document.getElementById('#applNo').value = applNo;
+                            document.getElementById('applNo').value = applNo;
                             window.setTimeout(function() { alert.alert('close') }, 2000);
                         }
                     },
@@ -2173,6 +2178,8 @@ console.log(e.statusText);
                     fileInputName = fileInput.getAttribute("name"),
                     fileName = fileInput.value,
                     targetLabelId = e.target.parentNode.parentNode.querySelector('span').getAttribute('id'),
+                    targetFilePathHiddenId = e.target.getAttribute('data-file-path'),
+                    targetFileNameHiddenId = e.target.getAttribute('data-file-name'),
                     regexpImage = (/\.(gif|jpg|png)$/i),
                     regexpPDF = (/\.(pdf)$/i),
                     extIsOk = false
@@ -2213,6 +2220,7 @@ console.log(e.statusText);
                                     console.log("applNo : ", d.applNo);
                                     console.log("admsNo : ", d.admsNo);
                                     console.log("originalFileName : ", d.originalFileName);
+                                    console.log("filePath : ", d.filePath);
                                     console.log("fileName : ", d.fileName);
                                     console.log("data : ", data.data);
                                     console.log("status : ", status);
@@ -2221,7 +2229,7 @@ console.log(e.statusText);
                                         targetBtn = document.getElementById(targetBtnId),
                                         $targetBtn = $(targetBtn),
                                         originalFileName = d.originalFileName,
-                                        path = d.path,
+                                        filePath = d.path,
                                         fileName = d.fileName,
                                         targetLabel = d.targetLabel,
                                         applNo = d.applNo,
@@ -2234,9 +2242,11 @@ console.log(e.statusText);
                                 downloadURL = '${contextPath}/filedownload/attached/'+admsNo+'/'+applNo+'/'+fileName+'/'+originalFileName;
                                 linkHtml = '<a href="' + downloadURL + '">' + originalFileName + '</a>';
                                 document.getElementById(targetLabel).innerHTML = linkHtml;
-
+                                document.getElementById(targetFilePathHiddenId).value = filePath;
+                                document.getElementById(targetFileNameHiddenId).value = fileName;
                             },
                             error: function (data, status, e) {
+//                                var d = JSON.parse(data.data);
                                 if(console) {
                                     console.log("data : ", data);
                                     console.log("status : ", status);

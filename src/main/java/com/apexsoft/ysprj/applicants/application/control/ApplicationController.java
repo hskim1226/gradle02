@@ -294,34 +294,66 @@ public class ApplicationController {
             return new ExecutionContext(ExecutionContext.FAIL);
         }
 
+        ExecutionContext ec = null;
         String userId = principal.getName();
         entireApplication.getApplication().setUserId(userId);
-        entireApplication.getApplication().setCreId(userId);
-        entireApplication.getApplicationGeneral().setCreId(userId);
-        entireApplication.getApplicationETCWithBLOBs().setCreId(userId);
-        entireApplication.getHighSchool().setCreId(userId);
-        List<ApplicationAcademy> collegeList = entireApplication.getCollegeList();
-        for(ApplicationAcademy item : collegeList) {
-            item.setCreId(userId);
-        }
-        List<ApplicationAcademy> graduateList = entireApplication.getGraduateList();
-        for(ApplicationAcademy item : graduateList) {
-            item.setCreId(userId);
-        }
-        List<ApplicationExperience> experienceList = entireApplication.getApplicationExperienceList();
-        for(ApplicationExperience item : experienceList) {
-            item.setCreId(userId);
-        }
-        List<ApplicationLanguage> languageList = entireApplication.getApplicationLanguageList();
-        for(ApplicationLanguage item : languageList) {
-            item.setCreId(userId);
-        }
-
         entireApplication.getApplication().setApplStsCode("00001");
-        ExecutionContext ec = null;
+
         if( entireApplication.getApplication().getApplNo() == null ) {   // insert
+            entireApplication.getApplication().setCreId(userId);
+            entireApplication.getApplicationGeneral().setCreId(userId);
+            entireApplication.getApplicationETCWithBLOBs().setCreId(userId);
+            entireApplication.getHighSchool().setCreId(userId);
+            List<ApplicationAcademy> collegeList = entireApplication.getCollegeList();
+            for(ApplicationAcademy item : collegeList) {
+                item.setCreId(userId);
+            }
+            List<ApplicationAcademy> graduateList = entireApplication.getGraduateList();
+            for(ApplicationAcademy item : graduateList) {
+                item.setCreId(userId);
+            }
+            List<ApplicationExperience> experienceList = entireApplication.getApplicationExperienceList();
+            for(ApplicationExperience item : experienceList) {
+                item.setCreId(userId);
+            }
+            List<ApplicationLanguage> languageList = entireApplication.getApplicationLanguageList();
+            for(ApplicationLanguage item : languageList) {
+                item.setCreId(userId);
+            }
+
+            List<ApplicationDocument> generalDocList = entireApplication.getGeneralDocList();
+            for(ApplicationDocument item : generalDocList) {
+                item.setCreId(userId);
+            }
+
             ec = applicationService.createEntireApplication( entireApplication );
         } else {    // update
+            entireApplication.getApplication().setModId(userId);
+            entireApplication.getApplicationGeneral().setModId(userId);
+            entireApplication.getApplicationETCWithBLOBs().setModId(userId);
+            entireApplication.getHighSchool().setModId(userId);
+            List<ApplicationAcademy> collegeList = entireApplication.getCollegeList();
+            for(ApplicationAcademy item : collegeList) {
+                item.setModId(userId);
+            }
+            List<ApplicationAcademy> graduateList = entireApplication.getGraduateList();
+            for(ApplicationAcademy item : graduateList) {
+                item.setModId(userId);
+            }
+            List<ApplicationExperience> experienceList = entireApplication.getApplicationExperienceList();
+            for(ApplicationExperience item : experienceList) {
+                item.setModId(userId);
+            }
+            List<ApplicationLanguage> languageList = entireApplication.getApplicationLanguageList();
+            for(ApplicationLanguage item : languageList) {
+                item.setModId(userId);
+            }
+
+            List<ApplicationDocument> generalDocList = entireApplication.getGeneralDocList();
+            for(ApplicationDocument item : generalDocList) {
+                item.setModId(userId);
+            }
+
             ec = applicationService.updateEntireApplication( entireApplication );
         }
 
