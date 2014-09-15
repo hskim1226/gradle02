@@ -16,6 +16,7 @@
     <result column="IMG_YN" property="imgYn" jdbcType="VARCHAR" />
     <result column="FILE_PATH" property="filePath" jdbcType="VARCHAR" />
     <result column="FILE_NAME" property="fileName" jdbcType="VARCHAR" />
+    <result column="ORG_FILE_NAME" property="orgFileName" jdbcType="VARCHAR" />
     <result column="CRE_ID" property="creId" jdbcType="VARCHAR" />
     <result column="CRE_DATE" property="creDate" jdbcType="DATE" />
     <result column="MOD_ID" property="modId" jdbcType="VARCHAR" />
@@ -29,7 +30,7 @@
       This element was generated on Mon Aug 25 20:54:40 KST 2014.
     -->
     APPL_NO, DOC_SEQ, DOC_ITEM_CODE, DOC_ITEM_NAME, DOC_NAME, FILE_EXT, IMG_YN, FILE_PATH, 
-    FILE_NAME, CRE_ID, CRE_DATE, MOD_ID, MOD_DATE
+    FILE_NAME, ORG_FILE_NAME, CRE_ID, CRE_DATE, MOD_ID, MOD_DATE
   </sql>
 
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="com.apexsoft.ysprj.applicants.application.domain.ApplicationDocumentKey" >
