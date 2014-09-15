@@ -150,16 +150,9 @@ public class ApplicationServiceImpl implements ApplicationService {
 
     @Override
     public ExecutionContext updateEntireApplication(EntireApplication entireApplication) {
-        int r1 = 0;
+        int r1 = 0, r2 = 0, r3 = 0, r4 = 0, r5 = 0, r6 = 0, r7 = 0, r8 = 0;
+        int r9 = 0, r10 = 0, r11 = 0, r12 = 0, r13 = 0, r14 = 0, r15 = 0, r16 = 0;
         int applNo = entireApplication.getApplication().getApplNo();
-        int r2 = 0;
-        int r3 = 0;
-        int r4 = 0;
-        int r5 = 0;
-        int r6 = 0;
-        int r7 = 0;
-        int r8 = 0;
-        int r9 = 0;
 
         try {
             Date date = new Date();
@@ -235,10 +228,87 @@ public class ApplicationServiceImpl implements ApplicationService {
                 r9 = commonDAO.insertList(generalDocList, NAME_SPACE, "ApplicationDocumentMapper");
             }
 
+            List<ApplicationDocument> foreignDegreeDocList = entireApplication.getForeignDegreeDocList();
+            idx = 0;
+            if ( foreignDegreeDocList != null ) {
+                for(ApplicationDocument item : foreignDegreeDocList) {
+                    item.setApplNo(applNo);
+                    item.setModDate(date);
+                    item.setDocSeq(++idx);
+                }
+                r10 = commonDAO.insertList(foreignDegreeDocList, NAME_SPACE, "ApplicationDocumentMapper");
+            }
+
+            List<ApplicationDocument> collegeDocList = entireApplication.getCollegeDocList();
+            idx = 0;
+            if ( collegeDocList != null ) {
+                for(ApplicationDocument item : collegeDocList) {
+                    item.setApplNo(applNo);
+                    item.setModDate(date);
+                    item.setDocSeq(++idx);
+                }
+                r11 = commonDAO.insertList(collegeDocList, NAME_SPACE, "ApplicationDocumentMapper");
+            }
+
+            List<ApplicationDocument> graduateDocList = entireApplication.getGraduateDocList();
+            idx = 0;
+            if ( graduateDocList != null ) {
+                for(ApplicationDocument item : graduateDocList) {
+                    item.setApplNo(applNo);
+                    item.setModDate(date);
+                    item.setDocSeq(++idx);
+                }
+                r12 = commonDAO.insertList(graduateDocList, NAME_SPACE, "ApplicationDocumentMapper");
+            }
+
+            List<ApplicationDocument> languageDocList = entireApplication.getLanguageDocList();
+            idx = 0;
+            if ( languageDocList != null ) {
+                for(ApplicationDocument item : languageDocList) {
+                    item.setApplNo(applNo);
+                    item.setModDate(date);
+                    item.setDocSeq(++idx);
+                }
+                r13 = commonDAO.insertList(languageDocList, NAME_SPACE, "ApplicationDocumentMapper");
+            }
+
+            List<ApplicationDocument> ariInstDocList = entireApplication.getAriInstDocList();
+            idx = 0;
+            if ( ariInstDocList != null ) {
+                for(ApplicationDocument item : ariInstDocList) {
+                    item.setApplNo(applNo);
+                    item.setModDate(date);
+                    item.setDocSeq(++idx);
+                }
+                r14 = commonDAO.insertList(ariInstDocList, NAME_SPACE, "ApplicationDocumentMapper");
+            }
+
+            List<ApplicationDocument> foreignerDocList = entireApplication.getForeignerDocList();
+            idx = 0;
+            if ( foreignerDocList != null ) {
+                for(ApplicationDocument item : foreignerDocList) {
+                    item.setApplNo(applNo);
+                    item.setModDate(date);
+                    item.setDocSeq(++idx);
+                }
+                r15 = commonDAO.insertList(foreignerDocList, NAME_SPACE, "ApplicationDocumentMapper");
+            }
+
+            List<ApplicationDocument> deptDocList = entireApplication.getDeptDocList();
+            idx = 0;
+            if ( deptDocList != null ) {
+                for(ApplicationDocument item : deptDocList) {
+                    item.setApplNo(applNo);
+                    item.setModDate(date);
+                    item.setDocSeq(++idx);
+                }
+                r16 = commonDAO.insertList(deptDocList, NAME_SPACE, "ApplicationDocumentMapper");
+            }
+
         } catch ( Exception e ) {
             e.printStackTrace();
         }
-        String parity = "" + r1 + r2 + r3 + r4 + r5 + r6 + r7 + r8 + r9;
+        String parity = "" + r1 + r2 + r3 + r4 + r5 + r6 + r7 + r8 + r9 + r10 + r11 + r12 + r13 + r14 + r15 + r16;
 
         ExecutionContext ec = null;
         int errPosition = parity.indexOf('0');
