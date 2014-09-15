@@ -820,34 +820,35 @@
                     <div class="row">
                         <div class="col-sm-offset-1 col-sm-10">
 
-                            <%--<div class="panel panel-darkgray">--%>
-                                <%--<div class="panel-heading">기본 서류</div>--%>
-                                <%--<div class="panel-body" id="general-doc-list">--%>
-                                    <%--<c:forEach items="${entireApplication.generalDocList}" var="attachDoc" varStatus="stat">--%>
-                                        <%--<hr/>--%>
-                                        <%--<div class="form-group" id="attachDoc${attachDoc.code}">--%>
-                                            <%--<label class="col-sm-3 control-label word-keep-all">${attachDoc.codeVal}</label>--%>
-                                            <%--<div class="col-sm-8">--%>
-                                                <%--<div class="input-group">--%>
-                                                    <%--<div class="input-group-btn">--%>
-                                                        <%--<input type="file" class="btn btn_lg btn-file" id="applicationDocumentList${stat.index}.docName" name="applicationDocumentList${stat.index}.docName"/>--%>
-                                                    <%--</div>--%>
-                                                    <%--<div class="col-sm-4 nopadding"><input type="button" id="attachDoc${stat.index}.btn" name="attachDoc${stat.index}.btn" class="btn btn-default btn-block btn-upload" value="올리기"/></div>--%>
-                                                    <%--<span class="col-sm-8" id="uploadedFileLabel${stat.index}" style="text-decoration: none;"><!--TODO DB에서 가져오기--></span>--%>
-                                                <%--</div>--%>
-                                            <%--</div>--%>
-                                                <%--&lt;%&ndash;<form:hidden path="docItemList[${stat.index}].docItemCode" value="${attachDoc.code}"/>&ndash;%&gt;--%>
-                                                <%--&lt;%&ndash;<form:hidden path="docItemList[${stat.index}].docItemName" value="${attachDoc.codeVal}"/>&ndash;%&gt;--%>
-                                                <%--&lt;%&ndash;<form:hidden path="docItemList[${stat.index}].filePath"/>&ndash;%&gt;--%>
-                                                <%--&lt;%&ndash;<form:hidden path="docItemList[${stat.index}].fileName"/>&ndash;%&gt;--%>
-                                            <%--<input type="hidden" name="docItemList[${stat.index}].docItemCode" id="applicationDocumentList${stat.index}.docItemCode" value="${attachDoc.code}" />--%>
-                                            <%--<input type="hidden" name="docItemList[${stat.index}].docItemName" id="applicationDocumentList${stat.index}.docItemName" value="${attachDoc.codeVal}" />--%>
-                                            <%--<input type="hidden" name="docItemList[${stat.index}].filePath" id="applicationDocumentList${stat.index}.filePath"/>--%>
-                                            <%--<input type="hidden" name="docItemList[${stat.index}].fileName" id="applicationDocumentList${stat.index}.fileName"/>--%>
-                                        <%--</div>--%>
-                                    <%--</c:forEach>--%>
-                                <%--</div>--%>
-                            <%--</div>--%>
+                            <div class="panel panel-darkgray">
+                                <div class="panel-heading">기본 서류</div>
+                                <div class="panel-body" id="general-doc-list">
+                                    <c:forEach items="${common.geneDocList}" var="customDoc" varStatus="stat">
+                                        <hr/>
+                                        <div class="form-group" id="attachDoc${customDoc.docItemCode}">
+                                            <label class="col-sm-3 control-label word-keep-all">${customDoc.itemName}</label>
+                                            <div class="col-sm-8">
+                                                <div class="input-group">
+                                                    <div class="input-group-btn">
+                                                        <input type="file" class="btn btn_lg btn-file" id="generalDocList${stat.index}.docName" name="generalDocList[${stat.index}].docName"/>
+                                                    </div>
+                                                    <div class="col-sm-4 nopadding"><input type="button" id="attachDoc${stat.index}.btn" name="attachDoc${stat.index}.btn" class="btn btn-default btn-block btn-upload" value="올리기"/></div>
+                                                    <span class="col-sm-8" id="uploadedFileLabel${stat.index}" style="text-decoration: none;"><!--TODO DB에서 가져오기--></span>
+                                                </div>
+                                            </div>
+                                                <%--<form:hidden path="docItemList[${stat.index}].docItemCode" value="${attachDoc.code}"/>--%>
+                                                <%--<form:hidden path="docItemList[${stat.index}].docItemName" value="${attachDoc.codeVal}"/>--%>
+                                                <%--<form:hidden path="docItemList[${stat.index}].filePath"/>--%>
+                                                <%--<form:hidden path="docItemList[${stat.index}].fileName"/>--%>
+
+                                            <input type="hidden" name="generalDocList[${stat.index}].docTypeCode" id="generalDocList${stat.index}.docTypeCode" value="${customDoc.docTypeCode}" />
+                                            <input type="hidden" name="generalDocList[${stat.index}].docGrp" id="generalDocList${stat.index}.docGrp" value="1" />
+                                            <input type="hidden" name="generalDocList[${stat.index}].docItemCode" id="generalDocList${stat.index}.docItemCode" value="${customDoc.docItemCode}" />
+                                            <input type="hidden" name="generalDocList[${stat.index}].docItemName" id="generalDocList${stat.index}.docItemName" value="${customDoc.itemName}" />
+                                        </div>
+                                    </c:forEach>
+                                </div>
+                            </div>
 
                             <div class="panel panel-darkgray">
                                 <div class="panel-heading">기본 서류</div>
@@ -2177,7 +2178,7 @@ console.log(e.statusText);
                     extIsOk = false
                     ;
                 if ((fileInput.files && fileInput.files.length) || fileInput.value != "") {
-                    if (fileInputId === 'fuPicture') {
+                    if (fileInputId === 'generalDocList0.docName') {
                         if (regexpImage.test(fileName)) {
                             extIsOk = true;
                         } else {
