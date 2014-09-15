@@ -28,81 +28,28 @@
     <div id="LblockMainBody" >
         <div id="LblockSearch">
             <div>
-                <div>
-                    <form id="idSearchForm" action="${contextPath}/admin/search/applicants/idSearch'" method="post">
-                        <input type="hidden" id="page-number-hidden1" name="page.no" value="${searchForm.page.no}" />
-                        <table summary="지원현황 검색조건">
-                            <caption>지원현황 검색조건</caption>
-                            <tbody>
-                            <tr><th class="Cat">수험번호검색 : </th>
-                                <th><label for="applId">수험번호</label></th>
-                                <td><input type="text" class="Ltext" id="applId" name="applId" size="15" /></td>
-                            </tr>
-                            </tbody>
-                        </table>
-                        <input id="idSearchBtn" type='image' class="Limage" src="${contextPath}/img/admin/btn_search.gif" />
-                    </form>
-                </div>
-				<div>
-                    <form id="nameSearchForm" action=${contextPath}/admin/search/applicants/nameSearch  method="post">
-                        <input type="hidden" id="page-number-hidden2" name="page.no" value="${searchForm.page.no}" />
-                        <table summary="지원현황 검색조건">
-                            <caption>지원현황 검색조건</caption>
-                            <tbody>
-                            <tr>
-                            <tr><th class="Cat">지원자검색 : </th>
-                                <th><label for="korName">성명</label></th>
-                                <td><input type="text" class="Ltext" id="korName" name="korName" size="15" /></td>
-                                <th ><label for="rsdnNo" >주민등록번호</label></th>
-                                <td><input type="text" class="Ltext" id="rsdnNo" name="rsdnNo" size="20" /></td>
-                            </tr>
-                            <tr><th class="Cat">영문명 : </th>
-                                <th><label for="engSur">SUR</label></th>
-                                <td><input type="text" class="Ltext" id="engSur" name="engSur" size="15" /></td>
-                                <th ><label for="engName" >NAME</label></th>
-                                <td><input type="text" class="Ltext"  id="engName" name="engName" size="20" onClick ="resetInputs()" /></td>
-                            </tr>                            
-                            </tbody>
-                        </table>
-                        <input id="nameSearchBtn" type='image' class="Limage" src="${contextPath}/img/admin/btn_search.gif" />
-                    </form>
-                </div>                     
-              <div>
-                    <form id="deptSearchForm" action=${contextPath}/admin/search/applicants/deptSearch  method="post">
-                        <input type="hidden" id="page-number-hidden" name="page.no" value="${searchForm.page.no}" />                    
-                        <table summary="지원현황 검색조건">
-                            <caption>지원현황 검색조건</caption>
-                            <tbody>
-                            <tr><th class="Cat">지원단위검색 : </th>           
-                                <th><label for="admsNo">지원전형</label></th>
-                                <td>
-                                    <select id="admsNo" name="admsNo" >
-                                        <option value="">-- 전체 --</option>
-                                        <option value="15A">15 전기일반</option>
-                                        <option value="15C">15 전기외국인</option>
-                                    </select>
-                                </td>                        
-                                <th><label for="campCode">캠퍼스</label></th>
-                                <td>
-                                    <select id="campCode" name="campCode" >         
-                                        <option value="">-- 전체 --</option>
-                                        <option value="CM001">서울</option>
-                                        <option value="CM002">원주</option>    
-                                        <option value="CM003">국제</option>                                                                      
-                                    </select>
-                                </td>     
-                                <th><label for="collCode"  >대학</label></th>
-                                <td>
-                                    <select id="collCode" name="collCode" >
-                                        <option value="" label="--전체--" />                          
-                                    </select>
-                                </td>
-                            </tr>
-                            </tbody>
-                        </table>
-                        <input id="deptSearchBtn" type='image' class="Limage" src="${contextPath}/img/admin/btn_search.gif" />
-                    </form>
-                </div>                
+                <form id="nameSearchForm" action=${contextPath}/admin/search/applicants/nameSearch  method="post">
+                    <input type="hidden" id="page-number-hidden" name="page.no" value="${searchForm.page.no}" />
+                    <table summary="지원현황 검색조건">
+                        <caption>지원현황 검색조건</caption>
+                        <tbody>
+                        <tr>
+                        <tr><th class="Cat">지원자검색 : </th>
+                            <th><label for="korName">성명</label></th>
+                            <td><input type="text" class="Ltext" id="korName" name="korName" size="15" /></td>
+                            <th ><label for="rsdnNo" >주민등록번호</label></th>
+                            <td><input type="text" class="Ltext" id="rsdnNo" name="rsdnNo" size="20" /></td>
+                        </tr>
+                        <tr><th class="Cat">영문명 : </th>
+                            <th><label for="engSur">SUR</label></th>
+                            <td><input type="text" class="Ltext" id="engSur" name="engSur" size="15" /></td>
+                            <th ><label for="engName" >NAME</label></th>
+                            <td><input type="text" class="Ltext"  id="engName" name="engName" size="20" onClick ="resetInputs()" /></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <input id="nameSearchBtn" type='image' class="Limage" src="${contextPath}/img/admin/btn_search.gif" />
+                </form>
             </div>
         </div>
 
@@ -120,6 +67,12 @@
                     <th>결제내역</th>
                 </tr>
                 </thead>
+
+                    <c:if test="${applList.size() == 0}" >
+                        <tr >
+                            <td colspan="7">해당 정보 없음</td>
+                        </tr>
+                    </c:if>
                    <c:forEach var="applList" items="${applList}" varStatus="status">
                     <tr class="<c:if test="${status.index == 0}">Lfirst </c:if>applList" applNo="${applList.applNo}">
                         <td>${applList.applId}</td>

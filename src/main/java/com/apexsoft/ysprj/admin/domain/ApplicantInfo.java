@@ -3,87 +3,150 @@ package com.apexsoft.ysprj.admin.domain;
 import java.util.Date;
 import java.util.List;
 
+import com.apexsoft.ysprj.applicants.application.domain.ApplicationDocument;
+
 public class ApplicantInfo {
-	
-    private String USER_ID;    // 생성자
-	private String ADMS_NO;    // 생성자
-	private String applId;    // 생성자	
-    private String ADMS_TYPE;  // 생성일자
-    private String CAMP_NAME;  // 수정자
-    private String DEPT_NAME; 
-    private String CORS_TYPE_CODE;  // 
-    private String ARI_INST_NAME;  // 
-    private String DETL_MAJ_CODE;  // 
-    private String KOR_NAME;  //
+    
+    private int applNo;    // 생성자
+    private String userId;    // 생성자    
+	private String admsNo;    // 생성자
+    private String admsType;  // 	
+    private String admsTypeName;     
+	private String campName;  // 수정자	
+    private String collName;  // 수정자		
+    private String deptCode;    
+    private String deptName;        
+    private String ariInstCode;
+    private String ariInstName;  //  
+    private String corsTypeCode;  //   
+    private String corsTypeName;  //      
+    private String detlMajCode;  //     
+    private String detlMajName;  //   
+    
+	private String korName;  //
     private String engSur;  // 
     private String engName;  //     
-    private String RGST_NO;  // 
-    private String MOBI_NUM;  // 
-    private String MAIL_ADDR;  // 
-    private String temp1;  // 
-    private String temp2;  // 
-    private String temp3;  //
-    private List <Docu> docuList;
+    private String rgstNo;  // 
+    private String telNum;  //  
+    private String addr; 
+    private String detlAddr;      
+
+	private String mobiNum; 
+    private String mailAddr;  
+    private String emerContCode;      
+	private String emerContName; 
+    private String emerContTel;      
     
-	public String getUSER_ID() {
-		return USER_ID;
+	public String getEmerContCode() {
+		return emerContCode;
 	}
-	public void setUSER_ID(String uSER_ID) {
-		USER_ID = uSER_ID;
+	public void setEmerContCode(String emerContCode) {
+		this.emerContCode = emerContCode;
 	}
-	public String getADMS_NO() {
-		return ADMS_NO;
+	public String getEmerContName() {
+		return emerContName;
 	}
-	public void setADMS_NO(String aDMS_NO) {
-		ADMS_NO = aDMS_NO;
+	public void setEmerContName(String emerContName) {
+		this.emerContName = emerContName;
 	}
-	public String getApplId() {
-		return applId;
+	public String getEmerContTel() {
+		return emerContTel;
 	}
-	public void setApplId(String applId) {
-		this.applId = applId;
+	public void setEmerContTel(String emerContTel) {
+		this.emerContTel = emerContTel;
 	}
-	public String getADMS_TYPE() {
-		return ADMS_TYPE;
+	private String applId;    
+    private String applStsCode; 
+    private String applStsName; 
+    private int admsFee;
+    
+    public int getAdmsFee() {
+		return admsFee;
 	}
-	public void setADMS_TYPE(String aDMS_TYPE) {
-		ADMS_TYPE = aDMS_TYPE;
+	public void setAdmsFee(int admsFee) {
+		this.admsFee = admsFee;
 	}
-	public String getCAMP_NAME() {
-		return CAMP_NAME;
+	private Date applDate;
+
+	public Date getApplDate() {
+		return applDate;
 	}
-	public void setCAMP_NAME(String cAMP_NAME) {
-		CAMP_NAME = cAMP_NAME;
+	public void setApplDate(Date applDate) {
+		this.applDate = applDate;
 	}
-	public String getDEPT_NAME() {
-		return DEPT_NAME;
+	private List <ApplicationDocument> docList;
+    
+	public String getUserId() {
+		return userId;
 	}
-	public void setDEPT_NAME(String dEPT_NAME) {
-		DEPT_NAME = dEPT_NAME;
+	public void setUserId(String userId) {
+		this.userId = userId;
 	}
-	public String getCORS_TYPE_CODE() {
-		return CORS_TYPE_CODE;
+	public int getApplNo() {
+		return applNo;
 	}
-	public void setCORS_TYPE_CODE(String cORS_TYPE_CODE) {
-		CORS_TYPE_CODE = cORS_TYPE_CODE;
+	public void setApplNo(int applNo) {
+		this.applNo = applNo;
 	}
-	public String getARI_INST_NAME() {
-		return ARI_INST_NAME;
+	public String getAdmsNo() {
+		return admsNo;
 	}
-	public void setARI_INST_NAME(String aRI_INST_NAME) {
-		ARI_INST_NAME = aRI_INST_NAME;
+	public void setAdmsNo(String admsNo) {
+		this.admsNo = admsNo;
 	}
-	public String getDETL_MAJ_CODE() {
-		return DETL_MAJ_CODE;
+	public String getAdmsType() {
+		return admsType;
 	}
-	public void setDETL_MAJ_CODE(String dETL_MAJ_CODE) {
-		DETL_MAJ_CODE = dETL_MAJ_CODE;
+	public void setAdmsType(String admsType) {
+		this.admsType = admsType;
 	}
-	public String getKOR_NAME() {
-		return KOR_NAME;
+	public String getCampName() {
+		return campName;
 	}
-	public void setKOR_NAME(String kOR_NAME) {
-		KOR_NAME = kOR_NAME;
+	public void setCampName(String campName) {
+		this.campName = campName;
+	}
+	public String getDeptCode() {
+		return deptCode;
+	}
+	public void setDeptCode(String deptCode) {
+		this.deptCode = deptCode;
+	}
+	public String getDeptName() {
+		return deptName;
+	}
+	public void setDeptName(String deptName) {
+		this.deptName = deptName;
+	}
+	public String getAriInstCode() {
+		return ariInstCode;
+	}
+	public void setAriInstCode(String ariInstCode) {
+		this.ariInstCode = ariInstCode;
+	}
+	public String getAriInstName() {
+		return ariInstName;
+	}
+	public void setAriInstName(String ariInstName) {
+		this.ariInstName = ariInstName;
+	}
+	public String getCorsTypeCode() {
+		return corsTypeCode;
+	}
+	public void setCorsTypeCode(String corsTypeCode) {
+		this.corsTypeCode = corsTypeCode;
+	}
+	public String getDetlMajCode() {
+		return detlMajCode;
+	}
+	public void setDetlMajCode(String detlMajCode) {
+		this.detlMajCode = detlMajCode;
+	}
+	public String getKorName() {
+		return korName;
+	}
+	public void setKorName(String korName) {
+		this.korName = korName;
 	}
 	public String getEngSur() {
 		return engSur;
@@ -97,48 +160,93 @@ public class ApplicantInfo {
 	public void setEngName(String engName) {
 		this.engName = engName;
 	}
-	public String getRGST_NO() {
-		return RGST_NO;
+	public String getRgstNo() {
+		return rgstNo;
 	}
-	public void setRGST_NO(String rGST_NO) {
-		RGST_NO = rGST_NO;
+	public void setRgstNo(String rgstNo) {
+		this.rgstNo = rgstNo;
 	}
-	public String getMOBI_NUM() {
-		return MOBI_NUM;
+	public String getTelNum() {
+		return telNum;
 	}
-	public void setMOBI_NUM(String mOBI_NUM) {
-		MOBI_NUM = mOBI_NUM;
+	public void setTelNum(String telNum) {
+		this.telNum = telNum;
 	}
-	public String getMAIL_ADDR() {
-		return MAIL_ADDR;
+	public String getMobiNum() {
+		return mobiNum;
 	}
-	public void setMAIL_ADDR(String mAIL_ADDR) {
-		MAIL_ADDR = mAIL_ADDR;
+	public void setMobiNum(String mobiNum) {
+		this.mobiNum = mobiNum;
 	}
-	public String getTemp1() {
-		return temp1;
+	public String getMailAddr() {
+		return mailAddr;
 	}
-	public void setTemp1(String temp1) {
-		this.temp1 = temp1;
+	public void setMailAddr(String mailAddr) {
+		this.mailAddr = mailAddr;
 	}
-	public String getTemp2() {
-		return temp2;
+	public String getApplId() {
+		return applId;
 	}
-	public void setTemp2(String temp2) {
-		this.temp2 = temp2;
+	public void setApplId(String applId) {
+		this.applId = applId;
 	}
-	public String getTemp3() {
-		return temp3;
+	public String getApplStsCode() {
+		return applStsCode;
 	}
-	public void setTemp3(String temp3) {
-		this.temp3 = temp3;
+	public void setApplStsCode(String applStsCode) {
+		this.applStsCode = applStsCode;
 	}
-	public List<Docu> getDocuList() {
-		return docuList;
+
+	public List<ApplicationDocument> getDocList() {
+		return docList;
 	}
-	public void setDocuList(List<Docu> docuList) {
-		this.docuList = docuList;
+	public void setDocList(List<ApplicationDocument> docuList) {
+		this.docList = docuList;
+	}
+    
+    public String getCollName() {
+		return collName;
+	}
+	public void setCollName(String collName) {
+		this.collName = collName;
 	}
 
 
+	public String getAdmsTypeName() {
+		return admsTypeName;
+	}
+	public void setAdmsTypeName(String admsTypeName) {
+		this.admsTypeName = admsTypeName;
+	}
+	public String getCorsTypeName() {
+		return corsTypeName;
+	}
+	public void setCorsTypeName(String corsTypeName) {
+		this.corsTypeName = corsTypeName;
+	}
+	public String getDetlMajName() {
+		return detlMajName;
+	}
+	public void setDetlMajName(String detlMajName) {
+		this.detlMajName = detlMajName;
+	}
+	public String getApplStsName() {
+		return applStsName;
+	}
+	public void setApplStsName(String applStsName) {
+		this.applStsName = applStsName;
+	}
+    public String getAddr() {
+		return addr;
+	}
+	public void setAddr(String addr) {
+		this.addr = addr;
+	}
+	public String getDetlAddr() {
+		return detlAddr;
+	}
+	public void setDetlAddr(String detlAddr) {
+		this.detlAddr = detlAddr;
+	}
+	
 }

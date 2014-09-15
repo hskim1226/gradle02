@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="admin.change">
+    <resultMap id="changeInfoMap" type="com.apexsoft.ysprj.admin.domain.ChangeInfo" >
+        <result column="ADMS_NO" property="admsNo" jdbcType="VARCHAR" />
+        <result column="CHG_NO" property="chgNo" jdbcType="INTEGER" />
+        <result column="APPL_NO" property="applNo" jdbcType="INTEGER" />
+        <result column="APPL_CHG_CODE" property="applChgCode" jdbcType="VARCHAR" />
+        <result column="REQ_DAY" property="reqDay" jdbcType="VARCHAR" />
+        <result column="REQ_USER_ID" property="reqUserId" jdbcType="VARCHAR" />
+        <result column="REQ_NAME" property="reqName" jdbcType="VARCHAR" />
+        <result column="CHG_STS_CODE" property="chgStsCode" jdbcType="VARCHAR" />
+        <result column="ACT_DAY" property="actDay" jdbcType="VARCHAR" />
+        <result property="admsTypeName" column="adms_type_name"/>
+        <result property="campName" column="camp_name"/>
+        <result property="collName" column="coll_name"/>
+        <result property="deptName" column="dept_name"/>
+        <result property="korName" column="kor_name"/>
+        <result property="beforeInfo" column="before_Info"/>
+        <result property="afterInfo" column="after_info"/>
+        <result column="APPL_CHG_NAME" property="applChgName" jdbcType="VARCHAR" />
+        <result column="CHG_STS__NAME" property="chgStsName" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <select id="retrieveChangeList" resultMap="changeInfoMap" parameterType="com.apexsoft.ysprj.admin.control.form.ChangeSearchForm" >
+        SELECT A.*,
+            IFNULL(C.BEF_DEPT_CODE,B.BEF_DEPT_CODE) BEF_DEPT_CODE,
+            IFNULL(C.BEF_ARI_INST_CODE,B.BEF_ARI_INST_CODE) BEF_ARI_INST_CODE,
+            IFNULL(C.BEF_CORS_TYPE_CODE,B.BEF_CORS_TYPE_CODE) BEF_CORS_TYPE_CODE,
+            IFNULL(C.BEF_DETL_MAJ_CODE,B.BEF_DETL_MAJ_CODE) BEF_DETL_MAJ_CODE,
+            IFNULL(C.BEF_ADMS_FEE,B.BEF_ADMS_FEE) BEF_ADMS_FEE,
+            B.BEF_APPL_ID,
+            B.AFT_DEPT_CODE,
+            B.AFT_ARI_INST_CODE,
+            B.AFT_CORS_TYPE_CODE,
+            B.AFT_DETL_MAJ_CODE,
+            B.AFT_APPL_ID,
+            B.AFT_ADMS_FEE,
+            I.CHG_ITEM_CODE,
+            I.ITEM_NAME,
+            I.BEF_ITEM_DETL,
+            I.AFT_ITEM_DETL
+
+        FROM APPL_CHG A
+            left outer join APPL_CHG_CNCL C
+            on A.ADMS_NO = C.AMDS_NO
+            AND A.CHG_NO = C.CHG_NO
+            left outer join APPL_CHG_BRNC B
+            on A.ADMS_NO = B.ADMS_NO
+            AND A.CHG_NO = B.CHG_NO
+            left outer join APPL_CHG_ITEM I
+            on  A.ADMS_NO = I.ADMS_NO
+            AND A.CHG_NO = I.CHG_NO
+            AND I.CHG_ITEM_SEQ =1
+        WHERE 1=1
+    <if test="applId != null and applId!=''">
+        AND APPL_ID = #{applId}
+    </if>
+    <if test="korName != null and korName!=''">
+        AND KOR_NAME = #{korName}
+    </if>
+    <if test="engSur != null and engSur !=''">
+        AND ENG_SUR = #{engSur}
+    </if>
+    <if test="engName != null and engName !=''">
+        AND ENG_NAME = #{engName}
+    </if>
+    <if test="rgstNo != null and rgstNo !=''">
+        AND RGST_NO = #{rgstNo}
+    </if>
+
+    </select>
+    <select id="retrieveChangeMaxKey" resultType="java.lang.Integer" parameterType="com.apexsoft.ysprj.admin.control.form.ChangeInfoForm" >
+        SELECT IFNULL(MAX(CHG_NO),0) FROM APPL_CHG
+        <if test="admsNo != null and admsNo !=''">
+            WHERE ADMS_NO =#{admsNo}
+        </if>
+    </select>
+
+    <insert id="insertChg" parameterType="com.apexsoft.ysprj.admin.domain.ApplicationChange" >
+        insert into APPL_CHG (ADMS_NO, CHG_NO, APPL_NO,
+        APPL_CHG_CODE, REQ_DAY, REQ_USER_ID,
+        REQ_NAME, CHG_STS_CODE, ACT_DAY,
+        ACT_USER_ID, CRE_ID, CRE_DATE,
+        MOD_ID, MOD_DATE)
+        values (#{admsNo,jdbcType=VARCHAR}, #{chgNo,jdbcType=INTEGER}, #{applNo,jdbcType=INTEGER},
+        #{applChgCode,jdbcType=VARCHAR}, #{reqDay,jdbcType=VARCHAR}, #{reqUserId,jdbcType=VARCHAR},
+        #{reqName,jdbcType=VARCHAR}, #{chgStsCode,jdbcType=VARCHAR}, #{actDay,jdbcType=VARCHAR},
+        #{actUserId,jdbcType=VARCHAR}, #{creId,jdbcType=VARCHAR}, #{creDate,jdbcType=TIMESTAMP},
+        #{modId,jdbcType=VARCHAR}, #{modDate,jdbcType=TIMESTAMP})
+    </insert>
+
+    <insert id="insertItem" parameterType="com.apexsoft.ysprj.admin.domain.ApplicationChangeItem" >
+        insert into APPL_CHG_ITEM (ADMS_NO, CHG_NO, CHG_ITEM_SEQ,
+        CHG_ITEM_CODE, ITEM_NAME, BEF_ITEM_DETL,
+        AFT_ITEM_DETL, CRE_ID, CRE_DATE,
+        MOD_ID, MOD_DATE)
+        values (#{admsNo,jdbcType=VARCHAR}, #{chgNo,jdbcType=INTEGER}, #{chgItemSeq,jdbcType=INTEGER},
+        #{chgItemCode,jdbcType=VARCHAR}, #{itemName,jdbcType=VARCHAR}, #{befItemDetl,jdbcType=VARCHAR},
+        #{aftItemDetl,jdbcType=VARCHAR}, #{creId,jdbcType=VARCHAR}, #{creDate,jdbcType=TIMESTAMP},
+        #{modId,jdbcType=VARCHAR}, #{modDate,jdbcType=TIMESTAMP})
+    </insert>
+</mapper>

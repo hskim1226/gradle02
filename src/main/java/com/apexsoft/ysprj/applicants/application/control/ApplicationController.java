@@ -54,9 +54,6 @@ public class ApplicationController {
     @Resource(name = "messageResolver")
     MessageResolver messageResolver;
 
-    @Autowired
-    private FileService fileService;
-
     /**
      * 내원서 화면
      * @param principal
@@ -199,7 +196,69 @@ public class ApplicationController {
         commonCodeMap.put( "qualAreaList", commonService.retrieveCommonCodeValueByCodeGroup("QUAL_AREA") );
         commonCodeMap.put( "korExamList", commonService.retrieveLangExamByLangCode("KOR") );
         commonCodeMap.put( "engExamList", commonService.retrieveLangExamByLangCode("ENG") );
-        commonCodeMap.put( "docItemList", commonService.retrieveCommonCodeValueByCodeGroup("DOC_ITEM") );
+
+        List<CustomApplicationDoc> geneDocList = null;
+        List<CustomApplicationDoc> fDegDocList = null;
+        List<CustomApplicationDoc> collDocList;
+        List<CustomApplicationDoc> gradDocList;
+        List<CustomApplicationDoc> langDocList;
+        List<CustomApplicationDoc> ariInstDocList = null;
+        List<CustomApplicationDoc> deptDocList = null;
+        List<CustomApplicationDoc> fDocList = null;
+
+        ParamForApplicationDoc pad = new ParamForApplicationDoc();
+        pad.setAdmsNo(admsNo);
+        if (admsNo.substring(admsNo.length()-1).equals("A")) {
+            pad.setDocTypeCode("00001");
+            List<String> docItemCodes = new ArrayList<String>();
+            docItemCodes.add("00001");
+            docItemCodes.add("00002");
+            pad.setDocItemCodeList(docItemCodes);
+            try {
+                geneDocList = applicationService.retrieveInfoListByParamObj(pad,
+                        "CustomApplicationDocumentMapper.selectByAdmsNoDocTypeCode", CustomApplicationDoc.class);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            docItemCodes.clear();
+
+            pad.setDocTypeCode("00002");
+            fDegDocList = applicationService.retrieveInfoListByParamObj(pad,
+                    "CustomApplicationDocumentMapper.selectByAdmsNoDocTypeCode", CustomApplicationDoc.class);
+            pad.setDocTypeCode("00006");
+            ariInstDocList = applicationService.retrieveInfoListByParamObj(pad,
+                    "CustomApplicationDocumentMapper.selectByAdmsNoDocTypeCode", CustomApplicationDoc.class);
+            pad.setDocTypeCode("00008");
+            deptDocList = applicationService.retrieveInfoListByParamObj(pad,
+                    "CustomApplicationDocumentMapper.selectByAdmsNoDocTypeCode", CustomApplicationDoc.class);
+
+        } else if (admsNo.substring(admsNo.length()-1).equals("C")) {
+            pad.setDocTypeCode("00001");
+            geneDocList = applicationService.retrieveInfoListByParamObj(pad,
+                    "CustomApplicationDocumentMapper.selectByAdmsNoDocTypeCode", CustomApplicationDoc.class);
+            pad.setDocTypeCode("00007");
+            fDocList = applicationService.retrieveInfoListByParamObj(pad,
+                    "CustomApplicationDocumentMapper.selectByAdmsNoDocTypeCode", CustomApplicationDoc.class);
+        }
+
+        pad.setDocTypeCode("00003");
+        collDocList = applicationService.retrieveInfoListByParamObj(pad,
+                "CustomApplicationDocumentMapper.selectByAdmsNoDocTypeCode", CustomApplicationDoc.class);
+        pad.setDocTypeCode("00004");
+        gradDocList = applicationService.retrieveInfoListByParamObj(pad,
+                "CustomApplicationDocumentMapper.selectByAdmsNoDocTypeCode", CustomApplicationDoc.class);
+        pad.setDocTypeCode("00005");
+        langDocList = applicationService.retrieveInfoListByParamObj(pad,
+                "CustomApplicationDocumentMapper.selectByAdmsNoDocTypeCode", CustomApplicationDoc.class);
+
+        commonCodeMap.put( "geneDocList", geneDocList==null?new ArrayList<CustomApplicationDoc>():geneDocList );
+        commonCodeMap.put( "fDegDocList", fDegDocList==null?new ArrayList<CustomApplicationDoc>():fDegDocList );
+        commonCodeMap.put( "collDocList", collDocList );
+        commonCodeMap.put( "gradDocList", gradDocList );
+        commonCodeMap.put( "langDocList", langDocList );
+        commonCodeMap.put( "ariInstDocList", ariInstDocList==null?new ArrayList<CustomApplicationDoc>():ariInstDocList );
+        commonCodeMap.put( "fDocList", fDocList==null?new ArrayList<CustomApplicationDoc>():fDocList );
+        commonCodeMap.put( "deptDocList", deptDocList==null?new ArrayList<CustomApplicationDoc>():deptDocList );
 
         model.addAttribute( "common", commonCodeMap );
 
@@ -233,34 +292,136 @@ public class ApplicationController {
             return new ExecutionContext(ExecutionContext.FAIL);
         }
 
+        ExecutionContext ec = null;
         String userId = principal.getName();
         entireApplication.getApplication().setUserId(userId);
-        entireApplication.getApplication().setCreId(userId);
-        entireApplication.getApplicationGeneral().setCreId(userId);
-        entireApplication.getApplicationETCWithBLOBs().setCreId(userId);
-        entireApplication.getHighSchool().setCreId(userId);
-        List<ApplicationAcademy> collegeList = entireApplication.getCollegeList();
-        for(ApplicationAcademy item : collegeList) {
-            item.setCreId(userId);
-        }
-        List<ApplicationAcademy> graduateList = entireApplication.getGraduateList();
-        for(ApplicationAcademy item : graduateList) {
-            item.setCreId(userId);
-        }
-        List<ApplicationExperience> experienceList = entireApplication.getApplicationExperienceList();
-        for(ApplicationExperience item : experienceList) {
-            item.setCreId(userId);
-        }
-        List<ApplicationLanguage> languageList = entireApplication.getApplicationLanguageList();
-        for(ApplicationLanguage item : languageList) {
-            item.setCreId(userId);
-        }
-
         entireApplication.getApplication().setApplStsCode("00001");
-        ExecutionContext ec = null;
+
         if( entireApplication.getApplication().getApplNo() == null ) {   // insert
+            entireApplication.getApplication().setCreId(userId);
+            entireApplication.getApplicationGeneral().setCreId(userId);
+            entireApplication.getApplicationETCWithBLOBs().setCreId(userId);
+            entireApplication.getHighSchool().setCreId(userId);
+            List<ApplicationAcademy> collegeList = entireApplication.getCollegeList();
+            for(ApplicationAcademy item : collegeList) {
+                item.setCreId(userId);
+            }
+            List<ApplicationAcademy> graduateList = entireApplication.getGraduateList();
+            for(ApplicationAcademy item : graduateList) {
+                item.setCreId(userId);
+            }
+            List<ApplicationExperience> experienceList = entireApplication.getApplicationExperienceList();
+            for(ApplicationExperience item : experienceList) {
+                item.setCreId(userId);
+            }
+            List<ApplicationLanguage> languageList = entireApplication.getApplicationLanguageList();
+            for(ApplicationLanguage item : languageList) {
+                item.setCreId(userId);
+            }
+
+            List<ApplicationDocument> generalDocList = entireApplication.getGeneralDocList();
+            for(ApplicationDocument item : generalDocList) {
+                item.setCreId(userId);
+            }
+
+            List<ApplicationDocument> foreignDegreeDocList = entireApplication.getForeignDegreeDocList();
+            for(ApplicationDocument item : foreignDegreeDocList) {
+                item.setCreId(userId);
+            }
+
+            List<ApplicationDocument> collegeDocList = entireApplication.getCollegeDocList();
+            for(ApplicationDocument item : collegeDocList) {
+                item.setCreId(userId);
+            }
+
+            List<ApplicationDocument> graduateDocList = entireApplication.getGraduateDocList();
+            for(ApplicationDocument item : graduateDocList) {
+                item.setCreId(userId);
+            }
+
+            List<ApplicationDocument> languageDocList = entireApplication.getLanguageDocList();
+            for(ApplicationDocument item : languageDocList) {
+                item.setCreId(userId);
+            }
+
+            List<ApplicationDocument> ariInstDocList = entireApplication.getAriInstDocList();
+            for(ApplicationDocument item : ariInstDocList) {
+                item.setCreId(userId);
+            }
+
+            List<ApplicationDocument> foreignerDocList = entireApplication.getForeignerDocList();
+            for(ApplicationDocument item : foreignerDocList) {
+                item.setCreId(userId);
+            }
+
+            List<ApplicationDocument> deptDocList = entireApplication.getDeptDocList();
+            for(ApplicationDocument item : deptDocList) {
+                item.setCreId(userId);
+            }
+
             ec = applicationService.createEntireApplication( entireApplication );
         } else {    // update
+            entireApplication.getApplication().setModId(userId);
+            entireApplication.getApplicationGeneral().setModId(userId);
+            entireApplication.getApplicationETCWithBLOBs().setModId(userId);
+            entireApplication.getHighSchool().setModId(userId);
+            List<ApplicationAcademy> collegeList = entireApplication.getCollegeList();
+            for(ApplicationAcademy item : collegeList) {
+                item.setModId(userId);
+            }
+            List<ApplicationAcademy> graduateList = entireApplication.getGraduateList();
+            for(ApplicationAcademy item : graduateList) {
+                item.setModId(userId);
+            }
+            List<ApplicationExperience> experienceList = entireApplication.getApplicationExperienceList();
+            for(ApplicationExperience item : experienceList) {
+                item.setModId(userId);
+            }
+            List<ApplicationLanguage> languageList = entireApplication.getApplicationLanguageList();
+            for(ApplicationLanguage item : languageList) {
+                item.setModId(userId);
+            }
+
+            List<ApplicationDocument> generalDocList = entireApplication.getGeneralDocList();
+            for(ApplicationDocument item : generalDocList) {
+                item.setModId(userId);
+            }
+
+            List<ApplicationDocument> foreignDegreeDocList = entireApplication.getForeignDegreeDocList();
+            for(ApplicationDocument item : foreignDegreeDocList) {
+                item.setModId(userId);
+            }
+
+            List<ApplicationDocument> collegeDocList = entireApplication.getCollegeDocList();
+            for(ApplicationDocument item : collegeDocList) {
+                item.setModId(userId);
+            }
+
+            List<ApplicationDocument> graduateDocList = entireApplication.getGraduateDocList();
+            for(ApplicationDocument item : graduateDocList) {
+                item.setModId(userId);
+            }
+
+            List<ApplicationDocument> languageDocList = entireApplication.getLanguageDocList();
+            for(ApplicationDocument item : languageDocList) {
+                item.setModId(userId);
+            }
+
+            List<ApplicationDocument> ariInstDocList = entireApplication.getAriInstDocList();
+            for(ApplicationDocument item : ariInstDocList) {
+                item.setModId(userId);
+            }
+
+            List<ApplicationDocument> foreignerDocList = entireApplication.getForeignerDocList();
+            for(ApplicationDocument item : foreignerDocList) {
+                item.setModId(userId);
+            }
+
+            List<ApplicationDocument> deptDocList = entireApplication.getDeptDocList();
+            for(ApplicationDocument item : deptDocList) {
+                item.setModId(userId);
+            }
+
             ec = applicationService.updateEntireApplication( entireApplication );
         }
 
@@ -281,47 +442,7 @@ public class ApplicationController {
                                              BindingResult binding,
                                              Principal principal) {
 
-
-//        if( binding.hasErrors() ) {
-//            return new ExecutionContext(ExecutionContext.FAIL);
-//        }
-//
-//        if( principal == null ) {
-//            return new ExecutionContext(ExecutionContext.FAIL);
-//        }
-//
-//        String userId = principal.getName();
-//        entireApplication.getApplication().setUserId(userId);
-//        entireApplication.getApplication().setCreId(userId);
-//        entireApplication.getApplicationGeneral().setCreId(userId);
-//        entireApplication.getApplicationETCWithBLOBs().setCreId(userId);
-//        entireApplication.getHighSchool().setCreId(userId);
-//        List<ApplicationAcademy> collegeList = entireApplication.getCollegeList();
-//        for(ApplicationAcademy item : collegeList) {
-//            item.setCreId(userId);
-//        }
-//        List<ApplicationAcademy> graduateList = entireApplication.getGraduateList();
-//        for(ApplicationAcademy item : graduateList) {
-//            item.setCreId(userId);
-//        }
-//        List<ApplicationExperience> experienceList = entireApplication.getApplicationExperienceList();
-//        for(ApplicationExperience item : experienceList) {
-//            item.setCreId(userId);
-//        }
-//        List<ApplicationLanguage> languageList = entireApplication.getApplicationLanguageList();
-//        for(ApplicationLanguage item : languageList) {
-//            item.setCreId(userId);
-//        }
-//
-//        entireApplication.getApplication().setApplStsCode("00001");
-//        ExecutionContext ec = null;
-//        if( entireApplication.getApplication().getApplNo() == null ) {   // insert
-//            ec = applicationService.createEntireApplication( entireApplication );
-//        } else {    // update
-//            ec = applicationService.updateEntireApplication( entireApplication );
-//        }
-//
-//        return ec;
+        saveApplication(entireApplication, binding, principal);
 
         ApplicationPayment ap = new ApplicationPayment();
         ap.setCreId(principal.getName());
@@ -461,14 +582,13 @@ public class ApplicationController {
         entireApplication.setApplicationExperienceList(new ArrayList<ApplicationExperience>());
         entireApplication.setApplicationLanguageList(new ArrayList<ApplicationLanguage>());
         entireApplication.setGeneralDocList(new ArrayList<ApplicationDocument>());
+        entireApplication.setForeignDegreeDocList(new ArrayList<ApplicationDocument>());
         entireApplication.setCollegeDocList(new ArrayList<ApplicationDocument>());
-        entireApplication.setGraduageDocList(new ArrayList<ApplicationDocument>());
+        entireApplication.setGraduateDocList(new ArrayList<ApplicationDocument>());
         entireApplication.setLanguageDocList(new ArrayList<ApplicationDocument>());
         entireApplication.setAriInstDocList(new ArrayList<ApplicationDocument>());
+        entireApplication.setForeignerDocList(new ArrayList<ApplicationDocument>());
         entireApplication.setDeptDocList(new ArrayList<ApplicationDocument>());
-        entireApplication.setForeignCollegeDocList(new ArrayList<ApplicationDocument>());
-        entireApplication.setForeignGraduageDocList(new ArrayList<ApplicationDocument>());
-        entireApplication.setForeignDocList(new ArrayList<ApplicationDocument>());
         entireApplication.setEtcDocList(new ArrayList<ApplicationDocument>());
         return entireApplication;
     }
