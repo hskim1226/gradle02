@@ -14,6 +14,7 @@ public class EntireApplication {
 
     private Application application;
     private ApplicationGeneral applicationGeneral;
+    private ApplicationForeigner applicationForeigner;
     private ApplicationETCWithBLOBs applicationETCWithBLOBs;
     private ApplicationAcademy highSchool;
     private List<ApplicationAcademy> collegeList;
@@ -21,16 +22,16 @@ public class EntireApplication {
     private List<ApplicationExperience> applicationExperienceList;
     private List<ApplicationLanguage> applicationLanguageList;
     private List<ApplicationDocument> generalDocList;
+    private List<ApplicationDocument> foreignDegreeDocList;
     private List<ApplicationDocument> collegeDocList;
-    private List<ApplicationDocument> graduageDocList;
+    private List<ApplicationDocument> graduateDocList;
     private List<ApplicationDocument> languageDocList;
     private List<ApplicationDocument> ariInstDocList;
+    private List<ApplicationDocument> foreignerDocList;
     private List<ApplicationDocument> deptDocList;
-    private List<ApplicationDocument> foreignCollegeDocList;
-    private List<ApplicationDocument> foreignGraduageDocList;
-    private List<ApplicationDocument> foreignDocList;
     private List<ApplicationDocument> etcDocList;
     private ApplicationPayment applicationPayment;
+
 
     public String getCampCode() {
         return campCode;
@@ -62,6 +63,14 @@ public class EntireApplication {
 
     public void setApplicationGeneral(ApplicationGeneral applicationGeneral) {
         this.applicationGeneral = applicationGeneral;
+    }
+
+    public ApplicationForeigner getApplicationForeigner() {
+        return applicationForeigner;
+    }
+
+    public void setApplicationForeigner(ApplicationForeigner applicationForeigner) {
+        this.applicationForeigner = applicationForeigner;
     }
 
     public ApplicationETCWithBLOBs getApplicationETCWithBLOBs() {
@@ -120,6 +129,14 @@ public class EntireApplication {
         this.generalDocList = generalDocList;
     }
 
+    public List<ApplicationDocument> getForeignDegreeDocList() {
+        return foreignDegreeDocList;
+    }
+
+    public void setForeignDegreeDocList(List<ApplicationDocument> foreignDegreeDocList) {
+        this.foreignDegreeDocList = foreignDegreeDocList;
+    }
+
     public List<ApplicationDocument> getCollegeDocList() {
         return collegeDocList;
     }
@@ -128,12 +145,12 @@ public class EntireApplication {
         this.collegeDocList = collegeDocList;
     }
 
-    public List<ApplicationDocument> getGraduageDocList() {
-        return graduageDocList;
+    public List<ApplicationDocument> getGraduateDocList() {
+        return graduateDocList;
     }
 
-    public void setGraduageDocList(List<ApplicationDocument> graduageDocList) {
-        this.graduageDocList = graduageDocList;
+    public void setGraduateDocList(List<ApplicationDocument> graduateDocList) {
+        this.graduateDocList = graduateDocList;
     }
 
     public List<ApplicationDocument> getLanguageDocList() {
@@ -152,36 +169,20 @@ public class EntireApplication {
         this.ariInstDocList = ariInstDocList;
     }
 
+    public List<ApplicationDocument> getForeignerDocList() {
+        return foreignerDocList;
+    }
+
+    public void setForeignerDocList(List<ApplicationDocument> foreignerDocList) {
+        this.foreignerDocList = foreignerDocList;
+    }
+
     public List<ApplicationDocument> getDeptDocList() {
         return deptDocList;
     }
 
     public void setDeptDocList(List<ApplicationDocument> deptDocList) {
         this.deptDocList = deptDocList;
-    }
-
-    public List<ApplicationDocument> getForeignCollegeDocList() {
-        return foreignCollegeDocList;
-    }
-
-    public void setForeignCollegeDocList(List<ApplicationDocument> foreignCollegeDocList) {
-        this.foreignCollegeDocList = foreignCollegeDocList;
-    }
-
-    public List<ApplicationDocument> getForeignGraduageDocList() {
-        return foreignGraduageDocList;
-    }
-
-    public void setForeignGraduageDocList(List<ApplicationDocument> foreignGraduageDocList) {
-        this.foreignGraduageDocList = foreignGraduageDocList;
-    }
-
-    public List<ApplicationDocument> getForeignDocList() {
-        return foreignDocList;
-    }
-
-    public void setForeignDocList(List<ApplicationDocument> foreignDocList) {
-        this.foreignDocList = foreignDocList;
     }
 
     public List<ApplicationDocument> getEtcDocList() {
