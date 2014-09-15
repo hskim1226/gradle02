@@ -13,6 +13,7 @@ public class CustomMyList {
     private String admsTypeCode;
     private String admsTypeName;
     private String campName;
+    private String deptCode;
     private String deptName;
     private String corsTypeCode;
     private String corsTypeName;
@@ -84,6 +85,14 @@ public class CustomMyList {
 
     public void setCampName(String campName) {
         this.campName = campName;
+    }
+
+    public String getDeptCode() {
+        return deptCode;
+    }
+
+    public void setDeptCode(String deptCode) {
+        this.deptCode = deptCode;
     }
 
     public String getDeptName() {
