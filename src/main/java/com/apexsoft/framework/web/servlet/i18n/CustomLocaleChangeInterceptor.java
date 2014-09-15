@@ -49,8 +49,15 @@ public class CustomLocaleChangeInterceptor extends LocaleChangeInterceptor {
                 Entry entry = iter.next();
                 convertValueLocale( entry.getValue(), locale );
             }
-        } else {
-            converter.convert(value, locale);
+        } else if( value != null ) {
+            Class clazz = value.getClass();
+            Package pack = clazz.getPackage();
+
+            if( clazz.getClassLoader() != null &&
+                    pack.getName().startsWith("com.apexsoft") &&
+                    pack.getName().endsWith("domain")) {
+                converter.convert(value, locale);
+            }
         }
     }
 }
