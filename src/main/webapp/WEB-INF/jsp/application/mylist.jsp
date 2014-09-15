@@ -149,7 +149,7 @@
                 document.getElementById('applNo').value = e.target.getAttribute('data-applNo');
                 $('#LGD_PAYINFO').submit();
             });
-            $('.show').click(function(e){
+            $('.print').click(function(e){
                 var target = e.target;
                 var applNo = target.getAttribute('data-applNo');
                 var reportFormat = target.getAttribute('data-format');
