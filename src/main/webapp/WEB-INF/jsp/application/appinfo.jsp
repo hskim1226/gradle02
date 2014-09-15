@@ -1177,7 +1177,7 @@
                                                     </div>
                                                 </div>
                                                 <form:hidden path="foreignerDocList[${stat.index}].docTypeCode" value="${customDoc.docTypeCode}" />
-                                                <form:hidden path="foreignerDocList[${stat.index}].docGrp" value="1" />
+                                                <form:hidden path="foreignerDocList[${stat.index}].docGrp" value="0" />
                                                 <form:hidden path="foreignerDocList[${stat.index}].docItemCode" value="${customDoc.docItemCode}" />
                                                 <form:hidden path="foreignerDocList[${stat.index}].docItemName" value="${customDoc.itemName}" />
                                                 <form:hidden path="foreignerDocList[${stat.index}].filePath"/>
@@ -1216,7 +1216,7 @@
                                                     </div>
                                                 </div>
                                                 <form:hidden path="deptDocList[${stat.index}].docTypeCode" value="${customDoc.docTypeCode}" />
-                                                <form:hidden path="deptDocList[${stat.index}].docGrp" value="1" />
+                                                <form:hidden path="deptDocList[${stat.index}].docGrp" value="0" />
                                                 <form:hidden path="deptDocList[${stat.index}].docItemCode" value="${customDoc.docItemCode}" />
                                                 <form:hidden path="deptDocList[${stat.index}].docItemName" value="${customDoc.itemName}" />
                                                 <form:hidden path="deptDocList[${stat.index}].filePath"/>
@@ -1642,6 +1642,7 @@
             var formProcess = function(event) {
                 var $form = $(this),
                     $formUrl = event.type==='save'?"apply/save":"apply/apply",
+                    gotoMyList = event.type==='apply'?true:false,
                     $formData = $form.serializeArray();
                 $form.find('input.radio-group').filter(function() {
                     return this.checked == false;
@@ -1662,7 +1663,10 @@
                                 applNo = context.data;
                             $('#alert-container').append(alert);
                             document.getElementById('applNo').value = applNo;
-                            window.setTimeout(function() { alert.alert('close') }, 2000);
+                            window.setTimeout(function() {
+                                alert.alert('close');
+                                if (gotoMyList)  location.href="${contextPath}/application/mylist"
+                            }, 2000);
                         }
                     },
                     error: function(e) {
