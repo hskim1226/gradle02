@@ -664,4 +664,6 @@ public class ApplicationServiceImpl implements ApplicationService {
 
         return infoList;
     }
+
+
 }

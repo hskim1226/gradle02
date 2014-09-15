@@ -4,8 +4,11 @@ import com.apexsoft.framework.message.MessageResolver;
 import com.apexsoft.framework.security.UserSessionVO;
 import com.apexsoft.framework.xpay.service.PaymentVO;
 import com.apexsoft.framework.xpay.service.TransactionVO;
+import com.apexsoft.ysprj.applicants.application.domain.CustomNewSeq;
+import com.apexsoft.ysprj.applicants.application.service.ApplicationService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.stereotype.Controller;
@@ -38,6 +41,9 @@ public class XPayController {
     @Resource(name = "messageResolver")
     MessageResolver messageResolver;
 
+    @Autowired
+    ApplicationService applicationService;
+
 
     /**
      * 사용자 이름과 아이디를 결제 확인 화면에 반환
@@ -57,6 +63,7 @@ public class XPayController {
 
         paymentVO.setLGD_BUYER(userSessionVO.getName());
         paymentVO.setLGD_BUYERID(userSessionVO.getUsername());
+        paymentVO.setApplNo(3); //TODO
 
         return "xpay/confirm";
     }
@@ -83,6 +90,9 @@ public class XPayController {
         SecurityContext sc = (SecurityContext)httpSession.getAttribute("SPRING_SECURITY_CONTEXT");
         Authentication auth = sc.getAuthentication();
         UserSessionVO userSessionVO = (UserSessionVO)auth.getPrincipal();
+
+        //TODO 시연 용 임시 결제 상태 변경
+//        CustomNewSeq customNewSeq = applicationService.retrieveInfoByApplNo(3); //TODO
 
         paymentVO.setLGD_MID(LGD_MID);
         paymentVO.setLGD_OID(getOrderNumber(userSessionVO.getUsername() + paymentVO.getLGD_TIMESTAMP()));

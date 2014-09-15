@@ -133,4 +133,16 @@
         AND a.CORS_TYPE_CODE = J.CORS_TYPE_CODE
         AND a.USER_ID =#{userId}
     </select>
+
+    <select id="selectNewSeq" resultType="com.apexsoft.ysprj.applicants.application.domain.CustomNewSeq" parameterType="int">
+    select a.ADMS_NO as ADMS_NO,
+        a.DEPT_CODE as DEPT_CODE,
+        a.CORS_TYPE_CODE as CORS_TYPE_CODE,
+        max(APPL_ID_SEQ)+1 as NEW_SEQ
+    from APPL a, APPL_ID_SEQ b
+    where a.ADMS_NO = b.ADMS_NO
+    and a.DEPT_CODE = b.DEPT_CODE
+    and a.CORS_TYPE_CODE = b.CORS_TYPE_CODE
+    and a.APPL_NO = #{applNo,jdbcType=INTEGER}
+    </select>
 </mapper>

@@ -101,6 +101,7 @@
                                     </div>
                                     <button id="pay" class="btn btn-primary pay ${item.applStsCode=="00010"?"":(item.applStsCode=="00021"?"":"disabled")}"
                                         name="2015학년도 ${item.campName} ${item.admsTypeName} ${item.deptName} ${item.corsTypeName}"
+                                        data-applNo="${item.applNo}"
                                         value="${item.admsFee}">전형료 결제하기</button>
                                             <%--value="80000">결제하기</button>--%>
                                     <button id="showApplicationBirt" class="btn btn-success showApplicationBirt ${item.applStsCode=='00020'?"":"disabled"}"
@@ -118,6 +119,7 @@
                         <input type="hidden" name="LGD_PRODUCTINFO" id="LGD_PRODUCTINFO"/>
                         <input type="hidden" name="LGD_AMOUNT" id="LGD_AMOUNT"/>
                         <input type="hidden" name="LGD_TIMESTAMP" id="LGD_TIMESTAMP"/>
+                        <input type="hidden" name="applNo" id="applNo"/>
                     </form>
                 </div>
             </div>
@@ -150,6 +152,7 @@
                 document.getElementById('LGD_PRODUCTINFO').value = e.target.name;
                 document.getElementById('LGD_AMOUNT').value = e.target.value;
                 document.getElementById('LGD_PAYINFO').setAttribute("action", "${contextPath}/pay/confirm");
+                document.getElementById('applNo').value = e.target.getAttribute('data-applNo');
                 $('#LGD_PAYINFO').submit();
             });
             $('.showApplicationBirt').click(function(e){
