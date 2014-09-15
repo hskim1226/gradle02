@@ -229,7 +229,6 @@ public class ApplicationServiceImpl implements ApplicationService {
             }
 
             List<ApplicationDocument> foreignDegreeDocList = entireApplication.getForeignDegreeDocList();
-            idx = 0;
             if ( foreignDegreeDocList != null ) {
                 for(ApplicationDocument item : foreignDegreeDocList) {
                     item.setApplNo(applNo);
@@ -240,7 +239,6 @@ public class ApplicationServiceImpl implements ApplicationService {
             }
 
             List<ApplicationDocument> collegeDocList = entireApplication.getCollegeDocList();
-            idx = 0;
             if ( collegeDocList != null ) {
                 for(ApplicationDocument item : collegeDocList) {
                     item.setApplNo(applNo);
@@ -251,7 +249,6 @@ public class ApplicationServiceImpl implements ApplicationService {
             }
 
             List<ApplicationDocument> graduateDocList = entireApplication.getGraduateDocList();
-            idx = 0;
             if ( graduateDocList != null ) {
                 for(ApplicationDocument item : graduateDocList) {
                     item.setApplNo(applNo);
@@ -262,7 +259,6 @@ public class ApplicationServiceImpl implements ApplicationService {
             }
 
             List<ApplicationDocument> languageDocList = entireApplication.getLanguageDocList();
-            idx = 0;
             if ( languageDocList != null ) {
                 for(ApplicationDocument item : languageDocList) {
                     item.setApplNo(applNo);
@@ -273,7 +269,6 @@ public class ApplicationServiceImpl implements ApplicationService {
             }
 
             List<ApplicationDocument> ariInstDocList = entireApplication.getAriInstDocList();
-            idx = 0;
             if ( ariInstDocList != null ) {
                 for(ApplicationDocument item : ariInstDocList) {
                     item.setApplNo(applNo);
@@ -284,7 +279,6 @@ public class ApplicationServiceImpl implements ApplicationService {
             }
 
             List<ApplicationDocument> foreignerDocList = entireApplication.getForeignerDocList();
-            idx = 0;
             if ( foreignerDocList != null ) {
                 for(ApplicationDocument item : foreignerDocList) {
                     item.setApplNo(applNo);
@@ -295,7 +289,6 @@ public class ApplicationServiceImpl implements ApplicationService {
             }
 
             List<ApplicationDocument> deptDocList = entireApplication.getDeptDocList();
-            idx = 0;
             if ( deptDocList != null ) {
                 for(ApplicationDocument item : deptDocList) {
                     item.setApplNo(applNo);
