@@ -14,6 +14,7 @@ public class EntireApplication {
 
     private Application application;
     private ApplicationGeneral applicationGeneral;
+    private ApplicationForeigner applicationForeigner;
     private ApplicationETCWithBLOBs applicationETCWithBLOBs;
     private ApplicationAcademy highSchool;
     private List<ApplicationAcademy> collegeList;
@@ -62,6 +63,14 @@ public class EntireApplication {
 
     public void setApplicationGeneral(ApplicationGeneral applicationGeneral) {
         this.applicationGeneral = applicationGeneral;
+    }
+
+    public ApplicationForeigner getApplicationForeigner() {
+        return applicationForeigner;
+    }
+
+    public void setApplicationForeigner(ApplicationForeigner applicationForeigner) {
+        this.applicationForeigner = applicationForeigner;
     }
 
     public ApplicationETCWithBLOBs getApplicationETCWithBLOBs() {

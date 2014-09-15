@@ -225,6 +225,7 @@
     <div class="container">
         <ul id="myTab" class="nav nav-tabs nav-justified tab-gray">
             <li><a href="#appinfo" data-toggle="tab"><spring:message code="L311" /></a></li>
+            <li><a href="#academy" data-toggle="tab"><spring:message code="L307" /></a></li>
             <li><a href="#langcareer" data-toggle="tab"><spring:message code="L312" /></a></li>
             <li><a href="#fileupload" data-toggle="tab"><spring:message code="L313" /></a></li>
         </ul>
@@ -243,10 +244,10 @@
                                     <div class="form-group">
                                         <label class="col-sm-2 control-label"><spring:message code="L316" /></label>
                                         <div class="col-sm-9">
-                                            <form:radiobuttons path="application.fornTypeCode" items="${common.fornTypeList}" itemValue="code" itemLabel="codeVal" />
-                                            <%--<form:select path="applicationForeigner.applAttrCode" id="fornTypeCode" cssClass="form-control">--%>
-                                                <%--<form:options items="${common.applAttrList}" itemValue="code" itemLabel="codeVal"/>--%>
-                                            <%--</form:select>--%>
+                                            <%--<form:radiobuttons path="application.fornTypeCode" items="${common.fornTypeList}" itemValue="code" itemLabel="codeVal" />--%>
+                                            <form:select path="application.fornTypeCode" id="fornTypeCode" cssClass="form-control">
+                                                <form:options items="${common.fornTypeList}" itemValue="code" itemLabel="codeVal"/>
+                                            </form:select>
                                         </div>
                                     </div>
                                     <div id="applyKindDynamic">
@@ -322,17 +323,17 @@
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <form:label path="applicationForeigner.bornDay" cssClass="col-sm-2 control-label"><spring:message code="L327" /></form:label>
+                                        <form:label path="application.bornDay" cssClass="col-sm-2 control-label"><spring:message code="L327" /></form:label>
                                         <div class="col-sm-4">
-                                            <form:input path="applicationForeigner.bornDay" cssClass="form-control date" readonly="true" />
+                                            <form:input path="application.bornDay" cssClass="form-control date" readonly="true" />
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <form:label path="applicationForeigner.gend" class="col-sm-2 control-label"><spring:message code="L328" /></form:label>
+                                        <form:label path="application.gend" class="col-sm-2 control-label"><spring:message code="L328" /></form:label>
                                         <div class="col-sm-9">
-                                            <label class="radio-inline"><form:radiobutton path="applicationForeigner.gend" id="male" value="M" /><spring:message code="L329" /></label>
+                                            <label class="radio-inline"><form:radiobutton path="application.gend" id="male" value="M" /><spring:message code="L329" /></label>
                                             &nbsp;&nbsp;&nbsp;
-                                            <label class="radio-inline"><form:radiobutton path="applicationForeigner.gend" id="female" value="F" /><spring:message code="L330" /></label>
+                                            <label class="radio-inline"><form:radiobutton path="application.gend" id="female" value="F" /><spring:message code="L330" /></label>
                                         </div>
                                     </div>
                                 </div>
@@ -494,24 +495,24 @@
                                 <div class="panel-heading"><spring:message code="L349" /></div>
                                 <div class="panel-body">
                                     <div class="form-group">
-                                        <form:label path="applicationForeigner.korEmerName" cssClass="col-sm-2 control-label"><spring:message code="L350" /></form:label>
+                                        <form:label path="applicationForeigner.korEmrgName" cssClass="col-sm-2 control-label"><spring:message code="L350" /></form:label>
                                         <div class="col-sm-9">
-                                            <form:input path="applicationForeigner.korEmerName" cssClass="form-control" />
+                                            <form:input path="applicationForeigner.korEmrgName" cssClass="form-control" />
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <form:label path="applicationForeigner.korEmerRela" cssClass="col-sm-2 control-label"><spring:message code="L351" /></form:label>
+                                        <form:label path="applicationForeigner.korEmrgRela" cssClass="col-sm-2 control-label"><spring:message code="L351" /></form:label>
                                         <div class="col-sm-9">
-                                            <form:select path="applicationForeigner.korEmerRela" cssClass="form-control">
+                                            <form:select path="applicationForeigner.korEmrgRela" cssClass="form-control">
                                                 <form:option value="-" label="${L315}" />
                                                 <form:options items="${common.emerContList}" itemValue="code" itemLabel="codeVal" />
                                             </form:select>
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <form:label path="applicationForeigner.korEmerTel" cssClass="col-sm-2 control-label"><spring:message code="L345" /></form:label>
+                                        <form:label path="applicationForeigner.korEmrgTel" cssClass="col-sm-2 control-label"><spring:message code="L345" /></form:label>
                                         <div class="col-sm-9">
-                                            <form:input path="applicationForeigner.korEmerTel" cssClass="form-control" />
+                                            <form:input path="applicationForeigner.korEmrgTel" cssClass="form-control" />
                                         </div>
                                     </div>
                                 </div>
@@ -520,28 +521,37 @@
                                 <div class="panel-heading"><spring:message code="L352" /></div>
                                 <div class="panel-body">
                                     <div class="form-group">
-                                        <form:label path="applicationForeigner.homeEmerName" cssClass="col-sm-2 control-label"><spring:message code="L350" /></form:label>
+                                        <form:label path="applicationForeigner.homeEmrgName" cssClass="col-sm-2 control-label"><spring:message code="L350" /></form:label>
                                         <div class="col-sm-9">
-                                            <form:input path="applicationForeigner.homeEmerName" cssClass="form-control" />
+                                            <form:input path="applicationForeigner.homeEmrgName" cssClass="form-control" />
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <form:label path="applicationForeigner.homeEmerRela" cssClass="col-sm-2 control-label"><spring:message code="L351" /></form:label>
+                                        <form:label path="applicationForeigner.homeEmrgRela" cssClass="col-sm-2 control-label"><spring:message code="L351" /></form:label>
                                         <div class="col-sm-9">
-                                            <form:select path="applicationForeigner.homeEmerRela" cssClass="form-control">
+                                            <form:select path="applicationForeigner.homeEmrgRela" cssClass="form-control">
                                                 <form:option value="-" label="${L315}" />
                                                 <form:options items="${common.emerContList}" itemValue="code" itemLabel="codeVal" />
                                             </form:select>
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <form:label path="applicationForeigner.homeEmerTel" cssClass="col-sm-2 control-label"><spring:message code="L345" /></form:label>
+                                        <form:label path="applicationForeigner.homeEmrgTel" cssClass="col-sm-2 control-label"><spring:message code="L345" /></form:label>
                                         <div class="col-sm-9">
-                                            <form:input path="applicationForeigner.homeEmerTel" cssClass="form-control" />
+                                            <form:input path="applicationForeigner.homeEmrgTel" cssClass="form-control" />
                                         </div>
                                     </div>
                                 </div>
                             </div>
+                        </div>
+                    </div>
+                </div>
+
+                <%--academy--%>
+                <div class="tab-pane fade" id="academy">
+                    <div class="spacer-tiny"></div>
+                    <div class="row">
+                        <div class="col-sm-offset-1 col-sm-10">
                             <div class="panel panel-default">
                                 <div class="panel-heading"><spring:message code="L398" /></div>
                                 <div class="panel-body">
@@ -735,6 +745,7 @@
                         </div>
                     </div>
                 </div>
+
                 <%--language & career--%>
                 <div class="tab-pane fade" id="langcareer">
                     <div class="spacer-tiny"></div>
@@ -743,55 +754,55 @@
                             <div class="panel panel-default">
                                 <div class="panel-heading"><spring:message code="L368" /></div>
                                 <div class="panel-body" id="english-score-list">
-                                    <c:forEach items="${common.korExamList}" var="langExam" varStatus="stat">
-                                    <div class="form-group hide-lang">
-                                        <c:choose>
-                                        <c:when test="${stat.index == 0}">
-                                        <label class="col-sm-2 control-label"><spring:message code="L369" /></label>
-                                        <div class="col-sm-2">
-                                        </c:when>
-                                        <c:otherwise>
-                                        <div class="col-sm-offset-2 col-sm-2">
-                                        </c:otherwise>
-                                        </c:choose>
-                                            <input type="hidden" name="applicationLanguageList[${stat.index}].langExamCode" id="applicationLanguageList${stat.index}.langExamCode" value="${langExam.examCode}" />
-                                            <div class="checkbox">
-                                                <label for="checkLang${stat.index}"><input type="checkbox" class="btn-lang-disabled" id="checkLang${stat.index}" <c:if test="entireApplication.applicationLanguageList['${stat.index}'] != null">checked</c:if>/>${langExam.examName}</label>
-                                            </div>
-                                        <c:choose>
-                                        <c:when test="${stat.index == 0}">
-                                        </div>
-                                        </c:when>
-                                        <c:otherwise>
-                                        </div>
-                                        </c:otherwise>
-                                        </c:choose>
-                                        <div class="col-sm-3">
-                                            <div class="input-group">
-                                                <span class="input-group-addon"><spring:message code="L370" /></span>
-                                                <form:input path="examNo" cssClass="form-control" />
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-3">
-                                            <div class="input-group">
-                                                <span class="input-group-addon"><spring:message code="L371" /></span>
-                                                <form:input path="langGrad" cssClass="form-control" />
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-3">
-                                            <div class="input-group date">
-                                                <span class="input-group-addon"><spring:message code="L372" /></span>
-                                                <form:input path="applicationLanguageList[${stat.index}].examDay" cssClass="form-control" />
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-3">
-                                            <div class="input-group date">
-                                                <span class="input-group-addon"><spring:message code="L373" /></span>
-                                                <form:input path="applicationLanguageList[${stat.index}].exprDay" cssClass="form-control" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                    </c:forEach>
+                                    <%--<c:forEach items="${common.korExamList}" var="langExam" varStatus="stat">--%>
+                                    <%--<div class="form-group hide-lang">--%>
+                                        <%--<c:choose>--%>
+                                        <%--<c:when test="${stat.index == 0}">--%>
+                                        <%--<label class="col-sm-2 control-label"><spring:message code="L369" /></label>--%>
+                                        <%--<div class="col-sm-2">--%>
+                                        <%--</c:when>--%>
+                                        <%--<c:otherwise>--%>
+                                        <%--<div class="col-sm-offset-2 col-sm-2">--%>
+                                        <%--</c:otherwise>--%>
+                                        <%--</c:choose>--%>
+                                            <%--<input type="hidden" name="applicationLanguageList[${stat.index}].langExamCode" id="applicationLanguageList${stat.index}.langExamCode" value="${langExam.examCode}" />--%>
+                                            <%--<div class="checkbox">--%>
+                                                <%--<label for="checkLang${stat.index}"><input type="checkbox" class="btn-lang-disabled" id="checkLang${stat.index}" <c:if test="entireApplication.applicationLanguageList['${stat.index}'] != null">checked</c:if>/>${langExam.examName}</label>--%>
+                                            <%--</div>--%>
+                                        <%--<c:choose>--%>
+                                        <%--<c:when test="${stat.index == 0}">--%>
+                                        <%--</div>--%>
+                                        <%--</c:when>--%>
+                                        <%--<c:otherwise>--%>
+                                        <%--</div>--%>
+                                        <%--</c:otherwise>--%>
+                                        <%--</c:choose>--%>
+                                        <%--<div class="col-sm-3">--%>
+                                            <%--<div class="input-group">--%>
+                                                <%--<span class="input-group-addon"><spring:message code="L370" /></span>--%>
+                                                <%--<form:input path="examNo" cssClass="form-control" />--%>
+                                            <%--</div>--%>
+                                        <%--</div>--%>
+                                        <%--<div class="col-sm-3">--%>
+                                            <%--<div class="input-group">--%>
+                                                <%--<span class="input-group-addon"><spring:message code="L371" /></span>--%>
+                                                <%--<form:input path="langGrad" cssClass="form-control" />--%>
+                                            <%--</div>--%>
+                                        <%--</div>--%>
+                                        <%--<div class="col-sm-3">--%>
+                                            <%--<div class="input-group date">--%>
+                                                <%--<span class="input-group-addon"><spring:message code="L372" /></span>--%>
+                                                <%--<form:input path="applicationLanguageList[${stat.index}].examDay" cssClass="form-control" />--%>
+                                            <%--</div>--%>
+                                        <%--</div>--%>
+                                        <%--<div class="col-sm-3">--%>
+                                            <%--<div class="input-group date">--%>
+                                                <%--<span class="input-group-addon"><spring:message code="L373" /></span>--%>
+                                                <%--<form:input path="applicationLanguageList[${stat.index}].exprDay" cssClass="form-control" />--%>
+                                            <%--</div>--%>
+                                        <%--</div>--%>
+                                    <%--</div>--%>
+                                    <%--</c:forEach>--%>
                                     <c:forEach items="${common.engExamList}" var="langExam" varStatus="stat">
                                     <div class="form-group hide-lang">
                                         <c:choose>
