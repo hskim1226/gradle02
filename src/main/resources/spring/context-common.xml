@@ -36,6 +36,7 @@
             <value>classpath:message/applicants/cs</value>
             <value>classpath:message/applicants/application</value>
             <value>classpath:message/applicants/application.labels</value>
+            <value>classpath:message/applicants/signup.labels</value>
         </list>
         </property>
         <property name="defaultEncoding" value="utf-8" />

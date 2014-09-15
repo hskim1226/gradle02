@@ -4,22 +4,19 @@ import com.apexsoft.framework.common.vo.ExecutionContext;
 import com.apexsoft.framework.message.MessageResolver;
 import com.apexsoft.ysprj.user.domain.Users;
 import com.apexsoft.ysprj.user.service.UsersAccountService;
-import org.apache.commons.io.IOUtils;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.FileSystemResource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
-import java.io.*;
-import java.net.URL;
-import java.net.URLConnection;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.security.Principal;
 import java.util.HashMap;
 import java.util.Map;
@@ -86,13 +83,14 @@ public class UsersAccountController {
         return "user/agreement";
     }
 
-    @RequestMapping(value="/signup", method= RequestMethod.POST)
-    public String displaySignUpForm(Model model,
-                                    @RequestParam("privInfoYn") String privInfoYn,
+    @RequestMapping(value="/signup"/*, method= RequestMethod.POST*/)
+    public String displaySignUpForm(@RequestParam("privInfoYn") String privInfoYn,
                                     @RequestParam("userAgreYn") String userAgreYn,
-                                    HttpServletRequest request) {
-        model.addAttribute("userAgreYn", userAgreYn);
-        model.addAttribute("privInfoYn", privInfoYn);
+                                    @ModelAttribute("users") Users users,
+                                    Model model) {
+        users.setPrivInfoYn(privInfoYn);
+        users.setUserAgreYn(userAgreYn);
+        model.addAttribute("users", users);
         return"user/signup";
     }
 
