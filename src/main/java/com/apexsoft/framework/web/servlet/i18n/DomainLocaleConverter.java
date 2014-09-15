@@ -20,36 +20,34 @@ public class DomainLocaleConverter {
 
     public Object convert(Object domain, String newLocale) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
         Class clazz = domain.getClass();
-        Method[] methods = clazz.getMethods();
+        Method[] methods = clazz.getDeclaredMethods();
 
         newLocale = newLocale == null ? "" : newLocale;
         if( Locale.KOREA.equals(new Locale(newLocale)) ) {
             newLocale = "";
         };
 
-//        if( StringUtils.hasText(newLocale) ) {
-            String newSuffix = StringUtils.hasText(newLocale) ? SUFFIX + newLocale.toLowerCase() : "";
+        String newSuffix = StringUtils.hasText(newLocale) ? SUFFIX + newLocale.toLowerCase() : "";
 
-            for( int i = 0, len = methods.length; i < len; i++ ) {
-                String getMethodName = methods[i].getName();
-                Method setMethod = null, getMethod = methods[i];
-                String setMethodName = null;
+        for (int i = 0, len = methods.length; i < len; i++) {
+            String getterName = methods[i].getName();
+            Method setter = null, getter = methods[i];
+            String setterName = null;
 
-                if( getMethodName.startsWith(PREFIX_GET) && getMethodName.endsWith(newSuffix) ) {
-                    setMethodName = PREFIX_SET + getMethodName.substring( PREFIX_GET.length(), getMethodName.length() - newSuffix.length() );
-                    Object value = getMethod.invoke(domain);
+            if (getterName.startsWith(PREFIX_GET) && getterName.endsWith(newSuffix)) {
+                setterName = PREFIX_SET + getterName.substring(PREFIX_GET.length(), getterName.length() - newSuffix.length());
+                Object value = getter.invoke(domain);
 
-                    for( int j = 0; j < methods.length; j++ ) {
-                        if( setMethodName.equals( methods[j].getName() ) ) {
-                            setMethod = methods[j];
-                        }
-                    }
-                    if (setMethod != null && value != null) {
-                        setMethod.invoke(domain, value);
+                for (int j = 0; j < methods.length; j++) {
+                    if (setterName.equals(methods[j].getName())) {
+                        setter = methods[j];
                     }
                 }
+                if (setter != null && value != null) {
+                    setter.invoke(domain, value);
+                }
             }
-//        }
+        }
 
         return domain;
     }
