@@ -90,6 +90,27 @@ public class ApplicationController {
         return r;
     }
 
+//    @RequestMapping(value = "/preview")
+    public String previewAppInfo(@RequestParam(value = "applNo", required = false) Integer applNo,
+                                 @RequestParam(value = "admsNo", required = false) String admsNo,
+                                 @RequestParam(value = "entrYear", required = false) String entrYear,
+                                 @RequestParam(value = "admsTypeCode", required = false) String admsTypeCode,
+                                 Model model) {
+
+        if( applNo != null ) {
+            EntireApplication entireApplication = applicationService.retrieveEntireApplication( applNo );
+            model.addAttribute(entireApplication);
+        }
+
+        String result = "application";
+        if( "A".equals(admsTypeCode) || "B".equals(admsTypeCode) ) {
+            result += "/preview";
+        } else if( "C".equals(admsTypeCode) ) {
+            result += "/preview";
+        }
+        return result;
+    }
+
     /**
      * 입학원서 화면 표시(최초면 빈란, 아니면 내용 채워짐)
      *

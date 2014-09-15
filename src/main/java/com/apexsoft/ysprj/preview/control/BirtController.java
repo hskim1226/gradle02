@@ -11,9 +11,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * Created by Administrator on 2014-08-01.
@@ -28,23 +27,28 @@ public class BirtController {
     CommonService commonService;
 
     @RequestMapping(value = "/preview")
-    public ModelAndView previewApplicationByParam(Model model, HttpServletRequest request) {
-        Integer applNo = Integer.parseInt( request.getParameter("applNo") );
-        String reportFormat = request.getParameter("reportFormat");
-        String reportName = request.getParameter("reportName");;
-
-        return previewApplication(applNo, reportFormat, reportName, model, request);
+    public ModelAndView previewAppInfo(@RequestParam(value = "applNo", required = false) Integer applNo,
+                                 Model model) {
+        return previewApplication(applNo, "pdf", "application_kr", model);
     }
 
-    @RequestMapping(value = "/preview/{applNo}/{reportFormat}/{reportName}")
+    @RequestMapping(value = "/print")
+    public ModelAndView previewApplicationByParam(@RequestParam(value = "applNo", required = false) Integer applNo,
+                                                  @RequestParam(value = "reportFormat", required = false) String reportFormat,
+                                                  @RequestParam(value = "reportName", required = false) String reportName,
+                                                  Model model) {
+        return previewApplication(applNo, reportFormat, reportName, model);
+    }
+
+    @RequestMapping(value = "/print/{applNo}/{reportFormat}/{reportName}")
     public ModelAndView previewApplicationByRESTful(@PathVariable("applNo") Integer applNo,
                                            @PathVariable("reportFormat") String reportFormat,
                                            @PathVariable("reportName") String reportName,
-                                           Model model, HttpServletRequest request) {
-        return previewApplication(applNo, reportFormat, reportName, model, request);
+                                           Model model) {
+        return previewApplication(applNo, reportFormat, reportName, model);
     }
 
-    private ModelAndView previewApplication(Integer applNo, String reportFormat, String reportName, Model model, HttpServletRequest request) {
+    private ModelAndView previewApplication(Integer applNo, String reportFormat, String reportName, Model model) {
         model.addAttribute( "reportFormat", reportFormat );
         model.addAttribute( "reportName", reportName );
         EntireApplication entireApplication = applicationService.retrieveEntireApplication(applNo);
