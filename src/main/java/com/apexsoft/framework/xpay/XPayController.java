@@ -1,11 +1,16 @@
 package com.apexsoft.framework.xpay;
 
 import com.apexsoft.framework.message.MessageResolver;
+import com.apexsoft.framework.persistence.dao.CommonDAO;
 import com.apexsoft.framework.security.UserSessionVO;
 import com.apexsoft.framework.xpay.service.PaymentVO;
 import com.apexsoft.framework.xpay.service.TransactionVO;
+import com.apexsoft.ysprj.applicants.application.domain.Application;
+import com.apexsoft.ysprj.applicants.application.domain.CustomNewSeq;
+import com.apexsoft.ysprj.applicants.application.service.ApplicationService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.stereotype.Controller;
@@ -38,6 +43,12 @@ public class XPayController {
     @Resource(name = "messageResolver")
     MessageResolver messageResolver;
 
+    @Autowired
+    private CommonDAO commonDAO;
+
+    @Autowired
+    ApplicationService applicationService;
+
 
     /**
      * 사용자 이름과 아이디를 결제 확인 화면에 반환
@@ -49,7 +60,7 @@ public class XPayController {
      * @throws NoSuchAlgorithmException
      */
     @RequestMapping(value = "/confirm", method = RequestMethod.POST)
-    public String confirmPayment( HttpSession httpSession, PaymentVO paymentVO) throws NoSuchAlgorithmException {
+    public String confirmPayment( HttpSession httpSession, PaymentVO paymentVO, @RequestParam("applNo") int applNo ) throws NoSuchAlgorithmException {
 
         SecurityContext sc = (SecurityContext)httpSession.getAttribute("SPRING_SECURITY_CONTEXT");
         Authentication auth = sc.getAuthentication();
@@ -57,6 +68,7 @@ public class XPayController {
 
         paymentVO.setLGD_BUYER(userSessionVO.getName());
         paymentVO.setLGD_BUYERID(userSessionVO.getUsername());
+        paymentVO.setApplNo(applNo);
 
         return "xpay/confirm";
     }
@@ -77,12 +89,28 @@ public class XPayController {
     @ResponseBody
     public String getFullPaymentVO(HttpServletRequest request,
                                    HttpSession httpSession,
-                                   PaymentVO paymentVO)
+                                   PaymentVO paymentVO,
+                                   @RequestParam("applNo") int applNo)
             throws NoSuchAlgorithmException, JsonProcessingException, UnsupportedEncodingException {
 
         SecurityContext sc = (SecurityContext)httpSession.getAttribute("SPRING_SECURITY_CONTEXT");
         Authentication auth = sc.getAuthentication();
         UserSessionVO userSessionVO = (UserSessionVO)auth.getPrincipal();
+
+        //TODO 시연 용 임시 결제 상태 변경 시작
+        //순번조회
+        CustomNewSeq customNewSeq = commonDAO.queryForObject("com.apexsoft.ysprj.applicants.application.sqlmap.CustomApplicationMapper.selectNewSeq",
+                applNo, CustomNewSeq.class
+        );
+        //순번테이블 갱신
+        int r1 = commonDAO.updateItem(customNewSeq, "com.apexsoft.ysprj.applicants.application.sqlmap.", "CustomApplicationMapper.", "updateApplIdSeqIdByNewSeq");
+        //수험번호 생성 및 적용
+        Application application = commonDAO.queryForObject("com.apexsoft.ysprj.applicants.application.sqlmap.ApplicationMapper.selectByPrimaryKey",
+                                                            applNo, Application.class);
+        application.setApplId(getApplId(application, customNewSeq.getNewSeq()));
+        application.setApplStsCode("00020");
+        int r2 = commonDAO.updateItem(application, "com.apexsoft.ysprj.applicants.application.sqlmap.", "ApplicationMapper");
+        //TODO 시연 용 임시 결제 상태 변경 끝
 
         paymentVO.setLGD_MID(LGD_MID);
         paymentVO.setLGD_OID(getOrderNumber(userSessionVO.getUsername() + paymentVO.getLGD_TIMESTAMP()));
@@ -357,5 +385,16 @@ public class XPayController {
         * 2. MD5 해쉬암호화 (수정하지 마세요) - END
         *************************************************
         */
+    }
+
+    private String getApplId(Application application, int newSeq) {
+        String applId = null;
+        String applNo3 = null;
+        if (newSeq < 10) applNo3 = "00"+newSeq;
+        else if (newSeq < 100) applNo3 = "0"+newSeq;
+        else applNo3 = ""+newSeq;
+        applId = application.getAdmsNo() + application.getDeptCode() + application.getCorsTypeCode() + applNo3;
+
+        return applId;
     }
 }

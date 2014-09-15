@@ -271,6 +271,18 @@ public interface CommonDAO {
     <T> int updateItem(T item, String nameSpace, String MapperName);
 
     /**
+     * 도메인 객체 단건 수정
+     *
+     * @param item
+     * @param nameSpace
+     * @param MapperName
+     * @param sqlId
+     * @param <T>
+     * @return
+     */
+    <T> int updateItem(T item, String nameSpace, String MapperName, String sqlId);
+
+    /**
      * 도메인 객체 리스트 다건 수정
      *
      * @param list
