@@ -92,9 +92,11 @@
 
             <table summary="지원서 상세정보">
                 <caption>지원자개인정보</caption>
-                <form id ="changeForm" action="${contextPath}/admin/modification/requestChangeInfo" method="post">
-                    <hidden name="applNo" value=${applInfo.applNo}> </hidden>
+
                 <tbody>
+                <form id ="changeForm" action="${contextPath}/admin/modification/requestChangeInfo" method="post">
+                    <input type="hidden" name="applNo" value=${applInfo.applNo}> </input>
+                    <input type="hidden" name="admsNo" value=${applInfo.admsNo}> </input>
                 <tr>
                     <th>성명</th>
                     <td><input type="radio" class="Lradio" id="korName" name="infoRadio" value ="korName" ><label id="lbkorName"  for="korName" >${applInfo.korName}</label></td>
@@ -133,8 +135,9 @@
                     <th>변경요청정보</th>
                     <td ><input type="text"  name="afterItem"  id="afterItem" ></td>
                 </tr>
+                </form>
                 </tbody>
-            </form>
+
             </table>
         </div>
     </div>
@@ -155,13 +158,14 @@
         jQuery('input[name=infoRadio]:radio').click(function() {
 
             var chgItem = jQuery("input[name='infoRadio']:checked").val();
-            alert( jQuery('#lb'+chgItem).text());
             jQuery('#beforeItem').text( jQuery('#lb'+chgItem).text());
 
         });
 
         jQuery('#changeBtn').on('click', function(e) {
-            jQuery('#changeForm').submit();
+            if (confirm('지원자 정보를 수정하시겠습니까?')) {
+                jQuery('#changeForm').submit();
+            }
         });
         jQuery('#searchBtn').on('click', function(e) {
                 var newUrl= "${contextPath}/admin/modification/searchAdms";

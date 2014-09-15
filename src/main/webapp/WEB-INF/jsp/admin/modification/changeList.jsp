@@ -29,38 +29,59 @@
                             <tbody>
                             <tr>
                             <tr><th class="Cat">처리현황검색 : </th>
-                                <th><label for="sChgType">변경요청구분</label></th>
+                                <th><label for="applChgCode">변경요청구분</label></th>
                                 <td>
-                                    <select id="sChgType">
-                                        <option value="01">-- 전체 --</option>
-                                        <option value="02">정보변경</option>
-                                        <option value="02">지원단위변경</option>
-                                        <option value="02">지원취소</option>
+                                    <select id="applChgCode">
+                                        <option value="">-- 전체 --</option>
+                                        <option value="00001">정보변경</option>
+                                        <option value="00002">지원변경</option>
+                                        <option value="00003">지원취소</option>
                                     </select>
                                 </td>
-                                <th><label for="sChgSts">처리결과</label></th>
+                                <th><label for="chgStsCode">처리결과</label></th>
                                 <td>
-                                    <select id="sChgSts">
+                                    <select id="chgStsCode">
                                         <option value="01">-- 전체 --</option>
-                                        <option value="02">접수</option>
-                                        <option value="02">처리중</option>
-                                        <option value="02">처리완료</option>
-                                        <option value="02">반영취소</option>
+                                        <option value="00001">접수</option>
+                                        <option value="00002">반영중</option>
+                                        <option value="00003">반영완료</option>
+                                        <option value="00004">반영후결제필요</option>
+                                        <option value="00005">반영취소</option>
                                     </select>
                                 </td>
                             </tr>
-                            <tr><th class="Cat">변경요청번호검색 : </th>
-                                <th><label for="sApplyNo">변경요청번호</label></th>
-                                <td><input type="text" class="Ltext" id="sApplyNo" size="15" /></td>
+                            <tr><th class="Cat">지원단위검색 : </th>
+                                <th><label for="admsNo">지원전형</label></th>
+                                <td>
+                                    <select id="admsNo" name="admsNo" >
+                                        <option value="" >-- 전체 --</option>
+                                        <option value="15A">15 전기일반</option>
+                                        <option value="15C">15 전기외국인</option>
+                                    </select>
+                                </td>
+                                <th><label for="campCode">캠퍼스</label></th>
+                                <td>
+                                    <select id="campCode" name="campCode"  >
+                                        <option value="">-- 전체 --</option>
+                                        <option value="10">서울</option>
+                                        <option value="11">원주</option>
+                                        <option value="12">국제</option>
+                                    </select>
+                                </td>
+                                <th><label for="collCode"  >대학</label></th>
+                                <td>
+                                    <select id="collCode" name="collCode" >
+                                        <option value="" label="--전체--" />
+                                    </select>
+                                </td>
                             </tr>
                             <tr>
                             <tr><th class="Cat">지원자검색 : </th>
-                                <th><label for="sApplyNm">성명</label></th>
-                                <td><input type="text" class="Ltext" id="sApplyNm" size="15" /></td>
-                                <th colspan=2><label for="sRsdnNo" >생년월일(YYMMDD)</label></th>
-                                <td><input type="text" class="Ltext" id="sRsdnNo" size="6" /></td>
+                                <th><label for="korName">성명</label></th>
+                                <td><input type="text" class="Ltext" id="korName" name="korName" size="15" /></td>
+                                <th ><label for="rsdnNo" >생년월일(주민번호 앞6자리)</label></th>
+                                <td><input type="text" class="Ltext" id="rsdnNo" name="rsdnNo" size="20" /></td>
                             </tr>
-
                             </tbody>
                         </table>
                         <input type="image" class="Limage" src="${contextPath}/img/admin/btn_search.gif" /></a>
@@ -86,50 +107,18 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr class="Lfirst">
-                    <td class="Lfirst">YS-14-0001</td>
-                    <td >홍길동<br>850101</td>
-                    <td>정보변경</td>
-                    <td>한글이름 흥길동</td>
-                    <td>한글이름 홍길동</td>
-                    <td>2014-09-29<br>15:00:11</td>
-                    <td>2014-09-29<br>15:00:11</td>
-                    <td>처리완료</td>
-                    <td class="Llast"></td>
-                </tr>
-                <tr>
-                    <td class="Lfirst">YS-14-0002</td>
-                    <td >김일남<br>830101</td>
-                    <td>정보변경</td>
-                    <td>상세주소 1121호</td>
-                    <td>상세주소 1111호</td>
-                    <td>2014-09-29<br>15:00:11</td>
-                    <td>2014-09-29<br>15:00:11</td>
-                    <td>처리완료</td>
-                    <td class="Llast"></td>
-                </tr>
-                <tr>
-                    <td class="Lfirst">YS-14-0003</td>
-                    <td>권율<br>900101</td>
-                    <td>지원단위변경</td>
-                    <td>일반<br>의학과</td>
-                    <td>외국인<br>의과학과</td>
-                    <td>2014-09-29<br>15:00:11</td>
-                    <td>2014-09-29<br>15:00:11</td>
-                    <td>접수</td>
-                    <td class="Llast"></td>
-                </tr>
-                <tr class="Llast">
-                    <td class="Lfirst">YS-14-0004</td>
-                    <td>이순신<br>850101</td>
-                    <td>지원취소</td>
-                    <td>결제완료</td>
-                    <td>지원취소</td>
-                    <td>2014-09-29<br>15:00:11</td>
-                    <td>2014-09-29<br>15:00:11</td>
-                    <td>처리완료</td>
-                    <td class="Llast">환급완료</td>
-                </tr>
+                <c:forEach var="chgList" items="${chgList}" varStatus="status">
+                    <tr class="<c:if test="${status.index == 0}">Lfirst </c:if>chgList" chgList="${chgList.applNo}">
+                        <td>${chgList.applId}</td>
+                        <td>${chgList.campName}</td>
+                        <td>${chgList.deptName}</td>
+                        <td >${chgList.corsTypeCode}</td>
+                        <td >${chgList.korName} <br> ${chgList.rgstNo}</td>
+                        <td >${chgList.mobiNum} <br>${chgList.mailAddr} </td>
+                        <td >${chgList.applStsCode}</td>
+
+                    </tr>
+                </c:forEach>
                 </tbody>
             </table>
         </div>

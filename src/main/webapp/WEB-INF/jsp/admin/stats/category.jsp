@@ -46,9 +46,9 @@
                                 <td>
                                     <select id="campCode" name="campCode" >         
                                         <option value="">-- 전체 --</option>
-                                        <option value="CM001">서울</option>
-                                        <option value="CM002">원주</option>    
-                                        <option value="CM003">국제</option>                                                                      
+                                        <option value="10">서울</option>
+                                        <option value="11">원주</option>
+                                        <option value="12">국제</option>
                                     </select>
                                 </td>                                
                                 <th><label for="collCode"  >대학</label></th>
@@ -102,10 +102,7 @@
 
 		    viewrecords: true,
 	       	rowNum:10,
-	       	rowList:[10,20,30],
-	       	pager: '#gridpager',
-	       	emptyrecords: "Nothing to display",
-	       	loadonce : true
+	       	rowList:[10,20,30]
 
 		});
 		
@@ -117,12 +114,12 @@
 			var newUrl ='${contextPath}/admin/stats/category/search';	 
 			newUrl = newUrl +"?admsNo="+jQuery("#admsNo option:selected").val();
 			newUrl = newUrl +"&campCode="+jQuery("#campCode option:selected").val();
-			newUrl = newUrl +"&collCode="+jQuery("#collCode option:selected").val();   
+			newUrl = newUrl +"&collCode="+jQuery("#collCode option:selected").val();
 			jQuery("#applicantCntTbl").jqGrid('GridUnload'); 				
 			jQuery("#applicantCntTbl").jqGrid({
 				url : newUrl,
-				datatype: "json",
-				height: 'auto',			
+                datatype: "json",
+                height: 'auto',
 			   	colNames:['캠퍼스','대학명', '학과명', '석사(명)','박사(명)','통합(명)','연구(명)','Total(명)'],
 			   	colModel:[
 			   		{name: 'campName', index: 'campName', align: "right", sortable:false, width:150},			   		
@@ -132,27 +129,24 @@
 			   		{name: 'cnt2', index: 'cnt2', width:80, align: "right" ,sortable:false, width:50, summaryType: 'sum'},		
 			   		{name: 'cnt3', index: 'cnt3', width:80, align: "right" ,sortable:false, width:50, summaryType: 'sum'},
 			   		{name: 'cnt4', index: 'cnt4', width:80, align: "right" ,sortable:false, width:50, summaryType: 'sum'},
-			   		{name: 'totalCnt', index: 'totalCnt', width:80, align: "right" ,sortable:false, width:70, summaryType: 'sum'},			   		
+			   		{name: 'totalCnt', index: 'totalCnt', width:80, align: "right" ,sortable:false, width:70, summaryType: 'sum'}
 			   				
 			   	],
-			   	sortname: 'deptSeq',
-			   	grouping : true,
+                grouping:true,
 
-		   		groupingView : { 
-			    	groupField : ['campName','collName'],
-		        	groupSummary: [false, true, true],              	
-		     		groupText : ['<b> {0}</b>','<b>     {0}</b>'],
-		     		groupColumnShow : [true,  true],
-			   		hideFirstGroupCol: false,
-			   		groupSummaryPos: ['header',  'header'],
-					groupCollapse : false,		
-			    }, 			   	
+                groupingView : {
+                    groupField : ['campName','collName'],
+                    groupSummary: [true, true],
+                    groupText : ['<b> {0}</b>','<b>     {0}</b>'],
+                    groupColumnShow : [true,  true],
+                    hideFirstGroupCol: false,
+                    groupSummaryPos: ['header',  'header'],
+                    groupCollapse : false
 
-			    rowNum:200,
-			    viewrecords: true,
-		       	emptyrecords: "Nothing to display",
-
-			});			
+                },
+                viewrecords: true,
+                rowNum:200
+            });
 
 		});		
       	

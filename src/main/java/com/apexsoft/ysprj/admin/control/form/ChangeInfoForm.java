@@ -5,19 +5,19 @@ package com.apexsoft.ysprj.admin.control.form;
  */
 public class ChangeInfoForm {
 
-    private String applNo = null;
+    private int applNo = 0;
+    private String admsNo;
+    private String beforeItem = null;
     private String afterItem = null;
     private String infoRadio = null;
+    private String colName;
 
-
-    public String getApplNo() {
-        return applNo;
+    public String getAdmsNo() {
+        return admsNo;
     }
-
-    public void setApplNo(String applNo) {
-        this.applNo = applNo;
+    public void setAdmsNo(String admsNo) {
+        this.admsNo = admsNo;
     }
-
     public String getAfterItem() {
         return afterItem;
     }
@@ -32,5 +32,30 @@ public class ChangeInfoForm {
 
     public void setInfoRadio(String infoRadio) {
         this.infoRadio = infoRadio;
+    }
+
+
+    public String getBeforeItem() {
+        return beforeItem;
+    }
+
+    public void setBeforeItem(String beforeItem) {
+        this.beforeItem = beforeItem;
+    }
+
+    public String getColName() {
+        return colName;
+    }
+
+    public void setColName(String colName) {
+        this.colName = colName;
+    }
+
+    public int getApplNo() {
+        return applNo;
+    }
+
+    public void setApplNo(int applNo) {
+        this.applNo = applNo;
     }
 }
