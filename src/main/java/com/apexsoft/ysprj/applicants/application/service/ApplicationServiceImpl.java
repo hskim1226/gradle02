@@ -374,35 +374,31 @@ public class ApplicationServiceImpl implements ApplicationService {
                 adMapperSqlId,
                 ApplicationDocument.class));
         paramForApplicationDocument.setDocTypeCode("00002");
-        entireApplication.setCollegeDocList(retrieveInfoListByParamObj(paramForApplicationDocument,
+        entireApplication.setForeignDegreeDocList(retrieveInfoListByParamObj(paramForApplicationDocument,
                 adMapperSqlId,
                 ApplicationDocument.class));
         paramForApplicationDocument.setDocTypeCode("00003");
-        entireApplication.setGraduageDocList(retrieveInfoListByParamObj(paramForApplicationDocument,
+        entireApplication.setCollegeDocList(retrieveInfoListByParamObj(paramForApplicationDocument,
                 adMapperSqlId,
                 ApplicationDocument.class));
         paramForApplicationDocument.setDocTypeCode("00004");
-        entireApplication.setLanguageDocList(retrieveInfoListByParamObj(paramForApplicationDocument,
+        entireApplication.setGraduateDocList(retrieveInfoListByParamObj(paramForApplicationDocument,
                 adMapperSqlId,
                 ApplicationDocument.class));
         paramForApplicationDocument.setDocTypeCode("00005");
-        entireApplication.setAriInstDocList(retrieveInfoListByParamObj(paramForApplicationDocument,
+        entireApplication.setLanguageDocList(retrieveInfoListByParamObj(paramForApplicationDocument,
                 adMapperSqlId,
                 ApplicationDocument.class));
         paramForApplicationDocument.setDocTypeCode("00006");
-        entireApplication.setDeptDocList(retrieveInfoListByParamObj(paramForApplicationDocument,
+        entireApplication.setAriInstDocList(retrieveInfoListByParamObj(paramForApplicationDocument,
                 adMapperSqlId,
                 ApplicationDocument.class));
         paramForApplicationDocument.setDocTypeCode("00007");
-        entireApplication.setForeignCollegeDocList(retrieveInfoListByParamObj(paramForApplicationDocument,
+        entireApplication.setForeignerDocList(retrieveInfoListByParamObj(paramForApplicationDocument,
                 adMapperSqlId,
                 ApplicationDocument.class));
         paramForApplicationDocument.setDocTypeCode("00008");
-        entireApplication.setForeignGraduageDocList(retrieveInfoListByParamObj(paramForApplicationDocument,
-                adMapperSqlId,
-                ApplicationDocument.class));
-        paramForApplicationDocument.setDocTypeCode("00009");
-        entireApplication.setForeignDocList(retrieveInfoListByParamObj(paramForApplicationDocument,
+        entireApplication.setDeptDocList(retrieveInfoListByParamObj(paramForApplicationDocument,
                 adMapperSqlId,
                 ApplicationDocument.class));
         paramForApplicationDocument.setDocTypeCode("00099");

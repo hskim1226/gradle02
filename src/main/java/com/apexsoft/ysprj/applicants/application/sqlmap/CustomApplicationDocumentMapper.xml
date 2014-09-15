@@ -87,6 +87,36 @@
         and   DOC_TYPE_CODE = #{docTypeCode,jdbcType=VARCHAR}
     </select>
 
+    <select id="selectByAdmsNoDocTypeCode"
+            resultType="com.apexsoft.ysprj.applicants.application.domain.CustomApplicationDoc"
+            parameterType="com.apexsoft.ysprj.applicants.application.domain.ParamForApplicationDoc" >
+        SELECT A.DOC_ITEM_CODE, B.CODE_VAL AS ITEM_NAME, B.CODE_VAL_XXEN AS ITEM_NAME_XXEN,
+                A.DOC_TYPE_CODE, C.CODE_VAL AS TYPE_NAME, A.UPLOAD_YN, A.MSG_NO, A.CHK_CND
+        FROM ADMS_MDT A, COMM_CODE B, COMM_CODE C
+        WHERE A.DOC_ITEM_CODE = B.CODE
+        AND B.CODE_GRP = 'DOC_ITEM'
+        AND A.DOC_TYPE_CODE = C.CODE
+        AND C.CODE_GRP = 'DOC_TYPE'
+        AND A.DOC_TYPE_CODE = #{docTypeCode,jdbcType=VARCHAR}
+        AND A.ADMS_NO = #{admsNo,jdbcType=VARCHAR}
+    </select>
 
+    <select id="selectByAdmsNoDocTypeCodeDocItemCode"
+            resultType="com.apexsoft.ysprj.applicants.application.domain.CustomApplicationDoc"
+            parameterType="com.apexsoft.ysprj.applicants.application.domain.ParamForApplicationDoc" >
+        SELECT A.DOC_ITEM_CODE, B.CODE_VAL AS ITEM_NAME, B.CODE_VAL_XXEN AS ITEM_NAME_XXEN,
+        A.DOC_TYPE_CODE, C.CODE_VAL AS TYPE_NAME, A.UPLOAD_YN, A.MSG_NO, A.CHK_CND
+        FROM ADMS_MDT A, COMM_CODE B, COMM_CODE C
+        WHERE A.DOC_ITEM_CODE = B.CODE
+        AND B.CODE_GRP = 'DOC_ITEM'
+        AND A.DOC_TYPE_CODE = C.CODE
+        AND C.CODE_GRP = 'DOC_TYPE'
+        AND A.DOC_TYPE_CODE = #{docTypeCode,jdbcType=VARCHAR}
+        AND A.ADMS_NO = #{admsNo,jdbcType=VARCHAR}
+        AND A.DOC_ITEM_CODE IN
+        <foreach item="docItemCode" collection="${docTypeItemList}" separator="," open="(" close=")">
+            ${docItemCode}
+        </foreach>
+    </select>
 
 </mapper>
