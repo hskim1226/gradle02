@@ -46,18 +46,28 @@
                         </thead>
                         <tbody>
                         <tr>
-                            <td>일반</td>
-                            <td>2015학년도 전기 연세대학교 대학원 일반 전형</td>
-                            <td><button id="toGeneralInfo" class="btn btn-info">모집 요강</button></td>
-                            <td><button id="toGeneralApply" class="btn btn-primary">원서 작성</button></td>
-                            <td>2014-09-28(월) / 2014-10-08(수)</td>
+                            <form id=generalApplyForm" action="${contextPath}/application/agreement" method="post">
+                                <td>일반</td>
+                                <td>2015학년도 전기 연세대학교 대학원 일반 전형</td>
+                                <td><button type="button" id="toGeneralInfo" class="btn btn-info">모집 요강</button></td>
+                                <td><button type="submit" id="toGeneralApply" class="btn btn-primary">원서 작성</button></td>
+                                <td>2014-09-28(월) / 2014-10-08(수)</td>
+                                <input type="hidden" name="admsNo" value="15A" />
+                                <input type="hidden" name="entrYear" value="2015" />
+                                <input type="hidden" name="admsTypeCode" value="A" />
+                            </form>
                         </tr>
                         <tr>
-                            <td>외국인</td>
-                            <td><a href="${contextPath}/notice/2015-1-foreign">2015학년도 전기 연세대학교 대학원 외국인 전형</a></td>
-                            <td><button id="toForeignInfo" class="btn btn-info">모집 요강</button></td>
-                            <td><button id="toForeignApply" class="btn btn-primary">원서 작성</button></td>
-                            <td>2014-09-28(월) / 2014-10-08(수)</td>
+                            <form id=foreignApplyForm" action="${contextPath}/application/agreement" method="post">
+                                <td>외국인</td>
+                                <td><a href="${contextPath}/notice/2015-1-foreign">2015학년도 전기 연세대학교 대학원 외국인 전형</a></td>
+                                <td><button type="button" id="toForeignInfo" class="btn btn-info">모집 요강</button></td>
+                                <td><button type="submit" id="toForeignApply" class="btn btn-primary">원서 작성</button></td>
+                                <td>2014-09-28(월) / 2014-10-08(수)</td>
+                                <input type="hidden" name="admsNo" value="15C" />
+                                <input type="hidden" name="entrYear" value="2015" />
+                                <input type="hidden" name="admsTypeCode" value="C" />
+                            </form>
                         </tr>
                         </tbody>
                     </table>
@@ -73,15 +83,13 @@
                 location.href="${contextPath}/notice/2015-1-general";
             });
             $('#toGeneralApply').click(function(){
-                submitPostMethod("${contextPath}/application/agreement",
-                        [{admsNo:'15A'}, {entrYear:'2015'}, {admsTypeCode:'A'}]);
+                $('#generalApplyForm').submit();
             });
             $('#toForeignInfo').click(function(){
                 location.href="${contextPath}/notice/2015-1-foreign";
             });
             $('#toForeignApply').click(function(){
-                submitPostMethod("${contextPath}/application/agreement",
-                        [{admsNo:'15C'}, {entrYear:'2015'}, {admsTypeCode:'C'}]);
+                $('#foreignApplyForm').submit();
             });
 
             function submitPostMethod(url, data) {

@@ -123,7 +123,12 @@
                         </div>
                         <div class="spacer-tiny"></div>
                         <div>
-                            <button class="btn btn-primary btn-lg btn-block" id="composePaper">원서 작성</button>
+                            <form id=generalApplyForm" action="${contextPath}/application/agreement" method="post">
+                                <input type="hidden" name="admsNo" value="15C" />
+                                <input type="hidden" name="entrYear" value="2015" />
+                                <input type="hidden" name="admsTypeCode" value="C" />
+                                <button type="submit" class="btn btn-primary btn-lg btn-block" id="composePaper">원서 작성</button>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -135,26 +140,8 @@
     <script>
         $(document).ready( function() {
             $('#composePaper').click(function(){
-                submitPostMethod("${contextPath}/application/agreement",
-                        [{admsNo:'15C'}, {entrYear:'2015'}, {admsTypeCode:'C'}]);
+                $('#ForeignApplyForm').submit();
             });
-
-            function submitPostMethod(url, data) {
-                var f = document.createElement('form');
-                var hidden;
-                for (var i = 0, len = data.length; i < len; i++) {
-                    hidden = document.createElement('input');
-                    hidden.setAttribute('type', 'hidden');
-                    for(var key in data[i]) {
-                        hidden.setAttribute('name', key);
-                        hidden.setAttribute('value', data[i][key]);
-                    }
-                    f.appendChild(hidden);
-                }
-                f.setAttribute('action', url);
-                f.setAttribute('method', 'post');
-                f.submit();
-            }
         })
     </script>
 </content>
