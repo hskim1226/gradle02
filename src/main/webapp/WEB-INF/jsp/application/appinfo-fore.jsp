@@ -818,7 +818,14 @@
                                             <div class="checkbox">
                                                 <label for="checkLang${stat.index}"><input type="checkbox" class="btn-lang-disabled" id="checkLang${stat.index}" <c:if test="entireApplication.applicationLanguageList['${stat.index}'] != null">checked</c:if>/>${langExam.examName}</label>
                                             </div>
+                                        <c:choose>
+                                        <c:when test="${stat.index == 0}">
                                         </div>
+                                        </c:when>
+                                        <c:otherwise>
+                                        </div>
+                                        </c:otherwise>
+                                        </c:choose>
                                         <div class="col-sm-2 show-lang">
                                             <c:if test="${langExam.examCode == '00001'}">
                                             <form:select path="applicationLanguageList[${stat.index}].toflTypeCode" cssClass="form-control">
@@ -863,305 +870,451 @@
                 <div class="tab-pane fade" id="fileupload">
                     <div class="spacer-tiny"></div>
                     <div class="row">
-                        <div class="col-sm-offset-1 col-sm-10">
-                            <div class="panel panel-darkgray">
-                                <div class="panel-heading"><spring:message code="L377" /></div>
-                                <div class="panel-body">
-                                    <div class="form-group">
-                                        <label class="col-sm-2 control-label"><spring:message code="L378" /></label>
-                                        <div class="col-sm-9">
+                    <div class="col-sm-offset-1 col-sm-10">
+
+                    <c:if test="${common.geneDocList.size() > 0}">
+                        <div class="panel panel-darkgray">
+                            <div class="panel-heading">기본 서류</div>
+                            <div class="panel-body" id="general-doc-list">
+                                <c:forEach items="${common.geneDocList}" var="customDoc" varStatus="stat">
+                                    <hr/>
+                                    <div class="form-group" id="generalDoc${customDoc.docItemCode}">
+                                        <label class="col-sm-3 control-label word-keep-all">${customDoc.itemName}</label>
+                                        <div class="col-sm-8">
                                             <div class="input-group">
-                                                <span class="input-group-btn">
-                                                    <span class="btn btn-default btn_lg btn-file">
-                                                        Browse&hellip; <input type="file" id="fuPicture" name="picture"/>
-                                                    </span>
-                                                </span>
-                                                <span class="col-sm-8 nopadding"><input type="text" class="form-control" readonly/></span>
-                                                <spring:message code="L379" var="L379" />
-                                                <span class="col-sm-4 nopadding"><input type="button" id="btnPicture" class="btn btn-default btn-block btn-upload" value="${L379}"/></span>
+                                                <div class="input-group-btn">
+                                                    <input type="file" class="btn btn_lg btn-file" id="generalDocList${stat.index}.docName" name="generalDocList[${stat.index}].docName"/>
+                                                </div>
+                                                <div class="col-sm-4 nopadding"><input type="button" id="generalDoc${stat.index}.btn" name="generalDoc${stat.index}.btn"
+                                                                                       class="btn btn-default btn-block btn-upload" value="올리기"
+                                                                                       data-file-path="generalDocList${stat.index}.filePath"
+                                                                                       data-file-name="generalDocList${stat.index}.fileName"
+                                                                                       data-org-file-name="generalDocList${stat.index}.orgFileName"/>
+                                                </div>
+                                                        <span class="col-sm-8" id="generalDoc${stat.index}" style="text-decoration: none;">
+                                                            <a href="${contextPath}/filedownload/attached/${entireApplication.application.admsNo}/${entireApplication.application.applNo}/${entireApplication.generalDocList[stat.index].fileName}/${entireApplication.generalDocList[stat.index].orgFileName}">${entireApplication.generalDocList[stat.index].orgFileName}</a>
+                                                        </span>
+
                                             </div>
                                         </div>
+                                        <form:hidden path="generalDocList[${stat.index}].docTypeCode" value="${customDoc.docTypeCode}" />
+                                        <form:hidden path="generalDocList[${stat.index}].docGrp" value="0" />
+                                        <form:hidden path="generalDocList[${stat.index}].docItemCode" value="${customDoc.docItemCode}" />
+                                        <form:hidden path="generalDocList[${stat.index}].docItemName" value="${customDoc.itemName}" />
+                                        <form:hidden path="generalDocList[${stat.index}].filePath"/>
+                                        <form:hidden path="generalDocList[${stat.index}].fileName"/>
+                                        <form:hidden path="generalDocList[${stat.index}].orgFileName"/>
                                     </div>
-                                    <div class="form-group">
-                                        <label class="col-sm-2 control-label"><spring:message code="L378" /></label>
-                                        <div class="col-sm-9">
-                                            <div class="input-group">
-                                                <span class="input-group-btn">
-                                                    <span class="btn btn-default btn_lg btn-file">
-                                                        Browse&hellip; <input type="file" id="fuPicture1" name="picture1"/>
-                                                    </span>
-                                                </span>
-                                                <span class="col-sm-8 nopadding"><input type="text" class="form-control" readonly/></span>
-                                                <span class="col-sm-4 nopadding"><input type="button" id="btnPicture1" class="btn btn-default btn-block btn-upload" value="${L379}"/></span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                </c:forEach>
                             </div>
+                        </div>
+                        <div class="spacer-tiny"></div>
+                    </c:if>
 
-                            <div class="spacer-tiny"></div>
+                    <c:if test="${common.fDegDocList.size() > 0}">
+                        <div class="panel panel-darkgray">
+                            <div class="panel-heading">해외 학위 관련 서류</div>
+                            <div class="panel-body" id="foreignDegree-doc-list">
+                                <c:forEach items="${common.fDegDocList}" var="customDoc" varStatus="stat">
+                                    <hr/>
+                                    <div class="form-group" id="foreignDegreeDoc${customDoc.docItemCode}">
+                                        <label class="col-sm-3 control-label word-keep-all">${customDoc.itemName}</label>
+                                        <div class="col-sm-8">
+                                            <div class="input-group">
+                                                <div class="input-group-btn">
+                                                    <input type="file" class="btn btn_lg btn-file" id="foreignDegreeDocList${stat.index}.docName" name="foreignDegreeDocList[${stat.index}].docName"/>
+                                                </div>
+                                                <div class="col-sm-4 nopadding"><input type="button" id="foreignDegreeDoc${stat.index}.btn" name="foreignDegreeDoc${stat.index}.btn"
+                                                                                       class="btn btn-default btn-block btn-upload" value="올리기"
+                                                                                       data-file-path="foreignDegreeDocList${stat.index}.filePath"
+                                                                                       data-file-name="foreignDegreeDocList${stat.index}.fileName"
+                                                                                       data-org-file-name="foreignDegreeDocList${stat.index}.orgFileName"/>
+                                                </div>
+                                                        <span class="col-sm-8" id="foreignDegreeDoc${stat.index}" style="text-decoration: none;">
+                                                            <a href="${contextPath}/filedownload/attached/${entireApplication.application.admsNo}/${entireApplication.application.applNo}/${entireApplication.foreignDegreeDocList[stat.index].fileName}/${entireApplication.foreignDegreeDocList[stat.index].orgFileName}">${entireApplication.foreignDegreeDocList[stat.index].orgFileName}</a>
+                                                        </span>
+                                            </div>
+                                        </div>
+                                        <form:hidden path="foreignDegreeDocList[${stat.index}].docTypeCode" value="${customDoc.docTypeCode}" />
+                                        <form:hidden path="foreignDegreeDocList[${stat.index}].docGrp" value="0" />
+                                        <form:hidden path="foreignDegreeDocList[${stat.index}].docItemCode" value="${customDoc.docItemCode}" />
+                                        <form:hidden path="foreignDegreeDocList[${stat.index}].docItemName" value="${customDoc.itemName}" />
+                                        <form:hidden path="foreignDegreeDocList[${stat.index}].filePath"/>
+                                        <form:hidden path="foreignDegreeDocList[${stat.index}].fileName"/>
+                                        <form:hidden path="foreignDegreeDocList[${stat.index}].orgFileName"/>
+                                    </div>
+                                </c:forEach>
+                            </div>
+                        </div>
+                        <div class="spacer-tiny"></div>
+                    </c:if>
 
-                            <div class="panel panel-darkgray">
-                                <div class="panel-heading"><spring:message code="L380" /></div>
-                                <div class="panel-body">
-                                    <div class="form-group-block-list" id="fuCollegeDocBlockList">
+                    <c:if test="${common.collDocList.size() > 0}">
+                        <div class="panel panel-darkgray">
+                            <div class="panel-heading">대학 학력 관련 서류</div>
+                            <div class="panel-body" id="college-doc-list">
+                                <div class="form-group-block-list" id="fuCollegeDocBlockList">
+                                    <c:forEach items="${entireApplication.collegeList}" var="academy" varStatus="academyStat">
                                         <div class="form-group-block">
-                                            <div class="form-group">
-                                                <label class="col-sm-2 control-label">졸업(예정)증명서</label>
-                                                <div class="col-sm-9">
-                                                    <div class="input-group">
-                                                        <span class="input-group-btn">
-                                                            <span class="btn btn-default btn_lg btn-file">
-                                                                Browse&hellip; <input type="file" id="collegeDiploma0.file" name="collegeDiploma[0].file"/>
-                                                            </span>
-                                                        </span>
-                                                        <span class="col-sm-8 nopadding"><input type="text" class="form-control" readonly/></span>
-                                                        <span class="col-sm-4 nopadding"><input type="button" id="collegeDiploma0.btn" name="collegeDiploma[0].btn" class="btn btn-default btn-block btn-upload" value="${L379}"/></span>
+                                            <c:forEach items="${common.collDocList}" var="customDoc" varStatus="stat">
+                                                <hr/>
+                                                <div class="form-group" id="collegeDoc${customDoc.docItemCode}">
+                                                    <label class="col-sm-3 control-label word-keep-all">${customDoc.itemName}</label>
+                                                    <div class="col-sm-8">
+                                                        <div class="input-group">
+                                                            <div class="input-group-btn">
+                                                                <input type="file" class="btn btn_lg btn-file" id="collegeDocList${common.collDocList.size()*academyStat.index+stat.index}.docName" name="collegeDocList[${common.collDocList.size()*academyStat.index+stat.index}].docName"/>
+                                                            </div>
+                                                            <div class="col-sm-4 nopadding"><input type="button" id="collegeDoc${common.collDocList.size()*academyStat.index+stat.index}.btn" name="collegeDoc${common.collDocList.size()*academyStat.index+stat.index}.btn"
+                                                                                                   class="btn btn-default btn-block btn-upload" value="올리기"
+                                                                                                   data-file-path="collegeDocList${common.collDocList.size()*academyStat.index+stat.index}.filePath"
+                                                                                                   data-file-name="collegeDocList${common.collDocList.size()*academyStat.index+stat.index}.fileName"
+                                                                                                   data-org-file-name="collegeDocList${common.collDocList.size()*academyStat.index+stat.index}.orgFileName"/>
+                                                            </div>
+                                                                    <span class="col-sm-8" id="collegeDoc${common.collDocList.size()*academyStat.index+stat.index}" style="text-decoration: none;">
+                                                                        <a href="${contextPath}/filedownload/attached/${entireApplication.application.admsNo}/${entireApplication.application.applNo}/${entireApplication.collegeDocList[stat.index].fileName}/${entireApplication.collegeDocList[stat.index].orgFileName}">${entireApplication.collegeDocList[stat.index].orgFileName}</a>
+                                                                    </span>
+                                                        </div>
                                                     </div>
+                                                    <form:hidden path="collegeDocList[${common.collDocList.size()*academyStat.index+stat.index}].docTypeCode" value="${customDoc.docTypeCode}" />
+                                                    <form:hidden path="collegeDocList[${common.collDocList.size()*academyStat.index+stat.index}].docGrp" value="${academyStat.index}" />
+                                                    <form:hidden path="collegeDocList[${common.collDocList.size()*academyStat.index+stat.index}].docItemCode" value="${customDoc.docItemCode}" />
+                                                    <form:hidden path="collegeDocList[${common.collDocList.size()*academyStat.index+stat.index}].docItemName" value="${customDoc.itemName}" />
+                                                    <form:hidden path="collegeDocList[${common.collDocList.size()*academyStat.index+stat.index}].filePath"/>
+                                                    <form:hidden path="collegeDocList[${common.collDocList.size()*academyStat.index+stat.index}].fileName"/>
+                                                    <form:hidden path="collegeDocList[${common.collDocList.size()*academyStat.index+stat.index}].orgFileName"/>
                                                 </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label class="col-sm-2 control-label">성적증명서</label>
-                                                <div class="col-sm-9">
-                                                    <div class="input-group">
-                                                        <span class="input-group-btn">
-                                                            <span class="btn btn-default btn_lg btn-file">
-                                                                Browse&hellip; <input type="file" id="collegeGrade0.file" name="collegeGrade[0].file"/>
-                                                            </span>
-                                                        </span>
-                                                        <span class="col-sm-8 nopadding"><input type="text" class="form-control" readonly/></span>
-                                                        <span class="col-sm-4 nopadding"><input type="button" id="collegeGrade0.btn" name="collegeGrade[0].btn" class="btn btn-default btn-block btn-upload" value="${L379}"/></span>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                            </c:forEach>
                                         </div>
-                                    </div>
-
-                                    <%--<div class="form-group">--%>
-                                        <%--<label class="col-sm-2 control-label">졸업(예정)증명서</label>--%>
-                                        <%--<div class="col-sm-9">--%>
-                                            <%--<div class="input-group">--%>
-                                                <%--<span class="input-group-btn">--%>
-                                                    <%--<span class="btn btn-default btn_lg btn-file">--%>
-                                                        <%--Browse&hellip; <input type="file" id="collegeDiploma0.file" name="collegeDiploma[0].file"/>--%>
-                                                    <%--</span>--%>
-                                                <%--</span>--%>
-                                                <%--<input type="text" class="form-control" readonly/>--%>
-                                            <%--</div>--%>
-                                        <%--</div>--%>
-                                    <%--</div>--%>
-                                    <%--<div class="form-group">--%>
-                                        <%--<label class="col-sm-2 control-label">성적증명서</label>--%>
-                                        <%--<div class="col-sm-9">--%>
-                                            <%--<div class="input-group">--%>
-                                                <%--<span class="input-group-btn">--%>
-                                                    <%--<span class="btn btn-default btn_lg btn-file">--%>
-                                                        <%--Browse&hellip; <input type="file" id="collegeGrade0.file" name="collegeGrade[0].file"/>--%>
-                                                    <%--</span>--%>
-                                                <%--</span>--%>
-                                                <%--<input type="text" class="form-control" readonly/>--%>
-                                            <%--</div>--%>
-                                        <%--</div>--%>
-                                    <%--</div>--%>
-
-                                    <div class="form-group">
-                                        <label class="col-sm-2 control-label">학력조회 동의서</label>
-                                        <div class="col-sm-9">
-                                            <div class="input-group">
-                                                    <span class="input-group-btn">
-                                                        <span class="btn btn-default btn_lg btn-file">
-                                                            Browse&hellip; <input type="file" multiple/>
-                                                        </span>
-                                                    </span>
-                                                <input type="text" class="form-control" readonly/>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="col-sm-2 control-label">출신대학(원) 확인서</label>
-                                        <div class="col-sm-9">
-                                            <div class="input-group">
-                                                    <span class="input-group-btn">
-                                                        <span class="btn btn-default btn_lg btn-file">
-                                                            Browse&hellip; <input type="file" multiple/>
-                                                        </span>
-                                                    </span>
-                                                <input type="text" class="form-control" readonly/>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="col-sm-2 control-label">출신대학(원) 확인서</label>
-                                        <div class="col-sm-9">
-                                            <div class="input-group">
-                                                    <span class="input-group-btn">
-                                                        <span class="btn btn-default btn_lg btn-file">
-                                                            Browse&hellip; <input type="file" multiple/>
-                                                        </span>
-                                                    </span>
-                                                <input type="text" class="form-control" readonly>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="col-sm-2 control-label">학위증명서 원본</label>
-                                        <div class="col-sm-9">
-                                            <div class="input-group">
-                                                    <span class="input-group-btn">
-                                                        <span class="btn btn-default btn_lg btn-file">
-                                                            Browse&hellip; <input type="file" multiple/>
-                                                        </span>
-                                                    </span>
-                                                <input type="text" class="form-control" readonly/>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="col-sm-2 control-label">학위증 사본</label>
-                                        <div class="col-sm-9">
-                                            <div class="input-group">
-                                                    <span class="input-group-btn">
-                                                        <span class="btn btn-default btn_lg btn-file">
-                                                            Browse&hellip; <input type="file" multiple/>
-                                                        </span>
-                                                    </span>
-                                                <input type="text" class="form-control" readonly/>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    </c:forEach>
                                 </div>
                             </div>
+                        </div>
+                        <div class="spacer-tiny"></div>
+                    </c:if>
 
-                            <div class="spacer-tiny"></div>
+                    <c:if test="${common.gradDocList.size() > 0}">
+                        <div class="panel panel-darkgray">
+                            <div class="panel-heading">대학원 학력 관련 서류</div>
+                            <div class="panel-body" id="graduate-doc-list">
+                                <div class="form-group-block-list" id="fuGraduateDocBlockList">
+                                    <c:forEach items="${entireApplication.graduateList}" var="academy" varStatus="academyStat">
+                                        <div class="form-group-block">
+                                            <c:forEach items="${common.gradDocList}" var="customDoc" varStatus="stat">
+                                                <hr/>
+                                                <div class="form-group" id="graduateDoc${customDoc.docItemCode}">
+                                                    <label class="col-sm-3 control-label word-keep-all">${customDoc.itemName}</label>
+                                                    <div class="col-sm-8">
+                                                        <div class="input-group">
+                                                            <div class="input-group-btn">
+                                                                <input type="file" class="btn btn_lg btn-file" id="graduateDocList${common.gradDocList.size()*academyStat.index+stat.index}.docName" name="graduateDocList[${common.gradDocList.size()*academyStat.index+stat.index}].docName"/>
+                                                            </div>
+                                                            <div class="col-sm-4 nopadding"><input type="button" id="graduateDoc${common.gradDocList.size()*academyStat.index+stat.index}.btn" name="graduateDoc${common.gradDocList.size()*academyStat.index+stat.index}.btn"
+                                                                                                   class="btn btn-default btn-block btn-upload" value="올리기"
+                                                                                                   data-file-path="graduateDocList${common.gradDocList.size()*academyStat.index+stat.index}.filePath"
+                                                                                                   data-file-name="graduateDocList${common.gradDocList.size()*academyStat.index+stat.index}.fileName"
+                                                                                                   data-org-file-name="graduateDocList${common.gradDocList.size()*academyStat.index+stat.index}.orgFileName"/>
+                                                            </div>
+                                                                    <span class="col-sm-8" id="graduateDoc${common.gradDocList.size()*academyStat.index+stat.index}" style="text-decoration: none;">
+                                                                        <a href="${contextPath}/filedownload/attached/${entireApplication.application.admsNo}/${entireApplication.application.applNo}/${entireApplication.graduateDocList[stat.index].fileName}/${entireApplication.graduateDocList[stat.index].orgFileName}">${entireApplication.graduateDocList[stat.index].orgFileName}</a>
+                                                                    </span>
+                                                        </div>
+                                                    </div>
+                                                    <form:hidden path="graduateDocList[${common.gradDocList.size()*academyStat.index+stat.index}].docTypeCode" value="${customDoc.docTypeCode}" />
+                                                    <form:hidden path="graduateDocList[${common.gradDocList.size()*academyStat.index+stat.index}].docGrp" value="${academyStat.index}" />
+                                                    <form:hidden path="graduateDocList[${common.gradDocList.size()*academyStat.index+stat.index}].docItemCode" value="${customDoc.docItemCode}" />
+                                                    <form:hidden path="graduateDocList[${common.gradDocList.size()*academyStat.index+stat.index}].docItemName" value="${customDoc.itemName}" />
+                                                    <form:hidden path="graduateDocList[${common.gradDocList.size()*academyStat.index+stat.index}].filePath"/>
+                                                    <form:hidden path="graduateDocList[${common.gradDocList.size()*academyStat.index+stat.index}].fileName"/>
+                                                    <form:hidden path="graduateDocList[${common.gradDocList.size()*academyStat.index+stat.index}].orgFileName"/>
+                                                </div>
+                                            </c:forEach>
+                                        </div>
+                                    </c:forEach>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="spacer-tiny"></div>
+                    </c:if>
 
-                            <div class="panel panel-darkgray">
-                                <div class="panel-heading"><spring:message code="L393" /></div>
-                                <div class="panel-body">
-                                    <div class="form-group engExam" id="examTOEFL">
-                                        <label class="col-sm-2 control-label">TOEFL</label>
-                                        <div class="col-sm-9">
-                                            <div class="input-group">
+                        <%--<c:if test="${common.langDocList.size() > 0}">--%>
+                        <%--<div class="panel panel-darkgray">--%>
+                        <%--<div class="panel-heading">어학 관련 서류</div>--%>
+                        <%--<div class="panel-body" id="language-doc-list">--%>
+                        <%--<c:forEach items="${common.langDocList}" var="customDoc" varStatus="stat">--%>
+                        <%--<hr/>--%>
+                        <%--<div class="form-group" id="languageDoc${customDoc.docItemCode}">--%>
+                        <%--<label class="col-sm-3 control-label word-keep-all">${customDoc.itemName}</label>--%>
+                        <%--<div class="col-sm-8">--%>
+                        <%--<div class="input-group">--%>
+                        <%--<div class="input-group-btn">--%>
+                        <%--<input type="file" class="btn btn_lg btn-file" id="languageDocList${stat.index}.docName" name="languageDocList[${stat.index}].docName"/>--%>
+                        <%--</div>--%>
+                        <%--<div class="col-sm-4 nopadding"><input type="button" id="languageDoc${stat.index}.btn" name="languageDoc${stat.index}.btn"--%>
+                        <%--class="btn btn-default btn-block btn-upload" value="올리기"--%>
+                        <%--data-file-path="languageDocList${stat.index}.filePath"--%>
+                        <%--data-file-name="languageDocList${stat.index}.fileName"--%>
+                        <%--data-org-file-name="languageDocList${stat.index}.orgFileName"/>--%>
+                        <%--</div>--%>
+                        <%--<span class="col-sm-8" id="languageDoc${stat.index}" style="text-decoration: none;">--%>
+                        <%--<a href="${contextPath}/filedownload/attached/${entireApplication.application.admsNo}/${entireApplication.application.applNo}/${entireApplication.languageDocList[stat.index].fileName}/${entireApplication.languageDocList[stat.index].orgFileName}">${entireApplication.languageDocList[stat.index].orgFileName}</a>--%>
+                        <%--</span>--%>
+                        <%--</div>--%>
+                        <%--</div>--%>
+                        <%--<form:hidden path="languageDocList[${stat.index}].docTypeCode" value="${customDoc.docTypeCode}" />--%>
+                        <%--<form:hidden path="languageDocList[${stat.index}].docGrp" value="0" />--%>
+                        <%--<form:hidden path="languageDocList[${stat.index}].docItemCode" value="${customDoc.docItemCode}" />--%>
+                        <%--<form:hidden path="languageDocList[${stat.index}].docItemName" value="${customDoc.itemName}" />--%>
+                        <%--<form:hidden path="languageDocList[${stat.index}].filePath"/>--%>
+                        <%--<form:hidden path="languageDocList[${stat.index}].fileName"/>--%>
+                        <%--<form:hidden path="languageDocList[${stat.index}].orgFileName"/>--%>
+                        <%--</div>--%>
+                        <%--</c:forEach>--%>
+                        <%--</div>--%>
+                        <%--</div>--%>
+                        <%--<div class="spacer-tiny"></div>--%>
+                        <%--</c:if>--%>
+
+
+
+                    <div class="spacer-tiny"></div>
+
+                    <div class="panel panel-darkgray">
+                        <div class="panel-heading">어학 관련 서류 업로드</div>
+                        <div class="panel-body">
+                            <span style="color:red">작업 필요</span>
+                            <div class="form-group engExam" id="examTOEFL">
+                                <label class="col-sm-2 control-label">TOEFL</label>
+                                <div class="col-sm-9">
+                                    <div class="input-group">
                                                 <span class="input-group-btn">
                                                     <span class="btn btn-default btn_lg btn-file">
                                                         Browse&hellip; <input type="file" name="fileTOEFL"/>
                                                     </span>
                                                 </span>
-                                                <input type="text" class="form-control" readonly/>
-                                            </div>
-                                        </div>
+                                        <input type="text" class="form-control" readonly/>
                                     </div>
-                                    <div class="form-group engExam" id="examTOEIC">
-                                        <label class="col-sm-2 control-label">TOEIC</label>
-                                        <div class="col-sm-9">
-                                            <div class="input-group">
+                                </div>
+                            </div>
+                            <div class="form-group engExam" id="examTOEIC">
+                                <label class="col-sm-2 control-label">TOEIC</label>
+                                <div class="col-sm-9">
+                                    <div class="input-group">
                                                 <span class="input-group-btn">
                                                     <span class="btn btn-default btn_lg btn-file">
                                                         Browse&hellip; <input type="file" name="fileTOEIC"/>
                                                     </span>
                                                 </span>
-                                                <input type="text" class="form-control" readonly/>
-                                            </div>
-                                        </div>
+                                        <input type="text" class="form-control" readonly/>
                                     </div>
-                                    <div class="form-group engExam" id="examTEPS">
-                                        <label class="col-sm-2 control-label">TEPS</label>
-                                        <div class="col-sm-9">
-                                            <div class="input-group">
+                                </div>
+                            </div>
+                            <div class="form-group engExam" id="examTEPS">
+                                <label class="col-sm-2 control-label">TEPS</label>
+                                <div class="col-sm-9">
+                                    <div class="input-group">
                                                 <span class="input-group-btn">
                                                     <span class="btn btn-default btn_lg btn-file">
                                                         Browse&hellip; <input type="file" name="fileTEPS"/>
                                                     </span>
                                                 </span>
-                                                <input type="text" class="form-control" readonly/>
-                                            </div>
-                                        </div>
+                                        <input type="text" class="form-control" readonly/>
                                     </div>
-                                    <div class="form-group engExam" id="examIELTS">
-                                        <label class="col-sm-2 control-label">IELTS</label>
-                                        <div class="col-sm-9">
-                                            <div class="input-group">
+                                </div>
+                            </div>
+                            <div class="form-group engExam" id="examIELTS">
+                                <label class="col-sm-2 control-label">IELTS</label>
+                                <div class="col-sm-9">
+                                    <div class="input-group">
                                                 <span class="input-group-btn">
                                                     <span class="btn btn-default btn_lg btn-file">
                                                         Browse&hellip; <input type="file" name="fileIELTS"/>
                                                     </span>
                                                 </span>
-                                                <input type="text" class="form-control" readonly/>
-                                            </div>
-                                        </div>
+                                        <input type="text" class="form-control" readonly/>
                                     </div>
-                                    <div class="form-group engExam" id="examGRE">
-                                        <label class="col-sm-2 control-label">GRE</label>
-                                        <div class="col-sm-9">
-                                            <div class="input-group">
+                                </div>
+                            </div>
+                            <div class="form-group engExam" id="examGRE">
+                                <label class="col-sm-2 control-label">GRE</label>
+                                <div class="col-sm-9">
+                                    <div class="input-group">
                                                 <span class="input-group-btn">
                                                     <span class="btn btn-default btn_lg btn-file">
                                                         Browse&hellip; <input type="file" name="fileGRE"/>
                                                     </span>
                                                 </span>
-                                                <input type="text" class="form-control" readonly/>
-                                            </div>
-                                        </div>
+                                        <input type="text" class="form-control" readonly/>
                                     </div>
-                                    <div class="form-group engExam" id="examTOKIC">
-                                        <label class="col-sm-2 control-label">TOKIC</label>
-                                        <div class="col-sm-9">
-                                            <div class="input-group">
+                                </div>
+                            </div>
+                            <div class="form-group engExam" id="examTOKIC">
+                                <label class="col-sm-2 control-label">TOKIC</label>
+                                <div class="col-sm-9">
+                                    <div class="input-group">
                                                 <span class="input-group-btn">
                                                     <span class="btn btn-default btn_lg btn-file">
                                                         Browse&hellip; <input type="file" name="fileTOKIC"/>
                                                     </span>
                                                 </span>
-                                                <input type="text" class="form-control" readonly/>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="spacer-tiny"></div>
-
-                            <div class="panel panel-darkgray">
-                                <div class="panel-heading"><spring:message code="L394" /></div>
-                                <div class="panel-body">
-                                    <div class="form-group">
-                                        <label class="col-sm-2 control-label">경력증명서</label>
-                                        <div class="col-sm-9">
-                                            <div class="input-group">
-                                                <span class="input-group-btn">
-                                                    <span class="btn btn-default btn_lg btn-file">
-                                                        Browse&hellip; <input type="file" multiple/>
-                                                    </span>
-                                                </span>
-                                                <input type="text" class="form-control" readonly/>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="col-sm-2 control-label">석사 학위 논문 초록</label>
-                                        <div class="col-sm-9">
-                                            <div class="input-group">
-                                                <span class="input-group-btn">
-                                                    <span class="btn btn-default btn_lg btn-file">
-                                                        Browse&hellip; <input type="file" multiple/>
-                                                    </span>
-                                                </span>
-                                                <input type="text" class="form-control" readonly/>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="col-sm-2 control-label">석사 학위 논문</label>
-                                        <div class="col-sm-9 control-label" style="text-align: left;">
-                                                <h4>학교로 원본을 제출해 주세요</h4>
-                                        </div>
+                                        <input type="text" class="form-control" readonly/>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+
+                    <div class="spacer-tiny"></div>
+
+                    <c:if test="${common.ariInstDocList.size() > 0}">
+                        <div class="panel panel-darkgray">
+                            <div class="panel-heading">학·연·산 관련 서류</div>
+                            <div class="panel-body" id="ariInst-doc-list">
+                                <c:forEach items="${common.ariInstDocList}" var="customDoc" varStatus="stat">
+                                    <hr/>
+                                    <div class="form-group" id="ariInstDoc${customDoc.docItemCode}">
+                                        <label class="col-sm-3 control-label word-keep-all">${customDoc.itemName}</label>
+                                        <div class="col-sm-8">
+                                            <div class="input-group">
+                                                <div class="input-group-btn">
+                                                    <input type="file" class="btn btn_lg btn-file" id="ariInstDocList${stat.index}.docName" name="ariInstDocList[${stat.index}].docName"/>
+                                                </div>
+                                                <div class="col-sm-4 nopadding"><input type="button" id="ariInstDoc${stat.index}.btn" name="ariInstDoc${stat.index}.btn"
+                                                                                       class="btn btn-default btn-block btn-upload" value="올리기"
+                                                                                       data-file-path="ariInstDocList${stat.index}.filePath"
+                                                                                       data-file-name="ariInstDocList${stat.index}.fileName"
+                                                                                       data-org-file-name="ariInstDocList${stat.index}.orgFileName"/>
+                                                </div>
+                                                        <span class="col-sm-8" id="ariInstDoc${stat.index}" style="text-decoration: none;">
+                                                            <a href="${contextPath}/filedownload/attached/${entireApplication.application.admsNo}/${entireApplication.application.applNo}/${entireApplication.ariInstDocList[stat.index].fileName}/${entireApplication.ariInstDocList[stat.index].orgFileName}">${entireApplication.ariInstDocList[stat.index].orgFileName}</a>
+                                                        </span>
+                                            </div>
+                                        </div>
+                                        <form:hidden path="ariInstDocList[${stat.index}].docTypeCode" value="${customDoc.docTypeCode}" />
+                                        <form:hidden path="ariInstDocList[${stat.index}].docGrp" value="1" />
+                                        <form:hidden path="ariInstDocList[${stat.index}].docItemCode" value="${customDoc.docItemCode}" />
+                                        <form:hidden path="ariInstDocList[${stat.index}].docItemName" value="${customDoc.itemName}" />
+                                        <form:hidden path="ariInstDocList[${stat.index}].filePath"/>
+                                        <form:hidden path="ariInstDocList[${stat.index}].fileName"/>
+                                        <form:hidden path="ariInstDocList[${stat.index}].orgFileName"/>
+                                    </div>
+                                </c:forEach>
+                            </div>
+                        </div>
+                        <div class="spacer-tiny"></div>
+                    </c:if>
+
+                    <c:if test="${common.fDocList.size() > 0}">
+                        <div class="panel panel-darkgray">
+                            <div class="panel-heading">외국인 관련 서류</div>
+                            <div class="panel-body" id="foreigner-doc-list">
+                                <c:forEach items="${common.fDocList}" var="customDoc" varStatus="stat">
+                                    <hr/>
+                                    <div class="form-group" id="foreignerDoc${customDoc.docItemCode}">
+                                        <label class="col-sm-3 control-label word-keep-all">${customDoc.itemName}</label>
+                                        <div class="col-sm-8">
+                                            <div class="input-group">
+                                                <div class="input-group-btn">
+                                                    <input type="file" class="btn btn_lg btn-file" id="foreignerDocList${stat.index}.docName" name="foreignerDocList[${stat.index}].docName"/>
+                                                </div>
+                                                <div class="col-sm-4 nopadding"><input type="button" id="foreignerDoc${stat.index}.btn" name="foreignerDoc${stat.index}.btn"
+                                                                                       class="btn btn-default btn-block btn-upload" value="올리기"
+                                                                                       data-file-path="foreignerDocList${stat.index}.filePath"
+                                                                                       data-file-name="foreignerDocList${stat.index}.fileName"
+                                                                                       data-org-file-name="foreignerDocList${stat.index}.orgFileName"/>
+                                                </div>
+                                                        <span class="col-sm-8" id="foreignerDoc${stat.index}" style="text-decoration: none;">
+                                                            <a href="${contextPath}/filedownload/attached/${entireApplication.application.admsNo}/${entireApplication.application.applNo}/${entireApplication.foreignerDocList[stat.index].fileName}/${entireApplication.foreignerDocList[stat.index].orgFileName}">${entireApplication.foreignerDocList[stat.index].orgFileName}</a>
+                                                        </span>
+                                            </div>
+                                        </div>
+                                        <form:hidden path="foreignerDocList[${stat.index}].docTypeCode" value="${customDoc.docTypeCode}" />
+                                        <form:hidden path="foreignerDocList[${stat.index}].docGrp" value="0" />
+                                        <form:hidden path="foreignerDocList[${stat.index}].docItemCode" value="${customDoc.docItemCode}" />
+                                        <form:hidden path="foreignerDocList[${stat.index}].docItemName" value="${customDoc.itemName}" />
+                                        <form:hidden path="foreignerDocList[${stat.index}].filePath"/>
+                                        <form:hidden path="foreignerDocList[${stat.index}].fileName"/>
+                                        <form:hidden path="foreignerDocList[${stat.index}].orgFileName"/>
+                                    </div>
+                                </c:forEach>
+                            </div>
+                        </div>
+                        <div class="spacer-tiny"></div>
+                    </c:if>
+
+                    <c:if test="${common.deptDocList.size() > 0}">
+                        <div class="panel panel-darkgray">
+                            <div class="panel-heading">학과별 서류</div>
+                            <div class="panel-body" id="dept-doc-list">
+                                <span style="color:red">동적 처리 필요</span>
+                                <c:forEach items="${common.deptDocList}" var="customDoc" varStatus="stat">
+                                    <hr/>
+                                    <div class="form-group" id="deptDoc${customDoc.docItemCode}">
+                                        <label class="col-sm-3 control-label word-keep-all">${customDoc.itemName}</label>
+                                        <div class="col-sm-8">
+                                            <div class="input-group">
+                                                <div class="input-group-btn">
+                                                    <input type="file" class="btn btn_lg btn-file" id="deptDocList${stat.index}.docName" name="deptDocList[${stat.index}].docName"/>
+                                                </div>
+                                                <div class="col-sm-4 nopadding"><input type="button" id="deptDoc${stat.index}.btn" name="deptDoc${stat.index}.btn"
+                                                                                       class="btn btn-default btn-block btn-upload" value="올리기"
+                                                                                       data-file-path="deptDocList${stat.index}.filePath"
+                                                                                       data-file-name="deptDocList${stat.index}.fileName"
+                                                                                       data-org-file-name="deptDocList${stat.index}.orgFileName"/>
+                                                </div>
+                                                        <span class="col-sm-8" id="deptDoc${stat.index}" style="text-decoration: none;">
+                                                            <a href="${contextPath}/filedownload/attached/${entireApplication.application.admsNo}/${entireApplication.application.applNo}/${entireApplication.deptDocList[stat.index].fileName}/${entireApplication.deptDocList[stat.index].orgFileName}">${entireApplication.deptDocList[stat.index].orgFileName}</a>
+                                                        </span>
+                                            </div>
+                                        </div>
+                                        <form:hidden path="deptDocList[${stat.index}].docTypeCode" value="${customDoc.docTypeCode}" />
+                                        <form:hidden path="deptDocList[${stat.index}].docGrp" value="0" />
+                                        <form:hidden path="deptDocList[${stat.index}].docItemCode" value="${customDoc.docItemCode}" />
+                                        <form:hidden path="deptDocList[${stat.index}].docItemName" value="${customDoc.itemName}" />
+                                        <form:hidden path="deptDocList[${stat.index}].filePath"/>
+                                        <form:hidden path="deptDocList[${stat.index}].fileName"/>
+                                        <form:hidden path="deptDocList[${stat.index}].orgFileName"/>
+                                    </div>
+                                </c:forEach>
+                            </div>
+                        </div>
+                        <div class="spacer-tiny"></div>
+                    </c:if>
+
+                        <%--<div class="panel panel-darkgray">--%>
+                        <%--<div class="panel-heading">지원 과정/학과별 제출 서류</div>--%>
+                        <%--<div class="panel-body" id="attach-doc-list">--%>
+                        <%--<c:forEach items="${common.docItemList}" var="attachDoc" varStatus="stat">--%>
+                        <%--<hr/>--%>
+                        <%--<div class="form-group" id="attachDoc${attachDoc.code}">--%>
+                        <%--<label class="col-sm-3 control-label word-keep-all">${attachDoc.codeVal}</label>--%>
+                        <%--<div class="col-sm-8">--%>
+                        <%--<div class="input-group">--%>
+                        <%--<div class="input-group-btn">--%>
+                        <%--<input type="file" class="btn btn_lg btn-file" id="applicationDocumentList${stat.index}.docName" name="applicationDocumentList${stat.index}.docName"/>--%>
+                        <%--</div>--%>
+                        <%--<div class="col-sm-4 nopadding"><input type="button" id="attachDoc${stat.index}.btn" name="attachDoc${stat.index}.btn" class="btn btn-default btn-block btn-upload" value="올리기"/></div>--%>
+                        <%--<span class="col-sm-8" id="uploadedFileLabel${stat.index}" style="text-decoration: none;"><!--TODO DB에서 가져오기--></span>--%>
+                        <%--</div>--%>
+                        <%--</div>--%>
+                        <%--&lt;%&ndash;<form:hidden path="docItemList[${stat.index}].docItemCode" value="${attachDoc.code}"/>&ndash;%&gt;--%>
+                        <%--&lt;%&ndash;<form:hidden path="docItemList[${stat.index}].docItemName" value="${attachDoc.codeVal}"/>&ndash;%&gt;--%>
+                        <%--&lt;%&ndash;<form:hidden path="docItemList[${stat.index}].filePath"/>&ndash;%&gt;--%>
+                        <%--&lt;%&ndash;<form:hidden path="docItemList[${stat.index}].fileName"/>&ndash;%&gt;--%>
+                        <%--<input type="hidden" name="docItemList[${stat.index}].docItemCode" id="applicationDocumentList${stat.index}.docItemCode" value="${attachDoc.code}" />--%>
+                        <%--<input type="hidden" name="docItemList[${stat.index}].docItemName" id="applicationDocumentList${stat.index}.docItemName" value="${attachDoc.codeVal}" />--%>
+                        <%--<input type="hidden" name="docItemList[${stat.index}].filePath" id="applicationDocumentList${stat.index}.filePath"/>--%>
+                        <%--<input type="hidden" name="docItemList[${stat.index}].fileName" id="applicationDocumentList${stat.index}.fileName"/>--%>
+                        <%--</div>--%>
+                        <%--</c:forEach>--%>
+                        <%--</div>--%>
+                        <%--</div>--%>
+                    </div>
+                    </div>
                     <div class="spacer-tiny"></div>
                 </div>
             </div> <%--myTabContent--%>
+            <input type="hidden" id="applNo"/>
         </form:form>
 
         <div class="btn-group btn-group-justified">
@@ -1173,10 +1326,6 @@
             </div>
             <div class="btn-group">
                 <button id="reset" type="button" class="btn btn-warning btn-lg"><spring:message code="L310" /></button>
-            </div>
-            <%-- TODO 파일 업로드 테스트 추후 삭제 요 --%>
-            <div class="btn-group">
-                <button id="saveandupload" type="button" class="btn btn-error btn-lg">파일업로드</button>
             </div>
         </div>
     </div> <%--container--%>
@@ -1907,7 +2056,7 @@
                         labelKey: 'deptName',
                         // clean: ['corsTypeCode', 'detlMajCode'],
                         url: function(arg) {
-                            var admsNo = '${entireApplication.application.admsNo}';
+                            var admsNo = $('#admsNo').val();
                             return '/general/department/' + admsNo + '/' + arg;
                         }
                     }
@@ -1921,7 +2070,7 @@
                         labelKey: 'deptName',
                         // clean: ['corsTypeCode', 'detlMajCode'],
                         url: function(arg) {
-                            var admsNo = '${entireApplication.application.admsNo}';
+                            var admsNo = $('#admsNo').val();
                             return '/ariInst/department/' + admsNo + '/' + arg;
                         }
                 }
@@ -1935,15 +2084,8 @@
                         labelKey: 'codeVal',
                         // clean: ['detlMajCode'],
                         url: function(arg) {   <%-- 지원과정 조회 --%>
-                            var admsNo = '${entireApplication.application.admsNo}';
-                            var applAttrCode = $('#applAttrCode').val();
-                            if (applAttrCode == '00001') {
-                                return '/general/course/' + admsNo + '/' + arg;
-                            } else if (applAttrCode == '00002') {
-                                return '/ariInst/course/' + admsNo + "/" + arg + "/" + $('#ariInstCode').val();
-                            } else if (applAttrCode == '00003') {
-                                return '/commission/course/' + admsNo + '/' + arg;
-                            }
+                            var admsNo = $('#admsNo').val();
+                            return '/general/course/' + admsNo + '/' + arg;
                         }
                     }
             );
@@ -1955,15 +2097,8 @@
                         valueKey: 'detlMajCode',
                         labelKey: 'detlMajName',
                         url: function(arg) {
-                            var admsNo = '${entireApplication.application.admsNo}';
-                            var applAttrCode = $('#applAttrCode').val();
-                            if (applAttrCode == '00001') {
-                                return '/general/detailMajor/' + admsNo + '/' + $('#deptCode').val() + '/' + arg;
-                            } else if (applAttrCode == '00002') {
-                                return '/ariInst/detailMajor/' + admsNo + "/" + $('#deptCode').val() + "/" + $('#ariInstCode').val() + '/' + arg;
-                            } else if (applAttrCode == '00003') {
-                                // nothing
-                            }
+                            var admsNo = $('#admsNo').val();
+                            return '/general/detailMajor/' + admsNo + '/' + $('#deptCode').val() + '/' + arg;
                         }
                     }
             );
@@ -2141,53 +2276,118 @@
 
             })
 
-//            $('#uploadPicture').on('click', function (e) {
-            $('.btn-upload').on('click', function (e) {
-                var ea = document.getElementById('entireApplication'),
-                    actionUrl = "${contextPath}/application/apply/savetest",
-                    fileInputId = e.target.parentNode.parentNode.querySelector('input').getAttribute('id'),
-                    fileInputName = document.getElementById(fileInputId).getAttribute("name")
-                    ;
-console.log(fileInputId);
-                $.ajaxFileUpload({
-                    url: actionUrl,
-                    secureuri:false,
-                    fileElementId:fileInputId,
-                    dataType: 'json',
-                    data: {fieldName: fileInputName,targetButton: $(this).attr('id')},
-                    success: function (data, status) {
-                        if (console) {
-                            console.log("msg : ", data.message);
-                            console.log("data : ", data.data);
-                            console.log("status : ", status);
-                        }
-                        $('#'+data.message).removeClass("btn-default");
-                        $('#'+data.message).addClass("btn-info");
-                        $('#'+data.message).val("${L379} 성공");
+            <%-- 파일 선택 버튼 이벤트 --%>
+            $('.btn-file').on('change', function (e) { // 한번 업로드한 inputfile은 이벤트가 발생 안한다.
+                var target = e.target,
+                        inputGroup = target.parentNode.parentNode,
+                        uploadButton = $(inputGroup).find('input[type="button"]');
+                $(uploadButton).removeClass('disabled');
+                $(uploadButton).val('올리기');
 
-//                        if(typeof(data.error) != 'undefined')
-//                        {
-//                            if(data.error != '')
-//                            {
-//                                alert(data.error);
-//                            }else
-//                            {
-//                                alert(data.msg);
-//                            }
-//                        }
-                    },
-                    error: function (data, status, e) {
-                        if(console) {
-                            console.log("data : ", data);
-                            console.log("status : ", status);
-                            console.log("e : ", e);
+            });
+            <%-- 파일 선택 버튼 이벤트 --%>
+
+            <%-- 파일 업로드 버튼 이벤트 --%>
+            $('.btn-upload').on('click', function (e) {
+                var actionUrl = "${contextPath}/application/apply/fileUpload",
+                        fileInputId = e.target.parentNode.parentNode.querySelector('input').getAttribute('id'),
+                        fileInput = document.getElementById(fileInputId),
+                        fileInputName = fileInput.getAttribute("name"),
+                        fileName = fileInput.value,
+                        targetLabelId = e.target.parentNode.parentNode.querySelector('span').getAttribute('id'),
+                        targetFilePathHiddenId = e.target.getAttribute('data-file-path'),
+                        targetFileNameHiddenId = e.target.getAttribute('data-file-name'),
+                        targetOrgFileNameHiddenId = e.target.getAttribute('data-org-file-name'),
+                        regexpImage = (/\.(gif|jpg|png)$/i),
+                        regexpPDF = (/\.(pdf)$/i),
+                        extIsOk = false
+                        ;
+                if ((fileInput.files && fileInput.files.length) || fileInput.value != "") {
+                    if (fileInputId === 'generalDocList0.docName') {
+                        if (regexpImage.test(fileName)) {
+                            extIsOk = true;
+                        } else {
+                            alert('${msgImageOnly}');
+                            return false;
                         }
+                    } else if (regexpPDF.test(fileName)) {
+                        extIsOk = true;
+                    } else {
+                        alert('${msgPDFOnly}')
+                        return false;
                     }
-                });
+
+                    if (extIsOk) {
+                        $.ajaxFileUpload({
+                            url: actionUrl,
+                            secureuri:false,
+                            fileElementId: fileInputId,
+                            dataType: 'json',
+                            data: {
+                                fieldName: fileInputName,
+                                targetButton: $(this).attr('id'),
+                                targetLabel: targetLabelId,
+                                applNo: document.getElementById('applNo').value,
+                                admsNo: document.getElementById('admsNo').value
+                            },
+                            success: function (data, status) {
+                                var d = JSON.parse(data.data);
+                                if (console) {
+                                    console.log("targetButton : ", d.targetButton);
+                                    console.log("targetLabel : ", d.targetLabel);
+                                    console.log("applNo : ", d.applNo);
+                                    console.log("admsNo : ", d.admsNo);
+                                    console.log("originalFileName : ", d.originalFileName);
+                                    console.log("filePath : ", d.filePath);
+                                    console.log("fileName : ", d.fileName);
+                                    console.log("data : ", data.data);
+                                    console.log("status : ", status);
+                                }
+                                var targetBtnId = d.targetButton,
+                                        targetBtn = document.getElementById(targetBtnId),
+                                        $targetBtn = $(targetBtn),
+                                        originalFileName = d.originalFileName,
+                                        filePath = d.path,
+                                        fileName = d.fileName,
+                                        targetLabel = d.targetLabel,
+                                        applNo = d.applNo,
+                                        admsNo = d.admsNo,
+                                        downloadURL,
+                                        linkHtml;
+                                $targetBtn.removeClass("btn-default");
+                                $targetBtn.addClass("btn-info");
+                                $targetBtn.val("올리기 성공");
+                                downloadURL = '${contextPath}/filedownload/attached/'+admsNo+'/'+applNo+'/'+fileName+'/'+originalFileName;
+                                linkHtml = '<a href="' + downloadURL + '">' + originalFileName + '</a>';
+                                document.getElementById(targetLabel).innerHTML = linkHtml;
+                                document.getElementById(targetFilePathHiddenId).value = filePath;
+                                document.getElementById(targetFileNameHiddenId).value = fileName;
+                                document.getElementById(targetOrgFileNameHiddenId).value = originalFileName;
+                            },
+                            error: function (data, status, e) {
+                                if(console) {
+                                    console.log("data : ", data);
+                                    console.log("status : ", status);
+                                    console.log("e : ", e);
+                                }
+                            }
+                        });
+                    }
+
+                } else {
+                    alert("파일을 선택해 주십시오");
+                }
+
 
                 return false;
             });
+            <%-- 파일 업로드 버튼 이벤트 --%>
+
+            <%-- 단어 잘림 방지 --%>
+            $('.word-keep-all').wordBreakKeepAll();
+
         });
+
 
     </script>
 </content>

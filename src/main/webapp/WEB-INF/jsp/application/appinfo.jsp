@@ -1270,7 +1270,6 @@
                 </div>
             </div> <%--myTabContent--%>
             <input type="hidden" id="applNo"/>
-            <input type="hidden" id="admsNo"/>
         </form:form>
 
         <div class="btn-group btn-group-justified">
@@ -2067,7 +2066,7 @@ console.log(e.statusText);
                         labelKey: 'deptName',
                         // clean: ['corsTypeCode', 'detlMajCode'],
                         url: function(arg) {
-                            var admsNo = '${entireApplication.application.admsNo}';
+                            var admsNo = $('#admsNo').val();
                             return '/general/department/' + admsNo + '/' + arg;
                         }
                     }
@@ -2081,7 +2080,7 @@ console.log(e.statusText);
                         labelKey: 'deptName',
                         // clean: ['corsTypeCode', 'detlMajCode'],
                         url: function(arg) {
-                            var admsNo = '${entireApplication.application.admsNo}';
+                            var admsNo = $('#admsNo').val();
                             return '/ariInst/department/' + admsNo + '/' + arg;
                         }
                 }
@@ -2095,7 +2094,7 @@ console.log(e.statusText);
                         labelKey: 'codeVal',
                         // clean: ['detlMajCode'],
                         url: function(arg) {   <%-- 지원과정 조회 --%>
-                            var admsNo = '${entireApplication.application.admsNo}';
+                            var admsNo = $('#admsNo').val();
                             var applAttrCode = $('#applAttrCode').val();
                             if (applAttrCode == '00001') {
                                 return '/general/course/' + admsNo + '/' + arg;
@@ -2115,7 +2114,7 @@ console.log(e.statusText);
                         valueKey: 'detlMajCode',
                         labelKey: 'detlMajName',
                         url: function(arg) {
-                            var admsNo = '${entireApplication.application.admsNo}';
+                            var admsNo = $('#admsNo').val();
                             var applAttrCode = $('#applAttrCode').val();
                             if (applAttrCode == '00001') {
                                 return '/general/detailMajor/' + admsNo + '/' + $('#deptCode').val() + '/' + arg;

@@ -15,11 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/")
 public class SimpleForwardingController {
 
-    @RequestMapping("application/agreement")
-    public String checkAgreement() {
-        return "application/agreement";
-    }
-
     @RequestMapping(value="notice/list")
     public String listNotice() {
         return "notice/list";

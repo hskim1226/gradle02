@@ -48,10 +48,10 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav" style="float: right;" data-0="margin-top:20px;" data-300="margin-top:5px;">
-                    <div class="btn-group navbar-form navbar-left" data-toggle="buttons" role="locale">
-                        <label class="btn btn-link" data-target="ko"><input type="radio" />한글</label>
-                        <label class="btn btn-link" data-target="en"><input type="radio" />영어</label>
-                    </div>
+                    <%--<div class="btn-group navbar-form navbar-left" data-toggle="buttons" role="locale">--%>
+                        <%--<label class="btn btn-link" data-target="ko"><input type="radio" />한글</label>--%>
+                        <%--<label class="btn btn-link" data-target="en"><input type="radio" />영어</label>--%>
+                    <%--</div>--%>
                     <li class="active"><a href="${contextPath}/index">Home</a></li>
                     <li><a href="${contextPath}/notice/list">원서 접수</a></li>
                     <li><a href="${contextPath}/application/mylist">내 원서</a></li>
