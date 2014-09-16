@@ -313,6 +313,16 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <div>
+                                        <div class="col-sm-11">
+                                            <label for="btnBaseSave" class="col-sm-8"><spring:message code="U310"/></label>
+                                            <button id="btnBaseSave" class="btn btn-info btn-lg col-sm-4">지원사항 저장</button>
+                                        </div>
+                                        <div class="col-sm-11" id="baseCancel" style="display:block;">
+                                            <label for="btnBaseCancel" class="col-sm-8"><spring:message code="U311"/></label>
+                                            <button id="btnBaseCancel" class="btn btn-warning btn-lg col-sm-4">지원사항 취소</button>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             <div class="panel panel-default">
@@ -1331,6 +1341,35 @@
         $(document).ready(function() {
             document.getElementById('applNo').value='${entireApplication.application.applNo}';
             document.getElementById('admsNo').value='${entireApplication.application.admsNo}';
+
+            <%-- 기본 정보 > 지원 사항 저장 --%>
+            $('#btnBaseSave').on('click', function(e) {
+                var formUrl = '${contextPath}/application/baseSave',
+                    formData = $('#entireApplication').serializeArray();
+                $.ajax({
+                    url: formUrl,
+                    type: 'POST',
+                    data: formData,
+//                    timeout: 50000,
+                    success: function (context) {
+                        if (context.result == 'SUCCESS') {
+                            var message = context.message,
+                                alert = createAlert(message),
+                                applNo = context.data;
+                            $('#alert-container').append(alert);
+                            document.getElementById('applNo').value = applNo;
+                            window.setTimeout(function() {
+                                alert.alert('close');
+                            }, 2000);
+                        }
+                    },
+                    error: function(e) {
+                        console.log(e.statusText);
+                    }
+                });
+                event.preventDefault();
+            });
+            <%-- 기본 정보 > 지원 사항 저장 --%>
 
             <%-- 국가/학교 검색 시작 --%>
             $('.bpopper').on('click', function(e) {

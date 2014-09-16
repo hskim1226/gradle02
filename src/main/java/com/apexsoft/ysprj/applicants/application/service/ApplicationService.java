@@ -10,6 +10,7 @@ import java.util.List;
  */
 public interface ApplicationService {
 
+    ExecutionContext createApplication(Application application);
     ExecutionContext createEntireApplication(EntireApplication entireApplication);
 
     EntireApplication retrieveEntireApplication(int applNo);

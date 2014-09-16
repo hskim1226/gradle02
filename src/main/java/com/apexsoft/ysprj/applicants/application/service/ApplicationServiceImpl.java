@@ -28,6 +28,24 @@ public class ApplicationServiceImpl implements ApplicationService {
     MessageResolver messageResolver;
 
     @Override
+    public ExecutionContext createApplication(Application application) {
+        ExecutionContext ec = new ExecutionContext(ExecutionContext.FAIL,
+                messageResolver.getMessage("U306"), 0);
+        int r1 = 0, applNo = 0;
+        Date date = new Date();
+        application.setCreDate(date);
+        r1 = commonDAO.insertItem(application, NAME_SPACE, "ApplicationMapper");
+        Application tA = commonDAO.queryForObject(NAME_SPACE + "CustomApplicationMapper.selectApplByApplForInsertOthers",
+                application, Application.class);
+        if ( r1 > 0 ) {
+            ec.setResult(ExecutionContext.SUCCESS);
+            ec.setData(tA.getApplNo());
+            ec.setMessage(messageResolver.getMessage("U312"));
+        }
+        return ec;
+    }
+
+    @Override
     public ExecutionContext createEntireApplication(EntireApplication entireApplication) {
 
         int r1 = 0;

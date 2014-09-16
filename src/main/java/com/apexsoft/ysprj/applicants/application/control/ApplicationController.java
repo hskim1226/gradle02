@@ -310,6 +310,37 @@ public class ApplicationController {
     }
 
     /**
+     * 기본 정보 탭의 지원 사항만 저장
+     *
+     * @param entireApplication
+     * @param bindingResult
+     * @param principal
+     * @return
+     */
+    @RequestMapping(value="/baseSave", method = RequestMethod.POST)
+    @ResponseBody
+    public ExecutionContext baseInfoSave(@Valid @ModelAttribute EntireApplication entireApplication,
+                                         BindingResult bindingResult,
+                                         Principal principal) {
+
+        if( bindingResult.hasErrors() ) {
+            return new ExecutionContext(ExecutionContext.FAIL);
+        }
+
+        if( principal == null ) {
+            return new ExecutionContext(ExecutionContext.FAIL);
+        }
+
+        ExecutionContext ec = null;
+        String userId = principal.getName();
+        entireApplication.getApplication().setUserId(userId);
+        entireApplication.getApplication().setApplStsCode("00001");
+        ec = applicationService.createApplication(entireApplication.getApplication());
+
+        return ec;
+    }
+
+    /**
      * 입학원서 저장
      *
      * @param entireApplication
@@ -334,6 +365,7 @@ public class ApplicationController {
         String userId = principal.getName();
         entireApplication.getApplication().setUserId(userId);
         entireApplication.getApplication().setApplStsCode("00001");
+        entireApplication.getApplication().setCreId(userId);
 
         if( entireApplication.getApplication().getApplNo() == null ) {   // insert
             entireApplication.getApplication().setCreId(userId);
