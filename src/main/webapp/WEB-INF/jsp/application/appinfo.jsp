@@ -2366,7 +2366,7 @@ console.log(e.statusText);
                                     console.log("applNo : ", d.applNo);
                                     console.log("admsNo : ", d.admsNo);
                                     console.log("originalFileName : ", d.originalFileName);
-                                    console.log("filePath : ", d.filePath);
+                                    console.log("filePath : ", d.path);
                                     console.log("fileName : ", d.fileName);
                                     console.log("data : ", data.data);
                                     console.log("status : ", status);
