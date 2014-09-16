@@ -60,21 +60,21 @@
             <h1 style="color: #fdfdfd">회원 가입</h1>
         </div>
         <form class="form-horizontal" id="sign-up-form" action="${contextPath}/user/signup/save" method="post" role="form">
-            <form:hidden path="users.userAgreYn" id="userAgreYn" />
-            <form:hidden path="users.privInfoYn" id="privInfoYn" />
+            <form:hidden path="users.userAgreYn" />
+            <form:hidden path="users.privInfoYn" />
             <%--usertype--%>
             <div class="form-group">
                 <label class="col-sm-4 control-label"><spring:message code="L100" /></label>
                 <div class="col-sm-4">
                     <div class="btn-group btn-group-justified" data-toggle="buttons">
                         <label class="btn btn-default active">
-                            <input type="radio" name="users.userType" id="usertype[]" value="g" checked /><spring:message code="L108" />
+                            <input type="radio" name="userType" id="usertype[]" value="g" checked /><spring:message code="L108" />
                         </label>
                         <label class="btn btn-default">
-                            <input type="radio" name="users.userType" id="usertype[]" value="c" /><spring:message code="L109" />
+                            <input type="radio" name="userType" id="usertype[]" value="c" /><spring:message code="L109" />
                         </label>
                         <label class="btn btn-default">
-                            <input type="radio" name="users.userType" id="usertype[]" value="f" /><spring:message code="L110" />
+                            <input type="radio" name="userType" id="usertype[]" value="f" /><spring:message code="L110" />
                         </label>
                     </div>
                 </div>
@@ -84,7 +84,7 @@
                 <label for="userId" class="col-sm-4 control-label"><spring:message code="L101" /></label>
                 <div class="col-sm-4">
                     <div class="input-group">
-                        <input type="text" class="form-control" name="users.userId" id="userId" placeholder="User ID"
+                        <input type="text" class="form-control" name="userId" id="userId" placeholder="User ID"
                                data-bv-notempty data-bv-notempty-message="The user id is required" />
                         <span class="input-group-btn">
                             <button class="btn btn-default" type="button" id="available-check-button">Check</button>
@@ -96,7 +96,7 @@
             <div class="form-group">
                 <label for="pswd" class="col-sm-4 control-label"><spring:message code="L102" /></label>
                 <div class="col-sm-4">
-                    <input type="password" class="form-control" name="users.pswd" id="pswd" placeholder="Password"
+                    <input type="password" class="form-control" name="pswd" id="pswd" placeholder="Password"
                            data-bv-notempty data-bv-notempty-message="Password is required" />
                 </div>
             </div>
@@ -111,27 +111,27 @@
             <div class="form-group">
                 <label for="mailAddr" class="col-sm-4 control-label"><spring:message code="L103" /></label>
                 <div class="col-sm-4">
-                    <input type="email" class="form-control" name="users.mailAddr" id="mailAddr" placeholder="email" />
+                    <input type="email" class="form-control" name="mailAddr" id="mailAddr" placeholder="email" />
                 </div>
                 <label for="mailRecvYn" class="control-label">
-                    <input type="checkbox" name="users.mailRecvYn" id="mailRecvYn" value="y"/><spring:message code="L112" />
+                    <input type="checkbox" name="mailRecvYn" id="mailRecvYn" value="y"/><spring:message code="L112" />
                 </label>
             </div>
             <%--mobiNum--%>
             <div class="form-group">
                 <label for="mobiNum" class="col-sm-4 control-label"><spring:message code="L104" /></label>
                 <div class="col-sm-4">
-                    <input type="text" class="form-control" name="users.mobiNum" id="mobiNum" placeholder="###-####-####" />
+                    <input type="text" class="form-control" name="mobiNum" id="mobiNum" placeholder="###-####-####" />
                 </div>
                 <label for="smsRecvYn" class="control-label">
-                    <input type="checkbox" name="users.smsRecvYn" id="smsRecvYn" value="y" /><spring:message code="L113" />
+                    <input type="checkbox" name="smsRecvYn" id="smsRecvYn" value="y" /><spring:message code="L113" />
                 </label>
             </div>
             <%--name--%>
             <div class="form-group">
                 <label for="name" class="col-sm-4 control-label"><spring:message code="L105" /></label>
                 <div class="col-sm-4">
-                    <input type="text" class="form-control" name="users.name" id="name" placeholder="Name" />
+                    <input type="text" class="form-control" name="name" id="name" placeholder="Name" />
                 </div>
             </div>
             <%--gend--%>
@@ -140,10 +140,10 @@
                 <div class="col-sm-4">
                     <div class="btn-group btn-group-justified" data-toggle="buttons">
                         <label class="btn btn-default active">
-                            <input type="radio" name="users.gend" id="gend[]" value="m" checked /><spring:message code="L114" />
+                            <input type="radio" name="gend" id="gend[]" value="m" checked /><spring:message code="L114" />
                         </label>
                         <label class="btn btn-default">
-                            <input type="radio" name="users.gend" id="gend[]" value="f" /><spring:message code="L115" />
+                            <input type="radio" name="gend" id="gend[]" value="f" /><spring:message code="L115" />
                         </label>
                     </div>
                 </div>
@@ -153,7 +153,7 @@
                 <label for="bornDay" class="col-sm-4 control-label"><spring:message code="L107" /></label>
                 <div class="col-sm-4">
                     <div class="input-group date">
-                        <input type="text" class="form-control" name="users.bornDay" id="bornDay" />
+                        <input type="text" class="form-control" name="bornDay" id="bornDay" />
                         <span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
                     </div>
                 </div>
