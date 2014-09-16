@@ -146,8 +146,27 @@
     <script>
         $(document).ready( function() {
             $('#composePaper').click(function(){
-                location.href="${contextPath}/application/agreement";
+                submitPostMethod("${contextPath}/application/agreement",
+                        [{admsNo:'15A'}, {entrYear:'2015'}, {admsTypeCode:'A'}]);
+
             });
+
+            function submitPostMethod(url, data) {
+                var f = document.createElement('form');
+                var hidden;
+                for (var i = 0, len = data.length; i < len; i++) {
+                    hidden = document.createElement('input');
+                    hidden.setAttribute('type', 'hidden');
+                    for(var key in data[i]) {
+                        hidden.setAttribute('name', key);
+                        hidden.setAttribute('value', data[i][key]);
+                    }
+                    f.appendChild(hidden);
+                }
+                f.setAttribute('action', url);
+                f.setAttribute('method', 'post');
+                f.submit();
+            }
         })
     </script>
 </content>
