@@ -51,7 +51,7 @@ function getAcademyText(academy) {
 		return res;
 	}
 	var entrDay = academy.getEntrDay();
-	var grdaDay = academy.getEntrDay();
+	var grdaDay = academy.getGrdaDay();
 	var schlName = academy.getSchlName();
 	var grdaTypeCode = academy.getGrdaTypeCode();
 
