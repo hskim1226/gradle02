@@ -41,12 +41,8 @@
     </styles>
     <page-setup>
         <simple-master-page name="Simple MasterPage" id="2">
-            <page-footer>
-                <text id="3">
-                    <property name="contentType">html</property>
-                    <text-property name="content"><![CDATA[<value-of>new Date()</value-of>]]></text-property>
-                </text>
-            </page-footer>
+            <property name="headerHeight">0in</property>
+            <property name="footerHeight">0in</property>
         </simple-master-page>
     </page-setup>
     <body>
