@@ -19,6 +19,12 @@ public interface ApplicationService {
     ExecutionContext updateAcademy(Application application,
                                    List<ApplicationAcademy> collegeList,
                                    List<ApplicationAcademy> graduateList);
+    ExecutionContext createLangCareer(Application application,
+                                      List<ApplicationLanguage> applicationLanguageList,
+                                      List<ApplicationExperience> applicationExperienceList);
+    ExecutionContext updateLangCareer(Application application,
+                                      List<ApplicationLanguage> applicationLanguageList,
+                                      List<ApplicationExperience> applicationExperienceList);
     ExecutionContext createEntireApplication(EntireApplication entireApplication);
 
     EntireApplication retrieveEntireApplication(int applNo);

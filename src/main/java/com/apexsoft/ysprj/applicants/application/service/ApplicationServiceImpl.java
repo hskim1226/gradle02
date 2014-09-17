@@ -125,7 +125,7 @@ public class ApplicationServiceImpl implements ApplicationService {
         acadList.addAll(graduateList);
 
         ExecutionContext ec = new ExecutionContext();
-        int r1 = 0, r2 = 0, applNo = application.getApplNo(), idx = 0;
+        int r1, r2 = 0, applNo = application.getApplNo(), idx = 0;
         Date date = new Date();
 
         application.setApplStsCode(ACAD_SAVED);
@@ -151,7 +151,7 @@ public class ApplicationServiceImpl implements ApplicationService {
             String errMsg = null;
             if ( r1 == 0 ) errMsg = messageResolver.getMessage("ERR00003");
             else if ( r2 == 0 ) errMsg = messageResolver.getMessage("ERR00011");
-            ec.setData(new CustomApplNoStsCode(0, APP_NULL_STATUS, errMsg));
+            ec.setData(new CustomApplNoStsCode(applNo, APP_NULL_STATUS, errMsg));
         }
         return ec;
     }
@@ -199,6 +199,91 @@ public class ApplicationServiceImpl implements ApplicationService {
         return ec;
     }
 
+    @Override
+    public ExecutionContext createLangCareer(Application application,
+                                             List<ApplicationLanguage> applicationLanguageList,
+                                             List<ApplicationExperience> applicationExperienceList) {
+
+        ExecutionContext ec = new ExecutionContext();
+        int r1, r2 = 0, r3 = 0, applNo = application.getApplNo();
+        Date date = new Date();
+
+        application.setApplStsCode(ACAD_SAVED);
+        application.setModDate(date);
+        r1 = commonDAO.updateItem(application, NAME_SPACE, "ApplicationMapper");
+
+        if ( applicationLanguageList != null ) {
+            for( ApplicationLanguage applicationLanguage : applicationLanguageList) {
+                applicationLanguage.setApplNo(applNo);
+                applicationLanguage.setCreDate(date);
+            }
+            r2 = commonDAO.insertList(applicationLanguageList, NAME_SPACE, "ApplicationLanguageMapper");
+        }
+        if ( applicationExperienceList != null ) {
+            for( ApplicationExperience applicationExperience : applicationExperienceList) {
+                applicationExperience.setApplNo(applNo);
+                applicationExperience.setCreDate(date);
+            }
+            r3 = commonDAO.insertList(applicationExperienceList, NAME_SPACE, "ApplicationExperienceMapper");
+        }
+
+        if ( r1 > 0 && r2 > 0 && r3 > 0) {
+            ec.setResult(ExecutionContext.SUCCESS);
+            ec.setMessage(messageResolver.getMessage("U319"));
+            ec.setData(new CustomApplNoStsCode(applNo, application.getApplStsCode()));
+        } else {
+            ec.setResult(ExecutionContext.FAIL);
+            ec.setMessage(messageResolver.getMessage("U320"));
+            String errMsg = null;
+            if ( r1 == 0 ) errMsg = messageResolver.getMessage("ERR00003");
+            else if ( r2 == 0 ) errMsg = messageResolver.getMessage("ERR00016");
+            else if ( r3 == 0 ) errMsg = messageResolver.getMessage("ERR00021");
+            ec.setData(new CustomApplNoStsCode(applNo, APP_NULL_STATUS, errMsg));
+        }
+        return ec;
+    }
+
+    @Override
+    public ExecutionContext updateLangCareer(Application application,
+                                             List<ApplicationLanguage> applicationLanguageList,
+                                             List<ApplicationExperience> applicationExperienceList) {
+
+        ExecutionContext ec = new ExecutionContext();
+        int r1 = 0, r2 = 0, applNo = application.getApplNo();
+        Date date = new Date();
+
+        deleteListByApplNo(applNo, "CustomApplicationLanguageMapper");
+        if ( applicationLanguageList != null ) {
+            for( ApplicationLanguage applicationLanguage : applicationLanguageList) {
+                applicationLanguage.setApplNo(applNo);
+                applicationLanguage.setModDate(date);
+            }
+            r1 = commonDAO.insertList(applicationLanguageList, NAME_SPACE, "ApplicationLanguageMapper");
+        }
+
+        deleteListByApplNo(applNo, "CustomApplicationExperienceMapper");
+        if ( applicationExperienceList != null ) {
+            for( ApplicationExperience applicationExperience : applicationExperienceList) {
+                applicationExperience.setApplNo(applNo);
+                applicationExperience.setModDate(date);
+            }
+            r2 = commonDAO.insertList(applicationExperienceList, NAME_SPACE, "ApplicationExperienceMapper");
+        }
+
+        if ( r1 > 0 && r2 > 0 ) {
+            ec.setResult(ExecutionContext.SUCCESS);
+            ec.setMessage(messageResolver.getMessage("U319"));
+            ec.setData(new CustomApplNoStsCode(applNo, application.getApplStsCode()));
+        } else {
+            ec.setResult(ExecutionContext.FAIL);
+            ec.setMessage(messageResolver.getMessage("U320"));
+            String errMsg = null;
+            if ( r1 == 0 ) errMsg = messageResolver.getMessage("ERR00018");
+            else if ( r2 == 0 ) errMsg = messageResolver.getMessage("ERR00023");
+            ec.setData(new CustomApplNoStsCode(applNo, APP_NULL_STATUS, errMsg));
+        }
+        return ec;
+    }
 
     @Override
     public ExecutionContext createEntireApplication(EntireApplication entireApplication) {

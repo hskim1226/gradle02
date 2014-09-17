@@ -299,9 +299,9 @@ public class ApplicationController {
 //        commonCodeMap.put( "ariInstDocList", ariInstDocList==null?new ArrayList<CustomApplicationDoc>():ariInstDocList );
 //        commonCodeMap.put( "fDocList", fDocList==null?new ArrayList<CustomApplicationDoc>():fDocList );
 //        commonCodeMap.put( "deptDocList", deptDocList==null?new ArrayList<CustomApplicationDoc>():deptDocList );
-        List<List> madDoc = applicationService.retrieveManApplDocListByApplNo(applNo.intValue() );
+//        List<List> madDoc = applicationService.retrieveManApplDocListByApplNo(applNo.intValue() );
 // 문서처리끝
-        model.addAttribute( "mandDoc", madDoc );
+//        model.addAttribute( "mandDoc", madDoc );
         model.addAttribute( "common", commonCodeMap );
 
         model.addAttribute( "msgRgstNo", messageResolver.getMessage("U304"));
@@ -378,7 +378,6 @@ public class ApplicationController {
 
         ExecutionContext ec = null;
         String userId = principal.getName();
-        entireApplication.getApplication().setUserId(userId);
 
         if (entireApplication.getApplication().getApplStsCode().equals(APP_INFO_SAVED)) { //insert
             for(ApplicationAcademy acad : entireApplication.getCollegeList()) {
@@ -427,13 +426,30 @@ public class ApplicationController {
             return new ExecutionContext(ExecutionContext.FAIL);
         }
 
-        ExecutionContext ec = new ExecutionContext(ExecutionContext.SUCCESS);
-        ec.setMessage("Lang Career");
-//        ExecutionContext ec = null;
-//        String userId = principal.getName();
-//        entireApplication.getApplication().setUserId(userId);
-//        entireApplication.getApplication().setApplStsCode("00001");
-//        ec = applicationService.createApplication(entireApplication.getApplication());
+        ExecutionContext ec = null;
+        String userId = principal.getName();
+
+        if (entireApplication.getApplication().getApplStsCode().equals(ACAD_SAVED)) { //insert
+            for(ApplicationLanguage al : entireApplication.getApplicationLanguageList()) {
+                al.setCreId(userId);
+            }
+            for(ApplicationExperience ae : entireApplication.getApplicationExperienceList()) {
+                ae.setCreId(userId);
+            }
+            ec = applicationService.createLangCareer(entireApplication.getApplication(),
+                    entireApplication.getApplicationLanguageList(),
+                    entireApplication.getApplicationExperienceList());
+        } else { //update
+            for(ApplicationLanguage al : entireApplication.getApplicationLanguageList()) {
+                al.setModId(userId);
+            }
+            for(ApplicationExperience ae : entireApplication.getApplicationExperienceList()) {
+                ae.setModId(userId);
+            }
+            ec = applicationService.updateLangCareer(entireApplication.getApplication(),
+                    entireApplication.getApplicationLanguageList(),
+                    entireApplication.getApplicationExperienceList());
+        }
 
         return ec;
     }
