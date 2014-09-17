@@ -246,7 +246,10 @@
                                         <div class="col-sm-9">
                                             <%--<form:radiobuttons path="application.fornTypeCode" items="${common.fornTypeList}" itemValue="code" itemLabel="codeVal" />--%>
                                             <form:select path="application.fornTypeCode" id="fornTypeCode" cssClass="form-control">
-                                                <form:options items="${common.fornTypeList}" itemValue="code" itemLabel="codeVal"/>
+                                                <form:options items="${common.fornTypeList}" itemValue="code" itemLabel="codeVal" />
+                                                <%--<c:forEach items="${common.fornTypeList}" var="item" varStatus="stat">--%>
+                                                    <%--<form:option value="${item.code}"><spring:message code="${item.codeGrp}.${item.code}" /></form:option>--%>
+                                                <%--</c:forEach>--%>
                                             </form:select>
                                         </div>
                                     </div>
@@ -258,6 +261,9 @@
                                                     <spring:message code="L315" var="L315"/>
                                                     <form:option value="-" label="${L315}" />
                                                     <form:options items="${common.campList}" itemValue="campCode" itemLabel="campName" />
+                                                    <%--<c:forEach items="${common.campList}" var="item" varStatus="stat">--%>
+                                                        <%--<form:option value="${item.campCode}"><spring:message code="CAMP.${item.campCode}" /></form:option>--%>
+                                                    <%--</c:forEach>--%>
                                                 </form:select>
                                             </div>
                                             <form:label path="collCode" cssClass="col-sm-2 control-label"><spring:message code="L318" /></form:label>
@@ -265,6 +271,9 @@
                                                 <form:select path="collCode" cssClass="form-control">
                                                     <form:option value="-" label="${L315}" />
                                                     <form:options items="${common.collList}" itemValue="collCode" itemLabel="collName" />
+                                                    <%--<c:forEach items="${common.collList}" var="item" varStatus="stat">--%>
+                                                        <%--<form:option value="${item.collCode}"><spring:message code="COLL.${item.collCode}" /></form:option>--%>
+                                                    <%--</c:forEach>--%>
                                                 </form:select>
                                             </div>
                                         </div>
@@ -274,6 +283,9 @@
                                                 <form:select path="application.deptCode" id="deptCode" cssClass="form-control">
                                                     <form:option value="-" label="${L315}" />
                                                     <form:options items="${common.deptList}" itemValue="deptCode" itemLabel="deptName" />
+                                                    <%--<c:forEach items="${common.deptList}" var="item" varStatus="stat">--%>
+                                                        <%--<form:option value="${item.deptCode}"><spring:message code="DEPT.${item.deptCode}" /></form:option>--%>
+                                                    <%--</c:forEach>--%>
                                                 </form:select>
                                             </div>
                                         </div>
@@ -283,6 +295,9 @@
                                                 <form:select path="application.corsTypeCode" id="corsTypeCode" cssClass="form-control">
                                                     <form:option value="-" label="${L315}" />
                                                     <form:options items="${common.corsTypeList}" itemValue="corsTypeCode" itemLabel="codeVal" />
+                                                    <%--<c:forEach items="${common.corsTypeList}" var="item" varStatus="stat">--%>
+                                                        <%--<form:option value="${item.corsTypeCode}"><spring:message code="CORS_TYPE_CODE.${item.corsTypeCode}" /></form:option>--%>
+                                                    <%--</c:forEach>--%>
                                                 </form:select>
                                             </div>
                                         </div>
@@ -292,6 +307,9 @@
                                                 <form:select path="application.detlMajCode" id="detlMajCode" cssClass="form-control">
                                                     <form:option value="-" label="${L315}" />
                                                     <form:options items="${common.detlMajList}" itemValue="detlMajCode" itemLabel="detlMajName" />
+                                                    <%--<c:forEach items="${common.detlMajList}" var="item" varStatus="stat">--%>
+                                                        <%--<form:option value="${item.detlMajCode}"><spring:message code="DETL_MAJ.${item.detlMajCode}" /></form:option>--%>
+                                                    <%--</c:forEach>--%>
                                                 </form:select>
                                             </div>
                                         </div>
@@ -1297,10 +1315,10 @@
                         <%--<span class="col-sm-8" id="uploadedFileLabel${stat.index}" style="text-decoration: none;"><!--TODO DB에서 가져오기--></span>--%>
                         <%--</div>--%>
                         <%--</div>--%>
-                        <%--&lt;%&ndash;<form:hidden path="docItemList[${stat.index}].docItemCode" value="${attachDoc.code}"/>&ndash;%&gt;--%>
-                        <%--&lt;%&ndash;<form:hidden path="docItemList[${stat.index}].docItemName" value="${attachDoc.codeVal}"/>&ndash;%&gt;--%>
-                        <%--&lt;%&ndash;<form:hidden path="docItemList[${stat.index}].filePath"/>&ndash;%&gt;--%>
-                        <%--&lt;%&ndash;<form:hidden path="docItemList[${stat.index}].fileName"/>&ndash;%&gt;--%>
+                        <%--<%--<form:hidden path="docItemList[${stat.index}].docItemCode" value="${attachDoc.code}"/>--%>--%>
+                        <%--<%--<form:hidden path="docItemList[${stat.index}].docItemName" value="${attachDoc.codeVal}"/>--%>--%>
+                        <%--<%--<form:hidden path="docItemList[${stat.index}].filePath"/>--%>--%>
+                        <%--<%--<form:hidden path="docItemList[${stat.index}].fileName"/>--%>--%>
                         <%--<input type="hidden" name="docItemList[${stat.index}].docItemCode" id="applicationDocumentList${stat.index}.docItemCode" value="${attachDoc.code}" />--%>
                         <%--<input type="hidden" name="docItemList[${stat.index}].docItemName" id="applicationDocumentList${stat.index}.docItemName" value="${attachDoc.codeVal}" />--%>
                         <%--<input type="hidden" name="docItemList[${stat.index}].filePath" id="applicationDocumentList${stat.index}.filePath"/>--%>
@@ -2005,9 +2023,11 @@
                                         'value': item[valueKey],
                                         'label': item[labelKey]}
                                     )
-                                    for (var key in item) {
-                                        if (key !== valueKey && key !== labelKey) {
-                                            $op.attr(key, item[key]);
+                                    if ('detlMajCode' == targetId) {
+                                        for (var key in item) {
+                                            if (key !== valueKey && key !== labelKey) {
+                                                $op.attr(key, item[key]);
+                                            }
                                         }
                                     }
                                     $op.appendTo($target);

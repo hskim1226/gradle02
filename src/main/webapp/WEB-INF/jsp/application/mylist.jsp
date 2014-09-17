@@ -92,8 +92,8 @@
                                     <div class="btn-group">
                                         <a type="button" class="btn btn-success dropdown-toggle ${item.applStsCode=="00020"?"":"disabled"}" data-toggle="dropdown" data-target="#">지원서 보기<span class="caret"></span></a>
                                         <ul class="dropdown-menu" role="menu">
-                                            <li><a class="print" data-applNo="${item.applNo}" data-format="pdf" data-filename="application_kr">지원서(PDF)</a></li>
-                                            <li><a class="print" data-applNo="${item.applNo}" data-format="pdf" data-filename="admission_kr">수험표(PDF)</a></li>
+                                            <li><a class="print" data-applNo="${item.applNo}" data-format="pdf" data-filename="application_${item.admsTypeCode=="C" ? "en" : "kr"}">지원서(PDF)</a></li>
+                                            <li><a class="print" data-applNo="${item.applNo}" data-format="pdf" data-filename="admission_${item.admsTypeCode=="C" ? "en" : "kr"}">수험표(PDF)</a></li>
                                         </ul>
                                     </div>
                                 </td>

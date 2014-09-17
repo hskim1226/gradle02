@@ -398,17 +398,19 @@
                             <div class="panel panel-default">
                                 <div class="panel-heading">지원자 상세정보</div>
                                 <div class="panel-body">
-                                    <%--<div class="form-group">--%>
-                                        <%--<form:label path="applicationGeneral.citzCntrCode" cssClass="col-sm-3 control-label">국적</form:label>--%>
-                                        <%--<div class="col-sm-9">--%>
-                                            <%--<div class="input-group">--%>
-                                                <%--<form:input path="applicationGeneral.citzCntrCode" cssClass="form-control" />--%>
+                                    <%--<div class="form-group required">--%>
+                                        <%--<label for="application.citzCntrName" class="col-sm-2 control-label">국적</label>--%>
+                                        <%--<div class="col-sm-2">--%>
+                                            <%--<button type="button" class="btn btn-default btn-search bpopper" data-targetNode1="application.citzCntrCode" data-targetNode2='application.citzCntrName' data-category="country">검색</button>--%>
+                                        <%--</div>--%>
+                                        <%--<div class="col-sm-6">--%>
+                                            <%--<form:hidden path="application.citzCntrCode" />--%>
+                                            <%--<input id="application.citzCntrName" cssClass="form-control" />--%>
                                                 <%--<span class="input-group-btn">--%>
-                                                    <%--<button type="button" class="btn btn-default" id="search-citz-cntr-code">--%>
-                                                        <%--<span class="glyphicon glyphicon-search"></span> 검색--%>
-                                                    <%--</button>--%>
+                                                <%--<button type="button" class="btn btn-default" id="search-citz-cntr-code">--%>
+                                                <%--<span class="glyphicon glyphicon-search"></span> 검색--%>
+                                                <%--</button>--%>
                                                 <%--</span>--%>
-                                            <%--</div>--%>
                                         <%--</div>--%>
                                     <%--</div>--%>
                                     <div class="form-group required">
@@ -509,10 +511,35 @@
                                     </div>
                                 </div>
                             </div>
-
+                            <div class="panel panel-default" id="currentCompany" hidden>
+                                <div class="panel-heading">현재 근무처</div>
+                                <div class="panel-body">
+                                    <div class="form-group">
+                                        <form:label path="applicationGeneral.currWrkpName" cssClass="col-sm-2 control-label">회사 이름</form:label>
+                                        <div class="col-sm-9">
+                                            <form:input path="applicationGeneral.currWrkpName" cssClass="form-control" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <form:label path="applicationGeneral.currWrkpDay" cssClass="col-sm-2 control-label">입사 일자</form:label>
+                                        <div class="col-sm-9">
+                                            <div class="input-group date">
+                                                <form:input path="applicationGeneral.currWrkpDay" cssClass="col-sm-6 form-control" readonly="true" />
+                                                <span class="input-group-addon"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <form:label path="applicationGeneral.currWrkpTel" cssClass="col-sm-2 control-label">연락처</form:label>
+                                        <div class="col-sm-9">
+                                            <form:input path="applicationGeneral.currWrkpTel" cssClass="form-control" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div><%--panel--%>
                         </div>
-                    </div>
-                </div>
+                    </div><%--row--%>
+                </div><%--appinfo--%>
 
 
                 <%-- Academy --%>
@@ -636,7 +663,7 @@
                                             <div class="form-group required">
                                                 <form:label path="graduateList[${stat.index}].schlName" cssClass="col-sm-2 control-label">학교 이름</form:label>
                                                 <div class="col-sm-2">
-                                                    <button type="button" class="btn btn-default btn-search bpopper" data-targetNode1="graduateList${stat.index}.schlCode" data-targetNode2='graduateList${stat.index}.schlName' data-category="school-g">검색</button>
+                                                    <button type="button" class="btn btn-default btn-search bpopper" data-targetNode1="graduateList${stat.index}.schlCode" data-targetNode2='graduateList${stat.index}.schlName' data-category="school-u">검색</button>
                                                 </div>
                                                 <div class="col-sm-4">
                                                     <form:hidden path="graduateList[${stat.index}].schlCode" />
@@ -1777,8 +1804,6 @@
             }
 
 
-
-
             <%-- form-group-block 추가/삭제에 대한 처리 시작 --%>
             $('.btn-add').on('click', function(e) {
                 var target = e.currentTarget ? e.currentTarget : e.target;
@@ -1861,14 +1886,37 @@
                 if (items) {
                     for (i = 0; i <items.length; i++) {
                         name = items[i].name;
+                        if (name) {
+                            prefix = name.substring(0, name.indexOf('['));
+                            suffix = name.substring(name.indexOf(']') + 1);
+                            items[i].name = prefix + '[' + index + ']' + suffix;
+                        }
                         var oldid = items[i].id;
-                        prefix = name.substring(0, name.indexOf('['));
-                        suffix = name.substring(name.indexOf(']') + 1, name.length);
-                        items[i].name = prefix + '[' + index + ']' + suffix;
-                        items[i].id = prefix + index + suffix;
-                        label = block.querySelector('label[for="' + oldid + '"]');
-                        if (label) {
-                            label.setAttribute('for', items[i].id);
+                        if (oldid) {
+                            prefix = oldid.substring(0, oldid.indexOf('.'));
+                            prefix = prefix.replace(/[0-9]/g, '');
+                            suffix = oldid.substring(oldid.indexOf('.'));
+                            items[i].id = prefix + index + suffix;
+
+                            label = block.querySelector('label[for="' + oldid + '"]');
+                            if (label) {
+                                label.setAttribute('for', items[i].id);
+                            }
+                        }
+                    }
+                }
+
+                // bpopper data-targetNode
+                var bpopperBtns = block.querySelectorAll('.bpopper');
+                if (bpopperBtns) {
+                    for (i = 0; i < bpopperBtns.length; i++) {
+                        for (var j = 1; j < 4; j++) {
+                            var t = bpopperBtns[i].getAttribute('data-targetNode' + j);
+                            if (t) {
+                                t = t.split('.');
+                                t[0] = t[0].replace(/[0-9]/g, '');
+                                bpopperBtns[i].setAttribute('data-targetNode' + j, t[0] + index + '.' + t[1]);
+                            }
                         }
                     }
                 }
@@ -2059,9 +2107,11 @@
                                         'value': item[valueKey],
                                         'label': item[labelKey]}
                                     )
-                                    for (var key in item) {
-                                        if (key !== valueKey && key !== labelKey) {
-                                            $op.attr(key, item[key]);
+                                    if ('detlMajCode' == targetId) {
+                                        for (var key in item) {
+                                            if (key !== valueKey && key !== labelKey) {
+                                                $op.attr(key, item[key]);
+                                            }
                                         }
                                     }
                                     $op.appendTo($target);
@@ -2167,7 +2217,6 @@
                             } else if (applAttrCode == '00003') {
                                 // nothing
                             }
-
                         }
                     }
             );
