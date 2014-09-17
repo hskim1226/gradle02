@@ -40,8 +40,11 @@
             color: #000;
         }
 
-        section.application .nav>li>a {
+        section.application .nav>li>a, section.application .nav>li>span {
             display: block;
+            text-align: center;
+            border-bottom-color: #fff;
+            color: #fff
         }
         .apexMessage {
             color: #000;
@@ -109,7 +112,7 @@
         .nav-tabs>li.active>a:link {
             background-color: #f0f0f0;
             color: #333;
-            cursor: default;
+            cursor: pointer;
         }
 
         .form-group.required .control-label:after {
@@ -239,8 +242,11 @@
         <ul id="myTab" class="nav nav-tabs nav-justified tab-gray">
             <li><a href="#appinfo" data-toggle="tab">기본 정보</a></li>
             <li><a href="#academy" data-toggle="tab" class="tab-acad-lang-expr">학력</a></li>
+            <%--<li><span data-toggle="tab" class="tab-acad-lang-expr">학력</span></li>--%>
             <li><a href="#langcareer" data-toggle="tab" class="tab-acad-lang-expr">어학 및 경력</a></li>
+            <%--<li><span data-toggle="tab" class="tab-acad-lang-expr">어학 및 경력</span></li>--%>
             <li><a href="#fileupload" data-toggle="tab" class="tab-file-upload">첨부파일</a></li>
+            <%--<li><span data-toggle="tab" class="tab-file-upload">첨부파일</span></li>--%>
         </ul>
         <form:form commandName="entireApplication" cssClass="form-horizontal" method="post" enctype="multipart/form-data" role="form">
             <form:hidden path="application.applNo" id="applNo" />
@@ -369,7 +375,7 @@
                                     </div>
                                 </div>
                             </div>
-                            
+
                             <div class="panel panel-default">
                                 <div class="panel-heading">지원자 상세정보</div>
                                 <div class="panel-body">
@@ -1619,7 +1625,12 @@
             <%-- 달력 끝 --%>
 
             <%-- 처음 탭 표시 --%>
+//            $("#myTab").tabs();
             $('#myTab a:first').tab('show');
+//            $("#myTab").tabs({ disabled: [ 1, 2, 3 ] });
+
+
+
 
             <%-- BootStrap Validator --%>
             var numericValidator = {
