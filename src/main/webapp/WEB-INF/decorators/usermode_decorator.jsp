@@ -48,10 +48,10 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav" style="float: right;" data-0="margin-top:20px;" data-300="margin-top:5px;">
-                    <div class="btn-group navbar-form navbar-left" data-toggle="buttons" role="locale">
-                        <label class="btn btn-link" data-target="ko"><input type="radio" />한글</label>
-                        <label class="btn btn-link" data-target="en"><input type="radio" />영어</label>
-                    </div>
+                    <%--<div class="btn-group navbar-form navbar-left" data-toggle="buttons" role="locale">--%>
+                        <%--<label class="btn btn-link" data-target="ko"><input type="radio" />한글</label>--%>
+                        <%--<label class="btn btn-link" data-target="en"><input type="radio" />영어</label>--%>
+                    <%--</div>--%>
                     <li class="active"><a href="${contextPath}/index">Home</a></li>
                     <li><a href="${contextPath}/notice/list">원서 접수</a></li>
                     <li><a href="${contextPath}/application/mylist">내 원서</a></li>
@@ -106,11 +106,21 @@
     <script type="text/javascript">
         $(document).ready(function() {
             $('div[role=locale]').on('click', function(e) {
-                var target = e.target, dataTarget;
+                var target = e.target, dataTarget, f, input;
                 if (target) {
                     dataTarget = target.getAttribute('data-target');
                     if (dataTarget) {
-                        location.href = UpdateQueryString('${localeParam}', dataTarget, location.href);
+                        <%--location.href = UpdateQueryString('${localeParam}', dataTarget, location.href);--%>
+                        f = $('form')[0];
+                        if (f) {
+                            f.action = location.href;
+                            input = document.createElement('input');
+                            input.setAttribute('type', 'hidden');
+                            input.setAttribute('name', '${localeParam}')
+                            input.setAttribute('value', dataTarget);
+                            f.appendChild(input);
+                            f.submit();
+                        }
                     }
                 }
             });

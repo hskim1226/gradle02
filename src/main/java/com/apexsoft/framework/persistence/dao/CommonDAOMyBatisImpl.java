@@ -376,6 +376,15 @@ public class CommonDAOMyBatisImpl implements CommonDAO {
     }
 
     @Override
+    public <T> int updateItem(T item, String nameSpace, String MapperName, String sqlId) {
+        int idx = 0;
+        if ( item != null) {
+            idx = update(nameSpace + MapperName + sqlId, item);
+        }
+        return idx;
+    }
+
+    @Override
     public <T> int updateList(List<T> list, String nameSpace, String MapperName) {
         int idx = 0;
         if ( list != null) {

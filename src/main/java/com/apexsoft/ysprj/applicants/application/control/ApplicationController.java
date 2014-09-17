@@ -10,7 +10,6 @@ import com.apexsoft.framework.persistence.file.model.FileInfo;
 import com.apexsoft.framework.persistence.file.model.FileItem;
 import com.apexsoft.framework.persistence.file.model.FileMetaForm;
 import com.apexsoft.framework.persistence.file.model.FileVO;
-import com.apexsoft.framework.persistence.file.service.FileService;
 import com.apexsoft.ysprj.applicants.application.domain.*;
 import com.apexsoft.ysprj.applicants.application.service.ApplicationService;
 import com.apexsoft.ysprj.applicants.common.domain.*;
@@ -24,8 +23,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -53,6 +54,22 @@ public class ApplicationController {
 
     @Resource(name = "messageResolver")
     MessageResolver messageResolver;
+
+    /**
+     * 원서 작성 동의 화면
+     * SimpleForwardingController에서 이전
+     * @return
+     */
+    @RequestMapping(value = "/agreement", method = RequestMethod.POST)
+    public ModelAndView checkAgreement(@RequestParam(value = "admsNo") String admsNo,
+                                 @RequestParam(value = "entrYear") String entrYear,
+                                 @RequestParam(value = "admsTypeCode") String admsTypeCode) {
+        ModelAndView model = new ModelAndView("application/agreement");
+        model.addObject("admsNo", admsNo);
+        model.addObject("entrYear", entrYear);
+        model.addObject("admsTypeCode", admsTypeCode);
+        return model;
+    }
 
     /**
      * 내원서 화면
@@ -90,6 +107,27 @@ public class ApplicationController {
         return r;
     }
 
+//    @RequestMapping(value = "/preview")
+    public String previewAppInfo(@RequestParam(value = "applNo", required = false) Integer applNo,
+                                 @RequestParam(value = "admsNo", required = false) String admsNo,
+                                 @RequestParam(value = "entrYear", required = false) String entrYear,
+                                 @RequestParam(value = "admsTypeCode", required = false) String admsTypeCode,
+                                 Model model) {
+
+        if( applNo != null ) {
+            EntireApplication entireApplication = applicationService.retrieveEntireApplication( applNo );
+            model.addAttribute(entireApplication);
+        }
+
+        String result = "application";
+        if( "A".equals(admsTypeCode) || "B".equals(admsTypeCode) ) {
+            result += "/preview";
+        } else if( "C".equals(admsTypeCode) ) {
+            result += "/preview";
+        }
+        return result;
+    }
+
     /**
      * 입학원서 화면 표시(최초면 빈란, 아니면 내용 채워짐)
      *
@@ -106,7 +144,7 @@ public class ApplicationController {
                                  @RequestParam(value = "entrYear", required = false) String entrYear,
                                  @RequestParam(value = "admsTypeCode", required = false) String admsTypeCode,
                                  @ModelAttribute("entireApplication") EntireApplication entireApplication,
-                                 Model model) {
+                                 Model model, HttpServletRequest request) {
         Map<String, Object> commonCodeMap = new HashMap<String, Object>();
 
         if( applNo != null ) {

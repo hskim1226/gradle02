@@ -70,6 +70,8 @@
 
                         <!-- 가상계좌(무통장) 결제연동을 하시는 경우  할당/입금 결과를 통보받기 위해 반드시 LGD_CASNOTEURL 정보를 LG 유플러스에 전송해야 합니다 . -->
                         <input type="hidden" name="LGD_CASNOTEURL"          id="LGD_CASNOTEURL">
+
+                        <input type="hidden" name="applNo" id="applNo"/>
                     </form>
                     <div>
                         <button class="btn btn-primary btn-lg btn-block" id="processPayment">결제하기</button>
@@ -154,6 +156,7 @@
 
             $('#processPayment').click(function(){
                 document.getElementById('LGD_TIMESTAMP').value = dateToFormat(new Date(), 'yyyyMMddhhmmss');
+                document.getElementById('applNo').value = "${paymentVO.applNo}";
                 $.ajax({
                     url: "${contextPath}/pay/info",
                     type: "GET",

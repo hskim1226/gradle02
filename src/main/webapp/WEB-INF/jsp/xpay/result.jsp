@@ -55,7 +55,7 @@
                     <%--${transactionVO.sysMsg}--%>
                 <h3 class="pay">${transactionVO.userMsg}</h3>
                 <div>
-                    <button class="btn btn-primary btn-lg btn-block" id="goMain">메인으로 가기</button>
+                    <button class="btn btn-primary btn-lg btn-block" id="goMain">내 원서 보기</button>
                 </div>
                 <div>
                     <%--<c:forEach var="item" items="${transactionVO.txMap}" varStatus="status">--%>
@@ -69,7 +69,7 @@
 </section>
 <content tag="local-script">
     <script>
-        $('#goMain').click( function () { location.href='${contextPath}/index'; });
+        $('#goMain').click( function () { location.href='${contextPath}/application/mylist'; });
     </script>
 </content>
 </body>

@@ -81,9 +81,12 @@
     </mvc:interceptors -->
 
     <mvc:interceptors>
-        <bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor">
+        <bean class="com.apexsoft.framework.web.servlet.i18n.CustomLocaleChangeInterceptor">
             <property name="paramName" value="lang" />
         </bean>
+        <!--<bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor">-->
+            <!--<property name="paramName" value="lang" />-->
+        <!--</bean>-->
     </mvc:interceptors>
 
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">

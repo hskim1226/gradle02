@@ -278,6 +278,10 @@ languageList = entire.getApplicationLanguageList();]]></method>
                                 <label id="42">
                                     <text-property name="text">수          험          표</text-property>
                                 </label>
+                                <label id="1367">
+                                    <property name="fontSize">12pt</property>
+                                    <text-property name="text">Admission Ticket</text-property>
+                                </label>
                             </cell>
                         </row>
                         <row id="13">
@@ -294,6 +298,10 @@ languageList = entire.getApplicationLanguageList();]]></method>
                                 <property name="verticalAlign">middle</property>
                                 <label id="34">
                                     <text-property name="text">수 험 번 호</text-property>
+                                </label>
+                                <label id="1368">
+                                    <property name="fontSize">9pt</property>
+                                    <text-property name="text">Admission No.</text-property>
                                 </label>
                             </cell>
                             <cell id="15">
@@ -334,6 +342,10 @@ languageList = entire.getApplicationLanguageList();]]></method>
                                 <label id="35">
                                     <text-property name="text">학 위 과 정</text-property>
                                 </label>
+                                <label id="1369">
+                                    <property name="fontSize">9pt</property>
+                                    <text-property name="text">Course of Degree</text-property>
+                                </label>
                             </cell>
                             <cell id="18">
                                 <property name="borderBottomStyle">solid</property>
@@ -371,6 +383,10 @@ languageList = entire.getApplicationLanguageList();]]></method>
                                 <property name="verticalAlign">middle</property>
                                 <label id="36">
                                     <text-property name="text">지 원 학 과</text-property>
+                                </label>
+                                <label id="1370">
+                                    <property name="fontSize">9pt</property>
+                                    <text-property name="text">Department</text-property>
                                 </label>
                             </cell>
                             <cell id="21">
@@ -410,6 +426,10 @@ languageList = entire.getApplicationLanguageList();]]></method>
                                 <label id="37">
                                     <text-property name="text">세 부 전 공</text-property>
                                 </label>
+                                <label id="1371">
+                                    <property name="fontSize">9pt</property>
+                                    <text-property name="text">Major</text-property>
+                                </label>
                             </cell>
                             <cell id="24">
                                 <property name="borderBottomStyle">solid</property>
@@ -447,6 +467,10 @@ languageList = entire.getApplicationLanguageList();]]></method>
                                 <property name="verticalAlign">middle</property>
                                 <label id="38">
                                     <text-property name="text">성          명</text-property>
+                                </label>
+                                <label id="1372">
+                                    <property name="fontSize">9pt</property>
+                                    <text-property name="text">Name</text-property>
                                 </label>
                             </cell>
                             <cell id="27">

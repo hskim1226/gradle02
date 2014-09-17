@@ -123,7 +123,12 @@
                         </div>
                         <div class="spacer-tiny"></div>
                         <div>
-                            <button class="btn btn-primary btn-lg btn-block" id="composePaper">원서 작성</button>
+                            <form id=generalApplyForm" action="${contextPath}/application/agreement" method="post">
+                                <input type="hidden" name="admsNo" value="15C" />
+                                <input type="hidden" name="entrYear" value="2015" />
+                                <input type="hidden" name="admsTypeCode" value="C" />
+                                <button type="submit" class="btn btn-primary btn-lg btn-block" id="composePaper">원서 작성</button>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -135,7 +140,7 @@
     <script>
         $(document).ready( function() {
             $('#composePaper').click(function(){
-                location.href="${contextPath}/application/agreement";
+                $('#ForeignApplyForm').submit();
             });
         })
     </script>

@@ -8,6 +8,8 @@ import javax.validation.constraints.NotNull;
  */
 public class PaymentVO {
 
+    private int applNo;
+
     private String LGD_MID;
 
     private String LGD_OID;
@@ -43,6 +45,14 @@ public class PaymentVO {
     private String LGD_CASNOTEURL;
 
     private String LGD_PAYKEY;
+
+    public int getApplNo() {
+        return applNo;
+    }
+
+    public void setApplNo(int applNo) {
+        this.applNo = applNo;
+    }
 
     public String getLGD_MID() {
         return LGD_MID;

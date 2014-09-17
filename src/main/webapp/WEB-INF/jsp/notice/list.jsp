@@ -46,18 +46,28 @@
                         </thead>
                         <tbody>
                         <tr>
-                            <td>일반</td>
-                            <td>2015학년도 전기 연세대학교 대학원 일반 전형</td>
-                            <td><button id="toGeneralInfo" class="btn btn-info">모집 요강</button></td>
-                            <td><button id="toGeneralApply" class="btn btn-primary">원서 작성</button></td>
-                            <td>2014-09-28(월) / 2014-10-08(수)</td>
+                            <form id=generalApplyForm" action="${contextPath}/application/agreement" method="post">
+                                <td>일반</td>
+                                <td>2015학년도 전기 연세대학교 대학원 일반 전형</td>
+                                <td><button type="button" id="toGeneralInfo" class="btn btn-info">모집 요강</button></td>
+                                <td><button type="submit" id="toGeneralApply" class="btn btn-primary">원서 작성</button></td>
+                                <td>2014-09-28(월) / 2014-10-08(수)</td>
+                                <input type="hidden" name="admsNo" value="15A" />
+                                <input type="hidden" name="entrYear" value="2015" />
+                                <input type="hidden" name="admsTypeCode" value="A" />
+                            </form>
                         </tr>
                         <tr>
-                            <td>외국인</td>
-                            <td><a href="${contextPath}/notice/2015-1-foreign">2015학년도 전기 연세대학교 대학원 외국인 전형</a></td>
-                            <td><button id="toForeignInfo" class="btn btn-info">모집 요강</button></td>
-                            <td><button id="toForeignApply" class="btn btn-primary">원서 작성</button></td>
-                            <td>2014-09-28(월) / 2014-10-08(수)</td>
+                            <form id=foreignApplyForm" action="${contextPath}/application/agreement" method="post">
+                                <td>외국인</td>
+                                <td><a href="${contextPath}/notice/2015-1-foreign">2015학년도 전기 연세대학교 대학원 외국인 전형</a></td>
+                                <td><button type="button" id="toForeignInfo" class="btn btn-info">모집 요강</button></td>
+                                <td><button type="submit" id="toForeignApply" class="btn btn-primary">원서 작성</button></td>
+                                <td>2014-09-28(월) / 2014-10-08(수)</td>
+                                <input type="hidden" name="admsNo" value="15C" />
+                                <input type="hidden" name="entrYear" value="2015" />
+                                <input type="hidden" name="admsTypeCode" value="C" />
+                            </form>
                         </tr>
                         </tbody>
                     </table>
@@ -73,14 +83,31 @@
                 location.href="${contextPath}/notice/2015-1-general";
             });
             $('#toGeneralApply').click(function(){
-                location.href="${contextPath}/application/agreement";
+                $('#generalApplyForm').submit();
             });
             $('#toForeignInfo').click(function(){
                 location.href="${contextPath}/notice/2015-1-foreign";
             });
             $('#toForeignApply').click(function(){
-                location.href="${contextPath}/application/agreement";
+                $('#foreignApplyForm').submit();
             });
+
+            function submitPostMethod(url, data) {
+                var f = document.createElement('form');
+                var hidden;
+                for (var i = 0, len = data.length; i < len; i++) {
+                    hidden = document.createElement('input');
+                    hidden.setAttribute('type', 'hidden');
+                    for(var key in data[i]) {
+                        hidden.setAttribute('name', key);
+                        hidden.setAttribute('value', data[i][key]);
+                    }
+                    f.appendChild(hidden);
+                }
+                f.setAttribute('action', url);
+                f.setAttribute('method', 'post');
+                f.submit();
+            }
         })
     </script>
 </content>

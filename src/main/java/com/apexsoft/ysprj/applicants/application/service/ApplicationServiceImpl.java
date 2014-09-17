@@ -564,7 +564,7 @@ public class ApplicationServiceImpl implements ApplicationService {
         paramForAcademy.setApplNo(applNo);
         paramForAcademy.setAcadTypeCode("00002");
         entireApplication.setCollegeList(retrieveInfoListByParamObj(paramForAcademy, aaMapperSqlId, ApplicationAcademy.class));
-        paramForAcademy.setAcadTypeCode(("00003"));
+        paramForAcademy.setAcadTypeCode("00003");
         entireApplication.setGraduateList(retrieveInfoListByParamObj(paramForAcademy, aaMapperSqlId, ApplicationAcademy.class));
 
         entireApplication.setApplicationExperienceList(retrieveInfoListByApplNo(applNo, "CustomApplicationExperienceMapper", ApplicationExperience.class));
@@ -664,4 +664,6 @@ public class ApplicationServiceImpl implements ApplicationService {
 
         return infoList;
     }
+
+
 }
