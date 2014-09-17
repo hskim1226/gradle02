@@ -21,6 +21,7 @@ public class ApplicationServiceImpl implements ApplicationService {
 
     private final static String NAME_SPACE = "com.apexsoft.ysprj.applicants.application.sqlmap.";
     private final static String PAYMENT_NAME_SPACE = "com.apexsoft.ysprj.applicants.payment.sqlmap.";
+    private final static String DOC_NAME_SPACE = "appplicaiton.doc.";
 
     @Autowired
     private CommonDAO commonDAO;
@@ -852,6 +853,26 @@ public class ApplicationServiceImpl implements ApplicationService {
 
         return infoList;
     }
+    @Override
+    public  ArrayList<List> retrieveManApplDocListByApplNo( int applNo) {
+        List<MandatoryNAppliedDoc> docList = null;
 
+        ArrayList<List> mandDoc = new ArrayList<List>();
+        int cnt;
+        try {
+            mandDoc.add( commonDAO.queryForList(DOC_NAME_SPACE + "selectBasicDocListByApplNoWTMandatory", applNo, MandatoryNAppliedDoc.class));
+            mandDoc.add( commonDAO.queryForList(DOC_NAME_SPACE + "selectOverSeaDocListByApplNoWTMandatory", applNo, MandatoryNAppliedDoc.class));
+            mandDoc.add( commonDAO.queryForList(DOC_NAME_SPACE + "selectUnderDocListByApplNoWTMandatory", applNo, MandatoryNAppliedDoc.class));
+            mandDoc.add( commonDAO.queryForList(DOC_NAME_SPACE + "selectGradDocListByApplNoWTMandatory", applNo, MandatoryNAppliedDoc.class ));
+            mandDoc.add( commonDAO.queryForList(DOC_NAME_SPACE + "selectLangDocListByApplNoWTMandatory", applNo, MandatoryNAppliedDoc.class ));
+            mandDoc.add( commonDAO.queryForList(DOC_NAME_SPACE + "selectInstDocListByApplNoWTMandatory", applNo, MandatoryNAppliedDoc.class ));
+            mandDoc.add( commonDAO.queryForList(DOC_NAME_SPACE + "selectDeptDocListByApplNoWTMandatory", applNo, MandatoryNAppliedDoc.class ));
+            mandDoc.add( commonDAO.queryForList(DOC_NAME_SPACE + "selectEtcDocListByApplNoWTMandatory", applNo, MandatoryNAppliedDoc.class ));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return mandDoc;
+    }
 
 }

@@ -3,6 +3,7 @@ package com.apexsoft.ysprj.applicants.application.service;
 import com.apexsoft.framework.common.vo.ExecutionContext;
 import com.apexsoft.ysprj.applicants.application.domain.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -31,4 +32,6 @@ public interface ApplicationService {
     ExecutionContext confirmEntireApplication(EntireApplication entireApplication);
 
     int deleteListByApplNo(int applNo, String MapperName);
+
+    ArrayList<List> retrieveManApplDocListByApplNo( int applNo);
 }
