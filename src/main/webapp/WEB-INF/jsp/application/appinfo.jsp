@@ -219,6 +219,10 @@
             padding: 0 !important;
             margin: 0 !important;
         }
+
+        /*a[disabled] {*/
+            /*pointer-events: none;*/
+        /*}*/
     </style>
     <%--body의 글자 속성을 #333333으로 강제 지정하여 Footer 글자가 안나옴, 꼭 필요하지 않으면 안쓰기로
     <link rel="stylesheet" href="${contextPath}/css/bootstrap-glyphicons.css" />--%>
@@ -229,9 +233,9 @@
     <div class="container">
         <ul id="myTab" class="nav nav-tabs nav-justified tab-gray">
             <li><a href="#appinfo" data-toggle="tab">기본 정보</a></li>
-            <li><a href="#academy" data-toggle="tab">학력</a></li>
-            <li><a href="#langcareer" data-toggle="tab">어학 및 경력</a></li>
-            <li><a href="#fileupload" data-toggle="tab">첨부파일</a></li>
+            <li><a href="#academy" data-toggle="tab" class="tab-acad-lang-expr">학력</a></li>
+            <li><a href="#langcareer" data-toggle="tab" class="tab-acad-lang-expr">어학 및 경력</a></li>
+            <li><a href="#fileupload" data-toggle="tab" class="tab-file-upload">첨부파일</a></li>
         </ul>
         <form:form commandName="entireApplication" cssClass="form-horizontal" method="post" enctype="multipart/form-data" role="form">
             <form:hidden path="application.admsNo" id="admsNo" />
@@ -1304,6 +1308,9 @@
                 $('.base-info').prop('disabled', 'true');
                 $('#baseCancel').css('display', 'block');
                 $('#baseSave').css('display', 'none');
+                <li><a href="#academy" data-toggle="tab" class="tab-acad-lang-expr">학력</a></li>
+                <li><a href="#langcareer" data-toggle="tab" class="tab-acad-lang-expr">어학 및 경력</a></li>
+                <li><a href="#fileupload" data-toggle="tab" class="tab-file-upload">첨부파일</a></li>
             };
 
             if (document.getElementById('applNo').value != "") {
