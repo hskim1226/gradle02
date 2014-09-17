@@ -5,7 +5,7 @@
   <select id="selectGeneralByAdmsDeptCors"
           resultType="com.apexsoft.ysprj.applicants.common.domain.CodeNameDetailMajor"
           parameterType="com.apexsoft.ysprj.applicants.common.domain.ParamForSetupCourses" >
-      SELECT B.DETL_MAJ_CODE, C.DETL_MAJ_NAME, B.DETL_MAJ_DESC, B.PART_TIME_YN
+      SELECT B.DETL_MAJ_CODE, C.DETL_MAJ_NAME, C.DETL_MAJ_NAME_XXEN, B.DETL_MAJ_DESC, B.PART_TIME_YN
       FROM ADMS_CORS A, ADMS_CORS_MAJ B, DETL_MAJ C
       WHERE A.ADMS_CORS_NO = B.ADMS_CORS_NO
       AND B.DETL_MAJ_CODE = C.DETL_MAJ_CODE
@@ -17,7 +17,7 @@
   <select id="selectAriInstByAdmsDeptAriInstCors"
           resultType="com.apexsoft.ysprj.applicants.common.domain.CodeNameDetailMajor"
           parameterType="com.apexsoft.ysprj.applicants.common.domain.ParamForSetupCourses" >
-      SELECT B.DETL_MAJ_CODE, C.DETL_MAJ_NAME, B.DETL_MAJ_DESC, B.PART_TIME_YN
+      SELECT B.DETL_MAJ_CODE, C.DETL_MAJ_NAME, C.DETL_MAJ_NAME_XXEN, B.DETL_MAJ_DESC, B.PART_TIME_YN
       FROM ADMS_CORS A, ADMS_CORS_MAJ B, DETL_MAJ C
       WHERE A.ADMS_CORS_NO = B.ADMS_CORS_NO
       AND B.DETL_MAJ_CODE = C.DETL_MAJ_CODE
@@ -27,8 +27,8 @@
       AND A.CORS_TYPE_CODE = #{corsTypeCode,jdbcType=VARCHAR}
   </select>
 
-    <select id="selectNameByCode" resultType="java.lang.String" parameterType="java.lang.String">
-        select DETL_MAJ_NAME
+    <select id="selectNameByCode" resultType="com.apexsoft.ysprj.applicants.common.domain.CodeNameDetailMajor" parameterType="java.lang.String">
+        select DETL_MAJ_NAME, DETL_MAJ_NAME_XXEN
         from DETL_MAJ
         where DETL_MAJ_CODE = #{detlMajCode,jdbcType=VARCHAR}
     </select>

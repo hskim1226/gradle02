@@ -5,7 +5,7 @@
   <select id="selectByAdmsColl"
           resultType="com.apexsoft.ysprj.applicants.common.domain.CodeNameDepartment"
           parameterType="com.apexsoft.ysprj.applicants.common.domain.ParamForSetupCourses" >
-      SELECT A.DEPT_CODE, B.DEPT_NAME
+      SELECT A.DEPT_CODE, B.DEPT_NAME, B.DEPT_NAME_XXEN
       FROM ADMS_DEPT A, DEPT B
       WHERE A.DEPT_CODE = B.DEPT_CODE
       AND A.ADMS_NO = #{admsNo,jdbcType=VARCHAR}
@@ -17,7 +17,7 @@
   <select id="selectByAdmsAriInst"
           resultType="com.apexsoft.ysprj.applicants.common.domain.CodeNameDepartment"
           parameterType="com.apexsoft.ysprj.applicants.common.domain.ParamForSetupCourses" >
-      SELECT A.DEPT_CODE, B.DEPT_NAME
+      SELECT A.DEPT_CODE, B.DEPT_NAME, B.DEPT_NAME_XXEN
       FROM ARI_ADMS_DEPT A, DEPT B
       WHERE A.DEPT_CODE = B.DEPT_CODE
       AND A.ADMS_NO = #{admsNo,jdbcType=VARCHAR}
@@ -25,8 +25,8 @@
       ORDER BY B.DEPT_SEQ
   </select>
 
-    <select id="selectNameByCode" resultType="java.lang.String" parameterType="java.lang.String">
-        select DEPT_NAME
+    <select id="selectNameByCode" resultType="com.apexsoft.ysprj.applicants.common.domain.CodeNameDepartment" parameterType="java.lang.String">
+        select DEPT_NAME, DEPT_NAME_XXEN
         from DEPT
         where DEPT_CODE = #{deptCode,jdbcType=VARCHAR}
     </select>

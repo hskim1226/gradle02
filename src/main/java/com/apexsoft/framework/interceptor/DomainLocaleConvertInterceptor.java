@@ -8,10 +8,8 @@ import org.springframework.web.servlet.support.RequestContextUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Collection;
 import java.util.Iterator;
 import java.util.Locale;
-import java.util.Map;
 import java.util.Map.Entry;
 
 /**
@@ -22,7 +20,15 @@ import java.util.Map.Entry;
  */
 public class DomainLocaleConvertInterceptor extends HandlerInterceptorAdapter {
 
-    private DomainLocaleConverter converter = new DomainLocaleConverter();
+    private Converter converter;
+
+    public Converter getConverter() {
+        return converter;
+    }
+
+    public void setConverter(Converter converter) {
+        this.converter = converter;
+    }
 
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
@@ -38,7 +44,7 @@ public class DomainLocaleConvertInterceptor extends HandlerInterceptorAdapter {
                 Iterator<Entry<String, Object>> iter = modelMap.entrySet().iterator();
                 while (iter.hasNext()) {
                     Entry<String, Object> entry = iter.next();
-                    convertValueLocale(entry.getValue(), locale);
+                    converter.convert(entry.getValue(), locale, request);
                 }
             }
         }
@@ -46,27 +52,4 @@ public class DomainLocaleConvertInterceptor extends HandlerInterceptorAdapter {
         super.postHandle(request, response, handler, modelAndView);
     }
 
-    private void convertValueLocale(Object value, Locale locale) throws Exception {
-        if (value instanceof Collection) {
-            Collection collection = (Collection) value;
-            for (Iterator iter = collection.iterator(); iter.hasNext();) {
-                convertValueLocale (iter.next(), locale);
-            }
-        } else if (value instanceof Map) {
-            Map map = (Map) value;
-            for (Iterator<Entry> iter = map.entrySet().iterator(); iter.hasNext();) {
-                Entry entry = iter.next();
-                convertValueLocale (entry.getValue(), locale);
-            }
-        } else if (value != null) {
-            Class clazz = value.getClass();
-            Package pack = clazz.getPackage();
-
-            if (clazz.getClassLoader() != null &&
-                    pack.getName().startsWith("com.apexsoft") &&
-                    pack.getName().endsWith("domain")) {
-                converter.convert(value, locale);
-            }
-        }
-    }
 }

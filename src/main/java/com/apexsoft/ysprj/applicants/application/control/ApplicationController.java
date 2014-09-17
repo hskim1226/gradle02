@@ -228,13 +228,13 @@ public class ApplicationController {
             result += "appinfo-fore";
 
             commonCodeMap.put( "fornTypeList", commonService.retrieveCommonCodeValueByCodeGroup("FORN_TYPE") );
+            commonCodeMap.put( "korExamList", commonService.retrieveLangExamByLangCode("KOR") );
         }
 
         commonCodeMap.put( "emerContList", commonService.retrieveCommonCodeValueByCodeGroup("EMER_CONT") );
         commonCodeMap.put( "toflTypeList", commonService.retrieveCommonCodeValueByCodeGroup("TOFL_TYPE") );
         commonCodeMap.put( "fornExmpList", commonService.retrieveCommonCodeValueByCodeGroup("FORN_EXMP") );
         commonCodeMap.put( "qualAreaList", commonService.retrieveCommonCodeValueByCodeGroup("QUAL_AREA") );
-        commonCodeMap.put( "korExamList", commonService.retrieveLangExamByLangCode("KOR") );
         commonCodeMap.put( "engExamList", commonService.retrieveLangExamByLangCode("ENG") );
 //문서처리
 //        List<CustomApplicationDoc> geneDocList = null;
