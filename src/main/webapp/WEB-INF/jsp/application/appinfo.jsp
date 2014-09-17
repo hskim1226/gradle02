@@ -369,32 +369,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="panel panel-default" id="currentCompany" hidden>
-                                <div class="panel-heading">현재 근무처</div>
-                                <div class="panel-body">
-                                    <div class="form-group">
-                                        <form:label path="applicationGeneral.currWrkpName" cssClass="col-sm-2 control-label">회사 이름</form:label>
-                                        <div class="col-sm-9">
-                                            <form:input path="applicationGeneral.currWrkpName" cssClass="form-control" />
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <form:label path="applicationGeneral.currWrkpDay" cssClass="col-sm-2 control-label">입사 일자</form:label>
-                                        <div class="col-sm-9">
-                                            <div class="input-group date">
-                                                <form:input path="applicationGeneral.currWrkpDay" cssClass="col-sm-6 form-control" readonly="true" />
-                                                <span class="input-group-addon"></span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <form:label path="applicationGeneral.currWrkpTel" cssClass="col-sm-2 control-label">연락처</form:label>
-                                        <div class="col-sm-9">
-                                            <form:input path="applicationGeneral.currWrkpTel" cssClass="form-control" />
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            
                             <div class="panel panel-default">
                                 <div class="panel-heading">지원자 상세정보</div>
                                 <div class="panel-body">
