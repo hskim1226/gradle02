@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -27,23 +28,151 @@ public class ApplicationServiceImpl implements ApplicationService {
     @Resource(name = "messageResolver")
     MessageResolver messageResolver;
 
+    private final String APP_NULL_STATUS = "00000";
+    private final String APP_INFO_SAVED = "00001";
+    private final String ACAD_SAVED = "00002";
+    private final String LANG_CAREER_SAVED = "00003";
+    private final String FILEUPLOADE_SAVED = "00004";
+
+    /**
+     * 기본 정보 탭 저장
+     *
+     * @param application
+     * @param applicationGeneral
+     * @return
+     */
     @Override
-    public ExecutionContext createApplication(Application application) {
-        ExecutionContext ec = new ExecutionContext(ExecutionContext.FAIL,
-                messageResolver.getMessage("U306"), 0);
-        int r1 = 0, applNo = 0;
+    public ExecutionContext createAppInfo(Application application, ApplicationGeneral applicationGeneral) {
+        ExecutionContext ec = new ExecutionContext();
+        int r1 = 0, r2 = 0, applNo = 0;
         Date date = new Date();
+        application.setApplStsCode(APP_INFO_SAVED);
         application.setCreDate(date);
         r1 = commonDAO.insertItem(application, NAME_SPACE, "ApplicationMapper");
+
         Application tA = commonDAO.queryForObject(NAME_SPACE + "CustomApplicationMapper.selectApplByApplForInsertOthers",
                 application, Application.class);
-        if ( r1 > 0 ) {
+        applNo = tA.getApplNo();
+
+        applicationGeneral.setApplNo(applNo);
+        applicationGeneral.setCreDate(date);
+        r2 = commonDAO.insertItem(applicationGeneral, NAME_SPACE, "ApplicationGeneralMapper");
+
+        if ( r1 > 0 && r2 > 0 ) {
             ec.setResult(ExecutionContext.SUCCESS);
-            ec.setData(tA.getApplNo());
             ec.setMessage(messageResolver.getMessage("U312"));
+            ec.setData(new CustomApplNoStsCode(applNo, tA.getApplStsCode()));
+        } else {
+            ec.setResult(ExecutionContext.FAIL);
+            ec.setMessage(messageResolver.getMessage("U306"));
+            String errMsg = null;
+            if ( r1 == 0 ) errMsg = messageResolver.getMessage("ERR00001");
+            else if ( r2 == 0 ) errMsg = messageResolver.getMessage("ERR00006");
+            ec.setData(new CustomApplNoStsCode(0, APP_NULL_STATUS, errMsg));
         }
         return ec;
     }
+
+    @Override
+    public ExecutionContext updateAppInfo(Application application, ApplicationGeneral applicationGeneral) {
+        ExecutionContext ec = new ExecutionContext();
+        int r1 = 0, r2 = 0;
+        Date date = new Date();
+        application.setModDate(date);
+        r1 = commonDAO.updateItem(application, NAME_SPACE, "ApplicationMapper");
+        r2 = commonDAO.updateItem(applicationGeneral, NAME_SPACE, "ApplicationGeneralMapper");
+
+        if ( r1 > 0 && r2 > 0 ) {
+            ec.setResult(ExecutionContext.SUCCESS);
+            ec.setMessage(messageResolver.getMessage("U315"));
+            ec.setData(new CustomApplNoStsCode(application.getApplNo(), application.getApplStsCode()));
+        } else {
+            ec.setResult(ExecutionContext.FAIL);
+            ec.setMessage(messageResolver.getMessage("U316"));
+            String errMsg = null;
+            if ( r1 == 0 ) errMsg = messageResolver.getMessage("ERR00003");
+            else if ( r2 == 0 ) errMsg = messageResolver.getMessage("ERR00008");
+            ec.setData(new CustomApplNoStsCode(application.getApplNo(), APP_NULL_STATUS, errMsg));
+        }
+        return ec;
+    }
+
+    @Override
+    public ExecutionContext createAcademy(Application application,
+                                          List<ApplicationAcademy> collegeList,
+                                          List<ApplicationAcademy> graduateList) {
+        List<ApplicationAcademy> acadList = new ArrayList<ApplicationAcademy>();
+        acadList.addAll(collegeList);
+        acadList.addAll(graduateList);
+
+        ExecutionContext ec = new ExecutionContext();
+        int r1 = 0, r2 = 0, applNo = application.getApplNo(), idx = 0;
+        Date date = new Date();
+
+        application.setApplStsCode(ACAD_SAVED);
+        application.setModDate(date);
+        r1 = commonDAO.updateItem(application, NAME_SPACE, "ApplicationMapper");
+
+        if ( acadList != null ) {
+            for( ApplicationAcademy academy : acadList) {
+                academy.setApplNo(applNo);
+                academy.setAcadSeq(++idx);
+                academy.setCreDate(date);
+            }
+            r2 = commonDAO.insertList(acadList, NAME_SPACE, "ApplicationAcademyMapper");
+        }
+
+        if ( r1 > 0 && r2 > 0 ) {
+            ec.setResult(ExecutionContext.SUCCESS);
+            ec.setMessage(messageResolver.getMessage("U317"));
+            ec.setData(new CustomApplNoStsCode(applNo, application.getApplStsCode()));
+        } else {
+            ec.setResult(ExecutionContext.FAIL);
+            ec.setMessage(messageResolver.getMessage("U318"));
+            String errMsg = null;
+            if ( r1 == 0 ) errMsg = messageResolver.getMessage("ERR00003");
+            else if ( r2 == 0 ) errMsg = messageResolver.getMessage("ERR00011");
+            ec.setData(new CustomApplNoStsCode(0, APP_NULL_STATUS, errMsg));
+        }
+        return ec;
+    }
+
+    @Override
+    public ExecutionContext updateAcademy(Application application,
+                                          List<ApplicationAcademy> collegeList,
+                                          List<ApplicationAcademy> graduateList) {
+        List<ApplicationAcademy> acadList = new ArrayList<ApplicationAcademy>();
+        acadList.addAll(collegeList);
+        acadList.addAll(graduateList);
+
+        ExecutionContext ec = new ExecutionContext();
+        int r1 = 0, applNo = application.getApplNo(), idx = 0;
+        Date date = new Date();
+
+        deleteListByApplNo(applNo, "CustomApplicationAcademyMapper");
+        if ( acadList != null ) {
+            for( ApplicationAcademy academy : acadList) {
+                academy.setApplNo(applNo);
+                academy.setAcadSeq(++idx);
+                academy.setModDate(date);
+            }
+            r1 = commonDAO.insertList(acadList, NAME_SPACE, "ApplicationAcademyMapper");
+        }
+
+        if ( r1 > 0 ) {
+            ec.setResult(ExecutionContext.SUCCESS);
+            ec.setMessage(messageResolver.getMessage("U317"));
+            ec.setData(new CustomApplNoStsCode(applNo, application.getApplStsCode()));
+        } else {
+            ec.setResult(ExecutionContext.FAIL);
+            ec.setMessage(messageResolver.getMessage("U318"));
+            ec.setData(new CustomApplNoStsCode(applNo, APP_NULL_STATUS,
+                    messageResolver.getMessage("ERR00013")));
+        }
+        return ec;
+    }
+
+
 
     @Override
     public ExecutionContext createEntireApplication(EntireApplication entireApplication) {

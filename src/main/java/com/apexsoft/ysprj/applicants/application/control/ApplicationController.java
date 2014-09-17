@@ -55,6 +55,11 @@ public class ApplicationController {
     @Resource(name = "messageResolver")
     MessageResolver messageResolver;
 
+    private final String APP_INFO_SAVED = "00001";
+    private final String ACAD_SAVED = "00002";
+    private final String LANG_CAREER_SAVED = "00003";
+    private final String FILEUPLOADE_SAVED = "00004";
+
     /**
      * 원서 작성 동의 화면
      * SimpleForwardingController에서 이전
@@ -155,9 +160,6 @@ public class ApplicationController {
                     "EntireApplicationMapper.selectCampusCollegeCode",
                     CampusCollege.class);
 
-            entireApplication.setCampCode(campusCollege.getCampCode());
-            entireApplication.setCollCode(campusCollege.getCollCode());
-
             // 지원사항 select 초기값 설정
             List<Campus> campList = null;
             List<AcademyResearchIndustryInstitution> ariInstList = null;
@@ -168,7 +170,7 @@ public class ApplicationController {
 
             ParamForSetupCourses param = new ParamForSetupCourses();
             param.setAdmsNo( entireApplication.getApplication().getAdmsNo() );
-            param.setCollCode( entireApplication.getCollCode() );
+            param.setCollCode( entireApplication.getApplication().getCollCode() );
             param.setDeptCode( entireApplication.getApplication().getDeptCode() );
             param.setCorsTypeCode( entireApplication.getApplication().getCorsTypeCode() );
             param.setAriInstCode( entireApplication.getApplication().getAriInstCode() );
@@ -176,7 +178,7 @@ public class ApplicationController {
             String applAttrCode = entireApplication.getApplication().getApplAttrCode();
             if( "00001".equals( applAttrCode ) ) {
                 campList = commonService.retrieveCampus();
-                collList = commonService.retrieveCollegeByCampus( entireApplication.getCampCode() );
+                collList = commonService.retrieveCollegeByCampus( entireApplication.getApplication().getCampCode() );
                 deptList = commonService.retrieveGeneralDepartmentByAdmsColl(param);
                 corsTypeList = commonService.retrieveGeneralCourseByAdmsDept(param);
                 detlMajList = commonService.retrieveGeneralDetailMajorByAdmsDeptCors(param);
@@ -187,7 +189,7 @@ public class ApplicationController {
                 detlMajList = commonService.retrieveAriInstDetailMajorByAdmsDeptAriInst(param);
             } else if( "00003".equals( applAttrCode ) ) {
                 campList = commonService.retrieveCampus();
-                collList = commonService.retrieveCollegeByCampus( entireApplication.getCampCode() );
+                collList = commonService.retrieveCollegeByCampus( entireApplication.getApplication().getCampCode() );
                 deptList = commonService.retrieveGeneralDepartmentByAdmsColl(param);
                 corsTypeList = commonService.retrieveCommissionCourseByAdmsDept(param);
             }
@@ -331,13 +333,23 @@ public class ApplicationController {
             return new ExecutionContext(ExecutionContext.FAIL);
         }
 
-        ExecutionContext ec = new ExecutionContext(ExecutionContext.SUCCESS);
-        ec.setMessage("AppInfo");
-//        ExecutionContext ec = null;
-//        String userId = principal.getName();
-//        entireApplication.getApplication().setUserId(userId);
-//        entireApplication.getApplication().setApplStsCode("00001");
-//        ec = applicationService.createApplication(entireApplication.getApplication());
+//        ExecutionContext ec = new ExecutionContext(ExecutionContext.SUCCESS);
+//        ec.setMessage("AppInfo");
+        ExecutionContext ec = null;
+        String userId = principal.getName();
+        entireApplication.getApplication().setUserId(userId);
+
+        if (entireApplication.getApplication().getApplNo() == null) { //insert
+            entireApplication.getApplication().setCreId(userId);
+            entireApplication.getApplicationGeneral().setCreId(userId);
+            ec = applicationService.createAppInfo(entireApplication.getApplication(),
+                                                  entireApplication.getApplicationGeneral());
+        } else { //update
+            entireApplication.getApplication().setModId(userId);
+            entireApplication.getApplicationGeneral().setModId(userId);
+            ec = applicationService.updateAppInfo(entireApplication.getApplication(),
+                                                  entireApplication.getApplicationGeneral());
+        }
 
         return ec;
     }
@@ -364,13 +376,20 @@ public class ApplicationController {
             return new ExecutionContext(ExecutionContext.FAIL);
         }
 
-        ExecutionContext ec = new ExecutionContext(ExecutionContext.SUCCESS);
-        ec.setMessage("Acacemy");
-//        ExecutionContext ec = null;
-//        String userId = principal.getName();
-//        entireApplication.getApplication().setUserId(userId);
-//        entireApplication.getApplication().setApplStsCode("00001");
-//        ec = applicationService.createApplication(entireApplication.getApplication());
+        ExecutionContext ec = null;
+        String userId = principal.getName();
+        entireApplication.getApplication().setUserId(userId);
+
+        if (entireApplication.getApplication().getApplStsCode().equals(APP_INFO_SAVED)) { //insert
+            entireApplication.getApplication().setApplStsCode(ACAD_SAVED);
+            ec = applicationService.createAcademy(entireApplication.getApplication(),
+                    entireApplication.getCollegeList(),
+                    entireApplication.getGraduateList());
+        } else { //update
+            ec = applicationService.updateAcademy(entireApplication.getApplication(),
+                    entireApplication.getCollegeList(),
+                    entireApplication.getGraduateList());
+        }
 
         return ec;
     }

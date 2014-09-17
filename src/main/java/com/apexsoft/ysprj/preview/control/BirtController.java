@@ -57,11 +57,11 @@ public class BirtController {
         CampusCollege campusCollege = applicationService.retrieveInfoByApplNo(applNo,
                 "EntireApplicationMapper.selectCampusCollegeCode",
                 CampusCollege.class);
-        entireApplication.setCampCode( campusCollege.getCampCode() );
-        entireApplication.setCollCode( campusCollege.getCollCode() );
+        entireApplication.getApplication().setCampCode( campusCollege.getCampCode() );
+        entireApplication.getApplication().setCollCode( campusCollege.getCollCode() );
 
-        String campName = commonService.retrieveCampNameByCode(entireApplication.getCampCode());
-        String collName = commonService.retrieveCollNameByCode(entireApplication.getCollCode());
+        String campName = commonService.retrieveCampNameByCode(entireApplication.getApplication().getCampCode());
+        String collName = commonService.retrieveCollNameByCode(entireApplication.getApplication().getCollCode());
         /* TODO APPL DB 변경되면 수정되어야 할 부분 */
         String ariInstName = commonService.retrieveAriInstNameByCode(entireApplication.getApplication().getAriInstCode());
         String deptName = commonService.retrieveDeptNameByCode(entireApplication.getApplication().getDeptCode());
