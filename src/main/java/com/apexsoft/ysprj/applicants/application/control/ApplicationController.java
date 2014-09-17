@@ -55,6 +55,11 @@ public class ApplicationController {
     @Resource(name = "messageResolver")
     MessageResolver messageResolver;
 
+    private final String APP_INFO_SAVED = "00001";
+    private final String ACAD_SAVED = "00002";
+    private final String LANG_CAREER_SAVED = "00003";
+    private final String FILEUPLOADE_SAVED = "00004";
+
     /**
      * 원서 작성 동의 화면
      * SimpleForwardingController에서 이전
@@ -155,9 +160,6 @@ public class ApplicationController {
                     "EntireApplicationMapper.selectCampusCollegeCode",
                     CampusCollege.class);
 
-            entireApplication.setCampCode(campusCollege.getCampCode());
-            entireApplication.setCollCode(campusCollege.getCollCode());
-
             // 지원사항 select 초기값 설정
             List<Campus> campList = null;
             List<AcademyResearchIndustryInstitution> ariInstList = null;
@@ -168,7 +170,7 @@ public class ApplicationController {
 
             ParamForSetupCourses param = new ParamForSetupCourses();
             param.setAdmsNo( entireApplication.getApplication().getAdmsNo() );
-            param.setCollCode( entireApplication.getCollCode() );
+            param.setCollCode( entireApplication.getApplication().getCollCode() );
             param.setDeptCode( entireApplication.getApplication().getDeptCode() );
             param.setCorsTypeCode( entireApplication.getApplication().getCorsTypeCode() );
             param.setAriInstCode( entireApplication.getApplication().getAriInstCode() );
@@ -176,7 +178,7 @@ public class ApplicationController {
             String applAttrCode = entireApplication.getApplication().getApplAttrCode();
             if( "00001".equals( applAttrCode ) ) {
                 campList = commonService.retrieveCampus();
-                collList = commonService.retrieveCollegeByCampus( entireApplication.getCampCode() );
+                collList = commonService.retrieveCollegeByCampus( entireApplication.getApplication().getCampCode() );
                 deptList = commonService.retrieveGeneralDepartmentByAdmsColl(param);
                 corsTypeList = commonService.retrieveGeneralCourseByAdmsDept(param);
                 detlMajList = commonService.retrieveGeneralDetailMajorByAdmsDeptCors(param);
@@ -187,7 +189,7 @@ public class ApplicationController {
                 detlMajList = commonService.retrieveAriInstDetailMajorByAdmsDeptAriInst(param);
             } else if( "00003".equals( applAttrCode ) ) {
                 campList = commonService.retrieveCampus();
-                collList = commonService.retrieveCollegeByCampus( entireApplication.getCampCode() );
+                collList = commonService.retrieveCollegeByCampus( entireApplication.getApplication().getCampCode() );
                 deptList = commonService.retrieveGeneralDepartmentByAdmsColl(param);
                 corsTypeList = commonService.retrieveCommissionCourseByAdmsDept(param);
             }
@@ -234,7 +236,7 @@ public class ApplicationController {
         commonCodeMap.put( "qualAreaList", commonService.retrieveCommonCodeValueByCodeGroup("QUAL_AREA") );
         commonCodeMap.put( "korExamList", commonService.retrieveLangExamByLangCode("KOR") );
         commonCodeMap.put( "engExamList", commonService.retrieveLangExamByLangCode("ENG") );
-
+//문서처리
         List<CustomApplicationDoc> geneDocList = null;
         List<CustomApplicationDoc> fDegDocList = null;
         List<CustomApplicationDoc> collDocList;
@@ -297,7 +299,9 @@ public class ApplicationController {
         commonCodeMap.put( "ariInstDocList", ariInstDocList==null?new ArrayList<CustomApplicationDoc>():ariInstDocList );
         commonCodeMap.put( "fDocList", fDocList==null?new ArrayList<CustomApplicationDoc>():fDocList );
         commonCodeMap.put( "deptDocList", deptDocList==null?new ArrayList<CustomApplicationDoc>():deptDocList );
-
+//        List<List> madDoc = applicationService.retrieveManApplDocListByApplNo(applNo.intValue() );
+// 문서처리끝
+//        model.addAttribute( "mandDoc", madDoc );
         model.addAttribute( "common", commonCodeMap );
 
         model.addAttribute( "msgRgstNo", messageResolver.getMessage("U304"));
@@ -307,6 +311,153 @@ public class ApplicationController {
 
         model.addAttribute( "L311", messageResolver.getMessage("L311"));
         return result;
+    }
+
+    /**
+     * 기본 정보 탭 저장
+     *
+     * @param entireApplication
+     * @param bindingResult
+     * @param principal
+     * @return
+     */
+    @RequestMapping(value="/save/appInfo", method = RequestMethod.POST)
+    @ResponseBody
+    public ExecutionContext saveAppInfo(@Valid @ModelAttribute EntireApplication entireApplication,
+                                         BindingResult bindingResult,
+                                         Principal principal) {
+
+        if( bindingResult.hasErrors() ) {
+            return new ExecutionContext(ExecutionContext.FAIL);
+        }
+
+        if( principal == null ) {
+            return new ExecutionContext(ExecutionContext.FAIL);
+        }
+
+        ExecutionContext ec = null;
+        String userId = principal.getName();
+        entireApplication.getApplication().setUserId(userId);
+
+        if (entireApplication.getApplication().getApplNo() == null) { //insert
+            entireApplication.getApplication().setCreId(userId);
+            entireApplication.getApplicationGeneral().setCreId(userId);
+            ec = applicationService.createAppInfo(entireApplication.getApplication(),
+                                                  entireApplication.getApplicationGeneral());
+        } else { //update
+            entireApplication.getApplication().setModId(userId);
+            entireApplication.getApplicationGeneral().setModId(userId);
+            ec = applicationService.updateAppInfo(entireApplication.getApplication(),
+                                                  entireApplication.getApplicationGeneral());
+        }
+
+        return ec;
+    }
+
+    /**
+     * 학력 탭 저장
+     *
+     * @param entireApplication
+     * @param bindingResult
+     * @param principal
+     * @return
+     */
+    @RequestMapping(value="/save/academy", method = RequestMethod.POST)
+    @ResponseBody
+    public ExecutionContext saveAcademy(@Valid @ModelAttribute EntireApplication entireApplication,
+                                         BindingResult bindingResult,
+                                         Principal principal) {
+
+        if( bindingResult.hasErrors() ) {
+            return new ExecutionContext(ExecutionContext.FAIL);
+        }
+
+        if( principal == null ) {
+            return new ExecutionContext(ExecutionContext.FAIL);
+        }
+
+        ExecutionContext ec = null;
+        String userId = principal.getName();
+        entireApplication.getApplication().setUserId(userId);
+
+        if (entireApplication.getApplication().getApplStsCode().equals(APP_INFO_SAVED)) { //insert
+            entireApplication.getApplication().setApplStsCode(ACAD_SAVED);
+            ec = applicationService.createAcademy(entireApplication.getApplication(),
+                    entireApplication.getCollegeList(),
+                    entireApplication.getGraduateList());
+        } else { //update
+            ec = applicationService.updateAcademy(entireApplication.getApplication(),
+                    entireApplication.getCollegeList(),
+                    entireApplication.getGraduateList());
+        }
+
+        return ec;
+    }
+
+    /**
+     * 어학 경력 탭 저장
+     *
+     * @param entireApplication
+     * @param bindingResult
+     * @param principal
+     * @return
+     */
+    @RequestMapping(value="/save/langCareer", method = RequestMethod.POST)
+    @ResponseBody
+    public ExecutionContext saveLangCareer(@Valid @ModelAttribute EntireApplication entireApplication,
+                                        BindingResult bindingResult,
+                                        Principal principal) {
+
+        if( bindingResult.hasErrors() ) {
+            return new ExecutionContext(ExecutionContext.FAIL);
+        }
+
+        if( principal == null ) {
+            return new ExecutionContext(ExecutionContext.FAIL);
+        }
+
+        ExecutionContext ec = new ExecutionContext(ExecutionContext.SUCCESS);
+        ec.setMessage("Lang Career");
+//        ExecutionContext ec = null;
+//        String userId = principal.getName();
+//        entireApplication.getApplication().setUserId(userId);
+//        entireApplication.getApplication().setApplStsCode("00001");
+//        ec = applicationService.createApplication(entireApplication.getApplication());
+
+        return ec;
+    }
+
+    /**
+     * 첨부파일 탭 저장
+     *
+     * @param entireApplication
+     * @param bindingResult
+     * @param principal
+     * @return
+     */
+    @RequestMapping(value="/save/fileUpload", method = RequestMethod.POST)
+    @ResponseBody
+    public ExecutionContext saveFileUpload(@Valid @ModelAttribute EntireApplication entireApplication,
+                                           BindingResult bindingResult,
+                                           Principal principal) {
+
+        if( bindingResult.hasErrors() ) {
+            return new ExecutionContext(ExecutionContext.FAIL);
+        }
+
+        if( principal == null ) {
+            return new ExecutionContext(ExecutionContext.FAIL);
+        }
+
+        ExecutionContext ec = new ExecutionContext(ExecutionContext.SUCCESS);
+        ec.setMessage("FileUpload");
+//        ExecutionContext ec = null;
+//        String userId = principal.getName();
+//        entireApplication.getApplication().setUserId(userId);
+//        entireApplication.getApplication().setApplStsCode("00001");
+//        ec = applicationService.createApplication(entireApplication.getApplication());
+
+        return ec;
     }
 
     /**
@@ -334,6 +485,7 @@ public class ApplicationController {
         String userId = principal.getName();
         entireApplication.getApplication().setUserId(userId);
         entireApplication.getApplication().setApplStsCode("00001");
+        entireApplication.getApplication().setCreId(userId);
 
         if( entireApplication.getApplication().getApplNo() == null ) {   // insert
             entireApplication.getApplication().setCreId(userId);

@@ -117,6 +117,9 @@
                         <input type="hidden" name="LGD_AMOUNT" id="LGD_AMOUNT"/>
                         <input type="hidden" name="LGD_TIMESTAMP" id="LGD_TIMESTAMP"/>
                         <input type="hidden" name="applNo" id="applNo"/>
+                        <input type="hidden" name="admsNo" id="admsNo"/>
+                        <input type="hidden" name="entrYear" id="entrYear"/>
+                        <input type="hidden" name="admsTypeCode" id="admsTypeCode"/>
                     </form>
                 </div>
             </div>
@@ -134,9 +137,21 @@
                 return includeApplNo ? withApplNo : withoutApplNo;
             };
 
+            var setHidden = function (obj) {
+                document.getElementById('applNo').value = obj.getAttribute('data-applNo');
+                document.getElementById('admsNo').value = obj.getAttribute('data-admsNo');
+                document.getElementById('entrYear').value = obj.getAttribute('data-entrYear');
+                document.getElementById('admsTypeCode').value = obj.getAttribute('data-admsTypeCode');
+            };
+
             $('.modify').click(function(e){
-                location.href="${contextPath}/application/apply" + getQueryString(e.target, true);
                 e.preventDefault();
+                <%--location.href="${contextPath}/application/apply" + getQueryString(e.target, true);--%>
+                var form = document.getElementById('LGD_PAYINFO');
+                setHidden(e.target);
+                form.action = "${contextPath}/application/apply";
+                form.submit();
+
             });
             $('.verify').click(function(e){
                 location.href="${contextPath}/application/preview" + getQueryString(e.target, true);

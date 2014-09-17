@@ -11,17 +11,17 @@
     </logger>
 
     <logger name="net.sf.ehcache" additivity="false">
-        <level value="DEBUG" />
+        <level value="WARN" />
         <appender-ref ref="CONSOLE" />
     </logger>
 
     <logger name="org.springframework" additivity="false">
-        <level value="DEBUG" />
+        <level value="WARN" />
         <appender-ref ref="CONSOLE" />
     </logger>
 
     <logger name="org.mybatis" additivity="false">
-        <level value="INFO" />
+        <level value="WARN" />
         <appender-ref ref="CONSOLE" />
     </logger>
 

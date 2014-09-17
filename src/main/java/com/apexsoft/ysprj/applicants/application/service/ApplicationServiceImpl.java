@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -20,12 +21,162 @@ public class ApplicationServiceImpl implements ApplicationService {
 
     private final static String NAME_SPACE = "com.apexsoft.ysprj.applicants.application.sqlmap.";
     private final static String PAYMENT_NAME_SPACE = "com.apexsoft.ysprj.applicants.payment.sqlmap.";
+    private final static String DOC_NAME_SPACE = "appplicaiton.doc.";
 
     @Autowired
     private CommonDAO commonDAO;
 
     @Resource(name = "messageResolver")
     MessageResolver messageResolver;
+
+    private final String APP_NULL_STATUS = "00000";
+    private final String APP_INFO_SAVED = "00001";
+    private final String ACAD_SAVED = "00002";
+    private final String LANG_CAREER_SAVED = "00003";
+    private final String FILEUPLOADE_SAVED = "00004";
+
+    /**
+     * 기본 정보 탭 저장
+     *
+     * @param application
+     * @param applicationGeneral
+     * @return
+     */
+    @Override
+    public ExecutionContext createAppInfo(Application application, ApplicationGeneral applicationGeneral) {
+
+        ExecutionContext ec = new ExecutionContext();
+        int r1 = 0, r2 = 0, applNo = 0;
+        Date date = new Date();
+
+        application.setApplStsCode(APP_INFO_SAVED);
+        application.setCreDate(date);
+        r1 = commonDAO.insertItem(application, NAME_SPACE, "ApplicationMapper");
+
+        Application tA = commonDAO.queryForObject(NAME_SPACE + "CustomApplicationMapper.selectApplByApplForInsertOthers",
+                application, Application.class);
+        applNo = tA.getApplNo();
+
+        applicationGeneral.setApplNo(applNo);
+        applicationGeneral.setCreDate(date);
+        r2 = commonDAO.insertItem(applicationGeneral, NAME_SPACE, "ApplicationGeneralMapper");
+
+        if ( r1 > 0 && r2 > 0 ) {
+            ec.setResult(ExecutionContext.SUCCESS);
+            ec.setMessage(messageResolver.getMessage("U312"));
+            ec.setData(new CustomApplNoStsCode(applNo, tA.getApplStsCode()));
+        } else {
+            ec.setResult(ExecutionContext.FAIL);
+            ec.setMessage(messageResolver.getMessage("U306"));
+            String errMsg = null;
+            if ( r1 == 0 ) errMsg = messageResolver.getMessage("ERR00001");
+            else if ( r2 == 0 ) errMsg = messageResolver.getMessage("ERR00006");
+            ec.setData(new CustomApplNoStsCode(0, APP_NULL_STATUS, errMsg));
+        }
+        return ec;
+    }
+
+    @Override
+    public ExecutionContext updateAppInfo(Application application, ApplicationGeneral applicationGeneral) {
+
+        ExecutionContext ec = new ExecutionContext();
+        int r1 = 0, r2 = 0;
+        Date date = new Date();
+
+        application.setModDate(date);
+        r1 = commonDAO.updateItem(application, NAME_SPACE, "ApplicationMapper");
+        r2 = commonDAO.updateItem(applicationGeneral, NAME_SPACE, "ApplicationGeneralMapper");
+
+        if ( r1 > 0 && r2 > 0 ) {
+            ec.setResult(ExecutionContext.SUCCESS);
+            ec.setMessage(messageResolver.getMessage("U315"));
+            ec.setData(new CustomApplNoStsCode(application.getApplNo(), application.getApplStsCode()));
+        } else {
+            ec.setResult(ExecutionContext.FAIL);
+            ec.setMessage(messageResolver.getMessage("U316"));
+            String errMsg = null;
+            if ( r1 == 0 ) errMsg = messageResolver.getMessage("ERR00003");
+            else if ( r2 == 0 ) errMsg = messageResolver.getMessage("ERR00008");
+            ec.setData(new CustomApplNoStsCode(application.getApplNo(), APP_NULL_STATUS, errMsg));
+        }
+        return ec;
+    }
+
+    @Override
+    public ExecutionContext createAcademy(Application application,
+                                          List<ApplicationAcademy> collegeList,
+                                          List<ApplicationAcademy> graduateList) {
+        List<ApplicationAcademy> acadList = new ArrayList<ApplicationAcademy>();
+        acadList.addAll(collegeList);
+        acadList.addAll(graduateList);
+
+        ExecutionContext ec = new ExecutionContext();
+        int r1 = 0, r2 = 0, applNo = application.getApplNo(), idx = 0;
+        Date date = new Date();
+
+        application.setApplStsCode(ACAD_SAVED);
+        application.setModDate(date);
+        r1 = commonDAO.updateItem(application, NAME_SPACE, "ApplicationMapper");
+
+        if ( acadList != null ) {
+            for( ApplicationAcademy academy : acadList) {
+                academy.setApplNo(applNo);
+                academy.setAcadSeq(++idx);
+                academy.setCreDate(date);
+            }
+            r2 = commonDAO.insertList(acadList, NAME_SPACE, "ApplicationAcademyMapper");
+        }
+
+        if ( r1 > 0 && r2 > 0 ) {
+            ec.setResult(ExecutionContext.SUCCESS);
+            ec.setMessage(messageResolver.getMessage("U317"));
+            ec.setData(new CustomApplNoStsCode(applNo, application.getApplStsCode()));
+        } else {
+            ec.setResult(ExecutionContext.FAIL);
+            ec.setMessage(messageResolver.getMessage("U318"));
+            String errMsg = null;
+            if ( r1 == 0 ) errMsg = messageResolver.getMessage("ERR00003");
+            else if ( r2 == 0 ) errMsg = messageResolver.getMessage("ERR00011");
+            ec.setData(new CustomApplNoStsCode(0, APP_NULL_STATUS, errMsg));
+        }
+        return ec;
+    }
+
+    @Override
+    public ExecutionContext updateAcademy(Application application,
+                                          List<ApplicationAcademy> collegeList,
+                                          List<ApplicationAcademy> graduateList) {
+        List<ApplicationAcademy> acadList = new ArrayList<ApplicationAcademy>();
+        acadList.addAll(collegeList);
+        acadList.addAll(graduateList);
+
+        ExecutionContext ec = new ExecutionContext();
+        int r1 = 0, applNo = application.getApplNo(), idx = 0;
+        Date date = new Date();
+
+        deleteListByApplNo(applNo, "CustomApplicationAcademyMapper");
+        if ( acadList != null ) {
+            for( ApplicationAcademy academy : acadList) {
+                academy.setApplNo(applNo);
+                academy.setAcadSeq(++idx);
+                academy.setModDate(date);
+            }
+            r1 = commonDAO.insertList(acadList, NAME_SPACE, "ApplicationAcademyMapper");
+        }
+
+        if ( r1 > 0 ) {
+            ec.setResult(ExecutionContext.SUCCESS);
+            ec.setMessage(messageResolver.getMessage("U317"));
+            ec.setData(new CustomApplNoStsCode(applNo, application.getApplStsCode()));
+        } else {
+            ec.setResult(ExecutionContext.FAIL);
+            ec.setMessage(messageResolver.getMessage("U318"));
+            ec.setData(new CustomApplNoStsCode(applNo, APP_NULL_STATUS,
+                    messageResolver.getMessage("ERR00013")));
+        }
+        return ec;
+    }
+
 
     @Override
     public ExecutionContext createEntireApplication(EntireApplication entireApplication) {
@@ -550,65 +701,81 @@ public class ApplicationServiceImpl implements ApplicationService {
 
     @Override
     public EntireApplication retrieveEntireApplication(int applNo) {
-        EntireApplication entireApplication = null;
+        EntireApplication entireApplication = new EntireApplication();
         try {
-            entireApplication = commonDAO.queryForObject(NAME_SPACE + "EntireApplicationMapper.selectOneToOneEntireApplicationByApplNo",
-                    new Integer(applNo),
-                    EntireApplication.class);
+//            entireApplication = commonDAO.queryForObject(NAME_SPACE + "EntireApplicationMapper.selectOneToOneEntireApplicationByApplNo",
+//                    new Integer(applNo),
+//                    EntireApplication.class);
+            Application application = commonDAO.queryForObject(NAME_SPACE + "ApplicationMapper.selectByPrimaryKey",
+                    applNo, Application.class);
+            application = application == null ? new Application() : application;
+            entireApplication.setApplication(application);
+
+            ApplicationGeneral applicationGeneral = commonDAO.queryForObject(NAME_SPACE + "ApplicationGeneralMapper.selectByPrimaryKey",
+                    applNo, ApplicationGeneral.class);
+            applicationGeneral = applicationGeneral == null ? new ApplicationGeneral() : applicationGeneral;
+            entireApplication.setApplicationGeneral(applicationGeneral);
+
+            ApplicationForeigner applicationForeigner = commonDAO.queryForObject(NAME_SPACE + "ApplicationGeneralMapper.selectByPrimaryKey",
+                    applNo, ApplicationForeigner.class);
+            applicationForeigner = applicationForeigner == null ? new ApplicationForeigner() : applicationForeigner;
+            entireApplication.setApplicationForeigner(applicationForeigner);
+
+            String aaMapperSqlId = "CustomApplicationAcademyMapper.selectByApplNoAcadTypeCode";
+            ParamForAcademy paramForAcademy = new ParamForAcademy();
+            paramForAcademy.setApplNo(applNo);
+            paramForAcademy.setAcadTypeCode("00002");
+            entireApplication.setCollegeList(retrieveInfoListByParamObj(paramForAcademy, aaMapperSqlId, ApplicationAcademy.class));
+            paramForAcademy.setAcadTypeCode(("00003"));
+            entireApplication.setGraduateList(retrieveInfoListByParamObj(paramForAcademy, aaMapperSqlId, ApplicationAcademy.class));
+
+            entireApplication.setApplicationExperienceList(retrieveInfoListByApplNo(applNo, "CustomApplicationExperienceMapper", ApplicationExperience.class));
+            entireApplication.setApplicationLanguageList(retrieveInfoListByApplNo(applNo, "CustomApplicationLanguageMapper", ApplicationLanguage.class));
+
+            //TODO 아래는 첨부파일 테이블 가져오는 부분이며, 변경될 로직으로 덮어써져야 함
+            String adMapperSqlId = "CustomApplicationDocumentMapper.selectByApplNoDocTypeCode";
+            ParamForApplicationDocument paramForApplicationDocument = new ParamForApplicationDocument();
+            paramForApplicationDocument.setApplNo(applNo);
+            paramForApplicationDocument.setDocTypeCode("00001");
+            entireApplication.setGeneralDocList(retrieveInfoListByParamObj(paramForApplicationDocument,
+                    adMapperSqlId,
+                    ApplicationDocument.class));
+            paramForApplicationDocument.setDocTypeCode("00002");
+            entireApplication.setForeignDegreeDocList(retrieveInfoListByParamObj(paramForApplicationDocument,
+                    adMapperSqlId,
+                    ApplicationDocument.class));
+            paramForApplicationDocument.setDocTypeCode("00003");
+            entireApplication.setCollegeDocList(retrieveInfoListByParamObj(paramForApplicationDocument,
+                    adMapperSqlId,
+                    ApplicationDocument.class));
+            paramForApplicationDocument.setDocTypeCode("00004");
+            entireApplication.setGraduateDocList(retrieveInfoListByParamObj(paramForApplicationDocument,
+                    adMapperSqlId,
+                    ApplicationDocument.class));
+            paramForApplicationDocument.setDocTypeCode("00005");
+            entireApplication.setLanguageDocList(retrieveInfoListByParamObj(paramForApplicationDocument,
+                    adMapperSqlId,
+                    ApplicationDocument.class));
+            paramForApplicationDocument.setDocTypeCode("00006");
+            entireApplication.setAriInstDocList(retrieveInfoListByParamObj(paramForApplicationDocument,
+                    adMapperSqlId,
+                    ApplicationDocument.class));
+            paramForApplicationDocument.setDocTypeCode("00007");
+            entireApplication.setForeignerDocList(retrieveInfoListByParamObj(paramForApplicationDocument,
+                    adMapperSqlId,
+                    ApplicationDocument.class));
+            paramForApplicationDocument.setDocTypeCode("00008");
+            entireApplication.setDeptDocList(retrieveInfoListByParamObj(paramForApplicationDocument,
+                    adMapperSqlId,
+                    ApplicationDocument.class));
+            paramForApplicationDocument.setDocTypeCode("00099");
+            entireApplication.setEtcDocList(retrieveInfoListByParamObj(paramForApplicationDocument,
+                    adMapperSqlId,
+                    ApplicationDocument.class));
+
         } catch ( Exception e ) {
             e.printStackTrace();
         }
-
-        String aaMapperSqlId = "CustomApplicationAcademyMapper.selectByApplNoAcadTypeCode";
-        ParamForAcademy paramForAcademy = new ParamForAcademy();
-        paramForAcademy.setApplNo(applNo);
-        paramForAcademy.setAcadTypeCode("00002");
-        entireApplication.setCollegeList(retrieveInfoListByParamObj(paramForAcademy, aaMapperSqlId, ApplicationAcademy.class));
-        paramForAcademy.setAcadTypeCode("00003");
-        entireApplication.setGraduateList(retrieveInfoListByParamObj(paramForAcademy, aaMapperSqlId, ApplicationAcademy.class));
-
-        entireApplication.setApplicationExperienceList(retrieveInfoListByApplNo(applNo, "CustomApplicationExperienceMapper", ApplicationExperience.class));
-        entireApplication.setApplicationLanguageList(retrieveInfoListByApplNo(applNo, "CustomApplicationLanguageMapper", ApplicationLanguage.class));
-
-        String adMapperSqlId = "CustomApplicationDocumentMapper.selectByApplNoDocTypeCode";
-        ParamForApplicationDocument paramForApplicationDocument = new ParamForApplicationDocument();
-        paramForApplicationDocument.setApplNo(applNo);
-        paramForApplicationDocument.setDocTypeCode("00001");
-        entireApplication.setGeneralDocList(retrieveInfoListByParamObj(paramForApplicationDocument,
-                adMapperSqlId,
-                ApplicationDocument.class));
-        paramForApplicationDocument.setDocTypeCode("00002");
-        entireApplication.setForeignDegreeDocList(retrieveInfoListByParamObj(paramForApplicationDocument,
-                adMapperSqlId,
-                ApplicationDocument.class));
-        paramForApplicationDocument.setDocTypeCode("00003");
-        entireApplication.setCollegeDocList(retrieveInfoListByParamObj(paramForApplicationDocument,
-                adMapperSqlId,
-                ApplicationDocument.class));
-        paramForApplicationDocument.setDocTypeCode("00004");
-        entireApplication.setGraduateDocList(retrieveInfoListByParamObj(paramForApplicationDocument,
-                adMapperSqlId,
-                ApplicationDocument.class));
-        paramForApplicationDocument.setDocTypeCode("00005");
-        entireApplication.setLanguageDocList(retrieveInfoListByParamObj(paramForApplicationDocument,
-                adMapperSqlId,
-                ApplicationDocument.class));
-        paramForApplicationDocument.setDocTypeCode("00006");
-        entireApplication.setAriInstDocList(retrieveInfoListByParamObj(paramForApplicationDocument,
-                adMapperSqlId,
-                ApplicationDocument.class));
-        paramForApplicationDocument.setDocTypeCode("00007");
-        entireApplication.setForeignerDocList(retrieveInfoListByParamObj(paramForApplicationDocument,
-                adMapperSqlId,
-                ApplicationDocument.class));
-        paramForApplicationDocument.setDocTypeCode("00008");
-        entireApplication.setDeptDocList(retrieveInfoListByParamObj(paramForApplicationDocument,
-                adMapperSqlId,
-                ApplicationDocument.class));
-        paramForApplicationDocument.setDocTypeCode("00099");
-        entireApplication.setEtcDocList(retrieveInfoListByParamObj(paramForApplicationDocument,
-                adMapperSqlId,
-                ApplicationDocument.class));
 
         return entireApplication;
     }
@@ -664,6 +831,26 @@ public class ApplicationServiceImpl implements ApplicationService {
 
         return infoList;
     }
+    @Override
+    public  ArrayList<List> retrieveManApplDocListByApplNo( int applNo) {
+        List<MandatoryNAppliedDoc> docList = null;
 
+        ArrayList<List> mandDoc = new ArrayList<List>();
+        int cnt;
+        try {
+            mandDoc.add( commonDAO.queryForList(DOC_NAME_SPACE + "selectBasicDocListByApplNoWTMandatory", applNo, MandatoryNAppliedDoc.class));
+            mandDoc.add( commonDAO.queryForList(DOC_NAME_SPACE + "selectOverSeaDocListByApplNoWTMandatory", applNo, MandatoryNAppliedDoc.class));
+            mandDoc.add( commonDAO.queryForList(DOC_NAME_SPACE + "selectUnderDocListByApplNoWTMandatory", applNo, MandatoryNAppliedDoc.class));
+            mandDoc.add( commonDAO.queryForList(DOC_NAME_SPACE + "selectGradDocListByApplNoWTMandatory", applNo, MandatoryNAppliedDoc.class ));
+            mandDoc.add( commonDAO.queryForList(DOC_NAME_SPACE + "selectLangDocListByApplNoWTMandatory", applNo, MandatoryNAppliedDoc.class ));
+            mandDoc.add( commonDAO.queryForList(DOC_NAME_SPACE + "selectInstDocListByApplNoWTMandatory", applNo, MandatoryNAppliedDoc.class ));
+            mandDoc.add( commonDAO.queryForList(DOC_NAME_SPACE + "selectDeptDocListByApplNoWTMandatory", applNo, MandatoryNAppliedDoc.class ));
+            mandDoc.add( commonDAO.queryForList(DOC_NAME_SPACE + "selectEtcDocListByApplNoWTMandatory", applNo, MandatoryNAppliedDoc.class ));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return mandDoc;
+    }
 
 }
