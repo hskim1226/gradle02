@@ -333,8 +333,6 @@ public class ApplicationController {
             return new ExecutionContext(ExecutionContext.FAIL);
         }
 
-//        ExecutionContext ec = new ExecutionContext(ExecutionContext.SUCCESS);
-//        ec.setMessage("AppInfo");
         ExecutionContext ec = null;
         String userId = principal.getName();
         entireApplication.getApplication().setUserId(userId);

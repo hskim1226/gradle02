@@ -261,7 +261,7 @@
                                     </div>
                                     <div id="applyKindDynamic">
                                         <div class="form-group hidden-apply-kind-2 required">
-                                            <form:label path="campCode" cssClass="col-sm-2 control-label">캠퍼스</form:label>
+                                            <form:label path="application.campCode" cssClass="col-sm-2 control-label">캠퍼스</form:label>
                                             <div class="col-sm-3">
                                                 <form:select path="application.campCode" id="campCode" cssClass="form-control base-info">
                                                     <form:option value="" label="--선택--" />
@@ -270,7 +270,7 @@
                                                     </c:if>
                                                 </form:select>
                                             </div>
-                                            <form:label path="collCode" cssClass="col-sm-2 control-label">대학</form:label>
+                                            <form:label path="application.collCode" cssClass="col-sm-2 control-label">대학</form:label>
                                             <div class="col-sm-4">
                                                 <form:select path="application.collCode" id="collCode" cssClass="form-control base-info">
                                                     <form:option value="" label="--선택--" />
@@ -1346,9 +1346,9 @@
                 }
             };
 
-            if (document.getElementById('applNo').value != "") {
-                baseInfoSaved();
-            }
+//            if (document.getElementById('applNo').value != "") {
+//                baseInfoSaved();
+//            }
 
             btnEnable(document.getElementById('applStsCode').value);
 

@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -43,9 +45,11 @@ public class ApplicationServiceImpl implements ApplicationService {
      */
     @Override
     public ExecutionContext createAppInfo(Application application, ApplicationGeneral applicationGeneral) {
+
         ExecutionContext ec = new ExecutionContext();
         int r1 = 0, r2 = 0, applNo = 0;
         Date date = new Date();
+
         application.setApplStsCode(APP_INFO_SAVED);
         application.setCreDate(date);
         r1 = commonDAO.insertItem(application, NAME_SPACE, "ApplicationMapper");
@@ -75,9 +79,11 @@ public class ApplicationServiceImpl implements ApplicationService {
 
     @Override
     public ExecutionContext updateAppInfo(Application application, ApplicationGeneral applicationGeneral) {
+
         ExecutionContext ec = new ExecutionContext();
         int r1 = 0, r2 = 0;
         Date date = new Date();
+
         application.setModDate(date);
         r1 = commonDAO.updateItem(application, NAME_SPACE, "ApplicationMapper");
         r2 = commonDAO.updateItem(applicationGeneral, NAME_SPACE, "ApplicationGeneralMapper");
@@ -171,7 +177,6 @@ public class ApplicationServiceImpl implements ApplicationService {
         }
         return ec;
     }
-
 
 
     @Override
@@ -695,67 +700,84 @@ public class ApplicationServiceImpl implements ApplicationService {
         return ec;
     }
 
+
     @Override
     public EntireApplication retrieveEntireApplication(int applNo) {
-        EntireApplication entireApplication = null;
+        EntireApplication entireApplication = new EntireApplication();
         try {
-            entireApplication = commonDAO.queryForObject(NAME_SPACE + "EntireApplicationMapper.selectOneToOneEntireApplicationByApplNo",
-                    new Integer(applNo),
-                    EntireApplication.class);
+//            entireApplication = commonDAO.queryForObject(NAME_SPACE + "EntireApplicationMapper.selectOneToOneEntireApplicationByApplNo",
+//                    new Integer(applNo),
+//                    EntireApplication.class);
+            Application application = commonDAO.queryForObject(NAME_SPACE + "ApplicationMapper.selectByPrimaryKey",
+                    applNo, Application.class);
+            application = application == null ? new Application() : application;
+            entireApplication.setApplication(application);
+
+            ApplicationGeneral applicationGeneral = commonDAO.queryForObject(NAME_SPACE + "ApplicationGeneralMapper.selectByPrimaryKey",
+                    applNo, ApplicationGeneral.class);
+            applicationGeneral = applicationGeneral == null ? new ApplicationGeneral() : applicationGeneral;
+            entireApplication.setApplicationGeneral(applicationGeneral);
+
+            ApplicationForeigner applicationForeigner = commonDAO.queryForObject(NAME_SPACE + "ApplicationGeneralMapper.selectByPrimaryKey",
+                    applNo, ApplicationForeigner.class);
+            applicationForeigner = applicationForeigner == null ? new ApplicationForeigner() : applicationForeigner;
+            entireApplication.setApplicationForeigner(applicationForeigner);
+
+            String aaMapperSqlId = "CustomApplicationAcademyMapper.selectByApplNoAcadTypeCode";
+            ParamForAcademy paramForAcademy = new ParamForAcademy();
+            paramForAcademy.setApplNo(applNo);
+            paramForAcademy.setAcadTypeCode("00002");
+            entireApplication.setCollegeList(retrieveInfoListByParamObj(paramForAcademy, aaMapperSqlId, ApplicationAcademy.class));
+            paramForAcademy.setAcadTypeCode(("00003"));
+            entireApplication.setGraduateList(retrieveInfoListByParamObj(paramForAcademy, aaMapperSqlId, ApplicationAcademy.class));
+
+            entireApplication.setApplicationExperienceList(retrieveInfoListByApplNo(applNo, "CustomApplicationExperienceMapper", ApplicationExperience.class));
+            entireApplication.setApplicationLanguageList(retrieveInfoListByApplNo(applNo, "CustomApplicationLanguageMapper", ApplicationLanguage.class));
+
+            //TODO 아래는 첨부파일 테이블 가져오는 부분이며, 변경될 로직으로 덮어써져야 함
+            String adMapperSqlId = "CustomApplicationDocumentMapper.selectByApplNoDocTypeCode";
+            ParamForApplicationDocument paramForApplicationDocument = new ParamForApplicationDocument();
+            paramForApplicationDocument.setApplNo(applNo);
+            paramForApplicationDocument.setDocTypeCode("00001");
+            entireApplication.setGeneralDocList(retrieveInfoListByParamObj(paramForApplicationDocument,
+                    adMapperSqlId,
+                    ApplicationDocument.class));
+            paramForApplicationDocument.setDocTypeCode("00002");
+            entireApplication.setForeignDegreeDocList(retrieveInfoListByParamObj(paramForApplicationDocument,
+                    adMapperSqlId,
+                    ApplicationDocument.class));
+            paramForApplicationDocument.setDocTypeCode("00003");
+            entireApplication.setCollegeDocList(retrieveInfoListByParamObj(paramForApplicationDocument,
+                    adMapperSqlId,
+                    ApplicationDocument.class));
+            paramForApplicationDocument.setDocTypeCode("00004");
+            entireApplication.setGraduateDocList(retrieveInfoListByParamObj(paramForApplicationDocument,
+                    adMapperSqlId,
+                    ApplicationDocument.class));
+            paramForApplicationDocument.setDocTypeCode("00005");
+            entireApplication.setLanguageDocList(retrieveInfoListByParamObj(paramForApplicationDocument,
+                    adMapperSqlId,
+                    ApplicationDocument.class));
+            paramForApplicationDocument.setDocTypeCode("00006");
+            entireApplication.setAriInstDocList(retrieveInfoListByParamObj(paramForApplicationDocument,
+                    adMapperSqlId,
+                    ApplicationDocument.class));
+            paramForApplicationDocument.setDocTypeCode("00007");
+            entireApplication.setForeignerDocList(retrieveInfoListByParamObj(paramForApplicationDocument,
+                    adMapperSqlId,
+                    ApplicationDocument.class));
+            paramForApplicationDocument.setDocTypeCode("00008");
+            entireApplication.setDeptDocList(retrieveInfoListByParamObj(paramForApplicationDocument,
+                    adMapperSqlId,
+                    ApplicationDocument.class));
+            paramForApplicationDocument.setDocTypeCode("00099");
+            entireApplication.setEtcDocList(retrieveInfoListByParamObj(paramForApplicationDocument,
+                    adMapperSqlId,
+                    ApplicationDocument.class));
+
         } catch ( Exception e ) {
             e.printStackTrace();
         }
-
-        String aaMapperSqlId = "CustomApplicationAcademyMapper.selectByApplNoAcadTypeCode";
-        ParamForAcademy paramForAcademy = new ParamForAcademy();
-        paramForAcademy.setApplNo(applNo);
-        paramForAcademy.setAcadTypeCode("00002");
-        entireApplication.setCollegeList(retrieveInfoListByParamObj(paramForAcademy, aaMapperSqlId, ApplicationAcademy.class));
-        paramForAcademy.setAcadTypeCode(("00003"));
-        entireApplication.setGraduateList(retrieveInfoListByParamObj(paramForAcademy, aaMapperSqlId, ApplicationAcademy.class));
-
-        entireApplication.setApplicationExperienceList(retrieveInfoListByApplNo(applNo, "CustomApplicationExperienceMapper", ApplicationExperience.class));
-        entireApplication.setApplicationLanguageList(retrieveInfoListByApplNo(applNo, "CustomApplicationLanguageMapper", ApplicationLanguage.class));
-
-        String adMapperSqlId = "CustomApplicationDocumentMapper.selectByApplNoDocTypeCode";
-        ParamForApplicationDocument paramForApplicationDocument = new ParamForApplicationDocument();
-        paramForApplicationDocument.setApplNo(applNo);
-        paramForApplicationDocument.setDocTypeCode("00001");
-        entireApplication.setGeneralDocList(retrieveInfoListByParamObj(paramForApplicationDocument,
-                adMapperSqlId,
-                ApplicationDocument.class));
-        paramForApplicationDocument.setDocTypeCode("00002");
-        entireApplication.setForeignDegreeDocList(retrieveInfoListByParamObj(paramForApplicationDocument,
-                adMapperSqlId,
-                ApplicationDocument.class));
-        paramForApplicationDocument.setDocTypeCode("00003");
-        entireApplication.setCollegeDocList(retrieveInfoListByParamObj(paramForApplicationDocument,
-                adMapperSqlId,
-                ApplicationDocument.class));
-        paramForApplicationDocument.setDocTypeCode("00004");
-        entireApplication.setGraduateDocList(retrieveInfoListByParamObj(paramForApplicationDocument,
-                adMapperSqlId,
-                ApplicationDocument.class));
-        paramForApplicationDocument.setDocTypeCode("00005");
-        entireApplication.setLanguageDocList(retrieveInfoListByParamObj(paramForApplicationDocument,
-                adMapperSqlId,
-                ApplicationDocument.class));
-        paramForApplicationDocument.setDocTypeCode("00006");
-        entireApplication.setAriInstDocList(retrieveInfoListByParamObj(paramForApplicationDocument,
-                adMapperSqlId,
-                ApplicationDocument.class));
-        paramForApplicationDocument.setDocTypeCode("00007");
-        entireApplication.setForeignerDocList(retrieveInfoListByParamObj(paramForApplicationDocument,
-                adMapperSqlId,
-                ApplicationDocument.class));
-        paramForApplicationDocument.setDocTypeCode("00008");
-        entireApplication.setDeptDocList(retrieveInfoListByParamObj(paramForApplicationDocument,
-                adMapperSqlId,
-                ApplicationDocument.class));
-        paramForApplicationDocument.setDocTypeCode("00099");
-        entireApplication.setEtcDocList(retrieveInfoListByParamObj(paramForApplicationDocument,
-                adMapperSqlId,
-                ApplicationDocument.class));
 
         return entireApplication;
     }

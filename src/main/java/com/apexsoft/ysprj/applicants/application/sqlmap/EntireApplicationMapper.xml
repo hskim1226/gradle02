@@ -224,7 +224,6 @@
         where a.APPL_NO = b.APPL_NO
         and   b.APPL_NO = c.APPL_NO
         and   c.APPL_NO = d.APPL_NO
-        and   d.ACAD_TYPE_CODE in ( '00001', '00005' )
         and   a.APPL_NO = #{applNo}
     </select>
 
