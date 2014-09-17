@@ -755,45 +755,45 @@ public class ApplicationServiceImpl implements ApplicationService {
             entireApplication.setApplicationLanguageList(retrieveInfoListByApplNo(applNo, "CustomApplicationLanguageMapper", ApplicationLanguage.class));
 
             //TODO 아래는 첨부파일 테이블 가져오는 부분이며, 변경될 로직으로 덮어써져야 함
-            String adMapperSqlId = "CustomApplicationDocumentMapper.selectByApplNoDocTypeCode";
-            ParamForApplicationDocument paramForApplicationDocument = new ParamForApplicationDocument();
-            paramForApplicationDocument.setApplNo(applNo);
-            paramForApplicationDocument.setDocTypeCode("00001");
-            entireApplication.setGeneralDocList(retrieveInfoListByParamObj(paramForApplicationDocument,
-                    adMapperSqlId,
-                    ApplicationDocument.class));
-            paramForApplicationDocument.setDocTypeCode("00002");
-            entireApplication.setForeignDegreeDocList(retrieveInfoListByParamObj(paramForApplicationDocument,
-                    adMapperSqlId,
-                    ApplicationDocument.class));
-            paramForApplicationDocument.setDocTypeCode("00003");
-            entireApplication.setCollegeDocList(retrieveInfoListByParamObj(paramForApplicationDocument,
-                    adMapperSqlId,
-                    ApplicationDocument.class));
-            paramForApplicationDocument.setDocTypeCode("00004");
-            entireApplication.setGraduateDocList(retrieveInfoListByParamObj(paramForApplicationDocument,
-                    adMapperSqlId,
-                    ApplicationDocument.class));
-            paramForApplicationDocument.setDocTypeCode("00005");
-            entireApplication.setLanguageDocList(retrieveInfoListByParamObj(paramForApplicationDocument,
-                    adMapperSqlId,
-                    ApplicationDocument.class));
-            paramForApplicationDocument.setDocTypeCode("00006");
-            entireApplication.setAriInstDocList(retrieveInfoListByParamObj(paramForApplicationDocument,
-                    adMapperSqlId,
-                    ApplicationDocument.class));
-            paramForApplicationDocument.setDocTypeCode("00007");
-            entireApplication.setForeignerDocList(retrieveInfoListByParamObj(paramForApplicationDocument,
-                    adMapperSqlId,
-                    ApplicationDocument.class));
-            paramForApplicationDocument.setDocTypeCode("00008");
-            entireApplication.setDeptDocList(retrieveInfoListByParamObj(paramForApplicationDocument,
-                    adMapperSqlId,
-                    ApplicationDocument.class));
-            paramForApplicationDocument.setDocTypeCode("00099");
-            entireApplication.setEtcDocList(retrieveInfoListByParamObj(paramForApplicationDocument,
-                    adMapperSqlId,
-                    ApplicationDocument.class));
+//            String adMapperSqlId = "CustomApplicationDocumentMapper.selectByApplNoDocTypeCode";
+//            ParamForApplicationDocument paramForApplicationDocument = new ParamForApplicationDocument();
+//            paramForApplicationDocument.setApplNo(applNo);
+//            paramForApplicationDocument.setDocTypeCode("00001");
+//            entireApplication.setGeneralDocList(retrieveInfoListByParamObj(paramForApplicationDocument,
+//                    adMapperSqlId,
+//                    ApplicationDocument.class));
+//            paramForApplicationDocument.setDocTypeCode("00002");
+//            entireApplication.setForeignDegreeDocList(retrieveInfoListByParamObj(paramForApplicationDocument,
+//                    adMapperSqlId,
+//                    ApplicationDocument.class));
+//            paramForApplicationDocument.setDocTypeCode("00003");
+//            entireApplication.setCollegeDocList(retrieveInfoListByParamObj(paramForApplicationDocument,
+//                    adMapperSqlId,
+//                    ApplicationDocument.class));
+//            paramForApplicationDocument.setDocTypeCode("00004");
+//            entireApplication.setGraduateDocList(retrieveInfoListByParamObj(paramForApplicationDocument,
+//                    adMapperSqlId,
+//                    ApplicationDocument.class));
+//            paramForApplicationDocument.setDocTypeCode("00005");
+//            entireApplication.setLanguageDocList(retrieveInfoListByParamObj(paramForApplicationDocument,
+//                    adMapperSqlId,
+//                    ApplicationDocument.class));
+//            paramForApplicationDocument.setDocTypeCode("00006");
+//            entireApplication.setAriInstDocList(retrieveInfoListByParamObj(paramForApplicationDocument,
+//                    adMapperSqlId,
+//                    ApplicationDocument.class));
+//            paramForApplicationDocument.setDocTypeCode("00007");
+//            entireApplication.setForeignerDocList(retrieveInfoListByParamObj(paramForApplicationDocument,
+//                    adMapperSqlId,
+//                    ApplicationDocument.class));
+//            paramForApplicationDocument.setDocTypeCode("00008");
+//            entireApplication.setDeptDocList(retrieveInfoListByParamObj(paramForApplicationDocument,
+//                    adMapperSqlId,
+//                    ApplicationDocument.class));
+//            paramForApplicationDocument.setDocTypeCode("00099");
+//            entireApplication.setEtcDocList(retrieveInfoListByParamObj(paramForApplicationDocument,
+//                    adMapperSqlId,
+//                    ApplicationDocument.class));
 
         } catch ( Exception e ) {
             e.printStackTrace();

@@ -1341,9 +1341,12 @@
                         $('#saveAcademy').removeClass('disabled');
                         break;
                     case "00002" :
+                        $('#saveAcademy').removeClass('disabled');
                         $('#saveLangCareer').removeClass('disabled');
                         break;
                     case "00003" :
+                        $('#saveAcademy').removeClass('disabled');
+                        $('#saveLangCareer').removeClass('disabled');
                         $('#saveFileUpload').removeClass('disabled');
                         break;
                     case "00004" :
