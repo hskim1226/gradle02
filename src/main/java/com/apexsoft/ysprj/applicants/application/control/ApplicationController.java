@@ -234,7 +234,7 @@ public class ApplicationController {
         commonCodeMap.put( "qualAreaList", commonService.retrieveCommonCodeValueByCodeGroup("QUAL_AREA") );
         commonCodeMap.put( "korExamList", commonService.retrieveLangExamByLangCode("KOR") );
         commonCodeMap.put( "engExamList", commonService.retrieveLangExamByLangCode("ENG") );
-
+//문서처리
         List<CustomApplicationDoc> geneDocList = null;
         List<CustomApplicationDoc> fDegDocList = null;
         List<CustomApplicationDoc> collDocList;
@@ -297,7 +297,9 @@ public class ApplicationController {
         commonCodeMap.put( "ariInstDocList", ariInstDocList==null?new ArrayList<CustomApplicationDoc>():ariInstDocList );
         commonCodeMap.put( "fDocList", fDocList==null?new ArrayList<CustomApplicationDoc>():fDocList );
         commonCodeMap.put( "deptDocList", deptDocList==null?new ArrayList<CustomApplicationDoc>():deptDocList );
-
+        List<List> madDoc = applicationService.retrieveManApplDocListByApplNo(applNo.intValue() );
+// 문서처리끝
+        model.addAttribute( "mandDoc", madDoc );
         model.addAttribute( "common", commonCodeMap );
 
         model.addAttribute( "msgRgstNo", messageResolver.getMessage("U304"));
