@@ -9,9 +9,6 @@ import java.util.List;
  */
 public class EntireApplication {
 
-    private String campCode;
-    private String collCode;
-
     private Application application;
     private ApplicationGeneral applicationGeneral;
     private ApplicationForeigner applicationForeigner;
@@ -31,23 +28,6 @@ public class EntireApplication {
     private List<ApplicationDocument> deptDocList;
     private List<ApplicationDocument> etcDocList;
     private ApplicationPayment applicationPayment;
-
-
-    public String getCampCode() {
-        return campCode;
-    }
-
-    public void setCampCode(String campCode) {
-        this.campCode = campCode;
-    }
-
-    public String getCollCode() {
-        return collCode;
-    }
-
-    public void setCollCode(String collCode) {
-        this.collCode = collCode;
-    }
 
     public Application getApplication() {
         return application;
