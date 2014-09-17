@@ -319,11 +319,11 @@
                                     </div>
                                     <div>
                                         <div class="col-sm-11" id="baseSave">
-                                            <label for="btnBaseSave" class="col-sm-8"><spring:message code="U310"/></label>
+                                            <span class="col-sm-8"><spring:message code="U310"/></span>
                                             <button id="btnBaseSave" class="btn btn-info btn-lg col-sm-4">지원사항 저장</button>
                                         </div>
                                         <div class="col-sm-11" id="baseCancel" style="display:none;">
-                                            <label for="btnBaseCancel" class="col-sm-8"><spring:message code="U311"/></label>
+                                            <span class="col-sm-8"><spring:message code="U311"/></span>
                                             <button id="btnBaseCancel" class="btn btn-warning btn-lg col-sm-4">지원사항 취소</button>
                                         </div>
                                     </div>
@@ -1308,46 +1308,58 @@
                 $('.base-info').prop('disabled', 'true');
                 $('#baseCancel').css('display', 'block');
                 $('#baseSave').css('display', 'none');
-                <li><a href="#academy" data-toggle="tab" class="tab-acad-lang-expr">학력</a></li>
-                <li><a href="#langcareer" data-toggle="tab" class="tab-acad-lang-expr">어학 및 경력</a></li>
-                <li><a href="#fileupload" data-toggle="tab" class="tab-file-upload">첨부파일</a></li>
             };
 
             if (document.getElementById('applNo').value != "") {
                 baseInfoSaved();
             }
 
-            <%-- 기본 정보 > 지원 사항 저장 --%>
+            <%-- 기본 정보 > 지원 사항 처리 --%>
             $('#btnBaseSave').on('click', function(e) {
-                var formUrl = '${contextPath}/application/baseSave',
-                    formData = $('#entireApplication').serializeArray();
-                $.ajax({
-                    url: formUrl,
-                    type: 'POST',
-                    data: formData,
-//                    timeout: 50000,
-                    success: function (context) {
-                        if (context.result == 'SUCCESS') {
-                            var message = context.message,
-                                alert = createAlert(message),
-                                applNo = context.data;
-                            baseInfoSaved();
-                            $('#alert-container').append(alert);
-                            document.getElementById('applNo').value = applNo;
-                            window.setTimeout(function() {
-                                alert.alert('close');
-                            }, 2000);
-                        }
-                    },
-                    error: function(e) {
-                        console.log(e.statusText);
-                    }
-                });
+                if ( confirm('<spring:message code="U313"/>') ) {
+                    baseInfoSaved();
+                } else {
+                    return false;
+                }
+
+                <%--var formUrl = '${contextPath}/application/baseSave',--%>
+                    <%--formData = $('#entireApplication').serializeArray();--%>
+                <%--$.ajax({--%>
+                    <%--url: formUrl,--%>
+                    <%--type: 'POST',--%>
+                    <%--data: formData,--%>
+<%--//                    timeout: 50000,--%>
+                    <%--success: function (context) {--%>
+                        <%--if (context.result == 'SUCCESS') {--%>
+                            <%--var message = context.message,--%>
+                                <%--alert = createAlert(message),--%>
+                                <%--applNo = context.data;--%>
+                            <%--baseInfoSaved();--%>
+                            <%--$('#alert-container').append(alert);--%>
+                            <%--document.getElementById('applNo').value = applNo;--%>
+                            <%--window.setTimeout(function() {--%>
+                                <%--alert.alert('close');--%>
+                            <%--}, 2000);--%>
+                        <%--}--%>
+                    <%--},--%>
+                    <%--error: function(e) {--%>
+                        <%--console.log(e.statusText);--%>
+                    <%--}--%>
+                <%--});--%>
+                event.preventDefault();
+            });
+
+            $('#btnBaseCancel').on('click', function(e) {
+                if ( confirm('<spring:message code("U314")') ) {
+                    //TODO DB 삭제 후 공고 목록으로 이동
+                } else {
+                    return false;
+                }
                 event.preventDefault();
             });
 
 
-            <%-- 기본 정보 > 지원 사항 저장 --%>
+            <%-- 기본 정보 > 지원 사항 처리 --%>
 
             <%-- 국가/학교 검색 시작 --%>
             $('.bpopper').on('click', function(e) {
