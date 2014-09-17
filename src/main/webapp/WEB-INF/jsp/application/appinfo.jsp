@@ -831,6 +831,8 @@
                                                 <form:hidden path="generalDocList[${stat.index}].filePath"/>
                                                 <form:hidden path="generalDocList[${stat.index}].fileName"/>
                                                 <form:hidden path="generalDocList[${stat.index}].orgFileName"/>
+                                                <input type="hidden" id="generalDocList${stat.index}.orgFileName"
+                                                       name="generalDocList[${stat.index}].orgFileName"/>
                                             </div>
                                         </c:forEach>
                                     </div>
@@ -1246,13 +1248,25 @@
 
         <div class="btn-group btn-group-justified">
             <div class="btn-group">
-                <button id="save" type="button" class="btn btn-info btn-lg">저장</button>
+                <button id="saveAppInfo" type="button" class="btn btn-info btn-lg btnAppl" data-saveType="appInfo">기본 정보 저장</button>
             </div>
             <div class="btn-group">
-                <button id="apply" type="button" class="btn btn-primary btn-lg">작성완료</button>
+                <button id="saveAcademy" type="button" class="btn btn-primary btn-lg btnAppl" data-saveType="academy">학력 저장</button>
             </div>
             <div class="btn-group">
-                <button id="reset" type="button" class="btn btn-warning btn-lg">되돌리기</button>
+                <button id="saveLangCareer" type="button" class="btn btn-info btn-lg btnAppl" data-saveType="langCareer">어학 및 경력 저장</button>
+            </div>
+            <div class="btn-group">
+                <button id="saveFileUpload" type="button" class="btn btn-primary btn-lg btnAppl" data-saveType="fileUpload">첨부 파일 저장</button>
+            </div>
+            <div class="btn-group">
+                <button id="save" type="button" class="btn btn-info btn-lg btnAppl" data-saveType="save">저장</button>
+            </div>
+            <div class="btn-group">
+                <button id="apply" type="button" class="btn btn-primary btn-lg btnAppl" data-saveType="apply">작성완료</button>
+            </div>
+            <div class="btn-group">
+                <button id="reset" type="button" class="btn btn-warning btn-lg">작성 내용 비우기</button>
             </div>
         </div>
     </div> <%--container--%>
@@ -1350,7 +1364,7 @@
             });
 
             $('#btnBaseCancel').on('click', function(e) {
-                if ( confirm('<spring:message code("U314")') ) {
+                if ( confirm('<spring:message code="U314"/>') ) {
                     //TODO DB 삭제 후 공고 목록으로 이동
                 } else {
                     return false;
@@ -1701,67 +1715,83 @@
 
 
             var formProcess = function(event) {
-                var $form = $(this),
-                    $formUrl = event.type==='save'?"apply/save":"apply/apply",
-                    gotoMyList = event.type==='apply'?true:false,
-                    $formData = $form.serializeArray();
-                if (gotoMyList) {
-                    $('#save').prop('disabled', true);
-                    $('#apply').prop('disabled', true);
-                    $('#reset').prop('disabled', true);
-                }
+//                var $form = $(this),
+//                        $formUrl = event.type==='save'?"apply/save":"apply/apply",
+//                        gotoMyList = event.type==='apply'?true:false,
+//                        $formData = $form.serializeArray();
+                var $form = $(this), formUrl,
+                    isApply = event.type ==='apply'?true:false,
+                    $formData = $form.serializeArray(),
+                    ajaxObj = {
+                        type: 'POST',
+                        data: $formData,
+                        timeout: 5000,
+                        success: function (context) {
+                            if (context.result == 'SUCCESS') {
+                                var message = context.message,
+                                    alert = createAlert(message),
+                                    applNo = context.data;
+                                $('#alert-container').append(alert);
+                                document.getElementById('applNo').value = applNo;
+                                //TODO 버튼 활성화 처리
+                                window.setTimeout(function() {
+                                    alert.alert('close');
+                                    if (isApply) {
+                                        location.href="${contextPath}/application/mylist";
+                                    }
+                                }, 1000);
+                            }
+                        },
+                        error: function(e) {
+                            console.log(e.statusText);
+                        }
+                    };
+
                 $form.find('input.radio-group').filter(function() {
                     return this.checked == false;
                 }).each(function() {
                     $formData.push({name: this.name, value: 'N'});
                 });
 
-//                $formData = $formData.concat(getEnglishScoreSerializeArray());
-                $.ajax({
-                    url: $formUrl,
-                    type: 'POST',
-                    data: $formData,
-                    timeout: 5000,
-                    success: function (context) {
-                        if (context.result == 'SUCCESS') {
-                            var message = context.message,
-                                alert = createAlert(message),
-                                applNo = context.data;
-                            $('#alert-container').append(alert);
-                            document.getElementById('applNo').value = applNo;
-                            window.setTimeout(function() {
-                                alert.alert('close');
-                                if (gotoMyList) {
-                                    location.href="${contextPath}/application/mylist";
-                                }
-                            }, 2000);
-                        }
-                    },
-                    error: function(e) {
-console.log(e.statusText);
-                    }
-                });
+                switch (event.type) {
+                    case 'appInfo':
+                        ajaxObj.url = "${contextPath}/application/save/appInfo";
+                        break;
+                    case 'academy':
+                        ajaxObj.url = "${contextPath}/application/save/academy";
+                        break;
+                    case 'langCareer':
+                        ajaxObj.url = "${contextPath}/application/save/langCareer";
+                        break;
+                    case 'fileUpload':
+                        ajaxObj.url = "${contextPath}/application/save/fileUpload";
+                        break;
+                    case 'apply':
+                        $('.btnAppl').prop('disabled', true);
+                        ajaxObj.url = "${contextPath}/application/apply/apply";
+                        break;
+                    case 'reset':
+                        break;
+                }
+                $.ajax(ajaxObj);
                 event.preventDefault();
             };
 
-            $('#entireApplication').on('save', formProcess);
-
-            $('#entireApplication').on('apply', formProcess);
-
-            $('#save').on('click', function() {
-                $('#entireApplication').trigger('save');
-            });
-
-            $('#apply').on('click', function() {
-                $('#entireApplication').trigger('apply');
+            $('.btnAppl').each( function () {
+                var saveType = this.getAttribute('data-saveType');
+                $(this).on('click', function(e) {
+                    $('#entireApplication').trigger(saveType);
+                });
+                $('#entireApplication').on(saveType, formProcess);
             });
 
             $('#reset').on('click', function() {
-                var $curPane = $('.tab-pane.active');
-                var $curForm = $curPane.find('form');
-                $curForm.each(function() {
-                    this.reset();
-                });
+//                var $curPane = $('.tab-pane.active');
+//                var $curForm = $curPane.find('form');
+//                $curForm.each(function() {
+//                    this.reset();
+//                });
+                document.getElementById('entireApplication').reset(); //TODO reset 안됨
             });
 
             <%-- form-group-block 추가/삭제에 대한 처리 시작 --%>

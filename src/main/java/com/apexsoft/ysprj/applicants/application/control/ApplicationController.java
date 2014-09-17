@@ -310,16 +310,16 @@ public class ApplicationController {
     }
 
     /**
-     * 기본 정보 탭의 지원 사항만 저장
+     * 기본 정보 탭 저장
      *
      * @param entireApplication
      * @param bindingResult
      * @param principal
      * @return
      */
-    @RequestMapping(value="/baseSave", method = RequestMethod.POST)
+    @RequestMapping(value="/save/appInfo", method = RequestMethod.POST)
     @ResponseBody
-    public ExecutionContext baseInfoSave(@Valid @ModelAttribute EntireApplication entireApplication,
+    public ExecutionContext saveAppInfo(@Valid @ModelAttribute EntireApplication entireApplication,
                                          BindingResult bindingResult,
                                          Principal principal) {
 
@@ -331,11 +331,112 @@ public class ApplicationController {
             return new ExecutionContext(ExecutionContext.FAIL);
         }
 
-        ExecutionContext ec = null;
-        String userId = principal.getName();
-        entireApplication.getApplication().setUserId(userId);
-        entireApplication.getApplication().setApplStsCode("00001");
-        ec = applicationService.createApplication(entireApplication.getApplication());
+        ExecutionContext ec = new ExecutionContext(ExecutionContext.SUCCESS);
+        ec.setMessage("AppInfo");
+//        ExecutionContext ec = null;
+//        String userId = principal.getName();
+//        entireApplication.getApplication().setUserId(userId);
+//        entireApplication.getApplication().setApplStsCode("00001");
+//        ec = applicationService.createApplication(entireApplication.getApplication());
+
+        return ec;
+    }
+
+    /**
+     * 학력 탭 저장
+     *
+     * @param entireApplication
+     * @param bindingResult
+     * @param principal
+     * @return
+     */
+    @RequestMapping(value="/save/academy", method = RequestMethod.POST)
+    @ResponseBody
+    public ExecutionContext saveAcademy(@Valid @ModelAttribute EntireApplication entireApplication,
+                                         BindingResult bindingResult,
+                                         Principal principal) {
+
+        if( bindingResult.hasErrors() ) {
+            return new ExecutionContext(ExecutionContext.FAIL);
+        }
+
+        if( principal == null ) {
+            return new ExecutionContext(ExecutionContext.FAIL);
+        }
+
+        ExecutionContext ec = new ExecutionContext(ExecutionContext.SUCCESS);
+        ec.setMessage("Acacemy");
+//        ExecutionContext ec = null;
+//        String userId = principal.getName();
+//        entireApplication.getApplication().setUserId(userId);
+//        entireApplication.getApplication().setApplStsCode("00001");
+//        ec = applicationService.createApplication(entireApplication.getApplication());
+
+        return ec;
+    }
+
+    /**
+     * 어학 경력 탭 저장
+     *
+     * @param entireApplication
+     * @param bindingResult
+     * @param principal
+     * @return
+     */
+    @RequestMapping(value="/save/langCareer", method = RequestMethod.POST)
+    @ResponseBody
+    public ExecutionContext saveLangCareer(@Valid @ModelAttribute EntireApplication entireApplication,
+                                        BindingResult bindingResult,
+                                        Principal principal) {
+
+        if( bindingResult.hasErrors() ) {
+            return new ExecutionContext(ExecutionContext.FAIL);
+        }
+
+        if( principal == null ) {
+            return new ExecutionContext(ExecutionContext.FAIL);
+        }
+
+        ExecutionContext ec = new ExecutionContext(ExecutionContext.SUCCESS);
+        ec.setMessage("Lang Career");
+//        ExecutionContext ec = null;
+//        String userId = principal.getName();
+//        entireApplication.getApplication().setUserId(userId);
+//        entireApplication.getApplication().setApplStsCode("00001");
+//        ec = applicationService.createApplication(entireApplication.getApplication());
+
+        return ec;
+    }
+
+    /**
+     * 첨부파일 탭 저장
+     *
+     * @param entireApplication
+     * @param bindingResult
+     * @param principal
+     * @return
+     */
+    @RequestMapping(value="/save/fileUpload", method = RequestMethod.POST)
+    @ResponseBody
+    public ExecutionContext saveFileUpload(@Valid @ModelAttribute EntireApplication entireApplication,
+                                           BindingResult bindingResult,
+                                           Principal principal) {
+
+        if( bindingResult.hasErrors() ) {
+            return new ExecutionContext(ExecutionContext.FAIL);
+        }
+
+        if( principal == null ) {
+            return new ExecutionContext(ExecutionContext.FAIL);
+        }
+
+        ExecutionContext ec = new ExecutionContext(ExecutionContext.SUCCESS);
+        ec.setMessage("FileUpload");
+//        ExecutionContext ec = null;
+//        String userId = principal.getName();
+//        entireApplication.getApplication().setUserId(userId);
+//        entireApplication.getApplication().setApplStsCode("00001");
+//        ec = applicationService.createApplication(entireApplication.getApplication());
 
         return ec;
     }
