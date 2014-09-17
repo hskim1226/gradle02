@@ -44,6 +44,11 @@
         section.application .nav>li>a {
             display: block;
         }
+        .apexMessage {
+            color: #000;
+            font-size: 12px;
+            font-weight: 900;
+        }
 
 /*
         section.application .btn {
@@ -311,6 +316,7 @@
                                                     <form:option value="" label="--선택--" />
                                                     <form:options items="${common.detlMajList}" itemValue="detlMajCode" itemLabel="detlMajName" />
                                                 </form:select>
+                                                <label  id="detMajDesc" cssClass="apexMessage"></label>
                                             </div>
                                         </div>
                                     </div>
@@ -2125,6 +2131,7 @@ console.log(e.statusText);
                             } else if (applAttrCode == '00003') {
                                 // nothing
                             }
+
                         }
                     }
             );
@@ -2144,11 +2151,13 @@ console.log(e.statusText);
                 var selected = this.options[this.selectedIndex];
                 var detlMajCode = selected.value;
                 var parent = this.parentNode.parentNode;
-                var $divNode, $childNode, $childNode2;
+                var $divNode,$divNode2, $childNode, $childNode2, $childNode3;
 
                 $(parent).find('#detlMajRadio').remove();
                 $(parent).find('#detlMajText').remove();
-                if (detlMajCode.slice(0, 1) == '9') {   // 직전 학위과정의 학과명 입력
+                $(parent).find('#detlMajDescDiv').remove();
+                $(parent).find('#detlMajDescLabel').remove();
+                if (detlMajCode == '99999') {   // 세부전공 직접입력
                     $divNode = $('<div></div>').addClass('col-sm-offset-2 col-sm-9').attr({
                         'id': 'detlMajText'
                     });
@@ -2157,25 +2166,60 @@ console.log(e.statusText);
                         'id': 'detlMajDesc',
                         'name': 'detlMajDesc'
                     });
-                    $childNode.appendTo($divNode)
+                    $('#DetlMajDesc').text('');
+                    $childNode.appendTo($divNode);
                     $divNode.appendTo($(parent));
-                } else {
-                    if ($(selected).attr('partTimeYn') === 'Y' || $(selected).attr('partTimeYn') === 'y') { // 세부전공 PART_TIME_YN이 Y인 경우
-                        $divNode = $('<div></div>').addClass('col-sm-offset-2 col-sm-9').attr({
-                            'id': 'detlMajRadio'
-                        });
-                        $childNode = $('<input/>').attr({
-                            'type': 'checkbox',
-                            'id': 'partTimeYn',
-                            'name': 'partTimeYn'
-                        });
-                        $childNode2 = $('<label/>').addClass('checkbox-inline').text('파트타임 여부');
-                        $childNode.prependTo($childNode2);
-                        $childNode2.appendTo($divNode);
-                        $divNode.appendTo($(parent));
-                    }
                 }
+                if ($(selected).attr('partTimeYn') === 'Y' || $(selected).attr('partTimeYn') === 'y') { // 세부전공 PART_TIME_YN이 Y인 경우
+                    $divNode = $('<div></div>').addClass('col-sm-offset-2 col-sm-9').attr({
+                        'id': 'detlMajRadio'
+                    });
+                    $childNode = $('<input/>').attr({
+                        'type': 'checkbox',
+                        'id': 'partTimeYn',
+                        'name': 'partTimeYn'
+                    });
+                    $childNode2 = $('<label/>').addClass('checkbox-inline').text('파트타임 여부');
+                    $childNode.prependTo($childNode2);
+                    $childNode2.appendTo($divNode);
+                    $divNode.appendTo($(parent));
+                }
+
+                var temp = jQuery.type($(selected).attr('detlmajdesc'));
+                var temp2 = $(selected).attr('detlmajdesc');
+                if (jQuery.type($(selected).attr('detlmajdesc')) !=='undefined') { // 세부전공 desc 가 들어가 있는경우
+                    $divNode = $('<div></div>').addClass('col-sm-offset-2 col-sm-9').attr({
+                        'id': 'detlMajDescDiv'
+                    });
+                    $childNode = $('<label/>').addClass('apexMsg').text(temp2).autoLink();
+                    $childNode.appendTo($divNode);
+                    $divNode.appendTo($(parent));
+
+
+                }
+
             });
+            function retreiveDetlMajDesc( adms, dept, applAttrCode, detlMajCode ) {
+
+                    var msg;
+                    var baseUrl = '${contextPath}/common/code?';
+
+                    $.ajax({
+                        type: 'GET',
+                        url: baseUrl,
+                        success: function(e) {
+                            if(e.result && e.result === 'SUCCESS') {
+                                var data = JSON && JSON.parse(e.data) || $.parseJSON(e.data);
+                                msg = $(data);
+                            }
+                        },
+                        error: function(e) {
+                            if(console) console.log(e);
+                        }
+                    });
+                return msg;
+             }
+
 
             <%-- 세부전공 변경 시 어학 변경 --%>
 //            $('#detlMajCode').on('change', function(event) {
@@ -2418,6 +2462,11 @@ console.log(e.statusText);
 
         });
 
+        $.fn.autoLink = function(){
+            var regURL = new RegExp("(http|https|ftp|telnet|news|irc)://([-/.a-zA-Z0-9_~#%$?&=:200-377()]+)","gi");
+            this.html(this.html().replace(regURL,"<a href='$1://$2' target='_blank'>$1://$2</a>"));
+            return this;
+        };
 
     </script>
 </content>
