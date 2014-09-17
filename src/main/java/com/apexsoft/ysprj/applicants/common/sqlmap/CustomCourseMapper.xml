@@ -5,7 +5,7 @@
   <select id="selectGeneralByAdmsDept"
           resultType="com.apexsoft.ysprj.applicants.common.domain.CodeNameCourse"
           parameterType="com.apexsoft.ysprj.applicants.common.domain.ParamForSetupCourses" >
-      SELECT A.CORS_TYPE_CODE, B.CODE_VAL
+      SELECT A.CORS_TYPE_CODE, B.CODE_VAL, B.CODE_VAL_XXEN
       FROM ADMS_CORS A, COMM_CODE B
       WHERE B.CODE_GRP = 'CORS_TYPE'
       AND A.CORS_TYPE_CODE = B.CODE
@@ -17,7 +17,7 @@
   <select id="selectCommissionByAdmsDept"
           resultType="com.apexsoft.ysprj.applicants.common.domain.CodeNameCourse"
           parameterType="com.apexsoft.ysprj.applicants.common.domain.ParamForSetupCourses" >
-      SELECT A.CORS_TYPE_CODE, B.CODE_VAL
+      SELECT A.CORS_TYPE_CODE, B.CODE_VAL, B.CODE_VAL_XXEN
       FROM ADMS_CORS A, COMM_CODE B
       WHERE B.CODE_GRP = 'CORS_TYPE'
       AND A.CORS_TYPE_CODE = B.CODE
@@ -30,7 +30,7 @@
   <select id="selectAriInstByAdmsDeptAriInst"
           resultType="com.apexsoft.ysprj.applicants.common.domain.CodeNameCourse"
           parameterType="com.apexsoft.ysprj.applicants.common.domain.ParamForSetupCourses" >
-        SELECT A.CORS_TYPE_CODE, B.CODE_VAL
+        SELECT A.CORS_TYPE_CODE, B.CODE_VAL, B.CODE_VAL_XXEN
         FROM ADMS_CORS A, COMM_CODE B
         WHERE B.CODE_GRP = 'CORS_TYPE'
         AND A.CORS_TYPE_CODE = B.CODE
@@ -40,8 +40,8 @@
         AND A.CORS_TYPE_CODE IN ('4','5','6')
   </select>
 
-    <select id="selectNameByCode" resultType="java.lang.String" parameterType="java.lang.String">
-        select CODE_VAL
+    <select id="selectNameByCode" resultType="com.apexsoft.ysprj.applicants.common.domain.CodeNameCourse" parameterType="java.lang.String">
+        select CODE_VAL, CODE_VAL_XXEN
         from COMM_CODE
         where CODE_GRP = 'CORS_TYPE'
         and CODE = #{code,jdbcType=VARCHAR}

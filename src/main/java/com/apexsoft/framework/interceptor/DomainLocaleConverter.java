@@ -1,10 +1,16 @@
 package com.apexsoft.framework.interceptor;
 
 import org.springframework.util.StringUtils;
+import org.springframework.web.servlet.LocaleResolver;
+import org.springframework.web.servlet.support.RequestContextUtils;
 
+import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.Locale;
+import java.util.Map;
 
 /**
  * Created with IntelliJ IDEA.
@@ -12,7 +18,7 @@ import java.util.Locale;
  * Date: 2014-09-15
  * Time: 오후 6:47
  */
-public class DomainLocaleConverter {
+public class DomainLocaleConverter implements Converter {
 
     private final static String PREFIX_GET = "get";
     private final static String PREFIX_SET = "set";
@@ -30,7 +36,7 @@ public class DomainLocaleConverter {
      * @throws InvocationTargetException
      * @throws IllegalAccessException
      */
-    public Object convert(Object domain, Locale locale) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+    private void doConvert(Object domain, Locale locale) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
         Class clazz = domain.getClass();
         Method[] methods = clazz.getDeclaredMethods();
 
@@ -39,7 +45,7 @@ public class DomainLocaleConverter {
             newLocale = "";
         };
         if (!StringUtils.hasText(newLocale)) {
-            return domain;
+            return;
         }
 
         String newSuffix = StringUtils.hasText(newLocale) ? SUFFIX + newLocale.toLowerCase() : "";
@@ -69,7 +75,45 @@ public class DomainLocaleConverter {
                 }
             }
         }
+    }
 
-        return domain;
+    private Locale getCurrentLocale(HttpServletRequest request) {
+        LocaleResolver localeResolver = RequestContextUtils.getLocaleResolver(request);
+        if (localeResolver == null) {
+            throw new IllegalStateException("No LocaleResolver found: not in a DispatcherServlet request?");
+        }
+
+        return localeResolver.resolveLocale(request);
+    }
+
+    public void convert(Object domain, HttpServletRequest request) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
+        convert(domain, null, request);
+    }
+
+    public void convert(Object domain, Locale locale, HttpServletRequest request) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+        if (locale == null) {
+            locale = getCurrentLocale(request);
+        }
+        if (domain instanceof Collection) {
+            Collection collection = (Collection) domain;
+            for (Iterator iter = collection.iterator(); iter.hasNext();) {
+                convert(iter.next(), locale, request);
+            }
+        } else if (domain instanceof Map) {
+            Map map = (Map) domain;
+            for (Iterator<Map.Entry> iter = map.entrySet().iterator(); iter.hasNext();) {
+                Map.Entry entry = iter.next();
+                convert(entry.getValue(), locale, request);
+            }
+        } else if (domain != null) {
+            Class clazz = domain.getClass();
+            Package pack = clazz.getPackage();
+
+            if (clazz.getClassLoader() != null &&
+                    pack.getName().startsWith("com.apexsoft") &&
+                    pack.getName().endsWith("domain")) {
+                doConvert(domain, locale);
+            }
+        }
     }
 }

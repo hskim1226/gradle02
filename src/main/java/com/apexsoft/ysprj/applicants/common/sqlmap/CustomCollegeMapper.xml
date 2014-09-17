@@ -15,8 +15,8 @@
     where CAMP_CODE = #{campusCode,jdbcType=VARCHAR}
   </select>
 
-    <select id="selectNameByCode" resultType="java.lang.String" parameterType="java.lang.String">
-        select COLL_NAME
+    <select id="selectNameByCode" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select COLL_NAME, COLL_NAME_XXEN
         from COLL
         where COLL_CODE = #{collCode,jdbcType=VARCHAR}
     </select>

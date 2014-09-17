@@ -2118,7 +2118,8 @@
                         success: function(e) {
                             if(e.result && e.result === 'SUCCESS') {
                                 var $target = $('#' + targetId);
-                                var data = JSON && JSON.parse(e.data) || $.parseJSON(e.data);
+//                                var data = JSON && JSON.parse(e.data) || $.parseJSON(e.data);
+                                var data = e.data;
                                 $(data).each(function (i, item) {
                                     var $op = $('<option>').attr({
                                         'value': item[valueKey],

@@ -228,77 +228,77 @@ public class ApplicationController {
             result += "appinfo-fore";
 
             commonCodeMap.put( "fornTypeList", commonService.retrieveCommonCodeValueByCodeGroup("FORN_TYPE") );
+            commonCodeMap.put( "korExamList", commonService.retrieveLangExamByLangCode("KOR") );
         }
 
         commonCodeMap.put( "emerContList", commonService.retrieveCommonCodeValueByCodeGroup("EMER_CONT") );
         commonCodeMap.put( "toflTypeList", commonService.retrieveCommonCodeValueByCodeGroup("TOFL_TYPE") );
         commonCodeMap.put( "fornExmpList", commonService.retrieveCommonCodeValueByCodeGroup("FORN_EXMP") );
         commonCodeMap.put( "qualAreaList", commonService.retrieveCommonCodeValueByCodeGroup("QUAL_AREA") );
-        commonCodeMap.put( "korExamList", commonService.retrieveLangExamByLangCode("KOR") );
         commonCodeMap.put( "engExamList", commonService.retrieveLangExamByLangCode("ENG") );
 //문서처리
-        List<CustomApplicationDoc> geneDocList = null;
-        List<CustomApplicationDoc> fDegDocList = null;
-        List<CustomApplicationDoc> collDocList;
-        List<CustomApplicationDoc> gradDocList;
-        List<CustomApplicationDoc> langDocList;
-        List<CustomApplicationDoc> ariInstDocList = null;
-        List<CustomApplicationDoc> deptDocList = null;
-        List<CustomApplicationDoc> fDocList = null;
-
-        ParamForApplicationDoc pad = new ParamForApplicationDoc();
-        pad.setAdmsNo(admsNo);
-        if (admsNo.substring(admsNo.length()-1).equals("A")) {
-            pad.setDocTypeCode("00001");
-            List<String> docItemCodes = new ArrayList<String>();
-            docItemCodes.add("00001");
-            docItemCodes.add("00002");
-            pad.setDocItemCodeList(docItemCodes);
-            try {
-                geneDocList = applicationService.retrieveInfoListByParamObj(pad,
-                        "CustomApplicationDocumentMapper.selectByAdmsNoDocTypeCode", CustomApplicationDoc.class);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            docItemCodes.clear();
-
-            pad.setDocTypeCode("00002");
-            fDegDocList = applicationService.retrieveInfoListByParamObj(pad,
-                    "CustomApplicationDocumentMapper.selectByAdmsNoDocTypeCode", CustomApplicationDoc.class);
-            pad.setDocTypeCode("00006");
-            ariInstDocList = applicationService.retrieveInfoListByParamObj(pad,
-                    "CustomApplicationDocumentMapper.selectByAdmsNoDocTypeCode", CustomApplicationDoc.class);
-            pad.setDocTypeCode("00008");
-            deptDocList = applicationService.retrieveInfoListByParamObj(pad,
-                    "CustomApplicationDocumentMapper.selectByAdmsNoDocTypeCode", CustomApplicationDoc.class);
-
-        } else if (admsNo.substring(admsNo.length()-1).equals("C")) {
-            pad.setDocTypeCode("00001");
-            geneDocList = applicationService.retrieveInfoListByParamObj(pad,
-                    "CustomApplicationDocumentMapper.selectByAdmsNoDocTypeCode", CustomApplicationDoc.class);
-            pad.setDocTypeCode("00007");
-            fDocList = applicationService.retrieveInfoListByParamObj(pad,
-                    "CustomApplicationDocumentMapper.selectByAdmsNoDocTypeCode", CustomApplicationDoc.class);
-        }
-
-        pad.setDocTypeCode("00003");
-        collDocList = applicationService.retrieveInfoListByParamObj(pad,
-                "CustomApplicationDocumentMapper.selectByAdmsNoDocTypeCode", CustomApplicationDoc.class);
-        pad.setDocTypeCode("00004");
-        gradDocList = applicationService.retrieveInfoListByParamObj(pad,
-                "CustomApplicationDocumentMapper.selectByAdmsNoDocTypeCode", CustomApplicationDoc.class);
-        pad.setDocTypeCode("00005");
-        langDocList = applicationService.retrieveInfoListByParamObj(pad,
-                "CustomApplicationDocumentMapper.selectByAdmsNoDocTypeCode", CustomApplicationDoc.class);
-
-        commonCodeMap.put( "geneDocList", geneDocList==null?new ArrayList<CustomApplicationDoc>():geneDocList );
-        commonCodeMap.put( "fDegDocList", fDegDocList==null?new ArrayList<CustomApplicationDoc>():fDegDocList );
-        commonCodeMap.put( "collDocList", collDocList );
-        commonCodeMap.put( "gradDocList", gradDocList );
-        commonCodeMap.put( "langDocList", langDocList );
-        commonCodeMap.put( "ariInstDocList", ariInstDocList==null?new ArrayList<CustomApplicationDoc>():ariInstDocList );
-        commonCodeMap.put( "fDocList", fDocList==null?new ArrayList<CustomApplicationDoc>():fDocList );
-        commonCodeMap.put( "deptDocList", deptDocList==null?new ArrayList<CustomApplicationDoc>():deptDocList );
+//        List<CustomApplicationDoc> geneDocList = null;
+//        List<CustomApplicationDoc> fDegDocList = null;
+//        List<CustomApplicationDoc> collDocList;
+//        List<CustomApplicationDoc> gradDocList;
+//        List<CustomApplicationDoc> langDocList;
+//        List<CustomApplicationDoc> ariInstDocList = null;
+//        List<CustomApplicationDoc> deptDocList = null;
+//        List<CustomApplicationDoc> fDocList = null;
+//
+//        ParamForApplicationDoc pad = new ParamForApplicationDoc();
+//        pad.setAdmsNo(admsNo);
+//        if (admsNo.substring(admsNo.length()-1).equals("A")) {
+//            pad.setDocTypeCode("00001");
+//            List<String> docItemCodes = new ArrayList<String>();
+//            docItemCodes.add("00001");
+//            docItemCodes.add("00002");
+//            pad.setDocItemCodeList(docItemCodes);
+//            try {
+//                geneDocList = applicationService.retrieveInfoListByParamObj(pad,
+//                        "CustomApplicationDocumentMapper.selectByAdmsNoDocTypeCode", CustomApplicationDoc.class);
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//            docItemCodes.clear();
+//
+//            pad.setDocTypeCode("00002");
+//            fDegDocList = applicationService.retrieveInfoListByParamObj(pad,
+//                    "CustomApplicationDocumentMapper.selectByAdmsNoDocTypeCode", CustomApplicationDoc.class);
+//            pad.setDocTypeCode("00006");
+//            ariInstDocList = applicationService.retrieveInfoListByParamObj(pad,
+//                    "CustomApplicationDocumentMapper.selectByAdmsNoDocTypeCode", CustomApplicationDoc.class);
+//            pad.setDocTypeCode("00008");
+//            deptDocList = applicationService.retrieveInfoListByParamObj(pad,
+//                    "CustomApplicationDocumentMapper.selectByAdmsNoDocTypeCode", CustomApplicationDoc.class);
+//
+//        } else if (admsNo.substring(admsNo.length()-1).equals("C")) {
+//            pad.setDocTypeCode("00001");
+//            geneDocList = applicationService.retrieveInfoListByParamObj(pad,
+//                    "CustomApplicationDocumentMapper.selectByAdmsNoDocTypeCode", CustomApplicationDoc.class);
+//            pad.setDocTypeCode("00007");
+//            fDocList = applicationService.retrieveInfoListByParamObj(pad,
+//                    "CustomApplicationDocumentMapper.selectByAdmsNoDocTypeCode", CustomApplicationDoc.class);
+//        }
+//
+//        pad.setDocTypeCode("00003");
+//        collDocList = applicationService.retrieveInfoListByParamObj(pad,
+//                "CustomApplicationDocumentMapper.selectByAdmsNoDocTypeCode", CustomApplicationDoc.class);
+//        pad.setDocTypeCode("00004");
+//        gradDocList = applicationService.retrieveInfoListByParamObj(pad,
+//                "CustomApplicationDocumentMapper.selectByAdmsNoDocTypeCode", CustomApplicationDoc.class);
+//        pad.setDocTypeCode("00005");
+//        langDocList = applicationService.retrieveInfoListByParamObj(pad,
+//                "CustomApplicationDocumentMapper.selectByAdmsNoDocTypeCode", CustomApplicationDoc.class);
+//
+//        commonCodeMap.put( "geneDocList", geneDocList==null?new ArrayList<CustomApplicationDoc>():geneDocList );
+//        commonCodeMap.put( "fDegDocList", fDegDocList==null?new ArrayList<CustomApplicationDoc>():fDegDocList );
+//        commonCodeMap.put( "collDocList", collDocList );
+//        commonCodeMap.put( "gradDocList", gradDocList );
+//        commonCodeMap.put( "langDocList", langDocList );
+//        commonCodeMap.put( "ariInstDocList", ariInstDocList==null?new ArrayList<CustomApplicationDoc>():ariInstDocList );
+//        commonCodeMap.put( "fDocList", fDocList==null?new ArrayList<CustomApplicationDoc>():fDocList );
+//        commonCodeMap.put( "deptDocList", deptDocList==null?new ArrayList<CustomApplicationDoc>():deptDocList );
 //        List<List> madDoc = applicationService.retrieveManApplDocListByApplNo(applNo.intValue() );
 // 문서처리끝
 //        model.addAttribute( "mandDoc", madDoc );

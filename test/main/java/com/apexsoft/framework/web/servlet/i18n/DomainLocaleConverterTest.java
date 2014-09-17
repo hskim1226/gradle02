@@ -28,7 +28,7 @@ public class DomainLocaleConverterTest extends TestCase {
     }
 
     public void testConvert() throws Exception {
-        converter.convert(domain, new Locale("en"));
+        converter.convert(domain, new Locale("en"), null);
         Assert.assertEquals(domain.getName(), domain.getNameXxen());
     }
 

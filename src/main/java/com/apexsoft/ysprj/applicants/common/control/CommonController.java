@@ -12,9 +12,13 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
@@ -40,7 +44,7 @@ public class CommonController {
 
     @RequestMapping(value="/code/campus", method= RequestMethod.GET)
     @ResponseBody
-    public ExecutionContext getCampusCode()
+    public ExecutionContext getCampusCode(HttpServletRequest request)
             throws NoSuchAlgorithmException, JsonProcessingException, UnsupportedEncodingException {
 
         List<Campus> campusList = commonService.retrieveCampus();
@@ -51,7 +55,7 @@ public class CommonController {
         if (!(campusList.size() > 0)) {
             executionContext.setMessage(messageResolver.getMessage("U300"));
         }
-        executionContext.setData(json);
+        executionContext.setData(campusList);
 
         return executionContext;
     }
