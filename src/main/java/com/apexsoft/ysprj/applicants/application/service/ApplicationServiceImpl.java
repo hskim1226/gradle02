@@ -205,23 +205,26 @@ public class ApplicationServiceImpl implements ApplicationService {
                                              List<ApplicationExperience> applicationExperienceList) {
 
         ExecutionContext ec = new ExecutionContext();
-        int r1, r2 = 0, r3 = 0, applNo = application.getApplNo();
+        int r1, r2 = 0, r3 = 0, applNo = application.getApplNo(), idx = 0;
         Date date = new Date();
 
-        application.setApplStsCode(ACAD_SAVED);
+        application.setApplStsCode(LANG_CAREER_SAVED);
         application.setModDate(date);
         r1 = commonDAO.updateItem(application, NAME_SPACE, "ApplicationMapper");
 
         if ( applicationLanguageList != null ) {
             for( ApplicationLanguage applicationLanguage : applicationLanguageList) {
                 applicationLanguage.setApplNo(applNo);
+                applicationLanguage.setLangSeq(++idx);
                 applicationLanguage.setCreDate(date);
             }
             r2 = commonDAO.insertList(applicationLanguageList, NAME_SPACE, "ApplicationLanguageMapper");
         }
+        idx = 0;
         if ( applicationExperienceList != null ) {
             for( ApplicationExperience applicationExperience : applicationExperienceList) {
                 applicationExperience.setApplNo(applNo);
+                applicationExperience.setExprSeq(++idx);
                 applicationExperience.setCreDate(date);
             }
             r3 = commonDAO.insertList(applicationExperienceList, NAME_SPACE, "ApplicationExperienceMapper");
@@ -249,22 +252,24 @@ public class ApplicationServiceImpl implements ApplicationService {
                                              List<ApplicationExperience> applicationExperienceList) {
 
         ExecutionContext ec = new ExecutionContext();
-        int r1 = 0, r2 = 0, applNo = application.getApplNo();
+        int r1 = 0, r2 = 0, applNo = application.getApplNo(), idx = 0;
         Date date = new Date();
 
         deleteListByApplNo(applNo, "CustomApplicationLanguageMapper");
         if ( applicationLanguageList != null ) {
             for( ApplicationLanguage applicationLanguage : applicationLanguageList) {
                 applicationLanguage.setApplNo(applNo);
+                applicationLanguage.setLangSeq(++idx);
                 applicationLanguage.setModDate(date);
             }
             r1 = commonDAO.insertList(applicationLanguageList, NAME_SPACE, "ApplicationLanguageMapper");
         }
-
+        idx = 0;
         deleteListByApplNo(applNo, "CustomApplicationExperienceMapper");
         if ( applicationExperienceList != null ) {
             for( ApplicationExperience applicationExperience : applicationExperienceList) {
                 applicationExperience.setApplNo(applNo);
+                applicationExperience.setExprSeq(++idx);
                 applicationExperience.setModDate(date);
             }
             r2 = commonDAO.insertList(applicationExperienceList, NAME_SPACE, "ApplicationExperienceMapper");

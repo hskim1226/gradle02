@@ -534,7 +534,7 @@
                                                 </div>
                                                 <div class="col-sm-6">
                                                     <form:hidden path="collegeList[${stat.index}].schlCntrCode" />
-                                                    <input id="collegeList${stat.index}.schlCntrName" cssClass="form-control" />
+                                                    <input id="collegeList${stat.index}.schlCntrName" class="form-control" />
                                                 </div>
                                             </div>
                                             <div class="form-group required">
@@ -615,7 +615,7 @@
                                                 </div>
                                                 <div class="col-sm-6">
                                                     <form:hidden path="graduateList[${stat.index}].schlCntrCode" />
-                                                    <input id="graduateList${stat.index}.schlCntrName" cssClass="form-control" />
+                                                    <input id="graduateList${stat.index}.schlCntrName" class="form-control" />
                                                 </div>
                                             </div>
                                             <div class="form-group required">
@@ -707,7 +707,7 @@
                                         </c:choose>
                                             <input type="hidden" name="applicationLanguageList[${stat.index}].langExamCode" id="applicationLanguageList${stat.index}.langExamCode" value="${langExam.examCode}" />
                                             <div class="checkbox">
-                                                <label for="checkLang${stat.index}"><input type="checkbox" class="btn-lang-disabled" id="checkLang${stat.index}" <c:if test="entireApplication.applicationLanguageList['${stat.index}'] != null">checked</c:if>/>${langExam.examName}</label>
+                                                <label for="checkLang${stat.index}"><input type="checkbox" class="btn-lang-disabled lang-checkbox" id="checkLang${stat.index}" <c:if test="entireApplication.applicationLanguageList['${stat.index}'] != null">checked</c:if>/>${langExam.examName}</label>
                                             </div>
                                         <c:choose>
                                         <c:when test="${stat.index == 0}">
@@ -1234,10 +1234,10 @@
                                                 <%--<span class="col-sm-8" id="uploadedFileLabel${stat.index}" style="text-decoration: none;"><!--TODO DB에서 가져오기--></span>--%>
                                             <%--</div>--%>
                                         <%--</div>--%>
-                                        <%--&lt;%&ndash;<form:hidden path="docItemList[${stat.index}].docItemCode" value="${attachDoc.code}"/>&ndash;%&gt;--%>
-                                        <%--&lt;%&ndash;<form:hidden path="docItemList[${stat.index}].docItemName" value="${attachDoc.codeVal}"/>&ndash;%&gt;--%>
-                                        <%--&lt;%&ndash;<form:hidden path="docItemList[${stat.index}].filePath"/>&ndash;%&gt;--%>
-                                        <%--&lt;%&ndash;<form:hidden path="docItemList[${stat.index}].fileName"/>&ndash;%&gt;--%>
+                                        <%--<%--<form:hidden path="docItemList[${stat.index}].docItemCode" value="${attachDoc.code}"/>--%>--%>
+                                        <%--<%--<form:hidden path="docItemList[${stat.index}].docItemName" value="${attachDoc.codeVal}"/>--%>--%>
+                                        <%--<%--<form:hidden path="docItemList[${stat.index}].filePath"/>--%>--%>
+                                        <%--<%--<form:hidden path="docItemList[${stat.index}].fileName"/>--%>--%>
                                         <%--<input type="hidden" name="docItemList[${stat.index}].docItemCode" id="applicationDocumentList${stat.index}.docItemCode" value="${attachDoc.code}" />--%>
                                         <%--<input type="hidden" name="docItemList[${stat.index}].docItemName" id="applicationDocumentList${stat.index}.docItemName" value="${attachDoc.codeVal}" />--%>
                                         <%--<input type="hidden" name="docItemList[${stat.index}].filePath" id="applicationDocumentList${stat.index}.filePath"/>--%>
@@ -1596,29 +1596,9 @@
             };
 
             $('#searchAddress').on('click', showDaumPostcode);
-            <%-- 다음 주소 검색 끝 -->
+            <%-- 다음 주소 검색 끝 --%>
 
-            <%-- 파일 업로드 시작 - 한 번 업로드 후 동작 안해서 안쓰기고 함--%>
-//            $('.btn-file :file').on('change', function() {
-//                var input = $(this),
-//                        numFiles = input.get(0).files ? input.get(0).files.length : 1,
-//                        label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
-//                input.trigger('fileselect', [numFiles, label]);
-//            });
-//
-//            $('.btn-file :file').on('fileselect', function(event, numFiles, label) {
-//                var input = $(this).parents('.input-group').find(':text'),
-//                        log = numFiles > 1 ? numFiles + ' files selected' : label;
-//
-//                if( input.length ) {
-//                    input.val(log);
-//                } else {
-//                    if( log ) alert(log);
-//                }
-//
-//            });
-            <%-- 사진 업로드 끝 --%>
-
+            <%-- 달력 옵션 --%>
             var datePickerOption = {
                 dateFormat: 'yymmdd',
                 yearRange: "1950:",
@@ -2405,6 +2385,16 @@
                         $(targetExamName).css("display", "none");
 
             });
+
+            <%-- 원서 수정 모드에서 어학 정보 유무에 따라 checkbox 이벤트 자동 발생 --%>
+            var langArr = [];
+            <c:forEach items="${entireApplication.applicationLanguageList}" var="item" varStatus="stat">
+            langArr[${stat.index}] = '${item.langGrad}';
+            </c:forEach>
+            for ( var i = 0, len = langArr.length ; i < len ; i++ ) {
+                langArr[i] != "" ? $('#checkLang'+i).prop('checked', true).trigger('change') : $('#checkLang'+i).prop('checked', false);
+            }
+            <%-- 원서 수정 모드에서 어학 정보 유무에 따라 checkbox 이벤트 자동 발생 --%>
 
             <%-- 파일 선택 버튼 이벤트 --%>
             $('.btn-file').on('change', function (e) { // 한번 업로드한 inputfile은 이벤트가 발생 안한다.
