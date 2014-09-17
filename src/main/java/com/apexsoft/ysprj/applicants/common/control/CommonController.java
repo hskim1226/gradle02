@@ -55,7 +55,7 @@ public class CommonController {
         if (!(campusList.size() > 0)) {
             executionContext.setMessage(messageResolver.getMessage("U300"));
         }
-        executionContext.setData(campusList);
+        executionContext.setData(json);
 
         return executionContext;
     }

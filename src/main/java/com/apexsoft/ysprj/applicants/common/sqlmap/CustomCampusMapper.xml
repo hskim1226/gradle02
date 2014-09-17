@@ -14,7 +14,7 @@
     from CAMP
   </select>
 
-    <select id="selectNameByCode" resultType="java.lang.String" parameterType="java.lang.String">
+    <select id="selectNameByCode" resultMap="BaseResultMap" parameterType="java.lang.String">
         select CAMP_NAME, CAMP_NAME_XXEN
         from CAMP
         where CAMP_CODE = #{campCode,jdbcType=VARCHAR}

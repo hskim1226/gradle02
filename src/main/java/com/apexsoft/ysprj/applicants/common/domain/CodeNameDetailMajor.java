@@ -9,6 +9,7 @@ public class CodeNameDetailMajor {
 
     private String detlMajCode;
     private String detlMajName;
+    private String detlMajNameXxen;
     private String detlMajDesc;
     private String partTimeYn;
 
@@ -26,6 +27,14 @@ public class CodeNameDetailMajor {
 
     public void setDetlMajName(String detlMajName) {
         this.detlMajName = detlMajName;
+    }
+
+    public String getDetlMajNameXxen() {
+        return detlMajNameXxen;
+    }
+
+    public void setDetlMajNameXxen(String detlMajNameXxen) {
+        this.detlMajNameXxen = detlMajNameXxen;
     }
 
     public String getDetlMajDesc() {

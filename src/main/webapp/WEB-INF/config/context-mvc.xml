@@ -81,12 +81,13 @@
     </mvc:interceptors -->
 
     <mvc:interceptors>
-        <bean id="domainLocaleConvertInterceptor" class="com.apexsoft.framework.interceptor.DomainLocaleConvertInterceptor">
+        <bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor">
+            <property name="paramName" value="lang" />
+        </bean>
+        <bean class="com.apexsoft.framework.interceptor.DomainLocaleConvertInterceptor">
             <property name="converter" ref="converter" />
         </bean>
     </mvc:interceptors>
-
-    <bean id="converter" class="com.apexsoft.framework.interceptor.DomainLocaleConverter" />
 
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="prefix" value="/WEB-INF/jsp/"/>

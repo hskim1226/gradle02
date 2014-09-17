@@ -365,9 +365,11 @@ public class CommonServiceImpl implements CommonService {
     public String retrieveCampNameByCode(String campCode) {
         String campName = null;
         try {
-            campName = commonDAO.queryForObject(NAME_SPACE + "CustomCampusMapper.selectNameByCode",
+            Campus campus = commonDAO.queryForObject(NAME_SPACE + "CustomCampusMapper.selectNameByCode",
                     campCode,
-                    String.class);
+                    Campus.class);
+            converter.convert(campus, request);
+            campName = campus.getCampName();
         } catch (Exception e) {
             throw new BusinessException(e.getMessage(), e);
         }
@@ -384,9 +386,11 @@ public class CommonServiceImpl implements CommonService {
     public String retrieveCollNameByCode(String collCode) {
         String collName = null;
         try {
-            collName = commonDAO.queryForObject(NAME_SPACE + "CustomCollegeMapper.selectNameByCode",
+            College college = commonDAO.queryForObject(NAME_SPACE + "CustomCollegeMapper.selectNameByCode",
                     collCode,
-                    String.class);
+                    College.class);
+            converter.convert(college, request);
+            collName = college.getCollName();
         } catch (Exception e) {
             throw new BusinessException(e.getMessage(), e);
         }

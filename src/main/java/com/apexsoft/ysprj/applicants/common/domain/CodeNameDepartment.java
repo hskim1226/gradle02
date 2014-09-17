@@ -8,6 +8,7 @@ package com.apexsoft.ysprj.applicants.common.domain;
 public class CodeNameDepartment {
     private String deptCode;
     private String deptName;
+    private String deptNameXxen;
 
     public String getDeptCode() {
         return deptCode;
@@ -23,5 +24,13 @@ public class CodeNameDepartment {
 
     public void setDeptName(String deptName) {
         this.deptName = deptName;
+    }
+
+    public String getDeptNameXxen() {
+        return deptNameXxen;
+    }
+
+    public void setDeptNameXxen(String deptNameXxen) {
+        this.deptNameXxen = deptNameXxen;
     }
 }

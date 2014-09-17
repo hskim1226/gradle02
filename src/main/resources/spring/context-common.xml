@@ -52,6 +52,8 @@
     <!--<bean id="localeResolver"-->
           <!--class="org.springframework.web.servlet.i18n.SessionLocaleResolver"/>-->
 
+    <bean id="converter" class="com.apexsoft.framework.interceptor.DomainLocaleConverter" />
+
     <bean id="jacksonObjectMapper"
           class="com.fasterxml.jackson.databind.ObjectMapper"/>
 

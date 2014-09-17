@@ -266,7 +266,7 @@
                                     </div>
                                     <div id="applyKindDynamic">
                                         <div class="form-group hidden-apply-kind-2 required">
-                                            <form:label path="application.campCode" cssClass="col-sm-2 control-label">캠퍼스</form:label>
+                                            <label path="campCode" class="col-sm-2 control-label">캠퍼스</label>
                                             <div class="col-sm-3">
                                                 <form:select path="application.campCode" id="campCode" cssClass="form-control base-info">
                                                     <form:option value="" label="--선택--" />
@@ -275,7 +275,7 @@
                                                     </c:if>
                                                 </form:select>
                                             </div>
-                                            <form:label path="application.collCode" cssClass="col-sm-2 control-label">대학</form:label>
+                                            <label path="collCode" class="col-sm-2 control-label">대학</label>
                                             <div class="col-sm-4">
                                                 <form:select path="application.collCode" id="collCode" cssClass="form-control base-info">
                                                     <form:option value="" label="--선택--" />
@@ -321,7 +321,7 @@
                                                     <form:option value="" label="--선택--" />
                                                     <form:options items="${common.detlMajList}" itemValue="detlMajCode" itemLabel="detlMajName" />
                                                 </form:select>
-                                                <label  id="detMajDesc" cssClass="apexMessage"></label>
+                                                <label id="detMajDesc" class="apexMessage"></label>
                                             </div>
                                         </div>
                                     </div>
@@ -1637,9 +1637,7 @@
             };
 
             <%-- 달력 시작 --%>
-            $('.input-group.date>input').each(function() {
-                $(this).datepicker(datePickerOption);
-            });
+            $('.input-group.date>input').datepicker(datePickerOption);
             $('.input-daterange>input').datepicker(datePickerOption);
             <%-- 달력 끝 --%>
 
@@ -1772,8 +1770,6 @@
                     }
                 }
             });
-
-
 
             function getEnglishScoreSerializeArray(form) {
                 var array = [], $groups, $items, val, id, name, i, j;
@@ -2095,14 +2091,17 @@
                         }
                     }
 
+                    if (!val || val == '') {
+                        return;
+                    }
+
                     $.ajax({
                         type: 'GET',
                         url: baseUrl,
                         success: function(e) {
                             if(e.result && e.result === 'SUCCESS') {
                                 var $target = $('#' + targetId);
-//                                var data = JSON && JSON.parse(e.data) || $.parseJSON(e.data);
-                                var data = e.data;
+                                var data = JSON && JSON.parse(e.data) || $.parseJSON(e.data);
                                 $(data).each(function (i, item) {
                                     var $op = $('<option>').attr({
                                         'value': item[valueKey],
@@ -2285,8 +2284,8 @@
                 }
 
             });
-            function retreiveDetlMajDesc( adms, dept, applAttrCode, detlMajCode ) {
 
+            function retreiveDetlMajDesc( adms, dept, applAttrCode, detlMajCode ) {
                     var msg;
                     var baseUrl = '${contextPath}/common/code?';
 
@@ -2415,7 +2414,7 @@
                 var cn;
                 if (parent) {
                     if (target.checked) {
-                         $(parent).removeClass('hide-lang');
+                        $(parent).removeClass('hide-lang');
                         $(parent).addClass('show-lang');
                     } else {
                         $(parent).removeClass('show-lang');

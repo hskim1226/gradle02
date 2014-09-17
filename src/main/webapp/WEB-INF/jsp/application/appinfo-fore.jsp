@@ -4,7 +4,6 @@
 <html>
 <head>
     <title></title>
-    <link rel="stylesheet" href="${contextPath}/css/datepicker3.css">
     <link rel="stylesheet" href="//code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css">
     <style>
         section.application {
@@ -43,6 +42,11 @@
 
         section.application .nav>li>a {
             display: block;
+        }
+        .apexMessage {
+            color: #000;
+            font-size: 12px;
+            font-weight: 900;
         }
 
 /*
@@ -89,10 +93,10 @@
             background-color: white !important;
             cursor: text !important;
         }
-        a:hover, a:visited, a:link {
-            text-decoration: none;
-            color: #fdfdfd;
-        }
+        /*a:hover, a:visited, a:link {*/
+            /*text-decoration: none;*/
+            /*color: #fdfdfd;*/
+        /*}*/
         body {
             font-size: 14px;
         }
@@ -106,6 +110,11 @@
             background-color: #f0f0f0;
             color: #333;
             cursor: default;
+        }
+
+        .form-group.required .control-label:after {
+            content:"*";
+            color:red;
         }
 
         .form-group-block {
@@ -230,6 +239,8 @@
             <li><a href="#fileupload" data-toggle="tab"><spring:message code="L313" /></a></li>
         </ul>
         <form:form commandName="entireApplication" cssClass="form-horizontal" action="apply/saveandupload" method="post" enctype="multipart/form-data" role="form">
+            <form:hidden path="application.applNo" id="applNo" />
+            <form:hidden path="application.applStsCode" id="applStsCode" />
             <form:hidden path="application.admsNo" id="admsNo" />
             <form:hidden path="application.entrYear" id="entrYear" />
             <form:hidden path="application.admsTypeCode" id="admsTypeCode" />
@@ -241,77 +252,70 @@
                             <div class="panel panel-default">
                                 <div class="panel-heading"><spring:message code="L314" /></div>
                                 <div class="panel-body">
-                                    <div class="form-group">
-                                        <label class="col-sm-2 control-label"><spring:message code="L316" /></label>
+                                    <div class="form-group required">
+                                        <label for="fornTypeCode" class="col-sm-2 control-label"><spring:message code="L316" /></label>
                                         <div class="col-sm-9">
                                             <%--<form:radiobuttons path="application.fornTypeCode" items="${common.fornTypeList}" itemValue="code" itemLabel="codeVal" />--%>
                                             <form:select path="application.fornTypeCode" id="fornTypeCode" cssClass="form-control">
                                                 <form:options items="${common.fornTypeList}" itemValue="code" itemLabel="codeVal" />
-                                                <%--<c:forEach items="${common.fornTypeList}" var="item" varStatus="stat">--%>
-                                                    <%--<form:option value="${item.code}"><spring:message code="${item.codeGrp}.${item.code}" /></form:option>--%>
-                                                <%--</c:forEach>--%>
                                             </form:select>
                                         </div>
                                     </div>
                                     <div id="applyKindDynamic">
-                                        <div class="form-group hidden-apply-kind-2">
-                                            <form:label path="campCode" cssClass="col-sm-2 control-label"><spring:message code="L317" /></form:label>
+                                        <div class="form-group hidden-apply-kind-2 required">
+                                            <label path="campCode" class="col-sm-2 control-label"><spring:message code="L317" /></label>
                                             <div class="col-sm-3">
-                                                <form:select path="campCode" cssClass="form-control">
+                                                <form:select path="application.campCode" id="campCode" cssClass="form-control">
                                                     <spring:message code="L315" var="L315"/>
-                                                    <form:option value="-" label="${L315}" />
+                                                    <form:option value="" label="${L315}" />
                                                     <form:options items="${common.campList}" itemValue="campCode" itemLabel="campName" />
-                                                    <%--<c:forEach items="${common.campList}" var="item" varStatus="stat">--%>
-                                                        <%--<form:option value="${item.campCode}"><spring:message code="CAMP.${item.campCode}" /></form:option>--%>
-                                                    <%--</c:forEach>--%>
                                                 </form:select>
                                             </div>
-                                            <form:label path="collCode" cssClass="col-sm-2 control-label"><spring:message code="L318" /></form:label>
+                                            <label path="collCode" class="col-sm-2 control-label"><spring:message code="L318" /></label>
                                             <div class="col-sm-4">
-                                                <form:select path="collCode" cssClass="form-control">
-                                                    <form:option value="-" label="${L315}" />
+                                                <form:select path="application.collCode" id="collCode" cssClass="form-control">
+                                                    <form:option value="" label="${L315}" />
                                                     <form:options items="${common.collList}" itemValue="collCode" itemLabel="collName" />
-                                                    <%--<c:forEach items="${common.collList}" var="item" varStatus="stat">--%>
-                                                        <%--<form:option value="${item.collCode}"><spring:message code="COLL.${item.collCode}" /></form:option>--%>
-                                                    <%--</c:forEach>--%>
                                                 </form:select>
                                             </div>
                                         </div>
-                                        <div class="form-group">
+                                        <div class="form-group required">
                                             <label for="deptCode" class="col-sm-2 control-label"><spring:message code="L319" /></label>
                                             <div class="col-sm-9">
                                                 <form:select path="application.deptCode" id="deptCode" cssClass="form-control">
-                                                    <form:option value="-" label="${L315}" />
+                                                    <form:option value="" label="${L315}" />
                                                     <form:options items="${common.deptList}" itemValue="deptCode" itemLabel="deptName" />
-                                                    <%--<c:forEach items="${common.deptList}" var="item" varStatus="stat">--%>
-                                                        <%--<form:option value="${item.deptCode}"><spring:message code="DEPT.${item.deptCode}" /></form:option>--%>
-                                                    <%--</c:forEach>--%>
                                                 </form:select>
                                             </div>
                                         </div>
-                                        <div class="form-group">
+                                        <div class="form-group required">
                                             <label for="corsTypeCode" class="col-sm-2 control-label"><spring:message code="L320" /></label>
                                             <div class="col-sm-9">
                                                 <form:select path="application.corsTypeCode" id="corsTypeCode" cssClass="form-control">
-                                                    <form:option value="-" label="${L315}" />
+                                                    <form:option value="" label="${L315}" />
                                                     <form:options items="${common.corsTypeList}" itemValue="corsTypeCode" itemLabel="codeVal" />
-                                                    <%--<c:forEach items="${common.corsTypeList}" var="item" varStatus="stat">--%>
-                                                        <%--<form:option value="${item.corsTypeCode}"><spring:message code="CORS_TYPE_CODE.${item.corsTypeCode}" /></form:option>--%>
-                                                    <%--</c:forEach>--%>
                                                 </form:select>
                                             </div>
                                         </div>
-                                        <div class="form-group">
+                                        <div class="form-group required">
                                             <label for="detlMajCode" class="col-sm-2 control-label"><spring:message code="L321" /></label>
                                             <div class="col-sm-9">
                                                 <form:select path="application.detlMajCode" id="detlMajCode" cssClass="form-control">
-                                                    <form:option value="-" label="${L315}" />
+                                                    <form:option value="" label="${L315}" />
                                                     <form:options items="${common.detlMajList}" itemValue="detlMajCode" itemLabel="detlMajName" />
-                                                    <%--<c:forEach items="${common.detlMajList}" var="item" varStatus="stat">--%>
-                                                        <%--<form:option value="${item.detlMajCode}"><spring:message code="DETL_MAJ.${item.detlMajCode}" /></form:option>--%>
-                                                    <%--</c:forEach>--%>
                                                 </form:select>
+                                                <label id="detMajDesc" class="apexMessage"></label>
                                             </div>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="col-sm-11" id="baseSave">
+                                            <span class="col-sm-8"><spring:message code="U310"/></span>
+                                            <button id="btnBaseSave" class="btn btn-info btn-lg col-sm-4">지원사항 저장</button>
+                                        </div>
+                                        <div class="col-sm-11" id="baseCancel" style="display:none;">
+                                            <span class="col-sm-8"><spring:message code="U311"/></span>
+                                            <button id="btnBaseCancel" class="btn btn-warning btn-lg col-sm-4">지원사항 취소</button>
                                         </div>
                                     </div>
                                 </div>
@@ -319,7 +323,7 @@
                             <div class="panel panel-default">
                                 <div class="panel-heading"><spring:message code="L322" /></div>
                                 <div class="panel-body">
-                                    <div class="form-group">
+                                    <div class="form-group required">
                                         <label class="col-sm-2 control-label"><spring:message code="L323" /></label>
                                         <div class="col-sm-4">
                                             <div class="input-group">
@@ -334,19 +338,22 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="form-group">
+                                    <div class="form-group required">
                                         <form:label path="application.rgstNo" cssClass="col-sm-2 control-label"><spring:message code="L326" /></form:label>
                                         <div class="col-sm-9">
                                             <form:input path="application.rgstNo" cssClass="form-control" />
                                         </div>
                                     </div>
-                                    <div class="form-group">
+                                    <div class="form-group required">
                                         <form:label path="application.bornDay" cssClass="col-sm-2 control-label"><spring:message code="L327" /></form:label>
                                         <div class="col-sm-4">
-                                            <form:input path="application.bornDay" cssClass="form-control date" readonly="true" />
+                                            <div class="input-group date">
+                                                <form:input path="application.bornDay" cssClass="form-control" readonly="true" />
+                                                <span class="input-group-addon"></span>
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="form-group">
+                                    <div class="form-group required">
                                         <form:label path="application.gend" class="col-sm-2 control-label"><spring:message code="L328" /></form:label>
                                         <div class="col-sm-9">
                                             <label class="radio-inline"><form:radiobutton path="application.gend" id="male" value="M" /><spring:message code="L329" /></label>
@@ -359,20 +366,20 @@
                             <div class="panel panel-default">
                                 <div class="panel-heading"><spring:message code="L331" /></div>
                                 <div class="panel-body">
-                                    <div class="form-group">
+                                    <div class="form-group required">
                                         <label for="citzCntrName" class="col-sm-2 control-label"><spring:message code="L332" /></label>
                                         <div class="col-sm-2">
-                                            <button type="button" class="btn btn-default btn-search bpopper" data-targetNode1="citzCntrCode" data-targetNode2='citzCntrName' data-category="country-c"><spring:message code="L333" /></button>
+                                            <button type="button" class="btn btn-default btn-search bpopper" data-targetNode1="citzCntrCode" data-targetNode2='citzCntrName' data-category="country"><spring:message code="L333" /></button>
                                         </div>
                                         <div class="col-sm-7">
-                                            <form:hidden path="applicationForeigner.citzCntrCode" id="citzCntrCode" cssClass="form-control" />
+                                            <form:hidden path="application.citzCntrCode" id="citzCntrCode" cssClass="form-control" />
                                             <input id="citzCntrName" class="form-control" />
                                         </div>
                                     </div>
-                                    <div class="form-group">
+                                    <div class="form-group required">
                                         <label for="bornCntrName" class="col-sm-2 control-label"><spring:message code="L334" /></label>
                                         <div class="col-sm-2">
-                                            <button type="button" class="btn btn-default btn-search bpopper" data-targetNode1="bornCntrCode" data-targetNode2='bornCntrName' data-category="country-b"><spring:message code="L333" /></button>
+                                            <button type="button" class="btn btn-default btn-search bpopper" data-targetNode1="bornCntrCode" data-targetNode2='bornCntrName' data-category="country"><spring:message code="L333" /></button>
                                         </div>
                                         <div class="col-sm-7">
                                             <form:hidden path="applicationForeigner.bornCntrCode" id="bornCntrCode" cssClass="form-control" />
@@ -384,13 +391,13 @@
                             <div class="panel panel-default">
                                 <div class="panel-heading"><spring:message code="L335" /></div>
                                 <div class="panel-body">
-                                    <div class="form-group">
+                                    <div class="form-group required">
                                         <form:label path="applicationForeigner.paspNo" cssClass="col-sm-2 control-label"><spring:message code="L336" /></form:label>
                                         <div class="col-sm-9">
                                             <form:input path="applicationForeigner.paspNo" cssClass="form-control" />
                                         </div>
                                     </div>
-                                    <div class="form-group">
+                                    <div class="form-group required">
                                         <form:label path="applicationForeigner.visaNo" cssClass="col-sm-2 control-label"><spring:message code="L337" /></form:label>
                                         <div class="col-sm-5">
                                             <div class="input-group">
@@ -429,7 +436,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="form-group">
+                                    <div class="form-group required">
                                         <form:label path="applicationForeigner.visaExprDay" cssClass="col-sm-2 control-label"><spring:message code="L340" /></form:label>
                                         <div class="col-sm-9">
                                             <div class="input-group date">
@@ -443,7 +450,7 @@
                             <div class="panel panel-default">
                                 <div class="panel-heading"><spring:message code="L341" /></div>
                                 <div class="panel-body">
-                                    <div class="form-group">
+                                    <div class="form-group required">
                                         <label class="col-sm-2 control-label"><spring:message code="L342" /></label>
                                         <div class="col-sm-2">
                                             <button type="button" class="btn btn-default btn-block btn-search" id="searchAddress"><spring:message code="L343" /></button>
@@ -464,7 +471,7 @@
                                             <form:input path="application.detlAddr" cssClass="form-control" id="addressDetail" placeholder="${L344}" />
                                         </div>
                                     </div>
-                                    <div class="form-group">
+                                    <div class="form-group required">
                                         <form:label path="application.telNum" cssClass="col-sm-2 control-label"><spring:message code="L345" /></form:label>
                                         <div class="col-sm-9">
                                                 <%--TODO--%>
@@ -474,7 +481,7 @@
                                             <form:input path="application.telNum" cssClass="form-control" />
                                         </div>
                                     </div>
-                                    <div class="form-group">
+                                    <div class="form-group required">
                                         <form:label path="application.mobiNum" cssClass="col-sm-2 control-label"><spring:message code="L346" /></form:label>
                                         <div class="col-sm-9">
                                                 <%--TODO--%>
@@ -484,7 +491,7 @@
                                             <form:input path="application.mobiNum" cssClass="form-control" />
                                         </div>
                                     </div>
-                                    <div class="form-group">
+                                    <div class="form-group required">
                                         <form:label path="application.mailAddr" cssClass="col-sm-2 control-label"><spring:message code="L347" /></form:label>
                                         <div class="col-sm-9">
                                             <form:input path="application.mailAddr" type="email" cssClass="form-control" />
@@ -522,7 +529,7 @@
                                         <form:label path="applicationForeigner.korEmrgRela" cssClass="col-sm-2 control-label"><spring:message code="L351" /></form:label>
                                         <div class="col-sm-9">
                                             <form:select path="applicationForeigner.korEmrgRela" cssClass="form-control">
-                                                <form:option value="-" label="${L315}" />
+                                                <form:option value="" label="${L315}" />
                                                 <form:options items="${common.emerContList}" itemValue="code" itemLabel="codeVal" />
                                             </form:select>
                                         </div>
@@ -548,7 +555,7 @@
                                         <form:label path="applicationForeigner.homeEmrgRela" cssClass="col-sm-2 control-label"><spring:message code="L351" /></form:label>
                                         <div class="col-sm-9">
                                             <form:select path="applicationForeigner.homeEmrgRela" cssClass="form-control">
-                                                <form:option value="-" label="${L315}" />
+                                                <form:option value="" label="${L315}" />
                                                 <form:options items="${common.emerContList}" itemValue="code" itemLabel="codeVal" />
                                             </form:select>
                                         </div>
@@ -702,7 +709,7 @@
                                                 <div class="form-group">
                                                     <form:label path="graduateList[${stat.index}].schlName" cssClass="col-sm-2 control-label"><spring:message code="L357" /></form:label>
                                                     <div class="col-sm-2">
-                                                        <button type="button" class="btn btn-default btn-search bpopper" data-targetNode1="graduateList${stat.index}.schlCode" data-targetNode2='graduateList${stat.index}.schlName' data-category="school-g">검색</button>
+                                                        <button type="button" class="btn btn-default btn-search bpopper" data-targetNode1="graduateList${stat.index}.schlCode" data-targetNode2='graduateList${stat.index}.schlName' data-category="school-u">검색</button>
                                                     </div>
                                                     <div class="col-sm-4">
                                                         <form:hidden path="graduateList[${stat.index}].schlCode" />
@@ -847,7 +854,7 @@
                                         <div class="col-sm-2 show-lang">
                                             <c:if test="${langExam.examCode == '00001'}">
                                             <form:select path="applicationLanguageList[${stat.index}].toflTypeCode" cssClass="form-control">
-                                                <form:option value="-" label="${L315}" />
+                                                <form:option value="" label="${L315}" />
                                                 <form:options items="${common.toflTypeList}" itemValue="code" itemLabel="codeVal" />
                                             </form:select>
                                             </c:if>
@@ -922,6 +929,8 @@
                                         <form:hidden path="generalDocList[${stat.index}].filePath"/>
                                         <form:hidden path="generalDocList[${stat.index}].fileName"/>
                                         <form:hidden path="generalDocList[${stat.index}].orgFileName"/>
+                                                <input type="hidden" id="generalDocList${stat.index}.orgFileName"
+                                                       name="generalDocList[${stat.index}].orgFileName"/>
                                     </div>
                                 </c:forEach>
                             </div>
@@ -1332,18 +1341,26 @@
                     <div class="spacer-tiny"></div>
                 </div>
             </div> <%--myTabContent--%>
-            <input type="hidden" id="applNo"/>
         </form:form>
 
         <div class="btn-group btn-group-justified">
             <div class="btn-group">
-                <button id="save" type="button" class="btn btn-info btn-lg"><spring:message code="L308" /></button>
+                <button id="saveAppInfo" type="button" class="btn btn-info btn-lg btnAppl" data-saveType="appInfo">기본 정보 저장</button>
             </div>
             <div class="btn-group">
-                <button id="appply" type="button" class="btn btn-primary btn-lg"><spring:message code="L309" /></button>
+                <button id="saveAcademy" type="button" class="btn btn-primary btn-lg btnAppl disabled" data-saveType="academy">학력 저장</button>
             </div>
             <div class="btn-group">
-                <button id="reset" type="button" class="btn btn-warning btn-lg"><spring:message code="L310" /></button>
+                <button id="saveLangCareer" type="button" class="btn btn-info btn-lg btnAppl disabled" data-saveType="langCareer">어학 및 경력 저장</button>
+            </div>
+            <div class="btn-group">
+                <button id="saveFileUpload" type="button" class="btn btn-primary btn-lg btnAppl disabled" data-saveType="fileUpload">첨부 파일 저장</button>
+            </div>
+            <div class="btn-group">
+                <button id="apply" type="button" class="btn btn-primary btn-lg btnAppl disabled" data-saveType="apply">작성완료</button>
+            </div>
+            <div class="btn-group">
+                <button id="reset" type="button" class="btn btn-warning btn-lg">작성 내용 비우기</button>
             </div>
         </div>
     </div> <%--container--%>
@@ -1379,7 +1396,7 @@
     <%-- 국가/학교 검색 팝업 --%>
 
     <%-- 다음 주소 검색 팝업 --%>
-    <div id="postLayer" style="display:none;border:5px solid;position:fixed;width:300px;height:460px;left:50%;margin-left:-155px;top:50%;margin-top:-235px;overflow:hidden;-webkit-overflow-scrolling:touch;z-index:2;background-color:#fff;color: #111;">
+    <div id="postLayer" style="display:none;border:5px solid;position:fixed;width:600px;height:560px;left:50%;margin-left:-155px;top:50%;margin-top:-235px;overflow:hidden;-webkit-overflow-scrolling:touch;z-index:2;background-color:#fff;color: #111;">
         <img src="${contextPath}/img/user/addr-close.png" id="btnClosePostLayer" style="cursor:pointer;position:absolute;right:-3px;top:-3px" alt="닫기 버튼">
     </div>
 
@@ -1389,9 +1406,162 @@
     <script src="http://dmaps.daum.net/map_js_init/postcode.js"></script>
     <%--<script src="${contextPath}/js/bootstrap-datepicker.js"></script>--%>
     <%--<script src="${contextPath}/js/bootstrap-datepicker.kr.js"></script>--%>
-    <script src="//code.jquery.com/ui/1.11.1/jquery-ui.js"></script>
+    <script src="${contextPath}/js/jquery-ui.min.js"></script>
     <script type="text/javascript">
         $(document).ready(function() {
+            document.getElementById('applNo').value='${entireApplication.application.applNo}';
+            document.getElementById('admsNo').value='${entireApplication.application.admsNo}';
+            document.getElementById('applStsCode').value='${entireApplication.application.applStsCode}';
+
+            var baseInfoSaved = function() {
+//                $('.base-info').prop('disabled', 'true');
+                $('.base-info>option').filter( function() {
+                    return !this.selected;
+                }).each( function() {
+                    $(this).prop('disabled', true);
+                });
+
+                $('#baseCancel').css('display', 'block');
+                $('#baseSave').css('display', 'none');
+            };
+
+            var btnEnable = function(applStsCode) {
+                switch(applStsCode) {
+                    case "00001" :
+                        $('#saveAcademy').removeClass('disabled');
+                        break;
+                    case "00002" :
+                        $('#saveAcademy').removeClass('disabled');
+                        $('#saveLangCareer').removeClass('disabled');
+                        break;
+                    case "00003" :
+                        $('#saveAcademy').removeClass('disabled');
+                        $('#saveLangCareer').removeClass('disabled');
+                        $('#saveFileUpload').removeClass('disabled');
+                        break;
+                    case "00004" :
+                        $('.btnAppl').removeClass('disabled');
+                        break;
+                }
+            };
+
+            if (document.getElementById('applNo').value != "") {
+                baseInfoSaved();
+            }
+
+            btnEnable(document.getElementById('applStsCode').value);
+
+            <%-- 기본 정보 > 지원 사항 처리 --%>
+            $('#btnBaseSave').on('click', function(e) {
+                if ( confirm('<spring:message code="U313"/>') ) {
+                    baseInfoSaved();
+                } else {
+                    return false;
+                }
+                event.preventDefault();
+            });
+
+            $('#btnBaseCancel').on('click', function(e) {
+                if ( confirm('<spring:message code="U314"/>') ) {
+                    //TODO DB 삭제 후 공고 목록으로 이동
+                } else {
+                    return false;
+                }
+                event.preventDefault();
+            });
+            <%-- 기본 정보 > 지원 사항 처리 --%>
+
+            <%-- alert 생성 --%>
+            function createAlert(message) {
+                var alert = $('<div></div>').addClass('alert alert-success alert-dismissable fade in');
+                alert.append($('<button></button>').attr({
+                    'type': 'button',
+                    'data-dismiss': 'alert',
+                    'aria-hidden': 'true'
+                }).addClass('close').text('✖'));
+                alert.append($('<span></span>').text(message));
+                return alert;
+            }
+
+            <%-- 하단 버튼 처리 --%>
+            var formProcess = function(event) {
+                var $form = $(this), formUrl,
+                        isApply = event.type ==='apply'?true:false,
+                        $formData = $form.serializeArray(),
+                        ajaxObj = {
+                            type: 'POST',
+                            data: $formData,
+//                            timeout: 5000,
+                            success: function (context) {
+                                if (context.result == 'SUCCESS') {
+                                    var message = context.message,
+                                            alert = createAlert(message),
+                                            applNo = context.data.applNo,
+                                            applStsCode = context.data.applStsCode;
+                                    $('#alert-container').append(alert);
+                                    document.getElementById('applNo').value = applNo;
+                                    document.getElementById('applStsCode').value = applStsCode;
+                                    btnEnable(applStsCode);
+                                    window.setTimeout(function() {
+                                        alert.alert('close');
+                                        if (isApply) {
+                                            location.href="${contextPath}/application/mylist";
+                                        }
+                                    }, 1000);
+                                }
+                            },
+                            error: function(e) {
+                                console.log(e.statusText);
+                            }
+                        };
+
+                $form.find('input.radio-group').filter(function() {
+                    return this.checked == false;
+                }).each(function() {
+                    $formData.push({name: this.name, value: 'N'});
+                });
+                console.log($formData);
+                switch (event.type) {
+                    case 'appInfo':
+                        ajaxObj.url = "${contextPath}/application/save/appInfo";
+                        break;
+                    case 'academy':
+                        ajaxObj.url = "${contextPath}/application/save/academy";
+                        break;
+                    case 'langCareer':
+                        ajaxObj.url = "${contextPath}/application/save/langCareer";
+                        break;
+                    case 'fileUpload':
+                        ajaxObj.url = "${contextPath}/application/save/fileUpload";
+                        break;
+                    case 'apply':
+                        $('.btnAppl').prop('disabled', true);
+                        ajaxObj.url = "${contextPath}/application/apply/apply";
+                        break;
+                    case 'reset':
+                        break;
+                }
+                $.ajax(ajaxObj);
+                event.preventDefault();
+            };
+
+            $('.btnAppl').each( function () {
+                var saveType = this.getAttribute('data-saveType');
+                $(this).on('click', function() {
+                    $('#entireApplication').trigger(saveType);
+                });
+                $('#entireApplication').on(saveType, formProcess);
+            });
+
+            $('#reset').on('click', function() {
+//                var $curPane = $('.tab-pane.active');
+//                var $curForm = $curPane.find('form');
+//                $curForm.each(function() {
+//                    this.reset();
+//                });
+                document.getElementById('entireApplication').reset(); //TODO reset 안됨
+            });
+            <%-- 하단 버튼 처리 --%>
 
             <%-- 국가/학교 검색 시작 --%>
             $('.bpopper').on('click', function(e) {
@@ -1430,6 +1600,7 @@
                 for (var i = 0, len = columnHead.length; i < len; i++) {
                     $thead.append($('<td>' + columnHead[i] + '</td>'));
                 }
+                $('#bpopHead').empty();
                 $('#bpopHead').append($thead);
                 $('#bpopContainer').bPopup();
                 document.getElementById('bpop').focus();
@@ -1456,7 +1627,7 @@
                         for ( i = 0, l = obj.length ; i < l ; i++ ) {
                             var record;
                             if (category.isCountry) {
-                                record = $('<tr>' + '<td><span style="display: none;" class="b-close">' + obj[i].cntrCode + '</span></td>' + '<td><span class="b-close">' + obj[i].cntrName + '</span></td>' + '<td><span class="b-close">' + obj[i].engCntrName + '</span></td>' + '</tr>');
+                                record = $('<tr>' + '<td><span style="display: none;" class="b-close">' + obj[i].cntrCode + '</span></td>' + '<td><span class="b-close">' + obj[i].korCntrName + '</span></td>' + '<td><span class="b-close">' + obj[i].engCntrName + '</span></td>' + '</tr>');
                             } else if (category.isSchool) {
                                 record = $('<tr>' + '<td><span style="display: none;" class="b-close">' + obj[i].schlCode + '</span></td>' + '<td><span class="b-close">' + obj[i].schlName + '</span></td>' + '</tr>');
                             }
@@ -1464,10 +1635,12 @@
                             $(record).on('click', function(e) {
                                 var targetInputId = [ document.getElementById('targetNode1').value,
                                     document.getElementById('targetNode2').value,
-                                    document.getElementById('targetNode3').value];
+                                    document.getElementById('targetNode3').value ];
                                 var tr = this;
                                 for ( var i = 0 , len = tr.children.length; i < len; i++ ) {
-                                    document.getElementById(targetInputId[i]).value = tr.children[i].firstChild.innerText;
+                                    if (document.getElementById(targetInputId[i])) {
+                                        document.getElementById(targetInputId[i]).value = tr.children[i].firstChild.innerText;
+                                    }
                                 }
                             });
                         }
@@ -1513,30 +1686,9 @@
             };
 
             $('#searchAddress').on('click', showDaumPostcode);
-            <%-- 다음 주소 검색 끝 -->
+            <%-- 다음 주소 검색 끝 --%>
 
-            <%-- 사진 업로드 시작 --%>
-            $('.btn-file :file').on('change', function() {
-                var input = $(this),
-                        numFiles = input.get(0).files ? input.get(0).files.length : 1,
-                        label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
-                input.trigger('fileselect', [numFiles, label]);
-            });
-
-            $('.btn-file :file').on('fileselect', function(event, numFiles, label) {
-
-                var input = $(this).parents('.input-group').find(':text'),
-                        log = numFiles > 1 ? numFiles + ' files selected' : label;
-
-                if( input.length ) {
-                    input.val(log);
-                } else {
-                    if( log ) alert(log);
-                }
-
-            });
-            <%-- 사진 업로드 끝 --%>
-
+            <%-- 달력 옵션 --%>
             var datePickerOption = {
                 dateFormat: 'yymmdd',
                 yearRange: "1950:",
@@ -1576,6 +1728,7 @@
                 }
             }
 
+            <%-- bootstrapValidator --%>
             $('#entireApplication').bootstrapValidator({
                 feedbackIcons: {
                     valid: 'glyphicon glyphicon-ok',
@@ -1671,40 +1824,14 @@
                                 }
                             }
                         }
+                    },
+                    requiredInput: {
+                        selector: '.requiredInput',
+                        validators: {
+                            notEmpty: '필수 입력 사항입니다.'
+                        }
                     }
                 }
-            });
-
-            <%-- 지원정보 submit 이벤트 --%>
-            $('#entireApplication').on('submit', function(event) {
-                var $form = $(this),
-                    $formUrl = $form.attr('action'),
-                    $formData = $form.serializeArray();
-
-                $form.find('input.radio-group').filter(function() {
-                    return this.checked == false;
-                }).each(function() {
-                    $formData.push({name: this.name, value: 'N'});
-                });
-
-//                $formData = $formData.concat(getEnglishScoreSerializeArray());
-                $.ajax({
-                    url: $formUrl,
-                    type: 'POST',
-                    data: $formData,
-                    timeout: 5000,
-                    success: function (context) {
-                        if (context.result == 'SUCCESS') {
-                            var message = context.message;
-                            var alert = createAlert(message);
-                            $('#alert-container').append(alert);
-                            window.setTimeout(function() { alert.alert('close') }, 2000);
-                        }
-                    },
-                    error: function(e) {
-                    }
-                });
-                event.preventDefault();
             });
 
             function getEnglishScoreSerializeArray(form) {
@@ -1736,34 +1863,6 @@
             }
 
 
-            <%-- alert 생성 --%>
-            function createAlert(message) {
-                var alert = $('<div></div>').addClass('alert alert-success alert-dismissable fade in');
-                alert.append($('<button></button>').attr({
-                    'type': 'button',
-                    'data-dismiss': 'alert',
-                    'aria-hidden': 'true'
-                }).addClass('close').text('✖'));
-                alert.append($('<span></span>').text(message));
-                return alert;
-            }
-
-            $('#save').on('click', function() {
-                $('#entireApplication').trigger('submit');
-            });
-
-            $('#apply').on('click', function() {
-                alert("작성완료 되었습니다.")
-            });
-
-            $('#reset').on('click', function() {
-                var $curPane = $('.tab-pane.active');
-                var $curForm = $curPane.find('form');
-                $curForm.each(function() {
-                    this.reset();
-                });
-            });
-
             <%-- form-group-block 추가/삭제에 대한 처리 시작 --%>
             $('.btn-add').on('click', function(e) {
                 var target = e.currentTarget ? e.currentTarget : e.target;
@@ -1783,6 +1882,7 @@
                     $cloneObj.find('.input-group.date>input').datepicker(datePickerOption);
                 }
 
+                // 파일업로드 부분
                 var fileUploadContainer = document.getElementById(target.getAttribute("data-fileupload-block-list"));
                 var fuBlocks = fileUploadContainer.querySelectorAll('.form-group-block');
                 var fuOriginBlock = fuBlocks[fuBlocks.length - 1];
@@ -1824,6 +1924,13 @@
                 }
 
                 mustCheckedOneRadio();
+
+                // 파일업로드 부분 제거
+                var fileUploadContainer = document.getElementById(target.getAttribute("data-fileupload-block-list")),
+                    indexOfBlockToRemove = target.getAttribute('data-block-index'),
+                    blockToRemove = fileUploadContainer.children[indexOfBlockToRemove];
+                fileUploadContainer.removeChild(blockToRemove);
+
             });
 
             <%-- id, name 재설정 시작 --%>
@@ -1832,22 +1939,50 @@
                 var input = block.querySelector('input');
 
                 name = input.name;
-                prefix = name.substring(0, name.indexOf('['))
+//                prefix = name.substring(0, name.indexOf('['));
 
                 items = block.querySelectorAll('input, select');
                 if (items) {
                     for (i = 0; i <items.length; i++) {
                         name = items[i].name;
+                        if (name) {
+                            prefix = name.substring(0, name.indexOf('['));
+                            suffix = name.substring(name.indexOf(']') + 1);
+                            items[i].name = prefix + '[' + index + ']' + suffix;
+                        }
                         var oldid = items[i].id;
-                        suffix = name.substring(name.indexOf(']') + 1, name.length);
-                        items[i].name = prefix + '[' + index + ']' + suffix;
-                        items[i].id = prefix + index + suffix;
+                        if (oldid) {
+                            prefix = oldid.substring(0, oldid.indexOf('.'));
+                            prefix = prefix.replace(/[0-9]/g, '');
+                            suffix = oldid.substring(oldid.indexOf('.'));
+                            items[i].id = prefix + index + suffix;
 
-                        label = block.querySelector('label[for="' + oldid + '"]');
-                        if (label) {
-                            label.setAttribute('for', items[i].id);
+                            label = block.querySelector('label[for="' + oldid + '"]');
+                            if (label) {
+                                label.setAttribute('for', items[i].id);
+                            }
                         }
                     }
+                }
+
+                // bpopper data-targetNode
+                var bpopperBtns = block.querySelectorAll('.bpopper');
+                if (bpopperBtns) {
+                    for (i = 0; i < bpopperBtns.length; i++) {
+                        for (var j = 1; j < 4; j++) {
+                            var t = bpopperBtns[i].getAttribute('data-targetNode' + j);
+                            if (t) {
+                                t = t.split('.');
+                                t[0] = t[0].replace(/[0-9]/g, '');
+                                bpopperBtns[i].setAttribute('data-targetNode' + j, t[0] + index + '.' + t[1]);
+                            }
+                        }
+                    }
+                }
+
+                var removeBtn = block.querySelector('.btn-remove');
+                if (removeBtn) {
+                   removeBtn.setAttribute('data-block-index', index);
                 }
 
                 var searchBtn = block.querySelector('[data-targetNode1]');
@@ -1873,6 +2008,14 @@
                         }
                         if (items[i].checked != null) {
                             items[i].checked = false;
+                        }
+                        if (items[i].type == 'button') {
+                            $(items[i]).removeClass('btn-info');
+                            $(items[i]).addClass('btn-default');
+                            $(items[i]).val('올리기');
+                        }
+                        if (items[i].type == 'file') {
+                            $(items[i]).val('');
                         }
                     }
                 }
@@ -2003,12 +2146,16 @@
                             $clean = $('#' + clean[i]);
                             oldVal = $clean.val();
                             $clean.children('option').filter(function() {
-                                return this.value !== '-';
+                                return this.value !== '';
                             }).remove();
                             if (oldVal !== $clean.val()) {
                                 $clean.trigger('change');
                             }
                         }
+                    }
+
+                    if (!val || val == '') {
+                        return;
                     }
 
                     $.ajax({
@@ -2138,11 +2285,13 @@
                 var selected = this.options[this.selectedIndex];
                 var detlMajCode = selected.value;
                 var parent = this.parentNode.parentNode;
-                var $divNode, $childNode, $childNode2;
+                var $divNode,$divNode2, $childNode, $childNode2, $childNode3;
 
                 $(parent).find('#detlMajRadio').remove();
                 $(parent).find('#detlMajText').remove();
-                if (detlMajCode.slice(0, 1) == '9') {   // 직전 학위과정의 학과명 입력
+                $(parent).find('#detlMajDescDiv').remove();
+                $(parent).find('#detlMajDescLabel').remove();
+                if (detlMajCode == '99999') {   // 세부전공 직접입력
                     $divNode = $('<div></div>').addClass('col-sm-offset-2 col-sm-9').attr({
                         'id': 'detlMajText'
                     });
@@ -2151,25 +2300,60 @@
                         'id': 'detlMajDesc',
                         'name': 'detlMajDesc'
                     });
-                    $childNode.appendTo($divNode)
+                    $('#DetlMajDesc').text('');
+                    $childNode.appendTo($divNode);
                     $divNode.appendTo($(parent));
-                } else {
-                    if ($(selected).attr('partTimeYn') === 'Y' || $(selected).attr('partTimeYn') === 'y') { // 세부전공 PART_TIME_YN이 Y인 경우
-                        $divNode = $('<div></div>').addClass('col-sm-offset-2 col-sm-9').attr({
-                            'id': 'detlMajRadio'
-                        });
-                        $childNode = $('<input/>').attr({
-                            'type': 'checkbox',
-                            'id': 'partTimeYn',
-                            'name': 'partTimeYn'
-                        });
-                        $childNode2 = $('<label/>').addClass('checkbox-inline').text('파트타임 여부');
-                        $childNode.prependTo($childNode2);
-                        $childNode2.appendTo($divNode);
-                        $divNode.appendTo($(parent));
-                    }
                 }
+                if ($(selected).attr('partTimeYn') === 'Y' || $(selected).attr('partTimeYn') === 'y') { // 세부전공 PART_TIME_YN이 Y인 경우
+                    $divNode = $('<div></div>').addClass('col-sm-offset-2 col-sm-9').attr({
+                        'id': 'detlMajRadio'
+                    });
+                    $childNode = $('<input/>').attr({
+                        'type': 'checkbox',
+                        'id': 'partTimeYn',
+                        'name': 'partTimeYn'
+                    });
+                    $childNode2 = $('<label/>').addClass('checkbox-inline').text('파트타임 여부');
+                    $childNode.prependTo($childNode2);
+                    $childNode2.appendTo($divNode);
+                    $divNode.appendTo($(parent));
+                }
+
+                var temp = jQuery.type($(selected).attr('detlmajdesc'));
+                var temp2 = $(selected).attr('detlmajdesc');
+                if (jQuery.type($(selected).attr('detlmajdesc')) !=='undefined') { // 세부전공 desc 가 들어가 있는경우
+                    $divNode = $('<div></div>').addClass('col-sm-offset-2 col-sm-9').attr({
+                        'id': 'detlMajDescDiv'
+                    });
+                    $childNode = $('<label/>').addClass('apexMsg').text(temp2).autoLink();
+                    $childNode.appendTo($divNode);
+                    $divNode.appendTo($(parent));
+
+
+                }
+
             });
+
+            function retreiveDetlMajDesc( adms, dept, applAttrCode, detlMajCode ) {
+                    var msg;
+                    var baseUrl = '${contextPath}/common/code?';
+
+                    $.ajax({
+                        type: 'GET',
+                        url: baseUrl,
+                        success: function(e) {
+                            if(e.result && e.result === 'SUCCESS') {
+                                var data = JSON && JSON.parse(e.data) || $.parseJSON(e.data);
+                                msg = $(data);
+                            }
+                        },
+                        error: function(e) {
+                            if(console) console.log(e);
+                        }
+                    });
+                return msg;
+             }
+
 
             <%-- 세부전공 변경 시 어학 변경 --%>
 //            $('#detlMajCode').on('change', function(event) {
@@ -2244,6 +2428,7 @@
                 })
             }
 
+            <%-- checkbox hide/show --%>
             function updateLanguageGroup(group, data) {
                 var langExamCode = $(group).find('input').filter('[name$="langExamCode"]')[0];
                 var check = $(group).find('.btn-lang, .btn-lang-disabled')[0];
@@ -2264,6 +2449,8 @@
                     if (!isExist) {
                         check.className = 'btn-lang-disabled';
                         check.setAttribute('disabled', 'disabled');
+                        $(group).removeClass('show-lang');
+                        $(group).addClass('hide-lang');
                     }
                 }
             }
@@ -2287,20 +2474,31 @@
             <%-- 어학 체크박스 클릭 시 처리 끝 --%>
 
             <%-- 어학 선택 시 어학 증빙 파일 첨부 양식 처리 --%>
-            $('.checkbox').on('click', function(e) {
+            $('.checkbox').on('change', function(e) {
+
                 var childCheckbox = $(this).find("input[type=checkbox]"),
-                    targetExamName = "#exam"+ $(this).find("label").text();
+                    targetExamName = "#exam"+ $(this).find("label").text().trim();
                 childCheckbox.is(":checked") ?
                         $(targetExamName).css("display", "block") :
                         $(targetExamName).css("display", "none");
 
-            })
+            });
+
+            <%-- 원서 수정 모드에서 어학 정보 유무에 따라 checkbox 이벤트 자동 발생 --%>
+            var langArr = [];
+            <c:forEach items="${entireApplication.applicationLanguageList}" var="item" varStatus="stat">
+            langArr[${stat.index}] = '${item.langGrad}';
+            </c:forEach>
+            for ( var i = 0, len = langArr.length ; i < len ; i++ ) {
+                langArr[i] != "" ? $('#checkLang'+i).prop('checked', true).triggerHandler('click') : $('#checkLang'+i).prop('checked', false);
+            }
+            <%-- 원서 수정 모드에서 어학 정보 유무에 따라 checkbox 이벤트 자동 발생 --%>
 
             <%-- 파일 선택 버튼 이벤트 --%>
             $('.btn-file').on('change', function (e) { // 한번 업로드한 inputfile은 이벤트가 발생 안한다.
                 var target = e.target,
-                        inputGroup = target.parentNode.parentNode,
-                        uploadButton = $(inputGroup).find('input[type="button"]');
+                    inputGroup = target.parentNode.parentNode,
+                    uploadButton = $(inputGroup).find('input[type="button"]');
                 $(uploadButton).removeClass('disabled');
                 $(uploadButton).val('올리기');
 
@@ -2310,18 +2508,18 @@
             <%-- 파일 업로드 버튼 이벤트 --%>
             $('.btn-upload').on('click', function (e) {
                 var actionUrl = "${contextPath}/application/apply/fileUpload",
-                        fileInputId = e.target.parentNode.parentNode.querySelector('input').getAttribute('id'),
-                        fileInput = document.getElementById(fileInputId),
-                        fileInputName = fileInput.getAttribute("name"),
-                        fileName = fileInput.value,
-                        targetLabelId = e.target.parentNode.parentNode.querySelector('span').getAttribute('id'),
-                        targetFilePathHiddenId = e.target.getAttribute('data-file-path'),
-                        targetFileNameHiddenId = e.target.getAttribute('data-file-name'),
-                        targetOrgFileNameHiddenId = e.target.getAttribute('data-org-file-name'),
-                        regexpImage = (/\.(gif|jpg|png)$/i),
-                        regexpPDF = (/\.(pdf)$/i),
-                        extIsOk = false
-                        ;
+                    fileInputId = e.target.parentNode.parentNode.querySelector('input').getAttribute('id'),
+                    fileInput = document.getElementById(fileInputId),
+                    fileInputName = fileInput.getAttribute("name"),
+                    fileName = fileInput.value,
+                    targetLabelId = e.target.parentNode.parentNode.querySelector('span').getAttribute('id'),
+                    targetFilePathHiddenId = e.target.getAttribute('data-file-path'),
+                    targetFileNameHiddenId = e.target.getAttribute('data-file-name'),
+                    targetOrgFileNameHiddenId = e.target.getAttribute('data-org-file-name'),
+                    regexpImage = (/\.(gif|jpg|png)$/i),
+                    regexpPDF = (/\.(pdf)$/i),
+                    extIsOk = false
+                    ;
                 if ((fileInput.files && fileInput.files.length) || fileInput.value != "") {
                     if (fileInputId === 'generalDocList0.docName') {
                         if (regexpImage.test(fileName)) {
@@ -2358,7 +2556,7 @@
                                     console.log("applNo : ", d.applNo);
                                     console.log("admsNo : ", d.admsNo);
                                     console.log("originalFileName : ", d.originalFileName);
-                                    console.log("filePath : ", d.filePath);
+                                    console.log("filePath : ", d.path);
                                     console.log("fileName : ", d.fileName);
                                     console.log("data : ", data.data);
                                     console.log("status : ", status);
@@ -2408,6 +2606,11 @@
 
         });
 
+        $.fn.autoLink = function(){
+            var regURL = new RegExp("(http|https|ftp|telnet|news|irc)://([-/.a-zA-Z0-9_~#%$?&=:200-377()]+)","gi");
+            this.html(this.html().replace(regURL,"<a href='$1://$2' target='_blank'>$1://$2</a>"));
+            return this;
+        };
 
     </script>
 </content>
