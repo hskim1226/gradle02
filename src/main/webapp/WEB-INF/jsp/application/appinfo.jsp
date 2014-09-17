@@ -220,8 +220,8 @@
             margin: 0 !important;
         }
     </style>
-    <%--body의 글자 속성을 #333333으로 강제 지정하여 Footer 글자가 안나옴, 꼭 필요하지 않으면 안쓰기로
-    <link rel="stylesheet" href="${contextPath}/css/bootstrap-glyphicons.css" />--%>
+    <%--body의 글자 속성을 #333333으로 강제 지정하여 Footer 글자가 안나옴, 꼭 필요하지 않으면 안쓰기로--%>
+    <%--<link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css" rel="stylesheet">--%>
 </head>
 <body>
 <section class="application">
@@ -347,46 +347,22 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="panel panel-default" id="currentCompany" hidden>
-                                <div class="panel-heading">현재 근무처</div>
-                                <div class="panel-body">
-                                    <div class="form-group">
-                                        <form:label path="applicationGeneral.currWrkpName" cssClass="col-sm-2 control-label">회사 이름</form:label>
-                                        <div class="col-sm-9">
-                                            <form:input path="applicationGeneral.currWrkpName" cssClass="form-control" />
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <form:label path="applicationGeneral.currWrkpDay" cssClass="col-sm-2 control-label">입사 일자</form:label>
-                                        <div class="col-sm-9">
-                                            <div class="input-group date">
-                                                <form:input path="applicationGeneral.currWrkpDay" cssClass="col-sm-6 form-control" readonly="true" />
-                                                <span class="input-group-addon"></span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <form:label path="applicationGeneral.currWrkpTel" cssClass="col-sm-2 control-label">연락처</form:label>
-                                        <div class="col-sm-9">
-                                            <form:input path="applicationGeneral.currWrkpTel" cssClass="form-control" />
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
                             <div class="panel panel-default">
                                 <div class="panel-heading">지원자 상세정보</div>
                                 <div class="panel-body">
-                                    <%--<div class="form-group">--%>
-                                        <%--<form:label path="applicationGeneral.citzCntrCode" cssClass="col-sm-3 control-label">국적</form:label>--%>
-                                        <%--<div class="col-sm-9">--%>
-                                            <%--<div class="input-group">--%>
-                                                <%--<form:input path="applicationGeneral.citzCntrCode" cssClass="form-control" />--%>
+                                    <%--<div class="form-group required">--%>
+                                        <%--<label for="application.citzCntrName" class="col-sm-2 control-label">국적</label>--%>
+                                        <%--<div class="col-sm-2">--%>
+                                            <%--<button type="button" class="btn btn-default btn-search bpopper" data-targetNode1="application.citzCntrCode" data-targetNode2='application.citzCntrName' data-category="country">검색</button>--%>
+                                        <%--</div>--%>
+                                        <%--<div class="col-sm-6">--%>
+                                            <%--<form:hidden path="application.citzCntrCode" />--%>
+                                            <%--<input id="application.citzCntrName" cssClass="form-control" />--%>
                                                 <%--<span class="input-group-btn">--%>
-                                                    <%--<button type="button" class="btn btn-default" id="search-citz-cntr-code">--%>
-                                                        <%--<span class="glyphicon glyphicon-search"></span> 검색--%>
-                                                    <%--</button>--%>
+                                                <%--<button type="button" class="btn btn-default" id="search-citz-cntr-code">--%>
+                                                <%--<span class="glyphicon glyphicon-search"></span> 검색--%>
+                                                <%--</button>--%>
                                                 <%--</span>--%>
-                                            <%--</div>--%>
                                         <%--</div>--%>
                                     <%--</div>--%>
                                     <div class="form-group required">
@@ -404,48 +380,48 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="form-group required">
-                                        <label class="col-sm-2 control-label">병역 사항</label>
-                                        <div class="col-sm-9">
-                                            <div class="input-group">
-                                                <span class="input-group-addon">병역구분</span>
-                                                <form:select path="applicationGeneral.mltrServCode" cssClass="form-control">
-                                                    <form:option value="" label="--선택--" />
-                                                    <form:options items="${common.mltrServList}" itemValue="code" itemLabel="codeVal" />
-                                                </form:select>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-offset-2 col-sm-9">
-                                            <div class="input-group">
-                                                <span class="input-group-addon">병역군별</span>
-                                                <form:select path="applicationGeneral.mltrTypeCode" cssClass="form-control">
-                                                    <form:option value="" label="--선택--" />
-                                                    <form:options items="${common.mltrTypeList}" itemValue="code" itemLabel="codeVal" />
-                                                </form:select>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-offset-2 col-sm-9">
-                                            <div class="input-group">
-                                                <span class="input-group-addon">병역계급</span>
-                                                <form:select path="applicationGeneral.mltrRankCode" cssClass="form-control">
-                                                    <form:option value="" label="--선택--" />
-                                                    <form:options items="${common.mltrRankList}" itemValue="code" itemLabel="codeVal" />
-                                                </form:select>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-offset-2 col-sm-4 start-date-container">
-                                            <div class="input-group date">
-                                                <span class="input-group-addon">입대일자</span>
-                                                <form:input path="applicationGeneral.mltrJoinDay" cssClass="form-control" readonly="true" />
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-4 end-date-container">
-                                            <div class="input-group date">
-                                                <span class="input-group-addon">제대일자</span>
-                                                <form:input path="applicationGeneral.mltrDschDay" cssClass="form-control" readonly="true" />
-                                            </div>
-                                        </div>
-                                    </div>
+                                    <%--<div class="form-group required">--%>
+                                        <%--<label class="col-sm-2 control-label">병역 사항</label>--%>
+                                        <%--<div class="col-sm-9">--%>
+                                            <%--<div class="input-group">--%>
+                                                <%--<span class="input-group-addon">병역구분</span>--%>
+                                                <%--<form:select path="applicationGeneral.mltrServCode" cssClass="form-control">--%>
+                                                    <%--<form:option value="" label="--선택--" />--%>
+                                                    <%--<form:options items="${common.mltrServList}" itemValue="code" itemLabel="codeVal" />--%>
+                                                <%--</form:select>--%>
+                                            <%--</div>--%>
+                                        <%--</div>--%>
+                                        <%--<div class="col-sm-offset-2 col-sm-9">--%>
+                                            <%--<div class="input-group">--%>
+                                                <%--<span class="input-group-addon">병역군별</span>--%>
+                                                <%--<form:select path="applicationGeneral.mltrTypeCode" cssClass="form-control">--%>
+                                                    <%--<form:option value="" label="--선택--" />--%>
+                                                    <%--<form:options items="${common.mltrTypeList}" itemValue="code" itemLabel="codeVal" />--%>
+                                                <%--</form:select>--%>
+                                            <%--</div>--%>
+                                        <%--</div>--%>
+                                        <%--<div class="col-sm-offset-2 col-sm-9">--%>
+                                            <%--<div class="input-group">--%>
+                                                <%--<span class="input-group-addon">병역계급</span>--%>
+                                                <%--<form:select path="applicationGeneral.mltrRankCode" cssClass="form-control">--%>
+                                                    <%--<form:option value="" label="--선택--" />--%>
+                                                    <%--<form:options items="${common.mltrRankList}" itemValue="code" itemLabel="codeVal" />--%>
+                                                <%--</form:select>--%>
+                                            <%--</div>--%>
+                                        <%--</div>--%>
+                                        <%--<div class="col-sm-offset-2 col-sm-4 start-date-container">--%>
+                                            <%--<div class="input-group date">--%>
+                                                <%--<span class="input-group-addon">입대일자</span>--%>
+                                                <%--<form:input path="applicationGeneral.mltrJoinDay" cssClass="form-control" readonly="true" />--%>
+                                            <%--</div>--%>
+                                        <%--</div>--%>
+                                        <%--<div class="col-sm-4 end-date-container">--%>
+                                            <%--<div class="input-group date">--%>
+                                                <%--<span class="input-group-addon">제대일자</span>--%>
+                                                <%--<form:input path="applicationGeneral.mltrDschDay" cssClass="form-control" readonly="true" />--%>
+                                            <%--</div>--%>
+                                        <%--</div>--%>
+                                    <%--</div>--%>
                                 </div>
                             </div>
                             <div class="panel panel-default">
@@ -454,7 +430,7 @@
                                     <div class="form-group required">
                                         <label class="col-sm-2 control-label">주소</label>
                                         <div class="col-sm-2">
-                                            <button type="button" class="btn btn-default btn-block btn-search" id="searchAddress">우편번호 찾기</button>
+                                            <button type="button" class="btn btn-default btn-block btn-search" id="searchAddress"><span class="glyphicon glyphicon-search"></span>우편번호 찾기</button>
                                         </div>
                                         <div class="col-sm-4">
                                             <div class="input-group">
@@ -529,10 +505,35 @@
                                     </div>
                                 </div>
                             </div>
-
+                            <div class="panel panel-default" id="currentCompany" hidden>
+                                <div class="panel-heading">현재 근무처</div>
+                                <div class="panel-body">
+                                    <div class="form-group">
+                                        <form:label path="applicationGeneral.currWrkpName" cssClass="col-sm-2 control-label">회사 이름</form:label>
+                                        <div class="col-sm-9">
+                                            <form:input path="applicationGeneral.currWrkpName" cssClass="form-control" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <form:label path="applicationGeneral.currWrkpDay" cssClass="col-sm-2 control-label">입사 일자</form:label>
+                                        <div class="col-sm-9">
+                                            <div class="input-group date">
+                                                <form:input path="applicationGeneral.currWrkpDay" cssClass="col-sm-6 form-control" readonly="true" />
+                                                <span class="input-group-addon"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <form:label path="applicationGeneral.currWrkpTel" cssClass="col-sm-2 control-label">연락처</form:label>
+                                        <div class="col-sm-9">
+                                            <form:input path="applicationGeneral.currWrkpTel" cssClass="form-control" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div><%--panel--%>
                         </div>
-                    </div>
-                </div>
+                    </div><%--row--%>
+                </div><%--appinfo--%>
 
 
                 <%-- Academy --%>
@@ -1252,10 +1253,10 @@
                                                 <%--<span class="col-sm-8" id="uploadedFileLabel${stat.index}" style="text-decoration: none;"><!--TODO DB에서 가져오기--></span>--%>
                                             <%--</div>--%>
                                         <%--</div>--%>
-                                        <%--&lt;%&ndash;<form:hidden path="docItemList[${stat.index}].docItemCode" value="${attachDoc.code}"/>&ndash;%&gt;--%>
-                                        <%--&lt;%&ndash;<form:hidden path="docItemList[${stat.index}].docItemName" value="${attachDoc.codeVal}"/>&ndash;%&gt;--%>
-                                        <%--&lt;%&ndash;<form:hidden path="docItemList[${stat.index}].filePath"/>&ndash;%&gt;--%>
-                                        <%--&lt;%&ndash;<form:hidden path="docItemList[${stat.index}].fileName"/>&ndash;%&gt;--%>
+                                        <%--<%--<form:hidden path="docItemList[${stat.index}].docItemCode" value="${attachDoc.code}"/>--%>--%>
+                                        <%--<%--<form:hidden path="docItemList[${stat.index}].docItemName" value="${attachDoc.codeVal}"/>--%>--%>
+                                        <%--<%--<form:hidden path="docItemList[${stat.index}].filePath"/>--%>--%>
+                                        <%--<%--<form:hidden path="docItemList[${stat.index}].fileName"/>--%>--%>
                                         <%--<input type="hidden" name="docItemList[${stat.index}].docItemCode" id="applicationDocumentList${stat.index}.docItemCode" value="${attachDoc.code}" />--%>
                                         <%--<input type="hidden" name="docItemList[${stat.index}].docItemName" id="applicationDocumentList${stat.index}.docItemName" value="${attachDoc.codeVal}" />--%>
                                         <%--<input type="hidden" name="docItemList[${stat.index}].filePath" id="applicationDocumentList${stat.index}.filePath"/>--%>
@@ -2015,9 +2016,11 @@ console.log(e.statusText);
                                         'value': item[valueKey],
                                         'label': item[labelKey]}
                                     )
-                                    for (var key in item) {
-                                        if (key !== valueKey && key !== labelKey) {
-                                            $op.attr(key, item[key]);
+                                    if ('detlMajCode' == targetId) {
+                                        for (var key in item) {
+                                            if (key !== valueKey && key !== labelKey) {
+                                                $op.attr(key, item[key]);
+                                            }
                                         }
                                     }
                                     $op.appendTo($target);
