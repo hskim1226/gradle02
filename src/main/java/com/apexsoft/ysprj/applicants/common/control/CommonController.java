@@ -142,6 +142,8 @@ public class CommonController {
         return executionContext;
     }
 
+
+
     @RequestMapping(value="/code/commission/course/{admsNo}/{deptCode}", method= RequestMethod.GET)
     @ResponseBody
     public ExecutionContext retrieveCommissionCourseByAdmsDept(@PathVariable("admsNo") String admsNo,
@@ -394,7 +396,7 @@ public class CommonController {
 
         return executionContext;
     }
-
+/*
     @RequestMapping(value = "/code/ariInst/avaliableEngExam/{admsNo}/{deptCode}/{ariInstCode}/{corsTypeCode}/{detlMajCode}", method = RequestMethod.GET)
     @ResponseBody
     public ExecutionContext retrieveAriInstAvaliableEngExamList(@PathVariable(value = "admsNo") String admsNo,
@@ -421,5 +423,5 @@ public class CommonController {
         executionContext.setData(json);
 
         return executionContext;
-    }
+    }*/
 }

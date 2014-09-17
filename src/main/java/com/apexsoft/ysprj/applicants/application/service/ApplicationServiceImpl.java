@@ -9,8 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -699,7 +697,6 @@ public class ApplicationServiceImpl implements ApplicationService {
         }
         return ec;
     }
-
 
     @Override
     public EntireApplication retrieveEntireApplication(int applNo) {
