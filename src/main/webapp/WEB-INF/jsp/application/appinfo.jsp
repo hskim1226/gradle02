@@ -1352,9 +1352,9 @@
                 }
             };
 
-//            if (document.getElementById('applNo').value != "") {
-//                baseInfoSaved();
-//            }
+            if (document.getElementById('applNo').value != "") {
+                baseInfoSaved();
+            }
 
             btnEnable(document.getElementById('applStsCode').value);
 

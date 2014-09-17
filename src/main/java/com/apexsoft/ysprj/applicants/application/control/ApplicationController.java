@@ -379,7 +379,6 @@ public class ApplicationController {
         entireApplication.getApplication().setUserId(userId);
 
         if (entireApplication.getApplication().getApplStsCode().equals(APP_INFO_SAVED)) { //insert
-            entireApplication.getApplication().setApplStsCode(ACAD_SAVED);
             ec = applicationService.createAcademy(entireApplication.getApplication(),
                     entireApplication.getCollegeList(),
                     entireApplication.getGraduateList());

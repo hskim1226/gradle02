@@ -28,14 +28,14 @@ public class ApplicationServiceImpl implements ApplicationService {
     @Resource(name = "messageResolver")
     MessageResolver messageResolver;
 
-    private final String APP_NULL_STATUS = "00000";
-    private final String APP_INFO_SAVED = "00001";
-    private final String ACAD_SAVED = "00002";
-    private final String LANG_CAREER_SAVED = "00003";
-    private final String FILEUPLOADE_SAVED = "00004";
+    private final String APP_NULL_STATUS = "00000";      // 에러일 때 반환값
+    private final String APP_INFO_SAVED = "00001";       // 기본정보 저장
+    private final String ACAD_SAVED = "00002";           // 학력 저장
+    private final String LANG_CAREER_SAVED = "00003";    // 어학 및 경력 저장
+    private final String FILEUPLOADE_SAVED = "00004";    // 첨부파일 저장
 
     /**
-     * 기본 정보 탭 저장
+     * 기본 정보 탭 생성
      *
      * @param application
      * @param applicationGeneral
@@ -75,6 +75,13 @@ public class ApplicationServiceImpl implements ApplicationService {
         return ec;
     }
 
+    /**
+     * 기본 정보 탭 수정
+     *
+     * @param application
+     * @param applicationGeneral
+     * @return
+     */
     @Override
     public ExecutionContext updateAppInfo(Application application, ApplicationGeneral applicationGeneral) {
 
@@ -101,6 +108,13 @@ public class ApplicationServiceImpl implements ApplicationService {
         return ec;
     }
 
+    /**
+     * 학력 탭 생성
+     * @param application
+     * @param collegeList
+     * @param graduateList
+     * @return
+     */
     @Override
     public ExecutionContext createAcademy(Application application,
                                           List<ApplicationAcademy> collegeList,
@@ -141,6 +155,14 @@ public class ApplicationServiceImpl implements ApplicationService {
         return ec;
     }
 
+    /**
+     * 학력 탭 수정
+     *
+     * @param application
+     * @param collegeList
+     * @param graduateList
+     * @return
+     */
     @Override
     public ExecutionContext updateAcademy(Application application,
                                           List<ApplicationAcademy> collegeList,
@@ -715,7 +737,7 @@ public class ApplicationServiceImpl implements ApplicationService {
             applicationGeneral = applicationGeneral == null ? new ApplicationGeneral() : applicationGeneral;
             entireApplication.setApplicationGeneral(applicationGeneral);
 
-            ApplicationForeigner applicationForeigner = commonDAO.queryForObject(NAME_SPACE + "ApplicationGeneralMapper.selectByPrimaryKey",
+            ApplicationForeigner applicationForeigner = commonDAO.queryForObject(NAME_SPACE + "ApplicationForeignerMapper.selectByPrimaryKey",
                     applNo, ApplicationForeigner.class);
             applicationForeigner = applicationForeigner == null ? new ApplicationForeigner() : applicationForeigner;
             entireApplication.setApplicationForeigner(applicationForeigner);
