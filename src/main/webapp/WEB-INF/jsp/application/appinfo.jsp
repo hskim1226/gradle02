@@ -1818,14 +1818,37 @@ console.log(e.statusText);
                 if (items) {
                     for (i = 0; i <items.length; i++) {
                         name = items[i].name;
+                        if (name) {
+                            prefix = name.substring(0, name.indexOf('['));
+                            suffix = name.substring(name.indexOf(']') + 1);
+                            items[i].name = prefix + '[' + index + ']' + suffix;
+                        }
                         var oldid = items[i].id;
-                        prefix = name.substring(0, name.indexOf('['));
-                        suffix = name.substring(name.indexOf(']') + 1, name.length);
-                        items[i].name = prefix + '[' + index + ']' + suffix;
-                        items[i].id = prefix + index + suffix;
-                        label = block.querySelector('label[for="' + oldid + '"]');
-                        if (label) {
-                            label.setAttribute('for', items[i].id);
+                        if (oldid) {
+                            prefix = oldid.substring(0, oldid.indexOf('.'));
+                            prefix = prefix.replace(/[0-9]/g, '');
+                            suffix = oldid.substring(oldid.indexOf('.'));
+                            items[i].id = prefix + index + suffix;
+
+                            label = block.querySelector('label[for="' + oldid + '"]');
+                            if (label) {
+                                label.setAttribute('for', items[i].id);
+                            }
+                        }
+                    }
+                }
+
+                // bpopper data-targetNode
+                var bpopperBtns = block.querySelectorAll('.bpopper');
+                if (bpopperBtns) {
+                    for (i = 0; i < bpopperBtns.length; i++) {
+                        for (var j = 1; j < 4; j++) {
+                            var t = bpopperBtns[i].getAttribute('data-targetNode' + j);
+                            if (t) {
+                                t = t.split('.');
+                                t[0] = t[0].replace(/[0-9]/g, '');
+                                bpopperBtns[i].setAttribute('data-targetNode' + j, t[0] + index + '.' + t[1]);
+                            }
                         }
                     }
                 }
