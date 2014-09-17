@@ -2441,7 +2441,7 @@
             langArr[${stat.index}] = '${item.langGrad}';
             </c:forEach>
             for ( var i = 0, len = langArr.length ; i < len ; i++ ) {
-                langArr[i] != "" ? $('#checkLang'+i).prop('checked', true).trigger('change') : $('#checkLang'+i).prop('checked', false);
+                langArr[i] != "" ? $('#checkLang'+i).prop('checked', true).triggerHandler('click') : $('#checkLang'+i).prop('checked', false);
             }
             <%-- 원서 수정 모드에서 어학 정보 유무에 따라 checkbox 이벤트 자동 발생 --%>
 
