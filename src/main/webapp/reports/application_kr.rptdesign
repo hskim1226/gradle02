@@ -343,7 +343,7 @@ reportContext.setPersistentGlobalVariable("getLastSchoolScoreText", getLastSchoo
                                     <property name="textAlign">center</property>
                                     <list-property name="boundDataColumns">
                                         <structure>
-                                            <property name="name">tite</property>
+                                            <property name="name">title</property>
                                             <expression name="expression" type="javascript">params["entrYear"] + " 학년도 " + params["admsTypeName1"] + " 대학원 입학원서"</expression>
                                             <property name="dataType">string</property>
                                             <property name="allowExport">true</property>

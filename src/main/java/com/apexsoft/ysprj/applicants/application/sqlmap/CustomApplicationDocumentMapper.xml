@@ -21,11 +21,12 @@
     <result column="MDT_YN" jdbcType="VARCHAR" property="mdtYn" />
     <result column="UPLOAD_YN" jdbcType="VARCHAR" property="uploadYn" />
     <result column="SEND_CNT" jdbcType="INTEGER" property="sendCnt" />
+    <result column="MSG_NO" jdbcType="VARCHAR" property="msgNo" />
     <result column="ORGN_SEND_YN" jdbcType="VARCHAR" property="orgnSendYn" />
     <result column="APPL_NO" jdbcType="INTEGER" property="applNo" />
     <result column="DOC_SEQ" jdbcType="INTEGER" property="docSeq" />
     <result column="DOC_TYPE_CODE" jdbcType="VARCHAR" property="docTypeCode" />
-    <result column="DOC_GRP" jdbcType="VARCHAR" property="docGrp" />
+    <result column="DOC_GRP" jdbcType="INTEGER" property="docGrp" />
     <result column="DOC_GRP_NAME" jdbcType="VARCHAR" property="docGrpName" />
     <result column="DOC_ITEM_CODE" jdbcType="VARCHAR" property="docItemCode" />
     <result column="DOC_NAME" jdbcType="VARCHAR" property="docName" />
@@ -40,6 +41,7 @@
         Y.MDT_YN,
         Y.UPLOAD_YN,
         Y.SEND_CNT,
+        Y.MSG_NO,
         Y.ORGN_SEND_YN,
         Z.DOC_GRP_NAME,
         IFNULL(Z.APPL_NO,0) APPL_NO,
@@ -173,6 +175,7 @@
             A.MDT_YN, A.UPLOAD_YN, A.DOC_TYPE_CODE, A.DOC_ITEM_CODE,
             0 as DOC_GRP,
             A.SEND_CNT,
+            A.MSG_NO,
             A.ORGN_SEND_YN,
             B.CODE_VAL, B.CODE_VAL_XXEN
             FROM ADMS_MDT A, COMM_CODE B, APPL C
@@ -193,10 +196,11 @@
         SELECT
         <include refid="Base_Mand_Column_List" />
         FROM
-            ( SELECT C.APPL_NO,
+            ( SELECT DISTINCT C.APPL_NO,
             A.MDT_YN, A.UPLOAD_YN, A.DOC_TYPE_CODE, A.DOC_ITEM_CODE,
             0 as DOC_GRP,
             A.SEND_CNT,
+            A.MSG_NO,
             A.ORGN_SEND_YN,
             B.CODE_VAL, B.CODE_VAL_XXEN
             FROM ADMS_MDT A, COMM_CODE B, APPL C, APPL_ACAD D
@@ -222,6 +226,7 @@
             A.MDT_YN, A.UPLOAD_YN, A.DOC_TYPE_CODE, A.DOC_ITEM_CODE,
             0 as DOC_GRP,
             A.SEND_CNT,
+            A.MSG_NO,
             A.ORGN_SEND_YN,
             B.CODE_VAL, B.CODE_VAL_XXEN
             FROM ADMS_MDT A, COMM_CODE B, APPL C, APPL_ACAD D
@@ -248,6 +253,7 @@
             A.MDT_YN, A.UPLOAD_YN, A.DOC_TYPE_CODE, A.DOC_ITEM_CODE,
             D.ACAD_SEQ as DOC_GRP,
             A.SEND_CNT,
+            A.MSG_NO,
             A.ORGN_SEND_YN,
             B.CODE_VAL, B.CODE_VAL_XXEN
             FROM ADMS_MDT A, COMM_CODE B, APPL C, APPL_ACAD D
@@ -271,6 +277,7 @@
         Y.MDT_YN,
         Y.UPLOAD_YN,
         Y.SEND_CNT,
+        Y.MSG_NO,
         Y.ORGN_SEND_YN,
         Z.DOC_GRP_NAME,
         IFNULL(Z.APPL_NO,0) APPL_NO,
@@ -290,6 +297,7 @@
         A.MDT_YN, A.UPLOAD_YN, A.DOC_TYPE_CODE, A.DOC_ITEM_CODE,
         C.LANG_SEQ as DOC_GRP,
         A.SEND_CNT,
+        A.MSG_NO,
         A.ORGN_SEND_YN,
         D.EXAM_NAME
         FROM ADMS_MDT A, APPL B, APPL_LANG C, LANG_EXAM D
@@ -314,6 +322,7 @@
                 A.MDT_YN, A.UPLOAD_YN, A.DOC_TYPE_CODE, A.DOC_ITEM_CODE,
                 0 as DOC_GRP,
                 A.SEND_CNT,
+                A.MSG_NO,
                 A.ORGN_SEND_YN,
                 B.CODE_VAL, B.CODE_VAL_XXEN
           FROM ADMS_MDT A, COMM_CODE B, APPL C
@@ -340,6 +349,7 @@
         A.MDT_YN, A.UPLOAD_YN, A.DOC_TYPE_CODE, A.DOC_ITEM_CODE,
         0 as DOC_GRP,
         A.SEND_CNT,
+        A.MSG_NO,
         A.ORGN_SEND_YN,
         B.CODE_VAL, B.CODE_VAL_XXEN
         FROM ADMS_CORS_MAJ_MDT A, COMM_CODE B, ADMS_CORS C, APPL D

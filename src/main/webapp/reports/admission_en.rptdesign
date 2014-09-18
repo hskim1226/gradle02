@@ -482,12 +482,13 @@ languageList = entire.getApplicationLanguageList();]]></method>
                                 <data id="1188">
                                     <list-property name="boundDataColumns">
                                         <structure>
-                                            <property name="name">korName</property>
-                                            <expression name="expression" type="javascript">application.getKorName();</expression>
+                                            <property name="name">fullName</property>
+                                            <expression name="expression" type="javascript">application.getEngName() + " " + application.getSurName();</expression>
                                             <property name="dataType">string</property>
+                                            <property name="allowExport">true</property>
                                         </structure>
                                     </list-property>
-                                    <property name="resultSetColumn">korName</property>
+                                    <property name="resultSetColumn">fullName</property>
                                 </data>
                             </cell>
                         </row>
