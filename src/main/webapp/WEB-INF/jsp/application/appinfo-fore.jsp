@@ -349,7 +349,9 @@
                                         <div class="col-sm-4">
                                             <div class="input-group date">
                                                 <form:input path="application.bornDay" cssClass="form-control" readonly="true" />
-                                                <span class="input-group-addon"></span>
+                                                <span class="input-group-addon">
+                                                    <span class="glyphicon glyphicon-calendar"></span>
+                                                </span>
                                             </div>
                                         </div>
                                     </div>
@@ -369,7 +371,9 @@
                                     <div class="form-group required">
                                         <label for="citzCntrName" class="col-sm-2 control-label"><spring:message code="L332" /></label>
                                         <div class="col-sm-2">
-                                            <button type="button" class="btn btn-default btn-search bpopper" data-targetNode1="citzCntrCode" data-targetNode2='citzCntrName' data-category="country"><spring:message code="L333" /></button>
+                                            <button type="button" class="btn btn-default btn-search bpopper" data-targetNode1="citzCntrCode" data-targetNode2='citzCntrName' data-category="country">
+                                                <span class="glyphicon glyphicon-search"></span> <spring:message code="L333" />
+                                            </button>
                                         </div>
                                         <div class="col-sm-7">
                                             <form:hidden path="application.citzCntrCode" id="citzCntrCode" cssClass="form-control" />
@@ -379,7 +383,9 @@
                                     <div class="form-group required">
                                         <label for="bornCntrName" class="col-sm-2 control-label"><spring:message code="L334" /></label>
                                         <div class="col-sm-2">
-                                            <button type="button" class="btn btn-default btn-search bpopper" data-targetNode1="bornCntrCode" data-targetNode2='bornCntrName' data-category="country"><spring:message code="L333" /></button>
+                                            <button type="button" class="btn btn-default btn-search bpopper" data-targetNode1="bornCntrCode" data-targetNode2='bornCntrName' data-category="country">
+                                                <span class="glyphicon glyphicon-search"></span> <spring:message code="L333" />
+                                            </button>
                                         </div>
                                         <div class="col-sm-7">
                                             <form:hidden path="applicationForeigner.bornCntrCode" id="bornCntrCode" cssClass="form-control" />
@@ -453,7 +459,9 @@
                                     <div class="form-group required">
                                         <label class="col-sm-2 control-label"><spring:message code="L342" /></label>
                                         <div class="col-sm-2">
-                                            <button type="button" class="btn btn-default btn-block btn-search" id="searchAddress"><spring:message code="L343" /></button>
+                                            <button type="button" class="btn btn-default btn-block btn-search" id="searchAddress">
+                                                <span class="glyphicon glyphicon-search"></span> <spring:message code="L343" />
+                                            </button>
                                         </div>
                                         <div class="col-sm-4">
                                             <div class="input-group">
@@ -584,37 +592,42 @@
                                         <c:forEach begin="0" end="${entireApplication.collegeList.size() > 0 ? entireApplication.collegeList.size() - 1 : 0}" varStatus="stat">
                                             <div class="form-group-block">
                                                 <form:hidden path="collegeList[${stat.index}].acadTypeCode" value="00002" />
-                                                    <%--TODO domain 업데이트 후 주석해제--%>
-                                                    <%--<div class="form-group">--%>
-                                                    <%--<label for="collegeList${stat.index}.schlCntrName" class="col-sm-2 control-label"><spring:message code="L353" /></label>--%>
-                                                    <%--<div class="col-sm-2">--%>
-                                                    <%--<button type="button" class="btn btn-default btn-search bpopper" data-targetNode1="collegeList${stat.index}.schlCntrCode" data-targetNode2='collegeList${stat.index}.schlCntrName' data-category="country-u">검색</button>--%>
-                                                    <%--</div>--%>
-                                                    <%--<div class="col-sm-6">--%>
-                                                    <%--<form:hidden path="collegeList[${stat.index}].schlCntrCode" />--%>
-                                                    <%--<input id="collegeList${stat.index}.schlCntrName" cssClass="form-control" />--%>
-                                                    <%--</div>--%>
-                                                    <%--</div>--%>
-                                                    <%--TODO domain 업데이트 후 주석해제--%>
+                                                <form:hidden path="collegeList[${stat.index}].acadSeq" />
+                                                <div class="form-group required">
+                                                    <label for="collegeList${stat.index}.schlCntrName" class="col-sm-2 control-label"><spring:message code="L353" /></label>
+                                                    <div class="col-sm-2">
+                                                        <button type="button" class="btn btn-default btn-search bpopper" data-targetNode1="collegeList${stat.index}.schlCntrCode" data-targetNode2='collegeList${stat.index}.schlCntrName' data-category="country">
+                                                            <span class="glyphicon glyphicon-search"></span> <spring:message code="L333" />
+                                                        </button>
+                                                    </div>
+                                                    <div class="col-sm-6">
+                                                        <form:hidden path="collegeList[${stat.index}].schlCntrCode" />
+                                                        <input id="collegeList${stat.index}.schlCntrName" class="form-control" />
+                                                    </div>
+                                                </div>
                                                 <div class="form-group">
                                                     <label class="col-sm-2 control-label"><spring:message code="L354" /></label>
                                                     <div class="col-sm-4 start-date-container">
                                                         <div class="input-group date">
                                                             <span class="input-group-addon"><spring:message code="L355" /></span>
                                                             <form:input path="collegeList[${stat.index}].entrDay" cssClass="form-control" readonly="true" />
+                                                            <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-4 end-date-container">
                                                         <div class="input-group date">
                                                             <span class="input-group-addon"><spring:message code="L356" /></span>
                                                             <form:input path="collegeList[${stat.index}].grdaDay" cssClass="form-control" readonly="true" />
+                                                            <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
                                                     <form:label path="collegeList[${stat.index}].schlName" cssClass="col-sm-2 control-label"><spring:message code="L357" /></form:label>
                                                     <div class="col-sm-2">
-                                                        <button type="button" class="btn btn-default btn-search bpopper" data-targetNode1="collegeList${stat.index}.schlCode" data-targetNode2='collegeList${stat.index}.schlName' data-category="school-u">검색</button>
+                                                        <button type="button" class="btn btn-default btn-search bpopper" data-targetNode1="collegeList${stat.index}.schlCode" data-targetNode2='collegeList${stat.index}.schlName' data-category="school-u">
+                                                            <span class="glyphicon glyphicon-search"></span> <spring:message code="L333" />
+                                                        </button>
                                                     </div>
                                                     <div class="col-sm-4">
                                                         <form:hidden path="collegeList[${stat.index}].schlCode" />
@@ -679,37 +692,42 @@
                                         <c:forEach begin="0" end="${entireApplication.graduateList.size() > 0 ? entireApplication.graduateList.size() - 1 : 0}" varStatus="stat">
                                             <div class="form-group-block">
                                                 <form:hidden path="graduateList[${stat.index}].acadTypeCode" value="00003" />
-                                                    <%--TODO domain 업데이트 후 주석해제--%>
-                                                    <%--<div class="form-group">--%>
-                                                    <%--<label for="graduateList${stat.index}.schlCntrName" class="col-sm-2 control-label"><spring:message code="L353" /></label>--%>
-                                                    <%--<div class="col-sm-2">--%>
-                                                    <%--<button type="button" class="btn btn-default btn-search bpopper" data-targetNode1="graduateList${stat.index}.schlCntrCode" data-targetNode2='graduateList${stat.index}.schlCntrName' data-category="country-g">검색</button>--%>
-                                                    <%--</div>--%>
-                                                    <%--<div class="col-sm-6">--%>
-                                                    <%--<form:hidden path="graduateList[${stat.index}].schlCntrCode" />--%>
-                                                    <%--<input id="graduateList${stat.index}.schlCntrName" cssClass="form-control" />--%>
-                                                    <%--</div>--%>
-                                                    <%--</div>--%>
-                                                    <%--TODO domain 업데이트 후 주석해제--%>
+                                                <form:hidden path="graduateList[${stat.index}].acadSeq" />
+                                                <div class="form-group required">
+                                                    <label for="graduateList${stat.index}.schlCntrName" class="col-sm-2 control-label"><spring:message code="L353" /></label>
+                                                    <div class="col-sm-2">
+                                                        <button type="button" class="btn btn-default btn-search bpopper" data-targetNode1="graduateList${stat.index}.schlCntrCode" data-targetNode2='graduateList${stat.index}.schlCntrName' data-category="country">
+                                                            <span class="glyphicon glyphicon-search"></span> <spring:message code="L333" />
+                                                        </button>
+                                                    </div>
+                                                    <div class="col-sm-6">
+                                                        <form:hidden path="graduateList[${stat.index}].schlCntrCode" />
+                                                        <input id="graduateList${stat.index}.schlCntrName" class="form-control" />
+                                                    </div>
+                                                </div>
                                                 <div class="form-group">
                                                     <label class="col-sm-2 control-label"><spring:message code="L354" /></label>
                                                     <div class="col-sm-4 start-date-container">
                                                         <div class="input-group date">
                                                             <span class="input-group-addon"><spring:message code="L355" /></span>
                                                             <form:input path="graduateList[${stat.index}].entrDay" cssClass="form-control" readonly="true" />
+                                                            <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-4 end-date-container">
                                                         <div class="input-group date">
                                                             <span class="input-group-addon"><spring:message code="L356" /></span>
                                                             <form:input path="graduateList[${stat.index}].grdaDay" cssClass="form-control" readonly="true" />
+                                                            <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
                                                     <form:label path="graduateList[${stat.index}].schlName" cssClass="col-sm-2 control-label"><spring:message code="L357" /></form:label>
                                                     <div class="col-sm-2">
-                                                        <button type="button" class="btn btn-default btn-search bpopper" data-targetNode1="graduateList${stat.index}.schlCode" data-targetNode2='graduateList${stat.index}.schlName' data-category="school-u">검색</button>
+                                                        <button type="button" class="btn btn-default btn-search bpopper" data-targetNode1="graduateList${stat.index}.schlCode" data-targetNode2='graduateList${stat.index}.schlName' data-category="school-u">
+                                                            <span class="glyphicon glyphicon-search"></span> <spring:message code="L333" />
+                                                        </button>
                                                     </div>
                                                     <div class="col-sm-4">
                                                         <form:hidden path="graduateList[${stat.index}].schlCode" />
@@ -866,12 +884,14 @@
                                             <div class="input-group date">
                                                 <span class="input-group-addon"><spring:message code="L372" /></span>
                                                 <form:input path="applicationLanguageList[${stat.index}].examDay" cssClass="form-control" />
+                                                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar" /></span>
                                             </div>
                                         </div>
                                         <div class="col-sm-2 show-lang">
                                             <div class="input-group">
                                                 <span class="input-group-addon"><spring:message code="L371" /></span>
                                                 <form:input path="applicationLanguageList[${stat.index}].langGrad" cssClass="form-control" />
+                                                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar" /></span>
                                             </div>
                                         </div>
                                     </div>
@@ -1376,7 +1396,9 @@
                 <div class="col-sm-10">
                     <input type="text" id="bpop" name="bpop" class="form-control ime-mode-kr" />
                 </div>
-                <button id="bpopBtnSearch" class="btn btn-info col-sm-2"><spring:message code="L333" /></button>
+                <button id="bpopBtnSearch" class="btn btn-info col-sm-2">
+                    <span class="glyphicon glyphicon-search"></span>
+                </button>
             </div>
             <div class="form-group">
                 <div class="col-sm-12" style="overflow-y: auto; height: 300px;">
@@ -1576,20 +1598,17 @@
                     document.getElementById('targetNode' + i).value = targetNode ? targetNode : null;
                 }
                 if (dataCategory.indexOf('country') > -1) {
-                    title = '국가 검색';
-                    columnHead = ['', '한글 이름', '영문 이름'];
+                    title = '<spring:message code="L301" javaScriptEscape="true" />';
+                    columnHead = ['', '<spring:message code="L304" javaScriptEscape="true" />', '<spring:message code="L305" javaScriptEscape="true" />'];
                     document.getElementById('bpopContent').setAttribute('data-category', dataCategory);
                 } else if (dataCategory.indexOf('school') > -1) {
-                    columnHead = ['', '학교 이름'];
+                    columnHead = ['', '<spring:message code="L306" javaScriptEscape="true" />'];
                     document.getElementById('bpopContent').setAttribute('data-category', dataCategory);
                     var suffix = dataCategory.split('-')[1];
                     if (suffix == 'h') {
-                        title = '고등학교 검색';
+                        title = '<spring:message code="L302" javaScriptEscape="true" />';
                     } else if (suffix == 'u') {
-                        title = '대학교 검색';
-                    } else if (suffix == 'g') {
-                        title = '대학원 검색';
-                    } else {
+                        title = '<spring:message code="L303" javaScriptEscape="true" />';
                     }
                 }
 
