@@ -1981,14 +1981,14 @@ console.log(blockToRemove.parentNode);
             <%-- 지원사항 select 폼 change 이벤트 핸들러 등록 끝 --%>
 
             <%-- 어학 및 경력 탭 선택 시 어학 변경 시작 --%>
-            $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
-                var currTab = e.target; // 활성화된 탭
-                var prevTab = e.relatedTarget; // 이전 탭
-                var currPanel = $(currTab.getAttribute('href'))[0];
-                if (currPanel.getAttribute('id') === 'langcareer') {
-                    updateLanguagePanel();
-                }
-            });
+//            $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+//                var currTab = e.target; // 활성화된 탭
+//                var prevTab = e.relatedTarget; // 이전 탭
+//                var currPanel = $(currTab.getAttribute('href'))[0];
+//                if (currPanel.getAttribute('id') === 'langcareer') {
+//                    updateLanguagePanel();
+//                }
+//            });
 
             function updateLanguagePanel() {
                 var detlMajCode = $('#detlMajCode').val();
