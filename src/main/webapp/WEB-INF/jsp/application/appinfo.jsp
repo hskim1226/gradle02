@@ -568,10 +568,14 @@
                                             </div>
                                             <div class="form-group required">
                                                 <label class="col-sm-2 control-label">졸업 구분</label>
-                                                <div class="col-sm-9">
-                                                    <label class="radio-inline"><form:radiobutton path="collegeList[${stat.index}].grdaTypeCode" value="00001" />졸업</label>
+                                                <div class="col-sm-4">
+                                                    <label class="radio-inline degr-radio"><form:radiobutton path="collegeList[${stat.index}].grdaTypeCode" value="00001" />졸업</label>
                                                     &nbsp;&nbsp;&nbsp;
-                                                    <label class="radio-inline"><form:radiobutton path="collegeList[${stat.index}].grdaTypeCode" value="00002" />졸업 예정</label>
+                                                    <label class="radio-inline degr-radio"><form:radiobutton path="collegeList[${stat.index}].grdaTypeCode" value="00002" />졸업 예정</label>
+                                                </div>
+                                                <label class="col-sm-2 control-label degr-div">학위등록번호</label>
+                                                <div class="col-sm-3 degr-no">
+                                                    <form:input path="collegeList[${stat.index}].degrNo" cssClass="degr-no form-control"/>
                                                 </div>
                                             </div>
                                             <div class="form-group required">
@@ -664,10 +668,14 @@
                                             </div>
                                             <div class="form-group required">
                                                 <label class="col-sm-2 control-label">졸업 구분</label>
-                                                <div class="col-sm-9">
-                                                    <label class="radio-inline"><form:radiobutton path="graduateList[${stat.index}].grdaTypeCode" value="00001" />졸업</label>
+                                                <div class="col-sm-4">
+                                                    <label class="radio-inline degr-radio"><form:radiobutton path="graduateList[${stat.index}].grdaTypeCode" value="00001" />졸업</label>
                                                     &nbsp;&nbsp;&nbsp;
-                                                    <label class="radio-inline"><form:radiobutton path="graduateList[${stat.index}].grdaTypeCode" value="00002" />졸업 예정</label>
+                                                    <label class="radio-inline degr-radio"><form:radiobutton path="graduateList[${stat.index}].grdaTypeCode" value="00002" />졸업 예정</label>
+                                                </div>
+                                                <label class="col-sm-2 control-label degr-div">학위등록번호</label>
+                                                <div class="col-sm-3 degr-no">
+                                                    <form:input path="graduateList[${stat.index}].degrNo" cssClass="degr-no form-control"/>
                                                 </div>
                                             </div>
                                             <div class="form-group required">
@@ -2056,6 +2064,22 @@ console.log(blockToRemove.parentNode);
                 })
             }
 
+            <%-- 졸업구분의 졸업선택시 --%>
+            $('.degr-radio').on('change', function(e) {
+                var target =this;
+                var parent = $(target).parents('.form-group')[0];
+                var childRadioVal = $(parent).find("input[type=radio]:checked").val();
+
+                if (childRadioVal =='00001') {
+                    $(parent).find('.degr-div').show();
+                    $(parent).find('.degr-no').show('');
+                } else {
+                    $(parent).find('.degr-div').hide();
+                    $(parent).find('.degr-no').hide();
+                    $(parent).find('.degr-no').val('');
+                }
+            });
+
             <%-- checkbox hide/show --%>
             function updateLanguageGroup(group, data) {
                 var langExamCode = $(group).find('input').filter('[name$="langExamCode"]')[0];
@@ -2071,7 +2095,7 @@ console.log(blockToRemove.parentNode);
                                 check.className = 'btn-lang';
                                 check.removeAttribute('disabled');
                                 isExist = true;
-                                checkLabel.text ='제출 가능';
+                                $(checkLabel).text('제출 가능');
                             }
                             break;
                         }
