@@ -253,6 +253,8 @@ public class ApplicationController {
         model.addAttribute( "msgPhoneNo", messageResolver.getMessage("U305"));
         model.addAttribute( "msgImageOnly", messageResolver.getMessage("U308"));
         model.addAttribute( "msgPDFOnly", messageResolver.getMessage("U309"));
+        model.addAttribute( "msgGrad", messageResolver.getMessage("U321"));
+
 
         model.addAttribute( "L311", messageResolver.getMessage("L311"));
         return result;

@@ -596,7 +596,7 @@
                                                 </div>
                                             </div>
                                             <div class="form-group required">
-                                                <label class="col-sm-2 control-label">평균 평점</label>
+                                                <label class="col-sm-2 control-label">평량 평균</label>
                                                 <div class="col-sm-4">
                                                     <div class="input-group">
                                                         <span class="input-group-addon">평점</span>
@@ -749,7 +749,7 @@
                                             </c:if>
                                         </div>
                                         <div class="col-sm-2 hide-lang">
-                                            <p class="form-control-static">인정 불가</p>
+                                            <label class="lbl-lang" id="checkLangLabel${stat.index}" >인정 불가</label>
                                         </div>
                                         <div class="col-sm-3 show-lang">
                                             <div class="input-group date">
@@ -1359,11 +1359,11 @@
                                     if (value === '') {
                                         return true;
                                     }
-                                    var regexp = /^([0-9]*(.)?([0-9])?)$/;
+                                    var regexp = /^[0-9]+(.[0-9]{1,2})?$/;
                                     if (!regexp.test(value)) {
                                         return {
                                             value: false,
-                                            message: '${msgPhoneNo}'
+                                            message: '소수점 2자리까지 입력가능합니다'
                                         }
                                     }
 
@@ -1395,11 +1395,11 @@
                                     if (value === '') {
                                         return true;
                                     }
-                                    var regexp = /^([0-9]*(.)?([0-9])?)$/;
+                                    var regexp = /^[0-9]+(.[0-9]{1,2})?$/;
                                     if (!regexp.test(value)) {
                                         return {
                                             value: false,
-                                            message: '${msgPhoneNo}'
+                                            message: '소수점 2자리까지 입력가능합니다'
                                         }
                                     }
 
@@ -2049,6 +2049,7 @@ console.log(blockToRemove.parentNode);
             function updateLanguageGroup(group, data) {
                 var langExamCode = $(group).find('input').filter('[name$="langExamCode"]')[0];
                 var check = $(group).find('.btn-lang, .btn-lang-disabled')[0];
+                var checkLabel = $(group).find('.lbl-lang')[0];
                 if (check) {
                     var val = langExamCode ? langExamCode.value : null;
                     var isExist = false, item;
@@ -2059,12 +2060,14 @@ console.log(blockToRemove.parentNode);
                                 check.className = 'btn-lang';
                                 check.removeAttribute('disabled');
                                 isExist = true;
+                                checkLabel.text ='제출 가능';
                             }
                             break;
                         }
                     }
                     if (!isExist) {
                         check.className = 'btn-lang-disabled';
+                        checkLabel.text ='제출 불가';
                         check.setAttribute('disabled', 'disabled');
                         $(group).removeClass('show-lang');
                         $(group).addClass('hide-lang');
@@ -2096,7 +2099,7 @@ console.log(blockToRemove.parentNode);
                 var childCheckbox = $(this).find("input[type=checkbox]"),
                     targetExamName = "#exam"+ $(this).find("label").text().trim();
                 childCheckbox.is(":checked") ?
-                        $(targetExamName).css("display", "block") :
+                        $(targetExamName).css("display", "block"):
                         $(targetExamName).css("display", "none");
 
             });
