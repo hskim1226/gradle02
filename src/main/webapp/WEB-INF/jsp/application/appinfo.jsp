@@ -947,9 +947,26 @@
                                 </c:if>
                                 <div class="spacer-tiny"></div>
                             </c:forEach>
+                            <div class="panel panel-darkgray">
+                                <div class="panel-body" id="docGroupList[${grpStat.index}].list">
+                                    <label class="col-sm-10 apexMessage">- 파일 첨부시 주의사항
+                                        <br>1. 문서별로 1개의 파일만 첨부 가능합니다.
+                                        <br>2. 사진 및 문서의 해상도와 가독성 여부를 반드시 확인하세요.
+                                        <br>3. 스캔시에는 300dpi 이상으로 스캔하시기 바랍니다.
+                                        <br>4. 문서 크기는 A4 크기로 생성하여 첨부하셔야 합니다.</label>
+                                    <label class="col-sm-10 apexMessage">- 여러개의 PDF파일을 합치는 방법
+                                        <br>여러개 PDF 은 하나의 PDF 파일로 만들어서 업로드 하시기 바랍니다.
+                                        <br>PDF 통합은 전용프로그램이나 인터넷 서비스를 이용하시기 바랍니다.
+                                        <br>  예) http://convert.neevia.com/pdfmerge/
+                                        <br>  ( 예시 사이트에서 발생할 수 있는 문제는 당사에서 책임지지 않습니다 )</label>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
+
+
+
             </div> <%--myTabContent--%>
         </form:form>
 
