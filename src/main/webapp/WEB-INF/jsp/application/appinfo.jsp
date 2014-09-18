@@ -40,11 +40,8 @@
             color: #000;
         }
 
-        section.application .nav>li>a, section.application .nav>li>span {
+        section.application .nav>li>a {
             display: block;
-            text-align: center;
-            border-bottom-color: #fff;
-            color: #fff
         }
         .apexMessage {
             color: #000;
@@ -241,12 +238,9 @@
     <div class="container">
         <ul id="myTab" class="nav nav-tabs nav-justified tab-gray">
             <li><a href="#appinfo" data-toggle="tab">기본 정보</a></li>
-            <li><a href="#academy" data-toggle="tab" class="tab-acad-lang-expr">학력</a></li>
-            <%--<li><span data-toggle="tab" class="tab-acad-lang-expr">학력</span></li>--%>
-            <li><a href="#langcareer" data-toggle="tab" class="tab-acad-lang-expr">어학 및 경력</a></li>
-            <%--<li><span data-toggle="tab" class="tab-acad-lang-expr">어학 및 경력</span></li>--%>
-            <li><a href="#fileupload" data-toggle="tab" class="tab-file-upload">첨부파일</a></li>
-            <%--<li><span data-toggle="tab" class="tab-file-upload">첨부파일</span></li>--%>
+            <li><a id="tabAcademy" href="#academy" data-toggle="tab">학력</a></li>
+            <li><a id="tabLangCareer" href="#langcareer" data-toggle="tab">어학 및 경력</a></li>
+            <li><a id="tabFileUpload" href="#fileupload" data-toggle="tab">첨부파일</a></li>
         </ul>
         <form:form commandName="entireApplication" cssClass="form-horizontal" method="post" enctype="multipart/form-data" role="form">
             <form:hidden path="application.applNo" id="applNo" />
@@ -1018,6 +1012,45 @@
             document.getElementById('admsNo').value='${entireApplication.application.admsNo}';
             document.getElementById('applStsCode').value='${entireApplication.application.applStsCode}';
 
+            var disableTab = function(anchorObj, msg) {
+                var $anchor = $(anchorObj);
+                $anchor.prop('disabled', true);
+                $anchor.prop('data-href', $anchor.attr('href'));
+                $anchor.attr('href', '#');
+                $anchor.addClass('disabled-link');
+                $anchor.on('click', function() {
+                    bindTabMsg(msg);
+                });
+            };
+            var enableTab = function(anchorObj) {
+                var $anchor = $(anchorObj);
+                $anchor.prop('disabled', false);
+                $anchor.attr('href', $anchor.prop('data-href')); // restore href
+                $anchor.removeClass('disabled-link');
+            };
+            var bindTabMsg = function(msg) {
+                alert(msg);
+            }
+            var tabControl = function(applStsCode) {
+                switch (applStsCode) {
+                    case '':
+                    case '00001' :
+                        disableTab(document.getElementById('tabAcademy'), '<spring:message code="U321"/>');
+                        disableTab(document.getElementById('tabLangCareer'), '<spring:message code="U322"/>');
+                        disableTab(document.getElementById('tabFileUpload'), '<spring:message code="U323"/>');
+                        break;
+                    case '00002' :
+                        disableTab(document.getElementById('tabLangCareer'), '<spring:message code="U322"/>');
+                        disableTab(document.getElementById('tabFileUpload'), '<spring:message code="U323"/>');
+                        break;
+                    case '00003' :
+                        disableTab(document.getElementById('tabFileUpload'), '<spring:message code="U323"/>');
+                        break;
+                }
+            };
+            tabControl(document.getElementById('applNo').value);
+
+
             var baseInfoSaved = function() {
 //                $('.base-info').prop('disabled', 'true');
                 $('.base-info>option').filter( function() {
@@ -1034,18 +1067,27 @@
                 switch(applStsCode) {
                     case "00001" :
                         $('#saveAcademy').removeClass('disabled');
+                        enableTab(document.getElementById('tabAcademy'));
                         break;
                     case "00002" :
                         $('#saveAcademy').removeClass('disabled');
                         $('#saveLangCareer').removeClass('disabled');
+                        enableTab(document.getElementById('tabAcademy'));
+                        enableTab(document.getElementById('tabLangCareer'));
                         break;
                     case "00003" :
                         $('#saveAcademy').removeClass('disabled');
                         $('#saveLangCareer').removeClass('disabled');
                         $('#saveFileUpload').removeClass('disabled');
+                        enableTab(document.getElementById('tabAcademy'));
+                        enableTab(document.getElementById('tabLangCareer'));
+                        enableTab(document.getElementById('tabFileUpload'));
                         break;
                     case "00004" :
                         $('.btnAppl').removeClass('disabled');
+                        enableTab(document.getElementById('tabAcademy'));
+                        enableTab(document.getElementById('tabLangCareer'));
+                        enableTab(document.getElementById('tabFileUpload'));
                         break;
                 }
             };
