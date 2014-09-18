@@ -322,6 +322,7 @@
                                                     <form:options items="${common.detlMajList}" itemValue="detlMajCode" itemLabel="detlMajName" />
                                                 </form:select>
                                                 <label id="detMajDesc" class="apexMessage"></label>
+                                                <form:input path="application.inpDetlMaj" cssClass="form-control" style="display:none" />
                                             </div>
                                         </div>
                                     </div>
@@ -571,7 +572,7 @@
                                                 <div class="col-sm-8 degr-no">
                                                     <form:input path="collegeList[${stat.index}].degrNo" cssClass="degr-no form-control"/>
                                                 </div>
-                                                <label class="col-sm-10 apexMessage degr-message" >* 졸업증명서(혹은 졸업관련 서류)를 추후 제출</label>
+                                                <label class="col-sm-10 apexMessage degr-message" style="display:none" >* 졸업증명서(혹은 졸업관련 서류)를 추후 제출</label>
                                             </div>
                                             <div class="form-group required">
                                                 <form:label path="collegeList[${stat.index}].schlName" cssClass="col-sm-2 control-label">학교 이름</form:label>
@@ -672,7 +673,7 @@
                                                 <div class="col-sm-8 degr-no">
                                                     <form:input path="graduateList[${stat.index}].degrNo" cssClass="degr-no form-control"/>
                                                 </div>
-                                                <label class="col-sm-10 apexMessage degr-message" >* 졸업증명서(혹은 졸업관련 서류)를 추후 제출</label>
+                                                <label class="col-sm-10 apexMessage degr-message" style="display:none">* 졸업증명서(혹은 졸업관련 서류)를 추후 제출</label>
                                             </div>
                                             <div class="form-group required">
                                                 <form:label path="graduateList[${stat.index}].schlName" cssClass="col-sm-2 control-label">학교 이름</form:label>
@@ -2009,8 +2010,6 @@ console.log(blockToRemove.parentNode);
                     $childNode = $('<label/>').addClass('apexMsg').text(temp2).autoLink();
                     $childNode.appendTo($divNode);
                     $divNode.appendTo($(parent));
-
-
                 }
 
             });
