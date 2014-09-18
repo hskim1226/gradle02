@@ -797,59 +797,16 @@
                             <div class="panel panel-default">
                                 <div class="panel-heading"><spring:message code="L368" /></div>
                                 <div class="panel-body" id="english-score-list">
-                                    <%--<c:forEach items="${common.korExamList}" var="langExam" varStatus="stat">--%>
-                                    <%--<div class="form-group hide-lang">--%>
-                                        <%--<c:choose>--%>
-                                        <%--<c:when test="${stat.index == 0}">--%>
-                                        <%--<label class="col-sm-2 control-label"><spring:message code="L369" /></label>--%>
-                                        <%--<div class="col-sm-2">--%>
-                                        <%--</c:when>--%>
-                                        <%--<c:otherwise>--%>
-                                        <%--<div class="col-sm-offset-2 col-sm-2">--%>
-                                        <%--</c:otherwise>--%>
-                                        <%--</c:choose>--%>
-                                            <%--<input type="hidden" name="applicationLanguageList[${stat.index}].langExamCode" id="applicationLanguageList${stat.index}.langExamCode" value="${langExam.examCode}" />--%>
-                                            <%--<div class="checkbox">--%>
-                                                <%--<label for="checkLang${stat.index}"><input type="checkbox" class="btn-lang-disabled" id="checkLang${stat.index}" <c:if test="entireApplication.applicationLanguageList['${stat.index}'] != null">checked</c:if>/>${langExam.examName}</label>--%>
-                                            <%--</div>--%>
-                                        <%--<c:choose>--%>
-                                        <%--<c:when test="${stat.index == 0}">--%>
-                                        <%--</div>--%>
-                                        <%--</c:when>--%>
-                                        <%--<c:otherwise>--%>
-                                        <%--</div>--%>
-                                        <%--</c:otherwise>--%>
-                                        <%--</c:choose>--%>
-                                        <%--<div class="col-sm-3">--%>
-                                            <%--<div class="input-group">--%>
-                                                <%--<span class="input-group-addon"><spring:message code="L370" /></span>--%>
-                                                <%--<form:input path="examNo" cssClass="form-control" />--%>
-                                            <%--</div>--%>
-                                        <%--</div>--%>
-                                        <%--<div class="col-sm-3">--%>
-                                            <%--<div class="input-group">--%>
-                                                <%--<span class="input-group-addon"><spring:message code="L371" /></span>--%>
-                                                <%--<form:input path="langGrad" cssClass="form-control" />--%>
-                                            <%--</div>--%>
-                                        <%--</div>--%>
-                                        <%--<div class="col-sm-3">--%>
-                                            <%--<div class="input-group date">--%>
-                                                <%--<span class="input-group-addon"><spring:message code="L372" /></span>--%>
-                                                <%--<form:input path="applicationLanguageList[${stat.index}].examDay" cssClass="form-control" />--%>
-                                            <%--</div>--%>
-                                        <%--</div>--%>
-                                        <%--<div class="col-sm-3">--%>
-                                            <%--<div class="input-group date">--%>
-                                                <%--<span class="input-group-addon"><spring:message code="L373" /></span>--%>
-                                                <%--<form:input path="applicationLanguageList[${stat.index}].exprDay" cssClass="form-control" />--%>
-                                            <%--</div>--%>
-                                        <%--</div>--%>
-                                    <%--</div>--%>
-                                    <%--</c:forEach>--%>
-                                    <c:forEach items="${common.engExamList}" var="langExam" varStatus="stat">
+                                    <c:set var="isEng" value="true" />
+                                    <c:forEach items="${common.langExamList}" var="langExam" varStatus="stat">
                                     <div class="form-group hide-lang">
                                         <c:choose>
-                                        <c:when test="${stat.index == 0}">
+                                        <c:when test="${'KOR' == langExam.getLangCode()}">
+                                        <label class="col-sm-2 control-label"><spring:message code="L369" /></label>
+                                        <div class="col-sm-2">
+                                        </c:when>
+                                        <c:when test="${'ENG' == langExam.getLangCode() && isEng}">
+                                        <c:set var="isEng" value="false" />
                                         <label class="col-sm-2 control-label"><spring:message code="L374" /></label>
                                         <div class="col-sm-2">
                                         </c:when>

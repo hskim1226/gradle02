@@ -218,6 +218,7 @@ public class ApplicationController {
 
         model.addAttribute("entireApplication", entireApplication);
 
+        List<LanguageExam> langExamList = new ArrayList<LanguageExam>();
         String result = "application/";
         if( "A".equals(admsTypeCode) || "B".equals(admsTypeCode) ) {
             result += "appinfo";
@@ -226,21 +227,24 @@ public class ApplicationController {
             commonCodeMap.put( "mltrServList", commonService.retrieveCommonCodeValueByCodeGroup("MLTR_SERV") );
             commonCodeMap.put( "mltrTypeList", commonService.retrieveCommonCodeValueByCodeGroup("MLTR_TYPE") );
             commonCodeMap.put( "mltrRankList", commonService.retrieveCommonCodeValueByCodeGroup("MLTR_RANK") );
+            langExamList.addAll( commonService.retrieveLangExamByLangCode("ENG") );
         } else if( "C".equals(admsTypeCode) ) {
             result += "appinfo-fore";
 
             commonCodeMap.put( "fornTypeList", commonService.retrieveCommonCodeValueByCodeGroup("FORN_TYPE") );
-            commonCodeMap.put( "korExamList", commonService.retrieveLangExamByLangCode("KOR") );
+            langExamList.addAll( commonService.retrieveLangExamByLangCode("KOR"));
+            for (LanguageExam languageExam : commonService.retrieveLangExamByLangCode("ENG")) {
+                if (!"GRE".equals(languageExam.getExamName())) {
+                    langExamList.add(languageExam);
+                }
+            }
         }
 
         commonCodeMap.put( "emerContList", commonService.retrieveCommonCodeValueByCodeGroup("EMER_CONT") );
         commonCodeMap.put( "toflTypeList", commonService.retrieveCommonCodeValueByCodeGroup("TOFL_TYPE") );
         commonCodeMap.put( "fornExmpList", commonService.retrieveCommonCodeValueByCodeGroup("FORN_EXMP") );
         commonCodeMap.put( "qualAreaList", commonService.retrieveCommonCodeValueByCodeGroup("QUAL_AREA") );
-        commonCodeMap.put( "korExamList", commonService.retrieveLangExamByLangCode("KOR") );
-        commonCodeMap.put( "engExamList", commonService.retrieveLangExamByLangCode("ENG") );
-
-
+        commonCodeMap.put( "langExamList", langExamList);
 
         model.addAttribute( "docGroupList", docGroupList );
         model.addAttribute( "common", commonCodeMap );
