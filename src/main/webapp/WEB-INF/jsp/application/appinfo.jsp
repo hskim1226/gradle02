@@ -807,60 +807,105 @@
                     <div class="spacer-tiny"></div>
                     <div class="row">
                         <div class="col-sm-offset-1 col-sm-10">
-
                             <c:forEach items="${docGroupList}" var="docGroup" varStatus="grpStat">
-                                <div class="panel panel-darkgray">
-                                    <div class="panel-heading">${docGroup.fileGroupName} 서류</div>
-                                    <div class="panel-body" id="docGroupList[${grpStat.index}].list">
-                                        <c:if test = "${docGroup.fileGroupName =='대학' || docGroup.fileGroupName == '대학원'}">
-                                        <div class="form-group-block-list" id="docGroupList[${grpStat.index}].List"> ---대학/대학원 인경우만
-                                        </c:if>
-                                        <c:forEach items="${docGroup.mandDocList}" var="mandDoc" varStatus="docStat">
-
-                                            <c:if test ="{(docGroup.fileGroupName =='대학' || docGroup.fileGroupName == '대학원')&& mandDoc.}" >
-                                                <div class="form-group-block">---대학그룹 첫번째인 줄인 경우만
-                                            </c:if>
+                                <c:if test = "${docGroup.subGrp.size()==0  &&  docGroup.mandDocList.size()>0}">
+                                    <div class="panel panel-darkgray">
+                                        <div class="panel-heading">${docGroup.fileGroupName} 서류</div>
+                                        <div class="panel-body" id="docGroupList[${grpStat.index}].list">
+                                            <c:forEach items="${docGroup.mandDocList}" var="mandDoc" varStatus="docStat">
                                                 <hr/>
                                                 <div class="form-group" id="docGroupList[${grpStat.index}].mandDocList[${docStat.index}].${mandDoc.docItemCode}">
                                                     <label class="col-sm-3 control-label word-keep-all">${mandDoc.docItemName}</label>
                                                     <div class="col-sm-8">
                                                         <div class="input-group">
-                                                            <div class="input-group-btn">
-                                                                 <form:input class="btn btn_lg btn-file"  path="docGroupList[${grpStat.index}].mandDocList[${docStat.index}].docName" value="${mandDoc.docName}" />
+                                                          <div class="input-group-btn">
+                                                            <input type="file" class="btn btn_lg btn-file" id="docGroupList[${grpStat.index}].mandDocList[${docStat.index}].docName" name="${mandDoc.docName}"/>
                                                             </div>
-                                                            <div class="col-sm-4 nopadding"><input type="button" id="docGroupList[${grpStat.index}].mandDocList[${docStat.index}].btn" name="docGroupList[${grpStat.index}].mandDocList[${docStat.index}].btn"
-                                                                                                   class="btn btn-default btn-block btn-upload" value="올리기"
-                                                                                                   data-file-path="docGroupList[${grpStat.index}].mandDocList[${docStat.index}].filePath"
-                                                                                                   data-file-name="docGroupList[${grpStat.index}].mandDocList[${docStat.index}].fileName"
-                                                                                                   data-org-file-name="docGroupList[${grpStat.index}].mandDocList[${docStat.index}].orgFileName"/>
-                                                            </div>
-                                                                <span class="col-sm-8" id="docGroupList[${grpStat.index}].mandDocList[${docStat.index}]" style="text-decoration: none;">
-                                                                    <a href="${contextPath}/filedownload/attached/${entireApplication.application.admsNo}/${entireApplication.application.applNo}/${mandDoc.fileName}/${mandDoc.orgFileName}">${mandDoc.orgFileName}</a>
-                                                                </span>
+                                                            <c:if test="${mandDoc.orgnSendYn =='Y' || mandDoc.orgnSendYn =='y'}">
+                                                               <span class="apexMessage">${mandDoc.msgNo}</span>
+                                                            </c:if>
+                                                            <c:if test="${mandDoc.orgnSendYn =='N' || mandDoc.orgnSendYn !='n'}">
+                                                                <div class="col-sm-4 nopadding"><input type="button" id="docGroupList[${grpStat.index}].mandDocList[${docStat.index}].btn" name="docGroupList[${grpStat.index}].mandDocList[${docStat.index}].btn"
+                                                                                                       class="btn btn-default btn-block btn-upload" value="올리기"
+                                                                                                       data-file-path="docGroupList[${grpStat.index}].mandDocList[${docStat.index}].filePath"
+                                                                                                       data-file-name="docGroupList[${grpStat.index}].mandDocList[${docStat.index}].fileName"
+                                                                                                       data-org-file-name="docGroupList[${grpStat.index}].mandDocList[${docStat.index}].orgFileName"/>
+                                                                </div>
+                                                                    <span class="col-sm-8" id="docGroupList[${grpStat.index}].mandDocList[${docStat.index}]" style="text-decoration: none;">
+                                                                        <a href="${contextPath}/filedownload/attached/${entireApplication.application.admsNo}/${entireApplication.application.applNo}/${mandDoc.fileName}/${mandDoc.orgFileName}">${mandDoc.orgFileName}</a>
+                                                                    </span>
+                                                            </c:if>
                                                         </div>
                                                     </div>
-                                                    <form:hidden path="docGroupList[${grpStat.index}].mandDocList[${docStat.index}].docTypeCode" value="${mandDoc.docTypeCode}" />
-                                                    <form:hidden path="docGroupList[${grpStat.index}].mandDocList[${docStat.index}].docGrp" value="${mandDoc.index}" />
-                                                    <form:hidden path="docGroupList[${grpStat.index}].mandDocList[${docStat.index}].docItemCode" value="${mandDoc.docItemCode}" />
-                                                    <form:hidden path="docGroupList[${grpStat.index}].mandDocList[${docStat.index}].docItemName" value="${mandDoc.itemName}" />
-                                                    <form:hidden path="docGroupList[${grpStat.index}].mandDocList[${docStat.index}].filePath"/>
-                                                    <form:hidden path="docGroupList[${grpStat.index}].mandDocList[${docStat.index}].fileName"/>
-                                                    <form:hidden path="docGroupList[${grpStat.index}].mandDocList[${docStat.index}].orgFileName"/>
-                                                </div>
-                                             <c:if test = >
-                                                </div >---대학그룹 마지막 줄인 경우만
-                                             </c:if>
-                                        </c:forEach>
-                                        <c:if test = "${docGroup.fileGroupName =='대학' || docGroup.fileGroupName == '대학원'}">
-                                             </div >---대학/대학원 인 경우만
-                                        </c:if>
-                                    </div>
+                                                        <form:hidden path="docGroupList[${grpStat.index}].mandDocList[${docStat.index}].docTypeCode" value="${mandDoc.docTypeCode}" />
+                                                        <form:hidden path="docGroupList[${grpStat.index}].mandDocList[${docStat.index}].docGrp" value="${mandDoc.docGrp}" />
+                                                        <form:hidden path="docGroupList[${grpStat.index}].mandDocList[${docStat.index}].docItemCode" value="${mandDoc.docItemCode}" />
+                                                        <form:hidden path="docGroupList[${grpStat.index}].mandDocList[${docStat.index}].docItemName" value="${mandDoc.docItemName}" />
+                                                        <form:hidden path="docGroupList[${grpStat.index}].mandDocList[${docStat.index}].filePath"  value="${mandDoc.filePath}"/>
+                                                        <form:hidden path="docGroupList[${grpStat.index}].mandDocList[${docStat.index}].fileName"  value="${mandDoc.fileName}"/>
+                                                        <form:hidden path="docGroupList[${grpStat.index}].mandDocList[${docStat.index}].orgFileName"  value="${mandDoc.orgFileName}"/>
 
+                                                </div>
+                                            </c:forEach>
+
+                                        </div>
+                                    <div class="spacer-tiny"></div>
+                                </c:if>
+
+                                <c:if test = "${docGroup.subGrp.size()>0}">
+                                    <div class="panel panel-darkgray">
+                                        <div class="panel-heading">${docGroup.fileGroupName} 서류</div>
+                                        <div class="panel-body" id="docGroupList[${grpStat.index}].list">
+                                            <div class="form-group-block-list" id="fuCollegeDocBlockList">
+                                            <c:forEach items="${docGroup.subGrp}" var="subGrp" varStatus="subGrpStat">
+
+                                                <div class="form-group-block">
+                                                    <c:forEach items="${subGrp.mandDocList}" var="mandDoc" varStatus="docStat">
+                                                        <hr/>
+                                                        <div class="form-group" id="docGroupList[${grpStat.index}].subGrp[${subGrpStat.index}].mandDocList[${docStat.index}].${mandDoc.docItemCode}">
+                                                            <label class="col-sm-3 control-label word-keep-all">${mandDoc.docItemName}</label>
+                                                            <div class="col-sm-8">
+                                                                <div class="input-group">
+                                                                    <div class="input-group-btn">
+                                                                        <input type="file" class="btn btn_lg btn-file" id="docGroupList[${grpStat.index}].subGrp[${subGrpStat.index}].mandDocList[${docStat.index}].docName" name="${mandDoc.docName}"/>
+                                                                    </div>
+                                                                    <c:if test="${mandDoc.orgnSendYn =='Y' || mandDoc.orgnSendYn =='y'}">
+                                                                        <span class="apexMessage">${mandDoc.msgNo}</span>
+                                                                    </c:if>
+                                                                    <c:if test="${mandDoc.orgnSendYn =='N' || mandDoc.orgnSendYn !='n'}">
+                                                                        <div class="col-sm-4 nopadding"><input type="button" id="docGroupList[${grpStat.index}].subGrp[${subGrpStat.index}].mandDocList[${docStat.index}].btn" name="docGroupList[${grpStat.index}].mandDocList[${docStat.index}].btn"
+                                                                                                               class="btn btn-default btn-block btn-upload" value="올리기"
+                                                                                                               data-file-path="docGroupList[${grpStat.index}].subGrp[${subGrpStat.index}].mandDocList[${docStat.index}].filePath"
+                                                                                                               data-file-name="docGroupList[${grpStat.index}].subGrp[${subGrpStat.index}].mandDocList[${docStat.index}].fileName"
+                                                                                                               data-org-file-name="docGroupList[${grpStat.index}].subGrp[${subGrpStat.index}].mandDocList[${docStat.index}].orgFileName"/>
+                                                                        </div>
+                                                                        <span class="col-sm-8" id="docGroupList[${grpStat.index}].subGrp[${subGrpStat.index}].mandDocList[${docStat.index}]" style="text-decoration: none;">
+                                                                            <a href="${contextPath}/filedownload/attached/${entireApplication.application.admsNo}/${entireApplication.application.applNo}/${mandDoc.fileName}/${mandDoc.orgFileName}">${mandDoc.orgFileName}</a>
+                                                                        </span>
+                                                                    </c:if>
+                                                                </div>
+                                                            </div>
+                                                            <form:hidden path="docGroupList[${grpStat.index}].subGrp[${subGrpStat.index}].mandDocList[${docStat.index}].docTypeCode" value="${mandDoc.docTypeCode}" />
+                                                            <form:hidden path="docGroupList[${grpStat.index}].subGrp[${subGrpStat.index}].mandDocList[${docStat.index}].docGrp" value="${mandDoc.docGrp}" />
+                                                            <form:hidden path="docGroupList[${grpStat.index}].subGrp[${subGrpStat.index}].mandDocList[${docStat.index}].docItemCode" value="${mandDoc.docItemCode}" />
+                                                            <form:hidden path="docGroupList[${grpStat.index}].subGrp[${subGrpStat.index}].mandDocList[${docStat.index}].docItemName" value="${mandDoc.docItemName}" />
+                                                            <form:hidden path="docGroupList[${grpStat.index}].subGrp[${subGrpStat.index}].mandDocList[${docStat.index}].filePath"  value="${mandDoc.filePath}"/>
+                                                            <form:hidden path="docGroupList[${grpStat.index}].subGrp[${subGrpStat.index}].mandDocList[${docStat.index}].fileName"  value="${mandDoc.fileName}"/>
+                                                            <form:hidden path="docGroupList[${grpStat.index}].subGrp[${subGrpStat.index}].mandDocList[${docStat.index}].orgFileName"  value="${mandDoc.orgFileName}"/>
+
+                                                        </div>
+                                                    </c:forEach>
+                                                </div>
+                                            </c:forEach>
+
+                                        </div>
+                                        </div>
+                                     </div>
+                                </c:if>
                                 <div class="spacer-tiny"></div>
                             </c:forEach>
                         </div>
                     </div>
-                    <div class="spacer-tiny"></div>
                 </div>
 
 

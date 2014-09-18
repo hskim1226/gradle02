@@ -733,7 +733,7 @@ public class ApplicationServiceImpl implements ApplicationService {
             entireApplication.setApplicationLanguageList(retrieveInfoListByApplNo(applNo, "CustomApplicationLanguageMapper", ApplicationLanguage.class));
 
             //TODO 아래는 첨부파일 테이블 가져오는 부분이며, 변경될 로직으로 덮어써져야 함
-            String adMapperSqlId = "CustomApplicationDocumentMapper.selectByApplNoDocTypeCode";
+           /* String adMapperSqlId = "CustomApplicationDocumentMapper.selectByApplNoDocTypeCode";
             ParamForApplicationDocument paramForApplicationDocument = new ParamForApplicationDocument();
             paramForApplicationDocument.setApplNo(applNo);
             paramForApplicationDocument.setDocTypeCode("00001");
@@ -771,7 +771,7 @@ public class ApplicationServiceImpl implements ApplicationService {
             paramForApplicationDocument.setDocTypeCode("00099");
             entireApplication.setEtcDocList(retrieveInfoListByParamObj(paramForApplicationDocument,
                     adMapperSqlId,
-                    ApplicationDocument.class));
+                    ApplicationDocument.class));*/
 
         } catch ( Exception e ) {
             e.printStackTrace();
@@ -833,13 +833,15 @@ public class ApplicationServiceImpl implements ApplicationService {
     }
     @Override
     public  List<DocGroupFile> retrieveManApplDocListByApplNo( int applNo) {
-        List<DocGroupFile> docGrpList = null;
+        List<DocGroupFile> docGrpList = new ArrayList<DocGroupFile>();
         DocGroupFile docGrp;
-
+        DocGroupFile docSubGrp;
+        List<MandatoryNAppliedDoc> tmpDocList;
 
         try {
-
             docGrp = new DocGroupFile();
+            docSubGrp = new DocGroupFile();
+            tmpDocList = new ArrayList<MandatoryNAppliedDoc>();
             docGrp.setFileGroupName("기본");
             docGrp.setGroupMsg("");
             docGrp.setMandDocList(commonDAO.queryForList(DOC_NAME_SPACE + "selectBasicDocListByApplNoWTMandatory", applNo, MandatoryNAppliedDoc.class));
@@ -854,20 +856,47 @@ public class ApplicationServiceImpl implements ApplicationService {
             docGrp = new DocGroupFile();
             docGrp.setFileGroupName("대학");
             docGrp.setGroupMsg("");
-            docGrp.setMandDocList(commonDAO.queryForList(DOC_NAME_SPACE + "selectUnderDocListByApplNoWTMandatory", applNo, MandatoryNAppliedDoc.class));
             docGrpList.add(docGrp);
 
+            tmpDocList = commonDAO.queryForList(DOC_NAME_SPACE + "selectUnderDocListByApplNoWTMandatory", applNo, MandatoryNAppliedDoc.class);
+            int prevGgrpNo = -1;
+            for(MandatoryNAppliedDoc doc :  tmpDocList ) {
 
-            for(MandatoryNAppliedDoc doc :  docGrp.getMandDocList()) {
-                doc.getDocGrp();
+                if( prevGgrpNo !=  doc.getDocGrp()){
+
+                    docSubGrp = new DocGroupFile();
+                    tmpDocList =new ArrayList<MandatoryNAppliedDoc>();
+                    docSubGrp.setDocGrp(doc.getDocGrp());
+                    docSubGrp.setFileGroupName( doc.getDocGrpName());
+                    docGrp.getSubGrp().add( docSubGrp );
+                    prevGgrpNo = doc.getDocGrp();
+                }
+                    docSubGrp.setMandDocList(tmpDocList);
+                    tmpDocList.add(doc);
             }
 
 
             docGrp = new DocGroupFile();
             docGrp.setFileGroupName("대학원");
             docGrp.setGroupMsg("");
-            docGrp.setMandDocList(commonDAO.queryForList(DOC_NAME_SPACE + "selectGradDocListByApplNoWTMandatory", applNo, MandatoryNAppliedDoc.class));
             docGrpList.add(docGrp);
+
+            tmpDocList = commonDAO.queryForList(DOC_NAME_SPACE + "selectGradDocListByApplNoWTMandatory", applNo, MandatoryNAppliedDoc.class);
+            prevGgrpNo = -1;
+            for(MandatoryNAppliedDoc doc :  tmpDocList ) {
+
+                if( prevGgrpNo !=  doc.getDocGrp()){
+
+                    docSubGrp = new DocGroupFile();
+                    tmpDocList =new ArrayList<MandatoryNAppliedDoc>();
+                    docSubGrp.setDocGrp(doc.getDocGrp());
+                    docSubGrp.setFileGroupName( doc.getDocGrpName());
+                    docGrp.getSubGrp().add( docSubGrp );
+                    prevGgrpNo = doc.getDocGrp();
+                }
+                docSubGrp.setMandDocList(tmpDocList);
+                tmpDocList.add(doc);
+            }
 
             docGrp = new DocGroupFile();
             docGrp.setFileGroupName("어학");

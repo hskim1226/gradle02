@@ -1,5 +1,6 @@
 package com.apexsoft.ysprj.applicants.application.domain;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -8,20 +9,16 @@ import java.util.List;
 public class DocGroupFile {
 
 
-    private DocGroupFile subGrp;
+    private ArrayList<DocGroupFile> subGrp = new ArrayList<DocGroupFile>();
     private List<MandatoryNAppliedDoc> mandDocList;
     private String fileGroupName;
+    private int docGrp =0;
     private String groupMsg;
 
 
     private boolean subYn =false;
 
-    public DocGroupFile getSubGrp() {
-        return subGrp;
-    }
-    public void setSubGrp(DocGroupFile subGrp) {
-        this.subGrp = subGrp;
-    }
+
     public String getFileGroupName() {
         return fileGroupName;
     }
@@ -50,5 +47,19 @@ public class DocGroupFile {
         this.subYn = subYn;
     }
 
+    public int getDocGrp() {
+        return docGrp;
+    }
 
+    public void setDocGrp(int docGrp) {
+        this.docGrp = docGrp;
+    }
+
+    public ArrayList<DocGroupFile> getSubGrp() {
+        return subGrp;
+    }
+
+    public void setSubGrp(ArrayList<DocGroupFile> subGrp) {
+        this.subGrp = subGrp;
+    }
 }

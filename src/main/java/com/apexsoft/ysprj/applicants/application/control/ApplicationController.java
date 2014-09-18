@@ -237,7 +237,7 @@ public class ApplicationController {
         commonCodeMap.put( "korExamList", commonService.retrieveLangExamByLangCode("KOR") );
         commonCodeMap.put( "engExamList", commonService.retrieveLangExamByLangCode("ENG") );
 //문서처리
-        List<CustomApplicationDoc> geneDocList = null;
+    /*    List<CustomApplicationDoc> geneDocList = null;
         List<CustomApplicationDoc> fDegDocList = null;
         List<CustomApplicationDoc> collDocList;
         List<CustomApplicationDoc> gradDocList;
@@ -298,7 +298,7 @@ public class ApplicationController {
         commonCodeMap.put( "langDocList", langDocList );
         commonCodeMap.put( "ariInstDocList", ariInstDocList==null?new ArrayList<CustomApplicationDoc>():ariInstDocList );
         commonCodeMap.put( "fDocList", fDocList==null?new ArrayList<CustomApplicationDoc>():fDocList );
-        commonCodeMap.put( "deptDocList", deptDocList==null?new ArrayList<CustomApplicationDoc>():deptDocList );
+        commonCodeMap.put( "deptDocList", deptDocList==null?new ArrayList<CustomApplicationDoc>():deptDocList );*/
         List<DocGroupFile> docGroupList = applicationService.retrieveManApplDocListByApplNo(applNo.intValue() );
 // 문서처리끝
         model.addAttribute( "docGroupList", docGroupList );

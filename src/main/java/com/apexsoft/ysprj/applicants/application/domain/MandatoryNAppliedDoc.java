@@ -6,6 +6,8 @@ public class MandatoryNAppliedDoc extends ApplicationDocument {
     private String uploadYn;
     private int sendCnt;
     private String orgnSendYn;
+    private String msgNo;
+
 
     public String getOrgnSendYn() {
         return orgnSendYn;
@@ -37,5 +39,13 @@ public class MandatoryNAppliedDoc extends ApplicationDocument {
 
     public void setUploadYn(String uploadYn) {
         this.uploadYn = uploadYn;
+    }
+
+    public String getMsgNo() {
+        return msgNo;
+    }
+
+    public void setMsgNo(String msgNo) {
+        this.msgNo = msgNo;
     }
 }

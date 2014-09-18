@@ -27,6 +27,7 @@ public class EntireApplication {
     private List<ApplicationDocument> foreignerDocList;
     private List<ApplicationDocument> deptDocList;
     private List<ApplicationDocument> etcDocList;
+    private List<DocGroupFile> docGroupList;
     private ApplicationPayment applicationPayment;
 
     public Application getApplication() {
@@ -179,5 +180,12 @@ public class EntireApplication {
 
     public void setApplicationPayment(ApplicationPayment applicationPayment) {
         this.applicationPayment = applicationPayment;
+    }
+    public List<DocGroupFile> getDocGroupList() {
+        return docGroupList;
+    }
+
+    public void setDocGroupList(List<DocGroupFile> docGroupList) {
+        this.docGroupList = docGroupList;
     }
 }
