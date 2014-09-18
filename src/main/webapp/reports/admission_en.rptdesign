@@ -223,12 +223,8 @@ languageList = entire.getApplicationLanguageList();]]></method>
     <page-setup>
         <simple-master-page name="Simple MasterPage" id="2">
             <property name="type">a4</property>
-            <page-footer>
-                <text id="3">
-                    <property name="contentType">html</property>
-                    <text-property name="content"><![CDATA[<value-of>new Date()</value-of>]]></text-property>
-                </text>
-            </page-footer>
+            <property name="headerHeight">0in</property>
+            <property name="footerHeight">0in</property>
         </simple-master-page>
     </page-setup>
     <body>
@@ -486,12 +482,13 @@ languageList = entire.getApplicationLanguageList();]]></method>
                                 <data id="1188">
                                     <list-property name="boundDataColumns">
                                         <structure>
-                                            <property name="name">korName</property>
-                                            <expression name="expression" type="javascript">application.getKorName();</expression>
+                                            <property name="name">fullName</property>
+                                            <expression name="expression" type="javascript">application.getEngName() + " " + application.getSurName();</expression>
                                             <property name="dataType">string</property>
+                                            <property name="allowExport">true</property>
                                         </structure>
                                     </list-property>
-                                    <property name="resultSetColumn">korName</property>
+                                    <property name="resultSetColumn">fullName</property>
                                 </data>
                             </cell>
                         </row>

@@ -9,6 +9,7 @@ public class CodeNameCourse {
 
     private String corsTypeCode;
     private String codeVal;
+    private String codeValXxen;
 
     public String getCorsTypeCode() {
         return corsTypeCode;
@@ -24,5 +25,13 @@ public class CodeNameCourse {
 
     public void setCodeVal(String codeVal) {
         this.codeVal = codeVal;
+    }
+
+    public String getCodeValXxen() {
+        return codeValXxen;
+    }
+
+    public void setCodeValXxen(String codeValXxen) {
+        this.codeValXxen = codeValXxen;
     }
 }

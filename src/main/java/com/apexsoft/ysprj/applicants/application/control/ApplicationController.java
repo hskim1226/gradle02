@@ -228,6 +228,7 @@ public class ApplicationController {
             result += "appinfo-fore";
 
             commonCodeMap.put( "fornTypeList", commonService.retrieveCommonCodeValueByCodeGroup("FORN_TYPE") );
+            commonCodeMap.put( "korExamList", commonService.retrieveLangExamByLangCode("KOR") );
         }
 
         commonCodeMap.put( "emerContList", commonService.retrieveCommonCodeValueByCodeGroup("EMER_CONT") );
@@ -343,12 +344,14 @@ public class ApplicationController {
             entireApplication.getApplication().setCreId(userId);
             entireApplication.getApplicationGeneral().setCreId(userId);
             ec = applicationService.createAppInfo(entireApplication.getApplication(),
-                                                  entireApplication.getApplicationGeneral());
+                                                  entireApplication.getApplicationGeneral(),
+                                                  entireApplication.getApplicationForeigner());
         } else { //update
             entireApplication.getApplication().setModId(userId);
             entireApplication.getApplicationGeneral().setModId(userId);
             ec = applicationService.updateAppInfo(entireApplication.getApplication(),
-                                                  entireApplication.getApplicationGeneral());
+                                                  entireApplication.getApplicationGeneral(),
+                                                  entireApplication.getApplicationForeigner());
         }
 
         return ec;

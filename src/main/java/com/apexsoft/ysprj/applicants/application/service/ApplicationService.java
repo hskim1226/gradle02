@@ -11,14 +11,24 @@ import java.util.List;
  */
 public interface ApplicationService {
 
-    ExecutionContext createAppInfo(Application application, ApplicationGeneral applicationGeneral);
-    ExecutionContext updateAppInfo(Application application, ApplicationGeneral applicationGeneral);
+    ExecutionContext createAppInfo(Application application,
+                                   ApplicationGeneral applicationGeneral,
+                                   ApplicationForeigner applicationForeigner);
+    ExecutionContext updateAppInfo(Application application,
+                                   ApplicationGeneral applicationGeneral,
+                                   ApplicationForeigner applicationForeigner);
     ExecutionContext createAcademy(Application application,
                                    List<ApplicationAcademy> collegeList,
                                    List<ApplicationAcademy> graduateList);
     ExecutionContext updateAcademy(Application application,
                                    List<ApplicationAcademy> collegeList,
                                    List<ApplicationAcademy> graduateList);
+    ExecutionContext createLangCareer(Application application,
+                                      List<ApplicationLanguage> applicationLanguageList,
+                                      List<ApplicationExperience> applicationExperienceList);
+    ExecutionContext updateLangCareer(Application application,
+                                      List<ApplicationLanguage> applicationLanguageList,
+                                      List<ApplicationExperience> applicationExperienceList);
     ExecutionContext createEntireApplication(EntireApplication entireApplication);
 
     EntireApplication retrieveEntireApplication(int applNo);

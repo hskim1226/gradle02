@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="//code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css">
     <style>
         section.application {
-            padding: 200px 0 60px;
+            padding: 160px 0 60px;
             background: #555555;
             color: #000;
             position:relative;
@@ -40,8 +40,11 @@
             color: #000;
         }
 
-        section.application .nav>li>a {
+        section.application .nav>li>a, section.application .nav>li>span {
             display: block;
+            text-align: center;
+            border-bottom-color: #fff;
+            color: #fff
         }
         .apexMessage {
             color: #000;
@@ -109,7 +112,7 @@
         .nav-tabs>li.active>a:link {
             background-color: #f0f0f0;
             color: #333;
-            cursor: default;
+            cursor: pointer;
         }
 
         .form-group.required .control-label:after {
@@ -239,8 +242,11 @@
         <ul id="myTab" class="nav nav-tabs nav-justified tab-gray">
             <li><a href="#appinfo" data-toggle="tab">기본 정보</a></li>
             <li><a href="#academy" data-toggle="tab" class="tab-acad-lang-expr">학력</a></li>
+            <%--<li><span data-toggle="tab" class="tab-acad-lang-expr">학력</span></li>--%>
             <li><a href="#langcareer" data-toggle="tab" class="tab-acad-lang-expr">어학 및 경력</a></li>
+            <%--<li><span data-toggle="tab" class="tab-acad-lang-expr">어학 및 경력</span></li>--%>
             <li><a href="#fileupload" data-toggle="tab" class="tab-file-upload">첨부파일</a></li>
+            <%--<li><span data-toggle="tab" class="tab-file-upload">첨부파일</span></li>--%>
         </ul>
         <form:form commandName="entireApplication" cssClass="form-horizontal" method="post" enctype="multipart/form-data" role="form">
             <form:hidden path="application.applNo" id="applNo" />
@@ -266,7 +272,7 @@
                                     </div>
                                     <div id="applyKindDynamic">
                                         <div class="form-group hidden-apply-kind-2 required">
-                                            <form:label path="application.campCode" cssClass="col-sm-2 control-label">캠퍼스</form:label>
+                                            <label path="campCode" class="col-sm-2 control-label">캠퍼스</label>
                                             <div class="col-sm-3">
                                                 <form:select path="application.campCode" id="campCode" cssClass="form-control base-info">
                                                     <form:option value="" label="--선택--" />
@@ -275,7 +281,7 @@
                                                     </c:if>
                                                 </form:select>
                                             </div>
-                                            <form:label path="application.collCode" cssClass="col-sm-2 control-label">대학</form:label>
+                                            <label path="collCode" class="col-sm-2 control-label">대학</label>
                                             <div class="col-sm-4">
                                                 <form:select path="application.collCode" id="collCode" cssClass="form-control base-info">
                                                     <form:option value="" label="--선택--" />
@@ -321,7 +327,7 @@
                                                     <form:option value="" label="--선택--" />
                                                     <form:options items="${common.detlMajList}" itemValue="detlMajCode" itemLabel="detlMajName" />
                                                 </form:select>
-                                                <label  id="detMajDesc" cssClass="apexMessage"></label>
+                                                <label id="detMajDesc" class="apexMessage"></label>
                                             </div>
                                         </div>
                                     </div>
@@ -369,49 +375,23 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="panel panel-default" id="currentCompany" hidden>
-                                <div class="panel-heading">현재 근무처</div>
-                                <div class="panel-body">
-                                    <div class="form-group">
-                                        <form:label path="applicationGeneral.currWrkpName" cssClass="col-sm-2 control-label">회사 이름</form:label>
-                                        <div class="col-sm-9">
-                                            <form:input path="applicationGeneral.currWrkpName" cssClass="form-control" />
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <form:label path="applicationGeneral.currWrkpDay" cssClass="col-sm-2 control-label">입사 일자</form:label>
-                                        <div class="col-sm-9">
-                                            <div class="input-group date">
-                                                <form:input path="applicationGeneral.currWrkpDay" cssClass="col-sm-6 form-control" readonly="true" />
-                                                <span class="input-group-addon"></span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <form:label path="applicationGeneral.currWrkpTel" cssClass="col-sm-2 control-label">연락처</form:label>
-                                        <div class="col-sm-9">
-                                            <form:input path="applicationGeneral.currWrkpTel" cssClass="form-control" />
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+
                             <div class="panel panel-default">
                                 <div class="panel-heading">지원자 상세정보</div>
                                 <div class="panel-body">
-                                    <%--<div class="form-group">--%>
-                                        <%--<form:label path="applicationGeneral.citzCntrCode" cssClass="col-sm-3 control-label">국적</form:label>--%>
-                                        <%--<div class="col-sm-9">--%>
-                                            <%--<div class="input-group">--%>
-                                                <%--<form:input path="applicationGeneral.citzCntrCode" cssClass="form-control" />--%>
-                                                <%--<span class="input-group-btn">--%>
-                                                    <%--<button type="button" class="btn btn-default" id="search-citz-cntr-code">--%>
-                                                        <%--<span class="glyphicon glyphicon-search"></span> 검색--%>
-                                                    <%--</button>--%>
-                                                <%--</span>--%>
-                                            <%--</div>--%>
-                                        <%--</div>--%>
-                                    <%--</div>--%>
                                     <div class="form-group required">
+                                        <label for="application.citzCntrName" class="col-sm-2 control-label">국적</label>
+                                        <div class="col-sm-2 glyphicons">
+                                            <button type="button" class="btn btn-default btn-search bpopper" data-targetNode1="application.citzCntrCode" data-targetNode2='application.citzCntrName' data-category="country">
+                                                <span class="glyphicon glyphicon-search"></span> 검색
+                                            </button>
+                                        </div>
+                                        <div class="col-sm-7">
+                                            <form:hidden path="application.citzCntrCode" id="citzCntrCode" cssClass="form-control" />
+                                            <input id="citzCntrName" class="form-control" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
                                         <label class="col-sm-2 control-label">장애 사항</label>
                                         <div class="col-sm-9">
                                             <div class="input-group">
@@ -419,6 +399,8 @@
                                                 <form:input path="applicationGeneral.hndcGrad" cssClass="col-sm-6 form-control" />
                                             </div>
                                         </div>
+                                    </div>
+                                    <div class="form-group">
                                         <div class="col-sm-offset-2 col-sm-9">
                                             <div class="input-group">
                                                 <span class="input-group-addon">장애등급</span>
@@ -509,10 +491,35 @@
                                     </div>
                                 </div>
                             </div>
-
+                            <div class="panel panel-default" id="currentCompany" hidden>
+                                <div class="panel-heading">현재 근무처</div>
+                                <div class="panel-body">
+                                    <div class="form-group">
+                                        <form:label path="applicationGeneral.currWrkpName" cssClass="col-sm-2 control-label">회사 이름</form:label>
+                                        <div class="col-sm-9">
+                                            <form:input path="applicationGeneral.currWrkpName" cssClass="form-control" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <form:label path="applicationGeneral.currWrkpDay" cssClass="col-sm-2 control-label">입사 일자</form:label>
+                                        <div class="col-sm-9">
+                                            <div class="input-group date">
+                                                <form:input path="applicationGeneral.currWrkpDay" cssClass="col-sm-6 form-control" readonly="true" />
+                                                <span class="input-group-addon"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <form:label path="applicationGeneral.currWrkpTel" cssClass="col-sm-2 control-label">연락처</form:label>
+                                        <div class="col-sm-9">
+                                            <form:input path="applicationGeneral.currWrkpTel" cssClass="form-control" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div><%--panel--%>
                         </div>
-                    </div>
-                </div>
+                    </div><%--row--%>
+                </div><%--appinfo--%>
 
 
                 <%-- Academy --%>
@@ -527,6 +534,7 @@
                                         <c:forEach begin="0" end="${entireApplication.collegeList.size() > 0 ? entireApplication.collegeList.size() - 1 : 0}" varStatus="stat">
                                         <div class="form-group-block">
                                             <form:hidden path="collegeList[${stat.index}].acadTypeCode" value="00002" />
+                                            <form:hidden path="collegeList[${stat.index}].acadSeq" />
                                             <div class="form-group required">
                                                 <label for="collegeList${stat.index}.schlCntrName" class="col-sm-2 control-label">소재 국가</label>
                                                 <div class="col-sm-2">
@@ -534,7 +542,7 @@
                                                 </div>
                                                 <div class="col-sm-6">
                                                     <form:hidden path="collegeList[${stat.index}].schlCntrCode" />
-                                                    <input id="collegeList${stat.index}.schlCntrName" cssClass="form-control" />
+                                                    <input id="collegeList${stat.index}.schlCntrName" class="form-control" />
                                                 </div>
                                             </div>
                                             <div class="form-group required">
@@ -608,6 +616,7 @@
                                         <c:forEach begin="0" end="${entireApplication.graduateList.size() > 0 ? entireApplication.graduateList.size() - 1 : 0}" varStatus="stat">
                                         <div class="form-group-block">
                                             <form:hidden path="graduateList[${stat.index}].acadTypeCode" value="00003" />
+                                            <form:hidden path="graduateList[${stat.index}].acadSeq" />
                                             <div class="form-group required">
                                                 <label for="graduateList${stat.index}.schlCntrName" class="col-sm-2 control-label">소재 국가</label>
                                                 <div class="col-sm-2">
@@ -615,7 +624,7 @@
                                                 </div>
                                                 <div class="col-sm-6">
                                                     <form:hidden path="graduateList[${stat.index}].schlCntrCode" />
-                                                    <input id="graduateList${stat.index}.schlCntrName" cssClass="form-control" />
+                                                    <input id="graduateList${stat.index}.schlCntrName" class="form-control" />
                                                 </div>
                                             </div>
                                             <div class="form-group required">
@@ -636,7 +645,7 @@
                                             <div class="form-group required">
                                                 <form:label path="graduateList[${stat.index}].schlName" cssClass="col-sm-2 control-label">학교 이름</form:label>
                                                 <div class="col-sm-2">
-                                                    <button type="button" class="btn btn-default btn-search bpopper" data-targetNode1="graduateList${stat.index}.schlCode" data-targetNode2='graduateList${stat.index}.schlName' data-category="school-g">검색</button>
+                                                    <button type="button" class="btn btn-default btn-search bpopper" data-targetNode1="graduateList${stat.index}.schlCode" data-targetNode2='graduateList${stat.index}.schlName' data-category="school-u">검색</button>
                                                 </div>
                                                 <div class="col-sm-4">
                                                     <form:hidden path="graduateList[${stat.index}].schlCode" />
@@ -707,7 +716,7 @@
                                         </c:choose>
                                             <input type="hidden" name="applicationLanguageList[${stat.index}].langExamCode" id="applicationLanguageList${stat.index}.langExamCode" value="${langExam.examCode}" />
                                             <div class="checkbox">
-                                                <label for="checkLang${stat.index}"><input type="checkbox" class="btn-lang-disabled" id="checkLang${stat.index}" <c:if test="entireApplication.applicationLanguageList['${stat.index}'] != null">checked</c:if>/>${langExam.examName}</label>
+                                                <label for="checkLang${stat.index}"><input type="checkbox" class="btn-lang-disabled lang-checkbox" id="checkLang${stat.index}" <c:if test="entireApplication.applicationLanguageList['${stat.index}'] != null">checked</c:if>/>${langExam.examName}</label>
                                             </div>
                                         <c:choose>
                                         <c:when test="${stat.index == 0}">
@@ -965,7 +974,7 @@
     <%-- 국가/학교 검색 팝업 --%>
 
     <%-- 다음 주소 검색 팝업 --%>
-    <div id="postLayer" style="display:none;border:5px solid;position:fixed;width:300px;height:460px;left:50%;margin-left:-155px;top:50%;margin-top:-235px;overflow:hidden;-webkit-overflow-scrolling:touch;z-index:2;background-color:#fff;color: #111;">
+    <div id="postLayer" style="display:none;border:5px solid;position:fixed;width:310px;height:510px;left:50%;margin-left:-155px;top:50%;margin-top:-235px;overflow:hidden;-webkit-overflow-scrolling:touch;z-index:2;background-color:#fff;color: #111;">
         <img src="${contextPath}/img/user/addr-close.png" id="btnClosePostLayer" style="cursor:pointer;position:absolute;right:-3px;top:-3px" alt="닫기 버튼">
     </div>
 
@@ -1000,9 +1009,12 @@
                         $('#saveAcademy').removeClass('disabled');
                         break;
                     case "00002" :
+                        $('#saveAcademy').removeClass('disabled');
                         $('#saveLangCareer').removeClass('disabled');
                         break;
                     case "00003" :
+                        $('#saveAcademy').removeClass('disabled');
+                        $('#saveLangCareer').removeClass('disabled');
                         $('#saveFileUpload').removeClass('disabled');
                         break;
                     case "00004" :
@@ -1011,9 +1023,9 @@
                 }
             };
 
-//            if (document.getElementById('applNo').value != "") {
-//                baseInfoSaved();
-//            }
+            if (document.getElementById('applNo').value != "") {
+                baseInfoSaved();
+            }
 
             btnEnable(document.getElementById('applStsCode').value);
 
@@ -1238,7 +1250,7 @@
                         // 우편번호와 주소 및 영문주소 정보를 해당 필드에 넣는다.
                         document.getElementById('postcode1').value = data.postcode1;
                         document.getElementById('postcode2').value = data.postcode2;
-                        document.getElementById('address').value = data.address;
+                        document.getElementById('address').value = data.address1;
                         document.getElementById('addressDetail').focus();
                         // iframe을 넣은 element를 안보이게 한다.
                         closeDaumPostCode();
@@ -1252,29 +1264,9 @@
             };
 
             $('#searchAddress').on('click', showDaumPostcode);
-            <%-- 다음 주소 검색 끝 -->
+            <%-- 다음 주소 검색 끝 --%>
 
-            <%-- 파일 업로드 시작 - 한 번 업로드 후 동작 안해서 안쓰기고 함--%>
-//            $('.btn-file :file').on('change', function() {
-//                var input = $(this),
-//                        numFiles = input.get(0).files ? input.get(0).files.length : 1,
-//                        label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
-//                input.trigger('fileselect', [numFiles, label]);
-//            });
-//
-//            $('.btn-file :file').on('fileselect', function(event, numFiles, label) {
-//                var input = $(this).parents('.input-group').find(':text'),
-//                        log = numFiles > 1 ? numFiles + ' files selected' : label;
-//
-//                if( input.length ) {
-//                    input.val(log);
-//                } else {
-//                    if( log ) alert(log);
-//                }
-//
-//            });
-            <%-- 사진 업로드 끝 --%>
-
+            <%-- 달력 옵션 --%>
             var datePickerOption = {
                 dateFormat: 'yymmdd',
                 yearRange: "1950:",
@@ -1286,14 +1278,17 @@
             };
 
             <%-- 달력 시작 --%>
-            $('.input-group.date>input').each(function() {
-                $(this).datepicker(datePickerOption);
-            });
+            $('.input-group.date>input').datepicker(datePickerOption);
             $('.input-daterange>input').datepicker(datePickerOption);
             <%-- 달력 끝 --%>
 
             <%-- 처음 탭 표시 --%>
+//            $("#myTab").tabs();
             $('#myTab a:first').tab('show');
+//            $("#myTab").tabs({ disabled: [ 1, 2, 3 ] });
+
+
+
 
             <%-- BootStrap Validator --%>
             var numericValidator = {
@@ -1422,8 +1417,6 @@
                 }
             });
 
-
-
             function getEnglishScoreSerializeArray(form) {
                 var array = [], $groups, $items, val, id, name, i, j;
                 $groups = $('#english-score-list').find('.form-group').filter(function() {
@@ -1451,8 +1444,6 @@
 
                 return array;
             }
-
-
 
 
             <%-- form-group-block 추가/삭제에 대한 처리 시작 --%>
@@ -1537,14 +1528,37 @@
                 if (items) {
                     for (i = 0; i <items.length; i++) {
                         name = items[i].name;
+                        if (name) {
+                            prefix = name.substring(0, name.indexOf('['));
+                            suffix = name.substring(name.indexOf(']') + 1);
+                            items[i].name = prefix + '[' + index + ']' + suffix;
+                        }
                         var oldid = items[i].id;
-                        prefix = name.substring(0, name.indexOf('['));
-                        suffix = name.substring(name.indexOf(']') + 1, name.length);
-                        items[i].name = prefix + '[' + index + ']' + suffix;
-                        items[i].id = prefix + index + suffix;
-                        label = block.querySelector('label[for="' + oldid + '"]');
-                        if (label) {
-                            label.setAttribute('for', items[i].id);
+                        if (oldid) {
+                            prefix = oldid.substring(0, oldid.indexOf('.'));
+                            prefix = prefix.replace(/[0-9]/g, '');
+                            suffix = oldid.substring(oldid.indexOf('.'));
+                            items[i].id = prefix + index + suffix;
+
+                            label = block.querySelector('label[for="' + oldid + '"]');
+                            if (label) {
+                                label.setAttribute('for', items[i].id);
+                            }
+                        }
+                    }
+                }
+
+                // bpopper data-targetNode
+                var bpopperBtns = block.querySelectorAll('.bpopper');
+                if (bpopperBtns) {
+                    for (i = 0; i < bpopperBtns.length; i++) {
+                        for (var j = 1; j < 4; j++) {
+                            var t = bpopperBtns[i].getAttribute('data-targetNode' + j);
+                            if (t) {
+                                t = t.split('.');
+                                t[0] = t[0].replace(/[0-9]/g, '');
+                                bpopperBtns[i].setAttribute('data-targetNode' + j, t[0] + index + '.' + t[1]);
+                            }
                         }
                     }
                 }
@@ -1568,10 +1582,14 @@
 
             <%-- 복제된 입력폼 내용 초기화 시작 --%>
             function eraseContents( block ) {
-                var i, items;
+                var i, items, itemName;
                 items = block.querySelectorAll('input, select');
                 if (items) {
                     for (i = 0; i <items.length; i++) {
+                        if (items[i].type == 'hidden') {
+                            itemName = items[i].name;
+                            items[i].value = itemName.indexOf('acadType') < 0 ? '' : items[i].value ;
+                        }
                         if (items[i].type != 'hidden' && items[i].type != 'radio' && items[i].type != 'checkbox' && items[i].type != 'button') {
                             items[i].value = '';
                         }
@@ -1723,6 +1741,10 @@
                         }
                     }
 
+                    if (!val || val == '') {
+                        return;
+                    }
+
                     $.ajax({
                         type: 'GET',
                         url: baseUrl,
@@ -1735,9 +1757,11 @@
                                         'value': item[valueKey],
                                         'label': item[labelKey]}
                                     )
-                                    for (var key in item) {
-                                        if (key !== valueKey && key !== labelKey) {
-                                            $op.attr(key, item[key]);
+                                    if ('detlMajCode' == targetId) {
+                                        for (var key in item) {
+                                            if (key !== valueKey && key !== labelKey) {
+                                                $op.attr(key, item[key]);
+                                            }
                                         }
                                     }
                                     $op.appendTo($target);
@@ -1843,7 +1867,6 @@
                             } else if (applAttrCode == '00003') {
                                 // nothing
                             }
-
                         }
                     }
             );
@@ -1911,8 +1934,8 @@
                 }
 
             });
-            function retreiveDetlMajDesc( adms, dept, applAttrCode, detlMajCode ) {
 
+            function retreiveDetlMajDesc( adms, dept, applAttrCode, detlMajCode ) {
                     var msg;
                     var baseUrl = '${contextPath}/common/code?';
 
@@ -2041,7 +2064,7 @@
                 var cn;
                 if (parent) {
                     if (target.checked) {
-                         $(parent).removeClass('hide-lang');
+                        $(parent).removeClass('hide-lang');
                         $(parent).addClass('show-lang');
                     } else {
                         $(parent).removeClass('show-lang');
@@ -2061,6 +2084,16 @@
                         $(targetExamName).css("display", "none");
 
             });
+
+            <%-- 원서 수정 모드에서 어학 정보 유무에 따라 checkbox 이벤트 자동 발생 --%>
+            var langArr = [];
+            <c:forEach items="${entireApplication.applicationLanguageList}" var="item" varStatus="stat">
+            langArr[${stat.index}] = '${item.langGrad}';
+            </c:forEach>
+            for ( var i = 0, len = langArr.length ; i < len ; i++ ) {
+                langArr[i] != "" ? $('#checkLang'+i).prop('checked', true).triggerHandler('click') : $('#checkLang'+i).prop('checked', false);
+            }
+            <%-- 원서 수정 모드에서 어학 정보 유무에 따라 checkbox 이벤트 자동 발생 --%>
 
             <%-- 파일 선택 버튼 이벤트 --%>
             $('.btn-file').on('change', function (e) { // 한번 업로드한 inputfile은 이벤트가 발생 안한다.

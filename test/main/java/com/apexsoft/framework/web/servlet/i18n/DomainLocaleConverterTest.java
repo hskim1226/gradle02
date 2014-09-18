@@ -1,7 +1,10 @@
 package com.apexsoft.framework.web.servlet.i18n;
 
+import com.apexsoft.framework.interceptor.DomainLocaleConverter;
 import junit.framework.TestCase;
 import org.junit.Assert;
+
+import java.util.Locale;
 
 /**
  * Created with IntelliJ IDEA.
@@ -13,14 +16,10 @@ public class DomainLocaleConverterTest extends TestCase {
 
     private DomainLocaleConverter converter;
 
-    private String newLocale;
-
     private TestDomain domain;
 
     public void setUp() throws Exception {
         converter = new DomainLocaleConverter();
-
-        newLocale = "en";
 
         domain = new TestDomain();
         domain.setName("김지호");
@@ -29,7 +28,7 @@ public class DomainLocaleConverterTest extends TestCase {
     }
 
     public void testConvert() throws Exception {
-        converter.convert(domain, newLocale);
+        converter.convert(domain, new Locale("en"), null);
         Assert.assertEquals(domain.getName(), domain.getNameXxen());
     }
 
