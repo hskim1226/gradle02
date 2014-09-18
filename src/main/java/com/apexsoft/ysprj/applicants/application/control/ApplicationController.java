@@ -343,12 +343,14 @@ public class ApplicationController {
             entireApplication.getApplication().setCreId(userId);
             entireApplication.getApplicationGeneral().setCreId(userId);
             ec = applicationService.createAppInfo(entireApplication.getApplication(),
-                                                  entireApplication.getApplicationGeneral());
+                                                  entireApplication.getApplicationGeneral(),
+                                                  entireApplication.getApplicationForeigner());
         } else { //update
             entireApplication.getApplication().setModId(userId);
             entireApplication.getApplicationGeneral().setModId(userId);
             ec = applicationService.updateAppInfo(entireApplication.getApplication(),
-                                                  entireApplication.getApplicationGeneral());
+                                                  entireApplication.getApplicationGeneral(),
+                                                  entireApplication.getApplicationForeigner());
         }
 
         return ec;

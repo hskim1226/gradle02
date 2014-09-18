@@ -11,8 +11,12 @@ import java.util.List;
  */
 public interface ApplicationService {
 
-    ExecutionContext createAppInfo(Application application, ApplicationGeneral applicationGeneral);
-    ExecutionContext updateAppInfo(Application application, ApplicationGeneral applicationGeneral);
+    ExecutionContext createAppInfo(Application application,
+                                   ApplicationGeneral applicationGeneral,
+                                   ApplicationForeigner applicationForeigner);
+    ExecutionContext updateAppInfo(Application application,
+                                   ApplicationGeneral applicationGeneral,
+                                   ApplicationForeigner applicationForeigner);
     ExecutionContext createAcademy(Application application,
                                    List<ApplicationAcademy> collegeList,
                                    List<ApplicationAcademy> graduateList);

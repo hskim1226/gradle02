@@ -41,10 +41,12 @@ public class ApplicationServiceImpl implements ApplicationService {
      * @return
      */
     @Override
-    public ExecutionContext createAppInfo(Application application, ApplicationGeneral applicationGeneral) {
+    public ExecutionContext createAppInfo(Application application,
+                                          ApplicationGeneral applicationGeneral,
+                                          ApplicationForeigner applicationForeigner) {
 
         ExecutionContext ec = new ExecutionContext();
-        int r1 = 0, r2 = 0, applNo = 0;
+        int r1 = 0, r2 = 0, r3 = 0, applNo = 0;
         Date date = new Date();
 
         application.setApplStsCode(APP_INFO_SAVED);
@@ -59,7 +61,11 @@ public class ApplicationServiceImpl implements ApplicationService {
         applicationGeneral.setCreDate(date);
         r2 = commonDAO.insertItem(applicationGeneral, NAME_SPACE, "ApplicationGeneralMapper");
 
-        if ( r1 > 0 && r2 > 0 ) {
+        applicationForeigner.setApplNo(applNo);
+        applicationForeigner.setCreDate(date);
+        r3 = commonDAO.insertItem(applicationForeigner, NAME_SPACE, "ApplicationForeignerMapper");
+
+        if ( r1 > 0 && r2 > 0 && r3 > 0 ) {
             ec.setResult(ExecutionContext.SUCCESS);
             ec.setMessage(messageResolver.getMessage("U312"));
             ec.setData(new CustomApplNoStsCode(applNo, tA.getApplStsCode()));
@@ -67,8 +73,9 @@ public class ApplicationServiceImpl implements ApplicationService {
             ec.setResult(ExecutionContext.FAIL);
             ec.setMessage(messageResolver.getMessage("U306"));
             String errMsg = null;
-            if ( r1 == 0 ) errMsg = messageResolver.getMessage("ERR00001");
-            else if ( r2 == 0 ) errMsg = messageResolver.getMessage("ERR00006");
+            if ( r1 == 0 ) errMsg = messageResolver.getMessage("ERR0001");
+            else if ( r2 == 0 ) errMsg = messageResolver.getMessage("ERR0006");
+            else if ( r3 == 0 ) errMsg = messageResolver.getMessage("ERR0026");
             ec.setData(new CustomApplNoStsCode(0, APP_NULL_STATUS, errMsg));
         }
         return ec;
@@ -82,17 +89,22 @@ public class ApplicationServiceImpl implements ApplicationService {
      * @return
      */
     @Override
-    public ExecutionContext updateAppInfo(Application application, ApplicationGeneral applicationGeneral) {
+    public ExecutionContext updateAppInfo(Application application,
+                                          ApplicationGeneral applicationGeneral,
+                                          ApplicationForeigner applicationForeigner) {
 
         ExecutionContext ec = new ExecutionContext();
-        int r1 = 0, r2 = 0;
+        int r1 = 0, r2 = 0, r3 = 0;
         Date date = new Date();
 
         application.setModDate(date);
+        applicationGeneral.setModDate(date);
+        applicationForeigner.setModDate(date);
         r1 = commonDAO.updateItem(application, NAME_SPACE, "ApplicationMapper");
         r2 = commonDAO.updateItem(applicationGeneral, NAME_SPACE, "ApplicationGeneralMapper");
+        r3 = commonDAO.updateItem(applicationForeigner, NAME_SPACE, "ApplicationForeignerMapper");
 
-        if ( r1 > 0 && r2 > 0 ) {
+        if ( r1 > 0 && r2 > 0 && r3 > 0 ) {
             ec.setResult(ExecutionContext.SUCCESS);
             ec.setMessage(messageResolver.getMessage("U315"));
             ec.setData(new CustomApplNoStsCode(application.getApplNo(), application.getApplStsCode()));
@@ -100,8 +112,9 @@ public class ApplicationServiceImpl implements ApplicationService {
             ec.setResult(ExecutionContext.FAIL);
             ec.setMessage(messageResolver.getMessage("U316"));
             String errMsg = null;
-            if ( r1 == 0 ) errMsg = messageResolver.getMessage("ERR00003");
-            else if ( r2 == 0 ) errMsg = messageResolver.getMessage("ERR00008");
+            if ( r1 == 0 ) errMsg = messageResolver.getMessage("ERR0003");
+            else if ( r2 == 0 ) errMsg = messageResolver.getMessage("ERR0008");
+            else if ( r3 == 0 ) errMsg = messageResolver.getMessage("ERR0028");
             ec.setData(new CustomApplNoStsCode(application.getApplNo(), APP_NULL_STATUS, errMsg));
         }
         return ec;
@@ -147,8 +160,8 @@ public class ApplicationServiceImpl implements ApplicationService {
             ec.setResult(ExecutionContext.FAIL);
             ec.setMessage(messageResolver.getMessage("U318"));
             String errMsg = null;
-            if ( r1 == 0 ) errMsg = messageResolver.getMessage("ERR00003");
-            else if ( r2 == 0 ) errMsg = messageResolver.getMessage("ERR00011");
+            if ( r1 == 0 ) errMsg = messageResolver.getMessage("ERR0003");
+            else if ( r2 == 0 ) errMsg = messageResolver.getMessage("ERR0011");
             ec.setData(new CustomApplNoStsCode(applNo, APP_NULL_STATUS, errMsg));
         }
         return ec;
@@ -190,7 +203,7 @@ public class ApplicationServiceImpl implements ApplicationService {
             ec.setResult(ExecutionContext.FAIL);
             ec.setMessage(messageResolver.getMessage("U318"));
             ec.setData(new CustomApplNoStsCode(applNo, APP_NULL_STATUS,
-                    messageResolver.getMessage("ERR00013")));
+                    messageResolver.getMessage("ERR0013")));
         }
         return ec;
     }
@@ -218,6 +231,7 @@ public class ApplicationServiceImpl implements ApplicationService {
                                ParamForAcademy param) {
 
         int c1 = 0, u1 = 0, d1 = 0;
+
         List<ApplicationAcademy> academiesFromDB = commonDAO.queryForList(NAME_SPACE+"CustomApplicationAcademyMapper.selectByApplNoAcadTypeCode", param, ApplicationAcademy.class);
         int lastSeq = academiesFromDB.get(academiesFromDB.size()-1).getAcadSeq();
         Map<Integer, Integer> seqMap = new HashMap<Integer, Integer>();
@@ -226,6 +240,7 @@ public class ApplicationServiceImpl implements ApplicationService {
                 seqMap.put(academy.getAcadSeq(), academy.getAcadSeq());
             }
         }
+
         if ( academyList != null ) {
             for( ApplicationAcademy academyFromView : academyList) {
                 int acadSeqFromView = academyFromView.getAcadSeq();
@@ -297,9 +312,9 @@ public class ApplicationServiceImpl implements ApplicationService {
             ec.setResult(ExecutionContext.FAIL);
             ec.setMessage(messageResolver.getMessage("U320"));
             String errMsg = null;
-            if ( r1 == 0 ) errMsg = messageResolver.getMessage("ERR00003");
-            else if ( r2 == 0 ) errMsg = messageResolver.getMessage("ERR00016");
-            else if ( r3 == 0 ) errMsg = messageResolver.getMessage("ERR00021");
+            if ( r1 == 0 ) errMsg = messageResolver.getMessage("ERR0003");
+            else if ( r2 == 0 ) errMsg = messageResolver.getMessage("ERR0016");
+            else if ( r3 == 0 ) errMsg = messageResolver.getMessage("ERR0021");
             ec.setData(new CustomApplNoStsCode(applNo, APP_NULL_STATUS, errMsg));
         }
         return ec;
@@ -342,8 +357,8 @@ public class ApplicationServiceImpl implements ApplicationService {
             ec.setResult(ExecutionContext.FAIL);
             ec.setMessage(messageResolver.getMessage("U320"));
             String errMsg = null;
-            if ( r1 == 0 ) errMsg = messageResolver.getMessage("ERR00018");
-            else if ( r2 == 0 ) errMsg = messageResolver.getMessage("ERR00023");
+            if ( r1 == 0 ) errMsg = messageResolver.getMessage("ERR0018");
+            else if ( r2 == 0 ) errMsg = messageResolver.getMessage("ERR0023");
             ec.setData(new CustomApplNoStsCode(applNo, APP_NULL_STATUS, errMsg));
         }
         return ec;
