@@ -299,9 +299,9 @@ public class ApplicationController {
         commonCodeMap.put( "ariInstDocList", ariInstDocList==null?new ArrayList<CustomApplicationDoc>():ariInstDocList );
         commonCodeMap.put( "fDocList", fDocList==null?new ArrayList<CustomApplicationDoc>():fDocList );
         commonCodeMap.put( "deptDocList", deptDocList==null?new ArrayList<CustomApplicationDoc>():deptDocList );
-        List<List> madDoc = applicationService.retrieveManApplDocListByApplNo(applNo.intValue() );
+        List<DocGroupFile> docGroupList = applicationService.retrieveManApplDocListByApplNo(applNo.intValue() );
 // 문서처리끝
-        model.addAttribute( "mandDoc", madDoc );
+        model.addAttribute( "docGroupList", docGroupList );
         model.addAttribute( "common", commonCodeMap );
 
         model.addAttribute( "msgRgstNo", messageResolver.getMessage("U304"));

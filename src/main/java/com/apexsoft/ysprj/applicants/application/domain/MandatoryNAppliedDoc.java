@@ -3,7 +3,6 @@ package com.apexsoft.ysprj.applicants.application.domain;
 public class MandatoryNAppliedDoc extends ApplicationDocument {
 
     private String mdtYn;
-
     private String uploadYn;
     private int sendCnt;
     private String orgnSendYn;
