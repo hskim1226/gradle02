@@ -368,7 +368,8 @@ public class ApplicationController {
     @ResponseBody
     public ExecutionContext saveAcademy(@Valid @ModelAttribute EntireApplication entireApplication,
                                          BindingResult bindingResult,
-                                         Principal principal) {
+                                         Principal principal,
+                                         HttpServletRequest request) {
 
         if( bindingResult.hasErrors() ) {
             return new ExecutionContext(ExecutionContext.FAIL);
@@ -377,6 +378,23 @@ public class ApplicationController {
         if( principal == null ) {
             return new ExecutionContext(ExecutionContext.FAIL);
         }
+
+//Map map = request.getParameterMap();
+//Set<Map.Entry> set = map.entrySet();
+//for( Map.Entry entry : set) {
+////    System.out.println(entry);
+//    String key = entry.getKey().toString();
+//    System.out.println(key);
+//    int len = 0;
+//    if (key.startsWith("collegeList[0]")) {
+//        len++;
+//    }
+//}
+//
+//System.out.println("--------------------");
+//System.out.println(request.getParameter("collegeList[0].acadSeq"));
+//System.out.println(request.getParameter("collegeList[1].acadSeq"));
+//System.out.println(request.getParameter("collegeList[2].acadSeq"));
 
         ExecutionContext ec = null;
         String userId = principal.getName();
@@ -763,6 +781,7 @@ public class ApplicationController {
 
     @ModelAttribute("entireApplication")
     public EntireApplication entireApplication() {
+System.out.println("@ModelAttribute entireApplication() invoked");
         EntireApplication entireApplication = new EntireApplication();
         entireApplication.setApplication(new Application());
         entireApplication.setApplicationGeneral(new ApplicationGeneral());
