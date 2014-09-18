@@ -129,8 +129,8 @@ public class ApplicationServiceImpl implements ApplicationService {
      */
     @Override
     public ExecutionContext createAcademy(Application application,
-                                          List<ApplicationAcademy> collegeList,
-                                          List<ApplicationAcademy> graduateList) {
+                                          List<CustomApplicationAcademy> collegeList,
+                                          List<CustomApplicationAcademy> graduateList) {
         List<ApplicationAcademy> acadList = new ArrayList<ApplicationAcademy>();
         acadList.addAll(collegeList);
         acadList.addAll(graduateList);
@@ -177,8 +177,8 @@ public class ApplicationServiceImpl implements ApplicationService {
      */
     @Override
     public ExecutionContext updateAcademy(Application application,
-                                          List<ApplicationAcademy> collegeList,
-                                          List<ApplicationAcademy> graduateList) {
+                                          List<CustomApplicationAcademy> collegeList,
+                                          List<CustomApplicationAcademy> graduateList) {
         List<ApplicationAcademy> acadList = new ArrayList<ApplicationAcademy>();
         acadList.addAll(collegeList);
         acadList.addAll(graduateList);
@@ -225,7 +225,7 @@ public class ApplicationServiceImpl implements ApplicationService {
      * @return
      */
     private int processAcademy(Application application,
-                               List<ApplicationAcademy> academyList,
+                               List<CustomApplicationAcademy> academyList,
                                int applNo,
                                Date date,
                                ParamForAcademy param) {
@@ -401,13 +401,13 @@ System.out.println(param.getAcadTypeCode() + " : " + c1+u1+d1);
             entireApplication.getApplicationETCWithBLOBs().setApplNo(applNo);
             entireApplication.getApplicationETCWithBLOBs().setCreDate(date);
             r3 = commonDAO.insertItem(entireApplication.getApplicationETCWithBLOBs(), NAME_SPACE, "ApplicationETCMapper");
+//
+//            entireApplication.getHighSchool().setApplNo(applNo);
+//            entireApplication.getHighSchool().setAcadSeq(1);
+//            entireApplication.getHighSchool().setCreDate(date);
+//            r4 = commonDAO.insertItem(entireApplication.getHighSchool(), NAME_SPACE, "ApplicationAcademyMapper");
 
-            entireApplication.getHighSchool().setApplNo(applNo);
-            entireApplication.getHighSchool().setAcadSeq(1);
-            entireApplication.getHighSchool().setCreDate(date);
-            r4 = commonDAO.insertItem(entireApplication.getHighSchool(), NAME_SPACE, "ApplicationAcademyMapper");
-
-            List<ApplicationAcademy> collegeList = entireApplication.getCollegeList();
+            List<CustomApplicationAcademy> collegeList = entireApplication.getCollegeList();
             int idx = 1;
             if ( collegeList != null ) {
                 for( ApplicationAcademy college : collegeList) {
@@ -418,7 +418,7 @@ System.out.println(param.getAcadTypeCode() + " : " + c1+u1+d1);
                 r5 = commonDAO.insertList(collegeList, NAME_SPACE, "ApplicationAcademyMapper");
             }
 
-            List<ApplicationAcademy> graduateList = entireApplication.getGraduateList();
+            List<CustomApplicationAcademy> graduateList = entireApplication.getGraduateList();
             if ( graduateList != null ) {
                 for( ApplicationAcademy graduate : graduateList) {
                     graduate.setApplNo(applNo);
@@ -504,12 +504,12 @@ System.out.println(param.getAcadTypeCode() + " : " + c1+u1+d1);
             r3 = commonDAO.updateItem(entireApplication.getApplicationETCWithBLOBs(), NAME_SPACE, "ApplicationETCMapper");
 
             deleteListByApplNo(applNo, "CustomApplicationAcademyMapper");
-            entireApplication.getHighSchool().setApplNo(applNo);
-            entireApplication.getHighSchool().setAcadSeq(1);
-            entireApplication.getHighSchool().setModDate(date);
-            r4 = commonDAO.insertItem(entireApplication.getHighSchool(), NAME_SPACE, "ApplicationAcademyMapper");
+//            entireApplication.getHighSchool().setApplNo(applNo);
+//            entireApplication.getHighSchool().setAcadSeq(1);
+//            entireApplication.getHighSchool().setModDate(date);
+//            r4 = commonDAO.insertItem(entireApplication.getHighSchool(), NAME_SPACE, "ApplicationAcademyMapper");
 
-            List<ApplicationAcademy> collegeList = entireApplication.getCollegeList();
+            List<CustomApplicationAcademy> collegeList = entireApplication.getCollegeList();
             int idx = 1;
             if ( collegeList != null ) {
                 for( ApplicationAcademy college : collegeList) {
@@ -520,7 +520,7 @@ System.out.println(param.getAcadTypeCode() + " : " + c1+u1+d1);
                 r5 = commonDAO.insertList(collegeList, NAME_SPACE, "ApplicationAcademyMapper");
             }
 
-            List<ApplicationAcademy> graduateList = entireApplication.getGraduateList();
+            List<CustomApplicationAcademy> graduateList = entireApplication.getGraduateList();
             if ( graduateList != null ) {
                 for( ApplicationAcademy graduate : graduateList) {
                     graduate.setApplNo(applNo);
@@ -694,12 +694,12 @@ System.out.println(param.getAcadTypeCode() + " : " + c1+u1+d1);
             r3 = commonDAO.updateItem(entireApplication.getApplicationETCWithBLOBs(), NAME_SPACE, "ApplicationETCMapper");
 
             deleteListByApplNo(applNo, "CustomApplicationAcademyMapper");
-            entireApplication.getHighSchool().setApplNo(applNo);
-            entireApplication.getHighSchool().setAcadSeq(1);
-            entireApplication.getHighSchool().setModDate(date);
-            r4 = commonDAO.insertItem(entireApplication.getHighSchool(), NAME_SPACE, "ApplicationAcademyMapper");
+//            entireApplication.getHighSchool().setApplNo(applNo);
+//            entireApplication.getHighSchool().setAcadSeq(1);
+//            entireApplication.getHighSchool().setModDate(date);
+//            r4 = commonDAO.insertItem(entireApplication.getHighSchool(), NAME_SPACE, "ApplicationAcademyMapper");
 
-            List<ApplicationAcademy> collegeList = entireApplication.getCollegeList();
+            List<CustomApplicationAcademy> collegeList = entireApplication.getCollegeList();
             int idx = 1;
             if ( collegeList != null ) {
                 for( ApplicationAcademy college : collegeList) {
@@ -710,7 +710,7 @@ System.out.println(param.getAcadTypeCode() + " : " + c1+u1+d1);
                 r5 = commonDAO.insertList(collegeList, NAME_SPACE, "ApplicationAcademyMapper");
             }
 
-            List<ApplicationAcademy> graduateList = entireApplication.getGraduateList();
+            List<CustomApplicationAcademy> graduateList = entireApplication.getGraduateList();
             if ( graduateList != null ) {
                 for( ApplicationAcademy graduate : graduateList) {
                     graduate.setApplNo(applNo);
@@ -912,9 +912,9 @@ System.out.println(param.getAcadTypeCode() + " : " + c1+u1+d1);
             ParamForAcademy paramForAcademy = new ParamForAcademy();
             paramForAcademy.setApplNo(applNo);
             paramForAcademy.setAcadTypeCode("00002");
-            entireApplication.setCollegeList(retrieveInfoListByParamObj(paramForAcademy, aaMapperSqlId, ApplicationAcademy.class));
+            entireApplication.setCollegeList(retrieveInfoListByParamObj(paramForAcademy, aaMapperSqlId, CustomApplicationAcademy.class));
             paramForAcademy.setAcadTypeCode(("00003"));
-            entireApplication.setGraduateList(retrieveInfoListByParamObj(paramForAcademy, aaMapperSqlId, ApplicationAcademy.class));
+            entireApplication.setGraduateList(retrieveInfoListByParamObj(paramForAcademy, aaMapperSqlId, CustomApplicationAcademy.class));
 
             entireApplication.setApplicationExperienceList(retrieveInfoListByApplNo(applNo, "CustomApplicationExperienceMapper", ApplicationExperience.class));
             entireApplication.setApplicationLanguageList(retrieveInfoListByApplNo(applNo, "CustomApplicationLanguageMapper", ApplicationLanguage.class));

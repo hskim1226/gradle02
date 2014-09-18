@@ -18,11 +18,11 @@ public interface ApplicationService {
                                    ApplicationGeneral applicationGeneral,
                                    ApplicationForeigner applicationForeigner);
     ExecutionContext createAcademy(Application application,
-                                   List<ApplicationAcademy> collegeList,
-                                   List<ApplicationAcademy> graduateList);
+                                   List<CustomApplicationAcademy> collegeList,
+                                   List<CustomApplicationAcademy> graduateList);
     ExecutionContext updateAcademy(Application application,
-                                   List<ApplicationAcademy> collegeList,
-                                   List<ApplicationAcademy> graduateList);
+                                   List<CustomApplicationAcademy> collegeList,
+                                   List<CustomApplicationAcademy> graduateList);
     ExecutionContext createLangCareer(Application application,
                                       List<ApplicationLanguage> applicationLanguageList,
                                       List<ApplicationExperience> applicationExperienceList);

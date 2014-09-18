@@ -208,7 +208,7 @@ public class ApplicationController {
             entireApplication.getApplication().setEntrYear(entrYear);
             entireApplication.getApplication().setAdmsTypeCode(admsTypeCode);
             entireApplication.getApplication().setApplAttrCode("00001");
-            entireApplication.getHighSchool().setAcadTypeCode("00001");
+//            entireApplication.getHighSchool().setAcadTypeCode("00001");
 
             List<Campus> campList = commonService.retrieveCampus();
             List<AcademyResearchIndustryInstitution> ariInstList = commonService.retrieveAriInst();
@@ -326,23 +326,26 @@ public class ApplicationController {
             return new ExecutionContext(ExecutionContext.FAIL);
         }
 
-//Map map = request.getParameterMap();
-//Set<Map.Entry> set = map.entrySet();
-//for( Map.Entry entry : set) {
-////    System.out.println(entry);
-//    String key = entry.getKey().toString();
-//    System.out.println(key);
-//    int len = 0;
-//    Map<String, String> acadSeq = new HashMap<String, String>();
-//    if (key.startsWith("collegeList") && key.endsWith("acadSeq")) {
-//        len++;
-//    }
-//}
-//
-//System.out.println("--------------------");
-//System.out.println(request.getParameter("collegeList[0].acadSeq"));
-//System.out.println(request.getParameter("collegeList[1].acadSeq"));
-//System.out.println(request.getParameter("collegeList[2].acadSeq"));
+        Map<String, String> acadSeqMap = new HashMap<String, String>();
+        Map map = request.getParameterMap();
+        Set<Map.Entry> set = map.entrySet();
+
+        for( Map.Entry entry : set) {
+
+            String key = entry.getKey().toString();
+
+            if (key.startsWith("collegeList") && key.endsWith("acadSeq")) {
+                acadSeqMap.put(key, entry.getValue().toString());
+            }
+        }
+
+        List<CustomApplicationAcademy> collegeListFromEntire = entireApplication.getCollegeList();
+        for(ApplicationAcademy academy : collegeListFromEntire) {
+            if (!acadSeqMap.containsKey(academy.getAcadSeq())) {
+                collegeListFromEntire.remove(academy);
+            }
+        }
+        entireApplication.setCollegeList(collegeListFromEntire);
 
         ExecutionContext ec = null;
         String userId = principal.getName();
@@ -459,12 +462,12 @@ public class ApplicationController {
             entireApplication.getApplication().setCreId(userId);
             entireApplication.getApplicationGeneral().setCreId(userId);
             entireApplication.getApplicationETCWithBLOBs().setCreId(userId);
-            entireApplication.getHighSchool().setCreId(userId);
-            List<ApplicationAcademy> collegeList = entireApplication.getCollegeList();
+//            entireApplication.getHighSchool().setCreId(userId);
+            List<CustomApplicationAcademy> collegeList = entireApplication.getCollegeList();
             for(ApplicationAcademy item : collegeList) {
                 item.setCreId(userId);
             }
-            List<ApplicationAcademy> graduateList = entireApplication.getGraduateList();
+            List<CustomApplicationAcademy> graduateList = entireApplication.getGraduateList();
             for(ApplicationAcademy item : graduateList) {
                 item.setCreId(userId);
             }
@@ -522,12 +525,12 @@ public class ApplicationController {
             entireApplication.getApplication().setModId(userId);
             entireApplication.getApplicationGeneral().setModId(userId);
             entireApplication.getApplicationETCWithBLOBs().setModId(userId);
-            entireApplication.getHighSchool().setModId(userId);
-            List<ApplicationAcademy> collegeList = entireApplication.getCollegeList();
+//            entireApplication.getHighSchool().setModId(userId);
+            List<CustomApplicationAcademy> collegeList = entireApplication.getCollegeList();
             for(ApplicationAcademy item : collegeList) {
                 item.setModId(userId);
             }
-            List<ApplicationAcademy> graduateList = entireApplication.getGraduateList();
+            List<CustomApplicationAcademy> graduateList = entireApplication.getGraduateList();
             for(ApplicationAcademy item : graduateList) {
                 item.setModId(userId);
             }
@@ -735,9 +738,9 @@ System.out.println("@ModelAttribute entireApplication() invoked");
         entireApplication.setApplicationGeneral(new ApplicationGeneral());
         entireApplication.setApplicationForeigner(new ApplicationForeigner());
         entireApplication.setApplicationETCWithBLOBs(new ApplicationETCWithBLOBs());
-        entireApplication.setHighSchool(new ApplicationAcademy());
-        entireApplication.setCollegeList(new ArrayList<ApplicationAcademy>());
-        entireApplication.setGraduateList(new ArrayList<ApplicationAcademy>());
+//        entireApplication.setHighSchool(new ApplicationAcademy());
+        entireApplication.setCollegeList(new ArrayList<CustomApplicationAcademy>());
+        entireApplication.setGraduateList(new ArrayList<CustomApplicationAcademy>());
         entireApplication.setApplicationExperienceList(new ArrayList<ApplicationExperience>());
         entireApplication.setApplicationLanguageList(new ArrayList<ApplicationLanguage>());
         entireApplication.setGeneralDocList(new ArrayList<ApplicationDocument>());
@@ -761,122 +764,122 @@ System.out.println("@ModelAttribute entireApplication() invoked");
      * @return
      * @throws JsonProcessingException
      */
-    @RequestMapping(value="/in/{userId}/{examCode}/{applStsCode}", produces="text/plain;charset=UTF-8")
-    @ResponseBody
-    public String createEntireApplication(@PathVariable("userId") String userId,
-                                          @PathVariable("examCode") String examCode,
-                                          @PathVariable("applStsCode") String applStsCode)
-            throws JsonProcessingException {
-
-        EntireApplication ea = new EntireApplication();
-
-        Timestamp timestamp = new Timestamp(new Date().getTime());
-
-        Application application = new Application();
-        application.setUserId(userId);
-        application.setAdmsNo("15A");
-        application.setApplStsCode("00001");
-        application.setEntrYear("2015");
-        application.setAdmsTypeCode("A");
-        application.setApplAttrCode("");
-        application.setDeptCode("10101");
-        application.setCorsTypeCode("2");
-        application.setDetlMajCode("DM002");
-        application.setPartTimeYn("N");
-        application.setKorName("대조영");
-        application.setChnName("大조영");
-        application.setEngSur("DAE");
-        application.setEngName("JOYOUNG");
-        application.setRgstNo("9009091111118");
-        application.setZipCode("151742");
-        application.setAddr("인천 서구 경서동");
-        application.setAddr("88 활어회집");
-        application.setTelNum("01087451254");
-        application.setMobiNum("01085693214");
-        application.setMailAddr("hanmomhanda@naver.com");
-        application.setApplStsCode(applStsCode);
-        application.setPrivInfoYn("Y");
-        application.setCreId(userId);
-        application.setCreDate(timestamp);
-        ea.setApplication(application);
-
-        ApplicationGeneral applicationGeneral = new ApplicationGeneral();
-        applicationGeneral.setCurrWrkpName("에이펙스");
-        applicationGeneral.setCreDate(timestamp);
-        applicationGeneral.setCreId(userId);
-        ea.setApplicationGeneral(applicationGeneral);
-
-        ApplicationETCWithBLOBs applicationETCWithBLOBs = new ApplicationETCWithBLOBs();
-        applicationETCWithBLOBs.setCovLett("자기 소개 입니다.");
-        applicationETCWithBLOBs.setStudPlan("연구계획 입니다.");
-        applicationETCWithBLOBs.setCreDate(timestamp);
-        applicationETCWithBLOBs.setCreId(userId);
-        ea.setApplicationETCWithBLOBs(applicationETCWithBLOBs);
-
-        ApplicationAcademy highSchool = new ApplicationAcademy();
-        highSchool.setAcadTypeCode("00001");
-        highSchool.setSchlName("깨똥고등학교");
-        highSchool.setCreDate(timestamp);
-        highSchool.setCreId(userId);
-        ea.setHighSchool(highSchool);
-
-        List<ApplicationAcademy> collegeList = new ArrayList<ApplicationAcademy>();
-            ApplicationAcademy aa0 = new ApplicationAcademy();
-            aa0.setAcadSeq(1);
-            aa0.setAcadTypeCode("00002");
-            aa0.setSchlName("연세대학교");
-            aa0.setCreDate(timestamp);
-            aa0.setCreId(userId);
-            collegeList.add(aa0);
-            ApplicationAcademy aa1 = new ApplicationAcademy();
-            aa1.setAcadSeq(2);
-            aa1.setAcadTypeCode("00002");
-            aa1.setSchlName("면세대학교");
-            aa1.setCreDate(timestamp);
-            aa1.setCreId(userId);
-            collegeList.add(aa1);
-            ApplicationAcademy aa2 = new ApplicationAcademy();
-            aa2.setAcadSeq(3);
-            aa2.setAcadTypeCode("00002");
-            aa2.setSchlName("면제대학교");
-            aa2.setCreDate(timestamp);
-            aa2.setCreId(userId);
-            collegeList.add(aa2);
-        ea.setCollegeList(collegeList);
-
-        List<ApplicationExperience> experienceList = new ArrayList<ApplicationExperience>();
-            ApplicationExperience ae0 = new ApplicationExperience();
-            aa0.setAcadSeq(1);
-            ae0.setCorpName("보국전자");
-            ae0.setCreDate(timestamp);
-            ae0.setCreId(userId);
-            experienceList.add(ae0);
-            ApplicationExperience ae1 = new ApplicationExperience();
-            aa1.setAcadSeq(2);
-            ae1.setCorpName("가우스전자");
-            ae1.setCreDate(timestamp);
-            ae1.setCreId(userId);
-            experienceList.add(ae1);
-        ea.setApplicationExperienceList(experienceList);
-
-        List<ApplicationLanguage> applicationLanguageList = new ArrayList<ApplicationLanguage>();
-            ApplicationLanguage al0 = new ApplicationLanguage();
-            al0.setLangSeq(1);
-            al0.setLangExamCode("ToefL");
-            al0.setCreDate(timestamp);
-            al0.setCreId(userId);
-            applicationLanguageList.add(al0);
-
-            ApplicationLanguage al1 = new ApplicationLanguage();
-            al1.setLangSeq(2);
-            al1.setLangExamCode(examCode);
-            al1.setCreDate(timestamp);
-            al1.setCreId(userId);
-            applicationLanguageList.add(al1);
-        ea.setApplicationLanguageList(applicationLanguageList);
-
-        applicationService.createEntireApplication(ea);
-
-        return objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(ea);
-    }
+//    @RequestMapping(value="/in/{userId}/{examCode}/{applStsCode}", produces="text/plain;charset=UTF-8")
+//    @ResponseBody
+//    public String createEntireApplication(@PathVariable("userId") String userId,
+//                                          @PathVariable("examCode") String examCode,
+//                                          @PathVariable("applStsCode") String applStsCode)
+//            throws JsonProcessingException {
+//
+//        EntireApplication ea = new EntireApplication();
+//
+//        Timestamp timestamp = new Timestamp(new Date().getTime());
+//
+//        Application application = new Application();
+//        application.setUserId(userId);
+//        application.setAdmsNo("15A");
+//        application.setApplStsCode("00001");
+//        application.setEntrYear("2015");
+//        application.setAdmsTypeCode("A");
+//        application.setApplAttrCode("");
+//        application.setDeptCode("10101");
+//        application.setCorsTypeCode("2");
+//        application.setDetlMajCode("DM002");
+//        application.setPartTimeYn("N");
+//        application.setKorName("대조영");
+//        application.setChnName("大조영");
+//        application.setEngSur("DAE");
+//        application.setEngName("JOYOUNG");
+//        application.setRgstNo("9009091111118");
+//        application.setZipCode("151742");
+//        application.setAddr("인천 서구 경서동");
+//        application.setAddr("88 활어회집");
+//        application.setTelNum("01087451254");
+//        application.setMobiNum("01085693214");
+//        application.setMailAddr("hanmomhanda@naver.com");
+//        application.setApplStsCode(applStsCode);
+//        application.setPrivInfoYn("Y");
+//        application.setCreId(userId);
+//        application.setCreDate(timestamp);
+//        ea.setApplication(application);
+//
+//        ApplicationGeneral applicationGeneral = new ApplicationGeneral();
+//        applicationGeneral.setCurrWrkpName("에이펙스");
+//        applicationGeneral.setCreDate(timestamp);
+//        applicationGeneral.setCreId(userId);
+//        ea.setApplicationGeneral(applicationGeneral);
+//
+//        ApplicationETCWithBLOBs applicationETCWithBLOBs = new ApplicationETCWithBLOBs();
+//        applicationETCWithBLOBs.setCovLett("자기 소개 입니다.");
+//        applicationETCWithBLOBs.setStudPlan("연구계획 입니다.");
+//        applicationETCWithBLOBs.setCreDate(timestamp);
+//        applicationETCWithBLOBs.setCreId(userId);
+//        ea.setApplicationETCWithBLOBs(applicationETCWithBLOBs);
+//
+//        ApplicationAcademy highSchool = new ApplicationAcademy();
+//        highSchool.setAcadTypeCode("00001");
+//        highSchool.setSchlName("깨똥고등학교");
+//        highSchool.setCreDate(timestamp);
+//        highSchool.setCreId(userId);
+//        ea.setHighSchool(highSchool);
+//
+//        List<ApplicationAcademy> collegeList = new ArrayList<ApplicationAcademy>();
+//            ApplicationAcademy aa0 = new ApplicationAcademy();
+//            aa0.setAcadSeq(1);
+//            aa0.setAcadTypeCode("00002");
+//            aa0.setSchlName("연세대학교");
+//            aa0.setCreDate(timestamp);
+//            aa0.setCreId(userId);
+//            collegeList.add(aa0);
+//            ApplicationAcademy aa1 = new ApplicationAcademy();
+//            aa1.setAcadSeq(2);
+//            aa1.setAcadTypeCode("00002");
+//            aa1.setSchlName("면세대학교");
+//            aa1.setCreDate(timestamp);
+//            aa1.setCreId(userId);
+//            collegeList.add(aa1);
+//            ApplicationAcademy aa2 = new ApplicationAcademy();
+//            aa2.setAcadSeq(3);
+//            aa2.setAcadTypeCode("00002");
+//            aa2.setSchlName("면제대학교");
+//            aa2.setCreDate(timestamp);
+//            aa2.setCreId(userId);
+//            collegeList.add(aa2);
+//        ea.setCollegeList(collegeList);
+//
+//        List<ApplicationExperience> experienceList = new ArrayList<ApplicationExperience>();
+//            ApplicationExperience ae0 = new ApplicationExperience();
+//            aa0.setAcadSeq(1);
+//            ae0.setCorpName("보국전자");
+//            ae0.setCreDate(timestamp);
+//            ae0.setCreId(userId);
+//            experienceList.add(ae0);
+//            ApplicationExperience ae1 = new ApplicationExperience();
+//            aa1.setAcadSeq(2);
+//            ae1.setCorpName("가우스전자");
+//            ae1.setCreDate(timestamp);
+//            ae1.setCreId(userId);
+//            experienceList.add(ae1);
+//        ea.setApplicationExperienceList(experienceList);
+//
+//        List<ApplicationLanguage> applicationLanguageList = new ArrayList<ApplicationLanguage>();
+//            ApplicationLanguage al0 = new ApplicationLanguage();
+//            al0.setLangSeq(1);
+//            al0.setLangExamCode("ToefL");
+//            al0.setCreDate(timestamp);
+//            al0.setCreId(userId);
+//            applicationLanguageList.add(al0);
+//
+//            ApplicationLanguage al1 = new ApplicationLanguage();
+//            al1.setLangSeq(2);
+//            al1.setLangExamCode(examCode);
+//            al1.setCreDate(timestamp);
+//            al1.setCreId(userId);
+//            applicationLanguageList.add(al1);
+//        ea.setApplicationLanguageList(applicationLanguageList);
+//
+//        applicationService.createEntireApplication(ea);
+//
+//        return objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(ea);
+//    }
 }
