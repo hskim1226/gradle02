@@ -1098,7 +1098,6 @@
                 }).each(function() {
                     $formData.push({name: this.name, value: 'N'});
                 });
-                console.log($formData);
                 switch (event.type) {
                     case 'appInfo':
                         ajaxObj.url = "${contextPath}/application/save/appInfo";
@@ -1503,16 +1502,17 @@
                 if (length <= 1) {
                     eraseContents(blockToRemove);
                 } else {
+console.log(blockToRemove.parentNode);
                     blockToRemove.parentNode.removeChild(blockToRemove);
                 }
 
                 mustCheckedOneRadio();
 
-                // 파일업로드 부분 제거
-                var fileUploadContainer = document.getElementById(target.getAttribute("data-fileupload-block-list")),
-                    indexOfBlockToRemove = target.getAttribute('data-block-index'),
-                    blockToRemove = fileUploadContainer.children[indexOfBlockToRemove];
-                fileUploadContainer.removeChild(blockToRemove);
+                // 파일업로드 부분 입력란 함께 제거
+//                var fileUploadContainer = document.getElementById(target.getAttribute("data-fileupload-block-list")),
+//                    indexOfBlockToRemove = target.getAttribute('data-block-index'),
+//                    blockToRemove = fileUploadContainer.children[indexOfBlockToRemove];
+//                fileUploadContainer.removeChild(blockToRemove);
 
             });
 

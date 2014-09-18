@@ -243,7 +243,7 @@ public class ApplicationServiceImpl implements ApplicationService {
 
         if ( academyList != null ) {
             for( ApplicationAcademy academyFromView : academyList) {
-                int acadSeqFromView = academyFromView.getAcadSeq();
+                int acadSeqFromView = academyFromView.getAcadSeq() == null ? -1 : academyFromView.getAcadSeq();
                 if ( acadSeqFromView > 0) { //화면 seq 있는 경우
                     if ( seqMap.containsKey(acadSeqFromView) ) { //화면 seq 값이 DB에도 있는 경우
                         //update
@@ -269,6 +269,7 @@ public class ApplicationServiceImpl implements ApplicationService {
                 d1 += commonDAO.delete(NAME_SPACE + "CustomApplicationAcademyMapper.deleteByApplNoAcadTypeCodeAcadSeq", param);
             }
         }
+System.out.println(param.getAcadTypeCode() + " : " + c1+u1+d1);
         return c1 + u1;
     }
 
