@@ -454,7 +454,7 @@ System.out.println(param.getAcadTypeCode() + " : " + c1+u1+d1);
                 }
                 r8 = commonDAO.insertList(applicationLanguageList, NAME_SPACE, "ApplicationLanguageMapper");
             }
-
+/*
             List<ApplicationDocument> generalDocList = entireApplication.getGeneralDocList();
             idx = 0;
             if ( generalDocList != null ) {
@@ -464,7 +464,7 @@ System.out.println(param.getAcadTypeCode() + " : " + c1+u1+d1);
                     item.setDocSeq(++idx);
                 }
                 r9 = commonDAO.insertList(generalDocList, NAME_SPACE, "ApplicationDocumentMapper");
-            }
+            }*/
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -557,7 +557,7 @@ System.out.println(param.getAcadTypeCode() + " : " + c1+u1+d1);
                 }
                 r8 = commonDAO.insertList(languageList, NAME_SPACE, "ApplicationLanguageMapper");
             }
-
+/*
             deleteListByApplNo(applNo, "CustomApplicationDocumentMapper");
             List<ApplicationDocument> generalDocList = entireApplication.getGeneralDocList();
             idx = 0;
@@ -659,7 +659,7 @@ System.out.println(param.getAcadTypeCode() + " : " + c1+u1+d1);
                 } else {
                     r16 = 1;
                 }
-            }
+            }*/
 
         } catch ( Exception e ) {
             e.printStackTrace();
@@ -748,7 +748,7 @@ System.out.println(param.getAcadTypeCode() + " : " + c1+u1+d1);
                 r8 = commonDAO.insertList(languageList, NAME_SPACE, "ApplicationLanguageMapper");
             }
 
-            deleteListByApplNo(applNo, "CustomApplicationDocumentMapper");
+ /*           deleteListByApplNo(applNo, "CustomApplicationDocumentMapper");
             List<ApplicationDocument> generalDocList = entireApplication.getGeneralDocList();
             idx = 0;
             if ( generalDocList != null ) {
@@ -849,7 +849,7 @@ System.out.println(param.getAcadTypeCode() + " : " + c1+u1+d1);
                 } else {
                     r16 = 1;
                 }
-            }
+            }*/
 
             CustomPayInfo customPayInfo = commonDAO.queryForObject(NAME_SPACE + "CustomPayInfoMapper.selectPayInfoByApplNo",
                     applNo, CustomPayInfo.class);

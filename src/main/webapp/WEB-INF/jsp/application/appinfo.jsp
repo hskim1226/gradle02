@@ -562,10 +562,14 @@
                                             </div>
                                             <div class="form-group required">
                                                 <label class="col-sm-2 control-label">졸업 구분</label>
-                                                <div class="col-sm-9">
-                                                    <label class="radio-inline"><form:radiobutton path="collegeList[${stat.index}].grdaTypeCode" value="00001" />졸업</label>
+                                                <div class="col-sm-4">
+                                                    <label class="radio-inline degr-radio"><form:radiobutton path="collegeList[${stat.index}].grdaTypeCode" value="00001" />졸업</label>
                                                     &nbsp;&nbsp;&nbsp;
-                                                    <label class="radio-inline"><form:radiobutton path="collegeList[${stat.index}].grdaTypeCode" value="00002" />졸업 예정</label>
+                                                    <label class="radio-inline degr-radio"><form:radiobutton path="collegeList[${stat.index}].grdaTypeCode" value="00002" />졸업 예정</label>
+                                                </div>
+                                                <label class="col-sm-2 control-label degr-div">학위등록번호</label>
+                                                <div class="col-sm-3 degr-no">
+                                                    <form:input path="collegeList[${stat.index}].degrNo" cssClass="degr-no form-control"/>
                                                 </div>
                                             </div>
                                             <div class="form-group required">
@@ -598,7 +602,7 @@
                                                 </div>
                                             </div>
                                             <div class="form-group required">
-                                                <label class="col-sm-2 control-label">평균 평점</label>
+                                                <label class="col-sm-2 control-label">평량 평균</label>
                                                 <div class="col-sm-4">
                                                     <div class="input-group">
                                                         <span class="input-group-addon">평점</span>
@@ -658,10 +662,14 @@
                                             </div>
                                             <div class="form-group required">
                                                 <label class="col-sm-2 control-label">졸업 구분</label>
-                                                <div class="col-sm-9">
-                                                    <label class="radio-inline"><form:radiobutton path="graduateList[${stat.index}].grdaTypeCode" value="00001" />졸업</label>
+                                                <div class="col-sm-4">
+                                                    <label class="radio-inline degr-radio"><form:radiobutton path="graduateList[${stat.index}].grdaTypeCode" value="00001" />졸업</label>
                                                     &nbsp;&nbsp;&nbsp;
-                                                    <label class="radio-inline"><form:radiobutton path="graduateList[${stat.index}].grdaTypeCode" value="00002" />졸업 예정</label>
+                                                    <label class="radio-inline degr-radio"><form:radiobutton path="graduateList[${stat.index}].grdaTypeCode" value="00002" />졸업 예정</label>
+                                                </div>
+                                                <label class="col-sm-2 control-label degr-div">학위등록번호</label>
+                                                <div class="col-sm-3 degr-no">
+                                                    <form:input path="graduateList[${stat.index}].degrNo" cssClass="degr-no form-control"/>
                                                 </div>
                                             </div>
                                             <div class="form-group required">
@@ -759,7 +767,7 @@
                                             </c:if>
                                         </div>
                                         <div class="col-sm-2 hide-lang">
-                                            <p class="form-control-static">인정 불가</p>
+                                            <label class="lbl-lang" id="checkLangLabel${stat.index}" >인정 불가</label>
                                         </div>
                                         <div class="col-sm-3 show-lang">
                                             <div class="input-group date">
@@ -1413,11 +1421,11 @@
                                     if (value === '') {
                                         return true;
                                     }
-                                    var regexp = /^([0-9]*(.)?([0-9])?)$/;
+                                    var regexp = /^[0-9]+(.[0-9]{1,2})?$/;
                                     if (!regexp.test(value)) {
                                         return {
                                             value: false,
-                                            message: '${msgPhoneNo}'
+                                            message: '소수점 2자리까지 입력가능합니다'
                                         }
                                     }
 
@@ -1449,11 +1457,11 @@
                                     if (value === '') {
                                         return true;
                                     }
-                                    var regexp = /^([0-9]*(.)?([0-9])?)$/;
+                                    var regexp = /^[0-9]+(.[0-9]{1,2})?$/;
                                     if (!regexp.test(value)) {
                                         return {
                                             value: false,
-                                            message: '${msgPhoneNo}'
+                                            message: '소수점 2자리까지 입력가능합니다'
                                         }
                                     }
 
@@ -2099,10 +2107,27 @@ console.log(blockToRemove.parentNode);
                 })
             }
 
+            <%-- 졸업구분의 졸업선택시 --%>
+            $('.degr-radio').on('change', function(e) {
+                var target =this;
+                var parent = $(target).parents('.form-group')[0];
+                var childRadioVal = $(parent).find("input[type=radio]:checked").val();
+
+                if (childRadioVal =='00001') {
+                    $(parent).find('.degr-div').show();
+                    $(parent).find('.degr-no').show('');
+                } else {
+                    $(parent).find('.degr-div').hide();
+                    $(parent).find('.degr-no').hide();
+                    $(parent).find('.degr-no').val('');
+                }
+            });
+
             <%-- checkbox hide/show --%>
             function updateLanguageGroup(group, data) {
                 var langExamCode = $(group).find('input').filter('[name$="langExamCode"]')[0];
                 var check = $(group).find('.btn-lang, .btn-lang-disabled')[0];
+                var checkLabel = $(group).find('.lbl-lang')[0];
                 if (check) {
                     var val = langExamCode ? langExamCode.value : null;
                     var isExist = false, item;
@@ -2113,12 +2138,14 @@ console.log(blockToRemove.parentNode);
                                 check.className = 'btn-lang';
                                 check.removeAttribute('disabled');
                                 isExist = true;
+                                $(checkLabel).text('제출 가능');
                             }
                             break;
                         }
                     }
                     if (!isExist) {
                         check.className = 'btn-lang-disabled';
+                        checkLabel.text ='제출 불가';
                         check.setAttribute('disabled', 'disabled');
                         $(group).removeClass('show-lang');
                         $(group).addClass('hide-lang');
@@ -2150,7 +2177,7 @@ console.log(blockToRemove.parentNode);
                 var childCheckbox = $(this).find("input[type=checkbox]"),
                     targetExamName = "#exam"+ $(this).find("label").text().trim();
                 childCheckbox.is(":checked") ?
-                        $(targetExamName).css("display", "block") :
+                        $(targetExamName).css("display", "block"):
                         $(targetExamName).css("display", "none");
 
             });

@@ -151,7 +151,6 @@ public class ApplicationController {
                                  @ModelAttribute("entireApplication") EntireApplication entireApplication,
                                  Model model, HttpServletRequest request) {
         Map<String, Object> commonCodeMap = new HashMap<String, Object>();
-        List<DocGroupFile> docGroupList =null;
         if( applNo != null ) {
 //            if( applNo != entireApplication.getApplication().getApplNo() ) {
                 entireApplication = applicationService.retrieveEntireApplication(applNo);
@@ -201,7 +200,7 @@ public class ApplicationController {
             if( corsTypeList != null )  commonCodeMap.put( "corsTypeList", corsTypeList );
             if( detlMajList != null )   commonCodeMap.put( "detlMajList", detlMajList );
 
-            docGroupList = applicationService.retrieveManApplDocListByApplNo(applNo );
+            entireApplication.setDocGroupList( applicationService.retrieveManApplDocListByApplNo(applNo ) );
         } else {
             entireApplication = entireApplication();
             entireApplication.getApplication().setAdmsNo(admsNo);
@@ -246,13 +245,15 @@ public class ApplicationController {
         commonCodeMap.put( "qualAreaList", commonService.retrieveCommonCodeValueByCodeGroup("QUAL_AREA") );
         commonCodeMap.put( "langExamList", langExamList);
 
-        model.addAttribute( "docGroupList", docGroupList );
+
         model.addAttribute( "common", commonCodeMap );
 
         model.addAttribute( "msgRgstNo", messageResolver.getMessage("U304"));
         model.addAttribute( "msgPhoneNo", messageResolver.getMessage("U305"));
         model.addAttribute( "msgImageOnly", messageResolver.getMessage("U308"));
         model.addAttribute( "msgPDFOnly", messageResolver.getMessage("U309"));
+        model.addAttribute( "msgGrad", messageResolver.getMessage("U324"));
+
 
         model.addAttribute( "L311", messageResolver.getMessage("L311"));
         return result;
@@ -547,45 +548,6 @@ public class ApplicationController {
                 item.setCreId(userId);
             }
 
-            List<ApplicationDocument> generalDocList = entireApplication.getGeneralDocList();
-            for(ApplicationDocument item : generalDocList) {
-                item.setCreId(userId);
-            }
-
-            List<ApplicationDocument> foreignDegreeDocList = entireApplication.getForeignDegreeDocList();
-            for(ApplicationDocument item : foreignDegreeDocList) {
-                item.setCreId(userId);
-            }
-
-            List<ApplicationDocument> collegeDocList = entireApplication.getCollegeDocList();
-            for(ApplicationDocument item : collegeDocList) {
-                item.setCreId(userId);
-            }
-
-            List<ApplicationDocument> graduateDocList = entireApplication.getGraduateDocList();
-            for(ApplicationDocument item : graduateDocList) {
-                item.setCreId(userId);
-            }
-
-            List<ApplicationDocument> languageDocList = entireApplication.getLanguageDocList();
-            for(ApplicationDocument item : languageDocList) {
-                item.setCreId(userId);
-            }
-
-            List<ApplicationDocument> ariInstDocList = entireApplication.getAriInstDocList();
-            for(ApplicationDocument item : ariInstDocList) {
-                item.setCreId(userId);
-            }
-
-            List<ApplicationDocument> foreignerDocList = entireApplication.getForeignerDocList();
-            for(ApplicationDocument item : foreignerDocList) {
-                item.setCreId(userId);
-            }
-
-            List<ApplicationDocument> deptDocList = entireApplication.getDeptDocList();
-            for(ApplicationDocument item : deptDocList) {
-                item.setCreId(userId);
-            }
 
             ec = applicationService.createEntireApplication( entireApplication );
         } else {    // update
@@ -607,46 +569,6 @@ public class ApplicationController {
             }
             List<ApplicationLanguage> languageList = entireApplication.getApplicationLanguageList();
             for(ApplicationLanguage item : languageList) {
-                item.setModId(userId);
-            }
-
-            List<ApplicationDocument> generalDocList = entireApplication.getGeneralDocList();
-            for(ApplicationDocument item : generalDocList) {
-                item.setModId(userId);
-            }
-
-            List<ApplicationDocument> foreignDegreeDocList = entireApplication.getForeignDegreeDocList();
-            for(ApplicationDocument item : foreignDegreeDocList) {
-                item.setModId(userId);
-            }
-
-            List<ApplicationDocument> collegeDocList = entireApplication.getCollegeDocList();
-            for(ApplicationDocument item : collegeDocList) {
-                item.setModId(userId);
-            }
-
-            List<ApplicationDocument> graduateDocList = entireApplication.getGraduateDocList();
-            for(ApplicationDocument item : graduateDocList) {
-                item.setModId(userId);
-            }
-
-            List<ApplicationDocument> languageDocList = entireApplication.getLanguageDocList();
-            for(ApplicationDocument item : languageDocList) {
-                item.setModId(userId);
-            }
-
-            List<ApplicationDocument> ariInstDocList = entireApplication.getAriInstDocList();
-            for(ApplicationDocument item : ariInstDocList) {
-                item.setModId(userId);
-            }
-
-            List<ApplicationDocument> foreignerDocList = entireApplication.getForeignerDocList();
-            for(ApplicationDocument item : foreignerDocList) {
-                item.setModId(userId);
-            }
-
-            List<ApplicationDocument> deptDocList = entireApplication.getDeptDocList();
-            for(ApplicationDocument item : deptDocList) {
                 item.setModId(userId);
             }
 
@@ -810,15 +732,7 @@ System.out.println("@ModelAttribute entireApplication() invoked");
         entireApplication.setGraduateList(new ArrayList<CustomApplicationAcademy>());
         entireApplication.setApplicationExperienceList(new ArrayList<ApplicationExperience>());
         entireApplication.setApplicationLanguageList(new ArrayList<ApplicationLanguage>());
-        entireApplication.setGeneralDocList(new ArrayList<ApplicationDocument>());
-        entireApplication.setForeignDegreeDocList(new ArrayList<ApplicationDocument>());
-        entireApplication.setCollegeDocList(new ArrayList<ApplicationDocument>());
-        entireApplication.setGraduateDocList(new ArrayList<ApplicationDocument>());
-        entireApplication.setLanguageDocList(new ArrayList<ApplicationDocument>());
-        entireApplication.setAriInstDocList(new ArrayList<ApplicationDocument>());
-        entireApplication.setForeignerDocList(new ArrayList<ApplicationDocument>());
-        entireApplication.setDeptDocList(new ArrayList<ApplicationDocument>());
-        entireApplication.setEtcDocList(new ArrayList<ApplicationDocument>());
+
         return entireApplication;
     }
 
