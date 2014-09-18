@@ -850,6 +850,44 @@
                     <div class="spacer-tiny"></div>
                     <div class="row">
                         <div class="col-sm-offset-1 col-sm-10">
+                            <div class="panel panel-darkgray">
+                                <div class="panel-heading">첨부 파일 안내</div>
+                                <div class="panel-body">
+                                    <p>사진 외의 모든 첨부 파일은 서류 종류별로 하나의 PDF 파일만 업로드 가능합니다.</p>
+
+                                    <p>만약 한가지 종류의 서류가 여러개의 PDF 파일로 되어 있다면,
+                                    하나의 PDF 파일로 합친 후 업로드 하시기 바랍니다.</p>
+
+                                    <p>PDF 파일 합치기는 전용프로그램이나 인터넷 서비스를 이용하시기 바랍니다.</p>
+
+                                    예)<br/>
+                                    <a href="http://convert.neevia.com/pdfmerge/" target="_blank">http://convert.neevia.com/pdfmerge/</a><br/>
+                                    <a href="http://www.pdfmerge.com/" target="_blank">http://www.pdfmerge.com/</a><br/>
+
+                                    <p>예시 사이트에서 발생하는 모든 문제는 당사에서 책임지지 않습니다.</p>
+
+                                    <p>사진 파일은 JPG, GIF, PNG 파일만 업로드 가능합니다.</p>
+
+                                    <p>사진 파일의 편집은 전용 프로그램이나 인터넷 서비스를 이용하시기 바랍니다.</p>
+
+                                    예)<br/>
+                                        <a href="http://apps.pixlr.com/editor/" target="_blank">http://apps.pixlr.com/editor/</a><br/>
+                                        <a href="http://www.fotor.com/" target="_blank">http://www.fotor.com/</a><br/>
+                                    <p>예시 사이트에서 발생하는 모든 문제는 당사에서 책임지지 않습니다.</p>
+                                    <hr/>
+                                    <p>파일 첨부 시 주의사항</p>
+                                    1. 문서별로 1개의 파일만 첨부 가능합니다.<br/>
+                                    2. 사진 및 문서의 해상도와 가독성 여부를 반드시 확인하세요.<br/>
+                                    3. 스캔시에는 300dpi 이상으로 스캔하시기 바랍니다.<br/>
+                                    4. 문서 크기는 A4 크기로 생성하여 첨부하셔야 합니다.<br/>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="spacer-tiny"></div>
+                    <div class="row">
+                        <div class="col-sm-offset-1 col-sm-10">
                             <c:forEach items="${entireApplication.docGroupList}" var="docGroup" varStatus="grpStat">
                                 <c:if test = "${docGroup.subGrp.size()==0  &&  docGroup.mandDocList.size()>0}">
                                     <div class="panel panel-darkgray">
