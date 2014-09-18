@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="//code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css">
     <style>
         section.application {
-            padding: 200px 0 60px;
+            padding: 160px 0 60px;
             background: #555555;
             color: #000;
             position:relative;
@@ -379,22 +379,19 @@
                             <div class="panel panel-default">
                                 <div class="panel-heading">지원자 상세정보</div>
                                 <div class="panel-body">
-                                    <%--<div class="form-group required">--%>
-                                        <%--<label for="application.citzCntrName" class="col-sm-2 control-label">국적</label>--%>
-                                        <%--<div class="col-sm-2">--%>
-                                            <%--<button type="button" class="btn btn-default btn-search bpopper" data-targetNode1="application.citzCntrCode" data-targetNode2='application.citzCntrName' data-category="country">검색</button>--%>
-                                        <%--</div>--%>
-                                        <%--<div class="col-sm-6">--%>
-                                            <%--<form:hidden path="application.citzCntrCode" />--%>
-                                            <%--<input id="application.citzCntrName" cssClass="form-control" />--%>
-                                                <%--<span class="input-group-btn">--%>
-                                                <%--<button type="button" class="btn btn-default" id="search-citz-cntr-code">--%>
-                                                <%--<span class="glyphicon glyphicon-search"></span> 검색--%>
-                                                <%--</button>--%>
-                                                <%--</span>--%>
-                                        <%--</div>--%>
-                                    <%--</div>--%>
                                     <div class="form-group required">
+                                        <label for="application.citzCntrName" class="col-sm-2 control-label">국적</label>
+                                        <div class="col-sm-2 glyphicons">
+                                            <button type="button" class="btn btn-default btn-search bpopper" data-targetNode1="application.citzCntrCode" data-targetNode2='application.citzCntrName' data-category="country">
+                                                <span class="glyphicon glyphicon-search"></span> 검색
+                                            </button>
+                                        </div>
+                                        <div class="col-sm-7">
+                                            <form:hidden path="application.citzCntrCode" id="citzCntrCode" cssClass="form-control" />
+                                            <input id="citzCntrName" class="form-control" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
                                         <label class="col-sm-2 control-label">장애 사항</label>
                                         <div class="col-sm-9">
                                             <div class="input-group">
@@ -402,6 +399,8 @@
                                                 <form:input path="applicationGeneral.hndcGrad" cssClass="col-sm-6 form-control" />
                                             </div>
                                         </div>
+                                    </div>
+                                    <div class="form-group">
                                         <div class="col-sm-offset-2 col-sm-9">
                                             <div class="input-group">
                                                 <span class="input-group-addon">장애등급</span>
@@ -1316,7 +1315,7 @@
     <%-- 국가/학교 검색 팝업 --%>
 
     <%-- 다음 주소 검색 팝업 --%>
-    <div id="postLayer" style="display:none;border:5px solid;position:fixed;width:300px;height:460px;left:50%;margin-left:-155px;top:50%;margin-top:-235px;overflow:hidden;-webkit-overflow-scrolling:touch;z-index:2;background-color:#fff;color: #111;">
+    <div id="postLayer" style="display:none;border:5px solid;position:fixed;width:310px;height:510px;left:50%;margin-left:-155px;top:50%;margin-top:-235px;overflow:hidden;-webkit-overflow-scrolling:touch;z-index:2;background-color:#fff;color: #111;">
         <img src="${contextPath}/img/user/addr-close.png" id="btnClosePostLayer" style="cursor:pointer;position:absolute;right:-3px;top:-3px" alt="닫기 버튼">
     </div>
 
@@ -1592,7 +1591,7 @@
                         // 우편번호와 주소 및 영문주소 정보를 해당 필드에 넣는다.
                         document.getElementById('postcode1').value = data.postcode1;
                         document.getElementById('postcode2').value = data.postcode2;
-                        document.getElementById('address').value = data.address;
+                        document.getElementById('address').value = data.address1;
                         document.getElementById('addressDetail').focus();
                         // iframe을 넣은 element를 안보이게 한다.
                         closeDaumPostCode();
