@@ -148,6 +148,7 @@
                 var form = document.getElementById('LGD_PAYINFO');
                 setHidden(e.target);
                 form.action = "${contextPath}/application/preview";
+                form.target = "_blank";
                 form.submit();
             });
             $('.pay').click(function(e){
