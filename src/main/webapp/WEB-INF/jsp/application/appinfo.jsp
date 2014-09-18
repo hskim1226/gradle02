@@ -546,7 +546,7 @@
                                                 </div>
                                                 <div class="col-sm-6">
                                                     <form:hidden path="collegeList[${stat.index}].schlCntrCode" />
-                                                    <input id="collegeList${stat.index}.korCntrName" class="form-control" />
+                                                    <form:input path="collegeList[${stat.index}].korCntrName" class="form-control" />
                                                 </div>
                                             </div>
                                             <div class="form-group required">
@@ -642,7 +642,7 @@
                                                 </div>
                                                 <div class="col-sm-6">
                                                     <form:hidden path="graduateList[${stat.index}].schlCntrCode" />
-                                                    <input id="graduateList${stat.index}.korCntrName" class="form-control" />
+                                                    <form:input path="graduateList[${stat.index}].korCntrName" class="form-control" />
                                                 </div>
                                             </div>
                                             <div class="form-group required">
