@@ -43,5 +43,5 @@ public interface ApplicationService {
 
     int deleteListByApplNo(int applNo, String MapperName);
 
-    ArrayList<List> retrieveManApplDocListByApplNo( int applNo);
+    List<DocGroupFile> retrieveManApplDocListByApplNo( int applNo);
 }

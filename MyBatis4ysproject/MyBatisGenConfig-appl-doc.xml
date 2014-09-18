@@ -27,8 +27,6 @@ PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
         </sqlMapGenerator>
 
         <table schema="ysproject" tableName="APPL_DOC" domainObjectName="ApplicationDocument" />
-        <table schema="ysproject" tableName="APPL" domainObjectName="Application" />
-        <table schema="ysproject" tableName="APPL_FORN" domainObjectName="ApplicationForeigner" />
 
     </context>
 </generatorConfiguration>

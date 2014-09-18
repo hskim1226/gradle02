@@ -243,7 +243,7 @@ public class ApplicationServiceImpl implements ApplicationService {
 
         if ( academyList != null ) {
             for( ApplicationAcademy academyFromView : academyList) {
-                int acadSeqFromView = academyFromView.getAcadSeq();
+                int acadSeqFromView = academyFromView.getAcadSeq() == null ? -1 : academyFromView.getAcadSeq();
                 if ( acadSeqFromView > 0) { //화면 seq 있는 경우
                     if ( seqMap.containsKey(acadSeqFromView) ) { //화면 seq 값이 DB에도 있는 경우
                         //update
@@ -269,6 +269,7 @@ public class ApplicationServiceImpl implements ApplicationService {
                 d1 += commonDAO.delete(NAME_SPACE + "CustomApplicationAcademyMapper.deleteByApplNoAcadTypeCodeAcadSeq", param);
             }
         }
+System.out.println(param.getAcadTypeCode() + " : " + c1+u1+d1);
         return c1 + u1;
     }
 
@@ -919,45 +920,45 @@ public class ApplicationServiceImpl implements ApplicationService {
             entireApplication.setApplicationLanguageList(retrieveInfoListByApplNo(applNo, "CustomApplicationLanguageMapper", ApplicationLanguage.class));
 
             //TODO 아래는 첨부파일 테이블 가져오는 부분이며, 변경될 로직으로 덮어써져야 함
-//            String adMapperSqlId = "CustomApplicationDocumentMapper.selectByApplNoDocTypeCode";
-//            ParamForApplicationDocument paramForApplicationDocument = new ParamForApplicationDocument();
-//            paramForApplicationDocument.setApplNo(applNo);
-//            paramForApplicationDocument.setDocTypeCode("00001");
-//            entireApplication.setGeneralDocList(retrieveInfoListByParamObj(paramForApplicationDocument,
-//                    adMapperSqlId,
-//                    ApplicationDocument.class));
-//            paramForApplicationDocument.setDocTypeCode("00002");
-//            entireApplication.setForeignDegreeDocList(retrieveInfoListByParamObj(paramForApplicationDocument,
-//                    adMapperSqlId,
-//                    ApplicationDocument.class));
-//            paramForApplicationDocument.setDocTypeCode("00003");
-//            entireApplication.setCollegeDocList(retrieveInfoListByParamObj(paramForApplicationDocument,
-//                    adMapperSqlId,
-//                    ApplicationDocument.class));
-//            paramForApplicationDocument.setDocTypeCode("00004");
-//            entireApplication.setGraduateDocList(retrieveInfoListByParamObj(paramForApplicationDocument,
-//                    adMapperSqlId,
-//                    ApplicationDocument.class));
-//            paramForApplicationDocument.setDocTypeCode("00005");
-//            entireApplication.setLanguageDocList(retrieveInfoListByParamObj(paramForApplicationDocument,
-//                    adMapperSqlId,
-//                    ApplicationDocument.class));
-//            paramForApplicationDocument.setDocTypeCode("00006");
-//            entireApplication.setAriInstDocList(retrieveInfoListByParamObj(paramForApplicationDocument,
-//                    adMapperSqlId,
-//                    ApplicationDocument.class));
-//            paramForApplicationDocument.setDocTypeCode("00007");
-//            entireApplication.setForeignerDocList(retrieveInfoListByParamObj(paramForApplicationDocument,
-//                    adMapperSqlId,
-//                    ApplicationDocument.class));
-//            paramForApplicationDocument.setDocTypeCode("00008");
-//            entireApplication.setDeptDocList(retrieveInfoListByParamObj(paramForApplicationDocument,
-//                    adMapperSqlId,
-//                    ApplicationDocument.class));
-//            paramForApplicationDocument.setDocTypeCode("00099");
-//            entireApplication.setEtcDocList(retrieveInfoListByParamObj(paramForApplicationDocument,
-//                    adMapperSqlId,
-//                    ApplicationDocument.class));
+           /* String adMapperSqlId = "CustomApplicationDocumentMapper.selectByApplNoDocTypeCode";
+            ParamForApplicationDocument paramForApplicationDocument = new ParamForApplicationDocument();
+            paramForApplicationDocument.setApplNo(applNo);
+            paramForApplicationDocument.setDocTypeCode("00001");
+            entireApplication.setGeneralDocList(retrieveInfoListByParamObj(paramForApplicationDocument,
+                    adMapperSqlId,
+                    ApplicationDocument.class));
+            paramForApplicationDocument.setDocTypeCode("00002");
+            entireApplication.setForeignDegreeDocList(retrieveInfoListByParamObj(paramForApplicationDocument,
+                    adMapperSqlId,
+                    ApplicationDocument.class));
+            paramForApplicationDocument.setDocTypeCode("00003");
+            entireApplication.setCollegeDocList(retrieveInfoListByParamObj(paramForApplicationDocument,
+                    adMapperSqlId,
+                    ApplicationDocument.class));
+            paramForApplicationDocument.setDocTypeCode("00004");
+            entireApplication.setGraduateDocList(retrieveInfoListByParamObj(paramForApplicationDocument,
+                    adMapperSqlId,
+                    ApplicationDocument.class));
+            paramForApplicationDocument.setDocTypeCode("00005");
+            entireApplication.setLanguageDocList(retrieveInfoListByParamObj(paramForApplicationDocument,
+                    adMapperSqlId,
+                    ApplicationDocument.class));
+            paramForApplicationDocument.setDocTypeCode("00006");
+            entireApplication.setAriInstDocList(retrieveInfoListByParamObj(paramForApplicationDocument,
+                    adMapperSqlId,
+                    ApplicationDocument.class));
+            paramForApplicationDocument.setDocTypeCode("00007");
+            entireApplication.setForeignerDocList(retrieveInfoListByParamObj(paramForApplicationDocument,
+                    adMapperSqlId,
+                    ApplicationDocument.class));
+            paramForApplicationDocument.setDocTypeCode("00008");
+            entireApplication.setDeptDocList(retrieveInfoListByParamObj(paramForApplicationDocument,
+                    adMapperSqlId,
+                    ApplicationDocument.class));
+            paramForApplicationDocument.setDocTypeCode("00099");
+            entireApplication.setEtcDocList(retrieveInfoListByParamObj(paramForApplicationDocument,
+                    adMapperSqlId,
+                    ApplicationDocument.class));*/
 
         } catch ( Exception e ) {
             e.printStackTrace();
@@ -1018,25 +1019,99 @@ public class ApplicationServiceImpl implements ApplicationService {
         return infoList;
     }
     @Override
-    public  ArrayList<List> retrieveManApplDocListByApplNo( int applNo) {
-        List<MandatoryNAppliedDoc> docList = null;
+    public  List<DocGroupFile> retrieveManApplDocListByApplNo( int applNo) {
+        List<DocGroupFile> docGrpList = new ArrayList<DocGroupFile>();
+        DocGroupFile docGrp;
+        DocGroupFile docSubGrp;
+        List<MandatoryNAppliedDoc> tmpDocList;
 
-        ArrayList<List> mandDoc = new ArrayList<List>();
-        int cnt;
         try {
-            mandDoc.add( commonDAO.queryForList(DOC_NAME_SPACE + "selectBasicDocListByApplNoWTMandatory", applNo, MandatoryNAppliedDoc.class));
-            mandDoc.add( commonDAO.queryForList(DOC_NAME_SPACE + "selectOverSeaDocListByApplNoWTMandatory", applNo, MandatoryNAppliedDoc.class));
-            mandDoc.add( commonDAO.queryForList(DOC_NAME_SPACE + "selectUnderDocListByApplNoWTMandatory", applNo, MandatoryNAppliedDoc.class));
-            mandDoc.add( commonDAO.queryForList(DOC_NAME_SPACE + "selectGradDocListByApplNoWTMandatory", applNo, MandatoryNAppliedDoc.class ));
-            mandDoc.add( commonDAO.queryForList(DOC_NAME_SPACE + "selectLangDocListByApplNoWTMandatory", applNo, MandatoryNAppliedDoc.class ));
-            mandDoc.add( commonDAO.queryForList(DOC_NAME_SPACE + "selectInstDocListByApplNoWTMandatory", applNo, MandatoryNAppliedDoc.class ));
-            mandDoc.add( commonDAO.queryForList(DOC_NAME_SPACE + "selectDeptDocListByApplNoWTMandatory", applNo, MandatoryNAppliedDoc.class ));
-            mandDoc.add( commonDAO.queryForList(DOC_NAME_SPACE + "selectEtcDocListByApplNoWTMandatory", applNo, MandatoryNAppliedDoc.class ));
+            docGrp = new DocGroupFile();
+            docSubGrp = new DocGroupFile();
+            tmpDocList = new ArrayList<MandatoryNAppliedDoc>();
+            docGrp.setFileGroupName("기본");
+            docGrp.setGroupMsg("");
+            docGrp.setMandDocList(commonDAO.queryForList(DOC_NAME_SPACE + "selectBasicDocListByApplNoWTMandatory", applNo, MandatoryNAppliedDoc.class));
+            docGrpList.add(docGrp);
+
+            docGrp = new DocGroupFile();
+            docGrp.setFileGroupName("해외학위");
+            docGrp.setGroupMsg("");
+            docGrp.setMandDocList(commonDAO.queryForList(DOC_NAME_SPACE + "selectOverSeaDocListByApplNoWTMandatory", applNo, MandatoryNAppliedDoc.class));
+            docGrpList.add(docGrp);
+
+            docGrp = new DocGroupFile();
+            docGrp.setFileGroupName("대학");
+            docGrp.setGroupMsg("");
+            docGrpList.add(docGrp);
+
+            tmpDocList = commonDAO.queryForList(DOC_NAME_SPACE + "selectUnderDocListByApplNoWTMandatory", applNo, MandatoryNAppliedDoc.class);
+            int prevGgrpNo = -1;
+            for(MandatoryNAppliedDoc doc :  tmpDocList ) {
+
+                if( prevGgrpNo !=  doc.getDocGrp()){
+
+                    docSubGrp = new DocGroupFile();
+                    tmpDocList =new ArrayList<MandatoryNAppliedDoc>();
+                    docSubGrp.setDocGrp(doc.getDocGrp());
+                    docSubGrp.setFileGroupName( doc.getDocGrpName());
+                    docGrp.getSubGrp().add( docSubGrp );
+                    prevGgrpNo = doc.getDocGrp();
+                }
+                    docSubGrp.setMandDocList(tmpDocList);
+                    tmpDocList.add(doc);
+            }
+
+
+            docGrp = new DocGroupFile();
+            docGrp.setFileGroupName("대학원");
+            docGrp.setGroupMsg("");
+            docGrpList.add(docGrp);
+
+            tmpDocList = commonDAO.queryForList(DOC_NAME_SPACE + "selectGradDocListByApplNoWTMandatory", applNo, MandatoryNAppliedDoc.class);
+            prevGgrpNo = -1;
+            for(MandatoryNAppliedDoc doc :  tmpDocList ) {
+
+                if( prevGgrpNo !=  doc.getDocGrp()){
+
+                    docSubGrp = new DocGroupFile();
+                    tmpDocList =new ArrayList<MandatoryNAppliedDoc>();
+                    docSubGrp.setDocGrp(doc.getDocGrp());
+                    docSubGrp.setFileGroupName( doc.getDocGrpName());
+                    docGrp.getSubGrp().add( docSubGrp );
+                    prevGgrpNo = doc.getDocGrp();
+                }
+                docSubGrp.setMandDocList(tmpDocList);
+                tmpDocList.add(doc);
+            }
+
+            docGrp = new DocGroupFile();
+            docGrp.setFileGroupName("어학");
+            docGrp.setGroupMsg("");
+            docGrp.setMandDocList(commonDAO.queryForList(DOC_NAME_SPACE + "selectLangDocListByApplNoWTMandatory", applNo, MandatoryNAppliedDoc.class));
+            docGrpList.add(docGrp);
+
+            docGrp = new DocGroupFile();
+            docGrp.setFileGroupName("학연산");
+            docGrp.setGroupMsg("");
+            docGrp.setMandDocList(commonDAO.queryForList(DOC_NAME_SPACE + "selectInstDocListByApplNoWTMandatory", applNo, MandatoryNAppliedDoc.class));
+            docGrpList.add(docGrp);
+
+            docGrp = new DocGroupFile();
+            docGrp.setFileGroupName("외국인");
+            docGrp.setGroupMsg("");
+            docGrp.setMandDocList(commonDAO.queryForList(DOC_NAME_SPACE + "selectDeptDocListByApplNoWTMandatory", applNo, MandatoryNAppliedDoc.class));
+            docGrpList.add(docGrp);
+
+            docGrp = new DocGroupFile();
+            docGrp.setFileGroupName("기타");
+            docGrp.setGroupMsg("");
+            docGrp.setMandDocList(commonDAO.queryForList(DOC_NAME_SPACE + "selectEtcDocListByApplNoWTMandatory", applNo, MandatoryNAppliedDoc.class));
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        return mandDoc;
+        return docGrpList;
     }
 
 }
