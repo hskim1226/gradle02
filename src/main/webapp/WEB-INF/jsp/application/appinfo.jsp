@@ -568,15 +568,16 @@
                                             </div>
                                             <div class="form-group required">
                                                 <label class="col-sm-2 control-label">졸업 구분</label>
-                                                <div class="col-sm-4">
+                                                <div class="col-sm-10">
                                                     <label class="radio-inline degr-radio"><form:radiobutton path="collegeList[${stat.index}].grdaTypeCode" value="00001" />졸업</label>
                                                     &nbsp;&nbsp;&nbsp;
                                                     <label class="radio-inline degr-radio"><form:radiobutton path="collegeList[${stat.index}].grdaTypeCode" value="00002" />졸업 예정</label>
                                                 </div>
                                                 <label class="col-sm-2 control-label degr-div">학위등록번호</label>
-                                                <div class="col-sm-3 degr-no">
+                                                <div class="col-sm-8 degr-no">
                                                     <form:input path="collegeList[${stat.index}].degrNo" cssClass="degr-no form-control"/>
                                                 </div>
+                                                <label class="col-sm-10 apexMessage degr-message" >* 졸업증명서(혹은 졸업관련 서류)를 추후 제출</label>
                                             </div>
                                             <div class="form-group required">
                                                 <form:label path="collegeList[${stat.index}].schlName" cssClass="col-sm-2 control-label">학교 이름</form:label>
@@ -668,15 +669,16 @@
                                             </div>
                                             <div class="form-group required">
                                                 <label class="col-sm-2 control-label">졸업 구분</label>
-                                                <div class="col-sm-4">
+                                                <div class="col-sm-10">
                                                     <label class="radio-inline degr-radio"><form:radiobutton path="graduateList[${stat.index}].grdaTypeCode" value="00001" />졸업</label>
                                                     &nbsp;&nbsp;&nbsp;
                                                     <label class="radio-inline degr-radio"><form:radiobutton path="graduateList[${stat.index}].grdaTypeCode" value="00002" />졸업 예정</label>
                                                 </div>
                                                 <label class="col-sm-2 control-label degr-div">학위등록번호</label>
-                                                <div class="col-sm-3 degr-no">
+                                                <div class="col-sm-8 degr-no">
                                                     <form:input path="graduateList[${stat.index}].degrNo" cssClass="degr-no form-control"/>
                                                 </div>
+                                                <label class="col-sm-10 apexMessage degr-message" >* 졸업증명서(혹은 졸업관련 서류)를 추후 제출</label>
                                             </div>
                                             <div class="form-group required">
                                                 <form:label path="graduateList[${stat.index}].schlName" cssClass="col-sm-2 control-label">학교 이름</form:label>
@@ -2073,10 +2075,12 @@ console.log(blockToRemove.parentNode);
                 if (childRadioVal =='00001') {
                     $(parent).find('.degr-div').show();
                     $(parent).find('.degr-no').show('');
+                    $(parent).find('.degr-message').hide('');
                 } else {
                     $(parent).find('.degr-div').hide();
                     $(parent).find('.degr-no').hide();
                     $(parent).find('.degr-no').val('');
+                    $(parent).find('.degr-message').show('');
                 }
             });
 
@@ -2176,7 +2180,7 @@ console.log(blockToRemove.parentNode);
                     extIsOk = false
                     ;
                 if ((fileInput.files && fileInput.files.length) || fileInput.value != "") {
-                    if (fileInputId === 'generalDocList0.docName') {
+                    if (fileInputId === 'docGroupList[0].mandDocList[0].docName') {
                         if (regexpImage.test(fileName)) {
                             extIsOk = true;
                         } else {
