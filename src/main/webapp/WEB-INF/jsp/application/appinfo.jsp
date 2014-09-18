@@ -381,8 +381,8 @@
                                 <div class="panel-body">
                                     <div class="form-group required">
                                         <label for="application.citzCntrName" class="col-sm-2 control-label">국적</label>
-                                        <div class="col-sm-2 glyphicons">
-                                            <button type="button" class="btn btn-default btn-search bpopper" data-targetNode1="application.citzCntrCode" data-targetNode2='application.citzCntrName' data-category="country">
+                                        <div class="col-sm-2">
+                                            <button type="button" class="btn btn-default btn-search bpopper" data-targetNode1="application.citzCntrCode" data-targetNode2='citzCntrName' data-category="country">
                                                 <span class="glyphicon glyphicon-search"></span> 검색
                                             </button>
                                         </div>
@@ -416,7 +416,9 @@
                                     <div class="form-group required">
                                         <label class="col-sm-2 control-label">주소</label>
                                         <div class="col-sm-2">
-                                            <button type="button" class="btn btn-default btn-block btn-search" id="searchAddress">우편번호 찾기</button>
+                                            <button type="button" class="btn btn-default btn-block btn-search" id="searchAddress">
+                                                <span class="glyphicon glyphicon-search"></span> 우편번호 찾기
+                                            </button>
                                         </div>
                                         <div class="col-sm-4">
                                             <div class="input-group">
@@ -505,7 +507,7 @@
                                         <div class="col-sm-9">
                                             <div class="input-group date">
                                                 <form:input path="applicationGeneral.currWrkpDay" cssClass="col-sm-6 form-control" readonly="true" />
-                                                <span class="input-group-addon"></span>
+                                                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                                             </div>
                                         </div>
                                     </div>
@@ -538,7 +540,9 @@
                                             <div class="form-group required">
                                                 <label for="collegeList${stat.index}.schlCntrName" class="col-sm-2 control-label">소재 국가</label>
                                                 <div class="col-sm-2">
-                                                    <button type="button" class="btn btn-default btn-search bpopper" data-targetNode1="collegeList${stat.index}.schlCntrCode" data-targetNode2='collegeList${stat.index}.schlCntrName' data-category="country">검색</button>
+                                                    <button type="button" class="btn btn-default btn-search bpopper" data-targetNode1="collegeList${stat.index}.schlCntrCode" data-targetNode2='collegeList${stat.index}.schlCntrName' data-category="country">
+                                                        <span class="glyphicon glyphicon-search"></span> 검색
+                                                    </button>
                                                 </div>
                                                 <div class="col-sm-6">
                                                     <form:hidden path="collegeList[${stat.index}].schlCntrCode" />
@@ -551,19 +555,23 @@
                                                     <div class="input-group date">
                                                         <span class="input-group-addon">입학일</span>
                                                         <form:input path="collegeList[${stat.index}].entrDay" cssClass="form-control" readonly="true" />
+                                                        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-4 end-date-container">
                                                     <div class="input-group date">
                                                         <span class="input-group-addon">졸업(예정)일</span>
                                                         <form:input path="collegeList[${stat.index}].grdaDay" cssClass="form-control" readonly="true" />
+                                                        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="form-group required">
                                                 <form:label path="collegeList[${stat.index}].schlName" cssClass="col-sm-2 control-label">학교 이름</form:label>
                                                 <div class="col-sm-2">
-                                                    <button type="button" class="btn btn-default btn-search bpopper" data-targetNode1="collegeList${stat.index}.schlCode" data-targetNode2='collegeList${stat.index}.schlName' data-category="school-u">검색</button>
+                                                    <button type="button" class="btn btn-default btn-search bpopper" data-targetNode1="collegeList${stat.index}.schlCode" data-targetNode2='collegeList${stat.index}.schlName' data-category="school-u">
+                                                        <span class="glyphicon glyphicon-search"></span> 검색
+                                                    </button>
                                                 </div>
                                                 <div class="col-sm-4">
                                                     <form:hidden path="collegeList[${stat.index}].schlCode" />
@@ -620,7 +628,9 @@
                                             <div class="form-group required">
                                                 <label for="graduateList${stat.index}.schlCntrName" class="col-sm-2 control-label">소재 국가</label>
                                                 <div class="col-sm-2">
-                                                    <button type="button" class="btn btn-default btn-search bpopper" data-targetNode1="graduateList${stat.index}.schlCntrCode" data-targetNode2='graduateList${stat.index}.schlCntrName' data-category="country">검색</button>
+                                                    <button type="button" class="btn btn-default btn-search bpopper" data-targetNode1="graduateList${stat.index}.schlCntrCode" data-targetNode2='graduateList${stat.index}.schlCntrName' data-category="country">
+                                                        <span class="glyphicon glyphicon-search"></span> 검색
+                                                    </button>
                                                 </div>
                                                 <div class="col-sm-6">
                                                     <form:hidden path="graduateList[${stat.index}].schlCntrCode" />
@@ -633,19 +643,23 @@
                                                     <div class="input-group date">
                                                         <span class="input-group-addon">입학일</span>
                                                         <form:input path="graduateList[${stat.index}].entrDay" cssClass="form-control" readonly="true" />
+                                                        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-4 end-date-container">
                                                     <div class="input-group date">
                                                         <span class="input-group-addon">졸업(예정)일</span>
                                                         <form:input path="graduateList[${stat.index}].grdaDay" cssClass="form-control" readonly="true" />
+                                                        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="form-group required">
                                                 <form:label path="graduateList[${stat.index}].schlName" cssClass="col-sm-2 control-label">학교 이름</form:label>
                                                 <div class="col-sm-2">
-                                                    <button type="button" class="btn btn-default btn-search bpopper" data-targetNode1="graduateList${stat.index}.schlCode" data-targetNode2='graduateList${stat.index}.schlName' data-category="school-u">검색</button>
+                                                    <button type="button" class="btn btn-default btn-search bpopper" data-targetNode1="graduateList${stat.index}.schlCode" data-targetNode2='graduateList${stat.index}.schlName' data-category="school-u">
+                                                        <span class="glyphicon glyphicon-search"></span> 검색
+                                                    </button>
                                                 </div>
                                                 <div class="col-sm-4">
                                                     <form:hidden path="graduateList[${stat.index}].schlCode" />
@@ -703,7 +717,7 @@
                             <div class="panel panel-default">
                                 <div class="panel-heading">어학성적</div>
                                 <div class="panel-body" id="english-score-list">
-                                    <c:forEach items="${common.engExamList}" var="langExam" varStatus="stat">
+                                    <c:forEach items="${common.langExamList}" var="langExam" varStatus="stat">
                                     <div class="form-group hide-lang required">
                                         <c:choose>
                                         <c:when test="${stat.index == 0}">
@@ -741,6 +755,7 @@
                                             <div class="input-group date">
                                                 <span class="input-group-addon">시험일</span>
                                                 <form:input path="applicationLanguageList[${stat.index}].examDay" cssClass="form-control" />
+                                                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                                             </div>
                                         </div>
                                         <div class="col-sm-2 show-lang">
@@ -777,12 +792,14 @@
                                                     <div class="input-group date">
                                                         <span class="input-group-addon">입사일</span>
                                                         <form:input path="applicationExperienceList[${stat.index}].joinDay" cssClass="form-control" readonly="true" />
+                                                        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-4 end-date-container">
                                                     <div class="input-group date">
                                                         <span class="input-group-addon">퇴사일</span>
                                                         <form:input path="applicationExperienceList[${stat.index}].retrDay" cssClass="form-control" readonly="true" />
+                                                        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -811,7 +828,6 @@
                     </div>
                 </div>
  <%--첨부파일--%>
-
                 <div class="tab-pane fade" id="fileupload">
                     <div class="spacer-tiny"></div>
                     <div class="row">
@@ -1957,26 +1973,26 @@ console.log(blockToRemove.parentNode);
 
 
             <%-- 세부전공 변경 시 어학 변경 --%>
-//            $('#detlMajCode').on('change', function(event) {
-//                updateLanguageForm();
-//            });
+            $('#detlMajCode').on('change', function(event) {
+                updateLanguagePanel();
+            });
 
             $('#detlMajCode').trigger('change');
             <%-- 지원사항 select 폼 change 이벤트 핸들러 등록 끝 --%>
 
             <%-- 어학 및 경력 탭 선택 시 어학 변경 시작 --%>
-            $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
-                var currTab = e.target; // 활성화된 탭
-                var prevTab = e.relatedTarget; // 이전 탭
-                var currPanel = $(currTab.getAttribute('href'))[0];
-                if (currPanel.getAttribute('id') === 'langcareer') {
-                    updateLanguagePanel();
-                }
-            });
+//            $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+//                var currTab = e.target; // 활성화된 탭
+//                var prevTab = e.relatedTarget; // 이전 탭
+//                var currPanel = $(currTab.getAttribute('href'))[0];
+//                if (currPanel.getAttribute('id') === 'langcareer') {
+//                    updateLanguagePanel();
+//                }
+//            });
 
             function updateLanguagePanel() {
                 var detlMajCode = $('#detlMajCode').val();
-                if (detlMajCode === '-') {
+                if (detlMajCode === '-' || detlMajCode === '') {
                     var groups = $('#english-score-list').children('.form-group');
                     for (var i = 0, len = groups.length; i < len; i++) {
                         updateLanguageGroup(groups[i], []);
@@ -1985,7 +2001,7 @@ console.log(blockToRemove.parentNode);
                 }
                 var baseUrl = '${contextPath}/common/code';
                 var url;
-                var admsNo = $('#admsNo').val();;
+                var admsNo = $('#admsNo').val();
                 var applAttrCode = $('#applAttrCode').val();
                 if (applAttrCode == '00001') {
                     baseUrl += '/general';
