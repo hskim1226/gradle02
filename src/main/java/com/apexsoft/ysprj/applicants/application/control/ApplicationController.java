@@ -334,48 +334,45 @@ public class ApplicationController {
             String key = entry.getKey().toString();
 
             if ((key.startsWith("collegeList") || key.startsWith("graduateList")) && key.endsWith("acadSeq")) {
-//                acadSeqMap.put(key, request.getParameter(key));
                 Object strAcadSeq = request.getParameter(key);
                 acadSeqList.add(strAcadSeq);
-
-System.out.println(key + " : " + strAcadSeq);
+//System.out.println(key + " : " + strAcadSeq);
             }
         }
 
-        List<CustomApplicationAcademy> collegeListFromEntire = entireApplication.getCollegeList();
-        for ( int i = 0 ; i < collegeListFromEntire.size() ; i++ ) {
-            CustomApplicationAcademy aa = collegeListFromEntire.get(i);
-            boolean toBeRemoved = true;
-            for (Object acadSeq : acadSeqList) {
-//                if (aa==null) System.out.println("aa is null : " + i);
-//                if (aa.getAcadSeq()==null) System.out.println("aa.getAcadSeq() is null : " + i);
-                if ( aa.getAcadSeq() != null && aa.getAcadSeq().toString().equals(acadSeq) ) {
-                    toBeRemoved = false;
-                } else if (aa.getAcadSeq() == null && aa.getSchlCode() != null) {
-                    toBeRemoved = false;
-                }
-            }
-            if (toBeRemoved) collegeListFromEntire.remove(aa);
-        }
+//        List<CustomApplicationAcademy> collegeListFromEntire = entireApplication.getCollegeList();
+//        for ( int i = 0 ; i < collegeListFromEntire.size() ; i++ ) {
+//            CustomApplicationAcademy aa = collegeListFromEntire.get(i);
+//            boolean toBeRemoved = true;
+//            for (Object acadSeq : acadSeqList) {
+//                if ( aa.getAcadSeq() != null && aa.getAcadSeq().toString().equals(acadSeq) ) {
+//                    toBeRemoved = false;
+//                } else if (aa.getAcadSeq() == null && aa.getSchlCode() != null) {
+//                    toBeRemoved = false;
+//                }
+//            }
+//            if (toBeRemoved) collegeListFromEntire.remove(aa);
+//        }
+//
+//        List<CustomApplicationAcademy> graduateListFromEntire = entireApplication.getGraduateList();
+//        for ( int i = 0 ; i < graduateListFromEntire.size() ; i++ ) {
+//            CustomApplicationAcademy aa = graduateListFromEntire.get(i);
+//            boolean toBeRemoved = true;
+//            for (Object acadSeq : acadSeqList) {
+//                if ( aa.getAcadSeq() != null && aa.getAcadSeq().toString().equals(acadSeq) ) {
+//                    toBeRemoved = false;
+//                } else if (aa.getAcadSeq() == null && aa.getSchlCode() != null && aa.getSchlCode().length() > 0) {
+//                    toBeRemoved = false;
+//                }
+//            }
+//            if (toBeRemoved) graduateListFromEntire.remove(aa);
+//        }
+//
+//        entireApplication.setCollegeList(collegeListFromEntire);
+//        entireApplication.setGraduateList(graduateListFromEntire);
 
-        List<CustomApplicationAcademy> graduateListFromEntire = entireApplication.getGraduateList();
-        for ( int i = 0 ; i < graduateListFromEntire.size() ; i++ ) {
-            CustomApplicationAcademy aa = graduateListFromEntire.get(i);
-            boolean toBeRemoved = true;
-            for (Object acadSeq : acadSeqList) {
-//                if (aa==null) System.out.println("aa is null : " + i);
-//                if (aa.getAcadSeq()==null) System.out.println("aa.getAcadSeq() is null : " + i);
-                if ( aa.getAcadSeq() != null && aa.getAcadSeq().toString().equals(acadSeq) ) {
-                    toBeRemoved = false;
-                } else if (aa.getAcadSeq() == null && aa.getSchlCode() != null && aa.getSchlCode().length() > 0) {
-                    toBeRemoved = false;
-                }
-            }
-            if (toBeRemoved) graduateListFromEntire.remove(aa);
-        }
-
-        entireApplication.setCollegeList(collegeListFromEntire);
-        entireApplication.setGraduateList(graduateListFromEntire);
+        entireApplication.setCollegeList(preProcessAcadList(entireApplication.getCollegeList(), acadSeqList));
+        entireApplication.setGraduateList(preProcessAcadList(entireApplication.getGraduateList(), acadSeqList));
 
         ExecutionContext ec = null;
         String userId = principal.getName();
@@ -393,6 +390,29 @@ System.out.println(key + " : " + strAcadSeq);
         }
 
         return ec;
+    }
+
+    /**
+     * acadSeq를 통해 화면의 학력 내용에서 C,U,D 할 목록을 추려내서 서비스 계층에 전달
+     *
+     * @param academyList
+     * @param acadSeqList
+     * @return
+     */
+    private List<CustomApplicationAcademy> preProcessAcadList(List<CustomApplicationAcademy> academyList, List<Object> acadSeqList) {
+        for ( int i = 0 ; i < academyList.size() ; i++ ) {
+            CustomApplicationAcademy aa = academyList.get(i);
+            boolean toBeRemoved = true;
+            for (Object acadSeq : acadSeqList) {
+                if ( aa.getAcadSeq() != null && aa.getAcadSeq().toString().equals(acadSeq) ) {
+                    toBeRemoved = false;
+                } else if (aa.getAcadSeq() == null && aa.getSchlCode() != null && aa.getSchlCode().length() > 0) {
+                    toBeRemoved = false;
+                }
+            }
+            if (toBeRemoved) academyList.remove(aa);
+        }
+        return academyList;
     }
 
     /**
@@ -417,13 +437,25 @@ System.out.println(key + " : " + strAcadSeq);
             return new ExecutionContext(ExecutionContext.FAIL);
         }
 
-        ExecutionContext ec = new ExecutionContext(ExecutionContext.SUCCESS);
-        ec.setMessage("Lang Career");
-//        ExecutionContext ec = null;
-//        String userId = principal.getName();
-//        entireApplication.getApplication().setUserId(userId);
-//        entireApplication.getApplication().setApplStsCode("00001");
-//        ec = applicationService.createApplication(entireApplication.getApplication());
+//        ExecutionContext ec = new ExecutionContext(ExecutionContext.SUCCESS);
+//        ec.setMessage("Lang Career");
+        ExecutionContext ec = null;
+        String userId = principal.getName();
+        entireApplication.getApplication().setUserId(userId);
+
+        if (entireApplication.getApplication().getApplNo() == null) { //insert
+            entireApplication.getApplication().setCreId(userId);
+            entireApplication.getApplicationGeneral().setCreId(userId);
+            ec = applicationService.createAppInfo(entireApplication.getApplication(),
+                    entireApplication.getApplicationGeneral(),
+                    entireApplication.getApplicationForeigner());
+        } else { //update
+            entireApplication.getApplication().setModId(userId);
+            entireApplication.getApplicationGeneral().setModId(userId);
+            ec = applicationService.updateAppInfo(entireApplication.getApplication(),
+                    entireApplication.getApplicationGeneral(),
+                    entireApplication.getApplicationForeigner());
+        }
 
         return ec;
     }
