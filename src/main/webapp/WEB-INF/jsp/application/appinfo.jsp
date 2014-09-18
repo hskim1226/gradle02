@@ -850,7 +850,7 @@
                     <div class="spacer-tiny"></div>
                     <div class="row">
                         <div class="col-sm-offset-1 col-sm-10">
-                            <c:forEach items="${docGroupList}" var="docGroup" varStatus="grpStat">
+                            <c:forEach items="${entireApplication.docGroupList}" var="docGroup" varStatus="grpStat">
                                 <c:if test = "${docGroup.subGrp.size()==0  &&  docGroup.mandDocList.size()>0}">
                                     <div class="panel panel-darkgray">
                                         <div class="panel-heading">${docGroup.fileGroupName} 서류</div>
@@ -1943,7 +1943,7 @@ console.log(blockToRemove.parentNode);
                             } else if (applAttrCode == '00002') {
                                 return '/ariInst/detailMajor/' + admsNo + "/" + $('#deptCode').val() + "/" + $('#ariInstCode').val() + '/' + arg;
                             } else if (applAttrCode == '00003') {
-                                // nothing
+                                return '/general/detailMajor/' + admsNo + '/' + $('#deptCode').val() + '/' + arg;
                             }
                         }
                     }
