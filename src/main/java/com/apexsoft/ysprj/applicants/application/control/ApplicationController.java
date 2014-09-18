@@ -588,8 +588,6 @@ public class ApplicationController {
                                              BindingResult binding,
                                              Principal principal) {
 
-        saveApplication(entireApplication, binding, principal);
-
         ApplicationPayment ap = new ApplicationPayment();
         ap.setCreId(principal.getName());
         entireApplication.setApplicationPayment(ap);

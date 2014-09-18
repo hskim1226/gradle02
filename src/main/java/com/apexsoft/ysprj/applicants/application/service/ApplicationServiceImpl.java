@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.*;
+import java.util.concurrent.ExecutionException;
 
 /**
  * Created by Administrator on 2014-08-12.
@@ -766,175 +767,38 @@ System.out.println(param.getAcadTypeCode() + " : " + c1+u1+d1);
 
     @Override
     public ExecutionContext confirmEntireApplication(EntireApplication entireApplication) {
-        int r1 = 0, r2 = 0, r3 = 0, r4 = 0, r5 = 0, r6 = 0, r7 = 0, r8 = 0;
-        int r9 = 0, r10 = 0, r11 = 0, r12 = 0, r13 = 0, r14 = 0, r15 = 0, r16 = 0, r17 = 0;
+        int r1 = 0, r2 = 0, r3 = 0, r4 = 0, r5 = 0;
+        ExecutionContext ec1 = null;
+        ExecutionContext ec2 = null;
+        ExecutionContext ec3 = null;
+        ExecutionContext ec = new ExecutionContext();
         int applNo = entireApplication.getApplication().getApplNo();
 
         try {
             Date date = new Date();
-            entireApplication.getApplication().setModDate(date);
-            entireApplication.getApplication().setApplStsCode("00010");
-            r1 = commonDAO.updateItem(entireApplication.getApplication(), NAME_SPACE, "ApplicationMapper");
 
-            entireApplication.getApplicationGeneral().setModDate(date);
-            r2 = commonDAO.updateItem(entireApplication.getApplicationGeneral(), NAME_SPACE, "ApplicationGeneralMapper");
+            Application application = entireApplication.getApplication();
+            ApplicationGeneral applicationGeneral = entireApplication.getApplicationGeneral();
+            ApplicationForeigner applicationForeigner = entireApplication.getApplicationForeigner();
 
-            entireApplication.getApplicationETCWithBLOBs().setModDate(date);
-            r3 = commonDAO.updateItem(entireApplication.getApplicationETCWithBLOBs(), NAME_SPACE, "ApplicationETCMapper");
+            application.setModDate(date);
+            application.setApplStsCode("00010");
+            applicationGeneral.setModDate(date);
+            applicationForeigner.setModDate(date);
+            r1 = commonDAO.updateItem(application, NAME_SPACE, "ApplicationMapper");
+            r2 = commonDAO.updateItem(applicationGeneral, NAME_SPACE, "ApplicationGeneralMapper");
+            r3 = commonDAO.updateItem(applicationForeigner, NAME_SPACE, "ApplicationForeignerMapper");
 
-            deleteListByApplNo(applNo, "CustomApplicationAcademyMapper");
-//            entireApplication.getHighSchool().setApplNo(applNo);
-//            entireApplication.getHighSchool().setAcadSeq(1);
-//            entireApplication.getHighSchool().setModDate(date);
-//            r4 = commonDAO.insertItem(entireApplication.getHighSchool(), NAME_SPACE, "ApplicationAcademyMapper");
+            ec1 = updateAcademy(application,
+                    entireApplication.getCollegeList(),
+                    entireApplication.getGraduateList());
 
-            List<CustomApplicationAcademy> collegeList = entireApplication.getCollegeList();
-            int idx = 1;
-            if ( collegeList != null ) {
-                for( ApplicationAcademy college : collegeList) {
-                    college.setApplNo(applNo);
-                    college.setAcadSeq(++idx);
-                    college.setModDate(date);
-                }
-                r5 = commonDAO.insertList(collegeList, NAME_SPACE, "ApplicationAcademyMapper");
-            }
+            ec2 = updateLangCareer(application,
+                    entireApplication.getApplicationLanguageList(),
+                    entireApplication.getApplicationExperienceList());
 
-            List<CustomApplicationAcademy> graduateList = entireApplication.getGraduateList();
-            if ( graduateList != null ) {
-                for( ApplicationAcademy graduate : graduateList) {
-                    graduate.setApplNo(applNo);
-                    graduate.setAcadSeq(++idx);
-                    graduate.setModDate(date);
-                }
-                r6 = commonDAO.insertList(graduateList, NAME_SPACE, "ApplicationAcademyMapper");
-            }
-
-            deleteListByApplNo(applNo, "CustomApplicationExperienceMapper");
-            List<ApplicationExperience> experienceList = entireApplication.getApplicationExperienceList();
-            idx = 0;
-            if ( experienceList != null ) {
-                for(ApplicationExperience item : experienceList) {
-                    item.setApplNo(applNo);
-                    item.setModDate(date);
-                    item.setExprSeq(++idx);
-                }
-                r7 = commonDAO.insertList(experienceList, NAME_SPACE, "ApplicationExperienceMapper");
-            }
-
-            deleteListByApplNo(applNo, "CustomApplicationLanguageMapper");
-            List<ApplicationLanguage> languageList = entireApplication.getApplicationLanguageList();
-            idx = 0;
-            if ( languageList != null ) {
-                for(ApplicationLanguage item : languageList) {
-                    item.setApplNo(applNo);
-                    item.setModDate(date);
-                    item.setLangSeq(++idx);
-                }
-                r8 = commonDAO.insertList(languageList, NAME_SPACE, "ApplicationLanguageMapper");
-            }
-
- /*           deleteListByApplNo(applNo, "CustomApplicationDocumentMapper");
-            List<ApplicationDocument> generalDocList = entireApplication.getGeneralDocList();
-            idx = 0;
-            if ( generalDocList != null ) {
-                for(ApplicationDocument item : generalDocList) {
-                    item.setApplNo(applNo);
-                    item.setModDate(date);
-                    item.setDocSeq(++idx);
-                }
-                r9 = commonDAO.insertList(generalDocList, NAME_SPACE, "ApplicationDocumentMapper");
-            }
-
-            List<ApplicationDocument> foreignDegreeDocList = entireApplication.getForeignDegreeDocList();
-            if ( foreignDegreeDocList != null ) {
-                if ( foreignDegreeDocList.size() > 0) {
-                    for(ApplicationDocument item : foreignDegreeDocList) {
-                        item.setApplNo(applNo);
-                        item.setModDate(date);
-                        item.setDocSeq(++idx);
-                    }
-                    r10 = commonDAO.insertList(foreignDegreeDocList, NAME_SPACE, "ApplicationDocumentMapper");
-                } else {
-                    r10 = 1;
-                }
-
-            }
-
-            List<ApplicationDocument> collegeDocList = entireApplication.getCollegeDocList();
-            if ( collegeDocList != null ) {
-                for(ApplicationDocument item : collegeDocList) {
-                    item.setApplNo(applNo);
-                    item.setModDate(date);
-                    item.setDocSeq(++idx);
-                }
-                r11 = commonDAO.insertList(collegeDocList, NAME_SPACE, "ApplicationDocumentMapper");
-            }
-
-            List<ApplicationDocument> graduateDocList = entireApplication.getGraduateDocList();
-            if ( graduateDocList != null ) {
-                for(ApplicationDocument item : graduateDocList) {
-                    item.setApplNo(applNo);
-                    item.setModDate(date);
-                    item.setDocSeq(++idx);
-                }
-                r12 = commonDAO.insertList(graduateDocList, NAME_SPACE, "ApplicationDocumentMapper");
-            }
-
-            List<ApplicationDocument> languageDocList = entireApplication.getLanguageDocList();
-            if ( languageDocList != null ) {
-                //TODO 어학은 일반/외국인 모두 다 있으므로 아래 size 검사 if는 제거해야함
-                if (languageDocList.size() > 0) {
-                    for(ApplicationDocument item : languageDocList) {
-                        item.setApplNo(applNo);
-                        item.setModDate(date);
-                        item.setDocSeq(++idx);
-                    }
-                    r13 = commonDAO.insertList(languageDocList, NAME_SPACE, "ApplicationDocumentMapper");
-                } else {
-                    r13 = 1;
-                }
-            }
-
-            List<ApplicationDocument> ariInstDocList = entireApplication.getAriInstDocList();
-            if ( ariInstDocList != null ) {
-                if ( ariInstDocList.size() > 0 ) {
-                    for(ApplicationDocument item : ariInstDocList) {
-                        item.setApplNo(applNo);
-                        item.setModDate(date);
-                        item.setDocSeq(++idx);
-                    }
-                    r14 = commonDAO.insertList(ariInstDocList, NAME_SPACE, "ApplicationDocumentMapper");
-                }
-                r14 = 1;
-            }
-
-            List<ApplicationDocument> foreignerDocList = entireApplication.getForeignerDocList();
-            if ( foreignerDocList != null ) {
-                if ( foreignerDocList.size() > 0 ) {
-                    for(ApplicationDocument item : foreignerDocList) {
-                        item.setApplNo(applNo);
-                        item.setModDate(date);
-                        item.setDocSeq(++idx);
-                    }
-                    r15 = commonDAO.insertList(foreignerDocList, NAME_SPACE, "ApplicationDocumentMapper");
-                } else {
-                    r15 = 1;
-                }
-            }
-
-            List<ApplicationDocument> deptDocList = entireApplication.getDeptDocList();
-            if ( deptDocList != null ) {
-                if ( deptDocList.size() > 0 ) {
-                    for(ApplicationDocument item : deptDocList) {
-                        item.setApplNo(applNo);
-                        item.setModDate(date);
-                        item.setDocSeq(++idx);
-                    }
-                    r16 = commonDAO.insertList(deptDocList, NAME_SPACE, "ApplicationDocumentMapper");
-                } else {
-                    r16 = 1;
-                }
-            }*/
+            ec3 = updateFileUpload(application,
+                    entireApplication.getDocGroupList());
 
             CustomPayInfo customPayInfo = commonDAO.queryForObject(NAME_SPACE + "CustomPayInfoMapper.selectPayInfoByApplNo",
                     applNo, CustomPayInfo.class);
@@ -948,29 +812,32 @@ System.out.println(param.getAcadTypeCode() + " : " + c1+u1+d1);
                 ap.setExpPayAmt(admsFee);
                 ap.setPayStsCode("00001");
                 ap.setCreDate(date);
-                r17 = commonDAO.insertItem(ap, PAYMENT_NAME_SPACE, "ApplicationPaymentMapper");
+                r4 = commonDAO.insertItem(ap, PAYMENT_NAME_SPACE, "ApplicationPaymentMapper");
             } else {
                 ap.setApplNo(applNo);
                 ap.setPaySeq(paySeq);
                 ap.setExpPayAmt(admsFee);
                 ap.setModDate(date);
-                r17 = commonDAO.updateItem(ap, PAYMENT_NAME_SPACE, "ApplicationPaymentMapper");
+                r4 = commonDAO.updateItem(ap, PAYMENT_NAME_SPACE, "ApplicationPaymentMapper");
             }
 
         } catch ( Exception e ) {
             e.printStackTrace();
         }
-        String parity = "" + r1 + r2 + r3 + r4 + r5 + r6 + r7 + r8 + r9 + r10 + r11 + r12 + r13 + r14 + r15 + r16 + r17;
 
-        ExecutionContext ec = null;
-        int errPosition = parity.indexOf('0');
-        if (errPosition  > 0) {
-            ec = new ExecutionContext(ExecutionContext.FAIL,
-                    messageResolver.getMessage("U307") + " : " + errPosition);
+        // TODO 모두 성공 검출 조건 보완 필요
+        if ( r3 >= 0 &&
+                ec1.getResult().equals(ExecutionContext.SUCCESS) &&
+                ec2.getResult().equals(ExecutionContext.SUCCESS) &&
+                ec3.getResult().equals(ExecutionContext.SUCCESS) ) {
+            ec.setResult(ExecutionContext.SUCCESS);
+            ec.setMessage(messageResolver.getMessage("U327"));
+            ec.setData(new CustomApplNoStsCode(applNo, entireApplication.getApplication().getApplStsCode()));
         } else {
-            ec = new ExecutionContext(ExecutionContext.SUCCESS,
-                    messageResolver.getMessage("U301"),
-                    new Integer(applNo));
+            ec.setResult(ExecutionContext.FAIL);
+            ec.setMessage(messageResolver.getMessage("U328"));
+            String errMsg = messageResolver.getMessage("ERR0033");
+            ec.setData(new CustomApplNoStsCode(applNo, APP_NULL_STATUS, errMsg));
         }
         return ec;
     }

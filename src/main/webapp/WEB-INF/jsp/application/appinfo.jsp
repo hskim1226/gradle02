@@ -1199,7 +1199,7 @@
 
             <%-- 하단 버튼 처리 --%>
             var formProcess = function(event) {
-                var $form = $(this), formUrl,
+                var $form = $(this),
                         isApply = event.type ==='apply'?true:false,
                         $formData = $form.serializeArray(),
                         ajaxObj = {
@@ -1248,6 +1248,7 @@
                         ajaxObj.url = "${contextPath}/application/save/fileUpload";
                         break;
                     case 'apply':
+                        if ( !confirm('첨부 파일을 포함한 모든 내용을 확인하였으며,\n사용자의 잘못으로 발생한 문제는 사용자에게 책임이 있음에 동의하십니까?')) return false;
                         $('.btnAppl').prop('disabled', true);
                         ajaxObj.url = "${contextPath}/application/apply/apply";
                         break;

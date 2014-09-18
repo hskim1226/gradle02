@@ -143,8 +143,12 @@
 
             });
             $('.verify').click(function(e){
-                location.href="${contextPath}/application/preview" + getQueryString(e.target, true);
-                e.preventDefault();
+                <%--location.href="${contextPath}/application/preview" + getQueryString(e.target, true);--%>
+                <%--e.preventDefault();--%>
+                var form = document.getElementById('LGD_PAYINFO');
+                setHidden(e.target);
+                form.action = "${contextPath}/application/preview";
+                form.submit();
             });
             $('.pay').click(function(e){
                 document.getElementById('LGD_PRODUCTINFO').value = e.target.name;
