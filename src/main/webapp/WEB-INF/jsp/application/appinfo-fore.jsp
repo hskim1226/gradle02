@@ -622,6 +622,14 @@
                                                         </div>
                                                     </div>
                                                 </div>
+                                                <div class="form-group required">
+                                                    <label class="col-sm-2 control-label"><spring:message code="L399" /></label>
+                                                    <div class="col-sm-9">
+                                                        <label class="radio-inline"><form:radiobutton path="collegeList[${stat.index}].grdaTypeCode" value="00001" /><spring:message code="L400" /></label>
+                                                        &nbsp;&nbsp;&nbsp;
+                                                        <label class="radio-inline"><form:radiobutton path="collegeList[${stat.index}].grdaTypeCode" value="00002" /><spring:message code="L401" /></label>
+                                                    </div>
+                                                </div>
                                                 <div class="form-group">
                                                     <form:label path="collegeList[${stat.index}].schlName" cssClass="col-sm-2 control-label"><spring:message code="L357" /></form:label>
                                                     <div class="col-sm-2">
@@ -720,6 +728,14 @@
                                                             <form:input path="graduateList[${stat.index}].grdaDay" cssClass="form-control" readonly="true" />
                                                             <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                                                         </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group required">
+                                                    <label class="col-sm-2 control-label"><spring:message code="L399" /></label>
+                                                    <div class="col-sm-9">
+                                                        <label class="radio-inline"><form:radiobutton path="graduateList[${stat.index}].grdaTypeCode" value="00001" /><spring:message code="L400" /></label>
+                                                        &nbsp;&nbsp;&nbsp;
+                                                        <label class="radio-inline"><form:radiobutton path="graduateList[${stat.index}].grdaTypeCode" value="00002" /><spring:message code="L401" /></label>
                                                     </div>
                                                 </div>
                                                 <div class="form-group">

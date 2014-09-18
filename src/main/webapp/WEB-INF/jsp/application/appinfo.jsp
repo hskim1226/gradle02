@@ -567,6 +567,14 @@
                                                 </div>
                                             </div>
                                             <div class="form-group required">
+                                                <label class="col-sm-2 control-label">졸업 구분</label>
+                                                <div class="col-sm-9">
+                                                    <label class="radio-inline"><form:radiobutton path="collegeList[${stat.index}].grdaTypeCode" value="00001" />졸업</label>
+                                                    &nbsp;&nbsp;&nbsp;
+                                                    <label class="radio-inline"><form:radiobutton path="collegeList[${stat.index}].grdaTypeCode" value="00002" />졸업 예정</label>
+                                                </div>
+                                            </div>
+                                            <div class="form-group required">
                                                 <form:label path="collegeList[${stat.index}].schlName" cssClass="col-sm-2 control-label">학교 이름</form:label>
                                                 <div class="col-sm-2">
                                                     <button type="button" class="btn btn-default btn-search bpopper" data-targetNode1="collegeList${stat.index}.schlCode" data-targetNode2='collegeList${stat.index}.schlName' data-category="school-u">
@@ -652,6 +660,14 @@
                                                         <form:input path="graduateList[${stat.index}].grdaDay" cssClass="form-control" readonly="true" />
                                                         <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                                                     </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group required">
+                                                <label class="col-sm-2 control-label">졸업 구분</label>
+                                                <div class="col-sm-9">
+                                                    <label class="radio-inline"><form:radiobutton path="graduateList[${stat.index}].grdaTypeCode" value="00001" />졸업</label>
+                                                    &nbsp;&nbsp;&nbsp;
+                                                    <label class="radio-inline"><form:radiobutton path="graduateList[${stat.index}].grdaTypeCode" value="00002" />졸업 예정</label>
                                                 </div>
                                             </div>
                                             <div class="form-group required">
