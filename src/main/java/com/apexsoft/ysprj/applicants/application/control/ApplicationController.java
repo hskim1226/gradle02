@@ -324,7 +324,8 @@ public class ApplicationController {
             return new ExecutionContext(ExecutionContext.FAIL);
         }
 
-        Map<String, String> acadSeqMap = new HashMap<String, String>();
+        List<Object> acadSeqList = new ArrayList<Object>();
+
         Map map = request.getParameterMap();
         Set<Map.Entry> set = map.entrySet();
 
@@ -332,18 +333,49 @@ public class ApplicationController {
 
             String key = entry.getKey().toString();
 
-            if (key.startsWith("collegeList") && key.endsWith("acadSeq")) {
-                acadSeqMap.put(key, entry.getValue().toString());
+            if ((key.startsWith("collegeList") || key.startsWith("graduateList")) && key.endsWith("acadSeq")) {
+//                acadSeqMap.put(key, request.getParameter(key));
+                Object strAcadSeq = request.getParameter(key);
+                acadSeqList.add(strAcadSeq);
+
+System.out.println(key + " : " + strAcadSeq);
             }
         }
 
         List<CustomApplicationAcademy> collegeListFromEntire = entireApplication.getCollegeList();
-        for(ApplicationAcademy academy : collegeListFromEntire) {
-            if (!acadSeqMap.containsKey(academy.getAcadSeq())) {
-                collegeListFromEntire.remove(academy);
+        for ( int i = 0 ; i < collegeListFromEntire.size() ; i++ ) {
+            CustomApplicationAcademy aa = collegeListFromEntire.get(i);
+            boolean toBeRemoved = true;
+            for (Object acadSeq : acadSeqList) {
+//                if (aa==null) System.out.println("aa is null : " + i);
+//                if (aa.getAcadSeq()==null) System.out.println("aa.getAcadSeq() is null : " + i);
+                if ( aa.getAcadSeq() != null && aa.getAcadSeq().toString().equals(acadSeq) ) {
+                    toBeRemoved = false;
+                } else if (aa.getAcadSeq() == null && aa.getSchlCode() != null) {
+                    toBeRemoved = false;
+                }
             }
+            if (toBeRemoved) collegeListFromEntire.remove(aa);
         }
+
+        List<CustomApplicationAcademy> graduateListFromEntire = entireApplication.getGraduateList();
+        for ( int i = 0 ; i < graduateListFromEntire.size() ; i++ ) {
+            CustomApplicationAcademy aa = graduateListFromEntire.get(i);
+            boolean toBeRemoved = true;
+            for (Object acadSeq : acadSeqList) {
+//                if (aa==null) System.out.println("aa is null : " + i);
+//                if (aa.getAcadSeq()==null) System.out.println("aa.getAcadSeq() is null : " + i);
+                if ( aa.getAcadSeq() != null && aa.getAcadSeq().toString().equals(acadSeq) ) {
+                    toBeRemoved = false;
+                } else if (aa.getAcadSeq() == null && aa.getSchlCode() != null && aa.getSchlCode().length() > 0) {
+                    toBeRemoved = false;
+                }
+            }
+            if (toBeRemoved) graduateListFromEntire.remove(aa);
+        }
+
         entireApplication.setCollegeList(collegeListFromEntire);
+        entireApplication.setGraduateList(graduateListFromEntire);
 
         ExecutionContext ec = null;
         String userId = principal.getName();
