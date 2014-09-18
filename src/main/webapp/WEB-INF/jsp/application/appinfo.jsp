@@ -322,6 +322,7 @@
                                                     <form:options items="${common.detlMajList}" itemValue="detlMajCode" itemLabel="detlMajName" />
                                                 </form:select>
                                                 <label id="detMajDesc" class="apexMessage"></label>
+                                                <form:input path="application.inpDetlMaj" cssClass="form-control" style="display:none" />
                                             </div>
                                         </div>
                                     </div>
@@ -562,15 +563,16 @@
                                             </div>
                                             <div class="form-group required">
                                                 <label class="col-sm-2 control-label">졸업 구분</label>
-                                                <div class="col-sm-4">
+                                                <div class="col-sm-10">
                                                     <label class="radio-inline degr-radio"><form:radiobutton path="collegeList[${stat.index}].grdaTypeCode" value="00001" />졸업</label>
                                                     &nbsp;&nbsp;&nbsp;
                                                     <label class="radio-inline degr-radio"><form:radiobutton path="collegeList[${stat.index}].grdaTypeCode" value="00002" />졸업 예정</label>
                                                 </div>
                                                 <label class="col-sm-2 control-label degr-div">학위등록번호</label>
-                                                <div class="col-sm-3 degr-no">
+                                                <div class="col-sm-8 degr-no">
                                                     <form:input path="collegeList[${stat.index}].degrNo" cssClass="degr-no form-control"/>
                                                 </div>
+                                                <label class="col-sm-10 apexMessage degr-message" style="display:none" >* 졸업증명서(혹은 졸업관련 서류)를 추후 제출</label>
                                             </div>
                                             <div class="form-group required">
                                                 <form:label path="collegeList[${stat.index}].schlName" cssClass="col-sm-2 control-label">학교 이름</form:label>
@@ -662,15 +664,16 @@
                                             </div>
                                             <div class="form-group required">
                                                 <label class="col-sm-2 control-label">졸업 구분</label>
-                                                <div class="col-sm-4">
+                                                <div class="col-sm-10">
                                                     <label class="radio-inline degr-radio"><form:radiobutton path="graduateList[${stat.index}].grdaTypeCode" value="00001" />졸업</label>
                                                     &nbsp;&nbsp;&nbsp;
                                                     <label class="radio-inline degr-radio"><form:radiobutton path="graduateList[${stat.index}].grdaTypeCode" value="00002" />졸업 예정</label>
                                                 </div>
                                                 <label class="col-sm-2 control-label degr-div">학위등록번호</label>
-                                                <div class="col-sm-3 degr-no">
+                                                <div class="col-sm-8 degr-no">
                                                     <form:input path="graduateList[${stat.index}].degrNo" cssClass="degr-no form-control"/>
                                                 </div>
+                                                <label class="col-sm-10 apexMessage degr-message" style="display:none">* 졸업증명서(혹은 졸업관련 서류)를 추후 제출</label>
                                             </div>
                                             <div class="form-group required">
                                                 <form:label path="graduateList[${stat.index}].schlName" cssClass="col-sm-2 control-label">학교 이름</form:label>
@@ -982,9 +985,26 @@
                                 </c:if>
                                 <div class="spacer-tiny"></div>
                             </c:forEach>
+                            <div class="panel panel-darkgray">
+                                <div class="panel-body" id="docGroupList[${grpStat.index}].list">
+                                    <label class="col-sm-10 apexMessage">- 파일 첨부시 주의사항
+                                        <br>1. 문서별로 1개의 파일만 첨부 가능합니다.
+                                        <br>2. 사진 및 문서의 해상도와 가독성 여부를 반드시 확인하세요.
+                                        <br>3. 스캔시에는 300dpi 이상으로 스캔하시기 바랍니다.
+                                        <br>4. 문서 크기는 A4 크기로 생성하여 첨부하셔야 합니다.</label>
+                                    <label class="col-sm-10 apexMessage">- 여러개의 PDF파일을 합치는 방법
+                                        <br>여러개 PDF 은 하나의 PDF 파일로 만들어서 업로드 하시기 바랍니다.
+                                        <br>PDF 통합은 전용프로그램이나 인터넷 서비스를 이용하시기 바랍니다.
+                                        <br>  예) http://convert.neevia.com/pdfmerge/
+                                        <br>  ( 예시 사이트에서 발생할 수 있는 문제는 당사에서 책임지지 않습니다 )</label>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
+
+
+
             </div> <%--myTabContent--%>
         </form:form>
 
@@ -2045,8 +2065,6 @@ console.log(blockToRemove.parentNode);
                     $childNode = $('<label/>').addClass('apexMsg').text(temp2).autoLink();
                     $childNode.appendTo($divNode);
                     $divNode.appendTo($(parent));
-
-
                 }
 
             });
@@ -2154,10 +2172,12 @@ console.log(blockToRemove.parentNode);
                 if (childRadioVal =='00001') {
                     $(parent).find('.degr-div').show();
                     $(parent).find('.degr-no').show('');
+                    $(parent).find('.degr-message').hide('');
                 } else {
                     $(parent).find('.degr-div').hide();
                     $(parent).find('.degr-no').hide();
                     $(parent).find('.degr-no').val('');
+                    $(parent).find('.degr-message').show('');
                 }
             });
 
@@ -2257,7 +2277,7 @@ console.log(blockToRemove.parentNode);
                     extIsOk = false
                     ;
                 if ((fileInput.files && fileInput.files.length) || fileInput.value != "") {
-                    if (fileInputId === 'generalDocList0.docName') {
+                    if (fileInputId === 'docGroupList[0].mandDocList[0].docName') {
                         if (regexpImage.test(fileName)) {
                             extIsOk = true;
                         } else {
