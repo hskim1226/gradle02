@@ -252,7 +252,7 @@ public class ApplicationController {
         model.addAttribute( "msgPhoneNo", messageResolver.getMessage("U305"));
         model.addAttribute( "msgImageOnly", messageResolver.getMessage("U308"));
         model.addAttribute( "msgPDFOnly", messageResolver.getMessage("U309"));
-        model.addAttribute( "msgGrad", messageResolver.getMessage("U321"));
+        model.addAttribute( "msgGrad", messageResolver.getMessage("U324"));
 
 
         model.addAttribute( "L311", messageResolver.getMessage("L311"));
@@ -325,7 +325,8 @@ public class ApplicationController {
             return new ExecutionContext(ExecutionContext.FAIL);
         }
 
-        Map<String, String> acadSeqMap = new HashMap<String, String>();
+        List<Object> acadSeqList = new ArrayList<Object>();
+
         Map map = request.getParameterMap();
         Set<Map.Entry> set = map.entrySet();
 
@@ -333,18 +334,46 @@ public class ApplicationController {
 
             String key = entry.getKey().toString();
 
-            if (key.startsWith("collegeList") && key.endsWith("acadSeq")) {
-                acadSeqMap.put(key, entry.getValue().toString());
+            if ((key.startsWith("collegeList") || key.startsWith("graduateList")) && key.endsWith("acadSeq")) {
+                Object strAcadSeq = request.getParameter(key);
+                acadSeqList.add(strAcadSeq);
+//System.out.println(key + " : " + strAcadSeq);
             }
         }
 
-        List<CustomApplicationAcademy> collegeListFromEntire = entireApplication.getCollegeList();
-        for(ApplicationAcademy academy : collegeListFromEntire) {
-            if (!acadSeqMap.containsKey(academy.getAcadSeq())) {
-                collegeListFromEntire.remove(academy);
-            }
-        }
-        entireApplication.setCollegeList(collegeListFromEntire);
+//        List<CustomApplicationAcademy> collegeListFromEntire = entireApplication.getCollegeList();
+//        for ( int i = 0 ; i < collegeListFromEntire.size() ; i++ ) {
+//            CustomApplicationAcademy aa = collegeListFromEntire.get(i);
+//            boolean toBeRemoved = true;
+//            for (Object acadSeq : acadSeqList) {
+//                if ( aa.getAcadSeq() != null && aa.getAcadSeq().toString().equals(acadSeq) ) {
+//                    toBeRemoved = false;
+//                } else if (aa.getAcadSeq() == null && aa.getSchlCode() != null) {
+//                    toBeRemoved = false;
+//                }
+//            }
+//            if (toBeRemoved) collegeListFromEntire.remove(aa);
+//        }
+//
+//        List<CustomApplicationAcademy> graduateListFromEntire = entireApplication.getGraduateList();
+//        for ( int i = 0 ; i < graduateListFromEntire.size() ; i++ ) {
+//            CustomApplicationAcademy aa = graduateListFromEntire.get(i);
+//            boolean toBeRemoved = true;
+//            for (Object acadSeq : acadSeqList) {
+//                if ( aa.getAcadSeq() != null && aa.getAcadSeq().toString().equals(acadSeq) ) {
+//                    toBeRemoved = false;
+//                } else if (aa.getAcadSeq() == null && aa.getSchlCode() != null && aa.getSchlCode().length() > 0) {
+//                    toBeRemoved = false;
+//                }
+//            }
+//            if (toBeRemoved) graduateListFromEntire.remove(aa);
+//        }
+//
+//        entireApplication.setCollegeList(collegeListFromEntire);
+//        entireApplication.setGraduateList(graduateListFromEntire);
+
+        entireApplication.setCollegeList(preProcessAcadList(entireApplication.getCollegeList(), acadSeqList));
+        entireApplication.setGraduateList(preProcessAcadList(entireApplication.getGraduateList(), acadSeqList));
 
         ExecutionContext ec = null;
         String userId = principal.getName();
@@ -362,6 +391,29 @@ public class ApplicationController {
         }
 
         return ec;
+    }
+
+    /**
+     * acadSeq를 통해 화면의 학력 내용에서 C,U,D 할 목록을 추려내서 서비스 계층에 전달
+     *
+     * @param academyList
+     * @param acadSeqList
+     * @return
+     */
+    private List<CustomApplicationAcademy> preProcessAcadList(List<CustomApplicationAcademy> academyList, List<Object> acadSeqList) {
+        for ( int i = 0 ; i < academyList.size() ; i++ ) {
+            CustomApplicationAcademy aa = academyList.get(i);
+            boolean toBeRemoved = true;
+            for (Object acadSeq : acadSeqList) {
+                if ( aa.getAcadSeq() != null && aa.getAcadSeq().toString().equals(acadSeq) ) {
+                    toBeRemoved = false;
+                } else if (aa.getAcadSeq() == null && aa.getSchlCode() != null && aa.getSchlCode().length() > 0) {
+                    toBeRemoved = false;
+                }
+            }
+            if (toBeRemoved) academyList.remove(aa);
+        }
+        return academyList;
     }
 
     /**
@@ -386,13 +438,30 @@ public class ApplicationController {
             return new ExecutionContext(ExecutionContext.FAIL);
         }
 
-        ExecutionContext ec = new ExecutionContext(ExecutionContext.SUCCESS);
-        ec.setMessage("Lang Career");
-//        ExecutionContext ec = null;
-//        String userId = principal.getName();
-//        entireApplication.getApplication().setUserId(userId);
-//        entireApplication.getApplication().setApplStsCode("00001");
-//        ec = applicationService.createApplication(entireApplication.getApplication());
+        ExecutionContext ec = null;
+        String userId = principal.getName();
+
+        if (entireApplication.getApplication().getApplStsCode().equals(ACAD_SAVED)) { //insert
+            for(ApplicationLanguage al : entireApplication.getApplicationLanguageList()) {
+                al.setCreId(userId);
+            }
+            for(ApplicationExperience ae : entireApplication.getApplicationExperienceList()) {
+                ae.setCreId(userId);
+            }
+            ec = applicationService.createLangCareer(entireApplication.getApplication(),
+                    entireApplication.getApplicationLanguageList(),
+                    entireApplication.getApplicationExperienceList());
+        } else { //update
+            for(ApplicationLanguage al : entireApplication.getApplicationLanguageList()) {
+                al.setModId(userId);
+            }
+            for(ApplicationExperience ae : entireApplication.getApplicationExperienceList()) {
+                ae.setModId(userId);
+            }
+            ec = applicationService.updateLangCareer(entireApplication.getApplication(),
+                    entireApplication.getApplicationLanguageList(),
+                    entireApplication.getApplicationExperienceList());
+        }
 
         return ec;
     }

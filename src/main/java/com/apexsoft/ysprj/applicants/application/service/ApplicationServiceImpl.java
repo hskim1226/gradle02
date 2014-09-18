@@ -230,16 +230,20 @@ public class ApplicationServiceImpl implements ApplicationService {
                                Date date,
                                ParamForAcademy param) {
 
-        int c1 = 0, u1 = 0, d1 = 0;
+        int c1 = 0, u1 = 0, d1 = 0, lastSeq = 1;
+        Map<Integer, Integer> seqMap = new HashMap<Integer, Integer>();
 
         List<ApplicationAcademy> academiesFromDB = commonDAO.queryForList(NAME_SPACE+"CustomApplicationAcademyMapper.selectByApplNoAcadTypeCode", param, ApplicationAcademy.class);
-        int lastSeq = academiesFromDB.get(academiesFromDB.size()-1).getAcadSeq();
-        Map<Integer, Integer> seqMap = new HashMap<Integer, Integer>();
-        if ( academiesFromDB != null ) {
-            for (ApplicationAcademy academy : academiesFromDB) {
-                seqMap.put(academy.getAcadSeq(), academy.getAcadSeq());
+        if ( academiesFromDB.size() > 0 ) {
+            lastSeq = academiesFromDB.get(academiesFromDB.size()-1).getAcadSeq();
+
+            if ( academiesFromDB != null ) {
+                for (ApplicationAcademy academy : academiesFromDB) {
+                    seqMap.put(academy.getAcadSeq(), academy.getAcadSeq());
+                }
             }
         }
+
 
         if ( academyList != null ) {
             for( ApplicationAcademy academyFromView : academyList) {
