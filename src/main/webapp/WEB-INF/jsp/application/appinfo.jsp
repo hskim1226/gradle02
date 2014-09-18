@@ -535,6 +535,7 @@
                                         <c:forEach begin="0" end="${entireApplication.collegeList.size() > 0 ? entireApplication.collegeList.size() - 1 : 0}" varStatus="stat">
                                         <div class="form-group-block">
                                             <form:hidden path="collegeList[${stat.index}].acadTypeCode" value="00002" />
+                                            <form:hidden path="collegeList[${stat.index}].acadSeq" />
                                             <div class="form-group required">
                                                 <label for="collegeList${stat.index}.schlCntrName" class="col-sm-2 control-label">소재 국가</label>
                                                 <div class="col-sm-2">
@@ -616,6 +617,7 @@
                                         <c:forEach begin="0" end="${entireApplication.graduateList.size() > 0 ? entireApplication.graduateList.size() - 1 : 0}" varStatus="stat">
                                         <div class="form-group-block">
                                             <form:hidden path="graduateList[${stat.index}].acadTypeCode" value="00003" />
+                                            <form:hidden path="graduateList[${stat.index}].acadSeq" />
                                             <div class="form-group required">
                                                 <label for="graduateList${stat.index}.schlCntrName" class="col-sm-2 control-label">소재 국가</label>
                                                 <div class="col-sm-2">
@@ -1922,10 +1924,14 @@
 
             <%-- 복제된 입력폼 내용 초기화 시작 --%>
             function eraseContents( block ) {
-                var i, items;
+                var i, items, itemName;
                 items = block.querySelectorAll('input, select');
                 if (items) {
                     for (i = 0; i <items.length; i++) {
+                        if (items[i].type == 'hidden') {
+                            itemName = items[i].name;
+                            items[i].value = itemName.indexOf('acadType') < 0 ? '' : items[i].value ;
+                        }
                         if (items[i].type != 'hidden' && items[i].type != 'radio' && items[i].type != 'checkbox' && items[i].type != 'button') {
                             items[i].value = '';
                         }
