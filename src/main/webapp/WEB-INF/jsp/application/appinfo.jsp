@@ -717,7 +717,7 @@
                             <div class="panel panel-default">
                                 <div class="panel-heading">어학성적</div>
                                 <div class="panel-body" id="english-score-list">
-                                    <c:forEach items="${common.engExamList}" var="langExam" varStatus="stat">
+                                    <c:forEach items="${common.langExamList}" var="langExam" varStatus="stat">
                                     <div class="form-group hide-lang required">
                                         <c:choose>
                                         <c:when test="${stat.index == 0}">
