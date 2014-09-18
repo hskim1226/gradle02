@@ -898,30 +898,30 @@
                                 <c:if test = "${docGroup.subGrp.size()>0}">
                                     <div class="panel panel-darkgray">
                                         <div class="panel-heading">${docGroup.fileGroupName} 서류</div>
-                                        <div class="panel-body" id="docGroupList[${grpStat.index}].list">
+                                        <div class="panel-body" id="docGroupList${grpStat.index}.list">
                                             <div class="form-group-block-list" id="fuCollegeDocBlockList">
                                                 <c:forEach items="${docGroup.subGrp}" var="subGrp" varStatus="subGrpStat">
                                                     <div class="form-group-block">
                                                         <c:forEach items="${subGrp.mandDocList}" var="mandDoc" varStatus="docStat">
                                                             <hr/>
-                                                            <div class="form-group" id="docGroupList[${grpStat.index}].subGrp[${subGrpStat.index}].mandDocList[${docStat.index}].${mandDoc.docItemCode}">
+                                                            <div class="form-group" id="docGroupList${grpStat.index}.subGrp${subGrpStat.index}.mandDocList${docStat.index}.${mandDoc.docItemCode}">
                                                                 <label class="col-sm-3 control-label word-keep-all">${mandDoc.docItemName}</label>
                                                                 <div class="col-sm-8">
                                                                     <div class="input-group">
                                                                         <div class="input-group-btn">
-                                                                            <input type="file" class="btn btn_lg btn-file" id="docGroupList[${grpStat.index}].subGrp[${subGrpStat.index}].mandDocList[${docStat.index}].docName" name="${mandDoc.docName}"/>
+                                                                            <input type="file" class="btn btn_lg btn-file" id="docGroupList${grpStat.index}.subGrp${subGrpStat.index}.mandDocList${docStat.index}.docName" name="docGroupList[${grpStat.index}].subGrp[${subGrpStat.index}].mandDocList[${docStat.index}].docName"/>
                                                                         </div>
                                                                         <c:if test="${mandDoc.orgnSendYn =='Y' || mandDoc.orgnSendYn =='y'}">
-                                                                            <span class="apexMessage">${mandDoc.msgNo}</span>
+                                                                            <div class="apexMessage">${mandDoc.msgNo}</div>
                                                                         </c:if>
                                                                         <c:if test="${mandDoc.orgnSendYn =='N' || mandDoc.orgnSendYn !='n'}">
-                                                                            <div class="col-sm-4 nopadding"><input type="button" id="docGroupList[${grpStat.index}].subGrp[${subGrpStat.index}].mandDocList[${docStat.index}].btn" name="docGroupList[${grpStat.index}].mandDocList[${docStat.index}].btn"
+                                                                            <div class="col-sm-4 nopadding"><input type="button" id="docGroupList${grpStat.index}.subGrp${subGrpStat.index}.mandDocList${docStat.index}.btn" name="docGroupList[${grpStat.index}].mandDocList[${docStat.index}].btn"
                                                                                                                    class="btn btn-default btn-block btn-upload" value="올리기"
-                                                                                                                   data-file-path="docGroupList[${grpStat.index}].subGrp[${subGrpStat.index}].mandDocList[${docStat.index}].filePath"
-                                                                                                                   data-file-name="docGroupList[${grpStat.index}].subGrp[${subGrpStat.index}].mandDocList[${docStat.index}].fileName"
-                                                                                                                   data-org-file-name="docGroupList[${grpStat.index}].subGrp[${subGrpStat.index}].mandDocList[${docStat.index}].orgFileName"/>
+                                                                                                                   data-file-path="docGroupList${grpStat.index}.subGrp${subGrpStat.index}.mandDocList${docStat.index}.filePath"
+                                                                                                                   data-file-name="docGroupList${grpStat.index}.subGrp${subGrpStat.index}.mandDocList${docStat.index}.fileName"
+                                                                                                                   data-org-file-name="docGroupList${grpStat.index}.subGrp${subGrpStat.index}.mandDocList${docStat.index}.orgFileName"/>
                                                                             </div>
-                                                                            <span class="col-sm-8" id="docGroupList[${grpStat.index}].subGrp[${subGrpStat.index}].mandDocList[${docStat.index}]" style="text-decoration: none;">
+                                                                            <span class="col-sm-8" id="docGroupList${grpStat.index}.subGrp${subGrpStat.index}.mandDocList${docStat.index}" style="text-decoration: none;">
                                                                                 <a href="${contextPath}/filedownload/attached/${entireApplication.application.admsNo}/${entireApplication.application.applNo}/${mandDoc.fileName}/${mandDoc.orgFileName}">${mandDoc.orgFileName}</a>
                                                                             </span>
                                                                         </c:if>

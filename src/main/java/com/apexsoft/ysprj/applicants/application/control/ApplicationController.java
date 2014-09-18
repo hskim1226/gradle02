@@ -453,12 +453,6 @@ public class ApplicationController {
                     entireApplication.getApplicationLanguageList(),
                     entireApplication.getApplicationExperienceList());
         } else { //update
-            for(ApplicationLanguage al : entireApplication.getApplicationLanguageList()) {
-                al.setModId(userId);
-            }
-            for(ApplicationExperience ae : entireApplication.getApplicationExperienceList()) {
-                ae.setModId(userId);
-            }
             ec = applicationService.updateLangCareer(entireApplication.getApplication(),
                     entireApplication.getApplicationLanguageList(),
                     entireApplication.getApplicationExperienceList());
@@ -489,13 +483,14 @@ public class ApplicationController {
             return new ExecutionContext(ExecutionContext.FAIL);
         }
 
-        ExecutionContext ec = new ExecutionContext(ExecutionContext.SUCCESS);
-        ec.setMessage("FileUpload");
-//        ExecutionContext ec = null;
-//        String userId = principal.getName();
-//        entireApplication.getApplication().setUserId(userId);
-//        entireApplication.getApplication().setApplStsCode("00001");
-//        ec = applicationService.createApplication(entireApplication.getApplication());
+        ExecutionContext ec = null;
+
+        List<DocGroupFile> docGroupFileList = entireApplication.getDocGroupList();
+        if (entireApplication.getApplication().getApplStsCode().equals(LANG_CAREER_SAVED)) { //insert
+            ec = applicationService.createFileUpload(entireApplication.getApplication(), docGroupFileList);
+        } else { //update
+            ec = applicationService.updateFileUpload(entireApplication.getApplication(), docGroupFileList);
+        }
 
         return ec;
     }

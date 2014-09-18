@@ -19,7 +19,6 @@ public class ApplicationServiceImpl implements ApplicationService {
 
     private final static String NAME_SPACE = "com.apexsoft.ysprj.applicants.application.sqlmap.";
     private final static String PAYMENT_NAME_SPACE = "com.apexsoft.ysprj.applicants.payment.sqlmap.";
-    private final static String DOC_NAME_SPACE = "appplicaiton.doc.";
 
     @Autowired
     private CommonDAO commonDAO;
@@ -286,6 +285,7 @@ System.out.println(param.getAcadTypeCode() + " : " + c1+u1+d1);
         ExecutionContext ec = new ExecutionContext();
         int r1, r2 = 0, r3 = 0, applNo = application.getApplNo(), idx = 0;
         Date date = new Date();
+        String userId = application.getUserId();
 
         application.setApplStsCode(LANG_CAREER_SAVED);
         application.setModDate(date);
@@ -295,6 +295,7 @@ System.out.println(param.getAcadTypeCode() + " : " + c1+u1+d1);
             for( ApplicationLanguage applicationLanguage : applicationLanguageList) {
                 applicationLanguage.setApplNo(applNo);
                 applicationLanguage.setLangSeq(++idx);
+                applicationLanguage.setCreId(userId);
                 applicationLanguage.setCreDate(date);
             }
             r2 = commonDAO.insertList(applicationLanguageList, NAME_SPACE, "ApplicationLanguageMapper");
@@ -304,6 +305,7 @@ System.out.println(param.getAcadTypeCode() + " : " + c1+u1+d1);
             for( ApplicationExperience applicationExperience : applicationExperienceList) {
                 applicationExperience.setApplNo(applNo);
                 applicationExperience.setExprSeq(++idx);
+                applicationExperience.setCreId(userId);
                 applicationExperience.setCreDate(date);
             }
             r3 = commonDAO.insertList(applicationExperienceList, NAME_SPACE, "ApplicationExperienceMapper");
@@ -333,12 +335,14 @@ System.out.println(param.getAcadTypeCode() + " : " + c1+u1+d1);
         ExecutionContext ec = new ExecutionContext();
         int r1 = 0, r2 = 0, applNo = application.getApplNo(), idx = 0;
         Date date = new Date();
+        String userId = application.getUserId();
 
         deleteListByApplNo(applNo, "CustomApplicationLanguageMapper");
         if ( applicationLanguageList != null ) {
             for( ApplicationLanguage applicationLanguage : applicationLanguageList) {
                 applicationLanguage.setApplNo(applNo);
                 applicationLanguage.setLangSeq(++idx);
+                applicationLanguage.setModId(userId);
                 applicationLanguage.setModDate(date);
             }
             r1 = commonDAO.insertList(applicationLanguageList, NAME_SPACE, "ApplicationLanguageMapper");
@@ -349,6 +353,7 @@ System.out.println(param.getAcadTypeCode() + " : " + c1+u1+d1);
             for( ApplicationExperience applicationExperience : applicationExperienceList) {
                 applicationExperience.setApplNo(applNo);
                 applicationExperience.setExprSeq(++idx);
+                applicationExperience.setModId(userId);
                 applicationExperience.setModDate(date);
             }
             r2 = commonDAO.insertList(applicationExperienceList, NAME_SPACE, "ApplicationExperienceMapper");
@@ -364,6 +369,86 @@ System.out.println(param.getAcadTypeCode() + " : " + c1+u1+d1);
             String errMsg = null;
             if ( r1 == 0 ) errMsg = messageResolver.getMessage("ERR0018");
             else if ( r2 == 0 ) errMsg = messageResolver.getMessage("ERR0023");
+            ec.setData(new CustomApplNoStsCode(applNo, APP_NULL_STATUS, errMsg));
+        }
+        return ec;
+    }
+
+    @Override
+    public ExecutionContext createFileUpload(Application application,
+                                             List<DocGroupFile> docGroupFileList) {
+
+        ExecutionContext ec = new ExecutionContext();
+        int r1 = 0, applNo = application.getApplNo(), idx = 0;
+        Date date = new Date();
+        String userId = application.getUserId();
+
+        application.setApplStsCode(FILEUPLOADE_SAVED);
+        application.setModDate(date);
+        r1 = commonDAO.updateItem(application, NAME_SPACE, "ApplicationMapper");
+
+        if ( docGroupFileList != null ) {
+            for( DocGroupFile docGroupFile : docGroupFileList) {
+                List<MandatoryNAppliedDoc> mDocList = docGroupFile.getMandDocList();
+                if ( mDocList != null ) {
+                    for (MandatoryNAppliedDoc mDoc : mDocList) {
+                        mDoc.setApplNo(applNo);
+                        mDoc.setDocSeq(++idx);
+                        mDoc.setCreId(userId);
+                        mDoc.setCreDate(date);
+                    }
+                }
+                r1 += commonDAO.insertList(mDocList, NAME_SPACE, "ApplicationDocumentMapper");
+            }
+        }
+
+        if ( r1 == idx ) {
+            ec.setResult(ExecutionContext.SUCCESS);
+            ec.setMessage(messageResolver.getMessage("U325"));
+            ec.setData(new CustomApplNoStsCode(applNo, application.getApplStsCode()));
+        } else {
+            ec.setResult(ExecutionContext.FAIL);
+            ec.setMessage(messageResolver.getMessage("U326"));
+            String errMsg = messageResolver.getMessage("ERR0031");
+            ec.setData(new CustomApplNoStsCode(applNo, APP_NULL_STATUS, errMsg));
+        }
+
+        return ec;
+    }
+
+    @Override
+    public ExecutionContext updateFileUpload(Application application,
+                                             List<DocGroupFile> docGroupFileList) {
+
+        ExecutionContext ec = new ExecutionContext();
+        int r1 = 0, applNo = application.getApplNo(), idx = 0;
+        Date date = new Date();
+        String userId = application.getUserId();
+
+        deleteListByApplNo(applNo, "CustomApplicationDocumentMapper");
+        if ( docGroupFileList != null ) {
+            for( DocGroupFile docGroupFile : docGroupFileList) {
+                List<MandatoryNAppliedDoc> mDocList = docGroupFile.getMandDocList();
+                if ( mDocList != null ) {
+                    for (MandatoryNAppliedDoc mDoc : mDocList) {
+                        mDoc.setApplNo(applNo);
+                        mDoc.setDocSeq(++idx);
+                        mDoc.setModId(userId);
+                        mDoc.setModDate(date);
+                    }
+                }
+                r1 += commonDAO.insertList(mDocList, NAME_SPACE, "ApplicationDocumentMapper");
+            }
+        }
+
+        if ( r1 == idx ) {
+            ec.setResult(ExecutionContext.SUCCESS);
+            ec.setMessage(messageResolver.getMessage("U325"));
+            ec.setData(new CustomApplNoStsCode(applNo, application.getApplStsCode()));
+        } else {
+            ec.setResult(ExecutionContext.FAIL);
+            ec.setMessage(messageResolver.getMessage("U326"));
+            String errMsg = messageResolver.getMessage("ERR0033");
             ec.setData(new CustomApplNoStsCode(applNo, APP_NULL_STATUS, errMsg));
         }
         return ec;
@@ -1035,13 +1120,13 @@ System.out.println(param.getAcadTypeCode() + " : " + c1+u1+d1);
             tmpDocList = new ArrayList<MandatoryNAppliedDoc>();
             docGrp.setFileGroupName("기본");
             docGrp.setGroupMsg("");
-            docGrp.setMandDocList(commonDAO.queryForList(DOC_NAME_SPACE + "selectBasicDocListByApplNoWTMandatory", applNo, MandatoryNAppliedDoc.class));
+            docGrp.setMandDocList(commonDAO.queryForList(NAME_SPACE + "CustomApplicationDocumentMapper.selectBasicDocListByApplNoWTMandatory", applNo, MandatoryNAppliedDoc.class));
             docGrpList.add(docGrp);
 
             docGrp = new DocGroupFile();
             docGrp.setFileGroupName("해외학위");
             docGrp.setGroupMsg("");
-            docGrp.setMandDocList(commonDAO.queryForList(DOC_NAME_SPACE + "selectOverSeaDocListByApplNoWTMandatory", applNo, MandatoryNAppliedDoc.class));
+            docGrp.setMandDocList(commonDAO.queryForList(NAME_SPACE + "CustomApplicationDocumentMapper.selectOverSeaDocListByApplNoWTMandatory", applNo, MandatoryNAppliedDoc.class));
             docGrpList.add(docGrp);
 
             docGrp = new DocGroupFile();
@@ -1049,7 +1134,7 @@ System.out.println(param.getAcadTypeCode() + " : " + c1+u1+d1);
             docGrp.setGroupMsg("");
             docGrpList.add(docGrp);
 
-            tmpDocList = commonDAO.queryForList(DOC_NAME_SPACE + "selectUnderDocListByApplNoWTMandatory", applNo, MandatoryNAppliedDoc.class);
+            tmpDocList = commonDAO.queryForList(NAME_SPACE + "CustomApplicationDocumentMapper.selectUnderDocListByApplNoWTMandatory", applNo, MandatoryNAppliedDoc.class);
             int prevGgrpNo = -1;
             for(MandatoryNAppliedDoc doc :  tmpDocList ) {
 
@@ -1072,7 +1157,7 @@ System.out.println(param.getAcadTypeCode() + " : " + c1+u1+d1);
             docGrp.setGroupMsg("");
             docGrpList.add(docGrp);
 
-            tmpDocList = commonDAO.queryForList(DOC_NAME_SPACE + "selectGradDocListByApplNoWTMandatory", applNo, MandatoryNAppliedDoc.class);
+            tmpDocList = commonDAO.queryForList(NAME_SPACE + "CustomApplicationDocumentMapper.selectGradDocListByApplNoWTMandatory", applNo, MandatoryNAppliedDoc.class);
             prevGgrpNo = -1;
             for(MandatoryNAppliedDoc doc :  tmpDocList ) {
 
@@ -1092,25 +1177,25 @@ System.out.println(param.getAcadTypeCode() + " : " + c1+u1+d1);
             docGrp = new DocGroupFile();
             docGrp.setFileGroupName("어학");
             docGrp.setGroupMsg("");
-            docGrp.setMandDocList(commonDAO.queryForList(DOC_NAME_SPACE + "selectLangDocListByApplNoWTMandatory", applNo, MandatoryNAppliedDoc.class));
+            docGrp.setMandDocList(commonDAO.queryForList(NAME_SPACE + "CustomApplicationDocumentMapper.selectLangDocListByApplNoWTMandatory", applNo, MandatoryNAppliedDoc.class));
             docGrpList.add(docGrp);
 
             docGrp = new DocGroupFile();
             docGrp.setFileGroupName("학연산");
             docGrp.setGroupMsg("");
-            docGrp.setMandDocList(commonDAO.queryForList(DOC_NAME_SPACE + "selectInstDocListByApplNoWTMandatory", applNo, MandatoryNAppliedDoc.class));
+            docGrp.setMandDocList(commonDAO.queryForList(NAME_SPACE + "CustomApplicationDocumentMapper.selectInstDocListByApplNoWTMandatory", applNo, MandatoryNAppliedDoc.class));
             docGrpList.add(docGrp);
 
             docGrp = new DocGroupFile();
             docGrp.setFileGroupName("외국인");
             docGrp.setGroupMsg("");
-            docGrp.setMandDocList(commonDAO.queryForList(DOC_NAME_SPACE + "selectDeptDocListByApplNoWTMandatory", applNo, MandatoryNAppliedDoc.class));
+            docGrp.setMandDocList(commonDAO.queryForList(NAME_SPACE + "CustomApplicationDocumentMapper.selectDeptDocListByApplNoWTMandatory", applNo, MandatoryNAppliedDoc.class));
             docGrpList.add(docGrp);
 
             docGrp = new DocGroupFile();
             docGrp.setFileGroupName("기타");
             docGrp.setGroupMsg("");
-            docGrp.setMandDocList(commonDAO.queryForList(DOC_NAME_SPACE + "selectEtcDocListByApplNoWTMandatory", applNo, MandatoryNAppliedDoc.class));
+            docGrp.setMandDocList(commonDAO.queryForList(NAME_SPACE + "CustomApplicationDocumentMapper.selectEtcDocListByApplNoWTMandatory", applNo, MandatoryNAppliedDoc.class));
         } catch (Exception e) {
             e.printStackTrace();
         }

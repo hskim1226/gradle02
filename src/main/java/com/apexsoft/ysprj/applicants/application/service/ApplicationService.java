@@ -29,6 +29,10 @@ public interface ApplicationService {
     ExecutionContext updateLangCareer(Application application,
                                       List<ApplicationLanguage> applicationLanguageList,
                                       List<ApplicationExperience> applicationExperienceList);
+    ExecutionContext createFileUpload(Application application,
+                                      List<DocGroupFile> docGroupFileList);
+    ExecutionContext updateFileUpload(Application application,
+                                      List<DocGroupFile> docGroupFileList);
     ExecutionContext createEntireApplication(EntireApplication entireApplication);
 
     EntireApplication retrieveEntireApplication(int applNo);
