@@ -386,7 +386,8 @@ public class ApplicationController {
 //    String key = entry.getKey().toString();
 //    System.out.println(key);
 //    int len = 0;
-//    if (key.startsWith("collegeList[0]")) {
+//    Map<String, String> acadSeq = new HashMap<String, String>();
+//    if (key.startsWith("collegeList") && key.endsWith("acadSeq")) {
 //        len++;
 //    }
 //}
