@@ -540,13 +540,13 @@
                                             <div class="form-group required">
                                                 <label for="collegeList${stat.index}.schlCntrName" class="col-sm-2 control-label">소재 국가</label>
                                                 <div class="col-sm-2">
-                                                    <button type="button" class="btn btn-default btn-search bpopper" data-targetNode1="collegeList${stat.index}.schlCntrCode" data-targetNode2='collegeList${stat.index}.schlCntrName' data-category="country">
+                                                    <button type="button" class="btn btn-default btn-search bpopper" data-targetNode1="collegeList${stat.index}.schlCntrCode" data-targetNode2='collegeList${stat.index}.korCntrName' data-category="country">
                                                         <span class="glyphicon glyphicon-search"></span> 검색
                                                     </button>
                                                 </div>
                                                 <div class="col-sm-6">
                                                     <form:hidden path="collegeList[${stat.index}].schlCntrCode" />
-                                                    <input id="collegeList${stat.index}.schlCntrName" class="form-control" />
+                                                    <input id="collegeList${stat.index}.korCntrName" class="form-control" />
                                                 </div>
                                             </div>
                                             <div class="form-group required">
@@ -628,13 +628,13 @@
                                             <div class="form-group required">
                                                 <label for="graduateList${stat.index}.schlCntrName" class="col-sm-2 control-label">소재 국가</label>
                                                 <div class="col-sm-2">
-                                                    <button type="button" class="btn btn-default btn-search bpopper" data-targetNode1="graduateList${stat.index}.schlCntrCode" data-targetNode2='graduateList${stat.index}.schlCntrName' data-category="country">
+                                                    <button type="button" class="btn btn-default btn-search bpopper" data-targetNode1="graduateList${stat.index}.schlCntrCode" data-targetNode2='graduateList${stat.index}.korCntrName' data-category="country">
                                                         <span class="glyphicon glyphicon-search"></span> 검색
                                                     </button>
                                                 </div>
                                                 <div class="col-sm-6">
                                                     <form:hidden path="graduateList[${stat.index}].schlCntrCode" />
-                                                    <input id="graduateList${stat.index}.schlCntrName" class="form-control" />
+                                                    <input id="graduateList${stat.index}.korCntrName" class="form-control" />
                                                 </div>
                                             </div>
                                             <div class="form-group required">

@@ -14,8 +14,8 @@ public class EntireApplication {
     private ApplicationForeigner applicationForeigner;
     private ApplicationETCWithBLOBs applicationETCWithBLOBs;
     private ApplicationAcademy highSchool;
-    private List<ApplicationAcademy> collegeList;
-    private List<ApplicationAcademy> graduateList;
+    private List<CustomApplicationAcademy> collegeList;
+    private List<CustomApplicationAcademy> graduateList;
     private List<ApplicationExperience> applicationExperienceList;
     private List<ApplicationLanguage> applicationLanguageList;
     private List<ApplicationDocument> generalDocList;
@@ -62,27 +62,27 @@ public class EntireApplication {
         this.applicationETCWithBLOBs = applicationETCWithBLOBs;
     }
 
-    public ApplicationAcademy getHighSchool() {
-        return highSchool;
-    }
+//    public CustomApplicationAcademy getHighSchool() {
+//        return highSchool;
+//    }
 
-    public void setHighSchool(ApplicationAcademy highSchool) {
+    public void setHighSchool(CustomApplicationAcademy highSchool) {
         this.highSchool = highSchool;
     }
 
-    public List<ApplicationAcademy> getCollegeList() {
+    public List<CustomApplicationAcademy> getCollegeList() {
         return collegeList;
     }
 
-    public void setCollegeList(List<ApplicationAcademy> collegeList) {
+    public void setCollegeList(List<CustomApplicationAcademy> collegeList) {
         this.collegeList = collegeList;
     }
 
-    public List<ApplicationAcademy> getGraduateList() {
+    public List<CustomApplicationAcademy> getGraduateList() {
         return graduateList;
     }
 
-    public void setGraduateList(List<ApplicationAcademy> graduateList) {
+    public void setGraduateList(List<CustomApplicationAcademy> graduateList) {
         this.graduateList = graduateList;
     }
 
