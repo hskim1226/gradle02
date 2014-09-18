@@ -1018,19 +1018,20 @@
                 $anchor.prop('data-href', $anchor.attr('href'));
                 $anchor.attr('href', '#');
                 $anchor.addClass('disabled-link');
-                $anchor.on('click', function() {
-                    bindTabMsg(msg);
-                });
+                $anchor.on('click', tabMsgHandler(msg));
             };
             var enableTab = function(anchorObj) {
                 var $anchor = $(anchorObj);
                 $anchor.prop('disabled', false);
                 $anchor.attr('href', $anchor.prop('data-href')); // restore href
                 $anchor.removeClass('disabled-link');
+                $anchor.off('click', tabMsgHandler(''));
             };
-            var bindTabMsg = function(msg) {
-                alert(msg);
-            }
+            var tabMsgHandler = function(msg) {
+                return function() {
+                    alert(msg);
+                };
+            };
             var tabControl = function(applStsCode) {
                 switch (applStsCode) {
                     case '':
