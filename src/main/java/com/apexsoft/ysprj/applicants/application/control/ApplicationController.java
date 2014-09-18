@@ -191,6 +191,7 @@ public class ApplicationController {
                 collList = commonService.retrieveCollegeByCampus( entireApplication.getApplication().getCampCode() );
                 deptList = commonService.retrieveGeneralDepartmentByAdmsColl(param);
                 corsTypeList = commonService.retrieveCommissionCourseByAdmsDept(param);
+                detlMajList = commonService.retrieveGeneralDetailMajorByAdmsDeptCors(param);
             }
 
             if( campList != null )      commonCodeMap.put( "campList", campList );
