@@ -320,23 +320,26 @@ public class ApplicationController {
             return new ExecutionContext(ExecutionContext.FAIL);
         }
 
-//Map map = request.getParameterMap();
-//Set<Map.Entry> set = map.entrySet();
-//for( Map.Entry entry : set) {
-////    System.out.println(entry);
-//    String key = entry.getKey().toString();
-//    System.out.println(key);
-//    int len = 0;
-//    Map<String, String> acadSeq = new HashMap<String, String>();
-//    if (key.startsWith("collegeList") && key.endsWith("acadSeq")) {
-//        len++;
-//    }
-//}
-//
-//System.out.println("--------------------");
-//System.out.println(request.getParameter("collegeList[0].acadSeq"));
-//System.out.println(request.getParameter("collegeList[1].acadSeq"));
-//System.out.println(request.getParameter("collegeList[2].acadSeq"));
+        Map<String, String> acadSeqMap = new HashMap<String, String>();
+        Map map = request.getParameterMap();
+        Set<Map.Entry> set = map.entrySet();
+
+        for( Map.Entry entry : set) {
+
+            String key = entry.getKey().toString();
+
+            if (key.startsWith("collegeList") && key.endsWith("acadSeq")) {
+                acadSeqMap.put(key, entry.getValue().toString());
+            }
+        }
+
+        List<ApplicationAcademy> collegeListFromEntire = entireApplication.getCollegeList();
+        for(ApplicationAcademy academy : collegeListFromEntire) {
+            if (!acadSeqMap.containsKey(academy.getAcadSeq())) {
+                collegeListFromEntire.remove(academy);
+            }
+        }
+        entireApplication.setCollegeList(collegeListFromEntire);
 
         ExecutionContext ec = null;
         String userId = principal.getName();
