@@ -827,7 +827,7 @@
                         </div>
                     </div>
                 </div>
- <%--첨부파일--%>
+                <%--첨부파일--%>
                 <div class="tab-pane fade" id="fileupload">
                     <div class="spacer-tiny"></div>
                     <div class="row">
@@ -843,8 +843,8 @@
                                                     <label class="col-sm-3 control-label word-keep-all">${mandDoc.docItemName}</label>
                                                     <div class="col-sm-8">
                                                         <div class="input-group">
-                                                          <div class="input-group-btn">
-                                                            <input type="file" class="btn btn_lg btn-file" id="docGroupList[${grpStat.index}].mandDocList[${docStat.index}].docName" name="${mandDoc.docName}"/>
+                                                            <div class="input-group-btn">
+                                                                <input type="file" class="btn btn_lg btn-file" id="docGroupList[${grpStat.index}].mandDocList[${docStat.index}].docName" name="${mandDoc.docName}"/>
                                                             </div>
                                                             <c:if test="${mandDoc.orgnSendYn =='Y' || mandDoc.orgnSendYn =='y'}">
                                                                <span class="apexMessage">${mandDoc.msgNo}</span>
@@ -856,24 +856,24 @@
                                                                                                        data-file-name="docGroupList[${grpStat.index}].mandDocList[${docStat.index}].fileName"
                                                                                                        data-org-file-name="docGroupList[${grpStat.index}].mandDocList[${docStat.index}].orgFileName"/>
                                                                 </div>
-                                                                    <span class="col-sm-8" id="docGroupList[${grpStat.index}].mandDocList[${docStat.index}]" style="text-decoration: none;">
-                                                                        <a href="${contextPath}/filedownload/attached/${entireApplication.application.admsNo}/${entireApplication.application.applNo}/${mandDoc.fileName}/${mandDoc.orgFileName}">${mandDoc.orgFileName}</a>
-                                                                    </span>
+                                                                <span class="col-sm-8" id="docGroupList[${grpStat.index}].mandDocList[${docStat.index}]" style="text-decoration: none;">
+                                                                    <a href="${contextPath}/filedownload/attached/${entireApplication.application.admsNo}/${entireApplication.application.applNo}/${mandDoc.fileName}/${mandDoc.orgFileName}">${mandDoc.orgFileName}</a>
+                                                                </span>
                                                             </c:if>
                                                         </div>
                                                     </div>
-                                                        <form:hidden path="docGroupList[${grpStat.index}].mandDocList[${docStat.index}].docTypeCode" value="${mandDoc.docTypeCode}" />
-                                                        <form:hidden path="docGroupList[${grpStat.index}].mandDocList[${docStat.index}].docGrp" value="${mandDoc.docGrp}" />
-                                                        <form:hidden path="docGroupList[${grpStat.index}].mandDocList[${docStat.index}].docItemCode" value="${mandDoc.docItemCode}" />
-                                                        <form:hidden path="docGroupList[${grpStat.index}].mandDocList[${docStat.index}].docItemName" value="${mandDoc.docItemName}" />
-                                                        <form:hidden path="docGroupList[${grpStat.index}].mandDocList[${docStat.index}].filePath"  value="${mandDoc.filePath}"/>
-                                                        <form:hidden path="docGroupList[${grpStat.index}].mandDocList[${docStat.index}].fileName"  value="${mandDoc.fileName}"/>
-                                                        <form:hidden path="docGroupList[${grpStat.index}].mandDocList[${docStat.index}].orgFileName"  value="${mandDoc.orgFileName}"/>
-
+                                                    <form:hidden path="docGroupList[${grpStat.index}].mandDocList[${docStat.index}].docTypeCode" value="${mandDoc.docTypeCode}" />
+                                                    <form:hidden path="docGroupList[${grpStat.index}].mandDocList[${docStat.index}].docGrp" value="${mandDoc.docGrp}" />
+                                                    <form:hidden path="docGroupList[${grpStat.index}].mandDocList[${docStat.index}].docItemCode" value="${mandDoc.docItemCode}" />
+                                                    <form:hidden path="docGroupList[${grpStat.index}].mandDocList[${docStat.index}].docItemName" value="${mandDoc.docItemName}" />
+                                                    <form:hidden path="docGroupList[${grpStat.index}].mandDocList[${docStat.index}].filePath"  value="${mandDoc.filePath}"/>
+                                                    <form:hidden path="docGroupList[${grpStat.index}].mandDocList[${docStat.index}].fileName"  value="${mandDoc.fileName}"/>
+                                                    <form:hidden path="docGroupList[${grpStat.index}].mandDocList[${docStat.index}].orgFileName"  value="${mandDoc.orgFileName}"/>
                                                 </div>
                                             </c:forEach>
 
                                         </div>
+                                    </div>
                                     <div class="spacer-tiny"></div>
                                 </c:if>
 
@@ -882,58 +882,53 @@
                                         <div class="panel-heading">${docGroup.fileGroupName} 서류</div>
                                         <div class="panel-body" id="docGroupList[${grpStat.index}].list">
                                             <div class="form-group-block-list" id="fuCollegeDocBlockList">
-                                            <c:forEach items="${docGroup.subGrp}" var="subGrp" varStatus="subGrpStat">
-
-                                                <div class="form-group-block">
-                                                    <c:forEach items="${subGrp.mandDocList}" var="mandDoc" varStatus="docStat">
-                                                        <hr/>
-                                                        <div class="form-group" id="docGroupList[${grpStat.index}].subGrp[${subGrpStat.index}].mandDocList[${docStat.index}].${mandDoc.docItemCode}">
-                                                            <label class="col-sm-3 control-label word-keep-all">${mandDoc.docItemName}</label>
-                                                            <div class="col-sm-8">
-                                                                <div class="input-group">
-                                                                    <div class="input-group-btn">
-                                                                        <input type="file" class="btn btn_lg btn-file" id="docGroupList[${grpStat.index}].subGrp[${subGrpStat.index}].mandDocList[${docStat.index}].docName" name="${mandDoc.docName}"/>
-                                                                    </div>
-                                                                    <c:if test="${mandDoc.orgnSendYn =='Y' || mandDoc.orgnSendYn =='y'}">
-                                                                        <span class="apexMessage">${mandDoc.msgNo}</span>
-                                                                    </c:if>
-                                                                    <c:if test="${mandDoc.orgnSendYn =='N' || mandDoc.orgnSendYn !='n'}">
-                                                                        <div class="col-sm-4 nopadding"><input type="button" id="docGroupList[${grpStat.index}].subGrp[${subGrpStat.index}].mandDocList[${docStat.index}].btn" name="docGroupList[${grpStat.index}].mandDocList[${docStat.index}].btn"
-                                                                                                               class="btn btn-default btn-block btn-upload" value="올리기"
-                                                                                                               data-file-path="docGroupList[${grpStat.index}].subGrp[${subGrpStat.index}].mandDocList[${docStat.index}].filePath"
-                                                                                                               data-file-name="docGroupList[${grpStat.index}].subGrp[${subGrpStat.index}].mandDocList[${docStat.index}].fileName"
-                                                                                                               data-org-file-name="docGroupList[${grpStat.index}].subGrp[${subGrpStat.index}].mandDocList[${docStat.index}].orgFileName"/>
+                                                <c:forEach items="${docGroup.subGrp}" var="subGrp" varStatus="subGrpStat">
+                                                    <div class="form-group-block">
+                                                        <c:forEach items="${subGrp.mandDocList}" var="mandDoc" varStatus="docStat">
+                                                            <hr/>
+                                                            <div class="form-group" id="docGroupList[${grpStat.index}].subGrp[${subGrpStat.index}].mandDocList[${docStat.index}].${mandDoc.docItemCode}">
+                                                                <label class="col-sm-3 control-label word-keep-all">${mandDoc.docItemName}</label>
+                                                                <div class="col-sm-8">
+                                                                    <div class="input-group">
+                                                                        <div class="input-group-btn">
+                                                                            <input type="file" class="btn btn_lg btn-file" id="docGroupList[${grpStat.index}].subGrp[${subGrpStat.index}].mandDocList[${docStat.index}].docName" name="${mandDoc.docName}"/>
                                                                         </div>
-                                                                        <span class="col-sm-8" id="docGroupList[${grpStat.index}].subGrp[${subGrpStat.index}].mandDocList[${docStat.index}]" style="text-decoration: none;">
-                                                                            <a href="${contextPath}/filedownload/attached/${entireApplication.application.admsNo}/${entireApplication.application.applNo}/${mandDoc.fileName}/${mandDoc.orgFileName}">${mandDoc.orgFileName}</a>
-                                                                        </span>
-                                                                    </c:if>
+                                                                        <c:if test="${mandDoc.orgnSendYn =='Y' || mandDoc.orgnSendYn =='y'}">
+                                                                            <span class="apexMessage">${mandDoc.msgNo}</span>
+                                                                        </c:if>
+                                                                        <c:if test="${mandDoc.orgnSendYn =='N' || mandDoc.orgnSendYn !='n'}">
+                                                                            <div class="col-sm-4 nopadding"><input type="button" id="docGroupList[${grpStat.index}].subGrp[${subGrpStat.index}].mandDocList[${docStat.index}].btn" name="docGroupList[${grpStat.index}].mandDocList[${docStat.index}].btn"
+                                                                                                                   class="btn btn-default btn-block btn-upload" value="올리기"
+                                                                                                                   data-file-path="docGroupList[${grpStat.index}].subGrp[${subGrpStat.index}].mandDocList[${docStat.index}].filePath"
+                                                                                                                   data-file-name="docGroupList[${grpStat.index}].subGrp[${subGrpStat.index}].mandDocList[${docStat.index}].fileName"
+                                                                                                                   data-org-file-name="docGroupList[${grpStat.index}].subGrp[${subGrpStat.index}].mandDocList[${docStat.index}].orgFileName"/>
+                                                                            </div>
+                                                                            <span class="col-sm-8" id="docGroupList[${grpStat.index}].subGrp[${subGrpStat.index}].mandDocList[${docStat.index}]" style="text-decoration: none;">
+                                                                                <a href="${contextPath}/filedownload/attached/${entireApplication.application.admsNo}/${entireApplication.application.applNo}/${mandDoc.fileName}/${mandDoc.orgFileName}">${mandDoc.orgFileName}</a>
+                                                                            </span>
+                                                                        </c:if>
+                                                                    </div>
                                                                 </div>
+                                                                <form:hidden path="docGroupList[${grpStat.index}].subGrp[${subGrpStat.index}].mandDocList[${docStat.index}].docTypeCode" value="${mandDoc.docTypeCode}" />
+                                                                <form:hidden path="docGroupList[${grpStat.index}].subGrp[${subGrpStat.index}].mandDocList[${docStat.index}].docGrp" value="${mandDoc.docGrp}" />
+                                                                <form:hidden path="docGroupList[${grpStat.index}].subGrp[${subGrpStat.index}].mandDocList[${docStat.index}].docItemCode" value="${mandDoc.docItemCode}" />
+                                                                <form:hidden path="docGroupList[${grpStat.index}].subGrp[${subGrpStat.index}].mandDocList[${docStat.index}].docItemName" value="${mandDoc.docItemName}" />
+                                                                <form:hidden path="docGroupList[${grpStat.index}].subGrp[${subGrpStat.index}].mandDocList[${docStat.index}].filePath"  value="${mandDoc.filePath}"/>
+                                                                <form:hidden path="docGroupList[${grpStat.index}].subGrp[${subGrpStat.index}].mandDocList[${docStat.index}].fileName"  value="${mandDoc.fileName}"/>
+                                                                <form:hidden path="docGroupList[${grpStat.index}].subGrp[${subGrpStat.index}].mandDocList[${docStat.index}].orgFileName"  value="${mandDoc.orgFileName}"/>
                                                             </div>
-                                                            <form:hidden path="docGroupList[${grpStat.index}].subGrp[${subGrpStat.index}].mandDocList[${docStat.index}].docTypeCode" value="${mandDoc.docTypeCode}" />
-                                                            <form:hidden path="docGroupList[${grpStat.index}].subGrp[${subGrpStat.index}].mandDocList[${docStat.index}].docGrp" value="${mandDoc.docGrp}" />
-                                                            <form:hidden path="docGroupList[${grpStat.index}].subGrp[${subGrpStat.index}].mandDocList[${docStat.index}].docItemCode" value="${mandDoc.docItemCode}" />
-                                                            <form:hidden path="docGroupList[${grpStat.index}].subGrp[${subGrpStat.index}].mandDocList[${docStat.index}].docItemName" value="${mandDoc.docItemName}" />
-                                                            <form:hidden path="docGroupList[${grpStat.index}].subGrp[${subGrpStat.index}].mandDocList[${docStat.index}].filePath"  value="${mandDoc.filePath}"/>
-                                                            <form:hidden path="docGroupList[${grpStat.index}].subGrp[${subGrpStat.index}].mandDocList[${docStat.index}].fileName"  value="${mandDoc.fileName}"/>
-                                                            <form:hidden path="docGroupList[${grpStat.index}].subGrp[${subGrpStat.index}].mandDocList[${docStat.index}].orgFileName"  value="${mandDoc.orgFileName}"/>
-
-                                                        </div>
-                                                    </c:forEach>
-                                                </div>
-                                            </c:forEach>
-
+                                                        </c:forEach>
+                                                    </div>
+                                                </c:forEach>
+                                            </div>
                                         </div>
-                                        </div>
-                                     </div>
+                                    </div>
                                 </c:if>
                                 <div class="spacer-tiny"></div>
                             </c:forEach>
                         </div>
                     </div>
                 </div>
-
-
             </div> <%--myTabContent--%>
         </form:form>
 
