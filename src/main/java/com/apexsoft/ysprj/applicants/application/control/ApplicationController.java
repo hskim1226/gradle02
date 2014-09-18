@@ -437,24 +437,29 @@ public class ApplicationController {
             return new ExecutionContext(ExecutionContext.FAIL);
         }
 
-//        ExecutionContext ec = new ExecutionContext(ExecutionContext.SUCCESS);
-//        ec.setMessage("Lang Career");
         ExecutionContext ec = null;
         String userId = principal.getName();
-        entireApplication.getApplication().setUserId(userId);
 
-        if (entireApplication.getApplication().getApplNo() == null) { //insert
-            entireApplication.getApplication().setCreId(userId);
-            entireApplication.getApplicationGeneral().setCreId(userId);
-            ec = applicationService.createAppInfo(entireApplication.getApplication(),
-                    entireApplication.getApplicationGeneral(),
-                    entireApplication.getApplicationForeigner());
+        if (entireApplication.getApplication().getApplStsCode().equals(ACAD_SAVED)) { //insert
+            for(ApplicationLanguage al : entireApplication.getApplicationLanguageList()) {
+                al.setCreId(userId);
+            }
+            for(ApplicationExperience ae : entireApplication.getApplicationExperienceList()) {
+                ae.setCreId(userId);
+            }
+            ec = applicationService.createLangCareer(entireApplication.getApplication(),
+                    entireApplication.getApplicationLanguageList(),
+                    entireApplication.getApplicationExperienceList());
         } else { //update
-            entireApplication.getApplication().setModId(userId);
-            entireApplication.getApplicationGeneral().setModId(userId);
-            ec = applicationService.updateAppInfo(entireApplication.getApplication(),
-                    entireApplication.getApplicationGeneral(),
-                    entireApplication.getApplicationForeigner());
+            for(ApplicationLanguage al : entireApplication.getApplicationLanguageList()) {
+                al.setModId(userId);
+            }
+            for(ApplicationExperience ae : entireApplication.getApplicationExperienceList()) {
+                ae.setModId(userId);
+            }
+            ec = applicationService.updateLangCareer(entireApplication.getApplication(),
+                    entireApplication.getApplicationLanguageList(),
+                    entireApplication.getApplicationExperienceList());
         }
 
         return ec;
