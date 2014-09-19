@@ -68,7 +68,7 @@ public class ApplicationServiceImpl implements ApplicationService {
         if ( r1 > 0 && r2 > 0 && r3 > 0 ) {
             ec.setResult(ExecutionContext.SUCCESS);
             ec.setMessage(messageResolver.getMessage("U312"));
-            ec.setData(new CustomApplNoStsCode(applNo, tA.getApplStsCode()));
+            ec.setData(new CustomApplNoStsCode(applNo, tA.getApplStsCode(), tA.getAdmsNo(), tA.getEntrYear(), tA.getAdmsTypeCode()));
         } else {
             ec.setResult(ExecutionContext.FAIL);
             ec.setMessage(messageResolver.getMessage("U306"));
