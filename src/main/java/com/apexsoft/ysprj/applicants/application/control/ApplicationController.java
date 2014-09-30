@@ -151,13 +151,8 @@ public class ApplicationController {
                                  @ModelAttribute("entireApplication") EntireApplication entireApplication,
                                  Model model, HttpServletRequest request) {
         Map<String, Object> commonCodeMap = new HashMap<String, Object>();
-        String applNo2 = request.getParameter("application.applNo");
-        boolean fromCareerLang = false;
-        if (applNo == null && applNo2 != null) { // 첫 원서 작성으로 어학 저장 눌러서 온 경우
-            fromCareerLang = true;
-        }
-        applNo = applNo == null ? Integer.parseInt(applNo2): applNo;
-        if( applNo != null  || applNo2 != null ) {
+
+        if( applNo != null ) {
 //            if( applNo != entireApplication.getApplication().getApplNo() ) {
                 entireApplication = applicationService.retrieveEntireApplication(applNo);
 //            }

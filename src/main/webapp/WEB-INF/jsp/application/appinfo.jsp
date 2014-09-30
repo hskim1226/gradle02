@@ -242,7 +242,7 @@
             <li><a id="tabLangCareer" href="#langcareer" data-toggle="tab">어학 및 경력</a></li>
             <li><a id="tabFileUpload" href="#fileupload" data-toggle="tab">첨부파일</a></li>
         </ul>
-        <form:form commandName="entireApplication" cssClass="form-horizontal" method="post" enctype="multipart/form-data" role="form">
+        <form:form commandName="entireApplication" cssClass="form-horizontal" method="post" role="form">
             <form:hidden path="application.applNo" id="applNo" />
             <form:hidden path="application.applStsCode" id="applStsCode" />
             <form:hidden path="application.admsNo" id="admsNo" />
@@ -1077,6 +1077,8 @@
             document.getElementById('applNo').value='${entireApplication.application.applNo}';
             document.getElementById('admsNo').value='${entireApplication.application.admsNo}';
             document.getElementById('applStsCode').value='${entireApplication.application.applStsCode}';
+            document.getElementById('entrYear').value='${entireApplication.application.entrYear}';
+            document.getElementById('admsTypeCode').value='${entireApplication.application.admsTypeCode}';
 
             var disableTab = function(anchorObj, msg) {
                 var $anchor = $(anchorObj);
@@ -1201,6 +1203,7 @@
             var formProcess = function(event) {
                 var $form = $(this),
                         isApply = event.type ==='apply'?true:false,
+                        isLangCareer = event.type ==='langCareer'?true:false,
                         $formData = $form.serializeArray(),
                         ajaxObj = {
                             type: 'POST',
@@ -1211,15 +1214,26 @@
                                     var message = context.message,
                                             alert = createAlert(message),
                                             applNo = context.data.applNo,
-                                            applStsCode = context.data.applStsCode;
+                                            applStsCode = context.data.applStsCode,
+                                            admsNo = context.data.admsNo,
+                                            entrYear = context.data.entrYear,
+                                            admsTypeCode = context.data.admsTypeCode;
                                     $('#alert-container').append(alert);
                                     document.getElementById('applNo').value = applNo;
                                     document.getElementById('applStsCode').value = applStsCode;
+                                    document.getElementById('admsNo').value = admsNo;
+                                    document.getElementById('entrYear').value = entrYear;
+                                    document.getElementById('admsTypeCode').value = admsTypeCode;
+
                                     btnEnable(applStsCode);
                                     window.setTimeout(function() {
                                         alert.alert('close');
                                         if (isApply) {
                                             location.href="${contextPath}/application/mylist";
+                                        } else if (isLangCareer) {
+                                            var form = document.getElementById('entireApplication');
+                                            form.action = '${contextPath}/application/apply';
+                                            form.submit();
                                         }
                                     }, 1000);
                                 }
