@@ -151,6 +151,7 @@ public class ApplicationController {
                                  @ModelAttribute("entireApplication") EntireApplication entireApplication,
                                  Model model, HttpServletRequest request) {
         Map<String, Object> commonCodeMap = new HashMap<String, Object>();
+
         if( applNo != null ) {
 //            if( applNo != entireApplication.getApplication().getApplNo() ) {
                 entireApplication = applicationService.retrieveEntireApplication(applNo);
@@ -217,6 +218,7 @@ public class ApplicationController {
         }
 
         model.addAttribute("entireApplication", entireApplication);
+        model.addAttribute("fromCareerLang", "fromCareerLang");
 
         List<LanguageExam> langExamList = new ArrayList<LanguageExam>();
         String result = "application/";
@@ -453,12 +455,6 @@ public class ApplicationController {
                     entireApplication.getApplicationLanguageList(),
                     entireApplication.getApplicationExperienceList());
         } else { //update
-            for(ApplicationLanguage al : entireApplication.getApplicationLanguageList()) {
-                al.setModId(userId);
-            }
-            for(ApplicationExperience ae : entireApplication.getApplicationExperienceList()) {
-                ae.setModId(userId);
-            }
             ec = applicationService.updateLangCareer(entireApplication.getApplication(),
                     entireApplication.getApplicationLanguageList(),
                     entireApplication.getApplicationExperienceList());
@@ -489,13 +485,14 @@ public class ApplicationController {
             return new ExecutionContext(ExecutionContext.FAIL);
         }
 
-        ExecutionContext ec = new ExecutionContext(ExecutionContext.SUCCESS);
-        ec.setMessage("FileUpload");
-//        ExecutionContext ec = null;
-//        String userId = principal.getName();
-//        entireApplication.getApplication().setUserId(userId);
-//        entireApplication.getApplication().setApplStsCode("00001");
-//        ec = applicationService.createApplication(entireApplication.getApplication());
+        ExecutionContext ec = null;
+
+        List<DocGroupFile> docGroupFileList = entireApplication.getDocGroupList();
+        if (entireApplication.getApplication().getApplStsCode().equals(LANG_CAREER_SAVED)) { //insert
+            ec = applicationService.createFileUpload(entireApplication.getApplication(), docGroupFileList);
+        } else { //update
+            ec = applicationService.updateFileUpload(entireApplication.getApplication(), docGroupFileList);
+        }
 
         return ec;
     }
@@ -592,8 +589,6 @@ public class ApplicationController {
     public ExecutionContext applyApplication(@Valid @ModelAttribute EntireApplication entireApplication,
                                              BindingResult binding,
                                              Principal principal) {
-
-        saveApplication(entireApplication, binding, principal);
 
         ApplicationPayment ap = new ApplicationPayment();
         ap.setCreId(principal.getName());

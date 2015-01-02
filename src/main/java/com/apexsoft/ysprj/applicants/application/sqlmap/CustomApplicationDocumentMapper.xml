@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="appplicaiton.doc" >
+<mapper namespace="com.apexsoft.ysprj.applicants.application.sqlmap.CustomApplicationDocumentMapper" >
   <resultMap id="BaseResultMap" type="com.apexsoft.ysprj.applicants.application.domain.ApplicationDocument" >
     <id column="APPL_NO" property="applNo" jdbcType="INTEGER" />
     <id column="DOC_SEQ" property="docSeq" jdbcType="INTEGER" />

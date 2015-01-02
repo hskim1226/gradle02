@@ -242,7 +242,7 @@
             <li><a id="tabLangCareer" href="#langcareer" data-toggle="tab">어학 및 경력</a></li>
             <li><a id="tabFileUpload" href="#fileupload" data-toggle="tab">첨부파일</a></li>
         </ul>
-        <form:form commandName="entireApplication" cssClass="form-horizontal" method="post" enctype="multipart/form-data" role="form">
+        <form:form commandName="entireApplication" cssClass="form-horizontal" method="post" role="form">
             <form:hidden path="application.applNo" id="applNo" />
             <form:hidden path="application.applStsCode" id="applStsCode" />
             <form:hidden path="application.admsNo" id="admsNo" />
@@ -857,31 +857,69 @@
                     <div class="spacer-tiny"></div>
                     <div class="row">
                         <div class="col-sm-offset-1 col-sm-10">
+                            <div class="panel panel-darkgray">
+                                <div class="panel-heading">첨부 파일 안내</div>
+                                <div class="panel-body">
+                                    <p>사진 외의 모든 첨부 파일은 서류 종류별로 하나의 PDF 파일만 업로드 가능합니다.</p>
+
+                                    <p>만약 한가지 종류의 서류가 여러개의 PDF 파일로 되어 있다면,
+                                    하나의 PDF 파일로 합친 후 업로드 하시기 바랍니다.</p>
+
+                                    <p>PDF 파일 합치기는 전용프로그램이나 인터넷 서비스를 이용하시기 바랍니다.</p>
+
+                                    예)<br/>
+                                    <a href="http://convert.neevia.com/pdfmerge/" target="_blank">http://convert.neevia.com/pdfmerge/</a><br/>
+                                    <a href="http://www.pdfmerge.com/" target="_blank">http://www.pdfmerge.com/</a><br/>
+
+                                    <p>예시 사이트에서 발생하는 모든 문제는 당사에서 책임지지 않습니다.</p>
+
+                                    <p>사진 파일은 JPG, GIF, PNG 파일만 업로드 가능합니다.</p>
+
+                                    <p>사진 파일의 편집은 전용 프로그램이나 인터넷 서비스를 이용하시기 바랍니다.</p>
+
+                                    예)<br/>
+                                        <a href="http://apps.pixlr.com/editor/" target="_blank">http://apps.pixlr.com/editor/</a><br/>
+                                        <a href="http://www.fotor.com/" target="_blank">http://www.fotor.com/</a><br/>
+                                    <p>예시 사이트에서 발생하는 모든 문제는 당사에서 책임지지 않습니다.</p>
+                                    <hr/>
+                                    <p>파일 첨부 시 주의사항</p>
+                                    1. 문서별로 1개의 파일만 첨부 가능합니다.<br/>
+                                    2. 사진 및 문서의 해상도와 가독성 여부를 반드시 확인하세요.<br/>
+                                    3. 스캔시에는 300dpi 이상으로 스캔하시기 바랍니다.<br/>
+                                    4. 문서 크기는 A4 크기로 생성하여 첨부하셔야 합니다.<br/>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="spacer-tiny"></div>
+                    <div class="row">
+                        <div class="col-sm-offset-1 col-sm-10">
                             <c:forEach items="${entireApplication.docGroupList}" var="docGroup" varStatus="grpStat">
                                 <c:if test = "${docGroup.subGrp.size()==0  &&  docGroup.mandDocList.size()>0}">
                                     <div class="panel panel-darkgray">
                                         <div class="panel-heading">${docGroup.fileGroupName} 서류</div>
-                                        <div class="panel-body" id="docGroupList[${grpStat.index}].list">
+                                        <div class="panel-body" id="docGroupList${grpStat.index}.list">
                                             <c:forEach items="${docGroup.mandDocList}" var="mandDoc" varStatus="docStat">
                                                 <hr/>
-                                                <div class="form-group" id="docGroupList[${grpStat.index}].mandDocList[${docStat.index}].${mandDoc.docItemCode}">
+                                                <div class="form-group" id="docGroupList${grpStat.index}.mandDocList${docStat.index}.${mandDoc.docItemCode}">
                                                     <label class="col-sm-3 control-label word-keep-all">${mandDoc.docItemName}</label>
                                                     <div class="col-sm-8">
                                                         <div class="input-group">
                                                             <div class="input-group-btn">
-                                                                <input type="file" class="btn btn_lg btn-file" id="docGroupList[${grpStat.index}].mandDocList[${docStat.index}].docName" name="${mandDoc.docName}"/>
+                                                                <input type="file" class="btn btn_lg btn-file" id="docGroupList${grpStat.index}.mandDocList${docStat.index}.docName" name="docGroupList[${grpStat.index}].mandDocList[${docStat.index}].docName"/>
                                                             </div>
                                                             <c:if test="${mandDoc.orgnSendYn =='Y' || mandDoc.orgnSendYn =='y'}">
-                                                               <span class="apexMessage">${mandDoc.msgNo}</span>
+                                                               <div class="apexMessage">${mandDoc.msgNo}</div>
                                                             </c:if>
                                                             <c:if test="${mandDoc.orgnSendYn =='N' || mandDoc.orgnSendYn !='n'}">
-                                                                <div class="col-sm-4 nopadding"><input type="button" id="docGroupList[${grpStat.index}].mandDocList[${docStat.index}].btn" name="docGroupList[${grpStat.index}].mandDocList[${docStat.index}].btn"
+                                                                <div class="col-sm-4 nopadding"><input type="button" id="docGroupList${grpStat.index}.mandDocList${docStat.index}.btn" name="docGroupList[${grpStat.index}].mandDocList[${docStat.index}].btn"
                                                                                                        class="btn btn-default btn-block btn-upload" value="올리기"
-                                                                                                       data-file-path="docGroupList[${grpStat.index}].mandDocList[${docStat.index}].filePath"
-                                                                                                       data-file-name="docGroupList[${grpStat.index}].mandDocList[${docStat.index}].fileName"
-                                                                                                       data-org-file-name="docGroupList[${grpStat.index}].mandDocList[${docStat.index}].orgFileName"/>
+                                                                                                       data-file-path="docGroupList${grpStat.index}.mandDocList${docStat.index}.filePath"
+                                                                                                       data-file-name="docGroupList${grpStat.index}.mandDocList${docStat.index}.fileName"
+                                                                                                       data-org-file-name="docGroupList${grpStat.index}.mandDocList${docStat.index}.orgFileName"/>
                                                                 </div>
-                                                                <span class="col-sm-8" id="docGroupList[${grpStat.index}].mandDocList[${docStat.index}]" style="text-decoration: none;">
+                                                                <span class="col-sm-8" id="docGroupList${grpStat.index}.mandDocList${docStat.index}" style="text-decoration: none;">
                                                                     <a href="${contextPath}/filedownload/attached/${entireApplication.application.admsNo}/${entireApplication.application.applNo}/${mandDoc.fileName}/${mandDoc.orgFileName}">${mandDoc.orgFileName}</a>
                                                                 </span>
                                                             </c:if>
@@ -905,30 +943,30 @@
                                 <c:if test = "${docGroup.subGrp.size()>0}">
                                     <div class="panel panel-darkgray">
                                         <div class="panel-heading">${docGroup.fileGroupName} 서류</div>
-                                        <div class="panel-body" id="docGroupList[${grpStat.index}].list">
+                                        <div class="panel-body" id="docGroupList${grpStat.index}.list">
                                             <div class="form-group-block-list" id="fuCollegeDocBlockList">
                                                 <c:forEach items="${docGroup.subGrp}" var="subGrp" varStatus="subGrpStat">
                                                     <div class="form-group-block">
                                                         <c:forEach items="${subGrp.mandDocList}" var="mandDoc" varStatus="docStat">
                                                             <hr/>
-                                                            <div class="form-group" id="docGroupList[${grpStat.index}].subGrp[${subGrpStat.index}].mandDocList[${docStat.index}].${mandDoc.docItemCode}">
+                                                            <div class="form-group" id="docGroupList${grpStat.index}.subGrp${subGrpStat.index}.mandDocList${docStat.index}.${mandDoc.docItemCode}">
                                                                 <label class="col-sm-3 control-label word-keep-all">${mandDoc.docItemName}</label>
                                                                 <div class="col-sm-8">
                                                                     <div class="input-group">
                                                                         <div class="input-group-btn">
-                                                                            <input type="file" class="btn btn_lg btn-file" id="docGroupList[${grpStat.index}].subGrp[${subGrpStat.index}].mandDocList[${docStat.index}].docName" name="${mandDoc.docName}"/>
+                                                                            <input type="file" class="btn btn_lg btn-file" id="docGroupList${grpStat.index}.subGrp${subGrpStat.index}.mandDocList${docStat.index}.docName" name="docGroupList[${grpStat.index}].subGrp[${subGrpStat.index}].mandDocList[${docStat.index}].docName"/>
                                                                         </div>
                                                                         <c:if test="${mandDoc.orgnSendYn =='Y' || mandDoc.orgnSendYn =='y'}">
-                                                                            <span class="apexMessage">${mandDoc.msgNo}</span>
+                                                                            <div class="apexMessage">${mandDoc.msgNo}</div>
                                                                         </c:if>
                                                                         <c:if test="${mandDoc.orgnSendYn =='N' || mandDoc.orgnSendYn !='n'}">
-                                                                            <div class="col-sm-4 nopadding"><input type="button" id="docGroupList[${grpStat.index}].subGrp[${subGrpStat.index}].mandDocList[${docStat.index}].btn" name="docGroupList[${grpStat.index}].mandDocList[${docStat.index}].btn"
+                                                                            <div class="col-sm-4 nopadding"><input type="button" id="docGroupList${grpStat.index}.subGrp${subGrpStat.index}.mandDocList${docStat.index}.btn" name="docGroupList[${grpStat.index}].mandDocList[${docStat.index}].btn"
                                                                                                                    class="btn btn-default btn-block btn-upload" value="올리기"
-                                                                                                                   data-file-path="docGroupList[${grpStat.index}].subGrp[${subGrpStat.index}].mandDocList[${docStat.index}].filePath"
-                                                                                                                   data-file-name="docGroupList[${grpStat.index}].subGrp[${subGrpStat.index}].mandDocList[${docStat.index}].fileName"
-                                                                                                                   data-org-file-name="docGroupList[${grpStat.index}].subGrp[${subGrpStat.index}].mandDocList[${docStat.index}].orgFileName"/>
+                                                                                                                   data-file-path="docGroupList${grpStat.index}.subGrp${subGrpStat.index}.mandDocList${docStat.index}.filePath"
+                                                                                                                   data-file-name="docGroupList${grpStat.index}.subGrp${subGrpStat.index}.mandDocList${docStat.index}.fileName"
+                                                                                                                   data-org-file-name="docGroupList${grpStat.index}.subGrp${subGrpStat.index}.mandDocList${docStat.index}.orgFileName"/>
                                                                             </div>
-                                                                            <span class="col-sm-8" id="docGroupList[${grpStat.index}].subGrp[${subGrpStat.index}].mandDocList[${docStat.index}]" style="text-decoration: none;">
+                                                                            <span class="col-sm-8" id="docGroupList${grpStat.index}.subGrp${subGrpStat.index}.mandDocList${docStat.index}" style="text-decoration: none;">
                                                                                 <a href="${contextPath}/filedownload/attached/${entireApplication.application.admsNo}/${entireApplication.application.applNo}/${mandDoc.fileName}/${mandDoc.orgFileName}">${mandDoc.orgFileName}</a>
                                                                             </span>
                                                                         </c:if>
@@ -1043,6 +1081,8 @@
             document.getElementById('applNo').value='${entireApplication.application.applNo}';
             document.getElementById('admsNo').value='${entireApplication.application.admsNo}';
             document.getElementById('applStsCode').value='${entireApplication.application.applStsCode}';
+            document.getElementById('entrYear').value='${entireApplication.application.entrYear}';
+            document.getElementById('admsTypeCode').value='${entireApplication.application.admsTypeCode}';
 
             var disableTab = function(anchorObj, msg) {
                 var $anchor = $(anchorObj);
@@ -1165,8 +1205,9 @@
 
             <%-- 하단 버튼 처리 --%>
             var formProcess = function(event) {
-                var $form = $(this), formUrl,
+                var $form = $(this),
                         isApply = event.type ==='apply'?true:false,
+                        isLangCareer = event.type ==='langCareer'?true:false,
                         $formData = $form.serializeArray(),
                         ajaxObj = {
                             type: 'POST',
@@ -1177,15 +1218,26 @@
                                     var message = context.message,
                                             alert = createAlert(message),
                                             applNo = context.data.applNo,
-                                            applStsCode = context.data.applStsCode;
+                                            applStsCode = context.data.applStsCode,
+                                            admsNo = context.data.admsNo,
+                                            entrYear = context.data.entrYear,
+                                            admsTypeCode = context.data.admsTypeCode;
                                     $('#alert-container').append(alert);
                                     document.getElementById('applNo').value = applNo;
                                     document.getElementById('applStsCode').value = applStsCode;
+                                    document.getElementById('admsNo').value = admsNo;
+                                    document.getElementById('entrYear').value = entrYear;
+                                    document.getElementById('admsTypeCode').value = admsTypeCode;
+
                                     btnEnable(applStsCode);
                                     window.setTimeout(function() {
                                         alert.alert('close');
                                         if (isApply) {
                                             location.href="${contextPath}/application/mylist";
+                                        } else if (isLangCareer) {
+                                            var form = document.getElementById('entireApplication');
+                                            form.action = '${contextPath}/application/apply';
+                                            form.submit();
                                         }
                                     }, 1000);
                                 }
@@ -1214,6 +1266,7 @@
                         ajaxObj.url = "${contextPath}/application/save/fileUpload";
                         break;
                     case 'apply':
+                        if ( !confirm('첨부 파일을 포함한 모든 내용을 확인하였으며,\n사용자의 잘못으로 발생한 문제는 사용자에게 책임이 있음에 동의하십니까?')) return false;
                         $('.btnAppl').prop('disabled', true);
                         ajaxObj.url = "${contextPath}/application/apply/apply";
                         break;
