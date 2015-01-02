@@ -323,6 +323,10 @@
                                                 </form:select>
                                                 <label id="detMajDesc" class="apexMessage"></label>
                                                 <form:input path="application.inpDetlMaj" cssClass="form-control" style="display:none" />
+                                                <div class="col-sm-offset-2 col-sm-9" id="detlMajRadio">
+                                                    <label class="checkbox-inline">
+                                                        <input type="checkbox" id="partTimeYn" name="partTimeYn" value="unchecked">파트타임 여부</label>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -1983,52 +1987,29 @@ console.log(blockToRemove.parentNode);
             $('#detlMajCode').on('change', function(event) {
                 var selected = this.options[this.selectedIndex];
                 var detlMajCode = selected.value;
-                var parent = this.parentNode.parentNode;
-                var $divNode,$divNode2, $childNode, $childNode2, $childNode3;
 
-                $(parent).find('#detlMajRadio').remove();
-                $(parent).find('#detlMajText').remove();
-                $(parent).find('#detlMajDescDiv').remove();
-                $(parent).find('#detlMajDescLabel').remove();
+
                 if (detlMajCode == '99999') {   // 세부전공 직접입력
-                    $divNode = $('<div></div>').addClass('col-sm-offset-2 col-sm-9').attr({
-                        'id': 'detlMajText'
-                    });
-                    $childNode = $('<input/>').addClass('form-control').attr({
-                        'type': 'text',
-                        'id': 'detlMajDesc',
-                        'name': 'detlMajDesc'
-                    });
+                    $('#DetlMajDesc').show('');
                     $('#DetlMajDesc').text('');
-                    $childNode.appendTo($divNode);
-                    $divNode.appendTo($(parent));
+                }else{
+                    $('#DetlMajDesc').hide('');
+                    $('#DetlMajDesc').text('');
                 }
                 if ($(selected).attr('partTimeYn') === 'Y' || $(selected).attr('partTimeYn') === 'y') { // 세부전공 PART_TIME_YN이 Y인 경우
-                    $divNode = $('<div></div>').addClass('col-sm-offset-2 col-sm-9').attr({
-                        'id': 'detlMajRadio'
-                    });
-                    $childNode = $('<input/>').attr({
-                        'type': 'checkbox',
-                        'id': 'partTimeYn',
-                        'name': 'partTimeYn'
-                    });
-                    $childNode2 = $('<label/>').addClass('checkbox-inline').text('파트타임 여부');
-                    $childNode.prependTo($childNode2);
-                    $childNode2.appendTo($divNode);
-                    $divNode.appendTo($(parent));
+                    $('#DetlMajDesc').show('');
+                    $('#DetlMajDesc').text('');
+                }else{
+                    $('#DetlMajDesc').hide('');
+                    $('#DetlMajDesc').text('');
                 }
-
-                var temp = jQuery.type($(selected).attr('detlmajdesc'));
-                var temp2 = $(selected).attr('detlmajdesc');
                 if (jQuery.type($(selected).attr('detlmajdesc')) !=='undefined') { // 세부전공 desc 가 들어가 있는경우
-                    $divNode = $('<div></div>').addClass('col-sm-offset-2 col-sm-9').attr({
-                        'id': 'detlMajDescDiv'
-                    });
-                    $childNode = $('<label/>').addClass('apexMsg').text(temp2).autoLink();
-                    $childNode.appendTo($divNode);
-                    $divNode.appendTo($(parent));
+                    $('#DetlMajDesc').show('');
+                    $('#DetlMajDesc').text('');
+                }else{
+                    $('#DetlMajDesc').hide('');
+                    $('#DetlMajDesc').text('');
                 }
-
             });
 
             function retreiveDetlMajDesc( adms, dept, applAttrCode, detlMajCode ) {
@@ -2130,7 +2111,7 @@ console.log(blockToRemove.parentNode);
                 var target =this;
                 var parent = $(target).parents('.form-group')[0];
                 var childRadioVal = $(parent).find("input[type=radio]:checked").val();
-
+                <%-- 졸업인 경우  --%>
                 if (childRadioVal =='00001') {
                     $(parent).find('.degr-div').show();
                     $(parent).find('.degr-no').show('');
