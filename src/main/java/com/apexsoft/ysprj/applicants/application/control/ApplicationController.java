@@ -18,6 +18,7 @@ import com.apexsoft.ysprj.applicants.payment.domain.ApplicationPayment;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.io.FileUtils;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -34,6 +35,7 @@ import java.io.IOException;
 import java.security.Principal;
 import java.sql.Timestamp;
 import java.util.*;
+import java.util.logging.Logger;
 
 /**
  * Created by hanmomhanda on 14. 8. 6.
@@ -74,6 +76,17 @@ public class ApplicationController {
         model.addObject("entrYear", entrYear);
         model.addObject("admsTypeCode", admsTypeCode);
         return model;
+    }
+
+    /**
+     * 원서 작성 동의 화면
+     * SimpleForwardingController에서 이전
+     * @return
+     */
+    @RequestMapping(value = "/locale", method = RequestMethod.GET)
+    public void showLocale(Locale locale) {
+        final org.slf4j.Logger logger = LoggerFactory.getLogger(ApplicationController.class);
+        logger.debug("Locale : " + locale);
     }
 
     /**
