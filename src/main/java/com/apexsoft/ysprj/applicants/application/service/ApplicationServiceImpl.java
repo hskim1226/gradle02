@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.*;
-import java.util.concurrent.ExecutionException;
 
 /**
  * Created by Administrator on 2014-08-12.
@@ -31,10 +30,10 @@ public class ApplicationServiceImpl implements ApplicationService {
     private final String APP_INFO_SAVED = "00001";       // 기본정보 저장
     private final String ACAD_SAVED = "00002";           // 학력 저장
     private final String LANG_CAREER_SAVED = "00003";    // 어학 및 경력 저장
-    private final String FILEUPLOADE_SAVED = "00004";    // 첨부파일 저장
+    private final String FILEUPLOAD_SAVED = "00004";    // 첨부파일 저장
 
     /**
-     * 기본 정보 탭 생성
+     * 기본 정보 생성
      *
      * @param application
      * @param applicationGeneral
@@ -82,7 +81,7 @@ public class ApplicationServiceImpl implements ApplicationService {
     }
 
     /**
-     * 기본 정보 탭 수정
+     * 기본 정보 수정
      *
      * @param application
      * @param applicationGeneral
@@ -107,7 +106,8 @@ public class ApplicationServiceImpl implements ApplicationService {
         if ( r1 > 0 && r2 > 0 && r3 > 0 ) {
             ec.setResult(ExecutionContext.SUCCESS);
             ec.setMessage(messageResolver.getMessage("U315"));
-            ec.setData(new CustomApplNoStsCode(application.getApplNo(), application.getApplStsCode()));
+            ec.setData(new CustomApplNoStsCode(application.getApplNo(), application.getApplStsCode(),
+                    application.getAdmsNo(), application.getEntrYear(), application.getAdmsTypeCode()));
         } else {
             ec.setResult(ExecutionContext.FAIL);
             ec.setMessage(messageResolver.getMessage("U316"));
@@ -121,7 +121,7 @@ public class ApplicationServiceImpl implements ApplicationService {
     }
 
     /**
-     * 학력 탭 생성
+     * 학력 정보 생성
      * @param application
      * @param collegeList
      * @param graduateList
@@ -155,7 +155,8 @@ public class ApplicationServiceImpl implements ApplicationService {
         if ( r1 > 0 && r2 > 0 ) {
             ec.setResult(ExecutionContext.SUCCESS);
             ec.setMessage(messageResolver.getMessage("U317"));
-            ec.setData(new CustomApplNoStsCode(applNo, application.getApplStsCode()));
+            ec.setData(new CustomApplNoStsCode(applNo, application.getApplStsCode(),
+                    application.getAdmsNo(), application.getEntrYear(), application.getAdmsTypeCode()));
         } else {
             ec.setResult(ExecutionContext.FAIL);
             ec.setMessage(messageResolver.getMessage("U318"));
@@ -168,7 +169,7 @@ public class ApplicationServiceImpl implements ApplicationService {
     }
 
     /**
-     * 학력 탭 수정
+     * 학력 정보 수정
      *
      * @param application
      * @param collegeList
@@ -198,7 +199,8 @@ public class ApplicationServiceImpl implements ApplicationService {
         if ( r1 == collegeList.size() && r2 == graduateList.size() ) {
             ec.setResult(ExecutionContext.SUCCESS);
             ec.setMessage(messageResolver.getMessage("U317"));
-            ec.setData(new CustomApplNoStsCode(applNo, application.getApplStsCode()));
+            ec.setData(new CustomApplNoStsCode(applNo, application.getApplStsCode(),
+                    application.getAdmsNo(), application.getEntrYear(), application.getAdmsTypeCode()));
         } else {
             ec.setResult(ExecutionContext.FAIL);
             ec.setMessage(messageResolver.getMessage("U318"));
@@ -277,7 +279,14 @@ System.out.println(param.getAcadTypeCode() + " : " + c1+u1+d1);
         return c1 + u1;
     }
 
-
+    /**
+     * 어학 경력 정보 생성
+     *
+     * @param application
+     * @param applicationLanguageList
+     * @param applicationExperienceList
+     * @return
+     */
     @Override
     public ExecutionContext createLangCareer(Application application,
                                              List<ApplicationLanguage> applicationLanguageList,
@@ -315,7 +324,8 @@ System.out.println(param.getAcadTypeCode() + " : " + c1+u1+d1);
         if ( r1 > 0 && r2 > 0 && r3 > 0) {
             ec.setResult(ExecutionContext.SUCCESS);
             ec.setMessage(messageResolver.getMessage("U319"));
-            ec.setData(new CustomApplNoStsCode(applNo, application.getApplStsCode()));
+            ec.setData(new CustomApplNoStsCode(applNo, application.getApplStsCode(),
+                    application.getAdmsNo(), application.getEntrYear(), application.getAdmsTypeCode()));
         } else {
             ec.setResult(ExecutionContext.FAIL);
             ec.setMessage(messageResolver.getMessage("U320"));
@@ -328,6 +338,14 @@ System.out.println(param.getAcadTypeCode() + " : " + c1+u1+d1);
         return ec;
     }
 
+    /**
+     * 어학 경력 정보 수정
+     *
+     * @param application
+     * @param applicationLanguageList
+     * @param applicationExperienceList
+     * @return
+     */
     @Override
     public ExecutionContext updateLangCareer(Application application,
                                              List<ApplicationLanguage> applicationLanguageList,
@@ -363,7 +381,8 @@ System.out.println(param.getAcadTypeCode() + " : " + c1+u1+d1);
         if ( r1 > 0 && r2 > 0 ) {
             ec.setResult(ExecutionContext.SUCCESS);
             ec.setMessage(messageResolver.getMessage("U319"));
-            ec.setData(new CustomApplNoStsCode(applNo, application.getApplStsCode()));
+            ec.setData(new CustomApplNoStsCode(applNo, application.getApplStsCode(),
+                    application.getAdmsNo(), application.getEntrYear(), application.getAdmsTypeCode()));
         } else {
             ec.setResult(ExecutionContext.FAIL);
             ec.setMessage(messageResolver.getMessage("U320"));
@@ -375,6 +394,13 @@ System.out.println(param.getAcadTypeCode() + " : " + c1+u1+d1);
         return ec;
     }
 
+    /**
+     * 파일 업로드 정보 생성
+     *
+     * @param application
+     * @param docGroupFileList
+     * @return
+     */
     @Override
     public ExecutionContext createFileUpload(Application application,
                                              List<DocGroupFile> docGroupFileList) {
@@ -384,7 +410,7 @@ System.out.println(param.getAcadTypeCode() + " : " + c1+u1+d1);
         Date date = new Date();
         String userId = application.getUserId();
 
-        application.setApplStsCode(FILEUPLOADE_SAVED);
+        application.setApplStsCode(FILEUPLOAD_SAVED);
         application.setModDate(date);
         r1 = commonDAO.updateItem(application, NAME_SPACE, "ApplicationMapper");
 
@@ -406,7 +432,8 @@ System.out.println(param.getAcadTypeCode() + " : " + c1+u1+d1);
         if ( r1 == idx ) {
             ec.setResult(ExecutionContext.SUCCESS);
             ec.setMessage(messageResolver.getMessage("U325"));
-            ec.setData(new CustomApplNoStsCode(applNo, application.getApplStsCode()));
+            ec.setData(new CustomApplNoStsCode(applNo, application.getApplStsCode(),
+                    application.getAdmsNo(), application.getEntrYear(), application.getAdmsTypeCode()));
         } else {
             ec.setResult(ExecutionContext.FAIL);
             ec.setMessage(messageResolver.getMessage("U326"));
@@ -417,6 +444,13 @@ System.out.println(param.getAcadTypeCode() + " : " + c1+u1+d1);
         return ec;
     }
 
+    /**
+     * 파일 업로드 정보 수정
+     *
+     * @param application
+     * @param docGroupFileList
+     * @return
+     */
     @Override
     public ExecutionContext updateFileUpload(Application application,
                                              List<DocGroupFile> docGroupFileList) {
@@ -445,7 +479,8 @@ System.out.println(param.getAcadTypeCode() + " : " + c1+u1+d1);
         if ( r1 == idx ) {
             ec.setResult(ExecutionContext.SUCCESS);
             ec.setMessage(messageResolver.getMessage("U325"));
-            ec.setData(new CustomApplNoStsCode(applNo, application.getApplStsCode()));
+            ec.setData(new CustomApplNoStsCode(applNo, application.getApplStsCode(),
+                    application.getAdmsNo(), application.getEntrYear(), application.getAdmsTypeCode()));
         } else {
             ec.setResult(ExecutionContext.FAIL);
             ec.setMessage(messageResolver.getMessage("U326"));
@@ -455,6 +490,12 @@ System.out.println(param.getAcadTypeCode() + " : " + c1+u1+d1);
         return ec;
     }
 
+    /**
+     * 입학원서 전체 저장
+     *
+     * @param entireApplication
+     * @return
+     */
     @Override
     public ExecutionContext createEntireApplication(EntireApplication entireApplication) {
 
@@ -569,13 +610,24 @@ System.out.println(param.getAcadTypeCode() + " : " + c1+u1+d1);
         return ec;
     }
 
-
-
+    /**
+     * 입학원서 부분 정보 삭제
+     *
+     * @param applNo
+     * @param MapperName
+     * @return
+     */
     @Override
     public int deleteListByApplNo(int applNo, String MapperName) {
         return commonDAO.delete(NAME_SPACE + MapperName + ".deleteListByApplNo", applNo);
     }
 
+    /**
+     * 입학원서 전체 정보 수정
+     *
+     * @param entireApplication
+     * @return
+     */
     @Override
     public ExecutionContext updateEntireApplication(EntireApplication entireApplication) {
         int r1 = 0, r2 = 0, r3 = 0, r4 = 0, r5 = 0, r6 = 0, r7 = 0, r8 = 0;
@@ -765,6 +817,12 @@ System.out.println(param.getAcadTypeCode() + " : " + c1+u1+d1);
         return ec;
     }
 
+    /**
+     * 입학원서 전체 정보 확정
+     *
+     * @param entireApplication
+     * @return
+     */
     @Override
     public ExecutionContext confirmEntireApplication(EntireApplication entireApplication) {
         int r1 = 0, r2 = 0, r3 = 0, r4 = 0, r5 = 0;
@@ -842,6 +900,12 @@ System.out.println(param.getAcadTypeCode() + " : " + c1+u1+d1);
         return ec;
     }
 
+    /**
+     * 입학원서 전체 정보 조회
+     *
+     * @param applNo
+     * @return
+     */
     @Override
     public EntireApplication retrieveEntireApplication(int applNo) {
         EntireApplication entireApplication = new EntireApplication();
@@ -922,6 +986,7 @@ System.out.println(param.getAcadTypeCode() + " : " + c1+u1+d1);
 
         return entireApplication;
     }
+
 
     @Override
     public <T> T retrieveInfoByApplNo(int applNo, String mapperNameSqlId, Class<T> clazz) {

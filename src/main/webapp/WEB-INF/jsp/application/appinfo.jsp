@@ -516,6 +516,11 @@
                             </div><%--panel--%>
                         </div>
                     </div><%--row--%>
+                    <div class="btn-group btn-group-justified">
+                        <div class="btn-group">
+                            <button id="saveAppInfo" type="button" class="btn btn-info btn-lg btnAppl" data-saveType="appInfo">기본 정보 저장</button>
+                        </div>
+                    </div>
                 </div><%--appinfo--%>
 
 
@@ -728,6 +733,11 @@
                             </div>
                         </div>
                     </div>
+                    <div class="btn-group btn-group-justified">
+                        <div class="btn-group">
+                            <button id="saveAcademy" type="button" class="btn btn-primary btn-lg btnAppl disabled" data-saveType="academy">학력 저장</button>
+                        </div>
+                    </div>
                 </div>
 
                 <%--language & career--%>
@@ -845,6 +855,11 @@
                                     </div>
                                 </div>
                             </div>
+                        </div>
+                    </div>
+                    <div class="btn-group btn-group-justified">
+                        <div class="btn-group">
+                            <button id="saveLangCareer" type="button" class="btn btn-info btn-lg btnAppl disabled" data-saveType="langCareer">어학 및 경력 저장</button>
                         </div>
                     </div>
                 </div>
@@ -1001,33 +1016,38 @@
                             </div>
                         </div>
                     </div>
-                </div>
-
-
-
+                    <div class="btn-group btn-group-justified">
+                        <div class="btn-group">
+                            <button id="saveFileUpload" type="button" class="btn btn-primary btn-lg btnAppl disabled" data-saveType="fileUpload">첨부 파일 저장</button>
+                        </div>
+                        <div class="btn-group">
+                            <button id="apply" type="button" class="btn btn-primary btn-lg btnAppl disabled" data-saveType="apply">제출</button>
+                        </div>
+                    </div>
+                </div><%--첨부파일--%>
             </div> <%--myTabContent--%>
         </form:form>
 
-        <div class="btn-group btn-group-justified">
-            <div class="btn-group">
-                <button id="saveAppInfo" type="button" class="btn btn-info btn-lg btnAppl" data-saveType="appInfo">기본 정보 저장</button>
-            </div>
-            <div class="btn-group">
-                <button id="saveAcademy" type="button" class="btn btn-primary btn-lg btnAppl disabled" data-saveType="academy">학력 저장</button>
-            </div>
-            <div class="btn-group">
-                <button id="saveLangCareer" type="button" class="btn btn-info btn-lg btnAppl disabled" data-saveType="langCareer">어학 및 경력 저장</button>
-            </div>
-            <div class="btn-group">
-                <button id="saveFileUpload" type="button" class="btn btn-primary btn-lg btnAppl disabled" data-saveType="fileUpload">첨부 파일 저장</button>
-            </div>
-            <div class="btn-group">
-                <button id="apply" type="button" class="btn btn-primary btn-lg btnAppl disabled" data-saveType="apply">작성완료</button>
-            </div>
-            <div class="btn-group">
-                <button id="reset" type="button" class="btn btn-warning btn-lg">작성 내용 비우기</button>
-            </div>
-        </div>
+        <%--<div class="btn-group btn-group-justified">--%>
+            <%--<div class="btn-group">--%>
+                <%--<button id="saveAppInfo" type="button" class="btn btn-info btn-lg btnAppl" data-saveType="appInfo">기본 정보 저장</button>--%>
+            <%--</div>--%>
+            <%--<div class="btn-group">--%>
+                <%--<button id="saveAcademy" type="button" class="btn btn-primary btn-lg btnAppl disabled" data-saveType="academy">학력 저장</button>--%>
+            <%--</div>--%>
+            <%--<div class="btn-group">--%>
+                <%--<button id="saveLangCareer" type="button" class="btn btn-info btn-lg btnAppl disabled" data-saveType="langCareer">어학 및 경력 저장</button>--%>
+            <%--</div>--%>
+            <%--<div class="btn-group">--%>
+                <%--<button id="saveFileUpload" type="button" class="btn btn-primary btn-lg btnAppl disabled" data-saveType="fileUpload">첨부 파일 저장</button>--%>
+            <%--</div>--%>
+            <%--<div class="btn-group">--%>
+                <%--<button id="apply" type="button" class="btn btn-primary btn-lg btnAppl disabled" data-saveType="apply">작성완료</button>--%>
+            <%--</div>--%>
+            <%--<div class="btn-group">--%>
+                <%--<button id="reset" type="button" class="btn btn-warning btn-lg">작성 내용 비우기</button>--%>
+            <%--</div>--%>
+        <%--</div>--%>
     </div> <%--container--%>
 
     <%-- 국가/학교 검색 팝업 --%>
