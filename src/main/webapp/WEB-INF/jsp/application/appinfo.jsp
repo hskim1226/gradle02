@@ -1230,11 +1230,14 @@
                                         alert.alert('close');
                                         if (isApply) {
                                             location.href="${contextPath}/application/mylist";
-                                        } else if (isLangCareer) {
+                                        }
+                                        /* 어학 경력 저장 시 왜 별도처리하는 지 알 수 없음
+                                        else if (isLangCareer) {
                                             var form = document.getElementById('entireApplication');
                                             form.action = '${contextPath}/application/apply';
                                             form.submit();
                                         }
+                                        */
                                     }, 1000);
                                 }
                             },

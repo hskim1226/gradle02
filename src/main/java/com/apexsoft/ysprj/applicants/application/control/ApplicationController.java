@@ -79,17 +79,6 @@ public class ApplicationController {
     }
 
     /**
-     * 원서 작성 동의 화면
-     * SimpleForwardingController에서 이전
-     * @return
-     */
-    @RequestMapping(value = "/locale", method = RequestMethod.GET)
-    public void showLocale(Locale locale) {
-        final org.slf4j.Logger logger = LoggerFactory.getLogger(ApplicationController.class);
-        logger.debug("Locale : " + locale);
-    }
-
-    /**
      * 내원서 화면
      * @param principal
      * @param model
