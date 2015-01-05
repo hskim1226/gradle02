@@ -132,7 +132,9 @@
         <property name="resourceLoaderPath" value="classpath:template/excel" />
     </bean>
 
-    <bean id="localeResolver" class="org.springframework.web.servlet.i18n.SessionLocaleResolver" />
+    <bean id="localeResolver" class="org.springframework.web.servlet.i18n.SessionLocaleResolver">
+        <property name="defaultLocale" value="ko"/>
+    </bean>
 <!-- 상단에 framework를 base-pkg로 하는 설정으로 이동
     <bean id="mailController" class="com.apexsoft.framework.mail.MailController"/>
 
