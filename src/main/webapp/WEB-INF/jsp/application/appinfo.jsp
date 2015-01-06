@@ -352,13 +352,13 @@
                                         <div class="col-sm-4">
                                             <div class="input-group">
                                                 <span class="input-group-addon">&nbsp;성&nbsp;</span>
-                                                <form:input path="application.engSur" cssClass="form-control" style="text-transform: uppercase;" />
+                                                <form:input path="application.engSur" cssClass="form-control engName" />
                                             </div>
                                         </div>
                                         <div class="col-sm-5">
                                             <div class="input-group">
                                                 <span class="input-group-addon">이름</span>
-                                                <form:input path="application.engName" cssClass="form-control" style="text-transform: uppercase;" />
+                                                <form:input path="application.engName" cssClass="form-control engName" />
                                             </div>
                                         </div>
                                     </div>
@@ -1314,6 +1314,12 @@
                 document.getElementById('entireApplication').reset(); //TODO reset 안됨
             });
             <%-- 하단 버튼 처리 --%>
+
+            <%-- 영문 이름 처리 시작 --%>
+            $('.engName').on('keyup', function() {
+                this.value = this.value.toUpperCase().replace(/([^0-9A-Z])/g,"");
+            });
+            <%-- 영문 이름 처리 끝 --%>
 
             <%-- 국가/학교 검색 시작 --%>
             $('.bpopper').on('click', function(e) {
