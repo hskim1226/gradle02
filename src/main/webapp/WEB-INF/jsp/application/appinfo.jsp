@@ -422,7 +422,7 @@
                                                 <input type="text" class="form-control" id="postcode2" />
                                             </div>
                                         </div>
-                                        <form:hidden path="application.zipCode" />
+                                        <form:hidden path="application.zipCode" id="zipCode"/>
                                         <div class="col-sm-offset-2 col-sm-4">
                                             <form:input path="application.addr" cssClass="form-control" id="address" />
                                         </div>
@@ -1392,7 +1392,6 @@
                                     if (document.getElementById(targetInputId[i])) {
                                         document.getElementById(targetInputId[i]).value = tr.children[i].firstChild.innerText;
                                     }
-console.log(targetInputId[i]+'.value : ' + tr.children[i].firstChild.innerText);
                                 }
                             });
                         }
@@ -1424,6 +1423,7 @@ console.log(targetInputId[i]+'.value : ' + tr.children[i].firstChild.innerText);
                         // 우편번호와 주소 및 영문주소 정보를 해당 필드에 넣는다.
                         document.getElementById('postcode1').value = data.postcode1;
                         document.getElementById('postcode2').value = data.postcode2;
+                        document.getElementById('zipCode').value = data.postcode1 + data.postcode2;
                         document.getElementById('address').value = data.address1;
                         document.getElementById('addressDetail').focus();
                         // iframe을 넣은 element를 안보이게 한다.
