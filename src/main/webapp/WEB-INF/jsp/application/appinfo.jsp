@@ -1100,25 +1100,25 @@
             document.getElementById('entrYear').value='${entireApplication.application.entrYear}';
             document.getElementById('admsTypeCode').value='${entireApplication.application.admsTypeCode}';
 
+
+            <%-- 탭 컨트롤 --%>
             var disableTab = function(anchorObj, msg) {
                 var $anchor = $(anchorObj);
                 $anchor.prop('disabled', true);
                 $anchor.prop('data-href', $anchor.attr('href'));
                 $anchor.attr('href', '#');
                 $anchor.addClass('disabled-link');
-                $anchor.on('click', tabMsgHandler(msg));
+                $anchor.on('click', {msg: msg}, tabMsgHandler);
             };
             var enableTab = function(anchorObj) {
                 var $anchor = $(anchorObj);
                 $anchor.prop('disabled', false);
                 $anchor.attr('href', $anchor.prop('data-href')); // restore href
                 $anchor.removeClass('disabled-link');
-                $anchor.off('click', tabMsgHandler(''));
+                $anchor.off('click', tabMsgHandler);
             };
-            var tabMsgHandler = function(msg) {
-                return function() {
-                    alert(msg);
-                };
+            var tabMsgHandler = function(event) {
+                alert(event.data.msg);
             };
             var tabControl = function(applStsCode) {
                 switch (applStsCode) {
@@ -1137,8 +1137,8 @@
                         break;
                 }
             };
-            tabControl(document.getElementById('applNo').value);
-
+            tabControl(document.getElementById('applStsCode').value);
+            <%-- 탭 컨트롤 --%>
 
             var baseInfoSaved = function() {
 //                $('.base-info').prop('disabled', 'true');
