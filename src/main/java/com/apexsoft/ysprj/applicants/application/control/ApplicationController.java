@@ -220,7 +220,7 @@ public class ApplicationController {
         }
 
         model.addAttribute("entireApplication", entireApplication);
-        model.addAttribute("fromCareerLang", "fromCareerLang");
+//        model.addAttribute("fromCareerLang", "fromCareerLang"); jsp에서 사용 안 함. 필요없는 것으로 추측
 
         List<LanguageExam> langExamList = new ArrayList<LanguageExam>();
         String result = "application/";
@@ -244,6 +244,7 @@ public class ApplicationController {
             }
         }
 
+        commonCodeMap.put( "country", commonService.retrieveCountryByCode(entireApplication.getApplication().getCitzCntrCode()));
         commonCodeMap.put( "emerContList", commonService.retrieveCommonCodeValueByCodeGroup("EMER_CONT") );
         commonCodeMap.put( "toflTypeList", commonService.retrieveCommonCodeValueByCodeGroup("TOFL_TYPE") );
         commonCodeMap.put( "fornExmpList", commonService.retrieveCommonCodeValueByCodeGroup("FORN_EXMP") );
@@ -260,7 +261,7 @@ public class ApplicationController {
         model.addAttribute( "msgGrad", messageResolver.getMessage("U324"));
 
 
-        model.addAttribute( "L311", messageResolver.getMessage("L311"));
+//        model.addAttribute( "L311", messageResolver.getMessage("L311")); jsp에서 사용안함. 필요없는 것으로 추측
         return result;
     }
 

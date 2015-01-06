@@ -375,7 +375,7 @@
                                 <div class="panel-heading">지원자 상세정보</div>
                                 <div class="panel-body">
                                     <div class="form-group required">
-                                        <label for="application.citzCntrName" class="col-sm-2 control-label">국적</label>
+                                        <label for="citzCntrName" class="col-sm-2 control-label">국적</label>
                                         <div class="col-sm-2">
                                             <button type="button" class="btn btn-default btn-search bpopper" data-targetNode1="citzCntrCode" data-targetNode2='citzCntrName' data-category="country">
                                                 <span class="glyphicon glyphicon-search"></span> 검색
@@ -383,7 +383,7 @@
                                         </div>
                                         <div class="col-sm-7">
                                             <form:hidden path="application.citzCntrCode" id="citzCntrCode" cssClass="form-control" />
-                                            <input id="citzCntrName" class="form-control" />
+                                            <input id="citzCntrName" class="form-control" value="${common.country.korCntrName}"/>
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -417,14 +417,15 @@
                                         </div>
                                         <div class="col-sm-4">
                                             <div class="input-group">
-                                                <input type="text" class="form-control" id="postcode1" />
-                                                <span class="input-group-addon"> - </span>
-                                                <input type="text" class="form-control" id="postcode2" />
+                                                <%--<input type="text" class="form-control" id="postcode1" />--%>
+                                                <%--<span class="input-group-addon"> - </span>--%>
+                                                <%--<input type="text" class="form-control" id="postcode2" />--%>
+                                                <form:input path="application.zipCode" cssClass="form-control" id="zipCode" readonly="true"/>
                                             </div>
                                         </div>
-                                        <form:hidden path="application.zipCode" id="zipCode"/>
+                                        <%--<form:hidden path="application.zipCode" id="zipCode"/>--%>
                                         <div class="col-sm-offset-2 col-sm-4">
-                                            <form:input path="application.addr" cssClass="form-control" id="address" />
+                                            <form:input path="application.addr" cssClass="form-control" id="address" readonly="true" />
                                         </div>
                                         <div class="col-sm-5">
                                             <form:input path="application.detlAddr" cssClass="form-control" id="addressDetail" placeholder="세부주소" />
@@ -1421,8 +1422,8 @@
                     oncomplete: function(data) {
                         // 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
                         // 우편번호와 주소 및 영문주소 정보를 해당 필드에 넣는다.
-                        document.getElementById('postcode1').value = data.postcode1;
-                        document.getElementById('postcode2').value = data.postcode2;
+//                        document.getElementById('postcode1').value = data.postcode1;
+//                        document.getElementById('postcode2').value = data.postcode2;
                         document.getElementById('zipCode').value = data.postcode1 + data.postcode2;
                         document.getElementById('address').value = data.address1;
                         document.getElementById('addressDetail').focus();

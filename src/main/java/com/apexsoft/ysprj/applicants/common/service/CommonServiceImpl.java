@@ -242,6 +242,26 @@ public class CommonServiceImpl implements CommonService {
     }
 
     /**
+     * 국가 코드로 국가이름 검색
+     *
+     * @param cntrCode
+     * @return
+     */
+    @Override
+    public Country retrieveCountryByCode(String cntrCode) {
+        Country country = null;
+        try {
+            country = commonDAO.queryForObject(NAME_SPACE+"CustomCountryMapper.selectCountryByCode",
+                    cntrCode,
+                    Country.class);
+            converter.convert(country, request);
+        } catch (Exception e) {
+            throw new BusinessException(e.getMessage(), e);
+        }
+        return country;
+    }
+
+    /**
      * 학교유형, 검색어로 학교 조회
      *
      * @param schlType
