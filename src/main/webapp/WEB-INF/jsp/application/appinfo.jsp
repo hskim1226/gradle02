@@ -377,7 +377,7 @@
                                     <div class="form-group required">
                                         <label for="application.citzCntrName" class="col-sm-2 control-label">국적</label>
                                         <div class="col-sm-2">
-                                            <button type="button" class="btn btn-default btn-search bpopper" data-targetNode1="application.citzCntrCode" data-targetNode2='citzCntrName' data-category="country">
+                                            <button type="button" class="btn btn-default btn-search bpopper" data-targetNode1="citzCntrCode" data-targetNode2='citzCntrName' data-category="country">
                                                 <span class="glyphicon glyphicon-search"></span> 검색
                                             </button>
                                         </div>
@@ -1392,6 +1392,7 @@
                                     if (document.getElementById(targetInputId[i])) {
                                         document.getElementById(targetInputId[i]).value = tr.children[i].firstChild.innerText;
                                     }
+console.log(targetInputId[i]+'.value : ' + tr.children[i].firstChild.innerText);
                                 }
                             });
                         }

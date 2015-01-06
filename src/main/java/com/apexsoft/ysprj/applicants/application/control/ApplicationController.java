@@ -288,19 +288,21 @@ public class ApplicationController {
 
         ExecutionContext ec = null;
         String userId = principal.getName();
-        entireApplication.getApplication().setUserId(userId);
+        Application application = entireApplication.getApplication();
+        ApplicationGeneral applicationGeneral = entireApplication.getApplicationGeneral();
+        application.setUserId(userId);
 
-        if (entireApplication.getApplication().getApplNo() == null) { //insert
-            entireApplication.getApplication().setCreId(userId);
-            entireApplication.getApplicationGeneral().setCreId(userId);
-            ec = applicationService.createAppInfo(entireApplication.getApplication(),
-                                                  entireApplication.getApplicationGeneral(),
+        if (application.getApplNo() == null) { //insert
+            application.setCreId(userId);
+            applicationGeneral.setCreId(userId);
+            ec = applicationService.createAppInfo(application,
+                                                  applicationGeneral,
                                                   entireApplication.getApplicationForeigner());
         } else { //update
-            entireApplication.getApplication().setModId(userId);
-            entireApplication.getApplicationGeneral().setModId(userId);
-            ec = applicationService.updateAppInfo(entireApplication.getApplication(),
-                                                  entireApplication.getApplicationGeneral(),
+            application.setModId(userId);
+            applicationGeneral.setModId(userId);
+            ec = applicationService.updateAppInfo(application,
+                                                  applicationGeneral,
                                                   entireApplication.getApplicationForeigner());
         }
 
@@ -377,12 +379,13 @@ public class ApplicationController {
 //        entireApplication.setCollegeList(collegeListFromEntire);
 //        entireApplication.setGraduateList(graduateListFromEntire);
 
-        entireApplication.setCollegeList(preProcessAcadList(entireApplication.getCollegeList(), acadSeqList));
-        entireApplication.setGraduateList(preProcessAcadList(entireApplication.getGraduateList(), acadSeqList));
-
         ExecutionContext ec = null;
         String userId = principal.getName();
         entireApplication.getApplication().setUserId(userId);
+        entireApplication.getApplication().setModId(userId);
+
+        entireApplication.setCollegeList(preProcessAcadList(entireApplication.getCollegeList(), acadSeqList, userId));
+        entireApplication.setGraduateList(preProcessAcadList(entireApplication.getGraduateList(), acadSeqList, userId));
 
         if (entireApplication.getApplication().getApplStsCode().equals(APP_INFO_SAVED)) { //insert
             ec = applicationService.createAcademy(entireApplication.getApplication(),
@@ -404,15 +407,17 @@ public class ApplicationController {
      * @param acadSeqList
      * @return
      */
-    private List<CustomApplicationAcademy> preProcessAcadList(List<CustomApplicationAcademy> academyList, List<Object> acadSeqList) {
+    private List<CustomApplicationAcademy> preProcessAcadList(List<CustomApplicationAcademy> academyList, List<Object> acadSeqList, String userId) {
         for ( int i = 0 ; i < academyList.size() ; i++ ) {
             CustomApplicationAcademy aa = academyList.get(i);
             boolean toBeRemoved = true;
             for (Object acadSeq : acadSeqList) {
                 if ( aa.getAcadSeq() != null && aa.getAcadSeq().toString().equals(acadSeq) ) {
                     toBeRemoved = false;
+                    aa.setModId(userId);
                 } else if (aa.getAcadSeq() == null && aa.getSchlCode() != null && aa.getSchlCode().length() > 0) {
                     toBeRemoved = false;
+                    aa.setCreId(userId);
                 }
             }
             if (toBeRemoved) academyList.remove(aa);
