@@ -27,8 +27,6 @@ public interface CommonService {
     List<CommonCode> retrieveCommonCodeListByCodeGroupKeyword(ParamForCommonCode paramForCommonCode);
     CommonCode retrieveCommonCodeListByCodeGroupCode(ParamForCommonCode paramForCommonCode);
 
-
-
     String retrieveCampNameByCode(String campCode);
     String retrieveCollNameByCode(String collCode);
     String retrieveAriInstNameByCode(String ariInstCode);
@@ -36,7 +34,5 @@ public interface CommonService {
     String retrieveCorsTypeNameByCode(String corsTypeCode);
     String retrieveDetlMajNameByCode(String detlMajCode);
 
-
     List<LanguageExam> retrieveLangExamByLangCode(String langCode);
-
 }

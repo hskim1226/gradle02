@@ -46,27 +46,27 @@
                         </thead>
                         <tbody>
                         <tr>
-                            <form id=generalApplyForm" action="${contextPath}/application/agreement" method="post">
+                            <form id="generalApplyForm" method="post">
                                 <td>일반</td>
                                 <td>2015학년도 전기 연세대학교 대학원 일반 전형</td>
                                 <td><button type="button" id="toGeneralInfo" class="btn btn-info">모집 요강</button></td>
                                 <td><button type="submit" id="toGeneralApply" class="btn btn-primary">원서 작성</button></td>
                                 <td>2014-09-28(월) / 2014-10-08(수)</td>
-                                <input type="hidden" name="admsNo" value="15A" />
-                                <input type="hidden" name="entrYear" value="2015" />
-                                <input type="hidden" name="admsTypeCode" value="A" />
+                                <input type="hidden" name="admsNo" value="<spring:eval expression="@app.getProperty('adms.general')" />" />
+                                <input type="hidden" name="entrYear" value="${admsGeneral.entrYear}" />
+                                <input type="hidden" name="admsTypeCode" value="${admsGeneral.admsType}" />
                             </form>
                         </tr>
                         <tr>
-                            <form id=foreignApplyForm" action="${contextPath}/application/agreement" method="post">
+                            <form id="foreignApplyForm" method="post">
                                 <td>외국인</td>
                                 <td>2015학년도 전기 연세대학교 대학원 외국인 전형</td>
                                 <td><button type="button" id="toForeignInfo" class="btn btn-info">모집 요강</button></td>
                                 <td><button type="submit" id="toForeignApply" class="btn btn-primary">원서 작성</button></td>
                                 <td>2014-09-28(월) / 2014-10-08(수)</td>
-                                <input type="hidden" name="admsNo" value="15C" />
-                                <input type="hidden" name="entrYear" value="2015" />
-                                <input type="hidden" name="admsTypeCode" value="C" />
+                                <input type="hidden" name="admsNo" value="<spring:eval expression="@app.getProperty('adms.foreign')" />" />
+                                <input type="hidden" name="entrYear" value="${admsForeign.entrYear}" />
+                                <input type="hidden" name="admsTypeCode" value="${admsForeign.admsType}" />
                             </form>
                         </tr>
                         </tbody>
@@ -79,35 +79,24 @@
 <content tag="local-script">
     <script>
         $(document).ready( function() {
-            $('#toGeneralInfo').click(function(){
-                location.href="${contextPath}/notice/2015-1-general";
+            var generalForm = document.getElementById('generalApplyForm'),
+                foreignForm = document.getElementById('foreignApplyForm');
+            $('#toGeneralInfo').on('click', function(){
+                generalForm.action = "${contextPath}/notice/general";
+                generalForm.submit();
             });
-            $('#toGeneralApply').click(function(){
-                $('#generalApplyForm').submit();
+            $('#toGeneralApply').on('click', function(){
+                generalForm.action = "${contextPath}/application/agreement";
+                generalForm.submit();
             });
-            $('#toForeignInfo').click(function(){
-                location.href="${contextPath}/notice/2015-1-foreign";
+            $('#toForeignInfo').on('click', function(){
+                foreignForm.action = "${contextPath}/notice/foreign";
+                foreignForm.submit();
             });
-            $('#toForeignApply').click(function(){
-                $('#foreignApplyForm').submit();
+            $('#toForeignApply').on('click', function(){
+                foreignForm.action = "${contextPath}/application/agreement";
+                foreignForm.submit();
             });
-
-//            function submitPostMethod(url, data) {
-//                var f = document.createElement('form');
-//                var hidden;
-//                for (var i = 0, len = data.length; i < len; i++) {
-//                    hidden = document.createElement('input');
-//                    hidden.setAttribute('type', 'hidden');
-//                    for(var key in data[i]) {
-//                        hidden.setAttribute('name', key);
-//                        hidden.setAttribute('value', data[i][key]);
-//                    }
-//                    f.appendChild(hidden);
-//                }
-//                f.setAttribute('action', url);
-//                f.setAttribute('method', 'post');
-//                f.submit();
-//            }
         });
     </script>
 </content>
