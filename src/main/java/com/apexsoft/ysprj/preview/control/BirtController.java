@@ -82,7 +82,7 @@ public class BirtController {
         commonCode = commonService.retrieveCommonCodeValueByCodeGroupCode("MLTR_RANK", entireApplication.getApplicationGeneral().getMltrRankCode());
         String mltrRankName = commonCode != null ? commonCode.getCodeVal() : null;
         ApplicationDocument photoFile = applicationService.retrieveApplicationDocumentPhoto(applNo);
-        String photoFilePath = photoFile.getFilePath();
+        String photoFilePath = photoFile.getFilePath() + "/" + photoFile.getFileName();
 
         model.addAttribute("campName", campName);
         model.addAttribute("collName", collName);
@@ -92,7 +92,7 @@ public class BirtController {
         model.addAttribute("detlMajName", detlMajName);
         model.addAttribute("mltrServName", mltrServName);
         model.addAttribute("mltrRankName", mltrRankName);
-        model.addAttribute("photoPath", photoFilePath);
+        model.addAttribute("photoFilePath", photoFilePath);
 
         /* TODO ENTR_YEAR, ADMS_TYPE_CODE 구하는 부분 수정 필요 */
         commonCode = commonService.retrieveCommonCodeValueByCodeGroupCode("ADMS_TYPE", "A");

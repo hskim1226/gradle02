@@ -513,9 +513,9 @@ reportContext.setPersistentGlobalVariable("getPhotoUri", getPhotoUri);
                                 <image id="1363">
                                     <property name="height">161px</property>
                                     <property name="width">124px</property>
-                                    <property name="source">url</property>
+                                    <property name="source">file</property>
+                                    <expression name="uri" type="javascript">getPhotoUri()</expression>
                                     <property name="fitToContainer">true</property>
-                                    <property name="uri">getPhotoUri(applNo)</property>
                                 </image>
                             </cell>
                         </row>
