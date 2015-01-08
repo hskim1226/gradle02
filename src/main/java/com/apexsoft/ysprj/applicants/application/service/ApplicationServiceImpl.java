@@ -1135,4 +1135,16 @@ System.out.println(param.getAcadTypeCode() + " : " + c1+u1+d1);
         return docGrpList;
     }
 
+    @Override
+    public ApplicationDocument retrieveApplicationDocumentPhoto(int applNo) {
+        ApplicationDocument applicationDocument = null;
+        try {
+            applicationDocument = commonDAO.queryForObject(NAME_SPACE + "CustomApplicationDocumentMapper.selectPhotoFileByApplNo",
+                    applNo, ApplicationDocument.class);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return applicationDocument;
+    }
+
 }

@@ -387,4 +387,13 @@
          WHERE A.DOC_TYPE_CODE = '00009'
            AND A.APPL_NO = #{applNo}-- 입학지원번호
     </select>
+
+    <select id="selectPhotoFileByApplNo" resultMap="BaseResultMap" parameterType="int" >
+        select
+        <include refid="Base_Column_List" />
+        from APPL_DOC
+        where APPL_NO = #{applNo,jdbcType=INTEGER}
+          AND DOC_TYPE_CODE = '00001'
+          AND DOC_ITEM_CODE = '00001'
+    </select>
 </mapper>
