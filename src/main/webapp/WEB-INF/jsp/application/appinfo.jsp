@@ -1223,50 +1223,52 @@
             <%-- 하단 버튼 처리 --%>
             var formProcess = function(event) {
                 var $form = $(this),
+                    form = document.getElementById('entireApplication'),
                     isValidProcess = true,
                     isApply = event.type ==='apply'?true:false,
                     isLangCareer = event.type ==='langCareer'?true:false,
-                    $formData = $form.serializeArray(),
-                    ajaxObj = {
-                        type: 'POST',
-                        data: $formData,
-//                            timeout: 5000,
-                        success: function (context) {
-                            if (context.result == 'SUCCESS') {
-                                var message = context.message,
-                                    alert = createAlert(message),
-                                    applNo = context.data.applNo,
-                                    applStsCode = context.data.applStsCode,
-                                    admsNo = context.data.admsNo,
-                                    entrYear = context.data.entrYear,
-                                    admsTypeCode = context.data.admsTypeCode;
-                                $('#alert-container').append(alert);
-                                document.getElementById('applNo').value = applNo;
-                                document.getElementById('applStsCode').value = applStsCode;
-                                document.getElementById('admsNo').value = admsNo;
-                                document.getElementById('entrYear').value = entrYear;
-                                document.getElementById('admsTypeCode').value = admsTypeCode;
+                    $formData = $form.serializeArray();
 
-                                btnEnable(applStsCode);
-                                window.setTimeout(function() {
-                                    alert.alert('close');
-                                    if (isApply) {
-                                        location.href="${contextPath}/application/mylist";
-                                    }
-                                    /* 어학 경력 저장 시 왜 별도처리하는 지 알 수 없음
-                                    else if (isLangCareer) {
-                                        var form = document.getElementById('entireApplication');
-                                        form.action = '${contextPath}/application/apply';
-                                        form.submit();
-                                    }
-                                    */
-                                }, 1000);
-                            }
-                        },
-                        error: function(e) {
-                            console.log(e.statusText);
-                        }
-                    };
+                    <%--ajaxObj = {--%>
+                        <%--type: 'POST',--%>
+                        <%--data: $formData,--%>
+<%--//                            timeout: 5000,--%>
+                        <%--success: function (context) {--%>
+                            <%--if (context.result == 'SUCCESS') {--%>
+                                <%--var message = context.message,--%>
+                                    <%--alert = createAlert(message),--%>
+                                    <%--applNo = context.data.applNo,--%>
+                                    <%--applStsCode = context.data.applStsCode,--%>
+                                    <%--admsNo = context.data.admsNo,--%>
+                                    <%--entrYear = context.data.entrYear,--%>
+                                    <%--admsTypeCode = context.data.admsTypeCode;--%>
+                                <%--$('#alert-container').append(alert);--%>
+                                <%--document.getElementById('applNo').value = applNo;--%>
+                                <%--document.getElementById('applStsCode').value = applStsCode;--%>
+                                <%--document.getElementById('admsNo').value = admsNo;--%>
+                                <%--document.getElementById('entrYear').value = entrYear;--%>
+                                <%--document.getElementById('admsTypeCode').value = admsTypeCode;--%>
+
+                                <%--btnEnable(applStsCode);--%>
+                                <%--window.setTimeout(function() {--%>
+                                    <%--alert.alert('close');--%>
+                                    <%--if (isApply) {--%>
+                                        <%--location.href="${contextPath}/application/mylist";--%>
+                                    <%--}--%>
+                                    <%--/* 어학 경력 저장 시 왜 별도처리하는 지 알 수 없음--%>
+                                    <%--else if (isLangCareer) {--%>
+                                        <%--var form = document.getElementById('entireApplication');--%>
+                                        <%--form.action = '${contextPath}/application/apply';--%>
+                                        <%--form.submit();--%>
+                                    <%--}--%>
+                                    <%--*/--%>
+                                <%--}, 1000);--%>
+                            <%--}--%>
+                        <%--},--%>
+                        <%--error: function(e) {--%>
+                            <%--console.log(e.statusText);--%>
+                        <%--}--%>
+                    <%--};--%>
 
                 $form.find('input.radio-group').filter(function() {
                     return this.checked == false;
@@ -1280,27 +1282,39 @@
                             alert('<spring:message code="U329"/>');
                             $('#applAttrCode').focus();
                         } else {
-                            ajaxObj.url = "${contextPath}/application/save/appInfo";
+                            <%--ajaxObj.url = "${contextPath}/application/save/appInfo";--%>
+                            <%--$form.attr('action',"${contextPath}/application/save/appInfo");--%>
+                            <%--$form.submit();--%>
+                            form.action = "${contextPath}/application/save/appInfo";
+                            form.submit();
                         }
                         break;
                     case 'academy':
-                        ajaxObj.url = "${contextPath}/application/save/academy";
+                        <%--ajaxObj.url = "${contextPath}/application/save/academy";--%>
+                        form.action = "${contextPath}/application/save/academy";
+                        form.submit();
                         break;
                     case 'langCareer':
-                        ajaxObj.url = "${contextPath}/application/save/langCareer";
+                        <%--ajaxObj.url = "${contextPath}/application/save/langCareer";--%>
+                        form.action = "${contextPath}/application/save/langCareer";
+                        form.submit();
                         break;
                     case 'fileUpload':
-                        ajaxObj.url = "${contextPath}/application/save/fileUpload";
+                        <%--ajaxObj.url = "${contextPath}/application/save/fileUpload";--%>
+                        form.action = "${contextPath}/application/save/fileUpload";
+                        form.submit();
                         break;
                     case 'apply':
                         if ( !confirm('첨부 파일을 포함한 모든 내용을 확인하였으며,\n사용자의 잘못으로 발생한 문제는 사용자에게 책임이 있음에 동의하십니까?')) return false;
                         $('.btnAppl').prop('disabled', true);
-                        ajaxObj.url = "${contextPath}/application/apply/apply";
+                        <%--ajaxObj.url = "${contextPath}/application/apply/apply";--%>
+                        form.action = "${contextPath}/application/apply/apply";
+                        form.submit();
                         break;
                     case 'reset':
                         break;
                 }
-                if (isValidProcess) $.ajax(ajaxObj);
+//                if (isValidProcess) $.ajax(ajaxObj);
                 event.preventDefault();
             };
 

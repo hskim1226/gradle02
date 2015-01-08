@@ -136,27 +136,25 @@ public class ApplicationController {
     }
 
     /**
-     * 입학원서 화면 표시(최초면 빈란, 아니면 내용 채워짐)
+     * 전체 정보를 모델에 담는 메서드
      *
      * @param applNo
      * @param admsNo
      * @param entrYear
      * @param admsTypeCode
-     * @param model
+     * @param targetView
      * @return
      */
-    @RequestMapping(value = "/apply"/*, /method = RequestMethod.POST(*/)
-    public String displayAppInfo(@RequestParam(value = "applNo", required = false) Integer applNo,
-                                 @RequestParam(value = "admsNo", required = false) String admsNo,
-                                 @RequestParam(value = "entrYear", required = false) String entrYear,
-                                 @RequestParam(value = "admsTypeCode", required = false) String admsTypeCode,
-                                 @ModelAttribute("entireApplication") EntireApplication entireApplication,
-                                 Model model, HttpServletRequest request) {
+    private ModelAndView getEntireInfo(Integer applNo, String admsNo,
+                                String entrYear, String admsTypeCode, String targetView,
+                                @ModelAttribute("entireApplication") EntireApplication entireApplication) {
+        ModelAndView model = new ModelAndView(targetView);
+
         Map<String, Object> commonCodeMap = new HashMap<String, Object>();
 
         if( applNo != null ) {
 //            if( applNo != entireApplication.getApplication().getApplNo() ) {
-                entireApplication = applicationService.retrieveEntireApplication(applNo);
+            entireApplication = applicationService.retrieveEntireApplication(applNo);
 //            }
             CampusCollege campusCollege = applicationService.retrieveInfoByApplNo(applNo,
                     "EntireApplicationMapper.selectCampusCollegeCode",
@@ -219,7 +217,7 @@ public class ApplicationController {
             if( ariInstList != null)    commonCodeMap.put( "ariInstList", ariInstList );
         }
 
-        model.addAttribute("entireApplication", entireApplication);
+        model.addObject("entireApplication", entireApplication);
 //        model.addAttribute("fromCareerLang", "fromCareerLang"); jsp에서 사용 안 함. 필요없는 것으로 추측
 
         List<LanguageExam> langExamList = new ArrayList<LanguageExam>();
@@ -252,17 +250,148 @@ public class ApplicationController {
         commonCodeMap.put( "langExamList", langExamList);
 
 
-        model.addAttribute( "common", commonCodeMap );
+        model.addObject( "common", commonCodeMap );
 
-        model.addAttribute( "msgRgstNo", messageResolver.getMessage("U304"));
-        model.addAttribute( "msgPhoneNo", messageResolver.getMessage("U305"));
-        model.addAttribute( "msgImageOnly", messageResolver.getMessage("U308"));
-        model.addAttribute( "msgPDFOnly", messageResolver.getMessage("U309"));
-        model.addAttribute( "msgGrad", messageResolver.getMessage("U324"));
+        model.addObject( "msgRgstNo", messageResolver.getMessage("U304"));
+        model.addObject( "msgPhoneNo", messageResolver.getMessage("U305"));
+        model.addObject( "msgImageOnly", messageResolver.getMessage("U308"));
+        model.addObject( "msgPDFOnly", messageResolver.getMessage("U309"));
+        model.addObject( "msgGrad", messageResolver.getMessage("U324"));
 
+        return model;
+    }
 
-//        model.addAttribute( "L311", messageResolver.getMessage("L311")); jsp에서 사용안함. 필요없는 것으로 추측
-        return result;
+    /**
+     * 입학원서 화면 표시(최초면 빈란, 아니면 내용 채워짐)
+     *
+     * @param applNo
+     * @param admsNo
+     * @param entrYear
+     * @param admsTypeCode
+     * @param model
+     * @return
+     */
+    @RequestMapping(value = "/apply"/*, /method = RequestMethod.POST(*/)
+    public ModelAndView displayAppInfo(@RequestParam(value = "applNo", required = false) Integer applNo,
+                                 @RequestParam(value = "admsNo", required = false) String admsNo,
+                                 @RequestParam(value = "entrYear", required = false) String entrYear,
+                                 @RequestParam(value = "admsTypeCode", required = false) String admsTypeCode,
+                                 @ModelAttribute("entireApplication") EntireApplication entireApplication,
+                                 Model model, HttpServletRequest request) {
+        return getEntireInfo(applNo, admsNo,
+                entrYear, admsTypeCode, "application/appinfo",
+                entireApplication);
+//        Map<String, Object> commonCodeMap = new HashMap<String, Object>();
+//
+//        if( applNo != null ) {
+////            if( applNo != entireApplication.getApplication().getApplNo() ) {
+//                entireApplication = applicationService.retrieveEntireApplication(applNo);
+////            }
+//            CampusCollege campusCollege = applicationService.retrieveInfoByApplNo(applNo,
+//                    "EntireApplicationMapper.selectCampusCollegeCode",
+//                    CampusCollege.class);
+//
+//            // 지원사항 select 초기값 설정
+//            List<Campus> campList = null;
+//            List<AcademyResearchIndustryInstitution> ariInstList = null;
+//            List<College> collList = null;
+//            List<CodeNameDepartment> deptList = null;
+//            List<CodeNameCourse> corsTypeList = null;
+//            List<CodeNameDetailMajor> detlMajList = null;
+//
+//            ParamForSetupCourses param = new ParamForSetupCourses();
+//            param.setAdmsNo( entireApplication.getApplication().getAdmsNo() );
+//            param.setCollCode( entireApplication.getApplication().getCollCode() );
+//            param.setDeptCode( entireApplication.getApplication().getDeptCode() );
+//            param.setCorsTypeCode( entireApplication.getApplication().getCorsTypeCode() );
+//            param.setAriInstCode( entireApplication.getApplication().getAriInstCode() );
+//
+//            String applAttrCode = entireApplication.getApplication().getApplAttrCode();
+//            if( "00001".equals( applAttrCode ) ) {
+//                campList = commonService.retrieveCampus();
+//                collList = commonService.retrieveCollegeByCampus( entireApplication.getApplication().getCampCode() );
+//                deptList = commonService.retrieveGeneralDepartmentByAdmsColl(param);
+//                corsTypeList = commonService.retrieveGeneralCourseByAdmsDept(param);
+//                detlMajList = commonService.retrieveGeneralDetailMajorByAdmsDeptCors(param);
+//            } else if( "00002".equals( applAttrCode ) ) {
+//                ariInstList = commonService.retrieveAriInst();
+//                deptList = commonService.retrieveAriInstDepartmentByAdmsAriInst(param);
+//                corsTypeList = commonService.retrieveAriInstCourseByAdmsDeptAriInst(param);
+//                detlMajList = commonService.retrieveAriInstDetailMajorByAdmsDeptAriInst(param);
+//            } else if( "00003".equals( applAttrCode ) ) {
+//                campList = commonService.retrieveCampus();
+//                collList = commonService.retrieveCollegeByCampus( entireApplication.getApplication().getCampCode() );
+//                deptList = commonService.retrieveGeneralDepartmentByAdmsColl(param);
+//                corsTypeList = commonService.retrieveCommissionCourseByAdmsDept(param);
+//                detlMajList = commonService.retrieveGeneralDetailMajorByAdmsDeptCors(param);
+//            }
+//
+//            if( campList != null )      commonCodeMap.put( "campList", campList );
+//            if( collList != null )      commonCodeMap.put( "collList", collList );
+//            if( ariInstList != null)    commonCodeMap.put( "ariInstList", ariInstList );
+//            if( deptList != null )      commonCodeMap.put( "deptList", deptList );
+//            if( corsTypeList != null )  commonCodeMap.put( "corsTypeList", corsTypeList );
+//            if( detlMajList != null )   commonCodeMap.put( "detlMajList", detlMajList );
+//
+//            entireApplication.setDocGroupList( applicationService.retrieveManApplDocListByApplNo(applNo ) );
+//        } else {
+//            entireApplication = entireApplication();
+//            entireApplication.getApplication().setAdmsNo(admsNo);
+//            entireApplication.getApplication().setEntrYear(entrYear);
+//            entireApplication.getApplication().setAdmsTypeCode(admsTypeCode);
+//            entireApplication.getApplication().setApplAttrCode("00001");
+////            entireApplication.getHighSchool().setAcadTypeCode("00001");
+//
+//            List<Campus> campList = commonService.retrieveCampus();
+//            List<AcademyResearchIndustryInstitution> ariInstList = commonService.retrieveAriInst();
+//            if( campList != null )      commonCodeMap.put( "campList", campList );
+//            if( ariInstList != null)    commonCodeMap.put( "ariInstList", ariInstList );
+//        }
+//
+//        model.addAttribute("entireApplication", entireApplication);
+////        model.addAttribute("fromCareerLang", "fromCareerLang"); jsp에서 사용 안 함. 필요없는 것으로 추측
+//
+//        List<LanguageExam> langExamList = new ArrayList<LanguageExam>();
+//        String result = "application/";
+//        if( "A".equals(admsTypeCode) || "B".equals(admsTypeCode) ) {
+//            result += "appinfo";
+//
+//            commonCodeMap.put( "applAttrList", commonService.retrieveCommonCodeValueByCodeGroup("APPL_ATTR") );
+//            commonCodeMap.put( "mltrServList", commonService.retrieveCommonCodeValueByCodeGroup("MLTR_SERV") );
+//            commonCodeMap.put( "mltrTypeList", commonService.retrieveCommonCodeValueByCodeGroup("MLTR_TYPE") );
+//            commonCodeMap.put( "mltrRankList", commonService.retrieveCommonCodeValueByCodeGroup("MLTR_RANK") );
+//            langExamList.addAll( commonService.retrieveLangExamByLangCode("ENG") );
+//        } else if( "C".equals(admsTypeCode) ) {
+//            result += "appinfo-fore";
+//
+//            commonCodeMap.put( "fornTypeList", commonService.retrieveCommonCodeValueByCodeGroup("FORN_TYPE") );
+//            langExamList.addAll( commonService.retrieveLangExamByLangCode("KOR"));
+//            for (LanguageExam languageExam : commonService.retrieveLangExamByLangCode("ENG")) {
+//                if (!"GRE".equals(languageExam.getExamName())) {
+//                    langExamList.add(languageExam);
+//                }
+//            }
+//        }
+//
+//        commonCodeMap.put( "country", commonService.retrieveCountryByCode(entireApplication.getApplication().getCitzCntrCode()));
+//        commonCodeMap.put( "emerContList", commonService.retrieveCommonCodeValueByCodeGroup("EMER_CONT") );
+//        commonCodeMap.put( "toflTypeList", commonService.retrieveCommonCodeValueByCodeGroup("TOFL_TYPE") );
+//        commonCodeMap.put( "fornExmpList", commonService.retrieveCommonCodeValueByCodeGroup("FORN_EXMP") );
+//        commonCodeMap.put( "qualAreaList", commonService.retrieveCommonCodeValueByCodeGroup("QUAL_AREA") );
+//        commonCodeMap.put( "langExamList", langExamList);
+//
+//
+//        model.addAttribute( "common", commonCodeMap );
+//
+//        model.addAttribute( "msgRgstNo", messageResolver.getMessage("U304"));
+//        model.addAttribute( "msgPhoneNo", messageResolver.getMessage("U305"));
+//        model.addAttribute( "msgImageOnly", messageResolver.getMessage("U308"));
+//        model.addAttribute( "msgPDFOnly", messageResolver.getMessage("U309"));
+//        model.addAttribute( "msgGrad", messageResolver.getMessage("U324"));
+//
+//
+////        model.addAttribute( "L311", messageResolver.getMessage("L311")); jsp에서 사용안함. 필요없는 것으로 추측
+//        return result;
     }
 
     /**
@@ -274,18 +403,20 @@ public class ApplicationController {
      * @return
      */
     @RequestMapping(value="/save/appInfo", method = RequestMethod.POST)
-    @ResponseBody
-    public ExecutionContext saveAppInfo(@Valid @ModelAttribute EntireApplication entireApplication,
+//    @ResponseBody
+    public ModelAndView saveAppInfo(@Valid @ModelAttribute EntireApplication entireApplication,
                                          BindingResult bindingResult,
                                          Principal principal) {
 
-        if( bindingResult.hasErrors() ) {
-            return new ExecutionContext(ExecutionContext.FAIL);
-        }
+//        if( bindingResult.hasErrors() ) {
+//            return new ExecutionContext(ExecutionContext.FAIL);
+//        }
+//
+//        if( principal == null ) {
+//            return new ExecutionContext(ExecutionContext.FAIL);
+//        }
 
-        if( principal == null ) {
-            return new ExecutionContext(ExecutionContext.FAIL);
-        }
+
 
         ExecutionContext ec = null;
         String userId = principal.getName();
@@ -307,7 +438,12 @@ public class ApplicationController {
                                                   entireApplication.getApplicationForeigner());
         }
 
-        return ec;
+//        return ec;
+        CustomApplNoStsCode data = (CustomApplNoStsCode)ec.getData();
+
+        return getEntireInfo(data.getApplNo(), application.getAdmsNo(),
+                application.getEntrYear(), application.getAdmsTypeCode(), "application/appinfo",
+                entireApplication);
     }
 
     /**
@@ -319,19 +455,19 @@ public class ApplicationController {
      * @return
      */
     @RequestMapping(value="/save/academy", method = RequestMethod.POST)
-    @ResponseBody
-    public ExecutionContext saveAcademy(@Valid @ModelAttribute EntireApplication entireApplication,
+//    @ResponseBody
+    public ModelAndView saveAcademy(@Valid @ModelAttribute EntireApplication entireApplication,
                                          BindingResult bindingResult,
                                          Principal principal,
                                          HttpServletRequest request) {
 
-        if( bindingResult.hasErrors() ) {
-            return new ExecutionContext(ExecutionContext.FAIL);
-        }
-
-        if( principal == null ) {
-            return new ExecutionContext(ExecutionContext.FAIL);
-        }
+//        if( bindingResult.hasErrors() ) {
+//            return new ExecutionContext(ExecutionContext.FAIL);
+//        }
+//
+//        if( principal == null ) {
+//            return new ExecutionContext(ExecutionContext.FAIL);
+//        }
 
         List<Object> acadSeqList = new ArrayList<Object>();
 
@@ -382,23 +518,28 @@ public class ApplicationController {
 
         ExecutionContext ec = null;
         String userId = principal.getName();
-        entireApplication.getApplication().setUserId(userId);
-        entireApplication.getApplication().setModId(userId);
+        Application application = entireApplication.getApplication();
+        application.setUserId(userId);
+        application.setModId(userId);
 
         entireApplication.setCollegeList(preProcessAcadList(entireApplication.getCollegeList(), acadSeqList, userId));
         entireApplication.setGraduateList(preProcessAcadList(entireApplication.getGraduateList(), acadSeqList, userId));
 
         if (entireApplication.getApplication().getApplStsCode().equals(APP_INFO_SAVED)) { //insert
-            ec = applicationService.createAcademy(entireApplication.getApplication(),
+            ec = applicationService.createAcademy(application,
                     entireApplication.getCollegeList(),
                     entireApplication.getGraduateList());
         } else { //update
-            ec = applicationService.updateAcademy(entireApplication.getApplication(),
+            ec = applicationService.updateAcademy(application,
                     entireApplication.getCollegeList(),
                     entireApplication.getGraduateList());
         }
 
-        return ec;
+        CustomApplNoStsCode data = (CustomApplNoStsCode)ec.getData();
+
+        return getEntireInfo(data.getApplNo(), application.getAdmsNo(),
+                application.getEntrYear(), application.getAdmsTypeCode(), "application/appinfo",
+                entireApplication);
     }
 
     /**
@@ -435,39 +576,44 @@ public class ApplicationController {
      * @return
      */
     @RequestMapping(value="/save/langCareer", method = RequestMethod.POST)
-    @ResponseBody
-    public ExecutionContext saveLangCareer(@Valid @ModelAttribute EntireApplication entireApplication,
+//    @ResponseBody
+    public ModelAndView saveLangCareer(@Valid @ModelAttribute EntireApplication entireApplication,
                                         BindingResult bindingResult,
                                         Principal principal) {
 
-        if( bindingResult.hasErrors() ) {
-            return new ExecutionContext(ExecutionContext.FAIL);
-        }
-
-        if( principal == null ) {
-            return new ExecutionContext(ExecutionContext.FAIL);
-        }
+//        if( bindingResult.hasErrors() ) {
+//            return new ExecutionContext(ExecutionContext.FAIL);
+//        }
+//
+//        if( principal == null ) {
+//            return new ExecutionContext(ExecutionContext.FAIL);
+//        }
 
         ExecutionContext ec = null;
         String userId = principal.getName();
+        Application application = entireApplication.getApplication();
 
-        if (entireApplication.getApplication().getApplStsCode().equals(ACAD_SAVED)) { //insert
+        if (application.getApplStsCode().equals(ACAD_SAVED)) { //insert
             for(ApplicationLanguage al : entireApplication.getApplicationLanguageList()) {
                 al.setCreId(userId);
             }
             for(ApplicationExperience ae : entireApplication.getApplicationExperienceList()) {
                 ae.setCreId(userId);
             }
-            ec = applicationService.createLangCareer(entireApplication.getApplication(),
+            ec = applicationService.createLangCareer(application,
                     entireApplication.getApplicationLanguageList(),
                     entireApplication.getApplicationExperienceList());
         } else { //update
-            ec = applicationService.updateLangCareer(entireApplication.getApplication(),
+            ec = applicationService.updateLangCareer(application,
                     entireApplication.getApplicationLanguageList(),
                     entireApplication.getApplicationExperienceList());
         }
 
-        return ec;
+        CustomApplNoStsCode data = (CustomApplNoStsCode)ec.getData();
+
+        return getEntireInfo(data.getApplNo(), application.getAdmsNo(),
+                application.getEntrYear(), application.getAdmsTypeCode(), "application/appinfo",
+                entireApplication);
     }
 
     /**
@@ -480,28 +626,33 @@ public class ApplicationController {
      */
     @RequestMapping(value="/save/fileUpload", method = RequestMethod.POST)
     @ResponseBody
-    public ExecutionContext saveFileUpload(@Valid @ModelAttribute EntireApplication entireApplication,
+    public ModelAndView saveFileUpload(@Valid @ModelAttribute EntireApplication entireApplication,
                                            BindingResult bindingResult,
                                            Principal principal) {
 
-        if( bindingResult.hasErrors() ) {
-            return new ExecutionContext(ExecutionContext.FAIL);
-        }
-
-        if( principal == null ) {
-            return new ExecutionContext(ExecutionContext.FAIL);
-        }
+//        if( bindingResult.hasErrors() ) {
+//            return new ExecutionContext(ExecutionContext.FAIL);
+//        }
+//
+//        if( principal == null ) {
+//            return new ExecutionContext(ExecutionContext.FAIL);
+//        }
 
         ExecutionContext ec = null;
+        Application application = entireApplication.getApplication();
 
         List<DocGroupFile> docGroupFileList = entireApplication.getDocGroupList();
-        if (entireApplication.getApplication().getApplStsCode().equals(LANG_CAREER_SAVED)) { //insert
-            ec = applicationService.createFileUpload(entireApplication.getApplication(), docGroupFileList);
+        if (application.getApplStsCode().equals(LANG_CAREER_SAVED)) { //insert
+            ec = applicationService.createFileUpload(application, docGroupFileList);
         } else { //update
-            ec = applicationService.updateFileUpload(entireApplication.getApplication(), docGroupFileList);
+            ec = applicationService.updateFileUpload(application, docGroupFileList);
         }
 
-        return ec;
+        CustomApplNoStsCode data = (CustomApplNoStsCode)ec.getData();
+
+        return getEntireInfo(data.getApplNo(), application.getAdmsNo(),
+                application.getEntrYear(), application.getAdmsTypeCode(), "application/appinfo",
+                entireApplication);
     }
 
     /**
@@ -512,76 +663,77 @@ public class ApplicationController {
      * @param principal
      * @return
      */
-    @RequestMapping(value = "/apply/save", method = RequestMethod.POST)
-    @ResponseBody
-    public ExecutionContext saveApplication(@Valid @ModelAttribute EntireApplication entireApplication,
-                                            BindingResult binding,
-                                            Principal principal) {
-        if( binding.hasErrors() ) {
-            return new ExecutionContext(ExecutionContext.FAIL);
-        }
-
-        if( principal == null ) {
-            return new ExecutionContext(ExecutionContext.FAIL);
-        }
-
-        ExecutionContext ec = null;
-        String userId = principal.getName();
-        entireApplication.getApplication().setUserId(userId);
-        entireApplication.getApplication().setApplStsCode("00001");
-        entireApplication.getApplication().setCreId(userId);
-
-        if( entireApplication.getApplication().getApplNo() == null ) {   // insert
-            entireApplication.getApplication().setCreId(userId);
-            entireApplication.getApplicationGeneral().setCreId(userId);
-            entireApplication.getApplicationETCWithBLOBs().setCreId(userId);
-//            entireApplication.getHighSchool().setCreId(userId);
-            List<CustomApplicationAcademy> collegeList = entireApplication.getCollegeList();
-            for(ApplicationAcademy item : collegeList) {
-                item.setCreId(userId);
-            }
-            List<CustomApplicationAcademy> graduateList = entireApplication.getGraduateList();
-            for(ApplicationAcademy item : graduateList) {
-                item.setCreId(userId);
-            }
-            List<ApplicationExperience> experienceList = entireApplication.getApplicationExperienceList();
-            for(ApplicationExperience item : experienceList) {
-                item.setCreId(userId);
-            }
-            List<ApplicationLanguage> languageList = entireApplication.getApplicationLanguageList();
-            for(ApplicationLanguage item : languageList) {
-                item.setCreId(userId);
-            }
-
-
-            ec = applicationService.createEntireApplication( entireApplication );
-        } else {    // update
-            entireApplication.getApplication().setModId(userId);
-            entireApplication.getApplicationGeneral().setModId(userId);
-            entireApplication.getApplicationETCWithBLOBs().setModId(userId);
-//            entireApplication.getHighSchool().setModId(userId);
-            List<CustomApplicationAcademy> collegeList = entireApplication.getCollegeList();
-            for(ApplicationAcademy item : collegeList) {
-                item.setModId(userId);
-            }
-            List<CustomApplicationAcademy> graduateList = entireApplication.getGraduateList();
-            for(ApplicationAcademy item : graduateList) {
-                item.setModId(userId);
-            }
-            List<ApplicationExperience> experienceList = entireApplication.getApplicationExperienceList();
-            for(ApplicationExperience item : experienceList) {
-                item.setModId(userId);
-            }
-            List<ApplicationLanguage> languageList = entireApplication.getApplicationLanguageList();
-            for(ApplicationLanguage item : languageList) {
-                item.setModId(userId);
-            }
-
-            ec = applicationService.updateEntireApplication( entireApplication );
-        }
-
-        return ec;
-    }
+// 안 쓰는 걸로 추정됨
+//    @RequestMapping(value = "/apply/save", method = RequestMethod.POST)
+//    @ResponseBody
+//    public ExecutionContext saveApplication(@Valid @ModelAttribute EntireApplication entireApplication,
+//                                            BindingResult binding,
+//                                            Principal principal) {
+//        if( binding.hasErrors() ) {
+//            return new ExecutionContext(ExecutionContext.FAIL);
+//        }
+//
+//        if( principal == null ) {
+//            return new ExecutionContext(ExecutionContext.FAIL);
+//        }
+//
+//        ExecutionContext ec = null;
+//        String userId = principal.getName();
+//        entireApplication.getApplication().setUserId(userId);
+//        entireApplication.getApplication().setApplStsCode("00001");
+//        entireApplication.getApplication().setCreId(userId);
+//
+//        if( entireApplication.getApplication().getApplNo() == null ) {   // insert
+//            entireApplication.getApplication().setCreId(userId);
+//            entireApplication.getApplicationGeneral().setCreId(userId);
+//            entireApplication.getApplicationETCWithBLOBs().setCreId(userId);
+////            entireApplication.getHighSchool().setCreId(userId);
+//            List<CustomApplicationAcademy> collegeList = entireApplication.getCollegeList();
+//            for(ApplicationAcademy item : collegeList) {
+//                item.setCreId(userId);
+//            }
+//            List<CustomApplicationAcademy> graduateList = entireApplication.getGraduateList();
+//            for(ApplicationAcademy item : graduateList) {
+//                item.setCreId(userId);
+//            }
+//            List<ApplicationExperience> experienceList = entireApplication.getApplicationExperienceList();
+//            for(ApplicationExperience item : experienceList) {
+//                item.setCreId(userId);
+//            }
+//            List<ApplicationLanguage> languageList = entireApplication.getApplicationLanguageList();
+//            for(ApplicationLanguage item : languageList) {
+//                item.setCreId(userId);
+//            }
+//
+//
+//            ec = applicationService.createEntireApplication( entireApplication );
+//        } else {    // update
+//            entireApplication.getApplication().setModId(userId);
+//            entireApplication.getApplicationGeneral().setModId(userId);
+//            entireApplication.getApplicationETCWithBLOBs().setModId(userId);
+////            entireApplication.getHighSchool().setModId(userId);
+//            List<CustomApplicationAcademy> collegeList = entireApplication.getCollegeList();
+//            for(ApplicationAcademy item : collegeList) {
+//                item.setModId(userId);
+//            }
+//            List<CustomApplicationAcademy> graduateList = entireApplication.getGraduateList();
+//            for(ApplicationAcademy item : graduateList) {
+//                item.setModId(userId);
+//            }
+//            List<ApplicationExperience> experienceList = entireApplication.getApplicationExperienceList();
+//            for(ApplicationExperience item : experienceList) {
+//                item.setModId(userId);
+//            }
+//            List<ApplicationLanguage> languageList = entireApplication.getApplicationLanguageList();
+//            for(ApplicationLanguage item : languageList) {
+//                item.setModId(userId);
+//            }
+//
+//            ec = applicationService.updateEntireApplication( entireApplication );
+//        }
+//
+//        return ec;
+//    }
 
     /**
      * 입학원서 저장
@@ -593,16 +745,22 @@ public class ApplicationController {
      */
     @RequestMapping(value = "/apply/apply", method = RequestMethod.POST)
     @ResponseBody
-    public ExecutionContext applyApplication(@Valid @ModelAttribute EntireApplication entireApplication,
+    public ModelAndView applyApplication(@Valid @ModelAttribute EntireApplication entireApplication,
                                              BindingResult binding,
                                              Principal principal) {
 
         ApplicationPayment ap = new ApplicationPayment();
         ap.setCreId(principal.getName());
         entireApplication.setApplicationPayment(ap);
+        Application application = entireApplication.getApplication();
 
         ExecutionContext ec = applicationService.confirmEntireApplication(entireApplication);
-        return ec;
+
+        CustomApplNoStsCode data = (CustomApplNoStsCode)ec.getData();
+
+        return getEntireInfo(data.getApplNo(), application.getAdmsNo(),
+                application.getEntrYear(), application.getAdmsTypeCode(), "application/mylist",
+                entireApplication);
     }
 
     /**
@@ -618,18 +776,18 @@ public class ApplicationController {
      */
     @RequestMapping(value = "/apply/fileUpload", method = RequestMethod.POST)
     @ResponseBody
-    public ExecutionContext fileUpload(@Valid @ModelAttribute final EntireApplication entireApplication,
+    public ModelAndView fileUpload(@Valid @ModelAttribute final EntireApplication entireApplication,
                                        BindingResult binding,
                                        final Principal principal,
                                        FileHandler fileHandler) {
 
-        if( binding.hasErrors() ) {
-            return new ExecutionContext(ExecutionContext.FAIL);
-        }
-
-        if( principal == null ) {
-            return new ExecutionContext(ExecutionContext.FAIL);
-        }
+//        if( binding.hasErrors() ) {
+//            return new ExecutionContext(ExecutionContext.FAIL);
+//        }
+//
+//        if( principal == null ) {
+//            return new ExecutionContext(ExecutionContext.FAIL);
+//        }
 
         ExecutionContext ec = new ExecutionContext();
 
@@ -718,8 +876,13 @@ public class ApplicationController {
             ec.setData(returnFileMetaForm);
         }
 
+        Application application = entireApplication.getApplication();
 
-        return ec;
+        CustomApplNoStsCode data = (CustomApplNoStsCode)ec.getData();
+
+        return getEntireInfo(data.getApplNo(), application.getAdmsNo(),
+                application.getEntrYear(), application.getAdmsTypeCode(), "application/appinfo",
+                entireApplication);
     }
 
     @ModelAttribute("entireApplication")
