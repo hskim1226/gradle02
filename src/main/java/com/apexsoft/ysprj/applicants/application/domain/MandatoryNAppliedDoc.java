@@ -1,51 +1,37 @@
 package com.apexsoft.ysprj.applicants.application.domain;
 
-public class MandatoryNAppliedDoc extends ApplicationDocument {
-
-    private String mdtYn;
-    private String uploadYn;
-    private int sendCnt;
-    private String orgnSendYn;
-    private String msgNo;
+public class MandatoryNAppliedDoc extends CommonMandatory{
 
 
-    public String getOrgnSendYn() {
-        return orgnSendYn;
+    public void setAppDocInfo( ApplicationDocument appDoc){
+        setDocTypeCode(appDoc.getDocTypeCode());
+        setDocGrp(appDoc.getDocGrp());
+        setDocItemCode(appDoc.getDocItemCode());
+        setDocItemName(appDoc.getDocItemName());
+        setDocName(appDoc.getDocName());
+        setFileExt(appDoc.getFileExt());
+        setImgYn(appDoc.getImgYn());
+        setFilePath(appDoc.getFilePath());
+        setFileName(appDoc.getFileName());
+        setOrgFileName(appDoc.getOrgFileName());
+        setDocItemNameXxen(appDoc.getDocItemNameXxen());
+        setDocGrpName(appDoc.getDocGrpName());
     }
 
-    public void setOrgnSendYn(String orgnSendYn) {
-        this.orgnSendYn = orgnSendYn;
-    }
-
-    public int getSendCnt() {
-        return sendCnt;
-    }
-
-    public void setSendCnt(int sendCnt) {
-        this.sendCnt = sendCnt;
-    }
-
-    public String getMdtYn() {
-        return mdtYn;
-    }
-
-    public void setMdtYn(String mdtYn) {
-        this.mdtYn = mdtYn;
-    }
-
-    public String getUploadYn() {
-        return uploadYn;
-    }
-
-    public void setUploadYn(String uploadYn) {
-        this.uploadYn = uploadYn;
-    }
-
-    public String getMsgNo() {
-        return msgNo;
-    }
-
-    public void setMsgNo(String msgNo) {
-        this.msgNo = msgNo;
+    public void setComMandInfo( CommonMandatory comMand){
+        setGrpCode     (comMand.getGrpCode());
+        setGrpName     (comMand.getGrpName());
+        setItemGrpCode (comMand.getItemGrpCode());
+        setItemGrpName (comMand.getItemGrpName());
+        setItemCode    (comMand.getItemCode());
+        setItemName    (comMand.getItemName());
+        setChnYn       (comMand.getChnYn());
+        setLastYn      (comMand.getLastYn());
+        setMdtYn       (comMand.getMdtYn());
+        setUploadYn    (comMand.getUploadYn());
+        setSendCnt     (comMand.getSendCnt());
+        setOrgnSendYn  (comMand.getOrgnSendYn());
+        setTmpltYn     (comMand.getTmpltYn());
+        setMsgNo       (comMand.getMsgNo());
     }
 }

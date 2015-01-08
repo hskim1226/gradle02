@@ -224,8 +224,24 @@ public class AdminController {
     @RequestMapping(value="/data/payment")
     public String dataPayment() {
         return "/admin/data/payment";
-    }      
-    
-    
+    }
+
+
+    @RequestMapping(value="/guideline/deptManage")
+    public String retreiveDetManageInfo() {
+        return "admin/modification/changeUnit";
+    }
+
+    @RequestMapping(value="/guideline/docManage")
+    public String retrieveDocManageInfo() {
+        return "admin/cancel/application";
+    }
+
+    @RequestMapping(value="/guideline/feeManage")
+    public String retrieveFeeManageInfo() {
+        return "/admin/data/download";
+    }
+
+
 
 }

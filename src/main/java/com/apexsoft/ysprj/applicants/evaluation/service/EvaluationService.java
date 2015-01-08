@@ -2,6 +2,7 @@ package com.apexsoft.ysprj.applicants.evaluation.service;
 
 import com.apexsoft.framework.common.vo.ExecutionContext;
 import com.apexsoft.ysprj.applicants.application.domain.*;
+import com.apexsoft.ysprj.applicants.evaluation.domain.DocGroup;
 
 import java.util.List;
 
@@ -10,7 +11,7 @@ import java.util.List;
  */
 public interface EvaluationService {
 
-    List<DocGroupFile> retrieveManApplDocListByApplNo(int applNo);
+   DocGroup retrieveDocGroupByApplNo( int applNo);
 }
 
 

@@ -112,14 +112,16 @@
                  </ul>
              --%>
             <li class="Lidx5"><span><a href="${contextPath}/admin/data/payment">전형료정산</a></span></li>
-           <%-- 
+
             <li class="Lidx6">
                 <span><a href="#">기준정보관리</a></span>
                 <ul>
-                    <li class="Lfirst"><span><a href="#">모집학과 관리</a></span></li>
-                    <li class="Llast"><span><a href="#">전형료 관리</a></span></li>
+                    <li class="Lfirst"><span><a href="${contextPath}/admin/guideline/deptManage">모집학과 관리</a></span></li>
+                    <li class="Lidx2"><span><a href="${contextPath}/admin/guideline/docManage">서류조건 관리</a></span></li>
+                    <li class="Llast"><span><a href="${contextPath}/admin/guideline/feeManage">전형료 관리</a></span></li>
                 </ul>
             </li>
+            <%--
             <li class="Lidx7">
                 <span><a href="#">사용자계정관리</a></span>
                 <ul>

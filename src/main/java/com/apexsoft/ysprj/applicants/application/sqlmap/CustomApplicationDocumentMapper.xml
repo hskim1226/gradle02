@@ -36,6 +36,21 @@
     <result column="FILE_NAME" jdbcType="VARCHAR" property="fileName" />
     <result column="ORG_FILE_NAME" jdbcType="VARCHAR" property="orgFileName" />
    </resultMap>
+    <resultMap id="commonMand" type="com.apexsoft.ysprj.applicants.application.domain.CommonMandatory" >
+        <result column="GRP_CODE" jdbcType="VARCHAR" property="grpCode" />
+        <result column="GRP_NAME" jdbcType="VARCHAR" property="grpName" />
+        <result column="ITEM_GRP_CODE" jdbcType="VARCHAR" property="itemGrpCode" />
+        <result column="ITEM_CODE" jdbcType="VARCHAR" property="itemCode" />
+        <result column="ITEM_NAME" jdbcType="VARCHAR" property="itemName" />
+        <result column="CHN_YN" jdbcType="VARCHAR" property="chnYn" />
+        <result column="LAST_YN" jdbcType="VARCHAR" property="lastYn" />
+        <result column="MDT_YN" jdbcType="VARCHAR" property="mdtYn" />
+        <result column="UPLOAD_YN" jdbcType="VARCHAR" property="uploadYn" />
+        <result column="SEND_CNT" jdbcType="INTEGER" property="sendCnt" />
+        <result column="ORGN_SEND_YN" jdbcType="VARCHAR" property="orgnSendYn" />
+        <result column="TMPLT_YN" jdbcType="VARCHAR" property="tmpltYn" />
+        <result column="MSG_NO" jdbcType="VARCHAR" property="msgNo" />
+    </resultMap>
 
     <sql id="Base_Mand_Column_List" >
         Y.MDT_YN,
@@ -57,6 +72,27 @@
         Z.FILE_PATH,
         Z.FILE_NAME,
         Z.ORG_FILE_NAME
+    </sql>
+
+    <sql id="Base_CommonMand_Column_List" >
+        A.GRP_CODE,
+        B.CODE_VAL GRP_NAME,
+        A.ITEM_GRP_CODE,
+        A.ITEM_CODE,
+        C.CODE_VAL ITEM_NAME,
+        A.CHN_YN,
+        A.LAST_YN,
+        A.MDT_YN,
+        A.UPLOAD_YN,
+        A.SEND_CNT,
+        A.ORGN_SEND_YN,
+        A.TMPLT_YN,
+        A.CHK_CND,
+        A.MSG_NO,
+        A.CRE_ID,
+        A.CRE_DATE,
+        A.MOD_ID,
+        A.MOD_DATE
     </sql>
 
   <sql id="Base_Column_List" >
@@ -387,4 +423,83 @@
          WHERE A.DOC_TYPE_CODE = '00009'
            AND A.APPL_NO = #{applNo}-- 입학지원번호
     </select>
+
+    <select id="selectFrgnDocListByApplNoWTMandatory"   resultMap="mandNapplDoc"  parameterType="java.lang.Integer" >
+        SELECT A.DOC_TYPE_CODE,
+        A.DOC_GRP,
+        1 as SEND_CNT,
+        A.DOC_ITEM_CODE,
+        A.DOC_ITEM_NAME,
+        A.DOC_ITEM_NAME AS DOC_ITEM_NAME_XXEN,
+        A.DOC_NAME,
+        A.FILE_EXT,
+        A.IMG_YN,
+        A.FILE_PATH,
+        A.FILE_NAME,
+        A.ORG_FILE_NAME
+        FROM APPL_DOC A
+        WHERE A.DOC_TYPE_CODE = '00009'
+        AND A.APPL_NO = #{applNo}-- 입학지원번호
+    </select>
+    <select id="selectDeptMandatoryList"
+            resultMap="commonMand"
+            parameterType="com.apexsoft.ysprj.applicants.application.domain.ParamForApplicationMandatoryDoc"  >
+        SELECT
+        <include refid="Base_CommonMand_Column_List" />
+        FROM MDT_ADMS_DEPT A,COMM_CODE B, COMM_CODE C
+        WHERE  A.GRP_CODE = B.CODE
+        AND B.CODE_GRP ='DOC_TYPE'
+        AND A.ITEM_GRP_CODE = C.CODE_GRP
+        AND A.ITEM_CODE = C.CODE
+        AND ADMS_NO = #{admsNo} -- 전형번호
+        AND DEPT_CODE= #{deptCode}-- 학과번호
+    </select>
+
+    <select id="selectAmdsMandatoryList"
+            resultMap="commonMand"
+            parameterType="com.apexsoft.ysprj.applicants.application.domain.ParamForApplicationMandatoryDoc"  >
+        SELECT
+        <include refid="Base_CommonMand_Column_List" />
+        FROM MDT_ADMS A,COMM_CODE B, COMM_CODE C
+        WHERE  A.GRP_CODE = B.CODE
+        AND B.CODE_GRP ='DOC_TYPE'
+        AND A.ITEM_GRP_CODE = C.CODE_GRP
+        AND A.ITEM_CODE = C.CODE
+        AND ADMS_NO = #{admsNo} -- 전형번호
+    </select>
+    <select id="selectAmdsCorsMandatoryList"
+            resultMap="commonMand"
+            parameterType="com.apexsoft.ysprj.applicants.application.domain.ParamForApplicationMandatoryDoc"  >
+        SELECT
+        <include refid="Base_CommonMand_Column_List" />
+        FROM MDT_ADMS_CORS A,COMM_CODE B, COMM_CODE C, ADMS_CORS D
+        WHERE  A.ADMS_CORS_NO = D.ADMS_CORS_NO
+        AND A.GRP_CODE = B.CODE
+        AND B.CODE_GRP ='DOC_TYPE'
+        AND A.ITEM_GRP_CODE = C.CODE_GRP
+        AND A.ITEM_CODE = C.CODE
+        AND ADMS_NO = #{admsNo} -- 전형번호
+        AND D.DEPT_CODE = #{deptCode}-- 학과번호
+        AND D.CORS_TYPE_CODE = #{corsTypeCode}-- 전형구분
+    </select>
+
+    <select id="selectAmdsCorsMajMandatoryList"
+            resultMap="commonMand"
+            parameterType="com.apexsoft.ysprj.applicants.application.domain.ParamForApplicationMandatoryDoc"  >
+        SELECT
+        <include refid="Base_CommonMand_Column_List" />
+        FROM MDT_ADMS_CORS_MAJ A,COMM_CODE B, COMM_CODE C, ADMS_CORS D
+        WHERE  A.ADMS_CORS_NO = D.ADMS_CORS_NO
+        AND A.GRP_CODE = B.CODE
+        AND B.CODE_GRP ='DOC_TYPE'
+        AND A.ITEM_GRP_CODE = C.CODE_GRP
+        AND A.ITEM_CODE = C.CODE
+        AND ADMS_NO = #{admsNo} -- 전형번호
+        AND D.DEPT_CODE = #{deptCode}-- 학과번호
+        AND D.CORS_TYPE_CODE = #{corsTypeCode}-- 전형구분
+        AND A.DETL_MAJ_CODE = #{detlMajCode}-- 세부전공코드
+
+    </select>
+
+
 </mapper>

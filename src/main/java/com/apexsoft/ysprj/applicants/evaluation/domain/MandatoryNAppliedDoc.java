@@ -9,6 +9,7 @@ public class MandatoryNAppliedDoc extends ApplicationDocument {
     private int sendCnt;
     private String orgnSendYn;
     private String msgNo;
+    private String belong;
 
 
     public String getOrgnSendYn() {
@@ -49,5 +50,14 @@ public class MandatoryNAppliedDoc extends ApplicationDocument {
 
     public void setMsgNo(String msgNo) {
         this.msgNo = msgNo;
+    }
+
+
+    public String getBelong() {
+        return belong;
+    }
+
+    public void setBelong(String belong) {
+        this.belong = belong;
     }
 }

@@ -6,6 +6,8 @@ import com.apexsoft.framework.persistence.dao.CommonDAO;
 import com.apexsoft.ysprj.applicants.evaluation.domain.*;
 import com.apexsoft.ysprj.applicants.application.domain.*;
 import com.apexsoft.ysprj.applicants.evaluation.domain.MandatoryNAppliedDoc;
+import com.apexsoft.ysprj.applicants.evaluation.domain.ParamForApplicationMandatoryDoc;
+import org.apache.batik.ext.awt.image.rendered.MultiplyAlphaRed;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -56,38 +58,49 @@ public class EvaluationServiceImpl implements EvaluationService {
         academyGroup.addDocGroup(univGroup);
         academyGroup.addDocGroup(gradGroup);
         return rootGroup;
-     }
+    }
+    @Override
+    public  DocGroup retrieveDocGroupByApplNo( int applNo) {
 
-       public  DocGroup retrieveDocGroupByApplNo( int applNo) {
+        DocGroupNode docGroup = new DocGroupNode();
+        DocGroupLeaf basicGroup = null;
+        DocGroupLeaf forgnGroup = new DocGroupLeaf("외국인", 2);
+        DocGroupLeaf instGroup = new DocGroupLeaf("학연산", 3);
+        DocGroupLeaf langGroup = new DocGroupLeaf("어학", 4);
+        DocGroupNode academyGroup = new DocGroupNode("학력", 5);
+        DocGroupLeaf underGroup = new DocGroupLeaf("대학", 1);
+        DocGroupLeaf gradGroup = new DocGroupLeaf("대학원", 2);
+        DocGroupLeaf overSeaGroup = new DocGroupLeaf("해외학위", 3);
+        DocGroupLeaf etcGroup = new DocGroupLeaf("기타", 6);
 
-        DocGroupNode docGroup = createDocGroup();
-        DocGroupLeaf basicGroup = new DocGroupLeaf("기본",1);
-        DocGroupLeaf forgnGroup = new DocGroupLeaf("외국인",2 );
-        DocGroupLeaf instGroup = new DocGroupLeaf("학연산",3 );
-        DocGroupLeaf langGroup = new DocGroupLeaf("어학",4 );
-        DocGroupNode academyGroup = new DocGroupNode("학력",5);
-        DocGroupLeaf underGroup = new DocGroupLeaf("대학",1);
-        DocGroupLeaf gradGroup = new DocGroupLeaf("대학원",2);
-        DocGroupLeaf overSeaGroup = new DocGroupLeaf("해외학위",3);
-        DocGroupLeaf etcGroup = new DocGroupLeaf("기타",6);
+        ParamForApplicationMandatoryDoc paramMand = new ParamForApplicationMandatoryDoc();
+        paramMand.setAdmsCorsNo(1);
+        paramMand.setDetlMajCode("");
+
 
         try {
 
-
-            basicGroup.setMandDocList(commonDAO.queryForList(NAME_SPACE + "selectBasicDocListByApplNoWTMandatory", applNo,MandatoryNAppliedDoc.class));
-            forgnGroup.setMandDocList(commonDAO.queryForList(NAME_SPACE + "select_________ByApplNoWTMandatory", applNo, MandatoryNAppliedDoc.class));
-            instGroup.setMandDocList(commonDAO.queryForList(NAME_SPACE + "selectInstDocListByApplNoWTMandatory", applNo, MandatoryNAppliedDoc.class));
-            langGroup.setMandDocList(commonDAO.queryForList(NAME_SPACE + "selectLangDocListByApplNoWTMandatory", applNo, MandatoryNAppliedDoc.class));
-
-            underGroup.setMandDocList(commonDAO.queryForList(NAME_SPACE + "selectUnderDocListByApplNoWTMandatory", applNo, MandatoryNAppliedDoc.class));
-            gradGroup.setMandDocList(commonDAO.queryForList(NAME_SPACE + "selectGradDocListByApplNoWTMandatory", applNo, MandatoryNAppliedDoc.class));
-            overSeaGroup.setMandDocList(commonDAO.queryForList(NAME_SPACE + "selectOverSeaDocListByApplNoWTMandatory", applNo, MandatoryNAppliedDoc.class));
+            basicGroup = retrieveByMajor(paramMand);
+            forgnGroup.setMandDocList(commonDAO.queryForList(NAME_SPACE + "selectFrgnDocListByMajor", paramMand, MandatoryNAppliedDoc.class));
+            instGroup.setMandDocList(commonDAO.queryForList(NAME_SPACE + "selectInstDocListByMajor", paramMand, MandatoryNAppliedDoc.class));
+            langGroup.setMandDocList(commonDAO.queryForList(NAME_SPACE + "selectLangDocListByMajor", paramMand, MandatoryNAppliedDoc.class));
+            underGroup.setMandDocList(commonDAO.queryForList(NAME_SPACE + "selectUnderDocListByMajor", paramMand, MandatoryNAppliedDoc.class));
+            gradGroup.setMandDocList(commonDAO.queryForList(NAME_SPACE + "selectGradDocListByMajor", paramMand, MandatoryNAppliedDoc.class));
+            overSeaGroup.setMandDocList(commonDAO.queryForList(NAME_SPACE + "selectOverSeaDocListByMajor", paramMand, MandatoryNAppliedDoc.class));
 
             academyGroup.addDocGroup(underGroup);
             academyGroup.addDocGroup(gradGroup);
             academyGroup.addDocGroup(overSeaGroup);
 
-            etcGroup.setMandDocList(commonDAO.queryForList(NAME_SPACE + "selectEtcDocListByApplNoWTMandatory", applNo, MandatoryNAppliedDoc.class));
+            etcGroup.setMandDocList(commonDAO.queryForList(NAME_SPACE + "selectEtcDocListByMajor", paramMand, MandatoryNAppliedDoc.class));
+
+            docGroup.addDocGroup(basicGroup);
+            docGroup.addDocGroup(academyGroup);
+            docGroup.addDocGroup(overSeaGroup);
+            docGroup.addDocGroup(langGroup);
+            docGroup.addDocGroup(instGroup);
+            docGroup.addDocGroup(forgnGroup);
+            docGroup.addDocGroup(etcGroup);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -96,22 +109,76 @@ public class EvaluationServiceImpl implements EvaluationService {
         return docGroup;
     }
 
+    //전형 체계에 따른 필수 문서를 조회한다
+    private DocGroupLeaf retrieveByMajor(ParamForApplicationMandatoryDoc paramMand ){
 
+        DocGroupLeaf basicGroup = new DocGroupLeaf("기본",1);
+        List<MandatoryNAppliedDoc> madDocList = null;
+        List<MandatoryNAppliedDoc> admsDocList =null;
+        List<MandatoryNAppliedDoc> admsDeptDocList =null;
+        List<MandatoryNAppliedDoc> admsCorsDocList =null;
+        List<MandatoryNAppliedDoc> admsCorsMajDocList =null;
 
-    public  List<DocGroupFile> retrieveManApplDocListByApplNo( int applNo) {
-        List<DocGroupFile> docGrpList = new ArrayList<DocGroupFile>();
-        DocGroupFile docGrp;
-        DocGroupFile docSubGrp;
-        List<MandatoryNAppliedDoc> tmpDocList;
+        admsDocList = commonDAO.queryForList(NAME_SPACE + "selectAdmsMandatoryDoc", paramMand, MandatoryNAppliedDoc.class);
+        admsDeptDocList = commonDAO.queryForList(NAME_SPACE + "selectDeptMandatoryList", paramMand, MandatoryNAppliedDoc.class);
+        admsCorsDocList = commonDAO.queryForList(NAME_SPACE + "selectAdmsCorsMandatoryDoc", paramMand, MandatoryNAppliedDoc.class);
+        admsCorsMajDocList = commonDAO.queryForList(NAME_SPACE + "selectAdmsCorsMajMandatoryDoc", paramMand, MandatoryNAppliedDoc.class);
 
-        try {
-            docGrp = new DocGroupFile();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return docGrpList;
+        madDocList= getValidDocItem(  admsDocList, admsDeptDocList, admsCorsDocList, admsCorsMajDocList);
+        basicGroup.setMandDocList(madDocList );
+        return basicGroup;
     }
+    //중복된 문서는 하부 설정에 우선하므로 상위에서 설정된 조건을 제거한다
+    private  List<MandatoryNAppliedDoc> getValidDocItem(List<MandatoryNAppliedDoc> admsDocList,
+                                                        List<MandatoryNAppliedDoc> admsDeptDocList,
+                                                        List<MandatoryNAppliedDoc> admsCorsDocList,
+                                                        List<MandatoryNAppliedDoc> admsCorsMajDocList){
 
+        List<MandatoryNAppliedDoc> manDocList = new ArrayList<MandatoryNAppliedDoc>();
+        for( MandatoryNAppliedDoc manDoc : admsCorsMajDocList ){
+               manDoc.setBelong( "세부전공");
+               manDocList.add( manDoc);
+        }
+        for( MandatoryNAppliedDoc manDoc : admsCorsMajDocList ){
+             boolean newFg = true;
+             for ( MandatoryNAppliedDoc prevManDoc: manDocList) {
+                 if( prevManDoc.getDocItemCode().equals(manDoc.getDocItemCode())){
+                     newFg = false;
+                     break;
+                 }
+             }
+            if(newFg){
+                manDoc.setBelong( "지원과정");
+                manDocList.add(manDoc);
+            }
+
+        }
+        for( MandatoryNAppliedDoc manDoc : admsCorsMajDocList ){
+            boolean newFg = true;
+            for ( MandatoryNAppliedDoc prevManDoc: manDocList) {
+                if( prevManDoc.getDocItemCode().equals(manDoc.getDocItemCode())){
+                    newFg = false;
+                    break;
+                }
+            }
+            if(newFg) {
+                manDoc.setBelong("지원학과");
+                manDocList.add(manDoc);
+            }
+        }
+        for( MandatoryNAppliedDoc manDoc : admsCorsMajDocList ){
+            boolean newFg = true;
+            for ( MandatoryNAppliedDoc prevManDoc: manDocList) {
+                if( prevManDoc.getDocItemCode().equals(manDoc.getDocItemCode())){
+                    newFg = false;
+                    break;
+                }
+            }
+            if(newFg) {
+                manDoc.setBelong("지원전형");
+                manDocList.add(manDoc);
+            }
+        }
+        return manDocList;
+    }
 }

@@ -1,390 +1,54 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.apexsoft.ysprj.applicants.evaluation.sqlmap.EvaluationDocumentMapper" >
-  <resultMap id="BaseResultMap" type="com.apexsoft.ysprj.applicants.application.domain.ApplicationDocument" >
-    <id column="APPL_NO" property="applNo" jdbcType="INTEGER" />
-    <id column="DOC_SEQ" property="docSeq" jdbcType="INTEGER" />
-    <result column="DOC_ITEM_CODE" property="docItemCode" jdbcType="VARCHAR" />
-    <result column="DOC_ITEM_NAME" property="docItemName" jdbcType="VARCHAR" />
-    <result column="DOC_NAME" property="docName" jdbcType="VARCHAR" />
-    <result column="FILE_EXT" property="fileExt" jdbcType="VARCHAR" />
-    <result column="IMG_YN" property="imgYn" jdbcType="VARCHAR" />
-    <result column="FILE_PATH" property="filePath" jdbcType="VARCHAR" />
-    <result column="FILE_NAME" property="fileName" jdbcType="VARCHAR" />
-    <result column="ORG_FILE_NAME" property="orgFileName" jdbcType="VARCHAR" />
-    <result column="CRE_ID" property="creId" jdbcType="VARCHAR" />
-    <result column="CRE_DATE" property="creDate" jdbcType="DATE" />
-    <result column="MOD_ID" property="modId" jdbcType="VARCHAR" />
-    <result column="MOD_DATE" property="modDate" jdbcType="DATE" />
-  </resultMap>
-  <resultMap id="mandNapplDoc" type="com.apexsoft.ysprj.applicants.application.domain.MandatoryNAppliedDoc" >
-    <result column="MDT_YN" jdbcType="VARCHAR" property="mdtYn" />
-    <result column="UPLOAD_YN" jdbcType="VARCHAR" property="uploadYn" />
-    <result column="SEND_CNT" jdbcType="INTEGER" property="sendCnt" />
-    <result column="MSG_NO" jdbcType="VARCHAR" property="msgNo" />
-    <result column="ORGN_SEND_YN" jdbcType="VARCHAR" property="orgnSendYn" />
-    <result column="APPL_NO" jdbcType="INTEGER" property="applNo" />
-    <result column="DOC_SEQ" jdbcType="INTEGER" property="docSeq" />
-    <result column="DOC_TYPE_CODE" jdbcType="VARCHAR" property="docTypeCode" />
-    <result column="DOC_GRP" jdbcType="INTEGER" property="docGrp" />
-    <result column="DOC_GRP_NAME" jdbcType="VARCHAR" property="docGrpName" />
-    <result column="DOC_ITEM_CODE" jdbcType="VARCHAR" property="docItemCode" />
-    <result column="DOC_NAME" jdbcType="VARCHAR" property="docName" />
-    <result column="FILE_EXT" jdbcType="VARCHAR" property="fileExt" />
-    <result column="IMG_YN" jdbcType="VARCHAR" property="imgYn" />
-    <result column="FILE_PATH" jdbcType="VARCHAR" property="filePath" />
-    <result column="FILE_NAME" jdbcType="VARCHAR" property="fileName" />
-    <result column="ORG_FILE_NAME" jdbcType="VARCHAR" property="orgFileName" />
-   </resultMap>
+    <resultMap id="commonMand" type="com.apexsoft.ysprj.applicants.evaluation.domain.CommonMandatory" >
+        <result column="GRP_CODE" jdbcType="VARCHAR" property="grpCode" />
+        <result column="GRP_NAME" jdbcType="VARCHAR" property="grpName" />
+        <result column="ITEM_GRP_CODE" jdbcType="VARCHAR" property="itemGrpCode" />
+        <result column="ITEM_CODE" jdbcType="VARCHAR" property="itemCode" />
+        <result column="ITEM_NAME" jdbcType="VARCHAR" property="itemName" />
+        <result column="CHN_YN" jdbcType="VARCHAR" property="chnYn" />
+        <result column="LAST_YN" jdbcType="VARCHAR" property="lastYn" />
+        <result column="MDT_YN" jdbcType="VARCHAR" property="mdtYn" />
+        <result column="UPLOAD_YN" jdbcType="VARCHAR" property="uploadYn" />
+        <result column="SEND_CNT" jdbcType="INTEGER" property="sendCnt" />
+        <result column="ORGN_SEND_YN" jdbcType="VARCHAR" property="orgnSendYn" />
+        <result column="TMPLT_YN" jdbcType="VARCHAR" property="tmpltYn" />
+        <result column="MSG_NO" jdbcType="VARCHAR" property="msgNo" />
+    </resultMap>
 
-    <sql id="Base_Mand_Column_List" >
-        Y.MDT_YN,
-        Y.UPLOAD_YN,
-        Y.SEND_CNT,
-        Y.MSG_NO,
-        Y.ORGN_SEND_YN,
-        Z.DOC_GRP_NAME,
-        IFNULL(Z.APPL_NO,0) APPL_NO,
-        IFNULL(Z.DOC_SEQ, 0) DOC_SEQ,
-        Y.CODE_VAL as DOC_ITEM_NAME,
-        Y.CODE_VAL_XXEN as DOC_ITEM_NAME_XXEN,
-        Y.DOC_TYPE_CODE,
-        Y.DOC_GRP,
-        Y.DOC_ITEM_CODE,
-        Z.DOC_NAME,
-        Z.FILE_EXT,
-        Z.IMG_YN,
-        Z.FILE_PATH,
-        Z.FILE_NAME,
-        Z.ORG_FILE_NAME
+    <sql id="Base_CommonMand_Column_List" >
+        A.GRP_CODE,
+        B.CODE_VAL GRP_NAME,
+        A.ITEM_GRP_CODE,
+        A.ITEM_CODE,
+        C.CODE_VAL ITEM_NAME,
+        A.CHN_YN,
+        A.LAST_YN,
+        A.MDT_YN,
+        A.UPLOAD_YN,
+        A.SEND_CNT,
+        A.ORGN_SEND_YN,
+        A.TMPLT_YN,
+        A.CHK_CND,
+        A.MSG_NO,
+        A.CRE_ID,
+        A.CRE_DATE,
+        A.MOD_ID,
+        A.MOD_DATE
     </sql>
 
-  <sql id="Base_Column_List" >
-
-
-    <!--
-      WARNING - @mbggenerated
-      This element is automatically generated by MyBatis Generator, do not modify.
-      This element was generated on Mon Aug 25 20:54:40 KST 2014.
-    -->
-    APPL_NO, DOC_SEQ, DOC_ITEM_CODE, DOC_ITEM_NAME, DOC_NAME, FILE_EXT, IMG_YN, FILE_PATH, 
-    FILE_NAME, ORG_FILE_NAME, CRE_ID, CRE_DATE, MOD_ID, MOD_DATE
-  </sql>
-
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="com.apexsoft.ysprj.applicants.application.domain.ApplicationDocumentKey" >
-    <!--
-      WARNING - @mbggenerated
-      This element is automatically generated by MyBatis Generator, do not modify.
-      This element was generated on Mon Aug 25 20:54:40 KST 2014.
-    -->
-    select 
-    <include refid="Base_Column_List" />
-    from APPL_DOC
-    where APPL_NO = #{applNo,jdbcType=INTEGER}
-      and DOC_SEQ = #{docSeq,jdbcType=INTEGER}
-  </select>
-
-    <select id="selectByApplNoFileName"
-            resultMap="BaseResultMap"
-            parameterType="com.apexsoft.ysprj.applicants.application.domain.ParamForApplicationDocument" >
-        <!--
-          WARNING - @mbggenerated
-          This element is automatically generated by MyBatis Generator, do not modify.
-          This element was generated on Mon Aug 25 20:54:40 KST 2014.
-        -->
-        select
-        <include refid="Base_Column_List" />
-        from APPL_DOC
-        where APPL_NO = #{applNo,jdbcType=INTEGER}
-        and FILE_NAME = #{fileName,jdbcType=VARCHAR}
-    </select>
-
-    <select id="selectByApplNo" resultMap="BaseResultMap" parameterType="int" >
-        <!--
-          WARNING - @mbggenerated
-          This element is automatically generated by MyBatis Generator, do not modify.
-          This element was generated on Mon Aug 25 20:54:40 KST 2014.
-        -->
-        select
-        <include refid="Base_Column_List" />
-        from APPL_DOC
-        where APPL_NO = #{applNo,jdbcType=INTEGER}
-    </select>
-
-    <select id="selectByApplNoDocTypeCode"
-            resultMap="BaseResultMap"
-            parameterType="com.apexsoft.ysprj.applicants.application.domain.ParamForApplicationDocument" >
-        <!--
-          WARNING - @mbggenerated
-          This element is automatically generated by MyBatis Generator, do not modify.
-          This element was generated on Mon Aug 25 20:54:40 KST 2014.
-        -->
-        select
-        <include refid="Base_Column_List" />
-        from APPL_DOC
-        where APPL_NO = #{applNo,jdbcType=INTEGER}
-        and   DOC_TYPE_CODE = #{docTypeCode,jdbcType=VARCHAR}
-    </select>
-
-    <select id="selectByAdmsNoDocTypeCode"
-            resultType="com.apexsoft.ysprj.applicants.application.domain.CustomApplicationDoc"
-            parameterType="com.apexsoft.ysprj.applicants.application.domain.ParamForApplicationDoc" >
-        SELECT A.DOC_ITEM_CODE, B.CODE_VAL AS ITEM_NAME, B.CODE_VAL_XXEN AS ITEM_NAME_XXEN,
-                A.DOC_TYPE_CODE, C.CODE_VAL AS TYPE_NAME, A.UPLOAD_YN, A.MSG_NO, A.CHK_CND
-        FROM ADMS_MDT A, COMM_CODE B, COMM_CODE C
-        WHERE A.DOC_ITEM_CODE = B.CODE
-        AND B.CODE_GRP = 'DOC_ITEM'
-        AND A.DOC_TYPE_CODE = C.CODE
-        AND C.CODE_GRP = 'DOC_TYPE'
-        AND A.DOC_TYPE_CODE = #{docTypeCode,jdbcType=VARCHAR}
-        AND A.ADMS_NO = #{admsNo,jdbcType=VARCHAR}
-    </select>
-
-    <select id="selectByAdmsNoDocTypeCodeDocItemCode"
-            resultType="com.apexsoft.ysprj.applicants.application.domain.CustomApplicationDoc"
-            parameterType="com.apexsoft.ysprj.applicants.application.domain.ParamForApplicationDoc" >
-        SELECT A.DOC_ITEM_CODE, B.CODE_VAL AS ITEM_NAME, B.CODE_VAL_XXEN AS ITEM_NAME_XXEN,
-        A.DOC_TYPE_CODE, C.CODE_VAL AS TYPE_NAME, A.UPLOAD_YN, A.MSG_NO, A.CHK_CND
-        FROM ADMS_MDT A, COMM_CODE B, COMM_CODE C
-        WHERE A.DOC_ITEM_CODE = B.CODE
-        AND B.CODE_GRP = 'DOC_ITEM'
-        AND A.DOC_TYPE_CODE = C.CODE
-        AND C.CODE_GRP = 'DOC_TYPE'
-        AND A.DOC_TYPE_CODE = #{docTypeCode,jdbcType=VARCHAR}
-        AND A.ADMS_NO = #{admsNo,jdbcType=VARCHAR}
-        AND A.DOC_ITEM_CODE IN
-        <foreach item="docItemCode" collection="${docTypeItemList}" separator="," open="(" close=")">
-            ${docItemCode}
-        </foreach>
-    </select>
-
-    <delete id="deleteListByApplNo" parameterType="java.lang.Integer" >
-        <!--
-          WARNING - @mbggenerated
-          This element is automatically generated by MyBatis Generator, do not modify.
-          This element was generated on Mon Aug 25 20:54:40 KST 2014.
-        -->
-        delete from APPL_DOC
-        where APPL_NO = #{applNo,jdbcType=INTEGER}
-    </delete>
-    <select id="selectBasicDocListByApplNoWTMandatory"   resultMap="mandNapplDoc"  parameterType="java.lang.Integer" >
-       SELECT
-        <include refid="Base_Mand_Column_List" />
-        FROM
-            ( SELECT C.APPL_NO,
-            A.MDT_YN, A.UPLOAD_YN, A.DOC_TYPE_CODE, A.DOC_ITEM_CODE,
-            0 as DOC_GRP,
-            A.SEND_CNT,
-            A.MSG_NO,
-            A.ORGN_SEND_YN,
-            B.CODE_VAL, B.CODE_VAL_XXEN
-            FROM ADMS_MDT A, COMM_CODE B, APPL C
-        WHERE A.ADMS_NO = C.ADMS_NO
-                AND A.DOC_TYPE_CODE = '00001'
-                AND A.DOC_ITEM_CODE = B.CODE
-                AND B.CODE_GRP = 'DOC_ITEM'
-              AND C.APPL_NO = #{applNo} ) Y
-            LEFT OUTER JOIN APPL_DOC Z
-              ON  Y.DOC_TYPE_CODE = Z.DOC_TYPE_CODE
-            AND Y.DOC_GRP = Z.DOC_GRP
-            AND Y.DOC_ITEM_CODE = Z.DOC_ITEM_CODE
-            AND Y.APPL_NO = Z.APPL_NO
-
-    </select>
-
-    <select id="selectOverSeaDocListByApplNoWTMandatory"   resultMap="mandNapplDoc"  parameterType="java.lang.Integer" >
+    <select id="selectDeptMandatoryList"
+            resultMap="commonMand"
+            parameterType="com.apexsoft.ysprj.applicants.evaluation.domain.CommonMandatory"  >
         SELECT
-        <include refid="Base_Mand_Column_List" />
-        FROM
-            ( SELECT DISTINCT C.APPL_NO,
-            A.MDT_YN, A.UPLOAD_YN, A.DOC_TYPE_CODE, A.DOC_ITEM_CODE,
-            0 as DOC_GRP,
-            A.SEND_CNT,
-            A.MSG_NO,
-            A.ORGN_SEND_YN,
-            B.CODE_VAL, B.CODE_VAL_XXEN
-            FROM ADMS_MDT A, COMM_CODE B, APPL C, APPL_ACAD D
-        WHERE A.ADMS_NO = C.ADMS_NO
-            AND A.DOC_TYPE_CODE = '00002'
-            AND A.DOC_ITEM_CODE = B.CODE
-            AND B.CODE_GRP = 'DOC_ITEM'
-            AND C.APPL_NO = D.APPL_NO
-            AND D.SCHL_CNTR_CODE != '118'
-            AND C.APPL_NO = #{applNo}  ) Y -- 입학지원번호
-            LEFT OUTER JOIN APPL_DOC Z
-            ON  Y.DOC_TYPE_CODE = Z.DOC_TYPE_CODE
-            AND Y.DOC_GRP = Z.DOC_GRP
-            AND Y.DOC_ITEM_CODE = Z.DOC_ITEM_CODE
-            AND Y.APPL_NO = Z.APPL_NO
-    </select>
-
-    <select id="selectUnderDocListByApplNoWTMandatory"   resultMap="mandNapplDoc"  parameterType="java.lang.Integer" >
-        SELECT
-        <include refid="Base_Mand_Column_List" />
-        FROM
-        ( SELECT C.APPL_NO,
-            A.MDT_YN, A.UPLOAD_YN, A.DOC_TYPE_CODE, A.DOC_ITEM_CODE,
-            0 as DOC_GRP,
-            A.SEND_CNT,
-            A.MSG_NO,
-            A.ORGN_SEND_YN,
-            B.CODE_VAL, B.CODE_VAL_XXEN
-            FROM ADMS_MDT A, COMM_CODE B, APPL C, APPL_ACAD D
-            WHERE A.ADMS_NO = C.ADMS_NO
-        AND A.DOC_TYPE_CODE = '00003'
-        AND A.DOC_ITEM_CODE = B.CODE
-        AND B.CODE_GRP = 'DOC_ITEM'
-        AND C.APPL_NO = D.APPL_NO
-        AND D.ACAD_TYPE_CODE = '00002'
-        AND IFNULL(A.CHN_YN,'') IN ( '', IF(D.SCHL_CNTR_CODE='141','Y','') )
-        AND C.APPL_NO = #{applNo} ) Y -- 입학지원번호
-        LEFT OUTER JOIN APPL_DOC Z
-        ON  Y.DOC_TYPE_CODE = Z.DOC_TYPE_CODE
-        AND Y.DOC_GRP = Z.DOC_GRP
-        AND Y.DOC_ITEM_CODE = Z.DOC_ITEM_CODE
-        AND Y.APPL_NO = Z.APPL_NO
-    </select>
-
-
-    <select id="selectGradDocListByApplNoWTMandatory"   resultMap="mandNapplDoc"  parameterType="java.lang.Integer" >
-        SELECT
-        <include refid="Base_Mand_Column_List" />
-        FROM ( SELECT C.APPL_NO,
-            A.MDT_YN, A.UPLOAD_YN, A.DOC_TYPE_CODE, A.DOC_ITEM_CODE,
-            D.ACAD_SEQ as DOC_GRP,
-            A.SEND_CNT,
-            A.MSG_NO,
-            A.ORGN_SEND_YN,
-            B.CODE_VAL, B.CODE_VAL_XXEN
-            FROM ADMS_MDT A, COMM_CODE B, APPL C, APPL_ACAD D
-        WHERE A.ADMS_NO = C.ADMS_NO
-            AND A.DOC_TYPE_CODE = '00004'
-            AND A.DOC_ITEM_CODE = B.CODE
-            AND B.CODE_GRP = 'DOC_ITEM'
-            AND C.APPL_NO = D.APPL_NO
-            AND D.ACAD_TYPE_CODE = '00003'
-            AND IFNULL(A.CHN_YN,'') IN ( '', IF(D.SCHL_CNTR_CODE='141','Y','') )
-            AND C.APPL_NO =  #{applNo} ) Y -- 입학지원번호
-            LEFT OUTER JOIN APPL_DOC Z
-            ON  Y.DOC_TYPE_CODE = Z.DOC_TYPE_CODE
-            AND Y.DOC_GRP = Z.DOC_GRP
-            AND Y.DOC_ITEM_CODE = Z.DOC_ITEM_CODE
-            AND Y.APPL_NO = Z.APPL_NO
-    </select>
-    <select id="selectLangDocListByApplNoWTMandatory"   resultMap="mandNapplDoc"  parameterType="java.lang.Integer" >
-
-        SELECT
-        Y.MDT_YN,
-        Y.UPLOAD_YN,
-        Y.SEND_CNT,
-        Y.MSG_NO,
-        Y.ORGN_SEND_YN,
-        Z.DOC_GRP_NAME,
-        IFNULL(Z.APPL_NO,0) APPL_NO,
-        IFNULL(Z.DOC_SEQ, 0) DOC_SEQ,
-        Y.EXAM_NAME as DOC_ITEM_NAME,
-        Y.EXAM_NAME as DOC_ITEM_NAME_XXEN,
-        Y.DOC_TYPE_CODE,
-        Y.DOC_GRP,
-        Y.DOC_ITEM_CODE,
-        Z.DOC_NAME,
-        Z.FILE_EXT,
-        Z.IMG_YN,
-        Z.FILE_PATH,
-        Z.FILE_NAME,
-        Z.ORG_FILE_NAME
-        FROM ( SELECT DISTINCT B.APPL_NO,
-        A.MDT_YN, A.UPLOAD_YN, A.DOC_TYPE_CODE, A.DOC_ITEM_CODE,
-        C.LANG_SEQ as DOC_GRP,
-        A.SEND_CNT,
-        A.MSG_NO,
-        A.ORGN_SEND_YN,
-        D.EXAM_NAME
-        FROM ADMS_MDT A, APPL B, APPL_LANG C, LANG_EXAM D
-        WHERE A.ADMS_NO = B.ADMS_NO
-        AND A.DOC_TYPE_CODE = '00005'
-        AND B.APPL_NO = C.APPL_NO
-        AND C.LANG_EXAM_CODE = D.EXAM_CODE
-        AND C.APPL_NO = #{applNo} ) Y -- 입학지원번호
-        LEFT OUTER JOIN APPL_DOC Z
-        ON  Y.DOC_TYPE_CODE = Z.DOC_TYPE_CODE
-        AND Y.DOC_GRP = Z.DOC_GRP
-        AND Y.DOC_ITEM_CODE = Z.DOC_ITEM_CODE
-        AND Y.APPL_NO = Z.APPL_NO
-    </select>
-
-    <select id="selectInstDocListByApplNoWTMandatory"   resultMap="mandNapplDoc"  parameterType="java.lang.Integer" >
-
-
-        SELECT
-        <include refid="Base_Mand_Column_List" />
-  FROM ( SELECT C.APPL_NO,
-                A.MDT_YN, A.UPLOAD_YN, A.DOC_TYPE_CODE, A.DOC_ITEM_CODE,
-                0 as DOC_GRP,
-                A.SEND_CNT,
-                A.MSG_NO,
-                A.ORGN_SEND_YN,
-                B.CODE_VAL, B.CODE_VAL_XXEN
-          FROM ADMS_MDT A, COMM_CODE B, APPL C
-         WHERE A.ADMS_NO = C.ADMS_NO
-           AND A.DOC_TYPE_CODE = '00006'
-           AND A.DOC_ITEM_CODE = B.CODE
-           AND B.CODE_GRP = 'DOC_ITEM'
-           AND C.APPL_ATTR_CODE = '00002'
-           AND C.APPL_NO =  #{applNo}  ) Y -- 입학지원번호
-       LEFT OUTER JOIN APPL_DOC Z
-                   ON  Y.DOC_TYPE_CODE = Z.DOC_TYPE_CODE
-                   AND Y.DOC_GRP = Z.DOC_GRP
-                   AND Y.DOC_ITEM_CODE = Z.DOC_ITEM_CODE
-                   AND Y.APPL_NO = Z.APPL_NO
-
-    </select>
-
-
-    <select id="selectDeptDocListByApplNoWTMandatory"   resultMap="mandNapplDoc"  parameterType="java.lang.Integer" >
-
-        SELECT
-        <include refid="Base_Mand_Column_List" />
-        FROM ( SELECT D.APPL_NO,
-        A.MDT_YN, A.UPLOAD_YN, A.DOC_TYPE_CODE, A.DOC_ITEM_CODE,
-        0 as DOC_GRP,
-        A.SEND_CNT,
-        A.MSG_NO,
-        A.ORGN_SEND_YN,
-        B.CODE_VAL, B.CODE_VAL_XXEN
-        FROM ADMS_CORS_MAJ_MDT A, COMM_CODE B, ADMS_CORS C, APPL D
-        WHERE A.ADMS_CORS_NO = C.ADMS_CORS_NO
-        AND A.DOC_ITEM_CODE = B.CODE
-        AND B.CODE_GRP = 'DOC_ITEM'
-        AND C.ADMS_NO = D.ADMS_NO
-        AND C.DEPT_CODE = D.DEPT_CODE
-        AND C.CORS_TYPE_CODE = D.CORS_TYPE_CODE
-        AND IFNULL(C.ARI_INST_CODE,'') = IFNULL(D.ARI_INST_CODE,'')
-        AND A.DETL_MAJ_CODE = D.DETL_MAJ_CODE
-        AND D.APPL_NO =  #{applNo}   ) Y -- 입학지원번호
-        LEFT OUTER JOIN APPL_DOC Z
-        ON  Y.DOC_TYPE_CODE = Z.DOC_TYPE_CODE
-        AND Y.DOC_GRP = Z.DOC_GRP
-        AND Y.DOC_ITEM_CODE = Z.DOC_ITEM_CODE
-        AND Y.APPL_NO = Z.APPL_NO
-
-    </select>
-
-    <select id="selectEtcDocListByApplNoWTMandatory"   resultMap="mandNapplDoc"  parameterType="java.lang.Integer" >
-        SELECT A.DOC_TYPE_CODE,
-               A.DOC_GRP,
-                1 as SEND_CNT,
-               A.DOC_ITEM_CODE,
-               A.DOC_ITEM_NAME,
-               A.DOC_ITEM_NAME AS DOC_ITEM_NAME_XXEN,
-               A.DOC_NAME,
-               A.FILE_EXT,
-               A.IMG_YN,
-               A.FILE_PATH,
-               A.FILE_NAME,
-               A.ORG_FILE_NAME
-          FROM APPL_DOC A
-         WHERE A.DOC_TYPE_CODE = '00009'
-           AND A.APPL_NO = #{applNo}-- 입학지원번호
+        <include refid="Base_CommonMand_Column_List" />
+        FROM MDT_ADMS_DEPT A,COMM_CODE B, COMM_CODE C
+        WHERE  A.GRP_CODE = B.CODE
+            AND B.CODE_GRP ='DOC_TYPE'
+            AND A.ITEM_GRP_CODE = C.CODE_GRP
+            AND A.ITEM_CODE = C.CODE
+            AND ADMS_NO = #{admsNo} -- 전형번호
+            AND DEPT_CODE= #{deptCode}-- 학과번호
     </select>
 </mapper>
