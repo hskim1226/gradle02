@@ -1684,7 +1684,6 @@
                 if (length <= 1) {
                     eraseContents(blockToRemove);
                 } else {
-console.log(blockToRemove.parentNode);
                     blockToRemove.parentNode.removeChild(blockToRemove);
                 }
 
@@ -2352,17 +2351,17 @@ console.log(blockToRemove.parentNode);
                             },
                             success: function (data, status) {
                                 var d = JSON.parse(data.data);
-                                if (console) {
-                                    console.log("targetButton : ", d.targetButton);
-                                    console.log("targetLabel : ", d.targetLabel);
-                                    console.log("applNo : ", d.applNo);
-                                    console.log("admsNo : ", d.admsNo);
-                                    console.log("originalFileName : ", d.originalFileName);
-                                    console.log("filePath : ", d.path);
-                                    console.log("fileName : ", d.fileName);
-                                    console.log("data : ", data.data);
-                                    console.log("status : ", status);
-                                }
+//                                if (console) {
+//                                    console.log("targetButton : ", d.targetButton);
+//                                    console.log("targetLabel : ", d.targetLabel);
+//                                    console.log("applNo : ", d.applNo);
+//                                    console.log("admsNo : ", d.admsNo);
+//                                    console.log("originalFileName : ", d.originalFileName);
+//                                    console.log("filePath : ", d.path);
+//                                    console.log("fileName : ", d.fileName);
+//                                    console.log("data : ", data.data);
+//                                    console.log("status : ", status);
+//                                }
                                 var targetBtnId = d.targetButton,
                                         targetBtn = document.getElementById(targetBtnId),
                                         $targetBtn = $(targetBtn),
