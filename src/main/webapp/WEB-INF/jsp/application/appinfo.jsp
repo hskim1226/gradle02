@@ -1223,49 +1223,50 @@
             <%-- 하단 버튼 처리 --%>
             var formProcess = function(event) {
                 var $form = $(this),
-                        isApply = event.type ==='apply'?true:false,
-                        isLangCareer = event.type ==='langCareer'?true:false,
-                        $formData = $form.serializeArray(),
-                        ajaxObj = {
-                            type: 'POST',
-                            data: $formData,
+                    isValidProcess = true,
+                    isApply = event.type ==='apply'?true:false,
+                    isLangCareer = event.type ==='langCareer'?true:false,
+                    $formData = $form.serializeArray(),
+                    ajaxObj = {
+                        type: 'POST',
+                        data: $formData,
 //                            timeout: 5000,
-                            success: function (context) {
-                                if (context.result == 'SUCCESS') {
-                                    var message = context.message,
-                                            alert = createAlert(message),
-                                            applNo = context.data.applNo,
-                                            applStsCode = context.data.applStsCode,
-                                            admsNo = context.data.admsNo,
-                                            entrYear = context.data.entrYear,
-                                            admsTypeCode = context.data.admsTypeCode;
-                                    $('#alert-container').append(alert);
-                                    document.getElementById('applNo').value = applNo;
-                                    document.getElementById('applStsCode').value = applStsCode;
-                                    document.getElementById('admsNo').value = admsNo;
-                                    document.getElementById('entrYear').value = entrYear;
-                                    document.getElementById('admsTypeCode').value = admsTypeCode;
+                        success: function (context) {
+                            if (context.result == 'SUCCESS') {
+                                var message = context.message,
+                                    alert = createAlert(message),
+                                    applNo = context.data.applNo,
+                                    applStsCode = context.data.applStsCode,
+                                    admsNo = context.data.admsNo,
+                                    entrYear = context.data.entrYear,
+                                    admsTypeCode = context.data.admsTypeCode;
+                                $('#alert-container').append(alert);
+                                document.getElementById('applNo').value = applNo;
+                                document.getElementById('applStsCode').value = applStsCode;
+                                document.getElementById('admsNo').value = admsNo;
+                                document.getElementById('entrYear').value = entrYear;
+                                document.getElementById('admsTypeCode').value = admsTypeCode;
 
-                                    btnEnable(applStsCode);
-                                    window.setTimeout(function() {
-                                        alert.alert('close');
-                                        if (isApply) {
-                                            location.href="${contextPath}/application/mylist";
-                                        }
-                                        /* 어학 경력 저장 시 왜 별도처리하는 지 알 수 없음
-                                        else if (isLangCareer) {
-                                            var form = document.getElementById('entireApplication');
-                                            form.action = '${contextPath}/application/apply';
-                                            form.submit();
-                                        }
-                                        */
-                                    }, 1000);
-                                }
-                            },
-                            error: function(e) {
-                                console.log(e.statusText);
+                                btnEnable(applStsCode);
+                                window.setTimeout(function() {
+                                    alert.alert('close');
+                                    if (isApply) {
+                                        location.href="${contextPath}/application/mylist";
+                                    }
+                                    /* 어학 경력 저장 시 왜 별도처리하는 지 알 수 없음
+                                    else if (isLangCareer) {
+                                        var form = document.getElementById('entireApplication');
+                                        form.action = '${contextPath}/application/apply';
+                                        form.submit();
+                                    }
+                                    */
+                                }, 1000);
                             }
-                        };
+                        },
+                        error: function(e) {
+                            console.log(e.statusText);
+                        }
+                    };
 
                 $form.find('input.radio-group').filter(function() {
                     return this.checked == false;
@@ -1274,7 +1275,13 @@
                 });
                 switch (event.type) {
                     case 'appInfo':
-                        ajaxObj.url = "${contextPath}/application/save/appInfo";
+                        if ($('#baseSave').css('display') == 'block') {
+                            isValidProcess = false;
+                            alert('<spring:message code="U329"/>');
+                            $('#applAttrCode').focus();
+                        } else {
+                            ajaxObj.url = "${contextPath}/application/save/appInfo";
+                        }
                         break;
                     case 'academy':
                         ajaxObj.url = "${contextPath}/application/save/academy";
@@ -1293,7 +1300,7 @@
                     case 'reset':
                         break;
                 }
-                $.ajax(ajaxObj);
+                if (isValidProcess) $.ajax(ajaxObj);
                 event.preventDefault();
             };
 
