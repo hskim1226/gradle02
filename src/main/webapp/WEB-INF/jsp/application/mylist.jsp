@@ -81,7 +81,7 @@
                                     <button id="modify" class="btn btn-default modify ${item.applStsCode.lastIndexOf('0')==3?"":"disabled"}"
                                             data-applNo="${item.applNo}" data-admsNo="${item.admsNo}" data-entrYear="${item.entrYear}"
                                             data-admsTypeCode="${item.admsTypeCode}">원서 수정하기<span class="my-tooltip">작성 중인 상태에서만 수정 가능합니다.</span></button>
-                                    <button id="verify" class="btn btn-info verify ${item.applStsCode=="00010"?"":"disabled"}"
+                                    <button id="preview" class="btn btn-info preview ${item.applStsCode=="00010"?"":"disabled"}"
                                             data-applNo="${item.applNo}" data-admsNo="${item.admsNo}" data-entrYear="${item.entrYear}"
                                             data-admsTypeCode="${item.admsTypeCode}">원서 미리보기</button>
                                     <button id="pay" class="btn btn-primary pay ${item.applStsCode=="00010"?"":(item.applStsCode=="00021"?"":"disabled")}"
@@ -118,13 +118,6 @@
 <content tag="local-script">
     <script>
         $(document).ready( function() {
-            var getQueryString = function (obj, includeApplNo) {
-                var withoutApplNo = "?admsNo=" + obj.getAttribute("data-admsNo") + "&" +
-                                "entrYear=" + obj.getAttribute("data-entrYear") + "&" +
-                                "admsTypeCode=" + obj.getAttribute("data-admsTypeCode"),
-                        withApplNo = withoutApplNo + "&applNo=" + obj.getAttribute("data-applNo");
-                return includeApplNo ? withApplNo : withoutApplNo;
-            };
 
             var setHidden = function (obj) {
                 document.getElementById('applNo').value = obj.getAttribute('data-applNo');
@@ -135,16 +128,13 @@
 
             $('.modify').click(function(e){
                 e.preventDefault();
-                <%--location.href="${contextPath}/application/apply" + getQueryString(e.target, true);--%>
                 var form = document.getElementById('LGD_PAYINFO');
                 setHidden(e.target);
                 form.action = "${contextPath}/application/apply";
                 form.submit();
 
             });
-            $('.verify').click(function(e){
-                <%--location.href="${contextPath}/application/preview" + getQueryString(e.target, true);--%>
-                <%--e.preventDefault();--%>
+            $('.preview').click(function(e){
                 var form = document.getElementById('LGD_PAYINFO');
                 setHidden(e.target);
                 form.action = "${contextPath}/application/preview";
