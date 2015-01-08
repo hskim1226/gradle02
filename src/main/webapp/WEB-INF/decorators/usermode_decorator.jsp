@@ -105,58 +105,58 @@
     <script src="${contextPath}/js/jquery.word-break-keep-all.min.js"></script>
     <script src="${contextPath}/js/json2.js"></script>
     <script src="${contextPath}/js/main.js"></script>
-    <script type="text/javascript">
-        $(document).ready(function() {
-            $('div[role=locale]').on('click', function(e) {
-                var target = e.target, dataTarget, f, input;
-                if (target) {
-                    dataTarget = target.getAttribute('data-target');
-                    if (dataTarget) {
-                        <%--location.href = UpdateQueryString('${localeParam}', dataTarget, location.href);--%>
-                        f = $('form')[0];
-                        if (f) {
-                            f.action = location.href;
-                            input = document.createElement('input');
-                            input.setAttribute('type', 'hidden');
-                            input.setAttribute('name', '${localeParam}')
-                            input.setAttribute('value', dataTarget);
-                            f.appendChild(input);
-                            f.submit();
-                        }
-                    }
-                }
-            });
+    <%--<script type="text/javascript">--%>
+        <%--$(document).ready(function() {--%>
+            <%--$('div[role=locale]').on('click', function(e) {--%>
+                <%--var target = e.target, dataTarget, f, input;--%>
+                <%--if (target) {--%>
+                    <%--dataTarget = target.getAttribute('data-target');--%>
+                    <%--if (dataTarget) {--%>
+                        <%--&lt;%&ndash;location.href = UpdateQueryString('${localeParam}', dataTarget, location.href);&ndash;%&gt;--%>
+                        <%--f = $('form')[0];--%>
+                        <%--if (f) {--%>
+                            <%--f.action = location.href;--%>
+                            <%--input = document.createElement('input');--%>
+                            <%--input.setAttribute('type', 'hidden');--%>
+                            <%--input.setAttribute('name', '${localeParam}')--%>
+                            <%--input.setAttribute('value', dataTarget);--%>
+                            <%--f.appendChild(input);--%>
+                            <%--f.submit();--%>
+                        <%--}--%>
+                    <%--}--%>
+                <%--}--%>
+            <%--});--%>
 
-            function UpdateQueryString(key, value, url) {
-                if (!url) url = window.location.href;
-                var re = new RegExp("([?&])" + key + "=.*?(&|#|$)(.*)", "gi");
+            <%--function UpdateQueryString(key, value, url) {--%>
+                <%--if (!url) url = window.location.href;--%>
+                <%--var re = new RegExp("([?&])" + key + "=.*?(&|#|$)(.*)", "gi");--%>
 
-                if (re.test(url)) {
-                    if (typeof value !== 'undefined' && value !== null)
-                        return url.replace(re, '$1' + key + "=" + value + '$2$3');
-                    else {
-                        var hash = url.split('#');
-                        url = hash[0].replace(re, '$1$3').replace(/(&|\?)$/, '');
-                        if (typeof hash[1] !== 'undefined' && hash[1] !== null)
-                            url += '#' + hash[1];
-                        return url;
-                    }
-                }
-                else {
-                    if (typeof value !== 'undefined' && value !== null) {
-                        var separator = url.indexOf('?') !== -1 ? '&' : '?',
-                                hash = url.split('#');
-                        url = hash[0] + separator + key + '=' + value;
-                        if (typeof hash[1] !== 'undefined' && hash[1] !== null)
-                            url += '#' + hash[1];
-                        return url;
-                    }
-                    else
-                        return url;
-                }
-            }
-        });
-    </script>
+                <%--if (re.test(url)) {--%>
+                    <%--if (typeof value !== 'undefined' && value !== null)--%>
+                        <%--return url.replace(re, '$1' + key + "=" + value + '$2$3');--%>
+                    <%--else {--%>
+                        <%--var hash = url.split('#');--%>
+                        <%--url = hash[0].replace(re, '$1$3').replace(/(&|\?)$/, '');--%>
+                        <%--if (typeof hash[1] !== 'undefined' && hash[1] !== null)--%>
+                            <%--url += '#' + hash[1];--%>
+                        <%--return url;--%>
+                    <%--}--%>
+                <%--}--%>
+                <%--else {--%>
+                    <%--if (typeof value !== 'undefined' && value !== null) {--%>
+                        <%--var separator = url.indexOf('?') !== -1 ? '&' : '?',--%>
+                                <%--hash = url.split('#');--%>
+                        <%--url = hash[0] + separator + key + '=' + value;--%>
+                        <%--if (typeof hash[1] !== 'undefined' && hash[1] !== null)--%>
+                            <%--url += '#' + hash[1];--%>
+                        <%--return url;--%>
+                    <%--}--%>
+                    <%--else--%>
+                        <%--return url;--%>
+                <%--}--%>
+            <%--}--%>
+        <%--});--%>
+    <%--</script>--%>
     <decorator:getProperty property="page.local-script"/>
 </body>
 </html>

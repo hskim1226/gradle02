@@ -1,6 +1,7 @@
 package com.apexsoft.ysprj.applicants.admission.service;
 
 import com.apexsoft.framework.persistence.dao.CommonDAO;
+import com.apexsoft.ysprj.applicants.admission.domain.Admission;
 import com.apexsoft.ysprj.applicants.admission.domain.AdmissionCourseMajor;
 import com.apexsoft.ysprj.applicants.admission.domain.AdmissionCourseMajorLanguage;
 import com.apexsoft.ysprj.applicants.admission.domain.ParamForAdmissionCourseMajor;
@@ -57,5 +58,17 @@ public class AdmissionServiceImpl implements AdmissionService {
         }
 
         return admissionCourseMajorLanguageList;
+    }
+
+    @Override
+    public Admission retrieveAdmissionByAdmsNo(String admsNo) {
+        Admission admission = null;
+        try {
+            admission = commonDAO.queryForObject(NAME_SPACE + "AdmissionMapper.selectByPrimaryKey",
+                    admsNo, Admission.class);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return admission;
     }
 }

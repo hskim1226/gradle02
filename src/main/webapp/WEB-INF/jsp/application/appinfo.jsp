@@ -356,13 +356,13 @@
                                         <div class="col-sm-4">
                                             <div class="input-group">
                                                 <span class="input-group-addon">&nbsp;성&nbsp;</span>
-                                                <form:input path="application.engSur" cssClass="form-control" style="text-transform: uppercase;" />
+                                                <form:input path="application.engSur" cssClass="form-control engName" />
                                             </div>
                                         </div>
                                         <div class="col-sm-5">
                                             <div class="input-group">
                                                 <span class="input-group-addon">이름</span>
-                                                <form:input path="application.engName" cssClass="form-control" style="text-transform: uppercase;" />
+                                                <form:input path="application.engName" cssClass="form-control engName" />
                                             </div>
                                         </div>
                                     </div>
@@ -379,15 +379,15 @@
                                 <div class="panel-heading">지원자 상세정보</div>
                                 <div class="panel-body">
                                     <div class="form-group required">
-                                        <label for="application.citzCntrName" class="col-sm-2 control-label">국적</label>
+                                        <label for="citzCntrName" class="col-sm-2 control-label">국적</label>
                                         <div class="col-sm-2">
-                                            <button type="button" class="btn btn-default btn-search bpopper" data-targetNode1="application.citzCntrCode" data-targetNode2='citzCntrName' data-category="country">
+                                            <button type="button" class="btn btn-default btn-search bpopper" data-targetNode1="citzCntrCode" data-targetNode2='citzCntrName' data-category="country">
                                                 <span class="glyphicon glyphicon-search"></span> 검색
                                             </button>
                                         </div>
                                         <div class="col-sm-7">
                                             <form:hidden path="application.citzCntrCode" id="citzCntrCode" cssClass="form-control" />
-                                            <input id="citzCntrName" class="form-control" />
+                                            <input id="citzCntrName" class="form-control" value="${common.country.korCntrName}"/>
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -421,14 +421,15 @@
                                         </div>
                                         <div class="col-sm-4">
                                             <div class="input-group">
-                                                <input type="text" class="form-control" id="postcode1" />
-                                                <span class="input-group-addon"> - </span>
-                                                <input type="text" class="form-control" id="postcode2" />
+                                                <%--<input type="text" class="form-control" id="postcode1" />--%>
+                                                <%--<span class="input-group-addon"> - </span>--%>
+                                                <%--<input type="text" class="form-control" id="postcode2" />--%>
+                                                <form:input path="application.zipCode" cssClass="form-control" id="zipCode" readonly="true"/>
                                             </div>
                                         </div>
-                                        <form:hidden path="application.zipCode" />
+                                        <%--<form:hidden path="application.zipCode" id="zipCode"/>--%>
                                         <div class="col-sm-offset-2 col-sm-4">
-                                            <form:input path="application.addr" cssClass="form-control" id="address" />
+                                            <form:input path="application.addr" cssClass="form-control" id="address" readonly="true" />
                                         </div>
                                         <div class="col-sm-5">
                                             <form:input path="application.detlAddr" cssClass="form-control" id="addressDetail" placeholder="세부주소" />
@@ -520,6 +521,11 @@
                             </div><%--panel--%>
                         </div>
                     </div><%--row--%>
+                    <div class="btn-group btn-group-justified">
+                        <div class="btn-group">
+                            <button id="saveAppInfo" type="button" class="btn btn-info btn-lg btnAppl" data-saveType="appInfo">기본 정보 저장</button>
+                        </div>
+                    </div>
                 </div><%--appinfo--%>
 
 
@@ -732,6 +738,11 @@
                             </div>
                         </div>
                     </div>
+                    <div class="btn-group btn-group-justified">
+                        <div class="btn-group">
+                            <button id="saveAcademy" type="button" class="btn btn-primary btn-lg btnAppl disabled" data-saveType="academy">학력 저장</button>
+                        </div>
+                    </div>
                 </div>
 
                 <%--language & career--%>
@@ -849,6 +860,11 @@
                                     </div>
                                 </div>
                             </div>
+                        </div>
+                    </div>
+                    <div class="btn-group btn-group-justified">
+                        <div class="btn-group">
+                            <button id="saveLangCareer" type="button" class="btn btn-info btn-lg btnAppl disabled" data-saveType="langCareer">어학 및 경력 저장</button>
                         </div>
                     </div>
                 </div>
@@ -1005,33 +1021,38 @@
                             </div>
                         </div>
                     </div>
-                </div>
-
-
-
+                    <div class="btn-group btn-group-justified">
+                        <div class="btn-group">
+                            <button id="saveFileUpload" type="button" class="btn btn-primary btn-lg btnAppl disabled" data-saveType="fileUpload">첨부 파일 저장</button>
+                        </div>
+                        <div class="btn-group">
+                            <button id="apply" type="button" class="btn btn-primary btn-lg btnAppl disabled" data-saveType="apply">제출</button>
+                        </div>
+                    </div>
+                </div><%--첨부파일--%>
             </div> <%--myTabContent--%>
         </form:form>
 
-        <div class="btn-group btn-group-justified">
-            <div class="btn-group">
-                <button id="saveAppInfo" type="button" class="btn btn-info btn-lg btnAppl" data-saveType="appInfo">기본 정보 저장</button>
-            </div>
-            <div class="btn-group">
-                <button id="saveAcademy" type="button" class="btn btn-primary btn-lg btnAppl disabled" data-saveType="academy">학력 저장</button>
-            </div>
-            <div class="btn-group">
-                <button id="saveLangCareer" type="button" class="btn btn-info btn-lg btnAppl disabled" data-saveType="langCareer">어학 및 경력 저장</button>
-            </div>
-            <div class="btn-group">
-                <button id="saveFileUpload" type="button" class="btn btn-primary btn-lg btnAppl disabled" data-saveType="fileUpload">첨부 파일 저장</button>
-            </div>
-            <div class="btn-group">
-                <button id="apply" type="button" class="btn btn-primary btn-lg btnAppl disabled" data-saveType="apply">작성완료</button>
-            </div>
-            <div class="btn-group">
-                <button id="reset" type="button" class="btn btn-warning btn-lg">작성 내용 비우기</button>
-            </div>
-        </div>
+        <%--<div class="btn-group btn-group-justified">--%>
+            <%--<div class="btn-group">--%>
+                <%--<button id="saveAppInfo" type="button" class="btn btn-info btn-lg btnAppl" data-saveType="appInfo">기본 정보 저장</button>--%>
+            <%--</div>--%>
+            <%--<div class="btn-group">--%>
+                <%--<button id="saveAcademy" type="button" class="btn btn-primary btn-lg btnAppl disabled" data-saveType="academy">학력 저장</button>--%>
+            <%--</div>--%>
+            <%--<div class="btn-group">--%>
+                <%--<button id="saveLangCareer" type="button" class="btn btn-info btn-lg btnAppl disabled" data-saveType="langCareer">어학 및 경력 저장</button>--%>
+            <%--</div>--%>
+            <%--<div class="btn-group">--%>
+                <%--<button id="saveFileUpload" type="button" class="btn btn-primary btn-lg btnAppl disabled" data-saveType="fileUpload">첨부 파일 저장</button>--%>
+            <%--</div>--%>
+            <%--<div class="btn-group">--%>
+                <%--<button id="apply" type="button" class="btn btn-primary btn-lg btnAppl disabled" data-saveType="apply">작성완료</button>--%>
+            <%--</div>--%>
+            <%--<div class="btn-group">--%>
+                <%--<button id="reset" type="button" class="btn btn-warning btn-lg">작성 내용 비우기</button>--%>
+            <%--</div>--%>
+        <%--</div>--%>
     </div> <%--container--%>
 
     <%-- 국가/학교 검색 팝업 --%>
@@ -1084,25 +1105,25 @@
             document.getElementById('entrYear').value='${entireApplication.application.entrYear}';
             document.getElementById('admsTypeCode').value='${entireApplication.application.admsTypeCode}';
 
+
+            <%-- 탭 컨트롤 --%>
             var disableTab = function(anchorObj, msg) {
                 var $anchor = $(anchorObj);
                 $anchor.prop('disabled', true);
                 $anchor.prop('data-href', $anchor.attr('href'));
                 $anchor.attr('href', '#');
                 $anchor.addClass('disabled-link');
-                $anchor.on('click', tabMsgHandler(msg));
+                $anchor.on('click', {msg: msg}, tabMsgHandler);
             };
             var enableTab = function(anchorObj) {
                 var $anchor = $(anchorObj);
                 $anchor.prop('disabled', false);
                 $anchor.attr('href', $anchor.prop('data-href')); // restore href
                 $anchor.removeClass('disabled-link');
-                $anchor.off('click', tabMsgHandler(''));
+                $anchor.off('click', tabMsgHandler);
             };
-            var tabMsgHandler = function(msg) {
-                return function() {
-                    alert(msg);
-                };
+            var tabMsgHandler = function(event) {
+                alert(event.data.msg);
             };
             var tabControl = function(applStsCode) {
                 switch (applStsCode) {
@@ -1121,8 +1142,8 @@
                         break;
                 }
             };
-            tabControl(document.getElementById('applNo').value);
-
+            tabControl(document.getElementById('applStsCode').value);
+            <%-- 탭 컨트롤 --%>
 
             var baseInfoSaved = function() {
 //                $('.base-info').prop('disabled', 'true');
@@ -1234,11 +1255,14 @@
                                         alert.alert('close');
                                         if (isApply) {
                                             location.href="${contextPath}/application/mylist";
-                                        } else if (isLangCareer) {
+                                        }
+                                        /* 어학 경력 저장 시 왜 별도처리하는 지 알 수 없음
+                                        else if (isLangCareer) {
                                             var form = document.getElementById('entireApplication');
                                             form.action = '${contextPath}/application/apply';
                                             form.submit();
                                         }
+                                        */
                                     }, 1000);
                                 }
                             },
@@ -1294,6 +1318,12 @@
                 document.getElementById('entireApplication').reset(); //TODO reset 안됨
             });
             <%-- 하단 버튼 처리 --%>
+
+            <%-- 영문 이름 처리 시작 --%>
+            $('.engName').on('keyup', function() {
+                this.value = this.value.toUpperCase().replace(/([^0-9A-Z])/g,"");
+            });
+            <%-- 영문 이름 처리 끝 --%>
 
             <%-- 국가/학교 검색 시작 --%>
             $('.bpopper').on('click', function(e) {
@@ -1402,8 +1432,9 @@
                     oncomplete: function(data) {
                         // 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
                         // 우편번호와 주소 및 영문주소 정보를 해당 필드에 넣는다.
-                        document.getElementById('postcode1').value = data.postcode1;
-                        document.getElementById('postcode2').value = data.postcode2;
+//                        document.getElementById('postcode1').value = data.postcode1;
+//                        document.getElementById('postcode2').value = data.postcode2;
+                        document.getElementById('zipCode').value = data.postcode1 + data.postcode2;
                         document.getElementById('address').value = data.address1;
                         document.getElementById('addressDetail').focus();
                         // iframe을 넣은 element를 안보이게 한다.
@@ -1657,7 +1688,6 @@
                 if (length <= 1) {
                     eraseContents(blockToRemove);
                 } else {
-console.log(blockToRemove.parentNode);
                     blockToRemove.parentNode.removeChild(blockToRemove);
                 }
 
@@ -2302,17 +2332,17 @@ console.log(blockToRemove.parentNode);
                             },
                             success: function (data, status) {
                                 var d = JSON.parse(data.data);
-                                if (console) {
-                                    console.log("targetButton : ", d.targetButton);
-                                    console.log("targetLabel : ", d.targetLabel);
-                                    console.log("applNo : ", d.applNo);
-                                    console.log("admsNo : ", d.admsNo);
-                                    console.log("originalFileName : ", d.originalFileName);
-                                    console.log("filePath : ", d.path);
-                                    console.log("fileName : ", d.fileName);
-                                    console.log("data : ", data.data);
-                                    console.log("status : ", status);
-                                }
+//                                if (console) {
+//                                    console.log("targetButton : ", d.targetButton);
+//                                    console.log("targetLabel : ", d.targetLabel);
+//                                    console.log("applNo : ", d.applNo);
+//                                    console.log("admsNo : ", d.admsNo);
+//                                    console.log("originalFileName : ", d.originalFileName);
+//                                    console.log("filePath : ", d.path);
+//                                    console.log("fileName : ", d.fileName);
+//                                    console.log("data : ", data.data);
+//                                    console.log("status : ", status);
+//                                }
                                 var targetBtnId = d.targetButton,
                                         targetBtn = document.getElementById(targetBtnId),
                                         $targetBtn = $(targetBtn),

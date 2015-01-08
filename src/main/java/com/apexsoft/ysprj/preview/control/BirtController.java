@@ -7,6 +7,7 @@ import com.apexsoft.ysprj.applicants.common.domain.CommonCode;
 import com.apexsoft.ysprj.applicants.common.service.CommonService;
 import org.eclipse.birt.report.engine.api.IRenderOption;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,10 +27,16 @@ public class BirtController {
     @Autowired
     CommonService commonService;
 
+    @Value("#{app['rpt.format']}")
+    private String REPORT_FORMAT;
+
+    private final String RPT_APPLICATION_KR = "application_kr";
+    private final String RPT_APPLICATION_EN = "application_en";
+
     @RequestMapping(value = "/preview")
     public ModelAndView previewAppInfo(@RequestParam(value = "applNo", required = false) Integer applNo,
                                  Model model) {
-        return previewApplication(applNo, "pdf", "application_kr", model);
+        return previewApplication(applNo, REPORT_FORMAT, RPT_APPLICATION_KR, model);
     }
 
     @RequestMapping(value = "/print")

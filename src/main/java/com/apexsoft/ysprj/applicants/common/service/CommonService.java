@@ -20,13 +20,12 @@ public interface CommonService {
     List<CodeNameCourse> retrieveAriInstCourseByAdmsDeptAriInst(ParamForSetupCourses paramForSetupCourses);
     List<CodeNameDetailMajor> retrieveAriInstDetailMajorByAdmsDeptAriInst(ParamForSetupCourses paramForSetupCourses);
     List<Country> retrieveCountryByName(String keyword);
+    Country retrieveCountryByCode(String cntrCode);
     List<School> retrieveSchoolByTypeName(String type, String keyword);
     List<CommonCode> retrieveCommonCodeValueByCodeGroup(String codeGrp);
     CommonCode retrieveCommonCodeValueByCodeGroupCode(String codeGrp, String code);
     List<CommonCode> retrieveCommonCodeListByCodeGroupKeyword(ParamForCommonCode paramForCommonCode);
     CommonCode retrieveCommonCodeListByCodeGroupCode(ParamForCommonCode paramForCommonCode);
-
-
 
     String retrieveCampNameByCode(String campCode);
     String retrieveCollNameByCode(String collCode);
@@ -36,5 +35,4 @@ public interface CommonService {
     String retrieveDetlMajNameByCode(String detlMajCode);
 
     List<LanguageExam> retrieveLangExamByLangCode(String langCode);
-
 }

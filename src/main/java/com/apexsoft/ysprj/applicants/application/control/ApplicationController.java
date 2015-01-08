@@ -18,6 +18,7 @@ import com.apexsoft.ysprj.applicants.payment.domain.ApplicationPayment;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.io.FileUtils;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -34,6 +35,7 @@ import java.io.IOException;
 import java.security.Principal;
 import java.sql.Timestamp;
 import java.util.*;
+import java.util.logging.Logger;
 
 /**
  * Created by hanmomhanda on 14. 8. 6.
@@ -218,7 +220,7 @@ public class ApplicationController {
         }
 
         model.addAttribute("entireApplication", entireApplication);
-        model.addAttribute("fromCareerLang", "fromCareerLang");
+//        model.addAttribute("fromCareerLang", "fromCareerLang"); jsp에서 사용 안 함. 필요없는 것으로 추측
 
         List<LanguageExam> langExamList = new ArrayList<LanguageExam>();
         String result = "application/";
@@ -242,6 +244,7 @@ public class ApplicationController {
             }
         }
 
+        commonCodeMap.put( "country", commonService.retrieveCountryByCode(entireApplication.getApplication().getCitzCntrCode()));
         commonCodeMap.put( "emerContList", commonService.retrieveCommonCodeValueByCodeGroup("EMER_CONT") );
         commonCodeMap.put( "toflTypeList", commonService.retrieveCommonCodeValueByCodeGroup("TOFL_TYPE") );
         commonCodeMap.put( "fornExmpList", commonService.retrieveCommonCodeValueByCodeGroup("FORN_EXMP") );
@@ -258,7 +261,7 @@ public class ApplicationController {
         model.addAttribute( "msgGrad", messageResolver.getMessage("U324"));
 
 
-        model.addAttribute( "L311", messageResolver.getMessage("L311"));
+//        model.addAttribute( "L311", messageResolver.getMessage("L311")); jsp에서 사용안함. 필요없는 것으로 추측
         return result;
     }
 
@@ -286,19 +289,21 @@ public class ApplicationController {
 
         ExecutionContext ec = null;
         String userId = principal.getName();
-        entireApplication.getApplication().setUserId(userId);
+        Application application = entireApplication.getApplication();
+        ApplicationGeneral applicationGeneral = entireApplication.getApplicationGeneral();
+        application.setUserId(userId);
 
-        if (entireApplication.getApplication().getApplNo() == null) { //insert
-            entireApplication.getApplication().setCreId(userId);
-            entireApplication.getApplicationGeneral().setCreId(userId);
-            ec = applicationService.createAppInfo(entireApplication.getApplication(),
-                                                  entireApplication.getApplicationGeneral(),
+        if (application.getApplNo() == null) { //insert
+            application.setCreId(userId);
+            applicationGeneral.setCreId(userId);
+            ec = applicationService.createAppInfo(application,
+                                                  applicationGeneral,
                                                   entireApplication.getApplicationForeigner());
         } else { //update
-            entireApplication.getApplication().setModId(userId);
-            entireApplication.getApplicationGeneral().setModId(userId);
-            ec = applicationService.updateAppInfo(entireApplication.getApplication(),
-                                                  entireApplication.getApplicationGeneral(),
+            application.setModId(userId);
+            applicationGeneral.setModId(userId);
+            ec = applicationService.updateAppInfo(application,
+                                                  applicationGeneral,
                                                   entireApplication.getApplicationForeigner());
         }
 
@@ -375,15 +380,15 @@ public class ApplicationController {
 //        entireApplication.setCollegeList(collegeListFromEntire);
 //        entireApplication.setGraduateList(graduateListFromEntire);
 
-        entireApplication.setCollegeList(preProcessAcadList(entireApplication.getCollegeList(), acadSeqList));
-        entireApplication.setGraduateList(preProcessAcadList(entireApplication.getGraduateList(), acadSeqList));
-
         ExecutionContext ec = null;
         String userId = principal.getName();
         entireApplication.getApplication().setUserId(userId);
+        entireApplication.getApplication().setModId(userId);
+
+        entireApplication.setCollegeList(preProcessAcadList(entireApplication.getCollegeList(), acadSeqList, userId));
+        entireApplication.setGraduateList(preProcessAcadList(entireApplication.getGraduateList(), acadSeqList, userId));
 
         if (entireApplication.getApplication().getApplStsCode().equals(APP_INFO_SAVED)) { //insert
-            entireApplication.getApplication().setApplStsCode(ACAD_SAVED);
             ec = applicationService.createAcademy(entireApplication.getApplication(),
                     entireApplication.getCollegeList(),
                     entireApplication.getGraduateList());
@@ -403,15 +408,17 @@ public class ApplicationController {
      * @param acadSeqList
      * @return
      */
-    private List<CustomApplicationAcademy> preProcessAcadList(List<CustomApplicationAcademy> academyList, List<Object> acadSeqList) {
+    private List<CustomApplicationAcademy> preProcessAcadList(List<CustomApplicationAcademy> academyList, List<Object> acadSeqList, String userId) {
         for ( int i = 0 ; i < academyList.size() ; i++ ) {
             CustomApplicationAcademy aa = academyList.get(i);
             boolean toBeRemoved = true;
             for (Object acadSeq : acadSeqList) {
                 if ( aa.getAcadSeq() != null && aa.getAcadSeq().toString().equals(acadSeq) ) {
                     toBeRemoved = false;
+                    aa.setModId(userId);
                 } else if (aa.getAcadSeq() == null && aa.getSchlCode() != null && aa.getSchlCode().length() > 0) {
                     toBeRemoved = false;
+                    aa.setCreId(userId);
                 }
             }
             if (toBeRemoved) academyList.remove(aa);

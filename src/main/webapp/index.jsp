@@ -1,6 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/env.jsp"%>
 <!DOCTYPE html>
+<html lang='ko'>
     <head>
 		<!-- BASICS -->
         <meta charset="utf-8">
