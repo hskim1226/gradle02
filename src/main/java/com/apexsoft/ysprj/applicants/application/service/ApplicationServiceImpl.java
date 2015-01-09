@@ -570,7 +570,6 @@ System.out.println(param.getAcadTypeCode() + " : " + c1+u1+d1);
                 r7 = commonDAO.insertList(applicationExperienceList, NAME_SPACE, "ApplicationExperienceMapper");
             }
 
-
             List<ApplicationLanguage> applicationLanguageList = entireApplication.getApplicationLanguageList();
             idx = 0;
             if ( applicationLanguageList != null ) {
@@ -937,48 +936,11 @@ System.out.println(param.getAcadTypeCode() + " : " + c1+u1+d1);
             entireApplication.setGraduateList(retrieveInfoListByParamObj(paramForAcademy, aaMapperSqlId, CustomApplicationAcademy.class));
 
             entireApplication.setApplicationExperienceList(retrieveInfoListByApplNo(applNo, "CustomApplicationExperienceMapper", ApplicationExperience.class));
+            //안쓰게 되면 지워야 함
             entireApplication.setApplicationLanguageList(retrieveInfoListByApplNo(applNo, "CustomApplicationLanguageMapper", ApplicationLanguage.class));
+            entireApplication.setCurrApplicationLanguageList(retrieveCurrApplLangListByApplNo(applNo));
+            entireApplication.setMandLangDocList(retrieveMandLangDocListByApplNo(applNo));
 
-            //TODO 아래는 첨부파일 테이블 가져오는 부분이며, 변경될 로직으로 덮어써져야 함
-           /* String adMapperSqlId = "CustomApplicationDocumentMapper.selectByApplNoDocTypeCode";
-            ParamForApplicationDocument paramForApplicationDocument = new ParamForApplicationDocument();
-            paramForApplicationDocument.setApplNo(applNo);
-            paramForApplicationDocument.setDocTypeCode("00001");
-            entireApplication.setGeneralDocList(retrieveInfoListByParamObj(paramForApplicationDocument,
-                    adMapperSqlId,
-                    ApplicationDocument.class));
-            paramForApplicationDocument.setDocTypeCode("00002");
-            entireApplication.setForeignDegreeDocList(retrieveInfoListByParamObj(paramForApplicationDocument,
-                    adMapperSqlId,
-                    ApplicationDocument.class));
-            paramForApplicationDocument.setDocTypeCode("00003");
-            entireApplication.setCollegeDocList(retrieveInfoListByParamObj(paramForApplicationDocument,
-                    adMapperSqlId,
-                    ApplicationDocument.class));
-            paramForApplicationDocument.setDocTypeCode("00004");
-            entireApplication.setGraduateDocList(retrieveInfoListByParamObj(paramForApplicationDocument,
-                    adMapperSqlId,
-                    ApplicationDocument.class));
-            paramForApplicationDocument.setDocTypeCode("00005");
-            entireApplication.setLanguageDocList(retrieveInfoListByParamObj(paramForApplicationDocument,
-                    adMapperSqlId,
-                    ApplicationDocument.class));
-            paramForApplicationDocument.setDocTypeCode("00006");
-            entireApplication.setAriInstDocList(retrieveInfoListByParamObj(paramForApplicationDocument,
-                    adMapperSqlId,
-                    ApplicationDocument.class));
-            paramForApplicationDocument.setDocTypeCode("00007");
-            entireApplication.setForeignerDocList(retrieveInfoListByParamObj(paramForApplicationDocument,
-                    adMapperSqlId,
-                    ApplicationDocument.class));
-            paramForApplicationDocument.setDocTypeCode("00008");
-            entireApplication.setDeptDocList(retrieveInfoListByParamObj(paramForApplicationDocument,
-                    adMapperSqlId,
-                    ApplicationDocument.class));
-            paramForApplicationDocument.setDocTypeCode("00099");
-            entireApplication.setEtcDocList(retrieveInfoListByParamObj(paramForApplicationDocument,
-                    adMapperSqlId,
-                    ApplicationDocument.class));*/
 
         } catch ( Exception e ) {
             e.printStackTrace();
@@ -1066,7 +1028,7 @@ System.out.println(param.getAcadTypeCode() + " : " + c1+u1+d1);
 
             admsDocList = commonDAO.queryForList(NAME_SPACE + "CustomApplicationDocumentMapper.selectAmdsMandatoryList", paramMand, CommonMandatory.class);
             admsDeptDocList = commonDAO.queryForList(NAME_SPACE + "CustomApplicationDocumentMapper.selectDeptMandatoryList", paramMand, CommonMandatory.class);
-            admsCorsDocList = commonDAO.queryForList(NAME_SPACE + "CustomApplicationDocumentMapper.selectDeptMandatoryList", paramMand, CommonMandatory.class);
+            admsCorsDocList = commonDAO.queryForList(NAME_SPACE + "CustomApplicationDocumentMapper.selectAmdsCorsMandatoryList", paramMand, CommonMandatory.class);
             admsCorsMajDocList = commonDAO.queryForList(NAME_SPACE + "CustomApplicationDocumentMapper.selectAmdsCorsMajMandatoryList", paramMand, CommonMandatory.class);
             tempCommList = getValidDocItem(  admsDocList,admsDeptDocList, admsCorsDocList, admsCorsMajDocList );
 
@@ -1078,11 +1040,9 @@ System.out.println(param.getAcadTypeCode() + " : " + c1+u1+d1);
             //학과는 기본에 포함
             docGrp.setFileGroupName("기본");
             docGrp.setGroupMsg("");
-            docGrp.setMandDocList(commonDAO.queryForList(NAME_SPACE + "CustomApplicationDocumentMapper.selectBasicDocListByApplNoWTMandatory", applNo, MandatoryNAppliedDoc.class));
+            docGrp.setMandDocList(tempList);
+            //docGrp.setMandDocList(commonDAO.queryForList(NAME_SPACE + "CustomApplicationDocumentMapper.selectBasicDocListByApplNoWTMandatory", applNo, MandatoryNAppliedDoc.class));
             docGrpList.add(docGrp);
-
-
-
 
             docGrp = new DocGroupFile();
             docGrp.setFileGroupName("해외학위");
@@ -1112,7 +1072,6 @@ System.out.println(param.getAcadTypeCode() + " : " + c1+u1+d1);
                     tmpDocList.add(doc);
             }
 
-
             docGrp = new DocGroupFile();
             docGrp.setFileGroupName("대학원");
             docGrp.setGroupMsg("");
@@ -1134,11 +1093,16 @@ System.out.println(param.getAcadTypeCode() + " : " + c1+u1+d1);
                 docSubGrp.setMandDocList(tmpDocList);
                 tmpDocList.add(doc);
             }
+            tempList = new ArrayList<MandatoryNAppliedDoc>();
+            List<CustomApplicationLanguage> appLangList = (commonDAO.queryForList(NAME_SPACE + "CustomApplicationDocumentMapper.selectCustomApplLangList", applNo, CustomApplicationLanguage.class));
+            tempList =  makeMandatoryNAppliedLangDoc( appLangList, appDocList);
+
 
             docGrp = new DocGroupFile();
             docGrp.setFileGroupName("어학");
             docGrp.setGroupMsg("");
-            docGrp.setMandDocList(commonDAO.queryForList(NAME_SPACE + "CustomApplicationDocumentMapper.selectLangDocListByApplNoWTMandatory", applNo, MandatoryNAppliedDoc.class));
+            docGrp.setMandDocList(tempList);
+            //docGrp.setMandDocList(commonDAO.queryForList(NAME_SPACE + "CustomApplicationDocumentMapper.selectLangDocListByApplNoWTMandatory", applNo, MandatoryNAppliedDoc.class));
             docGrpList.add(docGrp);
 
             docGrp = new DocGroupFile();
@@ -1152,7 +1116,6 @@ System.out.println(param.getAcadTypeCode() + " : " + c1+u1+d1);
             docGrp.setGroupMsg("");
             docGrp.setMandDocList(commonDAO.queryForList(NAME_SPACE + "CustomApplicationDocumentMapper.selectFrgnDocListByApplNoWTMandatory", applNo, MandatoryNAppliedDoc.class));
             docGrpList.add(docGrp);
-
 
             docGrp = new DocGroupFile();
             docGrp.setFileGroupName("기타");
@@ -1178,7 +1141,9 @@ System.out.println(param.getAcadTypeCode() + " : " + c1+u1+d1);
         for( CommonMandatory manDoc : admsCorsDocList ){
             boolean newFg = true;
             for ( CommonMandatory prevManDoc: manDocList) {
-                if( prevManDoc.getItemGrpCode().equals(manDoc.getItemGrpCode()) && prevManDoc.getItemCode().equals(manDoc.getItemCode())){
+                if(  prevManDoc.getGrpCode().equals(manDoc.getGrpCode()) &&
+                        prevManDoc.getItemGrpCode().equals(manDoc.getItemGrpCode()) &&
+                        prevManDoc.getItemCode().equals(manDoc.getItemCode())){
                     newFg = false;
                     break;
                 }
@@ -1192,7 +1157,9 @@ System.out.println(param.getAcadTypeCode() + " : " + c1+u1+d1);
         for( CommonMandatory manDoc : admsDeptDocList ){
             boolean newFg = true;
             for ( CommonMandatory prevManDoc: manDocList) {
-                if( prevManDoc.getItemGrpCode().equals(manDoc.getItemGrpCode()) && prevManDoc.getItemCode().equals(manDoc.getItemCode())){
+                if (prevManDoc.getGrpCode().equals(manDoc.getGrpCode()) &&
+                        prevManDoc.getItemGrpCode().equals(manDoc.getItemGrpCode()) &&
+                        prevManDoc.getItemCode().equals(manDoc.getItemCode())){
                     newFg = false;
                     break;
                 }
@@ -1205,7 +1172,9 @@ System.out.println(param.getAcadTypeCode() + " : " + c1+u1+d1);
         for( CommonMandatory manDoc : admsDocList ){
             boolean newFg = true;
             for ( CommonMandatory prevManDoc: manDocList) {
-                if( prevManDoc.getItemGrpCode().equals(manDoc.getItemGrpCode()) && prevManDoc.getItemCode().equals(manDoc.getItemCode())){
+                if(prevManDoc.getGrpCode().equals(manDoc.getGrpCode()) &&
+                        prevManDoc.getItemGrpCode().equals(manDoc.getItemGrpCode()) &&
+                        prevManDoc.getItemCode().equals(manDoc.getItemCode())){
                     newFg = false;
                     break;
                 }
@@ -1238,13 +1207,161 @@ System.out.println(param.getAcadTypeCode() + " : " + c1+u1+d1);
                     newFg =false;
                 }
             }
-            if(newFg){
+            if(newFg && ( "00008".equals(commDoc.getGrpCode()) ||"00001".equals( commDoc.getGrpCode()))){
                 MandatoryNAppliedDoc mandDoc = new MandatoryNAppliedDoc();
                 mandDoc.setComMandInfo(commDoc);
                 tempList.add( mandDoc);
             }
         }
         return tempList;
+    }
+    private  List<MandatoryNAppliedLangDoc> makeMandatoryNAppliedLangDoc(List<CommonMandatory> commList,
+                                                                         List<CustomApplicationLanguage> appLangList,
+                                                                         List<ApplicationDocument> appDocList) {
+        List<MandatoryNAppliedLangDoc> tempList = new ArrayList<MandatoryNAppliedLangDoc>();
+
+        for (CommonMandatory commDoc : commList) {
+            if( "00005".equals(commDoc.getGrpCode()) ){
+                MandatoryNAppliedLangDoc mandLangDoc = new MandatoryNAppliedLangDoc();
+                mandLangDoc.setComMandInfo(commDoc);
+
+
+                for (CustomApplicationLanguage appLang : appLangList) {
+                    if (appLang.getLangExamCode() != null &&
+                            "00005".equals(commDoc.getGrpCode()) &&
+                            "LANG_EXAM".equals(commDoc.getItemGrpCode()) &&
+                            appLang.getLangExamCode().equals(commDoc.getItemCode())) {
+                        mandLangDoc.setCustomAppLangInfo(appLang);
+                        for (ApplicationDocument appDoc : appDocList) {
+                            if (appDoc.getDocGrp() != null &&
+                                    "00005".equals(appDoc.getDocTypeCode()) &&
+                                    "00016".equals(appDoc.getDocItemCode()) &&
+                                    appDoc.getDocGrp() == appLang.getLangSeq()) {
+                                mandLangDoc.setAppDocInfo(appDoc);
+                            }
+                        }
+                    }
+                }
+                tempList.add( mandLangDoc);
+            }
+        }
+        return tempList;
+    }
+
+    private  List<MandatoryNAppliedLangDoc> makeMandatoryNAppliedLangDoc(List<MandatoryNAppliedLangDoc> codeList,
+                                                                         List<CommonMandatory> commList,
+                                                                         List<CustomApplicationLanguage> appLangList,
+                                                                         List<ApplicationDocument> appDocList) {
+
+        for( MandatoryNAppliedLangDoc code : codeList)
+            for (CommonMandatory commDoc : commList) {
+                if( "00005".equals(commDoc.getGrpCode()) &&  code.getLangExamCode() !=null && code.getLangExamCode().equals(commDoc.getItemCode())){
+                    code.setComMandInfo(commDoc);
+                    for (CustomApplicationLanguage appLang : appLangList) {
+                        if (appLang.getLangExamCode() != null &&
+                                "00005".equals(commDoc.getGrpCode()) &&
+                                "LANG_EXAM".equals(commDoc.getItemGrpCode()) &&
+                                appLang.getLangExamCode().equals(commDoc.getItemCode())) {
+                            code.setCustomAppLangInfo(appLang);
+                            for (ApplicationDocument appDoc : appDocList) {
+                                if (appDoc.getDocGrp() != null &&
+                                        "00005".equals(appDoc.getDocTypeCode()) &&
+                                        "00016".equals(appDoc.getDocItemCode()) &&
+                                        appDoc.getDocGrp() == appLang.getLangSeq()) {
+                                    code.setAppDocInfo(appDoc);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        return codeList;
+    }
+
+    private  List<MandatoryNAppliedDoc> makeMandatoryNAppliedLangDoc( List<CustomApplicationLanguage> appLangList,
+                                                                         List<ApplicationDocument> appDocList) {
+        List<MandatoryNAppliedDoc> tempList = new ArrayList<MandatoryNAppliedDoc>();
+
+        for (CustomApplicationLanguage appLang : appLangList) {
+            MandatoryNAppliedDoc mandDoc = new MandatoryNAppliedDoc();
+            mandDoc.setDocGrp( appLang.getLangSeq() );
+            mandDoc.setDocName( appLang.getLangExamName());
+            mandDoc.setMdtYn("Y");
+            mandDoc.setUploadYn("Y");
+            mandDoc.setSendCnt(1);
+            mandDoc.setDocItemName(appLang.getLangExamName() +"성적표(증명)");
+            for (ApplicationDocument appDoc : appDocList) {
+                if (appDoc.getDocGrp() != null &&
+                        "00005".equals(appDoc.getDocTypeCode()) &&
+                        "00016".equals(appDoc.getDocItemCode()) &&
+                        appDoc.getDocGrp() == appLang.getLangSeq()) {
+                    mandDoc.setAppDocInfo(appDoc);
+                }
+            }
+            tempList.add(mandDoc);
+        }
+        return tempList;
+    }
+
+    private  List<MandatoryNAppliedLangDoc>  retrieveMandLangDocListByApplNo(int applNo) {
+
+        ParamForApplicationMandatoryDoc paramMand = new ParamForApplicationMandatoryDoc();
+        Application tempApp = commonDAO.queryForObject(NAME_SPACE + "ApplicationMapper.selectByPrimaryKey", applNo, Application.class);
+
+        paramMand.setAdmsNo(tempApp.getAdmsNo());
+        paramMand.setDeptCode(tempApp.getDeptCode());
+        paramMand.setCorsTypeCode(tempApp.getCorsTypeCode());
+        paramMand.setDetlMajCode(tempApp.getDetlMajCode());
+
+        List<CommonMandatory> tempCommList = new ArrayList<CommonMandatory>();
+        List<CommonMandatory> admsDocList = new ArrayList<CommonMandatory>();
+        List<CommonMandatory> admsDeptDocList = new ArrayList<CommonMandatory>();
+        List<CommonMandatory> admsCorsDocList = new ArrayList<CommonMandatory>();
+        List<CommonMandatory> admsCorsMajDocList = new ArrayList<CommonMandatory>();
+
+        //admsDocList = commonDAO.queryForList(NAME_SPACE + "CustomApplicationDocumentMapper.selectAmdsMandatoryList", paramMand, CommonMandatory.class);
+
+        admsDeptDocList = commonDAO.queryForList(NAME_SPACE + "CustomApplicationDocumentMapper.selectDeptMandatoryList", paramMand, CommonMandatory.class);
+        admsCorsDocList = commonDAO.queryForList(NAME_SPACE + "CustomApplicationDocumentMapper.selectAmdsCorsMandatoryList", paramMand, CommonMandatory.class);
+        admsCorsMajDocList = commonDAO.queryForList(NAME_SPACE + "CustomApplicationDocumentMapper.selectAmdsCorsMajMandatoryList", paramMand, CommonMandatory.class);
+        tempCommList = getValidDocItem(admsDocList, admsDeptDocList, admsCorsDocList, admsCorsMajDocList);
+
+        List<MandatoryNAppliedLangDoc> tempList = new ArrayList<MandatoryNAppliedLangDoc>();
+        List<CustomApplicationLanguage> appLangList = (commonDAO.queryForList(NAME_SPACE + "CustomApplicationDocumentMapper.selectCustomApplLangList", applNo, CustomApplicationLanguage.class));
+        List<ApplicationDocument> appDocList = (commonDAO.queryForList(NAME_SPACE + "CustomApplicationDocumentMapper.selectByApplNo", applNo, ApplicationDocument.class));
+
+        //tempList = makeMandatoryNAppliedLangDoc(tempCommList, appLangList, appDocList);
+        MandatoryNAppliedLangDoc temp1 = new MandatoryNAppliedLangDoc();
+        temp1.setLangExamCode("00001");
+        temp1.setLangExamName("TOEFL");
+        MandatoryNAppliedLangDoc temp2 = new MandatoryNAppliedLangDoc();
+        temp2.setLangExamCode("00002");
+        temp2.setLangExamName("TOEIC");
+        MandatoryNAppliedLangDoc temp3 = new MandatoryNAppliedLangDoc();
+        temp3.setLangExamCode("00003");
+        temp3.setLangExamName("TEPS");
+        MandatoryNAppliedLangDoc temp4 = new MandatoryNAppliedLangDoc();
+        temp4.setLangExamCode("00004");
+        temp4.setLangExamName("IELTS");
+        MandatoryNAppliedLangDoc temp5 = new MandatoryNAppliedLangDoc();
+        temp5.setLangExamCode("00005");
+        temp5.setLangExamName("GRE");
+        List<MandatoryNAppliedLangDoc> tempCodeList = new ArrayList<MandatoryNAppliedLangDoc>();
+        tempCodeList.add(temp1);
+        tempCodeList.add(temp2);
+        tempCodeList.add(temp3);
+        tempCodeList.add(temp4);
+        tempCodeList.add(temp5);
+
+        tempList = makeMandatoryNAppliedLangDoc(tempCodeList, tempCommList, appLangList, appDocList);
+        return tempList;
+
+    }
+
+    private  List<ApplicationLanguage> retrieveCurrApplLangListByApplNo(int applNo) {
+
+        List<ApplicationLanguage> appLangList = (commonDAO.queryForList(NAME_SPACE + "CustomApplicationDocumentMapper.selectCurrApplLangList", applNo, ApplicationLanguage.class));
+        return appLangList;
     }
     /*
     public  List<DocGroupFile> retrieveManApplDocListByApplNo_old( int applNo) {

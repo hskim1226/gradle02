@@ -19,6 +19,8 @@ public class EntireApplication {
     private List<CustomApplicationAcademy> graduateList;
     private List<ApplicationExperience> applicationExperienceList;
     private List<ApplicationLanguage> applicationLanguageList;
+    private List<ApplicationLanguage> currApplicationLanguageList;
+    private List<MandatoryNAppliedLangDoc> mandLangDocList;
     private List<DocGroupFile> docGroupList;
     private ApplicationPayment applicationPayment;
 
@@ -117,4 +119,16 @@ public class EntireApplication {
         this.highSchool = highSchool;
     }
 
+    public List<MandatoryNAppliedLangDoc> getMandLangDocList() { return mandLangDocList;    }
+
+    public void setMandLangDocList(List<MandatoryNAppliedLangDoc> mandLangDocList) {        this.mandLangDocList = mandLangDocList;    }
+
+
+    public List<ApplicationLanguage> getCurrApplicationLanguageList() {
+        return currApplicationLanguageList;
+    }
+
+    public void setCurrApplicationLanguageList(List<ApplicationLanguage> currApplicationLanguageList) {
+        this.currApplicationLanguageList = currApplicationLanguageList;
+    }
 }

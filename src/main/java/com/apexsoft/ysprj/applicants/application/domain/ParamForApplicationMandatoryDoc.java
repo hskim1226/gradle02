@@ -11,6 +11,7 @@ public class ParamForApplicationMandatoryDoc {
     private String deptCode;
     private String corsTypeCode;
 
+
     public int getAdmsCorsNo() {
         return admsCorsNo;
     }
@@ -50,4 +51,6 @@ public class ParamForApplicationMandatoryDoc {
     public void setCorsTypeCode(String corsTypeCode) {
         this.corsTypeCode = corsTypeCode;
     }
+
+
 }

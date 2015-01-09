@@ -1,7 +1,10 @@
 package com.apexsoft.ysprj.applicants.application.domain;
 
-public class CommonMandatory {
+import java.util.Date;
 
+public class CommonMandatoryLang extends CustomApplicationLanguage{
+
+    //Mandatory  항목
     private String grpCode;
     private String grpName;
     private String itemGrpCode;
@@ -138,4 +141,6 @@ public class CommonMandatory {
     public void setItemCode(String itemCode) {
         this.itemCode = itemCode;
     }
+
+
 }

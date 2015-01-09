@@ -1,7 +1,8 @@
 package com.apexsoft.ysprj.applicants.application.domain;
 
-public class MandatoryNAppliedDoc extends ApplicationDocument{
+public class MandatoryNAppliedLangDoc extends ApplicationDocument{
 
+    //Mandatory  항목
     private String grpCode;
     private String grpName;
     private String itemGrpCode;
@@ -140,6 +141,92 @@ public class MandatoryNAppliedDoc extends ApplicationDocument{
     }
 
 
+    private String langExamName;//추가 항목
+
+    //Application Language Key 항목
+    private Integer applNo;
+    private Integer langSeq;
+    public Integer getApplNo() {
+        return applNo;
+    }
+    public void setApplNo(Integer applNo) {
+        this.applNo = applNo;
+    }
+    public Integer getLangSeq() {
+        return langSeq;
+    }
+    public void setLangSeq(Integer langSeq) {
+        this.langSeq = langSeq;
+    }
+
+    //Application Language 항목
+    private String langExamCode;
+    private String toflTypeCode;
+    private String langGrad;
+    private String examNo;
+    private String examDay;
+    private String exprDay;
+
+    public String getLangExamName() {
+        return langExamName;
+    }
+
+    public void setLangExamName(String langExamName) {
+        this.langExamName = langExamName;
+    }
+
+    public String getLangExamCode() {
+        return langExamCode;
+    }
+
+
+    public void setLangExamCode(String langExamCode) {
+        this.langExamCode = langExamCode == null ? null : langExamCode.trim();
+    }
+
+
+    public String getToflTypeCode() {
+        return toflTypeCode;
+    }
+
+    public void setToflTypeCode(String toflTypeCode) {
+        this.toflTypeCode = toflTypeCode == null ? null : toflTypeCode.trim();
+    }
+
+    public String getLangGrad() {
+        return langGrad;
+    }
+
+    public void setLangGrad(String langGrad) {
+        this.langGrad = langGrad == null ? null : langGrad.trim();
+    }
+
+    public String getExamNo() {
+        return examNo;
+    }
+
+    public void setExamNo(String examNo) {
+        this.examNo = examNo == null ? null : examNo.trim();
+    }
+
+    public String getExamDay() {
+        return examDay;
+    }
+
+    public void setExamDay(String examDay) {
+        this.examDay = examDay == null ? null : examDay.trim();
+    }
+
+    public String getExprDay() {
+        return exprDay;
+    }
+
+    public void setExprDay(String exprDay) {
+        this.exprDay = exprDay == null ? null : exprDay.trim();
+    }
+
+
+
     public void setAppDocInfo( ApplicationDocument appDoc){
         setDocTypeCode(appDoc.getDocTypeCode());//그룹 코드
         setDocGrp(appDoc.getDocGrp());//세부 시퀀스
@@ -156,6 +243,8 @@ public class MandatoryNAppliedDoc extends ApplicationDocument{
     }
 
     public void setComMandInfo( CommonMandatory comMand){
+
+
         setDocTypeCode    (comMand.getGrpCode());//그룹코드
         setDocItemCode    (comMand.getItemCode());//문서코드
         setDocItemName    (comMand.getItemName());//문서명
@@ -174,6 +263,18 @@ public class MandatoryNAppliedDoc extends ApplicationDocument{
         setOrgnSendYn  (comMand.getOrgnSendYn());
         setTmpltYn     (comMand.getTmpltYn());
         setMsgNo       (comMand.getMsgNo());
+    }
+    public void setCustomAppLangInfo( CustomApplicationLanguage appLang){
+
+        setLangSeq( appLang.getLangSeq());
+        setLangExamName( appLang.getLangExamName());
+        setToflTypeCode( appLang.getToflTypeCode());
+        setLangGrad( appLang.getLangGrad());
+        setExamNo( appLang.getExamNo());
+        setExamDay( appLang.getExamDay());
+        setExprDay( appLang.getExprDay());
+        setLangExamName( appLang.getLangExamName());
+        setLangExamName( appLang.getLangExamName());
     }
 
 }

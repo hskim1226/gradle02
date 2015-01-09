@@ -52,6 +52,36 @@
         <result column="MSG_NO" jdbcType="VARCHAR" property="msgNo" />
     </resultMap>
 
+    <resultMap id="customApplLang" type="com.apexsoft.ysprj.applicants.application.domain.CustomApplicationLanguage">
+        <id column="LANG_SEQ" jdbcType="INTEGER" property="langSeq" />
+        <result column="LANG_EXAM_CODE" jdbcType="VARCHAR" property="langExamCode" />
+        <result column="LANG_EXAM_NAME" jdbcType="VARCHAR" property="langExamName" />
+        <result column="TOFL_TYPE_CODE" jdbcType="VARCHAR" property="toflTypeCode" />
+        <result column="LANG_GRAD" jdbcType="VARCHAR" property="langGrad" />
+        <result column="EXAM_NO" jdbcType="VARCHAR" property="examNo" />
+        <result column="EXAM_DAY" jdbcType="VARCHAR" property="examDay" />
+        <result column="EXPR_DAY" jdbcType="VARCHAR" property="exprDay" />
+        <result column="CRE_ID" jdbcType="VARCHAR" property="creId" />
+        <result column="CRE_DATE" jdbcType="TIMESTAMP" property="creDate" />
+        <result column="MOD_ID" jdbcType="VARCHAR" property="modId" />
+        <result column="MOD_DATE" jdbcType="TIMESTAMP" property="modDate" />
+    </resultMap>
+
+    <resultMap id="currApplLang" type="com.apexsoft.ysprj.applicants.application.domain.ApplicationLanguage">
+        <id column="APPL_NO" jdbcType="INTEGER" property="applNo" />
+        <id column="LANG_SEQ" jdbcType="INTEGER" property="langSeq" />
+        <result column="LANG_EXAM_CODE" jdbcType="VARCHAR" property="langExamCode" />
+        <result column="TOFL_TYPE_CODE" jdbcType="VARCHAR" property="toflTypeCode" />
+        <result column="LANG_GRAD" jdbcType="VARCHAR" property="langGrad" />
+        <result column="EXAM_NO" jdbcType="VARCHAR" property="examNo" />
+        <result column="EXAM_DAY" jdbcType="VARCHAR" property="examDay" />
+        <result column="EXPR_DAY" jdbcType="VARCHAR" property="exprDay" />
+        <result column="CRE_ID" jdbcType="VARCHAR" property="creId" />
+        <result column="CRE_DATE" jdbcType="TIMESTAMP" property="creDate" />
+        <result column="MOD_ID" jdbcType="VARCHAR" property="modId" />
+        <result column="MOD_DATE" jdbcType="TIMESTAMP" property="modDate" />
+    </resultMap>
+
     <sql id="Base_Mand_Column_List" >
         Y.MDT_YN,
         Y.UPLOAD_YN,
@@ -501,5 +531,38 @@
 
     </select>
 
+    <select id="selectCustomApplLangList"
+            resultMap="customApplLang"
+            parameterType= "java.lang.Integer" >
+        SELECT
+            B.EXAM_NAME LANG_EXAM_NAME,
+            LANG_SEQ,
+            LANG_EXAM_CODE,
+            TOFL_TYPE_CODE,
+            LANG_GRAD, EXAM_NO,
+            EXAM_DAY,
+            EXPR_DAY
+        FROM APPL_LANG A, LANG_EXAM B
+        WHERE A.LANG_EXAM_CODE = B.EXAM_CODE
+        AND APPL_NO = #{applNo} -- 전형번호
+        AND LANG_GRAD IS NOT NULL
+
+    </select>
+    <select id="selectCurrApplLangList"
+            resultMap="currApplLang"
+            parameterType= "java.lang.Integer" >
+        SELECT
+        APPL_NO,
+        LANG_SEQ,
+        LANG_EXAM_CODE,
+        TOFL_TYPE_CODE,
+        LANG_GRAD, EXAM_NO,
+        EXAM_DAY,
+        EXPR_DAY
+        FROM APPL_LANG
+        WHERE APPL_NO = #{applNo} -- 전형번호
+        AND LANG_GRAD IS NOT NULL
+
+    </select>
 
 </mapper>
