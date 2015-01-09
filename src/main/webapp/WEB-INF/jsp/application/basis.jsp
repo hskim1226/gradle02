@@ -242,265 +242,263 @@
             <form:hidden path="application.entrYear" id="entrYear" />
             <form:hidden path="application.admsTypeCode" id="admsTypeCode" />
             <div id="myTabContent" class="tab-content">
-                <div class="tab-pane fade" id="appinfo">
-                    <div class="spacer-tiny"></div>
-                    <div class="row">
-                        <div class="col-sm-offset-1 col-sm-10">
-                            <div class="panel panel-default">
-                                <div class="panel-heading">지원 사항</div>
-                                <div class="panel-body">
-                                    <div class="form-group required">
-                                        <label for="applAttrCode" class="col-sm-2 control-label">지원 구분</label>
-                                        <div class="col-sm-9">
-                                            <form:select path="application.applAttrCode" id="applAttrCode" cssClass="form-control base-info">
+                <div class="spacer-tiny"></div>
+                <div class="row">
+                    <div class="col-sm-offset-1 col-sm-10">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">지원 사항</div>
+                            <div class="panel-body">
+                                <div class="form-group required">
+                                    <label for="applAttrCode" class="col-sm-2 control-label">지원 구분</label>
+                                    <div class="col-sm-9">
+                                        <form:select path="application.applAttrCode" id="applAttrCode" cssClass="form-control base-info">
+                                            <form:option value="" label="--선택--" />
+                                            <form:options items="${selection.applAttrList}" itemValue="code" itemLabel="codeVal"/>
+                                        </form:select>
+                                    </div>
+                                </div>
+                                <div id="applyKindDynamic">
+                                    <div class="form-group hidden-apply-kind-2 required">
+                                        <label path="campCode" class="col-sm-2 control-label">캠퍼스</label>
+                                        <div class="col-sm-3">
+                                            <form:select path="application.campCode" id="campCode" cssClass="form-control base-info">
                                                 <form:option value="" label="--선택--" />
-                                                <form:options items="${selection.applAttrList}" itemValue="code" itemLabel="codeVal"/>
+                                                <c:if test="${basis.application.applAttrCode == '00001' || basis.application.applAttrCode == '00003'}">
+                                                <form:options items="${selection.campList}" itemValue="campCode" itemLabel="campName" />
+                                                </c:if>
+                                            </form:select>
+                                        </div>
+                                        <label path="collCode" class="col-sm-2 control-label">대학</label>
+                                        <div class="col-sm-4">
+                                            <form:select path="application.collCode" id="collCode" cssClass="form-control base-info">
+                                                <form:option value="" label="--선택--" />
+                                                <c:if test="${basis.application.applAttrCode == '00001' || basis.application.applAttrCode == '00003'}">
+                                                <form:options items="${selection.collList}" itemValue="collCode" itemLabel="collName" />
+                                                </c:if>
                                             </form:select>
                                         </div>
                                     </div>
-                                    <div id="applyKindDynamic">
-                                        <div class="form-group hidden-apply-kind-2 required">
-                                            <label path="campCode" class="col-sm-2 control-label">캠퍼스</label>
-                                            <div class="col-sm-3">
-                                                <form:select path="application.campCode" id="campCode" cssClass="form-control base-info">
-                                                    <form:option value="" label="--선택--" />
-                                                    <c:if test="${entireApplication.application.applAttrCode == '00001' || entireApplication.application.applAttrCode == '00003'}">
-                                                    <form:options items="${selection.campList}" itemValue="campCode" itemLabel="campName" />
-                                                    </c:if>
-                                                </form:select>
-                                            </div>
-                                            <label path="collCode" class="col-sm-2 control-label">대학</label>
-                                            <div class="col-sm-4">
-                                                <form:select path="application.collCode" id="collCode" cssClass="form-control base-info">
-                                                    <form:option value="" label="--선택--" />
-                                                    <c:if test="${entireApplication.application.applAttrCode == '00001' || entireApplication.application.applAttrCode == '00003'}">
-                                                    <form:options items="${selection.collList}" itemValue="collCode" itemLabel="collName" />
-                                                    </c:if>
-                                                </form:select>
-                                            </div>
-                                        </div>
-                                        <div class="form-group hidden-apply-kind-1 hidden-apply-kind-3 required">
-                                            <label for="ariInstCode" class="col-sm-2 control-label">학·연·산 연구기관</label>
-                                            <div class="col-sm-9">
-                                                <form:select path="application.ariInstCode" id="ariInstCode" cssClass="form-control base-info">
-                                                    <form:option value="" label="--선택--" />
-                                                    <c:if test="${entireApplication.application.applAttrCode == '00002'}">
-                                                    <form:options items="${selection.ariInstList}" itemValue="ariInstCode" itemLabel="ariInstName" />
-                                                    </c:if>
-                                                </form:select>
-                                            </div>
-                                        </div>
-                                        <div class="form-group required">
-                                            <label for="deptCode" class="col-sm-2 control-label">지원 학과</label>
-                                            <div class="col-sm-9">
-                                                <form:select path="application.deptCode" id="deptCode" cssClass="form-control base-info">
-                                                    <form:option value="" label="--선택--" />
-                                                    <form:options items="${selection.deptList}" itemValue="deptCode" itemLabel="deptName" />
-                                                </form:select>
-                                            </div>
-                                        </div>
-                                        <div class="form-group required">
-                                            <label for="corsTypeCode" class="col-sm-2 control-label">지원 과정</label>
-                                            <div class="col-sm-9">
-                                                <form:select path="application.corsTypeCode" id="corsTypeCode" cssClass="form-control base-info">
-                                                    <form:option value="" label="--선택--" />
-                                                    <form:options items="${selection.corsTypeList}" itemValue="corsTypeCode" itemLabel="codeVal" />
-                                                </form:select>
-                                            </div>
-                                        </div>
-                                        <div class="form-group required">
-                                            <label for="detlMajCode" class="col-sm-2 control-label">세부 전공</label>
-                                            <div class="col-sm-9">
-                                                <form:select path="application.detlMajCode" id="detlMajCode" cssClass="form-control base-info">
-                                                    <form:option value="" label="--선택--" />
-                                                    <form:options items="${selection.detlMajList}" itemValue="detlMajCode" itemLabel="detlMajName" />
-                                                </form:select>
-                                                <label id="detMajDesc" class="apexMessage"></label>
-                                                <form:input path="application.inpDetlMaj" cssClass="form-control" style="display:none" />
-                                            </div>
+                                    <div class="form-group hidden-apply-kind-0 hidden-apply-kind-1 hidden-apply-kind-3 required">
+                                        <label for="ariInstCode" class="col-sm-2 control-label">학·연·산 연구기관</label>
+                                        <div class="col-sm-9">
+                                            <form:select path="application.ariInstCode" id="ariInstCode" cssClass="form-control base-info">
+                                                <form:option value="" label="--선택--" />
+                                                <c:if test="${basis.application.applAttrCode == '00002'}">
+                                                <form:options items="${selection.ariInstList}" itemValue="ariInstCode" itemLabel="ariInstName" />
+                                                </c:if>
+                                            </form:select>
                                         </div>
                                     </div>
-                                    <div>
-                                        <div class="col-sm-11" id="baseSave">
-                                            <span class="col-sm-8"><spring:message code="U310"/></span>
-                                            <button id="btnBaseSave" class="btn btn-info btn-lg col-sm-4">지원사항 저장</button>
+                                    <div class="form-group required">
+                                        <label for="deptCode" class="col-sm-2 control-label">지원 학과</label>
+                                        <div class="col-sm-9">
+                                            <form:select path="application.deptCode" id="deptCode" cssClass="form-control base-info">
+                                                <form:option value="" label="--선택--" />
+                                                <form:options items="${selection.deptList}" itemValue="deptCode" itemLabel="deptName" />
+                                            </form:select>
                                         </div>
-                                        <div class="col-sm-11" id="baseCancel" style="display:none;">
-                                            <span class="col-sm-8"><spring:message code="U311"/></span>
-                                            <button id="btnBaseCancel" class="btn btn-warning btn-lg col-sm-4">지원사항 취소</button>
+                                    </div>
+                                    <div class="form-group required">
+                                        <label for="corsTypeCode" class="col-sm-2 control-label">지원 과정</label>
+                                        <div class="col-sm-9">
+                                            <form:select path="application.corsTypeCode" id="corsTypeCode" cssClass="form-control base-info">
+                                                <form:option value="" label="--선택--" />
+                                                <form:options items="${selection.corsTypeList}" itemValue="corsTypeCode" itemLabel="codeVal" />
+                                            </form:select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group required">
+                                        <label for="detlMajCode" class="col-sm-2 control-label">세부 전공</label>
+                                        <div class="col-sm-9">
+                                            <form:select path="application.detlMajCode" id="detlMajCode" cssClass="form-control base-info">
+                                                <form:option value="" label="--선택--" />
+                                                <form:options items="${selection.detlMajList}" itemValue="detlMajCode" itemLabel="detlMajName" />
+                                            </form:select>
+                                            <label id="detMajDesc" class="apexMessage"></label>
+                                            <form:input path="application.inpDetlMaj" cssClass="form-control" style="display:none" />
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="panel panel-default">
-                                <div class="panel-heading">지원자 정보</div>
-                                <div class="panel-body">
-                                    <div class="form-group required">
-                                        <form:label path="application.korName" cssClass="col-sm-2 control-label">한글 이름</form:label>
-                                        <div class="col-sm-9">
-                                            <form:input path="application.korName" cssClass="form-control requiredInput" />
-                                        </div>
+                                <div>
+                                    <div class="col-sm-11" id="baseSave">
+                                        <span class="col-sm-8"><spring:message code="U310"/></span>
+                                        <button id="btnBaseSave" class="btn btn-info btn-lg col-sm-4">지원사항 저장</button>
                                     </div>
-                                    <div class="form-group required">
-                                        <label class="col-sm-2 control-label">영문 이름</label>
-                                        <div class="col-sm-4">
-                                            <div class="input-group">
-                                                <span class="input-group-addon">&nbsp;성&nbsp;</span>
-                                                <form:input path="application.engSur" cssClass="form-control engName" />
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-5">
-                                            <div class="input-group">
-                                                <span class="input-group-addon">이름</span>
-                                                <form:input path="application.engName" cssClass="form-control engName" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="form-group required">
-                                        <form:label path="application.rgstNo" cssClass="col-sm-2 control-label">주민등록번호</form:label>
-                                        <div class="col-sm-9">
-                                            <form:input path="application.rgstNo" cssClass="form-control" />
-                                        </div>
+                                    <div class="col-sm-11" id="baseCancel" style="display:none;">
+                                        <span class="col-sm-8"><spring:message code="U311"/></span>
+                                        <button id="btnBaseCancel" class="btn btn-warning btn-lg col-sm-4">지원사항 취소</button>
                                     </div>
                                 </div>
                             </div>
+                        </div>
+                        <div class="panel panel-default">
+                            <div class="panel-heading">지원자 정보</div>
+                            <div class="panel-body">
+                                <div class="form-group required">
+                                    <form:label path="application.korName" cssClass="col-sm-2 control-label">한글 이름</form:label>
+                                    <div class="col-sm-9">
+                                        <form:input path="application.korName" cssClass="form-control requiredInput" />
+                                    </div>
+                                </div>
+                                <div class="form-group required">
+                                    <label class="col-sm-2 control-label">영문 이름</label>
+                                    <div class="col-sm-4">
+                                        <div class="input-group">
+                                            <span class="input-group-addon">&nbsp;성&nbsp;</span>
+                                            <form:input path="application.engSur" cssClass="form-control engName" />
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-5">
+                                        <div class="input-group">
+                                            <span class="input-group-addon">이름</span>
+                                            <form:input path="application.engName" cssClass="form-control engName" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group required">
+                                    <form:label path="application.rgstNo" cssClass="col-sm-2 control-label">주민등록번호</form:label>
+                                    <div class="col-sm-9">
+                                        <form:input path="application.rgstNo" cssClass="form-control" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
-                            <div class="panel panel-default">
-                                <div class="panel-heading">지원자 상세정보</div>
-                                <div class="panel-body">
-                                    <div class="form-group required">
-                                        <label for="citzCntrName" class="col-sm-2 control-label">국적</label>
-                                        <div class="col-sm-2">
-                                            <button type="button" class="btn btn-default btn-search bpopper" data-targetNode1="citzCntrCode" data-targetNode2='citzCntrName' data-category="country">
-                                                <span class="glyphicon glyphicon-search"></span> 검색
-                                            </button>
-                                        </div>
-                                        <div class="col-sm-7">
-                                            <form:hidden path="application.citzCntrCode" id="citzCntrCode" cssClass="form-control" />
-                                            <input id="citzCntrName" class="form-control" value="${country.korCntrName}"/>
+                        <div class="panel panel-default">
+                            <div class="panel-heading">지원자 상세정보</div>
+                            <div class="panel-body">
+                                <div class="form-group required">
+                                    <label for="citzCntrName" class="col-sm-2 control-label">국적</label>
+                                    <div class="col-sm-2">
+                                        <button type="button" class="btn btn-default btn-search bpopper" data-targetNode1="citzCntrCode" data-targetNode2='citzCntrName' data-category="country">
+                                            <span class="glyphicon glyphicon-search"></span> 검색
+                                        </button>
+                                    </div>
+                                    <div class="col-sm-7">
+                                        <form:hidden path="application.citzCntrCode" id="citzCntrCode" cssClass="form-control" />
+                                        <input id="citzCntrName" class="form-control" value="${country.korCntrName}"/>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">장애 사항</label>
+                                    <div class="col-sm-9">
+                                        <div class="input-group">
+                                            <span class="input-group-addon">장애유형</span>
+                                            <form:input path="applicationGeneral.hndcGrad" cssClass="col-sm-6 form-control" />
                                         </div>
                                     </div>
-                                    <div class="form-group">
-                                        <label class="col-sm-2 control-label">장애 사항</label>
-                                        <div class="col-sm-9">
-                                            <div class="input-group">
-                                                <span class="input-group-addon">장애유형</span>
-                                                <form:input path="applicationGeneral.hndcGrad" cssClass="col-sm-6 form-control" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <div class="col-sm-offset-2 col-sm-9">
-                                            <div class="input-group">
-                                                <span class="input-group-addon">장애등급</span>
-                                                <form:input path="applicationGeneral.hndcType" cssClass="col-sm-6 form-control" />
-                                            </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-offset-2 col-sm-9">
+                                        <div class="input-group">
+                                            <span class="input-group-addon">장애등급</span>
+                                            <form:input path="applicationGeneral.hndcType" cssClass="col-sm-6 form-control" />
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="panel panel-default">
-                                <div class="panel-heading">지원자 연락처</div>
-                                <div class="panel-body">
-                                    <div class="form-group required">
-                                        <label class="col-sm-2 control-label">주소</label>
-                                        <div class="col-sm-2">
-                                            <button type="button" class="btn btn-default btn-block btn-search" id="searchAddress">
-                                                <span class="glyphicon glyphicon-search"></span> 우편번호 찾기
-                                            </button>
-                                        </div>
-                                        <div class="col-sm-4">
-                                            <div class="input-group">
-                                                <form:input path="application.zipCode" cssClass="form-control" id="zipCode" readonly="true"/>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-offset-2 col-sm-4">
-                                            <form:input path="application.addr" cssClass="form-control" id="address" readonly="true" />
-                                        </div>
-                                        <div class="col-sm-5">
-                                            <form:input path="application.detlAddr" cssClass="form-control" id="addressDetail" placeholder="세부주소" />
-                                        </div>
-                                    </div>
-                                    <div class="form-group required">
-                                        <form:label path="application.telNum" cssClass="col-sm-2 control-label">전화번호</form:label>
-                                        <div class="col-sm-9">
-                                            <form:input path="application.telNum" cssClass="form-control" />
-                                        </div>
-                                    </div>
-                                    <div class="form-group required">
-                                        <form:label path="application.mobiNum" cssClass="col-sm-2 control-label">휴대폰</form:label>
-                                        <div class="col-sm-9">
-                                            <form:input path="application.mobiNum" cssClass="form-control" />
-                                        </div>
-                                    </div>
-                                    <div class="form-group required">
-                                        <form:label path="application.mailAddr" cssClass="col-sm-2 control-label">E-mail</form:label>
-                                        <div class="col-sm-9">
-                                            <form:input path="application.mailAddr" type="email" cssClass="form-control" />
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="panel panel-default">
-                                <div class="panel-heading">비상연락처</div>
-                                <div class="panel-body">
-                                    <div class="form-group required">
-                                        <form:label path="applicationGeneral.emerContName" cssClass="col-sm-2 control-label">이름</form:label>
-                                        <div class="col-sm-9">
-                                            <form:input path="applicationGeneral.emerContName" cssClass="form-control" />
-                                        </div>
-                                    </div>
-                                    <div class="form-group required">
-                                        <form:label path="applicationGeneral.emerContCode" cssClass="col-sm-2 control-label">관계</form:label>
-                                        <div class="col-sm-9">
-                                            <form:select path="applicationGeneral.emerContCode" cssClass="form-control">
-                                                <form:option value="" label="--선택--" />
-                                                <form:options items="${selection.emerContList}" itemValue="code" itemLabel="codeVal" />
-                                            </form:select>
-                                        </div>
-                                    </div>
-                                    <div class="form-group required">
-                                        <form:label path="applicationGeneral.emerContTel" cssClass="col-sm-2 control-label">전화번호</form:label>
-                                        <div class="col-sm-9">
-                                            <form:input path="applicationGeneral.emerContTel" cssClass="form-control" />
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="panel panel-default" id="currentCompany" hidden>
-                                <div class="panel-heading">현재 근무처</div>
-                                <div class="panel-body">
-                                    <div class="form-group">
-                                        <form:label path="applicationGeneral.currWrkpName" cssClass="col-sm-2 control-label">회사 이름</form:label>
-                                        <div class="col-sm-9">
-                                            <form:input path="applicationGeneral.currWrkpName" cssClass="form-control" />
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <form:label path="applicationGeneral.currWrkpDay" cssClass="col-sm-2 control-label">입사 일자</form:label>
-                                        <div class="col-sm-9">
-                                            <div class="input-group date">
-                                                <form:input path="applicationGeneral.currWrkpDay" cssClass="col-sm-6 form-control" readonly="true" />
-                                                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <form:label path="applicationGeneral.currWrkpTel" cssClass="col-sm-2 control-label">연락처</form:label>
-                                        <div class="col-sm-9">
-                                            <form:input path="applicationGeneral.currWrkpTel" cssClass="form-control" />
-                                        </div>
-                                    </div>
-                                </div>
-                            </div><%--panel--%>
                         </div>
-                    </div><%--row--%>
-                    <div class="btn-group btn-group-justified">
-                        <div class="btn-group">
-                            <button id="saveBasis" type="button" class="btn btn-info btn-lg btn-save">기본 정보 저장</button>
+                        <div class="panel panel-default">
+                            <div class="panel-heading">지원자 연락처</div>
+                            <div class="panel-body">
+                                <div class="form-group required">
+                                    <label class="col-sm-2 control-label">주소</label>
+                                    <div class="col-sm-2">
+                                        <button type="button" class="btn btn-default btn-block btn-search" id="searchAddress">
+                                            <span class="glyphicon glyphicon-search"></span> 우편번호 찾기
+                                        </button>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="input-group">
+                                            <form:input path="application.zipCode" cssClass="form-control" id="zipCode" readonly="true"/>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-offset-2 col-sm-4">
+                                        <form:input path="application.addr" cssClass="form-control" id="address" readonly="true" />
+                                    </div>
+                                    <div class="col-sm-5">
+                                        <form:input path="application.detlAddr" cssClass="form-control" id="addressDetail" placeholder="세부주소" />
+                                    </div>
+                                </div>
+                                <div class="form-group required">
+                                    <form:label path="application.telNum" cssClass="col-sm-2 control-label">전화번호</form:label>
+                                    <div class="col-sm-9">
+                                        <form:input path="application.telNum" cssClass="form-control" />
+                                    </div>
+                                </div>
+                                <div class="form-group required">
+                                    <form:label path="application.mobiNum" cssClass="col-sm-2 control-label">휴대폰</form:label>
+                                    <div class="col-sm-9">
+                                        <form:input path="application.mobiNum" cssClass="form-control" />
+                                    </div>
+                                </div>
+                                <div class="form-group required">
+                                    <form:label path="application.mailAddr" cssClass="col-sm-2 control-label">E-mail</form:label>
+                                    <div class="col-sm-9">
+                                        <form:input path="application.mailAddr" type="email" cssClass="form-control" />
+                                    </div>
+                                </div>
+                            </div>
                         </div>
+                        <div class="panel panel-default">
+                            <div class="panel-heading">비상연락처</div>
+                            <div class="panel-body">
+                                <div class="form-group required">
+                                    <form:label path="applicationGeneral.emerContName" cssClass="col-sm-2 control-label">이름</form:label>
+                                    <div class="col-sm-9">
+                                        <form:input path="applicationGeneral.emerContName" cssClass="form-control" />
+                                    </div>
+                                </div>
+                                <div class="form-group required">
+                                    <form:label path="applicationGeneral.emerContCode" cssClass="col-sm-2 control-label">관계</form:label>
+                                    <div class="col-sm-9">
+                                        <form:select path="applicationGeneral.emerContCode" cssClass="form-control">
+                                            <form:option value="" label="--선택--" />
+                                            <form:options items="${selection.emerContList}" itemValue="code" itemLabel="codeVal" />
+                                        </form:select>
+                                    </div>
+                                </div>
+                                <div class="form-group required">
+                                    <form:label path="applicationGeneral.emerContTel" cssClass="col-sm-2 control-label">전화번호</form:label>
+                                    <div class="col-sm-9">
+                                        <form:input path="applicationGeneral.emerContTel" cssClass="form-control" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel panel-default" id="currentCompany" hidden>
+                            <div class="panel-heading">현재 근무처</div>
+                            <div class="panel-body">
+                                <div class="form-group">
+                                    <form:label path="applicationGeneral.currWrkpName" cssClass="col-sm-2 control-label">회사 이름</form:label>
+                                    <div class="col-sm-9">
+                                        <form:input path="applicationGeneral.currWrkpName" cssClass="form-control" />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <form:label path="applicationGeneral.currWrkpDay" cssClass="col-sm-2 control-label">입사 일자</form:label>
+                                    <div class="col-sm-9">
+                                        <div class="input-group date">
+                                            <form:input path="applicationGeneral.currWrkpDay" cssClass="col-sm-6 form-control" readonly="true" />
+                                            <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <form:label path="applicationGeneral.currWrkpTel" cssClass="col-sm-2 control-label">연락처</form:label>
+                                    <div class="col-sm-9">
+                                        <form:input path="applicationGeneral.currWrkpTel" cssClass="form-control" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div><%--panel--%>
                     </div>
-                </div><%--basis--%>
+                </div><%--row--%>
+                <div class="btn-group btn-group-justified">
+                    <div class="btn-group">
+                        <button id="saveBasis" type="button" class="btn btn-info btn-lg btn-save">기본 정보 저장</button>
+                    </div>
+                </div>
             </div> <%--myTabContent--%>
         </form:form>
     </div> <%--container--%>
@@ -546,11 +544,11 @@
     <script src="${contextPath}/js/jquery-ui.min.js"></script>
     <script type="text/javascript">
     $(document).ready(function() {
-        document.getElementById('applNo').value='${entireApplication.application.applNo}';
-        document.getElementById('admsNo').value='${entireApplication.application.admsNo}';
-        document.getElementById('applStsCode').value='${entireApplication.application.applStsCode}';
-        document.getElementById('entrYear').value='${entireApplication.application.entrYear}';
-        document.getElementById('admsTypeCode').value='${entireApplication.application.admsTypeCode}';
+        document.getElementById('applNo').value='${basis.application.applNo}';
+        document.getElementById('admsNo').value='${basis.application.admsNo}';
+        document.getElementById('applStsCode').value='${basis.application.applStsCode}';
+        document.getElementById('entrYear').value='${basis.application.entrYear}';
+        document.getElementById('admsTypeCode').value='${basis.application.admsTypeCode}';
 
         <%-- 지원 사항 저장 버튼 처리 --%>
         var baseInfoSaved = function() {
@@ -767,21 +765,8 @@
             }
         };
 
-        function checkGrad(validator, $field, options) {
-            if ($field) {
-                return {
-                    valid: true,
-                    message: "The error message"
-                }
-            }
-            return {
-                valid: false,
-                message: 'Other error message'
-            }
-        }
-
         <%-- bootstrapValidator --%>
-        $('#entireApplication').bootstrapValidator({
+        $('#basis').bootstrapValidator({
             feedbackIcons: {
                 valid: 'glyphicon glyphicon-ok',
                 invalid: 'glyphicon glyphicon-remove',
@@ -812,7 +797,7 @@
         $('#applAttrCode').on('change', changeApplAttrCode);
 
         function changeApplAttrCode() {
-            var index = $('#applAttrCode').find('option').filter(':selected').index() + 1;
+            var index = $('#applAttrCode').find('option').filter(':selected').index();
             hideByClassname('applyKindDynamic', 'hidden-apply-kind-' + index);
         }
 

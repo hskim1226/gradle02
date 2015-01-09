@@ -2,6 +2,7 @@ package com.apexsoft.ysprj.applicants.application.control;
 
 import com.apexsoft.framework.message.MessageResolver;
 import com.apexsoft.ysprj.applicants.application.domain.Application;
+import com.apexsoft.ysprj.applicants.application.domain.ApplicationGeneral;
 import com.apexsoft.ysprj.applicants.application.domain.CustomBasis;
 import com.apexsoft.ysprj.applicants.application.service.BasisService;
 import com.apexsoft.ysprj.applicants.common.domain.*;
@@ -97,7 +98,9 @@ public class BasisController {
             application.setAdmsNo(admsNo);
             application.setEntrYear(entrYear);
             application.setAdmsTypeCode(admsTypeCode);
+            ApplicationGeneral applicationGeneral = new ApplicationGeneral();
             basis.setApplication(application);
+            basis.setApplicationGeneral(applicationGeneral);
 
             List<Campus> campList = commonService.retrieveCampus();
             List<AcademyResearchIndustryInstitution> ariInstList = commonService.retrieveAriInst();
@@ -105,11 +108,16 @@ public class BasisController {
             if (ariInstList != null)   selectionMap.put("ariInstList", ariInstList);
         }
 
+        selectionMap.put("applAttrList", commonService.retrieveCommonCodeValueByCodeGroup("APPL_ATTR"));
         selectionMap.put("emerContList", commonService.retrieveCommonCodeValueByCodeGroup("EMER_CONT"));
+
+        String cntrCode = basis.getApplication().getCitzCntrCode();
+        cntrCode = cntrCode == null ? "" : cntrCode;
+        Country country = commonService.retrieveCountryByCode(cntrCode);
 
         mv.addObject("basis", basis);
         mv.addObject("selection", selectionMap);
-        mv.addObject("country", commonService.retrieveCountryByCode(basis.getApplication().getCitzCntrCode()));
+        mv.addObject("country", country == null ? new Country() : country);
 
         mv.addObject("msgRgstNo", messageResolver.getMessage("U304"));
         mv.addObject("msgPhoneNo", messageResolver.getMessage("U305"));
