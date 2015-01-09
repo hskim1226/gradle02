@@ -570,6 +570,7 @@ System.out.println(param.getAcadTypeCode() + " : " + c1+u1+d1);
                 r7 = commonDAO.insertList(applicationExperienceList, NAME_SPACE, "ApplicationExperienceMapper");
             }
 
+
             List<ApplicationLanguage> applicationLanguageList = entireApplication.getApplicationLanguageList();
             idx = 0;
             if ( applicationLanguageList != null ) {
@@ -936,11 +937,9 @@ System.out.println(param.getAcadTypeCode() + " : " + c1+u1+d1);
             entireApplication.setGraduateList(retrieveInfoListByParamObj(paramForAcademy, aaMapperSqlId, CustomApplicationAcademy.class));
 
             entireApplication.setApplicationExperienceList(retrieveInfoListByApplNo(applNo, "CustomApplicationExperienceMapper", ApplicationExperience.class));
-            //안쓰게 되면 지워야 함
             entireApplication.setApplicationLanguageList(retrieveInfoListByApplNo(applNo, "CustomApplicationLanguageMapper", ApplicationLanguage.class));
             entireApplication.setCurrApplicationLanguageList(retrieveCurrApplLangListByApplNo(applNo));
             entireApplication.setMandLangDocList(retrieveMandLangDocListByApplNo(applNo));
-
 
         } catch ( Exception e ) {
             e.printStackTrace();
@@ -1451,7 +1450,7 @@ System.out.println(param.getAcadTypeCode() + " : " + c1+u1+d1);
             docGrp = new DocGroupFile();
             docGrp.setFileGroupName("외국인");
             docGrp.setGroupMsg("");
-            docGrp.setMandDocList(commonDAO.queryForList(NAME_SPACE + "CustomApplicationDocumentMapper.selectFrgnDocListByApplNoWTMandatory", applNo, MandatoryNAppliedDoc.class));
+            docGrp.setMandDocList(commonDAO.queryForList(NAME_SPACE + "CustomApplicationDocumentMapper.selectDeptDocListByApplNoWTMandatory", applNo, MandatoryNAppliedDoc.class));
             docGrpList.add(docGrp);
 
 
@@ -1466,4 +1465,17 @@ System.out.println(param.getAcadTypeCode() + " : " + c1+u1+d1);
         return docGrpList;
     }
     */
+    @Override
+    public ApplicationDocument retrieveApplicationDocumentPhoto(int applNo) {
+        ApplicationDocument applicationDocument = null;
+        try {
+            applicationDocument = commonDAO.queryForObject(NAME_SPACE + "CustomApplicationDocumentMapper.selectPhotoFileByApplNo",
+                    applNo, ApplicationDocument.class);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return applicationDocument;
+    }
+
+
 }

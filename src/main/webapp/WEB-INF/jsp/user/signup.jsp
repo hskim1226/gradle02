@@ -201,7 +201,7 @@
                             $("#sign-up-form").serialize(),
                             function(data){
                                 if(data.result == "SUCCESS"){
-                                    alert("성공적으로 등록였습니다.");
+                                    alert("성공적으로 등록되었습니다.");
                                     location.href="${contextPath}/user/login";
                                 }else{
                                     alert("서비스에 문제가 발생하였습니다.");

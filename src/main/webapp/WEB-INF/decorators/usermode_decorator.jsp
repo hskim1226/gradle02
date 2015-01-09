@@ -40,8 +40,6 @@
     <section id="header" class="appear"></section>
     <div class="navbar navbar-fixed-top" role="navigation" data-0="line-height:100px; height:100px; background-color:rgba(0,0,0,0.3);" data-300="line-height:60px; height:60px; background-color:rgba(0,0,0,1);">
         <div class="container">
-            <c:set var="clientLocale" value="${pageContext.response.locale}" />
-            <div style="position: absolute; top:0; right:100px">${clientLocale.displayLanguage}</div>
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                     <span class="fa fa-bars color-white"></span>
@@ -66,6 +64,10 @@
                     <sec:authorize access="hasRole('ROLE_USER')">
                         <li><a href="${contextPath}/j_spring_security_logout.do">[<sec:authentication property="principal.name" />]sign out</a></li>
                     </sec:authorize>
+                    <li>
+                        <c:set var="clientLocale" value="${pageContext.response.locale}" />
+                        ${clientLocale.displayLanguage}
+                    </li>
                 </ul>
             </div><!--/.navbar-collapse -->
         </div>

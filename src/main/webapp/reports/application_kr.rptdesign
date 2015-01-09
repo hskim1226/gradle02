@@ -2,13 +2,16 @@
 <report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.23" id="1">
     <property name="createdBy">Eclipse BIRT Designer Version 4.3.2.v20140211-1400 Build &lt;4.3.2.v20140218-1056></property>
     <property name="units">in</property>
-    <method name="beforeFactory"><![CDATA[importPackage(Packages.org.springframework.context);
+    <method name="beforeFactory"><![CDATA[
+importPackage(Packages.org.springframework.context);
 importPackage(Packages.org.springframework.web.context.support );
 //ServletContext
-var sc = reportContext.getHttpServletRequest().getSession().getServletContext();
+var sc = reportContext.getHttpServletRequest().getSession().getServletContext(),
 //ApplicationContext 
-var spring = WebApplicationContextUtils.getWebApplicationContext(sc);
-var commonService = spring.getBean("commonServiceImpl");
+    spring = WebApplicationContextUtils.getWebApplicationContext(sc),
+    commonService = spring.getBean("commonServiceImpl"),
+    entire, application, general, etc, highSchool, collegeList, graduateList,
+    experienceList, languageList, academyList = [];
 
 entire = reportContext.getAppContext().get("entireApplication");
 application = entire.getApplication();
@@ -19,8 +22,6 @@ collegeList = entire.getCollegeList();
 graduateList = entire.getGraduateList();
 experienceList = entire.getApplicationExperienceList();
 languageList = entire.getApplicationLanguageList();
-
-academyList = [];
 
 (function getAcademyList() {
 	var i, size;
@@ -60,7 +61,7 @@ function getAcademyText(academy) {
 	}
 	if (grdaDay &amp;&amp; grdaDay.length() == 8) {
 		res += " ~ ";
-		res += grdaDay.substr(0, 4) + "년" + grdaDay.substr(4, 2) + "월" + grdaDay.substr(6, 2) + "일";
+		res += grdaDay.substr(0, 4) + "년" + grdaDay.substr(4, 2) + "월" + grdaDay.substr(6, 2) + "일 ";
 	}
 	if (schlName &amp;&amp; schlName.length() > 0) {
 		res += "\t";
@@ -112,7 +113,13 @@ function getLastSchoolScoreText(list) {
 	}
 	return res;
 }
-reportContext.setPersistentGlobalVariable("getLastSchoolScoreText", getLastSchoolScoreText);]]></method>
+reportContext.setPersistentGlobalVariable("getLastSchoolScoreText", getLastSchoolScoreText);
+
+function getPhotoUri() {
+    return reportContext.getAppContext().get("photoFilePath");
+}
+reportContext.setPersistentGlobalVariable("getPhotoUri", getPhotoUri);
+]]></method>
     <text-property name="displayName">입학원서</text-property>
     <property name="layoutPreference">auto layout</property>
     <property name="bidiLayoutOrientation">ltr</property>
@@ -503,6 +510,13 @@ reportContext.setPersistentGlobalVariable("getLastSchoolScoreText", getLastSchoo
                                 <property name="borderTopStyle">solid</property>
                                 <property name="borderTopWidth">2px</property>
                                 <property name="verticalAlign">middle</property>
+                                <image id="1363">
+                                    <property name="height">161px</property>
+                                    <property name="width">124px</property>
+                                    <property name="source">file</property>
+                                    <expression name="uri" type="javascript">getPhotoUri()</expression>
+                                    <property name="fitToContainer">true</property>
+                                </image>
                             </cell>
                         </row>
                         <row id="23">

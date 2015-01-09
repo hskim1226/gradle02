@@ -48,4 +48,6 @@ public interface ApplicationService {
     int deleteListByApplNo(int applNo, String MapperName);
 
     List<DocGroupFile> retrieveManApplDocListByApplNo( int applNo);
+
+    ApplicationDocument retrieveApplicationDocumentPhoto(int applNo);
 }
