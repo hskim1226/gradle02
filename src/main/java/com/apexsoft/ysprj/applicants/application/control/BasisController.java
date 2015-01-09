@@ -42,7 +42,7 @@ public class BasisController {
                                  @RequestParam(value = "admsNo", required = false) String admsNo,
                                  @RequestParam(value = "entrYear", required = false) String entrYear,
                                  @RequestParam(value = "admsTypeCode", required = false) String admsTypeCode) {
-        ModelAndView mv = new ModelAndView("application/basis/edit");
+        ModelAndView mv = new ModelAndView("application/basis");
 
         CustomBasis basis = null;
         Map<String, Object> selectionMap = new HashMap<String, Object>();
@@ -109,6 +109,7 @@ public class BasisController {
 
         mv.addObject("basis", basis);
         mv.addObject("selection", selectionMap);
+        mv.addObject("country", commonService.retrieveCountryByCode(basis.getApplication().getCitzCntrCode()));
 
         mv.addObject("msgRgstNo", messageResolver.getMessage("U304"));
         mv.addObject("msgPhoneNo", messageResolver.getMessage("U305"));

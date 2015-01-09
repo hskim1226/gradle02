@@ -254,7 +254,7 @@
                                         <div class="col-sm-9">
                                             <form:select path="application.applAttrCode" id="applAttrCode" cssClass="form-control base-info">
                                                 <form:option value="" label="--선택--" />
-                                                <form:options items="${common.applAttrList}" itemValue="code" itemLabel="codeVal"/>
+                                                <form:options items="${selection.applAttrList}" itemValue="code" itemLabel="codeVal"/>
                                             </form:select>
                                         </div>
                                     </div>
@@ -265,7 +265,7 @@
                                                 <form:select path="application.campCode" id="campCode" cssClass="form-control base-info">
                                                     <form:option value="" label="--선택--" />
                                                     <c:if test="${entireApplication.application.applAttrCode == '00001' || entireApplication.application.applAttrCode == '00003'}">
-                                                    <form:options items="${common.campList}" itemValue="campCode" itemLabel="campName" />
+                                                    <form:options items="${selection.campList}" itemValue="campCode" itemLabel="campName" />
                                                     </c:if>
                                                 </form:select>
                                             </div>
@@ -274,7 +274,7 @@
                                                 <form:select path="application.collCode" id="collCode" cssClass="form-control base-info">
                                                     <form:option value="" label="--선택--" />
                                                     <c:if test="${entireApplication.application.applAttrCode == '00001' || entireApplication.application.applAttrCode == '00003'}">
-                                                    <form:options items="${common.collList}" itemValue="collCode" itemLabel="collName" />
+                                                    <form:options items="${selection.collList}" itemValue="collCode" itemLabel="collName" />
                                                     </c:if>
                                                 </form:select>
                                             </div>
@@ -285,7 +285,7 @@
                                                 <form:select path="application.ariInstCode" id="ariInstCode" cssClass="form-control base-info">
                                                     <form:option value="" label="--선택--" />
                                                     <c:if test="${entireApplication.application.applAttrCode == '00002'}">
-                                                    <form:options items="${common.ariInstList}" itemValue="ariInstCode" itemLabel="ariInstName" />
+                                                    <form:options items="${selection.ariInstList}" itemValue="ariInstCode" itemLabel="ariInstName" />
                                                     </c:if>
                                                 </form:select>
                                             </div>
@@ -295,7 +295,7 @@
                                             <div class="col-sm-9">
                                                 <form:select path="application.deptCode" id="deptCode" cssClass="form-control base-info">
                                                     <form:option value="" label="--선택--" />
-                                                    <form:options items="${common.deptList}" itemValue="deptCode" itemLabel="deptName" />
+                                                    <form:options items="${selection.deptList}" itemValue="deptCode" itemLabel="deptName" />
                                                 </form:select>
                                             </div>
                                         </div>
@@ -304,7 +304,7 @@
                                             <div class="col-sm-9">
                                                 <form:select path="application.corsTypeCode" id="corsTypeCode" cssClass="form-control base-info">
                                                     <form:option value="" label="--선택--" />
-                                                    <form:options items="${common.corsTypeList}" itemValue="corsTypeCode" itemLabel="codeVal" />
+                                                    <form:options items="${selection.corsTypeList}" itemValue="corsTypeCode" itemLabel="codeVal" />
                                                 </form:select>
                                             </div>
                                         </div>
@@ -313,7 +313,7 @@
                                             <div class="col-sm-9">
                                                 <form:select path="application.detlMajCode" id="detlMajCode" cssClass="form-control base-info">
                                                     <form:option value="" label="--선택--" />
-                                                    <form:options items="${common.detlMajList}" itemValue="detlMajCode" itemLabel="detlMajName" />
+                                                    <form:options items="${selection.detlMajList}" itemValue="detlMajCode" itemLabel="detlMajName" />
                                                 </form:select>
                                                 <label id="detMajDesc" class="apexMessage"></label>
                                                 <form:input path="application.inpDetlMaj" cssClass="form-control" style="display:none" />
@@ -377,7 +377,7 @@
                                         </div>
                                         <div class="col-sm-7">
                                             <form:hidden path="application.citzCntrCode" id="citzCntrCode" cssClass="form-control" />
-                                            <input id="citzCntrName" class="form-control" value="${common.country.korCntrName}"/>
+                                            <input id="citzCntrName" class="form-control" value="${country.korCntrName}"/>
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -455,7 +455,7 @@
                                         <div class="col-sm-9">
                                             <form:select path="applicationGeneral.emerContCode" cssClass="form-control">
                                                 <form:option value="" label="--선택--" />
-                                                <form:options items="${common.emerContList}" itemValue="code" itemLabel="codeVal" />
+                                                <form:options items="${selection.emerContList}" itemValue="code" itemLabel="codeVal" />
                                             </form:select>
                                         </div>
                                     </div>
