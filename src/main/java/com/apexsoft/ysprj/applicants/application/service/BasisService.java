@@ -13,16 +13,13 @@ import java.util.List;
 public interface BasisService {
 
     ExecutionContext createBasis(Application application,
-                                 ApplicationGeneral applicationGeneral,
-                                 ApplicationForeigner applicationForeigner);
+                                 ApplicationGeneral applicationGeneral);
 
-    CustomBasis retrieveBasis(int applNo);
+    ExecutionContext retrieveBasis(int applNo);
 
     ExecutionContext updateBasis(Application application,
-                                 ApplicationGeneral applicationGeneral,
-                                 ApplicationForeigner applicationForeigner);
+                                 ApplicationGeneral applicationGeneral);
 
     ExecutionContext deleteBasis(Application application,
-                                 ApplicationGeneral applicationGeneral,
-                                 ApplicationForeigner applicationForeigner);
+                                 ApplicationGeneral applicationGenerals);
 }

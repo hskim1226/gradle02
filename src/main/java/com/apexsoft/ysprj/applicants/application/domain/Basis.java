@@ -5,7 +5,7 @@ package com.apexsoft.ysprj.applicants.application.domain;
  *
  * 원서 기본 정보
  */
-public class CustomBasis {
+public class Basis {
 
     private Application application;
     private ApplicationGeneral applicationGeneral;

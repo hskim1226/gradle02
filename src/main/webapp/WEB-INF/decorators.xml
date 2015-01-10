@@ -19,6 +19,7 @@
         <pattern>/qna/*</pattern>
         <pattern>/pds/*</pattern>
         <pattern>/test/*</pattern>
+        <pattern>/common/error.jsp</pattern>
     </decorator>
 
     <decorator name="adminmode" page="adminmode_decorator.jsp">

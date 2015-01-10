@@ -31,10 +31,9 @@ public class BasisServiceImpl implements BasisService {
 
     @Override
     public ExecutionContext createBasis(Application application,
-                                        ApplicationGeneral applicationGeneral,
-                                        ApplicationForeigner applicationForeigner) {
+                                        ApplicationGeneral applicationGeneral) {
         ExecutionContext ec = new ExecutionContext();
-        int r1 = 0, r2 = 0, r3 = 0, applNo = 0;
+        int r1 = 0, r2 = 0, applNo = 0;
         Date date = new Date();
 
         application.setApplStsCode(APP_INFO_SAVED);
@@ -49,82 +48,82 @@ public class BasisServiceImpl implements BasisService {
         applicationGeneral.setCreDate(date);
         r2 = commonDAO.insertItem(applicationGeneral, NAME_SPACE, "ApplicationGeneralMapper");
 
-        applicationForeigner.setApplNo(applNo);
-        applicationForeigner.setCreDate(date);
-        r3 = commonDAO.insertItem(applicationForeigner, NAME_SPACE, "ApplicationForeignerMapper");
-
-        if ( r1 > 0 && r2 > 0 && r3 > 0 ) {
+        if ( r1 > 0 && r2 > 0 ) {
             ec.setResult(ExecutionContext.SUCCESS);
             ec.setMessage(messageResolver.getMessage("U312"));
-            ec.setData(new CustomApplNoStsCode(applNo, tA.getApplStsCode(),
+            ec.setData(new ApplicationIdentifier(applNo, tA.getApplStsCode(),
                     tA.getAdmsNo(), tA.getEntrYear(), tA.getAdmsTypeCode()));
         } else {
             ec.setResult(ExecutionContext.FAIL);
             ec.setMessage(messageResolver.getMessage("U306"));
-            String errMsg = null;
-            if ( r1 == 0 ) errMsg = messageResolver.getMessage("ERR0001");
-            else if ( r2 == 0 ) errMsg = messageResolver.getMessage("ERR0006");
-            else if ( r3 == 0 ) errMsg = messageResolver.getMessage("ERR0026");
-            ec.setData(new CustomApplNoStsCode(0, APP_NULL_STATUS, errMsg));
+            String errCode = null;
+            if ( r1 == 0 ) errCode = "ERR0001";
+            else if ( r2 == 0 ) errCode = "ERR0006";
+//            else if ( r3 == 0 ) errCode = messageResolver.getMessage("ERR0026");
+            ec.setErrCode(errCode);
+            ec.setData(new ApplicationIdentifier(0, APP_NULL_STATUS));
         }
         return ec;
     }
 
     @Override
-    public CustomBasis retrieveBasis(int applNo) {
-        CustomBasis customBasis = new CustomBasis();
+    public ExecutionContext retrieveBasis(int applNo) {
+        ExecutionContext ec = new ExecutionContext();
+        Basis basis = new Basis();
+
         Application application = commonDAO.queryForObject(NAME_SPACE + "ApplicationMapper.selectByPrimaryKey",
                 applNo, Application.class);
         application = application == null ? new Application() : application;
-        customBasis.setApplication(application);
+        basis.setApplication(application);
 
         ApplicationGeneral applicationGeneral = commonDAO.queryForObject(NAME_SPACE + "ApplicationGeneralMapper.selectByPrimaryKey",
                 applNo, ApplicationGeneral.class);
         applicationGeneral = applicationGeneral == null ? new ApplicationGeneral() : applicationGeneral;
-        customBasis.setApplicationGeneral(applicationGeneral);
+        basis.setApplicationGeneral(applicationGeneral);
 
         ApplicationForeigner applicationForeigner = commonDAO.queryForObject(NAME_SPACE + "ApplicationForeignerMapper.selectByPrimaryKey",
                 applNo, ApplicationForeigner.class);
         applicationForeigner = applicationForeigner == null ? new ApplicationForeigner() : applicationForeigner;
-        customBasis.setApplicationForeigner(applicationForeigner);
+        basis.setApplicationForeigner(applicationForeigner);
 
-        return customBasis;
+        ec.setResult(ExecutionContext.SUCCESS);
+        ec.setData(basis);
+
+        return ec;
     }
 
     @Override
     public ExecutionContext updateBasis(Application application,
-                                        ApplicationGeneral applicationGeneral,
-                                        ApplicationForeigner applicationForeigner) {
+                                        ApplicationGeneral applicationGeneral) {
         ExecutionContext ec = new ExecutionContext();
-        int r1 = 0, r2 = 0, r3 = 0;
+        int r1 = 0, r2 = 0;
         Date date = new Date();
 
         application.setModDate(date);
         applicationGeneral.setModDate(date);
-        applicationForeigner.setModDate(date);
         r1 = commonDAO.updateItem(application, NAME_SPACE, "ApplicationMapper");
         r2 = commonDAO.updateItem(applicationGeneral, NAME_SPACE, "ApplicationGeneralMapper");
-        r3 = commonDAO.updateItem(applicationForeigner, NAME_SPACE, "ApplicationForeignerMapper");
 
-        if ( r1 > 0 && r2 > 0 && r3 > 0 ) {
+        if ( r1 > 0 && r2 > 0 ) {
             ec.setResult(ExecutionContext.SUCCESS);
             ec.setMessage(messageResolver.getMessage("U315"));
-            ec.setData(new CustomApplNoStsCode(application.getApplNo(), application.getApplStsCode(),
+            ec.setData(new ApplicationIdentifier(application.getApplNo(), application.getApplStsCode(),
                     application.getAdmsNo(), application.getEntrYear(), application.getAdmsTypeCode()));
         } else {
             ec.setResult(ExecutionContext.FAIL);
             ec.setMessage(messageResolver.getMessage("U316"));
-            String errMsg = null;
-            if ( r1 == 0 ) errMsg = messageResolver.getMessage("ERR0003");
-            else if ( r2 == 0 ) errMsg = messageResolver.getMessage("ERR0008");
-            else if ( r3 == 0 ) errMsg = messageResolver.getMessage("ERR0028");
-            ec.setData(new CustomApplNoStsCode(application.getApplNo(), APP_NULL_STATUS, errMsg));
+            String errCode = null;
+            if ( r1 == 0 ) errCode = "ERR0003";
+            else if ( r2 == 0 ) errCode = "ERR0008";
+//            else if ( r3 == 0 ) errCode = messageResolver.getMessage("ERR0028");
+            ec.setErrCode(errCode);
+            ec.setData(new ApplicationIdentifier(application.getApplNo(), APP_NULL_STATUS));
         }
         return ec;
     }
 
     @Override
-    public ExecutionContext deleteBasis(Application application, ApplicationGeneral applicationGeneral, ApplicationForeigner applicationForeigner) {
+    public ExecutionContext deleteBasis(Application application, ApplicationGeneral applicationGeneral) {
         return null;
     }
 }

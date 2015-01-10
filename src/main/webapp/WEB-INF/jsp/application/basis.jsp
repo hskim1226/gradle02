@@ -1,9 +1,8 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="/WEB-INF/jsp/common/env.jsp"%>
-<%--// TODO 제3자 동의여부 : ${providePrivateInfo} - 0 : 동의, 1 : 비동의--%>
-<html>
+<html lang="ko">
 <head>
-    <title></title>
+    <title>원서 작성 - 기본 정보</title>
     <link rel="stylesheet" href="//code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css">
     <style>
         section.application {
@@ -761,7 +760,7 @@
         var numericValidator = {
             numeric: {
                 separator: '',
-                message: '${msgPhoneNo}'
+                message: '<spring:message code="U305"/>'
             }
         };
 
@@ -776,8 +775,8 @@
                 "application.rgstNo": {
                     validators: {
                         regexp: {
-                            regexp: /^\d{13}/,
-                            message: '${msgRgstNo}'
+                            regexp: '/^\d{13}/',
+                            message: '<spring:message code="U304"/>'
                         }
                     }
                 },
@@ -1062,6 +1061,15 @@
         <%-- 단어 잘림 방지 --%>
         $('.word-keep-all').wordBreakKeepAll();
 
+        <%-- action 성공 여부 알림 처리 --%>
+        var showActionResult = function() {
+            var msg = '${resultMsg}';
+            if (msg.length > 0) {
+                confirm(msg);
+            }
+        };
+        showActionResult();
+        <%-- action 성공 여부 알림 처리 --%>
     });
     </script>
 </content>

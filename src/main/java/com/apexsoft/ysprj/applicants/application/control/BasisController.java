@@ -1,19 +1,21 @@
 package com.apexsoft.ysprj.applicants.application.control;
 
+import com.apexsoft.framework.common.vo.ExecutionContext;
 import com.apexsoft.framework.message.MessageResolver;
-import com.apexsoft.ysprj.applicants.application.domain.Application;
-import com.apexsoft.ysprj.applicants.application.domain.ApplicationGeneral;
-import com.apexsoft.ysprj.applicants.application.domain.CustomBasis;
+import com.apexsoft.ysprj.applicants.application.domain.*;
 import com.apexsoft.ysprj.applicants.application.service.BasisService;
 import com.apexsoft.ysprj.applicants.common.domain.*;
 import com.apexsoft.ysprj.applicants.common.service.CommonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
+import java.security.Principal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -36,21 +38,30 @@ public class BasisController {
     @Resource(name = "messageResolver")
     MessageResolver messageResolver;
 
-    private final String APP_INFO_SAVED = "00001";
+    private final String TARGET_VIEW = "application/basis";
 
-    @RequestMapping(value="/edit")
-    public ModelAndView getBasis(@RequestParam(value = "applNo", required = false) Integer applNo,
-                                 @RequestParam(value = "admsNo", required = false) String admsNo,
-                                 @RequestParam(value = "entrYear", required = false) String entrYear,
-                                 @RequestParam(value = "admsTypeCode", required = false) String admsTypeCode) {
-        ModelAndView mv = new ModelAndView("application/basis");
+    /**
+     * 기본 정보를 조회해서 기본 정보 화면에 뿌려질 데이터 구성
+     *
+     * @param applicationIdentifier
+     * @return
+     */
+    private ExecutionContext setupBasis(ApplicationIdentifier applicationIdentifier) {
+        ExecutionContext ec;
 
-        CustomBasis basis = null;
+        Map<String, Object> ecDataMap = new HashMap<String, Object>();
         Map<String, Object> selectionMap = new HashMap<String, Object>();
+        Basis basis;
 
-        if (applNo != null) {
+        int applNo = applicationIdentifier.getApplNo();
+        String admsNo = applicationIdentifier.getAdmsNo();
+        String entrYear = applicationIdentifier.getEntrYear();
+        String admsTypeCode = applicationIdentifier.getAdmsTypeCode();
 
-            basis = basisService.retrieveBasis(applNo);
+        if (applNo > 0) {
+
+            ec = basisService.retrieveBasis(applNo);
+            basis = (Basis)ec.getData();
 
             // 지원사항 select 초기값 설정
             List<Campus> campList = null;
@@ -93,7 +104,8 @@ public class BasisController {
 
         } else {
 
-            basis = new CustomBasis();
+            ec = new ExecutionContext();
+            basis = new Basis();
             Application application = new Application();
             application.setAdmsNo(admsNo);
             application.setEntrYear(entrYear);
@@ -115,16 +127,109 @@ public class BasisController {
         cntrCode = cntrCode == null ? "" : cntrCode;
         Country country = commonService.retrieveCountryByCode(cntrCode);
 
-        mv.addObject("basis", basis);
-        mv.addObject("selection", selectionMap);
-        mv.addObject("country", country == null ? new Country() : country);
+        ecDataMap.put("basis", basis);
+        ecDataMap.put("selection", selectionMap);
+        ecDataMap.put("country", country);
+        ec.setData(ecDataMap);
 
-        mv.addObject("msgRgstNo", messageResolver.getMessage("U304"));
-        mv.addObject("msgPhoneNo", messageResolver.getMessage("U305"));
-        mv.addObject("msgImageOnly", messageResolver.getMessage("U308"));
-        mv.addObject("msgPDFOnly", messageResolver.getMessage("U309"));
-        mv.addObject("msgGrad", messageResolver.getMessage("U324"));
+        return ec;
+    }
+
+    /**
+     * 기본정보 최초작성/수정 화면
+     *
+     * @param applNo
+     * @param admsNo
+     * @param entrYear
+     * @param admsTypeCode
+     * @return
+     */
+    @RequestMapping(value="/edit")
+    public ModelAndView getBasis(@RequestParam(value = "applNo", required = false) Integer applNo,
+                                 @RequestParam(value = "admsNo", required = false) String admsNo,
+                                 @RequestParam(value = "entrYear", required = false) String entrYear,
+                                 @RequestParam(value = "admsTypeCode", required = false) String admsTypeCode,
+                                 @ModelAttribute("basis") Basis basis) {
+        ModelAndView mv = new ModelAndView(TARGET_VIEW);
+        ExecutionContext ec = setupBasis(new ApplicationIdentifier(applNo, admsNo, entrYear, admsTypeCode));
+
+        Map<String, Object> map = (Map<String, Object>)ec.getData();
+        addObjectToMV(mv, map, ec);
 
         return mv;
+    }
+
+    /**
+     * 기본 정보 저장
+     *
+     * @param basis
+     * @param principal
+     * @return
+     */
+    @RequestMapping(value="/save", method = RequestMethod.POST)
+    public ModelAndView saveBasis(@ModelAttribute("basis") Basis basis,
+                                  Principal principal) {
+        ModelAndView mv = new ModelAndView(TARGET_VIEW);
+        ExecutionContext ec = null;
+        String userId = principal.getName();
+        Application application = basis.getApplication();
+        application.setUserId(userId);
+        ApplicationGeneral applicationGeneral = basis.getApplicationGeneral();
+        applicationGeneral.setApplNo(application.getApplNo());
+
+        if (application.getApplNo() == null) { //insert
+            application.setCreId(userId);
+            applicationGeneral.setCreId(userId);
+            ec = basisService.createBasis(application,
+                                          applicationGeneral);
+        } else { //update
+            application.setModId(userId);
+            applicationGeneral.setModId(userId);
+            ec = basisService.updateBasis(application,
+                                          applicationGeneral);
+        }
+
+        if (ec.getResult().equals(ExecutionContext.SUCCESS)) {
+            ApplicationIdentifier data = (ApplicationIdentifier)ec.getData();
+
+            ExecutionContext ecSetupBasis = setupBasis(data);
+            if (ecSetupBasis.getResult().equals(ExecutionContext.SUCCESS)) {
+                Map<String, Object> map = (Map<String, Object>)ecSetupBasis.getData();
+                addObjectToMV(mv, map, ec);
+            } else {
+                mv = getErrorMV("common/error", ecSetupBasis);
+            }
+        } else {
+            mv = getErrorMV("common/error", ec);
+        }
+
+        return mv;
+    }
+
+    /**
+     * 에러 발생 시 ExecutionContext를 model에 넣고 에러 페이지로 전달
+     *
+     * @param errorViewName
+     * @param ec
+     * @return
+     */
+    private ModelAndView getErrorMV(String errorViewName, ExecutionContext ec) {
+        ModelAndView mv = new ModelAndView(errorViewName);
+        mv.addObject("ec", ec);
+        return mv;
+    }
+
+    /**
+     * ModelAndView에 데이터 추가
+     *
+     * @param mv
+     * @param map
+     * @param ec
+     */
+    private void addObjectToMV(ModelAndView mv, Map<String, Object> map, ExecutionContext ec) {
+        mv.addObject("basis", map.get("basis"));
+        mv.addObject("selection", map.get("selection"));
+        mv.addObject("country", map.get("country"));
+        mv.addObject("resultMsg", ec.getMessage());
     }
 }
