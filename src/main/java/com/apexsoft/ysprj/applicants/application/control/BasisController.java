@@ -191,12 +191,7 @@ public class BasisController {
 
         if (ec.getResult().equals(ExecutionContext.SUCCESS)) {
             ApplicationIdentifier data = (ApplicationIdentifier)ec.getData();
-
             ExecutionContext ecSetupBasis = setupBasis(data);
-
-            ecSetupBasis.setResult(ExecutionContext.FAIL);
-            ecSetupBasis.setErrCode("ERR-TEST-에러코드");
-            ecSetupBasis.setMessage("MSG-TEST-메시지");
 
             if (ecSetupBasis.getResult().equals(ExecutionContext.SUCCESS)) {
                 Map<String, Object> map = (Map<String, Object>)ecSetupBasis.getData();
