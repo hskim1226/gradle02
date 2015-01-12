@@ -40,6 +40,8 @@ public class BasisController {
 
     private final String TARGET_VIEW = "application/basis";
 
+
+
     /**
      * 기본 정보를 조회해서 기본 정보 화면에 뿌려질 데이터 구성
      *
