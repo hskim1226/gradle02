@@ -140,20 +140,25 @@ public class BasisController {
     /**
      * 기본정보 최초작성/수정 화면
      *
-     * @param applNo
-     * @param admsNo
-     * @param entrYear
-     * @param admsTypeCode
      * @return
      */
     @RequestMapping(value="/edit")
-    public ModelAndView getBasis(@RequestParam(value = "applNo", required = false) Integer applNo,
-                                 @RequestParam(value = "admsNo", required = false) String admsNo,
-                                 @RequestParam(value = "entrYear", required = false) String entrYear,
-                                 @RequestParam(value = "admsTypeCode", required = false) String admsTypeCode,
-                                 @ModelAttribute("basis") Basis basis) {
+    public ModelAndView getBasis(/*@RequestParam(value = "applNo", required = false) Integer applNoFromExternal,
+                                 @RequestParam(value = "admsNo", required = false) String admsNoFromExternal,
+                                 @RequestParam(value = "entrYear", required = false) String entrYearFromExternal,
+                                 @RequestParam(value = "admsTypeCode", required = false) String admsTypeCodeFromExternal,*/
+                                 @ModelAttribute Basis model) {
         ModelAndView mv = new ModelAndView(TARGET_VIEW);
+
+        Application application = model.getApplication();
+        int applNo = application.getApplNo();
+        String admsNo = application.getAdmsNo();
+        String entrYear = application.getEntrYear();
+        String admsTypeCode = application.getAdmsTypeCode();
+
         ExecutionContext ec = setupBasis(new ApplicationIdentifier(applNo, admsNo, entrYear, admsTypeCode));
+
+//        ExecutionContext ec = setupBasis(new ApplicationIdentifier(applNo == null ? 0 : applNo, admsNo, entrYear, admsTypeCode));
 
         Map<String, Object> map = (Map<String, Object>)ec.getData();
         addObjectToMV(mv, map, ec);

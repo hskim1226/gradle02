@@ -90,26 +90,23 @@ public class AcademyController {
     /**
      * 학력 정보 최초작성/수정 화면
      *
-     * @param applNo
-     * @param admsNo
-     * @param entrYear
-     * @param admsTypeCode
-     * @param academy
+     * @param model
      * @return
      */
     @RequestMapping(value="/edit")
-    public ModelAndView getAcademy(@RequestParam(value = "applNo", required = false) Integer applNo,
-                                   @RequestParam(value = "admsNo", required = false) String admsNo,
-                                   @RequestParam(value = "entrYear", required = false) String entrYear,
-                                   @RequestParam(value = "admsTypeCode", required = false) String admsTypeCode,
-                                   @ModelAttribute("academy") Academy academy) {
+    public ModelAndView getAcademy(@ModelAttribute Academy model) {
         ModelAndView mv = new ModelAndView(TARGET_VIEW);
 
-//        ExecutionContext ec = academyService.retrieveAcademy(applNo);
-//        mv.addObject("academy", ec.getData());
+        Application application = model.getApplication();
+        int applNo = application.getApplNo();
+        String admsNo = application.getAdmsNo();
+        String entrYear = application.getEntrYear();
+        String admsTypeCode = application.getAdmsTypeCode();
+
         ExecutionContext ec = setupAcademy(new ApplicationIdentifier(applNo, admsNo, entrYear, admsTypeCode));
         Map<String, Object> map = (Map<String, Object>)ec.getData();
         addObjectToMV(mv, map, ec);
+
         return mv;
     }
 
@@ -142,12 +139,14 @@ public class AcademyController {
 
         ExecutionContext ec = null;
         String userId = principal.getName();
+
         Application application = academy.getApplication();
+        int applNo = application.getApplNo();
         application.setUserId(userId);
         application.setModId(userId);
 
-        academy.setCollegeList(preProcessAcadList(academy.getCollegeList(), acadSeqList, userId));
-        academy.setGraduateList(preProcessAcadList(academy.getGraduateList(), acadSeqList, userId));
+        academy.setCollegeList(preProcessAcadList(academy.getCollegeList(), acadSeqList, userId, applNo));
+        academy.setGraduateList(preProcessAcadList(academy.getGraduateList(), acadSeqList, userId, applNo));
 
         if (academy.getApplication().getApplStsCode().equals(APP_INFO_SAVED)) { //insert
             ec = academyService.createAcademy(application,
@@ -188,9 +187,13 @@ public class AcademyController {
      * @param userId
      * @return
      */
-    private List<CustomApplicationAcademy> preProcessAcadList(List<CustomApplicationAcademy> academyList, List<Object> acadSeqList, String userId) {
+    private List<CustomApplicationAcademy> preProcessAcadList(List<CustomApplicationAcademy> academyList,
+                                                              List<Object> acadSeqList,
+                                                              String userId,
+                                                              int applNo) {
         for ( int i = 0 ; i < academyList.size() ; i++ ) {
             CustomApplicationAcademy aa = academyList.get(i);
+            aa.setApplNo(applNo);
             boolean toBeRemoved = true;
             for (Object acadSeq : acadSeqList) {
                 if ( aa.getAcadSeq() != null && aa.getAcadSeq().toString().equals(acadSeq) ) {

@@ -105,10 +105,10 @@
                         <input type="hidden" name="LGD_PRODUCTINFO" id="LGD_PRODUCTINFO"/>
                         <input type="hidden" name="LGD_AMOUNT" id="LGD_AMOUNT"/>
                         <input type="hidden" name="LGD_TIMESTAMP" id="LGD_TIMESTAMP"/>
-                        <input type="hidden" name="applNo" id="applNo"/>
-                        <input type="hidden" name="admsNo" id="admsNo"/>
-                        <input type="hidden" name="entrYear" id="entrYear"/>
-                        <input type="hidden" name="admsTypeCode" id="admsTypeCode"/>
+                        <input type="hidden" name="application.applNo" id="applNo"/>
+                        <input type="hidden" name="application.admsNo" id="admsNo"/>
+                        <input type="hidden" name="application.entrYear" id="entrYear"/>
+                        <input type="hidden" name="application.admsTypeCode" id="admsTypeCode"/>
                     </form>
                 </div>
             </div>

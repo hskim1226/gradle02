@@ -5,6 +5,7 @@ import com.apexsoft.framework.message.MessageResolver;
 import com.apexsoft.framework.persistence.dao.CommonDAO;
 import com.apexsoft.ysprj.applicants.application.domain.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.*;
@@ -12,6 +13,7 @@ import java.util.*;
 /**
  * Created by hanmomhanda on 15. 1. 12.
  */
+@Service
 public class AcademyServiceImpl implements AcademyService {
 
     private final static String NAME_SPACE = "com.apexsoft.ysprj.applicants.application.sqlmap.";

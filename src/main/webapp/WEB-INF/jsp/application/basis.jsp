@@ -224,16 +224,61 @@
             margin: 0 !important;
         }
 
-        /*a[disabled] {*/
-            /*pointer-events: none;*/
-        /*}*/
+        .stepEnabled {
+            background: #227722;
+            color: #eeeeee;
+        }
+        .stepDisabled {
+            background: #888888;
+            color: #bbbbbb;
+        }
+        #stepStatusTitle {
+            color: #eeeeee;
+            font-size: 20px;
+        }
+        .activeTab {
+            background: #d0d0d0;
+            color: #333333;
+            font-weight: bold;
+        }
+        .inactiveTab {
+            background: #777777;
+            color: #eeeeee;
+        }
+        #tabTR {
+            cursor: pointer;
+        }
     </style>
-    <%--body의 글자 속성을 #333333으로 강제 지정하여 Footer 글자가 안나옴, 꼭 필요하지 않으면 안쓰기로
-    <link rel="stylesheet" href="${contextPath}/css/bootstrap-glyphicons.css" />--%>
 </head>
 <body>
 <section class="application">
     <div class="container">
+        <div id="stepContainer">
+            <table width="100%">
+                <tr>
+                    <td id="stepStatusTitle" colspan=4 align="center" height="50px">원서 작성 현황</td>
+                </tr>
+                <tr id="stepTR">
+                    <td id="stepBasis" width="25%" height="30px" align="center" class="stepDisabled">1. 기본 정보</td>
+                    <td id="stepAcademy" width="25%" height="30px" align="center" class="stepDisabled">2. 학력 정보</td>
+                    <td id="stepLangCareer" width="25%" height="30px" align="center" class="stepDisabled">3. 어학/경력 정보</td>
+                    <td id="stepFileUpload" width="25%" height="30px" align="center" class="stepDisabled">4. 파일 첨부</td>
+                </tr>
+            </table>
+        </div>
+        <div class="spacer-mid"></div>
+        <div class="row">
+            <div class="col-sm-12">
+                <table width="100%">
+                    <tr id="tabTR">
+                        <td id="tab-basis" width="25%" height="35px" align="center" class="inactiveTab" data-target-tab="basis" data-tab-available="true">기본 정보</td>
+                        <td id="tab-academy" width="25%" height="35px" align="center" class="inactiveTab" data-target-tab="academy" data-tab-available="false" data-unavailable-msg='<spring:message code="U321"/>'>학력 정보</td>
+                        <td id="tab-langCareer" width="25%" height="35px" align="center" class="inactiveTab" data-target-tab="langCareer" data-tab-available="false" data-unavailable-msg='<spring:message code="U322"/>'>어학/경력 정보</td>
+                        <td id="tab-fileUpload" width="25%" height="35px" align="center" class="inactiveTab" data-target-tab="fileUpload" data-tab-available="false" data-unavailable-msg='<spring:message code="U323"/>'>파일 첨부</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
         <form:form commandName="basis" cssClass="form-horizontal" method="post" role="form">
             <form:hidden path="application.applNo" id="applNo" />
             <form:hidden path="application.applStsCode" id="applStsCode" />
@@ -543,11 +588,54 @@
     <script src="${contextPath}/js/jquery-ui.min.js"></script>
     <script type="text/javascript">
     $(document).ready(function() {
-        document.getElementById('applNo').value='${basis.application.applNo}';
-        document.getElementById('admsNo').value='${basis.application.admsNo}';
-        document.getElementById('applStsCode').value='${basis.application.applStsCode}';
-        document.getElementById('entrYear').value='${basis.application.entrYear}';
-        document.getElementById('admsTypeCode').value='${basis.application.admsTypeCode}';
+        var applNo = document.getElementById('applNo').value = '${basis.application.applNo}',
+            admsNo = document.getElementById('admsNo').value = '${basis.application.admsNo}',
+            applStsCode = document.getElementById('applStsCode').value = '${basis.application.applStsCode}',
+            entrYear = document.getElementById('entrYear').value = '${basis.application.entrYear}',
+            admsTypeCode = document.getElementById('admsTypeCode').value = '${basis.application.admsTypeCode}';
+
+        <%-- 원서 작성 현황 및 사용 가능한 탭 처리 --%>
+        var processCurrentStep = function (applStsCode) {
+            var code = Number(applStsCode),
+                stepTR = document.getElementById('stepTR'),
+                l = stepTR.children.length, i,
+                tabTR = document.getElementById('tabTR');
+            for ( i = 0 ; i < code && i < l ; i++ ) {
+                stepTR.children[i].className = 'stepEnabled';
+                tabTR.children[i].setAttribute('data-tab-available', 'true');
+                tabTR.children[i+1].setAttribute('data-tab-available', 'true');
+            }
+        };
+        processCurrentStep(document.getElementById('applStsCode').value);
+        <%-- 원서 작성 현황 및 사용 가능한 탭 처리 --%>
+
+        <%-- active 탭 표시 --%>
+        var setActiveTab = function () {
+            var urlStr = document.location.pathname,
+                    substrToFirstSlash = urlStr.substring(0, urlStr.lastIndexOf("/")),
+                    targetTD = document.getElementById('tab-' + substrToFirstSlash.substring(substrToFirstSlash.lastIndexOf("/") + 1));
+
+            targetTD.className = "activeTab";
+        };
+        setActiveTab();
+        <%-- active 탭 표시 --%>
+
+        <%-- 탭 이동 처리 --%>
+        var gotoTab = function (targetTab) {
+            var form = document.forms[0];
+            form.action = '${contextPath}/application/' + targetTab + '/edit';
+            form.submit();
+        };
+        $('.inactiveTab').each( function(i) {
+            $(this).on('click', function() {
+                if (this.getAttribute('data-tab-available') === 'true') {
+                    gotoTab(this.getAttribute("data-target-tab"));
+                } else {
+                    confirm(this.getAttribute('data-unavailable-msg'));
+                }
+            });
+        });
+        <%-- 탭 이동 처리 --%>
 
         <%-- 지원 사항 저장 버튼 처리 --%>
         var baseInfoSaved = function() {
@@ -561,7 +649,7 @@
             $('#baseSave').css('display', 'none');
         };
 
-        if (document.getElementById('applNo').value != "") {
+        if (applNo != "") {
             baseInfoSaved();
         }
         <%-- 지원 사항 저장 버튼 처리 --%>
@@ -752,9 +840,6 @@
         $('.input-group.date>input').datepicker(datePickerOption);
         $('.input-daterange>input').datepicker(datePickerOption);
         <%-- 달력 끝 --%>
-
-        <%-- 처음 탭 표시 --%>
-        $('#myTab a:first').tab('show');
 
         <%-- BootStrap Validator --%>
         var numericValidator = {

@@ -224,14 +224,61 @@
             margin: 0 !important;
         }
 
-        /*a[disabled] {*/
-            /*pointer-events: none;*/
-        /*}*/
+        .stepEnabled {
+            background: #227722;
+            color: #eeeeee;
+        }
+        .stepDisabled {
+            background: #888888;
+            color: #bbbbbb;
+        }
+        #stepStatusTitle {
+            color: #eeeeee;
+            font-size: 20px;
+        }
+        .activeTab {
+            background: #d0d0d0;
+            color: #333333;
+            font-weight: bold;
+        }
+        .inactiveTab {
+            background: #777777;
+            color: #eeeeee;
+        }
+        #tabTR {
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
 <section class="application">
     <div class="container">
+        <div id="stepContainer">
+            <table width="100%">
+                <tr>
+                    <td id="stepStatusTitle" colspan=4 align="center" height="50px">원서 작성 현황</td>
+                </tr>
+                <tr id="stepTR">
+                    <td id="stepBasis" width="25%" height="30px" align="center" class="stepDisabled">1. 기본 정보</td>
+                    <td id="stepAcademy" width="25%" height="30px" align="center" class="stepDisabled">2. 학력 정보</td>
+                    <td id="stepLangCareer" width="25%" height="30px" align="center" class="stepDisabled">3. 어학/경력 정보</td>
+                    <td id="stepFileUpload" width="25%" height="30px" align="center" class="stepDisabled">4. 파일 첨부</td>
+                </tr>
+            </table>
+        </div>
+        <div class="spacer-mid"></div>
+        <div class="row">
+            <div class="col-sm-12">
+                <table width="100%">
+                    <tr id="tabTR">
+                        <td id="tab-basis" width="25%" height="35px" align="center" class="inactiveTab" data-target-tab="basis" data-tab-available="true">기본 정보</td>
+                        <td id="tab-academy" width="25%" height="35px" align="center" class="inactiveTab" data-target-tab="academy" data-tab-available="false" data-unavailable-msg='<spring:message code="U321"/>'>학력 정보</td>
+                        <td id="tab-langCareer" width="25%" height="35px" align="center" class="inactiveTab" data-target-tab="langCareer" data-tab-available="false" data-unavailable-msg='<spring:message code="U322"/>'>어학/경력 정보</td>
+                        <td id="tab-fileUpload" width="25%" height="35px" align="center" class="inactiveTab" data-target-tab="fileUpload" data-tab-available="false" data-unavailable-msg='<spring:message code="U323"/>'>파일 첨부</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
         <form:form commandName="academy" cssClass="form-horizontal" method="post" role="form">
             <form:hidden path="application.applNo" id="applNo" />
             <form:hidden path="application.applStsCode" id="applStsCode" />
@@ -448,7 +495,7 @@
                 </div>
                 <div class="btn-group btn-group-justified">
                     <div class="btn-group">
-                        <button id="saveAcademy" type="button" class="btn btn-primary btn-lg btnAppl disabled" data-saveType="academy">학력 저장</button>
+                        <button id="saveAcademy" type="button" class="btn btn-primary btn-lg btn-save">학력 저장</button>
                     </div>
                 </div>
             </div> <%--myTabContent--%>
@@ -490,27 +537,61 @@
     <script src="${contextPath}/js/jquery-ui.min.js"></script>
     <script type="text/javascript">
     $(document).ready(function() {
-        document.getElementById('applNo').value='${basis.application.applNo}';
-        document.getElementById('admsNo').value='${basis.application.admsNo}';
-        document.getElementById('applStsCode').value='${basis.application.applStsCode}';
-        document.getElementById('entrYear').value='${basis.application.entrYear}';
-        document.getElementById('admsTypeCode').value='${basis.application.admsTypeCode}';
+        var applNo = document.getElementById('applNo').value = '${academy.application.applNo}',
+            admsNo = document.getElementById('admsNo').value = '${academy.application.admsNo}',
+            applStsCode = document.getElementById('applStsCode').value = '${academy.application.applStsCode}',
+            entrYear = document.getElementById('entrYear').value = '${academy.application.entrYear}',
+            admsTypeCode = document.getElementById('admsTypeCode').value = '${academy.application.admsTypeCode}';
+
+        <%-- 원서 작성 현황 처리 --%>
+        var processCurrentStep = function (applStsCode) {
+            var code = Number(applStsCode),
+                    stepTR = document.getElementById('stepTR'),
+                    l = stepTR.children.length, i,
+                    tabTR = document.getElementById('tabTR');
+            for ( i = 0 ; i < code && i < l ; i++ ) {
+                stepTR.children[i].className = 'stepEnabled';
+                tabTR.children[i].setAttribute('data-tab-available', 'true');
+                tabTR.children[i+1].setAttribute('data-tab-available', 'true');
+            }
+        };
+        processCurrentStep(document.getElementById('applStsCode').value);
+        <%-- 원서 작성 현황 처리 --%>
+
+        <%-- active 탭 표시 --%>
+        var setActiveTab = function () {
+            var urlStr = document.location.pathname,
+                    substrToFirstSlash = urlStr.substring(0, urlStr.lastIndexOf("/")),
+                    targetTD = document.getElementById('tab-' + substrToFirstSlash.substring(substrToFirstSlash.lastIndexOf("/") + 1));
+
+            targetTD.className = "activeTab";
+        };
+        setActiveTab();
+        <%-- active 탭 표시 --%>
+
+        <%-- 탭 이동 처리 --%>
+        var gotoTab = function (targetTab) {
+            var form = document.forms[0];
+            form.action = '${contextPath}/application/' + targetTab + '/edit';
+            form.submit();
+        };
+        $('.inactiveTab').each( function(i) {
+            $(this).on('click', function() {
+                if (this.getAttribute('data-tab-available') === 'true') {
+                    gotoTab(this.getAttribute("data-target-tab"));
+                } else {
+                    confirm(this.getAttribute('data-unavailable-msg'));
+                }
+            });
+        });
+        <%-- 탭 이동 처리 --%>
 
         <%-- 하단 버튼 처리 --%>
         var formProcess = function(event) {
-            var $form = $(this),
-                form = document.getElementById('academy'),
-                isValidProcess = true;
+            var form = document.forms[0];
 
-            if ($('#baseSave').css('display') == 'block') {
-                isValidProcess = false;
-                alert('<spring:message code="U329"/>');
-                $('#applAttrCode').focus();
-            } else {
-                form.action = "${contextPath}/application/academy/save";
-                form.submit();
-            }
-            event.preventDefault();
+            form.action = "${contextPath}/application/academy/save";
+            form.submit();
         };
         $('.btn-save').on('click', formProcess);
         <%-- 하단 버튼 처리 --%>
@@ -623,310 +704,287 @@
         $('.input-daterange>input').datepicker(datePickerOption);
         <%-- 달력 끝 --%>
 
-        <%-- 처음 탭 표시 --%>
-        $('#myTab a:first').tab('show');
-
-        <%-- BootStrap Validator --%>
-        var numericValidator = {
-            numeric: {
-                separator: '',
-                message: '<spring:message code="U305"/>'
-            }
-        };
-
         <%-- bootstrapValidator --%>
-        $('#basis').bootstrapValidator({
+        $('#academy').bootstrapValidator({
             feedbackIcons: {
                 valid: 'glyphicon glyphicon-ok',
                 invalid: 'glyphicon glyphicon-remove',
                 validating: 'glyphicon glyphicon-refresh'
             },
             fields: {
-                "application.rgstNo": {
+                gradAvr: {
+                    selector: '[name$="gradAvr"]',
                     validators: {
-                        regexp: {
-                            regexp: '/^\d{13}/',
-                            message: '<spring:message code="U304"/>'
-                        }
-                    }
-                },
-                "application.telNum": {
-                    validators: numericValidator
-                },
-                "application.mobiNum": {
-                    validators: numericValidator
-                },
-                "applicationGeneral.emerContTel": {
-                    validators: numericValidator
-                }
-            }
-        });
-
-        <%-- 학연산 선택에 따른 화면 변경 시작 --%>
-        $('#applAttrCode').on('change', changeApplAttrCode);
-
-        function changeApplAttrCode() {
-            var index = $('#applAttrCode').find('option').filter(':selected').index();
-            hideByClassname('applyKindDynamic', 'hidden-apply-kind-' + index);
-        }
-
-        function hideByClassname(parentId, hideClassname) {
-            $('#' + parentId).children().each(function() {
-                if ($(this).hasClass(hideClassname)) {
-                    $(this).hide();
-                } else {
-                    $(this).show();
-                }
-            });
-        }
-
-        changeApplAttrCode('#applAttrCode');
-        <%-- 학연산 선택에 따른 화면 변경 끝 --%>
-
-        <%--**select 폼 change 이벤트 처리 시작
-            * sourceId: 이벤트 발생되는 <select> id
-            * context: 변하는 <select>정보 (json)
-            *          targetId:변하는 <select> id
-            *          valueKey: <option>의 value로 쓰인 property 명
-            *          labelKey: <option>의 label로 쓰인 property 명
-            *          clean: option 지울 <select> id
-            *          url: url의 나머지 부분, string이거나 function
-        --%>
-        function attachChangeEvent( sourceId, context ) {
-            var $source = $('#' + sourceId);
-
-            $source.on('change', function(event) {
-                var info, targetId, valueKey, labelKey, url, clean, addon, i;
-                var baseUrl = '${contextPath}/common/code';
-                var val = this.options[this.selectedIndex].value;
-
-                info = context;
-                if (context.hasOwnProperty($source.val())) {
-                    info = context[$source.val()];
-                }
-
-                targetId = info.targetId ? info.targetId : context.targetId;
-                if( !targetId ) {
-                    return;
-                }
-
-                valueKey = info.valueKey ? info.valueKey : context.valueKey;
-                labelKey = info.labelKey ? info.labelKey : context.labelKey;
-                url = info.url ? info.url : context.url;
-                if( url && typeof url === 'function' ) {
-                    baseUrl += url(val);
-                } else if( url ) {
-                    baseUrl += url;
-                }
-
-                clean = info.clean ? info.clean : context.clean;
-                clean = [].concat( targetId, clean );
-                var $clean, oldVal;
-                for (i = 0; i < clean.length; i++) {
-                    if (clean[i]) {
-                        $clean = $('#' + clean[i]);
-                        oldVal = $clean.val();
-                        $clean.children('option').filter(function() {
-                            return this.value !== '';
-                        }).remove();
-                        if (oldVal !== $clean.val()) {
-                            $clean.trigger('change');
-                        }
-                    }
-                }
-
-                if (!val || val == '') {
-                    return;
-                }
-
-                $.ajax({
-                    type: 'GET',
-                    url: baseUrl,
-                    success: function(e) {
-                        if(e.result && e.result === 'SUCCESS') {
-                            var $target = $('#' + targetId);
-                            var data = JSON && JSON.parse(e.data) || $.parseJSON(e.data);
-                            $(data).each(function (i, item) {
-                                var $op = $('<option>').attr({
-                                    'value': item[valueKey],
-                                    'label': item[labelKey]}
-                                )
-                                if ('detlMajCode' == targetId) {
-                                    for (var key in item) {
-                                        if (key !== valueKey && key !== labelKey) {
-                                            $op.attr(key, item[key]);
-                                        }
+                        callback: {
+                            callback: function (value, validator, $field) {
+                                if (value === '') {
+                                    return true;
+                                }
+                                var regexp = /^[0-9]+(.[0-9]{1,2})?$/;
+                                if (!regexp.test(value)) {
+                                    return {
+                                        value: false,
+                                        message: '소수점 2자리까지 입력가능합니다'
                                     }
                                 }
-                                $op.appendTo($target);
-                            });
+
+                                var $parent = $field.parents('.form-group');
+                                var name = $field.attr('name');
+                                name = name.substring(0, name.indexOf('.')) + '.gradFull';
+                                var $gradFull = $parent.find('[name="' + name + '"]');
+                                var gradFullValue = $gradFull.val();
+                                if (gradFullValue === '' || !regexp.test(gradFullValue)) {
+                                    return true;
+                                }
+                                if (Number(value) > Number(gradFullValue)) {
+                                    return {
+                                        valid: false,
+                                        message: '평점보다 만점이 커야합니다'
+                                    };
+                                }
+
+                                return true;
+                            }
                         }
-                    },
-                    error: function(e) {
-                        if(console) console.log(e);
                     }
-                });
-            });
-        }
-        <%-- select 폼 change 이벤트 처리 끝 --%>
+                },
+                gradFull: {
+                    selector: '[name$="gradFull"]',
+                    validators: {
+                        callback: {
+                            callback: function (value, validator, $field) {
+                                if (value === '') {
+                                    return true;
+                                }
+                                var regexp = /^[0-9]+(.[0-9]{1,2})?$/;
+                                if (!regexp.test(value)) {
+                                    return {
+                                        value: false,
+                                        message: '소수점 2자리까지 입력가능합니다'
+                                    }
+                                }
 
-        <%--지원사항 select 폼 change 이벤트 핸들러 등록 시작 --%>
-        <%-- 지원구분 변경 --%>
-        attachChangeEvent( 'applAttrCode',
-                {
-                    '00002': {targetId: 'ariInstCode', valueKey: 'ariInstCode', labelKey: 'ariInstName', url: '/ariInst'}, // applAttrCode == '02'
-                    targetId: 'campCode',
-                    valueKey: 'campCode',
-                    labelKey: 'campName',
-                    clean: ['collCode', 'ariInstCode', 'deptCode', 'corsTypeCode', 'detlMajCode'],
-                    url: '/campus'
-                }
-        );
+                                var $parent = $field.parents('.form-group');
+                                var name = $field.attr('name');
+                                name = name.substring(0, name.indexOf('.')) + '.gradAvr';
+                                var $gradFull = $parent.find('[name="' + name + '"]');
+                                var gradFullValue = $gradFull.val();
+                                if (gradFullValue === '' || !regexp.test(gradFullValue)) {
+                                    return true;
+                                }
+                                if (Number(value) < Number(gradFullValue)) {
+                                    return {
+                                        valid: false,
+                                        message: '평점보다 만점이 커야합니다'
+                                    };
+                                }
 
-        <%-- 캠퍼스 변경 --%>
-        attachChangeEvent( 'campCode',
-                {
-                    targetId: 'collCode',
-                    valueKey: 'collCode',
-                    labelKey: 'collName',
-                    // clean: ['ariInstCode', 'deptCode', 'corsTypeCode', 'detlMajCode'],
-                    url: function(arg) {
-                        return '/college/' + arg;
+                                return true;
+                            }
+                        }
                     }
-                }
-        );
-
-        <%-- 대학변경 --%>
-        attachChangeEvent( 'collCode',
-                {
-                    targetId: 'deptCode',
-                    valueKey: 'deptCode',
-                    labelKey: 'deptName',
-                    // clean: ['corsTypeCode', 'detlMajCode'],
-                    url: function(arg) {
-                        var admsNo = $('#admsNo').val();
-                        return '/general/department/' + admsNo + '/' + arg;
+                },
+                requiredInput: {
+                    selector: '.requiredInput',
+                    validators: {
+                        notEmpty: '필수 입력 사항입니다.'
                     }
                 }
-        );
-
-        <%-- 학연산 변경 --%>
-        attachChangeEvent( 'ariInstCode',
-                {
-                    targetId: 'deptCode',
-                    valueKey: 'deptCode',
-                    labelKey: 'deptName',
-                    // clean: ['corsTypeCode', 'detlMajCode'],
-                    url: function(arg) {
-                        var admsNo = $('#admsNo').val();
-                        return '/ariInst/department/' + admsNo + '/' + arg;
-                    }
             }
-        );
+        });
+        <%-- bootstrapValidator --%>
 
-        <%-- 지원학과 변경 --%>
-        attachChangeEvent( 'deptCode',
-                {
-                    targetId: 'corsTypeCode',
-                    valueKey: 'corsTypeCode',
-                    labelKey: 'codeVal',
-                    // clean: ['detlMajCode'],
-                    url: function(arg) {   <%-- 지원과정 조회 --%>
-                        var admsNo = $('#admsNo').val();
-                        var applAttrCode = $('#applAttrCode').val();
-                        if (applAttrCode == '00001') {
-                            return '/general/course/' + admsNo + '/' + arg;
-                        } else if (applAttrCode == '00002') {
-                            return '/ariInst/course/' + admsNo + "/" + arg + "/" + $('#ariInstCode').val();
-                        } else if (applAttrCode == '00003') {
-                            return '/commission/course/' + admsNo + '/' + arg;
-                        }
-                    }
+        <%-- form-group-block 추가/삭제에 대한 처리 시작 --%>
+        $('.btn-add').on('click', function(e) {
+            var target = e.currentTarget ? e.currentTarget : e.target;
+            var container = target.parentNode;
+            while (container && !$(container).hasClass('form-group-block-list')) {
+                container = container.parentNode;
+            }
+            var blocks = container.querySelectorAll('.form-group-block');
+            var originBlock = blocks[blocks.length - 1];
+            var $cloneObj;
+            if (originBlock) {
+                $cloneObj = $(originBlock).clone(true);
+                $cloneObj.find('.input-group.date>input').datepicker('destroy');
+                updateIdAndName($cloneObj[0], blocks.length);
+                eraseContents($cloneObj[0]);
+                container.insertBefore($cloneObj[0], originBlock.nextSibling);
+                $cloneObj.find('.input-group.date>input').datepicker(datePickerOption);
+            }
+
+//            // 파일업로드 부분
+//            var fileUploadContainer = document.getElementById(target.getAttribute("data-fileupload-block-list"));
+//            var fuBlocks = fileUploadContainer.querySelectorAll('.form-group-block');
+//            var fuOriginBlock = fuBlocks[fuBlocks.length - 1];
+//            var $fuCloneObj;
+//            if (fuOriginBlock) {
+//                $fuCloneObj = $(fuOriginBlock).clone(true);
+//                updateIdAndName($fuCloneObj[0], fuBlocks.length);
+//                eraseContents($fuCloneObj[0]);
+//                fileUploadContainer.insertBefore($fuCloneObj[0], fuOriginBlock.nextSibling);
+//            }
+//
+////                $('#entireApplication').bootstrapValidator('addFiend', $cloneObj);
+        });
+
+        $('.btn-remove').on('click', function(e) {
+            var target = e.currentTarget ? e.currentTarget : e.target;
+            var blockToRemove = target.parentNode;
+            while (blockToRemove && !$(blockToRemove).hasClass('form-group-block')) {
+                blockToRemove = blockToRemove.parentNode;
+            }
+            var container = blockToRemove.parentNode;
+            var blocks = container.querySelectorAll('.form-group-block');
+            var length = blocks.length, i;
+
+            for (i = 0; i < length; i++) {
+                if (blockToRemove == blocks[i]) {
+                    break;
                 }
-        );
+            }
 
-        <%-- 지원과정 변경 --%>
-        attachChangeEvent( 'corsTypeCode',
-                {
-                    targetId: 'detlMajCode',
-                    valueKey: 'detlMajCode',
-                    labelKey: 'detlMajName',
-                    url: function(arg) {
-                        var admsNo = $('#admsNo').val();
-                        var applAttrCode = $('#applAttrCode').val();
-                        if (applAttrCode == '00001') {
-                            return '/general/detailMajor/' + admsNo + '/' + $('#deptCode').val() + '/' + arg;
-                        } else if (applAttrCode == '00002') {
-                            return '/ariInst/detailMajor/' + admsNo + "/" + $('#deptCode').val() + "/" + $('#ariInstCode').val() + '/' + arg;
-                        } else if (applAttrCode == '00003') {
-                            return '/general/detailMajor/' + admsNo + '/' + $('#deptCode').val() + '/' + arg;
-                        }
-                    }
-                }
-        );
+            for (i = i + 1; i < length; i++) {
+                updateIdAndName(blocks[i], i - 1);
+            }
 
-        <%-- 지원학과 경영대일 경우 --%>
-        $('#deptCode').on('change', function() {
-            var val = $(this).val();
-            if (val === '10202' || val === '11202') {
-                $('#currentCompany').show();
+            if (length <= 1) {
+                eraseContents(blockToRemove);
             } else {
-                $('#currentCompany').hide();
-            }
-        });
-
-        <%-- 세부전공 변경 시 세부전공 하위 변경 --%>
-        $('#detlMajCode').on('change', function(event) {
-            var selected = this.options[this.selectedIndex];
-            var detlMajCode = selected.value;
-            var parent = this.parentNode.parentNode;
-            var $divNode,$divNode2, $childNode, $childNode2, $childNode3;
-
-            $(parent).find('#detlMajRadio').remove();
-            $(parent).find('#detlMajText').remove();
-            $(parent).find('#detlMajDescDiv').remove();
-            $(parent).find('#detlMajDescLabel').remove();
-            if (detlMajCode == '99999') {   // 세부전공 직접입력
-                $divNode = $('<div></div>').addClass('col-sm-offset-2 col-sm-9').attr({
-                    'id': 'detlMajText'
-                });
-                $childNode = $('<input/>').addClass('form-control').attr({
-                    'type': 'text',
-                    'id': 'detlMajDesc',
-                    'name': 'detlMajDesc'
-                });
-                $('#DetlMajDesc').text('');
-                $childNode.appendTo($divNode);
-                $divNode.appendTo($(parent));
-            }
-            if ($(selected).attr('partTimeYn') === 'Y' || $(selected).attr('partTimeYn') === 'y') { // 세부전공 PART_TIME_YN이 Y인 경우
-                $divNode = $('<div></div>').addClass('col-sm-offset-2 col-sm-9').attr({
-                    'id': 'detlMajRadio'
-                });
-                $childNode = $('<input/>').attr({
-                    'type': 'checkbox',
-                    'id': 'partTimeYn',
-                    'name': 'partTimeYn'
-                });
-                $childNode2 = $('<label/>').addClass('checkbox-inline').text('파트타임 여부');
-                $childNode.prependTo($childNode2);
-                $childNode2.appendTo($divNode);
-                $divNode.appendTo($(parent));
+                blockToRemove.parentNode.removeChild(blockToRemove);
             }
 
-            var temp = jQuery.type($(selected).attr('detlmajdesc'));
-            var temp2 = $(selected).attr('detlmajdesc');
-            if (jQuery.type($(selected).attr('detlmajdesc')) !=='undefined') { // 세부전공 desc 가 들어가 있는경우
-                $divNode = $('<div></div>').addClass('col-sm-offset-2 col-sm-9').attr({
-                    'id': 'detlMajDescDiv'
-                });
-                $childNode = $('<label/>').addClass('apexMsg').text(temp2).autoLink();
-                $childNode.appendTo($divNode);
-                $divNode.appendTo($(parent));
-            }
+            mustCheckedOneRadio();
+
+            // 파일업로드 부분 입력란 함께 제거
+//                var fileUploadContainer = document.getElementById(target.getAttribute("data-fileupload-block-list")),
+//                    indexOfBlockToRemove = target.getAttribute('data-block-index'),
+//                    blockToRemove = fileUploadContainer.children[indexOfBlockToRemove];
+//                fileUploadContainer.removeChild(blockToRemove);
 
         });
-        <%-- 지원사항 select 폼 change 이벤트 핸들러 등록 끝 --%>
+
+        <%-- id, name 재설정 시작 --%>
+        function updateIdAndName( block, index ) {
+            var i, name, prefix, suffix, input, items, label;
+            var input = block.querySelector('input');
+
+            name = input.name;
+//                prefix = name.substring(0, name.indexOf('['));
+
+            items = block.querySelectorAll('input, select');
+            if (items) {
+                for (i = 0; i <items.length; i++) {
+                    name = items[i].name;
+                    if (name) {
+                        prefix = name.substring(0, name.indexOf('['));
+                        suffix = name.substring(name.indexOf(']') + 1);
+                        items[i].name = prefix + '[' + index + ']' + suffix;
+                    }
+                    var oldid = items[i].id;
+                    if (oldid) {
+                        prefix = oldid.substring(0, oldid.indexOf('.'));
+                        prefix = prefix.replace(/[0-9]/g, '');
+                        suffix = oldid.substring(oldid.indexOf('.'));
+                        items[i].id = prefix + index + suffix;
+
+                        label = block.querySelector('label[for="' + oldid + '"]');
+                        if (label) {
+                            label.setAttribute('for', items[i].id);
+                        }
+                    }
+                }
+            }
+
+            // bpopper data-targetNode
+            var bpopperBtns = block.querySelectorAll('.bpopper');
+            if (bpopperBtns) {
+                for (i = 0; i < bpopperBtns.length; i++) {
+                    for (var j = 1; j < 4; j++) {
+                        var t = bpopperBtns[i].getAttribute('data-targetNode' + j);
+                        if (t) {
+                            t = t.split('.');
+                            t[0] = t[0].replace(/[0-9]/g, '');
+                            bpopperBtns[i].setAttribute('data-targetNode' + j, t[0] + index + '.' + t[1]);
+                        }
+                    }
+                }
+            }
+
+            var removeBtn = block.querySelector('.btn-remove');
+            if (removeBtn) {
+                removeBtn.setAttribute('data-block-index', index);
+            }
+
+            var searchBtn = block.querySelector('[data-targetNode1]');
+            if (searchBtn) {
+                var target1 = searchBtn.getAttribute('data-targetNode1');
+                var target2 = searchBtn.getAttribute('data-targetNode2');
+                suffix = target1.substring(target1.indexOf('.') + 1, target1.length);
+                searchBtn.setAttribute('data-targetNode1', prefix + index + '.' + suffix);
+                suffix = target2.substring(target2.indexOf('.') + 1, target2.length);
+                searchBtn.setAttribute('data-targetNode2', prefix + index + '.' + suffix);
+            }
+        }
+        <%-- id, name 재설정 끝 --%>
+
+        <%-- 복제된 입력폼 내용 초기화 시작 --%>
+        function eraseContents( block ) {
+            var i, items, itemName;
+            items = block.querySelectorAll('input, select');
+            if (items) {
+                for (i = 0; i <items.length; i++) {
+                    if (items[i].type == 'hidden') {
+                        itemName = items[i].name;
+                        items[i].value = itemName.indexOf('acadType') < 0 ? '' : items[i].value ;
+                    }
+                    if (items[i].type != 'hidden' && items[i].type != 'radio' && items[i].type != 'checkbox' && items[i].type != 'button') {
+                        items[i].value = '';
+                    }
+                    if (items[i].checked != null) {
+                        items[i].checked = false;
+                    }
+                    if (items[i].type == 'button') {
+                        $(items[i]).removeClass('btn-info');
+                        $(items[i]).addClass('btn-default');
+                        $(items[i]).val('올리기');
+                    }
+                    if (items[i].type == 'file') {
+                        $(items[i]).val('');
+                    }
+                }
+            }
+        }
+        <%-- 복제된 입력폼 내용 초기화 끝 --%>
+        <%-- form-group-block 추가/삭제에 대한 처리 끝 --%>
+
+        <%-- 최종 대학 체크 처리 시작 --%>
+        $('.radio-group').on('click', function(e) {
+            var $target = $(this);
+            var $container = $target.parents('.form-group-block-list');
+            $container.find('.radio-group').each(function() {
+                $(this).attr('checked', $target[0] === $(this)[0]);
+            });
+        });
+
+        function mustCheckedOneRadio() {
+            var list = document.querySelectorAll('.form-group-block-list'), i, j, radioGroup, checkedCount = 0;
+            for (i = 0; i < list.length; i++) {
+                radioGroup = list[i].querySelectorAll('.radio-group');
+                if (radioGroup && radioGroup.length > 0) {
+                    for (j = 0; j < radioGroup.length; j++) {
+                        if (radioGroup.checked) {
+                            checkedCount++;
+                        }
+                    }
+                    if (checkedCount == 0) {
+                        radioGroup[0].checked = true;
+                    }
+                }
+            }
+        };
+        mustCheckedOneRadio();
+        <%-- 최종 대학 체크 처리 끝 --%>
 
         <%-- 단어 잘림 방지 --%>
         $('.word-keep-all').wordBreakKeepAll();
