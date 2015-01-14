@@ -4,14 +4,11 @@ import com.apexsoft.framework.common.vo.ExecutionContext;
 import com.apexsoft.framework.message.MessageResolver;
 import com.apexsoft.ysprj.applicants.application.domain.*;
 import com.apexsoft.ysprj.applicants.application.service.AcademyService;
-import com.apexsoft.ysprj.applicants.common.domain.*;
-import com.apexsoft.ysprj.applicants.common.service.CommonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
@@ -30,9 +27,6 @@ public class AcademyController {
 
     @Autowired
     private AcademyService academyService;
-
-    @Autowired
-    private CommonService commonService;
 
     @Resource(name = "messageResolver")
     MessageResolver messageResolver;
@@ -76,12 +70,7 @@ public class AcademyController {
             academy.setGraduateList(graduateList);
         }
 
-//        String cntrCode = academy.getApplication().getCitzCntrCode();
-//        cntrCode = cntrCode == null ? "" : cntrCode;
-//        Country country = commonService.retrieveCountryByCode(cntrCode);
-
         ecDataMap.put("academy", academy);
-//        ecDataMap.put("country", country);
         ec.setData(ecDataMap);
 
         return ec;
@@ -111,14 +100,14 @@ public class AcademyController {
     }
 
     /**
-     * 기본 정보 저장
+     * 학력 정보 저장
      *
      * @param academy
      * @param principal
      * @return
      */
     @RequestMapping(value="/save", method = RequestMethod.POST)
-    public ModelAndView saveAcademy(@ModelAttribute("academy") Academy academy,
+    public ModelAndView saveAcademy(@ModelAttribute Academy academy,
                                     Principal principal,
                                     HttpServletRequest request) {
         ModelAndView mv = new ModelAndView(TARGET_VIEW);

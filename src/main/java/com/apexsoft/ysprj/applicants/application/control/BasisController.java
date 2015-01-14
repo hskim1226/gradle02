@@ -11,7 +11,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
@@ -143,11 +142,7 @@ public class BasisController {
      * @return
      */
     @RequestMapping(value="/edit")
-    public ModelAndView getBasis(/*@RequestParam(value = "applNo", required = false) Integer applNoFromExternal,
-                                 @RequestParam(value = "admsNo", required = false) String admsNoFromExternal,
-                                 @RequestParam(value = "entrYear", required = false) String entrYearFromExternal,
-                                 @RequestParam(value = "admsTypeCode", required = false) String admsTypeCodeFromExternal,*/
-                                 @ModelAttribute Basis model) {
+    public ModelAndView getBasis(@ModelAttribute Basis model) {
         ModelAndView mv = new ModelAndView(TARGET_VIEW);
 
         Application application = model.getApplication();
@@ -174,7 +169,7 @@ public class BasisController {
      * @return
      */
     @RequestMapping(value="/save", method = RequestMethod.POST)
-    public ModelAndView saveBasis(@ModelAttribute("basis") Basis basis,
+    public ModelAndView saveBasis(@ModelAttribute Basis basis,
                                   Principal principal) {
         ModelAndView mv = new ModelAndView(TARGET_VIEW);
         ExecutionContext ec = null;
