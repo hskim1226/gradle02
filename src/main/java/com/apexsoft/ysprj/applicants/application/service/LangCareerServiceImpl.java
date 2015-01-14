@@ -105,6 +105,9 @@ public class LangCareerServiceImpl implements LangCareerService {
         langCareer.setApplicationLanguageList(retrieveInfoListByApplNo(applNo, "CustomApplicationLanguageMapper", ApplicationLanguage.class));
         langCareer.setApplicationExperienceList(retrieveInfoListByApplNo(applNo, "CustomApplicationExperienceMapper", ApplicationExperience.class));
 
+        ec.setResult(ExecutionContext.SUCCESS);
+        ec.setData(langCareer);
+
         return ec;
     }
 
