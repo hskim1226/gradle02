@@ -381,7 +381,7 @@
                                 <div class="form-group required">
                                     <form:label path="application.korName" cssClass="col-sm-2 control-label">한글 이름</form:label>
                                     <div class="col-sm-9">
-                                        <form:input path="application.korName" cssClass="form-control requiredInput" />
+                                        <form:input path="application.korName" cssClass="form-control requiredInput" placeholder="한글 이름을 공백 없이 입력해주세요"/>
                                     </div>
                                 </div>
                                 <div class="form-group required">
@@ -402,7 +402,7 @@
                                 <div class="form-group required">
                                     <form:label path="application.rgstNo" cssClass="col-sm-2 control-label">주민등록번호</form:label>
                                     <div class="col-sm-9">
-                                        <form:input path="application.rgstNo" cssClass="form-control" />
+                                        <form:input path="application.rgstNo" cssClass="form-control numOnly" maxlength="13" placeholder="주민등록번호를 13자리 숫자로 입력해주세요"/>
                                     </div>
                                 </div>
                             </div>
@@ -467,19 +467,19 @@
                                 <div class="form-group required">
                                     <form:label path="application.telNum" cssClass="col-sm-2 control-label">전화번호</form:label>
                                     <div class="col-sm-9">
-                                        <form:input path="application.telNum" cssClass="form-control" />
+                                        <form:input path="application.telNum" cssClass="form-control numOnly" maxlength="20" placeholder="전화번호를 '-'와 숫자로만 입력해주세요"/>
                                     </div>
                                 </div>
                                 <div class="form-group required">
                                     <form:label path="application.mobiNum" cssClass="col-sm-2 control-label">휴대폰</form:label>
                                     <div class="col-sm-9">
-                                        <form:input path="application.mobiNum" cssClass="form-control" />
+                                        <form:input path="application.mobiNum" cssClass="form-control numOnly" maxlength="20" placeholder="휴대폰번호를 '-'와 숫자로만 입력해주세요"/>
                                     </div>
                                 </div>
                                 <div class="form-group required">
                                     <form:label path="application.mailAddr" cssClass="col-sm-2 control-label">E-mail</form:label>
                                     <div class="col-sm-9">
-                                        <form:input path="application.mailAddr" type="email" cssClass="form-control" />
+                                        <form:input path="application.mailAddr" type="email" cssClass="form-control emailOnly" placeholder="이메일 주소를 입력해주세요"/>
                                     </div>
                                 </div>
                             </div>
@@ -505,7 +505,7 @@
                                 <div class="form-group required">
                                     <form:label path="applicationGeneral.emerContTel" cssClass="col-sm-2 control-label">전화번호</form:label>
                                     <div class="col-sm-9">
-                                        <form:input path="applicationGeneral.emerContTel" cssClass="form-control" />
+                                        <form:input path="applicationGeneral.emerContTel" cssClass="form-control numOnly" maxlength="20" placeholder="전화번호를 '-'와 숫자로만 입력해주세요"/>
                                     </div>
                                 </div>
                             </div>
@@ -531,7 +531,7 @@
                                 <div class="form-group">
                                     <form:label path="applicationGeneral.currWrkpTel" cssClass="col-sm-2 control-label">연락처</form:label>
                                     <div class="col-sm-9">
-                                        <form:input path="applicationGeneral.currWrkpTel" cssClass="form-control" />
+                                        <form:input path="applicationGeneral.currWrkpTel" cssClass="form-control numOnly" maxlength="20" placeholder="연락처를 '-'와 숫자로만 입력해주세요"/>
                                     </div>
                                 </div>
                             </div>
@@ -693,11 +693,43 @@
         $('.btn-save').on('click', formProcess);
         <%-- 하단 버튼 처리 --%>
 
+        <%-- 한글 이름 공백 제거 --%>
+        var removeSpaceInKorName = function () {
+            var korName = document.getElementById('application.korName');
+            korName.addEventListener('keyup', function () {
+                this.value = this.value.replace(/(\s*)/gi,"");
+            });
+        };
+        removeSpaceInKorName();
+        <%-- 한글 이름 공백 제거 --%>
+
         <%-- 영문 이름 처리 시작 --%>
         $('.engName').on('keyup', function() {
             this.value = this.value.toUpperCase().replace(/([^0-9A-Z])/g,"");
         });
         <%-- 영문 이름 처리 끝 --%>
+
+        <%-- 숫자만 입력 - 주민번호, 휴대폰, 전화번호 --%>
+        $('.numOnly').on('keyup', function () {
+            var numCheckRegExp = this.id == 'application.rgstNo' ? /^[0-9]*$/ : /^[0-9-]*$/,
+                val = this.value;
+            if (!numCheckRegExp.test(val)) {
+                this.value = val.substr(0, val.length-1);
+            }
+        });
+        <%-- 숫자만 입력 - 주민번호, 휴대폰, 전화번호 --%>
+
+        <%-- 메일 주소 validation --%>
+        $('.emailOnly').on('blur', function () {
+            var emailRegExp = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+                val = this.value;
+            if (!emailRegExp.test(val)) {
+                alert("이메일 주소를 정확히 기재해 주세요")
+                this.value = "";
+                this.focus();
+            }
+        });
+        <%-- 메일 주소 validation --%>
 
         <%-- 국가/학교 검색 시작 --%>
         $('.bpopper').on('click', function(e) {
@@ -848,34 +880,6 @@
                 message: '<spring:message code="U305"/>'
             }
         };
-
-        <%-- bootstrapValidator --%>
-        $('#basis').bootstrapValidator({
-            feedbackIcons: {
-                valid: 'glyphicon glyphicon-ok',
-                invalid: 'glyphicon glyphicon-remove',
-                validating: 'glyphicon glyphicon-refresh'
-            },
-            fields: {
-                "application.rgstNo": {
-                    validators: {
-                        regexp: {
-                            regexp: '/^\d{13}/',
-                            message: '<spring:message code="U304"/>'
-                        }
-                    }
-                },
-                "application.telNum": {
-                    validators: numericValidator
-                },
-                "application.mobiNum": {
-                    validators: numericValidator
-                },
-                "applicationGeneral.emerContTel": {
-                    validators: numericValidator
-                }
-            }
-        });
 
         <%-- 학연산 선택에 따른 화면 변경 시작 --%>
         $('#applAttrCode').on('change', changeApplAttrCode);
