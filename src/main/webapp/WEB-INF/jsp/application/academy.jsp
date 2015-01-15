@@ -42,9 +42,9 @@
         section.application .nav>li>a {
             display: block;
         }
-        .apexMessage {
-            color: #000;
-            font-size: 12px;
+        .grda-not {
+            color: #f00;
+            font-size: 16px;
             font-weight: 900;
         }
 
@@ -329,15 +329,16 @@
                                             <div class="form-group required">
                                                 <label class="col-sm-2 control-label">졸업 구분</label>
                                                 <div class="col-sm-10">
-                                                    <label class="radio-inline degr-radio"><form:radiobutton path="collegeList[${stat.index}].grdaTypeCode" value="00001" />졸업</label>
-                                                    &nbsp;&nbsp;&nbsp;
-                                                    <label class="radio-inline degr-radio"><form:radiobutton path="collegeList[${stat.index}].grdaTypeCode" value="00002" />졸업 예정</label>
+                                                    <div class="col-sm-3">
+                                                        <label class="radio-inline degr-radio"><form:radiobutton path="collegeList[${stat.index}].grdaTypeCode" cssClass="grad-yn" value="00001" />졸업</label>
+                                                        &nbsp;&nbsp;&nbsp;
+                                                        <label class="radio-inline degr-radio"><form:radiobutton path="collegeList[${stat.index}].grdaTypeCode" cssClass="grad-yn" value="00002" />졸업 예정</label>
+                                                    </div>
+                                                    <div class="col-sm-8">
+                                                        <form:input path="collegeList[${stat.index}].degrNo" cssClass="degr-no form-control" placeholder="학위등록번호를 입력해주세요"/>
+                                                        <label id='collegeList${stat.index}.label-grad-not' class="col-sm-10 grda-not degr-message" style="display:none" >* 졸업증명서(혹은 졸업관련 서류)를 추후 제출</label>
+                                                    </div>
                                                 </div>
-                                                <label class="col-sm-2 control-label degr-div">학위등록번호</label>
-                                                <div class="col-sm-8 degr-no">
-                                                    <form:input path="collegeList[${stat.index}].degrNo" cssClass="degr-no form-control"/>
-                                                </div>
-                                                <label class="col-sm-10 apexMessage degr-message" style="display:none" >* 졸업증명서(혹은 졸업관련 서류)를 추후 제출</label>
                                             </div>
                                             <div class="form-group required">
                                                 <form:label path="collegeList[${stat.index}].schlName" cssClass="col-sm-2 control-label">학교 이름</form:label>
@@ -430,15 +431,16 @@
                                             <div class="form-group required">
                                                 <label class="col-sm-2 control-label">졸업 구분</label>
                                                 <div class="col-sm-10">
-                                                    <label class="radio-inline degr-radio"><form:radiobutton path="graduateList[${stat.index}].grdaTypeCode" value="00001" />졸업</label>
-                                                    &nbsp;&nbsp;&nbsp;
-                                                    <label class="radio-inline degr-radio"><form:radiobutton path="graduateList[${stat.index}].grdaTypeCode" value="00002" />졸업 예정</label>
+                                                    <div class="col-sm-3">
+                                                        <label class="radio-inline degr-radio"><form:radiobutton path="graduateList[${stat.index}].grdaTypeCode" cssClass="grad-yn" value="00001" />졸업</label>
+                                                        &nbsp;&nbsp;&nbsp;
+                                                        <label class="radio-inline degr-radio"><form:radiobutton path="graduateList[${stat.index}].grdaTypeCode" cssClass="grad-yn" value="00002" />졸업 예정</label>
+                                                    </div>
+                                                    <div class="col-sm-8">
+                                                        <form:input path="graduateList[${stat.index}].degrNo" cssClass="degr-no form-control" placeholder="학위등록번호를 입력해주세요"/>
+                                                        <label id='graduateList${stat.index}.label-grad-not' class="col-sm-10 grda-not degr-message" style="display:none" >* 졸업증명서(혹은 졸업관련 서류)를 추후 제출</label>
+                                                    </div>
                                                 </div>
-                                                <label class="col-sm-2 control-label degr-div">학위등록번호</label>
-                                                <div class="col-sm-8 degr-no">
-                                                    <form:input path="graduateList[${stat.index}].degrNo" cssClass="degr-no form-control"/>
-                                                </div>
-                                                <label class="col-sm-10 apexMessage degr-message" style="display:none">* 졸업증명서(혹은 졸업관련 서류)를 추후 제출</label>
                                             </div>
                                             <div class="form-group required">
                                                 <form:label path="graduateList[${stat.index}].schlName" cssClass="col-sm-2 control-label">학교 이름</form:label>
@@ -470,7 +472,7 @@
                                                 </div>
                                             </div>
                                             <div class="form-group required">
-                                                <label class="col-sm-2 control-label">평균 평점</label>
+                                                <label class="col-sm-2 control-label">평량 평균</label>
                                                 <div class="col-sm-4">
                                                     <div class="input-group">
                                                         <span class="input-group-addon">평점</span>
@@ -698,11 +700,29 @@
             changeYear: true, //년변경가능
             showMonthAfterYear: true //년 뒤에 월 표시
         };
+        <%-- 달력 옵션 --%>
 
         <%-- 달력 시작 --%>
         $('.input-group.date>input').datepicker(datePickerOption);
         $('.input-daterange>input').datepicker(datePickerOption);
         <%-- 달력 끝 --%>
+
+        <%-- 졸업/졸업 예정 처리 --%>
+        $('.grad-yn').on('change', function () {
+            var id = this.id,
+                prefix = id.substr(0, id.lastIndexOf('.')),
+                showObj, hideObj;
+            if (this.checked && this.value == "00001") {
+                showObj = document.getElementById(prefix + '.degrNo');
+                hideObj = document.getElementById(prefix + '.label-grad-not');
+            } else if (this.checked && this.value == "00002") {
+                hideObj = document.getElementById(prefix + '.degrNo');
+                showObj = document.getElementById(prefix + '.label-grad-not');
+            }
+            showObj.style.display = "block";
+            hideObj.style.display = "none";
+        });
+        <%-- 졸업/졸업 예정 처리 --%>
 
         <%-- bootstrapValidator --%>
         $('#academy').bootstrapValidator({
@@ -872,7 +892,7 @@
             name = input.name;
 //                prefix = name.substring(0, name.indexOf('['));
 
-            items = block.querySelectorAll('input, select');
+            items = block.querySelectorAll('input, select, label');
             if (items) {
                 for (i = 0; i <items.length; i++) {
                     name = items[i].name;
@@ -892,6 +912,10 @@
                         if (label) {
                             label.setAttribute('for', items[i].id);
                         }
+                    }
+                    if (items[i].id.indexOf('grdaTypeCode') > 0) {
+                        if (items[i].checked)
+                            $(items[i]).prop('checked', true);
                     }
                 }
             }
@@ -941,9 +965,6 @@
                     if (items[i].type != 'hidden' && items[i].type != 'radio' && items[i].type != 'checkbox' && items[i].type != 'button') {
                         items[i].value = '';
                     }
-                    if (items[i].checked != null) {
-                        items[i].checked = false;
-                    }
                     if (items[i].type == 'button') {
                         $(items[i]).removeClass('btn-info');
                         $(items[i]).addClass('btn-default');
@@ -951,6 +972,14 @@
                     }
                     if (items[i].type == 'file') {
                         $(items[i]).val('');
+                    }
+                    if (items[i].type == 'radio' ) {
+                        if (items[i].id.indexOf('lastSchYn') > 0) {
+                            items[i].checked = false;
+                        }
+//                        else if (items[i].id.indexOf('grdaTypeCode') > 0 && items[i].checked)
+//                            items[i].checked = true;
+//                        }
                     }
                 }
             }
