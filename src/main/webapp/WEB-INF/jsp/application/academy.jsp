@@ -306,7 +306,7 @@
                                                 </div>
                                                 <div class="col-sm-6">
                                                     <form:hidden path="collegeList[${stat.index}].schlCntrCode" />
-                                                    <form:input path="collegeList[${stat.index}].korCntrName" class="form-control" />
+                                                    <form:input path="collegeList[${stat.index}].korCntrName" class="form-control" readonly="true"/>
                                                 </div>
                                             </div>
                                             <div class="form-group required">
@@ -336,7 +336,7 @@
                                                     </div>
                                                     <div class="col-sm-8">
                                                         <form:input path="collegeList[${stat.index}].degrNo" cssClass="degr-no form-control" placeholder="학위등록번호를 입력해주세요"/>
-                                                        <label id='collegeList${stat.index}.label-grad-not' class="col-sm-10 grda-not degr-message" style="display:none" >* 졸업증명서(혹은 졸업관련 서류)를 추후 제출</label>
+                                                        <label id='collegeList${stat.index}.label-grad-not' class="col-sm-10 grda-not degr-message" style="display:none" >합격 후 입학 시 졸업증명서를 대학원 사무실로 반드시 제출하세요</label>
                                                     </div>
                                                 </div>
                                             </div>
@@ -349,7 +349,7 @@
                                                 </div>
                                                 <div class="col-sm-4">
                                                     <form:hidden path="collegeList[${stat.index}].schlCode" />
-                                                    <form:input path="collegeList[${stat.index}].schlName" cssClass="form-control" />
+                                                    <form:input path="collegeList[${stat.index}].schlName" cssClass="form-control" readonly="true"/>
                                                 </div>
                                                 <div class="col-sm-2">
                                                     <label class="radio-inline">
@@ -408,7 +408,7 @@
                                                 </div>
                                                 <div class="col-sm-6">
                                                     <form:hidden path="graduateList[${stat.index}].schlCntrCode" />
-                                                    <form:input path="graduateList[${stat.index}].korCntrName" class="form-control" />
+                                                    <form:input path="graduateList[${stat.index}].korCntrName" class="form-control" readonly="true"/>
                                                 </div>
                                             </div>
                                             <div class="form-group required">
@@ -438,7 +438,7 @@
                                                     </div>
                                                     <div class="col-sm-8">
                                                         <form:input path="graduateList[${stat.index}].degrNo" cssClass="degr-no form-control" placeholder="학위등록번호를 입력해주세요"/>
-                                                        <label id='graduateList${stat.index}.label-grad-not' class="col-sm-10 grda-not degr-message" style="display:none" >* 졸업증명서(혹은 졸업관련 서류)를 추후 제출</label>
+                                                        <label id='graduateList${stat.index}.label-grad-not' class="col-sm-10 grda-not degr-message" style="display:none" >합격 후 입학 시 졸업증명서를 대학원 사무실로 반드시 제출하세요</label>
                                                     </div>
                                                 </div>
                                             </div>
@@ -451,7 +451,7 @@
                                                 </div>
                                                 <div class="col-sm-4">
                                                     <form:hidden path="graduateList[${stat.index}].schlCode" />
-                                                    <form:input path="graduateList[${stat.index}].schlName" cssClass="form-control" />
+                                                    <form:input path="graduateList[${stat.index}].schlName" cssClass="form-control" readonly="true"/>
                                                 </div>
                                                 <div class="col-sm-2">
                                                     <label class="radio-inline">
@@ -657,28 +657,59 @@
                 url: url,
                 success: function(data) {
 
-                    var obj = JSON.parse(data.data);
+                    var obj = JSON.parse(data.data), record;
 
-                    for ( i = 0, l = obj.length ; i < l ; i++ ) {
-                        var record;
+                    if (obj.length > 0) {
+                        for ( i = 0, l = obj.length ; i < l ; i++ ) {
+                            if (category.isCountry) {
+                                record = $('<tr>' + '<td><span style="display: none;" class="b-close">' + obj[i].cntrCode + '</span></td>' + '<td><span class="b-close">' + obj[i].korCntrName + '</span></td>' + '<td><span class="b-close">' + obj[i].engCntrName + '</span></td>' + '</tr>');
+                            } else if (category.isSchool) {
+                                record = $('<tr>' + '<td><span style="display: none;" class="b-close">' + obj[i].schlCode + '</span></td>' + '<td><span class="b-close">' + obj[i].schlName + '</span></td>' + '</tr>');
+                            }
+                            $('#bpopResult').append(record);
+                            $(record).on('click', function(e) {
+                                var targetInputId = [ document.getElementById('targetNode1').value,
+                                    document.getElementById('targetNode2').value,
+                                    document.getElementById('targetNode3').value ];
+                                var tr = this;
+                                for ( var i = 0 , len = tr.children.length; i < len; i++ ) {
+                                    if (document.getElementById(targetInputId[i])) {
+                                        document.getElementById(targetInputId[i]).value = tr.children[i].firstChild.innerText;
+                                    }
+                                }
+                            });
+                        }
+                    } else {
                         if (category.isCountry) {
-                            record = $('<tr>' + '<td><span style="display: none;" class="b-close">' + obj[i].cntrCode + '</span></td>' + '<td><span class="b-close">' + obj[i].korCntrName + '</span></td>' + '<td><span class="b-close">' + obj[i].engCntrName + '</span></td>' + '</tr>');
+                            record = $('<tr>' + '<td><span style="display: none;" class="b-close">' + '999' + '</span></td>' + '<td colspan="2"><span class="b-close">' + '검색 결과가 없습니다' + '</span></td>' + '</tr>');
                         } else if (category.isSchool) {
-                            record = $('<tr>' + '<td><span style="display: none;" class="b-close">' + obj[i].schlCode + '</span></td>' + '<td><span class="b-close">' + obj[i].schlName + '</span></td>' + '</tr>');
+                            record = $('<tr>' + '<td><span style="display: none;" class="b-close">' + '999' + '</span></td>' + '<td><span class="b-close">' + '검색 결과가 없습니다' + '</span></td>' + '</tr>');
                         }
                         $('#bpopResult').append(record);
                         $(record).on('click', function(e) {
                             var targetInputId = [ document.getElementById('targetNode1').value,
                                 document.getElementById('targetNode2').value,
                                 document.getElementById('targetNode3').value ];
-                            var tr = this;
-                            for ( var i = 0 , len = tr.children.length; i < len; i++ ) {
-                                if (document.getElementById(targetInputId[i])) {
-                                    document.getElementById(targetInputId[i]).value = tr.children[i].firstChild.innerText;
+                            var tr = this, resultInputText;
+
+                            if (document.getElementById(targetInputId[0])) {
+                                document.getElementById(targetInputId[0]).value = tr.children[0].firstChild.innerText;
+                            }
+                            if (document.getElementById(targetInputId[1])) {
+                                resultInputText = document.getElementById(targetInputId[1]);
+                                resultInputText.value = '';
+                                if (category.isCountry)
+                                    resultInputText.placeholder = '다시 검색해주세요';
+                                if (category.isSchool) {
+                                    resultInputText.placeholder = '직접 입력해주세요';
+                                    resultInputText.readOnly = false;
+                                    resultInputText.focus();
                                 }
                             }
                         });
                     }
+
+
                 }
             });
         });
@@ -974,7 +1005,7 @@
                         $(items[i]).val('');
                     }
                     if (items[i].type == 'radio' ) {
-                        if (items[i].id.indexOf('lastSchYn') > 0) {
+                        if (items[i].id.indexOf('lastSchlYn') > 0) {
                             items[i].checked = false;
                         }
 //                        else if (items[i].id.indexOf('grdaTypeCode') > 0 && items[i].checked)

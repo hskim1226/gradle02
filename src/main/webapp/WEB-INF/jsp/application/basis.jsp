@@ -420,7 +420,7 @@
                                     </div>
                                     <div class="col-sm-7">
                                         <form:hidden path="application.citzCntrCode" id="citzCntrCode" cssClass="form-control" />
-                                        <input id="citzCntrName" class="form-control" value="${country.korCntrName}"/>
+                                        <input id="citzCntrName" class="form-control" value="${country.korCntrName}" readonly="true"/>
                                     </div>
                                 </div>
                                 <div class="form-group">
