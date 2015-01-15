@@ -146,7 +146,7 @@ public class BasisController {
         ModelAndView mv = new ModelAndView(TARGET_VIEW);
 
         Application application = model.getApplication();
-        int applNo = application.getApplNo();
+        int applNo = application.getApplNo() == null ? 0 : application.getApplNo();
         String admsNo = application.getAdmsNo();
         String entrYear = application.getEntrYear();
         String admsTypeCode = application.getAdmsTypeCode();
