@@ -315,14 +315,14 @@
                                                     <div class="input-group date">
                                                         <span class="input-group-addon">입학일</span>
                                                         <form:input path="collegeList[${stat.index}].entrDay" cssClass="form-control" readonly="true" />
-                                                        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                                        <span class="input-group-addon calendar-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-4 end-date-container">
                                                     <div class="input-group date">
                                                         <span class="input-group-addon">졸업(예정)일</span>
                                                         <form:input path="collegeList[${stat.index}].grdaDay" cssClass="form-control" readonly="true" />
-                                                        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                                        <span class="input-group-addon calendar-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -417,14 +417,14 @@
                                                     <div class="input-group date">
                                                         <span class="input-group-addon">입학일</span>
                                                         <form:input path="graduateList[${stat.index}].entrDay" cssClass="form-control" readonly="true" />
-                                                        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                                        <span class="input-group-addon calendar-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-4 end-date-container">
                                                     <div class="input-group date">
                                                         <span class="input-group-addon">졸업(예정)일</span>
                                                         <form:input path="graduateList[${stat.index}].grdaDay" cssClass="form-control" readonly="true" />
-                                                        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                                        <span class="input-group-addon calendar-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -734,6 +734,9 @@
         <%-- 달력 시작 --%>
         $('.input-group.date>input').datepicker(datePickerOption);
         $('.input-daterange>input').datepicker(datePickerOption);
+        $('.calendar-addon').on('click', function () {
+            $(this.parentNode).children('input')[0].focus();
+        });
         <%-- 달력 끝 --%>
 
         <%-- 졸업/졸업 예정 처리 --%>
