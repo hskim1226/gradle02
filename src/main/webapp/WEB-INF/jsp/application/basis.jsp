@@ -790,24 +790,53 @@
                 url: url,
                 success: function(data) {
 
-                    var obj = JSON.parse(data.data);
+                    var obj = JSON.parse(data.data), record, i, l;
 
-                    for ( i = 0, l = obj.length ; i < l ; i++ ) {
-                        var record;
+                    if (obj.length > 0) {
+                        for ( i = 0, l = obj.length ; i < l ; i++ ) {
+                            if (category.isCountry) {
+                                record = $('<tr>' + '<td><span style="display: none;" class="b-close">' + obj[i].cntrCode + '</span></td>' + '<td><span class="b-close" style="cursor: pointer">' + obj[i].korCntrName + '</span></td>' + '<td><span class="b-close" style="cursor: pointer">' + obj[i].engCntrName + '</span></td>' + '</tr>');
+                            } else if (category.isSchool) {
+                                record = $('<tr>' + '<td><span style="display: none;" class="b-close">' + obj[i].schlCode + '</span></td>' + '<td><span class="b-close" style="cursor: pointer">' + obj[i].schlName + '</span></td>' + '</tr>');
+                            }
+                            $('#bpopResult').append(record);
+                            $(record).on('click', function(e) {
+                                var targetInputId = [ document.getElementById('targetNode1').value,
+                                    document.getElementById('targetNode2').value,
+                                    document.getElementById('targetNode3').value ];
+                                var tr = this;
+                                for ( var i = 0 , len = tr.children.length; i < len; i++ ) {
+                                    if (document.getElementById(targetInputId[i])) {
+                                        document.getElementById(targetInputId[i]).value = tr.children[i].firstChild.innerText;
+                                    }
+                                }
+                            });
+                        }
+                    } else {
                         if (category.isCountry) {
-                            record = $('<tr>' + '<td><span style="display: none;" class="b-close">' + obj[i].cntrCode + '</span></td>' + '<td><span class="b-close">' + obj[i].korCntrName + '</span></td>' + '<td><span class="b-close">' + obj[i].engCntrName + '</span></td>' + '</tr>');
+                            record = $('<tr>' + '<td><span style="display: none;" class="b-close">' + '999' + '</span></td>' + '<td colspan="2"><span class="b-close" style="cursor: pointer">' + '검색 결과가 없습니다. 다시 검색해 주세요' + '</span></td>' + '</tr>');
                         } else if (category.isSchool) {
-                            record = $('<tr>' + '<td><span style="display: none;" class="b-close">' + obj[i].schlCode + '</span></td>' + '<td><span class="b-close">' + obj[i].schlName + '</span></td>' + '</tr>');
+                            record = $('<tr>' + '<td><span style="display: none;" class="b-close">' + '999' + '</span></td>' + '<td><span class="b-close" style="cursor: pointer">' + '검색 결과가 없습니다. 여기를 눌러 직접 입력해 주세요' + '</span></td>' + '</tr>');
                         }
                         $('#bpopResult').append(record);
                         $(record).on('click', function(e) {
                             var targetInputId = [ document.getElementById('targetNode1').value,
                                 document.getElementById('targetNode2').value,
                                 document.getElementById('targetNode3').value ];
-                            var tr = this;
-                            for ( var i = 0 , len = tr.children.length; i < len; i++ ) {
-                                if (document.getElementById(targetInputId[i])) {
-                                    document.getElementById(targetInputId[i]).value = tr.children[i].firstChild.innerText;
+                            var tr = this, resultInputText;
+
+                            if (document.getElementById(targetInputId[0])) {
+                                document.getElementById(targetInputId[0]).value = tr.children[0].firstChild.innerText;
+                            }
+                            if (document.getElementById(targetInputId[1])) {
+                                resultInputText = document.getElementById(targetInputId[1]);
+                                resultInputText.value = '';
+                                if (category.isCountry)
+                                    resultInputText.placeholder = '다시 검색해주세요';
+                                if (category.isSchool) {
+                                    resultInputText.placeholder = '직접 입력해주세요';
+                                    resultInputText.readOnly = false;
+                                    resultInputText.focus();
                                 }
                             }
                         });

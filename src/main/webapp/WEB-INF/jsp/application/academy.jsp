@@ -657,14 +657,14 @@
                 url: url,
                 success: function(data) {
 
-                    var obj = JSON.parse(data.data), record;
+                    var obj = JSON.parse(data.data), record, i, l;
 
                     if (obj.length > 0) {
                         for ( i = 0, l = obj.length ; i < l ; i++ ) {
                             if (category.isCountry) {
-                                record = $('<tr>' + '<td><span style="display: none;" class="b-close">' + obj[i].cntrCode + '</span></td>' + '<td><span class="b-close">' + obj[i].korCntrName + '</span></td>' + '<td><span class="b-close">' + obj[i].engCntrName + '</span></td>' + '</tr>');
+                                record = $('<tr>' + '<td><span style="display: none;" class="b-close">' + obj[i].cntrCode + '</span></td>' + '<td><span class="b-close" style="cursor: pointer">' + obj[i].korCntrName + '</span></td>' + '<td><span class="b-close" style="cursor: pointer">' + obj[i].engCntrName + '</span></td>' + '</tr>');
                             } else if (category.isSchool) {
-                                record = $('<tr>' + '<td><span style="display: none;" class="b-close">' + obj[i].schlCode + '</span></td>' + '<td><span class="b-close">' + obj[i].schlName + '</span></td>' + '</tr>');
+                                record = $('<tr>' + '<td><span style="display: none;" class="b-close">' + obj[i].schlCode + '</span></td>' + '<td><span class="b-close" style="cursor: pointer">' + obj[i].schlName + '</span></td>' + '</tr>');
                             }
                             $('#bpopResult').append(record);
                             $(record).on('click', function(e) {
@@ -681,9 +681,9 @@
                         }
                     } else {
                         if (category.isCountry) {
-                            record = $('<tr>' + '<td><span style="display: none;" class="b-close">' + '999' + '</span></td>' + '<td colspan="2"><span class="b-close">' + '검색 결과가 없습니다' + '</span></td>' + '</tr>');
+                            record = $('<tr>' + '<td><span style="display: none;" class="b-close">' + '999' + '</span></td>' + '<td colspan="2"><span class="b-close" style="cursor: pointer">' + '검색 결과가 없습니다. 다시 검색해 주세요' + '</span></td>' + '</tr>');
                         } else if (category.isSchool) {
-                            record = $('<tr>' + '<td><span style="display: none;" class="b-close">' + '999' + '</span></td>' + '<td><span class="b-close">' + '검색 결과가 없습니다' + '</span></td>' + '</tr>');
+                            record = $('<tr>' + '<td><span style="display: none;" class="b-close">' + '999' + '</span></td>' + '<td><span class="b-close" style="cursor: pointer">' + '검색 결과가 없습니다. 여기를 눌러 직접 입력해 주세요' + '</span></td>' + '</tr>');
                         }
                         $('#bpopResult').append(record);
                         $(record).on('click', function(e) {
@@ -708,8 +708,6 @@
                             }
                         });
                     }
-
-
                 }
             });
         });

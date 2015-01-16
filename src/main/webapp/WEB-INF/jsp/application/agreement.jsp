@@ -198,7 +198,7 @@
                 <div class="form-group" align="center">
                     <div class="col-md-12 text-center mid-font slogan"><label>전체 동의 <input type="checkbox" id="checkAll" name="check1"></label></div>
                     <p>&nbsp;</p>
-                    <div><h3 class="slogan" style="text-align: center">원서 접수 완료(전형료 걸제 완료) 후에는 접수 취소 및 변경이 불가능합니다.!!</h3></div>
+                    <div><h3 class="slogan" style="text-align: center">원서 접수 완료(전형료 결제 완료) 후에는 접수 취소 및 변경이 불가능합니다.!!</h3></div>
                     <div class="spacer-small"></div>
                     <div class="col-md-offset-2 col-md-8">
                         <button class="btn btn-primary btn-lg btn-block" id="composePaper">원서 작성</button>
