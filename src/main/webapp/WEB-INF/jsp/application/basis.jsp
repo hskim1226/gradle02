@@ -577,10 +577,19 @@
     <input type="hidden" id="targetNode3" />
     <%-- 국가/학교 검색 팝업 --%>
 
+    <%-- 도로명 주소 사용 안내 팝업 --%>
+    <div id="street-name-notice" title="도로명 주소 사용 안내">
+        <p>주소 검색 결과에서 '지번 주소'를 클릭하지 마시고,<br/>아래와 같이 <b>도로명 주소</b>를 사용해 주시기 바랍니다.</p>
+        <p align="center"><img src="${contextPath}/img/application/street-name-capture.png"/></p>
+    </div>
+    <%-- 도로명 주소 사용 안내 팝업 --%>
+
     <%-- 다음 주소 검색 팝업 --%>
     <div id="postLayer" style="display:none;border:5px solid;position:fixed;width:310px;height:510px;left:50%;margin-left:-155px;top:50%;margin-top:-235px;overflow:hidden;-webkit-overflow-scrolling:touch;z-index:2;background-color:#fff;color: #111;">
         <img src="${contextPath}/img/user/addr-close.png" id="btnClosePostLayer" style="cursor:pointer;position:absolute;right:-3px;top:-3px" alt="닫기 버튼">
     </div>
+    <%-- 다음 주소 검색 팝업 --%>
+
 
 </section>
 <content tag="local-script">
@@ -862,6 +871,13 @@
 
         $('#btnClosePostLayer').on('click', closeDaumPostCode);
 
+        var isStreetAddress = function (addressString) {
+            var isValid = false;
+            if (addressString.indexOf('로') >= 0 || addressString.indexOf('길') >= 0)
+                isValid = true;
+            return isValid;
+        };
+
         var showDaumPostcode = function () {
             new daum.Postcode({
                 oncomplete: function(data) {
@@ -869,11 +885,22 @@
                     // 우편번호와 주소 및 영문주소 정보를 해당 필드에 넣는다.
 //                        document.getElementById('postcode1').value = data.postcode1;
 //                        document.getElementById('postcode2').value = data.postcode2;
-                    document.getElementById('zipCode').value = data.postcode1 + data.postcode2;
-                    document.getElementById('address').value = data.address1;
-                    document.getElementById('addressDetail').focus();
-                    // iframe을 넣은 element를 안보이게 한다.
-                    closeDaumPostCode();
+                    if (isStreetAddress(data.address1)) {
+                        document.getElementById('zipCode').value = data.postcode1 + data.postcode2;
+                        document.getElementById('address').value = data.address1;
+                        document.getElementById('addressDetail').focus();
+                        // iframe을 넣은 element를 안보이게 한다.
+                        closeDaumPostCode();
+                    } else {
+                        // iframe을 넣은 element를 안보이게 한다.
+                        closeDaumPostCode();
+                        confirm('주소를 다시 검색해서 도로명 주소를 사용해 주시기 바랍니다.');
+                        document.getElementById('zipCode').value = '';
+                        document.getElementById('address').value = '';
+                        $('#searchAddress').trigger('click');
+                    }
+
+
                 },
                 width : '100%',
                 height : '100%'
@@ -883,7 +910,21 @@
             postLayer.style.display = 'block';
         };
 
-        $('#searchAddress').on('click', showDaumPostcode);
+//        $('#searchAddress').on('click', showDaumPostcode);
+        $('#searchAddress').on('click', function () {
+            $( "#street-name-notice" ).dialog({
+                modal: true,
+                width: 380,
+                buttons: [{
+                        text: "확인",
+                        click: function() {
+                            $(this).dialog("close");
+                            showDaumPostcode();
+                        }
+                }]
+            });
+        });
+
         <%-- 다음 주소 검색 끝 --%>
 
         <%-- 달력 옵션 --%>
