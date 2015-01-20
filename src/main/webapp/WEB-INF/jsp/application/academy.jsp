@@ -374,13 +374,13 @@
                                                 <div class="col-sm-4">
                                                     <div class="input-group">
                                                         <span class="input-group-addon">평점</span>
-                                                        <form:input path="collegeList[${stat.index}].gradAvr" cssClass="form-control" />
+                                                        <form:input path="collegeList[${stat.index}].gradAvr" cssClass="form-control gradAvr" maxlength="4" placeholder="#.##"/>
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-4">
                                                     <div class="input-group">
                                                         <span class="input-group-addon">만점</span>
-                                                        <form:input path="collegeList[${stat.index}].gradFull" cssClass="form-control" />
+                                                        <form:input path="collegeList[${stat.index}].gradFull" cssClass="form-control gradFull" maxlength="3" placeholder="#.#" data-gradAvr-id="collegeList${stat.index}.gradAvr"/>
                                                     </div>
                                                 </div>
                                             </div>
@@ -476,13 +476,13 @@
                                                 <div class="col-sm-4">
                                                     <div class="input-group">
                                                         <span class="input-group-addon">평점</span>
-                                                        <form:input path="graduateList[${stat.index}].gradAvr" cssClass="form-control" />
+                                                        <form:input path="graduateList[${stat.index}].gradAvr" cssClass="form-control gradAvr" maxlength="4" placeholder="#.##"/>
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-4">
                                                     <div class="input-group">
                                                         <span class="input-group-addon">만점</span>
-                                                        <form:input path="graduateList[${stat.index}].gradFull" cssClass="form-control" />
+                                                        <form:input path="graduateList[${stat.index}].gradFull" cssClass="form-control gradFull" maxlength="3" placeholder="#.#" data-gradAvr-id="graduateList${stat.index}.gradAvr" />
                                                     </div>
                                                 </div>
                                             </div>
@@ -534,6 +534,9 @@
     <input type="hidden" id="targetNode3" />
     <%-- 국가/학교 검색 팝업 --%>
 
+    <%-- 입력값 valid flag --%>
+    <input type='hidden' id="validFlag" />
+
 </section>
 <content tag="local-script">
     <script src="${contextPath}/js/jquery-ui.min.js"></script>
@@ -543,7 +546,9 @@
             admsNo = document.getElementById('admsNo').value = '${academy.application.admsNo}',
             applStsCode = document.getElementById('applStsCode').value = '${academy.application.applStsCode}',
             entrYear = document.getElementById('entrYear').value = '${academy.application.entrYear}',
-            admsTypeCode = document.getElementById('admsTypeCode').value = '${academy.application.admsTypeCode}';
+            admsTypeCode = document.getElementById('admsTypeCode').value = '${academy.application.admsTypeCode}',
+            validFlag = document.getElementById('validFlag');
+        validFlag.value = true;
 
         <%-- 원서 작성 현황 처리 --%>
         var processCurrentStep = function (applStsCode) {
@@ -756,94 +761,124 @@
         });
         <%-- 졸업/졸업 예정 처리 --%>
 
-        <%-- bootstrapValidator --%>
-        $('#academy').bootstrapValidator({
-            feedbackIcons: {
-                valid: 'glyphicon glyphicon-ok',
-                invalid: 'glyphicon glyphicon-remove',
-                validating: 'glyphicon glyphicon-refresh'
-            },
-            fields: {
-                gradAvr: {
-                    selector: '[name$="gradAvr"]',
-                    validators: {
-                        callback: {
-                            callback: function (value, validator, $field) {
-                                if (value === '') {
-                                    return true;
-                                }
-                                var regexp = /^[0-9]+(.[0-9]{1,2})?$/;
-                                if (!regexp.test(value)) {
-                                    return {
-                                        value: false,
-                                        message: '소수점 2자리까지 입력가능합니다'
-                                    }
-                                }
-
-                                var $parent = $field.parents('.form-group');
-                                var name = $field.attr('name');
-                                name = name.substring(0, name.indexOf('.')) + '.gradFull';
-                                var $gradFull = $parent.find('[name="' + name + '"]');
-                                var gradFullValue = $gradFull.val();
-                                if (gradFullValue === '' || !regexp.test(gradFullValue)) {
-                                    return true;
-                                }
-                                if (Number(value) > Number(gradFullValue)) {
-                                    return {
-                                        valid: false,
-                                        message: '평점보다 만점이 커야합니다'
-                                    };
-                                }
-
-                                return true;
-                            }
-                        }
-                    }
-                },
-                gradFull: {
-                    selector: '[name$="gradFull"]',
-                    validators: {
-                        callback: {
-                            callback: function (value, validator, $field) {
-                                if (value === '') {
-                                    return true;
-                                }
-                                var regexp = /^[0-9]+(.[0-9]{1,2})?$/;
-                                if (!regexp.test(value)) {
-                                    return {
-                                        value: false,
-                                        message: '소수점 2자리까지 입력가능합니다'
-                                    }
-                                }
-
-                                var $parent = $field.parents('.form-group');
-                                var name = $field.attr('name');
-                                name = name.substring(0, name.indexOf('.')) + '.gradAvr';
-                                var $gradFull = $parent.find('[name="' + name + '"]');
-                                var gradFullValue = $gradFull.val();
-                                if (gradFullValue === '' || !regexp.test(gradFullValue)) {
-                                    return true;
-                                }
-                                if (Number(value) < Number(gradFullValue)) {
-                                    return {
-                                        valid: false,
-                                        message: '평점보다 만점이 커야합니다'
-                                    };
-                                }
-
-                                return true;
-                            }
-                        }
-                    }
-                },
-                requiredInput: {
-                    selector: '.requiredInput',
-                    validators: {
-                        notEmpty: '필수 입력 사항입니다.'
-                    }
+        <%-- 성적 입력 validation --%>
+        $('.gradAvr').on('blur', function () {
+            var regexp = /\d\.\d{2}/;
+            if (!regexp.test(this.value)) {
+                validFlag.value = false;
+                alert('소수점 둘째자리까지 작성해 주세요');
+                this.focus();
+            } else {
+                validFlag.value = true;
+            }
+        });
+        $('.gradFull').on('blur', function () {
+            var regexp = /\d.\d/,
+                gradAvgInput = document.getElementById(this.getAttribute('data-gradAvr-id'));
+            if (!regexp.test(this.value)) {
+                validFlag.value = false;
+                alert('소수점 첫째자리까지 작성해 주세요');
+                this.focus();
+            } else {
+                if (parseFloat(this.value) < parseFloat(gradAvgInput.value)) {
+                    validFlag.value = false;
+                    alert('평점은 만점 이하여야 합니다');
+                    gradAvgInput.focus();
+                } else {
+                    validFlag.value = true;
                 }
             }
         });
+        <%-- 성적 입력 validation --%>
+
+        <%-- bootstrapValidator --%>
+//        $('#academy').bootstrapValidator({
+//            feedbackIcons: {
+//                valid: 'glyphicon glyphicon-ok',
+//                invalid: 'glyphicon glyphicon-remove',
+//                validating: 'glyphicon glyphicon-refresh'
+//            },
+//            fields: {
+//                gradAvr: {
+//                    selector: '[name$="gradAvr"]',
+//                    validators: {
+//                        callback: {
+//                            callback: function (value, validator, $field) {
+//                                if (value === '') {
+//                                    return true;
+//                                }
+//                                var regexp = /^[0-9]+(.[0-9]{1,2})?$/;
+//                                if (!regexp.test(value)) {
+//                                    return {
+//                                        value: false,
+//                                        message: '소수점 2자리까지 입력가능합니다'
+//                                    }
+//                                }
+//
+//                                var $parent = $field.parents('.form-group');
+//                                var name = $field.attr('name');
+//                                name = name.substring(0, name.indexOf('.')) + '.gradFull';
+//                                var $gradFull = $parent.find('[name="' + name + '"]');
+//                                var gradFullValue = $gradFull.val();
+//                                if (gradFullValue === '' || !regexp.test(gradFullValue)) {
+//                                    return true;
+//                                }
+//                                if (Number(value) > Number(gradFullValue)) {
+//                                    return {
+//                                        valid: false,
+//                                        message: '평점보다 만점이 커야합니다'
+//                                    };
+//                                }
+//
+//                                return true;
+//                            }
+//                        }
+//                    }
+//                },
+//                gradFull: {
+//                    selector: '[name$="gradFull"]',
+//                    validators: {
+//                        callback: {
+//                            callback: function (value, validator, $field) {
+//                                if (value === '') {
+//                                    return true;
+//                                }
+//                                var regexp = /^[0-9]+(.[0-9]{1,2})?$/;
+//                                if (!regexp.test(value)) {
+//                                    return {
+//                                        value: false,
+//                                        message: '소수점 2자리까지 입력가능합니다'
+//                                    }
+//                                }
+//
+//                                var $parent = $field.parents('.form-group');
+//                                var name = $field.attr('name');
+//                                name = name.substring(0, name.indexOf('.')) + '.gradAvr';
+//                                var $gradFull = $parent.find('[name="' + name + '"]');
+//                                var gradFullValue = $gradFull.val();
+//                                if (gradFullValue === '' || !regexp.test(gradFullValue)) {
+//                                    return true;
+//                                }
+//                                if (Number(value) < Number(gradFullValue)) {
+//                                    return {
+//                                        valid: false,
+//                                        message: '평점보다 만점이 커야합니다'
+//                                    };
+//                                }
+//
+//                                return true;
+//                            }
+//                        }
+//                    }
+//                },
+//                requiredInput: {
+//                    selector: '.requiredInput',
+//                    validators: {
+//                        notEmpty: '필수 입력 사항입니다.'
+//                    }
+//                }
+//            }
+//        });
         <%-- bootstrapValidator --%>
 
         <%-- form-group-block 추가/삭제에 대한 처리 시작 --%>
@@ -918,36 +953,44 @@
 
         <%-- id, name 재설정 시작 --%>
         function updateIdAndName( block, index ) {
-            var i, name, prefix, suffix, input, items, label;
-            var input = block.querySelector('input');
-
-            name = input.name;
-//                prefix = name.substring(0, name.indexOf('['));
+            var i, name, prefix, suffix, input, items, label, j, k, element, datasetValue;
+//            var input = block.querySelector('input');
+//
+//            name = input.name;
+////                prefix = name.substring(0, name.indexOf('['));
 
             items = block.querySelectorAll('input, select, label');
             if (items) {
                 for (i = 0; i <items.length; i++) {
-                    name = items[i].name;
+                    element = items[i];
+                    name = element.name;
                     if (name) {
                         prefix = name.substring(0, name.indexOf('['));
                         suffix = name.substring(name.indexOf(']') + 1);
-                        items[i].name = prefix + '[' + index + ']' + suffix;
+                        element.name = prefix + '[' + index + ']' + suffix;
                     }
-                    var oldid = items[i].id;
+                    var oldid = element.id;
                     if (oldid) {
                         prefix = oldid.substring(0, oldid.indexOf('.'));
                         prefix = prefix.replace(/[0-9]/g, '');
                         suffix = oldid.substring(oldid.indexOf('.'));
-                        items[i].id = prefix + index + suffix;
+                        element.id = prefix + index + suffix;
 
                         label = block.querySelector('label[for="' + oldid + '"]');
                         if (label) {
-                            label.setAttribute('for', items[i].id);
+                            label.setAttribute('for', element.id);
                         }
                     }
-                    if (items[i].id.indexOf('grdaTypeCode') > 0) {
-                        if (items[i].checked)
-                            $(items[i]).prop('checked', true);
+                    if (element.dataset.gradavrId) {
+                        datasetValue = element.dataset.gradavrId;
+                        prefix = datasetValue.substring(0, datasetValue.indexOf('.'));
+                        prefix = prefix.replace(/[0-9]/g, '');
+                        suffix = datasetValue.substring(datasetValue.indexOf('.'));
+                        element.dataset.gradavrId = prefix + index + suffix;
+                    }
+                    if (element.id.indexOf('grdaTypeCode') > 0) {
+                        if (element.checked)
+                            $(element).prop('checked', true);
                     }
                 }
             }
