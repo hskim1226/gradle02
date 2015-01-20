@@ -6,6 +6,7 @@ import com.apexsoft.framework.security.UserSessionVO;
 import com.apexsoft.framework.xpay.service.PaymentVO;
 import com.apexsoft.framework.xpay.service.TransactionVO;
 import com.apexsoft.ysprj.applicants.application.domain.Application;
+import com.apexsoft.ysprj.applicants.application.domain.Basis;
 import com.apexsoft.ysprj.applicants.application.domain.CustomNewSeq;
 import com.apexsoft.ysprj.applicants.application.service.ApplicationService;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -60,7 +61,8 @@ public class XPayController {
      * @throws NoSuchAlgorithmException
      */
     @RequestMapping(value = "/confirm", method = RequestMethod.POST)
-    public String confirmPayment( HttpSession httpSession, PaymentVO paymentVO, @RequestParam("applNo") int applNo ) throws NoSuchAlgorithmException {
+//    public String confirmPayment( HttpSession httpSession, PaymentVO paymentVO, @RequestParam("application.applNo") int applNo ) throws NoSuchAlgorithmException {
+    public String confirmPayment( HttpSession httpSession, PaymentVO paymentVO, Basis model ) throws NoSuchAlgorithmException {
 
         SecurityContext sc = (SecurityContext)httpSession.getAttribute("SPRING_SECURITY_CONTEXT");
         Authentication auth = sc.getAuthentication();
@@ -68,7 +70,7 @@ public class XPayController {
 
         paymentVO.setLGD_BUYER(userSessionVO.getName());
         paymentVO.setLGD_BUYERID(userSessionVO.getUsername());
-        paymentVO.setApplNo(applNo);
+        paymentVO.setApplNo(model.getApplication().getApplNo());
 
         return "xpay/confirm";
     }
@@ -90,12 +92,13 @@ public class XPayController {
     public String getFullPaymentVO(HttpServletRequest request,
                                    HttpSession httpSession,
                                    PaymentVO paymentVO,
-                                   @RequestParam("applNo") int applNo)
+                                   Basis model)
             throws NoSuchAlgorithmException, JsonProcessingException, UnsupportedEncodingException {
 
         SecurityContext sc = (SecurityContext)httpSession.getAttribute("SPRING_SECURITY_CONTEXT");
         Authentication auth = sc.getAuthentication();
         UserSessionVO userSessionVO = (UserSessionVO)auth.getPrincipal();
+        int applNo = model.getApplication().getApplNo();
 
         //TODO 시연 용 임시 결제 상태 변경 시작
         //순번조회
