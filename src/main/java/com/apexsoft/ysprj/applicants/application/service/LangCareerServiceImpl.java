@@ -115,6 +115,7 @@ public class LangCareerServiceImpl implements LangCareerService {
     private List<LanguageGroup> retrieveLanguageGroupListByApplNo(int applNo) {
 
         List<LanguageGroup> langGroupList = null;
+
         try {
 
             langGroupList = commonDAO.queryForList(NAME_SPACE + "CustomApplicationDocumentMapper.selectLanguageGroupByApplNo",
@@ -137,11 +138,17 @@ public class LangCareerServiceImpl implements LangCareerService {
 
                 aLangList = commonDAO.queryForList(NAME_SPACE + "CustomApplicationDocumentMapper.selectTotalLanguageInfoByApplNo",
                                                     param, TotalApplicationLanguage.class);
+
                 for( TotalApplicationLanguage alang : aLangList){
-                    if( alang.getDocSeq() > 0 )
+                    if( alang.getLangSeq() != null && alang.getLangSeq() > 0 )
                         alang.setLangInfoSaveFg(true);
                     else
                         alang.setLangInfoSaveFg(false);
+
+                    if( alang.getDocSeq() > 0 )
+                        alang.setFileUploadFg(true);
+                    else
+                        alang.setFileUploadFg(false);
                 }
                 alangGroup.setLangList(aLangList);
             }

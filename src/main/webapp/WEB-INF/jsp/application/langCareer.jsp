@@ -300,13 +300,12 @@
                                     <div class="col-sm-2">
                                         <form:hidden path="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].itemCode" value="${langList.docItemCode}"/>
                                         <div class="checkbox">
-                                            <label for="checkLang-${langListStat.index}"><c:if test='${langList.canYn == "Y"}'><input type="checkbox" class="lang-checkbox" id="checkLang-${langListStat.index}" <c:if test="${langList.langGrad != null && langList.langGrad.length() > 0}">checked</c:if>/></c:if>${langList.itemName}</label>
+                                            <label for="checkLang-${langListStat.index}"><c:if test='${langList.canYn == "Y"}'><input type="checkbox" class="lang-checkbox" id="checkLang-${langListStat.index}" <c:if test="${langList.langInfoSaveFg == true}">checked</c:if>/></c:if>${langList.itemName}</label>
                                         </div>
                                     </div>
                                     <c:choose>
                                     <c:when test='${langList.canYn == "Y"}'>
-
-                                    <div class="col-sm-2 lang-detail-${langListStat.index}" style='display: <c:choose><c:when test="${langList.langGrad != null && langList.langGrad.length() > 0}">block;</c:when><c:otherwise>none;</c:otherwise></c:choose>'>
+                                    <div class="col-sm-2 lang-detail-${langListStat.index}" style='display: <c:choose><c:when test="${langList.langInfoSaveFg == true}">block;</c:when><c:otherwise>none;</c:otherwise></c:choose>'>
                                             <c:if test="${langList.itemCode == '00001'}">
                                         <form:select path="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].toflTypeCode" cssClass="form-control">
                                             <form:option value="" label="--선택--" />
@@ -314,20 +313,19 @@
                                         </form:select>
                                             </c:if>
                                     </div>
-                                    <div class="col-sm-3 lang-detail-${langListStat.index}" style='display: <c:choose><c:when test="${langList.langGrad != null && langList.langGrad.length() > 0}">block;</c:when><c:otherwise>none;</c:otherwise></c:choose>'>
+                                    <div class="col-sm-3 lang-detail-${langListStat.index}" style='display: <c:choose><c:when test="${langList.langInfoSaveFg == true}">block;</c:when><c:otherwise>none;</c:otherwise></c:choose>'>
                                         <div class="input-group date">
                                             <span class="input-group-addon">시험일</span>
                                             <form:input path="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].examDay" cssClass="form-control" />
                                             <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                                         </div>
                                     </div>
-                                    <div class="col-sm-2 lang-detail-${langListStat.index}" style='display: <c:choose><c:when test="${langList.langGrad != null && langList.langGrad.length() > 0}">block;</c:when><c:otherwise>none;</c:otherwise></c:choose>'>
+                                    <div class="col-sm-2 lang-detail-${langListStat.index}" style='display: <c:choose><c:when test="${langList.langInfoSaveFg == true}">block;</c:when><c:otherwise>none;</c:otherwise></c:choose>'>
                                         <div class="input-group">
                                             <span class="input-group-addon">점수</span>
                                             <form:input path="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].langGrad" cssClass="form-control" />
                                         </div>
                                     </div>
-
                                     </c:when>
                                     <c:otherwise>
                                     <div class="col-sm-2">
@@ -338,7 +336,6 @@
                                 </div>
                                 </c:forEach>
                             </c:forEach>
-
                                 <div class="form-group required">
                                     <div class="col-sm-offset-2 col-sm-4">
                                         <div class="checkbox">
