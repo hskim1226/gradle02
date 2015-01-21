@@ -336,7 +336,7 @@
                                     <div class="col-sm-2 lang-detail-${langListStat.index}" style='display: <c:choose><c:when test="${langList.langInfoSaveFg == true}">block;</c:when><c:otherwise>none;</c:otherwise></c:choose>'>
                                         <div class="input-group">
                                             <span class="input-group-addon">점수</span>
-                                            <form:input path="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].langGrad" cssClass="form-control" />
+                                            <form:input path="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].langGrad" cssClass="form-control lang-score" data-lang-exam-name="${langList.itemName}"/>
                                         </div>
                                     </div>
                                     </c:when>
@@ -362,69 +362,6 @@
                                     </div>
                                 </div>
                             </div>
-                            <%--<div class="panel-body" id="english-score-list">--%>
-                                <%--<c:forEach items="${common.langExamList}" var="langExam" varStatus="stat">--%>
-                                    <%--<div class="form-group hide-lang required">--%>
-                                    <%--<c:choose>--%>
-                                        <%--<c:when test="${stat.index == 0}">--%>
-                                        <%--<label class="col-sm-2 control-label">영어</label>--%>
-                                        <%--<div class="col-sm-2">--%>
-                                        <%--</c:when>--%>
-                                        <%--<c:otherwise>--%>
-                                            <%--<div class="col-sm-offset-2 col-sm-2">--%>
-                                        <%--</c:otherwise>--%>
-                                    <%--</c:choose>--%>
-                                                <%--<input type="hidden" name="languageGroupList[${stat.index}].langExamCode" id="languageGroupList${stat.index}.langExamCode" value="${langExam.examCode}" />--%>
-                                                <%--<div class="checkbox">--%>
-                                                    <%--<label for="checkLang${stat.index}"><input type="checkbox" class="btn-lang-disabled lang-checkbox" id="checkLang${stat.index}" <c:if test="langCareer.languageGroupList['${stat.index}'] != null">checked</c:if>/>${langExam.examName}</label>--%>
-                                                <%--</div>--%>
-                                    <%--<c:choose>--%>
-                                        <%--<c:when test="${stat.index == 0}">--%>
-                                            <%--</div>--%>
-                                        <%--</c:when>--%>
-                                        <%--<c:otherwise>--%>
-                                        <%--</div>--%>
-                                        <%--</c:otherwise>--%>
-                                    <%--</c:choose>--%>
-                                        <%--<div class="col-sm-2 show-lang">--%>
-                                    <%--<c:if test="${langExam.examCode == '00001'}">--%>
-                                                <%--<form:select path="languageGroupList[${stat.index}].toflTypeCode" cssClass="form-control">--%>
-                                                    <%--<form:option value="" label="--선택--" />--%>
-                                                    <%--<form:options items="${common.toflTypeList}" itemValue="code" itemLabel="codeVal" />--%>
-                                                <%--</form:select>--%>
-                                    <%--</c:if>--%>
-                                        <%--</div>--%>
-                                        <%--<div class="col-sm-2 hide-lang">--%>
-                                            <%--<label class="lbl-lang" id="checkLangLabel${stat.index}" >인정 불가</label>--%>
-                                        <%--</div>--%>
-                                        <%--<div class="col-sm-3 show-lang">--%>
-                                            <%--<div class="input-group date">--%>
-                                                <%--<span class="input-group-addon">시험일</span>--%>
-                                                <%--<form:input path="languageGroupList[${stat.index}].examDay" cssClass="form-control" />--%>
-                                                <%--<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>--%>
-                                            <%--</div>--%>
-                                        <%--</div>--%>
-                                        <%--<div class="col-sm-2 show-lang">--%>
-                                            <%--<div class="input-group">--%>
-                                                <%--<span class="input-group-addon">점수</span>--%>
-                                                <%--<form:input path="languageGroupList[${stat.index}].langGrad" cssClass="form-control" />--%>
-                                            <%--</div>--%>
-                                        <%--</div>--%>
-                                    <%--</div>--%>
-                                <%--</c:forEach>--%>
-                                <%--<div class="form-group required">--%>
-                                    <%--<div class="col-sm-offset-2 col-sm-4">--%>
-                                        <%--<div class="checkbox">--%>
-                                            <%--<label>--%>
-                                                <%--<input type="checkbox" />외국어 성적 면제 해당자--%>
-                                            <%--</label>--%>
-                                        <%--</div>--%>
-                                    <%--</div>--%>
-                                    <%--<div class="col-sm-5">--%>
-                                        <%--<form:select path="applicationGeneral.forlExmpCode" id="forlExamCode" cssClass="form-control" items="${common.fornExmpList}" itemValue="code" itemLabel="codeVal" />--%>
-                                    <%--</div>--%>
-                                <%--</div>--%>
-                            <%--</div>--%>
                         </div>
                         <div class="panel panel-default">
                             <div class="panel-heading">경력 사항</div>
@@ -545,7 +482,7 @@
         $('.btn-save').on('click', formProcess);
         <%-- 하단 버튼 처리 --%>
 
-        <%-- lang detail --%>
+        <%-- 어학 성적 입력란 처리 --%>
         $('.lang-checkbox').on('click', function () {
             var id = this.id,
                 currentIndex, classToToggle;
@@ -571,7 +508,53 @@
             });
 
         });
-        <%-- lang detail --%>
+        <%-- 어학 성적 입력란 처리 --%>
+
+        <%-- 어학 성적 validation --%>
+        var getToeflMaxScore = function (id) {
+            var toeflTypeSelectId = id.substr(0, id.lastIndexOf('.')) + '.toflTypeCode',
+                toeflTypeSelect = document.getElementById(toeflTypeSelectId),
+                toeflType = toeflTypeSelect.options[toeflTypeSelect.selectedIndex].innerHTML,
+                maxScore;
+            switch(toeflType) {
+                case 'IBT':
+                    maxScore = 120;
+                    break;
+                case 'CBT':
+                    maxScore = 300;
+                    break;
+                case 'PBT':
+                    maxScore = 677;
+                    break;
+            }
+            return maxScore;
+        };
+        $('.lang-score').on('blur', function () {
+            var examName = this.dataset.langExamName,
+                maxScore;
+            switch(examName) {
+                case 'TOEFL':
+                    maxScore = getToeflMaxScore(this.id);
+                    break;
+                case 'TOEIC':
+                    maxScore = 990;
+                    break;
+                case 'TEPS':
+                    maxScore = 990;
+                    break;
+                case 'IELTS':
+                    maxScore = 9.0;
+                    break;
+                case 'GRE':
+                    maxScore = 9999;
+                    break;
+            }
+            if (this.value > maxScore) {
+                alert( maxScore + '점 이하의 숫자를 입력해주세요.');
+                this.focus();
+            }
+        });
+        <%-- 어학 성적 validation --%>
 
         <%-- 달력 옵션 --%>
         var datePickerOption = {
