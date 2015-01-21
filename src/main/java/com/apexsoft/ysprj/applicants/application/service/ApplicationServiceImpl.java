@@ -1290,11 +1290,11 @@ System.out.println(param.getAcadTypeCode() + " : " + c1+u1+d1);
         for (CustomApplicationLanguage appLang : appLangList) {
             MandatoryNAppliedDoc mandDoc = new MandatoryNAppliedDoc();
             mandDoc.setDocGrp( appLang.getLangSeq() );
-            mandDoc.setDocName( appLang.getLangExamName());
+//            mandDoc.setDocName( appLang.getLangExamName());
             mandDoc.setMdtYn("Y");
             mandDoc.setUploadYn("Y");
             mandDoc.setSendCnt(1);
-            mandDoc.setDocItemName(appLang.getLangExamName() +"성적표(증명)");
+//            mandDoc.setDocItemName(appLang.getLangExamName() +"성적표(증명)");
             for (ApplicationDocument appDoc : appDocList) {
                 if (appDoc.getDocGrp() != null &&
                         "00005".equals(appDoc.getDocTypeCode()) &&
@@ -1482,6 +1482,4 @@ System.out.println(param.getAcadTypeCode() + " : " + c1+u1+d1);
         }
         return applicationDocument;
     }
-
-
 }

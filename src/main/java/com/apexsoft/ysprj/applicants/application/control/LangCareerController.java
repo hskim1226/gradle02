@@ -7,19 +7,15 @@ import com.apexsoft.ysprj.applicants.admission.domain.ParamForAdmissionCourseMaj
 import com.apexsoft.ysprj.applicants.admission.service.AdmissionService;
 import com.apexsoft.ysprj.applicants.application.domain.*;
 import com.apexsoft.ysprj.applicants.application.service.LangCareerService;
-import com.apexsoft.ysprj.applicants.common.domain.LanguageExam;
 import com.apexsoft.ysprj.applicants.common.service.CommonService;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
 import java.util.*;
 
@@ -147,23 +143,23 @@ public class LangCareerController {
         application.setUserId(userId);
         application.setModId(userId);
 
-        if (application.getApplStsCode().equals(ACAD_SAVED)) { //insert
-            for(ApplicationLanguage al : langCareer.getApplicationLanguageList()) {
-                al.setApplNo(applNo);
-                al.setCreId(userId);
-            }
-            for(ApplicationExperience ae : langCareer.getApplicationExperienceList()) {
-                ae.setApplNo(applNo);
-                ae.setCreId(userId);
-            }
-            ec = langCareerService.createLangCareer(application,
-                    langCareer.getApplicationLanguageList(),
-                    langCareer.getApplicationExperienceList());
-        } else { //update
-            ec = langCareerService.updateLangCareer(application,
-                    langCareer.getApplicationLanguageList(),
-                    langCareer.getApplicationExperienceList());
-        }
+//        if (application.getApplStsCode().equals(ACAD_SAVED)) { //insert
+//            for(ApplicationLanguage al : langCareer.getLanguageGroupList()) {
+//                al.setApplNo(applNo);
+//                al.setCreId(userId);
+//            }
+//            for(ApplicationExperience ae : langCareer.getApplicationExperienceList()) {
+//                ae.setApplNo(applNo);
+//                ae.setCreId(userId);
+//            }
+//            ec = langCareerService.createLangCareer(application,
+//                    langCareer.getLanguageGroupList(),
+//                    langCareer.getApplicationExperienceList());
+//        } else { //update
+//            ec = langCareerService.updateLangCareer(application,
+//                    langCareer.getLanguageGroupList(),
+//                    langCareer.getApplicationExperienceList());
+//        }
 
         if (ec.getResult().equals(ExecutionContext.SUCCESS)) {
             ApplicationIdentifier data = (ApplicationIdentifier)ec.getData();

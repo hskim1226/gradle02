@@ -1,92 +1,118 @@
 package com.apexsoft.ysprj.applicants.application.domain;
 
-import java.util.Date;
+public class CustomApplicationLanguage extends ApplicationLanguage {
 
-public class CustomApplicationLanguage  {
+    private String itemGrpCode;
+    private String itemCode;
+    private String itemName;
+    private int mandLangSeq;
+    private String upCodeGrp;
+    private String selGrpCode;
+    private String canYn = "N";
+    private String mdtYn = "N";
+    private String uploadYn = "N";
+    private String originSentYn = "N";
+    private String msgNo;
+    private String msg;
+    private boolean langInfoSaveFg =false;
 
-    private String langExamName;//추가 항목
-
-    //Application Language Key 항목
-    private Integer applNo;
-    private Integer langSeq;
-    public Integer getApplNo() {
-        return applNo;
-    }
-    public void setApplNo(Integer applNo) {
-        this.applNo = applNo;
-    }
-    public Integer getLangSeq() {
-        return langSeq;
-    }
-    public void setLangSeq(Integer langSeq) {
-        this.langSeq = langSeq;
+    public String getItemGrpCode() {
+        return itemGrpCode;
     }
 
-    //Application Language 항목
-    private String langExamCode;
-    private String toflTypeCode;
-    private String langGrad;
-    private String examNo;
-    private String examDay;
-    private String exprDay;
-
-    public String getLangExamName() {
-        return langExamName;
+    public void setItemGrpCode(String itemGrpCode) {
+        this.itemGrpCode = itemGrpCode;
     }
 
-    public void setLangExamName(String langExamName) {
-        this.langExamName = langExamName;
+    public String getItemCode() {
+        return itemCode;
     }
 
-    public String getLangExamCode() {
-        return langExamCode;
+    public void setItemCode(String itemCode) {
+        this.itemCode = itemCode;
     }
 
-
-    public void setLangExamCode(String langExamCode) {
-        this.langExamCode = langExamCode == null ? null : langExamCode.trim();
+    public String getItemName() {
+        return itemName;
     }
 
-
-    public String getToflTypeCode() {
-        return toflTypeCode;
+    public void setItemName(String itemName) {
+        this.itemName = itemName;
     }
 
-    public void setToflTypeCode(String toflTypeCode) {
-        this.toflTypeCode = toflTypeCode == null ? null : toflTypeCode.trim();
+    public String getSelGrpCode() {
+        return selGrpCode;
     }
 
-    public String getLangGrad() {
-        return langGrad;
+    public void setSelGrpCode(String selGrpCode) {
+        this.selGrpCode = selGrpCode;
     }
 
-    public void setLangGrad(String langGrad) {
-        this.langGrad = langGrad == null ? null : langGrad.trim();
+    public String getMdtYn() {
+        return mdtYn;
     }
 
-    public String getExamNo() {
-        return examNo;
+    public void setMdtYn(String mdtYn) {
+        this.mdtYn = mdtYn;
     }
 
-    public void setExamNo(String examNo) {
-        this.examNo = examNo == null ? null : examNo.trim();
+    public String getUploadYn() {
+        return uploadYn;
     }
 
-    public String getExamDay() {
-        return examDay;
+    public void setUploadYn(String uploadYn) {
+        this.uploadYn = uploadYn;
     }
 
-    public void setExamDay(String examDay) {
-        this.examDay = examDay == null ? null : examDay.trim();
+    public String getOriginSentYn() {
+        return originSentYn;
     }
 
-    public String getExprDay() {
-        return exprDay;
+    public void setOriginSentYn(String originSentYn) {
+        this.originSentYn = originSentYn;
     }
 
-    public void setExprDay(String exprDay) {
-        this.exprDay = exprDay == null ? null : exprDay.trim();
+    public String getMsg() {
+        return msg;
     }
 
+    public void setMsg(String msg) {
+        this.msg = msg;
+    }
 
+    public boolean isLangInfoSaveFg() {
+        return langInfoSaveFg;
+    }
+
+    public void setLangInfoSaveFg(boolean langInfoSaveFg) {
+        this.langInfoSaveFg = langInfoSaveFg;
+    }
+
+    public String getUpCodeGrp() {        return upCodeGrp;    }
+
+    public void setUpCodeGrp(String upCodeGrp) {        this.upCodeGrp = upCodeGrp;    }
+
+    public String getMsgNo() {
+        return msgNo;
+    }
+
+    public void setMsgNo(String msgNo) {
+        this.msgNo = msgNo;
+    }
+
+    public String getCanYn() {
+        return canYn;
+    }
+
+    public void setCanYn(String canYn) {
+        this.canYn = canYn;
+    }
+
+    public int getMandLangSeq() {
+        return mandLangSeq;
+    }
+
+    public void setMandLangSeq(int mandLangSeq) {
+        this.mandLangSeq = mandLangSeq;
+    }
 }

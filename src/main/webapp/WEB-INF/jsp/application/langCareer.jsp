@@ -150,9 +150,9 @@
             display: block;
         }
 
-        .show-lang .hide-lang, .hide-lang .show-lang {
-            display: none;
-        }
+        /*.show-lang .hide-lang, .hide-lang .show-lang {*/
+            /*display: none;*/
+        /*}*/
         section.application .form-control-static {
             padding-top: 6px;
             padding-bottom: 6px;
@@ -292,55 +292,53 @@
                         <div class="panel panel-default">
                             <div class="panel-heading">어학성적</div>
                             <div class="panel-body" id="english-score-list">
-                                <c:forEach items="${common.langExamList}" var="langExam" varStatus="stat">
-                                    <div class="form-group hide-lang required">
-                                    <c:choose>
-                                        <c:when test="${stat.index == 0}">
-                                        <label class="col-sm-2 control-label">영어</label>
-                                        <div class="col-sm-2">
-                                        </c:when>
-                                        <c:otherwise>
-                                            <div class="col-sm-offset-2 col-sm-2">
-                                        </c:otherwise>
-                                    </c:choose>
-                                                <input type="hidden" name="applicationLanguageList[${stat.index}].langExamCode" id="applicationLanguageList${stat.index}.langExamCode" value="${langExam.examCode}" />
-                                                <div class="checkbox">
-                                                    <label for="checkLang${stat.index}"><input type="checkbox" class="btn-lang-disabled lang-checkbox" id="checkLang${stat.index}" <c:if test="langCareer.applicationLanguageList['${stat.index}'] != null">checked</c:if>/>${langExam.examName}</label>
-                                                </div>
-                                    <c:choose>
-                                        <c:when test="${stat.index == 0}">
-                                            </div>
-                                        </c:when>
-                                        <c:otherwise>
-                                        </div>
-                                        </c:otherwise>
-                                    </c:choose>
-                                        <div class="col-sm-2 show-lang">
-                                    <c:if test="${langExam.examCode == '00001'}">
-                                                <form:select path="applicationLanguageList[${stat.index}].toflTypeCode" cssClass="form-control">
-                                                    <form:option value="" label="--선택--" />
-                                                    <form:options items="${common.toflTypeList}" itemValue="code" itemLabel="codeVal" />
-                                                </form:select>
-                                    </c:if>
-                                        </div>
-                                        <div class="col-sm-2 hide-lang">
-                                            <label class="lbl-lang" id="checkLangLabel${stat.index}" >인정 불가</label>
-                                        </div>
-                                        <div class="col-sm-3 show-lang">
-                                            <div class="input-group date">
-                                                <span class="input-group-addon">시험일</span>
-                                                <form:input path="applicationLanguageList[${stat.index}].examDay" cssClass="form-control" />
-                                                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-2 show-lang">
-                                            <div class="input-group">
-                                                <span class="input-group-addon">점수</span>
-                                                <form:input path="applicationLanguageList[${stat.index}].langGrad" cssClass="form-control" />
-                                            </div>
+                            <c:forEach items="${langCareer.languageGroupList}" var="langGroup" varStatus="langGroupStat">
+                                <c:forEach items="${langGroup.langList}" var="langList" varStatus="langListStat">
+                                <div class="form-group required">
+                                    <form:hidden path="languageGroupList[${langGroupStat.index}]" value="${langGroup.examCodeGrp}"/>
+                                    <label class="col-sm-2 control-label">${langGroup.examGrpName}</label>
+                                    <div class="col-sm-2">
+                                        <form:hidden path="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].itemCode" value="${langList.docItemCode}"/>
+                                        <div class="checkbox">
+                                            <label for="checkLang-${langListStat.index}"><c:if test='${langList.canYn == "Y"}'><input type="checkbox" class="lang-checkbox" id="checkLang-${langListStat.index}" <c:if test="${langList.langGrad != null && langList.langGrad.length() > 0}">checked</c:if>/></c:if>${langList.itemName}</label>
                                         </div>
                                     </div>
+                                    <c:choose>
+                                    <c:when test='${langList.canYn == "Y"}'>
+
+                                    <div class="col-sm-2 lang-detail-${langListStat.index}" style='display: <c:choose><c:when test="${langList.langGrad != null && langList.langGrad.length() > 0}">block;</c:when><c:otherwise>none;</c:otherwise></c:choose>'>
+                                            <c:if test="${langList.itemCode == '00001'}">
+                                        <form:select path="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].toflTypeCode" cssClass="form-control">
+                                            <form:option value="" label="--선택--" />
+                                            <form:options items="${common.toflTypeList}" itemValue="code" itemLabel="codeVal" />
+                                        </form:select>
+                                            </c:if>
+                                    </div>
+                                    <div class="col-sm-3 lang-detail-${langListStat.index}" style='display: <c:choose><c:when test="${langList.langGrad != null && langList.langGrad.length() > 0}">block;</c:when><c:otherwise>none;</c:otherwise></c:choose>'>
+                                        <div class="input-group date">
+                                            <span class="input-group-addon">시험일</span>
+                                            <form:input path="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].examDay" cssClass="form-control" />
+                                            <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-2 lang-detail-${langListStat.index}" style='display: <c:choose><c:when test="${langList.langGrad != null && langList.langGrad.length() > 0}">block;</c:when><c:otherwise>none;</c:otherwise></c:choose>'>
+                                        <div class="input-group">
+                                            <span class="input-group-addon">점수</span>
+                                            <form:input path="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].langGrad" cssClass="form-control" />
+                                        </div>
+                                    </div>
+
+                                    </c:when>
+                                    <c:otherwise>
+                                    <div class="col-sm-2">
+                                        <label class="lbl-lang" id="checkLangLabel${langListStat.index}" >인정 불가</label>
+                                    </div>
+                                    </c:otherwise>
+                                    </c:choose>
+                                </div>
                                 </c:forEach>
+                            </c:forEach>
+
                                 <div class="form-group required">
                                     <div class="col-sm-offset-2 col-sm-4">
                                         <div class="checkbox">
@@ -354,6 +352,69 @@
                                     </div>
                                 </div>
                             </div>
+                            <%--<div class="panel-body" id="english-score-list">--%>
+                                <%--<c:forEach items="${common.langExamList}" var="langExam" varStatus="stat">--%>
+                                    <%--<div class="form-group hide-lang required">--%>
+                                    <%--<c:choose>--%>
+                                        <%--<c:when test="${stat.index == 0}">--%>
+                                        <%--<label class="col-sm-2 control-label">영어</label>--%>
+                                        <%--<div class="col-sm-2">--%>
+                                        <%--</c:when>--%>
+                                        <%--<c:otherwise>--%>
+                                            <%--<div class="col-sm-offset-2 col-sm-2">--%>
+                                        <%--</c:otherwise>--%>
+                                    <%--</c:choose>--%>
+                                                <%--<input type="hidden" name="languageGroupList[${stat.index}].langExamCode" id="languageGroupList${stat.index}.langExamCode" value="${langExam.examCode}" />--%>
+                                                <%--<div class="checkbox">--%>
+                                                    <%--<label for="checkLang${stat.index}"><input type="checkbox" class="btn-lang-disabled lang-checkbox" id="checkLang${stat.index}" <c:if test="langCareer.languageGroupList['${stat.index}'] != null">checked</c:if>/>${langExam.examName}</label>--%>
+                                                <%--</div>--%>
+                                    <%--<c:choose>--%>
+                                        <%--<c:when test="${stat.index == 0}">--%>
+                                            <%--</div>--%>
+                                        <%--</c:when>--%>
+                                        <%--<c:otherwise>--%>
+                                        <%--</div>--%>
+                                        <%--</c:otherwise>--%>
+                                    <%--</c:choose>--%>
+                                        <%--<div class="col-sm-2 show-lang">--%>
+                                    <%--<c:if test="${langExam.examCode == '00001'}">--%>
+                                                <%--<form:select path="languageGroupList[${stat.index}].toflTypeCode" cssClass="form-control">--%>
+                                                    <%--<form:option value="" label="--선택--" />--%>
+                                                    <%--<form:options items="${common.toflTypeList}" itemValue="code" itemLabel="codeVal" />--%>
+                                                <%--</form:select>--%>
+                                    <%--</c:if>--%>
+                                        <%--</div>--%>
+                                        <%--<div class="col-sm-2 hide-lang">--%>
+                                            <%--<label class="lbl-lang" id="checkLangLabel${stat.index}" >인정 불가</label>--%>
+                                        <%--</div>--%>
+                                        <%--<div class="col-sm-3 show-lang">--%>
+                                            <%--<div class="input-group date">--%>
+                                                <%--<span class="input-group-addon">시험일</span>--%>
+                                                <%--<form:input path="languageGroupList[${stat.index}].examDay" cssClass="form-control" />--%>
+                                                <%--<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>--%>
+                                            <%--</div>--%>
+                                        <%--</div>--%>
+                                        <%--<div class="col-sm-2 show-lang">--%>
+                                            <%--<div class="input-group">--%>
+                                                <%--<span class="input-group-addon">점수</span>--%>
+                                                <%--<form:input path="languageGroupList[${stat.index}].langGrad" cssClass="form-control" />--%>
+                                            <%--</div>--%>
+                                        <%--</div>--%>
+                                    <%--</div>--%>
+                                <%--</c:forEach>--%>
+                                <%--<div class="form-group required">--%>
+                                    <%--<div class="col-sm-offset-2 col-sm-4">--%>
+                                        <%--<div class="checkbox">--%>
+                                            <%--<label>--%>
+                                                <%--<input type="checkbox" />외국어 성적 면제 해당자--%>
+                                            <%--</label>--%>
+                                        <%--</div>--%>
+                                    <%--</div>--%>
+                                    <%--<div class="col-sm-5">--%>
+                                        <%--<form:select path="applicationGeneral.forlExmpCode" id="forlExamCode" cssClass="form-control" items="${common.fornExmpList}" itemValue="code" itemLabel="codeVal" />--%>
+                                    <%--</div>--%>
+                                <%--</div>--%>
+                            <%--</div>--%>
                         </div>
                         <div class="panel panel-default">
                             <div class="panel-heading">경력 사항</div>
@@ -474,91 +535,105 @@
         $('.btn-save').on('click', formProcess);
         <%-- 하단 버튼 처리 --%>
 
+        <%-- lang detail --%>
+        $('.lang-checkbox').on('click', function () {
+            var id = this.id,
+                currentIndex, classToToggle;
+            currentIndex = id.substr(id.lastIndexOf('-')+1);
+            classToToggle = '.lang-detail-' + currentIndex;
+            if (this.checked) {
+                $(classToToggle).css('display', 'block');
+            } else {
+                $(classToToggle).css('display', 'none');
+            }
+        });
+        <%-- lang detail --%>
+
         <%-- 어학 목록 시작 --%>
-        var updateLanguagePanel= function () {
-            var detlMajCode = $('#detlMajCode').val();
-            if (detlMajCode === '-' || detlMajCode === '') {
-                var groups = $('#english-score-list').children('.form-group');
-                for (var i = 0, len = groups.length; i < len; i++) {
-                    updateLanguageGroup(groups[i], []);
-                }
-                return;
-            }
-            var baseUrl = '${contextPath}/common/code';
-            var url;
-            var admsNo = $('#admsNo').val();
-            var applAttrCode = $('#applAttrCode').val();
-            if (applAttrCode == '00001') {
-                baseUrl += '/general';
-                url = admsNo + '/' + $('#deptCode').val() + '/' + $('#corsTypeCode').val() + '/' + detlMajCode;
-            } else if (applAttrCode == '00002') {
-                baseUrl += '/ariInst';
-                url = admsNo + '/' + $('#deptCode').val() + '/' + $('#ariInstCode').val() + '/' + $('#corsTypeCode').val() + '/' + detlMajCode;
-            } else if (applAttrCode == '00003') {
-                baseUrl += '/general';
-                url = admsNo + '/' + $('#deptCode').val() + '/' + $('#corsTypeCode').val() + '/' + detlMajCode;
-            }
+//        var updateLanguagePanel= function () {
+            <%--var detlMajCode = $('#detlMajCode').val();--%>
+            <%--if (detlMajCode === '-' || detlMajCode === '') {--%>
+                <%--var groups = $('#english-score-list').children('.form-group');--%>
+                <%--for (var i = 0, len = groups.length; i < len; i++) {--%>
+                    <%--updateLanguageGroup(groups[i], []);--%>
+                <%--}--%>
+                <%--return;--%>
+            <%--}--%>
+            <%--var baseUrl = '${contextPath}/common/code';--%>
+            <%--var url;--%>
+            <%--var admsNo = $('#admsNo').val();--%>
+            <%--var applAttrCode = $('#applAttrCode').val();--%>
+            <%--if (applAttrCode == '00001') {--%>
+                <%--baseUrl += '/general';--%>
+                <%--url = admsNo + '/' + $('#deptCode').val() + '/' + $('#corsTypeCode').val() + '/' + detlMajCode;--%>
+            <%--} else if (applAttrCode == '00002') {--%>
+                <%--baseUrl += '/ariInst';--%>
+                <%--url = admsNo + '/' + $('#deptCode').val() + '/' + $('#ariInstCode').val() + '/' + $('#corsTypeCode').val() + '/' + detlMajCode;--%>
+            <%--} else if (applAttrCode == '00003') {--%>
+                <%--baseUrl += '/general';--%>
+                <%--url = admsNo + '/' + $('#deptCode').val() + '/' + $('#corsTypeCode').val() + '/' + detlMajCode;--%>
+            <%--}--%>
 
-            $.ajax({
-                type: 'GET',
-                url: baseUrl + '/engMdtYn/' + url,
-                success: function(e) {
-                    if (e.result == 'SUCCESS') {
-                        <%-- 학과면제인정 보이지 않게 처리 --%>
-                        $('#forlExmpCode').children('option').each(function () {
-                            if (this.value && this.value == '6') {
-                                $(this).hide(e.data == 'Y' || e.data == 'y');
-                            }
-                        });
-                    }
-                },
-                error: function(e) {}
-            });
-            $.ajax({
-                type: 'GET',
-                url: baseUrl + "/availableEngExam/" + url,
-                success: function(e) {
-                    if (e.result == 'SUCCESS') {
-                        var data = JSON && JSON.parse(e.data) || $.parseJSON(e.data);
-                        var groups = $('#english-score-list').children('.form-group');
-                        for (var i = 0, len = groups.length; i < len; i++) {
-                            updateLanguageGroup(groups[i], data);
-                        }
-                    }
-                },
-                error: function(e) {}
-            });
-        };
-        updateLanguagePanel();
+            <%--$.ajax({--%>
+                <%--type: 'GET',--%>
+                <%--url: baseUrl + '/engMdtYn/' + url,--%>
+                <%--success: function(e) {--%>
+                    <%--if (e.result == 'SUCCESS') {--%>
+                        <%--&lt;%&ndash; 학과면제인정 보이지 않게 처리 &ndash;%&gt;--%>
+                        <%--$('#forlExmpCode').children('option').each(function () {--%>
+                            <%--if (this.value && this.value == '6') {--%>
+                                <%--$(this).hide(e.data == 'Y' || e.data == 'y');--%>
+                            <%--}--%>
+                        <%--});--%>
+                    <%--}--%>
+                <%--},--%>
+                <%--error: function(e) {}--%>
+            <%--});--%>
+            <%--$.ajax({--%>
+                <%--type: 'GET',--%>
+                <%--url: baseUrl + "/availableEngExam/" + url,--%>
+                <%--success: function(e) {--%>
+                    <%--if (e.result == 'SUCCESS') {--%>
+                        <%--var data = JSON && JSON.parse(e.data) || $.parseJSON(e.data);--%>
+                        <%--var groups = $('#english-score-list').children('.form-group');--%>
+                        <%--for (var i = 0, len = groups.length; i < len; i++) {--%>
+                            <%--updateLanguageGroup(groups[i], data);--%>
+                        <%--}--%>
+                    <%--}--%>
+                <%--},--%>
+                <%--error: function(e) {}--%>
+            <%--});--%>
+        <%--};--%>
+        <%--updateLanguagePanel();--%>
 
-        var updateLanguageGroup = function (group, data) {
-            var langExamCode = $(group).find('input').filter('[name$="langExamCode"]')[0];
-            var check = $(group).find('.btn-lang, .btn-lang-disabled')[0];
-            var checkLabel = $(group).find('.lbl-lang')[0];
-            if (check) {
-                var val = langExamCode ? langExamCode.value : null;
-                var isExist = false, item;
-                for (var j = 0, len = data.length; j < len; j++) {
-                    item = data[j];
-                    if (val == item['examCode']) {
-                        if ('Y' == item['canYn'] || 'y' == item['canYn']) {
-                            check.className = 'btn-lang';
-                            check.removeAttribute('disabled');
-                            isExist = true;
-                            $(checkLabel).text('제출 가능');
-                        }
-                        break;
-                    }
-                }
-                if (!isExist) {
-                    check.className = 'btn-lang-disabled';
-                    checkLabel.text ='제출 불가';
-                    check.setAttribute('disabled', 'disabled');
-                    $(group).removeClass('show-lang');
-                    $(group).addClass('hide-lang');
-                }
-            }
-        };
+//        var updateLanguageGroup = function (group, data) {
+//            var langExamCode = $(group).find('input').filter('[name$="langExamCode"]')[0];
+//            var check = $(group).find('.btn-lang, .btn-lang-disabled')[0];
+//            var checkLabel = $(group).find('.lbl-lang')[0];
+//            if (check) {
+//                var val = langExamCode ? langExamCode.value : null;
+//                var isExist = false, item;
+//                for (var j = 0, len = data.length; j < len; j++) {
+//                    item = data[j];
+//                    if (val == item['examCode']) {
+//                        if ('Y' == item['canYn'] || 'y' == item['canYn']) {
+//                            check.className = 'btn-lang';
+//                            check.removeAttribute('disabled');
+//                            isExist = true;
+//                            $(checkLabel).text('제출 가능');
+//                        }
+//                        break;
+//                    }
+//                }
+//                if (!isExist) {
+//                    check.className = 'btn-lang-disabled';
+//                    checkLabel.text ='제출 불가';
+//                    check.setAttribute('disabled', 'disabled');
+//                    $(group).removeClass('show-lang');
+//                    $(group).addClass('hide-lang');
+//                }
+//            }
+//        };
 
         <%-- 졸업구분의 졸업선택시 --%>
         $('.degr-radio').on('change', function(e) {

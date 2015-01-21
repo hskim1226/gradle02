@@ -9,7 +9,7 @@ public class LangCareer {
 
     private Application application;
     private ApplicationGeneral applicationGeneral;
-    private List<ApplicationLanguage> applicationLanguageList;
+    private List<LanguageGroup> languageGroupList;
     private List<ApplicationExperience> applicationExperienceList;
 
     public Application getApplication() {
@@ -28,12 +28,12 @@ public class LangCareer {
         this.applicationGeneral = applicationGeneral;
     }
 
-    public List<ApplicationLanguage> getApplicationLanguageList() {
-        return applicationLanguageList;
+    public List<LanguageGroup> getLanguageGroupList() {
+        return languageGroupList;
     }
 
-    public void setApplicationLanguageList(List<ApplicationLanguage> applicationLanguageList) {
-        this.applicationLanguageList = applicationLanguageList;
+    public void setLanguageGroupList(List<LanguageGroup> languageGroupList) {
+        this.languageGroupList = languageGroupList;
     }
 
     public List<ApplicationExperience> getApplicationExperienceList() {

@@ -102,13 +102,53 @@ public class LangCareerServiceImpl implements LangCareerService {
 
         langCareer.setApplication(application);
         langCareer.setApplicationGeneral(applicationGeneral);
-        langCareer.setApplicationLanguageList(retrieveInfoListByApplNo(applNo, "CustomApplicationLanguageMapper", ApplicationLanguage.class));
+//        langCareer.setLanguageGroupList(retrieveInfoListByApplNo(applNo, "CustomApplicationLanguageMapper", ApplicationLanguage.class));
+        langCareer.setLanguageGroupList(retrieveLanguageGroupListByApplNo(applNo));
         langCareer.setApplicationExperienceList(retrieveInfoListByApplNo(applNo, "CustomApplicationExperienceMapper", ApplicationExperience.class));
 
         ec.setResult(ExecutionContext.SUCCESS);
         ec.setData(langCareer);
 
         return ec;
+    }
+
+    private List<LanguageGroup> retrieveLanguageGroupListByApplNo(int applNo) {
+
+        List<LanguageGroup> langGroupList = null;
+        try {
+
+            langGroupList = commonDAO.queryForList(NAME_SPACE + "CustomApplicationDocumentMapper.selectLanguageGroupByApplNo",
+                                                    applNo, LanguageGroup.class);
+            if( langGroupList == null || langGroupList.size()==0){
+                LanguageGroup aGroup  = new LanguageGroup();
+                aGroup.setExamCodeGrp("LANG_EXAM");
+                aGroup.setExamGrpName("영어");
+                aGroup.setSelGrpCode("LANG_EXAM");
+                aGroup.setExamCode("00001");
+                langGroupList.add(aGroup);
+            }
+            ParamForTotalLang param = new ParamForTotalLang();
+            List<TotalApplicationLanguage> aLangList;
+            for (LanguageGroup alangGroup : langGroupList) {
+                param.setApplNo(applNo);
+                param.setSelGrpCode(alangGroup.getSelGrpCode());
+                param.setUpCodeGrp(alangGroup.getExamCodeGrp());
+                param.setUpCode(alangGroup.getExamCode());
+
+                aLangList = commonDAO.queryForList(NAME_SPACE + "CustomApplicationDocumentMapper.selectTotalLanguageInfoByApplNo",
+                                                    param, TotalApplicationLanguage.class);
+                for( TotalApplicationLanguage alang : aLangList){
+                    if( alang.getDocSeq() > 0 )
+                        alang.setLangInfoSaveFg(true);
+                    else
+                        alang.setLangInfoSaveFg(false);
+                }
+                alangGroup.setLangList(aLangList);
+            }
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+        return langGroupList;
     }
 
     @Override
@@ -200,4 +240,6 @@ public class LangCareerServiceImpl implements LangCareerService {
 
         return infoList;
     }
+
+
 }

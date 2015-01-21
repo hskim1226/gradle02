@@ -267,14 +267,14 @@ public class MandatoryNAppliedLangDoc extends ApplicationDocument{
     public void setCustomAppLangInfo( CustomApplicationLanguage appLang){
 
         setLangSeq( appLang.getLangSeq());
-        setLangExamName( appLang.getLangExamName());
+//        setLangExamName( appLang.getLangExamName());
         setToflTypeCode( appLang.getToflTypeCode());
         setLangGrad( appLang.getLangGrad());
         setExamNo( appLang.getExamNo());
         setExamDay( appLang.getExamDay());
         setExprDay( appLang.getExprDay());
-        setLangExamName( appLang.getLangExamName());
-        setLangExamName( appLang.getLangExamName());
+//        setLangExamName( appLang.getLangExamName());
+//        setLangExamName( appLang.getLangExamName());
     }
 
 }
