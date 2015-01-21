@@ -578,7 +578,7 @@
     <%-- 국가/학교 검색 팝업 --%>
 
     <%-- 도로명 주소 사용 안내 팝업 --%>
-    <div id="street-name-notice" title="도로명 주소 사용 안내">
+    <div id="street-name-notice" title="도로명 주소 사용 안내" style="display:none;">
         <p>주소 검색 결과에서 '지번 주소'를 클릭하지 마시고,<br/>아래와 같이 <b>도로명 주소</b>를 사용해 주시기 바랍니다.</p>
         <p align="center"><img src="${contextPath}/img/application/street-name-capture.png"/></p>
     </div>
