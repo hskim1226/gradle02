@@ -336,7 +336,7 @@
                                     <div class="col-sm-2 lang-detail-${langListStat.index}" style='display: <c:choose><c:when test="${langList.langInfoSaveFg == true}">block;</c:when><c:otherwise>none;</c:otherwise></c:choose>'>
                                         <div class="input-group">
                                             <span class="input-group-addon">점수</span>
-                                            <form:input path="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].langGrad" cssClass="form-control lang-score" data-lang-exam-name="${langList.itemName}"/>
+                                            <form:input path="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].langGrad" cssClass="form-control lang-score" data-lang-exam-name="${langList.itemName}" maxlength="4"/>
                                         </div>
                                     </div>
                                     </c:when>
@@ -482,7 +482,7 @@
         $('.btn-save').on('click', formProcess);
         <%-- 하단 버튼 처리 --%>
 
-        <%-- 어학 성적 입력란 처리 --%>
+        <%-- 어학 성적 입력란 show/hide 처리 --%>
         $('.lang-checkbox').on('click', function () {
             var id = this.id,
                 currentIndex, classToToggle;
@@ -508,7 +508,17 @@
             });
 
         });
-        <%-- 어학 성적 입력란 처리 --%>
+        <%-- 어학 성적 입력란 show/hide 처리 --%>
+
+        <%-- 숫자, 소수점 1개만 입력 - 어학 성적 입력 --%>
+        $('.lang-score').on('keyup', function () {
+            var numCheckRegExp = /^[0-9]*\.?[0-9]*$/,
+                    val = this.value;
+            if (!numCheckRegExp.test(val)) {
+                this.value = val.substr(0, val.length-1);
+            }
+        });
+        <%-- 숫자, 소수점 1개만 입력 - 어학 성적 입력 --%>
 
         <%-- 어학 성적 validation --%>
         var getToeflMaxScore = function (id) {

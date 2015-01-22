@@ -762,9 +762,16 @@
         <%-- 졸업/졸업 예정 처리 --%>
 
         <%-- 성적 입력 validation --%>
+        $('.gradAvr').on('keyup', function () {
+            var regexp = /^[0-9]\.?[0-9]*$/,
+                val = this.value;
+            if (!regexp.test(this.value)) {
+                this.value = val.substr(0, val.length-1);
+            }
+        });
         $('.gradAvr').on('blur', function () {
             var regexp = /\d\.\d{2}/;
-            if (!regexp.test(this.value)) {
+            if (!regexp.test(this.value) && this.value != '') {
                 validFlag.value = false;
                 alert('소수점 둘째자리까지 작성해 주세요');
                 this.focus();
@@ -772,10 +779,17 @@
                 validFlag.value = true;
             }
         });
+        $('.gradFull').on('keyup', function () {
+            var regexp = /^[0-9]\.?[0-9]*$/,
+                    val = this.value;
+            if (!regexp.test(this.value)) {
+                this.value = val.substr(0, val.length-1);
+            }
+        });
         $('.gradFull').on('blur', function () {
             var regexp = /\d.\d/,
                 gradAvgInput = document.getElementById(this.getAttribute('data-gradAvr-id'));
-            if (!regexp.test(this.value)) {
+            if (!regexp.test(this.value) && this.value != '') {
                 validFlag.value = false;
                 alert('소수점 첫째자리까지 작성해 주세요');
                 this.focus();
