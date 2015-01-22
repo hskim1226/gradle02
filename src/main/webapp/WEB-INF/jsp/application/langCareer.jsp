@@ -295,7 +295,7 @@
                             <c:forEach items="${langCareer.languageGroupList}" var="langGroup" varStatus="langGroupStat">
                                 <c:forEach items="${langGroup.langList}" var="langList" varStatus="langListStat">
                                 <div class="form-group required">
-                                    <form:hidden path="languageGroupList[${langGroupStat.index}]" value="${langGroup.examCodeGrp}"/>
+                                    <form:hidden path="languageGroupList[${langGroupStat.index}].examCodeGrp" value="${langGroup.examCodeGrp}"/>
                                     <div class="col-sm-2">
                                         <c:if test="${langListStat.index == 0}"><label class="col-sm-offset-8 control-label">${langGroup.examGrpName}</label></c:if>
                                     </div>

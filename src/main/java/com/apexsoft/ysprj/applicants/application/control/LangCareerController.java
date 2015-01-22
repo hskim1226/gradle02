@@ -10,6 +10,7 @@ import com.apexsoft.ysprj.applicants.application.service.LangCareerService;
 import com.apexsoft.ysprj.applicants.common.service.CommonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -73,31 +74,15 @@ public class LangCareerController {
         param.setDeptCode(application.getDeptCode());
         param.setCorsTypeCode(application.getCorsTypeCode());
         param.setDetlMajCode(application.getDetlMajCode());
-        List<AdmissionCourseMajorLanguage> langExamList =
-                admissionService.retrieveAvailableEngExamList(param);
 
         commonCodeMap.put( "toflTypeList", commonService.retrieveCommonCodeValueByCodeGroup("TOFL_TYPE") );
         commonCodeMap.put( "fornExmpList", commonService.retrieveCommonCodeValueByCodeGroup("FORN_EXMP") );
-        commonCodeMap.put( "langExamList", langExamList);
 
         ecDataMap.put("langCareer", langCareer);
         ecDataMap.put("common", commonCodeMap);
         ec.setData(ecDataMap);
 
         return ec;
-    }
-
-    public ExecutionContext retrieveAvailableEngExamList(ParamForAdmissionCourseMajor param) {
-
-        List<AdmissionCourseMajorLanguage> admissionCourseMajorLanguageList = admissionService.retrieveAvailableEngExamList(param);
-
-        ExecutionContext executionContext = new ExecutionContext();
-        if (!(admissionCourseMajorLanguageList.size() > 0)) {
-            executionContext.setMessage(messageResolver.getMessage("U300"));
-        }
-
-
-        return executionContext;
     }
 
     /**
@@ -143,23 +128,26 @@ public class LangCareerController {
         application.setUserId(userId);
         application.setModId(userId);
 
-//        if (application.getApplStsCode().equals(ACAD_SAVED)) { //insert
-//            for(ApplicationLanguage al : langCareer.getLanguageGroupList()) {
-//                al.setApplNo(applNo);
-//                al.setCreId(userId);
-//            }
-//            for(ApplicationExperience ae : langCareer.getApplicationExperienceList()) {
-//                ae.setApplNo(applNo);
-//                ae.setCreId(userId);
-//            }
-//            ec = langCareerService.createLangCareer(application,
-//                    langCareer.getLanguageGroupList(),
-//                    langCareer.getApplicationExperienceList());
-//        } else { //update
-//            ec = langCareerService.updateLangCareer(application,
-//                    langCareer.getLanguageGroupList(),
-//                    langCareer.getApplicationExperienceList());
-//        }
+        if (application.getApplStsCode().equals(ACAD_SAVED)) { //insert
+            for (LanguageGroup lGroup : langCareer.getLanguageGroupList()) {
+                List<TotalApplicationLanguage> langList = lGroup.getLangList();
+                for (TotalApplicationLanguage alang : langList) {
+                    alang.setApplNo(applNo);
+                    alang.setCreId(userId);
+                }
+            }
+            for (ApplicationExperience ae : langCareer.getApplicationExperienceList()) {
+                ae.setApplNo(applNo);
+                ae.setCreId(userId);
+            }
+            ec = langCareerService.createLangCareer(application,
+                    langCareer.getLanguageGroupList(),
+                    langCareer.getApplicationExperienceList());
+        } else { //update
+            ec = langCareerService.updateLangCareer(application,
+                    langCareer.getLanguageGroupList(),
+                    langCareer.getApplicationExperienceList());
+        }
 
         if (ec.getResult().equals(ExecutionContext.SUCCESS)) {
             ApplicationIdentifier data = (ApplicationIdentifier)ec.getData();

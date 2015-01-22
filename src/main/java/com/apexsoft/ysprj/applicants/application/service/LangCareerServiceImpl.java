@@ -31,13 +31,13 @@ public class LangCareerServiceImpl implements LangCareerService {
      * 어학/경력 정보 생성
      *
      * @param application
-     * @param applicationLanguageList
+     * @param languageGroupList
      * @param applicationExperienceList
      * @return
      */
     @Override
     public ExecutionContext createLangCareer(Application application,
-                                             List<ApplicationLanguage> applicationLanguageList,
+                                             List<LanguageGroup> languageGroupList,
                                              List<ApplicationExperience> applicationExperienceList) {
         ExecutionContext ec = new ExecutionContext();
         int r1, r2 = 0, r3 = 0, applNo = application.getApplNo(), idx = 0;
@@ -48,14 +48,15 @@ public class LangCareerServiceImpl implements LangCareerService {
         application.setModDate(date);
         r1 = commonDAO.updateItem(application, NAME_SPACE, "ApplicationMapper");
 
-        if ( applicationLanguageList != null ) {
-            for( ApplicationLanguage applicationLanguage : applicationLanguageList) {
-                applicationLanguage.setApplNo(applNo);
-                applicationLanguage.setLangSeq(++idx);
-                applicationLanguage.setCreId(userId);
-                applicationLanguage.setCreDate(date);
-            }
-            r2 = commonDAO.insertList(applicationLanguageList, NAME_SPACE, "ApplicationLanguageMapper");
+        if ( languageGroupList != null ) {
+            // TODO - dhoonkim - 어학 성적 생성 시 langGroup, langList 처리
+//            for( LanguageGroup languageGroup : languageGroupList) {
+//                languageGroup.setApplNo(applNo);
+//                languageGroup.setLangSeq(++idx);
+//                languageGroup.setCreId(userId);
+//                languageGroup.setCreDate(date);
+//            }
+//            r2 = commonDAO.insertList(applicationLanguageList, NAME_SPACE, "ApplicationLanguageMapper");
         }
         idx = 0;
         if ( applicationExperienceList != null ) {
@@ -102,7 +103,6 @@ public class LangCareerServiceImpl implements LangCareerService {
 
         langCareer.setApplication(application);
         langCareer.setApplicationGeneral(applicationGeneral);
-//        langCareer.setLanguageGroupList(retrieveInfoListByApplNo(applNo, "CustomApplicationLanguageMapper", ApplicationLanguage.class));
         langCareer.setLanguageGroupList(retrieveLanguageGroupListByApplNo(applNo));
         langCareer.setApplicationExperienceList(retrieveInfoListByApplNo(applNo, "CustomApplicationExperienceMapper", ApplicationExperience.class));
 
@@ -116,7 +116,7 @@ public class LangCareerServiceImpl implements LangCareerService {
 
         List<LanguageGroup> langGroupList = null;
 
-        try {
+        try { // TODO - omw - 예외 처리 부분 조치 필요
 
             langGroupList = commonDAO.queryForList(NAME_SPACE + "CustomApplicationDocumentMapper.selectLanguageGroupByApplNo",
                                                     applNo, LanguageGroup.class);
@@ -139,7 +139,7 @@ public class LangCareerServiceImpl implements LangCareerService {
                 aLangList = commonDAO.queryForList(NAME_SPACE + "CustomApplicationDocumentMapper.selectTotalLanguageInfoByApplNo",
                                                     param, TotalApplicationLanguage.class);
 
-                for( TotalApplicationLanguage alang : aLangList){
+                for (TotalApplicationLanguage alang : aLangList) {
                     if( alang.getLangSeq() != null && alang.getLangSeq() > 0 )
                         alang.setLangInfoSaveFg(true);
                     else
@@ -160,23 +160,24 @@ public class LangCareerServiceImpl implements LangCareerService {
 
     @Override
     public ExecutionContext updateLangCareer(Application application,
-                                             List<ApplicationLanguage> applicationLanguageList,
+                                             List<LanguageGroup> languageGroupList,
                                              List<ApplicationExperience> applicationExperienceList) {
         ExecutionContext ec = new ExecutionContext();
         int r1 = 0, r2 = 0, applNo = application.getApplNo(), idx = 0;
         Date date = new Date();
         String userId = application.getUserId();
 
-        deleteListByApplNo(applNo, "CustomApplicationLanguageMapper");
-        if ( applicationLanguageList != null ) {
-            for( ApplicationLanguage applicationLanguage : applicationLanguageList) {
-                applicationLanguage.setApplNo(applNo);
-                applicationLanguage.setLangSeq(++idx);
-                applicationLanguage.setModId(userId);
-                applicationLanguage.setModDate(date);
-            }
-            r1 = commonDAO.insertList(applicationLanguageList, NAME_SPACE, "ApplicationLanguageMapper");
-        }
+        // TODO - dhoonkim - 어학 성적 수정 처리 - 현재는 all delete 후 reinsert 하는 방식임
+//        deleteListByApplNo(applNo, "CustomApplicationLanguageMapper");
+//        if ( languageGroupList != null ) {
+//            for( LanguageGroup languageGroup : languageGroupList) {
+//                languageGroup.setApplNo(applNo);
+//                languageGroup.setLangSeq(++idx);
+//                languageGroup.setModId(userId);
+//                languageGroup.setModDate(date);
+//            }
+//            r1 = commonDAO.insertList(applicationLanguageList, NAME_SPACE, "ApplicationLanguageMapper");
+//        }
         idx = 0;
         deleteListByApplNo(applNo, "CustomApplicationExperienceMapper");
         if ( applicationExperienceList != null ) {
@@ -220,19 +221,9 @@ public class LangCareerServiceImpl implements LangCareerService {
 
     @Override
     public ExecutionContext deleteLangCareer(Application application,
-                                             List<ApplicationLanguage> applicationLanguageList,
+                                             List<LanguageGroup> languageGroupList,
                                              List<ApplicationExperience> applicationExperienceList) {
         return null;
-    }
-
-    private <T> List<T> retrieveInfoListByParamObj(Object parameter, String mapperNameSqlId, Class<T> clazz) {
-        List<T> infoList = null;
-
-        infoList = commonDAO.queryForList(NAME_SPACE + mapperNameSqlId,
-                    parameter, clazz);
-
-
-        return infoList;
     }
 
     @Override
@@ -247,6 +238,4 @@ public class LangCareerServiceImpl implements LangCareerService {
 
         return infoList;
     }
-
-
 }
