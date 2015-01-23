@@ -320,7 +320,7 @@
                                     <c:when test='${langList.canYn == "Y"}'>
                                     <div class="col-sm-2 lang-detail-${langListStat.index}" style='display: <c:choose><c:when test="${langList.langInfoSaveFg == true}">block;</c:when><c:otherwise>none;</c:otherwise></c:choose>'>
                                             <c:if test="${langList.itemCode == '00001'}">
-                                        <form:select path="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].toflTypeCode" cssClass="form-control">
+                                        <form:select path="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].toflTypeCode" cssClass="form-control forlInput">
                                             <form:option value="" label="--선택--" />
                                             <form:options items="${common.toflTypeList}" itemValue="code" itemLabel="codeVal" />
                                         </form:select>
@@ -329,14 +329,14 @@
                                     <div class="col-sm-3 lang-detail-${langListStat.index}" style='display: <c:choose><c:when test="${langList.langInfoSaveFg == true}">block;</c:when><c:otherwise>none;</c:otherwise></c:choose>'>
                                         <div class="input-group date">
                                             <span class="input-group-addon">시험일</span>
-                                            <form:input path="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].examDay" cssClass="form-control" />
+                                            <form:input path="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].examDay" cssClass="form-control forlInput" />
                                             <span class="input-group-addon calendar-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                                         </div>
                                     </div>
                                     <div class="col-sm-2 lang-detail-${langListStat.index}" style='display: <c:choose><c:when test="${langList.langInfoSaveFg == true}">block;</c:when><c:otherwise>none;</c:otherwise></c:choose>'>
                                         <div class="input-group">
                                             <span class="input-group-addon">점수</span>
-                                            <form:input path="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].langGrad" cssClass="form-control lang-score" data-lang-exam-name="${langList.itemName}" maxlength="4"/>
+                                            <form:input path="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].langGrad" cssClass="form-control lang-score forlInput" data-lang-exam-name="${langList.itemName}" maxlength="4"/>
                                         </div>
                                     </div>
                                     </c:when>
@@ -349,18 +349,23 @@
                                 </div>
                                 </c:forEach>
                             </c:forEach>
+                            <c:if test='${langCareer.application.deptCode != "10403"}'> <%-- 건축공학과는 면제 없음 --%>
                                 <div class="form-group required">
                                     <div class="col-sm-offset-2 col-sm-4">
                                         <div class="checkbox">
                                             <label>
-                                                <input type="checkbox" />외국어 성적 면제 해당자
+                                                <input type="checkbox" id="checkForlExmp"/>외국어 성적 면제 해당자
                                             </label>
                                         </div>
                                     </div>
                                     <div class="col-sm-5">
-                                        <form:select path="applicationGeneral.forlExmpCode" id="forlExamCode" cssClass="form-control" items="${common.fornExmpList}" itemValue="code" itemLabel="codeVal" />
+                                        <form:select path="applicationGeneral.forlExmpCode" id="forlExmpCode" cssClass="form-control" disabled="true">
+                                            <form:option value="" label="--선택--" />
+                                            <form:options items="${common.fornExmpList}" itemValue="code" itemLabel="codeVal" />
+                                        </form:select>
                                     </div>
                                 </div>
+                            </c:if>
                             </div>
                         </div>
                         <div class="panel panel-default">
@@ -483,7 +488,7 @@
         <%-- 하단 버튼 처리 --%>
 
         <%-- 어학 성적 입력란 show/hide 처리 --%>
-        $('.lang-checkbox').on('click', function () {
+        $('.lang-checkbox').on('change', function () {
             var id = this.id,
                 currentIndex, classToToggle;
             currentIndex = id.substr(id.lastIndexOf('-')+1);
@@ -494,7 +499,7 @@
                 $(classToToggle).css('display', 'none');
             }
         });
-        $('.lang-radio').on('click', function () {
+        $('.lang-radio').on('change', function () {
             var id = this.id,
                     currentIndex, classToShow;
             currentIndex = id.substr(id.lastIndexOf('-')+1);
@@ -584,6 +589,34 @@
             $(this.parentNode).children('input')[0].focus();
         });
         <%-- 달력 끝 --%>
+
+        <%-- 외국어 성적 면제 해당 처리 --%>
+        var checkForlExmp = function (isExmp) {
+            $('.forlInput').each(function () {
+                this.value = '';
+                this.disabled = isExmp;
+                if (this.selectedIndex) this.selectedIndex = 0;
+            });
+            $('.lang-checkbox, .lang-radio').each(function () {
+                this.checked = false;
+//                this.trigger('change');
+                this.disabled = isExmp;
+            });
+            document.getElementById('forlExmpCode').disabled = !isExmp;
+        };
+
+        $('#checkForlExmp').on('click', function () {
+            if (this.checked) {
+                if (confirm('외국어 성적 면제 해당자를 선택하면\n외국어 성적을 입력할 수 없으며,\n이미 입력한 외국어 성적도 삭제됩니다.\n\n외국어 성적 면제 해당자를 선택하시겠습니까?')) {
+                    checkForlExmp(true);
+                } else {
+                    this.checked = false;
+                }
+            } else {
+                checkForlExmp(false);
+            }
+        });
+        <%-- 외국어 성적 면제 해당 처리 --%>
 
         <%-- form-group-block 추가/삭제에 대한 처리 시작 --%>
         $('.btn-add').on('click', function(e) {
