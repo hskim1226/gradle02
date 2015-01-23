@@ -1,25 +1,30 @@
 package com.apexsoft.ysprj.applicants.application.domain;
 
-public class TotalApplicationLanguage extends CustomApplicationLanguage {
+public class TotalApplicationLanguage extends CustomApplicationLanguage{
 
+    //첨부파일 정보
     private int docSeq;
+    private String docTypeCode;
     private int docGrp;
     private String docItemCode;
     private String docItemName;
     private String docName;
 
     //이하는 파일 업로드 할때만 사용
-    private String docTypeCode;
+
     private String fileExt;
     private String imgYn;
     private String filePath;
     private String fileName;
     private String orgFileName;
     private String docItemNameXxen;
+
+    //필요없는 필드 DB삭제예정
     private String docGrpName;
 
-
+    //파일 업로드 여부
     private boolean fileUploadFg = false;
+
 
     public int getDocSeq() {
         return docSeq;

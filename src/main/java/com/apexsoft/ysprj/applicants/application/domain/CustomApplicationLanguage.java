@@ -1,11 +1,12 @@
 package com.apexsoft.ysprj.applicants.application.domain;
-
+/*
+*  입력된 언어성적정보 +  전공별 언어성적요건정보
+*/
 public class CustomApplicationLanguage extends ApplicationLanguage {
 
     private String itemGrpCode;
     private String itemCode;
     private String itemName;
-    private int mandLangSeq;
     private String upCodeGrp;
     private String selGrpCode;
     private String canYn = "N";
@@ -15,6 +16,7 @@ public class CustomApplicationLanguage extends ApplicationLanguage {
     private String msgNo;
     private String msg;
     private boolean langInfoSaveFg =false;
+    private String maxScr;
 
     public String getItemGrpCode() {
         return itemGrpCode;
@@ -108,11 +110,11 @@ public class CustomApplicationLanguage extends ApplicationLanguage {
         this.canYn = canYn;
     }
 
-    public int getMandLangSeq() {
-        return mandLangSeq;
+    public String getMaxScr() {
+        return maxScr;
     }
 
-    public void setMandLangSeq(int mandLangSeq) {
-        this.mandLangSeq = mandLangSeq;
+    public void setMaxScr(String maxScr) {
+        this.maxScr = maxScr;
     }
 }
