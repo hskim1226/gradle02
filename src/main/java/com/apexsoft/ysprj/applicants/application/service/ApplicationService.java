@@ -2,6 +2,7 @@ package com.apexsoft.ysprj.applicants.application.service;
 
 import com.apexsoft.framework.common.vo.ExecutionContext;
 import com.apexsoft.ysprj.applicants.application.domain.*;
+import com.apexsoft.ysprj.applicants.evaluation.domain.DocGroup;
 
 import java.util.ArrayList;
 import java.util.List;

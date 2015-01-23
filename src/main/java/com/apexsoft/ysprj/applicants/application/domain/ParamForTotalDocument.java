@@ -5,12 +5,11 @@ package com.apexsoft.ysprj.applicants.application.domain;
  */
 public class ParamForTotalDocument {
     private int applNo;
-    private String selGrpCode;
+    private String docTypeCode;
     private String grpCode;
     private int grpLevel;
     private String upCodeGrp;
     private String upCode;
-
 
     public int getApplNo() {
         return applNo;
@@ -20,12 +19,12 @@ public class ParamForTotalDocument {
         this.applNo = applNo;
     }
 
-    public String getSelGrpCode() {
-        return selGrpCode;
+    public String getDocTypeCode() {
+        return docTypeCode;
     }
 
-    public void setSelGrpCode(String selGrpCode) {
-        this.selGrpCode = selGrpCode;
+    public void setDocTypeCode(String docTypeCode) {
+        this.docTypeCode = docTypeCode;
     }
 
     public String getGrpCode() {

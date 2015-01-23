@@ -1,21 +1,30 @@
 package com.apexsoft.ysprj.applicants.application.domain;
 
+import java.util.List;
+
 public class CommonMandatory {
 
     private String grpCode;
     private String grpName;
-    private String itemGrpCode;
+    private int grpLevel;
+    private String itemCodeGrp;
     private String itemGrpName;
     private String itemCode;
     private String itemName;
+    private String upCodeGrp;
+    private String upCode;
+    private String selCodeGrp;
     private String chnYn;
     private String lastYn;
     private String mdtYn;
+    private String multiYn;
     private String uploadYn;
     private int sendCnt;
     private String orgnSendYn;
     private String tmpltYn;
     private String msgNo;
+
+    private List<CommonMandatory> subMandList;
 
     public String getGrpCode() {
         return grpCode;
@@ -123,19 +132,60 @@ public class CommonMandatory {
         this.belong = belong;
     }
 
-    public String getItemGrpCode() {
-        return itemGrpCode;
-    }
-
-    public void setItemGrpCode(String itemGrpCode) {
-        this.itemGrpCode = itemGrpCode;
-    }
-
     public String getItemCode() {
         return itemCode;
     }
 
     public void setItemCode(String itemCode) {
         this.itemCode = itemCode;
+    }
+
+    public String getUpCode() {        return upCode;    }
+
+    public void setUpCode(String upCode) {        this.upCode = upCode;    }
+
+
+    public String getMultiYn() {        return multiYn;    }
+
+    public void setMultiYn(String multiYn) {        this.multiYn = multiYn;    }
+
+    public int getGrpLevel() {
+        return grpLevel;
+    }
+
+    public void setGrpLevel(int grpLevel) {
+        this.grpLevel = grpLevel;
+    }
+
+    public String getItemCodeGrp() {
+        return itemCodeGrp;
+    }
+
+    public void setItemCodeGrp(String itemCodeGrp) {
+        this.itemCodeGrp = itemCodeGrp;
+    }
+
+    public String getUpCodeGrp() {
+        return upCodeGrp;
+    }
+
+    public void setUpCodeGrp(String upCodeGrp) {
+        this.upCodeGrp = upCodeGrp;
+    }
+
+    public String getSelCodeGrp() {
+        return selCodeGrp;
+    }
+
+    public void setSelCodeGrp(String selCodeGrp) {
+        this.selCodeGrp = selCodeGrp;
+    }
+
+    public List<CommonMandatory> getSubMandList() {
+        return subMandList;
+    }
+
+    public void setSubMandList(List<CommonMandatory> subMandList) {
+        this.subMandList = subMandList;
     }
 }

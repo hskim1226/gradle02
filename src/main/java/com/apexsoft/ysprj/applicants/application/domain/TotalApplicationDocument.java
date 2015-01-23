@@ -2,7 +2,22 @@ package com.apexsoft.ysprj.applicants.application.domain;
 
 public class TotalApplicationDocument extends ApplicationDocument{
 
+    //화면 표시용 그룹정보
+    private String grpLabel;
+    private boolean fileUploadFg = false;
+    private boolean displayGrpFg = false;
+
+    //필수요건 조회용 key 정보
+    private String admsNo;
+    private int admsCorsNo;
+    private String detlMajCode;
+    private String admsCodeGrp;
+    private String admsCode;
+
+
+    //문서요건 정보
     private String grpLevel;
+    private String docItemGrp;
     private String docTypeCode;
     private String docItemCode;
     private String upCodeGrp;
@@ -16,6 +31,17 @@ public class TotalApplicationDocument extends ApplicationDocument{
     private String chkCnd;
     private String tmpltYn;
     private String msgNo;
+    private String notInYn;
+
+
+
+    public boolean isFileUploadFg() {
+        return fileUploadFg;
+    }
+
+    public void setFileUploadFg(boolean fileUploadFg) {
+        this.fileUploadFg = fileUploadFg;
+    }
 
     public String getGrpLevel() {
         return grpLevel;
@@ -23,26 +49,6 @@ public class TotalApplicationDocument extends ApplicationDocument{
 
     public void setGrpLevel(String grpLevel) {
         this.grpLevel = grpLevel;
-    }
-
-    @Override
-    public String getDocTypeCode() {
-        return docTypeCode;
-    }
-
-    @Override
-    public void setDocTypeCode(String docTypeCode) {
-        this.docTypeCode = docTypeCode;
-    }
-
-    @Override
-    public String getDocItemCode() {
-        return docItemCode;
-    }
-
-    @Override
-    public void setDocItemCode(String docItemCode) {
-        this.docItemCode = docItemCode;
     }
 
     public String getUpCodeGrp() {
@@ -133,40 +139,93 @@ public class TotalApplicationDocument extends ApplicationDocument{
         this.msgNo = msgNo;
     }
 
-    public void setAppDocInfo( ApplicationDocument appDoc){
-        setDocTypeCode(appDoc.getDocTypeCode());//그룹 코드
-        setDocGrp(appDoc.getDocGrp());//세부 시퀀스
-        setDocItemCode(appDoc.getDocItemCode());//문서코드
-        setDocItemName(appDoc.getDocItemName());//문서명
-        setDocName(appDoc.getDocName());//아마도 세부 시퀀스의 설명?
-        setFileExt(appDoc.getFileExt());
-        setImgYn(appDoc.getImgYn());
-        setFilePath(appDoc.getFilePath());
-        setFileName(appDoc.getFileName());
-        setOrgFileName(appDoc.getOrgFileName());
-        setDocItemNameXxen(appDoc.getDocItemNameXxen());
-        setDocGrpName(appDoc.getDocGrpName());
+    public String getGrpLabel() {
+        return grpLabel;
     }
 
-    public void setComMandInfo( CommonMandatory comMand){
-        setDocTypeCode    (comMand.getGrpCode());//그룹코드
-        setDocItemCode    (comMand.getItemCode());//문서코드
-        setDocItemName    (comMand.getItemName());//문서명
-
-        setGrpCode     (comMand.getGrpCode());//그룹코드
-        setGrpName     (comMand.getGrpName());//그룹명 (필요없을 듯)
-       // setItemGrpCode (comMand.getItemGrpCode());//문서 그룹 코드
-        setItemGrpName (comMand.getItemGrpName());//문서 그룹 명 (필요없을 듯)
-        setItemCode    (comMand.getItemCode());//문서코드
-        setItemName    (comMand.getItemName());//문서명
-        setChnYn       (comMand.getChnYn());
-        setLastYn      (comMand.getLastYn());
-        setMdtYn       (comMand.getMdtYn());
-        setUploadYn    (comMand.getUploadYn());
-        setSendCnt     (comMand.getSendCnt());
-        setOrgnSendYn  (comMand.getOrgnSendYn());
-        setTmpltYn     (comMand.getTmpltYn());
-        setMsgNo       (comMand.getMsgNo());
+    public void setGrpLabel(String grpLabel) {
+        this.grpLabel = grpLabel;
     }
 
+    public boolean isDisplayGrpFg() {       return displayGrpFg;   }
+
+    public void setDisplayGrpFg(boolean displayGrpFg) {
+        this.displayGrpFg = displayGrpFg;
+    }
+
+    public String getDocItemGrp() {
+        return docItemGrp;
+    }
+
+    public void setDocItemGrp(String docItemGrp) {
+        this.docItemGrp = docItemGrp;
+    }
+
+
+    public String getNotInYn() {       return notInYn;   }
+
+    public void setNotInYn(String notInYn) {       this.notInYn = notInYn;   }
+
+    public TotalApplicationDocument(){}
+
+
+    public String getAdmsNo() {
+        return admsNo;
+    }
+
+    public void setAdmsNo(String admsNo) {
+        this.admsNo = admsNo;
+    }
+
+    public int getAdmsCorsNo() {
+        return admsCorsNo;
+    }
+
+    public void setAdmsCorsNo(int admsCorsNo) {
+        this.admsCorsNo = admsCorsNo;
+    }
+
+    public String getDetlMajCode() {
+        return detlMajCode;
+    }
+
+    public void setDetlMajCode(String detlMajCode) {
+        this.detlMajCode = detlMajCode;
+    }
+
+    public String getAdmsCodeGrp() {
+        return admsCodeGrp;
+    }
+
+    public void setAdmsCodeGrp(String admsCodeGrp) {
+        this.admsCodeGrp = admsCodeGrp;
+    }
+
+    public String getAdmsCode() {
+        return admsCode;
+    }
+
+    public void setAdmsCode(String admsCode) {
+        this.admsCode = admsCode;
+    }
+
+    @Override
+    public String getDocTypeCode() {
+        return docTypeCode;
+    }
+
+    @Override
+    public void setDocTypeCode(String docTypeCode) {
+        this.docTypeCode = docTypeCode;
+    }
+
+    @Override
+    public String getDocItemCode() {
+        return docItemCode;
+    }
+
+    @Override
+    public void setDocItemCode(String docItemCode) {
+        this.docItemCode = docItemCode;
+    }
 }

@@ -5,9 +5,12 @@ package com.apexsoft.ysprj.applicants.application.domain;
  */
 public class ParamForTotalLang {
     private int applNo;
-    private String acadTypeCode;
-    private int acadSeq;
-    private String orderBy;
+    private String selGrpCode;
+    private String grpCode;
+    private int grpLevel;
+    private String upCodeGrp;
+    private String upCode;
+
 
     public int getApplNo() {
         return applNo;
@@ -17,27 +20,43 @@ public class ParamForTotalLang {
         this.applNo = applNo;
     }
 
-    public String getAcadTypeCode() {
-        return acadTypeCode;
+    public String getSelGrpCode() {
+        return selGrpCode;
     }
 
-    public void setAcadTypeCode(String acadTypeCode) {
-        this.acadTypeCode = acadTypeCode;
+    public void setSelGrpCode(String selGrpCode) {
+        this.selGrpCode = selGrpCode;
     }
 
-    public int getAcadSeq() {
-        return acadSeq;
+    public String getGrpCode() {
+        return grpCode;
     }
 
-    public void setAcadSeq(int acadSeq) {
-        this.acadSeq = acadSeq;
+    public void setGrpCode(String grpCode) {
+        this.grpCode = grpCode;
     }
 
-    public String getOrderBy() {
-        return orderBy;
+    public int getGrpLevel() {
+        return grpLevel;
     }
 
-    public void setOrderBy(String orderBy) {
-        this.orderBy = orderBy;
+    public void setGrpLevel(int grpLevel) {
+        this.grpLevel = grpLevel;
+    }
+
+    public String getUpCodeGrp() {
+        return upCodeGrp;
+    }
+
+    public void setUpCodeGrp(String upCodeGrp) {
+        this.upCodeGrp = upCodeGrp;
+    }
+
+    public String getUpCode() {
+        return upCode;
+    }
+
+    public void setUpCode(String upCode) {
+        this.upCode = upCode;
     }
 }

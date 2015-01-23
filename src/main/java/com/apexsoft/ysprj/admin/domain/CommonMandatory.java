@@ -2,17 +2,12 @@ package com.apexsoft.ysprj.admin.domain;
 
 import java.util.List;
 
-public class CommonMandatory {
+public class CommonMandatory extends CommonMandatoryKey{
 
-    private String grpCode;
+
     private String grpName;
-    private int grpLevel;
-    private String itemCodeGrp;
     private String itemGrpName;
-    private String itemCode;
     private String itemName;
-    private String upCodeGrp;
-    private String upCode;
     private String selCodeGrp;
     private String chnYn;
     private String lastYn;
@@ -23,16 +18,9 @@ public class CommonMandatory {
     private String orgnSendYn;
     private String tmpltYn;
     private String msgNo;
+    private String notInYn;
 
-    private List<CommonMandatory> subMandList;
 
-    public String getGrpCode() {
-        return grpCode;
-    }
-
-    public void setGrpCode(String grpCode) {
-        this.grpCode = grpCode;
-    }
 
     public String getChnYn() {
         return chnYn;
@@ -132,46 +120,10 @@ public class CommonMandatory {
         this.belong = belong;
     }
 
-    public String getItemCode() {
-        return itemCode;
-    }
-
-    public void setItemCode(String itemCode) {
-        this.itemCode = itemCode;
-    }
-
-    public String getUpCode() {        return upCode;    }
-
-    public void setUpCode(String upCode) {        this.upCode = upCode;    }
-
-
     public String getMultiYn() {        return multiYn;    }
 
     public void setMultiYn(String multiYn) {        this.multiYn = multiYn;    }
 
-    public int getGrpLevel() {
-        return grpLevel;
-    }
-
-    public void setGrpLevel(int grpLevel) {
-        this.grpLevel = grpLevel;
-    }
-
-    public String getItemCodeGrp() {
-        return itemCodeGrp;
-    }
-
-    public void setItemCodeGrp(String itemCodeGrp) {
-        this.itemCodeGrp = itemCodeGrp;
-    }
-
-    public String getUpCodeGrp() {
-        return upCodeGrp;
-    }
-
-    public void setUpCodeGrp(String upCodeGrp) {
-        this.upCodeGrp = upCodeGrp;
-    }
 
     public String getSelCodeGrp() {
         return selCodeGrp;
@@ -181,11 +133,7 @@ public class CommonMandatory {
         this.selCodeGrp = selCodeGrp;
     }
 
-    public List<CommonMandatory> getSubMandList() {
-        return subMandList;
-    }
+    public String getNotInYn() {      return notInYn;   }
 
-    public void setSubMandList(List<CommonMandatory> subMandList) {
-        this.subMandList = subMandList;
-    }
+    public void setNotInYn(String notInYn) {       this.notInYn = notInYn;   }
 }

@@ -10,7 +10,7 @@ public class DocGroupFile {
 
 
     private ArrayList<DocGroupFile> subGrp = new ArrayList<DocGroupFile>();
-    private List<MandatoryNAppliedDoc> mandDocList;
+    private List<TotalApplicationDocument> mandDocList;
     private String fileGroupName;
     private int docGrp =0;
     private String groupMsg;
@@ -33,11 +33,11 @@ public class DocGroupFile {
     public void setGroupMsg(String groupMsg) {
         this.groupMsg = groupMsg;
     }
-    public List<MandatoryNAppliedDoc> getMandDocList() {
+    public List<TotalApplicationDocument> getMandDocList() {
         return mandDocList;
     }
 
-    public void setMandDocList(List<MandatoryNAppliedDoc> mandDocList) {
+    public void setMandDocList(List<TotalApplicationDocument> mandDocList) {
         this.mandDocList = mandDocList;
     }
     public boolean isSubYn() {
