@@ -10,11 +10,11 @@
         <pattern>/notice/*</pattern>
         <pattern>/application/*</pattern>
         <pattern>/mail/*</pattern>
-        <pattern>/user/*</pattern>
+        <!--<pattern>/user/*</pattern>-->
         <pattern>/pay/*</pattern>
         <pattern>/main/*</pattern>
-        <pattern>/index.jsp</pattern>
-        <pattern>/index</pattern>
+        <!--<pattern>/index.jsp</pattern>-->
+        <!--<pattern>/index</pattern>-->
         <pattern>/mypage</pattern>
         <pattern>/qna/*</pattern>
         <pattern>/pds/*</pattern>
