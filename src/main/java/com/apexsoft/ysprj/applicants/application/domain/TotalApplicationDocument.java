@@ -1,36 +1,72 @@
 package com.apexsoft.ysprj.applicants.application.domain;
 
-public class MandatoryNAppliedDoc extends ApplicationDocument{
+public class TotalApplicationDocument extends ApplicationDocument{
 
-    private String grpCode;
-    private String grpName;
-    private String itemGrpCode;
-    private String itemGrpName;
-    private String itemCode;
-    private String itemName;
-    private String chnYn;
+    private String grpLevel;
+    private String docTypeCode;
+    private String docItemCode;
+    private String upCodeGrp;
+    private String upCode;
+    private String selCodeGrp;
     private String lastYn;
     private String mdtYn;
     private String uploadYn;
     private int sendCnt;
     private String orgnSendYn;
+    private String chkCnd;
     private String tmpltYn;
     private String msgNo;
 
-    public String getGrpCode() {
-        return grpCode;
+    public String getGrpLevel() {
+        return grpLevel;
     }
 
-    public void setGrpCode(String grpCode) {
-        this.grpCode = grpCode;
+    public void setGrpLevel(String grpLevel) {
+        this.grpLevel = grpLevel;
     }
 
-    public String getChnYn() {
-        return chnYn;
+    @Override
+    public String getDocTypeCode() {
+        return docTypeCode;
     }
 
-    public void setChnYn(String chnYn) {
-        this.chnYn = chnYn;
+    @Override
+    public void setDocTypeCode(String docTypeCode) {
+        this.docTypeCode = docTypeCode;
+    }
+
+    @Override
+    public String getDocItemCode() {
+        return docItemCode;
+    }
+
+    @Override
+    public void setDocItemCode(String docItemCode) {
+        this.docItemCode = docItemCode;
+    }
+
+    public String getUpCodeGrp() {
+        return upCodeGrp;
+    }
+
+    public void setUpCodeGrp(String upCodeGrp) {
+        this.upCodeGrp = upCodeGrp;
+    }
+
+    public String getUpCode() {
+        return upCode;
+    }
+
+    public void setUpCode(String upCode) {
+        this.upCode = upCode;
+    }
+
+    public String getSelCodeGrp() {
+        return selCodeGrp;
+    }
+
+    public void setSelCodeGrp(String selCodeGrp) {
+        this.selCodeGrp = selCodeGrp;
     }
 
     public String getLastYn() {
@@ -73,6 +109,14 @@ public class MandatoryNAppliedDoc extends ApplicationDocument{
         this.orgnSendYn = orgnSendYn;
     }
 
+    public String getChkCnd() {
+        return chkCnd;
+    }
+
+    public void setChkCnd(String chkCnd) {
+        this.chkCnd = chkCnd;
+    }
+
     public String getTmpltYn() {
         return tmpltYn;
     }
@@ -88,57 +132,6 @@ public class MandatoryNAppliedDoc extends ApplicationDocument{
     public void setMsgNo(String msgNo) {
         this.msgNo = msgNo;
     }
-
-    public String getItemName() {
-        return itemName;
-    }
-
-    public void setItemName(String itemName) {
-        this.itemName = itemName;
-    }
-
-    public String getGrpName() {
-        return grpName;
-    }
-
-    public void setGrpName(String grpName) {
-        this.grpName = grpName;
-    }
-
-    public String getItemGrpName() {
-        return itemGrpName;
-    }
-
-    public void setItemGrpName(String itemGrpName) {
-        this.itemGrpName = itemGrpName;
-    }
-
-    private String belong;
-
-    public String getBelong() {
-        return belong;
-    }
-
-    public void setBelong(String belong) {
-        this.belong = belong;
-    }
-
-    public String getItemGrpCode() {
-        return itemGrpCode;
-    }
-
-    public void setItemGrpCode(String itemGrpCode) {
-        this.itemGrpCode = itemGrpCode;
-    }
-
-    public String getItemCode() {
-        return itemCode;
-    }
-
-    public void setItemCode(String itemCode) {
-        this.itemCode = itemCode;
-    }
-
 
     public void setAppDocInfo( ApplicationDocument appDoc){
         setDocTypeCode(appDoc.getDocTypeCode());//그룹 코드
@@ -162,7 +155,7 @@ public class MandatoryNAppliedDoc extends ApplicationDocument{
 
         setGrpCode     (comMand.getGrpCode());//그룹코드
         setGrpName     (comMand.getGrpName());//그룹명 (필요없을 듯)
-        setItemGrpCode (comMand.getItemGrpCode());//문서 그룹 코드
+       // setItemGrpCode (comMand.getItemGrpCode());//문서 그룹 코드
         setItemGrpName (comMand.getItemGrpName());//문서 그룹 명 (필요없을 듯)
         setItemCode    (comMand.getItemCode());//문서코드
         setItemName    (comMand.getItemName());//문서명
