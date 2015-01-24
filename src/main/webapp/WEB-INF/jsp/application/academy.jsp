@@ -808,83 +808,8 @@
         <%-- 성적 입력 validation --%>
 
         <%-- form-group-block 추가/삭제에 대한 처리 시작 --%>
-        $('.btn-add').on('click', function(e) {
-            var target = e.currentTarget ? e.currentTarget : e.target;
-            var container = target.parentNode;
-            while (container && !$(container).hasClass('form-group-block-list')) {
-                container = container.parentNode;
-            }
-            var blocks = container.querySelectorAll('.form-group-block');
-            var originBlock = blocks[blocks.length - 1];
-            var $cloneObj;
-            if (originBlock) {
-                $cloneObj = $(originBlock).clone(true);
-                $cloneObj.find('.input-group.date>input').datepicker('destroy');
-                updateIdAndName($cloneObj[0], blocks.length);
-                eraseContents($cloneObj[0]);
-                container.insertBefore($cloneObj[0], originBlock.nextSibling);
-                $cloneObj.find('.input-group.date>input').datepicker(datePickerOption);
-            }
-        });
-
-        $('.btn-remove').on('click', function(e) {
-            var target = e.currentTarget ? e.currentTarget : e.target;
-            var blockToRemove = target.parentNode;
-            while (blockToRemove && !$(blockToRemove).hasClass('form-group-block')) {
-                blockToRemove = blockToRemove.parentNode;
-            }
-            var container = blockToRemove.parentNode;
-            var blocks = container.querySelectorAll('.form-group-block');
-            var length = blocks.length, i;
-            var blockIndex = target.dataset.blockIndex;
-            var userDataType = document.getElementById(target.dataset.listName + blockIndex + '.userDataType');
-
-            switch (userDataType.value) {
-                case 'INSERT' :
-                    for (i = parseInt(blockIndex) + 1; i < length; i++) {
-                        updateIdAndName(blocks[i], i - 1);
-                    }
-                    if (length <= 1) {
-                        eraseContents(blockToRemove);
-                    } else {
-                        blockToRemove.parentNode.removeChild(blockToRemove);
-                    }
-                    break;
-                case 'UPDATE' :
-                    userDataType.value = 'DELETE';
-                    blockToRemove.style.display = 'none';
-                    break;
-            }
-
-//
-//            for (i = 0; i < length; i++) {
-//                if (blockToRemove == blocks[i]) {
-//                    break;
-//                }
-//            }
-//
-//            for (i = i + 1; i < length; i++) {
-//                updateIdAndName(blocks[i], i - 1);
-//            }
-//
-//            if (length <= 1) {
-//                eraseContents(blockToRemove);
-//            } else {
-//                blockToRemove.parentNode.removeChild(blockToRemove);
-//            }
-
-            mustCheckedOneRadio();
-
-            // 파일업로드 부분 입력란 함께 제거
-//                var fileUploadContainer = document.getElementById(target.getAttribute("data-fileupload-block-list")),
-//                    indexOfBlockToRemove = target.getAttribute('data-block-index'),
-//                    blockToRemove = fileUploadContainer.children[indexOfBlockToRemove];
-//                fileUploadContainer.removeChild(blockToRemove);
-
-        });
-
         <%-- id, name 재설정 시작 --%>
-        function updateIdAndName( block, index ) {
+        var updateIdAndName = function ( block, index ) {
             var i, name, prefix, suffix, input, items, label, j, k, element, datasetValue;
             items = block.querySelectorAll('input, select, label');
             if (items) {
@@ -954,11 +879,11 @@
                 suffix = target2.substring(target2.indexOf('.') + 1, target2.length);
                 searchBtn.setAttribute('data-targetNode2', prefix + index + '.' + suffix);
             }
-        }
+        };
         <%-- id, name 재설정 끝 --%>
 
         <%-- 복제된 입력폼 내용 초기화 시작 --%>
-        function eraseContents( block ) {
+        var eraseContents = function ( block ) {
             var i, items, itemName;
             block.style.display = 'block';
             items = block.querySelectorAll('input, select');
@@ -993,11 +918,10 @@
                     }
                 }
             }
-        }
+        };
         <%-- 복제된 입력폼 내용 초기화 끝 --%>
-        <%-- form-group-block 추가/삭제에 대한 처리 끝 --%>
 
-        <%-- 최종 대학 체크 처리 시작 --%>
+        <%-- 최종 학교 체크 처리 시작 --%>
         $('.radio-group').on('click', function(e) {
             var $target = $(this);
             var $container = $target.parents('.form-group-block-list');
@@ -1006,12 +930,14 @@
             });
         });
 
-        function mustCheckedOneRadio() {
-            var list = document.querySelectorAll('.form-group-block-list'), i, j, radioGroup, checkedCount = 0;
-            for (i = 0; i < list.length; i++) {
+        var mustCheckedOneRadio = function () {
+            var list = document.querySelectorAll('.form-group-block-list'),
+                    i, j, l1 = list.length, l2, radioGroup, checkedCount = 0;
+            for (i = 0; i < l1; i++) {
                 radioGroup = list[i].querySelectorAll('.radio-group');
-                if (radioGroup && radioGroup.length > 0) {
-                    for (j = 0; j < radioGroup.length; j++) {
+                l2 = radioGroup.length;
+                if (radioGroup && l2 > 0) {
+                    for (j = 0; j < l2; j++) {
                         if (radioGroup.checked) {
                             checkedCount++;
                         }
@@ -1022,8 +948,59 @@
                 }
             }
         };
-        mustCheckedOneRadio();
-        <%-- 최종 대학 체크 처리 끝 --%>
+        <%-- 최종 학교 체크 처리 끝 --%>
+
+        $('.btn-add').on('click', function(e) {
+            var target = e.currentTarget ? e.currentTarget : e.target;
+            var container = target.parentNode;
+            while (container && !$(container).hasClass('form-group-block-list')) {
+                container = container.parentNode;
+            }
+            var blocks = container.querySelectorAll('.form-group-block');
+            var originBlock = blocks[blocks.length - 1];
+            var $cloneObj;
+            if (originBlock) {
+                $cloneObj = $(originBlock).clone(true);
+                $cloneObj.find('.input-group.date>input').datepicker('destroy');
+                updateIdAndName($cloneObj[0], blocks.length);
+                eraseContents($cloneObj[0]);
+                container.insertBefore($cloneObj[0], originBlock.nextSibling);
+                $cloneObj.find('.input-group.date>input').datepicker(datePickerOption);
+            }
+        });
+
+        $('.btn-remove').on('click', function(e) {
+            var target = e.currentTarget ? e.currentTarget : e.target;
+            var blockToRemove = target.parentNode;
+            while (blockToRemove && !$(blockToRemove).hasClass('form-group-block')) {
+                blockToRemove = blockToRemove.parentNode;
+            }
+            var container = blockToRemove.parentNode;
+            var blocks = container.querySelectorAll('.form-group-block');
+            var length = blocks.length, i;
+            var blockIndex = target.dataset.blockIndex;
+            var userDataType = document.getElementById(target.dataset.listName + blockIndex + '.userDataType');
+
+            switch (userDataType.value) {
+                case 'INSERT' :
+                    for (i = parseInt(blockIndex) + 1; i < length; i++) {
+                        updateIdAndName(blocks[i], i - 1);
+                    }
+                    if (length <= 1) {
+                        eraseContents(blockToRemove);
+                    } else {
+                        blockToRemove.parentNode.removeChild(blockToRemove);
+                    }
+                    break;
+                case 'UPDATE' :
+                    userDataType.value = 'DELETE';
+                    blockToRemove.style.display = 'none';
+                    break;
+            }
+            mustCheckedOneRadio();
+        });
+        <%-- 복제된 입력폼 내용 초기화 끝 --%>
+        <%-- form-group-block 추가/삭제에 대한 처리 끝 --%>
 
         <%-- 단어 잘림 방지 --%>
         $('.word-keep-all').wordBreakKeepAll();
