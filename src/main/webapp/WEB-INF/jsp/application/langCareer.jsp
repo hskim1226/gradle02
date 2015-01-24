@@ -594,6 +594,7 @@
         var checkForlExmp = function (isExmp) {
             $('.forlInput').each(function () {
                 this.value = '';
+                this.setAttribute('value', '');
                 this.disabled = isExmp;
                 if (this.selectedIndex) this.selectedIndex = 0;
             });
@@ -717,6 +718,7 @@
                     }
                     if (items[i].type != 'hidden' && items[i].type != 'radio' && items[i].type != 'checkbox' && items[i].type != 'button') {
                         items[i].value = '';
+                        items[i].setAttribute('value', '');
                     }
                     if (items[i].checked != null) {
                         items[i].checked = false;

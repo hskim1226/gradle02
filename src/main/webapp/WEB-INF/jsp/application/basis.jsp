@@ -896,7 +896,9 @@
                         closeDaumPostCode();
                         confirm('주소를 다시 검색해서 도로명 주소를 사용해 주시기 바랍니다.');
                         document.getElementById('zipCode').value = '';
+                        document.getElementById('zipCode').setAttribute('value', '');
                         document.getElementById('address').value = '';
+                        document.getElementById('address').setAttribute('value', '');
                         $('#searchAddress').trigger('click');
                     }
 
