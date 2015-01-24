@@ -6,7 +6,7 @@ public class CustomApplicationAcademy extends ApplicationAcademy {
 
     private String engCntrName ;
 
-    private UserDataType userDataType;
+    private UserCUDType userCUDType;
 
     public String getKorCntrName() {
         return korCntrName;
@@ -24,11 +24,11 @@ public class CustomApplicationAcademy extends ApplicationAcademy {
         this.engCntrName = engCntrName;
     }
 
-    public UserDataType getUserDataType() {
-        return userDataType;
+    public UserCUDType getUserCUDType() {
+        return userCUDType;
     }
 
-    public void setUserDataType(UserDataType userDataType) {
-        this.userDataType = userDataType;
+    public void setUserCUDType(UserCUDType userCUDType) {
+        this.userCUDType = userCUDType;
     }
 }

@@ -297,7 +297,7 @@
                                         <div class="form-group-block">
                                             <form:hidden path="collegeList[${stat.index}].acadTypeCode" value="00002" />
                                             <form:hidden path="collegeList[${stat.index}].acadSeq" />
-                                            <form:hidden path="collegeList[${stat.index}].userDataType" value='${academy.collegeList[stat.index].userDataType == null ? "INSERT" : graduateList[stat.index].userDataType}'/>
+                                            <form:hidden path="collegeList[${stat.index}].userCUDType" value='${academy.collegeList[stat.index].userCUDType == null ? "INSERT" : graduateList[stat.index].userCUDType}'/>
                                             <div class="form-group required">
                                                 <label class="col-sm-2 control-label">소재 국가</label>
                                                 <div class="col-sm-2">
@@ -400,7 +400,7 @@
                                         <div class="form-group-block">
                                             <form:hidden path="graduateList[${stat.index}].acadTypeCode" value="00003" />
                                             <form:hidden path="graduateList[${stat.index}].acadSeq" />
-                                            <form:hidden path="graduateList[${stat.index}].userDataType" value='${academy.graduateList[stat.index].userDataType == null ? "INSERT" : graduateList[stat.index].userDataType}' />
+                                            <form:hidden path="graduateList[${stat.index}].userCUDType" value='${academy.graduateList[stat.index].userCUDType == null ? "INSERT" : graduateList[stat.index].userCUDType}' />
                                             <div class="form-group required">
                                                 <label class="col-sm-2 control-label">소재 국가</label>
                                                 <div class="col-sm-2">
@@ -844,7 +844,7 @@
                         if (element.checked)
                             $(element).prop('checked', true);
                     }
-                    if (element.id.indexOf('userDataType') > 0) {
+                    if (element.id.indexOf('userCUDType') > 0) {
                         element.value = "INSERT";
                     }
                 }
@@ -891,7 +891,7 @@
                 for (i = 0; i <items.length; i++) {
                     if (items[i].type == 'hidden') {
                         itemName = items[i].name;
-                        if (itemName.indexOf('userDataType') > 0) {
+                        if (itemName.indexOf('userCUDType') > 0) {
                             items[i].value = "INSERT";
                         } else if (itemName.indexOf('acadType') < 0) {
                             items[i].setAttribute('value', '');
@@ -981,9 +981,9 @@
             var blocks = container.querySelectorAll('.form-group-block');
             var length = blocks.length, i;
             var blockIndex = target.dataset.blockIndex;
-            var userDataType = document.getElementById(target.dataset.listName + blockIndex + '.userDataType');
+            var userCUDType = document.getElementById(target.dataset.listName + blockIndex + '.userCUDType');
 
-            switch (userDataType.value) {
+            switch (userCUDType.value) {
                 case 'INSERT' :
                     for (i = parseInt(blockIndex) + 1; i < length; i++) {
                         updateIdAndName(blocks[i], i - 1);
@@ -995,7 +995,7 @@
                     }
                     break;
                 case 'UPDATE' :
-                    userDataType.value = 'DELETE';
+                    userCUDType.value = 'DELETE';
                     blockToRemove.style.display = 'none';
                     break;
             }

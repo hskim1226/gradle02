@@ -91,11 +91,11 @@ public class AcademyServiceImpl implements AcademyService {
         paramForAcademy.setApplNo(applNo);
         paramForAcademy.setAcadTypeCode("00002");
         List<CustomApplicationAcademy> collegeList = retrieveInfoListByParamObj(paramForAcademy, aaMapperSqlId, CustomApplicationAcademy.class);
-        academy.setCollegeList(setUserDataStatus(collegeList, UserDataType.UPDATE));
+        academy.setCollegeList(setUserDataStatus(collegeList, UserCUDType.UPDATE));
 
         paramForAcademy.setAcadTypeCode(("00003"));
         List<CustomApplicationAcademy> graduateList = retrieveInfoListByParamObj(paramForAcademy, aaMapperSqlId, CustomApplicationAcademy.class);
-        academy.setGraduateList(setUserDataStatus(graduateList, UserDataType.UPDATE));
+        academy.setGraduateList(setUserDataStatus(graduateList, UserCUDType.UPDATE));
 
         ec.setResult(ExecutionContext.SUCCESS);
         ec.setData(academy);
@@ -107,8 +107,8 @@ public class AcademyServiceImpl implements AcademyService {
     public ExecutionContext saveAcademy(Academy academy) {
 
         ExecutionContext ec = new ExecutionContext();
-        Map<UserDataType, Integer> iudMapCollege;
-        Map<UserDataType, Integer> iudMapGraduate;
+        Map<UserCUDType, Integer> iudMapCollege;
+        Map<UserCUDType, Integer> iudMapGraduate;
 
         Application application = academy.getApplication();
         int applNo = application.getApplNo();
@@ -120,7 +120,7 @@ public class AcademyServiceImpl implements AcademyService {
         acadList.addAll(graduateList);
         int insert = 0, update = 0, delete = 0;
         for (CustomApplicationAcademy acad : acadList) {
-            switch (acad.getUserDataType()) {
+            switch (acad.getUserCUDType()) {
                 case INSERT: insert++; break;
                 case UPDATE: update++; break;
                 case DELETE: delete++; break;
@@ -141,9 +141,9 @@ public class AcademyServiceImpl implements AcademyService {
         param.setAcadTypeCode("00003");
         iudMapGraduate = processAcademy(application, graduateList, new Date(), param);
 
-        int insertResult = iudMapCollege.get(UserDataType.INSERT) + iudMapGraduate.get(UserDataType.INSERT);
-        int updateResult = iudMapCollege.get(UserDataType.UPDATE) + iudMapGraduate.get(UserDataType.UPDATE);
-        int deleteResult = iudMapCollege.get(UserDataType.DELETE) + iudMapGraduate.get(UserDataType.DELETE);
+        int insertResult = iudMapCollege.get(UserCUDType.INSERT) + iudMapGraduate.get(UserCUDType.INSERT);
+        int updateResult = iudMapCollege.get(UserCUDType.UPDATE) + iudMapGraduate.get(UserCUDType.UPDATE);
+        int deleteResult = iudMapCollege.get(UserCUDType.DELETE) + iudMapGraduate.get(UserCUDType.DELETE);
 
         if ( r0 == 1 && insert == insertResult && update == updateResult && delete == deleteResult) {
             ec.setResult(ExecutionContext.SUCCESS);
@@ -200,8 +200,8 @@ public class AcademyServiceImpl implements AcademyService {
      * 현재 DB에서 ACAD LIST 가져와서 HashMap을 만들고
      * 화면에서 가져온 리스트 돌면서 HashMap 체크해서
      * 케이스 별로 CRUD 처리
-     * 화면 seq 있고, DB seq 있고, 화면 userDataType 이 UPDATE 면 화면 레코드로 DB를 수정 하고 DB에서 가져온 Map에서 삭제
-     * 화면 seq 있고, DB seq 있고, 화면 userDataType 이 DELETE 면 DB에서 삭제하고 DB에서 가져온 Map에서 삭제
+     * 화면 seq 있고, DB seq 있고, 화면 userCUDType 이 UPDATE 면 화면 레코드로 DB를 수정 하고 DB에서 가져온 Map에서 삭제
+     * 화면 seq 있고, DB seq 있고, 화면 userCUDType 이 DELETE 면 DB에서 삭제하고 DB에서 가져온 Map에서 삭제
      * 화면 seq 있고, DB seq 없으면 아무 처리 안 함
      * 화면 seq 공백, DB seq 없으면 화면 레코드로 DB에 새 레코드 생성
      *
@@ -211,7 +211,7 @@ public class AcademyServiceImpl implements AcademyService {
      * @param param
      * @return
      */
-    private Map<UserDataType, Integer> processAcademy(Application application,
+    private Map<UserCUDType, Integer> processAcademy(Application application,
                                            List<CustomApplicationAcademy> academyList,
                                            Date date,
                                            ParamForAcademy param) {
@@ -219,7 +219,7 @@ public class AcademyServiceImpl implements AcademyService {
         int c1 = 0, u1 = 0, d1 = 0, lastSeq = 0;
         int applNo = application.getApplNo();
         Map<Integer, Integer> seqMap = new HashMap<Integer, Integer>();
-        Map<UserDataType, Integer> iudMap = new HashMap<UserDataType, Integer>();
+        Map<UserCUDType, Integer> iudMap = new HashMap<UserCUDType, Integer>();
 
         List<ApplicationAcademy> academiesFromDB = commonDAO.queryForList(NAME_SPACE+"CustomApplicationAcademyMapper.selectByApplNoAcadTypeCode", param, ApplicationAcademy.class);
         if ( academiesFromDB.size() > 0 ) {
@@ -236,13 +236,13 @@ public class AcademyServiceImpl implements AcademyService {
             int acadSeqFromView = academyFromView.getAcadSeq() == null ? -1 : academyFromView.getAcadSeq();
             if ( acadSeqFromView > 0) { //화면 seq 있는 경우
                 if ( seqMap.containsKey(acadSeqFromView) ) { //화면 seq 값이 DB에도 있는 경우
-                    if (academyFromView.getUserDataType().equals(UserDataType.UPDATE)) {
+                    if (academyFromView.getUserCUDType().equals(UserCUDType.UPDATE)) {
                         academyFromView.setApplNo(applNo);
                         academyFromView.setModId(application.getUserId());
                         academyFromView.setModDate(date);
                         u1 += commonDAO.updateItem(academyFromView, NAME_SPACE, "ApplicationAcademyMapper");
                         seqMap.remove(acadSeqFromView);
-                    } else if (academyFromView.getUserDataType().equals(UserDataType.DELETE)) {
+                    } else if (academyFromView.getUserCUDType().equals(UserCUDType.DELETE)) {
                         ApplicationAcademyKey academyKey = new ApplicationAcademyKey();
                         academyKey.setApplNo(applNo);
                         academyKey.setAcadSeq(acadSeqFromView);
@@ -253,7 +253,7 @@ public class AcademyServiceImpl implements AcademyService {
                 }
             } else { // 화면 seq 가 숫자가 아닌 경우
                 // 새 seq 부여해서 insert
-                if (academyFromView.getUserDataType().equals(UserDataType.INSERT)
+                if (academyFromView.getUserCUDType().equals(UserCUDType.INSERT)
                         && academyFromView.getSchlCntrCode() != null
                         && !academyFromView.getSchlCntrCode().equals("")) {
                     academyFromView.setApplNo(applNo);
@@ -271,9 +271,9 @@ public class AcademyServiceImpl implements AcademyService {
 //            param.setAcadSeq(seqFromDB);
 //            d1 += commonDAO.delete(NAME_SPACE + "CustomApplicationAcademyMapper.deleteByApplNoAcadTypeCodeAcadSeq", param);
 //        }
-        iudMap.put(UserDataType.INSERT, c1);
-        iudMap.put(UserDataType.UPDATE, u1);
-        iudMap.put(UserDataType.DELETE, d1);
+        iudMap.put(UserCUDType.INSERT, c1);
+        iudMap.put(UserCUDType.UPDATE, u1);
+        iudMap.put(UserCUDType.DELETE, d1);
         return iudMap;
     }
 
@@ -291,9 +291,9 @@ public class AcademyServiceImpl implements AcademyService {
         return infoList;
     }
 
-    private List<CustomApplicationAcademy> setUserDataStatus(List<CustomApplicationAcademy> list, UserDataType udt) {
+    private List<CustomApplicationAcademy> setUserDataStatus(List<CustomApplicationAcademy> list, UserCUDType udt) {
         for (CustomApplicationAcademy customApplicationAcademy : list) {
-            customApplicationAcademy.setUserDataType(udt);
+            customApplicationAcademy.setUserCUDType(udt);
         }
         return list;
     }
