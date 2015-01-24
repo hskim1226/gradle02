@@ -107,12 +107,25 @@ public class AcademyServiceImpl implements AcademyService {
     public ExecutionContext saveAcademy(Academy academy) {
 
         ExecutionContext ec = new ExecutionContext();
+        Map<UserDataType, Integer> iudMapCollege;
+        Map<UserDataType, Integer> iudMapGraduate;
+
         Application application = academy.getApplication();
         int applNo = application.getApplNo();
+
         List<CustomApplicationAcademy> collegeList = academy.getCollegeList();
         List<CustomApplicationAcademy> graduateList = academy.getGraduateList();
-        int collegeListLength = collegeList.size();
-        int graduateListLength = graduateList.size();
+        List<CustomApplicationAcademy> acadList = new ArrayList<CustomApplicationAcademy>();
+        acadList.addAll(collegeList);
+        acadList.addAll(graduateList);
+        int insert = 0, update = 0, delete = 0;
+        for (CustomApplicationAcademy acad : acadList) {
+            switch (acad.getUserDataType()) {
+                case INSERT: insert++; break;
+                case UPDATE: update++; break;
+                case DELETE: delete++; break;
+            }
+        }
 
         application.setApplStsCode(ACAD_SAVED);
         application.setModDate(new Date());
@@ -123,12 +136,16 @@ public class AcademyServiceImpl implements AcademyService {
         param.setOrderBy("ACAD_SEQ");
 
         param.setAcadTypeCode("00002");
-        int r1 = processAcademy(application, collegeList, new Date(), param);
+        iudMapCollege = processAcademy(application, collegeList, new Date(), param);
 
         param.setAcadTypeCode("00003");
-        int r2 = processAcademy(application, graduateList, new Date(), param);//
+        iudMapGraduate = processAcademy(application, graduateList, new Date(), param);
 
-        if ( r0 == 1 && r1 == collegeListLength && r2 == graduateListLength ) {
+        int insertResult = iudMapCollege.get(UserDataType.INSERT) + iudMapGraduate.get(UserDataType.INSERT);
+        int updateResult = iudMapCollege.get(UserDataType.UPDATE) + iudMapGraduate.get(UserDataType.UPDATE);
+        int deleteResult = iudMapCollege.get(UserDataType.DELETE) + iudMapGraduate.get(UserDataType.DELETE);
+
+        if ( r0 == 1 && insert == insertResult && update == updateResult && delete == deleteResult) {
             ec.setResult(ExecutionContext.SUCCESS);
             ec.setMessage(messageResolver.getMessage("U317"));
             ec.setData(new ApplicationIdentifier(applNo, application.getApplStsCode(),
@@ -139,11 +156,10 @@ public class AcademyServiceImpl implements AcademyService {
             ec.setData(new ApplicationIdentifier(applNo, APP_NULL_STATUS));
             String errCode = null;
             if ( r0 == 0 ) errCode = "ERR0003";
-            if ( r1 != collegeListLength ) errCode = "ERR0003";
-            else if ( r2 == 0 ) errCode = "ERR0011";
-            ec.setData(new ApplicationIdentifier(applNo, APP_NULL_STATUS));
+            if ( insert != insertResult ) errCode = "ERR0011";
+            if ( update != updateResult ) errCode = "ERR0013";
+            if ( delete != deleteResult ) errCode = "ERR0014";
             ec.setErrCode(errCode);
-            ec.setErrCode("ERR0013");
         }
         return ec;
     }
@@ -195,14 +211,15 @@ public class AcademyServiceImpl implements AcademyService {
      * @param param
      * @return
      */
-    private int processAcademy(Application application,
-                               List<CustomApplicationAcademy> academyList,
-                               Date date,
-                               ParamForAcademy param) {
+    private Map<UserDataType, Integer> processAcademy(Application application,
+                                           List<CustomApplicationAcademy> academyList,
+                                           Date date,
+                                           ParamForAcademy param) {
 
         int c1 = 0, u1 = 0, d1 = 0, lastSeq = 0;
         int applNo = application.getApplNo();
         Map<Integer, Integer> seqMap = new HashMap<Integer, Integer>();
+        Map<UserDataType, Integer> iudMap = new HashMap<UserDataType, Integer>();
 
         List<ApplicationAcademy> academiesFromDB = commonDAO.queryForList(NAME_SPACE+"CustomApplicationAcademyMapper.selectByApplNoAcadTypeCode", param, ApplicationAcademy.class);
         if ( academiesFromDB.size() > 0 ) {
@@ -254,8 +271,10 @@ public class AcademyServiceImpl implements AcademyService {
 //            param.setAcadSeq(seqFromDB);
 //            d1 += commonDAO.delete(NAME_SPACE + "CustomApplicationAcademyMapper.deleteByApplNoAcadTypeCodeAcadSeq", param);
 //        }
-
-        return c1 + u1 + d1;
+        iudMap.put(UserDataType.INSERT, c1);
+        iudMap.put(UserDataType.UPDATE, u1);
+        iudMap.put(UserDataType.DELETE, d1);
+        return iudMap;
     }
 
 //    @Override
