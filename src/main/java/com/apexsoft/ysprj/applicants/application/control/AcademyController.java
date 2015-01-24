@@ -108,44 +108,24 @@ public class AcademyController {
      */
     @RequestMapping(value="/save", method = RequestMethod.POST)
     public ModelAndView saveAcademy(@ModelAttribute Academy academy,
-                                    Principal principal,
-                                    HttpServletRequest request) {
+                                    Principal principal) {
         ModelAndView mv = new ModelAndView(TARGET_VIEW);
-        List<Object> acadSeqList = new ArrayList<Object>();
-
-        Map map = request.getParameterMap();
-        Set<Map.Entry> set = map.entrySet();
-
-        for( Map.Entry entry : set) {
-
-            String key = entry.getKey().toString();
-
-            if ((key.startsWith("collegeList") || key.startsWith("graduateList")) && key.endsWith("acadSeq")) {
-                Object strAcadSeq = request.getParameter(key);
-                acadSeqList.add(strAcadSeq);
-            }
-        }
 
         ExecutionContext ec = null;
         String userId = principal.getName();
 
         Application application = academy.getApplication();
-        int applNo = application.getApplNo();
+
         application.setUserId(userId);
         application.setModId(userId);
 
-        academy.setCollegeList(preProcessAcadList(academy.getCollegeList(), acadSeqList, userId, applNo));
-        academy.setGraduateList(preProcessAcadList(academy.getGraduateList(), acadSeqList, userId, applNo));
+        List<CustomApplicationAcademy> collegeList = academy.getCollegeList();
+        List<CustomApplicationAcademy> graduateList = academy.getGraduateList();
 
-        if (academy.getApplication().getApplStsCode().equals(APP_INFO_SAVED)) { //insert
-            ec = academyService.createAcademy(application,
-                    academy.getCollegeList(),
-                    academy.getGraduateList());
-        } else { //update
-            ec = academyService.updateAcademy(application,
-                    academy.getCollegeList(),
-                    academy.getGraduateList());
-        }
+        removeEmptyApplicatinoAcademy(collegeList);
+        removeEmptyApplicatinoAcademy(graduateList);
+
+        ec = academyService.saveAcademy(academy);
 
         if (ec.getResult().equals(ExecutionContext.SUCCESS)) {
             ApplicationIdentifier data = (ApplicationIdentifier)ec.getData();
@@ -161,41 +141,19 @@ public class AcademyController {
             mv = getErrorMV("common/error", ec);
         }
 
-//        return getEntireInfo(data.getApplNo(), application.getAdmsNo(),
-//                application.getEntrYear(), application.getAdmsTypeCode(), "application/appinfo",
-//                entireApplication);
-
         return mv;
     }
 
-    /**
-     * acadSeq를 통해 화면의 학력 내용에서 C,U,D 할 목록을 추려내서 서비스 계층에 전달
-     *
-     * @param academyList
-     * @param acadSeqList
-     * @param userId
-     * @return
-     */
-    private List<CustomApplicationAcademy> preProcessAcadList(List<CustomApplicationAcademy> academyList,
-                                                              List<Object> acadSeqList,
-                                                              String userId,
-                                                              int applNo) {
-        for ( int i = 0 ; i < academyList.size() ; i++ ) {
-            CustomApplicationAcademy aa = academyList.get(i);
-            aa.setApplNo(applNo);
-            boolean toBeRemoved = true;
-            for (Object acadSeq : acadSeqList) {
-                if ( aa.getAcadSeq() != null && aa.getAcadSeq().toString().equals(acadSeq) ) {
-                    toBeRemoved = false;
-                    aa.setModId(userId);
-                } else if (aa.getAcadSeq() == null && aa.getSchlCode() != null && aa.getSchlCode().length() > 0) {
-                    toBeRemoved = false;
-                    aa.setCreId(userId);
-                }
+    private List<CustomApplicationAcademy> removeEmptyApplicatinoAcademy(List<CustomApplicationAcademy> list) {
+        int i, length;
+        for (i = 0, length = list.size() ; i < length ; i++) {
+            if (list.get(i).getSchlCntrCode() == null || list.get(i).getSchlCntrCode().equals("")) {
+                list.remove(i);
+                length--;
+                i--;
             }
-            if (toBeRemoved) academyList.remove(aa);
         }
-        return academyList;
+        return list;
     }
 
     /**

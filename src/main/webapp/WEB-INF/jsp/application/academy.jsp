@@ -297,7 +297,7 @@
                                         <div class="form-group-block">
                                             <form:hidden path="collegeList[${stat.index}].acadTypeCode" value="00002" />
                                             <form:hidden path="collegeList[${stat.index}].acadSeq" />
-                                            <form:hidden path="collegeList[${stat.index}].userDataType" />
+                                            <form:hidden path="collegeList[${stat.index}].userDataType" value='${academy.collegeList[stat.index].userDataType == null ? "INSERT" : graduateList[stat.index].userDataType}'/>
                                             <div class="form-group required">
                                                 <label class="col-sm-2 control-label">소재 국가</label>
                                                 <div class="col-sm-2">
@@ -400,7 +400,7 @@
                                         <div class="form-group-block">
                                             <form:hidden path="graduateList[${stat.index}].acadTypeCode" value="00003" />
                                             <form:hidden path="graduateList[${stat.index}].acadSeq" />
-                                            <form:hidden path="graduateList[${stat.index}].userDataType" />
+                                            <form:hidden path="graduateList[${stat.index}].userDataType" value='${academy.graduateList[stat.index].userDataType == null ? "INSERT" : graduateList[stat.index].userDataType}' />
                                             <div class="form-group required">
                                                 <label class="col-sm-2 control-label">소재 국가</label>
                                                 <div class="col-sm-2">
@@ -895,10 +895,12 @@
                             items[i].value = "INSERT";
                         } else if (itemName.indexOf('acadType') < 0) {
                             items[i].setAttribute('value', '');
+                            items[i].value = '';
                         }
                     }
                     if (items[i].type != 'hidden' && items[i].type != 'radio' && items[i].type != 'checkbox' && items[i].type != 'button') {
                         items[i].setAttribute('value', '');
+                        items[i].value = '';
                     }
 //                    if (items[i].type == 'button') {
 //                        $(items[i]).removeClass('btn-info');

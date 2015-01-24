@@ -1,6 +1,7 @@
 package com.apexsoft.ysprj.applicants.application.service;
 
 import com.apexsoft.framework.common.vo.ExecutionContext;
+import com.apexsoft.ysprj.applicants.application.domain.Academy;
 import com.apexsoft.ysprj.applicants.application.domain.Application;
 import com.apexsoft.ysprj.applicants.application.domain.ApplicationGeneral;
 import com.apexsoft.ysprj.applicants.application.domain.CustomApplicationAcademy;
@@ -14,17 +15,8 @@ import java.util.List;
  */
 public interface AcademyService {
 
-    ExecutionContext createAcademy(Application application,
-                                   List<CustomApplicationAcademy> collegeList,
-                                   List<CustomApplicationAcademy> graduateList);
-
     ExecutionContext retrieveAcademy(int applNo);
 
-    ExecutionContext updateAcademy(Application application,
-                                   List<CustomApplicationAcademy> collegeList,
-                                   List<CustomApplicationAcademy> graduateList);
+    ExecutionContext saveAcademy(Academy academy);
 
-    ExecutionContext deleteAcademy(Application application,
-                                   List<CustomApplicationAcademy> collegeList,
-                                   List<CustomApplicationAcademy> graduateList);
 }
