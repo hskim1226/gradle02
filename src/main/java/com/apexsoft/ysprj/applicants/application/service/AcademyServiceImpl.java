@@ -90,9 +90,12 @@ public class AcademyServiceImpl implements AcademyService {
         ParamForAcademy paramForAcademy = new ParamForAcademy();
         paramForAcademy.setApplNo(applNo);
         paramForAcademy.setAcadTypeCode("00002");
-        academy.setCollegeList(retrieveInfoListByParamObj(paramForAcademy, aaMapperSqlId, CustomApplicationAcademy.class));
+        List<CustomApplicationAcademy> collegeList = retrieveInfoListByParamObj(paramForAcademy, aaMapperSqlId, CustomApplicationAcademy.class);
+        academy.setCollegeList(setUserDataStatus(collegeList, UserDataType.UPDATE));
+
         paramForAcademy.setAcadTypeCode(("00003"));
-        academy.setGraduateList(retrieveInfoListByParamObj(paramForAcademy, aaMapperSqlId, CustomApplicationAcademy.class));
+        List<CustomApplicationAcademy> graduateList = retrieveInfoListByParamObj(paramForAcademy, aaMapperSqlId, CustomApplicationAcademy.class);
+        academy.setGraduateList(setUserDataStatus(graduateList, UserDataType.UPDATE));
 
         ec.setResult(ExecutionContext.SUCCESS);
         ec.setData(academy);
@@ -210,7 +213,13 @@ public class AcademyServiceImpl implements AcademyService {
         infoList = commonDAO.queryForList(NAME_SPACE + mapperNameSqlId,
                     parameter, clazz);
 
-
         return infoList;
+    }
+
+    private List<CustomApplicationAcademy> setUserDataStatus(List<CustomApplicationAcademy> list, UserDataType udt) {
+        for (CustomApplicationAcademy customApplicationAcademy : list) {
+            customApplicationAcademy.setUserDataType(udt);
+        }
+        return list;
     }
 }
