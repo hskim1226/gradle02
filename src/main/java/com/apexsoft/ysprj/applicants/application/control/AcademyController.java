@@ -6,13 +6,13 @@ import com.apexsoft.ysprj.applicants.application.domain.*;
 import com.apexsoft.ysprj.applicants.application.service.AcademyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
 import java.util.*;
 
@@ -30,9 +30,6 @@ public class AcademyController {
 
     @Resource(name = "messageResolver")
     MessageResolver messageResolver;
-
-    private final String APP_INFO_SAVED = "00001";
-    private final String ACAD_SAVED = "00002";
 
     private final String TARGET_VIEW = "application/academy";
 
@@ -79,14 +76,17 @@ public class AcademyController {
     /**
      * 학력 정보 최초작성/수정 화면
      *
-     * @param model
+     * @param formData
      * @return
      */
     @RequestMapping(value="/edit")
-    public ModelAndView getAcademy(@ModelAttribute Academy model) {
-        ModelAndView mv = new ModelAndView(TARGET_VIEW);
+    public ModelAndView getAcademy(@ModelAttribute Academy formData,
+                                   BindingResult bindingResult,
+                                   ModelAndView mv) {
+        mv.setViewName(TARGET_VIEW);
+        if (bindingResult.hasErrors()) return mv;
 
-        Application application = model.getApplication();
+        Application application = formData.getApplication();
         int applNo = application.getApplNo();
         String admsNo = application.getAdmsNo();
         String entrYear = application.getEntrYear();
@@ -102,30 +102,33 @@ public class AcademyController {
     /**
      * 학력 정보 저장
      *
-     * @param academy
+     * @param formData
      * @param principal
      * @return
      */
     @RequestMapping(value="/save", method = RequestMethod.POST)
-    public ModelAndView saveAcademy(@ModelAttribute Academy academy,
-                                    Principal principal) {
-        ModelAndView mv = new ModelAndView(TARGET_VIEW);
+    public ModelAndView saveAcademy(@ModelAttribute Academy formData,
+                                    Principal principal,
+                                    BindingResult bindingResult,
+                                    ModelAndView mv) {
+        mv.setViewName(TARGET_VIEW);
+        if (bindingResult.hasErrors()) return mv;
 
         ExecutionContext ec = null;
         String userId = principal.getName();
 
-        Application application = academy.getApplication();
+        Application application = formData.getApplication();
 
         application.setUserId(userId);
         application.setModId(userId);
 
-        List<CustomApplicationAcademy> collegeList = academy.getCollegeList();
-        List<CustomApplicationAcademy> graduateList = academy.getGraduateList();
+        List<CustomApplicationAcademy> collegeList = formData.getCollegeList();
+        List<CustomApplicationAcademy> graduateList = formData.getGraduateList();
 
         removeEmptyApplicatinoAcademy(collegeList);
         removeEmptyApplicatinoAcademy(graduateList);
 
-        ec = academyService.saveAcademy(academy);
+        ec = academyService.saveAcademy(formData);
 
         if (ec.getResult().equals(ExecutionContext.SUCCESS)) {
             ApplicationIdentifier data = (ApplicationIdentifier)ec.getData();
