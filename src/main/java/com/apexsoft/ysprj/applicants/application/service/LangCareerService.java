@@ -18,6 +18,8 @@ public interface LangCareerService {
 
     ExecutionContext retrieveLangCareer(int applNo);
 
+    ExecutionContext saveLangCareer(LangCareer langCareer);
+
     ExecutionContext updateLangCareer(Application application,
                                       List<LanguageGroup> languageGroupList,
                                       List<ApplicationExperience> applicationExperienceList);

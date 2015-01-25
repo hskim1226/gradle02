@@ -104,7 +104,8 @@ public class LangCareerServiceImpl implements LangCareerService {
         langCareer.setApplication(application);
         langCareer.setApplicationGeneral(applicationGeneral);
         langCareer.setLanguageGroupList(retrieveLanguageGroupListByApplNo(applNo));
-        langCareer.setApplicationExperienceList(retrieveInfoListByApplNo(applNo, "CustomApplicationExperienceMapper", ApplicationExperience.class));
+        List<CustomApplicationExperience> applicationExperienceList = retrieveInfoListByApplNo(applNo, "CustomApplicationExperienceMapper", CustomApplicationExperience.class);
+        langCareer.setApplicationExperienceList(setUserDataStatus(applicationExperienceList, UserCUDType.UPDATE));
 
         ec.setResult(ExecutionContext.SUCCESS);
         ec.setData(langCareer);
@@ -156,6 +157,31 @@ public class LangCareerServiceImpl implements LangCareerService {
             e.printStackTrace();
         }
         return langGroupList;
+    }
+
+    @Override
+    public ExecutionContext saveLangCareer(LangCareer langCareer) {
+        ExecutionContext ec = new ExecutionContext();
+
+        // TODO - dhoonkim - 어학 저장 처리
+//
+//        if ( r0 == 1 && insert == insertResult && update == updateResult && delete == deleteResult) {
+//            ec.setResult(ExecutionContext.SUCCESS);
+//            ec.setMessage(messageResolver.getMessage("U317"));
+//            ec.setData(new ApplicationIdentifier(applNo, application.getApplStsCode(),
+//                    application.getAdmsNo(), application.getEntrYear(), application.getAdmsTypeCode()));
+//        } else {
+//            ec.setResult(ExecutionContext.FAIL);
+//            ec.setMessage(messageResolver.getMessage("U318"));
+//            ec.setData(new ApplicationIdentifier(applNo, APP_NULL_STATUS));
+//            String errCode = null;
+//            if ( r0 == 0 ) errCode = "ERR0003";
+//            if ( insert != insertResult ) errCode = "ERR0011";
+//            if ( update != updateResult ) errCode = "ERR0013";
+//            if ( delete != deleteResult ) errCode = "ERR0014";
+//            ec.setErrCode(errCode);
+//        }
+        return ec;
     }
 
     @Override
@@ -237,5 +263,12 @@ public class LangCareerServiceImpl implements LangCareerService {
         }
 
         return infoList;
+    }
+
+    private List<CustomApplicationExperience> setUserDataStatus(List<CustomApplicationExperience> list, UserCUDType udt) {
+        for (CustomApplicationExperience applicationExperience : list) {
+            applicationExperience.setUserCUDType(udt);
+        }
+        return list;
     }
 }

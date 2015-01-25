@@ -297,7 +297,7 @@
                                         <div class="form-group-block">
                                             <form:hidden path="collegeList[${stat.index}].acadTypeCode" value="00002" />
                                             <form:hidden path="collegeList[${stat.index}].acadSeq" />
-                                            <form:hidden path="collegeList[${stat.index}].userCUDType" value='${academy.collegeList[stat.index].userCUDType == null ? "INSERT" : graduateList[stat.index].userCUDType}'/>
+                                            <form:hidden path="collegeList[${stat.index}].userCUDType" value='${academy.collegeList[stat.index].userCUDType == null ? "INSERT" : academy.collegeList[stat.index].userCUDType}'/>
                                             <div class="form-group required">
                                                 <label class="col-sm-2 control-label">소재 국가</label>
                                                 <div class="col-sm-2">
@@ -400,7 +400,7 @@
                                         <div class="form-group-block">
                                             <form:hidden path="graduateList[${stat.index}].acadTypeCode" value="00003" />
                                             <form:hidden path="graduateList[${stat.index}].acadSeq" />
-                                            <form:hidden path="graduateList[${stat.index}].userCUDType" value='${academy.graduateList[stat.index].userCUDType == null ? "INSERT" : graduateList[stat.index].userCUDType}' />
+                                            <form:hidden path="graduateList[${stat.index}].userCUDType" value='${academy.graduateList[stat.index].userCUDType == null ? "INSERT" : academy.graduateList[stat.index].userCUDType}' />
                                             <div class="form-group required">
                                                 <label class="col-sm-2 control-label">소재 국가</label>
                                                 <div class="col-sm-2">
@@ -740,7 +740,6 @@
 
         <%-- 달력 시작 --%>
         $('.input-group.date>input').datepicker(datePickerOption);
-        $('.input-daterange>input').datepicker(datePickerOption);
         $('.calendar-addon').on('click', function () {
             $(this.parentNode).children('input')[0].focus();
         });
@@ -989,7 +988,9 @@
                         updateIdAndName(blocks[i], i - 1);
                     }
                     if (length <= 1) {
+                        $(blockToRemove).find('.input-group.date>input').datepicker('destroy');
                         eraseContents(blockToRemove);
+                        $(blockToRemove).find('.input-group.date>input').datepicker(datePickerOption);
                     } else {
                         blockToRemove.parentNode.removeChild(blockToRemove);
                     }

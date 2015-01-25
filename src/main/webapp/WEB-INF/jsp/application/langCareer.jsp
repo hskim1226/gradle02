@@ -373,7 +373,9 @@
                             <div class="panel-body">
                                 <div id="career-container" class="form-group-block-list">
                                     <c:forEach varStatus="stat" begin="0" end="${langCareer.applicationExperienceList.size() > 0 ? langCareer.applicationExperienceList.size() - 1 : 0}">
-                                        <div id="career-info" class="form-group-block">
+                                        <div class="form-group-block">
+                                            <form:hidden path="applicationExperienceList[${stat.index}].exprSeq"/>
+                                            <form:hidden path="applicationExperienceList[${stat.index}].userCUDType" value='${langCareer.applicationExperienceList[stat.index].userCUDType == null ? "INSERT" : langCareer.applicationExperienceList[stat.index].userCUDType}'/>
                                             <div class="form-group required">
                                                 <label class="col-sm-2 control-label">재직 기간</label>
                                                 <div class="col-sm-4 start-date-container">
@@ -403,7 +405,7 @@
                                                     <form:input path="applicationExperienceList[${stat.index}].exprDesc" cssClass="form-control" />
                                                 </div>
                                             </div>
-                                            <div class="btn btn-remove">
+                                            <div class="btn btn-remove" data-block-index="${stat.index}" data-list-name="applicationExperienceList">
                                                 <button type="button" class="close" aria-hidden="true">×</button>
                                             </div>
                                         </div>
@@ -584,7 +586,6 @@
 
         <%-- 달력 시작 --%>
         $('.input-group.date>input').datepicker(datePickerOption);
-        $('.input-daterange>input').datepicker(datePickerOption);
         $('.calendar-addon').on('click', function () {
             $(this.parentNode).children('input')[0].focus();
         });
@@ -620,6 +621,80 @@
         <%-- 외국어 성적 면제 해당 처리 --%>
 
         <%-- form-group-block 추가/삭제에 대한 처리 시작 --%>
+        <%-- id, name 재설정 시작 --%>
+        var updateIdAndName = function ( block, index ) {
+            var i, name, prefix, suffix, input, items, label;
+            var input = block.querySelector('input');
+
+            name = input.name;
+
+            items = block.querySelectorAll('input, select, label');
+            if (items) {
+                for (i = 0; i <items.length; i++) {
+                    name = items[i].name;
+                    if (name) {
+                        prefix = name.substring(0, name.indexOf('['));
+                        suffix = name.substring(name.indexOf(']') + 1);
+                        items[i].name = prefix + '[' + index + ']' + suffix;
+                    }
+                    var oldid = items[i].id;
+                    if (oldid) {
+                        prefix = oldid.substring(0, oldid.indexOf('.'));
+                        prefix = prefix.replace(/[0-9]/g, '');
+                        suffix = oldid.substring(oldid.indexOf('.'));
+                        items[i].id = prefix + index + suffix;
+
+                        label = block.querySelector('label[for="' + oldid + '"]');
+                        if (label) {
+                            label.setAttribute('for', items[i].id);
+                        }
+                    }
+                    if (items[i].id.indexOf('userCUDType') > 0) {
+                        items[i].value = "INSERT";
+                    }
+                }
+            }
+
+            var removeBtn = block.querySelector('.btn-remove');
+            if (removeBtn) {
+                removeBtn.setAttribute('data-block-index', index);
+            }
+        }
+        <%-- id, name 재설정 끝 --%>
+
+        <%-- 복제된 입력폼 내용 초기화 시작 --%>
+        var eraseContents = function ( block ) {
+            var i, items, itemName;
+            block.style.display = 'block';
+            items = block.querySelectorAll('input, select');
+            if (items) {
+                for (i = 0; i <items.length; i++) {
+                    if (items[i].type == 'hidden') {
+                        itemName = items[i].name;
+                        if (itemName.indexOf('userCUDType') > 0) {
+                            items[i].value = "INSERT";
+                        }
+                    }
+                    if (items[i].type != 'hidden' && items[i].type != 'radio' && items[i].type != 'checkbox' && items[i].type != 'button') {
+                        items[i].value = '';
+                        items[i].setAttribute('value', '');
+                    }
+                    if (items[i].checked != null) {
+                        items[i].checked = false;
+                    }
+//                    if (items[i].type == 'button') {
+//                        $(items[i]).removeClass('btn-info');
+//                        $(items[i]).addClass('btn-default');
+//                        $(items[i]).val('올리기');
+//                    }
+//                    if (items[i].type == 'file') {
+//                        $(items[i]).val('');
+//                    }
+                }
+            }
+        }
+        <%-- 복제된 입력폼 내용 초기화 끝 --%>
+
         $('.btn-add').on('click', function(e) {
             var target = e.currentTarget ? e.currentTarget : e.target;
             var container = target.parentNode;
@@ -648,93 +723,31 @@
             var container = blockToRemove.parentNode;
             var blocks = container.querySelectorAll('.form-group-block');
             var length = blocks.length, i;
+            var blockIndex = target.dataset.blockIndex;
+            var userCUDType = document.getElementById(target.dataset.listName + blockIndex + '.userCUDType');
 
-            for (i = 0; i < length; i++) {
-                if (blockToRemove == blocks[i]) {
+            switch (userCUDType.value) {
+                case 'INSERT' :
+                    for (i = parseInt(blockIndex) + 1; i < length; i++) {
+                        updateIdAndName(blocks[i], i - 1);
+                    }
+                    if (length <= 1) {
+                        $(blockToRemove).find('.input-group.date>input').datepicker('destroy');
+                        eraseContents(blockToRemove);
+                        $(blockToRemove).find('.input-group.date>input').datepicker(datePickerOption);
+                    } else {
+                        blockToRemove.parentNode.removeChild(blockToRemove);
+                    }
                     break;
-                }
+                case 'UPDATE' :
+                    userCUDType.value = 'DELETE';
+                    blockToRemove.style.display = 'none';
+                    break;
             }
 
-            for (i = i + 1; i < length; i++) {
-                updateIdAndName(blocks[i], i - 1);
-            }
-
-            if (length <= 1) {
-                eraseContents(blockToRemove);
-            } else {
-                blockToRemove.parentNode.removeChild(blockToRemove);
-            }
-
-            mustCheckedOneRadio();
         });
 
-        <%-- id, name 재설정 시작 --%>
-        function updateIdAndName( block, index ) {
-            var i, name, prefix, suffix, input, items, label;
-            var input = block.querySelector('input');
 
-            name = input.name;
-
-            items = block.querySelectorAll('input, select');
-            if (items) {
-                for (i = 0; i <items.length; i++) {
-                    name = items[i].name;
-                    if (name) {
-                        prefix = name.substring(0, name.indexOf('['));
-                        suffix = name.substring(name.indexOf(']') + 1);
-                        items[i].name = prefix + '[' + index + ']' + suffix;
-                    }
-                    var oldid = items[i].id;
-                    if (oldid) {
-                        prefix = oldid.substring(0, oldid.indexOf('.'));
-                        prefix = prefix.replace(/[0-9]/g, '');
-                        suffix = oldid.substring(oldid.indexOf('.'));
-                        items[i].id = prefix + index + suffix;
-
-                        label = block.querySelector('label[for="' + oldid + '"]');
-                        if (label) {
-                            label.setAttribute('for', items[i].id);
-                        }
-                    }
-                }
-            }
-
-            var removeBtn = block.querySelector('.btn-remove');
-            if (removeBtn) {
-                removeBtn.setAttribute('data-block-index', index);
-            }
-        }
-        <%-- id, name 재설정 끝 --%>
-
-        <%-- 복제된 입력폼 내용 초기화 시작 --%>
-        function eraseContents( block ) {
-            var i, items, itemName;
-            items = block.querySelectorAll('input, select');
-            if (items) {
-                for (i = 0; i <items.length; i++) {
-                    if (items[i].type == 'hidden') {
-                        itemName = items[i].name;
-                        items[i].value = itemName.indexOf('acadType') < 0 ? '' : items[i].value ;
-                    }
-                    if (items[i].type != 'hidden' && items[i].type != 'radio' && items[i].type != 'checkbox' && items[i].type != 'button') {
-                        items[i].value = '';
-                        items[i].setAttribute('value', '');
-                    }
-                    if (items[i].checked != null) {
-                        items[i].checked = false;
-                    }
-                    if (items[i].type == 'button') {
-                        $(items[i]).removeClass('btn-info');
-                        $(items[i]).addClass('btn-default');
-                        $(items[i]).val('올리기');
-                    }
-                    if (items[i].type == 'file') {
-                        $(items[i]).val('');
-                    }
-                }
-            }
-        }
-        <%-- 복제된 입력폼 내용 초기화 끝 --%>
         <%-- form-group-block 추가/삭제에 대한 처리 끝 --%>
 
         <%-- 단어 잘림 방지 --%>
