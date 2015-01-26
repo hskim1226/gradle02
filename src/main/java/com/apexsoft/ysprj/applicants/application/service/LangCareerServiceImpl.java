@@ -162,8 +162,6 @@ public class LangCareerServiceImpl implements LangCareerService {
     @Override
     public ExecutionContext saveLangCareer(LangCareer langCareer) {
         ExecutionContext ec = new ExecutionContext();
-
-        // TODO - dhoonkim - 어학 저장 처리
 //
 //        if ( r0 == 1 && insert == insertResult && update == updateResult && delete == deleteResult) {
 //            ec.setResult(ExecutionContext.SUCCESS);

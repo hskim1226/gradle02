@@ -262,7 +262,7 @@
                     <td id="stepBasis" width="25%" height="30px" align="center" class="stepDisabled">1. 기본 정보</td>
                     <td id="stepAcademy" width="25%" height="30px" align="center" class="stepDisabled">2. 학력 정보</td>
                     <td id="stepLangCareer" width="25%" height="30px" align="center" class="stepDisabled">3. 어학/경력 정보</td>
-                    <td id="stepFileUpload" width="25%" height="30px" align="center" class="stepDisabled">4. 파일 첨부</td>
+                    <td id="stepDocument" width="25%" height="30px" align="center" class="stepDisabled">4. 파일 첨부</td>
                 </tr>
             </table>
         </div>
@@ -274,7 +274,7 @@
                         <td id="tab-basis" width="25%" height="35px" align="center" class="inactiveTab" data-target-tab="basis" data-tab-available="true">기본 정보</td>
                         <td id="tab-academy" width="25%" height="35px" align="center" class="inactiveTab" data-target-tab="academy" data-tab-available="false" data-unavailable-msg='<spring:message code="U321"/>'>학력 정보</td>
                         <td id="tab-langCareer" width="25%" height="35px" align="center" class="inactiveTab" data-target-tab="langCareer" data-tab-available="false" data-unavailable-msg='<spring:message code="U322"/>'>어학/경력 정보</td>
-                        <td id="tab-fileUpload" width="25%" height="35px" align="center" class="inactiveTab" data-target-tab="fileUpload" data-tab-available="false" data-unavailable-msg='<spring:message code="U323"/>'>파일 첨부</td>
+                        <td id="tab-document" width="25%" height="35px" align="center" class="inactiveTab" data-target-tab="document" data-tab-available="false" data-unavailable-msg='<spring:message code="U323"/>'>파일 첨부</td>
                     </tr>
                 </table>
             </div>
@@ -385,10 +385,10 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="btn btn-remove" data-list-name="collegeList" data-block-index="${stat.index}" data-fileupload-block-list="fuCollegeDocBlockList"><button type="button" class="close" aria-hidden="true">×</button></div>
+                                            <div class="btn btn-remove" data-list-name="collegeList" data-block-index="${stat.index}"><button type="button" class="close" aria-hidden="true">×</button></div>
                                         </div>
                                     </c:forEach>
-                                    <div class="btn btn-info btn-add" data-fileupload-block-list="fuCollegeDocBlockList">추가</div>
+                                    <div class="btn btn-info btn-add">추가</div>
                                 </div>
                             </div>
                         </div>
@@ -488,10 +488,10 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="btn btn-remove" data-list-name="graduateList" data-block-index="${stat.index}" data-fileupload-block-list="fuGraduateDocBlockList"><button type="button" class="close" aria-hidden="true">×</button></div>
+                                            <div class="btn btn-remove" data-list-name="graduateList" data-block-index="${stat.index}"><button type="button" class="close" aria-hidden="true">×</button></div>
                                         </div>
                                     </c:forEach>
-                                    <div class="btn btn-info btn-add" data-fileupload-block-list="fuGraduateDocBlockList">추가</div>
+                                    <div class="btn btn-info btn-add">추가</div>
                                 </div>
                             </div>
                         </div>

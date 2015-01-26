@@ -2,7 +2,7 @@
 <%@ include file="/WEB-INF/jsp/common/env.jsp"%>
 <html lang="ko">
 <head>
-    <title>원서 작성 - 어학/경력 정보</title>
+    <title>원서 작성 - 파일 첨부</title>
     <link rel="stylesheet" href="//code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css">
     <style>
         section.application {
@@ -279,7 +279,7 @@
                 </table>
             </div>
         </div>
-        <form:form commandName="langCareer" cssClass="form-horizontal" method="post" role="form">
+        <form:form commandName="document" cssClass="form-horizontal" method="post" role="form">
             <form:hidden path="application.applNo" id="applNo" />
             <form:hidden path="application.applStsCode" id="applStsCode" />
             <form:hidden path="application.admsNo" id="admsNo" />
@@ -289,129 +289,150 @@
                 <div class="spacer-tiny"></div>
                 <div class="row">
                     <div class="col-sm-offset-1 col-sm-10">
-                        <div class="panel panel-default">
-                            <div class="panel-heading">어학성적</div>
-                            <div class="panel-body" id="english-score-list">
-                            <c:forEach items="${langCareer.languageGroupList}" var="langGroup" varStatus="langGroupStat">
-                                <c:forEach items="${langGroup.langList}" var="langList" varStatus="langListStat">
-                                <div class="form-group required">
-                                    <form:hidden path="languageGroupList[${langGroupStat.index}].examCodeGrp" value="${langGroup.examCodeGrp}"/>
-                                    <div class="col-sm-2">
-                                        <c:if test="${langListStat.index == 0}"><label class="col-sm-offset-8 control-label">${langGroup.examGrpName}</label></c:if>
+                        <div class="panel panel-darkgray">
+                            <div class="panel-heading">첨부 파일 안내</div>
+                            <div class="panel-body">
+                                <p>사진 외의 모든 첨부 파일은 서류 종류별로 하나의 PDF 파일만 업로드 가능합니다.</p>
+
+                                <p>만약 한가지 종류의 서류가 여러개의 PDF 파일로 되어 있다면,
+                                    하나의 PDF 파일로 합친 후 업로드 하시기 바랍니다.</p>
+
+                                <p>PDF 파일 합치기는 전용프로그램이나 인터넷 서비스를 이용하시기 바랍니다.</p>
+
+                                예)<br/>
+                                <a href="http://convert.neevia.com/pdfmerge/" target="_blank">http://convert.neevia.com/pdfmerge/</a><br/>
+                                <a href="http://www.pdfmerge.com/" target="_blank">http://www.pdfmerge.com/</a><br/>
+
+                                <p>예시 사이트에서 발생하는 모든 문제는 당사에서 책임지지 않습니다.</p>
+
+                                <p>사진 파일은 JPG, GIF, PNG 파일만 업로드 가능합니다.</p>
+
+                                <p>사진 파일의 편집은 전용 프로그램이나 인터넷 서비스를 이용하시기 바랍니다.</p>
+
+                                예)<br/>
+                                <a href="http://apps.pixlr.com/editor/" target="_blank">http://apps.pixlr.com/editor/</a><br/>
+                                <a href="http://www.fotor.com/" target="_blank">http://www.fotor.com/</a><br/>
+                                <p>예시 사이트에서 발생하는 모든 문제는 당사에서 책임지지 않습니다.</p>
+                                <hr/>
+                                <p>파일 첨부 시 주의사항</p>
+                                1. 문서별로 1개의 파일만 첨부 가능합니다.<br/>
+                                2. 사진 및 문서의 해상도와 가독성 여부를 반드시 확인하세요.<br/>
+                                3. 스캔시에는 300dpi 이상으로 스캔하시기 바랍니다.<br/>
+                                4. 문서 크기는 A4 크기로 생성하여 첨부하셔야 합니다.<br/>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="spacer-tiny"></div>
+                <div class="row">
+                    <div class="col-sm-offset-1 col-sm-10">
+                        <c:forEach items="${document.documentContainerList}" var="docContainer" varStatus="grpStat">
+                            <c:if test = "${docContainer.subGrp.size()==0  &&  docContainer.mandDocList.size()>0}">
+                                <div class="panel panel-darkgray">
+                                    <div class="panel-heading">${docContainer.fileGroupName} 서류</div>
+                                    <div class="panel-body" id="docContainerList${grpStat.index}.list">
+                                        <c:forEach items="${docContainer.mandDocList}" var="mandDoc" varStatus="docStat">
+                                            <hr/>
+                                            <div class="form-group" id="docContainerList${grpStat.index}.mandDocList${docStat.index}.${mandDoc.docItemCode}">
+                                                <label class="col-sm-3 control-label word-keep-all">${mandDoc.docItemName}</label>
+                                                <div class="col-sm-8">
+                                                    <div class="input-group">
+                                                        <div class="input-group-btn">
+                                                            <input type="file" class="btn btn_lg btn-file" id="docContainerList${grpStat.index}.mandDocList${docStat.index}.docName" name="docContainerList[${grpStat.index}].mandDocList[${docStat.index}].docName"/>
+                                                        </div>
+                                                        <c:if test="${mandDoc.orgnSendYn =='Y' || mandDoc.orgnSendYn =='y'}">
+                                                            <div class="apexMessage">${mandDoc.msgNo}</div>
+                                                        </c:if>
+                                                        <c:if test="${mandDoc.orgnSendYn =='N' || mandDoc.orgnSendYn !='n'}">
+                                                            <div class="col-sm-4 nopadding"><input type="button" id="docContainerList${grpStat.index}.mandDocList${docStat.index}.btn" name="docContainerList[${grpStat.index}].mandDocList[${docStat.index}].btn"
+                                                                                                   class="btn btn-default btn-block btn-upload" value="올리기"
+                                                                                                   data-file-path="docContainerList${grpStat.index}.mandDocList${docStat.index}.filePath"
+                                                                                                   data-file-name="docContainerList${grpStat.index}.mandDocList${docStat.index}.fileName"
+                                                                                                   data-org-file-name="docContainerList${grpStat.index}.mandDocList${docStat.index}.orgFileName"/>
+                                                            </div>
+                                                                <span class="col-sm-8" id="docContainerList${grpStat.index}.mandDocList${docStat.index}" style="text-decoration: none;">
+                                                                    <a href="${contextPath}/filedownload/attached/${entireApplication.application.admsNo}/${entireApplication.application.applNo}/${mandDoc.fileName}/${mandDoc.orgFileName}">${mandDoc.orgFileName}</a>
+                                                                </span>
+                                                        </c:if>
+                                                    </div>
+                                                </div>
+                                                <form:hidden path="docContainerList[${grpStat.index}].mandDocList[${docStat.index}].docTypeCode" value="${mandDoc.docTypeCode}" />
+                                                <form:hidden path="docContainerList[${grpStat.index}].mandDocList[${docStat.index}].docGrp" value="${mandDoc.docGrp}" />
+                                                <form:hidden path="docContainerList[${grpStat.index}].mandDocList[${docStat.index}].docItemCode" value="${mandDoc.docItemCode}" />
+                                                <form:hidden path="docContainerList[${grpStat.index}].mandDocList[${docStat.index}].docItemName" value="${mandDoc.docItemName}" />
+                                                <form:hidden path="docContainerList[${grpStat.index}].mandDocList[${docStat.index}].filePath"  value="${mandDoc.filePath}"/>
+                                                <form:hidden path="docContainerList[${grpStat.index}].mandDocList[${docStat.index}].fileName"  value="${mandDoc.fileName}"/>
+                                                <form:hidden path="docContainerList[${grpStat.index}].mandDocList[${docStat.index}].orgFileName"  value="${mandDoc.orgFileName}"/>
+                                            </div>
+                                        </c:forEach>
+
                                     </div>
-                                    <div class="col-sm-2">
-                                        <form:hidden path="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].itemCode" value="${langList.docItemCode}"/>
-                                        <div class="checkbox">
-                                            <label for="checkLang-${langListStat.index}">
-                                                <c:if test='${langList.canYn == "Y"}'>
-                                                    <c:choose>
-                                                        <c:when test='${langGroup.multiYn == "Y"}'>
-                                                <input type="checkbox" class="lang-checkbox" id="checkLang-${langListStat.index}" <c:if test="${langList.langInfoSaveFg == true}">checked</c:if>/>
-                                                        </c:when>
-                                                        <c:otherwise>
-                                                <input type="radio" class="lang-radio" id="radioLang-${langListStat.index}" <c:if test="${langList.langInfoSaveFg == true}">checked</c:if>/>
-                                                        </c:otherwise>
-                                                    </c:choose>
-                                                </c:if>${langList.itemName}
-                                            </label>
-                                        </div>
-                                    </div>
-                                    <c:choose>
-                                    <c:when test='${langList.canYn == "Y"}'>
-                                    <div class="col-sm-2 lang-detail-${langListStat.index}" style='display: <c:choose><c:when test="${langList.langInfoSaveFg == true}">block;</c:when><c:otherwise>none;</c:otherwise></c:choose>'>
-                                            <c:if test="${langList.itemCode == '00001'}">
-                                        <form:select path="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].toflTypeCode" cssClass="form-control forlInput">
-                                            <form:option value="" label="--선택--" />
-                                            <form:options items="${common.toflTypeList}" itemValue="code" itemLabel="codeVal" />
-                                        </form:select>
-                                            </c:if>
-                                    </div>
-                                    <div class="col-sm-3 lang-detail-${langListStat.index}" style='display: <c:choose><c:when test="${langList.langInfoSaveFg == true}">block;</c:when><c:otherwise>none;</c:otherwise></c:choose>'>
-                                        <div class="input-group date">
-                                            <span class="input-group-addon">시험일</span>
-                                            <form:input path="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].examDay" cssClass="form-control forlInput" />
-                                            <span class="input-group-addon calendar-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-2 lang-detail-${langListStat.index}" style='display: <c:choose><c:when test="${langList.langInfoSaveFg == true}">block;</c:when><c:otherwise>none;</c:otherwise></c:choose>'>
-                                        <div class="input-group">
-                                            <span class="input-group-addon">점수</span>
-                                            <form:input path="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].langGrad" cssClass="form-control lang-score forlInput" data-lang-exam-name="${langList.itemName}" maxlength="4"/>
-                                        </div>
-                                    </div>
-                                    </c:when>
-                                    <c:otherwise>
-                                    <div class="col-sm-2">
-                                        <label class="lbl-lang" id="checkLangLabel${langListStat.index}" >인정 불가</label>
-                                    </div>
-                                    </c:otherwise>
-                                    </c:choose>
                                 </div>
-                                </c:forEach>
-                            </c:forEach>
-                            <c:if test='${langCareer.application.deptCode != "10403"}'> <%-- 건축공학과는 면제 없음 --%>
-                                <div class="form-group required">
-                                    <div class="col-sm-offset-2 col-sm-4">
-                                        <div class="checkbox">
-                                            <label>
-                                                <input type="checkbox" id="checkForlExmp"/>외국어 성적 면제 해당자
-                                            </label>
+                                <div class="spacer-tiny"></div>
+                            </c:if>
+
+                            <c:if test = "${docContainer.subGrp.size()>0}">
+                                <div class="panel panel-darkgray">
+                                    <div class="panel-heading">${docContainer.fileGroupName} 서류</div>
+                                    <div class="panel-body" id="docContainerList${grpStat.index}.list">
+                                        <div class="form-group-block-list" id="fuCollegeDocBlockList">
+                                            <c:forEach items="${docContainer.subGrp}" var="subGrp" varStatus="subGrpStat">
+                                                <div class="form-group-block">
+                                                    <c:forEach items="${subGrp.mandDocList}" var="mandDoc" varStatus="docStat">
+                                                        <hr/>
+                                                        <div class="form-group" id="docContainerList${grpStat.index}.subGrp${subGrpStat.index}.mandDocList${docStat.index}.${mandDoc.docItemCode}">
+                                                            <label class="col-sm-3 control-label word-keep-all">${mandDoc.docItemName}</label>
+                                                            <div class="col-sm-8">
+                                                                <div class="input-group">
+                                                                    <div class="input-group-btn">
+                                                                        <input type="file" class="btn btn_lg btn-file" id="docContainerList${grpStat.index}.subGrp${subGrpStat.index}.mandDocList${docStat.index}.docName" name="docContainerList[${grpStat.index}].subGrp[${subGrpStat.index}].mandDocList[${docStat.index}].docName"/>
+                                                                    </div>
+                                                                    <c:if test="${mandDoc.orgnSendYn =='Y' || mandDoc.orgnSendYn =='y'}">
+                                                                        <div class="apexMessage">${mandDoc.msgNo}</div>
+                                                                    </c:if>
+                                                                    <c:if test="${mandDoc.orgnSendYn =='N' || mandDoc.orgnSendYn !='n'}">
+                                                                        <div class="col-sm-4 nopadding"><input type="button" id="docContainerList${grpStat.index}.subGrp${subGrpStat.index}.mandDocList${docStat.index}.btn" name="docContainerList[${grpStat.index}].mandDocList[${docStat.index}].btn"
+                                                                                                               class="btn btn-default btn-block btn-upload" value="올리기"
+                                                                                                               data-file-path="docContainerList${grpStat.index}.subGrp${subGrpStat.index}.mandDocList${docStat.index}.filePath"
+                                                                                                               data-file-name="docContainerList${grpStat.index}.subGrp${subGrpStat.index}.mandDocList${docStat.index}.fileName"
+                                                                                                               data-org-file-name="docContainerList${grpStat.index}.subGrp${subGrpStat.index}.mandDocList${docStat.index}.orgFileName"/>
+                                                                        </div>
+                                                                            <span class="col-sm-8" id="docContainerList${grpStat.index}.subGrp${subGrpStat.index}.mandDocList${docStat.index}" style="text-decoration: none;">
+                                                                                <a href="${contextPath}/filedownload/attached/${entireApplication.application.admsNo}/${entireApplication.application.applNo}/${mandDoc.fileName}/${mandDoc.orgFileName}">${mandDoc.orgFileName}</a>
+                                                                            </span>
+                                                                    </c:if>
+                                                                </div>
+                                                            </div>
+                                                            <form:hidden path="docContainerList[${grpStat.index}].subGrp[${subGrpStat.index}].mandDocList[${docStat.index}].docTypeCode" value="${mandDoc.docTypeCode}" />
+                                                            <form:hidden path="docContainerList[${grpStat.index}].subGrp[${subGrpStat.index}].mandDocList[${docStat.index}].docGrp" value="${mandDoc.docGrp}" />
+                                                            <form:hidden path="docContainerList[${grpStat.index}].subGrp[${subGrpStat.index}].mandDocList[${docStat.index}].docItemCode" value="${mandDoc.docItemCode}" />
+                                                            <form:hidden path="docContainerList[${grpStat.index}].subGrp[${subGrpStat.index}].mandDocList[${docStat.index}].docItemName" value="${mandDoc.docItemName}" />
+                                                            <form:hidden path="docContainerList[${grpStat.index}].subGrp[${subGrpStat.index}].mandDocList[${docStat.index}].filePath"  value="${mandDoc.filePath}"/>
+                                                            <form:hidden path="docContainerList[${grpStat.index}].subGrp[${subGrpStat.index}].mandDocList[${docStat.index}].fileName"  value="${mandDoc.fileName}"/>
+                                                            <form:hidden path="docContainerList[${grpStat.index}].subGrp[${subGrpStat.index}].mandDocList[${docStat.index}].orgFileName"  value="${mandDoc.orgFileName}"/>
+                                                        </div>
+                                                    </c:forEach>
+                                                </div>
+                                            </c:forEach>
                                         </div>
-                                    </div>
-                                    <div class="col-sm-5">
-                                        <form:select path="applicationGeneral.forlExmpCode" id="forlExmpCode" cssClass="form-control" disabled="true">
-                                            <form:option value="" label="--선택--" />
-                                            <form:options items="${common.fornExmpList}" itemValue="code" itemLabel="codeVal" />
-                                        </form:select>
                                     </div>
                                 </div>
                             </c:if>
-                            </div>
-                        </div>
-                        <div class="panel panel-default">
-                            <div class="panel-heading">경력 사항</div>
-                            <div class="panel-body">
-                                <div id="career-container" class="form-group-block-list">
-                                    <c:forEach varStatus="stat" begin="0" end="${langCareer.applicationExperienceList.size() > 0 ? langCareer.applicationExperienceList.size() - 1 : 0}">
-                                        <div class="form-group-block">
-                                            <form:hidden path="applicationExperienceList[${stat.index}].exprSeq"/>
-                                            <form:hidden path="applicationExperienceList[${stat.index}].userCUDType" value='${langCareer.applicationExperienceList[stat.index].userCUDType == null ? "INSERT" : langCareer.applicationExperienceList[stat.index].userCUDType}'/>
-                                            <div class="form-group required">
-                                                <label class="col-sm-2 control-label">재직 기간</label>
-                                                <div class="col-sm-4 start-date-container">
-                                                    <div class="input-group date">
-                                                        <span class="input-group-addon">입사일</span>
-                                                        <form:input path="applicationExperienceList[${stat.index}].joinDay" cssClass="form-control" readonly="true" />
-                                                        <span class="input-group-addon calendar-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-                                                    </div>
-                                                </div>
-                                                <div class="col-sm-4 end-date-container">
-                                                    <div class="input-group date">
-                                                        <span class="input-group-addon">퇴사일</span>
-                                                        <form:input path="applicationExperienceList[${stat.index}].retrDay" cssClass="form-control" readonly="true" />
-                                                        <span class="input-group-addon calendar-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="form-group required">
-                                                <form:label path="applicationExperienceList[${stat.index}].corpName" cssClass="col-sm-2 control-label">기관명</form:label>
-                                                <div class="col-sm-9">
-                                                    <form:input path="applicationExperienceList[${stat.index}].corpName" cssClass="form-control" />
-                                                </div>
-                                            </div>
-                                            <div class="form-group required">
-                                                <form:label path="applicationExperienceList[${stat.index}].exprDesc" cssClass="col-sm-2 control-label">직위명</form:label>
-                                                <div class="col-sm-9">
-                                                    <form:input path="applicationExperienceList[${stat.index}].exprDesc" cssClass="form-control" />
-                                                </div>
-                                            </div>
-                                            <div class="btn btn-remove" data-block-index="${stat.index}" data-list-name="applicationExperienceList">
-                                                <button type="button" class="close" aria-hidden="true">×</button>
-                                            </div>
-                                        </div>
-                                    </c:forEach>
-                                    <div class="btn btn-info btn-add">추가</div>
-                                </div>
+                            <div class="spacer-tiny"></div>
+                        </c:forEach>
+                        <div class="panel panel-darkgray">
+                            <div class="panel-body" id="docContainerList[${grpStat.index}].list">
+                                <label class="col-sm-10 apexMessage">- 파일 첨부시 주의사항
+                                    <br>1. 문서별로 1개의 파일만 첨부 가능합니다.
+                                    <br>2. 사진 및 문서의 해상도와 가독성 여부를 반드시 확인하세요.
+                                    <br>3. 스캔시에는 300dpi 이상으로 스캔하시기 바랍니다.
+                                    <br>4. 문서 크기는 A4 크기로 생성하여 첨부하셔야 합니다.</label>
+                                <label class="col-sm-10 apexMessage">- 여러개의 PDF파일을 합치는 방법
+                                    <br>여러개 PDF 은 하나의 PDF 파일로 만들어서 업로드 하시기 바랍니다.
+                                    <br>PDF 통합은 전용프로그램이나 인터넷 서비스를 이용하시기 바랍니다.
+                                    <br>  예) http://convert.neevia.com/pdfmerge/
+                                    <br>  ( 예시 사이트에서 발생할 수 있는 문제는 당사에서 책임지지 않습니다 )</label>
                             </div>
                         </div>
                     </div>

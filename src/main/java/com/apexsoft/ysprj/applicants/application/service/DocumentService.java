@@ -8,14 +8,18 @@ import java.util.List;
 /**
  * Created by hanmomhanda on 15. 1. 23.
  *
- * 원서 기본 정보 서비스
+ * 제출 문서 업로드 서비스
  */
-public interface FileUploadService {
+public interface DocumentService {
 
     ExecutionContext createFileUpload(Application application,
                                       List<DocGroupFile> docGroupFileList);
 
+    ExecutionContext retrieveDocument(int applNo);
+
     List<TotalApplicationDocumentContainer> retrieveManatoryApplicatoinlDocListByApplNo(int applNo);
+
+    ExecutionContext saveDocument(Document document);
 
     ExecutionContext updateFileUpload(Application application,
                                       List<DocGroupFile> docGroupFileList);

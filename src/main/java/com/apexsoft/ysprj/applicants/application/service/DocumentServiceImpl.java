@@ -16,7 +16,7 @@ import java.util.List;
  * Created by hanmomhanda on 15. 1. 23.
  */
 @Service
-public class FileUploadServiceImpl implements FileUploadService {
+public class DocumentServiceImpl implements DocumentService {
 
     private final static String NAME_SPACE = "com.apexsoft.ysprj.applicants.application.sqlmap.";
 
@@ -130,6 +130,50 @@ public class FileUploadServiceImpl implements FileUploadService {
     public ExecutionContext deleteFileUpload(Application application,
                                       List<DocGroupFile> docGroupFileList) {
         return null;
+    }
+
+    @Override
+    public ExecutionContext retrieveDocument(int applNo) {
+        ExecutionContext ec = new ExecutionContext();
+        Document document = new Document();
+
+        Application application = commonDAO.queryForObject(NAME_SPACE + "ApplicationMapper.selectByPrimaryKey",
+                applNo, Application.class);
+        application = application == null ? new Application() : application;
+        document.setApplication(application);
+
+        document.setApplication(application);
+        List<TotalApplicationDocumentContainer> documentContainerList =
+                retrieveManatoryApplicatoinlDocListByApplNo(applNo);
+        document.setDocumentContainerList(documentContainerList);
+
+        ec.setResult(ExecutionContext.SUCCESS);
+        ec.setData(document);
+
+        return ec;
+    }
+
+    @Override
+    public ExecutionContext saveDocument(Document document) {
+
+        ExecutionContext ec = new ExecutionContext();
+        // TODO - dhoonkim - 첨부파일 저장
+//        int r1 = 0, applNo = application.getApplNo(), idx = 0;
+//        Date date = new Date();
+//        String userId = application.getUserId();
+//
+//        if ( r1 == idx ) {
+//            ec.setResult(ExecutionContext.SUCCESS);
+//            ec.setMessage(messageResolver.getMessage("U325"));
+//            ec.setData(new ApplicationIdentifier(applNo, application.getApplStsCode(),
+//                    application.getAdmsNo(), application.getEntrYear(), application.getAdmsTypeCode()));
+//        } else {
+//            ec.setResult(ExecutionContext.FAIL);
+//            ec.setMessage(messageResolver.getMessage("U326"));
+//            ec.setData(new ApplicationIdentifier(applNo, APP_NULL_STATUS));
+//            ec.setErrCode("ERR0033");
+//        }
+        return ec;
     }
 
     @Override

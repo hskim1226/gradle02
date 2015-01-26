@@ -4,7 +4,7 @@ import com.apexsoft.framework.common.vo.ExecutionContext;
 import com.apexsoft.framework.message.MessageResolver;
 import com.apexsoft.ysprj.applicants.admission.domain.ParamForAdmissionCourseMajor;
 import com.apexsoft.ysprj.applicants.application.domain.*;
-import com.apexsoft.ysprj.applicants.application.service.LangCareerService;
+import com.apexsoft.ysprj.applicants.application.service.DocumentService;
 import com.apexsoft.ysprj.applicants.common.service.CommonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,16 +21,16 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Created by hanmomhanda on 15. 1. 13.
+ * Created by hanmomhanda on 15. 1. 26.
  *
  * 원서 어학/경력 정보 컨트롤러
  */
 @Controller
-@RequestMapping(value="/application/langCareer")
-public class LangCareerController {
+@RequestMapping(value="/application/document")
+public class DocumentController {
 
     @Autowired
-    private LangCareerService langCareerService;
+    private DocumentService documentService;
 
     @Autowired
     private CommonService commonService;
@@ -38,29 +38,29 @@ public class LangCareerController {
     @Resource(name = "messageResolver")
     MessageResolver messageResolver;
 
-    private final String TARGET_VIEW = "application/langCareer";
+    private final String TARGET_VIEW = "application/document";
 
     /**
-     * 어학/경력 정보를 조회해서 어학/경력 정보 화면에 뿌려질 데이터 구성
+     * 제출 문서 정보를 조회해서 파일 첨부 화면에 뿌려질 데이터 구성
      *
      * @param applicationIdentifier
      * @return
      */
-    private ExecutionContext setupLangCareer(ApplicationIdentifier applicationIdentifier) {
+    private ExecutionContext setupDocument(ApplicationIdentifier applicationIdentifier) {
         ExecutionContext ec;
 
         Map<String, Object> ecDataMap = new HashMap<String, Object>();
         Map<String, Object> commonCodeMap = new HashMap<String, Object>();
-        LangCareer langCareer;
+        Document document;
 
         int applNo = applicationIdentifier.getApplNo();
         String admsNo = applicationIdentifier.getAdmsNo();
         String entrYear = applicationIdentifier.getEntrYear();
         String admsTypeCode = applicationIdentifier.getAdmsTypeCode();
 
-        ec = langCareerService.retrieveLangCareer(applNo);
-        langCareer = (LangCareer)ec.getData();
-        Application application = langCareer.getApplication();
+        ec = documentService.retrieveDocument(applNo);
+        document = (Document)ec.getData();
+        Application application = document.getApplication();
 
         ParamForAdmissionCourseMajor param = new ParamForAdmissionCourseMajor();
         param.setAdmsNo(admsNo);
@@ -68,10 +68,7 @@ public class LangCareerController {
         param.setCorsTypeCode(application.getCorsTypeCode());
         param.setDetlMajCode(application.getDetlMajCode());
 
-        commonCodeMap.put( "toflTypeList", commonService.retrieveCommonCodeValueByCodeGroup("TOFL_TYPE") );
-        commonCodeMap.put( "fornExmpList", commonService.retrieveCommonCodeValueByCodeGroup("FORN_EXMP") );
-
-        ecDataMap.put("langCareer", langCareer);
+        ecDataMap.put("document", document);
         ecDataMap.put("common", commonCodeMap);
         ec.setData(ecDataMap);
 
@@ -85,9 +82,9 @@ public class LangCareerController {
      * @return
      */
     @RequestMapping(value="/edit")
-    public ModelAndView getLangCareer(@ModelAttribute LangCareer formData,
-                                      BindingResult bindingResult,
-                                      ModelAndView mv) {
+    public ModelAndView getDocument(@ModelAttribute Document formData,
+                                    BindingResult bindingResult,
+                                    ModelAndView mv) {
         mv.setViewName(TARGET_VIEW);
         if (bindingResult.hasErrors()) return mv;
 
@@ -97,7 +94,7 @@ public class LangCareerController {
         String entrYear = application.getEntrYear();
         String admsTypeCode = application.getAdmsTypeCode();
 
-        ExecutionContext ec = setupLangCareer(new ApplicationIdentifier(applNo, admsNo, entrYear, admsTypeCode));
+        ExecutionContext ec = setupDocument(new ApplicationIdentifier(applNo, admsNo, entrYear, admsTypeCode));
         Map<String, Object> map = (Map<String, Object>)ec.getData();
         addObjectToMV(mv, map, ec);
 
@@ -112,10 +109,10 @@ public class LangCareerController {
      * @return
      */
     @RequestMapping(value="/save", method = RequestMethod.POST)
-    public ModelAndView saveLangCareer(@ModelAttribute LangCareer formData,
-                                       Principal principal,
-                                       BindingResult bindindResult,
-                                       ModelAndView mv) {
+    public ModelAndView saveDocument(@ModelAttribute Document formData,
+                                     Principal principal,
+                                     BindingResult bindindResult,
+                                     ModelAndView mv) {
         mv.setViewName(TARGET_VIEW);
         if (bindindResult.hasErrors()) return mv;
 
@@ -127,37 +124,13 @@ public class LangCareerController {
         application.setUserId(userId);
         application.setModId(userId);
 
-        List<CustomApplicationExperience> exprList = formData.getApplicationExperienceList();
+//        List<CustomApplicationExperience> exprList = formData.getApplicationExperienceList();
 
-        removeEmptyApplicatinoAcademy(exprList);
-
-        ec = langCareerService.saveLangCareer(formData);
-
-        // TODO - omw - 로직은 서비스로 이동 예정
-//        if (application.getApplStsCode().equals(ACAD_SAVED)) { //insert
-//            for (LanguageGroup lGroup : formData.getLanguageGroupList()) {
-//                List<TotalApplicationLanguage> langList = lGroup.getLangList();
-//                for (TotalApplicationLanguage alang : langList) {
-//                    alang.setApplNo(applNo);
-//                    alang.setCreId(userId);
-//                }
-//            }
-//            for (ApplicationExperience ae : formData.getApplicationExperienceList()) {
-//                ae.setApplNo(applNo);
-//                ae.setCreId(userId);
-//            }
-//            ec = langCareerService.createLangCareer(application,
-//                    formData.getLanguageGroupList(),
-//                    formData.getApplicationExperienceList());
-//        } else { //update
-//            ec = langCareerService.updateLangCareer(application,
-//                    formData.getLanguageGroupList(),
-//                    formData.getApplicationExperienceList());
-//        }
+        ec = documentService.saveDocument(formData);
 
         if (ec.getResult().equals(ExecutionContext.SUCCESS)) {
             ApplicationIdentifier data = (ApplicationIdentifier)ec.getData();
-            ExecutionContext ecSetupLangCareer = setupLangCareer(data);
+            ExecutionContext ecSetupLangCareer = setupDocument(data);
 
             if (ecSetupLangCareer.getResult().equals(ExecutionContext.SUCCESS)) {
                 Map<String, Object> setupMap = (Map<String, Object>)ecSetupLangCareer.getData();
@@ -170,18 +143,6 @@ public class LangCareerController {
         }
 
         return mv;
-    }
-
-    private List<CustomApplicationExperience> removeEmptyApplicatinoAcademy(List<CustomApplicationExperience> list) {
-        int i, length;
-        for (i = 0, length = list.size() ; i < length ; i++) {
-            if (list.get(i).getCorpName() == null || list.get(i).getCorpName().equals("")) {
-                list.remove(i);
-                length--;
-                i--;
-            }
-        }
-        return list;
     }
 
     /**
@@ -205,7 +166,7 @@ public class LangCareerController {
      * @param ec
      */
     private void addObjectToMV(ModelAndView mv, Map<String, Object> map, ExecutionContext ec) {
-        mv.addObject("langCareer", map.get("langCareer"));
+        mv.addObject("document", map.get("document"));
         mv.addObject("common", map.get("common"));
         mv.addObject("resultMsg", ec.getMessage());
     }
