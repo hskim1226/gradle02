@@ -591,6 +591,13 @@
         });
         <%-- 달력 끝 --%>
 
+        <%-- 달력 reset 함수 --%>
+        var resetCalendar = function (block, calendarClass) {
+            $(block).find(calendarClass).datepicker('destroy');
+            $(block).find(calendarClass).datepicker(datePickerOption);
+        };
+        <%-- 달력 reset 함수 --%>
+
         <%-- 외국어 성적 면제 해당 처리 --%>
         var checkForlExmp = function (isExmp) {
             $('.forlInput').each(function () {
@@ -654,16 +661,17 @@
                     }
                 }
             }
+            resetCalendar(block, '.input-group.date>input');
 
             var removeBtn = block.querySelector('.btn-remove');
             if (removeBtn) {
                 removeBtn.setAttribute('data-block-index', index);
             }
-        }
+        };
         <%-- id, name 재설정 끝 --%>
 
         <%-- 복제된 입력폼 내용 초기화 시작 --%>
-        var eraseContents = function ( block ) {
+        var resetBlockContents = function ( block ) {
             var i, items, itemName;
             block.style.display = 'block';
             items = block.querySelectorAll('input, select');
@@ -692,7 +700,8 @@
 //                    }
                 }
             }
-        }
+            resetCalendar(block, '.input-group.date>input');
+        };
         <%-- 복제된 입력폼 내용 초기화 끝 --%>
 
         $('.btn-add').on('click', function(e) {
@@ -706,11 +715,9 @@
             var $cloneObj;
             if (originBlock) {
                 $cloneObj = $(originBlock).clone(true);
-                $cloneObj.find('.input-group.date>input').datepicker('destroy');
                 updateIdAndName($cloneObj[0], blocks.length);
-                eraseContents($cloneObj[0]);
+                resetBlockContents($cloneObj[0]);
                 container.insertBefore($cloneObj[0], originBlock.nextSibling);
-                $cloneObj.find('.input-group.date>input').datepicker(datePickerOption);
             }
         });
 
@@ -732,9 +739,7 @@
                         updateIdAndName(blocks[i], i - 1);
                     }
                     if (length <= 1) {
-                        $(blockToRemove).find('.input-group.date>input').datepicker('destroy');
-                        eraseContents(blockToRemove);
-                        $(blockToRemove).find('.input-group.date>input').datepicker(datePickerOption);
+                        resetBlockContents(blockToRemove);
                     } else {
                         blockToRemove.parentNode.removeChild(blockToRemove);
                     }
