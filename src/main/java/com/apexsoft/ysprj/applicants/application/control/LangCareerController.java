@@ -129,7 +129,7 @@ public class LangCareerController {
 
         List<CustomApplicationExperience> exprList = formData.getApplicationExperienceList();
 
-        removeEmptyApplicatinoAcademy(exprList);
+        removeEmptyExperienceAcademy(exprList);
 
         ec = langCareerService.saveLangCareer(formData);
 
@@ -172,7 +172,7 @@ public class LangCareerController {
         return mv;
     }
 
-    private List<CustomApplicationExperience> removeEmptyApplicatinoAcademy(List<CustomApplicationExperience> list) {
+    private List<CustomApplicationExperience> removeEmptyExperienceAcademy(List<CustomApplicationExperience> list) {
         int i, length;
         for (i = 0, length = list.size() ; i < length ; i++) {
             if (list.get(i).getCorpName() == null || list.get(i).getCorpName().equals("")) {

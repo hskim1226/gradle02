@@ -125,8 +125,8 @@ public class AcademyController {
         List<CustomApplicationAcademy> collegeList = formData.getCollegeList();
         List<CustomApplicationAcademy> graduateList = formData.getGraduateList();
 
-        removeEmptyApplicatinoAcademy(collegeList);
-        removeEmptyApplicatinoAcademy(graduateList);
+        removeEmptyApplicationAcademy(collegeList);
+        removeEmptyApplicationAcademy(graduateList);
 
         ec = academyService.saveAcademy(formData);
 
@@ -147,7 +147,7 @@ public class AcademyController {
         return mv;
     }
 
-    private List<CustomApplicationAcademy> removeEmptyApplicatinoAcademy(List<CustomApplicationAcademy> list) {
+    private List<CustomApplicationAcademy> removeEmptyApplicationAcademy(List<CustomApplicationAcademy> list) {
         int i, length;
         for (i = 0, length = list.size() ; i < length ; i++) {
             if (list.get(i).getSchlCntrCode() == null || list.get(i).getSchlCntrCode().equals("")) {

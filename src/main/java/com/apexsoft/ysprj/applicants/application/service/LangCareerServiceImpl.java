@@ -103,7 +103,13 @@ public class LangCareerServiceImpl implements LangCareerService {
 
         langCareer.setApplication(application);
         langCareer.setApplicationGeneral(applicationGeneral);
+
+        // 어학 정보는 지원 전공 정보에 의해 입력 가능한 항목과 개수가 fix 되므로, langSeq 도 fix 되므로
+        // 작성 화면 보여줄 때는 DB에 있는 대로 보여주고
+        // 저장할 때 DB를 조회해서 이미 있으면 update, 없으면 insert 로 분기하는 것이 좋을 듯
         langCareer.setLanguageGroupList(retrieveLanguageGroupListByApplNo(applNo));
+
+        // 경력은 원래의 seq를 유지해야 하므로 이미 데이터가 있는 레코드는 UserCUDType.UPDATE 처리 해줌
         List<CustomApplicationExperience> applicationExperienceList = retrieveInfoListByApplNo(applNo, "CustomApplicationExperienceMapper", CustomApplicationExperience.class);
         langCareer.setApplicationExperienceList(setUserDataStatus(applicationExperienceList, UserCUDType.UPDATE));
 
@@ -162,7 +168,20 @@ public class LangCareerServiceImpl implements LangCareerService {
     @Override
     public ExecutionContext saveLangCareer(LangCareer langCareer) {
         ExecutionContext ec = new ExecutionContext();
-//
+
+        int r0 = 0, insert = 0, update = 0, delete = 0;
+        Application application = langCareer.getApplication();
+        int applNo = application.getApplNo();
+
+        List<LanguageGroup> langList = langCareer.getLanguageGroupList();
+        List<CustomApplicationExperience> exprList = langCareer.getApplicationExperienceList();
+
+        // TODO - dhoonkim - 해당 리스트로 서비스 호출하는 부분 작성 필요
+        // 어학 정보는 화면에서 받아온 값과 DB의 값을 대조해서 insert, update, delete(?) 등 상태 분기
+        // 경력 정보는 AcademyServiceImpl을 참고해서 작성
+
+
+        // TODO - dhoonkim - 아래는 학력 정보 저장 시 사용한 결과 처리 부분으로 어학/경력 정보에 맞게 수정 필요
 //        if ( r0 == 1 && insert == insertResult && update == updateResult && delete == deleteResult) {
 //            ec.setResult(ExecutionContext.SUCCESS);
 //            ec.setMessage(messageResolver.getMessage("U317"));
@@ -264,8 +283,8 @@ public class LangCareerServiceImpl implements LangCareerService {
     }
 
     private List<CustomApplicationExperience> setUserDataStatus(List<CustomApplicationExperience> list, UserCUDType udt) {
-        for (CustomApplicationExperience applicationExperience : list) {
-            applicationExperience.setUserCUDType(udt);
+        for (CustomApplicationExperience item : list) {
+            item.setUserCUDType(udt);
         }
         return list;
     }
