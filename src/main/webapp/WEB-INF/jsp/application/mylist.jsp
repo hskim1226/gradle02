@@ -84,7 +84,8 @@
                                     <button id="preview" class="btn btn-info preview ${item.applStsCode=="00010"?"":"disabled"}"
                                             data-applNo="${item.applNo}" data-admsNo="${item.admsNo}" data-entrYear="${item.entrYear}"
                                             data-admsTypeCode="${item.admsTypeCode}">원서 미리보기</button>
-                                    <button id="pay" class="btn btn-primary pay ${item.applStsCode=="00010"?"":(item.applStsCode=="00021"?"":"disabled")}"
+                                    <%--<button id="pay" class="btn btn-primary pay ${item.applStsCode=="00010"?"":(item.applStsCode=="00021"?"":"disabled")}"--%>
+                                    <button id="pay" class="btn btn-primary pay"
                                         name="2015학년도 ${item.campName} ${item.admsTypeName} ${item.deptName} ${item.corsTypeName}"
                                         data-applNo="${item.applNo}"
                                         value="${item.admsFee}">전형료 결제하기</button>
@@ -105,10 +106,10 @@
                         <input type="hidden" name="LGD_PRODUCTINFO" id="LGD_PRODUCTINFO"/>
                         <input type="hidden" name="LGD_AMOUNT" id="LGD_AMOUNT"/>
                         <input type="hidden" name="LGD_TIMESTAMP" id="LGD_TIMESTAMP"/>
-                        <input type="hidden" name="applNo" id="applNo"/>
-                        <input type="hidden" name="admsNo" id="admsNo"/>
-                        <input type="hidden" name="entrYear" id="entrYear"/>
-                        <input type="hidden" name="admsTypeCode" id="admsTypeCode"/>
+                        <input type="hidden" name="application.applNo" id="applNo"/>
+                        <input type="hidden" name="application.admsNo" id="admsNo"/>
+                        <input type="hidden" name="application.entrYear" id="entrYear"/>
+                        <input type="hidden" name="application.admsTypeCode" id="admsTypeCode"/>
                     </form>
                 </div>
             </div>
@@ -130,7 +131,7 @@
                 e.preventDefault();
                 var form = document.getElementById('LGD_PAYINFO');
                 setHidden(e.target);
-                form.action = "${contextPath}/application/apply";
+                form.action = "${contextPath}/application/basis/edit";
                 form.submit();
 
             });
@@ -142,11 +143,14 @@
                 form.submit();
             });
             $('.pay').click(function(e){
-                document.getElementById('LGD_PRODUCTINFO').value = e.target.name;
-                document.getElementById('LGD_AMOUNT').value = e.target.value;
-                document.getElementById('LGD_PAYINFO').setAttribute("action", "${contextPath}/pay/confirm");
-                document.getElementById('applNo').value = e.target.getAttribute('data-applNo');
-                $('#LGD_PAYINFO').submit();
+                var payMsg = '전형료 결제이후에는 정보 수정이 불가합니다.\n\n입력하신 모든 정보를 재차 확인하시기 바라며 기입 오류에 대한 책임은 모두 지원자 본인에게 있습니다.';
+                if (confirm(payMsg)) {
+                    document.getElementById('LGD_PRODUCTINFO').value = e.target.name;
+                    document.getElementById('LGD_AMOUNT').value = e.target.value;
+                    document.getElementById('LGD_PAYINFO').setAttribute("action", "${contextPath}/pay/confirm");
+                    document.getElementById('applNo').value = e.target.getAttribute('data-applNo');
+                    $('#LGD_PAYINFO').submit();
+                }
             });
             $('.print').click(function(e){
                 var target = e.target;

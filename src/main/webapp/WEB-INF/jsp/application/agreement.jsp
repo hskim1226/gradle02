@@ -70,7 +70,7 @@
                 <div>개인정보보호법』 제 15조 및 제 22조에 따라 연세대학교 대학원 신·편입생 선발과 관련하여 개인정보의 수집과 이용을 위해서 개인정보 수집 및 이용에 대한 귀하의 동의가 필요합니다.</div>
 
                 <div class="spacer-small"></div>
-                <form class="form-horizontal" id="formAgreement" role="form" action="${contextPath}/application/apply" method="post">
+                <form class="form-horizontal" id="formAgreement" role="form" action="${contextPath}/application/basis/edit" method="post">
                     <hr/>
                     <h3 class="slogan">개인 정보 수집 및 이용에 관한 동의</h3>
                     <div>원서 접수 및 입학 전형을 위해 개인정보를 수집 및 이용하며, 이외의 다른 목적에는 절대 사용되지 않습니다.</div>
@@ -89,10 +89,10 @@
                     <div class="form-group" align="center">
                         <label class="col-md-offset-1 col-md-6 big-font slogan text-center">개인 정보 수집 및 이용에 동의 하십니까?</label>
                         <label class="radio-inline">
-                            <input type="radio" name="radio1" value="0" checked>동의함
+                            <input type="radio" name="radio1" value="0">동의함
                         </label>
                         <label class="radio-inline">
-                            <input type="radio" name="radio1" value="1">동의하지 않음
+                            <input type="radio" name="radio1" value="1" checked>동의하지 않음
                         </label>
                         <div class="spacer-tiny"></div>
                         <label class="col-md-offset-2 col-md-8 mid-font slogan text-center">개인정보 수집 및 이용에 동의하지 않을 경우 원서를 접수할 수 없습니다.</label>
@@ -106,10 +106,10 @@
                     <div class="form-group" align="center">
                         <label class="col-md-offset-1 col-md-6 big-font text-center slogan">고유식별정보 수집 및 이용에 동의하십니까?</label>
                         <label class="radio-inline">
-                            <input type="radio" name="radio2" value="0" checked>동의함
+                            <input type="radio" name="radio2" value="0">동의함
                         </label>
                         <label class="radio-inline">
-                            <input type="radio" name="radio2" value="1">동의하지 않음
+                            <input type="radio" name="radio2" value="1" checked>동의하지 않음
                         </label>
                         <div class="spacer-tiny"></div>
                         <label class="col-md-offset-2 col-md-8 mid-font text-center slogan">고유식별정보 수집 및 이용에 동의하지 않을 경우 원서를 접수할 수 없습니다.</label>
@@ -143,50 +143,13 @@
                     <div class="form-group row" align="center">
                         <label class="col-md-offset-1 col-md-6 text-center big-font slogan">개인정보 취급 위탁에 동의하십니까?</label>
                         <label class="radio-inline">
-                            <input type="radio" name="radio3" value="0" checked>동의함
+                            <input type="radio" name="radio3" value="0">동의함
                         </label>
                         <label class="radio-inline">
-                            <input type="radio" name="radio3" value="1">동의하지 않음
+                            <input type="radio" name="radio3" value="1" checked>동의하지 않음
                         </label>
                         <div class="spacer-tiny"></div>
                         <label class="col-md-offset-2 col-md-8 text-center mid-font slogan">개인정보 취급 위탁에 동의하지 않을 경우 원서를 접수할 수 없습니다.</label>
-                    </div>
-                    <div class="spacer-small"></div>
-
-                    <hr/>
-                    <h3 class="slogan">개인정보 제3자 제공에 대한 동의</h3>
-                    <div>다음과 같이 개인정보를 제3자에게 제공하고 있습니다.</div>
-                    <div class="spacer-tiny"></div>
-                    <div class="col-md-offset-1 col-md-11">
-                        <table class="table table-stripped">
-                            <thead>
-                            <tr>
-                                <th>개인정보를 제공받는 자</th>
-                                <th>제공받는 자의 개인정보 이용 목적</th>
-                                <th>제공하는 개인정보 항목</th>
-                                <th>제공받는 자의 보유,이용 기간</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr>
-                                <td class="text-center">한국대학교육협의회</td>
-                                <td class="text-center">학교알리미에 진학 통계 자료 제공</td>
-                                <td class="text-center">등록대학, 모집단위명</td>
-                                <td class="text-center">처리목적 달성 시까지</td>
-                            </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="form-group" align="center">
-                        <label class="col-md-offset-1 col-md-6 text-center big-font slogan">개인정보의 제3자 제공에 동의하십니까?</label>
-                        <label class="radio-inline">
-                            <input type="radio" name="radio4" value="0" checked>동의함
-                        </label>
-                        <label class="radio-inline">
-                            <input type="radio" name="radio4" value="1">동의하지 않음
-                        </label>
-                        <div class="spacer-tiny"></div>
-                        <label class="col-md-offset-2 col-md-8 text-center mid-font slogan">개인정보의 제3자 제공에 동의하지 않아도 원서를 접수할 수 있습니다.</label>
                     </div>
                     <div class="spacer-small"></div>
 
@@ -198,10 +161,10 @@
                     <div class="form-group" align="center">
                         <label class="col-md-offset-1 col-md-6 text-center big-font slogan">위 내용을 확인하셨습니까?</label>
                         <label class="radio-inline">
-                            <input type="radio" name="radio5" value="0" checked>확인함
+                            <input type="radio" name="radio4" value="0">확인함
                         </label>
                         <label class="radio-inline">
-                            <input type="radio" name="radio5" value="1">확인하지 않음
+                            <input type="radio" name="radio4" value="1" checked>확인하지 않음
                         </label>
                         <div class="spacer-tiny"></div>
                         <label class="col-md-offset-2 col-md-8 text-center mid-font slogan">확인하지 않을 경우 원서를 접수할 수 없습니다.</label>
@@ -217,25 +180,29 @@
                     <div class="form-group" align="center">
                         <label class="col-md-offset-1 col-md-6 text-center big-font slogan">위 내용을 확인하셨습니까?</label>
                         <label class="radio-inline">
-                            <input type="radio" name="radio6" value="0" checked>확인함
+                            <input type="radio" name="radio5" value="0">확인함
                         </label>
                         <label class="radio-inline">
-                            <input type="radio" name="radio6" value="1">확인하지 않음
+                            <input type="radio" name="radio5" value="1" checked>확인하지 않음
                         </label>
                         <div class="spacer-tiny"></div>
                         <label class="col-md-offset-2 col-md-8 text-center mid-font slogan">확인하지 않을 경우 원서를 접수할 수 없습니다.</label>
                     </div>
                     <div class="spacer-small"></div>
-                    <input type="hidden" name="admsNo" id="admsNo" value="${admsNo}" />
-                    <input type="hidden" name="entrYear" id="entrYear" value="${entrYear}" />
-                    <input type="hidden" name="admsTypeCode" id="admsTypeCode" value="${admsTypeCode}" />
+                    <input type="hidden" name="application.admsNo" id="admsNo" value="${admsNo}" />
+                    <input type="hidden" name="application.entrYear" id="entrYear" value="${entrYear}" />
+                    <input type="hidden" name="application.admsTypeCode" id="admsTypeCode" value="${admsTypeCode}" />
                 </form>
 
                 <hr/>
-                <div><h3 class="slogan" style="text-align: center">원서 접수 완료(전형료 걸제 완료) 후에는 접수 취소 및 변경이 불가능합니다.!!</h3></div>
-                <div class="spacer-small"></div>
-                <div class="col-md-offset-2 col-md-8">
-                    <button class="btn btn-primary btn-lg btn-block" id="composePaper">원서 작성</button>
+                <div class="form-group" align="center">
+                    <div class="col-md-12 text-center mid-font slogan"><label>전체 동의 <input type="checkbox" id="checkAll" name="check1"></label></div>
+                    <p>&nbsp;</p>
+                    <div><h3 class="slogan" style="text-align: center">원서 접수 완료(전형료 결제 완료) 후에는 접수 취소 및 변경이 불가능합니다.!!</h3></div>
+                    <div class="spacer-small"></div>
+                    <div class="col-md-offset-2 col-md-8">
+                        <button class="btn btn-primary btn-lg btn-block" id="composePaper">원서 작성</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -244,9 +211,22 @@
 <content tag="local-script">
     <script>
         $(document).ready( function() {
-            var o = $('#formAgreement input');
+            $('#checkAll').on('click', function () {
+                $('#formAgreement input[type="radio"]').each( function () {
+                    if (document.getElementById('checkAll').checked) {
+                        if (this.value == "0") this.checked = true;
+                        else this.checked = false;
+
+                    } else {
+                        if (this.value == "1") this.checked = true;
+                        else this.checked = false;
+                    }
+                });
+            });
+
+            var o = $('#formAgreement input[type="radio"]');
             o.on('change', function() {
-                if ( this.name != "radio4" && this.value == "1" ) {
+                if ( this.value == "1" ) {
                     nonagreeAlert();
                 }
             });
@@ -260,18 +240,12 @@
                 for (i = 1 ; i <= l ; i++) {
                     t0 = $('input[name=radio'+i+']:checked', '#formAgreement');
                     if ( !t0.val() || t0.val() == "1" ) {
-                        if(i !== 4) {
-                            nonagreeAlert();
-                            $('input[name=radio'+i+']').focus();
-                            return;
-                        } else if ( !t0.val() ) {
-                            alert("개인 정보의 제3자 제공 여부를 선택해 주십시오.");
-                            $('input[name=radio'+i+']').focus();
-                            return;
-                        }
+                        nonagreeAlert();
+                        $('input[name=radio'+i+']:not(:checked)').focus();
+                        return;
                     }
                 }
-                <%--location.href='${contextPath}/application/apply?admsNo=15A&entrYear=2015&admsTypeCode=A';--%>
+
                 $('#formAgreement').submit();
             });
         });

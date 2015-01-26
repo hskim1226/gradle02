@@ -13,7 +13,7 @@
     select *
     from SCHL
     where SCHL_TYPE = #{schlType}
-    and   SCHL_NAME like CONCAT('%', #{keyword,jdbcType=VARCHAR}, '%')
+    and   ( SCHL_NAME like CONCAT('%', #{keyword,jdbcType=VARCHAR}, '%') or PAST_NAME like CONCAT('%', #{keyword,jdbcType=VARCHAR}, '%') )
   </select>
 
 </mapper>

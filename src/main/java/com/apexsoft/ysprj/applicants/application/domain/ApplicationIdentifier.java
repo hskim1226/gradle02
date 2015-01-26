@@ -3,29 +3,29 @@ package com.apexsoft.ysprj.applicants.application.domain;
 /**
  * Created by hanmomhanda on 14. 9. 17.
  */
-public class CustomApplNoStsCode {
+public class ApplicationIdentifier {
 
     private int applNo;
     private String applStsCode;
     private String admsNo;
     private String entrYear;
     private String admsTypeCode;
-    private String errCode;
 
-    public CustomApplNoStsCode(int applNo, String applStsCode) {
+    public ApplicationIdentifier(int applNo, String applStsCode) {
         this.applNo = applNo;
         this.applStsCode = applStsCode;
     }
 
-    public CustomApplNoStsCode(int applNo, String applStsCode, String errCode) {
+    public ApplicationIdentifier(int applNo, String admsNo, String entrYear, String admsTypeCode) {
         this.applNo = applNo;
-        this.applStsCode = applStsCode;
-        this.errCode = errCode;
+        this.admsNo = admsNo;
+        this.entrYear = entrYear;
+        this.admsTypeCode = admsTypeCode;
     }
 
-    public CustomApplNoStsCode(int applNo, String applStsCode,
-                               String admsNo, String entrYear,
-                               String admsTypeCode) {
+    public ApplicationIdentifier(int applNo, String applStsCode,
+                                 String admsNo, String entrYear,
+                                 String admsTypeCode) {
         this.applNo = applNo;
         this.applStsCode = applStsCode;
         this.admsNo = admsNo;
@@ -71,13 +71,5 @@ public class CustomApplNoStsCode {
 
     public void setAdmsTypeCode(String admsTypeCode) {
         this.admsTypeCode = admsTypeCode;
-    }
-
-    public String getErrCode() {
-        return errCode;
-    }
-
-    public void setErrCode(String errCode) {
-        this.errCode = errCode;
     }
 }

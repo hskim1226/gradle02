@@ -134,6 +134,7 @@
         AND IFNULL(a.ARI_INST_CODE,'') = IFNULL(J.ARI_INST_CODE,'')
         AND a.CORS_TYPE_CODE = J.CORS_TYPE_CODE
         AND a.USER_ID =#{userId}
+        order by a.CRE_DATE
     </select>
 
     <select id="selectNewSeq" resultType="com.apexsoft.ysprj.applicants.application.domain.CustomNewSeq" parameterType="int">

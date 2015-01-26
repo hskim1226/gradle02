@@ -4,7 +4,6 @@ import com.apexsoft.framework.common.vo.ExecutionContext;
 import com.apexsoft.framework.message.MessageResolver;
 import com.apexsoft.framework.persistence.dao.CommonDAO;
 import com.apexsoft.ysprj.applicants.application.domain.*;
-import com.apexsoft.ysprj.applicants.evaluation.domain.DocGroup;
 import com.apexsoft.ysprj.applicants.payment.domain.ApplicationPayment;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -68,15 +67,16 @@ public class ApplicationServiceImpl implements ApplicationService {
         if ( r1 > 0 && r2 > 0 && r3 > 0 ) {
             ec.setResult(ExecutionContext.SUCCESS);
             ec.setMessage(messageResolver.getMessage("U312"));
-            ec.setData(new CustomApplNoStsCode(applNo, tA.getApplStsCode(), tA.getAdmsNo(), tA.getEntrYear(), tA.getAdmsTypeCode()));
+            ec.setData(new ApplicationIdentifier(applNo, tA.getApplStsCode(), tA.getAdmsNo(), tA.getEntrYear(), tA.getAdmsTypeCode()));
         } else {
             ec.setResult(ExecutionContext.FAIL);
             ec.setMessage(messageResolver.getMessage("U306"));
-            String errMsg = null;
-            if ( r1 == 0 ) errMsg = messageResolver.getMessage("ERR0001");
-            else if ( r2 == 0 ) errMsg = messageResolver.getMessage("ERR0006");
-            else if ( r3 == 0 ) errMsg = messageResolver.getMessage("ERR0026");
-            ec.setData(new CustomApplNoStsCode(0, APP_NULL_STATUS, errMsg));
+            String errCode = null;
+            if ( r1 == 0 ) errCode = messageResolver.getMessage("ERR0001");
+            else if ( r2 == 0 ) errCode = messageResolver.getMessage("ERR0006");
+            else if ( r3 == 0 ) errCode = messageResolver.getMessage("ERR0026");
+            ec.setData(new ApplicationIdentifier(0, APP_NULL_STATUS));
+            ec.setErrCode(errCode);
         }
         return ec;
     }
@@ -107,16 +107,17 @@ public class ApplicationServiceImpl implements ApplicationService {
         if ( r1 > 0 && r2 > 0 && r3 > 0 ) {
             ec.setResult(ExecutionContext.SUCCESS);
             ec.setMessage(messageResolver.getMessage("U315"));
-            ec.setData(new CustomApplNoStsCode(application.getApplNo(), application.getApplStsCode(),
+            ec.setData(new ApplicationIdentifier(application.getApplNo(), application.getApplStsCode(),
                     application.getAdmsNo(), application.getEntrYear(), application.getAdmsTypeCode()));
         } else {
             ec.setResult(ExecutionContext.FAIL);
             ec.setMessage(messageResolver.getMessage("U316"));
-            String errMsg = null;
-            if ( r1 == 0 ) errMsg = messageResolver.getMessage("ERR0003");
-            else if ( r2 == 0 ) errMsg = messageResolver.getMessage("ERR0008");
-            else if ( r3 == 0 ) errMsg = messageResolver.getMessage("ERR0028");
-            ec.setData(new CustomApplNoStsCode(application.getApplNo(), APP_NULL_STATUS, errMsg));
+            String errCode = null;
+            if ( r1 == 0 ) errCode = messageResolver.getMessage("ERR0003");
+            else if ( r2 == 0 ) errCode = messageResolver.getMessage("ERR0008");
+            else if ( r3 == 0 ) errCode = messageResolver.getMessage("ERR0028");
+            ec.setData(new ApplicationIdentifier(application.getApplNo(), APP_NULL_STATUS));
+            ec.setErrCode(errCode);
         }
         return ec;
     }
@@ -156,15 +157,16 @@ public class ApplicationServiceImpl implements ApplicationService {
         if ( r1 > 0 && r2 > 0 ) {
             ec.setResult(ExecutionContext.SUCCESS);
             ec.setMessage(messageResolver.getMessage("U317"));
-            ec.setData(new CustomApplNoStsCode(applNo, application.getApplStsCode(),
+            ec.setData(new ApplicationIdentifier(applNo, application.getApplStsCode(),
                     application.getAdmsNo(), application.getEntrYear(), application.getAdmsTypeCode()));
         } else {
             ec.setResult(ExecutionContext.FAIL);
             ec.setMessage(messageResolver.getMessage("U318"));
-            String errMsg = null;
-            if ( r1 == 0 ) errMsg = messageResolver.getMessage("ERR0003");
-            else if ( r2 == 0 ) errMsg = messageResolver.getMessage("ERR0011");
-            ec.setData(new CustomApplNoStsCode(applNo, APP_NULL_STATUS, errMsg));
+            String errCode = null;
+            if ( r1 == 0 ) errCode = "ERR0003";
+            else if ( r2 == 0 ) errCode = "ERR0011";
+            ec.setData(new ApplicationIdentifier(applNo, APP_NULL_STATUS));
+            ec.setErrCode(errCode);
         }
         return ec;
     }
@@ -200,13 +202,13 @@ public class ApplicationServiceImpl implements ApplicationService {
         if ( r1 == collegeList.size() && r2 == graduateList.size() ) {
             ec.setResult(ExecutionContext.SUCCESS);
             ec.setMessage(messageResolver.getMessage("U317"));
-            ec.setData(new CustomApplNoStsCode(applNo, application.getApplStsCode(),
+            ec.setData(new ApplicationIdentifier(applNo, application.getApplStsCode(),
                     application.getAdmsNo(), application.getEntrYear(), application.getAdmsTypeCode()));
         } else {
             ec.setResult(ExecutionContext.FAIL);
             ec.setMessage(messageResolver.getMessage("U318"));
-            ec.setData(new CustomApplNoStsCode(applNo, APP_NULL_STATUS,
-                    messageResolver.getMessage("ERR0013")));
+            ec.setData(new ApplicationIdentifier(applNo, APP_NULL_STATUS));
+            ec.setErrCode("ERR0013");
         }
         return ec;
     }
@@ -325,16 +327,17 @@ System.out.println(param.getAcadTypeCode() + " : " + c1+u1+d1);
         if ( r1 > 0 && r2 > 0 && r3 > 0) {
             ec.setResult(ExecutionContext.SUCCESS);
             ec.setMessage(messageResolver.getMessage("U319"));
-            ec.setData(new CustomApplNoStsCode(applNo, application.getApplStsCode(),
+            ec.setData(new ApplicationIdentifier(applNo, application.getApplStsCode(),
                     application.getAdmsNo(), application.getEntrYear(), application.getAdmsTypeCode()));
         } else {
             ec.setResult(ExecutionContext.FAIL);
             ec.setMessage(messageResolver.getMessage("U320"));
-            String errMsg = null;
-            if ( r1 == 0 ) errMsg = messageResolver.getMessage("ERR0003");
-            else if ( r2 == 0 ) errMsg = messageResolver.getMessage("ERR0016");
-            else if ( r3 == 0 ) errMsg = messageResolver.getMessage("ERR0021");
-            ec.setData(new CustomApplNoStsCode(applNo, APP_NULL_STATUS, errMsg));
+            String errCode = null;
+            if ( r1 == 0 ) errCode = "ERR0003";
+            else if ( r2 == 0 ) errCode = "ERR0016";
+            else if ( r3 == 0 ) errCode = "ERR0021";
+            ec.setData(new ApplicationIdentifier(applNo, APP_NULL_STATUS));
+            ec.setErrCode(errCode);
         }
         return ec;
     }
@@ -382,15 +385,16 @@ System.out.println(param.getAcadTypeCode() + " : " + c1+u1+d1);
         if ( r1 > 0 && r2 > 0 ) {
             ec.setResult(ExecutionContext.SUCCESS);
             ec.setMessage(messageResolver.getMessage("U319"));
-            ec.setData(new CustomApplNoStsCode(applNo, application.getApplStsCode(),
+            ec.setData(new ApplicationIdentifier(applNo, application.getApplStsCode(),
                     application.getAdmsNo(), application.getEntrYear(), application.getAdmsTypeCode()));
         } else {
             ec.setResult(ExecutionContext.FAIL);
             ec.setMessage(messageResolver.getMessage("U320"));
-            String errMsg = null;
-            if ( r1 == 0 ) errMsg = messageResolver.getMessage("ERR0018");
-            else if ( r2 == 0 ) errMsg = messageResolver.getMessage("ERR0023");
-            ec.setData(new CustomApplNoStsCode(applNo, APP_NULL_STATUS, errMsg));
+            String errCode = null;
+            if ( r1 == 0 ) errCode = "ERR0018";
+            else if ( r2 == 0 ) errCode = "ERR0023";
+            ec.setData(new ApplicationIdentifier(applNo, APP_NULL_STATUS));
+            ec.setErrCode(errCode);
         }
         return ec;
     }
@@ -416,30 +420,20 @@ System.out.println(param.getAcadTypeCode() + " : " + c1+u1+d1);
         r1 = commonDAO.updateItem(application, NAME_SPACE, "ApplicationMapper");
 
         if ( docGroupFileList != null ) {
-            for( DocGroupFile docGroupFile : docGroupFileList) {
-                List<TotalApplicationDocument> mDocList = docGroupFile.getMandDocList();
-                if ( mDocList != null ) {
-                    for (TotalApplicationDocument mDoc : mDocList) {
-                        mDoc.setApplNo(applNo);
-                        mDoc.setDocSeq(++idx);
-                        mDoc.setCreId(userId);
-                        mDoc.setCreDate(date);
-                    }
-                }
-                r1 += commonDAO.insertList(mDocList, NAME_SPACE, "ApplicationDocumentMapper");
-            }
+
         }
 
         if ( r1 == idx ) {
             ec.setResult(ExecutionContext.SUCCESS);
             ec.setMessage(messageResolver.getMessage("U325"));
-            ec.setData(new CustomApplNoStsCode(applNo, application.getApplStsCode(),
+            ec.setData(new ApplicationIdentifier(applNo, application.getApplStsCode(),
                     application.getAdmsNo(), application.getEntrYear(), application.getAdmsTypeCode()));
         } else {
             ec.setResult(ExecutionContext.FAIL);
             ec.setMessage(messageResolver.getMessage("U326"));
             String errMsg = messageResolver.getMessage("ERR0031");
-            ec.setData(new CustomApplNoStsCode(applNo, APP_NULL_STATUS, errMsg));
+            ec.setData(new ApplicationIdentifier(applNo, APP_NULL_STATUS));
+            ec.setErrCode("ERR0031");
         }
 
         return ec;
@@ -464,29 +458,20 @@ System.out.println(param.getAcadTypeCode() + " : " + c1+u1+d1);
         deleteListByApplNo(applNo, "CustomApplicationDocumentMapper");
         if ( docGroupFileList != null ) {
             for( DocGroupFile docGroupFile : docGroupFileList) {
-                List<TotalApplicationDocument> mDocList = docGroupFile.getMandDocList();
-                if ( mDocList != null ) {
-                    for (TotalApplicationDocument mDoc : mDocList) {
-                        mDoc.setApplNo(applNo);
-                        mDoc.setDocSeq(++idx);
-                        mDoc.setModId(userId);
-                        mDoc.setModDate(date);
-                    }
-                }
-                r1 += commonDAO.insertList(mDocList, NAME_SPACE, "ApplicationDocumentMapper");
+
             }
         }
 
         if ( r1 == idx ) {
             ec.setResult(ExecutionContext.SUCCESS);
             ec.setMessage(messageResolver.getMessage("U325"));
-            ec.setData(new CustomApplNoStsCode(applNo, application.getApplStsCode(),
+            ec.setData(new ApplicationIdentifier(applNo, application.getApplStsCode(),
                     application.getAdmsNo(), application.getEntrYear(), application.getAdmsTypeCode()));
         } else {
             ec.setResult(ExecutionContext.FAIL);
             ec.setMessage(messageResolver.getMessage("U326"));
-            String errMsg = messageResolver.getMessage("ERR0033");
-            ec.setData(new CustomApplNoStsCode(applNo, APP_NULL_STATUS, errMsg));
+            ec.setData(new ApplicationIdentifier(applNo, APP_NULL_STATUS));
+            ec.setErrCode("ERR0033");
         }
         return ec;
     }
@@ -891,12 +876,12 @@ System.out.println(param.getAcadTypeCode() + " : " + c1+u1+d1);
                 ec3.getResult().equals(ExecutionContext.SUCCESS) ) {
             ec.setResult(ExecutionContext.SUCCESS);
             ec.setMessage(messageResolver.getMessage("U327"));
-            ec.setData(new CustomApplNoStsCode(applNo, entireApplication.getApplication().getApplStsCode()));
+            ec.setData(new ApplicationIdentifier(applNo, entireApplication.getApplication().getApplStsCode()));
         } else {
             ec.setResult(ExecutionContext.FAIL);
             ec.setMessage(messageResolver.getMessage("U328"));
-            String errMsg = messageResolver.getMessage("ERR0033");
-            ec.setData(new CustomApplNoStsCode(applNo, APP_NULL_STATUS, errMsg));
+            ec.setData(new ApplicationIdentifier(applNo, APP_NULL_STATUS));
+            ec.setErrCode("ERR0033");
         }
         return ec;
     }
@@ -938,9 +923,9 @@ System.out.println(param.getAcadTypeCode() + " : " + c1+u1+d1);
             entireApplication.setGraduateList(retrieveInfoListByParamObj(paramForAcademy, aaMapperSqlId, CustomApplicationAcademy.class));
 
             entireApplication.setApplicationExperienceList(retrieveInfoListByApplNo(applNo, "CustomApplicationExperienceMapper", ApplicationExperience.class));
-            entireApplication.setLangGroupList(retrieveLanguageGroupListByApplNo(applNo));
-
-
+            entireApplication.setApplicationLanguageList(retrieveInfoListByApplNo(applNo, "CustomApplicationLanguageMapper", ApplicationLanguage.class));
+            entireApplication.setCurrApplicationLanguageList(retrieveCurrApplLangListByApplNo(applNo));
+            //entireApplication.setMandLangDocList(retrieveMandLangDocListByApplNo(applNo));
 
         } catch ( Exception e ) {
             e.printStackTrace();
@@ -1002,329 +987,10 @@ System.out.println(param.getAcadTypeCode() + " : " + c1+u1+d1);
         return infoList;
     }
 
-
-
-    public DocumentGroup retrieveManApplDocListByApplNo_2( int applNo) {
-
-        DocumentGroup docGrp = null;
-        List<TotalApplicationDocumentContainer> applContList = new ArrayList<TotalApplicationDocumentContainer>();
-
-
-        try {
-
-            Application tempApp = commonDAO.queryForObject(NAME_SPACE + "ApplicationMapper.selectByPrimaryKey", applNo, Application.class);
-            String admsNo = tempApp.getAdmsNo();
-            //학과별정보 조회
-            applContList.add(retrieveDeptDocumentByApplNo(applNo ));
-
-            //학력정보 조회
-            applContList.add(retrieveAcademyDocumentByApplNo(applNo, admsNo));
-
-
-            //어학정보 조회
-            applContList.add(retrieveLanguageDocumentByApplNo(applNo));
-
-            //코드별 조건 조회
-            applContList.addAll(retrieveCodeDocumentByApplNo(applNo,admsNo));
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return docGrp;
-    }
-    @Override
-    public List<DocGroupFile> retrieveManApplDocListByApplNo( int applNo) {
-
-        try {
-            retrieveManApplDocListByApplNo_2( applNo);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
+    public List<DocGroupFile> retrieveManApplDocListByApplNo( int applNo){
         return null;
     }
 
-
-
-
-    //학과별 문서요건 정보 조회
-    private  TotalApplicationDocumentContainer retrieveDeptDocumentByApplNo( int applNo) {
-        TotalApplicationDocumentContainer rApplDoc = null;
-        List<TotalApplicationDocumentContainer> applDocList;
-        try{
-
-            applDocList = commonDAO.queryForList(NAME_SPACE + "CustomApplicationDocumentMapper.selectBasicTotalDocListByApplNo", applNo, TotalApplicationDocumentContainer.class);
-            if( applDocList != null){
-                for ( TotalApplicationDocumentContainer aCont : applDocList){
-                    aCont.setSubContainer( getSubDeptDocumentContainer(aCont));
-                }
-            }
-            rApplDoc = new TotalApplicationDocumentContainer();
-            rApplDoc.setSubContainer(applDocList);
-            rApplDoc.setGrpLabel("기본-학과지정 제출서류");
-            rApplDoc.setDisplayGrpFg(true);
-
-
-        }catch (Exception e) {
-            e.printStackTrace();
-
-        }
-        return rApplDoc;
-    }
-
-    //점수가 입력된 어학문서 정보 조회
-    private  TotalApplicationDocumentContainer retrieveLanguageDocumentByApplNo( int applNo) {
-        TotalApplicationDocumentContainer rApplDoc = null;
-        List<TotalApplicationDocumentContainer> applDocList;
-        try{
-            int i =1;
-            applDocList = commonDAO.queryForList(NAME_SPACE + "CustomApplicationDocumentMapper.selectLanguageTotalDocListByApplNo", applNo, TotalApplicationDocumentContainer.class);
-            if( applDocList != null){
-                for ( TotalApplicationDocumentContainer aCont : applDocList){
-                   aCont.setDocItemName(aCont.getDocItemName()+" 성적표(증명)");
-                }
-            }
-            rApplDoc = new TotalApplicationDocumentContainer();
-            rApplDoc.setSubContainer(applDocList);
-            rApplDoc.setGrpLabel("어학 관련서류");
-            rApplDoc.setDisplayGrpFg(true);
-
-
-        }catch (Exception e) {
-            e.printStackTrace();
-
-        }
-        return rApplDoc;
-    }
-
-    //입력된 학력정보별 문서요건 정보 조회
-    private  TotalApplicationDocumentContainer retrieveAcademyDocumentByApplNo( int applNo, String admsNo ) {
-        TotalApplicationDocumentContainer aCont = null;
-        List<TotalApplicationDocumentContainer> applDocList = new ArrayList<TotalApplicationDocumentContainer>();
-        ParamForAcademy param = new ParamForAcademy();
-
-        try{
-            aCont.setDisplayGrpFg(true);
-            param.setApplNo(applNo);
-            param.setAcadTypeCode("00002");//대학
-            List<CustomApplicationAcademy>acadList;
-            acadList =commonDAO.queryForList(NAME_SPACE + "CustomApplicationAcademyMapper.selectByApplNoAcadTypeCode", param, CustomApplicationAcademy.class);
-
-            //대학 갯수만큼 켄네이너 생성
-            for(CustomApplicationAcademy aAcad : acadList){
-
-                aCont = new TotalApplicationDocumentContainer();
-                aCont.setApplNo( aAcad.getApplNo());
-                aCont.setGrpLabel(aAcad.getSchlName() + " 관련서류");
-
-                applDocList.add(aCont);
-
-                //학위별 필수서류 셋팅
-                aAcad.getAcadSeq();
-                aAcad.getGrdaTypeCode();
-                aAcad.getSchlCntrCode();
-                aAcad.getSchlName();
-                ParamForCodeDocument codeParam = new ParamForCodeDocument();
-                codeParam.setApplNo(applNo);
-                codeParam.setAdmsNo(admsNo);
-                codeParam.setAdmsCodeGrp("ACAD_TYPE");
-                codeParam.setAdmsCode(aAcad.getAcadTypeCode());
-                codeParam.setGrpLevel(1);
-                codeParam.setItemTypeCode("00003");
-
-                List<TotalApplicationDocumentContainer> subDocList;
-                subDocList = commonDAO.queryForList(NAME_SPACE +"CustomApplicationDocumentMapper.selectCodeMandatoryGroupByCode",codeParam,TotalApplicationDocumentContainer.class);
-
-                //해외학위 필수서류 셋팅
-                codeParam.setAdmsCodeGrp("SCHL_CNTR");
-                codeParam.setAdmsCode(aAcad.getSchlCntrCode());
-                subDocList.addAll(commonDAO.queryForList(NAME_SPACE +"CustomApplicationDocumentMapper.selectCodeMandatoryGroupByCode",codeParam,TotalApplicationDocumentContainer.class));
-
-                for( TotalApplicationDocumentContainer aSubDoc : subDocList ){
-                    aSubDoc.setDocGrp(aAcad.getAcadSeq());
-                    aSubDoc.setAdmsNo(admsNo);
-                    aSubDoc.setSubContainer( getSubCodeDocumentContainer(aSubDoc));
-                }
-
-            }
-            //대학원 갯수만큼 켄네이너 생성
-            param.setAcadTypeCode("00004");//대학원
-            acadList =commonDAO.queryForList(NAME_SPACE + "CustomApplicationAcademyMapper.selectByApplNoAcadTypeCode",param,CustomApplicationAcademy.class);
-
-            for(CustomApplicationAcademy aAcad : acadList){
-
-                aCont = new TotalApplicationDocumentContainer();
-                aCont.setApplNo( aAcad.getApplNo());
-                aCont.setGrpLabel( aAcad.getSchlName() + " 관련서류" );
-                applDocList.add(aCont);
-                //필수서류 셋팅
-                aAcad.getAcadSeq();
-                aAcad.getGrdaTypeCode();
-                aAcad.getSchlCntrCode();
-                aAcad.getSchlName();
-                ParamForCodeDocument codeParam = new ParamForCodeDocument();
-                codeParam.setApplNo(applNo);
-                codeParam.setAdmsNo(admsNo);
-                codeParam.setAdmsCodeGrp( "ACAD_TYPE");
-                codeParam.setAdmsCode(aAcad.getAcadTypeCode());
-                codeParam.setGrpLevel(1);
-                codeParam.setItemTypeCode("00004");//대학원
-
-                List<TotalApplicationDocumentContainer> subDocList;
-                subDocList = commonDAO.queryForList(NAME_SPACE +"CustomApplicationDocumentMapper.selectCodeMandatoryGroupByCode",codeParam,TotalApplicationDocumentContainer.class);
-
-                //해외학위 필수서류 셋팅
-                codeParam.setAdmsCodeGrp("SCHL_CNTR");
-                codeParam.setAdmsCode(aAcad.getSchlCntrCode());
-                subDocList.addAll(commonDAO.queryForList(NAME_SPACE +"CustomApplicationDocumentMapper.selectCodeMandatoryGroupByCode",codeParam,TotalApplicationDocumentContainer.class));
-
-                for( TotalApplicationDocumentContainer aSubDoc : subDocList ){
-                    aSubDoc.setDocGrp(aAcad.getAcadSeq());
-                    aSubDoc.setAdmsNo(admsNo);
-                    aSubDoc.setSubContainer( getSubCodeDocumentContainer(aSubDoc));
-                }
-
-            }
-        }catch (Exception e) {
-            e.printStackTrace();
-
-        }
-        return aCont;
-    }
-
-    //지원특성별 문서요건 정보 조회 - from mad_code 테이블
-    private  List<TotalApplicationDocumentContainer> retrieveCodeDocumentByApplNo( int applNo, String admsNo  ) {
-        List<TotalApplicationDocumentContainer> rContList = new ArrayList<TotalApplicationDocumentContainer>() ;
-        TotalApplicationDocumentContainer aCont = null;
-
-        try{
-            Application tempApp = commonDAO.queryForObject(NAME_SPACE + "ApplicationMapper.selectByPrimaryKey", applNo, Application.class);
-            ParamForCodeDocument codeParam = new ParamForCodeDocument();
-            codeParam.setApplNo(applNo);
-            codeParam.setAdmsNo(admsNo);
-
-            //학연산 조회
-            if( "00006".equals(tempApp.getApplAttrCode())) {
-
-                codeParam.setAdmsCodeGrp("APPL_ATTR");
-                codeParam.setAdmsCode("00003");
-                codeParam.setGrpLevel(1);
-                codeParam.setItemTypeCode("00006");//학연산
-
-                List<TotalApplicationDocumentContainer> subDocList;
-                subDocList = commonDAO.queryForList(NAME_SPACE + "CustomApplicationDocumentMapper.selectCodeMandatoryGroupByCode", codeParam, TotalApplicationDocumentContainer.class);
-                for (TotalApplicationDocumentContainer aSubDoc : subDocList) {
-                    aSubDoc.setAdmsNo(admsNo);
-                    aSubDoc.setSubContainer(getSubCodeDocumentContainer(aSubDoc));
-                }
-                aCont = new TotalApplicationDocumentContainer();
-                aCont.setGrpLabel("학연산 관련서류");
-                aCont.setDisplayGrpFg(true);
-                aCont.setSubContainer(subDocList);
-                rContList.add(aCont);
-            }
-
-
-            //외국인 조회
-            if(  "00001".equals(tempApp.getFornTypeCode())||"00002".equals(tempApp.getFornTypeCode())||"00003".equals(tempApp.getFornTypeCode()) ) {
-                codeParam.setAdmsCodeGrp("FORN_TYPE");
-                codeParam.setAdmsCode(tempApp.getApplAttrCode());
-                codeParam.setGrpLevel(1);
-                codeParam.setItemTypeCode("00007");//
-
-                List<TotalApplicationDocumentContainer> subDocList;
-                subDocList = commonDAO.queryForList(NAME_SPACE + "CustomApplicationDocumentMapper.selectCodeMandatoryGroupByCode", codeParam, TotalApplicationDocumentContainer.class);
-                for (TotalApplicationDocumentContainer aSubDoc : subDocList) {
-                    aSubDoc.setAdmsNo(admsNo);
-                    aSubDoc.setSubContainer(getSubCodeDocumentContainer(aSubDoc));
-                }
-                aCont = new TotalApplicationDocumentContainer();
-                aCont.setGrpLabel("외국인전형 관련서류");
-                aCont.setDisplayGrpFg(true);
-                aCont.setSubContainer(subDocList);
-                rContList.add(aCont);
-            }
-
-            //기타 및 자유입력 조회
-
-                codeParam.setGrpLevel(1);
-                codeParam.setItemTypeCode("00009");// 기타 및 추가제출
-                List<TotalApplicationDocumentContainer> subDocList;
-                subDocList = commonDAO.queryForList(NAME_SPACE + "CustomApplicationDocumentMapper.selectMandatoryDocumentByDocType", codeParam, TotalApplicationDocumentContainer.class);
-                aCont = new TotalApplicationDocumentContainer();
-                for (TotalApplicationDocumentContainer aSubDoc : subDocList) {
-                    aSubDoc.setAdmsNo(admsNo);
-                }
-                aCont.setGrpLabel("기타 및 추가제출");
-                aCont.setDisplayGrpFg(true);
-                aCont.setSubContainer(subDocList);
-                rContList.add(aCont);
-
-
-        }catch (Exception e) {
-            e.printStackTrace();
-
-        }
-        return rContList;
-    }
-
-    private  List<TotalApplicationDocumentContainer> getSubDeptDocumentContainer( TotalApplicationDocumentContainer pCont){
-        List<TotalApplicationDocumentContainer> rContList = null;
-
-        try{
-            if (!"Y".equals( pCont.getLastYn())) {
-                rContList = commonDAO.queryForList(NAME_SPACE + "CustomApplicationDocumentMapper.selectTotalApplicationDocumentList", pCont, TotalApplicationDocumentContainer.class);
-                if (rContList != null) {
-                    for (TotalApplicationDocumentContainer aCont : rContList) {
-                        aCont.setSubContainer(getSubDeptDocumentContainer(aCont));
-
-                    }
-                }
-            }
-        }catch (Exception e) {
-            e.printStackTrace();
-
-        }
-        return rContList;
-    }
-
-    private  List<TotalApplicationDocumentContainer> getSubCodeDocumentContainer( TotalApplicationDocumentContainer pCont){
-        List<TotalApplicationDocumentContainer> rContList = null;
-
-        try{
-            if (!"Y".equals( pCont.getLastYn())) {
-                rContList = commonDAO.queryForList(NAME_SPACE + "CustomApplicationDocumentMapper.selectTotalCodeApplicationDocumentList", pCont, TotalApplicationDocumentContainer.class);
-                if (rContList != null) {
-                    for (TotalApplicationDocumentContainer aCont : rContList) {
-                        aCont.setSubContainer(getSubCodeDocumentContainer(aCont));
-
-                    }
-                }
-            }else{
-                ApplicationDocument aDoc;
-
-                aDoc = commonDAO.queryForObject(NAME_SPACE + "CustomApplicationDocumentMapper.selectCodeApplicationDocumentByTotalDocumentContainner", pCont, ApplicationDocument.class);
-                if( aDoc != null){
-                    pCont.setDocSeq( aDoc.getDocSeq());
-                    pCont.setDocName( aDoc.getDocName());
-                    pCont.setFileExt( aDoc.getFileExt());
-                    pCont.setImgYn( aDoc.getImgYn());
-                    pCont.setFilePath( aDoc.getFilePath());
-                    pCont.setFileName(aDoc.getFileName());
-                    pCont.setOrgFileName(aDoc.getOrgFileName());
-                    pCont.setDocItemNameXxen( aDoc.getDocItemNameXxen());
-                    pCont.setDocGrpName( aDoc.getDocGrpName());
-                    pCont.setFileUploadFg(true);
-                }
-            }
-        }catch (Exception e) {
-            e.printStackTrace();
-
-        }
-        return rContList;
-    }
 
     private  List<LanguageGroup> retrieveLanguageGroupListByApplNo( int applNo){
 
@@ -1376,6 +1042,13 @@ System.out.println(param.getAcadTypeCode() + " : " + c1+u1+d1);
         return langGroupList;
     }
 
+
+    private  List<ApplicationLanguage> retrieveCurrApplLangListByApplNo(int applNo) {
+
+        List<ApplicationLanguage> appLangList = (commonDAO.queryForList(NAME_SPACE + "CustomApplicationDocumentMapper.selectCurrApplLangList", applNo, ApplicationLanguage.class));
+        return appLangList;
+    }
+
     @Override
     public ApplicationDocument retrieveApplicationDocumentPhoto(int applNo) {
         ApplicationDocument applicationDocument = null;
@@ -1387,12 +1060,4 @@ System.out.println(param.getAcadTypeCode() + " : " + c1+u1+d1);
         }
         return applicationDocument;
     }
-    private LanguageGroup makeLangGroup( CommonMandatory mandGroup){
-        return null;
-    }
-    private TotalApplicationLanguage makeCustomLang( CommonMandatory mandItem){
-        return null;
-    }
-
-
 }
