@@ -104,14 +104,11 @@ public class LangCareerServiceImpl implements LangCareerService {
         langCareer.setApplication(application);
         langCareer.setApplicationGeneral(applicationGeneral);
 
-        // 어학 정보는 지원 전공 정보에 의해 입력 가능한 항목과 개수가 fix 되므로, langSeq 도 fix 되므로
-        // 작성 화면 보여줄 때는 DB에 있는 대로 보여주고
-        // 저장할 때 DB를 조회해서 이미 있으면 update, 없으면 insert 로 분기하는 것이 좋을 듯
-        langCareer.setLanguageGroupList(retrieveLanguageGroupListByApplNo(applNo));
+        List<LanguageGroup> langGroupList = retrieveLanguageGroupListByApplNo(applNo);
+        langCareer.setLanguageGroupList(setLangUserDataStatus(langGroupList, UserCUDType.UPDATE));
 
-        // 경력은 원래의 seq를 유지해야 하므로 이미 데이터가 있는 레코드는 UserCUDType.UPDATE 처리 해줌
         List<CustomApplicationExperience> applicationExperienceList = retrieveInfoListByApplNo(applNo, "CustomApplicationExperienceMapper", CustomApplicationExperience.class);
-        langCareer.setApplicationExperienceList(setUserDataStatus(applicationExperienceList, UserCUDType.UPDATE));
+        langCareer.setApplicationExperienceList(setExprUserDataStatus(applicationExperienceList, UserCUDType.UPDATE));
 
         ec.setResult(ExecutionContext.SUCCESS);
         ec.setData(langCareer);
@@ -282,9 +279,19 @@ public class LangCareerServiceImpl implements LangCareerService {
         return infoList;
     }
 
-    private List<CustomApplicationExperience> setUserDataStatus(List<CustomApplicationExperience> list, UserCUDType udt) {
+    private List<CustomApplicationExperience> setExprUserDataStatus(List<CustomApplicationExperience> list, UserCUDType userCUDType) {
         for (CustomApplicationExperience item : list) {
-            item.setUserCUDType(udt);
+            item.setUserCUDType(userCUDType);
+        }
+        return list;
+    }
+
+    private List<LanguageGroup> setLangUserDataStatus(List<LanguageGroup> list, UserCUDType userCUDType) {
+        for (LanguageGroup groupItem : list) {
+            List<TotalApplicationLanguage> langList = groupItem.getLangList();
+            for (TotalApplicationLanguage langItem : langList) {
+                langItem.setUserCUDType(userCUDType);
+            }
         }
         return list;
     }
