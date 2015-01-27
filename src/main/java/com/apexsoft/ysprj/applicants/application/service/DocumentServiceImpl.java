@@ -128,7 +128,7 @@ public class DocumentServiceImpl implements DocumentService {
 
     @Override
     public ExecutionContext deleteFileUpload(Application application,
-                                      List<DocGroupFile> docGroupFileList) {
+                                             List<DocGroupFile> docGroupFileList) {
         return null;
     }
 
@@ -257,16 +257,21 @@ public class DocumentServiceImpl implements DocumentService {
 
     //입력된 학력정보별 문서요건 정보 조회
     private  TotalApplicationDocumentContainer retrieveAcademyDocumentByApplNo( int applNo, String admsNo ) {
+        TotalApplicationDocumentContainer rApplDoc = null;
+        List<TotalApplicationDocumentContainer> subAcadList = new ArrayList<TotalApplicationDocumentContainer>();
         TotalApplicationDocumentContainer aCont = null;
-        List<TotalApplicationDocumentContainer> applDocList = new ArrayList<TotalApplicationDocumentContainer>();
         ParamForAcademy param = new ParamForAcademy();
 
         try{
-            aCont.setDisplayGrpFg(true);
+            rApplDoc = new TotalApplicationDocumentContainer();
+            rApplDoc.setSubContainer( new ArrayList<TotalApplicationDocumentContainer>());
+            rApplDoc.setGrpLabel("대학 관련서류");
+            rApplDoc.setDisplayGrpFg(true);
+
             param.setApplNo(applNo);
             param.setAcadTypeCode("00002");//대학
             List<CustomApplicationAcademy>acadList;
-            acadList =commonDAO.queryForList(NAME_SPACE + "CustomApplicationAcademyMapper.selectByApplNoAcadTypeCode", param, CustomApplicationAcademy.class);
+            acadList = commonDAO.queryForList(NAME_SPACE + "CustomApplicationAcademyMapper.selectByApplNoAcadTypeCode", param, CustomApplicationAcademy.class);
 
             //대학 갯수만큼 켄네이너 생성
             for(CustomApplicationAcademy aAcad : acadList){
@@ -275,7 +280,7 @@ public class DocumentServiceImpl implements DocumentService {
                 aCont.setApplNo( aAcad.getApplNo());
                 aCont.setGrpLabel(aAcad.getSchlName() + " 관련서류");
 
-                applDocList.add(aCont);
+                subAcadList.add(aCont);
 
                 //학위별 필수서류 셋팅
                 aAcad.getAcadSeq();
@@ -288,7 +293,7 @@ public class DocumentServiceImpl implements DocumentService {
                 codeParam.setAdmsCodeGrp("ACAD_TYPE");
                 codeParam.setAdmsCode(aAcad.getAcadTypeCode());
                 codeParam.setGrpLevel(1);
-                codeParam.setItemTypeCode("00003");
+                codeParam.setItemCode("00003");//대학
 
                 List<TotalApplicationDocumentContainer> subDocList;
                 subDocList = commonDAO.queryForList(NAME_SPACE +"CustomApplicationDocumentMapper.selectCodeMandatoryGroupByCode",codeParam,TotalApplicationDocumentContainer.class);
@@ -296,6 +301,7 @@ public class DocumentServiceImpl implements DocumentService {
                 //해외학위 필수서류 셋팅
                 codeParam.setAdmsCodeGrp("SCHL_CNTR");
                 codeParam.setAdmsCode(aAcad.getSchlCntrCode());
+                codeParam.setItemCode("00002");//해외학위
                 subDocList.addAll(commonDAO.queryForList(NAME_SPACE +"CustomApplicationDocumentMapper.selectCodeMandatoryGroupByCode",codeParam,TotalApplicationDocumentContainer.class));
 
                 for( TotalApplicationDocumentContainer aSubDoc : subDocList ){
@@ -303,8 +309,13 @@ public class DocumentServiceImpl implements DocumentService {
                     aSubDoc.setAdmsNo(admsNo);
                     aSubDoc.setSubContainer( getSubCodeDocumentContainer(aSubDoc));
                 }
+                aCont.setSubContainer(subDocList);
+                //전체 학력 컨테이너에 추가
+                rApplDoc.getSubContainer().add(aCont);
 
             }
+
+
             //대학원 갯수만큼 켄네이너 생성
             param.setAcadTypeCode("00004");//대학원
             acadList =commonDAO.queryForList(NAME_SPACE + "CustomApplicationAcademyMapper.selectByApplNoAcadTypeCode",param,CustomApplicationAcademy.class);
@@ -314,7 +325,7 @@ public class DocumentServiceImpl implements DocumentService {
                 aCont = new TotalApplicationDocumentContainer();
                 aCont.setApplNo( aAcad.getApplNo());
                 aCont.setGrpLabel( aAcad.getSchlName() + " 관련서류" );
-                applDocList.add(aCont);
+
                 //필수서류 셋팅
                 aAcad.getAcadSeq();
                 aAcad.getGrdaTypeCode();
@@ -326,7 +337,7 @@ public class DocumentServiceImpl implements DocumentService {
                 codeParam.setAdmsCodeGrp( "ACAD_TYPE");
                 codeParam.setAdmsCode(aAcad.getAcadTypeCode());
                 codeParam.setGrpLevel(1);
-                codeParam.setItemTypeCode("00004");//대학원
+                codeParam.setItemCode("00004");//대학원
 
                 List<TotalApplicationDocumentContainer> subDocList;
                 subDocList = commonDAO.queryForList(NAME_SPACE +"CustomApplicationDocumentMapper.selectCodeMandatoryGroupByCode",codeParam,TotalApplicationDocumentContainer.class);
@@ -334,6 +345,7 @@ public class DocumentServiceImpl implements DocumentService {
                 //해외학위 필수서류 셋팅
                 codeParam.setAdmsCodeGrp("SCHL_CNTR");
                 codeParam.setAdmsCode(aAcad.getSchlCntrCode());
+                codeParam.setItemCode("00002");//해외학위
                 subDocList.addAll(commonDAO.queryForList(NAME_SPACE +"CustomApplicationDocumentMapper.selectCodeMandatoryGroupByCode",codeParam,TotalApplicationDocumentContainer.class));
 
                 for( TotalApplicationDocumentContainer aSubDoc : subDocList ){
@@ -341,13 +353,16 @@ public class DocumentServiceImpl implements DocumentService {
                     aSubDoc.setAdmsNo(admsNo);
                     aSubDoc.setSubContainer( getSubCodeDocumentContainer(aSubDoc));
                 }
+                aCont.setSubContainer(subDocList);
+                //전체 학력 컨테이너에 추가
+                rApplDoc.getSubContainer().add(aCont);
 
             }
         }catch (Exception e) {
             e.printStackTrace();
 
         }
-        return aCont;
+        return rApplDoc;
     }
 
     //지원특성별 문서요건 정보 조회 - from mad_code 테이블
@@ -438,6 +453,7 @@ public class DocumentServiceImpl implements DocumentService {
 
                     }
                 }
+                pCont.setGrpLabel( pCont.getDocItemName());
             }
         }catch (Exception e) {
             e.printStackTrace();
@@ -458,6 +474,7 @@ public class DocumentServiceImpl implements DocumentService {
 
                     }
                 }
+                pCont.setGrpLabel( pCont.getDocItemName());
             }else{
                 ApplicationDocument aDoc;
 
