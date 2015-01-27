@@ -151,8 +151,6 @@ public class BasisController {
 
         ExecutionContext ec = setupBasis(new ApplicationIdentifier(applNo, admsNo, entrYear, admsTypeCode));
 
-//        ExecutionContext ec = setupBasis(new ApplicationIdentifier(applNo == null ? 0 : applNo, admsNo, entrYear, admsTypeCode));
-
         Map<String, Object> map = (Map<String, Object>)ec.getData();
         addObjectToMV(mv, map, ec);
 
@@ -170,24 +168,12 @@ public class BasisController {
     public ModelAndView saveBasis(@ModelAttribute Basis basis,
                                   Principal principal) {
         ModelAndView mv = new ModelAndView(TARGET_VIEW);
-        ExecutionContext ec = null;
+        ExecutionContext ec;
         String userId = principal.getName();
         Application application = basis.getApplication();
         application.setUserId(userId);
-        ApplicationGeneral applicationGeneral = basis.getApplicationGeneral();
-        applicationGeneral.setApplNo(application.getApplNo());
 
-        if (application.getApplNo() == null) { //insert
-            application.setCreId(userId);
-            applicationGeneral.setCreId(userId);
-            ec = basisService.createBasis(application,
-                                          applicationGeneral);
-        } else { //update
-            application.setModId(userId);
-            applicationGeneral.setModId(userId);
-            ec = basisService.updateBasis(application,
-                                          applicationGeneral);
-        }
+        ec = basisService.saveBasis(basis);
 
         if (ec.getResult().equals(ExecutionContext.SUCCESS)) {
             ApplicationIdentifier data = (ApplicationIdentifier)ec.getData();
