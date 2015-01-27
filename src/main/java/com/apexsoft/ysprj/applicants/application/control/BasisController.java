@@ -1,6 +1,7 @@
 package com.apexsoft.ysprj.applicants.application.control;
 
 import com.apexsoft.framework.common.vo.ExecutionContext;
+import com.apexsoft.framework.exception.YSNoRedirectBizException;
 import com.apexsoft.framework.message.MessageResolver;
 import com.apexsoft.ysprj.applicants.application.domain.*;
 import com.apexsoft.ysprj.applicants.application.service.BasisService;
@@ -31,108 +32,10 @@ public class BasisController {
     @Autowired
     private BasisService basisService;
 
-    @Autowired
-    private CommonService commonService;
-
     @Resource(name = "messageResolver")
     MessageResolver messageResolver;
 
     private final String TARGET_VIEW = "application/basis";
-
-
-
-    /**
-     * 기본 정보를 조회해서 기본 정보 화면에 뿌려질 데이터 구성
-     *
-     * @param applicationIdentifier
-     * @return
-     */
-    private ExecutionContext setupBasis(ApplicationIdentifier applicationIdentifier) {
-        ExecutionContext ec;
-
-        Map<String, Object> ecDataMap = new HashMap<String, Object>();
-        Map<String, Object> selectionMap = new HashMap<String, Object>();
-        Basis basis;
-
-        int applNo = applicationIdentifier.getApplNo();
-
-        if (applNo > 0) {
-
-            ec = basisService.retrieveBasis(applNo);
-            basis = (Basis)ec.getData();
-
-            // 지원사항 select 초기값 설정
-            List<Campus> campList = null;
-            List<AcademyResearchIndustryInstitution> ariInstList = null;
-            List<College> collList = null;
-            List<CodeNameDepartment> deptList = null;
-            List<CodeNameCourse> corsTypeList = null;
-            List<CodeNameDetailMajor> detlMajList = null;
-
-            ParamForSetupCourses param = new ParamForSetupCourses();
-            param.setAdmsNo(basis.getApplication().getAdmsNo());
-            param.setCollCode(basis.getApplication().getCollCode());
-            param.setDeptCode(basis.getApplication().getDeptCode());
-            param.setCorsTypeCode(basis.getApplication().getCorsTypeCode());
-            param.setAriInstCode(basis.getApplication().getAriInstCode());
-
-            String applAttrCode = basis.getApplication().getApplAttrCode();
-            if (applAttrCode.equals("00002")) {
-                ariInstList = commonService.retrieveAriInst();
-                deptList = commonService.retrieveAriInstDepartmentByAdmsAriInst(param);
-                corsTypeList = commonService.retrieveAriInstCourseByAdmsDeptAriInst(param);
-                detlMajList = commonService.retrieveAriInstDetailMajorByAdmsDeptAriInst(param);
-            } else {
-                campList = commonService.retrieveCampus();
-                collList = commonService.retrieveCollegeByCampus( basis.getApplication().getCampCode() );
-                deptList = commonService.retrieveGeneralDepartmentByAdmsColl(param);
-                detlMajList = commonService.retrieveGeneralDetailMajorByAdmsDeptCors(param);
-                if (applAttrCode.equals("00001"))
-                    corsTypeList = commonService.retrieveGeneralCourseByAdmsDept(param);
-                if (applAttrCode.equals("00003"))
-                    corsTypeList = commonService.retrieveCommissionCourseByAdmsDept(param);
-            }
-
-            if (campList != null)      selectionMap.put("campList", campList);
-            if (collList != null)      selectionMap.put("collList", collList);
-            if (ariInstList != null)   selectionMap.put("ariInstList", ariInstList);
-            if (deptList != null)      selectionMap.put("deptList", deptList);
-            if (corsTypeList != null)  selectionMap.put("corsTypeList", corsTypeList);
-            if (detlMajList != null)   selectionMap.put("detlMajList", detlMajList);
-
-        } else {
-
-            ec = new ExecutionContext();
-            basis = new Basis();
-            Application application = new Application();
-
-            application.setAdmsNo(applicationIdentifier.getAdmsNo());
-            application.setEntrYear(applicationIdentifier.getEntrYear());
-            application.setAdmsTypeCode(applicationIdentifier.getAdmsTypeCode());
-            ApplicationGeneral applicationGeneral = new ApplicationGeneral();
-            basis.setApplication(application);
-            basis.setApplicationGeneral(applicationGeneral);
-
-            List<Campus> campList = commonService.retrieveCampus();
-            List<AcademyResearchIndustryInstitution> ariInstList = commonService.retrieveAriInst();
-            if (campList != null)      selectionMap.put("campList", campList);
-            if (ariInstList != null)   selectionMap.put("ariInstList", ariInstList);
-        }
-
-        selectionMap.put("applAttrList", commonService.retrieveCommonCodeValueByCodeGroup("APPL_ATTR"));
-        selectionMap.put("emerContList", commonService.retrieveCommonCodeValueByCodeGroup("EMER_CONT"));
-
-        String cntrCode = basis.getApplication().getCitzCntrCode();
-        cntrCode = cntrCode == null ? "" : cntrCode;
-        Country country = commonService.retrieveCountryByCode(cntrCode);
-
-        ecDataMap.put("basis", basis);
-        ecDataMap.put("selection", selectionMap);
-        ecDataMap.put("country", country);
-        ec.setData(ecDataMap);
-
-        return ec;
-    }
 
     /**
      * 기본정보 최초작성/수정 화면
@@ -140,16 +43,10 @@ public class BasisController {
      * @return
      */
     @RequestMapping(value="/edit")
-    public ModelAndView getBasis(@ModelAttribute Basis model) {
+    public ModelAndView getBasis(@ModelAttribute Basis basis) {
         ModelAndView mv = new ModelAndView(TARGET_VIEW);
 
-        Application application = model.getApplication();
-        int applNo = application.getApplNo() == null ? 0 : application.getApplNo();
-        String admsNo = application.getAdmsNo();
-        String entrYear = application.getEntrYear();
-        String admsTypeCode = application.getAdmsTypeCode();
-
-        ExecutionContext ec = setupBasis(new ApplicationIdentifier(applNo, admsNo, entrYear, admsTypeCode));
+        ExecutionContext ec = basisService.retrieveBasis(basis);
 
         Map<String, Object> map = (Map<String, Object>)ec.getData();
         addObjectToMV(mv, map, ec);
@@ -176,14 +73,13 @@ public class BasisController {
         ec = basisService.saveBasis(basis);
 
         if (ec.getResult().equals(ExecutionContext.SUCCESS)) {
-            ApplicationIdentifier data = (ApplicationIdentifier)ec.getData();
-            ExecutionContext ecSetupBasis = setupBasis(data);
 
-            if (ecSetupBasis.getResult().equals(ExecutionContext.SUCCESS)) {
-                Map<String, Object> map = (Map<String, Object>)ecSetupBasis.getData();
+            ExecutionContext ecRetrieveBasis = basisService.retrieveBasis(basis);
+            if (ecRetrieveBasis.getResult().equals(ExecutionContext.SUCCESS)) {
+                Map<String, Object> map = (Map<String, Object>)ecRetrieveBasis.getData();
                 addObjectToMV(mv, map, ec);
             } else {
-                mv = getErrorMV("common/error", ecSetupBasis);
+                mv = getErrorMV("common/error", ecRetrieveBasis);
             }
         } else {
             mv = getErrorMV("common/error", ec);

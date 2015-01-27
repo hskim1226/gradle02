@@ -15,7 +15,7 @@ public interface BasisService {
 //    ExecutionContext createBasis(Application application,
 //                                 ApplicationGeneral applicationGeneral);
 
-    ExecutionContext retrieveBasis(int applNo);
+    ExecutionContext retrieveBasis(Basis basis);
 
     ExecutionContext saveBasis(Basis basis);
 
