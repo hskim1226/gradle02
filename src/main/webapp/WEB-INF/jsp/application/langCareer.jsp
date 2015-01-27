@@ -301,6 +301,7 @@
                                     </div>
                                     <div class="col-sm-2">
                                         <form:hidden path="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].itemCode" value="${langList.docItemCode}"/>
+                                        <form:hidden path="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].userCUDType" value='${langCareer.languageGroupList[langGroupStat.index].langList[langListStat.index].userCUDType}'/>
                                         <div class="checkbox">
                                             <label for="checkLang-${langListStat.index}">
                                                 <c:if test='${langList.canYn == "Y"}'>
