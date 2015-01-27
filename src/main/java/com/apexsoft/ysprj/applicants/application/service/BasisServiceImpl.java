@@ -38,11 +38,8 @@ public class BasisServiceImpl implements BasisService {
 
         application.setApplStsCode(APP_INFO_SAVED);
         application.setCreDate(date);
-        r1 = commonDAO.insertItem(application, NAME_SPACE, "ApplicationMapper");
-
-        Application tA = commonDAO.queryForObject(NAME_SPACE + "CustomApplicationMapper.selectApplByApplForInsertOthers",
-                application, Application.class);
-        applNo = tA.getApplNo();
+        r1 = commonDAO.insertItem(application, NAME_SPACE, "CustomApplicationMapper");
+        applNo = application.getApplNo();
 
         applicationGeneral.setApplNo(applNo);
         applicationGeneral.setCreDate(date);
@@ -51,8 +48,7 @@ public class BasisServiceImpl implements BasisService {
         if ( r1 > 0 && r2 > 0 ) {
             ec.setResult(ExecutionContext.SUCCESS);
             ec.setMessage(messageResolver.getMessage("U312"));
-            ec.setData(new ApplicationIdentifier(applNo, tA.getApplStsCode(),
-                    tA.getAdmsNo(), tA.getEntrYear(), tA.getAdmsTypeCode()));
+            ec.setData(new ApplicationIdentifier(applNo));
         } else {
             ec.setResult(ExecutionContext.FAIL);
             ec.setMessage(messageResolver.getMessage("U306"));

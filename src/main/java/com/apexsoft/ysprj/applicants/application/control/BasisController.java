@@ -55,9 +55,6 @@ public class BasisController {
         Basis basis;
 
         int applNo = applicationIdentifier.getApplNo();
-        String admsNo = applicationIdentifier.getAdmsNo();
-        String entrYear = applicationIdentifier.getEntrYear();
-        String admsTypeCode = applicationIdentifier.getAdmsTypeCode();
 
         if (applNo > 0) {
 
@@ -108,9 +105,10 @@ public class BasisController {
             ec = new ExecutionContext();
             basis = new Basis();
             Application application = new Application();
-            application.setAdmsNo(admsNo);
-            application.setEntrYear(entrYear);
-            application.setAdmsTypeCode(admsTypeCode);
+
+            application.setAdmsNo(applicationIdentifier.getAdmsNo());
+            application.setEntrYear(applicationIdentifier.getEntrYear());
+            application.setAdmsTypeCode(applicationIdentifier.getAdmsTypeCode());
             ApplicationGeneral applicationGeneral = new ApplicationGeneral();
             basis.setApplication(application);
             basis.setApplicationGeneral(applicationGeneral);

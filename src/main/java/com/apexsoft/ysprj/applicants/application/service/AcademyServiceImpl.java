@@ -1,6 +1,7 @@
 package com.apexsoft.ysprj.applicants.application.service;
 
 import com.apexsoft.framework.common.vo.ExecutionContext;
+import com.apexsoft.framework.exception.YSNoRedirectBizException;
 import com.apexsoft.framework.message.MessageResolver;
 import com.apexsoft.framework.persistence.dao.CommonDAO;
 import com.apexsoft.ysprj.applicants.application.domain.*;
@@ -160,6 +161,7 @@ public class AcademyServiceImpl implements AcademyService {
             if ( update != updateResult ) errCode = "ERR0013";
             if ( delete != deleteResult ) errCode = "ERR0014";
             ec.setErrCode(errCode);
+            throw new YSNoRedirectBizException(ec);
         }
         return ec;
     }
