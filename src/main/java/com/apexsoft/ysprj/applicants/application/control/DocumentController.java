@@ -171,7 +171,6 @@ public class DocumentController {
      */
     private void addObjectToMV(ModelAndView mv, Map<String, Object> map, ExecutionContext ec) {
         mv.addObject("document", map.get("document"));
-        mv.addObject("common", map.get("common"));
         mv.addObject("resultMsg", ec.getMessage());
     }
 }

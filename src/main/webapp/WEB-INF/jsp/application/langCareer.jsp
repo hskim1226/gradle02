@@ -304,6 +304,7 @@
                                         <form:hidden path="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].userCUDType" value='${langCareer.languageGroupList[langGroupStat.index].langList[langListStat.index].userCUDType}'/>
                                         <form:hidden path="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].fileUploadFg" value="${langList.fileUploadFg}"/>
                                         <form:hidden path="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].langInfoSaveFg" value="${langList.langInfoSaveFg}"/>
+                                        <form:hidden path="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].langInfoSaveFg" value="${langList.}"/>
                                         <div class="checkbox">
                                             <label for="checkLang-${langListStat.index}">
                                                 <c:if test='${langList.canYn == "Y"}'>

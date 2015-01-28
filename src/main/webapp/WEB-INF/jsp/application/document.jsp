@@ -330,7 +330,7 @@
                 <c:forEach items="${document.documentContainerList}" var="lv1Container" varStatus="lv1Status">
                     <c:if test="${lv1Container.subContainer.size() > 0}">
                         <div class="panel panel-darkgray">
-                            <div class="panel-heading"><c:if test="${lv1Container.lastYn == 'N'}">${lv1Container.grpLabel}</c:if></div>
+                            <div class="panel-heading"><c:if test="${lv1Container.lastYn == null || lv1Container.lastYn == 'N'}">${lv1Container.grpLabel}</c:if></div>
                             <div class="panel-body" id="docContainerList${lv1Status.index}.list">
                         <c:forEach items="${lv1Container.subContainer}" var="lv2Container" varStatus="lv2Status">
                                 <div class="form-group" id="docContainerList${lv1Status.index}.subContainer${lv2Status.index}.${lv2Container.docItemCode}">

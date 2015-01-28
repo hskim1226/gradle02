@@ -36,7 +36,7 @@
         section.login {
             padding: 200px 0 60px;
             /*background: #336655;*/
-            background-image: url(${contextPath}/img/common/login-bg.jpg);
+            background-image: url(${contextPath}/img/common/login-bg1.jpg);
             background-size: cover;
             color: #fdfdfd;
             min-height: 615px;

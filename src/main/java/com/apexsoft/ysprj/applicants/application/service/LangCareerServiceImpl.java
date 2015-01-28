@@ -148,12 +148,8 @@ public class LangCareerServiceImpl implements LangCareerService {
 
     private <T> List<T> retrieveInfoListByApplNo(int applNo, String mapperName, Class<T> clazz) {
         List<T> infoList = null;
-        try {
-            infoList = commonDAO.queryForList(NAME_SPACE + mapperName + ".selectByApplNo",
+        infoList = commonDAO.queryForList(NAME_SPACE + mapperName + ".selectByApplNo",
                     applNo, clazz);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
 
         return infoList;
     }
