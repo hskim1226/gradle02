@@ -300,11 +300,14 @@
                                         <c:if test="${langListStat.index == 0}"><label class="col-sm-offset-8 control-label">${langGroup.examGrpName}</label></c:if>
                                     </div>
                                     <div class="col-sm-2">
+                                        <form:hidden path="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].langInfoSaveFg" value="${langList.applNo}"/>
+                                        <form:hidden path="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].langInfoSaveFg" value="${langList.langSeq}"/>
+                                        <form:hidden path="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].langInfoSaveFg" value="${langList.langExamGrp}"/>
                                         <form:hidden path="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].itemCode" value="${langList.docItemCode}"/>
                                         <form:hidden path="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].userCUDType" value='${langCareer.languageGroupList[langGroupStat.index].langList[langListStat.index].userCUDType}'/>
                                         <form:hidden path="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].fileUploadFg" value="${langList.fileUploadFg}"/>
                                         <form:hidden path="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].langInfoSaveFg" value="${langList.langInfoSaveFg}"/>
-                                        <form:hidden path="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].langInfoSaveFg" value="${langList.}"/>
+                                        <form:hidden path="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].langInfoSaveFg" value="${langList.langExamGrp}"/>
                                         <div class="checkbox">
                                             <label for="checkLang-${langListStat.index}">
                                                 <c:if test='${langList.canYn == "Y"}'>

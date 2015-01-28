@@ -121,6 +121,11 @@ public class LangCareerServiceImpl implements LangCareerService {
         List<LanguageGroup> langList = langCareer.getLanguageGroupList();
         List<CustomApplicationExperience> exprList = langCareer.getApplicationExperienceList();
 
+        String applStsCode;
+        int currentStsCode = Integer.parseInt(application.getApplStsCode());
+        if (currentStsCode < Integer.parseInt(LANG_CAREER_SAVED))
+            application.setApplStsCode(LANG_CAREER_SAVED);
+
         // TODO - dhoonkim - 해당 리스트로 서비스 호출하는 부분 작성 필요
         // 어학 정보는 화면에서 받아온 값과 DB의 값을 대조해서 insert, update, delete(?) 등 상태 분기
         // 경력 정보는 AcademyServiceImpl을 참고해서 작성

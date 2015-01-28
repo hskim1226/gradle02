@@ -328,13 +328,101 @@
                 <div class="row">
                     <div class="col-sm-offset-1 col-sm-10">
                 <c:forEach items="${document.documentContainerList}" var="lv1Container" varStatus="lv1Status">
-                    <c:if test="${lv1Container.subContainer.size() > 0}">
+                    <c:choose>
+                        <c:when test="${lv1Container.lastYn == 'N'}">
+                        <div class="form-group"><label class="col-sm-3 control-label word-keep-all">${lv1Container.docItemName}-${lv1Container.grpLevel}</label></div>
+                        </c:when>
+                        <c:otherwise>
                         <div class="panel panel-darkgray">
-                            <div class="panel-heading"><c:if test="${lv1Container.lastYn == null || lv1Container.lastYn == 'N'}">${lv1Container.grpLabel}</c:if></div>
+                            <div class="panel-heading">${lv1Container.grpLabel}-${lv1Container.grpLevel}</div>
                             <div class="panel-body" id="docContainerList${lv1Status.index}.list">
-                        <c:forEach items="${lv1Container.subContainer}" var="lv2Container" varStatus="lv2Status">
-                                <div class="form-group" id="docContainerList${lv1Status.index}.subContainer${lv2Status.index}.${lv2Container.docItemCode}">
-                                    <label class="col-sm-3 control-label word-keep-all">${lv2Container.docItemName}</label>
+                            <c:forEach items="${lv1Container.subContainer}" var="lv2Container" varStatus="lv2Status">
+                                <c:choose>
+                                    <c:when test="${lv2Container.lastYn == 'Y'}">
+                                <div class="form-group"><label class="col-sm-3 control-label word-keep-all">${lv2Container.docItemName}-${lv2Container.grpLevel}</label></div>
+                                    </c:when>
+                                    <c:otherwise>
+                                <div class="panel panel-darkgray">
+                                    <div class="panel-heading">${lv2Container.grpLabel}-${lv2Container.grpLevel}</div>
+                                    <div class="panel-body" id="docContainerList${lv2Status.index}.list">
+
+                                        <c:forEach items="${lv2Container.subContainer}" var="lv3Container" varStatus="lv3Status">
+                                            <c:choose>
+                                                <c:when test="${lv3Container.lastYn == 'Y'}">
+                                        <div class="form-group"><label class="col-sm-3 control-label word-keep-all">${lv3Container.docItemName}-${lv3Container.grpLevel}</label></div>
+                                                </c:when>
+                                                <c:otherwise>
+                                        <div class="panel panel-darkgray">
+                                            <div class="panel-heading">${lv3Container.grpLabel}-${lv3Container.grpLevel}</div>
+                                            <div class="panel-body" id="docContainerList${lv3Status.index}.list">
+
+                                                    <c:forEach items="${lv3Container.subContainer}" var="lv4Container" varStatus="lv4Status">
+                                                        <c:choose>
+
+                                                            <c:when test="${lv4Container.lastYn == 'Y'}">
+                                                <div class="form-group"><label class="col-sm-3 control-label word-keep-all">${lv4Container.docItemName}-${lv4Container.grpLevel}</label></div>
+                                                            </c:when>
+                                                            <c:otherwise>
+                                                <div class="panel panel-darkgray">
+                                                    <div class="panel-heading">${lv4Container.grpLabel}-${lv4Container.grpLevel}</div>
+                                                    <div class="panel-body" id="docContainerList${lv4Status.index}.list">
+
+                                                            </c:otherwise>
+                                                        </c:choose>
+                                                        <c:if test="${lv4Container.lastYn == null || lv4Container.lastYn == 'N'}">
+
+                                                    </div>
+                                                </div>
+                                                        </c:if>
+
+                                                    </c:forEach>
+                                                </c:otherwise>
+                                            </c:choose>
+                                            <c:if test="${lv3Container.lastYn == null || lv3Container.lastYn == 'N'}">
+
+                                            </div>
+                                        </div>
+                                            </c:if>
+
+                                        </c:forEach>
+                                    </c:otherwise>
+                                </c:choose>
+                                <c:if test="${lv2Container.lastYn == null || lv2Container.lastYn == 'N'}">
+
+                                    </div>
+                                </div>
+                                </c:if>
+
+                            </c:forEach>
+                        </c:otherwise>
+                    </c:choose>
+                    <c:if test="${lv1Container.lastYn == null || lv1Container.lastYn == 'N'}">
+                            </div>
+                        </div>
+                    </c:if>
+
+
+                </c:forEach>
+                    </div>
+                </div>
+            <div class="spacer-tiny"></div>
+
+
+                    <%--<c:if test="${lv1Container.subContainer.size() > 0}">--%>
+                        <%--<div class="panel panel-darkgray">--%>
+                            <%--<div class="panel-heading"><c:if test="${lv1Container.lastYn == null || lv1Container.lastYn == 'N'}">${lv1Container.grpLabel}</c:if></div>--%>
+                            <%--<div class="panel-body" id="docContainerList${lv1Status.index}.list">--%>
+                        <%--<c:forEach items="${lv1Container.subContainer}" var="lv2Container" varStatus="lv2Status">--%>
+                            <%--<c:if test="${lv1Container.subContainer.size() > 0}">--%>
+                            <%--<div class="panel panel-darkgray">--%>
+                                <%--<div class="panel-heading"><c:if test="${lv1Container.lastYn == null || lv1Container.lastYn == 'N'}">${lv1Container.grpLabel}</c:if></div>--%>
+                                <%--<div class="panel-body" id="docContainerList${lv1Status.index}.list">--%>
+
+
+
+
+                                <%--<div class="form-group" id="docContainerList${lv1Status.index}.subContainer${lv2Status.index}.${lv2Container.docItemCode}">--%>
+                                    <%--<label class="col-sm-3 control-label word-keep-all">${lv2Container.docItemName}</label>--%>
                                     <%--<div class="col-sm-8">--%>
                                         <%--<div class="input-group">--%>
                                             <%--<div class="input-group-btn">--%>
@@ -363,12 +451,12 @@
                                     <%--<form:hidden path="documentContainerList[${grpStat.index}].mandDocList[${docStat.index}].filePath"  value="${mandDoc.filePath}"/>--%>
                                     <%--<form:hidden path="documentContainerList[${grpStat.index}].mandDocList[${docStat.index}].fileName"  value="${mandDoc.fileName}"/>--%>
                                     <%--<form:hidden path="documentContainerList[${grpStat.index}].mandDocList[${docStat.index}].orgFileName"  value="${mandDoc.orgFileName}"/>--%>
-                                </div>
-                        </c:forEach>
-                            </div>
-                        </div>
-                        <div class="spacer-tiny"></div>
-                    </c:if>
+                                <%--</div>--%>
+                        <%--</c:forEach>--%>
+                            <%--</div>--%>
+                        <%--</div>--%>
+                        <%--<div class="spacer-tiny"></div>--%>
+                    <%--</c:if>--%>
 
                     <%--<c:if test = "${docContainer.subGrp.size()>0}">--%>
                         <%--<div class="panel panel-darkgray">--%>
@@ -417,8 +505,8 @@
                             <%--</div>--%>
                         <%--</div>--%>
                     <%--</c:if>--%>
-                    <div class="spacer-tiny"></div>
-                </c:forEach>
+                    <%--<div class="spacer-tiny"></div>--%>
+                <%--</c:forEach>--%>
                     </div>
                 </div>
                 <div class="btn-group btn-group-justified">

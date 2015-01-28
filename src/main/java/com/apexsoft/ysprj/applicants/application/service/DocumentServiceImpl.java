@@ -56,6 +56,13 @@ public class DocumentServiceImpl implements DocumentService {
     public ExecutionContext saveDocument(Document document) {
 
         ExecutionContext ec = new ExecutionContext();
+
+        Application application = document.getApplication();
+        String applStsCode;
+        int currentStsCode = Integer.parseInt(application.getApplStsCode());
+        if (currentStsCode < Integer.parseInt(FILE_UPLOAD_SAVED))
+            application.setApplStsCode(FILE_UPLOAD_SAVED);
+
         // TODO - dhoonkim - 첨부파일 저장
 //        int r1 = 0, applNo = application.getApplNo(), idx = 0;
 //        Date date = new Date();

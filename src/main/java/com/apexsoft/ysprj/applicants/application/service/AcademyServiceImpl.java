@@ -30,7 +30,7 @@ public class AcademyServiceImpl implements AcademyService {
     private final String ACAD_SAVED = "00002";           // 학력 저장
 
     /**
-     * 학력 정보 작성 화면을 위한 데이터 조회 및 구
+     * 학력 정보 작성 화면을 위한 데이터 조회 및 구성
      *
      * @param academy
      * @return
@@ -97,7 +97,11 @@ public class AcademyServiceImpl implements AcademyService {
             }
         }
 
-        application.setApplStsCode(ACAD_SAVED);
+
+        String applStsCode;
+        int currentStsCode = Integer.parseInt(application.getApplStsCode());
+        if (currentStsCode < Integer.parseInt(ACAD_SAVED))
+            application.setApplStsCode(ACAD_SAVED);
         application.setModDate(new Date());
         int r0 = commonDAO.updateItem(application, NAME_SPACE, "ApplicationMapper");
 
