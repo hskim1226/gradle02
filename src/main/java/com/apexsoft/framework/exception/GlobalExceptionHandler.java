@@ -79,4 +79,21 @@ public class GlobalExceptionHandler {
 
         return mv;
     }
+
+    @ExceptionHandler(Exception.class)
+    public ModelAndView handleException(HttpServletRequest request,
+                                        Exception e){
+        ModelAndView mv = new ModelAndView(DEFAULT_ERROR_VIEW_NAME);
+        ExecutionContext ec = new ExecutionContext();
+        logger.error("YSNoRedirectBizException Occured:: URL=" + request.getRequestURL());
+        logger.error("StackTrace::" + ExceptionUtils.getFullStackTrace(e));
+
+        ec.setResult(ExecutionContext.FAIL);
+        ec.setMessage(e.getMessage());
+        String errCode = "ERR9999";
+        ec.setErrCode(errCode);
+        mv.addObject("ec", ec);
+
+        return mv;
+    }
 }
