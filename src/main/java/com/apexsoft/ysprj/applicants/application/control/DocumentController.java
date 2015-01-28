@@ -40,45 +40,53 @@ public class DocumentController {
 
     private final String TARGET_VIEW = "application/document";
 
-    /**
-     * 제출 문서 정보를 조회해서 파일 첨부 화면에 뿌려질 데이터 구성
-     *
-     * @param applicationIdentifier
-     * @return
-     */
-    private ExecutionContext setupDocument(ApplicationIdentifier applicationIdentifier) {
-        ExecutionContext ec;
-
-        Map<String, Object> ecDataMap = new HashMap<String, Object>();
-        Map<String, Object> commonCodeMap = new HashMap<String, Object>();
-        Document document;
-
-        int applNo = applicationIdentifier.getApplNo();
-        String admsNo = applicationIdentifier.getAdmsNo();
-        String entrYear = applicationIdentifier.getEntrYear();
-        String admsTypeCode = applicationIdentifier.getAdmsTypeCode();
-
-        ec = documentService.retrieveDocument(applNo);
-        document = (Document)ec.getData();
-        Application application = document.getApplication();
-
-        ParamForAdmissionCourseMajor param = new ParamForAdmissionCourseMajor();
-        param.setAdmsNo(admsNo);
-        param.setDeptCode(application.getDeptCode());
-        param.setCorsTypeCode(application.getCorsTypeCode());
-        param.setDetlMajCode(application.getDetlMajCode());
-
-        ecDataMap.put("document", document);
-        ecDataMap.put("common", commonCodeMap);
-        ec.setData(ecDataMap);
-
-        return ec;
-    }
+//    /**
+//     * 제출 문서 정보를 조회해서 파일 첨부 화면에 뿌려질 데이터 구성
+//     *
+//     * @param applicationIdentifier
+//     * @return
+//     */
+//    private ExecutionContext setupDocument(ApplicationIdentifier applicationIdentifier) {
+//        ExecutionContext ec;
+//
+//        Map<String, Object> ecDataMap = new HashMap<String, Object>();
+//        Map<String, Object> commonCodeMap = new HashMap<String, Object>();
+//        Document document;
+//
+//        int applNo = applicationIdentifier.getApplNo();
+//        String admsNo = applicationIdentifier.getAdmsNo();
+//        String entrYear = applicationIdentifier.getEntrYear();
+//        String admsTypeCode = applicationIdentifier.getAdmsTypeCode();
+//
+//        ec = documentService.retrieveDocument(applNo);
+//        document = (Document)ec.getData();
+//        Application application = document.getApplication();
+//
+//        ParamForAdmissionCourseMajor param = new ParamForAdmissionCourseMajor();
+//        param.setAdmsNo(admsNo);
+//        param.setDeptCode(application.getDeptCode());
+//        param.setCorsTypeCode(application.getCorsTypeCode());
+//        param.setDetlMajCode(application.getDetlMajCode());
+//
+//        ecDataMap.put("document", document);
+//        ecDataMap.put("common", commonCodeMap);
+//        ec.setData(ecDataMap);
+//
+//        return ec;
+//    }
 
     /**
      * 어학/경력 정보 최초작성/수정 화면
      *
      * @param formData
+     * @return
+     */
+    /**
+     * 첨부 파일 최초 작성 및 수정 화면
+     *
+     * @param formData
+     * @param bindingResult
+     * @param mv
      * @return
      */
     @RequestMapping(value="/edit")
@@ -88,13 +96,8 @@ public class DocumentController {
         mv.setViewName(TARGET_VIEW);
         if (bindingResult.hasErrors()) return mv;
 
-        Application application = formData.getApplication();
-        int applNo = application.getApplNo();
-        String admsNo = application.getAdmsNo();
-        String entrYear = application.getEntrYear();
-        String admsTypeCode = application.getAdmsTypeCode();
+        ExecutionContext ec = documentService.retrieveDocument(formData);
 
-        ExecutionContext ec = setupDocument(new ApplicationIdentifier(applNo, admsNo, entrYear, admsTypeCode));
         Map<String, Object> map = (Map<String, Object>)ec.getData();
         addObjectToMV(mv, map, ec);
 
@@ -102,10 +105,12 @@ public class DocumentController {
     }
 
     /**
-     * 어학/경력 정보 저장
+     * 첨부 파일 정보 저장
      *
      * @param formData
      * @param principal
+     * @param bindindResult
+     * @param mv
      * @return
      */
     @RequestMapping(value="/save", method = RequestMethod.POST)
@@ -129,14 +134,13 @@ public class DocumentController {
         ec = documentService.saveDocument(formData);
 
         if (ec.getResult().equals(ExecutionContext.SUCCESS)) {
-            ApplicationIdentifier data = (ApplicationIdentifier)ec.getData();
-            ExecutionContext ecSetupLangCareer = setupDocument(data);
+            ExecutionContext ecRetrieve = documentService.retrieveDocument(formData);
 
-            if (ecSetupLangCareer.getResult().equals(ExecutionContext.SUCCESS)) {
-                Map<String, Object> setupMap = (Map<String, Object>)ecSetupLangCareer.getData();
+            if (ecRetrieve.getResult().equals(ExecutionContext.SUCCESS)) {
+                Map<String, Object> setupMap = (Map<String, Object>)ecRetrieve.getData();
                 addObjectToMV(mv, setupMap, ec);
             } else {
-                mv = getErrorMV("common/error", ecSetupLangCareer);
+                mv = getErrorMV("common/error", ecRetrieve);
             }
         } else {
             mv = getErrorMV("common/error", ec);

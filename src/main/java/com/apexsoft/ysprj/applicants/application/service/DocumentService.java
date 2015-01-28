@@ -12,18 +12,18 @@ import java.util.List;
  */
 public interface DocumentService {
 
-    ExecutionContext createFileUpload(Application application,
-                                      List<DocGroupFile> docGroupFileList);
+//    ExecutionContext createFileUpload(Application application,
+//                                      List<DocGroupFile> docGroupFileList);
 
-    ExecutionContext retrieveDocument(int applNo);
+    ExecutionContext retrieveDocument(Document document);
 
-    List<TotalApplicationDocumentContainer> retrieveManatoryApplicatoinlDocListByApplNo(int applNo);
+//    List<TotalApplicationDocumentContainer> retrieveManatoryApplicatoinlDocListByApplNo(int applNo);
 
     ExecutionContext saveDocument(Document document);
 
-    ExecutionContext updateFileUpload(Application application,
-                                      List<DocGroupFile> docGroupFileList);
-
-    ExecutionContext deleteFileUpload(Application application,
-                                      List<DocGroupFile> docGroupFileList);
+//    ExecutionContext updateFileUpload(Application application,
+//                                      List<DocGroupFile> docGroupFileList);
+//
+//    ExecutionContext deleteFileUpload(Application application,
+//                                      List<DocGroupFile> docGroupFileList);
 }
