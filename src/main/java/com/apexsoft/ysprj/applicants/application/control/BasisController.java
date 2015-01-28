@@ -9,6 +9,7 @@ import com.apexsoft.ysprj.applicants.common.domain.*;
 import com.apexsoft.ysprj.applicants.common.service.CommonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -38,13 +39,16 @@ public class BasisController {
     private final String TARGET_VIEW = "application/basis";
 
     /**
-     * 기본정보 최초작성/수정 화면
+     * 기본정보 최초 작성 및 수정 화면
      *
      * @return
      */
     @RequestMapping(value="/edit")
-    public ModelAndView getBasis(@ModelAttribute Basis basis) {
-        ModelAndView mv = new ModelAndView(TARGET_VIEW);
+    public ModelAndView getBasis(@ModelAttribute Basis basis,
+                                 BindingResult bindingResult,
+                                 ModelAndView mv) {
+        mv.setViewName(TARGET_VIEW);
+        if (bindingResult.hasErrors()) return mv;
 
         ExecutionContext ec = basisService.retrieveBasis(basis);
 
@@ -63,8 +67,12 @@ public class BasisController {
      */
     @RequestMapping(value="/save", method = RequestMethod.POST)
     public ModelAndView saveBasis(@ModelAttribute Basis basis,
-                                  Principal principal) {
-        ModelAndView mv = new ModelAndView(TARGET_VIEW);
+                                  Principal principal,
+                                  BindingResult bindingResult,
+                                  ModelAndView mv) {
+        mv.setViewName(TARGET_VIEW);
+        if (bindingResult.hasErrors()) return mv;
+
         ExecutionContext ec;
         String userId = principal.getName();
         Application application = basis.getApplication();
@@ -74,12 +82,12 @@ public class BasisController {
 
         if (ec.getResult().equals(ExecutionContext.SUCCESS)) {
 
-            ExecutionContext ecRetrieveBasis = basisService.retrieveBasis(basis);
-            if (ecRetrieveBasis.getResult().equals(ExecutionContext.SUCCESS)) {
-                Map<String, Object> map = (Map<String, Object>)ecRetrieveBasis.getData();
+            ExecutionContext ecRetrieve = basisService.retrieveBasis(basis);
+            if (ecRetrieve.getResult().equals(ExecutionContext.SUCCESS)) {
+                Map<String, Object> map = (Map<String, Object>)ecRetrieve.getData();
                 addObjectToMV(mv, map, ec);
             } else {
-                mv = getErrorMV("common/error", ecRetrieveBasis);
+                mv = getErrorMV("common/error", ecRetrieve);
             }
         } else {
             mv = getErrorMV("common/error", ec);

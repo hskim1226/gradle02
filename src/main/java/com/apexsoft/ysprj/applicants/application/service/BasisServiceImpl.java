@@ -38,6 +38,12 @@ public class BasisServiceImpl implements BasisService {
 
     private final String APP_INFO_SAVED = "00001";       // 기본정보 저장
 
+    /**
+     * 기본 정보 작성 화면을 위한 데이터 조회 및 구성
+     *
+     * @param basis
+     * @return
+     */
     @Override
     public ExecutionContext retrieveBasis(Basis basis) {
 
@@ -125,6 +131,12 @@ public class BasisServiceImpl implements BasisService {
         return ec;
     }
 
+    /**
+     * 기본 정보 저장
+     *
+     * @param basis
+     * @return
+     */
     @Override
     public ExecutionContext saveBasis(Basis basis) {
         ExecutionContext ec = new ExecutionContext();
@@ -186,6 +198,7 @@ public class BasisServiceImpl implements BasisService {
                 else if (r2 == 0) errCode = "ERR0008";
             }
             ec.setErrCode(errCode);
+            throw new YSBizException(ec);
 //            if (isInsert && !isValidInsertRequest) {
 //                원래 페이지로 돌아가는 테스트는 성공,
 //                단순 데이터는 복원해서 원래 페이지, 원래 상태로 되돌릴 수 있으나,
@@ -198,13 +211,19 @@ public class BasisServiceImpl implements BasisService {
 //            } else {
 //                applNo = application.getApplNo() == null ? 0 : application.getApplNo();
 //                ec.setData(new ApplicationIdentifier(applNo));
-                throw new YSBizException(ec);
+//                throw new YSBizException(ec);
 //            }
         }
 
         return ec;
     }
 
+    /**
+     * 해당 userId를 가진 기존 지원서가 있는 지 확인
+     *
+     * @param userId
+     * @return
+     */
     private boolean hasApplication(String userId) {
         List<Application> applicationList = commonDAO.queryForList(NAME_SPACE + "CustomApplicationMapper.selectApplByUserId",
                 userId, Application.class);

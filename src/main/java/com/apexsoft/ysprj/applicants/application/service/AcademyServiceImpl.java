@@ -1,6 +1,7 @@
 package com.apexsoft.ysprj.applicants.application.service;
 
 import com.apexsoft.framework.common.vo.ExecutionContext;
+import com.apexsoft.framework.exception.YSBizException;
 import com.apexsoft.framework.exception.YSNoRedirectBizException;
 import com.apexsoft.framework.message.MessageResolver;
 import com.apexsoft.framework.persistence.dao.CommonDAO;
@@ -29,64 +30,25 @@ public class AcademyServiceImpl implements AcademyService {
     private final String ACAD_SAVED = "00002";           // 학력 저장
 
     /**
-     * 학력 정보 생성
-     * @param application
-     * @param collegeList
-     * @param graduateList
+     * 학력 정보 작성 화면을 위한 데이터 조회 및 구
+     *
+     * @param academy
      * @return
      */
-//    @Override
-//    public ExecutionContext createAcademy(Application application,
-//                                          List<CustomApplicationAcademy> collegeList,
-//                                          List<CustomApplicationAcademy> graduateList) {
-//        List<ApplicationAcademy> acadList = new ArrayList<ApplicationAcademy>();
-//        acadList.addAll(collegeList);
-//        acadList.addAll(graduateList);
-//
-//        ExecutionContext ec = new ExecutionContext();
-//        int r1, r2 = 0, applNo = application.getApplNo(), idx = 0;
-//        Date date = new Date();
-//
-//        application.setApplStsCode(ACAD_SAVED);
-//        application.setModDate(date);
-//        r1 = commonDAO.updateItem(application, NAME_SPACE, "ApplicationMapper");
-//
-//        if ( acadList != null ) {
-//            for( ApplicationAcademy academy : acadList) {
-//                academy.setApplNo(applNo);
-//                academy.setAcadSeq(++idx);
-//                academy.setCreDate(date);
-//            }
-//            r2 = commonDAO.insertList(acadList, NAME_SPACE, "ApplicationAcademyMapper");
-//        }
-//
-//        if ( r1 > 0 && r2 > 0 ) {
-//            ec.setResult(ExecutionContext.SUCCESS);
-//            ec.setMessage(messageResolver.getMessage("U317"));
-//            ec.setData(new ApplicationIdentifier(applNo, application.getApplStsCode(),
-//                    application.getAdmsNo(), application.getEntrYear(), application.getAdmsTypeCode()));
-//        } else {
-//            ec.setResult(ExecutionContext.FAIL);
-//            ec.setMessage(messageResolver.getMessage("U318"));
-//            String errCode = null;
-//            if ( r1 == 0 ) errCode = "ERR0003";
-//            else if ( r2 == 0 ) errCode = "ERR0011";
-//            ec.setData(new ApplicationIdentifier(applNo, APP_NULL_STATUS));
-//            ec.setErrCode(errCode);
-//        }
-//        return ec;
-//    }
-
     @Override
-    public ExecutionContext retrieveAcademy(int applNo) {
-        String aaMapperSqlId = "CustomApplicationAcademyMapper.selectByApplNoAcadTypeCode";
+    public ExecutionContext retrieveAcademy(Academy academy) {
         ExecutionContext ec = new ExecutionContext();
-        Academy academy = new Academy();
+        Map<String, Object> ecDataMap = new HashMap<String, Object>();
 
-        Application application = commonDAO.queryForObject(NAME_SPACE + "ApplicationMapper.selectByPrimaryKey",
+        String aaMapperSqlId = "CustomApplicationAcademyMapper.selectByApplNoAcadTypeCode";
+
+        Application applicationFromUser = academy.getApplication();
+
+        int applNo = applicationFromUser.getApplNo();
+
+        Application applicationFromDB = commonDAO.queryForObject(NAME_SPACE + "ApplicationMapper.selectByPrimaryKey",
                 applNo, Application.class);
-        application = application == null ? new Application() : application;
-        academy.setApplication(application);
+        academy.setApplication(applicationFromDB);
 
         ParamForAcademy paramForAcademy = new ParamForAcademy();
         paramForAcademy.setApplNo(applNo);
@@ -99,11 +61,18 @@ public class AcademyServiceImpl implements AcademyService {
         academy.setGraduateList(setUserDataStatus(graduateList, UserCUDType.UPDATE));
 
         ec.setResult(ExecutionContext.SUCCESS);
-        ec.setData(academy);
+        ecDataMap.put("academy", academy);
+        ec.setData(ecDataMap);
 
         return ec;
     }
 
+    /**
+     * 학력 정보 저장
+     *
+     * @param academy
+     * @return
+     */
     @Override
     public ExecutionContext saveAcademy(Academy academy) {
 
@@ -149,54 +118,20 @@ public class AcademyServiceImpl implements AcademyService {
         if ( r0 == 1 && insert == insertResult && update == updateResult && delete == deleteResult) {
             ec.setResult(ExecutionContext.SUCCESS);
             ec.setMessage(messageResolver.getMessage("U317"));
-            ec.setData(new ApplicationIdentifier(applNo, application.getApplStsCode(),
-                    application.getAdmsNo(), application.getEntrYear(), application.getAdmsTypeCode()));
         } else {
             ec.setResult(ExecutionContext.FAIL);
             ec.setMessage(messageResolver.getMessage("U318"));
             ec.setData(new ApplicationIdentifier(applNo, APP_NULL_STATUS));
             String errCode = null;
             if ( r0 == 0 ) errCode = "ERR0003";
-            if ( insert != insertResult ) errCode = "ERR0011";
-            if ( update != updateResult ) errCode = "ERR0013";
-            if ( delete != deleteResult ) errCode = "ERR0014";
+            else if ( insert != insertResult ) errCode = "ERR0011";
+            else if ( update != updateResult ) errCode = "ERR0013";
+            else if ( delete != deleteResult ) errCode = "ERR0014";
             ec.setErrCode(errCode);
-            throw new YSNoRedirectBizException(ec);
+            throw new YSBizException(ec);
         }
         return ec;
     }
-
-//    @Override
-//    public ExecutionContext updateAcademy(Application application, List<CustomApplicationAcademy> collegeList, List<CustomApplicationAcademy> graduateList) {
-//        List<ApplicationAcademy> acadList = new ArrayList<ApplicationAcademy>();
-//        acadList.addAll(collegeList);
-//        acadList.addAll(graduateList);
-//
-//        ExecutionContext ec = new ExecutionContext();
-//        int applNo = application.getApplNo();
-//        ParamForAcademy param = new ParamForAcademy();
-//        param.setApplNo(applNo);
-//        param.setOrderBy("ACAD_SEQ");
-//
-//        param.setAcadTypeCode("00002");
-//        int r1 = processAcademy(application, collegeList, applNo, new Date(), param);
-//
-//        param.setAcadTypeCode("00003");
-//        int r2 = processAcademy(application, graduateList, applNo, new Date(), param);//
-//
-//        if ( r1 == collegeList.size() && r2 == graduateList.size() ) {
-//            ec.setResult(ExecutionContext.SUCCESS);
-//            ec.setMessage(messageResolver.getMessage("U317"));
-//            ec.setData(new ApplicationIdentifier(applNo, application.getApplStsCode(),
-//                    application.getAdmsNo(), application.getEntrYear(), application.getAdmsTypeCode()));
-//        } else {
-//            ec.setResult(ExecutionContext.FAIL);
-//            ec.setMessage(messageResolver.getMessage("U318"));
-//            ec.setData(new ApplicationIdentifier(applNo, APP_NULL_STATUS));
-//            ec.setErrCode("ERR0013");
-//        }
-//        return ec;
-//    }
 
     /**
      * 현재 DB에서 ACAD LIST 가져와서 HashMap을 만들고
@@ -266,24 +201,22 @@ public class AcademyServiceImpl implements AcademyService {
                 }
             }
         }
-//        //Map에 남아있는 레코드는 delete
-//        Set<Map.Entry<Integer, Integer>> entrySet = seqMap.entrySet();
-//        for(Map.Entry<Integer, Integer> entry : entrySet) {
-//            int seqFromDB = entry.getKey();
-//            param.setAcadSeq(seqFromDB);
-//            d1 += commonDAO.delete(NAME_SPACE + "CustomApplicationAcademyMapper.deleteByApplNoAcadTypeCodeAcadSeq", param);
-//        }
+
         iudMap.put(UserCUDType.INSERT, c1);
         iudMap.put(UserCUDType.UPDATE, u1);
         iudMap.put(UserCUDType.DELETE, d1);
         return iudMap;
     }
 
-//    @Override
-//    public ExecutionContext deleteAcademy(Application application, List<CustomApplicationAcademy> collegeList, List<CustomApplicationAcademy> graduateList) {
-//        return null;
-//    }
-
+    /**
+     * DB에 저장된 리스트 조회
+     *
+     * @param parameter
+     * @param mapperNameSqlId
+     * @param clazz
+     * @param <T>
+     * @return
+     */
     private <T> List<T> retrieveInfoListByParamObj(Object parameter, String mapperNameSqlId, Class<T> clazz) {
         List<T> infoList = null;
 
@@ -293,6 +226,13 @@ public class AcademyServiceImpl implements AcademyService {
         return infoList;
     }
 
+    /**
+     * 데이터를 사용자 화면에 보내줄 때 Create/Update/Delete 값을 설정
+     *
+     * @param list
+     * @param udt
+     * @return
+     */
     private List<CustomApplicationAcademy> setUserDataStatus(List<CustomApplicationAcademy> list, UserCUDType udt) {
         for (CustomApplicationAcademy customApplicationAcademy : list) {
             customApplicationAcademy.setUserCUDType(udt);
