@@ -262,7 +262,7 @@
                     <td id="stepBasis" width="25%" height="30px" align="center" class="stepDisabled">1. 기본 정보</td>
                     <td id="stepAcademy" width="25%" height="30px" align="center" class="stepDisabled">2. 학력 정보</td>
                     <td id="stepLangCareer" width="25%" height="30px" align="center" class="stepDisabled">3. 어학/경력 정보</td>
-                    <td id="stepFileUpload" width="25%" height="30px" align="center" class="stepDisabled">4. 파일 첨부</td>
+                    <td id="stepDocument" width="25%" height="30px" align="center" class="stepDisabled">4. 파일 첨부</td>
                 </tr>
             </table>
         </div>
@@ -274,7 +274,7 @@
                         <td id="tab-basis" width="25%" height="35px" align="center" class="inactiveTab" data-target-tab="basis" data-tab-available="true">기본 정보</td>
                         <td id="tab-academy" width="25%" height="35px" align="center" class="inactiveTab" data-target-tab="academy" data-tab-available="false" data-unavailable-msg='<spring:message code="U321"/>'>학력 정보</td>
                         <td id="tab-langCareer" width="25%" height="35px" align="center" class="inactiveTab" data-target-tab="langCareer" data-tab-available="false" data-unavailable-msg='<spring:message code="U322"/>'>어학/경력 정보</td>
-                        <td id="tab-fileUpload" width="25%" height="35px" align="center" class="inactiveTab" data-target-tab="fileUpload" data-tab-available="false" data-unavailable-msg='<spring:message code="U323"/>'>파일 첨부</td>
+                        <td id="tab-document" width="25%" height="35px" align="center" class="inactiveTab" data-target-tab="document" data-tab-available="false" data-unavailable-msg='<spring:message code="U323"/>'>파일 첨부</td>
                     </tr>
                 </table>
             </div>
@@ -300,7 +300,13 @@
                                         <c:if test="${langListStat.index == 0}"><label class="col-sm-offset-8 control-label">${langGroup.examGrpName}</label></c:if>
                                     </div>
                                     <div class="col-sm-2">
-                                        <form:hidden path="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].itemCode" value="${langList.docItemCode}"/>
+                                        <form:hidden path="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].applNo" value="${langList.applNo}"/>
+                                        <form:hidden path="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].langSeq" value="${langList.langSeq}"/>
+                                        <form:hidden path="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].langExamGrp" value="${langList.langExamGrp}"/>
+                                        <form:hidden path="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].docItemCode" value="${langList.docItemCode}"/>
+                                        <form:hidden path="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].userCUDType" value='${langCareer.languageGroupList[langGroupStat.index].langList[langListStat.index].userCUDType}'/>
+                                        <form:hidden path="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].fileUploadFg" value="${langList.fileUploadFg}"/>
+                                        <form:hidden path="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].langInfoSaveFg" value="${langList.langInfoSaveFg}"/>
                                         <div class="checkbox">
                                             <label for="checkLang-${langListStat.index}">
                                                 <c:if test='${langList.canYn == "Y"}'>
@@ -373,7 +379,9 @@
                             <div class="panel-body">
                                 <div id="career-container" class="form-group-block-list">
                                     <c:forEach varStatus="stat" begin="0" end="${langCareer.applicationExperienceList.size() > 0 ? langCareer.applicationExperienceList.size() - 1 : 0}">
-                                        <div id="career-info" class="form-group-block">
+                                        <div class="form-group-block">
+                                            <form:hidden path="applicationExperienceList[${stat.index}].exprSeq"/>
+                                            <form:hidden path="applicationExperienceList[${stat.index}].userCUDType" value='${langCareer.applicationExperienceList[stat.index].userCUDType == null ? "INSERT" : langCareer.applicationExperienceList[stat.index].userCUDType}'/>
                                             <div class="form-group required">
                                                 <label class="col-sm-2 control-label">재직 기간</label>
                                                 <div class="col-sm-4 start-date-container">
@@ -403,7 +411,7 @@
                                                     <form:input path="applicationExperienceList[${stat.index}].exprDesc" cssClass="form-control" />
                                                 </div>
                                             </div>
-                                            <div class="btn btn-remove">
+                                            <div class="btn btn-remove" data-block-index="${stat.index}" data-list-name="applicationExperienceList">
                                                 <button type="button" class="close" aria-hidden="true">×</button>
                                             </div>
                                         </div>
@@ -584,22 +592,28 @@
 
         <%-- 달력 시작 --%>
         $('.input-group.date>input').datepicker(datePickerOption);
-        $('.input-daterange>input').datepicker(datePickerOption);
         $('.calendar-addon').on('click', function () {
             $(this.parentNode).children('input')[0].focus();
         });
         <%-- 달력 끝 --%>
 
+        <%-- 달력 reset 함수 --%>
+        var resetCalendar = function (block, calendarClass) {
+            $(block).find(calendarClass).datepicker('destroy');
+            $(block).find(calendarClass).datepicker(datePickerOption);
+        };
+        <%-- 달력 reset 함수 --%>
+
         <%-- 외국어 성적 면제 해당 처리 --%>
         var checkForlExmp = function (isExmp) {
             $('.forlInput').each(function () {
                 this.value = '';
+                this.setAttribute('value', '');
                 this.disabled = isExmp;
                 if (this.selectedIndex) this.selectedIndex = 0;
             });
             $('.lang-checkbox, .lang-radio').each(function () {
                 this.checked = false;
-//                this.trigger('change');
                 this.disabled = isExmp;
             });
             document.getElementById('forlExmpCode').disabled = !isExmp;
@@ -619,62 +633,14 @@
         <%-- 외국어 성적 면제 해당 처리 --%>
 
         <%-- form-group-block 추가/삭제에 대한 처리 시작 --%>
-        $('.btn-add').on('click', function(e) {
-            var target = e.currentTarget ? e.currentTarget : e.target;
-            var container = target.parentNode;
-            while (container && !$(container).hasClass('form-group-block-list')) {
-                container = container.parentNode;
-            }
-            var blocks = container.querySelectorAll('.form-group-block');
-            var originBlock = blocks[blocks.length - 1];
-            var $cloneObj;
-            if (originBlock) {
-                $cloneObj = $(originBlock).clone(true);
-                $cloneObj.find('.input-group.date>input').datepicker('destroy');
-                updateIdAndName($cloneObj[0], blocks.length);
-                eraseContents($cloneObj[0]);
-                container.insertBefore($cloneObj[0], originBlock.nextSibling);
-                $cloneObj.find('.input-group.date>input').datepicker(datePickerOption);
-            }
-        });
-
-        $('.btn-remove').on('click', function(e) {
-            var target = e.currentTarget ? e.currentTarget : e.target;
-            var blockToRemove = target.parentNode;
-            while (blockToRemove && !$(blockToRemove).hasClass('form-group-block')) {
-                blockToRemove = blockToRemove.parentNode;
-            }
-            var container = blockToRemove.parentNode;
-            var blocks = container.querySelectorAll('.form-group-block');
-            var length = blocks.length, i;
-
-            for (i = 0; i < length; i++) {
-                if (blockToRemove == blocks[i]) {
-                    break;
-                }
-            }
-
-            for (i = i + 1; i < length; i++) {
-                updateIdAndName(blocks[i], i - 1);
-            }
-
-            if (length <= 1) {
-                eraseContents(blockToRemove);
-            } else {
-                blockToRemove.parentNode.removeChild(blockToRemove);
-            }
-
-            mustCheckedOneRadio();
-        });
-
         <%-- id, name 재설정 시작 --%>
-        function updateIdAndName( block, index ) {
+        var updateIdAndName = function ( block, index ) {
             var i, name, prefix, suffix, input, items, label;
             var input = block.querySelector('input');
 
             name = input.name;
 
-            items = block.querySelectorAll('input, select');
+            items = block.querySelectorAll('input, select, label');
             if (items) {
                 for (i = 0; i <items.length; i++) {
                     name = items[i].name;
@@ -695,44 +661,92 @@
                             label.setAttribute('for', items[i].id);
                         }
                     }
+                    if (items[i].id.indexOf('userCUDType') > 0) {
+                        items[i].value = "INSERT";
+                    }
                 }
             }
+            resetCalendar(block, '.input-group.date>input');
 
             var removeBtn = block.querySelector('.btn-remove');
             if (removeBtn) {
                 removeBtn.setAttribute('data-block-index', index);
             }
-        }
+        };
         <%-- id, name 재설정 끝 --%>
 
         <%-- 복제된 입력폼 내용 초기화 시작 --%>
-        function eraseContents( block ) {
+        var resetBlockContents = function ( block ) {
             var i, items, itemName;
+            block.style.display = 'block';
             items = block.querySelectorAll('input, select');
             if (items) {
                 for (i = 0; i <items.length; i++) {
                     if (items[i].type == 'hidden') {
                         itemName = items[i].name;
-                        items[i].value = itemName.indexOf('acadType') < 0 ? '' : items[i].value ;
+                        if (itemName.indexOf('userCUDType') > 0) {
+                            items[i].value = "INSERT";
+                        }
                     }
                     if (items[i].type != 'hidden' && items[i].type != 'radio' && items[i].type != 'checkbox' && items[i].type != 'button') {
                         items[i].value = '';
+                        items[i].setAttribute('value', '');
                     }
                     if (items[i].checked != null) {
                         items[i].checked = false;
                     }
-                    if (items[i].type == 'button') {
-                        $(items[i]).removeClass('btn-info');
-                        $(items[i]).addClass('btn-default');
-                        $(items[i]).val('올리기');
-                    }
-                    if (items[i].type == 'file') {
-                        $(items[i]).val('');
-                    }
                 }
             }
-        }
+            resetCalendar(block, '.input-group.date>input');
+        };
         <%-- 복제된 입력폼 내용 초기화 끝 --%>
+
+        $('.btn-add').on('click', function(e) {
+            var target = e.currentTarget ? e.currentTarget : e.target;
+            var container = target.parentNode;
+            while (container && !$(container).hasClass('form-group-block-list')) {
+                container = container.parentNode;
+            }
+            var blocks = container.querySelectorAll('.form-group-block');
+            var originBlock = blocks[blocks.length - 1];
+            var $cloneObj;
+            if (originBlock) {
+                $cloneObj = $(originBlock).clone(true);
+                updateIdAndName($cloneObj[0], blocks.length);
+                resetBlockContents($cloneObj[0]);
+                container.insertBefore($cloneObj[0], originBlock.nextSibling);
+            }
+        });
+
+        $('.btn-remove').on('click', function(e) {
+            var target = e.currentTarget ? e.currentTarget : e.target;
+            var blockToRemove = target.parentNode;
+            while (blockToRemove && !$(blockToRemove).hasClass('form-group-block')) {
+                blockToRemove = blockToRemove.parentNode;
+            }
+            var container = blockToRemove.parentNode;
+            var blocks = container.querySelectorAll('.form-group-block');
+            var length = blocks.length, i;
+            var blockIndex = target.dataset.blockIndex;
+            var userCUDType = document.getElementById(target.dataset.listName + blockIndex + '.userCUDType');
+
+            switch (userCUDType.value) {
+                case 'INSERT' :
+                    for (i = parseInt(blockIndex) + 1; i < length; i++) {
+                        updateIdAndName(blocks[i], i - 1);
+                    }
+                    if (length <= 1) {
+                        resetBlockContents(blockToRemove);
+                    } else {
+                        blockToRemove.parentNode.removeChild(blockToRemove);
+                    }
+                    break;
+                case 'UPDATE' :
+                    userCUDType.value = 'DELETE';
+                    blockToRemove.style.display = 'none';
+                    break;
+            }
+        });
         <%-- form-group-block 추가/삭제에 대한 처리 끝 --%>
 
         <%-- 단어 잘림 방지 --%>

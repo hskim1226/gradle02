@@ -7,6 +7,7 @@ public class CustomApplicationLanguage extends ApplicationLanguage {
     private String itemGrpCode;
     private String itemCode;
     private String itemName;
+    private int mandLangSeq;
     private String upCodeGrp;
     private String selGrpCode;
     private String canYn = "N";

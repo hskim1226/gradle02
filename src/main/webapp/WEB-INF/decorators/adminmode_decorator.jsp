@@ -117,7 +117,8 @@
                 <span><a href="#">기준정보관리</a></span>
                 <ul>
                     <li class="Lfirst"><span><a href="${contextPath}/admin/guideline/deptManage">모집학과 관리</a></span></li>
-                    <li class="Lidx2"><span><a href="${contextPath}/admin/guideline/docManage">서류조건 관리</a></span></li>
+                    <li class="Lidx2"><span><a href="${contextPath}/admin/guideline/langMandManage">어학성적 조건관리</a></span></li>
+                    <li class="Lidx2"><span><a href="${contextPath}/admin/guideline/docMandManage">제출서류 조건관리</a></span></li>
                     <li class="Llast"><span><a href="${contextPath}/admin/guideline/feeManage">전형료 관리</a></span></li>
                 </ul>
             </li>

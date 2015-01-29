@@ -2,9 +2,7 @@ package com.apexsoft.ysprj.applicants.application.control;
 
 import com.apexsoft.framework.common.vo.ExecutionContext;
 import com.apexsoft.framework.message.MessageResolver;
-import com.apexsoft.ysprj.applicants.admission.domain.AdmissionCourseMajorLanguage;
 import com.apexsoft.ysprj.applicants.admission.domain.ParamForAdmissionCourseMajor;
-import com.apexsoft.ysprj.applicants.admission.service.AdmissionService;
 import com.apexsoft.ysprj.applicants.application.domain.*;
 import com.apexsoft.ysprj.applicants.application.service.LangCareerService;
 import com.apexsoft.ysprj.applicants.common.service.CommonService;
@@ -18,7 +16,9 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
 import java.security.Principal;
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by hanmomhanda on 15. 1. 13.
@@ -35,15 +35,8 @@ public class LangCareerController {
     @Autowired
     private CommonService commonService;
 
-    @Autowired
-    private AdmissionService admissionService;
-
     @Resource(name = "messageResolver")
     MessageResolver messageResolver;
-
-    private final String APP_INFO_SAVED = "00001";
-    private final String ACAD_SAVED = "00002";
-    private final String LANG_CAREER_SAVED = "00003";
 
     private final String TARGET_VIEW = "application/langCareer";
 
@@ -88,14 +81,17 @@ public class LangCareerController {
     /**
      * 어학/경력 정보 최초작성/수정 화면
      *
-     * @param model
+     * @param formData
      * @return
      */
     @RequestMapping(value="/edit")
-    public ModelAndView getLangCareer(@ModelAttribute LangCareer model) {
-        ModelAndView mv = new ModelAndView(TARGET_VIEW);
+    public ModelAndView getLangCareer(@ModelAttribute LangCareer formData,
+                                      BindingResult bindingResult,
+                                      ModelAndView mv) {
+        mv.setViewName(TARGET_VIEW);
+        if (bindingResult.hasErrors()) return mv;
 
-        Application application = model.getApplication();
+        Application application = formData.getApplication();
         int applNo = application.getApplNo();
         String admsNo = application.getAdmsNo();
         String entrYear = application.getEntrYear();
@@ -111,43 +107,53 @@ public class LangCareerController {
     /**
      * 어학/경력 정보 저장
      *
-     * @param langCareer
+     * @param formData
      * @param principal
      * @return
      */
     @RequestMapping(value="/save", method = RequestMethod.POST)
-    public ModelAndView saveLangCareer(@ModelAttribute LangCareer langCareer,
-                                       Principal principal) {
-        ModelAndView mv = new ModelAndView(TARGET_VIEW);
+    public ModelAndView saveLangCareer(@ModelAttribute LangCareer formData,
+                                       Principal principal,
+                                       BindingResult bindindResult,
+                                       ModelAndView mv) {
+        mv.setViewName(TARGET_VIEW);
+        if (bindindResult.hasErrors()) return mv;
 
         ExecutionContext ec = null;
         String userId = principal.getName();
 
-        Application application = langCareer.getApplication();
+        Application application = formData.getApplication();
         int applNo = application.getApplNo();
         application.setUserId(userId);
         application.setModId(userId);
 
-        if (application.getApplStsCode().equals(ACAD_SAVED)) { //insert
-            for (LanguageGroup lGroup : langCareer.getLanguageGroupList()) {
-                List<TotalApplicationLanguage> langList = lGroup.getLangList();
-                for (TotalApplicationLanguage alang : langList) {
-                    alang.setApplNo(applNo);
-                    alang.setCreId(userId);
-                }
-            }
-            for (ApplicationExperience ae : langCareer.getApplicationExperienceList()) {
-                ae.setApplNo(applNo);
-                ae.setCreId(userId);
-            }
-            ec = langCareerService.createLangCareer(application,
-                    langCareer.getLanguageGroupList(),
-                    langCareer.getApplicationExperienceList());
-        } else { //update
-            ec = langCareerService.updateLangCareer(application,
-                    langCareer.getLanguageGroupList(),
-                    langCareer.getApplicationExperienceList());
-        }
+        List<CustomApplicationExperience> exprList = formData.getApplicationExperienceList();
+
+        removeEmptyExperienceAcademy(exprList);
+
+        ec = langCareerService.saveLangCareer(formData);
+
+        // TODO - omw - 로직은 서비스로 이동 예정
+//        if (application.getApplStsCode().equals(ACAD_SAVED)) { //insert
+//            for (LanguageGroup lGroup : formData.getLanguageGroupList()) {
+//                List<TotalApplicationLanguage> langList = lGroup.getLangList();
+//                for (TotalApplicationLanguage alang : langList) {
+//                    alang.setApplNo(applNo);
+//                    alang.setCreId(userId);
+//                }
+//            }
+//            for (ApplicationExperience ae : formData.getApplicationExperienceList()) {
+//                ae.setApplNo(applNo);
+//                ae.setCreId(userId);
+//            }
+//            ec = langCareerService.createLangCareer(application,
+//                    formData.getLanguageGroupList(),
+//                    formData.getApplicationExperienceList());
+//        } else { //update
+//            ec = langCareerService.updateLangCareer(application,
+//                    formData.getLanguageGroupList(),
+//                    formData.getApplicationExperienceList());
+//        }
 
         if (ec.getResult().equals(ExecutionContext.SUCCESS)) {
             ApplicationIdentifier data = (ApplicationIdentifier)ec.getData();
@@ -164,6 +170,18 @@ public class LangCareerController {
         }
 
         return mv;
+    }
+
+    private List<CustomApplicationExperience> removeEmptyExperienceAcademy(List<CustomApplicationExperience> list) {
+        int i, length;
+        for (i = 0, length = list.size() ; i < length ; i++) {
+            if (list.get(i).getCorpName() == null || list.get(i).getCorpName().equals("")) {
+                list.remove(i);
+                length--;
+                i--;
+            }
+        }
+        return list;
     }
 
     /**

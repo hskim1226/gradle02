@@ -419,6 +419,20 @@ System.out.println(param.getAcadTypeCode() + " : " + c1+u1+d1);
         application.setModDate(date);
         r1 = commonDAO.updateItem(application, NAME_SPACE, "ApplicationMapper");
 
+//        if ( docGroupFileList != null ) {
+//            for( DocGroupFile docGroupFile : docGroupFileList) {
+//                List<MandatoryNAppliedDoc> mDocList = docGroupFile.getMandDocList();
+//                if ( mDocList != null ) {
+//                    for (MandatoryNAppliedDoc mDoc : mDocList) {
+//                        mDoc.setApplNo(applNo);
+//                        mDoc.setDocSeq(++idx);
+//                        mDoc.setCreId(userId);
+//                        mDoc.setCreDate(date);
+//                    }
+//                }
+//                r1 += commonDAO.insertList(mDocList, NAME_SPACE, "ApplicationDocumentMapper");
+//            }
+//        }
         if ( docGroupFileList != null ) {
 
         }
@@ -455,6 +469,21 @@ System.out.println(param.getAcadTypeCode() + " : " + c1+u1+d1);
         Date date = new Date();
         String userId = application.getUserId();
 
+//        deleteListByApplNo(applNo, "CustomApplicationDocumentMapper");
+//        if ( docGroupFileList != null ) {
+//            for( DocGroupFile docGroupFile : docGroupFileList) {
+//                List<MandatoryNAppliedDoc> mDocList = docGroupFile.getMandDocList();
+//                if ( mDocList != null ) {
+//                    for (MandatoryNAppliedDoc mDoc : mDocList) {
+//                        mDoc.setApplNo(applNo);
+//                        mDoc.setDocSeq(++idx);
+//                        mDoc.setModId(userId);
+//                        mDoc.setModDate(date);
+//                    }
+//                }
+//                r1 += commonDAO.insertList(mDocList, NAME_SPACE, "ApplicationDocumentMapper");
+//            }
+//        }
         deleteListByApplNo(applNo, "CustomApplicationDocumentMapper");
         if ( docGroupFileList != null ) {
             for( DocGroupFile docGroupFile : docGroupFileList) {
@@ -986,6 +1015,7 @@ System.out.println(param.getAcadTypeCode() + " : " + c1+u1+d1);
 
         return infoList;
     }
+    @Override
 
     public List<DocGroupFile> retrieveManApplDocListByApplNo( int applNo){
         return null;

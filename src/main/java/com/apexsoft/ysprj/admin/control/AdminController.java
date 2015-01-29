@@ -229,17 +229,21 @@ public class AdminController {
 
     @RequestMapping(value="/guideline/deptManage")
     public String retreiveDetManageInfo() {
-        return "admin/modification/changeUnit";
+        return "admin/guideline/changeUnit";
     }
 
-    @RequestMapping(value="/guideline/docManage")
-    public String retrieveDocManageInfo() {
-        return "admin/cancel/application";
+    @RequestMapping(value="/guideline/langMandManage")
+    public String retrieveLangMandManageInfo() {
+        return "admin/guideline/application";
     }
+
+    @RequestMapping(value="/guideline/docMandManage")
+    public String retrieveDocMandManageInfo() {  return "admin/guideline/application"; }
+
 
     @RequestMapping(value="/guideline/feeManage")
     public String retrieveFeeManageInfo() {
-        return "/admin/data/download";
+        return "/admin/guideline/download";
     }
 
 

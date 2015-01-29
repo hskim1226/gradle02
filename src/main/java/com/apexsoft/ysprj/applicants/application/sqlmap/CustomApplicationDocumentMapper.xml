@@ -53,6 +53,8 @@
     </resultMap>
 
     <resultMap id="totalLang" type="com.apexsoft.ysprj.applicants.application.domain.TotalApplicationLanguage">
+        <result column="APPL_NO"       jdbcType="INTEGER" property="applNo" />
+
         <result column="CODE_GRP" jdbcType="VARCHAR" property="itemGrpCode" />
         <result column="CODE" jdbcType="VARCHAR" property="itemCode" />
         <result column="CODE_VAL" jdbcType="VARCHAR" property="itemName" />
@@ -64,6 +66,8 @@
         <result column="MSG_NO" jdbcType="VARCHAR" property="msgNo" />
 
         <result column="LANG_SEQ" jdbcType="INTEGER" property="langSeq" />
+        <result column="LANG_EXAM_GRP" jdbcType="VARCHAR" property="langExamGrp" />
+        <result column="LANG_EXAM_CODE" jdbcType="VARCHAR" property="langExamCode" />
         <result column="TOFL_TYPE_CODE" jdbcType="VARCHAR" property="toflTypeCode" />
         <result column="LANG_GRAD" jdbcType="VARCHAR" property="langGrad" />
         <result column="EXAM_NO" jdbcType="VARCHAR" property="examNo" />
@@ -107,7 +111,7 @@
             DOC_ITEM_GRP,
             BA.DOC_TYPE_CODE,
             BA.DOC_ITEM_CODE,
-            BB.DOC_ITEM_NAME,
+            BA.DOC_ITEM_NAME,
             UP_CODE_GRP,
             UP_CODE,
             SEL_CODE_GRP,
@@ -166,7 +170,7 @@
             DOC_ITEM_GRP,
             BA.DOC_TYPE_CODE,
             BA.DOC_ITEM_CODE,
-            BB.DOC_ITEM_NAME,
+            BA.DOC_ITEM_NAME,
             UP_CODE_GRP,
             UP_CODE,
             SEL_CODE_GRP,
@@ -301,6 +305,8 @@
         MSG_NO,
 
         LANG_SEQ,
+        LANG_EXAM_GRP,
+        LANG_EXAM_CODE,
         TOFL_TYPE_CODE,
         EXAM_NO,
         LANG_GRAD,
@@ -337,7 +343,7 @@
         )B
         ON B.EXAM_CODE = A.CODE
         LEFT OUTER JOIN
-        ( SELECT LANG_SEQ, LANG_EXAM_CODE, TOFL_TYPE_CODE, EXAM_NO, LANG_GRAD, EXAM_DAY, EXPR_DAY FROM APPL_LANG
+        ( SELECT LANG_SEQ, LANG_EXAM_GRP, LANG_EXAM_CODE, TOFL_TYPE_CODE, EXAM_NO, LANG_GRAD, EXAM_DAY, EXPR_DAY FROM APPL_LANG
         WHERE APPL_NO = #{applNo}) C
         ON C.LANG_EXAM_CODE = B.EXAM_CODE
         LEFT OUTER JOIN
@@ -412,7 +418,7 @@
           ADMS_CODE,
           ITEM_CODE_GRP AS DOC_ITEM_GRP,
           ITEM_CODE AS  DOC_ITEM_CODE,
-          #{dogGrp} AS DOC_GRP,
+          #{docGrp} AS DOC_GRP,
           #{docTypeCode} AS  DOC_TYPE_CODE,
           CODEVAL(ITEM_CODE_GRP,ITEM_CODE) AS DOC_ITEM_NAME,
           UP_CODE_GRP,
@@ -442,9 +448,24 @@
         MOD_DATE, DOC_ITEM_NAME_XXEN, DOC_GRP_NAME
     FROM APPL_DOC
     WHERE APPL_NO = #{applNo}
-        AND DOC_TYPE_CODE = #{docItmeCode}
+        AND DOC_TYPE_CODE = #{docTypeCode}
+        <if test="docGrp != null and docGrp != 0" >
+            AND DOC_GRP = #{docGrp}
+        </if>
+        AND DOC_ITEM_CODE = #{docItemCode}
+
+    </select>
+
+    <select id="selectApplicationDocumentByTotalDocumentContainnerDocGrp"   resultMap="totlaDoc"   parameterType="com.apexsoft.ysprj.applicants.application.domain.TotalApplicationDocumentContainer" >
+        SELECT
+        APPL_NO, DOC_SEQ, DOC_TYPE_CODE, DOC_GRP, DOC_ITEM_CODE, DOC_ITEM_NAME, DOC_NAME,
+        FILE_EXT, IMG_YN, FILE_PATH, FILE_NAME, ORG_FILE_NAME, CRE_ID, CRE_DATE, MOD_ID,
+        MOD_DATE, DOC_ITEM_NAME_XXEN, DOC_GRP_NAME
+        FROM APPL_DOC
+        WHERE APPL_NO = #{applNo}
+        AND DOC_TYPE_CODE = #{docTypeCode}
         AND DOC_GRP = #{docGrp}
-        AND DOC_ITEM_CODE = #{itemCode}
+        AND DOC_ITEM_CODE = #{docItemCode}
 
     </select>
 

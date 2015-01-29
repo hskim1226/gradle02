@@ -10,7 +10,7 @@ public class LangCareer {
     private Application application;
     private ApplicationGeneral applicationGeneral;
     private List<LanguageGroup> languageGroupList;
-    private List<ApplicationExperience> applicationExperienceList;
+    private List<CustomApplicationExperience> applicationExperienceList;
 
     public Application getApplication() {
         return application;
@@ -36,11 +36,11 @@ public class LangCareer {
         this.languageGroupList = languageGroupList;
     }
 
-    public List<ApplicationExperience> getApplicationExperienceList() {
+    public List<CustomApplicationExperience> getApplicationExperienceList() {
         return applicationExperienceList;
     }
 
-    public void setApplicationExperienceList(List<ApplicationExperience> applicationExperienceList) {
+    public void setApplicationExperienceList(List<CustomApplicationExperience> applicationExperienceList) {
         this.applicationExperienceList = applicationExperienceList;
     }
 }

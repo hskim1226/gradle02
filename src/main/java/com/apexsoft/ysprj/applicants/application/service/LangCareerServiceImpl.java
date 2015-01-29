@@ -103,8 +103,12 @@ public class LangCareerServiceImpl implements LangCareerService {
 
         langCareer.setApplication(application);
         langCareer.setApplicationGeneral(applicationGeneral);
-        langCareer.setLanguageGroupList(retrieveLanguageGroupListByApplNo(applNo));
-        langCareer.setApplicationExperienceList(retrieveInfoListByApplNo(applNo, "CustomApplicationExperienceMapper", ApplicationExperience.class));
+
+        List<LanguageGroup> langGroupList = retrieveLanguageGroupListByApplNo(applNo);
+        langCareer.setLanguageGroupList(setLangUserDataStatus(langGroupList, UserCUDType.UPDATE));
+
+        List<CustomApplicationExperience> applicationExperienceList = retrieveInfoListByApplNo(applNo, "CustomApplicationExperienceMapper", CustomApplicationExperience.class);
+        langCareer.setApplicationExperienceList(setExprUserDataStatus(applicationExperienceList, UserCUDType.UPDATE));
 
         ec.setResult(ExecutionContext.SUCCESS);
         ec.setData(langCareer);
@@ -140,6 +144,8 @@ public class LangCareerServiceImpl implements LangCareerService {
                                                     param, TotalApplicationLanguage.class);
 
                 for (TotalApplicationLanguage alang : aLangList) {
+                    if(alang.getApplNo()== null || alang.getApplNo().equals(""))
+                        alang.setApplNo(applNo);
                     if( alang.getLangSeq() != null && alang.getLangSeq() > 0 )
                         alang.setLangInfoSaveFg(true);
                     else
@@ -156,6 +162,77 @@ public class LangCareerServiceImpl implements LangCareerService {
             e.printStackTrace();
         }
         return langGroupList;
+    }
+
+    @Override
+    public ExecutionContext saveLangCareer(LangCareer langCareer) {
+        ExecutionContext ec = new ExecutionContext();
+
+        int r0 = 0, insert = 0, update = 0, delete = 0;
+        Application application = langCareer.getApplication();
+        int applNo = application.getApplNo();
+
+        List<LanguageGroup> langList = langCareer.getLanguageGroupList();
+        List<CustomApplicationExperience> exprList = langCareer.getApplicationExperienceList();
+
+        // TODO - dhoonkim - 해당 리스트로 서비스 호출하는 부분 작성 필요
+
+        for( LanguageGroup aGroup : langList){
+
+            for(TotalApplicationLanguage aLang : aGroup.getLangList()){
+
+                if(aLang.getUserCUDType() == UserCUDType.INSERT ){
+                    if( !aLang.isLangInfoSaveFg()) {
+                        //APPL_LANG, INSERT
+
+                        int maxSeq = commonDAO.queryForInt(NAME_SPACE +"selectMaxSeqByApplNo", applNo ) ;
+                        maxSeq++;
+                        aLang.setLangSeq(maxSeq);
+                        commonDAO.insertItem( aLang, NAME_SPACE, "ApplicationLanguageMapper");
+                        insert++;
+                    }
+                }else if( aLang.getUserCUDType() == UserCUDType.UPDATE ){
+                    if( aLang.isLangInfoSaveFg()) {
+                        //APPL_LANG,  UPDATE
+                        TotalApplicationLanguage tmpLang = aLang;
+                        commonDAO.updateItem( aLang, NAME_SPACE, "ApplicationLanguageMapper");
+                        update++;
+                    }
+                }else if(aLang.getUserCUDType() == UserCUDType.DELETE ){
+
+                    if( aLang.isLangInfoSaveFg()) {
+                        //APPL_LANG, APPL_DOC, DELETE
+                        commonDAO.delete( NAME_SPACE +"ApplicationLanguageMapper.deleteByPrimaryKey", aLang );
+                        delete++;
+                    }
+                }
+
+
+            }
+
+        }
+        // 어학 정보는 화면에서 받아온 값과 DB의 값을 대조해서 insert, update, delete(?) 등 상태 분기
+        // 경력 정보는 AcademyServiceImpl을 참고해서 작성
+
+
+        // TODO - dhoonkim - 아래는 학력 정보 저장 시 사용한 결과 처리 부분으로 어학/경력 정보에 맞게 수정 필요
+//        if ( r0 == 1 && insert == insertResult && update == updateResult && delete == deleteResult) {
+//            ec.setResult(ExecutionContext.SUCCESS);
+//            ec.setMessage(messageResolver.getMessage("U317"));
+//            ec.setData(new ApplicationIdentifier(applNo, application.getApplStsCode(),
+//                    application.getAdmsNo(), application.getEntrYear(), application.getAdmsTypeCode()));
+//        } else {
+//            ec.setResult(ExecutionContext.FAIL);
+//            ec.setMessage(messageResolver.getMessage("U318"));
+//            ec.setData(new ApplicationIdentifier(applNo, APP_NULL_STATUS));
+//            String errCode = null;
+//            if ( r0 == 0 ) errCode = "ERR0003";
+//            if ( insert != insertResult ) errCode = "ERR0011";
+//            if ( update != updateResult ) errCode = "ERR0013";
+//            if ( delete != deleteResult ) errCode = "ERR0014";
+//            ec.setErrCode(errCode);
+//        }
+        return ec;
     }
 
     @Override
@@ -237,5 +314,23 @@ public class LangCareerServiceImpl implements LangCareerService {
         }
 
         return infoList;
+    }
+
+    private List<CustomApplicationExperience> setExprUserDataStatus(List<CustomApplicationExperience> list, UserCUDType userCUDType) {
+        for (CustomApplicationExperience item : list) {
+            item.setUserCUDType(userCUDType);
+        }
+        return list;
+    }
+
+    private List<LanguageGroup> setLangUserDataStatus(List<LanguageGroup> list, UserCUDType userCUDType) {
+        for (LanguageGroup groupItem : list) {
+            List<TotalApplicationLanguage> langList = groupItem.getLangList();
+            for (TotalApplicationLanguage langItem : langList) {
+                if(langItem.isLangInfoSaveFg())
+                    langItem.setUserCUDType(userCUDType);
+            }
+        }
+        return list;
     }
 }
