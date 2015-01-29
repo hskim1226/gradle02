@@ -59,15 +59,33 @@
 */
 
         .panel-darkgray > .panel-heading {
-            background-image: -webkit-linear-gradient(top, #7a7a7a 0%, #888888 100%);
-            background-image:      -o-linear-gradient(top, #7a7a7a 0%, #888888 100%);
-            background-image: -webkit-gradient(linear, left top, left bottom, from(#7a7a7a), to(#888888));
-            background-image:         linear-gradient(to bottom, #7a7a7a 0%, #888888 100%);
-            filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#7a7a7a', endColorstr='#ff888888', GradientType=0);
-            background-repeat: repeat-x;
+            /*background-image: -webkit-linear-gradient(top, #7a7a7a 0%, #888888 100%);*/
+            /*background-image:      -o-linear-gradient(top, #7a7a7a 0%, #888888 100%);*/
+            /*background-image: -webkit-gradient(linear, left top, left bottom, from(#7a7a7a), to(#888888));*/
+            /*background-image:         linear-gradient(to bottom, #7a7a7a 0%, #888888 100%);*/
+            /*filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#7a7a7a', endColorstr='#ff888888', GradientType=0);*/
+            /*background-repeat: repeat-x;*/
             color: #fff;
             background-color: #7a7a7a;
             border-color: #7a7a7a;
+        }
+
+        .panel-darkgray1, .panel-darkgray2, .panel-darkgray3, .panel-darkgray4 {
+            /*background-color: #8c8c8c;*/
+            color: #fff;
+            border-color: #333333;
+        }
+
+        .panel-darkgray1 > .panel-heading {
+            background-image: -webkit-linear-gradient(left, #888888 0%, #cccccc 100%);
+            background-image:      -o-linear-gradient(left, #888888 0%, #cccccc 100%);
+            background-image: -webkit-gradient(linear, left top, right bottom, from(#888888), to(#cccccc));
+            background-image:         linear-gradient(to right, #888888 0%, #cccccc 100%);
+            filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#888888', endColorstr='#cccccc', GradientType=1);
+            background-repeat: repeat-x;
+            color: #fff;
+            /*background-color: #7a7a7a;*/
+            border-color: #cccccc;
         }
 
         .btn-file {
@@ -109,6 +127,10 @@
             background-color: #f0f0f0;
             color: #333;
             cursor: pointer;
+        }
+
+        .control-label {
+            color: #333;
         }
 
         .form-group.required .control-label:after {
@@ -248,6 +270,14 @@
         #tabTR {
             cursor: pointer;
         }
+
+        .checkbox {
+            min-height: 20px;
+            margin-top: 0px;
+            margin-bottom: 10px;
+            color: #222;
+            /*vertical-align: middle;*/
+        }
     </style>
 </head>
 <body>
@@ -287,122 +317,157 @@
             <form:hidden path="application.admsTypeCode" id="admsTypeCode" />
             <div id="myTabContent" class="tab-content">
                 <div class="spacer-tiny"></div>
-                <div class="row">
-                    <div class="col-sm-offset-1 col-sm-10">
-                        <div class="panel panel-darkgray">
-                            <div class="panel-heading">첨부 파일 안내</div>
-                            <div class="panel-body">
-                                <p>사진 외의 모든 첨부 파일은 서류 종류별로 하나의 PDF 파일만 업로드 가능합니다.</p>
+                <%--<div class="row">--%>
+                    <%--<div class="col-sm-offset-1 col-sm-10">--%>
+                        <%--<div class="panel panel-darkgray">--%>
+                            <%--<div class="panel-heading">첨부 파일 안내</div>--%>
+                            <%--<div class="panel-body">--%>
+                                <%--<p>사진 외의 모든 첨부 파일은 서류 종류별로 하나의 PDF 파일만 업로드 가능합니다.</p>--%>
 
-                                <p>만약 한가지 종류의 서류가 여러개의 PDF 파일로 되어 있다면,
-                                    하나의 PDF 파일로 합친 후 업로드 하시기 바랍니다.</p>
+                                <%--<p>만약 한가지 종류의 서류가 여러개의 PDF 파일로 되어 있다면,--%>
+                                    <%--하나의 PDF 파일로 합친 후 업로드 하시기 바랍니다.</p>--%>
 
-                                <p>PDF 파일 합치기는 전용프로그램이나 인터넷 서비스를 이용하시기 바랍니다.</p>
+                                <%--<p>PDF 파일 합치기는 전용프로그램이나 인터넷 서비스를 이용하시기 바랍니다.</p>--%>
 
-                                예)<br/>
-                                <a href="http://convert.neevia.com/pdfmerge/" target="_blank">http://convert.neevia.com/pdfmerge/</a><br/>
-                                <a href="http://www.pdfmerge.com/" target="_blank">http://www.pdfmerge.com/</a><br/>
+                                <%--예)<br/>--%>
+                                <%--<a href="http://convert.neevia.com/pdfmerge/" target="_blank">http://convert.neevia.com/pdfmerge/</a><br/>--%>
+                                <%--<a href="http://www.pdfmerge.com/" target="_blank">http://www.pdfmerge.com/</a><br/>--%>
 
-                                <p>예시 사이트에서 발생하는 모든 문제는 당사에서 책임지지 않습니다.</p>
+                                <%--<p>예시 사이트에서 발생하는 모든 문제는 당사에서 책임지지 않습니다.</p>--%>
 
-                                <p>사진 파일은 JPG, GIF, PNG 파일만 업로드 가능합니다.</p>
+                                <%--<p>사진 파일은 JPG, GIF, PNG 파일만 업로드 가능합니다.</p>--%>
 
-                                <p>사진 파일의 편집은 전용 프로그램이나 인터넷 서비스를 이용하시기 바랍니다.</p>
+                                <%--<p>사진 파일의 편집은 전용 프로그램이나 인터넷 서비스를 이용하시기 바랍니다.</p>--%>
 
-                                예)<br/>
-                                <a href="http://apps.pixlr.com/editor/" target="_blank">http://apps.pixlr.com/editor/</a><br/>
-                                <a href="http://www.fotor.com/" target="_blank">http://www.fotor.com/</a><br/>
-                                <p>예시 사이트에서 발생하는 모든 문제는 당사에서 책임지지 않습니다.</p>
-                                <hr/>
-                                <p>파일 첨부 시 주의사항</p>
-                                1. 문서별로 1개의 파일만 첨부 가능합니다.<br/>
-                                2. 사진 및 문서의 해상도와 가독성 여부를 반드시 확인하세요.<br/>
-                                3. 스캔시에는 300dpi 이상으로 스캔하시기 바랍니다.<br/>
-                                4. 문서 크기는 A4 크기로 생성하여 첨부하셔야 합니다.<br/>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                                <%--예)<br/>--%>
+                                <%--<a href="http://apps.pixlr.com/editor/" target="_blank">http://apps.pixlr.com/editor/</a><br/>--%>
+                                <%--<a href="http://www.fotor.com/" target="_blank">http://www.fotor.com/</a><br/>--%>
+                                <%--<p>예시 사이트에서 발생하는 모든 문제는 당사에서 책임지지 않습니다.</p>--%>
+                                <%--<hr/>--%>
+                                <%--<p>파일 첨부 시 주의사항</p>--%>
+                                <%--1. 문서별로 1개의 파일만 첨부 가능합니다.<br/>--%>
+                                <%--2. 사진 및 문서의 해상도와 가독성 여부를 반드시 확인하세요.<br/>--%>
+                                <%--3. 스캔시에는 300dpi 이상으로 스캔하시기 바랍니다.<br/>--%>
+                                <%--4. 문서 크기는 A4 크기로 생성하여 첨부하셔야 합니다.<br/>--%>
+                                <%--</p>--%>
+                            <%--</div>--%>
+                        <%--</div>--%>
+                    <%--</div>--%>
+                <%--</div>--%>
                 <div class="spacer-tiny"></div>
                 <div class="row">
                     <div class="col-sm-offset-1 col-sm-10">
                 <c:forEach items="${document.documentContainerList}" var="lv1Container" varStatus="lv1Status">
                     <c:choose>
                         <c:when test="${lv1Container.lastYn == 'N'}">
-                        <div class="form-group"><label class="col-sm-3 control-label word-keep-all">${lv1Container.docItemName}-${lv1Container.grpLevel}</label></div>
+                        <div class="form-group"><label class="col-sm-3 control-label word-keep-all">${lv1Container.docItemName}</label></div>
                         </c:when>
                         <c:otherwise>
                         <div class="panel panel-darkgray">
-                            <div class="panel-heading">${lv1Container.grpLabel}-${lv1Container.grpLevel}</div>
+                            <div class="panel-heading">${lv1Container.grpLabel}</div>
                             <div class="panel-body" id="docContainerList${lv1Status.index}.list">
+
                             <c:forEach items="${lv1Container.subContainer}" var="lv2Container" varStatus="lv2Status">
                                 <c:choose>
                                     <c:when test="${lv2Container.lastYn == 'Y'}">
-                                <div class="form-group"><label class="col-sm-3 control-label word-keep-all">${lv2Container.docItemName}-${lv2Container.grpLevel}</label></div>
+                                <div class="form-group"><label class="col-sm-3 control-label word-keep-all">${lv2Container.docItemName}</label></div>
                                     </c:when>
                                     <c:otherwise>
-                                <div class="panel panel-darkgray">
-                                    <div class="panel-heading">${lv2Container.grpLabel}-${lv2Container.grpLevel}</div>
+                                <div class="panel panel-darkgray1">
+                                    <div class="panel-heading">${lv2Container.grpLabel}</div>
                                     <div class="panel-body" id="docContainerList${lv2Status.index}.list">
 
                                         <c:forEach items="${lv2Container.subContainer}" var="lv3Container" varStatus="lv3Status">
                                             <c:choose>
                                                 <c:when test="${lv3Container.lastYn == 'Y'}">
-                                        <div class="form-group"><label class="col-sm-3 control-label word-keep-all">${lv3Container.docItemName}-${lv3Container.grpLevel}</label></div>
+                                        <%--<div class="form-group"><label class="col-sm-3 control-label word-keep-all">${lv3Container.docItemName}</label></div>--%>
+
+                                        <div class="form-group">
+                                            <div class="col-sm-3">
+                                                <div class="checkbox"><label class="word-keep-all" for="filelist0.yn"><input type="checkbox" id="filelist0.yn" name="filelist[0].yn">${lv3Container.docItemName}</label></div>
+                                            </div>
+                                            <div class="col-sm-5 nopadding">
+                                                <div class="col-sm-5 nopadding"><input class="form-control" type="text" placeholder="서류 명 직접 입력"></div>
+                                                <div class="col-sm-7 nopadding"><input type="file" class="btn btn-file" id="fileList0.docName" name="fileList[0].docName"/></div>
+                                            </div>
+                                            <div class="col-sm-1 nopadding">
+                                                <input type="button" id="fileList0.btn" name="fileList[0].btn"
+                                                       class="btn btn-default btn-upload" value="올리기"
+                                                       data-file-path="fileList0.filePath"
+                                                       data-file-name="fileList0.fileName"
+                                                       data-org-file-name="fileList0.orgFileName"/>
+                                            </div>
+                                            <div class="col-sm-3 control-label">파일이름</div>
+                                        </div>
+
                                                 </c:when>
                                                 <c:otherwise>
-                                        <div class="panel panel-darkgray">
-                                            <div class="panel-heading">${lv3Container.grpLabel}-${lv3Container.grpLevel}</div>
+                                        <div class="panel panel-default">
+                                            <div class="panel-heading">${lv3Container.grpLabel}</div>
                                             <div class="panel-body" id="docContainerList${lv3Status.index}.list">
 
                                                     <c:forEach items="${lv3Container.subContainer}" var="lv4Container" varStatus="lv4Status">
                                                         <c:choose>
-
                                                             <c:when test="${lv4Container.lastYn == 'Y'}">
-                                                <div class="form-group"><label class="col-sm-3 control-label word-keep-all">${lv4Container.docItemName}-${lv4Container.grpLevel}</label></div>
+                                                <div class="form-group"><label class="col-sm-3 control-label word-keep-all">${lv4Container.docItemName}</label></div>
                                                             </c:when>
                                                             <c:otherwise>
-                                                <div class="panel panel-darkgray">
-                                                    <div class="panel-heading">${lv4Container.grpLabel}-${lv4Container.grpLevel}</div>
+                                                <div class="panel panel-default">
+                                                    <div class="panel-heading">${lv4Container.grpLabel}</div>
                                                     <div class="panel-body" id="docContainerList${lv4Status.index}.list">
+
+                                                                <c:forEach items="${lv4Container.subContainer}" var="lv5Container" varStatus="lv5Status">
+                                                                    <c:choose>
+                                                                        <c:when test="${lv5Container.lastYn == 'Y'}">
+                                                        <div class="form-group"><label class="col-sm-3 control-label word-keep-all">${lv5Container.docItemName}</label></div>
+                                                                        </c:when>
+                                                                        <c:otherwise>
+                                                        <div class="panel panel-default">
+                                                            <div class="panel-heading">${lv5Container.grpLabel}</div>
+                                                            <div class="panel-body" id="docContainerList${lv5Status.index}.list">
+
+                                                            <%-- 한 Depth 추가하려면 여기에 <c:forEach> ~ </c:forEach> 삽입 --%>
+
+                                                                        </c:otherwise>
+                                                                    </c:choose>
+                                                                    <c:if test="${lv5Container.lastYn == null || lv5Container.lastYn == 'N'}">
+                                                            </div>
+                                                        </div>
+                                                                    </c:if>
+                                                                </c:forEach>
 
                                                             </c:otherwise>
                                                         </c:choose>
                                                         <c:if test="${lv4Container.lastYn == null || lv4Container.lastYn == 'N'}">
-
                                                     </div>
                                                 </div>
                                                         </c:if>
-
                                                     </c:forEach>
+
                                                 </c:otherwise>
                                             </c:choose>
                                             <c:if test="${lv3Container.lastYn == null || lv3Container.lastYn == 'N'}">
-
                                             </div>
                                         </div>
                                             </c:if>
-
                                         </c:forEach>
+
                                     </c:otherwise>
                                 </c:choose>
                                 <c:if test="${lv2Container.lastYn == null || lv2Container.lastYn == 'N'}">
-
                                     </div>
                                 </div>
                                 </c:if>
-
                             </c:forEach>
+
                         </c:otherwise>
                     </c:choose>
                     <c:if test="${lv1Container.lastYn == null || lv1Container.lastYn == 'N'}">
                             </div>
                         </div>
                     </c:if>
-
-
                 </c:forEach>
+
                     </div>
                 </div>
             <div class="spacer-tiny"></div>
