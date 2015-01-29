@@ -303,7 +303,7 @@
                                         <form:hidden path="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].applNo" value="${langList.applNo}"/>
                                         <form:hidden path="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].langSeq" value="${langList.langSeq}"/>
                                         <form:hidden path="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].langExamGrp" value="${langList.langExamGrp}"/>
-                                        <form:hidden path="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].itemCode" value="${langList.docItemCode}"/>
+                                        <form:hidden path="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].docItemCode" value="${langList.docItemCode}"/>
                                         <form:hidden path="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].userCUDType" value='${langCareer.languageGroupList[langGroupStat.index].langList[langListStat.index].userCUDType}'/>
                                         <form:hidden path="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].fileUploadFg" value="${langList.fileUploadFg}"/>
                                         <form:hidden path="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].langInfoSaveFg" value="${langList.langInfoSaveFg}"/>

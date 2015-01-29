@@ -227,54 +227,5 @@ public class MandatoryNAppliedLangDoc extends ApplicationDocument{
 
 
 
-    public void setAppDocInfo( ApplicationDocument appDoc){
-        setDocTypeCode(appDoc.getDocTypeCode());//그룹 코드
-        setDocGrp(appDoc.getDocGrp());//세부 시퀀스
-        setDocItemCode(appDoc.getDocItemCode());//문서코드
-        setDocItemName(appDoc.getDocItemName());//문서명
-        setDocName(appDoc.getDocName());//아마도 세부 시퀀스의 설명?
-        setFileExt(appDoc.getFileExt());
-        setImgYn(appDoc.getImgYn());
-        setFilePath(appDoc.getFilePath());
-        setFileName(appDoc.getFileName());
-        setOrgFileName(appDoc.getOrgFileName());
-        setDocItemNameXxen(appDoc.getDocItemNameXxen());
-        setDocGrpName(appDoc.getDocGrpName());
-    }
-
-    public void setComMandInfo( CommonMandatory comMand){
-
-
-        setDocTypeCode    (comMand.getGrpCode());//그룹코드
-        setDocItemCode    (comMand.getItemCode());//문서코드
-        setDocItemName    (comMand.getItemName());//문서명
-
-        setGrpCode     (comMand.getGrpCode());//그룹코드
-        setGrpName     (comMand.getGrpName());//그룹명 (필요없을 듯)
-        setItemGrpCode (comMand.getItemGrpCode());//문서 그룹 코드
-        setItemGrpName (comMand.getItemGrpName());//문서 그룹 명 (필요없을 듯)
-        setItemCode    (comMand.getItemCode());//문서코드
-        setItemName    (comMand.getItemName());//문서명
-        setChnYn       (comMand.getChnYn());
-        setLastYn      (comMand.getLastYn());
-        setMdtYn       (comMand.getMdtYn());
-        setUploadYn    (comMand.getUploadYn());
-        setSendCnt     (comMand.getSendCnt());
-        setOrgnSendYn  (comMand.getOrgnSendYn());
-        setTmpltYn     (comMand.getTmpltYn());
-        setMsgNo       (comMand.getMsgNo());
-    }
-    public void setCustomAppLangInfo( CustomApplicationLanguage appLang){
-
-        setLangSeq( appLang.getLangSeq());
-//        setLangExamName( appLang.getLangExamName());
-        setToflTypeCode( appLang.getToflTypeCode());
-        setLangGrad( appLang.getLangGrad());
-        setExamNo( appLang.getExamNo());
-        setExamDay( appLang.getExamDay());
-        setExprDay( appLang.getExprDay());
-//        setLangExamName( appLang.getLangExamName());
-//        setLangExamName( appLang.getLangExamName());
-    }
 
 }

@@ -94,6 +94,8 @@ public class LangCareerServiceImpl implements LangCareerService {
                                                 param, TotalApplicationLanguage.class);
 
             for (TotalApplicationLanguage alang : aLangList) {
+                if(alang.getApplNo()== null || alang.getApplNo().equals(""))
+                    alang.setApplNo(applNo);
                 if( alang.getLangSeq() != null && alang.getLangSeq() > 0 )
                     alang.setLangInfoSaveFg(true);
                 else
@@ -105,6 +107,7 @@ public class LangCareerServiceImpl implements LangCareerService {
                     alang.setFileUploadFg(false);
             }
             alangGroup.setLangList(aLangList);
+            
         }
 
         return langGroupList;
@@ -127,6 +130,41 @@ public class LangCareerServiceImpl implements LangCareerService {
             application.setApplStsCode(LANG_CAREER_SAVED);
 
         // TODO - dhoonkim - 해당 리스트로 서비스 호출하는 부분 작성 필요
+
+        for( LanguageGroup aGroup : langList){
+
+            for(TotalApplicationLanguage aLang : aGroup.getLangList()){
+
+                if(aLang.getUserCUDType() == UserCUDType.INSERT ){
+                    if( !aLang.isLangInfoSaveFg()) {
+                        //APPL_LANG, INSERT
+
+                        int maxSeq = commonDAO.queryForInt(NAME_SPACE +"selectMaxSeqByApplNo", applNo ) ;
+                        maxSeq++;
+                        aLang.setLangSeq(maxSeq);
+                        commonDAO.insertItem( aLang, NAME_SPACE, "ApplicationLanguageMapper");
+                        insert++;
+                    }
+                }else if( aLang.getUserCUDType() == UserCUDType.UPDATE ){
+                    if( aLang.isLangInfoSaveFg()) {
+                        //APPL_LANG,  UPDATE
+                        TotalApplicationLanguage tmpLang = aLang;
+                        commonDAO.updateItem( aLang, NAME_SPACE, "ApplicationLanguageMapper");
+                        update++;
+                    }
+                }else if(aLang.getUserCUDType() == UserCUDType.DELETE ){
+
+                    if( aLang.isLangInfoSaveFg()) {
+                        //APPL_LANG, APPL_DOC, DELETE
+                        commonDAO.delete( NAME_SPACE +"ApplicationLanguageMapper.deleteByPrimaryKey", aLang );
+                        delete++;
+                    }
+                }
+
+
+            }
+
+        }
         // 어학 정보는 화면에서 받아온 값과 DB의 값을 대조해서 insert, update, delete(?) 등 상태 분기
         // 경력 정보는 AcademyServiceImpl을 참고해서 작성
 

@@ -679,6 +679,260 @@
         $('.btn-save').on('click', formProcess);
         <%-- 하단 버튼 처리 --%>
 
+        <%-- 어학 성적 입력란 show/hide 처리 --%>
+        $('.lang-checkbox').on('change', function () {
+            var id = this.id,
+                currentIndex, classToToggle;
+            currentIndex = id.substr(id.lastIndexOf('-')+1);
+            classToToggle = '.lang-detail-' + currentIndex;
+            if (this.checked) {
+                $(classToToggle).css('display', 'block');
+            } else {
+                $(classToToggle).css('display', 'none');
+            }
+        });
+        $('.lang-radio').on('change', function () {
+            var id = this.id,
+                    currentIndex, classToShow;
+            currentIndex = id.substr(id.lastIndexOf('-')+1);
+            classToShow = '.lang-detail-' + currentIndex;
+            $('.lang-radio').each( function () {
+                if (this.checked) {
+                    $(classToShow).css('display', 'block');
+                } else {
+                    $(classToShow).css('display', 'none');
+                }
+            });
+
+        });
+        <%-- 어학 성적 입력란 show/hide 처리 --%>
+
+        <%-- 숫자, 소수점 1개만 입력 - 어학 성적 입력 --%>
+        $('.lang-score').on('keyup', function () {
+            var numCheckRegExp = /^[0-9]*\.?[0-9]*$/,
+                    val = this.value;
+            if (!numCheckRegExp.test(val)) {
+                this.value = val.substr(0, val.length-1);
+            }
+        });
+        <%-- 숫자, 소수점 1개만 입력 - 어학 성적 입력 --%>
+
+        <%-- 어학 성적 validation --%>
+        var getToeflMaxScore = function (id) {
+            var toeflTypeSelectId = id.substr(0, id.lastIndexOf('.')) + '.toflTypeCode',
+                toeflTypeSelect = document.getElementById(toeflTypeSelectId),
+                toeflType = toeflTypeSelect.options[toeflTypeSelect.selectedIndex].innerHTML,
+                maxScore;
+            switch(toeflType) {
+                case 'IBT':
+                    maxScore = 120;
+                    break;
+                case 'CBT':
+                    maxScore = 300;
+                    break;
+                case 'PBT':
+                    maxScore = 677;
+                    break;
+            }
+            return maxScore;
+        };
+        $('.lang-score').on('blur', function () {
+            var examName = this.dataset.langExamName,
+                maxScore;
+            switch(examName) {
+                case 'TOEFL':
+                    maxScore = getToeflMaxScore(this.id);
+                    break;
+                case 'TOEIC':
+                    maxScore = 990;
+                    break;
+                case 'TEPS':
+                    maxScore = 990;
+                    break;
+                case 'IELTS':
+                    maxScore = 9.0;
+                    break;
+                case 'GRE':
+                    maxScore = 9999;
+                    break;
+            }
+            if (this.value > maxScore) {
+                alert( maxScore + '점 이하의 숫자를 입력해주세요.');
+                this.focus();
+            }
+        });
+        <%-- 어학 성적 validation --%>
+
+        <%-- 달력 옵션 --%>
+        var datePickerOption = {
+            dateFormat: 'yymmdd',
+            yearRange: "1950:",
+            monthNamesShort: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
+            dayNamesMin: ['일','월','화','수','목','금','토'],
+            changeMonth: true, //월변경가능
+            changeYear: true, //년변경가능
+            showMonthAfterYear: true //년 뒤에 월 표시
+        };
+
+        <%-- 달력 시작 --%>
+        $('.input-group.date>input').datepicker(datePickerOption);
+        $('.calendar-addon').on('click', function () {
+            $(this.parentNode).children('input')[0].focus();
+        });
+        <%-- 달력 끝 --%>
+
+        <%-- 달력 reset 함수 --%>
+        var resetCalendar = function (block, calendarClass) {
+            $(block).find(calendarClass).datepicker('destroy');
+            $(block).find(calendarClass).datepicker(datePickerOption);
+        };
+        <%-- 달력 reset 함수 --%>
+
+        <%-- 외국어 성적 면제 해당 처리 --%>
+        var checkForlExmp = function (isExmp) {
+            $('.forlInput').each(function () {
+                this.value = '';
+                this.setAttribute('value', '');
+                this.disabled = isExmp;
+                if (this.selectedIndex) this.selectedIndex = 0;
+            });
+            $('.lang-checkbox, .lang-radio').each(function () {
+                this.checked = false;
+                this.disabled = isExmp;
+            });
+            document.getElementById('forlExmpCode').disabled = !isExmp;
+        };
+
+        $('#checkForlExmp').on('click', function () {
+            if (this.checked) {
+                if (confirm('외국어 성적 면제 해당자를 선택하면\n외국어 성적을 입력할 수 없으며,\n이미 입력한 외국어 성적도 삭제됩니다.\n\n외국어 성적 면제 해당자를 선택하시겠습니까?')) {
+                    checkForlExmp(true);
+                } else {
+                    this.checked = false;
+                }
+            } else {
+                checkForlExmp(false);
+            }
+        });
+        <%-- 외국어 성적 면제 해당 처리 --%>
+
+        <%-- form-group-block 추가/삭제에 대한 처리 시작 --%>
+        <%-- id, name 재설정 시작 --%>
+        var updateIdAndName = function ( block, index ) {
+            var i, name, prefix, suffix, input, items, label;
+            var input = block.querySelector('input');
+
+            name = input.name;
+
+            items = block.querySelectorAll('input, select, label');
+            if (items) {
+                for (i = 0; i <items.length; i++) {
+                    name = items[i].name;
+                    if (name) {
+                        prefix = name.substring(0, name.indexOf('['));
+                        suffix = name.substring(name.indexOf(']') + 1);
+                        items[i].name = prefix + '[' + index + ']' + suffix;
+                    }
+                    var oldid = items[i].id;
+                    if (oldid) {
+                        prefix = oldid.substring(0, oldid.indexOf('.'));
+                        prefix = prefix.replace(/[0-9]/g, '');
+                        suffix = oldid.substring(oldid.indexOf('.'));
+                        items[i].id = prefix + index + suffix;
+
+                        label = block.querySelector('label[for="' + oldid + '"]');
+                        if (label) {
+                            label.setAttribute('for', items[i].id);
+                        }
+                    }
+                    if (items[i].id.indexOf('userCUDType') > 0) {
+                        items[i].value = "INSERT";
+                    }
+                }
+            }
+            resetCalendar(block, '.input-group.date>input');
+
+            var removeBtn = block.querySelector('.btn-remove');
+            if (removeBtn) {
+                removeBtn.setAttribute('data-block-index', index);
+            }
+        };
+        <%-- id, name 재설정 끝 --%>
+
+        <%-- 복제된 입력폼 내용 초기화 시작 --%>
+        var resetBlockContents = function ( block ) {
+            var i, items, itemName;
+            block.style.display = 'block';
+            items = block.querySelectorAll('input, select');
+            if (items) {
+                for (i = 0; i <items.length; i++) {
+                    if (items[i].type == 'hidden') {
+                        itemName = items[i].name;
+                        if (itemName.indexOf('userCUDType') > 0) {
+                            items[i].value = "INSERT";
+                        }
+                    }
+                    if (items[i].type != 'hidden' && items[i].type != 'radio' && items[i].type != 'checkbox' && items[i].type != 'button') {
+                        items[i].value = '';
+                        items[i].setAttribute('value', '');
+                    }
+                    if (items[i].checked != null) {
+                        items[i].checked = false;
+                    }
+                }
+            }
+            resetCalendar(block, '.input-group.date>input');
+        };
+        <%-- 복제된 입력폼 내용 초기화 끝 --%>
+
+        $('.btn-add').on('click', function(e) {
+            var target = e.currentTarget ? e.currentTarget : e.target;
+            var container = target.parentNode;
+            while (container && !$(container).hasClass('form-group-block-list')) {
+                container = container.parentNode;
+            }
+            var blocks = container.querySelectorAll('.form-group-block');
+            var originBlock = blocks[blocks.length - 1];
+            var $cloneObj;
+            if (originBlock) {
+                $cloneObj = $(originBlock).clone(true);
+                updateIdAndName($cloneObj[0], blocks.length);
+                resetBlockContents($cloneObj[0]);
+                container.insertBefore($cloneObj[0], originBlock.nextSibling);
+            }
+        });
+
+        $('.btn-remove').on('click', function(e) {
+            var target = e.currentTarget ? e.currentTarget : e.target;
+            var blockToRemove = target.parentNode;
+            while (blockToRemove && !$(blockToRemove).hasClass('form-group-block')) {
+                blockToRemove = blockToRemove.parentNode;
+            }
+            var container = blockToRemove.parentNode;
+            var blocks = container.querySelectorAll('.form-group-block');
+            var length = blocks.length, i;
+            var blockIndex = target.dataset.blockIndex;
+            var userCUDType = document.getElementById(target.dataset.listName + blockIndex + '.userCUDType');
+
+            switch (userCUDType.value) {
+                case 'INSERT' :
+                    for (i = parseInt(blockIndex) + 1; i < length; i++) {
+                        updateIdAndName(blocks[i], i - 1);
+                    }
+                    if (length <= 1) {
+                        resetBlockContents(blockToRemove);
+                    } else {
+                        blockToRemove.parentNode.removeChild(blockToRemove);
+                    }
+                    break;
+                case 'UPDATE' :
+                    userCUDType.value = 'DELETE';
+                    blockToRemove.style.display = 'none';
+                    break;
+            }
+        });
+        <%-- form-group-block 추가/삭제에 대한 처리 끝 --%>
+
         <%-- 단어 잘림 방지 --%>
         $('.word-keep-all').wordBreakKeepAll();
 

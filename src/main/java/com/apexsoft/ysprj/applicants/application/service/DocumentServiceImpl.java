@@ -109,7 +109,7 @@ public class DocumentServiceImpl implements DocumentService {
             }
         }
         rApplDoc = new TotalApplicationDocumentContainer();
-        rApplDoc.setSubContainer(applDocList);
+        rApplDoc.setSubContainer(rList);
         rApplDoc.setGrpLabel("기본-학과지정 제출서류");
         rApplDoc.setDisplayGrpFg(true);
 
@@ -188,7 +188,7 @@ public class DocumentServiceImpl implements DocumentService {
                 aSubDoc.setDocGrp(aAcad.getAcadSeq());
                 aSubDoc.setApplNo(applNo);
                 aSubDoc.setAdmsNo(admsNo);
-                aSubDoc.setSubContainer(getSubCodeDocumentContainer(aSubDoc, rList));
+                aSubDoc.setSubContainer( getSubCodeDocumentContainer(aSubDoc,rList));
             }
             aCont.setSubContainer(subDocList);
             //전체 학력 컨테이너에 추가
