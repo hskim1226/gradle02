@@ -1,14 +1,21 @@
 package com.apexsoft.ysprj.applicants.application.service;
 
 import com.apexsoft.framework.common.vo.ExecutionContext;
+import com.apexsoft.framework.exception.YSBizException;
+import com.apexsoft.framework.exception.YSNoRedirectBizException;
 import com.apexsoft.framework.message.MessageResolver;
 import com.apexsoft.framework.persistence.dao.CommonDAO;
 import com.apexsoft.ysprj.applicants.application.domain.*;
+import com.apexsoft.ysprj.applicants.common.domain.*;
+import com.apexsoft.ysprj.applicants.common.service.CommonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by hanmomhanda on 15. 1. 9.
@@ -23,107 +30,204 @@ public class BasisServiceImpl implements BasisService {
     @Autowired
     private CommonDAO commonDAO;
 
+    @Autowired
+    private CommonService commonService;
+
     @Resource(name = "messageResolver")
     MessageResolver messageResolver;
 
-    private final String APP_NULL_STATUS = "00000";      // 에러일 때 반환값
     private final String APP_INFO_SAVED = "00001";       // 기본정보 저장
 
+    /**
+     * 기본 정보 작성 화면을 위한 데이터 조회 및 구성
+     *
+     * @param basis
+     * @return
+     */
     @Override
-    public ExecutionContext createBasis(Application application,
-                                        ApplicationGeneral applicationGeneral) {
+    public ExecutionContext retrieveBasis(Basis basis) {
+
         ExecutionContext ec = new ExecutionContext();
-        int r1 = 0, r2 = 0, applNo = 0;
-        Date date = new Date();
 
-        application.setApplStsCode(APP_INFO_SAVED);
-        application.setCreDate(date);
-        r1 = commonDAO.insertItem(application, NAME_SPACE, "ApplicationMapper");
+        Map<String, Object> ecDataMap = new HashMap<String, Object>();
+        Map<String, Object> selectionMap = new HashMap<String, Object>();
 
-        Application tA = commonDAO.queryForObject(NAME_SPACE + "CustomApplicationMapper.selectApplByApplForInsertOthers",
-                application, Application.class);
-        applNo = tA.getApplNo();
+        Application application = basis.getApplication();
 
-        applicationGeneral.setApplNo(applNo);
-        applicationGeneral.setCreDate(date);
-        r2 = commonDAO.insertItem(applicationGeneral, NAME_SPACE, "ApplicationGeneralMapper");
+        int applNo = application.getApplNo() == null ? 0 : application.getApplNo();
 
-        if ( r1 > 0 && r2 > 0 ) {
-            ec.setResult(ExecutionContext.SUCCESS);
-            ec.setMessage(messageResolver.getMessage("U312"));
-            ec.setData(new ApplicationIdentifier(applNo, tA.getApplStsCode(),
-                    tA.getAdmsNo(), tA.getEntrYear(), tA.getAdmsTypeCode()));
+        if (applNo > 0) {
+            application = commonDAO.queryForObject(NAME_SPACE + "ApplicationMapper.selectByPrimaryKey",
+                    applNo, Application.class);
+            application = application == null ? new Application() : application;
+            basis.setApplication(application);
+
+            ApplicationGeneral applicationGeneral = commonDAO.queryForObject(NAME_SPACE + "ApplicationGeneralMapper.selectByPrimaryKey",
+                    applNo, ApplicationGeneral.class);
+            applicationGeneral = applicationGeneral == null ? new ApplicationGeneral() : applicationGeneral;
+            basis.setApplicationGeneral(applicationGeneral);
+
+            // 지원사항 select 초기값 설정
+            List<Campus> campList = null;
+            List<AcademyResearchIndustryInstitution> ariInstList = null;
+            List<College> collList = null;
+            List<CodeNameDepartment> deptList = null;
+            List<CodeNameCourse> corsTypeList = null;
+            List<CodeNameDetailMajor> detlMajList = null;
+
+            ParamForSetupCourses param = new ParamForSetupCourses();
+            param.setAdmsNo(basis.getApplication().getAdmsNo());
+            param.setCollCode(basis.getApplication().getCollCode());
+            param.setDeptCode(basis.getApplication().getDeptCode());
+            param.setCorsTypeCode(basis.getApplication().getCorsTypeCode());
+            param.setAriInstCode(basis.getApplication().getAriInstCode());
+
+            String applAttrCode = basis.getApplication().getApplAttrCode();
+            if (applAttrCode.equals("00002")) {
+                ariInstList = commonService.retrieveAriInst();
+                deptList = commonService.retrieveAriInstDepartmentByAdmsAriInst(param);
+                corsTypeList = commonService.retrieveAriInstCourseByAdmsDeptAriInst(param);
+                detlMajList = commonService.retrieveAriInstDetailMajorByAdmsDeptAriInst(param);
+            } else {
+                campList = commonService.retrieveCampus();
+                collList = commonService.retrieveCollegeByCampus( basis.getApplication().getCampCode() );
+                deptList = commonService.retrieveGeneralDepartmentByAdmsColl(param);
+                detlMajList = commonService.retrieveGeneralDetailMajorByAdmsDeptCors(param);
+                if (applAttrCode.equals("00001"))
+                    corsTypeList = commonService.retrieveGeneralCourseByAdmsDept(param);
+                if (applAttrCode.equals("00003"))
+                    corsTypeList = commonService.retrieveCommissionCourseByAdmsDept(param);
+            }
+
+            if (campList != null)      selectionMap.put("campList", campList);
+            if (collList != null)      selectionMap.put("collList", collList);
+            if (ariInstList != null)   selectionMap.put("ariInstList", ariInstList);
+            if (deptList != null)      selectionMap.put("deptList", deptList);
+            if (corsTypeList != null)  selectionMap.put("corsTypeList", corsTypeList);
+            if (detlMajList != null)   selectionMap.put("detlMajList", detlMajList);
+
         } else {
-            ec.setResult(ExecutionContext.FAIL);
-            ec.setMessage(messageResolver.getMessage("U306"));
-            String errCode = null;
-            if ( r1 == 0 ) errCode = "ERR0001";
-            else if ( r2 == 0 ) errCode = "ERR0006";
-//            else if ( r3 == 0 ) errCode = messageResolver.getMessage("ERR0026");
-            ec.setErrCode(errCode);
-            ec.setData(new ApplicationIdentifier(0, APP_NULL_STATUS));
+            basis.setApplicationGeneral(new ApplicationGeneral());
+
+            List<Campus> campList = commonService.retrieveCampus();
+            List<AcademyResearchIndustryInstitution> ariInstList = commonService.retrieveAriInst();
+            if (campList != null)      selectionMap.put("campList", campList);
+            if (ariInstList != null)   selectionMap.put("ariInstList", ariInstList);
         }
-        return ec;
-    }
 
-    @Override
-    public ExecutionContext retrieveBasis(int applNo) {
-        ExecutionContext ec = new ExecutionContext();
-        Basis basis = new Basis();
+        selectionMap.put("applAttrList", commonService.retrieveCommonCodeValueByCodeGroup("APPL_ATTR"));
+        selectionMap.put("emerContList", commonService.retrieveCommonCodeValueByCodeGroup("EMER_CONT"));
 
-        Application application = commonDAO.queryForObject(NAME_SPACE + "ApplicationMapper.selectByPrimaryKey",
-                applNo, Application.class);
-        application = application == null ? new Application() : application;
-        basis.setApplication(application);
-
-        ApplicationGeneral applicationGeneral = commonDAO.queryForObject(NAME_SPACE + "ApplicationGeneralMapper.selectByPrimaryKey",
-                applNo, ApplicationGeneral.class);
-        applicationGeneral = applicationGeneral == null ? new ApplicationGeneral() : applicationGeneral;
-        basis.setApplicationGeneral(applicationGeneral);
-
-        ApplicationForeigner applicationForeigner = commonDAO.queryForObject(NAME_SPACE + "ApplicationForeignerMapper.selectByPrimaryKey",
-                applNo, ApplicationForeigner.class);
-        applicationForeigner = applicationForeigner == null ? new ApplicationForeigner() : applicationForeigner;
-        basis.setApplicationForeigner(applicationForeigner);
+        String cntrCode = basis.getApplication().getCitzCntrCode();
+        cntrCode = cntrCode == null ? "" : cntrCode;
+        Country country = commonService.retrieveCountryByCode(cntrCode);
 
         ec.setResult(ExecutionContext.SUCCESS);
-        ec.setData(basis);
+        ecDataMap.put("basis", basis);
+        ecDataMap.put("selection", selectionMap);
+        ecDataMap.put("country", country);
+        ec.setData(ecDataMap);
 
         return ec;
     }
 
+    /**
+     * 기본 정보 저장
+     *
+     * @param basis
+     * @return
+     */
     @Override
-    public ExecutionContext updateBasis(Application application,
-                                        ApplicationGeneral applicationGeneral) {
+    public ExecutionContext saveBasis(Basis basis) {
         ExecutionContext ec = new ExecutionContext();
-        int r1 = 0, r2 = 0;
+        Application application = basis.getApplication();
+        ApplicationGeneral applicationGeneral = basis.getApplicationGeneral();
+        String userId = application.getUserId();
+        boolean isMultipleApplicationAllowed = true;
+        boolean isValidInsertRequest = false;
+        boolean isInsert;
+        int r1 = 0, r2 = 0, applNo;
         Date date = new Date();
 
-        application.setModDate(date);
-        applicationGeneral.setModDate(date);
-        r1 = commonDAO.updateItem(application, NAME_SPACE, "ApplicationMapper");
-        r2 = commonDAO.updateItem(applicationGeneral, NAME_SPACE, "ApplicationGeneralMapper");
+        if (application.getApplNo() == null) {
+            isInsert = true;
+            if (isMultipleApplicationAllowed) {
+                isValidInsertRequest = true;
+            } else {
+                if (hasApplication(userId)) {
+                    isValidInsertRequest = false;
+                } else {
+                    isValidInsertRequest = true;
+                }
+            }
+            if (isValidInsertRequest) {
+                application.setApplStsCode(APP_INFO_SAVED);
+                application.setCreId(userId);
+                application.setCreDate(date);
+                r1 = commonDAO.insertItem(application, NAME_SPACE, "CustomApplicationMapper");
+                applNo = application.getApplNo();
+
+                applicationGeneral.setApplNo(applNo);
+                applicationGeneral.setCreId(userId);
+                applicationGeneral.setCreDate(date);
+                r2 = commonDAO.insertItem(applicationGeneral, NAME_SPACE, "ApplicationGeneralMapper");
+            }
+        } else {
+            isInsert = false;
+            application.setModId(userId);
+            application.setModDate(date);
+            applicationGeneral.setApplNo(application.getApplNo());
+            applicationGeneral.setModId(userId);
+            applicationGeneral.setModDate(date);
+            r1 = commonDAO.updateItem(application, NAME_SPACE, "ApplicationMapper");
+            r2 = commonDAO.updateItem(applicationGeneral, NAME_SPACE, "ApplicationGeneralMapper");
+        }
 
         if ( r1 > 0 && r2 > 0 ) {
             ec.setResult(ExecutionContext.SUCCESS);
             ec.setMessage(messageResolver.getMessage("U315"));
-            ec.setData(new ApplicationIdentifier(application.getApplNo(), application.getApplStsCode(),
-                    application.getAdmsNo(), application.getEntrYear(), application.getAdmsTypeCode()));
         } else {
             ec.setResult(ExecutionContext.FAIL);
             ec.setMessage(messageResolver.getMessage("U316"));
             String errCode = null;
-            if ( r1 == 0 ) errCode = "ERR0003";
-            else if ( r2 == 0 ) errCode = "ERR0008";
-//            else if ( r3 == 0 ) errCode = messageResolver.getMessage("ERR0028");
+            if (isInsert) {
+                if (r1 == 0) errCode = "ERR0001";
+                else if (r2 == 0) errCode = "ERR0006";
+            } else {
+                if (r1 == 0) errCode = "ERR0003";
+                else if (r2 == 0) errCode = "ERR0008";
+            }
             ec.setErrCode(errCode);
-            ec.setData(new ApplicationIdentifier(application.getApplNo(), APP_NULL_STATUS));
+            throw new YSBizException(ec);
+//            if (isInsert && !isValidInsertRequest) {
+//                원래 페이지로 돌아가는 테스트는 성공,
+//                단순 데이터는 복원해서 원래 페이지, 원래 상태로 되돌릴 수 있으나,
+//                SelectBox 선택사항, 리스트 데이터 등을 원상복구하기는 매우 번거로움
+
+//                YSNoRedirectBizException nrBizException = new YSNoRedirectBizException(ec);
+//                Map<String, Object> map = nrBizException.getPreviousDataMap();
+//                map.put("basis", basis);
+//                throw nrBizException;
+//            } else {
+//                applNo = application.getApplNo() == null ? 0 : application.getApplNo();
+//                ec.setData(new ApplicationIdentifier(applNo));
+//                throw new YSBizException(ec);
+//            }
         }
+
         return ec;
     }
 
-    @Override
-    public ExecutionContext deleteBasis(Application application, ApplicationGeneral applicationGeneral) {
-        return null;
+    /**
+     * 해당 userId를 가진 기존 지원서가 있는 지 확인
+     *
+     * @param userId
+     * @return
+     */
+    private boolean hasApplication(String userId) {
+        List<Application> applicationList = commonDAO.queryForList(NAME_SPACE + "CustomApplicationMapper.selectApplByUserId",
+                userId, Application.class);
+
+        return applicationList.size() > 0;
     }
 }

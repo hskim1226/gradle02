@@ -50,4 +50,12 @@ public class YSBizException extends RuntimeException {
     public void setErrorMessage(String errorMessage) {
         this.errorMessage = errorMessage;
     }
+
+    public ExecutionContext getExecutionContext() {
+        return ec;
+    }
+
+    public void setExecutionContext(ExecutionContext ec) {
+        this.ec = ec;
+    }
 }

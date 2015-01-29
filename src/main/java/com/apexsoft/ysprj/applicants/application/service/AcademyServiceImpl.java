@@ -28,13 +28,13 @@ public class AcademyServiceImpl implements AcademyService {
     private final String APP_NULL_STATUS = "00000";      // 에러일 때 반환값
     private final String ACAD_SAVED = "00002";           // 학력 저장
 
-    /**
-     * 학력 정보 생성
-     * @param application
-     * @param collegeList
-     * @param graduateList
-     * @return
-     */
+//    /**
+//     * 학력 정보 생성
+//     * @param application
+//     * @param collegeList
+//     * @param graduateList
+//     * @return
+//     */
 //    @Override
 //    public ExecutionContext createAcademy(Application application,
 //                                          List<CustomApplicationAcademy> collegeList,
@@ -78,10 +78,10 @@ public class AcademyServiceImpl implements AcademyService {
 //    }
 
     @Override
-    public ExecutionContext retrieveAcademy(int applNo) {
+    public ExecutionContext retrieveAcademy(Academy academy) {
         String aaMapperSqlId = "CustomApplicationAcademyMapper.selectByApplNoAcadTypeCode";
         ExecutionContext ec = new ExecutionContext();
-        Academy academy = new Academy();
+        int applNo = academy.getApplication().getApplNo();
 
         Application application = commonDAO.queryForObject(NAME_SPACE + "ApplicationMapper.selectByPrimaryKey",
                 applNo, Application.class);

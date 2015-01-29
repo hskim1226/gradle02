@@ -12,14 +12,8 @@ package com.apexsoft.ysprj.applicants.application.service;
  */
 public interface BasisService {
 
-    ExecutionContext createBasis(Application application,
-                                 ApplicationGeneral applicationGeneral);
+    ExecutionContext retrieveBasis(Basis basis);
 
-    ExecutionContext retrieveBasis(int applNo);
+    ExecutionContext saveBasis(Basis basis);
 
-    ExecutionContext updateBasis(Application application,
-                                 ApplicationGeneral applicationGeneral);
-
-    ExecutionContext deleteBasis(Application application,
-                                 ApplicationGeneral applicationGenerals);
 }

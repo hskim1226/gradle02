@@ -34,47 +34,7 @@ public class AcademyController {
     private final String TARGET_VIEW = "application/academy";
 
     /**
-     * 학력 정보를 조회해서 학력 정보 화면에 뿌려질 데이터 구성
-     *
-     * @param applicationIdentifier
-     * @return
-     */
-    private ExecutionContext setupAcademy(ApplicationIdentifier applicationIdentifier) {
-        ExecutionContext ec;
-
-        Map<String, Object> ecDataMap = new HashMap<String, Object>();
-        Academy academy;
-
-        int applNo = applicationIdentifier.getApplNo();
-        String admsNo = applicationIdentifier.getAdmsNo();
-        String entrYear = applicationIdentifier.getEntrYear();
-        String admsTypeCode = applicationIdentifier.getAdmsTypeCode();
-
-        if (applNo > 0) {
-            ec = academyService.retrieveAcademy(applNo);
-            academy = (Academy)ec.getData();
-        } else {
-            ec = new ExecutionContext();
-            academy = new Academy();
-            Application application = new Application();
-            application.setAdmsNo(admsNo);
-            application.setEntrYear(entrYear);
-            application.setAdmsTypeCode(admsTypeCode);
-            List<CustomApplicationAcademy> collegeList = new ArrayList<CustomApplicationAcademy>();
-            List<CustomApplicationAcademy> graduateList = new ArrayList<CustomApplicationAcademy>();
-            academy.setApplication(application);
-            academy.setCollegeList(collegeList);
-            academy.setGraduateList(graduateList);
-        }
-
-        ecDataMap.put("academy", academy);
-        ec.setData(ecDataMap);
-
-        return ec;
-    }
-
-    /**
-     * 학력 정보 최초작성/수정 화면
+     * 학력 정보 최초 작성 및 수정 화면
      *
      * @param formData
      * @return
@@ -86,13 +46,8 @@ public class AcademyController {
         mv.setViewName(TARGET_VIEW);
         if (bindingResult.hasErrors()) return mv;
 
-        Application application = formData.getApplication();
-        int applNo = application.getApplNo();
-        String admsNo = application.getAdmsNo();
-        String entrYear = application.getEntrYear();
-        String admsTypeCode = application.getAdmsTypeCode();
+        ExecutionContext ec = academyService.retrieveAcademy(formData);
 
-        ExecutionContext ec = setupAcademy(new ApplicationIdentifier(applNo, admsNo, entrYear, admsTypeCode));
         Map<String, Object> map = (Map<String, Object>)ec.getData();
         addObjectToMV(mv, map, ec);
 
@@ -114,7 +69,7 @@ public class AcademyController {
         mv.setViewName(TARGET_VIEW);
         if (bindingResult.hasErrors()) return mv;
 
-        ExecutionContext ec = null;
+        ExecutionContext ec;
         String userId = principal.getName();
 
         Application application = formData.getApplication();
@@ -131,14 +86,13 @@ public class AcademyController {
         ec = academyService.saveAcademy(formData);
 
         if (ec.getResult().equals(ExecutionContext.SUCCESS)) {
-            ApplicationIdentifier data = (ApplicationIdentifier)ec.getData();
-            ExecutionContext ecSetupAcademy = setupAcademy(data);
+            ExecutionContext ecRetrieve = academyService.retrieveAcademy(formData);
 
-            if (ecSetupAcademy.getResult().equals(ExecutionContext.SUCCESS)) {
-                Map<String, Object> setupMap = (Map<String, Object>)ecSetupAcademy.getData();
+            if (ecRetrieve.getResult().equals(ExecutionContext.SUCCESS)) {
+                Map<String, Object> setupMap = (Map<String, Object>)ecRetrieve.getData();
                 addObjectToMV(mv, setupMap, ec);
             } else {
-                mv = getErrorMV("common/error", ecSetupAcademy);
+                mv = getErrorMV("common/error", ecRetrieve);
             }
         } else {
             mv = getErrorMV("common/error", ec);
@@ -147,6 +101,12 @@ public class AcademyController {
         return mv;
     }
 
+    /**
+     * 입력란만 추가하고 실제 데이터가 없는 학력 정보 제거
+     *
+     * @param list
+     * @return
+     */
     private List<CustomApplicationAcademy> removeEmptyApplicationAcademy(List<CustomApplicationAcademy> list) {
         int i, length;
         for (i = 0, length = list.size() ; i < length ; i++) {

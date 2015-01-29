@@ -59,15 +59,33 @@
 */
 
         .panel-darkgray > .panel-heading {
-            background-image: -webkit-linear-gradient(top, #7a7a7a 0%, #888888 100%);
-            background-image:      -o-linear-gradient(top, #7a7a7a 0%, #888888 100%);
-            background-image: -webkit-gradient(linear, left top, left bottom, from(#7a7a7a), to(#888888));
-            background-image:         linear-gradient(to bottom, #7a7a7a 0%, #888888 100%);
-            filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#7a7a7a', endColorstr='#ff888888', GradientType=0);
-            background-repeat: repeat-x;
+            /*background-image: -webkit-linear-gradient(top, #7a7a7a 0%, #888888 100%);*/
+            /*background-image:      -o-linear-gradient(top, #7a7a7a 0%, #888888 100%);*/
+            /*background-image: -webkit-gradient(linear, left top, left bottom, from(#7a7a7a), to(#888888));*/
+            /*background-image:         linear-gradient(to bottom, #7a7a7a 0%, #888888 100%);*/
+            /*filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#7a7a7a', endColorstr='#ff888888', GradientType=0);*/
+            /*background-repeat: repeat-x;*/
             color: #fff;
             background-color: #7a7a7a;
             border-color: #7a7a7a;
+        }
+
+        .panel-darkgray1, .panel-darkgray2, .panel-darkgray3, .panel-darkgray4 {
+            /*background-color: #8c8c8c;*/
+            color: #fff;
+            border-color: #333333;
+        }
+
+        .panel-darkgray1 > .panel-heading {
+            background-image: -webkit-linear-gradient(left, #888888 0%, #cccccc 100%);
+            background-image:      -o-linear-gradient(left, #888888 0%, #cccccc 100%);
+            background-image: -webkit-gradient(linear, left top, right bottom, from(#888888), to(#cccccc));
+            background-image:         linear-gradient(to right, #888888 0%, #cccccc 100%);
+            filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#888888', endColorstr='#cccccc', GradientType=1);
+            background-repeat: repeat-x;
+            color: #fff;
+            /*background-color: #7a7a7a;*/
+            border-color: #cccccc;
         }
 
         .btn-file {
@@ -109,6 +127,10 @@
             background-color: #f0f0f0;
             color: #333;
             cursor: pointer;
+        }
+
+        .control-label {
+            color: #333;
         }
 
         .form-group.required .control-label:after {
@@ -248,6 +270,14 @@
         #tabTR {
             cursor: pointer;
         }
+
+        .checkbox {
+            min-height: 20px;
+            margin-top: 0px;
+            margin-bottom: 10px;
+            color: #222;
+            /*vertical-align: middle;*/
+        }
     </style>
 </head>
 <body>
@@ -287,141 +317,263 @@
             <form:hidden path="application.admsTypeCode" id="admsTypeCode" />
             <div id="myTabContent" class="tab-content">
                 <div class="spacer-tiny"></div>
-                <div class="row">
-                    <div class="col-sm-offset-1 col-sm-10">
-                        <div class="panel panel-darkgray">
-                            <div class="panel-heading">첨부 파일 안내</div>
-                            <div class="panel-body">
-                                <p>사진 외의 모든 첨부 파일은 서류 종류별로 하나의 PDF 파일만 업로드 가능합니다.</p>
+                <%--<div class="row">--%>
+                    <%--<div class="col-sm-offset-1 col-sm-10">--%>
+                        <%--<div class="panel panel-darkgray">--%>
+                            <%--<div class="panel-heading">첨부 파일 안내</div>--%>
+                            <%--<div class="panel-body">--%>
+                                <%--<p>사진 외의 모든 첨부 파일은 서류 종류별로 하나의 PDF 파일만 업로드 가능합니다.</p>--%>
 
-                                <p>만약 한가지 종류의 서류가 여러개의 PDF 파일로 되어 있다면,
-                                    하나의 PDF 파일로 합친 후 업로드 하시기 바랍니다.</p>
+                                <%--<p>만약 한가지 종류의 서류가 여러개의 PDF 파일로 되어 있다면,--%>
+                                    <%--하나의 PDF 파일로 합친 후 업로드 하시기 바랍니다.</p>--%>
 
-                                <p>PDF 파일 합치기는 전용프로그램이나 인터넷 서비스를 이용하시기 바랍니다.</p>
+                                <%--<p>PDF 파일 합치기는 전용프로그램이나 인터넷 서비스를 이용하시기 바랍니다.</p>--%>
 
-                                예)<br/>
-                                <a href="http://convert.neevia.com/pdfmerge/" target="_blank">http://convert.neevia.com/pdfmerge/</a><br/>
-                                <a href="http://www.pdfmerge.com/" target="_blank">http://www.pdfmerge.com/</a><br/>
+                                <%--예)<br/>--%>
+                                <%--<a href="http://convert.neevia.com/pdfmerge/" target="_blank">http://convert.neevia.com/pdfmerge/</a><br/>--%>
+                                <%--<a href="http://www.pdfmerge.com/" target="_blank">http://www.pdfmerge.com/</a><br/>--%>
 
-                                <p>예시 사이트에서 발생하는 모든 문제는 당사에서 책임지지 않습니다.</p>
+                                <%--<p>예시 사이트에서 발생하는 모든 문제는 당사에서 책임지지 않습니다.</p>--%>
 
-                                <p>사진 파일은 JPG, GIF, PNG 파일만 업로드 가능합니다.</p>
+                                <%--<p>사진 파일은 JPG, GIF, PNG 파일만 업로드 가능합니다.</p>--%>
 
-                                <p>사진 파일의 편집은 전용 프로그램이나 인터넷 서비스를 이용하시기 바랍니다.</p>
+                                <%--<p>사진 파일의 편집은 전용 프로그램이나 인터넷 서비스를 이용하시기 바랍니다.</p>--%>
 
-                                예)<br/>
-                                <a href="http://apps.pixlr.com/editor/" target="_blank">http://apps.pixlr.com/editor/</a><br/>
-                                <a href="http://www.fotor.com/" target="_blank">http://www.fotor.com/</a><br/>
-                                <p>예시 사이트에서 발생하는 모든 문제는 당사에서 책임지지 않습니다.</p>
-                                <hr/>
-                                <p>파일 첨부 시 주의사항</p>
-                                1. 문서별로 1개의 파일만 첨부 가능합니다.<br/>
-                                2. 사진 및 문서의 해상도와 가독성 여부를 반드시 확인하세요.<br/>
-                                3. 스캔시에는 300dpi 이상으로 스캔하시기 바랍니다.<br/>
-                                4. 문서 크기는 A4 크기로 생성하여 첨부하셔야 합니다.<br/>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                                <%--예)<br/>--%>
+                                <%--<a href="http://apps.pixlr.com/editor/" target="_blank">http://apps.pixlr.com/editor/</a><br/>--%>
+                                <%--<a href="http://www.fotor.com/" target="_blank">http://www.fotor.com/</a><br/>--%>
+                                <%--<p>예시 사이트에서 발생하는 모든 문제는 당사에서 책임지지 않습니다.</p>--%>
+                                <%--<hr/>--%>
+                                <%--<p>파일 첨부 시 주의사항</p>--%>
+                                <%--1. 문서별로 1개의 파일만 첨부 가능합니다.<br/>--%>
+                                <%--2. 사진 및 문서의 해상도와 가독성 여부를 반드시 확인하세요.<br/>--%>
+                                <%--3. 스캔시에는 300dpi 이상으로 스캔하시기 바랍니다.<br/>--%>
+                                <%--4. 문서 크기는 A4 크기로 생성하여 첨부하셔야 합니다.<br/>--%>
+                                <%--</p>--%>
+                            <%--</div>--%>
+                        <%--</div>--%>
+                    <%--</div>--%>
+                <%--</div>--%>
                 <div class="spacer-tiny"></div>
                 <div class="row">
                     <div class="col-sm-offset-1 col-sm-10">
-                        <c:forEach items="${document.documentContainerList}" var="lv1Container" varStatus="lv1Status">
-                            <c:if test = "${lv1Container.subContainer.size() > 0}">
-                                <div class="panel panel-darkgray">
-                                    <div class="panel-heading">${lv1Container.grpLabel}</div>
-                                    <div class="panel-body" id="docContainerList${lv1Status.index}.list">
-                                        <c:forEach items="${lv1Container.subContainer}" var="lv2Container" varStatus="lv2Status">
-                                            <hr/>
-                                            <div class="form-group" id="docContainerList${lv1Status.index}.subContainer${lv2Status.index}.${lv2Container.docItemCode}">
-                                                <label class="col-sm-3 control-label word-keep-all">${lv2Container.docItemName}</label>
-                                                <%--<div class="col-sm-8">--%>
-                                                    <%--<div class="input-group">--%>
-                                                        <%--<div class="input-group-btn">--%>
-                                                            <%--<input type="file" class="btn btn_lg btn-file" id="docContainerList${grpStat.index}.mandDocList${docStat.index}.docName" name="docContainerList[${grpStat.index}].mandDocList[${docStat.index}].docName"/>--%>
-                                                        <%--</div>--%>
-                                                        <%--<c:if test="${mandDoc.orgnSendYn =='Y' || mandDoc.orgnSendYn =='y'}">--%>
-                                                            <%--<div class="apexMessage">${mandDoc.msgNo}</div>--%>
-                                                        <%--</c:if>--%>
-                                                        <%--<c:if test="${mandDoc.orgnSendYn =='N' || mandDoc.orgnSendYn !='n'}">--%>
-                                                            <%--<div class="col-sm-4 nopadding"><input type="button" id="docContainerList${grpStat.index}.mandDocList${docStat.index}.btn" name="docContainerList[${grpStat.index}].mandDocList[${docStat.index}].btn"--%>
-                                                                                                   <%--class="btn btn-default btn-block btn-upload" value="올리기"--%>
-                                                                                                   <%--data-file-path="docContainerList${grpStat.index}.mandDocList${docStat.index}.filePath"--%>
-                                                                                                   <%--data-file-name="docContainerList${grpStat.index}.mandDocList${docStat.index}.fileName"--%>
-                                                                                                   <%--data-org-file-name="docContainerList${grpStat.index}.mandDocList${docStat.index}.orgFileName"/>--%>
-                                                            <%--</div>--%>
-                                                                <%--<span class="col-sm-8" id="docContainerList${grpStat.index}.mandDocList${docStat.index}" style="text-decoration: none;">--%>
-                                                                    <%--<a href="${contextPath}/filedownload/attached/${entireApplication.application.admsNo}/${entireApplication.application.applNo}/${mandDoc.fileName}/${mandDoc.orgFileName}">${mandDoc.orgFileName}</a>--%>
-                                                                <%--</span>--%>
-                                                        <%--</c:if>--%>
-                                                    <%--</div>--%>
-                                                <%--</div>--%>
-                                                <%--<form:hidden path="documentContainerList[${grpStat.index}].mandDocList[${docStat.index}].docTypeCode" value="${mandDoc.docTypeCode}" />--%>
-                                                <%--<form:hidden path="documentContainerList[${grpStat.index}].mandDocList[${docStat.index}].docGrp" value="${mandDoc.docGrp}" />--%>
-                                                <%--<form:hidden path="documentContainerList[${grpStat.index}].mandDocList[${docStat.index}].docItemCode" value="${mandDoc.docItemCode}" />--%>
-                                                <%--<form:hidden path="documentContainerList[${grpStat.index}].mandDocList[${docStat.index}].docItemName" value="${mandDoc.docItemName}" />--%>
-                                                <%--<form:hidden path="documentContainerList[${grpStat.index}].mandDocList[${docStat.index}].filePath"  value="${mandDoc.filePath}"/>--%>
-                                                <%--<form:hidden path="documentContainerList[${grpStat.index}].mandDocList[${docStat.index}].fileName"  value="${mandDoc.fileName}"/>--%>
-                                                <%--<form:hidden path="documentContainerList[${grpStat.index}].mandDocList[${docStat.index}].orgFileName"  value="${mandDoc.orgFileName}"/>--%>
+                <c:forEach items="${document.documentContainerList}" var="lv1Container" varStatus="lv1Status">
+                    <c:choose>
+                        <c:when test="${lv1Container.lastYn == 'N'}">
+                        <div class="form-group"><label class="col-sm-3 control-label word-keep-all">${lv1Container.docItemName}</label></div>
+                        </c:when>
+                        <c:otherwise>
+                        <div class="panel panel-darkgray">
+                            <div class="panel-heading">${lv1Container.grpLabel}</div>
+                            <div class="panel-body" id="docContainerList${lv1Status.index}.list">
+
+                            <c:forEach items="${lv1Container.subContainer}" var="lv2Container" varStatus="lv2Status">
+                                <c:choose>
+                                    <c:when test="${lv2Container.lastYn == 'Y'}">
+                                <div class="form-group"><label class="col-sm-3 control-label word-keep-all">${lv2Container.docItemName}</label></div>
+                                    </c:when>
+                                    <c:otherwise>
+                                <div class="panel panel-darkgray1">
+                                    <div class="panel-heading">${lv2Container.grpLabel}</div>
+                                    <div class="panel-body" id="docContainerList${lv2Status.index}.list">
+
+                                        <c:forEach items="${lv2Container.subContainer}" var="lv3Container" varStatus="lv3Status">
+                                            <c:choose>
+                                                <c:when test="${lv3Container.lastYn == 'Y'}">
+                                        <%--<div class="form-group"><label class="col-sm-3 control-label word-keep-all">${lv3Container.docItemName}</label></div>--%>
+
+                                        <div class="form-group">
+                                            <div class="col-sm-3">
+                                                <div class="checkbox"><label class="word-keep-all" for="filelist0.yn"><input type="checkbox" id="filelist0.yn" name="filelist[0].yn">${lv3Container.docItemName}</label></div>
                                             </div>
+                                            <div class="col-sm-5 nopadding">
+                                                <div class="col-sm-5 nopadding"><input class="form-control" type="text" placeholder="서류 명 직접 입력"></div>
+                                                <div class="col-sm-7 nopadding"><input type="file" class="btn btn-file" id="fileList0.docName" name="fileList[0].docName"/></div>
+                                            </div>
+                                            <div class="col-sm-1 nopadding">
+                                                <input type="button" id="fileList0.btn" name="fileList[0].btn"
+                                                       class="btn btn-default btn-upload" value="올리기"
+                                                       data-file-path="fileList0.filePath"
+                                                       data-file-name="fileList0.fileName"
+                                                       data-org-file-name="fileList0.orgFileName"/>
+                                            </div>
+                                            <div class="col-sm-3 control-label">파일이름</div>
+                                        </div>
+
+                                                </c:when>
+                                                <c:otherwise>
+                                        <div class="panel panel-default">
+                                            <div class="panel-heading">${lv3Container.grpLabel}</div>
+                                            <div class="panel-body" id="docContainerList${lv3Status.index}.list">
+
+                                                    <c:forEach items="${lv3Container.subContainer}" var="lv4Container" varStatus="lv4Status">
+                                                        <c:choose>
+                                                            <c:when test="${lv4Container.lastYn == 'Y'}">
+                                                <div class="form-group"><label class="col-sm-3 control-label word-keep-all">${lv4Container.docItemName}</label></div>
+                                                            </c:when>
+                                                            <c:otherwise>
+                                                <div class="panel panel-default">
+                                                    <div class="panel-heading">${lv4Container.grpLabel}</div>
+                                                    <div class="panel-body" id="docContainerList${lv4Status.index}.list">
+
+                                                                <c:forEach items="${lv4Container.subContainer}" var="lv5Container" varStatus="lv5Status">
+                                                                    <c:choose>
+                                                                        <c:when test="${lv5Container.lastYn == 'Y'}">
+                                                        <div class="form-group"><label class="col-sm-3 control-label word-keep-all">${lv5Container.docItemName}</label></div>
+                                                                        </c:when>
+                                                                        <c:otherwise>
+                                                        <div class="panel panel-default">
+                                                            <div class="panel-heading">${lv5Container.grpLabel}</div>
+                                                            <div class="panel-body" id="docContainerList${lv5Status.index}.list">
+
+                                                            <%-- 한 Depth 추가하려면 여기에 <c:forEach> ~ </c:forEach> 삽입 --%>
+
+                                                                        </c:otherwise>
+                                                                    </c:choose>
+                                                                    <c:if test="${lv5Container.lastYn == null || lv5Container.lastYn == 'N'}">
+                                                             </div>
+                                                        </div>
+                                                                    </c:if>
+                                                                </c:forEach>
+
+                                                            </c:otherwise>
+                                                        </c:choose>
+                                                        <c:if test="${lv4Container.lastYn == null || lv4Container.lastYn == 'N'}">
+                                                    </div>
+                                                </div>
+                                                        </c:if>
+                                                    </c:forEach>
+
+                                                </c:otherwise>
+                                            </c:choose>
+                                            <c:if test="${lv3Container.lastYn == null || lv3Container.lastYn == 'N'}">
+                                            </div>
+                                        </div>
+                                            </c:if>
                                         </c:forEach>
+
+                                    </c:otherwise>
+                                </c:choose>
+                                <c:if test="${lv2Container.lastYn == null || lv2Container.lastYn == 'N'}">
                                     </div>
                                 </div>
-                                <div class="spacer-tiny"></div>
-                            </c:if>
+                                </c:if>
+                            </c:forEach>
 
-                            <%--<c:if test = "${docContainer.subGrp.size()>0}">--%>
-                                <%--<div class="panel panel-darkgray">--%>
-                                    <%--<div class="panel-heading">${docContainer.fileGroupName} 서류</div>--%>
-                                    <%--<div class="panel-body" id="docContainerList${grpStat.index}.list">--%>
-                                        <%--<div class="form-group-block-list" id="fuCollegeDocBlockList">--%>
-                                            <%--<c:forEach items="${docContainer.subGrp}" var="subGrp" varStatus="subGrpStat">--%>
-                                                <%--<div class="form-group-block">--%>
-                                                    <%--<c:forEach items="${subGrp.mandDocList}" var="mandDoc" varStatus="docStat">--%>
-                                                        <%--<hr/>--%>
-                                                        <%--<div class="form-group" id="docContainerList${grpStat.index}.subGrp${subGrpStat.index}.mandDocList${docStat.index}.${mandDoc.docItemCode}">--%>
-                                                            <%--<label class="col-sm-3 control-label word-keep-all">${mandDoc.docItemName}</label>--%>
-                                                            <%--<div class="col-sm-8">--%>
-                                                                <%--<div class="input-group">--%>
-                                                                    <%--<div class="input-group-btn">--%>
-                                                                        <%--<input type="file" class="btn btn_lg btn-file" id="docContainerList${grpStat.index}.subGrp${subGrpStat.index}.mandDocList${docStat.index}.docName" name="docContainerList[${grpStat.index}].subGrp[${subGrpStat.index}].mandDocList[${docStat.index}].docName"/>--%>
-                                                                    <%--</div>--%>
-                                                                    <%--<c:if test="${mandDoc.orgnSendYn =='Y' || mandDoc.orgnSendYn =='y'}">--%>
-                                                                        <%--<div class="apexMessage">${mandDoc.msgNo}</div>--%>
-                                                                    <%--</c:if>--%>
-                                                                    <%--<c:if test="${mandDoc.orgnSendYn =='N' || mandDoc.orgnSendYn !='n'}">--%>
-                                                                        <%--<div class="col-sm-4 nopadding"><input type="button" id="docContainerList${grpStat.index}.subGrp${subGrpStat.index}.mandDocList${docStat.index}.btn" name="docContainerList[${grpStat.index}].mandDocList[${docStat.index}].btn"--%>
-                                                                                                               <%--class="btn btn-default btn-block btn-upload" value="올리기"--%>
-                                                                                                               <%--data-file-path="docContainerList${grpStat.index}.subGrp${subGrpStat.index}.mandDocList${docStat.index}.filePath"--%>
-                                                                                                               <%--data-file-name="docContainerList${grpStat.index}.subGrp${subGrpStat.index}.mandDocList${docStat.index}.fileName"--%>
-                                                                                                               <%--data-org-file-name="docContainerList${grpStat.index}.subGrp${subGrpStat.index}.mandDocList${docStat.index}.orgFileName"/>--%>
-                                                                        <%--</div>--%>
-                                                                            <%--<span class="col-sm-8" id="docContainerList${grpStat.index}.subGrp${subGrpStat.index}.mandDocList${docStat.index}" style="text-decoration: none;">--%>
-                                                                                <%--<a href="${contextPath}/filedownload/attached/${entireApplication.application.admsNo}/${entireApplication.application.applNo}/${mandDoc.fileName}/${mandDoc.orgFileName}">${mandDoc.orgFileName}</a>--%>
-                                                                            <%--</span>--%>
-                                                                    <%--</c:if>--%>
-                                                                <%--</div>--%>
+                        </c:otherwise>
+                    </c:choose>
+                    <c:if test="${lv1Container.lastYn == null || lv1Container.lastYn == 'N'}">
+                            </div>
+                        </div>
+                    </c:if>
+                </c:forEach>
+
+                    </div>
+                </div>
+            <div class="spacer-tiny"></div>
+
+
+                    <%--<c:if test="${lv1Container.subContainer.size() > 0}">--%>
+                        <%--<div class="panel panel-darkgray">--%>
+                            <%--<div class="panel-heading"><c:if test="${lv1Container.lastYn == null || lv1Container.lastYn == 'N'}">${lv1Container.grpLabel}</c:if></div>--%>
+                            <%--<div class="panel-body" id="docContainerList${lv1Status.index}.list">--%>
+                        <%--<c:forEach items="${lv1Container.subContainer}" var="lv2Container" varStatus="lv2Status">--%>
+                            <%--<c:if test="${lv1Container.subContainer.size() > 0}">--%>
+                            <%--<div class="panel panel-darkgray">--%>
+                                <%--<div class="panel-heading"><c:if test="${lv1Container.lastYn == null || lv1Container.lastYn == 'N'}">${lv1Container.grpLabel}</c:if></div>--%>
+                                <%--<div class="panel-body" id="docContainerList${lv1Status.index}.list">--%>
+
+
+
+
+                                <%--<div class="form-group" id="docContainerList${lv1Status.index}.subContainer${lv2Status.index}.${lv2Container.docItemCode}">--%>
+                                    <%--<label class="col-sm-3 control-label word-keep-all">${lv2Container.docItemName}</label>--%>
+                                    <%--<div class="col-sm-8">--%>
+                                        <%--<div class="input-group">--%>
+                                            <%--<div class="input-group-btn">--%>
+                                                <%--<input type="file" class="btn btn_lg btn-file" id="docContainerList${grpStat.index}.mandDocList${docStat.index}.docName" name="docContainerList[${grpStat.index}].mandDocList[${docStat.index}].docName"/>--%>
+                                            <%--</div>--%>
+                                            <%--<c:if test="${mandDoc.orgnSendYn =='Y' || mandDoc.orgnSendYn =='y'}">--%>
+                                                <%--<div class="apexMessage">${mandDoc.msgNo}</div>--%>
+                                            <%--</c:if>--%>
+                                            <%--<c:if test="${mandDoc.orgnSendYn =='N' || mandDoc.orgnSendYn !='n'}">--%>
+                                                <%--<div class="col-sm-4 nopadding"><input type="button" id="docContainerList${grpStat.index}.mandDocList${docStat.index}.btn" name="docContainerList[${grpStat.index}].mandDocList[${docStat.index}].btn"--%>
+                                                                                       <%--class="btn btn-default btn-block btn-upload" value="올리기"--%>
+                                                                                       <%--data-file-path="docContainerList${grpStat.index}.mandDocList${docStat.index}.filePath"--%>
+                                                                                       <%--data-file-name="docContainerList${grpStat.index}.mandDocList${docStat.index}.fileName"--%>
+                                                                                       <%--data-org-file-name="docContainerList${grpStat.index}.mandDocList${docStat.index}.orgFileName"/>--%>
+                                                <%--</div>--%>
+                                                    <%--<span class="col-sm-8" id="docContainerList${grpStat.index}.mandDocList${docStat.index}" style="text-decoration: none;">--%>
+                                                        <%--<a href="${contextPath}/filedownload/attached/${entireApplication.application.admsNo}/${entireApplication.application.applNo}/${mandDoc.fileName}/${mandDoc.orgFileName}">${mandDoc.orgFileName}</a>--%>
+                                                    <%--</span>--%>
+                                            <%--</c:if>--%>
+                                        <%--</div>--%>
+                                    <%--</div>--%>
+                                    <%--<form:hidden path="documentContainerList[${grpStat.index}].mandDocList[${docStat.index}].docTypeCode" value="${mandDoc.docTypeCode}" />--%>
+                                    <%--<form:hidden path="documentContainerList[${grpStat.index}].mandDocList[${docStat.index}].docGrp" value="${mandDoc.docGrp}" />--%>
+                                    <%--<form:hidden path="documentContainerList[${grpStat.index}].mandDocList[${docStat.index}].docItemCode" value="${mandDoc.docItemCode}" />--%>
+                                    <%--<form:hidden path="documentContainerList[${grpStat.index}].mandDocList[${docStat.index}].docItemName" value="${mandDoc.docItemName}" />--%>
+                                    <%--<form:hidden path="documentContainerList[${grpStat.index}].mandDocList[${docStat.index}].filePath"  value="${mandDoc.filePath}"/>--%>
+                                    <%--<form:hidden path="documentContainerList[${grpStat.index}].mandDocList[${docStat.index}].fileName"  value="${mandDoc.fileName}"/>--%>
+                                    <%--<form:hidden path="documentContainerList[${grpStat.index}].mandDocList[${docStat.index}].orgFileName"  value="${mandDoc.orgFileName}"/>--%>
+                                <%--</div>--%>
+                        <%--</c:forEach>--%>
+                            <%--</div>--%>
+                        <%--</div>--%>
+                        <%--<div class="spacer-tiny"></div>--%>
+                    <%--</c:if>--%>
+
+                    <%--<c:if test = "${docContainer.subGrp.size()>0}">--%>
+                        <%--<div class="panel panel-darkgray">--%>
+                            <%--<div class="panel-heading">${docContainer.fileGroupName} 서류</div>--%>
+                            <%--<div class="panel-body" id="docContainerList${grpStat.index}.list">--%>
+                                <%--<div class="form-group-block-list" id="fuCollegeDocBlockList">--%>
+                                    <%--<c:forEach items="${docContainer.subGrp}" var="subGrp" varStatus="subGrpStat">--%>
+                                        <%--<div class="form-group-block">--%>
+                                            <%--<c:forEach items="${subGrp.mandDocList}" var="mandDoc" varStatus="docStat">--%>
+                                                <%--<hr/>--%>
+                                                <%--<div class="form-group" id="docContainerList${grpStat.index}.subGrp${subGrpStat.index}.mandDocList${docStat.index}.${mandDoc.docItemCode}">--%>
+                                                    <%--<label class="col-sm-3 control-label word-keep-all">${mandDoc.docItemName}</label>--%>
+                                                    <%--<div class="col-sm-8">--%>
+                                                        <%--<div class="input-group">--%>
+                                                            <%--<div class="input-group-btn">--%>
+                                                                <%--<input type="file" class="btn btn_lg btn-file" id="docContainerList${grpStat.index}.subGrp${subGrpStat.index}.mandDocList${docStat.index}.docName" name="docContainerList[${grpStat.index}].subGrp[${subGrpStat.index}].mandDocList[${docStat.index}].docName"/>--%>
                                                             <%--</div>--%>
-                                                            <%--<form:hidden path="docContainerList[${grpStat.index}].subGrp[${subGrpStat.index}].mandDocList[${docStat.index}].docTypeCode" value="${mandDoc.docTypeCode}" />--%>
-                                                            <%--<form:hidden path="docContainerList[${grpStat.index}].subGrp[${subGrpStat.index}].mandDocList[${docStat.index}].docGrp" value="${mandDoc.docGrp}" />--%>
-                                                            <%--<form:hidden path="docContainerList[${grpStat.index}].subGrp[${subGrpStat.index}].mandDocList[${docStat.index}].docItemCode" value="${mandDoc.docItemCode}" />--%>
-                                                            <%--<form:hidden path="docContainerList[${grpStat.index}].subGrp[${subGrpStat.index}].mandDocList[${docStat.index}].docItemName" value="${mandDoc.docItemName}" />--%>
-                                                            <%--<form:hidden path="docContainerList[${grpStat.index}].subGrp[${subGrpStat.index}].mandDocList[${docStat.index}].filePath"  value="${mandDoc.filePath}"/>--%>
-                                                            <%--<form:hidden path="docContainerList[${grpStat.index}].subGrp[${subGrpStat.index}].mandDocList[${docStat.index}].fileName"  value="${mandDoc.fileName}"/>--%>
-                                                            <%--<form:hidden path="docContainerList[${grpStat.index}].subGrp[${subGrpStat.index}].mandDocList[${docStat.index}].orgFileName"  value="${mandDoc.orgFileName}"/>--%>
+                                                            <%--<c:if test="${mandDoc.orgnSendYn =='Y' || mandDoc.orgnSendYn =='y'}">--%>
+                                                                <%--<div class="apexMessage">${mandDoc.msgNo}</div>--%>
+                                                            <%--</c:if>--%>
+                                                            <%--<c:if test="${mandDoc.orgnSendYn =='N' || mandDoc.orgnSendYn !='n'}">--%>
+                                                                <%--<div class="col-sm-4 nopadding"><input type="button" id="docContainerList${grpStat.index}.subGrp${subGrpStat.index}.mandDocList${docStat.index}.btn" name="docContainerList[${grpStat.index}].mandDocList[${docStat.index}].btn"--%>
+                                                                                                       <%--class="btn btn-default btn-block btn-upload" value="올리기"--%>
+                                                                                                       <%--data-file-path="docContainerList${grpStat.index}.subGrp${subGrpStat.index}.mandDocList${docStat.index}.filePath"--%>
+                                                                                                       <%--data-file-name="docContainerList${grpStat.index}.subGrp${subGrpStat.index}.mandDocList${docStat.index}.fileName"--%>
+                                                                                                       <%--data-org-file-name="docContainerList${grpStat.index}.subGrp${subGrpStat.index}.mandDocList${docStat.index}.orgFileName"/>--%>
+                                                                <%--</div>--%>
+                                                                    <%--<span class="col-sm-8" id="docContainerList${grpStat.index}.subGrp${subGrpStat.index}.mandDocList${docStat.index}" style="text-decoration: none;">--%>
+                                                                        <%--<a href="${contextPath}/filedownload/attached/${entireApplication.application.admsNo}/${entireApplication.application.applNo}/${mandDoc.fileName}/${mandDoc.orgFileName}">${mandDoc.orgFileName}</a>--%>
+                                                                    <%--</span>--%>
+                                                            <%--</c:if>--%>
                                                         <%--</div>--%>
-                                                    <%--</c:forEach>--%>
+                                                    <%--</div>--%>
+                                                    <%--<form:hidden path="docContainerList[${grpStat.index}].subGrp[${subGrpStat.index}].mandDocList[${docStat.index}].docTypeCode" value="${mandDoc.docTypeCode}" />--%>
+                                                    <%--<form:hidden path="docContainerList[${grpStat.index}].subGrp[${subGrpStat.index}].mandDocList[${docStat.index}].docGrp" value="${mandDoc.docGrp}" />--%>
+                                                    <%--<form:hidden path="docContainerList[${grpStat.index}].subGrp[${subGrpStat.index}].mandDocList[${docStat.index}].docItemCode" value="${mandDoc.docItemCode}" />--%>
+                                                    <%--<form:hidden path="docContainerList[${grpStat.index}].subGrp[${subGrpStat.index}].mandDocList[${docStat.index}].docItemName" value="${mandDoc.docItemName}" />--%>
+                                                    <%--<form:hidden path="docContainerList[${grpStat.index}].subGrp[${subGrpStat.index}].mandDocList[${docStat.index}].filePath"  value="${mandDoc.filePath}"/>--%>
+                                                    <%--<form:hidden path="docContainerList[${grpStat.index}].subGrp[${subGrpStat.index}].mandDocList[${docStat.index}].fileName"  value="${mandDoc.fileName}"/>--%>
+                                                    <%--<form:hidden path="docContainerList[${grpStat.index}].subGrp[${subGrpStat.index}].mandDocList[${docStat.index}].orgFileName"  value="${mandDoc.orgFileName}"/>--%>
                                                 <%--</div>--%>
                                             <%--</c:forEach>--%>
                                         <%--</div>--%>
-                                    <%--</div>--%>
+                                    <%--</c:forEach>--%>
                                 <%--</div>--%>
-                            <%--</c:if>--%>
-                            <div class="spacer-tiny"></div>
-                        </c:forEach>
-                    </div>
-                </div>
+                            <%--</div>--%>
+                        <%--</div>--%>
+                    <%--</c:if>--%>
+                    <%--<div class="spacer-tiny"></div>--%>
+                <%--</c:forEach>--%>
+                    <%--</div>--%>
+                <%--</div>--%>
                 <div class="btn-group btn-group-justified">
                     <div class="btn-group">
                         <button id="saveDocument" type="button" class="btn btn-info btn-lg btn-save" data-saveType="document">작성 완료</button>
@@ -494,6 +646,260 @@
         };
         $('.btn-save').on('click', formProcess);
         <%-- 하단 버튼 처리 --%>
+
+        <%-- 어학 성적 입력란 show/hide 처리 --%>
+        $('.lang-checkbox').on('change', function () {
+            var id = this.id,
+                currentIndex, classToToggle;
+            currentIndex = id.substr(id.lastIndexOf('-')+1);
+            classToToggle = '.lang-detail-' + currentIndex;
+            if (this.checked) {
+                $(classToToggle).css('display', 'block');
+            } else {
+                $(classToToggle).css('display', 'none');
+            }
+        });
+        $('.lang-radio').on('change', function () {
+            var id = this.id,
+                    currentIndex, classToShow;
+            currentIndex = id.substr(id.lastIndexOf('-')+1);
+            classToShow = '.lang-detail-' + currentIndex;
+            $('.lang-radio').each( function () {
+                if (this.checked) {
+                    $(classToShow).css('display', 'block');
+                } else {
+                    $(classToShow).css('display', 'none');
+                }
+            });
+
+        });
+        <%-- 어학 성적 입력란 show/hide 처리 --%>
+
+        <%-- 숫자, 소수점 1개만 입력 - 어학 성적 입력 --%>
+        $('.lang-score').on('keyup', function () {
+            var numCheckRegExp = /^[0-9]*\.?[0-9]*$/,
+                    val = this.value;
+            if (!numCheckRegExp.test(val)) {
+                this.value = val.substr(0, val.length-1);
+            }
+        });
+        <%-- 숫자, 소수점 1개만 입력 - 어학 성적 입력 --%>
+
+        <%-- 어학 성적 validation --%>
+        var getToeflMaxScore = function (id) {
+            var toeflTypeSelectId = id.substr(0, id.lastIndexOf('.')) + '.toflTypeCode',
+                toeflTypeSelect = document.getElementById(toeflTypeSelectId),
+                toeflType = toeflTypeSelect.options[toeflTypeSelect.selectedIndex].innerHTML,
+                maxScore;
+            switch(toeflType) {
+                case 'IBT':
+                    maxScore = 120;
+                    break;
+                case 'CBT':
+                    maxScore = 300;
+                    break;
+                case 'PBT':
+                    maxScore = 677;
+                    break;
+            }
+            return maxScore;
+        };
+        $('.lang-score').on('blur', function () {
+            var examName = this.dataset.langExamName,
+                maxScore;
+            switch(examName) {
+                case 'TOEFL':
+                    maxScore = getToeflMaxScore(this.id);
+                    break;
+                case 'TOEIC':
+                    maxScore = 990;
+                    break;
+                case 'TEPS':
+                    maxScore = 990;
+                    break;
+                case 'IELTS':
+                    maxScore = 9.0;
+                    break;
+                case 'GRE':
+                    maxScore = 9999;
+                    break;
+            }
+            if (this.value > maxScore) {
+                alert( maxScore + '점 이하의 숫자를 입력해주세요.');
+                this.focus();
+            }
+        });
+        <%-- 어학 성적 validation --%>
+
+        <%-- 달력 옵션 --%>
+        var datePickerOption = {
+            dateFormat: 'yymmdd',
+            yearRange: "1950:",
+            monthNamesShort: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
+            dayNamesMin: ['일','월','화','수','목','금','토'],
+            changeMonth: true, //월변경가능
+            changeYear: true, //년변경가능
+            showMonthAfterYear: true //년 뒤에 월 표시
+        };
+
+        <%-- 달력 시작 --%>
+        $('.input-group.date>input').datepicker(datePickerOption);
+        $('.calendar-addon').on('click', function () {
+            $(this.parentNode).children('input')[0].focus();
+        });
+        <%-- 달력 끝 --%>
+
+        <%-- 달력 reset 함수 --%>
+        var resetCalendar = function (block, calendarClass) {
+            $(block).find(calendarClass).datepicker('destroy');
+            $(block).find(calendarClass).datepicker(datePickerOption);
+        };
+        <%-- 달력 reset 함수 --%>
+
+        <%-- 외국어 성적 면제 해당 처리 --%>
+        var checkForlExmp = function (isExmp) {
+            $('.forlInput').each(function () {
+                this.value = '';
+                this.setAttribute('value', '');
+                this.disabled = isExmp;
+                if (this.selectedIndex) this.selectedIndex = 0;
+            });
+            $('.lang-checkbox, .lang-radio').each(function () {
+                this.checked = false;
+                this.disabled = isExmp;
+            });
+            document.getElementById('forlExmpCode').disabled = !isExmp;
+        };
+
+        $('#checkForlExmp').on('click', function () {
+            if (this.checked) {
+                if (confirm('외국어 성적 면제 해당자를 선택하면\n외국어 성적을 입력할 수 없으며,\n이미 입력한 외국어 성적도 삭제됩니다.\n\n외국어 성적 면제 해당자를 선택하시겠습니까?')) {
+                    checkForlExmp(true);
+                } else {
+                    this.checked = false;
+                }
+            } else {
+                checkForlExmp(false);
+            }
+        });
+        <%-- 외국어 성적 면제 해당 처리 --%>
+
+        <%-- form-group-block 추가/삭제에 대한 처리 시작 --%>
+        <%-- id, name 재설정 시작 --%>
+        var updateIdAndName = function ( block, index ) {
+            var i, name, prefix, suffix, input, items, label;
+            var input = block.querySelector('input');
+
+            name = input.name;
+
+            items = block.querySelectorAll('input, select, label');
+            if (items) {
+                for (i = 0; i <items.length; i++) {
+                    name = items[i].name;
+                    if (name) {
+                        prefix = name.substring(0, name.indexOf('['));
+                        suffix = name.substring(name.indexOf(']') + 1);
+                        items[i].name = prefix + '[' + index + ']' + suffix;
+                    }
+                    var oldid = items[i].id;
+                    if (oldid) {
+                        prefix = oldid.substring(0, oldid.indexOf('.'));
+                        prefix = prefix.replace(/[0-9]/g, '');
+                        suffix = oldid.substring(oldid.indexOf('.'));
+                        items[i].id = prefix + index + suffix;
+
+                        label = block.querySelector('label[for="' + oldid + '"]');
+                        if (label) {
+                            label.setAttribute('for', items[i].id);
+                        }
+                    }
+                    if (items[i].id.indexOf('userCUDType') > 0) {
+                        items[i].value = "INSERT";
+                    }
+                }
+            }
+            resetCalendar(block, '.input-group.date>input');
+
+            var removeBtn = block.querySelector('.btn-remove');
+            if (removeBtn) {
+                removeBtn.setAttribute('data-block-index', index);
+            }
+        };
+        <%-- id, name 재설정 끝 --%>
+
+        <%-- 복제된 입력폼 내용 초기화 시작 --%>
+        var resetBlockContents = function ( block ) {
+            var i, items, itemName;
+            block.style.display = 'block';
+            items = block.querySelectorAll('input, select');
+            if (items) {
+                for (i = 0; i <items.length; i++) {
+                    if (items[i].type == 'hidden') {
+                        itemName = items[i].name;
+                        if (itemName.indexOf('userCUDType') > 0) {
+                            items[i].value = "INSERT";
+                        }
+                    }
+                    if (items[i].type != 'hidden' && items[i].type != 'radio' && items[i].type != 'checkbox' && items[i].type != 'button') {
+                        items[i].value = '';
+                        items[i].setAttribute('value', '');
+                    }
+                    if (items[i].checked != null) {
+                        items[i].checked = false;
+                    }
+                }
+            }
+            resetCalendar(block, '.input-group.date>input');
+        };
+        <%-- 복제된 입력폼 내용 초기화 끝 --%>
+
+        $('.btn-add').on('click', function(e) {
+            var target = e.currentTarget ? e.currentTarget : e.target;
+            var container = target.parentNode;
+            while (container && !$(container).hasClass('form-group-block-list')) {
+                container = container.parentNode;
+            }
+            var blocks = container.querySelectorAll('.form-group-block');
+            var originBlock = blocks[blocks.length - 1];
+            var $cloneObj;
+            if (originBlock) {
+                $cloneObj = $(originBlock).clone(true);
+                updateIdAndName($cloneObj[0], blocks.length);
+                resetBlockContents($cloneObj[0]);
+                container.insertBefore($cloneObj[0], originBlock.nextSibling);
+            }
+        });
+
+        $('.btn-remove').on('click', function(e) {
+            var target = e.currentTarget ? e.currentTarget : e.target;
+            var blockToRemove = target.parentNode;
+            while (blockToRemove && !$(blockToRemove).hasClass('form-group-block')) {
+                blockToRemove = blockToRemove.parentNode;
+            }
+            var container = blockToRemove.parentNode;
+            var blocks = container.querySelectorAll('.form-group-block');
+            var length = blocks.length, i;
+            var blockIndex = target.dataset.blockIndex;
+            var userCUDType = document.getElementById(target.dataset.listName + blockIndex + '.userCUDType');
+
+            switch (userCUDType.value) {
+                case 'INSERT' :
+                    for (i = parseInt(blockIndex) + 1; i < length; i++) {
+                        updateIdAndName(blocks[i], i - 1);
+                    }
+                    if (length <= 1) {
+                        resetBlockContents(blockToRemove);
+                    } else {
+                        blockToRemove.parentNode.removeChild(blockToRemove);
+                    }
+                    break;
+                case 'UPDATE' :
+                    userCUDType.value = 'DELETE';
+                    blockToRemove.style.display = 'none';
+                    break;
+            }
+        });
+        <%-- form-group-block 추가/삭제에 대한 처리 끝 --%>
 
         <%-- 단어 잘림 방지 --%>
         $('.word-keep-all').wordBreakKeepAll();

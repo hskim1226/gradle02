@@ -57,15 +57,11 @@ public class GlobalExceptionHandler {
     public ModelAndView handleBizException(HttpServletRequest request,
                                            YSBizException e){
         ModelAndView mv = new ModelAndView(DEFAULT_ERROR_VIEW_NAME);
-        ExecutionContext ec = new ExecutionContext();
+
         logger.error("YSBizException Occured:: URL=" + request.getRequestURL());
         logger.error("StackTrace::" + ExceptionUtils.getFullStackTrace(e));
 
-        ec.setResult(ExecutionContext.FAIL);
-        ec.setMessage(e.getMessage());
-        String errCode = "ERR9800";
-        ec.setErrCode(errCode);
-        mv.addObject("ec", ec);
+        mv.addObject("ec", e.getExecutionContext());
 
         return mv;
     }
@@ -74,13 +70,27 @@ public class GlobalExceptionHandler {
     public ModelAndView handleNoRedirectBizException(HttpServletRequest request,
                                                      YSNoRedirectBizException e){
         ModelAndView mv = new ModelAndView(e.getTargetView());
+
+        logger.error("YSNoRedirectBizException Occured:: URL=" + request.getRequestURL());
+        logger.error("StackTrace::" + ExceptionUtils.getFullStackTrace(e));
+
+        mv.addAllObjects(e.getPreviousDataMap());
+        mv.addObject("ec", e.getExecutionContext());
+
+        return mv;
+    }
+
+    @ExceptionHandler(Exception.class)
+    public ModelAndView handleException(HttpServletRequest request,
+                                        Exception e){
+        ModelAndView mv = new ModelAndView(DEFAULT_ERROR_VIEW_NAME);
         ExecutionContext ec = new ExecutionContext();
         logger.error("YSNoRedirectBizException Occured:: URL=" + request.getRequestURL());
         logger.error("StackTrace::" + ExceptionUtils.getFullStackTrace(e));
 
         ec.setResult(ExecutionContext.FAIL);
         ec.setMessage(e.getMessage());
-        String errCode = "ERR9900";
+        String errCode = "ERR9999";
         ec.setErrCode(errCode);
         mv.addObject("ec", ec);
 

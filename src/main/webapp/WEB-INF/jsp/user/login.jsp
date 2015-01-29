@@ -35,7 +35,9 @@
     <style>
         section.login {
             padding: 200px 0 60px;
-            background: #336655;
+            /*background: #336655;*/
+            background-image: url(${contextPath}/img/common/login-bg1.jpg);
+            background-size: cover;
             color: #fdfdfd;
             min-height: 615px;
         }
@@ -69,26 +71,28 @@
         }
 
         #login-form-container {
-            background-color: #cccccc;
+            background-color: rgba(255, 255, 255, 0.7);
             padding-top: 10%;
             padding-bottom: 6%;
-            /*opacity: 0.4;*/
-            /*filter: alpha(opacity=40); *//* For IE8 and earlier */
         }
 
         .logintext {
             height: 50px;
+            font-size: 100%;
             opacity: 1.0;
-            filter: alpha(opacity=100); /* For IE8 and earlier */
+            margin-bottom: 5%;
         }
 
         .text-gray {
             color: #333333;
             opacity: 1.0;
-            filter: alpha(opacity=100); /* For IE8 and earlier */
             text-align: center;
         }
 
+        #logo-container {
+            text-align: center;
+            margin-bottom: 5%;
+        }
 
 
     </style>
@@ -99,6 +103,10 @@
         <div class="col-md-offset-3 col-md-6">
             <form class="form-horizontal" role="form" action="${contextPath}/j_spring_security_check.do" method="post">
                 <div class="form-group" id="login-form-container">
+                    <div class="col-sm-offset-1 col-sm-10" id="logo-container">
+                        <img src="${contextPath}/img/common/yonsei-logo01.png" align="center">
+                    </div>
+                    <div class="spacer-small">&nbsp;</div>
                     <%--<label for="username" class="col-sm-2 control-label">사용자 ID</label>--%>
                     <div class="col-sm-offset-1 col-sm-10">
                         <input type="text" class="form-control logintext" id="username" name="j_username" placeholder="User ID">
