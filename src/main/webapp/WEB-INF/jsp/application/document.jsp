@@ -431,7 +431,7 @@
                                                                         </c:otherwise>
                                                                     </c:choose>
                                                                     <c:if test="${lv5Container.lastYn == null || lv5Container.lastYn == 'N'}">
-                                                            </div>
+                                                             </div>
                                                         </div>
                                                                     </c:if>
                                                                 </c:forEach>

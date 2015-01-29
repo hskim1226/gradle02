@@ -97,8 +97,6 @@ public class AcademyServiceImpl implements AcademyService {
             }
         }
 
-
-        String applStsCode;
         int currentStsCode = Integer.parseInt(application.getApplStsCode());
         if (currentStsCode < Integer.parseInt(ACAD_SAVED))
             application.setApplStsCode(ACAD_SAVED);
@@ -125,7 +123,6 @@ public class AcademyServiceImpl implements AcademyService {
         } else {
             ec.setResult(ExecutionContext.FAIL);
             ec.setMessage(messageResolver.getMessage("U318"));
-            ec.setData(new ApplicationIdentifier(applNo, APP_NULL_STATUS));
             String errCode = null;
             if ( r0 == 0 ) errCode = "ERR0003";
             else if ( insert != insertResult ) errCode = "ERR0011";
