@@ -304,7 +304,6 @@
                                         <form:hidden path="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].langSeq" value="${langList.langSeq}"/>
                                         <form:hidden path="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].langExamGrp" value="${langList.langExamGrp}"/>
                                         <form:hidden path="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].docItemCode" value="${langList.docItemCode}"/>
-                                        <form:hidden path="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].userCUDType" value='${langCareer.languageGroupList[langGroupStat.index].langList[langListStat.index].userCUDType}'/>
                                         <form:hidden path="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].fileUploadFg" value="${langList.fileUploadFg}"/>
                                         <form:hidden path="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].langInfoSaveFg" value="${langList.langInfoSaveFg}"/>
                                         <div class="checkbox">
@@ -312,10 +311,10 @@
                                                 <c:if test='${langList.canYn == "Y"}'>
                                                     <c:choose>
                                                         <c:when test='${langGroup.multiYn == "Y"}'>
-                                                <input type="checkbox" class="lang-checkbox" id="checkLang-${langListStat.index}" <c:if test="${langList.langInfoSaveFg == true}">checked</c:if>/>
+                                                <input type="checkbox" class="lang-checkbox" id="checkLang-${langListStat.index}" name="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].checkedFg" <c:if test="${langList.langInfoSaveFg == true}">checked</c:if> />
                                                         </c:when>
                                                         <c:otherwise>
-                                                <input type="radio" class="lang-radio" id="radioLang-${langListStat.index}" <c:if test="${langList.langInfoSaveFg == true}">checked</c:if>/>
+                                                <input type="radio" class="lang-radio" id="radioLang-${langListStat.index}" name="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].checkedFg" <c:if test="${langList.langInfoSaveFg == true}">checked</c:if> />
                                                         </c:otherwise>
                                                     </c:choose>
                                                 </c:if>${langList.itemName}
@@ -499,8 +498,10 @@
         $('.lang-checkbox').on('change', function () {
             var id = this.id,
                 currentIndex, classToToggle;
-            currentIndex = id.substr(id.lastIndexOf('-')+1);
+
+            currentIndex = id.substr(id.lastIndexOf('-')+1),
             classToToggle = '.lang-detail-' + currentIndex;
+
             if (this.checked) {
                 $(classToToggle).css('display', 'block');
             } else {
@@ -509,9 +510,11 @@
         });
         $('.lang-radio').on('change', function () {
             var id = this.id,
-                    currentIndex, classToShow;
-            currentIndex = id.substr(id.lastIndexOf('-')+1);
+                currentIndex, classToShow;
+
+            currentIndex = id.substr(id.lastIndexOf('-')+1),
             classToShow = '.lang-detail-' + currentIndex;
+
             $('.lang-radio').each( function () {
                 if (this.checked) {
                     $(classToShow).css('display', 'block');

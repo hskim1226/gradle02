@@ -81,6 +81,7 @@ public class AcademyServiceImpl implements AcademyService {
     public ExecutionContext retrieveAcademy(Academy academy) {
         String aaMapperSqlId = "CustomApplicationAcademyMapper.selectByApplNoAcadTypeCode";
         ExecutionContext ec = new ExecutionContext();
+        Map<String, Object> ecDataMap = new HashMap<String, Object>();
         int applNo = academy.getApplication().getApplNo();
 
         Application application = commonDAO.queryForObject(NAME_SPACE + "ApplicationMapper.selectByPrimaryKey",
@@ -99,7 +100,8 @@ public class AcademyServiceImpl implements AcademyService {
         academy.setGraduateList(setUserDataStatus(graduateList, UserCUDType.UPDATE));
 
         ec.setResult(ExecutionContext.SUCCESS);
-        ec.setData(academy);
+        ecDataMap.put("academy", academy);
+        ec.setData(ecDataMap);
 
         return ec;
     }

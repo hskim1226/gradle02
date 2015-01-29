@@ -135,7 +135,7 @@ public class LangCareerServiceImpl implements LangCareerService {
 
             for(TotalApplicationLanguage aLang : aGroup.getLangList()){
 
-                if(aLang.getUserCUDType() == UserCUDType.INSERT ){
+                if(aLang.isCheckedFg() == true ){
                     if( !aLang.isLangInfoSaveFg()) {
                         //APPL_LANG, INSERT
 
@@ -145,14 +145,14 @@ public class LangCareerServiceImpl implements LangCareerService {
                         commonDAO.insertItem( aLang, NAME_SPACE, "ApplicationLanguageMapper");
                         insert++;
                     }
-                }else if( aLang.getUserCUDType() == UserCUDType.UPDATE ){
+                }else if( aLang.isCheckedFg() == true ){
                     if( aLang.isLangInfoSaveFg()) {
                         //APPL_LANG,  UPDATE
                         TotalApplicationLanguage tmpLang = aLang;
                         commonDAO.updateItem( aLang, NAME_SPACE, "ApplicationLanguageMapper");
                         update++;
                     }
-                }else if(aLang.getUserCUDType() == UserCUDType.DELETE ){
+                }else if(aLang.isCheckedFg() == true ){
 
                     if( aLang.isLangInfoSaveFg()) {
                         //APPL_LANG, APPL_DOC, DELETE
@@ -208,7 +208,7 @@ public class LangCareerServiceImpl implements LangCareerService {
         for (LanguageGroup groupItem : list) {
             List<TotalApplicationLanguage> langList = groupItem.getLangList();
             for (TotalApplicationLanguage langItem : langList) {
-                langItem.setUserCUDType(userCUDType);
+                langItem.setCheckedFg(true);
             }
         }
         return list;

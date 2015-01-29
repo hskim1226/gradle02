@@ -3,7 +3,7 @@ package com.apexsoft.ysprj.applicants.application.domain;
 public class TotalApplicationLanguage extends CustomApplicationLanguage{
 
     // 어학 항목 별 사용자 CUD 상태
-    private UserCUDType userCUDType;
+    private boolean checkedFg;
 
     //첨부파일 정보
     private int docSeq;
@@ -28,12 +28,12 @@ public class TotalApplicationLanguage extends CustomApplicationLanguage{
     //파일 업로드 여부
     private boolean fileUploadFg = false;
 
-    public UserCUDType getUserCUDType() {
-        return userCUDType;
+    public boolean isCheckedFg() {
+        return checkedFg;
     }
 
-    public void setUserCUDType(UserCUDType userCUDType) {
-        this.userCUDType = userCUDType;
+    public void setCheckedFg(boolean checkedFg) {
+        this.checkedFg = checkedFg;
     }
 
     public int getDocSeq() {
