@@ -101,18 +101,16 @@
 <section class="login">
     <div class="container">
         <div class="col-md-offset-3 col-md-6">
-            <form class="form-horizontal" role="form" action="${contextPath}/j_spring_security_check.do" method="post">
+            <form class="form-horizontal" role="form" name="users" action="${contextPath}/j_spring_security_check.do" method="post">
                 <div class="form-group" id="login-form-container">
                     <div class="col-sm-offset-1 col-sm-10" id="logo-container">
                         <img src="${contextPath}/img/common/yonsei-logo01.png" align="center">
                     </div>
                     <div class="spacer-small">&nbsp;</div>
-                    <%--<label for="username" class="col-sm-2 control-label">사용자 ID</label>--%>
                     <div class="col-sm-offset-1 col-sm-10">
                         <input type="text" class="form-control logintext" id="username" name="j_username" placeholder="User ID">
                     </div>
                     <div class="spacer-small">&nbsp;</div>
-                    <%--<label for="password" class="col-sm-2 control-label">비밀 번호</label>--%>
                     <div class="col-sm-offset-1 col-sm-10">
                         <input type="password" class="form-control logintext" id="password" name="j_password" placeholder="Password">
                     </div>
@@ -120,6 +118,12 @@
                     <div class="col-sm-offset-1 col-sm-10">
                         <button class="btn btn-primary btn-lg btn-block logintext">로그인</button>
                     </div>
+                    <c:if test="${loginMessage}">
+                        <div class="spacer-small">&nbsp;</div>
+                        <div class="col-sm-offset-1 col-sm-10">
+                            <div class="panel panel-danger">${loginMessage}</div>
+                        </div>
+                    </c:if>
                     <div class="spacer-small">&nbsp;</div>
                     <div class="col-sm-offset-1 col-sm-10">
                         <div class="text-gray">아직 회원이 아니세요? <a href="${contextPath}/user/agreement">회원 가입</a></div>
