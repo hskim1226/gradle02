@@ -381,11 +381,12 @@
                                             <c:choose>
                                                 <c:when test="${lv3Container.lastYn == 'Y'}">
                                         <div class="form-group">
+                                            <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].subContainer[${lv3Status.index}].docSeq" value="${lv3Container.docSeq}" />
                                             <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].subContainer[${lv3Status.index}].docTypeCode" value="${lv3Container.docTypeCode}" />
                                             <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].subContainer[${lv3Status.index}].docGrp" value="${lv3Container.docGrp}" />
                                             <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].subContainer[${lv3Status.index}].docItemCode" value="${lv3Container.docItemCode}" />
                                             <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].subContainer[${lv3Status.index}].docItemName" value="${lv3Container.docItemName}" />
-
+                                            <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].subContainer[${lv3Status.index}].grpLabel" value="${lv3Container.grpLabel}" />
                                             <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].subContainer[${lv3Status.index}].fileExt" value="${lv3Container.fileExt}" />
                                             <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].subContainer[${lv3Status.index}].imgYn" value="${lv3Container.imgYn}" />
                                             <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].subContainer[${lv3Status.index}].filePath" value="${lv3Container.filePath}" />
@@ -426,9 +427,36 @@
                                                        data-img-yn-id="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.imgYn"
                                                        data-target-file-link-id="file-link-${lv1Status.index}-${lv2Status.index}-${lv3Status.index}"
                                                        data-org-filename-id="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.orgFileName"
-                                                       data-file-path="fileList0.filePath"
-                                                       data-file-name="fileList0.fileName"
-                                                       data-org-file-name="fileList0.orgFileName"/>
+
+                                                       data-doc-prop-docSeq="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.docSeq"
+                                                       data-doc-prop-docTypeCode="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.docTypeCode"
+                                                       data-doc-prop-docGrp="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.docGrp"
+                                                       data-doc-prop-docItemCode="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.docItemCode"
+                                                       data-doc-prop-docItemName="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.docItemName"
+                                                       data-doc-prop-docGrpLabel="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.grpLabel"
+                                                       data-doc-prop-fileExt="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.fileExt"
+                                                       data-doc-prop-imgYn="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.imgYn"
+                                                       data-doc-prop-filePath="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.filePath"
+                                                       data-doc-prop-fileName="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.fileName"
+                                                       data-doc-prop-orgFileName="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.orgFileName"
+                                                       data-doc-prop-docItemNameXxen="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.docItemNameXxen"
+                                                       data-doc-prop-docGrpName="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.docGrpName"
+                                                       data-doc-prop-fileUploadFg="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.fileUploadFg"
+                                                       data-doc-prop-displayGrpFg="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.displayGrpFg"
+                                                       data-doc-prop-admsNo="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.admsNo"
+                                                       data-doc-prop-admsCorsNo="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.admsCorsNo"
+                                                       data-doc-prop-detlMajCode="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.detlMajCode"
+                                                       data-doc-prop-admsCodeGrp="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.admsCodeGrp"
+                                                       data-doc-prop-admsCode="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.admsCode"
+                                                       data-doc-prop-grpLevel="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.grpLevel"
+                                                       data-doc-prop-docItemGrp="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.docItemGrp"
+                                                       data-doc-prop-upCodeGrp="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.upCodeGrp"
+                                                       data-doc-prop-upCode="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.upCode"
+                                                       data-doc-prop-lastYn="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.lastYn"
+                                                       data-doc-prop-mdtYn="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.mdtYn"
+                                                       data-doc-prop-uploadYn="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.uploadYn"
+                                                       data-doc-prop-sendCnt="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.sendCnt"
+                                                />
                                             </div>
                                             <div class="col-sm-3 control-label"><a id="file-link-${lv1Status.index}-${lv2Status.index}-${lv3Status.index}" href="">${lv3Container.orgFileName}</a></div>
                                         </div>
@@ -504,109 +532,6 @@
                     </div>
                 </div>
             <div class="spacer-tiny"></div>
-
-
-                    <%--<c:if test="${lv1Container.subContainer.size() > 0}">--%>
-                        <%--<div class="panel panel-darkgray">--%>
-                            <%--<div class="panel-heading"><c:if test="${lv1Container.lastYn == null || lv1Container.lastYn == 'N'}">${lv1Container.grpLabel}</c:if></div>--%>
-                            <%--<div class="panel-body" id="docContainerList${lv1Status.index}.list">--%>
-                        <%--<c:forEach items="${lv1Container.subContainer}" var="lv2Container" varStatus="lv2Status">--%>
-                            <%--<c:if test="${lv1Container.subContainer.size() > 0}">--%>
-                            <%--<div class="panel panel-darkgray">--%>
-                                <%--<div class="panel-heading"><c:if test="${lv1Container.lastYn == null || lv1Container.lastYn == 'N'}">${lv1Container.grpLabel}</c:if></div>--%>
-                                <%--<div class="panel-body" id="docContainerList${lv1Status.index}.list">--%>
-
-
-
-
-                                <%--<div class="form-group" id="docContainerList${lv1Status.index}.subContainer${lv2Status.index}.${lv2Container.docItemCode}">--%>
-                                    <%--<label class="col-sm-3 control-label word-keep-all">${lv2Container.docItemName}</label>--%>
-                                    <%--<div class="col-sm-8">--%>
-                                        <%--<div class="input-group">--%>
-                                            <%--<div class="input-group-btn">--%>
-                                                <%--<input type="file" class="btn btn_lg btn-file" id="docContainerList${grpStat.index}.mandDocList${docStat.index}.docName" name="docContainerList[${grpStat.index}].mandDocList[${docStat.index}].docName"/>--%>
-                                            <%--</div>--%>
-                                            <%--<c:if test="${mandDoc.orgnSendYn =='Y' || mandDoc.orgnSendYn =='y'}">--%>
-                                                <%--<div class="apexMessage">${mandDoc.msgNo}</div>--%>
-                                            <%--</c:if>--%>
-                                            <%--<c:if test="${mandDoc.orgnSendYn =='N' || mandDoc.orgnSendYn !='n'}">--%>
-                                                <%--<div class="col-sm-4 nopadding"><input type="button" id="docContainerList${grpStat.index}.mandDocList${docStat.index}.btn" name="docContainerList[${grpStat.index}].mandDocList[${docStat.index}].btn"--%>
-                                                                                       <%--class="btn btn-default btn-block btn-upload" value="올리기"--%>
-                                                                                       <%--data-file-path="docContainerList${grpStat.index}.mandDocList${docStat.index}.filePath"--%>
-                                                                                       <%--data-file-name="docContainerList${grpStat.index}.mandDocList${docStat.index}.fileName"--%>
-                                                                                       <%--data-org-file-name="docContainerList${grpStat.index}.mandDocList${docStat.index}.orgFileName"/>--%>
-                                                <%--</div>--%>
-                                                    <%--<span class="col-sm-8" id="docContainerList${grpStat.index}.mandDocList${docStat.index}" style="text-decoration: none;">--%>
-                                                        <%--<a href="${contextPath}/filedownload/attached/${entireApplication.application.admsNo}/${entireApplication.application.applNo}/${mandDoc.fileName}/${mandDoc.orgFileName}">${mandDoc.orgFileName}</a>--%>
-                                                    <%--</span>--%>
-                                            <%--</c:if>--%>
-                                        <%--</div>--%>
-                                    <%--</div>--%>
-                                    <%--<form:hidden path="documentContainerList[${grpStat.index}].mandDocList[${docStat.index}].docTypeCode" value="${mandDoc.docTypeCode}" />--%>
-                                    <%--<form:hidden path="documentContainerList[${grpStat.index}].mandDocList[${docStat.index}].docGrp" value="${mandDoc.docGrp}" />--%>
-                                    <%--<form:hidden path="documentContainerList[${grpStat.index}].mandDocList[${docStat.index}].docItemCode" value="${mandDoc.docItemCode}" />--%>
-                                    <%--<form:hidden path="documentContainerList[${grpStat.index}].mandDocList[${docStat.index}].docItemName" value="${mandDoc.docItemName}" />--%>
-                                    <%--<form:hidden path="documentContainerList[${grpStat.index}].mandDocList[${docStat.index}].filePath"  value="${mandDoc.filePath}"/>--%>
-                                    <%--<form:hidden path="documentContainerList[${grpStat.index}].mandDocList[${docStat.index}].fileName"  value="${mandDoc.fileName}"/>--%>
-                                    <%--<form:hidden path="documentContainerList[${grpStat.index}].mandDocList[${docStat.index}].orgFileName"  value="${mandDoc.orgFileName}"/>--%>
-                                <%--</div>--%>
-                        <%--</c:forEach>--%>
-                            <%--</div>--%>
-                        <%--</div>--%>
-                        <%--<div class="spacer-tiny"></div>--%>
-                    <%--</c:if>--%>
-
-                    <%--<c:if test = "${docContainer.subGrp.size()>0}">--%>
-                        <%--<div class="panel panel-darkgray">--%>
-                            <%--<div class="panel-heading">${docContainer.fileGroupName} 서류</div>--%>
-                            <%--<div class="panel-body" id="docContainerList${grpStat.index}.list">--%>
-                                <%--<div class="form-group-block-list" id="fuCollegeDocBlockList">--%>
-                                    <%--<c:forEach items="${docContainer.subGrp}" var="subGrp" varStatus="subGrpStat">--%>
-                                        <%--<div class="form-group-block">--%>
-                                            <%--<c:forEach items="${subGrp.mandDocList}" var="mandDoc" varStatus="docStat">--%>
-                                                <%--<hr/>--%>
-                                                <%--<div class="form-group" id="docContainerList${grpStat.index}.subGrp${subGrpStat.index}.mandDocList${docStat.index}.${mandDoc.docItemCode}">--%>
-                                                    <%--<label class="col-sm-3 control-label word-keep-all">${mandDoc.docItemName}</label>--%>
-                                                    <%--<div class="col-sm-8">--%>
-                                                        <%--<div class="input-group">--%>
-                                                            <%--<div class="input-group-btn">--%>
-                                                                <%--<input type="file" class="btn btn_lg btn-file" id="docContainerList${grpStat.index}.subGrp${subGrpStat.index}.mandDocList${docStat.index}.docName" name="docContainerList[${grpStat.index}].subGrp[${subGrpStat.index}].mandDocList[${docStat.index}].docName"/>--%>
-                                                            <%--</div>--%>
-                                                            <%--<c:if test="${mandDoc.orgnSendYn =='Y' || mandDoc.orgnSendYn =='y'}">--%>
-                                                                <%--<div class="apexMessage">${mandDoc.msgNo}</div>--%>
-                                                            <%--</c:if>--%>
-                                                            <%--<c:if test="${mandDoc.orgnSendYn =='N' || mandDoc.orgnSendYn !='n'}">--%>
-                                                                <%--<div class="col-sm-4 nopadding"><input type="button" id="docContainerList${grpStat.index}.subGrp${subGrpStat.index}.mandDocList${docStat.index}.btn" name="docContainerList[${grpStat.index}].mandDocList[${docStat.index}].btn"--%>
-                                                                                                       <%--class="btn btn-default btn-block btn-upload" value="올리기"--%>
-                                                                                                       <%--data-file-path="docContainerList${grpStat.index}.subGrp${subGrpStat.index}.mandDocList${docStat.index}.filePath"--%>
-                                                                                                       <%--data-file-name="docContainerList${grpStat.index}.subGrp${subGrpStat.index}.mandDocList${docStat.index}.fileName"--%>
-                                                                                                       <%--data-org-file-name="docContainerList${grpStat.index}.subGrp${subGrpStat.index}.mandDocList${docStat.index}.orgFileName"/>--%>
-                                                                <%--</div>--%>
-                                                                    <%--<span class="col-sm-8" id="docContainerList${grpStat.index}.subGrp${subGrpStat.index}.mandDocList${docStat.index}" style="text-decoration: none;">--%>
-                                                                        <%--<a href="${contextPath}/filedownload/attached/${entireApplication.application.admsNo}/${entireApplication.application.applNo}/${mandDoc.fileName}/${mandDoc.orgFileName}">${mandDoc.orgFileName}</a>--%>
-                                                                    <%--</span>--%>
-                                                            <%--</c:if>--%>
-                                                        <%--</div>--%>
-                                                    <%--</div>--%>
-                                                    <%--<form:hidden path="docContainerList[${grpStat.index}].subGrp[${subGrpStat.index}].mandDocList[${docStat.index}].docTypeCode" value="${mandDoc.docTypeCode}" />--%>
-                                                    <%--<form:hidden path="docContainerList[${grpStat.index}].subGrp[${subGrpStat.index}].mandDocList[${docStat.index}].docGrp" value="${mandDoc.docGrp}" />--%>
-                                                    <%--<form:hidden path="docContainerList[${grpStat.index}].subGrp[${subGrpStat.index}].mandDocList[${docStat.index}].docItemCode" value="${mandDoc.docItemCode}" />--%>
-                                                    <%--<form:hidden path="docContainerList[${grpStat.index}].subGrp[${subGrpStat.index}].mandDocList[${docStat.index}].docItemName" value="${mandDoc.docItemName}" />--%>
-                                                    <%--<form:hidden path="docContainerList[${grpStat.index}].subGrp[${subGrpStat.index}].mandDocList[${docStat.index}].filePath"  value="${mandDoc.filePath}"/>--%>
-                                                    <%--<form:hidden path="docContainerList[${grpStat.index}].subGrp[${subGrpStat.index}].mandDocList[${docStat.index}].fileName"  value="${mandDoc.fileName}"/>--%>
-                                                    <%--<form:hidden path="docContainerList[${grpStat.index}].subGrp[${subGrpStat.index}].mandDocList[${docStat.index}].orgFileName"  value="${mandDoc.orgFileName}"/>--%>
-                                                <%--</div>--%>
-                                            <%--</c:forEach>--%>
-                                        <%--</div>--%>
-                                    <%--</c:forEach>--%>
-                                <%--</div>--%>
-                            <%--</div>--%>
-                        <%--</div>--%>
-                    <%--</c:if>--%>
-                    <%--<div class="spacer-tiny"></div>--%>
-                <%--</c:forEach>--%>
-                    <%--</div>--%>
-                <%--</div>--%>
                 <div class="btn-group btn-group-justified">
                     <div class="btn-group">
                         <button id="saveDocument" type="button" class="btn btn-info btn-lg btn-save" data-saveType="document">작성 완료</button>
@@ -727,15 +652,38 @@
                         fileElementId: fileInputId,
                         dataType: 'json',
                         data: {
-                            applNo: document.getElementById('applNo').value,
-                            docSeq: '',
-                            docTypeCode: document.getElementById('docTypeCode').value,
+                            docSeq: document.getElementById(this.dataset.docPropDocseq).value,
+                            docTypeCode: document.getElementById(this.dataset.docPropDoctypecode).value,
+                            docGrp: document.getElementById(this.dataset.docPropDocgrp).value,
+                            docItemCode: document.getElementById(this.dataset.docPropDocitemcode).value,
+                            docItemName: document.getElementById(this.dataset.docPropDocitemname).value,
+                            docGrpLabel: document.getElementById(this.dataset.docPropDocgrplabel).value,
+                            fileExt: document.getElementById(this.dataset.docPropFileext).value,
+                            imgYn: document.getElementById(this.dataset.docPropImgyn).value,
+                            filePath: document.getElementById(this.dataset.docPropFilepath).value,
+                            fileName: document.getElementById(this.dataset.docPropFilename).value,
+                            orgFileName: document.getElementById(this.dataset.docPropOrgfilename).value,
+                            docItemNameXxen: document.getElementById(this.dataset.docPropDocitemnamexxen).value,
+                            docGrpName: document.getElementById(this.dataset.docPropDocgrpname).value,
+                            fileUploadFg: document.getElementById(this.dataset.docPropFileuploadfg).value,
+                            displayGrpFg: document.getElementById(this.dataset.docPropDisplaygrpfg).value,
+                            admsCorsNo: document.getElementById(this.dataset.docPropAdmscorsno).value,
+                            detlMajCode: document.getElementById(this.dataset.docPropDetlmajcode).value,
+                            admsCodeGrp: document.getElementById(this.dataset.docPropAdmscodegrp).value,
+                            admsCode: document.getElementById(this.dataset.docPropAdmscode).value,
+                            grpLevel: document.getElementById(this.dataset.docPropGrplevel).value,
+                            docItemGrp: document.getElementById(this.dataset.docPropDocitemgrp).value,
+                            upCodeGrp: document.getElementById(this.dataset.docPropUpcodegrp).value,
+                            upCode: document.getElementById(this.dataset.docPropUpcode).value,
+                            lastYn: document.getElementById(this.dataset.docPropLastyn).value,
+                            mdtYn: document.getElementById(this.dataset.docPropMdtyn).value,
+                            uploadYn: document.getElementById(this.dataset.docPropUploadyn).value,
+                            sendCnt: document.getElementById(this.dataset.docPropSendcnt).value,
 
-                            'application.applNo': document.getElementById('applNo').value,
-                            'documentContainerList[0].grpLabel': '88888',
                             fieldName: fileInputName,
                             targetButton: this.id,
                             targetFileLinkId: targetFileLinkId,
+                            applNo: document.getElementById('applNo').value,
                             admsNo: document.getElementById('admsNo').value
                         },
                         success: function (data, status) {

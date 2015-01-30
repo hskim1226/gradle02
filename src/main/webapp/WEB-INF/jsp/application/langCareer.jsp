@@ -387,28 +387,22 @@
                                             <form:hidden path="applicationExperienceList[${stat.index}].saveFg" />
                                             <div class="form-group required">
                                                 <label class="col-sm-2 control-label">재직 기간</label>
-                                                <div class="col-sm-4 start-date-container">
+                                                <div class="col-sm-3 start-date-container">
                                                     <div class="input-group date">
                                                         <span class="input-group-addon">입사일</span>
                                                         <form:input path="applicationExperienceList[${stat.index}].joinDay" cssClass="form-control" readonly="true" />
                                                         <span class="input-group-addon calendar-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                                                     </div>
                                                 </div>
-                                                <div class="col-sm-4 end-date-container">
-                                                    <%--<div class="input-group date">--%>
-                                                        <%--<span class="input-group-addon">퇴사일</span>--%>
-                                                        <%--<form:input path="applicationExperienceList[${stat.index}].retrDay" cssClass="form-control" readonly="true" />--%>
-                                                        <%--<span class="input-group-addon calendar-addon"><span class="glyphicon glyphicon-calendar"></span></span>--%>
-                                                    <%--</div>--%>
+                                                <div class="col-sm-3 end-date-container">
                                                     <div class="input-group date">
                                                         <span class="input-group-addon">퇴사일</span>
                                                         <form:input path="applicationExperienceList[${stat.index}].retrDay" cssClass="form-control" readonly="true" />
                                                         <span class="input-group-addon calendar-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                                                     </div>
-                                                    <div class="col-sm-4">
-                                                        <label class="col-sm-5 radio-inline">
-                                                            <input type="radio" class="curr-radio" id="radioCurr-${stat.index}" name="applicationExperienceList[${stat.index}].currYn" <c:if test="${langCareer.applicationExperienceList[stat.index].currYn == 'Y'}">checked</c:if> />재직중</label>
-                                                    </div>
+                                                </div>
+                                                <div class="col-sm-2">
+                                                    <label class="radio-inline"><input type="radio" class="curr-radio" id="radioCurr-${stat.index}" name="applicationExperienceList[${stat.index}].currYn" <c:if test="${langCareer.applicationExperienceList[stat.index].currYn == 'Y'}">checked</c:if> />재직중</label>
                                                 </div>
                                             </div>
                                             <div class="form-group required">
@@ -745,6 +739,7 @@
             var blocks = container.querySelectorAll('.form-group-block');
             var length = blocks.length, i;
             var blockIndex = target.dataset.blockIndex;
+            // TODO : userCUDType 처리
             var userCUDType = document.getElementById(target.dataset.listName + blockIndex + '.userCUDType');
 
             switch (userCUDType.value) {
