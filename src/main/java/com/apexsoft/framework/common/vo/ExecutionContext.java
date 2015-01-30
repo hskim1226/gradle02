@@ -13,10 +13,9 @@ public class ExecutionContext <T>{
     public static String FAIL = "FAIL";
 
     private String result;
-
     private T data;
-
     private String message;
+    private String errCode;
 
     public ExecutionContext() {
         this.result = SUCCESS;
@@ -31,10 +30,23 @@ public class ExecutionContext <T>{
         this.message = message;
     }
 
+    public ExecutionContext(String result, String message, String errCode) {
+        this.result = result;
+        this.message = message;
+        this.errCode = errCode;
+    }
+
     public ExecutionContext(String result, String message, T data) {
         this.result = result;
         this.message = message;
         this.data = data;
+    }
+
+    public ExecutionContext(String result, String message, T data, String errCode) {
+        this.result = result;
+        this.message = message;
+        this.data = data;
+        this.errCode = errCode;
     }
 
     public String getResult() {
@@ -59,6 +71,14 @@ public class ExecutionContext <T>{
 
     public void setData(T data) {
         this.data = data;
+    }
+
+    public String getErrCode() {
+        return errCode;
+    }
+
+    public void setErrCode(String errCode) {
+        this.errCode = errCode;
     }
 
     @Override

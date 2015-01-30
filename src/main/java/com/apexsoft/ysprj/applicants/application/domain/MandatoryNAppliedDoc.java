@@ -162,7 +162,7 @@ public class MandatoryNAppliedDoc extends ApplicationDocument{
 
         setGrpCode     (comMand.getGrpCode());//그룹코드
         setGrpName     (comMand.getGrpName());//그룹명 (필요없을 듯)
-        setItemGrpCode (comMand.getItemGrpCode());//문서 그룹 코드
+        //setItemGrpCode (comMand.getItemGrpCode());//문서 그룹 코드
         setItemGrpName (comMand.getItemGrpName());//문서 그룹 명 (필요없을 듯)
         setItemCode    (comMand.getItemCode());//문서코드
         setItemName    (comMand.getItemName());//문서명

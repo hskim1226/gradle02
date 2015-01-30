@@ -18,7 +18,6 @@ import com.apexsoft.ysprj.applicants.payment.domain.ApplicationPayment;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.io.FileUtils;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -33,9 +32,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.security.Principal;
-import java.sql.Timestamp;
 import java.util.*;
-import java.util.logging.Logger;
 
 /**
  * Created by hanmomhanda on 14. 8. 6.
@@ -439,7 +436,7 @@ public class ApplicationController {
         }
 
 //        return ec;
-        CustomApplNoStsCode data = (CustomApplNoStsCode)ec.getData();
+        ApplicationIdentifier data = (ApplicationIdentifier)ec.getData();
 
         return getEntireInfo(data.getApplNo(), application.getAdmsNo(),
                 application.getEntrYear(), application.getAdmsTypeCode(), "application/appinfo",
@@ -535,7 +532,7 @@ public class ApplicationController {
                     entireApplication.getGraduateList());
         }
 
-        CustomApplNoStsCode data = (CustomApplNoStsCode)ec.getData();
+        ApplicationIdentifier data = (ApplicationIdentifier)ec.getData();
 
         return getEntireInfo(data.getApplNo(), application.getAdmsNo(),
                 application.getEntrYear(), application.getAdmsTypeCode(), "application/appinfo",
@@ -609,7 +606,7 @@ public class ApplicationController {
                     entireApplication.getApplicationExperienceList());
         }
 
-        CustomApplNoStsCode data = (CustomApplNoStsCode)ec.getData();
+        ApplicationIdentifier data = (ApplicationIdentifier)ec.getData();
 
         return getEntireInfo(data.getApplNo(), application.getAdmsNo(),
                 application.getEntrYear(), application.getAdmsTypeCode(), "application/appinfo",
@@ -648,7 +645,7 @@ public class ApplicationController {
             ec = applicationService.updateFileUpload(application, docGroupFileList);
         }
 
-        CustomApplNoStsCode data = (CustomApplNoStsCode)ec.getData();
+        ApplicationIdentifier data = (ApplicationIdentifier)ec.getData();
 
         return getEntireInfo(data.getApplNo(), application.getAdmsNo(),
                 application.getEntrYear(), application.getAdmsTypeCode(), "application/appinfo",
@@ -756,7 +753,7 @@ public class ApplicationController {
 
         ExecutionContext ec = applicationService.confirmEntireApplication(entireApplication);
 
-        CustomApplNoStsCode data = (CustomApplNoStsCode)ec.getData();
+        ApplicationIdentifier data = (ApplicationIdentifier)ec.getData();
 
         return getEntireInfo(data.getApplNo(), application.getAdmsNo(),
                 application.getEntrYear(), application.getAdmsTypeCode(), "application/mylist",
@@ -878,7 +875,7 @@ public class ApplicationController {
 
         Application application = entireApplication.getApplication();
 
-        CustomApplNoStsCode data = (CustomApplNoStsCode)ec.getData();
+        ApplicationIdentifier data = (ApplicationIdentifier)ec.getData();
 
         return getEntireInfo(data.getApplNo(), application.getAdmsNo(),
                 application.getEntrYear(), application.getAdmsTypeCode(), "application/appinfo",

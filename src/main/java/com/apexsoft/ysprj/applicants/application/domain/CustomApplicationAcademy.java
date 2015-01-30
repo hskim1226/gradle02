@@ -1,12 +1,12 @@
 package com.apexsoft.ysprj.applicants.application.domain;
 
-import java.util.Date;
-
 public class CustomApplicationAcademy extends ApplicationAcademy {
 
     private String korCntrName ;
 
     private String engCntrName ;
+
+    private UserCUDType userCUDType;
 
     public String getKorCntrName() {
         return korCntrName;
@@ -22,5 +22,13 @@ public class CustomApplicationAcademy extends ApplicationAcademy {
 
     public void setEngCntrName(String engCntrName) {
         this.engCntrName = engCntrName;
+    }
+
+    public UserCUDType getUserCUDType() {
+        return userCUDType;
+    }
+
+    public void setUserCUDType(UserCUDType userCUDType) {
+        this.userCUDType = userCUDType;
     }
 }

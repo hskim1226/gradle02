@@ -20,6 +20,7 @@
         <tx:attributes>
             <tx:method name="*TxNew"   	propagation="REQUIRES_NEW" 	rollback-for="Throwable"/>
             <tx:method name="get*" 		propagation="SUPPORTS" 	read-only="true"		/>
+            <tx:method name="retrieve*" propagation="SUPPORTS" 	read-only="true"		/>
             <tx:method name="select*"	propagation="SUPPORTS" 	read-only="true"		/>
             <tx:method name="*"	 	    propagation="REQUIRED" 	rollback-for="Throwable"/>
         </tx:attributes>

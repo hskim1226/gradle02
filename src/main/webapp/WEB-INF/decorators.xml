@@ -10,15 +10,16 @@
         <pattern>/notice/*</pattern>
         <pattern>/application/*</pattern>
         <pattern>/mail/*</pattern>
-        <pattern>/user/*</pattern>
+        <!--<pattern>/user/*</pattern>-->
         <pattern>/pay/*</pattern>
         <pattern>/main/*</pattern>
-        <pattern>/index.jsp</pattern>
-        <pattern>/index</pattern>
+        <!--<pattern>/index.jsp</pattern>-->
+        <!--<pattern>/index</pattern>-->
         <pattern>/mypage</pattern>
         <pattern>/qna/*</pattern>
         <pattern>/pds/*</pattern>
         <pattern>/test/*</pattern>
+        <pattern>/common/error.jsp</pattern>
     </decorator>
 
     <decorator name="adminmode" page="adminmode_decorator.jsp">

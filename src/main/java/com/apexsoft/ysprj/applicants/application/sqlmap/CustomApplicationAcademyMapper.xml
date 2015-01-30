@@ -57,7 +57,7 @@
       from APPL_ACAD A, CNTR B
       where A.SCHL_CNTR_CODE = B.CNTR_CODE
       AND APPL_NO = #{applNo,jdbcType=INTEGER}
-      and ACAD_TYPE_CODE = #{acadTypeCode,jdbcType=INTEGER}
+      and ACAD_TYPE_CODE = #{acadTypeCode,jdbcType=VARCHAR}
     <if test="orderBy != null">
       order by #{orderBy,jdbcType=VARCHAR}
     </if>

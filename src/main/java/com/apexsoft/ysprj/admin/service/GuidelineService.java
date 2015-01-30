@@ -5,11 +5,15 @@ import com.apexsoft.framework.persistence.dao.page.PageInfo;
 import com.apexsoft.ysprj.admin.control.form.ApplicantSearchPageForm;
 
 import com.apexsoft.ysprj.admin.domain.ApplicantInfo;
+import com.apexsoft.ysprj.admin.domain.MandatoryContainer;
+import com.apexsoft.ysprj.applicants.application.domain.ParamForApplicationMandatoryDoc;
+
+import java.util.List;
 
 
 public interface GuidelineService {
-	
-	 PageInfo<ApplicantInfo> retreiveDetManageInfo(ApplicantSearchPageForm applicantSearchForm);
+
+    public List<MandatoryContainer> getWholeDeptMajMandTree( ParamForApplicationMandatoryDoc param );
 
 
 
