@@ -94,28 +94,6 @@ public class LangCareerController {
 
         ec = langCareerService.saveLangCareer(formData);
 
-        // TODO - omw - 로직은 서비스로 이동 예정
-//        if (application.getApplStsCode().equals(ACAD_SAVED)) { //insert
-//            for (LanguageGroup lGroup : formData.getLanguageGroupList()) {
-//                List<TotalApplicationLanguage> langList = lGroup.getLangList();
-//                for (TotalApplicationLanguage alang : langList) {
-//                    alang.setApplNo(applNo);
-//                    alang.setCreId(userId);
-//                }
-//            }
-//            for (ApplicationExperience ae : formData.getApplicationExperienceList()) {
-//                ae.setApplNo(applNo);
-//                ae.setCreId(userId);
-//            }
-//            ec = langCareerService.createLangCareer(application,
-//                    formData.getLanguageGroupList(),
-//                    formData.getApplicationExperienceList());
-//        } else { //update
-//            ec = langCareerService.updateLangCareer(application,
-//                    formData.getLanguageGroupList(),
-//                    formData.getApplicationExperienceList());
-//        }
-
         if (ec.getResult().equals(ExecutionContext.SUCCESS)) {
             ExecutionContext ecRetrieve = langCareerService.retrieveLangCareer(formData);
 

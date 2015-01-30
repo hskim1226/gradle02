@@ -304,6 +304,10 @@
                                         <form:hidden path="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].langSeq" value="${langList.langSeq}"/>
                                         <form:hidden path="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].langExamGrp" value="${langList.langExamGrp}"/>
                                         <form:hidden path="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].docItemCode" value="${langList.docItemCode}"/>
+                                        <form:hidden path="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].itemGrpCode" value="${langList.itemGrpCode}"/>
+                                        <form:hidden path="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].itemCode" value="${langList.itemCode}"/>
+                                        <form:hidden path="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].docGrp" value="${langList.docGrp}"/>
+                                        <form:hidden path="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].docSeq" value="${langList.docSeq}"/>
                                         <form:hidden path="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].fileUploadFg" value="${langList.fileUploadFg}"/>
                                         <form:hidden path="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].langInfoSaveFg" value="${langList.langInfoSaveFg}"/>
                                         <div class="checkbox">
@@ -380,7 +384,7 @@
                                     <c:forEach varStatus="stat" begin="0" end="${langCareer.applicationExperienceList.size() > 0 ? langCareer.applicationExperienceList.size() - 1 : 0}">
                                         <div class="form-group-block">
                                             <form:hidden path="applicationExperienceList[${stat.index}].exprSeq"/>
-                                            <form:hidden path="applicationExperienceList[${stat.index}].userCUDType" value='${langCareer.applicationExperienceList[stat.index].userCUDType == null ? "INSERT" : langCareer.applicationExperienceList[stat.index].userCUDType}'/>
+                                            <form:hidden path="applicationExperienceList[${stat.index}].saveFg" />
                                             <div class="form-group required">
                                                 <label class="col-sm-2 control-label">재직 기간</label>
                                                 <div class="col-sm-4 start-date-container">
@@ -391,10 +395,19 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-4 end-date-container">
+                                                    <%--<div class="input-group date">--%>
+                                                        <%--<span class="input-group-addon">퇴사일</span>--%>
+                                                        <%--<form:input path="applicationExperienceList[${stat.index}].retrDay" cssClass="form-control" readonly="true" />--%>
+                                                        <%--<span class="input-group-addon calendar-addon"><span class="glyphicon glyphicon-calendar"></span></span>--%>
+                                                    <%--</div>--%>
                                                     <div class="input-group date">
                                                         <span class="input-group-addon">퇴사일</span>
                                                         <form:input path="applicationExperienceList[${stat.index}].retrDay" cssClass="form-control" readonly="true" />
                                                         <span class="input-group-addon calendar-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                                    </div>
+                                                    <div class="col-sm-4">
+                                                        <label class="col-sm-5 radio-inline">
+                                                            <input type="radio" class="curr-radio" id="radioCurr-${stat.index}" name="applicationExperienceList[${stat.index}].currYn" <c:if test="${langCareer.applicationExperienceList[stat.index].currYn == 'Y'}">checked</c:if> />재직중</label>
                                                     </div>
                                                 </div>
                                             </div>
