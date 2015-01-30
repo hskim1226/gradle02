@@ -32,9 +32,13 @@ public class FileDownloadController {
 
     /**
      * 업로드 직후 DB에 쓰기 전 상태에서 파일 다운로드
+     *
+     * @param admsNo
      * @param applNo
      * @param fileName
+     * @param originalFileName
      * @param response
+     * @param principal
      * @return
      * @throws IOException
      */

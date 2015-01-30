@@ -2366,7 +2366,7 @@
                             data: {
                                 fieldName: fileInputName,
                                 targetButton: $(this).attr('id'),
-                                targetLabel: targetLabelId,
+                                targetFileLinkId: targetLabelId,
                                 applNo: document.getElementById('applNo').value,
                                 admsNo: document.getElementById('admsNo').value
                             },
@@ -2374,7 +2374,7 @@
                                 var d = JSON.parse(data.data);
 //                                if (console) {
 //                                    console.log("targetButton : ", d.targetButton);
-//                                    console.log("targetLabel : ", d.targetLabel);
+//                                    console.log("targetFileLinkId : ", d.targetFileLinkId);
 //                                    console.log("applNo : ", d.applNo);
 //                                    console.log("admsNo : ", d.admsNo);
 //                                    console.log("originalFileName : ", d.originalFileName);
@@ -2389,7 +2389,7 @@
                                         originalFileName = d.originalFileName,
                                         filePath = d.path,
                                         fileName = d.fileName,
-                                        targetLabel = d.targetLabel,
+                                        targetFileLinkId = d.targetFileLinkId,
                                         applNo = d.applNo,
                                         admsNo = d.admsNo,
                                         downloadURL,
@@ -2399,7 +2399,7 @@
                                 $targetBtn.val("올리기 성공");
                                 downloadURL = '${contextPath}/filedownload/attached/'+admsNo+'/'+applNo+'/'+fileName+'/'+originalFileName;
                                 linkHtml = '<a href="' + downloadURL + '">' + originalFileName + '</a>';
-                                document.getElementById(targetLabel).innerHTML = linkHtml;
+                                document.getElementById(targetFileLinkId).innerHTML = linkHtml;
                                 document.getElementById(targetFilePathHiddenId).value = filePath;
                                 document.getElementById(targetFileNameHiddenId).value = fileName;
                                 document.getElementById(targetOrgFileNameHiddenId).value = originalFileName;

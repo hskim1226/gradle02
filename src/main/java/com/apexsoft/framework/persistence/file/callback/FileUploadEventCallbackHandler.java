@@ -23,7 +23,7 @@ import java.util.List;
  * 2. 첨부파일 이외의 내용들에 대하여 데이터베이스에 저장하는등의 동작을 처리
  *
  */
-public abstract class FileUploadEventCallbackHandler<T, P> {
+public abstract class FileUploadEventCallbackHandler<T, P, Q> {
 	
 	protected static final int UNLIMITED = Integer.MIN_VALUE;
     protected static final int MAX_LENGTH = 3*1024*1024;
@@ -93,5 +93,19 @@ public abstract class FileUploadEventCallbackHandler<T, P> {
      * @return
      */
 	public abstract T handleEvent(List<FileItem> fileItems, P attribute, FilePersistenceManager persistence);
+
+	/**
+	 * Multipart로 업로드 할 파일 메타 정보와 DB에 저장할 도메인 정보를 받아
+	 * 파일 저장과 DB 저장을 함께 처리
+	 *
+	 * 2015-01-30 omw
+	 *
+	 * @param fileItems
+	 * @param attribute
+	 * @param persistence
+	 * @param domainContainer
+	 * @return
+	 */
+	public abstract T handleEvent(List<FileItem> fileItems, P attribute, FilePersistenceManager persistence, Q domainContainer);
     
 }

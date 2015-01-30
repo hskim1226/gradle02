@@ -24,62 +24,15 @@
 
     <mvc:annotation-driven>
         <mvc:argument-resolvers>
-            <!--bean class="com.skplanet.store.web.bind.LocaleHandlerWebArgumentResolver">
-                <constructor-arg ref="localeResolver" />
-            </bean -->
             <bean class="com.apexsoft.framework.web.bind.FileHandlerWebArgumentResolver">
                 <property name="multiPartReceiver" ref="multiPartReceiver" />
                 <property name="filePersistenceManager" ref="persistenceManager" />
             </bean>
-            <!-- bean class="com.skplanet.store.etc.excel.web.bind.ExcelHandlerWebArgumentResolver">
-                <property name="velocityEngine" ref="velocityEngine" />
-                <property name="messageSourceAccessor" ref="messageSourceAccessor" />
-            </bean>
-            <bean class="com.skplanet.icms.security.web.bind.UserInfoWebArgumentResolver" / -->
         </mvc:argument-resolvers>
         <!-- mvc:message-converters>
             <bean class="org.springframework.http.converter.xml.Jaxb2RootElementHttpMessageConverter" />
-            <bean class="com.skplanet.icms.commons.web.converter.MultipartRequestHttpMessageConverter">
-                <constructor-arg>
-                    <bean class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter" />
-                </constructor-arg>
-                <property name="messageSourceAccessor" ref="messageSourceAccessor" />
-            </bean>
-            <bean class="com.skplanet.icms.commons.web.converter.MultiFormatBinaryRenderer">
-                <constructor-arg ref="persistenceManager" />
-            </bean>
-            <bean class="com.skplanet.store.web.converter.BinaryHttpMessageConverter">
-                <constructor-arg ref="persistenceManager" />
-            </bean>
         </mvc:message-converters -->
     </mvc:annotation-driven>
-
-    <!-- mvc:interceptors>
-        <mvc:interceptor>
-            <mvc:mapping path="/**"/>
-            <bean class="com.skplanet.store.etc.trace.web.interceptor.TransactionLogInterceptor" />
-        </mvc:interceptor>
-        <mvc:interceptor>
-            <mvc:mapping path="/**"/>
-            <bean class="com.skplanet.store.web.interceptor.RequestContextHandlerInterceptor">
-                <property name="localeResolver" ref="localeResolver" />
-            </bean>
-        </mvc:interceptor>
-        <mvc:interceptor>
-            <mvc:mapping path="/**"/>
-            <bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor" />
-        </mvc:interceptor>
-        <mvc:interceptor>
-            <mvc:mapping path="/**"/>
-            <bean class="com.skplanet.icms.commons.web.interceptor.ClickLogInterceptor" />
-        </mvc:interceptor>
-        <mvc:interceptor>
-            <mvc:mapping path="/**"/>
-            <bean class="com.skplanet.icms.commons.web.interceptor.I18nPropertyConversionHandlerInterceptor">
-                <property name="messageSourceAccessor" ref="messageSourceAccessor" />
-            </bean>
-        </mvc:interceptor>
-    </mvc:interceptors -->
 
     <mvc:interceptors>
         <bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor">
@@ -101,20 +54,6 @@
     </bean>
 
     <bean id="downloadView" class="com.apexsoft.framework.web.view.FileDownloadView" ></bean>
-
-    <!--bean id="exceptionResolver" class="com.skplanet.icms.commons.exception.LoggingBusinessExceptionResolver">
-        <property name="messageSourceAccessor" ref="messageSourceAccessor" />
-        <property name="messageConverters">
-            <list>
-                <bean class="org.springframework.http.converter.xml.Jaxb2RootElementHttpMessageConverter" />
-                <bean class="com.skplanet.icms.commons.web.converter.MultipartRequestHttpMessageConverter">
-                    <constructor-arg>
-                        <bean class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter" />
-                    </constructor-arg>
-                </bean>
-            </list>
-        </property>
-    </bean -->
 
     <!--<bean id="exceptionResolver" class="com.apexsoft.framework.web.exception.ExceptionResolver">-->
         <!--<property name="htmlErrorView" value="common/error"></property>-->

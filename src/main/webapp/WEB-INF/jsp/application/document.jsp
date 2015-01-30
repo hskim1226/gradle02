@@ -385,7 +385,7 @@
                                             <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].subContainer[${lv3Status.index}].docGrp" value="${lv3Container.docGrp}" />
                                             <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].subContainer[${lv3Status.index}].docItemCode" value="${lv3Container.docItemCode}" />
                                             <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].subContainer[${lv3Status.index}].docItemName" value="${lv3Container.docItemName}" />
-                                            <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].subContainer[${lv3Status.index}].docName" value="${lv3Container.docName}" />
+
                                             <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].subContainer[${lv3Status.index}].fileExt" value="${lv3Container.fileExt}" />
                                             <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].subContainer[${lv3Status.index}].imgYn" value="${lv3Container.imgYn}" />
                                             <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].subContainer[${lv3Status.index}].filePath" value="${lv3Container.filePath}" />
@@ -409,20 +409,28 @@
                                             <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].subContainer[${lv3Status.index}].uploadYn" value="${lv3Container.uploadYn}" />
                                             <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].subContainer[${lv3Status.index}].sendCnt" value="${lv3Container.sendCnt}" />
                                             <div class="col-sm-3">
-                                                <div class="checkbox"><label class="word-keep-all" for="filelist0.yn"><input type="checkbox" id="filelist0.yn" name="filelist[0].yn">${lv3Container.docItemName}</label></div>
+                                                <div class="checkbox">
+                                                    <label class="word-keep-all" for="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.checkedFg">
+                                                        <form:checkbox path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].subContainer[${lv3Status.index}].checkedFg"/>${lv3Container.docItemName}
+                                                    </label>
+                                                </div>
                                             </div>
                                             <div class="col-sm-5 nopadding">
-                                                <div class="col-sm-5 nopadding"><input class="form-control" type="text" placeholder="서류 명 직접 입력"></div>
-                                                <div class="col-sm-7 nopadding"><input type="file" class="btn btn-file" id="fileList0.docName" name="fileList[0].docName"/></div>
+                                                <div class="col-sm-5 nopadding"><form:input path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].subContainer[${lv3Status.index}].docName" placeholder="서류 명 직접 입력"/></div>
+                                                <div class="col-sm-7 nopadding"><input type="file" class="btn btn-file" id="file-input-${lv1Status.index}-${lv2Status.index}-${lv3Status.index}" name="file-input-name-${lv1Status.index}-${lv2Status.index}-${lv3Status.index}" data-upload-button-id="upload-button-${lv1Status.index}-${lv2Status.index}-${lv3Status.index}"/></div>
                                             </div>
                                             <div class="col-sm-1 nopadding">
-                                                <input type="button" id="fileList0.btn" name="fileList[0].btn"
+                                                <input type="button" id="upload-button-${lv1Status.index}-${lv2Status.index}-${lv3Status.index}"
                                                        class="btn btn-default btn-upload" value="올리기"
+                                                       data-file-input-id="file-input-${lv1Status.index}-${lv2Status.index}-${lv3Status.index}"
+                                                       data-img-yn-id="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.imgYn"
+                                                       data-target-file-link-id="file-link-${lv1Status.index}-${lv2Status.index}-${lv3Status.index}"
+                                                       data-org-filename-id="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.orgFileName"
                                                        data-file-path="fileList0.filePath"
                                                        data-file-name="fileList0.fileName"
                                                        data-org-file-name="fileList0.orgFileName"/>
                                             </div>
-                                            <div class="col-sm-3 control-label">파일이름</div>
+                                            <div class="col-sm-3 control-label"><a id="file-link-${lv1Status.index}-${lv2Status.index}-${lv3Status.index}" href="">${lv3Container.orgFileName}</a></div>
                                         </div>
 
                                                 </c:when>
@@ -672,142 +680,122 @@
         $('.btn-save').on('click', formProcess);
         <%-- 하단 버튼 처리 --%>
 
-        <%-- 어학 성적 입력란 show/hide 처리 --%>
-        $('.lang-checkbox').on('change', function () {
-            var id = this.id,
-                currentIndex, classToToggle;
-            currentIndex = id.substr(id.lastIndexOf('-')+1);
-            classToToggle = '.lang-detail-' + currentIndex;
-            if (this.checked) {
-                $(classToToggle).css('display', 'block');
-            } else {
-                $(classToToggle).css('display', 'none');
-            }
+        <%-- 파일 선택 버튼 이벤트 --%>
+        $('.btn-file').on('change', function (e) { // 한번 업로드한 inputfile은 이벤트가 발생 안한다.
+            var uploadButton = $(this.dataset.uploadButtonId);
+            $(uploadButton).removeClass('disabled');
+            $(uploadButton).val('올리기');
         });
-        $('.lang-radio').on('change', function () {
-            var id = this.id,
-                    currentIndex, classToShow;
-            currentIndex = id.substr(id.lastIndexOf('-')+1);
-            classToShow = '.lang-detail-' + currentIndex;
-            $('.lang-radio').each( function () {
-                if (this.checked) {
-                    $(classToShow).css('display', 'block');
+        <%-- 파일 선택 버튼 이벤트 --%>
+
+        <%-- 파일 업로드 버튼 이벤트 --%>
+        $('.btn-upload').on('click', function (e) {
+            var actionUrl = "${contextPath}/application/document/fileUpload",
+                    fileInputId = this.dataset.fileInputId,
+                    fileInput = document.getElementById(fileInputId),
+                    fileInputName = fileInput.getAttribute("name"),
+                    fileName = fileInput.value,
+                    imgYn = document.getElementById(this.dataset.imgYnId).value,
+                    targetFileLinkId = this.dataset.targetFileLinkId,
+                    targetOrgFileNameHiddenId = this.dataset.orgFilenameId,
+            // targetFilePathHiddenId = e.target.getAttribute('data-file-path'),
+            // targetFileNameHiddenId = e.target.getAttribute('data-file-name'),
+            // targetOrgFileNameHiddenId = e.target.getAttribute('data-org-file-name'),
+                    regexpImage = (/\.(gif|jpg|png)$/i),
+                    regexpPDF = (/\.(pdf)$/i),
+                    extIsOk = false
+                    ;
+            if ((fileInput.files && fileInput.files.length) || fileInput.value != "") {
+                if (imgYn) {
+                    if (regexpImage.test(fileName)) {
+                        extIsOk = true;
+                    } else {
+                        alert('사진은 GIF, JPG, PNG 만 업로드 할 수 있습니다.');
+                        return false;
+                    }
+                } else if (regexpPDF.test(fileName)) {
+                    extIsOk = true;
                 } else {
-                    $(classToShow).css('display', 'none');
+                    alert('첨부파일은 PDF 파일만 업로드 할 수 있습니다.')
+                    return false;
                 }
-            });
 
-        });
-        <%-- 어학 성적 입력란 show/hide 처리 --%>
+                if (extIsOk) {
+                    $.ajaxFileUpload({
+                        url: actionUrl,
+                        secureuri: false,
+                        fileElementId: fileInputId,
+                        dataType: 'json',
+                        data: {
+                            applNo: document.getElementById('applNo').value,
+                            docSeq: '',
+                            docTypeCode: document.getElementById('docTypeCode').value,
 
-        <%-- 숫자, 소수점 1개만 입력 - 어학 성적 입력 --%>
-        $('.lang-score').on('keyup', function () {
-            var numCheckRegExp = /^[0-9]*\.?[0-9]*$/,
-                    val = this.value;
-            if (!numCheckRegExp.test(val)) {
-                this.value = val.substr(0, val.length-1);
-            }
-        });
-        <%-- 숫자, 소수점 1개만 입력 - 어학 성적 입력 --%>
-
-        <%-- 어학 성적 validation --%>
-        var getToeflMaxScore = function (id) {
-            var toeflTypeSelectId = id.substr(0, id.lastIndexOf('.')) + '.toflTypeCode',
-                toeflTypeSelect = document.getElementById(toeflTypeSelectId),
-                toeflType = toeflTypeSelect.options[toeflTypeSelect.selectedIndex].innerHTML,
-                maxScore;
-            switch(toeflType) {
-                case 'IBT':
-                    maxScore = 120;
-                    break;
-                case 'CBT':
-                    maxScore = 300;
-                    break;
-                case 'PBT':
-                    maxScore = 677;
-                    break;
-            }
-            return maxScore;
-        };
-        $('.lang-score').on('blur', function () {
-            var examName = this.dataset.langExamName,
-                maxScore;
-            switch(examName) {
-                case 'TOEFL':
-                    maxScore = getToeflMaxScore(this.id);
-                    break;
-                case 'TOEIC':
-                    maxScore = 990;
-                    break;
-                case 'TEPS':
-                    maxScore = 990;
-                    break;
-                case 'IELTS':
-                    maxScore = 9.0;
-                    break;
-                case 'GRE':
-                    maxScore = 9999;
-                    break;
-            }
-            if (this.value > maxScore) {
-                alert( maxScore + '점 이하의 숫자를 입력해주세요.');
-                this.focus();
-            }
-        });
-        <%-- 어학 성적 validation --%>
-
-        <%-- 달력 옵션 --%>
-        var datePickerOption = {
-            dateFormat: 'yymmdd',
-            yearRange: "1950:",
-            monthNamesShort: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
-            dayNamesMin: ['일','월','화','수','목','금','토'],
-            changeMonth: true, //월변경가능
-            changeYear: true, //년변경가능
-            showMonthAfterYear: true //년 뒤에 월 표시
-        };
-
-        <%-- 달력 시작 --%>
-        $('.input-group.date>input').datepicker(datePickerOption);
-        $('.calendar-addon').on('click', function () {
-            $(this.parentNode).children('input')[0].focus();
-        });
-        <%-- 달력 끝 --%>
-
-        <%-- 달력 reset 함수 --%>
-        var resetCalendar = function (block, calendarClass) {
-            $(block).find(calendarClass).datepicker('destroy');
-            $(block).find(calendarClass).datepicker(datePickerOption);
-        };
-        <%-- 달력 reset 함수 --%>
-
-        <%-- 외국어 성적 면제 해당 처리 --%>
-        var checkForlExmp = function (isExmp) {
-            $('.forlInput').each(function () {
-                this.value = '';
-                this.setAttribute('value', '');
-                this.disabled = isExmp;
-                if (this.selectedIndex) this.selectedIndex = 0;
-            });
-            $('.lang-checkbox, .lang-radio').each(function () {
-                this.checked = false;
-                this.disabled = isExmp;
-            });
-            document.getElementById('forlExmpCode').disabled = !isExmp;
-        };
-
-        $('#checkForlExmp').on('click', function () {
-            if (this.checked) {
-                if (confirm('외국어 성적 면제 해당자를 선택하면\n외국어 성적을 입력할 수 없으며,\n이미 입력한 외국어 성적도 삭제됩니다.\n\n외국어 성적 면제 해당자를 선택하시겠습니까?')) {
-                    checkForlExmp(true);
-                } else {
-                    this.checked = false;
+                            'application.applNo': document.getElementById('applNo').value,
+                            'documentContainerList[0].grpLabel': '88888',
+                            fieldName: fileInputName,
+                            targetButton: this.id,
+                            targetFileLinkId: targetFileLinkId,
+                            admsNo: document.getElementById('admsNo').value
+                        },
+                        success: function (data, status) {
+if (console) {
+    console.log('data : ', data);
+    console.log('status : ', status);
+}
+                            var d = JSON.parse(data.data);
+if (console) {
+    console.log("fieldName : ", d.fieldName);
+    console.log("targetButton : ", d.targetButton);
+    console.log("targetFileLinkId : ", d.targetFileLinkId);
+    console.log("applNo : ", d.applNo);
+    console.log("admsNo : ", d.admsNo);
+    console.log("originalFileName : ", d.originalFileName);
+    console.log("filePath : ", d.path);
+    console.log("fileName : ", d.fileName);
+    console.log("data : ", data.data);
+    console.log("status : ", status);
+}
+                            var targetBtnId = d.targetButton,
+                                    targetBtn = document.getElementById(targetBtnId),
+                                    $targetBtn = $(targetBtn),
+                                    originalFileName = d.originalFileName,
+                                    filePath = d.path,
+                                    fileName = d.fileName,
+                                    targetFileLinkId = d.targetFileLinkId,
+                                    applNo = d.applNo,
+                                    admsNo = d.admsNo,
+                                    downloadURL;
+                            $targetBtn.removeClass("btn-default");
+                            $targetBtn.addClass("btn-info");
+                            $targetBtn.val("올리기 성공");
+                            downloadURL = '${contextPath}/filedownload/attached/'+admsNo+'/'+applNo+'/'+fileName+'/'+originalFileName;
+//                            linkHtml = '<a href="' + downloadURL + '">' + originalFileName + '</a>';
+//                            linkToFile = downloadURL + '">' + originalFileName + '</a>';
+                            document.getElementById(targetFileLinkId).setAttribute('href', downloadURL);
+                            document.getElementById(targetFileLinkId).innerHTML = originalFileName;
+                            // document.getElementById(targetFilePathHiddenId).value = filePath;
+                            // document.getElementById(targetFileNameHiddenId).value = fileName;
+                            document.getElementById(targetOrgFileNameHiddenId).value = originalFileName;
+                        },
+                        error: function (data, status, e) {
+                            if(console) {
+                                console.log("data : ", data);
+                                console.log("status : ", status);
+                                console.log("e : ", e);
+                            }
+                        }
+                    });
                 }
+
             } else {
-                checkForlExmp(false);
+                alert("파일을 선택해 주십시오");
             }
+
+
+            return false;
         });
-        <%-- 외국어 성적 면제 해당 처리 --%>
+        <%-- 파일 업로드 버튼 이벤트 --%>
 
         <%-- form-group-block 추가/삭제에 대한 처리 시작 --%>
         <%-- id, name 재설정 시작 --%>

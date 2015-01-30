@@ -75,6 +75,11 @@ public class DocumentServiceImpl implements DocumentService {
         return ec;
     }
 
+    @Override
+    public ExecutionContext saveOneDocument(TotalApplicationDocument document) {
+        return null;
+    }
+
     private List<TotalApplicationDocumentContainer> retrieveManatoryApplicatoinlDocListByApplNo(int applNo) {
 
         List<TotalApplicationDocumentContainer> applContList = new ArrayList<TotalApplicationDocumentContainer>();

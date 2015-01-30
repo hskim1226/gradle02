@@ -6,6 +6,7 @@ public class TotalApplicationDocument extends ApplicationDocument{
     private String grpLabel;
     private boolean fileUploadFg = false;
     private boolean displayGrpFg = false;
+    private boolean checkedFg;
 
     //필수요건 조회용 key 정보
     private String admsNo;
@@ -34,6 +35,14 @@ public class TotalApplicationDocument extends ApplicationDocument{
     private String notInYn;
 
 
+
+    public boolean isCheckedFg() {
+        return checkedFg;
+    }
+
+    public void setCheckedFg(boolean checkedFg) {
+        this.checkedFg = checkedFg;
+    }
 
     public boolean isFileUploadFg() {
         return fileUploadFg;

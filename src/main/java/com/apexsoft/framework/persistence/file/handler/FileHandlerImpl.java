@@ -71,12 +71,12 @@ public class FileHandlerImpl implements FileHandler {
 	public boolean isMultiPartRequest(HttpServletRequest request) {
 		return ServletFileUpload.isMultipartContent(request);
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * @see com.skp.icms.commons.file.FileHandler#handMultiPartRequest(com.skp.icms.commons.file.callback.UploadEventCallbackHandler)
 	 */
-	public <T, P> T handleMultiPartRequest(FileUploadEventCallbackHandler<T, P> callback, Class<P> type) {
+	public <T, P, Q> T handleMultiPartRequest(FileUploadEventCallbackHandler<T, P, Q> callback, Class<P> type) {
 
 		if (callback == null) {
 			throw new FileUploadException("UploadEventCallback가 정의되지 않았습니다.");
@@ -99,6 +99,49 @@ public class FileHandlerImpl implements FileHandler {
 		
 		response.setContentType(contentType);
 		
+		return result;
+	}
+
+	/**
+	 * 파일 저장 시 DB에 저장할 데이터를 DomainContainerObj에 담아둔다.
+	 *
+	 * 2015.01.30 omw
+	 *
+	 * @param callback
+	 * @param AjaxReturnObj
+	 * @param domainObject
+	 * @param <T>
+	 * @param <P>
+	 * @param <Q>
+	 * @return
+	 */
+	public <T, P, Q> T handleMultiPartRequest(FileUploadEventCallbackHandler<T, P, Q> callback,
+											  Class<P> AjaxReturnObj,
+											  Class<Q> domainObject) {
+
+		if (callback == null) {
+			throw new FileUploadException("UploadEventCallback가 정의되지 않았습니다.");
+		}
+
+		MultiPartInfo info = extractMultiPartInfo(request);
+
+		List<FileItem> fileItems = info.getFileItem();
+		Map<String, Object> attributes = info.getAttributes();
+
+		P parameter = convertAttribute(attributes, AjaxReturnObj);
+
+		Q domainContainer = convertAttribute(attributes, domainObject);
+
+		T result = callback.handleEvent(fileItems, parameter, persistence, domainContainer);
+
+		String contentType = MediaType.APPLICATION_JSON_VALUE;
+//		String contentType = MediaType.TEXT_HTML_VALUE;
+//		if (StringUtils.hasText(request.getHeader("Accept"))) {
+//			contentType = request.getHeader("Accept");
+//		}
+
+		response.setContentType(contentType);
+
 		return result;
 	}
 
