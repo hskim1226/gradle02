@@ -7,6 +7,9 @@ import com.apexsoft.framework.persistence.file.model.FileItem;
 import com.apexsoft.framework.persistence.file.model.MultiPartInfo;
 import com.apexsoft.framework.persistence.file.receiver.MultiPartReceiver;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.springframework.beans.BeanWrapper;
+import org.springframework.beans.PropertyAccessorFactory;
+import org.springframework.beans.propertyeditors.CustomBooleanEditor;
 import org.springframework.http.MediaType;
 import org.springframework.util.ReflectionUtils;
 import org.springframework.util.StringUtils;
@@ -203,6 +206,10 @@ public class FileHandlerImpl implements FileHandler {
 	@SuppressWarnings("unchecked")
 	protected <P> P convertAttribute2(final Map<String, Object> attributes, Class<P> type) {
 
+        final BeanWrapper bw = PropertyAccessorFactory.forBeanPropertyAccess(type);
+        final CustomBooleanEditor cbe = new CustomBooleanEditor(CustomBooleanEditor.VALUE_TRUE, CustomBooleanEditor.VALUE_FALSE, false);
+
+
 		if(Void.class.isAssignableFrom(type))	{
 			return null;
 		}
@@ -217,7 +224,9 @@ public class FileHandlerImpl implements FileHandler {
 				@Override
 				public void doWith(Field field) throws IllegalArgumentException, IllegalAccessException {
 					ReflectionUtils.makeAccessible(field);
-					ReflectionUtils.setField(field, object, attributes.get(field.getName()));
+//					ReflectionUtils.setField(field, object, attributes.get(field.getName()));
+                    bw.setPropertyValue(field.getName(), attributes.get(field.getName()));
+//                    cbe.
 				}
 			});
 
