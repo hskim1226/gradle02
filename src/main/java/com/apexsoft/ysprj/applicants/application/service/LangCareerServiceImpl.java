@@ -59,6 +59,10 @@ public class LangCareerServiceImpl implements LangCareerService {
         List<CustomApplicationExperience> applicationExperienceList = retrieveInfoListByApplNo(applNo, "CustomApplicationExperienceMapper", CustomApplicationExperience.class);
         langCareer.setApplicationExperienceList(applicationExperienceList);
 
+        for(CustomApplicationExperience aExpr :applicationExperienceList  ){
+            aExpr.setSaveFg(true);
+        }
+
         commonCodeMap.put( "toflTypeList", commonService.retrieveCommonCodeValueByCodeGroup("TOFL_TYPE") );
         commonCodeMap.put( "fornExmpList", commonService.retrieveCommonCodeValueByCodeGroup("FORN_EXMP") );
 
@@ -186,7 +190,8 @@ public class LangCareerServiceImpl implements LangCareerService {
                     //APPL_LANG, INSERT
                     rInsert++;
                     int maxSeq = commonDAO.queryForInt(NAME_SPACE +"CustomApplicationExperienceMapper.selectMaxSeqByApplNo", applNo ) ;
-                    maxSeq++;
+                    aExpr.setExprSeq(++maxSeq);
+                    aExpr.setSaveFg(true);
                     aExpr.setCreId(application.getModId());
                     aExpr.setCreDate(date);
                     insert = insert + commonDAO.insertItem( aExpr, NAME_SPACE, "ApplicationExperienceMapper");

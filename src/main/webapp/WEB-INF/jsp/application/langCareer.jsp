@@ -384,7 +384,9 @@
                                     <c:forEach varStatus="stat" begin="0" end="${langCareer.applicationExperienceList.size() > 0 ? langCareer.applicationExperienceList.size() - 1 : 0}">
                                         <div class="form-group-block">
                                             <form:hidden path="applicationExperienceList[${stat.index}].exprSeq"/>
-                                            <form:hidden path="applicationExperienceList[${stat.index}].saveFg" />
+                                            <form:hidden path="applicationExperienceList[${stat.index}].applNo"/>
+                                            <form:hidden path="applicationExperienceList[${stat.index}].saveFg"/>
+                                            <form:hidden path="applicationExperienceList[${stat.index}].checkedFg"/>
                                             <div class="form-group required">
                                                 <label class="col-sm-2 control-label">재직 기간</label>
                                                 <div class="col-sm-3 start-date-container">
@@ -497,6 +499,7 @@
             var form = document.forms[0];
 
             form.action = "${contextPath}/application/langCareer/save";
+            // TODO 경력 정보 - 입사일, 기관명, 직위명 모두 있을 때만 checkedFg = true 처리
             form.submit();
         };
         $('.btn-save').on('click', formProcess);
@@ -695,8 +698,17 @@
                 for (i = 0; i <items.length; i++) {
                     if (items[i].type == 'hidden') {
                         itemName = items[i].name;
-                        if (itemName.indexOf('userCUDType') > 0) {
-                            items[i].value = "INSERT";
+                        if (itemName.indexOf('saveFg') > 0) {
+                            items[i].value = "false";
+                            items[i].setAttribute('value', 'false');
+                        }
+                        if (itemName.indexOf('checkedFg') > 0) {
+                            items[i].value = "true";
+                            items[i].setAttribute('value', 'true');
+                        }
+                        if (itemName.indexOf('exprSeq') > 0) {
+                            items[i].value = "0";
+                            items[i].setAttribute('value', '0');
                         }
                     }
                     if (items[i].type != 'hidden' && items[i].type != 'radio' && items[i].type != 'checkbox' && items[i].type != 'button') {
@@ -739,25 +751,40 @@
             var blocks = container.querySelectorAll('.form-group-block');
             var length = blocks.length, i;
             var blockIndex = target.dataset.blockIndex;
-            // TODO : userCUDType 처리
-            var userCUDType = document.getElementById(target.dataset.listName + blockIndex + '.userCUDType');
+            var saveFg = document.getElementById(target.dataset.listName + blockIndex + '.saveFg');
+            var checkedFg = document.getElementById(target.dataset.listName + blockIndex + '.checkedFg');
 
-            switch (userCUDType.value) {
-                case 'INSERT' :
-                    for (i = parseInt(blockIndex) + 1; i < length; i++) {
-                        updateIdAndName(blocks[i], i - 1);
-                    }
-                    if (length <= 1) {
-                        resetBlockContents(blockToRemove);
-                    } else {
-                        blockToRemove.parentNode.removeChild(blockToRemove);
-                    }
-                    break;
-                case 'UPDATE' :
-                    userCUDType.value = 'DELETE';
-                    blockToRemove.style.display = 'none';
-                    break;
+            if (saveFg.value == 'true') {
+                checkedFg.value = 'false';
+                checkedFg.setAttribute('value', 'false');
+                blockToRemove.style.display = 'none';
+            } else {
+                for (i = parseInt(blockIndex) + 1; i < length; i++) {
+                    updateIdAndName(blocks[i], i - 1);
+                }
+                if (length <= 1) {
+                    resetBlockContents(blockToRemove);
+                } else {
+                    blockToRemove.parentNode.removeChild(blockToRemove);
+                }
             }
+
+            // switch (checkedFg) {
+            //     case 'INSERT' :
+            //         for (i = parseInt(blockIndex) + 1; i < length; i++) {
+            //             updateIdAndName(blocks[i], i - 1);
+            //         }
+            //         if (length <= 1) {
+            //             resetBlockContents(blockToRemove);
+            //         } else {
+            //             blockToRemove.parentNode.removeChild(blockToRemove);
+            //         }
+            //         break;
+            //     case 'UPDATE' :
+            //         userCUDType.value = 'DELETE';
+            //         blockToRemove.style.display = 'none';
+            //         break;
+            // }
         });
         <%-- form-group-block 추가/삭제에 대한 처리 끝 --%>
 
