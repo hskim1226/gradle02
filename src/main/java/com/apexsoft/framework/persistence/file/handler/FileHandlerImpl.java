@@ -133,7 +133,7 @@ public class FileHandlerImpl implements FileHandler {
 
 		P parameter = convertAttribute(attributes, AjaxReturnObj);
 
-		Q domainContainer = convertAttribute2(attributes, domainObject);
+		Q domainContainer = convertAttribute(attributes, domainObject);
 
 		T result = callback.handleEvent(fileItems, parameter, persistence, domainContainer);
 
@@ -171,7 +171,28 @@ public class FileHandlerImpl implements FileHandler {
 				@Override
 				public void doWith(Field field) throws IllegalArgumentException, IllegalAccessException {
 					ReflectionUtils.makeAccessible(field);
-					ReflectionUtils.setField(field, object, attributes.get(field.getName()));
+
+					Object value = attributes.get(field.getName());
+					Class fieldType = field.getType();
+					if (value == null) {
+						if (fieldType.equals(boolean.class)) {
+							value = false;
+						} else if (fieldType.equals(int.class)) {
+							value = -1;
+						}
+					} else {
+						if (value instanceof String) {
+							boolean isTrue = Boolean.parseBoolean((String) value);
+							if (isTrue)
+								value = isTrue;
+							else {
+								value = false;
+							}
+						}
+
+					}
+					ReflectionUtils.setField(field, object, value);
+//					ReflectionUtils.setField(field, object, attributes.get(field.getName()));
 				}
 			});
 			
@@ -193,61 +214,6 @@ public class FileHandlerImpl implements FileHandler {
 				}
 			}
 				
-			return object;
-		}
-	}
-
-	/**
-	 *
-	 * @param attributes
-	 * @param type
-	 * @return
-	 */
-	@SuppressWarnings("unchecked")
-	protected <P> P convertAttribute2(final Map<String, Object> attributes, Class<P> type) {
-
-        final BeanWrapper bw = PropertyAccessorFactory.forBeanPropertyAccess(type);
-        final CustomBooleanEditor cbe = new CustomBooleanEditor(CustomBooleanEditor.VALUE_TRUE, CustomBooleanEditor.VALUE_FALSE, false);
-
-
-		if(Void.class.isAssignableFrom(type))	{
-			return null;
-		}
-
-		if(Map.class.isAssignableFrom(type)){
-			return (P) attributes;
-		} else {
-			final P object = newInstance(type);
-
-			ReflectionUtils.doWithFields(type, new ReflectionUtils.FieldCallback() {
-// TODO : 파일 업로드 시 TotalDocument 바인딩 처리
-				@Override
-				public void doWith(Field field) throws IllegalArgumentException, IllegalAccessException {
-					ReflectionUtils.makeAccessible(field);
-//					ReflectionUtils.setField(field, object, attributes.get(field.getName()));
-                    bw.setPropertyValue(field.getName(), attributes.get(field.getName()));
-//                    cbe.
-				}
-			});
-
-			if (validator != null) {
-				Set<ConstraintViolation<P>> constraintViolations = validator.validate(object);
-
-				if(!constraintViolations.isEmpty())	{
-					Iterator<ConstraintViolation<P>> it = constraintViolations.iterator();
-
-					StringBuilder builder = new StringBuilder();
-
-					while (it.hasNext()) {
-						ConstraintViolation<P> c = it.next();
-
-						builder.append(c.getMessage()).append("\n");
-					}
-
-					throw new RuntimeException(builder.toString());
-				}
-			}
-
 			return object;
 		}
 	}
