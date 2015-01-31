@@ -7,12 +7,10 @@ import com.apexsoft.framework.persistence.file.model.FileItem;
 import com.apexsoft.framework.persistence.file.model.MultiPartInfo;
 import com.apexsoft.framework.persistence.file.receiver.MultiPartReceiver;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
-import org.springframework.beans.BeanWrapper;
-import org.springframework.beans.PropertyAccessorFactory;
-import org.springframework.beans.propertyeditors.CustomBooleanEditor;
+import org.apache.commons.lang3.BooleanUtils;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.http.MediaType;
 import org.springframework.util.ReflectionUtils;
-import org.springframework.util.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -75,38 +73,8 @@ public class FileHandlerImpl implements FileHandler {
 		return ServletFileUpload.isMultipartContent(request);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see com.skp.icms.commons.file.FileHandler#handMultiPartRequest(com.skp.icms.commons.file.callback.UploadEventCallbackHandler)
-	 */
-	public <T, P, Q> T handleMultiPartRequest(FileUploadEventCallbackHandler<T, P, Q> callback, Class<P> type) {
-
-		if (callback == null) {
-			throw new FileUploadException("UploadEventCallback가 정의되지 않았습니다.");
-		}
-		
-		MultiPartInfo info = extractMultiPartInfo(request);
-		
-		List<FileItem> fileItems = info.getFileItem();
-		Map<String, Object> attributes = info.getAttributes();
-		
-		P parameter = convertAttribute(attributes, type);
-		
-		T result = callback.handleEvent(fileItems, parameter, persistence);
-
-        String contentType = MediaType.APPLICATION_JSON_VALUE;
-//		String contentType = MediaType.TEXT_HTML_VALUE;
-//		if (StringUtils.hasText(request.getHeader("Accept"))) {
-//			contentType = request.getHeader("Accept");
-//		}
-		
-		response.setContentType(contentType);
-		
-		return result;
-	}
-
 	/**
-	 * 파일 저장 시 DB에 저장할 데이터를 DomainContainerObj에 담아둔다.
+	 * 파일 저장 시 DB에 저장할 데이터를 DomainObj에 담아둔다.
 	 *
 	 * 2015.01.30 omw
 	 *
@@ -131,11 +99,11 @@ public class FileHandlerImpl implements FileHandler {
 		List<FileItem> fileItems = info.getFileItem();
 		Map<String, Object> attributes = info.getAttributes();
 
-		P parameter = convertAttribute(attributes, AjaxReturnObj);
+		P fileInfo = convertAttribute(attributes, AjaxReturnObj);
 
-		Q domainContainer = convertAttribute(attributes, domainObject);
+		Q dbInfo = convertAttribute(attributes, domainObject);
 
-		T result = callback.handleEvent(fileItems, parameter, persistence, domainContainer);
+		T result = callback.handleEvent(fileItems, fileInfo, persistence, dbInfo);
 
 		String contentType = MediaType.APPLICATION_JSON_VALUE;
 //		String contentType = MediaType.TEXT_HTML_VALUE;
@@ -172,27 +140,25 @@ public class FileHandlerImpl implements FileHandler {
 				public void doWith(Field field) throws IllegalArgumentException, IllegalAccessException {
 					ReflectionUtils.makeAccessible(field);
 
+                    // omw added
 					Object value = attributes.get(field.getName());
 					Class fieldType = field.getType();
-					if (value == null) {
-						if (fieldType.equals(boolean.class)) {
-							value = false;
-						} else if (fieldType.equals(int.class)) {
-							value = -1;
-						}
-					} else {
-						if (value instanceof String) {
-							boolean isTrue = Boolean.parseBoolean((String) value);
-							if (isTrue)
-								value = isTrue;
-							else {
-								value = false;
-							}
-						}
 
-					}
+                    if (value == null) {
+                        if (fieldType.equals(boolean.class))
+                            value = false;
+                        else if (fieldType.equals(Integer.class) || fieldType.equals(int.class))
+                            value = -1;
+                    } else if (value instanceof String) {
+                        String stringValue = (String)value;
+                        if (fieldType.equals(boolean.class))
+                            value = BooleanUtils.toBoolean(stringValue);
+                        else if (fieldType.equals(Integer.class) || fieldType.equals(int.class))
+                            value = NumberUtils.toInt(stringValue, -1);
+                    }
+                    // omw added
+
 					ReflectionUtils.setField(field, object, value);
-//					ReflectionUtils.setField(field, object, attributes.get(field.getName()));
 				}
 			});
 			

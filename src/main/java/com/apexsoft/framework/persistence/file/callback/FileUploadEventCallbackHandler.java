@@ -85,15 +85,6 @@ public abstract class FileUploadEventCallbackHandler<T, P, Q> {
      */
     protected abstract String createFileName(FileMetaForm fileMetaForm, FileItem fileItem);
 
-    /**
-     * 
-     * @param fileItems
-     * @param attribute
-     * @param persistence
-     * @return
-     */
-	public abstract T handleEvent(List<FileItem> fileItems, P attribute, FilePersistenceManager persistence);
-
 	/**
 	 * Multipart로 업로드 할 파일 메타 정보와 DB에 저장할 도메인 정보를 받아
 	 * 파일 저장과 DB 저장을 함께 처리

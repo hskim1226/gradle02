@@ -223,65 +223,6 @@ public class DocumentController {
             }
 
             /**
-             * 실제 업로드 처리
-             *
-             * @param fileItems
-             * @param fileMetaForm
-             * @param persistence
-             * @return
-             */
-            @Override
-            public String handleEvent(List<FileItem> fileItems,
-                                      FileMetaForm fileMetaForm,
-                                      FilePersistenceManager persistence) {
-
-                FileInfo fileInfo;
-                FileVO fileVO = new FileVO();
-
-                for ( FileItem fileItem : fileItems){
-                    FileInputStream fis = null;
-                    try{
-                        String uploadDir = getDirectory(fileMetaForm);
-                        String uploadFileName = createFileName(fileMetaForm, fileItem);
-                        fileInfo = persistence.save(uploadDir,
-                                uploadFileName,
-                                fileItem.getOriginalFileName(),
-                                fis = new FileInputStream(fileItem.getFile()));
-                        fileVO.setPath(fileInfo.getDirectory());
-                        fileVO.setFileName(fileInfo.getFileName());
-                        String path = fileInfo.getDirectory();
-                        String pathWithoutContextPath;
-                        if (path.startsWith(fileBaseDir)) {
-                            pathWithoutContextPath = path.substring(fileBaseDir.length());
-                        } else {
-                            throw new FileUploadException("업로드 경로 에러");
-                        }
-                        fileMetaForm.setPath(pathWithoutContextPath);
-                        fileMetaForm.setFileName(fileInfo.getFileName());
-                        fileMetaForm.setOriginalFileName(fileItem.getOriginalFileName());
-                    }catch(FileNotFoundException fnfe) {
-                        throw new FileUploadException("", fnfe);
-                    } catch (FileUploadException foe) {
-                        throw new FileUploadException("", foe);
-                    }finally {
-                        try {
-                            if (fis!= null) fis.close();
-                        } catch (IOException e) {}
-                        FileUtils.deleteQuietly(fileItem.getFile());
-                    }
-                }
-
-                String jsonFileMetaForm = null;
-                try {
-                    jsonFileMetaForm = objectMapper.writeValueAsString(fileMetaForm);
-                } catch (JsonProcessingException e) {
-                    e.printStackTrace();
-                }
-
-                return jsonFileMetaForm;
-            }
-
-            /**
              * 파일 업로드와 첨부 파일 관련 정보 DB 저장
              * @param fileItems
              * @param fileMetaForm
@@ -296,19 +237,20 @@ public class DocumentController {
                                       TotalApplicationDocument document) {
 
                 FileInfo fileInfo;
-                FileVO fileVO = new FileVO();
-
+//                FileVO fileVO = new FileVO();
+                String uploadDir = getDirectory(fileMetaForm);
+                String uploadFileName = "";
                 for ( FileItem fileItem : fileItems){
                     FileInputStream fis = null;
                     try{
-                        String uploadDir = getDirectory(fileMetaForm);
-                        String uploadFileName = createFileName(fileMetaForm, fileItem);
+                        uploadDir = getDirectory(fileMetaForm);
+                        uploadFileName = createFileName(fileMetaForm, fileItem);
                         fileInfo = persistence.save(uploadDir,
                                 uploadFileName,
                                 fileItem.getOriginalFileName(),
                                 fis = new FileInputStream(fileItem.getFile()));
-                        fileVO.setPath(fileInfo.getDirectory());
-                        fileVO.setFileName(fileInfo.getFileName());
+//                        fileVO.setPath(fileInfo.getDirectory());
+//                        fileVO.setFileName(fileInfo.getFileName());
                         String path = fileInfo.getDirectory();
                         String pathWithoutContextPath;
                         if (path.startsWith(fileBaseDir)) {
@@ -320,15 +262,19 @@ public class DocumentController {
                         fileMetaForm.setFileName(fileInfo.getFileName());
                         fileMetaForm.setOriginalFileName(fileItem.getOriginalFileName());
 
+                        document.setFilePath(fileInfo.getDirectory());
+                        document.setFileName(fileInfo.getFileName());
+                        document.setOrgFileName(fileItem.getOriginalFileName());
+                        document.setCreId(principal.getName());
                         documentService.saveOneDocument(document);
                     }catch(FileNotFoundException fnfe) {
-                        // TODO : 업로드 된 파일 지우기
+                        persistence.deleteFile(uploadDir, uploadFileName);
                         throw new FileUploadException("", fnfe);
                     } catch (FileUploadException foe) {
-                        // TODO : 업로드 된 파일 지우기
+                        persistence.deleteFile(uploadDir, uploadFileName);
                         throw new FileUploadException("", foe);
                     } catch (Exception e) {
-                        // TODO : 업로드 된 파일 지우기
+                        persistence.deleteFile(uploadDir, uploadFileName);
                         throw new YSBizException("callback.handleEvent()");
                     }finally {
                         try {
