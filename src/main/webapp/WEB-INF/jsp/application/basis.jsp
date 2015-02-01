@@ -713,7 +713,7 @@
         <%-- 한글 이름 공백 제거 --%>
         var removeSpaceInKorName = function () {
             var korName = document.getElementById('application.korName');
-            korName.addEventListener('keyup', function () {
+            $(korName).on('keyup', function () {
                 this.value = this.value.replace(/(\s*)/gi,"");
             });
         };

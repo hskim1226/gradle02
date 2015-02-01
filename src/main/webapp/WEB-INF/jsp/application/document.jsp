@@ -607,7 +607,8 @@
 
         <%-- 파일 선택 버튼 이벤트 --%>
         $('.btn-file').on('change', function (e) { // 한번 업로드한 inputfile은 이벤트가 발생 안한다.
-            var uploadButton = $(this.dataset.uploadButtonId);
+//            var uploadButton = $(this.dataset.uploadButtonId);
+            var uploadButton = $(document.getElementById(this.getAttribute('data-upload-button-id')));
             $(uploadButton).removeClass('disabled');
             $(uploadButton).val('올리기');
         });
@@ -616,13 +617,17 @@
         <%-- 파일 업로드 버튼 이벤트 --%>
         $('.btn-upload').on('click', function (e) {
             var actionUrl = "${contextPath}/application/document/fileUpload",
-                    fileInputId = this.dataset.fileInputId,
+//                    fileInputId = this.dataset.fileInputId,
+                    fileInputId = this.getAttribute('data-file-input-id'),
                     fileInput = document.getElementById(fileInputId),
                     fileInputName = fileInput.getAttribute("name"),
                     fileName = fileInput.value,
-                    imgYn = document.getElementById(this.dataset.imgYnId).value,
-                    targetFileLinkId = this.dataset.targetFileLinkId,
-                    targetOrgFileNameHiddenId = this.dataset.orgFilenameId,
+//                    imgYn = document.getElementById(this.dataset.imgYnId).value,
+                    imgYn = document.getElementById(this.getAttribute('data-img-yn-id')).value,
+//                    targetFileLinkId = this.dataset.targetFileLinkId,
+                    targetFileLinkId = this.getAttribute('data-target-file-link-id'),
+//                    targetOrgFileNameHiddenId = this.dataset.orgFilenameId,
+                    targetOrgFileNameHiddenId = this.getAttribute('data-org-filename-id'),
             // targetFilePathHiddenId = e.target.getAttribute('data-file-path'),
             // targetFileNameHiddenId = e.target.getAttribute('data-file-name'),
             // targetOrgFileNameHiddenId = e.target.getAttribute('data-org-file-name'),
@@ -652,33 +657,33 @@
                         fileElementId: fileInputId,
                         dataType: 'json',
                         data: {
-                            docSeq: document.getElementById(this.dataset.docPropDocseq).value,
-                            docTypeCode: document.getElementById(this.dataset.docPropDoctypecode).value,
-                            docGrp: document.getElementById(this.dataset.docPropDocgrp).value,
-                            docItemCode: document.getElementById(this.dataset.docPropDocitemcode).value,
-                            docItemName: document.getElementById(this.dataset.docPropDocitemname).value,
-                            grpLabel: document.getElementById(this.dataset.docPropGrplabel).value,
-                            fileExt: document.getElementById(this.dataset.docPropFileext).value,
-                            imgYn: document.getElementById(this.dataset.docPropImgyn).value,
-                            filePath: document.getElementById(this.dataset.docPropFilepath).value,
-                            fileName: document.getElementById(this.dataset.docPropFilename).value,
-                            orgFileName: document.getElementById(this.dataset.docPropOrgfilename).value,
-                            docItemNameXxen: document.getElementById(this.dataset.docPropDocitemnamexxen).value,
-                            docGrpName: document.getElementById(this.dataset.docPropDocgrpname).value,
-                            fileUploadFg: document.getElementById(this.dataset.docPropFileuploadfg).value,
-                            displayGrpFg: document.getElementById(this.dataset.docPropDisplaygrpfg).value,
-                            admsCorsNo: document.getElementById(this.dataset.docPropAdmscorsno).value,
-                            detlMajCode: document.getElementById(this.dataset.docPropDetlmajcode).value,
-                            admsCodeGrp: document.getElementById(this.dataset.docPropAdmscodegrp).value,
-                            admsCode: document.getElementById(this.dataset.docPropAdmscode).value,
-                            grpLevel: document.getElementById(this.dataset.docPropGrplevel).value,
-                            docItemGrp: document.getElementById(this.dataset.docPropDocitemgrp).value,
-                            upCodeGrp: document.getElementById(this.dataset.docPropUpcodegrp).value,
-                            upCode: document.getElementById(this.dataset.docPropUpcode).value,
-                            lastYn: document.getElementById(this.dataset.docPropLastyn).value,
-                            mdtYn: document.getElementById(this.dataset.docPropMdtyn).value,
-                            uploadYn: document.getElementById(this.dataset.docPropUploadyn).value,
-                            sendCnt: document.getElementById(this.dataset.docPropSendcnt).value,
+                            docSeq: document.getElementById(this.getAttribute('data-doc-prop-docSeq')).value,
+                            docTypeCode: document.getElementById(this.getAttribute('data-doc-prop-docTypeCode')).value,
+                            docGrp: document.getElementById(this.getAttribute('data-doc-prop-docGrp')).value,
+                            docItemCode: document.getElementById(this.getAttribute('data-doc-prop-docItemCode')).value,
+                            docItemName: document.getElementById(this.getAttribute('data-doc-prop-docItemName')).value,
+                            grpLabel: document.getElementById(this.getAttribute('data-doc-prop-grpLabel')).value,
+                            fileExt: document.getElementById(this.getAttribute('data-doc-prop-fileExt')).value,
+                            imgYn: document.getElementById(this.getAttribute('data-doc-prop-imgYn')).value,
+                            filePath: document.getElementById(this.getAttribute('data-doc-prop-filePath')).value,
+                            fileName: document.getElementById(this.getAttribute('data-doc-prop-fileName')).value,
+                            orgFileName: document.getElementById(this.getAttribute('data-doc-prop-orgFileName')).value,
+                            docItemNameXxen: document.getElementById(this.getAttribute('data-doc-prop-docItemNameXxen')).value,
+                            docGrpName: document.getElementById(this.getAttribute('data-doc-prop-docGrpName')).value,
+                            fileUploadFg: document.getElementById(this.getAttribute('data-doc-prop-fileUploadFg')).value,
+                            displayGrpFg: document.getElementById(this.getAttribute('data-doc-prop-displayGrpFg')).value,
+                            admsCorsNo: document.getElementById(this.getAttribute('data-doc-prop-admsCorsNo')).value,
+                            detlMajCode: document.getElementById(this.getAttribute('data-doc-prop-detlMajCode')).value,
+                            admsCodeGrp: document.getElementById(this.getAttribute('data-doc-prop-admsCodeGrp')).value,
+                            admsCode: document.getElementById(this.getAttribute('data-doc-prop-admsCode')).value,
+                            grpLevel: document.getElementById(this.getAttribute('data-doc-prop-grpLevel')).value,
+                            docItemGrp: document.getElementById(this.getAttribute('data-doc-prop-docItemGrp')).value,
+                            upCodeGrp: document.getElementById(this.getAttribute('data-doc-prop-upCodeGrp')).value,
+                            upCode: document.getElementById(this.getAttribute('data-doc-prop-upCode')).value,
+                            lastYn: document.getElementById(this.getAttribute('data-doc-prop-lastYn')).value,
+                            mdtYn: document.getElementById(this.getAttribute('data-doc-prop-mdtYn')).value,
+                            uploadYn: document.getElementById(this.getAttribute('data-doc-prop-uploadYn')).value,
+                            sendCnt: document.getElementById(this.getAttribute('data-doc-prop-sendCnt')).value,
 
                             fieldName: fileInputName,
                             targetButton: this.id,
@@ -840,8 +845,10 @@ if (console) {
             var container = blockToRemove.parentNode;
             var blocks = container.querySelectorAll('.form-group-block');
             var length = blocks.length, i;
-            var blockIndex = target.dataset.blockIndex;
-            var userCUDType = document.getElementById(target.dataset.listName + blockIndex + '.userCUDType');
+//            var blockIndex = target.dataset.blockIndex;
+            var blockIndex = target.getAttribute('data-block-index');
+            var listName = target.getAttribute('data-list-name');
+            var userCUDType = document.getElementById(listName + blockIndex + '.userCUDType');
 
             switch (userCUDType.value) {
                 case 'INSERT' :

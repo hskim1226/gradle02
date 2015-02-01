@@ -567,7 +567,8 @@
             return maxScore;
         };
         $('.lang-score').on('blur', function () {
-            var examName = this.dataset.langExamName,
+//            var examName = this.dataset.langExamName,
+            var examName = this.getAttribute('data-lang-exam-name'),
                 maxScore;
             switch(examName) {
                 case 'TOEFL':
@@ -750,9 +751,11 @@
             var container = blockToRemove.parentNode;
             var blocks = container.querySelectorAll('.form-group-block');
             var length = blocks.length, i;
-            var blockIndex = target.dataset.blockIndex;
-            var saveFg = document.getElementById(target.dataset.listName + blockIndex + '.saveFg');
-            var checkedFg = document.getElementById(target.dataset.listName + blockIndex + '.checkedFg');
+//            var blockIndex = target.dataset.blockIndex;
+            var blockIndex = target.getAttribute('data-block-index');
+            var listName = target.getAttribute('data-list-name');
+            var saveFg = document.getElementById(listName + blockIndex + '.saveFg');
+            var checkedFg = document.getElementById(listName + blockIndex + '.checkedFg');
 
             if (saveFg.value == 'true') {
                 checkedFg.value = 'false';

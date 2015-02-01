@@ -824,7 +824,7 @@
         <%-- form-group-block 추가/삭제에 대한 처리 시작 --%>
         <%-- id, name 재설정 시작 --%>
         var updateIdAndName = function ( block, index ) {
-            var i, name, prefix, suffix, input, items, label, j, k, element, datasetValue;
+            var i, name, prefix, suffix, input, items, label, j, k, element, datasetValue, oldid, gradAvrId;
             items = block.querySelectorAll('input, select, label');
             if (items) {
                 for (i = 0; i <items.length; i++) {
@@ -835,7 +835,7 @@
                         suffix = name.substring(name.indexOf(']') + 1);
                         element.name = prefix + '[' + index + ']' + suffix;
                     }
-                    var oldid = element.id;
+                    oldid = element.id;
                     if (oldid) {
                         prefix = oldid.substring(0, oldid.indexOf('.'));
                         prefix = prefix.replace(/[0-9]/g, '');
@@ -847,12 +847,15 @@
                             label.setAttribute('for', element.id);
                         }
                     }
-                    if (element.dataset.gradavrId) {
-                        datasetValue = element.dataset.gradavrId;
+
+                    gradAvrId = element.getAttribute('data-gradAvr-id');
+                    if (gradAvrId) {
+                        datasetValue = gradAvrId;
                         prefix = datasetValue.substring(0, datasetValue.indexOf('.'));
                         prefix = prefix.replace(/[0-9]/g, '');
                         suffix = datasetValue.substring(datasetValue.indexOf('.'));
-                        element.dataset.gradavrId = prefix + index + suffix;
+//                        element.dataset.gradavrId = prefix + index + suffix;
+                        element.setAttribute('data-gradAvr-id', prefix + index + suffix);
                     }
                     if (element.id.indexOf('grdaTypeCode') > 0) {
                         if (element.checked)
@@ -994,8 +997,10 @@
             var container = blockToRemove.parentNode;
             var blocks = container.querySelectorAll('.form-group-block');
             var length = blocks.length, i;
-            var blockIndex = target.dataset.blockIndex;
-            var userCUDType = document.getElementById(target.dataset.listName + blockIndex + '.userCUDType');
+//            var blockIndex = target.dataset.blockIndex;
+            var blockIndex = target.getAttribute('data-block-index');
+            var listName = target.getAttribute('data-list-name');
+            var userCUDType = document.getElementById(listName + blockIndex + '.userCUDType');
 
             switch (userCUDType.value) {
                 case 'INSERT' :
