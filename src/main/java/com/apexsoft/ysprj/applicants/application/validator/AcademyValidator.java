@@ -42,6 +42,14 @@ public class AcademyValidator implements Validator {
                 errors.rejectValue(listName + "[" + i + "].schlCntrCode", "U331",
                         new Object[]{"학교 소재 국가"}, messageResolver.getMessage("U332"));
             }
+            if (caa.getEntrDay() == null || caa.getEntrDay().length() == 0) {
+                errors.rejectValue(listName + "[" + i + "].entrDay", "U331",
+                        new Object[]{"입학일"}, messageResolver.getMessage("U332"));
+            }
+            if (caa.getGrdaDay() == null || caa.getGrdaDay().length() == 0) {
+                errors.rejectValue(listName + "[" + i + "].grdaDay", "U331",
+                        new Object[]{"졸업(예정)일"}, messageResolver.getMessage("U332"));
+            }
             if (caa.getGrdaTypeCode() == null || caa.getGrdaTypeCode().length() == 0) {
                 errors.rejectValue(listName + "[" + i + "].grdaTypeCode", "U331",
                         new Object[]{"졸업 구분"}, messageResolver.getMessage("U332"));
