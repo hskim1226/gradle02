@@ -4,7 +4,7 @@ import com.apexsoft.framework.common.vo.ExecutionContext;
 import com.apexsoft.framework.message.MessageResolver;
 import com.apexsoft.ysprj.applicants.application.domain.*;
 import com.apexsoft.ysprj.applicants.application.service.AcademyService;
-import com.apexsoft.ysprj.applicants.validator.AcademyValidator;
+import com.apexsoft.ysprj.applicants.application.validator.AcademyValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;

@@ -1,4 +1,4 @@
-package com.apexsoft.ysprj.applicants.validator;
+package com.apexsoft.ysprj.applicants.application.validator;
 
 import com.apexsoft.framework.message.MessageResolver;
 import com.apexsoft.ysprj.applicants.application.domain.Academy;
@@ -58,9 +58,12 @@ public class AcademyValidator implements Validator {
                 errors.rejectValue(listName + "[" + i + "].majName", "U331",
                         new Object[]{"학과 이름"}, messageResolver.getMessage("U332"));
             }
-            if (caa.getGradAvr() == null || caa.getGradAvr().length() == 0 ||
-                caa.getGradFull() == null || caa.getGradFull().length() == 0 ) {
+            if (caa.getGradAvr() == null || caa.getGradAvr().length() == 0) {
                 errors.rejectValue(listName + "[" + i + "].gradAvr", "U331",
+                        new Object[]{"평량 평균"}, messageResolver.getMessage("U332"));
+            }
+            if (caa.getGradFull() == null || caa.getGradFull().length() == 0 ) {
+                errors.rejectValue(listName + "[" + i + "].gradFull", "U331",
                         new Object[]{"평량 평균"}, messageResolver.getMessage("U332"));
             }
         }
