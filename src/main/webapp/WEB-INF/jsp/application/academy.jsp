@@ -248,6 +248,10 @@
         #tabTR {
             cursor: pointer;
         }
+        .validation-error {
+            background: #ffdddd;
+            color: #f55;
+        }
     </style>
 </head>
 <body>
@@ -289,6 +293,9 @@
                 <div class="spacer-tiny"></div>
                 <div class="row">
                     <div class="col-sm-offset-1 col-sm-10">
+                        <div>
+                            <div class="validation-error"><form:errors path="*"/></div>
+                        </div>
                         <div class="panel panel-default">
                             <div class="panel-heading">대학교</div>
                             <div class="panel-body">

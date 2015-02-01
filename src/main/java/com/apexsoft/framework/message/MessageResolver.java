@@ -1,5 +1,6 @@
 package com.apexsoft.framework.message;
 
+import org.springframework.context.MessageSourceResolvable;
 import org.springframework.context.support.MessageSourceAccessor;
 
 import java.util.Locale;
@@ -20,6 +21,10 @@ public class MessageResolver {
 
     public String getMessage(String code, Locale locale) {
         return messageSourceAccessor.getMessage(code, locale);
+    }
+
+    public String getMessage(MessageSourceResolvable resolvable) {
+        return messageSourceAccessor.getMessage(resolvable);
     }
 
 }

@@ -4,10 +4,10 @@ import com.apexsoft.framework.common.vo.ExecutionContext;
 import com.apexsoft.framework.message.MessageResolver;
 import com.apexsoft.ysprj.applicants.application.domain.*;
 import com.apexsoft.ysprj.applicants.application.service.AcademyService;
+import com.apexsoft.ysprj.applicants.validator.AcademyValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -28,6 +28,9 @@ public class AcademyController {
     @Autowired
     private AcademyService academyService;
 
+    @Autowired
+    private AcademyValidator academyValidator;
+
     @Resource(name = "messageResolver")
     MessageResolver messageResolver;
 
@@ -40,7 +43,7 @@ public class AcademyController {
      * @return
      */
     @RequestMapping(value="/edit")
-    public ModelAndView getAcademy(@ModelAttribute Academy formData,
+    public ModelAndView getAcademy(Academy formData,
                                    BindingResult bindingResult,
                                    ModelAndView mv) {
         mv.setViewName(TARGET_VIEW);
@@ -62,12 +65,17 @@ public class AcademyController {
      * @return
      */
     @RequestMapping(value="/save", method = RequestMethod.POST)
-    public ModelAndView saveAcademy(@ModelAttribute Academy formData,
+    public ModelAndView saveAcademy(Academy formData,
                                     Principal principal,
                                     BindingResult bindingResult,
                                     ModelAndView mv) {
+//        validator.validate(formData.getCollegeList(), bindingResult);
+        academyValidator.validate(formData, bindingResult);
         mv.setViewName(TARGET_VIEW);
-        if (bindingResult.hasErrors()) return mv;
+        if (bindingResult.hasErrors()) {
+            mv.addObject("resultMsg", messageResolver.getMessage("U334"));
+            return mv;
+        }
 
         ExecutionContext ec;
         String userId = principal.getName();
