@@ -287,7 +287,7 @@ public class PaymentServiceImpl implements PaymentService {
         xPayPayResult.setLgdHashdata(xpay.Response("LGD_HASHDATA", 0));
         xPayPayResult.setLgdFinancecode(xpay.Response("LGD_FINANCECODE", 0));
         xPayPayResult.setLgdFinancename(xpay.Response("LGD_FINANCENAME", 0));
-        xPayPayResult.setLgdAccountnum(xpay.Response("LGD_ACOUNTNUM", 0));
+        xPayPayResult.setLgdAccountnum(xpay.Response("LGD_ACCOUNTNUM", 0));
         xPayPayResult.setLgdCasflag(xpay.Response("LGD_CASFLAG", 0));
         xPayPayResult.setLgdCasseqno(xpay.Response("LGD_CASSEQNO", 0));
 
