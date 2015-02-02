@@ -23,8 +23,4 @@ public class MessageResolver {
         return messageSourceAccessor.getMessage(code, locale);
     }
 
-    public String getMessage(MessageSourceResolvable resolvable) {
-        return messageSourceAccessor.getMessage(resolvable);
-    }
-
 }
