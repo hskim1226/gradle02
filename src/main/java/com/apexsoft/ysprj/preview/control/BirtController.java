@@ -34,12 +34,6 @@ public class BirtController {
     private final String RPT_APPLICATION_KR = "application_kr";
     private final String RPT_APPLICATION_EN = "application_en";
 
-    @RequestMapping(value = "/preview")
-    public ModelAndView previewAppInfo(@RequestParam(value = "applNo", required = false) Integer applNo,
-                                 Model model) {
-        return previewApplication(applNo, REPORT_FORMAT, RPT_APPLICATION_KR, model);
-    }
-
     @RequestMapping(value = "/print")
     public ModelAndView previewApplicationByParam(@RequestParam(value = "applNo", required = false) Integer applNo,
                                                   @RequestParam(value = "reportFormat", required = false) String reportFormat,
@@ -56,6 +50,12 @@ public class BirtController {
         return previewApplication(applNo, reportFormat, reportName, model);
     }
 
+    @RequestMapping(value = "/preview")
+    public ModelAndView previewAppInfo(@RequestParam(value = "application.applNo", required = false) Integer applNo,
+                                       Model model) {
+        return previewApplication(applNo, REPORT_FORMAT, RPT_APPLICATION_KR, model);
+    }
+
     private ModelAndView previewApplication(Integer applNo, String reportFormat, String reportName, Model model) {
         model.addAttribute( "reportFormat", reportFormat );
         model.addAttribute( "reportName", reportName );
@@ -65,9 +65,6 @@ public class BirtController {
         CampusCollege campusCollege = applicationService.retrieveInfoByApplNo(applNo,
                 "EntireApplicationMapper.selectCampusCollegeCode",
                 CampusCollege.class);
-// EntireApplication에서 campCode, collCode 지웠으므로 필요 없음
-//        entireApplication.getApplication().setCampCode( campusCollege.getCampCode() );
-//        entireApplication.getApplication().setCollCode( campusCollege.getCollCode() );
 
         String campName = commonService.retrieveCampNameByCode(entireApplication.getApplication().getCampCode());
         String collName = commonService.retrieveCollNameByCode(entireApplication.getApplication().getCollCode());
@@ -77,12 +74,12 @@ public class BirtController {
         String corsTypeName = commonService.retrieveCorsTypeNameByCode(entireApplication.getApplication().getCorsTypeCode());
         String detlMajName = commonService.retrieveDetlMajNameByCode(entireApplication.getApplication().getDetlMajCode());
         CommonCode commonCode = null;
-        commonCode = commonService.retrieveCommonCodeValueByCodeGroupCode("MLTR_SERV", entireApplication.getApplicationGeneral().getMltrServCode());
-        String mltrServName = commonCode != null ? commonCode.getCodeVal() : null;
-        commonCode = commonService.retrieveCommonCodeValueByCodeGroupCode("MLTR_RANK", entireApplication.getApplicationGeneral().getMltrRankCode());
-        String mltrRankName = commonCode != null ? commonCode.getCodeVal() : null;
-        ApplicationDocument photoFile = applicationService.retrieveApplicationDocumentPhoto(applNo);
-        String photoFilePath = photoFile.getFilePath() + "/" + photoFile.getFileName();
+//        commonCode = commonService.retrieveCommonCodeValueByCodeGroupCode("MLTR_SERV", entireApplication.getApplicationGeneral().getMltrServCode());
+//        String mltrServName = commonCode != null ? commonCode.getCodeVal() : null;
+//        commonCode = commonService.retrieveCommonCodeValueByCodeGroupCode("MLTR_RANK", entireApplication.getApplicationGeneral().getMltrRankCode());
+//        String mltrRankName = commonCode != null ? commonCode.getCodeVal() : null;
+//        ApplicationDocument photoFile = applicationService.retrieveApplicationDocumentPhoto(applNo);
+//        String photoFilePath = photoFile.getFilePath() + "/" + photoFile.getFileName();
 
         model.addAttribute("campName", campName);
         model.addAttribute("collName", collName);
@@ -90,9 +87,9 @@ public class BirtController {
         model.addAttribute("deptName", deptName);
         model.addAttribute("corsTypeName", corsTypeName);
         model.addAttribute("detlMajName", detlMajName);
-        model.addAttribute("mltrServName", mltrServName);
-        model.addAttribute("mltrRankName", mltrRankName);
-        model.addAttribute("photoFilePath", photoFilePath);
+//        model.addAttribute("mltrServName", mltrServName);
+//        model.addAttribute("mltrRankName", mltrRankName);
+//        model.addAttribute("photoFilePath", photoFilePath);
 
         /* TODO ENTR_YEAR, ADMS_TYPE_CODE 구하는 부분 수정 필요 */
         commonCode = commonService.retrieveCommonCodeValueByCodeGroupCode("ADMS_TYPE", "A");
@@ -109,7 +106,9 @@ public class BirtController {
         if(IRenderOption.OUTPUT_FORMAT_HTML.equalsIgnoreCase(reportFormat) ) {
             return new ModelAndView("htmlSingleFormatBirtView");
         }
-        return new ModelAndView("pdfSingleFormatBirtView");
+        ModelAndView mv = new ModelAndView("pdfSingleFormatBirtView");
+        return mv;
+//        return new ModelAndView("pdfSingleFormatBirtView");
     }
 
 }
