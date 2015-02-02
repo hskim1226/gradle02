@@ -293,9 +293,9 @@
                 <div class="spacer-tiny"></div>
                 <div class="row">
                     <div class="col-sm-offset-1 col-sm-10">
-                        <div>
-                            <div class="validation-error"><form:errors path="*"/></div>
-                        </div>
+                        <%--<div>--%>
+                            <%--<div class="validation-error"><form:errors path="*"/></div>--%>
+                        <%--</div>--%>
                         <div class="panel panel-default">
                             <div class="panel-heading">대학교</div>
                             <div class="panel-body">
@@ -325,13 +325,13 @@
                                                         <form:input path="collegeList[${stat.index}].entrDay" cssClass="form-control" readonly="true" />
                                                         <span class="input-group-addon calendar-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                                                     </div>
-<%--<spring:bind path="collegeList[${stat.index}].entrDay">--%>
-    <%--<c:if test="${status.error}">--%>
-        <%--<div class="validation-error">--%>
-            <%--${status.errorMessage}--%>
-        <%--</div>--%>
-    <%--</c:if>--%>
-<%--</spring:bind>--%>
+<spring:bind path="collegeList[${stat.index}].entrDay">
+    <c:if test="${status.error}">
+        <div class="validation-error">
+            ${status.errorMessage}
+        </div>
+    </c:if>
+</spring:bind>
                                                 </div>
                                                 <div class="col-sm-4 end-date-container">
                                                     <div class="input-group date">
@@ -339,13 +339,13 @@
                                                         <form:input path="collegeList[${stat.index}].grdaDay" cssClass="form-control" readonly="true" />
                                                         <span class="input-group-addon calendar-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                                                     </div>
-<%--<spring:bind path="collegeList[${stat.index}].grdaDay">--%>
-    <%--<c:if test="${status.error}">--%>
-        <%--<div class="validation-error">--%>
-                <%--${status.errorMessage}--%>
-        <%--</div>--%>
-    <%--</c:if>--%>
-<%--</spring:bind>--%>
+<spring:bind path="collegeList[${stat.index}].grdaDay">
+    <c:if test="${status.error}">
+        <div class="validation-error">
+                ${status.errorMessage}
+        </div>
+    </c:if>
+</spring:bind>
                                                 </div>
                                             </div>
                                             <div class="form-group required">

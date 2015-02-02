@@ -100,8 +100,18 @@ public class DocumentServiceImpl implements DocumentService {
 
     @Override
     public ExecutionContext saveOneDocument(TotalApplicationDocument document) {
+
+
+
+
+
         return null;
     }
+
+
+
+
+
 
     private List<TotalApplicationDocumentContainer> retrieveManatoryApplicatoinlDocListByApplNo(int applNo) {
 
@@ -137,7 +147,7 @@ public class DocumentServiceImpl implements DocumentService {
             }
         }
         rApplDoc = new TotalApplicationDocumentContainer();
-        rApplDoc.setSubContainer(rList);
+        rApplDoc.setSubContainer(applDocList);
         rApplDoc.setGrpLabel("기본-학과지정 제출서류");
         rApplDoc.setDisplayGrpFg(true);
 
@@ -210,6 +220,8 @@ public class DocumentServiceImpl implements DocumentService {
             codeParam.setAdmsCode(aAcad.getSchlCntrCode());
             codeParam.setItemCode("00002");//해외학위
             subDocList.addAll(commonDAO.queryForList(NAME_SPACE +"CustomApplicationDocumentMapper.selectCodeMandatoryGroupByCode",codeParam,TotalApplicationDocumentContainer.class));
+            codeParam.setItemCode("00021");//중국학위
+            subDocList.addAll(commonDAO.queryForList(NAME_SPACE +"CustomApplicationDocumentMapper.selectCodeMandatoryGroupByCode",codeParam,TotalApplicationDocumentContainer.class));
 
             for( TotalApplicationDocumentContainer aSubDoc : subDocList ){
                 //저장 시퀀스, 모집전형 기입
@@ -246,12 +258,14 @@ public class DocumentServiceImpl implements DocumentService {
             codeParam.setItemCode("00004");//대학원
 
             List<TotalApplicationDocumentContainer> subDocList;
-            subDocList = commonDAO.queryForList(NAME_SPACE +"CustomApplicationDocumentMapper.selectCodeMandatoryGroupByCode",codeParam,TotalApplicationDocumentContainer.class);
+            subDocList = commonDAO.queryForList(NAME_SPACE + "CustomApplicationDocumentMapper.selectCodeMandatoryGroupByCode",codeParam,TotalApplicationDocumentContainer.class);
 
             //해외학위 필수서류 셋팅
             codeParam.setAdmsCodeGrp("SCHL_CNTR");
             codeParam.setAdmsCode(aAcad.getSchlCntrCode());
             codeParam.setItemCode("00002");//해외학위
+            subDocList.addAll(commonDAO.queryForList(NAME_SPACE +"CustomApplicationDocumentMapper.selectCodeMandatoryGroupByCode",codeParam,TotalApplicationDocumentContainer.class));
+            codeParam.setItemCode("00021");//중국학위
             subDocList.addAll(commonDAO.queryForList(NAME_SPACE +"CustomApplicationDocumentMapper.selectCodeMandatoryGroupByCode",codeParam,TotalApplicationDocumentContainer.class));
 
             for( TotalApplicationDocumentContainer aSubDoc : subDocList ){
@@ -275,18 +289,18 @@ public class DocumentServiceImpl implements DocumentService {
         TotalApplicationDocumentContainer aCont = null;
         List<TotalApplicationDocumentContainer> rList;
 
-                Application tempApp = commonDAO.queryForObject(NAME_SPACE + "ApplicationMapper.selectByPrimaryKey", applNo, Application.class);
+        Application tempApp = commonDAO.queryForObject(NAME_SPACE + "ApplicationMapper.selectByPrimaryKey", applNo, Application.class);
         ParamForCodeDocument codeParam = new ParamForCodeDocument();
         codeParam.setApplNo(applNo);
         codeParam.setAdmsNo(admsNo);
 
         //학연산 조회
-        if( "00006".equals(tempApp.getApplAttrCode())) {
+        if( "00002".equals(tempApp.getApplAttrCode())) {
             rList = new ArrayList<TotalApplicationDocumentContainer>();
             codeParam.setAdmsCodeGrp("APPL_ATTR");
-            codeParam.setAdmsCode("00003");
+            codeParam.setAdmsCode("00002");
             codeParam.setGrpLevel(1);
-            codeParam.setItemTypeCode("00006");//학연산
+            codeParam.setItemCode("00006");//학연산
 
             List<TotalApplicationDocumentContainer> subDocList;
             subDocList = commonDAO.queryForList(NAME_SPACE + "CustomApplicationDocumentMapper.selectCodeMandatoryGroupByCode", codeParam, TotalApplicationDocumentContainer.class);
@@ -303,13 +317,14 @@ public class DocumentServiceImpl implements DocumentService {
         }
 
 
+
         //외국인 조회
         if(  "00001".equals(tempApp.getFornTypeCode())||"00002".equals(tempApp.getFornTypeCode())||"00003".equals(tempApp.getFornTypeCode()) ) {
             rList = new ArrayList<TotalApplicationDocumentContainer>();
             codeParam.setAdmsCodeGrp("FORN_TYPE");
-            codeParam.setAdmsCode(tempApp.getApplAttrCode());
+            codeParam.setAdmsCode(tempApp.getFornTypeCode());
             codeParam.setGrpLevel(1);
-            codeParam.setItemTypeCode("00007");//
+            codeParam.setItemCode("00007");//
 
             List<TotalApplicationDocumentContainer> subDocList;
             subDocList = commonDAO.queryForList(NAME_SPACE + "CustomApplicationDocumentMapper.selectCodeMandatoryGroupByCode", codeParam, TotalApplicationDocumentContainer.class);
@@ -328,7 +343,7 @@ public class DocumentServiceImpl implements DocumentService {
         //기타 및 자유입력 조회
 
         codeParam.setGrpLevel(1);
-        codeParam.setItemTypeCode("00009");// 기타 및 추가제출
+        codeParam.setItemCode("00009");// 기타 및 추가제출
         List<TotalApplicationDocumentContainer> subDocList;
         subDocList = commonDAO.queryForList(NAME_SPACE + "CustomApplicationDocumentMapper.selectMandatoryDocumentByDocType", codeParam, TotalApplicationDocumentContainer.class);
         aCont = new TotalApplicationDocumentContainer();

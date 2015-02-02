@@ -120,7 +120,7 @@ public class LangCareerController {
         int i, length;
         for (i = 0, length = list.size() ; i < length ; i++) {
 //            if (list.get(i).getCorpName() == null || list.get(i).getCorpName().equals("")) {
-            if (!list.get(i).isCheckedFg()) {
+            if ( list.get(i).getCorpName() == null ||  list.get(i).getCorpName() =="") {
                 list.remove(i);
                 length--;
                 i--;

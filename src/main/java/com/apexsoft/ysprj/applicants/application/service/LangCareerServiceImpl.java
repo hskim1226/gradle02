@@ -162,9 +162,11 @@ public class LangCareerServiceImpl implements LangCareerService {
         int upAppl = 0, insert = 0, update = 0, delete = 0;
         int rUpAppl = 0, rInsert = 0, rUpdate = 0, rDelete = 0;
         Application application = langCareer.getApplication();
+        ApplicationGeneral applicationGene = langCareer.getApplicationGeneral();
         int applNo = application.getApplNo();
 
         Date date = new Date();
+
         List<LanguageGroup> langList = langCareer.getLanguageGroupList();
         List<CustomApplicationExperience> exprList = langCareer.getApplicationExperienceList();
 
@@ -175,6 +177,23 @@ public class LangCareerServiceImpl implements LangCareerService {
             application.setModDate(new Date());
             upAppl = commonDAO.updateItem(application, NAME_SPACE, "ApplicationMapper");
         }
+
+        //면제 해당여부 처리
+        if("on".equals(langCareer.getCheckForlExmp())) {
+            applicationGene.setApplNo(applNo);
+            rUpAppl++;
+            if (applicationGene.getForlExmpCode() != null || applicationGene.getForlExmpCode() != "") {
+                upAppl = commonDAO.updateItem(applicationGene, NAME_SPACE, "ApplicationGeneralMapper");
+            }
+        }else{
+            applicationGene = new ApplicationGeneral();
+            applicationGene.setApplNo(applNo);
+            rUpAppl++;
+            applicationGene.setForlExmpCode("");
+            upAppl = commonDAO.updateItem(applicationGene, NAME_SPACE, "ApplicationGeneralMapper");
+
+        }
+
 
         //어학정보 저장
         for( LanguageGroup aGroup : langList){
@@ -217,6 +236,11 @@ public class LangCareerServiceImpl implements LangCareerService {
 
             if( aExpr.isCheckedFg()) {
                 //기존정보 처리
+                if( "on".equals(aExpr.getCurrYn())){
+                    aExpr.setCurrYn("Y");
+                }else{
+                    aExpr.setCurrYn("N");
+                }
                 if(aExpr.isSaveFg()){
                     //APPL_LANG,  UPDATE
                     rUpdate++;
@@ -228,6 +252,7 @@ public class LangCareerServiceImpl implements LangCareerService {
                     //APPL_LANG, INSERT
                     rInsert++;
                     int maxSeq = commonDAO.queryForInt(NAME_SPACE +"CustomApplicationExperienceMapper.selectMaxSeqByApplNo", applNo ) ;
+                    aExpr.setApplNo(applNo);
                     aExpr.setExprSeq(++maxSeq);
                     aExpr.setSaveFg(true);
                     aExpr.setCreId(application.getModId());
@@ -268,7 +293,7 @@ public class LangCareerServiceImpl implements LangCareerService {
     private <T> List<T> retrieveInfoListByApplNo(int applNo, String mapperName, Class<T> clazz) {
         List<T> infoList = null;
         infoList = commonDAO.queryForList(NAME_SPACE + mapperName + ".selectByApplNo",
-                    applNo, clazz);
+                applNo, clazz);
 
         return infoList;
     }
