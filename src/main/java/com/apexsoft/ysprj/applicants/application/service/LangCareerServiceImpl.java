@@ -34,6 +34,44 @@ public class LangCareerServiceImpl implements LangCareerService {
     private final String LANG_CAREER_SAVED = "00003";    // 어학/경력 저장
 
     @Override
+    public ExecutionContext retrieveLangCareer(int applNo) {
+        ExecutionContext ec = new ExecutionContext();
+
+        Map<String, Object> ecDataMap = new HashMap<String, Object>();
+        Map<String, Object> commonCodeMap = new HashMap<String, Object>();
+
+        LangCareer langCareer = new LangCareer();
+
+        Application applicationFromDB = commonDAO.queryForObject(NAME_SPACE + "ApplicationMapper.selectByPrimaryKey",
+                applNo, Application.class);
+        langCareer.setApplication(applicationFromDB);
+
+        ApplicationGeneral applicationGeneralFromDB = commonDAO.queryForObject(NAME_SPACE + "ApplicationGeneralMapper.selectByPrimaryKey",
+                applNo, ApplicationGeneral.class);
+        applicationGeneralFromDB = applicationGeneralFromDB == null ? new ApplicationGeneral() : applicationGeneralFromDB;
+        langCareer.setApplicationGeneral(applicationGeneralFromDB);
+
+        List<LanguageGroup> langGroupList = retrieveLanguageGroupListByApplNo(applNo);
+        langCareer.setLanguageGroupList(langGroupList);
+
+        List<CustomApplicationExperience> applicationExperienceList = retrieveInfoListByApplNo(applNo, "CustomApplicationExperienceMapper", CustomApplicationExperience.class);
+        langCareer.setApplicationExperienceList(applicationExperienceList);
+
+        for(CustomApplicationExperience aExpr :applicationExperienceList  ){
+            aExpr.setSaveFg(true);
+        }
+
+        commonCodeMap.put( "toflTypeList", commonService.retrieveCommonCodeValueByCodeGroup("TOFL_TYPE") );
+        commonCodeMap.put( "fornExmpList", commonService.retrieveCommonCodeValueByCodeGroup("FORN_EXMP") );
+
+        ecDataMap.put("langCareer", langCareer);
+        ecDataMap.put("common", commonCodeMap);
+        ec.setData(ecDataMap);
+
+        return ec;
+    }
+
+    @Override
     public ExecutionContext retrieveLangCareer(LangCareer langCareer) {
         ExecutionContext ec = new ExecutionContext();
 

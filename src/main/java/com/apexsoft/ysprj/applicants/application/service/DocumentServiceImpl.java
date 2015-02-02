@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import javax.print.Doc;
 import java.util.*;
 
 /**
@@ -27,6 +28,28 @@ public class DocumentServiceImpl implements DocumentService {
 
     private final String APP_NULL_STATUS = "00000";      // 에러일 때 반환값
     private final String FILE_UPLOAD_SAVED = "00004";    // 첨부파일 저장
+
+    @Override
+    public ExecutionContext retrieveDocument(int applNo) {
+
+        ExecutionContext ec = new ExecutionContext();
+        Map<String, Object> ecDataMap = new HashMap<String, Object>();
+
+        Document document = new Document();
+
+        Application applicationFromDB = commonDAO.queryForObject(NAME_SPACE + "ApplicationMapper.selectByPrimaryKey",
+                applNo, Application.class);
+        document.setApplication(applicationFromDB);
+
+        List<TotalApplicationDocumentContainer> documentContainerList =
+                retrieveManatoryApplicatoinlDocListByApplNo(applNo);
+        document.setDocumentContainerList(documentContainerList);
+
+        ecDataMap.put("document", document);
+        ec.setData(ecDataMap);
+
+        return ec;
+    }
 
     @Override
     public ExecutionContext retrieveDocument(Document document) {
