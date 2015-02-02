@@ -232,13 +232,6 @@ public class BirtController {
         // TODO
         mv.addObject("applId", "TEMP_APPL_ID");
 
-//        mv.addObject("basis", basis);
-//        mv.addObject("academy", academy);
-//        mv.addObject("langCareer", langCareer);
-//        mv.addObject("document", document);
-
         return mv;
-//        return new ModelAndView("pdfSingleFormatBirtView");
     }
-
 }
