@@ -4,12 +4,9 @@
     <property name="units">in</property>
     <method name="beforeFactory"><![CDATA[
 importPackage(Packages.org.springframework.context);
-importPackage(Packages.org.springframework.web.context.support );
+importPackage(Packages.org.springframework.web.context.support);
 
-var
-
-    sc = reportContext.getHttpServletRequest().getSession().getServletContext(),
-
+var sc = reportContext.getHttpServletRequest().getSession().getServletContext(),
     spring = WebApplicationContextUtils.getWebApplicationContext(sc),
 
     entrYear = spring.getBean("entrYear"),
@@ -69,7 +66,14 @@ var
     exprDesc3 = spring.getBean("exprDesc3"),
     range4 = spring.getBean("range4"),
     corpName4 = spring.getBean("corpName4"),
-    exprDesc4 = spring.getBean("exprDesc4");
+    exprDesc4 = spring.getBean("exprDesc4"),
+
+    mltrServName = spring.getBean("mltrServName"),
+    mltrJoinDay = spring.getBean("mltrJoinDay"),
+    mltrDschDay = spring.getBean("mltrDschDay"),
+    mltrRankName = spring.getBean("mltrRankName"),
+
+    applId = spring.getBean("applId");
 
 ]]></method>
     <text-property name="displayName">입학원서</text-property>
@@ -109,8 +113,12 @@ var
         </scalar-parameter>
         <scalar-parameter name="admsTypeName2" id="1360">
             <property name="valueType">static</property>
+            <property name="isRequired">false</property>
             <property name="dataType">string</property>
             <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant"></value>
+            </simple-property-list>
             <list-property name="selectionList"/>
             <property name="paramType">simple</property>
             <property name="controlType">text-box</property>
@@ -824,6 +832,81 @@ var
             </structure>
         </scalar-parameter>
         <scalar-parameter name="exprDesc4" id="1406">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant"></value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="applId" id="1407">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant"></value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="mltrServName" id="1408">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant"></value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="mltrJoinDay" id="1409">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant"></value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="mltrDschDay" id="1410">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant"></value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="mltrRankName" id="1411">
             <property name="valueType">static</property>
             <property name="isRequired">false</property>
             <property name="dataType">string</property>

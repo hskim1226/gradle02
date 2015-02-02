@@ -143,7 +143,7 @@ public class BirtController {
         // TODO : 사진 파일 추출
 //        ApplicationDocument photoFile = document.retrieveApplicationDocumentPhoto(applNo);
 //        String photoFilePath = photoFile.getFilePath() + "/" + photoFile.getFileName();
-        String photoUri = "/opt/ysproject/upload/2015/15A/z/zz/357/하니.jpg";
+        String photoUri = "/opt/ysproject/upload/2015/15A/z/zz/357/하니.png";
         mv.addObject("photoUri", photoUri);
 
         String currWrkpName = applicationGeneral.getCurrWrkpName();
@@ -228,6 +228,9 @@ public class BirtController {
         mv.addObject("mltrJoinDay", "병역2");
         mv.addObject("mltrDschDay", "병역3");
         mv.addObject("mltrRankName", "병역4");
+
+        // TODO
+        mv.addObject("applId", "TEMP_APPL_ID");
 
 //        mv.addObject("basis", basis);
 //        mv.addObject("academy", academy);
