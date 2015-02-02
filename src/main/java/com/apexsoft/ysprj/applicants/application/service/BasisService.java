@@ -1,9 +1,9 @@
 package com.apexsoft.ysprj.applicants.application.service;
 
-import com.apexsoft.framework.common.vo.ExecutionContext;
-import com.apexsoft.ysprj.applicants.application.domain.*;
+        import com.apexsoft.framework.common.vo.ExecutionContext;
+        import com.apexsoft.ysprj.applicants.application.domain.*;
 
-import java.util.List;
+        import java.util.List;
 
 /**
  * Created by hanmomhanda on 15. 1. 9.
@@ -12,14 +12,8 @@ import java.util.List;
  */
 public interface BasisService {
 
-    ExecutionContext createBasis(Application application,
-                                 ApplicationGeneral applicationGeneral);
+    ExecutionContext retrieveBasis(Basis basis);
 
-    ExecutionContext retrieveBasis(int applNo);
+    ExecutionContext saveBasis(Basis basis);
 
-    ExecutionContext updateBasis(Application application,
-                                 ApplicationGeneral applicationGeneral);
-
-    ExecutionContext deleteBasis(Application application,
-                                 ApplicationGeneral applicationGenerals);
 }

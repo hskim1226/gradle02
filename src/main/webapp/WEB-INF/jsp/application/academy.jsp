@@ -248,6 +248,10 @@
         #tabTR {
             cursor: pointer;
         }
+        .validation-error {
+            background: #ffdddd;
+            color: #f55;
+        }
     </style>
 </head>
 <body>
@@ -262,7 +266,7 @@
                     <td id="stepBasis" width="25%" height="30px" align="center" class="stepDisabled">1. 기본 정보</td>
                     <td id="stepAcademy" width="25%" height="30px" align="center" class="stepDisabled">2. 학력 정보</td>
                     <td id="stepLangCareer" width="25%" height="30px" align="center" class="stepDisabled">3. 어학/경력 정보</td>
-                    <td id="stepFileUpload" width="25%" height="30px" align="center" class="stepDisabled">4. 파일 첨부</td>
+                    <td id="stepDocument" width="25%" height="30px" align="center" class="stepDisabled">4. 파일 첨부</td>
                 </tr>
             </table>
         </div>
@@ -274,7 +278,7 @@
                         <td id="tab-basis" width="25%" height="35px" align="center" class="inactiveTab" data-target-tab="basis" data-tab-available="true">기본 정보</td>
                         <td id="tab-academy" width="25%" height="35px" align="center" class="inactiveTab" data-target-tab="academy" data-tab-available="false" data-unavailable-msg='<spring:message code="U321"/>'>학력 정보</td>
                         <td id="tab-langCareer" width="25%" height="35px" align="center" class="inactiveTab" data-target-tab="langCareer" data-tab-available="false" data-unavailable-msg='<spring:message code="U322"/>'>어학/경력 정보</td>
-                        <td id="tab-fileUpload" width="25%" height="35px" align="center" class="inactiveTab" data-target-tab="fileUpload" data-tab-available="false" data-unavailable-msg='<spring:message code="U323"/>'>파일 첨부</td>
+                        <td id="tab-document" width="25%" height="35px" align="center" class="inactiveTab" data-target-tab="document" data-tab-available="false" data-unavailable-msg='<spring:message code="U323"/>'>파일 첨부</td>
                     </tr>
                 </table>
             </div>
@@ -289,16 +293,20 @@
                 <div class="spacer-tiny"></div>
                 <div class="row">
                     <div class="col-sm-offset-1 col-sm-10">
+                        <div>
+                            <div class="validation-error"><form:errors path="*"/></div>
+                        </div>
                         <div class="panel panel-default">
                             <div class="panel-heading">대학교</div>
                             <div class="panel-body">
                                 <div class="form-group-block-list">
-                                    <c:forEach begin="0" end="${entireApplication.collegeList.size() > 0 ? entireApplication.collegeList.size() - 1 : 0}" varStatus="stat">
+                                    <c:forEach begin="0" end="${academy.collegeList.size() > 0 ? academy.collegeList.size() - 1 : 0}" varStatus="stat">
                                         <div class="form-group-block">
                                             <form:hidden path="collegeList[${stat.index}].acadTypeCode" value="00002" />
                                             <form:hidden path="collegeList[${stat.index}].acadSeq" />
+                                            <form:hidden path="collegeList[${stat.index}].userCUDType" value='${academy.collegeList[stat.index].userCUDType == null ? "INSERT" : academy.collegeList[stat.index].userCUDType}'/>
                                             <div class="form-group required">
-                                                <label for="collegeList${stat.index}.schlCntrName" class="col-sm-2 control-label">소재 국가</label>
+                                                <label class="col-sm-2 control-label">소재 국가</label>
                                                 <div class="col-sm-2">
                                                     <button type="button" class="btn btn-default btn-search bpopper" data-targetNode1="collegeList${stat.index}.schlCntrCode" data-targetNode2='collegeList${stat.index}.korCntrName' data-category="country">
                                                         <span class="glyphicon glyphicon-search"></span> 검색
@@ -384,10 +392,10 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="btn btn-remove" data-block-index="${stat.index}" data-fileupload-block-list="fuCollegeDocBlockList"><button type="button" class="close" aria-hidden="true">×</button></div>
+                                            <div class="btn btn-remove" data-list-name="collegeList" data-block-index="${stat.index}"><button type="button" class="close" aria-hidden="true">×</button></div>
                                         </div>
                                     </c:forEach>
-                                    <div class="btn btn-info btn-add" data-fileupload-block-list="fuCollegeDocBlockList">추가</div>
+                                    <div class="btn btn-info btn-add">추가</div>
                                 </div>
                             </div>
                         </div>
@@ -395,12 +403,13 @@
                             <div class="panel-heading">대학원</div>
                             <div class="panel-body">
                                 <div class="form-group-block-list">
-                                    <c:forEach begin="0" end="${entireApplication.graduateList.size() > 0 ? entireApplication.graduateList.size() - 1 : 0}" varStatus="stat">
+                                    <c:forEach begin="0" end="${academy.graduateList.size() > 0 ? academy.graduateList.size() - 1 : 0}" varStatus="stat">
                                         <div class="form-group-block">
                                             <form:hidden path="graduateList[${stat.index}].acadTypeCode" value="00003" />
                                             <form:hidden path="graduateList[${stat.index}].acadSeq" />
+                                            <form:hidden path="graduateList[${stat.index}].userCUDType" value='${academy.graduateList[stat.index].userCUDType == null ? "INSERT" : academy.graduateList[stat.index].userCUDType}' />
                                             <div class="form-group required">
-                                                <label for="graduateList${stat.index}.schlCntrName" class="col-sm-2 control-label">소재 국가</label>
+                                                <label class="col-sm-2 control-label">소재 국가</label>
                                                 <div class="col-sm-2">
                                                     <button type="button" class="btn btn-default btn-search bpopper" data-targetNode1="graduateList${stat.index}.schlCntrCode" data-targetNode2='graduateList${stat.index}.korCntrName' data-category="country">
                                                         <span class="glyphicon glyphicon-search"></span> 검색
@@ -486,10 +495,10 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="btn btn-remove" data-block-index="${stat.index}" data-fileupload-block-list="fuGraduateDocBlockList"><button type="button" class="close" aria-hidden="true">×</button></div>
+                                            <div class="btn btn-remove" data-list-name="graduateList" data-block-index="${stat.index}"><button type="button" class="close" aria-hidden="true">×</button></div>
                                         </div>
                                     </c:forEach>
-                                    <div class="btn btn-info btn-add" data-fileupload-block-list="fuGraduateDocBlockList">추가</div>
+                                    <div class="btn btn-info btn-add">추가</div>
                                 </div>
                             </div>
                         </div>
@@ -559,7 +568,8 @@
             for ( i = 0 ; i < code && i < l ; i++ ) {
                 stepTR.children[i].className = 'stepEnabled';
                 tabTR.children[i].setAttribute('data-tab-available', 'true');
-                tabTR.children[i+1].setAttribute('data-tab-available', 'true');
+                if (tabTR.children[i+1])
+                    tabTR.children[i+1].setAttribute('data-tab-available', 'true');
             }
         };
         processCurrentStep(document.getElementById('applStsCode').value);
@@ -738,11 +748,17 @@
 
         <%-- 달력 시작 --%>
         $('.input-group.date>input').datepicker(datePickerOption);
-        $('.input-daterange>input').datepicker(datePickerOption);
         $('.calendar-addon').on('click', function () {
             $(this.parentNode).children('input')[0].focus();
         });
         <%-- 달력 끝 --%>
+
+        <%-- 달력 reset 함수 --%>
+        var resetCalendar = function (block, calendarClass) {
+            $(block).find(calendarClass).datepicker('destroy');
+            $(block).find(calendarClass).datepicker(datePickerOption);
+        };
+        <%-- 달력 reset 함수 --%>
 
         <%-- 졸업/졸업 예정 처리 --%>
         $('.grad-yn').on('change', function () {
@@ -762,9 +778,16 @@
         <%-- 졸업/졸업 예정 처리 --%>
 
         <%-- 성적 입력 validation --%>
+        $('.gradAvr').on('keyup', function () {
+            var regexp = /^[0-9]\.?[0-9]*$/,
+                val = this.value;
+            if (!regexp.test(this.value)) {
+                this.value = val.substr(0, val.length-1);
+            }
+        });
         $('.gradAvr').on('blur', function () {
             var regexp = /\d\.\d{2}/;
-            if (!regexp.test(this.value)) {
+            if (!regexp.test(this.value) && this.value != '') {
                 validFlag.value = false;
                 alert('소수점 둘째자리까지 작성해 주세요');
                 this.focus();
@@ -772,10 +795,17 @@
                 validFlag.value = true;
             }
         });
+        $('.gradFull').on('keyup', function () {
+            var regexp = /^[0-9]\.?[0-9]*$/,
+                    val = this.value;
+            if (!regexp.test(this.value)) {
+                this.value = val.substr(0, val.length-1);
+            }
+        });
         $('.gradFull').on('blur', function () {
             var regexp = /\d.\d/,
                 gradAvgInput = document.getElementById(this.getAttribute('data-gradAvr-id'));
-            if (!regexp.test(this.value)) {
+            if (!regexp.test(this.value) && this.value != '') {
                 validFlag.value = false;
                 alert('소수점 첫째자리까지 작성해 주세요');
                 this.focus();
@@ -791,174 +821,10 @@
         });
         <%-- 성적 입력 validation --%>
 
-        <%-- bootstrapValidator --%>
-//        $('#academy').bootstrapValidator({
-//            feedbackIcons: {
-//                valid: 'glyphicon glyphicon-ok',
-//                invalid: 'glyphicon glyphicon-remove',
-//                validating: 'glyphicon glyphicon-refresh'
-//            },
-//            fields: {
-//                gradAvr: {
-//                    selector: '[name$="gradAvr"]',
-//                    validators: {
-//                        callback: {
-//                            callback: function (value, validator, $field) {
-//                                if (value === '') {
-//                                    return true;
-//                                }
-//                                var regexp = /^[0-9]+(.[0-9]{1,2})?$/;
-//                                if (!regexp.test(value)) {
-//                                    return {
-//                                        value: false,
-//                                        message: '소수점 2자리까지 입력가능합니다'
-//                                    }
-//                                }
-//
-//                                var $parent = $field.parents('.form-group');
-//                                var name = $field.attr('name');
-//                                name = name.substring(0, name.indexOf('.')) + '.gradFull';
-//                                var $gradFull = $parent.find('[name="' + name + '"]');
-//                                var gradFullValue = $gradFull.val();
-//                                if (gradFullValue === '' || !regexp.test(gradFullValue)) {
-//                                    return true;
-//                                }
-//                                if (Number(value) > Number(gradFullValue)) {
-//                                    return {
-//                                        valid: false,
-//                                        message: '평점보다 만점이 커야합니다'
-//                                    };
-//                                }
-//
-//                                return true;
-//                            }
-//                        }
-//                    }
-//                },
-//                gradFull: {
-//                    selector: '[name$="gradFull"]',
-//                    validators: {
-//                        callback: {
-//                            callback: function (value, validator, $field) {
-//                                if (value === '') {
-//                                    return true;
-//                                }
-//                                var regexp = /^[0-9]+(.[0-9]{1,2})?$/;
-//                                if (!regexp.test(value)) {
-//                                    return {
-//                                        value: false,
-//                                        message: '소수점 2자리까지 입력가능합니다'
-//                                    }
-//                                }
-//
-//                                var $parent = $field.parents('.form-group');
-//                                var name = $field.attr('name');
-//                                name = name.substring(0, name.indexOf('.')) + '.gradAvr';
-//                                var $gradFull = $parent.find('[name="' + name + '"]');
-//                                var gradFullValue = $gradFull.val();
-//                                if (gradFullValue === '' || !regexp.test(gradFullValue)) {
-//                                    return true;
-//                                }
-//                                if (Number(value) < Number(gradFullValue)) {
-//                                    return {
-//                                        valid: false,
-//                                        message: '평점보다 만점이 커야합니다'
-//                                    };
-//                                }
-//
-//                                return true;
-//                            }
-//                        }
-//                    }
-//                },
-//                requiredInput: {
-//                    selector: '.requiredInput',
-//                    validators: {
-//                        notEmpty: '필수 입력 사항입니다.'
-//                    }
-//                }
-//            }
-//        });
-        <%-- bootstrapValidator --%>
-
         <%-- form-group-block 추가/삭제에 대한 처리 시작 --%>
-        $('.btn-add').on('click', function(e) {
-            var target = e.currentTarget ? e.currentTarget : e.target;
-            var container = target.parentNode;
-            while (container && !$(container).hasClass('form-group-block-list')) {
-                container = container.parentNode;
-            }
-            var blocks = container.querySelectorAll('.form-group-block');
-            var originBlock = blocks[blocks.length - 1];
-            var $cloneObj;
-            if (originBlock) {
-                $cloneObj = $(originBlock).clone(true);
-                $cloneObj.find('.input-group.date>input').datepicker('destroy');
-                updateIdAndName($cloneObj[0], blocks.length);
-                eraseContents($cloneObj[0]);
-                container.insertBefore($cloneObj[0], originBlock.nextSibling);
-                $cloneObj.find('.input-group.date>input').datepicker(datePickerOption);
-            }
-
-//            // 파일업로드 부분
-//            var fileUploadContainer = document.getElementById(target.getAttribute("data-fileupload-block-list"));
-//            var fuBlocks = fileUploadContainer.querySelectorAll('.form-group-block');
-//            var fuOriginBlock = fuBlocks[fuBlocks.length - 1];
-//            var $fuCloneObj;
-//            if (fuOriginBlock) {
-//                $fuCloneObj = $(fuOriginBlock).clone(true);
-//                updateIdAndName($fuCloneObj[0], fuBlocks.length);
-//                eraseContents($fuCloneObj[0]);
-//                fileUploadContainer.insertBefore($fuCloneObj[0], fuOriginBlock.nextSibling);
-//            }
-//
-////                $('#entireApplication').bootstrapValidator('addFiend', $cloneObj);
-        });
-
-        $('.btn-remove').on('click', function(e) {
-            var target = e.currentTarget ? e.currentTarget : e.target;
-            var blockToRemove = target.parentNode;
-            while (blockToRemove && !$(blockToRemove).hasClass('form-group-block')) {
-                blockToRemove = blockToRemove.parentNode;
-            }
-            var container = blockToRemove.parentNode;
-            var blocks = container.querySelectorAll('.form-group-block');
-            var length = blocks.length, i;
-
-            for (i = 0; i < length; i++) {
-                if (blockToRemove == blocks[i]) {
-                    break;
-                }
-            }
-
-            for (i = i + 1; i < length; i++) {
-                updateIdAndName(blocks[i], i - 1);
-            }
-
-            if (length <= 1) {
-                eraseContents(blockToRemove);
-            } else {
-                blockToRemove.parentNode.removeChild(blockToRemove);
-            }
-
-            mustCheckedOneRadio();
-
-            // 파일업로드 부분 입력란 함께 제거
-//                var fileUploadContainer = document.getElementById(target.getAttribute("data-fileupload-block-list")),
-//                    indexOfBlockToRemove = target.getAttribute('data-block-index'),
-//                    blockToRemove = fileUploadContainer.children[indexOfBlockToRemove];
-//                fileUploadContainer.removeChild(blockToRemove);
-
-        });
-
         <%-- id, name 재설정 시작 --%>
-        function updateIdAndName( block, index ) {
-            var i, name, prefix, suffix, input, items, label, j, k, element, datasetValue;
-//            var input = block.querySelector('input');
-//
-//            name = input.name;
-////                prefix = name.substring(0, name.indexOf('['));
-
+        var updateIdAndName = function ( block, index ) {
+            var i, name, prefix, suffix, input, items, label, j, k, element, datasetValue, oldid, gradAvrId;
             items = block.querySelectorAll('input, select, label');
             if (items) {
                 for (i = 0; i <items.length; i++) {
@@ -969,7 +835,7 @@
                         suffix = name.substring(name.indexOf(']') + 1);
                         element.name = prefix + '[' + index + ']' + suffix;
                     }
-                    var oldid = element.id;
+                    oldid = element.id;
                     if (oldid) {
                         prefix = oldid.substring(0, oldid.indexOf('.'));
                         prefix = prefix.replace(/[0-9]/g, '');
@@ -981,19 +847,26 @@
                             label.setAttribute('for', element.id);
                         }
                     }
-                    if (element.dataset.gradavrId) {
-                        datasetValue = element.dataset.gradavrId;
+
+                    gradAvrId = element.getAttribute('data-gradAvr-id');
+                    if (gradAvrId) {
+                        datasetValue = gradAvrId;
                         prefix = datasetValue.substring(0, datasetValue.indexOf('.'));
                         prefix = prefix.replace(/[0-9]/g, '');
                         suffix = datasetValue.substring(datasetValue.indexOf('.'));
-                        element.dataset.gradavrId = prefix + index + suffix;
+//                        element.dataset.gradavrId = prefix + index + suffix;
+                        element.setAttribute('data-gradAvr-id', prefix + index + suffix);
                     }
                     if (element.id.indexOf('grdaTypeCode') > 0) {
                         if (element.checked)
                             $(element).prop('checked', true);
                     }
+                    if (element.id.indexOf('userCUDType') > 0) {
+                        element.value = "INSERT";
+                    }
                 }
             }
+            resetCalendar(block, '.input-group.date>input');
 
             // bpopper data-targetNode
             var bpopperBtns = block.querySelectorAll('.bpopper');
@@ -1024,30 +897,37 @@
                 suffix = target2.substring(target2.indexOf('.') + 1, target2.length);
                 searchBtn.setAttribute('data-targetNode2', prefix + index + '.' + suffix);
             }
-        }
+        };
         <%-- id, name 재설정 끝 --%>
 
         <%-- 복제된 입력폼 내용 초기화 시작 --%>
-        function eraseContents( block ) {
+        var resetBlockContents = function ( block ) {
             var i, items, itemName;
+            block.style.display = 'block';
             items = block.querySelectorAll('input, select');
             if (items) {
                 for (i = 0; i <items.length; i++) {
                     if (items[i].type == 'hidden') {
                         itemName = items[i].name;
-                        items[i].value = itemName.indexOf('acadType') < 0 ? '' : items[i].value ;
+                        if (itemName.indexOf('userCUDType') > 0) {
+                            items[i].value = "INSERT";
+                        } else if (itemName.indexOf('acadType') < 0) {
+                            items[i].setAttribute('value', '');
+                            items[i].value = '';
+                        }
                     }
                     if (items[i].type != 'hidden' && items[i].type != 'radio' && items[i].type != 'checkbox' && items[i].type != 'button') {
+                        items[i].setAttribute('value', '');
                         items[i].value = '';
                     }
-                    if (items[i].type == 'button') {
-                        $(items[i]).removeClass('btn-info');
-                        $(items[i]).addClass('btn-default');
-                        $(items[i]).val('올리기');
-                    }
-                    if (items[i].type == 'file') {
-                        $(items[i]).val('');
-                    }
+//                    if (items[i].type == 'button') {
+//                        $(items[i]).removeClass('btn-info');
+//                        $(items[i]).addClass('btn-default');
+//                        $(items[i]).val('올리기');
+//                    }
+//                    if (items[i].type == 'file') {
+//                        $(items[i]).val('');
+//                    }
                     if (items[i].type == 'radio' ) {
                         if (items[i].id.indexOf('lastSchlYn') > 0) {
                             items[i].checked = false;
@@ -1058,11 +938,11 @@
                     }
                 }
             }
-        }
+            resetCalendar(block, '.input-group.date>input');
+        };
         <%-- 복제된 입력폼 내용 초기화 끝 --%>
-        <%-- form-group-block 추가/삭제에 대한 처리 끝 --%>
 
-        <%-- 최종 대학 체크 처리 시작 --%>
+        <%-- 최종 학교 체크 처리 시작 --%>
         $('.radio-group').on('click', function(e) {
             var $target = $(this);
             var $container = $target.parents('.form-group-block-list');
@@ -1071,12 +951,14 @@
             });
         });
 
-        function mustCheckedOneRadio() {
-            var list = document.querySelectorAll('.form-group-block-list'), i, j, radioGroup, checkedCount = 0;
-            for (i = 0; i < list.length; i++) {
+        var mustCheckedOneRadio = function () {
+            var list = document.querySelectorAll('.form-group-block-list'),
+                    i, j, l1 = list.length, l2, radioGroup, checkedCount = 0;
+            for (i = 0; i < l1; i++) {
                 radioGroup = list[i].querySelectorAll('.radio-group');
-                if (radioGroup && radioGroup.length > 0) {
-                    for (j = 0; j < radioGroup.length; j++) {
+                l2 = radioGroup.length;
+                if (radioGroup && l2 > 0) {
+                    for (j = 0; j < l2; j++) {
                         if (radioGroup.checked) {
                             checkedCount++;
                         }
@@ -1087,8 +969,59 @@
                 }
             }
         };
-        mustCheckedOneRadio();
-        <%-- 최종 대학 체크 처리 끝 --%>
+        <%-- 최종 학교 체크 처리 끝 --%>
+
+        $('.btn-add').on('click', function(e) {
+            var target = e.currentTarget ? e.currentTarget : e.target;
+            var container = target.parentNode;
+            while (container && !$(container).hasClass('form-group-block-list')) {
+                container = container.parentNode;
+            }
+            var blocks = container.querySelectorAll('.form-group-block');
+            var originBlock = blocks[blocks.length - 1];
+            var $cloneObj;
+            if (originBlock) {
+                $cloneObj = $(originBlock).clone(true);
+                updateIdAndName($cloneObj[0], blocks.length);
+                resetBlockContents($cloneObj[0]);
+                container.insertBefore($cloneObj[0], originBlock.nextSibling);
+            }
+        });
+
+        $('.btn-remove').on('click', function(e) {
+            var target = e.currentTarget ? e.currentTarget : e.target;
+            var blockToRemove = target.parentNode;
+            while (blockToRemove && !$(blockToRemove).hasClass('form-group-block')) {
+                blockToRemove = blockToRemove.parentNode;
+            }
+            var container = blockToRemove.parentNode;
+            var blocks = container.querySelectorAll('.form-group-block');
+            var length = blocks.length, i;
+//            var blockIndex = target.dataset.blockIndex;
+            var blockIndex = target.getAttribute('data-block-index');
+            var listName = target.getAttribute('data-list-name');
+            var userCUDType = document.getElementById(listName + blockIndex + '.userCUDType');
+
+            switch (userCUDType.value) {
+                case 'INSERT' :
+                    for (i = parseInt(blockIndex) + 1; i < length; i++) {
+                        updateIdAndName(blocks[i], i - 1);
+                    }
+                    if (length <= 1) {
+                        resetBlockContents(blockToRemove);
+                    } else {
+                        blockToRemove.parentNode.removeChild(blockToRemove);
+                    }
+                    break;
+                case 'UPDATE' :
+                    userCUDType.value = 'DELETE';
+                    blockToRemove.style.display = 'none';
+                    break;
+            }
+            mustCheckedOneRadio();
+        });
+        <%-- 복제된 입력폼 내용 초기화 끝 --%>
+        <%-- form-group-block 추가/삭제에 대한 처리 끝 --%>
 
         <%-- 단어 잘림 방지 --%>
         $('.word-keep-all').wordBreakKeepAll();

@@ -3,7 +3,7 @@ package com.apexsoft.ysprj.user.impl;
 import com.apexsoft.framework.common.vo.ExecutionContext;
 import com.apexsoft.ysprj.user.domain.Users;
 import com.apexsoft.ysprj.user.service.SearchService;
-import com.apexsoft.ysprj.user.service.UsersAccountService;
+import com.apexsoft.ysprj.applicants.common.service.UsersAccountService;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

@@ -2,7 +2,7 @@ package com.apexsoft.ysprj.user.web;
 
 import com.apexsoft.framework.persistence.dao.page.PageInfo;
 import com.apexsoft.ysprj.user.domain.Users;
-import com.apexsoft.ysprj.user.service.UsersAccountService;
+import com.apexsoft.ysprj.applicants.common.service.UsersAccountService;
 import com.apexsoft.ysprj.user.web.form.UserSearchForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

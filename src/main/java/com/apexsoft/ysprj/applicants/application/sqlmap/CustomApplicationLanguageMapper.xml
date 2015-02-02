@@ -52,5 +52,11 @@
         delete from APPL_LANG
         where APPL_NO = #{applNo,jdbcType=INTEGER}
     </delete>
+    <select id="selectMaxSeqByApplNo" resultType="java.lang.Integer" parameterType="java.lang.Integer" >
 
+        select
+        MAX(LANG_SEQ)
+        from APPL_LANG
+        where APPL_NO = #{applNo,jdbcType=INTEGER}
+    </select>
 </mapper>

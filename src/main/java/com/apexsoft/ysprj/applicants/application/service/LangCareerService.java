@@ -1,10 +1,7 @@
 package com.apexsoft.ysprj.applicants.application.service;
 
 import com.apexsoft.framework.common.vo.ExecutionContext;
-import com.apexsoft.ysprj.applicants.application.domain.Application;
-import com.apexsoft.ysprj.applicants.application.domain.ApplicationExperience;
-import com.apexsoft.ysprj.applicants.application.domain.ApplicationLanguage;
-import com.apexsoft.ysprj.applicants.application.domain.CustomApplicationAcademy;
+import com.apexsoft.ysprj.applicants.application.domain.*;
 
 import java.util.List;
 
@@ -15,20 +12,22 @@ import java.util.List;
  */
 public interface LangCareerService {
 
-    ExecutionContext createLangCareer(Application application,
-                                      List<ApplicationLanguage> applicationLanguageList,
-                                      List<ApplicationExperience> applicationExperienceList);
+//    ExecutionContext createLangCareer(Application application,
+//                                      List<LanguageGroup> languageGroupList,
+//                                      List<ApplicationExperience> applicationExperienceList);
 
-    ExecutionContext retrieveLangCareer(int applNo);
+    ExecutionContext retrieveLangCareer(LangCareer langCareer);
 
-    ExecutionContext updateLangCareer(Application application,
-                                      List<ApplicationLanguage> applicationLanguageList,
-                                      List<ApplicationExperience> applicationExperienceList);
+    ExecutionContext saveLangCareer(LangCareer langCareer);
 
-    ExecutionContext deleteLangCareer(Application application,
-                                      List<ApplicationLanguage> applicationLanguageList,
-                                      List<ApplicationExperience> applicationExperienceList);
-
-    int deleteListByApplNo(int applNo, String MapperName);
-    <T> List<T> retrieveInfoListByApplNo(int applNo, String mapperName, Class<T> clazz);
+//    ExecutionContext updateLangCareer(Application application,
+//                                      List<LanguageGroup> languageGroupList,
+//                                      List<ApplicationExperience> applicationExperienceList);
+//
+//    ExecutionContext deleteLangCareer(Application application,
+//                                      List<LanguageGroup> languageGroupList,
+//                                      List<ApplicationExperience> applicationExperienceList);
+//
+//    int deleteListByApplNo(int applNo, String MapperName);
+//    <T> List<T> retrieveInfoListByApplNo(int applNo, String mapperName, Class<T> clazz);
 }

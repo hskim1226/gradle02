@@ -262,7 +262,7 @@
                     <td id="stepBasis" width="25%" height="30px" align="center" class="stepDisabled">1. 기본 정보</td>
                     <td id="stepAcademy" width="25%" height="30px" align="center" class="stepDisabled">2. 학력 정보</td>
                     <td id="stepLangCareer" width="25%" height="30px" align="center" class="stepDisabled">3. 어학/경력 정보</td>
-                    <td id="stepFileUpload" width="25%" height="30px" align="center" class="stepDisabled">4. 파일 첨부</td>
+                    <td id="stepDocument" width="25%" height="30px" align="center" class="stepDisabled">4. 파일 첨부</td>
                 </tr>
             </table>
         </div>
@@ -274,7 +274,7 @@
                         <td id="tab-basis" width="25%" height="35px" align="center" class="inactiveTab" data-target-tab="basis" data-tab-available="true">기본 정보</td>
                         <td id="tab-academy" width="25%" height="35px" align="center" class="inactiveTab" data-target-tab="academy" data-tab-available="false" data-unavailable-msg='<spring:message code="U321"/>'>학력 정보</td>
                         <td id="tab-langCareer" width="25%" height="35px" align="center" class="inactiveTab" data-target-tab="langCareer" data-tab-available="false" data-unavailable-msg='<spring:message code="U322"/>'>어학/경력 정보</td>
-                        <td id="tab-fileUpload" width="25%" height="35px" align="center" class="inactiveTab" data-target-tab="fileUpload" data-tab-available="false" data-unavailable-msg='<spring:message code="U323"/>'>파일 첨부</td>
+                        <td id="tab-document" width="25%" height="35px" align="center" class="inactiveTab" data-target-tab="document" data-tab-available="false" data-unavailable-msg='<spring:message code="U323"/>'>파일 첨부</td>
                     </tr>
                 </table>
             </div>
@@ -295,19 +295,41 @@
                             <c:forEach items="${langCareer.languageGroupList}" var="langGroup" varStatus="langGroupStat">
                                 <c:forEach items="${langGroup.langList}" var="langList" varStatus="langListStat">
                                 <div class="form-group required">
-                                    <form:hidden path="languageGroupList[${langGroupStat.index}]" value="${langGroup.examCodeGrp}"/>
-                                    <label class="col-sm-2 control-label">${langGroup.examGrpName}</label>
+                                    <form:hidden path="languageGroupList[${langGroupStat.index}].examCodeGrp" value="${langGroup.examCodeGrp}"/>
                                     <div class="col-sm-2">
-                                        <form:hidden path="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].itemCode" value="${langList.docItemCode}"/>
+                                        <c:if test="${langListStat.index == 0}"><label class="col-sm-offset-8 control-label">${langGroup.examGrpName}</label></c:if>
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <form:hidden path="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].applNo" value="${langList.applNo}"/>
+                                        <form:hidden path="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].langSeq" value="${langList.langSeq}"/>
+                                        <form:hidden path="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].langExamGrp" value="${langList.langExamGrp}"/>
+                                        <form:hidden path="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].docItemCode" value="${langList.docItemCode}"/>
+                                        <form:hidden path="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].itemGrpCode" value="${langList.itemGrpCode}"/>
+                                        <form:hidden path="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].itemCode" value="${langList.itemCode}"/>
+                                        <form:hidden path="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].docGrp" value="${langList.docGrp}"/>
+                                        <form:hidden path="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].docSeq" value="${langList.docSeq}"/>
+                                        <form:hidden path="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].fileUploadFg" value="${langList.fileUploadFg}"/>
+                                        <form:hidden path="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].langInfoSaveFg" value="${langList.langInfoSaveFg}"/>
                                         <div class="checkbox">
-                                            <label for="checkLang-${langListStat.index}"><c:if test='${langList.canYn == "Y"}'><input type="checkbox" class="lang-checkbox" id="checkLang-${langListStat.index}" <c:if test="${langList.langInfoSaveFg == true}">checked</c:if>/></c:if>${langList.itemName}</label>
+                                            <label for="checkLang-${langListStat.index}">
+                                                <c:if test='${langList.canYn == "Y"}'>
+                                                    <c:choose>
+                                                        <c:when test='${langGroup.multiYn == "Y"}'>
+                                                <input type="checkbox" class="lang-checkbox" id="checkLang-${langListStat.index}" name="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].checkedFg" <c:if test="${langList.langInfoSaveFg == true}">checked</c:if> />
+                                                        </c:when>
+                                                        <c:otherwise>
+                                                <input type="radio" class="lang-radio" id="radioLang-${langListStat.index}" name="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].checkedFg" <c:if test="${langList.langInfoSaveFg == true}">checked</c:if> />
+                                                        </c:otherwise>
+                                                    </c:choose>
+                                                </c:if>${langList.itemName}
+                                            </label>
                                         </div>
                                     </div>
                                     <c:choose>
                                     <c:when test='${langList.canYn == "Y"}'>
                                     <div class="col-sm-2 lang-detail-${langListStat.index}" style='display: <c:choose><c:when test="${langList.langInfoSaveFg == true}">block;</c:when><c:otherwise>none;</c:otherwise></c:choose>'>
                                             <c:if test="${langList.itemCode == '00001'}">
-                                        <form:select path="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].toflTypeCode" cssClass="form-control">
+                                        <form:select path="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].toflTypeCode" cssClass="form-control forlInput">
                                             <form:option value="" label="--선택--" />
                                             <form:options items="${common.toflTypeList}" itemValue="code" itemLabel="codeVal" />
                                         </form:select>
@@ -316,14 +338,14 @@
                                     <div class="col-sm-3 lang-detail-${langListStat.index}" style='display: <c:choose><c:when test="${langList.langInfoSaveFg == true}">block;</c:when><c:otherwise>none;</c:otherwise></c:choose>'>
                                         <div class="input-group date">
                                             <span class="input-group-addon">시험일</span>
-                                            <form:input path="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].examDay" cssClass="form-control" />
-                                            <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                            <form:input path="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].examDay" cssClass="form-control forlInput" />
+                                            <span class="input-group-addon calendar-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                                         </div>
                                     </div>
                                     <div class="col-sm-2 lang-detail-${langListStat.index}" style='display: <c:choose><c:when test="${langList.langInfoSaveFg == true}">block;</c:when><c:otherwise>none;</c:otherwise></c:choose>'>
                                         <div class="input-group">
                                             <span class="input-group-addon">점수</span>
-                                            <form:input path="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].langGrad" cssClass="form-control" />
+                                            <form:input path="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].langGrad" cssClass="form-control lang-score forlInput" data-lang-exam-name="${langList.itemName}" maxlength="4"/>
                                         </div>
                                     </div>
                                     </c:when>
@@ -336,104 +358,53 @@
                                 </div>
                                 </c:forEach>
                             </c:forEach>
+                            <c:if test='${langCareer.application.deptCode != "10403"}'> <%-- 건축공학과는 면제 없음 --%>
                                 <div class="form-group required">
                                     <div class="col-sm-offset-2 col-sm-4">
                                         <div class="checkbox">
                                             <label>
-                                                <input type="checkbox" />외국어 성적 면제 해당자
+                                                <input type="checkbox" id="checkForlExmp"/>외국어 성적 면제 해당자
                                             </label>
                                         </div>
                                     </div>
                                     <div class="col-sm-5">
-                                        <form:select path="applicationGeneral.forlExmpCode" id="forlExamCode" cssClass="form-control" items="${common.fornExmpList}" itemValue="code" itemLabel="codeVal" />
+                                        <form:select path="applicationGeneral.forlExmpCode" id="forlExmpCode" cssClass="form-control" disabled="true">
+                                            <form:option value="" label="--선택--" />
+                                            <form:options items="${common.fornExmpList}" itemValue="code" itemLabel="codeVal" />
+                                        </form:select>
                                     </div>
                                 </div>
+                            </c:if>
                             </div>
-                            <%--<div class="panel-body" id="english-score-list">--%>
-                                <%--<c:forEach items="${common.langExamList}" var="langExam" varStatus="stat">--%>
-                                    <%--<div class="form-group hide-lang required">--%>
-                                    <%--<c:choose>--%>
-                                        <%--<c:when test="${stat.index == 0}">--%>
-                                        <%--<label class="col-sm-2 control-label">영어</label>--%>
-                                        <%--<div class="col-sm-2">--%>
-                                        <%--</c:when>--%>
-                                        <%--<c:otherwise>--%>
-                                            <%--<div class="col-sm-offset-2 col-sm-2">--%>
-                                        <%--</c:otherwise>--%>
-                                    <%--</c:choose>--%>
-                                                <%--<input type="hidden" name="languageGroupList[${stat.index}].langExamCode" id="languageGroupList${stat.index}.langExamCode" value="${langExam.examCode}" />--%>
-                                                <%--<div class="checkbox">--%>
-                                                    <%--<label for="checkLang${stat.index}"><input type="checkbox" class="btn-lang-disabled lang-checkbox" id="checkLang${stat.index}" <c:if test="langCareer.languageGroupList['${stat.index}'] != null">checked</c:if>/>${langExam.examName}</label>--%>
-                                                <%--</div>--%>
-                                    <%--<c:choose>--%>
-                                        <%--<c:when test="${stat.index == 0}">--%>
-                                            <%--</div>--%>
-                                        <%--</c:when>--%>
-                                        <%--<c:otherwise>--%>
-                                        <%--</div>--%>
-                                        <%--</c:otherwise>--%>
-                                    <%--</c:choose>--%>
-                                        <%--<div class="col-sm-2 show-lang">--%>
-                                    <%--<c:if test="${langExam.examCode == '00001'}">--%>
-                                                <%--<form:select path="languageGroupList[${stat.index}].toflTypeCode" cssClass="form-control">--%>
-                                                    <%--<form:option value="" label="--선택--" />--%>
-                                                    <%--<form:options items="${common.toflTypeList}" itemValue="code" itemLabel="codeVal" />--%>
-                                                <%--</form:select>--%>
-                                    <%--</c:if>--%>
-                                        <%--</div>--%>
-                                        <%--<div class="col-sm-2 hide-lang">--%>
-                                            <%--<label class="lbl-lang" id="checkLangLabel${stat.index}" >인정 불가</label>--%>
-                                        <%--</div>--%>
-                                        <%--<div class="col-sm-3 show-lang">--%>
-                                            <%--<div class="input-group date">--%>
-                                                <%--<span class="input-group-addon">시험일</span>--%>
-                                                <%--<form:input path="languageGroupList[${stat.index}].examDay" cssClass="form-control" />--%>
-                                                <%--<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>--%>
-                                            <%--</div>--%>
-                                        <%--</div>--%>
-                                        <%--<div class="col-sm-2 show-lang">--%>
-                                            <%--<div class="input-group">--%>
-                                                <%--<span class="input-group-addon">점수</span>--%>
-                                                <%--<form:input path="languageGroupList[${stat.index}].langGrad" cssClass="form-control" />--%>
-                                            <%--</div>--%>
-                                        <%--</div>--%>
-                                    <%--</div>--%>
-                                <%--</c:forEach>--%>
-                                <%--<div class="form-group required">--%>
-                                    <%--<div class="col-sm-offset-2 col-sm-4">--%>
-                                        <%--<div class="checkbox">--%>
-                                            <%--<label>--%>
-                                                <%--<input type="checkbox" />외국어 성적 면제 해당자--%>
-                                            <%--</label>--%>
-                                        <%--</div>--%>
-                                    <%--</div>--%>
-                                    <%--<div class="col-sm-5">--%>
-                                        <%--<form:select path="applicationGeneral.forlExmpCode" id="forlExamCode" cssClass="form-control" items="${common.fornExmpList}" itemValue="code" itemLabel="codeVal" />--%>
-                                    <%--</div>--%>
-                                <%--</div>--%>
-                            <%--</div>--%>
                         </div>
                         <div class="panel panel-default">
                             <div class="panel-heading">경력 사항</div>
                             <div class="panel-body">
                                 <div id="career-container" class="form-group-block-list">
                                     <c:forEach varStatus="stat" begin="0" end="${langCareer.applicationExperienceList.size() > 0 ? langCareer.applicationExperienceList.size() - 1 : 0}">
-                                        <div id="career-info" class="form-group-block">
+                                        <div class="form-group-block">
+                                            <form:hidden path="applicationExperienceList[${stat.index}].exprSeq"/>
+                                            <form:hidden path="applicationExperienceList[${stat.index}].applNo"/>
+                                            <form:hidden path="applicationExperienceList[${stat.index}].saveFg"/>
+                                            <form:hidden path="applicationExperienceList[${stat.index}].checkedFg"/>
                                             <div class="form-group required">
                                                 <label class="col-sm-2 control-label">재직 기간</label>
-                                                <div class="col-sm-4 start-date-container">
+                                                <div class="col-sm-3 start-date-container">
                                                     <div class="input-group date">
                                                         <span class="input-group-addon">입사일</span>
                                                         <form:input path="applicationExperienceList[${stat.index}].joinDay" cssClass="form-control" readonly="true" />
-                                                        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                                        <span class="input-group-addon calendar-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                                                     </div>
                                                 </div>
-                                                <div class="col-sm-4 end-date-container">
+                                                <div class="col-sm-3 end-date-container">
                                                     <div class="input-group date">
                                                         <span class="input-group-addon">퇴사일</span>
                                                         <form:input path="applicationExperienceList[${stat.index}].retrDay" cssClass="form-control" readonly="true" />
-                                                        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                                        <span class="input-group-addon calendar-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                                                     </div>
+                                                </div>
+                                                <div class="col-sm-2">
+                                                    <label class="radio-inline"><input type="radio" class="curr-radio" id="radioCurr-${stat.index}" name="applicationExperienceList[${stat.index}].currYn" <c:if test="${langCareer.applicationExperienceList[stat.index].currYn == 'Y'}">checked</c:if> />재직중</label>
                                                 </div>
                                             </div>
                                             <div class="form-group required">
@@ -448,7 +419,7 @@
                                                     <form:input path="applicationExperienceList[${stat.index}].exprDesc" cssClass="form-control" />
                                                 </div>
                                             </div>
-                                            <div class="btn btn-remove">
+                                            <div class="btn btn-remove" data-block-index="${stat.index}" data-list-name="applicationExperienceList">
                                                 <button type="button" class="close" aria-hidden="true">×</button>
                                             </div>
                                         </div>
@@ -488,7 +459,8 @@
             for ( i = 0 ; i < code && i < l ; i++ ) {
                 stepTR.children[i].className = 'stepEnabled';
                 tabTR.children[i].setAttribute('data-tab-available', 'true');
-                tabTR.children[i+1].setAttribute('data-tab-available', 'true');
+                if (tabTR.children[i+1])
+                    tabTR.children[i+1].setAttribute('data-tab-available', 'true');
             }
         };
         processCurrentStep(document.getElementById('applStsCode').value);
@@ -527,145 +499,100 @@
             var form = document.forms[0];
 
             form.action = "${contextPath}/application/langCareer/save";
+            // TODO 경력 정보 - 입사일, 기관명, 직위명 모두 있을 때만 checkedFg = true 처리
             form.submit();
         };
         $('.btn-save').on('click', formProcess);
         <%-- 하단 버튼 처리 --%>
 
-        <%-- lang detail --%>
-        $('.lang-checkbox').on('click', function () {
+        <%-- 어학 성적 입력란 show/hide 처리 --%>
+        $('.lang-checkbox').on('change', function () {
             var id = this.id,
                 currentIndex, classToToggle;
-            currentIndex = id.substr(id.lastIndexOf('-')+1);
+
+            currentIndex = id.substr(id.lastIndexOf('-')+1),
             classToToggle = '.lang-detail-' + currentIndex;
+
             if (this.checked) {
                 $(classToToggle).css('display', 'block');
             } else {
                 $(classToToggle).css('display', 'none');
             }
         });
-        <%-- lang detail --%>
+        $('.lang-radio').on('change', function () {
+            var id = this.id,
+                currentIndex, classToShow;
 
-        <%-- 어학 목록 시작 --%>
-//        var updateLanguagePanel= function () {
-            <%--var detlMajCode = $('#detlMajCode').val();--%>
-            <%--if (detlMajCode === '-' || detlMajCode === '') {--%>
-                <%--var groups = $('#english-score-list').children('.form-group');--%>
-                <%--for (var i = 0, len = groups.length; i < len; i++) {--%>
-                    <%--updateLanguageGroup(groups[i], []);--%>
-                <%--}--%>
-                <%--return;--%>
-            <%--}--%>
-            <%--var baseUrl = '${contextPath}/common/code';--%>
-            <%--var url;--%>
-            <%--var admsNo = $('#admsNo').val();--%>
-            <%--var applAttrCode = $('#applAttrCode').val();--%>
-            <%--if (applAttrCode == '00001') {--%>
-                <%--baseUrl += '/general';--%>
-                <%--url = admsNo + '/' + $('#deptCode').val() + '/' + $('#corsTypeCode').val() + '/' + detlMajCode;--%>
-            <%--} else if (applAttrCode == '00002') {--%>
-                <%--baseUrl += '/ariInst';--%>
-                <%--url = admsNo + '/' + $('#deptCode').val() + '/' + $('#ariInstCode').val() + '/' + $('#corsTypeCode').val() + '/' + detlMajCode;--%>
-            <%--} else if (applAttrCode == '00003') {--%>
-                <%--baseUrl += '/general';--%>
-                <%--url = admsNo + '/' + $('#deptCode').val() + '/' + $('#corsTypeCode').val() + '/' + detlMajCode;--%>
-            <%--}--%>
+            currentIndex = id.substr(id.lastIndexOf('-')+1),
+            classToShow = '.lang-detail-' + currentIndex;
 
-            <%--$.ajax({--%>
-                <%--type: 'GET',--%>
-                <%--url: baseUrl + '/engMdtYn/' + url,--%>
-                <%--success: function(e) {--%>
-                    <%--if (e.result == 'SUCCESS') {--%>
-                        <%--&lt;%&ndash; 학과면제인정 보이지 않게 처리 &ndash;%&gt;--%>
-                        <%--$('#forlExmpCode').children('option').each(function () {--%>
-                            <%--if (this.value && this.value == '6') {--%>
-                                <%--$(this).hide(e.data == 'Y' || e.data == 'y');--%>
-                            <%--}--%>
-                        <%--});--%>
-                    <%--}--%>
-                <%--},--%>
-                <%--error: function(e) {}--%>
-            <%--});--%>
-            <%--$.ajax({--%>
-                <%--type: 'GET',--%>
-                <%--url: baseUrl + "/availableEngExam/" + url,--%>
-                <%--success: function(e) {--%>
-                    <%--if (e.result == 'SUCCESS') {--%>
-                        <%--var data = JSON && JSON.parse(e.data) || $.parseJSON(e.data);--%>
-                        <%--var groups = $('#english-score-list').children('.form-group');--%>
-                        <%--for (var i = 0, len = groups.length; i < len; i++) {--%>
-                            <%--updateLanguageGroup(groups[i], data);--%>
-                        <%--}--%>
-                    <%--}--%>
-                <%--},--%>
-                <%--error: function(e) {}--%>
-            <%--});--%>
-        <%--};--%>
-        <%--updateLanguagePanel();--%>
-
-//        var updateLanguageGroup = function (group, data) {
-//            var langExamCode = $(group).find('input').filter('[name$="langExamCode"]')[0];
-//            var check = $(group).find('.btn-lang, .btn-lang-disabled')[0];
-//            var checkLabel = $(group).find('.lbl-lang')[0];
-//            if (check) {
-//                var val = langExamCode ? langExamCode.value : null;
-//                var isExist = false, item;
-//                for (var j = 0, len = data.length; j < len; j++) {
-//                    item = data[j];
-//                    if (val == item['examCode']) {
-//                        if ('Y' == item['canYn'] || 'y' == item['canYn']) {
-//                            check.className = 'btn-lang';
-//                            check.removeAttribute('disabled');
-//                            isExist = true;
-//                            $(checkLabel).text('제출 가능');
-//                        }
-//                        break;
-//                    }
-//                }
-//                if (!isExist) {
-//                    check.className = 'btn-lang-disabled';
-//                    checkLabel.text ='제출 불가';
-//                    check.setAttribute('disabled', 'disabled');
-//                    $(group).removeClass('show-lang');
-//                    $(group).addClass('hide-lang');
-//                }
-//            }
-//        };
-
-        <%-- 졸업구분의 졸업선택시 --%>
-        $('.degr-radio').on('change', function(e) {
-            var target =this;
-            var parent = $(target).parents('.form-group')[0];
-            var childRadioVal = $(parent).find("input[type=radio]:checked").val();
-
-            if (childRadioVal =='00001') {
-                $(parent).find('.degr-div').show();
-                $(parent).find('.degr-no').show('');
-                $(parent).find('.degr-message').hide('');
-            } else {
-                $(parent).find('.degr-div').hide();
-                $(parent).find('.degr-no').hide();
-                $(parent).find('.degr-no').val('');
-                $(parent).find('.degr-message').show('');
-            }
-        });
-
-        <%-- 어학 체크박스 클릭 시 처리 시작 --%>
-        $('.btn-lang, .btn-lang-disabled').on('click', function(e) {
-            var target = this;
-            var parent = $(target).parents('.form-group')[0];
-            var cn;
-            if (parent) {
-                if (target.checked) {
-                    $(parent).removeClass('hide-lang');
-                    $(parent).addClass('show-lang');
+            $('.lang-radio').each( function () {
+                if (this.checked) {
+                    $(classToShow).css('display', 'block');
                 } else {
-                    $(parent).removeClass('show-lang');
-                    $(parent).addClass('hide-lang');
+                    $(classToShow).css('display', 'none');
                 }
+            });
+
+        });
+        <%-- 어학 성적 입력란 show/hide 처리 --%>
+
+        <%-- 숫자, 소수점 1개만 입력 - 어학 성적 입력 --%>
+        $('.lang-score').on('keyup', function () {
+            var numCheckRegExp = /^[0-9]*\.?[0-9]*$/,
+                    val = this.value;
+            if (!numCheckRegExp.test(val)) {
+                this.value = val.substr(0, val.length-1);
             }
         });
-        <%-- 어학 목록 --%>
+        <%-- 숫자, 소수점 1개만 입력 - 어학 성적 입력 --%>
+
+        <%-- 어학 성적 validation --%>
+        var getToeflMaxScore = function (id) {
+            var toeflTypeSelectId = id.substr(0, id.lastIndexOf('.')) + '.toflTypeCode',
+                toeflTypeSelect = document.getElementById(toeflTypeSelectId),
+                toeflType = toeflTypeSelect.options[toeflTypeSelect.selectedIndex].innerHTML,
+                maxScore;
+            switch(toeflType) {
+                case 'IBT':
+                    maxScore = 120;
+                    break;
+                case 'CBT':
+                    maxScore = 300;
+                    break;
+                case 'PBT':
+                    maxScore = 677;
+                    break;
+            }
+            return maxScore;
+        };
+        $('.lang-score').on('blur', function () {
+//            var examName = this.dataset.langExamName,
+            var examName = this.getAttribute('data-lang-exam-name'),
+                maxScore;
+            switch(examName) {
+                case 'TOEFL':
+                    maxScore = getToeflMaxScore(this.id);
+                    break;
+                case 'TOEIC':
+                    maxScore = 990;
+                    break;
+                case 'TEPS':
+                    maxScore = 990;
+                    break;
+                case 'IELTS':
+                    maxScore = 9.0;
+                    break;
+                case 'GRE':
+                    maxScore = 9999;
+                    break;
+            }
+            if (this.value > maxScore) {
+                alert( maxScore + '점 이하의 숫자를 입력해주세요.');
+                this.focus();
+            }
+        });
+        <%-- 어학 성적 validation --%>
 
         <%-- 달력 옵션 --%>
         var datePickerOption = {
@@ -680,66 +607,55 @@
 
         <%-- 달력 시작 --%>
         $('.input-group.date>input').datepicker(datePickerOption);
-        $('.input-daterange>input').datepicker(datePickerOption);
+        $('.calendar-addon').on('click', function () {
+            $(this.parentNode).children('input')[0].focus();
+        });
         <%-- 달력 끝 --%>
 
-        <%-- form-group-block 추가/삭제에 대한 처리 시작 --%>
-        $('.btn-add').on('click', function(e) {
-            var target = e.currentTarget ? e.currentTarget : e.target;
-            var container = target.parentNode;
-            while (container && !$(container).hasClass('form-group-block-list')) {
-                container = container.parentNode;
-            }
-            var blocks = container.querySelectorAll('.form-group-block');
-            var originBlock = blocks[blocks.length - 1];
-            var $cloneObj;
-            if (originBlock) {
-                $cloneObj = $(originBlock).clone(true);
-                $cloneObj.find('.input-group.date>input').datepicker('destroy');
-                updateIdAndName($cloneObj[0], blocks.length);
-                eraseContents($cloneObj[0]);
-                container.insertBefore($cloneObj[0], originBlock.nextSibling);
-                $cloneObj.find('.input-group.date>input').datepicker(datePickerOption);
-            }
-        });
+        <%-- 달력 reset 함수 --%>
+        var resetCalendar = function (block, calendarClass) {
+            $(block).find(calendarClass).datepicker('destroy');
+            $(block).find(calendarClass).datepicker(datePickerOption);
+        };
+        <%-- 달력 reset 함수 --%>
 
-        $('.btn-remove').on('click', function(e) {
-            var target = e.currentTarget ? e.currentTarget : e.target;
-            var blockToRemove = target.parentNode;
-            while (blockToRemove && !$(blockToRemove).hasClass('form-group-block')) {
-                blockToRemove = blockToRemove.parentNode;
-            }
-            var container = blockToRemove.parentNode;
-            var blocks = container.querySelectorAll('.form-group-block');
-            var length = blocks.length, i;
+        <%-- 외국어 성적 면제 해당 처리 --%>
+        var checkForlExmp = function (isExmp) {
+            $('.forlInput').each(function () {
+                this.value = '';
+                this.setAttribute('value', '');
+                this.disabled = isExmp;
+                if (this.selectedIndex) this.selectedIndex = 0;
+            });
+            $('.lang-checkbox, .lang-radio').each(function () {
+                this.checked = false;
+                this.disabled = isExmp;
+            });
+            document.getElementById('forlExmpCode').disabled = !isExmp;
+        };
 
-            for (i = 0; i < length; i++) {
-                if (blockToRemove == blocks[i]) {
-                    break;
+        $('#checkForlExmp').on('click', function () {
+            if (this.checked) {
+                if (confirm('외국어 성적 면제 해당자를 선택하면\n외국어 성적을 입력할 수 없으며,\n이미 입력한 외국어 성적도 삭제됩니다.\n\n외국어 성적 면제 해당자를 선택하시겠습니까?')) {
+                    checkForlExmp(true);
+                } else {
+                    this.checked = false;
                 }
-            }
-
-            for (i = i + 1; i < length; i++) {
-                updateIdAndName(blocks[i], i - 1);
-            }
-
-            if (length <= 1) {
-                eraseContents(blockToRemove);
             } else {
-                blockToRemove.parentNode.removeChild(blockToRemove);
+                checkForlExmp(false);
             }
-
-            mustCheckedOneRadio();
         });
+        <%-- 외국어 성적 면제 해당 처리 --%>
 
+        <%-- form-group-block 추가/삭제에 대한 처리 시작 --%>
         <%-- id, name 재설정 시작 --%>
-        function updateIdAndName( block, index ) {
+        var updateIdAndName = function ( block, index ) {
             var i, name, prefix, suffix, input, items, label;
             var input = block.querySelector('input');
 
             name = input.name;
 
-            items = block.querySelectorAll('input, select');
+            items = block.querySelectorAll('input, select, label');
             if (items) {
                 for (i = 0; i <items.length; i++) {
                     name = items[i].name;
@@ -760,44 +676,119 @@
                             label.setAttribute('for', items[i].id);
                         }
                     }
+                    if (items[i].id.indexOf('userCUDType') > 0) {
+                        items[i].value = "INSERT";
+                    }
                 }
             }
+            resetCalendar(block, '.input-group.date>input');
 
             var removeBtn = block.querySelector('.btn-remove');
             if (removeBtn) {
                 removeBtn.setAttribute('data-block-index', index);
             }
-        }
+        };
         <%-- id, name 재설정 끝 --%>
 
         <%-- 복제된 입력폼 내용 초기화 시작 --%>
-        function eraseContents( block ) {
+        var resetBlockContents = function ( block ) {
             var i, items, itemName;
+            block.style.display = 'block';
             items = block.querySelectorAll('input, select');
             if (items) {
                 for (i = 0; i <items.length; i++) {
                     if (items[i].type == 'hidden') {
                         itemName = items[i].name;
-                        items[i].value = itemName.indexOf('acadType') < 0 ? '' : items[i].value ;
+                        if (itemName.indexOf('saveFg') > 0) {
+                            items[i].value = "false";
+                            items[i].setAttribute('value', 'false');
+                        }
+                        if (itemName.indexOf('checkedFg') > 0) {
+                            items[i].value = "true";
+                            items[i].setAttribute('value', 'true');
+                        }
+                        if (itemName.indexOf('exprSeq') > 0) {
+                            items[i].value = "0";
+                            items[i].setAttribute('value', '0');
+                        }
                     }
                     if (items[i].type != 'hidden' && items[i].type != 'radio' && items[i].type != 'checkbox' && items[i].type != 'button') {
                         items[i].value = '';
+                        items[i].setAttribute('value', '');
                     }
                     if (items[i].checked != null) {
                         items[i].checked = false;
                     }
-                    if (items[i].type == 'button') {
-                        $(items[i]).removeClass('btn-info');
-                        $(items[i]).addClass('btn-default');
-                        $(items[i]).val('올리기');
-                    }
-                    if (items[i].type == 'file') {
-                        $(items[i]).val('');
-                    }
                 }
             }
-        }
+            resetCalendar(block, '.input-group.date>input');
+        };
         <%-- 복제된 입력폼 내용 초기화 끝 --%>
+
+        $('.btn-add').on('click', function(e) {
+            var target = e.currentTarget ? e.currentTarget : e.target;
+            var container = target.parentNode;
+            while (container && !$(container).hasClass('form-group-block-list')) {
+                container = container.parentNode;
+            }
+            var blocks = container.querySelectorAll('.form-group-block');
+            var originBlock = blocks[blocks.length - 1];
+            var $cloneObj;
+            if (originBlock) {
+                $cloneObj = $(originBlock).clone(true);
+                updateIdAndName($cloneObj[0], blocks.length);
+                resetBlockContents($cloneObj[0]);
+                container.insertBefore($cloneObj[0], originBlock.nextSibling);
+            }
+        });
+
+        $('.btn-remove').on('click', function(e) {
+            var target = e.currentTarget ? e.currentTarget : e.target;
+            var blockToRemove = target.parentNode;
+            while (blockToRemove && !$(blockToRemove).hasClass('form-group-block')) {
+                blockToRemove = blockToRemove.parentNode;
+            }
+            var container = blockToRemove.parentNode;
+            var blocks = container.querySelectorAll('.form-group-block');
+            var length = blocks.length, i;
+//            var blockIndex = target.dataset.blockIndex;
+            var blockIndex = target.getAttribute('data-block-index');
+            var listName = target.getAttribute('data-list-name');
+            var saveFg = document.getElementById(listName + blockIndex + '.saveFg');
+            var checkedFg = document.getElementById(listName + blockIndex + '.checkedFg');
+
+            if (saveFg.value == 'true') {
+                checkedFg.value = 'false';
+                checkedFg.setAttribute('value', 'false');
+                blockToRemove.style.display = 'none';
+            } else {
+                for (i = parseInt(blockIndex) + 1; i < length; i++) {
+                    updateIdAndName(blocks[i], i - 1);
+                }
+                if (length <= 1) {
+                    resetBlockContents(blockToRemove);
+                } else {
+                    blockToRemove.parentNode.removeChild(blockToRemove);
+                }
+            }
+
+            // switch (checkedFg) {
+            //     case 'INSERT' :
+            //         for (i = parseInt(blockIndex) + 1; i < length; i++) {
+            //             updateIdAndName(blocks[i], i - 1);
+            //         }
+            //         if (length <= 1) {
+            //             resetBlockContents(blockToRemove);
+            //         } else {
+            //             blockToRemove.parentNode.removeChild(blockToRemove);
+            //         }
+            //         break;
+            //     case 'UPDATE' :
+            //         userCUDType.value = 'DELETE';
+            //         blockToRemove.style.display = 'none';
+            //         break;
+            // }
+        });
         <%-- form-group-block 추가/삭제에 대한 처리 끝 --%>
 
         <%-- 단어 잘림 방지 --%>

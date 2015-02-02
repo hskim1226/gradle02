@@ -12,6 +12,7 @@ import com.apexsoft.ysprj.applicants.application.service.ApplicationService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.stereotype.Controller;
@@ -31,6 +32,8 @@ import lgdacom.XPayClient.XPayClient;
 @SessionAttributes("paymentVO")
 public class XPayController {
 
+    @Value("#{app['pay.lgdacom']}")
+    private String PAY_LGDACOM_CONF;
     String CST_PLATFORM = "test";
     String CST_MID = "apex2739";
     String LGD_MID = CST_PLATFORM.equals("test") ? "t" + CST_MID : CST_MID;
@@ -158,7 +161,7 @@ public class XPayController {
      * LG유플러스으로 부터 내려받은 LGD_PAYKEY(인증Key)를 가지고 최종 결제요청.(파라미터 전달시 POST를 사용하세요)
      */
 
-        String configPath = "/opt/ysproject/lgdacom";  //LG유플러스에서 제공한 환경파일("/conf/lgdacom.conf,/conf/mall.conf") 위치 지정.
+        String configPath = PAY_LGDACOM_CONF;  //LG유플러스에서 제공한 환경파일("/conf/lgdacom.conf,/conf/mall.conf") 위치 지정.
 
     /*
      *************************************************

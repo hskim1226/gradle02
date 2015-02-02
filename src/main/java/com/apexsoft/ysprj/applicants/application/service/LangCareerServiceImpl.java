@@ -1,9 +1,12 @@
 package com.apexsoft.ysprj.applicants.application.service;
 
 import com.apexsoft.framework.common.vo.ExecutionContext;
+import com.apexsoft.framework.exception.YSNoRedirectBizException;
 import com.apexsoft.framework.message.MessageResolver;
 import com.apexsoft.framework.persistence.dao.CommonDAO;
+import com.apexsoft.ysprj.applicants.admission.domain.ParamForAdmissionCourseMajor;
 import com.apexsoft.ysprj.applicants.application.domain.*;
+import com.apexsoft.ysprj.applicants.common.service.CommonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,90 +27,48 @@ public class LangCareerServiceImpl implements LangCareerService {
     @Resource(name = "messageResolver")
     MessageResolver messageResolver;
 
+    @Autowired
+    private CommonService commonService;
+
     private final String APP_NULL_STATUS = "00000";      // 에러일 때 반환값
     private final String LANG_CAREER_SAVED = "00003";    // 어학/경력 저장
 
-    /**
-     * 어학/경력 정보 생성
-     *
-     * @param application
-     * @param applicationLanguageList
-     * @param applicationExperienceList
-     * @return
-     */
     @Override
-    public ExecutionContext createLangCareer(Application application,
-                                             List<ApplicationLanguage> applicationLanguageList,
-                                             List<ApplicationExperience> applicationExperienceList) {
+    public ExecutionContext retrieveLangCareer(LangCareer langCareer) {
         ExecutionContext ec = new ExecutionContext();
-        int r1, r2 = 0, r3 = 0, applNo = application.getApplNo(), idx = 0;
-        Date date = new Date();
-        String userId = application.getUserId();
 
-        application.setApplStsCode(LANG_CAREER_SAVED);
-        application.setModDate(date);
-        r1 = commonDAO.updateItem(application, NAME_SPACE, "ApplicationMapper");
+        Map<String, Object> ecDataMap = new HashMap<String, Object>();
+        Map<String, Object> commonCodeMap = new HashMap<String, Object>();
 
-        if ( applicationLanguageList != null ) {
-            for( ApplicationLanguage applicationLanguage : applicationLanguageList) {
-                applicationLanguage.setApplNo(applNo);
-                applicationLanguage.setLangSeq(++idx);
-                applicationLanguage.setCreId(userId);
-                applicationLanguage.setCreDate(date);
-            }
-            r2 = commonDAO.insertList(applicationLanguageList, NAME_SPACE, "ApplicationLanguageMapper");
-        }
-        idx = 0;
-        if ( applicationExperienceList != null ) {
-            for( ApplicationExperience applicationExperience : applicationExperienceList) {
-                applicationExperience.setApplNo(applNo);
-                applicationExperience.setExprSeq(++idx);
-                applicationExperience.setCreId(userId);
-                applicationExperience.setCreDate(date);
-            }
-            r3 = commonDAO.insertList(applicationExperienceList, NAME_SPACE, "ApplicationExperienceMapper");
-        }
+        Application applicationFromUser = langCareer.getApplication();
 
-        if ( r1 > 0 && r2 > 0 && r3 > 0) {
-            ec.setResult(ExecutionContext.SUCCESS);
-            ec.setMessage(messageResolver.getMessage("U319"));
-            ec.setData(new ApplicationIdentifier(applNo, application.getApplStsCode(),
-                    application.getAdmsNo(), application.getEntrYear(), application.getAdmsTypeCode()));
-        } else {
-            ec.setResult(ExecutionContext.FAIL);
-            ec.setMessage(messageResolver.getMessage("U320"));
-            String errCode = null;
-            if ( r1 == 0 ) errCode = "ERR0003";
-            else if ( r2 == 0 ) errCode = "ERR0016";
-            else if ( r3 == 0 ) errCode = "ERR0021";
-            ec.setData(new ApplicationIdentifier(applNo, APP_NULL_STATUS));
-            ec.setErrCode(errCode);
-        }
-        return ec;
-    }
+        int applNo = applicationFromUser.getApplNo();
 
-    @Override
-    public ExecutionContext retrieveLangCareer(int applNo) {
-        ExecutionContext ec = new ExecutionContext();
-        LangCareer langCareer = new LangCareer();
-
-        Application application = commonDAO.queryForObject(NAME_SPACE + "ApplicationMapper.selectByPrimaryKey",
+        Application applicationFromDB = commonDAO.queryForObject(NAME_SPACE + "ApplicationMapper.selectByPrimaryKey",
                 applNo, Application.class);
-        application = application == null ? new Application() : application;
-        langCareer.setApplication(application);
+        langCareer.setApplication(applicationFromDB);
 
-        ApplicationGeneral applicationGeneral = commonDAO.queryForObject(NAME_SPACE + "ApplicationGeneralMapper.selectByPrimaryKey",
+        ApplicationGeneral applicationGeneralFromDB = commonDAO.queryForObject(NAME_SPACE + "ApplicationGeneralMapper.selectByPrimaryKey",
                 applNo, ApplicationGeneral.class);
-        applicationGeneral = applicationGeneral == null ? new ApplicationGeneral() : applicationGeneral;
+        applicationGeneralFromDB = applicationGeneralFromDB == null ? new ApplicationGeneral() : applicationGeneralFromDB;
+        langCareer.setApplicationGeneral(applicationGeneralFromDB);
 
-        langCareer.setApplication(application);
-        langCareer.setApplicationGeneral(applicationGeneral);
-//        langCareer.setLanguageGroupList(retrieveInfoListByApplNo(applNo, "CustomApplicationLanguageMapper", ApplicationLanguage.class));
-        langCareer.setLanguageGroupList(retrieveLanguageGroupListByApplNo(applNo));
-        langCareer.setApplicationExperienceList(retrieveInfoListByApplNo(applNo, "CustomApplicationExperienceMapper", ApplicationExperience.class));
+        List<LanguageGroup> langGroupList = retrieveLanguageGroupListByApplNo(applNo);
+        langCareer.setLanguageGroupList(langGroupList);
 
-        ec.setResult(ExecutionContext.SUCCESS);
-        ec.setData(langCareer);
+        List<CustomApplicationExperience> applicationExperienceList = retrieveInfoListByApplNo(applNo, "CustomApplicationExperienceMapper", CustomApplicationExperience.class);
+        langCareer.setApplicationExperienceList(applicationExperienceList);
+
+        for(CustomApplicationExperience aExpr :applicationExperienceList  ){
+            aExpr.setSaveFg(true);
+        }
+
+        commonCodeMap.put( "toflTypeList", commonService.retrieveCommonCodeValueByCodeGroup("TOFL_TYPE") );
+        commonCodeMap.put( "fornExmpList", commonService.retrieveCommonCodeValueByCodeGroup("FORN_EXMP") );
+
+        ecDataMap.put("langCareer", langCareer);
+        ecDataMap.put("common", commonCodeMap);
+        ec.setData(ecDataMap);
 
         return ec;
     }
@@ -116,80 +77,137 @@ public class LangCareerServiceImpl implements LangCareerService {
 
         List<LanguageGroup> langGroupList = null;
 
-        try {
-
-            langGroupList = commonDAO.queryForList(NAME_SPACE + "CustomApplicationDocumentMapper.selectLanguageGroupByApplNo",
-                                                    applNo, LanguageGroup.class);
-            if( langGroupList == null || langGroupList.size()==0){
-                LanguageGroup aGroup  = new LanguageGroup();
-                aGroup.setExamCodeGrp("LANG_EXAM");
-                aGroup.setExamGrpName("영어");
-                aGroup.setSelGrpCode("LANG_EXAM");
-                aGroup.setExamCode("00001");
-                langGroupList.add(aGroup);
-            }
-            ParamForTotalLang param = new ParamForTotalLang();
-            List<TotalApplicationLanguage> aLangList;
-            for (LanguageGroup alangGroup : langGroupList) {
-                param.setApplNo(applNo);
-                param.setSelGrpCode(alangGroup.getSelGrpCode());
-                param.setUpCodeGrp(alangGroup.getExamCodeGrp());
-                param.setUpCode(alangGroup.getExamCode());
-
-                aLangList = commonDAO.queryForList(NAME_SPACE + "CustomApplicationDocumentMapper.selectTotalLanguageInfoByApplNo",
-                                                    param, TotalApplicationLanguage.class);
-
-                for( TotalApplicationLanguage alang : aLangList){
-                    if( alang.getLangSeq() != null && alang.getLangSeq() > 0 )
-                        alang.setLangInfoSaveFg(true);
-                    else
-                        alang.setLangInfoSaveFg(false);
-
-                    if( alang.getDocSeq() > 0 )
-                        alang.setFileUploadFg(true);
-                    else
-                        alang.setFileUploadFg(false);
-                }
-                alangGroup.setLangList(aLangList);
-            }
-        }catch (Exception e) {
-            e.printStackTrace();
+        langGroupList = commonDAO.queryForList(NAME_SPACE + "CustomApplicationDocumentMapper.selectLanguageGroupByApplNo",
+                                                applNo, LanguageGroup.class);
+        if( langGroupList == null || langGroupList.size()==0){
+            LanguageGroup aGroup  = new LanguageGroup();
+            aGroup.setExamCodeGrp("LANG_EXAM");
+            aGroup.setExamGrpName("영어");
+            aGroup.setSelGrpCode("LANG_EXAM");
+            aGroup.setExamCode("00001");
+            langGroupList.add(aGroup);
         }
+        ParamForTotalLang param = new ParamForTotalLang();
+        List<TotalApplicationLanguage> aLangList;
+        for (LanguageGroup alangGroup : langGroupList) {
+            param.setApplNo(applNo);
+            param.setSelGrpCode(alangGroup.getSelGrpCode());
+            param.setUpCodeGrp(alangGroup.getExamCodeGrp());
+            param.setUpCode(alangGroup.getExamCode());
+
+            aLangList = commonDAO.queryForList(NAME_SPACE + "CustomApplicationDocumentMapper.selectTotalLanguageInfoByApplNo",
+                                                param, TotalApplicationLanguage.class);
+
+            for (TotalApplicationLanguage alang : aLangList) {
+                if(alang.getApplNo()== null || alang.getApplNo().equals(""))
+                    alang.setApplNo(applNo);
+                if( alang.getLangSeq() != null && alang.getLangSeq() > 0 )
+                    alang.setLangInfoSaveFg(true);
+                else
+                    alang.setLangInfoSaveFg(false);
+
+                if( alang.getDocSeq() > 0 )
+                    alang.setFileUploadFg(true);
+                else
+                    alang.setFileUploadFg(false);
+            }
+            alangGroup.setLangList(aLangList);
+        }
+
         return langGroupList;
     }
 
     @Override
-    public ExecutionContext updateLangCareer(Application application,
-                                             List<ApplicationLanguage> applicationLanguageList,
-                                             List<ApplicationExperience> applicationExperienceList) {
+    public ExecutionContext saveLangCareer(LangCareer langCareer) {
         ExecutionContext ec = new ExecutionContext();
-        int r1 = 0, r2 = 0, applNo = application.getApplNo(), idx = 0;
+
+        int upAppl = 0, insert = 0, update = 0, delete = 0;
+        int rUpAppl = 0, rInsert = 0, rUpdate = 0, rDelete = 0;
+        Application application = langCareer.getApplication();
+        int applNo = application.getApplNo();
+
         Date date = new Date();
-        String userId = application.getUserId();
+        List<LanguageGroup> langList = langCareer.getLanguageGroupList();
+        List<CustomApplicationExperience> exprList = langCareer.getApplicationExperienceList();
 
-        deleteListByApplNo(applNo, "CustomApplicationLanguageMapper");
-        if ( applicationLanguageList != null ) {
-            for( ApplicationLanguage applicationLanguage : applicationLanguageList) {
-                applicationLanguage.setApplNo(applNo);
-                applicationLanguage.setLangSeq(++idx);
-                applicationLanguage.setModId(userId);
-                applicationLanguage.setModDate(date);
-            }
-            r1 = commonDAO.insertList(applicationLanguageList, NAME_SPACE, "ApplicationLanguageMapper");
-        }
-        idx = 0;
-        deleteListByApplNo(applNo, "CustomApplicationExperienceMapper");
-        if ( applicationExperienceList != null ) {
-            for( ApplicationExperience applicationExperience : applicationExperienceList) {
-                applicationExperience.setApplNo(applNo);
-                applicationExperience.setExprSeq(++idx);
-                applicationExperience.setModId(userId);
-                applicationExperience.setModDate(date);
-            }
-            r2 = commonDAO.insertList(applicationExperienceList, NAME_SPACE, "ApplicationExperienceMapper");
+        int currentStsCode = Integer.parseInt(application.getApplStsCode());
+        if (currentStsCode < Integer.parseInt(LANG_CAREER_SAVED)) {
+            rUpAppl++;
+            application.setApplStsCode(LANG_CAREER_SAVED);
+            application.setModDate(new Date());
+            upAppl = commonDAO.updateItem(application, NAME_SPACE, "ApplicationMapper");
         }
 
-        if ( r1 > 0 && r2 > 0 ) {
+        //어학정보 저장
+        for( LanguageGroup aGroup : langList){
+            for(TotalApplicationLanguage aLang : aGroup.getLangList()){
+                //저장요청건
+                if( aLang.isCheckedFg()) {
+                    aLang.setLangExamGrp(aLang.getItemGrpCode());
+                    aLang.setLangExamCode(aLang.getItemCode());
+                    //기존정보 처리
+                    if(aLang.isLangInfoSaveFg()){
+                        //APPL_LANG,  UPDATE
+                        rUpdate++;
+                        //TotalApplicationLanguage tmpLang = aLang;
+                        aLang.setModId(application.getModId());
+                        aLang.setModDate(date);
+                        update = update + commonDAO.updateItem( aLang, NAME_SPACE, "ApplicationLanguageMapper");
+
+                    }else{ //신규 입력정보
+                        //APPL_LANG, INSERT
+                        rInsert++;
+                        int maxSeq = commonDAO.queryForInt(NAME_SPACE +"CustomApplicationLanguageMapper.selectMaxSeqByApplNo", applNo ) ;
+                        maxSeq++;
+                        aLang.setLangSeq(maxSeq);
+                        aLang.setCreId(application.getModId());
+                        aLang.setCreDate(date);
+                        insert = insert + commonDAO.insertItem( aLang, NAME_SPACE, "ApplicationLanguageMapper");
+                    }
+                }else if(aLang.isLangInfoSaveFg() ) {//기존 정보 선택 취소
+                    rDelete++;
+                    //APPL_LANG, APPL_DOC, DELETE
+                    delete = delete + commonDAO.delete(NAME_SPACE + "ApplicationLanguageMapper.deleteByPrimaryKey", aLang);
+                    if( aLang.isFileUploadFg()){
+                        //TODO file upload 된 doc 삭제
+                    }
+                }
+            }
+        }
+        //경력정보 저장
+        for( CustomApplicationExperience aExpr : exprList){
+
+            if( aExpr.isCheckedFg()) {
+                //기존정보 처리
+                if(aExpr.isSaveFg()){
+                    //APPL_LANG,  UPDATE
+                    rUpdate++;
+                    aExpr.setModId(application.getModId());
+                    aExpr.setModDate(date);
+                    update = update + commonDAO.updateItem( aExpr, NAME_SPACE, "ApplicationExperienceMapper");
+
+                }else{ //신규 입력정보
+                    //APPL_LANG, INSERT
+                    rInsert++;
+                    int maxSeq = commonDAO.queryForInt(NAME_SPACE +"CustomApplicationExperienceMapper.selectMaxSeqByApplNo", applNo ) ;
+                    aExpr.setExprSeq(++maxSeq);
+                    aExpr.setSaveFg(true);
+                    aExpr.setCreId(application.getModId());
+                    aExpr.setCreDate(date);
+                    insert = insert + commonDAO.insertItem( aExpr, NAME_SPACE, "ApplicationExperienceMapper");
+                }
+            }else if(aExpr.isSaveFg() ) {//기존 정보 선택 취소
+                rDelete++;
+                //APPL_LANG, APPL_DOC, DELETE
+                delete = delete + commonDAO.delete(NAME_SPACE + "ApplicationExperienceMapper.deleteByPrimaryKey", aExpr);
+                if( aExpr.isFileUploadFg()){
+                    //TODO file upload 된 doc 삭제
+                }
+
+            }
+        }
+
+        if ( rUpAppl == upAppl && insert == rInsert && update == rUpdate && delete == rDelete) {
             ec.setResult(ExecutionContext.SUCCESS);
             ec.setMessage(messageResolver.getMessage("U319"));
             ec.setData(new ApplicationIdentifier(applNo, application.getApplStsCode(),
@@ -197,56 +215,40 @@ public class LangCareerServiceImpl implements LangCareerService {
         } else {
             ec.setResult(ExecutionContext.FAIL);
             ec.setMessage(messageResolver.getMessage("U320"));
-            String errCode = null;
-            if ( r1 == 0 ) errCode = "ERR0018";
-            else if ( r2 == 0 ) errCode = "ERR0023";
             ec.setData(new ApplicationIdentifier(applNo, APP_NULL_STATUS));
+            String errCode = null;
+            if ( rUpAppl != upAppl ) errCode = "ERR0003";
+            if ( insert != rInsert ) errCode = "ERR0017";
+            if ( update != rUpdate ) errCode = "ERR0018";
+            if ( delete != rDelete ) errCode = "ERR0019";
             ec.setErrCode(errCode);
+            throw new YSNoRedirectBizException(ec);
         }
         return ec;
     }
 
-    /**
-     * 입학원서 부분 정보 삭제
-     *
-     * @param applNo
-     * @param MapperName
-     * @return
-     */
-    @Override
-    public int deleteListByApplNo(int applNo, String MapperName) {
-        return commonDAO.delete(NAME_SPACE + MapperName + ".deleteListByApplNo", applNo);
-    }
-
-    @Override
-    public ExecutionContext deleteLangCareer(Application application,
-                                             List<ApplicationLanguage> applicationLanguageList,
-                                             List<ApplicationExperience> applicationExperienceList) {
-        return null;
-    }
-
-    private <T> List<T> retrieveInfoListByParamObj(Object parameter, String mapperNameSqlId, Class<T> clazz) {
+    private <T> List<T> retrieveInfoListByApplNo(int applNo, String mapperName, Class<T> clazz) {
         List<T> infoList = null;
-
-        infoList = commonDAO.queryForList(NAME_SPACE + mapperNameSqlId,
-                    parameter, clazz);
-
-
-        return infoList;
-    }
-
-    @Override
-    public <T> List<T> retrieveInfoListByApplNo(int applNo, String mapperName, Class<T> clazz) {
-        List<T> infoList = null;
-        try {
-            infoList = commonDAO.queryForList(NAME_SPACE + mapperName + ".selectByApplNo",
+        infoList = commonDAO.queryForList(NAME_SPACE + mapperName + ".selectByApplNo",
                     applNo, clazz);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
 
         return infoList;
     }
 
-
+//    private List<CustomApplicationExperience> setExprUserDataStatus(List<CustomApplicationExperience> list, UserCUDType userCUDType) {
+//        for (CustomApplicationExperience item : list) {
+//            item.setUserCUDType(userCUDType);
+//        }
+//        return list;
+//    }
+//
+//    private List<LanguageGroup> setLangUserDataStatus(List<LanguageGroup> list, UserCUDType userCUDType) {
+//        for (LanguageGroup groupItem : list) {
+//            List<TotalApplicationLanguage> langList = groupItem.getLangList();
+//            for (TotalApplicationLanguage langItem : langList) {
+//                langItem.setCheckedFg(true);
+//            }
+//        }
+//        return list;
+//    }
 }

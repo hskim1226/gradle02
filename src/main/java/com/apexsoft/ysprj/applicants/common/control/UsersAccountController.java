@@ -1,16 +1,18 @@
-package com.apexsoft.ysprj.user.web;
+package com.apexsoft.ysprj.applicants.common.control;
 
 import com.apexsoft.framework.common.vo.ExecutionContext;
 import com.apexsoft.framework.message.MessageResolver;
 import com.apexsoft.ysprj.user.domain.Users;
-import com.apexsoft.ysprj.user.service.UsersAccountService;
+import com.apexsoft.ysprj.applicants.common.service.UsersAccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.io.BufferedReader;
@@ -41,8 +43,17 @@ public class UsersAccountController {
     private MessageResolver messageResolver;
 
     @RequestMapping(value="/login", method= RequestMethod.GET)
-    public String displayLoginForm() {
-        return "user/login";
+    public ModelAndView displayLoginForm(Users users,
+                                   BindingResult bindingResult,
+                                   ModelAndView mv,
+                                   HttpServletRequest request) {
+        mv.setViewName("user/login");
+        if (bindingResult.hasErrors()) return mv;
+
+        if (request.getAttribute("LOGIN_FAILURE") == Boolean.TRUE)
+            mv.addObject("loginMessage", messageResolver.getMessage("U330"));
+
+        return mv;
     }
 
     @RequestMapping(value = "/agreement", method = RequestMethod.GET)
@@ -53,10 +64,9 @@ public class UsersAccountController {
         contentFiles.put("privacy-policy2", "/WEB-INF/privacy-policy2.txt");
         contentFiles.put("privacy-policy3", "/WEB-INF/privacy-policy3.txt");
 
-        FileReader fileReader = null;
-        BufferedReader bufferedReader = null;
+        BufferedReader bufferedReader;
         StringBuffer buffer = new StringBuffer();
-        String content = "";
+        String content;
         try {
             for(String key : contentFiles.keySet() ) {
                 InputStream inputStream = context.getResourceAsStream(contentFiles.get(key));

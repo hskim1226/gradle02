@@ -39,11 +39,11 @@
 
         <form-login login-processing-url="/j_spring_security_check.do"
                     login-page="/user/login?auth=true"
-                    default-target-url="/index"
+                    default-target-url="/"
                     always-use-default-target="false"
                     authentication-failure-handler-ref="authenticationFailureHandler"
                     authentication-failure-url="/user/login?fail=true" />
-        <logout logout-url="/j_spring_security_logout.do" invalidate-session="true" logout-success-url="/index"/>
+        <logout logout-url="/j_spring_security_logout.do" invalidate-session="true" logout-success-url="/"/>
     </http>
 
     <beans:bean id="encoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>

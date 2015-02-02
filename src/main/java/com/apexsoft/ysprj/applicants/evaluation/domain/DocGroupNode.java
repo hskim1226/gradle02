@@ -1,9 +1,6 @@
 package com.apexsoft.ysprj.applicants.evaluation.domain;
 
-import com.apexsoft.ysprj.applicants.application.domain.MandatoryNAppliedDoc;
-
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by DhKim on 2014-09-17.

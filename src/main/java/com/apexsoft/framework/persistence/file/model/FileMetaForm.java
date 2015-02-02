@@ -14,7 +14,7 @@ public class FileMetaForm {
     private String originalFileName;
     private String fieldName;
     private String targetButton;
-    private String targetLabel;
+    private String targetFileLinkId;
     private String applNo;
     private String admsNo;
 
@@ -58,12 +58,12 @@ public class FileMetaForm {
         this.targetButton = targetButton;
     }
 
-    public String getTargetLabel() {
-        return targetLabel;
+    public String getTargetFileLinkId() {
+        return targetFileLinkId;
     }
 
-    public void setTargetLabel(String targetLabel) {
-        this.targetLabel = targetLabel;
+    public void setTargetFileLinkId(String targetFileLinkId) {
+        this.targetFileLinkId = targetFileLinkId;
     }
 
     public String getApplNo() {

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="admin.guideline">
+
+
+  
+    <resultMap id="MandatoryContainer" type="com.apexsoft.ysprj.admin.domain.ApplicantCnt" >
+
+	<result column="DEPT_CODE"   property="deptCode" jdbcType="VARCHAR" />    
+    <result column="CAMP_NAME" property="campName" jdbcType="VARCHAR" />
+    <result column="COLL_NAME" property="collName" jdbcType="VARCHAR" />
+    <result column="DEPT_NAME" property="deptName" jdbcType="VARCHAR" />
+    <result column="DEPT_SEQ"  property="deptSeq" jdbcType="VARCHAR" />
+    <result column="CNT1" property="cnt1" jdbcType="INTEGER" />
+    <result column="CNT2" property="cnt2" jdbcType="INTEGER" />
+    <result column="CNT3" property="cnt3" jdbcType="INTEGER" />
+    <result column="CNT4" property="cnt4" jdbcType="INTEGER" />    
+    <result column="TOTAL_CNT" property="totalCnt" jdbcType="INTEGER" />
+  </resultMap>
+
+    <select id="selectAdmsMandatoryList" resultMap="MandatoryContainer" parameterType="com.apexsoft.ysprj.applicants.application.domain.ParamForApplicationMandatoryDoc">
+
+    </select>
+
+    <select id="selectDeptMandatoryList" resultMap="MandatoryContainer" parameterType="com.apexsoft.ysprj.applicants.application.domain.ParamForApplicationMandatoryDoc">
+
+    </select>
+
+    <select id="selectAmdsCorsMandatoryList" resultMap="MandatoryContainer" parameterType="com.apexsoft.ysprj.applicants.application.domain.ParamForApplicationMandatoryDoc">
+
+    </select>
+
+    <select id="selectAmdsCorsMajMandatoryList" resultMap="MandatoryContainer" parameterType="com.apexsoft.ysprj.applicants.application.domain.ParamForApplicationMandatoryDoc">
+
+    </select>
+
+    <select id="selectCodeMandatoryList" resultMap="MandatoryContainer" parameterType="com.apexsoft.ysprj.applicants.application.domain.ParamForApplicationMandatoryDoc">
+
+    </select>
+
+
+
+
+</mapper>

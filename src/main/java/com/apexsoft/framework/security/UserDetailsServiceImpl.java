@@ -1,7 +1,7 @@
 package com.apexsoft.framework.security;
 
 import com.apexsoft.ysprj.user.domain.Users;
-import com.apexsoft.ysprj.user.service.UsersAccountService;
+import com.apexsoft.ysprj.applicants.common.service.UsersAccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

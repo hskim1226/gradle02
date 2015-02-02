@@ -248,6 +248,10 @@
         #tabTR {
             cursor: pointer;
         }
+        .validation-error {
+            background: #ffdddd;
+            color: #f55;
+        }
     </style>
 </head>
 <body>
@@ -262,7 +266,7 @@
                     <td id="stepBasis" width="25%" height="30px" align="center" class="stepDisabled">1. 기본 정보</td>
                     <td id="stepAcademy" width="25%" height="30px" align="center" class="stepDisabled">2. 학력 정보</td>
                     <td id="stepLangCareer" width="25%" height="30px" align="center" class="stepDisabled">3. 어학/경력 정보</td>
-                    <td id="stepFileUpload" width="25%" height="30px" align="center" class="stepDisabled">4. 파일 첨부</td>
+                    <td id="stepDocument" width="25%" height="30px" align="center" class="stepDisabled">4. 파일 첨부</td>
                 </tr>
             </table>
         </div>
@@ -274,7 +278,7 @@
                         <td id="tab-basis" width="25%" height="35px" align="center" class="inactiveTab" data-target-tab="basis" data-tab-available="true">기본 정보</td>
                         <td id="tab-academy" width="25%" height="35px" align="center" class="inactiveTab" data-target-tab="academy" data-tab-available="false" data-unavailable-msg='<spring:message code="U321"/>'>학력 정보</td>
                         <td id="tab-langCareer" width="25%" height="35px" align="center" class="inactiveTab" data-target-tab="langCareer" data-tab-available="false" data-unavailable-msg='<spring:message code="U322"/>'>어학/경력 정보</td>
-                        <td id="tab-fileUpload" width="25%" height="35px" align="center" class="inactiveTab" data-target-tab="fileUpload" data-tab-available="false" data-unavailable-msg='<spring:message code="U323"/>'>파일 첨부</td>
+                        <td id="tab-document" width="25%" height="35px" align="center" class="inactiveTab" data-target-tab="document" data-tab-available="false" data-unavailable-msg='<spring:message code="U323"/>'>파일 첨부</td>
                     </tr>
                 </table>
             </div>
@@ -289,6 +293,9 @@
                 <div class="spacer-tiny"></div>
                 <div class="row">
                     <div class="col-sm-offset-1 col-sm-10">
+                        <div>
+                            <div class="validation-error"><form:errors path="*"/></div>
+                        </div>
                         <div class="panel panel-default">
                             <div class="panel-heading">지원 사항</div>
                             <div class="panel-body">
@@ -612,7 +619,8 @@
             for ( i = 0 ; i < code && i < l ; i++ ) {
                 stepTR.children[i].className = 'stepEnabled';
                 tabTR.children[i].setAttribute('data-tab-available', 'true');
-                tabTR.children[i+1].setAttribute('data-tab-available', 'true');
+                if (tabTR.children[i+1])
+                    tabTR.children[i+1].setAttribute('data-tab-available', 'true');
             }
         };
         processCurrentStep(document.getElementById('applStsCode').value);
@@ -705,7 +713,7 @@
         <%-- 한글 이름 공백 제거 --%>
         var removeSpaceInKorName = function () {
             var korName = document.getElementById('application.korName');
-            korName.addEventListener('keyup', function () {
+            $(korName).on('keyup', function () {
                 this.value = this.value.replace(/(\s*)/gi,"");
             });
         };
@@ -732,7 +740,7 @@
         $('.emailOnly').on('blur', function () {
             var emailRegExp = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
                 val = this.value;
-            if (!emailRegExp.test(val)) {
+            if (!emailRegExp.test(val) && val != '') {
                 alert("이메일 주소를 정확히 기재해 주세요")
                 this.value = "";
                 this.focus();
@@ -896,7 +904,9 @@
                         closeDaumPostCode();
                         confirm('주소를 다시 검색해서 도로명 주소를 사용해 주시기 바랍니다.');
                         document.getElementById('zipCode').value = '';
+                        document.getElementById('zipCode').setAttribute('value', '');
                         document.getElementById('address').value = '';
+                        document.getElementById('address').setAttribute('value', '');
                         $('#searchAddress').trigger('click');
                     }
 
