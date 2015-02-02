@@ -11,7 +11,7 @@
         <pattern>/application/*</pattern>
         <pattern>/mail/*</pattern>
         <pattern>/user/*</pattern>
-        <pattern>/pay/*</pattern>
+        <pattern>/payment/*</pattern>
         <pattern>/main/*</pattern>
         <pattern>/index.jsp</pattern>
         <pattern>/index</pattern>
