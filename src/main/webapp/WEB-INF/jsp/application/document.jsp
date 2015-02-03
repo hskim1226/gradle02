@@ -427,6 +427,7 @@
                                                        data-img-yn-id="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.imgYn"
                                                        data-target-file-link-id="file-link-${lv1Status.index}-${lv2Status.index}-${lv3Status.index}"
                                                        data-org-filename-id="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.orgFileName"
+                                                       data-target-subcontainer-id="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}."
 
                                                        data-doc-prop-docSeq="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.docSeq"
                                                        data-doc-prop-docTypeCode="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.docTypeCode"
@@ -628,6 +629,7 @@
                     targetFileLinkId = this.getAttribute('data-target-file-link-id'),
 //                    targetOrgFileNameHiddenId = this.dataset.orgFilenameId,
                     targetOrgFileNameHiddenId = this.getAttribute('data-org-filename-id'),
+                    targetSubContainerId = this.getAttribute('data-target-subcontainer-id'),
             // targetFilePathHiddenId = e.target.getAttribute('data-file-path'),
             // targetFileNameHiddenId = e.target.getAttribute('data-file-name'),
             // targetOrgFileNameHiddenId = e.target.getAttribute('data-org-file-name'),
@@ -688,27 +690,28 @@
                             fieldName: fileInputName,
                             targetButton: this.id,
                             targetFileLinkId: targetFileLinkId,
+                            targetSubContainerId : '',
                             applNo: document.getElementById('applNo').value,
                             admsNo: document.getElementById('admsNo').value
                         },
                         success: function (data, status) {
-if (console) {
-    console.log('data : ', data);
-    console.log('status : ', status);
-}
+//if (console) {
+//    console.log('data : ', data);
+//    console.log('status : ', status);
+//}
                             var d = JSON.parse(data.data);
-if (console) {
-    console.log("fieldName : ", d.fieldName);
-    console.log("targetButton : ", d.targetButton);
-    console.log("targetFileLinkId : ", d.targetFileLinkId);
-    console.log("applNo : ", d.applNo);
-    console.log("admsNo : ", d.admsNo);
-    console.log("originalFileName : ", d.originalFileName);
-    console.log("filePath : ", d.path);
-    console.log("fileName : ", d.fileName);
-    console.log("data : ", data.data);
-    console.log("status : ", status);
-}
+//if (console) {
+//    console.log("fieldName : ", d.fieldName);
+//    console.log("targetButton : ", d.targetButton);
+//    console.log("targetFileLinkId : ", d.targetFileLinkId);
+//    console.log("applNo : ", d.applNo);
+//    console.log("admsNo : ", d.admsNo);
+//    console.log("originalFileName : ", d.originalFileName);
+//    console.log("filePath : ", d.path);
+//    console.log("fileName : ", d.fileName);
+//    console.log("data : ", data.data);
+//    console.log("status : ", status);
+//}
                             var targetBtnId = d.targetButton,
                                     targetBtn = document.getElementById(targetBtnId),
                                     $targetBtn = $(targetBtn),
@@ -718,7 +721,9 @@ if (console) {
                                     targetFileLinkId = d.targetFileLinkId,
                                     applNo = d.applNo,
                                     admsNo = d.admsNo,
-                                    downloadURL;
+                                    downloadURL,
+                                    oneDocument = d.oneDocument,
+                                    oneDocumentHidden;
                             $targetBtn.removeClass("btn-default");
                             $targetBtn.addClass("btn-info");
                             $targetBtn.val("올리기 성공");
@@ -730,6 +735,14 @@ if (console) {
                             // document.getElementById(targetFilePathHiddenId).value = filePath;
                             // document.getElementById(targetFileNameHiddenId).value = fileName;
                             document.getElementById(targetOrgFileNameHiddenId).value = originalFileName;
+
+                            for (key in oneDocument) {
+                                oneDocumentHidden = document.getElementById(targetSubContainerId + key);
+                                if (oneDocumentHidden) {
+                                    oneDocumentHidden.value = oneDocument[key];
+console.log(key, oneDocumentHidden.value);
+                                }
+                            }
                         },
                         error: function (data, status, e) {
                             if(console) {

@@ -1,6 +1,7 @@
 package com.apexsoft.ysprj.applicants.application.service;
 
 import com.apexsoft.framework.common.vo.ExecutionContext;
+import com.apexsoft.framework.exception.YSNoRedirectBizException;
 import com.apexsoft.framework.message.MessageResolver;
 import com.apexsoft.framework.persistence.dao.CommonDAO;
 import com.apexsoft.ysprj.applicants.admission.domain.ParamForAdmissionCourseMajor;
@@ -102,16 +103,83 @@ public class DocumentServiceImpl implements DocumentService {
     public ExecutionContext saveOneDocument(TotalApplicationDocument document) {
 
 
+        ExecutionContext ec = new ExecutionContext();
+        int rUpdate = 0, rInsert = 0,applNo = document.getApplNo();
+        int update=0, insert =0;
+        Date date = new Date();
+        String userId = document.getCreId();
 
+        //기존 파일이 업로드 되어 있는 경우
+        if( document.isFileUploadFg()){
+            rUpdate++;
+            document.setCreId("" );
+            document.setModDate(date );
+            document.setModId(userId );
+            update = update + commonDAO.updateItem( document,NAME_SPACE, "ApplicationDocumentMapper" );
 
+        }else{
+            rInsert++;
 
-        return null;
+            int maxSeq = commonDAO.queryForInt(NAME_SPACE +"CustomApplicationDocumentMapper.selectMaxSeqByApplNo", applNo ) ;
+            document.setDocSeq(++maxSeq);
+            document.setCreDate(date );
+            insert = insert + commonDAO.insertItem(document, NAME_SPACE, "ApplicationDocumentMapper");
+
+        }
+        if (  insert == rInsert && update == rUpdate ) {
+            ec.setResult(ExecutionContext.SUCCESS);
+            ec.setMessage(messageResolver.getMessage("U325"));
+            ec.setData(document);
+        } else {
+            ec.setResult(ExecutionContext.FAIL);
+            ec.setMessage(messageResolver.getMessage("U326"));
+            ec.setData(new ApplicationIdentifier(applNo, APP_NULL_STATUS));
+            String errCode = null;
+            if ( insert != rInsert ) errCode = "ERR0031";
+            if ( update != rUpdate ) errCode = "ERR0033";
+            ec.setErrCode(errCode);
+            throw new YSNoRedirectBizException(ec);
+        }
+        return ec;
     }
 
 
+    @Override
+    public ExecutionContext deleteOneDocument(TotalApplicationDocument document) {
 
+        ExecutionContext ec = new ExecutionContext();
+        int rDelete = 0,applNo = document.getApplNo();
+        int delete=0;
+        Date date = new Date();
+        String userId = document.getCreId();
 
+        //기존 파일이 업로드 되어 있는 경우
+        if( document.isFileUploadFg()){
+            rDelete++;
+            delete = delete + commonDAO.delete( NAME_SPACE + "ApplicationDocumentMapper.deleteByPrimaryKey", document );
 
+        }else{
+            rDelete++;
+        }
+        if (  delete == rDelete ) {
+            ec.setResult(ExecutionContext.SUCCESS);
+            ec.setMessage(messageResolver.getMessage("U325"));
+            /*
+            ec.setData(new ApplicationIdentifier(applNo, application.getApplStsCode(),
+                    application.getAdmsNo(), application.getEntrYear(), application.getAdmsTypeCode()));
+            */
+        } else {
+            ec.setResult(ExecutionContext.FAIL);
+            ec.setMessage(messageResolver.getMessage("U326"));
+            ec.setData(new ApplicationIdentifier(applNo, APP_NULL_STATUS));
+            String errCode = null;
+            if ( delete != rDelete ) errCode = "ERR0034";
+            ec.setErrCode(errCode);
+            throw new YSNoRedirectBizException(ec);
+        }
+        return ec;
+
+    }
 
     private List<TotalApplicationDocumentContainer> retrieveManatoryApplicatoinlDocListByApplNo(int applNo) {
 

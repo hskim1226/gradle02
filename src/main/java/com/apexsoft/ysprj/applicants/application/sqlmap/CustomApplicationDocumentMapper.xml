@@ -494,4 +494,11 @@
     WHERE APPL_NO = #{applNo}
     AND DOC_TYPE_CODE = #{itemTypeCode}
     </select>
+
+    <select id="selectMaxSeqByApplNo" resultType="java.lang.Integer" parameterType="java.lang.Integer" >
+        select
+        MAX(DOC_SEQ)
+        from APPL_DOC
+        where APPL_NO = #{applNo,jdbcType=INTEGER}
+    </select>
 </mapper>

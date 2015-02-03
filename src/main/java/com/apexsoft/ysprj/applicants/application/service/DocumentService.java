@@ -19,4 +19,6 @@ public interface DocumentService {
     ExecutionContext saveDocument(Document document);
 
     ExecutionContext saveOneDocument(TotalApplicationDocument document);
+
+    ExecutionContext deleteOneDocument(TotalApplicationDocument document);
 }

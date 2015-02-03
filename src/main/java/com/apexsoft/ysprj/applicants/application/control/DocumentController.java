@@ -235,19 +235,20 @@ public class DocumentController {
                                       FileMetaForm fileMetaForm,
                                       FilePersistenceManager persistence,
                                       TotalApplicationDocument document) {
-
+                ExecutionContext ec;
                 FileInfo fileInfo;
 //                FileVO fileVO = new FileVO();
                 String uploadDir = getDirectory(fileMetaForm);
                 String uploadFileName = "";
                 for ( FileItem fileItem : fileItems){
                     FileInputStream fis = null;
+                    String originalFileName = fileItem.getOriginalFileName();
                     try{
                         uploadDir = getDirectory(fileMetaForm);
                         uploadFileName = createFileName(fileMetaForm, fileItem);
                         fileInfo = persistence.save(uploadDir,
                                 uploadFileName,
-                                fileItem.getOriginalFileName(),
+                                originalFileName,
                                 fis = new FileInputStream(fileItem.getFile()));
 //                        fileVO.setPath(fileInfo.getDirectory());
 //                        fileVO.setFileName(fileInfo.getFileName());
@@ -260,13 +261,19 @@ public class DocumentController {
                         }
                         fileMetaForm.setPath(pathWithoutContextPath);
                         fileMetaForm.setFileName(fileInfo.getFileName());
-                        fileMetaForm.setOriginalFileName(fileItem.getOriginalFileName());
+                        fileMetaForm.setOriginalFileName(originalFileName);
 
                         document.setFilePath(fileInfo.getDirectory());
                         document.setFileName(fileInfo.getFileName());
-                        document.setOrgFileName(fileItem.getOriginalFileName());
+                        document.setOrgFileName(originalFileName);
+                        document.setFileExt(originalFileName.substring(originalFileName.lastIndexOf('.') + 1));
                         document.setCreId(principal.getName());
-                        documentService.saveOneDocument(document);
+                        ec = documentService.saveOneDocument(document);
+
+                        if (ec.getResult().equals(ExecutionContext.SUCCESS)) {
+                            fileMetaForm.setTotalApplicationDocument((TotalApplicationDocument)ec.getData());
+                        }
+
                     }catch(FileNotFoundException fnfe) {
                         persistence.deleteFile(uploadDir, uploadFileName);
                         throw new FileUploadException("", fnfe);

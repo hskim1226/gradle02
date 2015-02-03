@@ -1,6 +1,7 @@
 package com.apexsoft.ysprj.applicants.application.service;
 
 import com.apexsoft.framework.common.vo.ExecutionContext;
+import com.apexsoft.framework.exception.YSBizException;
 import com.apexsoft.framework.exception.YSNoRedirectBizException;
 import com.apexsoft.framework.message.MessageResolver;
 import com.apexsoft.framework.persistence.dao.CommonDAO;
@@ -160,6 +161,7 @@ public class LangCareerServiceImpl implements LangCareerService {
         ExecutionContext ec = new ExecutionContext();
 
         int upAppl = 0, insert = 0, update = 0, delete = 0;
+        int rUpApplGen = 0;
         int rUpAppl = 0, rInsert = 0, rUpdate = 0, rDelete = 0;
         Application application = langCareer.getApplication();
         ApplicationGeneral applicationGene = langCareer.getApplicationGeneral();
@@ -181,14 +183,14 @@ public class LangCareerServiceImpl implements LangCareerService {
         //면제 해당여부 처리
         if("on".equals(langCareer.getCheckForlExmp())) {
             applicationGene.setApplNo(applNo);
-            rUpAppl++;
+            rUpApplGen++;
             if (applicationGene.getForlExmpCode() != null || applicationGene.getForlExmpCode() != "") {
                 upAppl = commonDAO.updateItem(applicationGene, NAME_SPACE, "ApplicationGeneralMapper");
             }
         }else{
             applicationGene = new ApplicationGeneral();
             applicationGene.setApplNo(applNo);
-            rUpAppl++;
+            rUpApplGen++;
             applicationGene.setForlExmpCode("");
             upAppl = commonDAO.updateItem(applicationGene, NAME_SPACE, "ApplicationGeneralMapper");
 
@@ -235,12 +237,7 @@ public class LangCareerServiceImpl implements LangCareerService {
         for( CustomApplicationExperience aExpr : exprList){
 
             if( aExpr.isCheckedFg()) {
-                //기존정보 처리
-                if( "on".equals(aExpr.getCurrYn())){
-                    aExpr.setCurrYn("Y");
-                }else{
-                    aExpr.setCurrYn("N");
-                }
+
                 if(aExpr.isSaveFg()){
                     //APPL_LANG,  UPDATE
                     rUpdate++;
@@ -270,7 +267,7 @@ public class LangCareerServiceImpl implements LangCareerService {
             }
         }
 
-        if ( rUpAppl == upAppl && insert == rInsert && update == rUpdate && delete == rDelete) {
+        if ( rUpAppl == upAppl && rUpApplGen == 1 && insert == rInsert && update == rUpdate && delete == rDelete) {
             ec.setResult(ExecutionContext.SUCCESS);
             ec.setMessage(messageResolver.getMessage("U319"));
             ec.setData(new ApplicationIdentifier(applNo, application.getApplStsCode(),
@@ -285,7 +282,7 @@ public class LangCareerServiceImpl implements LangCareerService {
             if ( update != rUpdate ) errCode = "ERR0018";
             if ( delete != rDelete ) errCode = "ERR0019";
             ec.setErrCode(errCode);
-            throw new YSNoRedirectBizException(ec);
+            throw new YSBizException(ec);
         }
         return ec;
     }
