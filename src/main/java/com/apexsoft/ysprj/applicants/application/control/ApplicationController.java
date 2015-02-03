@@ -790,87 +790,87 @@ public class ApplicationController {
 
         if ( ec.getResult() == ExecutionContext.SUCCESS ) {
 
-            String returnFileMetaForm = fileHandler.handleMultiPartRequest(new FileUploadEventCallbackHandler<String, FileMetaForm>() {
-                /**
-                 * target 폴더 반환
-                 *
-                 * @param fileMetaForm
-                 *
-                 * @returnattribute
-                 */
-                @Override
-                protected String getDirectory(FileMetaForm fileMetaForm) {
-
-                    String admsNo = fileMetaForm.getAdmsNo();
-                    String userId = principal.getName();
-                    String firstString = userId.substring(0, 1);
-                    String applNo = fileMetaForm.getApplNo();
-
-                    return admsNo + "/" + firstString + "/" + userId + "/" + applNo;
-                }
-
-                /**
-                 * 실제 저장될 파일 이름 반환
-                 *
-                 * @return
-                 */
-                @Override
-                protected String createFileName(FileMetaForm fileMetaForm, FileItem fileItem) {
-                    return fileMetaForm.getFieldName() + "-" + fileItem.getOriginalFileName();
-                }
-
-                /**
-                 * 실제 업로드 처리
-                 *
-                 * @param fileItems
-                 * @param fileMetaForm
-                 * @param persistence
-                 * @return
-                 */
-                @Override
-                public String handleEvent(List<FileItem> fileItems,
-                                          FileMetaForm fileMetaForm,
-                                          FilePersistenceManager persistence) {
-
-                    FileInfo fileInfo;
-                    FileVO fileVO = new FileVO();
-
-                    for ( FileItem fileItem : fileItems){
-                        FileInputStream fis = null;
-                        try{
-                            String uploadDir = getDirectory(fileMetaForm);
-                            String uploadFileName = createFileName(fileMetaForm, fileItem);
-                            fileInfo = persistence.save(uploadDir,
-                                                        uploadFileName,
-                                                        fileItem.getOriginalFileName(),
-                                                        fis = new FileInputStream(fileItem.getFile()));
-                            fileVO.setPath(fileInfo.getDirectory());
-                            fileVO.setFileName(fileInfo.getFileName());
-                            fileMetaForm.setPath(fileInfo.getDirectory());
-                            fileMetaForm.setFileName(fileInfo.getFileName());
-                            fileMetaForm.setOriginalFileName(fileItem.getOriginalFileName());
-                        }catch(FileNotFoundException fnfe){
-                            throw new FileUploadException("", fnfe);
-                        }finally {
-                            try {
-                                if (fis!= null) fis.close();
-                            } catch (IOException e) {}
-                            FileUtils.deleteQuietly(fileItem.getFile());
-                        }
-                    }
-
-                    String jsonFileMetaForm = null;
-                    try {
-                        jsonFileMetaForm = objectMapper.writeValueAsString(fileMetaForm);
-                    } catch (JsonProcessingException e) {
-                        e.printStackTrace();
-                    }
-
-                    return jsonFileMetaForm;
-                }
-            }, FileMetaForm.class);
-
-            ec.setData(returnFileMetaForm);
+//            String returnFileMetaForm = fileHandler.handleMultiPartRequest(new FileUploadEventCallbackHandler<String, FileMetaForm>() {
+//                /**
+//                 * target 폴더 반환
+//                 *
+//                 * @param fileMetaForm
+//                 *
+//                 * @returnattribute
+//                 */
+//                @Override
+//                protected String getDirectory(FileMetaForm fileMetaForm) {
+//
+//                    String admsNo = fileMetaForm.getAdmsNo();
+//                    String userId = principal.getName();
+//                    String firstString = userId.substring(0, 1);
+//                    String applNo = fileMetaForm.getApplNo();
+//
+//                    return admsNo + "/" + firstString + "/" + userId + "/" + applNo;
+//                }
+//
+//                /**
+//                 * 실제 저장될 파일 이름 반환
+//                 *
+//                 * @return
+//                 */
+//                @Override
+//                protected String createFileName(FileMetaForm fileMetaForm, FileItem fileItem) {
+//                    return fileMetaForm.getFieldName() + "-" + fileItem.getOriginalFileName();
+//                }
+//
+//                /**
+//                 * 실제 업로드 처리
+//                 *
+//                 * @param fileItems
+//                 * @param fileMetaForm
+//                 * @param persistence
+//                 * @return
+//                 */
+//                @Override
+//                public String handleEvent(List<FileItem> fileItems,
+//                                          FileMetaForm fileMetaForm,
+//                                          FilePersistenceManager persistence) {
+//
+//                    FileInfo fileInfo;
+//                    FileVO fileVO = new FileVO();
+//
+//                    for ( FileItem fileItem : fileItems){
+//                        FileInputStream fis = null;
+//                        try{
+//                            String uploadDir = getDirectory(fileMetaForm);
+//                            String uploadFileName = createFileName(fileMetaForm, fileItem);
+//                            fileInfo = persistence.save(uploadDir,
+//                                                        uploadFileName,
+//                                                        fileItem.getOriginalFileName(),
+//                                                        fis = new FileInputStream(fileItem.getFile()));
+//                            fileVO.setPath(fileInfo.getDirectory());
+//                            fileVO.setFileName(fileInfo.getFileName());
+//                            fileMetaForm.setPath(fileInfo.getDirectory());
+//                            fileMetaForm.setFileName(fileInfo.getFileName());
+//                            fileMetaForm.setOriginalFileName(fileItem.getOriginalFileName());
+//                        }catch(FileNotFoundException fnfe){
+//                            throw new FileUploadException("", fnfe);
+//                        }finally {
+//                            try {
+//                                if (fis!= null) fis.close();
+//                            } catch (IOException e) {}
+//                            FileUtils.deleteQuietly(fileItem.getFile());
+//                        }
+//                    }
+//
+//                    String jsonFileMetaForm = null;
+//                    try {
+//                        jsonFileMetaForm = objectMapper.writeValueAsString(fileMetaForm);
+//                    } catch (JsonProcessingException e) {
+//                        e.printStackTrace();
+//                    }
+//
+//                    return jsonFileMetaForm;
+//                }
+//            }, FileMetaForm.class);
+//
+//            ec.setData(returnFileMetaForm);
         }
 
         Application application = entireApplication.getApplication();

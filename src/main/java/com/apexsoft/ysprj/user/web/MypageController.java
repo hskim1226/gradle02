@@ -2,7 +2,7 @@ package com.apexsoft.ysprj.user.web;
 
 import com.apexsoft.framework.common.vo.ExecutionContext;
 import com.apexsoft.ysprj.user.domain.Users;
-import com.apexsoft.ysprj.user.service.UsersAccountService;
+import com.apexsoft.ysprj.applicants.common.service.UsersAccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;

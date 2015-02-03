@@ -150,9 +150,11 @@
             MSG_NO
             FROM ADMS_CORS_MAJ_MDT A, ADMS_CORS B, APPL C
             WHERE A.ADMS_CORS_NO = B.ADMS_CORS_NO
+            AND B.ADMS_NO = C.ADMS_NO
             AND B.DEPT_CODE = C.DEPT_CODE
             AND B.CORS_TYPE_CODE = C.CORS_TYPE_CODE
             AND A.DETL_MAJ_CODE = C.DETL_MAJ_CODE
+            AND IFNULL( B.ARI_INST_CODE,'') = IFNULL( C.ARI_INST_CODE,'')
             AND GRP_LEVEL = 1
             AND C.APPL_NO = #{applNo} ) BA
         LEFT OUTER JOIN APPL_DOC BB
@@ -207,9 +209,11 @@
             MSG_NO
             FROM ADMS_CORS_MAJ_MDT A, ADMS_CORS B, APPL C
             WHERE A.ADMS_CORS_NO = B.ADMS_CORS_NO
+            AND B.ADMS_NO = C.ADMS_NO
             AND B.DEPT_CODE = C.DEPT_CODE
             AND B.CORS_TYPE_CODE = C.CORS_TYPE_CODE
             AND A.DETL_MAJ_CODE = C.DETL_MAJ_CODE
+            AND IFNULL( B.ARI_INST_CODE,'') = IFNULL( C.ARI_INST_CODE,'')
             AND A.GRP_LEVEL = #{grpLevel}+1
             AND A.UP_CODE_GRP =#{docItemGrp}
             AND A.UP_CODE = #{docItemCode}
@@ -281,6 +285,7 @@
             AND BB.ADMS_NO =BC.ADMS_NO
             AND BB.DEPT_CODE = BC.DEPT_CODE
             AND BB.CORS_TYPE_CODE = BC.CORS_TYPE_CODE
+            AND IFNULL( BB.ARI_INST_CODE,'') = IFNULL( BC.ARI_INST_CODE,'')
             AND BB.DETL_MAJ_CODE = BA.DETL_MAJ_CODE
             AND BB.APPL_NO = #{applNo}
             AND BA.GRP_LEVEL= 1
@@ -335,7 +340,7 @@
         AND BB.DEPT_CODE = BC.DEPT_CODE
         AND BB.CORS_TYPE_CODE = BC.CORS_TYPE_CODE
         AND BB.DETL_MAJ_CODE = BA.DETL_MAJ_CODE
-
+        AND IFNULL( BB.ARI_INST_CODE,'') = IFNULL( BC.ARI_INST_CODE,'')
         AND BB.APPL_NO = #{applNo}
         AND BA.UP_CODE_GRP = #{upCodeGrp}
         AND BA.UP_CODE =#{upCode}
@@ -466,7 +471,6 @@
         AND DOC_TYPE_CODE = #{docTypeCode}
         AND DOC_GRP = #{docGrp}
         AND DOC_ITEM_CODE = #{docItemCode}
-
     </select>
 
     <select id="selectMandatoryDocumentByDocType"   resultMap="totlaDoc"   parameterType="com.apexsoft.ysprj.applicants.application.domain.ParamForCodeDocument" >
@@ -489,4 +493,13 @@
     WHERE APPL_NO = #{applNo}
     AND DOC_TYPE_CODE = #{itemTypeCode}
     </select>
+
+    <select id="selectMaxSeqByApplNo" resultType="java.lang.Integer" parameterType="java.lang.Integer" >
+
+        select
+        MAX(DOC_SEQ)
+        from APPL_DOC
+        where APPL_NO = #{applNo,jdbcType=INTEGER}
+    </select>
+
 </mapper>

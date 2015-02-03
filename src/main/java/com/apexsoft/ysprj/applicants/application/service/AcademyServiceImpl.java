@@ -130,7 +130,9 @@ public class AcademyServiceImpl implements AcademyService {
             }
         }
 
-        application.setApplStsCode(ACAD_SAVED);
+        int currentStsCode = Integer.parseInt(application.getApplStsCode());
+        if (currentStsCode < Integer.parseInt(ACAD_SAVED))
+            application.setApplStsCode(ACAD_SAVED);
         application.setModDate(new Date());
         int r0 = commonDAO.updateItem(application, NAME_SPACE, "ApplicationMapper");
 

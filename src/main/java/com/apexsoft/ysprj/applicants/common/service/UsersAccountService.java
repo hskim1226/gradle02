@@ -1,4 +1,4 @@
-package com.apexsoft.ysprj.user.service;
+package com.apexsoft.ysprj.applicants.common.service;
 
 import com.apexsoft.framework.common.vo.ExecutionContext;
 import com.apexsoft.framework.persistence.dao.page.PageInfo;

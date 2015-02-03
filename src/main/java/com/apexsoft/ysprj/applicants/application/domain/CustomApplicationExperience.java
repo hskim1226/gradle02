@@ -9,6 +9,7 @@ public class CustomApplicationExperience extends ApplicationExperience {
     private boolean saveFg =false;
     private boolean fileUploadFg=false;
 
+    private UserCUDType userCUDType;
 
     public boolean isSaveFg() {
         return saveFg;

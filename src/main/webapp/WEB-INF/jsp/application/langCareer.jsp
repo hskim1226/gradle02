@@ -310,7 +310,6 @@
                                         <form:hidden path="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].docSeq" value="${langList.docSeq}"/>
                                         <form:hidden path="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].fileUploadFg" value="${langList.fileUploadFg}"/>
                                         <form:hidden path="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].langInfoSaveFg" value="${langList.langInfoSaveFg}"/>
-
                                         <div class="checkbox">
                                             <label for="checkLang-${langListStat.index}">
                                                 <c:if test='${langList.canYn == "Y"}'>
@@ -364,7 +363,7 @@
                                     <div class="col-sm-offset-2 col-sm-4">
                                         <div class="checkbox">
                                             <label>
-                                                <input type="checkbox" id="checkForlExmp"/>외국어 성적 면제 해당자
+                                                <input type="checkbox" id="checkForlExmp" name="checkForlExmp"  />외국어 성적 면제 해당자
                                             </label>
                                         </div>
                                     </div>
@@ -382,30 +381,30 @@
                             <div class="panel-heading">경력 사항</div>
                             <div class="panel-body">
                                 <div id="career-container" class="form-group-block-list">
-                                    <c:forEach varStatus="stat"  begin="0" end="${langCareer.applicationExperienceList.size() > 0 ? langCareer.applicationExperienceList.size() - 1 : 0}">
+                                    <c:forEach varStatus="stat" begin="0" end="${langCareer.applicationExperienceList.size() > 0 ? langCareer.applicationExperienceList.size() - 1 : 0}">
                                         <div class="form-group-block">
                                             <form:hidden path="applicationExperienceList[${stat.index}].exprSeq"/>
-                                            <form:hidden path="applicationExperienceList[${stat.index}].saveFg" />
+                                            <form:hidden path="applicationExperienceList[${stat.index}].applNo"/>
+                                            <form:hidden path="applicationExperienceList[${stat.index}].saveFg"/>
+                                            <form:hidden path="applicationExperienceList[${stat.index}].checkedFg" value ="true"/>
                                             <div class="form-group required">
                                                 <label class="col-sm-2 control-label">재직 기간</label>
-                                                <div class="col-sm-4 start-date-container">
+                                                <div class="col-sm-3 start-date-container">
                                                     <div class="input-group date">
                                                         <span class="input-group-addon">입사일</span>
                                                         <form:input path="applicationExperienceList[${stat.index}].joinDay" cssClass="form-control" readonly="true" />
                                                         <span class="input-group-addon calendar-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                                                     </div>
                                                 </div>
-                                                <div class="col-sm-4 end-date-container">
-                                                <div class="input-group date">
-                                                    <span class="input-group-addon">퇴사일</span>
-                                                    <form:input path="applicationExperienceList[${stat.index}].retrDay" cssClass="form-control" readonly="true" />
-                                                    <span class="input-group-addon calendar-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                                <div class="col-sm-3 end-date-container">
+                                                    <div class="input-group date">
+                                                        <span class="input-group-addon">퇴사일</span>
+                                                        <form:input path="applicationExperienceList[${stat.index}].retrDay" cssClass="form-control" readonly="true" />
+                                                        <span class="input-group-addon calendar-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                                    </div>
                                                 </div>
-                                                <div class="col-sm-4">
-                                                    <label class="col-sm-5 radio-inline">
-                                                    <input type="radio" class="curr-radio" id="radioCurr-${stat.index}" name="applicationExperienceList[${stat.index}].currYn" <c:if test="${langCareer.applicationExperienceList[stat.index].currYn == 'Y'}">checked</c:if> />재직중</label>
-                                                </div>
-
+                                                <div class="col-sm-2">
+                                                    <label class="radio-inline"><input type="radio" class="curr-radio" id="radioCurr-${stat.index}" name="applicationExperienceList[${stat.index}].currYn" <c:if test="${langCareer.applicationExperienceList[stat.index].currYn == 'Y'}">checked</c:if> />재직중</label>
                                                 </div>
                                             </div>
                                             <div class="form-group required">
@@ -460,7 +459,8 @@
             for ( i = 0 ; i < code && i < l ; i++ ) {
                 stepTR.children[i].className = 'stepEnabled';
                 tabTR.children[i].setAttribute('data-tab-available', 'true');
-                tabTR.children[i+1].setAttribute('data-tab-available', 'true');
+                if (tabTR.children[i+1])
+                    tabTR.children[i+1].setAttribute('data-tab-available', 'true');
             }
         };
         processCurrentStep(document.getElementById('applStsCode').value);
@@ -499,6 +499,7 @@
             var form = document.forms[0];
 
             form.action = "${contextPath}/application/langCareer/save";
+            // TODO 경력 정보 - 입사일, 기관명, 직위명 모두 있을 때만 checkedFg = true 처리
             form.submit();
         };
         $('.btn-save').on('click', formProcess);
@@ -566,7 +567,8 @@
             return maxScore;
         };
         $('.lang-score').on('blur', function () {
-            var examName = this.dataset.langExamName,
+//            var examName = this.dataset.langExamName,
+            var examName = this.getAttribute('data-lang-exam-name'),
                 maxScore;
             switch(examName) {
                 case 'TOEFL':
@@ -697,8 +699,17 @@
                 for (i = 0; i <items.length; i++) {
                     if (items[i].type == 'hidden') {
                         itemName = items[i].name;
-                        if (itemName.indexOf('userCUDType') > 0) {
-                            items[i].value = "INSERT";
+                        if (itemName.indexOf('saveFg') > 0) {
+                            items[i].value = "false";
+                            items[i].setAttribute('value', 'false');
+                        }
+                        if (itemName.indexOf('checkedFg') > 0) {
+                            items[i].value = "true";
+                            items[i].setAttribute('value', 'true');
+                        }
+                        if (itemName.indexOf('exprSeq') > 0) {
+                            items[i].value = "0";
+                            items[i].setAttribute('value', '0');
                         }
                     }
                     if (items[i].type != 'hidden' && items[i].type != 'radio' && items[i].type != 'checkbox' && items[i].type != 'button') {
@@ -740,25 +751,43 @@
             var container = blockToRemove.parentNode;
             var blocks = container.querySelectorAll('.form-group-block');
             var length = blocks.length, i;
-            var blockIndex = target.dataset.blockIndex;
-            var userCUDType = document.getElementById(target.dataset.listName + blockIndex + '.userCUDType');
+//            var blockIndex = target.dataset.blockIndex;
+            var blockIndex = target.getAttribute('data-block-index');
+            var listName = target.getAttribute('data-list-name');
+            var saveFg = document.getElementById(listName + blockIndex + '.saveFg');
+            var checkedFg = document.getElementById(listName + blockIndex + '.checkedFg');
 
-            switch (userCUDType.value) {
-                case 'INSERT' :
-                    for (i = parseInt(blockIndex) + 1; i < length; i++) {
-                        updateIdAndName(blocks[i], i - 1);
-                    }
-                    if (length <= 1) {
-                        resetBlockContents(blockToRemove);
-                    } else {
-                        blockToRemove.parentNode.removeChild(blockToRemove);
-                    }
-                    break;
-                case 'UPDATE' :
-                    userCUDType.value = 'DELETE';
-                    blockToRemove.style.display = 'none';
-                    break;
+            if (saveFg.value == 'true') {
+                checkedFg.value = 'false';
+                checkedFg.setAttribute('value', 'false');
+                blockToRemove.style.display = 'none';
+            } else {
+                for (i = parseInt(blockIndex) + 1; i < length; i++) {
+                    updateIdAndName(blocks[i], i - 1);
+                }
+                if (length <= 1) {
+                    resetBlockContents(blockToRemove);
+                } else {
+                    blockToRemove.parentNode.removeChild(blockToRemove);
+                }
             }
+
+            // switch (checkedFg) {
+            //     case 'INSERT' :
+            //         for (i = parseInt(blockIndex) + 1; i < length; i++) {
+            //             updateIdAndName(blocks[i], i - 1);
+            //         }
+            //         if (length <= 1) {
+            //             resetBlockContents(blockToRemove);
+            //         } else {
+            //             blockToRemove.parentNode.removeChild(blockToRemove);
+            //         }
+            //         break;
+            //     case 'UPDATE' :
+            //         userCUDType.value = 'DELETE';
+            //         blockToRemove.style.display = 'none';
+            //         break;
+            // }
         });
         <%-- form-group-block 추가/삭제에 대한 처리 끝 --%>
 

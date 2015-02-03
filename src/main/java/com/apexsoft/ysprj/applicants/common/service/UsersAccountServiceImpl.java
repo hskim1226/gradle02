@@ -1,4 +1,4 @@
-package com.apexsoft.ysprj.user.impl;
+package com.apexsoft.ysprj.applicants.common.service;
 
 import com.apexsoft.framework.common.vo.ExecutionContext;
 import com.apexsoft.framework.persistence.dao.CommonDAO;
@@ -8,7 +8,7 @@ import com.apexsoft.framework.persistence.dao.page.PageStatement;
 import com.apexsoft.ysprj.code.AuthorityType;
 import com.apexsoft.ysprj.applicants.user.domain.Authorities;
 import com.apexsoft.ysprj.user.domain.Users;
-import com.apexsoft.ysprj.user.service.UsersAccountService;
+import com.apexsoft.ysprj.applicants.common.service.UsersAccountService;
 import com.apexsoft.ysprj.user.web.form.UserSearchForm;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -74,12 +74,8 @@ public class UsersAccountServiceImpl implements UsersAccountService {
 
     @Override
 	public Users retrieveUser(String userName) {
-        Users users = null;
-        try {
-            users = commonDAO.queryForObject(NAME_SPACE+"selectByPk",userName, Users.class);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        Users users = commonDAO.queryForObject(NAME_SPACE+"selectByPk",userName, Users.class);
+
 		return users;
 	}
 

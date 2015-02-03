@@ -20,15 +20,11 @@ public class YsAuthenticationFailureHandler implements org.springframework.secur
             ServletException {
 		logger.error("", exception);
 		
-		req.setAttribute("fail", true);
+		req.setAttribute("LOGIN_FAILURE", true);
 
         res.sendRedirect(req.getContextPath()+"/user/login");
-		//RequestDispatcher dispatcher = req.getRequestDispatcher("/user/login");
-
-		//dispatcher.forward(req, res);
-		
+//		RequestDispatcher dispatcher = req.getRequestDispatcher("/user/login");
+//
+//		dispatcher.forward(req, res);
 	}
-
-
-
 }

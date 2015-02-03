@@ -43,4 +43,13 @@ public class LangCareer {
     public void setApplicationExperienceList(List<CustomApplicationExperience> applicationExperienceList) {
         this.applicationExperienceList = applicationExperienceList;
     }
+    public String checkForlExmp;
+
+    public String getCheckForlExmp() {
+        return checkForlExmp;
+    }
+
+    public void setCheckForlExmp(String checkForlExmp) {
+        this.checkForlExmp = checkForlExmp;
+    }
 }

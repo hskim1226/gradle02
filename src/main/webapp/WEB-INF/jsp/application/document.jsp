@@ -380,24 +380,85 @@
                                         <c:forEach items="${lv2Container.subContainer}" var="lv3Container" varStatus="lv3Status">
                                             <c:choose>
                                                 <c:when test="${lv3Container.lastYn == 'Y'}">
-                                        <%--<div class="form-group"><label class="col-sm-3 control-label word-keep-all">${lv3Container.docItemName}</label></div>--%>
-
                                         <div class="form-group">
+                                            <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].subContainer[${lv3Status.index}].docSeq" value="${lv3Container.docSeq}" />
+                                            <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].subContainer[${lv3Status.index}].docTypeCode" value="${lv3Container.docTypeCode}" />
+                                            <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].subContainer[${lv3Status.index}].docGrp" value="${lv3Container.docGrp}" />
+                                            <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].subContainer[${lv3Status.index}].docItemCode" value="${lv3Container.docItemCode}" />
+                                            <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].subContainer[${lv3Status.index}].docItemName" value="${lv3Container.docItemName}" />
+                                            <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].subContainer[${lv3Status.index}].grpLabel" value="${lv3Container.grpLabel}" />
+                                            <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].subContainer[${lv3Status.index}].fileExt" value="${lv3Container.fileExt}" />
+                                            <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].subContainer[${lv3Status.index}].imgYn" value="${lv3Container.imgYn}" />
+                                            <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].subContainer[${lv3Status.index}].filePath" value="${lv3Container.filePath}" />
+                                            <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].subContainer[${lv3Status.index}].fileName" value="${lv3Container.fileName}" />
+                                            <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].subContainer[${lv3Status.index}].orgFileName" value="${lv3Container.orgFileName}" />
+                                            <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].subContainer[${lv3Status.index}].docItemNameXxen" value="${lv3Container.docItemNameXxen}" />
+                                            <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].subContainer[${lv3Status.index}].docGrpName" value="${lv3Container.docGrpName}" />
+                                            <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].subContainer[${lv3Status.index}].fileUploadFg" value="${lv3Container.fileUploadFg}" />
+                                            <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].subContainer[${lv3Status.index}].displayGrpFg" value="${lv3Container.displayGrpFg}" />
+                                            <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].subContainer[${lv3Status.index}].admsNo" value="${lv3Container.admsNo}" />
+                                            <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].subContainer[${lv3Status.index}].admsCorsNo" value="${lv3Container.admsCorsNo}" />
+                                            <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].subContainer[${lv3Status.index}].detlMajCode" value="${lv3Container.detlMajCode}" />
+                                            <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].subContainer[${lv3Status.index}].admsCodeGrp" value="${lv3Container.admsCodeGrp}" />
+                                            <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].subContainer[${lv3Status.index}].admsCode" value="${lv3Container.admsCode}" />
+                                            <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].subContainer[${lv3Status.index}].grpLevel" value="${lv3Container.grpLevel}" />
+                                            <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].subContainer[${lv3Status.index}].docItemGrp" value="${lv3Container.docItemGrp}" />
+                                            <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].subContainer[${lv3Status.index}].upCodeGrp" value="${lv3Container.upCodeGrp}" />
+                                            <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].subContainer[${lv3Status.index}].upCode" value="${lv3Container.upCode}" />
+                                            <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].subContainer[${lv3Status.index}].lastYn" value="${lv3Container.lastYn}" />
+                                            <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].subContainer[${lv3Status.index}].mdtYn" value="${lv3Container.mdtYn}" />
+                                            <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].subContainer[${lv3Status.index}].uploadYn" value="${lv3Container.uploadYn}" />
+                                            <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].subContainer[${lv3Status.index}].sendCnt" value="${lv3Container.sendCnt}" />
                                             <div class="col-sm-3">
-                                                <div class="checkbox"><label class="word-keep-all" for="filelist0.yn"><input type="checkbox" id="filelist0.yn" name="filelist[0].yn">${lv3Container.docItemName}</label></div>
+                                                <div class="checkbox">
+                                                    <label class="word-keep-all" for="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.checkedFg">
+                                                        <form:checkbox path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].subContainer[${lv3Status.index}].checkedFg"/>${lv3Container.docItemName}
+                                                    </label>
+                                                </div>
                                             </div>
                                             <div class="col-sm-5 nopadding">
-                                                <div class="col-sm-5 nopadding"><input class="form-control" type="text" placeholder="서류 명 직접 입력"></div>
-                                                <div class="col-sm-7 nopadding"><input type="file" class="btn btn-file" id="fileList0.docName" name="fileList[0].docName"/></div>
+                                                <div class="col-sm-5 nopadding"><form:input path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].subContainer[${lv3Status.index}].docName" placeholder="서류 명 직접 입력"/></div>
+                                                <div class="col-sm-7 nopadding"><input type="file" class="btn btn-file" id="file-input-${lv1Status.index}-${lv2Status.index}-${lv3Status.index}" name="file-input-name-${lv1Status.index}-${lv2Status.index}-${lv3Status.index}" data-upload-button-id="upload-button-${lv1Status.index}-${lv2Status.index}-${lv3Status.index}"/></div>
                                             </div>
                                             <div class="col-sm-1 nopadding">
-                                                <input type="button" id="fileList0.btn" name="fileList[0].btn"
+                                                <input type="button" id="upload-button-${lv1Status.index}-${lv2Status.index}-${lv3Status.index}"
                                                        class="btn btn-default btn-upload" value="올리기"
-                                                       data-file-path="fileList0.filePath"
-                                                       data-file-name="fileList0.fileName"
-                                                       data-org-file-name="fileList0.orgFileName"/>
+                                                       data-file-input-id="file-input-${lv1Status.index}-${lv2Status.index}-${lv3Status.index}"
+                                                       data-img-yn-id="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.imgYn"
+                                                       data-target-file-link-id="file-link-${lv1Status.index}-${lv2Status.index}-${lv3Status.index}"
+                                                       data-org-filename-id="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.orgFileName"
+
+                                                       data-doc-prop-docSeq="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.docSeq"
+                                                       data-doc-prop-docTypeCode="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.docTypeCode"
+                                                       data-doc-prop-docGrp="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.docGrp"
+                                                       data-doc-prop-docItemCode="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.docItemCode"
+                                                       data-doc-prop-docItemName="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.docItemName"
+                                                       data-doc-prop-grpLabel="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.grpLabel"
+                                                       data-doc-prop-fileExt="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.fileExt"
+                                                       data-doc-prop-imgYn="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.imgYn"
+                                                       data-doc-prop-filePath="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.filePath"
+                                                       data-doc-prop-fileName="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.fileName"
+                                                       data-doc-prop-orgFileName="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.orgFileName"
+                                                       data-doc-prop-docItemNameXxen="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.docItemNameXxen"
+                                                       data-doc-prop-docGrpName="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.docGrpName"
+                                                       data-doc-prop-fileUploadFg="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.fileUploadFg"
+                                                       data-doc-prop-displayGrpFg="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.displayGrpFg"
+                                                       data-doc-prop-admsNo="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.admsNo"
+                                                       data-doc-prop-admsCorsNo="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.admsCorsNo"
+                                                       data-doc-prop-detlMajCode="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.detlMajCode"
+                                                       data-doc-prop-admsCodeGrp="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.admsCodeGrp"
+                                                       data-doc-prop-admsCode="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.admsCode"
+                                                       data-doc-prop-grpLevel="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.grpLevel"
+                                                       data-doc-prop-docItemGrp="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.docItemGrp"
+                                                       data-doc-prop-upCodeGrp="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.upCodeGrp"
+                                                       data-doc-prop-upCode="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.upCode"
+                                                       data-doc-prop-lastYn="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.lastYn"
+                                                       data-doc-prop-mdtYn="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.mdtYn"
+                                                       data-doc-prop-uploadYn="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.uploadYn"
+                                                       data-doc-prop-sendCnt="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.sendCnt"
+                                                />
                                             </div>
-                                            <div class="col-sm-3 control-label">파일이름</div>
+                                            <div class="col-sm-3 control-label"><a id="file-link-${lv1Status.index}-${lv2Status.index}-${lv3Status.index}" href="">${lv3Container.orgFileName}</a></div>
                                         </div>
 
                                                 </c:when>
@@ -471,109 +532,6 @@
                     </div>
                 </div>
             <div class="spacer-tiny"></div>
-
-
-                    <%--<c:if test="${lv1Container.subContainer.size() > 0}">--%>
-                        <%--<div class="panel panel-darkgray">--%>
-                            <%--<div class="panel-heading"><c:if test="${lv1Container.lastYn == null || lv1Container.lastYn == 'N'}">${lv1Container.grpLabel}</c:if></div>--%>
-                            <%--<div class="panel-body" id="docContainerList${lv1Status.index}.list">--%>
-                        <%--<c:forEach items="${lv1Container.subContainer}" var="lv2Container" varStatus="lv2Status">--%>
-                            <%--<c:if test="${lv1Container.subContainer.size() > 0}">--%>
-                            <%--<div class="panel panel-darkgray">--%>
-                                <%--<div class="panel-heading"><c:if test="${lv1Container.lastYn == null || lv1Container.lastYn == 'N'}">${lv1Container.grpLabel}</c:if></div>--%>
-                                <%--<div class="panel-body" id="docContainerList${lv1Status.index}.list">--%>
-
-
-
-
-                                <%--<div class="form-group" id="docContainerList${lv1Status.index}.subContainer${lv2Status.index}.${lv2Container.docItemCode}">--%>
-                                    <%--<label class="col-sm-3 control-label word-keep-all">${lv2Container.docItemName}</label>--%>
-                                    <%--<div class="col-sm-8">--%>
-                                        <%--<div class="input-group">--%>
-                                            <%--<div class="input-group-btn">--%>
-                                                <%--<input type="file" class="btn btn_lg btn-file" id="docContainerList${grpStat.index}.mandDocList${docStat.index}.docName" name="docContainerList[${grpStat.index}].mandDocList[${docStat.index}].docName"/>--%>
-                                            <%--</div>--%>
-                                            <%--<c:if test="${mandDoc.orgnSendYn =='Y' || mandDoc.orgnSendYn =='y'}">--%>
-                                                <%--<div class="apexMessage">${mandDoc.msgNo}</div>--%>
-                                            <%--</c:if>--%>
-                                            <%--<c:if test="${mandDoc.orgnSendYn =='N' || mandDoc.orgnSendYn !='n'}">--%>
-                                                <%--<div class="col-sm-4 nopadding"><input type="button" id="docContainerList${grpStat.index}.mandDocList${docStat.index}.btn" name="docContainerList[${grpStat.index}].mandDocList[${docStat.index}].btn"--%>
-                                                                                       <%--class="btn btn-default btn-block btn-upload" value="올리기"--%>
-                                                                                       <%--data-file-path="docContainerList${grpStat.index}.mandDocList${docStat.index}.filePath"--%>
-                                                                                       <%--data-file-name="docContainerList${grpStat.index}.mandDocList${docStat.index}.fileName"--%>
-                                                                                       <%--data-org-file-name="docContainerList${grpStat.index}.mandDocList${docStat.index}.orgFileName"/>--%>
-                                                <%--</div>--%>
-                                                    <%--<span class="col-sm-8" id="docContainerList${grpStat.index}.mandDocList${docStat.index}" style="text-decoration: none;">--%>
-                                                        <%--<a href="${contextPath}/filedownload/attached/${entireApplication.application.admsNo}/${entireApplication.application.applNo}/${mandDoc.fileName}/${mandDoc.orgFileName}">${mandDoc.orgFileName}</a>--%>
-                                                    <%--</span>--%>
-                                            <%--</c:if>--%>
-                                        <%--</div>--%>
-                                    <%--</div>--%>
-                                    <%--<form:hidden path="documentContainerList[${grpStat.index}].mandDocList[${docStat.index}].docTypeCode" value="${mandDoc.docTypeCode}" />--%>
-                                    <%--<form:hidden path="documentContainerList[${grpStat.index}].mandDocList[${docStat.index}].docGrp" value="${mandDoc.docGrp}" />--%>
-                                    <%--<form:hidden path="documentContainerList[${grpStat.index}].mandDocList[${docStat.index}].docItemCode" value="${mandDoc.docItemCode}" />--%>
-                                    <%--<form:hidden path="documentContainerList[${grpStat.index}].mandDocList[${docStat.index}].docItemName" value="${mandDoc.docItemName}" />--%>
-                                    <%--<form:hidden path="documentContainerList[${grpStat.index}].mandDocList[${docStat.index}].filePath"  value="${mandDoc.filePath}"/>--%>
-                                    <%--<form:hidden path="documentContainerList[${grpStat.index}].mandDocList[${docStat.index}].fileName"  value="${mandDoc.fileName}"/>--%>
-                                    <%--<form:hidden path="documentContainerList[${grpStat.index}].mandDocList[${docStat.index}].orgFileName"  value="${mandDoc.orgFileName}"/>--%>
-                                <%--</div>--%>
-                        <%--</c:forEach>--%>
-                            <%--</div>--%>
-                        <%--</div>--%>
-                        <%--<div class="spacer-tiny"></div>--%>
-                    <%--</c:if>--%>
-
-                    <%--<c:if test = "${docContainer.subGrp.size()>0}">--%>
-                        <%--<div class="panel panel-darkgray">--%>
-                            <%--<div class="panel-heading">${docContainer.fileGroupName} 서류</div>--%>
-                            <%--<div class="panel-body" id="docContainerList${grpStat.index}.list">--%>
-                                <%--<div class="form-group-block-list" id="fuCollegeDocBlockList">--%>
-                                    <%--<c:forEach items="${docContainer.subGrp}" var="subGrp" varStatus="subGrpStat">--%>
-                                        <%--<div class="form-group-block">--%>
-                                            <%--<c:forEach items="${subGrp.mandDocList}" var="mandDoc" varStatus="docStat">--%>
-                                                <%--<hr/>--%>
-                                                <%--<div class="form-group" id="docContainerList${grpStat.index}.subGrp${subGrpStat.index}.mandDocList${docStat.index}.${mandDoc.docItemCode}">--%>
-                                                    <%--<label class="col-sm-3 control-label word-keep-all">${mandDoc.docItemName}</label>--%>
-                                                    <%--<div class="col-sm-8">--%>
-                                                        <%--<div class="input-group">--%>
-                                                            <%--<div class="input-group-btn">--%>
-                                                                <%--<input type="file" class="btn btn_lg btn-file" id="docContainerList${grpStat.index}.subGrp${subGrpStat.index}.mandDocList${docStat.index}.docName" name="docContainerList[${grpStat.index}].subGrp[${subGrpStat.index}].mandDocList[${docStat.index}].docName"/>--%>
-                                                            <%--</div>--%>
-                                                            <%--<c:if test="${mandDoc.orgnSendYn =='Y' || mandDoc.orgnSendYn =='y'}">--%>
-                                                                <%--<div class="apexMessage">${mandDoc.msgNo}</div>--%>
-                                                            <%--</c:if>--%>
-                                                            <%--<c:if test="${mandDoc.orgnSendYn =='N' || mandDoc.orgnSendYn !='n'}">--%>
-                                                                <%--<div class="col-sm-4 nopadding"><input type="button" id="docContainerList${grpStat.index}.subGrp${subGrpStat.index}.mandDocList${docStat.index}.btn" name="docContainerList[${grpStat.index}].mandDocList[${docStat.index}].btn"--%>
-                                                                                                       <%--class="btn btn-default btn-block btn-upload" value="올리기"--%>
-                                                                                                       <%--data-file-path="docContainerList${grpStat.index}.subGrp${subGrpStat.index}.mandDocList${docStat.index}.filePath"--%>
-                                                                                                       <%--data-file-name="docContainerList${grpStat.index}.subGrp${subGrpStat.index}.mandDocList${docStat.index}.fileName"--%>
-                                                                                                       <%--data-org-file-name="docContainerList${grpStat.index}.subGrp${subGrpStat.index}.mandDocList${docStat.index}.orgFileName"/>--%>
-                                                                <%--</div>--%>
-                                                                    <%--<span class="col-sm-8" id="docContainerList${grpStat.index}.subGrp${subGrpStat.index}.mandDocList${docStat.index}" style="text-decoration: none;">--%>
-                                                                        <%--<a href="${contextPath}/filedownload/attached/${entireApplication.application.admsNo}/${entireApplication.application.applNo}/${mandDoc.fileName}/${mandDoc.orgFileName}">${mandDoc.orgFileName}</a>--%>
-                                                                    <%--</span>--%>
-                                                            <%--</c:if>--%>
-                                                        <%--</div>--%>
-                                                    <%--</div>--%>
-                                                    <%--<form:hidden path="docContainerList[${grpStat.index}].subGrp[${subGrpStat.index}].mandDocList[${docStat.index}].docTypeCode" value="${mandDoc.docTypeCode}" />--%>
-                                                    <%--<form:hidden path="docContainerList[${grpStat.index}].subGrp[${subGrpStat.index}].mandDocList[${docStat.index}].docGrp" value="${mandDoc.docGrp}" />--%>
-                                                    <%--<form:hidden path="docContainerList[${grpStat.index}].subGrp[${subGrpStat.index}].mandDocList[${docStat.index}].docItemCode" value="${mandDoc.docItemCode}" />--%>
-                                                    <%--<form:hidden path="docContainerList[${grpStat.index}].subGrp[${subGrpStat.index}].mandDocList[${docStat.index}].docItemName" value="${mandDoc.docItemName}" />--%>
-                                                    <%--<form:hidden path="docContainerList[${grpStat.index}].subGrp[${subGrpStat.index}].mandDocList[${docStat.index}].filePath"  value="${mandDoc.filePath}"/>--%>
-                                                    <%--<form:hidden path="docContainerList[${grpStat.index}].subGrp[${subGrpStat.index}].mandDocList[${docStat.index}].fileName"  value="${mandDoc.fileName}"/>--%>
-                                                    <%--<form:hidden path="docContainerList[${grpStat.index}].subGrp[${subGrpStat.index}].mandDocList[${docStat.index}].orgFileName"  value="${mandDoc.orgFileName}"/>--%>
-                                                <%--</div>--%>
-                                            <%--</c:forEach>--%>
-                                        <%--</div>--%>
-                                    <%--</c:forEach>--%>
-                                <%--</div>--%>
-                            <%--</div>--%>
-                        <%--</div>--%>
-                    <%--</c:if>--%>
-                    <%--<div class="spacer-tiny"></div>--%>
-                <%--</c:forEach>--%>
-                    <%--</div>--%>
-                <%--</div>--%>
                 <div class="btn-group btn-group-justified">
                     <div class="btn-group">
                         <button id="saveDocument" type="button" class="btn btn-info btn-lg btn-save" data-saveType="document">작성 완료</button>
@@ -647,142 +605,150 @@
         $('.btn-save').on('click', formProcess);
         <%-- 하단 버튼 처리 --%>
 
-        <%-- 어학 성적 입력란 show/hide 처리 --%>
-        $('.lang-checkbox').on('change', function () {
-            var id = this.id,
-                currentIndex, classToToggle;
-            currentIndex = id.substr(id.lastIndexOf('-')+1);
-            classToToggle = '.lang-detail-' + currentIndex;
-            if (this.checked) {
-                $(classToToggle).css('display', 'block');
-            } else {
-                $(classToToggle).css('display', 'none');
-            }
+        <%-- 파일 선택 버튼 이벤트 --%>
+        $('.btn-file').on('change', function (e) { // 한번 업로드한 inputfile은 이벤트가 발생 안한다.
+//            var uploadButton = $(this.dataset.uploadButtonId);
+            var uploadButton = $(document.getElementById(this.getAttribute('data-upload-button-id')));
+            $(uploadButton).removeClass('disabled');
+            $(uploadButton).val('올리기');
         });
-        $('.lang-radio').on('change', function () {
-            var id = this.id,
-                    currentIndex, classToShow;
-            currentIndex = id.substr(id.lastIndexOf('-')+1);
-            classToShow = '.lang-detail-' + currentIndex;
-            $('.lang-radio').each( function () {
-                if (this.checked) {
-                    $(classToShow).css('display', 'block');
+        <%-- 파일 선택 버튼 이벤트 --%>
+
+        <%-- 파일 업로드 버튼 이벤트 --%>
+        $('.btn-upload').on('click', function (e) {
+            var actionUrl = "${contextPath}/application/document/fileUpload",
+//                    fileInputId = this.dataset.fileInputId,
+                    fileInputId = this.getAttribute('data-file-input-id'),
+                    fileInput = document.getElementById(fileInputId),
+                    fileInputName = fileInput.getAttribute("name"),
+                    fileName = fileInput.value,
+//                    imgYn = document.getElementById(this.dataset.imgYnId).value,
+                    imgYn = document.getElementById(this.getAttribute('data-img-yn-id')).value,
+//                    targetFileLinkId = this.dataset.targetFileLinkId,
+                    targetFileLinkId = this.getAttribute('data-target-file-link-id'),
+//                    targetOrgFileNameHiddenId = this.dataset.orgFilenameId,
+                    targetOrgFileNameHiddenId = this.getAttribute('data-org-filename-id'),
+            // targetFilePathHiddenId = e.target.getAttribute('data-file-path'),
+            // targetFileNameHiddenId = e.target.getAttribute('data-file-name'),
+            // targetOrgFileNameHiddenId = e.target.getAttribute('data-org-file-name'),
+                    regexpImage = (/\.(gif|jpg|png)$/i),
+                    regexpPDF = (/\.(pdf)$/i),
+                    extIsOk = false
+                    ;
+            if ((fileInput.files && fileInput.files.length) || fileInput.value != "") {
+                if (imgYn) {
+                    if (regexpImage.test(fileName)) {
+                        extIsOk = true;
+                    } else {
+                        alert('사진은 GIF, JPG, PNG 만 업로드 할 수 있습니다.');
+                        return false;
+                    }
+                } else if (regexpPDF.test(fileName)) {
+                    extIsOk = true;
                 } else {
-                    $(classToShow).css('display', 'none');
+                    alert('첨부파일은 PDF 파일만 업로드 할 수 있습니다.')
+                    return false;
                 }
-            });
 
-        });
-        <%-- 어학 성적 입력란 show/hide 처리 --%>
+                if (extIsOk) {
+                    $.ajaxFileUpload({
+                        url: actionUrl,
+                        secureuri: false,
+                        fileElementId: fileInputId,
+                        dataType: 'json',
+                        data: {
+                            docSeq: document.getElementById(this.getAttribute('data-doc-prop-docSeq')).value,
+                            docTypeCode: document.getElementById(this.getAttribute('data-doc-prop-docTypeCode')).value,
+                            docGrp: document.getElementById(this.getAttribute('data-doc-prop-docGrp')).value,
+                            docItemCode: document.getElementById(this.getAttribute('data-doc-prop-docItemCode')).value,
+                            docItemName: document.getElementById(this.getAttribute('data-doc-prop-docItemName')).value,
+                            grpLabel: document.getElementById(this.getAttribute('data-doc-prop-grpLabel')).value,
+                            fileExt: document.getElementById(this.getAttribute('data-doc-prop-fileExt')).value,
+                            imgYn: document.getElementById(this.getAttribute('data-doc-prop-imgYn')).value,
+                            filePath: document.getElementById(this.getAttribute('data-doc-prop-filePath')).value,
+                            fileName: document.getElementById(this.getAttribute('data-doc-prop-fileName')).value,
+                            orgFileName: document.getElementById(this.getAttribute('data-doc-prop-orgFileName')).value,
+                            docItemNameXxen: document.getElementById(this.getAttribute('data-doc-prop-docItemNameXxen')).value,
+                            docGrpName: document.getElementById(this.getAttribute('data-doc-prop-docGrpName')).value,
+                            fileUploadFg: document.getElementById(this.getAttribute('data-doc-prop-fileUploadFg')).value,
+                            displayGrpFg: document.getElementById(this.getAttribute('data-doc-prop-displayGrpFg')).value,
+                            admsCorsNo: document.getElementById(this.getAttribute('data-doc-prop-admsCorsNo')).value,
+                            detlMajCode: document.getElementById(this.getAttribute('data-doc-prop-detlMajCode')).value,
+                            admsCodeGrp: document.getElementById(this.getAttribute('data-doc-prop-admsCodeGrp')).value,
+                            admsCode: document.getElementById(this.getAttribute('data-doc-prop-admsCode')).value,
+                            grpLevel: document.getElementById(this.getAttribute('data-doc-prop-grpLevel')).value,
+                            docItemGrp: document.getElementById(this.getAttribute('data-doc-prop-docItemGrp')).value,
+                            upCodeGrp: document.getElementById(this.getAttribute('data-doc-prop-upCodeGrp')).value,
+                            upCode: document.getElementById(this.getAttribute('data-doc-prop-upCode')).value,
+                            lastYn: document.getElementById(this.getAttribute('data-doc-prop-lastYn')).value,
+                            mdtYn: document.getElementById(this.getAttribute('data-doc-prop-mdtYn')).value,
+                            uploadYn: document.getElementById(this.getAttribute('data-doc-prop-uploadYn')).value,
+                            sendCnt: document.getElementById(this.getAttribute('data-doc-prop-sendCnt')).value,
 
-        <%-- 숫자, 소수점 1개만 입력 - 어학 성적 입력 --%>
-        $('.lang-score').on('keyup', function () {
-            var numCheckRegExp = /^[0-9]*\.?[0-9]*$/,
-                    val = this.value;
-            if (!numCheckRegExp.test(val)) {
-                this.value = val.substr(0, val.length-1);
-            }
-        });
-        <%-- 숫자, 소수점 1개만 입력 - 어학 성적 입력 --%>
-
-        <%-- 어학 성적 validation --%>
-        var getToeflMaxScore = function (id) {
-            var toeflTypeSelectId = id.substr(0, id.lastIndexOf('.')) + '.toflTypeCode',
-                toeflTypeSelect = document.getElementById(toeflTypeSelectId),
-                toeflType = toeflTypeSelect.options[toeflTypeSelect.selectedIndex].innerHTML,
-                maxScore;
-            switch(toeflType) {
-                case 'IBT':
-                    maxScore = 120;
-                    break;
-                case 'CBT':
-                    maxScore = 300;
-                    break;
-                case 'PBT':
-                    maxScore = 677;
-                    break;
-            }
-            return maxScore;
-        };
-        $('.lang-score').on('blur', function () {
-            var examName = this.dataset.langExamName,
-                maxScore;
-            switch(examName) {
-                case 'TOEFL':
-                    maxScore = getToeflMaxScore(this.id);
-                    break;
-                case 'TOEIC':
-                    maxScore = 990;
-                    break;
-                case 'TEPS':
-                    maxScore = 990;
-                    break;
-                case 'IELTS':
-                    maxScore = 9.0;
-                    break;
-                case 'GRE':
-                    maxScore = 9999;
-                    break;
-            }
-            if (this.value > maxScore) {
-                alert( maxScore + '점 이하의 숫자를 입력해주세요.');
-                this.focus();
-            }
-        });
-        <%-- 어학 성적 validation --%>
-
-        <%-- 달력 옵션 --%>
-        var datePickerOption = {
-            dateFormat: 'yymmdd',
-            yearRange: "1950:",
-            monthNamesShort: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
-            dayNamesMin: ['일','월','화','수','목','금','토'],
-            changeMonth: true, //월변경가능
-            changeYear: true, //년변경가능
-            showMonthAfterYear: true //년 뒤에 월 표시
-        };
-
-        <%-- 달력 시작 --%>
-        $('.input-group.date>input').datepicker(datePickerOption);
-        $('.calendar-addon').on('click', function () {
-            $(this.parentNode).children('input')[0].focus();
-        });
-        <%-- 달력 끝 --%>
-
-        <%-- 달력 reset 함수 --%>
-        var resetCalendar = function (block, calendarClass) {
-            $(block).find(calendarClass).datepicker('destroy');
-            $(block).find(calendarClass).datepicker(datePickerOption);
-        };
-        <%-- 달력 reset 함수 --%>
-
-        <%-- 외국어 성적 면제 해당 처리 --%>
-        var checkForlExmp = function (isExmp) {
-            $('.forlInput').each(function () {
-                this.value = '';
-                this.setAttribute('value', '');
-                this.disabled = isExmp;
-                if (this.selectedIndex) this.selectedIndex = 0;
-            });
-            $('.lang-checkbox, .lang-radio').each(function () {
-                this.checked = false;
-                this.disabled = isExmp;
-            });
-            document.getElementById('forlExmpCode').disabled = !isExmp;
-        };
-
-        $('#checkForlExmp').on('click', function () {
-            if (this.checked) {
-                if (confirm('외국어 성적 면제 해당자를 선택하면\n외국어 성적을 입력할 수 없으며,\n이미 입력한 외국어 성적도 삭제됩니다.\n\n외국어 성적 면제 해당자를 선택하시겠습니까?')) {
-                    checkForlExmp(true);
-                } else {
-                    this.checked = false;
+                            fieldName: fileInputName,
+                            targetButton: this.id,
+                            targetFileLinkId: targetFileLinkId,
+                            applNo: document.getElementById('applNo').value,
+                            admsNo: document.getElementById('admsNo').value
+                        },
+                        success: function (data, status) {
+if (console) {
+    console.log('data : ', data);
+    console.log('status : ', status);
+}
+                            var d = JSON.parse(data.data);
+if (console) {
+    console.log("fieldName : ", d.fieldName);
+    console.log("targetButton : ", d.targetButton);
+    console.log("targetFileLinkId : ", d.targetFileLinkId);
+    console.log("applNo : ", d.applNo);
+    console.log("admsNo : ", d.admsNo);
+    console.log("originalFileName : ", d.originalFileName);
+    console.log("filePath : ", d.path);
+    console.log("fileName : ", d.fileName);
+    console.log("data : ", data.data);
+    console.log("status : ", status);
+}
+                            var targetBtnId = d.targetButton,
+                                    targetBtn = document.getElementById(targetBtnId),
+                                    $targetBtn = $(targetBtn),
+                                    originalFileName = d.originalFileName,
+                                    filePath = d.path,
+                                    fileName = d.fileName,
+                                    targetFileLinkId = d.targetFileLinkId,
+                                    applNo = d.applNo,
+                                    admsNo = d.admsNo,
+                                    downloadURL;
+                            $targetBtn.removeClass("btn-default");
+                            $targetBtn.addClass("btn-info");
+                            $targetBtn.val("올리기 성공");
+                            downloadURL = '${contextPath}/filedownload/attached/'+admsNo+'/'+applNo+'/'+fileName+'/'+originalFileName;
+//                            linkHtml = '<a href="' + downloadURL + '">' + originalFileName + '</a>';
+//                            linkToFile = downloadURL + '">' + originalFileName + '</a>';
+                            document.getElementById(targetFileLinkId).setAttribute('href', downloadURL);
+                            document.getElementById(targetFileLinkId).innerHTML = originalFileName;
+                            // document.getElementById(targetFilePathHiddenId).value = filePath;
+                            // document.getElementById(targetFileNameHiddenId).value = fileName;
+                            document.getElementById(targetOrgFileNameHiddenId).value = originalFileName;
+                        },
+                        error: function (data, status, e) {
+                            if(console) {
+                                console.log("data : ", data);
+                                console.log("status : ", status);
+                                console.log("e : ", e);
+                            }
+                        }
+                    });
                 }
+
             } else {
-                checkForlExmp(false);
+                alert("파일을 선택해 주십시오");
             }
+
+
+            return false;
         });
-        <%-- 외국어 성적 면제 해당 처리 --%>
+        <%-- 파일 업로드 버튼 이벤트 --%>
 
         <%-- form-group-block 추가/삭제에 대한 처리 시작 --%>
         <%-- id, name 재설정 시작 --%>
@@ -879,8 +845,10 @@
             var container = blockToRemove.parentNode;
             var blocks = container.querySelectorAll('.form-group-block');
             var length = blocks.length, i;
-            var blockIndex = target.dataset.blockIndex;
-            var userCUDType = document.getElementById(target.dataset.listName + blockIndex + '.userCUDType');
+//            var blockIndex = target.dataset.blockIndex;
+            var blockIndex = target.getAttribute('data-block-index');
+            var listName = target.getAttribute('data-list-name');
+            var userCUDType = document.getElementById(listName + blockIndex + '.userCUDType');
 
             switch (userCUDType.value) {
                 case 'INSERT' :
