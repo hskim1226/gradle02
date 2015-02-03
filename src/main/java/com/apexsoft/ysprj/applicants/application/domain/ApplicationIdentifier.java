@@ -11,6 +11,9 @@ public class ApplicationIdentifier {
     private String entrYear;
     private String admsTypeCode;
 
+    public ApplicationIdentifier() {
+    }
+
     public ApplicationIdentifier(int applNo) {
         this.applNo = applNo;
     }

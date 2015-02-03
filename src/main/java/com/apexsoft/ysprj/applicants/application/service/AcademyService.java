@@ -15,6 +15,8 @@ import java.util.List;
  */
 public interface AcademyService {
 
+    ExecutionContext retrieveAcademy(int applNo);
+
     ExecutionContext retrieveAcademy(Academy academy);
 
     ExecutionContext saveAcademy(Academy academy);
