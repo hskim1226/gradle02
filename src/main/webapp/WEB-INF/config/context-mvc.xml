@@ -29,6 +29,11 @@
                 <property name="filePersistenceManager" ref="persistenceManager" />
             </bean>
         </mvc:argument-resolvers>
+        <mvc:message-converters>
+            <bean class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter">
+                <property name="supportedMediaTypes" value="text/plain"/>
+            </bean>
+        </mvc:message-converters>
         <!-- mvc:message-converters>
             <bean class="org.springframework.http.converter.xml.Jaxb2RootElementHttpMessageConverter" />
         </mvc:message-converters -->
