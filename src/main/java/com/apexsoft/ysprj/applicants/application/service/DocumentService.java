@@ -16,6 +16,8 @@ public interface DocumentService {
 
     ExecutionContext retrieveDocument(Document document);
 
+    String retrievePhotoUri(int applNo);
+
     ExecutionContext saveDocument(Document document);
 
     ExecutionContext saveOneDocument(TotalApplicationDocument document);

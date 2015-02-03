@@ -156,7 +156,7 @@ public class DocumentServiceImpl implements DocumentService {
         //기존 파일이 업로드 되어 있는 경우
         if( document.isFileUploadFg()){
             rDelete++;
-            delete = delete + commonDAO.delete( NAME_SPACE + "ApplicationDocumentMapper.deleteByPrimaryKey", document );
+            delete = delete + commonDAO.delete(NAME_SPACE + "ApplicationDocumentMapper.deleteByPrimaryKey", document);
 
         }else{
             rDelete++;
@@ -287,7 +287,7 @@ public class DocumentServiceImpl implements DocumentService {
             codeParam.setAdmsCodeGrp("SCHL_CNTR");
             codeParam.setAdmsCode(aAcad.getSchlCntrCode());
             codeParam.setItemCode("00002");//해외학위
-            subDocList.addAll(commonDAO.queryForList(NAME_SPACE +"CustomApplicationDocumentMapper.selectCodeMandatoryGroupByCode",codeParam,TotalApplicationDocumentContainer.class));
+            subDocList.addAll(commonDAO.queryForList(NAME_SPACE + "CustomApplicationDocumentMapper.selectCodeMandatoryGroupByCode", codeParam, TotalApplicationDocumentContainer.class));
             codeParam.setItemCode("00021");//중국학위
             subDocList.addAll(commonDAO.queryForList(NAME_SPACE +"CustomApplicationDocumentMapper.selectCodeMandatoryGroupByCode",codeParam,TotalApplicationDocumentContainer.class));
 
@@ -326,14 +326,12 @@ public class DocumentServiceImpl implements DocumentService {
             codeParam.setItemCode("00004");//대학원
 
             List<TotalApplicationDocumentContainer> subDocList;
-            subDocList = commonDAO.queryForList(NAME_SPACE + "CustomApplicationDocumentMapper.selectCodeMandatoryGroupByCode",codeParam,TotalApplicationDocumentContainer.class);
+            subDocList = commonDAO.queryForList(NAME_SPACE +"CustomApplicationDocumentMapper.selectCodeMandatoryGroupByCode",codeParam,TotalApplicationDocumentContainer.class);
 
             //해외학위 필수서류 셋팅
             codeParam.setAdmsCodeGrp("SCHL_CNTR");
             codeParam.setAdmsCode(aAcad.getSchlCntrCode());
             codeParam.setItemCode("00002");//해외학위
-            subDocList.addAll(commonDAO.queryForList(NAME_SPACE +"CustomApplicationDocumentMapper.selectCodeMandatoryGroupByCode",codeParam,TotalApplicationDocumentContainer.class));
-            codeParam.setItemCode("00021");//중국학위
             subDocList.addAll(commonDAO.queryForList(NAME_SPACE +"CustomApplicationDocumentMapper.selectCodeMandatoryGroupByCode",codeParam,TotalApplicationDocumentContainer.class));
 
             for( TotalApplicationDocumentContainer aSubDoc : subDocList ){
@@ -363,12 +361,12 @@ public class DocumentServiceImpl implements DocumentService {
         codeParam.setAdmsNo(admsNo);
 
         //학연산 조회
-        if( "00002".equals(tempApp.getApplAttrCode())) {
+        if( "00006".equals(tempApp.getApplAttrCode())) {
             rList = new ArrayList<TotalApplicationDocumentContainer>();
             codeParam.setAdmsCodeGrp("APPL_ATTR");
-            codeParam.setAdmsCode("00002");
+            codeParam.setAdmsCode("00003");
             codeParam.setGrpLevel(1);
-            codeParam.setItemCode("00006");//학연산
+            codeParam.setItemTypeCode("00006");//학연산
 
             List<TotalApplicationDocumentContainer> subDocList;
             subDocList = commonDAO.queryForList(NAME_SPACE + "CustomApplicationDocumentMapper.selectCodeMandatoryGroupByCode", codeParam, TotalApplicationDocumentContainer.class);
@@ -385,14 +383,13 @@ public class DocumentServiceImpl implements DocumentService {
         }
 
 
-
         //외국인 조회
         if(  "00001".equals(tempApp.getFornTypeCode())||"00002".equals(tempApp.getFornTypeCode())||"00003".equals(tempApp.getFornTypeCode()) ) {
             rList = new ArrayList<TotalApplicationDocumentContainer>();
             codeParam.setAdmsCodeGrp("FORN_TYPE");
-            codeParam.setAdmsCode(tempApp.getFornTypeCode());
+            codeParam.setAdmsCode(tempApp.getApplAttrCode());
             codeParam.setGrpLevel(1);
-            codeParam.setItemCode("00007");//
+            codeParam.setItemTypeCode("00007");//
 
             List<TotalApplicationDocumentContainer> subDocList;
             subDocList = commonDAO.queryForList(NAME_SPACE + "CustomApplicationDocumentMapper.selectCodeMandatoryGroupByCode", codeParam, TotalApplicationDocumentContainer.class);
@@ -411,7 +408,7 @@ public class DocumentServiceImpl implements DocumentService {
         //기타 및 자유입력 조회
 
         codeParam.setGrpLevel(1);
-        codeParam.setItemCode("00009");// 기타 및 추가제출
+        codeParam.setItemTypeCode("00009");// 기타 및 추가제출
         List<TotalApplicationDocumentContainer> subDocList;
         subDocList = commonDAO.queryForList(NAME_SPACE + "CustomApplicationDocumentMapper.selectMandatoryDocumentByDocType", codeParam, TotalApplicationDocumentContainer.class);
         aCont = new TotalApplicationDocumentContainer();
@@ -488,8 +485,13 @@ public class DocumentServiceImpl implements DocumentService {
             }
 
         }else{
-
-            //pCont에 이미 APPL_DOC 정보를 join  해서 가져옴
+            //pCont에 이미 APPL_DOC 정보를 join  해서 가져옴, 플래그 처리만 함
+            if( pCont.getDocSeq() > 0) {
+                pCont.setFileUploadFg(true);
+            }
+            if( "DOC_ITEM".equals(pCont.getDocItemGrp()) && "00001".equals(pCont.getDocItemCode())){
+                pCont.setImgYn("Y");
+            }
             pList.add(pCont);
         }
         return rContList;
@@ -531,5 +533,20 @@ public class DocumentServiceImpl implements DocumentService {
         }
 
         return rContList;
+    }
+
+    public String retrievePhotoUri(int applNo) {
+        ParamForDocumentType aParam = new ParamForDocumentType();
+        String photoUrl = null;
+        aParam.setApplNo( applNo);
+        aParam.setDocTypeCode("00001");//기본
+        aParam.setDocItemCode("00001");//사진
+        List<TotalApplicationDocument> rList = null;
+
+        rList = commonDAO.queryForList(NAME_SPACE + "CustomApplicationDocumentMapper.selectApplicationDocumentByDocumentType", aParam, TotalApplicationDocument.class );
+        if( rList != null && rList.size()>0 ) {
+            photoUrl =  rList.get(0).getFilePath() + "/" + rList.get(0).getFileName();
+        }
+        return photoUrl;
     }
 }

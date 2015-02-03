@@ -8,6 +8,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>로그인</title>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css">
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -34,8 +35,8 @@
     <script src="${contextPath}/js/jquery.min.js"></script>
     <style>
         section.signup {
-            padding: 200px 0 60px;
-            background: #556699;
+            padding: 50px 0 10px 0;
+            background: #777777;
             color: #fdfdfd;
         }
 
@@ -79,6 +80,10 @@
             -khtml-user-select: none;
             user-select: none;
         }
+        .nopadding {
+            padding: 0 !important;
+            margin: 0 !important;
+        }
     </style>
 </head>
 <body>
@@ -112,8 +117,7 @@
                 <label for="userId" class="col-sm-4 control-label"><spring:message code="L101" /></label>
                 <div class="col-sm-4">
                     <div class="input-group">
-                        <input type="text" class="form-control" name="userId" id="userId" placeholder="User ID"
-                               data-bv-notempty data-bv-notempty-message="The user id is required" />
+                        <input type="text" class="form-control" name="userId" id="userId" placeholder="User ID" />
                         <span class="input-group-btn">
                             <button class="btn btn-default" type="button" id="available-check-button">Check</button>
                         </span>
@@ -124,15 +128,13 @@
             <div class="form-group">
                 <label for="pswd" class="col-sm-4 control-label"><spring:message code="L102" /></label>
                 <div class="col-sm-4">
-                    <input type="password" class="form-control" name="pswd" id="pswd" placeholder="Password"
-                           data-bv-notempty data-bv-notempty-message="Password is required" />
+                    <input type="password" class="form-control" name="pswd" id="pswd" placeholder="Password"/>
                 </div>
             </div>
             <div class="form-group">
                 <label for="confirm" class="col-sm-4 control-label"><spring:message code="L117" /></label>
                 <div class="col-sm-4">
-                    <input type="password" class="form-control" id="confirm" placeholder="Confirm"
-                           data-bv-notempty data-bv-notempty-message="Confirm is required" />
+                    <input type="password" class="form-control" id="confirm" placeholder="Confirm" />
                 </div>
             </div>
             <%--email--%>
@@ -181,22 +183,41 @@
                 <label for="bornDay" class="col-sm-4 control-label"><spring:message code="L107" /></label>
                 <div class="col-sm-4">
                     <div class="input-group date">
-                        <input type="text" class="form-control" name="bornDay" id="bornDay" />
-                        <span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
+                        <%--<input type="text" class="form-control" name="bornDay" id="bornDay" />--%>
+                        <%--<span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>--%>
+                        <input id="bornDay" name="bornDay" class="form-control" readonly="true"/>
+                        <span class="input-group-addon calendar-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                     </div>
                 </div>
             </div>
             <%--submit--%>
-            <div class="form-group">
-                <div class="col-sm-offset-4 col-sm-4">
-                    <button type="button" id="sign-up-button" class="btn btn-default" disabled="disabled" ><spring:message code="L116" /></button>
+            <div class="btn-group">
+                <div class="col-sm-4">&nbsp;</div>
+                <div class="col-sm-4">
+                    <div class="btn-group-justified">
+                        <button id="sign-up-button" class="btn btn-primary btn-lg" disabled="disabled" ><spring:message code="L116" /></button>
+                    </div>
                 </div>
+            </div>
+            <div class="btn-group btn-group-justified">
+                <button id="sign-up-button2" class="btn btn-primary btn-lg" disabled="disabled" ><spring:message code="L116" /></button>
             </div>
         </form>
     </div>
 </section>
-<script src="${contextPath}/js/bootstrap.min.js"></script>
-<script src="${contextPath}/js/bootstrapValidator.min.js"></script>
+<!-- FOOTER -->
+<section id="footer" class="section footer">
+    <div class="container">
+        <div class="row align-center">
+            <div class="col-sm-12 legalnotice"><p>(주)에이펙스소프트 | 서울 마포구 양화로 156, 1121(동교동, 엘지팰리스) | 대표이사 김도훈 | 사업자등록번호 105-87-66045 | 전화 <spring:eval expression="@app.getProperty('site.tel')" /></p></div>
+            <div class="col-sm-12 legalnotice"><p>통신판매업신고번호 서울마포-1109호 | 개인정보관리책임자 김도훈 | 개인정보보유기간 회원 탈퇴시까지</p></div>
+        </div>
+        <div class="row align-center copyright">
+            <div class="col-sm-12"><p>Designed by <a href="http://bootstraptaste.com" style="color: darkseagreen;">Bootstraptaste</a></p></div>
+        </div>
+    </div>
+</section>
+<a href="#header" class="scrollup"><i class="fa fa-chevron-up"></i></a>
 <script src="${contextPath}/js/modernizr-2.6.2-respond-1.1.0.min.js"></script>
 <script src="${contextPath}/js/jquery.easing.min.js"></script>
 <script src="${contextPath}/js/jquery.nicescroll.min.js"></script>
@@ -207,51 +228,40 @@
 <script src="${contextPath}/js/jquery.appear.min.js"></script>
 <script src="${contextPath}/js/jquery.stellar.min.js"></script>
 <script src="${contextPath}/js/main.js"></script>
-
-<%--<script src="${contextPath}/js/bootstrap-datepicker.js"></script>--%>
-<%--<script src="${contextPath}/js/bootstrap-datepicker.kr.js"></script>--%>
 <script src="${contextPath}/js/jquery-ui.min.js"></script>
 <script type="text/javascript">
     $(document).ready(function(){
         $("#sign-up-button").on("click", function(){
-            $('#sign-up-form').bootstrapValidator('validate');
+//            $('#sign-up-form').bootstrapValidator('validate');
+            $.post("${contextPath}/user/signup/save",
+                $("#sign-up-form").serialize(),
+                function(data){
+                    if(data.result == "SUCCESS"){
+                        alert("성공적으로 등록되었습니다.");
+                        location.href="${contextPath}/user/login";
+                    }else{
+                        alert("서비스에 문제가 발생하였습니다.");
+                    }
+                }
+            );
         });
 
         $("#available-check-button").on("click", function(){
             $.get("${contextPath}/user/idCheck",
-                    $("#sign-up-form").serialize(),
-                    function(data){
-                        if(data.result == "SUCCESS"){
-                            alert("사용가능한 username 입니다.");
-                            $("#sign-up-button").prop('disabled', false);
-                        }else{
-                            alert("이미 사용 중인 username 입니다.");
-                            $("#sign-up-button").prop('disabled', true);
-                        }
+                $("#sign-up-form").serialize(),
+                function(data){
+                    if(data.result == "SUCCESS"){
+                        alert("사용가능한 username 입니다.");
+                        $("#sign-up-button").prop('disabled', false);
+                    }else{
+                        alert("이미 사용 중인 username 입니다.");
+                        $("#sign-up-button").prop('disabled', true);
                     }
+                }
             );
         });
 
-        $('#sign-up-form').bootstrapValidator({
-            onError: function(e) {
-                console.log(e);
-            },
-            onSuccess: function(e) {
-                $.post("${contextPath}/user/signup/save",
-                        $("#sign-up-form").serialize(),
-                        function(data){
-                            if(data.result == "SUCCESS"){
-                                alert("성공적으로 등록되었습니다.");
-                                location.href="${contextPath}/user/login";
-                            }else{
-                                alert("서비스에 문제가 발생하였습니다.");
-                            }
-                        }
-                );
-            }
-        });
-
-        <%-- 달력 시작 --%>
+        <%-- 달력 옵션 --%>
         var datePickerOption = {
             dateFormat: 'yymmdd',
             yearRange: "1950:",
@@ -261,12 +271,21 @@
             changeYear: true, //년변경가능
             showMonthAfterYear: true //년 뒤에 월 표시
         };
+        <%-- 달력 옵션 --%>
 
-        $('.input-group.date>input').each(function() {
-            $(this).datepicker(datePickerOption);
+        <%-- 달력 시작 --%>
+        $('.input-group.date>input').datepicker(datePickerOption);
+        $('.calendar-addon').on('click', function () {
+            $(this.parentNode).children('input')[0].focus();
         });
         <%-- 달력 끝 --%>
 
+        <%-- 달력 reset 함수 --%>
+        var resetCalendar = function (block, calendarClass) {
+            $(block).find(calendarClass).datepicker('destroy');
+            $(block).find(calendarClass).datepicker(datePickerOption);
+        };
+        <%-- 달력 reset 함수 --%>
     });
 </script>
 

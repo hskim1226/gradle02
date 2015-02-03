@@ -140,10 +140,8 @@ public class BirtController {
         mv.addObject("addr", addr);
         mv.addObject("detlAddr", detlAddr);
 
-        // TODO : 사진 파일 추출
-//        ApplicationDocument photoFile = document.retrieveApplicationDocumentPhoto(applNo);
-//        String photoFilePath = photoFile.getFilePath() + "/" + photoFile.getFileName();
-        String photoUri = "/opt/ysproject/upload/2015/15A/z/zz/357/하니.png";
+//        String photoUri = "/opt/ysproject/upload/2015/15A/z/zz/357/하니.png";
+        String photoUri = documentService.retrievePhotoUri(applNo);
         mv.addObject("photoUri", photoUri);
 
         String currWrkpName = applicationGeneral.getCurrWrkpName();
