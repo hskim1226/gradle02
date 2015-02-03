@@ -248,6 +248,10 @@
         #tabTR {
             cursor: pointer;
         }
+        .validation-error {
+            background: #ffdddd;
+            color: #f55;
+        }
     </style>
 </head>
 <body>
@@ -289,6 +293,9 @@
                 <div class="spacer-tiny"></div>
                 <div class="row">
                     <div class="col-sm-offset-1 col-sm-10">
+                        <div>
+                            <div class="validation-error"><form:errors path="*"/></div>
+                        </div>
                         <div class="panel panel-default">
                             <div class="panel-heading">지원 사항</div>
                             <div class="panel-body">
@@ -612,7 +619,8 @@
             for ( i = 0 ; i < code && i < l ; i++ ) {
                 stepTR.children[i].className = 'stepEnabled';
                 tabTR.children[i].setAttribute('data-tab-available', 'true');
-                tabTR.children[i+1].setAttribute('data-tab-available', 'true');
+                if (tabTR.children[i+1])
+                    tabTR.children[i+1].setAttribute('data-tab-available', 'true');
             }
         };
         processCurrentStep(document.getElementById('applStsCode').value);
@@ -705,7 +713,7 @@
         <%-- 한글 이름 공백 제거 --%>
         var removeSpaceInKorName = function () {
             var korName = document.getElementById('application.korName');
-            korName.addEventListener('keyup', function () {
+            $(korName).on('keyup', function () {
                 this.value = this.value.replace(/(\s*)/gi,"");
             });
         };

@@ -2,7 +2,7 @@ package com.apexsoft.ysprj.user;
 
 import com.apexsoft.framework.common.vo.ExecutionContext;
 import com.apexsoft.ysprj.user.domain.Users;
-import com.apexsoft.ysprj.user.service.UsersAccountService;
+import com.apexsoft.ysprj.applicants.common.service.UsersAccountService;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;

@@ -57,12 +57,11 @@ public class LangCareerServiceImpl implements LangCareerService {
         langCareer.setLanguageGroupList(langGroupList);
 
         List<CustomApplicationExperience> applicationExperienceList = retrieveInfoListByApplNo(applNo, "CustomApplicationExperienceMapper", CustomApplicationExperience.class);
+        langCareer.setApplicationExperienceList(applicationExperienceList);
 
         for(CustomApplicationExperience aExpr :applicationExperienceList  ){
-
             aExpr.setSaveFg(true);
         }
-        langCareer.setApplicationExperienceList(applicationExperienceList);
 
         commonCodeMap.put( "toflTypeList", commonService.retrieveCommonCodeValueByCodeGroup("TOFL_TYPE") );
         commonCodeMap.put( "fornExmpList", commonService.retrieveCommonCodeValueByCodeGroup("FORN_EXMP") );
@@ -123,23 +122,40 @@ public class LangCareerServiceImpl implements LangCareerService {
         ExecutionContext ec = new ExecutionContext();
 
         int upAppl = 0, insert = 0, update = 0, delete = 0;
-        int rUpAppl = 0,rInsert = 0, rUpdate = 0, rDelete = 0;
+        int rUpAppl = 0, rInsert = 0, rUpdate = 0, rDelete = 0;
         Application application = langCareer.getApplication();
+        ApplicationGeneral applicationGene = langCareer.getApplicationGeneral();
         int applNo = application.getApplNo();
+
         Date date = new Date();
+
         List<LanguageGroup> langList = langCareer.getLanguageGroupList();
         List<CustomApplicationExperience> exprList = langCareer.getApplicationExperienceList();
 
-
-
-        String applStsCode;
         int currentStsCode = Integer.parseInt(application.getApplStsCode());
-        if ( currentStsCode < Integer.parseInt(LANG_CAREER_SAVED)) {
+        if (currentStsCode < Integer.parseInt(LANG_CAREER_SAVED)) {
             rUpAppl++;
             application.setApplStsCode(LANG_CAREER_SAVED);
             application.setModDate(new Date());
             upAppl = commonDAO.updateItem(application, NAME_SPACE, "ApplicationMapper");
         }
+
+        //면제 해당여부 처리
+        if("on".equals(langCareer.getCheckForlExmp())) {
+            applicationGene.setApplNo(applNo);
+            rUpAppl++;
+            if (applicationGene.getForlExmpCode() != null || applicationGene.getForlExmpCode() != "") {
+                upAppl = commonDAO.updateItem(applicationGene, NAME_SPACE, "ApplicationGeneralMapper");
+            }
+        }else{
+            applicationGene = new ApplicationGeneral();
+            applicationGene.setApplNo(applNo);
+            rUpAppl++;
+            applicationGene.setForlExmpCode("");
+            upAppl = commonDAO.updateItem(applicationGene, NAME_SPACE, "ApplicationGeneralMapper");
+
+        }
+
 
         //어학정보 저장
         for( LanguageGroup aGroup : langList){
@@ -182,6 +198,11 @@ public class LangCareerServiceImpl implements LangCareerService {
 
             if( aExpr.isCheckedFg()) {
                 //기존정보 처리
+                if( "on".equals(aExpr.getCurrYn())){
+                    aExpr.setCurrYn("Y");
+                }else{
+                    aExpr.setCurrYn("N");
+                }
                 if(aExpr.isSaveFg()){
                     //APPL_LANG,  UPDATE
                     rUpdate++;
@@ -193,7 +214,9 @@ public class LangCareerServiceImpl implements LangCareerService {
                     //APPL_LANG, INSERT
                     rInsert++;
                     int maxSeq = commonDAO.queryForInt(NAME_SPACE +"CustomApplicationExperienceMapper.selectMaxSeqByApplNo", applNo ) ;
-                    maxSeq++;
+                    aExpr.setApplNo(applNo);
+                    aExpr.setExprSeq(++maxSeq);
+                    aExpr.setSaveFg(true);
                     aExpr.setCreId(application.getModId());
                     aExpr.setCreDate(date);
                     insert = insert + commonDAO.insertItem( aExpr, NAME_SPACE, "ApplicationExperienceMapper");
@@ -205,7 +228,6 @@ public class LangCareerServiceImpl implements LangCareerService {
                 if( aExpr.isFileUploadFg()){
                     //TODO file upload 된 doc 삭제
                 }
-
             }
         }
 
@@ -236,22 +258,21 @@ public class LangCareerServiceImpl implements LangCareerService {
 
         return infoList;
     }
-/*
-    private List<CustomApplicationExperience> setExprUserDataStatus(List<CustomApplicationExperience> list, UserCUDType userCUDType) {
-        for (CustomApplicationExperience item : list) {
-            item.setUserCUDType(userCUDType);
-        }
-        return list;
-    }
 
-    private List<LanguageGroup> setLangUserDataStatus(List<LanguageGroup> list, UserCUDType userCUDType) {
-        for (LanguageGroup groupItem : list) {
-            List<TotalApplicationLanguage> langList = groupItem.getLangList();
-            for (TotalApplicationLanguage langItem : langList) {
-                langItem.setUserCUDType(userCUDType);
-            }
-        }
-        return list;
-    }
-    */
+//    private List<CustomApplicationExperience> setExprUserDataStatus(List<CustomApplicationExperience> list, UserCUDType userCUDType) {
+//        for (CustomApplicationExperience item : list) {
+//            item.setUserCUDType(userCUDType);
+//        }
+//        return list;
+//    }
+//
+//    private List<LanguageGroup> setLangUserDataStatus(List<LanguageGroup> list, UserCUDType userCUDType) {
+//        for (LanguageGroup groupItem : list) {
+//            List<TotalApplicationLanguage> langList = groupItem.getLangList();
+//            for (TotalApplicationLanguage langItem : langList) {
+//                langItem.setCheckedFg(true);
+//            }
+//        }
+//        return list;
+//    }
 }

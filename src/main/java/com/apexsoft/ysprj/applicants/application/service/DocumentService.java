@@ -21,6 +21,8 @@ public interface DocumentService {
 
     ExecutionContext saveDocument(Document document);
 
+    ExecutionContext saveOneDocument(TotalApplicationDocument document);
+
 //    ExecutionContext updateFileUpload(Application application,
 //                                      List<DocGroupFile> docGroupFileList);
 //

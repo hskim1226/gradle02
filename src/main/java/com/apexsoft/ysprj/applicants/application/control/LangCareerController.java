@@ -84,6 +84,7 @@ public class LangCareerController {
         String userId = principal.getName();
 
         Application application = formData.getApplication();
+
         int applNo = application.getApplNo();
         application.setUserId(userId);
         application.setModId(userId);
@@ -119,7 +120,8 @@ public class LangCareerController {
     private List<CustomApplicationExperience> removeEmptyExperienceAcademy(List<CustomApplicationExperience> list) {
         int i, length;
         for (i = 0, length = list.size() ; i < length ; i++) {
-            if (list.get(i).getCorpName() == null || list.get(i).getCorpName().equals("")) {
+//            if (list.get(i).getCorpName() == null || list.get(i).getCorpName().equals("")) {
+            if ( list.get(i).getCorpName() == null ||  list.get(i).getCorpName() =="") {
                 list.remove(i);
                 length--;
                 i--;

@@ -1,12 +1,10 @@
 package com.apexsoft.ysprj.applicants.application.control;
 
 import com.apexsoft.framework.common.vo.ExecutionContext;
-import com.apexsoft.framework.exception.YSNoRedirectBizException;
 import com.apexsoft.framework.message.MessageResolver;
 import com.apexsoft.ysprj.applicants.application.domain.*;
 import com.apexsoft.ysprj.applicants.application.service.BasisService;
-import com.apexsoft.ysprj.applicants.common.domain.*;
-import com.apexsoft.ysprj.applicants.common.service.CommonService;
+import com.apexsoft.ysprj.applicants.application.validator.BasisValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -17,8 +15,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
 import java.security.Principal;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -32,6 +28,9 @@ public class BasisController {
 
     @Autowired
     private BasisService basisService;
+
+    @Autowired
+    private BasisValidator basisValidator;
 
     @Resource(name = "messageResolver")
     MessageResolver messageResolver;
@@ -61,28 +60,40 @@ public class BasisController {
     /**
      * 기본 정보 저장
      *
-     * @param basis
+     * @param formData
      * @param principal
      * @return
      */
     @RequestMapping(value="/save", method = RequestMethod.POST)
-    public ModelAndView saveBasis(@ModelAttribute Basis basis,
+    public ModelAndView saveBasis(@ModelAttribute Basis formData,
                                   Principal principal,
                                   BindingResult bindingResult,
                                   ModelAndView mv) {
+        basisValidator.validate(formData, bindingResult);
         mv.setViewName(TARGET_VIEW);
-        if (bindingResult.hasErrors()) return mv;
+        if (bindingResult.hasErrors()) {
+            mv.addObject("resultMsg", messageResolver.getMessage("U334"));
+            ExecutionContext ecRetrieve = basisService.retrieveBasis(formData);
+            if (ecRetrieve.getResult().equals(ExecutionContext.SUCCESS)) {
+                Map<String, Object> map = (Map<String, Object>)ecRetrieve.getData();
+                mv.addObject("selection", map.get("selection"));
+                mv.addObject("country", map.get("country"));
+            } else {
+                mv = getErrorMV("common/error", ecRetrieve);
+            }
+            return mv;
+        }
 
         ExecutionContext ec;
         String userId = principal.getName();
-        Application application = basis.getApplication();
+        Application application = formData.getApplication();
         application.setUserId(userId);
 
-        ec = basisService.saveBasis(basis);
+        ec = basisService.saveBasis(formData);
 
         if (ec.getResult().equals(ExecutionContext.SUCCESS)) {
 
-            ExecutionContext ecRetrieve = basisService.retrieveBasis(basis);
+            ExecutionContext ecRetrieve = basisService.retrieveBasis(formData);
             if (ecRetrieve.getResult().equals(ExecutionContext.SUCCESS)) {
                 Map<String, Object> map = (Map<String, Object>)ecRetrieve.getData();
                 addObjectToMV(mv, map, ec);

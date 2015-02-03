@@ -20,6 +20,8 @@
 	
 	<bean id="multiPartReceiver" class="com.apexsoft.framework.persistence.file.receiver.MultiPartReceiverImpl" />
 
+	<bean id="multiPartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver" />
+
     <bean id="fileService" class="com.apexsoft.framework.persistence.file.service.FileServiceImpl" />
 	
 </beans>
