@@ -486,7 +486,7 @@ public class DocumentServiceImpl implements DocumentService {
 
         }else{
             //pCont에 이미 APPL_DOC 정보를 join  해서 가져옴, 플래그 처리만 함
-            if( pCont.getDocSeq() > 0) {
+            if( pCont.getDocSeq()!=null &&  pCont.getDocSeq()> 0) {
                 pCont.setFileUploadFg(true);
             }
             if( "DOC_ITEM".equals(pCont.getDocItemGrp()) && "00001".equals(pCont.getDocItemCode())){

@@ -412,7 +412,10 @@
                                             <div class="col-sm-3">
                                                 <div class="checkbox">
                                                     <label class="word-keep-all" for="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.checkedFg">
-                                                        <form:checkbox path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].subContainer[${lv3Status.index}].checkedFg"/>${lv3Container.docItemName}
+                                                        <input type="checkbox"
+                                                               id="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.checkedFg"
+                                                               name="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].subContainer[${lv3Status.index}].checkedFg"
+                                                               <c:if test="${lv3Container.fileUploadFg == true}">checked</c:if> />${lv3Container.docItemName}
                                                     </label>
                                                 </div>
                                             </div>
@@ -423,6 +426,9 @@
                                             <div class="col-sm-1 nopadding">
                                                 <input type="button" id="upload-button-${lv1Status.index}-${lv2Status.index}-${lv3Status.index}"
                                                        class="btn btn-default btn-upload" value="올리기"
+
+                                                       data-checkbox-id="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.checkedFg"
+
                                                        data-file-input-id="file-input-${lv1Status.index}-${lv2Status.index}-${lv3Status.index}"
                                                        data-img-yn-id="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.imgYn"
                                                        data-target-file-link-id="file-link-${lv1Status.index}-${lv2Status.index}-${lv3Status.index}"
@@ -459,7 +465,10 @@
                                                        data-doc-prop-sendCnt="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.sendCnt"
                                                 />
                                             </div>
-                                            <div class="col-sm-3 control-label"><a id="file-link-${lv1Status.index}-${lv2Status.index}-${lv3Status.index}" href="">${lv3Container.orgFileName}</a></div>
+                                            <div class="col-sm-3 control-label">
+                                                <a id="file-link-${lv1Status.index}-${lv2Status.index}-${lv3Status.index}"
+                                                   href="${contextPath}/filedownload/attached/${document.application.admsNo}/${document.application.applNo}/${lv3Container.fileName}/${lv3Container.orgFileName}">${lv3Container.orgFileName}</a>
+                                            </div>
                                         </div>
 
                                                 </c:when>
@@ -617,6 +626,7 @@
 
         <%-- 파일 업로드 버튼 이벤트 --%>
         $('.btn-upload').on('click', function (e) {
+            e.preventDefault();
             var actionUrl = "${contextPath}/application/document/fileUpload",
 //                    fileInputId = this.dataset.fileInputId,
                     fileInputId = this.getAttribute('data-file-input-id'),
@@ -635,8 +645,13 @@
             // targetOrgFileNameHiddenId = e.target.getAttribute('data-org-file-name'),
                     regexpImage = (/\.(gif|jpg|png)$/i),
                     regexpPDF = (/\.(pdf)$/i),
-                    extIsOk = false
-                    ;
+                    extIsOk = false,
+                    checkboxId = this.getAttribute('data-checkbox-id');
+
+            document.getElementById(checkboxId).checked = true;
+
+
+
             if ((fileInput.files && fileInput.files.length) || fileInput.value != "") {
                 if (imgYn) {
                     if (regexpImage.test(fileName)) {
