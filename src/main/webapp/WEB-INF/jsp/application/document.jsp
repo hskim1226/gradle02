@@ -370,7 +370,98 @@
                             <c:forEach items="${lv1Container.subContainer}" var="lv2Container" varStatus="lv2Status">
                                 <c:choose>
                                     <c:when test="${lv2Container.lastYn == 'Y'}">
-                                <div class="form-group"><label class="col-sm-3 control-label word-keep-all">${lv2Container.docItemName}</label></div>
+                                <%--<div class="form-group"><label class="col-sm-3 control-label word-keep-all">${lv2Container.docItemName}</label></div>--%>
+                                <div class="form-group">
+                                    <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].docSeq" value="${lv2Container.docSeq}" />
+                                    <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].docTypeCode" value="${lv2Container.docTypeCode}" />
+                                    <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].docGrp" value="${lv2Container.docGrp}" />
+                                    <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].docItemCode" value="${lv2Container.docItemCode}" />
+                                    <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].docItemName" value="${lv2Container.docItemName}" />
+                                    <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].grpLabel" value="${lv2Container.grpLabel}" />
+                                    <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].fileExt" value="${lv2Container.fileExt}" />
+                                    <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].imgYn" value="${lv2Container.imgYn}" />
+                                    <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].filePath" value="${lv2Container.filePath}" />
+                                    <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].fileName" value="${lv2Container.fileName}" />
+                                    <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].orgFileName" value="${lv2Container.orgFileName}" />
+                                    <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].docItemNameXxen" value="${lv2Container.docItemNameXxen}" />
+                                    <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].docGrpName" value="${lv2Container.docGrpName}" />
+                                    <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].fileUploadFg" value="${lv2Container.fileUploadFg}" />
+                                    <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].displayGrpFg" value="${lv2Container.displayGrpFg}" />
+                                    <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].admsNo" value="${lv2Container.admsNo}" />
+                                    <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].admsCorsNo" value="${lv2Container.admsCorsNo}" />
+                                    <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].detlMajCode" value="${lv2Container.detlMajCode}" />
+                                    <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].admsCodeGrp" value="${lv2Container.admsCodeGrp}" />
+                                    <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].admsCode" value="${lv2Container.admsCode}" />
+                                    <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].grpLevel" value="${lv2Container.grpLevel}" />
+                                    <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].docItemGrp" value="${lv2Container.docItemGrp}" />
+                                    <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].upCodeGrp" value="${lv2Container.upCodeGrp}" />
+                                    <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].upCode" value="${lv2Container.upCode}" />
+                                    <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].lastYn" value="${lv2Container.lastYn}" />
+                                    <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].mdtYn" value="${lv2Container.mdtYn}" />
+                                    <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].uploadYn" value="${lv2Container.uploadYn}" />
+                                    <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].sendCnt" value="${lv2Container.sendCnt}" />
+                                    <div class="col-sm-3">
+                                        <div class="checkbox">
+                                            <label class="word-keep-all" for="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.checkedFg">
+                                                <input type="checkbox"
+                                                       id="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.checkedFg"
+                                                       name="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].checkedFg"
+                                                       <c:if test="${lv2Container.fileUploadFg == true}">checked</c:if> />${lv2Container.docItemName}
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-5 nopadding">
+                                        <div class="col-sm-5 nopadding"><form:input path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].docName" placeholder="서류 명 직접 입력"/></div>
+                                        <div class="col-sm-7 nopadding"><input type="file" class="btn btn-file" id="file-input-${lv1Status.index}-${lv2Status.index}" name="file-input-name-${lv1Status.index}-${lv2Status.index}" data-upload-button-id="upload-button-${lv1Status.index}-${lv2Status.index}"/></div>
+                                    </div>
+                                    <div class="col-sm-1 nopadding">
+                                        <input type="button" id="upload-button-${lv1Status.index}-${lv2Status.index}"
+                                               class="btn btn-default btn-upload" value="올리기"
+
+                                               data-checkbox-id="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.checkedFg"
+
+                                               data-file-input-id="file-input-${lv1Status.index}-${lv2Status.index}"
+                                               data-img-yn-id="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.imgYn"
+                                               data-target-file-link-id="file-link-${lv1Status.index}-${lv2Status.index}"
+                                               data-org-filename-id="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.orgFileName"
+                                               data-target-subcontainer-id="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}."
+
+                                               data-doc-prop-docSeq="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.docSeq"
+                                               data-doc-prop-docTypeCode="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.docTypeCode"
+                                               data-doc-prop-docGrp="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.docGrp"
+                                               data-doc-prop-docItemCode="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.docItemCode"
+                                               data-doc-prop-docItemName="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.docItemName"
+                                               data-doc-prop-grpLabel="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.grpLabel"
+                                               data-doc-prop-fileExt="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.fileExt"
+                                               data-doc-prop-imgYn="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.imgYn"
+                                               data-doc-prop-filePath="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.filePath"
+                                               data-doc-prop-fileName="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.fileName"
+                                               data-doc-prop-orgFileName="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.orgFileName"
+                                               data-doc-prop-docItemNameXxen="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.docItemNameXxen"
+                                               data-doc-prop-docGrpName="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.docGrpName"
+                                               data-doc-prop-fileUploadFg="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.fileUploadFg"
+                                               data-doc-prop-displayGrpFg="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.displayGrpFg"
+                                               data-doc-prop-admsNo="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.admsNo"
+                                               data-doc-prop-admsCorsNo="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.admsCorsNo"
+                                               data-doc-prop-detlMajCode="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.detlMajCode"
+                                               data-doc-prop-admsCodeGrp="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.admsCodeGrp"
+                                               data-doc-prop-admsCode="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.admsCode"
+                                               data-doc-prop-grpLevel="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.grpLevel"
+                                               data-doc-prop-docItemGrp="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.docItemGrp"
+                                               data-doc-prop-upCodeGrp="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.upCodeGrp"
+                                               data-doc-prop-upCode="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.upCode"
+                                               data-doc-prop-lastYn="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.lastYn"
+                                               data-doc-prop-mdtYn="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.mdtYn"
+                                               data-doc-prop-uploadYn="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.uploadYn"
+                                               data-doc-prop-sendCnt="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.sendCnt"
+                                                />
+                                    </div>
+                                    <div class="col-sm-3 control-label">
+                                        <a id="file-link-${lv1Status.index}-${lv2Status.index}"
+                                           href="${contextPath}/filedownload/attached/${document.application.admsNo}/${document.application.applNo}/${lv2Container.fileName}/${lv2Container.orgFileName}">${lv2Container.orgFileName}</a>
+                                    </div>
+                                </div>
+
                                     </c:when>
                                     <c:otherwise>
                                 <div class="panel panel-darkgray1">
