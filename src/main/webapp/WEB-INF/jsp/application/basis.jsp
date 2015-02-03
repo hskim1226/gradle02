@@ -665,9 +665,11 @@
             $('#baseCancel').css('display', 'block');
             $('#baseSave').css('display', 'none');
         };
-//        if (applNo != "") {
-//            baseInfoSaved();
-//        }
+
+        // 입력 검증 오류로 DB에 저장되지 않고 다시 돌아왔을 때 지원사항 저장 상태로 설정
+console.log(document.getElementById('detlMajCode').value.length);
+        if (document.getElementById('detlMajCode').value.length > 0) baseInfoSaved();
+        // TODO : 지원사항 저장 시 applNo 따서 DB에 저장하는 것으로 로직 수정
         <%-- 지원 사항 저장 버튼 처리 --%>
 
         <%-- 기본 정보 > 지원 사항 처리 --%>
@@ -692,6 +694,7 @@
 
         <%-- 하단 버튼 처리 --%>
         var formProcess = function(event) {
+            event.preventDefault();
             var $form = $(this),
                 form = document.getElementById('basis'),
                 isValidProcess = true;
@@ -704,7 +707,6 @@
                 form.action = "${contextPath}/application/basis/save";
                 form.submit();
             }
-            event.preventDefault();
         };
         $('.btn-save').on('click', formProcess);
         <%-- 하단 버튼 처리 --%>
@@ -791,6 +793,7 @@
         });
 
         $('#bpopBtnSearch').on('click', function(e) {
+            e.preventDefault();
             var baseUrl = '${contextPath}/common/code', url;
             var dataCategory = $('#bpopContent').attr('data-category'), category;
             var category = {};
@@ -920,7 +923,8 @@
         };
 
 //        $('#searchAddress').on('click', showDaumPostcode);
-        $('#searchAddress').on('click', function () {
+        $('#searchAddress').on('click', function (e) {
+            e.preventDefault();
             $( "#street-name-notice" ).dialog({
                 modal: true,
                 width: 380,
@@ -951,14 +955,6 @@
         $('.input-group.date>input').datepicker(datePickerOption);
         $('.input-daterange>input').datepicker(datePickerOption);
         <%-- 달력 끝 --%>
-
-        <%-- BootStrap Validator --%>
-        var numericValidator = {
-            numeric: {
-                separator: '',
-                message: '<spring:message code="U305"/>'
-            }
-        };
 
         <%-- 학연산 선택에 따른 화면 변경 시작 --%>
         $('#applAttrCode').on('change', changeApplAttrCode);

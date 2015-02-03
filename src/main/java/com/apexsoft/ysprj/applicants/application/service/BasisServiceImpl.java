@@ -140,17 +140,21 @@ public class BasisServiceImpl implements BasisService {
         Application application = basis.getApplication();
 
         int applNo = application.getApplNo() == null ? 0 : application.getApplNo();
+        String detlMajCode = application.getDetlMajCode();
 
-        if (applNo > 0) {
-            application = commonDAO.queryForObject(NAME_SPACE + "ApplicationMapper.selectByPrimaryKey",
-                    applNo, Application.class);
-            application = application == null ? new Application() : application;
-            basis.setApplication(application);
+        if ((detlMajCode != null && !detlMajCode.equals("")) || applNo > 0) {
 
-            ApplicationGeneral applicationGeneral = commonDAO.queryForObject(NAME_SPACE + "ApplicationGeneralMapper.selectByPrimaryKey",
-                    applNo, ApplicationGeneral.class);
-            applicationGeneral = applicationGeneral == null ? new ApplicationGeneral() : applicationGeneral;
-            basis.setApplicationGeneral(applicationGeneral);
+            if (applNo > 0) {
+                application = commonDAO.queryForObject(NAME_SPACE + "ApplicationMapper.selectByPrimaryKey",
+                        applNo, Application.class);
+                application = application == null ? new Application() : application;
+                basis.setApplication(application);
+
+                ApplicationGeneral applicationGeneral = commonDAO.queryForObject(NAME_SPACE + "ApplicationGeneralMapper.selectByPrimaryKey",
+                        applNo, ApplicationGeneral.class);
+                applicationGeneral = applicationGeneral == null ? new ApplicationGeneral() : applicationGeneral;
+                basis.setApplicationGeneral(applicationGeneral);
+            }
 
             // 지원사항 select 초기값 설정
             List<Campus> campList = null;
