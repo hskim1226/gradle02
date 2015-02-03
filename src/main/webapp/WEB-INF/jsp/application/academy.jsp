@@ -289,13 +289,14 @@
             <form:hidden path="application.admsNo" id="admsNo" />
             <form:hidden path="application.entrYear" id="entrYear" />
             <form:hidden path="application.admsTypeCode" id="admsTypeCode" />
+            <form:hidden path="application.corsTypeCode" id="corsTypeCode" />
             <div id="myTabContent" class="tab-content">
                 <div class="spacer-tiny"></div>
                 <div class="row">
                     <div class="col-sm-offset-1 col-sm-10">
-                        <%--<div>--%>
-                            <%--<div class="validation-error"><form:errors path="*"/></div>--%>
-                        <%--</div>--%>
+                        <div>
+                            <div class="validation-error"><form:errors path="*"/></div>
+                        </div>
                         <div class="panel panel-default">
                             <div class="panel-heading">대학교</div>
                             <div class="panel-body">
@@ -325,13 +326,13 @@
                                                         <form:input path="collegeList[${stat.index}].entrDay" cssClass="form-control" readonly="true" />
                                                         <span class="input-group-addon calendar-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                                                     </div>
-<spring:bind path="collegeList[${stat.index}].entrDay">
-    <c:if test="${status.error}">
-        <div class="validation-error">
-            ${status.errorMessage}
-        </div>
-    </c:if>
-</spring:bind>
+<%--<spring:bind path="collegeList[${stat.index}].entrDay">--%>
+    <%--<c:if test="${status.error}">--%>
+        <%--<div class="validation-error">--%>
+            <%--${status.errorMessage}--%>
+        <%--</div>--%>
+    <%--</c:if>--%>
+<%--</spring:bind>--%>
                                                 </div>
                                                 <div class="col-sm-4 end-date-container">
                                                     <div class="input-group date">
@@ -339,13 +340,13 @@
                                                         <form:input path="collegeList[${stat.index}].grdaDay" cssClass="form-control" readonly="true" />
                                                         <span class="input-group-addon calendar-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                                                     </div>
-<spring:bind path="collegeList[${stat.index}].grdaDay">
-    <c:if test="${status.error}">
-        <div class="validation-error">
-                ${status.errorMessage}
-        </div>
-    </c:if>
-</spring:bind>
+<%--<spring:bind path="collegeList[${stat.index}].grdaDay">--%>
+    <%--<c:if test="${status.error}">--%>
+        <%--<div class="validation-error">--%>
+                <%--${status.errorMessage}--%>
+        <%--</div>--%>
+    <%--</c:if>--%>
+<%--</spring:bind>--%>
                                                 </div>
                                             </div>
                                             <div class="form-group required">
@@ -375,7 +376,9 @@
                                                 </div>
                                                 <div class="col-sm-2">
                                                     <label class="radio-inline">
-                                                        <form:radiobutton path="collegeList[${stat.index}].lastSchlYn" cssClass="radio-group" value="Y" />&nbsp;&nbsp;최종 학교
+                                                        <%--<form:radiobutton path="collegeList[${stat.index}].lastSchlYn" cssClass="radio-group" value="${academy.collegeList[stat.index].lastSchlYn}"/>&nbsp;&nbsp;최종 학교--%>
+                                                        <input type="radio" class="college-radio" id="college-radio-${stat.index}" name="collegeRadio" data-last-radio-id="collegeList${stat.index}.lastSchlYn" <c:if test="${academy.collegeList[stat.index].lastSchlYn == 'Y'}">checked</c:if> />&nbsp;&nbsp;최종 학교
+                                                        <form:hidden path="collegeList[${stat.index}].lastSchlYn"/>
                                                     </label>
                                                 </div>
                                             </div>
@@ -478,7 +481,9 @@
                                                 </div>
                                                 <div class="col-sm-2">
                                                     <label class="radio-inline">
-                                                        <form:radiobutton path="graduateList[${stat.index}].lastSchlYn" cssClass="radio-group" value="Y" />&nbsp;&nbsp;최종 학교
+                                                        <%--<form:radiobutton path="graduateList[${stat.index}].lastSchlYn" cssClass="radio-group" value="Y" />&nbsp;&nbsp;최종 학교--%>
+                                                        <input type="radio" class="graduate-radio" id="graduate-radio-${stat.index}" name="graduateRadio" data-last-radio-id="graduateList${stat.index}.lastSchlYn" <c:if test="${academy.graduateList[stat.index].lastSchlYn == 'Y'}">checked</c:if> />&nbsp;&nbsp;최종 학교
+                                                        <form:hidden path="graduateList[${stat.index}].lastSchlYn"/>
                                                     </label>
                                                 </div>
                                             </div>
@@ -618,11 +623,20 @@
         <%-- 탭 이동 처리 --%>
 
         <%-- 하단 버튼 처리 --%>
-        var formProcess = function(event) {
-            var form = document.forms[0];
-
-            form.action = "${contextPath}/application/academy/save";
-            form.submit();
+        var formProcess = function(e) {
+            e.preventDefault();
+            var isChecked = false;
+            $('.college-radio').each( function () {
+                if (this.value == 'on') isChecked = true;
+            });
+            // TODO : 대학원 필수일 때도 isChecked 해야함
+            if (isChecked) {
+                var form = document.forms[0];
+                form.action = "${contextPath}/application/academy/save";
+                form.submit();
+            } else {
+                alert('최종학교를 선택해 주세요.');
+            }
         };
         $('.btn-save').on('click', formProcess);
         <%-- 하단 버튼 처리 --%>
@@ -671,6 +685,7 @@
         });
 
         $('#bpopBtnSearch').on('click', function(e) {
+            e.preventDefault();
             var baseUrl = '${contextPath}/common/code', url;
             var dataCategory = $('#bpopContent').attr('data-category'), category;
             var category = {};
@@ -791,6 +806,28 @@
         });
         <%-- 졸업/졸업 예정 처리 --%>
 
+        <%-- 최종학교 처리 --%>
+        var checkLastSchool = function (radioClass) {
+            $(radioClass).each( function () {
+                var lastSchoolRadioId = this.getAttribute('data-last-radio-id'),
+                        lastYn = document.getElementById(lastSchoolRadioId);
+                if (this.checked) {
+                    lastYn.value = 'Y';
+                    this.value = 'on';
+                } else {
+                    lastYn.value = 'N';
+                    this.value = 'off';
+                }
+            });
+        };
+        $('.college-radio').on('click', function () {
+            checkLastSchool('.college-radio');
+        });
+        $('.graduate-radio').on('click', function () {
+            checkLastSchool('.graduate-radio');
+        });
+        <%-- 최종학교 처리 --%>
+
         <%-- 성적 입력 validation --%>
         $('.gradAvr').on('keyup', function () {
             var regexp = /^[0-9]\.?[0-9]*$/,
@@ -838,16 +875,31 @@
         <%-- form-group-block 추가/삭제에 대한 처리 시작 --%>
         <%-- id, name 재설정 시작 --%>
         var updateIdAndName = function ( block, index ) {
-            var i, name, prefix, suffix, input, items, label, j, k, element, datasetValue, oldid, gradAvrId;
+            var i, name, prefix, suffix, input, items, label,
+                    itemsl, label, attrs, attrsl, j, dataVId, element, datasetValue, oldid, gradAvrId;
             items = block.querySelectorAll('input, select, label');
             if (items) {
-                for (i = 0; i <items.length; i++) {
+                itemsl = items.length;
+                for (i = 0; i <itemsl; i++) {
                     element = items[i];
                     name = element.name;
+                    attrs = element.attributes;
+                    attrsl = attrs.length;
+                    for ( j = 0 ; j < attrsl ; j++ ) {
+                        if (attrs[j].name.indexOf('data-') === 0) {
+                            dataVId = attrs[j].value;
+                            prefix = dataVId.substring(0, dataVId.indexOf('.'));
+                            prefix = prefix.replace(/[0-9]/g, '');
+                            suffix = dataVId.substring(dataVId.indexOf('.'));
+                            attrs[j].value = prefix + index + suffix;
+                        }
+                    }
                     if (name) {
-                        prefix = name.substring(0, name.indexOf('['));
-                        suffix = name.substring(name.indexOf(']') + 1);
-                        element.name = prefix + '[' + index + ']' + suffix;
+                        if (element.type != 'radio') {
+                            prefix = name.substring(0, name.indexOf('['));
+                            suffix = name.substring(name.indexOf(']') + 1);
+                            element.name = prefix + '[' + index + ']' + suffix;
+                        }
                     }
                     oldid = element.id;
                     if (oldid) {
@@ -916,38 +968,41 @@
 
         <%-- 복제된 입력폼 내용 초기화 시작 --%>
         var resetBlockContents = function ( block ) {
-            var i, items, itemName;
+            var i, items, itemsL, itemName, element;
             block.style.display = 'block';
             items = block.querySelectorAll('input, select');
             if (items) {
-                for (i = 0; i <items.length; i++) {
-                    if (items[i].type == 'hidden') {
-                        itemName = items[i].name;
+                itemsL = items.length;
+                for (i = 0; i <itemsL ; i++) {
+                    element = items[i];
+                    if (element.type == 'hidden') {
+                        itemName = element.name;
                         if (itemName.indexOf('userCUDType') > 0) {
-                            items[i].value = "INSERT";
+                            element.value = "INSERT";
                         } else if (itemName.indexOf('acadType') < 0) {
-                            items[i].setAttribute('value', '');
-                            items[i].value = '';
+                            element.setAttribute('value', '');
+                            element.value = '';
                         }
                     }
-                    if (items[i].type != 'hidden' && items[i].type != 'radio' && items[i].type != 'checkbox' && items[i].type != 'button') {
-                        items[i].setAttribute('value', '');
-                        items[i].value = '';
+                    if (element.type != 'hidden' && element.type != 'radio' && element.type != 'checkbox' && element.type != 'button') {
+                        element.setAttribute('value', '');
+                        element.value = '';
                     }
-//                    if (items[i].type == 'button') {
-//                        $(items[i]).removeClass('btn-info');
-//                        $(items[i]).addClass('btn-default');
-//                        $(items[i]).val('올리기');
+//                    if (element.type == 'button') {
+//                        $(element).removeClass('btn-info');
+//                        $(element).addClass('btn-default');
+//                        $(element).val('올리기');
 //                    }
-//                    if (items[i].type == 'file') {
-//                        $(items[i]).val('');
+//                    if (element.type == 'file') {
+//                        $(element).val('');
 //                    }
-                    if (items[i].type == 'radio' ) {
-                        if (items[i].id.indexOf('lastSchlYn') > 0) {
-                            items[i].checked = false;
+                    if (element.type == 'radio' ) {
+                        if (element.id.indexOf('radio') > 0) {
+                            element.checked = false;
+                            element.value = 'off';
                         }
-//                        else if (items[i].id.indexOf('grdaTypeCode') > 0 && items[i].checked)
-//                            items[i].checked = true;
+//                        else if (element.id.indexOf('grdaTypeCode') > 0 && element.checked)
+//                            element.checked = true;
 //                        }
                     }
                 }
@@ -983,6 +1038,7 @@
                 }
             }
         };
+//        mustCheckedOneRadio();
         <%-- 최종 학교 체크 처리 끝 --%>
 
         $('.btn-add').on('click', function(e) {
@@ -1003,36 +1059,38 @@
         });
 
         $('.btn-remove').on('click', function(e) {
-            var target = e.currentTarget ? e.currentTarget : e.target;
-            var blockToRemove = target.parentNode;
-            while (blockToRemove && !$(blockToRemove).hasClass('form-group-block')) {
-                blockToRemove = blockToRemove.parentNode;
-            }
-            var container = blockToRemove.parentNode;
-            var blocks = container.querySelectorAll('.form-group-block');
-            var length = blocks.length, i;
+            if (confirm('학력 정보를 삭제하시면 관련 첨부 파일도 함께 삭제 됩니다.\n\n계속 하시겠습니까?')) {
+                var target = e.currentTarget ? e.currentTarget : e.target;
+                var blockToRemove = target.parentNode;
+                while (blockToRemove && !$(blockToRemove).hasClass('form-group-block')) {
+                    blockToRemove = blockToRemove.parentNode;
+                }
+                var container = blockToRemove.parentNode;
+                var blocks = container.querySelectorAll('.form-group-block');
+                var length = blocks.length, i;
 //            var blockIndex = target.dataset.blockIndex;
-            var blockIndex = target.getAttribute('data-block-index');
-            var listName = target.getAttribute('data-list-name');
-            var userCUDType = document.getElementById(listName + blockIndex + '.userCUDType');
+                var blockIndex = target.getAttribute('data-block-index');
+                var listName = target.getAttribute('data-list-name');
+                var userCUDType = document.getElementById(listName + blockIndex + '.userCUDType');
 
-            switch (userCUDType.value) {
-                case 'INSERT' :
-                    for (i = parseInt(blockIndex) + 1; i < length; i++) {
-                        updateIdAndName(blocks[i], i - 1);
-                    }
-                    if (length <= 1) {
-                        resetBlockContents(blockToRemove);
-                    } else {
-                        blockToRemove.parentNode.removeChild(blockToRemove);
-                    }
-                    break;
-                case 'UPDATE' :
-                    userCUDType.value = 'DELETE';
-                    blockToRemove.style.display = 'none';
-                    break;
+                switch (userCUDType.value) {
+                    case 'INSERT' :
+                        for (i = parseInt(blockIndex) + 1; i < length; i++) {
+                            updateIdAndName(blocks[i], i - 1);
+                        }
+                        if (length <= 1) {
+                            resetBlockContents(blockToRemove);
+                        } else {
+                            blockToRemove.parentNode.removeChild(blockToRemove);
+                        }
+                        break;
+                    case 'UPDATE' :
+                        userCUDType.value = 'DELETE';
+                        blockToRemove.style.display = 'none';
+                        break;
+                }
+                mustCheckedOneRadio();
             }
-            mustCheckedOneRadio();
         });
         <%-- 복제된 입력폼 내용 초기화 끝 --%>
         <%-- form-group-block 추가/삭제에 대한 처리 끝 --%>

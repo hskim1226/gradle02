@@ -608,7 +608,8 @@
             admsNo = document.getElementById('admsNo').value = '${basis.application.admsNo}',
             applStsCode = document.getElementById('applStsCode').value = '${basis.application.applStsCode}',
             entrYear = document.getElementById('entrYear').value = '${basis.application.entrYear}',
-            admsTypeCode = document.getElementById('admsTypeCode').value = '${basis.application.admsTypeCode}';
+            admsTypeCode = document.getElementById('admsTypeCode').value = '${basis.application.admsTypeCode}',
+            corsTypeCode = '${basis.application.corsTypeCode}';
 
         <%-- 원서 작성 현황 및 사용 가능한 탭 처리 --%>
         var processCurrentStep = function (applStsCode) {
@@ -667,7 +668,6 @@
         };
 
         // 입력 검증 오류로 DB에 저장되지 않고 다시 돌아왔을 때 지원사항 저장 상태로 설정
-console.log(document.getElementById('detlMajCode').value.length);
         if (document.getElementById('detlMajCode').value.length > 0) baseInfoSaved();
         // TODO : 지원사항 저장 시 applNo 따서 DB에 저장하는 것으로 로직 수정
         <%-- 지원 사항 저장 버튼 처리 --%>

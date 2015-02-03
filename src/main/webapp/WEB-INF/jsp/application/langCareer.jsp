@@ -675,8 +675,9 @@
             name = input.name;
 
             items = block.querySelectorAll('input, select, label');
-            itemsl = items.length;
+
             if (items) {
+                itemsl = items.length;
                 for (i = 0; i <itemsl ; i++) {
                     name = items[i].name;
                     attrs = items[i].attributes;

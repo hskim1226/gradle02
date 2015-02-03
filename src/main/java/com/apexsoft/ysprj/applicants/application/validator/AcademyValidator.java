@@ -2,6 +2,7 @@ package com.apexsoft.ysprj.applicants.application.validator;
 
 import com.apexsoft.framework.message.MessageResolver;
 import com.apexsoft.ysprj.applicants.application.domain.Academy;
+import com.apexsoft.ysprj.applicants.application.domain.Application;
 import com.apexsoft.ysprj.applicants.application.domain.CustomApplicationAcademy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -28,11 +29,15 @@ public class AcademyValidator implements Validator {
     public void validate(Object o, Errors errors) {
         int i = 0;
         Academy academy = (Academy)o;
+        Application application = academy.getApplication();
         List<CustomApplicationAcademy> collegeList = academy.getCollegeList();
         List<CustomApplicationAcademy> graduateList = academy.getGraduateList();
 
+        String corsTypeCode = application.getCorsTypeCode();
+
         validateList(collegeList, errors, "collegeList");
-        validateList(graduateList, errors, "graduateList");
+        if (corsTypeCode.equals("2") || corsTypeCode.equals("6") || corsTypeCode.equals("8")) // 박사 과정일 때만 석사 학력 validation
+            validateList(graduateList, errors, "graduateList");
     }
 
     private void validateList(List<CustomApplicationAcademy> list, Errors errors, String listName) {
