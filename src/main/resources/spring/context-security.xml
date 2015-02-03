@@ -39,7 +39,7 @@
 
         <form-login login-processing-url="/j_spring_security_check.do"
                     login-page="/user/login?auth=true"
-                    default-target-url="/"
+                    default-target-url="/application/mylist"
                     always-use-default-target="false"
                     authentication-failure-handler-ref="authenticationFailureHandler"
                     authentication-failure-url="/user/login?fail=true" />

@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>로그인</title>
+    <title>회원 가입</title>
     <link rel="stylesheet" href="//code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css">
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -84,6 +84,10 @@
             padding: 0 !important;
             margin: 0 !important;
         }
+        input[readonly] {
+            background-color: white !important;
+            cursor: text !important;
+        }
     </style>
 </head>
 <body>
@@ -103,9 +107,9 @@
                         <label class="btn btn-default active">
                             <input type="radio" name="userType" id="usertype[]" value="g" checked /><spring:message code="L108" />
                         </label>
-                        <label class="btn btn-default">
-                            <input type="radio" name="userType" id="usertype[]" value="c" /><spring:message code="L109" />
-                        </label>
+                        <%--<label class="btn btn-default">--%>
+                            <%--<input type="radio" name="userType" id="usertype[]" value="c" /><spring:message code="L109" />--%>
+                        <%--</label>--%>
                         <label class="btn btn-default">
                             <input type="radio" name="userType" id="usertype[]" value="f" /><spring:message code="L110" />
                         </label>
@@ -117,7 +121,7 @@
                 <label for="userId" class="col-sm-4 control-label"><spring:message code="L101" /></label>
                 <div class="col-sm-4">
                     <div class="input-group">
-                        <input type="text" class="form-control" name="userId" id="userId" placeholder="User ID" />
+                        <input type="text" class="form-control engName" name="userId" id="userId" placeholder="알파벳 대소문자와 숫자로 입력해 주세요"/>
                         <span class="input-group-btn">
                             <button class="btn btn-default" type="button" id="available-check-button">Check</button>
                         </span>
@@ -126,22 +130,22 @@
             </div>
             <%--password--%>
             <div class="form-group">
-                <label for="pswd" class="col-sm-4 control-label"><spring:message code="L102" /></label>
+                <label for="pswd1" class="col-sm-4 control-label"><spring:message code="L102" /></label>
                 <div class="col-sm-4">
-                    <input type="password" class="form-control" name="pswd" id="pswd" placeholder="Password"/>
+                    <input type="password" class="form-control" name="pswd" id="pswd1" placeholder="Password"/>
                 </div>
             </div>
             <div class="form-group">
-                <label for="confirm" class="col-sm-4 control-label"><spring:message code="L117" /></label>
+                <label for="pswd2" class="col-sm-4 control-label"><spring:message code="L117" /></label>
                 <div class="col-sm-4">
-                    <input type="password" class="form-control" id="confirm" placeholder="Confirm" />
+                    <input type="password" class="form-control" id="pswd2" placeholder="Password 확인" />
                 </div>
             </div>
             <%--email--%>
             <div class="form-group">
                 <label for="mailAddr" class="col-sm-4 control-label"><spring:message code="L103" /></label>
                 <div class="col-sm-4">
-                    <input type="email" class="form-control" name="mailAddr" id="mailAddr" placeholder="email" />
+                    <input type="email" class="form-control emailOnly" name="mailAddr" id="mailAddr" placeholder="이메일 주소를 입력해 주세요" />
                 </div>
                 <label for="mailRecvYn" class="control-label">
                     <input type="checkbox" name="mailRecvYn" id="mailRecvYn" value="y"/><spring:message code="L112" />
@@ -151,7 +155,7 @@
             <div class="form-group">
                 <label for="mobiNum" class="col-sm-4 control-label"><spring:message code="L104" /></label>
                 <div class="col-sm-4">
-                    <input type="text" class="form-control" name="mobiNum" id="mobiNum" placeholder="###-####-####" />
+                    <input type="text" class="form-control numOnly" name="mobiNum" id="mobiNum" placeholder="숫자로만 입력해 주세요" />
                 </div>
                 <label for="smsRecvYn" class="control-label">
                     <input type="checkbox" name="smsRecvYn" id="smsRecvYn" value="y" /><spring:message code="L113" />
@@ -161,7 +165,7 @@
             <div class="form-group">
                 <label for="name" class="col-sm-4 control-label"><spring:message code="L105" /></label>
                 <div class="col-sm-4">
-                    <input type="text" class="form-control" name="name" id="name" placeholder="Name" />
+                    <input type="text" class="form-control" name="name" id="name" placeholder="실명을 입력해주세요" />
                 </div>
             </div>
             <%--gend--%>
@@ -183,24 +187,21 @@
                 <label for="bornDay" class="col-sm-4 control-label"><spring:message code="L107" /></label>
                 <div class="col-sm-4">
                     <div class="input-group date">
-                        <%--<input type="text" class="form-control" name="bornDay" id="bornDay" />--%>
-                        <%--<span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>--%>
-                        <input id="bornDay" name="bornDay" class="form-control" readonly="true"/>
+                        <input type='text' id="bornDay" name="bornDay" class="form-control" readonly="true"/>
                         <span class="input-group-addon calendar-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                     </div>
                 </div>
             </div>
             <%--submit--%>
-            <div class="btn-group">
-                <div class="col-sm-4">&nbsp;</div>
+            <div class="form-group">
+                <label class="col-sm-4 control-label"></label>
                 <div class="col-sm-4">
-                    <div class="btn-group-justified">
-                        <button id="sign-up-button" class="btn btn-primary btn-lg" disabled="disabled" ><spring:message code="L116" /></button>
+                    <div class="btn-group btn-group-justified">
+                        <div class="btn-group">
+                            <button id="sign-up-button" class="btn btn-primary btn-lg" disabled="disabled" ><spring:message code="L116" /></button>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="btn-group btn-group-justified">
-                <button id="sign-up-button2" class="btn btn-primary btn-lg" disabled="disabled" ><spring:message code="L116" /></button>
             </div>
         </form>
     </div>
@@ -218,6 +219,7 @@
     </div>
 </section>
 <a href="#header" class="scrollup"><i class="fa fa-chevron-up"></i></a>
+<script src="${contextPath}/js/bootstrap.min.js"></script>
 <script src="${contextPath}/js/modernizr-2.6.2-respond-1.1.0.min.js"></script>
 <script src="${contextPath}/js/jquery.easing.min.js"></script>
 <script src="${contextPath}/js/jquery.nicescroll.min.js"></script>
@@ -231,21 +233,25 @@
 <script src="${contextPath}/js/jquery-ui.min.js"></script>
 <script type="text/javascript">
     $(document).ready(function(){
-        $("#sign-up-button").on("click", function(){
+        $("#sign-up-button").on("click", function(e){
 //            $('#sign-up-form').bootstrapValidator('validate');
-            $.post("${contextPath}/user/signup/save",
-                $("#sign-up-form").serialize(),
-                function(data){
-                    if(data.result == "SUCCESS"){
-                        alert("성공적으로 등록되었습니다.");
-                        location.href="${contextPath}/user/login";
-                    }else{
-                        alert("서비스에 문제가 발생하였습니다.");
-                    }
-                }
-            );
+            e.preventDefault();
+            if ( document.getElementById('pswd1').value !== document.getElementById('pswd2').value ) {
+                alert("패스워드가 일치하지 않습니다.");
+                return;
+            } else {
+                document.forms[0].action = "${contextPath}/user/signup/save";
+                document.forms[0].submit();
+            }
         });
 
+        <%-- 아이디 영대소문자 처리 시작 --%>
+        $('.engName').on('keyup', function() {
+            this.value = this.value.replace(/([^0-9A-Za-z])/g,"");
+        });
+        <%-- 아이디 영대소문자 처리 시작 --%>
+
+        <%-- 아이디 중복 체크 --%>
         $("#available-check-button").on("click", function(){
             $.get("${contextPath}/user/idCheck",
                 $("#sign-up-form").serialize(),
@@ -260,6 +266,29 @@
                 }
             );
         });
+        <%-- 아이디 중복 체크 --%>
+
+        <%-- 메일 주소 validation --%>
+        $('.emailOnly').on('blur', function () {
+            var emailRegExp = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+                    val = this.value;
+            if (!emailRegExp.test(val) && val != '') {
+                alert("이메일 주소를 정확히 기재해 주세요")
+                this.value = "";
+                this.focus();
+            }
+        });
+        <%-- 메일 주소 validation --%>
+
+        <%-- 숫자만 입력 - 주민번호, 휴대폰, 전화번호 --%>
+        $('.numOnly').on('keyup', function () {
+            var numCheckRegExp = /^[0-9]*$/,
+                    val = this.value;
+            if (!numCheckRegExp.test(val)) {
+                this.value = val.substr(0, val.length-1);
+            }
+        });
+        <%-- 숫자만 입력 - 주민번호, 휴대폰, 전화번호 --%>
 
         <%-- 달력 옵션 --%>
         var datePickerOption = {

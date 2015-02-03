@@ -665,29 +665,28 @@
             $('#baseCancel').css('display', 'block');
             $('#baseSave').css('display', 'none');
         };
-
-        if (applNo != "") {
-            baseInfoSaved();
-        }
+//        if (applNo != "") {
+//            baseInfoSaved();
+//        }
         <%-- 지원 사항 저장 버튼 처리 --%>
 
         <%-- 기본 정보 > 지원 사항 처리 --%>
         $('#btnBaseSave').on('click', function(e) {
+            e.preventDefault();
             if ( confirm('<spring:message code="U313"/>') ) {
                 baseInfoSaved();
             } else {
                 return false;
             }
-            event.preventDefault();
         });
 
         $('#btnBaseCancel').on('click', function(e) {
+            e.preventDefault();
             if ( confirm('<spring:message code="U314"/>') ) {
                 //TODO DB 삭제 후 공고 목록으로 이동
             } else {
                 return false;
             }
-            event.preventDefault();
         });
         <%-- 기본 정보 > 지원 사항 처리 --%>
 
@@ -713,7 +712,7 @@
         <%-- 한글 이름 공백 제거 --%>
         var removeSpaceInKorName = function () {
             var korName = document.getElementById('application.korName');
-            $(korName).on('keyup', function () {
+            $(korName).on('blur', function () {
                 this.value = this.value.replace(/(\s*)/gi,"");
             });
         };
