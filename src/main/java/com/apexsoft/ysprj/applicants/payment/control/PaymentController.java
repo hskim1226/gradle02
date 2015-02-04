@@ -1,5 +1,6 @@
 package com.apexsoft.ysprj.applicants.payment.control;
 
+import com.apexsoft.framework.common.vo.ExecutionContext;
 import com.apexsoft.framework.message.MessageResolver;
 import com.apexsoft.framework.security.UserSessionVO;
 import com.apexsoft.framework.xpay.service.TransactionVO;
@@ -76,11 +77,13 @@ public class PaymentController {
      * @throws com.fasterxml.jackson.core.JsonProcessingException
      * @throws java.io.UnsupportedEncodingException
      */
-    @RequestMapping(value="/info", method= RequestMethod.GET, produces="text/plain;charset=UTF-8")
+//    @RequestMapping(value="/info", method= RequestMethod.GET, produces="text/plain;charset=UTF-8")
+    @RequestMapping(value="/info", method= RequestMethod.GET)
     @ResponseBody
-    public String getFullPaymentInfo( HttpServletRequest request, HttpSession httpSession, Payment payment, Basis model )
+    public ExecutionContext getFullPaymentInfo( HttpServletRequest request, HttpSession httpSession, Payment payment, Basis model )
             throws NoSuchAlgorithmException, JsonProcessingException, UnsupportedEncodingException {
 
+        ExecutionContext ec = new ExecutionContext();
         SecurityContext sc = (SecurityContext)httpSession.getAttribute("SPRING_SECURITY_CONTEXT");
         Authentication auth = sc.getAuthentication();
         UserSessionVO userSessionVO = (UserSessionVO)auth.getPrincipal();
@@ -100,7 +103,8 @@ public class PaymentController {
         payment.setApplNo(model.getApplication().getApplNo());
 
         String json = new ObjectMapper().writeValueAsString(payment);
-        return json;
+        ec.setData(json);
+        return ec;
     }
 
     /**

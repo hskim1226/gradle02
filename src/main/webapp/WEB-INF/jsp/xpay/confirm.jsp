@@ -170,7 +170,7 @@
 
             $('#processPayment').click( function() {
 
-                alert('결제를 진행합니다');
+//                alert('결제를 진행합니다');
 
                 document.getElementById('LGD_TIMESTAMP').value = dateToFormat(new Date(), 'yyyyMMddhhmmss');
                 document.getElementById('applNo').value = "${payment.applNo}";
@@ -183,7 +183,9 @@
                     contentType: "application/x-www-form-urlencoded; charset=UTF-8",
 
                     success: function(data){
-                        var parsed = $.parseJSON(data);
+//                        var parsed = $.parseJSON(data);
+                        var container = JSON.parse(data)
+                        var parsed = JSON.parse(container.data);
 
                         document.getElementById('CST_PLATFORM').value = parsed.cst_PLATFORM,
                         document.getElementById('CST_MID').value = parsed.cst_MID,
@@ -198,7 +200,7 @@
                         document.getElementById('LGD_VERSION').value = parsed.lgd_VERSION,
                         document.getElementById('LGD_CASNOTEURL').value = parsed.lgd_CASNOTEURL;
 
-                        alert(document.getElementById('LGD_MID').value);
+//                        alert(document.getElementById('LGD_MID').value);
 
                         doPay_ActiveX();
                     }
