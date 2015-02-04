@@ -199,9 +199,9 @@ public class AcademyServiceImpl implements AcademyService {
      * @return
      */
     private Map<UserCUDType, Integer> processAcademy(Application application,
-                                           List<CustomApplicationAcademy> academyList,
-                                           Date date,
-                                           ParamForAcademy param) {
+                                                     List<CustomApplicationAcademy> academyList,
+                                                     Date date,
+                                                     ParamForAcademy param) {
 
         int c1 = 0, u1 = 0, d1 = 0, lastSeq = 0;
         int applNo = application.getApplNo();
@@ -273,7 +273,7 @@ public class AcademyServiceImpl implements AcademyService {
         List<T> infoList = null;
 
         infoList = commonDAO.queryForList(NAME_SPACE + mapperNameSqlId,
-                    parameter, clazz);
+                parameter, clazz);
 
         return infoList;
     }
