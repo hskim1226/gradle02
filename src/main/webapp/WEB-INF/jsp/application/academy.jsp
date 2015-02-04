@@ -701,7 +701,10 @@
                 url: url,
                 success: function(data) {
 
-                    var obj = JSON.parse(data.data), record, i, l;
+                    var container = JSON.parse(data),
+                        obj = JSON.parse(container.data),
+                        record, i, l;
+//                    var obj = JSON.parse(data.data), record, i, l;
 
                     if (obj.length > 0) {
                         for ( i = 0, l = obj.length ; i < l ; i++ ) {

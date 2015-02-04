@@ -184,8 +184,8 @@
 
                     success: function(data){
 //                        var parsed = $.parseJSON(data);
-                        var container = JSON.parse(data)
-                        var parsed = JSON.parse(container.data);
+                        var container = JSON.parse(data),
+                            parsed = JSON.parse(container.data);
 
                         document.getElementById('CST_PLATFORM').value = parsed.cst_PLATFORM,
                         document.getElementById('CST_MID').value = parsed.cst_MID,

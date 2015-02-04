@@ -209,8 +209,11 @@ public class AcademyServiceImpl implements AcademyService {
         Map<UserCUDType, Integer> iudMap = new HashMap<UserCUDType, Integer>();
 
         List<ApplicationAcademy> academiesFromDB = commonDAO.queryForList(NAME_SPACE+"CustomApplicationAcademyMapper.selectByApplNoAcadTypeCode", param, ApplicationAcademy.class);
+
+        lastSeq = commonDAO.queryForInt(NAME_SPACE +"CustomApplicationAcademyMapper.selectMaxSeqByApplNo", applNo ) ;
+
         if ( academiesFromDB.size() > 0 ) {
-            lastSeq = academiesFromDB.get(academiesFromDB.size()-1).getAcadSeq();
+            //lastSeq = academiesFromDB.get(academiesFromDB.size()-1).getAcadSeq();
 
             if ( academiesFromDB != null ) {
                 for (ApplicationAcademy academy : academiesFromDB) {
@@ -235,6 +238,20 @@ public class AcademyServiceImpl implements AcademyService {
                         academyKey.setAcadSeq(acadSeqFromView);
                         academyKey.setAcadTypeCode(academyFromView.getAcadTypeCode());
                         d1 += commonDAO.delete(NAME_SPACE + "ApplicationAcademyMapper.deleteByPrimaryKey", academyKey);
+
+                        //file upload 된 doc 삭제
+                        ParamForApplicationDocument aParam = new ParamForApplicationDocument();
+                        aParam.setApplNo(applNo);
+                        aParam.setDocGrp(acadSeqFromView);
+                        List<TotalApplicationDocument> aDocList ;
+                        aDocList = commonDAO.queryForList( NAME_SPACE+ "CustomApplicationDocumentMapper.selectApplicationDocumentListByDocGrp", aParam , TotalApplicationDocument.class);
+                        if( aDocList != null ){
+                            for( TotalApplicationDocument aDoc : aDocList){
+                                commonDAO.delete(NAME_SPACE + "ApplicationDocumentMapper.deleteByPrimaryKey", aDoc);
+
+                            }
+                        }
+//
                         seqMap.remove(acadSeqFromView);
                     }
                 }
