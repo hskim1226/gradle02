@@ -170,6 +170,8 @@
 
             $('#processPayment').click( function() {
 
+                alert('결제를 진행합니다');
+
                 document.getElementById('LGD_TIMESTAMP').value = dateToFormat(new Date(), 'yyyyMMddhhmmss');
                 document.getElementById('applNo').value = "${payment.applNo}";
 
@@ -195,6 +197,8 @@
                         document.getElementById('LGD_CUSTOM_PROCESSTYPE').value = parsed.lgd_CUSTOM_PROCESSTYPE,
                         document.getElementById('LGD_VERSION').value = parsed.lgd_VERSION,
                         document.getElementById('LGD_CASNOTEURL').value = parsed.lgd_CASNOTEURL;
+
+                        alert(document.getElementById('LGD_MID').value);
 
                         doPay_ActiveX();
                     }
