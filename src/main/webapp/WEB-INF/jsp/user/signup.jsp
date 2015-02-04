@@ -256,7 +256,8 @@
             $.get("${contextPath}/user/idCheck",
                 $("#sign-up-form").serialize(),
                 function(data){
-                    if(data.result == "SUCCESS"){
+                    var container = JSON.parse(data);
+                    if(container.result == "SUCCESS"){
                         alert("사용가능한 username 입니다.");
                         $("#sign-up-button").prop('disabled', false);
                     }else{
