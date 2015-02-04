@@ -11,9 +11,7 @@ import com.apexsoft.framework.persistence.file.model.FileInfo;
 import com.apexsoft.framework.persistence.file.model.FileItem;
 import com.apexsoft.framework.persistence.file.model.FileMetaForm;
 import com.apexsoft.framework.persistence.file.model.FileVO;
-import com.apexsoft.ysprj.applicants.application.domain.Application;
-import com.apexsoft.ysprj.applicants.application.domain.Document;
-import com.apexsoft.ysprj.applicants.application.domain.TotalApplicationDocument;
+import com.apexsoft.ysprj.applicants.application.domain.*;
 import com.apexsoft.ysprj.applicants.application.service.DocumentService;
 import com.apexsoft.ysprj.applicants.common.service.CommonService;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -127,7 +125,7 @@ public class DocumentController {
     }
 
     /**
-     * 첨부 파일 정보 저장
+     * 원서 작성 완료
      *
      * @param formData
      * @param principal
@@ -140,7 +138,7 @@ public class DocumentController {
                                      Principal principal,
                                      BindingResult bindindResult,
                                      ModelAndView mv) {
-        mv.setViewName(TARGET_VIEW);
+        mv.setViewName("application/mylist");
         if (bindindResult.hasErrors()) return mv;
 
         ExecutionContext ec = null;
@@ -149,18 +147,22 @@ public class DocumentController {
         Application application = formData.getApplication();
         int applNo = application.getApplNo();
         application.setUserId(userId);
-        application.setModId(userId);
 
 //        List<CustomApplicationExperience> exprList = formData.getApplicationExperienceList();
 
         ec = documentService.saveDocument(formData);
 
         if (ec.getResult().equals(ExecutionContext.SUCCESS)) {
-            ExecutionContext ecRetrieve = documentService.retrieveDocument(formData);
+//            ExecutionContext ecRetrieve = documentService.retrieveDocument(formData);
+
+            ParamForApplication p = new ParamForApplication();
+            p.setUserId(principal.getName());
+            ExecutionContext ecRetrieve = documentService.retrieveInfoListByParamObj(p, "CustomApplicationMapper.selectApplByUserId", CustomMyList.class);
 
             if (ecRetrieve.getResult().equals(ExecutionContext.SUCCESS)) {
-                Map<String, Object> setupMap = (Map<String, Object>)ecRetrieve.getData();
-                addObjectToMV(mv, setupMap, ec);
+//                Map<String, Object> setupMap = (Map<String, Object>)ecRetrieve.getData();
+//                addObjectToMV(mv, setupMap, ec);
+                mv.addObject("myList", ecRetrieve.getData());
             } else {
                 mv = getErrorMV("common/error", ecRetrieve);
             }

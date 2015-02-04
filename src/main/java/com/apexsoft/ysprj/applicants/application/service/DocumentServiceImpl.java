@@ -80,22 +80,38 @@ public class DocumentServiceImpl implements DocumentService {
     public ExecutionContext saveDocument(Document document) {
 
         ExecutionContext ec = new ExecutionContext();
-        // TODO - dhoonkim - 첨부파일 저장
-//        int r1 = 0, applNo = application.getApplNo(), idx = 0;
-//        Date date = new Date();
-//        String userId = application.getUserId();
-//
-//        if ( r1 == idx ) {
-//            ec.setResult(ExecutionContext.SUCCESS);
-//            ec.setMessage(messageResolver.getMessage("U325"));
-//            ec.setData(new ApplicationIdentifier(applNo, application.getApplStsCode(),
-//                    application.getAdmsNo(), application.getEntrYear(), application.getAdmsTypeCode()));
-//        } else {
-//            ec.setResult(ExecutionContext.FAIL);
-//            ec.setMessage(messageResolver.getMessage("U326"));
-//            ec.setData(new ApplicationIdentifier(applNo, APP_NULL_STATUS));
-//            ec.setErrCode("ERR0033");
-//        }
+        Application application = document.getApplication();
+
+        int r1, applNo = application.getApplNo();
+        Date date = new Date();
+        String userId = application.getUserId();
+        application.setModDate(date);
+        application.setModId(userId);
+        application.setApplStsCode("00010");
+
+        r1 = commonDAO.updateItem(application, NAME_SPACE, "ApplicationMapper");
+
+        if ( r1 == 1 ) {
+            ec.setResult(ExecutionContext.SUCCESS);
+            ec.setMessage(messageResolver.getMessage("U327"));
+            ec.setData(new ApplicationIdentifier(applNo, application.getApplStsCode(),
+                    application.getAdmsNo(), application.getEntrYear(), application.getAdmsTypeCode()));
+        } else {
+            ec.setResult(ExecutionContext.FAIL);
+            ec.setMessage(messageResolver.getMessage("U328"));
+            ec.setData(new ApplicationIdentifier(applNo, APP_NULL_STATUS));
+            ec.setErrCode("ERR0033");
+        }
+        return ec;
+    }
+
+    @Override
+    public <T> ExecutionContext retrieveInfoListByParamObj(Object parameter, String mapperNameSqlId, Class<T> clazz) {
+        ExecutionContext ec = new ExecutionContext();
+        List<T> infoList = commonDAO.queryForList(NAME_SPACE + mapperNameSqlId,
+                parameter, clazz);
+
+        ec.setData(infoList);
         return ec;
     }
 
@@ -553,4 +569,6 @@ public class DocumentServiceImpl implements DocumentService {
         }
         return photoUrl;
     }
+
+
 }

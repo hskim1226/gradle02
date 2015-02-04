@@ -726,7 +726,7 @@
             <div class="spacer-tiny"></div>
                 <div class="btn-group btn-group-justified">
                     <div class="btn-group">
-                        <button id="saveDocument" type="button" class="btn btn-info btn-lg btn-save" data-saveType="document">작성 완료</button>
+                        <button id="saveDocument" type="button" class="btn btn-info btn-lg btn-save" data-saveType="document">원서 작성 완료</button>
                     </div>
                 </div>
             </div> <%--myTabContent--%>
@@ -753,7 +753,8 @@
             for ( i = 0 ; i < code && i < l ; i++ ) {
                 stepTR.children[i].className = 'stepEnabled';
                 tabTR.children[i].setAttribute('data-tab-available', 'true');
-                tabTR.children[i+1].setAttribute('data-tab-available', 'true');
+                if (tabTR.children[i+1])
+                    tabTR.children[i+1].setAttribute('data-tab-available', 'true');
             }
         };
         processCurrentStep(document.getElementById('applStsCode').value);
@@ -789,6 +790,7 @@
 
         <%-- 하단 버튼 처리 --%>
         var formProcess = function(event) {
+            event.preventDefault();
             var form = document.forms[0];
 
             form.action = "${contextPath}/application/document/save";

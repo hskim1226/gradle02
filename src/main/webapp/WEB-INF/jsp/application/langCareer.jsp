@@ -498,6 +498,7 @@
 
         <%-- 하단 버튼 처리 --%>
         var formProcess = function(event) {
+            event.preventDefault();
             var form = document.forms[0];
 
             form.action = "${contextPath}/application/langCareer/save";
