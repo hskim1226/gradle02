@@ -391,6 +391,16 @@
                                         <form:input path="application.korName" cssClass="form-control requiredInput" placeholder="한글 이름을 공백 없이 입력해주세요"/>
                                     </div>
                                 </div>
+                        <spring:bind path="application.korName">
+                            <c:if test="${status.error}">
+                                <div class="form-group">
+                                    <div class="col-sm-2 control-label"></div>
+                                    <div class="col-sm-9">
+                                        <div class="validation-error">${status.errorMessage}</div>
+                                    </div>
+                                </div>
+                            </c:if>
+                        </spring:bind>
                                 <div class="form-group required">
                                     <label class="col-sm-2 control-label">영문 이름</label>
                                     <div class="col-sm-4">
@@ -398,12 +408,26 @@
                                             <span class="input-group-addon">&nbsp;성&nbsp;</span>
                                             <form:input path="application.engSur" cssClass="form-control engName" />
                                         </div>
+                                <spring:bind path="application.engSur">
+                                    <c:if test="${status.error}">
+                                        <div class="input-group">
+                                            <div class="validation-error">${status.errorMessage}</div>
+                                        </div>
+                                    </c:if>
+                                </spring:bind>
                                     </div>
                                     <div class="col-sm-5">
                                         <div class="input-group">
                                             <span class="input-group-addon">이름</span>
                                             <form:input path="application.engName" cssClass="form-control engName" />
                                         </div>
+                                <spring:bind path="application.engName">
+                                    <c:if test="${status.error}">
+                                        <div class="input-group">
+                                            <div class="validation-error">${status.errorMessage}</div>
+                                        </div>
+                                    </c:if>
+                                </spring:bind>
                                     </div>
                                 </div>
                                 <div class="form-group required">
@@ -412,6 +436,16 @@
                                         <form:input path="application.rgstNo" cssClass="form-control numOnly" maxlength="13" placeholder="주민등록번호를 13자리 숫자로 입력해주세요"/>
                                     </div>
                                 </div>
+                        <spring:bind path="application.rgstNo">
+                            <c:if test="${status.error}">
+                                <div class="form-group">
+                                    <div class="col-sm-2 control-label"></div>
+                                    <div class="col-sm-9">
+                                        <div class="validation-error">${status.errorMessage}</div>
+                                    </div>
+                                </div>
+                            </c:if>
+                        </spring:bind>
                             </div>
                         </div>
 
@@ -430,6 +464,16 @@
                                         <input id="citzCntrName" class="form-control" value="${country.korCntrName}" readonly="true"/>
                                     </div>
                                 </div>
+                        <spring:bind path="application.citzCntrCode">
+                            <c:if test="${status.error}">
+                                <div class="form-group">
+                                    <div class="col-sm-2 control-label"></div>
+                                    <div class="col-sm-9">
+                                        <div class="validation-error">${status.errorMessage}</div>
+                                    </div>
+                                </div>
+                            </c:if>
+                        </spring:bind>
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label">장애 사항</label>
                                     <div class="col-sm-9">
@@ -464,12 +508,22 @@
                                             <form:input path="application.zipCode" cssClass="form-control" id="zipCode" readonly="true"/>
                                         </div>
                                     </div>
+                            <spring:bind path="application.zipCode">
+                                <c:if test="${status.error}">
+                                    <div class="col-sm-4 validation-error">${status.errorMessage}</div>
+                                </c:if>
+                            </spring:bind>
                                     <div class="col-sm-offset-2 col-sm-4">
                                         <form:input path="application.addr" cssClass="form-control" id="address" readonly="true" />
                                     </div>
                                     <div class="col-sm-5">
                                         <form:input path="application.detlAddr" cssClass="form-control" id="addressDetail" placeholder="세부주소" />
                                     </div>
+                            <spring:bind path="application.addr">
+                                <c:if test="${status.error}">
+                                    <div class="col-sm-4 validation-error">${status.errorMessage}</div>
+                                </c:if>
+                            </spring:bind>
                                 </div>
                                 <div class="form-group required">
                                     <form:label path="application.telNum" cssClass="col-sm-2 control-label">전화번호</form:label>
@@ -477,18 +531,48 @@
                                         <form:input path="application.telNum" cssClass="form-control numOnly" maxlength="20" placeholder="전화번호를 '-'와 숫자로만 입력해주세요"/>
                                     </div>
                                 </div>
+                        <spring:bind path="application.telNum">
+                            <c:if test="${status.error}">
+                                <div class="form-group">
+                                    <div class="col-sm-2 control-label"></div>
+                                    <div class="col-sm-9">
+                                        <div class="validation-error">${status.errorMessage}</div>
+                                    </div>
+                                </div>
+                            </c:if>
+                        </spring:bind>
                                 <div class="form-group required">
                                     <form:label path="application.mobiNum" cssClass="col-sm-2 control-label">휴대폰</form:label>
                                     <div class="col-sm-9">
                                         <form:input path="application.mobiNum" cssClass="form-control numOnly" maxlength="20" placeholder="휴대폰번호를 '-'와 숫자로만 입력해주세요"/>
                                     </div>
                                 </div>
+                        <spring:bind path="application.mobiNum">
+                            <c:if test="${status.error}">
+                                <div class="form-group">
+                                    <div class="col-sm-2 control-label"></div>
+                                    <div class="col-sm-9">
+                                        <div class="validation-error">${status.errorMessage}</div>
+                                    </div>
+                                </div>
+                            </c:if>
+                        </spring:bind>
                                 <div class="form-group required">
                                     <form:label path="application.mailAddr" cssClass="col-sm-2 control-label">E-mail</form:label>
                                     <div class="col-sm-9">
                                         <form:input path="application.mailAddr" type="email" cssClass="form-control emailOnly" placeholder="이메일 주소를 입력해주세요"/>
                                     </div>
                                 </div>
+                        <spring:bind path="application.mailAddr">
+                            <c:if test="${status.error}">
+                                <div class="form-group">
+                                    <div class="col-sm-2 control-label"></div>
+                                    <div class="col-sm-9">
+                                        <div class="validation-error">${status.errorMessage}</div>
+                                    </div>
+                                </div>
+                            </c:if>
+                        </spring:bind>
                             </div>
                         </div>
                         <div class="panel panel-default">
@@ -500,6 +584,16 @@
                                         <form:input path="applicationGeneral.emerContName" cssClass="form-control" />
                                     </div>
                                 </div>
+                        <spring:bind path="applicationGeneral.emerContName">
+                            <c:if test="${status.error}">
+                                <div class="form-group">
+                                    <div class="col-sm-2 control-label"></div>
+                                    <div class="col-sm-9">
+                                        <div class="validation-error">${status.errorMessage}</div>
+                                    </div>
+                                </div>
+                            </c:if>
+                        </spring:bind>
                                 <div class="form-group required">
                                     <form:label path="applicationGeneral.emerContCode" cssClass="col-sm-2 control-label">관계</form:label>
                                     <div class="col-sm-9">
@@ -515,6 +609,16 @@
                                         <form:input path="applicationGeneral.emerContTel" cssClass="form-control numOnly" maxlength="20" placeholder="전화번호를 '-'와 숫자로만 입력해주세요"/>
                                     </div>
                                 </div>
+                        <spring:bind path="applicationGeneral.emerContTel">
+                            <c:if test="${status.error}">
+                                <div class="form-group">
+                                    <div class="col-sm-2 control-label"></div>
+                                    <div class="col-sm-9">
+                                        <div class="validation-error">${status.errorMessage}</div>
+                                    </div>
+                                </div>
+                            </c:if>
+                        </spring:bind>
                             </div>
                         </div>
                         <div class="panel panel-default" id="currentCompany" hidden>

@@ -77,9 +77,9 @@ public class BasisController {
             mv.addObject("resultMsg", messageResolver.getMessage("U334"));
             ExecutionContext ecRetrieve = basisService.retrieveSelectionMap(formData);
             if (ecRetrieve.getResult().equals(ExecutionContext.SUCCESS)) {
-                Map<String, Object> selectionMap = (Map<String, Object>)ecRetrieve.getData();
-                mv.addObject("selection", selectionMap);
-//                mv.addObject("country", map.get("country"));
+                Map<String, Object> map = (Map<String, Object>)ecRetrieve.getData();
+                mv.addObject("selection", map.get("selection"));
+                mv.addObject("country", map.get("country"));
             } else {
                 mv = getErrorMV("common/error", ecRetrieve);
             }

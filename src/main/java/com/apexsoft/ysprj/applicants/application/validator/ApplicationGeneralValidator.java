@@ -26,7 +26,8 @@ public class ApplicationGeneralValidator implements Validator {
         ApplicationGeneral applicationGeneral = (ApplicationGeneral) o;
         String bindingResultTargetClassName = errors.getObjectName();
         String className = applicationGeneral.getClass().getSimpleName();
-        String prefix = (!bindingResultTargetClassName.equals(className)) ? className + "." : "";
+        String instanceName = className.substring(0, 1).toLowerCase() + className.substring(1);
+        String prefix = (!bindingResultTargetClassName.equals(className)) ? instanceName + "." : "";
 
         if (applicationGeneral.getEmerContName() == null || applicationGeneral.getEmerContName().length() == 0) {
             errors.rejectValue(prefix + "emerContName", "U331",

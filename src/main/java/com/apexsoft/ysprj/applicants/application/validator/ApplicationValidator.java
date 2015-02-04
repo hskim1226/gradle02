@@ -26,23 +26,48 @@ public class ApplicationValidator implements Validator {
         Application application = (Application) o;
         String bindingResultTargetClassName = errors.getObjectName();
         String className = application.getClass().getSimpleName();
-        String prefix = (!bindingResultTargetClassName.equals(className)) ? className + "." : "";
+        String instanceName = className.substring(0, 1).toLowerCase() + className.substring(1);
+        String prefix = (!bindingResultTargetClassName.equals(className)) ? instanceName + "." : "";
 
         if (application.getKorName() == null || application.getKorName().length() == 0) {
             errors.rejectValue(prefix + "korName", "U331",
-                    new Object[]{"지원자 정보 > 한글 이름"}, messageResolver.getMessage("U332"));
+                    new Object[]{"한글 이름"}, messageResolver.getMessage("U332"));
         }
         if (application.getEngSur() == null || application.getEngSur().length() == 0) {
             errors.rejectValue(prefix + "engSur", "U331",
-                    new Object[]{"지원자 정보 > 영문 이름"}, messageResolver.getMessage("U332"));
+                    new Object[]{"영문 성"}, messageResolver.getMessage("U332"));
         }
         if (application.getEngName() == null || application.getEngName().length() == 0) {
             errors.rejectValue(prefix + "engName", "U331",
-                    new Object[]{"지원자 정보 > 영문 이름"}, messageResolver.getMessage("U332"));
+                    new Object[]{"영문 이름"}, messageResolver.getMessage("U332"));
         }
         if (application.getRgstNo() == null || application.getRgstNo().length() == 0) {
-            errors.rejectValue(prefix + "engName", "U331",
-                    new Object[]{"지원자 정보 > 주민등록번호"}, messageResolver.getMessage("U332"));
+            errors.rejectValue(prefix + "rgstNo", "U331",
+                    new Object[]{"주민등록번호"}, messageResolver.getMessage("U332"));
+        }
+        if (application.getCitzCntrCode() == null || application.getCitzCntrCode().length() == 0) {
+            errors.rejectValue(prefix + "citzCntrCode", "U331",
+                    new Object[]{"국적"}, messageResolver.getMessage("U332"));
+        }
+        if (application.getZipCode() == null || application.getZipCode().length() == 0) {
+            errors.rejectValue(prefix + "zipCode", "U331",
+                    new Object[]{"우편번호"}, messageResolver.getMessage("U332"));
+        }
+        if (application.getAddr() == null || application.getAddr().length() == 0) {
+            errors.rejectValue(prefix + "addr", "U331",
+                    new Object[]{"주소"}, messageResolver.getMessage("U332"));
+        }
+        if (application.getTelNum() == null || application.getTelNum().length() == 0) {
+            errors.rejectValue(prefix + "telNum", "U331",
+                    new Object[]{"전화번호"}, messageResolver.getMessage("U332"));
+        }
+        if (application.getMobiNum() == null || application.getMobiNum().length() == 0) {
+            errors.rejectValue(prefix + "mobiNum", "U331",
+                    new Object[]{"휴대폰"}, messageResolver.getMessage("U332"));
+        }
+        if (application.getMailAddr() == null || application.getMailAddr().length() == 0) {
+            errors.rejectValue(prefix + "mailAddr", "U331",
+                    new Object[]{"E-mail"}, messageResolver.getMessage("U332"));
         }
     }
 }
