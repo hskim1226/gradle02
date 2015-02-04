@@ -684,8 +684,13 @@
 
         $('#btnBaseCancel').on('click', function(e) {
             e.preventDefault();
+            var form, applStsCode;
             if ( confirm('<spring:message code="U314"/>') ) {
-                //TODO DB 삭제 후 공고 목록으로 이동
+                //TODO 지원 취소로 상태 변경 후 공고 목록으로 이동
+                form = document.getElementById('basis');
+                document.getElementById('applStsCode').value = '00022';
+                form.action = "${contextPath}/application/basis/cancel";
+                form.submit();
             } else {
                 return false;
             }

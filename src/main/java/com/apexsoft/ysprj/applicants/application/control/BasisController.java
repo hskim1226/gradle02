@@ -3,6 +3,7 @@ package com.apexsoft.ysprj.applicants.application.control;
 import com.apexsoft.framework.common.vo.ExecutionContext;
 import com.apexsoft.framework.message.MessageResolver;
 import com.apexsoft.ysprj.applicants.application.domain.*;
+import com.apexsoft.ysprj.applicants.application.service.ApplicationService;
 import com.apexsoft.ysprj.applicants.application.service.BasisService;
 import com.apexsoft.ysprj.applicants.application.validator.BasisValidator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
 import java.security.Principal;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -100,6 +102,64 @@ public class BasisController {
             } else {
                 mv = getErrorMV("common/error", ecRetrieve);
             }
+        } else {
+            mv = getErrorMV("common/error", ec);
+        }
+
+        return mv;
+    }
+
+    /**
+     * 기본 정보 저장
+     *
+     * @param formData
+     * @param principal
+     * @return
+     */
+    @RequestMapping(value="/cancel", method = RequestMethod.POST)
+    public ModelAndView cancelBasis(@ModelAttribute Basis formData,
+                                  Principal principal,
+                                  BindingResult bindingResult,
+                                  ModelAndView mv) {
+//        basisValidator.validate(formData, bindingResult);
+        mv.setViewName("application/mylist");
+        if (bindingResult.hasErrors()) {
+            mv.addObject("resultMsg", messageResolver.getMessage("U334"));
+            ExecutionContext ecRetrieve = basisService.retrieveBasis(formData);
+            if (ecRetrieve.getResult().equals(ExecutionContext.SUCCESS)) {
+                Map<String, Object> map = (Map<String, Object>)ecRetrieve.getData();
+                mv.addObject("selection", map.get("selection"));
+                mv.addObject("country", map.get("country"));
+            } else {
+                mv = getErrorMV("common/error", ecRetrieve);
+            }
+            return mv;
+        }
+
+        ExecutionContext ec;
+        String userId = principal.getName();
+        Application application = formData.getApplication();
+        application.setUserId(userId);
+
+        ec = basisService.saveBasis(formData);
+
+        if (ec.getResult().equals(ExecutionContext.SUCCESS)) {
+
+//            ExecutionContext ecRetrieve = basisService.retrieveBasis(formData);
+            ExecutionContext ecRetrieve;
+            ParamForApplication p = new ParamForApplication();
+            p.setUserId(principal.getName());
+
+            ecRetrieve = basisService.retrieveInfoListByParamObj(p, "CustomApplicationMapper.selectApplByUserId", CustomMyList.class);
+
+            mv.addObject("myList", ecRetrieve.getData());
+
+//            if (ecRetrieve.getResult().equals(ExecutionContext.SUCCESS)) {
+//                Map<String, Object> map = (Map<String, Object>)ecRetrieve.getData();
+//                addObjectToMV(mv, map, ec);
+//            } else {
+//                mv = getErrorMV("common/error", ecRetrieve);
+//            }
         } else {
             mv = getErrorMV("common/error", ec);
         }

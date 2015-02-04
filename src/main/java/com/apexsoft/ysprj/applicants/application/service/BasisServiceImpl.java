@@ -319,4 +319,16 @@ public class BasisServiceImpl implements BasisService {
 
         return applicationList.size() > 0;
     }
+
+    @Override
+    public <T> ExecutionContext retrieveInfoListByParamObj(Object parameter, String mapperNameSqlId, Class<T> clazz) {
+        List<T> infoList = null;
+        ExecutionContext ec = new ExecutionContext();
+        infoList = commonDAO.queryForList(NAME_SPACE + mapperNameSqlId,
+                    parameter, clazz);
+
+        ec.setResult(ExecutionContext.SUCCESS);
+        ec.setData(infoList);
+        return ec;
+    }
 }
