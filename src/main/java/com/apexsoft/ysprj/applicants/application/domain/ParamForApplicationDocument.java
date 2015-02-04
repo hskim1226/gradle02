@@ -8,6 +8,7 @@ public class ParamForApplicationDocument {
     private int applNo;
     private String fileName;
     private String docTypeCode;
+    private int docGrp =0;
 
     public int getApplNo() {
         return applNo;
@@ -31,5 +32,13 @@ public class ParamForApplicationDocument {
 
     public void setDocTypeCode(String docTypeCode) {
         this.docTypeCode = docTypeCode;
+    }
+
+    public int getDocGrp() {
+        return docGrp;
+    }
+
+    public void setDocGrp(int docGrp) {
+        this.docGrp = docGrp;
     }
 }

@@ -248,7 +248,7 @@
         '' AS TMPLT_YN,
         '' MSG_NO,
         DOC_SEQ,
-        DOC_GRP,
+        IFNULL(DOC_GRP, LANG_SEQ) AS DOC_GRP,
         DOC_NAME,
         FILE_EXT,
         IMG_YN,
@@ -298,7 +298,7 @@
     <select id="selectTotalLanguageInfoByApplNo"
             resultMap="totalLang"
             parameterType= "com.apexsoft.ysprj.applicants.application.domain.ParamForTotalLang" >
-    SELECT
+        SELECT
         CODE_GRP,
         CODE,
         CODE_VAL,
@@ -362,81 +362,81 @@
 
     <select id="selectCodeMandatoryGroupByCode"   resultMap="totlaDoc"   parameterType="com.apexsoft.ysprj.applicants.application.domain.ParamForCodeDocument" >
         SELECT
-            GRP_LEVEL,
-            ADMS_CODE_GRP,
-            ADMS_CODE,
-            ITEM_CODE_GRP AS DOC_ITEM_GRP,
-            ITEM_CODE AS DOC_TYPE_CODE,
-            ITEM_CODE AS DOC_ITEM_CODE,
-            CODEVAL(ITEM_CODE_GRP,ITEM_CODE) AS DOC_ITEM_NAME,
-            UP_CODE_GRP,
-            UP_CODE,
-            SEL_CODE_GRP,
-            LAST_YN,
-            MDT_YN,
-            UPLOAD_YN,
-            SEND_CNT,
-            ORGN_SEND_YN ,
-            CHK_CND,
-            TMPLT_YN,
-            MSG_NO
+        GRP_LEVEL,
+        ADMS_CODE_GRP,
+        ADMS_CODE,
+        ITEM_CODE_GRP AS DOC_ITEM_GRP,
+        ITEM_CODE AS DOC_TYPE_CODE,
+        ITEM_CODE AS DOC_ITEM_CODE,
+        CODEVAL(ITEM_CODE_GRP,ITEM_CODE) AS DOC_ITEM_NAME,
+        UP_CODE_GRP,
+        UP_CODE,
+        SEL_CODE_GRP,
+        LAST_YN,
+        MDT_YN,
+        UPLOAD_YN,
+        SEND_CNT,
+        ORGN_SEND_YN ,
+        CHK_CND,
+        TMPLT_YN,
+        MSG_NO
         FROM MDT_ADMS_CODE
         WHERE ADMS_NO = #{admsNo}
-            AND ADMS_CODE_GRP = #{admsCodeGrp}
-            AND ADMS_CODE = #{admsCode}
-            AND GRP_LEVEL =1
-            AND NOT_IN_YN !='Y'
-            AND ITEM_CODE = #{itemCode}
+        AND ADMS_CODE_GRP = #{admsCodeGrp}
+        AND ADMS_CODE = #{admsCode}
+        AND GRP_LEVEL =1
+        AND NOT_IN_YN !='Y'
+        AND ITEM_CODE = #{itemCode}
         UNION
         SELECT
-            GRP_LEVEL,
-            ADMS_CODE_GRP,
-            ADMS_CODE,
-            ITEM_CODE_GRP AS DOC_ITEM_GRP,
-            ITEM_CODE AS DOC_TYPE_CODE,
-            ITEM_CODE AS DOC_ITEM_CODE,
-            CODEVAL(ITEM_CODE_GRP,ITEM_CODE) AS DOC_ITEM_NAME,
-            UP_CODE_GRP,
-            UP_CODE,
-            SEL_CODE_GRP,
-            LAST_YN,
-            MDT_YN,
-            UPLOAD_YN,
-            SEND_CNT,
-            ORGN_SEND_YN ,
-            CHK_CND,
-            TMPLT_YN,
-            MSG_NO
+        GRP_LEVEL,
+        ADMS_CODE_GRP,
+        ADMS_CODE,
+        ITEM_CODE_GRP AS DOC_ITEM_GRP,
+        ITEM_CODE AS DOC_TYPE_CODE,
+        ITEM_CODE AS DOC_ITEM_CODE,
+        CODEVAL(ITEM_CODE_GRP,ITEM_CODE) AS DOC_ITEM_NAME,
+        UP_CODE_GRP,
+        UP_CODE,
+        SEL_CODE_GRP,
+        LAST_YN,
+        MDT_YN,
+        UPLOAD_YN,
+        SEND_CNT,
+        ORGN_SEND_YN ,
+        CHK_CND,
+        TMPLT_YN,
+        MSG_NO
         FROM MDT_ADMS_CODE
         WHERE ADMS_NO = #{admsNo}
-            AND ADMS_CODE_GRP = #{admsCodeGrp}
-            AND ADMS_CODE != #{admsCode}
-            AND GRP_LEVEL =1
-            AND NOT_IN_YN ='Y'
-            AND ITEM_CODE = #{itemCode}
+        AND ADMS_CODE_GRP = #{admsCodeGrp}
+        AND ADMS_CODE != #{admsCode}
+        AND GRP_LEVEL =1
+        AND NOT_IN_YN ='Y'
+        AND ITEM_CODE = #{itemCode}
     </select>
 
     <select id="selectTotalCodeApplicationDocumentList"   resultMap="totlaDoc"   parameterType="com.apexsoft.ysprj.applicants.application.domain.TotalApplicationDocumentContainer" >
         SELECT
-          GRP_LEVEL,
-          ADMS_CODE_GRP,
-          ADMS_CODE,
-          ITEM_CODE_GRP AS DOC_ITEM_GRP,
-          ITEM_CODE AS  DOC_ITEM_CODE,
-          #{docGrp} AS DOC_GRP,
-          #{docTypeCode} AS  DOC_TYPE_CODE,
-          CODEVAL(ITEM_CODE_GRP,ITEM_CODE) AS DOC_ITEM_NAME,
-          UP_CODE_GRP,
-          UP_CODE,
-          SEL_CODE_GRP,
-          LAST_YN,
-          MDT_YN,
-          UPLOAD_YN,
-          SEND_CNT,
-          ORGN_SEND_YN ,
-          CHK_CND,
-          TMPLT_YN,
-          MSG_NO
+        GRP_LEVEL,
+        ADMS_CODE_GRP,
+        ADMS_CODE,
+        ITEM_CODE_GRP AS DOC_ITEM_GRP,
+        ITEM_CODE AS  DOC_ITEM_CODE,
+        #{docGrp} AS DOC_GRP,
+        #{docTypeCode} AS  DOC_TYPE_CODE,
+        CODEVAL(ITEM_CODE_GRP,ITEM_CODE) AS DOC_ITEM_NAME,
+        UP_CODE_GRP,
+        UP_CODE,
+        SEL_CODE_GRP,
+        LAST_YN,
+        MDT_YN,
+        UPLOAD_YN,
+        SEND_CNT,
+        ORGN_SEND_YN ,
+        CHK_CND,
+        TMPLT_YN,
+        MSG_NO
         FROM MDT_ADMS_CODE
         WHERE ADMS_NO = #{admsNo}
         AND ADMS_CODE_GRP = #{admsCodeGrp}
@@ -475,24 +475,34 @@
     </select>
 
     <select id="selectMandatoryDocumentByDocType"   resultMap="totlaDoc"   parameterType="com.apexsoft.ysprj.applicants.application.domain.ParamForCodeDocument" >
-    SELECT
-      APPL_NO,
-      DOC_SEQ,
-      DOC_GRP,
-      DOC_TYPE_CODE,
-      DOC_ITEM_CODE,
-      DOC_ITEM_NAME,
-      DOC_NAME,
-      FILE_EXT,
-      IMG_YN,
-      FILE_PATH,
-      FILE_NAME,
-      ORG_FILE_NAME,
-      DOC_ITEM_NAME_XXEN,
-      DOC_GRP_NAME
-    FROM APPL_DOC
-    WHERE APPL_NO = #{applNo}
-    AND DOC_TYPE_CODE = #{itemTypeCode}
+        SELECT
+        APPL_NO,
+        DOC_SEQ,
+        DOC_GRP,
+        DOC_TYPE_CODE,
+        DOC_ITEM_CODE,
+        DOC_ITEM_NAME,
+        DOC_NAME,
+        FILE_EXT,
+        IMG_YN,
+        FILE_PATH,
+        FILE_NAME,
+        ORG_FILE_NAME,
+        DOC_ITEM_NAME_XXEN,
+        DOC_GRP_NAME
+        FROM APPL_DOC
+        WHERE APPL_NO = #{applNo}
+        AND DOC_TYPE_CODE = #{itemTypeCode}
+    </select>
+    <select id="selectApplicationDocumentListByDocGrp"   resultMap="totlaDoc"   parameterType="com.apexsoft.ysprj.applicants.application.domain.ParamForApplicationDocument" >
+        SELECT
+        APPL_NO, DOC_SEQ, DOC_TYPE_CODE, DOC_GRP, DOC_ITEM_CODE, DOC_ITEM_NAME, DOC_NAME,
+        FILE_EXT, IMG_YN, FILE_PATH, FILE_NAME, ORG_FILE_NAME, CRE_ID, CRE_DATE, MOD_ID,
+        MOD_DATE, DOC_ITEM_NAME_XXEN, DOC_GRP_NAME
+        FROM APPL_DOC
+        WHERE APPL_NO = #{applNo}
+        AND DOC_GRP = #{docGrp}
+        AND DOC_TYPE_CODE IN ('00003','00002','00004','00021')
     </select>
 
     <select id="selectMaxSeqByApplNo" resultType="java.lang.Integer" parameterType="java.lang.Integer" >
@@ -500,25 +510,5 @@
         MAX(DOC_SEQ)
         from APPL_DOC
         where APPL_NO = #{applNo,jdbcType=INTEGER}
-    </select>
-
-    <select id="selectApplicationDocumentByDocumentType"   resultMap="totlaDoc"   parameterType="com.apexsoft.ysprj.applicants.application.domain.ParamForDocumentType" >
-        SELECT
-        APPL_NO, DOC_SEQ, DOC_TYPE_CODE, DOC_GRP, DOC_ITEM_CODE, DOC_ITEM_NAME, DOC_NAME,
-        FILE_EXT, IMG_YN, FILE_PATH, FILE_NAME, ORG_FILE_NAME, CRE_ID, CRE_DATE, MOD_ID,
-        MOD_DATE, DOC_ITEM_NAME_XXEN, DOC_GRP_NAME
-        FROM APPL_DOC
-        WHERE 1=1
-        AND APPL_NO = #{applNo}
-        <if test="docGrp != null and docGrp != 0" >
-            AND DOC_GRP = #{docGrp}
-        </if>
-        <if test="docTypeCode != null" >
-            AND DOC_TYPE_CODE = #{docTypeCode}
-        </if>
-        <if test="docItemCode != null" >
-            AND DOC_ITEM_CODE = #{docItemCode}
-        </if>
-
     </select>
 </mapper>

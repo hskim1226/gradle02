@@ -117,7 +117,7 @@ public class LangCareerServiceImpl implements LangCareerService {
         List<LanguageGroup> langGroupList = null;
 
         langGroupList = commonDAO.queryForList(NAME_SPACE + "CustomApplicationDocumentMapper.selectLanguageGroupByApplNo",
-                                                applNo, LanguageGroup.class);
+                applNo, LanguageGroup.class);
         if( langGroupList == null || langGroupList.size()==0){
             LanguageGroup aGroup  = new LanguageGroup();
             aGroup.setExamCodeGrp("LANG_EXAM");
@@ -135,7 +135,7 @@ public class LangCareerServiceImpl implements LangCareerService {
             param.setUpCode(alangGroup.getExamCode());
 
             aLangList = commonDAO.queryForList(NAME_SPACE + "CustomApplicationDocumentMapper.selectTotalLanguageInfoByApplNo",
-                                                param, TotalApplicationLanguage.class);
+                    param, TotalApplicationLanguage.class);
 
             for (TotalApplicationLanguage alang : aLangList) {
                 if(alang.getApplNo()== null || alang.getApplNo().equals(""))
@@ -160,9 +160,9 @@ public class LangCareerServiceImpl implements LangCareerService {
     public ExecutionContext saveLangCareer(LangCareer langCareer) {
         ExecutionContext ec = new ExecutionContext();
 
-        int upAppl = 0, insert = 0, update = 0, delete = 0;
-        int rUpApplGen = 0;
-        int rUpAppl = 0, rInsert = 0, rUpdate = 0, rDelete = 0;
+        int upAppl = 0,upApplGen=0, insert = 0, update = 0, delete = 0;
+
+        int rUpAppl = 0, rUpApplGen=0, rInsert = 0, rUpdate = 0, rDelete = 0;
         Application application = langCareer.getApplication();
         ApplicationGeneral applicationGene = langCareer.getApplicationGeneral();
         int applNo = application.getApplNo();
@@ -185,14 +185,14 @@ public class LangCareerServiceImpl implements LangCareerService {
             applicationGene.setApplNo(applNo);
             rUpApplGen++;
             if (applicationGene.getForlExmpCode() != null || applicationGene.getForlExmpCode() != "") {
-                upAppl = commonDAO.updateItem(applicationGene, NAME_SPACE, "ApplicationGeneralMapper");
+                upApplGen = upApplGen +commonDAO.updateItem(applicationGene, NAME_SPACE, "ApplicationGeneralMapper");
             }
         }else{
             applicationGene = new ApplicationGeneral();
             applicationGene.setApplNo(applNo);
             rUpApplGen++;
             applicationGene.setForlExmpCode("");
-            upAppl = commonDAO.updateItem(applicationGene, NAME_SPACE, "ApplicationGeneralMapper");
+            upApplGen = upApplGen+ commonDAO.updateItem(applicationGene, NAME_SPACE, "ApplicationGeneralMapper");
 
         }
 
@@ -229,6 +229,11 @@ public class LangCareerServiceImpl implements LangCareerService {
                     delete = delete + commonDAO.delete(NAME_SPACE + "ApplicationLanguageMapper.deleteByPrimaryKey", aLang);
                     if( aLang.isFileUploadFg()){
                         //TODO file upload 된 doc 삭제
+                        rDelete++;
+                        ApplicationDocument aDoc = new ApplicationDocument();
+                        aDoc.setApplNo(applNo);
+                        aDoc.setDocSeq(aLang.getDocSeq());
+                        delete = delete + commonDAO.delete(NAME_SPACE + "ApplicationDocumentMapper.deleteByPrimaryKey", aDoc);
                     }
                 }
             }
@@ -267,7 +272,7 @@ public class LangCareerServiceImpl implements LangCareerService {
             }
         }
 
-        if ( rUpAppl == upAppl && rUpApplGen == 1 && insert == rInsert && update == rUpdate && delete == rDelete) {
+        if ( rUpAppl == upAppl && rUpApplGen == upApplGen && insert == rInsert && update == rUpdate && delete == rDelete) {
             ec.setResult(ExecutionContext.SUCCESS);
             ec.setMessage(messageResolver.getMessage("U319"));
             ec.setData(new ApplicationIdentifier(applNo, application.getApplStsCode(),
