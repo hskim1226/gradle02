@@ -814,7 +814,10 @@
                 url: url,
                 success: function(data) {
 
-                    var obj = JSON.parse(data.data), record, i, l;
+//                    var obj = JSON.parse(data.data), record, i, l;
+                    var container = JSON.parse(data),
+                        obj = JSON.parse(container.data),
+                        record, i, l;
 
                     if (obj.length > 0) {
                         for ( i = 0, l = obj.length ; i < l ; i++ ) {
@@ -1042,9 +1045,12 @@
                     type: 'GET',
                     url: baseUrl,
                     success: function(e) {
-                        if(e.result && e.result === 'SUCCESS') {
+                        var container = JSON.parse(e),
+                                data = JSON.parse(container.data);
+                        if(container.result && container.result === 'SUCCESS') {
                             var $target = $('#' + targetId);
-                            var data = JSON && JSON.parse(e.data) || $.parseJSON(e.data);
+//                            var data = JSON && JSON.parse(e.data) || $.parseJSON(e.data);
+
                             $(data).each(function (i, item) {
                                 var $op = $('<option>').attr({
                                     'value': item[valueKey],
