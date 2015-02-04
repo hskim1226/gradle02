@@ -59,9 +59,9 @@ public class BirtController {
 
     @RequestMapping(value = "/print/{applNo}/{reportFormat}/{reportName}")
     public ModelAndView previewApplicationByRESTful(@PathVariable("applNo") Integer applNo,
-                                           @PathVariable("reportFormat") String reportFormat,
-                                           @PathVariable("reportName") String reportName,
-                                           ModelAndView mv) {
+                                                    @PathVariable("reportFormat") String reportFormat,
+                                                    @PathVariable("reportName") String reportName,
+                                                    ModelAndView mv) {
         return previewApplication(applNo, reportFormat, reportName, mv);
     }
 
@@ -85,7 +85,8 @@ public class BirtController {
         Academy academy = ((Map<String, Academy>)ecAcademy.getData()).get("academy");
         LangCareer langCareer = ((Map<String, LangCareer>)ecLangCareer.getData()).get("langCareer");
         Document document = ((Map<String, Document>)ecDocument.getData()).get("document");
-
+        List<LanguageGroup> langGrpList = langCareer.getLanguageGroupList();
+        List<CustomApplicationExperience> expList = langCareer.getApplicationExperienceList();
         Application application = basis.getApplication();
         ApplicationGeneral applicationGeneral = basis.getApplicationGeneral();
         List<CustomApplicationAcademy> collegeList = academy.getCollegeList();
@@ -106,9 +107,17 @@ public class BirtController {
         }
         /* TODO ENTR_YEAR, ADMS_TYPE_CODE 구하는 부분 수정 필요 */
 
-        String campName = commonService.retrieveCampNameByCode(basis.getApplication().getCampCode());
+        String campName = "-- 해당사항 없음 -- ";
+        if(basis.getApplication().getCampCode() !=null && !"".equals(basis.getApplication().getCampCode())) {
+            campName = commonService.retrieveCampNameByCode(basis.getApplication().getCampCode());
+        }
         String corsTypeName = commonService.retrieveCorsTypeNameByCode(basis.getApplication().getCorsTypeCode());
-        String ariInstName = commonService.retrieveAriInstNameByCode(basis.getApplication().getAriInstCode());
+
+        String ariInstName= "-- 해당사항 없음 -- ";
+        if(basis.getApplication().getAriInstCode() !=null && !"".equals(basis.getApplication().getAriInstCode())) {
+            ariInstName = commonService.retrieveAriInstNameByCode(basis.getApplication().getAriInstCode());
+        }
+
         String deptName = commonService.retrieveDeptNameByCode(basis.getApplication().getDeptCode());
         String deptCode = application.getDeptCode();
         String detlMajName = commonService.retrieveDetlMajNameByCode(basis.getApplication().getDetlMajCode());
@@ -140,28 +149,102 @@ public class BirtController {
         mv.addObject("addr", addr);
         mv.addObject("detlAddr", detlAddr);
 
+        // TODO : 사진 파일 추출
+//        ApplicationDocument photoFile = documentService.retrievePhotoUri(applNo);
+//        String photoUri = photoFile.getFilePath() + "/" + photoFile.getFileName();
 //        String photoUri = "/opt/ysproject/upload/2015/15A/z/zz/357/하니.png";
-        String photoUri = documentService.retrievePhotoUri(applNo);
-        mv.addObject("photoUri", photoUri);
+        mv.addObject("photoUri", documentService.retrievePhotoUri(applNo));
 
         String currWrkpName = applicationGeneral.getCurrWrkpName();
         String currWrkpTel = applicationGeneral.getCurrWrkpTel();
         // TODO
 //        String academy0 = academyList.get(0);
 //        res += entrDay.substr(0, 4) + "년" + entrDay.substr(4, 2) + "월" + entrDay.substr(6, 2) + "일";
-        String academy0 = "학력0";
-        String academy1 = "학력1";
-        String academy2 = "학력2";
-        String academy3 = "학력3";
-        String academy4 = "학력4";
+
+
+
+
+        String academy0 = "";
+        String academy1 = "";
+        String academy2 = "";
+        String academy3 = "";
+        String academy4 = "";
+        String lastCollegeScore = "";
+        String lastGraduateScore = "";
+        String toeflScore = "";
+        String toeicScore = "";
+        String tepsScore = "";
+        String ieltsScore = "";
+        String greScore = "";
+
+        int collCnt = 0;
+        boolean collLastFg = false;
+        boolean gradLastFg = false;
+
+        for(CustomApplicationAcademy aColl : collegeList ){
+            collCnt++;
+            if( collCnt ==1){
+                academy0 = "(대학) "+aColl.getSchlName()+" "+aColl.getCollName() + " "+aColl.getMajName();
+            }
+            else if( collCnt ==2){
+                academy1 =  "(대학) "+aColl.getSchlName()+" "+aColl.getCollName() + " "+aColl.getMajName();
+            }
+            else if( collCnt ==3){
+                academy2 =  "(대학) "+aColl.getSchlName()+" "+aColl.getCollName() + " "+aColl.getMajName();
+            }
+            else if( collCnt ==4){
+                academy3 =  "(대학) "+aColl.getSchlName()+" "+aColl.getCollName() + " "+aColl.getMajName();
+            }
+            else if( collCnt ==5){
+                academy4 =  "(대학) "+aColl.getSchlName()+" "+aColl.getCollName() + " "+aColl.getMajName();
+            }
+            if( !collLastFg ) {
+                lastCollegeScore = aColl.getGradAvr() + "/" + aColl.getGradFull();
+            }
+            if( "Y".equals(aColl.getLastSchlYn())){
+                collLastFg = true;
+            }
+
+        }
+
+
+        for(CustomApplicationAcademy aColl : graduateList ){
+            collCnt++;
+            if( collCnt ==1){
+                academy0 = "(대학원) "+aColl.getSchlName()+" "+aColl.getCollName() + " "+aColl.getMajName();
+            }
+            else if( collCnt ==2){
+                academy1 =  "(대학원) "+aColl.getSchlName()+" "+aColl.getCollName() + " "+aColl.getMajName();
+            }
+            else if( collCnt ==3){
+                academy2 =  "(대학원) "+aColl.getSchlName()+" "+aColl.getCollName() + " "+aColl.getMajName();
+            }
+            else if( collCnt ==4){
+                academy3 =  "(대학원) "+aColl.getSchlName()+" "+aColl.getCollName() + " "+aColl.getMajName();
+            }
+            else if( collCnt ==5){
+                academy4 =  "(대학원) "+aColl.getSchlName()+" "+aColl.getCollName() + " "+aColl.getMajName();
+            }
+
+            if( !gradLastFg ) {
+                lastGraduateScore = aColl.getGradAvr() + "/" + aColl.getGradFull();
+            }
+            if( "Y".equals(aColl.getLastSchlYn())){
+                gradLastFg = true;
+            }
+        }
+
+
+        mv.addObject("academy0",academy0 );
+        mv.addObject("academy1",academy1 );
+        mv.addObject("academy2",academy2 );
+        mv.addObject("academy3",academy3 );
+        mv.addObject("academy4",academy4 );
+
 
         mv.addObject("currWrkpName", currWrkpName);
         mv.addObject("currWrkpTel", currWrkpTel);
-        mv.addObject("academy0", academy0);
-        mv.addObject("academy1", academy1);
-        mv.addObject("academy2", academy2);
-        mv.addObject("academy3", academy3);
-        mv.addObject("academy4", academy4);
+
 
         String hndcGrad = applicationGeneral.getHndcGrad();
         String hndcType = applicationGeneral.getHndcType();
@@ -170,40 +253,105 @@ public class BirtController {
         mv.addObject("hndcType", hndcType);
 
         // TODO
-        String lastCollegeScore = "3.55";
-        String lastGraduateScore = "4.5";
-        String toeflScore = "1";
-        String toeicScore = "2";
-        String tepsScore = "3";
-        String ieltsScore = "4";
-        String greScore = "5";
-        String forlExmp = "6";
+
 
         mv.addObject("lastCollegeScore", lastCollegeScore);
         mv.addObject("lastGraduateScore", lastGraduateScore);
+
+        for( LanguageGroup aLangGrp : langGrpList){
+            //영어인경우
+            if( "00001".equals(aLangGrp.getExamCode())){
+                for( CustomApplicationLanguage aLang  : aLangGrp.getLangList() ){
+                    if( aLang.isLangInfoSaveFg()) {
+                        if ("00001".equals(aLang.getItemCode())) {
+                            String toflType ="";
+                            if( "00001".equals(aLang.getToflTypeCode()))
+                                toflType ="IBT";
+                            if( "00002".equals(aLang.getToflTypeCode()))
+                                toflType ="CBT";
+                            if( "00003".equals(aLang.getToflTypeCode()))
+                                toflType ="PBT";
+
+                            toeflScore = toflType + "  " + aLang.getLangGrad();
+                        } else if ("00002".equals(aLang.getItemCode())) {
+                            toeicScore = aLang.getLangGrad();
+                        } else if ("00003".equals(aLang.getItemCode())) {
+                            tepsScore = aLang.getLangGrad();
+
+                        } else if ("00004".equals(aLang.getItemCode())) {
+                            ieltsScore = aLang.getLangGrad();
+
+                        } else if ("00005".equals(aLang.getItemCode())) {
+                            greScore = aLang.getLangGrad();
+                        }
+                    }
+                }
+            }
+        }
+
+
         mv.addObject("toeflScore", toeflScore);
         mv.addObject("toeicScore", toeicScore);
         mv.addObject("tepsScore", tepsScore);
         mv.addObject("ieltsScore", ieltsScore);
         mv.addObject("greScore", greScore);
+
+
+
+        String forlExmp = "";
+        if(applicationGeneral.getForlExmpCode() !=null) {
+            forlExmp = applicationGeneral.getForlExmpCode();
+        }
+
         mv.addObject("forlExmp", forlExmp);
 
         // TODO
-        String range0 = "00";
-        String corpName0 = "01";
-        String exprDesc0 = "02";
-        String range1 = "10";
-        String corpName1 = "11";
-        String exprDesc1 = "12";
-        String range2 = "20";
-        String corpName2 = "21";
-        String exprDesc2 = "22";
-        String range3 = "30";
-        String corpName3 = "31";
-        String exprDesc3 = "32";
-        String range4 = "40";
-        String corpName4 = "41";
-        String exprDesc4 = "42";
+        String range0 = "";
+        String corpName0 = "";
+        String exprDesc0 = "";
+        String range1 = "";
+        String corpName1 = "";
+        String exprDesc1 = "";
+        String range2 = "";
+        String corpName2 = "";
+        String exprDesc2 = "";
+        String range3 = "";
+        String corpName3 = "";
+        String exprDesc3 = "";
+        String range4 = "";
+        String corpName4 = "";
+        String exprDesc4 = "";
+
+        int exprCnt =0;
+        for(CustomApplicationExperience aExpr : expList ){
+            exprCnt++;
+            if( exprCnt ==1){
+                range0 =aExpr.getJoinDay() +"~"+aExpr.getRetrDay();
+                corpName0 =aExpr.getCorpName();
+                exprDesc0 =aExpr.getExprDesc();
+            }
+            else if( exprCnt ==2){
+                range1 =aExpr.getJoinDay() +"~"+aExpr.getRetrDay();
+                corpName1 =aExpr.getCorpName();
+                exprDesc1 =aExpr.getExprDesc();
+            }
+            else if( exprCnt ==3){
+                range2 =aExpr.getJoinDay() +"~"+aExpr.getRetrDay();
+                corpName2 =aExpr.getCorpName();
+                exprDesc2=aExpr.getExprDesc();
+            }
+            else if( exprCnt ==4){
+                range3 =aExpr.getJoinDay() +"~"+aExpr.getRetrDay();
+                corpName3 =aExpr.getCorpName();
+                exprDesc3 =aExpr.getExprDesc();
+            }
+            else if( exprCnt ==5){
+                range4 =aExpr.getJoinDay() +"~"+aExpr.getRetrDay();
+                corpName4 =aExpr.getCorpName();
+                exprDesc4 =aExpr.getExprDesc();
+            }
+
+        }
 
         mv.addObject("range0", range0);
         mv.addObject("corpName0", corpName0);
@@ -222,13 +370,19 @@ public class BirtController {
         mv.addObject("exprDesc4", exprDesc4);
 
         // TODO
-        mv.addObject("mltrServName", "병역1");
-        mv.addObject("mltrJoinDay", "병역2");
-        mv.addObject("mltrDschDay", "병역3");
-        mv.addObject("mltrRankName", "병역4");
+        mv.addObject("mltrServName", "");
+        mv.addObject("mltrJoinDay", "");
+        mv.addObject("mltrDschDay", "");
+        mv.addObject("mltrRankName", "");
 
         // TODO
-        mv.addObject("applId", "TEMP_APPL_ID");
+
+        String appId = "지원 미완료";
+
+        if( application.getApplId() != null && !application.getApplId().equals("")){
+            appId = application.getApplId();
+        }
+        mv.addObject("applId", appId);
 
         return mv;
     }

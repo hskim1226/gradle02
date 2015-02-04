@@ -122,8 +122,22 @@ public class DocumentServiceImpl implements DocumentService {
         ExecutionContext ec = new ExecutionContext();
         int rUpdate = 0, rInsert = 0,applNo = document.getApplNo();
         int update=0, insert =0;
+
         Date date = new Date();
         String userId = document.getCreId();
+
+        // applStsCode 수정 - TODO 적용할까말까
+//        int applUpdate = 0;
+//        ExecutionContext ecRetrieve = retrieveDocument(applNo);
+//        Map<String, Object> map = (Map<String, Object>)ecRetrieve.getData();
+//        Document document1 = (Document)map.get("document");
+//        Application application = document1.getApplication();
+//        int currentStsCode = Integer.parseInt(application.getApplStsCode());
+//        if (currentStsCode < Integer.parseInt(FILE_UPLOAD_SAVED)) {
+//            application.setApplStsCode(FILE_UPLOAD_SAVED);
+//            application.setModDate(new Date());
+//            applUpdate = commonDAO.updateItem(application, NAME_SPACE, "ApplicationMapper");
+//        }
 
         //기존 파일이 업로드 되어 있는 경우
         if( document.isFileUploadFg()){
@@ -131,7 +145,7 @@ public class DocumentServiceImpl implements DocumentService {
             document.setCreId("" );
             document.setModDate(date );
             document.setModId(userId );
-            update = update + commonDAO.updateItem( document,NAME_SPACE, "ApplicationDocumentMapper" );
+            update = update + commonDAO.updateItem(document, NAME_SPACE, "ApplicationDocumentMapper");
 
         }else{
             rInsert++;
@@ -142,6 +156,7 @@ public class DocumentServiceImpl implements DocumentService {
             insert = insert + commonDAO.insertItem(document, NAME_SPACE, "ApplicationDocumentMapper");
 
         }
+//        if (  insert == rInsert && update == rUpdate && applUpdate == 1 ) {
         if (  insert == rInsert && update == rUpdate ) {
             ec.setResult(ExecutionContext.SUCCESS);
             ec.setMessage(messageResolver.getMessage("U325"));
@@ -213,7 +228,7 @@ public class DocumentServiceImpl implements DocumentService {
         applContList.add(retrieveLanguageDocumentByApplNo(applNo));
 
         //코드별 조건 조회
-        applContList.addAll(retrieveCodeDocumentByApplNo(applNo,admsNo));
+        applContList.addAll(retrieveCodeDocumentByApplNo(applNo, admsNo));
 
         return applContList;
     }
@@ -227,7 +242,7 @@ public class DocumentServiceImpl implements DocumentService {
         applDocList = commonDAO.queryForList(NAME_SPACE + "CustomApplicationDocumentMapper.selectBasicTotalDocListByApplNo", applNo, TotalApplicationDocumentContainer.class);
         if( applDocList != null){
             for ( TotalApplicationDocumentContainer aCont : applDocList){
-                aCont.setSubContainer( getSubDeptDocumentContainer(aCont,rList ));
+                aCont.setSubContainer(getSubDeptDocumentContainer(aCont, rList));
             }
         }
         rApplDoc = new TotalApplicationDocumentContainer();
@@ -270,7 +285,7 @@ public class DocumentServiceImpl implements DocumentService {
 
 
         rApplDoc = new TotalApplicationDocumentContainer();
-        rApplDoc.setSubContainer( new ArrayList<TotalApplicationDocumentContainer>());
+        rApplDoc.setSubContainer(new ArrayList<TotalApplicationDocumentContainer>());
         rApplDoc.setGrpLabel("대학 관련서류");
         rApplDoc.setDisplayGrpFg(true);
 

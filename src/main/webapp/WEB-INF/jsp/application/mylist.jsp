@@ -162,6 +162,16 @@
                 window.open('${contextPath}/application/print?applNo=' + applNo +
                         '&reportFormat=pdf&reportName=' + reportName);
             });
+
+            <%-- action 성공 여부 알림 처리 --%>
+            var showActionResult = function() {
+                var msg = '${resultMsg}';
+                if (msg.length > 0) {
+                    confirm(msg);
+                }
+            };
+            showActionResult();
+            <%-- action 성공 여부 알림 처리 --%>
         });
     </script>
 </content>
