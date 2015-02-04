@@ -198,6 +198,8 @@
                         document.getElementById('LGD_VERSION').value = parsed.lgd_VERSION,
                         document.getElementById('LGD_CASNOTEURL').value = parsed.lgd_CASNOTEURL;
 
+                        alert(document.getElementById('LGD_MID').value);
+
                         doPay_ActiveX();
                     }
                 });
