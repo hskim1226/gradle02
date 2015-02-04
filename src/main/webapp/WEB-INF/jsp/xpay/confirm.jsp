@@ -170,6 +170,8 @@
 
             $('#processPayment').click( function() {
 
+                alert('결제를 진행합니다');
+
                 document.getElementById('LGD_TIMESTAMP').value = dateToFormat(new Date(), 'yyyyMMddhhmmss');
                 document.getElementById('applNo').value = "${payment.applNo}";
 
