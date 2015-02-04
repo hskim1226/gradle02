@@ -1,11 +1,14 @@
 package com.apexsoft.ysprj.applicants.application.service;
 
 import com.apexsoft.framework.common.vo.ExecutionContext;
+import com.apexsoft.framework.exception.YSBizException;
 import com.apexsoft.framework.exception.YSNoRedirectBizException;
 import com.apexsoft.framework.message.MessageResolver;
 import com.apexsoft.framework.persistence.dao.CommonDAO;
 import com.apexsoft.ysprj.applicants.admission.domain.ParamForAdmissionCourseMajor;
 import com.apexsoft.ysprj.applicants.application.domain.*;
+import com.apexsoft.ysprj.applicants.payment.domain.ApplicationPayment;
+import com.apexsoft.ysprj.applicants.payment.service.PaymentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +26,9 @@ public class DocumentServiceImpl implements DocumentService {
 
     @Autowired
     private CommonDAO commonDAO;
+
+    @Autowired
+    private PaymentService paymentService;
 
     @Resource(name = "messageResolver")
     MessageResolver messageResolver;
@@ -91,16 +97,22 @@ public class DocumentServiceImpl implements DocumentService {
 
         r1 = commonDAO.updateItem(application, NAME_SPACE, "ApplicationMapper");
 
-        if ( r1 == 1 ) {
+        ExecutionContext ecPay = paymentService.saveApplicationPayment(application);
+
+        if (r1 == 1 && ecPay.getResult().equals(ExecutionContext.SUCCESS)) {
             ec.setResult(ExecutionContext.SUCCESS);
             ec.setMessage(messageResolver.getMessage("U327"));
-            ec.setData(new ApplicationIdentifier(applNo, application.getApplStsCode(),
-                    application.getAdmsNo(), application.getEntrYear(), application.getAdmsTypeCode()));
         } else {
             ec.setResult(ExecutionContext.FAIL);
             ec.setMessage(messageResolver.getMessage("U328"));
-            ec.setData(new ApplicationIdentifier(applNo, APP_NULL_STATUS));
-            ec.setErrCode("ERR0033");
+            if (r1 != 1 ) {
+                ec.setData(application);
+                ec.setErrCode("ERR0003");
+            } else if (ecPay.getResult().equals(ExecutionContext.FAIL)) {
+                ec.setData(applNo);
+                ec.setErrCode(ec.getErrCode());
+            }
+            throw new YSBizException(ec);
         }
         return ec;
     }
@@ -156,6 +168,7 @@ public class DocumentServiceImpl implements DocumentService {
             insert = insert + commonDAO.insertItem(document, NAME_SPACE, "ApplicationDocumentMapper");
 
         }
+
 //        if (  insert == rInsert && update == rUpdate && applUpdate == 1 ) {
         if (  insert == rInsert && update == rUpdate ) {
             ec.setResult(ExecutionContext.SUCCESS);

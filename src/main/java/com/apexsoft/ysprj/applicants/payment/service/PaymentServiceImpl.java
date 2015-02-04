@@ -1,11 +1,15 @@
 package com.apexsoft.ysprj.applicants.payment.service;
 
 import com.apexsoft.framework.common.vo.ExecutionContext;
+import com.apexsoft.framework.exception.YSBizException;
+import com.apexsoft.framework.exception.YSNoRedirectBizException;
 import com.apexsoft.framework.message.MessageResolver;
 import com.apexsoft.framework.persistence.dao.CommonDAO;
 import com.apexsoft.framework.xpay.service.TransactionVO;
 import com.apexsoft.ysprj.applicants.application.domain.Application;
+import com.apexsoft.ysprj.applicants.application.domain.ApplicationIdentifier;
 import com.apexsoft.ysprj.applicants.application.domain.CustomNewSeq;
+import com.apexsoft.ysprj.applicants.application.domain.CustomPayInfo;
 import com.apexsoft.ysprj.applicants.payment.domain.*;
 import lgdacom.XPayClient.XPayClient;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +35,54 @@ public class PaymentServiceImpl implements PaymentService {
     MessageResolver messageResolver;
 
     private final String RSLT = "00000";      // 성공/에러일 때 반환값
+
+    @Override
+    public ExecutionContext saveApplicationPayment(Application application) {
+
+        ExecutionContext ec = new ExecutionContext();
+
+        int applNo = application.getApplNo();
+
+        CustomPayInfo customPayInfo = commonDAO.queryForObject(NAME_SPACE + "CustomApplicationPaymentMapper.selectPayInfoByApplNo",
+                applNo, CustomPayInfo.class);
+        int paySeq = customPayInfo.getPaySeq();
+        int admsFee = customPayInfo.getAdmsFee();
+        int rInsert = 0, rUpdate = 0;
+        ApplicationPayment ap = new ApplicationPayment();
+
+        if (paySeq == 0) {
+            int seqFromDB = commonDAO.queryForInt(NAME_SPACE + "CustomApplicationPaymentMapper.getSeq", applNo);
+            ap.setApplNo(applNo);
+            ap.setPaySeq(seqFromDB + 1);
+            ap.setExpPayAmt(admsFee);
+            ap.setPayStsCode("00001");
+            ap.setCreId(application.getUserId());
+            ap.setCreDate(new Date());
+            rInsert = commonDAO.insertItem(ap, NAME_SPACE, "ApplicationPaymentMapper");
+        } else {
+            ap.setApplNo(applNo);
+            ap.setPaySeq(paySeq);
+            ap.setExpPayAmt(admsFee);
+            ap.setModId(application.getUserId());
+            ap.setModDate(new Date());
+            rUpdate = commonDAO.updateItem(ap, NAME_SPACE, "ApplicationPaymentMapper");
+        }
+
+        if (rInsert == 1 || rUpdate == 1) {
+            ec.setResult(ExecutionContext.SUCCESS);
+            ec.setMessage(messageResolver.getMessage("U335"));
+        } else {
+            ec.setResult(ExecutionContext.FAIL);
+            ec.setMessage(messageResolver.getMessage("U336"));
+            String errCode = null;
+            if ( rInsert != 1 ) errCode = "ERR0101";
+            else if ( rUpdate != 1 ) errCode = "ERR0103";
+            ec.setErrCode(errCode);
+            throw new YSBizException(ec);
+        }
+
+        return ec;
+    }
 
     @Override
     public ExecutionContext registerPaymentCertifyLog( Payment payment ) {
