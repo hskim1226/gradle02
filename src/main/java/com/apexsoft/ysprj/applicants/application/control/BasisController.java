@@ -75,11 +75,11 @@ public class BasisController {
         mv.setViewName(TARGET_VIEW);
         if (bindingResult.hasErrors()) {
             mv.addObject("resultMsg", messageResolver.getMessage("U334"));
-            ExecutionContext ecRetrieve = basisService.retrieveBasis(formData);
+            ExecutionContext ecRetrieve = basisService.retrieveSelectionMap(formData);
             if (ecRetrieve.getResult().equals(ExecutionContext.SUCCESS)) {
-                Map<String, Object> map = (Map<String, Object>)ecRetrieve.getData();
-                mv.addObject("selection", map.get("selection"));
-                mv.addObject("country", map.get("country"));
+                Map<String, Object> selectionMap = (Map<String, Object>)ecRetrieve.getData();
+                mv.addObject("selection", selectionMap);
+//                mv.addObject("country", map.get("country"));
             } else {
                 mv = getErrorMV("common/error", ecRetrieve);
             }
@@ -121,7 +121,7 @@ public class BasisController {
                                   Principal principal,
                                   BindingResult bindingResult,
                                   ModelAndView mv) {
-//        basisValidator.validate(formData, bindingResult);
+
         mv.setViewName("application/mylist");
         if (bindingResult.hasErrors()) {
             mv.addObject("resultMsg", messageResolver.getMessage("U334"));
@@ -145,21 +145,17 @@ public class BasisController {
 
         if (ec.getResult().equals(ExecutionContext.SUCCESS)) {
 
-//            ExecutionContext ecRetrieve = basisService.retrieveBasis(formData);
-            ExecutionContext ecRetrieve;
+            ExecutionContext ecApplicationByUserId;
             ParamForApplication p = new ParamForApplication();
             p.setUserId(principal.getName());
 
-            ecRetrieve = basisService.retrieveInfoListByParamObj(p, "CustomApplicationMapper.selectApplByUserId", CustomMyList.class);
+            ecApplicationByUserId = basisService.retrieveInfoListByParamObj(p, "CustomApplicationMapper.selectApplByUserId", CustomMyList.class);
 
-            mv.addObject("myList", ecRetrieve.getData());
-
-//            if (ecRetrieve.getResult().equals(ExecutionContext.SUCCESS)) {
-//                Map<String, Object> map = (Map<String, Object>)ecRetrieve.getData();
-//                addObjectToMV(mv, map, ec);
-//            } else {
-//                mv = getErrorMV("common/error", ecRetrieve);
-//            }
+            if (ecApplicationByUserId.getResult().equals(ExecutionContext.SUCCESS)) {
+                mv.addObject("myList", ecApplicationByUserId.getData());
+            } else {
+                mv = getErrorMV("common/error", ecApplicationByUserId);
+            }
         } else {
             mv = getErrorMV("common/error", ec);
         }

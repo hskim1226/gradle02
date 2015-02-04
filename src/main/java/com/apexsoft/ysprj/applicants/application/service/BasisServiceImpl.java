@@ -39,11 +39,65 @@ public class BasisServiceImpl implements BasisService {
     private final String APP_INFO_SAVED = "00001";       // 기본정보 저장
 
     @Override
+    public ExecutionContext retrieveSelectionMap(Basis basis) {
+        ExecutionContext ec = new ExecutionContext();
+        Map<String, Object> selectionMap = new HashMap<String, Object>();
+
+        // 지원사항 select 초기값 설정
+        List<Campus> campList = null;
+        List<AcademyResearchIndustryInstitution> ariInstList = null;
+        List<College> collList = null;
+        List<CodeNameDepartment> deptList = null;
+        List<CodeNameCourse> corsTypeList = null;
+        List<CodeNameDetailMajor> detlMajList = null;
+
+        ParamForSetupCourses param = new ParamForSetupCourses();
+        param.setAdmsNo(basis.getApplication().getAdmsNo());
+        param.setCollCode(basis.getApplication().getCollCode());
+        param.setDeptCode(basis.getApplication().getDeptCode());
+        param.setCorsTypeCode(basis.getApplication().getCorsTypeCode());
+        param.setAriInstCode(basis.getApplication().getAriInstCode());
+
+        String applAttrCode = basis.getApplication().getApplAttrCode();
+        if (applAttrCode.equals("00002")) {
+            ariInstList = commonService.retrieveAriInst();
+            deptList = commonService.retrieveAriInstDepartmentByAdmsAriInst(param);
+            corsTypeList = commonService.retrieveAriInstCourseByAdmsDeptAriInst(param);
+            detlMajList = commonService.retrieveAriInstDetailMajorByAdmsDeptAriInst(param);
+        } else {
+            campList = commonService.retrieveCampus();
+            collList = commonService.retrieveCollegeByCampus( basis.getApplication().getCampCode() );
+            deptList = commonService.retrieveGeneralDepartmentByAdmsColl(param);
+            detlMajList = commonService.retrieveGeneralDetailMajorByAdmsDeptCors(param);
+            if (applAttrCode.equals("00001"))
+                corsTypeList = commonService.retrieveGeneralCourseByAdmsDept(param);
+            if (applAttrCode.equals("00003"))
+                corsTypeList = commonService.retrieveCommissionCourseByAdmsDept(param);
+        }
+
+        if (campList != null)      selectionMap.put("campList", campList);
+        if (collList != null)      selectionMap.put("collList", collList);
+        if (ariInstList != null)   selectionMap.put("ariInstList", ariInstList);
+        if (deptList != null)      selectionMap.put("deptList", deptList);
+        if (corsTypeList != null)  selectionMap.put("corsTypeList", corsTypeList);
+        if (detlMajList != null)   selectionMap.put("detlMajList", detlMajList);
+
+        selectionMap.put("applAttrList", commonService.retrieveCommonCodeValueByCodeGroup("APPL_ATTR"));
+        selectionMap.put("emerContList", commonService.retrieveCommonCodeValueByCodeGroup("EMER_CONT"));
+
+        ec.setResult(ExecutionContext.SUCCESS);
+        ec.setData(selectionMap);
+
+        return ec;
+    }
+
+    @Override
     public ExecutionContext retrieveBasis(int applNo) {
         ExecutionContext ec = new ExecutionContext();
 
         Map<String, Object> ecDataMap = new HashMap<String, Object>();
         Map<String, Object> selectionMap = new HashMap<String, Object>();
+
         Basis basis = new Basis();
         Application application;
 
@@ -59,43 +113,48 @@ public class BasisServiceImpl implements BasisService {
             basis.setApplicationGeneral(applicationGeneral);
 
             // 지원사항 select 초기값 설정
-            List<Campus> campList = null;
-            List<AcademyResearchIndustryInstitution> ariInstList = null;
-            List<College> collList = null;
-            List<CodeNameDepartment> deptList = null;
-            List<CodeNameCourse> corsTypeList = null;
-            List<CodeNameDetailMajor> detlMajList = null;
+//            List<Campus> campList = null;
+//            List<AcademyResearchIndustryInstitution> ariInstList = null;
+//            List<College> collList = null;
+//            List<CodeNameDepartment> deptList = null;
+//            List<CodeNameCourse> corsTypeList = null;
+//            List<CodeNameDetailMajor> detlMajList = null;
+//
+//            ParamForSetupCourses param = new ParamForSetupCourses();
+//            param.setAdmsNo(basis.getApplication().getAdmsNo());
+//            param.setCollCode(basis.getApplication().getCollCode());
+//            param.setDeptCode(basis.getApplication().getDeptCode());
+//            param.setCorsTypeCode(basis.getApplication().getCorsTypeCode());
+//            param.setAriInstCode(basis.getApplication().getAriInstCode());
+//
+//            String applAttrCode = basis.getApplication().getApplAttrCode();
+//            if (applAttrCode.equals("00002")) {
+//                ariInstList = commonService.retrieveAriInst();
+//                deptList = commonService.retrieveAriInstDepartmentByAdmsAriInst(param);
+//                corsTypeList = commonService.retrieveAriInstCourseByAdmsDeptAriInst(param);
+//                detlMajList = commonService.retrieveAriInstDetailMajorByAdmsDeptAriInst(param);
+//            } else {
+//                campList = commonService.retrieveCampus();
+//                collList = commonService.retrieveCollegeByCampus( basis.getApplication().getCampCode() );
+//                deptList = commonService.retrieveGeneralDepartmentByAdmsColl(param);
+//                detlMajList = commonService.retrieveGeneralDetailMajorByAdmsDeptCors(param);
+//                if (applAttrCode.equals("00001"))
+//                    corsTypeList = commonService.retrieveGeneralCourseByAdmsDept(param);
+//                if (applAttrCode.equals("00003"))
+//                    corsTypeList = commonService.retrieveCommissionCourseByAdmsDept(param);
+//            }
+//
+//            if (campList != null)      selectionMap.put("campList", campList);
+//            if (collList != null)      selectionMap.put("collList", collList);
+//            if (ariInstList != null)   selectionMap.put("ariInstList", ariInstList);
+//            if (deptList != null)      selectionMap.put("deptList", deptList);
+//            if (corsTypeList != null)  selectionMap.put("corsTypeList", corsTypeList);
+//            if (detlMajList != null)   selectionMap.put("detlMajList", detlMajList);
+//
+//            selectionMap.put("applAttrList", commonService.retrieveCommonCodeValueByCodeGroup("APPL_ATTR"));
+//            selectionMap.put("emerContList", commonService.retrieveCommonCodeValueByCodeGroup("EMER_CONT"));
 
-            ParamForSetupCourses param = new ParamForSetupCourses();
-            param.setAdmsNo(basis.getApplication().getAdmsNo());
-            param.setCollCode(basis.getApplication().getCollCode());
-            param.setDeptCode(basis.getApplication().getDeptCode());
-            param.setCorsTypeCode(basis.getApplication().getCorsTypeCode());
-            param.setAriInstCode(basis.getApplication().getAriInstCode());
-
-            String applAttrCode = basis.getApplication().getApplAttrCode();
-            if (applAttrCode.equals("00002")) {
-                ariInstList = commonService.retrieveAriInst();
-                deptList = commonService.retrieveAriInstDepartmentByAdmsAriInst(param);
-                corsTypeList = commonService.retrieveAriInstCourseByAdmsDeptAriInst(param);
-                detlMajList = commonService.retrieveAriInstDetailMajorByAdmsDeptAriInst(param);
-            } else {
-                campList = commonService.retrieveCampus();
-                collList = commonService.retrieveCollegeByCampus( basis.getApplication().getCampCode() );
-                deptList = commonService.retrieveGeneralDepartmentByAdmsColl(param);
-                detlMajList = commonService.retrieveGeneralDetailMajorByAdmsDeptCors(param);
-                if (applAttrCode.equals("00001"))
-                    corsTypeList = commonService.retrieveGeneralCourseByAdmsDept(param);
-                if (applAttrCode.equals("00003"))
-                    corsTypeList = commonService.retrieveCommissionCourseByAdmsDept(param);
-            }
-
-            if (campList != null)      selectionMap.put("campList", campList);
-            if (collList != null)      selectionMap.put("collList", collList);
-            if (ariInstList != null)   selectionMap.put("ariInstList", ariInstList);
-            if (deptList != null)      selectionMap.put("deptList", deptList);
-            if (corsTypeList != null)  selectionMap.put("corsTypeList", corsTypeList);
-            if (detlMajList != null)   selectionMap.put("detlMajList", detlMajList);
+            selectionMap.putAll((Map<String, Object>) retrieveSelectionMap(basis).getData());
 
         } else {
             // TODO : application 초기값 세팅
@@ -105,10 +164,9 @@ public class BasisServiceImpl implements BasisService {
             List<AcademyResearchIndustryInstitution> ariInstList = commonService.retrieveAriInst();
             if (campList != null)      selectionMap.put("campList", campList);
             if (ariInstList != null)   selectionMap.put("ariInstList", ariInstList);
+            selectionMap.put("applAttrList", commonService.retrieveCommonCodeValueByCodeGroup("APPL_ATTR"));
+            selectionMap.put("emerContList", commonService.retrieveCommonCodeValueByCodeGroup("EMER_CONT"));
         }
-
-        selectionMap.put("applAttrList", commonService.retrieveCommonCodeValueByCodeGroup("APPL_ATTR"));
-        selectionMap.put("emerContList", commonService.retrieveCommonCodeValueByCodeGroup("EMER_CONT"));
 
         String cntrCode = basis.getApplication().getCitzCntrCode();
         cntrCode = cntrCode == null ? "" : cntrCode;
@@ -157,43 +215,48 @@ public class BasisServiceImpl implements BasisService {
             }
 
             // 지원사항 select 초기값 설정
-            List<Campus> campList = null;
-            List<AcademyResearchIndustryInstitution> ariInstList = null;
-            List<College> collList = null;
-            List<CodeNameDepartment> deptList = null;
-            List<CodeNameCourse> corsTypeList = null;
-            List<CodeNameDetailMajor> detlMajList = null;
+//            List<Campus> campList = null;
+//            List<AcademyResearchIndustryInstitution> ariInstList = null;
+//            List<College> collList = null;
+//            List<CodeNameDepartment> deptList = null;
+//            List<CodeNameCourse> corsTypeList = null;
+//            List<CodeNameDetailMajor> detlMajList = null;
+//
+//            ParamForSetupCourses param = new ParamForSetupCourses();
+//            param.setAdmsNo(basis.getApplication().getAdmsNo());
+//            param.setCollCode(basis.getApplication().getCollCode());
+//            param.setDeptCode(basis.getApplication().getDeptCode());
+//            param.setCorsTypeCode(basis.getApplication().getCorsTypeCode());
+//            param.setAriInstCode(basis.getApplication().getAriInstCode());
+//
+//            String applAttrCode = basis.getApplication().getApplAttrCode();
+//            if (applAttrCode.equals("00002")) {
+//                ariInstList = commonService.retrieveAriInst();
+//                deptList = commonService.retrieveAriInstDepartmentByAdmsAriInst(param);
+//                corsTypeList = commonService.retrieveAriInstCourseByAdmsDeptAriInst(param);
+//                detlMajList = commonService.retrieveAriInstDetailMajorByAdmsDeptAriInst(param);
+//            } else {
+//                campList = commonService.retrieveCampus();
+//                collList = commonService.retrieveCollegeByCampus( basis.getApplication().getCampCode() );
+//                deptList = commonService.retrieveGeneralDepartmentByAdmsColl(param);
+//                detlMajList = commonService.retrieveGeneralDetailMajorByAdmsDeptCors(param);
+//                if (applAttrCode.equals("00001"))
+//                    corsTypeList = commonService.retrieveGeneralCourseByAdmsDept(param);
+//                if (applAttrCode.equals("00003"))
+//                    corsTypeList = commonService.retrieveCommissionCourseByAdmsDept(param);
+//            }
+//
+//            if (campList != null)      selectionMap.put("campList", campList);
+//            if (collList != null)      selectionMap.put("collList", collList);
+//            if (ariInstList != null)   selectionMap.put("ariInstList", ariInstList);
+//            if (deptList != null)      selectionMap.put("deptList", deptList);
+//            if (corsTypeList != null)  selectionMap.put("corsTypeList", corsTypeList);
+//            if (detlMajList != null)   selectionMap.put("detlMajList", detlMajList);
+//
+//            selectionMap.put("applAttrList", commonService.retrieveCommonCodeValueByCodeGroup("APPL_ATTR"));
+//            selectionMap.put("emerContList", commonService.retrieveCommonCodeValueByCodeGroup("EMER_CONT"));
 
-            ParamForSetupCourses param = new ParamForSetupCourses();
-            param.setAdmsNo(basis.getApplication().getAdmsNo());
-            param.setCollCode(basis.getApplication().getCollCode());
-            param.setDeptCode(basis.getApplication().getDeptCode());
-            param.setCorsTypeCode(basis.getApplication().getCorsTypeCode());
-            param.setAriInstCode(basis.getApplication().getAriInstCode());
-
-            String applAttrCode = basis.getApplication().getApplAttrCode();
-            if (applAttrCode.equals("00002")) {
-                ariInstList = commonService.retrieveAriInst();
-                deptList = commonService.retrieveAriInstDepartmentByAdmsAriInst(param);
-                corsTypeList = commonService.retrieveAriInstCourseByAdmsDeptAriInst(param);
-                detlMajList = commonService.retrieveAriInstDetailMajorByAdmsDeptAriInst(param);
-            } else {
-                campList = commonService.retrieveCampus();
-                collList = commonService.retrieveCollegeByCampus( basis.getApplication().getCampCode() );
-                deptList = commonService.retrieveGeneralDepartmentByAdmsColl(param);
-                detlMajList = commonService.retrieveGeneralDetailMajorByAdmsDeptCors(param);
-                if (applAttrCode.equals("00001"))
-                    corsTypeList = commonService.retrieveGeneralCourseByAdmsDept(param);
-                if (applAttrCode.equals("00003"))
-                    corsTypeList = commonService.retrieveCommissionCourseByAdmsDept(param);
-            }
-
-            if (campList != null)      selectionMap.put("campList", campList);
-            if (collList != null)      selectionMap.put("collList", collList);
-            if (ariInstList != null)   selectionMap.put("ariInstList", ariInstList);
-            if (deptList != null)      selectionMap.put("deptList", deptList);
-            if (corsTypeList != null)  selectionMap.put("corsTypeList", corsTypeList);
-            if (detlMajList != null)   selectionMap.put("detlMajList", detlMajList);
+            selectionMap.putAll((Map<String, Object>) retrieveSelectionMap(basis).getData());
 
         } else {
             basis.setApplicationGeneral(new ApplicationGeneral());
@@ -202,10 +265,9 @@ public class BasisServiceImpl implements BasisService {
             List<AcademyResearchIndustryInstitution> ariInstList = commonService.retrieveAriInst();
             if (campList != null)      selectionMap.put("campList", campList);
             if (ariInstList != null)   selectionMap.put("ariInstList", ariInstList);
+            selectionMap.put("applAttrList", commonService.retrieveCommonCodeValueByCodeGroup("APPL_ATTR"));
+            selectionMap.put("emerContList", commonService.retrieveCommonCodeValueByCodeGroup("EMER_CONT"));
         }
-
-        selectionMap.put("applAttrList", commonService.retrieveCommonCodeValueByCodeGroup("APPL_ATTR"));
-        selectionMap.put("emerContList", commonService.retrieveCommonCodeValueByCodeGroup("EMER_CONT"));
 
         String cntrCode = basis.getApplication().getCitzCntrCode();
         cntrCode = cntrCode == null ? "" : cntrCode;
