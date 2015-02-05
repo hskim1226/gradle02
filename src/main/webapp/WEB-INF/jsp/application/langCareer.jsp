@@ -434,7 +434,7 @@
                 </div>
                 <div class="btn-group btn-group-justified">
                     <div class="btn-group">
-                        <button id="saveLangCareer" type="button" class="btn btn-info btn-lg btn-save" data-saveType="langCareer">어학 및 경력 저장</button>
+                        <button id="saveLangCareer" type="button" class="btn btn-primary btn-lg btn-save" data-saveType="langCareer">어학 및 경력 저장</button>
                     </div>
                 </div>
             </div> <%--myTabContent--%>

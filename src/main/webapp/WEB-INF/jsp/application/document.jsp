@@ -726,7 +726,7 @@
             <div class="spacer-tiny"></div>
                 <div class="btn-group btn-group-justified">
                     <div class="btn-group">
-                        <button id="saveDocument" type="button" class="btn btn-info btn-lg btn-save" data-saveType="document">원서 작성 완료</button>
+                        <button id="saveDocument" type="button" class="btn btn-primary btn-lg btn-save" data-saveType="document">원서 작성 완료</button>
                     </div>
                 </div>
             </div> <%--myTabContent--%>
