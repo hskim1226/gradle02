@@ -78,21 +78,21 @@
                             </tr>
                             <tr>
                                 <td colspan="6">
-                                    <%--<button id="modify" class="btn btn-default modify ${item.applStsCode=="00001"?"":"disabled"}"--%>
+
                                     <button id="modify" class="btn btn-default modify ${item.applStsCode.lastIndexOf('0')==3?"":"disabled"}"
                                             data-applNo="${item.applNo}" data-admsNo="${item.admsNo}" data-entrYear="${item.entrYear}"
                                             data-admsTypeCode="${item.admsTypeCode}" <c:if test="${item.applStsCode.lastIndexOf('0')!=3}">disabled</c:if> >원서 수정하기<span class="my-tooltip">작성 중인 상태에서만 수정 가능합니다.</span></button>
                                     <button id="preview" class="btn btn-info preview ${item.applStsCode=="00010"?"":"disabled"}"
-                                    <%--<button id="preview" class="btn btn-info preview"--%>
+
                                             data-applNo="${item.applNo}" data-admsNo="${item.admsNo}" data-entrYear="${item.entrYear}"
                                             data-admsTypeCode="${item.admsTypeCode}" <c:if test="${item.applStsCode!='00010'}">disabled</c:if> >원서 미리보기</button>
+
                                     <button id="pay" class="btn btn-primary pay ${item.applStsCode=="00010"?"":(item.applStsCode=="00021"?"":"disabled")}"
-                                    <%--<button id="pay" class="btn btn-primary pay"--%>
                                         name="2015학년도 ${item.campName} ${item.admsTypeName} ${item.deptName} ${item.corsTypeName}"
                                         data-applNo="${item.applNo}"
                                         value="${item.admsFee}"
                                         <c:if test="${item.applStsCode!='00010' && item.applStsCode!='00021'}">disabled</c:if> >전형료 결제하기</button>
-                                            <%--value="80000">결제하기</button>--%>
+
                                     <div class="btn-group">
                                         <a type="button" class="btn btn-success dropdown-toggle ${item.applStsCode=="00020"?"":"disabled"}" <c:if test="${item.applStsCode!='00020'}">disabled</c:if> data-toggle="dropdown" data-target="#">지원서 보기<span class="caret"></span></a>
                                         <ul class="dropdown-menu" role="menu">
