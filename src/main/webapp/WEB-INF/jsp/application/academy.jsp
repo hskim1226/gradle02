@@ -302,153 +302,147 @@
                             <div class="panel-body">
                                 <div class="form-group-block-list">
                                     <c:forEach begin="0" end="${academy.collegeList.size() > 0 ? academy.collegeList.size() - 1 : 0}" varStatus="stat">
-                                        <div class="form-group-block">
-                                            <form:hidden path="collegeList[${stat.index}].acadTypeCode" value="00002" />
-                                            <form:hidden path="collegeList[${stat.index}].acadSeq" />
-                                            <form:hidden path="collegeList[${stat.index}].userCUDType" value='${academy.collegeList[stat.index].userCUDType == null ? "INSERT" : academy.collegeList[stat.index].userCUDType}'/>
-                                            <div class="form-group required">
-                                                <label class="col-sm-2 control-label">소재 국가</label>
-                                                <div class="col-sm-2">
+                                    <div class="form-group-block">
+                                        <form:hidden path="collegeList[${stat.index}].acadTypeCode" value="00002" />
+                                        <form:hidden path="collegeList[${stat.index}].acadSeq" />
+                                        <form:hidden path="collegeList[${stat.index}].userCUDType" value='${academy.collegeList[stat.index].userCUDType == null ? "INSERT" : academy.collegeList[stat.index].userCUDType}'/>
+                                        <div class="form-group required">
+                                            <label class="col-sm-2 control-label">소재 국가</label>
+                                            <div class="col-sm-9">
+                                                <div class="col-sm-3">
                                                     <button type="button" class="btn btn-default btn-search bpopper" data-targetNode1="collegeList${stat.index}.schlCntrCode" data-targetNode2='collegeList${stat.index}.korCntrName' data-category="country">
                                                         <span class="glyphicon glyphicon-search"></span> 검색
                                                     </button>
                                                 </div>
-                                                <div class="col-sm-6">
+                                                <div class="col-sm-9">
                                                     <form:hidden path="collegeList[${stat.index}].schlCntrCode" />
                                                     <form:input path="collegeList[${stat.index}].korCntrName" class="form-control" readonly="true"/>
                                                 </div>
-                                            </div>
-                                    <spring:bind path="collegeList[${stat.index}].schlCntrCode">
-                                        <c:if test="${status.error}">
-                                            <div class="form-group">
-                                                <div class="col-sm-2"></div>
-                                                <div class="col-sm-8">
+                                        <spring:bind path="collegeList[${stat.index}].schlCntrCode">
+                                            <c:if test="${status.error}">
+                                                <div class="col-sm-12">
                                                     <div class="validation-error">${status.errorMessage}</div>
                                                 </div>
+                                            </c:if>
+                                        </spring:bind>
                                             </div>
-                                        </c:if>
-                                    </spring:bind>
-                                            <div class="form-group required">
-                                                <label class="col-sm-2 control-label">재학 기간</label>
-                                                <div class="col-sm-4 start-date-container">
+                                        </div>
+                                        <div class="form-group required">
+                                            <label class="col-sm-2 control-label">재학 기간</label>
+                                            <div class="col-sm-9">
+                                                <div class="col-sm-6 start-date-container">
                                                     <div class="input-group date">
                                                         <span class="input-group-addon">입학일</span>
                                                         <form:input path="collegeList[${stat.index}].entrDay" cssClass="form-control" readonly="true" />
                                                         <span class="input-group-addon calendar-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                                                     </div>
-                                            <spring:bind path="collegeList[${stat.index}].entrDay">
-                                                <c:if test="${status.error}">
-                                                    <div class="validation-error">
-                                                        ${status.errorMessage}
-                                                    </div>
-                                                </c:if>
-                                            </spring:bind>
+                                                    <spring:bind path="collegeList[${stat.index}].entrDay">
+                                                        <c:if test="${status.error}">
+                                                            <div class="validation-error">
+                                                                    ${status.errorMessage}
+                                                            </div>
+                                                        </c:if>
+                                                    </spring:bind>
                                                 </div>
-                                                <div class="col-sm-4 end-date-container">
+                                                <div class="col-sm-6 end-date-container">
                                                     <div class="input-group date">
                                                         <span class="input-group-addon">졸업(예정)일</span>
                                                         <form:input path="collegeList[${stat.index}].grdaDay" cssClass="form-control" readonly="true" />
                                                         <span class="input-group-addon calendar-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                                                     </div>
-                                            <spring:bind path="collegeList[${stat.index}].grdaDay">
-                                                <c:if test="${status.error}">
-                                                    <div class="validation-error">
-                                                            ${status.errorMessage}
-                                                    </div>
-                                                </c:if>
-                                            </spring:bind>
+                                                    <spring:bind path="collegeList[${stat.index}].grdaDay">
+                                                        <c:if test="${status.error}">
+                                                            <div class="validation-error">
+                                                                    ${status.errorMessage}
+                                                            </div>
+                                                        </c:if>
+                                                    </spring:bind>
                                                 </div>
                                             </div>
-                                            <div class="form-group required">
-                                                <label class="col-sm-2 control-label">졸업 구분</label>
-                                                <div class="col-sm-10">
-                                                    <div class="col-sm-3">
-                                                        <label class="radio-inline degr-radio"><form:radiobutton path="collegeList[${stat.index}].grdaTypeCode" cssClass="grad-yn" value="00001" />졸업</label>
-                                                        &nbsp;&nbsp;&nbsp;
-                                                        <label class="radio-inline degr-radio"><form:radiobutton path="collegeList[${stat.index}].grdaTypeCode" cssClass="grad-yn" value="00002" />졸업 예정</label>
-                                                    </div>
-                                                    <div class="col-sm-8">
-                                                        <form:input path="collegeList[${stat.index}].degrNo" cssClass="degr-no form-control" placeholder="학위등록번호를 입력해주세요"/>
-                                                        <label id='collegeList${stat.index}.label-grad-not' class="col-sm-10 grda-not degr-message" style="display:none" >합격 후 입학 시 졸업증명서를 대학원 사무실로 반드시 제출하세요</label>
-                                                    </div>
+                                        </div>
+                                        <div class="form-group required">
+                                            <label class="col-sm-2 control-label">졸업 구분</label>
+                                            <div class="col-sm-9">
+                                                <div class="col-sm-4">
+                                                    <label class="radio-inline degr-radio"><form:radiobutton path="collegeList[${stat.index}].grdaTypeCode" cssClass="grad-yn" value="00001" />졸업</label>
+                                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                    <label class="radio-inline degr-radio"><form:radiobutton path="collegeList[${stat.index}].grdaTypeCode" cssClass="grad-yn" value="00002" />졸업 예정</label>
                                                 </div>
-                                    <spring:bind path="collegeList[${stat.index}].grdaTypeCode">
-                                        <c:if test="${status.error}">
-                                            <div class="form-group">
-                                                <div class="col-sm-2"></div>
-                                                <div class="col-sm-10">
-                                                    <div class="col-sm-3">
-                                                        <div class="validation-error">${status.errorMessage}</div>
-                                                    </div>
+                                                <div class="col-sm-8">
+                                                    <form:input path="collegeList[${stat.index}].degrNo" cssClass="degr-no form-control" placeholder="학위등록번호를 입력해주세요"/>
+                                                    <label id='collegeList${stat.index}.label-grad-not' class="col-sm-10 grda-not degr-message" style="display:none;" >합격 후 입학 시 졸업증명서를 대학원 사무실로 반드시 제출하세요</label>
                                                 </div>
+                                        <spring:bind path="collegeList[${stat.index}].grdaTypeCode">
+                                            <c:if test="${status.error}">
+                                                <div class="col-sm-12">
+                                                    <div class="validation-error">${status.errorMessage}</div>
+                                                </div>
+                                            </c:if>
+                                        </spring:bind>
                                             </div>
-                                        </c:if>
-                                    </spring:bind>
-                                            </div>
-                                            <div class="form-group required">
-                                                <form:label path="collegeList[${stat.index}].schlName" cssClass="col-sm-2 control-label">학교 이름</form:label>
-                                                <div class="col-sm-2">
+                                        </div>
+                                        <div class="form-group required">
+                                            <form:label path="collegeList[${stat.index}].schlName" cssClass="col-sm-2 control-label">학교 이름</form:label>
+                                            <div class="col-sm-9">
+                                                <div class="col-sm-3">
                                                     <button type="button" class="btn btn-default btn-search bpopper" data-targetNode1="collegeList${stat.index}.schlCode" data-targetNode2='collegeList${stat.index}.schlName' data-category="school-u">
                                                         <span class="glyphicon glyphicon-search"></span> 검색
                                                     </button>
                                                 </div>
-                                                <div class="col-sm-4">
+                                                <div class="col-sm-6">
                                                     <form:hidden path="collegeList[${stat.index}].schlCode" />
                                                     <form:input path="collegeList[${stat.index}].schlName" cssClass="form-control" readonly="true"/>
                                                 </div>
-                                                <div class="col-sm-2">
+                                                <div class="col-sm-3">
                                                     <label class="radio-inline">
-                                                        <%--<form:radiobutton path="collegeList[${stat.index}].lastSchlYn" cssClass="radio-group" value="${academy.collegeList[stat.index].lastSchlYn}"/>&nbsp;&nbsp;최종 학교--%>
+                                                            <%--<form:radiobutton path="collegeList[${stat.index}].lastSchlYn" cssClass="radio-group" value="${academy.collegeList[stat.index].lastSchlYn}"/>&nbsp;&nbsp;최종 학교--%>
                                                         <input type="radio" class="college-radio" id="college-radio-${stat.index}" name="collegeRadio" data-last-radio-id="collegeList${stat.index}.lastSchlYn" <c:if test="${academy.collegeList[stat.index].lastSchlYn == 'Y'}">checked</c:if> />&nbsp;&nbsp;최종 학교
                                                         <form:hidden path="collegeList[${stat.index}].lastSchlYn"/>
                                                     </label>
                                                 </div>
-                                            </div>
-                                    <spring:bind path="collegeList[${stat.index}].schlName">
-                                        <c:if test="${status.error}">
-                                            <div class="form-group">
-                                                <div class="col-sm-2"></div>
-                                                <div class="col-sm-6">
+                                        <spring:bind path="collegeList[${stat.index}].schlName">
+                                            <c:if test="${status.error}">
+                                                <div class="col-sm-12">
                                                     <div class="validation-error">${status.errorMessage}</div>
                                                 </div>
+                                            </c:if>
+                                        </spring:bind>
                                             </div>
-                                        </c:if>
-                                    </spring:bind>
-                                            <div class="form-group required">
-                                                <form:label path="collegeList[${stat.index}].collName" cssClass="col-sm-2 control-label">단과 대학</form:label>
-                                                <div class="col-sm-9">
+                                        </div>
+                                        <div class="form-group required">
+                                            <form:label path="collegeList[${stat.index}].collName" cssClass="col-sm-2 control-label">단과 대학</form:label>
+                                            <div class="col-sm-9">
+                                                <div class="col-sm-12">
                                                     <form:input path="collegeList[${stat.index}].collName" cssClass="form-control" />
                                                 </div>
-                                            </div>
-                                    <spring:bind path="collegeList[${stat.index}].collName">
-                                        <c:if test="${status.error}">
-                                            <div class="form-group">
-                                                <div class="col-sm-2"></div>
-                                                <div class="col-sm-9">
+                                        <spring:bind path="collegeList[${stat.index}].collName">
+                                            <c:if test="${status.error}">
+                                                <div class="col-sm-12">
                                                     <div class="validation-error">${status.errorMessage}</div>
                                                 </div>
+                                            </c:if>
+                                        </spring:bind>
                                             </div>
-                                        </c:if>
-                                    </spring:bind>
-                                            <div class="form-group required">
-                                                <form:label path="collegeList[${stat.index}].majName" cssClass="col-sm-2 control-label">학과 이름</form:label>
-                                                <div class="col-sm-9">
+                                        </div>
+                                        <div class="form-group required">
+                                            <form:label path="collegeList[${stat.index}].majName" cssClass="col-sm-2 control-label">학과 이름</form:label>
+                                            <div class="col-sm-9">
+                                                <div class="col-sm-12">
                                                     <form:input path="collegeList[${stat.index}].majName" cssClass="form-control" />
                                                 </div>
-                                            </div>
-                                    <spring:bind path="collegeList[${stat.index}].majName">
-                                        <c:if test="${status.error}">
-                                            <div class="form-group">
-                                                <div class="col-sm-2"></div>
-                                                <div class="col-sm-9">
+                                        <spring:bind path="collegeList[${stat.index}].majName">
+                                            <c:if test="${status.error}">
+                                                <div class="col-sm-12">
                                                     <div class="validation-error">${status.errorMessage}</div>
                                                 </div>
+                                            </c:if>
+                                        </spring:bind>
                                             </div>
-                                        </c:if>
-                                    </spring:bind>
-                                            <div class="form-group required">
-                                                <label class="col-sm-2 control-label">평량 평균</label>
-                                                <div class="col-sm-4">
+                                        </div>
+                                        <div class="form-group required">
+                                            <label class="col-sm-2 control-label">평량 평균</label>
+                                            <div class="col-sm-9">
+                                                <div class="col-sm-6">
                                                     <div class="input-group">
                                                         <span class="input-group-addon">평점</span>
                                                         <form:input path="collegeList[${stat.index}].gradAvr" cssClass="form-control gradAvr" maxlength="4" placeholder="#.##"/>
@@ -461,11 +455,11 @@
                                                 </c:if>
                                             </spring:bind>
                                                 </div>
-                                                <div class="col-sm-4">
+                                                <div class="col-sm-6">
                                                     <div class="input-group">
                                                         <span class="input-group-addon">만점</span>
                                                         <form:input path="collegeList[${stat.index}].gradFull" cssClass="form-control gradFull" maxlength="3" placeholder="#.#" data-gradAvr-id="collegeList${stat.index}.gradAvr"/>
-                                                    </div
+                                                    </div>
                                             <spring:bind path="collegeList[${stat.index}].gradFull">
                                                 <c:if test="${status.error}">
                                                     <div class="validation-error">
@@ -475,8 +469,9 @@
                                             </spring:bind>
                                                 </div>
                                             </div>
-                                            <div class="btn btn-remove" data-list-name="collegeList" data-block-index="${stat.index}"><button type="button" class="close" aria-hidden="true">×</button></div>
                                         </div>
+                                        <div class="btn btn-remove" data-list-name="collegeList" data-block-index="${stat.index}"><button type="button" class="close" aria-hidden="true">×</button></div>
+                                    </div>
                                     </c:forEach>
                                     <div class="btn btn-info btn-add">추가</div>
                                 </div>
@@ -554,22 +549,22 @@
                                                     </div>
                                                     <div class="col-sm-8">
                                                         <form:input path="graduateList[${stat.index}].degrNo" cssClass="degr-no form-control" placeholder="학위등록번호를 입력해주세요"/>
-                                                        <label id='graduateList${stat.index}.label-grad-not' class="col-sm-10 grda-not degr-message" style="display:none" >합격 후 입학 시 졸업증명서를 대학원 사무실로 반드시 제출하세요</label>
+                                                        <label id='graduateList${stat.index}.label-grad-not' class="col-sm-10 grda-not degr-message" style="display:none;" >합격 후 입학 시 졸업증명서를 대학원 사무실로 반드시 제출하세요</label>
                                                     </div>
                                                 </div>
-                                        <spring:bind path="graduateList[${stat.index}].grdaTypeCode">
-                                            <c:if test="${status.error}">
-                                                <div class="form-group">
-                                                    <div class="col-sm-2"></div>
-                                                    <div class="col-sm-10">
-                                                        <div class="col-sm-3">
-                                                            <div class="validation-error">${status.errorMessage}</div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </c:if>
-                                        </spring:bind>
                                             </div>
+                                    <spring:bind path="graduateList[${stat.index}].grdaTypeCode">
+                                        <c:if test="${status.error}">
+                                            <div class="form-group">
+                                                <div class="col-sm-2"></div>
+                                                <div class="col-sm-10">
+                                                    <div class="col-sm-3">
+                                                        <div class="validation-error">${status.errorMessage}</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </c:if>
+                                    </spring:bind>
                                             <div class="form-group required">
                                                 <form:label path="graduateList[${stat.index}].schlName" cssClass="col-sm-2 control-label">학교 이름</form:label>
                                                 <div class="col-sm-2">
