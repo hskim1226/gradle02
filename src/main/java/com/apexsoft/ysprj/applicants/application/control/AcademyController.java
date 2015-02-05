@@ -69,7 +69,6 @@ public class AcademyController {
                                     Principal principal,
                                     BindingResult bindingResult,
                                     ModelAndView mv) {
-//        validator.validate(formData.getCollegeList(), bindingResult);
         academyValidator.validate(formData, bindingResult);
         mv.setViewName(TARGET_VIEW);
         if (bindingResult.hasErrors()) {

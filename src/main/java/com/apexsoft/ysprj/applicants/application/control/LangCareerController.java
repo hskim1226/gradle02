@@ -5,6 +5,7 @@ import com.apexsoft.framework.message.MessageResolver;
 import com.apexsoft.ysprj.applicants.admission.domain.ParamForAdmissionCourseMajor;
 import com.apexsoft.ysprj.applicants.application.domain.*;
 import com.apexsoft.ysprj.applicants.application.service.LangCareerService;
+import com.apexsoft.ysprj.applicants.application.validator.LangCareerValidator;
 import com.apexsoft.ysprj.applicants.common.service.CommonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -31,6 +32,9 @@ public class LangCareerController {
 
     @Autowired
     private LangCareerService langCareerService;
+
+    @Autowired
+    private LangCareerValidator langCareerValidator;
 
     @Autowired
     private CommonService commonService;
@@ -68,17 +72,36 @@ public class LangCareerController {
      *
      * @param formData
      * @param principal
-     * @param bindindResult
+     * @param bindingResult
      * @param mv
      * @return
      */
     @RequestMapping(value="/save", method = RequestMethod.POST)
     public ModelAndView saveLangCareer(@ModelAttribute LangCareer formData,
                                        Principal principal,
-                                       BindingResult bindindResult,
+                                       BindingResult bindingResult,
                                        ModelAndView mv) {
+        langCareerValidator.validate(formData, bindingResult);
         mv.setViewName(TARGET_VIEW);
-        if (bindindResult.hasErrors()) return mv;
+        if (bindingResult.hasErrors()) {
+            mv.addObject("resultMsg", messageResolver.getMessage("U334"));
+
+//            ExecutionContext ecRetrieve = langCareerService.retrieveLangCareer(formData);
+//            if (ecRetrieve.getResult().equals(ExecutionContext.SUCCESS)) {
+//                Map<String, Object> map = (Map<String, Object>)ecRetrieve.getData();
+//                mv.addObject("common", map.get("common"));
+//            } else {
+//                mv = getErrorMV("common/error", ecRetrieve);
+//            }
+
+            HashMap<String, Object> commonCodeMap = new HashMap<String, Object>();
+            commonCodeMap.put( "toflTypeList", commonService.retrieveCommonCodeValueByCodeGroup("TOFL_TYPE") );
+            commonCodeMap.put( "fornExmpList", commonService.retrieveCommonCodeValueByCodeGroup("FORN_EXMP") );
+
+            mv.addObject("common", commonCodeMap);
+
+            return mv;
+        }
 
         ExecutionContext ec = null;
         String userId = principal.getName();

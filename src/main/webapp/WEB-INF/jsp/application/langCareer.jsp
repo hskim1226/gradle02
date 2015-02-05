@@ -248,6 +248,10 @@
         #tabTR {
             cursor: pointer;
         }
+        .validation-error {
+            background: #ffdddd;
+            color: #f55;
+        }
     </style>
 </head>
 <body>
@@ -389,25 +393,34 @@
                                             <form:hidden path="applicationExperienceList[${stat.index}].checkedFg" value="true"/>
                                             <div class="form-group required">
                                                 <label class="col-sm-2 control-label">재직 기간</label>
-                                                <div class="col-sm-3 start-date-container">
-                                                    <div class="input-group date">
-                                                        <span class="input-group-addon">입사일</span>
-                                                        <form:input path="applicationExperienceList[${stat.index}].joinDay" cssClass="form-control" readonly="true" />
-                                                        <span class="input-group-addon calendar-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                                <div class="col-sm-9">
+                                                    <div class="col-sm-4 start-date-container">
+                                                        <div class="input-group date">
+                                                            <span class="input-group-addon">입사일</span>
+                                                            <form:input path="applicationExperienceList[${stat.index}].joinDay" cssClass="form-control" readonly="true" />
+                                                            <span class="input-group-addon calendar-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                                        </div>
+                                                <spring:bind path="applicationExperienceList[${stat.index}].joinDay">
+                                                    <c:if test="${status.error}">
+                                                        <div class="col-sm-12 validation-container">
+                                                            <div class="validation-error">${status.errorMessage}</div>
+                                                        </div>
+                                                    </c:if>
+                                                </spring:bind>
+                                                    </div>
+                                                    <div class="col-sm-4 end-date-container">
+                                                        <div class="input-group date">
+                                                            <span class="input-group-addon">퇴사일</span>
+                                                            <form:input path="applicationExperienceList[${stat.index}].retrDay" cssClass="form-control" readonly="true" />
+                                                            <span class="input-group-addon calendar-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-2">
+                                                        <label class="radio-inline"><input type="radio" class="curr-radio" id="radioCurr-${stat.index}" name="radioCurrWork" data-curr-work-id="applicationExperienceList${stat.index}.currYn" <c:if test="${langCareer.applicationExperienceList[stat.index].currYn == 'Y'}">checked</c:if> />재직중</label>
+                                                        <form:hidden path="applicationExperienceList[${stat.index}].currYn"/>
                                                     </div>
                                                 </div>
-                                                <div class="col-sm-3 end-date-container">
-                                                    <div class="input-group date">
-                                                        <span class="input-group-addon">퇴사일</span>
-                                                        <form:input path="applicationExperienceList[${stat.index}].retrDay" cssClass="form-control" readonly="true" />
-                                                        <span class="input-group-addon calendar-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-                                                    </div>
-                                                </div>
-                                                <div class="col-sm-2">
-                                                    <%--<label class="radio-inline"><input type="radio" class="curr-radio" id="radioCurr-${stat.index}" name="applicationExperienceList[${stat.index}].currYn" data-curr-work-index="${stat.index}" <c:if test="${langCareer.applicationExperienceList[stat.index].currYn == 'Y'}">checked</c:if> />재직중</label>--%>
-                                                    <label class="radio-inline"><input type="radio" class="curr-radio" id="radioCurr-${stat.index}" name="radioCurrWork" data-curr-work-id="applicationExperienceList${stat.index}.currYn" <c:if test="${langCareer.applicationExperienceList[stat.index].currYn == 'Y'}">checked</c:if> />재직중</label>
-                                                    <form:hidden path="applicationExperienceList[${stat.index}].currYn"/>
-                                                </div>
+
                                             </div>
                                             <div class="form-group required">
                                                 <form:label path="applicationExperienceList[${stat.index}].corpName" cssClass="col-sm-2 control-label">기관명</form:label>
@@ -416,7 +429,7 @@
                                                 </div>
                                             </div>
                                             <div class="form-group required">
-                                                <form:label path="applicationExperienceList[${stat.index}].exprDesc" cssClass="col-sm-2 control-label">직위명</form:label>
+                                                <form:label path="applicationExperienceList[${stat.index}].exprDesc" cssClass="col-sm-2 control-label">경력 내용</form:label>
                                                 <div class="col-sm-9">
                                                     <form:input path="applicationExperienceList[${stat.index}].exprDesc" cssClass="form-control" />
                                                 </div>
