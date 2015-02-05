@@ -229,6 +229,7 @@
 <script src="${contextPath}/js/jquery.localScroll.min.js"></script>
 <script src="${contextPath}/js/jquery.appear.min.js"></script>
 <script src="${contextPath}/js/jquery.stellar.min.js"></script>
+<script src="${contextPath}/js/jquery.placeholder.js"></script>
 <script src="${contextPath}/js/main.js"></script>
 <script src="${contextPath}/js/jquery-ui.min.js"></script>
 <script type="text/javascript">
@@ -316,6 +317,10 @@
             $(block).find(calendarClass).datepicker(datePickerOption);
         };
         <%-- 달력 reset 함수 --%>
+
+        <%-- placeholder polyfill --%>
+        $('input, textarea').placeholder();
+        <%-- placeholder polyfill --%>
     });
 </script>
 

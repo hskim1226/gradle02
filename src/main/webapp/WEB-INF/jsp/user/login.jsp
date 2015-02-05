@@ -154,6 +154,7 @@
 <script src="${contextPath}/js/jquery.localScroll.min.js"></script>
 <script src="${contextPath}/js/jquery.appear.min.js"></script>
 <script src="${contextPath}/js/jquery.stellar.min.js"></script>
+<script src="${contextPath}/js/jquery.placeholder.js"></script>
 <script src="${contextPath}/js/main.js"></script>
 
 <script type="text/javascript">
@@ -167,7 +168,12 @@ $(document).ready(function() {
     };
     showActionResult();
     <%-- action 성공 여부 알림 처리 --%>
+
     $('#username').focus();
+
+    <%-- placeholder polyfill --%>
+    $('input, textarea').placeholder();
+    <%-- placeholder polyfill --%>
 });
 </script>
 
