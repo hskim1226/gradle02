@@ -1,6 +1,7 @@
 package com.apexsoft.ysprj.applicants.application.validator;
 
 import com.apexsoft.framework.message.MessageResolver;
+import com.apexsoft.framework.web.validation.NamedValidator;
 import com.apexsoft.ysprj.applicants.application.domain.Application;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -11,7 +12,7 @@ import org.springframework.validation.Validator;
  * Created by hanmomhanda on 15. 2. 1.
  */
 @Component
-public class ApplicationValidator implements Validator {
+public class ApplicationValidator implements NamedValidator {
 
     @Autowired
     MessageResolver messageResolver;
@@ -23,11 +24,16 @@ public class ApplicationValidator implements Validator {
 
     @Override
     public void validate(Object o, Errors errors) {
+
+    }
+
+    @Override
+    public void validate(Object o, Errors errors, String className) {
         Application application = (Application) o;
-        String bindingResultTargetClassName = errors.getObjectName();
-        String className = application.getClass().getSimpleName();
-        String instanceName = className.substring(0, 1).toLowerCase() + className.substring(1);
-        String prefix = (!bindingResultTargetClassName.equals(className)) ? instanceName + "." : "";
+//        String bindingResultTargetClassName = errors.getObjectName();
+//        String instanceName = className.substring(0, 1).toLowerCase() + className.substring(1);
+//        String prefix = (!bindingResultTargetClassName.equals(className)) ? instanceName + "." : "";
+        String prefix = className + ".";
 
         if (application.getKorName() == null || application.getKorName().length() == 0) {
             errors.rejectValue(prefix + "korName", "U331",

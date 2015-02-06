@@ -441,6 +441,7 @@
                                                data-doc-prop-docGrpName="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.docGrpName"
                                                data-doc-prop-fileUploadFg="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.fileUploadFg"
                                                data-doc-prop-displayGrpFg="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.displayGrpFg"
+                                               data-doc-prop-checkedFg="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.checkedFg"
                                                data-doc-prop-admsNo="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.admsNo"
                                                data-doc-prop-admsCorsNo="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.admsCorsNo"
                                                data-doc-prop-detlMajCode="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.detlMajCode"
@@ -460,6 +461,13 @@
                                         <a id="file-link-${lv1Status.index}-${lv2Status.index}"
                                            href="${contextPath}/filedownload/attached/${document.application.admsNo}/${document.application.applNo}/${lv2Container.fileName}/${lv2Container.orgFileName}">${lv2Container.orgFileName}</a>
                                     </div>
+                            <spring:bind path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].fileUploadFg">
+                                <c:if test="${status.error}">
+                                    <div class="col-sm-12 validation-container">
+                                        <div class="validation-error">${status.errorMessage}</div>
+                                    </div>
+                                </c:if>
+                            </spring:bind>
                                 </div>
 
                                     </c:when>
@@ -541,6 +549,7 @@
                                                        data-doc-prop-docGrpName="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.docGrpName"
                                                        data-doc-prop-fileUploadFg="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.fileUploadFg"
                                                        data-doc-prop-displayGrpFg="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.displayGrpFg"
+                                                       data-doc-prop-checkedFg="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.checkedFg"
                                                        data-doc-prop-admsNo="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.admsNo"
                                                        data-doc-prop-admsCorsNo="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.admsCorsNo"
                                                        data-doc-prop-detlMajCode="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.detlMajCode"
@@ -560,6 +569,13 @@
                                                 <a id="file-link-${lv1Status.index}-${lv2Status.index}-${lv3Status.index}"
                                                    href="${contextPath}/filedownload/attached/${document.application.admsNo}/${document.application.applNo}/${lv3Container.fileName}/${lv3Container.orgFileName}">${lv3Container.orgFileName}</a>
                                             </div>
+                                    <spring:bind path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].subContainer[${lv3Status.index}].fileUploadFg">
+                                        <c:if test="${status.error}">
+                                            <div class="col-sm-12 validation-container">
+                                                <div class="validation-error">${status.errorMessage}</div>
+                                            </div>
+                                        </c:if>
+                                    </spring:bind>
                                         </div>
 
                                                 </c:when>
@@ -642,6 +658,7 @@
                                                                data-doc-prop-docGrpName="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.subContainer${lv4Status.index}.docGrpName"
                                                                data-doc-prop-fileUploadFg="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.subContainer${lv4Status.index}.fileUploadFg"
                                                                data-doc-prop-displayGrpFg="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.subContainer${lv4Status.index}.displayGrpFg"
+                                                               data-doc-prop-checkedFg="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.subContainer${lv4Status.index}.checkedFg"
                                                                data-doc-prop-admsNo="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.subContainer${lv4Status.index}.admsNo"
                                                                data-doc-prop-admsCorsNo="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.subContainer${lv4Status.index}.admsCorsNo"
                                                                data-doc-prop-detlMajCode="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.subContainer${lv4Status.index}.detlMajCode"
@@ -661,6 +678,13 @@
                                                         <a id="file-link-${lv1Status.index}-${lv2Status.index}-${lv3Status.index}-${lv4Status.index}"
                                                            href="${contextPath}/filedownload/attached/${document.application.admsNo}/${document.application.applNo}/${lv4Container.fileName}/${lv4Container.orgFileName}">${lv4Container.orgFileName}</a>
                                                     </div>
+                                            <spring:bind path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].subContainer[${lv3Status.index}].subContainer[${lv4Status.index}].fileUploadFg">
+                                                <c:if test="${status.error}">
+                                                    <div class="col-sm-12 validation-container">
+                                                        <div class="validation-error">${status.errorMessage}</div>
+                                                    </div>
+                                                </c:if>
+                                            </spring:bind>
                                                 </div>
 
                                                             </c:when>
@@ -873,6 +897,7 @@
                             docGrpName: document.getElementById(this.getAttribute('data-doc-prop-docGrpName')).value,
                             fileUploadFg: document.getElementById(this.getAttribute('data-doc-prop-fileUploadFg')).value,
                             displayGrpFg: document.getElementById(this.getAttribute('data-doc-prop-displayGrpFg')).value,
+                            checkedFg: document.getElementById(this.getAttribute('data-doc-prop-checkedFg')).value,
                             admsCorsNo: document.getElementById(this.getAttribute('data-doc-prop-admsCorsNo')).value,
                             detlMajCode: document.getElementById(this.getAttribute('data-doc-prop-detlMajCode')).value,
                             admsCodeGrp: document.getElementById(this.getAttribute('data-doc-prop-admsCodeGrp')).value,

@@ -8,5 +8,5 @@ import org.springframework.validation.Validator;
  */
 public interface NamedValidator extends Validator {
 
-    void validate(Object o, Errors errors, String className, boolean isCollection);
+    void validate(Object o, Errors errors, String className);
 }

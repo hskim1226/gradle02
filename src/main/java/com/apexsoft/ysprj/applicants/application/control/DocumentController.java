@@ -13,6 +13,7 @@ import com.apexsoft.framework.persistence.file.model.FileMetaForm;
 import com.apexsoft.framework.persistence.file.model.FileVO;
 import com.apexsoft.ysprj.applicants.application.domain.*;
 import com.apexsoft.ysprj.applicants.application.service.DocumentService;
+import com.apexsoft.ysprj.applicants.application.validator.DocumentValidator;
 import com.apexsoft.ysprj.applicants.common.service.CommonService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -31,6 +32,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.security.Principal;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -48,6 +50,9 @@ public class DocumentController {
 
     @Autowired
     private CommonService commonService;
+
+    @Autowired
+    private DocumentValidator documentValidator;
 
     @Autowired
     private ObjectMapper objectMapper;
@@ -129,17 +134,21 @@ public class DocumentController {
      *
      * @param formData
      * @param principal
-     * @param bindindResult
+     * @param bindingResult
      * @param mv
      * @return
      */
     @RequestMapping(value="/save", method = RequestMethod.POST)
     public ModelAndView saveDocument(@ModelAttribute Document formData,
                                      Principal principal,
-                                     BindingResult bindindResult,
+                                     BindingResult bindingResult,
                                      ModelAndView mv) {
-        mv.setViewName("application/mylist");
-        if (bindindResult.hasErrors()) return mv;
+        documentValidator.validate(formData, bindingResult);
+        mv.setViewName(TARGET_VIEW);
+        if (bindingResult.hasErrors()) {
+            mv.addObject("resultMsg", messageResolver.getMessage("U334"));
+            return mv;
+        }
 
         ExecutionContext ec = null;
         String userId = principal.getName();
