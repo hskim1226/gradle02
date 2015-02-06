@@ -298,7 +298,7 @@
                         <%--<div>--%>
                             <%--<div class="validation-error"><form:errors path="*"/></div>--%>
                         <%--</div>--%>
-                        <div class="panel panel-default">
+                        <div class="panel panel-darkgray">
                             <div class="panel-heading">대학교</div>
                             <div class="panel-body">
                                 <div class="form-group-block-list">
@@ -478,7 +478,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="panel panel-default">
+                        <div class="panel panel-darkgray">
                             <div class="panel-heading">대학원</div>
                             <div class="panel-body">
                                 <div class="form-group-block-list">

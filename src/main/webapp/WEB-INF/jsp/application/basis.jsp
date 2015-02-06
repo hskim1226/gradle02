@@ -296,7 +296,7 @@
                         <%--<div>--%>
                             <%--<div class="validation-error"><form:errors path="*"/></div>--%>
                         <%--</div>--%>
-                        <div class="panel panel-default">
+                        <div class="panel panel-darkgray">
                             <div class="panel-heading">지원 사항</div>
                             <div class="panel-body">
                                 <div class="form-group required">
@@ -398,7 +398,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="panel panel-default">
+                        <div class="panel panel-darkgray">
                             <div class="panel-heading">지원자 정보</div>
                             <div class="panel-body">
                                 <div class="form-group required">
@@ -465,7 +465,7 @@
                             </div>
                         </div>
 
-                        <div class="panel panel-default">
+                        <div class="panel panel-darkgray">
                             <div class="panel-heading">지원자 상세정보</div>
                             <div class="panel-body">
                                 <div class="form-group required">
@@ -512,7 +512,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="panel panel-default">
+                        <div class="panel panel-darkgray">
                             <div class="panel-heading">지원자 연락처</div>
                             <div class="panel-body">
                                 <div class="form-group required">
@@ -602,7 +602,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="panel panel-default">
+                        <div class="panel panel-darkgray">
                             <div class="panel-heading">비상연락처</div>
                             <div class="panel-body">
                                 <div class="form-group required">

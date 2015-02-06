@@ -293,7 +293,7 @@
                 <div class="spacer-tiny"></div>
                 <div class="row">
                     <div class="col-sm-offset-1 col-sm-10">
-                        <div class="panel panel-default">
+                        <div class="panel panel-darkgray">
                             <div class="panel-heading">어학성적</div>
                             <div class="panel-body" id="english-score-list">
                                 <div class="form-group-block-list">
@@ -414,7 +414,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="panel panel-default">
+                        <div class="panel panel-darkgray">
                             <div class="panel-heading">경력 사항</div>
                             <div class="panel-body">
                                 <div id="career-container" class="form-group-block-list">
