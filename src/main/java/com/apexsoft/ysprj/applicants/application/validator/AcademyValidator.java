@@ -20,6 +20,9 @@ public class AcademyValidator implements Validator {
     @Autowired
     MessageResolver messageResolver;
 
+    @Autowired
+    ApplicationAcademyValidator applicationAcademyValidator;
+
     @Override
     public boolean supports(Class<?> clazz) {
         return Academy.class.isAssignableFrom(clazz);
@@ -35,50 +38,8 @@ public class AcademyValidator implements Validator {
 
         String corsTypeCode = application.getCorsTypeCode();
 
-        validateList(collegeList, errors, "collegeList");
+        applicationAcademyValidator.validate(collegeList, errors, "collegeList");
         if (corsTypeCode.equals("2") || corsTypeCode.equals("6") || corsTypeCode.equals("8")) // 박사 과정일 때만 석사 학력 validation
-            validateList(graduateList, errors, "graduateList");
-    }
-
-    private void validateList(List<CustomApplicationAcademy> list, Errors errors, String listName) {
-        for (int i = 0, length = list.size() ; i < length ; i++) {
-            CustomApplicationAcademy caa = list.get(i);
-            if (caa.getSchlCntrCode() == null || caa.getSchlCntrCode().length() == 0) {
-                errors.rejectValue(listName + "[" + i + "].schlCntrCode", "U331",
-                        new Object[]{"학교 소재 국가"}, messageResolver.getMessage("U332"));
-            }
-            if (caa.getEntrDay() == null || caa.getEntrDay().length() == 0) {
-                errors.rejectValue(listName + "[" + i + "].entrDay", "U331",
-                        new Object[]{"입학일"}, messageResolver.getMessage("U332"));
-            }
-            if (caa.getGrdaDay() == null || caa.getGrdaDay().length() == 0) {
-                errors.rejectValue(listName + "[" + i + "].grdaDay", "U331",
-                        new Object[]{"졸업(예정)일"}, messageResolver.getMessage("U332"));
-            }
-            if (caa.getGrdaTypeCode() == null || caa.getGrdaTypeCode().length() == 0) {
-                errors.rejectValue(listName + "[" + i + "].grdaTypeCode", "U331",
-                        new Object[]{"졸업 구분"}, messageResolver.getMessage("U332"));
-            }
-            if (caa.getSchlName() == null || caa.getSchlName().length() == 0) {
-                errors.rejectValue(listName + "[" + i + "].schlName", "U331",
-                        new Object[]{"학교 이름"}, messageResolver.getMessage("U332"));
-            }
-            if (caa.getCollName() == null || caa.getCollName().length() == 0) {
-                errors.rejectValue(listName + "[" + i + "].collName", "U331",
-                        new Object[]{"단과 대학"}, messageResolver.getMessage("U332"));
-            }
-            if (caa.getMajName() == null || caa.getMajName().length() == 0) {
-                errors.rejectValue(listName + "[" + i + "].majName", "U331",
-                        new Object[]{"학과 이름"}, messageResolver.getMessage("U332"));
-            }
-            if (caa.getGradAvr() == null || caa.getGradAvr().length() == 0) {
-                errors.rejectValue(listName + "[" + i + "].gradAvr", "U331",
-                        new Object[]{"평량 평균"}, messageResolver.getMessage("U332"));
-            }
-            if (caa.getGradFull() == null || caa.getGradFull().length() == 0 ) {
-                errors.rejectValue(listName + "[" + i + "].gradFull", "U331",
-                        new Object[]{"평량 평균"}, messageResolver.getMessage("U332"));
-            }
-        }
+            applicationAcademyValidator.validate(graduateList, errors, "graduateList");
     }
 }

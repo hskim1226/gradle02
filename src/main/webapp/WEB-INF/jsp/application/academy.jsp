@@ -290,6 +290,7 @@
             <form:hidden path="application.entrYear" id="entrYear" />
             <form:hidden path="application.admsTypeCode" id="admsTypeCode" />
             <form:hidden path="application.corsTypeCode" id="corsTypeCode" />
+        <c:set var="corsTypeCode" value="${academy.application.corsTypeCode}"/>
             <div id="myTabContent" class="tab-content">
                 <div class="spacer-tiny"></div>
                 <div class="row">
@@ -483,10 +484,10 @@
                                 <div class="form-group-block-list">
                                     <c:forEach begin="0" end="${academy.graduateList.size() > 0 ? academy.graduateList.size() - 1 : 0}" varStatus="stat">
                                     <div class="form-group-block">
-                                        <form:hidden path="graduateList[${stat.index}].acadTypeCode" value="00002" />
+                                        <form:hidden path="graduateList[${stat.index}].acadTypeCode" value="00003" />
                                         <form:hidden path="graduateList[${stat.index}].acadSeq" />
                                         <form:hidden path="graduateList[${stat.index}].userCUDType" value='${academy.graduateList[stat.index].userCUDType == null ? "INSERT" : academy.graduateList[stat.index].userCUDType}'/>
-                                        <div class="form-group required">
+                                        <div class="form-group <c:if test="${corsTypeCode.equals('2') || corsTypeCode.equals('6') || corsTypeCode.equals('8')}">required</c:if>">
                                             <label class="col-sm-2 control-label">소재 국가</label>
                                             <div class="col-sm-9">
                                                 <div class="col-sm-3">
@@ -507,7 +508,7 @@
                                         </spring:bind>
                                             </div>
                                         </div>
-                                        <div class="form-group required">
+                                        <div class="form-group <c:if test="${corsTypeCode.equals('2') || corsTypeCode.equals('6') || corsTypeCode.equals('8')}">required</c:if>">
                                             <label class="col-sm-2 control-label">재학 기간</label>
                                             <div class="col-sm-9">
                                                 <div class="col-sm-6 start-date-container">
@@ -540,7 +541,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="form-group required">
+                                        <div class="form-group <c:if test="${corsTypeCode.equals('2') || corsTypeCode.equals('6') || corsTypeCode.equals('8')}">required</c:if>">
                                             <label class="col-sm-2 control-label">졸업 구분</label>
                                             <div class="col-sm-9">
                                                 <div class="col-sm-4">
@@ -561,7 +562,7 @@
                                         </spring:bind>
                                             </div>
                                         </div>
-                                        <div class="form-group required">
+                                        <div class="form-group <c:if test="${corsTypeCode.equals('2') || corsTypeCode.equals('6') || corsTypeCode.equals('8')}">required</c:if>">
                                             <form:label path="graduateList[${stat.index}].schlName" cssClass="col-sm-2 control-label">학교 이름</form:label>
                                             <div class="col-sm-9">
                                                 <div class="col-sm-3">
@@ -589,7 +590,7 @@
                                         </spring:bind>
                                             </div>
                                         </div>
-                                        <div class="form-group required">
+                                        <div class="form-group <c:if test="${corsTypeCode.equals('2') || corsTypeCode.equals('6') || corsTypeCode.equals('8')}">required</c:if>">
                                             <form:label path="graduateList[${stat.index}].collName" cssClass="col-sm-2 control-label">단과 대학</form:label>
                                             <div class="col-sm-9">
                                                 <div class="col-sm-12">
@@ -604,7 +605,7 @@
                                         </spring:bind>
                                             </div>
                                         </div>
-                                        <div class="form-group required">
+                                        <div class="form-group <c:if test="${corsTypeCode.equals('2') || corsTypeCode.equals('6') || corsTypeCode.equals('8')}">required</c:if>">
                                             <form:label path="graduateList[${stat.index}].majName" cssClass="col-sm-2 control-label">학과 이름</form:label>
                                             <div class="col-sm-9">
                                                 <div class="col-sm-12">
@@ -619,7 +620,7 @@
                                         </spring:bind>
                                             </div>
                                         </div>
-                                        <div class="form-group required">
+                                        <div class="form-group <c:if test="${corsTypeCode.equals('2') || corsTypeCode.equals('6') || corsTypeCode.equals('8')}">required</c:if>">
                                             <label class="col-sm-2 control-label">평량 평균</label>
                                             <div class="col-sm-9">
                                                 <div class="col-sm-6">
