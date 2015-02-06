@@ -86,14 +86,6 @@ public class LangCareerController {
         if (bindingResult.hasErrors()) {
             mv.addObject("resultMsg", messageResolver.getMessage("U334"));
 
-//            ExecutionContext ecRetrieve = langCareerService.retrieveLangCareer(formData);
-//            if (ecRetrieve.getResult().equals(ExecutionContext.SUCCESS)) {
-//                Map<String, Object> map = (Map<String, Object>)ecRetrieve.getData();
-//                mv.addObject("common", map.get("common"));
-//            } else {
-//                mv = getErrorMV("common/error", ecRetrieve);
-//            }
-
             HashMap<String, Object> commonCodeMap = new HashMap<String, Object>();
             commonCodeMap.put( "toflTypeList", commonService.retrieveCommonCodeValueByCodeGroup("TOFL_TYPE") );
             commonCodeMap.put( "fornExmpList", commonService.retrieveCommonCodeValueByCodeGroup("FORN_EXMP") );
