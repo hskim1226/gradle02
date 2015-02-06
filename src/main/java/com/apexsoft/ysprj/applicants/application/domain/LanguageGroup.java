@@ -14,8 +14,9 @@ public class LanguageGroup {
     private String canYn ="Y";
     private String msgNo;
     private String msg;
-
     private List<TotalApplicationLanguage> langList;
+
+
 
     public String getExamCodeGrp() {
         return examCodeGrp;

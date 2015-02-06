@@ -19,6 +19,9 @@ public class LangCareerValidator implements Validator {
     MessageResolver messageResolver;
 
     @Autowired
+    LanguageGroupValidator languageGroupValidator;
+
+    @Autowired
     ApplicationExperienceValidator applicationExperienceValidator;
 
     @Override
@@ -32,10 +35,12 @@ public class LangCareerValidator implements Validator {
         LangCareer langCareer = (LangCareer)o;
         Application application = langCareer.getApplication();
         ApplicationGeneral applicationGeneral= langCareer.getApplicationGeneral();
-
+        List<LanguageGroup> languageGroupList = langCareer.getLanguageGroupList();
         List<CustomApplicationExperience> applicationExperienceList = langCareer.getApplicationExperienceList();
 
-        applicationExperienceValidator.validate(applicationExperienceList, errors);
+        languageGroupValidator.validate(languageGroupList, errors, "languageGroupList");
+        // 경력 사항은 없을 수도 있으므로 validate 안 함
+//        applicationExperienceValidator.validate(applicationExperienceList, errors, "applicationExperienceList");
 
     }
 }

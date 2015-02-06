@@ -140,10 +140,13 @@ public class LangCareerServiceImpl implements LangCareerService {
             for (TotalApplicationLanguage alang : aLangList) {
                 if(alang.getApplNo()== null || alang.getApplNo().equals(""))
                     alang.setApplNo(applNo);
-                if( alang.getLangSeq() != null && alang.getLangSeq() > 0 )
+                if( alang.getLangSeq() != null && alang.getLangSeq() > 0 ) {
                     alang.setLangInfoSaveFg(true);
-                else
+                    alang.setCheckedFg(true);
+                } else {
                     alang.setLangInfoSaveFg(false);
+                    alang.setCheckedFg(false);
+                }
 
                 if( alang.getDocSeq() > 0 )
                     alang.setFileUploadFg(true);
