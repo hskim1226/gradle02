@@ -89,17 +89,19 @@ public class DocumentServiceImpl implements DocumentService {
         ExecutionContext ec = new ExecutionContext();
         Application application = document.getApplication();
 
-        int r1 = 0;
-        Date date = new Date();
-        String userId = application.getUserId();
-        application.setModDate(date);
-        application.setModId(userId);
+        int r1 = 0, rSave = 0;
+
         int currentStsCode = Integer.parseInt(application.getApplStsCode());
         if (currentStsCode < Integer.parseInt(FILE_UPLOAD_SAVED)) {
+            rSave++;
+            Date date = new Date();
+            String userId = application.getUserId();
+            application.setModDate(date);
+            application.setModId(userId);
             application.setApplStsCode(FILE_UPLOAD_SAVED);
             r1 = commonDAO.updateItem(application, NAME_SPACE, "ApplicationMapper");
         }
-        if (r1 == 1) {
+        if (r1 == rSave) {
             ec.setResult(ExecutionContext.SUCCESS);
             ec.setMessage(messageResolver.getMessage("U325"));
         } else {
@@ -192,6 +194,7 @@ public class DocumentServiceImpl implements DocumentService {
             rInsert++;
 
             int maxSeq = commonDAO.queryForInt(NAME_SPACE +"CustomApplicationDocumentMapper.selectMaxSeqByApplNo", applNo ) ;
+            document.setFileUploadFg(true);
             document.setDocSeq(++maxSeq);
             document.setCreDate(date );
             insert = insert + commonDAO.insertItem(document, NAME_SPACE, "ApplicationDocumentMapper");

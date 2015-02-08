@@ -754,7 +754,7 @@
             <div class="spacer-tiny"></div>
                 <div class="btn-group btn-group-justified">
                     <div class="btn-group">
-                        <button id="saveDocument" type="button" class="btn btn-primary btn-lg btn-save" data-saveType="document">원서 작성 완료</button>
+                        <button id="saveDocument" type="button" class="btn btn-primary btn-lg btn-save" data-saveType="document">첨부 파일 저장</button>
                     </div>
                 </div>
             </div>
@@ -866,9 +866,8 @@
                     regexpImage = (/\.(gif|jpg|png)$/i),
                     regexpPDF = (/\.(pdf)$/i),
                     extIsOk = false,
-                    checkboxId = this.getAttribute('data-checkbox-id');
-
-            document.getElementById(checkboxId).checked = true;
+                    checkboxId = this.getAttribute('data-checkbox-id'),
+                    fileUploadFgId = this.getAttribute('data-doc-prop-fileUploadFg');
 
             if ((fileInput.files && fileInput.files.length) || fileInput.value != "") {
                 if (imgYn == 'Y') {
@@ -886,6 +885,7 @@
                 }
 
                 if (extIsOk) {
+                    document.getElementById(checkboxId).checked = true;
                     $.ajaxFileUpload({
                         url: actionUrl,
                         secureuri: false,
@@ -954,7 +954,7 @@
                                 oneDocumentHidden = document.getElementById(targetSubContainerId + key);
                                 if (oneDocumentHidden) {
                                     oneDocumentHidden.value = oneDocument[key];
-//console.log(key, oneDocumentHidden.value);
+console.log(key, oneDocumentHidden.value);
                                 }
                             }
                         },
