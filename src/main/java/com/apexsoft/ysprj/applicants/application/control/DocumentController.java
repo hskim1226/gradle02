@@ -190,7 +190,7 @@ public class DocumentController {
                                           BindingResult bindingResult,
                                           ModelAndView mv) {
         documentValidator.validate(formData, bindingResult);
-        mv.setViewName(TARGET_VIEW);
+        mv.setViewName("application/mylist");
         if (bindingResult.hasErrors()) {
             mv.addObject("resultMsg", messageResolver.getMessage("U334"));
             return mv;
@@ -213,6 +213,7 @@ public class DocumentController {
 
             if (ExecutionContext.SUCCESS.equals(ecRetrieve.getResult())) {
                 mv.addObject("myList", ecRetrieve.getData());
+                mv.addObject("resultMsg", ec.getMessage());
             } else {
                 mv = getErrorMV("common/error", ecRetrieve);
             }
