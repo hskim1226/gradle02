@@ -278,6 +278,10 @@
             color: #222;
             /*vertical-align: middle;*/
         }
+        .validation-error {
+            background: #ffdddd;
+            color: #f55;
+        }
     </style>
 </head>
 <body>
@@ -836,21 +840,14 @@
         $('.btn-upload').on('click', function (e) {
             e.preventDefault();
             var actionUrl = "${contextPath}/application/document/fileUpload",
-//                    fileInputId = this.dataset.fileInputId,
                     fileInputId = this.getAttribute('data-file-input-id'),
                     fileInput = document.getElementById(fileInputId),
                     fileInputName = fileInput.getAttribute("name"),
                     fileName = fileInput.value,
-//                    imgYn = document.getElementById(this.dataset.imgYnId).value,
                     imgYn = document.getElementById(this.getAttribute('data-img-yn-id')).value,
-//                    targetFileLinkId = this.dataset.targetFileLinkId,
                     targetFileLinkId = this.getAttribute('data-target-file-link-id'),
-//                    targetOrgFileNameHiddenId = this.dataset.orgFilenameId,
                     targetOrgFileNameHiddenId = this.getAttribute('data-org-filename-id'),
                     targetSubContainerId = this.getAttribute('data-target-subcontainer-id'),
-            // targetFilePathHiddenId = e.target.getAttribute('data-file-path'),
-            // targetFileNameHiddenId = e.target.getAttribute('data-file-name'),
-            // targetOrgFileNameHiddenId = e.target.getAttribute('data-org-file-name'),
                     regexpImage = (/\.(gif|jpg|png)$/i),
                     regexpPDF = (/\.(pdf)$/i),
                     extIsOk = false,
@@ -917,23 +914,7 @@
                             admsNo: document.getElementById('admsNo').value
                         },
                         success: function (data, status) {
-//if (console) {
-//    console.log('data : ', data);
-//    console.log('status : ', status);
-//}
                             var d = JSON.parse(data.data);
-//if (console) {
-//    console.log("fieldName : ", d.fieldName);
-//    console.log("targetButton : ", d.targetButton);
-//    console.log("targetFileLinkId : ", d.targetFileLinkId);
-//    console.log("applNo : ", d.applNo);
-//    console.log("admsNo : ", d.admsNo);
-//    console.log("originalFileName : ", d.originalFileName);
-//    console.log("filePath : ", d.path);
-//    console.log("fileName : ", d.fileName);
-//    console.log("data : ", data.data);
-//    console.log("status : ", status);
-//}
                             var targetBtnId = d.targetButton,
                                     targetBtn = document.getElementById(targetBtnId),
                                     $targetBtn = $(targetBtn),
@@ -950,12 +931,8 @@
                             $targetBtn.addClass("btn-info");
                             $targetBtn.val("올리기 성공");
                             downloadURL = '${contextPath}/filedownload/attached/'+admsNo+'/'+applNo+'/'+fileName+'/'+originalFileName;
-//                            linkHtml = '<a href="' + downloadURL + '">' + originalFileName + '</a>';
-//                            linkToFile = downloadURL + '">' + originalFileName + '</a>';
                             document.getElementById(targetFileLinkId).setAttribute('href', downloadURL);
                             document.getElementById(targetFileLinkId).innerHTML = originalFileName;
-                            // document.getElementById(targetFilePathHiddenId).value = filePath;
-                            // document.getElementById(targetFileNameHiddenId).value = fileName;
                             document.getElementById(targetOrgFileNameHiddenId).value = originalFileName;
 
                             for (key in oneDocument) {

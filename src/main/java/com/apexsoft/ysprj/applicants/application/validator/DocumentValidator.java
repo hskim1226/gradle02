@@ -36,9 +36,7 @@ public class DocumentValidator implements Validator {
 
         List<TotalApplicationDocumentContainer> documentContainerList = document.getDocumentContainerList();
 
-        totalApplicationDocumentValidator.validate(documentContainerList, errors, "languageGroupList");
-        // 경력 사항은 없을 수도 있으므로 validate 안 함
-//        applicationExperienceValidator.validate(applicationExperienceList, errors, "applicationExperienceList");
+        totalApplicationDocumentValidator.validate(documentContainerList, errors, "documentContainerList");
 
     }
 }

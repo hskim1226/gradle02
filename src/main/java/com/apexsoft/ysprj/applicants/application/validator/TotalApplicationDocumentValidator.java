@@ -25,8 +25,12 @@ public class TotalApplicationDocumentValidator extends NamedListValidator {
         String prefix;
 
         for ( int i = 0; i < l; i++ ) {
-            TotalApplicationDocumentContainer item = documentContainerList.get(i);
             prefix = className + "[" + i + "].";
+            TotalApplicationDocumentContainer item = documentContainerList.get(i);
+
+            if (item.getSubContainer().size() > 0) {
+                validate(item.getSubContainer(), errors, prefix + "subContainer");
+            }
 
             if ( "Y".equals(item.getLastYn()) ) {
                 if ( "Y".equals(item.getMdtYn()) ) {
