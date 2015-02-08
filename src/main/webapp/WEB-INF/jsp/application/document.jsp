@@ -271,7 +271,7 @@
             cursor: pointer;
         }
 
-        .checkbox {
+        .checkbox-upload {
             min-height: 20px;
             margin-top: 0px;
             margin-bottom: 10px;
@@ -405,18 +405,20 @@
                                     <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].uploadYn" value="${lv2Container.uploadYn}" />
                                     <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].sendCnt" value="${lv2Container.sendCnt}" />
                                     <div class="col-sm-3">
-                                        <div class="checkbox">
+                                        <div class="checkbox-upload">
                                             <label class="word-keep-all" for="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.checkedFg">
                                                 <input type="checkbox"
                                                        id="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.checkedFg"
                                                        name="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].checkedFg"
+                                                       data-upload-button-id="upload-button-${lv1Status.index}-${lv2Status.index}"
                                                        <c:if test="${lv2Container.fileUploadFg == true}">checked</c:if> />${lv2Container.docItemName}
                                             </label>
                                         </div>
+                                        <%-- TODO : 기타 일때만 직접 입력 필드 보이게 --%>
+                                        <%--<div class="col-sm-5 nopadding"><form:input path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].docName" placeholder="서류 명 직접 입력"/></div>--%>
                                     </div>
                                     <div class="col-sm-5 nopadding">
-                                        <div class="col-sm-5 nopadding"><form:input path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].docName" placeholder="서류 명 직접 입력"/></div>
-                                        <div class="col-sm-7 nopadding"><input type="file" class="btn btn-file" id="file-input-${lv1Status.index}-${lv2Status.index}" name="file-input-name-${lv1Status.index}-${lv2Status.index}" data-upload-button-id="upload-button-${lv1Status.index}-${lv2Status.index}"/></div>
+                                        <div class="col-sm-12 nopadding"><input type="file" class="btn btn-file" id="file-input-${lv1Status.index}-${lv2Status.index}" name="file-input-name-${lv1Status.index}-${lv2Status.index}" data-upload-button-id="upload-button-${lv1Status.index}-${lv2Status.index}"/></div>
                                     </div>
                                     <div class="col-sm-1 nopadding">
                                         <input type="button" id="upload-button-${lv1Status.index}-${lv2Status.index}"
@@ -513,18 +515,20 @@
                                             <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].subContainer[${lv3Status.index}].uploadYn" value="${lv3Container.uploadYn}" />
                                             <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].subContainer[${lv3Status.index}].sendCnt" value="${lv3Container.sendCnt}" />
                                             <div class="col-sm-3">
-                                                <div class="checkbox">
+                                                <div class="checkbox-upload">
                                                     <label class="word-keep-all" for="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.checkedFg">
                                                         <input type="checkbox"
                                                                id="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.checkedFg"
                                                                name="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].subContainer[${lv3Status.index}].checkedFg"
+                                                               data-upload-button-id="upload-button-${lv1Status.index}-${lv2Status.index}-${lv3Status.index}"
                                                                <c:if test="${lv3Container.fileUploadFg == true}">checked</c:if> />${lv3Container.docItemName}
                                                     </label>
                                                 </div>
+                                                <%-- TODO : 기타 일때만 직접 입력 필드 보이게 --%>
+                                                <%--<div class="col-sm-5 nopadding"><form:input path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].subContainer[${lv3Status.index}].docName" placeholder="서류 명 직접 입력"/></div>--%>
                                             </div>
                                             <div class="col-sm-5 nopadding">
-                                                <div class="col-sm-5 nopadding"><form:input path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].subContainer[${lv3Status.index}].docName" placeholder="서류 명 직접 입력"/></div>
-                                                <div class="col-sm-7 nopadding"><input type="file" class="btn btn-file" id="file-input-${lv1Status.index}-${lv2Status.index}-${lv3Status.index}" name="file-input-name-${lv1Status.index}-${lv2Status.index}-${lv3Status.index}" data-upload-button-id="upload-button-${lv1Status.index}-${lv2Status.index}-${lv3Status.index}"/></div>
+                                                <div class="col-sm-12 nopadding"><input type="file" class="btn btn-file" id="file-input-${lv1Status.index}-${lv2Status.index}-${lv3Status.index}" name="file-input-name-${lv1Status.index}-${lv2Status.index}-${lv3Status.index}" data-upload-button-id="upload-button-${lv1Status.index}-${lv2Status.index}-${lv3Status.index}"/></div>
                                             </div>
                                             <div class="col-sm-1 nopadding">
                                                 <input type="button" id="upload-button-${lv1Status.index}-${lv2Status.index}-${lv3Status.index}"
@@ -622,18 +626,20 @@
                                                     <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].subContainer[${lv3Status.index}].subContainer[${lv4Status.index}].uploadYn" value="${lv4Container.uploadYn}" />
                                                     <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].subContainer[${lv3Status.index}].subContainer[${lv4Status.index}].sendCnt" value="${lv4Container.sendCnt}" />
                                                     <div class="col-sm-3">
-                                                        <div class="checkbox">
+                                                        <div class="checkbox-upload">
                                                             <label class="word-keep-all" for="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.subContainer${lv4Status.index}.checkedFg">
                                                                 <input type="checkbox"
                                                                        id="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.subContainer${lv4Status.index}.checkedFg"
                                                                        name="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].subContainer[${lv3Status.index}].subContainer[${lv4Status.index}].checkedFg"
+                                                                       data-upload-button-id="upload-button-${lv1Status.index}-${lv2Status.index}-${lv3Status.index}-${lv4Status.index}"
                                                                        <c:if test="${lv4Container.fileUploadFg == true}">checked</c:if> />${lv4Container.docItemName}
                                                             </label>
                                                         </div>
+                                                        <%-- TODO : 기타 일때 만 직접 입력 필드 보이게 --%>
+                                                        <%--<div class="col-sm-5 nopadding"><form:input path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].subContainer[${lv3Status.index}].subContainer[${lv4Status.index}].docName" placeholder="서류 명 직접 입력"/></div>--%>
                                                     </div>
                                                     <div class="col-sm-5 nopadding">
-                                                        <div class="col-sm-5 nopadding"><form:input path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].subContainer[${lv3Status.index}].subContainer[${lv4Status.index}].docName" placeholder="서류 명 직접 입력"/></div>
-                                                        <div class="col-sm-7 nopadding"><input type="file" class="btn btn-file" id="file-input-${lv1Status.index}-${lv2Status.index}-${lv3Status.index}-${lv4Status.index}" name="file-input-name-${lv1Status.index}-${lv2Status.index}-${lv3Status.index}-${lv4Status.index}" data-upload-button-id="upload-button-${lv1Status.index}-${lv2Status.index}-${lv3Status.index}-${lv4Status.index}"/></div>
+                                                        <div class="col-sm-12 nopadding"><input type="file" class="btn btn-file" id="file-input-${lv1Status.index}-${lv2Status.index}-${lv3Status.index}-${lv4Status.index}" name="file-input-name-${lv1Status.index}-${lv2Status.index}-${lv3Status.index}-${lv4Status.index}" data-upload-button-id="upload-button-${lv1Status.index}-${lv2Status.index}-${lv3Status.index}-${lv4Status.index}"/></div>
                                                     </div>
                                                     <div class="col-sm-1 nopadding">
                                                         <input type="button" id="upload-button-${lv1Status.index}-${lv2Status.index}-${lv3Status.index}-${lv4Status.index}"
@@ -761,7 +767,7 @@
             <div class="spacer-tiny"></div>
             <div class="btn-group btn-group-justified">
                 <div class="btn-group">
-                    <button id="submitApplication" type="button" class="btn btn-warning btn-lg btn-save" data-saveType="submit" <c:if test="${document.application.applStsCode != '00004'}">disabled</c:if> >원서 제출</button>
+                    <button id="submitApplication" type="button" class="btn btn-info btn-lg btn-save" data-saveType="submit" <c:if test="${document.application.applStsCode != '00004'}">disabled</c:if> >원서 제출</button>
                 </div>
             </div>
         </div> <%--myTabContent--%>
@@ -842,6 +848,22 @@
         $('.btn-save').on('click', formProcess);
         <%-- 하단 버튼 처리 --%>
 
+        <%-- 체크박스 해제 시 첨부 파일 물리적 삭제 및 DB 삭제 처리 --%>
+        $('.checkbox-upload').on('click', function () {
+            var uploadCheckbox = this.querySelector('input'),
+                uploadButtonId = uploadCheckbox.getAttribute('data-upload-button-id');
+            if ( uploadCheckbox.checked == false ) {
+                if ( confirm('체크를 해제하면 업로드 된 첨부 파일이 삭제 됩니다.\n\n계속 하시겠습니까?') ) {
+                    <%--var form = document.forms[0];--%>
+                    <%--form.action = "${contextPath}/application/document/fileDelete";--%>
+                    <%--form.submit();--%>
+                } else {
+                    uploadCheckbox.checked = true;
+                }
+            }
+        });
+        <%-- 체크박스 해제 시 첨부 파일 물리적 삭제 및 DB 삭제 처리 --%>
+
         <%-- 파일 선택 버튼 이벤트 --%>
         $('.btn-file').on('change', function (e) { // 한번 업로드한 inputfile은 이벤트가 발생 안한다.
 //            var uploadButton = $(this.dataset.uploadButtonId);
@@ -867,7 +889,8 @@
                     regexpPDF = (/\.(pdf)$/i),
                     extIsOk = false,
                     checkboxId = this.getAttribute('data-checkbox-id'),
-                    fileUploadFgId = this.getAttribute('data-doc-prop-fileUploadFg');
+                    targetButton = this;
+
 
             if ((fileInput.files && fileInput.files.length) || fileInput.value != "") {
                 if (imgYn == 'Y') {
@@ -954,11 +977,14 @@
                                 oneDocumentHidden = document.getElementById(targetSubContainerId + key);
                                 if (oneDocumentHidden) {
                                     oneDocumentHidden.value = oneDocument[key];
-console.log(key, oneDocumentHidden.value);
+//console.log(key, oneDocumentHidden.value);
                                 }
                             }
                         },
                         error: function (data, status, e) {
+                            $(targetButton).removeClass("btn-default"),
+                            $(targetButton).addClass("btn-danger"),
+                            $(targetButton).val("올리기 실패");
                             if(console) {
                                 console.log("data : ", data);
                                 console.log("status : ", status);

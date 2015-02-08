@@ -130,7 +130,9 @@ public class DocumentController {
     }
 
     /**
-     * 원서 작성 완료
+     * 첨부 파일 저장
+     * 실제 물리적 저장 및 DB 저장은 fileupload에서 건별로 처리되고
+     * 여기서는 필수서류에 대한 validation과 validation 통과 시 applStsCode만 변경함
      *
      * @param formData
      * @param principal
@@ -143,6 +145,53 @@ public class DocumentController {
                                      Principal principal,
                                      BindingResult bindingResult,
                                      ModelAndView mv) {
+        documentValidator.validate(formData, bindingResult);
+        mv.setViewName(TARGET_VIEW);
+        if (bindingResult.hasErrors()) {
+            mv.addObject("resultMsg", messageResolver.getMessage("U334"));
+            return mv;
+        }
+
+        ExecutionContext ec = null;
+        String userId = principal.getName();
+
+        Application application = formData.getApplication();
+        int applNo = application.getApplNo();
+        application.setUserId(userId);
+
+        ec = documentService.saveDocument(formData);
+
+        if (ExecutionContext.SUCCESS.equals(ec.getResult())) {
+            ExecutionContext ecRetrieve = documentService.retrieveDocument(formData);
+
+            if (ExecutionContext.SUCCESS.equals(ecRetrieve.getResult())) {
+                Map<String, Object> setupMap = (Map<String, Object>)ecRetrieve.getData();
+                addObjectToMV(mv, setupMap, ec);
+            } else {
+                mv = getErrorMV("common/error", ecRetrieve);
+            }
+        } else {
+            mv = getErrorMV("common/error", ec);
+        }
+
+        return mv;
+    }
+
+    /**
+     * 첨부 파일 삭제
+     * 건별로 실제 물리적 파일 삭제 및 DB 저장 내용 삭제
+     *
+     * @param formData
+     * @param principal
+     * @param bindingResult
+     * @param mv
+     * @return
+     */
+    @RequestMapping(value="/fileDelete", method = RequestMethod.POST)
+    public ModelAndView deleteOneDocument(@ModelAttribute Document formData,
+                                          Principal principal,
+                                          BindingResult bindingResult,
+                                          ModelAndView mv) {
         documentValidator.validate(formData, bindingResult);
         mv.setViewName(TARGET_VIEW);
         if (bindingResult.hasErrors()) {
@@ -226,8 +275,7 @@ public class DocumentController {
 
     /**
      * 파일 업로드
-     * 개별 파일 단위로 물리적 업로드만 하고,
-     * 파일 업로드 테이블은 건드리지 않는다. -> 파일 업로드 테이블도 건드리는 걸로 변경 필요
+     * 개별 파일 단위로 물리적 업로드 및 파일 업로드 테이블에도 저장
      *
      * @param document
      * @param binding
@@ -244,7 +292,6 @@ public class DocumentController {
                                    FileHandler fileHandler) {
 
         ExecutionContext ec = new ExecutionContext();
-//        MultipartHttpServletRequest mpRequest = (MultipartHttpServletRequest)request;
 
         String returnFileMetaForm = fileHandler.handleMultiPartRequest(new FileUploadEventCallbackHandler<String, FileMetaForm, TotalApplicationDocument>() {
             /**
@@ -290,7 +337,6 @@ public class DocumentController {
                                       TotalApplicationDocument document) {
                 ExecutionContext ec;
                 FileInfo fileInfo;
-//                FileVO fileVO = new FileVO();
                 String uploadDir = getDirectory(fileMetaForm);
                 String uploadFileName = "";
                 for ( FileItem fileItem : fileItems){
@@ -303,8 +349,6 @@ public class DocumentController {
                                 uploadFileName,
                                 originalFileName,
                                 fis = new FileInputStream(fileItem.getFile()));
-//                        fileVO.setPath(fileInfo.getDirectory());
-//                        fileVO.setFileName(fileInfo.getFileName());
                         String path = fileInfo.getDirectory();
                         String pathWithoutContextPath;
                         if (path.startsWith(fileBaseDir)) {
@@ -321,6 +365,7 @@ public class DocumentController {
                         document.setOrgFileName(originalFileName);
                         document.setFileExt(originalFileName.substring(originalFileName.lastIndexOf('.') + 1));
                         document.setCreId(principal.getName());
+
                         ec = documentService.saveOneDocument(document);
 
                         if (ExecutionContext.SUCCESS.equals(ec.getResult())) {
