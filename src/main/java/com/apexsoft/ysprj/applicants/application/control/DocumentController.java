@@ -157,20 +157,61 @@ public class DocumentController {
         int applNo = application.getApplNo();
         application.setUserId(userId);
 
-//        List<CustomApplicationExperience> exprList = formData.getApplicationExperienceList();
-
         ec = documentService.saveDocument(formData);
 
         if (ExecutionContext.SUCCESS.equals(ec.getResult())) {
-//            ExecutionContext ecRetrieve = documentService.retrieveDocument(formData);
+            ExecutionContext ecRetrieve = documentService.retrieveDocument(formData);
+
+            if (ExecutionContext.SUCCESS.equals(ecRetrieve.getResult())) {
+                Map<String, Object> setupMap = (Map<String, Object>)ecRetrieve.getData();
+                addObjectToMV(mv, setupMap, ec);
+            } else {
+                mv = getErrorMV("common/error", ecRetrieve);
+            }
+        } else {
+            mv = getErrorMV("common/error", ec);
+        }
+
+        return mv;
+    }
+
+    /**
+     * 원서 작성 완료
+     *
+     * @param formData
+     * @param principal
+     * @param bindingResult
+     * @param mv
+     * @return
+     */
+    @RequestMapping(value="/submit", method = RequestMethod.POST)
+    public ModelAndView submitApplication(@ModelAttribute Document formData,
+                                          Principal principal,
+                                          BindingResult bindingResult,
+                                          ModelAndView mv) {
+        documentValidator.validate(formData, bindingResult);
+        mv.setViewName(TARGET_VIEW);
+        if (bindingResult.hasErrors()) {
+            mv.addObject("resultMsg", messageResolver.getMessage("U334"));
+            return mv;
+        }
+
+        ExecutionContext ec = null;
+        String userId = principal.getName();
+
+        Application application = formData.getApplication();
+        int applNo = application.getApplNo();
+        application.setUserId(userId);
+
+        ec = documentService.submit(formData);
+
+        if (ExecutionContext.SUCCESS.equals(ec.getResult())) {
 
             ParamForApplication p = new ParamForApplication();
             p.setUserId(principal.getName());
             ExecutionContext ecRetrieve = documentService.retrieveInfoListByParamObj(p, "CustomApplicationMapper.selectApplByUserId", CustomMyList.class);
 
             if (ExecutionContext.SUCCESS.equals(ecRetrieve.getResult())) {
-//                Map<String, Object> setupMap = (Map<String, Object>)ecRetrieve.getData();
-//                addObjectToMV(mv, setupMap, ec);
                 mv.addObject("myList", ecRetrieve.getData());
             } else {
                 mv = getErrorMV("common/error", ecRetrieve);

@@ -757,7 +757,14 @@
                         <button id="saveDocument" type="button" class="btn btn-primary btn-lg btn-save" data-saveType="document">원서 작성 완료</button>
                     </div>
                 </div>
-            </div> <%--myTabContent--%>
+            </div>
+            <div class="spacer-tiny"></div>
+            <div class="btn-group btn-group-justified">
+                <div class="btn-group">
+                    <button id="submitApplication" type="button" class="btn btn-warning btn-lg btn-save" data-saveType="submit" <c:if test="${document.application.applStsCode != '00004'}">disabled</c:if> >원서 제출</button>
+                </div>
+            </div>
+        </div> <%--myTabContent--%>
         </form:form>
     </div> <%--container--%>
 
@@ -819,10 +826,18 @@
         <%-- 하단 버튼 처리 --%>
         var formProcess = function(event) {
             event.preventDefault();
-            var form = document.forms[0];
-
-            form.action = "${contextPath}/application/document/save";
-            form.submit();
+            var form = document.forms[0],
+                saveType = this.getAttribute('data-saveType');
+            if (saveType == 'document') {
+                form.action = "${contextPath}/application/document/save";
+                form.submit();
+            }
+            else if (saveType == 'submit') {
+                if (confirm('원서 제출 후에는 원서 내용을 수정할 수 없습니다. 계속하시겠습니까?')) {
+                    form.action = "${contextPath}/application/document/submit";
+                    form.submit();
+                }
+            }
         };
         $('.btn-save').on('click', formProcess);
         <%-- 하단 버튼 처리 --%>

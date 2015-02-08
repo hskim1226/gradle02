@@ -35,6 +35,7 @@ public class DocumentServiceImpl implements DocumentService {
 
     private final String APP_NULL_STATUS = "00000";      // 에러일 때 반환값
     private final String FILE_UPLOAD_SAVED = "00004";    // 첨부파일 저장
+    private final String APPLICATION_SUBMITTED = "00010";    // 원서 작성 및 제출 완료
 
     @Override
     public ExecutionContext retrieveDocument(int applNo) {
@@ -88,12 +89,40 @@ public class DocumentServiceImpl implements DocumentService {
         ExecutionContext ec = new ExecutionContext();
         Application application = document.getApplication();
 
+        int r1 = 0;
+        Date date = new Date();
+        String userId = application.getUserId();
+        application.setModDate(date);
+        application.setModId(userId);
+        int currentStsCode = Integer.parseInt(application.getApplStsCode());
+        if (currentStsCode < Integer.parseInt(FILE_UPLOAD_SAVED)) {
+            application.setApplStsCode(FILE_UPLOAD_SAVED);
+            r1 = commonDAO.updateItem(application, NAME_SPACE, "ApplicationMapper");
+        }
+        if (r1 == 1) {
+            ec.setResult(ExecutionContext.SUCCESS);
+            ec.setMessage(messageResolver.getMessage("U325"));
+        } else {
+            ec.setResult(ExecutionContext.FAIL);
+            ec.setMessage(messageResolver.getMessage("U326"));
+            ec.setData(application);
+            ec.setErrCode("ERR0003");
+            throw new YSBizException(ec);
+        }
+        return ec;
+    }
+
+    @Override
+    public ExecutionContext submit( Document document ) {
+        ExecutionContext ec = new ExecutionContext();
+        Application application = document.getApplication();
+
         int r1, applNo = application.getApplNo();
         Date date = new Date();
         String userId = application.getUserId();
         application.setModDate(date);
         application.setModId(userId);
-        application.setApplStsCode("00010");
+        application.setApplStsCode(APPLICATION_SUBMITTED);
 
         r1 = commonDAO.updateItem(application, NAME_SPACE, "ApplicationMapper");
 
