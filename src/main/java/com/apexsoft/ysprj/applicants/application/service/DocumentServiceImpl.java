@@ -99,7 +99,7 @@ public class DocumentServiceImpl implements DocumentService {
 
         ExecutionContext ecPay = paymentService.saveApplicationPayment(application);
 
-        if (r1 == 1 && ecPay.getResult().equals(ExecutionContext.SUCCESS)) {
+        if (r1 == 1 && ExecutionContext.SUCCESS.equals(ecPay.getResult())) {
             ec.setResult(ExecutionContext.SUCCESS);
             ec.setMessage(messageResolver.getMessage("U327"));
         } else {
@@ -108,7 +108,7 @@ public class DocumentServiceImpl implements DocumentService {
             if (r1 != 1 ) {
                 ec.setData(application);
                 ec.setErrCode("ERR0003");
-            } else if (ecPay.getResult().equals(ExecutionContext.FAIL)) {
+            } else if (ExecutionContext.FAIL.equals(ecPay.getResult())) {
                 ec.setData(applNo);
                 ec.setErrCode(ec.getErrCode());
             }

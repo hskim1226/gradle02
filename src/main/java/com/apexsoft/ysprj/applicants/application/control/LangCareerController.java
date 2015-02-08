@@ -109,10 +109,10 @@ public class LangCareerController {
 
         ec = langCareerService.saveLangCareer(formData);
 
-        if (ec.getResult().equals(ExecutionContext.SUCCESS)) {
+        if (ExecutionContext.SUCCESS.equals(ec.getResult())) {
             ExecutionContext ecRetrieve = langCareerService.retrieveLangCareer(formData);
 
-            if (ecRetrieve.getResult().equals(ExecutionContext.SUCCESS)) {
+            if (ExecutionContext.SUCCESS.equals(ecRetrieve.getResult())) {
                 Map<String, Object> setupMap = (Map<String, Object>)ecRetrieve.getData();
                 addObjectToMV(mv, setupMap, ec);
             } else {
@@ -134,8 +134,7 @@ public class LangCareerController {
     private List<CustomApplicationExperience> removeEmptyExperienceAcademy(List<CustomApplicationExperience> list) {
         int i, length;
         for (i = 0, length = list.size() ; i < length ; i++) {
-            if (list.get(i).getCorpName() == null || list.get(i).getCorpName().equals("")) {
-//            if ( list.get(i).getCorpName() == null ||  list.get(i).getCorpName() =="") {
+            if (list.get(i).getCorpName() == null || "".equals(list.get(i).getCorpName())) {
                 list.remove(i);
                 length--;
                 i--;

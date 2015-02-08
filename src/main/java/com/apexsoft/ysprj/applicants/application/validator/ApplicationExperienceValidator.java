@@ -34,7 +34,7 @@ public class ApplicationExperienceValidator extends NamedListValidator {
                 errors.rejectValue(prefix + "joinDay", "U331",
                         new Object[]{"입사일"}, messageResolver.getMessage("U332"));
             }
-            if (item.getCurrYn().equals("N")) {
+            if ("N".equals(item.getCurrYn())) {
                 if (item.getRetrDay() == null || item.getRetrDay().length() == 0) {
                     errors.rejectValue(prefix + "retrDay", "U331",
                             new Object[]{"퇴사일"}, messageResolver.getMessage("U332"));

@@ -39,7 +39,7 @@ public class AcademyValidator implements Validator {
         String corsTypeCode = application.getCorsTypeCode();
 
         applicationAcademyValidator.validate(collegeList, errors, "collegeList");
-        if (corsTypeCode.equals("2") || corsTypeCode.equals("6") || corsTypeCode.equals("8")) // 박사 과정일 때만 석사 학력 validation
+        if ("2".equals(corsTypeCode) || "6".equals(corsTypeCode) || "8".equals(corsTypeCode)) // 박사 과정일 때만 석사 학력 validation
             applicationAcademyValidator.validate(graduateList, errors, "graduateList");
     }
 }

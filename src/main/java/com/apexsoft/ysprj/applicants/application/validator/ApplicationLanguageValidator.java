@@ -32,7 +32,7 @@ public class ApplicationLanguageValidator extends NamedListValidator {
 
             if (item.isCheckedFg()) {
                 String itemCode = item.getItemCode();
-                if (itemCode.equals("00001")) { // 시험이 TOEFL 일 경우 시험 종류 선택 필수
+                if ("00001".equals(itemCode)) { // 시험이 TOEFL 일 경우 시험 종류 선택 필수
                     if (item.getToflTypeCode() == null || item.getToflTypeCode().length() == 0) {
                         errors.rejectValue(prefix + "toflTypeCode", "U331",
                                 new Object[]{"TOEFL 시험 종류"}, messageResolver.getMessage("U332"));

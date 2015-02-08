@@ -193,7 +193,7 @@ public class PaymentServiceImpl implements PaymentService {
 
                 //결제 성공에 따른 application 정보 처리
                 String payType = xpay.Response("LGD_PAYTYPE", 0);
-                if( payType.equals("SC0010") || payType.equals("SC0030") ) {
+                if( "SC0010".equals(payType) || "SC0030".equals(payType) ) {
 
                     //카드 또는 계좌이체에 대한 DB 처리
                     registerPaymentSuccess(payment, xpay);
@@ -202,7 +202,7 @@ public class PaymentServiceImpl implements PaymentService {
                     transactionVO.setSysMsg(transactionVO.getSysMsg() + "최종결제요청 결과 성공 DB처리하시기 바랍니다.<br>");
                     transactionVO.setUserMsg(messageResolver.getMessage("U002"));
 
-                } else if( payType.equals("SC0040") ) {
+                } else if( "SC0040".equals(payType) ) {
 
                     //가상계좌 입금대기에 대한 DB 처리
                     registerPaymentWait(payment, xpay);

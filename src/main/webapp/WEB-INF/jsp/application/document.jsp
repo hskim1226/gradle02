@@ -858,10 +858,8 @@
 
             document.getElementById(checkboxId).checked = true;
 
-
-
             if ((fileInput.files && fileInput.files.length) || fileInput.value != "") {
-                if (imgYn) {
+                if (imgYn == 'Y') {
                     if (regexpImage.test(fileName)) {
                         extIsOk = true;
                     } else {

@@ -57,7 +57,7 @@ public class BasisServiceImpl implements BasisService {
         param.setAriInstCode(basis.getApplication().getAriInstCode());
 
         String applAttrCode = basis.getApplication().getApplAttrCode();
-        if (applAttrCode.equals("00002")) {
+        if ("00002".equals(applAttrCode)) {
             ariInstList = commonService.retrieveAriInst();
             deptList = commonService.retrieveAriInstDepartmentByAdmsAriInst(param);
             corsTypeList = commonService.retrieveAriInstCourseByAdmsDeptAriInst(param);
@@ -67,9 +67,9 @@ public class BasisServiceImpl implements BasisService {
             collList = commonService.retrieveCollegeByCampus( basis.getApplication().getCampCode() );
             deptList = commonService.retrieveGeneralDepartmentByAdmsColl(param);
             detlMajList = commonService.retrieveGeneralDetailMajorByAdmsDeptCors(param);
-            if (applAttrCode.equals("00001"))
+            if ("00001".equals(applAttrCode))
                 corsTypeList = commonService.retrieveGeneralCourseByAdmsDept(param);
-            if (applAttrCode.equals("00003"))
+            if ("00003".equals(applAttrCode))
                 corsTypeList = commonService.retrieveCommissionCourseByAdmsDept(param);
         }
 
@@ -163,7 +163,7 @@ public class BasisServiceImpl implements BasisService {
         int applNo = application.getApplNo() == null ? 0 : application.getApplNo();
         String detlMajCode = application.getDetlMajCode();
 
-        if ((detlMajCode != null && !detlMajCode.equals("")) || applNo > 0) {
+        if ((detlMajCode != null && !"".equals(detlMajCode)) || applNo > 0) {
 
             if (applNo > 0) {
                 application = commonDAO.queryForObject(NAME_SPACE + "ApplicationMapper.selectByPrimaryKey",

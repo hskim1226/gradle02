@@ -161,14 +161,14 @@ public class DocumentController {
 
         ec = documentService.saveDocument(formData);
 
-        if (ec.getResult().equals(ExecutionContext.SUCCESS)) {
+        if (ExecutionContext.SUCCESS.equals(ec.getResult())) {
 //            ExecutionContext ecRetrieve = documentService.retrieveDocument(formData);
 
             ParamForApplication p = new ParamForApplication();
             p.setUserId(principal.getName());
             ExecutionContext ecRetrieve = documentService.retrieveInfoListByParamObj(p, "CustomApplicationMapper.selectApplByUserId", CustomMyList.class);
 
-            if (ecRetrieve.getResult().equals(ExecutionContext.SUCCESS)) {
+            if (ExecutionContext.SUCCESS.equals(ecRetrieve.getResult())) {
 //                Map<String, Object> setupMap = (Map<String, Object>)ecRetrieve.getData();
 //                addObjectToMV(mv, setupMap, ec);
                 mv.addObject("myList", ecRetrieve.getData());
@@ -281,7 +281,7 @@ public class DocumentController {
                         document.setCreId(principal.getName());
                         ec = documentService.saveOneDocument(document);
 
-                        if (ec.getResult().equals(ExecutionContext.SUCCESS)) {
+                        if (ExecutionContext.SUCCESS.equals(ec.getResult())) {
                             fileMetaForm.setTotalApplicationDocument((TotalApplicationDocument)ec.getData());
                         }
 

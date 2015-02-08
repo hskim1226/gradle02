@@ -99,7 +99,7 @@ public class CasNoteController {
         applPay.setLgdOid(LGD_OID);
         applPay.setLgdTid(LGD_TID);
 
-        if( LGD_CASFLAG.equals("I") ) {
+        if( "I".equals(LGD_CASFLAG) ) {
             //가상계좌 입금내역에 대한 DB 처리
             paymentService.registerCasNote(applPay);
         }

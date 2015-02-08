@@ -76,7 +76,7 @@ public class BasisController {
         if (bindingResult.hasErrors()) {
             mv.addObject("resultMsg", messageResolver.getMessage("U334"));
             ExecutionContext ecRetrieve = basisService.retrieveSelectionMap(formData);
-            if (ecRetrieve.getResult().equals(ExecutionContext.SUCCESS)) {
+            if (ExecutionContext.SUCCESS.equals(ecRetrieve.getResult())) {
                 Map<String, Object> map = (Map<String, Object>)ecRetrieve.getData();
                 mv.addObject("selection", map.get("selection"));
                 mv.addObject("country", map.get("country"));
@@ -93,10 +93,9 @@ public class BasisController {
 
         ec = basisService.saveBasis(formData);
 
-        if (ec.getResult().equals(ExecutionContext.SUCCESS)) {
-
+        if (ExecutionContext.SUCCESS.equals(ec.getResult())) {
             ExecutionContext ecRetrieve = basisService.retrieveBasis(formData);
-            if (ecRetrieve.getResult().equals(ExecutionContext.SUCCESS)) {
+            if (ExecutionContext.SUCCESS.equals(ecRetrieve.getResult())) {
                 Map<String, Object> map = (Map<String, Object>)ecRetrieve.getData();
                 addObjectToMV(mv, map, ec);
             } else {
@@ -143,15 +142,14 @@ public class BasisController {
 
         ec = basisService.saveBasis(formData);
 
-        if (ec.getResult().equals(ExecutionContext.SUCCESS)) {
-
+        if (ExecutionContext.SUCCESS.equals(ec.getResult())) {
             ExecutionContext ecApplicationByUserId;
             ParamForApplication p = new ParamForApplication();
             p.setUserId(principal.getName());
 
             ecApplicationByUserId = basisService.retrieveInfoListByParamObj(p, "CustomApplicationMapper.selectApplByUserId", CustomMyList.class);
 
-            if (ecApplicationByUserId.getResult().equals(ExecutionContext.SUCCESS)) {
+            if (ExecutionContext.SUCCESS.equals(ecApplicationByUserId.getResult())) {
                 mv.addObject("myList", ecApplicationByUserId.getData());
             } else {
                 mv = getErrorMV("common/error", ecApplicationByUserId);

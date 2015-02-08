@@ -138,7 +138,7 @@ public class LangCareerServiceImpl implements LangCareerService {
                     param, TotalApplicationLanguage.class);
 
             for (TotalApplicationLanguage alang : aLangList) {
-                if(alang.getApplNo()== null || alang.getApplNo().equals(""))
+                if(alang.getApplNo()== null || "".equals(alang.getApplNo()))
                     alang.setApplNo(applNo);
                 if( alang.getLangSeq() != null && alang.getLangSeq() > 0 ) {
                     alang.setLangInfoSaveFg(true);
