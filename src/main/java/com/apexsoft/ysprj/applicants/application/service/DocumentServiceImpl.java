@@ -5,15 +5,12 @@ import com.apexsoft.framework.exception.YSBizException;
 import com.apexsoft.framework.exception.YSNoRedirectBizException;
 import com.apexsoft.framework.message.MessageResolver;
 import com.apexsoft.framework.persistence.dao.CommonDAO;
-import com.apexsoft.ysprj.applicants.admission.domain.ParamForAdmissionCourseMajor;
 import com.apexsoft.ysprj.applicants.application.domain.*;
-import com.apexsoft.ysprj.applicants.payment.domain.ApplicationPayment;
 import com.apexsoft.ysprj.applicants.payment.service.PaymentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import javax.print.Doc;
 import java.util.*;
 
 /**
@@ -138,7 +135,7 @@ public class DocumentServiceImpl implements DocumentService {
             ec.setMessage(messageResolver.getMessage("U328"));
             if (r1 != 1 ) {
                 ec.setData(application);
-                ec.setErrCode("ERR0003");
+                ec.setErrCode("ERR0041");
             } else if (ExecutionContext.FAIL.equals(ecPay.getResult())) {
                 ec.setData(applNo);
                 ec.setErrCode(ec.getErrCode());
@@ -159,15 +156,37 @@ public class DocumentServiceImpl implements DocumentService {
     }
 
     @Override
-    public ExecutionContext saveOneDocument(TotalApplicationDocument document) {
+    public ExecutionContext retrieveOneDocument(ApplicationDocumentKey docKey) {
+
+        ExecutionContext ec = new ExecutionContext();
+        TotalApplicationDocumentContainer totalDoc =
+                commonDAO.queryForObject(NAME_SPACE + "CustomApplicationDocumentMapper.selectOneDocument",
+                        docKey, TotalApplicationDocumentContainer.class);
+
+        if ( totalDoc != null ) {
+            totalDoc.setFileUploadFg(true);
+            ec.setResult(ExecutionContext.SUCCESS);
+            ec.setData(totalDoc);
+//            ec.setMessage(messageResolver.getMessage("U325"));
+        } else {
+            ec.setResult(ExecutionContext.FAIL);
+            ec.setMessage(messageResolver.getMessage("U337"));
+            ec.setErrCode("ERR0035");
+            throw new YSBizException(ec);
+        }
+        return ec;
+    }
+
+    @Override
+    public ExecutionContext saveOneDocument(TotalApplicationDocument oneDocument ) {
 
 
         ExecutionContext ec = new ExecutionContext();
-        int rUpdate = 0, rInsert = 0,applNo = document.getApplNo();
+        int rUpdate = 0, rInsert = 0,applNo = oneDocument.getApplNo();
         int update=0, insert =0;
 
         Date date = new Date();
-        String userId = document.getCreId();
+        String userId = oneDocument.getCreId();
 
         // applStsCode 수정 - TODO 적용할까말까
 //        int applUpdate = 0;
@@ -183,21 +202,21 @@ public class DocumentServiceImpl implements DocumentService {
 //        }
 
         //기존 파일이 업로드 되어 있는 경우
-        if( document.isFileUploadFg()){
+        if( oneDocument.isFileUploadFg()){
             rUpdate++;
-            document.setCreId("" );
-            document.setModDate(date );
-            document.setModId(userId );
-            update = update + commonDAO.updateItem(document, NAME_SPACE, "ApplicationDocumentMapper");
+            oneDocument.setCreId("" );
+            oneDocument.setModDate(date );
+            oneDocument.setModId(userId );
+            update = update + commonDAO.updateItem(oneDocument, NAME_SPACE, "ApplicationDocumentMapper");
 
         }else{
             rInsert++;
 
             int maxSeq = commonDAO.queryForInt(NAME_SPACE +"CustomApplicationDocumentMapper.selectMaxSeqByApplNo", applNo ) ;
-            document.setFileUploadFg(true);
-            document.setDocSeq(++maxSeq);
-            document.setCreDate(date );
-            insert = insert + commonDAO.insertItem(document, NAME_SPACE, "ApplicationDocumentMapper");
+            oneDocument.setFileUploadFg(true);
+            oneDocument.setDocSeq(++maxSeq);
+            oneDocument.setCreDate(date );
+            insert = insert + commonDAO.insertItem(oneDocument, NAME_SPACE, "ApplicationDocumentMapper");
 
         }
 
@@ -205,7 +224,7 @@ public class DocumentServiceImpl implements DocumentService {
         if (  insert == rInsert && update == rUpdate ) {
             ec.setResult(ExecutionContext.SUCCESS);
             ec.setMessage(messageResolver.getMessage("U325"));
-            ec.setData(document);
+            ec.setData(oneDocument);
         } else {
             ec.setResult(ExecutionContext.FAIL);
             ec.setMessage(messageResolver.getMessage("U326"));
@@ -221,18 +240,18 @@ public class DocumentServiceImpl implements DocumentService {
 
 
     @Override
-    public ExecutionContext deleteOneDocument(TotalApplicationDocument document) {
+    public ExecutionContext deleteOneDocument(TotalApplicationDocument oneDocument ) {
 
         ExecutionContext ec = new ExecutionContext();
-        int rDelete = 0,applNo = document.getApplNo();
+        int rDelete = 0,applNo = oneDocument.getApplNo();
         int delete=0;
         Date date = new Date();
-        String userId = document.getCreId();
+        String userId = oneDocument.getCreId();
 
         //기존 파일이 업로드 되어 있는 경우
-        if( document.isFileUploadFg()){
+        if( oneDocument.isFileUploadFg()){
             rDelete++;
-            delete = delete + commonDAO.delete( NAME_SPACE + "ApplicationDocumentMapper.deleteByPrimaryKey", document );
+            delete = delete + commonDAO.delete( NAME_SPACE + "ApplicationDocumentMapper.deleteByPrimaryKey", oneDocument);
 
         }else{
             rDelete++;
@@ -240,10 +259,6 @@ public class DocumentServiceImpl implements DocumentService {
         if (  delete == rDelete ) {
             ec.setResult(ExecutionContext.SUCCESS);
             ec.setMessage(messageResolver.getMessage("U325"));
-            /*
-            ec.setData(new ApplicationIdentifier(applNo, application.getApplStsCode(),
-                    application.getAdmsNo(), application.getEntrYear(), application.getAdmsTypeCode()));
-            */
         } else {
             ec.setResult(ExecutionContext.FAIL);
             ec.setMessage(messageResolver.getMessage("U326"));
@@ -251,7 +266,7 @@ public class DocumentServiceImpl implements DocumentService {
             String errCode = null;
             if ( delete != rDelete ) errCode = "ERR0034";
             ec.setErrCode(errCode);
-            throw new YSNoRedirectBizException(ec);
+            throw new YSBizException(ec);
         }
         return ec;
 

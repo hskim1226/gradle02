@@ -28,6 +28,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -145,53 +147,6 @@ public class DocumentController {
                                      Principal principal,
                                      BindingResult bindingResult,
                                      ModelAndView mv) {
-        documentValidator.validate(formData, bindingResult);
-        mv.setViewName(TARGET_VIEW);
-        if (bindingResult.hasErrors()) {
-            mv.addObject("resultMsg", messageResolver.getMessage("U334"));
-            return mv;
-        }
-
-        ExecutionContext ec = null;
-        String userId = principal.getName();
-
-        Application application = formData.getApplication();
-        int applNo = application.getApplNo();
-        application.setUserId(userId);
-
-        ec = documentService.saveDocument(formData);
-
-        if (ExecutionContext.SUCCESS.equals(ec.getResult())) {
-            ExecutionContext ecRetrieve = documentService.retrieveDocument(formData);
-
-            if (ExecutionContext.SUCCESS.equals(ecRetrieve.getResult())) {
-                Map<String, Object> setupMap = (Map<String, Object>)ecRetrieve.getData();
-                addObjectToMV(mv, setupMap, ec);
-            } else {
-                mv = getErrorMV("common/error", ecRetrieve);
-            }
-        } else {
-            mv = getErrorMV("common/error", ec);
-        }
-
-        return mv;
-    }
-
-    /**
-     * 첨부 파일 삭제
-     * 건별로 실제 물리적 파일 삭제 및 DB 저장 내용 삭제
-     *
-     * @param formData
-     * @param principal
-     * @param bindingResult
-     * @param mv
-     * @return
-     */
-    @RequestMapping(value="/fileDelete", method = RequestMethod.POST)
-    public ModelAndView deleteOneDocument(@ModelAttribute Document formData,
-                                          Principal principal,
-                                          BindingResult bindingResult,
-                                          ModelAndView mv) {
         documentValidator.validate(formData, bindingResult);
         mv.setViewName(TARGET_VIEW);
         if (bindingResult.hasErrors()) {
@@ -414,6 +369,85 @@ public class DocumentController {
 //        return getEntireInfo(data.getApplNo(), application.getAdmsNo(),
 //                application.getEntrYear(), application.getAdmsTypeCode(), "application/appinfo",
 //                entireApplication);
+    }
+
+
+    /**
+     * 원서 첨부 파일 다운로드
+     *
+     * @param applNo
+     * @param docSeq
+     * @param response
+     * @return
+     * @throws IOException
+     */
+//    @RequestMapping(value="/attached/{admsNo}/{applNo}/{fileName:.+}/{originalFileName}")
+    @RequestMapping(value="/fileDownload/{applNo}/{docSeq}", produces = "application/pdf;charset=UTF-8")
+    @ResponseBody
+    public byte[] fileDownload(@PathVariable("applNo") int applNo,
+                               @PathVariable("docSeq") int docSeq,
+                               HttpServletResponse response)
+            throws IOException {
+        ExecutionContext ec;
+
+        ApplicationDocumentKey appDocKey = new ApplicationDocumentKey();
+        appDocKey.setApplNo(applNo);
+        appDocKey.setDocSeq(docSeq);
+        ec = documentService.retrieveOneDocument(appDocKey);
+        TotalApplicationDocument totalDoc = (TotalApplicationDocument)ec.getData();
+        File file = new File(totalDoc.getFilePath(), totalDoc.getFileName());
+        byte[] bytes = org.springframework.util.FileCopyUtils.copyToByteArray(file);
+
+        response.setHeader("Content-Disposition", "attachment; filename=\"" + new String(totalDoc.getOrgFileName().getBytes("UTF-8"), "ISO-8859-1") + "\"");
+        response.setHeader("Content-Transfer-Encoding", "binary;");
+        response.setHeader("Pragma", "no-cache;");
+        response.setHeader("Expires", "-1;");
+//        response.setHeader("Content-Type", "application/octet-stream");
+        response.setHeader("Content-Type", "application/pdf");
+        response.setContentLength(bytes.length);
+
+        return bytes;
+    }
+
+    /**
+     * 원서 첨부 파일 삭제
+     * 건별로 실제 물리적 파일 삭제 및 DB 저장 내용 삭제움
+     *
+     * @param applNo
+     * @param docSeq
+     * @return
+     * @throws IOException
+     */
+//    @RequestMapping(value="/attached/{admsNo}/{applNo}/{fileName:.+}/{originalFileName}")
+    @RequestMapping(value="/fileDelete/{applNo}/{docSeq}")
+    @ResponseBody
+    public ExecutionContext fileDelete(@PathVariable("applNo") int applNo,
+                                       @PathVariable("docSeq") int docSeq) {
+        ExecutionContext ec;
+        boolean deleteOk;
+
+        ApplicationDocumentKey appDocKey = new ApplicationDocumentKey();
+        appDocKey.setApplNo(applNo);
+        appDocKey.setDocSeq(docSeq);
+        ec = documentService.retrieveOneDocument(appDocKey);
+        TotalApplicationDocument totalDoc = (TotalApplicationDocument)ec.getData();
+        File file = new File(totalDoc.getFilePath(), totalDoc.getFileName());
+
+        ec = documentService.deleteOneDocument(totalDoc);
+        deleteOk = file.delete();
+
+        if (ExecutionContext.FAIL.equals(ec.getResult())) {
+            ec.setMessage(messageResolver.getMessage("U338"));
+            ec.setErrCode("ERR0034");
+            throw new YSBizException(ec);
+        } else if (!deleteOk) {
+            ec.setResult(ExecutionContext.FAIL);
+            ec.setMessage(messageResolver.getMessage("U338"));
+            ec.setErrCode("ERR0051");
+            throw new YSBizException(ec);
+        }
+
+        return ec;
     }
 
     /**

@@ -33,6 +33,9 @@
             <bean class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter">
                 <property name="supportedMediaTypes" value="text/plain"/>
             </bean>
+            <bean class="org.springframework.http.converter.ByteArrayHttpMessageConverter">
+                <property name="supportedMediaTypes" value="application/pdf"/>
+            </bean>
         </mvc:message-converters>
         <!-- mvc:message-converters>
             <bean class="org.springframework.http.converter.xml.Jaxb2RootElementHttpMessageConverter" />

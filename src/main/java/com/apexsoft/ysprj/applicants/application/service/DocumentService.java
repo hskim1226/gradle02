@@ -24,6 +24,8 @@ public interface DocumentService {
 
     ExecutionContext submit(Document document);
 
+    ExecutionContext retrieveOneDocument(ApplicationDocumentKey docKey);
+
     ExecutionContext deleteOneDocument(TotalApplicationDocument document);
 
     <T> ExecutionContext retrieveInfoListByParamObj(Object parameter, String mapperNameSqlId, Class<T> clazz);

@@ -16,7 +16,8 @@ public class FileMetaForm {
     private String originalFileName;
     private String fieldName;
     private String targetButton;
-    private String targetFileLinkId;
+    private String targetFileDownloadLinkId;
+    private String targetFileDeleteLinkId;
     private String applNo;
     private String admsNo;
     private TotalApplicationDocument totalApplicationDocument;
@@ -61,12 +62,20 @@ public class FileMetaForm {
         this.targetButton = targetButton;
     }
 
-    public String getTargetFileLinkId() {
-        return targetFileLinkId;
+    public String getTargetFileDownloadLinkId() {
+        return targetFileDownloadLinkId;
     }
 
-    public void setTargetFileLinkId(String targetFileLinkId) {
-        this.targetFileLinkId = targetFileLinkId;
+    public void setTargetFileDownloadLinkId( String targetFileDownloadLinkId ) {
+        this.targetFileDownloadLinkId = targetFileDownloadLinkId;
+    }
+
+    public String getTargetFileDeleteLinkId() {
+        return targetFileDeleteLinkId;
+    }
+
+    public void setTargetFileDeleteLinkId( String targetFileDeleteLinkId ) {
+        this.targetFileDeleteLinkId = targetFileDeleteLinkId;
     }
 
     public String getApplNo() {
