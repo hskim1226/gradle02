@@ -309,7 +309,6 @@ public class LangCareerServiceImpl implements LangCareerService {
                 for (TotalApplicationLanguageContainer aCont : rContList) {
                     aCont.setApplNo(pCont.getApplNo());
                     aCont.setSubContainer(getSubLangContainer(aCont, pList));
-
                 }
             }
             //TODO 어학 전체를 넣을지, 등록된 것만 넣을지 결정
@@ -318,15 +317,20 @@ public class LangCareerServiceImpl implements LangCareerService {
         }else{
             //pCont 에 세부정보를 채움
             //pCont = commonDAO.queryForObject( NAME_SPACE + "CustomApplicationDocumentMapper.selectTotalLanguageDoc",pCont,TotalApplicationLanguageContainer.class );
-            if( pCont.getLangSeq() != null && pCont.getLangSeq() > 0 )
+            if( pCont.getLangSeq() != null && pCont.getLangSeq() > 0 ) {
                 pCont.setLangInfoSaveFg(true);
-            else
+                pCont.setCheckedFg(true);
+            } else {
                 pCont.setLangInfoSaveFg(false);
+                pCont.setCheckedFg(false);
+            }
 
-            if( pCont.getDocSeq() > 0 )
+            if( pCont.getDocSeq() > 0 ) {
                 pCont.setFileUploadFg(true);
-            else
+            } else {
                 pCont.setFileUploadFg(false);
+            }
+
         }
         return rContList;
     }
