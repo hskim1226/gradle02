@@ -118,6 +118,7 @@ public class LangCareerServiceImpl implements LangCareerService {
 
         langGroupList = commonDAO.queryForList(NAME_SPACE + "CustomApplicationDocumentMapper.selectLanguageGroupByApplNo",
                 applNo, LanguageGroup.class);
+        /*
         if( langGroupList == null || langGroupList.size()==0){
             LanguageGroup aGroup  = new LanguageGroup();
             aGroup.setExamCodeGrp("LANG_EXAM");
@@ -126,36 +127,28 @@ public class LangCareerServiceImpl implements LangCareerService {
             aGroup.setExamCode("00001");
             langGroupList.add(aGroup);
         }
+        */
         ParamForTotalLang param = new ParamForTotalLang();
-        List<TotalApplicationLanguage> aLangList;
+        List<TotalApplicationLanguageContainer> aLangList;
         for (LanguageGroup alangGroup : langGroupList) {
-            param.setApplNo(applNo);
-            param.setSelGrpCode(alangGroup.getSelGrpCode());
-            param.setUpCodeGrp(alangGroup.getExamCodeGrp());
-            param.setUpCode(alangGroup.getExamCode());
 
-            aLangList = commonDAO.queryForList(NAME_SPACE + "CustomApplicationDocumentMapper.selectTotalLanguageInfoByApplNo",
-                    param, TotalApplicationLanguage.class);
+            TotalApplicationLanguageContainer aCont = new TotalApplicationLanguageContainer();
+            aCont.setApplNo(applNo);
+            aCont.setSelGrpCode(alangGroup.getSelGrpCode());
+            aCont.setItemGrpCode(alangGroup.getExamCodeGrp());
+            aCont.setItemCode(alangGroup.getExamCode());
 
-            for (TotalApplicationLanguage alang : aLangList) {
-                if(alang.getApplNo()== null || "".equals(alang.getApplNo()))
-                    alang.setApplNo(applNo);
-                if( alang.getLangSeq() != null && alang.getLangSeq() > 0 ) {
-                    alang.setLangInfoSaveFg(true);
-                    alang.setCheckedFg(true);
-                } else {
-                    alang.setLangInfoSaveFg(false);
-                    alang.setCheckedFg(false);
-                }
+            //두번째 레벨의 정보를 가져온다
+            aLangList = commonDAO.queryForList(NAME_SPACE + "CustomApplicationDocumentMapper.selectTotalLanguageDoc", aCont, TotalApplicationLanguageContainer.class);
 
-                if( alang.getDocSeq() > 0 )
-                    alang.setFileUploadFg(true);
-                else
-                    alang.setFileUploadFg(false);
+            //하부 레벨의 정보를 채운다
+            for (TotalApplicationLanguageContainer alang : aLangList) {
+                alang.setApplNo(applNo);
+                List<TotalApplicationLanguageContainer> aSubList = new ArrayList<TotalApplicationLanguageContainer>();
+                alang.setSubContainer(getSubLangContainer(alang, aSubList));
             }
             alangGroup.setLangList(aLangList);
         }
-
         return langGroupList;
     }
 
@@ -231,7 +224,6 @@ public class LangCareerServiceImpl implements LangCareerService {
                     //APPL_LANG, APPL_DOC, DELETE
                     delete = delete + commonDAO.delete(NAME_SPACE + "ApplicationLanguageMapper.deleteByPrimaryKey", aLang);
                     if( aLang.isFileUploadFg()){
-                        //TODO file upload 된 doc 삭제
                         rDelete++;
                         ApplicationDocument aDoc = new ApplicationDocument();
                         aDoc.setApplNo(applNo);
@@ -301,6 +293,42 @@ public class LangCareerServiceImpl implements LangCareerService {
                 applNo, clazz);
 
         return infoList;
+    }
+
+
+    //하부 그룹이 있으면 하부 그룹을 조회하고, 최말단 이면 상세정보를 조회한다.
+    private  List<TotalApplicationLanguageContainer> getSubLangContainer( TotalApplicationLanguageContainer pCont, List<TotalApplicationLanguageContainer> pList){
+        List<TotalApplicationLanguageContainer> rContList = null;
+
+        if (!"Y".equals( pCont.getLastYn())) {
+            //pCont.setGrpLabel( pCont.getDocItemName());
+            pList.add(pCont);
+
+            rContList = commonDAO.queryForList(NAME_SPACE + "CustomApplicationDocumentMapper.selectTotalLanguageDoc", pCont, TotalApplicationLanguageContainer.class);
+            if (rContList != null) {
+                for (TotalApplicationLanguageContainer aCont : rContList) {
+                    aCont.setApplNo(pCont.getApplNo());
+                    aCont.setSubContainer(getSubLangContainer(aCont, pList));
+
+                }
+            }
+            //TODO 어학 전체를 넣을지, 등록된 것만 넣을지 결정
+            //if(pCont.getApplNo()== null || pCont.getApplNo().equals(""))
+            //    pCont.setApplNo(applNo);
+        }else{
+            //pCont 에 세부정보를 채움
+            //pCont = commonDAO.queryForObject( NAME_SPACE + "CustomApplicationDocumentMapper.selectTotalLanguageDoc",pCont,TotalApplicationLanguageContainer.class );
+            if( pCont.getLangSeq() != null && pCont.getLangSeq() > 0 )
+                pCont.setLangInfoSaveFg(true);
+            else
+                pCont.setLangInfoSaveFg(false);
+
+            if( pCont.getDocSeq() > 0 )
+                pCont.setFileUploadFg(true);
+            else
+                pCont.setFileUploadFg(false);
+        }
+        return rContList;
     }
 
 //    private List<CustomApplicationExperience> setExprUserDataStatus(List<CustomApplicationExperience> list, UserCUDType userCUDType) {

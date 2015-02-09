@@ -14,9 +14,8 @@ public class LanguageGroup {
     private String canYn ="Y";
     private String msgNo;
     private String msg;
-    private List<TotalApplicationLanguage> langList;
 
-
+    private List<TotalApplicationLanguageContainer> langList;
 
     public String getExamCodeGrp() {
         return examCodeGrp;
@@ -98,11 +97,11 @@ public class LanguageGroup {
         this.msg = msg;
     }
 
-    public List<TotalApplicationLanguage> getLangList() {
+    public List<TotalApplicationLanguageContainer> getLangList() {
         return langList;
     }
 
-    public void setLangList(List<TotalApplicationLanguage> langList) {
+    public void setLangList(List<TotalApplicationLanguageContainer> langList) {
         this.langList = langList;
     }
 }

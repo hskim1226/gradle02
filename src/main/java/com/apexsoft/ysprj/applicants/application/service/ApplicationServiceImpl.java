@@ -1060,7 +1060,7 @@ System.out.println(param.getAcadTypeCode() + " : " + c1+u1+d1);
                         alang.setFileUploadFg(false);
 
                 }
-                alangGroup.setLangList(aLangList);
+//                alangGroup.setLangList(aLangList);
 
 
 
