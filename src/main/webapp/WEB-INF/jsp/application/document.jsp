@@ -369,6 +369,7 @@
                         <c:otherwise>
                         <div class="panel panel-darkgray">
                             <div class="panel-heading">${lv1Container.grpLabel}</div>
+                            <form:hidden path="documentContainerList[${lv1Status.index}].grpLabel" value="${lv1Container.grpLabel}" />
                             <div class="panel-body" id="docContainerList${lv1Status.index}.list">
 
                             <c:forEach items="${lv1Container.subContainer}" var="lv2Container" varStatus="lv2Status">
@@ -491,6 +492,7 @@
                                     <c:otherwise>
                                 <div class="panel panel-darkgray1">
                                     <div class="panel-heading">${lv2Container.grpLabel}</div>
+                                    <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].grpLabel" value="${lv2Container.grpLabel}" />
                                     <div class="panel-body" id="docContainerList${lv2Status.index}.list">
 
                                         <c:forEach items="${lv2Container.subContainer}" var="lv3Container" varStatus="lv3Status">
@@ -614,6 +616,7 @@
                                                 <c:otherwise>
                                         <div class="panel panel-default">
                                             <div class="panel-heading">${lv3Container.grpLabel}</div>
+                                                    <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].subContainer[${lv3Status.index}].grpLabel" value="${lv3Container.grpLabel}" />
                                             <div class="panel-body" id="docContainerList${lv3Status.index}.list">
 
                                                     <c:forEach items="${lv3Container.subContainer}" var="lv4Container" varStatus="lv4Status">
