@@ -427,17 +427,25 @@
                                                                                 <div class="col-sm-4">
                                                                                     <div class="checkbox">
                                                                                         <label>
-                                                                                            <input type="checkbox" id="checkForlExmp" name="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].subContainer[${subContainerStat.index}].checkedFg" <c:if test='${langCareer.applicationGeneral.forlExmpCode != null && langCareer.applicationGeneral.forlExmpCode.length() > 0}'>checked</c:if> />외국어 성적 면제 해당자
+                                                                                            <input type="checkbox" id="checkForlExmp" name="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].subContainer[${subContainerStat.index}].checkedFg" <c:if test='${subContainer.checkedFg == true}'>checked</c:if> />외국어 성적 면제 해당자
                                                                                         </label>
                                                                                     </div>
                                                                                 </div>
                                                                                 <div class="col-sm-5">
                                                                                     <div id="forlExmpSelect" style="display: <c:choose><c:when test="${subContainer.checkedFg == true}">block;</c:when><c:otherwise>none;</c:otherwise></c:choose>" >
-                                                                                        <form:select path="applicationGeneral.forlExmpCode" id="forlExmpCode" cssClass="form-control" >
+                                                                                        <form:select path="applicationGeneral.forlExmpCode" id="forlExmpCode" cssClass="form-control"
+                                                                                                     data-selGrpCode-id="languageGroupList${langGroupStat.index}.langList${langListStat.index}.subContainer${subContainerStat.index}.selGrpCode">
                                                                                             <form:option value="" label="--선택--" />
                                                                                             <form:options items="${common.fornExmpList}" itemValue="code" itemLabel="codeVal" />
                                                                                         </form:select>
                                                                                     </div>
+                                                                                    <spring:bind path="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].subContainer[${subContainerStat.index}].selGrpCode">
+                                                                                        <c:if test="${status.error}">
+                                                                                            <div class="validation-container">
+                                                                                                <div class="validation-error">${status.errorMessage}</div>
+                                                                                            </div>
+                                                                                        </c:if>
+                                                                                    </spring:bind>
                                                                                 </div>
                                                                             </div>
                                                                         </c:if>
@@ -768,6 +776,11 @@
             } else {
                 checkForlExmp(false);
             }
+        });
+
+        $('#forlExmpCode').on('change', function () {
+            var selGrpCodeHidden = document.getElementById(this.getAttribute('data-selGrpCode-id'));
+            selGrpCodeHidden.value = this[this.selectedIndex].value;
         });
         <%-- 외국어 성적 면제 해당 처리 --%>
 

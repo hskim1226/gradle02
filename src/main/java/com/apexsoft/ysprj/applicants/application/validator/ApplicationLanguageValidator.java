@@ -41,7 +41,11 @@ public class ApplicationLanguageValidator extends NamedListValidator {
                 if (aLangOrExempt.isCheckedFg()) {
 
                     if ("ENG_EXMP1".equals(langList.getSelGrpCode())) {
-                        // TODO : 영어 시험 면제 사유(applicationGeneral.formExmpCode) 선택에 대한 validation
+                        String selGrpCode = aLangOrExempt.getSelGrpCode();
+                        if (selGrpCode == null || selGrpCode.length() == 0 || Integer.parseInt(selGrpCode) <= 0) {
+                            errors.rejectValue(prefix + "selGrpCode", "U331",
+                                    new Object[]{"외국어 시험 면제 사유"}, messageResolver.getMessage("U332"));
+                        }
                     } else {
                         String itemCode = aLangOrExempt.getItemCode();
                         if ("00001".equals(itemCode)) { // 시험이 TOEFL 일 경우 시험 종류 선택 필수
