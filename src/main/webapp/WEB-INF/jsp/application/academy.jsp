@@ -577,7 +577,7 @@
                                                 <div class="col-sm-3">
                                                     <label class="radio-inline">
                                                             <%--<form:radiobutton path="graduateList[${stat.index}].lastSchlYn" cssClass="radio-group" value="${academy.graduateList[stat.index].lastSchlYn}"/>&nbsp;&nbsp;최종 학교--%>
-                                                        <input type="radio" class="college-radio" id="college-radio-${stat.index}" name="collegeRadio" data-last-radio-id="graduateList${stat.index}.lastSchlYn" <c:if test="${academy.graduateList[stat.index].lastSchlYn == 'Y'}">checked</c:if> />&nbsp;&nbsp;최종 학교
+                                                        <input type="radio" class="graduate-radio" id="graduate-radio-${stat.index}" name="graduateRadio" data-last-radio-id="graduateList${stat.index}.lastSchlYn" <c:if test="${academy.graduateList[stat.index].lastSchlYn == 'Y'}">checked</c:if> />&nbsp;&nbsp;최종 학교
                                                         <form:hidden path="graduateList[${stat.index}].lastSchlYn"/>
                                                     </label>
                                                 </div>
@@ -762,12 +762,22 @@
         <%-- 하단 버튼 처리 --%>
         var formProcess = function(e) {
             e.preventDefault();
-            var isChecked = false;
+            var isCollegeLastSchlChecked = false,
+                isGraduateLastSchlChecked = true;
             $('.college-radio').each( function () {
-                if (this.value == 'on') isChecked = true;
+                if (this.value == 'on' && this.checked == true)
+                    isCollegeLastSchlChecked = true;
             });
-            // TODO : 대학원 필수일 때도 isChecked 해야함
-            if (isChecked) {
+
+            <c:if test="${corsTypeCode.equals('2') || corsTypeCode.equals('6') || corsTypeCode.equals('8')}">
+            isGraduateLastSchlChecked = false;
+            $('.graduate-radio').each( function () {
+                if (this.value == 'on' && this.checked == true)
+                    isGraduateLastSchlChecked = true;
+            });
+            </c:if>
+
+            if (isCollegeLastSchlChecked && isGraduateLastSchlChecked) {
                 var form = document.forms[0];
                 form.action = "${contextPath}/application/academy/save";
                 form.submit();
@@ -1127,6 +1137,11 @@
                     if (element.type != 'hidden' && element.type != 'radio' && element.type != 'checkbox' && element.type != 'button') {
                         element.setAttribute('value', '');
                         element.value = '';
+                        itemName = element.name;
+                        if (itemName.indexOf('schlName') > 0) {
+                            element.placeholder = '';
+                            element.setAttribute('readonly', 'true');
+                        }
                     }
 //                    if (element.type == 'button') {
 //                        $(element).removeClass('btn-info');
@@ -1157,36 +1172,7 @@
         };
         <%-- 복제된 입력폼 내용 초기화 끝 --%>
 
-        <%-- 최종 학교 체크 처리 시작 --%>
-        $('.radio-group').on('click', function(e) {
-            var $target = $(this);
-            var $container = $target.parents('.form-group-block-list');
-            $container.find('.radio-group').each(function() {
-                $(this).attr('checked', $target[0] === $(this)[0]);
-            });
-        });
-
-        var mustCheckedOneRadio = function () {
-            var list = document.querySelectorAll('.form-group-block-list'),
-                    i, j, l1 = list.length, l2, radioGroup, checkedCount = 0;
-            for (i = 0; i < l1; i++) {
-                radioGroup = list[i].querySelectorAll('.radio-group');
-                l2 = radioGroup.length;
-                if (radioGroup && l2 > 0) {
-                    for (j = 0; j < l2; j++) {
-                        if (radioGroup.checked) {
-                            checkedCount++;
-                        }
-                    }
-                    if (checkedCount == 0) {
-                        radioGroup[0].checked = true;
-                    }
-                }
-            }
-        };
-//        mustCheckedOneRadio();
-        <%-- 최종 학교 체크 처리 끝 --%>
-
+        <%-- 추가 버튼 --%>
         $('.btn-add').on('click', function(e) {
             var target = e.currentTarget ? e.currentTarget : e.target;
             var container = target.parentNode;
@@ -1203,7 +1189,9 @@
                 container.insertBefore($cloneObj[0], originBlock.nextSibling);
             }
         });
+        <%-- 추가 버튼 --%>
 
+        <%-- 삭제 버튼 --%>
         $('.btn-remove').on('click', function(e) {
             if (confirm('학력 정보를 삭제하시면 관련 첨부 파일도 함께 삭제 됩니다.\n\n계속 하시겠습니까?')) {
                 var target = e.currentTarget ? e.currentTarget : e.target;
@@ -1235,10 +1223,9 @@
                         blockToRemove.style.display = 'none';
                         break;
                 }
-                mustCheckedOneRadio();
             }
         });
-        <%-- 복제된 입력폼 내용 초기화 끝 --%>
+        <%-- 삭제 버튼 --%>
         <%-- form-group-block 추가/삭제에 대한 처리 끝 --%>
 
         <%-- 단어 잘림 방지 --%>
