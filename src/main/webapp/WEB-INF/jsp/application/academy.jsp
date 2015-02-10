@@ -1164,11 +1164,15 @@
             }
             resetCalendar(block, '.input-group.date>input');
 
-            var validationContainers = block.querySelectorAll('.validation-container');
-            Array.prototype.forEach.call(validationContainers, function (validationContainer) {
-                validationContainer.parentNode.removeChild(validationContainer);
-            });
-
+//            var validationContainers = block.querySelectorAll('.validation-container');
+//            Array.prototype.forEach.call(validationContainers, function (validationContainer) {
+//                validationContainer.parentNode.removeChild(validationContainer);
+//            });
+            var validationContainers = block.querySelectorAll('.validation-container'),
+                validationContainersL = validationContainers.length;
+            while(validationContainersL-- > 0) {
+                validationContainers[validationContainersL].parentNode.removeChild(validationContainers[validationContainersL]);
+            }
         };
         <%-- 복제된 입력폼 내용 초기화 끝 --%>
 
