@@ -382,7 +382,7 @@ public class DocumentController {
      * @throws IOException
      */
 //    @RequestMapping(value="/attached/{admsNo}/{applNo}/{fileName:.+}/{originalFileName}")
-    @RequestMapping(value="/fileDownload/{applNo}/{docSeq}", produces = "application/pdf;charset=UTF-8")
+    @RequestMapping(value="/fileDownload/{applNo}/{docSeq}")
     @ResponseBody
     public byte[] fileDownload(@PathVariable("applNo") int applNo,
                                @PathVariable("docSeq") int docSeq,
@@ -402,8 +402,8 @@ public class DocumentController {
         response.setHeader("Content-Transfer-Encoding", "binary;");
         response.setHeader("Pragma", "no-cache;");
         response.setHeader("Expires", "-1;");
-//        response.setHeader("Content-Type", "application/octet-stream");
-        response.setHeader("Content-Type", "application/pdf");
+        response.setHeader("Content-Type", "application/octet-stream");
+//        response.setHeader("Content-Type", "application/pdf");
         response.setContentLength(bytes.length);
 
         return bytes;
