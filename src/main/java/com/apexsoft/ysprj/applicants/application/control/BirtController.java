@@ -59,9 +59,9 @@ public class BirtController {
 
     @RequestMapping(value = "/print/{applNo}/{reportFormat}/{reportName}")
     public ModelAndView previewApplicationByRESTful(@PathVariable("applNo") Integer applNo,
-                                           @PathVariable("reportFormat") String reportFormat,
-                                           @PathVariable("reportName") String reportName,
-                                           ModelAndView mv) {
+                                                    @PathVariable("reportFormat") String reportFormat,
+                                                    @PathVariable("reportName") String reportName,
+                                                    ModelAndView mv) {
         return previewApplication(applNo, reportFormat, reportName, mv);
     }
 
@@ -150,10 +150,10 @@ public class BirtController {
         mv.addObject("detlAddr", detlAddr);
 
         // TODO : 사진 파일 추출
-//        ApplicationDocument photoFile = document.retrieveApplicationDocumentPhoto(applNo);
-//        String photoFilePath = photoFile.getFilePath() + "/" + photoFile.getFileName();
-        String photoUri = "/opt/ysproject/upload/2015/15A/z/zz/357/하니.png";
-        mv.addObject("photoUri", photoUri);
+//        ApplicationDocument photoFile = documentService.retrievePhotoUri(applNo);
+//        String photoUri = photoFile.getFilePath() + "/" + photoFile.getFileName();
+//        String photoUri = "/opt/ysproject/upload/2015/15A/z/zz/357/하니.png";
+        mv.addObject("photoUri", documentService.retrievePhotoUri(applNo));
 
         String currWrkpName = applicationGeneral.getCurrWrkpName();
         String currWrkpTel = applicationGeneral.getCurrWrkpTel();

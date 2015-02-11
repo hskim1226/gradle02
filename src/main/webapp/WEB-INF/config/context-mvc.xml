@@ -29,6 +29,14 @@
                 <property name="filePersistenceManager" ref="persistenceManager" />
             </bean>
         </mvc:argument-resolvers>
+        <mvc:message-converters>
+            <bean class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter">
+                <property name="supportedMediaTypes" value="text/plain"/>
+            </bean>
+            <bean class="org.springframework.http.converter.ByteArrayHttpMessageConverter">
+                <property name="supportedMediaTypes" value="application/pdf"/>
+            </bean>
+        </mvc:message-converters>
         <!-- mvc:message-converters>
             <bean class="org.springframework.http.converter.xml.Jaxb2RootElementHttpMessageConverter" />
         </mvc:message-converters -->
@@ -51,6 +59,10 @@
 
     <bean class="org.springframework.web.servlet.view.BeanNameViewResolver">
         <property name="order" value="0"/>
+    </bean>
+
+    <bean id="contentNegotiationManager" class="org.springframework.web.accept.ContentNegotiationManagerFactoryBean">
+        <property name="ignoreAcceptHeader" value="true" />
     </bean>
 
     <bean id="downloadView" class="com.apexsoft.framework.web.view.FileDownloadView" ></bean>

@@ -1,7 +1,10 @@
 package com.apexsoft.ysprj.applicants.common.control;
 
 import com.apexsoft.framework.common.vo.ExecutionContext;
+import com.apexsoft.framework.exception.YSBizException;
+import com.apexsoft.framework.exception.YSNoRedirectBizException;
 import com.apexsoft.framework.message.MessageResolver;
+import com.apexsoft.ysprj.applicants.application.domain.ApplicationIdentifier;
 import com.apexsoft.ysprj.user.domain.Users;
 import com.apexsoft.ysprj.applicants.common.service.UsersAccountService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -101,16 +104,20 @@ public class UsersAccountController {
         users.setPrivInfoYn(privInfoYn);
         users.setUserAgreYn(userAgreYn);
         model.addAttribute("users", users);
-        return"user/signup";
+        return "user/signup";
     }
 
     @RequestMapping(value="/signup/save", method= RequestMethod.POST)
-    @ResponseBody
-    public ExecutionContext signUp(@Valid Users users, BindingResult bindingResult) {
+    public ModelAndView signUp(Users users, BindingResult bindingResult, ModelAndView mv) {
+        mv.setViewName("user/login");
+        ExecutionContext ec;
         if (bindingResult.hasErrors()){
-            return new ExecutionContext(ExecutionContext.FAIL);
+
         }
-        return usersAccountService.registerUser(users);
+        int r = 0;
+        ec = usersAccountService.registerUserAndAuthority(users);
+        mv.addObject("resultMsg", ec.getMessage());
+        return mv;
     }
 
     @RequestMapping(value="/idCheck", method= RequestMethod.GET)

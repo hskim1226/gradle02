@@ -16,9 +16,18 @@ public interface DocumentService {
 
     ExecutionContext retrieveDocument(Document document);
 
+    String retrievePhotoUri(int applNo);
+
     ExecutionContext saveDocument(Document document);
 
     ExecutionContext saveOneDocument(TotalApplicationDocument document);
 
+    ExecutionContext submit(Document document);
+
+    ExecutionContext retrieveOneDocument(ApplicationDocumentKey docKey);
+
     ExecutionContext deleteOneDocument(TotalApplicationDocument document);
+
+    <T> ExecutionContext retrieveInfoListByParamObj(Object parameter, String mapperNameSqlId, Class<T> clazz);
+
 }

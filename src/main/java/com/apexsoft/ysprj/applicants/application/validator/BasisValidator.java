@@ -34,8 +34,8 @@ public class BasisValidator implements Validator {
         Application application = basis.getApplication();
         ApplicationGeneral applicationGeneral= basis.getApplicationGeneral();
 
-        applicationValidator.validate(application, errors);
-        applicationGeneralValidator.validate(applicationGeneral, errors);
+        applicationValidator.validate(application, errors, "application");
+        applicationGeneralValidator.validate(applicationGeneral, errors, "applicationGeneral");
 
     }
 }

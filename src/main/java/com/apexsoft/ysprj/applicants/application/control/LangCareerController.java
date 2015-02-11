@@ -5,6 +5,7 @@ import com.apexsoft.framework.message.MessageResolver;
 import com.apexsoft.ysprj.applicants.admission.domain.ParamForAdmissionCourseMajor;
 import com.apexsoft.ysprj.applicants.application.domain.*;
 import com.apexsoft.ysprj.applicants.application.service.LangCareerService;
+import com.apexsoft.ysprj.applicants.application.validator.LangCareerValidator;
 import com.apexsoft.ysprj.applicants.common.service.CommonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -31,6 +32,9 @@ public class LangCareerController {
 
     @Autowired
     private LangCareerService langCareerService;
+
+    @Autowired
+    private LangCareerValidator langCareerValidator;
 
     @Autowired
     private CommonService commonService;
@@ -68,17 +72,28 @@ public class LangCareerController {
      *
      * @param formData
      * @param principal
-     * @param bindindResult
+     * @param bindingResult
      * @param mv
      * @return
      */
     @RequestMapping(value="/save", method = RequestMethod.POST)
     public ModelAndView saveLangCareer(@ModelAttribute LangCareer formData,
                                        Principal principal,
-                                       BindingResult bindindResult,
+                                       BindingResult bindingResult,
                                        ModelAndView mv) {
+        langCareerValidator.validate(formData, bindingResult);
         mv.setViewName(TARGET_VIEW);
-        if (bindindResult.hasErrors()) return mv;
+        if (bindingResult.hasErrors()) {
+            mv.addObject("resultMsg", messageResolver.getMessage("U334"));
+
+            HashMap<String, Object> commonCodeMap = new HashMap<String, Object>();
+            commonCodeMap.put( "toflTypeList", commonService.retrieveCommonCodeValueByCodeGroup("TOFL_TYPE") );
+            commonCodeMap.put( "fornExmpList", commonService.retrieveCommonCodeValueByCodeGroup("FORN_EXMP") );
+
+            mv.addObject("common", commonCodeMap);
+
+            return mv;
+        }
 
         ExecutionContext ec = null;
         String userId = principal.getName();
@@ -94,10 +109,10 @@ public class LangCareerController {
 
         ec = langCareerService.saveLangCareer(formData);
 
-        if (ec.getResult().equals(ExecutionContext.SUCCESS)) {
+        if (ExecutionContext.SUCCESS.equals(ec.getResult())) {
             ExecutionContext ecRetrieve = langCareerService.retrieveLangCareer(formData);
 
-            if (ecRetrieve.getResult().equals(ExecutionContext.SUCCESS)) {
+            if (ExecutionContext.SUCCESS.equals(ecRetrieve.getResult())) {
                 Map<String, Object> setupMap = (Map<String, Object>)ecRetrieve.getData();
                 addObjectToMV(mv, setupMap, ec);
             } else {
@@ -119,8 +134,7 @@ public class LangCareerController {
     private List<CustomApplicationExperience> removeEmptyExperienceAcademy(List<CustomApplicationExperience> list) {
         int i, length;
         for (i = 0, length = list.size() ; i < length ; i++) {
-            if (list.get(i).getCorpName() == null || list.get(i).getCorpName().equals("")) {
-//            if ( list.get(i).getCorpName() == null ||  list.get(i).getCorpName() =="") {
+            if (list.get(i).getCorpName() == null || "".equals(list.get(i).getCorpName())) {
                 list.remove(i);
                 length--;
                 i--;

@@ -10,7 +10,7 @@ import java.util.List;
 
 public interface UsersAccountService {
 
-    void registerUserAndAuthority(Users users);
+    ExecutionContext registerUserAndAuthority(Users users);
 
     ExecutionContext registerUser(Users users);
 

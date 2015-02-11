@@ -1,10 +1,14 @@
 package com.apexsoft.ysprj.applicants.common.service;
 
 import com.apexsoft.framework.common.vo.ExecutionContext;
+import com.apexsoft.framework.exception.YSBizException;
+import com.apexsoft.framework.exception.YSNoRedirectBizException;
+import com.apexsoft.framework.message.MessageResolver;
 import com.apexsoft.framework.persistence.dao.CommonDAO;
 import com.apexsoft.framework.persistence.dao.handler.RowHandler;
 import com.apexsoft.framework.persistence.dao.page.PageInfo;
 import com.apexsoft.framework.persistence.dao.page.PageStatement;
+import com.apexsoft.ysprj.applicants.application.domain.ApplicationIdentifier;
 import com.apexsoft.ysprj.code.AuthorityType;
 import com.apexsoft.ysprj.applicants.user.domain.Authorities;
 import com.apexsoft.ysprj.user.domain.Users;
@@ -29,18 +33,38 @@ public class UsersAccountServiceImpl implements UsersAccountService {
     private PasswordEncoder passwordEncoder;
 
     @Autowired
+    private MessageResolver messageResolver;
+
+    @Autowired
     private CommonDAO commonDAO;
 
     @Override
-    public void registerUserAndAuthority(Users users) {
+    public ExecutionContext registerUserAndAuthority(Users users) {
+        ExecutionContext ec = new ExecutionContext();
+        int rUserInsert = 0, rAuthInsert = 0;
+
         users.setEnabled( true );
         users.setPswd( passwordEncoder.encode( users.getPswd() ) );
-        commonDAO.insert( NAME_SPACE + "insertUser", users );
+        rUserInsert = commonDAO.insert( NAME_SPACE + "insertUser", users );
 
         Authorities authVO = new Authorities();
         authVO.setUsername(users.getUserId());
         authVO.setAuthority(AuthorityType.ROLE_USER.getValue());
-        commonDAO.insert(NAME_SPACE+"insertAuthority", authVO);
+        rAuthInsert = commonDAO.insert(NAME_SPACE+"insertAuthority", authVO);
+
+        if ( rUserInsert == 1 && rAuthInsert == 1) {
+            ec.setResult(ExecutionContext.SUCCESS);
+            ec.setMessage(messageResolver.getMessage("U103"));
+        } else {
+            ec.setResult(ExecutionContext.FAIL);
+            ec.setMessage(messageResolver.getMessage("U104"));
+            String errCode = null;
+            if ( rUserInsert != 1 ) errCode = "ERR1001";
+            if ( rAuthInsert != 1 ) errCode = "ERR1002";
+            ec.setErrCode(errCode);
+            throw new YSBizException(ec);
+        }
+        return ec;
     }
 
     public ExecutionContext registerUser(Users users){

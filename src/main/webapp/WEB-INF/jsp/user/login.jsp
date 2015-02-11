@@ -72,6 +72,7 @@
 
         #login-form-container {
             background-color: rgba(255, 255, 255, 0.7);
+            filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr='#a7ffffff', endColorstr='#a7ffffff'); /* IE */
             padding-top: 10%;
             padding-bottom: 6%;
         }
@@ -153,11 +154,26 @@
 <script src="${contextPath}/js/jquery.localScroll.min.js"></script>
 <script src="${contextPath}/js/jquery.appear.min.js"></script>
 <script src="${contextPath}/js/jquery.stellar.min.js"></script>
+<script src="${contextPath}/js/jquery.placeholder.js"></script>
 <script src="${contextPath}/js/main.js"></script>
 
 <script type="text/javascript">
 $(document).ready(function() {
+    <%-- action 성공 여부 알림 처리 --%>
+    var showActionResult = function() {
+        var msg = '${resultMsg}';
+        if (msg.length > 0) {
+            confirm(msg);
+        }
+    };
+    showActionResult();
+    <%-- action 성공 여부 알림 처리 --%>
+
     $('#username').focus();
+
+    <%-- placeholder polyfill --%>
+    $('input, textarea').placeholder();
+    <%-- placeholder polyfill --%>
 });
 </script>
 

@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.apexsoft.ysprj.applicants.application.sqlmap.CustomApplicationDocumentMapper" >
 
-    <resultMap id="totlaDoc" type="com.apexsoft.ysprj.applicants.application.domain.TotalApplicationDocumentContainer" >
+    <resultMap id="totalDoc" type="com.apexsoft.ysprj.applicants.application.domain.TotalApplicationDocumentContainer" >
         <result column="APPL_NO"       jdbcType="INTEGER" property="applNo" />
         <result column="ADMS_NO"     jdbcType="VARCHAR" property="admsNo" />
         <result column="ADMS_CORS_NO"  jdbcType="INTEGER" property="admsCorsNo" />
@@ -106,7 +106,7 @@
 
 
 
-    <select id="selectBasicTotalDocListByApplNo"   resultMap="totlaDoc"   parameterType="java.lang.Integer" >
+    <select id="selectBasicTotalDocListByApplNo"   resultMap="totalDoc"   parameterType="java.lang.Integer" >
         SELECT
             BA.APPL_NO,
             GRP_LEVEL,
@@ -166,7 +166,7 @@
 
     </select>
 
-    <select id="selectTotalApplicationDocumentList"   resultMap="totlaDoc"   parameterType="com.apexsoft.ysprj.applicants.application.domain.TotalApplicationDocumentContainer" >
+    <select id="selectTotalApplicationDocumentList"   resultMap="totalDoc"   parameterType="com.apexsoft.ysprj.applicants.application.domain.TotalApplicationDocumentContainer" >
 
         SELECT
         BA.APPL_NO,
@@ -228,7 +228,7 @@
 
     </select>
 
-    <select id="selectLanguageTotalDocListByApplNo"   resultMap="totlaDoc"   parameterType="java.lang.Integer" >
+    <select id="selectLanguageTotalDocListByApplNo"   resultMap="totalDoc"   parameterType="java.lang.Integer" >
 
         SELECT
         BA.APPL_NO,
@@ -298,73 +298,65 @@
     </select>
 
     <select id="selectTotalLanguageInfoByApplNo"
-                         resultMap="totalLang"
-                         parameterType= "com.apexsoft.ysprj.applicants.application.domain.ParamForTotalLang" >
+            resultMap="totalLang"
+            parameterType= "com.apexsoft.ysprj.applicants.application.domain.ParamForTotalLang" >
     SELECT
-    CODE_GRP,
-    CODE,
-    CODE_VAL,
+        CODE_GRP,
+        CODE,
+        CODE_VAL,
 
-    UP_CODE_GRP,
-    SEL_GRP_CODE,
-    MDT_YN,
-    CAN_YN,
-    MSG_NO,
+        UP_CODE_GRP,
+        SEL_GRP_CODE,
+        MDT_YN,
+        CAN_YN,
+        MSG_NO,
 
-    LANG_SEQ,
-    LANG_EXAM_GRP,
-    LANG_EXAM_CODE,
-    TOFL_TYPE_CODE,
-    EXAM_NO,
-    LANG_GRAD,
-    EXAM_DAY,
-    EXPR_DAY,
+        LANG_SEQ,
+        LANG_EXAM_GRP,
+        LANG_EXAM_CODE,
+        TOFL_TYPE_CODE,
+        EXAM_NO,
+        LANG_GRAD,
+        EXAM_DAY,
+        EXPR_DAY,
 
-    DOC_SEQ,
-    DOC_GRP,
-    CODEVAL('DOC_ITEM', DOC_ITEM_CODE) DOC_ITEM_NAME,
-    DOC_ITEM_CODE,
-    DOC_NAME
+        DOC_SEQ,
+        DOC_GRP,
+        CODEVAL('DOC_ITEM', DOC_ITEM_CODE) DOC_ITEM_NAME,
+        DOC_ITEM_CODE,
+        DOC_NAME
 
-    FROM
-    (
-    SELECT CODE_GRP,CODE, CODE_VAL FROM COMM_CODE
-    WHERE CODE_GRP = #{selGrpCode}
+        FROM
+        ( SELECT BA.ADMS_CORS_NO AS ADMS_CORS_NO, BA.DETL_MAJ_CODE, EXAM_CODE_GRP ,EXAM_CODE, UP_CODE_GRP, UP_CODE, SEL_GRP_CODE, LAST_YN, MDT_YN, MULTI_YN, CAN_YN ,
+        MSG_NO
+        FROM ADMS_CORS_MAJ_LANG BA, APPL BB, ADMS_CORS BC
+        WHERE BC.ADMS_CORS_NO = BA.ADMS_CORS_NO
+        AND BB.ADMS_NO =BC.ADMS_NO
+        AND BB.DEPT_CODE = BC.DEPT_CODE
+        AND BB.CORS_TYPE_CODE = BC.CORS_TYPE_CODE
+        AND BB.DETL_MAJ_CODE = BA.DETL_MAJ_CODE
+        AND IFNULL( BB.ARI_INST_CODE,'') = IFNULL( BC.ARI_INST_CODE,'')
+        AND BB.APPL_NO = #{applNo}
+        AND BA.UP_CODE_GRP = #{itemGrpCode}
+        AND BA.UP_CODE =#{itemCode}
+        )B
+        ON B.EXAM_CODE = A.CODE
+        LEFT OUTER JOIN
+        ( SELECT LANG_SEQ, LANG_EXAM_GRP, LANG_EXAM_CODE, TOFL_TYPE_CODE, EXAM_NO, LANG_GRAD, EXAM_DAY, EXPR_DAY FROM APPL_LANG
+        WHERE APPL_NO = #{applNo}) C
+        ON C.LANG_EXAM_CODE = B.EXAM_CODE AND C.LANG_EXAM_GRP =B.EXAM_CODE_GRP
+        LEFT OUTER JOIN
+        ( SELECT DOC_SEQ,DOC_TYPE_CODE, DOC_GRP,DOC_ITEM_NAME, DOC_ITEM_CODE, DOC_NAME FROM APPL_DOC
+        WHERE APPL_NO = #{applNo})D
+        ON D.DOC_TYPE_CODE ='00005'
+        AND C.LANG_SEQ = D.DOC_GRP
 
-    ) A
-    LEFT OUTER JOIN
-    ( SELECT BA.ADMS_CORS_NO, BA.DETL_MAJ_CODE, EXAM_CODE_GRP ,EXAM_CODE, UP_CODE_GRP, MDT_YN, MULTI_YN, CAN_YN ,
-    MSG_NO,
-    SEL_GRP_CODE
-    FROM ADMS_CORS_MAJ_LANG BA, APPL BB, ADMS_CORS BC
-    WHERE BC.ADMS_CORS_NO = BA.ADMS_CORS_NO
-    AND BB.ADMS_NO =BC.ADMS_NO
-    AND BB.DEPT_CODE = BC.DEPT_CODE
-    AND BB.CORS_TYPE_CODE = BC.CORS_TYPE_CODE
-    AND BB.DETL_MAJ_CODE = BA.DETL_MAJ_CODE
-    AND IFNULL( BB.ARI_INST_CODE,'') = IFNULL( BC.ARI_INST_CODE,'')
-    AND BB.APPL_NO = #{applNo}
-    AND BA.UP_CODE_GRP = #{upCodeGrp}
-    AND BA.UP_CODE =#{upCode}
-
-    )B
-    ON B.EXAM_CODE = A.CODE
-    LEFT OUTER JOIN
-    ( SELECT LANG_SEQ, LANG_EXAM_GRP, LANG_EXAM_CODE, TOFL_TYPE_CODE, EXAM_NO, LANG_GRAD, EXAM_DAY, EXPR_DAY FROM APPL_LANG
-    WHERE APPL_NO = #{applNo}) C
-    ON C.LANG_EXAM_CODE = B.EXAM_CODE
-    LEFT OUTER JOIN
-    ( SELECT DOC_SEQ,DOC_TYPE_CODE, DOC_GRP,DOC_ITEM_NAME, DOC_ITEM_CODE, DOC_NAME FROM APPL_DOC
-    WHERE APPL_NO = #{applNo})D
-    ON D.DOC_TYPE_CODE ='00005'
-    AND C.LANG_SEQ = D.DOC_GRP
-
-</select>
+    </select>
 
     <select id="selectTotalLanguageDoc"
             resultMap="totalLang"
             parameterType="com.apexsoft.ysprj.applicants.application.domain.TotalApplicationLanguageContainer">
-         SELECT
+        SELECT
         EXAM_CODE_GRP AS CODE_GRP,
         EXAM_CODE  AS CODE,
         CODEVAL( EXAM_CODE_GRP,EXAM_CODE)  AS CODE_VAL ,
@@ -418,7 +410,7 @@
     </select>
 
 
-    <select id="selectCodeMandatoryGroupByCode"   resultMap="totlaDoc"   parameterType="com.apexsoft.ysprj.applicants.application.domain.ParamForCodeDocument" >
+    <select id="selectCodeMandatoryGroupByCode"   resultMap="totalDoc"   parameterType="com.apexsoft.ysprj.applicants.application.domain.ParamForCodeDocument" >
         SELECT
             GRP_LEVEL,
             ADMS_CODE_GRP,
@@ -474,7 +466,7 @@
             AND ITEM_CODE = #{itemCode}
     </select>
 
-    <select id="selectTotalCodeApplicationDocumentList"   resultMap="totlaDoc"   parameterType="com.apexsoft.ysprj.applicants.application.domain.TotalApplicationDocumentContainer" >
+    <select id="selectTotalCodeApplicationDocumentList"   resultMap="totalDoc"   parameterType="com.apexsoft.ysprj.applicants.application.domain.TotalApplicationDocumentContainer" >
         SELECT
           GRP_LEVEL,
           ADMS_CODE_GRP,
@@ -504,7 +496,7 @@
         AND UP_CODE = #{docItemCode}
     </select>
 
-    <select id="selectCodeApplicationDocumentByTotalDocumentContainner"   resultMap="totlaDoc"   parameterType="com.apexsoft.ysprj.applicants.application.domain.TotalApplicationDocumentContainer" >
+    <select id="selectCodeApplicationDocumentByTotalDocumentContainner"   resultMap="totalDoc"   parameterType="com.apexsoft.ysprj.applicants.application.domain.TotalApplicationDocumentContainer" >
         SELECT
         APPL_NO, DOC_SEQ, DOC_TYPE_CODE, DOC_GRP, DOC_ITEM_CODE, DOC_ITEM_NAME, DOC_NAME,
         FILE_EXT, IMG_YN, FILE_PATH, FILE_NAME, ORG_FILE_NAME, CRE_ID, CRE_DATE, MOD_ID,
@@ -519,7 +511,7 @@
 
     </select>
 
-    <select id="selectApplicationDocumentByTotalDocumentContainnerDocGrp"   resultMap="totlaDoc"   parameterType="com.apexsoft.ysprj.applicants.application.domain.TotalApplicationDocumentContainer" >
+    <select id="selectApplicationDocumentByTotalDocumentContainnerDocGrp"   resultMap="totalDoc"   parameterType="com.apexsoft.ysprj.applicants.application.domain.TotalApplicationDocumentContainer" >
         SELECT
         APPL_NO, DOC_SEQ, DOC_TYPE_CODE, DOC_GRP, DOC_ITEM_CODE, DOC_ITEM_NAME, DOC_NAME,
         FILE_EXT, IMG_YN, FILE_PATH, FILE_NAME, ORG_FILE_NAME, CRE_ID, CRE_DATE, MOD_ID,
@@ -532,7 +524,7 @@
 
     </select>
 
-    <select id="selectMandatoryDocumentByDocType"   resultMap="totlaDoc"   parameterType="com.apexsoft.ysprj.applicants.application.domain.ParamForCodeDocument" >
+    <select id="selectMandatoryDocumentByDocType"   resultMap="totalDoc"   parameterType="com.apexsoft.ysprj.applicants.application.domain.ParamForCodeDocument" >
     SELECT
       APPL_NO,
       DOC_SEQ,
@@ -552,7 +544,7 @@
     WHERE APPL_NO = #{applNo}
     AND DOC_TYPE_CODE = #{itemTypeCode}
     </select>
-    <select id="selectApplicationDocumentListByDocGrp"   resultMap="totlaDoc"   parameterType="com.apexsoft.ysprj.applicants.application.domain.ParamForApplicationDocument" >
+    <select id="selectApplicationDocumentListByDocGrp"   resultMap="totalDoc"   parameterType="com.apexsoft.ysprj.applicants.application.domain.ParamForApplicationDocument" >
         SELECT
         APPL_NO, DOC_SEQ, DOC_TYPE_CODE, DOC_GRP, DOC_ITEM_CODE, DOC_ITEM_NAME, DOC_NAME,
         FILE_EXT, IMG_YN, FILE_PATH, FILE_NAME, ORG_FILE_NAME, CRE_ID, CRE_DATE, MOD_ID,
@@ -568,5 +560,16 @@
         MAX(DOC_SEQ)
         from APPL_DOC
         where APPL_NO = #{applNo,jdbcType=INTEGER}
+    </select>
+
+    <select id="selectOneDocument"   resultMap="totalDoc"   parameterType="com.apexsoft.ysprj.applicants.application.domain.ApplicationDocumentKey" >
+        SELECT
+        APPL_NO, DOC_SEQ, DOC_TYPE_CODE, DOC_GRP, DOC_ITEM_CODE, DOC_ITEM_NAME, DOC_NAME,
+        FILE_EXT, IMG_YN, FILE_PATH, FILE_NAME, ORG_FILE_NAME, CRE_ID, CRE_DATE, MOD_ID,
+        MOD_DATE, DOC_ITEM_NAME_XXEN, DOC_GRP_NAME
+        FROM APPL_DOC
+        WHERE 1=1
+        AND APPL_NO = #{applNo}
+        AND DOC_SEQ = ${docSeq}
     </select>
 </mapper>

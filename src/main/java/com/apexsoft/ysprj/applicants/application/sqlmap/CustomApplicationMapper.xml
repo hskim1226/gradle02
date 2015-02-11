@@ -133,6 +133,7 @@
         AND a.DEPT_CODE=J.DEPT_CODE
         AND IFNULL(a.ARI_INST_CODE,'') = IFNULL(J.ARI_INST_CODE,'')
         AND a.CORS_TYPE_CODE = J.CORS_TYPE_CODE
+        AND a.APPL_STS_CODE NOT IN ('00022', '00040')
         AND a.USER_ID =#{userId}
         order by a.CRE_DATE
     </select>

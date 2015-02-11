@@ -11,10 +11,9 @@ import com.apexsoft.framework.persistence.file.model.FileInfo;
 import com.apexsoft.framework.persistence.file.model.FileItem;
 import com.apexsoft.framework.persistence.file.model.FileMetaForm;
 import com.apexsoft.framework.persistence.file.model.FileVO;
-import com.apexsoft.ysprj.applicants.application.domain.Application;
-import com.apexsoft.ysprj.applicants.application.domain.Document;
-import com.apexsoft.ysprj.applicants.application.domain.TotalApplicationDocument;
+import com.apexsoft.ysprj.applicants.application.domain.*;
 import com.apexsoft.ysprj.applicants.application.service.DocumentService;
+import com.apexsoft.ysprj.applicants.application.validator.DocumentValidator;
 import com.apexsoft.ysprj.applicants.common.service.CommonService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -29,10 +28,13 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.security.Principal;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -50,6 +52,9 @@ public class DocumentController {
 
     @Autowired
     private CommonService commonService;
+
+    @Autowired
+    private DocumentValidator documentValidator;
 
     @Autowired
     private ObjectMapper objectMapper;
@@ -127,21 +132,27 @@ public class DocumentController {
     }
 
     /**
-     * 첨부 파일 정보 저장
+     * 첨부 파일 저장
+     * 실제 물리적 저장 및 DB 저장은 fileupload에서 건별로 처리되고
+     * 여기서는 필수서류에 대한 validation과 validation 통과 시 applStsCode만 변경함
      *
      * @param formData
      * @param principal
-     * @param bindindResult
+     * @param bindingResult
      * @param mv
      * @return
      */
     @RequestMapping(value="/save", method = RequestMethod.POST)
     public ModelAndView saveDocument(@ModelAttribute Document formData,
                                      Principal principal,
-                                     BindingResult bindindResult,
+                                     BindingResult bindingResult,
                                      ModelAndView mv) {
+        documentValidator.validate(formData, bindingResult);
         mv.setViewName(TARGET_VIEW);
-        if (bindindResult.hasErrors()) return mv;
+        if (bindingResult.hasErrors()) {
+            mv.addObject("resultMsg", messageResolver.getMessage("U334"));
+            return mv;
+        }
 
         ExecutionContext ec = null;
         String userId = principal.getName();
@@ -149,16 +160,13 @@ public class DocumentController {
         Application application = formData.getApplication();
         int applNo = application.getApplNo();
         application.setUserId(userId);
-        application.setModId(userId);
-
-//        List<CustomApplicationExperience> exprList = formData.getApplicationExperienceList();
 
         ec = documentService.saveDocument(formData);
 
-        if (ec.getResult().equals(ExecutionContext.SUCCESS)) {
+        if (ExecutionContext.SUCCESS.equals(ec.getResult())) {
             ExecutionContext ecRetrieve = documentService.retrieveDocument(formData);
 
-            if (ecRetrieve.getResult().equals(ExecutionContext.SUCCESS)) {
+            if (ExecutionContext.SUCCESS.equals(ecRetrieve.getResult())) {
                 Map<String, Object> setupMap = (Map<String, Object>)ecRetrieve.getData();
                 addObjectToMV(mv, setupMap, ec);
             } else {
@@ -172,9 +180,57 @@ public class DocumentController {
     }
 
     /**
+     * 원서 작성 완료
+     *
+     * @param formData
+     * @param principal
+     * @param bindingResult
+     * @param mv
+     * @return
+     */
+    @RequestMapping(value="/submit", method = RequestMethod.POST)
+    public ModelAndView submitApplication(@ModelAttribute Document formData,
+                                          Principal principal,
+                                          BindingResult bindingResult,
+                                          ModelAndView mv) {
+        documentValidator.validate(formData, bindingResult);
+        mv.setViewName("application/mylist");
+        if (bindingResult.hasErrors()) {
+            mv.addObject("resultMsg", messageResolver.getMessage("U334"));
+            return mv;
+        }
+
+        ExecutionContext ec = null;
+        String userId = principal.getName();
+
+        Application application = formData.getApplication();
+        int applNo = application.getApplNo();
+        application.setUserId(userId);
+
+        ec = documentService.submit(formData);
+
+        if (ExecutionContext.SUCCESS.equals(ec.getResult())) {
+
+            ParamForApplication p = new ParamForApplication();
+            p.setUserId(principal.getName());
+            ExecutionContext ecRetrieve = documentService.retrieveInfoListByParamObj(p, "CustomApplicationMapper.selectApplByUserId", CustomMyList.class);
+
+            if (ExecutionContext.SUCCESS.equals(ecRetrieve.getResult())) {
+                mv.addObject("myList", ecRetrieve.getData());
+                mv.addObject("resultMsg", ec.getMessage());
+            } else {
+                mv = getErrorMV("common/error", ecRetrieve);
+            }
+        } else {
+            mv = getErrorMV("common/error", ec);
+        }
+
+        return mv;
+    }
+
+    /**
      * 파일 업로드
-     * 개별 파일 단위로 물리적 업로드만 하고,
-     * 파일 업로드 테이블은 건드리지 않는다. -> 파일 업로드 테이블도 건드리는 걸로 변경 필요
+     * 개별 파일 단위로 물리적 업로드 및 파일 업로드 테이블에도 저장
      *
      * @param document
      * @param binding
@@ -191,7 +247,6 @@ public class DocumentController {
                                    FileHandler fileHandler) {
 
         ExecutionContext ec = new ExecutionContext();
-//        MultipartHttpServletRequest mpRequest = (MultipartHttpServletRequest)request;
 
         String returnFileMetaForm = fileHandler.handleMultiPartRequest(new FileUploadEventCallbackHandler<String, FileMetaForm, TotalApplicationDocument>() {
             /**
@@ -237,7 +292,6 @@ public class DocumentController {
                                       TotalApplicationDocument document) {
                 ExecutionContext ec;
                 FileInfo fileInfo;
-//                FileVO fileVO = new FileVO();
                 String uploadDir = getDirectory(fileMetaForm);
                 String uploadFileName = "";
                 for ( FileItem fileItem : fileItems){
@@ -250,8 +304,6 @@ public class DocumentController {
                                 uploadFileName,
                                 originalFileName,
                                 fis = new FileInputStream(fileItem.getFile()));
-//                        fileVO.setPath(fileInfo.getDirectory());
-//                        fileVO.setFileName(fileInfo.getFileName());
                         String path = fileInfo.getDirectory();
                         String pathWithoutContextPath;
                         if (path.startsWith(fileBaseDir)) {
@@ -268,9 +320,10 @@ public class DocumentController {
                         document.setOrgFileName(originalFileName);
                         document.setFileExt(originalFileName.substring(originalFileName.lastIndexOf('.') + 1));
                         document.setCreId(principal.getName());
+
                         ec = documentService.saveOneDocument(document);
 
-                        if (ec.getResult().equals(ExecutionContext.SUCCESS)) {
+                        if (ExecutionContext.SUCCESS.equals(ec.getResult())) {
                             fileMetaForm.setTotalApplicationDocument((TotalApplicationDocument)ec.getData());
                         }
 
@@ -316,6 +369,85 @@ public class DocumentController {
 //        return getEntireInfo(data.getApplNo(), application.getAdmsNo(),
 //                application.getEntrYear(), application.getAdmsTypeCode(), "application/appinfo",
 //                entireApplication);
+    }
+
+
+    /**
+     * 원서 첨부 파일 다운로드
+     *
+     * @param applNo
+     * @param docSeq
+     * @param response
+     * @return
+     * @throws IOException
+     */
+//    @RequestMapping(value="/attached/{admsNo}/{applNo}/{fileName:.+}/{originalFileName}")
+    @RequestMapping(value="/fileDownload/{applNo}/{docSeq}")
+    @ResponseBody
+    public byte[] fileDownload(@PathVariable("applNo") int applNo,
+                               @PathVariable("docSeq") int docSeq,
+                               HttpServletResponse response)
+            throws IOException {
+        ExecutionContext ec;
+
+        ApplicationDocumentKey appDocKey = new ApplicationDocumentKey();
+        appDocKey.setApplNo(applNo);
+        appDocKey.setDocSeq(docSeq);
+        ec = documentService.retrieveOneDocument(appDocKey);
+        TotalApplicationDocument totalDoc = (TotalApplicationDocument)ec.getData();
+        File file = new File(totalDoc.getFilePath(), totalDoc.getFileName());
+        byte[] bytes = org.springframework.util.FileCopyUtils.copyToByteArray(file);
+
+        response.setHeader("Content-Disposition", "attachment; filename=\"" + new String(totalDoc.getOrgFileName().getBytes("UTF-8"), "ISO-8859-1") + "\"");
+        response.setHeader("Content-Transfer-Encoding", "binary;");
+        response.setHeader("Pragma", "no-cache;");
+        response.setHeader("Expires", "-1;");
+        response.setHeader("Content-Type", "application/octet-stream");
+//        response.setHeader("Content-Type", "application/pdf");
+        response.setContentLength(bytes.length);
+
+        return bytes;
+    }
+
+    /**
+     * 원서 첨부 파일 삭제
+     * 건별로 실제 물리적 파일 삭제 및 DB 저장 내용 삭제움
+     *
+     * @param applNo
+     * @param docSeq
+     * @return
+     * @throws IOException
+     */
+//    @RequestMapping(value="/attached/{admsNo}/{applNo}/{fileName:.+}/{originalFileName}")
+    @RequestMapping(value="/fileDelete/{applNo}/{docSeq}")
+    @ResponseBody
+    public ExecutionContext fileDelete(@PathVariable("applNo") int applNo,
+                                       @PathVariable("docSeq") int docSeq) {
+        ExecutionContext ec;
+        boolean deleteOk;
+
+        ApplicationDocumentKey appDocKey = new ApplicationDocumentKey();
+        appDocKey.setApplNo(applNo);
+        appDocKey.setDocSeq(docSeq);
+        ec = documentService.retrieveOneDocument(appDocKey);
+        TotalApplicationDocument totalDoc = (TotalApplicationDocument)ec.getData();
+        File file = new File(totalDoc.getFilePath(), totalDoc.getFileName());
+
+        ec = documentService.deleteOneDocument(totalDoc);
+        deleteOk = file.delete();
+
+        if (ExecutionContext.FAIL.equals(ec.getResult())) {
+            ec.setMessage(messageResolver.getMessage("U338"));
+            ec.setErrCode("ERR0034");
+            throw new YSBizException(ec);
+        } else if (!deleteOk) {
+            ec.setResult(ExecutionContext.FAIL);
+            ec.setMessage(messageResolver.getMessage("U338"));
+            ec.setErrCode("ERR0051");
+            throw new YSBizException(ec);
+        }
+
+        return ec;
     }
 
     /**

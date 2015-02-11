@@ -226,13 +226,13 @@ public class AcademyServiceImpl implements AcademyService {
             int acadSeqFromView = academyFromView.getAcadSeq() == null ? -1 : academyFromView.getAcadSeq();
             if ( acadSeqFromView > 0) { //화면 seq 있는 경우
                 if ( seqMap.containsKey(acadSeqFromView) ) { //화면 seq 값이 DB에도 있는 경우
-                    if (academyFromView.getUserCUDType().equals(UserCUDType.UPDATE)) {
+                    if (UserCUDType.UPDATE.equals(academyFromView.getUserCUDType())) {
                         academyFromView.setApplNo(applNo);
                         academyFromView.setModId(application.getUserId());
                         academyFromView.setModDate(date);
                         u1 += commonDAO.updateItem(academyFromView, NAME_SPACE, "ApplicationAcademyMapper");
                         seqMap.remove(acadSeqFromView);
-                    } else if (academyFromView.getUserCUDType().equals(UserCUDType.DELETE)) {
+                    } else if (UserCUDType.DELETE.equals(academyFromView.getUserCUDType())) {
                         ApplicationAcademyKey academyKey = new ApplicationAcademyKey();
                         academyKey.setApplNo(applNo);
                         academyKey.setAcadSeq(acadSeqFromView);
@@ -257,9 +257,9 @@ public class AcademyServiceImpl implements AcademyService {
                 }
             } else { // 화면 seq 가 숫자가 아닌 경우
                 // 새 seq 부여해서 insert
-                if (academyFromView.getUserCUDType().equals(UserCUDType.INSERT)
+                if (UserCUDType.INSERT.equals(academyFromView.getUserCUDType())
                         && academyFromView.getSchlCntrCode() != null
-                        && !academyFromView.getSchlCntrCode().equals("")) {
+                        && !"".equals(academyFromView.getSchlCntrCode())) {
                     academyFromView.setApplNo(applNo);
                     academyFromView.setAcadSeq(++lastSeq);
                     academyFromView.setCreId(application.getUserId());

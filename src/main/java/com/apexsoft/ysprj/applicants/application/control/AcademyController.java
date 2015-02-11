@@ -69,7 +69,6 @@ public class AcademyController {
                                     Principal principal,
                                     BindingResult bindingResult,
                                     ModelAndView mv) {
-//        validator.validate(formData.getCollegeList(), bindingResult);
         academyValidator.validate(formData, bindingResult);
         mv.setViewName(TARGET_VIEW);
         if (bindingResult.hasErrors()) {
@@ -93,10 +92,10 @@ public class AcademyController {
 
         ec = academyService.saveAcademy(formData);
 
-        if (ec.getResult().equals(ExecutionContext.SUCCESS)) {
+        if (ExecutionContext.SUCCESS.equals(ec.getResult())) {
             ExecutionContext ecRetrieve = academyService.retrieveAcademy(formData);
 
-            if (ecRetrieve.getResult().equals(ExecutionContext.SUCCESS)) {
+            if (ExecutionContext.SUCCESS.equals(ecRetrieve.getResult())) {
                 Map<String, Object> setupMap = (Map<String, Object>)ecRetrieve.getData();
                 addObjectToMV(mv, setupMap, ec);
             } else {

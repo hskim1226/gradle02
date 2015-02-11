@@ -12,10 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by hanmomhanda on 15. 1. 9.
@@ -39,11 +36,72 @@ public class BasisServiceImpl implements BasisService {
     private final String APP_INFO_SAVED = "00001";       // 기본정보 저장
 
     @Override
+    public ExecutionContext retrieveSelectionMap(Basis basis) {
+        ExecutionContext ec = new ExecutionContext();
+        Map<String, Object> ecDataMap = new HashMap<String, Object>();
+        Map<String, Object> selectionMap = new HashMap<String, Object>();
+
+        // 지원사항 select 초기값 설정
+        List<Campus> campList = null;
+        List<AcademyResearchIndustryInstitution> ariInstList = null;
+        List<College> collList = null;
+        List<CodeNameDepartment> deptList = null;
+        List<CodeNameCourse> corsTypeList = null;
+        List<CodeNameDetailMajor> detlMajList = null;
+
+        ParamForSetupCourses param = new ParamForSetupCourses();
+        param.setAdmsNo(basis.getApplication().getAdmsNo());
+        param.setCollCode(basis.getApplication().getCollCode());
+        param.setDeptCode(basis.getApplication().getDeptCode());
+        param.setCorsTypeCode(basis.getApplication().getCorsTypeCode());
+        param.setAriInstCode(basis.getApplication().getAriInstCode());
+
+        String applAttrCode = basis.getApplication().getApplAttrCode();
+        if ("00002".equals(applAttrCode)) {
+            ariInstList = commonService.retrieveAriInst();
+            deptList = commonService.retrieveAriInstDepartmentByAdmsAriInst(param);
+            corsTypeList = commonService.retrieveAriInstCourseByAdmsDeptAriInst(param);
+            detlMajList = commonService.retrieveAriInstDetailMajorByAdmsDeptAriInst(param);
+        } else {
+            campList = commonService.retrieveCampus();
+            collList = commonService.retrieveCollegeByCampus( basis.getApplication().getCampCode() );
+            deptList = commonService.retrieveGeneralDepartmentByAdmsColl(param);
+            detlMajList = commonService.retrieveGeneralDetailMajorByAdmsDeptCors(param);
+            if ("00001".equals(applAttrCode))
+                corsTypeList = commonService.retrieveGeneralCourseByAdmsDept(param);
+            if ("00003".equals(applAttrCode))
+                corsTypeList = commonService.retrieveCommissionCourseByAdmsDept(param);
+        }
+
+        if (campList != null)      selectionMap.put("campList", campList);
+        if (collList != null)      selectionMap.put("collList", collList);
+        if (ariInstList != null)   selectionMap.put("ariInstList", ariInstList);
+        if (deptList != null)      selectionMap.put("deptList", deptList);
+        if (corsTypeList != null)  selectionMap.put("corsTypeList", corsTypeList);
+        if (detlMajList != null)   selectionMap.put("detlMajList", detlMajList);
+
+        selectionMap.put("applAttrList", commonService.retrieveCommonCodeValueByCodeGroup("APPL_ATTR"));
+        selectionMap.put("emerContList", commonService.retrieveCommonCodeValueByCodeGroup("EMER_CONT"));
+
+        String cntrCode = basis.getApplication().getCitzCntrCode();
+        cntrCode = cntrCode == null ? "" : cntrCode;
+        Country country = commonService.retrieveCountryByCode(cntrCode);
+
+        ec.setResult(ExecutionContext.SUCCESS);
+        ecDataMap.put("selection", selectionMap);
+        ecDataMap.put("country", country);
+        ec.setData(ecDataMap);
+
+        return ec;
+    }
+
+    @Override
     public ExecutionContext retrieveBasis(int applNo) {
         ExecutionContext ec = new ExecutionContext();
 
         Map<String, Object> ecDataMap = new HashMap<String, Object>();
         Map<String, Object> selectionMap = new HashMap<String, Object>();
+
         Basis basis = new Basis();
         Application application;
 
@@ -58,44 +116,8 @@ public class BasisServiceImpl implements BasisService {
             applicationGeneral = applicationGeneral == null ? new ApplicationGeneral() : applicationGeneral;
             basis.setApplicationGeneral(applicationGeneral);
 
-            // 지원사항 select 초기값 설정
-            List<Campus> campList = null;
-            List<AcademyResearchIndustryInstitution> ariInstList = null;
-            List<College> collList = null;
-            List<CodeNameDepartment> deptList = null;
-            List<CodeNameCourse> corsTypeList = null;
-            List<CodeNameDetailMajor> detlMajList = null;
-
-            ParamForSetupCourses param = new ParamForSetupCourses();
-            param.setAdmsNo(basis.getApplication().getAdmsNo());
-            param.setCollCode(basis.getApplication().getCollCode());
-            param.setDeptCode(basis.getApplication().getDeptCode());
-            param.setCorsTypeCode(basis.getApplication().getCorsTypeCode());
-            param.setAriInstCode(basis.getApplication().getAriInstCode());
-
-            String applAttrCode = basis.getApplication().getApplAttrCode();
-            if (applAttrCode.equals("00002")) {
-                ariInstList = commonService.retrieveAriInst();
-                deptList = commonService.retrieveAriInstDepartmentByAdmsAriInst(param);
-                corsTypeList = commonService.retrieveAriInstCourseByAdmsDeptAriInst(param);
-                detlMajList = commonService.retrieveAriInstDetailMajorByAdmsDeptAriInst(param);
-            } else {
-                campList = commonService.retrieveCampus();
-                collList = commonService.retrieveCollegeByCampus( basis.getApplication().getCampCode() );
-                deptList = commonService.retrieveGeneralDepartmentByAdmsColl(param);
-                detlMajList = commonService.retrieveGeneralDetailMajorByAdmsDeptCors(param);
-                if (applAttrCode.equals("00001"))
-                    corsTypeList = commonService.retrieveGeneralCourseByAdmsDept(param);
-                if (applAttrCode.equals("00003"))
-                    corsTypeList = commonService.retrieveCommissionCourseByAdmsDept(param);
-            }
-
-            if (campList != null)      selectionMap.put("campList", campList);
-            if (collList != null)      selectionMap.put("collList", collList);
-            if (ariInstList != null)   selectionMap.put("ariInstList", ariInstList);
-            if (deptList != null)      selectionMap.put("deptList", deptList);
-            if (corsTypeList != null)  selectionMap.put("corsTypeList", corsTypeList);
-            if (detlMajList != null)   selectionMap.put("detlMajList", detlMajList);
+            Map<String, Object> map =  (Map<String, Object>) retrieveSelectionMap(basis).getData();
+            selectionMap.putAll((Map<String, Object>) map.get("selection"));
 
         } else {
             // TODO : application 초기값 세팅
@@ -105,10 +127,9 @@ public class BasisServiceImpl implements BasisService {
             List<AcademyResearchIndustryInstitution> ariInstList = commonService.retrieveAriInst();
             if (campList != null)      selectionMap.put("campList", campList);
             if (ariInstList != null)   selectionMap.put("ariInstList", ariInstList);
+            selectionMap.put("applAttrList", commonService.retrieveCommonCodeValueByCodeGroup("APPL_ATTR"));
+            selectionMap.put("emerContList", commonService.retrieveCommonCodeValueByCodeGroup("EMER_CONT"));
         }
-
-        selectionMap.put("applAttrList", commonService.retrieveCommonCodeValueByCodeGroup("APPL_ATTR"));
-        selectionMap.put("emerContList", commonService.retrieveCommonCodeValueByCodeGroup("EMER_CONT"));
 
         String cntrCode = basis.getApplication().getCitzCntrCode();
         cntrCode = cntrCode == null ? "" : cntrCode;
@@ -140,56 +161,24 @@ public class BasisServiceImpl implements BasisService {
         Application application = basis.getApplication();
 
         int applNo = application.getApplNo() == null ? 0 : application.getApplNo();
+        String detlMajCode = application.getDetlMajCode();
 
-        if (applNo > 0) {
-            application = commonDAO.queryForObject(NAME_SPACE + "ApplicationMapper.selectByPrimaryKey",
-                    applNo, Application.class);
-            application = application == null ? new Application() : application;
-            basis.setApplication(application);
+        if ((detlMajCode != null && !"".equals(detlMajCode)) || applNo > 0) {
 
-            ApplicationGeneral applicationGeneral = commonDAO.queryForObject(NAME_SPACE + "ApplicationGeneralMapper.selectByPrimaryKey",
-                    applNo, ApplicationGeneral.class);
-            applicationGeneral = applicationGeneral == null ? new ApplicationGeneral() : applicationGeneral;
-            basis.setApplicationGeneral(applicationGeneral);
+            if (applNo > 0) {
+                application = commonDAO.queryForObject(NAME_SPACE + "ApplicationMapper.selectByPrimaryKey",
+                        applNo, Application.class);
+                application = application == null ? new Application() : application;
+                basis.setApplication(application);
 
-            // 지원사항 select 초기값 설정
-            List<Campus> campList = null;
-            List<AcademyResearchIndustryInstitution> ariInstList = null;
-            List<College> collList = null;
-            List<CodeNameDepartment> deptList = null;
-            List<CodeNameCourse> corsTypeList = null;
-            List<CodeNameDetailMajor> detlMajList = null;
-
-            ParamForSetupCourses param = new ParamForSetupCourses();
-            param.setAdmsNo(basis.getApplication().getAdmsNo());
-            param.setCollCode(basis.getApplication().getCollCode());
-            param.setDeptCode(basis.getApplication().getDeptCode());
-            param.setCorsTypeCode(basis.getApplication().getCorsTypeCode());
-            param.setAriInstCode(basis.getApplication().getAriInstCode());
-
-            String applAttrCode = basis.getApplication().getApplAttrCode();
-            if (applAttrCode.equals("00002")) {
-                ariInstList = commonService.retrieveAriInst();
-                deptList = commonService.retrieveAriInstDepartmentByAdmsAriInst(param);
-                corsTypeList = commonService.retrieveAriInstCourseByAdmsDeptAriInst(param);
-                detlMajList = commonService.retrieveAriInstDetailMajorByAdmsDeptAriInst(param);
-            } else {
-                campList = commonService.retrieveCampus();
-                collList = commonService.retrieveCollegeByCampus( basis.getApplication().getCampCode() );
-                deptList = commonService.retrieveGeneralDepartmentByAdmsColl(param);
-                detlMajList = commonService.retrieveGeneralDetailMajorByAdmsDeptCors(param);
-                if (applAttrCode.equals("00001"))
-                    corsTypeList = commonService.retrieveGeneralCourseByAdmsDept(param);
-                if (applAttrCode.equals("00003"))
-                    corsTypeList = commonService.retrieveCommissionCourseByAdmsDept(param);
+                ApplicationGeneral applicationGeneral = commonDAO.queryForObject(NAME_SPACE + "ApplicationGeneralMapper.selectByPrimaryKey",
+                        applNo, ApplicationGeneral.class);
+                applicationGeneral = applicationGeneral == null ? new ApplicationGeneral() : applicationGeneral;
+                basis.setApplicationGeneral(applicationGeneral);
             }
 
-            if (campList != null)      selectionMap.put("campList", campList);
-            if (collList != null)      selectionMap.put("collList", collList);
-            if (ariInstList != null)   selectionMap.put("ariInstList", ariInstList);
-            if (deptList != null)      selectionMap.put("deptList", deptList);
-            if (corsTypeList != null)  selectionMap.put("corsTypeList", corsTypeList);
-            if (detlMajList != null)   selectionMap.put("detlMajList", detlMajList);
+            Map<String, Object> map =  (Map<String, Object>) retrieveSelectionMap(basis).getData();
+            selectionMap.putAll((Map<String, Object>) map.get("selection"));
 
         } else {
             basis.setApplicationGeneral(new ApplicationGeneral());
@@ -198,10 +187,9 @@ public class BasisServiceImpl implements BasisService {
             List<AcademyResearchIndustryInstitution> ariInstList = commonService.retrieveAriInst();
             if (campList != null)      selectionMap.put("campList", campList);
             if (ariInstList != null)   selectionMap.put("ariInstList", ariInstList);
+            selectionMap.put("applAttrList", commonService.retrieveCommonCodeValueByCodeGroup("APPL_ATTR"));
+            selectionMap.put("emerContList", commonService.retrieveCommonCodeValueByCodeGroup("EMER_CONT"));
         }
-
-        selectionMap.put("applAttrList", commonService.retrieveCommonCodeValueByCodeGroup("APPL_ATTR"));
-        selectionMap.put("emerContList", commonService.retrieveCommonCodeValueByCodeGroup("EMER_CONT"));
 
         String cntrCode = basis.getApplication().getCitzCntrCode();
         cntrCode = cntrCode == null ? "" : cntrCode;
@@ -314,5 +302,17 @@ public class BasisServiceImpl implements BasisService {
                 userId, Application.class);
 
         return applicationList.size() > 0;
+    }
+
+    @Override
+    public <T> ExecutionContext retrieveInfoListByParamObj(Object parameter, String mapperNameSqlId, Class<T> clazz) {
+        List<T> infoList = null;
+        ExecutionContext ec = new ExecutionContext();
+        infoList = commonDAO.queryForList(NAME_SPACE + mapperNameSqlId,
+                    parameter, clazz);
+
+        ec.setResult(ExecutionContext.SUCCESS);
+        ec.setData(infoList);
+        return ec;
     }
 }

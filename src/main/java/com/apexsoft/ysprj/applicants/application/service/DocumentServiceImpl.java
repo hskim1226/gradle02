@@ -1,16 +1,16 @@
 package com.apexsoft.ysprj.applicants.application.service;
 
 import com.apexsoft.framework.common.vo.ExecutionContext;
+import com.apexsoft.framework.exception.YSBizException;
 import com.apexsoft.framework.exception.YSNoRedirectBizException;
 import com.apexsoft.framework.message.MessageResolver;
 import com.apexsoft.framework.persistence.dao.CommonDAO;
-import com.apexsoft.ysprj.applicants.admission.domain.ParamForAdmissionCourseMajor;
 import com.apexsoft.ysprj.applicants.application.domain.*;
+import com.apexsoft.ysprj.applicants.payment.service.PaymentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import javax.print.Doc;
 import java.util.*;
 
 /**
@@ -24,11 +24,15 @@ public class DocumentServiceImpl implements DocumentService {
     @Autowired
     private CommonDAO commonDAO;
 
+    @Autowired
+    private PaymentService paymentService;
+
     @Resource(name = "messageResolver")
     MessageResolver messageResolver;
 
     private final String APP_NULL_STATUS = "00000";      // 에러일 때 반환값
     private final String FILE_UPLOAD_SAVED = "00004";    // 첨부파일 저장
+    private final String APPLICATION_SUBMITTED = "00010";    // 원서 작성 및 제출 완료
 
     @Override
     public ExecutionContext retrieveDocument(int applNo) {
@@ -80,56 +84,147 @@ public class DocumentServiceImpl implements DocumentService {
     public ExecutionContext saveDocument(Document document) {
 
         ExecutionContext ec = new ExecutionContext();
-        // TODO - dhoonkim - 첨부파일 저장
-//        int r1 = 0, applNo = application.getApplNo(), idx = 0;
-//        Date date = new Date();
-//        String userId = application.getUserId();
-//
-//        if ( r1 == idx ) {
-//            ec.setResult(ExecutionContext.SUCCESS);
-//            ec.setMessage(messageResolver.getMessage("U325"));
-//            ec.setData(new ApplicationIdentifier(applNo, application.getApplStsCode(),
-//                    application.getAdmsNo(), application.getEntrYear(), application.getAdmsTypeCode()));
-//        } else {
-//            ec.setResult(ExecutionContext.FAIL);
-//            ec.setMessage(messageResolver.getMessage("U326"));
-//            ec.setData(new ApplicationIdentifier(applNo, APP_NULL_STATUS));
-//            ec.setErrCode("ERR0033");
-//        }
+        Application application = document.getApplication();
+
+        int r1 = 0, rSave = 0;
+
+        int currentStsCode = Integer.parseInt(application.getApplStsCode());
+        if (currentStsCode < Integer.parseInt(FILE_UPLOAD_SAVED)) {
+            rSave++;
+            Date date = new Date();
+            String userId = application.getUserId();
+            application.setModDate(date);
+            application.setModId(userId);
+            application.setApplStsCode(FILE_UPLOAD_SAVED);
+            r1 = commonDAO.updateItem(application, NAME_SPACE, "ApplicationMapper");
+        }
+        if (r1 == rSave) {
+            ec.setResult(ExecutionContext.SUCCESS);
+            ec.setMessage(messageResolver.getMessage("U325"));
+        } else {
+            ec.setResult(ExecutionContext.FAIL);
+            ec.setMessage(messageResolver.getMessage("U326"));
+            ec.setData(application);
+            ec.setErrCode("ERR0003");
+            throw new YSBizException(ec);
+        }
         return ec;
     }
 
     @Override
-    public ExecutionContext saveOneDocument(TotalApplicationDocument document) {
+    public ExecutionContext submit( Document document ) {
+        ExecutionContext ec = new ExecutionContext();
+        Application application = document.getApplication();
+
+        int r1, applNo = application.getApplNo();
+        Date date = new Date();
+        String userId = application.getUserId();
+        application.setModDate(date);
+        application.setModId(userId);
+        application.setApplStsCode(APPLICATION_SUBMITTED);
+
+        r1 = commonDAO.updateItem(application, NAME_SPACE, "ApplicationMapper");
+
+        ExecutionContext ecPay = paymentService.saveApplicationPayment(application);
+
+        if (r1 == 1 && ExecutionContext.SUCCESS.equals(ecPay.getResult())) {
+            ec.setResult(ExecutionContext.SUCCESS);
+            ec.setMessage(messageResolver.getMessage("U327"));
+        } else {
+            ec.setResult(ExecutionContext.FAIL);
+            ec.setMessage(messageResolver.getMessage("U328"));
+            if (r1 != 1 ) {
+                ec.setData(application);
+                ec.setErrCode("ERR0041");
+            } else if (ExecutionContext.FAIL.equals(ecPay.getResult())) {
+                ec.setData(applNo);
+                ec.setErrCode(ec.getErrCode());
+            }
+            throw new YSBizException(ec);
+        }
+        return ec;
+    }
+
+    @Override
+    public <T> ExecutionContext retrieveInfoListByParamObj(Object parameter, String mapperNameSqlId, Class<T> clazz) {
+        ExecutionContext ec = new ExecutionContext();
+        List<T> infoList = commonDAO.queryForList(NAME_SPACE + mapperNameSqlId,
+                parameter, clazz);
+
+        ec.setData(infoList);
+        return ec;
+    }
+
+    @Override
+    public ExecutionContext retrieveOneDocument(ApplicationDocumentKey docKey) {
+
+        ExecutionContext ec = new ExecutionContext();
+        TotalApplicationDocumentContainer totalDoc =
+                commonDAO.queryForObject(NAME_SPACE + "CustomApplicationDocumentMapper.selectOneDocument",
+                        docKey, TotalApplicationDocumentContainer.class);
+
+        if ( totalDoc != null ) {
+            totalDoc.setFileUploadFg(true);
+            ec.setResult(ExecutionContext.SUCCESS);
+            ec.setData(totalDoc);
+//            ec.setMessage(messageResolver.getMessage("U325"));
+        } else {
+            ec.setResult(ExecutionContext.FAIL);
+            ec.setMessage(messageResolver.getMessage("U337"));
+            ec.setErrCode("ERR0035");
+            throw new YSBizException(ec);
+        }
+        return ec;
+    }
+
+    @Override
+    public ExecutionContext saveOneDocument(TotalApplicationDocument oneDocument ) {
 
 
         ExecutionContext ec = new ExecutionContext();
-        int rUpdate = 0, rInsert = 0,applNo = document.getApplNo();
+        int rUpdate = 0, rInsert = 0,applNo = oneDocument.getApplNo();
         int update=0, insert =0;
+
         Date date = new Date();
-        String userId = document.getCreId();
+        String userId = oneDocument.getCreId();
+
+        // applStsCode 수정 - TODO 적용할까말까
+//        int applUpdate = 0;
+//        ExecutionContext ecRetrieve = retrieveDocument(applNo);
+//        Map<String, Object> map = (Map<String, Object>)ecRetrieve.getData();
+//        Document document1 = (Document)map.get("document");
+//        Application application = document1.getApplication();
+//        int currentStsCode = Integer.parseInt(application.getApplStsCode());
+//        if (currentStsCode < Integer.parseInt(FILE_UPLOAD_SAVED)) {
+//            application.setApplStsCode(FILE_UPLOAD_SAVED);
+//            application.setModDate(new Date());
+//            applUpdate = commonDAO.updateItem(application, NAME_SPACE, "ApplicationMapper");
+//        }
 
         //기존 파일이 업로드 되어 있는 경우
-        if( document.isFileUploadFg()){
+        if( oneDocument.isFileUploadFg()){
             rUpdate++;
-            document.setCreId("" );
-            document.setModDate(date );
-            document.setModId(userId );
-            update = update + commonDAO.updateItem( document,NAME_SPACE, "ApplicationDocumentMapper" );
+            oneDocument.setCreId("" );
+            oneDocument.setModDate(date );
+            oneDocument.setModId(userId );
+            update = update + commonDAO.updateItem(oneDocument, NAME_SPACE, "ApplicationDocumentMapper");
 
         }else{
             rInsert++;
 
             int maxSeq = commonDAO.queryForInt(NAME_SPACE +"CustomApplicationDocumentMapper.selectMaxSeqByApplNo", applNo ) ;
-            document.setDocSeq(++maxSeq);
-            document.setCreDate(date );
-            insert = insert + commonDAO.insertItem(document, NAME_SPACE, "ApplicationDocumentMapper");
+            oneDocument.setFileUploadFg(true);
+            oneDocument.setDocSeq(++maxSeq);
+            oneDocument.setCreDate(date );
+            insert = insert + commonDAO.insertItem(oneDocument, NAME_SPACE, "ApplicationDocumentMapper");
 
         }
+
+//        if (  insert == rInsert && update == rUpdate && applUpdate == 1 ) {
         if (  insert == rInsert && update == rUpdate ) {
             ec.setResult(ExecutionContext.SUCCESS);
             ec.setMessage(messageResolver.getMessage("U325"));
-            ec.setData(document);
+            ec.setData(oneDocument);
         } else {
             ec.setResult(ExecutionContext.FAIL);
             ec.setMessage(messageResolver.getMessage("U326"));
@@ -145,18 +240,18 @@ public class DocumentServiceImpl implements DocumentService {
 
 
     @Override
-    public ExecutionContext deleteOneDocument(TotalApplicationDocument document) {
+    public ExecutionContext deleteOneDocument(TotalApplicationDocument oneDocument ) {
 
         ExecutionContext ec = new ExecutionContext();
-        int rDelete = 0,applNo = document.getApplNo();
+        int rDelete = 0,applNo = oneDocument.getApplNo();
         int delete=0;
         Date date = new Date();
-        String userId = document.getCreId();
+        String userId = oneDocument.getCreId();
 
         //기존 파일이 업로드 되어 있는 경우
-        if( document.isFileUploadFg()){
+        if( oneDocument.isFileUploadFg()){
             rDelete++;
-            delete = delete + commonDAO.delete(NAME_SPACE + "ApplicationDocumentMapper.deleteByPrimaryKey", document);
+            delete = delete + commonDAO.delete( NAME_SPACE + "ApplicationDocumentMapper.deleteByPrimaryKey", oneDocument);
 
         }else{
             rDelete++;
@@ -164,10 +259,6 @@ public class DocumentServiceImpl implements DocumentService {
         if (  delete == rDelete ) {
             ec.setResult(ExecutionContext.SUCCESS);
             ec.setMessage(messageResolver.getMessage("U325"));
-            /*
-            ec.setData(new ApplicationIdentifier(applNo, application.getApplStsCode(),
-                    application.getAdmsNo(), application.getEntrYear(), application.getAdmsTypeCode()));
-            */
         } else {
             ec.setResult(ExecutionContext.FAIL);
             ec.setMessage(messageResolver.getMessage("U326"));
@@ -175,7 +266,7 @@ public class DocumentServiceImpl implements DocumentService {
             String errCode = null;
             if ( delete != rDelete ) errCode = "ERR0034";
             ec.setErrCode(errCode);
-            throw new YSNoRedirectBizException(ec);
+            throw new YSBizException(ec);
         }
         return ec;
 
@@ -197,7 +288,7 @@ public class DocumentServiceImpl implements DocumentService {
         applContList.add(retrieveLanguageDocumentByApplNo(applNo));
 
         //코드별 조건 조회
-        applContList.addAll(retrieveCodeDocumentByApplNo(applNo,admsNo));
+        applContList.addAll(retrieveCodeDocumentByApplNo(applNo, admsNo));
 
         return applContList;
     }
@@ -211,7 +302,7 @@ public class DocumentServiceImpl implements DocumentService {
         applDocList = commonDAO.queryForList(NAME_SPACE + "CustomApplicationDocumentMapper.selectBasicTotalDocListByApplNo", applNo, TotalApplicationDocumentContainer.class);
         if( applDocList != null){
             for ( TotalApplicationDocumentContainer aCont : applDocList){
-                aCont.setSubContainer( getSubDeptDocumentContainer(aCont,rList ));
+                aCont.setSubContainer(getSubDeptDocumentContainer(aCont, rList));
             }
         }
         rApplDoc = new TotalApplicationDocumentContainer();
@@ -254,7 +345,7 @@ public class DocumentServiceImpl implements DocumentService {
 
 
         rApplDoc = new TotalApplicationDocumentContainer();
-        rApplDoc.setSubContainer( new ArrayList<TotalApplicationDocumentContainer>());
+        rApplDoc.setSubContainer(new ArrayList<TotalApplicationDocumentContainer>());
         rApplDoc.setGrpLabel("대학 관련서류");
         rApplDoc.setDisplayGrpFg(true);
 
@@ -287,7 +378,7 @@ public class DocumentServiceImpl implements DocumentService {
             codeParam.setAdmsCodeGrp("SCHL_CNTR");
             codeParam.setAdmsCode(aAcad.getSchlCntrCode());
             codeParam.setItemCode("00002");//해외학위
-            subDocList.addAll(commonDAO.queryForList(NAME_SPACE + "CustomApplicationDocumentMapper.selectCodeMandatoryGroupByCode", codeParam, TotalApplicationDocumentContainer.class));
+            subDocList.addAll(commonDAO.queryForList(NAME_SPACE +"CustomApplicationDocumentMapper.selectCodeMandatoryGroupByCode",codeParam,TotalApplicationDocumentContainer.class));
             codeParam.setItemCode("00021");//중국학위
             subDocList.addAll(commonDAO.queryForList(NAME_SPACE +"CustomApplicationDocumentMapper.selectCodeMandatoryGroupByCode",codeParam,TotalApplicationDocumentContainer.class));
 
@@ -326,15 +417,16 @@ public class DocumentServiceImpl implements DocumentService {
             codeParam.setItemCode("00004");//대학원
 
             List<TotalApplicationDocumentContainer> subDocList;
-            subDocList = commonDAO.queryForList(NAME_SPACE +"CustomApplicationDocumentMapper.selectCodeMandatoryGroupByCode",codeParam,TotalApplicationDocumentContainer.class);
+            subDocList = commonDAO.queryForList(NAME_SPACE + "CustomApplicationDocumentMapper.selectCodeMandatoryGroupByCode",codeParam,TotalApplicationDocumentContainer.class);
 
             //해외학위 필수서류 셋팅
             codeParam.setAdmsCodeGrp("SCHL_CNTR");
             codeParam.setAdmsCode(aAcad.getSchlCntrCode());
             codeParam.setItemCode("00002");//해외학위
-            subDocList.addAll(commonDAO.queryForList(NAME_SPACE +"CustomApplicationDocumentMapper.selectCodeMandatoryGroupByCode",codeParam,TotalApplicationDocumentContainer.class));
+            subDocList.addAll(commonDAO.queryForList(NAME_SPACE + "CustomApplicationDocumentMapper.selectCodeMandatoryGroupByCode", codeParam, TotalApplicationDocumentContainer.class));
             codeParam.setItemCode("00021");//중국학위
             subDocList.addAll(commonDAO.queryForList(NAME_SPACE +"CustomApplicationDocumentMapper.selectCodeMandatoryGroupByCode",codeParam,TotalApplicationDocumentContainer.class));
+
             for( TotalApplicationDocumentContainer aSubDoc : subDocList ){
                 aSubDoc.setDocGrp(aAcad.getAcadSeq());
                 aSubDoc.setApplNo(applNo);
@@ -356,7 +448,7 @@ public class DocumentServiceImpl implements DocumentService {
         TotalApplicationDocumentContainer aCont = null;
         List<TotalApplicationDocumentContainer> rList;
 
-                Application tempApp = commonDAO.queryForObject(NAME_SPACE + "ApplicationMapper.selectByPrimaryKey", applNo, Application.class);
+        Application tempApp = commonDAO.queryForObject(NAME_SPACE + "ApplicationMapper.selectByPrimaryKey", applNo, Application.class);
         ParamForCodeDocument codeParam = new ParamForCodeDocument();
         codeParam.setApplNo(applNo);
         codeParam.setAdmsNo(admsNo);
@@ -382,6 +474,7 @@ public class DocumentServiceImpl implements DocumentService {
             aCont.setSubContainer(subDocList);
             rContList.add(aCont);
         }
+
 
 
         //외국인 조회
@@ -536,7 +629,8 @@ public class DocumentServiceImpl implements DocumentService {
         return rContList;
     }
 
-    public String retrievePhotoUrl(int applNo) {
+    @Override
+    public String retrievePhotoUri(int applNo) {
         ParamForDocumentType aParam = new ParamForDocumentType();
         String photoUrl = null;
         aParam.setApplNo( applNo);
@@ -546,8 +640,10 @@ public class DocumentServiceImpl implements DocumentService {
 
         rList = commonDAO.queryForList(NAME_SPACE + "CustomApplicationDocumentMapper.selectApplicationDocumentByDocumentType", aParam, TotalApplicationDocument.class );
         if( rList != null && rList.size()>0 ) {
-            photoUrl =  rList.get(0).getFilePath() + rList.get(0).getFileName();
+            photoUrl =  rList.get(0).getFilePath() + "/" + rList.get(0).getFileName();
         }
         return photoUrl;
     }
+
+
 }

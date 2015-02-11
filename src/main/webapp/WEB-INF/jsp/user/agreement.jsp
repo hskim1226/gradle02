@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>회원 약관</title>
+    <title>회원 약관 및 개인 정보 수집 이용 동의</title>
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -35,7 +35,7 @@
 
     <style>
         section.signup {
-            padding: 200px 0 60px;
+            padding: 250px 0 10px 0;
             background: #556699;
             color: #fdfdfd;
         }
@@ -76,7 +76,7 @@
             cursor: default;
             resize: none;
             -moz-user-select: none;
-            -webkit-user-select: none;
+            -webkit-user-select: none;의
             -khtml-user-select: none;
             user-select: none;
         }
@@ -86,7 +86,7 @@
 <section class="signup">
     <div class="container">
         <div class="page-header">
-            <h1 style="color: #fdfdfd">회원 가입</h1>
+            <h1 style="color: #fdfdfd">회원 약관 및 개인 정보 수집 이용 동</h1>
         </div>
         <form class="form-horizontal" role="form" id="sign-up-form" action="${contextPath}/user/signup" method="POST">
             <div class="form-group">

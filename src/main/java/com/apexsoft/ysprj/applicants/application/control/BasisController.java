@@ -3,6 +3,7 @@ package com.apexsoft.ysprj.applicants.application.control;
 import com.apexsoft.framework.common.vo.ExecutionContext;
 import com.apexsoft.framework.message.MessageResolver;
 import com.apexsoft.ysprj.applicants.application.domain.*;
+import com.apexsoft.ysprj.applicants.application.service.ApplicationService;
 import com.apexsoft.ysprj.applicants.application.service.BasisService;
 import com.apexsoft.ysprj.applicants.application.validator.BasisValidator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
 import java.security.Principal;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -73,6 +75,55 @@ public class BasisController {
         mv.setViewName(TARGET_VIEW);
         if (bindingResult.hasErrors()) {
             mv.addObject("resultMsg", messageResolver.getMessage("U334"));
+            ExecutionContext ecRetrieve = basisService.retrieveSelectionMap(formData);
+            if (ExecutionContext.SUCCESS.equals(ecRetrieve.getResult())) {
+                Map<String, Object> map = (Map<String, Object>)ecRetrieve.getData();
+                mv.addObject("selection", map.get("selection"));
+                mv.addObject("country", map.get("country"));
+            } else {
+                mv = getErrorMV("common/error", ecRetrieve);
+            }
+            return mv;
+        }
+
+        ExecutionContext ec;
+        String userId = principal.getName();
+        Application application = formData.getApplication();
+        application.setUserId(userId);
+
+        ec = basisService.saveBasis(formData);
+
+        if (ExecutionContext.SUCCESS.equals(ec.getResult())) {
+            ExecutionContext ecRetrieve = basisService.retrieveBasis(formData);
+            if (ExecutionContext.SUCCESS.equals(ecRetrieve.getResult())) {
+                Map<String, Object> map = (Map<String, Object>)ecRetrieve.getData();
+                addObjectToMV(mv, map, ec);
+            } else {
+                mv = getErrorMV("common/error", ecRetrieve);
+            }
+        } else {
+            mv = getErrorMV("common/error", ec);
+        }
+
+        return mv;
+    }
+
+    /**
+     * 기본 정보 저장
+     *
+     * @param formData
+     * @param principal
+     * @return
+     */
+    @RequestMapping(value="/cancel", method = RequestMethod.POST)
+    public ModelAndView cancelBasis(@ModelAttribute Basis formData,
+                                  Principal principal,
+                                  BindingResult bindingResult,
+                                  ModelAndView mv) {
+
+        mv.setViewName("application/mylist");
+        if (bindingResult.hasErrors()) {
+            mv.addObject("resultMsg", messageResolver.getMessage("U334"));
             ExecutionContext ecRetrieve = basisService.retrieveBasis(formData);
             if (ecRetrieve.getResult().equals(ExecutionContext.SUCCESS)) {
                 Map<String, Object> map = (Map<String, Object>)ecRetrieve.getData();
@@ -91,14 +142,17 @@ public class BasisController {
 
         ec = basisService.saveBasis(formData);
 
-        if (ec.getResult().equals(ExecutionContext.SUCCESS)) {
+        if (ExecutionContext.SUCCESS.equals(ec.getResult())) {
+            ExecutionContext ecApplicationByUserId;
+            ParamForApplication p = new ParamForApplication();
+            p.setUserId(principal.getName());
 
-            ExecutionContext ecRetrieve = basisService.retrieveBasis(formData);
-            if (ecRetrieve.getResult().equals(ExecutionContext.SUCCESS)) {
-                Map<String, Object> map = (Map<String, Object>)ecRetrieve.getData();
-                addObjectToMV(mv, map, ec);
+            ecApplicationByUserId = basisService.retrieveInfoListByParamObj(p, "CustomApplicationMapper.selectApplByUserId", CustomMyList.class);
+
+            if (ExecutionContext.SUCCESS.equals(ecApplicationByUserId.getResult())) {
+                mv.addObject("myList", ecApplicationByUserId.getData());
             } else {
-                mv = getErrorMV("common/error", ecRetrieve);
+                mv = getErrorMV("common/error", ecApplicationByUserId);
             }
         } else {
             mv = getErrorMV("common/error", ec);
