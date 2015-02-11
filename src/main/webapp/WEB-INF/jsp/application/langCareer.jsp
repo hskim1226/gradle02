@@ -363,7 +363,7 @@
                                     <div class="col-sm-offset-2 col-sm-4">
                                         <div class="checkbox">
                                             <label>
-                                                <input type="checkbox" id="checkForlExmp" name="checkForlExmp"  />외국어 성적 면제 해당자
+                                                <input type="checkbox" id="checkForlExmp" name="checkForlExmp"/>외국어 성적 면제 해당자
                                             </label>
                                         </div>
                                     </div>
@@ -386,7 +386,7 @@
                                             <form:hidden path="applicationExperienceList[${stat.index}].exprSeq"/>
                                             <form:hidden path="applicationExperienceList[${stat.index}].applNo"/>
                                             <form:hidden path="applicationExperienceList[${stat.index}].saveFg"/>
-                                            <form:hidden path="applicationExperienceList[${stat.index}].checkedFg" value ="true"/>
+                                            <form:hidden path="applicationExperienceList[${stat.index}].checkedFg" value="true"/>
                                             <div class="form-group required">
                                                 <label class="col-sm-2 control-label">재직 기간</label>
                                                 <div class="col-sm-3 start-date-container">
@@ -404,7 +404,9 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-2">
-                                                    <label class="radio-inline"><input type="radio" class="curr-radio" id="radioCurr-${stat.index}" name="applicationExperienceList[${stat.index}].currYn" <c:if test="${langCareer.applicationExperienceList[stat.index].currYn == 'Y'}">checked</c:if> />재직중</label>
+                                                    <%--<label class="radio-inline"><input type="radio" class="curr-radio" id="radioCurr-${stat.index}" name="applicationExperienceList[${stat.index}].currYn" data-curr-work-index="${stat.index}" <c:if test="${langCareer.applicationExperienceList[stat.index].currYn == 'Y'}">checked</c:if> />재직중</label>--%>
+                                                    <label class="radio-inline"><input type="radio" class="curr-radio" id="radioCurr-${stat.index}" name="radioCurrWork" data-curr-work-id="applicationExperienceList${stat.index}.currYn" <c:if test="${langCareer.applicationExperienceList[stat.index].currYn == 'Y'}">checked</c:if> />재직중</label>
+                                                    <form:hidden path="applicationExperienceList[${stat.index}].currYn"/>
                                                 </div>
                                             </div>
                                             <div class="form-group required">
@@ -647,22 +649,53 @@
         });
         <%-- 외국어 성적 면제 해당 처리 --%>
 
+        <%-- 재직중 처리 --%>
+        var checkCurrentWorking = function () {
+            $('.curr-radio').each( function () {
+                var currWorkId = this.getAttribute('data-curr-work-id'),
+                    currYn = document.getElementById(currWorkId);
+                if (this.checked) {
+                    currYn.value = 'Y';
+                    this.value = 'on';
+                } else {
+                    currYn.value = 'N';
+                    this.value = 'off';
+                }
+            });
+        };
+        $('.curr-radio').on('click', checkCurrentWorking);
+        <%-- 재직중 처리 --%>
+
         <%-- form-group-block 추가/삭제에 대한 처리 시작 --%>
         <%-- id, name 재설정 시작 --%>
         var updateIdAndName = function ( block, index ) {
-            var i, name, prefix, suffix, input, items, label;
+            var i, name, prefix, suffix, input, items, itemsl, label, attrs, attrsl, j, dataVId;
             var input = block.querySelector('input');
 
             name = input.name;
 
             items = block.querySelectorAll('input, select, label');
+            itemsl = items.length;
             if (items) {
-                for (i = 0; i <items.length; i++) {
+                for (i = 0; i <itemsl ; i++) {
                     name = items[i].name;
+                    attrs = items[i].attributes;
+                    attrsl = attrs.length;
+                    for ( j = 0 ; j < attrsl ; j++ ) {
+                        if (attrs[j].name.indexOf('data-') === 0) {
+                            dataVId = attrs[j].value;
+                            prefix = dataVId.substring(0, dataVId.indexOf('.'));
+                            prefix = prefix.replace(/[0-9]/g, '');
+                            suffix = dataVId.substring(dataVId.indexOf('.'));
+                            attrs[j].value = prefix + index + suffix;
+                        }
+                    }
                     if (name) {
-                        prefix = name.substring(0, name.indexOf('['));
-                        suffix = name.substring(name.indexOf(']') + 1);
-                        items[i].name = prefix + '[' + index + ']' + suffix;
+                        if (items[i].type != 'radio') {
+                            prefix = name.substring(0, name.indexOf('['));
+                            suffix = name.substring(name.indexOf(']') + 1);
+                            items[i].name = prefix + '[' + index + ']' + suffix;
+                        }
                     }
                     var oldid = items[i].id;
                     if (oldid) {

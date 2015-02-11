@@ -1,9 +1,37 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/env.jsp"%>
-<html>
+<!DOCTYPE html>
+<html lang='ko'>
 <head>
-    <title></title>
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>로그인</title>
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="${contextPath}/js/html5shiv.min.js"></script>
+    <script src="${contextPath}/js/respond.min.js"></script>
+    <![endif]-->
+    <!--<link rel="stylesheet" type="text/css" href="../css/isotope.css" media="screen" />-->
+    <!--<link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/jquery.isotope/2.0.0/isotope.pkgd.min.js" media="screen" />-->
+    <!--<link rel="stylesheet" href="../js/fancybox/jquery.fancybox.css" type="text/css" media="screen" />-->
+    <!--<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.pack.js" type="text/css" media="screen" />-->
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="${contextPath}/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="${contextPath}/css/bootstrap-theme.min.css"/>
+    <!-- Font-awesome -->
+    <link rel="stylesheet" href="${contextPath}/css/font-awesome.css"/>
+    <!-- Overwrite Bootstrap -->
+    <link rel="stylesheet" href="${contextPath}/css/overwrite.css"/>
+    <link rel="stylesheet" href="${contextPath}/css/animate.css"/>
+    <!-- skin -->
+    <link rel="stylesheet" href="${contextPath}/skin/default.css">
+    <!-- custom style -->
+    <link rel="stylesheet" href="${contextPath}/css/style.css"/>
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="${contextPath}/js/jquery.min.js"></script>
     <style>
         section.signup {
             padding: 200px 0 60px;
@@ -167,68 +195,80 @@
         </form>
     </div>
 </section>
-<content tag="local-script">
-    <%--<script src="${contextPath}/js/bootstrap-datepicker.js"></script>--%>
-    <%--<script src="${contextPath}/js/bootstrap-datepicker.kr.js"></script>--%>
-    <script src="${contextPath}/js/jquery-ui.min.js"></script>
-    <script type="text/javascript">
-        $(document).ready(function(){
-            $("#sign-up-button").on("click", function(){
-                $('#sign-up-form').bootstrapValidator('validate');
-            });
+<script src="${contextPath}/js/bootstrap.min.js"></script>
+<script src="${contextPath}/js/bootstrapValidator.min.js"></script>
+<script src="${contextPath}/js/modernizr-2.6.2-respond-1.1.0.min.js"></script>
+<script src="${contextPath}/js/jquery.easing.min.js"></script>
+<script src="${contextPath}/js/jquery.nicescroll.min.js"></script>
+<script src="${contextPath}/js/fancybox/jquery.fancybox.pack.js"></script>
+<script src="${contextPath}/js/skrollr.min.js"></script>
+<script src="${contextPath}/js/jquery.scrollTo.min.js"></script>
+<script src="${contextPath}/js/jquery.localScroll.min.js"></script>
+<script src="${contextPath}/js/jquery.appear.min.js"></script>
+<script src="${contextPath}/js/jquery.stellar.min.js"></script>
+<script src="${contextPath}/js/main.js"></script>
 
-            $("#available-check-button").on("click", function(){
-                $.get("${contextPath}/user/idCheck",
+<%--<script src="${contextPath}/js/bootstrap-datepicker.js"></script>--%>
+<%--<script src="${contextPath}/js/bootstrap-datepicker.kr.js"></script>--%>
+<script src="${contextPath}/js/jquery-ui.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function(){
+        $("#sign-up-button").on("click", function(){
+            $('#sign-up-form').bootstrapValidator('validate');
+        });
+
+        $("#available-check-button").on("click", function(){
+            $.get("${contextPath}/user/idCheck",
+                    $("#sign-up-form").serialize(),
+                    function(data){
+                        if(data.result == "SUCCESS"){
+                            alert("사용가능한 username 입니다.");
+                            $("#sign-up-button").prop('disabled', false);
+                        }else{
+                            alert("이미 사용 중인 username 입니다.");
+                            $("#sign-up-button").prop('disabled', true);
+                        }
+                    }
+            );
+        });
+
+        $('#sign-up-form').bootstrapValidator({
+            onError: function(e) {
+                console.log(e);
+            },
+            onSuccess: function(e) {
+                $.post("${contextPath}/user/signup/save",
                         $("#sign-up-form").serialize(),
                         function(data){
                             if(data.result == "SUCCESS"){
-                                alert("사용가능한 username 입니다.");
-                                $("#sign-up-button").prop('disabled', false);
+                                alert("성공적으로 등록되었습니다.");
+                                location.href="${contextPath}/user/login";
                             }else{
-                                alert("이미 사용 중인 username 입니다.");
-                                $("#sign-up-button").prop('disabled', true);
+                                alert("서비스에 문제가 발생하였습니다.");
                             }
                         }
                 );
-            });
-
-            $('#sign-up-form').bootstrapValidator({
-                onError: function(e) {
-                    console.log(e);
-                },
-                onSuccess: function(e) {
-                    $.post("${contextPath}/user/signup/save",
-                            $("#sign-up-form").serialize(),
-                            function(data){
-                                if(data.result == "SUCCESS"){
-                                    alert("성공적으로 등록되었습니다.");
-                                    location.href="${contextPath}/user/login";
-                                }else{
-                                    alert("서비스에 문제가 발생하였습니다.");
-                                }
-                            }
-                    );
-                }
-            });
-
-            <%-- 달력 시작 --%>
-            var datePickerOption = {
-                dateFormat: 'yymmdd',
-                yearRange: "1950:",
-                monthNamesShort: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
-                dayNamesMin: ['일','월','화','수','목','금','토'],
-                changeMonth: true, //월변경가능
-                changeYear: true, //년변경가능
-                showMonthAfterYear: true //년 뒤에 월 표시
-            };
-
-            $('.input-group.date>input').each(function() {
-                $(this).datepicker(datePickerOption);
-            });
-            <%-- 달력 끝 --%>
-
+            }
         });
-    </script>
-</content>
+
+        <%-- 달력 시작 --%>
+        var datePickerOption = {
+            dateFormat: 'yymmdd',
+            yearRange: "1950:",
+            monthNamesShort: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
+            dayNamesMin: ['일','월','화','수','목','금','토'],
+            changeMonth: true, //월변경가능
+            changeYear: true, //년변경가능
+            showMonthAfterYear: true //년 뒤에 월 표시
+        };
+
+        $('.input-group.date>input').each(function() {
+            $(this).datepicker(datePickerOption);
+        });
+        <%-- 달력 끝 --%>
+
+    });
+</script>
+
 </body>
 </html>

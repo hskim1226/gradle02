@@ -52,12 +52,11 @@
         where APPL_NO = #{applNo,jdbcType=INTEGER}
     </delete>
 
-    <select id="selectMaxSeqByApplNo" resultType="java.lang.Integer" parameterType="java.lang.Integer" >
+  <select id="selectMaxSeqByApplNo" resultType="java.lang.Integer" parameterType="java.lang.Integer" >
 
-        select
-        MAX(EXPR_SEQ)
-        from APPL_EXPR
-        where APPL_NO = #{applNo,jdbcType=INTEGER}
-    </select>
-
+    select
+    MAX(EXPR_SEQ)
+    from APPL_EXPR
+    where APPL_NO = #{applNo,jdbcType=INTEGER}
+  </select>
 </mapper>

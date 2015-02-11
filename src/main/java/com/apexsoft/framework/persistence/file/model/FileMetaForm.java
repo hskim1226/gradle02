@@ -1,5 +1,7 @@
 package com.apexsoft.framework.persistence.file.model;
 
+import com.apexsoft.ysprj.applicants.application.domain.TotalApplicationDocument;
+
 /**
  * Created with IntelliJ IDEA.
  * User: zbum
@@ -17,6 +19,7 @@ public class FileMetaForm {
     private String targetFileLinkId;
     private String applNo;
     private String admsNo;
+    private TotalApplicationDocument totalApplicationDocument;
 
     public String getPath() {
         return path;
@@ -80,6 +83,14 @@ public class FileMetaForm {
 
     public void setAdmsNo(String admsNo) {
         this.admsNo = admsNo;
+    }
+
+    public TotalApplicationDocument getOneDocument() {
+        return totalApplicationDocument;
+    }
+
+    public void setTotalApplicationDocument(TotalApplicationDocument totalApplicationDocument) {
+        this.totalApplicationDocument = totalApplicationDocument;
     }
 
     @Override

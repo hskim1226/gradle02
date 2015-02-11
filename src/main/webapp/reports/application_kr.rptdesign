@@ -1,250 +1,86 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.23" id="1">
-    <property name="createdBy">Eclipse BIRT Designer Version 4.3.2.v20140211-1400 Build &lt;4.3.2.v20140218-1056></property>
+    <property name="createdBy">Eclipse BIRT Designer Version 4.4.0.v201405191524 Build &lt;4.4.0.v20140606-1451></property>
     <property name="units">in</property>
     <method name="beforeFactory"><![CDATA[
 importPackage(Packages.org.springframework.context);
-importPackage(Packages.org.springframework.web.context.support );
-//ServletContext
+importPackage(Packages.org.springframework.web.context.support);
+
 var sc = reportContext.getHttpServletRequest().getSession().getServletContext(),
-//ApplicationContext 
     spring = WebApplicationContextUtils.getWebApplicationContext(sc),
-    commonService = spring.getBean("commonServiceImpl"),
-    entire, application, general, etc, highSchool, collegeList, graduateList,
-    experienceList, languageList, academyList = [];
 
-entire = reportContext.getAppContext().get("entireApplication");
-application = entire.getApplication();
-general = entire.getApplicationGeneral();
-etc = entire.getApplicationETCWithBLOBs();
-highSchool = entire.getHighSchool();
-collegeList = entire.getCollegeList();
-graduateList = entire.getGraduateList();
-experienceList = entire.getApplicationExperienceList();
-languageList = entire.getApplicationLanguageList();
+    entrYear = spring.getBean("entrYear"),
+    admsTypeName1 = spring.getBean("admsTypeName1"),
+    admsTypeName2 = spring.getBean("admsTypeName2"),
 
-(function getAcademyList() {
-	var i, size;
-	for(i=0, size=collegeList.size(); i<size; i++) {
-		academyList.push(collegeList.get(i));
-	}
-	for(i=0, size=graduateList.size(); i<size; i++) {
-		academyList.push(graduateList.get(i));
-	}
-})();
+    campName = spring.getBean("campName"),
+    corsTypeName = spring.getBean("corsTypeName"),
+    ariInstName = spring.getBean("ariInstName"),
+    deptName = spring.getBean("deptName"),
+    deptCode = spring.getBean("deptCode"),
+    detlMajName = spring.getBean("detlMajName"),
 
-function getLangScore(code) {
-	var i, size, res="";
-	for(i=0, size=languageList.size(); i<size; i++) {
-		var item = languageList.get(i);
-		if(code == item.getLangExamCode()) {
-			res = item.getLangGrad();
-			break;
-		}
-	}
-	return res;
-}
-reportContext.setPersistentGlobalVariable("getLangScore", getLangScore);
+    korName = spring.getBean("korName"),
+    engName = spring.getBean("engName"),
+    engSur = spring.getBean("engSur"),
+    rgstNo = spring.getBean("rgstNo"),
+    mailAddr = spring.getBean("mailAddr"),
+    telNum = spring.getBean("telNum"),
+    mobiNum = spring.getBean("mobiNum"),
+    addr = spring.getBean("addr"),
+    detlAddr = spring.getBean("detlAddr"),
 
-function getAcademyText(academy) {
-	var res="";
-	if (!academy) {
-		return res;
-	}
-	var entrDay = academy.getEntrDay();
-	var grdaDay = academy.getGrdaDay();
-	var schlName = academy.getSchlName();
-	var grdaTypeCode = academy.getGrdaTypeCode();
+    photoUri = spring.getBean("photoUri"),
 
-	if (entrDay &amp;&amp; entrDay.length() == 8) {
-		res += entrDay.substr(0, 4) + "년" + entrDay.substr(4, 2) + "월" + entrDay.substr(6, 2) + "일";
-	}
-	if (grdaDay &amp;&amp; grdaDay.length() == 8) {
-		res += " ~ ";
-		res += grdaDay.substr(0, 4) + "년" + grdaDay.substr(4, 2) + "월" + grdaDay.substr(6, 2) + "일 ";
-	}
-	if (schlName &amp;&amp; schlName.length() > 0) {
-		res += "\t";
-		res += schlName;
-	}
-	if (grdaTypeCode &amp;&amp; grdaTypeCode.length() > 0) {
-		res += "\t";
-		var commonCode = commonService.retrieveCommonCodeValueByCodeGroupCode("GRDA_TYPE", String(grdaTypeCode));
-		if (commonCode) {
-			res += commonCode.getCodeVal();
-		}
-	}
-	return res;
-}
-reportContext.setPersistentGlobalVariable("getAcademyText", getAcademyText);
+    currWrkpName = spring.getBean("currWrkpName"),
+    currWrkpTel = spring.getBean("currWrkpTel"),
+    academy0 = spring.getBean("academy0"),
+    academy1 = spring.getBean("academy1"),
+    academy2 = spring.getBean("academy2"),
+    academy3 = spring.getBean("academy3"),
+    academy4 = spring.getBean("academy4"),
 
-function getExprText(experience, columnIndex) {
-	var res = "";
-	if(!experience) {
-		return res;
-	}
-	if (columnIndex == 0) {
-		res += experience.getJoinDay();
-		res += "~";
-		res += experience.getRetrDay();
-	} else if (columnIndex == 1) {
-		res += experience.getCorpName();
-	} else if (columnIndex == 2) {
-		res += experience.getExprDesc();
-	}
-	return res;
-}
-reportContext.setPersistentGlobalVariable("getExprText", getExprText);
+    hndcGrad = spring.getBean("hndcGrad"),
+    hndcType = spring.getBean("hndcType"),
 
-function getLastSchoolScoreText(list) {
-	var res="", i, size, last, item;
-	for (i=0, size=list.size(); i<size; i++) {
-		item = list.get(i);
-		if(item &amp;&amp; item.getLastSchlYn() == "Y" || item.getLastSchlYn() == "y") {
-			last = item;
-			break;
-		}
-	}
+    lastCollegeScore = spring.getBean("lastCollegeScore"),
+    lastGraduateScore = spring.getBean("lastGraduateScore"),
+    toeflScore = spring.getBean("toeflScore"),
+    toeicScore = spring.getBean("toeicScore"),
+    tepsScore = spring.getBean("tepsScore"),
+    ieltsScore = spring.getBean("ieltsScore"),
+    greScore = spring.getBean("greScore"),
+    forlExmp = spring.getBean("forlExmp"),
 
-	if (last) {
-		res += last.getGradAvr() + " / " + last.getGradFull();
-	} else {
-		res += "/";
-	}
-	return res;
-}
-reportContext.setPersistentGlobalVariable("getLastSchoolScoreText", getLastSchoolScoreText);
+    range0 = spring.getBean("range0"),
+    corpName0 = spring.getBean("corpName0"),
+    exprDesc0 = spring.getBean("exprDesc0"),
+    range1 = spring.getBean("range1"),
+    corpName1 = spring.getBean("corpName1"),
+    exprDesc1 = spring.getBean("exprDesc1"),
+    range2 = spring.getBean("range2"),
+    corpName2 = spring.getBean("corpName2"),
+    exprDesc2 = spring.getBean("exprDesc2"),
+    range3 = spring.getBean("range3"),
+    corpName3 = spring.getBean("corpName3"),
+    exprDesc3 = spring.getBean("exprDesc3"),
+    range4 = spring.getBean("range4"),
+    corpName4 = spring.getBean("corpName4"),
+    exprDesc4 = spring.getBean("exprDesc4"),
 
-function getPhotoUri() {
-    return reportContext.getAppContext().get("photoFilePath");
-}
-reportContext.setPersistentGlobalVariable("getPhotoUri", getPhotoUri);
+    mltrServName = spring.getBean("mltrServName"),
+    mltrJoinDay = spring.getBean("mltrJoinDay"),
+    mltrDschDay = spring.getBean("mltrDschDay"),
+    mltrRankName = spring.getBean("mltrRankName"),
+
+    applId = spring.getBean("applId");
+
 ]]></method>
     <text-property name="displayName">입학원서</text-property>
     <property name="layoutPreference">auto layout</property>
     <property name="bidiLayoutOrientation">ltr</property>
     <property name="imageDPI">96</property>
     <parameters>
-        <scalar-parameter name="campName" id="1275">
-            <property name="valueType">static</property>
-            <property name="isRequired">false</property>
-            <property name="dataType">string</property>
-            <property name="distinct">true</property>
-            <simple-property-list name="defaultValue">
-                <value type="constant"></value>
-            </simple-property-list>
-            <list-property name="selectionList"/>
-            <property name="paramType">simple</property>
-            <property name="controlType">text-box</property>
-            <structure name="format">
-                <property name="category">Unformatted</property>
-            </structure>
-        </scalar-parameter>
-        <scalar-parameter name="collName" id="1276">
-            <property name="valueType">static</property>
-            <property name="isRequired">false</property>
-            <property name="dataType">string</property>
-            <property name="distinct">true</property>
-            <simple-property-list name="defaultValue">
-                <value type="constant"></value>
-            </simple-property-list>
-            <list-property name="selectionList"/>
-            <property name="paramType">simple</property>
-            <property name="controlType">text-box</property>
-            <structure name="format">
-                <property name="category">Unformatted</property>
-            </structure>
-        </scalar-parameter>
-        <scalar-parameter name="deptName" id="1277">
-            <property name="valueType">static</property>
-            <property name="isRequired">false</property>
-            <property name="dataType">string</property>
-            <property name="distinct">true</property>
-            <simple-property-list name="defaultValue">
-                <value type="constant"></value>
-            </simple-property-list>
-            <list-property name="selectionList"/>
-            <property name="paramType">simple</property>
-            <property name="controlType">text-box</property>
-            <structure name="format">
-                <property name="category">Unformatted</property>
-            </structure>
-        </scalar-parameter>
-        <scalar-parameter name="corsTypeName" id="1278">
-            <property name="valueType">static</property>
-            <property name="isRequired">false</property>
-            <property name="dataType">string</property>
-            <property name="distinct">true</property>
-            <simple-property-list name="defaultValue">
-                <value type="constant"></value>
-            </simple-property-list>
-            <list-property name="selectionList"/>
-            <property name="paramType">simple</property>
-            <property name="controlType">text-box</property>
-            <structure name="format">
-                <property name="category">Unformatted</property>
-            </structure>
-        </scalar-parameter>
-        <scalar-parameter name="detlMajName" id="1279">
-            <property name="valueType">static</property>
-            <property name="isRequired">false</property>
-            <property name="dataType">string</property>
-            <property name="distinct">true</property>
-            <simple-property-list name="defaultValue">
-                <value type="constant"></value>
-            </simple-property-list>
-            <list-property name="selectionList"/>
-            <property name="paramType">simple</property>
-            <property name="controlType">text-box</property>
-            <structure name="format">
-                <property name="category">Unformatted</property>
-            </structure>
-        </scalar-parameter>
-        <scalar-parameter name="ariInstName" id="1280">
-            <property name="valueType">static</property>
-            <property name="isRequired">false</property>
-            <property name="dataType">string</property>
-            <property name="distinct">true</property>
-            <simple-property-list name="defaultValue">
-                <value type="constant"></value>
-            </simple-property-list>
-            <list-property name="selectionList"/>
-            <property name="paramType">simple</property>
-            <property name="controlType">text-box</property>
-            <structure name="format">
-                <property name="category">Unformatted</property>
-            </structure>
-        </scalar-parameter>
-        <scalar-parameter name="mltrServName" id="1288">
-            <property name="valueType">static</property>
-            <property name="isRequired">false</property>
-            <property name="dataType">string</property>
-            <property name="distinct">true</property>
-            <simple-property-list name="defaultValue">
-                <value type="constant"></value>
-            </simple-property-list>
-            <list-property name="selectionList"/>
-            <property name="paramType">simple</property>
-            <property name="controlType">text-box</property>
-            <structure name="format">
-                <property name="category">Unformatted</property>
-            </structure>
-        </scalar-parameter>
-        <scalar-parameter name="mltrRankName" id="1289">
-            <property name="valueType">static</property>
-            <property name="isRequired">false</property>
-            <property name="dataType">string</property>
-            <property name="distinct">true</property>
-            <simple-property-list name="defaultValue">
-                <value type="constant"></value>
-            </simple-property-list>
-            <list-property name="selectionList"/>
-            <property name="paramType">simple</property>
-            <property name="controlType">text-box</property>
-            <structure name="format">
-                <property name="category">Unformatted</property>
-            </structure>
-        </scalar-parameter>
         <scalar-parameter name="entrYear" id="1358">
             <property name="valueType">static</property>
             <property name="isRequired">false</property>
@@ -277,8 +113,807 @@ reportContext.setPersistentGlobalVariable("getPhotoUri", getPhotoUri);
         </scalar-parameter>
         <scalar-parameter name="admsTypeName2" id="1360">
             <property name="valueType">static</property>
+            <property name="isRequired">false</property>
             <property name="dataType">string</property>
             <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant"></value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="campName" id="1275">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant"></value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="corsTypeName" id="1278">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant"></value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="ariInstName" id="1280">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant"></value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="deptName" id="1277">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant"></value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="deptCode" id="1364">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant"></value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="detlMajName" id="1279">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant"></value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="korName" id="1365">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant"></value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="engName" id="1366">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant"></value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="engSur" id="1367">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant"></value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="rgstNo" id="1368">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant"></value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="mailAddr" id="1369">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant"></value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="telNum" id="1370">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant"></value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="mobiNum" id="1371">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant"></value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="addr" id="1372">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant"></value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="detlAddr" id="1373">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant"></value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="photoUri" id="1374">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant"></value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="currWrkpName" id="1380">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant"></value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="currWrkpTel" id="1381">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant"></value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="academy0" id="1375">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant"></value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="academy1" id="1376">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant"></value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="academy2" id="1377">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant"></value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="academy3" id="1378">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant"></value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="academy4" id="1379">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant"></value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="hndcGrad" id="1382">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant"></value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="hndcType" id="1383">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant"></value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="lastCollegeScore" id="1384">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant"></value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="lastGraduateScore" id="1385">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant"></value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="toeflScore" id="1386">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant"></value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="toeicScore" id="1387">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant"></value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="tepsScore" id="1388">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant"></value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="ieltsScore" id="1389">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant"></value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="greScore" id="1390">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant"></value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="forlExmp" id="1391">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant"></value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="range0" id="1392">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant"></value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="corpName0" id="1393">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant"></value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="exprDesc0" id="1394">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant"></value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="range1" id="1395">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant"></value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="corpName1" id="1396">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant"></value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="exprDesc1" id="1397">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant"></value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="range2" id="1398">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant"></value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="corpName2" id="1399">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant"></value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="exprDesc2" id="1400">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant"></value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="range3" id="1401">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant"></value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="corpName3" id="1402">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant"></value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="exprDesc3" id="1403">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant"></value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="range4" id="1404">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant"></value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="corpName4" id="1405">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant"></value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="exprDesc4" id="1406">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant"></value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="applId" id="1407">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant"></value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="mltrServName" id="1408">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant"></value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="mltrJoinDay" id="1409">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant"></value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="mltrDschDay" id="1410">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant"></value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="mltrRankName" id="1411">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant"></value>
+            </simple-property-list>
             <list-property name="selectionList"/>
             <property name="paramType">simple</property>
             <property name="controlType">text-box</property>
@@ -352,8 +987,6 @@ reportContext.setPersistentGlobalVariable("getPhotoUri", getPhotoUri);
                                         <structure>
                                             <property name="name">title</property>
                                             <expression name="expression" type="javascript">params["entrYear"] + " 학년도 " + params["admsTypeName1"] + " 대학원 입학원서"</expression>
-                                            <property name="dataType">string</property>
-                                            <property name="allowExport">true</property>
                                         </structure>
                                     </list-property>
                                     <property name="resultSetColumn">title</property>
@@ -428,7 +1061,7 @@ reportContext.setPersistentGlobalVariable("getPhotoUri", getPhotoUri);
                                     <list-property name="boundDataColumns">
                                         <structure>
                                             <property name="name">applId</property>
-                                            <expression name="expression" type="javascript">application.getApplId();</expression>
+                                            <expression name="expression" type="javascript">params["applId"]</expression>
                                             <property name="dataType">string</property>
                                             <property name="allowExport">true</property>
                                         </structure>
@@ -514,8 +1147,8 @@ reportContext.setPersistentGlobalVariable("getPhotoUri", getPhotoUri);
                                     <property name="height">161px</property>
                                     <property name="width">124px</property>
                                     <property name="source">file</property>
-                                    <expression name="uri" type="javascript">getPhotoUri()</expression>
                                     <property name="fitToContainer">true</property>
+                                    <expression name="uri" type="javascript">params["photoUri"]</expression>
                                 </image>
                             </cell>
                         </row>
@@ -666,7 +1299,7 @@ reportContext.setPersistentGlobalVariable("getPhotoUri", getPhotoUri);
                                     <list-property name="boundDataColumns">
                                         <structure>
                                             <property name="name">deptCode</property>
-                                            <expression name="expression" type="javascript">application.getDeptCode();</expression>
+                                            <expression name="expression" type="javascript">params["deptCode"]</expression>
                                             <property name="dataType">string</property>
                                         </structure>
                                     </list-property>
@@ -761,7 +1394,7 @@ reportContext.setPersistentGlobalVariable("getPhotoUri", getPhotoUri);
                                     <list-property name="boundDataColumns">
                                         <structure>
                                             <property name="name">korName</property>
-                                            <expression name="expression" type="javascript">application.getKorName();</expression>
+                                            <expression name="expression" type="javascript">params["korName"]</expression>
                                             <property name="dataType">string</property>
                                         </structure>
                                     </list-property>
@@ -796,7 +1429,7 @@ reportContext.setPersistentGlobalVariable("getPhotoUri", getPhotoUri);
                                     <list-property name="boundDataColumns">
                                         <structure>
                                             <property name="name">engName + engSur</property>
-                                            <expression name="expression" type="javascript">application.getEngName() + " " + application.getEngSur();</expression>
+                                            <expression name="expression" type="javascript">params["engName"] + " " + params["engSur"]</expression>
                                             <property name="dataType">string</property>
                                         </structure>
                                     </list-property>
@@ -836,7 +1469,7 @@ reportContext.setPersistentGlobalVariable("getPhotoUri", getPhotoUri);
                                     <list-property name="boundDataColumns">
                                         <structure>
                                             <property name="name">rgstNo</property>
-                                            <expression name="expression" type="javascript">application.getRgstNo();</expression>
+                                            <expression name="expression" type="javascript">params["rgstNo"]</expression>
                                             <property name="dataType">string</property>
                                         </structure>
                                     </list-property>
@@ -873,7 +1506,7 @@ reportContext.setPersistentGlobalVariable("getPhotoUri", getPhotoUri);
                                     <list-property name="boundDataColumns">
                                         <structure>
                                             <property name="name">mailAddr</property>
-                                            <expression name="expression" type="javascript">application.getMailAddr();</expression>
+                                            <expression name="expression" type="javascript">params["mailAddr"]</expression>
                                             <property name="dataType">string</property>
                                         </structure>
                                     </list-property>
@@ -909,7 +1542,7 @@ reportContext.setPersistentGlobalVariable("getPhotoUri", getPhotoUri);
                                     <list-property name="boundDataColumns">
                                         <structure>
                                             <property name="name">telNum</property>
-                                            <expression name="expression" type="javascript">application.getTelNum();</expression>
+                                            <expression name="expression" type="javascript">params["telNum"]</expression>
                                             <property name="dataType">string</property>
                                         </structure>
                                     </list-property>
@@ -942,7 +1575,7 @@ reportContext.setPersistentGlobalVariable("getPhotoUri", getPhotoUri);
                                     <list-property name="boundDataColumns">
                                         <structure>
                                             <property name="name">mobiNum</property>
-                                            <expression name="expression" type="javascript">application.getMobiNum();</expression>
+                                            <expression name="expression" type="javascript">params["mobiNum"]</expression>
                                             <property name="dataType">string</property>
                                         </structure>
                                     </list-property>
@@ -1006,7 +1639,7 @@ reportContext.setPersistentGlobalVariable("getPhotoUri", getPhotoUri);
                                     <list-property name="boundDataColumns">
                                         <structure>
                                             <property name="name">addr + detlAddr</property>
-                                            <expression name="expression" type="javascript">application.getAddr() + " " + application.getDetlAddr();</expression>
+                                            <expression name="expression" type="javascript">params["addr"] + " " + params["detlAddr"]</expression>
                                             <property name="dataType">string</property>
                                         </structure>
                                     </list-property>
@@ -1052,7 +1685,7 @@ reportContext.setPersistentGlobalVariable("getPhotoUri", getPhotoUri);
                                     <list-property name="boundDataColumns">
                                         <structure>
                                             <property name="name">currWrkpName</property>
-                                            <expression name="expression" type="javascript">general.getCurrWrkpName();</expression>
+                                            <expression name="expression" type="javascript">params["currWrkpName"]</expression>
                                             <property name="dataType">string</property>
                                         </structure>
                                     </list-property>
@@ -1095,7 +1728,7 @@ reportContext.setPersistentGlobalVariable("getPhotoUri", getPhotoUri);
                                     <list-property name="boundDataColumns">
                                         <structure>
                                             <property name="name">currWrkpTel</property>
-                                            <expression name="expression" type="javascript">general.getCurrWrkpTel();</expression>
+                                            <expression name="expression" type="javascript">params["currWrkpTel"]</expression>
                                             <property name="dataType">string</property>
                                         </structure>
                                     </list-property>
@@ -1147,7 +1780,7 @@ reportContext.setPersistentGlobalVariable("getPhotoUri", getPhotoUri);
                                                 <list-property name="boundDataColumns">
                                                     <structure>
                                                         <property name="name">academy0</property>
-                                                        <expression name="expression" type="javascript">getAcademyText(academyList[0]);</expression>
+                                                        <expression name="expression" type="javascript">params["academy0"]</expression>
                                                         <property name="dataType">string</property>
                                                     </structure>
                                                 </list-property>
@@ -1165,7 +1798,7 @@ reportContext.setPersistentGlobalVariable("getPhotoUri", getPhotoUri);
                                                 <list-property name="boundDataColumns">
                                                     <structure>
                                                         <property name="name">academy1</property>
-                                                        <expression name="expression" type="javascript">getAcademyText(academyList[1]);</expression>
+                                                        <expression name="expression" type="javascript">params["academy1"]</expression>
                                                         <property name="dataType">string</property>
                                                     </structure>
                                                 </list-property>
@@ -1183,7 +1816,7 @@ reportContext.setPersistentGlobalVariable("getPhotoUri", getPhotoUri);
                                                 <list-property name="boundDataColumns">
                                                     <structure>
                                                         <property name="name">academy2</property>
-                                                        <expression name="expression" type="javascript">getAcademyText(academyList[2]);</expression>
+                                                        <expression name="expression" type="javascript">params["academy2"]</expression>
                                                         <property name="dataType">string</property>
                                                     </structure>
                                                 </list-property>
@@ -1201,7 +1834,7 @@ reportContext.setPersistentGlobalVariable("getPhotoUri", getPhotoUri);
                                                 <list-property name="boundDataColumns">
                                                     <structure>
                                                         <property name="name">academy3</property>
-                                                        <expression name="expression" type="javascript">getAcademyText(academyList[3]);</expression>
+                                                        <expression name="expression" type="javascript">params["academy3"]</expression>
                                                         <property name="dataType">string</property>
                                                     </structure>
                                                 </list-property>
@@ -1217,7 +1850,7 @@ reportContext.setPersistentGlobalVariable("getPhotoUri", getPhotoUri);
                                                 <list-property name="boundDataColumns">
                                                     <structure>
                                                         <property name="name">academy4</property>
-                                                        <expression name="expression" type="javascript">getAcademyText(academyList[4]);</expression>
+                                                        <expression name="expression" type="javascript">params["academy4"]</expression>
                                                         <property name="dataType">string</property>
                                                     </structure>
                                                 </list-property>
@@ -1285,7 +1918,7 @@ reportContext.setPersistentGlobalVariable("getPhotoUri", getPhotoUri);
                                     <list-property name="boundDataColumns">
                                         <structure>
                                             <property name="name">hndcGrad</property>
-                                            <expression name="expression" type="javascript">general.getHndcGrad();</expression>
+                                            <expression name="expression" type="javascript">params["hndcGrad"]</expression>
                                             <property name="dataType">string</property>
                                         </structure>
                                     </list-property>
@@ -1316,7 +1949,7 @@ reportContext.setPersistentGlobalVariable("getPhotoUri", getPhotoUri);
                                     <list-property name="boundDataColumns">
                                         <structure>
                                             <property name="name">hndcType</property>
-                                            <expression name="expression" type="javascript">general.getHndcType();</expression>
+                                            <expression name="expression" type="javascript">params["hndcType"]</expression>
                                             <property name="dataType">string</property>
                                         </structure>
                                     </list-property>
@@ -1421,7 +2054,7 @@ reportContext.setPersistentGlobalVariable("getPhotoUri", getPhotoUri);
                                     <list-property name="boundDataColumns">
                                         <structure>
                                             <property name="name">lastCollegeScore</property>
-                                            <expression name="expression" type="javascript">getLastSchoolScoreText(collegeList);</expression>
+                                            <expression name="expression" type="javascript">params["lastCollegeScore"]</expression>
                                             <property name="dataType">string</property>
                                         </structure>
                                     </list-property>
@@ -1539,7 +2172,7 @@ reportContext.setPersistentGlobalVariable("getPhotoUri", getPhotoUri);
                                     <list-property name="boundDataColumns">
                                         <structure>
                                             <property name="name">lastGraduateScore</property>
-                                            <expression name="expression" type="javascript">getLastSchoolScoreText(graduateList);</expression>
+                                            <expression name="expression" type="javascript">params["lastGraduateScore"]</expression>
                                             <property name="dataType">string</property>
                                             <property name="allowExport">true</property>
                                         </structure>
@@ -1559,7 +2192,7 @@ reportContext.setPersistentGlobalVariable("getPhotoUri", getPhotoUri);
                                     <list-property name="boundDataColumns">
                                         <structure>
                                             <property name="name">toeflScore</property>
-                                            <expression name="expression" type="javascript">getLangScore("00001");</expression>
+                                            <expression name="expression" type="javascript">params["toeflScore"]</expression>
                                             <property name="dataType">string</property>
                                         </structure>
                                     </list-property>
@@ -1578,7 +2211,7 @@ reportContext.setPersistentGlobalVariable("getPhotoUri", getPhotoUri);
                                     <list-property name="boundDataColumns">
                                         <structure>
                                             <property name="name">toeicScore</property>
-                                            <expression name="expression" type="javascript">getLangScore("00002");</expression>
+                                            <expression name="expression" type="javascript">params["toeicScore"]</expression>
                                             <property name="dataType">string</property>
                                         </structure>
                                     </list-property>
@@ -1597,7 +2230,7 @@ reportContext.setPersistentGlobalVariable("getPhotoUri", getPhotoUri);
                                     <list-property name="boundDataColumns">
                                         <structure>
                                             <property name="name">tepsScore</property>
-                                            <expression name="expression" type="javascript">getLangScore("00003")</expression>
+                                            <expression name="expression" type="javascript">params["tepsScore"]</expression>
                                             <property name="dataType">string</property>
                                         </structure>
                                     </list-property>
@@ -1616,7 +2249,7 @@ reportContext.setPersistentGlobalVariable("getPhotoUri", getPhotoUri);
                                     <list-property name="boundDataColumns">
                                         <structure>
                                             <property name="name">ieltsScore</property>
-                                            <expression name="expression" type="javascript">getLangScore("00004")</expression>
+                                            <expression name="expression" type="javascript">params["ieltsScore"]</expression>
                                             <property name="dataType">string</property>
                                         </structure>
                                     </list-property>
@@ -1635,7 +2268,7 @@ reportContext.setPersistentGlobalVariable("getPhotoUri", getPhotoUri);
                                     <list-property name="boundDataColumns">
                                         <structure>
                                             <property name="name">greScore</property>
-                                            <expression name="expression" type="javascript">getLangScore("00006")</expression>
+                                            <expression name="expression" type="javascript">params["greScore"]</expression>
                                             <property name="dataType">string</property>
                                         </structure>
                                     </list-property>
@@ -1757,7 +2390,7 @@ reportContext.setPersistentGlobalVariable("getPhotoUri", getPhotoUri);
                                                 <list-property name="boundDataColumns">
                                                     <structure>
                                                         <property name="name">range0</property>
-                                                        <expression name="expression" type="javascript">getExprText(experienceList.get(0), 0);</expression>
+                                                        <expression name="expression" type="javascript">params["range0"]</expression>
                                                         <property name="dataType">string</property>
                                                     </structure>
                                                 </list-property>
@@ -1778,7 +2411,7 @@ reportContext.setPersistentGlobalVariable("getPhotoUri", getPhotoUri);
                                                 <list-property name="boundDataColumns">
                                                     <structure>
                                                         <property name="name">corpName0</property>
-                                                        <expression name="expression" type="javascript">getExprText(experienceList.get(0), 1);</expression>
+                                                        <expression name="expression" type="javascript">params["corpName0"]</expression>
                                                         <property name="dataType">string</property>
                                                     </structure>
                                                 </list-property>
@@ -1799,7 +2432,7 @@ reportContext.setPersistentGlobalVariable("getPhotoUri", getPhotoUri);
                                                 <list-property name="boundDataColumns">
                                                     <structure>
                                                         <property name="name">exprDesc0</property>
-                                                        <expression name="expression" type="javascript">getExprText(experienceList.get(0), 2);</expression>
+                                                        <expression name="expression" type="javascript">params["exprDesc0"]</expression>
                                                         <property name="dataType">string</property>
                                                     </structure>
                                                 </list-property>
@@ -1821,7 +2454,7 @@ reportContext.setPersistentGlobalVariable("getPhotoUri", getPhotoUri);
                                                 <list-property name="boundDataColumns">
                                                     <structure>
                                                         <property name="name">range1</property>
-                                                        <expression name="expression" type="javascript">getExprText(experienceList.get(1), 0);</expression>
+                                                        <expression name="expression" type="javascript">params["range1"]</expression>
                                                         <property name="dataType">string</property>
                                                         <property name="allowExport">true</property>
                                                     </structure>
@@ -1843,7 +2476,7 @@ reportContext.setPersistentGlobalVariable("getPhotoUri", getPhotoUri);
                                                 <list-property name="boundDataColumns">
                                                     <structure>
                                                         <property name="name">corpName1</property>
-                                                        <expression name="expression" type="javascript">getExprText(experienceList.get(1), 1);</expression>
+                                                        <expression name="expression" type="javascript">params["corpName1"]</expression>
                                                         <property name="dataType">string</property>
                                                         <property name="allowExport">true</property>
                                                     </structure>
@@ -1865,7 +2498,7 @@ reportContext.setPersistentGlobalVariable("getPhotoUri", getPhotoUri);
                                                 <list-property name="boundDataColumns">
                                                     <structure>
                                                         <property name="name">exprDesc1</property>
-                                                        <expression name="expression" type="javascript">getExprText(experienceList.get(1), 2);</expression>
+                                                        <expression name="expression" type="javascript">params["exprDesc1"]</expression>
                                                         <property name="dataType">string</property>
                                                         <property name="allowExport">true</property>
                                                     </structure>
@@ -1888,7 +2521,7 @@ reportContext.setPersistentGlobalVariable("getPhotoUri", getPhotoUri);
                                                 <list-property name="boundDataColumns">
                                                     <structure>
                                                         <property name="name">range2</property>
-                                                        <expression name="expression" type="javascript">getExprText(experienceList.get(2), 0);</expression>
+                                                        <expression name="expression" type="javascript">params["range2"]</expression>
                                                         <property name="dataType">string</property>
                                                         <property name="allowExport">true</property>
                                                     </structure>
@@ -1910,7 +2543,7 @@ reportContext.setPersistentGlobalVariable("getPhotoUri", getPhotoUri);
                                                 <list-property name="boundDataColumns">
                                                     <structure>
                                                         <property name="name">corpName2</property>
-                                                        <expression name="expression" type="javascript">getExprText(experienceList.get(2), 1);</expression>
+                                                        <expression name="expression" type="javascript">params["corpName2"]</expression>
                                                         <property name="dataType">string</property>
                                                         <property name="allowExport">true</property>
                                                     </structure>
@@ -1932,7 +2565,7 @@ reportContext.setPersistentGlobalVariable("getPhotoUri", getPhotoUri);
                                                 <list-property name="boundDataColumns">
                                                     <structure>
                                                         <property name="name">exprDesc2</property>
-                                                        <expression name="expression" type="javascript">getExprText(experienceList.get(2), 2);</expression>
+                                                        <expression name="expression" type="javascript">params["exprDesc2"]</expression>
                                                         <property name="dataType">string</property>
                                                         <property name="allowExport">true</property>
                                                     </structure>
@@ -1955,7 +2588,7 @@ reportContext.setPersistentGlobalVariable("getPhotoUri", getPhotoUri);
                                                 <list-property name="boundDataColumns">
                                                     <structure>
                                                         <property name="name">range3</property>
-                                                        <expression name="expression" type="javascript">getExprText(experienceList.get(3), 0);</expression>
+                                                        <expression name="expression" type="javascript">params["range3"]</expression>
                                                         <property name="dataType">string</property>
                                                         <property name="allowExport">true</property>
                                                     </structure>
@@ -1977,7 +2610,7 @@ reportContext.setPersistentGlobalVariable("getPhotoUri", getPhotoUri);
                                                 <list-property name="boundDataColumns">
                                                     <structure>
                                                         <property name="name">corpName3</property>
-                                                        <expression name="expression" type="javascript">getExprText(experienceList.get(3), 1);</expression>
+                                                        <expression name="expression" type="javascript">params["corpName3"]</expression>
                                                         <property name="dataType">string</property>
                                                         <property name="allowExport">true</property>
                                                     </structure>
@@ -1999,7 +2632,7 @@ reportContext.setPersistentGlobalVariable("getPhotoUri", getPhotoUri);
                                                 <list-property name="boundDataColumns">
                                                     <structure>
                                                         <property name="name">exprDesc3</property>
-                                                        <expression name="expression" type="javascript">getExprText(experienceList.get(3), 2);</expression>
+                                                        <expression name="expression" type="javascript">params["exprDesc3"]</expression>
                                                         <property name="dataType">string</property>
                                                         <property name="allowExport">true</property>
                                                     </structure>
@@ -2020,7 +2653,7 @@ reportContext.setPersistentGlobalVariable("getPhotoUri", getPhotoUri);
                                                 <list-property name="boundDataColumns">
                                                     <structure>
                                                         <property name="name">range4</property>
-                                                        <expression name="expression" type="javascript">getExprText(experienceList.get(4), 0);</expression>
+                                                        <expression name="expression" type="javascript">params["range4"]</expression>
                                                         <property name="dataType">string</property>
                                                         <property name="allowExport">true</property>
                                                     </structure>
@@ -2040,7 +2673,7 @@ reportContext.setPersistentGlobalVariable("getPhotoUri", getPhotoUri);
                                                 <list-property name="boundDataColumns">
                                                     <structure>
                                                         <property name="name">corpName4</property>
-                                                        <expression name="expression" type="javascript">getExprText(experienceList.get(4), 1);</expression>
+                                                        <expression name="expression" type="javascript">params["corpName4"]</expression>
                                                         <property name="dataType">string</property>
                                                         <property name="allowExport">true</property>
                                                     </structure>
@@ -2060,7 +2693,7 @@ reportContext.setPersistentGlobalVariable("getPhotoUri", getPhotoUri);
                                                 <list-property name="boundDataColumns">
                                                     <structure>
                                                         <property name="name">exprDesc4</property>
-                                                        <expression name="expression" type="javascript">getExprText(experienceList.get(4), 2);</expression>
+                                                        <expression name="expression" type="javascript">params["exprDesc4"]</expression>
                                                         <property name="dataType">string</property>
                                                         <property name="allowExport">true</property>
                                                     </structure>
@@ -2143,7 +2776,7 @@ reportContext.setPersistentGlobalVariable("getPhotoUri", getPhotoUri);
                                     <list-property name="boundDataColumns">
                                         <structure>
                                             <property name="name">mltrJoinDay</property>
-                                            <expression name="expression" type="javascript">general.getMltrJoinDay();</expression>
+                                            <expression name="expression" type="javascript">params["mltrJoinDay"]</expression>
                                             <property name="dataType">string</property>
                                         </structure>
                                     </list-property>
@@ -2170,7 +2803,7 @@ reportContext.setPersistentGlobalVariable("getPhotoUri", getPhotoUri);
                                     <list-property name="boundDataColumns">
                                         <structure>
                                             <property name="name">mltrDschDay</property>
-                                            <expression name="expression" type="javascript">general.getMltrDschDay();</expression>
+                                            <expression name="expression" type="javascript">params["mltrDschDay"]</expression>
                                             <property name="dataType">string</property>
                                         </structure>
                                     </list-property>
@@ -2259,7 +2892,7 @@ reportContext.setPersistentGlobalVariable("getPhotoUri", getPhotoUri);
                                     <list-property name="boundDataColumns">
                                         <structure>
                                             <property name="name">korName</property>
-                                            <expression name="expression" type="javascript">application.getKorName();</expression>
+                                            <expression name="expression" type="javascript">params["korName"]</expression>
                                             <property name="dataType">string</property>
                                         </structure>
                                     </list-property>

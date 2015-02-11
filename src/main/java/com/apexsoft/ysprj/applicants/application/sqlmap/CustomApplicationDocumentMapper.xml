@@ -2,41 +2,41 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.apexsoft.ysprj.applicants.application.sqlmap.CustomApplicationDocumentMapper" >
 
-  <resultMap id="totlaDoc" type="com.apexsoft.ysprj.applicants.application.domain.TotalApplicationDocumentContainer" >
-      <result column="APPL_NO"       jdbcType="INTEGER" property="applNo" />
-      <result column="ADMS_NO"     jdbcType="VARCHAR" property="admsNo" />
-      <result column="ADMS_CORS_NO"  jdbcType="INTEGER" property="admsCorsNo" />
-      <result column="DETL_MAJ_CODE" jdbcType="VARCHAR" property="detlMajCode" />
-      <result column="ADMS_CODE_GRP" jdbcType="VARCHAR" property="admsCodeGrp" />
-      <result column="ADMS_CODE"     jdbcType="VARCHAR" property="admsCode" />
+    <resultMap id="totlaDoc" type="com.apexsoft.ysprj.applicants.application.domain.TotalApplicationDocumentContainer" >
+        <result column="APPL_NO"       jdbcType="INTEGER" property="applNo" />
+        <result column="ADMS_NO"     jdbcType="VARCHAR" property="admsNo" />
+        <result column="ADMS_CORS_NO"  jdbcType="INTEGER" property="admsCorsNo" />
+        <result column="DETL_MAJ_CODE" jdbcType="VARCHAR" property="detlMajCode" />
+        <result column="ADMS_CODE_GRP" jdbcType="VARCHAR" property="admsCodeGrp" />
+        <result column="ADMS_CODE"     jdbcType="VARCHAR" property="admsCode" />
 
-      <result column="GRP_LEVEL"     jdbcType="INTEGER" property="grpLevel" />
-      <result column="DOC_ITEM_GRP"  jdbcType="INTEGER" property="docItemGrp" />
-      <result column="DOC_TYPE_GRP"  jdbcType="VARCHAR" property="docTypeGrp" />
-      <result column="DOC_TYPE_CODE" jdbcType="VARCHAR" property="docTypeCode" />
-      <result column="DOC_ITEM_CODE" jdbcType="VARCHAR" property="docItemCode" />
-      <result column="DOC_ITEM_NAME" jdbcType="VARCHAR" property="docItemName" />
-      <result column="UP_CODE_GRP"   jdbcType="VARCHAR" property="upCodeGrp" />
-      <result column="UP_CODE"       jdbcType="VARCHAR" property="upCode" />
-      <result column="SEL_CODE_GRP"  jdbcType="VARCHAR" property="selCodeGrp" />
-      <result column="LAST_YN"       jdbcType="VARCHAR" property="lastYn" />
-      <result column="MDT_YN"        jdbcType="VARCHAR" property="mdtYn" />
-      <result column="UPLOAD_YN"     jdbcType="VARCHAR" property="uploadYn" />
-      <result column="SEND_CNT"      jdbcType="INTEGER" property="sendCnt" />
-      <result column="ORGN_SEND_YN"  jdbcType="VARCHAR" property="orgnSendYn" />
-      <result column="CHK_CND"       jdbcType="VARCHAR" property="chkCnd" />
-      <result column="TMPL_YN"       jdbcType="VARCHAR" property="tmpltYn" />
-      <result column="MSG_NO"        jdbcType="VARCHAR" property="msgNo" />
+        <result column="GRP_LEVEL"     jdbcType="INTEGER" property="grpLevel" />
+        <result column="DOC_ITEM_GRP"  jdbcType="INTEGER" property="docItemGrp" />
+        <result column="DOC_TYPE_GRP"  jdbcType="VARCHAR" property="docTypeGrp" />
+        <result column="DOC_TYPE_CODE" jdbcType="VARCHAR" property="docTypeCode" />
+        <result column="DOC_ITEM_CODE" jdbcType="VARCHAR" property="docItemCode" />
+        <result column="DOC_ITEM_NAME" jdbcType="VARCHAR" property="docItemName" />
+        <result column="UP_CODE_GRP"   jdbcType="VARCHAR" property="upCodeGrp" />
+        <result column="UP_CODE"       jdbcType="VARCHAR" property="upCode" />
+        <result column="SEL_CODE_GRP"  jdbcType="VARCHAR" property="selCodeGrp" />
+        <result column="LAST_YN"       jdbcType="VARCHAR" property="lastYn" />
+        <result column="MDT_YN"        jdbcType="VARCHAR" property="mdtYn" />
+        <result column="UPLOAD_YN"     jdbcType="VARCHAR" property="uploadYn" />
+        <result column="SEND_CNT"      jdbcType="INTEGER" property="sendCnt" />
+        <result column="ORGN_SEND_YN"  jdbcType="VARCHAR" property="orgnSendYn" />
+        <result column="CHK_CND"       jdbcType="VARCHAR" property="chkCnd" />
+        <result column="TMPL_YN"       jdbcType="VARCHAR" property="tmpltYn" />
+        <result column="MSG_NO"        jdbcType="VARCHAR" property="msgNo" />
 
-      <result column="DOC_SEQ"       jdbcType="INTEGER" property="docSeq" />
-      <result column="DOC_GRP"       jdbcType="INTEGER" property="docGrp" />
-      <result column="DOC_NAME"      jdbcType="VARCHAR" property="docName" />
-      <result column="FILE_EXT"      jdbcType="VARCHAR" property="fileExt" />
-      <result column="IMG_YN"        jdbcType="VARCHAR" property="imgYn" />
-      <result column="FILE_PATH"     jdbcType="VARCHAR" property="filePath" />
-      <result column="FILE_NAME"     jdbcType="VARCHAR" property="fileName" />
-      <result column="ORG_FILE_NAME" jdbcType="VARCHAR" property="orgFileName" />
-  </resultMap>
+        <result column="DOC_SEQ"       jdbcType="INTEGER" property="docSeq" />
+        <result column="DOC_GRP"       jdbcType="INTEGER" property="docGrp" />
+        <result column="DOC_NAME"      jdbcType="VARCHAR" property="docName" />
+        <result column="FILE_EXT"      jdbcType="VARCHAR" property="fileExt" />
+        <result column="IMG_YN"        jdbcType="VARCHAR" property="imgYn" />
+        <result column="FILE_PATH"     jdbcType="VARCHAR" property="filePath" />
+        <result column="FILE_NAME"     jdbcType="VARCHAR" property="fileName" />
+        <result column="ORG_FILE_NAME" jdbcType="VARCHAR" property="orgFileName" />
+    </resultMap>
 
 
     <resultMap id="langGroup" type="com.apexsoft.ysprj.applicants.application.domain.LanguageGroup">
@@ -167,61 +167,61 @@
     <select id="selectTotalApplicationDocumentList"   resultMap="totlaDoc"   parameterType="com.apexsoft.ysprj.applicants.application.domain.TotalApplicationDocumentContainer" >
 
         SELECT
-            BA.APPL_NO,
-            GRP_LEVEL,
-            DOC_ITEM_GRP,
-            BA.DOC_TYPE_CODE,
-            BA.DOC_ITEM_CODE,
-            BA.DOC_ITEM_NAME,
-            UP_CODE_GRP,
-            UP_CODE,
-            SEL_CODE_GRP,
-            LAST_YN,
-            MDT_YN,
-            UPLOAD_YN,
-            SEND_CNT,
-            ORGN_SEND_YN ,
-            CHK_CND,
-            TMPLT_YN,
-            MSG_NO,DOC_SEQ,
-            DOC_GRP,
-            DOC_NAME,
-            FILE_EXT,
-            IMG_YN,
-            FILE_PATH,
-            FILE_NAME,
-            ORG_FILE_NAME
+        BA.APPL_NO,
+        GRP_LEVEL,
+        DOC_ITEM_GRP,
+        BA.DOC_TYPE_CODE,
+        BA.DOC_ITEM_CODE,
+        BA.DOC_ITEM_NAME,
+        UP_CODE_GRP,
+        UP_CODE,
+        SEL_CODE_GRP,
+        LAST_YN,
+        MDT_YN,
+        UPLOAD_YN,
+        SEND_CNT,
+        ORGN_SEND_YN ,
+        CHK_CND,
+        TMPLT_YN,
+        MSG_NO,DOC_SEQ,
+        DOC_GRP,
+        DOC_NAME,
+        FILE_EXT,
+        IMG_YN,
+        FILE_PATH,
+        FILE_NAME,
+        ORG_FILE_NAME
         FROM
-            (SELECT C.APPL_NO, GRP_LEVEL, DOC_ITEM_GRP,
-            DOC_TYPE_CODE,
-            DOC_ITEM_CODE,
-            CODEVAL( DOC_ITEM_GRP, DOC_ITEM_CODE) DOC_ITEM_NAME,
-            UP_CODE_GRP,
-            UP_CODE,
-            SEL_CODE_GRP,
-            LAST_YN,
-            MDT_YN,
-            UPLOAD_YN,
-            SEND_CNT,
-            ORGN_SEND_YN ,
-            CHK_CND,
-            TMPLT_YN,
-            MSG_NO
-            FROM ADMS_CORS_MAJ_MDT A, ADMS_CORS B, APPL C
-            WHERE A.ADMS_CORS_NO = B.ADMS_CORS_NO
-            AND B.ADMS_NO = C.ADMS_NO
-            AND B.DEPT_CODE = C.DEPT_CODE
-            AND B.CORS_TYPE_CODE = C.CORS_TYPE_CODE
-            AND A.DETL_MAJ_CODE = C.DETL_MAJ_CODE
-            AND IFNULL( B.ARI_INST_CODE,'') = IFNULL( C.ARI_INST_CODE,'')
-            AND A.GRP_LEVEL = #{grpLevel}+1
-            AND A.UP_CODE_GRP =#{docItemGrp}
-            AND A.UP_CODE = #{docItemCode}
-            AND C.APPL_NO = #{applNo} ) BA
+        (SELECT C.APPL_NO, GRP_LEVEL, DOC_ITEM_GRP,
+        DOC_TYPE_CODE,
+        DOC_ITEM_CODE,
+        CODEVAL( DOC_ITEM_GRP, DOC_ITEM_CODE) DOC_ITEM_NAME,
+        UP_CODE_GRP,
+        UP_CODE,
+        SEL_CODE_GRP,
+        LAST_YN,
+        MDT_YN,
+        UPLOAD_YN,
+        SEND_CNT,
+        ORGN_SEND_YN ,
+        CHK_CND,
+        TMPLT_YN,
+        MSG_NO
+        FROM ADMS_CORS_MAJ_MDT A, ADMS_CORS B, APPL C
+        WHERE A.ADMS_CORS_NO = B.ADMS_CORS_NO
+        AND B.ADMS_NO = C.ADMS_NO
+        AND B.DEPT_CODE = C.DEPT_CODE
+        AND B.CORS_TYPE_CODE = C.CORS_TYPE_CODE
+        AND A.DETL_MAJ_CODE = C.DETL_MAJ_CODE
+        AND IFNULL( B.ARI_INST_CODE,'') = IFNULL( C.ARI_INST_CODE,'')
+        AND A.GRP_LEVEL = #{grpLevel}+1
+        AND A.UP_CODE_GRP =#{docItemGrp}
+        AND A.UP_CODE = #{docItemCode}
+        AND C.APPL_NO = #{applNo} ) BA
         LEFT OUTER JOIN APPL_DOC BB
-            ON BA.APPL_NO = BB.APPL_NO
-            AND BA.UP_CODE = BB.DOC_TYPE_CODE
-            AND BA.DOC_ITEM_CODE = BB.DOC_ITEM_CODE
+        ON BA.APPL_NO = BB.APPL_NO
+        AND BA.UP_CODE = BB.DOC_TYPE_CODE
+        AND BA.DOC_ITEM_CODE = BB.DOC_ITEM_CODE
 
 
     </select>
@@ -229,39 +229,39 @@
     <select id="selectLanguageTotalDocListByApplNo"   resultMap="totlaDoc"   parameterType="java.lang.Integer" >
 
         SELECT
-            BA.APPL_NO,
-            1 AS GRP_LEVEL,
-            BA.LANG_EXAM_GRP AS DOC_ITEM_GRP,
-            '00005' AS DOC_TYPE_CODE,
-            LANG_EXAM_CODE AS DOC_ITEM_CODE,
-            CODEVAL(BA.LANG_EXAM_GRP,LANG_EXAM_CODE) AS DOC_ITEM_NAME,
+        BA.APPL_NO,
+        1 AS GRP_LEVEL,
+        BA.LANG_EXAM_GRP AS DOC_ITEM_GRP,
+        '00005' AS DOC_TYPE_CODE,
+        LANG_EXAM_CODE AS DOC_ITEM_CODE,
+        CODEVAL(BA.LANG_EXAM_GRP,LANG_EXAM_CODE) AS DOC_ITEM_NAME,
 
-            'NO' AS UP_CODE_GRP,
-            'NO' AS UP_CODE,
-            'NO' AS SEL_CODE_GRP,
-            'Y' LAST_YN,
-            'Y' AS MDT_YN,
-            'Y' UPLOAD_YN,
-            1 AS SEND_CNT,
-            'N' AS ORGN_SEND_YN ,
-            '' AS CHK_CND,
-            '' AS TMPLT_YN,
-            '' MSG_NO,
-            DOC_SEQ,
-            DOC_GRP,
-            DOC_NAME,
-            FILE_EXT,
-            IMG_YN,
-            FILE_PATH,
-            FILE_NAME,
-            ORG_FILE_NAME
+        'NO' AS UP_CODE_GRP,
+        'NO' AS UP_CODE,
+        'NO' AS SEL_CODE_GRP,
+        'Y' LAST_YN,
+        'Y' AS MDT_YN,
+        'Y' UPLOAD_YN,
+        1 AS SEND_CNT,
+        'N' AS ORGN_SEND_YN ,
+        '' AS CHK_CND,
+        '' AS TMPLT_YN,
+        '' MSG_NO,
+        DOC_SEQ,
+        DOC_GRP,
+        DOC_NAME,
+        FILE_EXT,
+        IMG_YN,
+        FILE_PATH,
+        FILE_NAME,
+        ORG_FILE_NAME
         FROM
-            ( SELECT * FROM APPL_LANG
-            WHERE APPL_NO = #{applNo} ) BA
+        ( SELECT * FROM APPL_LANG
+        WHERE APPL_NO = #{applNo} ) BA
         LEFT OUTER JOIN APPL_DOC BB
-            ON BA.APPL_NO = BB.APPL_NO
-            AND BA.LANG_SEQ = BB.DOC_GRP
-            AND BB.DOC_TYPE_CODE = '00005'
+        ON BA.APPL_NO = BB.APPL_NO
+        AND BA.LANG_SEQ = BB.DOC_GRP
+        AND BB.DOC_TYPE_CODE = '00005'
 
     </select>
 
@@ -271,26 +271,26 @@
             parameterType= "com.apexsoft.ysprj.applicants.application.domain.ParamForTotalLang" >
 
         SELECT BA.ADMS_CORS_NO,
-              BA.DETL_MAJ_CODE,
-              EXAM_CODE_GRP ,
-              C.CODE_VAL EXAM_GROUP_NAME,
-              EXAM_CODE ,
-              SEL_GRP_CODE,
-              MDT_YN,
-              MULTI_YN,
-              CAN_YN,
-              MSG_NO
-            FROM ADMS_CORS_MAJ_LANG BA, APPL BB, ADMS_CORS BC,COMM_CODE C
-            WHERE BC.ADMS_CORS_NO = BA.ADMS_CORS_NO
-            AND BB.ADMS_NO =BC.ADMS_NO
-            AND BB.DEPT_CODE = BC.DEPT_CODE
-            AND BB.CORS_TYPE_CODE = BC.CORS_TYPE_CODE
-            AND IFNULL( BB.ARI_INST_CODE,'') = IFNULL( BC.ARI_INST_CODE,'')
-            AND BB.DETL_MAJ_CODE = BA.DETL_MAJ_CODE
-            AND BB.APPL_NO = #{applNo}
-            AND BA.GRP_LEVEL= 1
-            AND BA.EXAM_CODE_GRP = C.CODE_GRP
-            AND BA.EXAM_CODE = C.CODE
+        BA.DETL_MAJ_CODE,
+        EXAM_CODE_GRP ,
+        C.CODE_VAL EXAM_GROUP_NAME,
+        EXAM_CODE ,
+        SEL_GRP_CODE,
+        MDT_YN,
+        MULTI_YN,
+        CAN_YN,
+        MSG_NO
+        FROM ADMS_CORS_MAJ_LANG BA, APPL BB, ADMS_CORS BC,COMM_CODE C
+        WHERE BC.ADMS_CORS_NO = BA.ADMS_CORS_NO
+        AND BB.ADMS_NO =BC.ADMS_NO
+        AND BB.DEPT_CODE = BC.DEPT_CODE
+        AND BB.CORS_TYPE_CODE = BC.CORS_TYPE_CODE
+        AND IFNULL( BB.ARI_INST_CODE,'') = IFNULL( BC.ARI_INST_CODE,'')
+        AND BB.DETL_MAJ_CODE = BA.DETL_MAJ_CODE
+        AND BB.APPL_NO = #{applNo}
+        AND BA.GRP_LEVEL= 1
+        AND BA.EXAM_CODE_GRP = C.CODE_GRP
+        AND BA.EXAM_CODE = C.CODE
 
 
     </select>
@@ -447,12 +447,12 @@
     </select>
 
     <select id="selectCodeApplicationDocumentByTotalDocumentContainner"   resultMap="totlaDoc"   parameterType="com.apexsoft.ysprj.applicants.application.domain.TotalApplicationDocumentContainer" >
-    SELECT
+        SELECT
         APPL_NO, DOC_SEQ, DOC_TYPE_CODE, DOC_GRP, DOC_ITEM_CODE, DOC_ITEM_NAME, DOC_NAME,
         FILE_EXT, IMG_YN, FILE_PATH, FILE_NAME, ORG_FILE_NAME, CRE_ID, CRE_DATE, MOD_ID,
         MOD_DATE, DOC_ITEM_NAME_XXEN, DOC_GRP_NAME
-    FROM APPL_DOC
-    WHERE APPL_NO = #{applNo}
+        FROM APPL_DOC
+        WHERE APPL_NO = #{applNo}
         AND DOC_TYPE_CODE = #{docTypeCode}
         <if test="docGrp != null and docGrp != 0" >
             AND DOC_GRP = #{docGrp}
@@ -496,7 +496,6 @@
     </select>
 
     <select id="selectMaxSeqByApplNo" resultType="java.lang.Integer" parameterType="java.lang.Integer" >
-
         select
         MAX(DOC_SEQ)
         from APPL_DOC

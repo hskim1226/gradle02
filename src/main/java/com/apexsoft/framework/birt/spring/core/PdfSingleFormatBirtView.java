@@ -19,7 +19,6 @@ public class PdfSingleFormatBirtView extends AbstractSingleFormatBirtView {
 
     public PdfSingleFormatBirtView() {
         setContentType("application/pdf");
-
     }
 
     @Override

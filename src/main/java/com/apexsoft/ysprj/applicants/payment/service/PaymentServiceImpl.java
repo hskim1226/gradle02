@@ -1,0 +1,402 @@
+package com.apexsoft.ysprj.applicants.payment.service;
+
+import com.apexsoft.framework.common.vo.ExecutionContext;
+import com.apexsoft.framework.message.MessageResolver;
+import com.apexsoft.framework.persistence.dao.CommonDAO;
+import com.apexsoft.framework.xpay.service.TransactionVO;
+import com.apexsoft.ysprj.applicants.application.domain.Application;
+import com.apexsoft.ysprj.applicants.application.domain.CustomNewSeq;
+import com.apexsoft.ysprj.applicants.payment.domain.*;
+import lgdacom.XPayClient.XPayClient;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import javax.annotation.Resource;
+import java.util.Date;
+
+/**
+ * Created by cosb071 on 15. 1. 22.
+ *
+ * 결제 처리 서비스
+ */
+@Service
+public class PaymentServiceImpl implements PaymentService {
+
+    private final static String NAME_SPACE = "com.apexsoft.ysprj.applicants.payment.sqlmap.";
+
+    @Autowired
+    private CommonDAO commonDAO;
+
+    @Resource(name = "messageResolver")
+    MessageResolver messageResolver;
+
+    private final String RSLT = "00000";      // 성공/에러일 때 반환값
+
+    @Override
+    public ExecutionContext registerPaymentCertifyLog( Payment payment ) {
+
+        ExecutionContext ec = new ExecutionContext();
+        int r1 = 0, r2 = 0;
+        Date date = new Date();
+
+        XPayCertRequest xPayCertRequest = setXPayCertRequest(payment);
+        xPayCertRequest.setCreDate(date);
+        r1 = commonDAO.insertItem(xPayCertRequest, NAME_SPACE, "XPayCertRequestMapper");
+
+        XPayCertResult xPayCertResult = setXPayCertResult(payment);
+        xPayCertResult.setCreDate(date);
+        r2 = commonDAO.insertItem(xPayCertResult, NAME_SPACE, "XPayCertResultMapper");
+
+        if( r1>0 & r2>0 ) {
+            ec.setResult(ExecutionContext.SUCCESS);
+        } else {
+            ec.setResult(ExecutionContext.FAIL);
+        }
+
+        return ec;
+
+    }
+
+    @Override
+    public void executePayment( Payment payment, TransactionVO transactionVO ) {
+
+        /*
+         * [최종결제요청 페이지(STEP2-2)]
+         *
+         * LG유플러스으로 부터 내려받은 LGD_PAYKEY(인증Key)를 가지고 최종 결제요청.(파라미터 전달시 POST를 사용하세요)
+         */
+
+        String configPath = PaymentConfig.CONFIG_PATH;  //LG유플러스에서 제공한 환경파일("/conf/lgdacom.conf,/conf/mall.conf") 위치 지정.
+
+        /*
+         *************************************************
+         * 1.최종결제 요청 - BEGIN
+         *  (단, 최종 금액체크를 원하시는 경우 금액체크 부분 주석을 제거 하시면 됩니다.)
+         *************************************************
+         */
+
+        String CST_PLATFORM = payment.getCST_PLATFORM();
+        String LGD_MID = payment.getLGD_MID();
+        String LGD_PAYKEY = payment.getLGD_PAYKEY();
+
+        //해당 API를 사용하기 위해 WEB-INF/lib/XPayClient.jar 를 Classpath 로 등록하셔야 합니다.
+        XPayClient xpay = new XPayClient();
+        boolean isInitOK = xpay.Init(configPath, CST_PLATFORM);
+
+        if( !isInitOK ) {
+            //API 초기화 실패 화면 처리
+            transactionVO.setSysMsg(messageResolver.getMessage("A000"));
+            transactionVO.setUserMsg(messageResolver.getMessage("U000"));
+            return;
+        } else {
+            try {
+
+                xpay.Init_TX(LGD_MID);
+                xpay.Set("LGD_TXNAME", PaymentConfig.LGD_TXNAME);
+                xpay.Set("LGD_PAYKEY", LGD_PAYKEY);
+
+                //결제 요청 로그 DB 처리
+                registerPaymentRequestLog(payment);
+
+            } catch(Exception e) {
+                transactionVO.setSysMsg(messageResolver.getMessage("A001") + e.getMessage());
+                transactionVO.setUserMsg(messageResolver.getMessage("U001"));
+                return;
+            }
+        }
+
+        /*
+         * 2. 최종결제 요청 결과처리
+         * 최종 결제요청 결과 리턴 파라미터는 연동메뉴얼을 참고하시기 바랍니다.
+         */
+        if( xpay.TX() ) {
+
+            //1)결제결과 처리(성공,실패 결과 처리를 하시기 바랍니다.)
+            transactionVO.setSysMsg("결제요청이 완료되었습니다.  <br>" +
+                            "TX 결제요청 Response_code = " + xpay.m_szResCode + "<br>" +
+                            "TX 결제요청 Response_msg = " + xpay.m_szResMsg + "<p>" +
+                            "거래번호 : " + xpay.Response("LGD_TID", 0) + "<br>" +
+                            "상점아이디 : " + xpay.Response("LGD_MID", 0) + "<br>" +
+                            "상점주문번호 : " + xpay.Response("LGD_OID", 0) + "<br>" +
+                            "결제금액 : " + xpay.Response("LGD_AMOUNT", 0) + "<br>" +
+                            "결과코드 : " + xpay.Response("LGD_RESPCODE", 0) + "<br>" +
+                            "결과메세지 : " + xpay.Response("LGD_RESPMSG", 0) + "<p>"
+            );
+
+            //결제 결과 로그 DB 처리
+            registerPaymentResultLog(xpay);
+
+            String tmp = "";
+            for( int i=0; i<xpay.ResponseNameCount(); i++ ) {
+                for ( int j=0; j<xpay.ResponseCount(); j++ ) {
+                    tmp += (j>1) ? "|" : "" + xpay.Response(xpay.ResponseName(i), j);
+                }
+                transactionVO.getTxMap().put(xpay.ResponseName(i), tmp);
+                tmp = "";
+            }
+
+            if( "0000".equals( xpay.m_szResCode ) ) {
+
+
+
+                //결제 성공에 따른 application 정보 처리
+                String payType = xpay.Response("LGD_PAYTYPE", 0);
+                if( payType.equals("SC0010") || payType.equals("SC0030") ) {
+
+                    //카드 또는 계좌이체에 대한 DB 처리
+                    registerPaymentSuccess(payment, xpay);
+
+                    //결제 성공에 대한 화면 처리
+                    transactionVO.setSysMsg(transactionVO.getSysMsg() + "최종결제요청 결과 성공 DB처리하시기 바랍니다.<br>");
+                    transactionVO.setUserMsg(messageResolver.getMessage("U002"));
+
+                } else if( payType.equals("SC0040") ) {
+
+                    //가상계좌 입금대기에 대한 DB 처리
+                    registerPaymentWait(payment, xpay);
+
+                    //결제 성공에 대한 화면 처리
+                    transactionVO.setSysMsg(transactionVO.getSysMsg() + "최종결제요청 결과 성공 DB처리하시기 바랍니다.<br>");
+                    transactionVO.setUserMsg(messageResolver.getMessage("U003"));
+
+                } else {
+                    //TODO 예외 처리
+                }
+
+            } else {
+
+                //결제 실패에 대한 화면 처리
+                transactionVO.setSysMsg(transactionVO.getSysMsg() + "최종결제요청 결과 실패 DB처리하시기 바랍니다.<br>");
+                transactionVO.setUserMsg(messageResolver.getMessage(""));
+                //TODO 실패 코드 필요
+            }
+
+        } else {
+            //2)API 요청실패 처리
+            transactionVO.setSysMsg("결제요청이 실패하였습니다.  <br>" +
+                            "TX 결제요청 Response_code = " + xpay.m_szResCode + "<br>" +
+                            "TX 결제요청 Response_msg = " + xpay.m_szResMsg + "<p>"
+            );
+            transactionVO.setSysMsg(transactionVO.getSysMsg() + "최종결제요청 결과 실패 DB처리하시기 바랍니다.<br>");
+        }
+
+    }
+
+    @Override
+    public void registerCasNote( ApplicationPayment applPay ) {
+
+        //LGD_OID로 해당 결제 조회
+        ApplicationPaymentExample param = new ApplicationPaymentExample();
+        param.createCriteria().andLgdOidEqualTo(applPay.getLgdOid());
+
+        ApplicationPayment orgApplPay = commonDAO.queryForObject(NAME_SPACE+"ApplicationPaymentMapper.selectByExample", param, ApplicationPayment.class);
+
+        applPay.setApplNo(orgApplPay.getApplNo());
+        applPay.setPaySeq(orgApplPay.getPaySeq()+1);
+        applPay.setExpPayAmt(orgApplPay.getExpPayAmt());
+        applPay.setPayStsCode("00002");
+        applPay.setCreDate(new Date());
+
+        //결제 DB 처리
+        commonDAO.insertItem(applPay, NAME_SPACE, "ApplicationPaymentMapper");
+
+        //수헙번호 순번 조회
+        CustomNewSeq customNewSeq = commonDAO.queryForObject("com.apexsoft.ysprj.applicants.application.sqlmap.CustomApplicationMapper.selectNewSeq",
+                                                             applPay.getApplNo(), CustomNewSeq.class);
+        //수험번호 순번 갱신
+        commonDAO.updateItem(customNewSeq, "com.apexsoft.ysprj.applicants.application.sqlmap.", "CustomApplicationMapper.", "updateApplIdSeqIdByNewSeq");
+
+        //수험번호, 결제완료 상태 적용
+        Application application = commonDAO.queryForObject("com.apexsoft.ysprj.applicants.application.sqlmap.ApplicationMapper.selectByPrimaryKey",
+                                                           applPay.getApplNo(), Application.class);
+        application.setApplId(getApplId(application, customNewSeq.getNewSeq()));
+        application.setApplStsCode("00020");
+        commonDAO.updateItem(application, "com.apexsoft.ysprj.applicants.application.sqlmap.", "ApplicationMapper");
+
+    }
+
+    private XPayCertRequest setXPayCertRequest( Payment payment ) {
+
+        XPayCertRequest certReq = new XPayCertRequest();
+
+        certReq.setLgdMid(payment.getLGD_MID());
+        certReq.setLgdOid(payment.getLGD_OID());
+        certReq.setLgdAmount(payment.getLGD_AMOUNT());
+        certReq.setLgdBuyer(payment.getLGD_BUYER());
+        certReq.setLgdProductinfo(payment.getLGD_PRODUCTINFO());
+        certReq.setLgdTimestamp(payment.getLGD_TIMESTAMP());
+        certReq.setLgdHashdata(payment.getLGD_HASHDATA());
+        certReq.setLgdBuyerid(payment.getLGD_BUYERID());
+        certReq.setLgdBuyerip(payment.getLGD_BUYERIP());
+        certReq.setLgdBuyeremail(payment.getLGD_BUYEREMAIL());
+        certReq.setLgdCustomSkin(payment.getLGD_CUSTOM_SKIN());
+        certReq.setLgdWindowVer(payment.getLGD_WINDOW_VER());
+        certReq.setLgdCustomProcesstype(payment.getLGD_CUSTOM_PROCESSTYPE());
+        certReq.setLgdCasnoteurl(payment.getLGD_CASNOTEURL());
+
+        return certReq;
+    }
+
+    private XPayCertResult setXPayCertResult( Payment payment ) {
+
+        XPayCertResult certRslt = new XPayCertResult();
+
+        certRslt.setLgdRespcode(payment.getLGD_RESPCODE());
+        certRslt.setLgdRespmsg(payment.getLGD_RESPMSG());
+        certRslt.setLgdMid(payment.getLGD_MID());
+        certRslt.setLgdOid(payment.getLGD_OID());
+        certRslt.setLgdAmount(payment.getLGD_AMOUNT());
+        certRslt.setLgdPaykey(payment.getLGD_PAYKEY());
+
+        return certRslt;
+    }
+
+    private ExecutionContext registerPaymentRequestLog( Payment payment ) {
+
+        ExecutionContext ec = new ExecutionContext();
+
+        XPayPayRequest xPayPayRequest = new XPayPayRequest();
+        xPayPayRequest.setLgdTxname(PaymentConfig.LGD_TXNAME);
+        xPayPayRequest.setLgdPaykey(payment.getLGD_PAYKEY());
+        xPayPayRequest.setCreDate(new Date());
+
+        int r1 = commonDAO.insertItem(xPayPayRequest, NAME_SPACE, "XPayPayRequestMapper");
+
+        if( r1 > 0 ) {
+            ec.setResult(ExecutionContext.SUCCESS);
+        } else {
+            ec.setResult(ExecutionContext.FAIL);
+        }
+
+        return ec;
+    }
+
+    private ExecutionContext registerPaymentResultLog( XPayClient xpay ) {
+
+        ExecutionContext ec = new ExecutionContext();
+
+        XPayPayResult xPayPayResult = new XPayPayResult();
+        xPayPayResult.setLgdRespcode(xpay.Response("LGD_RESPCODE", 0));
+        xPayPayResult.setLgdRespmsg(xpay.Response("LGD_RESPMSG", 0));
+        xPayPayResult.setLgdMid(xpay.Response("LGD_MID", 0));
+        xPayPayResult.setLgdOid(xpay.Response("LGD_OID", 0));
+        xPayPayResult.setLgdAmount(xpay.Response("LGD_AMOUNT", 0));
+        xPayPayResult.setLgdTid(xpay.Response("LGD_TID", 0));
+        xPayPayResult.setLgdPaytype(xpay.Response("LGD_PAYTYPE", 0));
+        xPayPayResult.setLgdPaydate(xpay.Response("LGD_PAYDATE", 0));
+        xPayPayResult.setLgdHashdata(xpay.Response("LGD_HASHDATA", 0));
+        xPayPayResult.setLgdFinancecode(xpay.Response("LGD_FINANCECODE", 0));
+        xPayPayResult.setLgdFinancename(xpay.Response("LGD_FINANCENAME", 0));
+        xPayPayResult.setLgdAccountnum(xpay.Response("LGD_ACCOUNTNUM", 0));
+        xPayPayResult.setLgdCasflag(xpay.Response("LGD_CASFLAG", 0));
+        xPayPayResult.setLgdCasseqno(xpay.Response("LGD_CASSEQNO", 0));
+
+        //TODO 추가 속성 처리
+
+        xPayPayResult.setCreDate(new Date());
+
+        int r1 = commonDAO.insertItem(xPayPayResult, NAME_SPACE, "XPayPayResultMapper");
+
+        if( r1 > 0 ) {
+            ec.setResult(ExecutionContext.SUCCESS);
+        } else {
+            ec.setResult(ExecutionContext.FAIL);
+        }
+
+        return ec;
+    }
+
+    private ExecutionContext registerPaymentSuccess( Payment payment, XPayClient xpay ) {
+
+        ExecutionContext ec = new ExecutionContext();
+        int r1 = 0, r2 = 0, r3 = 0;
+
+        //수헙번호 순번 조회
+        CustomNewSeq customNewSeq = commonDAO.queryForObject("com.apexsoft.ysprj.applicants.application.sqlmap.CustomApplicationMapper.selectNewSeq",
+                                                             payment.getApplNo(), CustomNewSeq.class);
+        //수험번호 순번 갱신
+        r1 = commonDAO.updateItem(customNewSeq, "com.apexsoft.ysprj.applicants.application.sqlmap.", "CustomApplicationMapper.", "updateApplIdSeqIdByNewSeq");
+
+        //수험번호, 결제완료 상태 적용
+        Application application = commonDAO.queryForObject("com.apexsoft.ysprj.applicants.application.sqlmap.ApplicationMapper.selectByPrimaryKey",
+                                                           payment.getApplNo(), Application.class);
+        application.setApplId(getApplId(application, customNewSeq.getNewSeq()));
+        application.setApplStsCode("00020");
+        r2 = commonDAO.updateItem(application, "com.apexsoft.ysprj.applicants.application.sqlmap.", "ApplicationMapper");
+
+        //결제 정보 처리
+        int paySeq = commonDAO.queryForInt(NAME_SPACE+"CustomApplicationPaymentMapper.getSeq", payment.getApplNo());
+
+        ApplicationPayment applPay = new ApplicationPayment();
+        applPay.setApplNo(payment.getApplNo());
+        applPay.setPaySeq(paySeq);
+        applPay.setPayTypeCode(xpay.Response("LGD_PAYTYPE", 0));
+        String payAmt = xpay.Response("LGD_AMOUNT", 0);
+        if( payAmt != null && !payAmt.equals("") )
+            applPay.setPayAmt(Integer.valueOf(payAmt));
+        applPay.setPayDate(xpay.Response("LGD_PAYDATE", 0));
+        applPay.setLgdOid(xpay.Response("LGD_OID", 0));
+        applPay.setLgdTid(xpay.Response("LGD_TID", 0));
+        applPay.setPayStsCode("00002");
+        r3 = commonDAO.updateItem(applPay, NAME_SPACE, "ApplicationPaymentMapper");
+
+        if( r1>0 && r2>0 && r3>0 ) {
+            ec.setResult(ExecutionContext.SUCCESS);
+        } else {
+            ec.setResult(ExecutionContext.FAIL);
+        }
+
+        return ec;
+    }
+
+    private ExecutionContext registerPaymentWait( Payment payment, XPayClient xpay ) {
+
+        ExecutionContext ec = new ExecutionContext();
+        int r1 = 0, r2 = 0;
+
+        //수험번호, 결제완료 상태 적용
+        Application application = commonDAO.queryForObject("com.apexsoft.ysprj.applicants.application.sqlmap.ApplicationMapper.selectByPrimaryKey",
+                                                           payment.getApplNo(), Application.class);
+        application.setApplStsCode("00021");
+        r1 = commonDAO.updateItem(application, "com.apexsoft.ysprj.applicants.application.sqlmap.", "ApplicationMapper");
+
+        //결제 정보 처리
+        int paySeq = commonDAO.queryForInt(NAME_SPACE+"CustomApplicationPaymentMapper.getSeq", payment.getApplNo());
+
+        ApplicationPayment applPay = new ApplicationPayment();
+        applPay.setApplNo(payment.getApplNo());
+        applPay.setPaySeq(paySeq);
+        applPay.setPayTypeCode(xpay.Response("LGD_PAYTYPE", 0));
+        String payAmt = xpay.Response("LGD_AMOUNT", 0);
+        if( payAmt != null && !payAmt.equals("") )
+            applPay.setPayAmt(Integer.valueOf(payAmt));
+        applPay.setPayDate(xpay.Response("LGD_PAYDATE", 0));
+        applPay.setLgdOid(xpay.Response("LGD_OID", 0));
+        applPay.setLgdTid(xpay.Response("LGD_TID", 0));
+        applPay.setPayStsCode("00005");
+        r2 = commonDAO.updateItem(applPay, NAME_SPACE, "ApplicationPaymentMapper");
+
+        if( r1>0 && r2>0 ) {
+            ec.setResult(ExecutionContext.SUCCESS);
+        } else {
+            ec.setResult(ExecutionContext.FAIL);
+        }
+
+        return ec;
+    }
+
+    private String getApplId( Application application, int newSeq ) {
+
+        String applId = null;
+        String applNo3 = null;
+
+        if( newSeq < 10 ) applNo3 = "00" + newSeq;
+        else if( newSeq < 100 ) applNo3 = "0" + newSeq;
+        else applNo3 = "" + newSeq;
+
+        applId = application.getAdmsNo() + application.getDeptCode() + application.getCorsTypeCode() + applNo3;
+
+        return applId;
+    }
+
+}

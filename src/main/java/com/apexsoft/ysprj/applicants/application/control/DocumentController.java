@@ -235,44 +235,45 @@ public class DocumentController {
                                       FileMetaForm fileMetaForm,
                                       FilePersistenceManager persistence,
                                       TotalApplicationDocument document) {
-
+                ExecutionContext ec;
                 FileInfo fileInfo;
 //                FileVO fileVO = new FileVO();
                 String uploadDir = getDirectory(fileMetaForm);
                 String uploadFileName = "";
                 for ( FileItem fileItem : fileItems){
                     FileInputStream fis = null;
+                    String originalFileName = fileItem.getOriginalFileName();
                     try{
                         uploadDir = getDirectory(fileMetaForm);
                         uploadFileName = createFileName(fileMetaForm, fileItem);
-                        if(false) {
-                            fileInfo = persistence.save(uploadDir,
-                                    uploadFileName,
-                                    fileItem.getOriginalFileName(),
-                                    fis = new FileInputStream(fileItem.getFile()));
+                        fileInfo = persistence.save(uploadDir,
+                                uploadFileName,
+                                originalFileName,
+                                fis = new FileInputStream(fileItem.getFile()));
 //                        fileVO.setPath(fileInfo.getDirectory());
 //                        fileVO.setFileName(fileInfo.getFileName());
-                            String path = fileInfo.getDirectory();
-                            String pathWithoutContextPath;
-                            if (path.startsWith(fileBaseDir)) {
-                                pathWithoutContextPath = path.substring(fileBaseDir.length());
-                            } else {
-                                throw new FileUploadException("업로드 경로 에러");
-                            }
-                            fileMetaForm.setPath(pathWithoutContextPath);
-                            fileMetaForm.setFileName(fileInfo.getFileName());
-                            document.setFilePath(fileInfo.getDirectory());
-                            document.setFileName(fileInfo.getFileName());
+                        String path = fileInfo.getDirectory();
+                        String pathWithoutContextPath;
+                        if (path.startsWith(fileBaseDir)) {
+                            pathWithoutContextPath = path.substring(fileBaseDir.length());
+                        } else {
+                            throw new FileUploadException("업로드 경로 에러");
                         }
-                        //fileMetaForm.setOriginalFileName("fileItem.getOriginalFileName()");
+                        fileMetaForm.setPath(pathWithoutContextPath);
+                        fileMetaForm.setFileName(fileInfo.getFileName());
+                        fileMetaForm.setOriginalFileName(originalFileName);
 
-                        //강제셋팅
-                        document.setFilePath("fileInfo.getDirectory()");
-                        document.setFileName("fileInfo.getFileName()");
-
-                        document.setOrgFileName(fileItem.getOriginalFileName());
+                        document.setFilePath(fileInfo.getDirectory());
+                        document.setFileName(fileInfo.getFileName());
+                        document.setOrgFileName(originalFileName);
+                        document.setFileExt(originalFileName.substring(originalFileName.lastIndexOf('.') + 1));
                         document.setCreId(principal.getName());
-                        documentService.saveOneDocument(document);
+                        ec = documentService.saveOneDocument(document);
+
+                        if (ec.getResult().equals(ExecutionContext.SUCCESS)) {
+                            fileMetaForm.setTotalApplicationDocument((TotalApplicationDocument)ec.getData());
+                        }
+
                     }catch(FileNotFoundException fnfe) {
                         persistence.deleteFile(uploadDir, uploadFileName);
                         throw new FileUploadException("", fnfe);

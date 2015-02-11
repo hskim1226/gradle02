@@ -2,7 +2,7 @@
 <%@ include file="/WEB-INF/jsp/common/env.jsp"%>
 <html>
 <head>
-    <title></title>
+    <title>내 원서</title>
     <style>
         section.application-mylist {
             padding: 200px 0 60px;
@@ -53,7 +53,8 @@
             <div class="col-md-10 col-md-offset-1">
                 <h2 class="slogan">지원 내역</h2>
                 <div class="align-center">
-                    <form class="form-horizontal" id="LGD_PAYINFO" role="form" method="post">
+                    <%--<form class="form-horizontal" id="LGD_PAYINFO" role="form" method="post">--%>
+                    <form class="form-horizontal" id="LGD_PAYINFO" name="applicationIdentifier" role="form" method="post">
                         <table class="table table-stripped">
                             <thead>
                             <tr>
@@ -81,7 +82,8 @@
                                     <button id="modify" class="btn btn-default modify ${item.applStsCode.lastIndexOf('0')==3?"":"disabled"}"
                                             data-applNo="${item.applNo}" data-admsNo="${item.admsNo}" data-entrYear="${item.entrYear}"
                                             data-admsTypeCode="${item.admsTypeCode}">원서 수정하기<span class="my-tooltip">작성 중인 상태에서만 수정 가능합니다.</span></button>
-                                    <button id="preview" class="btn btn-info preview ${item.applStsCode=="00010"?"":"disabled"}"
+                                    <%--<button id="preview" class="btn btn-info preview ${item.applStsCode=="00010"?"":"disabled"}"--%>
+                                    <button id="preview" class="btn btn-info preview"
                                             data-applNo="${item.applNo}" data-admsNo="${item.admsNo}" data-entrYear="${item.entrYear}"
                                             data-admsTypeCode="${item.admsTypeCode}">원서 미리보기</button>
                                     <%--<button id="pay" class="btn btn-primary pay ${item.applStsCode=="00010"?"":(item.applStsCode=="00021"?"":"disabled")}"--%>
@@ -105,7 +107,6 @@
 
                         <input type="hidden" name="LGD_PRODUCTINFO" id="LGD_PRODUCTINFO"/>
                         <input type="hidden" name="LGD_AMOUNT" id="LGD_AMOUNT"/>
-                        <input type="hidden" name="LGD_TIMESTAMP" id="LGD_TIMESTAMP"/>
                         <input type="hidden" name="application.applNo" id="applNo"/>
                         <input type="hidden" name="application.admsNo" id="admsNo"/>
                         <input type="hidden" name="application.entrYear" id="entrYear"/>
@@ -148,7 +149,7 @@
                 if (confirm(payMsg)) {
                     document.getElementById('LGD_PRODUCTINFO').value = e.target.name;
                     document.getElementById('LGD_AMOUNT').value = e.target.value;
-                    document.getElementById('LGD_PAYINFO').setAttribute("action", "${contextPath}/pay/confirm");
+                    document.getElementById('LGD_PAYINFO').setAttribute("action", "${contextPath}/payment/confirm");
                     document.getElementById('applNo').value = e.target.getAttribute('data-applNo');
                     $('#LGD_PAYINFO').submit();
                 }
