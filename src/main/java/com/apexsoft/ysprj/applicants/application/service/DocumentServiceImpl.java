@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.io.File;
 import java.util.*;
 
 /**
@@ -243,29 +244,31 @@ public class DocumentServiceImpl implements DocumentService {
     public ExecutionContext deleteOneDocument(TotalApplicationDocument oneDocument ) {
 
         ExecutionContext ec = new ExecutionContext();
-        int rDelete = 0,applNo = oneDocument.getApplNo();
+        int rDelete = 0;
         int delete=0;
-        Date date = new Date();
-        String userId = oneDocument.getCreId();
+        boolean deleteOk = true;
 
         //기존 파일이 업로드 되어 있는 경우
         if( oneDocument.isFileUploadFg()){
             rDelete++;
-            delete = delete + commonDAO.delete( NAME_SPACE + "ApplicationDocumentMapper.deleteByPrimaryKey", oneDocument);
-
-        }else{
-            rDelete++;
+            delete = commonDAO.delete( NAME_SPACE + "ApplicationDocumentMapper.deleteByPrimaryKey", oneDocument);
+            File file = new File(oneDocument.getFilePath(), oneDocument.getFileName());
+            deleteOk = file.delete();
         }
-        if (  delete == rDelete ) {
+
+        if (  delete == rDelete && deleteOk ) {
             ec.setResult(ExecutionContext.SUCCESS);
             ec.setMessage(messageResolver.getMessage("U325"));
         } else {
-            ec.setResult(ExecutionContext.FAIL);
-            ec.setMessage(messageResolver.getMessage("U326"));
-            ec.setData(new ApplicationIdentifier(applNo, APP_NULL_STATUS));
-            String errCode = null;
-            if ( delete != rDelete ) errCode = "ERR0034";
-            ec.setErrCode(errCode);
+            if ( delete != rDelete ) {
+                ec.setResult(ExecutionContext.FAIL);
+                ec.setMessage(messageResolver.getMessage("U338"));
+                ec.setErrCode("ERR0034");
+            } else if (!deleteOk) {
+                ec.setResult(ExecutionContext.FAIL);
+                ec.setMessage(messageResolver.getMessage("U338"));
+                ec.setErrCode("ERR0051");
+            }
             throw new YSBizException(ec);
         }
         return ec;

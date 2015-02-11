@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.io.File;
 import java.util.*;
 
 /**
@@ -28,6 +29,9 @@ public class LangCareerServiceImpl implements LangCareerService {
 
     @Autowired
     private CommonService commonService;
+
+    @Autowired
+    private DocumentService documentService;
 
     private final String APP_NULL_STATUS = "00000";      // 에러일 때 반환값
     private final String LANG_CAREER_SAVED = "00003";    // 어학/경력 저장
@@ -157,6 +161,7 @@ public class LangCareerServiceImpl implements LangCareerService {
         int upAppl = 0,upApplGen=0, insert = 0, update = 0, delete = 0;
 
         int rUpAppl = 0, rUpApplGen=0, rInsert = 0, rUpdate = 0, rDelete = 0;
+        boolean deleteOk = true;
         Application application = langCareer.getApplication();
         ApplicationGeneral applicationGene = langCareer.getApplicationGeneral();
         int applNo = application.getApplNo();
@@ -237,8 +242,14 @@ public class LangCareerServiceImpl implements LangCareerService {
                                 ApplicationDocument aDoc = new ApplicationDocument();
                                 aDoc.setApplNo(applNo);
                                 aDoc.setDocSeq(aCont.getDocSeq());
+
+                                ExecutionContext ecFileDelete = documentService.retrieveOneDocument(aDoc);
+                                TotalApplicationDocument totalDoc = (TotalApplicationDocument)ecFileDelete.getData();
+
                                 delete = delete + commonDAO.delete(NAME_SPACE + "ApplicationDocumentMapper.deleteByPrimaryKey", aDoc);
-                                // TODO : 파일 삭제를 여기서 하거나, 혹은 파일 삭제는 여기서 하지 않고 일별 batch 등으로 처리하거나
+
+                                File file = new File(totalDoc.getFilePath(), totalDoc.getFileName());
+                                deleteOk = file.delete();
                             }
                         }
                     }
@@ -273,13 +284,19 @@ public class LangCareerServiceImpl implements LangCareerService {
                 //APPL_LANG, APPL_DOC, DELETE
                 delete = delete + commonDAO.delete(NAME_SPACE + "ApplicationExperienceMapper.deleteByPrimaryKey", aExpr);
                 if( aExpr.isFileUploadFg()){
-                    //TODO file upload 된 doc 삭제
+                    //TODO file upload 된 doc 삭제 - expr에서 docSeq 어떻게 찾나?
+//                    ExecutionContext ecFileDelete = new ExecutionContext();
+//                    ApplicationDocumentKey apDocKey = new ApplicationDocumentKey();
+//                    apDocKey.setApplNo(aExpr.getApplNo());
+//                    apDocKey.setDocSeq(aExpr.getDoc);
+//                    ecFileDelete = documentService.retrieveOneDocument(aDoc);
+
                 }
 
             }
         }
 
-        if ( rUpAppl == upAppl && rUpApplGen == upApplGen && insert == rInsert && update == rUpdate && delete == rDelete) {
+        if ( rUpAppl == upAppl && rUpApplGen == upApplGen && insert == rInsert && update == rUpdate && delete == rDelete && deleteOk) {
             ec.setResult(ExecutionContext.SUCCESS);
             ec.setMessage(messageResolver.getMessage("U319"));
             ec.setData(new ApplicationIdentifier(applNo, application.getApplStsCode(),
@@ -293,6 +310,7 @@ public class LangCareerServiceImpl implements LangCareerService {
             if ( insert != rInsert ) errCode = "ERR0017";
             if ( update != rUpdate ) errCode = "ERR0018";
             if ( delete != rDelete ) errCode = "ERR0019";
+            if ( !deleteOk ) errCode = "ERR0051";
             ec.setErrCode(errCode);
             throw new YSBizException(ec);
         }

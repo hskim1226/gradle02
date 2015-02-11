@@ -424,26 +424,18 @@ public class DocumentController {
     public ExecutionContext fileDelete(@PathVariable("applNo") int applNo,
                                        @PathVariable("docSeq") int docSeq) {
         ExecutionContext ec;
-        boolean deleteOk;
 
         ApplicationDocumentKey appDocKey = new ApplicationDocumentKey();
         appDocKey.setApplNo(applNo);
         appDocKey.setDocSeq(docSeq);
         ec = documentService.retrieveOneDocument(appDocKey);
         TotalApplicationDocument totalDoc = (TotalApplicationDocument)ec.getData();
-        File file = new File(totalDoc.getFilePath(), totalDoc.getFileName());
 
         ec = documentService.deleteOneDocument(totalDoc);
-        deleteOk = file.delete();
 
         if (ExecutionContext.FAIL.equals(ec.getResult())) {
             ec.setMessage(messageResolver.getMessage("U338"));
             ec.setErrCode("ERR0034");
-            throw new YSBizException(ec);
-        } else if (!deleteOk) {
-            ec.setResult(ExecutionContext.FAIL);
-            ec.setMessage(messageResolver.getMessage("U338"));
-            ec.setErrCode("ERR0051");
             throw new YSBizException(ec);
         }
 
