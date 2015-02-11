@@ -1022,56 +1022,6 @@ System.out.println(param.getAcadTypeCode() + " : " + c1+u1+d1);
     }
 
 
-    private  List<LanguageGroup> retrieveLanguageGroupListByApplNo( int applNo){
-
-        List<LanguageGroup> langGroupList = null;
-        try {
-
-            langGroupList = commonDAO.queryForList(NAME_SPACE + "CustomApplicationDocumentMapper.selectLanguageGroupByApplNo", applNo, LanguageGroup.class);
-            if( langGroupList == null || langGroupList.size()==0){
-                LanguageGroup aGroup  = new LanguageGroup();
-                aGroup.setExamCodeGrp("LANG_EXAM");
-                aGroup.setExamGrpName("영어");
-                aGroup.setSelGrpCode("LANG_EXAM");
-                aGroup.setExamCode("00001");
-                langGroupList.add(aGroup );
-            }
-            for (LanguageGroup alangGroup : langGroupList) {
-
-                alangGroup.getExamCodeGrp();
-                ParamForTotalLang param = new ParamForTotalLang();
-                param.setApplNo(applNo);
-                param.setSelGrpCode(alangGroup.getSelGrpCode());
-                param.setUpCodeGrp(alangGroup.getExamCodeGrp());
-                param.setUpCode(alangGroup.getExamCode());
-                List<TotalApplicationLanguage> aLangList;
-                aLangList = commonDAO.queryForList(NAME_SPACE + "CustomApplicationDocumentMapper.selectTotalLanguageInfoByApplNo", param, TotalApplicationLanguage.class);
-
-                for( TotalApplicationLanguage alang : aLangList){
-
-                    if( alang.getLangSeq() != null && alang.getLangSeq() > 0 )
-                        alang.setLangInfoSaveFg(true);
-                    else
-                        alang.setLangInfoSaveFg(false);
-
-                    if( alang.getDocSeq() > 0 )
-                        alang.setFileUploadFg(true);
-                    else
-                        alang.setFileUploadFg(false);
-
-                }
-                alangGroup.setLangList(aLangList);
-
-
-
-            }
-        }catch (Exception e) {
-            e.printStackTrace();
-
-        }
-        return langGroupList;
-    }
-
 
     private  List<ApplicationLanguage> retrieveCurrApplLangListByApplNo(int applNo) {
 

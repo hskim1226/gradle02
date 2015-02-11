@@ -1,14 +1,17 @@
 package com.apexsoft.ysprj.applicants.application.domain;
 
+import java.util.List;
+
 /**
- * Created by hanmomhanda on 14. 9. 12.
+ * Created by dhKim on 15. 2. 03.
  */
-public class ParamForApplicationDocument {
+public class ParamForDocumentType {
 
     private int applNo;
-    private String fileName;
+    private int docGrp;
     private String docTypeCode;
-    private int docGrp =0;
+    private String docItemCode;
+
 
     public int getApplNo() {
         return applNo;
@@ -18,12 +21,12 @@ public class ParamForApplicationDocument {
         this.applNo = applNo;
     }
 
-    public String getFileName() {
-        return fileName;
+    public int getDocGrp() {
+        return docGrp;
     }
 
-    public void setFileName(String fileName) {
-        this.fileName = fileName;
+    public void setDocGrp(int docGrp) {
+        this.docGrp = docGrp;
     }
 
     public String getDocTypeCode() {
@@ -34,11 +37,11 @@ public class ParamForApplicationDocument {
         this.docTypeCode = docTypeCode;
     }
 
-    public int getDocGrp() {
-        return docGrp;
+    public String getDocItemCode() {
+        return docItemCode;
     }
 
-    public void setDocGrp(int docGrp) {
-        this.docGrp = docGrp;
+    public void setDocItemCode(String docItemCode) {
+        this.docItemCode = docItemCode;
     }
 }

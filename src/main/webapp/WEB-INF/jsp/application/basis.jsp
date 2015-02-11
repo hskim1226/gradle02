@@ -303,9 +303,9 @@
                                     <label for="applAttrCode" class="col-sm-2 control-label">지원 구분</label>
                                     <div class="col-sm-9">
                                         <form:select path="application.applAttrCode" id="applAttrCode" cssClass="form-control base-info">
-                                            <form:option value="" label="--선택--" />
-                                            <form:options items="${selection.applAttrList}" itemValue="code" itemLabel="codeVal"/>
-                                        </form:select>
+                                        <form:option value="" label="--선택--" />
+                                        <form:options items="${selection.applAttrList}" itemValue="code" itemLabel="codeVal"/>
+                                    </form:select>
                                     </div>
                                 </div>
                                 <div id="applyKindDynamic">

@@ -5,9 +5,6 @@
     <title>    </title>
     <script type="text/javascript">
 
-
-
-  
     </script>
 </head>
 <body>
@@ -189,90 +186,103 @@
         	event.preventDefault();
     		jQuery("#applId").val('');
     		jQuery('#korName, #rsdnNo, #engSur, #engName').val(''); 	
-    	});			
+    	});
+
+        jQuery(".Limage").on('click', function(e) {
+            e.preventDefault();
+            submitForm();
+        });
+
+        function submitForm(){
+            jQuery("#page-number-hidden").val(1);
+            jQuery("#search-form").submit();
+
+        };
+
+        function attachChangeEvent( sourceId, context ) {
+            var $source = jQuery('#' + sourceId);
+
+            $source.on('change', function(event) {
+                var info, targetId, valueKey, labelKey, url, clean, addon, i;
+                var baseUrl = '${contextPath}/common/code';
+                var val = this.options[this.selectedIndex].value;
+
+                info = context;
+                if (context.hasOwnProperty($source.val())) {
+                    info = context[$source.val()];
+                }
+
+                targetId = info.targetId ? info.targetId : context.targetId;
+                if( !targetId ) {
+                    return;
+                }
+
+                valueKey = info.valueKey ? info.valueKey : context.valueKey;
+                labelKey = info.labelKey ? info.labelKey : context.labelKey;
+                url = info.url ? info.url : context.url;
+                if( url && typeof url === 'function' ) {
+                    baseUrl += url(val);
+                } else if( url ) {
+                    baseUrl += url;
+                }
+
+                clean = info.clean ? info.clean : context.clean;
+                if (typeof clean === 'string') {
+                    clean = [].concat( clean );
+                }
+                clean = [].concat( targetId, clean );
+                for (i = 0; i < clean.length; i++) {
+                    jQuery('#' + clean[i]).children('option').filter(function() {
+                        return this.value !== '';
+                    }).remove();
+                    jQuery('#' + clean[i]).trigger('change');
+                }
+
+                jQuery.ajax({
+                    type: 'GET',
+                    url: baseUrl,
+                    success: function(e) {
+                        if(e.result && e.result === 'SUCCESS') {
+                            var $target = jQuery('#' + targetId);
+                            var data = JSON && JSON.parse(e.data) || $.parseJSON(e.data);
+                            jQuery(data).each(function (i, item) {
+                                var $op = jQuery('<option>').attr({
+                                            'value': item[valueKey],
+                                            'label': item[labelKey]}
+                                )
+                                for (var key in item) {
+                                    if (key !== valueKey && key !== labelKey) {
+                                        $op.attr(key, item[key]);
+                                    }
+                                }
+                                $op.appendTo($target);
+                            });
+                        }
+                    },
+                    error: function(e) {
+                        if(console) console.log(e);
+                    }
+                });
+            });
+        }
+
+        attachChangeEvent( 'campCode',
+                {
+                    targetId: 'collCode',
+                    valueKey: 'collCode',
+                    labelKey: 'collName',
+                    url: function(arg) {
+                        return '/college/' + arg;
+                    }
+                }
+        );
 
     });
     function movePage(pageNumIndex){
         jQuery("#page-number-hidden").val(pageNumIndex);
         jQuery("#search-form").submit();
     };   
-    function attachChangeEvent( sourceId, context ) {
-        var $source = jQuery('#' + sourceId);
 
-        $source.on('change', function(event) {
-            var info, targetId, valueKey, labelKey, url, clean, addon, i;
-            var baseUrl = '${contextPath}/common/code';
-            var val = this.options[this.selectedIndex].value;
-
-            info = context;
-            if (context.hasOwnProperty($source.val())) {
-                info = context[$source.val()];
-            }
-
-            targetId = info.targetId ? info.targetId : context.targetId;
-            if( !targetId ) {
-                return;
-            }
-
-            valueKey = info.valueKey ? info.valueKey : context.valueKey;
-            labelKey = info.labelKey ? info.labelKey : context.labelKey;
-            url = info.url ? info.url : context.url;
-            if( url && typeof url === 'function' ) {
-                baseUrl += url(val);
-            } else if( url ) {
-                baseUrl += url;
-            }
-
-            clean = info.clean ? info.clean : context.clean;
-            if (typeof clean === 'string') {
-                clean = [].concat( clean );
-            }
-            clean = [].concat( targetId, clean );
-            for (i = 0; i < clean.length; i++) {
-            	jQuery('#' + clean[i]).children('option').filter(function() {
-                    return this.value !== '';
-                }).remove();
-            	jQuery('#' + clean[i]).trigger('change');
-            }
-
-            jQuery.ajax({
-                type: 'GET',
-                url: baseUrl,
-                success: function(e) {
-                    if(e.result && e.result === 'SUCCESS') {
-                        var $target = jQuery('#' + targetId);
-                        var data = JSON && JSON.parse(e.data) || $.parseJSON(e.data);
-                        jQuery(data).each(function (i, item) {
-                            var $op = jQuery('<option>').attr({
-                                'value': item[valueKey],
-                                'label': item[labelKey]}
-                            )
-                            for (var key in item) {
-                                if (key !== valueKey && key !== labelKey) {
-                                    $op.attr(key, item[key]);
-                                }
-                            }
-                            $op.appendTo($target);
-                        });
-                    }
-                },
-                error: function(e) {
-                    if(console) console.log(e);
-                }
-            });
-        });
-    }
-
-    attachChangeEvent( 'campCode',
-            {
-                targetId: 'collCode',
-                valueKey: 'collCode',
-                labelKey: 'collName',
-                url: function(arg) {
-                    return '/college/' + arg;
-                }
-            }
-    );  
     </script>
 </content>
 </body>

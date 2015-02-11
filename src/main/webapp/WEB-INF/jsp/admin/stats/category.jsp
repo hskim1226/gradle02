@@ -145,10 +145,27 @@
 
                 },
                 viewrecords: true,
+                pager: "#gridpager",
                 rowNum:200
             });
 
-		});		
+            jQuery('#applicantCntTbl').navGrid('#gridpager',
+                    {
+                        edit: false,
+                        add: false,
+                        del: false,
+                        search: false,
+                        refresh: false,
+                        view: false,
+                        position: "left",
+                        cloneToTop: false,
+                        excel: true,
+                        exportfile : 'Report.xls'
+
+            });
+
+
+        });
       	
 
         

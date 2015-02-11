@@ -1,16 +1,16 @@
 package com.apexsoft.ysprj.admin.service;
 
+import com.apexsoft.framework.common.vo.ExecutionContext;
 import com.apexsoft.ysprj.admin.control.form.ChangeInfoForm;
 import com.apexsoft.ysprj.admin.control.form.ChangeSearchPageForm;
-import com.apexsoft.ysprj.admin.domain.ChangeInfo;
-import com.apexsoft.framework.persistence.dao.page.PageInfo;
-
 
 
 public interface ChangeService {
 
-    void createInfoChange( ChangeInfoForm changeInfoForm );
+    ExecutionContext createInfoChange( ChangeInfoForm changeInfoForm, String userId );
 
-    PageInfo<ChangeInfo> retrieveChangePaginatedList(ChangeSearchPageForm searchForm);
+    ExecutionContext createUnitChange( ChangeInfoForm changeInfoForm, String userId );
+
+    ExecutionContext retrieveChangePaginatedList(ChangeSearchPageForm searchForm);
 
 }

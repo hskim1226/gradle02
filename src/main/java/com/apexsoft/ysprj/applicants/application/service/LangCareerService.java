@@ -12,22 +12,9 @@ import java.util.List;
  */
 public interface LangCareerService {
 
-//    ExecutionContext createLangCareer(Application application,
-//                                      List<LanguageGroup> languageGroupList,
-//                                      List<ApplicationExperience> applicationExperienceList);
+    ExecutionContext retrieveLangCareer(int applNo);
 
     ExecutionContext retrieveLangCareer(LangCareer langCareer);
 
     ExecutionContext saveLangCareer(LangCareer langCareer);
-
-//    ExecutionContext updateLangCareer(Application application,
-//                                      List<LanguageGroup> languageGroupList,
-//                                      List<ApplicationExperience> applicationExperienceList);
-//
-//    ExecutionContext deleteLangCareer(Application application,
-//                                      List<LanguageGroup> languageGroupList,
-//                                      List<ApplicationExperience> applicationExperienceList);
-//
-//    int deleteListByApplNo(int applNo, String MapperName);
-//    <T> List<T> retrieveInfoListByApplNo(int applNo, String mapperName, Class<T> clazz);
 }

@@ -11,6 +11,7 @@ public class LangCareer {
     private ApplicationGeneral applicationGeneral;
     private List<LanguageGroup> languageGroupList;
     private List<CustomApplicationExperience> applicationExperienceList;
+    public String checkForlExmp;
 
     public Application getApplication() {
         return application;
@@ -43,7 +44,6 @@ public class LangCareer {
     public void setApplicationExperienceList(List<CustomApplicationExperience> applicationExperienceList) {
         this.applicationExperienceList = applicationExperienceList;
     }
-    public String checkForlExmp;
 
     public String getCheckForlExmp() {
         return checkForlExmp;

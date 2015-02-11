@@ -84,5 +84,11 @@
         and   ACAD_TYPE_CODE = #{acadTypeCode,jdbcType=VARCHAR}
         and   ACAD_SEQ = #{acadSeq,jdbcType=INTEGER}
     </delete>
+    <select id="selectMaxSeqByApplNo" resultType="java.lang.Integer" parameterType="java.lang.Integer" >
 
+        select
+        MAX(ACAD_SEQ)
+        from APPL_ACAD
+        where APPL_NO = #{applNo,jdbcType=INTEGER}
+    </select>
 </mapper>

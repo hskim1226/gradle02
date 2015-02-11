@@ -30,7 +30,7 @@
                             <tbody>
                             <tr>
                                 <th><label for="applId">수험번호</label></th>
-                                <td><input type="text" class="Ltext" id="applId" name="applId" size="15" />${applInfo.applId}</td>
+                                <td><input type="text" class="Ltext" id="applId" name="applId" size="15" value="${applInfo.applId}"></td>
                             </tr>
                             </tbody>
                         </table>
@@ -89,14 +89,14 @@
         </div>
 
         <div id="LblockDetail02" class="LblockDetail">
-
+            <form id ="changeForm" action="${contextPath}/admin/modification/requestChangeInfo" method="post">
+                <input type="hidden" name="applNo" value=${applInfo.applNo}> </input>
+                <input type="hidden" name="admsNo" value=${applInfo.admsNo}> </input>
             <table summary="지원서 상세정보">
                 <caption>지원자개인정보</caption>
 
                 <tbody>
-                <form id ="changeForm" action="${contextPath}/admin/modification/requestChangeInfo" method="post">
-                    <input type="hidden" name="applNo" value=${applInfo.applNo}> </input>
-                    <input type="hidden" name="admsNo" value=${applInfo.admsNo}> </input>
+
                 <tr>
                     <th>성명</th>
                     <td><input type="radio" class="Lradio" id="korName" name="infoRadio" value ="korName" ><label id="lbkorName"  for="korName" >${applInfo.korName}</label></td>
@@ -128,17 +128,30 @@
                     <td><input type="radio" class="Lradio" id="emerContTel" name="infoRadio" value ="emerContTel"><label id="lbemerContTel" for="emerContTel">${applInfo.emerContTel}</td>
                 </tr>
                 </tr>
-                <tr>
+                <tr></tr>
+                </tbody>
+                </table>
+                <div><br>
+                <table summary="지원서 상세정보">
+                    <tbody>
                 <tr>
                     <th><label >변경이전정보</label></th>
-                    <td><label  id="beforeItem" ></label></td>
-                    <th>변경요청정보</th>
-                    <td ><input type="text"  name="afterItem"  id="afterItem" ></td>
+                    <td colspan="3"><label  id="befVal" ></label></td>
+                    <input type="hidden" id="defValInput" name ="befVal"> </input>
                 </tr>
-                </form>
-                </tbody>
+                <tr>
+                    <th>변경이후정보</th>
+                    <td colspan="3"><input type="text"  name="aftVal"  id="aftVal" ></td>
+                </tr>
+                <tr>
+                    <th>변경사유</th>
+                    <td colspan="3"><input type="textbox"  name="cnclResn"  id="cnclResn" ></td>
+                </tr>
 
-            </table>
+                    </tbody>
+
+            </table></div>
+            </form>
         </div>
     </div>
 
@@ -158,31 +171,24 @@
         jQuery('input[name=infoRadio]:radio').click(function() {
 
             var chgItem = jQuery("input[name='infoRadio']:checked").val();
-            jQuery('#beforeItem').text( jQuery('#lb'+chgItem).text());
+            if( jQuery('#lb'+chgItem).text() != null && jQuery('#lb'+chgItem).text()!='') {
+                jQuery('#befVal').text(jQuery('#lb' + chgItem).text());
+                jQuery('#defValInput').val(jQuery('#lb' + chgItem).text());
+            }else{
+                jQuery('#befVal').text('-미입력-');
+                jQuery('#defValInput').val('-미입력-');
+            }
 
         });
 
         jQuery('#changeBtn').on('click', function(e) {
             event.preventDefault();
-            alert("아직 개발중입니다")
-            <%--
+
             if (confirm('지원자 정보를 수정하시겠습니까?')) {
                 jQuery('#changeForm').submit();
             }
-            --%>
+
         });
-        jQuery('#searchBtn').on('click', function(e) {
-            event.preventDefault();
-            alert("아직 개발중입니다")
-                var newUrl= "${contextPath}/admin/modification/changeInfo";
-            <%--
-                /* 			newUrl = newUrl +"?applId="+jQuery("#applId").val();
-                 newUrl = newUrl +"&korName="+jQuery("#korName").val();
-                 newUrl = newUrl +"&rsdnNo="+jQuery("#rsdnNo").val();    */
-                location.href =newUrl;
-                /* 			jQuery('#searchBtn').submit(); */
-            --%>
-         });
     });
     </script>
 </content>

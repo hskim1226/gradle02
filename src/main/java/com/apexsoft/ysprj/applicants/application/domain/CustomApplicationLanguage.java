@@ -4,12 +4,15 @@ package com.apexsoft.ysprj.applicants.application.domain;
 */
 public class CustomApplicationLanguage extends ApplicationLanguage {
 
+    private String grpLevel;
     private String itemGrpCode;
     private String itemCode;
     private String itemName;
     private int mandLangSeq;
     private String upCodeGrp;
+    private String upCode;
     private String selGrpCode;
+    private String lastYn = "N";
     private String canYn = "N";
     private String mdtYn = "N";
     private String uploadYn = "N";
@@ -18,6 +21,11 @@ public class CustomApplicationLanguage extends ApplicationLanguage {
     private String msg;
     private boolean langInfoSaveFg =false;
     private String maxScr;
+
+
+    public String getGrpLevel() { return grpLevel; }
+
+    public void setGrpLevel(String grpLevel) { this.grpLevel = grpLevel; }
 
     public String getItemGrpCode() {
         return itemGrpCode;
@@ -95,6 +103,14 @@ public class CustomApplicationLanguage extends ApplicationLanguage {
 
     public void setUpCodeGrp(String upCodeGrp) {        this.upCodeGrp = upCodeGrp;    }
 
+    public String getUpCode() {
+        return upCode;
+    }
+
+    public void setUpCode(String upCode) {
+        this.upCode = upCode;
+    }
+
     public String getMsgNo() {
         return msgNo;
     }
@@ -118,4 +134,8 @@ public class CustomApplicationLanguage extends ApplicationLanguage {
     public void setMaxScr(String maxScr) {
         this.maxScr = maxScr;
     }
+
+    public String getLastYn() { return lastYn; }
+
+    public void setLastYn(String lastYn) { this.lastYn = lastYn; }
 }

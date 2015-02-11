@@ -1,12 +1,11 @@
 package com.apexsoft.ysprj.admin.control.form;
-public class CourseSearchForm {
+public class CourseSearchForm extends ApplicantSearchForm {
 
 	private String admsNo;//ADMS_NO	
 	private String campCode;//CAMP_CODE
 	private String collCode;//COLL_CODE
 	private String deptCode;//DEPT_CODE
 	private String corsTypeCode;//CORS_TYPE_CODE
-
 
     public String getAdmsNo() {
         return admsNo;

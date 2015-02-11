@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import javax.print.Doc;
 import java.util.*;
 
 /**
@@ -28,6 +29,28 @@ public class DocumentServiceImpl implements DocumentService {
 
     private final String APP_NULL_STATUS = "00000";      // 에러일 때 반환값
     private final String FILE_UPLOAD_SAVED = "00004";    // 첨부파일 저장
+
+    @Override
+    public ExecutionContext retrieveDocument(int applNo) {
+
+        ExecutionContext ec = new ExecutionContext();
+        Map<String, Object> ecDataMap = new HashMap<String, Object>();
+
+        Document document = new Document();
+
+        Application applicationFromDB = commonDAO.queryForObject(NAME_SPACE + "ApplicationMapper.selectByPrimaryKey",
+                applNo, Application.class);
+        document.setApplication(applicationFromDB);
+
+        List<TotalApplicationDocumentContainer> documentContainerList =
+                retrieveManatoryApplicatoinlDocListByApplNo(applNo);
+        document.setDocumentContainerList(documentContainerList);
+
+        ecDataMap.put("document", document);
+        ec.setData(ecDataMap);
+
+        return ec;
+    }
 
     @Override
     public ExecutionContext retrieveDocument(Document document) {
@@ -88,14 +111,15 @@ public class DocumentServiceImpl implements DocumentService {
 
         //기존 파일이 업로드 되어 있는 경우
         if( document.isFileUploadFg()){
-            rUpdate ++;
+            rUpdate++;
             document.setCreId("" );
             document.setModDate(date );
             document.setModId(userId );
             update = update + commonDAO.updateItem( document,NAME_SPACE, "ApplicationDocumentMapper" );
 
         }else{
-            rInsert ++;
+            rInsert++;
+
             int maxSeq = commonDAO.queryForInt(NAME_SPACE +"CustomApplicationDocumentMapper.selectMaxSeqByApplNo", applNo ) ;
             document.setDocSeq(++maxSeq);
             document.setCreDate(date );
@@ -105,7 +129,7 @@ public class DocumentServiceImpl implements DocumentService {
         if (  insert == rInsert && update == rUpdate ) {
             ec.setResult(ExecutionContext.SUCCESS);
             ec.setMessage(messageResolver.getMessage("U325"));
-
+            ec.setData(document);
         } else {
             ec.setResult(ExecutionContext.FAIL);
             ec.setMessage(messageResolver.getMessage("U326"));
@@ -131,11 +155,11 @@ public class DocumentServiceImpl implements DocumentService {
 
         //기존 파일이 업로드 되어 있는 경우
         if( document.isFileUploadFg()){
-            rDelete ++;
-            delete = delete + commonDAO.delete( NAME_SPACE + "ApplicationDocumentMapper.deleteByPrimaryKey", document );
+            rDelete++;
+            delete = delete + commonDAO.delete(NAME_SPACE + "ApplicationDocumentMapper.deleteByPrimaryKey", document);
 
         }else{
-            rDelete ++;
+            rDelete++;
         }
         if (  delete == rDelete ) {
             ec.setResult(ExecutionContext.SUCCESS);
@@ -156,8 +180,6 @@ public class DocumentServiceImpl implements DocumentService {
         return ec;
 
     }
-
-
 
     private List<TotalApplicationDocumentContainer> retrieveManatoryApplicatoinlDocListByApplNo(int applNo) {
 
@@ -313,7 +335,6 @@ public class DocumentServiceImpl implements DocumentService {
             subDocList.addAll(commonDAO.queryForList(NAME_SPACE +"CustomApplicationDocumentMapper.selectCodeMandatoryGroupByCode",codeParam,TotalApplicationDocumentContainer.class));
             codeParam.setItemCode("00021");//중국학위
             subDocList.addAll(commonDAO.queryForList(NAME_SPACE +"CustomApplicationDocumentMapper.selectCodeMandatoryGroupByCode",codeParam,TotalApplicationDocumentContainer.class));
-
             for( TotalApplicationDocumentContainer aSubDoc : subDocList ){
                 aSubDoc.setDocGrp(aAcad.getAcadSeq());
                 aSubDoc.setApplNo(applNo);
@@ -346,7 +367,7 @@ public class DocumentServiceImpl implements DocumentService {
             codeParam.setAdmsCodeGrp("APPL_ATTR");
             codeParam.setAdmsCode("00002");
             codeParam.setGrpLevel(1);
-            codeParam.setItemCode("00006");//학연산
+            codeParam.setItemTypeCode("00006");//학연산
 
             List<TotalApplicationDocumentContainer> subDocList;
             subDocList = commonDAO.queryForList(NAME_SPACE + "CustomApplicationDocumentMapper.selectCodeMandatoryGroupByCode", codeParam, TotalApplicationDocumentContainer.class);
@@ -369,7 +390,7 @@ public class DocumentServiceImpl implements DocumentService {
             codeParam.setAdmsCodeGrp("FORN_TYPE");
             codeParam.setAdmsCode(tempApp.getFornTypeCode());
             codeParam.setGrpLevel(1);
-            codeParam.setItemCode("00007");//
+            codeParam.setItemTypeCode("00007");//
 
             List<TotalApplicationDocumentContainer> subDocList;
             subDocList = commonDAO.queryForList(NAME_SPACE + "CustomApplicationDocumentMapper.selectCodeMandatoryGroupByCode", codeParam, TotalApplicationDocumentContainer.class);
@@ -388,7 +409,7 @@ public class DocumentServiceImpl implements DocumentService {
         //기타 및 자유입력 조회
 
         codeParam.setGrpLevel(1);
-        codeParam.setItemCode("00009");// 기타 및 추가제출
+        codeParam.setItemTypeCode("00009");// 기타 및 추가제출
         List<TotalApplicationDocumentContainer> subDocList;
         subDocList = commonDAO.queryForList(NAME_SPACE + "CustomApplicationDocumentMapper.selectMandatoryDocumentByDocType", codeParam, TotalApplicationDocumentContainer.class);
         aCont = new TotalApplicationDocumentContainer();
@@ -465,10 +486,12 @@ public class DocumentServiceImpl implements DocumentService {
             }
 
         }else{
-
-            //pCont에 이미 APPL_DOC 정보를 join  해서 가져옴, flag 만 처리
-            if( pCont.getDocSeq() >0){
+            //pCont에 이미 APPL_DOC 정보를 join  해서 가져옴, 플래그 처리만 함
+            if( pCont.getDocSeq() !=null &&pCont.getDocSeq() > 0) {
                 pCont.setFileUploadFg(true);
+            }
+            if( "DOC_ITEM".equals(pCont.getDocItemGrp()) && "00001".equals(pCont.getDocItemCode())){
+                pCont.setImgYn("Y");
             }
             pList.add(pCont);
         }
@@ -509,6 +532,22 @@ public class DocumentServiceImpl implements DocumentService {
             }
             pList.add(pCont);
         }
+
         return rContList;
+    }
+
+    public String retrievePhotoUrl(int applNo) {
+        ParamForDocumentType aParam = new ParamForDocumentType();
+        String photoUrl = null;
+        aParam.setApplNo( applNo);
+        aParam.setDocTypeCode("00001");//기본
+        aParam.setDocItemCode("00001");//사진
+        List<TotalApplicationDocument> rList = null;
+
+        rList = commonDAO.queryForList(NAME_SPACE + "CustomApplicationDocumentMapper.selectApplicationDocumentByDocumentType", aParam, TotalApplicationDocument.class );
+        if( rList != null && rList.size()>0 ) {
+            photoUrl =  rList.get(0).getFilePath() + rList.get(0).getFileName();
+        }
+        return photoUrl;
     }
 }

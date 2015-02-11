@@ -6,6 +6,8 @@ import com.apexsoft.framework.persistence.dao.page.PagenateInfo;
 public class ApplicantSearchForm {
 
 
+    private int applNo = 0;
+
     private String applId = null;
 
     private String korName = null;
@@ -16,11 +18,15 @@ public class ApplicantSearchForm {
 
     private String rgstNo = null;
 
-    private String campCode = null;
-
-    private String collCode = null;
-
     private String admsTypeCode = null;
+
+    public int getApplNo() {
+        return applNo;
+    }
+
+    public void setApplNo(int applNo) {
+        this.applNo = applNo;
+    }
 
     public String getApplId() {
         return applId;
@@ -62,21 +68,6 @@ public class ApplicantSearchForm {
         this.rgstNo = rgstNo;
     }
 
-    public String getCampCode() {
-        return campCode;
-    }
-
-    public void setCampCode(String campCode) {
-        this.campCode = campCode;
-    }
-
-    public String getCollCode() {
-        return collCode;
-    }
-
-    public void setCollCode(String collCode) {
-        this.collCode = collCode;
-    }
 
     public String getAdmsTypeCode() {
         return admsTypeCode;
