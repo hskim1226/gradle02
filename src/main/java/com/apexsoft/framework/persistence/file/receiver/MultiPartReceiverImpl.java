@@ -52,7 +52,7 @@ public class MultiPartReceiverImpl implements MultiPartReceiver {
 			if (itemStream.isFormField()) {
 				handleAttribute(attributes, itemStream);
 			} else {
-				File f = File.createTempFile("upload", "temp", new File("D:/"));
+				File f = File.createTempFile("upload", "temp");
 				f.deleteOnExit();
 				
 				OutputStream fos = new FileOutputStream(f);

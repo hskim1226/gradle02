@@ -1040,7 +1040,7 @@
                 targetFileUploadFg = document.getElementById(this.getAttribute('data-fileUploadFg-id'));
             if (confirm('첨부한 파일을 삭제하시겠습니까?')) {
                 $.ajax({
-                    type: 'DELETE',
+                    type: 'POST',
                     url: this.href,
                     success: function (data) {
                         var data = JSON.parse(data),

@@ -382,7 +382,7 @@ public class DocumentController {
      * @throws IOException
      */
 //    @RequestMapping(value="/attached/{admsNo}/{applNo}/{fileName:.+}/{originalFileName}")
-    @RequestMapping(value="/fileDownload/{applNo}/{docSeq}")
+    @RequestMapping(value="/fileDownload/{applNo}/{docSeq}", produces = "application/pdf")
     @ResponseBody
     public byte[] fileDownload(@PathVariable("applNo") int applNo,
                                @PathVariable("docSeq") int docSeq,
@@ -419,7 +419,7 @@ public class DocumentController {
      * @throws IOException
      */
 //    @RequestMapping(value="/attached/{admsNo}/{applNo}/{fileName:.+}/{originalFileName}")
-    @RequestMapping(value="/fileDelete/{applNo}/{docSeq}")
+    @RequestMapping(value="/fileDelete/{applNo}/{docSeq}", method=RequestMethod.DELETE)
     @ResponseBody
     public ExecutionContext fileDelete(@PathVariable("applNo") int applNo,
                                        @PathVariable("docSeq") int docSeq) {
