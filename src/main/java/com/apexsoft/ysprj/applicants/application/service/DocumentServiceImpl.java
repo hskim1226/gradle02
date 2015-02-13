@@ -98,14 +98,40 @@ public class DocumentServiceImpl implements DocumentService {
             application.setApplStsCode(FILE_UPLOAD_SAVED);
             r1 = commonDAO.updateItem(application, NAME_SPACE, "ApplicationMapper");
         }
-        if (r1 == rSave) {
+
+        int r2 = 0, rSaveEtc = 0;
+        ExecutionContext ec2;
+        List<TotalApplicationDocument> errorDoc = new ArrayList<TotalApplicationDocument>();
+        List<TotalApplicationDocumentContainer> docContainerList = document.getDocumentContainerList();
+        for (TotalApplicationDocumentContainer groupList : docContainerList) {
+            if ("00009".equals(groupList.getDocTypeCode())) {
+                List<TotalApplicationDocumentContainer> aDocList = groupList.getSubContainer();
+                for (TotalApplicationDocumentContainer aDoc : aDocList) {
+                    if ("Y".equals(aDoc.getLastYn()) && aDoc.isCheckedFg()) {
+                        r2++;
+                        ec2 = saveOneDocument(aDoc);
+                        if (ExecutionContext.SUCCESS.equals(ec2.getResult())) {
+                            rSaveEtc++;
+                        } else {
+                            errorDoc.add(aDoc);
+                        }
+                    }
+                }
+            }
+        }
+        if (r1 == rSave && r2 == rSaveEtc) {
             ec.setResult(ExecutionContext.SUCCESS);
             ec.setMessage(messageResolver.getMessage("U325"));
         } else {
             ec.setResult(ExecutionContext.FAIL);
             ec.setMessage(messageResolver.getMessage("U326"));
-            ec.setData(application);
-            ec.setErrCode("ERR0003");
+            if (r1 != rSave) {
+                ec.setData(application);
+                ec.setErrCode("ERR0003");
+            } else if (r2 != rSaveEtc) {
+                ec.setErrCode("ERR0033");
+                ec.setData(errorDoc);
+            }
             throw new YSBizException(ec);
         }
         return ec;
@@ -204,7 +230,6 @@ public class DocumentServiceImpl implements DocumentService {
         //기존 파일이 업로드 되어 있는 경우
         if( oneDocument.isFileUploadFg()){
             rUpdate++;
-            oneDocument.setCreId("" );
             oneDocument.setModDate(date );
             oneDocument.setModId(userId );
             update = update + commonDAO.updateItem(oneDocument, NAME_SPACE, "ApplicationDocumentMapper");
@@ -510,9 +535,13 @@ public class DocumentServiceImpl implements DocumentService {
         aCont = new TotalApplicationDocumentContainer();
         for (TotalApplicationDocumentContainer aSubDoc : subDocList) {
             aSubDoc.setAdmsNo(admsNo);
+            aSubDoc.setLastYn("Y");
+            aSubDoc.setCheckedFg(true);
+            aSubDoc.setFileUploadFg(true);
+            aSubDoc.setUploadYn("Y");
         }
         aCont.setGrpLabel("기타 및 추가제출");
-        aCont.setDocItemCode(codeParam.getItemTypeCode());
+        aCont.setDocTypeCode(codeParam.getItemTypeCode());
         aCont.setDisplayGrpFg(true);
         aCont.setSubContainer(subDocList);
         rContList.add(aCont);

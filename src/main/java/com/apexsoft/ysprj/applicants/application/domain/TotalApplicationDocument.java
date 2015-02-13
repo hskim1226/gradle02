@@ -19,8 +19,8 @@ public class TotalApplicationDocument extends ApplicationDocument{
     //문서요건 정보
     private String grpLevel;
     private String docItemGrp;
-    private String docTypeCode;
-    private String docItemCode;
+//    private String docTypeCode; // ApplicationDocument에 있으므로 제외
+//    private String docItemCode; // ApplicationDocument에 있으므로 제외
     private String upCodeGrp;
     private String upCode;
     private String selCodeGrp;
@@ -218,23 +218,23 @@ public class TotalApplicationDocument extends ApplicationDocument{
         this.admsCode = admsCode;
     }
 
-    @Override
-    public String getDocTypeCode() {
-        return docTypeCode;
-    }
-
-    @Override
-    public void setDocTypeCode(String docTypeCode) {
-        this.docTypeCode = docTypeCode;
-    }
-
-    @Override
-    public String getDocItemCode() {
-        return docItemCode;
-    }
-
-    @Override
-    public void setDocItemCode(String docItemCode) {
-        this.docItemCode = docItemCode;
-    }
+//    @Override
+//    public String getDocTypeCode() {
+//        return docTypeCode;
+//    }
+//
+//    @Override
+//    public void setDocTypeCode(String docTypeCode) {
+//        this.docTypeCode = docTypeCode;
+//    }
+//
+//    @Override
+//    public String getDocItemCode() {
+//        return docItemCode;
+//    }
+//
+//    @Override
+//    public void setDocItemCode(String docItemCode) {
+//        this.docItemCode = docItemCode;
+//    }
 }
