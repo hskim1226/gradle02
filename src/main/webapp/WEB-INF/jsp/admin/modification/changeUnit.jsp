@@ -301,9 +301,10 @@
                         type: 'GET',
                         url: baseUrl,
                         success: function(e) {
-                            if(e.result && e.result === 'SUCCESS') {
-                                var $target = $('#' + targetId);
-                                var data = JSON && JSON.parse(e.data) || $.parseJSON(e.data);
+                            var ec = JSON && JSON.parse(e) || $.parseJSON(e);
+                            if(ec.result && ec.result === 'SUCCESS') {
+                                var $target = jQuery('#' + targetId);
+                                var data = JSON && JSON.parse(ec.data) || $.parseJSON(ec.data);
                                 $(data).each(function (i, item) {
                                     var $op = $('<option>').attr({
                                                 'value': item[valueKey],
