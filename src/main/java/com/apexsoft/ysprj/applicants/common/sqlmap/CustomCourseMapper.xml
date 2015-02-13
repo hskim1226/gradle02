@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.apexsoft.ysprj.applicants.common.sqlmap.CustomCourseMapper" >
+
+  <select id="selectGeneralByAdmsDept"
+          resultType="com.apexsoft.ysprj.applicants.common.domain.CodeNameCourse"
+          parameterType="com.apexsoft.ysprj.applicants.common.domain.ParamForSetupCourses" >
+      SELECT A.CORS_TYPE_CODE, B.CODE_VAL, B.CODE_VAL_XXEN
+      FROM ADMS_CORS A, COMM_CODE B
+      WHERE B.CODE_GRP = 'CORS_TYPE'
+      AND A.CORS_TYPE_CODE = B.CODE
+      AND A.ADMS_NO = #{admsNo,jdbcType=VARCHAR}
+      AND A.DEPT_CODE = #{deptCode,jdbcType=VARCHAR}
+      AND A.CORS_TYPE_CODE IN ('1','2','3')
+  </select>
+
+  <select id="selectCommissionByAdmsDept"
+          resultType="com.apexsoft.ysprj.applicants.common.domain.CodeNameCourse"
+          parameterType="com.apexsoft.ysprj.applicants.common.domain.ParamForSetupCourses" >
+      SELECT A.CORS_TYPE_CODE, B.CODE_VAL, B.CODE_VAL_XXEN
+      FROM ADMS_CORS A, COMM_CODE B
+      WHERE B.CODE_GRP = 'CORS_TYPE'
+      AND A.CORS_TYPE_CODE = B.CODE
+      AND A.ADMS_NO = #{admsNo,jdbcType=VARCHAR}
+      AND A.DEPT_CODE = #{deptCode,jdbcType=VARCHAR}
+      AND A.CORS_TYPE_CODE IN ('7','8','9')
+  </select>
+
+
+  <select id="selectAriInstByAdmsDeptAriInst"
+          resultType="com.apexsoft.ysprj.applicants.common.domain.CodeNameCourse"
+          parameterType="com.apexsoft.ysprj.applicants.common.domain.ParamForSetupCourses" >
+        SELECT A.CORS_TYPE_CODE, B.CODE_VAL, B.CODE_VAL_XXEN
+        FROM ADMS_CORS A, COMM_CODE B
+        WHERE B.CODE_GRP = 'CORS_TYPE'
+        AND A.CORS_TYPE_CODE = B.CODE
+        AND A.ADMS_NO = #{admsNo,jdbcType=VARCHAR}
+        AND A.DEPT_CODE = #{deptCode,jdbcType=VARCHAR}
+        AND A.ARI_INST_CODE = #{ariInstCode,jdbcType=VARCHAR}
+        AND A.CORS_TYPE_CODE IN ('4','5','6')
+  </select>
+
+    <select id="selectNameByCode" resultType="com.apexsoft.ysprj.applicants.common.domain.CodeNameCourse" parameterType="java.lang.String">
+        select CODE_VAL, CODE_VAL_XXEN
+        from COMM_CODE
+        where CODE_GRP = 'CORS_TYPE'
+        and CODE = #{code,jdbcType=VARCHAR}
+    </select>
+
+</mapper>

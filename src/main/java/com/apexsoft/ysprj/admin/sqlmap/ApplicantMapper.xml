@@ -1,0 +1,344 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="admin.applicant">
+
+    <resultMap id="entireApplicantInfo"   type="com.apexsoft.ysprj.admin.domain.ApplicantInfo">
+        <id property="applNo" column="appl_no"/>
+        <result property="userId" column="user_id"/>
+        <result property="admsNo" column="adms_no"/>
+        <result property="admsType" column="adms_type"/>
+        <result property="admsTypeName" column="adms_type_name"/>                  
+        <result property="campName" column="camp_name"/>   
+        <result property="collName" column="coll_name"/>
+        <result property="deptCode" column="dept_code"/>    
+        <result property="deptName" column="dept_name"/>             
+        <result property="ariInstCode" column="ari_inst_code"/>
+        <result property="ariInstName" column="ari_inst_name"/>        
+        <result property="corsTypeCode" column="cors_type_code"/>
+        <result property="corsTypeName" column="cors_type_name"/>
+        <result property="detlMajCode" column="detl_maj_code"/>
+        <result property="detlMajName" column="detl_maj_Name"/>        
+        <result property="korName" column="kor_name"/>
+        <result property="engSur" column="eng_sur"/>
+        <result property="engName" column="eng_name"/>
+        <result property="rgstNo" column="rgst_no"/>
+        <result property="addr" column="addr"/>
+        <result property="detlAddr" column="detl_addr"/>
+        <result property="mobiNum" column="mobi_num"/>
+        <result property="mailAddr" column="mail_addr"/>
+        <result property="emerContCode" column="EMER_CONT_CODE"/>
+        <result property="emerContName" column="EMER_CONT_NAME"/>
+        <result property="emerContTel" column="EMER_CONT_TEL"/>        
+        <result property="applId" column="appl_id"/>     
+        <result property="applStsCode" column="APPL_STS_CODE"/>
+        <result property="applStsName" column="APPL_STS_NAME"/>
+        <result property="admsFee" column="adms_fee" jdbcType="INTEGER" />             
+        <result property="applDate" column="appl_date" jdbcType="DATE"/>             
+
+    </resultMap>
+    
+    <resultMap id="ApplicationDocument" type="com.apexsoft.ysprj.applicants.application.domain.ApplicationDocument" >
+    <id column="APPL_NO" property="applNo" />
+    <id column="DOC_SEQ" property="docSeq" jdbcType="INTEGER" />
+    <result column="DOC_ITEM_CODE" property="docItemCode" jdbcType="VARCHAR" />
+    <result column="DOC_ITEM_NAME" property="docItemName" jdbcType="VARCHAR" />
+    <result column="DOC_NAME" property="docName" jdbcType="VARCHAR" />
+    <result column="FILE_EXT" property="fileExt" jdbcType="VARCHAR" />
+    <result column="IMG_YN" property="imgYn" jdbcType="VARCHAR" />
+    <result column="FILE_PATH" property="filePath" jdbcType="VARCHAR" />
+    <result column="FILE_NAME" property="fileName" jdbcType="VARCHAR" />
+    <result column="CRE_ID" property="creId" jdbcType="VARCHAR" />
+    <result column="CRE_DATE" property="creDate" jdbcType="DATE" />
+    <result column="MOD_ID" property="modId" jdbcType="VARCHAR" />
+    <result column="MOD_DATE" property="modDate" jdbcType="DATE" />
+  </resultMap>
+  
+    <resultMap id="ApplicantCnt" type="com.apexsoft.ysprj.admin.domain.ApplicantCnt" >
+
+	<result column="DEPT_CODE"   property="deptCode" jdbcType="VARCHAR" />    
+    <result column="CAMP_NAME" property="campName" jdbcType="VARCHAR" />
+    <result column="COLL_NAME" property="collName" jdbcType="VARCHAR" />
+    <result column="DEPT_NAME" property="deptName" jdbcType="VARCHAR" />
+    <result column="DEPT_SEQ"  property="deptSeq" jdbcType="VARCHAR" />
+    <result column="CNT1" property="cnt1" jdbcType="INTEGER" />
+    <result column="CNT2" property="cnt2" jdbcType="INTEGER" />
+    <result column="CNT3" property="cnt3" jdbcType="INTEGER" />
+    <result column="CNT4" property="cnt4" jdbcType="INTEGER" />    
+    <result column="TOTAL_CNT" property="totalCnt" jdbcType="INTEGER" />
+  </resultMap>
+ 
+  <select id="retrieveApplicantInfoByKey" resultMap="entireApplicantInfo" parameterType="java.lang.Integer">
+		SELECT A.APPL_NO APPL_NO, 
+			A.APPL_ID,
+			A.ADMS_NO,
+			H.ADMS_TYPE, 
+			CODEVAL( 'ADMS_TYPE',H.ADMS_TYPE )ADMS_TYPE_NAME,       
+			F.CAMP_NAME, 
+			e.COLL_NAME, 
+			b.DEPT_NAME, 
+			A.CORS_TYPE_CODE, 
+			CODEVAL( 'CORS_TYPE',A.CORS_TYPE_CODE)CORS_TYPE_NAME , 
+			D.ARI_INST_NAME,
+			A.DETL_MAJ_CODE,
+			G.DETL_MAJ_NAME,
+			A.KOR_NAME,
+			A.ENG_SUR,
+			A.ENG_NAME, 
+			A.RGST_NO,
+			A.TEL_NUM,
+			A.MOBI_NUM,
+			A.MAIL_ADDR, 
+			A.ADDR,
+			A.DETL_ADDR, 	
+      		J.EMER_CONT_CODE,
+      		J.EMER_CONT_NAME,
+      		J.EMER_CONT_TEL,
+			A.APPL_STS_CODE,
+			CODEVAL( 'APPL_STS',A.APPL_STS_CODE)APPL_STS_NAME ,           
+			A.APPL_DATE,
+            I.ADMS_FEE
+		FROM  APPL A
+			left outer join ARI_INST D
+			on A.ARI_INST_CODE = D.ARI_INST_CODE
+            left outer join APPL_GENE J
+			on A.APPL_NO = J.APPL_NO
+			, DEPT b, COLL e, CAMP F, DETL_MAJ G, ADMS H, ADMS_CORS I
+		where 1=1
+			AND A.DEPT_CODE = b.DEPT_CODE
+			AND b.COLL_CODE= e.COLL_CODE
+			AND e.CAMP_CODE = F.CAMP_CODE
+			AND G.DETL_MAJ_CODE = A.DETL_MAJ_CODE
+			AND A.ADMS_NO = H.ADMS_NO
+			AND A.ADMS_NO = I.ADMS_NO
+			AND A.CORS_TYPE_CODE = I.CORS_TYPE_CODE
+			AND A.DEPT_CODE = I.DEPT_CODE
+			AND IFNULL(A.ARI_INST_CODE,'') = IFNULL(I.ARI_INST_CODE,'')
+    
+    
+	        AND A.APPL_NO = #{applNo}
+
+       ORDER BY  APPL_ID DESC, APPL_NO DESC
+	</select>
+	
+	
+  <select id="retrieveApplicantInfo" resultMap="entireApplicantInfo" parameterType="java.lang.Integer">
+		SELECT a.APPL_NO APPL_NO, a.APPL_ID, H.ADMS_TYPE, F.CAMP_NAME, e.COLL_NAME, b.DEPT_NAME, a.CORS_TYPE_CODE, d.ARI_INST_NAME,a.DETL_MAJ_CODE,a.KOR_NAME,a.ENG_SUR,a.ENG_NAME, a.RGST_NO, a.MOBI_NUM,a.MAIL_ADDR 
+		FROM  APPL a 
+		left outer join ARI_INST d
+		on a.ARI_INST_CODE = d.ARI_INST_CODE
+		, DEPT b, COLL e, CAMP F, ADMS H
+		where 1=1
+		AND a.DEPT_CODE = b.DEPT_CODE
+		AND b.COLL_CODE= e.COLL_CODE
+		AND e.CAMP_CODE = F.CAMP_CODE
+		AND a.ADMS_NO = H.ADMS_NO
+        AND a.APPL_NO = #{applNo}
+
+        ORDER BY  APPL_ID DESC, APPL_NO DESC
+	</select>
+	
+    <select id="retrieveApplicantListByName" resultMap="entireApplicantInfo" parameterType="com.apexsoft.ysprj.admin.control.form.ApplicantSearchForm">
+    	<![CDATA[
+		SELECT a.APPL_NO APPL_NO, a.APPL_ID, H.ADMS_TYPE,
+		F.CAMP_NAME,
+		e.COLL_NAME,
+		b.DEPT_NAME,
+		a.CORS_TYPE_CODE,
+		CODEVAL('CORS_TYPE', a.CORS_TYPE_CODE ) CORS_TYPE_NAME,
+		d.ARI_INST_NAME,
+		a.DETL_MAJ_CODE,
+		a.KOR_NAME,
+		a.ENG_SUR,a.ENG_NAME,
+		a.RGST_NO, a.MOBI_NUM,a.MAIL_ADDR,
+		a.APPL_STS_CODE,
+		CODEVAL('APPL_STS', a.APPL_STS_CODE ) APPL_STS_NAME
+		FROM  APPL a 
+		left outer join ARI_INST d
+		on a.ARI_INST_CODE = d.ARI_INST_CODE
+		, DEPT b, COLL e, CAMP F, ADMS H
+		where 1=1
+		AND a.DEPT_CODE = b.DEPT_CODE
+		AND b.COLL_CODE= e.COLL_CODE
+		AND e.CAMP_CODE = F.CAMP_CODE
+		AND a.ADMS_NO = H.ADMS_NO
+		]]>
+        <if test="applId != null and applId!=''">
+           AND APPL_ID = #{applId}
+        </if>
+        <if test="korName != null and korName!=''">
+           AND KOR_NAME = #{korName}
+        </if>
+        <if test="engSur != null and engSur !=''">
+           AND ENG_SUR = #{engSur}
+        </if>        
+        <if test="engName != null and engName !=''">
+           AND ENG_NAME = #{engName}
+        </if>   
+		<if test="rgstNo != null and rgstNo !=''">
+           AND RGST_NO = #{rgstNo}
+        </if>
+
+        ORDER BY  APPL_ID DESC, APPL_NO DESC
+
+	</select>
+	
+   <select id="retrieveApplicantCountByName" resultType="java.lang.Integer" parameterType="com.apexsoft.ysprj.admin.control.form.ApplicantSearchForm" >
+
+		SELECT count(*) 
+		FROM  APPL a 
+		left outer join ARI_INST d
+		on a.ARI_INST_CODE = d.ARI_INST_CODE
+		, DEPT b, COLL e, CAMP F, ADMS H
+		where 1=1
+		AND a.DEPT_CODE = b.DEPT_CODE
+		AND b.COLL_CODE= e.COLL_CODE
+		AND e.CAMP_CODE = F.CAMP_CODE
+		AND a.ADMS_NO = H.ADMS_NO
+        <if test="applId != null and applId!=''">
+           AND APPL_ID = #{applId}
+        </if>		
+        <if test="korName != null and korName!=''">
+           AND KOR_NAME = #{korName}
+        </if>
+        <if test="engSur != null and engSur !=''">
+           AND ENG_SUR = #{engSur}
+        </if>        
+        <if test="engName != null and engName !=''">
+           AND ENG_NAME = #{engName}
+        </if>   
+		<if test="rgstNo != null and rgstNo !=''">
+           AND RGST_NO = #{rgstNo}
+        </if>
+
+    </select>   	
+
+   
+  
+   <select id="retrieveApplicantListByDept" resultMap="entireApplicantInfo" parameterType="com.apexsoft.ysprj.admin.control.form.CourseSearchForm">
+
+		SELECT a.APPL_NO APPL_NO, a.APPL_ID, H.ADMS_TYPE, F.CAMP_NAME, e.COLL_NAME, b.DEPT_NAME, a.CORS_TYPE_CODE, d.ARI_INST_NAME,a.DETL_MAJ_CODE,a.KOR_NAME,a.ENG_SUR,a.ENG_NAME, a.RGST_NO, a.MOBI_NUM,a.MAIL_ADDR 
+		FROM  APPL a 
+		left outer join ARI_INST d
+		on a.ARI_INST_CODE = d.ARI_INST_CODE
+		, DEPT b, COLL e, CAMP F, ADMS H
+		where 1=1
+		AND a.DEPT_CODE = b.DEPT_CODE
+		AND b.COLL_CODE= e.COLL_CODE
+		AND e.CAMP_CODE = F.CAMP_CODE
+		AND a.ADMS_NO = H.ADMS_NO
+
+
+        <if test="admsNo != null and admsNo !=''">
+		    AND a.ADMS_NO =#{admsNo}
+		</if>			    
+        <if test="campCode != null and campCode !=''">
+		    AND F.CAMP_CODE =#{campCode}
+		</if>	
+		<if test="collCode != null and collCode !=''">
+		    AND e.COLL_CODE =#{collCode}
+		</if>	
+		<if test="deptCode != null and deptCode!=''">
+		    AND b.DEPT_CODE = #{deptCode}
+		</if>
+
+       ORDER BY  APPL_ID DESC, APPL_NO DESC
+
+	</select>
+
+   <select id="retrieveApplicantCountByDept" resultType="java.lang.Integer" parameterType="com.apexsoft.ysprj.admin.control.form.CourseSearchForm" >
+
+		SELECT count(*) 
+		FROM  APPL a 
+		left outer join ARI_INST d
+		on a.ARI_INST_CODE = d.ARI_INST_CODE
+		, DEPT b, COLL e, CAMP F, ADMS H
+		where 1=1
+		AND a.DEPT_CODE = b.DEPT_CODE
+		AND b.COLL_CODE= e.COLL_CODE
+		AND e.CAMP_CODE = F.CAMP_CODE
+		AND a.ADMS_NO = H.ADMS_NO
+
+        <if test="admsNo != null and admsNo!=''">
+		    AND a.ADMS_NO =#{admsNo}
+		</if>			    
+        <if test="campCode != null and campCode!=''">
+		    AND F.CAMP_CODE =#{campCode}
+		</if>	
+		<if test="collCode != null and collCode!=''">
+		    AND e.COLL_CODE =#{collCode}
+		</if>	
+		<if test="deptCode != null and deptCode!=''">
+		    AND b.DEPT_CODE = #{deptCode}
+		</if>	
+     
+    </select>
+    
+    <select id="selectByApplNo" resultMap="ApplicationDocument"  parameterType="java.lang.Integer">
+	  
+	    select 
+	    APPL_NO, DOC_SEQ, DOC_ITEM_CODE, DOC_ITEM_NAME, DOC_NAME, FILE_EXT, IMG_YN, FILE_PATH, 
+	    FILE_NAME, CRE_ID, CRE_DATE, MOD_ID, MOD_DATE
+	    from APPL_DOC
+    	
+           where APPL_NO = #{applNo}     
+	  </select>
+	  
+  
+      <select id="selectApplicantCnt" resultMap="ApplicantCnt"  parameterType="com.apexsoft.ysprj.admin.control.form.CourseSearchForm">
+		SELECT DD.DEPT_SEQ AS DEPT_SEQ, DD.DEPT_CODE, DD.CAMP_NAME, DD.COLL_NAME, DD.DEPT_NAME, 
+			COUNT(CASE WHEN A.CORS_TYPE_CODE IN(1,5,7) THEN 1 END) AS CNT1,
+			COUNT(CASE WHEN A.CORS_TYPE_CODE IN(2,6,8) THEN 1 END) AS CNT2, 
+			COUNT(CASE WHEN A.CORS_TYPE_CODE IN(3,4) THEN 1 END) AS CNT3,
+			COUNT(CASE WHEN A.CORS_TYPE_CODE IN(9) THEN 1 END) AS CNT4,			
+			COUNT( A.CORS_TYPE_CODE ) AS TOTAL_CNT
+		FROM 
+		  ( SELECT BO.ADMS_TYPE ADMS_TYPE, 
+          BO.ADMS_NO ADMS_NO,
+		      BO.DEPT_CODE DEPT_CODE, 
+		      BA.DEPT_NAME DEPT_NAME, 
+		      BA.DEPT_SEQ DEPT_SEQ,
+		      BB.COLL_CODE COLL_CODE, 
+		      BB.COLL_NAME COLL_NAME, 
+		      BC.CAMP_CODE CAMP_CODE,
+		      BC.CAMP_NAME CAMP_NAME      
+		    FROM 
+		      ( SELECT CA.ADMS_NO ADMS_NO, CA.ENTR_YEAR ENTR_YEAR, CA.ADMS_TYPE ADMS_TYPE, CB.DEPT_CODE DEPT_CODE FROM ADMS CA, ADMS_CORS CB
+		        WHERE CA.ADMS_NO =CB.ADMS_NO
+		        GROUP BY CB.DEPT_CODE, CB.ADMS_NO
+		      ) BO,
+		      DEPT BA, COLL BB, CAMP BC
+		    WHERE BO.DEPT_CODE =BA.DEPT_CODE
+		    AND BA.COLL_CODE = BB.COLL_CODE
+		    AND BB.CAMP_CODE = BC.CAMP_CODE
+		    
+        <if test="admsNo != null and admsNo !=''">
+		    AND BO.ADMS_NO =#{admsNo}
+		</if>			    
+        <if test="campCode != null and campCode !=''">
+		    AND BC.CAMP_CODE =#{campCode}
+		</if>	
+		<if test="collCode != null and collCode!=''">
+		    AND BB.COLL_CODE =#{collCode}
+		</if>	
+		<if test="deptCode != null and deptCode!=''">
+		    AND BO.DEPT_CODE = #{deptCode}
+		</if>	
+
+		  ) DD  LEFT OUTER JOIN
+			  ( SELECT * FROM APPL
+                  WHERE APPL_STS_CODE = '00020'
+			  <!--
+			    WHERE APPL_STS_CODE IN ('00020','00030') 지원완료자
+			    WHERE APPL_STS_CODE IN ('00010','00021') 미결재, 미입금자
+			   -->
+			  )  A
+			on A.DEPT_CODE = DD.DEPT_CODE
+			and A.ADMS_NO =DD.ADMS_NO
+			GROUP BY DD.DEPT_CODE
+			ORDER BY DD.DEPT_SEQ
+    </select>
+
+  
+    
+  
+</mapper>

@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans 	xmlns="http://www.springframework.org/schema/beans"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xmlns:aop="http://www.springframework.org/schema/aop"
+          xmlns:mvc="http://www.springframework.org/schema/mvc"
+          xmlns:util="http://www.springframework.org/schema/util"
+          xmlns:p="http://www.springframework.org/schema/p"
+          xmlns:context="http://www.springframework.org/schema/context"
+          xsi:schemaLocation="http://www.springframework.org/schema/mvc		http://www.springframework.org/schema/mvc/spring-mvc-3.1.xsd
+                            http://www.springframework.org/schema/beans		http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+					        http://www.springframework.org/schema/aop 		http://www.springframework.org/schema/aop/spring-aop-3.1.xsd
+					        http://www.springframework.org/schema/context 	http://www.springframework.org/schema/context/spring-context-3.1.xsd">
+
+    <context:component-scan base-package="com.apexsoft.ysprj" use-default-filters="false">
+        <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller" />
+    </context:component-scan>
+
+    <context:component-scan base-package="com.apexsoft.framework" use-default-filters="false">
+        <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller" />
+        <context:include-filter type="annotation" expression="org.springframework.web.bind.annotation.ControllerAdvice" />
+    </context:component-scan>
+
+    <!-- mvc:annotation-driven / -->
+
+    <mvc:annotation-driven>
+        <mvc:argument-resolvers>
+            <bean class="com.apexsoft.framework.web.bind.FileHandlerWebArgumentResolver">
+                <property name="multiPartReceiver" ref="multiPartReceiver" />
+                <property name="filePersistenceManager" ref="persistenceManager" />
+            </bean>
+        </mvc:argument-resolvers>
+        <mvc:message-converters>
+            <bean class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter">
+                <property name="supportedMediaTypes" value="text/plain"/>
+            </bean>
+            <bean class="org.springframework.http.converter.ByteArrayHttpMessageConverter">
+                <property name="supportedMediaTypes" value="application/pdf"/>
+            </bean>
+        </mvc:message-converters>
+        <!-- mvc:message-converters>
+            <bean class="org.springframework.http.converter.xml.Jaxb2RootElementHttpMessageConverter" />
+        </mvc:message-converters -->
+    </mvc:annotation-driven>
+
+    <mvc:interceptors>
+        <bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor">
+            <property name="paramName" value="lang" />
+        </bean>
+        <bean class="com.apexsoft.framework.interceptor.DomainLocaleConvertInterceptor">
+            <property name="converter" ref="converter" />
+        </bean>
+    </mvc:interceptors>
+
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value="/WEB-INF/jsp/"/>
+        <property name="suffix" value=".jsp"/>
+        <property name="order" value="1"/>
+    </bean>
+
+    <bean class="org.springframework.web.servlet.view.BeanNameViewResolver">
+        <property name="order" value="0"/>
+    </bean>
+
+    <bean id="contentNegotiationManager" class="org.springframework.web.accept.ContentNegotiationManagerFactoryBean">
+        <property name="ignoreAcceptHeader" value="true" />
+    </bean>
+
+    <bean id="downloadView" class="com.apexsoft.framework.web.view.FileDownloadView" ></bean>
+
+    <!--<bean id="exceptionResolver" class="com.apexsoft.framework.web.exception.ExceptionResolver">-->
+        <!--<property name="htmlErrorView" value="common/error"></property>-->
+        <!--<property name="messageConverters">-->
+            <!--<list>-->
+                <!--<bean class="org.springframework.http.converter.xml.Jaxb2RootElementHttpMessageConverter" />-->
+                <!--<bean class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter" />-->
+            <!--</list>-->
+        <!--</property>-->
+    <!--</bean>-->
+
+    <bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean"/>
+
+
+    <bean id="velocityEngine" class="org.springframework.ui.velocity.VelocityEngineFactoryBean">
+        <property name="resourceLoaderPath" value="classpath:template/excel" />
+    </bean>
+
+    <bean id="localeResolver" class="org.springframework.web.servlet.i18n.SessionLocaleResolver">
+        <property name="defaultLocale" value="ko" />
+    </bean>
+<!-- 상단에 framework를 base-pkg로 하는 설정으로 이동
+    <bean id="mailController" class="com.apexsoft.framework.mail.MailController"/>
+
+    <bean id="RecaptchaController" class="com.apexsoft.framework.recaptcha.RecaptchaController"/>
+-->
+
+    <mvc:default-servlet-handler/>
+
+</beans>

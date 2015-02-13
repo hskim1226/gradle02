@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.apexsoft.ysprj.admin.sqlmap.CustomApplicationChangeMapper">
+
+    <resultMap id="changeInfoMap" type="com.apexsoft.ysprj.admin.domain.CustomApplicationChange" >
+        <id column="ADMS_NO" jdbcType="VARCHAR" property="admsNo" />
+        <id column="CHG_NO" jdbcType="INTEGER" property="chgNo" />
+
+        <result column="APPL_ID" jdbcType="VARCHAR" property="applId" />
+        <result column="KOR_NAME" jdbcType="VARCHAR" property="korName" />
+        <result column="APPL_CHG_CODE_NAME" jdbcType="VARCHAR" property="applChgCodeName" />
+        <result column="CHG_STS_CODE_NAME" jdbcType="VARCHAR" property="chgStsCodeName" />
+
+        <result column="APPL_NO" jdbcType="INTEGER" property="applNo" />
+        <result column="APPL_CHG_CODE" jdbcType="VARCHAR" property="applChgCode" />
+        <result column="CHG_STS_CODE" jdbcType="VARCHAR" property="chgStsCode" />
+        <result column="REQ_DAY" jdbcType="VARCHAR" property="reqDay" />
+        <result column="REQ_USER_ID" jdbcType="VARCHAR" property="reqUserId" />
+        <result column="REQ_NAME" jdbcType="VARCHAR" property="reqName" />
+        <result column="ACT_DAY" jdbcType="VARCHAR" property="actDay" />
+        <result column="ACT_USER_ID" jdbcType="VARCHAR" property="actUserId" />
+        <result column="BEF_ADMS_NO" jdbcType="VARCHAR" property="befAdmsNo" />
+        <result column="BEF_DEPT_CODE" jdbcType="VARCHAR" property="befDeptCode" />
+        <result column="BEF_ARI_INST_CODE" jdbcType="VARCHAR" property="befAriInstCode" />
+        <result column="BEF_CORS_TYPE_CODE" jdbcType="VARCHAR" property="befCorsTypeCode" />
+        <result column="BEF_DETL_MAJ_CODE" jdbcType="VARCHAR" property="befDetlMajCode" />
+        <result column="BEF_APPL_ID" jdbcType="VARCHAR" property="befApplId" />
+        <result column="BEF_ADMS_FEE" jdbcType="INTEGER" property="befAdmsFee" />
+        <result column="AFT_ADMS_NO" jdbcType="VARCHAR" property="aftAdmsNo" />
+        <result column="AFT_DEPT_CODE" jdbcType="VARCHAR" property="aftDeptCode" />
+        <result column="AFT_ARI_INST_CODE" jdbcType="VARCHAR" property="aftAriInstCode" />
+        <result column="AFT_CORS_TYPE_CODE" jdbcType="VARCHAR" property="aftCorsTypeCode" />
+        <result column="AFT_DETL_MAJ_CODE" jdbcType="VARCHAR" property="aftDetlMajCode" />
+        <result column="AFT_APPL_ID" jdbcType="VARCHAR" property="aftApplId" />
+        <result column="AFT_ADMS_FEE" jdbcType="INTEGER" property="aftAdmsFee" />
+        <result column="PAY_STS" jdbcType="VARCHAR" property="paySts" />
+        <result column="CHG_COLM" jdbcType="VARCHAR" property="chgColm" />
+        <result column="CHG_COLM_NAME" jdbcType="VARCHAR" property="chgColmName" />
+        <result column="BEF_VAL" jdbcType="VARCHAR" property="befVal" />
+        <result column="AFT_VAL" jdbcType="VARCHAR" property="aftVal" />
+        <result column="CNCL_RESN" jdbcType="VARCHAR" property="cnclResn" />
+        <result column="CRE_ID" jdbcType="VARCHAR" property="creId" />
+        <result column="CRE_DATE" jdbcType="TIMESTAMP" property="creDate" />
+        <result column="MOD_ID" jdbcType="VARCHAR" property="modId" />
+        <result column="MOD_DATE" jdbcType="TIMESTAMP" property="modDate" />
+    </resultMap>
+
+    <select id="retrieveChangeList" resultMap="changeInfoMap" parameterType="com.apexsoft.ysprj.admin.control.form.ChangeSearchForm" >
+     SELECT
+        A.ADMS_NO,
+        B.APPL_NO,
+        APPL_ID,
+        KOR_NAME,
+        CHG_NO,
+        APPL_CHG_CODE,
+        CODEVAL( 'APPL_CHG', APPL_CHG_CODE) APPL_CHG_CODE_NAME,
+        CHG_STS_CODE,
+        CODEVAL( 'CHG_STS', CHG_STS_CODE) CHG_STS_CODE_NAME,
+        REQ_DAY,
+        REQ_USER_ID,
+        REQ_NAME,
+        ACT_DAY,
+        ACT_USER_ID,
+        BEF_ADMS_NO,
+        BEF_DEPT_CODE,
+        BEF_ARI_INST_CODE,
+        BEF_CORS_TYPE_CODE,
+        BEF_DETL_MAJ_CODE,
+        BEF_APPL_ID,
+        BEF_ADMS_FEE,
+        AFT_ADMS_NO,
+        AFT_DEPT_CODE,
+        AFT_ARI_INST_CODE,
+        AFT_CORS_TYPE_CODE,
+        AFT_DETL_MAJ_CODE,
+        AFT_APPL_ID,
+        AFT_ADMS_FEE,
+        PAY_STS,
+        CHG_COLM,
+        CHG_COLM_NAME,
+        BEF_VAL,
+        AFT_VAL,
+        CNCL_RESN,
+        A.CRE_ID,
+        A.CRE_DATE,
+        A.MOD_ID,
+        A.MOD_DATE
+        FROM APPL_CHG A, APPL B
+        WHERE A.APPL_NO = B.APPL_NO
+        <if test="campCode != null and campCode !=''">
+            AND B.CAMP_CODE = #{campCode}
+        </if>
+        <if test="collCode != null and collCode !=''">
+            AND B.COLL_CODE = #{collCode}
+        </if>
+        <if test="deptCode != null and deptCode !=''">
+            AND B.DEPT_CODE = #{deptCode}
+        </if>
+        <if test="applNo != null and applNo !=''">
+            AND B.APPL_NO = #{applNo}
+        </if>
+        <if test="campCode != null and campCode !=''">
+            AND B.DETL_MAJ_CODE = #{campCode}
+        </if>
+        <if test="korName != null and korName !=''">
+            AND B.KOR_NAME = #{korName}
+        </if>
+        <if test="applId != null and applId !=''">
+            AND B.APPL_ID = #{applId}
+        </if>
+        <if test="admsNo != null and admsNo !=''">
+            AND A.ADMS_NO = #{admsNo,jdbcType=VARCHAR}
+        </if>
+        <if test="chgNo != null and chgNo !=''">
+            AND CHG_NO = #{chgNo,jdbcType=INTEGER}
+        </if>
+        <if test='applChgCode != null and applChgCode !=""' >
+            AND APPL_CHG_CODE = #{applChgCode,jdbcType=VARCHAR}
+        </if>
+        <if test='chgStsCode != null and chgStsCode !=""'>
+            AND CHG_STS_CODE = #{chgStsCode,jdbcType=VARCHAR}
+        </if>
+        <if test='reqDay != null and reqDay !=""'>
+            AND REQ_DAY = #{reqDay,jdbcType=VARCHAR}
+        </if>
+        ORDER BY ADMS_NO, CHG_NO DESC
+
+    </select>
+
+    <select id="retrieveChangeCount" resultType="java.lang.Integer" parameterType="com.apexsoft.ysprj.admin.control.form.ChangeSearchForm" >
+        SELECT  count(*)
+        FROM APPL_CHG A, APPL B
+        WHERE A.APPL_NO = B.APPL_NO
+        <if test="campCode != null and campCode !=''">
+            AND B.CAMP_CODE = #{campCode}
+        </if>
+        <if test="collCode != null and collCode !=''">
+            AND B.COLL_CODE = #{collCode}
+        </if>
+        <if test="deptCode != null and deptCode !=''">
+            AND B.DEPT_CODE = #{deptCode}
+        </if>
+        <if test="applNo != null and applNo !=''">
+            AND B.APPL_NO = #{applNo}
+        </if>
+        <if test="campCode != null and campCode !=''">
+            AND B.DETL_MAJ_CODE = #{campCode}
+        </if>
+        <if test="korName != null and korName !=''">
+            AND B.KOR_NAME = #{korName}
+        </if>
+        <if test="applId != null and applId !=''">
+            AND B.APPL_ID = #{applId}
+        </if>
+        <if test="admsNo != null and admsNo !=''">
+            AND A.ADMS_NO = #{admsNo,jdbcType=VARCHAR}
+        </if>
+        <if test="chgNo != null and chgNo !=''">
+            AND CHG_NO = #{chgNo,jdbcType=INTEGER}
+        </if>
+        <if test='applChgCode != null and applChgCode !=""' >
+            AND APPL_CHG_CODE = #{applChgCode,jdbcType=VARCHAR}
+        </if>
+        <if test='chgStsCode != null and chgStsCode !=""'>
+            AND CHG_STS_CODE = #{chgStsCode,jdbcType=VARCHAR}
+        </if>
+        <if test='reqDay != null and reqDay !=""'>
+            AND REQ_DAY = #{reqDay,jdbcType=VARCHAR}
+        </if>
+    </select>
+
+    <select id="retrieveChangeMaxKey" resultType="java.lang.Integer" parameterType="com.apexsoft.ysprj.admin.control.form.ChangeInfoForm" >
+        SELECT IFNULL(MAX(CHG_NO),0) FROM APPL_CHG
+        <if test="admsNo != null and admsNo !=''">
+            WHERE ADMS_NO =#{admsNo}
+        </if>
+    </select>
+
+    <select id="selectMaxSeqByAdmsNo" resultType="java.lang.Integer" parameterType="com.apexsoft.ysprj.admin.control.form.ChangeInfoForm" >
+        SELECT MAX(CHG_NO) FROM APPL_CHG
+        <if test="admsNo != null and admsNo !=''">
+            WHERE ADMS_NO =#{admsNo}
+        </if>
+    </select>
+</mapper>

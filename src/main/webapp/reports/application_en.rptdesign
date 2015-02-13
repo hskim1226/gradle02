@@ -1,0 +1,2936 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.23" id="1">
+    <property name="createdBy">Eclipse BIRT Designer Version 4.3.2.v20140211-1400 Build &lt;4.3.2.v20140218-1056></property>
+    <property name="units">in</property>
+    <method name="beforeFactory"><![CDATA[importPackage(Packages.org.springframework.context);
+importPackage(Packages.org.springframework.web.context.support );
+//ServletContext
+var sc = reportContext.getHttpServletRequest().getSession().getServletContext();
+//ApplicationContext 
+var spring = WebApplicationContextUtils.getWebApplicationContext(sc);
+commonService = spring.getBean("commonServiceImpl");
+
+entire = reportContext.getAppContext().get("entireApplication");
+application = entire.getApplication();
+general = entire.getApplicationGeneral();
+foreign = entire.getApplicationForeigner();
+etc = entire.getApplicationETCWithBLOBs();
+highSchool = entire.getHighSchool();
+collegeList = entire.getCollegeList();
+graduateList = entire.getGraduateList();
+experienceList = entire.getApplicationExperienceList();
+languageList = entire.getApplicationLanguageList();
+
+academyList = [];
+
+(function getAcademyList() {
+	var i, size;
+	for(i=0, size=collegeList.size(); i<size; i++) {
+		academyList.push(collegeList.get(i));
+	}
+	for(i=0, size=graduateList.size(); i<size; i++) {
+		academyList.push(graduateList.get(i));
+	}
+})();
+
+function getLangScore(code) {
+	var i, size, res="";
+	for(i=0, size=languageList.size(); i<size; i++) {
+		var item = languageList.get(i);
+		if(code == item.getLangExamCode()) {
+			res = item.getLangGrad();
+			break;
+		}
+	}
+	return res;
+}
+reportContext.setPersistentGlobalVariable("getLangScore", getLangScore);
+
+function getEduText(academy, columnIndex) {
+	var res = "";
+	if(!academy) {
+		return res;
+	}
+	if (columnIndex == 0) {
+		res += academy.getEntrDay();
+		res += "~";
+		res += academy.getGrdaDay();
+	} else if (columnIndex == 1) {
+		res += academy.getSchlName();
+	} else if (columnIndex == 2) {
+		res += academy.getMajName();
+	} else if (columnIndex == 3) {
+		res += academy.getGradAvr() + "/" + academy.getGradFull();
+	} else if (columnIndex == 4) {
+		res += academy.getDegrNo();
+	}
+	return res;
+}
+reportContext.setPersistentGlobalVariable("getEduText", getEduText);
+
+function getAcademyText(academy) {
+	var res="";
+	if (!academy) {
+		return res;
+	}
+	var entrDay = academy.getEntrDay();
+	var grdaDay = academy.getGrdaDay();
+	var schlName = academy.getSchlName();
+	var grdaTypeCode = academy.getGrdaTypeCode();
+
+	if (entrDay &amp;&amp; entrDay.length() == 8) {
+		res += entrDay.substr(0, 4) + "년" + entrDay.substr(4, 2) + "월" + entrDay.substr(6, 2) + "일";
+	}
+	if (grdaDay &amp;&amp; grdaDay.length() == 8) {
+		res += " ~ ";
+		res += grdaDay.substr(0, 4) + "년" + grdaDay.substr(4, 2) + "월" + grdaDay.substr(6, 2) + "일";
+	}
+	if (schlName &amp;&amp; schlName.length() > 0) {
+		res += "\t";
+		res += schlName;
+	}
+	if (grdaTypeCode &amp;&amp; grdaTypeCode.length() > 0) {
+		res += "\t";
+		var commonCode = commonService.retrieveCommonCodeValueByCodeGroupCode("GRDA_TYPE", String(grdaTypeCode));
+		if (commonCode) {
+			res += commonCode.getCodeVal();
+		}
+	}
+	return res;
+}
+reportContext.setPersistentGlobalVariable("getAcademyText", getAcademyText);
+
+function getExprText(experience, columnIndex) {
+	var res = "";
+	if(!experience) {
+		return res;
+	}
+	if (columnIndex == 0) {
+		res += experience.getJoinDay();
+		res += "~";
+		res += experience.getRetrDay();
+	} else if (columnIndex == 1) {
+		res += experience.getCorpName();
+	} else if (columnIndex == 2) {
+		res += experience.getExprDesc();
+	}
+	return res;
+}
+reportContext.setPersistentGlobalVariable("getExprText", getExprText);
+
+function getLastSchoolScoreText(list) {
+	var res="", i, size, last, item;
+	for (i=0, size=list.size(); i<size; i++) {
+		item = list.get(i);
+		if(item &amp;&amp; item.getLastSchlYn() == "Y" || item.getLastSchlYn() == "y") {
+			last = item;
+			break;
+		}
+	}
+
+	if (last) {
+		res += last.getGradAvr() + " / " + last.getGradFull();
+	} else {
+		res += "/";
+	}
+	return res;
+}
+reportContext.setPersistentGlobalVariable("getLastSchoolScoreText", getLastSchoolScoreText);]]></method>
+    <property name="iconFile">/templates/blank_report.gif</property>
+    <property name="bidiLayoutOrientation">ltr</property>
+    <property name="imageDPI">96</property>
+    <parameters>
+        <scalar-parameter name="campName" id="1275">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant"></value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="collName" id="1276">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant"></value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="deptName" id="1277">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant"></value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="corsTypeName" id="1278">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant"></value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="detlMajName" id="1279">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant"></value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="entrYear" id="1358">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant"></value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="admsTypeName1" id="1359">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant"></value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="admsTypeName2" id="1360">
+            <property name="valueType">static</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="bornCntrName" id="1619">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant"></value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="citzCntrName" id="1621">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant"></value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+    </parameters>
+    <styles>
+        <style name="report" id="4">
+            <property name="fontFamily">sans-serif</property>
+            <property name="fontSize">10pt</property>
+        </style>
+        <style name="crosstab-cell" id="5">
+            <property name="borderBottomColor">#CCCCCC</property>
+            <property name="borderBottomStyle">solid</property>
+            <property name="borderBottomWidth">1pt</property>
+            <property name="borderLeftColor">#CCCCCC</property>
+            <property name="borderLeftStyle">solid</property>
+            <property name="borderLeftWidth">1pt</property>
+            <property name="borderRightColor">#CCCCCC</property>
+            <property name="borderRightStyle">solid</property>
+            <property name="borderRightWidth">1pt</property>
+            <property name="borderTopColor">#CCCCCC</property>
+            <property name="borderTopStyle">solid</property>
+            <property name="borderTopWidth">1pt</property>
+        </style>
+        <style name="crosstab" id="6">
+            <property name="borderBottomColor">#CCCCCC</property>
+            <property name="borderBottomStyle">solid</property>
+            <property name="borderBottomWidth">1pt</property>
+            <property name="borderLeftColor">#CCCCCC</property>
+            <property name="borderLeftStyle">solid</property>
+            <property name="borderLeftWidth">1pt</property>
+            <property name="borderRightColor">#CCCCCC</property>
+            <property name="borderRightStyle">solid</property>
+            <property name="borderRightWidth">1pt</property>
+            <property name="borderTopColor">#CCCCCC</property>
+            <property name="borderTopStyle">solid</property>
+            <property name="borderTopWidth">1pt</property>
+        </style>
+    </styles>
+    <page-setup>
+        <simple-master-page name="Simple MasterPage" id="2">
+            <property name="headerHeight">0in</property>
+            <property name="footerHeight">0in</property>
+        </simple-master-page>
+    </page-setup>
+    <body>
+        <grid id="1200">
+            <property name="fontFamily">"새굴림"</property>
+            <column id="1201"/>
+            <row id="1202">
+                <cell id="1203">
+                    <grid id="1168">
+                        <column id="1169"/>
+                        <row id="1170">
+                            <cell id="1171">
+                                <property name="verticalAlign">middle</property>
+                                <data id="1362">
+                                    <property name="fontFamily">"나눔명조"</property>
+                                    <property name="fontSize">18pt</property>
+                                    <property name="textAlign">center</property>
+                                    <list-property name="boundDataColumns">
+                                        <structure>
+                                            <property name="name">title</property>
+                                            <expression name="expression" type="javascript">params["entrYear"] + " 학년도 " + params["admsTypeName1"] + " 대학원 입학원서";</expression>
+                                            <property name="dataType">string</property>
+                                            <property name="allowExport">true</property>
+                                        </structure>
+                                    </list-property>
+                                    <property name="resultSetColumn">title</property>
+                                </data>
+                                <data id="1683">
+                                    <property name="fontFamily">"나눔명조"</property>
+                                    <property name="fontSize">12pt</property>
+                                    <property name="textAlign">center</property>
+                                    <list-property name="boundDataColumns">
+                                        <structure>
+                                            <property name="name">title</property>
+                                            <expression name="expression" type="javascript">params["entrYear"] + params["admsTypeName1"] + " Graduate School International Student Application";</expression>
+                                            <property name="dataType">string</property>
+                                            <property name="allowExport">true</property>
+                                        </structure>
+                                    </list-property>
+                                    <property name="resultSetColumn">title</property>
+                                </data>
+                            </cell>
+                        </row>
+                    </grid>
+                    <grid id="637">
+                        <property name="marginBottom">5pt</property>
+                        <property name="textAlign">center</property>
+                        <column id="638"/>
+                        <column id="639">
+                            <property name="width">15%</property>
+                        </column>
+                        <column id="640">
+                            <property name="width">20%</property>
+                        </column>
+                        <row id="641">
+                            <cell id="642"/>
+                            <cell id="643">
+                                <label id="645">
+                                    <text-property name="text">분류 :</text-property>
+                                </label>
+                            </cell>
+                            <cell id="644">
+                                <property name="borderBottomStyle">solid</property>
+                                <property name="borderBottomWidth">1px</property>
+                                <data id="1361">
+                                    <list-property name="boundDataColumns">
+                                        <structure>
+                                            <property name="name">admsTypeName2</property>
+                                            <expression name="expression" type="javascript">params["admsTypeName2"];</expression>
+                                            <property name="dataType">string</property>
+                                            <property name="allowExport">true</property>
+                                        </structure>
+                                    </list-property>
+                                    <property name="resultSetColumn">admsTypeName2</property>
+                                </data>
+                            </cell>
+                        </row>
+                    </grid>
+                    <grid id="41">
+                        <property name="textAlign">center</property>
+                        <column id="42"/>
+                        <column id="43">
+                            <property name="width">25%</property>
+                        </column>
+                        <column id="44">
+                            <property name="width">35%</property>
+                        </column>
+                        <row id="45">
+                            <cell id="46"/>
+                            <cell id="47">
+                                <property name="borderLeftStyle">solid</property>
+                                <property name="borderLeftWidth">2px</property>
+                                <property name="borderRightStyle">solid</property>
+                                <property name="borderRightWidth">2px</property>
+                                <property name="borderTopStyle">solid</property>
+                                <property name="borderTopWidth">2px</property>
+                                <label id="57">
+                                    <property name="fontWeight">normal</property>
+                                    <text-property name="text">Registration Number</text-property>
+                                </label>
+                            </cell>
+                            <cell id="48">
+                                <property name="borderLeftStyle">solid</property>
+                                <property name="borderLeftWidth">2px</property>
+                                <property name="borderRightStyle">solid</property>
+                                <property name="borderRightWidth">2px</property>
+                                <property name="borderTopStyle">solid</property>
+                                <property name="borderTopWidth">2px</property>
+                                <data id="1172">
+                                    <list-property name="boundDataColumns">
+                                        <structure>
+                                            <property name="name">applId</property>
+                                            <expression name="expression" type="javascript">application.getApplId();</expression>
+                                            <property name="dataType">string</property>
+                                            <property name="allowExport">true</property>
+                                        </structure>
+                                    </list-property>
+                                    <property name="resultSetColumn">applId</property>
+                                </data>
+                            </cell>
+                        </row>
+                    </grid>
+                    <grid id="9">
+                        <property name="textAlign">center</property>
+                        <column id="10">
+                            <property name="width">15%</property>
+                        </column>
+                        <column id="111">
+                            <property name="width">30%</property>
+                        </column>
+                        <column id="12">
+                            <property name="width">12%</property>
+                        </column>
+                        <column id="13">
+                            <property name="width">23%</property>
+                        </column>
+                        <column id="15"/>
+                        <row id="1370">
+                            <property name="textAlign">justify</property>
+                            <cell id="1371">
+                                <property name="colSpan">5</property>
+                                <property name="rowSpan">1</property>
+                                <property name="borderBottomStyle">solid</property>
+                                <property name="borderBottomWidth">1px</property>
+                                <property name="borderLeftStyle">solid</property>
+                                <property name="borderLeftWidth">2px</property>
+                                <property name="borderRightStyle">solid</property>
+                                <property name="borderRightWidth">2px</property>
+                                <property name="borderTopStyle">solid</property>
+                                <property name="borderTopWidth">2px</property>
+                                <property name="verticalAlign">middle</property>
+                                <label id="1377">
+                                    <property name="fontWeight">normal</property>
+                                    <text-property name="text">지원 과정 정보 (Applying Course Information)</text-property>
+                                </label>
+                                <label id="1378">
+                                    <property name="fontSize">8pt</property>
+                                    <property name="fontWeight">normal</property>
+                                    <property name="paddingTop">0pt</property>
+                                    <property name="paddingLeft">0pt</property>
+                                    <property name="paddingBottom">0pt</property>
+                                    <property name="paddingRight">0pt</property>
+                                    <text-property name="text">* 모집 요강 및 홈페이지를 통해서 정확한 정보를 확인해 주시길 바랍니다. Please make application refer to admission guideline and webpage.</text-property>
+                                </label>
+                            </cell>
+                        </row>
+                        <row id="16">
+                            <cell id="17">
+                                <property name="fontWeight">normal</property>
+                                <property name="borderBottomStyle">solid</property>
+                                <property name="borderBottomWidth">1px</property>
+                                <property name="borderLeftStyle">solid</property>
+                                <property name="borderLeftWidth">2px</property>
+                                <property name="borderRightStyle">solid</property>
+                                <property name="borderRightWidth">2px</property>
+                                <property name="borderTopStyle">solid</property>
+                                <property name="borderTopWidth">2px</property>
+                                <property name="verticalAlign">middle</property>
+                                <label id="1580">
+                                    <property name="fontSize">9pt</property>
+                                    <text-property name="text">지원 캠퍼스</text-property>
+                                </label>
+                                <label id="58">
+                                    <property name="fontSize">7pt</property>
+                                    <property name="fontWeight">normal</property>
+                                    <text-property name="text">Campus</text-property>
+                                </label>
+                            </cell>
+                            <cell id="103">
+                                <property name="colSpan">3</property>
+                                <property name="rowSpan">1</property>
+                                <property name="fontWeight">normal</property>
+                                <property name="borderBottomStyle">solid</property>
+                                <property name="borderBottomWidth">1px</property>
+                                <property name="borderLeftStyle">solid</property>
+                                <property name="borderLeftWidth">1px</property>
+                                <property name="borderRightStyle">solid</property>
+                                <property name="borderRightWidth">1px</property>
+                                <property name="borderTopStyle">solid</property>
+                                <property name="borderTopWidth">2px</property>
+                                <property name="verticalAlign">middle</property>
+                                <data id="1320">
+                                    <list-property name="boundDataColumns">
+                                        <structure>
+                                            <property name="name">campName</property>
+                                            <expression name="expression" type="javascript">params["campName"]</expression>
+                                            <property name="dataType">string</property>
+                                        </structure>
+                                    </list-property>
+                                    <property name="resultSetColumn">campName</property>
+                                </data>
+                            </cell>
+                            <cell id="22">
+                                <property name="colSpan">1</property>
+                                <property name="rowSpan">5</property>
+                                <property name="borderLeftStyle">solid</property>
+                                <property name="borderLeftWidth">2px</property>
+                                <property name="borderRightStyle">solid</property>
+                                <property name="borderRightWidth">2px</property>
+                                <property name="borderTopStyle">solid</property>
+                                <property name="borderTopWidth">2px</property>
+                                <property name="verticalAlign">middle</property>
+                            </cell>
+                        </row>
+                        <row id="23">
+                            <cell id="24">
+                                <property name="fontWeight">normal</property>
+                                <property name="borderBottomStyle">solid</property>
+                                <property name="borderBottomWidth">1px</property>
+                                <property name="borderLeftStyle">solid</property>
+                                <property name="borderLeftWidth">2px</property>
+                                <property name="borderRightStyle">solid</property>
+                                <property name="borderRightWidth">2px</property>
+                                <property name="borderTopStyle">solid</property>
+                                <property name="borderTopWidth">1px</property>
+                                <property name="verticalAlign">middle</property>
+                                <label id="1581">
+                                    <property name="fontSize">9pt</property>
+                                    <text-property name="text">입학 시기</text-property>
+                                </label>
+                                <label id="59">
+                                    <property name="fontSize">7pt</property>
+                                    <property name="fontWeight">normal</property>
+                                    <text-property name="text">Semester of Entrance</text-property>
+                                </label>
+                            </cell>
+                            <cell id="104">
+                                <property name="colSpan">3</property>
+                                <property name="rowSpan">1</property>
+                                <property name="fontWeight">normal</property>
+                                <property name="borderBottomStyle">solid</property>
+                                <property name="borderBottomWidth">1px</property>
+                                <property name="borderLeftStyle">solid</property>
+                                <property name="borderLeftWidth">1px</property>
+                                <property name="borderRightStyle">solid</property>
+                                <property name="borderRightWidth">1px</property>
+                                <property name="borderTopStyle">solid</property>
+                                <property name="borderTopWidth">1px</property>
+                                <property name="verticalAlign">middle</property>
+                                <data id="1615">
+                                    <list-property name="boundDataColumns">
+                                        <structure>
+                                            <property name="name">entrSemester</property>
+                                            <expression name="expression" type="javascript">params["entrYear"] + "-" + params["admsTypeName1"];</expression>
+                                            <property name="dataType">string</property>
+                                            <property name="allowExport">true</property>
+                                        </structure>
+                                    </list-property>
+                                    <property name="resultSetColumn">entrSemester</property>
+                                </data>
+                            </cell>
+                        </row>
+                        <row id="30">
+                            <cell id="31">
+                                <property name="fontWeight">normal</property>
+                                <property name="borderBottomStyle">solid</property>
+                                <property name="borderBottomWidth">1px</property>
+                                <property name="borderLeftStyle">solid</property>
+                                <property name="borderLeftWidth">2px</property>
+                                <property name="borderRightStyle">solid</property>
+                                <property name="borderRightWidth">2px</property>
+                                <property name="borderTopStyle">solid</property>
+                                <property name="borderTopWidth">1px</property>
+                                <property name="verticalAlign">middle</property>
+                                <label id="1582">
+                                    <property name="fontSize">9pt</property>
+                                    <text-property name="text">모집 구분</text-property>
+                                </label>
+                                <label id="1379">
+                                    <property name="fontSize">7pt</property>
+                                    <property name="fontWeight">normal</property>
+                                    <text-property name="text">Course of Degree</text-property>
+                                </label>
+                            </cell>
+                            <cell id="105">
+                                <property name="colSpan">3</property>
+                                <property name="rowSpan">1</property>
+                                <property name="fontWeight">normal</property>
+                                <property name="borderBottomStyle">solid</property>
+                                <property name="borderBottomWidth">1px</property>
+                                <property name="borderLeftStyle">solid</property>
+                                <property name="borderLeftWidth">1px</property>
+                                <property name="borderRightStyle">solid</property>
+                                <property name="borderRightWidth">1px</property>
+                                <property name="borderTopStyle">solid</property>
+                                <property name="borderTopWidth">1px</property>
+                                <property name="verticalAlign">middle</property>
+                                <data id="1283">
+                                    <list-property name="boundDataColumns">
+                                        <structure>
+                                            <property name="name">corsTypeName</property>
+                                            <expression name="expression" type="javascript">params["corsTypeName"]</expression>
+                                            <property name="dataType">string</property>
+                                        </structure>
+                                    </list-property>
+                                    <property name="resultSetColumn">corsTypeName</property>
+                                </data>
+                            </cell>
+                        </row>
+                        <row id="61">
+                            <cell id="62">
+                                <property name="fontWeight">normal</property>
+                                <property name="borderBottomStyle">solid</property>
+                                <property name="borderBottomWidth">1px</property>
+                                <property name="borderLeftStyle">solid</property>
+                                <property name="borderLeftWidth">2px</property>
+                                <property name="borderRightStyle">solid</property>
+                                <property name="borderRightWidth">2px</property>
+                                <property name="borderTopStyle">solid</property>
+                                <property name="borderTopWidth">1px</property>
+                                <property name="verticalAlign">middle</property>
+                                <label id="1583">
+                                    <property name="fontSize">9pt</property>
+                                    <text-property name="text">지원 학과</text-property>
+                                </label>
+                                <label id="89">
+                                    <property name="fontSize">7pt</property>
+                                    <property name="fontWeight">normal</property>
+                                    <text-property name="text">Department</text-property>
+                                </label>
+                            </cell>
+                            <cell id="106">
+                                <property name="colSpan">3</property>
+                                <property name="rowSpan">1</property>
+                                <property name="fontWeight">normal</property>
+                                <property name="borderBottomStyle">solid</property>
+                                <property name="borderBottomWidth">1px</property>
+                                <property name="borderLeftStyle">solid</property>
+                                <property name="borderLeftWidth">1px</property>
+                                <property name="borderRightStyle">solid</property>
+                                <property name="borderRightWidth">1px</property>
+                                <property name="borderTopStyle">solid</property>
+                                <property name="borderTopWidth">1px</property>
+                                <property name="verticalAlign">middle</property>
+                                <data id="1282">
+                                    <list-property name="boundDataColumns">
+                                        <structure>
+                                            <property name="name">deptName</property>
+                                            <expression name="expression" type="javascript">params["deptName"]</expression>
+                                            <property name="dataType">string</property>
+                                        </structure>
+                                    </list-property>
+                                    <property name="resultSetColumn">deptName</property>
+                                </data>
+                            </cell>
+                        </row>
+                        <row id="68">
+                            <cell id="69">
+                                <property name="fontWeight">normal</property>
+                                <property name="borderLeftStyle">solid</property>
+                                <property name="borderLeftWidth">2px</property>
+                                <property name="borderRightStyle">solid</property>
+                                <property name="borderRightWidth">2px</property>
+                                <property name="borderTopStyle">solid</property>
+                                <property name="borderTopWidth">1px</property>
+                                <property name="verticalAlign">middle</property>
+                                <label id="1584">
+                                    <property name="fontSize">9pt</property>
+                                    <text-property name="text">세부 전공</text-property>
+                                </label>
+                                <label id="90">
+                                    <property name="fontSize">7pt</property>
+                                    <property name="fontWeight">normal</property>
+                                    <text-property name="text">Major</text-property>
+                                </label>
+                            </cell>
+                            <cell id="107">
+                                <property name="colSpan">1</property>
+                                <property name="rowSpan">1</property>
+                                <property name="fontWeight">normal</property>
+                                <property name="borderLeftStyle">solid</property>
+                                <property name="borderLeftWidth">1px</property>
+                                <property name="borderRightStyle">solid</property>
+                                <property name="borderRightWidth">1px</property>
+                                <property name="borderTopStyle">solid</property>
+                                <property name="borderTopWidth">1px</property>
+                                <property name="verticalAlign">middle</property>
+                                <data id="1285">
+                                    <list-property name="boundDataColumns">
+                                        <structure>
+                                            <property name="name">detlMajName</property>
+                                            <expression name="expression" type="javascript">params["detlMajName"]</expression>
+                                            <property name="dataType">string</property>
+                                        </structure>
+                                    </list-property>
+                                    <property name="resultSetColumn">detlMajName</property>
+                                </data>
+                            </cell>
+                            <cell id="1586">
+                                <property name="fontWeight">normal</property>
+                                <property name="borderLeftStyle">solid</property>
+                                <property name="borderLeftWidth">1px</property>
+                                <property name="borderRightStyle">solid</property>
+                                <property name="borderRightWidth">1px</property>
+                                <property name="borderTopStyle">solid</property>
+                                <property name="borderTopWidth">1px</property>
+                                <property name="verticalAlign">middle</property>
+                                <label id="1588">
+                                    <property name="fontSize">9pt</property>
+                                    <text-property name="text">학과코드</text-property>
+                                </label>
+                                <label id="102">
+                                    <property name="fontSize">7pt</property>
+                                    <property name="fontWeight">normal</property>
+                                    <text-property name="text">Department Code</text-property>
+                                </label>
+                            </cell>
+                            <cell id="1587">
+                                <property name="fontWeight">normal</property>
+                                <property name="borderLeftStyle">solid</property>
+                                <property name="borderLeftWidth">1px</property>
+                                <property name="borderRightStyle">solid</property>
+                                <property name="borderRightWidth">1px</property>
+                                <property name="borderTopStyle">solid</property>
+                                <property name="borderTopWidth">1px</property>
+                                <property name="verticalAlign">middle</property>
+                                <data id="1195">
+                                    <list-property name="boundDataColumns">
+                                        <structure>
+                                            <property name="name">deptCode</property>
+                                            <expression name="expression" type="javascript">application.getDeptCode();</expression>
+                                            <property name="dataType">string</property>
+                                        </structure>
+                                    </list-property>
+                                    <property name="resultSetColumn">deptCode</property>
+                                </data>
+                            </cell>
+                        </row>
+                    </grid>
+                    <grid id="1389">
+                        <property name="textAlign">center</property>
+                        <column id="1390">
+                            <property name="width">15%</property>
+                        </column>
+                        <column id="1391">
+                            <property name="width">12%</property>
+                        </column>
+                        <column id="1392">
+                            <property name="width">18%</property>
+                        </column>
+                        <column id="1393">
+                            <property name="width">12%</property>
+                        </column>
+                        <column id="1394">
+                            <property name="width">18%</property>
+                        </column>
+                        <column id="1395">
+                            <property name="width">12%</property>
+                        </column>
+                        <column id="1473"/>
+                        <row id="1429">
+                            <property name="textAlign">justify</property>
+                            <cell id="1430">
+                                <property name="colSpan">7</property>
+                                <property name="rowSpan">1</property>
+                                <property name="borderBottomStyle">solid</property>
+                                <property name="borderBottomWidth">2px</property>
+                                <property name="borderLeftStyle">solid</property>
+                                <property name="borderLeftWidth">2px</property>
+                                <property name="borderRightStyle">solid</property>
+                                <property name="borderRightWidth">2px</property>
+                                <property name="borderTopStyle">solid</property>
+                                <property name="borderTopWidth">2px</property>
+                                <property name="verticalAlign">middle</property>
+                                <label id="1431">
+                                    <text-property name="text">지원자 정보 (Applying Information)</text-property>
+                                </label>
+                                <label id="1432">
+                                    <property name="fontSize">8pt</property>
+                                    <property name="paddingTop">0pt</property>
+                                    <property name="paddingLeft">0pt</property>
+                                    <property name="paddingBottom">0pt</property>
+                                    <property name="paddingRight">0pt</property>
+                                    <text-property name="text">* 여권 그리고 비자상의 정보와 동일하게 입력 바랍니다. Please fill in identical information on your Passport and Visa.</text-property>
+                                </label>
+                            </cell>
+                        </row>
+                        <row id="1433">
+                            <cell id="1434">
+                                <property name="colSpan">1</property>
+                                <property name="rowSpan">1</property>
+                                <property name="borderBottomStyle">solid</property>
+                                <property name="borderBottomWidth">1px</property>
+                                <property name="borderLeftStyle">solid</property>
+                                <property name="borderLeftWidth">2px</property>
+                                <property name="borderRightStyle">solid</property>
+                                <property name="borderRightWidth">2px</property>
+                                <property name="borderTopStyle">solid</property>
+                                <property name="borderTopWidth">1px</property>
+                                <property name="verticalAlign">middle</property>
+                                <label id="1589">
+                                    <text-property name="text">이름</text-property>
+                                </label>
+                                <label id="1435">
+                                    <property name="fontSize">7pt</property>
+                                    <text-property name="text">Name of Applicant</text-property>
+                                </label>
+                            </cell>
+                            <cell id="1436">
+                                <property name="borderBottomStyle">solid</property>
+                                <property name="borderBottomWidth">1px</property>
+                                <property name="borderLeftStyle">solid</property>
+                                <property name="borderLeftWidth">1px</property>
+                                <property name="borderRightStyle">solid</property>
+                                <property name="borderRightWidth">1px</property>
+                                <property name="borderTopStyle">solid</property>
+                                <property name="borderTopWidth">1px</property>
+                                <property name="verticalAlign">middle</property>
+                                <label id="1590">
+                                    <property name="fontSize">8pt</property>
+                                    <text-property name="text">성</text-property>
+                                </label>
+                                <label id="1437">
+                                    <property name="fontSize">6pt</property>
+                                    <text-property name="text">Surname</text-property>
+                                </label>
+                            </cell>
+                            <cell id="1438">
+                                <property name="borderBottomStyle">solid</property>
+                                <property name="borderBottomWidth">1px</property>
+                                <property name="borderLeftStyle">solid</property>
+                                <property name="borderLeftWidth">1px</property>
+                                <property name="borderRightStyle">solid</property>
+                                <property name="borderRightWidth">1px</property>
+                                <property name="borderTopStyle">solid</property>
+                                <property name="borderTopWidth">1px</property>
+                                <property name="verticalAlign">middle</property>
+                                <data id="1439">
+                                    <list-property name="boundDataColumns">
+                                        <structure>
+                                            <property name="name">surName</property>
+                                            <expression name="expression" type="javascript">application.getEngSur();</expression>
+                                            <property name="dataType">string</property>
+                                            <property name="allowExport">true</property>
+                                        </structure>
+                                    </list-property>
+                                    <property name="resultSetColumn">surName</property>
+                                </data>
+                            </cell>
+                            <cell id="1440">
+                                <property name="borderBottomStyle">solid</property>
+                                <property name="borderBottomWidth">1px</property>
+                                <property name="borderLeftStyle">solid</property>
+                                <property name="borderLeftWidth">1px</property>
+                                <property name="borderRightStyle">solid</property>
+                                <property name="borderRightWidth">1px</property>
+                                <property name="borderTopStyle">solid</property>
+                                <property name="borderTopWidth">1px</property>
+                                <property name="verticalAlign">middle</property>
+                                <label id="1593">
+                                    <property name="fontSize">8pt</property>
+                                    <text-property name="text">명</text-property>
+                                </label>
+                                <label id="1441">
+                                    <property name="fontSize">6pt</property>
+                                    <text-property name="text">Given name</text-property>
+                                </label>
+                            </cell>
+                            <cell id="1442">
+                                <property name="colSpan">1</property>
+                                <property name="rowSpan">1</property>
+                                <property name="borderBottomStyle">solid</property>
+                                <property name="borderBottomWidth">1px</property>
+                                <property name="borderLeftStyle">solid</property>
+                                <property name="borderLeftWidth">1px</property>
+                                <property name="borderRightStyle">solid</property>
+                                <property name="borderRightWidth">1px</property>
+                                <property name="verticalAlign">middle</property>
+                                <data id="1443">
+                                    <list-property name="boundDataColumns">
+                                        <structure>
+                                            <property name="name">engName</property>
+                                            <expression name="expression" type="javascript">application.getEngName();</expression>
+                                            <property name="dataType">string</property>
+                                            <property name="allowExport">true</property>
+                                        </structure>
+                                    </list-property>
+                                    <property name="resultSetColumn">engName</property>
+                                </data>
+                            </cell>
+                            <cell id="1468">
+                                <property name="borderBottomStyle">solid</property>
+                                <property name="borderBottomWidth">1px</property>
+                                <property name="borderLeftStyle">solid</property>
+                                <property name="borderLeftWidth">1px</property>
+                                <property name="borderRightStyle">solid</property>
+                                <property name="borderRightWidth">1px</property>
+                                <property name="verticalAlign">middle</property>
+                                <label id="1596">
+                                    <property name="fontSize">8pt</property>
+                                    <text-property name="text">성별</text-property>
+                                </label>
+                                <label id="1474">
+                                    <property name="fontSize">6pt</property>
+                                    <text-property name="text">Gender</text-property>
+                                </label>
+                            </cell>
+                            <cell id="1470">
+                                <property name="borderBottomStyle">solid</property>
+                                <property name="borderBottomWidth">1px</property>
+                                <property name="borderLeftStyle">solid</property>
+                                <property name="borderLeftWidth">1px</property>
+                                <property name="borderRightStyle">solid</property>
+                                <property name="borderRightWidth">2px</property>
+                                <property name="verticalAlign">middle</property>
+                                <data id="1616">
+                                    <list-property name="boundDataColumns">
+                                        <structure>
+                                            <property name="name">gender</property>
+                                            <expression name="expression" type="javascript">"M" == application.getGend().toLocaleUpperCase() ? "남성(Male)" : "여성(Female)";</expression>
+                                            <property name="dataType">string</property>
+                                            <property name="allowExport">true</property>
+                                        </structure>
+                                    </list-property>
+                                    <property name="resultSetColumn">gender</property>
+                                </data>
+                            </cell>
+                        </row>
+                        <row id="1444">
+                            <cell id="1445">
+                                <property name="borderBottomStyle">solid</property>
+                                <property name="borderBottomWidth">1px</property>
+                                <property name="borderLeftStyle">solid</property>
+                                <property name="borderLeftWidth">2px</property>
+                                <property name="borderRightStyle">solid</property>
+                                <property name="borderRightWidth">2px</property>
+                                <property name="borderTopStyle">solid</property>
+                                <property name="borderTopWidth">1px</property>
+                                <property name="verticalAlign">middle</property>
+                                <label id="1446">
+                                    <property name="fontSize">7pt</property>
+                                    <text-property name="text">Nationality</text-property>
+                                </label>
+                            </cell>
+                            <cell id="1447">
+                                <property name="colSpan">1</property>
+                                <property name="rowSpan">1</property>
+                                <property name="borderBottomStyle">solid</property>
+                                <property name="borderBottomWidth">1px</property>
+                                <property name="borderLeftStyle">solid</property>
+                                <property name="borderLeftWidth">1px</property>
+                                <property name="borderRightStyle">solid</property>
+                                <property name="borderRightWidth">1px</property>
+                                <property name="borderTopStyle">solid</property>
+                                <property name="borderTopWidth">1px</property>
+                                <property name="verticalAlign">middle</property>
+                                <label id="1591">
+                                    <property name="fontSize">8pt</property>
+                                    <text-property name="text">출생국</text-property>
+                                </label>
+                                <label id="1464">
+                                    <property name="fontSize">6pt</property>
+                                    <text-property name="text">Country of Birth</text-property>
+                                </label>
+                            </cell>
+                            <cell id="1462">
+                                <property name="borderBottomStyle">solid</property>
+                                <property name="borderBottomWidth">1px</property>
+                                <property name="borderLeftStyle">solid</property>
+                                <property name="borderLeftWidth">1px</property>
+                                <property name="borderRightStyle">solid</property>
+                                <property name="borderRightWidth">1px</property>
+                                <property name="borderTopStyle">solid</property>
+                                <property name="borderTopWidth">1px</property>
+                                <property name="verticalAlign">middle</property>
+                                <data id="1620">
+                                    <list-property name="boundDataColumns">
+                                        <structure>
+                                            <property name="name">bornCntrName</property>
+                                            <expression name="expression" type="javascript">params["bornCntrName"]</expression>
+                                            <property name="dataType">string</property>
+                                        </structure>
+                                    </list-property>
+                                    <property name="resultSetColumn">bornCntrName</property>
+                                </data>
+                            </cell>
+                            <cell id="1449">
+                                <property name="borderBottomStyle">solid</property>
+                                <property name="borderBottomWidth">1px</property>
+                                <property name="borderLeftStyle">solid</property>
+                                <property name="borderLeftWidth">1px</property>
+                                <property name="borderRightStyle">solid</property>
+                                <property name="borderRightWidth">1px</property>
+                                <property name="borderTopStyle">solid</property>
+                                <property name="borderTopWidth">1px</property>
+                                <property name="verticalAlign">middle</property>
+                                <label id="1594">
+                                    <property name="fontSize">8pt</property>
+                                    <text-property name="text">국적국</text-property>
+                                </label>
+                                <label id="1450">
+                                    <property name="fontSize">6pt</property>
+                                    <text-property name="text">Citizenship</text-property>
+                                </label>
+                            </cell>
+                            <cell id="1451">
+                                <property name="colSpan">1</property>
+                                <property name="rowSpan">1</property>
+                                <property name="borderBottomStyle">solid</property>
+                                <property name="borderBottomWidth">1px</property>
+                                <property name="borderLeftStyle">solid</property>
+                                <property name="borderLeftWidth">1px</property>
+                                <property name="borderRightStyle">solid</property>
+                                <property name="borderRightWidth">1px</property>
+                                <property name="borderTopStyle">solid</property>
+                                <property name="borderTopWidth">1px</property>
+                                <property name="verticalAlign">middle</property>
+                                <data id="1622">
+                                    <list-property name="boundDataColumns">
+                                        <structure>
+                                            <property name="name">citzCntrName</property>
+                                            <expression name="expression" type="javascript">params["citzCntrName"]</expression>
+                                            <property name="dataType">string</property>
+                                        </structure>
+                                    </list-property>
+                                    <property name="resultSetColumn">citzCntrName</property>
+                                </data>
+                            </cell>
+                            <cell id="1467">
+                                <property name="borderBottomStyle">solid</property>
+                                <property name="borderBottomWidth">1px</property>
+                                <property name="borderLeftStyle">solid</property>
+                                <property name="borderLeftWidth">1px</property>
+                                <property name="borderRightStyle">solid</property>
+                                <property name="borderRightWidth">1px</property>
+                                <property name="borderTopStyle">solid</property>
+                                <property name="borderTopWidth">1px</property>
+                                <property name="verticalAlign">middle</property>
+                                <label id="1597">
+                                    <property name="fontSize">8pt</property>
+                                    <text-property name="text">출생일</text-property>
+                                </label>
+                                <label id="1475">
+                                    <property name="fontSize">6pt</property>
+                                    <text-property name="text">Date of Birth</text-property>
+                                </label>
+                            </cell>
+                            <cell id="1471">
+                                <property name="borderBottomStyle">solid</property>
+                                <property name="borderBottomWidth">1px</property>
+                                <property name="borderLeftStyle">solid</property>
+                                <property name="borderLeftWidth">1px</property>
+                                <property name="borderRightStyle">solid</property>
+                                <property name="borderRightWidth">2px</property>
+                                <property name="borderTopStyle">solid</property>
+                                <property name="borderTopWidth">1px</property>
+                                <property name="verticalAlign">middle</property>
+                                <data id="1617">
+                                    <list-property name="boundDataColumns">
+                                        <structure>
+                                            <property name="name">birthday</property>
+                                            <expression name="expression" type="javascript">application.getBornDay();</expression>
+                                            <property name="dataType">string</property>
+                                            <property name="allowExport">true</property>
+                                        </structure>
+                                    </list-property>
+                                    <property name="resultSetColumn">birthday</property>
+                                </data>
+                            </cell>
+                        </row>
+                        <row id="1453">
+                            <cell id="1454">
+                                <property name="borderLeftStyle">solid</property>
+                                <property name="borderLeftWidth">2px</property>
+                                <property name="borderRightStyle">solid</property>
+                                <property name="borderRightWidth">2px</property>
+                                <property name="borderTopStyle">solid</property>
+                                <property name="borderTopWidth">1px</property>
+                                <property name="verticalAlign">middle</property>
+                                <label id="1455">
+                                    <property name="fontSize">7pt</property>
+                                    <property name="fontWeight">normal</property>
+                                    <text-property name="text">Visa Information</text-property>
+                                </label>
+                            </cell>
+                            <cell id="1456">
+                                <property name="colSpan">1</property>
+                                <property name="rowSpan">1</property>
+                                <property name="borderLeftStyle">solid</property>
+                                <property name="borderLeftWidth">1px</property>
+                                <property name="borderRightStyle">solid</property>
+                                <property name="borderRightWidth">1px</property>
+                                <property name="borderTopStyle">solid</property>
+                                <property name="borderTopWidth">1px</property>
+                                <property name="verticalAlign">middle</property>
+                                <label id="1592">
+                                    <property name="fontSize">8pt</property>
+                                    <text-property name="text">여권 번호</text-property>
+                                </label>
+                                <label id="1465">
+                                    <property name="fontSize">6pt</property>
+                                    <text-property name="text">Passport Number</text-property>
+                                </label>
+                            </cell>
+                            <cell id="1463">
+                                <property name="borderLeftStyle">solid</property>
+                                <property name="borderLeftWidth">1px</property>
+                                <property name="borderRightStyle">solid</property>
+                                <property name="borderRightWidth">1px</property>
+                                <property name="borderTopStyle">solid</property>
+                                <property name="borderTopWidth">1px</property>
+                                <property name="verticalAlign">middle</property>
+                                <data id="1457">
+                                    <list-property name="boundDataColumns">
+                                        <structure>
+                                            <property name="name">passportNo</property>
+                                            <expression name="expression" type="javascript">foreign.getPaspNo();</expression>
+                                            <property name="dataType">string</property>
+                                            <property name="allowExport">true</property>
+                                        </structure>
+                                    </list-property>
+                                    <property name="resultSetColumn">passportNo</property>
+                                </data>
+                            </cell>
+                            <cell id="1458">
+                                <property name="borderLeftStyle">solid</property>
+                                <property name="borderLeftWidth">1px</property>
+                                <property name="borderRightStyle">solid</property>
+                                <property name="borderRightWidth">1px</property>
+                                <property name="borderTopStyle">solid</property>
+                                <property name="borderTopWidth">1px</property>
+                                <property name="verticalAlign">middle</property>
+                                <label id="1595">
+                                    <property name="fontSize">8pt</property>
+                                    <text-property name="text">사증 종류</text-property>
+                                </label>
+                                <label id="1459">
+                                    <property name="fontSize">6pt</property>
+                                    <text-property name="text">Type of VISA</text-property>
+                                </label>
+                            </cell>
+                            <cell id="1460">
+                                <property name="colSpan">1</property>
+                                <property name="rowSpan">1</property>
+                                <property name="borderLeftStyle">solid</property>
+                                <property name="borderLeftWidth">1px</property>
+                                <property name="borderRightStyle">solid</property>
+                                <property name="borderRightWidth">1px</property>
+                                <property name="borderTopStyle">solid</property>
+                                <property name="borderTopWidth">1px</property>
+                                <property name="verticalAlign">middle</property>
+                                <data id="1461">
+                                    <list-property name="boundDataColumns">
+                                        <structure>
+                                            <property name="name">visaNo</property>
+                                            <expression name="expression" type="javascript">foreign.getVisaNo();</expression>
+                                            <property name="dataType">string</property>
+                                            <property name="allowExport">true</property>
+                                        </structure>
+                                    </list-property>
+                                    <property name="resultSetColumn">visaNo</property>
+                                </data>
+                            </cell>
+                            <cell id="1466">
+                                <property name="borderLeftStyle">solid</property>
+                                <property name="borderLeftWidth">1px</property>
+                                <property name="borderRightStyle">solid</property>
+                                <property name="borderRightWidth">1px</property>
+                                <property name="borderTopStyle">solid</property>
+                                <property name="borderTopWidth">1px</property>
+                                <property name="verticalAlign">middle</property>
+                                <label id="1598">
+                                    <property name="fontSize">8pt</property>
+                                    <text-property name="text">외국인등록</text-property>
+                                </label>
+                                <label id="1476">
+                                    <property name="fontSize">6pt</property>
+                                    <text-property name="text">Registration</text-property>
+                                </label>
+                            </cell>
+                            <cell id="1472">
+                                <property name="borderLeftStyle">solid</property>
+                                <property name="borderLeftWidth">1px</property>
+                                <property name="borderRightStyle">solid</property>
+                                <property name="borderRightWidth">2px</property>
+                                <property name="borderTopStyle">solid</property>
+                                <property name="borderTopWidth">1px</property>
+                                <property name="verticalAlign">middle</property>
+                                <data id="1618">
+                                    <list-property name="boundDataColumns">
+                                        <structure>
+                                            <property name="name">rgstNo</property>
+                                            <expression name="expression" type="javascript">application.getRgstNo();</expression>
+                                            <property name="dataType">string</property>
+                                            <property name="allowExport">true</property>
+                                        </structure>
+                                    </list-property>
+                                    <property name="resultSetColumn">rgstNo</property>
+                                </data>
+                            </cell>
+                        </row>
+                    </grid>
+                    <grid id="1477">
+                        <property name="textAlign">center</property>
+                        <column id="1478">
+                            <property name="width">15%</property>
+                        </column>
+                        <column id="1479">
+                            <property name="width">12%</property>
+                        </column>
+                        <column id="1480">
+                            <property name="width">18%</property>
+                        </column>
+                        <column id="1481">
+                            <property name="width">12%</property>
+                        </column>
+                        <column id="1482">
+                            <property name="width">18%</property>
+                        </column>
+                        <column id="1483">
+                            <property name="width">12%</property>
+                        </column>
+                        <column id="1484"/>
+                        <row id="1485">
+                            <property name="textAlign">justify</property>
+                            <cell id="1486">
+                                <property name="colSpan">1</property>
+                                <property name="rowSpan">1</property>
+                                <property name="borderBottomStyle">solid</property>
+                                <property name="borderBottomWidth">1px</property>
+                                <property name="borderLeftStyle">solid</property>
+                                <property name="borderLeftWidth">2px</property>
+                                <property name="borderRightStyle">solid</property>
+                                <property name="borderRightWidth">2px</property>
+                                <property name="borderTopStyle">solid</property>
+                                <property name="borderTopWidth">1px</property>
+                                <property name="textAlign">center</property>
+                                <property name="verticalAlign">middle</property>
+                                <label id="1599">
+                                    <text-property name="text">본국 주소</text-property>
+                                </label>
+                                <label id="1487">
+                                    <property name="fontSize">7pt</property>
+                                    <text-property name="text">Homeland Address</text-property>
+                                </label>
+                            </cell>
+                            <cell id="1531">
+                                <property name="colSpan">6</property>
+                                <property name="rowSpan">1</property>
+                                <property name="borderBottomStyle">solid</property>
+                                <property name="borderBottomWidth">1px</property>
+                                <property name="borderLeftStyle">solid</property>
+                                <property name="borderLeftWidth">2px</property>
+                                <property name="borderRightStyle">solid</property>
+                                <property name="borderRightWidth">2px</property>
+                                <property name="borderTopStyle">solid</property>
+                                <property name="borderTopWidth">1px</property>
+                                <property name="verticalAlign">middle</property>
+                                <data id="1623">
+                                    <list-property name="boundDataColumns">
+                                        <structure>
+                                            <property name="name">homeAddr</property>
+                                            <expression name="expression" type="javascript">foreign.getHomeAddr();</expression>
+                                            <property name="dataType">string</property>
+                                            <property name="allowExport">true</property>
+                                        </structure>
+                                    </list-property>
+                                    <property name="resultSetColumn">homeAddr</property>
+                                </data>
+                            </cell>
+                        </row>
+                        <row id="1537">
+                            <property name="textAlign">justify</property>
+                            <cell id="1538">
+                                <property name="borderBottomStyle">solid</property>
+                                <property name="borderBottomWidth">1px</property>
+                                <property name="borderLeftStyle">solid</property>
+                                <property name="borderLeftWidth">2px</property>
+                                <property name="borderRightStyle">solid</property>
+                                <property name="borderRightWidth">2px</property>
+                                <property name="borderTopStyle">solid</property>
+                                <property name="borderTopWidth">1px</property>
+                                <property name="textAlign">center</property>
+                                <property name="verticalAlign">middle</property>
+                                <label id="1600">
+                                    <text-property name="text">한국 내 주소</text-property>
+                                </label>
+                                <label id="1545">
+                                    <property name="fontSize">7pt</property>
+                                    <text-property name="text">Address in Korea</text-property>
+                                </label>
+                            </cell>
+                            <cell id="1539">
+                                <property name="colSpan">6</property>
+                                <property name="rowSpan">1</property>
+                                <property name="borderBottomStyle">solid</property>
+                                <property name="borderBottomWidth">1px</property>
+                                <property name="borderLeftStyle">solid</property>
+                                <property name="borderLeftWidth">2px</property>
+                                <property name="borderRightStyle">solid</property>
+                                <property name="borderRightWidth">2px</property>
+                                <property name="borderTopStyle">solid</property>
+                                <property name="borderTopWidth">1px</property>
+                                <property name="verticalAlign">middle</property>
+                                <data id="1624">
+                                    <list-property name="boundDataColumns">
+                                        <structure>
+                                            <property name="name">korAddr</property>
+                                            <expression name="expression" type="javascript">application.getAddr();</expression>
+                                            <property name="dataType">string</property>
+                                            <property name="allowExport">true</property>
+                                        </structure>
+                                    </list-property>
+                                    <property name="resultSetColumn">korAddr</property>
+                                </data>
+                            </cell>
+                        </row>
+                        <row id="1489">
+                            <cell id="1490">
+                                <property name="colSpan">1</property>
+                                <property name="rowSpan">2</property>
+                                <property name="borderBottomStyle">solid</property>
+                                <property name="borderBottomWidth">1px</property>
+                                <property name="borderLeftStyle">solid</property>
+                                <property name="borderLeftWidth">2px</property>
+                                <property name="borderRightStyle">solid</property>
+                                <property name="borderRightWidth">2px</property>
+                                <property name="borderTopStyle">solid</property>
+                                <property name="borderTopWidth">1px</property>
+                                <property name="verticalAlign">middle</property>
+                                <label id="1575">
+                                    <property name="fontSize">9pt</property>
+                                    <text-property name="text">연락처</text-property>
+                                </label>
+                                <label id="1491">
+                                    <property name="fontSize">7pt</property>
+                                    <text-property name="text">Contact Information</text-property>
+                                </label>
+                            </cell>
+                            <cell id="1492">
+                                <property name="borderBottomStyle">solid</property>
+                                <property name="borderBottomWidth">1px</property>
+                                <property name="borderLeftStyle">solid</property>
+                                <property name="borderLeftWidth">1px</property>
+                                <property name="borderRightStyle">solid</property>
+                                <property name="borderRightWidth">1px</property>
+                                <property name="borderTopStyle">solid</property>
+                                <property name="borderTopWidth">1px</property>
+                                <property name="verticalAlign">middle</property>
+                                <label id="1578">
+                                    <property name="fontSize">8pt</property>
+                                    <text-property name="text">전자우편</text-property>
+                                </label>
+                                <label id="1493">
+                                    <property name="fontSize">7pt</property>
+                                    <text-property name="text">e-mail Address</text-property>
+                                </label>
+                            </cell>
+                            <cell id="1494">
+                                <property name="colSpan">2</property>
+                                <property name="rowSpan">1</property>
+                                <property name="borderBottomStyle">solid</property>
+                                <property name="borderBottomWidth">1px</property>
+                                <property name="borderLeftStyle">solid</property>
+                                <property name="borderLeftWidth">1px</property>
+                                <property name="borderRightStyle">solid</property>
+                                <property name="borderRightWidth">1px</property>
+                                <property name="borderTopStyle">solid</property>
+                                <property name="borderTopWidth">1px</property>
+                                <property name="verticalAlign">middle</property>
+                                <data id="1513">
+                                    <list-property name="boundDataColumns">
+                                        <structure>
+                                            <property name="name">mailAddr</property>
+                                            <expression name="expression" type="javascript">application.getMailAddr();</expression>
+                                            <property name="dataType">string</property>
+                                        </structure>
+                                    </list-property>
+                                    <property name="resultSetColumn">mailAddr</property>
+                                </data>
+                            </cell>
+                            <cell id="1498">
+                                <property name="colSpan">1</property>
+                                <property name="rowSpan">1</property>
+                                <property name="borderBottomStyle">solid</property>
+                                <property name="borderBottomWidth">1px</property>
+                                <property name="borderLeftStyle">solid</property>
+                                <property name="borderLeftWidth">1px</property>
+                                <property name="borderRightStyle">solid</property>
+                                <property name="borderRightWidth">1px</property>
+                                <property name="verticalAlign">middle</property>
+                                <label id="1607">
+                                    <property name="fontSize">8pt</property>
+                                    <text-property name="text">본국 전화번호</text-property>
+                                </label>
+                                <label id="1497">
+                                    <property name="fontSize">7pt</property>
+                                    <text-property name="text">Homeland Phone</text-property>
+                                </label>
+                            </cell>
+                            <cell id="1500">
+                                <property name="colSpan">2</property>
+                                <property name="rowSpan">1</property>
+                                <property name="borderBottomStyle">solid</property>
+                                <property name="borderBottomWidth">1px</property>
+                                <property name="borderLeftStyle">solid</property>
+                                <property name="borderLeftWidth">1px</property>
+                                <property name="borderRightStyle">solid</property>
+                                <property name="borderRightWidth">2px</property>
+                                <property name="verticalAlign">middle</property>
+                                <data id="1625">
+                                    <list-property name="boundDataColumns">
+                                        <structure>
+                                            <property name="name">homeTel</property>
+                                            <expression name="expression" type="javascript">foreign.getHomeTel();</expression>
+                                            <property name="dataType">string</property>
+                                        </structure>
+                                    </list-property>
+                                    <property name="resultSetColumn">homeTel</property>
+                                </data>
+                            </cell>
+                        </row>
+                        <row id="1546">
+                            <cell id="1548">
+                                <property name="borderBottomStyle">solid</property>
+                                <property name="borderBottomWidth">1px</property>
+                                <property name="borderLeftStyle">solid</property>
+                                <property name="borderLeftWidth">1px</property>
+                                <property name="borderRightStyle">solid</property>
+                                <property name="borderRightWidth">1px</property>
+                                <property name="borderTopStyle">solid</property>
+                                <property name="borderTopWidth">1px</property>
+                                <property name="verticalAlign">middle</property>
+                                <label id="1579">
+                                    <property name="fontSize">8pt</property>
+                                    <text-property name="text">한국 전화번호</text-property>
+                                </label>
+                                <label id="1507">
+                                    <property name="fontSize">7pt</property>
+                                    <text-property name="text">Korean Phone</text-property>
+                                </label>
+                            </cell>
+                            <cell id="1549">
+                                <property name="colSpan">2</property>
+                                <property name="rowSpan">1</property>
+                                <property name="borderBottomStyle">solid</property>
+                                <property name="borderBottomWidth">1px</property>
+                                <property name="borderLeftStyle">solid</property>
+                                <property name="borderLeftWidth">1px</property>
+                                <property name="borderRightStyle">solid</property>
+                                <property name="borderRightWidth">1px</property>
+                                <property name="borderTopStyle">solid</property>
+                                <property name="borderTopWidth">1px</property>
+                                <property name="verticalAlign">middle</property>
+                                <data id="1523">
+                                    <list-property name="boundDataColumns">
+                                        <structure>
+                                            <property name="name">telNum</property>
+                                            <expression name="expression" type="javascript">application.getTelNum();</expression>
+                                            <property name="dataType">string</property>
+                                        </structure>
+                                    </list-property>
+                                    <property name="resultSetColumn">telNum</property>
+                                </data>
+                            </cell>
+                            <cell id="1551">
+                                <property name="borderBottomStyle">solid</property>
+                                <property name="borderBottomWidth">1px</property>
+                                <property name="borderLeftStyle">solid</property>
+                                <property name="borderLeftWidth">1px</property>
+                                <property name="borderRightStyle">solid</property>
+                                <property name="borderRightWidth">1px</property>
+                                <property name="verticalAlign">middle</property>
+                                <label id="1608">
+                                    <property name="fontSize">8pt</property>
+                                    <text-property name="text">한국 휴대전화</text-property>
+                                </label>
+                                <label id="1511">
+                                    <property name="fontSize">7pt</property>
+                                    <text-property name="text">Korean Cell Phone</text-property>
+                                </label>
+                            </cell>
+                            <cell id="1552">
+                                <property name="colSpan">2</property>
+                                <property name="rowSpan">1</property>
+                                <property name="borderBottomStyle">solid</property>
+                                <property name="borderBottomWidth">1px</property>
+                                <property name="borderLeftStyle">solid</property>
+                                <property name="borderLeftWidth">1px</property>
+                                <property name="borderRightStyle">solid</property>
+                                <property name="borderRightWidth">2px</property>
+                                <property name="verticalAlign">middle</property>
+                                <data id="1627">
+                                    <list-property name="boundDataColumns">
+                                        <structure>
+                                            <property name="name">mobiNum</property>
+                                            <expression name="expression" type="javascript">application.getMobiNum();</expression>
+                                            <property name="dataType">string</property>
+                                        </structure>
+                                    </list-property>
+                                    <property name="resultSetColumn">mobiNum</property>
+                                </data>
+                            </cell>
+                        </row>
+                        <row id="1503">
+                            <cell id="1504">
+                                <property name="borderBottomStyle">solid</property>
+                                <property name="borderBottomWidth">1px</property>
+                                <property name="borderLeftStyle">solid</property>
+                                <property name="borderLeftWidth">2px</property>
+                                <property name="borderRightStyle">solid</property>
+                                <property name="borderRightWidth">2px</property>
+                                <property name="borderTopStyle">solid</property>
+                                <property name="borderTopWidth">1px</property>
+                                <property name="verticalAlign">middle</property>
+                                <label id="1576">
+                                    <property name="fontSize">9pt</property>
+                                    <text-property name="text">본국 보호자</text-property>
+                                </label>
+                                <label id="1505">
+                                    <property name="fontSize">7pt</property>
+                                    <text-property name="text">Homeland Chaperon(e)</text-property>
+                                </label>
+                            </cell>
+                            <cell id="1506">
+                                <property name="colSpan">1</property>
+                                <property name="rowSpan">1</property>
+                                <property name="borderBottomStyle">solid</property>
+                                <property name="borderBottomWidth">1px</property>
+                                <property name="borderLeftStyle">solid</property>
+                                <property name="borderLeftWidth">1px</property>
+                                <property name="borderRightStyle">solid</property>
+                                <property name="borderRightWidth">1px</property>
+                                <property name="borderTopStyle">solid</property>
+                                <property name="borderTopWidth">1px</property>
+                                <property name="verticalAlign">middle</property>
+                                <label id="1601">
+                                    <property name="fontSize">8pt</property>
+                                    <text-property name="text">성명</text-property>
+                                </label>
+                                <label id="1554">
+                                    <property name="fontSize">7pt</property>
+                                    <text-property name="text">Name</text-property>
+                                </label>
+                            </cell>
+                            <cell id="1508">
+                                <property name="borderBottomStyle">solid</property>
+                                <property name="borderBottomWidth">1px</property>
+                                <property name="borderLeftStyle">solid</property>
+                                <property name="borderLeftWidth">1px</property>
+                                <property name="borderRightStyle">solid</property>
+                                <property name="borderRightWidth">1px</property>
+                                <property name="borderTopStyle">solid</property>
+                                <property name="borderTopWidth">1px</property>
+                                <property name="verticalAlign">middle</property>
+                                <data id="1628">
+                                    <list-property name="boundDataColumns">
+                                        <structure>
+                                            <property name="name">homeEmrgName</property>
+                                            <expression name="expression" type="javascript">foreign.getHomeEmrgName();</expression>
+                                            <property name="dataType">string</property>
+                                            <property name="allowExport">true</property>
+                                        </structure>
+                                    </list-property>
+                                    <property name="resultSetColumn">homeEmrgName</property>
+                                </data>
+                            </cell>
+                            <cell id="1510">
+                                <property name="borderBottomStyle">solid</property>
+                                <property name="borderBottomWidth">1px</property>
+                                <property name="borderLeftStyle">solid</property>
+                                <property name="borderLeftWidth">1px</property>
+                                <property name="borderRightStyle">solid</property>
+                                <property name="borderRightWidth">1px</property>
+                                <property name="borderTopStyle">solid</property>
+                                <property name="borderTopWidth">1px</property>
+                                <property name="verticalAlign">middle</property>
+                                <label id="1603">
+                                    <property name="fontSize">8pt</property>
+                                    <text-property name="text">전화번호</text-property>
+                                </label>
+                                <label id="1555">
+                                    <property name="fontSize">7pt</property>
+                                    <text-property name="text">Phone</text-property>
+                                </label>
+                            </cell>
+                            <cell id="1512">
+                                <property name="colSpan">1</property>
+                                <property name="rowSpan">1</property>
+                                <property name="borderBottomStyle">solid</property>
+                                <property name="borderBottomWidth">1px</property>
+                                <property name="borderLeftStyle">solid</property>
+                                <property name="borderLeftWidth">1px</property>
+                                <property name="borderRightStyle">solid</property>
+                                <property name="borderRightWidth">1px</property>
+                                <property name="borderTopStyle">solid</property>
+                                <property name="borderTopWidth">1px</property>
+                                <property name="verticalAlign">middle</property>
+                                <data id="1630">
+                                    <list-property name="boundDataColumns">
+                                        <structure>
+                                            <property name="name">homeEmrgTel</property>
+                                            <expression name="expression" type="javascript">foreign.getHomeEmrgTel();</expression>
+                                            <property name="dataType">string</property>
+                                            <property name="allowExport">true</property>
+                                        </structure>
+                                    </list-property>
+                                    <property name="resultSetColumn">homeEmrgTel</property>
+                                </data>
+                            </cell>
+                            <cell id="1514">
+                                <property name="borderBottomStyle">solid</property>
+                                <property name="borderBottomWidth">1px</property>
+                                <property name="borderLeftStyle">solid</property>
+                                <property name="borderLeftWidth">1px</property>
+                                <property name="borderRightStyle">solid</property>
+                                <property name="borderRightWidth">1px</property>
+                                <property name="borderTopStyle">solid</property>
+                                <property name="borderTopWidth">1px</property>
+                                <property name="verticalAlign">middle</property>
+                                <label id="1605">
+                                    <property name="fontSize">8pt</property>
+                                    <text-property name="text">관계</text-property>
+                                </label>
+                                <label id="1556">
+                                    <property name="fontSize">7pt</property>
+                                    <text-property name="text">Relationship</text-property>
+                                </label>
+                            </cell>
+                            <cell id="1516">
+                                <property name="borderBottomStyle">solid</property>
+                                <property name="borderBottomWidth">1px</property>
+                                <property name="borderLeftStyle">solid</property>
+                                <property name="borderLeftWidth">1px</property>
+                                <property name="borderRightStyle">solid</property>
+                                <property name="borderRightWidth">2px</property>
+                                <property name="borderTopStyle">solid</property>
+                                <property name="borderTopWidth">1px</property>
+                                <property name="verticalAlign">middle</property>
+                                <data id="1684">
+                                    <list-property name="boundDataColumns">
+                                        <structure>
+                                            <property name="name">homeEmrgRela</property>
+                                            <expression name="expression" type="javascript">var commonCode = commonService.retrieveCommonCodeValueByCodeGroupCode("EMER_CONT", String(foreign.getHomeEmrgRela()));&#13;
+commonCode ? commonCode.getCodeVal() : "";</expression>
+                                            <property name="dataType">string</property>
+                                            <property name="allowExport">true</property>
+                                        </structure>
+                                    </list-property>
+                                    <property name="resultSetColumn">homeEmrgRela</property>
+                                </data>
+                            </cell>
+                        </row>
+                        <row id="1517">
+                            <cell id="1518">
+                                <property name="borderLeftStyle">solid</property>
+                                <property name="borderLeftWidth">2px</property>
+                                <property name="borderRightStyle">solid</property>
+                                <property name="borderRightWidth">2px</property>
+                                <property name="borderTopStyle">solid</property>
+                                <property name="borderTopWidth">1px</property>
+                                <property name="verticalAlign">middle</property>
+                                <label id="1577">
+                                    <property name="fontSize">9pt</property>
+                                    <text-property name="text">한국 내 보호자</text-property>
+                                </label>
+                                <label id="1519">
+                                    <property name="fontSize">7pt</property>
+                                    <text-property name="text">Korean Chaperon(e)</text-property>
+                                </label>
+                            </cell>
+                            <cell id="1520">
+                                <property name="colSpan">1</property>
+                                <property name="rowSpan">1</property>
+                                <property name="borderLeftStyle">solid</property>
+                                <property name="borderLeftWidth">1px</property>
+                                <property name="borderRightStyle">solid</property>
+                                <property name="borderRightWidth">1px</property>
+                                <property name="borderTopStyle">solid</property>
+                                <property name="borderTopWidth">1px</property>
+                                <property name="verticalAlign">middle</property>
+                                <label id="1602">
+                                    <property name="fontSize">8pt</property>
+                                    <text-property name="text">성명</text-property>
+                                </label>
+                                <label id="1521">
+                                    <property name="fontSize">7pt</property>
+                                    <text-property name="text">Name</text-property>
+                                </label>
+                            </cell>
+                            <cell id="1522">
+                                <property name="borderLeftStyle">solid</property>
+                                <property name="borderLeftWidth">1px</property>
+                                <property name="borderRightStyle">solid</property>
+                                <property name="borderRightWidth">1px</property>
+                                <property name="borderTopStyle">solid</property>
+                                <property name="borderTopWidth">1px</property>
+                                <property name="verticalAlign">middle</property>
+                                <data id="1629">
+                                    <list-property name="boundDataColumns">
+                                        <structure>
+                                            <property name="name">korEmrgName</property>
+                                            <expression name="expression" type="javascript">foreign.getKorEmrgName();</expression>
+                                            <property name="dataType">string</property>
+                                            <property name="allowExport">true</property>
+                                        </structure>
+                                    </list-property>
+                                    <property name="resultSetColumn">korEmrgName</property>
+                                </data>
+                            </cell>
+                            <cell id="1524">
+                                <property name="borderLeftStyle">solid</property>
+                                <property name="borderLeftWidth">1px</property>
+                                <property name="borderRightStyle">solid</property>
+                                <property name="borderRightWidth">1px</property>
+                                <property name="borderTopStyle">solid</property>
+                                <property name="borderTopWidth">1px</property>
+                                <property name="verticalAlign">middle</property>
+                                <label id="1604">
+                                    <property name="fontSize">8pt</property>
+                                    <text-property name="text">전화번호</text-property>
+                                </label>
+                                <label id="1525">
+                                    <property name="fontSize">7pt</property>
+                                    <text-property name="text">Phone</text-property>
+                                </label>
+                            </cell>
+                            <cell id="1526">
+                                <property name="colSpan">1</property>
+                                <property name="rowSpan">1</property>
+                                <property name="borderLeftStyle">solid</property>
+                                <property name="borderLeftWidth">1px</property>
+                                <property name="borderRightStyle">solid</property>
+                                <property name="borderRightWidth">1px</property>
+                                <property name="borderTopStyle">solid</property>
+                                <property name="borderTopWidth">1px</property>
+                                <property name="verticalAlign">middle</property>
+                                <data id="1632">
+                                    <list-property name="boundDataColumns">
+                                        <structure>
+                                            <property name="name">korEmrgTel</property>
+                                            <expression name="expression" type="javascript">foreign.getKorEmrgTel();</expression>
+                                            <property name="dataType">string</property>
+                                            <property name="allowExport">true</property>
+                                        </structure>
+                                    </list-property>
+                                    <property name="resultSetColumn">korEmrgTel</property>
+                                </data>
+                            </cell>
+                            <cell id="1528">
+                                <property name="borderLeftStyle">solid</property>
+                                <property name="borderLeftWidth">1px</property>
+                                <property name="borderRightStyle">solid</property>
+                                <property name="borderRightWidth">1px</property>
+                                <property name="borderTopStyle">solid</property>
+                                <property name="borderTopWidth">1px</property>
+                                <property name="verticalAlign">middle</property>
+                                <label id="1606">
+                                    <property name="fontSize">8pt</property>
+                                    <text-property name="text">관계</text-property>
+                                </label>
+                                <label id="1557">
+                                    <property name="fontSize">7pt</property>
+                                    <text-property name="text">Relationship</text-property>
+                                </label>
+                            </cell>
+                            <cell id="1530">
+                                <property name="borderLeftStyle">solid</property>
+                                <property name="borderLeftWidth">1px</property>
+                                <property name="borderRightStyle">solid</property>
+                                <property name="borderRightWidth">2px</property>
+                                <property name="borderTopStyle">solid</property>
+                                <property name="borderTopWidth">1px</property>
+                                <property name="verticalAlign">middle</property>
+                                <data id="1685">
+                                    <list-property name="boundDataColumns">
+                                        <structure>
+                                            <property name="name">korEmrgRela</property>
+                                            <expression name="expression" type="javascript">var commonCode = commonService.retrieveCommonCodeValueByCodeGroupCode("EMER_CONT", String(foreign.getKorEmrgRela()));&#13;
+commonCode ? commonCode.getCodeVal() : "";</expression>
+                                            <property name="dataType">string</property>
+                                            <property name="allowExport">true</property>
+                                        </structure>
+                                    </list-property>
+                                    <property name="resultSetColumn">korEmrgRela</property>
+                                </data>
+                            </cell>
+                        </row>
+                    </grid>
+                    <grid id="255">
+                        <property name="textAlign">center</property>
+                        <column id="256">
+                            <property name="width">25%</property>
+                        </column>
+                        <column id="257">
+                            <property name="width">25%</property>
+                        </column>
+                        <column id="1565">
+                            <property name="width">20%</property>
+                        </column>
+                        <column id="1047">
+                            <property name="width">13%</property>
+                        </column>
+                        <column id="1051"/>
+                        <row id="258">
+                            <cell id="259">
+                                <property name="colSpan">5</property>
+                                <property name="rowSpan">1</property>
+                                <property name="borderBottomStyle">solid</property>
+                                <property name="borderBottomWidth">2px</property>
+                                <property name="borderLeftStyle">solid</property>
+                                <property name="borderLeftWidth">2px</property>
+                                <property name="borderRightStyle">solid</property>
+                                <property name="borderRightWidth">2px</property>
+                                <property name="borderTopStyle">solid</property>
+                                <property name="borderTopWidth">2px</property>
+                                <property name="paddingTop">0pt</property>
+                                <property name="paddingLeft">0pt</property>
+                                <property name="paddingBottom">0pt</property>
+                                <property name="paddingRight">0pt</property>
+                                <property name="textAlign">justify</property>
+                                <property name="verticalAlign">middle</property>
+                                <label id="1558">
+                                    <text-property name="text">학력 사항 (Education Background)</text-property>
+                                </label>
+                                <label id="1559">
+                                    <property name="fontSize">8pt</property>
+                                    <property name="paddingTop">0pt</property>
+                                    <property name="paddingLeft">0pt</property>
+                                    <property name="paddingBottom">0pt</property>
+                                    <property name="paddingRight">0pt</property>
+                                    <text-property name="text">* 고등학교 이후의 학력을 학위 증명서 상의 정확한 날짜 및 과정으로 기입 바랍니다. Please fill in identical information on your certificate from high school.</text-property>
+                                </label>
+                            </cell>
+                        </row>
+                        <row id="261">
+                            <cell id="262">
+                                <property name="borderBottomStyle">solid</property>
+                                <property name="borderBottomWidth">1px</property>
+                                <property name="borderLeftStyle">solid</property>
+                                <property name="borderLeftWidth">2px</property>
+                                <property name="borderRightStyle">solid</property>
+                                <property name="borderRightWidth">1px</property>
+                                <property name="borderTopStyle">solid</property>
+                                <property name="borderTopWidth">1px</property>
+                                <property name="paddingTop">0pt</property>
+                                <property name="paddingLeft">0pt</property>
+                                <property name="paddingBottom">0pt</property>
+                                <property name="paddingRight">0pt</property>
+                                <property name="verticalAlign">middle</property>
+                                <label id="1609">
+                                    <property name="fontSize">9pt</property>
+                                    <text-property name="text">기          간</text-property>
+                                </label>
+                                <label id="313">
+                                    <property name="fontSize">7pt</property>
+                                    <text-property name="text">Period of Attendance (from ~ to)</text-property>
+                                </label>
+                            </cell>
+                            <cell id="263">
+                                <property name="borderBottomStyle">solid</property>
+                                <property name="borderBottomWidth">1px</property>
+                                <property name="borderLeftStyle">solid</property>
+                                <property name="borderLeftWidth">1px</property>
+                                <property name="borderRightStyle">solid</property>
+                                <property name="borderRightWidth">1px</property>
+                                <property name="borderTopStyle">solid</property>
+                                <property name="borderTopWidth">1px</property>
+                                <property name="paddingTop">0pt</property>
+                                <property name="paddingLeft">0pt</property>
+                                <property name="paddingBottom">0pt</property>
+                                <property name="paddingRight">0pt</property>
+                                <property name="verticalAlign">middle</property>
+                                <label id="1610">
+                                    <property name="fontSize">9pt</property>
+                                    <text-property name="text">학    교    명</text-property>
+                                </label>
+                                <label id="1560">
+                                    <property name="fontSize">7pt</property>
+                                    <text-property name="text">Name of institution</text-property>
+                                </label>
+                            </cell>
+                            <cell id="1563">
+                                <property name="borderBottomStyle">solid</property>
+                                <property name="borderBottomWidth">1px</property>
+                                <property name="borderLeftStyle">solid</property>
+                                <property name="borderLeftWidth">1px</property>
+                                <property name="borderRightStyle">solid</property>
+                                <property name="borderRightWidth">1px</property>
+                                <property name="borderTopStyle">solid</property>
+                                <property name="borderTopWidth">1px</property>
+                                <property name="paddingTop">0pt</property>
+                                <property name="paddingLeft">0pt</property>
+                                <property name="paddingBottom">0pt</property>
+                                <property name="paddingRight">0pt</property>
+                                <property name="verticalAlign">middle</property>
+                                <label id="1611">
+                                    <property name="fontSize">9pt</property>
+                                    <text-property name="text">전    공</text-property>
+                                </label>
+                                <label id="1561">
+                                    <property name="fontSize">7pt</property>
+                                    <text-property name="text">Major</text-property>
+                                </label>
+                            </cell>
+                            <cell id="1045">
+                                <property name="borderBottomStyle">solid</property>
+                                <property name="borderBottomWidth">1px</property>
+                                <property name="borderLeftStyle">solid</property>
+                                <property name="borderLeftWidth">1px</property>
+                                <property name="borderRightStyle">solid</property>
+                                <property name="borderRightWidth">1px</property>
+                                <property name="borderTopStyle">solid</property>
+                                <property name="borderTopWidth">1px</property>
+                                <property name="paddingTop">0pt</property>
+                                <property name="paddingLeft">0pt</property>
+                                <property name="paddingBottom">0pt</property>
+                                <property name="paddingRight">0pt</property>
+                                <property name="verticalAlign">middle</property>
+                                <label id="1612">
+                                    <property name="fontSize">9pt</property>
+                                    <text-property name="text">성적/만점</text-property>
+                                </label>
+                                <label id="1569">
+                                    <property name="fontSize">7pt</property>
+                                    <text-property name="text">GPA/Full-Mark</text-property>
+                                </label>
+                            </cell>
+                            <cell id="1049">
+                                <property name="borderBottomStyle">solid</property>
+                                <property name="borderBottomWidth">1px</property>
+                                <property name="borderLeftStyle">solid</property>
+                                <property name="borderLeftWidth">1px</property>
+                                <property name="borderRightStyle">solid</property>
+                                <property name="borderRightWidth">2px</property>
+                                <property name="borderTopStyle">solid</property>
+                                <property name="borderTopWidth">1px</property>
+                                <property name="paddingTop">0pt</property>
+                                <property name="paddingLeft">0pt</property>
+                                <property name="paddingBottom">0pt</property>
+                                <property name="paddingRight">0pt</property>
+                                <property name="verticalAlign">middle</property>
+                                <label id="1613">
+                                    <property name="fontSize">9pt</property>
+                                    <text-property name="text">학    위</text-property>
+                                </label>
+                                <label id="1570">
+                                    <property name="fontSize">7pt</property>
+                                    <text-property name="text">Degree or Diploma</text-property>
+                                </label>
+                            </cell>
+                        </row>
+                        <row id="267">
+                            <cell id="268">
+                                <property name="borderLeftStyle">solid</property>
+                                <property name="borderLeftWidth">2px</property>
+                                <property name="borderRightStyle">solid</property>
+                                <property name="borderRightWidth">1px</property>
+                                <property name="borderTopStyle">solid</property>
+                                <property name="borderTopWidth">1px</property>
+                                <property name="paddingTop">0pt</property>
+                                <property name="paddingLeft">0pt</property>
+                                <property name="paddingBottom">0pt</property>
+                                <property name="paddingRight">0pt</property>
+                                <property name="verticalAlign">middle</property>
+                                <data id="1339">
+                                    <list-property name="boundDataColumns">
+                                        <structure>
+                                            <property name="name">range0</property>
+                                            <expression name="expression" type="javascript">getEduText(academyList.get(0), 0);</expression>
+                                            <property name="dataType">string</property>
+                                            <property name="allowExport">true</property>
+                                        </structure>
+                                    </list-property>
+                                    <property name="resultSetColumn">range0</property>
+                                </data>
+                            </cell>
+                            <cell id="269">
+                                <property name="colSpan">1</property>
+                                <property name="rowSpan">1</property>
+                                <property name="borderLeftStyle">solid</property>
+                                <property name="borderLeftWidth">1px</property>
+                                <property name="borderRightStyle">solid</property>
+                                <property name="borderRightWidth">1px</property>
+                                <property name="borderTopStyle">solid</property>
+                                <property name="borderTopWidth">1px</property>
+                                <property name="paddingTop">0pt</property>
+                                <property name="paddingLeft">0pt</property>
+                                <property name="paddingBottom">0pt</property>
+                                <property name="paddingRight">0pt</property>
+                                <property name="verticalAlign">middle</property>
+                                <data id="1635">
+                                    <list-property name="boundDataColumns">
+                                        <structure>
+                                            <property name="name">instName0</property>
+                                            <expression name="expression" type="javascript">getEduText(academyList.get(0), 1);</expression>
+                                            <property name="dataType">string</property>
+                                            <property name="allowExport">true</property>
+                                        </structure>
+                                    </list-property>
+                                    <property name="resultSetColumn">instName0</property>
+                                </data>
+                            </cell>
+                            <cell id="1566">
+                                <property name="borderLeftStyle">solid</property>
+                                <property name="borderLeftWidth">1px</property>
+                                <property name="borderRightStyle">solid</property>
+                                <property name="borderRightWidth">1px</property>
+                                <property name="borderTopStyle">solid</property>
+                                <property name="borderTopWidth">1px</property>
+                                <property name="paddingTop">0pt</property>
+                                <property name="paddingLeft">0pt</property>
+                                <property name="paddingBottom">0pt</property>
+                                <property name="paddingRight">0pt</property>
+                                <property name="verticalAlign">middle</property>
+                                <data id="1636">
+                                    <list-property name="boundDataColumns">
+                                        <structure>
+                                            <property name="name">major0</property>
+                                            <expression name="expression" type="javascript">getEduText(academyList.get(0), 2);</expression>
+                                            <property name="dataType">string</property>
+                                            <property name="allowExport">true</property>
+                                        </structure>
+                                    </list-property>
+                                    <property name="resultSetColumn">major0</property>
+                                </data>
+                            </cell>
+                            <cell id="1567">
+                                <property name="borderLeftStyle">solid</property>
+                                <property name="borderLeftWidth">1px</property>
+                                <property name="borderRightStyle">solid</property>
+                                <property name="borderRightWidth">1px</property>
+                                <property name="borderTopStyle">solid</property>
+                                <property name="borderTopWidth">1px</property>
+                                <property name="paddingTop">0pt</property>
+                                <property name="paddingLeft">0pt</property>
+                                <property name="paddingBottom">0pt</property>
+                                <property name="paddingRight">0pt</property>
+                                <property name="verticalAlign">middle</property>
+                                <data id="1637">
+                                    <list-property name="boundDataColumns">
+                                        <structure>
+                                            <property name="name">score0</property>
+                                            <expression name="expression" type="javascript">getEduText(academyList.get(0), 3);</expression>
+                                            <property name="dataType">string</property>
+                                            <property name="allowExport">true</property>
+                                        </structure>
+                                    </list-property>
+                                    <property name="resultSetColumn">score0</property>
+                                </data>
+                            </cell>
+                            <cell id="1568">
+                                <property name="borderLeftStyle">solid</property>
+                                <property name="borderLeftWidth">1px</property>
+                                <property name="borderRightStyle">solid</property>
+                                <property name="borderRightWidth">2px</property>
+                                <property name="borderTopStyle">solid</property>
+                                <property name="borderTopWidth">1px</property>
+                                <property name="paddingTop">0pt</property>
+                                <property name="paddingLeft">0pt</property>
+                                <property name="paddingBottom">0pt</property>
+                                <property name="paddingRight">0pt</property>
+                                <property name="verticalAlign">middle</property>
+                                <data id="1638">
+                                    <list-property name="boundDataColumns">
+                                        <structure>
+                                            <property name="name">degree0</property>
+                                            <expression name="expression" type="javascript">getEduText(academyList.get(0), 4);</expression>
+                                            <property name="dataType">string</property>
+                                            <property name="allowExport">true</property>
+                                        </structure>
+                                    </list-property>
+                                    <property name="resultSetColumn">degree0</property>
+                                </data>
+                            </cell>
+                        </row>
+                        <row id="1639">
+                            <cell id="1640">
+                                <property name="borderLeftStyle">solid</property>
+                                <property name="borderLeftWidth">2px</property>
+                                <property name="borderRightStyle">solid</property>
+                                <property name="borderRightWidth">1px</property>
+                                <property name="borderTopStyle">solid</property>
+                                <property name="borderTopWidth">1px</property>
+                                <property name="paddingTop">0pt</property>
+                                <property name="paddingLeft">0pt</property>
+                                <property name="paddingBottom">0pt</property>
+                                <property name="paddingRight">0pt</property>
+                                <property name="verticalAlign">middle</property>
+                                <data id="1663">
+                                    <list-property name="boundDataColumns">
+                                        <structure>
+                                            <property name="name">range1</property>
+                                            <expression name="expression" type="javascript">getEduText(academyList.get(1), 0);</expression>
+                                            <property name="dataType">string</property>
+                                            <property name="allowExport">true</property>
+                                        </structure>
+                                    </list-property>
+                                    <property name="resultSetColumn">range1</property>
+                                </data>
+                            </cell>
+                            <cell id="1641">
+                                <property name="borderLeftStyle">solid</property>
+                                <property name="borderLeftWidth">1px</property>
+                                <property name="borderRightStyle">solid</property>
+                                <property name="borderRightWidth">1px</property>
+                                <property name="borderTopStyle">solid</property>
+                                <property name="borderTopWidth">1px</property>
+                                <property name="paddingTop">0pt</property>
+                                <property name="paddingLeft">0pt</property>
+                                <property name="paddingBottom">0pt</property>
+                                <property name="paddingRight">0pt</property>
+                                <property name="verticalAlign">middle</property>
+                                <data id="1667">
+                                    <list-property name="boundDataColumns">
+                                        <structure>
+                                            <property name="name">instName1</property>
+                                            <expression name="expression" type="javascript">getEduText(academyList.get(1), 1);</expression>
+                                            <property name="dataType">string</property>
+                                            <property name="allowExport">true</property>
+                                        </structure>
+                                    </list-property>
+                                    <property name="resultSetColumn">instName1</property>
+                                </data>
+                            </cell>
+                            <cell id="1642">
+                                <property name="borderLeftStyle">solid</property>
+                                <property name="borderLeftWidth">1px</property>
+                                <property name="borderRightStyle">solid</property>
+                                <property name="borderRightWidth">1px</property>
+                                <property name="borderTopStyle">solid</property>
+                                <property name="borderTopWidth">1px</property>
+                                <property name="paddingTop">0pt</property>
+                                <property name="paddingLeft">0pt</property>
+                                <property name="paddingBottom">0pt</property>
+                                <property name="paddingRight">0pt</property>
+                                <property name="verticalAlign">middle</property>
+                                <data id="1671">
+                                    <list-property name="boundDataColumns">
+                                        <structure>
+                                            <property name="name">major1</property>
+                                            <expression name="expression" type="javascript">getEduText(academyList.get(1), 2);</expression>
+                                            <property name="dataType">string</property>
+                                            <property name="allowExport">true</property>
+                                        </structure>
+                                    </list-property>
+                                    <property name="resultSetColumn">major1</property>
+                                </data>
+                            </cell>
+                            <cell id="1643">
+                                <property name="borderLeftStyle">solid</property>
+                                <property name="borderLeftWidth">1px</property>
+                                <property name="borderRightStyle">solid</property>
+                                <property name="borderRightWidth">1px</property>
+                                <property name="borderTopStyle">solid</property>
+                                <property name="borderTopWidth">1px</property>
+                                <property name="paddingTop">0pt</property>
+                                <property name="paddingLeft">0pt</property>
+                                <property name="paddingBottom">0pt</property>
+                                <property name="paddingRight">0pt</property>
+                                <property name="verticalAlign">middle</property>
+                                <data id="1675">
+                                    <list-property name="boundDataColumns">
+                                        <structure>
+                                            <property name="name">score1</property>
+                                            <expression name="expression" type="javascript">getEduText(academyList.get(1), 3);</expression>
+                                            <property name="dataType">string</property>
+                                            <property name="allowExport">true</property>
+                                        </structure>
+                                    </list-property>
+                                    <property name="resultSetColumn">score1</property>
+                                </data>
+                            </cell>
+                            <cell id="1644">
+                                <property name="borderLeftStyle">solid</property>
+                                <property name="borderLeftWidth">1px</property>
+                                <property name="borderRightStyle">solid</property>
+                                <property name="borderRightWidth">2px</property>
+                                <property name="borderTopStyle">solid</property>
+                                <property name="borderTopWidth">1px</property>
+                                <property name="paddingTop">0pt</property>
+                                <property name="paddingLeft">0pt</property>
+                                <property name="paddingBottom">0pt</property>
+                                <property name="paddingRight">0pt</property>
+                                <property name="verticalAlign">middle</property>
+                                <data id="1679">
+                                    <list-property name="boundDataColumns">
+                                        <structure>
+                                            <property name="name">degree1</property>
+                                            <expression name="expression" type="javascript">getEduText(academyList.get(1), 4);</expression>
+                                            <property name="dataType">string</property>
+                                            <property name="allowExport">true</property>
+                                        </structure>
+                                    </list-property>
+                                    <property name="resultSetColumn">degree1</property>
+                                </data>
+                            </cell>
+                        </row>
+                        <row id="1645">
+                            <cell id="1646">
+                                <property name="borderLeftStyle">solid</property>
+                                <property name="borderLeftWidth">2px</property>
+                                <property name="borderRightStyle">solid</property>
+                                <property name="borderRightWidth">1px</property>
+                                <property name="borderTopStyle">solid</property>
+                                <property name="borderTopWidth">1px</property>
+                                <property name="paddingTop">0pt</property>
+                                <property name="paddingLeft">0pt</property>
+                                <property name="paddingBottom">0pt</property>
+                                <property name="paddingRight">0pt</property>
+                                <property name="verticalAlign">middle</property>
+                                <data id="1664">
+                                    <list-property name="boundDataColumns">
+                                        <structure>
+                                            <property name="name">range2</property>
+                                            <expression name="expression" type="javascript">getEduText(academyList.get(2), 0);</expression>
+                                            <property name="dataType">string</property>
+                                            <property name="allowExport">true</property>
+                                        </structure>
+                                    </list-property>
+                                    <property name="resultSetColumn">range2</property>
+                                </data>
+                            </cell>
+                            <cell id="1647">
+                                <property name="borderLeftStyle">solid</property>
+                                <property name="borderLeftWidth">1px</property>
+                                <property name="borderRightStyle">solid</property>
+                                <property name="borderRightWidth">1px</property>
+                                <property name="borderTopStyle">solid</property>
+                                <property name="borderTopWidth">1px</property>
+                                <property name="paddingTop">0pt</property>
+                                <property name="paddingLeft">0pt</property>
+                                <property name="paddingBottom">0pt</property>
+                                <property name="paddingRight">0pt</property>
+                                <property name="verticalAlign">middle</property>
+                                <data id="1668">
+                                    <list-property name="boundDataColumns">
+                                        <structure>
+                                            <property name="name">instName2</property>
+                                            <expression name="expression" type="javascript">getEduText(academyList.get(2), 1);</expression>
+                                            <property name="dataType">string</property>
+                                            <property name="allowExport">true</property>
+                                        </structure>
+                                    </list-property>
+                                    <property name="resultSetColumn">instName2</property>
+                                </data>
+                            </cell>
+                            <cell id="1648">
+                                <property name="borderLeftStyle">solid</property>
+                                <property name="borderLeftWidth">1px</property>
+                                <property name="borderRightStyle">solid</property>
+                                <property name="borderRightWidth">1px</property>
+                                <property name="borderTopStyle">solid</property>
+                                <property name="borderTopWidth">1px</property>
+                                <property name="paddingTop">0pt</property>
+                                <property name="paddingLeft">0pt</property>
+                                <property name="paddingBottom">0pt</property>
+                                <property name="paddingRight">0pt</property>
+                                <property name="verticalAlign">middle</property>
+                                <data id="1672">
+                                    <list-property name="boundDataColumns">
+                                        <structure>
+                                            <property name="name">major2</property>
+                                            <expression name="expression" type="javascript">getEduText(academyList.get(2), 2);</expression>
+                                            <property name="dataType">string</property>
+                                            <property name="allowExport">true</property>
+                                        </structure>
+                                    </list-property>
+                                    <property name="resultSetColumn">major2</property>
+                                </data>
+                            </cell>
+                            <cell id="1649">
+                                <property name="borderLeftStyle">solid</property>
+                                <property name="borderLeftWidth">1px</property>
+                                <property name="borderRightStyle">solid</property>
+                                <property name="borderRightWidth">1px</property>
+                                <property name="borderTopStyle">solid</property>
+                                <property name="borderTopWidth">1px</property>
+                                <property name="paddingTop">0pt</property>
+                                <property name="paddingLeft">0pt</property>
+                                <property name="paddingBottom">0pt</property>
+                                <property name="paddingRight">0pt</property>
+                                <property name="verticalAlign">middle</property>
+                                <data id="1676">
+                                    <list-property name="boundDataColumns">
+                                        <structure>
+                                            <property name="name">score2</property>
+                                            <expression name="expression" type="javascript">getEduText(academyList.get(2), 3);</expression>
+                                            <property name="dataType">string</property>
+                                            <property name="allowExport">true</property>
+                                        </structure>
+                                    </list-property>
+                                    <property name="resultSetColumn">score2</property>
+                                </data>
+                            </cell>
+                            <cell id="1650">
+                                <property name="borderLeftStyle">solid</property>
+                                <property name="borderLeftWidth">1px</property>
+                                <property name="borderRightStyle">solid</property>
+                                <property name="borderRightWidth">2px</property>
+                                <property name="borderTopStyle">solid</property>
+                                <property name="borderTopWidth">1px</property>
+                                <property name="paddingTop">0pt</property>
+                                <property name="paddingLeft">0pt</property>
+                                <property name="paddingBottom">0pt</property>
+                                <property name="paddingRight">0pt</property>
+                                <property name="verticalAlign">middle</property>
+                                <data id="1680">
+                                    <list-property name="boundDataColumns">
+                                        <structure>
+                                            <property name="name">degree2</property>
+                                            <expression name="expression" type="javascript">getEduText(academyList.get(2), 4);</expression>
+                                            <property name="dataType">string</property>
+                                            <property name="allowExport">true</property>
+                                        </structure>
+                                    </list-property>
+                                    <property name="resultSetColumn">degree2</property>
+                                </data>
+                            </cell>
+                        </row>
+                        <row id="1651">
+                            <cell id="1652">
+                                <property name="borderLeftStyle">solid</property>
+                                <property name="borderLeftWidth">2px</property>
+                                <property name="borderRightStyle">solid</property>
+                                <property name="borderRightWidth">1px</property>
+                                <property name="borderTopStyle">solid</property>
+                                <property name="borderTopWidth">1px</property>
+                                <property name="paddingTop">0pt</property>
+                                <property name="paddingLeft">0pt</property>
+                                <property name="paddingBottom">0pt</property>
+                                <property name="paddingRight">0pt</property>
+                                <property name="verticalAlign">middle</property>
+                                <data id="1665">
+                                    <list-property name="boundDataColumns">
+                                        <structure>
+                                            <property name="name">range3</property>
+                                            <expression name="expression" type="javascript">getEduText(academyList.get(3), 0);</expression>
+                                            <property name="dataType">string</property>
+                                            <property name="allowExport">true</property>
+                                        </structure>
+                                    </list-property>
+                                    <property name="resultSetColumn">range3</property>
+                                </data>
+                            </cell>
+                            <cell id="1653">
+                                <property name="borderLeftStyle">solid</property>
+                                <property name="borderLeftWidth">1px</property>
+                                <property name="borderRightStyle">solid</property>
+                                <property name="borderRightWidth">1px</property>
+                                <property name="borderTopStyle">solid</property>
+                                <property name="borderTopWidth">1px</property>
+                                <property name="paddingTop">0pt</property>
+                                <property name="paddingLeft">0pt</property>
+                                <property name="paddingBottom">0pt</property>
+                                <property name="paddingRight">0pt</property>
+                                <property name="verticalAlign">middle</property>
+                                <data id="1669">
+                                    <list-property name="boundDataColumns">
+                                        <structure>
+                                            <property name="name">instName3</property>
+                                            <expression name="expression" type="javascript">getEduText(academyList.get(3), 1);</expression>
+                                            <property name="dataType">string</property>
+                                            <property name="allowExport">true</property>
+                                        </structure>
+                                    </list-property>
+                                    <property name="resultSetColumn">instName3</property>
+                                </data>
+                            </cell>
+                            <cell id="1654">
+                                <property name="borderLeftStyle">solid</property>
+                                <property name="borderLeftWidth">1px</property>
+                                <property name="borderRightStyle">solid</property>
+                                <property name="borderRightWidth">1px</property>
+                                <property name="borderTopStyle">solid</property>
+                                <property name="borderTopWidth">1px</property>
+                                <property name="paddingTop">0pt</property>
+                                <property name="paddingLeft">0pt</property>
+                                <property name="paddingBottom">0pt</property>
+                                <property name="paddingRight">0pt</property>
+                                <property name="verticalAlign">middle</property>
+                                <data id="1673">
+                                    <list-property name="boundDataColumns">
+                                        <structure>
+                                            <property name="name">major3</property>
+                                            <expression name="expression" type="javascript">getEduText(academyList.get(3), 2);</expression>
+                                            <property name="dataType">string</property>
+                                            <property name="allowExport">true</property>
+                                        </structure>
+                                    </list-property>
+                                    <property name="resultSetColumn">major3</property>
+                                </data>
+                            </cell>
+                            <cell id="1655">
+                                <property name="borderLeftStyle">solid</property>
+                                <property name="borderLeftWidth">1px</property>
+                                <property name="borderRightStyle">solid</property>
+                                <property name="borderRightWidth">1px</property>
+                                <property name="borderTopStyle">solid</property>
+                                <property name="borderTopWidth">1px</property>
+                                <property name="paddingTop">0pt</property>
+                                <property name="paddingLeft">0pt</property>
+                                <property name="paddingBottom">0pt</property>
+                                <property name="paddingRight">0pt</property>
+                                <property name="verticalAlign">middle</property>
+                                <data id="1677">
+                                    <list-property name="boundDataColumns">
+                                        <structure>
+                                            <property name="name">score3</property>
+                                            <expression name="expression" type="javascript">getEduText(academyList.get(3), 3);</expression>
+                                            <property name="dataType">string</property>
+                                            <property name="allowExport">true</property>
+                                        </structure>
+                                    </list-property>
+                                    <property name="resultSetColumn">score3</property>
+                                </data>
+                            </cell>
+                            <cell id="1656">
+                                <property name="borderLeftStyle">solid</property>
+                                <property name="borderLeftWidth">1px</property>
+                                <property name="borderRightStyle">solid</property>
+                                <property name="borderRightWidth">2px</property>
+                                <property name="borderTopStyle">solid</property>
+                                <property name="borderTopWidth">1px</property>
+                                <property name="paddingTop">0pt</property>
+                                <property name="paddingLeft">0pt</property>
+                                <property name="paddingBottom">0pt</property>
+                                <property name="paddingRight">0pt</property>
+                                <property name="verticalAlign">middle</property>
+                                <data id="1681">
+                                    <list-property name="boundDataColumns">
+                                        <structure>
+                                            <property name="name">degree3</property>
+                                            <expression name="expression" type="javascript">getEduText(academyList.get(3), 4);</expression>
+                                            <property name="dataType">string</property>
+                                            <property name="allowExport">true</property>
+                                        </structure>
+                                    </list-property>
+                                    <property name="resultSetColumn">degree3</property>
+                                </data>
+                            </cell>
+                        </row>
+                        <row id="1657">
+                            <cell id="1658">
+                                <property name="borderLeftStyle">solid</property>
+                                <property name="borderLeftWidth">2px</property>
+                                <property name="borderRightStyle">solid</property>
+                                <property name="borderRightWidth">1px</property>
+                                <property name="borderTopStyle">solid</property>
+                                <property name="borderTopWidth">1px</property>
+                                <property name="paddingTop">0pt</property>
+                                <property name="paddingLeft">0pt</property>
+                                <property name="paddingBottom">0pt</property>
+                                <property name="paddingRight">0pt</property>
+                                <property name="verticalAlign">middle</property>
+                                <data id="1666">
+                                    <list-property name="boundDataColumns">
+                                        <structure>
+                                            <property name="name">range4</property>
+                                            <expression name="expression" type="javascript">getEduText(academyList.get(4), 0);</expression>
+                                            <property name="dataType">string</property>
+                                            <property name="allowExport">true</property>
+                                        </structure>
+                                    </list-property>
+                                    <property name="resultSetColumn">range4</property>
+                                </data>
+                            </cell>
+                            <cell id="1659">
+                                <property name="borderLeftStyle">solid</property>
+                                <property name="borderLeftWidth">1px</property>
+                                <property name="borderRightStyle">solid</property>
+                                <property name="borderRightWidth">1px</property>
+                                <property name="borderTopStyle">solid</property>
+                                <property name="borderTopWidth">1px</property>
+                                <property name="paddingTop">0pt</property>
+                                <property name="paddingLeft">0pt</property>
+                                <property name="paddingBottom">0pt</property>
+                                <property name="paddingRight">0pt</property>
+                                <property name="verticalAlign">middle</property>
+                                <data id="1670">
+                                    <list-property name="boundDataColumns">
+                                        <structure>
+                                            <property name="name">instName4</property>
+                                            <expression name="expression" type="javascript">getEduText(academyList.get(4), 1);</expression>
+                                            <property name="dataType">string</property>
+                                            <property name="allowExport">true</property>
+                                        </structure>
+                                    </list-property>
+                                    <property name="resultSetColumn">instName4</property>
+                                </data>
+                            </cell>
+                            <cell id="1660">
+                                <property name="borderLeftStyle">solid</property>
+                                <property name="borderLeftWidth">1px</property>
+                                <property name="borderRightStyle">solid</property>
+                                <property name="borderRightWidth">1px</property>
+                                <property name="borderTopStyle">solid</property>
+                                <property name="borderTopWidth">1px</property>
+                                <property name="paddingTop">0pt</property>
+                                <property name="paddingLeft">0pt</property>
+                                <property name="paddingBottom">0pt</property>
+                                <property name="paddingRight">0pt</property>
+                                <property name="verticalAlign">middle</property>
+                                <data id="1674">
+                                    <list-property name="boundDataColumns">
+                                        <structure>
+                                            <property name="name">major4</property>
+                                            <expression name="expression" type="javascript">getEduText(academyList.get(4), 2);</expression>
+                                            <property name="dataType">string</property>
+                                            <property name="allowExport">true</property>
+                                        </structure>
+                                    </list-property>
+                                    <property name="resultSetColumn">major4</property>
+                                </data>
+                            </cell>
+                            <cell id="1661">
+                                <property name="borderLeftStyle">solid</property>
+                                <property name="borderLeftWidth">1px</property>
+                                <property name="borderRightStyle">solid</property>
+                                <property name="borderRightWidth">1px</property>
+                                <property name="borderTopStyle">solid</property>
+                                <property name="borderTopWidth">1px</property>
+                                <property name="paddingTop">0pt</property>
+                                <property name="paddingLeft">0pt</property>
+                                <property name="paddingBottom">0pt</property>
+                                <property name="paddingRight">0pt</property>
+                                <property name="verticalAlign">middle</property>
+                                <data id="1678">
+                                    <list-property name="boundDataColumns">
+                                        <structure>
+                                            <property name="name">score4</property>
+                                            <expression name="expression" type="javascript">getEduText(academyList.get(4), 3);</expression>
+                                            <property name="dataType">string</property>
+                                            <property name="allowExport">true</property>
+                                        </structure>
+                                    </list-property>
+                                    <property name="resultSetColumn">score4</property>
+                                </data>
+                            </cell>
+                            <cell id="1662">
+                                <property name="borderLeftStyle">solid</property>
+                                <property name="borderLeftWidth">1px</property>
+                                <property name="borderRightStyle">solid</property>
+                                <property name="borderRightWidth">2px</property>
+                                <property name="borderTopStyle">solid</property>
+                                <property name="borderTopWidth">1px</property>
+                                <property name="paddingTop">0pt</property>
+                                <property name="paddingLeft">0pt</property>
+                                <property name="paddingBottom">0pt</property>
+                                <property name="paddingRight">0pt</property>
+                                <property name="verticalAlign">middle</property>
+                                <data id="1682">
+                                    <list-property name="boundDataColumns">
+                                        <structure>
+                                            <property name="name">degree4</property>
+                                            <expression name="expression" type="javascript">getEduText(academyList.get(4), 4);</expression>
+                                            <property name="dataType">string</property>
+                                            <property name="allowExport">true</property>
+                                        </structure>
+                                    </list-property>
+                                    <property name="resultSetColumn">degree4</property>
+                                </data>
+                            </cell>
+                        </row>
+                    </grid>
+                    <grid id="980">
+                        <property name="textAlign">center</property>
+                        <column id="981">
+                            <property name="width">20%</property>
+                        </column>
+                        <column id="983"/>
+                        <column id="1080"/>
+                        <column id="1076"/>
+                        <column id="1072"/>
+                        <column id="1068"/>
+                        <column id="1064"/>
+                        <row id="988">
+                            <cell id="989">
+                                <property name="colSpan">1</property>
+                                <property name="rowSpan">2</property>
+                                <property name="borderLeftStyle">solid</property>
+                                <property name="borderLeftWidth">2px</property>
+                                <property name="borderRightStyle">solid</property>
+                                <property name="borderRightWidth">2px</property>
+                                <property name="borderTopStyle">solid</property>
+                                <property name="borderTopWidth">2px</property>
+                                <property name="verticalAlign">middle</property>
+                                <label id="1614">
+                                    <text-property name="text">어학 성적</text-property>
+                                </label>
+                                <label id="528">
+                                    <property name="fontSize">7pt</property>
+                                    <text-property name="text">Language Test Result</text-property>
+                                </label>
+                            </cell>
+                            <cell id="991">
+                                <property name="borderBottomStyle">solid</property>
+                                <property name="borderBottomWidth">1px</property>
+                                <property name="borderLeftStyle">solid</property>
+                                <property name="borderLeftWidth">1px</property>
+                                <property name="borderRightStyle">solid</property>
+                                <property name="borderRightWidth">1px</property>
+                                <property name="borderTopStyle">solid</property>
+                                <property name="borderTopWidth">2px</property>
+                                <property name="verticalAlign">middle</property>
+                                <label id="1634">
+                                    <property name="fontSize">9pt</property>
+                                    <text-property name="text">TOPIK</text-property>
+                                </label>
+                            </cell>
+                            <cell id="1078">
+                                <property name="borderBottomStyle">solid</property>
+                                <property name="borderBottomWidth">1px</property>
+                                <property name="borderLeftStyle">solid</property>
+                                <property name="borderLeftWidth">1px</property>
+                                <property name="borderRightStyle">solid</property>
+                                <property name="borderRightWidth">1px</property>
+                                <property name="borderTopStyle">solid</property>
+                                <property name="borderTopWidth">2px</property>
+                                <property name="verticalAlign">middle</property>
+                                <label id="1081">
+                                    <property name="fontSize">9pt</property>
+                                    <text-property name="text">TOEFL</text-property>
+                                </label>
+                            </cell>
+                            <cell id="1074">
+                                <property name="borderBottomStyle">solid</property>
+                                <property name="borderBottomWidth">1px</property>
+                                <property name="borderLeftStyle">solid</property>
+                                <property name="borderLeftWidth">1px</property>
+                                <property name="borderRightStyle">solid</property>
+                                <property name="borderRightWidth">1px</property>
+                                <property name="borderTopStyle">solid</property>
+                                <property name="borderTopWidth">2px</property>
+                                <property name="verticalAlign">middle</property>
+                                <label id="1082">
+                                    <property name="fontSize">9pt</property>
+                                    <text-property name="text">TOEIC</text-property>
+                                </label>
+                            </cell>
+                            <cell id="1070">
+                                <property name="borderBottomStyle">solid</property>
+                                <property name="borderBottomWidth">1px</property>
+                                <property name="borderLeftStyle">solid</property>
+                                <property name="borderLeftWidth">1px</property>
+                                <property name="borderRightStyle">solid</property>
+                                <property name="borderRightWidth">1px</property>
+                                <property name="borderTopStyle">solid</property>
+                                <property name="borderTopWidth">2px</property>
+                                <property name="verticalAlign">middle</property>
+                                <label id="1083">
+                                    <property name="fontSize">9pt</property>
+                                    <text-property name="text">TEPS</text-property>
+                                </label>
+                            </cell>
+                            <cell id="1066">
+                                <property name="borderBottomStyle">solid</property>
+                                <property name="borderBottomWidth">1px</property>
+                                <property name="borderLeftStyle">solid</property>
+                                <property name="borderLeftWidth">1px</property>
+                                <property name="borderRightStyle">solid</property>
+                                <property name="borderRightWidth">1px</property>
+                                <property name="borderTopStyle">solid</property>
+                                <property name="borderTopWidth">2px</property>
+                                <property name="verticalAlign">middle</property>
+                                <label id="1084">
+                                    <property name="fontSize">9pt</property>
+                                    <text-property name="text">IELTS</text-property>
+                                </label>
+                            </cell>
+                            <cell id="1062">
+                                <property name="borderBottomStyle">solid</property>
+                                <property name="borderBottomWidth">1px</property>
+                                <property name="borderLeftStyle">solid</property>
+                                <property name="borderLeftWidth">1px</property>
+                                <property name="borderRightStyle">solid</property>
+                                <property name="borderRightWidth">2px</property>
+                                <property name="borderTopStyle">solid</property>
+                                <property name="borderTopWidth">2px</property>
+                                <property name="verticalAlign">middle</property>
+                                <label id="1086">
+                                    <property name="fontSize">9pt</property>
+                                    <text-property name="text">증빙서류제출</text-property>
+                                </label>
+                            </cell>
+                        </row>
+                        <row id="992">
+                            <cell id="995">
+                                <property name="borderLeftStyle">solid</property>
+                                <property name="borderLeftWidth">1px</property>
+                                <property name="borderRightStyle">solid</property>
+                                <property name="borderRightWidth">1px</property>
+                                <property name="borderTopStyle">solid</property>
+                                <property name="borderTopWidth">1px</property>
+                                <property name="verticalAlign">middle</property>
+                                <data id="1270">
+                                    <list-property name="boundDataColumns">
+                                        <structure>
+                                            <property name="name">topikScore</property>
+                                            <expression name="expression" type="javascript">getLangScore("00006");</expression>
+                                            <property name="dataType">string</property>
+                                        </structure>
+                                    </list-property>
+                                    <property name="resultSetColumn">topikScore</property>
+                                </data>
+                            </cell>
+                            <cell id="1079">
+                                <property name="borderLeftStyle">solid</property>
+                                <property name="borderLeftWidth">1px</property>
+                                <property name="borderRightStyle">solid</property>
+                                <property name="borderRightWidth">1px</property>
+                                <property name="borderTopStyle">solid</property>
+                                <property name="borderTopWidth">1px</property>
+                                <property name="verticalAlign">middle</property>
+                                <data id="1633">
+                                    <list-property name="boundDataColumns">
+                                        <structure>
+                                            <property name="name">toeflScore</property>
+                                            <expression name="expression" type="javascript">getLangScore("00001");</expression>
+                                            <property name="dataType">string</property>
+                                        </structure>
+                                    </list-property>
+                                    <property name="resultSetColumn">toeflScore</property>
+                                </data>
+                            </cell>
+                            <cell id="1075">
+                                <property name="borderLeftStyle">solid</property>
+                                <property name="borderLeftWidth">1px</property>
+                                <property name="borderRightStyle">solid</property>
+                                <property name="borderRightWidth">1px</property>
+                                <property name="borderTopStyle">solid</property>
+                                <property name="borderTopWidth">1px</property>
+                                <property name="verticalAlign">middle</property>
+                                <data id="1271">
+                                    <list-property name="boundDataColumns">
+                                        <structure>
+                                            <property name="name">toeicScore</property>
+                                            <expression name="expression" type="javascript">getLangScore("00002");</expression>
+                                            <property name="dataType">string</property>
+                                        </structure>
+                                    </list-property>
+                                    <property name="resultSetColumn">toeicScore</property>
+                                </data>
+                            </cell>
+                            <cell id="1071">
+                                <property name="borderLeftStyle">solid</property>
+                                <property name="borderLeftWidth">1px</property>
+                                <property name="borderRightStyle">solid</property>
+                                <property name="borderRightWidth">1px</property>
+                                <property name="borderTopStyle">solid</property>
+                                <property name="borderTopWidth">1px</property>
+                                <property name="verticalAlign">middle</property>
+                                <data id="1272">
+                                    <list-property name="boundDataColumns">
+                                        <structure>
+                                            <property name="name">tepsScore</property>
+                                            <expression name="expression" type="javascript">getLangScore("00003")</expression>
+                                            <property name="dataType">string</property>
+                                        </structure>
+                                    </list-property>
+                                    <property name="resultSetColumn">tepsScore</property>
+                                </data>
+                            </cell>
+                            <cell id="1067">
+                                <property name="borderLeftStyle">solid</property>
+                                <property name="borderLeftWidth">1px</property>
+                                <property name="borderRightStyle">solid</property>
+                                <property name="borderRightWidth">1px</property>
+                                <property name="borderTopStyle">solid</property>
+                                <property name="borderTopWidth">1px</property>
+                                <property name="verticalAlign">middle</property>
+                                <data id="1273">
+                                    <list-property name="boundDataColumns">
+                                        <structure>
+                                            <property name="name">ieltsScore</property>
+                                            <expression name="expression" type="javascript">getLangScore("00004")</expression>
+                                            <property name="dataType">string</property>
+                                        </structure>
+                                    </list-property>
+                                    <property name="resultSetColumn">ieltsScore</property>
+                                </data>
+                            </cell>
+                            <cell id="1063">
+                                <property name="borderLeftStyle">solid</property>
+                                <property name="borderLeftWidth">1px</property>
+                                <property name="borderRightStyle">solid</property>
+                                <property name="borderRightWidth">2px</property>
+                                <property name="borderTopStyle">solid</property>
+                                <property name="borderTopWidth">1px</property>
+                                <property name="verticalAlign">middle</property>
+                            </cell>
+                        </row>
+                    </grid>
+                    <grid id="1147">
+                        <property name="display">block</property>
+                        <column id="1148">
+                            <property name="width">40%</property>
+                        </column>
+                        <column id="1156">
+                            <property name="suppressDuplicates">true</property>
+                            <property name="width">15%</property>
+                        </column>
+                        <column id="1357">
+                            <property name="width">25%</property>
+                        </column>
+                        <column id="1295"/>
+                        <row id="1149">
+                            <property name="verticalAlign">middle</property>
+                            <cell id="1150">
+                                <property name="colSpan">4</property>
+                                <property name="rowSpan">1</property>
+                                <property name="borderLeftStyle">solid</property>
+                                <property name="borderLeftWidth">2px</property>
+                                <property name="borderRightStyle">solid</property>
+                                <property name="borderRightWidth">2px</property>
+                                <property name="borderTopStyle">solid</property>
+                                <property name="borderTopWidth">2px</property>
+                                <label id="1151">
+                                    <text-property name="text">위와 같이 귀 대학교 대학원에 입학하고자 소정의 서류를 갖추어 지원합니다.</text-property>
+                                </label>
+                                <label id="1574">
+                                    <text-property name="text">Hereby, with above information and related documents, I apply for Yonsei University Graduate School.</text-property>
+                                </label>
+                            </cell>
+                        </row>
+                        <row id="1152">
+                            <property name="verticalAlign">middle</property>
+                            <cell id="1153">
+                                <property name="borderLeftStyle">solid</property>
+                                <property name="borderLeftWidth">2px</property>
+                            </cell>
+                            <cell id="1155">
+                                <property name="textAlign">justify</property>
+                                <label id="1157">
+                                    <property name="display">block</property>
+                                    <text-property name="text">지원자 Applicant : </text-property>
+                                </label>
+                            </cell>
+                            <cell id="1356">
+                                <property name="textAlign">center</property>
+                                <data id="1199">
+                                    <structure name="stringFormat">
+                                        <property name="category">Unformatted</property>
+                                    </structure>
+                                    <property name="textAlign">justify</property>
+                                    <property name="display">inline</property>
+                                    <list-property name="boundDataColumns">
+                                        <structure>
+                                            <property name="name">fullName</property>
+                                            <expression name="expression" type="javascript">application.getEngName() + " " + application.getSurName();</expression>
+                                            <property name="dataType">string</property>
+                                            <property name="allowExport">true</property>
+                                        </structure>
+                                    </list-property>
+                                    <property name="resultSetColumn">fullName</property>
+                                </data>
+                            </cell>
+                            <cell id="1294">
+                                <property name="borderRightStyle">solid</property>
+                                <property name="borderRightWidth">2px</property>
+                                <property name="textAlign">justify</property>
+                                <label id="1296">
+                                    <text-property name="text">(서명/Signature)</text-property>
+                                </label>
+                            </cell>
+                        </row>
+                    </grid>
+                    <grid id="1164">
+                        <property name="height">0.625in</property>
+                        <column id="1165"/>
+                        <row id="1166">
+                            <cell id="1167">
+                                <property name="borderBottomStyle">solid</property>
+                                <property name="borderBottomWidth">2px</property>
+                                <property name="borderLeftStyle">solid</property>
+                                <property name="borderLeftWidth">2px</property>
+                                <property name="borderRightStyle">solid</property>
+                                <property name="borderRightWidth">2px</property>
+                                <property name="borderTopStyle">solid</property>
+                                <property name="borderTopWidth">2px</property>
+                                <property name="textAlign">center</property>
+                                <property name="verticalAlign">middle</property>
+                                <label id="1163">
+                                    <property name="fontFamily">"궁서"</property>
+                                    <property name="fontSize">20pt</property>
+                                    <property name="textAlign">center</property>
+                                    <text-property name="text">연세대학교 대학원장 귀하</text-property>
+                                </label>
+                                <label id="1573">
+                                    <text-property name="text">To the Dean of Yonsei University Graduate School</text-property>
+                                </label>
+                            </cell>
+                        </row>
+                    </grid>
+                </cell>
+            </row>
+        </grid>
+    </body>
+</report>
