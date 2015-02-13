@@ -415,8 +415,6 @@
                                                        <c:if test="${lv2Container.fileUploadFg == true}">checked</c:if> />${lv2Container.docItemName}
                                             </label>
                                         </div>
-                                        <%-- TODO : 기타 일때만 직접 입력 필드 보이게 --%>
-                                        <%--<div class="col-sm-5 nopadding"><form:input path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].docName" placeholder="서류 명 직접 입력"/></div>--%>
                                     </div>
                                     <div class="col-sm-5 nopadding">
                                         <div class="col-sm-12 nopadding"><input type="file" class="btn btn-file" id="file-input-${lv1Status.index}-${lv2Status.index}" name="file-input-name-${lv1Status.index}-${lv2Status.index}" data-upload-button-id="upload-button-${lv1Status.index}-${lv2Status.index}"/></div>
@@ -488,6 +486,8 @@
                             </spring:bind>
                                 </div>
 
+                                <%-- 기타 첨부 서류 최초 입력 용 --%>
+
                                     </c:when>
                                     <c:otherwise>
                                 <div class="panel panel-darkgray1">
@@ -537,8 +537,6 @@
                                                                <c:if test="${lv3Container.fileUploadFg == true}">checked</c:if> />${lv3Container.docItemName}
                                                     </label>
                                                 </div>
-                                                <%-- TODO : 기타 일때만 직접 입력 필드 보이게 --%>
-                                                <%--<div class="col-sm-5 nopadding"><form:input path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].subContainer[${lv3Status.index}].docName" placeholder="서류 명 직접 입력"/></div>--%>
                                             </div>
                                             <div class="col-sm-5 nopadding">
                                                 <div class="col-sm-12 nopadding"><input type="file" class="btn btn-file" id="file-input-${lv1Status.index}-${lv2Status.index}-${lv3Status.index}" name="file-input-name-${lv1Status.index}-${lv2Status.index}-${lv3Status.index}" data-upload-button-id="upload-button-${lv1Status.index}-${lv2Status.index}-${lv3Status.index}"/></div>
@@ -662,8 +660,6 @@
                                                                        <c:if test="${lv4Container.fileUploadFg == true}">checked</c:if> />${lv4Container.docItemName}
                                                             </label>
                                                         </div>
-                                                        <%-- TODO : 기타 일때 만 직접 입력 필드 보이게 --%>
-                                                        <%--<div class="col-sm-5 nopadding"><form:input path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].subContainer[${lv3Status.index}].subContainer[${lv4Status.index}].docName" placeholder="서류 명 직접 입력"/></div>--%>
                                                     </div>
                                                     <div class="col-sm-5 nopadding">
                                                         <div class="col-sm-12 nopadding"><input type="file" class="btn btn-file" id="file-input-${lv1Status.index}-${lv2Status.index}-${lv3Status.index}-${lv4Status.index}" name="file-input-name-${lv1Status.index}-${lv2Status.index}-${lv3Status.index}-${lv4Status.index}" data-upload-button-id="upload-button-${lv1Status.index}-${lv2Status.index}-${lv3Status.index}-${lv4Status.index}"/></div>

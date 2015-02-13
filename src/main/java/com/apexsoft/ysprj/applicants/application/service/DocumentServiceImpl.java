@@ -512,6 +512,7 @@ public class DocumentServiceImpl implements DocumentService {
             aSubDoc.setAdmsNo(admsNo);
         }
         aCont.setGrpLabel("기타 및 추가제출");
+        aCont.setDocItemCode(codeParam.getItemTypeCode());
         aCont.setDisplayGrpFg(true);
         aCont.setSubContainer(subDocList);
         rContList.add(aCont);
