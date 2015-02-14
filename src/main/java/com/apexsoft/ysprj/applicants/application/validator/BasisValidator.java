@@ -39,8 +39,10 @@ public class BasisValidator implements Validator {
         ApplicationForeigner applicationForeigner = basis.getApplicationForeigner();
 
         applicationValidator.validate(application, errors, "application");
-        applicationGeneralValidator.validate(applicationGeneral, errors, "applicationGeneral");
-        applicationForeignerValidator.validate(applicationForeigner, errors, "applicationForeigner");
-
+        if ("C".equals(application.getAdmsTypeCode())) {
+            applicationForeignerValidator.validate(applicationForeigner, errors, "applicationForeigner");
+        } else {
+            applicationGeneralValidator.validate(applicationGeneral, errors, "applicationGeneral");
+        }
     }
 }

@@ -49,13 +49,17 @@ public class ApplicationForeignerValidator implements NamedValidator {
             errors.rejectValue(prefix + "visaNo", "U331",
                     new Object[]{"비자 번호"}, messageResolver.getMessage("U332"));
         }
-//        if (applicationForeigner.getVisaTypeCode() == null || applicationForeigner.getVisaTypeCode().length() == 0) {
-//            errors.rejectValue(prefix + "visaTypeCode", "U331",
-//                    new Object[]{"비자 종류"}, messageResolver.getMessage("U332"));
-//        }
+        if (applicationForeigner.getVisaTypeCode() == null || applicationForeigner.getVisaTypeCode().length() == 0) {
+            errors.rejectValue(prefix + "visaTypeCode", "U331",
+                    new Object[]{"비자 종류"}, messageResolver.getMessage("U332"));
+        }
         if (applicationForeigner.getVisaExprDay() == null || applicationForeigner.getVisaExprDay().length() == 0) {
             errors.rejectValue(prefix + "visaExprDay", "U331",
                     new Object[]{"비자 만료일"}, messageResolver.getMessage("U332"));
+        }
+        if (applicationForeigner.getFornRgstNo() == null || applicationForeigner.getFornRgstNo().length() == 0) {
+            errors.rejectValue(prefix + "fornRgstNo", "U331",
+                    new Object[]{"외국인등록번호"}, messageResolver.getMessage("U332"));
         }
         if (applicationForeigner.getKorEmrgName() == null || applicationForeigner.getKorEmrgName().length() == 0) {
             errors.rejectValue(prefix + "korEmrgName", "U331",
