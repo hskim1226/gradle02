@@ -84,7 +84,7 @@
                                 <td>2015. 3. 30(월) ~  4. 8(수)</td>
                             </tr>
                             <tr>
-                                <td colspan="2">서류심사 결과발표</td>
+                                <td colspan="2">구술시험 대상자 발표</td>
                                 <td>2014.10.31(금)</td>
                                 <td>2015. 4.24(금)</td>
                             </tr>
@@ -117,12 +117,12 @@
                             <tr>
                                 <td align="left">학력조회 동의서</td>
                             </tr>
-                            <tr>
-                                <td align="left">최종 출신대학 확인서</td>
-                            </tr>
-                            <tr>
-                                <td align="left">치과대학, 원주의과대학(의학,간호학,치위생학) 전공교실 주임교수 확인서</td>
-                            </tr>
+                            <%--<tr>--%>
+                                <%--<td align="left">최종 출신대학 확인서</td>--%>
+                            <%--</tr>--%>
+                            <%--<tr>--%>
+                                <%--<td align="left">치과대학, 원주의과대학(의학,간호학,치위생학) 전공교실 주임교수 확인서</td>--%>
+                            <%--</tr>--%>
                             <tr>
                                 <td align="left">원주의과대학 전일제 대학원생 장학금 지급 신청서</td>
                             </tr>
@@ -134,10 +134,10 @@
                         </div>
                         <div class="spacer-tiny"></div>
                         <div>
-                            <form id=generalApplyForm" action="${contextPath}/application/agreement" method="post">
-                                <input type="hidden" name="admsNo" value="15A" />
-                                <input type="hidden" name="entrYear" value="2015" />
-                                <input type="hidden" name="admsTypeCode" value="A" />
+                            <form id=generalApplyForm" action="${contextPath}/pre/agreement" method="post">
+                                <input type="hidden" name="admsNo" value="${admsGeneral.admsNo}" />
+                                <input type="hidden" name="entrYear" value="${admsGeneral.entrYear}" />
+                                <input type="hidden" name="admsTypeCode" value="${admsGeneral.admsType}" />
                                 <button type="submit" class="btn btn-primary btn-lg btn-block" id="composePaper">원서 작성</button>
                             </form>
                         </div>
