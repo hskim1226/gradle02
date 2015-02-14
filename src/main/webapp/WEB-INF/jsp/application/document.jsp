@@ -72,7 +72,7 @@
 
         .panel-darkgray1, .panel-darkgray2, .panel-darkgray3, .panel-darkgray4 {
             /*background-color: #8c8c8c;*/
-            color: #fff;
+            /*color: #fff;*/
             border-color: #333333;
         }
 

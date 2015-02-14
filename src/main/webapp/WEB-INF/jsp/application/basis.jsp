@@ -59,15 +59,33 @@
 */
 
         .panel-darkgray > .panel-heading {
-            background-image: -webkit-linear-gradient(top, #7a7a7a 0%, #888888 100%);
-            background-image:      -o-linear-gradient(top, #7a7a7a 0%, #888888 100%);
-            background-image: -webkit-gradient(linear, left top, left bottom, from(#7a7a7a), to(#888888));
-            background-image:         linear-gradient(to bottom, #7a7a7a 0%, #888888 100%);
-            filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#7a7a7a', endColorstr='#ff888888', GradientType=0);
-            background-repeat: repeat-x;
+            /*background-image: -webkit-linear-gradient(top, #7a7a7a 0%, #888888 100%);*/
+            /*background-image:      -o-linear-gradient(top, #7a7a7a 0%, #888888 100%);*/
+            /*background-image: -webkit-gradient(linear, left top, left bottom, from(#7a7a7a), to(#888888));*/
+            /*background-image:         linear-gradient(to bottom, #7a7a7a 0%, #888888 100%);*/
+            /*filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#7a7a7a', endColorstr='#ff888888', GradientType=0);*/
+            /*background-repeat: repeat-x;*/
             color: #fff;
             background-color: #7a7a7a;
             border-color: #7a7a7a;
+        }
+
+        .panel-darkgray1, .panel-darkgray2, .panel-darkgray3, .panel-darkgray4 {
+            /*background-color: #8c8c8c;*/
+            /*color: #fff;*/
+            border-color: #333333;
+        }
+
+        .panel-darkgray1 > .panel-heading {
+            background-image: -webkit-linear-gradient(left, #888888 0%, #cccccc 100%);
+            background-image:      -o-linear-gradient(left, #888888 0%, #cccccc 100%);
+            background-image: -webkit-gradient(linear, left top, right bottom, from(#888888), to(#cccccc));
+            background-image:         linear-gradient(to right, #888888 0%, #cccccc 100%);
+            filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#888888', endColorstr='#cccccc', GradientType=1);
+            background-repeat: repeat-x;
+            color: #fff;
+            /*background-color: #7a7a7a;*/
+            border-color: #cccccc;
         }
 
         .btn-file {
@@ -403,7 +421,7 @@
                             <div class="panel-heading">지원자 정보</div>
                             <div class="panel-body">
                                 <div class="form-group required">
-                                    <form:label path="application.korName" cssClass="col-sm-2 control-label">한글 이름</form:label>
+                                    <label for="application.korName" class="col-sm-2 control-label">한글 이름</label>
                                     <div class="col-sm-9">
                                         <div class="col-sm-12">
                                             <form:input path="application.korName" cssClass="form-control" placeholder="한글 이름을 공백 없이 입력해주세요"/>
@@ -449,7 +467,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group required">
-                                    <form:label path="application.rgstNo" cssClass="col-sm-2 control-label">주민등록번호</form:label>
+                                    <label for="application.rgstNo" class="col-sm-2 control-label">주민등록번호</label>
                                     <div class="col-sm-9">
                                         <div class="col-sm-12">
                                             <form:input path="application.rgstNo" cssClass="form-control numOnly" maxlength="13" placeholder="주민등록번호를 13자리 숫자로 입력해주세요"/>
@@ -581,6 +599,36 @@
                                         </spring:bind>
                                     </div>
                                 </div>
+                                <div class="form-group required">
+                                    <label class="col-sm-2 control-label">본국 주소</label>
+                                    <div class="col-sm-9">
+                                        <div class="col-sm-12">
+                                            <form:input path="applicationForeigner.homeAddr" cssClass="form-control" placeholder="본국 주소를 입력해 주세요."/>
+                                        </div>
+                                        <spring:bind path="applicationForeigner.homeAddr">
+                                            <c:if test="${status.error}">
+                                                <div class="col-sm-12">
+                                                    <div class="validation-error">${status.errorMessage}</div>
+                                                </div>
+                                            </c:if>
+                                        </spring:bind>
+                                    </div>
+                                </div>
+                                <div class="form-group required">
+                                    <label class="col-sm-2 control-label">본국 연락처</label>
+                                    <div class="col-sm-9">
+                                        <div class="col-sm-12">
+                                            <form:input path="applicationForeigner.homeTel" cssClass="form-control" placeholder="본국 연락처를 입력해 주세요."/>
+                                        </div>
+                                        <spring:bind path="applicationForeigner.homeTel">
+                                            <c:if test="${status.error}">
+                                                <div class="col-sm-12">
+                                                    <div class="validation-error">${status.errorMessage}</div>
+                                                </div>
+                                            </c:if>
+                                        </spring:bind>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </c:otherwise>
@@ -592,7 +640,7 @@
                             <div class="panel-heading">체류 정보</div>
                             <div class="panel-body">
                                 <div class="form-group required">
-                                    <form:label path="applicationForeigner.paspNo" cssClass="col-sm-2 control-label">여권 번호</form:label>
+                                    <label for="applicationForeigner.paspNo" class="col-sm-2 control-label">여권 번호</label>
                                     <div class="col-sm-9">
                                         <div class="col-sm-12">
                                             <form:input path="applicationForeigner.paspNo" cssClass="form-control" placeholder="여권 번호를 입력해주세요"/>
@@ -656,7 +704,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group required">
-                                    <form:label path="applicationForeigner.creId" cssClass="col-sm-2 control-label">외국인등록번호</form:label>
+                                    <label for="applicationForeigner.creId" class="col-sm-2 control-label">외국인등록번호</label>
                                     <div class="col-sm-9">
                                         <div class="col-sm-12">
                                             <form:input path="applicationForeigner.creId" cssClass="form-control numOnly" maxlength="13" placeholder="외국인등록번호를 13자리 숫자로 입력해주세요"/>
@@ -718,7 +766,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group required">
-                                    <form:label path="application.telNum" cssClass="col-sm-2 control-label">전화번호</form:label>
+                                    <label for="application.telNum" class="col-sm-2 control-label">전화번호</label>
                                     <div class="col-sm-9">
                                         <div class="col-sm-12">
                                             <form:input path="application.telNum" cssClass="form-control numOnly" maxlength="20" placeholder="전화번호를 '-'와 숫자로만 입력해주세요"/>
@@ -733,7 +781,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group required">
-                                    <form:label path="application.mobiNum" cssClass="col-sm-2 control-label">휴대폰</form:label>
+                                    <label for="application.mobiNum" class="col-sm-2 control-label">휴대폰</label>
                                     <div class="col-sm-9">
                                         <div class="col-sm-12">
                                             <form:input path="application.mobiNum" cssClass="form-control numOnly" maxlength="20" placeholder="휴대폰번호를 '-'와 숫자로만 입력해주세요"/>
@@ -748,7 +796,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group required">
-                                    <form:label path="application.mailAddr" cssClass="col-sm-2 control-label">E-mail</form:label>
+                                    <label for="application.mailAddr" class="col-sm-2 control-label">E-mail</label>
                                     <div class="col-sm-9">
                                         <div class="col-sm-12">
                                             <form:input path="application.mailAddr" type="email" cssClass="form-control emailOnly" placeholder="이메일 주소를 입력해주세요"/>
@@ -764,11 +812,14 @@
                                 </div>
                             </div>
                         </div>
+
+                <c:choose>
+                    <c:when test="${basis.application.admsTypeCode != 'C'}">
                         <div class="panel panel-darkgray">
                             <div class="panel-heading">비상연락처</div>
                             <div class="panel-body">
                                 <div class="form-group required">
-                                    <form:label path="applicationGeneral.emerContName" cssClass="col-sm-2 control-label">이름</form:label>
+                                    <label for="applicationGeneral.emerContName" class="col-sm-2 control-label">이름</label>
                                     <div class="col-sm-9">
                                         <div class="col-sm-12">
                                             <form:input path="applicationGeneral.emerContName" cssClass="form-control" />
@@ -782,8 +833,8 @@
                                 </spring:bind>
                                     </div>
                                 </div>
-                                <div class="form-group required">
-                                    <form:label path="applicationGeneral.emerContCode" cssClass="col-sm-2 control-label">관계</form:label>
+                                <div class="form-group">
+                                    <label for="applicationGeneral.emerContCode" class="col-sm-2 control-label">관계</label>
                                     <div class="col-sm-9">
                                         <div class="col-sm-12">
                                             <form:select path="applicationGeneral.emerContCode" cssClass="form-control">
@@ -794,7 +845,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group required">
-                                    <form:label path="applicationGeneral.emerContTel" cssClass="col-sm-2 control-label">전화번호</form:label>
+                                    <label for="applicationGeneral.emerContTel" class="col-sm-2 control-label">전화번호</label>
                                     <div class="col-sm-9">
                                         <div class="col-sm-12">
                                             <form:input path="applicationGeneral.emerContTel" cssClass="form-control numOnly" maxlength="20" placeholder="전화번호를 '-'와 숫자로만 입력해주세요"/>
@@ -810,17 +861,119 @@
                                 </div>
                             </div>
                         </div>
+                    </c:when>
+                    <c:otherwise> <%-- 외국인 전형 --%>
+                        <div class="panel panel-darkgray">
+                            <div class="panel-heading">비상연락처</div>
+                            <div class="panel-body">
+                                <div class="panel panel-darkgray1">
+                                    <div class="panel-heading">국내</div>
+                                    <div class="panel-body">
+                                        <div class="form-group required">
+                                            <label for="applicationForeigner.korEmrgName" class="col-sm-2 control-label">이름</label>
+                                            <div class="col-sm-9">
+                                                <div class="col-sm-12">
+                                                    <form:input path="applicationForeigner.korEmrgName" cssClass="form-control" />
+                                                </div>
+                                                <spring:bind path="applicationForeigner.korEmrgName">
+                                                    <c:if test="${status.error}">
+                                                        <div class="col-sm-12">
+                                                            <div class="validation-error">${status.errorMessage}</div>
+                                                        </div>
+                                                    </c:if>
+                                                </spring:bind>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="applicationForeigner.korEmrgRela" class="col-sm-2 control-label">관계</label>
+                                            <div class="col-sm-9">
+                                                <div class="col-sm-12">
+                                                    <form:select path="applicationForeigner.korEmrgRela" cssClass="form-control">
+                                                        <form:option value="" label="--선택--" />
+                                                        <form:options items="${selection.emerContList}" itemValue="code" itemLabel="codeVal" />
+                                                    </form:select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group required">
+                                            <label for="applicationForeigner.korEmrgTel" class="col-sm-2 control-label">전화번호</label>
+                                            <div class="col-sm-9">
+                                                <div class="col-sm-12">
+                                                    <form:input path="applicationForeigner.korEmrgTel" cssClass="form-control numOnly" maxlength="20" placeholder="전화번호를 '-'와 숫자로만 입력해주세요"/>
+                                                </div>
+                                                <spring:bind path="applicationForeigner.korEmrgTel">
+                                                    <c:if test="${status.error}">
+                                                        <div class="col-sm-12">
+                                                            <div class="validation-error">${status.errorMessage}</div>
+                                                        </div>
+                                                    </c:if>
+                                                </spring:bind>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="panel panel-darkgray1">
+                                    <div class="panel-heading">본국</div>
+                                    <div class="panel-body">
+                                        <div class="form-group required">
+                                            <label for="applicationForeigner.homeEmrgName" class="col-sm-2 control-label">이름</label>
+                                            <div class="col-sm-9">
+                                                <div class="col-sm-12">
+                                                    <form:input path="applicationForeigner.homeEmrgName" cssClass="form-control" />
+                                                </div>
+                                                <spring:bind path="applicationForeigner.homeEmrgName">
+                                                    <c:if test="${status.error}">
+                                                        <div class="col-sm-12">
+                                                            <div class="validation-error">${status.errorMessage}</div>
+                                                        </div>
+                                                    </c:if>
+                                                </spring:bind>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="applicationForeigner.homeEmrgRela" class="col-sm-2 control-label">관계</label>
+                                            <div class="col-sm-9">
+                                                <div class="col-sm-12">
+                                                    <form:select path="applicationForeigner.homeEmrgRela" cssClass="form-control">
+                                                        <form:option value="" label="--선택--" />
+                                                        <form:options items="${selection.emerContList}" itemValue="code" itemLabel="codeVal" />
+                                                    </form:select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group required">
+                                            <label for="applicationForeigner.homeEmrgTel" class="col-sm-2 control-label">전화번호</label>
+                                            <div class="col-sm-9">
+                                                <div class="col-sm-12">
+                                                    <form:input path="applicationForeigner.homeEmrgTel" cssClass="form-control numOnly" maxlength="20" placeholder="전화번호를 '-'와 숫자로만 입력해주세요"/>
+                                                </div>
+                                                <spring:bind path="applicationForeigner.homeEmrgTel">
+                                                    <c:if test="${status.error}">
+                                                        <div class="col-sm-12">
+                                                            <div class="validation-error">${status.errorMessage}</div>
+                                                        </div>
+                                                    </c:if>
+                                                </spring:bind>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </c:otherwise>
+                </c:choose>
+
                         <div class="panel panel-default" id="currentCompany" hidden>
                             <div class="panel-heading">현재 근무처</div>
                             <div class="panel-body">
                                 <div class="form-group">
-                                    <form:label path="applicationGeneral.currWrkpName" cssClass="col-sm-2 control-label">회사 이름</form:label>
+                                    <label for="applicationGeneral.currWrkpName" class="col-sm-2 control-label">회사 이름</label>
                                     <div class="col-sm-9">
                                         <form:input path="applicationGeneral.currWrkpName" cssClass="form-control" />
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <form:label path="applicationGeneral.currWrkpDay" cssClass="col-sm-2 control-label">입사 일자</form:label>
+                                    <label path="applicationGeneral.currWrkpDay" cssClass="col-sm-2 control-label">입사 일자</label>
                                     <div class="col-sm-9">
                                         <div class="input-group date">
                                             <form:input path="applicationGeneral.currWrkpDay" cssClass="col-sm-6 form-control" readonly="true" />
@@ -829,7 +982,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <form:label path="applicationGeneral.currWrkpTel" cssClass="col-sm-2 control-label">연락처</form:label>
+                                    <label for="applicationGeneral.currWrkpTel" class="col-sm-2 control-label">연락처</label>
                                     <div class="col-sm-9">
                                         <form:input path="applicationGeneral.currWrkpTel" cssClass="form-control numOnly" maxlength="20" placeholder="연락처를 '-'와 숫자로만 입력해주세요"/>
                                     </div>
