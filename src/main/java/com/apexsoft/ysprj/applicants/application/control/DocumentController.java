@@ -471,7 +471,7 @@ public class DocumentController {
      * @param ec
      */
     private void addObjectToMV(ModelAndView mv, Map<String, Object> map, ExecutionContext ec) {
-        mv.addObject("document", map.get("document"));
+        mv.addAllObjects(map);
         mv.addObject("resultMsg", ec.getMessage());
     }
 }

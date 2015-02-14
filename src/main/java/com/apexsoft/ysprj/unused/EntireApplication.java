@@ -1,5 +1,6 @@
-package com.apexsoft.ysprj.applicants.application.domain;
+package com.apexsoft.ysprj.unused;
 
+import com.apexsoft.ysprj.applicants.application.domain.*;
 import com.apexsoft.ysprj.applicants.payment.domain.ApplicationPayment;
 
 import java.util.List;

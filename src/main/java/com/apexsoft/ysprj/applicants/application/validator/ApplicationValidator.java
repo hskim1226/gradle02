@@ -75,5 +75,15 @@ public class ApplicationValidator implements NamedValidator {
             errors.rejectValue(prefix + "mailAddr", "U331",
                     new Object[]{"E-mail"}, messageResolver.getMessage("U332"));
         }
+        if ("C".equals(application.getAdmsTypeCode())) { // 외국인 전형
+//            if (application.getFornRgstNo() == null || application.getFornRgstNo().length() == 0) {
+//                errors.rejectValue(prefix + "fornRgstNo", "U331",
+//                        new Object[]{"외국인등록번호"}, messageResolver.getMessage("U332"));
+//            }
+            if (application.getFornTypeCode() == null || application.getFornTypeCode().length() == 0) {
+                errors.rejectValue(prefix + "fornTypeCode", "U331",
+                        new Object[]{"외국인 구분"}, messageResolver.getMessage("U332"));
+            }
+        }
     }
 }
