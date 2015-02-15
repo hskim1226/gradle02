@@ -121,6 +121,11 @@ public class BasisServiceImpl implements BasisService {
             application = application == null ? new Application() : application;
             basis.setApplication(application);
 
+            ApplicationForeigner applicationForeigner = commonDAO.queryForObject(NAME_SPACE + "ApplicationForeignerMapper.selectByPrimaryKey",
+                    applNo, ApplicationForeigner.class);
+            applicationForeigner = applicationForeigner == null ? new ApplicationForeigner() : applicationForeigner;
+            basis.setApplicationForeigner(applicationForeigner);
+
             ApplicationGeneral applicationGeneral = commonDAO.queryForObject(NAME_SPACE + "ApplicationGeneralMapper.selectByPrimaryKey",
                     applNo, ApplicationGeneral.class);
             applicationGeneral = applicationGeneral == null ? new ApplicationGeneral() : applicationGeneral;
@@ -131,6 +136,7 @@ public class BasisServiceImpl implements BasisService {
 
         } else {
             // TODO : application 초기값 세팅
+            basis.setApplicationForeigner(new ApplicationForeigner());
             basis.setApplicationGeneral(new ApplicationGeneral());
 
             List<Campus> campList = commonService.retrieveCampus();
@@ -190,24 +196,24 @@ public class BasisServiceImpl implements BasisService {
                 application = application == null ? new Application() : application;
                 basis.setApplication(application);
 
-                ApplicationGeneral applicationGeneral = commonDAO.queryForObject(NAME_SPACE + "ApplicationGeneralMapper.selectByPrimaryKey",
-                        applNo, ApplicationGeneral.class);
-                applicationGeneral = applicationGeneral == null ? new ApplicationGeneral() : applicationGeneral;
-
                 ApplicationForeigner applicationForeigner = commonDAO.queryForObject(NAME_SPACE + "ApplicationForeignerMapper.selectByPrimaryKey",
                         applNo, ApplicationForeigner.class);
                 applicationForeigner = applicationForeigner == null ? new ApplicationForeigner() : applicationForeigner;
-
-                basis.setApplicationGeneral(applicationGeneral);
                 basis.setApplicationForeigner(applicationForeigner);
+
+                ApplicationGeneral applicationGeneral = commonDAO.queryForObject(NAME_SPACE + "ApplicationGeneralMapper.selectByPrimaryKey",
+                        applNo, ApplicationGeneral.class);
+                applicationGeneral = applicationGeneral == null ? new ApplicationGeneral() : applicationGeneral;
+                basis.setApplicationGeneral(applicationGeneral);
             }
 
             Map<String, Object> map =  (Map<String, Object>) retrieveSelectionMap(basis).getData();
             selectionMap.putAll((Map<String, Object>) map.get("selection"));
 
         } else {
-            basis.setApplicationGeneral(new ApplicationGeneral());
+
             basis.setApplicationForeigner(new ApplicationForeigner());
+            basis.setApplicationGeneral(new ApplicationGeneral());
 
             List<Campus> campList = commonService.retrieveCampus();
             List<AcademyResearchIndustryInstitution> ariInstList = commonService.retrieveAriInst();
