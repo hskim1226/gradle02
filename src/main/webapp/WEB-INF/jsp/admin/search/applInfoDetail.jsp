@@ -166,10 +166,8 @@
 	   	});
     	jQuery('#cancelBtn').on('click', function(event) {
 	   		event.preventDefault();
-            alert("아직 개발중입니다")
-            <%--
-            jQuery('#searchForm').attr("action", '${contextPath}/admin//modification/cancel');
-            document.getElementById('searchForm').submit();--%>
+            jQuery('#searchForm').attr("action", '${contextPath}/admin//modification/cancelAppl');
+            document.getElementById('searchForm').submit();
         });
         jQuery('#backBtn').on('click', function(event) {
             event.preventDefault();

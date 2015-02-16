@@ -28,7 +28,7 @@
                             <caption>지원단위변경 대상자검색</caption>
                             <tr>
                                 <th><label for="applId">수험번호</label></th>
-                                <td><input type="text" class="Ltext" id="applId" name="applId" size="15" value="${applInfo.applId}"></td>
+                                <td><input type="text" class="Ltext" id="applId" name="applId" size="15" value="${applInfo.applId}"><img class="Lbtn" src="../images/btn_icon_search.gif" alt="검색버튼" /></td>
                             </tr>
                             </tbody>
                         </table>
@@ -87,9 +87,6 @@
         </div>
 
         <div id="LblockDetail02" class="LblockDetail">
-            <form id ="changeForm" action="${contextPath}/admin/modification/requestChangeInfo" method="post">
-                <input type="hidden" name="applNo" value=${applInfo.applNo}> </input>
-                <input type="hidden" name="admsNo" value=${applInfo.admsNo}> </input>
                 <table summary="지원서 상세정보">
                     <caption>지원자개인정보</caption>
 
@@ -130,8 +127,7 @@
                     </tbody>
                 </table>
                 <div>
-                    <input type="hidden" id="defValInput" name ="befVal"> </input>
-                    <input type="hidden" id="aftValInput" name ="aftVal"> </input>
+
 
                 </div>
 
@@ -139,7 +135,11 @@
                     <h2>변경요청 지원정보</h2>
                 </div>
                 <div id="LblockDetail03" class="LblockDetail">
-                    <form:form commandName="applicationChange"  method="post" role="form" action="${contextPath}/admin/modification/requestChangeUnit" id="search-form">
+                    <form:form commandName="customApplicationChange"  method="post" role="form" action="${contextPath}/admin/modification/requestChangeUnit" id="changeUnitt-form">
+                        <input type="hidden" name="applNo" value=${applInfo.applNo}> </input>
+
+                        <input type="hidden" id="befValInput" name ="befVal"> </input>
+                        <input type="hidden" id="aftValInput" name ="aftVal"> </input>
                     <table summary="변경요청 지원정보">
                         <caption>변경요청 지원정보</caption>
                         <tbody>
@@ -153,11 +153,18 @@
                             <th><label for="applAttrCode" >지원 구분</label></th>
                             <td>
                                 <form:select path="applAttrCode" id="applAttrCode" cssClass="form-control base-info">
-                                    <form:options items="${common.applAttrList}" itemValue="code" itemLabel="codeVal"/>
+                                    <form:options items="${selection.applAttrList}" itemValue="code" itemLabel="codeVal"/>
                                 </form:select>
                             </td>
-                            <th>금액변경</th>
-                            <td>변경없음</td>
+                            <th><label for="ariInstCode">학·연·산 연구기관</label></th>
+                            <td>
+                                <form:select path="ariInstCode" id="ariInstCode" cssClass="form-control base-info">
+                                    <form:option value="" label="--선택--" />
+                                    <c:if test="${entireApplication.application.applAttrCode == '00002'}">
+                                        <form:options items="${common.ariInstList}" itemValue="ariInstCode" itemLabel="ariInstName" />
+                                    </c:if>
+                                </form:select>
+                            </td>
                         </tr>
                         <tr>
                             <th><label for="campCode">캠퍼스</label></th>
@@ -183,15 +190,7 @@
                             </td>
                         </tr>
                         <tr>
-                            <th><label for="ariInstCode">학·연·산 연구기관</label></th>
-                            <td>
-                                <form:select path="ariInstCode" id="ariInstCode" cssClass="form-control base-info">
-                                    <form:option value="" label="--선택--" />
-                                    <c:if test="${entireApplication.application.applAttrCode == '00002'}">
-                                        <form:options items="${common.ariInstList}" itemValue="ariInstCode" itemLabel="ariInstName" />
-                                    </c:if>
-                                </form:select>
-                            </td>
+
                             <th><label for="corsTypeCode" >지원 과정</label></th>
                             <td>
                                 <form:select path="corsTypeCode" id="corsTypeCode" cssClass="form-control base-info">
@@ -206,6 +205,8 @@
                                     <form:options items="${common.detlMajList}" itemValue="detlMajCode" itemLabel="detlMajName" />
                                 </form:select>
                             </td>
+                            <th>금액변경</th>
+                            <td></td>
                         </tr>
                         <tr>
                             <th>변경사유</th>
@@ -213,9 +214,8 @@
                         </tr>
                         </tbody>
                     </table>
-
+                    </form:form>
                 </div>
-            </form>
         </div>
 
         <th></th>
@@ -242,16 +242,35 @@
         jQuery(document).ready(function() {
             jQuery('#changeBtn').on('click', function(e) {
                 event.preventDefault();
-                alert("아직 개발중입니다")
-                <%--
-                if (confirm('지원자 정보를 수정하시겠습니까?')) {
-                    jQuery('#changeForm').submit();
+                if (confirm('지원단위를 변경하시겠습니까?')) {
+
+                    jQuery('#befValInput').val(
+                        ${applInfo.admsTypeName} +
+                        ${applInfo.ariInstName} +
+                        ${applInfo.campName} +
+                        ${applInfo.collName} +
+                        ${applInfo.deptName} +
+                        ${applInfo.corsTypeName} +
+                        ${applInfo.detlMajName}  );
+
+
+                    jQuery('#aftValInput').val(
+                        jQuery('#admsNo option:selected').text() +
+                        jQuery('#applAttrCode option:selected').text() +
+                        jQuery('#ariInstCode option:selected').text() +
+                        jQuery('#campCode option:selected').text() +
+                        jQuery('#collCode option:selected').text() +
+                        jQuery('#deptCode option:selected').text() +
+                        jQuery('#corsTypeCode option:selected').text() +
+                        jQuery('#detlMajCode option:selected').text() );
+
+                    jQuery('#changeUnitt-form').submit();
                 }
-                --%>
+
             });
 
             function attachChangeEvent( sourceId, context ) {
-                var $source = $('#' + sourceId);
+                var $source = jQuery('#' + sourceId);
 
                 $source.on('change', function(event) {
                     var info, targetId, valueKey, labelKey, url, clean, addon, i;
@@ -278,26 +297,19 @@
                     }
 
                     clean = info.clean ? info.clean : context.clean;
+                    if (typeof clean === 'string') {
+                        clean = [].concat( clean );
+                    }
                     clean = [].concat( targetId, clean );
-                    var $clean, oldVal;
                     for (i = 0; i < clean.length; i++) {
-                        if (clean[i]) {
-                            $clean = $('#' + clean[i]);
-                            oldVal = $clean.val();
-                            $clean.children('option').filter(function() {
-                                return this.value !== '';
-                            }).remove();
-                            if (oldVal !== $clean.val()) {
-                                $clean.trigger('change');
-                            }
-                        }
+                        jQuery('#' + clean[i]).children('option').filter(function() {
+                            return this.value !== '';
+                        }).remove();
+
+                        jQuery('#' + clean[i]).trigger('change');
                     }
 
-                    if (!val || val == '') {
-                        return;
-                    }
-
-                    $.ajax({
+                    jQuery.ajax({
                         type: 'GET',
                         url: baseUrl,
                         success: function(e) {
@@ -305,16 +317,14 @@
                             if(ec.result && ec.result === 'SUCCESS') {
                                 var $target = jQuery('#' + targetId);
                                 var data = JSON && JSON.parse(ec.data) || $.parseJSON(ec.data);
-                                $(data).each(function (i, item) {
-                                    var $op = $('<option>').attr({
+                                jQuery(data).each(function (i, item) {
+                                    var $op = jQuery('<option>').attr({
                                                 'value': item[valueKey],
                                                 'label': item[labelKey]}
                                     )
-                                    if ('detlMajCode' == targetId) {
-                                        for (var key in item) {
-                                            if (key !== valueKey && key !== labelKey) {
-                                                $op.attr(key, item[key]);
-                                            }
+                                    for (var key in item) {
+                                        if (key !== valueKey && key !== labelKey) {
+                                            $op.attr(key, item[key]);
                                         }
                                     }
                                     $op.appendTo($target);
@@ -360,7 +370,7 @@
                         labelKey: 'deptName',
                         // clean: ['corsTypeCode', 'detlMajCode'],
                         url: function(arg) {
-                            var admsNo = $('#admsNo').val();
+                            var admsNo = jQuery('#admsNo').val();
                             return '/general/department/' + admsNo + '/' + arg;
                         }
                     }
@@ -374,7 +384,7 @@
                         labelKey: 'deptName',
                         // clean: ['corsTypeCode', 'detlMajCode'],
                         url: function(arg) {
-                            var admsNo = $('#admsNo').val();
+                            var admsNo = jQuery('#admsNo').val();
                             return '/ariInst/department/' + admsNo + '/' + arg;
                         }
                     }
@@ -388,12 +398,12 @@
                         labelKey: 'codeVal',
                         // clean: ['detlMajCode'],
                         url: function(arg) {   <%-- 지원과정 조회 --%>
-                            var admsNo = $('#admsNo').val();
-                            var applAttrCode = $('#applAttrCode').val();
+                            var admsNo = jQuery('#admsNo').val();
+                            var applAttrCode = jQuery('#applAttrCode').val();
                             if (applAttrCode == '00001') {
                                 return '/general/course/' + admsNo + '/' + arg;
                             } else if (applAttrCode == '00002') {
-                                return '/ariInst/course/' + admsNo + "/" + arg + "/" + $('#ariInstCode').val();
+                                return '/ariInst/course/' + admsNo + "/" + arg + "/" + jQuery('#ariInstCode').val();
                             } else if (applAttrCode == '00003') {
                                 return '/commission/course/' + admsNo + '/' + arg;
                             }
@@ -408,14 +418,14 @@
                         valueKey: 'detlMajCode',
                         labelKey: 'detlMajName',
                         url: function(arg) {
-                            var admsNo = $('#admsNo').val();
-                            var applAttrCode = $('#applAttrCode').val();
+                            var admsNo = jQuery('#admsNo').val();
+                            var applAttrCode = jQuery('#applAttrCode').val();
                             if (applAttrCode == '00001') {
-                                return '/general/detailMajor/' + admsNo + '/' + $('#deptCode').val() + '/' + arg;
+                                return '/general/detailMajor/' + admsNo + '/' + jQuery('#deptCode').val() + '/' + arg;
                             } else if (applAttrCode == '00002') {
-                                return '/ariInst/detailMajor/' + admsNo + "/" + $('#deptCode').val() + "/" + $('#ariInstCode').val() + '/' + arg;
+                                return '/ariInst/detailMajor/' + admsNo + "/" + jQuery('#deptCode').val() + "/" + jQuery('#ariInstCode').val() + '/' + arg;
                             } else if (applAttrCode == '00003') {
-                                return '/general/detailMajor/' + admsNo + '/' + $('#deptCode').val() + '/' + arg;
+                                return '/general/detailMajor/' + admsNo + '/' + jQuery('#deptCode').val() + '/' + arg;
                             }
                         }
                     }

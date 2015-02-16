@@ -226,7 +226,6 @@ public class GuidelineServiceImpl implements GuidelineService{
     }
 
 
-
     /* 조회된 학과-전공 필수문서요건에 따라서 전체 전공별 필수문서요건을 생성한다
     *
     */

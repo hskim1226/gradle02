@@ -33,7 +33,7 @@
                                 <td>
                                     <form:select path="applChgCode" id="applChgCode" cssClass="form-control base-info">
                                         <form:option value="" label="--전체--" />
-                                        <form:options items="${selection.chgCodeList}" itemValue="code" itemLabel="codeVal"/>
+                                        <form:options items="${selection.applChgCodeList}" itemValue="code" itemLabel="codeVal"/>
                                     </form:select>
                                 </td>
                                 <th><label for="chgStsCode">처리결과</label></th>
@@ -206,6 +206,7 @@
                         jQuery('#' + clean[i]).children('option').filter(function() {
                             return this.value !== '';
                         }).remove();
+
                         jQuery('#' + clean[i]).trigger('change');
                     }
 

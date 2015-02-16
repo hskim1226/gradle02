@@ -11,11 +11,18 @@ public class CustomApplicationChange extends ApplicationChange {
     private String collName;
     private String campName;
     private String deptName;
+    private String collCode;
+    private String campCode;
+    private String deptCode;
     private String majName;
     private String rgstNo;
     private String telNum;
     private String applChgCodeName;
     private String chgStsCodeName;
+    private String applAttrCode;
+    private String ariInstCode;
+    private String corsTypeCode;
+    private String detlMajCode;
 
 
     public String getKorName() {
@@ -96,5 +103,61 @@ public class CustomApplicationChange extends ApplicationChange {
 
     public void setChgStsCodeName(String chgStsCodeName) {
         this.chgStsCodeName = chgStsCodeName;
+    }
+
+    public String getApplAttrCode() {
+        return applAttrCode;
+    }
+
+    public void setApplAttrCode(String applAttrCode) {
+        this.applAttrCode = applAttrCode;
+    }
+
+    public String getAriInstCode() {
+        return ariInstCode;
+    }
+
+    public void setAriInstCode(String ariInstCode) {
+        this.ariInstCode = ariInstCode;
+    }
+
+    public String getCorsTypeCode() {
+        return corsTypeCode;
+    }
+
+    public void setCorsTypeCode(String corsTypeCode) {
+        this.corsTypeCode = corsTypeCode;
+    }
+
+    public String getDetlMajCode() {
+        return detlMajCode;
+    }
+
+    public void setDetlMajCode(String detlMajCode) {
+        this.detlMajCode = detlMajCode;
+    }
+
+    public String getCollCode() {
+        return collCode;
+    }
+
+    public void setCollCode(String collCode) {
+        this.collCode = collCode;
+    }
+
+    public String getCampCode() {
+        return campCode;
+    }
+
+    public void setCampCode(String campCode) {
+        this.campCode = campCode;
+    }
+
+    public String getDeptCode() {
+        return deptCode;
+    }
+
+    public void setDeptCode(String deptCode) {
+        this.deptCode = deptCode;
     }
 }

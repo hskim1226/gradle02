@@ -6,9 +6,11 @@ import java.util.List;
 import java.util.Map;
 
 import com.apexsoft.framework.common.vo.ExecutionContext;
+import com.apexsoft.framework.message.MessageResolver;
 import com.apexsoft.ysprj.admin.control.form.*;
 import com.apexsoft.ysprj.applicants.admission.domain.Admission;
 import com.apexsoft.ysprj.applicants.common.domain.*;
+
 import com.apexsoft.ysprj.applicants.common.service.CommonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,6 +21,8 @@ import com.apexsoft.framework.persistence.dao.page.PageStatement;
 import com.apexsoft.ysprj.admin.domain.*;
 import com.apexsoft.ysprj.applicants.application.domain.ApplicationDocument;
 
+import javax.annotation.Resource;
+
 
 @Service
 public class AdminServiceImpl implements AdminService{
@@ -28,12 +32,15 @@ public class AdminServiceImpl implements AdminService{
     private final static String CANCEL_NAME_SPACE = "admin.cancel.";    
     private final static String APPL_NAME_SPACE = "applicants.application.sqlmap.";
     private final static String ADMS_NAME_SPACE = "com.apexsoft.ysprj.applicants.admission.sqlmap.";
-    
+
     @Autowired
     private CommonDAO commonDAO;
 
     @Autowired
     private CommonService commonService;
+
+    @Resource(name = "messageResolver")
+    MessageResolver messageResolver;
 
     @Override
     public ExecutionContext retrieveApplicantPaginatedListByApplicantInfo(CourseSearchPageForm courseSearchPageForm){
@@ -128,7 +135,7 @@ public class AdminServiceImpl implements AdminService{
         }
         return ec;
     }
-
+    @Override
 	  public PageInfo<ApplicantInfo> retrieveApplicantPaginatedList(ApplicantSearchPageForm applicantSearchForm){
         return commonDAO.queryForPagenatedList(new PageStatement(){
             /**
@@ -146,7 +153,8 @@ public class AdminServiceImpl implements AdminService{
             }
         }, new ApplicantSearchForm(), applicantSearchForm.getPage().getNo(), applicantSearchForm.getPage().getRows() );
 	  }
-	  
+
+    @Override
     public ExecutionContext getApplicantDetail(int applNo){
         ExecutionContext ec = new ExecutionContext();
         Map<String, Object> ecDataMap = new HashMap<String, Object>();
@@ -178,14 +186,14 @@ public class AdminServiceImpl implements AdminService{
         }
         return campusList;
     }
-    
-	  
+
+    @Override
 	  public List<ApplicantInfo> getApplicantListForSelect(ApplicantSearchForm searchForm){
 		  List<ApplicantInfo> applInfo = null;
 		  applInfo = commonDAO.queryForList(CANCEL_NAME_SPACE+"retrieveApplicantListByNameForSelect", searchForm, ApplicantInfo.class);  
 		  return applInfo;
-	  }	  
-	  
+	  }
+    @Override
 	  public ApplicantInfo getApplicantInfo(ApplicantSearchForm searchForm ){
 		  ApplicantInfo applInfo = null;
 		  int applCnt = 0;
@@ -228,12 +236,13 @@ public class AdminServiceImpl implements AdminService{
     private Map<String, Object> getCouurseSelectionBasicMap(){
         Map<String, Object> selectionMap = new HashMap<String, Object>();
         List<Admission> admsList = null;
-        List<Campus> campList = null;
-
-        campList = commonService.retrieveCampus();
+        List<Campus> campList = new ArrayList<Campus>();
+        List<CommonCode> applAttrList = new ArrayList<CommonCode>();
+        //campList = commonService.retrieveCampus();
         admsList = commonDAO.queryForList(ADMS_NAME_SPACE +"CustomAdmissionMapper.selectByYear","2015", Admission.class);
-
+        applAttrList= commonService.retrieveCommonCodeValueByCodeGroup("APPL_ATTR");
         if (admsList != null)      selectionMap.put("admsList", admsList);
+        if (admsList != null)      selectionMap.put("applAttrList", applAttrList);
         if (campList != null)      selectionMap.put("campList", campList);
 
         return selectionMap;
