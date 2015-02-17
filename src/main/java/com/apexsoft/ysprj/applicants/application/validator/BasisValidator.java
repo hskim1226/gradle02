@@ -34,13 +34,16 @@ public class BasisValidator implements Validator {
     public void validate(Object o, Errors errors) {
         int i = 0;
         Basis basis = (Basis)o;
+
         Application application = basis.getApplication();
-        ApplicationGeneral applicationGeneral = basis.getApplicationGeneral();
-        ApplicationForeigner applicationForeigner = basis.getApplicationForeigner();
-
         applicationValidator.validate(application, errors, "application");
-        applicationGeneralValidator.validate(applicationGeneral, errors, "applicationGeneral");
-        applicationForeignerValidator.validate(applicationForeigner, errors, "applicationForeigner");
 
+        if ("C".equals(application.getAdmsTypeCode())) {
+            ApplicationForeigner applicationForeigner = basis.getApplicationForeigner();
+            applicationForeignerValidator.validate(applicationForeigner, errors, "applicationForeigner");
+        } else {
+            ApplicationGeneral applicationGeneral = basis.getApplicationGeneral();
+            applicationGeneralValidator.validate(applicationGeneral, errors, "applicationGeneral");
+        }
     }
 }
