@@ -55,8 +55,8 @@ public class ApplicationLanguageValidator extends NamedListValidator {
                     } else {
                         String itemGrpCode = aLangOrExempt.getItemGrpCode();
                         String itemCode = aLangOrExempt.getItemCode();
-//                        if ("LANG_EXAM".equals(itemGrpCode) && "00001".equals(itemCode)) { // 시험이 TOEFL 일 경우 시험 종류 선택 필수
-                        if ("00001".equals(itemCode)) { // 시험이 TOEFL 일 경우 시험 종류 선택 필수
+                        if ("LANG_EXAM".equals(itemGrpCode) && "00001".equals(itemCode)) { // 시험이 TOEFL 일 경우 시험 종류 선택 필수
+//                        if ("00001".equals(itemCode)) { // 시험이 TOEFL 일 경우 시험 종류 선택 필수
                             if (aLangOrExempt.getToflTypeCode() == null || aLangOrExempt.getToflTypeCode().length() == 0) {
                                 errors.rejectValue(prefix + "toflTypeCode", "U331",
                                         new Object[]{"TOEFL 시험 종류"}, messageResolver.getMessage("U332"));
