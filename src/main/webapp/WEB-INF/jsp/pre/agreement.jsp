@@ -5,7 +5,7 @@
     <title></title>
     <style>
         section.application-selfintro {
-            padding: 200px 0 60px;
+            padding: 150px 0 60px;
             background: #5f5f5f;
             color: #fdfdfd;
             position:relative;
@@ -65,9 +65,9 @@
 <section class="application-selfintro" id="application-create">
     <div class="container">
         <div class="row mar-bot40">
-            <div class="col-md-offset-0 col-md-12">
+            <div class="col-md-10 col-md-offset-1 word-keep-all">
                 <h2 class="slogan">원서 작성 사전 동의</h2>
-                <div>개인정보보호법』 제 15조 및 제 22조에 따라 연세대학교 대학원 신·편입생 선발과 관련하여 개인정보의 수집과 이용을 위해서 개인정보 수집 및 이용에 대한 귀하의 동의가 필요합니다.</div>
+                <div>『개인정보보호법』 제 15조 및 제 22조에 따라 연세대학교 대학원 신·편입생 선발과 관련하여 개인정보의 수집과 이용을 위해서 개인정보 수집 및 이용에 대한 귀하의 동의가 필요합니다.</div>
 
                 <div class="spacer-small"></div>
                 <form class="form-horizontal" id="formAgreement" role="form" action="${contextPath}/application/basis/edit" method="post">
@@ -95,7 +95,7 @@
                             <input type="radio" name="radio1" value="1" checked>동의하지 않음
                         </label>
                         <div class="spacer-tiny"></div>
-                        <label class="col-md-offset-2 col-md-8 mid-font slogan text-center">개인정보 수집 및 이용에 동의하지 않을 경우 원서를 접수할 수 없습니다.</label>
+                        <label class="col-md-offset-1 col-md-10 mid-font slogan text-center">개인정보 수집 및 이용에 동의하지 않을 경우 원서를 접수할 수 없습니다.</label>
                     </div>
                     <div class="spacer-small"></div>
 
@@ -112,7 +112,7 @@
                             <input type="radio" name="radio2" value="1" checked>동의하지 않음
                         </label>
                         <div class="spacer-tiny"></div>
-                        <label class="col-md-offset-2 col-md-8 mid-font text-center slogan">고유식별정보 수집 및 이용에 동의하지 않을 경우 원서를 접수할 수 없습니다.</label>
+                        <label class="col-md-offset-1 col-md-10 mid-font text-center slogan word-keep-all">고유식별정보 수집 및 이용에 동의하지 않을 경우 원서를 접수할 수 없습니다.</label>
                     </div>
                     <div class="spacer-small"></div>
 
@@ -149,7 +149,7 @@
                             <input type="radio" name="radio3" value="1" checked>동의하지 않음
                         </label>
                         <div class="spacer-tiny"></div>
-                        <label class="col-md-offset-2 col-md-8 text-center mid-font slogan">개인정보 취급 위탁에 동의하지 않을 경우 원서를 접수할 수 없습니다.</label>
+                        <label class="col-md-offset-1 col-md-10 text-center mid-font slogan">개인정보 취급 위탁에 동의하지 않을 경우 원서를 접수할 수 없습니다.</label>
                     </div>
                     <div class="spacer-small"></div>
 
@@ -167,7 +167,7 @@
                             <input type="radio" name="radio4" value="1" checked>확인하지 않음
                         </label>
                         <div class="spacer-tiny"></div>
-                        <label class="col-md-offset-2 col-md-8 text-center mid-font slogan">확인하지 않을 경우 원서를 접수할 수 없습니다.</label>
+                        <label class="col-md-offset-1 col-md-10 text-center mid-font slogan">확인하지 않을 경우 원서를 접수할 수 없습니다.</label>
                     </div>
                     <div class="spacer-small"></div>
 
@@ -186,7 +186,7 @@
                             <input type="radio" name="radio5" value="1" checked>확인하지 않음
                         </label>
                         <div class="spacer-tiny"></div>
-                        <label class="col-md-offset-2 col-md-8 text-center mid-font slogan">확인하지 않을 경우 원서를 접수할 수 없습니다.</label>
+                        <label class="col-md-offset-1 col-md-10 text-center mid-font slogan">확인하지 않을 경우 원서를 접수할 수 없습니다.</label>
                     </div>
                     <div class="spacer-small"></div>
                     <input type="hidden" name="application.admsNo" id="admsNo" value="${admsNo}" />
@@ -211,6 +211,9 @@
 <content tag="local-script">
     <script>
         $(document).ready( function() {
+            <%-- 단어 잘림 방지 --%>
+            $('.word-keep-all').wordBreakKeepAll();
+
             $('#checkAll').on('click', function () {
                 $('#formAgreement input[type="radio"]').each( function () {
                     if (document.getElementById('checkAll').checked) {
