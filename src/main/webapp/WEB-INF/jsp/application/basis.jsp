@@ -657,29 +657,12 @@
                                 <div class="form-group required">
                                     <label class="col-sm-2 control-label">비자</label>
                                     <div class="col-sm-9">
-                                        <div class="col-sm-12">
+                                        <div class="col-sm-6">
                                             <div class="input-group">
                                                 <span class="input-group-addon">&nbsp;번호&nbsp;</span>
                                                 <form:input path="applicationForeigner.visaNo" cssClass="form-control" />
                                             </div>
                                             <spring:bind path="applicationForeigner.visaNo">
-                                                <c:if test="${status.error}">
-                                                    <div>
-                                                        <div class="validation-error">${status.errorMessage}</div>
-                                                    </div>
-                                                </c:if>
-                                            </spring:bind>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="col-sm-offset-2 col-sm-9">
-                                        <div class="col-sm-6">
-                                            <div class="input-group">
-                                                <span class="input-group-addon">종류</span>
-                                                <form:input path="applicationForeigner.modId" cssClass="form-control engName" />
-                                            </div>
-                                            <spring:bind path="applicationForeigner.modId">
                                                 <c:if test="${status.error}">
                                                     <div>
                                                         <div class="validation-error">${status.errorMessage}</div>
@@ -703,13 +686,31 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="form-group">
+                                    <div class="col-sm-offset-2 col-sm-9">
+                                        <div class="col-sm-6">
+                                            <div class="input-group">
+                                                <span class="input-group-addon">&nbsp;종류&nbsp;</span>
+                                                <form:input path="applicationForeigner.visaTypeCode" cssClass="form-control" placeholder="예) D-2, D-4" />
+                                            </div>
+                                            <spring:bind path="applicationForeigner.visaTypeCode">
+                                                <c:if test="${status.error}">
+                                                    <div>
+                                                        <div class="validation-error">${status.errorMessage}</div>
+                                                    </div>
+                                                </c:if>
+                                            </spring:bind>
+                                        </div>
+
+                                    </div>
+                                </div>
                                 <div class="form-group required">
-                                    <label for="applicationForeigner.creId" class="col-sm-2 control-label">외국인등록번호</label>
+                                    <label for="applicationForeigner.fornRgstNo" class="col-sm-2 control-label">외국인등록번호</label>
                                     <div class="col-sm-9">
                                         <div class="col-sm-12">
-                                            <form:input path="applicationForeigner.creId" cssClass="form-control numOnly" maxlength="13" placeholder="외국인등록번호를 13자리 숫자로 입력해주세요"/>
+                                            <form:input path="applicationForeigner.fornRgstNo" cssClass="form-control numOnly" maxlength="13" placeholder="외국인등록번호를 13자리 숫자로 입력해주세요"/>
                                         </div>
-                                        <spring:bind path="applicationForeigner.creId">
+                                        <spring:bind path="applicationForeigner.fornRgstNo">
                                             <c:if test="${status.error}">
                                                 <div class="col-sm-12">
                                                     <div class="validation-error">${status.errorMessage}</div>
