@@ -26,6 +26,7 @@ public class TotalApplicationDocument extends ApplicationDocument{
     private String selCodeGrp;
     private String lastYn;
     private String mdtYn;
+    private String multiYn;
     private String uploadYn;
     private int sendCnt;
     private String orgnSendYn;
@@ -216,6 +217,15 @@ public class TotalApplicationDocument extends ApplicationDocument{
 
     public void setAdmsCode(String admsCode) {
         this.admsCode = admsCode;
+    }
+
+
+    public String getMultiYn() {
+        return multiYn;
+    }
+
+    public void setMultiYn(String multiYn) {
+        this.multiYn = multiYn;
     }
 
 //    @Override

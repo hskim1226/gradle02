@@ -135,6 +135,7 @@ public class LangCareerServiceImpl implements LangCareerService {
             aCont.setSelGrpCode(alangGroup.getSelGrpCode());
             aCont.setItemGrpCode(alangGroup.getExamCodeGrp());
             aCont.setItemCode(alangGroup.getExamCode());
+            aCont.setMdtSeq(alangGroup.getMdtSeq());
 
             //두번째 레벨의 정보를 가져온다
             aLangList = commonDAO.queryForList(NAME_SPACE + "CustomApplicationDocumentMapper.selectTotalLanguageDoc", aCont, TotalApplicationLanguageContainer.class);

@@ -11,6 +11,8 @@ import javax.annotation.Resource;
 
 import com.apexsoft.framework.common.vo.ExecutionContext;
 import com.apexsoft.ysprj.admin.control.form.*;
+import com.apexsoft.ysprj.admin.domain.ApplicationChange;
+import com.apexsoft.ysprj.admin.domain.CustomApplicationChange;
 import com.apexsoft.ysprj.admin.service.ChangeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -250,6 +252,7 @@ public class AdminController {
             mv.addObject("selection", map.get("selection"));
             mv.addObject("applicantSearchForm",applicantSearchForm);
             mv.addObject("applInfo", map.get("applInfo"));
+            mv.addObject("customApplicationChange", new CustomApplicationChange());
         } else {
             mv = getErrorMV("common/error", ecRetrieve);
         }
