@@ -153,10 +153,7 @@ public class AdminServiceImpl implements AdminService{
             }
         }, new ApplicantSearchForm(), applicantSearchForm.getPage().getNo(), applicantSearchForm.getPage().getRows() );
 	  }
-<<<<<<< HEAD
 
-=======
->>>>>>> f58b9095a5f9154787d2f9bd2b3e01adf7fadef3
     @Override
     public ExecutionContext getApplicantDetail(int applNo){
         ExecutionContext ec = new ExecutionContext();
@@ -196,10 +193,7 @@ public class AdminServiceImpl implements AdminService{
 		  applInfo = commonDAO.queryForList(CANCEL_NAME_SPACE+"retrieveApplicantListByNameForSelect", searchForm, ApplicantInfo.class);  
 		  return applInfo;
 	  }
-<<<<<<< HEAD
-=======
 
->>>>>>> f58b9095a5f9154787d2f9bd2b3e01adf7fadef3
     @Override
 	  public ApplicantInfo getApplicantInfo(ApplicantSearchForm searchForm ){
 		  ApplicantInfo applInfo = null;
