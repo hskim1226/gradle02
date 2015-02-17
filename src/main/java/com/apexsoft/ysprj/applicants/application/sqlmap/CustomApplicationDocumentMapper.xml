@@ -58,9 +58,10 @@
         <result column="CODE_GRP" jdbcType="VARCHAR" property="itemGrpCode" />
         <result column="CODE" jdbcType="VARCHAR" property="itemCode" />
         <result column="CODE_VAL" jdbcType="VARCHAR" property="itemName" />
-        <result column="MAND_LANG_SEQ" jdbcType="INTEGER" property="mandLangSeq" />
+        <result column="MDT_SEQ" jdbcType="INTEGER" property="mdtSeq" />
         <result column="UP_CODE_GRP" jdbcType="VARCHAR" property="upCodeGrp" />
         <result column="UP_CODE"       jdbcType="VARCHAR" property="upCode" />
+        <result column="UP_MDT_SEQ" jdbcType="INTEGER" property="upMdtSeq" />
         <result column="LAST_YN" jdbcType="VARCHAR" property="lastYn" />
         <result column="SEL_GRP_CODE" jdbcType="VARCHAR" property="selGrpCode" />
         <result column="MDT_YN" jdbcType="VARCHAR" property="mdtYn" />
@@ -277,6 +278,7 @@
         EXAM_CODE_GRP ,
         C.CODE_VAL EXAM_GROUP_NAME,
         EXAM_CODE ,
+        MDT_SEQ,
         SEL_GRP_CODE,
         MDT_YN,
         MULTI_YN,
@@ -304,7 +306,8 @@
         CODE_GRP,
         CODE,
         CODE_VAL,
-
+        MDT_SEQ,
+        UP_MDT_SEQ,
         UP_CODE_GRP,
         SEL_GRP_CODE,
         MDT_YN,
@@ -327,7 +330,7 @@
         DOC_NAME
 
         FROM
-        ( SELECT BA.ADMS_CORS_NO AS ADMS_CORS_NO, BA.DETL_MAJ_CODE, EXAM_CODE_GRP ,EXAM_CODE, UP_CODE_GRP, UP_CODE, SEL_GRP_CODE, LAST_YN, MDT_YN, MULTI_YN, CAN_YN ,
+        ( SELECT BA.ADMS_CORS_NO AS ADMS_CORS_NO, BA.DETL_MAJ_CODE, EXAM_CODE_GRP ,EXAM_CODE,MDT_SEQ, UP_CODE_GRP, UP_CODE, UP_MDT_SEQ, SEL_GRP_CODE, LAST_YN, MDT_YN, MULTI_YN, CAN_YN ,
         MSG_NO
         FROM ADMS_CORS_MAJ_LANG BA, APPL BB, ADMS_CORS BC
         WHERE BC.ADMS_CORS_NO = BA.ADMS_CORS_NO
@@ -339,6 +342,7 @@
         AND BB.APPL_NO = #{applNo}
         AND BA.UP_CODE_GRP = #{itemGrpCode}
         AND BA.UP_CODE =#{itemCode}
+        AND BA.UP_MDT_SEQ = #{mdtSeq}
         )B
         ON B.EXAM_CODE = A.CODE
         LEFT OUTER JOIN
@@ -360,8 +364,10 @@
         EXAM_CODE_GRP AS CODE_GRP,
         EXAM_CODE  AS CODE,
         CODEVAL( EXAM_CODE_GRP,EXAM_CODE)  AS CODE_VAL ,
+        MDT_SEQ,
         UP_CODE_GRP,
         UP_CODE,
+        UP_MDT_SEQ,
         LAST_YN,
         SEL_GRP_CODE,
         MDT_YN,
@@ -384,7 +390,7 @@
         DOC_NAME
 
         FROM
-        ( SELECT BA.ADMS_CORS_NO AS ADMS_CORS_NO, BA.DETL_MAJ_CODE, EXAM_CODE_GRP ,EXAM_CODE, UP_CODE_GRP, UP_CODE, SEL_GRP_CODE, LAST_YN, MDT_YN, MULTI_YN, CAN_YN ,
+        ( SELECT BA.ADMS_CORS_NO AS ADMS_CORS_NO, BA.DETL_MAJ_CODE, EXAM_CODE_GRP ,EXAM_CODE,MDT_SEQ, UP_CODE_GRP, UP_CODE, UP_MDT_SEQ, SEL_GRP_CODE, LAST_YN, MDT_YN, MULTI_YN, CAN_YN ,
         MSG_NO
         FROM ADMS_CORS_MAJ_LANG BA, APPL BB, ADMS_CORS BC
         WHERE BC.ADMS_CORS_NO = BA.ADMS_CORS_NO
@@ -396,6 +402,7 @@
         AND BB.APPL_NO = #{applNo}
         AND BA.UP_CODE_GRP = #{itemGrpCode}
         AND BA.UP_CODE =#{itemCode}
+        AND BA.UP_MDT_SEQ = #{mdtSeq}
         )B
         LEFT OUTER JOIN
         ( SELECT LANG_SEQ, LANG_EXAM_GRP, LANG_EXAM_CODE, TOFL_TYPE_CODE, EXAM_NO, LANG_GRAD, EXAM_DAY, EXPR_DAY FROM APPL_LANG

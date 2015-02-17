@@ -18,11 +18,11 @@ public interface AdminService {
 
     ExecutionContext getApplicantDetail(int id);
 	 
-	 List<ApplicantCnt> retrieveApplicantCntByDept(CourseSearchGridForm searchForm);
+	List<ApplicantCnt> retrieveApplicantCntByDept(CourseSearchGridForm searchForm);
 	 
-	 List<ApplicantInfo> getApplicantListForSelect(ApplicantSearchForm searchForm);	 
+	List<ApplicantInfo> getApplicantListForSelect(ApplicantSearchForm searchForm);
 	 
-	 ApplicantInfo getApplicantInfo(ApplicantSearchForm applicantSearchForm);
+	ApplicantInfo getApplicantInfo(ApplicantSearchForm applicantSearchForm);
 
 
 

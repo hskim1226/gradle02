@@ -8,13 +8,15 @@ public class CustomApplicationLanguage extends ApplicationLanguage {
     private String itemGrpCode;
     private String itemCode;
     private String itemName;
-    private int mandLangSeq;
+    private int mdtSeq;
     private String upCodeGrp;
     private String upCode;
+    private int upMdtSeq;
     private String selGrpCode;
     private String lastYn = "N";
     private String canYn = "N";
     private String mdtYn = "N";
+    private String multiYn ="N";
     private String uploadYn = "N";
     private String originSentYn = "N";
     private String msgNo;
@@ -138,4 +140,28 @@ public class CustomApplicationLanguage extends ApplicationLanguage {
     public String getLastYn() { return lastYn; }
 
     public void setLastYn(String lastYn) { this.lastYn = lastYn; }
+
+    public int getMdtSeq() {
+        return mdtSeq;
+    }
+
+    public void setMdtSeq(int mdtSeq) {
+        this.mdtSeq = mdtSeq;
+    }
+
+    public int getUpMdtSeq() {
+        return upMdtSeq;
+    }
+
+    public void setUpMdtSeq(int upMdtSeq) {
+        this.upMdtSeq = upMdtSeq;
+    }
+
+    public String getMultiYn() {
+        return multiYn;
+    }
+
+    public void setMultiYn(String multiYn) {
+        this.multiYn = multiYn;
+    }
 }
