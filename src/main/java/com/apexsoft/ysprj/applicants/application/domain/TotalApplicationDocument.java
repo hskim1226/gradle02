@@ -19,8 +19,6 @@ public class TotalApplicationDocument extends ApplicationDocument{
     //문서요건 정보
     private String grpLevel;
     private String docItemGrp;
-    private String docTypeCode;
-    private String docItemCode;
     private String upCodeGrp;
     private String upCode;
     private String selCodeGrp;
@@ -33,6 +31,7 @@ public class TotalApplicationDocument extends ApplicationDocument{
     private String chkCnd;
     private String tmpltYn;
     private String msgNo;
+    private String msg;
     private String notInYn;
 
 
@@ -228,23 +227,11 @@ public class TotalApplicationDocument extends ApplicationDocument{
         this.multiYn = multiYn;
     }
 
-    @Override
-    public String getDocTypeCode() {
-        return docTypeCode;
+    public String getMsg() {
+        return msg;
     }
 
-    @Override
-    public void setDocTypeCode(String docTypeCode) {
-        this.docTypeCode = docTypeCode;
-    }
-
-    @Override
-    public String getDocItemCode() {
-        return docItemCode;
-    }
-
-    @Override
-    public void setDocItemCode(String docItemCode) {
-        this.docItemCode = docItemCode;
+    public void setMsg(String msg) {
+        this.msg = msg;
     }
 }

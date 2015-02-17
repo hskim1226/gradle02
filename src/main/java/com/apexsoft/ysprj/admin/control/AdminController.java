@@ -8,20 +8,19 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
 import com.apexsoft.framework.common.vo.ExecutionContext;
 import com.apexsoft.ysprj.admin.control.form.*;
 import com.apexsoft.ysprj.admin.domain.ApplicationChange;
 import com.apexsoft.ysprj.admin.domain.CustomApplicationChange;
 import com.apexsoft.ysprj.admin.service.ChangeService;
+import com.apexsoft.ysprj.user.domain.Users;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import com.apexsoft.framework.message.MessageResolver;
 import com.apexsoft.ysprj.admin.domain.ApplicantCnt;
@@ -50,8 +49,22 @@ public class AdminController {
     
     @SuppressWarnings("restriction")
 	@Resource(name = "messageResolver")
-    private MessageResolver messageResolver;    
+    private MessageResolver messageResolver;
 
+
+    @RequestMapping(value="/login", method= RequestMethod.GET)
+    public ModelAndView displayLoginForm(Users users,
+                                         BindingResult bindingResult,
+                                         ModelAndView mv,
+                                         HttpServletRequest request) {
+        mv.setViewName("admin/login/adminLogin");
+        if (bindingResult.hasErrors()) return mv;
+
+        if (request.getAttribute("LOGIN_FAILURE") == Boolean.TRUE)
+            mv.addObject("loginMessage", messageResolver.getMessage("U330"));
+
+        return mv;
+    }
     
     @RequestMapping(value="/stats/daily")
     public String statsDaily() {
