@@ -92,6 +92,7 @@ public class BasisServiceImpl implements BasisService {
         Country bornCntr = commonService.retrieveCountryByCode(cntrCode);
 
         foreignMap.put("foreignTypeList", commonService.retrieveCommonCodeValueByCodeGroup("FORN_TYPE"));
+        foreignMap.put("visaTypeList", commonService.retrieveCommonCodeValueByCodeGroup("VISA_TYPE"));
 
         ec.setResult(ExecutionContext.SUCCESS);
         ecDataMap.put("basis", basis);
@@ -238,6 +239,7 @@ public class BasisServiceImpl implements BasisService {
         Country bornCntr = commonService.retrieveCountryByCode(cntrCode);
 
         foreignMap.put("foreignTypeList", commonService.retrieveCommonCodeValueByCodeGroup("FORN_TYPE"));
+        foreignMap.put("visaTypeList", commonService.retrieveCommonCodeValueByCodeGroup("VISA_TYPE"));
 
         ec.setResult(ExecutionContext.SUCCESS);
         ecDataMap.put("basis", basis);
@@ -311,6 +313,10 @@ public class BasisServiceImpl implements BasisService {
             applicationForeigner.setApplNo(application.getApplNo());
             applicationForeigner.setModId(userId);
             applicationForeigner.setModDate(date);
+            if (applicationForeigner.getVisaExprDay() == null)
+                applicationForeigner.setVisaExprDay("");
+            if (applicationForeigner.getFornRgstNo() == null)
+                applicationForeigner.setFornRgstNo("");
 
             r1 = commonDAO.updateItem(application, NAME_SPACE, "ApplicationMapper");
             r2 = commonDAO.updateItem(applicationGeneral, NAME_SPACE, "ApplicationGeneralMapper");

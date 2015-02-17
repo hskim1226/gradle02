@@ -673,7 +673,9 @@
                                         <div class="col-sm-6 start-date-container">
                                             <div class="input-group date">
                                                 <span class="input-group-addon">만료일</span>
-                                                <form:input path="applicationForeigner.visaExprDay" cssClass="form-control" readonly="true" />
+                                                <input id="applicationForeigner.visaExprDay" name="applicationForeigner.visaExprDay"
+                                                       class="form-control" readonly="true" value="${basis.applicationForeigner.visaExprDay}"
+                                                       <c:if test="${basis.applicationForeigner.visaTypeCode == '00999'}">disabled</c:if> />
                                                 <span class="input-group-addon calendar-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                                             </div>
                                             <spring:bind path="applicationForeigner.visaExprDay">
@@ -691,9 +693,24 @@
                                         <div class="col-sm-6">
                                             <div class="input-group">
                                                 <span class="input-group-addon">&nbsp;종류&nbsp;</span>
-                                                <form:input path="applicationForeigner.visaTypeCode" cssClass="form-control" placeholder="예) D-2, D-4" />
+                                                <form:select path="applicationForeigner.visaTypeCode" cssClass="form-control">
+                                                    <form:option value="" label="--선택--" />
+                                                    <form:options items="${foreign.visaTypeList}" itemValue="code" itemLabel="codeVal" />
+                                                </form:select>
                                             </div>
-                                            <spring:bind path="applicationForeigner.visaTypeCode">
+                                    <spring:bind path="applicationForeigner.visaTypeCode">
+                                        <c:if test="${status.error}">
+                                            <div>
+                                                <div class="validation-error">${status.errorMessage}</div>
+                                            </div>
+                                        </c:if>
+                                    </spring:bind>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="input-group" id="tmpVisaTypeCode" style="display: <c:choose><c:when test="${basis.applicationForeigner.visaTypeCode == '00099'}">block;</c:when><c:otherwise>none;</c:otherwise></c:choose>">
+                                                <form:input path="applicationForeigner.visaTypeEtc" cssClass="form-control" placeholder="예) D-2, D-4" />
+                                            </div>
+                                            <spring:bind path="applicationForeigner.visaTypeEtc">
                                                 <c:if test="${status.error}">
                                                     <div>
                                                         <div class="validation-error">${status.errorMessage}</div>
@@ -701,14 +718,16 @@
                                                 </c:if>
                                             </spring:bind>
                                         </div>
-
                                     </div>
                                 </div>
                                 <div class="form-group required">
                                     <label for="applicationForeigner.fornRgstNo" class="col-sm-2 control-label">외국인등록번호</label>
                                     <div class="col-sm-9">
                                         <div class="col-sm-12">
-                                            <form:input path="applicationForeigner.fornRgstNo" cssClass="form-control numOnly" maxlength="13" placeholder="외국인등록번호를 13자리 숫자로 입력해주세요"/>
+                                            <input id="applicationForeigner.fornRgstNo" name="applicationForeigner.fornRgstNo" class="form-control numOnly"
+                                                        maxlength="13" placeholder="외국인등록번호를 13자리 숫자로 입력해주세요"
+                                                        value="${basis.applicationForeigner.fornRgstNo}"
+                                                        <c:if test="${basis.applicationForeigner.visaTypeCode == '00999'}">disabled</c:if> />
                                         </div>
                                         <spring:bind path="applicationForeigner.fornRgstNo">
                                             <c:if test="${status.error}">
@@ -1175,7 +1194,7 @@
 
         <%-- 영문 이름 처리 시작 --%>
         $('.engName').on('keyup', function() {
-            this.value = this.value.toUpperCase().replace(/([^0-9A-Z])/g,"");
+            this.value = this.value.toUpperCase().replace(/([^A-Z.\-])/g,"");
         });
         <%-- 영문 이름 처리 끝 --%>
 
@@ -1412,6 +1431,32 @@
             $(this.parentNode).children('input')[0].focus();
         });
         <%-- 달력 끝 --%>
+
+        <%-- 비자 종류 처리 --%>
+        $('#applicationForeigner\\.visaTypeCode').on('change', function () {
+            var visaEtc = document.getElementById('applicationForeigner.visaTypeEtc'),
+                visaEtcContainer = document.getElementById('tmpVisaTypeCode'),
+                fornRgstNo = document.getElementById('applicationForeigner.fornRgstNo'),
+                visaExprDate = document.getElementById('applicationForeigner.visaExprDay');
+            if (this.value == '00099') {
+                visaEtcContainer.style.display = 'block';
+                fornRgstNo.disabled = false;
+                visaExprDate.disabled = false;
+            } else if (this.value == '00999') {
+                visaEtc.value = '';
+                visaEtcContainer.style.display = 'none';
+                fornRgstNo.value = '';
+                visaExprDate.value = '';
+                fornRgstNo.disabled = true;
+                visaExprDate.disabled = true;
+            } else {
+                visaEtc.value = '';
+                visaEtcContainer.style.display = 'none';
+                fornRgstNo.disabled = false;
+                visaExprDate.disabled = false;
+            }
+        });
+        <%-- 비자 종류 처리 --%>
 
         <%-- 학연산 선택에 따른 화면 변경 시작 --%>
         $('#applAttrCode').on('change', changeApplAttrCode);
