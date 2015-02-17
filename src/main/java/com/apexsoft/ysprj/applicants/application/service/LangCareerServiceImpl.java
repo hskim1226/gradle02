@@ -102,6 +102,8 @@ public class LangCareerServiceImpl implements LangCareerService {
 
         commonCodeMap.put( "toflTypeList", commonService.retrieveCommonCodeValueByCodeGroup("TOFL_TYPE") );
         commonCodeMap.put( "fornExmpList", commonService.retrieveCommonCodeValueByCodeGroup("FORN_EXMP") );
+        commonCodeMap.put( "ieltsLevelList", commonService.retrieveCommonCodeValueByCodeGroup("IELT_LEVL") );
+        commonCodeMap.put( "topikLevelList", commonService.retrieveCommonCodeValueByCodeGroup("TOPK_LEVL") );
 
         ecDataMap.put("langCareer", langCareer);
         ecDataMap.put("common", commonCodeMap);
@@ -135,6 +137,7 @@ public class LangCareerServiceImpl implements LangCareerService {
             aCont.setSelGrpCode(alangGroup.getSelGrpCode());
             aCont.setItemGrpCode(alangGroup.getExamCodeGrp());
             aCont.setItemCode(alangGroup.getExamCode());
+            aCont.setMdtSeq(alangGroup.getMdtSeq());
 
             //두번째 레벨의 정보를 가져온다
             aLangList = commonDAO.queryForList(NAME_SPACE + "CustomApplicationDocumentMapper.selectTotalLanguageDoc", aCont, TotalApplicationLanguageContainer.class);
@@ -143,7 +146,7 @@ public class LangCareerServiceImpl implements LangCareerService {
             for (TotalApplicationLanguageContainer alang : aLangList) {
                 alang.setApplNo(applNo);
                 List<TotalApplicationLanguageContainer> aSubList = new ArrayList<TotalApplicationLanguageContainer>();
-                alang.setSubContainer(getSubLangContainer(alang, aSubList, applicationGeneral));
+                alang.setSubContainer(getSubLangContainer(alangGroup, alang, aSubList, applicationGeneral));
             }
             alangGroup.setLangList(aLangList);
         }
@@ -309,7 +312,8 @@ public class LangCareerServiceImpl implements LangCareerService {
 
 
     //하부 그룹이 있으면 하부 그룹을 조회하고, 최말단 이면 상세정보를 조회한다.
-    private  List<TotalApplicationLanguageContainer> getSubLangContainer( TotalApplicationLanguageContainer pCont,
+    private  List<TotalApplicationLanguageContainer> getSubLangContainer( LanguageGroup aLangGroup,
+                                                                          TotalApplicationLanguageContainer pCont,
                                                                           List<TotalApplicationLanguageContainer> pList,
                                                                           ApplicationGeneral applicationGeneral){
         List<TotalApplicationLanguageContainer> rContList = null;
@@ -322,7 +326,7 @@ public class LangCareerServiceImpl implements LangCareerService {
             if (rContList != null) {
                 for (TotalApplicationLanguageContainer aCont : rContList) {
                     aCont.setApplNo(pCont.getApplNo());
-                    aCont.setSubContainer(getSubLangContainer(aCont, pList, applicationGeneral));
+                    aCont.setSubContainer(getSubLangContainer(aLangGroup, aCont, pList, applicationGeneral));
                 }
             }
             //TODO 어학 전체를 넣을지, 등록된 것만 넣을지 결정
@@ -345,11 +349,11 @@ public class LangCareerServiceImpl implements LangCareerService {
                 pCont.setFileUploadFg(false);
             }
 
-            if ("ENG_EXMP1".equals(pCont.getSelGrpCode())) {
+            if ("ENG_EXMP1".equals(pCont.getSelGrpCode()) || "KOR_EXMP1".equals(pCont.getSelGrpCode())) {
                 TotalApplicationLanguageContainer exemptContainer = new TotalApplicationLanguageContainer();
                 pCont.setLastYn("N");
                 exemptContainer.setApplNo(pCont.getApplNo());
-                exemptContainer.setItemName("외국어 성적 면제 해당자");
+                exemptContainer.setItemName(aLangGroup.getExamGrpName() + " 성적 면제 해당자");
                 exemptContainer.setLastYn("Y");
                 if (applicationGeneral.getForlExmpCode() != null && applicationGeneral.getForlExmpCode().length() > 0) {
                     exemptContainer.setLangInfoSaveFg(true);

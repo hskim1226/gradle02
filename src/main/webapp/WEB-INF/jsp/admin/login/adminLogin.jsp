@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>회원 약관 및 개인 정보 수집 이용 동의</title>
+    <title>로그인</title>
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -32,90 +32,105 @@
     <link rel="stylesheet" href="${contextPath}/css/style.css"/>
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="${contextPath}/js/jquery.min.js"></script>
-
     <style>
-        section.signup {
-            padding: 150px 0 10px 0;
-            background: #556699;
+        section.login {
+            padding: 200px 0 60px;
+            /*background: #336655;*/
+            background-image: url(${contextPath}/img/common/login-bg1.jpg);
+            background-size: cover;
             color: #fdfdfd;
+            min-height: 615px;
         }
 
-        section.signup h2.slogan {
+        section.login h2.slogan {
             color: #fff;
             font-size: 48px;
             font-weight: 900;
         }
 
         /* inner heading */
-        section.signup.inner {
+        section.login.inner {
             background: #eee;
             padding: 150px 0 50px;
         }
 
-        section.signup .spacer-big {
+        section.login .spacer-big {
             margin-bottom: 7em;
         }
 
-        section.signup .spacer-mid {
+        section.login .spacer-mid {
             margin-bottom: 5em;
         }
 
-        section.signup .spacer-small {
+        section.login .spacer-small {
             margin-bottom: 3em;
         }
 
-        section.signup .spacer-tiny {
+        section.login .spacer-tiny {
             margin-bottom: 1em;
         }
 
-        section.signup div.btn-group>label.btn {
-            max-width: none;
+        #login-form-container {
+            background-color: rgba(255, 255, 255, 0.7);
+            filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr='#a7ffffff', endColorstr='#a7ffffff'); /* IE */
+            padding-top: 10%;
+            padding-bottom: 6%;
         }
-        
-        section.signup textarea.form-control[readonly] {
-            cursor: default;
-            resize: none;
-            -moz-user-select: none;
-            -webkit-user-select: none;의
-            -khtml-user-select: none;
-            user-select: none;
+
+        .logintext {
+            height: 50px;
+            font-size: 100%;
+            opacity: 1.0;
+            margin-bottom: 5%;
         }
-        .nopadding {
-            padding: 0 !important;
-            margin: 0 !important;
+
+        .text-gray {
+            color: #333333;
+            opacity: 1.0;
+            text-align: center;
         }
+
+        #logo-container {
+            text-align: center;
+            margin-bottom: 5%;
+        }
+
+
     </style>
 </head>
 <body>
-<section class="signup">
+<section class="login">
     <div class="container">
-        <div class="page-header">
-            <h1 style="color: #fdfdfd">회원 약관 및 개인 정보 수집 이용 동</h1>
-        </div>
-        <form class="form-horizontal" role="form" id="sign-up-form" action="${contextPath}/user/signup" method="POST">
-            <div class="form-group">
-                <label for="terms-of-service" class="col-sm-2 control-label word-keep-all">연세어플라이 이용 약관에 대한 동의</label>
-                <div class="col-sm-10">
-                    <textarea id="terms-of-service" class="form-control" rows="10" readonly><%=request.getAttribute("terms-of-service")%></textarea>
-                    <label for="terms-agree" class="control-label">
-                        <input type="checkbox" name="userAgreYn" id="terms-agree" value="y" />&nbsp;&nbsp;동의합니다.
-                    </label>
+        <div class="col-md-offset-3 col-md-6">
+            <form class="form-horizontal" role="form" name="users" action="${contextPath}/j_spring_security_check_admin.do" method="post">
+                <div class="form-group" id="login-form-container">
+                    <div class="col-sm-offset-1 col-sm-10" id="logo-container">
+                        <img src="${contextPath}/img/common/yonsei-logo01.png" align="center">
+                    </div>
+                    <div class="spacer-small">&nbsp;</div>
+                    <div class="col-sm-offset-1 col-sm-10">
+                        <input type="text" class="form-control logintext" id="username" name="j_username" placeholder="User ID">
+                    </div>
+                    <div class="spacer-small">&nbsp;</div>
+                    <div class="col-sm-offset-1 col-sm-10">
+                        <input type="password" class="form-control logintext" id="password" name="j_password" placeholder="Password">
+                    </div>
+                    <div class="spacer-small">&nbsp;</div>
+                    <div class="col-sm-offset-1 col-sm-10">
+                        <button class="btn btn-primary btn-lg btn-block logintext">로그인</button>
+                    </div>
+                    <c:if test="${loginMessage}">
+                        <div class="spacer-small">&nbsp;</div>
+                        <div class="col-sm-offset-1 col-sm-10">
+                            <div class="panel panel-danger">${loginMessage}</div>
+                        </div>
+                    </c:if>
+                    <div class="spacer-small">&nbsp;</div>
+                    <div class="col-sm-offset-1 col-sm-10">
+                        <div class="text-gray">아직 회원이 아니세요? <a href="${contextPath}/user/agreement">회원 가입</a></div>
+                    </div>
                 </div>
-            </div>
-            <div class="form-group">
-                <label for="privacy-policy1" class="col-sm-2 control-label word-keep-all">개인 정보 수집 및 이용에 대한 동의</label>
-                <div class="col-sm-10">
-                    <textarea id="privacy-policy1" class="form-control" rows="10" readonly><%=request.getAttribute("privacy-policy1")%></textarea>
-                    <textarea id="privacy-policy2" class="form-control" rows="10" readonly><%=request.getAttribute("privacy-policy2")%></textarea>
-                    <textarea id="privacy-policy3" class="form-control" rows="10" readonly><%=request.getAttribute("privacy-policy3")%></textarea>
-                    <label for="privacy-agree" class="control-label">
-                        <input type="checkbox" name="privInfoYn" id="privacy-agree" value="y" />&nbsp;&nbsp;동의합니다.
-                    </label>
-                </div>
-            </div>
-        </form>
-        <div class="col-sm-offset-2 col-sm-10">
-            <button id="sign-up-button" class="btn btn-primary btn-lg btn-block">회원 정보 입력</button>
+            </form>
         </div>
     </div>
 </section>
@@ -139,27 +154,26 @@
 <script src="${contextPath}/js/jquery.localScroll.min.js"></script>
 <script src="${contextPath}/js/jquery.appear.min.js"></script>
 <script src="${contextPath}/js/jquery.stellar.min.js"></script>
-<script src="${contextPath}/js/jquery.word-break-keep-all.min.js"></script>
+<script src="${contextPath}/js/jquery.placeholder.js"></script>
 <script src="${contextPath}/js/main.js"></script>
 
 <script type="text/javascript">
-$(document).ready(function(){
-
-    <%-- 단어 잘림 방지 --%>
-    $('.word-keep-all').wordBreakKeepAll();
-
-    $('#sign-up-button').on('click', function() {
-        if ( !$("input:checkbox[id='terms-agree']").is(":checked") ) {
-            alert("${msg1}");
-            return;
+$(document).ready(function() {
+    <%-- action 성공 여부 알림 처리 --%>
+    var showActionResult = function() {
+        var msg = '${resultMsg}';
+        if (msg.length > 0) {
+            confirm(msg);
         }
+    };
+    showActionResult();
+    <%-- action 성공 여부 알림 처리 --%>
 
-        if ( !$("input:checkbox[id='privacy-agree']").is(":checked") ) {
-            alert("${msg2}");
-            return;
-        }
-        $('#sign-up-form').submit();
-    });
+    $('#username').focus();
+
+    <%-- placeholder polyfill --%>
+    $('input, textarea').placeholder();
+    <%-- placeholder polyfill --%>
 });
 </script>
 

@@ -164,8 +164,7 @@ public class LangCareerController {
      * @param ec
      */
     private void addObjectToMV(ModelAndView mv, Map<String, Object> map, ExecutionContext ec) {
-        mv.addObject("langCareer", map.get("langCareer"));
-        mv.addObject("common", map.get("common"));
+        mv.addAllObjects(map);
         mv.addObject("resultMsg", ec.getMessage());
     }
 }

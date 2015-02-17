@@ -419,7 +419,7 @@ public class DocumentController {
      * @throws IOException
      */
 //    @RequestMapping(value="/attached/{admsNo}/{applNo}/{fileName:.+}/{originalFileName}")
-    @RequestMapping(value="/fileDelete/{applNo}/{docSeq}", method=RequestMethod.DELETE)
+    @RequestMapping(value="/fileDelete/{applNo}/{docSeq}", method=RequestMethod.POST)
     @ResponseBody
     public ExecutionContext fileDelete(@PathVariable("applNo") int applNo,
                                        @PathVariable("docSeq") int docSeq) {
@@ -471,7 +471,7 @@ public class DocumentController {
      * @param ec
      */
     private void addObjectToMV(ModelAndView mv, Map<String, Object> map, ExecutionContext ec) {
-        mv.addObject("document", map.get("document"));
+        mv.addAllObjects(map);
         mv.addObject("resultMsg", ec.getMessage());
     }
 }

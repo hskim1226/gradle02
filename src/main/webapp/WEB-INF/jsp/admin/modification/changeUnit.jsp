@@ -313,10 +313,16 @@
                         type: 'GET',
                         url: baseUrl,
                         success: function(e) {
+<<<<<<< HEAD
                             var ec = JSON && JSON.parse(e) || $.parseJSON(e);
                             if(ec.result && ec.result === 'SUCCESS') {
                                 var $target = jQuery('#' + targetId);
                                 var data = JSON && JSON.parse(ec.data) || $.parseJSON(ec.data);
+=======
+                            if(e.result && e.result === 'SUCCESS') {
+                                var $target = jQuery('#' + targetId);
+                                var data = JSON && JSON.parse(e.data) || jQuery.parseJSON(e.data);
+>>>>>>> f58b9095a5f9154787d2f9bd2b3e01adf7fadef3
                                 jQuery(data).each(function (i, item) {
                                     var $op = jQuery('<option>').attr({
                                                 'value': item[valueKey],

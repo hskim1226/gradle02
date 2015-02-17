@@ -5,7 +5,7 @@
     <title></title>
     <style>
         section.notice-detail {
-            padding: 200px 0 60px;
+            padding: 150px 0 60px;
             background: #55555f;
             color: #fdfdfd;
             position:relative;
@@ -45,12 +45,12 @@
 <body>
 <section class="notice-detail" id="notice-detail">
     <div class="container">
-        <div class="row mar-bot40">
-            <div class="col-md-10 col-md-offset-1">
+        <div class="row mar-bot10">
+            <div class="col-md-10 col-md-offset-2">
                 <h2 class="slogan">일반 전형</h2>
                 <div class="spacer-small"></div>
                 <div class="align-center">
-                    <div class="col-md-offset-1 col-md-10">
+                    <div class="col-md-10">
                         <h3 class="slogan">2015년도 일반전형 주요 일정 안내</h3>
                         <div class="spacer-tiny"></div>
                         <table class="table table-bordered">
@@ -134,10 +134,10 @@
                         </div>
                         <div class="spacer-tiny"></div>
                         <div>
-                            <form id=generalApplyForm" action="${contextPath}/application/agreement" method="post">
-                                <input type="hidden" name="admsNo" value="15A" />
-                                <input type="hidden" name="entrYear" value="2015" />
-                                <input type="hidden" name="admsTypeCode" value="A" />
+                            <form id=generalApplyForm" action="${contextPath}/pre/agreement" method="post">
+                                <input type="hidden" name="admsNo" value="${admsGeneral.admsNo}" />
+                                <input type="hidden" name="entrYear" value="${admsGeneral.entrYear}" />
+                                <input type="hidden" name="admsTypeCode" value="${admsGeneral.admsType}" />
                                 <button type="submit" class="btn btn-primary btn-lg btn-block" id="composePaper">원서 작성</button>
                             </form>
                         </div>
