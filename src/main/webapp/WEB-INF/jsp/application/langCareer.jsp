@@ -421,6 +421,12 @@
                                                                                             <form:options items="${common.ieltsLevelList}" itemValue="code" itemLabel="codeVal" />
                                                                                         </form:select>
                                                                                     </c:when>
+                                                                                    <c:when test="${subContainer.itemName == 'TOPIK'}">
+                                                                                        <form:select path="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].subContainer[${subContainerStat.index}].langGrad" cssClass="form-control">
+                                                                                            <form:option value="" label="--선택--" />
+                                                                                            <form:options items="${common.topikLevelList}" itemValue="code" itemLabel="codeVal" />
+                                                                                        </form:select>
+                                                                                    </c:when>
                                                                                     <c:otherwise>
                                                                                         <form:input path="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].subContainer[${subContainerStat.index}].langGrad" cssClass="form-control lang-score forlInput-${langGroupStat.index}" data-lang-exam-name="${subContainer.itemName}" maxlength="4"/>
                                                                                     </c:otherwise>

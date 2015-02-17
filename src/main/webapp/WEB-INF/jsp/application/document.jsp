@@ -380,7 +380,6 @@
                             <c:forEach items="${lv1Container.subContainer}" var="lv2Container" varStatus="lv2Status">
                                 <c:choose>
                                     <c:when test="${lv2Container.lastYn == 'Y'}">
-                                <%--<div class="form-group"><label class="col-sm-3 control-label word-keep-all">${lv2Container.docItemName}</label></div>--%>
                                 <div class="form-group">
                                     <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].applNo" value="${lv2Container.applNo}" />
                                     <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].docSeq" value="${lv2Container.docSeq}" />
@@ -413,10 +412,12 @@
                                     <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].mdtYn" value="${lv2Container.mdtYn}" />
                                     <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].uploadYn" value="${lv2Container.uploadYn}" />
                                     <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].sendCnt" value="${lv2Container.sendCnt}" />
+                                    <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].msgNo" value="${lv2Container.msgNo}" />
+                                    <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].msg" value="${lv2Container.msg}" />
                             <c:choose>
                                 <c:when test="${document.documentContainerList[lv1Status.index].subContainer[lv2Status.index].uploadYn == 'N'}">
-                                    <div class="col-sm-3">${lv2Container.docItemName}</div>
-                                    <div class="col-sm-9 warn-info">${lv2Container.msgNo}</div>
+                                    <div class="col-sm-3"><label>${lv2Container.docItemName}</label></div>
+                                    <div class="col-sm-9 warn-info"><label>${lv2Container.msg}</label></div>
                                 </c:when>
                                 <c:otherwise>
                                     <div class="col-sm-3">
@@ -557,10 +558,12 @@
                                             <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].subContainer[${lv3Status.index}].mdtYn" value="${lv3Container.mdtYn}" />
                                             <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].subContainer[${lv3Status.index}].uploadYn" value="${lv3Container.uploadYn}" />
                                             <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].subContainer[${lv3Status.index}].sendCnt" value="${lv3Container.sendCnt}" />
+                                            <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].subContainer[${lv3Status.index}].msgNo" value="${lv3Container.msgNo}" />
+                                            <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].subContainer[${lv3Status.index}].msg" value="${lv3Container.msg}" />
                                     <c:choose>
                                         <c:when test="${document.documentContainerList[lv1Status.index].subContainer[lv2Status.index].subContainer[lv3Status.index].uploadYn == 'N'}">
-                                            <div class="col-sm-3">${lv3Container.docItemName}</div>
-                                            <div class="col-sm-9 warn-info">${lv3Container.msgNo}</div>
+                                            <div class="col-sm-3"><label>${lv3Container.docItemName}</label></div>
+                                            <div class="col-sm-9 warn-info"><label>${lv3Container.msg}</label></div>
                                         </c:when>
                                         <c:otherwise>
                                             <div class="col-sm-3">
@@ -691,10 +694,12 @@
                                                     <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].subContainer[${lv3Status.index}].subContainer[${lv4Status.index}].mdtYn" value="${lv4Container.mdtYn}" />
                                                     <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].subContainer[${lv3Status.index}].subContainer[${lv4Status.index}].uploadYn" value="${lv4Container.uploadYn}" />
                                                     <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].subContainer[${lv3Status.index}].subContainer[${lv4Status.index}].sendCnt" value="${lv4Container.sendCnt}" />
+                                                    <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].subContainer[${lv3Status.index}].subContainer[${lv4Status.index}].msgNo" value="${lv4Container.msgNo}" />
+                                                    <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].subContainer[${lv3Status.index}].subContainer[${lv4Status.index}].msg" value="${lv4Container.msg}" />
                                             <c:choose>
                                                 <c:when test="${document.documentContainerList[lv1Status.index].subContainer[lv2Status.index].subContainer[lv3Status.index].subContainer[lv4Status.index].uploadYn == 'N'}">
-                                                    <div class="col-sm-3">${lv4Container.docItemName}</div>
-                                                    <div class="col-sm-9 warn-info">${lv4Container.msgNo}</div>
+                                                    <div class="col-sm-3"><label>${lv4Container.docItemName}</label></div>
+                                                    <div class="col-sm-9 warn-info"><label>${lv4Container.msg}</label></div>
                                                 </c:when>
                                                 <c:otherwise>
                                                     <div class="col-sm-3">
@@ -865,6 +870,8 @@
                                         <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2EtcStatus.index}].mdtYn" />
                                         <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2EtcStatus.index}].uploadYn" />
                                         <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2EtcStatus.index}].sendCnt" value="1" />
+                                        <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2EtcStatus.index}].msgNo" />
+                                        <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2EtcStatus.index}].msg" />
                                         <div class="col-sm-3">
                                             <div class="checkbox-upload">
                                                 <label class="word-keep-all" for="documentContainerList${lv1Status.index}.subContainer${lv2EtcStatus.index}.checkedFg">

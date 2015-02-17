@@ -103,6 +103,7 @@ public class LangCareerServiceImpl implements LangCareerService {
         commonCodeMap.put( "toflTypeList", commonService.retrieveCommonCodeValueByCodeGroup("TOFL_TYPE") );
         commonCodeMap.put( "fornExmpList", commonService.retrieveCommonCodeValueByCodeGroup("FORN_EXMP") );
         commonCodeMap.put( "ieltsLevelList", commonService.retrieveCommonCodeValueByCodeGroup("IELT_LEVL") );
+        commonCodeMap.put( "topikLevelList", commonService.retrieveCommonCodeValueByCodeGroup("TOPK_LEVL") );
 
         ecDataMap.put("langCareer", langCareer);
         ecDataMap.put("common", commonCodeMap);
