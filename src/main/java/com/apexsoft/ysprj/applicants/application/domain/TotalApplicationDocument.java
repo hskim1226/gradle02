@@ -33,6 +33,7 @@ public class TotalApplicationDocument extends ApplicationDocument{
     private String chkCnd;
     private String tmpltYn;
     private String msgNo;
+    private String msg;
     private String notInYn;
 
 
@@ -228,23 +229,11 @@ public class TotalApplicationDocument extends ApplicationDocument{
         this.multiYn = multiYn;
     }
 
-//    @Override
-//    public String getDocTypeCode() {
-//        return docTypeCode;
-//    }
-//
-//    @Override
-//    public void setDocTypeCode(String docTypeCode) {
-//        this.docTypeCode = docTypeCode;
-//    }
-//
-//    @Override
-//    public String getDocItemCode() {
-//        return docItemCode;
-//    }
-//
-//    @Override
-//    public void setDocItemCode(String docItemCode) {
-//        this.docItemCode = docItemCode;
-//    }
+    public String getMsg() {
+        return msg;
+    }
+
+    public void setMsg(String msg) {
+        this.msg = msg;
+    }
 }

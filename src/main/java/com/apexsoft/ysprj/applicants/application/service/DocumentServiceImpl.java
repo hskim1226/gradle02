@@ -2,6 +2,7 @@ package com.apexsoft.ysprj.applicants.application.service;
 
 import com.apexsoft.framework.common.vo.ExecutionContext;
 import com.apexsoft.framework.exception.YSBizException;
+import com.apexsoft.framework.exception.YSNoRedirectBizException;
 import com.apexsoft.framework.message.MessageResolver;
 import com.apexsoft.framework.persistence.dao.CommonDAO;
 import com.apexsoft.ysprj.applicants.application.domain.*;
@@ -229,6 +230,7 @@ public class DocumentServiceImpl implements DocumentService {
         //기존 파일이 업로드 되어 있는 경우
         if( oneDocument.isFileUploadFg()){
             rUpdate++;
+            oneDocument.setCreId("" );
             oneDocument.setModDate(date );
             oneDocument.setModId(userId );
             update = update + commonDAO.updateItem(oneDocument, NAME_SPACE, "ApplicationDocumentMapper");
@@ -385,7 +387,10 @@ public class DocumentServiceImpl implements DocumentService {
             aCont = new TotalApplicationDocumentContainer();
             aCont.setApplNo( aAcad.getApplNo());
             aCont.setGrpLabel(aAcad.getSchlName() + " 관련서류");
+
             rList.add(aCont);
+
+
             subAcadList.add(aCont);
 
             //학위별 필수서류 셋팅
@@ -413,6 +418,9 @@ public class DocumentServiceImpl implements DocumentService {
                 aSubDoc.setDocGrp(aAcad.getAcadSeq());
                 aSubDoc.setApplNo(applNo);
                 aSubDoc.setAdmsNo(admsNo);
+                if( aSubDoc.getMsgNo()!= null && aSubDoc.getMsgNo()!= "" ) {
+                    aSubDoc.setMsg(messageResolver.getMessage(aSubDoc.getMsgNo()));
+                }
                 aSubDoc.setSubContainer( getSubCodeDocumentContainer(aSubDoc,rList));
             }
             aCont.setSubContainer(subDocList);
@@ -457,6 +465,9 @@ public class DocumentServiceImpl implements DocumentService {
                 aSubDoc.setDocGrp(aAcad.getAcadSeq());
                 aSubDoc.setApplNo(applNo);
                 aSubDoc.setAdmsNo(admsNo);
+                if( aSubDoc.getMsgNo()!= null && aSubDoc.getMsgNo()!= "" ) {
+                    aSubDoc.setMsg(messageResolver.getMessage(aSubDoc.getMsgNo()));
+                }
                 aSubDoc.setSubContainer( getSubCodeDocumentContainer(aSubDoc,rList));
             }
             aCont.setSubContainer(subDocList);
@@ -492,6 +503,9 @@ public class DocumentServiceImpl implements DocumentService {
             for (TotalApplicationDocumentContainer aSubDoc : subDocList) {
                 rList.add(aSubDoc);
                 aSubDoc.setAdmsNo(admsNo);
+                if( aSubDoc.getMsgNo()!= null && aSubDoc.getMsgNo()!= "" ) {
+                    aSubDoc.setMsg(messageResolver.getMessage(aSubDoc.getMsgNo()));
+                }
                 aSubDoc.setSubContainer(getSubCodeDocumentContainer(aSubDoc,rList));
             }
             aCont = new TotalApplicationDocumentContainer();
@@ -516,6 +530,9 @@ public class DocumentServiceImpl implements DocumentService {
             for (TotalApplicationDocumentContainer aSubDoc : subDocList) {
                 rList.add(aSubDoc);
                 aSubDoc.setAdmsNo(admsNo);
+                if( aSubDoc.getMsgNo()!= null && aSubDoc.getMsgNo()!= "" ) {
+                    aSubDoc.setMsg(messageResolver.getMessage(aSubDoc.getMsgNo()));
+                }
                 aSubDoc.setSubContainer(getSubCodeDocumentContainer(aSubDoc,rList));
             }
             aCont = new TotalApplicationDocumentContainer();
@@ -538,6 +555,9 @@ public class DocumentServiceImpl implements DocumentService {
             aSubDoc.setCheckedFg(true);
             aSubDoc.setFileUploadFg(true);
             aSubDoc.setUploadYn("Y");
+            if( aSubDoc.getMsgNo()!= null && aSubDoc.getMsgNo()!= "" ) {
+                aSubDoc.setMsg(messageResolver.getMessage(aSubDoc.getMsgNo()));
+            }
         }
         aCont.setGrpLabel("기타 및 추가제출");
         aCont.setDocTypeCode(codeParam.getItemTypeCode());
@@ -600,6 +620,9 @@ public class DocumentServiceImpl implements DocumentService {
 
         if (!"Y".equals( pCont.getLastYn())) {
             pCont.setGrpLabel( pCont.getDocItemName());
+            if( pCont.getMsgNo()!= null && pCont.getMsgNo()!= "" ) {
+                pCont.setMsg(messageResolver.getMessage(pCont.getMsgNo()));
+            }
             pList.add(pCont);
             rContList = commonDAO.queryForList(NAME_SPACE + "CustomApplicationDocumentMapper.selectTotalApplicationDocumentList", pCont, TotalApplicationDocumentContainer.class);
             if (rContList != null) {
@@ -617,6 +640,9 @@ public class DocumentServiceImpl implements DocumentService {
             if( "DOC_ITEM".equals(pCont.getDocItemGrp()) && "00001".equals(pCont.getDocItemCode())){
                 pCont.setImgYn("Y");
             }
+            if( pCont.getMsgNo()!= null && pCont.getMsgNo()!= "" ) {
+                pCont.setMsg(messageResolver.getMessage(pCont.getMsgNo()));
+            }
             pList.add(pCont);
         }
         return rContList;
@@ -628,6 +654,9 @@ public class DocumentServiceImpl implements DocumentService {
         if (!"Y".equals( pCont.getLastYn())) {
             pCont.setGrpLabel( pCont.getDocItemName());
             pList.add(pCont);
+            if( pCont.getMsgNo()!= null && pCont.getMsgNo()!= "" ) {
+                pCont.setMsg(messageResolver.getMessage(pCont.getMsgNo()));
+            }
             rContList = commonDAO.queryForList(NAME_SPACE + "CustomApplicationDocumentMapper.selectTotalCodeApplicationDocumentList", pCont, TotalApplicationDocumentContainer.class);
             if (rContList != null) {
                 for (TotalApplicationDocumentContainer aCont : rContList) {
@@ -653,6 +682,9 @@ public class DocumentServiceImpl implements DocumentService {
                 pCont.setDocItemNameXxen( aDoc.getDocItemNameXxen());
                 pCont.setDocGrpName( aDoc.getDocGrpName());
                 pCont.setFileUploadFg(true);
+            }
+            if( pCont.getMsgNo()!= null && pCont.getMsgNo()!= "" ) {
+                pCont.setMsg(messageResolver.getMessage(pCont.getMsgNo()));
             }
             pList.add(pCont);
         }
