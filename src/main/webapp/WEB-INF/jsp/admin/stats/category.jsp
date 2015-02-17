@@ -201,8 +201,8 @@
 		                success: function(e) {
 		                    if(e.result && e.result === 'SUCCESS') {
 		                        var $target = jQuery('#' + targetId);
-		                        var data = JSON && JSON.parse(e.data) || $.parseJSON(e.data);
-		                        jQuery(data).each(function (i, item) {
+		                        var $data = JSON && JSON.parse(e.data) || $.parseJSON(e.data);
+		                        $data.each(function (i, item) {
 		                            var $op = jQuery('<option>').attr({
 		                                'value': item[valueKey],
 		                                'label': item[labelKey]}
