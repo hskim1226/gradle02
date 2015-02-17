@@ -282,6 +282,9 @@
             background: #ffdddd;
             color: #f55;
         }
+        .warn-info {
+            color: #f00;
+        }
     </style>
 </head>
 <body>
@@ -410,6 +413,12 @@
                                     <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].mdtYn" value="${lv2Container.mdtYn}" />
                                     <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].uploadYn" value="${lv2Container.uploadYn}" />
                                     <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].sendCnt" value="${lv2Container.sendCnt}" />
+                            <c:choose>
+                                <c:when test="${document.documentContainerList[lv1Status.index].subContainer[lv2Status.index].uploadYn == 'N'}">
+                                    <div class="col-sm-3">${lv2Container.docItemName}</div>
+                                    <div class="col-sm-9 warn-info">${lv2Container.msgNo}</div>
+                                </c:when>
+                                <c:otherwise>
                                     <div class="col-sm-3">
                                         <div class="checkbox-upload">
                                             <label class="word-keep-all" for="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.checkedFg">
@@ -421,14 +430,14 @@
                                                            <c:if test="${lv2Container.fileUploadFg == true}">checked</c:if> />
                                                 </div>
                                                 <div class="col-sm-10 nopadding">
-                                                       <c:choose>
-                                                           <c:when test="${lv2Container.docTypeCode != '00009'}">${lv2Container.docItemName}</c:when>
-                                                           <c:otherwise>
-                                                               <form:input path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].docItemName"
-                                                                                    value="${lv2Container.docItemName}"
-                                                                                    cssClass="form-control" />
-                                                           </c:otherwise>
-                                                       </c:choose>
+                                                    <c:choose>
+                                                        <c:when test="${lv2Container.docTypeCode != '00009'}">${lv2Container.docItemName}</c:when>
+                                                        <c:otherwise>
+                                                            <form:input path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].docItemName"
+                                                                        value="${lv2Container.docItemName}"
+                                                                        cssClass="form-control" />
+                                                        </c:otherwise>
+                                                    </c:choose>
                                                 </div>
                                             </label>
                                         </div>
@@ -495,13 +504,15 @@
                                                href="${contextPath}/application/document/fileDelete/${lv2Container.applNo}/${lv2Container.docSeq}">삭제</a>
                                         </div>
                                     </div>
-                            <spring:bind path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].fileUploadFg">
-                                <c:if test="${status.error}">
-                                    <div class="col-sm-12 validation-container">
-                                        <div class="validation-error">${status.errorMessage}</div>
-                                    </div>
-                                </c:if>
-                            </spring:bind>
+                                    <spring:bind path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].fileUploadFg">
+                                        <c:if test="${status.error}">
+                                            <div class="col-sm-12 validation-container">
+                                                <div class="validation-error">${status.errorMessage}</div>
+                                            </div>
+                                        </c:if>
+                                    </spring:bind>
+                                </c:otherwise>
+                            </c:choose>
                                 </div>
 
                                     </c:when>
@@ -546,6 +557,12 @@
                                             <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].subContainer[${lv3Status.index}].mdtYn" value="${lv3Container.mdtYn}" />
                                             <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].subContainer[${lv3Status.index}].uploadYn" value="${lv3Container.uploadYn}" />
                                             <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].subContainer[${lv3Status.index}].sendCnt" value="${lv3Container.sendCnt}" />
+                                    <c:choose>
+                                        <c:when test="${document.documentContainerList[lv1Status.index].subContainer[lv2Status.index].subContainer[lv3Status.index].uploadYn == 'N'}">
+                                            <div class="col-sm-3">${lv3Container.docItemName}</div>
+                                            <div class="col-sm-9 warn-info">${lv3Container.msgNo}</div>
+                                        </c:when>
+                                        <c:otherwise>
                                             <div class="col-sm-3">
                                                 <div class="checkbox-upload">
                                                     <label class="word-keep-all" for="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.checkedFg">
@@ -603,7 +620,7 @@
                                                            data-doc-prop-mdtYn="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.mdtYn"
                                                            data-doc-prop-uploadYn="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.uploadYn"
                                                            data-doc-prop-sendCnt="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.sendCnt"
-                                                    />
+                                                            />
                                                 </div>
                                                 <div class="col-sm-4 upload-delete-button-container-${lv1Status.index}-${lv2Status.index}-${lv3Status.index}"
                                                      style='display: <c:choose><c:when test="${lv3Container.fileUploadFg == true}">block;</c:when><c:otherwise>none;</c:otherwise></c:choose>'>
@@ -628,6 +645,8 @@
                                             </div>
                                         </c:if>
                                     </spring:bind>
+                                        </c:otherwise>
+                                    </c:choose>
                                         </div>
 
                                                 </c:when>
@@ -642,7 +661,6 @@
                                                     <c:forEach items="${lv3Container.subContainer}" var="lv4Container" varStatus="lv4Status">
                                                         <c:choose>
                                                             <c:when test="${lv4Container.lastYn == 'Y'}">
-
                                                 <div class="form-group">
                                                     <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].subContainer[${lv3Status.index}].subContainer[${lv4Status.index}].applNo" value="${lv4Container.applNo}" />
                                                     <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].subContainer[${lv3Status.index}].subContainer[${lv4Status.index}].docSeq" value="${lv4Container.docSeq}" />
@@ -673,6 +691,12 @@
                                                     <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].subContainer[${lv3Status.index}].subContainer[${lv4Status.index}].mdtYn" value="${lv4Container.mdtYn}" />
                                                     <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].subContainer[${lv3Status.index}].subContainer[${lv4Status.index}].uploadYn" value="${lv4Container.uploadYn}" />
                                                     <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].subContainer[${lv3Status.index}].subContainer[${lv4Status.index}].sendCnt" value="${lv4Container.sendCnt}" />
+                                            <c:choose>
+                                                <c:when test="${document.documentContainerList[lv1Status.index].subContainer[lv2Status.index].subContainer[lv3Status.index].subContainer[lv4Status.index].uploadYn == 'N'}">
+                                                    <div class="col-sm-3">${lv4Container.docItemName}</div>
+                                                    <div class="col-sm-9 warn-info">${lv4Container.msgNo}</div>
+                                                </c:when>
+                                                <c:otherwise>
                                                     <div class="col-sm-3">
                                                         <div class="checkbox-upload">
                                                             <label class="word-keep-all" for="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.subContainer${lv4Status.index}.checkedFg">
@@ -735,17 +759,17 @@
                                                         <div class="col-sm-4 upload-delete-button-container-${lv1Status.index}-${lv2Status.index}-${lv3Status.index}-${lv4Status.index}"
                                                              style='display: <c:choose><c:when test="${lv4Container.fileUploadFg == true}">block;</c:when><c:otherwise>none;</c:otherwise></c:choose>'>
                                                             <a class="btn btn-default file-download" id="file-download-link-${lv1Status.index}-${lv2Status.index}-${lv3Status.index}-${lv4Status.index}"
-                                                                href="${contextPath}/application/document/fileDownload/${lv4Container.applNo}/${lv4Container.docSeq}">내려받기</a>
+                                                               href="${contextPath}/application/document/fileDownload/${lv4Container.applNo}/${lv4Container.docSeq}">내려받기</a>
                                                         </div>
                                                         <div class="col-sm-4 upload-delete-button-container-${lv1Status.index}-${lv2Status.index}-${lv3Status.index}-${lv4Status.index}"
                                                              style='display: <c:choose><c:when test="${lv4Container.fileUploadFg == true}">block;</c:when><c:otherwise>none;</c:otherwise></c:choose>'>
                                                             <a class="btn btn-default file-delete" id="file-delete-link-${lv1Status.index}-${lv2Status.index}-${lv3Status.index}-${lv4Status.index}"
-                                                                data-checkbox-id="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.subContainer${lv4Status.index}.checkedFg"
-                                                                data-docitemname-id="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.subContainer${lv4Status.index}.docItemName"
-                                                                data-upload-button-id="upload-button-${lv1Status.index}-${lv2Status.index}-${lv3Status.index}-${lv4Status.index}"
-                                                                data-button-container-class="upload-delete-button-container-${lv1Status.index}-${lv2Status.index}-${lv3Status.index}-${lv4Status.index}"
-                                                                data-fileUploadFg-id="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.subContainer${lv4Status.index}.fileUploadFg"
-                                                                href="${contextPath}/application/document/fileDelete/${lv4Container.applNo}/${lv4Container.docSeq}">삭제</a>
+                                                               data-checkbox-id="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.subContainer${lv4Status.index}.checkedFg"
+                                                               data-docitemname-id="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.subContainer${lv4Status.index}.docItemName"
+                                                               data-upload-button-id="upload-button-${lv1Status.index}-${lv2Status.index}-${lv3Status.index}-${lv4Status.index}"
+                                                               data-button-container-class="upload-delete-button-container-${lv1Status.index}-${lv2Status.index}-${lv3Status.index}-${lv4Status.index}"
+                                                               data-fileUploadFg-id="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.subContainer${lv4Status.index}.fileUploadFg"
+                                                               href="${contextPath}/application/document/fileDelete/${lv4Container.applNo}/${lv4Container.docSeq}">삭제</a>
                                                         </div>
                                                     </div>
                                             <spring:bind path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].subContainer[${lv3Status.index}].subContainer[${lv4Status.index}].fileUploadFg">
@@ -755,6 +779,8 @@
                                                     </div>
                                                 </c:if>
                                             </spring:bind>
+                                                </c:otherwise>
+                                            </c:choose>
                                                 </div>
 
                                                             </c:when>

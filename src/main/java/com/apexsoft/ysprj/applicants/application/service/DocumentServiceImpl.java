@@ -509,7 +509,7 @@ public class DocumentServiceImpl implements DocumentService {
             codeParam.setAdmsCodeGrp("FORN_TYPE");
             codeParam.setAdmsCode(tempApp.getFornTypeCode());
             codeParam.setGrpLevel(1);
-            codeParam.setItemTypeCode("00007");//
+            codeParam.setItemCode("00007");//
 
             List<TotalApplicationDocumentContainer> subDocList;
             subDocList = commonDAO.queryForList(NAME_SPACE + "CustomApplicationDocumentMapper.selectCodeMandatoryGroupByCode", codeParam, TotalApplicationDocumentContainer.class);

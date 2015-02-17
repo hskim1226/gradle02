@@ -46,8 +46,16 @@ public class ApplicationLanguageValidator extends NamedListValidator {
                             errors.rejectValue(prefix + "selGrpCode", "U331",
                                     new Object[]{"외국어 시험 면제 사유"}, messageResolver.getMessage("U332"));
                         }
+                    } else if ("KOR_EXMP1".equals(langList.getSelGrpCode())) {
+                        String selGrpCode = aLangOrExempt.getSelGrpCode();
+                        if (selGrpCode == null || selGrpCode.length() == 0 || Integer.parseInt(selGrpCode) <= 0) {
+                            errors.rejectValue(prefix + "selGrpCode", "U331",
+                                    new Object[]{"한국어 시험 면제 사유"}, messageResolver.getMessage("U332"));
+                        }
                     } else {
+                        String itemGrpCode = aLangOrExempt.getItemGrpCode();
                         String itemCode = aLangOrExempt.getItemCode();
+//                        if ("LANG_EXAM".equals(itemGrpCode) && "00001".equals(itemCode)) { // 시험이 TOEFL 일 경우 시험 종류 선택 필수
                         if ("00001".equals(itemCode)) { // 시험이 TOEFL 일 경우 시험 종류 선택 필수
                             if (aLangOrExempt.getToflTypeCode() == null || aLangOrExempt.getToflTypeCode().length() == 0) {
                                 errors.rejectValue(prefix + "toflTypeCode", "U331",
