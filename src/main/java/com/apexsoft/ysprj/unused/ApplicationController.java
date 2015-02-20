@@ -27,7 +27,7 @@ import java.util.*;
  */
 @Controller
 @SessionAttributes("entireApplication")
-@RequestMapping(value="/application")
+@RequestMapping(value="/applicationXXX")
 public class ApplicationController {
 
     @Autowired

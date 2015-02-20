@@ -322,7 +322,7 @@ public class BasisServiceImpl implements BasisService {
             r2 = commonDAO.updateItem(applicationGeneral, NAME_SPACE, "ApplicationGeneralMapper");
             r3 = commonDAO.updateItem(applicationForeigner, NAME_SPACE, "ApplicationForeignerMapper");
         }
-
+r1 = -1;
         if ( r1 > 0 && r2 > 0 && r3 > 0) {
             ec.setResult(ExecutionContext.SUCCESS);
             ec.setMessage(messageResolver.getMessage("U315"));
@@ -340,6 +340,7 @@ public class BasisServiceImpl implements BasisService {
                 else if (r3 == 0) errCode = "ERR0028";
             }
             ec.setErrCode(errCode);
+
             throw new YSBizException(ec);
 //            if (isInsert && !isValidInsertRequest) {
 //                원래 페이지로 돌아가는 테스트는 성공,

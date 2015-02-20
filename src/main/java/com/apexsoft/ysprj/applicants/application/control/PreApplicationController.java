@@ -1,26 +1,35 @@
 package com.apexsoft.ysprj.applicants.application.control;
 
 import com.apexsoft.framework.message.MessageResolver;
+import com.apexsoft.framework.persistence.dao.CommonDAO;
 import com.apexsoft.ysprj.applicants.admission.service.AdmissionService;
+import com.apexsoft.ysprj.applicants.application.domain.CustomMyList;
+import com.apexsoft.ysprj.applicants.application.domain.ParamForApplication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
+import java.security.Principal;
+import java.util.List;
 
 /**
  * Created by hanmomhanda on 15. 2. 14.
  */
 @Controller
-@RequestMapping(value="/pre")
+@RequestMapping(value="/application")
 public class PreApplicationController {
 
     @Autowired
     private AdmissionService admissionService;
+
+    @Autowired
+    private CommonDAO commonDAO;
 
     @Resource(name = "messageResolver")
     MessageResolver messageResolver;
@@ -38,7 +47,7 @@ public class PreApplicationController {
      */
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     public ModelAndView showList() {
-        ModelAndView mv = new ModelAndView("pre/list");
+        ModelAndView mv = new ModelAndView("application/list");
 
         mv.addObject("admsGeneral", admissionService.retrieveAdmissionByAdmsNo(admsGeneral));
         mv.addObject("admsForeign", admissionService.retrieveAdmissionByAdmsNo(admsForeign));
@@ -53,7 +62,7 @@ public class PreApplicationController {
      */
     @RequestMapping(value = "/general", method = RequestMethod.POST)
     public ModelAndView showGeneral() {
-        ModelAndView mv = new ModelAndView("pre/general");
+        ModelAndView mv = new ModelAndView("application/general");
 
         mv.addObject("admsGeneral", admissionService.retrieveAdmissionByAdmsNo(admsGeneral));
 
@@ -67,11 +76,31 @@ public class PreApplicationController {
      */
     @RequestMapping(value = "/foreign", method = RequestMethod.POST)
     public ModelAndView showForeign() {
-        ModelAndView mv = new ModelAndView("pre/foreign");
+        ModelAndView mv = new ModelAndView("application/foreign");
 
         mv.addObject("admsForeign", admissionService.retrieveAdmissionByAdmsNo(admsForeign));
 
         return mv;
+    }
+
+    /**
+     * 내원서 화면
+     * @param principal
+     * @param model
+     * @return
+     */
+    @RequestMapping(value="/mylist")
+    public String myApplicationList(Principal principal, Model model) {
+
+        ParamForApplication parameter = new ParamForApplication();
+        parameter.setUserId(principal.getName());
+
+        List<CustomMyList> myList =
+                commonDAO.queryForList("com.apexsoft.ysprj.applicants.application.sqlmap.CustomApplicationMapper.selectApplByUserId",
+                    parameter, CustomMyList.class);
+
+        model.addAttribute("myList", myList);
+        return "application/mylist";
     }
 
     /**
@@ -83,7 +112,7 @@ public class PreApplicationController {
     public ModelAndView checkAgreement(@RequestParam(value = "admsNo") String admsNo,
                                        @RequestParam(value = "entrYear") String entrYear,
                                        @RequestParam(value = "admsTypeCode") String admsTypeCode) {
-        ModelAndView mv = new ModelAndView("pre/agreement");
+        ModelAndView mv = new ModelAndView("application/agreement");
         mv.addObject("admsNo", admsNo);
         mv.addObject("entrYear", entrYear);
         mv.addObject("admsTypeCode", admsTypeCode);

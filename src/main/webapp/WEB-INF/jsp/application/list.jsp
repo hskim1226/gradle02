@@ -82,19 +82,19 @@
             var generalForm = document.getElementById('generalApplyForm'),
                 foreignForm = document.getElementById('foreignApplyForm');
             $('#toGeneralInfo').on('click', function(){
-                generalForm.action = "${contextPath}/pre/general";
+                generalForm.action = "${contextPath}/application/general";
                 generalForm.submit();
             });
             $('#toGeneralApply').on('click', function(){
-                generalForm.action = "${contextPath}/pre/agreement";
+                generalForm.action = "${contextPath}/application/agreement";
                 generalForm.submit();
             });
             $('#toForeignInfo').on('click', function(){
-                foreignForm.action = "${contextPath}/pre/foreign";
+                foreignForm.action = "${contextPath}/application/foreign";
                 foreignForm.submit();
             });
             $('#toForeignApply').on('click', function(){
-                foreignForm.action = "${contextPath}/pre/agreement";
+                foreignForm.action = "${contextPath}/application/agreement";
                 foreignForm.submit();
             });
         });

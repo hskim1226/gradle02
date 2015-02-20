@@ -45,13 +45,13 @@
 <body>
 <section class="notice-detail" id="notice-detail">
     <div class="container">
-        <div class="row mar-bot40">
+        <div class="row mar-bot10">
             <div class="col-md-10 col-md-offset-2">
-                <h2 class="slogan">외국인 전형</h2>
+                <h2 class="slogan">일반 전형</h2>
                 <div class="spacer-small"></div>
                 <div class="align-center">
                     <div class="col-md-10">
-                        <h3 class="slogan">2015년도 외국인전형 주요 일정 안내</h3>
+                        <h3 class="slogan">2015년도 일반전형 주요 일정 안내</h3>
                         <div class="spacer-tiny"></div>
                         <table class="table table-bordered">
                             <thead>
@@ -84,6 +84,11 @@
                                 <td>2015. 3. 30(월) ~  4. 8(수)</td>
                             </tr>
                             <tr>
+                                <td colspan="2">구술시험 대상자 발표</td>
+                                <td>2014.10.31(금)</td>
+                                <td>2015. 4.24(금)</td>
+                            </tr>
+                            <tr>
                                 <td colspan="2">구술면접 및 음대실기</td>
                                 <td>2014.11. 8(토)</td>
                                 <td>2015. 5. 2(토)</td>
@@ -101,17 +106,23 @@
                         <div class="spacer-tiny"></div>
                         <table class="table table-stripped">
                             <tr>
-                                <td align="left">2014학년도 9월입학 대학원 외국인 전형 요강(한국어)<a href="http://graduate.yonsei.ac.kr/download/sub03/info(2014-2).pdf" target="_blank"><img src="${contextPath}/img/common/button_pdf.gif"/></a><a href=""><img src="${contextPath}/img/common/button_word.gif"/></a></td>
+                                <td align="left">2014학년도 9월입학 대학원 일반 전형 요강<a href="http://graduate.yonsei.ac.kr/download/sub03/info(2014-2).pdf" target="_blank"><img src="${contextPath}/img/common/button_pdf.gif"/></a><a href=""><img src="${contextPath}/img/common/button_word.gif"/></a></td>
                             </tr>
                             <tr>
-                                <td align="left">Graduate Admissions for International Students(English)<a href="http://graduate.yonsei.ac.kr/download/sub03/D2006form4.pdf" target="_blank"><img src="${contextPath}/img/common/button_pdf.gif"/></a><a href="http://graduate.yonsei.ac.kr/download/sub03/D2006form4.hwp" target="_blank"><img src="${contextPath}/img/common/button_hwp.gif"/></a></td>
+                                <td align="left">학업 및 연구계획서<a href="http://graduate.yonsei.ac.kr/download/sub03/D2006form4.pdf" target="_blank"><img src="${contextPath}/img/common/button_pdf.gif"/></a><a href="http://graduate.yonsei.ac.kr/download/sub03/D2006form4.hwp" target="_blank"><img src="${contextPath}/img/common/button_hwp.gif"/></a></td>
+                            </tr>
+                            <tr>
+                                <td align="left">외국어시험면제승인서  ※ 연세대 석사를 마치고 3년이내에 박사과정 진학하는 자만 작성(건축공학과 제외)</td>
                             </tr>
                             <tr>
                                 <td align="left">학력조회 동의서</td>
                             </tr>
-                            <tr>
-                                <td align="left">최종 출신대학 확인서</td>
-                            </tr>
+                            <%--<tr>--%>
+                                <%--<td align="left">최종 출신대학 확인서</td>--%>
+                            <%--</tr>--%>
+                            <%--<tr>--%>
+                                <%--<td align="left">치과대학, 원주의과대학(의학,간호학,치위생학) 전공교실 주임교수 확인서</td>--%>
+                            <%--</tr>--%>
                             <tr>
                                 <td align="left">원주의과대학 전일제 대학원생 장학금 지급 신청서</td>
                             </tr>
@@ -123,10 +134,10 @@
                         </div>
                         <div class="spacer-tiny"></div>
                         <div>
-                            <form id=generalApplyForm" action="${contextPath}/pre/agreement" method="post">
-                                <input type="hidden" name="admsNo" value="${admsForeign.admsNo}" />
-                                <input type="hidden" name="entrYear" value="${admsForeign.entrYear}" />
-                                <input type="hidden" name="admsTypeCode" value="${admsForeign.admsType}" />
+                            <form id=generalApplyForm" action="${contextPath}/application/agreement" method="post">
+                                <input type="hidden" name="admsNo" value="${admsGeneral.admsNo}" />
+                                <input type="hidden" name="entrYear" value="${admsGeneral.entrYear}" />
+                                <input type="hidden" name="admsTypeCode" value="${admsGeneral.admsType}" />
                                 <button type="submit" class="btn btn-primary btn-lg btn-block" id="composePaper">원서 작성</button>
                             </form>
                         </div>
@@ -140,7 +151,7 @@
     <script>
         $(document).ready( function() {
             $('#composePaper').click(function(){
-                $('#ForeignApplyForm').submit();
+                $('#generalApplyForm').submit();
             });
         })
     </script>
