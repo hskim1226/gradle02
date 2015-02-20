@@ -1,6 +1,7 @@
 package com.apexsoft.ysprj.applicants.application.service;
 
 import com.apexsoft.framework.common.vo.ExecutionContext;
+import com.apexsoft.framework.exception.ErrorInfo;
 import com.apexsoft.framework.exception.YSBizException;
 import com.apexsoft.framework.message.MessageResolver;
 import com.apexsoft.framework.persistence.dao.CommonDAO;
@@ -269,7 +270,7 @@ public class BasisServiceImpl implements BasisService {
         boolean isMultipleApplicationAllowed = true;
         boolean isValidInsertRequest = false;
         boolean isInsert;
-        int r1 = 0, r2 = 0, r3 = 0, applNo;
+        int r1 = 0, r2 = 0, r3 = 0, applNo = 0;
         Date date = new Date();
 
         if (application.getApplNo() == null) {
@@ -302,15 +303,16 @@ public class BasisServiceImpl implements BasisService {
             }
         } else {
             isInsert = false;
+            applNo = application.getApplNo();
 
             application.setModId(userId);
             application.setModDate(date);
 
-            applicationGeneral.setApplNo(application.getApplNo());
+            applicationGeneral.setApplNo(applNo);
             applicationGeneral.setModId(userId);
             applicationGeneral.setModDate(date);
 
-            applicationForeigner.setApplNo(application.getApplNo());
+            applicationForeigner.setApplNo(applNo);
             applicationForeigner.setModId(userId);
             applicationForeigner.setModDate(date);
             if (applicationForeigner.getVisaExprDay() == null)
@@ -340,6 +342,7 @@ r1 = -1;
                 else if (r3 == 0) errCode = "ERR0028";
             }
             ec.setErrCode(errCode);
+            ec.setErrorInfo(new ErrorInfo(applNo, userId));
 
             throw new YSBizException(ec);
 //            if (isInsert && !isValidInsertRequest) {
