@@ -182,9 +182,10 @@
                 type: 'GET',
                 url: baseUrl,
                 success: function(e) {
-                    if(e.result && e.result === 'SUCCESS') {
+                    var ec = JSON && JSON.parse(e) || $.parseJSON(e);
+                    if(ec.result && ec.result === 'SUCCESS') {
                         var $target = jQuery('#' + targetId);
-                        var data = JSON && JSON.parse(e.data) || $.parseJSON(e.data);
+                        var data = JSON && JSON.parse(ec.data) || $.parseJSON(ec.data);
                         jQuery(data).each(function (i, item) {
                             var $op = jQuery('<option>').attr({
                                         'value': item[valueKey],

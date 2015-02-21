@@ -1,4 +1,4 @@
-package com.apexsoft.framework.exception.vo;
+package com.apexsoft.framework.unused;
 
 import com.apexsoft.framework.common.vo.CommonInfo;
 import org.codehaus.jackson.annotate.JsonIgnore;

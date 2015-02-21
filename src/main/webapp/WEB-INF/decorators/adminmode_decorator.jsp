@@ -87,9 +87,9 @@
             <li class="Lidx1">
                 <span><a href="#">지원자관리</a></span>
                 <ul>
-                    <li class="Lfirst"><span><a href="${contextPath}/admin/search/applicantsId">지원자검색(수험번호)</a></span></li>
-                    <li class="Lfirst"><span><a href="${contextPath}/admin/search/applicantsDept">지원자검색(학과)</a></span></li>
-                    <li class="Lfirst"><span><a href="${contextPath}/admin/search/applicantsName">지원자검색(성명)</a></span></li>
+                    <li class="Lfirst"><span><a href="${contextPath}/admin/search/applicants/idSearch">지원자검색(수험번호)</a></span></li>
+                    <li class="Lfirst"><span><a href="${contextPath}/admin/search/applicants/deptSearch">지원자검색(학과)</a></span></li>
+                    <li class="Lfirst"><span><a href="${contextPath}/admin/search/applicants/nameSearch">지원자검색(성명)</a></span></li>
                     <li class="Llast"><span><a href="${contextPath}/admin/search/unpaid">미결제자현황</a></span></li>
                 </ul>
             </li>

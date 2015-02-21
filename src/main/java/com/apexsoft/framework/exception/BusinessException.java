@@ -1,8 +1,5 @@
 package com.apexsoft.framework.exception;
 
-import com.apexsoft.framework.exception.vo.ErrorInfo;
-import org.apache.commons.lang3.StringUtils;
-
 /**
  * Store Platform Exception
  */

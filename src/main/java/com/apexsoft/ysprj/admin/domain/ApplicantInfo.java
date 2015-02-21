@@ -7,13 +7,13 @@ import com.apexsoft.ysprj.applicants.application.domain.ApplicationDocument;
 
 public class ApplicantInfo {
     
-    private int applNo;    // 생성자
-    private String userId;    // 생성자    
-	private String admsNo;    // 생성자
-    private String admsType;  // 	
+    private int applNo;
+    private String userId;
+	private String admsNo;
+    private String admsType;
     private String admsTypeName;     
-	private String campName;  // 수정자	
-    private String collName;  // 수정자		
+	private String campName;
+    private String collName;
     private String deptCode;    
     private String deptName;        
     private String ariInstCode;

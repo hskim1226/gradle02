@@ -7,10 +7,12 @@ public class ChangeInfoForm {
 
     private int applNo = 0;
     private String admsNo;
-    private String beforeItem = null;
-    private String afterItem = null;
+    private String befVal = null;
+    private String aftVal = null;
     private String infoRadio = null;
     private String colName;
+    private String cnclResn;
+
 
     public String getAdmsNo() {
         return admsNo;
@@ -18,13 +20,7 @@ public class ChangeInfoForm {
     public void setAdmsNo(String admsNo) {
         this.admsNo = admsNo;
     }
-    public String getAfterItem() {
-        return afterItem;
-    }
 
-    public void setAfterItem(String afterItem) {
-        this.afterItem = afterItem;
-    }
 
     public String getInfoRadio() {
         return infoRadio;
@@ -34,14 +30,6 @@ public class ChangeInfoForm {
         this.infoRadio = infoRadio;
     }
 
-
-    public String getBeforeItem() {
-        return beforeItem;
-    }
-
-    public void setBeforeItem(String beforeItem) {
-        this.beforeItem = beforeItem;
-    }
 
     public String getColName() {
         return colName;
@@ -57,5 +45,29 @@ public class ChangeInfoForm {
 
     public void setApplNo(int applNo) {
         this.applNo = applNo;
+    }
+
+    public String getCnclResn() {
+        return cnclResn;
+    }
+
+    public void setCnclResn(String cnclResn) {
+        this.cnclResn = cnclResn;
+    }
+
+    public String getBefVal() {
+        return befVal;
+    }
+
+    public void setBefVal(String befVal) {
+        this.befVal = befVal;
+    }
+
+    public String getAftVal() {
+        return aftVal;
+    }
+
+    public void setAftVal(String aftVal) {
+        this.aftVal = aftVal;
     }
 }

@@ -1,23 +1,14 @@
-package com.apexsoft.ysprj.applicants.application.control;
+package com.apexsoft.ysprj.unused;
 
 import com.apexsoft.framework.common.vo.ExecutionContext;
 import com.apexsoft.framework.message.MessageResolver;
-import com.apexsoft.framework.persistence.file.callback.FileUploadEventCallbackHandler;
-import com.apexsoft.framework.persistence.file.exception.FileUploadException;
 import com.apexsoft.framework.persistence.file.handler.FileHandler;
-import com.apexsoft.framework.persistence.file.manager.FilePersistenceManager;
-import com.apexsoft.framework.persistence.file.model.FileInfo;
-import com.apexsoft.framework.persistence.file.model.FileItem;
-import com.apexsoft.framework.persistence.file.model.FileMetaForm;
-import com.apexsoft.framework.persistence.file.model.FileVO;
 import com.apexsoft.ysprj.applicants.application.domain.*;
-import com.apexsoft.ysprj.applicants.application.service.ApplicationService;
 import com.apexsoft.ysprj.applicants.common.domain.*;
 import com.apexsoft.ysprj.applicants.common.service.CommonService;
 import com.apexsoft.ysprj.applicants.payment.domain.ApplicationPayment;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,9 +19,6 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.security.Principal;
 import java.util.*;
 
@@ -39,7 +27,7 @@ import java.util.*;
  */
 @Controller
 @SessionAttributes("entireApplication")
-@RequestMapping(value="/application")
+@RequestMapping(value="/applicationXXX")
 public class ApplicationController {
 
     @Autowired

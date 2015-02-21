@@ -7,7 +7,7 @@
 	</decorator>
 
     <decorator name="usermode" page="usermode_decorator.jsp">
-        <pattern>/notice/*</pattern>
+        <pattern>/pre/*</pattern>
         <pattern>/application/*</pattern>
         <pattern>/mail/*</pattern>
         <pattern>/payment/*</pattern>
@@ -20,6 +20,7 @@
         <pattern>/pds/*</pattern>
         <pattern>/test/*</pattern>
         <pattern>/common/error.jsp</pattern>
+        <pattern>/common/404.jsp</pattern>
     </decorator>
 
     <decorator name="adminmode" page="adminmode_decorator.jsp">

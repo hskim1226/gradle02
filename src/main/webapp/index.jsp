@@ -148,7 +148,7 @@
         <script src="${contextPath}/js/jquery.stellar.min.js"></script>
         <script src="${contextPath}/js/main.js"></script>
         <script>
-            $('#toList').click(function(){location.href='${contextPath}/notice/list'});
+            $('#toList').click(function(){location.href='${contextPath}/application/list'});
             $('#toMyList').click(function(){location.href='${contextPath}/application/mylist'});
             $('#toSignUp').click(function(){location.href='${contextPath}/user/agreement'});
         </script>

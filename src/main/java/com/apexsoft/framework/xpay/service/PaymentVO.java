@@ -6,6 +6,7 @@ import javax.validation.constraints.NotNull;
  * U+ 전자결제에서 필요한 정보
  * 이중 상수성인 정보는 외부 설정으로 뺄 필요
  */
+@Deprecated
 public class PaymentVO {
 
     private int applNo;

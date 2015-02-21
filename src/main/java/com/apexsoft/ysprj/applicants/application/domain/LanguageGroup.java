@@ -7,6 +7,7 @@ public class LanguageGroup {
     private String examCodeGrp;
     private String examGrpName;
     private String examCode;
+    private int mdtSeq;
     private String selGrpCode;
     private int langSeq =0;
     private String mdtYn = "N";
@@ -103,5 +104,13 @@ public class LanguageGroup {
 
     public void setLangList(List<TotalApplicationLanguageContainer> langList) {
         this.langList = langList;
+    }
+
+    public int getMdtSeq() {
+        return mdtSeq;
+    }
+
+    public void setMdtSeq(int mdtSeq) {
+        this.mdtSeq = mdtSeq;
     }
 }

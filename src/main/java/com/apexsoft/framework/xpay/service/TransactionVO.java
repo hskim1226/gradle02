@@ -3,6 +3,7 @@ package com.apexsoft.framework.xpay.service;
 import java.util.HashMap;
 import java.util.Map;
 
+@Deprecated
 public class TransactionVO {
 
     private String sysMsg;

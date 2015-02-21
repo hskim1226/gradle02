@@ -2,17 +2,14 @@ package com.apexsoft.ysprj.applicants.common.service;
 
 import com.apexsoft.framework.common.vo.ExecutionContext;
 import com.apexsoft.framework.exception.YSBizException;
-import com.apexsoft.framework.exception.YSNoRedirectBizException;
 import com.apexsoft.framework.message.MessageResolver;
 import com.apexsoft.framework.persistence.dao.CommonDAO;
 import com.apexsoft.framework.persistence.dao.handler.RowHandler;
 import com.apexsoft.framework.persistence.dao.page.PageInfo;
 import com.apexsoft.framework.persistence.dao.page.PageStatement;
-import com.apexsoft.ysprj.applicants.application.domain.ApplicationIdentifier;
-import com.apexsoft.ysprj.code.AuthorityType;
 import com.apexsoft.ysprj.applicants.user.domain.Authorities;
+import com.apexsoft.ysprj.code.AuthorityType;
 import com.apexsoft.ysprj.user.domain.Users;
-import com.apexsoft.ysprj.applicants.common.service.UsersAccountService;
 import com.apexsoft.ysprj.user.web.form.UserSearchForm;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;

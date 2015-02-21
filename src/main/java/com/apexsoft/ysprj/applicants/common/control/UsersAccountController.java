@@ -1,10 +1,7 @@
 package com.apexsoft.ysprj.applicants.common.control;
 
 import com.apexsoft.framework.common.vo.ExecutionContext;
-import com.apexsoft.framework.exception.YSBizException;
-import com.apexsoft.framework.exception.YSNoRedirectBizException;
 import com.apexsoft.framework.message.MessageResolver;
-import com.apexsoft.ysprj.applicants.application.domain.ApplicationIdentifier;
 import com.apexsoft.ysprj.user.domain.Users;
 import com.apexsoft.ysprj.applicants.common.service.UsersAccountService;
 import org.springframework.beans.factory.annotation.Autowired;

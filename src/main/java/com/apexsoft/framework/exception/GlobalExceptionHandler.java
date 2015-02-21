@@ -42,7 +42,9 @@ public class GlobalExceptionHandler {
         ModelAndView mv = new ModelAndView(DEFAULT_ERROR_VIEW_NAME);
         ExecutionContext ec = new ExecutionContext();
         logger.error("NullPointerException Occured:: URL=" + request.getRequestURL());
-        logger.error("StackTrace::" + ExceptionUtils.getFullStackTrace(e));
+//        logger.error("StackTrace::" + ExceptionUtils.getFullStackTrace(e));
+        System.err.println("SimpleStackTrace::" +
+                StackTraceSimplifier.getSimpleCallStack(e.getStackTrace(), "com.apexsoft", false));
 
         ec.setResult(ExecutionContext.FAIL);
         ec.setMessage(e.getMessage());
@@ -57,9 +59,14 @@ public class GlobalExceptionHandler {
     public ModelAndView handleBizException(HttpServletRequest request,
                                            YSBizException e){
         ModelAndView mv = new ModelAndView(DEFAULT_ERROR_VIEW_NAME);
-
-        logger.error("YSBizException Occured:: URL=" + request.getRequestURL());
+        ExecutionContext ec = e.getExecutionContext();
+        ErrorInfo eInfo = ec.getErrorInfo();
+        logger.error("YSBizException Occured :: URL=" + request.getRequestURL());
         logger.error("StackTrace::" + ExceptionUtils.getFullStackTrace(e));
+        System.err.println("ErrorInfo :: " + eInfo.toString());
+        System.err.println("ErrorType :: " + e.toString());
+        System.err.println("SimpleStackTrace ::" +
+                StackTraceSimplifier.getSimpleCallStack(e.getStackTrace(), "com.apexsoft", false));
 
         mv.addObject("ec", e.getExecutionContext());
 

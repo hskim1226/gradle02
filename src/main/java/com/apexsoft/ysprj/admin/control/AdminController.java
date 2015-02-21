@@ -2,29 +2,33 @@ package com.apexsoft.ysprj.admin.control;
 
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
+import java.security.Principal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
+import com.apexsoft.framework.common.vo.ExecutionContext;
 import com.apexsoft.ysprj.admin.control.form.*;
-import com.apexsoft.ysprj.admin.domain.ChangeInfo;
+import com.apexsoft.ysprj.admin.domain.ApplicationChange;
+import com.apexsoft.ysprj.admin.domain.CustomApplicationChange;
 import com.apexsoft.ysprj.admin.service.ChangeService;
+import com.apexsoft.ysprj.user.domain.Users;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 
 import com.apexsoft.framework.message.MessageResolver;
-import com.apexsoft.framework.persistence.dao.page.PageInfo;
 import com.apexsoft.ysprj.admin.domain.ApplicantCnt;
 import com.apexsoft.ysprj.admin.domain.ApplicantInfo;
 import com.apexsoft.ysprj.admin.service.AdminService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.web.servlet.ModelAndView;
 
 /**
  * Created by hanmomhanda on 14. 8. 6.
@@ -45,8 +49,22 @@ public class AdminController {
     
     @SuppressWarnings("restriction")
 	@Resource(name = "messageResolver")
-    private MessageResolver messageResolver;    
+    private MessageResolver messageResolver;
 
+
+    @RequestMapping(value="/login", method= RequestMethod.GET)
+    public ModelAndView displayLoginForm(Users users,
+                                         BindingResult bindingResult,
+                                         ModelAndView mv,
+                                         HttpServletRequest request) {
+        mv.setViewName("admin/login/adminLogin");
+        if (bindingResult.hasErrors()) return mv;
+
+        if (request.getAttribute("LOGIN_FAILURE") == Boolean.TRUE)
+            mv.addObject("loginMessage", messageResolver.getMessage("U330"));
+
+        return mv;
+    }
     
     @RequestMapping(value="/stats/daily")
     public String statsDaily() {
@@ -107,49 +125,83 @@ public class AdminController {
         return "admin/search/applicantsName";
     }
 
+
     @RequestMapping(value="/search/applicants/nameSearch")
-    public String searchApplicantByName( ApplicantSearchPageForm searchForm, Model model)
-    		throws NoSuchAlgorithmException, JsonProcessingException, UnsupportedEncodingException { 
-   		PageInfo<ApplicantInfo> pInfo =null;
+    public ModelAndView searchApplicantByName( @ModelAttribute CourseSearchPageForm courseSearchPageForm,
+                                               BindingResult bindingResult,
+                                               ModelAndView mv)
+            throws NoSuchAlgorithmException, JsonProcessingException, UnsupportedEncodingException {
+        mv.setViewName("admin/search/applicantsName");
+        ExecutionContext ec;
+        if (bindingResult.hasErrors()) {
+            mv.addObject("resultMsg", messageResolver.getMessage("U334"));
 
-    	pInfo = adminService.retrieveApplicantPaginatedListByName(searchForm);	
+        }
+        ExecutionContext ecRetrieve = adminService.retrieveApplicantPaginatedListByApplicantInfo(courseSearchPageForm);
+        if (ecRetrieve.getResult().equals(ExecutionContext.SUCCESS)) {
+            Map<String, Object> map = (Map<String, Object>)ecRetrieve.getData();
+            mv.addObject("selection", map.get("selection"));
+            mv.addObject("searchPageForm", map.get("searchPageForm"));
+            mv.addObject("applList", map.get("applList"));
 
-        model.addAttribute("applList", pInfo.getData());
-        model.addAttribute("applTotal", pInfo.getTotalRowCount());
-        return "admin/search/applicantsName";
+        } else {
+            mv = getErrorMV("common/error", ecRetrieve);
+        }
+        return mv;
     }
     
     @RequestMapping(value="/search/applicants/idSearch")
-    public String searchApplicantById(ApplicantSearchPageForm searchForm, Model model)
-    		throws NoSuchAlgorithmException, JsonProcessingException, UnsupportedEncodingException {
-        PageInfo<ApplicantInfo> pInfo =null;
+    public  ModelAndView searchApplicantById( @ModelAttribute CourseSearchPageForm courseSearchPageForm,
+                                       BindingResult bindingResult,
+                                       ModelAndView mv)
+            throws NoSuchAlgorithmException, JsonProcessingException, UnsupportedEncodingException {
+        mv.setViewName("admin/search/applicantsId");
+        ExecutionContext ec;
+        if (bindingResult.hasErrors()) {
+            mv.addObject("resultMsg", messageResolver.getMessage("U334"));
 
-        pInfo = adminService.retrieveApplicantPaginatedListByName(searchForm);
+        }
+        ExecutionContext ecRetrieve = adminService.retrieveApplicantPaginatedListByApplicantInfo(courseSearchPageForm);
+        if (ecRetrieve.getResult().equals(ExecutionContext.SUCCESS)) {
+            Map<String, Object> map = (Map<String, Object>)ecRetrieve.getData();
+            mv.addObject("selection", map.get("selection"));
+            mv.addObject("searchPageForm", map.get("searchPageForm"));
+            mv.addObject("applList", map.get("applList"));
 
-        model.addAttribute("applList", pInfo.getData());
-        model.addAttribute("applTotal", pInfo.getTotalRowCount());
-
-        return "admin/search/applicantsId";
+        } else {
+            mv = getErrorMV("common/error", ecRetrieve);
+        }
+        return mv;
     }
     
     @RequestMapping(value="/search/applicants/deptSearch")
-    public String searchApplicantByDept( CourseSearchPageForm searchForm, Model model)
-    		throws NoSuchAlgorithmException, JsonProcessingException, UnsupportedEncodingException { 
-   		PageInfo<ApplicantInfo> pInfo =null;
+    public ModelAndView searchApplicantByDept( @ModelAttribute CourseSearchPageForm courseSearchPageForm,
+                                               BindingResult bindingResult,
+                                               ModelAndView mv)
+    		throws NoSuchAlgorithmException, JsonProcessingException, UnsupportedEncodingException {
+        mv.setViewName("admin/search/applicantsDept");
+        ExecutionContext ec;
+        if (bindingResult.hasErrors()) {
+            mv.addObject("resultMsg", messageResolver.getMessage("U334"));
 
-    	pInfo = adminService.retrieveApplicantPaginatedListByDept(searchForm);	
-
-        model.addAttribute("applList", pInfo.getData());
-        model.addAttribute("applTotal", pInfo.getTotalRowCount());
-
-        return "admin/search/applicantsDept";
+        }
+        ExecutionContext ecRetrieve = adminService.retrieveApplicantPaginatedListByDept(courseSearchPageForm);
+        if (ecRetrieve.getResult().equals(ExecutionContext.SUCCESS)) {
+            Map<String, Object> map = (Map<String, Object>)ecRetrieve.getData();
+            mv.addObject("selection", map.get("selection"));
+            mv.addObject("searchPageForm", map.get("searchPageForm"));
+            mv.addObject("applList", map.get("applList"));
+        } else {
+            mv = getErrorMV("common/error", ecRetrieve);
+        }
+        return mv;
     }    
-    
+
     @RequestMapping(value="/search/applicant/applInfoDetail")
     public String displayQnaDetail(@RequestParam("applNo") int applNo, Model model){
-    	ApplicantInfo applicantInfo = adminService.getApplicantDetail(applNo);
-
-        model.addAttribute("applInfo", applicantInfo);
+        ExecutionContext ecRetrieve = adminService.getApplicantDetail(applNo);
+        Map<String, Object> map = (Map<String, Object>)ecRetrieve.getData();
+        model.addAttribute("applInfo", map.get("applInfo"));
 
         return "admin/search/applInfoDetail";
     }    
@@ -168,47 +220,140 @@ public class AdminController {
     }
 
     @RequestMapping(value="/modification/changeList")
-    public String modificationList() {
-        return "admin/modification/changeList";
+    public ModelAndView modificationList(@ModelAttribute ChangeSearchPageForm searchPageForm,
+                                   BindingResult bindingResult,
+                                   ModelAndView mv) {
+        mv.setViewName("admin/modification/changeList");
+        ExecutionContext ec;
+        if (bindingResult.hasErrors()) {
+            mv.addObject("resultMsg", messageResolver.getMessage("U334"));
+
+        }
+        ExecutionContext ecRetrieve = changeService.retrieveChangePaginatedList(searchPageForm);
+        if (ecRetrieve.getResult().equals(ExecutionContext.SUCCESS)) {
+            Map<String, Object> map = (Map<String, Object>)ecRetrieve.getData();
+            mv.addObject("selection", map.get("selection"));
+            mv.addObject("changeSearchPageForm", map.get("changeSearchPageForm"));
+            mv.addObject("chgList", map.get("chgList"));
+        } else {
+            mv = getErrorMV("common/error", ecRetrieve);
+        }
+        return mv;
     }
 
     @RequestMapping(value="/modification/changeInfo")
     public String callChangeInfo(@RequestParam("applNo") int applNo, Model model) {
-        ApplicantInfo applicantInfo = adminService.getApplicantDetail(applNo);
-        model.addAttribute("applInfo", applicantInfo);
+        ExecutionContext ecRetrieve = adminService.getApplicantDetail(applNo);
+        Map<String, Object> map = (Map<String, Object>)ecRetrieve.getData();
+        model.addAttribute("applInfo", map.get("applInfo"));
         return "admin/modification/changeInfo";
     }
-
-    @RequestMapping(value="/modification/changeInfoInit")
-    public String modificationRequestInit(  ChangeSearchPageForm searchForm, Model model)
-            throws NoSuchAlgorithmException, JsonProcessingException, UnsupportedEncodingException {
-        PageInfo<ChangeInfo> pInfo =null;
-
-        pInfo = changeService.retrieveChangePaginatedList(searchForm);
-
-        model.addAttribute("chgList", pInfo.getData());
-        model.addAttribute("chgTotal", pInfo.getTotalRowCount());
-        return "admin/modification/changeList";
-    }
-    @RequestMapping(value="/modification/requestChangeInfo")
-    public String requestItemChange (ChangeInfoForm changeInfoForm, Model model)
-            throws NoSuchAlgorithmException, JsonProcessingException, UnsupportedEncodingException {
-
-        changeService.createInfoChange(changeInfoForm);
-
-        PageInfo<ChangeInfo> pInfo =null;
-        ChangeSearchPageForm searchForm = new ChangeSearchPageForm();
-        pInfo = changeService.retrieveChangePaginatedList(searchForm);
-
-        model.addAttribute("chgList", pInfo.getData());
-        model.addAttribute("chgTotal", pInfo.getTotalRowCount());
-        return "admin/modification/changeList";
-
-    }
-
     @RequestMapping(value="/modification/changeUnit")
-    public String modificationUnit() {
-        return "admin/modification/changeUnit";
+    public ModelAndView callChangeUnit( @ModelAttribute ApplicantSearchForm applicantSearchForm,
+                                  BindingResult bindingResult,
+                                  ModelAndView mv) {
+
+        mv.setViewName("admin/modification/changeUnit");
+
+        if (bindingResult.hasErrors()) {
+            mv.addObject("resultMsg", messageResolver.getMessage("U334"));
+
+        }
+        ExecutionContext ecRetrieve = adminService.getApplicantDetail(applicantSearchForm.getApplNo());
+        if (ecRetrieve.getResult().equals(ExecutionContext.SUCCESS)) {
+            Map<String, Object> map = (Map<String, Object>)ecRetrieve.getData();
+            mv.addObject("selection", map.get("selection"));
+            mv.addObject("applicantSearchForm",applicantSearchForm);
+            mv.addObject("applInfo", map.get("applInfo"));
+            mv.addObject("customApplicationChange", new CustomApplicationChange());
+        } else {
+            mv = getErrorMV("common/error", ecRetrieve);
+        }
+        return mv;
+    }
+
+
+    @RequestMapping(value="/modification/requestChangeInfo")
+    public ModelAndView changeApplicaitonInfo (@ModelAttribute ChangeInfoForm changeInfoForm,
+                                               Principal principal,
+                                               BindingResult bindingResult,
+                                               ModelAndView mv) {
+
+
+        mv.setViewName("admin/modification/changeList");
+
+        if (bindingResult.hasErrors()) {
+            mv.addObject("resultMsg", messageResolver.getMessage("U334"));
+
+        }
+
+        //TODO 로그인 정보로 변경
+        String userId = "test";
+        //String userId = principal.getName();
+        ExecutionContext ecRetrieve = changeService.createInfoChange(changeInfoForm,userId);
+        if (ecRetrieve.getResult().equals(ExecutionContext.SUCCESS)) {
+
+            ChangeSearchPageForm searchForm = new ChangeSearchPageForm();
+            searchForm.setAdmsNo(changeInfoForm.getAdmsNo());
+            searchForm.setApplChgCode("");
+            searchForm.setChgStsCode("");
+            searchForm.setAdmsNo("");
+            searchForm.setCampCode("");
+            searchForm.setCollCode("");
+
+
+            ecRetrieve = changeService.retrieveChangePaginatedList(searchForm);
+            if (ecRetrieve.getResult().equals(ExecutionContext.SUCCESS)) {
+                Map<String, Object> map = (Map<String, Object>) ecRetrieve.getData();
+                mv.addObject("selection", map.get("selection"));
+                mv.addObject("ChangeSearchPageForm", new ChangeSearchPageForm());
+                mv.addObject("chgList", map.get("chgList"));
+            }else{
+                mv = getErrorMV("common/error", ecRetrieve);
+            }
+        } else {
+            mv = getErrorMV("common/error", ecRetrieve);
+        }
+        return mv;
+
+    }
+
+    @RequestMapping(value="/modification/requestChangeUnit")
+    public ModelAndView modificationUnit(@ModelAttribute ChangeInfoForm changeInfoForm,
+                                   Principal principal,
+                                   BindingResult bindingResult,
+                                   ModelAndView mv) {
+
+        mv.setViewName("admin/modification/changeList");
+
+        if (bindingResult.hasErrors()) {
+            mv.addObject("resultMsg", messageResolver.getMessage("U334"));
+        }
+
+        //TODO 로그인 정보로 변경
+        String userId = "test";
+        //String userId = principal.getName();
+        ExecutionContext ecRetrieve = changeService.createInfoChange(changeInfoForm,userId);
+        if (ecRetrieve.getResult().equals(ExecutionContext.SUCCESS)) {
+
+            ChangeSearchPageForm searchForm = new ChangeSearchPageForm();
+            searchForm.setAdmsNo(changeInfoForm.getAdmsNo());
+            searchForm.setApplChgCode("");
+            searchForm.setChgStsCode("");
+
+            ecRetrieve = changeService.retrieveChangePaginatedList(searchForm);
+            if (ecRetrieve.getResult().equals(ExecutionContext.SUCCESS)) {
+                Map<String, Object> map = (Map<String, Object>) ecRetrieve.getData();
+                mv.addObject("selection", map.get("selection"));
+                mv.addObject("ChangeSearchPageForm", new ChangeSearchPageForm());
+                mv.addObject("chgList", map.get("chgList"));
+            }else{
+                mv = getErrorMV("common/error", ecRetrieve);
+            }
+        } else {
+            mv = getErrorMV("common/error", ecRetrieve);
+        }
+        return mv;
     }
 
     @RequestMapping(value="/cancel/application")
@@ -247,5 +392,9 @@ public class AdminController {
     }
 
 
-
+    private ModelAndView getErrorMV(String errorViewName, ExecutionContext ec) {
+        ModelAndView mv = new ModelAndView(errorViewName);
+        mv.addObject("ec", ec);
+        return mv;
+    }
 }
