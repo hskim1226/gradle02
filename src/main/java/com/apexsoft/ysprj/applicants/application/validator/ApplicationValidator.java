@@ -47,9 +47,11 @@ public class ApplicationValidator implements NamedValidator {
             errors.rejectValue(prefix + "engName", "U331",
                     new Object[]{"영문 이름"}, messageResolver.getMessage("U332"));
         }
-        if (application.getRgstNo() == null || application.getRgstNo().length() == 0) {
-            errors.rejectValue(prefix + "rgstNo", "U331",
-                    new Object[]{"주민등록번호"}, messageResolver.getMessage("U332"));
+        if ("118".equals(application.getCitzCntrCode())) {
+            if ( application.getRgstNo() == null || application.getRgstNo().length() == 0 ) {
+                errors.rejectValue(prefix + "rgstNo", "U331",
+                        new Object[]{"주민등록번호"}, messageResolver.getMessage("U332"));
+            }
         }
         if (application.getCitzCntrCode() == null || application.getCitzCntrCode().length() == 0) {
             errors.rejectValue(prefix + "citzCntrCode", "U331",

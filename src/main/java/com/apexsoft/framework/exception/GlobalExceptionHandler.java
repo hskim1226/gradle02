@@ -43,8 +43,8 @@ public class GlobalExceptionHandler {
         ExecutionContext ec = new ExecutionContext();
         logger.error("NullPointerException Occured:: URL=" + request.getRequestURL());
 //        logger.error("StackTrace::" + ExceptionUtils.getFullStackTrace(e));
-        System.err.println("SimpleStackTrace::" +
-                StackTraceSimplifier.getSimpleCallStack(e.getStackTrace(), "com.apexsoft", false));
+        logger.error("FilteredStackTrace::" +
+                StackTraceFilter.getFilteredCallStack(e.getStackTrace(), "com.apexsoft", false));
 
         ec.setResult(ExecutionContext.FAIL);
         ec.setMessage(e.getMessage());
@@ -64,8 +64,8 @@ public class GlobalExceptionHandler {
         logger.error("YSBizException Occured :: URL=" + request.getRequestURL());
         logger.error("ErrorInfo :: " + eInfo.toString());
         logger.error("ErrorType :: " + e.toString());
-        logger.error("SimpleStackTrace ::" +
-                StackTraceSimplifier.getSimpleCallStack(e.getStackTrace(), "com.apexsoft", false));
+        logger.error("FilteredStackTrace ::" +
+                StackTraceFilter.getFilteredCallStack(e.getStackTrace(), "com.apexsoft", false));
 
         mv.addObject("ec", e.getExecutionContext());
 

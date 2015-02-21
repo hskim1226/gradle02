@@ -467,6 +467,27 @@
                                     </div>
                                 </div>
                                 <div class="form-group required">
+                                    <label for="citzCntrName" class="col-sm-2 control-label">국적</label>
+                                    <div class="col-sm-9">
+                                        <div class="col-sm-3">
+                                            <button type="button" class="btn btn-default btn-search bpopper" data-targetNode1="citzCntrCode" data-targetNode2='citzCntrName' data-category="country">
+                                                <span class="glyphicon glyphicon-search"></span> 검색
+                                            </button>
+                                        </div>
+                                        <div class="col-sm-9">
+                                            <form:hidden path="application.citzCntrCode" id="citzCntrCode" cssClass="form-control" />
+                                            <input id="citzCntrName" class="form-control" value="${ctznCntr.korCntrName}" readonly="true"/>
+                                        </div>
+                                <spring:bind path="application.citzCntrCode">
+                                    <c:if test="${status.error}">
+                                        <div class="col-sm-12">
+                                            <div class="validation-error">${status.errorMessage}</div>
+                                        </div>
+                                    </c:if>
+                                </spring:bind>
+                                    </div>
+                                </div>
+                                <div class="form-group required" id="divRgstNo" style="display: <c:choose><c:when test='${basis.application.citzCntrCode == "118"}'>block;</c:when><c:otherwise>none;</c:otherwise></c:choose>">
                                     <label for="application.rgstNo" class="col-sm-2 control-label">주민등록번호</label>
                                     <div class="col-sm-9">
                                         <div class="col-sm-12">
@@ -489,27 +510,7 @@
                         <div class="panel panel-darkgray">
                             <div class="panel-heading">지원자 상세정보</div>
                             <div class="panel-body">
-                                <div class="form-group required">
-                                    <label for="citzCntrName" class="col-sm-2 control-label">국적</label>
-                                    <div class="col-sm-9">
-                                        <div class="col-sm-3">
-                                            <button type="button" class="btn btn-default btn-search bpopper" data-targetNode1="citzCntrCode" data-targetNode2='citzCntrName' data-category="country">
-                                                <span class="glyphicon glyphicon-search"></span> 검색
-                                            </button>
-                                        </div>
-                                        <div class="col-sm-9">
-                                            <form:hidden path="application.citzCntrCode" id="citzCntrCode" cssClass="form-control" />
-                                            <input id="citzCntrName" class="form-control" value="${cntrCntr.korCntrName}" readonly="true"/>
-                                        </div>
-                                <spring:bind path="application.citzCntrCode">
-                                    <c:if test="${status.error}">
-                                        <div class="col-sm-12">
-                                            <div class="validation-error">${status.errorMessage}</div>
-                                        </div>
-                                    </c:if>
-                                </spring:bind>
-                                    </div>
-                                </div>
+
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label">장애 사항</label>
                                     <div class="col-sm-9">
@@ -538,48 +539,27 @@
                         <div class="panel panel-darkgray">
                             <div class="panel-heading">지원자 상세정보</div>
                             <div class="panel-body">
-                                <div class="form-group required">
-                                    <label for="citzCntrName" class="col-sm-2 control-label">출생국</label>
-                                    <div class="col-sm-9">
-                                        <div class="col-sm-3">
-                                            <button type="button" class="btn btn-default btn-search bpopper" data-targetNode1="bornCntrCode" data-targetNode2='bornCntrName' data-category="country">
-                                                <span class="glyphicon glyphicon-search"></span> 검색
-                                            </button>
-                                        </div>
-                                        <div class="col-sm-9">
-                                            <form:hidden path="applicationForeigner.bornCntrCode" id="bornCntrCode" cssClass="form-control" />
-                                            <input id="bornCntrName" class="form-control" value="${bornCntr.korCntrName}" readonly="true"/>
-                                        </div>
-                                        <spring:bind path="applicationForeigner.bornCntrCode">
-                                            <c:if test="${status.error}">
-                                                <div class="col-sm-12">
-                                                    <div class="validation-error">${status.errorMessage}</div>
-                                                </div>
-                                            </c:if>
-                                        </spring:bind>
-                                    </div>
-                                </div>
-                                <div class="form-group required">
-                                    <label for="citzCntrName" class="col-sm-2 control-label">국적</label>
-                                    <div class="col-sm-9">
-                                        <div class="col-sm-3">
-                                            <button type="button" class="btn btn-default btn-search bpopper" data-targetNode1="citzCntrCode" data-targetNode2='citzCntrName' data-category="country">
-                                                <span class="glyphicon glyphicon-search"></span> 검색
-                                            </button>
-                                        </div>
-                                        <div class="col-sm-9">
-                                            <form:hidden path="application.citzCntrCode" id="citzCntrCode" cssClass="form-control" />
-                                            <input id="citzCntrName" class="form-control" value="${ctznCntr.korCntrName}" readonly="true"/>
-                                        </div>
-                                        <spring:bind path="application.citzCntrCode">
-                                            <c:if test="${status.error}">
-                                                <div class="col-sm-12">
-                                                    <div class="validation-error">${status.errorMessage}</div>
-                                                </div>
-                                            </c:if>
-                                        </spring:bind>
-                                    </div>
-                                </div>
+                                <%--<div class="form-group required">--%>
+                                    <%--<label for="citzCntrName" class="col-sm-2 control-label">출생국</label>--%>
+                                    <%--<div class="col-sm-9">--%>
+                                        <%--<div class="col-sm-3">--%>
+                                            <%--<button type="button" class="btn btn-default btn-search bpopper" data-targetNode1="bornCntrCode" data-targetNode2='bornCntrName' data-category="country">--%>
+                                                <%--<span class="glyphicon glyphicon-search"></span> 검색--%>
+                                            <%--</button>--%>
+                                        <%--</div>--%>
+                                        <%--<div class="col-sm-9">--%>
+                                            <%--<form:hidden path="applicationForeigner.bornCntrCode" id="bornCntrCode" cssClass="form-control" />--%>
+                                            <%--<input id="bornCntrName" class="form-control" value="${bornCntr.korCntrName}" readonly="true"/>--%>
+                                        <%--</div>--%>
+                                        <%--<spring:bind path="applicationForeigner.bornCntrCode">--%>
+                                            <%--<c:if test="${status.error}">--%>
+                                                <%--<div class="col-sm-12">--%>
+                                                    <%--<div class="validation-error">${status.errorMessage}</div>--%>
+                                                <%--</div>--%>
+                                            <%--</c:if>--%>
+                                        <%--</spring:bind>--%>
+                                    <%--</div>--%>
+                                <%--</div>--%>
                                 <div class="form-group required">
                                     <label class="col-sm-2 control-label">외국인 구분</label>
                                     <div class="col-sm-9">
@@ -1301,6 +1281,7 @@
                                 for ( var i = 0 , len = tr.children.length; i < len; i++ ) {
                                     if (document.getElementById(targetInputId[i])) {
                                         document.getElementById(targetInputId[i]).value = tr.children[i].firstChild.innerText;
+                                        $(document.getElementById(targetInputId[i])).change();
                                     }
                                 }
                             });
@@ -1341,6 +1322,17 @@
         $('#bpop').on('keyup', function(e) {
             if(e.keyCode == 13) {
                 $('#bpopBtnSearch').trigger('click');
+            }
+        });
+
+        $('#citzCntrCode').on('change', function(e) {
+            var divRgstNo = document.getElementById('divRgstNo'),
+                rgstNo = document.getElementById('application.rgstNo');
+            if (this.value == '118')
+                divRgstNo.style.display = 'block';
+            else {
+                rgstNo.value = '';
+                divRgstNo.style.display = 'none';
             }
         });
         <%-- 국가/학교 검색 끝 --%>

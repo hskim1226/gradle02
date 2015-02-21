@@ -76,7 +76,7 @@
             cursor: default;
             resize: none;
             -moz-user-select: none;
-            -webkit-user-select: none;의
+            -webkit-user-select: none;
             -khtml-user-select: none;
             user-select: none;
         }
@@ -90,7 +90,7 @@
 <section class="signup">
     <div class="container">
         <div class="page-header">
-            <h1 style="color: #fdfdfd">회원 약관 및 개인 정보 수집 이용 동</h1>
+            <h1 style="color: #fdfdfd">회원 약관 및 개인 정보 수집 이용 동의</h1>
         </div>
         <form class="form-horizontal" role="form" id="sign-up-form" action="${contextPath}/user/signup" method="POST">
             <div class="form-group">

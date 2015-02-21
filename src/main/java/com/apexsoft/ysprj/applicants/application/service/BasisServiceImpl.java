@@ -88,19 +88,23 @@ public class BasisServiceImpl implements BasisService {
         cntrCode = cntrCode == null ? "" : cntrCode;
         Country ctznCntr = commonService.retrieveCountryByCode(cntrCode);
 
-        cntrCode = basis.getApplicationForeigner().getBornCntrCode();
-        cntrCode = cntrCode == null ? "" : cntrCode;
-        Country bornCntr = commonService.retrieveCountryByCode(cntrCode);
+        if ("C".equals(basis.getApplication().getAdmsTypeCode())) {
+            cntrCode = basis.getApplicationForeigner().getBornCntrCode();
+            cntrCode = cntrCode == null ? "" : cntrCode;
+            Country bornCntr = commonService.retrieveCountryByCode(cntrCode);
 
-        foreignMap.put("foreignTypeList", commonService.retrieveCommonCodeValueByCodeGroup("FORN_TYPE"));
-        foreignMap.put("visaTypeList", commonService.retrieveCommonCodeValueByCodeGroup("VISA_TYPE"));
+            foreignMap.put("foreignTypeList", commonService.retrieveCommonCodeValueByCodeGroup("FORN_TYPE"));
+            foreignMap.put("visaTypeList", commonService.retrieveCommonCodeValueByCodeGroup("VISA_TYPE"));
+
+            ecDataMap.put("bornCntr", bornCntr);
+            ecDataMap.put("foreign", foreignMap);
+        }
 
         ec.setResult(ExecutionContext.SUCCESS);
         ecDataMap.put("basis", basis);
         ecDataMap.put("selection", selectionMap);
         ecDataMap.put("ctznCntr", ctznCntr);
-        ecDataMap.put("bornCntr", bornCntr);
-        ecDataMap.put("foreign", foreignMap);
+
         ec.setData(ecDataMap);
 
         return ec;
@@ -267,6 +271,7 @@ public class BasisServiceImpl implements BasisService {
         ApplicationForeigner applicationForeigner = basis.getApplicationForeigner();
 
         String userId = application.getUserId();
+        String admsTypeCode = application.getAdmsTypeCode();
         boolean isMultipleApplicationAllowed = true;
         boolean isValidInsertRequest = false;
         boolean isInsert;
@@ -291,15 +296,17 @@ public class BasisServiceImpl implements BasisService {
                 r1 = commonDAO.insertItem(application, NAME_SPACE, "CustomApplicationMapper");
                 applNo = application.getApplNo();
 
-                applicationGeneral.setApplNo(applNo);
-                applicationGeneral.setCreId(userId);
-                applicationGeneral.setCreDate(date);
-                r2 = commonDAO.insertItem(applicationGeneral, NAME_SPACE, "ApplicationGeneralMapper");
-
-                applicationForeigner.setApplNo(applNo);
-                applicationForeigner.setCreId(userId);
-                applicationForeigner.setCreDate(date);
-                r3 = commonDAO.insertItem(applicationForeigner, NAME_SPACE, "ApplicationForeignerMapper");
+                if ("C".equals(admsTypeCode)) {
+                    applicationForeigner.setApplNo(applNo);
+                    applicationForeigner.setCreId(userId);
+                    applicationForeigner.setCreDate(date);
+                    r3 = commonDAO.insertItem(applicationForeigner, NAME_SPACE, "ApplicationForeignerMapper");
+                } else {
+                    applicationGeneral.setApplNo(applNo);
+                    applicationGeneral.setCreId(userId);
+                    applicationGeneral.setCreDate(date);
+                    r2 = commonDAO.insertItem(applicationGeneral, NAME_SPACE, "ApplicationGeneralMapper");
+                }
             }
         } else {
             isInsert = false;
@@ -307,25 +314,26 @@ public class BasisServiceImpl implements BasisService {
 
             application.setModId(userId);
             application.setModDate(date);
-
-            applicationGeneral.setApplNo(applNo);
-            applicationGeneral.setModId(userId);
-            applicationGeneral.setModDate(date);
-
-            applicationForeigner.setApplNo(applNo);
-            applicationForeigner.setModId(userId);
-            applicationForeigner.setModDate(date);
-            if (applicationForeigner.getVisaExprDay() == null)
-                applicationForeigner.setVisaExprDay("");
-            if (applicationForeigner.getFornRgstNo() == null)
-                applicationForeigner.setFornRgstNo("");
-
             r1 = commonDAO.updateItem(application, NAME_SPACE, "ApplicationMapper");
-            r2 = commonDAO.updateItem(applicationGeneral, NAME_SPACE, "ApplicationGeneralMapper");
-            r3 = commonDAO.updateItem(applicationForeigner, NAME_SPACE, "ApplicationForeignerMapper");
+
+            if ("C".equals(admsTypeCode)) {
+                applicationForeigner.setApplNo(applNo);
+                applicationForeigner.setModId(userId);
+                applicationForeigner.setModDate(date);
+                if (applicationForeigner.getVisaExprDay() == null)
+                    applicationForeigner.setVisaExprDay("");
+                if (applicationForeigner.getFornRgstNo() == null)
+                    applicationForeigner.setFornRgstNo("");
+                r3 = commonDAO.updateItem(applicationForeigner, NAME_SPACE, "ApplicationForeignerMapper");
+            } else {
+                applicationGeneral.setApplNo(applNo);
+                applicationGeneral.setModId(userId);
+                applicationGeneral.setModDate(date);
+                r2 = commonDAO.updateItem(applicationGeneral, NAME_SPACE, "ApplicationGeneralMapper");
+            }
         }
 
-        if ( r1 > 0 && r2 > 0 && r3 > 0) {
+        if ( r1 == 1 && (r2 + r3 == 1) ) {
             ec.setResult(ExecutionContext.SUCCESS);
             ec.setMessage(messageResolver.getMessage("U315"));
         } else {
@@ -334,12 +342,12 @@ public class BasisServiceImpl implements BasisService {
             String errCode = null;
             if (isInsert) {
                 if (r1 == 0) errCode = "ERR0001";
-                else if (r2 == 0) errCode = "ERR0006";
-                else if (r3 == 0) errCode = "ERR0026";
+                else if (r2 == 0 && !"C".equals(admsTypeCode)) errCode = "ERR0006";
+                else if (r3 == 0 && "C".equals(admsTypeCode)) errCode = "ERR0026";
             } else {
                 if (r1 == 0) errCode = "ERR0003";
-                else if (r2 == 0) errCode = "ERR0008";
-                else if (r3 == 0) errCode = "ERR0028";
+                else if (r2 == 0 && !"C".equals(admsTypeCode)) errCode = "ERR0008";
+                else if (r3 == 0 && "C".equals(admsTypeCode)) errCode = "ERR0028";
             }
             ec.setErrCode(errCode);
             Map<String, String> errorInfo = new HashMap<String, String>();

@@ -33,10 +33,10 @@ public class ApplicationForeignerValidator implements NamedValidator {
 
         String prefix = className + ".";
 
-        if (applicationForeigner.getBornCntrCode() == null || applicationForeigner.getBornCntrCode().length() == 0) {
-            errors.rejectValue(prefix + "bornCntrCode", "U331",
-                    new Object[]{"출생국"}, messageResolver.getMessage("U332"));
-        }
+//        if (applicationForeigner.getBornCntrCode() == null || applicationForeigner.getBornCntrCode().length() == 0) {
+//            errors.rejectValue(prefix + "bornCntrCode", "U331",
+//                    new Object[]{"출생국"}, messageResolver.getMessage("U332"));
+//        }
         if (applicationForeigner.getHomeAddr() == null || applicationForeigner.getHomeAddr().length() == 0) {
             errors.rejectValue(prefix + "homeAddr", "U331",
                     new Object[]{"본국 주소"}, messageResolver.getMessage("U332"));

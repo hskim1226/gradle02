@@ -3,7 +3,7 @@ package com.apexsoft.ysprj.applicants.application.control;
 import com.apexsoft.framework.common.vo.ExecutionContext;
 import com.apexsoft.framework.exception.ErrorInfo;
 import com.apexsoft.framework.exception.GlobalExceptionHandler;
-import com.apexsoft.framework.exception.StackTraceSimplifier;
+import com.apexsoft.framework.exception.StackTraceFilter;
 import com.apexsoft.framework.exception.YSBizException;
 import com.apexsoft.framework.message.MessageResolver;
 import com.apexsoft.framework.persistence.file.callback.FileUploadEventCallbackHandler;
@@ -365,7 +365,7 @@ public class DocumentController {
             logger.error("ErrorInfo :: " + ybe.getExecutionContext().getErrorInfo().toString());
             logger.error("ErrorType :: " + ybe.toString());
             logger.error("SimpleStackTrace ::" +
-                    StackTraceSimplifier.getSimpleCallStack(ybe.getStackTrace(), "com.apexsoft", false));
+                    StackTraceFilter.getFilteredCallStack(ybe.getStackTrace(), "com.apexsoft", false));
             ec = ybe.getExecutionContext();
         }
 
@@ -455,7 +455,7 @@ public class DocumentController {
             logger.error("ErrorInfo :: " + eInfo.toString());
             logger.error("ErrorType :: " + ybe.toString());
             logger.error("SimpleStackTrace ::" +
-                    StackTraceSimplifier.getSimpleCallStack(ybe.getStackTrace(), "com.apexsoft", false));
+                    StackTraceFilter.getFilteredCallStack(ybe.getStackTrace(), "com.apexsoft", false));
         }
 
         return ec;
