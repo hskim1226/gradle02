@@ -1,6 +1,7 @@
 package com.apexsoft.ysprj.applicants.application.service;
 
 import com.apexsoft.framework.common.vo.ExecutionContext;
+import com.apexsoft.framework.exception.ErrorInfo;
 import com.apexsoft.framework.exception.YSBizException;
 import com.apexsoft.framework.message.MessageResolver;
 import com.apexsoft.framework.persistence.dao.CommonDAO;
@@ -168,6 +169,7 @@ public class LangCareerServiceImpl implements LangCareerService {
         Application application = langCareer.getApplication();
         ApplicationGeneral applicationGene = langCareer.getApplicationGeneral();
         int applNo = application.getApplNo();
+        String userId = application.getUserId();
 
         Date date = new Date();
 
@@ -315,6 +317,10 @@ public class LangCareerServiceImpl implements LangCareerService {
             if ( delete != rDelete ) errCode = "ERR0019";
             if ( !deleteOk ) errCode = "ERR0051";
             ec.setErrCode(errCode);
+            Map<String, String> errorInfo = new HashMap<String, String>();
+            errorInfo.put("applNo", String.valueOf(applNo));
+            errorInfo.put("userId", userId);
+            ec.setErrorInfo(new ErrorInfo(errorInfo));
             throw new YSBizException(ec);
         }
         return ec;

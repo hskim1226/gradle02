@@ -91,7 +91,7 @@ public class FileHandlerImpl implements FileHandler {
 											  Class<Q> domainObject) {
 
 		if (callback == null) {
-			throw new FileUploadException("UploadEventCallback가 정의되지 않았습니다.");
+			throw new FileUploadException("ERR0055");
 		}
 
 		MultiPartInfo info = extractMultiPartInfo(request);
@@ -210,14 +210,14 @@ public class FileHandlerImpl implements FileHandler {
 		boolean isMultipart = isMultiPartRequest(request);
 		
 		if (!isMultipart) {
-			throw new FileUploadException("not a multipart request.");
+			throw new FileUploadException("ERR0053");
 		}
 		
 		if (request.getCharacterEncoding() == null) {
 			try {
 				request.setCharacterEncoding(defaultEncoding);
 			} catch (UnsupportedEncodingException e) {
-				throw new FileUploadException("error setting character encoding on request.", e);
+				throw new FileUploadException("ERR0054", e);
 			}
 		}
 

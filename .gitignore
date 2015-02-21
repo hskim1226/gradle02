@@ -1,4 +1,3 @@
-src/main/resources/properties/config/app.local.properties
 src/main/resources/properties/config/app.dev.properties
 *.class
 *.log

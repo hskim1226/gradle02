@@ -1,6 +1,7 @@
 package com.apexsoft.ysprj.applicants.application.service;
 
 import com.apexsoft.framework.common.vo.ExecutionContext;
+import com.apexsoft.framework.exception.ErrorInfo;
 import com.apexsoft.framework.exception.YSBizException;
 import com.apexsoft.framework.exception.YSNoRedirectBizException;
 import com.apexsoft.framework.message.MessageResolver;
@@ -86,6 +87,8 @@ public class DocumentServiceImpl implements DocumentService {
 
         ExecutionContext ec = new ExecutionContext();
         Application application = document.getApplication();
+        int applNo = application.getApplNo();
+        String userId = application.getUserId();
 
         int r1 = 0, rSave = 0;
 
@@ -93,7 +96,7 @@ public class DocumentServiceImpl implements DocumentService {
         if (currentStsCode < Integer.parseInt(FILE_UPLOAD_SAVED)) {
             rSave++;
             Date date = new Date();
-            String userId = application.getUserId();
+
             application.setModDate(date);
             application.setModId(userId);
             application.setApplStsCode(FILE_UPLOAD_SAVED);
@@ -120,6 +123,7 @@ public class DocumentServiceImpl implements DocumentService {
                 }
             }
         }
+
         if (r1 == rSave && r2 == rSaveEtc) {
             ec.setResult(ExecutionContext.SUCCESS);
             ec.setMessage(messageResolver.getMessage("U325"));
@@ -133,6 +137,10 @@ public class DocumentServiceImpl implements DocumentService {
                 ec.setErrCode("ERR0033");
                 ec.setData(errorDoc);
             }
+            Map<String, String> errorInfo = new HashMap<String, String>();
+            errorInfo.put("applNo", String.valueOf(applNo));
+            errorInfo.put("userId", userId);
+            ec.setErrorInfo(new ErrorInfo(errorInfo));
             throw new YSBizException(ec);
         }
         return ec;
@@ -167,6 +175,10 @@ public class DocumentServiceImpl implements DocumentService {
                 ec.setData(applNo);
                 ec.setErrCode(ec.getErrCode());
             }
+            Map<String, String> errorInfo = new HashMap<String, String>();
+            errorInfo.put("applNo", String.valueOf(applNo));
+            errorInfo.put("userId", userId);
+            ec.setErrorInfo(new ErrorInfo(errorInfo));
             throw new YSBizException(ec);
         }
         return ec;
@@ -260,6 +272,13 @@ public class DocumentServiceImpl implements DocumentService {
             if ( insert != rInsert ) errCode = "ERR0031";
             if ( update != rUpdate ) errCode = "ERR0033";
             ec.setErrCode(errCode);
+            Map<String, String> errorInfo = new HashMap<String, String>();
+            errorInfo.put("applNo", String.valueOf(applNo));
+            errorInfo.put("userId", userId);
+            errorInfo.put("docSeq", String.valueOf(oneDocument.getDocSeq()));
+            errorInfo.put("docItemCode", oneDocument.getDocItemCode());
+            errorInfo.put("docItemName", oneDocument.getDocItemName());
+            ec.setErrorInfo(new ErrorInfo(errorInfo));
             throw new YSBizException(ec);
         }
         return ec;
@@ -273,6 +292,9 @@ public class DocumentServiceImpl implements DocumentService {
         int rDelete = 0;
         int delete=0;
         boolean deleteOk = true;
+        int applNo = oneDocument.getApplNo();
+        int docSeq = oneDocument.getDocSeq();
+
 
         //기존 파일이 업로드 되어 있는 경우
         if( oneDocument.isFileUploadFg()){
@@ -295,6 +317,13 @@ public class DocumentServiceImpl implements DocumentService {
                 ec.setMessage(messageResolver.getMessage("U338"));
                 ec.setErrCode("ERR0051");
             }
+            Map<String, String> errorInfo = new HashMap<String, String>();
+            errorInfo.put("applNo", String.valueOf(applNo));
+            errorInfo.put("userId", oneDocument.getCreId());
+            errorInfo.put("docSeq", String.valueOf(oneDocument.getDocSeq()));
+            errorInfo.put("docItemCode", oneDocument.getDocItemCode());
+            errorInfo.put("docItemName", oneDocument.getDocItemName());
+            ec.setErrorInfo(new ErrorInfo(errorInfo));
             throw new YSBizException(ec);
         }
         return ec;

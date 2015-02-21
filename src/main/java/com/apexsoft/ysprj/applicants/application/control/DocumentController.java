@@ -1,6 +1,7 @@
 package com.apexsoft.ysprj.applicants.application.control;
 
 import com.apexsoft.framework.common.vo.ExecutionContext;
+import com.apexsoft.framework.exception.ErrorInfo;
 import com.apexsoft.framework.exception.YSBizException;
 import com.apexsoft.framework.message.MessageResolver;
 import com.apexsoft.framework.persistence.file.callback.FileUploadEventCallbackHandler;
@@ -290,7 +291,7 @@ public class DocumentController {
                                       FileMetaForm fileMetaForm,
                                       FilePersistenceManager persistence,
                                       TotalApplicationDocument document) {
-                ExecutionContext ec;
+                ExecutionContext ec = null;
                 FileInfo fileInfo;
                 String uploadDir = getDirectory(fileMetaForm);
                 String uploadFileName = "";
@@ -309,7 +310,7 @@ public class DocumentController {
                         if (path.startsWith(fileBaseDir)) {
                             pathWithoutContextPath = path.substring(fileBaseDir.length());
                         } else {
-                            throw new FileUploadException("업로드 경로 에러");
+                            throw new FileUploadException("ERR0057");
                         }
                         fileMetaForm.setPath(pathWithoutContextPath);
                         fileMetaForm.setFileName(fileInfo.getFileName());
@@ -327,15 +328,52 @@ public class DocumentController {
                             fileMetaForm.setTotalApplicationDocument((TotalApplicationDocument)ec.getData());
                         }
 
-                    }catch(FileNotFoundException fnfe) {
+                    } catch (FileNotFoundException fnfe) {
                         persistence.deleteFile(uploadDir, uploadFileName);
-                        throw new FileUploadException("", fnfe);
+                        String applNo = String.valueOf(document.getApplNo());
+                        String docSeq = String.valueOf(document.getDocSeq());
+                        String userId = principal.getName();
+                        Map<String, String> eInfo = new HashMap<String, String>();
+                        eInfo.put("applNo", applNo);
+                        eInfo.put("userId", userId);
+                        eInfo.put("docSeq", docSeq);
+                        if (ec == null)
+                            ec = new ExecutionContext(ExecutionContext.FAIL);
+                        ec.setMessage(messageResolver.getMessage("U339"));
+                        ec.setErrCode("ERR0052");
+                        ec.setErrorInfo(new ErrorInfo(eInfo));
+                        throw new YSBizException(ec);
                     } catch (FileUploadException foe) {
                         persistence.deleteFile(uploadDir, uploadFileName);
-                        throw new FileUploadException("", foe);
+                        String applNo = String.valueOf(document.getApplNo());
+                        String docSeq = String.valueOf(document.getDocSeq());
+                        String userId = principal.getName();
+                        Map<String, String> eInfo = new HashMap<String, String>();
+                        eInfo.put("applNo", applNo);
+                        eInfo.put("userId", userId);
+                        eInfo.put("docSeq", docSeq);
+                        if (ec == null)
+                            ec = new ExecutionContext(ExecutionContext.FAIL);
+                        ec.setMessage(messageResolver.getMessage("U339"));
+                        ec.setErrCode(foe.getMessage());
+                        ec.setErrorInfo(foe.getCause() == null ? new ErrorInfo(eInfo) : new ErrorInfo(eInfo, foe.getCause()));
+                        throw new YSBizException(ec);
+                    } catch (YSBizException ybe) {
+                        persistence.deleteFile(uploadDir, uploadFileName);
+                        throw ybe;
                     } catch (Exception e) {
                         persistence.deleteFile(uploadDir, uploadFileName);
-                        throw new YSBizException("callback.handleEvent()");
+                        String applNo = String.valueOf(document.getApplNo());
+                        String docSeq = String.valueOf(document.getDocSeq());
+                        String userId = principal.getName();
+                        Map<String, String> eInfo = new HashMap<String, String>();
+                        eInfo.put("applNo", applNo);
+                        eInfo.put("userId", userId);
+                        eInfo.put("docSeq", docSeq);
+                        if (ec == null)
+                            ec = new ExecutionContext(ExecutionContext.FAIL);
+                        ec.setMessage(messageResolver.getMessage("U339"));
+                        throw new YSBizException(ec);
                     }finally {
                         try {
                             if (fis!= null) fis.close();

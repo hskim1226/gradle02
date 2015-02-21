@@ -324,7 +324,7 @@ public class BasisServiceImpl implements BasisService {
             r2 = commonDAO.updateItem(applicationGeneral, NAME_SPACE, "ApplicationGeneralMapper");
             r3 = commonDAO.updateItem(applicationForeigner, NAME_SPACE, "ApplicationForeignerMapper");
         }
-r1 = -1;
+
         if ( r1 > 0 && r2 > 0 && r3 > 0) {
             ec.setResult(ExecutionContext.SUCCESS);
             ec.setMessage(messageResolver.getMessage("U315"));
@@ -342,7 +342,10 @@ r1 = -1;
                 else if (r3 == 0) errCode = "ERR0028";
             }
             ec.setErrCode(errCode);
-            ec.setErrorInfo(new ErrorInfo(applNo, userId));
+            Map<String, String> errorInfo = new HashMap<String, String>();
+            errorInfo.put("applNo", String.valueOf(applNo));
+            errorInfo.put("userId", userId);
+            ec.setErrorInfo(new ErrorInfo(errorInfo));
 
             throw new YSBizException(ec);
 //            if (isInsert && !isValidInsertRequest) {

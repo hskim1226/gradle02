@@ -35,7 +35,7 @@ public class MultiPartReceiverImpl implements MultiPartReceiver {
 		try {
 			return receiveInternal(request);
 		} catch (Exception e) {
-			throw new FileUploadException("error receiving file upload request", e);
+			throw new FileUploadException("ERR0056", e);
 		}
 	}
 
