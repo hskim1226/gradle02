@@ -2,6 +2,8 @@ package com.apexsoft.ysprj.applicants.application.control;
 
 import com.apexsoft.framework.common.vo.ExecutionContext;
 import com.apexsoft.framework.exception.ErrorInfo;
+import com.apexsoft.framework.exception.GlobalExceptionHandler;
+import com.apexsoft.framework.exception.StackTraceSimplifier;
 import com.apexsoft.framework.exception.YSBizException;
 import com.apexsoft.framework.message.MessageResolver;
 import com.apexsoft.framework.persistence.file.callback.FileUploadEventCallbackHandler;
@@ -11,7 +13,6 @@ import com.apexsoft.framework.persistence.file.manager.FilePersistenceManager;
 import com.apexsoft.framework.persistence.file.model.FileInfo;
 import com.apexsoft.framework.persistence.file.model.FileItem;
 import com.apexsoft.framework.persistence.file.model.FileMetaForm;
-import com.apexsoft.framework.persistence.file.model.FileVO;
 import com.apexsoft.ysprj.applicants.application.domain.*;
 import com.apexsoft.ysprj.applicants.application.service.DocumentService;
 import com.apexsoft.ysprj.applicants.application.validator.DocumentValidator;
@@ -19,12 +20,13 @@ import com.apexsoft.ysprj.applicants.common.service.CommonService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.io.FileUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
@@ -66,6 +68,7 @@ public class DocumentController {
     @Value("#{app['file.baseDir']}")
     private String fileBaseDir;
 
+    private static final Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
     private final String TARGET_VIEW = "application/document";
 
 //    /**
@@ -248,150 +251,123 @@ public class DocumentController {
                                    FileHandler fileHandler) {
 
         ExecutionContext ec = new ExecutionContext();
+        String returnFileMetaForm = "";
+        try {
+            returnFileMetaForm = fileHandler.handleMultiPartRequest(new FileUploadEventCallbackHandler<String, FileMetaForm, TotalApplicationDocument>() {
+                /**
+                 * target 폴더 반환
+                 *
+                 * @param fileMetaForm
+                 *
+                 * @returnattribute
+                 */
+                @Override
+                protected String getDirectory(FileMetaForm fileMetaForm) {
 
-        String returnFileMetaForm = fileHandler.handleMultiPartRequest(new FileUploadEventCallbackHandler<String, FileMetaForm, TotalApplicationDocument>() {
-            /**
-             * target 폴더 반환
-             *
-             * @param fileMetaForm
-             *
-             * @returnattribute
-             */
-            @Override
-            protected String getDirectory(FileMetaForm fileMetaForm) {
+                    String admsNo = fileMetaForm.getAdmsNo();
+                    String userId = principal.getName();
+                    String firstString = userId.substring(0, 1);
+                    String applNo = fileMetaForm.getApplNo();
 
-                String admsNo = fileMetaForm.getAdmsNo();
-                String userId = principal.getName();
-                String firstString = userId.substring(0, 1);
-                String applNo = fileMetaForm.getApplNo();
+                    return admsNo + "/" + firstString + "/" + userId + "/" + applNo;
+                }
 
-                return admsNo + "/" + firstString + "/" + userId + "/" + applNo;
-            }
+                /**
+                 * 실제 저장될 파일 이름 반환
+                 *
+                 * @return
+                 */
+                @Override
+                protected String createFileName(FileMetaForm fileMetaForm, FileItem fileItem) {
+                    return fileMetaForm.getFieldName() + "-" + fileItem.getOriginalFileName();
+                }
 
-            /**
-             * 실제 저장될 파일 이름 반환
-             *
-             * @return
-             */
-            @Override
-            protected String createFileName(FileMetaForm fileMetaForm, FileItem fileItem) {
-                return fileMetaForm.getFieldName() + "-" + fileItem.getOriginalFileName();
-            }
+                /**
+                 * 파일 업로드와 첨부 파일 관련 정보 DB 저장
+                 * @param fileItems
+                 * @param fileMetaForm
+                 * @param persistence
+                 * @param document
+                 * @return
+                 */
+                @Override
+                public String handleEvent(List<FileItem> fileItems,
+                                          FileMetaForm fileMetaForm,
+                                          FilePersistenceManager persistence,
+                                          TotalApplicationDocument document) {
+                    ExecutionContext ec = null;
+                    String jsonFileMetaForm = null;
+                    FileInfo fileInfo;
+                    String uploadDir = getDirectory(fileMetaForm);
+                    String uploadFileName = "";
+                    for ( FileItem fileItem : fileItems){
+                        FileInputStream fis = null;
+                        String originalFileName = fileItem.getOriginalFileName();
+                        try{
+                            uploadDir = getDirectory(fileMetaForm);
+                            uploadFileName = createFileName(fileMetaForm, fileItem);
+                            fileInfo = persistence.save(uploadDir,
+                                    uploadFileName,
+                                    originalFileName,
+                                    fis = new FileInputStream(fileItem.getFile()));
+                            String path = fileInfo.getDirectory();
+                            String pathWithoutContextPath;
+                            if (path.startsWith(fileBaseDir)) {
+                                pathWithoutContextPath = path.substring(fileBaseDir.length());
+                            } else {
+                                throw new FileUploadException("ERR0057");
+                            }
+                            fileMetaForm.setPath(pathWithoutContextPath);
+                            fileMetaForm.setFileName(fileInfo.getFileName());
+                            fileMetaForm.setOriginalFileName(originalFileName);
 
-            /**
-             * 파일 업로드와 첨부 파일 관련 정보 DB 저장
-             * @param fileItems
-             * @param fileMetaForm
-             * @param persistence
-             * @param document
-             * @return
-             */
-            @Override
-            public String handleEvent(List<FileItem> fileItems,
-                                      FileMetaForm fileMetaForm,
-                                      FilePersistenceManager persistence,
-                                      TotalApplicationDocument document) {
-                ExecutionContext ec = null;
-                FileInfo fileInfo;
-                String uploadDir = getDirectory(fileMetaForm);
-                String uploadFileName = "";
-                for ( FileItem fileItem : fileItems){
-                    FileInputStream fis = null;
-                    String originalFileName = fileItem.getOriginalFileName();
-                    try{
-                        uploadDir = getDirectory(fileMetaForm);
-                        uploadFileName = createFileName(fileMetaForm, fileItem);
-                        fileInfo = persistence.save(uploadDir,
-                                uploadFileName,
-                                originalFileName,
-                                fis = new FileInputStream(fileItem.getFile()));
-                        String path = fileInfo.getDirectory();
-                        String pathWithoutContextPath;
-                        if (path.startsWith(fileBaseDir)) {
-                            pathWithoutContextPath = path.substring(fileBaseDir.length());
-                        } else {
-                            throw new FileUploadException("ERR0057");
+                            document.setFilePath(fileInfo.getDirectory());
+                            document.setFileName(fileInfo.getFileName());
+                            document.setOrgFileName(originalFileName);
+                            document.setFileExt(originalFileName.substring(originalFileName.lastIndexOf('.') + 1));
+                            document.setCreId(principal.getName());
+
+                            ec = documentService.saveOneDocument(document);
+
+                            if (ExecutionContext.SUCCESS.equals(ec.getResult())) {
+                                fileMetaForm.setTotalApplicationDocument((TotalApplicationDocument)ec.getData());
+                            }
+
+                            jsonFileMetaForm = objectMapper.writeValueAsString(fileMetaForm);
+
+                        } catch (FileNotFoundException fnfe) {
+                            persistence.deleteFile(uploadDir, uploadFileName);
+                            throw getYSBizException(document, principal, "U339", "ERR0058");
+                        } catch (FileUploadException foe) {
+                            persistence.deleteFile(uploadDir, uploadFileName);
+                            throw getYSBizException(document, principal, "U339", foe.getMessage());
+                        } catch (JsonProcessingException jpe) {
+                            persistence.deleteFile(uploadDir, uploadFileName);
+                            throw getYSBizException(document, principal, "U339", "ERR0201");
+                        } catch (YSBizException ybe) {
+                            persistence.deleteFile(uploadDir, uploadFileName);
+                            throw ybe;
+                        } catch (Exception e) {
+                            persistence.deleteFile(uploadDir, uploadFileName);
+                            throw getYSBizException(document, principal, "U339", "ERR0052");
+                        }finally {
+                            try {
+                                if (fis!= null) fis.close();
+                            } catch (IOException e) {}
+                            FileUtils.deleteQuietly(fileItem.getFile());
                         }
-                        fileMetaForm.setPath(pathWithoutContextPath);
-                        fileMetaForm.setFileName(fileInfo.getFileName());
-                        fileMetaForm.setOriginalFileName(originalFileName);
-
-                        document.setFilePath(fileInfo.getDirectory());
-                        document.setFileName(fileInfo.getFileName());
-                        document.setOrgFileName(originalFileName);
-                        document.setFileExt(originalFileName.substring(originalFileName.lastIndexOf('.') + 1));
-                        document.setCreId(principal.getName());
-
-                        ec = documentService.saveOneDocument(document);
-
-                        if (ExecutionContext.SUCCESS.equals(ec.getResult())) {
-                            fileMetaForm.setTotalApplicationDocument((TotalApplicationDocument)ec.getData());
-                        }
-
-                    } catch (FileNotFoundException fnfe) {
-                        persistence.deleteFile(uploadDir, uploadFileName);
-                        String applNo = String.valueOf(document.getApplNo());
-                        String docSeq = String.valueOf(document.getDocSeq());
-                        String userId = principal.getName();
-                        Map<String, String> eInfo = new HashMap<String, String>();
-                        eInfo.put("applNo", applNo);
-                        eInfo.put("userId", userId);
-                        eInfo.put("docSeq", docSeq);
-                        if (ec == null)
-                            ec = new ExecutionContext(ExecutionContext.FAIL);
-                        ec.setMessage(messageResolver.getMessage("U339"));
-                        ec.setErrCode("ERR0052");
-                        ec.setErrorInfo(new ErrorInfo(eInfo));
-                        throw new YSBizException(ec);
-                    } catch (FileUploadException foe) {
-                        persistence.deleteFile(uploadDir, uploadFileName);
-                        String applNo = String.valueOf(document.getApplNo());
-                        String docSeq = String.valueOf(document.getDocSeq());
-                        String userId = principal.getName();
-                        Map<String, String> eInfo = new HashMap<String, String>();
-                        eInfo.put("applNo", applNo);
-                        eInfo.put("userId", userId);
-                        eInfo.put("docSeq", docSeq);
-                        if (ec == null)
-                            ec = new ExecutionContext(ExecutionContext.FAIL);
-                        ec.setMessage(messageResolver.getMessage("U339"));
-                        ec.setErrCode(foe.getMessage());
-                        ec.setErrorInfo(foe.getCause() == null ? new ErrorInfo(eInfo) : new ErrorInfo(eInfo, foe.getCause()));
-                        throw new YSBizException(ec);
-                    } catch (YSBizException ybe) {
-                        persistence.deleteFile(uploadDir, uploadFileName);
-                        throw ybe;
-                    } catch (Exception e) {
-                        persistence.deleteFile(uploadDir, uploadFileName);
-                        String applNo = String.valueOf(document.getApplNo());
-                        String docSeq = String.valueOf(document.getDocSeq());
-                        String userId = principal.getName();
-                        Map<String, String> eInfo = new HashMap<String, String>();
-                        eInfo.put("applNo", applNo);
-                        eInfo.put("userId", userId);
-                        eInfo.put("docSeq", docSeq);
-                        if (ec == null)
-                            ec = new ExecutionContext(ExecutionContext.FAIL);
-                        ec.setMessage(messageResolver.getMessage("U339"));
-                        throw new YSBizException(ec);
-                    }finally {
-                        try {
-                            if (fis!= null) fis.close();
-                        } catch (IOException e) {}
-                        FileUtils.deleteQuietly(fileItem.getFile());
                     }
-                }
 
-                String jsonFileMetaForm = null;
-                try {
-                    jsonFileMetaForm = objectMapper.writeValueAsString(fileMetaForm);
-                } catch (JsonProcessingException e) {
-                    e.printStackTrace();
+                    return jsonFileMetaForm;
                 }
-
-                return jsonFileMetaForm;
-            }
-        }, FileMetaForm.class, TotalApplicationDocument.class);
+            }, FileMetaForm.class, TotalApplicationDocument.class);
+        } catch (YSBizException ybe) {
+            logger.error("ErrorInfo :: " + ybe.getExecutionContext().getErrorInfo().toString());
+            logger.error("ErrorType :: " + ybe.toString());
+            logger.error("SimpleStackTrace ::" +
+                    StackTraceSimplifier.getSimpleCallStack(ybe.getStackTrace(), "com.apexsoft", false));
+            ec = ybe.getExecutionContext();
+        }
 
         ec.setData(returnFileMetaForm);
 
@@ -460,7 +436,8 @@ public class DocumentController {
     @RequestMapping(value="/fileDelete/{applNo}/{docSeq}", method=RequestMethod.POST)
     @ResponseBody
     public ExecutionContext fileDelete(@PathVariable("applNo") int applNo,
-                                       @PathVariable("docSeq") int docSeq) {
+                                       @PathVariable("docSeq") int docSeq,
+                                       HttpServletRequest request) {
         ExecutionContext ec;
 
         ApplicationDocumentKey appDocKey = new ApplicationDocumentKey();
@@ -469,12 +446,16 @@ public class DocumentController {
         ec = documentService.retrieveOneDocument(appDocKey);
         TotalApplicationDocument totalDoc = (TotalApplicationDocument)ec.getData();
 
-        ec = documentService.deleteOneDocument(totalDoc);
-
-        if (ExecutionContext.FAIL.equals(ec.getResult())) {
-            ec.setMessage(messageResolver.getMessage("U338"));
-            ec.setErrCode("ERR0034");
-            throw new YSBizException(ec);
+        try {
+            ec = documentService.deleteOneDocument(totalDoc);
+        } catch (YSBizException ybe) {
+            ec = ybe.getExecutionContext();
+            ErrorInfo eInfo = ec.getErrorInfo();
+            logger.error("YSBizException Occured :: URL=" + request.getRequestURL());
+            logger.error("ErrorInfo :: " + eInfo.toString());
+            logger.error("ErrorType :: " + ybe.toString());
+            logger.error("SimpleStackTrace ::" +
+                    StackTraceSimplifier.getSimpleCallStack(ybe.getStackTrace(), "com.apexsoft", false));
         }
 
         return ec;
@@ -503,5 +484,34 @@ public class DocumentController {
     private void addObjectToMV(ModelAndView mv, Map<String, Object> map, ExecutionContext ec) {
         mv.addAllObjects(map);
         mv.addObject("resultMsg", ec.getMessage());
+    }
+
+    /**
+     * 파일 핸들링 시 발생하는 예외에 대한 YSBizException Wrapper
+     *
+     * @param document
+     * @param principal
+     * @param messageCode
+     * @param errCode
+     * @return
+     */
+    private YSBizException getYSBizException( TotalApplicationDocument document, Principal principal,
+                                              String messageCode, String errCode ) {
+        ExecutionContext ec = new ExecutionContext(ExecutionContext.FAIL);
+        String applNo = String.valueOf(document.getApplNo());
+        String docSeq = String.valueOf(document.getDocSeq());
+        String docItemCode = document.getDocItemCode();
+        String docItemName = document.getDocItemName();
+        String userId = principal.getName();
+        Map<String, String> eInfo = new HashMap<String, String>();
+        eInfo.put("applNo", applNo);
+        eInfo.put("userId", userId);
+        eInfo.put("docSeq", docSeq);
+        eInfo.put("docItemCode", docItemCode);
+        eInfo.put("docItemName", docItemName);
+        ec.setMessage(messageResolver.getMessage(messageCode));
+        ec.setErrCode(errCode);
+        ec.setErrorInfo(new ErrorInfo(eInfo));
+        return new YSBizException(ec);
     }
 }

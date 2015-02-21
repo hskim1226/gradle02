@@ -1171,6 +1171,7 @@
                                     docSeq = oneDocument.docSeq,
                                     oneDocumentHidden;
                             $targetBtn.removeClass("btn-default");
+                            $targetBtn.removeClass("btn-danger");
                             $targetBtn.addClass("btn-info");
                             $targetBtn.val("올리기 성공");
 
@@ -1194,11 +1195,11 @@
                             $(targetButton).removeClass("btn-default"),
                             $(targetButton).addClass("btn-danger"),
                             $(targetButton).val("올리기 실패");
-                            if(console) {
-                                console.log("data : ", data);
-                                console.log("status : ", status);
-                                console.log("e : ", e);
-                            }
+//                            if(console) {
+//                                console.log("data : ", data);
+//                                console.log("status : ", status);
+//                                console.log("e : ", e);
+//                            }
                         }
                     });
                 }
@@ -1235,7 +1236,12 @@
                             $targetUploadButton.val("올리기"),
                             $(targetButtonContainerClass).css('display', 'none'),
                             targetFileUploadFg.value = false;
+                        } else {
+                            alert('파일 삭제에 실패했습니다.');
                         }
+                    },
+                    error: function (data, status, e) {
+                        alert('파일 삭제에 실패했습니다.');
                     }
                 });
             }

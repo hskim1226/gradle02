@@ -306,7 +306,7 @@ public class DocumentServiceImpl implements DocumentService {
 
         if (  delete == rDelete && deleteOk ) {
             ec.setResult(ExecutionContext.SUCCESS);
-            ec.setMessage(messageResolver.getMessage("U325"));
+            ec.setMessage(messageResolver.getMessage("U340"));
         } else {
             if ( delete != rDelete ) {
                 ec.setResult(ExecutionContext.FAIL);
