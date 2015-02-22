@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 /**
  * Created by hanmomhanda on 14. 9. 12.
  */
-@Controller
+//@Controller
 @RequestMapping(value = "/filedownload")
 @Deprecated
 public class FileDownloadController {
