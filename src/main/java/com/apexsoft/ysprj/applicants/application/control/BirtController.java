@@ -366,8 +366,8 @@ public class BirtController {
 
         // TODO
 
-//        List<TotalApplicationDocument> docList = new ArrayList<TotalApplicationDocument>();
-//        getDocList(documentContainerList, docList);
+        List<TotalApplicationDocument> docList = new ArrayList<TotalApplicationDocument>();
+        getDocList(documentContainerList, docList);
 
         String appId = "지원 미완료";
 
