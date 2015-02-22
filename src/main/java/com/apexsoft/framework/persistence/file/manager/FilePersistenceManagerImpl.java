@@ -4,6 +4,7 @@ import com.apexsoft.framework.persistence.file.model.FileInfo;
 import com.apexsoft.framework.web.file.exception.UploadException;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
+import org.apache.pdfbox.pdmodel.PDDocument;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -111,7 +112,18 @@ public class FilePersistenceManagerImpl implements FilePersistenceManager {
 
 		}
 
-		return new FileInfo(uploadDirectory.getAbsolutePath(), fileName, orgFileName, uploadFile.length());
+        int pageCnt = 0;
+        String orgFileNameLower = orgFileName.toLowerCase();
+        if (orgFileNameLower.endsWith("pdf")) {
+            try {
+                PDDocument pdfFile = PDDocument.load(uploadFile);
+                pageCnt = pdfFile.getNumberOfPages();
+            } catch (IOException e) {
+                throw new UploadException("error counting pdf page " + uploadFile, e);
+            }
+        }
+
+        return new FileInfo(uploadDirectory.getAbsolutePath(), fileName, orgFileName, uploadFile.length(), pageCnt);
 	}
 
 	/*

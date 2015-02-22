@@ -36,6 +36,7 @@
         <result column="FILE_PATH"     jdbcType="VARCHAR" property="filePath" />
         <result column="FILE_NAME"     jdbcType="VARCHAR" property="fileName" />
         <result column="ORG_FILE_NAME" jdbcType="VARCHAR" property="orgFileName" />
+        <result column="PAGE_CNT"      jdbcType="INTEGER" property="pageCnt" />
     </resultMap>
 
 
@@ -97,6 +98,7 @@
         <result column="FILE_PATH" jdbcType="VARCHAR" property="filePath" />
         <result column="FILE_NAME" jdbcType="VARCHAR" property="fileName" />
         <result column="ORG_FILE_NAME" jdbcType="VARCHAR" property="orgFileName" />
+        <result column="PAGE_CNT" jdbcType="INTEGER" property="pageCnt" />
         <result column="CRE_ID" jdbcType="VARCHAR" property="creId" />
         <result column="CRE_DATE" jdbcType="TIMESTAMP" property="creDate" />
         <result column="MOD_ID" jdbcType="VARCHAR" property="modId" />
@@ -134,7 +136,8 @@
             IMG_YN,
             FILE_PATH,
             FILE_NAME,
-            ORG_FILE_NAME
+            ORG_FILE_NAME,
+            PAGE_CNT
         FROM
             (SELECT C.APPL_NO,GRP_LEVEL, DOC_ITEM_GRP,
             DOC_TYPE_CODE,
@@ -193,7 +196,8 @@
         IMG_YN,
         FILE_PATH,
         FILE_NAME,
-        ORG_FILE_NAME
+        ORG_FILE_NAME,
+        PAGE_CNT
         FROM
         (SELECT C.APPL_NO, GRP_LEVEL, DOC_ITEM_GRP,
         DOC_TYPE_CODE,
@@ -257,7 +261,8 @@
         IMG_YN,
         FILE_PATH,
         FILE_NAME,
-        ORG_FILE_NAME
+        ORG_FILE_NAME,
+        PAGE_CNT
         FROM
         ( SELECT * FROM APPL_LANG
         WHERE APPL_NO = #{applNo} ) BA
@@ -506,7 +511,7 @@
     <select id="selectCodeApplicationDocumentByTotalDocumentContainner"   resultMap="totalDoc"   parameterType="com.apexsoft.ysprj.applicants.application.domain.TotalApplicationDocumentContainer" >
         SELECT
         APPL_NO, DOC_SEQ, DOC_TYPE_CODE, DOC_GRP, DOC_ITEM_CODE, DOC_ITEM_NAME, DOC_NAME,
-        FILE_EXT, IMG_YN, FILE_PATH, FILE_NAME, ORG_FILE_NAME, CRE_ID, CRE_DATE, MOD_ID,
+        FILE_EXT, IMG_YN, FILE_PATH, FILE_NAME, ORG_FILE_NAME, PAGE_CNT, CRE_ID, CRE_DATE, MOD_ID,
         MOD_DATE, DOC_ITEM_NAME_XXEN, DOC_GRP_NAME
         FROM APPL_DOC
         WHERE APPL_NO = #{applNo}
@@ -521,7 +526,7 @@
     <select id="selectApplicationDocumentByTotalDocumentContainnerDocGrp"   resultMap="totalDoc"   parameterType="com.apexsoft.ysprj.applicants.application.domain.TotalApplicationDocumentContainer" >
         SELECT
         APPL_NO, DOC_SEQ, DOC_TYPE_CODE, DOC_GRP, DOC_ITEM_CODE, DOC_ITEM_NAME, DOC_NAME,
-        FILE_EXT, IMG_YN, FILE_PATH, FILE_NAME, ORG_FILE_NAME, CRE_ID, CRE_DATE, MOD_ID,
+        FILE_EXT, IMG_YN, FILE_PATH, FILE_NAME, ORG_FILE_NAME, PAGE_CNT, CRE_ID, CRE_DATE, MOD_ID,
         MOD_DATE, DOC_ITEM_NAME_XXEN, DOC_GRP_NAME
         FROM APPL_DOC
         WHERE APPL_NO = #{applNo}
@@ -545,6 +550,7 @@
       FILE_PATH,
       FILE_NAME,
       ORG_FILE_NAME,
+      PAGE_CNT,
       DOC_ITEM_NAME_XXEN,
       DOC_GRP_NAME
     FROM APPL_DOC
@@ -554,7 +560,7 @@
     <select id="selectApplicationDocumentListByDocGrp"   resultMap="totalDoc"   parameterType="com.apexsoft.ysprj.applicants.application.domain.ParamForApplicationDocument" >
         SELECT
         APPL_NO, DOC_SEQ, DOC_TYPE_CODE, DOC_GRP, DOC_ITEM_CODE, DOC_ITEM_NAME, DOC_NAME,
-        FILE_EXT, IMG_YN, FILE_PATH, FILE_NAME, ORG_FILE_NAME, CRE_ID, CRE_DATE, MOD_ID,
+        FILE_EXT, IMG_YN, FILE_PATH, FILE_NAME, ORG_FILE_NAME, PAGE_CNT, CRE_ID, CRE_DATE, MOD_ID,
         MOD_DATE, DOC_ITEM_NAME_XXEN, DOC_GRP_NAME
         FROM APPL_DOC
         WHERE APPL_NO = #{applNo}
@@ -567,7 +573,7 @@
         SELECT
         APPL_NO, DOC_SEQ, DOC_TYPE_CODE, DOC_GRP, DOC_ITEM_CODE, DOC_ITEM_NAME,
         DOC_NAME,
-        FILE_EXT, IMG_YN, FILE_PATH, FILE_NAME, ORG_FILE_NAME, CRE_ID, CRE_DATE
+        FILE_EXT, IMG_YN, FILE_PATH, FILE_NAME, ORG_FILE_NAME, PAGE_CNT, CRE_ID, CRE_DATE
         , MOD_ID,
         MOD_DATE, DOC_ITEM_NAME_XXEN, DOC_GRP_NAME
         FROM APPL_DOC
@@ -597,7 +603,7 @@
     <select id="selectOneDocument"   resultMap="totalDoc"   parameterType="com.apexsoft.ysprj.applicants.application.domain.ApplicationDocumentKey" >
         SELECT
         APPL_NO, DOC_SEQ, DOC_TYPE_CODE, DOC_GRP, DOC_ITEM_CODE, DOC_ITEM_NAME, DOC_NAME,
-        FILE_EXT, IMG_YN, FILE_PATH, FILE_NAME, ORG_FILE_NAME, CRE_ID, CRE_DATE, MOD_ID,
+        FILE_EXT, IMG_YN, FILE_PATH, FILE_NAME, ORG_FILE_NAME, PAGE_CNT, CRE_ID, CRE_DATE, MOD_ID,
         MOD_DATE, DOC_ITEM_NAME_XXEN, DOC_GRP_NAME
         FROM APPL_DOC
         WHERE 1=1

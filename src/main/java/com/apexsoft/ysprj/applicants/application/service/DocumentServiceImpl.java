@@ -640,6 +640,7 @@ public class DocumentServiceImpl implements DocumentService {
                 pCont.setFilePath( aDoc.getFilePath());
                 pCont.setFileName(aDoc.getFileName());
                 pCont.setOrgFileName(aDoc.getOrgFileName());
+                pCont.setPageCnt(aDoc.getPageCnt());
                 pCont.setDocItemNameXxen( aDoc.getDocItemNameXxen());
                 pCont.setDocGrpName( aDoc.getDocGrpName());
                 pCont.setFileUploadFg(true);
@@ -711,6 +712,7 @@ public class DocumentServiceImpl implements DocumentService {
                 pCont.setFilePath( aDoc.getFilePath());
                 pCont.setFileName(aDoc.getFileName());
                 pCont.setOrgFileName(aDoc.getOrgFileName());
+                pCont.setPageCnt(aDoc.getPageCnt());
                 pCont.setDocItemNameXxen( aDoc.getDocItemNameXxen());
                 pCont.setDocGrpName( aDoc.getDocGrpName());
                 pCont.setFileUploadFg(true);

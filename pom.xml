@@ -94,6 +94,13 @@
             <version>1.4</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.apache.pdfbox</groupId>
+            <artifactId>pdfbox</artifactId>
+            <version>1.8.8</version>
+        </dependency>
+
+
         <!-- Spring Frameworks -->
         <dependency>
             <groupId>org.springframework</groupId>

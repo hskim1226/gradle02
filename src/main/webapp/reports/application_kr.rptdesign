@@ -976,8 +976,8 @@ var i = 0;
 if (iterator.hasNext()) {
 	var docItem = iterator.next();
 	row['columnDocItemName'] = docItem.getDocItemName();
-    row['columnPages'] = docItem.getPages();
-//    System.out.println("document[" + i + "] : " + docItem.getDocItemName() + ", " + docItem.getPages());
+    row['columnPages'] = docItem.getPageCnt();
+//    System.out.println("document[" + i + "] : " + docItem.getDocItemName() + ", " + docItem.getPageCnt());
 //    System.out.println("document[" + i++ + "] : " + row['columnDocItemName'] + ", " + row['columnPages']);
     return true;
 } else return false;]]></method>

@@ -325,6 +325,7 @@ public class DocumentController {
                             document.setFileName(fileInfo.getFileName());
                             document.setOrgFileName(originalFileName);
                             document.setFileExt(originalFileName.substring(originalFileName.lastIndexOf('.') + 1));
+                            document.setPageCnt(fileInfo.getPageCnt());
                             document.setCreId(principal.getName());
 
                             ec = documentService.saveOneDocument(document);

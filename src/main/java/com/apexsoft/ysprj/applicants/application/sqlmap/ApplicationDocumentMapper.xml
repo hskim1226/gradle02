@@ -19,6 +19,7 @@
     <result column="FILE_PATH" jdbcType="VARCHAR" property="filePath" />
     <result column="FILE_NAME" jdbcType="VARCHAR" property="fileName" />
     <result column="ORG_FILE_NAME" jdbcType="VARCHAR" property="orgFileName" />
+    <result column="PAGE_CNT" jdbcType="INTEGER" property="pageCnt" />
     <result column="CRE_ID" jdbcType="VARCHAR" property="creId" />
     <result column="CRE_DATE" jdbcType="TIMESTAMP" property="creDate" />
     <result column="MOD_ID" jdbcType="VARCHAR" property="modId" />
@@ -101,7 +102,7 @@
       This element was generated on Wed Jan 28 17:22:47 KST 2015.
     -->
     APPL_NO, DOC_SEQ, DOC_TYPE_CODE, DOC_GRP, DOC_ITEM_CODE, DOC_ITEM_NAME, DOC_NAME, 
-    FILE_EXT, IMG_YN, FILE_PATH, FILE_NAME, ORG_FILE_NAME, CRE_ID, CRE_DATE, MOD_ID, 
+    FILE_EXT, IMG_YN, FILE_PATH, FILE_NAME, ORG_FILE_NAME, PAGE_CNT, CRE_ID, CRE_DATE, MOD_ID,
     MOD_DATE, DOC_ITEM_NAME_XXEN, DOC_GRP_NAME
   </sql>
   <select id="selectByExample" parameterType="com.apexsoft.ysprj.applicants.application.domain.ApplicationDocumentExample" resultMap="BaseResultMap">
@@ -165,14 +166,14 @@
     insert into APPL_DOC (APPL_NO, DOC_SEQ, DOC_TYPE_CODE, 
       DOC_GRP, DOC_ITEM_CODE, DOC_ITEM_NAME, 
       DOC_NAME, FILE_EXT, IMG_YN, 
-      FILE_PATH, FILE_NAME, ORG_FILE_NAME, 
+      FILE_PATH, FILE_NAME, ORG_FILE_NAME, PAGE_CNT,
       CRE_ID, CRE_DATE, MOD_ID, 
       MOD_DATE, DOC_ITEM_NAME_XXEN, DOC_GRP_NAME
       )
     values (#{applNo,jdbcType=INTEGER}, #{docSeq,jdbcType=INTEGER}, #{docTypeCode,jdbcType=VARCHAR}, 
       #{docGrp,jdbcType=INTEGER}, #{docItemCode,jdbcType=VARCHAR}, #{docItemName,jdbcType=VARCHAR}, 
       #{docName,jdbcType=VARCHAR}, #{fileExt,jdbcType=VARCHAR}, #{imgYn,jdbcType=VARCHAR}, 
-      #{filePath,jdbcType=VARCHAR}, #{fileName,jdbcType=VARCHAR}, #{orgFileName,jdbcType=VARCHAR}, 
+      #{filePath,jdbcType=VARCHAR}, #{fileName,jdbcType=VARCHAR}, #{orgFileName,jdbcType=VARCHAR}, #{pageCnt,jdbcType=INTEGER},
       #{creId,jdbcType=VARCHAR}, #{creDate,jdbcType=TIMESTAMP}, #{modId,jdbcType=VARCHAR}, 
       #{modDate,jdbcType=TIMESTAMP}, #{docItemNameXxen,jdbcType=VARCHAR}, #{docGrpName,jdbcType=VARCHAR}
       )
@@ -220,6 +221,9 @@
       </if>
       <if test="orgFileName != null">
         ORG_FILE_NAME,
+      </if>
+      <if test="pageCnt != null">
+        PAGE_CNT,
       </if>
       <if test="creId != null">
         CRE_ID,
@@ -276,6 +280,9 @@
       </if>
       <if test="orgFileName != null">
         #{orgFileName,jdbcType=VARCHAR},
+      </if>
+      <if test="pageCnt != null">
+        #{pageCnt,jdbcType=INTEGER},
       </if>
       <if test="creId != null">
         #{creId,jdbcType=VARCHAR},
@@ -442,6 +449,9 @@
       <if test="orgFileName != null">
         ORG_FILE_NAME = #{orgFileName,jdbcType=VARCHAR},
       </if>
+      <if test="pageCnt != null">
+        PAGE_CNT = #{pageCnt,jdbcType=INTEGER},
+      </if>
       <if test="creId != null">
         CRE_ID = #{creId,jdbcType=VARCHAR},
       </if>
@@ -481,6 +491,7 @@
       FILE_PATH = #{filePath,jdbcType=VARCHAR},
       FILE_NAME = #{fileName,jdbcType=VARCHAR},
       ORG_FILE_NAME = #{orgFileName,jdbcType=VARCHAR},
+      PAGE_CNT = #{pageCnt,jdbcType=INTEGER},
       CRE_ID = #{creId,jdbcType=VARCHAR},
       CRE_DATE = #{creDate,jdbcType=TIMESTAMP},
       MOD_ID = #{modId,jdbcType=VARCHAR},
