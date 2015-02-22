@@ -366,8 +366,8 @@ public class BirtController {
 
         // TODO
 
-        List<TotalApplicationDocument> docList = new ArrayList<TotalApplicationDocument>();
-        getDocList(documentContainerList, docList);
+//        List<TotalApplicationDocument> docList = new ArrayList<TotalApplicationDocument>();
+//        getDocList(documentContainerList, docList);
 
         String appId = "지원 미완료";
 
@@ -375,6 +375,14 @@ public class BirtController {
             appId = application.getApplId();
         }
         mv.addObject("applId", appId);
+
+        List<DocumentForBirt> documents = new ArrayList<DocumentForBirt>();
+        documents.add(new DocumentForBirt("사진", 1));
+        documents.add(new DocumentForBirt("서류1", 2));
+        documents.add(new DocumentForBirt("서류2", 1));
+        documents.add(new DocumentForBirt("서류3", 3));
+        documents.add(new DocumentForBirt("서류4", 1));
+        mv.addObject("documents", documents);
 
         return mv;
     }

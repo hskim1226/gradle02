@@ -82,10 +82,11 @@
                                     <button id="modify" class="btn btn-default modify ${item.applStsCode.lastIndexOf('0')==3?"":"disabled"}"
                                             data-applNo="${item.applNo}" data-admsNo="${item.admsNo}" data-entrYear="${item.entrYear}"
                                             data-admsTypeCode="${item.admsTypeCode}" <c:if test="${item.applStsCode.lastIndexOf('0')!=3}">disabled</c:if> >원서 수정하기<span class="my-tooltip">작성 중인 상태에서만 수정 가능합니다.</span></button>
-                                    <button id="preview" class="btn btn-info preview ${item.applStsCode=="00010"?"":"disabled"}"
-
+                                    <%--<button id="preview" class="btn btn-info preview ${item.applStsCode=="00010"?"":"disabled"}"--%>
+                                    <button id="preview" class="btn btn-info preview"
                                             data-applNo="${item.applNo}" data-admsNo="${item.admsNo}" data-entrYear="${item.entrYear}"
-                                            data-admsTypeCode="${item.admsTypeCode}" <c:if test="${item.applStsCode!='00010'}">disabled</c:if> >원서 미리보기</button>
+                                            <%--data-admsTypeCode="${item.admsTypeCode}" <c:if test="${item.applStsCode!='00010'}">disabled</c:if> >원서 미리보기</button>--%>
+                                            data-admsTypeCode="${item.admsTypeCode}" >원서 미리보기</button>
 
                                     <button id="pay" class="btn btn-primary pay ${item.applStsCode=="00010"?"":(item.applStsCode=="00021"?"":"disabled")}"
                                         name="2015학년도 ${item.campName} ${item.admsTypeName} ${item.deptName} ${item.corsTypeName}"
