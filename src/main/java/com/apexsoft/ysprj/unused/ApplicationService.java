@@ -9,6 +9,7 @@ import java.util.List;
 /**
  * Created by Administrator on 2014-08-12.
  */
+@Deprecated
 public interface ApplicationService {
 
     ExecutionContext createAppInfo(Application application,

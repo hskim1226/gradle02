@@ -8,6 +8,7 @@ import java.util.List;
 /**
  * Created by hanmomhanda on 14. 8. 20.
  */
+@Deprecated
 public class EntireApplication {
 
     private Application application;

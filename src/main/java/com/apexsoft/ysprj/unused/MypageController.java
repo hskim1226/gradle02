@@ -1,4 +1,4 @@
-package com.apexsoft.ysprj.user.web;
+package com.apexsoft.ysprj.unused;
 
 import com.apexsoft.framework.common.vo.ExecutionContext;
 import com.apexsoft.ysprj.user.domain.Users;
@@ -15,21 +15,22 @@ import java.security.Principal;
 /**
  * Created by go2zo on 2014. 8. 10..
  */
-@Controller
+//@Controller
 @SessionAttributes("usersVO")
+@Deprecated
 public class MypageController {
 
     @Autowired
     private UsersAccountService usersAccountService;
 
-    @RequestMapping(value = "/mypage", method = RequestMethod.GET)
+    @RequestMapping(value = "/mypageXXX", method = RequestMethod.GET)
     public String displayMypage(ModelMap model, Principal principal) {
         String name = principal.getName();
         model.addAttribute("usersVO", usersAccountService.retrieveUser(name));
         return "user/detail";
     }
 
-    @RequestMapping(value = "/mypage", method = RequestMethod.POST)
+    @RequestMapping(value = "/mypageXXX", method = RequestMethod.POST)
     @ResponseBody
     public ExecutionContext editAccount(@ModelAttribute @Valid Users users, BindingResult bindingResult) {
         if( bindingResult.hasErrors() ) {

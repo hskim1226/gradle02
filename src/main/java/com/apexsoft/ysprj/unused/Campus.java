@@ -1,4 +1,4 @@
-package com.apexsoft.ysprj.user.domain;
+package com.apexsoft.ysprj.unused;
 
 import java.util.Date;
 
@@ -9,6 +9,7 @@ import java.util.Date;
  * Modified by
  *      go2zo on 2014. 8. 20.
  */
+@Deprecated
 public class Campus {
 
     private String campCode;        // 캠퍼스코드

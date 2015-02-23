@@ -25,9 +25,10 @@ import java.util.*;
 /**
  * Created by hanmomhanda on 14. 8. 6.
  */
-@Controller
+//@Controller
 @SessionAttributes("entireApplication")
 @RequestMapping(value="/applicationXXX")
+@Deprecated
 public class ApplicationController {
 
     @Autowired

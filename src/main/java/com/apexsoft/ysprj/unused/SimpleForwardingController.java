@@ -1,4 +1,4 @@
-package com.apexsoft.ysprj.user.web;
+package com.apexsoft.ysprj.unused;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,8 +11,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * 그 컨트롤러 내의 @ModelAttribute가 붙은 메서드들이 필요없이 자동 실행되어 낭비
  *
  */
-@Controller
-@RequestMapping("/")
+//@Controller
+@RequestMapping("/XXX")
+@Deprecated
 public class SimpleForwardingController {
 
     @RequestMapping(value="notice/list")

@@ -14,7 +14,8 @@ import java.util.*;
 /**
  * Created by Administrator on 2014-08-12.
  */
-@Service
+//@Service
+@Deprecated
 public class ApplicationServiceImpl implements ApplicationService {
 
     private final static String NAME_SPACE = "com.apexsoft.ysprj.applicants.application.sqlmap.";

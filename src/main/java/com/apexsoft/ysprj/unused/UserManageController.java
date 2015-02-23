@@ -1,4 +1,4 @@
-package com.apexsoft.ysprj.user.web;
+package com.apexsoft.ysprj.unused;
 
 import com.apexsoft.framework.persistence.dao.page.PageInfo;
 import com.apexsoft.ysprj.user.domain.Users;
@@ -18,8 +18,9 @@ import javax.servlet.http.HttpServletRequest;
  * Time: 오전 10:41
  * To change this template use File | Settings | File Templates.
  */
-@Controller
-@RequestMapping("/admin/user")
+//@Controller
+@RequestMapping("/admin/userXXX")
+@Deprecated
 public class UserManageController {
 
     @Autowired

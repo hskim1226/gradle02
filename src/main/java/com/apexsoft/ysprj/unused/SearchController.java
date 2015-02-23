@@ -1,4 +1,4 @@
-package com.apexsoft.ysprj.user.web;
+package com.apexsoft.ysprj.unused;
 
 import com.apexsoft.framework.common.vo.ExecutionContext;
 import com.apexsoft.ysprj.user.domain.Users;
@@ -16,7 +16,7 @@ import javax.validation.Valid;
  * Created by Administrator on 2014-08-08.
  */
 @Deprecated
-@RequestMapping(value = "/user")
+@RequestMapping(value = "/userXXX")
 public class SearchController {
 
     @Autowired
