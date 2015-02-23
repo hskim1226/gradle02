@@ -1,7 +1,7 @@
 package com.apexsoft.framework.security;
 
 import com.apexsoft.ysprj.user.domain.Users;
-import com.apexsoft.ysprj.applicants.common.service.UsersAccountService;
+import com.apexsoft.ysprj.user.service.UserAccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -16,11 +16,11 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
  */
 public class UserDetailsServiceImpl implements UserDetailsService {
     @Autowired
-    private UsersAccountService usersAccountService;
+    private UserAccountService userAccountService;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Users users = usersAccountService.retrieveUser(username);
+        Users users = userAccountService.retrieveUser(username);
         if (users == null) {
             throw new UsernameNotFoundException("account name not found");
         }
@@ -31,7 +31,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         userSessionVO.setPassword( users.getPswd() );
         userSessionVO.setEnabled( users.isEnabled() );
         userSessionVO.setEmail( users.getMailAddr() );
-        userSessionVO.setAuthorities(usersAccountService.retrieveAuthorities(username));
+        userSessionVO.setAuthorities(userAccountService.retrieveAuthorities(username));
 
         return userSessionVO;
     }

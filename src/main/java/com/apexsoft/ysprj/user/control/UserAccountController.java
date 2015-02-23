@@ -1,9 +1,9 @@
-package com.apexsoft.ysprj.applicants.common.control;
+package com.apexsoft.ysprj.user.control;
 
 import com.apexsoft.framework.common.vo.ExecutionContext;
 import com.apexsoft.framework.message.MessageResolver;
 import com.apexsoft.ysprj.user.domain.Users;
-import com.apexsoft.ysprj.applicants.common.service.UsersAccountService;
+import com.apexsoft.ysprj.user.service.UserAccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,9 +14,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.validation.Valid;
 import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.security.Principal;
@@ -31,13 +29,13 @@ import java.util.Map;
  */
 @Controller
 @RequestMapping(value = "/user")
-public class UsersAccountController {
+public class UserAccountController {
 
     @Autowired
     private ServletContext context;
 
     @Autowired
-    private UsersAccountService usersAccountService;
+    private UserAccountService userAccountService;
 
     @Autowired
     private MessageResolver messageResolver;
@@ -112,7 +110,7 @@ public class UsersAccountController {
 
         }
         int r = 0;
-        ec = usersAccountService.registerUserAndAuthority(users);
+        ec = userAccountService.registerUserAndAuthority(users);
         mv.addObject("resultMsg", ec.getMessage());
         return mv;
     }
@@ -120,12 +118,12 @@ public class UsersAccountController {
     @RequestMapping(value="/idCheck", method= RequestMethod.GET)
     @ResponseBody
     public ExecutionContext idCheck(Users users) {
-        return usersAccountService.isUserIdAvailable(users);
+        return userAccountService.isUserIdAvailable(users);
     }
 
     @RequestMapping(value = "/detail")
     public String detail(Model model, Principal principal) {
-        Users users = usersAccountService.retrieveUser(principal.getName());
+        Users users = userAccountService.retrieveUser(principal.getName());
         model.addAttribute(users);
         return "user/detail";
     }

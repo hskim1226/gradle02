@@ -1,4 +1,4 @@
-package com.apexsoft.framework.xpay.service;
+package com.apexsoft.framework.unused.xpay.service;
 
 import java.util.HashMap;
 import java.util.Map;

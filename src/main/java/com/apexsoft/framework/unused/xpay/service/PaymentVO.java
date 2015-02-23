@@ -1,6 +1,4 @@
-package com.apexsoft.framework.xpay.service;
-
-import javax.validation.constraints.NotNull;
+package com.apexsoft.framework.unused.xpay.service;
 
 /**
  * U+ 전자결제에서 필요한 정보

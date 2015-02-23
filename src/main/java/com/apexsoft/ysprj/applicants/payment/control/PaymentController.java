@@ -3,7 +3,7 @@ package com.apexsoft.ysprj.applicants.payment.control;
 import com.apexsoft.framework.common.vo.ExecutionContext;
 import com.apexsoft.framework.message.MessageResolver;
 import com.apexsoft.framework.security.UserSessionVO;
-import com.apexsoft.framework.xpay.service.TransactionVO;
+import com.apexsoft.framework.unused.xpay.service.TransactionVO;
 import com.apexsoft.ysprj.applicants.application.domain.Basis;
 import com.apexsoft.ysprj.applicants.payment.domain.Payment;
 import com.apexsoft.ysprj.applicants.payment.domain.PaymentConfig;

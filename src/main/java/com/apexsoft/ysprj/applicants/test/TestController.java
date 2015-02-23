@@ -20,9 +20,6 @@ public class TestController {
     @Autowired
     private TestService testService;
 
-    @Autowired
-    private ApplicationService applicationService;
-
     @RequestMapping(value="/qstestForm", method = RequestMethod.GET)
     public String showQueryString(HttpServletRequest request) {
         return "test/qstest";

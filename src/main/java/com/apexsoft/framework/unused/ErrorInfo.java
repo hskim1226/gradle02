@@ -11,6 +11,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
 @XmlRootElement
+@Deprecated
 public class ErrorInfo extends CommonInfo {
 
 	private static final long serialVersionUID = 1L;

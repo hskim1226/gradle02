@@ -1,10 +1,10 @@
-package com.apexsoft.framework.xpay;
+package com.apexsoft.framework.unused.xpay;
 
 import com.apexsoft.framework.message.MessageResolver;
 import com.apexsoft.framework.persistence.dao.CommonDAO;
 import com.apexsoft.framework.security.UserSessionVO;
-import com.apexsoft.framework.xpay.service.PaymentVO;
-import com.apexsoft.framework.xpay.service.TransactionVO;
+import com.apexsoft.framework.unused.xpay.service.PaymentVO;
+import com.apexsoft.framework.unused.xpay.service.TransactionVO;
 import com.apexsoft.ysprj.applicants.application.domain.Application;
 import com.apexsoft.ysprj.applicants.application.domain.Basis;
 import com.apexsoft.ysprj.applicants.application.domain.CustomNewSeq;
@@ -27,7 +27,7 @@ import java.security.NoSuchAlgorithmException;
 
 import lgdacom.XPayClient.XPayClient;
 
-@Controller
+//@Controller
 @RequestMapping("/pay")
 @SessionAttributes("paymentVO")
 @Deprecated

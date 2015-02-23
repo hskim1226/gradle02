@@ -1,7 +1,7 @@
 package com.apexsoft.ysprj.applicants.payment.service;
 
 import com.apexsoft.framework.common.vo.ExecutionContext;
-import com.apexsoft.framework.xpay.service.TransactionVO;
+import com.apexsoft.framework.unused.xpay.service.TransactionVO;
 import com.apexsoft.ysprj.applicants.application.domain.Application;
 import com.apexsoft.ysprj.applicants.payment.domain.ApplicationPayment;
 import com.apexsoft.ysprj.applicants.payment.domain.Payment;

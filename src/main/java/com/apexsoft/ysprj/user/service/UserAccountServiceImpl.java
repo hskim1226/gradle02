@@ -1,4 +1,4 @@
-package com.apexsoft.ysprj.applicants.common.service;
+package com.apexsoft.ysprj.user.service;
 
 import com.apexsoft.framework.common.vo.ExecutionContext;
 import com.apexsoft.framework.exception.YSBizException;
@@ -22,7 +22,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class UsersAccountServiceImpl implements UsersAccountService {
+public class UserAccountServiceImpl implements UserAccountService {
 
     private static String NAME_SPACE="com.apexsoft.ysprj.user.Mapper.";
 

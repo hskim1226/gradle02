@@ -2,7 +2,7 @@ package com.apexsoft.ysprj.user;
 
 import com.apexsoft.framework.common.vo.ExecutionContext;
 import com.apexsoft.ysprj.user.domain.Users;
-import com.apexsoft.ysprj.applicants.common.service.UsersAccountService;
+import com.apexsoft.ysprj.user.service.UserAccountService;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -26,14 +26,14 @@ import java.util.List;
 public class UsersAccountServiceTest {
 
     @Autowired
-    private UsersAccountService usersAccountService;
+    private UserAccountService userAccountService;
 
     @Test
     public void testRetrieveUserId() {
         Users users = new Users();
         users.setName("홍길동");
 //        users.setMailAddr("go2zo@apexsoft.co.kr");
-        ExecutionContext c = usersAccountService.retrieveUserIds(users, 3);
+        ExecutionContext c = userAccountService.retrieveUserIds(users, 3);
         Assert.assertNotNull(c.getData());
         printObject(c.getData());
     }

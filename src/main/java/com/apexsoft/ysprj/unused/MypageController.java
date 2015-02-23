@@ -2,9 +2,8 @@ package com.apexsoft.ysprj.unused;
 
 import com.apexsoft.framework.common.vo.ExecutionContext;
 import com.apexsoft.ysprj.user.domain.Users;
-import com.apexsoft.ysprj.applicants.common.service.UsersAccountService;
+import com.apexsoft.ysprj.user.service.UserAccountService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -21,12 +20,12 @@ import java.security.Principal;
 public class MypageController {
 
     @Autowired
-    private UsersAccountService usersAccountService;
+    private UserAccountService userAccountService;
 
     @RequestMapping(value = "/mypageXXX", method = RequestMethod.GET)
     public String displayMypage(ModelMap model, Principal principal) {
         String name = principal.getName();
-        model.addAttribute("usersVO", usersAccountService.retrieveUser(name));
+        model.addAttribute("usersVO", userAccountService.retrieveUser(name));
         return "user/detail";
     }
 
@@ -36,7 +35,7 @@ public class MypageController {
         if( bindingResult.hasErrors() ) {
             return new ExecutionContext( ExecutionContext.FAIL );
         }
-        if( usersAccountService.modifyUsers(users) != 1 ) {
+        if( userAccountService.modifyUsers(users) != 1 ) {
             String message = bindingResult.toString();
             return new ExecutionContext( ExecutionContext.FAIL, message );
         }

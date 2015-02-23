@@ -1,4 +1,4 @@
-package com.apexsoft.ysprj.applicants.common.service;
+package com.apexsoft.ysprj.user.service;
 
 import com.apexsoft.framework.common.vo.ExecutionContext;
 import com.apexsoft.framework.persistence.dao.page.PageInfo;
@@ -8,7 +8,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import java.util.List;
 
-public interface UsersAccountService {
+public interface UserAccountService {
 
     ExecutionContext registerUserAndAuthority(Users users);
 
