@@ -1,6 +1,6 @@
 package com.apexsoft.ysprj.applicants.payment.control;
 
-import com.apexsoft.ysprj.applicants.payment.domain.ApplicationPayment;
+import com.apexsoft.ysprj.applicants.payment.domain.ApplicationPaymentCurStat;
 import com.apexsoft.ysprj.applicants.payment.service.PaymentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -91,7 +91,7 @@ public class CasNoteController {
         LGD_RECEIVERPHONE       = request.getParameter("LGD_RECEIVERPHONE");
         LGD_DELIVERYINFO        = request.getParameter("LGD_DELIVERYINFO");
 
-        ApplicationPayment applPay = new ApplicationPayment();
+        ApplicationPaymentCurStat applPay = new ApplicationPaymentCurStat();
         if( LGD_CASCAMOUNT != null && !LGD_CASCAMOUNT.equals("") )
             applPay.setPayAmt(Integer.valueOf(LGD_CASCAMOUNT));
         applPay.setPayTypeCode(LGD_PAYTYPE);

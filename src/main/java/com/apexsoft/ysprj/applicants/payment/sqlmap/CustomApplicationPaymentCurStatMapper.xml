@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.apexsoft.ysprj.applicants.payment.sqlmap.CustomApplicationPaymentCurStatMapper" >
+
+  <resultMap id="BaseResultMap" type="com.apexsoft.ysprj.applicants.payment.domain.ApplicationPaymentCurStat" >
+    <id column="APPL_NO" property="applNo" jdbcType="INTEGER" />
+    <result column="ADMS_FEE" property="admsFee" jdbcType="INTEGER" />
+    <result column="PAY_AMT" property="payAmt" jdbcType="INTEGER" />
+    <result column="PAY_TYPE_CODE" property="payTypeCode" jdbcType="VARCHAR" />
+    <result column="PAY_STS_CODE" property="payStsCode" jdbcType="VARCHAR" />
+    <result column="PAY_DATE" property="payDate" jdbcType="VARCHAR" />
+    <result column="RTN_DATE" property="rtnDate" jdbcType="VARCHAR" />
+    <result column="LGD_OID" property="lgdOid" jdbcType="VARCHAR" />
+    <result column="LGD_TID" property="lgdTid" jdbcType="VARCHAR" />
+    <result column="CRE_ID" property="creId" jdbcType="VARCHAR" />
+    <result column="CRE_DATE" property="creDate" jdbcType="TIMESTAMP" />
+    <result column="MOD_ID" property="modId" jdbcType="VARCHAR" />
+    <result column="MOD_DATE" property="modDate" jdbcType="TIMESTAMP" />
+  </resultMap>
+
+  <select id="selectPayInfoByApplNo" resultType="com.apexsoft.ysprj.applicants.payment.domain.ApplicationPaymentCurStat" parameterType="int" >
+    SELECT A.APPL_NO, B.ADMS_FEE, C.PAY_STS_CODE
+    FROM APPL A LEFT OUTER JOIN APPL_PAY C ON A.APPL_NO = C.APPL_NO,
+         ADMS_CORS B
+    WHERE A.ADMS_NO = B.ADMS_NO
+    AND A.DEPT_CODE = B.DEPT_CODE
+    AND IFNULL(A.ARI_INST_CODE,'') = IFNULL(B.ARI_INST_CODE,'')
+    AND A.CORS_TYPE_CODE = B.CORS_TYPE_CODE
+    AND A.APPL_NO = #{applNo,jdbcType=INTEGER};
+  </select>
+
+</mapper>
