@@ -11,6 +11,7 @@ import com.apexsoft.ysprj.applicants.user.domain.Authorities;
 import com.apexsoft.ysprj.code.AuthorityType;
 import com.apexsoft.ysprj.user.domain.Users;
 import com.apexsoft.ysprj.user.web.form.UserSearchForm;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -19,7 +20,9 @@ import org.springframework.security.crypto.keygen.StringKeyGenerator;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class UserAccountServiceImpl implements UserAccountService {
@@ -119,6 +122,39 @@ public class UserAccountServiceImpl implements UserAccountService {
             context.setMessage( "입력하신 정보와 일치하는 ID가 없습니다. ");
         }
         return context;
+    }
+
+    @Override
+    public ExecutionContext retrieveUserId(Users users) {
+        ExecutionContext ec = new ExecutionContext();
+        Users result = commonDAO.queryForObject(NAME_SPACE + "findUserId", users, Users.class);
+        if (result != null) {
+            ec.setResult(ExecutionContext.SUCCESS);
+            Map<String, Object> ecDataMap = new HashMap<String, Object>();
+            ecDataMap.put("userId", result.getUserId());
+            ec.setData(ecDataMap);
+        } else {
+            ec.setResult(ExecutionContext.FAIL);
+            ec.setMessage(messageResolver.getMessage("U501"));
+        }
+        return ec;
+    }
+
+    @Override
+    public ExecutionContext retrievePwdLink(Users users) {
+        ExecutionContext ec = new ExecutionContext();
+        Users result = commonDAO.queryForObject(NAME_SPACE + "findUserId", users, Users.class);
+        if (result != null) {
+            ec.setResult(ExecutionContext.SUCCESS);
+            String shaStr = DigestUtils.shaHex(new StringBuilder().append(result.getUserId()).append(result.getMailAddr()).toString());
+            Map<String, Object> ecDataMap = new HashMap<String, Object>();
+            ecDataMap.put("link", shaStr);
+            ec.setData(ecDataMap);
+        } else {
+            ec.setResult(ExecutionContext.FAIL);
+            ec.setMessage(messageResolver.getMessage("U502"));
+        }
+        return ec;
     }
 
     @Override

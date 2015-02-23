@@ -108,6 +108,25 @@
         </if>
     </select>
 
+    <select id="findUserId" resultMap="user" parameterType="com.apexsoft.ysprj.user.domain.Users">
+        SELECT *
+        FROM USER
+        WHERE 1=1
+        <if test="userId != null">
+        AND USER_ID = #{userId,jdbcType=VARCHAR}
+        </if>
+        AND NAME = #{name,jdbcType=VARCHAR}
+        AND BORN_DAY = #{bornDay,jdbcType=VARCHAR}
+        AND MAIL_ADDR = #{mailAddr,jdbcType=VARCHAR}
+    </select>
+
+    <select id="changePasswd" resultType="java.lang.Integer" parameterType="com.apexsoft.ysprj.user.domain.Users">
+        UPDATE USER SET
+            PSWD = #{pswd}
+        WHERE 1=1
+        AND USER_ID = #{userId,jdbcType=VARCHAR}
+    </select>
+
     <!-- Queries for Authority      -->
 
     <select id="selectAuthorities" resultType="com.apexsoft.ysprj.applicants.user.domain.Authorities"  parameterType="String">

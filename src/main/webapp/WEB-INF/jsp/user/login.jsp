@@ -129,6 +129,10 @@
                     <div class="col-sm-offset-1 col-sm-10">
                         <div class="text-gray">아직 회원이 아니세요? <a href="${contextPath}/user/agreement">회원 가입</a></div>
                     </div>
+                    <div class="spacer-small">&nbsp;</div>
+                    <div class="col-sm-offset-1 col-sm-10">
+                        <div class="text-gray">아이디/비밀번호를 잊으셨나요? <a href="${contextPath}/user/findId">아이디 찾기</a>&nbsp;<a href="${contextPath}/user/findPwd">비밀번호 찾기</a></div>
+                    </div>
                 </div>
             </form>
         </div>

@@ -32,5 +32,9 @@ public interface UserAccountService {
 
     ExecutionContext retrieveUserIds(Users users, int showLength);
 
+    ExecutionContext retrieveUserId(Users users);
+
+    ExecutionContext retrievePwdLink(Users users);
+
     ExecutionContext isUserIdAvailable(Users users);
 }

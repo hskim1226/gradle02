@@ -128,9 +128,132 @@ public class UserAccountController {
         return "user/detail";
     }
 
-    @ModelAttribute("users")
-    public Users initUsers() {
-        return new Users();
+    /**
+     * 아이디 찾기 정보 입력 화면
+     *
+     * @param formData
+     * @param mv
+     * @return
+     */
+    @RequestMapping(value = "/findId")
+    public ModelAndView showFindId(Users formData, ModelAndView mv) {
+        mv.setViewName("user/findId");
+        return mv;
     }
+
+    /**
+     * 아이디 찾기 처리
+     * 아이디 있으면 아이디를 보여주는 화면으로
+     * 아이디 없으면 아이디 찾기 정보 입력화면으로
+     *
+     * @param formData
+     * @param bindingResult
+     * @param mv
+     * @return
+     */
+    @RequestMapping(value = "/getId", method = RequestMethod.POST)
+    public ModelAndView findID(Users formData, BindingResult bindingResult, ModelAndView mv) {
+
+//        findIdValidator.validate(formData, bindingResult);
+        if (bindingResult.hasErrors()) {
+            mv.addObject("resultMsg", messageResolver.getMessage("U334"));
+            return mv;
+        }
+
+        ExecutionContext ec;
+        ec = userAccountService.retrieveUserId(formData);
+
+        if (ExecutionContext.SUCCESS.equals(ec.getResult())) {
+            mv.setViewName("user/showId");
+            Map<String, Object> map = (Map<String, Object>)ec.getData();
+            mv.addAllObjects(map);
+        } else {
+            mv.setViewName("user/findId");
+            mv.addObject("resultMsg", ec.getMessage());
+        }
+
+        return mv;
+    }
+
+    /**
+     * 비밀번호 찾기 화면
+     *
+     * @param users
+     * @param mv
+     * @return
+     */
+    @RequestMapping(value = "/findPwd")
+    public ModelAndView showFindPwd(Users users, ModelAndView mv) {
+        mv.setViewName("user/findPwd");
+        return mv;
+    }
+
+    /**
+     * 비밀번호 찾기 처리
+     * 해당 계정 있으면 비밀번호 재입력화면으로
+     * 해당 계정 없으면 비밀번호 찾기 정보 입력화면으로
+     *
+     * @param formData
+     * @param bindingResult
+     * @param mv
+     * @return
+     */
+    @RequestMapping(value = "/resetPwd", method = RequestMethod.POST)
+    public ModelAndView findPwd(Users formData, BindingResult bindingResult, ModelAndView mv) {
+        //        findIdValidator.validate(formData, bindingResult);
+        if (bindingResult.hasErrors()) {
+            mv.addObject("resultMsg", messageResolver.getMessage("U334"));
+            return mv;
+        }
+
+        ExecutionContext ec;
+        ec = userAccountService.retrievePwdLink(formData);
+
+        if (ExecutionContext.SUCCESS.equals(ec.getResult())) {
+            mv.setViewName("user/confirmPwd");
+            Map<String, Object> map = (Map<String, Object>)ec.getData();
+            mv.addAllObjects(map);
+        } else {
+            mv.setViewName("user/findPwd");
+            mv.addObject("resultMsg", ec.getMessage());
+        }
+
+        return mv;
+    }
+
+    /**
+     * 비밀번호 재설정
+     *
+     * @param formData
+     * @param bindingResult
+     * @param mv
+     * @return
+     */
+    @RequestMapping(value = "/savePwd", method = RequestMethod.POST)
+    public ModelAndView savePwd(Users formData, BindingResult bindingResult, ModelAndView mv) {
+        //        findIdValidator.validate(formData, bindingResult);
+        if (bindingResult.hasErrors()) {
+            mv.addObject("resultMsg", messageResolver.getMessage("U334"));
+            return mv;
+        }
+
+        int r1 = userAccountService.changePassword(formData);
+
+        if (r1 == 1) {
+            mv.setViewName("user/confirmPwd");
+            mv.addObject("resultMsg", messageResolver.getMessage("U504"));
+            mv.addObject("result", ExecutionContext.SUCCESS);
+        } else {
+            mv.setViewName("user/confirmPwd");
+            mv.addObject("resultMsg", messageResolver.getMessage("U503"));
+        }
+
+        return mv;
+    }
+
+//    @ModelAttribute("users")
+//    public Users initUsers() {
+//        return new Users();
+//    }
 
 }
