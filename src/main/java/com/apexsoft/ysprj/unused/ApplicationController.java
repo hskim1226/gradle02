@@ -5,12 +5,12 @@ import com.apexsoft.framework.message.MessageResolver;
 import com.apexsoft.framework.persistence.file.handler.FileHandler;
 import com.apexsoft.ysprj.applicants.application.domain.*;
 import com.apexsoft.ysprj.applicants.common.domain.*;
+import com.apexsoft.ysprj.applicants.common.domain.Campus;
 import com.apexsoft.ysprj.applicants.common.service.CommonService;
 import com.apexsoft.ysprj.applicants.payment.domain.ApplicationPayment;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -147,7 +147,7 @@ public class ApplicationController {
                     CampusCollege.class);
 
             // 지원사항 select 초기값 설정
-            List<Campus> campList = null;
+            List<com.apexsoft.ysprj.applicants.common.domain.Campus> campList = null;
             List<AcademyResearchIndustryInstitution> ariInstList = null;
             List<College> collList = null;
             List<CodeNameDepartment> deptList = null;
