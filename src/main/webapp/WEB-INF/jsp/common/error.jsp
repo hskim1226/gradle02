@@ -7,12 +7,12 @@
         section.application {
             padding: 160px 0 60px;
             background: #555555;
-            color: #bbb;
+            color: #ddd;
             position:relative;
         }
 
         section.application h2 {
-            color: #bbb;
+            color: #ddd;
             font-size: 36px;
             font-weight: 900;
         }

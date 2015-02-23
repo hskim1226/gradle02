@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
 <decorators defaultdir="/WEB-INF/decorators">
+    <excludes>
+        <pattern>/user/login*</pattern>
+    </excludes>
 
 	<decorator name="main" page="main_decorator.jsp">
 		<pattern>/admin/user*</pattern>
 	</decorator>
 
     <decorator name="usermode" page="usermode_decorator.jsp">
-        <pattern>/pre/*</pattern>
         <pattern>/application/*</pattern>
         <pattern>/mail/*</pattern>
         <pattern>/payment/*</pattern>
@@ -21,6 +23,7 @@
         <pattern>/test/*</pattern>
         <pattern>/common/error.jsp</pattern>
         <pattern>/common/404.jsp</pattern>
+        <pattern>/user/*</pattern>
     </decorator>
 
     <decorator name="adminmode" page="adminmode_decorator.jsp">
@@ -30,9 +33,4 @@
     <decorator name="template" page="temp_decorator.jsp">
 		<pattern>/template/*</pattern>
 	</decorator>
-
-    <excludes>
-        <pattern>/upload/*</pattern>
-        <pattern>/download/*</pattern>
-    </excludes>
 </decorators>
