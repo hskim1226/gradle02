@@ -616,7 +616,7 @@
 
 
                     <c:if test="${basis.application.admsTypeCode == 'C'}">
-                        <div class="panel panel-darkgray">
+                        <div class="panel panel-darkgray" id="stayInfo" style="display: ${basis.application.citzCntrCode == '118' ? 'none;' : 'block;'}">
                             <div class="panel-heading">체류 정보</div>
                             <div class="panel-body">
                                 <div class="form-group required">
@@ -963,32 +963,32 @@
                     </c:otherwise>
                 </c:choose>
 
-                        <div class="panel panel-default" id="currentCompany" hidden>
-                            <div class="panel-heading">현재 근무처</div>
-                            <div class="panel-body">
-                                <div class="form-group">
-                                    <label for="applicationGeneral.currWrkpName" class="col-sm-2 control-label">회사 이름</label>
-                                    <div class="col-sm-9">
-                                        <form:input path="applicationGeneral.currWrkpName" cssClass="form-control" />
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label path="applicationGeneral.currWrkpDay" cssClass="col-sm-2 control-label">입사 일자</label>
-                                    <div class="col-sm-9">
-                                        <div class="input-group date">
-                                            <form:input path="applicationGeneral.currWrkpDay" cssClass="col-sm-6 form-control" readonly="true" />
-                                            <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="applicationGeneral.currWrkpTel" class="col-sm-2 control-label">연락처</label>
-                                    <div class="col-sm-9">
-                                        <form:input path="applicationGeneral.currWrkpTel" cssClass="form-control numOnly" maxlength="20" placeholder="연락처를 '-'와 숫자로만 입력해주세요"/>
-                                    </div>
-                                </div>
-                            </div>
-                        </div><%--panel--%>
+                        <%--<div class="panel panel-default" id="currentCompany" hidden>--%>
+                            <%--<div class="panel-heading">현재 근무처</div>--%>
+                            <%--<div class="panel-body">--%>
+                                <%--<div class="form-group">--%>
+                                    <%--<label for="applicationGeneral.currWrkpName" class="col-sm-2 control-label">회사 이름</label>--%>
+                                    <%--<div class="col-sm-9">--%>
+                                        <%--<form:input path="applicationGeneral.currWrkpName" cssClass="form-control" />--%>
+                                    <%--</div>--%>
+                                <%--</div>--%>
+                                <%--<div class="form-group">--%>
+                                    <%--<label path="applicationGeneral.currWrkpDay" cssClass="col-sm-2 control-label">입사 일자</label>--%>
+                                    <%--<div class="col-sm-9">--%>
+                                        <%--<div class="input-group date">--%>
+                                            <%--<form:input path="applicationGeneral.currWrkpDay" cssClass="col-sm-6 form-control" readonly="true" />--%>
+                                            <%--<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>--%>
+                                        <%--</div>--%>
+                                    <%--</div>--%>
+                                <%--</div>--%>
+                                <%--<div class="form-group">--%>
+                                    <%--<label for="applicationGeneral.currWrkpTel" class="col-sm-2 control-label">연락처</label>--%>
+                                    <%--<div class="col-sm-9">--%>
+                                        <%--<form:input path="applicationGeneral.currWrkpTel" cssClass="form-control numOnly" maxlength="20" placeholder="연락처를 '-'와 숫자로만 입력해주세요"/>--%>
+                                    <%--</div>--%>
+                                <%--</div>--%>
+                            <%--</div>--%>
+                        <%--</div>&lt;%&ndash;panel&ndash;%&gt;--%>
                     </div>
                 </div><%--row--%>
                 <div class="btn-group btn-group-justified">
@@ -1281,6 +1281,7 @@
                                 for ( var i = 0 , len = tr.children.length; i < len; i++ ) {
                                     if (document.getElementById(targetInputId[i])) {
                                         document.getElementById(targetInputId[i]).value = tr.children[i].firstChild.innerText;
+                                        document.getElementById(targetInputId[i]).setAttribute('value', tr.children[i].firstChild.innerText);
                                         $(document.getElementById(targetInputId[i])).change();
                                     }
                                 }
@@ -1327,15 +1328,44 @@
 
         $('#citzCntrCode').on('change', function(e) {
             var divRgstNo = document.getElementById('divRgstNo'),
-                rgstNo = document.getElementById('application.rgstNo');
-            if (this.value == '118')
+                rgstNo = document.getElementById('application.rgstNo'),
+                divStayInfo = document.getElementById('stayInfo'),
+                stayInfoItems, item, i, itemL;
+            if (this.value == '118') {
                 divRgstNo.style.display = 'block';
-            else {
+                divStayInfo.style.display = 'none';
+                stayInfoItems = divStayInfo.querySelectorAll('input');
+                itemL = stayInfoItems.length;
+                for (i = 0 ; i < itemL ; i++) {
+                    item = stayInfoItems[i];
+                    if (item.type == 'hidden' || item.type == 'text') {
+                        item.setAttribute('value', '');
+                        item.value = '';
+                    }
+                }
+                stayInfoItems = divStayInfo.querySelectorAll('select');
+                itemL = stayInfoItems.length;
+                for (i = 0 ; i < itemL ; i++) {
+                    stayInfoItems[i].selectedIndex = 0;
+                }
+            } else {
+                rgstNo.setAttribute('value', '');
                 rgstNo.value = '';
                 divRgstNo.style.display = 'none';
+                divStayInfo.style.display = 'block';
             }
         });
         <%-- 국가/학교 검색 끝 --%>
+
+        <%-- 외국인 구분 - 국적 대한민국이면 외국인 선택 불가--%>
+        $('#fornTypeCode').on('change', function () {
+            var citzCntrCode = document.getElementById('citzCntrCode').value;
+            if (citzCntrCode == '118' && this.selectedIndex == 1) {
+                alert('국적이 대한민국이면 외국인을 선택할 수 없습니다.');
+                this.selectedIndex = 0;
+            }
+        });
+        <%-- 외국인 구분 - 국적 대한민국이면 외국인 선택 불가--%>
 
         <%-- 다음 주소 검색 시작 --%>
         var postLayer = document.getElementById('postLayer');

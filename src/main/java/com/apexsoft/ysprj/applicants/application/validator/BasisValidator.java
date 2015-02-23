@@ -36,11 +36,12 @@ public class BasisValidator implements Validator {
         Basis basis = (Basis)o;
 
         Application application = basis.getApplication();
+        boolean isKorean = "118".equals(application.getCitzCntrCode());
         applicationValidator.validate(application, errors, "application");
 
         if ("C".equals(application.getAdmsTypeCode())) {
             ApplicationForeigner applicationForeigner = basis.getApplicationForeigner();
-            applicationForeignerValidator.validate(applicationForeigner, errors, "applicationForeigner");
+            applicationForeignerValidator.validate(applicationForeigner, errors, "applicationForeigner", isKorean);
         } else {
             ApplicationGeneral applicationGeneral = basis.getApplicationGeneral();
             applicationGeneralValidator.validate(applicationGeneral, errors, "applicationGeneral");
