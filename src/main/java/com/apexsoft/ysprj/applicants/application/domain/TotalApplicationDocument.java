@@ -19,19 +19,21 @@ public class TotalApplicationDocument extends ApplicationDocument{
     //문서요건 정보
     private String grpLevel;
     private String docItemGrp;
-    private String docTypeCode;
-    private String docItemCode;
+//    private String docTypeCode; // ApplicationDocument에 있으므로 제외
+//    private String docItemCode; // ApplicationDocument에 있으므로 제외
     private String upCodeGrp;
     private String upCode;
     private String selCodeGrp;
     private String lastYn;
     private String mdtYn;
+    private String multiYn;
     private String uploadYn;
     private int sendCnt;
     private String orgnSendYn;
     private String chkCnd;
     private String tmpltYn;
     private String msgNo;
+    private String msg;
     private String notInYn;
 
 
@@ -218,23 +220,20 @@ public class TotalApplicationDocument extends ApplicationDocument{
         this.admsCode = admsCode;
     }
 
-    @Override
-    public String getDocTypeCode() {
-        return docTypeCode;
+
+    public String getMultiYn() {
+        return multiYn;
     }
 
-    @Override
-    public void setDocTypeCode(String docTypeCode) {
-        this.docTypeCode = docTypeCode;
+    public void setMultiYn(String multiYn) {
+        this.multiYn = multiYn;
     }
 
-    @Override
-    public String getDocItemCode() {
-        return docItemCode;
+    public String getMsg() {
+        return msg;
     }
 
-    @Override
-    public void setDocItemCode(String docItemCode) {
-        this.docItemCode = docItemCode;
+    public void setMsg(String msg) {
+        this.msg = msg;
     }
 }

@@ -3,7 +3,7 @@
 <mapper namespace="com.apexsoft.ysprj.applicants.application.sqlmap.EntireApplicationMapper">
 
     <resultMap id="entireApplicationOneToOne"
-               type="com.apexsoft.ysprj.applicants.application.domain.EntireApplication">
+               type="com.apexsoft.ysprj.unused.EntireApplication">
         <association property="application"
                      javaType="com.apexsoft.ysprj.applicants.application.domain.Application">
             <id column="APPL_NO" jdbcType="INTEGER" property="applNo" />

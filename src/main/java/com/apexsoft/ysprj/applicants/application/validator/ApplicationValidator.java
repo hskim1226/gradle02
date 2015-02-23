@@ -47,9 +47,11 @@ public class ApplicationValidator implements NamedValidator {
             errors.rejectValue(prefix + "engName", "U331",
                     new Object[]{"영문 이름"}, messageResolver.getMessage("U332"));
         }
-        if (application.getRgstNo() == null || application.getRgstNo().length() == 0) {
-            errors.rejectValue(prefix + "rgstNo", "U331",
-                    new Object[]{"주민등록번호"}, messageResolver.getMessage("U332"));
+        if ("118".equals(application.getCitzCntrCode())) {
+            if ( application.getRgstNo() == null || application.getRgstNo().length() == 0 ) {
+                errors.rejectValue(prefix + "rgstNo", "U331",
+                        new Object[]{"주민등록번호"}, messageResolver.getMessage("U332"));
+            }
         }
         if (application.getCitzCntrCode() == null || application.getCitzCntrCode().length() == 0) {
             errors.rejectValue(prefix + "citzCntrCode", "U331",
@@ -74,6 +76,12 @@ public class ApplicationValidator implements NamedValidator {
         if (application.getMailAddr() == null || application.getMailAddr().length() == 0) {
             errors.rejectValue(prefix + "mailAddr", "U331",
                     new Object[]{"E-mail"}, messageResolver.getMessage("U332"));
+        }
+        if ("C".equals(application.getAdmsTypeCode())) { // 외국인 전형
+            if (application.getFornTypeCode() == null || application.getFornTypeCode().length() == 0) {
+                errors.rejectValue(prefix + "fornTypeCode", "U331",
+                        new Object[]{"외국인 구분"}, messageResolver.getMessage("U332"));
+            }
         }
     }
 }

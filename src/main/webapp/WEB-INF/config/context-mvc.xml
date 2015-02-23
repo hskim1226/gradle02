@@ -61,6 +61,10 @@
         <property name="order" value="0"/>
     </bean>
 
+    <bean id="contentNegotiationManager" class="org.springframework.web.accept.ContentNegotiationManagerFactoryBean">
+        <property name="ignoreAcceptHeader" value="true" />
+    </bean>
+
     <bean id="downloadView" class="com.apexsoft.framework.web.view.FileDownloadView" ></bean>
 
     <!--<bean id="exceptionResolver" class="com.apexsoft.framework.web.exception.ExceptionResolver">-->

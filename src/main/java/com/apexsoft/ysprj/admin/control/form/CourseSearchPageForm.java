@@ -4,6 +4,7 @@ import com.apexsoft.framework.persistence.dao.page.PagenateInfo;
 
 public class CourseSearchPageForm extends CourseSearchForm {
 
+    private int searchType = 0;
 
     private PagenateInfo page = new PagenateInfo(15);
 
@@ -15,5 +16,11 @@ public class CourseSearchPageForm extends CourseSearchForm {
         this.page = page;
     }
 
+    public int getSearchType() {
+        return searchType;
+    }
 
+    public void setSearchType(int searchType) {
+        this.searchType = searchType;
+    }
 }

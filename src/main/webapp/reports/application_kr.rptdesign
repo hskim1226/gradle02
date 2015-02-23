@@ -3,78 +3,81 @@
     <property name="createdBy">Eclipse BIRT Designer Version 4.4.0.v201405191524 Build &lt;4.4.0.v20140606-1451></property>
     <property name="units">in</property>
     <method name="beforeFactory"><![CDATA[
-importPackage(Packages.org.springframework.context);
-importPackage(Packages.org.springframework.web.context.support);
+//importPackage(Packages.org.springframework.context);
+//importPackage(Packages.org.springframework.web.context.support);
 
-var sc = reportContext.getHttpServletRequest().getSession().getServletContext(),
-    spring = WebApplicationContextUtils.getWebApplicationContext(sc),
+//var sc = reportContext.getHttpServletRequest().getSession().getServletContext(),
+//    spring = WebApplicationContextUtils.getWebApplicationContext(sc);
 
-    entrYear = spring.getBean("entrYear"),
-    admsTypeName1 = spring.getBean("admsTypeName1"),
-    admsTypeName2 = spring.getBean("admsTypeName2"),
+//importPackage(Packages.java.lang);
+// System.out.println("########## beans from Spring ########");
+importPackage(Packages.java.lang);
+var appContext = reportContext.getAppContext(),
+    entrYear = appContext.get("entrYear"),
+    admsTypeName1 = appContext.get("admsTypeName1"),
+    admsTypeName2 = appContext.get("admsTypeName2"),
 
-    campName = spring.getBean("campName"),
-    corsTypeName = spring.getBean("corsTypeName"),
-    ariInstName = spring.getBean("ariInstName"),
-    deptName = spring.getBean("deptName"),
-    deptCode = spring.getBean("deptCode"),
-    detlMajName = spring.getBean("detlMajName"),
+    campName = appContext.get("campName"),
+    corsTypeName = appContext.get("corsTypeName"),
+    ariInstName = appContext.get("ariInstName"),
+    deptName = appContext.get("deptName"),
+    deptCode = appContext.get("deptCode"),
+    detlMajName = appContext.get("detlMajName"),
 
-    korName = spring.getBean("korName"),
-    engName = spring.getBean("engName"),
-    engSur = spring.getBean("engSur"),
-    rgstNo = spring.getBean("rgstNo"),
-    mailAddr = spring.getBean("mailAddr"),
-    telNum = spring.getBean("telNum"),
-    mobiNum = spring.getBean("mobiNum"),
-    addr = spring.getBean("addr"),
-    detlAddr = spring.getBean("detlAddr"),
+    korName = appContext.get("korName"),
+    engName = appContext.get("engName"),
+    engSur = appContext.get("engSur"),
+    rgstNo = appContext.get("rgstNo"),
+    mailAddr = appContext.get("mailAddr"),
+    telNum = appContext.get("telNum"),
+    mobiNum = appContext.get("mobiNum"),
+    addr = appContext.get("addr"),
+    detlAddr = appContext.get("detlAddr"),
 
-    photoUri = spring.getBean("photoUri"),
+    photoUri = appContext.get("photoUri"),
 
-    currWrkpName = spring.getBean("currWrkpName"),
-    currWrkpTel = spring.getBean("currWrkpTel"),
-    academy0 = spring.getBean("academy0"),
-    academy1 = spring.getBean("academy1"),
-    academy2 = spring.getBean("academy2"),
-    academy3 = spring.getBean("academy3"),
-    academy4 = spring.getBean("academy4"),
+    currWrkpName = appContext.get("currWrkpName"),
+    currWrkpTel = appContext.get("currWrkpTel"),
+    academy0 = appContext.get("academy0"),
+    academy1 = appContext.get("academy1"),
+    academy2 = appContext.get("academy2"),
+    academy3 = appContext.get("academy3"),
+    academy4 = appContext.get("academy4"),
 
-    hndcGrad = spring.getBean("hndcGrad"),
-    hndcType = spring.getBean("hndcType"),
+    hndcGrad = appContext.get("hndcGrad"),
+    hndcType = appContext.get("hndcType"),
 
-    lastCollegeScore = spring.getBean("lastCollegeScore"),
-    lastGraduateScore = spring.getBean("lastGraduateScore"),
-    toeflScore = spring.getBean("toeflScore"),
-    toeicScore = spring.getBean("toeicScore"),
-    tepsScore = spring.getBean("tepsScore"),
-    ieltsScore = spring.getBean("ieltsScore"),
-    greScore = spring.getBean("greScore"),
-    forlExmp = spring.getBean("forlExmp"),
+    lastCollegeScore = appContext.get("lastCollegeScore"),
+    lastGraduateScore = appContext.get("lastGraduateScore"),
+    toeflScore = appContext.get("toeflScore"),
+    toeicScore = appContext.get("toeicScore"),
+    tepsScore = appContext.get("tepsScore"),
+    ieltsScore = appContext.get("ieltsScore"),
+    greScore = appContext.get("greScore"),
+    forlExmp = appContext.get("forlExmp"),
 
-    range0 = spring.getBean("range0"),
-    corpName0 = spring.getBean("corpName0"),
-    exprDesc0 = spring.getBean("exprDesc0"),
-    range1 = spring.getBean("range1"),
-    corpName1 = spring.getBean("corpName1"),
-    exprDesc1 = spring.getBean("exprDesc1"),
-    range2 = spring.getBean("range2"),
-    corpName2 = spring.getBean("corpName2"),
-    exprDesc2 = spring.getBean("exprDesc2"),
-    range3 = spring.getBean("range3"),
-    corpName3 = spring.getBean("corpName3"),
-    exprDesc3 = spring.getBean("exprDesc3"),
-    range4 = spring.getBean("range4"),
-    corpName4 = spring.getBean("corpName4"),
-    exprDesc4 = spring.getBean("exprDesc4"),
+    range0 = appContext.get("range0"),
+    corpName0 = appContext.get("corpName0"),
+    exprDesc0 = appContext.get("exprDesc0"),
+    range1 = appContext.get("range1"),
+    corpName1 = appContext.get("corpName1"),
+    exprDesc1 = appContext.get("exprDesc1"),
+    range2 = appContext.get("range2"),
+    corpName2 = appContext.get("corpName2"),
+    exprDesc2 = appContext.get("exprDesc2"),
+    range3 = appContext.get("range3"),
+    corpName3 = appContext.get("corpName3"),
+    exprDesc3 = appContext.get("exprDesc3"),
+    range4 = appContext.get("range4"),
+    corpName4 = appContext.get("corpName4"),
+    exprDesc4 = appContext.get("exprDesc4"),
 
-    mltrServName = spring.getBean("mltrServName"),
-    mltrJoinDay = spring.getBean("mltrJoinDay"),
-    mltrDschDay = spring.getBean("mltrDschDay"),
-    mltrRankName = spring.getBean("mltrRankName"),
+    mltrServName = appContext.get("mltrServName"),
+    mltrJoinDay = appContext.get("mltrJoinDay"),
+    mltrDschDay = appContext.get("mltrDschDay"),
+    mltrRankName = appContext.get("mltrRankName"),
 
-    applId = spring.getBean("applId");
-
+    applId = appContext.get("applId");
 ]]></method>
     <text-property name="displayName">입학원서</text-property>
     <property name="layoutPreference">auto layout</property>
@@ -922,6 +925,67 @@ var sc = reportContext.getHttpServletRequest().getSession().getServletContext(),
             </structure>
         </scalar-parameter>
     </parameters>
+    <data-sources>
+        <script-data-source name="DocDataSource" id="1469"/>
+    </data-sources>
+    <data-sets>
+        <script-data-set name="submitteFiles" id="1470">
+            <list-property name="resultSetHints">
+                <structure>
+                    <property name="position">1</property>
+                    <property name="name">columnDocItemName</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">2</property>
+                    <property name="name">columnPages</property>
+                    <property name="dataType">integer</property>
+                </structure>
+            </list-property>
+            <list-property name="columnHints">
+                <structure>
+                    <property name="columnName">columnDocItemName</property>
+                    <text-property name="displayName">docItemName</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">columnPages</property>
+                    <text-property name="displayName">pages</text-property>
+                </structure>
+            </list-property>
+            <structure name="cachedMetaData">
+                <list-property name="resultSet">
+                    <structure>
+                        <property name="position">1</property>
+                        <property name="name">columnDocItemName</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">2</property>
+                        <property name="name">columnPages</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                </list-property>
+            </structure>
+            <property name="dataSource">DocDataSource</property>
+            <method name="open"><![CDATA[//System.out.println('### open of Data Set ###');
+var appContext = reportContext.getAppContext();
+documentList = appContext.get("documents");
+iterator = documentList.iterator();]]></method>
+            <method name="fetch"><![CDATA[//System.out.println('### Fetch of Data Set ###');
+var i = 0;
+if (iterator.hasNext()) {
+	var docItem = iterator.next();
+	row['columnDocItemName'] = docItem.getDocItemName();
+    row['columnPages'] = docItem.getPageCnt();
+//    System.out.println("document[" + i + "] : " + docItem.getDocItemName() + ", " + docItem.getPageCnt());
+//    System.out.println("document[" + i++ + "] : " + row['columnDocItemName'] + ", " + row['columnPages']);
+    return true;
+} else return false;]]></method>
+            <method name="close"><![CDATA[//System.out.println('### close of Data Set ###');
+documentList = null;
+iterator = null;]]></method>
+        </script-data-set>
+    </data-sets>
     <styles>
         <style name="report" id="4">
             <property name="fontFamily">"Arial"</property>
@@ -965,6 +1029,18 @@ var sc = reportContext.getHttpServletRequest().getSession().getServletContext(),
             <property name="rightMargin">0.5in</property>
             <property name="headerHeight">0in</property>
             <property name="footerHeight">0in</property>
+        </simple-master-page>
+        <simple-master-page name="NewSimpleMasterPage" id="1412">
+            <property name="type">a4</property>
+            <page-header>
+                <label id="1413">
+                    <property name="fontSize">24pt</property>
+                    <property name="marginTop">50pt</property>
+                    <property name="marginBottom">30pt</property>
+                    <property name="textAlign">center</property>
+                    <text-property name="text">제출된 첨부파일 목록</text-property>
+                </label>
+            </page-header>
         </simple-master-page>
     </page-setup>
     <body>
@@ -2934,6 +3010,194 @@ var sc = reportContext.getHttpServletRequest().getSession().getServletContext(),
                             </cell>
                         </row>
                     </grid>
+                </cell>
+            </row>
+        </grid>
+        <grid id="1487">
+            <property name="masterPage">NewSimpleMasterPage</property>
+            <property name="pageBreakBefore">always</property>
+            <column id="1488"/>
+            <row id="1489">
+                <cell id="1490">
+                    <property name="textAlign">center</property>
+                    <table id="1471">
+                        <property name="fontSize">15pt</property>
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">thin</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">thin</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">thin</property>
+                        <property name="borderTopStyle">solid</property>
+                        <property name="borderTopWidth">thin</property>
+                        <property name="masterPage">NewSimpleMasterPage</property>
+                        <property name="pageBreakBefore">auto</property>
+                        <property name="width">6.114583333333333in</property>
+                        <property name="dataSet">submitteFiles</property>
+                        <list-property name="boundDataColumns">
+                            <structure>
+                                <property name="name">columnDocItemName</property>
+                                <text-property name="displayName">docItemName</text-property>
+                                <expression name="expression" type="javascript">dataSetRow["columnDocItemName"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">columnPages</property>
+                                <text-property name="displayName">pages</text-property>
+                                <expression name="expression" type="javascript">dataSetRow["columnPages"]</expression>
+                                <property name="dataType">integer</property>
+                            </structure>
+                            <structure>
+                                <property name="name">Aggregation</property>
+                                <text-property name="displayName">TotalDocuments</text-property>
+                                <property name="dataType">integer</property>
+                                <property name="aggregateFunction">COUNT</property>
+                                <list-property name="arguments">
+                                    <structure>
+                                        <property name="name">Expression</property>
+                                        <expression name="value" type="javascript">row["columnDocItemName"]</expression>
+                                    </structure>
+                                </list-property>
+                                <property name="allowExport">true</property>
+                            </structure>
+                            <structure>
+                                <property name="name">Aggregation_1</property>
+                                <text-property name="displayName">TotalPages</text-property>
+                                <property name="dataType">float</property>
+                                <property name="aggregateFunction">SUM</property>
+                                <list-property name="arguments">
+                                    <structure>
+                                        <property name="name">Expression</property>
+                                        <expression name="value" type="javascript">row["columnPages"]</expression>
+                                    </structure>
+                                </list-property>
+                                <property name="allowExport">true</property>
+                            </structure>
+                        </list-property>
+                        <column id="1481">
+                            <property name="width">4.520833333333333in</property>
+                        </column>
+                        <column id="1482">
+                            <property name="width">1.59375in</property>
+                        </column>
+                        <header>
+                            <row id="1472">
+                                <property name="borderBottomStyle">solid</property>
+                                <property name="borderBottomWidth">thin</property>
+                                <property name="borderLeftStyle">solid</property>
+                                <property name="borderLeftWidth">thin</property>
+                                <property name="borderRightStyle">solid</property>
+                                <property name="borderRightWidth">thin</property>
+                                <property name="borderTopStyle">solid</property>
+                                <property name="borderTopWidth">thin</property>
+                                <cell id="1473">
+                                    <property name="borderBottomStyle">solid</property>
+                                    <property name="borderBottomWidth">thin</property>
+                                    <property name="borderLeftStyle">solid</property>
+                                    <property name="borderLeftWidth">thin</property>
+                                    <property name="borderRightStyle">solid</property>
+                                    <property name="borderRightWidth">thin</property>
+                                    <property name="borderTopStyle">solid</property>
+                                    <property name="borderTopWidth">thin</property>
+                                    <label id="1483">
+                                        <text-property name="text">서류명</text-property>
+                                    </label>
+                                </cell>
+                                <cell id="1474">
+                                    <property name="borderBottomStyle">solid</property>
+                                    <property name="borderBottomWidth">thin</property>
+                                    <property name="borderLeftStyle">solid</property>
+                                    <property name="borderLeftWidth">thin</property>
+                                    <property name="borderRightStyle">solid</property>
+                                    <property name="borderRightWidth">thin</property>
+                                    <property name="borderTopStyle">solid</property>
+                                    <property name="borderTopWidth">thin</property>
+                                    <label id="1485">
+                                        <text-property name="text">페이지수</text-property>
+                                    </label>
+                                </cell>
+                            </row>
+                        </header>
+                        <detail>
+                            <row id="1475">
+                                <property name="borderBottomStyle">solid</property>
+                                <property name="borderBottomWidth">thin</property>
+                                <property name="borderLeftStyle">solid</property>
+                                <property name="borderLeftWidth">thin</property>
+                                <property name="borderRightStyle">solid</property>
+                                <property name="borderRightWidth">thin</property>
+                                <property name="borderTopStyle">solid</property>
+                                <property name="borderTopWidth">thin</property>
+                                <cell id="1476">
+                                    <property name="borderBottomStyle">solid</property>
+                                    <property name="borderBottomWidth">thin</property>
+                                    <property name="borderLeftStyle">solid</property>
+                                    <property name="borderLeftWidth">thin</property>
+                                    <property name="borderRightStyle">solid</property>
+                                    <property name="borderRightWidth">thin</property>
+                                    <property name="borderTopStyle">solid</property>
+                                    <property name="borderTopWidth">thin</property>
+                                    <data id="1484">
+                                        <property name="textAlign">left</property>
+                                        <property name="resultSetColumn">columnDocItemName</property>
+                                    </data>
+                                </cell>
+                                <cell id="1477">
+                                    <property name="borderBottomStyle">solid</property>
+                                    <property name="borderBottomWidth">thin</property>
+                                    <property name="borderLeftStyle">solid</property>
+                                    <property name="borderLeftWidth">thin</property>
+                                    <property name="borderRightStyle">solid</property>
+                                    <property name="borderRightWidth">thin</property>
+                                    <property name="borderTopStyle">solid</property>
+                                    <property name="borderTopWidth">thin</property>
+                                    <data id="1486">
+                                        <property name="textAlign">right</property>
+                                        <property name="resultSetColumn">columnPages</property>
+                                    </data>
+                                </cell>
+                            </row>
+                        </detail>
+                        <footer>
+                            <row id="1478">
+                                <property name="borderBottomStyle">solid</property>
+                                <property name="borderBottomWidth">thin</property>
+                                <property name="borderLeftStyle">solid</property>
+                                <property name="borderLeftWidth">thin</property>
+                                <property name="borderRightStyle">solid</property>
+                                <property name="borderRightWidth">thin</property>
+                                <property name="borderTopStyle">solid</property>
+                                <property name="borderTopWidth">thin</property>
+                                <property name="height">0.2916666666666667in</property>
+                                <cell id="1479">
+                                    <property name="borderBottomStyle">solid</property>
+                                    <property name="borderBottomWidth">thin</property>
+                                    <property name="borderLeftStyle">solid</property>
+                                    <property name="borderLeftWidth">thin</property>
+                                    <property name="borderRightStyle">solid</property>
+                                    <property name="borderRightWidth">thin</property>
+                                    <property name="borderTopStyle">solid</property>
+                                    <property name="borderTopWidth">thin</property>
+                                    <data id="1491">
+                                        <property name="resultSetColumn">Aggregation</property>
+                                    </data>
+                                </cell>
+                                <cell id="1480">
+                                    <property name="borderBottomStyle">solid</property>
+                                    <property name="borderBottomWidth">thin</property>
+                                    <property name="borderLeftStyle">solid</property>
+                                    <property name="borderLeftWidth">thin</property>
+                                    <property name="borderRightStyle">solid</property>
+                                    <property name="borderRightWidth">thin</property>
+                                    <property name="borderTopStyle">solid</property>
+                                    <property name="borderTopWidth">thin</property>
+                                    <data id="1492">
+                                        <property name="resultSetColumn">Aggregation_1</property>
+                                    </data>
+                                </cell>
+                            </row>
+                        </footer>
+                    </table>
                 </cell>
             </row>
         </grid>

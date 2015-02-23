@@ -333,6 +333,7 @@
                                                     <div class="panel-heading">${langList.itemName}</div>
                                                     <div class="panel-body" id="languageGroupList${langGroupStat.index}.langList${langListStat.index}.list">
                                                         <form:hidden path="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].itemName" value="${langList.itemName}"/>
+                                                        <form:hidden path="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].selGrpCode" value="${langList.selGrpCode}"/>
                                                         <c:forEach items="${langList.subContainer}" var="subContainer" varStatus="subContainerStat">
                                                             <div class="form-group">
                                                                 <div class="col-sm-3">
@@ -347,28 +348,42 @@
                                                                     <form:hidden path="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].subContainer[${subContainerStat.index}].fileUploadFg" value="${subContainer.fileUploadFg}"/>
                                                                     <form:hidden path="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].subContainer[${subContainerStat.index}].langInfoSaveFg" value="${subContainer.langInfoSaveFg}"/>
                                                                     <form:hidden path="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].subContainer[${subContainerStat.index}].canYn" value="${subContainer.canYn}"/>
+                                                                    <form:hidden path="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].subContainer[${subContainerStat.index}].lastYn" value="${subContainer.lastYn}"/>
+                                                                    <form:hidden path="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].subContainer[${subContainerStat.index}].selGrpCode" value="${subContainer.selGrpCode}"/>
                                                                     <form:hidden path="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].subContainer[${subContainerStat.index}].itemName" value="${subContainer.itemName}"/>
-                                                                    <div class="checkbox">
-                                                                        <label for="checkLang-${subContainerStat.index}">
+                                                                    <c:if test="${langList.selGrpCode != 'ENG_EXMP1' && langList.selGrpCode != 'KOR_EXMP1'}">
+                                                                        <div class="checkbox">
                                                                             <c:if test='${subContainer.canYn == "Y"}'>
                                                                                 <c:choose>
                                                                                     <c:when test='${langGroup.multiYn == "Y"}'>
-                                                                                        <input type="checkbox" class="lang-checkbox" id="checkLang-${subContainerStat.index}" name="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].subContainer[${subContainerStat.index}].checkedFg" <c:if test="${subContainer.checkedFg == true}">checked</c:if> />
+                                                                                        <label for="checkLang-${langGroupStat.index}-${langListStat.index}-${subContainerStat.index}">
+                                                                                            <input type="checkbox" class="langCheckbox-${langGroupStat.index}-${langListStat.index}-${subContainerStat.index} langCheckbox-${langGroupStat.index} langCheckbox"
+                                                                                                   id="checkLang-${langGroupStat.index}-${langListStat.index}-${subContainerStat.index}"
+                                                                                                   name="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].subContainer[${subContainerStat.index}].checkedFg"
+                                                                                                   <c:if test="${subContainer.checkedFg == true}">checked</c:if>
+                                                                                                   <c:if test="${langCareer.applicationGeneral.forlExmpCode.length() > 0}">disabled</c:if> />${subContainer.itemName}
+                                                                                        </label>
                                                                                     </c:when>
                                                                                     <c:otherwise>
-                                                                                        <input type="radio" class="lang-radio" id="radioLang-${subContainerStat.index}" name="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].subContainer[${subContainerStat.index}].checkedFg" <c:if test="${subContainer.checkedFg == true}">checked</c:if> />
+                                                                                        <label for="checkLang-${langGroupStat.index}-${langListStat.index}-${subContainerStat.index}">
+                                                                                            <input type="radio" class="langRadio-${langGroupStat.index}-${langListStat.index}-${subContainerStat.index} langCheckbox-${langGroupStat.index} langCheckbox"
+                                                                                                   id="radioLang-${langGroupStat.index}-${langListStat.index}-${subContainerStat.index}"
+                                                                                                   name="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].subContainer[${subContainerStat.index}].checkedFg"
+                                                                                                   <c:if test="${subContainer.checkedFg == true}">checked</c:if>
+                                                                                                   <c:if test="${langCareer.applicationGeneral.forlExmpCode.length() > 0}">disabled</c:if> />${subContainer.itemName}
+                                                                                        </label>
                                                                                     </c:otherwise>
                                                                                 </c:choose>
-                                                                            </c:if>${subContainer.itemName}
-                                                                        </label>
-                                                                    </div>
+                                                                            </c:if>
+                                                                        </div>
+                                                                    </c:if>
                                                                 </div>
                                                                 <c:choose>
                                                                     <c:when test='${subContainer.canYn == "Y"}'>
-                                                                        <div class="col-sm-2 lang-detail-${subContainerStat.index}" style='display: <c:choose><c:when test="${subContainer.checkedFg == true}">block;</c:when><c:otherwise>none;</c:otherwise></c:choose>'>
-                                                                            <c:if test="${subContainer.itemCode == '00001'}">
+                                                                        <div class="col-sm-2 langDetail-${langGroupStat.index}-${langListStat.index}-${subContainerStat.index} langDetail-${langGroupStat.index}" style='display: <c:choose><c:when test="${subContainer.checkedFg == true}">block;</c:when><c:otherwise>none;</c:otherwise></c:choose>'>
+                                                                            <c:if test="${subContainer.itemGrpCode == 'LANG_EXAM' && subContainer.itemCode == '00001'}">
                                                                                 <div class="input-group">
-                                                                                    <form:select path="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].subContainer[${subContainerStat.index}].toflTypeCode" cssClass="form-control forlInput">
+                                                                                    <form:select path="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].subContainer[${subContainerStat.index}].toflTypeCode" cssClass="form-control forlInput-${langGroupStat.index}">
                                                                                         <form:option value="" label="--선택--" />
                                                                                         <form:options items="${common.toflTypeList}" itemValue="code" itemLabel="codeVal" />
                                                                                     </form:select>
@@ -382,10 +397,10 @@
                                                                                 </spring:bind>
                                                                             </c:if>
                                                                         </div>
-                                                                        <div class="col-sm-4 lang-detail-${subContainerStat.index}" style='display: <c:choose><c:when test="${subContainer.checkedFg == true}">block;</c:when><c:otherwise>none;</c:otherwise></c:choose>'>
+                                                                        <div class="col-sm-4 langDetail-${langGroupStat.index}-${langListStat.index}-${subContainerStat.index} langDetail-${langGroupStat.index}" style='display: <c:choose><c:when test="${subContainer.checkedFg == true}">block;</c:when><c:otherwise>none;</c:otherwise></c:choose>'>
                                                                             <div class="input-group date">
                                                                                 <span class="input-group-addon">시험일</span>
-                                                                                <form:input path="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].subContainer[${subContainerStat.index}].examDay" cssClass="form-control forlInput" readonly="true" />
+                                                                                <form:input path="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].subContainer[${subContainerStat.index}].examDay" cssClass="form-control forlInput-${langGroupStat.index}" readonly="true" />
                                                                                 <span class="input-group-addon calendar-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                                                                             </div>
                                                                             <spring:bind path="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].subContainer[${subContainerStat.index}].examDay">
@@ -396,10 +411,26 @@
                                                                                 </c:if>
                                                                             </spring:bind>
                                                                         </div>
-                                                                        <div class="col-sm-3 lang-detail-${subContainerStat.index}" style='display: <c:choose><c:when test="${subContainer.checkedFg == true}">block;</c:when><c:otherwise>none;</c:otherwise></c:choose>'>
+                                                                        <div class="col-sm-3 langDetail-${langGroupStat.index}-${langListStat.index}-${subContainerStat.index} langDetail-${langGroupStat.index}" style='display: <c:choose><c:when test="${subContainer.checkedFg == true}">block;</c:when><c:otherwise>none;</c:otherwise></c:choose>'>
                                                                             <div class="input-group">
                                                                                 <span class="input-group-addon">점수</span>
-                                                                                <form:input path="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].subContainer[${subContainerStat.index}].langGrad" cssClass="form-control lang-score forlInput" data-lang-exam-name="${subContainer.itemName}" maxlength="4"/>
+                                                                                <c:choose>
+                                                                                    <c:when test="${subContainer.itemName == 'IELTS'}">
+                                                                                        <form:select path="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].subContainer[${subContainerStat.index}].langGrad" cssClass="form-control">
+                                                                                            <form:option value="" label="--선택--" />
+                                                                                            <form:options items="${common.ieltsLevelList}" itemValue="code" itemLabel="codeVal" />
+                                                                                        </form:select>
+                                                                                    </c:when>
+                                                                                    <c:when test="${subContainer.itemName == 'TOPIK'}">
+                                                                                        <form:select path="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].subContainer[${subContainerStat.index}].langGrad" cssClass="form-control">
+                                                                                            <form:option value="" label="--선택--" />
+                                                                                            <form:options items="${common.topikLevelList}" itemValue="code" itemLabel="codeVal" />
+                                                                                        </form:select>
+                                                                                    </c:when>
+                                                                                    <c:otherwise>
+                                                                                        <form:input path="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].subContainer[${subContainerStat.index}].langGrad" cssClass="form-control lang-score forlInput-${langGroupStat.index}" data-lang-exam-name="${subContainer.itemName}" maxlength="4"/>
+                                                                                    </c:otherwise>
+                                                                                </c:choose>
                                                                             </div>
                                                                             <spring:bind path="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].subContainer[${subContainerStat.index}].langGrad">
                                                                                 <c:if test="${status.error}">
@@ -409,6 +440,35 @@
                                                                                 </c:if>
                                                                             </spring:bind>
                                                                         </div>
+                                                                    </c:when>
+                                                                    <c:when test="${langList.selGrpCode == 'ENG_EXMP1' || langList.selGrpCode == 'ENG_EXMP2' || langList.selGrpCode == 'KOR_EXMP1' }">
+                                                                        <c:if test='${langCareer.application.deptCode != "10403"}'> <%-- 건축공학과는 면제 없음 --%>
+                                                                            <div class="col-sm-9">
+                                                                                <div class="col-sm-4">
+                                                                                    <div class="checkbox">
+                                                                                        <label>
+                                                                                            <input type="checkbox" class="checkboxForlExmp" id="checkForlExmp-${langGroupStat.index}" name="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].subContainer[${subContainerStat.index}].checkedFg" <c:if test='${subContainer.checkedFg == true}'>checked</c:if> />${subContainer.itemName}
+                                                                                        </label>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="col-sm-5">
+                                                                                    <div id="forlExmpSelect-${langGroupStat.index}" style="display: <c:choose><c:when test="${subContainer.checkedFg == true}">block;</c:when><c:otherwise>none;</c:otherwise></c:choose>" >
+                                                                                        <form:select path="applicationGeneral.forlExmpCode" id="forlExmpCode-${langGroupStat.index}" cssClass="form-control"
+                                                                                                     data-selGrpCode-id="languageGroupList${langGroupStat.index}.langList${langListStat.index}.subContainer${subContainerStat.index}.selGrpCode">
+                                                                                            <form:option value="" label="--선택--" />
+                                                                                            <form:options items="${common.fornExmpList}" itemValue="code" itemLabel="codeVal" />
+                                                                                        </form:select>
+                                                                                    </div>
+                                                                                    <spring:bind path="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].subContainer[${subContainerStat.index}].selGrpCode">
+                                                                                        <c:if test="${status.error}">
+                                                                                            <div class="validation-container">
+                                                                                                <div class="validation-error">${status.errorMessage}</div>
+                                                                                            </div>
+                                                                                        </c:if>
+                                                                                    </spring:bind>
+                                                                                </div>
+                                                                            </div>
+                                                                        </c:if>
                                                                     </c:when>
                                                                     <c:otherwise>
                                                                         <div class="col-sm-2">
@@ -425,23 +485,6 @@
                                         </div>
                                     </div>
                                 </c:forEach>
-                                <c:if test='${langCareer.application.deptCode != "10403"}'> <%-- 건축공학과는 면제 없음 --%>
-                                    <div class="form-group required">
-                                        <div class="col-sm-offset-2 col-sm-4">
-                                            <div class="checkbox">
-                                                <label>
-                                                    <input type="checkbox" id="checkForlExmp" name="checkForlExmp" <c:if test='${langCareer.applicationGeneral.forlExmpCode != null && langCareer.applicationGeneral.forlExmpCode.length() > 0}'>checked</c:if> />외국어 성적 면제 해당자
-                                                </label>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-5">
-                                            <form:select path="applicationGeneral.forlExmpCode" id="forlExmpCode" cssClass="form-control" disabled="true">
-                                                <form:option value="" label="--선택--" />
-                                                <form:options items="${common.fornExmpList}" itemValue="code" itemLabel="codeVal" />
-                                            </form:select>
-                                        </div>
-                                    </div>
-                                </c:if>
                             </div>
                         </div>
                         <div class="panel panel-darkgray">
@@ -610,27 +653,26 @@
         <%-- 하단 버튼 처리 --%>
 
         <%-- 어학 성적 입력란 show/hide 처리 --%>
-        $('.lang-checkbox').on('change', function () {
+        $('.langCheckbox').on('change', function () {
             var id = this.id,
                 currentIndex, classToToggle;
 
-            currentIndex = id.substr(id.lastIndexOf('-')+1),
-            classToToggle = '.lang-detail-' + currentIndex;
-
+            currentIndex = id.substr(id.indexOf('-')),
+            classToToggle = '.langDetail' + currentIndex;
             if (this.checked) {
                 $(classToToggle).css('display', 'block');
             } else {
                 $(classToToggle).css('display', 'none');
             }
         });
-        $('.lang-radio').on('change', function () {
+        $('.langRadio').on('change', function () {
             var id = this.id,
                 currentIndex, classToShow;
 
-            currentIndex = id.substr(id.lastIndexOf('-')+1),
-            classToShow = '.lang-detail-' + currentIndex;
+            currentIndex = id.substr(id.indexOf('-')),
+            classToShow = '.langDetail' + currentIndex;
 
-            $('.lang-radio').each( function () {
+            $('.langRadio').each( function () {
                 if (this.checked) {
                     $(classToShow).css('display', 'block');
                 } else {
@@ -724,34 +766,47 @@
         <%-- 달력 reset 함수 --%>
 
         <%-- 외국어 성적 면제 해당 처리 --%>
-        var checkForlExmp = function (isExmp) {
-            $('.forlInput').each(function () {
+        var checkForlExmp = function (isExmp, checkbox) {
+            var basePosition = checkbox.id.indexOf('-'),
+                langGroupIndex = checkbox.id.substr(basePosition),
+                targetClassString = '.langCheckbox' + langGroupIndex + ', .langRadio' + langGroupIndex,
+                targetLangDetailString = '.langDetail' + langGroupIndex;
+            $('.forlInput' + langGroupIndex).each(function () {
                 this.value = '';
                 this.setAttribute('value', '');
                 this.disabled = isExmp;
                 if (this.selectedIndex)
                     this.selectedIndex = 0;
             });
-            $('.lang-checkbox, .lang-radio').each(function () {
+            $(targetClassString).each(function () {
                 this.checked = false;
                 this.disabled = isExmp;
             });
+            $(targetLangDetailString).each(function () {
+                this.style.display = 'none';
+            });
 
-            document.getElementById('forlExmpCode').disabled = !isExmp;
+            document.getElementById('forlExmpSelect' + langGroupIndex).style.display = isExmp ? 'block' : 'none';
+            document.getElementById('forlExmpCode' + langGroupIndex).disabled = !isExmp;
             if (!isExmp)
-                document.getElementById('forlExmpCode').selectedIndex = 0;
+                document.getElementById('forlExmpCode' + langGroupIndex).selectedIndex = 0;
         };
 
-        $('#checkForlExmp').on('click', function () {
+        $('.checkboxForlExmp').on('click', function () {
             if (this.checked) {
                 if (confirm('외국어 성적 면제 해당자를 선택하면\n외국어 성적을 입력할 수 없으며,\n이미 입력한 외국어 성적도 삭제됩니다.\n\n외국어 성적 면제 해당자를 선택하시겠습니까?')) {
-                    checkForlExmp(true);
+                    checkForlExmp(true, this);
                 } else {
                     this.checked = false;
                 }
             } else {
-                checkForlExmp(false);
+                checkForlExmp(false, this);
             }
+        });
+
+        $('#forlExmpCode').on('change', function () {
+            var selGrpCodeHidden = document.getElementById(this.getAttribute('data-selGrpCode-id'));
+            selGrpCodeHidden.value = this[this.selectedIndex].value;
         });
         <%-- 외국어 성적 면제 해당 처리 --%>
 

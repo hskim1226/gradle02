@@ -35,7 +35,7 @@
 
     <style>
         section.signup {
-            padding: 250px 0 10px 0;
+            padding: 150px 0 10px 0;
             background: #556699;
             color: #fdfdfd;
         }
@@ -76,9 +76,13 @@
             cursor: default;
             resize: none;
             -moz-user-select: none;
-            -webkit-user-select: none;의
+            -webkit-user-select: none;
             -khtml-user-select: none;
             user-select: none;
+        }
+        .nopadding {
+            padding: 0 !important;
+            margin: 0 !important;
         }
     </style>
 </head>
@@ -86,11 +90,11 @@
 <section class="signup">
     <div class="container">
         <div class="page-header">
-            <h1 style="color: #fdfdfd">회원 약관 및 개인 정보 수집 이용 동</h1>
+            <h1 style="color: #fdfdfd">회원 약관 및 개인 정보 수집 이용 동의</h1>
         </div>
         <form class="form-horizontal" role="form" id="sign-up-form" action="${contextPath}/user/signup" method="POST">
             <div class="form-group">
-                <label for="terms-of-service" class="col-sm-2 control-label">연세어플라이 이용 약관에 대한 동의</label>
+                <label for="terms-of-service" class="col-sm-2 control-label word-keep-all">연세어플라이 이용 약관에 대한 동의</label>
                 <div class="col-sm-10">
                     <textarea id="terms-of-service" class="form-control" rows="10" readonly><%=request.getAttribute("terms-of-service")%></textarea>
                     <label for="terms-agree" class="control-label">
@@ -99,7 +103,7 @@
                 </div>
             </div>
             <div class="form-group">
-                <label for="privacy-policy1" class="col-sm-2 control-label">개인 정보 수집 및 이용에 대한 동의</label>
+                <label for="privacy-policy1" class="col-sm-2 control-label word-keep-all">개인 정보 수집 및 이용에 대한 동의</label>
                 <div class="col-sm-10">
                     <textarea id="privacy-policy1" class="form-control" rows="10" readonly><%=request.getAttribute("privacy-policy1")%></textarea>
                     <textarea id="privacy-policy2" class="form-control" rows="10" readonly><%=request.getAttribute("privacy-policy2")%></textarea>
@@ -111,7 +115,7 @@
             </div>
         </form>
         <div class="col-sm-offset-2 col-sm-10">
-            <button id="sign-up-button" class="btn btn-info btn-lg btn-block">계속하기</button>
+            <button id="sign-up-button" class="btn btn-primary btn-lg btn-block">회원 정보 입력</button>
         </div>
     </div>
 </section>
@@ -135,10 +139,14 @@
 <script src="${contextPath}/js/jquery.localScroll.min.js"></script>
 <script src="${contextPath}/js/jquery.appear.min.js"></script>
 <script src="${contextPath}/js/jquery.stellar.min.js"></script>
+<script src="${contextPath}/js/jquery.word-break-keep-all.min.js"></script>
 <script src="${contextPath}/js/main.js"></script>
 
 <script type="text/javascript">
 $(document).ready(function(){
+
+    <%-- 단어 잘림 방지 --%>
+    $('.word-keep-all').wordBreakKeepAll();
 
     $('#sign-up-button').on('click', function() {
         if ( !$("input:checkbox[id='terms-agree']").is(":checked") ) {

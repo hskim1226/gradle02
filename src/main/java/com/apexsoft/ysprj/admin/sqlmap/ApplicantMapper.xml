@@ -30,8 +30,8 @@
         <result property="emerContName" column="EMER_CONT_NAME"/>
         <result property="emerContTel" column="EMER_CONT_TEL"/>        
         <result property="applId" column="appl_id"/>     
-        <result property="applStsCode" column="appl_cts_code"/>
-        <result property="applStsName" column="appl_sts_name"/>     
+        <result property="applStsCode" column="APPL_STS_CODE"/>
+        <result property="applStsName" column="APPL_STS_NAME"/>
         <result property="admsFee" column="adms_fee" jdbcType="INTEGER" />             
         <result property="applDate" column="appl_date" jdbcType="DATE"/>             
 
@@ -85,6 +85,7 @@
 			A.ENG_SUR,
 			A.ENG_NAME, 
 			A.RGST_NO,
+			A.TEL_NUM,
 			A.MOBI_NUM,
 			A.MAIL_ADDR, 
 			A.ADDR,
@@ -95,11 +96,13 @@
 			A.APPL_STS_CODE,
 			CODEVAL( 'APPL_STS',A.APPL_STS_CODE)APPL_STS_NAME ,           
 			A.APPL_DATE,
-      I.ADMS_FEE
+            I.ADMS_FEE
 		FROM  APPL A
 			left outer join ARI_INST D
 			on A.ARI_INST_CODE = D.ARI_INST_CODE
-			, DEPT b, COLL e, CAMP F, DETL_MAJ G, ADMS H, ADMS_CORS I, APPL_GENE J
+            left outer join APPL_GENE J
+			on A.APPL_NO = J.APPL_NO
+			, DEPT b, COLL e, CAMP F, DETL_MAJ G, ADMS H, ADMS_CORS I
 		where 1=1
 			AND A.DEPT_CODE = b.DEPT_CODE
 			AND b.COLL_CODE= e.COLL_CODE
@@ -109,11 +112,12 @@
 			AND A.ADMS_NO = I.ADMS_NO
 			AND A.CORS_TYPE_CODE = I.CORS_TYPE_CODE
 			AND A.DEPT_CODE = I.DEPT_CODE
-      		AND A.APPL_NO = J.APPL_NO
 			AND IFNULL(A.ARI_INST_CODE,'') = IFNULL(I.ARI_INST_CODE,'')
     
     
-	        AND A.APPL_NO = #{applNo}     
+	        AND A.APPL_NO = #{applNo}
+
+       ORDER BY  APPL_ID DESC, APPL_NO DESC
 	</select>
 	
 	
@@ -128,12 +132,26 @@
 		AND b.COLL_CODE= e.COLL_CODE
 		AND e.CAMP_CODE = F.CAMP_CODE
 		AND a.ADMS_NO = H.ADMS_NO
-        AND a.APPL_NO = #{applNo}     
+        AND a.APPL_NO = #{applNo}
+
+        ORDER BY  APPL_ID DESC, APPL_NO DESC
 	</select>
 	
     <select id="retrieveApplicantListByName" resultMap="entireApplicantInfo" parameterType="com.apexsoft.ysprj.admin.control.form.ApplicantSearchForm">
     	<![CDATA[
-		SELECT a.APPL_NO APPL_NO, a.APPL_ID, H.ADMS_TYPE, F.CAMP_NAME, e.COLL_NAME,  b.DEPT_NAME, a.CORS_TYPE_CODE, d.ARI_INST_NAME,a.DETL_MAJ_CODE,a.KOR_NAME,a.ENG_SUR,a.ENG_NAME, a.RGST_NO, a.MOBI_NUM,a.MAIL_ADDR 
+		SELECT a.APPL_NO APPL_NO, a.APPL_ID, H.ADMS_TYPE,
+		F.CAMP_NAME,
+		e.COLL_NAME,
+		b.DEPT_NAME,
+		a.CORS_TYPE_CODE,
+		CODEVAL('CORS_TYPE', a.CORS_TYPE_CODE ) CORS_TYPE_NAME,
+		d.ARI_INST_NAME,
+		a.DETL_MAJ_CODE,
+		a.KOR_NAME,
+		a.ENG_SUR,a.ENG_NAME,
+		a.RGST_NO, a.MOBI_NUM,a.MAIL_ADDR,
+		a.APPL_STS_CODE,
+		CODEVAL('APPL_STS', a.APPL_STS_CODE ) APPL_STS_NAME
 		FROM  APPL a 
 		left outer join ARI_INST d
 		on a.ARI_INST_CODE = d.ARI_INST_CODE
@@ -159,8 +177,8 @@
 		<if test="rgstNo != null and rgstNo !=''">
            AND RGST_NO = #{rgstNo}
         </if>
-           
-        ORDER BY APPL_ID 
+
+        ORDER BY  APPL_ID DESC, APPL_NO DESC
 
 	</select>
 	
@@ -191,7 +209,7 @@
 		<if test="rgstNo != null and rgstNo !=''">
            AND RGST_NO = #{rgstNo}
         </if>
-     
+
     </select>   	
 
    
@@ -208,7 +226,7 @@
 		AND b.COLL_CODE= e.COLL_CODE
 		AND e.CAMP_CODE = F.CAMP_CODE
 		AND a.ADMS_NO = H.ADMS_NO
-	
+
 
         <if test="admsNo != null and admsNo !=''">
 		    AND a.ADMS_NO =#{admsNo}
@@ -221,9 +239,9 @@
 		</if>	
 		<if test="deptCode != null and deptCode!=''">
 		    AND b.DEPT_CODE = #{deptCode}
-		</if>	
-           
-        ORDER BY APPL_ID 
+		</if>
+
+       ORDER BY  APPL_ID DESC, APPL_NO DESC
 
 	</select>
 
@@ -239,7 +257,7 @@
 		AND b.COLL_CODE= e.COLL_CODE
 		AND e.CAMP_CODE = F.CAMP_CODE
 		AND a.ADMS_NO = H.ADMS_NO
-		
+
         <if test="admsNo != null and admsNo!=''">
 		    AND a.ADMS_NO =#{admsNo}
 		</if>			    
@@ -308,7 +326,8 @@
 
 		  ) DD  LEFT OUTER JOIN
 			  ( SELECT * FROM APPL
-			  <!-- 
+                  WHERE APPL_STS_CODE = '00020'
+			  <!--
 			    WHERE APPL_STS_CODE IN ('00020','00030') 지원완료자
 			    WHERE APPL_STS_CODE IN ('00010','00021') 미결재, 미입금자
 			   -->

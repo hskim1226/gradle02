@@ -22,6 +22,6 @@
 
 	<bean id="multiPartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver" />
 
-    <bean id="fileService" class="com.apexsoft.framework.persistence.file.service.FileServiceImpl" />
+    <!--<bean id="fileService" class="com.apexsoft.framework.persistence.file.service.FileServiceImpl" />-->
 	
 </beans>

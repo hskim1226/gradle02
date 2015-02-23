@@ -5,7 +5,7 @@
     <title></title>
     <style>
         section.notice-detail {
-            padding: 200px 0 60px;
+            padding: 150px 0 60px;
             background: #55555f;
             color: #fdfdfd;
             position:relative;
@@ -45,12 +45,12 @@
 <body>
 <section class="notice-detail" id="notice-detail">
     <div class="container">
-        <div class="row mar-bot40">
-            <div class="col-md-10 col-md-offset-1">
+        <div class="row mar-bot10">
+            <div class="col-md-10 col-md-offset-2">
                 <h2 class="slogan">일반 전형</h2>
                 <div class="spacer-small"></div>
                 <div class="align-center">
-                    <div class="col-md-offset-1 col-md-10">
+                    <div class="col-md-10">
                         <h3 class="slogan">2015년도 일반전형 주요 일정 안내</h3>
                         <div class="spacer-tiny"></div>
                         <table class="table table-bordered">
@@ -84,7 +84,7 @@
                                 <td>2015. 3. 30(월) ~  4. 8(수)</td>
                             </tr>
                             <tr>
-                                <td colspan="2">서류심사 결과발표</td>
+                                <td colspan="2">구술시험 대상자 발표</td>
                                 <td>2014.10.31(금)</td>
                                 <td>2015. 4.24(금)</td>
                             </tr>
@@ -117,12 +117,12 @@
                             <tr>
                                 <td align="left">학력조회 동의서</td>
                             </tr>
-                            <tr>
-                                <td align="left">최종 출신대학 확인서</td>
-                            </tr>
-                            <tr>
-                                <td align="left">치과대학, 원주의과대학(의학,간호학,치위생학) 전공교실 주임교수 확인서</td>
-                            </tr>
+                            <%--<tr>--%>
+                                <%--<td align="left">최종 출신대학 확인서</td>--%>
+                            <%--</tr>--%>
+                            <%--<tr>--%>
+                                <%--<td align="left">치과대학, 원주의과대학(의학,간호학,치위생학) 전공교실 주임교수 확인서</td>--%>
+                            <%--</tr>--%>
                             <tr>
                                 <td align="left">원주의과대학 전일제 대학원생 장학금 지급 신청서</td>
                             </tr>
@@ -135,9 +135,9 @@
                         <div class="spacer-tiny"></div>
                         <div>
                             <form id=generalApplyForm" action="${contextPath}/application/agreement" method="post">
-                                <input type="hidden" name="admsNo" value="15A" />
-                                <input type="hidden" name="entrYear" value="2015" />
-                                <input type="hidden" name="admsTypeCode" value="A" />
+                                <input type="hidden" name="admsNo" value="${admsGeneral.admsNo}" />
+                                <input type="hidden" name="entrYear" value="${admsGeneral.entrYear}" />
+                                <input type="hidden" name="admsTypeCode" value="${admsGeneral.admsType}" />
                                 <button type="submit" class="btn btn-primary btn-lg btn-block" id="composePaper">원서 작성</button>
                             </form>
                         </div>

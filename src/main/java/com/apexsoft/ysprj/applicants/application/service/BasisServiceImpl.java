@@ -1,8 +1,8 @@
 package com.apexsoft.ysprj.applicants.application.service;
 
 import com.apexsoft.framework.common.vo.ExecutionContext;
+import com.apexsoft.framework.exception.ErrorInfo;
 import com.apexsoft.framework.exception.YSBizException;
-import com.apexsoft.framework.exception.YSNoRedirectBizException;
 import com.apexsoft.framework.message.MessageResolver;
 import com.apexsoft.framework.persistence.dao.CommonDAO;
 import com.apexsoft.ysprj.applicants.application.domain.*;
@@ -40,6 +40,7 @@ public class BasisServiceImpl implements BasisService {
         ExecutionContext ec = new ExecutionContext();
         Map<String, Object> ecDataMap = new HashMap<String, Object>();
         Map<String, Object> selectionMap = new HashMap<String, Object>();
+        Map<String, Object> foreignMap = new HashMap<String, Object>();
 
         // 지원사항 select 초기값 설정
         List<Campus> campList = null;
@@ -85,11 +86,25 @@ public class BasisServiceImpl implements BasisService {
 
         String cntrCode = basis.getApplication().getCitzCntrCode();
         cntrCode = cntrCode == null ? "" : cntrCode;
-        Country country = commonService.retrieveCountryByCode(cntrCode);
+        Country ctznCntr = commonService.retrieveCountryByCode(cntrCode);
+
+        if ("C".equals(basis.getApplication().getAdmsTypeCode())) {
+            cntrCode = basis.getApplicationForeigner().getBornCntrCode();
+            cntrCode = cntrCode == null ? "" : cntrCode;
+            Country bornCntr = commonService.retrieveCountryByCode(cntrCode);
+
+            foreignMap.put("foreignTypeList", commonService.retrieveCommonCodeValueByCodeGroup("FORN_TYPE"));
+            foreignMap.put("visaTypeList", commonService.retrieveCommonCodeValueByCodeGroup("VISA_TYPE"));
+
+            ecDataMap.put("bornCntr", bornCntr);
+            ecDataMap.put("foreign", foreignMap);
+        }
 
         ec.setResult(ExecutionContext.SUCCESS);
+        ecDataMap.put("basis", basis);
         ecDataMap.put("selection", selectionMap);
-        ecDataMap.put("country", country);
+        ecDataMap.put("ctznCntr", ctznCntr);
+
         ec.setData(ecDataMap);
 
         return ec;
@@ -101,45 +116,66 @@ public class BasisServiceImpl implements BasisService {
 
         Map<String, Object> ecDataMap = new HashMap<String, Object>();
         Map<String, Object> selectionMap = new HashMap<String, Object>();
+        Map<String, Object> foreignMap = new HashMap<String, Object>();
 
         Basis basis = new Basis();
         Application application;
 
-        if (applNo > 0) {
-            application = commonDAO.queryForObject(NAME_SPACE + "ApplicationMapper.selectByPrimaryKey",
-                    applNo, Application.class);
-            application = application == null ? new Application() : application;
-            basis.setApplication(application);
+        application = commonDAO.queryForObject(NAME_SPACE + "ApplicationMapper.selectByPrimaryKey",
+                applNo, Application.class);
+        application = application == null ? new Application() : application;
+        basis.setApplication(application);
+        ec = retrieveBasis(basis);
 
-            ApplicationGeneral applicationGeneral = commonDAO.queryForObject(NAME_SPACE + "ApplicationGeneralMapper.selectByPrimaryKey",
-                    applNo, ApplicationGeneral.class);
-            applicationGeneral = applicationGeneral == null ? new ApplicationGeneral() : applicationGeneral;
-            basis.setApplicationGeneral(applicationGeneral);
-
-            Map<String, Object> map =  (Map<String, Object>) retrieveSelectionMap(basis).getData();
-            selectionMap.putAll((Map<String, Object>) map.get("selection"));
-
-        } else {
-            // TODO : application 초기값 세팅
-            basis.setApplicationGeneral(new ApplicationGeneral());
-
-            List<Campus> campList = commonService.retrieveCampus();
-            List<AcademyResearchIndustryInstitution> ariInstList = commonService.retrieveAriInst();
-            if (campList != null)      selectionMap.put("campList", campList);
-            if (ariInstList != null)   selectionMap.put("ariInstList", ariInstList);
-            selectionMap.put("applAttrList", commonService.retrieveCommonCodeValueByCodeGroup("APPL_ATTR"));
-            selectionMap.put("emerContList", commonService.retrieveCommonCodeValueByCodeGroup("EMER_CONT"));
-        }
-
-        String cntrCode = basis.getApplication().getCitzCntrCode();
-        cntrCode = cntrCode == null ? "" : cntrCode;
-        Country country = commonService.retrieveCountryByCode(cntrCode);
-
-        ec.setResult(ExecutionContext.SUCCESS);
-        ecDataMap.put("basis", basis);
-        ecDataMap.put("selection", selectionMap);
-        ecDataMap.put("country", country);
-        ec.setData(ecDataMap);
+//        if (applNo > 0) {
+//            application = commonDAO.queryForObject(NAME_SPACE + "ApplicationMapper.selectByPrimaryKey",
+//                    applNo, Application.class);
+//            application = application == null ? new Application() : application;
+//            basis.setApplication(application);
+//
+//            ApplicationForeigner applicationForeigner = commonDAO.queryForObject(NAME_SPACE + "ApplicationForeignerMapper.selectByPrimaryKey",
+//                    applNo, ApplicationForeigner.class);
+//            applicationForeigner = applicationForeigner == null ? new ApplicationForeigner() : applicationForeigner;
+//            basis.setApplicationForeigner(applicationForeigner);
+//
+//            ApplicationGeneral applicationGeneral = commonDAO.queryForObject(NAME_SPACE + "ApplicationGeneralMapper.selectByPrimaryKey",
+//                    applNo, ApplicationGeneral.class);
+//            applicationGeneral = applicationGeneral == null ? new ApplicationGeneral() : applicationGeneral;
+//            basis.setApplicationGeneral(applicationGeneral);
+//
+//            Map<String, Object> map =  (Map<String, Object>) retrieveSelectionMap(basis).getData();
+//            selectionMap.putAll((Map<String, Object>) map.get("selection"));
+//
+//        } else {
+//            basis.setApplication(new Application());
+//            basis.setApplicationForeigner(new ApplicationForeigner());
+//            basis.setApplicationGeneral(new ApplicationGeneral());
+//
+//            List<Campus> campList = commonService.retrieveCampus();
+//            List<AcademyResearchIndustryInstitution> ariInstList = commonService.retrieveAriInst();
+//            if (campList != null)      selectionMap.put("campList", campList);
+//            if (ariInstList != null)   selectionMap.put("ariInstList", ariInstList);
+//            selectionMap.put("applAttrList", commonService.retrieveCommonCodeValueByCodeGroup("APPL_ATTR"));
+//            selectionMap.put("emerContList", commonService.retrieveCommonCodeValueByCodeGroup("EMER_CONT"));
+//        }
+//
+//        String cntrCode = basis.getApplication().getCitzCntrCode();
+//        cntrCode = cntrCode == null ? "" : cntrCode;
+//        Country ctznCntr = commonService.retrieveCountryByCode(cntrCode);
+//
+//        cntrCode = basis.getApplicationForeigner().getBornCntrCode();
+//        cntrCode = cntrCode == null ? "" : cntrCode;
+//        Country bornCntr = commonService.retrieveCountryByCode(cntrCode);
+//
+//        foreignMap.put("foreignTypeList", commonService.retrieveCommonCodeValueByCodeGroup("FORN_TYPE"));
+//
+//        ec.setResult(ExecutionContext.SUCCESS);
+//        ecDataMap.put("basis", basis);
+//        ecDataMap.put("selection", selectionMap);
+//        ecDataMap.put("ctznCntr", ctznCntr);
+//        ecDataMap.put("bornCntr", bornCntr);
+//        ecDataMap.put("foreign", foreignMap);
+//        ec.setData(ecDataMap);
 
         return ec;
     }
@@ -157,6 +193,7 @@ public class BasisServiceImpl implements BasisService {
 
         Map<String, Object> ecDataMap = new HashMap<String, Object>();
         Map<String, Object> selectionMap = new HashMap<String, Object>();
+        Map<String, Object> foreignMap = new HashMap<String, Object>();
 
         Application application = basis.getApplication();
 
@@ -171,6 +208,11 @@ public class BasisServiceImpl implements BasisService {
                 application = application == null ? new Application() : application;
                 basis.setApplication(application);
 
+                ApplicationForeigner applicationForeigner = commonDAO.queryForObject(NAME_SPACE + "ApplicationForeignerMapper.selectByPrimaryKey",
+                        applNo, ApplicationForeigner.class);
+                applicationForeigner = applicationForeigner == null ? new ApplicationForeigner() : applicationForeigner;
+                basis.setApplicationForeigner(applicationForeigner);
+
                 ApplicationGeneral applicationGeneral = commonDAO.queryForObject(NAME_SPACE + "ApplicationGeneralMapper.selectByPrimaryKey",
                         applNo, ApplicationGeneral.class);
                 applicationGeneral = applicationGeneral == null ? new ApplicationGeneral() : applicationGeneral;
@@ -181,6 +223,8 @@ public class BasisServiceImpl implements BasisService {
             selectionMap.putAll((Map<String, Object>) map.get("selection"));
 
         } else {
+
+            basis.setApplicationForeigner(new ApplicationForeigner());
             basis.setApplicationGeneral(new ApplicationGeneral());
 
             List<Campus> campList = commonService.retrieveCampus();
@@ -193,12 +237,21 @@ public class BasisServiceImpl implements BasisService {
 
         String cntrCode = basis.getApplication().getCitzCntrCode();
         cntrCode = cntrCode == null ? "" : cntrCode;
-        Country country = commonService.retrieveCountryByCode(cntrCode);
+        Country ctznCntr = commonService.retrieveCountryByCode(cntrCode);
+
+        cntrCode = basis.getApplicationForeigner().getBornCntrCode();
+        cntrCode = cntrCode == null ? "" : cntrCode;
+        Country bornCntr = commonService.retrieveCountryByCode(cntrCode);
+
+        foreignMap.put("foreignTypeList", commonService.retrieveCommonCodeValueByCodeGroup("FORN_TYPE"));
+        foreignMap.put("visaTypeList", commonService.retrieveCommonCodeValueByCodeGroup("VISA_TYPE"));
 
         ec.setResult(ExecutionContext.SUCCESS);
         ecDataMap.put("basis", basis);
         ecDataMap.put("selection", selectionMap);
-        ecDataMap.put("country", country);
+        ecDataMap.put("ctznCntr", ctznCntr);
+        ecDataMap.put("bornCntr", bornCntr);
+        ecDataMap.put("foreign", foreignMap);
         ec.setData(ecDataMap);
 
         return ec;
@@ -215,11 +268,14 @@ public class BasisServiceImpl implements BasisService {
         ExecutionContext ec = new ExecutionContext();
         Application application = basis.getApplication();
         ApplicationGeneral applicationGeneral = basis.getApplicationGeneral();
+        ApplicationForeigner applicationForeigner = basis.getApplicationForeigner();
+
         String userId = application.getUserId();
+        String admsTypeCode = application.getAdmsTypeCode();
         boolean isMultipleApplicationAllowed = true;
         boolean isValidInsertRequest = false;
         boolean isInsert;
-        int r1 = 0, r2 = 0, applNo;
+        int r1 = 0, r2 = 0, r3 = 0, applNo = 0;
         Date date = new Date();
 
         if (application.getApplNo() == null) {
@@ -240,23 +296,44 @@ public class BasisServiceImpl implements BasisService {
                 r1 = commonDAO.insertItem(application, NAME_SPACE, "CustomApplicationMapper");
                 applNo = application.getApplNo();
 
-                applicationGeneral.setApplNo(applNo);
-                applicationGeneral.setCreId(userId);
-                applicationGeneral.setCreDate(date);
-                r2 = commonDAO.insertItem(applicationGeneral, NAME_SPACE, "ApplicationGeneralMapper");
+                if ("C".equals(admsTypeCode)) {
+                    applicationForeigner.setApplNo(applNo);
+                    applicationForeigner.setCreId(userId);
+                    applicationForeigner.setCreDate(date);
+                    r3 = commonDAO.insertItem(applicationForeigner, NAME_SPACE, "ApplicationForeignerMapper");
+                } else {
+                    applicationGeneral.setApplNo(applNo);
+                    applicationGeneral.setCreId(userId);
+                    applicationGeneral.setCreDate(date);
+                    r2 = commonDAO.insertItem(applicationGeneral, NAME_SPACE, "ApplicationGeneralMapper");
+                }
             }
         } else {
             isInsert = false;
+            applNo = application.getApplNo();
+
             application.setModId(userId);
             application.setModDate(date);
-            applicationGeneral.setApplNo(application.getApplNo());
-            applicationGeneral.setModId(userId);
-            applicationGeneral.setModDate(date);
             r1 = commonDAO.updateItem(application, NAME_SPACE, "ApplicationMapper");
-            r2 = commonDAO.updateItem(applicationGeneral, NAME_SPACE, "ApplicationGeneralMapper");
+
+            if ("C".equals(admsTypeCode)) {
+                applicationForeigner.setApplNo(applNo);
+                applicationForeigner.setModId(userId);
+                applicationForeigner.setModDate(date);
+                if (applicationForeigner.getVisaExprDay() == null)
+                    applicationForeigner.setVisaExprDay("");
+                if (applicationForeigner.getFornRgstNo() == null)
+                    applicationForeigner.setFornRgstNo("");
+                r3 = commonDAO.updateItem(applicationForeigner, NAME_SPACE, "ApplicationForeignerMapper");
+            } else {
+                applicationGeneral.setApplNo(applNo);
+                applicationGeneral.setModId(userId);
+                applicationGeneral.setModDate(date);
+                r2 = commonDAO.updateItem(applicationGeneral, NAME_SPACE, "ApplicationGeneralMapper");
+            }
         }
 
-        if ( r1 > 0 && r2 > 0 ) {
+        if ( r1 == 1 && (r2 + r3 == 1) ) {
             ec.setResult(ExecutionContext.SUCCESS);
             ec.setMessage(messageResolver.getMessage("U315"));
         } else {
@@ -265,12 +342,19 @@ public class BasisServiceImpl implements BasisService {
             String errCode = null;
             if (isInsert) {
                 if (r1 == 0) errCode = "ERR0001";
-                else if (r2 == 0) errCode = "ERR0006";
+                else if (r2 == 0 && !"C".equals(admsTypeCode)) errCode = "ERR0006";
+                else if (r3 == 0 && "C".equals(admsTypeCode)) errCode = "ERR0026";
             } else {
                 if (r1 == 0) errCode = "ERR0003";
-                else if (r2 == 0) errCode = "ERR0008";
+                else if (r2 == 0 && !"C".equals(admsTypeCode)) errCode = "ERR0008";
+                else if (r3 == 0 && "C".equals(admsTypeCode)) errCode = "ERR0028";
             }
             ec.setErrCode(errCode);
+            Map<String, String> errorInfo = new HashMap<String, String>();
+            errorInfo.put("applNo", String.valueOf(applNo));
+            errorInfo.put("userId", userId);
+            ec.setErrorInfo(new ErrorInfo(errorInfo));
+
             throw new YSBizException(ec);
 //            if (isInsert && !isValidInsertRequest) {
 //                원래 페이지로 돌아가는 테스트는 성공,

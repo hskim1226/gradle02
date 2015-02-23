@@ -18,6 +18,7 @@ import java.util.List;
  * To change this template use File | Settings | File Templates.
  */
 @Service
+@Deprecated
 public class FileServiceImpl implements FileService {
 
     private static String NAME_SPACE = "TEMP_FILE.";

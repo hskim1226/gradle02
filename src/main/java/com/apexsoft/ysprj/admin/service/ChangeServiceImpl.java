@@ -1,17 +1,27 @@
 package com.apexsoft.ysprj.admin.service;
 
+import com.apexsoft.framework.common.vo.ExecutionContext;
+import com.apexsoft.framework.exception.YSBizException;
+import com.apexsoft.framework.message.MessageResolver;
 import com.apexsoft.framework.persistence.dao.CommonDAO;
 import com.apexsoft.framework.persistence.dao.page.PageInfo;
 import com.apexsoft.framework.persistence.dao.page.PageStatement;
 import com.apexsoft.ysprj.admin.control.form.ChangeInfoForm;
 import com.apexsoft.ysprj.admin.control.form.ChangeSearchPageForm;
 import com.apexsoft.ysprj.admin.domain.*;
+import com.apexsoft.ysprj.applicants.admission.domain.Admission;
+import com.apexsoft.ysprj.applicants.application.domain.Application;
+import com.apexsoft.ysprj.applicants.application.domain.ApplicationDocument;
+import com.apexsoft.ysprj.applicants.application.domain.ApplicationGeneral;
+import com.apexsoft.ysprj.applicants.application.domain.ApplicationIdentifier;
+import com.apexsoft.ysprj.applicants.common.domain.*;
+import com.apexsoft.ysprj.applicants.common.service.CommonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by DhKim on 2014-09-14.
@@ -19,113 +29,310 @@ import java.util.List;
 @Service
 public class ChangeServiceImpl implements ChangeService {
 
-    private final static String NAME_SPACE = "admin.change.";
+    private final static String NAME_SPACE = "com.apexsoft.ysprj.admin.sqlmap.";
+    private final static String NAME_SPACE_APPLICATION = "com.apexsoft.ysprj.applicants.application.sqlmap.";
     private final static String NAME_SPACE_INFO= "admin.applicant.";
+    private final static String ADMS_NAME_SPACE = "com.apexsoft.ysprj.applicants.admission.sqlmap.";
+
     @Autowired
     private CommonDAO commonDAO;
 
-    public void createInfoChange( ChangeInfoForm changeInfoForm ) {
+    @Autowired
+    private CommonService commonService;
+
+    @Resource(name = "messageResolver")
+    MessageResolver messageResolver;
+
+    @Override
+    public ExecutionContext createInfoChange( ChangeInfoForm changeInfoForm, String userId ) {
+
+        ExecutionContext ec = new ExecutionContext();
+        Map<String, Object> ecDataMap = new HashMap<String, Object>();
+        Map<String, Object> selectionMap = new HashMap<String, Object>();
         ApplicantInfo applInfo = null;
+        String itemName = changeInfoForm.getInfoRadio();
+        String colName = "";
+        String tblName = "appl";
+        int upAppl = 0, insert = 0, update = 0, delete = 0;
+        int rUpApplGen = 0;
+        int rUpAppl = 0, rInsert = 0, rUpdate = 0, rDelete = 0;
+        Boolean applChangeFg = false;
+        Boolean geneChangeFg = false;
+        Boolean fornChangeFg = false;
+
+
+            applInfo = commonDAO.queryForObject(NAME_SPACE_INFO+"retrieveApplicantInfoByKey", changeInfoForm.getApplNo(), ApplicantInfo.class);
+            if( applInfo == null ){
+                //에러 로직 처리
+            }
+
+            Date date = new Date();
+            Application changeAppl = new Application();
+            ApplicationGeneral changeGene = new ApplicationGeneral();
+            changeAppl.setApplNo(changeInfoForm.getApplNo());
+            changeGene.setApplNo(changeInfoForm.getApplNo());
+
+            if( itemName.equals("korName")){
+                changeAppl.setKorName( changeInfoForm.getAftVal());
+                colName = "성명";
+                applChangeFg =true;
+            }
+            if( itemName.equals("engName")){
+                changeAppl.setEngName( changeInfoForm.getAftVal());
+                colName = "영문명";
+                applChangeFg =true;
+            }
+            if( itemName.equals("engSur")){
+                changeAppl.setEngSur( changeInfoForm.getAftVal());
+                colName = "영문성";
+                applChangeFg =true;
+            }
+            if( itemName.equals("rgstNo")){
+                changeAppl.setRgstNo( changeInfoForm.getAftVal());
+                colName = "주민등록번호";
+                applChangeFg =true;
+            }
+            if( itemName.equals("telNum")){
+                changeAppl.setTelNum( changeInfoForm.getAftVal());
+                colName = "전화번호";
+                applChangeFg =true;
+            }
+            if( itemName.equals("mobiNum")){
+                changeAppl.setMobiNum( changeInfoForm.getAftVal());
+                colName = "휴대폰번호";
+                applChangeFg =true;
+            }
+            if( itemName.equals("mailAddr")){
+                changeAppl.setMailAddr( changeInfoForm.getAftVal());
+                colName = "이메일 주소";
+                applChangeFg =true;
+            }
+            if( itemName.equals("addr")){
+                changeAppl.setAddr( changeInfoForm.getAftVal());
+                colName = "주소";
+                applChangeFg =true;
+            }
+            if( itemName.equals("detlAddr")){
+                changeAppl.setDetlAddr(changeInfoForm.getAftVal());
+                colName = "상세주소";
+                applChangeFg =true;
+            }
+            if( itemName.equals("emerContName")){
+                changeGene.setEmerContName( changeInfoForm.getAftVal());
+                colName = "비상연락대상자";
+                geneChangeFg = true;
+            }
+            if( itemName.equals("emerContTel")){
+                changeGene.setEmerContTel( changeInfoForm.getAftVal());
+                colName = "비상연락번호";
+                geneChangeFg = true;
+            }
+            changeInfoForm.setColName(colName);
+            changeAppl.setModId(userId);
+            changeAppl.setModDate(date);
+            changeGene.setModId(userId);
+            changeGene.setModDate(date);
+
+            ApplicationChange appChg = new ApplicationChange();
+
+            appChg.setApplNo(changeInfoForm.getApplNo());
+            appChg.setAdmsNo(changeInfoForm.getAdmsNo());
+            SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
+            appChg.setReqDay( format.format(date));
+            appChg.setReqUserId(userId);
+            appChg.setReqName(userId);
+            appChg.setActDay( format.format(date));
+            appChg.setActUserId(userId);
+            appChg.setApplChgCode("00001");//정보변경
+            appChg.setChgStsCode("00003");//반영완료
+            appChg.setChgColm( itemName);
+            appChg.setChgColmName( colName);
+            appChg.setBefVal(changeInfoForm.getBefVal());
+            appChg.setAftVal(changeInfoForm.getAftVal());
+            appChg.setCnclResn(changeInfoForm.getCnclResn());
+            appChg.setCreId(userId);
+            appChg.setCreDate(date);
+
+
+            int maxSeq =0;
+            if( applChangeFg ) {
+                rUpAppl++;
+                update = update + commonDAO.updateItem(changeAppl, NAME_SPACE_APPLICATION, "ApplicationMapper");
+            }
+            if( geneChangeFg ) {
+                rUpAppl++;
+                update = update + commonDAO.updateItem(changeGene, NAME_SPACE_APPLICATION, "ApplicationGeneralMapper");
+            }
+            if( rUpAppl > 0 ) {
+                rInsert++;
+                maxSeq = commonDAO.queryForInt(NAME_SPACE + "CustomApplicationChangeMapper.selectMaxSeqByAdmsNo", changeInfoForm);
+                maxSeq ++;
+                appChg.setChgNo(maxSeq);
+                insert = insert +commonDAO.insertItem( appChg, NAME_SPACE, "ApplicationChangeMapper");
+            }
+
+            if ( rUpAppl == update && insert == rInsert) {
+                ec.setResult(ExecutionContext.SUCCESS);
+                ec.setMessage(messageResolver.getMessage("U319"));
+                ecDataMap.put("changeInfoForm", changeInfoForm);
+
+            } else {
+                ec.setResult(ExecutionContext.FAIL);
+                ec.setMessage(messageResolver.getMessage("U320"));
+
+                String errCode = null;
+                if ( rUpAppl != upAppl ) errCode = "ERR0003";
+                if ( insert != rInsert ) errCode = "ERR0017";
+                if ( update != rUpdate ) errCode = "ERR0018";
+                if ( delete != rDelete ) errCode = "ERR0019";
+                ec.setErrCode(errCode);
+                throw new YSBizException(ec);
+            }
+            return ec;
+
+
+    }
+
+    @Override
+    public ExecutionContext createUnitChange( ChangeInfoForm changeInfoForm, String userId ) {
+
+        ExecutionContext ec = new ExecutionContext();
+        Map<String, Object> ecDataMap = new HashMap<String, Object>();
+        Map<String, Object> selectionMap = new HashMap<String, Object>();
+        ApplicantInfo applInfo = null;
+
+        int upAppl = 0, insert = 0, update = 0, delete = 0;
+        int rUpApplGen = 0;
+        int rUpAppl = 0, rInsert = 0, rUpdate = 0, rDelete = 0;
+        Boolean applChangeFg = false;
+        Boolean geneChangeFg = false;
+
 
         applInfo = commonDAO.queryForObject(NAME_SPACE_INFO+"retrieveApplicantInfoByKey", changeInfoForm.getApplNo(), ApplicantInfo.class);
         if( applInfo == null ){
             //에러 로직 처리
         }
-        String itemName = changeInfoForm.getInfoRadio();
-        String colName = "";
-        String tblName = "appl";
 
-        if( itemName.equals("korName")){
-            changeInfoForm.setBeforeItem( applInfo.getKorName());
-            colName = "KOR_NAME";
-        }
-        if( itemName.equals("engName")){
-            changeInfoForm.setBeforeItem( applInfo.getEngName());
-            colName = "eng_name";
-        }
-        if( itemName.equals("engSur")){
-            changeInfoForm.setBeforeItem( applInfo.getEngSur());
-            colName = "eng_sur";
-        }
-        if( itemName.equals("rgstNo")){
-            changeInfoForm.setBeforeItem( applInfo.getRgstNo());
-            colName = "rgst_no";
-        }
-        if( itemName.equals("telNum")){
-            changeInfoForm.setBeforeItem( applInfo.getTelNum());
-            colName = "TEL_NUM";
-        }
-        if( itemName.equals("mobiNum")){
-            changeInfoForm.setBeforeItem( applInfo.getMobiNum());
-            colName = "MOBI_NUM";
-        }
-        if( itemName.equals("mailAddr")){
-            changeInfoForm.setBeforeItem( applInfo.getMailAddr());
-            colName = "MAIL_ADDR";
-        }
-        if( itemName.equals("addr")){
-            changeInfoForm.setBeforeItem( applInfo.getAddr());
-            colName = "ADDR";
-        }
-        if( itemName.equals("detlAddr")){
-            changeInfoForm.setBeforeItem( applInfo.getDetlAddr());
-            colName = "DETL_ADDR";
-        }
-        if( itemName.equals("emerContName")){
-            changeInfoForm.setBeforeItem( applInfo.getEmerContName());
-            colName = "EMER_CONT_NAME";
-            tblName = "gene";
-        }
-        if( itemName.equals("emerContTel")){
-            changeInfoForm.setBeforeItem( applInfo.getEmerContTel());
-            colName = "EMER_CONT_TEL";
-            tblName = "gene";
-        }
-        changeInfoForm.setColName(colName);
-        SimpleDateFormat dayFormat =  new SimpleDateFormat("yyyyMMdd");
-        long todayTime = System.currentTimeMillis();
+        Date date = new Date();
+        Application changeAppl = new Application();
+        changeAppl.setApplNo(changeInfoForm.getApplNo());
+        changeAppl.setApplStsCode("00022");//지원취소 코드
+
+        changeAppl.setModId(userId);
+        changeAppl.setModDate(date);
 
         ApplicationChange appChg = new ApplicationChange();
+
         appChg.setApplNo(changeInfoForm.getApplNo());
         appChg.setAdmsNo(changeInfoForm.getAdmsNo());
-        appChg.setReqDay( dayFormat.format(new Date(todayTime)));
-        appChg.setReqUserId("-UserId--");
-        appChg.setReqName("--홍길동---");
+        SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
+        appChg.setReqDay( format.format(date));
+        appChg.setReqUserId(userId);
+        appChg.setReqName(userId);
+        appChg.setActDay( format.format(date));
+        appChg.setActUserId(userId);
         appChg.setApplChgCode("00001");//정보변경
         appChg.setChgStsCode("00001");//접수
+        appChg.setChgColmName("지원취소");
+        appChg.setBefVal(changeInfoForm.getBefVal());
+        appChg.setAftVal(changeInfoForm.getAftVal());
+        appChg.setCnclResn(changeInfoForm.getCnclResn());
+        appChg.setCreId(userId);
+        appChg.setCreDate(date);
 
 
-        ApplicationChangeItem appItemChg = new ApplicationChangeItem();
-        appItemChg.setAdmsNo(changeInfoForm.getAdmsNo());
-        appItemChg.setAftItemDetl(changeInfoForm.getAfterItem());
-        appItemChg.setBefItemDetl(changeInfoForm.getBeforeItem());
-        appItemChg.setItemName(itemName);
-        appItemChg.setChgItemSeq(1);
-        if(false){
-        if(tblName.equals("appl")){
-            commonDAO.queryForInt(NAME_SPACE+"changeOneApplInfoByApplNo", changeInfoForm);
-        }else {
-            commonDAO.queryForInt(NAME_SPACE + "changeOneApplGeneInfoByApplNo", changeInfoForm);
-        }}
-        int seqNo =0;
-        seqNo = commonDAO.queryForInt(NAME_SPACE+"retrieveChangeMaxKey", changeInfoForm);
-        seqNo = seqNo+1;
-        appChg.setChgNo(seqNo);
-        appItemChg.setChgNo(seqNo);
+        int maxSeq =0;
+        rUpAppl++;
+        update = update + commonDAO.updateItem(changeAppl, NAME_SPACE_APPLICATION, "ApplicationMapper");
 
-        commonDAO.queryForInt(NAME_SPACE+"insertChg", appChg);
-        commonDAO.queryForInt(NAME_SPACE+"insertItem", appItemChg);
+
+        if( rUpAppl > 0 ) {
+            rInsert++;
+            maxSeq = commonDAO.queryForInt(NAME_SPACE + "CustomApplicationChangeMapper.selectMaxSeqByAdmsNo", changeInfoForm);
+            maxSeq ++;
+            appChg.setChgNo(maxSeq);
+            insert = insert +commonDAO.insertItem( appChg, NAME_SPACE, "ApplicationChangeMapper");
+        }
+
+        if ( rUpAppl == update && insert == rInsert) {
+            ec.setResult(ExecutionContext.SUCCESS);
+            ec.setMessage(messageResolver.getMessage("U319"));
+            ecDataMap.put("changeInfoForm", changeInfoForm);
+
+        } else {
+            ec.setResult(ExecutionContext.FAIL);
+            ec.setMessage(messageResolver.getMessage("U320"));
+
+            String errCode = null;
+            if ( rUpAppl != upAppl ) errCode = "ERR0003";
+            if ( insert != rInsert ) errCode = "ERR0017";
+            if ( update != rUpdate ) errCode = "ERR0018";
+            if ( delete != rDelete ) errCode = "ERR0019";
+            ec.setErrCode(errCode);
+            throw new YSBizException(ec);
+        }
+        return ec;
+
 
     }
 
+    public ExecutionContext retrieveChangePaginatedList(ChangeSearchPageForm searchForm){
+        ExecutionContext ec = new ExecutionContext();
+        Map<String, Object> ecDataMap = new HashMap<String, Object>();
+        Map<String, Object> selectionMap = new HashMap<String, Object>();
 
-    public PageInfo<ChangeInfo> retrieveChangePaginatedList(ChangeSearchPageForm searchForm){
+        PageInfo<CustomApplicationChange>  tempPageInfo =null;
 
-        PageStatement tempStst = new PageStatement(NAME_SPACE+"retrieveChangeCount", NAME_SPACE+"retrieveChangeList");
-        PageInfo<ChangeInfo> tempPageInfo;
-        tempPageInfo = commonDAO.queryForPagenatedList( tempStst, searchForm, searchForm.getPage().getNo(), searchForm.getPage().getRows() );
-        List<ChangeInfo> tempInfoList = tempPageInfo.getData();
-        return tempPageInfo;
+        List<Admission> admsList = null;
+        List<Campus> campList = null;
+        List<College> collList = null;
+        List<CodeNameDepartment> deptList = null;
+        List<CommonCode> chgCodeList = null;
+        List<CommonCode> chgStsCodeList = null;
+        ParamForSetupCourses param = new ParamForSetupCourses();
+        param.setAdmsNo(searchForm.getAdmsNo());
+        param.setCollCode(searchForm.getCollCode());
+        param.setDeptCode(searchForm.getDeptCode());
+
+        admsList = commonDAO.queryForList(ADMS_NAME_SPACE +"CustomAdmissionMapper.selectByYear","2015", Admission.class);
+
+        campList = commonService.retrieveCampus();
+        collList = commonService.retrieveCollegeByCampus( searchForm.getCampCode() );
+        deptList = commonService.retrieveGeneralDepartmentByAdmsColl(param);
+
+        chgCodeList= commonService.retrieveCommonCodeValueByCodeGroup("APPL_CHG");
+        chgStsCodeList= commonService.retrieveCommonCodeValueByCodeGroup("CHG_STS");
+        try{
+
+            if( searchForm.getChgNo()!= null || searchForm.getChgStsCode()!= null || searchForm.getAdmsNo()!= null || searchForm.getKorName()!= null) {
+                PageStatement tempStst = new PageStatement(NAME_SPACE+"CustomApplicationChangeMapper.retrieveChangeCount", NAME_SPACE+"CustomApplicationChangeMapper.retrieveChangeList");
+
+                tempPageInfo = commonDAO.queryForPagenatedList( tempStst, searchForm, searchForm.getPage().getNo(), searchForm.getPage().getRows() );
+                List<CustomApplicationChange> tempInfoList = tempPageInfo.getData();
+                ecDataMap.put("chgList", tempInfoList);
+                ecDataMap.put("totalCnt", tempPageInfo.getTotalRowCount());
+
+            }else{
+                ecDataMap.put("chgList", new ArrayList<CustomApplicationChange>());
+                ecDataMap.put("totalCnt", 0);
+            }
+            if (chgCodeList != null)    selectionMap.put("chgCodeList", chgCodeList);
+            if (chgStsCodeList != null) selectionMap.put("chgStsCodeList", chgStsCodeList);
+            if (admsList != null)       selectionMap.put("admsList", admsList);
+            if (campList != null)       selectionMap.put("campList", campList);
+            if (collList != null)       selectionMap.put("collList", collList);
+            if (deptList != null)       selectionMap.put("deptList", deptList);
+
+            ecDataMap.put("selection", selectionMap);
+            ecDataMap.put("changeSearchPageForm", searchForm);
+
+            ec.setData(ecDataMap);
+
+        }catch(Exception e){
+            e.printStackTrace();
+
+        }
+        return ec;
     }
 
 }

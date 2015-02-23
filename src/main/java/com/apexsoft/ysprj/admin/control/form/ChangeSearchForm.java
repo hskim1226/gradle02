@@ -1,16 +1,16 @@
 package com.apexsoft.ysprj.admin.control.form;
-public class ChangeSearchForm {
-
+public class ChangeSearchForm extends CourseSearchForm {
 
     private String chgNo;
+    private String applChgCode;
+    private String chgStsCode;
+    private String applId;
     private String korName ;
     private String engSur;
     private String engName;
     private String rgstNo;
-	private String admsNo;
-	private String campCode;
-	private String collCode;
-	private String deptCode;
+    private String reqDay;
+
 
     public String getChgNo() {
         return chgNo;
@@ -52,35 +52,36 @@ public class ChangeSearchForm {
         this.rgstNo = rgstNo;
     }
 
-    public String getAdmsNo() {
-        return admsNo;
+
+    public String getApplChgCode() {
+        return applChgCode;
     }
 
-    public void setAdmsNo(String admsNo) {
-        this.admsNo = admsNo;
+    public void setApplChgCode(String applChgCode) {
+        this.applChgCode = applChgCode;
     }
 
-    public String getCampCode() {
-        return campCode;
+    public String getChgStsCode() {
+        return chgStsCode;
     }
 
-    public void setCampCode(String campCode) {
-        this.campCode = campCode;
+    public void setChgStsCode(String chgStsCode) {
+        this.chgStsCode = chgStsCode;
     }
 
-    public String getCollCode() {
-        return collCode;
+    public String getApplId() {
+        return applId;
     }
 
-    public void setCollCode(String collCode) {
-        this.collCode = collCode;
+    public void setApplId(String applId) {
+        this.applId = applId;
     }
 
-    public String getDeptCode() {
-        return deptCode;
+    public String getReqDay() {
+        return reqDay;
     }
 
-    public void setDeptCode(String deptCode) {
-        this.deptCode = deptCode;
+    public void setReqDay(String reqDay) {
+        this.reqDay = reqDay;
     }
 }

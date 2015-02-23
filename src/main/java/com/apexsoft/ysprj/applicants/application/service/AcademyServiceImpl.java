@@ -1,7 +1,8 @@
 package com.apexsoft.ysprj.applicants.application.service;
 
 import com.apexsoft.framework.common.vo.ExecutionContext;
-import com.apexsoft.framework.exception.YSNoRedirectBizException;
+import com.apexsoft.framework.exception.ErrorInfo;
+import com.apexsoft.framework.exception.YSBizException;
 import com.apexsoft.framework.message.MessageResolver;
 import com.apexsoft.framework.persistence.dao.CommonDAO;
 import com.apexsoft.ysprj.applicants.application.domain.*;
@@ -96,6 +97,7 @@ public class AcademyServiceImpl implements AcademyService {
 
         Application application = academy.getApplication();
         int applNo = application.getApplNo();
+        String userId = application.getUserId();
 
         List<CustomApplicationAcademy> collegeList = academy.getCollegeList();
         List<CustomApplicationAcademy> graduateList = academy.getGraduateList();
@@ -146,7 +148,11 @@ public class AcademyServiceImpl implements AcademyService {
             if ( update != updateResult ) errCode = "ERR0013";
             if ( delete != deleteResult ) errCode = "ERR0014";
             ec.setErrCode(errCode);
-            throw new YSNoRedirectBizException(ec);
+            Map<String, String> errorInfo = new HashMap<String, String>();
+            errorInfo.put("applNo", String.valueOf(applNo));
+            errorInfo.put("userId", userId);
+            ec.setErrorInfo(new ErrorInfo(errorInfo));
+            throw new YSBizException(ec);
         }
         return ec;
     }

@@ -7,6 +7,7 @@ import com.apexsoft.ysprj.applicants.application.domain.ParamForApplicationDocum
 import java.io.File;
 import java.util.List;
 
+@Deprecated
 public interface FileService {
     void saveFileMeta(FileVO fileVO);
 

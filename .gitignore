@@ -1,5 +1,4 @@
-src/main/resources/spring/context-repository.xml
-src/main/resources/properties/config/app.local.properties
+src/main/resources/properties/config/app.dev.properties
 *.class
 *.log
 
@@ -18,5 +17,4 @@ bin/
 .DS_Store
 
 #Maven
-log/
 target/

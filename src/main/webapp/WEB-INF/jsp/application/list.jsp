@@ -52,7 +52,7 @@
                                 <td><button type="button" id="toGeneralInfo" class="btn btn-info">모집 요강</button></td>
                                 <td><button type="submit" id="toGeneralApply" class="btn btn-primary">원서 작성</button></td>
                                 <td>2014-09-28(월) / 2014-10-08(수)</td>
-                                <input type="hidden" name="admsNo" value="<spring:eval expression="@app.getProperty('adms.general')" />" />
+                                <input type="hidden" name="admsNo" value="${admsGeneral.admsNo}" />
                                 <input type="hidden" name="entrYear" value="${admsGeneral.entrYear}" />
                                 <input type="hidden" name="admsTypeCode" value="${admsGeneral.admsType}" />
                             </form>
@@ -64,7 +64,7 @@
                                 <td><button type="button" id="toForeignInfo" class="btn btn-info">모집 요강</button></td>
                                 <td><button type="submit" id="toForeignApply" class="btn btn-primary">원서 작성</button></td>
                                 <td>2014-09-28(월) / 2014-10-08(수)</td>
-                                <input type="hidden" name="admsNo" value="<spring:eval expression="@app.getProperty('adms.foreign')" />" />
+                                <input type="hidden" name="admsNo" value="${admsForeign.admsNo}" />
                                 <input type="hidden" name="entrYear" value="${admsForeign.entrYear}" />
                                 <input type="hidden" name="admsTypeCode" value="${admsForeign.admsType}" />
                             </form>
@@ -82,7 +82,7 @@
             var generalForm = document.getElementById('generalApplyForm'),
                 foreignForm = document.getElementById('foreignApplyForm');
             $('#toGeneralInfo').on('click', function(){
-                generalForm.action = "${contextPath}/notice/general";
+                generalForm.action = "${contextPath}/application/general";
                 generalForm.submit();
             });
             $('#toGeneralApply').on('click', function(){
@@ -90,7 +90,7 @@
                 generalForm.submit();
             });
             $('#toForeignInfo').on('click', function(){
-                foreignForm.action = "${contextPath}/notice/foreign";
+                foreignForm.action = "${contextPath}/application/foreign";
                 foreignForm.submit();
             });
             $('#toForeignApply').on('click', function(){

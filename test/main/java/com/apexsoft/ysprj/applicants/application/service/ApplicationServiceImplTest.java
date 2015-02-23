@@ -2,6 +2,7 @@ package com.apexsoft.ysprj.applicants.application.service;
 
 import com.apexsoft.framework.persistence.dao.CommonDAO;
 import com.apexsoft.ysprj.applicants.application.domain.Application;
+import com.apexsoft.ysprj.unused.ApplicationService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
