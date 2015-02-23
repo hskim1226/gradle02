@@ -1,8 +1,10 @@
 package com.apexsoft.ysprj.applicants.payment.control;
 
 import com.apexsoft.framework.persistence.dao.CommonDAO;
+import com.apexsoft.ysprj.applicants.application.domain.Application;
 import com.apexsoft.ysprj.applicants.payment.domain.ApplicationPayment;
 import com.apexsoft.ysprj.applicants.payment.domain.ApplicationPaymentExample;
+import com.apexsoft.ysprj.applicants.payment.service.PaymentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,8 +20,7 @@ import java.util.List;
 public class PaymentTestController {
 
     @Autowired
-    private CommonDAO commonDAO;
-
+    private PaymentService paymentService;
 
     @RequestMapping(value="/casnote_temp")
     public String processCasNote( HttpServletRequest request ) {
@@ -112,15 +113,10 @@ public class PaymentTestController {
     @RequestMapping(value="/test2")
     public String test2(String applNo) {
 
-        ApplicationPaymentExample param = new ApplicationPaymentExample();
-        param.createCriteria().andLgdOidEqualTo(applNo);
-        param.setOrderByClause("APPL_NO DESC, PAY_SEQ DESC");
+        Application appl = new Application();
+        appl.setApplNo(Integer.valueOf(applNo));
 
-        List<ApplicationPayment> applPayList = commonDAO.queryForList("com.apexsoft.ysprj.applicants.payment.sqlmap.ApplicationPaymentMapper.selectByExample",
-                                                                      param, ApplicationPayment.class);
-        ApplicationPayment applPay = null;
-        if( applPayList.size() > 1 )
-            applPay = applPayList.get(0);
+        paymentService.saveApplicationPayment(appl);
 
         return "test/test2";
     }
