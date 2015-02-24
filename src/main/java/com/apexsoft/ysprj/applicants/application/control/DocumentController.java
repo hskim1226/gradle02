@@ -17,6 +17,7 @@ import com.apexsoft.ysprj.applicants.application.domain.*;
 import com.apexsoft.ysprj.applicants.application.service.DocumentService;
 import com.apexsoft.ysprj.applicants.application.validator.DocumentValidator;
 import com.apexsoft.ysprj.applicants.common.service.CommonService;
+import com.apexsoft.ysprj.applicants.common.util.FileUtil;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.io.FileUtils;
@@ -266,10 +267,9 @@ public class DocumentController {
 
                     String admsNo = fileMetaForm.getAdmsNo();
                     String userId = principal.getName();
-                    String firstString = userId.substring(0, 1);
                     String applNo = fileMetaForm.getApplNo();
 
-                    return admsNo + "/" + firstString + "/" + userId + "/" + applNo;
+                    return FileUtil.getUploadDirectory(admsNo, userId, applNo);
                 }
 
                 /**

@@ -16,9 +16,9 @@ import java.util.Map;
  * @author Josh Long
  * @author Jason Weathersby
  */
-public class PdfSingleFormatBirtView extends AbstractSingleFormatBirtView {
+public class PdfSingleFormatBirtSaveToFile extends AbstractSingleFormatBirtView {
 
-    public PdfSingleFormatBirtView() {
+    public PdfSingleFormatBirtSaveToFile() {
         setContentType("application/pdf");
     }
 
@@ -32,17 +32,15 @@ public class PdfSingleFormatBirtView extends AbstractSingleFormatBirtView {
             oName = oName.replaceAll("(?i).rptdesign", "");
         }
 
-        String header = "";
-//        header += "attachment;";
         String fileName = (String)map.get("rptFileName");
-        header += "filename=" + URLEncoder.encode(fileName, "UTF-8") + ".pdf";
+        String header = "filename=" + URLEncoder.encode(fileName, "UTF-8") + ".pdf";
 
         response.setHeader ("Content-Disposition", header);
 
         PDFRenderOption pdfOptions = new PDFRenderOption(options);
         pdfOptions.setOutputFormat(IRenderOption.OUTPUT_FORMAT_PDF);
         pdfOptions.setOption(IPDFRenderOption.PAGE_OVERFLOW, IPDFRenderOption.FIT_TO_PAGE_SIZE);
-        pdfOptions.setOutputStream(response.getOutputStream());
+        pdfOptions.setOutputFileName(map.get("rptDirectoryFullPath") + "/" + fileName);
         return pdfOptions;
     }
 }

@@ -1,32 +1,25 @@
-package com.apexsoft.ysprj.applicants.application.control;
+package com.apexsoft.ysprj.applicants.common.service;
 
 import com.apexsoft.framework.common.vo.ExecutionContext;
 import com.apexsoft.ysprj.applicants.application.domain.*;
-import com.apexsoft.ysprj.applicants.application.service.*;
+import com.apexsoft.ysprj.applicants.application.service.AcademyService;
+import com.apexsoft.ysprj.applicants.application.service.BasisService;
+import com.apexsoft.ysprj.applicants.application.service.DocumentService;
+import com.apexsoft.ysprj.applicants.application.service.LangCareerService;
 import com.apexsoft.ysprj.applicants.common.domain.CommonCode;
-import com.apexsoft.ysprj.applicants.common.service.CommonService;
-import org.eclipse.birt.report.engine.api.IRenderOption;
+import com.apexsoft.ysprj.applicants.common.util.FileUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
- * Created by Administrator on 2014-08-01.
+ * Created by hanmomhanda on 15. 2. 24.
  */
-@Controller
-@RequestMapping("/application")
-public class BirtController {
-//    @Autowired
-//    ApplicationService applicationService;
+@Service
+public class BirtServiceImpl implements BirtService {
 
     @Autowired
     CommonService commonService;
@@ -43,39 +36,10 @@ public class BirtController {
     @Autowired
     DocumentService documentService;
 
-    @Value("#{app['rpt.format']}")
-    private String REPORT_FORMAT;
-
-    private final String RPT_APPLICATION_KR = "application_kr";
-    private final String RPT_APPLICATION_EN = "application_en";
-
-    @RequestMapping(value = "/print")
-    public ModelAndView previewApplicationByParam(@RequestParam(value = "applNo", required = false) Integer applNo,
-                                                  @RequestParam(value = "reportFormat", required = false) String reportFormat,
-                                                  @RequestParam(value = "reportName", required = false) String reportName,
-                                                  ModelAndView mv) {
-        return previewApplication(applNo, reportFormat, reportName, mv);
-    }
-
-    @RequestMapping(value = "/print/{applNo}/{reportFormat}/{reportName}")
-    public ModelAndView previewApplicationByRESTful(@PathVariable("applNo") Integer applNo,
-                                                    @PathVariable("reportFormat") String reportFormat,
-                                                    @PathVariable("reportName") String reportName,
-                                                    ModelAndView mv) {
-        return previewApplication(applNo, reportFormat, reportName, mv);
-    }
-
-    @RequestMapping(value = "/preview")
-    public ModelAndView previewAppInfo(@RequestParam(value = "application.applNo", required = false) Integer applNo,
-                                       ModelAndView mv) {
-        return previewApplication(applNo, REPORT_FORMAT, RPT_APPLICATION_KR, mv);
-    }
-
-    private ModelAndView previewApplication(Integer applNo, String reportFormat, String reportName, ModelAndView mv) {
-        mv.setViewName("pdfSingleFormatBirtView");
-        mv.addObject("reportFormat", reportFormat);
-        mv.addObject("reportName", reportName);
-
+    @Override
+    public ExecutionContext processBirt(int applNo) {
+        Map<String, Object> rptInfoMap = new HashMap<String, Object>();
+        ExecutionContext ecResult = new ExecutionContext();
         ExecutionContext ecBasis = basisService.retrieveBasis(applNo);
         ExecutionContext ecAcademy = academyService.retrieveAcademy(applNo);
         ExecutionContext ecLangCareer = langCareerService.retrieveLangCareer(applNo);
@@ -85,6 +49,7 @@ public class BirtController {
         Academy academy = ((Map<String, Academy>)ecAcademy.getData()).get("academy");
         LangCareer langCareer = ((Map<String, LangCareer>)ecLangCareer.getData()).get("langCareer");
         Document document = ((Map<String, Document>)ecDocument.getData()).get("document");
+
         List<LanguageGroup> langGrpList = langCareer.getLanguageGroupList();
         List<CustomApplicationExperience> expList = langCareer.getApplicationExperienceList();
         Application application = basis.getApplication();
@@ -96,14 +61,21 @@ public class BirtController {
         academyList.addAll(graduateList);
         List<TotalApplicationDocumentContainer> documentContainerList = document.getDocumentContainerList();
 
+        String admsNo = application.getAdmsNo();
+        String userId = application.getUserId();
+        String rptFileName = "지원서_" + userId;
+
+        rptInfoMap.put("rptDirectoryFullPath", FileUtil.getUploadDirectoryFullPath(admsNo, userId, String.valueOf(applNo)));
+        rptInfoMap.put("rptFileName", rptFileName);
+
         CommonCode commonCode;
         commonCode = commonService.retrieveCommonCodeValueByCodeGroupCode("ADMS_TYPE", application.getAdmsTypeCode());
         String admsTypeName = commonCode != null ? commonCode.getCodeVal() : null;
         String[] admsTypeNames = admsTypeName.split(" ");
-        mv.addObject("entrYear", application.getEntrYear());
+        rptInfoMap.put("entrYear", application.getEntrYear());
         if( admsTypeNames.length > 1) {
-            mv.addObject("admsTypeName1", admsTypeNames[0]);
-            mv.addObject("admsTypeName2", admsTypeNames[1]);
+            rptInfoMap.put("admsTypeName1", admsTypeNames[0]);
+            rptInfoMap.put("admsTypeName2", admsTypeNames[1]);
         }
 
         String campName = "-- 해당사항 없음 -- ";
@@ -121,12 +93,12 @@ public class BirtController {
         String deptCode = application.getDeptCode();
         String detlMajName = commonService.retrieveDetlMajNameByCode(basis.getApplication().getDetlMajCode());
 
-        mv.addObject("campName", campName);
-        mv.addObject("corsTypeName", corsTypeName);
-        mv.addObject("ariInstName", ariInstName);
-        mv.addObject("deptName", deptName);
-        mv.addObject("deptCode", deptCode);
-        mv.addObject("detlMajName", detlMajName);
+        rptInfoMap.put("campName", campName);
+        rptInfoMap.put("corsTypeName", corsTypeName);
+        rptInfoMap.put("ariInstName", ariInstName);
+        rptInfoMap.put("deptName", deptName);
+        rptInfoMap.put("deptCode", deptCode);
+        rptInfoMap.put("detlMajName", detlMajName);
 
         String korName = application.getKorName();
         String engName = application.getEngName();
@@ -138,17 +110,17 @@ public class BirtController {
         String addr = application.getAddr();
         String detlAddr = application.getDetlAddr();
 
-        mv.addObject("korName", korName);
-        mv.addObject("engName", engName);
-        mv.addObject("engSur", engSur);
-        mv.addObject("rgstNo", rgstNo);
-        mv.addObject("mailAddr", mailAddr);
-        mv.addObject("telNum", telNum);
-        mv.addObject("mobiNum", mobiNum);
-        mv.addObject("addr", addr);
-        mv.addObject("detlAddr", detlAddr);
+        rptInfoMap.put("korName", korName);
+        rptInfoMap.put("engName", engName);
+        rptInfoMap.put("engSur", engSur);
+        rptInfoMap.put("rgstNo", rgstNo);
+        rptInfoMap.put("mailAddr", mailAddr);
+        rptInfoMap.put("telNum", telNum);
+        rptInfoMap.put("mobiNum", mobiNum);
+        rptInfoMap.put("addr", addr);
+        rptInfoMap.put("detlAddr", detlAddr);
 
-        mv.addObject("photoUri", documentService.retrievePhotoUri(applNo));
+        rptInfoMap.put("photoUri", documentService.retrievePhotoUri(applNo));
 
         String currWrkpName = applicationGeneral.getCurrWrkpName();
         String currWrkpTel = applicationGeneral.getCurrWrkpTel();
@@ -224,28 +196,28 @@ public class BirtController {
         }
 
 
-        mv.addObject("academy0",academy0 );
-        mv.addObject("academy1",academy1 );
-        mv.addObject("academy2",academy2 );
-        mv.addObject("academy3",academy3 );
-        mv.addObject("academy4",academy4 );
+        rptInfoMap.put("academy0", academy0);
+        rptInfoMap.put("academy1", academy1);
+        rptInfoMap.put("academy2", academy2);
+        rptInfoMap.put("academy3", academy3);
+        rptInfoMap.put("academy4", academy4);
 
 
-        mv.addObject("currWrkpName", currWrkpName);
-        mv.addObject("currWrkpTel", currWrkpTel);
+        rptInfoMap.put("currWrkpName", currWrkpName);
+        rptInfoMap.put("currWrkpTel", currWrkpTel);
 
 
         String hndcGrad = applicationGeneral.getHndcGrad();
         String hndcType = applicationGeneral.getHndcType();
 
-        mv.addObject("hndcGrad", hndcGrad);
-        mv.addObject("hndcType", hndcType);
+        rptInfoMap.put("hndcGrad", hndcGrad);
+        rptInfoMap.put("hndcType", hndcType);
 
         // TODO
 
 
-        mv.addObject("lastCollegeScore", lastCollegeScore);
-        mv.addObject("lastGraduateScore", lastGraduateScore);
+        rptInfoMap.put("lastCollegeScore", lastCollegeScore);
+        rptInfoMap.put("lastGraduateScore", lastGraduateScore);
 
         for( LanguageGroup aLangGrp : langGrpList){
             //영어인경우
@@ -279,11 +251,11 @@ public class BirtController {
         }
 
 
-        mv.addObject("toeflScore", toeflScore);
-        mv.addObject("toeicScore", toeicScore);
-        mv.addObject("tepsScore", tepsScore);
-        mv.addObject("ieltsScore", ieltsScore);
-        mv.addObject("greScore", greScore);
+        rptInfoMap.put("toeflScore", toeflScore);
+        rptInfoMap.put("toeicScore", toeicScore);
+        rptInfoMap.put("tepsScore", tepsScore);
+        rptInfoMap.put("ieltsScore", ieltsScore);
+        rptInfoMap.put("greScore", greScore);
 
 
 
@@ -292,7 +264,7 @@ public class BirtController {
             forlExmp = applicationGeneral.getForlExmpCode();
         }
 
-        mv.addObject("forlExmp", forlExmp);
+        rptInfoMap.put("forlExmp", forlExmp);
 
         // TODO
         String range0 = "";
@@ -342,42 +314,44 @@ public class BirtController {
 
         }
 
-        mv.addObject("range0", range0);
-        mv.addObject("corpName0", corpName0);
-        mv.addObject("exprDesc0", exprDesc0);
-        mv.addObject("range1", range1);
-        mv.addObject("corpName1", corpName1);
-        mv.addObject("exprDesc1", exprDesc1);
-        mv.addObject("range2", range2);
-        mv.addObject("corpName2", corpName2);
-        mv.addObject("exprDesc2", exprDesc2);
-        mv.addObject("range3", range3);
-        mv.addObject("corpName3", corpName3);
-        mv.addObject("exprDesc3", exprDesc3);
-        mv.addObject("range4", range4);
-        mv.addObject("corpName4", corpName4);
-        mv.addObject("exprDesc4", exprDesc4);
+        rptInfoMap.put("range0", range0);
+        rptInfoMap.put("corpName0", corpName0);
+        rptInfoMap.put("exprDesc0", exprDesc0);
+        rptInfoMap.put("range1", range1);
+        rptInfoMap.put("corpName1", corpName1);
+        rptInfoMap.put("exprDesc1", exprDesc1);
+        rptInfoMap.put("range2", range2);
+        rptInfoMap.put("corpName2", corpName2);
+        rptInfoMap.put("exprDesc2", exprDesc2);
+        rptInfoMap.put("range3", range3);
+        rptInfoMap.put("corpName3", corpName3);
+        rptInfoMap.put("exprDesc3", exprDesc3);
+        rptInfoMap.put("range4", range4);
+        rptInfoMap.put("corpName4", corpName4);
+        rptInfoMap.put("exprDesc4", exprDesc4);
 
         // TODO
-        mv.addObject("mltrServName", "");
-        mv.addObject("mltrJoinDay", "");
-        mv.addObject("mltrDschDay", "");
-        mv.addObject("mltrRankName", "");
+        rptInfoMap.put("mltrServName", "");
+        rptInfoMap.put("mltrJoinDay", "");
+        rptInfoMap.put("mltrDschDay", "");
+        rptInfoMap.put("mltrRankName", "");
 
         // TODO
 
         List<TotalApplicationDocument> docList = new ArrayList<TotalApplicationDocument>();
         getDocList(documentContainerList, docList);
-        mv.addObject("documents", docList);
+        rptInfoMap.put("documents", docList);
 
         String appId = "지원 미완료";
 
         if( application.getApplId() != null && !application.getApplId().equals("")){
             appId = application.getApplId();
         }
-        mv.addObject("applId", appId);
+        rptInfoMap.put("applId", appId);
 
-        return mv;
+        ecResult.setData(rptInfoMap);
+
+        return ecResult;
     }
 
     private void getDocList(List<TotalApplicationDocumentContainer> list,

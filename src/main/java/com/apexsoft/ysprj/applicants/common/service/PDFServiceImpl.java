@@ -128,4 +128,9 @@ public class PDFServiceImpl implements PDFService {
 
         return ec;
     }
+
+    @Override
+    public ExecutionContext savePaidDocuments(int applNo) {
+        return null;
+    }
 }
