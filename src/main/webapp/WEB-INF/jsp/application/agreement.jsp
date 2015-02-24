@@ -2,7 +2,7 @@
 <%@ include file="/WEB-INF/jsp/common/env.jsp"%>
 <html>
 <head>
-    <title></title>
+    <title>원서 작성 사전 동의</title>
     <style>
         section.application-selfintro {
             padding: 150px 0 60px;
