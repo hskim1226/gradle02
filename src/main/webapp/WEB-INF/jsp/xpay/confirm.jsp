@@ -36,6 +36,12 @@
         section.confirmPayment .spacer-tiny {
             margin-bottom: 1em;
         }
+
+        section.test {
+            background: #333377;
+            color: #333355;
+            font-size: 8px;
+        }
     </style>
 </head>
 <body>
@@ -88,6 +94,9 @@
             </div>
         </div>
     </div>
+</section>
+<section class="test" id="ver">
+    <div class="container">20150224 1730</div>
 </section>
 <content tag="local-script">
     <script language="javascript" src="http://xpay.uplus.co.kr:7080/xpay/js/xpay_utf-8.js" type="text/javascript"></script>
