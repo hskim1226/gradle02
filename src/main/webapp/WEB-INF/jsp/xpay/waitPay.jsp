@@ -1,0 +1,74 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ include file="/WEB-INF/jsp/common/env.jsp"%>
+<html>
+<head>
+    <title></title>
+    <style>
+        th.header {
+            background-color: #444488;
+        }
+        section.confirmPayment {
+            padding: 200px 0 60px;
+            background: #333377;
+            color: #fdfdfd;
+            position:relative;
+            min-height: 615px;
+        }
+
+        section.confirmPayment h2.slogan {
+            color: #fff;
+            font-size: 36px;
+            font-weight: 900;
+        }
+
+        section.confirmPayment .spacer-big {
+            margin-bottom: 7em;
+        }
+
+        section.confirmPayment .spacer-mid {
+            margin-bottom: 5em;
+        }
+
+        section.confirmPayment .spacer-small {
+            margin-bottom: 3em;
+        }
+
+        section.confirmPayment .spacer-tiny {
+            margin-bottom: 1em;
+        }
+    </style>
+</head>
+<body>
+<section class="confirmPayment" id="confirmPayment">
+    <div class="container">
+        <div class="row mar-bot40">
+            <div class="col-md-6 col-md-offset-3">
+                <h2 class="slogan">결제 내용 확인</h2>
+                <div class="align-center">
+                    <table class="table table-bordered">
+                        <tr><th class="header col-md-4">회원ID</th><td class="col-md-8">${payment.LGD_BUYERID}</td></tr>
+                        <tr><th class="header">회원명</th><td>${payment.LGD_BUYER}</td></tr>
+                        <tr><th class="header">신청과정</th><td>${payment.LGD_PRODUCTINFO}</td></tr>
+                        <tr><th class="header">결제금액</th><td>${payment.LGD_AMOUNT}원</td></tr>
+                        <tr><th class="header">가상계좌정보 <br> (입금전)</th><td>은행 : ${payment.LGD_FINANCENAME} <br> 계좌 : ${payment.LGD_ACCOUNTNUM}</td></tr>
+                    </table>
+                    <div>
+                        <button class="btn btn-primary btn-lg btn-block" id="goMain">내 원서 보기</button>
+                    </div>
+                    <div class="align-left">
+                        <br><br>
+                        * 테스트용 계좌이체 실행 (무통장입금 테스트 데모 선택)
+                        <a target=new href="http://pgweb.uplus.co.kr:8080/pg/wmp/Home2009/skill/payment_demo.jsp">http://pgweb.uplus.co.kr:8080/pg/wmp/Home2009/skill/payment_demo.jsp</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<content tag="local-script">
+    <script>
+        $('#goMain').click( function () { location.href='${contextPath}/application/mylist'; });
+    </script>
+</content>
+</body>
+</html>

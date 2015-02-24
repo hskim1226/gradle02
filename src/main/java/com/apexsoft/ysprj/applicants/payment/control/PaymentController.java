@@ -61,7 +61,16 @@ public class PaymentController {
         payment.setLGD_BUYERID(userSessionVO.getUsername());
         payment.setApplNo(model.getApplication().getApplNo());
 
-        return "xpay/confirm";
+        paymentService.retrieveConfirmInfo(payment);
+
+        String retPage;
+        if( payment.getApplStsCode().equals("00021") ) {
+            retPage = "xpay/waitPay";
+        } else {
+            retPage = "xpay/confirm";
+        }
+
+        return retPage;
     }
 
     /**
