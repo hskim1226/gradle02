@@ -605,7 +605,55 @@ div.cform-response-output {
 	-moz-border-radius: 4px;
 	-webkit-border-radius: 4px;
 }
-
+/*-- ysprojec --*/
+.inner-container-white {
+    background-color: rgba(255, 255, 255, 0.8);
+    filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr='#a7ffffff', endColorstr='#a7ffffff'); /* IE */
+    padding-top: 5%;
+    padding-bottom: 6%;
+}
+section.normal-white {
+    padding: 150px 0 60px;
+    background: #eeeeee;
+    color: #fdfdfd;
+    position:relative;
+    min-height: 615px;
+}
+section.normal-white h2.slogan {
+    color: #fff;
+    font-size: 36px;
+    font-weight: 900;
+}
+section.normal-white .spacer-big {
+    margin-bottom: 7em;
+}
+section.normal-white .spacer-mid {
+    margin-bottom: 5em;
+}
+section.normal-white .spacer-small {
+    margin-bottom: 3em;
+}
+section.normal-white .spacer-tiny {
+    margin-bottom: 0.5em;
+}
+.nopadding {
+    padding: 0 !important;
+    margin: 0 !important;
+}
+.text-gray {
+    color: #333333;
+    opacity: 1.0;
+    text-align: center;
+}
+.validation-error {
+    background: #ffdddd;
+    color: #f55;
+}
+.required .control-label:after {
+    content:"*";
+    color:red;
+}
+/*-- ysprojec --*/
 /*=========================
   Footer
  ================= */

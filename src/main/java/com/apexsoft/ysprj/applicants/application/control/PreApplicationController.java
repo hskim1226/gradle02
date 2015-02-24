@@ -45,9 +45,9 @@ public class PreApplicationController {
      *
      * @return
      */
-    @RequestMapping(value = "/list", method = RequestMethod.GET)
+    @RequestMapping(value = "/admsList", method = RequestMethod.GET)
     public ModelAndView showList() {
-        ModelAndView mv = new ModelAndView("application/list");
+        ModelAndView mv = new ModelAndView("application/admsList");
 
         mv.addObject("admsGeneral", admissionService.retrieveAdmissionByAdmsNo(admsGeneral));
         mv.addObject("admsForeign", admissionService.retrieveAdmissionByAdmsNo(admsForeign));

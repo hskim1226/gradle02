@@ -5,55 +5,17 @@
 <head>
     <title>회원 가입</title>
     <style>
-        section.signup {
-            padding: 50px 0 10px 0;
-            background: #777777;
-            color: #fdfdfd;
-        }
-
-        section.signup h2.slogan {
-            color: #fff;
-            font-size: 48px;
-            font-weight: 900;
-        }
-
-        /* inner heading */
-        section.signup.inner {
-            background: #eee;
-            padding: 150px 0 50px;
-        }
-
-        section.signup .spacer-big {
-            margin-bottom: 7em;
-        }
-
-        section.signup .spacer-mid {
-            margin-bottom: 5em;
-        }
-
-        section.signup .spacer-small {
-            margin-bottom: 3em;
-        }
-
-        section.signup .spacer-tiny {
-            margin-bottom: 1em;
-        }
-
-        section.signup div.btn-group>label.btn {
+        section.normal-white div.btn-group>label.btn {
             max-width: none;
         }
         
-        section.signup textarea.form-control[readonly] {
+        section.normal-white textarea.form-control[readonly] {
             cursor: default;
             resize: none;
             -moz-user-select: none;
             -webkit-user-select: none;
             -khtml-user-select: none;
             user-select: none;
-        }
-        .nopadding {
-            padding: 0 !important;
-            margin: 0 !important;
         }
         input[readonly] {
             background-color: white !important;
@@ -62,114 +24,119 @@
     </style>
 </head>
 <body>
-<section class="signup">
+<section class="normal-white">
     <div class="container">
-        <div class="page-header">
-            <h1 style="color: #fdfdfd">회원 가입</h1>
-        </div>
         <form class="form-horizontal" id="sign-up-form" action="${contextPath}/user/signup/save" method="post" role="form">
             <form:hidden path="users.userAgreYn" />
             <form:hidden path="users.privInfoYn" />
-            <%--usertype--%>
-            <div class="form-group">
-                <label class="col-sm-4 control-label"><spring:message code="L100" /></label>
-                <div class="col-sm-4">
-                    <div class="btn-group btn-group-justified" data-toggle="buttons">
-                        <label class="btn btn-default active">
-                            <input type="radio" name="userType" id="usertype[]" value="g" checked /><spring:message code="L108" />
-                        </label>
-                        <%--<label class="btn btn-default">--%>
-                            <%--<input type="radio" name="userType" id="usertype[]" value="c" /><spring:message code="L109" />--%>
-                        <%--</label>--%>
-                        <label class="btn btn-default">
-                            <input type="radio" name="userType" id="usertype[]" value="f" /><spring:message code="L110" />
-                        </label>
+            <div class="col-md-offset-2 col-md-8">
+                <div class="form-group inner-container-white">
+                    <div class="col-sm-offset-1 col-sm-10 text-gray">
+                        <i class="fa fa-user fa-3x" style="vertical-align: middle; line-height:40px;"></i>&nbsp;<span style="font-size: 35px; vertical-align: middle; line-height:40px;"><b>회원 가입</b></span>
                     </div>
-                </div>
-            </div>
-            <%--user id--%>
-            <div class="form-group">
-                <label for="userId" class="col-sm-4 control-label"><spring:message code="L101" /></label>
-                <div class="col-sm-4">
-                    <div class="input-group">
-                        <input type="text" class="form-control engName" name="userId" id="userId" placeholder="알파벳 대소문자와 숫자로 입력해 주세요"/>
+                    <div class="spacer-small">&nbsp;</div>
+                    <%--usertype--%>
+                    <div class="form-group text-gray">
+                        <label class="col-sm-4 control-label"><spring:message code="L100" /></label>
+                        <div class="col-sm-6">
+                            <div class="btn-group btn-group-justified" data-toggle="buttons">
+                                <label class="btn btn-default active">
+                                    <input type="radio" name="userType" id="usertype[]" value="g" checked /><spring:message code="L108" />
+                                </label>
+                                <%--<label class="btn btn-default">--%>
+                                <%--<input type="radio" name="userType" id="usertype[]" value="c" /><spring:message code="L109" />--%>
+                                <%--</label>--%>
+                                <label class="btn btn-default">
+                                    <input type="radio" name="userType" id="usertype[]" value="f" /><spring:message code="L110" />
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <%--user id--%>
+                    <div class="form-group text-gray">
+                        <label for="userId" class="col-sm-4 control-label"><spring:message code="L101" /></label>
+                        <div class="col-sm-6">
+                            <div class="input-group">
+                                <input type="text" class="form-control engName" name="userId" id="userId" placeholder="알파벳 대소문자와 숫자로 입력해 주세요"/>
                         <span class="input-group-btn">
                             <button class="btn btn-default" type="button" id="available-check-button">Check</button>
                         </span>
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </div>
-            <%--password--%>
-            <div class="form-group">
-                <label for="pswd1" class="col-sm-4 control-label"><spring:message code="L102" /></label>
-                <div class="col-sm-4">
-                    <input type="password" class="form-control" name="pswd" id="pswd1" placeholder="Password"/>
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="pswd2" class="col-sm-4 control-label"><spring:message code="L117" /></label>
-                <div class="col-sm-4">
-                    <input type="password" class="form-control" id="pswd2" placeholder="Password 확인" />
-                </div>
-            </div>
-            <%--email--%>
-            <div class="form-group">
-                <label for="mailAddr" class="col-sm-4 control-label"><spring:message code="L103" /></label>
-                <div class="col-sm-4">
-                    <input type="email" class="form-control emailOnly" name="mailAddr" id="mailAddr" placeholder="이메일 주소를 입력해 주세요" />
-                </div>
-                <label for="mailRecvYn" class="control-label">
-                    <input type="checkbox" name="mailRecvYn" id="mailRecvYn" value="y"/><spring:message code="L112" />
-                </label>
-            </div>
-            <%--mobiNum--%>
-            <div class="form-group">
-                <label for="mobiNum" class="col-sm-4 control-label"><spring:message code="L104" /></label>
-                <div class="col-sm-4">
-                    <input type="text" class="form-control numOnly" name="mobiNum" id="mobiNum" placeholder="숫자로만 입력해 주세요" />
-                </div>
-                <label for="smsRecvYn" class="control-label">
-                    <input type="checkbox" name="smsRecvYn" id="smsRecvYn" value="y" /><spring:message code="L113" />
-                </label>
-            </div>
-            <%--name--%>
-            <div class="form-group">
-                <label for="name" class="col-sm-4 control-label"><spring:message code="L105" /></label>
-                <div class="col-sm-4">
-                    <input type="text" class="form-control" name="name" id="name" placeholder="실명을 입력해주세요" />
-                </div>
-            </div>
-            <%--gend--%>
-            <div class="form-group">
-                <label class="col-sm-4 control-label"><spring:message code="L106" /></label>
-                <div class="col-sm-4">
-                    <div class="btn-group btn-group-justified" data-toggle="buttons">
-                        <label class="btn btn-default active">
-                            <input type="radio" name="gend" id="gend[]" value="m" checked /><spring:message code="L114" />
-                        </label>
-                        <label class="btn btn-default">
-                            <input type="radio" name="gend" id="gend[]" value="f" /><spring:message code="L115" />
-                        </label>
+                    <%--password--%>
+                    <div class="form-group text-gray">
+                        <label for="pswd1" class="col-sm-4 control-label"><spring:message code="L102" /></label>
+                        <div class="col-sm-6">
+                            <input type="password" class="form-control" name="pswd" id="pswd1" placeholder="Password"/>
+                        </div>
                     </div>
-                </div>
-            </div>
-            <%--calendar--%>
-            <div class="form-group">
-                <label for="bornDay" class="col-sm-4 control-label"><spring:message code="L107" /></label>
-                <div class="col-sm-4">
-                    <div class="input-group date">
-                        <input type='text' id="bornDay" name="bornDay" class="form-control" readonly="true"/>
-                        <span class="input-group-addon calendar-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                    <div class="form-group text-gray">
+                        <label for="pswd2" class="col-sm-4 control-label"><spring:message code="L117" /></label>
+                        <div class="col-sm-6">
+                            <input type="password" class="form-control" id="pswd2" placeholder="Password 확인" />
+                        </div>
                     </div>
-                </div>
-            </div>
-            <%--submit--%>
-            <div class="form-group">
-                <label class="col-sm-4 control-label"></label>
-                <div class="col-sm-4">
-                    <div class="btn-group btn-group-justified">
-                        <div class="btn-group">
-                            <button id="sign-up-button" class="btn btn-primary btn-lg" disabled="disabled" ><spring:message code="L116" /></button>
+                    <%--email--%>
+                    <div class="form-group text-gray">
+                        <label for="mailAddr" class="col-sm-4 control-label"><spring:message code="L103" /></label>
+                        <div class="col-sm-6">
+                            <input type="email" class="form-control emailOnly" name="mailAddr" id="mailAddr" placeholder="이메일 주소를 입력해 주세요" />
+                        </div>
+                        <%--<label for="mailRecvYn" class="control-label">--%>
+                            <%--<input type="checkbox" name="mailRecvYn" id="mailRecvYn" value="y"/><spring:message code="L112" />--%>
+                        <%--</label>--%>
+                    </div>
+                    <%--mobiNum--%>
+                    <div class="form-group text-gray">
+                        <label for="mobiNum" class="col-sm-4 control-label"><spring:message code="L104" /></label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control numOnly" name="mobiNum" id="mobiNum" placeholder="숫자로만 입력해 주세요" />
+                        </div>
+                        <%--<label for="smsRecvYn" class="control-label">--%>
+                            <%--<input type="checkbox" name="smsRecvYn" id="smsRecvYn" value="y" /><spring:message code="L113" />--%>
+                        <%--</label>--%>
+                    </div>
+                    <%--name--%>
+                    <div class="form-group text-gray">
+                        <label for="name" class="col-sm-4 control-label"><spring:message code="L105" /></label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" name="name" id="name" placeholder="실명을 입력해주세요" />
+                        </div>
+                    </div>
+                    <%--gend--%>
+                    <div class="form-group text-gray">
+                        <label class="col-sm-4 control-label"><spring:message code="L106" /></label>
+                        <div class="col-sm-6">
+                            <div class="btn-group btn-group-justified" data-toggle="buttons">
+                                <label class="btn btn-default active">
+                                    <input type="radio" name="gend" id="gend[]" value="m" checked /><spring:message code="L114" />
+                                </label>
+                                <label class="btn btn-default">
+                                    <input type="radio" name="gend" id="gend[]" value="f" /><spring:message code="L115" />
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <%--calendar--%>
+                    <div class="form-group text-gray">
+                        <label for="bornDay" class="col-sm-4 control-label"><spring:message code="L107" /></label>
+                        <div class="col-sm-6">
+                            <div class="input-group date">
+                                <input type='text' id="bornDay" name="bornDay" class="form-control" readonly="true"/>
+                                <span class="input-group-addon calendar-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                            </div>
+                        </div>
+                    </div>
+                    <%--submit--%>
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label"></label>
+                        <div class="col-sm-6">
+                            <div class="btn-group btn-group-justified">
+                                <div class="btn-group">
+                                    <button id="sign-up-button" class="btn btn-primary btn-lg" disabled="disabled" ><spring:message code="L116" /></button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

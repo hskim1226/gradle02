@@ -5,84 +5,24 @@
     <title>아이디 찾기</title>
     <link rel="stylesheet" href="//code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css">
     <style>
-        section.findInfo {
-            padding: 150px 0 60px;
-            /*background: #336655;*/
-            <%--background-image: url(${contextPath}/img/common/login-bg1.jpg);--%>
-            background-size: cover;
-            color: #fdfdfd;
-            min-height: 615px;
-        }
-
-        section.findInfo h2.slogan {
-            color: #fff;
-            font-size: 48px;
-            font-weight: 900;
-        }
-
-        section.findInfo .spacer-big {
-            margin-bottom: 7em;
-        }
-
-        section.findInfo .spacer-mid {
-            margin-bottom: 5em;
-        }
-
-        section.findInfo .spacer-small {
-            margin-bottom: 3em;
-        }
-
-        section.findInfo .spacer-tiny {
-            margin-bottom: 0.5em;
-        }
-
-        .findInfo-form-container {
-            background-color: rgba(255, 255, 255, 0.7);
-            filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr='#a7ffffff', endColorstr='#a7ffffff'); /* IE */
-            padding-top: 5%;
-            padding-bottom: 6%;
-        }
-
         .input-text {
             height: 50px;
             font-size: 100%;
             opacity: 1.0;
             margin-bottom: 5%;
         }
-
-        .text-gray {
-            color: #333333;
-            opacity: 1.0;
-            text-align: center;
-        }
-
-        .nopadding {
-            padding: 0 !important;
-            margin: 0 !important;
-        }
-
         input[readonly] {
             background-color: white !important;
             cursor: text !important;
         }
-
-        .validation-error {
-            background: #ffdddd;
-            color: #f55;
-        }
-
-        .required .control-label:after {
-            content:"*";
-            color:red;
-        }
     </style>
 </head>
 <body>
-<section class="findInfo">
+<section class="normal-white">
     <div class="container">
         <form:form commandName="users" cssClass="form-horizontal" role="form" method="post">
             <div class="col-md-offset-3 col-md-6">
-                <div class="form-group findInfo-form-container">
+                <div class="form-group inner-container-white">
                     <div class="col-sm-offset-1 col-sm-10 text-gray">
                         <i class="fa fa-search fa-3x" style="vertical-align: middle; line-height:40px;"></i>&nbsp;<span style="font-size: 35px; vertical-align: middle; line-height:40px;"><b>아이디 찾기</b></span>
                     </div>
@@ -93,7 +33,7 @@
                                 <label for="name" class="control-label">이름</label>
                             </div>
                             <div class="col-sm-9">
-                                <div class="col-sm-12 nopadding input-group">
+                                <div class="col-sm-12 nopadding">
                                     <form:input path="name" cssClass="form-control input-text" placeholder="이름" />
                                 </div>
                         <spring:bind path="name">
@@ -103,6 +43,25 @@
                                 </div>
                             </c:if>
                         </spring:bind>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group required">
+                        <div class="col-sm-offset-1 col-sm-10">
+                            <div class="col-sm-3 text-gray">
+                                <label for="mailAddr" class="control-label">이메일</label>
+                            </div>
+                            <div class="col-sm-9">
+                                <div class="col-sm-12 nopadding">
+                                    <form:input path="mailAddr" cssClass="form-control input-text" placeholder="이메일" />
+                                </div>
+                                <spring:bind path="mailAddr">
+                                    <c:if test="${status.error}">
+                                        <div class="col-sm-12 nopadding">
+                                            <div class="validation-error">${status.errorMessage}</div>
+                                        </div>
+                                    </c:if>
+                                </spring:bind>
                             </div>
                         </div>
                     </div>
@@ -126,25 +85,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="form-group required">
-                        <div class="col-sm-offset-1 col-sm-10">
-                            <div class="col-sm-3 text-gray">
-                                <label for="mailAddr" class="control-label">이메일</label>
-                            </div>
-                            <div class="col-sm-9">
-                                <div class="col-sm-12 nopadding">
-                                    <form:input path="mailAddr" cssClass="form-control input-text" placeholder="이메일" />
-                                </div>
-                        <spring:bind path="mailAddr">
-                            <c:if test="${status.error}">
-                                <div class="col-sm-12 nopadding">
-                                    <div class="validation-error">${status.errorMessage}</div>
-                                </div>
-                            </c:if>
-                        </spring:bind>
-                            </div>
-                        </div>
-                    </div>
+                    <div style="margin-bottom: 10px">&nbsp;</div>
                     <div class="col-sm-offset-1 col-sm-10">
                         <div class="col-sm-12 nopadding">
                             <button class="btn btn-primary btn-lg btn-block btn-save input-text">ID 찾기</button>

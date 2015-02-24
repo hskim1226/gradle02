@@ -2,39 +2,22 @@
 <%@ include file="/WEB-INF/jsp/common/env.jsp"%>
 <html>
 <head>
-    <title></title>
+    <title>전형 목록</title>
     <style>
-        section.notice-detail {
-            padding: 200px 0 60px;
-            background: #4f4f9f;
-            color: #fdfdfd;
-            position:relative;
-            min-height: 615px;
-        }
-
-        section.notice-detail h2.slogan {
-            color: #fff;
-            font-size: 36px;
-            font-weight: 900;
-        }
-
-        /* inner heading */
-        section.notice-detail.inner {
-            background: #eee;
-            padding: 150px 0 50px;
-        }
-
         a { color: #fdfdfd; }
     </style>
 </head>
 <body>
-<section class="notice-detail" id="app-list">
+<section class="normal-white">
     <div class="container">
         <div class="row mar-bot40">
-            <div class="col-md-10 col-md-offset-1">
-                <h2 class="slogan">공고 목록</h2>
-                <div class="align-center">
-                    <table class="table table-stripped">
+            <div class="col-sm-12 form-group inner-container-white">
+                <div class="col-sm-12 text-gray">
+                    <i class="fa fa-list-alt fa-3x" style="vertical-align: middle; line-height:40px;"></i>&nbsp;&nbsp;<span style="font-size: 35px; vertical-align: middle; line-height:40px;"><b>전형 목록</b></span>
+                </div>
+                <div class="spacer-small">&nbsp;</div>
+                <div class="col-sm-12 align-center">
+                    <table class="table table-stripped text-gray">
                         <thead>
                         <tr>
                             <th>전형 구분</th>
