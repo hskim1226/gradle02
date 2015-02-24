@@ -126,6 +126,22 @@ public class PaymentServiceImpl implements PaymentService {
 */
 
     @Override
+    public ExecutionContext retrieveConfirmInfo( Payment payment ) {
+
+        ExecutionContext ec = new ExecutionContext();
+
+        Payment newPayInfo = commonDAO.queryForObject("com.apexsoft.ysprj.applicants.payment.sqlmap.CustomApplicationPaymentMapper.selectConfirmInfo",
+                                                      payment.getApplNo(), Payment.class);
+
+        payment.setApplStsCode(newPayInfo.getApplStsCode());
+        payment.setLGD_AMOUNT(newPayInfo.getLGD_AMOUNT());
+        payment.setLGD_FINANCENAME(newPayInfo.getLGD_FINANCENAME());
+        payment.setLGD_ACCOUNTNUM(newPayInfo.getLGD_ACCOUNTNUM());
+
+        return ec;
+    }
+
+    @Override
     public ExecutionContext registerPaymentCertifyLog( Payment payment ) {
 
         ExecutionContext ec = new ExecutionContext();
@@ -246,8 +262,12 @@ public class PaymentServiceImpl implements PaymentService {
                     registerPaymentWait(payment, xpay);
 
                     //결제 성공에 대한 화면 처리
+                    String msg = messageResolver.getMessage("U003");
+                    msg = msg + "<br><br> 가상계좌정보";
+                    msg = msg + "<br> 은행 : " + xpay.Response("LGD_FINANCENAME", 0);
+                    msg = msg + "<br> 계좌 : " + xpay.Response("LGD_ACCOUNTNUM", 0);
                     transactionVO.setSysMsg(transactionVO.getSysMsg() + "최종결제요청 결과 성공 DB처리하시기 바랍니다.<br>");
-                    transactionVO.setUserMsg(messageResolver.getMessage("U003"));
+                    transactionVO.setUserMsg(msg);
 
                 } else {
                     //TODO 예외 처리

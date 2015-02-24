@@ -13,6 +13,8 @@ import com.apexsoft.ysprj.applicants.payment.domain.Payment;
  */
 public interface PaymentService {
 
+    ExecutionContext retrieveConfirmInfo( Payment payment );
+
     ExecutionContext registerPaymentCertifyLog( Payment payment );
 
     void executePayment( Payment payment, TransactionVO transactionVO );

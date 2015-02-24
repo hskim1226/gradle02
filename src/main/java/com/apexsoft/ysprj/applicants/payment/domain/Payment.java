@@ -9,6 +9,8 @@ public class Payment {
 
     private int applNo;
 
+    private String applStsCode;
+
     private String LGD_MID;
 
     private String LGD_OID;
@@ -48,6 +50,10 @@ public class Payment {
     private String LGD_RESPCODE;
 
     private String LGD_RESPMSG;
+
+    private String LGD_FINANCENAME;
+
+    private String LGD_ACCOUNTNUM;
 
     public int getApplNo() {
         return applNo;
@@ -216,5 +222,30 @@ public class Payment {
     public void setLGD_RESPMSG(String LGD_RESPMSG) {
         this.LGD_RESPMSG = LGD_RESPMSG;
     }
+
+    public String getApplStsCode() {
+        return applStsCode;
+    }
+
+    public void setApplStsCode(String applStsCode) {
+        this.applStsCode = applStsCode;
+    }
+
+    public String getLGD_FINANCENAME() {
+        return LGD_FINANCENAME;
+    }
+
+    public void setLGD_FINANCENAME(String LGD_FINANCENAME) {
+        this.LGD_FINANCENAME = LGD_FINANCENAME;
+    }
+
+    public String getLGD_ACCOUNTNUM() {
+        return LGD_ACCOUNTNUM;
+    }
+
+    public void setLGD_ACCOUNTNUM(String LGD_ACCOUNTNUM) {
+        this.LGD_ACCOUNTNUM = LGD_ACCOUNTNUM;
+    }
+
 
 }

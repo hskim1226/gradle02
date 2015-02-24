@@ -112,4 +112,20 @@
     AND A.CORS_TYPE_CODE = B.CORS_TYPE_CODE
     AND A.APPL_NO = #{applNo,jdbcType=INTEGER};
   </select>
+
+  <resultMap id="confirmInfoMap" type="com.apexsoft.ysprj.applicants.payment.domain.Payment" >
+    <id column="APPL_NO" property="applNo" jdbcType="INTEGER" />
+    <result column="APPL_STS_CODE" property="applStsCode" jdbcType="VARCHAR" />
+    <result column="ADMS_FEE" property="LGD_AMOUNT" jdbcType="INTEGER" />
+    <result column="LGD_FINANCENAME" property="LGD_FINANCENAME" jdbcType="VARCHAR" />
+    <result column="LGD_ACCOUNTNUM" property="LGD_ACCOUNTNUM" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <select id="selectConfirmInfo" resultMap="confirmInfoMap" parameterType="int" >
+    SELECT A.APPL_NO, A.APPL_STS_CODE, B.ADMS_FEE, C.LGD_FINANCENAME, C.LGD_ACCOUNTNUM
+    FROM APPL A, APPL_PAY_CS B LEFT OUTER JOIN XPAY_PAY_RSLT C ON B.LGD_TID = C.LGD_TID
+    WHERE A.APPL_NO = B.APPL_NO
+    AND A.APPL_NO = 209
+  </select>
+
 </mapper>
