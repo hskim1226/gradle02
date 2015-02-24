@@ -20,7 +20,7 @@
 
   <select id="selectPayInfoByApplNo" resultType="com.apexsoft.ysprj.applicants.payment.domain.ApplicationPaymentCurStat" parameterType="int" >
     SELECT A.APPL_NO, B.ADMS_FEE, C.PAY_STS_CODE
-    FROM APPL A LEFT OUTER JOIN APPL_PAY C ON A.APPL_NO = C.APPL_NO,
+    FROM APPL A LEFT OUTER JOIN APPL_PAY_CS C ON A.APPL_NO = C.APPL_NO,
          ADMS_CORS B
     WHERE A.ADMS_NO = B.ADMS_NO
     AND A.DEPT_CODE = B.DEPT_CODE
