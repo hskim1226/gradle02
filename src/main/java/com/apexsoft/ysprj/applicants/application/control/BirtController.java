@@ -94,18 +94,17 @@ public class BirtController {
         List<CustomApplicationAcademy> academyList = new ArrayList<CustomApplicationAcademy>();
         academyList.addAll(collegeList);
         academyList.addAll(graduateList);
+        List<TotalApplicationDocumentContainer> documentContainerList = document.getDocumentContainerList();
 
-        /* TODO ENTR_YEAR, ADMS_TYPE_CODE 구하는 부분 수정 필요 */
         CommonCode commonCode;
-        commonCode = commonService.retrieveCommonCodeValueByCodeGroupCode("ADMS_TYPE", "A");
+        commonCode = commonService.retrieveCommonCodeValueByCodeGroupCode("ADMS_TYPE", application.getAdmsTypeCode());
         String admsTypeName = commonCode != null ? commonCode.getCodeVal() : null;
         String[] admsTypeNames = admsTypeName.split(" ");
-        mv.addObject("entrYear", "2015");
+        mv.addObject("entrYear", application.getEntrYear());
         if( admsTypeNames.length > 1) {
             mv.addObject("admsTypeName1", admsTypeNames[0]);
             mv.addObject("admsTypeName2", admsTypeNames[1]);
         }
-        /* TODO ENTR_YEAR, ADMS_TYPE_CODE 구하는 부분 수정 필요 */
 
         String campName = "-- 해당사항 없음 -- ";
         if(basis.getApplication().getCampCode() !=null && !"".equals(basis.getApplication().getCampCode())) {
@@ -149,20 +148,10 @@ public class BirtController {
         mv.addObject("addr", addr);
         mv.addObject("detlAddr", detlAddr);
 
-        // TODO : 사진 파일 추출
-//        ApplicationDocument photoFile = documentService.retrievePhotoUri(applNo);
-//        String photoUri = photoFile.getFilePath() + "/" + photoFile.getFileName();
-//        String photoUri = "/opt/ysproject/upload/2015/15A/z/zz/357/하니.png";
         mv.addObject("photoUri", documentService.retrievePhotoUri(applNo));
 
         String currWrkpName = applicationGeneral.getCurrWrkpName();
         String currWrkpTel = applicationGeneral.getCurrWrkpTel();
-        // TODO
-//        String academy0 = academyList.get(0);
-//        res += entrDay.substr(0, 4) + "년" + entrDay.substr(4, 2) + "월" + entrDay.substr(6, 2) + "일";
-
-
-
 
         String academy0 = "";
         String academy1 = "";
@@ -377,6 +366,9 @@ public class BirtController {
 
         // TODO
 
+        List<TotalApplicationDocument> docList = new ArrayList<TotalApplicationDocument>();
+        getDocList(documentContainerList, docList);
+
         String appId = "지원 미완료";
 
         if( application.getApplId() != null && !application.getApplId().equals("")){
@@ -385,5 +377,17 @@ public class BirtController {
         mv.addObject("applId", appId);
 
         return mv;
+    }
+
+    private void getDocList(List<TotalApplicationDocumentContainer> list,
+                            List<TotalApplicationDocument> docList) {
+
+        for (TotalApplicationDocumentContainer item : list) {
+            if ("Y".equals(item.getLastYn())) {
+                docList.add(item);
+            } else {
+                getDocList(item.getSubContainer(), docList);
+            }
+        }
     }
 }

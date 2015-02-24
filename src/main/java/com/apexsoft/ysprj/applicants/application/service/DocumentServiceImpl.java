@@ -98,14 +98,40 @@ public class DocumentServiceImpl implements DocumentService {
             application.setApplStsCode(FILE_UPLOAD_SAVED);
             r1 = commonDAO.updateItem(application, NAME_SPACE, "ApplicationMapper");
         }
-        if (r1 == rSave) {
+
+        int r2 = 0, rSaveEtc = 0;
+        ExecutionContext ec2;
+        List<TotalApplicationDocument> errorDoc = new ArrayList<TotalApplicationDocument>();
+        List<TotalApplicationDocumentContainer> docContainerList = document.getDocumentContainerList();
+        for (TotalApplicationDocumentContainer groupList : docContainerList) {
+            if ("00009".equals(groupList.getDocTypeCode())) {
+                List<TotalApplicationDocumentContainer> aDocList = groupList.getSubContainer();
+                for (TotalApplicationDocumentContainer aDoc : aDocList) {
+                    if ("Y".equals(aDoc.getLastYn()) && aDoc.isCheckedFg()) {
+                        r2++;
+                        ec2 = saveOneDocument(aDoc);
+                        if (ExecutionContext.SUCCESS.equals(ec2.getResult())) {
+                            rSaveEtc++;
+                        } else {
+                            errorDoc.add(aDoc);
+                        }
+                    }
+                }
+            }
+        }
+        if (r1 == rSave && r2 == rSaveEtc) {
             ec.setResult(ExecutionContext.SUCCESS);
             ec.setMessage(messageResolver.getMessage("U325"));
         } else {
             ec.setResult(ExecutionContext.FAIL);
             ec.setMessage(messageResolver.getMessage("U326"));
-            ec.setData(application);
-            ec.setErrCode("ERR0003");
+            if (r1 != rSave) {
+                ec.setData(application);
+                ec.setErrCode("ERR0003");
+            } else if (r2 != rSaveEtc) {
+                ec.setErrCode("ERR0033");
+                ec.setData(errorDoc);
+            }
             throw new YSBizException(ec);
         }
         return ec;
@@ -233,7 +259,7 @@ public class DocumentServiceImpl implements DocumentService {
             if ( insert != rInsert ) errCode = "ERR0031";
             if ( update != rUpdate ) errCode = "ERR0033";
             ec.setErrCode(errCode);
-            throw new YSNoRedirectBizException(ec);
+            throw new YSBizException(ec);
         }
         return ec;
     }
@@ -325,6 +351,8 @@ public class DocumentServiceImpl implements DocumentService {
             for ( TotalApplicationDocumentContainer aCont : applDocList){
                 rList.add(aCont);
                 aCont.setDocItemName(aCont.getDocItemName()+" 성적표(증명)");
+                aCont.setFileUploadFg(true);
+                aCont.setCheckedFg(true);
             }
         }
         rApplDoc = new TotalApplicationDocumentContainer();
@@ -523,11 +551,16 @@ public class DocumentServiceImpl implements DocumentService {
         aCont = new TotalApplicationDocumentContainer();
         for (TotalApplicationDocumentContainer aSubDoc : subDocList) {
             aSubDoc.setAdmsNo(admsNo);
+            aSubDoc.setLastYn("Y");
+            aSubDoc.setCheckedFg(true);
+            aSubDoc.setFileUploadFg(true);
+            aSubDoc.setUploadYn("Y");
             if( aSubDoc.getMsgNo()!= null && aSubDoc.getMsgNo()!= "" ) {
                 aSubDoc.setMsg(messageResolver.getMessage(aSubDoc.getMsgNo()));
             }
         }
         aCont.setGrpLabel("기타 및 추가제출");
+        aCont.setDocTypeCode(codeParam.getItemTypeCode());
         aCont.setDisplayGrpFg(true);
         aCont.setSubContainer(subDocList);
         rContList.add(aCont);

@@ -78,6 +78,11 @@
         <session-timeout>30</session-timeout>
     </session-config>
 
+    <error-page>
+        <error-code>404</error-code>
+        <location>/WEB-INF/jsp/common/404.jsp</location>
+    </error-page>
+
     <welcome-file-list>
         <welcome-file>index.html</welcome-file>
         <welcome-file>index.htm</welcome-file>

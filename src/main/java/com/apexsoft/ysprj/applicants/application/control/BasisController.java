@@ -3,7 +3,6 @@ package com.apexsoft.ysprj.applicants.application.control;
 import com.apexsoft.framework.common.vo.ExecutionContext;
 import com.apexsoft.framework.message.MessageResolver;
 import com.apexsoft.ysprj.applicants.application.domain.*;
-import com.apexsoft.ysprj.applicants.application.service.ApplicationService;
 import com.apexsoft.ysprj.applicants.application.service.BasisService;
 import com.apexsoft.ysprj.applicants.application.validator.BasisValidator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +15,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
 import java.security.Principal;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -78,8 +76,7 @@ public class BasisController {
             ExecutionContext ecRetrieve = basisService.retrieveSelectionMap(formData);
             if (ExecutionContext.SUCCESS.equals(ecRetrieve.getResult())) {
                 Map<String, Object> map = (Map<String, Object>)ecRetrieve.getData();
-                mv.addObject("selection", map.get("selection"));
-                mv.addObject("country", map.get("country"));
+                mv.addAllObjects(map);
             } else {
                 mv = getErrorMV("common/error", ecRetrieve);
             }
@@ -109,7 +106,7 @@ public class BasisController {
     }
 
     /**
-     * 기본 정보 저장
+     * 지원 취소
      *
      * @param formData
      * @param principal
@@ -126,9 +123,8 @@ public class BasisController {
             mv.addObject("resultMsg", messageResolver.getMessage("U334"));
             ExecutionContext ecRetrieve = basisService.retrieveBasis(formData);
             if (ecRetrieve.getResult().equals(ExecutionContext.SUCCESS)) {
-                Map<String, Object> map = (Map<String, Object>)ecRetrieve.getData();
-                mv.addObject("selection", map.get("selection"));
-                mv.addObject("country", map.get("country"));
+                Map<String, Object> map = (Map<String, Object>)ecRetrieve.getData();                
+                mv.addAllObjects(map);
             } else {
                 mv = getErrorMV("common/error", ecRetrieve);
             }
@@ -182,9 +178,7 @@ public class BasisController {
      * @param ec
      */
     private void addObjectToMV(ModelAndView mv, Map<String, Object> map, ExecutionContext ec) {
-        mv.addObject("basis", map.get("basis"));
-        mv.addObject("selection", map.get("selection"));
-        mv.addObject("country", map.get("country"));
+        mv.addAllObjects(map);
         mv.addObject("resultMsg", ec.getMessage());
     }
 }

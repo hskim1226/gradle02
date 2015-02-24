@@ -1,4 +1,4 @@
-package com.apexsoft.ysprj.applicants.application.service;
+package com.apexsoft.ysprj.unused;
 
 import com.apexsoft.framework.common.vo.ExecutionContext;
 import com.apexsoft.framework.message.MessageResolver;

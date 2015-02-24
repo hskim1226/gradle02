@@ -8,7 +8,7 @@ import com.apexsoft.framework.xpay.service.TransactionVO;
 import com.apexsoft.ysprj.applicants.application.domain.Application;
 import com.apexsoft.ysprj.applicants.application.domain.Basis;
 import com.apexsoft.ysprj.applicants.application.domain.CustomNewSeq;
-import com.apexsoft.ysprj.applicants.application.service.ApplicationService;
+import com.apexsoft.ysprj.unused.ApplicationService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +30,7 @@ import lgdacom.XPayClient.XPayClient;
 @Controller
 @RequestMapping("/pay")
 @SessionAttributes("paymentVO")
+@Deprecated
 public class XPayController {
 
     @Value("#{app['pay.lgdacom']}")

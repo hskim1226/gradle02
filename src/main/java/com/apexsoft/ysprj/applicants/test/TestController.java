@@ -1,6 +1,6 @@
 package com.apexsoft.ysprj.applicants.test;
 
-import com.apexsoft.ysprj.applicants.application.service.ApplicationService;
+import com.apexsoft.ysprj.unused.ApplicationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

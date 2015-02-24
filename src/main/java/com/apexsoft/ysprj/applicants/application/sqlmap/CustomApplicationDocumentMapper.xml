@@ -562,12 +562,37 @@
         AND DOC_TYPE_CODE IN ('00003','00002','00004','00021')
     </select>
 
+    <select id="selectApplicationDocumentByDocumentType"   resultMap="totalDoc"
+            parameterType="com.apexsoft.ysprj.applicants.application.domain.ParamForDocumentType" >
+        SELECT
+        APPL_NO, DOC_SEQ, DOC_TYPE_CODE, DOC_GRP, DOC_ITEM_CODE, DOC_ITEM_NAME,
+        DOC_NAME,
+        FILE_EXT, IMG_YN, FILE_PATH, FILE_NAME, ORG_FILE_NAME, CRE_ID, CRE_DATE
+        , MOD_ID,
+        MOD_DATE, DOC_ITEM_NAME_XXEN, DOC_GRP_NAME
+        FROM APPL_DOC
+        WHERE 1=1
+        AND APPL_NO = #{applNo}
+        <if test="docGrp != null and docGrp != 0" >
+            AND DOC_GRP = #{docGrp}
+        </if>
+        <if test="docTypeCode != null" >
+            AND DOC_TYPE_CODE = #{docTypeCode}
+        </if>
+        <if test="docItemCode != null" >
+            AND DOC_ITEM_CODE = #{docItemCode}
+        </if>
+    </select>
+
+
     <select id="selectMaxSeqByApplNo" resultType="java.lang.Integer" parameterType="java.lang.Integer" >
         select
         MAX(DOC_SEQ)
         from APPL_DOC
         where APPL_NO = #{applNo,jdbcType=INTEGER}
     </select>
+
+
 
     <select id="selectOneDocument"   resultMap="totalDoc"   parameterType="com.apexsoft.ysprj.applicants.application.domain.ApplicationDocumentKey" >
         SELECT

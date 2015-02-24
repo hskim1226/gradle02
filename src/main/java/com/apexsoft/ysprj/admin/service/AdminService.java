@@ -24,6 +24,8 @@ public interface AdminService {
 	 
 	ApplicantInfo getApplicantInfo(ApplicantSearchForm applicantSearchForm);
 
+    List<ApplicantCnt> retrieveUnpaidApplicantCntByDept(CourseSearchGridForm searchForm);
+
 
 
 

@@ -22,6 +22,9 @@ public class BasisValidator implements Validator {
     @Autowired
     ApplicationGeneralValidator applicationGeneralValidator;
 
+    @Autowired
+    ApplicationForeignerValidator applicationForeignerValidator;
+
     @Override
     public boolean supports(Class<?> clazz) {
         return Basis.class.isAssignableFrom(clazz);
@@ -31,11 +34,16 @@ public class BasisValidator implements Validator {
     public void validate(Object o, Errors errors) {
         int i = 0;
         Basis basis = (Basis)o;
+
         Application application = basis.getApplication();
-        ApplicationGeneral applicationGeneral= basis.getApplicationGeneral();
-
         applicationValidator.validate(application, errors, "application");
-        applicationGeneralValidator.validate(applicationGeneral, errors, "applicationGeneral");
 
+        if ("C".equals(application.getAdmsTypeCode())) {
+            ApplicationForeigner applicationForeigner = basis.getApplicationForeigner();
+            applicationForeignerValidator.validate(applicationForeigner, errors, "applicationForeigner");
+        } else {
+            ApplicationGeneral applicationGeneral = basis.getApplicationGeneral();
+            applicationGeneralValidator.validate(applicationGeneral, errors, "applicationGeneral");
+        }
     }
 }

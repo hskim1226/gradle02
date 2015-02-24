@@ -72,7 +72,7 @@
 
         .panel-darkgray1, .panel-darkgray2, .panel-darkgray3, .panel-darkgray4 {
             /*background-color: #8c8c8c;*/
-            color: #fff;
+            /*color: #fff;*/
             border-color: #333333;
         }
 
@@ -282,6 +282,9 @@
             background: #ffdddd;
             color: #f55;
         }
+        .warn-info {
+            color: #f00;
+        }
     </style>
 </head>
 <body>
@@ -370,18 +373,22 @@
                         <div class="panel panel-darkgray">
                             <div class="panel-heading">${lv1Container.grpLabel}</div>
                             <form:hidden path="documentContainerList[${lv1Status.index}].grpLabel" value="${lv1Container.grpLabel}" />
+                            <form:hidden path="documentContainerList[${lv1Status.index}].docTypeCode" value="${lv1Container.docTypeCode}" />
+                            <form:hidden path="documentContainerList[${lv1Status.index}].docItemCode" value="${lv1Container.docItemCode}" />
                             <div class="panel-body" id="docContainerList${lv1Status.index}.list">
 
                             <c:forEach items="${lv1Container.subContainer}" var="lv2Container" varStatus="lv2Status">
                                 <c:choose>
                                     <c:when test="${lv2Container.lastYn == 'Y'}">
-                                <%--<div class="form-group"><label class="col-sm-3 control-label word-keep-all">${lv2Container.docItemName}</label></div>--%>
                                 <div class="form-group">
+                                    <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].applNo" value="${lv2Container.applNo}" />
                                     <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].docSeq" value="${lv2Container.docSeq}" />
                                     <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].docTypeCode" value="${lv2Container.docTypeCode}" />
                                     <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].docGrp" value="${lv2Container.docGrp}" />
                                     <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].docItemCode" value="${lv2Container.docItemCode}" />
-                                    <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].docItemName" value="${lv2Container.docItemName}" />
+                                    <c:if test="${lv2Container.docTypeCode != '00009'}">
+                                        <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].docItemName" value="${lv2Container.docItemName}" />
+                                    </c:if>
                                     <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].grpLabel" value="${lv2Container.grpLabel}" />
                                     <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].fileExt" value="${lv2Container.fileExt}" />
                                     <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].imgYn" value="${lv2Container.imgYn}" />
@@ -405,18 +412,36 @@
                                     <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].mdtYn" value="${lv2Container.mdtYn}" />
                                     <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].uploadYn" value="${lv2Container.uploadYn}" />
                                     <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].sendCnt" value="${lv2Container.sendCnt}" />
+                                    <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].msgNo" value="${lv2Container.msgNo}" />
+                                    <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].msg" value="${lv2Container.msg}" />
+                            <c:choose>
+                                <c:when test="${document.documentContainerList[lv1Status.index].subContainer[lv2Status.index].uploadYn == 'N'}">
+                                    <div class="col-sm-3"><label>${lv2Container.docItemName}</label></div>
+                                    <div class="col-sm-9 warn-info"><label>${lv2Container.msg}</label></div>
+                                </c:when>
+                                <c:otherwise>
                                     <div class="col-sm-3">
                                         <div class="checkbox-upload">
                                             <label class="word-keep-all" for="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.checkedFg">
-                                                <input type="checkbox"
-                                                       id="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.checkedFg"
-                                                       name="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].checkedFg"
-                                                       data-upload-button-id="upload-button-${lv1Status.index}-${lv2Status.index}"
-                                                       <c:if test="${lv2Container.fileUploadFg == true}">checked</c:if> />${lv2Container.docItemName}
+                                                <div class="col-sm-2">
+                                                    <input type="checkbox"
+                                                           id="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.checkedFg"
+                                                           name="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].checkedFg"
+                                                           data-upload-button-id="upload-button-${lv1Status.index}-${lv2Status.index}"
+                                                           <c:if test="${lv2Container.fileUploadFg == true}">checked</c:if> />
+                                                </div>
+                                                <div class="col-sm-10 nopadding">
+                                                    <c:choose>
+                                                        <c:when test="${lv2Container.docTypeCode != '00009'}">${lv2Container.docItemName}</c:when>
+                                                        <c:otherwise>
+                                                            <form:input path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].docItemName"
+                                                                        value="${lv2Container.docItemName}"
+                                                                        cssClass="form-control" />
+                                                        </c:otherwise>
+                                                    </c:choose>
+                                                </div>
                                             </label>
                                         </div>
-                                        <%-- TODO : 기타 일때만 직접 입력 필드 보이게 --%>
-                                        <%--<div class="col-sm-5 nopadding"><form:input path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].docName" placeholder="서류 명 직접 입력"/></div>--%>
                                     </div>
                                     <div class="col-sm-5 nopadding">
                                         <div class="col-sm-12 nopadding"><input type="file" class="btn btn-file" id="file-input-${lv1Status.index}-${lv2Status.index}" name="file-input-name-${lv1Status.index}-${lv2Status.index}" data-upload-button-id="upload-button-${lv1Status.index}-${lv2Status.index}"/></div>
@@ -473,19 +498,22 @@
                                         <div class="col-sm-4 upload-delete-button-container-${lv1Status.index}-${lv2Status.index}" style='display: <c:choose><c:when test="${lv2Container.fileUploadFg == true}">block;</c:when><c:otherwise>none;</c:otherwise></c:choose>'>
                                             <a class="btn btn-default file-delete" id="file-delete-link-${lv1Status.index}-${lv2Status.index}"
                                                data-checkbox-id="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.checkedFg"
+                                               data-docitemname-id="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.docItemName"
                                                data-upload-button-id="upload-button-${lv1Status.index}-${lv2Status.index}"
                                                data-button-container-class="upload-delete-button-container-${lv1Status.index}-${lv2Status.index}"
                                                data-fileUploadFg-id="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.fileUploadFg"
                                                href="${contextPath}/application/document/fileDelete/${lv2Container.applNo}/${lv2Container.docSeq}">삭제</a>
                                         </div>
                                     </div>
-                            <spring:bind path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].fileUploadFg">
-                                <c:if test="${status.error}">
-                                    <div class="col-sm-12 validation-container">
-                                        <div class="validation-error">${status.errorMessage}</div>
-                                    </div>
-                                </c:if>
-                            </spring:bind>
+                                    <spring:bind path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].fileUploadFg">
+                                        <c:if test="${status.error}">
+                                            <div class="col-sm-12 validation-container">
+                                                <div class="validation-error">${status.errorMessage}</div>
+                                            </div>
+                                        </c:if>
+                                    </spring:bind>
+                                </c:otherwise>
+                            </c:choose>
                                 </div>
 
                                     </c:when>
@@ -493,12 +521,15 @@
                                 <div class="panel panel-darkgray1">
                                     <div class="panel-heading">${lv2Container.grpLabel}</div>
                                     <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].grpLabel" value="${lv2Container.grpLabel}" />
+                                        <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].docTypeCode" value="${lv2Container.docTypeCode}" />
+                                        <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].docItemCode" value="${lv2Container.docItemCode}" />
                                     <div class="panel-body" id="docContainerList${lv2Status.index}.list">
 
                                         <c:forEach items="${lv2Container.subContainer}" var="lv3Container" varStatus="lv3Status">
                                             <c:choose>
                                                 <c:when test="${lv3Container.lastYn == 'Y'}">
                                         <div class="form-group">
+                                            <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].subContainer[${lv3Status.index}].applNo" value="${lv3Container.applNo}" />
                                             <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].subContainer[${lv3Status.index}].docSeq" value="${lv3Container.docSeq}" />
                                             <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].subContainer[${lv3Status.index}].docTypeCode" value="${lv3Container.docTypeCode}" />
                                             <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].subContainer[${lv3Status.index}].docGrp" value="${lv3Container.docGrp}" />
@@ -527,6 +558,14 @@
                                             <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].subContainer[${lv3Status.index}].mdtYn" value="${lv3Container.mdtYn}" />
                                             <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].subContainer[${lv3Status.index}].uploadYn" value="${lv3Container.uploadYn}" />
                                             <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].subContainer[${lv3Status.index}].sendCnt" value="${lv3Container.sendCnt}" />
+                                            <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].subContainer[${lv3Status.index}].msgNo" value="${lv3Container.msgNo}" />
+                                            <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].subContainer[${lv3Status.index}].msg" value="${lv3Container.msg}" />
+                                    <c:choose>
+                                        <c:when test="${document.documentContainerList[lv1Status.index].subContainer[lv2Status.index].subContainer[lv3Status.index].uploadYn == 'N'}">
+                                            <div class="col-sm-3"><label>${lv3Container.docItemName}</label></div>
+                                            <div class="col-sm-9 warn-info"><label>${lv3Container.msg}</label></div>
+                                        </c:when>
+                                        <c:otherwise>
                                             <div class="col-sm-3">
                                                 <div class="checkbox-upload">
                                                     <label class="word-keep-all" for="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.checkedFg">
@@ -537,8 +576,6 @@
                                                                <c:if test="${lv3Container.fileUploadFg == true}">checked</c:if> />${lv3Container.docItemName}
                                                     </label>
                                                 </div>
-                                                <%-- TODO : 기타 일때만 직접 입력 필드 보이게 --%>
-                                                <%--<div class="col-sm-5 nopadding"><form:input path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].subContainer[${lv3Status.index}].docName" placeholder="서류 명 직접 입력"/></div>--%>
                                             </div>
                                             <div class="col-sm-5 nopadding">
                                                 <div class="col-sm-12 nopadding"><input type="file" class="btn btn-file" id="file-input-${lv1Status.index}-${lv2Status.index}-${lv3Status.index}" name="file-input-name-${lv1Status.index}-${lv2Status.index}-${lv3Status.index}" data-upload-button-id="upload-button-${lv1Status.index}-${lv2Status.index}-${lv3Status.index}"/></div>
@@ -586,7 +623,7 @@
                                                            data-doc-prop-mdtYn="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.mdtYn"
                                                            data-doc-prop-uploadYn="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.uploadYn"
                                                            data-doc-prop-sendCnt="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.sendCnt"
-                                                    />
+                                                            />
                                                 </div>
                                                 <div class="col-sm-4 upload-delete-button-container-${lv1Status.index}-${lv2Status.index}-${lv3Status.index}"
                                                      style='display: <c:choose><c:when test="${lv3Container.fileUploadFg == true}">block;</c:when><c:otherwise>none;</c:otherwise></c:choose>'>
@@ -597,6 +634,7 @@
                                                      style='display: <c:choose><c:when test="${lv3Container.fileUploadFg == true}">block;</c:when><c:otherwise>none;</c:otherwise></c:choose>'>
                                                     <a class="btn btn-default file-delete" id="file-delete-link-${lv1Status.index}-${lv2Status.index}-${lv3Status.index}"
                                                        data-checkbox-id="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.checkedFg"
+                                                       data-docitemname-id="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.docItemName"
                                                        data-upload-button-id="upload-button-${lv1Status.index}-${lv2Status.index}-${lv3Status.index}"
                                                        data-button-container-class="upload-delete-button-container-${lv1Status.index}-${lv2Status.index}-${lv3Status.index}"
                                                        data-fileUploadFg-id="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.fileUploadFg"
@@ -610,20 +648,24 @@
                                             </div>
                                         </c:if>
                                     </spring:bind>
+                                        </c:otherwise>
+                                    </c:choose>
                                         </div>
 
                                                 </c:when>
                                                 <c:otherwise>
                                         <div class="panel panel-default">
                                             <div class="panel-heading">${lv3Container.grpLabel}</div>
-                                                    <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].subContainer[${lv3Status.index}].grpLabel" value="${lv3Container.grpLabel}" />
+                                            <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].subContainer[${lv3Status.index}].grpLabel" value="${lv3Container.grpLabel}" />
+                                                    <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].subContainer[${lv3Status.index}].docTypeCode" value="${lv3Container.docTypeCode}" />
+                                                    <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].subContainer[${lv3Status.index}].docItemCode" value="${lv3Container.docItemCode}" />
                                             <div class="panel-body" id="docContainerList${lv3Status.index}.list">
 
                                                     <c:forEach items="${lv3Container.subContainer}" var="lv4Container" varStatus="lv4Status">
                                                         <c:choose>
                                                             <c:when test="${lv4Container.lastYn == 'Y'}">
-
                                                 <div class="form-group">
+                                                    <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].subContainer[${lv3Status.index}].subContainer[${lv4Status.index}].applNo" value="${lv4Container.applNo}" />
                                                     <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].subContainer[${lv3Status.index}].subContainer[${lv4Status.index}].docSeq" value="${lv4Container.docSeq}" />
                                                     <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].subContainer[${lv3Status.index}].subContainer[${lv4Status.index}].docTypeCode" value="${lv4Container.docTypeCode}" />
                                                     <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].subContainer[${lv3Status.index}].subContainer[${lv4Status.index}].docGrp" value="${lv4Container.docGrp}" />
@@ -652,6 +694,14 @@
                                                     <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].subContainer[${lv3Status.index}].subContainer[${lv4Status.index}].mdtYn" value="${lv4Container.mdtYn}" />
                                                     <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].subContainer[${lv3Status.index}].subContainer[${lv4Status.index}].uploadYn" value="${lv4Container.uploadYn}" />
                                                     <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].subContainer[${lv3Status.index}].subContainer[${lv4Status.index}].sendCnt" value="${lv4Container.sendCnt}" />
+                                                    <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].subContainer[${lv3Status.index}].subContainer[${lv4Status.index}].msgNo" value="${lv4Container.msgNo}" />
+                                                    <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].subContainer[${lv3Status.index}].subContainer[${lv4Status.index}].msg" value="${lv4Container.msg}" />
+                                            <c:choose>
+                                                <c:when test="${document.documentContainerList[lv1Status.index].subContainer[lv2Status.index].subContainer[lv3Status.index].subContainer[lv4Status.index].uploadYn == 'N'}">
+                                                    <div class="col-sm-3"><label>${lv4Container.docItemName}</label></div>
+                                                    <div class="col-sm-9 warn-info"><label>${lv4Container.msg}</label></div>
+                                                </c:when>
+                                                <c:otherwise>
                                                     <div class="col-sm-3">
                                                         <div class="checkbox-upload">
                                                             <label class="word-keep-all" for="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.subContainer${lv4Status.index}.checkedFg">
@@ -662,8 +712,6 @@
                                                                        <c:if test="${lv4Container.fileUploadFg == true}">checked</c:if> />${lv4Container.docItemName}
                                                             </label>
                                                         </div>
-                                                        <%-- TODO : 기타 일때 만 직접 입력 필드 보이게 --%>
-                                                        <%--<div class="col-sm-5 nopadding"><form:input path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].subContainer[${lv3Status.index}].subContainer[${lv4Status.index}].docName" placeholder="서류 명 직접 입력"/></div>--%>
                                                     </div>
                                                     <div class="col-sm-5 nopadding">
                                                         <div class="col-sm-12 nopadding"><input type="file" class="btn btn-file" id="file-input-${lv1Status.index}-${lv2Status.index}-${lv3Status.index}-${lv4Status.index}" name="file-input-name-${lv1Status.index}-${lv2Status.index}-${lv3Status.index}-${lv4Status.index}" data-upload-button-id="upload-button-${lv1Status.index}-${lv2Status.index}-${lv3Status.index}-${lv4Status.index}"/></div>
@@ -716,16 +764,17 @@
                                                         <div class="col-sm-4 upload-delete-button-container-${lv1Status.index}-${lv2Status.index}-${lv3Status.index}-${lv4Status.index}"
                                                              style='display: <c:choose><c:when test="${lv4Container.fileUploadFg == true}">block;</c:when><c:otherwise>none;</c:otherwise></c:choose>'>
                                                             <a class="btn btn-default file-download" id="file-download-link-${lv1Status.index}-${lv2Status.index}-${lv3Status.index}-${lv4Status.index}"
-                                                                href="${contextPath}/application/document/fileDownload/${lv4Container.applNo}/${lv4Container.docSeq}">내려받기</a>
+                                                               href="${contextPath}/application/document/fileDownload/${lv4Container.applNo}/${lv4Container.docSeq}">내려받기</a>
                                                         </div>
                                                         <div class="col-sm-4 upload-delete-button-container-${lv1Status.index}-${lv2Status.index}-${lv3Status.index}-${lv4Status.index}"
                                                              style='display: <c:choose><c:when test="${lv4Container.fileUploadFg == true}">block;</c:when><c:otherwise>none;</c:otherwise></c:choose>'>
                                                             <a class="btn btn-default file-delete" id="file-delete-link-${lv1Status.index}-${lv2Status.index}-${lv3Status.index}-${lv4Status.index}"
-                                                                data-checkbox-id="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.subContainer${lv4Status.index}.checkedFg"
-                                                                data-upload-button-id="upload-button-${lv1Status.index}-${lv2Status.index}-${lv3Status.index}-${lv4Status.index}"
-                                                                data-button-container-class="upload-delete-button-container-${lv1Status.index}-${lv2Status.index}-${lv3Status.index}-${lv4Status.index}"
-                                                                data-fileUploadFg-id="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.subContainer${lv4Status.index}.fileUploadFg"
-                                                                href="${contextPath}/application/document/fileDelete/${lv4Container.applNo}/${lv4Container.docSeq}">삭제</a>
+                                                               data-checkbox-id="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.subContainer${lv4Status.index}.checkedFg"
+                                                               data-docitemname-id="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.subContainer${lv4Status.index}.docItemName"
+                                                               data-upload-button-id="upload-button-${lv1Status.index}-${lv2Status.index}-${lv3Status.index}-${lv4Status.index}"
+                                                               data-button-container-class="upload-delete-button-container-${lv1Status.index}-${lv2Status.index}-${lv3Status.index}-${lv4Status.index}"
+                                                               data-fileUploadFg-id="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.subContainer${lv4Status.index}.fileUploadFg"
+                                                               href="${contextPath}/application/document/fileDelete/${lv4Container.applNo}/${lv4Container.docSeq}">삭제</a>
                                                         </div>
                                                     </div>
                                             <spring:bind path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].subContainer[${lv3Status.index}].subContainer[${lv4Status.index}].fileUploadFg">
@@ -735,6 +784,8 @@
                                                     </div>
                                                 </c:if>
                                             </spring:bind>
+                                                </c:otherwise>
+                                            </c:choose>
                                                 </div>
 
                                                             </c:when>
@@ -786,6 +837,129 @@
                                 </div>
                                 </c:if>
                             </c:forEach>
+
+                            <%-- level2인 기타 첨부 서류 입력 란 --%>
+                            <c:if test="${lv1Container.docTypeCode == '00009'}">
+                                <c:forEach begin="${lv1Container.subContainer.size()}" end="4" varStatus="lv2EtcStatus">
+                                    <div class="form-group">
+                                        <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2EtcStatus.index}].applNo" value="${document.application.applNo}"/>
+                                        <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2EtcStatus.index}].docSeq" />
+                                        <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2EtcStatus.index}].docTypeCode" value="00009" />
+                                        <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2EtcStatus.index}].docGrp" />
+                                        <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2EtcStatus.index}].docItemCode" value="99999" />
+                                        <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2EtcStatus.index}].grpLabel" />
+                                        <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2EtcStatus.index}].fileExt" />
+                                        <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2EtcStatus.index}].imgYn" />
+                                        <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2EtcStatus.index}].filePath" />
+                                        <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2EtcStatus.index}].fileName" />
+                                        <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2EtcStatus.index}].orgFileName" />
+                                        <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2EtcStatus.index}].docItemNameXxen" />
+                                        <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2EtcStatus.index}].docGrpName" />
+                                        <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2EtcStatus.index}].fileUploadFg" />
+                                        <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2EtcStatus.index}].displayGrpFg" />
+                                        <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2EtcStatus.index}].admsNo" />
+                                        <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2EtcStatus.index}].admsCorsNo" />
+                                        <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2EtcStatus.index}].detlMajCode" />
+                                        <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2EtcStatus.index}].admsCodeGrp" />
+                                        <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2EtcStatus.index}].admsCode" />
+                                        <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2EtcStatus.index}].grpLevel" value="1" />
+                                        <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2EtcStatus.index}].docItemGrp" />
+                                        <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2EtcStatus.index}].upCodeGrp" value="NO" />
+                                        <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2EtcStatus.index}].upCode" value="NO" />
+                                        <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2EtcStatus.index}].lastYn" value="Y" />
+                                        <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2EtcStatus.index}].mdtYn" />
+                                        <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2EtcStatus.index}].uploadYn" />
+                                        <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2EtcStatus.index}].sendCnt" value="1" />
+                                        <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2EtcStatus.index}].msgNo" />
+                                        <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2EtcStatus.index}].msg" />
+                                        <div class="col-sm-3">
+                                            <div class="checkbox-upload">
+                                                <label class="word-keep-all" for="documentContainerList${lv1Status.index}.subContainer${lv2EtcStatus.index}.checkedFg">
+                                                    <div class="col-sm-2">
+                                                        <input type="checkbox"
+                                                               id="documentContainerList${lv1Status.index}.subContainer${lv2EtcStatus.index}.checkedFg"
+                                                               name="documentContainerList[${lv1Status.index}].subContainer[${lv2EtcStatus.index}].checkedFg"
+                                                               data-upload-button-id="upload-button-${lv1Status.index}-${lv2EtcStatus.index}" />
+                                                    </div>
+                                                    <div class="col-sm-10 nopadding">
+                                                        <form:input path="documentContainerList[${lv1Status.index}].subContainer[${lv2EtcStatus.index}].docItemName"
+                                                                    placeholder="서류명 직접 입력"
+                                                                    cssClass="form-control" />
+                                                    </div>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-5 nopadding">
+                                            <div class="col-sm-12 nopadding"><input type="file" class="btn btn-file" id="file-input-${lv1Status.index}-${lv2EtcStatus.index}" name="file-input-name-${lv1Status.index}-${lv2EtcStatus.index}" data-upload-button-id="upload-button-${lv1Status.index}-${lv2EtcStatus.index}"/></div>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <div class="col-sm-4 nopadding">
+                                                <input type="button" id="upload-button-${lv1Status.index}-${lv2EtcStatus.index}"
+                                                        class="btn btn-default btn-upload" value="올리기"
+
+                                                        data-checkbox-id="documentContainerList${lv1Status.index}.subContainer${lv2EtcStatus.index}.checkedFg"
+
+                                                        data-file-input-id="file-input-${lv1Status.index}-${lv2EtcStatus.index}"
+                                                        data-img-yn-id="documentContainerList${lv1Status.index}.subContainer${lv2EtcStatus.index}.imgYn"
+                                                        data-file-download-link-id="file-download-link-${lv1Status.index}-${lv2EtcStatus.index}"
+                                                        data-file-delete-link-id="file-delete-link-${lv1Status.index}-${lv2EtcStatus.index}"
+                                                        data-org-filename-id="documentContainerList${lv1Status.index}.subContainer${lv2EtcStatus.index}.orgFileName"
+                                                        data-target-subcontainer-id="documentContainerList${lv1Status.index}.subContainer${lv2EtcStatus.index}."
+
+                                                        data-doc-prop-docSeq="documentContainerList${lv1Status.index}.subContainer${lv2EtcStatus.index}.docSeq"
+                                                        data-doc-prop-docTypeCode="documentContainerList${lv1Status.index}.subContainer${lv2EtcStatus.index}.docTypeCode"
+                                                        data-doc-prop-docGrp="documentContainerList${lv1Status.index}.subContainer${lv2EtcStatus.index}.docGrp"
+                                                        data-doc-prop-docItemCode="documentContainerList${lv1Status.index}.subContainer${lv2EtcStatus.index}.docItemCode"
+                                                        data-doc-prop-docItemName="documentContainerList${lv1Status.index}.subContainer${lv2EtcStatus.index}.docItemName"
+                                                        data-doc-prop-grpLabel="documentContainerList${lv1Status.index}.subContainer${lv2EtcStatus.index}.grpLabel"
+                                                        data-doc-prop-fileExt="documentContainerList${lv1Status.index}.subContainer${lv2EtcStatus.index}.fileExt"
+                                                        data-doc-prop-imgYn="documentContainerList${lv1Status.index}.subContainer${lv2EtcStatus.index}.imgYn"
+                                                        data-doc-prop-filePath="documentContainerList${lv1Status.index}.subContainer${lv2EtcStatus.index}.filePath"
+                                                        data-doc-prop-fileName="documentContainerList${lv1Status.index}.subContainer${lv2EtcStatus.index}.fileName"
+                                                        data-doc-prop-orgFileName="documentContainerList${lv1Status.index}.subContainer${lv2EtcStatus.index}.orgFileName"
+                                                        data-doc-prop-docItemNameXxen="documentContainerList${lv1Status.index}.subContainer${lv2EtcStatus.index}.docItemNameXxen"
+                                                        data-doc-prop-docGrpName="documentContainerList${lv1Status.index}.subContainer${lv2EtcStatus.index}.docGrpName"
+                                                        data-doc-prop-fileUploadFg="documentContainerList${lv1Status.index}.subContainer${lv2EtcStatus.index}.fileUploadFg"
+                                                        data-doc-prop-displayGrpFg="documentContainerList${lv1Status.index}.subContainer${lv2EtcStatus.index}.displayGrpFg"
+                                                        data-doc-prop-checkedFg="documentContainerList${lv1Status.index}.subContainer${lv2EtcStatus.index}.checkedFg"
+                                                        data-doc-prop-admsNo="documentContainerList${lv1Status.index}.subContainer${lv2EtcStatus.index}.admsNo"
+                                                        data-doc-prop-admsCorsNo="documentContainerList${lv1Status.index}.subContainer${lv2EtcStatus.index}.admsCorsNo"
+                                                        data-doc-prop-detlMajCode="documentContainerList${lv1Status.index}.subContainer${lv2EtcStatus.index}.detlMajCode"
+                                                        data-doc-prop-admsCodeGrp="documentContainerList${lv1Status.index}.subContainer${lv2EtcStatus.index}.admsCodeGrp"
+                                                        data-doc-prop-admsCode="documentContainerList${lv1Status.index}.subContainer${lv2EtcStatus.index}.admsCode"
+                                                        data-doc-prop-grpLevel="documentContainerList${lv1Status.index}.subContainer${lv2EtcStatus.index}.grpLevel"
+                                                        data-doc-prop-docItemGrp="documentContainerList${lv1Status.index}.subContainer${lv2EtcStatus.index}.docItemGrp"
+                                                        data-doc-prop-upCodeGrp="documentContainerList${lv1Status.index}.subContainer${lv2EtcStatus.index}.upCodeGrp"
+                                                        data-doc-prop-upCode="documentContainerList${lv1Status.index}.subContainer${lv2EtcStatus.index}.upCode"
+                                                        data-doc-prop-lastYn="documentContainerList${lv1Status.index}.subContainer${lv2EtcStatus.index}.lastYn"
+                                                        data-doc-prop-mdtYn="documentContainerList${lv1Status.index}.subContainer${lv2EtcStatus.index}.mdtYn"
+                                                        data-doc-prop-uploadYn="documentContainerList${lv1Status.index}.subContainer${lv2EtcStatus.index}.uploadYn"
+                                                        data-doc-prop-sendCnt="documentContainerList${lv1Status.index}.subContainer${lv2EtcStatus.index}.sendCnt"
+                                                />
+                                            </div>
+                                            <div class="col-sm-4 upload-delete-button-container-${lv1Status.index}-${lv2EtcStatus.index}" style='display: none;'>
+                                                <a class="btn btn-default file-download" id="file-download-link-${lv1Status.index}-${lv2EtcStatus.index}">내려받기</a>
+                                            </div>
+                                            <div class="col-sm-4 upload-delete-button-container-${lv1Status.index}-${lv2EtcStatus.index}" style='display: none;'>
+                                                <a class="btn btn-default file-delete" id="file-delete-link-${lv1Status.index}-${lv2EtcStatus.index}"
+                                                    data-checkbox-id="documentContainerList${lv1Status.index}.subContainer${lv2EtcStatus.index}.checkedFg"
+                                                    data-docitemname-id="documentContainerList${lv1Status.index}.subContainer${lv2EtcStatus.index}.docItemName"
+                                                    data-upload-button-id="upload-button-${lv1Status.index}-${lv2EtcStatus.index}"
+                                                    data-button-container-class="upload-delete-button-container-${lv1Status.index}-${lv2EtcStatus.index}"
+                                                    data-fileUploadFg-id="documentContainerList${lv1Status.index}.subContainer${lv2EtcStatus.index}.fileUploadFg">삭제</a>
+                                            </div>
+                                        </div>
+                                        <spring:bind path="documentContainerList[${lv1Status.index}].subContainer[${lv2EtcStatus.index}].fileUploadFg">
+                                            <c:if test="${status.error}">
+                                                <div class="col-sm-12 validation-container">
+                                                    <div class="validation-error">${status.errorMessage}</div>
+                                                </div>
+                                            </c:if>
+                                        </spring:bind>
+                                    </div>
+                                </c:forEach>
+                            </c:if>
+                            <%-- level2인 기타 첨부 서류 입력 란 --%>
 
                         </c:otherwise>
                     </c:choose>
@@ -901,6 +1075,7 @@
         $('.btn-upload').on('click', function (e) {
             e.preventDefault();
             var actionUrl = "${contextPath}/application/document/fileUpload",
+                    docItemName = document.getElementById(this.getAttribute('data-doc-prop-docItemName')),
                     fileInputId = this.getAttribute('data-file-input-id'),
                     fileInput = document.getElementById(fileInputId),
                     fileInputName = fileInput.getAttribute("name"),
@@ -915,6 +1090,12 @@
                     extIsOk = false,
                     checkboxId = this.getAttribute('data-checkbox-id'),
                     targetButton = this;
+
+            if (docItemName && !docItemName.value.length > 0) {
+                alert('서류명을 직접 입력해 주세요.');
+                docItemName.focus();
+                return false;
+            }
 
 
             if ((fileInput.files && fileInput.files.length) || fileInput.value != "") {
@@ -1035,18 +1216,20 @@
         $('.file-delete').on('click', function (e) {
             e.preventDefault();
             var targetCheckBox = document.getElementById(this.getAttribute('data-checkbox-id')),
+                targetDocItemName = document.getElementById(this.getAttribute('data-docitemname-id')),
                 targetUploadButton = document.getElementById(this.getAttribute('data-upload-button-id')),
                 targetButtonContainerClass = '.' + this.getAttribute('data-button-container-class'),
                 targetFileUploadFg = document.getElementById(this.getAttribute('data-fileUploadFg-id'));
             if (confirm('첨부한 파일을 삭제하시겠습니까?')) {
                 $.ajax({
-                    type: 'DELETE',
+                    type: 'POST',
                     url: this.href,
                     success: function (data) {
                         var data = JSON.parse(data),
                             $targetUploadButton = $(targetUploadButton);
                         if (data.result == 'SUCCESS') {
                             targetCheckBox.checked = false,
+                            targetDocItemName.type == 'text' ? (targetDocItemName.value = '', targetDocItemName.placeholder = '서류명 직접 입력' ) : true,
                             $targetUploadButton.removeClass('btn-info'),
                             $targetUploadButton.addClass('btn-default'),
                             $targetUploadButton.val("올리기"),

@@ -1,27 +1,17 @@
 package com.apexsoft.framework.persistence.file.control;
 
 import com.apexsoft.framework.persistence.file.service.FileService;
-import com.apexsoft.ysprj.applicants.application.domain.ApplicationDocument;
-import com.apexsoft.ysprj.applicants.application.domain.ApplicationDocumentKey;
-import com.apexsoft.ysprj.applicants.application.domain.ParamForApplicationDocument;
-import com.apexsoft.ysprj.applicants.application.service.ApplicationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-
-import javax.servlet.http.HttpServletResponse;
-import java.io.File;
-import java.io.IOException;
-import java.security.Principal;
 
 /**
  * Created by hanmomhanda on 14. 9. 12.
  */
 @Controller
 @RequestMapping(value = "/filedownload")
+@Deprecated
 public class FileDownloadController {
 
     @Autowired

@@ -147,7 +147,7 @@ public class AcademyController {
      * @param ec
      */
     private void addObjectToMV(ModelAndView mv, Map<String, Object> map, ExecutionContext ec) {
-        mv.addObject("academy", map.get("academy"));
+        mv.addAllObjects(map);
         mv.addObject("resultMsg", ec.getMessage());
     }
 }

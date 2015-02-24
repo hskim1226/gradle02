@@ -247,31 +247,32 @@
 
    <select id="retrieveApplicantCountByDept" resultType="java.lang.Integer" parameterType="com.apexsoft.ysprj.admin.control.form.CourseSearchForm" >
 
-		SELECT count(*) 
-		FROM  APPL a 
-		left outer join ARI_INST d
-		on a.ARI_INST_CODE = d.ARI_INST_CODE
-		, DEPT b, COLL e, CAMP F, ADMS H
-		where 1=1
-		AND a.DEPT_CODE = b.DEPT_CODE
-		AND b.COLL_CODE= e.COLL_CODE
-		AND e.CAMP_CODE = F.CAMP_CODE
-		AND a.ADMS_NO = H.ADMS_NO
+    SELECT count(*)
+    FROM  APPL a
+    left outer join ARI_INST d
+    on a.ARI_INST_CODE = d.ARI_INST_CODE
+    , DEPT b, COLL e, CAMP F, ADMS H
+    where 1=1
+    AND a.DEPT_CODE = b.DEPT_CODE
+    AND b.COLL_CODE= e.COLL_CODE
+    AND e.CAMP_CODE = F.CAMP_CODE
+    AND a.ADMS_NO = H.ADMS_NO
 
-        <if test="admsNo != null and admsNo!=''">
-		    AND a.ADMS_NO =#{admsNo}
-		</if>			    
-        <if test="campCode != null and campCode!=''">
-		    AND F.CAMP_CODE =#{campCode}
-		</if>	
-		<if test="collCode != null and collCode!=''">
-		    AND e.COLL_CODE =#{collCode}
-		</if>	
-		<if test="deptCode != null and deptCode!=''">
-		    AND b.DEPT_CODE = #{deptCode}
-		</if>	
-     
-    </select>
+    <if test="admsNo != null and admsNo!=''">
+        AND a.ADMS_NO =#{admsNo}
+    </if>
+    <if test="campCode != null and campCode!=''">
+        AND F.CAMP_CODE =#{campCode}
+    </if>
+    <if test="collCode != null and collCode!=''">
+        AND e.COLL_CODE =#{collCode}
+    </if>
+    <if test="deptCode != null and deptCode!=''">
+        AND b.DEPT_CODE = #{deptCode}
+    </if>
+
+</select>
+
     
     <select id="selectByApplNo" resultMap="ApplicationDocument"  parameterType="java.lang.Integer">
 	  
@@ -285,7 +286,7 @@
 	  
   
       <select id="selectApplicantCnt" resultMap="ApplicantCnt"  parameterType="com.apexsoft.ysprj.admin.control.form.CourseSearchForm">
-		SELECT DD.DEPT_SEQ AS DEPT_SEQ, DD.DEPT_CODE, DD.CAMP_NAME, DD.COLL_NAME, DD.DEPT_NAME, 
+        SELECT DD.DEPT_SEQ AS DEPT_SEQ, DD.DEPT_CODE, DD.CAMP_NAME, DD.COLL_NAME, DD.DEPT_NAME,DD.CAMP_CODE,DD.COLL_CODE,
 			COUNT(CASE WHEN A.CORS_TYPE_CODE IN(1,5,7) THEN 1 END) AS CNT1,
 			COUNT(CASE WHEN A.CORS_TYPE_CODE IN(2,6,8) THEN 1 END) AS CNT2, 
 			COUNT(CASE WHEN A.CORS_TYPE_CODE IN(3,4) THEN 1 END) AS CNT3,
@@ -335,10 +336,62 @@
 			on A.DEPT_CODE = DD.DEPT_CODE
 			and A.ADMS_NO =DD.ADMS_NO
 			GROUP BY DD.DEPT_CODE
-			ORDER BY DD.DEPT_SEQ
+            ORDER BY DD.CAMP_CODE,DD.COLL_CODE, DD.DEPT_SEQ
     </select>
 
-  
-    
+
+    <select id="selectUnpaidApplicantCnt" resultMap="ApplicantCnt"  parameterType="com.apexsoft.ysprj.admin.control.form.CourseSearchForm">
+        SELECT DD.DEPT_SEQ AS DEPT_SEQ, DD.DEPT_CODE, DD.CAMP_NAME, DD.COLL_NAME, DD.DEPT_NAME,DD.CAMP_CODE,DD.COLL_CODE,
+        COUNT(CASE WHEN A.CORS_TYPE_CODE IN(1,5,7) THEN 1 END) AS CNT1,
+        COUNT(CASE WHEN A.CORS_TYPE_CODE IN(2,6,8) THEN 1 END) AS CNT2,
+        COUNT(CASE WHEN A.CORS_TYPE_CODE IN(3,4) THEN 1 END) AS CNT3,
+        COUNT(CASE WHEN A.CORS_TYPE_CODE IN(9) THEN 1 END) AS CNT4,
+        COUNT( A.CORS_TYPE_CODE ) AS TOTAL_CNT
+        FROM
+        ( SELECT BO.ADMS_TYPE ADMS_TYPE,
+        BO.ADMS_NO ADMS_NO,
+        BO.DEPT_CODE DEPT_CODE,
+        BA.DEPT_NAME DEPT_NAME,
+        BA.DEPT_SEQ DEPT_SEQ,
+        BB.COLL_CODE COLL_CODE,
+        BB.COLL_NAME COLL_NAME,
+        BC.CAMP_CODE CAMP_CODE,
+        BC.CAMP_NAME CAMP_NAME
+        FROM
+        ( SELECT CA.ADMS_NO ADMS_NO, CA.ENTR_YEAR ENTR_YEAR, CA.ADMS_TYPE ADMS_TYPE, CB.DEPT_CODE DEPT_CODE FROM ADMS CA, ADMS_CORS CB
+        WHERE CA.ADMS_NO =CB.ADMS_NO
+        GROUP BY CB.DEPT_CODE, CB.ADMS_NO
+        ) BO,
+        DEPT BA, COLL BB, CAMP BC
+        WHERE BO.DEPT_CODE =BA.DEPT_CODE
+        AND BA.COLL_CODE = BB.COLL_CODE
+        AND BB.CAMP_CODE = BC.CAMP_CODE
+
+        <if test="admsNo != null and admsNo !=''">
+            AND BO.ADMS_NO =#{admsNo}
+        </if>
+        <if test="campCode != null and campCode !=''">
+            AND BC.CAMP_CODE =#{campCode}
+        </if>
+        <if test="collCode != null and collCode!=''">
+            AND BB.COLL_CODE =#{collCode}
+        </if>
+        <if test="deptCode != null and deptCode!=''">
+            AND BO.DEPT_CODE = #{deptCode}
+        </if>
+
+        ) DD  LEFT OUTER JOIN
+        ( SELECT * FROM APPL
+        WHERE APPL_STS_CODE IN ('00010','00021')
+        <!--
+          WHERE APPL_STS_CODE IN ('00020','00030') 지원완료자
+          WHERE APPL_STS_CODE IN ('00010','00021') 미결재, 미입금자
+         -->
+        )  A
+        on A.DEPT_CODE = DD.DEPT_CODE
+        and A.ADMS_NO =DD.ADMS_NO
+        GROUP BY DD.DEPT_CODE
+        ORDER BY DD.CAMP_CODE,DD.COLL_CODE, DD.DEPT_SEQ
+    </select>
   
 </mapper>

@@ -3,77 +3,81 @@
     <property name="createdBy">Eclipse BIRT Designer Version 4.4.0.v201405191524 Build &lt;4.4.0.v20140606-1451></property>
     <property name="units">in</property>
     <method name="beforeFactory"><![CDATA[
-importPackage(Packages.org.springframework.context);
-importPackage(Packages.org.springframework.web.context.support);
+//importPackage(Packages.org.springframework.context);
+//importPackage(Packages.org.springframework.web.context.support);
 
-var sc = reportContext.getHttpServletRequest().getSession().getServletContext(),
-    spring = WebApplicationContextUtils.getWebApplicationContext(sc),
+//var sc = reportContext.getHttpServletRequest().getSession().getServletContext(),
+//    spring = WebApplicationContextUtils.getWebApplicationContext(sc);
 
-    entrYear = spring.getBean("entrYear"),
-    admsTypeName1 = spring.getBean("admsTypeName1"),
-    admsTypeName2 = spring.getBean("admsTypeName2"),
+//importPackage(Packages.java.lang);
+// System.out.println("########## beans from Spring ########");
 
-    campName = spring.getBean("campName"),
-    corsTypeName = spring.getBean("corsTypeName"),
-    ariInstName = spring.getBean("ariInstName"),
-    deptName = spring.getBean("deptName"),
-    deptCode = spring.getBean("deptCode"),
-    detlMajName = spring.getBean("detlMajName"),
+var appContext = reportContext.getAppContext(),
+    entrYear = appContext.get("entrYear"),
+    admsTypeName1 = appContext.get("admsTypeName1"),
+    admsTypeName2 = appContext.get("admsTypeName2"),
 
-    korName = spring.getBean("korName"),
-    engName = spring.getBean("engName"),
-    engSur = spring.getBean("engSur"),
-    rgstNo = spring.getBean("rgstNo"),
-    mailAddr = spring.getBean("mailAddr"),
-    telNum = spring.getBean("telNum"),
-    mobiNum = spring.getBean("mobiNum"),
-    addr = spring.getBean("addr"),
-    detlAddr = spring.getBean("detlAddr"),
+    campName = appContext.get("campName"),
+    corsTypeName = appContext.get("corsTypeName"),
+    ariInstName = appContext.get("ariInstName"),
+    deptName = appContext.get("deptName"),
+    deptCode = appContext.get("deptCode"),
+    detlMajName = appContext.get("detlMajName"),
 
-    photoUri = spring.getBean("photoUri"),
+    korName = appContext.get("korName"),
+    engName = appContext.get("engName"),
+    engSur = appContext.get("engSur"),
+    rgstNo = appContext.get("rgstNo"),
+    mailAddr = appContext.get("mailAddr"),
+    telNum = appContext.get("telNum"),
+    mobiNum = appContext.get("mobiNum"),
+    addr = appContext.get("addr"),
+    detlAddr = appContext.get("detlAddr"),
 
-    currWrkpName = spring.getBean("currWrkpName"),
-    currWrkpTel = spring.getBean("currWrkpTel"),
-    academy0 = spring.getBean("academy0"),
-    academy1 = spring.getBean("academy1"),
-    academy2 = spring.getBean("academy2"),
-    academy3 = spring.getBean("academy3"),
-    academy4 = spring.getBean("academy4"),
+    photoUri = appContext.get("photoUri"),
 
-    hndcGrad = spring.getBean("hndcGrad"),
-    hndcType = spring.getBean("hndcType"),
+    currWrkpName = appContext.get("currWrkpName"),
+    currWrkpTel = appContext.get("currWrkpTel"),
+    academy0 = appContext.get("academy0"),
+    academy1 = appContext.get("academy1"),
+    academy2 = appContext.get("academy2"),
+    academy3 = appContext.get("academy3"),
+    academy4 = appContext.get("academy4"),
 
-    lastCollegeScore = spring.getBean("lastCollegeScore"),
-    lastGraduateScore = spring.getBean("lastGraduateScore"),
-    toeflScore = spring.getBean("toeflScore"),
-    toeicScore = spring.getBean("toeicScore"),
-    tepsScore = spring.getBean("tepsScore"),
-    ieltsScore = spring.getBean("ieltsScore"),
-    greScore = spring.getBean("greScore"),
-    forlExmp = spring.getBean("forlExmp"),
+    hndcGrad = appContext.get("hndcGrad"),
+    hndcType = appContext.get("hndcType"),
 
-    range0 = spring.getBean("range0"),
-    corpName0 = spring.getBean("corpName0"),
-    exprDesc0 = spring.getBean("exprDesc0"),
-    range1 = spring.getBean("range1"),
-    corpName1 = spring.getBean("corpName1"),
-    exprDesc1 = spring.getBean("exprDesc1"),
-    range2 = spring.getBean("range2"),
-    corpName2 = spring.getBean("corpName2"),
-    exprDesc2 = spring.getBean("exprDesc2"),
-    range3 = spring.getBean("range3"),
-    corpName3 = spring.getBean("corpName3"),
-    exprDesc3 = spring.getBean("exprDesc3"),
-    range4 = spring.getBean("range4"),
-    corpName4 = spring.getBean("corpName4"),
-    exprDesc4 = spring.getBean("exprDesc4"),
+    lastCollegeScore = appContext.get("lastCollegeScore"),
+    lastGraduateScore = appContext.get("lastGraduateScore"),
+    toeflScore = appContext.get("toeflScore"),
+    toeicScore = appContext.get("toeicScore"),
+    tepsScore = appContext.get("tepsScore"),
+    ieltsScore = appContext.get("ieltsScore"),
+    greScore = appContext.get("greScore"),
+    forlExmp = appContext.get("forlExmp"),
 
-    mltrServName = spring.getBean("mltrServName"),
-    mltrJoinDay = spring.getBean("mltrJoinDay"),
-    mltrDschDay = spring.getBean("mltrDschDay"),
-    mltrRankName = spring.getBean("mltrRankName"),
+    range0 = appContext.get("range0"),
+    corpName0 = appContext.get("corpName0"),
+    exprDesc0 = appContext.get("exprDesc0"),
+    range1 = appContext.get("range1"),
+    corpName1 = appContext.get("corpName1"),
+    exprDesc1 = appContext.get("exprDesc1"),
+    range2 = appContext.get("range2"),
+    corpName2 = appContext.get("corpName2"),
+    exprDesc2 = appContext.get("exprDesc2"),
+    range3 = appContext.get("range3"),
+    corpName3 = appContext.get("corpName3"),
+    exprDesc3 = appContext.get("exprDesc3"),
+    range4 = appContext.get("range4"),
+    corpName4 = appContext.get("corpName4"),
+    exprDesc4 = appContext.get("exprDesc4"),
 
-    applId = spring.getBean("applId");
+    mltrServName = appContext.get("mltrServName"),
+    mltrJoinDay = appContext.get("mltrJoinDay"),
+    mltrDschDay = appContext.get("mltrDschDay"),
+    mltrRankName = appContext.get("mltrRankName"),
+
+    applId = appContext.get("applId");
 
 ]]></method>
     <text-property name="displayName">입학원서</text-property>
