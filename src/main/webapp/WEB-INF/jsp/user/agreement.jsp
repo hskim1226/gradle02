@@ -4,46 +4,10 @@
 <head>
     <title>회원 약관 및 개인 정보 수집 이용 동의</title>
     <style>
-        section.signup {
-            padding: 150px 0 60px;
-            /*background: #556699;*/
-            color: #fdfdfd;
-            min-height: 615px;
-        }
-
-        section.signup h2.slogan {
-            color: #fff;
-            font-size: 48px;
-            font-weight: 900;
-        }
-
-        /* inner heading */
-        section.signup.inner {
-            background: #eee;
-            padding: 150px 0 50px;
-        }
-
-        section.signup .spacer-big {
-            margin-bottom: 7em;
-        }
-
-        section.signup .spacer-mid {
-            margin-bottom: 5em;
-        }
-
-        section.signup .spacer-small {
-            margin-bottom: 3em;
-        }
-
-        section.signup .spacer-tiny {
-            margin-bottom: 0.5em;
-        }
-
-        section.signup div.btn-group>label.btn {
+        section.normal-white div.btn-group>label.btn {
             max-width: none;
         }
-        
-        section.signup textarea.form-control[readonly] {
+        section.normal-white textarea.form-control[readonly] {
             cursor: default;
             resize: none;
             -moz-user-select: none;
@@ -51,19 +15,10 @@
             -khtml-user-select: none;
             user-select: none;
         }
-        .nopadding {
-            padding: 0 !important;
-            margin: 0 !important;
-        }
-        .text-gray {
-            color: #333333;
-            opacity: 1.0;
-            text-align: center;
-        }
     </style>
 </head>
 <body>
-<section class="signup">
+<section class="normal-white">
     <div class="container">
         <%--<div class="page-header">--%>
             <%--<h1 style="color: #fdfdfd">회원 약관 및 개인 정보 수집 이용 동의</h1>--%>

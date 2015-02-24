@@ -4,35 +4,6 @@
 <head>
     <title>내 원서</title>
     <style>
-        section.application-mylist {
-            padding: 150px 0 60px;
-            background: #eeeeee;
-            color: #fdfdfd;
-            position:relative;
-            min-height: 615px;
-        }
-
-        section.application-mylist h2.slogan {
-            color: #fff;
-            font-size: 36px;
-            font-weight: 900;
-        }
-
-        section.application-mylist .spacer-big {
-            margin-bottom: 7em;
-        }
-
-        section.application-mylist .spacer-mid {
-            margin-bottom: 5em;
-        }
-
-        section.application-mylist .spacer-small {
-            margin-bottom: 3em;
-        }
-
-        section.application-mylist .spacer-tiny {
-            margin-bottom: 1em;
-        }
         .my-tooltip {
             display: none;
             background: #505050;
@@ -44,15 +15,10 @@
             width:400px;
             height:30px;
         }
-        .text-gray {
-            color: #333333;
-            opacity: 1.0;
-            text-align: center;
-        }
     </style>
 </head>
 <body>
-<section class="application-mylist" id="application-mylist">
+<section class="normal-white">
     <div class="container">
         <form class="form-horizontal" id="LGD_PAYINFO" name="applicationIdentifier" role="form" method="post">
             <div class="row mar-bot40">

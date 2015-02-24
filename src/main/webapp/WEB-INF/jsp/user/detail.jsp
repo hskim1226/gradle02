@@ -4,40 +4,6 @@
 <head>
     <title></title>
     <style>
-        section.detail {
-            padding: 200px 0 60px;
-            background: #556699;
-            color: #fdfdfd;
-        }
-
-        section.detail h2.slogan {
-            color: #fff;
-            font-size: 48px;
-            font-weight: 900;
-        }
-
-        /* inner heading */
-        section.detail.inner {
-            background: #eee;
-            padding: 150px 0 50px;
-        }
-
-        section.detail .spacer-big {
-            margin-bottom: 7em;
-        }
-
-        section.detail .spacer-mid {
-            margin-bottom: 5em;
-        }
-
-        section.detail .spacer-small {
-            margin-bottom: 3em;
-        }
-
-        section.detail .spacer-tiny {
-            margin-bottom: 1em;
-        }
-
         section.detail .form-control[disabled] {
             cursor: auto;
             background-color: #569;
@@ -46,7 +12,7 @@
     </style>
 </head>
 <body>
-<section class="detail">
+<section class="normal-white">
     <div class="container">
         <div class="page-header">
             <h1>회원 정보 수정</h1>
