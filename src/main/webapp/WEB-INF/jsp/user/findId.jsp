@@ -93,7 +93,7 @@
                                 <label for="name" class="control-label">이름</label>
                             </div>
                             <div class="col-sm-9">
-                                <div class="col-sm-12 nopadding input-group">
+                                <div class="col-sm-12 nopadding">
                                     <form:input path="name" cssClass="form-control input-text" placeholder="이름" />
                                 </div>
                         <spring:bind path="name">
@@ -103,6 +103,25 @@
                                 </div>
                             </c:if>
                         </spring:bind>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group required">
+                        <div class="col-sm-offset-1 col-sm-10">
+                            <div class="col-sm-3 text-gray">
+                                <label for="mailAddr" class="control-label">이메일</label>
+                            </div>
+                            <div class="col-sm-9">
+                                <div class="col-sm-12 nopadding">
+                                    <form:input path="mailAddr" cssClass="form-control input-text" placeholder="이메일" />
+                                </div>
+                                <spring:bind path="mailAddr">
+                                    <c:if test="${status.error}">
+                                        <div class="col-sm-12 nopadding">
+                                            <div class="validation-error">${status.errorMessage}</div>
+                                        </div>
+                                    </c:if>
+                                </spring:bind>
                             </div>
                         </div>
                     </div>
@@ -126,25 +145,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="form-group required">
-                        <div class="col-sm-offset-1 col-sm-10">
-                            <div class="col-sm-3 text-gray">
-                                <label for="mailAddr" class="control-label">이메일</label>
-                            </div>
-                            <div class="col-sm-9">
-                                <div class="col-sm-12 nopadding">
-                                    <form:input path="mailAddr" cssClass="form-control input-text" placeholder="이메일" />
-                                </div>
-                        <spring:bind path="mailAddr">
-                            <c:if test="${status.error}">
-                                <div class="col-sm-12 nopadding">
-                                    <div class="validation-error">${status.errorMessage}</div>
-                                </div>
-                            </c:if>
-                        </spring:bind>
-                            </div>
-                        </div>
-                    </div>
+                    <div style="margin-bottom: 10px">&nbsp;</div>
                     <div class="col-sm-offset-1 col-sm-10">
                         <div class="col-sm-12 nopadding">
                             <button class="btn btn-primary btn-lg btn-block btn-save input-text">ID 찾기</button>
