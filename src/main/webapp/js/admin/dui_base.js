@@ -1,15 +1,4 @@
-﻿/**
- * @(#) dui_base.js version 1.0
- *
- *  Copyright(저작권) Do Not Erase This Comment!!! (이 주석문을 지우지 말것)
- *
- *  Do Not re-distribute with-out permission. especially out-side of LG-CNS.
- *  허가 없이 재배포 해서는 안된다. 특히 LG-CNS의 외부로 유출을 하여서는 안된다.
- *
- * AUTHORS LIST       E-MAIL  
- * jaehyun lim    jhylim@lgcns.com
- */
-
+﻿
 dui = new Object();
 /**
  * Cross Browsing을 위한 라이브러리

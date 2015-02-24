@@ -28,7 +28,7 @@
                             <caption>지원취소 대상자검색</caption>
                             <tr>
                                 <th><label for="applId">수험번호</label></th>
-                                <td><input type="text" class="Ltext" id="applId" name="applId" size="15" value="${applInfo.applId}"><img class="Lbtn" src="../images/btn_icon_search.gif" alt="검색버튼" /></td>
+                                <td><input type="text" class="Ltext" id="applId" name="applId" size="15" readonly ="true" value="${applInfo.applId}"><img class="Lbtn" src="../images/btn_icon_search.gif" alt="검색버튼" /></td>
                             </tr>
                             </tbody>
                         </table>
@@ -150,6 +150,7 @@
         </div>
 
         <div id="LblockButton">
+            <a href="#"><input type="button"  id="backBtn" value="상세정보"  /></a>
             <a href="#"><input type="button"  id="changeBtn" value="지원취소요청" /></a>
         </div>
     </div>
@@ -175,6 +176,11 @@
                 }
 
             });
+            jQuery('#backBtn').on('click', function(event) {
+                event.preventDefault();
+                history.go(-1);
+            });
+
         });
     </script>
 </content>

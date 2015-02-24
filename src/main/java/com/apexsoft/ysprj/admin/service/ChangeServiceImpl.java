@@ -241,7 +241,7 @@ public class ChangeServiceImpl implements ChangeService {
         appChg.setActUserId(userId);
         appChg.setApplChgCode("00002");//지원단위변경
         appChg.setChgStsCode("00001");//접수
-        appChg.setChgColmName("지원단위변경");
+        appChg.setChgColmName("--");
         appChg.setBefVal(changeInfoForm.getBefVal());
         appChg.setAftVal(changeInfoForm.getAftVal());
         appChg.setCnclResn(changeInfoForm.getCnclResn());
@@ -324,7 +324,7 @@ public class ChangeServiceImpl implements ChangeService {
         appChg.setActUserId(userId);
         appChg.setApplChgCode("00003");//지원취소
         appChg.setChgStsCode("00001");//접수
-        appChg.setChgColmName("지원취소");
+        appChg.setChgColmName("--");
         appChg.setBefVal(changeInfoForm.getBefVal());
         appChg.setAftVal("--지원취소--");
         appChg.setCnclResn(changeInfoForm.getCnclResn());

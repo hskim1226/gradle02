@@ -57,15 +57,7 @@
 
 <div id="LblockLeft">
 
-    <h1>지원현황</h1>
 
-    <div>
-        <ul>
-            <li class="Lfirst"><span><a href="#">마감 : D-3 일</a></span></li>
-            <li class="Llast"><span><a href="#">현재지원자 : 100명</a></span></li>
-            <li class="Llast"><span><a href="#">미결재지원자 : 10명</a></span></li>
-        </ul>
-    </div>
 
     <div id="LblockLeftTitle">
         <div id="LblockLeftMenuStyle">
@@ -88,8 +80,8 @@
                 <span><a href="#">지원자관리</a></span>
                 <ul>
                     <li class="Lfirst"><span><a href="${contextPath}/admin/search/applicants/idSearch">지원자검색(수험번호)</a></span></li>
-                    <li class="Lfirst"><span><a href="${contextPath}/admin/search/applicants/deptSearch">지원자검색(학과)</a></span></li>
-                    <li class="Lfirst"><span><a href="${contextPath}/admin/search/applicants/nameSearch">지원자검색(성명)</a></span></li>
+                    <li class="Lidx1"><span><a href="${contextPath}/admin/search/applicants/deptSearch">지원자검색(학과)</a></span></li>
+                    <li class="Lidx2"><span><a href="${contextPath}/admin/search/applicants/nameSearch">지원자검색(성명)</a></span></li>
                     <li class="Llast"><span><a href="${contextPath}/admin/search/unpaid">미결제자현황</a></span></li>
                 </ul>
             </li>
@@ -98,7 +90,7 @@
                 <ul>
                     <li class="Lfirst"><span><a href="${contextPath}/admin/modification/changeList">변경처리조회</a></span></li>
                     <%--   <li class="Lidx1"><span><a href="${contextPath}/admin/modification/changeInfoInit">원서수정</a></span></li>--%>
-                     <li class="Lidx2"><span><a href="${contextPath}/admin/modification/changeUnit">지원단위변경</a></span></li>
+                     <li class="Lidx1"><span><a href="${contextPath}/admin/modification/changeUnit">지원단위변경</a></span></li>
                      <li class="Llast"><span><a href="${contextPath}/admin/cancel/application">지원취소</a></span></li>
                  </ul>
              </li>
@@ -111,9 +103,9 @@
                      <li class="Llast"><span><a href="#">합격자일괄등록</a></span></li>
                  </ul>
              --%>
-            <li class="Lidx5"><span><a href="${contextPath}/admin/data/payment">전형료정산</a></span></li>
+            <li class="Lidx4"><span><a href="${contextPath}/admin/data/payment">전형료정산</a></span></li>
 
-            <li class="Lidx6">
+            <li class="Llast">
                 <span><a href="#">기준정보관리</a></span>
                 <ul>
                     <li class="Lfirst"><span><a href="${contextPath}/admin/guideline/deptManage">모집학과 관리</a></span></li>

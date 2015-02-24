@@ -7,7 +7,9 @@
         <result property="userId" column="user_id"/>
         <result property="admsNo" column="adms_no"/>
         <result property="admsType" column="adms_type"/>
-        <result property="admsTypeName" column="adms_type_name"/>                  
+        <result property="admsTypeName" column="adms_type_name"/>
+        <result property="applAttrCode" column="appl_attr_code"/>
+        <result property="applAttrName" column="appl_attr_name"/>
         <result property="campName" column="camp_name"/>   
         <result property="collName" column="coll_name"/>
         <result property="deptCode" column="dept_code"/>    
@@ -29,10 +31,12 @@
         <result property="emerContCode" column="EMER_CONT_CODE"/>
         <result property="emerContName" column="EMER_CONT_NAME"/>
         <result property="emerContTel" column="EMER_CONT_TEL"/>        
-        <result property="applId" column="appl_id"/>     
+        <result property="applId" column="appl_id"/>
         <result property="applStsCode" column="APPL_STS_CODE"/>
         <result property="applStsName" column="APPL_STS_NAME"/>
-        <result property="admsFee" column="adms_fee" jdbcType="INTEGER" />             
+        <result property="payTypeCode" column="PAY_TYPE_CODE"/>
+        <result property="payTypeName" column="PAY_TYPE_NAME"/>
+        <result property="admsFee" column="adms_fee" jdbcType="INTEGER" />
         <result property="applDate" column="appl_date" jdbcType="DATE"/>             
 
     </resultMap>
@@ -72,7 +76,9 @@
 			A.APPL_ID,
 			A.ADMS_NO,
 			H.ADMS_TYPE, 
-			CODEVAL( 'ADMS_TYPE',H.ADMS_TYPE )ADMS_TYPE_NAME,       
+			CODEVAL( 'ADMS_TYPE',H.ADMS_TYPE )ADMS_TYPE_NAME,
+		    A.APPL_ATTR_CODE,
+		    CODEVAL('APPL_ATTR', A.APPL_ATTR_CODE ) APPL_ATTR_NAME,
 			F.CAMP_NAME, 
 			e.COLL_NAME, 
 			b.DEPT_NAME, 
@@ -96,13 +102,18 @@
 			A.APPL_STS_CODE,
 			CODEVAL( 'APPL_STS',A.APPL_STS_CODE)APPL_STS_NAME ,           
 			A.APPL_DATE,
-            I.ADMS_FEE
+            P.ADMS_FEE,
+            P.PAY_TYPE_CODE,
+            CODEVAL( 'PAY_TYPE',P.PAY_TYPE_CODE) PAY_TYPE_NAME
 		FROM  APPL A
+			left outer join APPL_PAY_CS P
+			ON A.APPL_NO = P.APPL_NO
 			left outer join ARI_INST D
 			on A.ARI_INST_CODE = D.ARI_INST_CODE
             left outer join APPL_GENE J
 			on A.APPL_NO = J.APPL_NO
 			, DEPT b, COLL e, CAMP F, DETL_MAJ G, ADMS H, ADMS_CORS I
+
 		where 1=1
 			AND A.DEPT_CODE = b.DEPT_CODE
 			AND b.COLL_CODE= e.COLL_CODE
@@ -113,8 +124,6 @@
 			AND A.CORS_TYPE_CODE = I.CORS_TYPE_CODE
 			AND A.DEPT_CODE = I.DEPT_CODE
 			AND IFNULL(A.ARI_INST_CODE,'') = IFNULL(I.ARI_INST_CODE,'')
-    
-    
 	        AND A.APPL_NO = #{applNo}
 
        ORDER BY  APPL_ID DESC, APPL_NO DESC
@@ -145,14 +154,21 @@
 		b.DEPT_NAME,
 		a.CORS_TYPE_CODE,
 		CODEVAL('CORS_TYPE', a.CORS_TYPE_CODE ) CORS_TYPE_NAME,
+		a.APPL_ATTR_CODE,
+		CODEVAL('APPL_ATTR', a.APPL_ATTR_CODE ) APPL_ATTR_NAME,
 		d.ARI_INST_NAME,
 		a.DETL_MAJ_CODE,
 		a.KOR_NAME,
 		a.ENG_SUR,a.ENG_NAME,
 		a.RGST_NO, a.MOBI_NUM,a.MAIL_ADDR,
 		a.APPL_STS_CODE,
-		CODEVAL('APPL_STS', a.APPL_STS_CODE ) APPL_STS_NAME
-		FROM  APPL a 
+		CODEVAL('APPL_STS', a.APPL_STS_CODE ) APPL_STS_NAME,
+        P.ADMS_FEE,
+        P.PAY_TYPE_CODE,
+        CODEVAL( 'PAY_TYPE',P.PAY_TYPE_CODE) PAY_TYPE_NAME
+		FROM  APPL a
+		left outer join APPL_PAY_CS P
+		ON a.APPL_NO = P.APPL_NO
 		left outer join ARI_INST d
 		on a.ARI_INST_CODE = d.ARI_INST_CODE
 		, DEPT b, COLL e, CAMP F, ADMS H
@@ -216,11 +232,17 @@
   
    <select id="retrieveApplicantListByDept" resultMap="entireApplicantInfo" parameterType="com.apexsoft.ysprj.admin.control.form.CourseSearchForm">
 
-		SELECT a.APPL_NO APPL_NO, a.APPL_ID, H.ADMS_TYPE, F.CAMP_NAME, e.COLL_NAME, b.DEPT_NAME, a.CORS_TYPE_CODE, d.ARI_INST_NAME,a.DETL_MAJ_CODE,a.KOR_NAME,a.ENG_SUR,a.ENG_NAME, a.RGST_NO, a.MOBI_NUM,a.MAIL_ADDR 
-		FROM  APPL a 
+		SELECT a.APPL_NO APPL_NO, a.APPL_ID, H.ADMS_TYPE, F.CAMP_NAME, e.COLL_NAME, b.DEPT_NAME, a.CORS_TYPE_CODE, d.ARI_INST_NAME,a.DETL_MAJ_CODE,a.KOR_NAME,a.ENG_SUR,a.ENG_NAME, a.RGST_NO, a.MOBI_NUM,a.MAIL_ADDR,
+           P.ADMS_FEE,
+           P.PAY_TYPE_CODE,
+           CODEVAL( 'PAY_TYPE',P.PAY_TYPE_CODE) PAY_TYPE_NAME
+		FROM  APPL a
+       left outer join APPL_PAY_CS P
+       ON a.APPL_NO = P.APPL_NO
 		left outer join ARI_INST d
 		on a.ARI_INST_CODE = d.ARI_INST_CODE
 		, DEPT b, COLL e, CAMP F, ADMS H
+
 		where 1=1
 		AND a.DEPT_CODE = b.DEPT_CODE
 		AND b.COLL_CODE= e.COLL_CODE
@@ -392,6 +414,18 @@
         and A.ADMS_NO =DD.ADMS_NO
         GROUP BY DD.DEPT_CODE
         ORDER BY DD.CAMP_CODE,DD.COLL_CODE, DD.DEPT_SEQ
+    </select>
+
+    <select id="selectDepartmentListByCollege"
+            resultType="com.apexsoft.ysprj.applicants.common.domain.CodeNameDepartment"
+            parameterType="com.apexsoft.ysprj.admin.control.form.CourseSearchForm" >
+        SELECT A.DEPT_CODE, B.DEPT_NAME, B.DEPT_NAME_XXEN
+        FROM ADMS_DEPT A, DEPT B
+        WHERE A.DEPT_CODE = B.DEPT_CODE
+        AND A.ADMS_NO = #{admsNo}
+        AND B.COLL_CODE = #{collCode}
+        AND ( A.ADMS_NO ='Y' OR A.ARI_YN ='Y' OR A.COM_YN ='Y')
+        ORDER BY B.DEPT_SEQ
     </select>
   
 </mapper>

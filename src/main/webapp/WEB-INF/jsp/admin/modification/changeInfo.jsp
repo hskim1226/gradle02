@@ -30,7 +30,7 @@
                             <tbody>
                             <tr>
                                 <th><label for="applId">수험번호</label></th>
-                                <td><input type="text" class="Ltext" id="applId" name="applId" size="15" value="${applInfo.applId}"></td>
+                                <td><input type="text" class="Ltext" id="applId" name="applId" size="15" readonly ="true" value="${applInfo.applId}"></td>
                             </tr>
                             </tbody>
                         </table>
@@ -156,6 +156,7 @@
     </div>
 
     <div id="LblockButton">
+        <a href="#"><input type="button"  id="backBtn" value="상세정보"  /></a>
         <a href="#"><input type="button" id="changeBtn" value="수정요청"  /></a>
     </div>
     
@@ -189,6 +190,11 @@
             }
 
         });
+        jQuery('#backBtn').on('click', function(event) {
+            event.preventDefault();
+            history.go(-1);
+        });
+
     });
     </script>
 </content>

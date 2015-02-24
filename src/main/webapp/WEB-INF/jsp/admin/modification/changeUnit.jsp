@@ -28,7 +28,7 @@
                             <caption>지원단위변경 대상자검색</caption>
                             <tr>
                                 <th><label for="applId">수험번호</label></th>
-                                <td><input type="text" class="Ltext" id="applId" name="applId" size="15" value="${applInfo.applId}"><img class="Lbtn" src="../images/btn_icon_search.gif" alt="검색버튼" /></td>
+                                <td><input type="text" class="Ltext" id="applId" name="applId" size="15" readonly ="true" value="${applInfo.applId}"><img class="Lbtn" src="../images/btn_icon_search.gif" alt="검색버튼" /></td>
                             </tr>
                             </tbody>
                         </table>
@@ -51,32 +51,32 @@
                     <td>${applInfo.applId}</td>
                     <th>전형구분</th>
                     <td>${applInfo.admsTypeName}</td>
-                    <th>지원일자</th>
-                    <td><fmt:formatDate value="${applInfo.applDate}" pattern="yyyy년 MM월 dd일 HH시 mm분" /></td>
+                    <th>학연산 기관</th>
+                    <td><c:if test="${empty applInfo.ariInstName}" >해당없음</c:if><c:if test="${not empty applInfo.ariInstName}" >${applInfo.ariInstName}</c:if></td>
                 </tr>
                 <tr>
                     <th>캠퍼스</th>
                     <td>${applInfo.campName}</td>
+                    <th>지원구분</th>
+                    <td>${applInfo.applAttrName}</td>
+                    <th>지원일자</th>
+                    <td><fmt:formatDate value="${applInfo.applDate}" pattern="yyyy년 MM월 dd일 HH시 mm분" /></td>
+                </tr>
+                <tr>
                     <th>대학</th>
                     <td>${applInfo.collName}</td>
-                    <th>학과</th>
-                    <td>${applInfo.deptName}</td>
-                </tr>
-                <tr>
-                    <th>학연산 기관</th>
-                    <td><c:if test="${empty applInfo.ariInstName}" >해당없음</c:if><c:if test="${not empty applInfo.ariInstName}" >${applInfo.ariInstName}</c:if></td>
                     <th>지원과정</th>
                     <td>${applInfo.corsTypeName}</td>
-                    <th>세부전공</th>
-                    <td>${applInfo.detlMajName}</td>
-                </tr>
-                <tr>
                     <th>전형료</th>
                     <td><fmt:formatNumber type="currency"   maxFractionDigits="3" value="${applInfo.admsFee}" /></td>
+                </tr>
+                <tr>
+                    <th>학과</th>
+                    <td>${applInfo.deptName}</td>
+                    <th>세부전공</th>
+                    <td>${applInfo.detlMajName}</td>
                     <th>결제방법</th>
                     <td></td>
-                    <th>지원상태</th>
-                    <td>${applInfo.applStsName}</td>
                 </tr>
                 </tbody>
             </table>
@@ -219,6 +219,7 @@
         </div>
 
         <div id="LblockButton">
+            <a href="#"><input type="button"  id="backBtn" value="상세정보"  /></a>
             <a href="#"><input type="button"  id="changeBtn" value="변경요청" /></a>
         </div>
     </div>
@@ -230,31 +231,44 @@
             jQuery('#changeBtn').on('click', function(e) {
                 event.preventDefault();
                 if (confirm('지원단위를 변경하시겠습니까?')) {
-                   alert( jQuery('#campCode option:selected').text() );
+                    var aris ='';
+                    var aftAris='';
+                    if("${applInfo.ariInstName}"!=""){
+                        aris ="${applInfo.ariInstName}"+"<br>";
+                    }else{
+                        aris = "${applInfo.campName}" +"${applInfo.collName}"+"<br>";
+                    }
+
                     jQuery('#befValInput').val(
-                        "${applInfo.admsTypeName}" +"-"+
-                    "${applInfo.ariInstName}" +"-"+
-                    "${applInfo.campName}" +"<br>"+
-                    "${applInfo.collName}" +"-"+
-                    "${applInfo.deptName}" +"<br>"+
+                        "${applInfo.admsNo}" +"-"+"${applInfo.applAttrName}"+"<br>"+
+                     aris +
+                    "${applInfo.deptName}" +"-"+
                     "${applInfo.corsTypeName}" +"<br>"+
                     "${applInfo.detlMajName}"  );
 
-
+                   if(jQuery('#ariInstCode option:selected').val()!=''){
+                      aftAris = jQuery('#ariInstCode option:selected').attr('label') +"<br>";
+                   }else{
+                      aftAris = jQuery('#campCode option:selected').attr('label')+"-"+
+                                jQuery('#collCode option:selected').attr('label') +"<br>";
+                   }
                     jQuery('#aftValInput').val(
                         jQuery('#admsNo option:selected').text() +"-"+
-                        jQuery('#applAttrCode option:selected').text() +"-"+
-                        jQuery('#ariInstCode option:selected').text() + "<br>"+
-                        jQuery('#campCode option:selected').text() +"-"+
-                        jQuery('#collCode option:selected').text() +"-"+
-                        jQuery('#deptCode option:selected').text() +"<br>"+
-                        jQuery('#corsTypeCode option:selected').text() +"-"+
-                        jQuery('#detlMajCode option:selected').text() );
-
+                        jQuery('#applAttrCode option:selected').text() +"<br>"+
+                                aftAris+
+                        jQuery('#deptCode option:selected').attr('label') +"-"+
+                        jQuery('#corsTypeCode option:selected').attr('label') +"<br>"+
+                        jQuery('#detlMajCode option:selected').attr('label') );
+                    alert(jQuery('#aftValInput').val());
                     jQuery('#changeUnitt-form').submit();
                 }
 
             });
+            jQuery('#backBtn').on('click', function(event) {
+                event.preventDefault();
+                history.go(-1);
+            });
+
 
             function attachChangeEvent( sourceId, context ) {
                 var $source = jQuery('#' + sourceId);

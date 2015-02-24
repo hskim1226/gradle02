@@ -78,6 +78,26 @@ public class CommonController {
         return executionContext;
     }
 
+    @RequestMapping(value="/code/college/department/{admsNo}/{collCode}", method= RequestMethod.GET)
+    @ResponseBody
+    public ExecutionContext retrieveAllDepartmentByColl(@PathVariable("admsNo") String admsNo,
+                                                        @PathVariable("collCode") String collCode)
+            throws NoSuchAlgorithmException, JsonProcessingException, UnsupportedEncodingException {
+        ParamForSetupCourses paramForSetupCourses = new ParamForSetupCourses();
+        paramForSetupCourses.setAdmsNo(admsNo);
+        paramForSetupCourses.setCollCode(collCode);
+        List<CodeNameDepartment> departmentList = commonService.retrieveAllDepartmentByColl(paramForSetupCourses);
+
+        String json = jacksonObjectMapper.writeValueAsString(departmentList);
+
+        ExecutionContext executionContext = new ExecutionContext();
+        if (!(departmentList.size() > 0)) {
+            executionContext.setMessage(messageResolver.getMessage("U300"));
+        }
+        executionContext.setData(json);
+
+        return executionContext;
+    }
     @RequestMapping(value="/code/general/department/{admsNo}/{collCode}", method= RequestMethod.GET)
     @ResponseBody
     public ExecutionContext retrieveGeneralDepartmentByAdmsColl(@PathVariable("admsNo") String admsNo,

@@ -34,7 +34,7 @@
                         <table summary="지원현황 검색조건">
                             <caption>지원현황 검색조건</caption>
                             <tbody>
-                            <tr><th class="Cat">지원단위검색 : </th>           
+                            <tr><th class="Cat">지원단위검색 : </th>
                                 <th><label for="admsNo">지원 전형</label></th>
                                 <td>
                                     <form:select path="admsNo" id="admsNo" cssClass="form-control base-info">
@@ -48,12 +48,22 @@
                                         <form:option value="" label="--전체--" />
                                         <form:options items="${selection.campList}" itemValue="campCode" itemLabel="campName" />
                                     </form:select>
-                                </td>     
+                                </td>
+                                </tr>
+                            <tr>
+                                <td></td>
                                 <th><label for="collCode"  >대학</label></th>
                                 <td>
                                     <form:select path="collCode" id="collCode" cssClass="form-control base-info">
                                         <form:option value="" label="--전체--" />
                                         <form:options items="${selection.collList}" itemValue="collCode" itemLabel="collName" />
+                                    </form:select>
+                                </td>
+                                <th><label for= "deptCode">학과</label></th>
+                                <td>
+                                    <form:select path="deptCode" id="deptCode" cssClass="form-control base-info">
+                                        <form:option value="" label="--전체--" />
+                                        <form:options items="${selection.deptList}" itemValue="deptCode" itemLabel="deptName" />
                                     </form:select>
                                 </td>
                             </tr>
@@ -72,11 +82,11 @@
                 <tr>
                     <th class="Lfirst">수험번호</th>
                     <th>캠퍼스</th>
-                    <th>지원학과</th>
-                    <th>지원전형</th>
-                    <th>학생정보</th>
-                    <th>연락처</th>
-                    <th>결제내역</th>
+                    <th>지원학과<br>세부전공</th>
+                    <th>지원전형<br>지원과정</th>
+                    <th>성명<br>생년월일</th>
+                    <th>전화번호<br>이메일</th>
+                    <th>결제방법<br>결제금액</th>
                 </tr>
                 </thead>
                     <c:if test="${applList.size() == 0}" >
@@ -89,10 +99,10 @@
                         <td>${applList.applId}</td>
                         <td>${applList.campName}</td>
                         <td>${applList.deptName}</td>
-                        <td >${applList.corsTypeCode}</td>
+                        <td >${applList.applAttrName}<br>${applList.corsTypeName}</td>
                         <td >${applList.korName} <br> ${applList.rgstNo}</td>
                         <td >${applList.mobiNum} <br>${applList.mailAddr} </td>
-                        <td >${applList.applStsCode}</td>                
+                        <td >${applList.payTypeName}<br>${applList.admsFee} </td>
                     </tr>
                     </c:forEach>
             </table>
@@ -216,6 +226,21 @@
                     labelKey: 'collName',
                     url: function(arg) {
                         return '/college/' + arg;
+                    }
+                }
+        );
+
+
+        attachChangeEvent( 'collCode',
+                {
+                    targetId: 'deptCode',
+                    valueKey: 'deptCode',
+                    labelKey: 'deptName',
+                    url: function(arg) {
+//                        var admsNo = jQuery('#admsNo option:selected').val();
+                        var admsNo = document.getElementById('admsNo'),
+                            val = admsNo[admsNo.selectedIndex];
+                        return '/college/department/' + val.value + '/' + arg;
                     }
                 }
         );
