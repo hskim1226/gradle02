@@ -36,13 +36,6 @@
             margin-bottom: 0.5em;
         }
 
-        .findInfo-form-container {
-            background-color: rgba(255, 255, 255, 0.7);
-            filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr='#a7ffffff', endColorstr='#a7ffffff'); /* IE */
-            padding-top: 5%;
-            padding-bottom: 6%;
-        }
-
         .input-text {
             height: 50px;
             font-size: 100%;
@@ -82,7 +75,7 @@
     <div class="container">
         <form:form commandName="users" cssClass="form-horizontal" role="form" method="post">
             <div class="col-md-offset-3 col-md-6">
-                <div class="form-group findInfo-form-container">
+                <div class="form-group inner-container-white">
                     <div class="col-sm-offset-1 col-sm-10 text-gray">
                         <i class="fa fa-search fa-3x" style="vertical-align: middle; line-height:40px;"></i>&nbsp;<span style="font-size: 35px; vertical-align: middle; line-height:40px;"><b>아이디 찾기</b></span>
                     </div>

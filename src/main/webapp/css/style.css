@@ -605,6 +605,12 @@ div.cform-response-output {
 	-moz-border-radius: 4px;
 	-webkit-border-radius: 4px;
 }
+.inner-container-white {
+    background-color: rgba(255, 255, 255, 0.8);
+    filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr='#a7ffffff', endColorstr='#a7ffffff'); /* IE */
+    padding-top: 5%;
+    padding-bottom: 6%;
+}
 
 /*=========================
   Footer

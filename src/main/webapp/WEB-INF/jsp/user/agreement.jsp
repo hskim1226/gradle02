@@ -55,12 +55,6 @@
             padding: 0 !important;
             margin: 0 !important;
         }
-        .findInfo-form-container {
-            background-color: rgba(255, 255, 255, 0.7);
-            filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr='#a7ffffff', endColorstr='#a7ffffff'); /* IE */
-            padding-top: 5%;
-            padding-bottom: 6%;
-        }
         .text-gray {
             color: #333333;
             opacity: 1.0;
@@ -76,7 +70,7 @@
         <%--</div>--%>
         <form class="form-horizontal" role="form" id="sign-up-form" action="${contextPath}/user/signup" method="POST">
             <div class="col-md-offset-1 col-md-10">
-                <div class="form-group findInfo-form-container">
+                <div class="form-group inner-container-white">
                     <div class="col-sm-12 text-gray">
                         <i class="fa fa-check fa-3x" style="vertical-align: middle; line-height:40px;"></i>&nbsp;<span style="font-size: 35px; vertical-align: middle; line-height:40px;"><b>회원 약관 및 개인 정보 수집 이용 동의</b></span>
                     </div>

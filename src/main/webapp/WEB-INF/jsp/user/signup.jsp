@@ -60,12 +60,6 @@
             background-color: white !important;
             cursor: text !important;
         }
-        .findInfo-form-container {
-            background-color: rgba(255, 255, 255, 0.7);
-            filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr='#a7ffffff', endColorstr='#a7ffffff'); /* IE */
-            padding-top: 5%;
-            padding-bottom: 6%;
-        }
         .validation-error {
             background: #ffdddd;
             color: #f55;
@@ -101,7 +95,7 @@
             <form:hidden path="users.userAgreYn" />
             <form:hidden path="users.privInfoYn" />
             <div class="col-md-offset-2 col-md-8">
-                <div class="form-group findInfo-form-container">
+                <div class="form-group inner-container-white">
                     <div class="col-sm-offset-1 col-sm-10 text-gray">
                         <i class="fa fa-user fa-3x" style="vertical-align: middle; line-height:40px;"></i>&nbsp;<span style="font-size: 35px; vertical-align: middle; line-height:40px;"><b>회원 가입</b></span>
                     </div>
