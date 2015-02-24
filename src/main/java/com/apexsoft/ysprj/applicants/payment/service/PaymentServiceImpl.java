@@ -318,7 +318,8 @@ public class PaymentServiceImpl implements PaymentService {
         application.setApplStsCode("00020");
         commonDAO.updateItem(application, "com.apexsoft.ysprj.applicants.application.sqlmap.", "ApplicationMapper");
 
-        //TODO : PDFService 호출해서 수험표, 수험원서를 물리적 PDF 파일로 저장
+        //TODO : APPL_DOC에 수험표, 원서 정보 저장
+        //TODO : BirtController 호출해서 수험표, 수험원서를 물리적 PDF 파일로 저장
 
         /*
         ApplicationPaymentExample param = new ApplicationPaymentExample();
@@ -474,7 +475,8 @@ public class PaymentServiceImpl implements PaymentService {
         applPay.setPayStsCode("00002");
         r3 = commonDAO.updateItem(applPay, NAME_SPACE, "ApplicationPaymentCurStatMapper");
 
-        //TODO : PDFService 호출해서 수험표, 수험원서를 물리적 PDF 파일로 저장
+        //TODO : APPL_DOC에 수험표, 원서 정보 저장
+        //TODO : BirtController 호출해서 수험표, 수험원서를 물리적 PDF 파일로 저장
         /*
         int paySeq = commonDAO.queryForInt(NAME_SPACE+"CustomApplicationPaymentMapper.getSeq", payment.getApplNo());
 
