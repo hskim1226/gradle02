@@ -27,14 +27,9 @@ public class PdfSingleFormatBirtView extends AbstractSingleFormatBirtView {
                                         BirtViewResourcePathCallback resourcePathCallback, Map<String, Object> appContextValuesMap,
                                         String reportName, String format, IRenderOption options) throws Throwable {
 
-        String oName = reportName;
-        if( oName.toLowerCase().endsWith(".rptdesign")){
-            oName = oName.replaceAll("(?i).rptdesign", "");
-        }
-
         String header = "";
 //        header += "attachment;";
-        String fileName = (String)map.get("rptFileName");
+        String fileName = (String)map.get("pdfFileName");
         header += "filename=" + URLEncoder.encode(fileName, "UTF-8") + ".pdf";
 
         response.setHeader ("Content-Disposition", header);

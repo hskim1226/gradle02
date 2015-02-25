@@ -595,25 +595,24 @@ public class PaymentServiceImpl implements PaymentService {
 
         TotalApplicationDocument aDoc = new TotalApplicationDocument();
         aDoc.setApplNo(applNo);
-        //TODO 수험표 Birt 처리 후 아래 내용 활성화
-//        aDoc.setDocSeq(-2);
-//        aDoc.setDocItemName("수험표");
         aDoc.setFileExt("pdf");
         aDoc.setImgYn("N");
         aDoc.setFilePath(FileUtil.getUploadDirectoryFullPath(BASE_DIR, admsNo, userId, applNo));
-        aDoc.setFileName(FileUtil.getSlipFileName(userId));
-        aDoc.setOrgFileName(FileUtil.getSlipFileName(userId));
-//        aDoc.setPageCnt(1);
-        aDoc.setCreId(application.getUserId());
-        aDoc.setCreDate(new Date());
-//        documentService.saveOneDocument(aDoc);
-        aDoc.setDocSeq(-1);
+
         aDoc.setDocItemName("지원서");
         aDoc.setFileName(FileUtil.getApplicationFileName(userId));
         aDoc.setOrgFileName(FileUtil.getApplicationFileName(userId));
         aDoc.setPageCnt(2);
         aDoc.setFileUploadFg(false);
-        aDoc.setDocSeq(0);
+        aDoc.setCreId(application.getUserId());
+        aDoc.setCreDate(new Date());
+        documentService.saveOneDocument(aDoc);
+
+        aDoc.setDocItemName("수험표");
+        aDoc.setFileName(FileUtil.getSlipFileName(userId));
+        aDoc.setOrgFileName(FileUtil.getSlipFileName(userId));
+        aDoc.setPageCnt(1);
+        aDoc.setFileUploadFg(false);
         documentService.saveOneDocument(aDoc);
     }
 }

@@ -86,12 +86,12 @@ public class PreApplicationController {
     /**
      * 내원서 화면
      * @param principal
-     * @param model
+     * @param mv
      * @return
      */
     @RequestMapping(value="/mylist")
-    public String myApplicationList(Principal principal, Model model) {
-
+    public ModelAndView myApplicationList(Principal principal, ModelAndView mv) {
+        mv.setViewName("application/mylist");
         ParamForApplication parameter = new ParamForApplication();
         parameter.setUserId(principal.getName());
 
@@ -99,8 +99,8 @@ public class PreApplicationController {
                 commonDAO.queryForList("com.apexsoft.ysprj.applicants.application.sqlmap.CustomApplicationMapper.selectApplByUserId",
                     parameter, CustomMyList.class);
 
-        model.addAttribute("myList", myList);
-        return "application/mylist";
+        mv.addObject("myList", myList);
+        return mv;
     }
 
     /**
