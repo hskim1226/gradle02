@@ -16,4 +16,6 @@ public interface ChangeService {
 
     ExecutionContext retrieveChangePaginatedList(ChangeSearchPageForm searchForm);
 
+    ExecutionContext retrieveChangeDetail(String chgId);
+
 }

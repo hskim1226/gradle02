@@ -358,7 +358,6 @@ public class ChangeServiceImpl implements ChangeService {
             throw new YSBizException(ec);
         }
         return ec;
-
     }
     public ExecutionContext retrieveChangePaginatedList(ChangeSearchPageForm searchForm){
         ExecutionContext ec = new ExecutionContext();
@@ -390,7 +389,6 @@ public class ChangeServiceImpl implements ChangeService {
 
             if( searchForm.getChgNo()!= null || searchForm.getChgStsCode()!= null || searchForm.getAdmsNo()!= null || searchForm.getKorName()!= null) {
                 PageStatement tempStst = new PageStatement(NAME_SPACE+"CustomApplicationChangeMapper.retrieveChangeCount", NAME_SPACE+"CustomApplicationChangeMapper.retrieveChangeList");
-
                 tempPageInfo = commonDAO.queryForPagenatedList( tempStst, searchForm, searchForm.getPage().getNo(), searchForm.getPage().getRows() );
                 List<CustomApplicationChange> tempInfoList = tempPageInfo.getData();
                 ecDataMap.put("chgList", tempInfoList);
@@ -419,4 +417,32 @@ public class ChangeServiceImpl implements ChangeService {
         return ec;
     }
 
+    public ExecutionContext retrieveChangeDetail(String chgId){
+        ExecutionContext ec = new ExecutionContext();
+        Map<String, Object> ecDataMap = new HashMap<String, Object>();
+        Map<String, Object> selectionMap = new HashMap<String, Object>();
+
+        CustomApplicationChange  chgInfo =null;
+
+        List<Admission> admsList = null;
+        List<Campus> campList = null;
+        List<College> collList = null;
+        List<CodeNameDepartment> deptList = null;
+        List<CommonCode> applChgCodeList = null;
+        List<CommonCode> chgStsCodeList = null;
+        ParamForSetupCourses param = new ParamForSetupCourses();
+
+
+        //chgInfo = commonDAO.queryForObject(ADMS_NAME_SPACE, Admission.class);
+        try{
+            ecDataMap.put("selection", selectionMap);
+
+            ec.setData(ecDataMap);
+
+        }catch(Exception e){
+            e.printStackTrace();
+
+        }
+        return ec;
+    }
 }

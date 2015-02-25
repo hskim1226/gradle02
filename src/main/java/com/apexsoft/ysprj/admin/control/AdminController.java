@@ -457,7 +457,26 @@ public class AdminController {
         }
         return mv;
     }
+    @RequestMapping(value="/modification/changeInfoDetail")
+    public ModelAndView retreiveChangeDetail(@ModelAttribute String chgId,
+                                             Principal principal,
+                                             BindingResult bindingResult,
+                                             ModelAndView mv){
+        mv.setViewName("admin/modification/changeInfoDetail");
+        if (bindingResult.hasErrors()) {
+            mv.addObject("resultMsg", messageResolver.getMessage("U334"));
+        }
+        ExecutionContext ecRetrieve =ecRetrieve = changeService.retrieveChangeDetail(chgId);
+        if (ecRetrieve.getResult().equals(ExecutionContext.SUCCESS)) {
+                Map<String, Object> map = (Map<String, Object>) ecRetrieve.getData();
+                mv.addObject("chgInfo", map.get("chgInfo"));
 
+        } else {
+            mv = getErrorMV("common/error", ecRetrieve);
+        }
+        return mv;
+
+    }
     @RequestMapping(value="/cancel/application")
     public String cancelApplication() {
         return "admin/cancel/application";
