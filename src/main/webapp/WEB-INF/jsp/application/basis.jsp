@@ -417,7 +417,7 @@
                             </div>
                         </div>
 
-                        <div id="basis2Container" style="display: ${basis.application.applNo == null || basis.application.applNo.length == 0 ? 'none;' : 'block;'}">
+                        <div id="basis2Container" style="display: ${basis.application.applNo == null || basis.application.applNo <= 0 ? 'none;' : 'block;'}">
                             <div class="panel panel-darkgray">
                                 <div class="panel-heading">지원자 정보</div>
                                 <div class="panel-body">

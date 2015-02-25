@@ -69,6 +69,7 @@
         </form:form>
     </div>
 </section>
+<content tag="local-script">
 <script src="${contextPath}/js/jquery-ui.min.js"></script>
 <script type="text/javascript">
 $(document).ready(function() {
@@ -122,5 +123,6 @@ $(document).ready(function() {
     <%-- placeholder polyfill --%>
 });
 </script>
+</content>
 </body>
 </html>
