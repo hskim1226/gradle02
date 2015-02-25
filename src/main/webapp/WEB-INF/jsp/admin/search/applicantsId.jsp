@@ -29,7 +29,8 @@
         <div id="LblockSearch">
 
             <div>
-                <form id="idSearchForm" action="${contextPath}/admin/search/applicants/idSearch" method="post">
+                <form:form commandName="searchForm"  method="post" role="form" action="${contextPath}/admin/search/applicants/idSearch" id="search-form">
+
                     <input type="hidden" id="page-number-hidden" name="page.no" value="${searchForm.page.no}" />
                     <table summary="지원현황 검색조건">
                         <caption>지원현황 검색조건</caption>
@@ -43,7 +44,7 @@
                         </tbody>
                     </table>
                     <input id="idSearchBtn" type='image' class="Limage" src="${contextPath}/img/admin/btn_search.gif" />
-                </form>
+                </form:form>
             </div>
         </div>
 
@@ -117,6 +118,7 @@
             e.preventDefault();
             submitForm();
         });
+
 
         function submitForm(){
             jQuery("#page-number-hidden").val(1);

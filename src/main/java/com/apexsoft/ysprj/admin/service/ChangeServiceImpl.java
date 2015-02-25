@@ -237,7 +237,7 @@ public class ChangeServiceImpl implements ChangeService {
         appChg.setReqDay( format.format(date));
         appChg.setReqUserId(userId);
         appChg.setReqName(userId);
-        appChg.setActDay( format.format(date));
+        //appChg.setActDay( format.format(date));
         appChg.setActUserId(userId);
         appChg.setApplChgCode("00002");//지원단위변경
         appChg.setChgStsCode("00001");//접수
@@ -320,7 +320,7 @@ public class ChangeServiceImpl implements ChangeService {
         appChg.setReqDay( format.format(date));
         appChg.setReqUserId(userId);
         appChg.setReqName(userId);
-        appChg.setActDay( format.format(date));
+        //appChg.setActDay( format.format(date));
         appChg.setActUserId(userId);
         appChg.setApplChgCode("00003");//지원취소
         appChg.setChgStsCode("00001");//접수

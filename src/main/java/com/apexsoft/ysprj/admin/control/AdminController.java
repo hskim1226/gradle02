@@ -80,7 +80,10 @@ public class AdminController {
    		pStsList = adminService.retrieveApplicantCntByDept(searchForm);	
    		return pStsList;
 	}
-  
+    @RequestMapping(value="/stats")
+    public String initAdmin() {
+        return "admin/stats/category";
+    }
     
     @RequestMapping(value="/stats/category")
     public String statsCategory() {

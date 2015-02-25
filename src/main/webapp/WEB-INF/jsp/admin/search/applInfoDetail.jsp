@@ -72,7 +72,7 @@
                 <th>세부전공</th>
                 <td>${applInfo.detlMajName}</td>
                 <th>결제방법</th>
-                <td>${applList.payTypeName}</td>
+                <td>${applInfo.payTypeName}</td>
 			</tr>
         </tbody>
 	</table>

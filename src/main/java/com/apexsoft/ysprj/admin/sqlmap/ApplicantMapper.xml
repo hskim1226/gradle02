@@ -235,6 +235,7 @@
 		AND b.COLL_CODE= e.COLL_CODE
 		AND e.CAMP_CODE = F.CAMP_CODE
 		AND a.ADMS_NO = H.ADMS_NO
+        AND a.APPL_STS_CODE = '00020'
 		]]>
         <if test="applId != null and applId!=''">
            AND APPL_ID = #{applId}
@@ -268,6 +269,7 @@
 		AND b.COLL_CODE= e.COLL_CODE
 		AND e.CAMP_CODE = F.CAMP_CODE
 		AND a.ADMS_NO = H.ADMS_NO
+        AND a.APPL_STS_CODE = '00020'
         <if test="applId != null and applId!=''">
            AND APPL_ID = #{applId}
         </if>		
@@ -337,6 +339,7 @@
     AND b.COLL_CODE= e.COLL_CODE
     AND e.CAMP_CODE = F.CAMP_CODE
     AND a.ADMS_NO = H.ADMS_NO
+
 
     <if test="admsNo != null and admsNo!=''">
         AND a.ADMS_NO =#{admsNo}
@@ -409,7 +412,7 @@
 			  ( SELECT * FROM APPL
                   WHERE APPL_STS_CODE = '00020'
 			  <!--
-			    WHERE APPL_STS_CODE IN ('00020','00030') 지원완료자
+			    WHERE APPL_STS_CODE IN ('00020') 지원완료자
 			    WHERE APPL_STS_CODE IN ('00010','00021') 미결재, 미입금자
 			   -->
 			  )  A
@@ -464,7 +467,7 @@
         ( SELECT * FROM APPL
         WHERE APPL_STS_CODE IN ('00010','00021')
         <!--
-          WHERE APPL_STS_CODE IN ('00020','00030') 지원완료자
+          WHERE APPL_STS_CODE IN ('00020') 지원완료자
           WHERE APPL_STS_CODE IN ('00010','00021') 미결재, 미입금자
          -->
         )  A
