@@ -37,6 +37,10 @@ public class ApplicationGeneralValidator implements NamedValidator {
             errors.rejectValue(prefix + "emerContName", "U331",
                     new Object[]{"비상연락처 이름"}, messageResolver.getMessage("U332"));
         }
+        if (applicationGeneral.getEmerContCode() == null || applicationGeneral.getEmerContCode().length() == 0) {
+            errors.rejectValue(prefix + "emerContCode", "U331",
+                    new Object[]{"비상연락처 관계"}, messageResolver.getMessage("U332"));
+        }
         if (applicationGeneral.getEmerContTel() == null || applicationGeneral.getEmerContTel().length() == 0) {
             errors.rejectValue(prefix + "emerContTel", "U331",
                     new Object[]{"비상연락처 전화번호"}, messageResolver.getMessage("U332"));
