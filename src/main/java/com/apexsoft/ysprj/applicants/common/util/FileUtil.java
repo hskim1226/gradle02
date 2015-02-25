@@ -55,6 +55,10 @@ public class FileUtil {
                 .append(applNo).append("-merged-final.pdf").toString();
     }
 
+    public static String getFinalUserDownloadFileName(String userId) {
+        return new StringBuilder().append(userId).append("-all-file.pdf").toString();
+    }
+
     public static String getSlipFileName(String userId) {
         return new StringBuilder().append("수험표_").append(userId).append(".pdf").toString();
     }
