@@ -72,17 +72,19 @@
 $(document).ready(function() {
 
     // 결제 완료 후 BirtController를 호출해야 수험표와 원서를 물리적 파일로 저장할 수 있음
-    $.ajax({
-        type: 'GET',
-        url: '${contextPath}/application/generate/${transactionVO.applNo}',
-        success: function (data) {
-            console.log('파일 생성 완료');
-        },
-        error: function (data, status, e) {
+    var genFile = function () {
+        $.ajax({
+            type: 'GET',
+            url: '${contextPath}/application/generate/${transactionVO.applNo}',
+            success: function (data) {
+                console.log('파일 생성 완료');
+            },
+            error: function (data, status, e) {
 
-        }
-    });
-
+            }
+        });
+    };
+    genFile();
 
     $('#goMain').click( function () { location.href='${contextPath}/application/mylist'; });
 });
