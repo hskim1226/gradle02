@@ -77,7 +77,17 @@ $(document).ready(function() {
             type: 'GET',
             url: '${contextPath}/application/generate/${transactionVO.applNo}',
             success: function (data) {
-                console.log('파일 생성 완료');
+                console.log('원서 파일 생성 완료');
+                $.ajax({
+                    type: 'GET',
+                    url: '${contextPath}/pdf/merge/applicant/${transactionVO.applNo}',
+                    success: function (data) {
+                        console.log('머지 파일 생성 완료');
+                    },
+                    error: function (data, status, e) {
+
+                    }
+                });
             },
             error: function (data, status, e) {
 

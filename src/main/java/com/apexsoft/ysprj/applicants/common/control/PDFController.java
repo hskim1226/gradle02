@@ -75,11 +75,11 @@ public class PDFController {
 
         String userId = principal.getName();
 
-        String dir = FileUtil.getUploadDirectoryFullPath(fileBaseDir, admsNo, userId, String.valueOf(applNo));
+        String uploadDirectoryFullPath = FileUtil.getUploadDirectoryFullPath(fileBaseDir, admsNo, userId, String.valueOf(applNo));
         //TODO 파일명 FileUtil 통해 해결하도록 수정 필요
-        String fileName = applNo + "-merged-numbered.pdf";
+        String fileName = FileUtil.getFinalMergedFileFullPath(uploadDirectoryFullPath, String.valueOf(applNo));
         String downLoadFileName = userId + "_all.pdf";
-        File file =  new File(dir, fileName);
+        File file =  new File(fileName);
         byte[] bytes = org.springframework.util.FileCopyUtils.copyToByteArray(file);
 
         response.setHeader("Content-Disposition", "attachment; filename=\"" + URLEncoder.encode(downLoadFileName, "UTF-8") + "\"");

@@ -39,11 +39,27 @@ public class FileUtil {
                 .toString();
     }
 
+    public static String getRawMergedFileFullPath(String uploadDirFullPath, String applNo) {
+        return new StringBuilder()
+                .append(uploadDirFullPath).append("/")
+                .append(applNo).append("-merged.pdf").toString();
+    }
+
+    public static String getNumberedMergedFileFullPath(String uploadDirFullPath, String applNo) {
+        return new StringBuilder().append(uploadDirFullPath).append("/")
+                .append(applNo).append("-merged-numbered-wo-slip-appl.pdf").toString();
+    }
+
+    public static String getFinalMergedFileFullPath(String uploadDirFullPath, String applNo) {
+        return new StringBuilder().append(uploadDirFullPath).append("/")
+                .append(applNo).append("-merged-final.pdf").toString();
+    }
+
     public static String getSlipFileName(String userId) {
-        return new StringBuilder().append("수험표_").append(userId).toString();
+        return new StringBuilder().append("수험표_").append(userId).append(".pdf").toString();
     }
 
     public static String getApplicationFileName(String userId) {
-        return new StringBuilder().append("지원서_").append(userId).toString();
+        return new StringBuilder().append("지원서_").append(userId).append(".pdf").toString();
     }
 }
