@@ -199,7 +199,7 @@ public class AdminController {
 
     @RequestMapping(value="/search/applicant/applInfoDetail")
     public String displayQnaDetail(@RequestParam("applNo") int applNo, Model model){
-        ExecutionContext ecRetrieve = adminService.getApplicantDetail(applNo);
+        ExecutionContext ecRetrieve = adminService.getApplicantDetail(applNo,"");
         Map<String, Object> map = (Map<String, Object>)ecRetrieve.getData();
         model.addAttribute("applInfo", map.get("applInfo"));
 
@@ -263,25 +263,19 @@ public class AdminController {
         return mv;
     }
 
-    @RequestMapping(value="/modification/changeInfo")
-    public String callChangeInfo(@RequestParam("applNo") int applNo, Model model) {
-        ExecutionContext ecRetrieve = adminService.getApplicantDetail(applNo);
-        Map<String, Object> map = (Map<String, Object>)ecRetrieve.getData();
-        model.addAttribute("applInfo", map.get("applInfo"));
-        return "admin/modification/changeInfo";
-    }
-    @RequestMapping(value="/modification/changeUnit")
-    public ModelAndView callChangeUnit( @ModelAttribute ApplicantSearchForm applicantSearchForm,
-                                  BindingResult bindingResult,
-                                  ModelAndView mv) {
 
-        mv.setViewName("admin/modification/changeUnit");
+    @RequestMapping(value="/modification/changeInfo")
+    public ModelAndView callChangeInfo( @ModelAttribute ApplicantSearchForm applicantSearchForm,
+                                        BindingResult bindingResult,
+                                        ModelAndView mv) {
+
+        mv.setViewName("admin/modification/changeInfo");
 
         if (bindingResult.hasErrors()) {
             mv.addObject("resultMsg", messageResolver.getMessage("U334"));
 
         }
-        ExecutionContext ecRetrieve = adminService.getApplicantDetail(applicantSearchForm.getApplNo());
+        ExecutionContext ecRetrieve = adminService.getApplicantDetail(applicantSearchForm.getApplNo(),applicantSearchForm.getApplId() );
         if (ecRetrieve.getResult().equals(ExecutionContext.SUCCESS)) {
             Map<String, Object> map = (Map<String, Object>)ecRetrieve.getData();
             mv.addObject("selection", map.get("selection"));
@@ -293,12 +287,53 @@ public class AdminController {
         }
         return mv;
     }
+
+    @RequestMapping(value="/modification/changeUnit")
+      public ModelAndView callChangeUnit( @ModelAttribute ApplicantSearchForm applicantSearchForm,
+                                          BindingResult bindingResult,
+                                          ModelAndView mv) {
+
+        mv.setViewName("admin/modification/changeUnit");
+
+        if (bindingResult.hasErrors()) {
+            mv.addObject("resultMsg", messageResolver.getMessage("U334"));
+
+        }
+        ExecutionContext ecRetrieve = adminService.getApplicantDetail(applicantSearchForm.getApplNo(),applicantSearchForm.getApplId() );
+        if (ecRetrieve.getResult().equals(ExecutionContext.SUCCESS)) {
+            Map<String, Object> map = (Map<String, Object>)ecRetrieve.getData();
+            mv.addObject("selection", map.get("selection"));
+            mv.addObject("applicantSearchForm",applicantSearchForm);
+            mv.addObject("applInfo", map.get("applInfo"));
+            mv.addObject("customApplicationChange", new CustomApplicationChange());
+        } else {
+            mv = getErrorMV("common/error", ecRetrieve);
+        }
+        return mv;
+    }
+
     @RequestMapping(value="/modification/cancelAppl")
-    public String callCancelInfo(@RequestParam("applNo") int applNo, Model model) {
-        ExecutionContext ecRetrieve = adminService.getApplicantDetail(applNo);
-        Map<String, Object> map = (Map<String, Object>)ecRetrieve.getData();
-        model.addAttribute("applInfo", map.get("applInfo"));
-        return "admin/modification/cancelAppl";
+    public ModelAndView callCancelInfo( @ModelAttribute ApplicantSearchForm applicantSearchForm,
+                                        BindingResult bindingResult,
+                                        ModelAndView mv) {
+
+        mv.setViewName("admin/modification/cancelAppl");
+
+        if (bindingResult.hasErrors()) {
+            mv.addObject("resultMsg", messageResolver.getMessage("U334"));
+
+        }
+        ExecutionContext ecRetrieve = adminService.getApplicantDetail(applicantSearchForm.getApplNo(),applicantSearchForm.getApplId() );
+        if (ecRetrieve.getResult().equals(ExecutionContext.SUCCESS)) {
+            Map<String, Object> map = (Map<String, Object>)ecRetrieve.getData();
+            mv.addObject("selection", map.get("selection"));
+            mv.addObject("applicantSearchForm",applicantSearchForm);
+            mv.addObject("applInfo", map.get("applInfo"));
+            mv.addObject("customApplicationChange", new CustomApplicationChange());
+        } else {
+            mv = getErrorMV("common/error", ecRetrieve);
+        }
+        return mv;
     }
 
     @RequestMapping(value="/modification/requestChangeInfo")

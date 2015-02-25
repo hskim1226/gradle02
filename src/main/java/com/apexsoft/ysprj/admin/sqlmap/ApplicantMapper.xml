@@ -128,6 +128,64 @@
 
        ORDER BY  APPL_ID DESC, APPL_NO DESC
 	</select>
+
+    <select id="retrieveApplicantInfoByApplId" resultMap="entireApplicantInfo" parameterType="java.lang.String">
+        SELECT A.APPL_NO APPL_NO,
+        A.APPL_ID,
+        A.ADMS_NO,
+        H.ADMS_TYPE,
+        CODEVAL( 'ADMS_TYPE',H.ADMS_TYPE )ADMS_TYPE_NAME,
+        A.APPL_ATTR_CODE,
+        CODEVAL('APPL_ATTR', A.APPL_ATTR_CODE ) APPL_ATTR_NAME,
+        F.CAMP_NAME,
+        e.COLL_NAME,
+        b.DEPT_NAME,
+        A.CORS_TYPE_CODE,
+        CODEVAL( 'CORS_TYPE',A.CORS_TYPE_CODE)CORS_TYPE_NAME ,
+        D.ARI_INST_NAME,
+        A.DETL_MAJ_CODE,
+        G.DETL_MAJ_NAME,
+        A.KOR_NAME,
+        A.ENG_SUR,
+        A.ENG_NAME,
+        A.RGST_NO,
+        A.TEL_NUM,
+        A.MOBI_NUM,
+        A.MAIL_ADDR,
+        A.ADDR,
+        A.DETL_ADDR,
+        J.EMER_CONT_CODE,
+        J.EMER_CONT_NAME,
+        J.EMER_CONT_TEL,
+        A.APPL_STS_CODE,
+        CODEVAL( 'APPL_STS',A.APPL_STS_CODE)APPL_STS_NAME ,
+        A.APPL_DATE,
+        P.ADMS_FEE,
+        P.PAY_TYPE_CODE,
+        CODEVAL( 'PAY_TYPE',P.PAY_TYPE_CODE) PAY_TYPE_NAME
+        FROM  APPL A
+        left outer join APPL_PAY_CS P
+        ON A.APPL_NO = P.APPL_NO
+        left outer join ARI_INST D
+        on A.ARI_INST_CODE = D.ARI_INST_CODE
+        left outer join APPL_GENE J
+        on A.APPL_NO = J.APPL_NO
+        , DEPT b, COLL e, CAMP F, DETL_MAJ G, ADMS H, ADMS_CORS I
+
+        where 1=1
+        AND A.DEPT_CODE = b.DEPT_CODE
+        AND b.COLL_CODE= e.COLL_CODE
+        AND e.CAMP_CODE = F.CAMP_CODE
+        AND G.DETL_MAJ_CODE = A.DETL_MAJ_CODE
+        AND A.ADMS_NO = H.ADMS_NO
+        AND A.ADMS_NO = I.ADMS_NO
+        AND A.CORS_TYPE_CODE = I.CORS_TYPE_CODE
+        AND A.DEPT_CODE = I.DEPT_CODE
+        AND IFNULL(A.ARI_INST_CODE,'') = IFNULL(I.ARI_INST_CODE,'')
+        AND A.APPL_ID = #{applId}
+
+        ORDER BY  APPL_ID DESC, APPL_NO DESC
+    </select>
 	
 	
   <select id="retrieveApplicantInfo" resultMap="entireApplicantInfo" parameterType="java.lang.Integer">

@@ -22,67 +22,27 @@
 
     <div id="LblockMainBody" >
         <div id="LblockSearch">
-            <div>
-                <div>
-                    <form action="" method="post">
-                        <table summary="원서수정 대상자검색">
-                            <caption>원서수정 대상자검색</caption>
-                            <tbody>
-                            <tr>
-                                <th><label for="applId">수험번호</label></th>
-                                <td><input type="text" class="Ltext" id="applId" name="applId" size="15" readonly ="true" value="${applInfo.applId}"></td>
-                            </tr>
-                            </tbody>
-                        </table>
-                        <input type="image" class="Limage"  id="searchBtn" src="${contextPath}/img/admin/btn_search.gif" /></a>
+            <div><div>
+                <form id ="applicantSearchForm" action="${contextPath}/admin//modification/changeInfo" method="post">
+                <table summary="원서수정 대상자검색">
+                    <caption>원서수정 대상자검색</caption>
+                    <tbody>
 
-                    </form>
-                </div>
-            </div>
-        </div>
-        <div id="LblockPageSubtitle01" class="LblockPageSubtitle">
-            <h2>지원정보</h2>
-        </div>
+                        <th><label for="applId">수험번호</label></th>
+                        <td><input type="text" class="Ltext" id="applId" name="applId" size="15"  value="${applicantSearchForm.applId}">
+                            <img class="Limage" id="searchBtn"  src="${contextPath}/img/admin/btn_search.gif" alt="검색버튼" />
+                        </td>
 
-        <div id="LblockDetail01" class="LblockDetail">
-            <table summary="지원 기본정보">
-                <caption>지원 기본정보</caption>
-                <tbody>
-                <tr>
-                    <th>수험번호</th>
-                    <td>${applInfo.applId}</td>
-                    <th>전형구분</th>
-                    <td>${applInfo.admsTypeName}</td>
-                    <th>지원일자</th>
-                    <td><fmt:formatDate value="${applInfo.applDate}" pattern="yyyy년 MM월 dd일 HH시 mm분" /></td>
-                </tr>
-                <tr>
-                    <th>캠퍼스</th>
-                    <td>${applInfo.campName}</td>
-                    <th>대학</th>
-                    <td>${applInfo.collName}</td>
-                    <th>학과</th>
-                    <td>${applInfo.deptName}</td>
-                </tr>
-                <tr>
-                    <th>학연산 기관</th>
-                    <td><c:if test="${empty applInfo.ariInstName}" >해당없음</c:if><c:if test="${not empty applInfo.ariInstName}" >${applInfo.ariInstName}</c:if></td>
-                    <th>지원과정</th>
-                    <td>${applInfo.corsTypeName}</td>
-                    <th>세부전공</th>
-                    <td>${applInfo.detlMajName}</td>
-                </tr>
-                <tr>
-                    <th>전형료</th>
-                    <td><fmt:formatNumber type="currency"   maxFractionDigits="3" value="${applInfo.admsFee}" /></td>
-                    <th>결제방법</th>
-                    <td></td>
-                    <th>지원상태</th>
-                    <td>${applInfo.applStsName}</td>
-                </tr>
-                </tbody>
-            </table>
+                    </tbody>
+                </table>
+                </form>
+            </div></div>
         </div>
+    </div>
+
+
+        <%@include file="applicationInfo.jsp"%>
+
 
         <div id="LblockPageSubtitle02" class="LblockPageSubtitle">
             <h2>지원서 상세정보</h2>
@@ -96,7 +56,12 @@
                 <caption>지원자개인정보</caption>
 
                 <tbody>
-
+                <c:if test="${applInfo.applNo == null}" >
+                    <tr >
+                        <td colspan="7">해당 정보 없음</td>
+                    </tr>
+                </c:if>
+                <c:if test="${applInfo.applNo != null}" >
                 <tr>
                     <th>성명</th>
                     <td><input type="radio" class="Lradio" id="korName" name="infoRadio" value ="korName" ><label id="lbkorName"  for="korName" >${applInfo.korName}</label></td>
@@ -130,39 +95,44 @@
                 </tr>
                 <tr></tr>
                 </tbody>
+                </c:if>
                 </table>
+
+                <c:if test="${applInfo.applNo != null}" >
                 <div><br>
                 <table summary="지원서 상세정보">
                     <tbody>
                 <tr>
                     <th><label >변경이전정보</label></th>
-                    <td colspan="3"><label  id="befVal" ></label></td>
+                    <td colspan="5"><label  id="befVal" ></label></td>
                     <input type="hidden" id="defValInput" name ="befVal"> </input>
                 </tr>
                 <tr>
                     <th>변경이후정보</th>
-                    <td colspan="3"><input type="text"  name="aftVal"  id="aftVal" ></td>
+                    <td colspan="5"><input type="text"  name="aftVal"  id="aftVal" ></td>
                 </tr>
                 <tr>
                     <th>변경사유</th>
-                    <td colspan="3"><input type="textbox"  name="cnclResn"  id="cnclResn" ></td>
+                    <td colspan="5"><textarea  r rows ="5" cols="60" name="cnclResn"  id="cnclResn" ></textarea></td>
                 </tr>
 
                     </tbody>
 
             </table></div>
+                    </c:if>
             </form>
         </div>
-    </div>
+    <c:if test="${applInfo.applNo != null}" >
+        <div id="LblockButton">
 
-    <div id="LblockButton">
-        <a href="#"><input type="button"  id="backBtn" value="상세정보"  /></a>
-        <a href="#"><input type="button" id="changeBtn" value="수정요청"  /></a>
-    </div>
-    
+            <a href="#"><input type="button" id="changeBtn" value="수정요청"  /></a>
+        </div>
+    </c:if>
+        </div>
+
  
-	    
-    	      
+	    </body>
+
 	</div>
 	
 	    
@@ -190,9 +160,9 @@
             }
 
         });
-        jQuery('#backBtn').on('click', function(event) {
-            event.preventDefault();
-            history.go(-1);
+
+        jQuery('#searchBtn').on('click', function(event) {
+            jQuery('#applicantSearchForm').submit();
         });
 
     });

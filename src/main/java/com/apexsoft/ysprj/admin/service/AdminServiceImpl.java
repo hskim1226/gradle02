@@ -155,7 +155,22 @@ public class AdminServiceImpl implements AdminService{
 	  }
 
     @Override
-    public ExecutionContext getApplicantDetail(int applNo){
+    public ExecutionContext getApplicantDetail(int applNo, String applId){
+        ExecutionContext ec;
+
+        if( applNo > 0){
+            ec = getApplicantDetailByApplNo(applNo);
+        }else if(applId != null && applId != "") {
+            ec = getApplicantDetailByApplId(applId);
+        }else{
+            ec = new ExecutionContext();
+            Map<String, Object> ecDataMap = new HashMap<String, Object>();
+            ec.setData(ecDataMap);
+        }
+        return ec;
+    }
+
+    private ExecutionContext getApplicantDetailByApplNo(int applNo){
         ExecutionContext ec = new ExecutionContext();
         Map<String, Object> ecDataMap = new HashMap<String, Object>();
         ApplicantInfo applInfo = new ApplicantInfo();
@@ -172,7 +187,25 @@ public class AdminServiceImpl implements AdminService{
         }
         return ec;
     }
-  
+
+
+    private ExecutionContext getApplicantDetailByApplId(String applId){
+        ExecutionContext ec = new ExecutionContext();
+        Map<String, Object> ecDataMap = new HashMap<String, Object>();
+        ApplicantInfo applInfo = new ApplicantInfo();
+        try{
+            applInfo = commonDAO.queryForObject(NAME_SPACE+"retrieveApplicantInfoByApplId", applId, ApplicantInfo.class);
+            ecDataMap.put("applInfo",applInfo);
+            ecDataMap.put("selection", getCouurseSelectionBasicMap());
+
+            ec.setData(ecDataMap);
+
+        }catch(Exception e){
+            e.printStackTrace();
+
+        }
+        return ec;
+    }
 	  
 
     public List<ApplicantCnt> retrieveApplicantCntByDept(CourseSearchGridForm searchForm) {
@@ -181,6 +214,18 @@ public class AdminServiceImpl implements AdminService{
 
            campusList = commonDAO.queryForList(NAME_SPACE+"selectApplicantCnt", searchForm, ApplicantCnt.class);
            
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return campusList;
+    }
+
+    public List<ApplicantCnt> retrieveApplicantCntByDate(CourseSearchGridForm searchForm) {
+        List<ApplicantCnt> campusList = null;
+        try {
+
+            campusList = commonDAO.queryForList(NAME_SPACE+"selectApplicantCnt", searchForm, ApplicantCnt.class);
+
         } catch (Exception e) {
             e.printStackTrace();
         }

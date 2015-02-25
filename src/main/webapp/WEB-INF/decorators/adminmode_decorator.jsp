@@ -90,8 +90,9 @@
                 <ul>
                     <li class="Lfirst"><span><a href="${contextPath}/admin/modification/changeList">변경처리조회</a></span></li>
                     <%--   <li class="Lidx1"><span><a href="${contextPath}/admin/modification/changeInfoInit">원서수정</a></span></li>--%>
+                     <li class="Lidx1"><span><a href="${contextPath}/admin/modification/changeInfo">지원자정보수정</a></span></li>
                      <li class="Lidx1"><span><a href="${contextPath}/admin/modification/changeUnit">지원단위변경</a></span></li>
-                     <li class="Llast"><span><a href="${contextPath}/admin/cancel/application">지원취소</a></span></li>
+                     <li class="Llast"><span><a href="${contextPath}/admin/modification/cancelAppl">지원취소</a></span></li>
                  </ul>
              </li>
              <li class="Lidx3"><span><a href="${contextPath}/admin/data/download">데이터다운로드</a></span></li>
