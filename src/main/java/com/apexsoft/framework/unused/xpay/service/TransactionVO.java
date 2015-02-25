@@ -6,9 +6,18 @@ import java.util.Map;
 @Deprecated
 public class TransactionVO {
 
+    private int applNo;
     private String sysMsg;
     private String userMsg;
     Map<String, String> txMap = new HashMap<String, String>();
+
+    public int getApplNo() {
+        return applNo;
+    }
+
+    public void setApplNo(int applNo) {
+        this.applNo = applNo;
+    }
 
     public String getSysMsg() {
         return sysMsg;

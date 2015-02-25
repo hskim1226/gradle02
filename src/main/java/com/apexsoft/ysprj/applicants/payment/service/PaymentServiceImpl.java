@@ -257,6 +257,7 @@ public class PaymentServiceImpl implements PaymentService {
 
                 //결제 성공에 따른 application 정보 처리
                 String payType = xpay.Response("LGD_PAYTYPE", 0);
+                transactionVO.setApplNo(payment.getApplNo());
                 if( "SC0010".equals(payType) || "SC0030".equals(payType) ) {
 
                     //카드 또는 계좌이체에 대한 DB 처리
@@ -329,10 +330,11 @@ public class PaymentServiceImpl implements PaymentService {
         application.setApplStsCode("00020");
         commonDAO.updateItem(application, "com.apexsoft.ysprj.applicants.application.sqlmap.", "ApplicationMapper");
 
-        //TODO : APPL_DOC에 수험표, 원서 정보 저장
+        //APPL_DOC에 수험표, 원서 정보 저장
+        //TODO 예외처리
         saveApplDocInfo(application);
 
-        //TODO : BirtController 호출해서 수험표, 수험원서를 물리적 PDF 파일로 저장
+        //BirtController 호출해서 수험표, 수험원서를 물리적 PDF 파일로 저장은 xpay/result에서 ajax로 몰래 BirtController호출하는걸로
 
         /*
         ApplicationPaymentExample param = new ApplicationPaymentExample();
@@ -488,10 +490,12 @@ public class PaymentServiceImpl implements PaymentService {
         applPay.setPayStsCode("00002");
         r3 = commonDAO.updateItem(applPay, NAME_SPACE, "ApplicationPaymentCurStatMapper");
 
-        //TODO : APPL_DOC에 수험표, 원서 정보 저장
+        //APPL_DOC에 수험표, 원서 정보 저장
+        //TODO 예외 처리
         saveApplDocInfo(application);
 
-        //TODO : BirtController 호출해서 수험표, 수험원서를 물리적 PDF 파일로 저장
+        //BirtController 호출해서 수험표, 수험원서를 물리적 PDF 파일로 저장은 xpay/result에서 ajax로 몰래 BirtController호출하는걸로
+
         /*
         int paySeq = commonDAO.queryForInt(NAME_SPACE+"CustomApplicationPaymentMapper.getSeq", payment.getApplNo());
 
@@ -588,16 +592,19 @@ public class PaymentServiceImpl implements PaymentService {
 
         TotalApplicationDocument aDoc = new TotalApplicationDocument();
         aDoc.setApplNo(applNo);
-        aDoc.setDocItemName("수험표");
-        aDoc.setFileExt("pdf");
-        aDoc.setImgYn("N");
-        aDoc.setFilePath(FileUtil.getUploadDirectoryFullPath(BASE_DIR, admsNo, userId, String.valueOf(applNo)));
-        aDoc.setFileName(FileUtil.getSlipFileName(userId));
-        aDoc.setOrgFileName(FileUtil.getSlipFileName(userId));
-        aDoc.setPageCnt(1);
-        aDoc.setCreId(application.getUserId());
-        aDoc.setCreDate(new Date());
-        documentService.saveOneDocument(aDoc);
+        //TODO 수험표 Birt 처리 후 아래 내용 활성화
+//        aDoc.setDocSeq(-2);
+//        aDoc.setDocItemName("수험표");
+//        aDoc.setFileExt("pdf");
+//        aDoc.setImgYn("N");
+//        aDoc.setFilePath(FileUtil.getUploadDirectoryFullPath(BASE_DIR, admsNo, userId, String.valueOf(applNo)));
+//        aDoc.setFileName(FileUtil.getSlipFileName(userId));
+//        aDoc.setOrgFileName(FileUtil.getSlipFileName(userId));
+//        aDoc.setPageCnt(1);
+//        aDoc.setCreId(application.getUserId());
+//        aDoc.setCreDate(new Date());
+//        documentService.saveOneDocument(aDoc);
+        aDoc.setDocSeq(-1);
         aDoc.setDocItemName("지원서");
         aDoc.setFileName(FileUtil.getApplicationFileName(userId));
         aDoc.setOrgFileName(FileUtil.getApplicationFileName(userId));

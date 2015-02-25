@@ -633,5 +633,6 @@
         from APPL_DOC
         where APPL_NO = #{applNo,jdbcType=INTEGER}
         and FILE_EXT = #{fileExt,jdbcType=VARCHAR}
+        order by DOC_SEQ DESC
     </select>
 </mapper>

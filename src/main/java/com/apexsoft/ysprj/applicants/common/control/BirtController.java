@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -35,9 +36,9 @@ public class BirtController {
     private final String RPT_APPLICATION_EN = "application_en";
 
     @RequestMapping(value = "/print")
-    public ModelAndView previewApplicationByParam(@RequestParam(value = "applNo", required = false) Integer applNo,
-                                                  @RequestParam(value = "reportFormat", required = false) String reportFormat,
-                                                  @RequestParam(value = "reportName", required = false) String reportName,
+    public ModelAndView previewApplicationByParam(@RequestParam(value = "applNo") Integer applNo,
+                                                  @RequestParam(value = "reportFormat") String reportFormat,
+                                                  @RequestParam(value = "reportName") String reportName,
                                                   ModelAndView mv) {
         mv.setViewName("pdfSingleFormatBirtView");
         mv.addObject("reportFormat", reportFormat);
@@ -61,7 +62,7 @@ public class BirtController {
     }
 
     @RequestMapping(value = "/preview")
-    public ModelAndView previewAppInfo(@RequestParam(value = "application.applNo", required = false) Integer applNo,
+    public ModelAndView previewAppInfo(@RequestParam(value = "application.applNo") Integer applNo,
                                        ModelAndView mv) {
         mv.setViewName("pdfSingleFormatBirtView");
         mv.addObject("reportFormat", REPORT_FORMAT);
@@ -71,9 +72,9 @@ public class BirtController {
         return mv;
     }
 
-    @RequestMapping(value = "/generate")
-    public ModelAndView generateApplicationFile(@RequestParam(value = "application.applNo", required = false) Integer applNo,
-                                                ModelAndView mv) {
+    @RequestMapping(value = "/generate/{applNo}")
+    public ModelAndView generateSlipAndApplicationFile(@PathVariable(value = "applNo") Integer applNo,
+                                                       ModelAndView mv) {
         mv.setViewName("pdfSingleFormatBirtSaveToFile");
         mv.addObject("reportFormat", REPORT_FORMAT);
         mv.addObject("reportName", RPT_APPLICATION_KR);

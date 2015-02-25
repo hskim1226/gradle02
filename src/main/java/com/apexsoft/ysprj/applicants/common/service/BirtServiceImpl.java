@@ -39,6 +39,7 @@ public class BirtServiceImpl implements BirtService {
     @Value("#{app['file.baseDir']}")
     private String BASE_DIR;
 
+    //TODO 수험표 생성
     @Override
     public ExecutionContext processBirt(int applNo) {
         Map<String, Object> rptInfoMap = new HashMap<String, Object>();
