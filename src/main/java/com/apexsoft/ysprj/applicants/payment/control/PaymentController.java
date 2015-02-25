@@ -11,6 +11,7 @@ import com.apexsoft.ysprj.applicants.payment.service.PaymentService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.stereotype.Controller;
@@ -40,6 +41,9 @@ public class PaymentController {
 
     @Autowired
     private PaymentService paymentService;
+
+    @Value("#{app['pay.casnoteurl']}")
+    private String casnoteURL;
 
     /**
      * 사용자 이름과 아이디를 결제 확인 화면에 반환
@@ -108,7 +112,7 @@ public class PaymentController {
         payment.setLGD_WINDOW_VER(PaymentConfig.LGD_WINDOW_VER);
         payment.setLGD_CUSTOM_PROCESSTYPE(PaymentConfig.LGD_CUSTOM_PROCESSTYPE);
         payment.setLGD_VERSION(PaymentConfig.LGD_VERSION);
-        payment.setLGD_CASNOTEURL(PaymentConfig.LGD_CASNOTEURL);
+        payment.setLGD_CASNOTEURL(casnoteURL);
         payment.setApplNo(model.getApplication().getApplNo());
 
         String json = new ObjectMapper().writeValueAsString(payment);

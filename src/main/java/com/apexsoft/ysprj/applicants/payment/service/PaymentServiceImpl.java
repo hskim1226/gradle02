@@ -39,6 +39,9 @@ public class PaymentServiceImpl implements PaymentService {
     @Value("#{app['file.baseDir']}")
     private String BASE_DIR;
 
+    @Value("#{app['pay.lgdacom']}")
+    private String configPath;
+
     @Resource(name = "messageResolver")
     MessageResolver messageResolver;
 
@@ -184,7 +187,7 @@ public class PaymentServiceImpl implements PaymentService {
          * LG유플러스으로 부터 내려받은 LGD_PAYKEY(인증Key)를 가지고 최종 결제요청.(파라미터 전달시 POST를 사용하세요)
          */
 
-        String configPath = PaymentConfig.CONFIG_PATH;  //LG유플러스에서 제공한 환경파일("/conf/lgdacom.conf,/conf/mall.conf") 위치 지정.
+        //String configPath = PaymentConfig.CONFIG_PATH;  //LG유플러스에서 제공한 환경파일("/conf/lgdacom.conf,/conf/mall.conf") 위치 지정.
 
         /*
          *************************************************
