@@ -28,5 +28,9 @@
 		<util:properties id="app" location="classpath:properties/config/app.dev.properties" />
 	</beans>
 
+    <beans profile="test">
+        <util:properties id="app" location="classpath:properties/config/app.test.properties" />
+    </beans>
+
 
 </beans>
