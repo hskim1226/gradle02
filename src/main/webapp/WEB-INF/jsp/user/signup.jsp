@@ -4,6 +4,7 @@
 <html lang='ko'>
 <head>
     <title>회원 가입</title>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css">
     <style>
         section.normal-white div.btn-group>label.btn {
             max-width: none;
@@ -144,6 +145,8 @@
         </form>
     </div>
 </section>
+<content tag="local-script">
+<script src="${contextPath}/js/jquery-ui.min.js"></script>
 <script type="text/javascript">
     $(document).ready(function(){
         $("#sign-up-button").on("click", function(e){
@@ -235,6 +238,6 @@
         <%-- placeholder polyfill --%>
     });
 </script>
-
+</content>
 </body>
 </html>

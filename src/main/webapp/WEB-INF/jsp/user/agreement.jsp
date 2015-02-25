@@ -59,6 +59,7 @@
 
     </div>
 </section>
+<content tag="local-script">
 <script type="text/javascript">
 $(document).ready(function(){
 
@@ -79,6 +80,6 @@ $(document).ready(function(){
     });
 });
 </script>
-
+</content>
 </body>
 </html>

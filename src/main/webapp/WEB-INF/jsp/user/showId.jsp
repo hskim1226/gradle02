@@ -37,7 +37,7 @@
                             <div class="col-sm-12 text-gray">회원님의 아이디는</div>
                             <div class="col-sm-12 text-red"><b>${userId}</b></div>
                             <div class="col-sm-12 text-gray">입니다</div>
-                        <div class="col-sm-offset-1 col-sm-10">
+                        </div>
                     </div>
                     <div class="col-sm-offset-1 col-sm-10">
                         <div class="col-sm-12 nopadding">
@@ -49,6 +49,7 @@
         </div>
     </div>
 </section>
+<content tag="local-script">
 <script src="${contextPath}/js/jquery-ui.min.js"></script>
 <script type="text/javascript">
 $(document).ready(function() {
@@ -96,5 +97,6 @@ $(document).ready(function() {
     <%-- placeholder polyfill --%>
 });
 </script>
+</content>
 </body>
 </html>

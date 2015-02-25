@@ -333,7 +333,7 @@
                                         <label path="campCode" class="col-sm-2 control-label">캠퍼스</label>
                                         <div class="col-sm-9">
                                             <div class="col-sm-3">
-                                                <form:select path="application.campCode" id="campCode" cssClass="form-control base-info">
+                                                <form:select path="application.campCode" id="campCode" cssClass="form-control base-info base-non-ariInst">
                                                     <form:option value="" label="--선택--" />
                                                     <c:if test="${basis.application.applAttrCode == '00001' || basis.application.applAttrCode == '00003'}">
                                                         <form:options items="${selection.campList}" itemValue="campCode" itemLabel="campName" />
@@ -342,7 +342,7 @@
                                             </div>
                                             <label path="collCode" class="col-sm-2 control-label">대학</label>
                                             <div class="col-sm-7">
-                                                <form:select path="application.collCode" id="collCode" cssClass="form-control base-info">
+                                                <form:select path="application.collCode" id="collCode" cssClass="form-control base-info base-non-ariInst">
                                                     <form:option value="" label="--선택--" />
                                                     <c:if test="${basis.application.applAttrCode == '00001' || basis.application.applAttrCode == '00003'}">
                                                         <form:options items="${selection.collList}" itemValue="collCode" itemLabel="collName" />
@@ -355,7 +355,7 @@
                                         <label for="ariInstCode" class="col-sm-2 control-label">학·연·산 연구기관</label>
                                         <div class="col-sm-9">
                                             <div class="col-sm-12">
-                                                <form:select path="application.ariInstCode" id="ariInstCode" cssClass="form-control base-info">
+                                                <form:select path="application.ariInstCode" id="ariInstCode" cssClass="form-control base-info base-ariInst">
                                                     <form:option value="" label="--선택--" />
                                                     <c:if test="${basis.application.applAttrCode == '00002'}">
                                                     <form:options items="${selection.ariInstList}" itemValue="ariInstCode" itemLabel="ariInstName" />
@@ -368,7 +368,7 @@
                                         <label for="deptCode" class="col-sm-2 control-label">지원 학과</label>
                                         <div class="col-sm-9">
                                             <div class="col-sm-12">
-                                                <form:select path="application.deptCode" id="deptCode" cssClass="form-control base-info">
+                                                <form:select path="application.deptCode" id="deptCode" cssClass="form-control base-info base-non-ariInst base-ariInst">
                                                     <form:option value="" label="--선택--" />
                                                     <form:options items="${selection.deptList}" itemValue="deptCode" itemLabel="deptName" />
                                                 </form:select>
@@ -379,7 +379,7 @@
                                         <label for="corsTypeCode" class="col-sm-2 control-label">지원 과정</label>
                                         <div class="col-sm-9">
                                             <div class="col-sm-12">
-                                                <form:select path="application.corsTypeCode" id="corsTypeCode" cssClass="form-control base-info">
+                                                <form:select path="application.corsTypeCode" id="corsTypeCode" cssClass="form-control base-info base-non-ariInst base-ariInst">
                                                     <form:option value="" label="--선택--" />
                                                     <form:options items="${selection.corsTypeList}" itemValue="corsTypeCode" itemLabel="codeVal" />
                                                 </form:select>
@@ -390,7 +390,7 @@
                                         <label for="detlMajCode" class="col-sm-2 control-label">세부 전공</label>
                                         <div class="col-sm-9">
                                             <div class="col-sm-12">
-                                                <form:select path="application.detlMajCode" id="detlMajCode" cssClass="form-control base-info">
+                                                <form:select path="application.detlMajCode" id="detlMajCode" cssClass="form-control base-info base-non-ariInst base-ariInst">
                                                     <form:option value="" label="--선택--" />
                                                     <form:options items="${selection.detlMajList}" itemValue="detlMajCode" itemLabel="detlMajName" />
                                                 </form:select>
@@ -417,500 +417,283 @@
                             </div>
                         </div>
 
-                        <div class="panel panel-darkgray">
-                            <div class="panel-heading">지원자 정보</div>
-                            <div class="panel-body">
-                                <div class="form-group required">
-                                    <label for="application.korName" class="col-sm-2 control-label">한글 이름</label>
-                                    <div class="col-sm-9">
-                                        <div class="col-sm-12">
-                                            <form:input path="application.korName" cssClass="form-control" placeholder="한글 이름을 공백 없이 입력해주세요"/>
-                                        </div>
-                                <spring:bind path="application.korName">
-                                    <c:if test="${status.error}">
-                                        <div class="col-sm-12">
-                                            <div class="validation-error">${status.errorMessage}</div>
-                                        </div>
-                                    </c:if>
-                                </spring:bind>
-                                    </div>
-                                </div>
-                                <div class="form-group required">
-                                    <label class="col-sm-2 control-label">영문 이름</label>
-                                    <div class="col-sm-9">
-                                        <div class="col-sm-6">
-                                            <div class="input-group">
-                                                <span class="input-group-addon">&nbsp;성&nbsp;</span>
-                                                <form:input path="application.engSur" cssClass="form-control engName" />
-                                            </div>
-                                    <spring:bind path="application.engSur">
-                                        <c:if test="${status.error}">
-                                            <div>
-                                                <div class="validation-error">${status.errorMessage}</div>
-                                            </div>
-                                        </c:if>
-                                    </spring:bind>
-                                        </div>
-                                        <div class="col-sm-6">
-                                            <div class="input-group">
-                                                <span class="input-group-addon">이름</span>
-                                                <form:input path="application.engName" cssClass="form-control engName" />
-                                            </div>
-                                    <spring:bind path="application.engName">
-                                        <c:if test="${status.error}">
-                                            <div>
-                                                <div class="validation-error">${status.errorMessage}</div>
-                                            </div>
-                                        </c:if>
-                                    </spring:bind>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group required">
-                                    <label for="citzCntrName" class="col-sm-2 control-label">국적</label>
-                                    <div class="col-sm-9">
-                                        <div class="col-sm-3">
-                                            <button type="button" class="btn btn-default btn-search bpopper" data-targetNode1="citzCntrCode" data-targetNode2='citzCntrName' data-category="country">
-                                                <span class="glyphicon glyphicon-search"></span> 검색
-                                            </button>
-                                        </div>
+                        <div id="basis2Container" style="display: ${basis.application.applNo == null || basis.application.applNo <= 0 ? 'none;' : 'block;'}">
+                            <div class="panel panel-darkgray">
+                                <div class="panel-heading">지원자 정보</div>
+                                <div class="panel-body">
+                                    <div class="form-group required">
+                                        <label for="application.korName" class="col-sm-2 control-label">한글 이름</label>
                                         <div class="col-sm-9">
-                                            <form:hidden path="application.citzCntrCode" id="citzCntrCode" cssClass="form-control" />
-                                            <input id="citzCntrName" class="form-control" value="${ctznCntr.korCntrName}" readonly="true"/>
+                                            <div class="col-sm-12">
+                                                <form:input path="application.korName" cssClass="form-control" placeholder="한글 이름을 공백 없이 입력해주세요"/>
+                                            </div>
+                                            <spring:bind path="application.korName">
+                                                <c:if test="${status.error}">
+                                                    <div class="col-sm-12">
+                                                        <div class="validation-error">${status.errorMessage}</div>
+                                                    </div>
+                                                </c:if>
+                                            </spring:bind>
                                         </div>
-                                <spring:bind path="application.citzCntrCode">
-                                    <c:if test="${status.error}">
-                                        <div class="col-sm-12">
-                                            <div class="validation-error">${status.errorMessage}</div>
-                                        </div>
-                                    </c:if>
-                                </spring:bind>
                                     </div>
-                                </div>
-                                <div class="form-group required" id="divRgstNo" style="display: <c:choose><c:when test='${basis.application.citzCntrCode == "118"}'>block;</c:when><c:otherwise>none;</c:otherwise></c:choose>">
-                                    <label for="application.rgstNo" class="col-sm-2 control-label">주민등록번호</label>
-                                    <div class="col-sm-9">
-                                        <div class="col-sm-12">
-                                            <form:input path="application.rgstNo" cssClass="form-control numOnly" maxlength="13" placeholder="주민등록번호를 13자리 숫자로 입력해주세요"/>
-                                        </div>
-                                <spring:bind path="application.rgstNo">
-                                    <c:if test="${status.error}">
-                                        <div class="col-sm-12">
-                                            <div class="validation-error">${status.errorMessage}</div>
-                                        </div>
-                                    </c:if>
-                                </spring:bind>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                <c:choose>
-                    <c:when test="${basis.application.admsTypeCode != 'C'}">
-                        <div class="panel panel-darkgray">
-                            <div class="panel-heading">지원자 상세정보</div>
-                            <div class="panel-body">
-
-                                <div class="form-group">
-                                    <label class="col-sm-2 control-label">장애 사항</label>
-                                    <div class="col-sm-9">
-                                        <div class="col-sm-12">
-                                            <div class="input-group">
-                                                <span class="input-group-addon">장애유형</span>
-                                                <form:input path="applicationGeneral.hndcGrad" cssClass="col-sm-6 form-control" />
+                                    <div class="form-group required">
+                                        <label class="col-sm-2 control-label">영문 이름</label>
+                                        <div class="col-sm-9">
+                                            <div class="col-sm-6">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon">&nbsp;성&nbsp;</span>
+                                                    <form:input path="application.engSur" cssClass="form-control engName" />
+                                                </div>
+                                                <spring:bind path="application.engSur">
+                                                    <c:if test="${status.error}">
+                                                        <div>
+                                                            <div class="validation-error">${status.errorMessage}</div>
+                                                        </div>
+                                                    </c:if>
+                                                </spring:bind>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon">이름</span>
+                                                    <form:input path="application.engName" cssClass="form-control engName" />
+                                                </div>
+                                                <spring:bind path="application.engName">
+                                                    <c:if test="${status.error}">
+                                                        <div>
+                                                            <div class="validation-error">${status.errorMessage}</div>
+                                                        </div>
+                                                    </c:if>
+                                                </spring:bind>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="col-sm-offset-2 col-sm-9">
-                                        <div class="col-sm-12">
-                                            <div class="input-group">
-                                                <span class="input-group-addon">장애등급</span>
-                                                <form:input path="applicationGeneral.hndcType" cssClass="col-sm-6 form-control" />
+                                    <div class="form-group required">
+                                        <label for="citzCntrName" class="col-sm-2 control-label">국적</label>
+                                        <div class="col-sm-9">
+                                            <div class="col-sm-3">
+                                                <button type="button" class="btn btn-default btn-search bpopper" data-targetNode1="citzCntrCode" data-targetNode2='citzCntrName' data-category="country">
+                                                    <span class="glyphicon glyphicon-search"></span> 검색
+                                                </button>
                                             </div>
+                                            <div class="col-sm-9">
+                                                <form:hidden path="application.citzCntrCode" id="citzCntrCode" cssClass="form-control" />
+                                                <input id="citzCntrName" class="form-control" value="${ctznCntr.korCntrName}" readonly="true"/>
+                                            </div>
+                                            <spring:bind path="application.citzCntrCode">
+                                                <c:if test="${status.error}">
+                                                    <div class="col-sm-12">
+                                                        <div class="validation-error">${status.errorMessage}</div>
+                                                    </div>
+                                                </c:if>
+                                            </spring:bind>
+                                        </div>
+                                    </div>
+                                    <div class="form-group required" id="divRgstNo" style="display: <c:choose><c:when test='${basis.application.citzCntrCode == "118"}'>block;</c:when><c:otherwise>none;</c:otherwise></c:choose>">
+                                        <label for="application.rgstNo" class="col-sm-2 control-label">주민등록번호</label>
+                                        <div class="col-sm-9">
+                                            <div class="col-sm-12">
+                                                <form:input path="application.rgstNo" cssClass="form-control numOnly" maxlength="13" placeholder="주민등록번호를 13자리 숫자로 입력해주세요"/>
+                                            </div>
+                                            <spring:bind path="application.rgstNo">
+                                                <c:if test="${status.error}">
+                                                    <div class="col-sm-12">
+                                                        <div class="validation-error">${status.errorMessage}</div>
+                                                    </div>
+                                                </c:if>
+                                            </spring:bind>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </c:when>
-                    <c:otherwise> <%-- 외국인 --%>
-                        <div class="panel panel-darkgray">
-                            <div class="panel-heading">지원자 상세정보</div>
-                            <div class="panel-body">
-                                <%--<div class="form-group required">--%>
-                                    <%--<label for="citzCntrName" class="col-sm-2 control-label">출생국</label>--%>
-                                    <%--<div class="col-sm-9">--%>
-                                        <%--<div class="col-sm-3">--%>
-                                            <%--<button type="button" class="btn btn-default btn-search bpopper" data-targetNode1="bornCntrCode" data-targetNode2='bornCntrName' data-category="country">--%>
+
+                            <c:choose>
+                                <c:when test="${basis.application.admsTypeCode != 'C'}">
+                                    <div class="panel panel-darkgray">
+                                        <div class="panel-heading">지원자 상세정보</div>
+                                        <div class="panel-body">
+
+                                            <div class="form-group">
+                                                <label class="col-sm-2 control-label">장애 사항</label>
+                                                <div class="col-sm-9">
+                                                    <div class="col-sm-12">
+                                                        <div class="input-group">
+                                                            <span class="input-group-addon">장애유형</span>
+                                                            <form:input path="applicationGeneral.hndcGrad" cssClass="col-sm-6 form-control" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="col-sm-offset-2 col-sm-9">
+                                                    <div class="col-sm-12">
+                                                        <div class="input-group">
+                                                            <span class="input-group-addon">장애등급</span>
+                                                            <form:input path="applicationGeneral.hndcType" cssClass="col-sm-6 form-control" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </c:when>
+                                <c:otherwise> <%-- 외국인 --%>
+                                    <div class="panel panel-darkgray">
+                                        <div class="panel-heading">지원자 상세정보</div>
+                                        <div class="panel-body">
+                                                <%--<div class="form-group required">--%>
+                                                <%--<label for="citzCntrName" class="col-sm-2 control-label">출생국</label>--%>
+                                                <%--<div class="col-sm-9">--%>
+                                                <%--<div class="col-sm-3">--%>
+                                                <%--<button type="button" class="btn btn-default btn-search bpopper" data-targetNode1="bornCntrCode" data-targetNode2='bornCntrName' data-category="country">--%>
                                                 <%--<span class="glyphicon glyphicon-search"></span> 검색--%>
-                                            <%--</button>--%>
-                                        <%--</div>--%>
-                                        <%--<div class="col-sm-9">--%>
-                                            <%--<form:hidden path="applicationForeigner.bornCntrCode" id="bornCntrCode" cssClass="form-control" />--%>
-                                            <%--<input id="bornCntrName" class="form-control" value="${bornCntr.korCntrName}" readonly="true"/>--%>
-                                        <%--</div>--%>
-                                        <%--<spring:bind path="applicationForeigner.bornCntrCode">--%>
-                                            <%--<c:if test="${status.error}">--%>
-                                                <%--<div class="col-sm-12">--%>
-                                                    <%--<div class="validation-error">${status.errorMessage}</div>--%>
+                                                <%--</button>--%>
                                                 <%--</div>--%>
-                                            <%--</c:if>--%>
-                                        <%--</spring:bind>--%>
-                                    <%--</div>--%>
-                                <%--</div>--%>
-                                <div class="form-group required">
-                                    <label class="col-sm-2 control-label">외국인 구분</label>
-                                    <div class="col-sm-9">
-                                        <div class="col-sm-4">
-                                            <form:select path="application.fornTypeCode" id="fornTypeCode" cssClass="form-control">
-                                                <form:option value="" label="--선택--" />
-                                                <form:options items="${foreign.foreignTypeList}" itemValue="code" itemLabel="codeVal" />
-                                            </form:select>
-                                        </div>
-                                        <div class="col-sm-8">&nbsp;</div>
-                                        <spring:bind path="application.fornTypeCode">
-                                            <c:if test="${status.error}">
-                                                <div class="col-sm-12">
-                                                    <div class="validation-error">${status.errorMessage}</div>
+                                                <%--<div class="col-sm-9">--%>
+                                                <%--<form:hidden path="applicationForeigner.bornCntrCode" id="bornCntrCode" cssClass="form-control" />--%>
+                                                <%--<input id="bornCntrName" class="form-control" value="${bornCntr.korCntrName}" readonly="true"/>--%>
+                                                <%--</div>--%>
+                                                <%--<spring:bind path="applicationForeigner.bornCntrCode">--%>
+                                                <%--<c:if test="${status.error}">--%>
+                                                <%--<div class="col-sm-12">--%>
+                                                <%--<div class="validation-error">${status.errorMessage}</div>--%>
+                                                <%--</div>--%>
+                                                <%--</c:if>--%>
+                                                <%--</spring:bind>--%>
+                                                <%--</div>--%>
+                                                <%--</div>--%>
+                                            <div class="form-group required">
+                                                <label class="col-sm-2 control-label">외국인 구분</label>
+                                                <div class="col-sm-9">
+                                                    <div class="col-sm-4">
+                                                        <form:select path="application.fornTypeCode" id="fornTypeCode" cssClass="form-control">
+                                                            <form:option value="" label="--선택--" />
+                                                            <form:options items="${foreign.foreignTypeList}" itemValue="code" itemLabel="codeVal" />
+                                                        </form:select>
+                                                    </div>
+                                                    <div class="col-sm-8">&nbsp;</div>
+                                                    <spring:bind path="application.fornTypeCode">
+                                                        <c:if test="${status.error}">
+                                                            <div class="col-sm-12">
+                                                                <div class="validation-error">${status.errorMessage}</div>
+                                                            </div>
+                                                        </c:if>
+                                                    </spring:bind>
                                                 </div>
-                                            </c:if>
-                                        </spring:bind>
-                                    </div>
-                                </div>
-                                <div class="form-group required">
-                                    <label class="col-sm-2 control-label">본국 주소</label>
-                                    <div class="col-sm-9">
-                                        <div class="col-sm-12">
-                                            <form:input path="applicationForeigner.homeAddr" cssClass="form-control" placeholder="본국 주소를 입력해 주세요."/>
-                                        </div>
-                                        <spring:bind path="applicationForeigner.homeAddr">
-                                            <c:if test="${status.error}">
-                                                <div class="col-sm-12">
-                                                    <div class="validation-error">${status.errorMessage}</div>
+                                            </div>
+                                            <div class="form-group required">
+                                                <label class="col-sm-2 control-label">본국 주소</label>
+                                                <div class="col-sm-9">
+                                                    <div class="col-sm-12">
+                                                        <form:input path="applicationForeigner.homeAddr" cssClass="form-control" placeholder="본국 주소를 입력해 주세요."/>
+                                                    </div>
+                                                    <spring:bind path="applicationForeigner.homeAddr">
+                                                        <c:if test="${status.error}">
+                                                            <div class="col-sm-12">
+                                                                <div class="validation-error">${status.errorMessage}</div>
+                                                            </div>
+                                                        </c:if>
+                                                    </spring:bind>
                                                 </div>
-                                            </c:if>
-                                        </spring:bind>
-                                    </div>
-                                </div>
-                                <div class="form-group required">
-                                    <label class="col-sm-2 control-label">본국 연락처</label>
-                                    <div class="col-sm-9">
-                                        <div class="col-sm-12">
-                                            <form:input path="applicationForeigner.homeTel" cssClass="form-control" placeholder="본국 연락처를 입력해 주세요."/>
-                                        </div>
-                                        <spring:bind path="applicationForeigner.homeTel">
-                                            <c:if test="${status.error}">
-                                                <div class="col-sm-12">
-                                                    <div class="validation-error">${status.errorMessage}</div>
+                                            </div>
+                                            <div class="form-group required">
+                                                <label class="col-sm-2 control-label">본국 연락처</label>
+                                                <div class="col-sm-9">
+                                                    <div class="col-sm-12">
+                                                        <form:input path="applicationForeigner.homeTel" cssClass="form-control" placeholder="본국 연락처를 입력해 주세요."/>
+                                                    </div>
+                                                    <spring:bind path="applicationForeigner.homeTel">
+                                                        <c:if test="${status.error}">
+                                                            <div class="col-sm-12">
+                                                                <div class="validation-error">${status.errorMessage}</div>
+                                                            </div>
+                                                        </c:if>
+                                                    </spring:bind>
                                                 </div>
-                                            </c:if>
-                                        </spring:bind>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                            </div>
-                        </div>
-                    </c:otherwise>
-                </c:choose>
+                                </c:otherwise>
+                            </c:choose>
 
 
-                    <%--<c:if test="${basis.application.admsTypeCode == 'C'}">--%>
-                        <div class="panel panel-darkgray" id="stayInfo" style="display: ${basis.application.citzCntrCode == '118' ? 'none;' : 'block;'}">
-                            <div class="panel-heading">체류 정보</div>
-                            <div class="panel-body">
-                                <div class="form-group required">
-                                    <label for="applicationForeigner.paspNo" class="col-sm-2 control-label">여권 번호</label>
-                                    <div class="col-sm-9">
-                                        <div class="col-sm-12">
-                                            <form:input path="applicationForeigner.paspNo" cssClass="form-control" placeholder="여권 번호를 입력해주세요"/>
-                                        </div>
-                                        <spring:bind path="applicationForeigner.paspNo">
-                                            <c:if test="${status.error}">
-                                                <div class="col-sm-12">
-                                                    <div class="validation-error">${status.errorMessage}</div>
-                                                </div>
-                                            </c:if>
-                                        </spring:bind>
-                                    </div>
-                                </div>
-                                <div class="form-group required">
-                                    <label class="col-sm-2 control-label">비자</label>
-                                    <div class="col-sm-9">
-                                        <div class="col-sm-6">
-                                            <div class="input-group">
-                                                <span class="input-group-addon">&nbsp;번호&nbsp;</span>
-                                                <form:input path="applicationForeigner.visaNo" cssClass="form-control" />
-                                            </div>
-                                            <spring:bind path="applicationForeigner.visaNo">
-                                                <c:if test="${status.error}">
-                                                    <div>
-                                                        <div class="validation-error">${status.errorMessage}</div>
-                                                    </div>
-                                                </c:if>
-                                            </spring:bind>
-                                        </div>
-                                        <div class="col-sm-6 start-date-container">
-                                            <div class="input-group date">
-                                                <span class="input-group-addon">만료일</span>
-                                                <input id="applicationForeigner.visaExprDay" name="applicationForeigner.visaExprDay"
-                                                       class="form-control" readonly="true" value="${basis.applicationForeigner.visaExprDay}"
-                                                       <c:if test="${basis.applicationForeigner.visaTypeCode == '00999'}">disabled</c:if> />
-                                                <span class="input-group-addon calendar-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-                                            </div>
-                                            <spring:bind path="applicationForeigner.visaExprDay">
-                                                <c:if test="${status.error}">
-                                                    <div class="validation-error validation-container">
-                                                            ${status.errorMessage}
-                                                    </div>
-                                                </c:if>
-                                            </spring:bind>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="col-sm-offset-2 col-sm-9">
-                                        <div class="col-sm-6">
-                                            <div class="input-group">
-                                                <span class="input-group-addon">&nbsp;종류&nbsp;</span>
-                                                <form:select path="applicationForeigner.visaTypeCode" cssClass="form-control">
-                                                    <form:option value="" label="--선택--" />
-                                                    <form:options items="${foreign.visaTypeList}" itemValue="code" itemLabel="codeVal" />
-                                                </form:select>
-                                            </div>
-                                    <spring:bind path="applicationForeigner.visaTypeCode">
-                                        <c:if test="${status.error}">
-                                            <div>
-                                                <div class="validation-error">${status.errorMessage}</div>
-                                            </div>
-                                        </c:if>
-                                    </spring:bind>
-                                        </div>
-                                        <div class="col-sm-6">
-                                            <div class="input-group" id="tmpVisaTypeCode" style="display: <c:choose><c:when test="${basis.applicationForeigner.visaTypeCode == '00099'}">block;</c:when><c:otherwise>none;</c:otherwise></c:choose>">
-                                                <form:input path="applicationForeigner.visaTypeEtc" cssClass="form-control" placeholder="예) D-2, D-4" />
-                                            </div>
-                                            <spring:bind path="applicationForeigner.visaTypeEtc">
-                                                <c:if test="${status.error}">
-                                                    <div>
-                                                        <div class="validation-error">${status.errorMessage}</div>
-                                                    </div>
-                                                </c:if>
-                                            </spring:bind>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group required">
-                                    <label for="applicationForeigner.fornRgstNo" class="col-sm-2 control-label">외국인등록번호</label>
-                                    <div class="col-sm-9">
-                                        <div class="col-sm-12">
-                                            <input id="applicationForeigner.fornRgstNo" name="applicationForeigner.fornRgstNo" class="form-control numOnly"
-                                                        maxlength="13" placeholder="외국인등록번호를 13자리 숫자로 입력해주세요"
-                                                        value="${basis.applicationForeigner.fornRgstNo}"
-                                                        <c:if test="${basis.applicationForeigner.visaTypeCode == '00999'}">disabled</c:if> />
-                                        </div>
-                                        <spring:bind path="applicationForeigner.fornRgstNo">
-                                            <c:if test="${status.error}">
-                                                <div class="col-sm-12">
-                                                    <div class="validation-error">${status.errorMessage}</div>
-                                                </div>
-                                            </c:if>
-                                        </spring:bind>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    <%--</c:if>--%>
-
-                        <div class="panel panel-darkgray">
-                            <div class="panel-heading">지원자 연락처</div>
-                            <div class="panel-body">
-                                <div class="form-group required">
-                                    <label class="col-sm-2 control-label">주소</label>
-                                    <div class="col-sm-9">
-                                        <div class="col-sm-3">
-                                            <button type="button" class="btn btn-default btn-block btn-search" id="searchAddress">
-                                                <span class="glyphicon glyphicon-search"></span> 우편번호 찾기
-                                            </button>
-                                        </div>
+                                <%--<c:if test="${basis.application.admsTypeCode == 'C'}">--%>
+                            <div class="panel panel-darkgray" id="stayInfo" style="display: ${basis.application.admsTypeCode != 'C' ? 'none;' : basis.application.citzCntrCode != '118' ? 'block;' : 'none;' }">
+                                <div class="panel-heading">체류 정보</div>
+                                <div class="panel-body">
+                                    <div class="form-group required">
+                                        <label for="applicationForeigner.paspNo" class="col-sm-2 control-label">여권 번호</label>
                                         <div class="col-sm-9">
-                                            <div class="input-group">
-                                                <form:input path="application.zipCode" cssClass="form-control" id="zipCode" readonly="true"/>
+                                            <div class="col-sm-12">
+                                                <form:input path="applicationForeigner.paspNo" cssClass="form-control" placeholder="여권 번호를 입력해주세요"/>
                                             </div>
+                                            <spring:bind path="applicationForeigner.paspNo">
+                                                <c:if test="${status.error}">
+                                                    <div class="col-sm-12">
+                                                        <div class="validation-error">${status.errorMessage}</div>
+                                                    </div>
+                                                </c:if>
+                                            </spring:bind>
                                         </div>
-                                <spring:bind path="application.zipCode">
-                                    <c:if test="${status.error}">
-                                        <div class="col-sm-12">
-                                            <div class="validation-error">${status.errorMessage}</div>
-                                        </div>
-                                    </c:if>
-                                </spring:bind>
                                     </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="col-sm-2"></div>
-                                    <div class="col-sm-9">
-                                        <div class="col-sm-6">
-                                            <form:input path="application.addr" cssClass="form-control" id="address" readonly="true" />
-                                        </div>
-                                        <div class="col-sm-6">
-                                            <form:input path="application.detlAddr" cssClass="form-control" id="addressDetail" placeholder="세부주소" />
-                                        </div>
-                                <spring:bind path="application.addr">
-                                    <c:if test="${status.error}">
-                                        <div class="col-sm-12">
-                                            <div class="validation-error">${status.errorMessage}</div>
-                                        </div>
-                                    </c:if>
-                                </spring:bind>
-                                    </div>
-                                </div>
-                                <div class="form-group required">
-                                    <label for="application.telNum" class="col-sm-2 control-label">전화번호</label>
-                                    <div class="col-sm-9">
-                                        <div class="col-sm-12">
-                                            <form:input path="application.telNum" cssClass="form-control numOnly" maxlength="20" placeholder="전화번호를 '-'와 숫자로만 입력해주세요"/>
-                                        </div>
-                                <spring:bind path="application.telNum">
-                                    <c:if test="${status.error}">
-                                        <div class="col-sm-12">
-                                            <div class="validation-error">${status.errorMessage}</div>
-                                        </div>
-                                    </c:if>
-                                </spring:bind>
-                                    </div>
-                                </div>
-                                <div class="form-group required">
-                                    <label for="application.mobiNum" class="col-sm-2 control-label">휴대폰</label>
-                                    <div class="col-sm-9">
-                                        <div class="col-sm-12">
-                                            <form:input path="application.mobiNum" cssClass="form-control numOnly" maxlength="20" placeholder="휴대폰번호를 '-'와 숫자로만 입력해주세요"/>
-                                        </div>
-                                <spring:bind path="application.mobiNum">
-                                    <c:if test="${status.error}">
-                                        <div class="col-sm-12">
-                                            <div class="validation-error">${status.errorMessage}</div>
-                                        </div>
-                                    </c:if>
-                                </spring:bind>
-                                    </div>
-                                </div>
-                                <div class="form-group required">
-                                    <label for="application.mailAddr" class="col-sm-2 control-label">E-mail</label>
-                                    <div class="col-sm-9">
-                                        <div class="col-sm-12">
-                                            <form:input path="application.mailAddr" type="email" cssClass="form-control emailOnly" placeholder="이메일 주소를 입력해주세요"/>
-                                        </div>
-                                <spring:bind path="application.mailAddr">
-                                    <c:if test="${status.error}">
-                                        <div class="col-sm-12">
-                                            <div class="validation-error">${status.errorMessage}</div>
-                                        </div>
-                                    </c:if>
-                                </spring:bind>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                <c:choose>
-                    <c:when test="${basis.application.admsTypeCode != 'C'}">
-                        <div class="panel panel-darkgray">
-                            <div class="panel-heading">비상연락처</div>
-                            <div class="panel-body">
-                                <div class="form-group required">
-                                    <label for="applicationGeneral.emerContName" class="col-sm-2 control-label">이름</label>
-                                    <div class="col-sm-9">
-                                        <div class="col-sm-12">
-                                            <form:input path="applicationGeneral.emerContName" cssClass="form-control" />
-                                        </div>
-                                <spring:bind path="applicationGeneral.emerContName">
-                                    <c:if test="${status.error}">
-                                        <div class="col-sm-12">
-                                            <div class="validation-error">${status.errorMessage}</div>
-                                        </div>
-                                    </c:if>
-                                </spring:bind>
-                                    </div>
-                                </div>
-                                <div class="form-group required">
-                                    <label for="applicationGeneral.emerContCode" class="col-sm-2 control-label">관계</label>
-                                    <div class="col-sm-9">
-                                        <div class="col-sm-12">
-                                            <form:select path="applicationGeneral.emerContCode" cssClass="form-control">
-                                                <form:option value="" label="--선택--" />
-                                                <form:options items="${selection.emerContList}" itemValue="code" itemLabel="codeVal" />
-                                            </form:select>
-                                        </div>
-                                <spring:bind path="applicationGeneral.emerContCode">
-                                    <c:if test="${status.error}">
-                                        <div class="col-sm-12">
-                                            <div class="validation-error">${status.errorMessage}</div>
-                                        </div>
-                                    </c:if>
-                                </spring:bind>
-                                    </div>
-                                </div>
-                                <div class="form-group required">
-                                    <label for="applicationGeneral.emerContTel" class="col-sm-2 control-label">전화번호</label>
-                                    <div class="col-sm-9">
-                                        <div class="col-sm-12">
-                                            <form:input path="applicationGeneral.emerContTel" cssClass="form-control numOnly" maxlength="20" placeholder="전화번호를 '-'와 숫자로만 입력해주세요"/>
-                                        </div>
-                                <spring:bind path="applicationGeneral.emerContTel">
-                                    <c:if test="${status.error}">
-                                        <div class="col-sm-12">
-                                            <div class="validation-error">${status.errorMessage}</div>
-                                        </div>
-                                    </c:if>
-                                </spring:bind>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </c:when>
-                    <c:otherwise> <%-- 외국인 전형 --%>
-                        <div class="panel panel-darkgray">
-                            <div class="panel-heading">비상연락처</div>
-                            <div class="panel-body">
-                                <div class="panel panel-darkgray1">
-                                    <div class="panel-heading">국내</div>
-                                    <div class="panel-body">
-                                        <div class="form-group required">
-                                            <label for="applicationForeigner.korEmrgName" class="col-sm-2 control-label">이름</label>
-                                            <div class="col-sm-9">
-                                                <div class="col-sm-12">
-                                                    <form:input path="applicationForeigner.korEmrgName" cssClass="form-control" />
+                                    <div class="form-group required">
+                                        <label class="col-sm-2 control-label">비자</label>
+                                        <div class="col-sm-9">
+                                            <div class="col-sm-6">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon">&nbsp;번호&nbsp;</span>
+                                                    <form:input path="applicationForeigner.visaNo" cssClass="form-control" />
                                                 </div>
-                                                <spring:bind path="applicationForeigner.korEmrgName">
+                                                <spring:bind path="applicationForeigner.visaNo">
                                                     <c:if test="${status.error}">
-                                                        <div class="col-sm-12">
+                                                        <div>
                                                             <div class="validation-error">${status.errorMessage}</div>
                                                         </div>
                                                     </c:if>
                                                 </spring:bind>
                                             </div>
+                                            <div class="col-sm-6 start-date-container">
+                                                <div class="input-group date">
+                                                    <span class="input-group-addon">만료일</span>
+                                                    <input id="applicationForeigner.visaExprDay" name="applicationForeigner.visaExprDay"
+                                                           class="form-control" readonly="true" value="${basis.applicationForeigner.visaExprDay}"
+                                                           <c:if test="${basis.applicationForeigner.visaTypeCode == '00999'}">disabled</c:if> />
+                                                    <span class="input-group-addon calendar-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                                </div>
+                                                <spring:bind path="applicationForeigner.visaExprDay">
+                                                    <c:if test="${status.error}">
+                                                        <div class="validation-error validation-container">
+                                                                ${status.errorMessage}
+                                                        </div>
+                                                    </c:if>
+                                                </spring:bind>
+                                            </div>
                                         </div>
-                                        <div class="form-group">
-                                            <label for="applicationForeigner.korEmrgRela" class="col-sm-2 control-label">관계</label>
-                                            <div class="col-sm-9">
-                                                <div class="col-sm-12">
-                                                    <form:select path="applicationForeigner.korEmrgRela" cssClass="form-control">
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-sm-offset-2 col-sm-9">
+                                            <div class="col-sm-6">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon">&nbsp;종류&nbsp;</span>
+                                                    <form:select path="applicationForeigner.visaTypeCode" cssClass="form-control">
                                                         <form:option value="" label="--선택--" />
-                                                        <form:options items="${selection.emerContList}" itemValue="code" itemLabel="codeVal" />
+                                                        <form:options items="${foreign.visaTypeList}" itemValue="code" itemLabel="codeVal" />
                                                     </form:select>
                                                 </div>
-                                            </div>
-                                        </div>
-                                        <div class="form-group required">
-                                            <label for="applicationForeigner.korEmrgTel" class="col-sm-2 control-label">전화번호</label>
-                                            <div class="col-sm-9">
-                                                <div class="col-sm-12">
-                                                    <form:input path="applicationForeigner.korEmrgTel" cssClass="form-control numOnly" maxlength="20" placeholder="전화번호를 '-'와 숫자로만 입력해주세요"/>
-                                                </div>
-                                                <spring:bind path="applicationForeigner.korEmrgTel">
+                                                <spring:bind path="applicationForeigner.visaTypeCode">
                                                     <c:if test="${status.error}">
-                                                        <div class="col-sm-12">
+                                                        <div>
+                                                            <div class="validation-error">${status.errorMessage}</div>
+                                                        </div>
+                                                    </c:if>
+                                                </spring:bind>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <div class="input-group" id="tmpVisaTypeCode" style="display: <c:choose><c:when test="${basis.applicationForeigner.visaTypeCode == '00099'}">block;</c:when><c:otherwise>none;</c:otherwise></c:choose>">
+                                                    <form:input path="applicationForeigner.visaTypeEtc" cssClass="form-control" placeholder="예) D-2, D-4" />
+                                                </div>
+                                                <spring:bind path="applicationForeigner.visaTypeEtc">
+                                                    <c:if test="${status.error}">
+                                                        <div>
                                                             <div class="validation-error">${status.errorMessage}</div>
                                                         </div>
                                                     </c:if>
@@ -918,84 +701,277 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="panel panel-darkgray1">
-                                    <div class="panel-heading">본국</div>
-                                    <div class="panel-body">
-                                        <div class="form-group required">
-                                            <label for="applicationForeigner.homeEmrgName" class="col-sm-2 control-label">이름</label>
-                                            <div class="col-sm-9">
-                                                <div class="col-sm-12">
-                                                    <form:input path="applicationForeigner.homeEmrgName" cssClass="form-control" />
-                                                </div>
-                                                <spring:bind path="applicationForeigner.homeEmrgName">
-                                                    <c:if test="${status.error}">
-                                                        <div class="col-sm-12">
-                                                            <div class="validation-error">${status.errorMessage}</div>
-                                                        </div>
-                                                    </c:if>
-                                                </spring:bind>
+                                    <div class="form-group required">
+                                        <label for="applicationForeigner.fornRgstNo" class="col-sm-2 control-label">외국인등록번호</label>
+                                        <div class="col-sm-9">
+                                            <div class="col-sm-12">
+                                                <input id="applicationForeigner.fornRgstNo" name="applicationForeigner.fornRgstNo" class="form-control numOnly"
+                                                       maxlength="13" placeholder="외국인등록번호를 13자리 숫자로 입력해주세요"
+                                                       value="${basis.applicationForeigner.fornRgstNo}"
+                                                       <c:if test="${basis.applicationForeigner.visaTypeCode == '00999'}">disabled</c:if> />
                                             </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="applicationForeigner.homeEmrgRela" class="col-sm-2 control-label">관계</label>
-                                            <div class="col-sm-9">
-                                                <div class="col-sm-12">
-                                                    <form:select path="applicationForeigner.homeEmrgRela" cssClass="form-control">
-                                                        <form:option value="" label="--선택--" />
-                                                        <form:options items="${selection.emerContList}" itemValue="code" itemLabel="codeVal" />
-                                                    </form:select>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="form-group required">
-                                            <label for="applicationForeigner.homeEmrgTel" class="col-sm-2 control-label">전화번호</label>
-                                            <div class="col-sm-9">
-                                                <div class="col-sm-12">
-                                                    <form:input path="applicationForeigner.homeEmrgTel" cssClass="form-control numOnly" maxlength="20" placeholder="전화번호를 '-'와 숫자로만 입력해주세요"/>
-                                                </div>
-                                                <spring:bind path="applicationForeigner.homeEmrgTel">
-                                                    <c:if test="${status.error}">
-                                                        <div class="col-sm-12">
-                                                            <div class="validation-error">${status.errorMessage}</div>
-                                                        </div>
-                                                    </c:if>
-                                                </spring:bind>
-                                            </div>
+                                            <spring:bind path="applicationForeigner.fornRgstNo">
+                                                <c:if test="${status.error}">
+                                                    <div class="col-sm-12">
+                                                        <div class="validation-error">${status.errorMessage}</div>
+                                                    </div>
+                                                </c:if>
+                                            </spring:bind>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </c:otherwise>
-                </c:choose>
+                                <%--</c:if>--%>
 
-                        <%--<div class="panel panel-default" id="currentCompany" hidden>--%>
-                            <%--<div class="panel-heading">현재 근무처</div>--%>
-                            <%--<div class="panel-body">--%>
-                                <%--<div class="form-group">--%>
-                                    <%--<label for="applicationGeneral.currWrkpName" class="col-sm-2 control-label">회사 이름</label>--%>
-                                    <%--<div class="col-sm-9">--%>
-                                        <%--<form:input path="applicationGeneral.currWrkpName" cssClass="form-control" />--%>
-                                    <%--</div>--%>
-                                <%--</div>--%>
-                                <%--<div class="form-group">--%>
-                                    <%--<label path="applicationGeneral.currWrkpDay" cssClass="col-sm-2 control-label">입사 일자</label>--%>
-                                    <%--<div class="col-sm-9">--%>
-                                        <%--<div class="input-group date">--%>
-                                            <%--<form:input path="applicationGeneral.currWrkpDay" cssClass="col-sm-6 form-control" readonly="true" />--%>
-                                            <%--<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>--%>
-                                        <%--</div>--%>
-                                    <%--</div>--%>
-                                <%--</div>--%>
-                                <%--<div class="form-group">--%>
-                                    <%--<label for="applicationGeneral.currWrkpTel" class="col-sm-2 control-label">연락처</label>--%>
-                                    <%--<div class="col-sm-9">--%>
-                                        <%--<form:input path="applicationGeneral.currWrkpTel" cssClass="form-control numOnly" maxlength="20" placeholder="연락처를 '-'와 숫자로만 입력해주세요"/>--%>
-                                    <%--</div>--%>
-                                <%--</div>--%>
-                            <%--</div>--%>
-                        <%--</div>&lt;%&ndash;panel&ndash;%&gt;--%>
+                            <div class="panel panel-darkgray">
+                                <div class="panel-heading">지원자 연락처</div>
+                                <div class="panel-body">
+                                    <div class="form-group required">
+                                        <label class="col-sm-2 control-label">주소</label>
+                                        <div class="col-sm-9">
+                                            <div class="col-sm-3">
+                                                <button type="button" class="btn btn-default btn-block btn-search" id="searchAddress">
+                                                    <span class="glyphicon glyphicon-search"></span> 우편번호 찾기
+                                                </button>
+                                            </div>
+                                            <div class="col-sm-9">
+                                                <div class="input-group">
+                                                    <form:input path="application.zipCode" cssClass="form-control" id="zipCode" readonly="true"/>
+                                                </div>
+                                            </div>
+                                            <spring:bind path="application.zipCode">
+                                                <c:if test="${status.error}">
+                                                    <div class="col-sm-12">
+                                                        <div class="validation-error">${status.errorMessage}</div>
+                                                    </div>
+                                                </c:if>
+                                            </spring:bind>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-sm-2"></div>
+                                        <div class="col-sm-9">
+                                            <div class="col-sm-6">
+                                                <form:input path="application.addr" cssClass="form-control" id="address" readonly="true" />
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <form:input path="application.detlAddr" cssClass="form-control" id="addressDetail" placeholder="세부주소" />
+                                            </div>
+                                            <spring:bind path="application.addr">
+                                                <c:if test="${status.error}">
+                                                    <div class="col-sm-12">
+                                                        <div class="validation-error">${status.errorMessage}</div>
+                                                    </div>
+                                                </c:if>
+                                            </spring:bind>
+                                        </div>
+                                    </div>
+                                    <div class="form-group required">
+                                        <label for="application.telNum" class="col-sm-2 control-label">전화번호</label>
+                                        <div class="col-sm-9">
+                                            <div class="col-sm-12">
+                                                <form:input path="application.telNum" cssClass="form-control numOnly" maxlength="20" placeholder="전화번호를 '-'와 숫자로만 입력해주세요"/>
+                                            </div>
+                                            <spring:bind path="application.telNum">
+                                                <c:if test="${status.error}">
+                                                    <div class="col-sm-12">
+                                                        <div class="validation-error">${status.errorMessage}</div>
+                                                    </div>
+                                                </c:if>
+                                            </spring:bind>
+                                        </div>
+                                    </div>
+                                    <div class="form-group required">
+                                        <label for="application.mobiNum" class="col-sm-2 control-label">휴대폰</label>
+                                        <div class="col-sm-9">
+                                            <div class="col-sm-12">
+                                                <form:input path="application.mobiNum" cssClass="form-control numOnly" maxlength="20" placeholder="휴대폰번호를 '-'와 숫자로만 입력해주세요"/>
+                                            </div>
+                                            <spring:bind path="application.mobiNum">
+                                                <c:if test="${status.error}">
+                                                    <div class="col-sm-12">
+                                                        <div class="validation-error">${status.errorMessage}</div>
+                                                    </div>
+                                                </c:if>
+                                            </spring:bind>
+                                        </div>
+                                    </div>
+                                    <div class="form-group required">
+                                        <label for="application.mailAddr" class="col-sm-2 control-label">E-mail</label>
+                                        <div class="col-sm-9">
+                                            <div class="col-sm-12">
+                                                <form:input path="application.mailAddr" type="email" cssClass="form-control emailOnly" placeholder="이메일 주소를 입력해주세요"/>
+                                            </div>
+                                            <spring:bind path="application.mailAddr">
+                                                <c:if test="${status.error}">
+                                                    <div class="col-sm-12">
+                                                        <div class="validation-error">${status.errorMessage}</div>
+                                                    </div>
+                                                </c:if>
+                                            </spring:bind>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <c:choose>
+                                <c:when test="${basis.application.admsTypeCode != 'C'}">
+                                    <div class="panel panel-darkgray">
+                                        <div class="panel-heading">비상연락처</div>
+                                        <div class="panel-body">
+                                            <div class="form-group required">
+                                                <label for="applicationGeneral.emerContName" class="col-sm-2 control-label">이름</label>
+                                                <div class="col-sm-9">
+                                                    <div class="col-sm-12">
+                                                        <form:input path="applicationGeneral.emerContName" cssClass="form-control" />
+                                                    </div>
+                                                    <spring:bind path="applicationGeneral.emerContName">
+                                                        <c:if test="${status.error}">
+                                                            <div class="col-sm-12">
+                                                                <div class="validation-error">${status.errorMessage}</div>
+                                                            </div>
+                                                        </c:if>
+                                                    </spring:bind>
+                                                </div>
+                                            </div>
+                                            <div class="form-group required">
+                                                <label for="applicationGeneral.emerContCode" class="col-sm-2 control-label">관계</label>
+                                                <div class="col-sm-9">
+                                                    <div class="col-sm-12">
+                                                        <form:select path="applicationGeneral.emerContCode" cssClass="form-control">
+                                                            <form:option value="" label="--선택--" />
+                                                            <form:options items="${selection.emerContList}" itemValue="code" itemLabel="codeVal" />
+                                                        </form:select>
+                                                    </div>
+                                                    <spring:bind path="applicationGeneral.emerContCode">
+                                                        <c:if test="${status.error}">
+                                                            <div class="col-sm-12">
+                                                                <div class="validation-error">${status.errorMessage}</div>
+                                                            </div>
+                                                        </c:if>
+                                                    </spring:bind>
+                                                </div>
+                                            </div>
+                                            <div class="form-group required">
+                                                <label for="applicationGeneral.emerContTel" class="col-sm-2 control-label">전화번호</label>
+                                                <div class="col-sm-9">
+                                                    <div class="col-sm-12">
+                                                        <form:input path="applicationGeneral.emerContTel" cssClass="form-control numOnly" maxlength="20" placeholder="전화번호를 '-'와 숫자로만 입력해주세요"/>
+                                                    </div>
+                                                    <spring:bind path="applicationGeneral.emerContTel">
+                                                        <c:if test="${status.error}">
+                                                            <div class="col-sm-12">
+                                                                <div class="validation-error">${status.errorMessage}</div>
+                                                            </div>
+                                                        </c:if>
+                                                    </spring:bind>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </c:when>
+                                <c:otherwise> <%-- 외국인 전형 --%>
+                                    <div class="panel panel-darkgray">
+                                        <div class="panel-heading">비상연락처</div>
+                                        <div class="panel-body">
+                                            <div class="panel panel-darkgray1">
+                                                <div class="panel-heading">국내</div>
+                                                <div class="panel-body">
+                                                    <div class="form-group required">
+                                                        <label for="applicationForeigner.korEmrgName" class="col-sm-2 control-label">이름</label>
+                                                        <div class="col-sm-9">
+                                                            <div class="col-sm-12">
+                                                                <form:input path="applicationForeigner.korEmrgName" cssClass="form-control" />
+                                                            </div>
+                                                            <spring:bind path="applicationForeigner.korEmrgName">
+                                                                <c:if test="${status.error}">
+                                                                    <div class="col-sm-12">
+                                                                        <div class="validation-error">${status.errorMessage}</div>
+                                                                    </div>
+                                                                </c:if>
+                                                            </spring:bind>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="applicationForeigner.korEmrgRela" class="col-sm-2 control-label">관계</label>
+                                                        <div class="col-sm-9">
+                                                            <div class="col-sm-12">
+                                                                <form:select path="applicationForeigner.korEmrgRela" cssClass="form-control">
+                                                                    <form:option value="" label="--선택--" />
+                                                                    <form:options items="${selection.emerContList}" itemValue="code" itemLabel="codeVal" />
+                                                                </form:select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group required">
+                                                        <label for="applicationForeigner.korEmrgTel" class="col-sm-2 control-label">전화번호</label>
+                                                        <div class="col-sm-9">
+                                                            <div class="col-sm-12">
+                                                                <form:input path="applicationForeigner.korEmrgTel" cssClass="form-control numOnly" maxlength="20" placeholder="전화번호를 '-'와 숫자로만 입력해주세요"/>
+                                                            </div>
+                                                            <spring:bind path="applicationForeigner.korEmrgTel">
+                                                                <c:if test="${status.error}">
+                                                                    <div class="col-sm-12">
+                                                                        <div class="validation-error">${status.errorMessage}</div>
+                                                                    </div>
+                                                                </c:if>
+                                                            </spring:bind>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="panel panel-darkgray1">
+                                                <div class="panel-heading">본국</div>
+                                                <div class="panel-body">
+                                                    <div class="form-group required">
+                                                        <label for="applicationForeigner.homeEmrgName" class="col-sm-2 control-label">이름</label>
+                                                        <div class="col-sm-9">
+                                                            <div class="col-sm-12">
+                                                                <form:input path="applicationForeigner.homeEmrgName" cssClass="form-control" />
+                                                            </div>
+                                                            <spring:bind path="applicationForeigner.homeEmrgName">
+                                                                <c:if test="${status.error}">
+                                                                    <div class="col-sm-12">
+                                                                        <div class="validation-error">${status.errorMessage}</div>
+                                                                    </div>
+                                                                </c:if>
+                                                            </spring:bind>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="applicationForeigner.homeEmrgRela" class="col-sm-2 control-label">관계</label>
+                                                        <div class="col-sm-9">
+                                                            <div class="col-sm-12">
+                                                                <form:select path="applicationForeigner.homeEmrgRela" cssClass="form-control">
+                                                                    <form:option value="" label="--선택--" />
+                                                                    <form:options items="${selection.emerContList}" itemValue="code" itemLabel="codeVal" />
+                                                                </form:select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group required">
+                                                        <label for="applicationForeigner.homeEmrgTel" class="col-sm-2 control-label">전화번호</label>
+                                                        <div class="col-sm-9">
+                                                            <div class="col-sm-12">
+                                                                <form:input path="applicationForeigner.homeEmrgTel" cssClass="form-control numOnly" maxlength="20" placeholder="전화번호를 '-'와 숫자로만 입력해주세요"/>
+                                                            </div>
+                                                            <spring:bind path="applicationForeigner.homeEmrgTel">
+                                                                <c:if test="${status.error}">
+                                                                    <div class="col-sm-12">
+                                                                        <div class="validation-error">${status.errorMessage}</div>
+                                                                    </div>
+                                                                </c:if>
+                                                            </spring:bind>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </c:otherwise>
+                            </c:choose>
+                        </div>
+
                     </div>
                 </div><%--row--%>
                 <div class="btn-group btn-group-justified">
@@ -1110,14 +1086,43 @@
 
         <%-- 지원 사항 저장 버튼 처리 --%>
         var baseInfoSaved = function() {
-            $('.base-info>option').filter( function() {
-                return !this.selected;
-            }).each( function() {
-                $(this).prop('disabled', true);
+            var applAttrCode = document.getElementById('applAttrCode'),
+                $targetGroup,
+                isValid = true;
+
+            if (applAttrCode.value == null || applAttrCode.value == '') {
+                alert('지원 구분을 선택해 주십시오.');
+                applAttrCode.focus();
+                isValid = false;
+                return false;
+            }
+
+            if (applAttrCode.value == '00002') {
+                $targetGroup = $('.base-ariInst');
+            } else {
+                $targetGroup = $('.base-non-ariInst');
+            }
+
+            $targetGroup.each( function () {
+                if (this.selectedIndex == 0) {
+                    alert('지원 사항을 모두 선택해주세요');
+                    this.focus();
+                    isValid = false;
+                    return false;
+                }
             });
 
-            $('#baseCancel').css('display', 'block');
-            $('#baseSave').css('display', 'none');
+            if (isValid) {
+                $('.base-info>option').filter( function() {
+                    return !this.selected;
+                }).each( function() {
+                    $(this).prop('disabled', true);
+                });
+
+                $('#baseCancel').css('display', 'block');
+                $('#baseSave').css('display', 'none');
+                $('#basis2Container').css('display', 'block');
+            }
         };
 
         // 입력 검증 오류로 DB에 저장되지 않고 다시 돌아왔을 때 지원사항 저장 상태로 설정
