@@ -270,7 +270,7 @@ public class DocumentController {
                     String userId = principal.getName();
                     String applNo = fileMetaForm.getApplNo();
 
-                    return FileUtil.getUploadDirectory(admsNo, userId, applNo);
+                    return FileUtil.getUploadDirectory(admsNo, userId, Integer.parseInt(applNo));
                 }
 
                 /**

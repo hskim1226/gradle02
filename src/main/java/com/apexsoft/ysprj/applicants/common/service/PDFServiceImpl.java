@@ -71,8 +71,8 @@ public class PDFServiceImpl implements PDFService {
             }
         }
 
-        String rawMergedFileFullPath = FileUtil.getRawMergedFileFullPath(uploadDirFullPath, String.valueOf(applNo));
-        String numberedMergedFileFullPath = FileUtil.getNumberedMergedFileFullPath(uploadDirFullPath, String.valueOf(applNo));
+        String rawMergedFileFullPath = FileUtil.getRawMergedFileFullPath(uploadDirFullPath, applNo);
+        String numberedMergedFileFullPath = FileUtil.getNumberedMergedFileFullPath(uploadDirFullPath, applNo);
 
         mergerUtil.setDestinationFileName(rawMergedFileFullPath);
         PDDocument mergedPDF = null;
@@ -85,7 +85,7 @@ public class PDFServiceImpl implements PDFService {
             PDFMergerUtility lastMergeUtil = new PDFMergerUtility();
             lastMergeUtil.addSource(new File(applicationFilePath, applicationFileName));
             lastMergeUtil.addSource(new File(numberedMergedFileFullPath));
-            lastMergeUtil.setDestinationFileName(FileUtil.getFinalMergedFileFullPath(uploadDirFullPath, String.valueOf(applNo)));
+            lastMergeUtil.setDestinationFileName(FileUtil.getFinalMergedFileFullPath(uploadDirFullPath, applNo));
             lastMergeUtil.mergeDocuments();
 
         } catch (IOException e) {

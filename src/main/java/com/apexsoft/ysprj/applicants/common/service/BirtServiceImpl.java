@@ -69,7 +69,7 @@ public class BirtServiceImpl implements BirtService {
         String userId = application.getUserId();
         String rptFileName = FileUtil.getApplicationFileName(userId);
 
-        rptInfoMap.put("rptDirectoryFullPath", FileUtil.getUploadDirectoryFullPath(BASE_DIR, admsNo, userId, String.valueOf(applNo)));
+        rptInfoMap.put("rptDirectoryFullPath", FileUtil.getUploadDirectoryFullPath(BASE_DIR, admsNo, userId, applNo));
         rptInfoMap.put("rptFileName", rptFileName);
 
         CommonCode commonCode;

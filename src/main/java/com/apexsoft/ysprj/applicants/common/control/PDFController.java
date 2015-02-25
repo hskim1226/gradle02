@@ -75,9 +75,8 @@ public class PDFController {
 
         String userId = principal.getName();
 
-        String uploadDirectoryFullPath = FileUtil.getUploadDirectoryFullPath(fileBaseDir, admsNo, userId, String.valueOf(applNo));
-        //TODO 파일명 FileUtil 통해 해결하도록 수정 필요
-        String fileName = FileUtil.getFinalMergedFileFullPath(uploadDirectoryFullPath, String.valueOf(applNo));
+        String uploadDirectoryFullPath = FileUtil.getUploadDirectoryFullPath(fileBaseDir, admsNo, userId, applNo);
+        String fileName = FileUtil.getFinalMergedFileFullPath(uploadDirectoryFullPath, applNo);
         String downLoadFileName = userId + "_all.pdf";
         File file =  new File(fileName);
         byte[] bytes = org.springframework.util.FileCopyUtils.copyToByteArray(file);

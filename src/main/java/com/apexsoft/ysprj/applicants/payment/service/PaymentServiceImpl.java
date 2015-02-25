@@ -600,7 +600,7 @@ public class PaymentServiceImpl implements PaymentService {
 //        aDoc.setDocItemName("수험표");
         aDoc.setFileExt("pdf");
         aDoc.setImgYn("N");
-        aDoc.setFilePath(FileUtil.getUploadDirectoryFullPath(BASE_DIR, admsNo, userId, String.valueOf(applNo)));
+        aDoc.setFilePath(FileUtil.getUploadDirectoryFullPath(BASE_DIR, admsNo, userId, applNo));
         aDoc.setFileName(FileUtil.getSlipFileName(userId));
         aDoc.setOrgFileName(FileUtil.getSlipFileName(userId));
 //        aDoc.setPageCnt(1);
