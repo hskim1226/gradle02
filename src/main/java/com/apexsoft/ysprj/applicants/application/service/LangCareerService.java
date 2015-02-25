@@ -14,6 +14,8 @@ public interface LangCareerService {
 
     ExecutionContext retrieveLangCareer(int applNo);
 
+    ExecutionContext retrieveCurrentLangCareer(int applNo);
+
     ExecutionContext retrieveLangCareer(LangCareer langCareer);
 
     ExecutionContext saveLangCareer(LangCareer langCareer);

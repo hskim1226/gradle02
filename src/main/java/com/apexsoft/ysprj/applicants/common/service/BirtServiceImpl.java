@@ -46,7 +46,7 @@ public class BirtServiceImpl implements BirtService {
         ExecutionContext ecResult = new ExecutionContext();
         ExecutionContext ecBasis = basisService.retrieveBasis(applNo);
         ExecutionContext ecAcademy = academyService.retrieveAcademy(applNo);
-        ExecutionContext ecLangCareer = langCareerService.retrieveLangCareer(applNo);
+        ExecutionContext ecLangCareer = langCareerService.retrieveCurrentLangCareer(applNo);
         ExecutionContext ecDocument = documentService.retrieveDocument(applNo);
 
         Basis basis = ((Map<String, Basis>)ecBasis.getData()).get("basis");
@@ -253,7 +253,6 @@ public class BirtServiceImpl implements BirtService {
                 }
             }
         }
-
 
         rptInfoMap.put("toeflScore", toeflScore);
         rptInfoMap.put("toeicScore", toeicScore);

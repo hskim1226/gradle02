@@ -74,6 +74,43 @@ public class LangCareerServiceImpl implements LangCareerService {
 
         return ec;
     }
+    @Override
+    public ExecutionContext retrieveCurrentLangCareer(int applNo) {
+        ExecutionContext ec = new ExecutionContext();
+
+        Map<String, Object> ecDataMap = new HashMap<String, Object>();
+        Map<String, Object> commonCodeMap = new HashMap<String, Object>();
+
+        LangCareer langCareer = new LangCareer();
+
+        Application applicationFromDB = commonDAO.queryForObject(NAME_SPACE + "ApplicationMapper.selectByPrimaryKey",
+                applNo, Application.class);
+        langCareer.setApplication(applicationFromDB);
+
+        ApplicationGeneral applicationGeneralFromDB = commonDAO.queryForObject(NAME_SPACE + "ApplicationGeneralMapper.selectByPrimaryKey",
+                applNo, ApplicationGeneral.class);
+        applicationGeneralFromDB = applicationGeneralFromDB == null ? new ApplicationGeneral() : applicationGeneralFromDB;
+        langCareer.setApplicationGeneral(applicationGeneralFromDB);
+
+        List<LanguageGroup> langGroupList = retrieveCurrentLanguageGroupListByApplNo(applNo, applicationGeneralFromDB);
+        langCareer.setLanguageGroupList(langGroupList);
+
+        List<CustomApplicationExperience> applicationExperienceList = retrieveInfoListByApplNo(applNo, "CustomApplicationExperienceMapper", CustomApplicationExperience.class);
+        langCareer.setApplicationExperienceList(applicationExperienceList);
+
+        for(CustomApplicationExperience aExpr :applicationExperienceList  ){
+            aExpr.setSaveFg(true);
+        }
+
+        commonCodeMap.put( "toflTypeList", commonService.retrieveCommonCodeValueByCodeGroup("TOFL_TYPE") );
+        commonCodeMap.put( "fornExmpList", commonService.retrieveCommonCodeValueByCodeGroup("FORN_EXMP") );
+
+        ecDataMap.put("langCareer", langCareer);
+        ecDataMap.put("common", commonCodeMap);
+        ec.setData(ecDataMap);
+
+        return ec;
+    }
 
     @Override
     public ExecutionContext retrieveLangCareer(LangCareer langCareer) {
@@ -154,6 +191,40 @@ public class LangCareerServiceImpl implements LangCareerService {
                 alang.setSubContainer(getSubLangContainer(alangGroup, alang, aSubList, applicationGeneral));
             }
             alangGroup.setLangList(aLangList);
+        }
+        return langGroupList;
+    }
+    private List<LanguageGroup> retrieveCurrentLanguageGroupListByApplNo(int applNo, ApplicationGeneral applicationGeneral) {
+        List<LanguageGroup> langGroupList = null;
+
+        langGroupList = commonDAO.queryForList(NAME_SPACE + "CustomApplicationDocumentMapper.selectLanguageGroupByApplNo",
+                applNo, LanguageGroup.class);
+        ParamForTotalLang param = new ParamForTotalLang();
+        List<TotalApplicationLanguageContainer> aLangList;
+        List<TotalApplicationLanguageContainer> rtnList;
+        for (LanguageGroup alangGroup : langGroupList) {
+
+            TotalApplicationLanguageContainer aCont = new TotalApplicationLanguageContainer();
+            aCont.setApplNo(applNo);
+            aCont.setSelGrpCode(alangGroup.getSelGrpCode());
+            aCont.setItemGrpCode(alangGroup.getExamCodeGrp());
+            aCont.setItemCode(alangGroup.getExamCode());
+            aCont.setMdtSeq(alangGroup.getMdtSeq());
+
+            //두번째 레벨의 정보를 가져온다
+            aLangList = commonDAO.queryForList(NAME_SPACE + "CustomApplicationDocumentMapper.selectTotalLanguageDoc", aCont, TotalApplicationLanguageContainer.class);
+
+            //하부 레벨의 정보를 채운다
+            for (TotalApplicationLanguageContainer alang : aLangList) {
+                if("N".equals(alang.getLastYn())){//시험입력인 경우(Lang_Send)
+                    alang.setApplNo(applNo);
+                    List<TotalApplicationLanguageContainer> aSubList = new ArrayList<TotalApplicationLanguageContainer>();
+                    rtnList = setCurrentSubContainer(alangGroup, alang, aSubList, applicationGeneral);
+                    alangGroup.setLangList( rtnList);
+                }
+
+            }
+
         }
         return langGroupList;
     }
@@ -390,6 +461,36 @@ public class LangCareerServiceImpl implements LangCareerService {
                 }
                 rContList.add(exemptContainer);
             }
+        }
+        return rContList;
+    }
+    //하부 그룹이 있으면 하부 그룹을 조회하고, 최말단 이면 상세정보를 조회한다.
+    private  List<TotalApplicationLanguageContainer> setCurrentSubContainer( LanguageGroup aLangGroup,
+                                                                          TotalApplicationLanguageContainer pCont,
+                                                                          List<TotalApplicationLanguageContainer> pList,
+                                                                          ApplicationGeneral applicationGeneral){
+        List<TotalApplicationLanguageContainer> rContList = null;
+
+        if ("2".equals( pCont.getGrpLevel())) {
+            rContList = commonDAO.queryForList(NAME_SPACE + "CustomApplicationDocumentMapper.selectTotalLanguageDoc", pCont, TotalApplicationLanguageContainer.class);
+            if (rContList != null) {
+                for (TotalApplicationLanguageContainer aCont : rContList) {
+                    if( aCont.getLangSeq() != null && aCont.getLangSeq() > 0 ) {
+                        aCont.setLangInfoSaveFg(true);
+                        aCont.setCheckedFg(true);
+                    } else {
+                        aCont.setLangInfoSaveFg(false);
+                        aCont.setCheckedFg(false);
+                    }
+
+                    if( aCont.getDocSeq() > 0 ) {
+                        aCont.setFileUploadFg(true);
+                    } else {
+                        aCont.setFileUploadFg(false);
+                    }
+                }
+            }
+
         }
         return rContList;
     }
