@@ -37,6 +37,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.net.URLEncoder;
 import java.security.Principal;
 import java.util.HashMap;
 import java.util.List;
@@ -413,7 +414,7 @@ public class DocumentController {
         File file = new File(totalDoc.getFilePath(), totalDoc.getFileName());
         byte[] bytes = org.springframework.util.FileCopyUtils.copyToByteArray(file);
 
-        response.setHeader("Content-Disposition", "attachment; filename=\"" + new String(totalDoc.getOrgFileName().getBytes("UTF-8"), "ISO-8859-1") + "\"");
+        response.setHeader("Content-Disposition", "attachment; filename=\"" + URLEncoder.encode(totalDoc.getOrgFileName(), "UTF-8") + "\"");
         response.setHeader("Content-Transfer-Encoding", "binary;");
         response.setHeader("Pragma", "no-cache;");
         response.setHeader("Expires", "-1;");

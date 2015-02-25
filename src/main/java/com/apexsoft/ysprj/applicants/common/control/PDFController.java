@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
+import java.net.URLEncoder;
 import java.security.Principal;
 
 /**
@@ -81,7 +82,7 @@ public class PDFController {
         File file =  new File(dir, fileName);
         byte[] bytes = org.springframework.util.FileCopyUtils.copyToByteArray(file);
 
-        response.setHeader("Content-Disposition", "attachment; filename=\"" + new String(downLoadFileName.getBytes("UTF-8"), "ISO-8859-1") + "\"");
+        response.setHeader("Content-Disposition", "attachment; filename=\"" + URLEncoder.encode(downLoadFileName, "UTF-8") + "\"");
         response.setHeader("Content-Transfer-Encoding", "binary;");
         response.setHeader("Pragma", "no-cache;");
         response.setHeader("Expires", "-1;");
