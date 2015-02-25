@@ -33,7 +33,7 @@
 
     <bean id="birtEngineFactory" class="com.apexsoft.framework.birt.spring.core.BirtEngineFactory">
         <property name="logLevel">
-            <util:constant static-field="java.util.logging.Level.SEVERE" />
+            <util:constant static-field="java.util.logging.Level.ALL" />
         </property>
         <!--<property name="logDirectory" value="birt-log" />-->
     </bean>

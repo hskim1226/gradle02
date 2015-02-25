@@ -1,24 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.23" id="1">
-    <property name="createdBy">Eclipse BIRT Designer Version 4.3.2.v20140211-1400 Build &lt;4.3.2.v20140218-1056></property>
+    <property name="createdBy">Eclipse BIRT Designer Version 4.4.0.v201405191524 Build &lt;4.4.0.v20140606-1451></property>
     <property name="units">in</property>
-    <method name="initialize"><![CDATA[importPackage(Packages.org.springframework.context);
-importPackage(Packages.org.springframework.web.context.support );
-//ServletContext
-var sc = reportContext.getHttpServletRequest().getSession().getServletContext();
-//ApplicationContext 
-var spring = WebApplicationContextUtils.getWebApplicationContext(sc);
-var commonService = spring.getBean("commonServiceImpl");
+    <method name="initialize"><![CDATA[
+// importPackage(Packages.org.springframework.context);
+// importPackage(Packages.org.springframework.web.context.support );
+// //ServletContext
+// var sc = reportContext.getHttpServletRequest().getSession().getServletContext();
+// //ApplicationContext
+// var spring = WebApplicationContextUtils.getWebApplicationContext(sc);
+// var commonService = spring.getBean("commonServiceImpl");
 
-entire = reportContext.getAppContext().get("entireApplication");
-application = entire.getApplication();
-general = entire.getApplicationGeneral();
-etc = entire.getApplicationETCWithBLOBs();
-highSchool = entire.getHighSchool();
-collegeList = entire.getCollegeList();
-graduateList = entire.getGraduateList();
-experienceList = entire.getApplicationExperienceList();
-languageList = entire.getApplicationLanguageList();]]></method>
+// entire = reportContext.getAppContext().get("entireApplication");
+// application = entire.getApplication();
+// general = entire.getApplicationGeneral();
+// etc = entire.getApplicationETCWithBLOBs();
+// highSchool = entire.getHighSchool();
+// collegeList = entire.getCollegeList();
+// graduateList = entire.getGraduateList();
+// experienceList = entire.getApplicationExperienceList();
+// languageList = entire.getApplicationLanguageList();
+
+var appContext = reportContext.getAppContext(),
+    applId = appContext.get('applId'),
+    corsTypeName = appContext.get("corsTypeName"),
+    deptName = appContext.get("deptName"),
+    detlMajName = appContext.get("detlMajName"),
+    korName = appContext.get("korName"),
+    photoUri = appContext.get("photoUri");
+    ]]></method>
     <text-property name="displayName">수험표</text-property>
     <property name="layoutPreference">fixed layout</property>
     <property name="bidiLayoutOrientation">ltr</property>
@@ -185,6 +195,51 @@ languageList = entire.getApplicationLanguageList();]]></method>
                 <property name="category">Unformatted</property>
             </structure>
         </scalar-parameter>
+        <scalar-parameter name="applId" id="1367">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant"></value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="korName" id="1368">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant"></value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="photoUri" id="1369">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant"></value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
     </parameters>
     <styles>
         <style name="report" id="4">
@@ -306,7 +361,7 @@ languageList = entire.getApplicationLanguageList();]]></method>
                                     <list-property name="boundDataColumns">
                                         <structure>
                                             <property name="name">applId</property>
-                                            <expression name="expression" type="javascript">application.getApplId();</expression>
+                                            <expression name="expression" type="javascript">params['applId']</expression>
                                             <property name="dataType">string</property>
                                             <property name="allowExport">true</property>
                                         </structure>
@@ -459,7 +514,7 @@ languageList = entire.getApplicationLanguageList();]]></method>
                                     <list-property name="boundDataColumns">
                                         <structure>
                                             <property name="name">korName</property>
-                                            <expression name="expression" type="javascript">application.getKorName();</expression>
+                                            <expression name="expression" type="javascript">params['korName'];</expression>
                                             <property name="dataType">string</property>
                                         </structure>
                                     </list-property>
@@ -484,8 +539,9 @@ languageList = entire.getApplicationLanguageList();]]></method>
                                 <image id="44">
                                     <property name="height">2.7708333333333335in</property>
                                     <property name="width">2.15625in</property>
-                                    <property name="source">url</property>
-                                    <expression name="uri" type="constant">http://cfile7.uf.tistory.com/image/1359A9384DC0D9E22668D4</expression>
+                                    <property name="source">file</property>
+                                    <property name="fitToContainer">true</property>
+                                    <expression name="uri" type="javascript">params["photoUri"]</expression>
                                 </image>
                                 <label id="43">
                                     <property name="whiteSpace">nowrap</property>
