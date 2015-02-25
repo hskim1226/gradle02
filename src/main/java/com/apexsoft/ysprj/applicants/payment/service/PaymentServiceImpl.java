@@ -8,9 +8,13 @@ import com.apexsoft.framework.unused.xpay.service.TransactionVO;
 import com.apexsoft.ysprj.applicants.application.domain.Application;
 import com.apexsoft.ysprj.applicants.application.domain.CustomNewSeq;
 import com.apexsoft.ysprj.applicants.application.domain.CustomPayInfo;
+import com.apexsoft.ysprj.applicants.application.domain.TotalApplicationDocument;
+import com.apexsoft.ysprj.applicants.application.service.DocumentService;
+import com.apexsoft.ysprj.applicants.common.util.FileUtil;
 import com.apexsoft.ysprj.applicants.payment.domain.*;
 import lgdacom.XPayClient.XPayClient;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -28,6 +32,12 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Autowired
     private CommonDAO commonDAO;
+
+    @Autowired
+    private DocumentService documentService;
+
+    @Value("#{app['file.baseDir']}")
+    private String BASE_DIR;
 
     @Resource(name = "messageResolver")
     MessageResolver messageResolver;
@@ -314,11 +324,14 @@ public class PaymentServiceImpl implements PaymentService {
         Application application = commonDAO.queryForObject("com.apexsoft.ysprj.applicants.application.sqlmap.ApplicationMapper.selectByPrimaryKey",
                                                            applPay.getApplNo(), Application.class);
         application.setApplId(getApplId(application, customNewSeq.getNewSeq()));
-        application.setApplDate(new Date());
+        Date date = new Date();
+        application.setApplDate(date);
         application.setApplStsCode("00020");
         commonDAO.updateItem(application, "com.apexsoft.ysprj.applicants.application.sqlmap.", "ApplicationMapper");
 
         //TODO : APPL_DOC에 수험표, 원서 정보 저장
+        saveApplDocInfo(application);
+
         //TODO : BirtController 호출해서 수험표, 수험원서를 물리적 PDF 파일로 저장
 
         /*
@@ -476,6 +489,8 @@ public class PaymentServiceImpl implements PaymentService {
         r3 = commonDAO.updateItem(applPay, NAME_SPACE, "ApplicationPaymentCurStatMapper");
 
         //TODO : APPL_DOC에 수험표, 원서 정보 저장
+        saveApplDocInfo(application);
+
         //TODO : BirtController 호출해서 수험표, 수험원서를 물리적 PDF 파일로 저장
         /*
         int paySeq = commonDAO.queryForInt(NAME_SPACE+"CustomApplicationPaymentMapper.getSeq", payment.getApplNo());
@@ -566,4 +581,29 @@ public class PaymentServiceImpl implements PaymentService {
         return applId;
     }
 
+    private void saveApplDocInfo(Application application) {
+        String userId = application.getUserId();
+        String admsNo = application.getAdmsNo();
+        int applNo = application.getApplNo();
+
+        TotalApplicationDocument aDoc = new TotalApplicationDocument();
+        aDoc.setApplNo(applNo);
+        aDoc.setDocItemName("수험표");
+        aDoc.setFileExt("pdf");
+        aDoc.setImgYn("N");
+        aDoc.setFilePath(FileUtil.getUploadDirectoryFullPath(BASE_DIR, admsNo, userId, String.valueOf(applNo)));
+        aDoc.setFileName(FileUtil.getSlipFileName(userId));
+        aDoc.setOrgFileName(FileUtil.getSlipFileName(userId));
+        aDoc.setPageCnt(1);
+        aDoc.setCreId(application.getUserId());
+        aDoc.setCreDate(new Date());
+        documentService.saveOneDocument(aDoc);
+        aDoc.setDocItemName("지원서");
+        aDoc.setFileName(FileUtil.getApplicationFileName(userId));
+        aDoc.setOrgFileName(FileUtil.getApplicationFileName(userId));
+        aDoc.setPageCnt(2);
+        aDoc.setFileUploadFg(false);
+        aDoc.setDocSeq(0);
+        documentService.saveOneDocument(aDoc);
+    }
 }

@@ -36,6 +36,9 @@ public class BirtServiceImpl implements BirtService {
     @Autowired
     DocumentService documentService;
 
+    @Value("#{app['file.baseDir']}")
+    private String BASE_DIR;
+
     @Override
     public ExecutionContext processBirt(int applNo) {
         Map<String, Object> rptInfoMap = new HashMap<String, Object>();
@@ -63,9 +66,9 @@ public class BirtServiceImpl implements BirtService {
 
         String admsNo = application.getAdmsNo();
         String userId = application.getUserId();
-        String rptFileName = "지원서_" + userId;
+        String rptFileName = FileUtil.getApplicationFileName(userId);
 
-        rptInfoMap.put("rptDirectoryFullPath", FileUtil.getUploadDirectoryFullPath(admsNo, userId, String.valueOf(applNo)));
+        rptInfoMap.put("rptDirectoryFullPath", FileUtil.getUploadDirectoryFullPath(BASE_DIR, admsNo, userId, String.valueOf(applNo)));
         rptInfoMap.put("rptFileName", rptFileName);
 
         CommonCode commonCode;
