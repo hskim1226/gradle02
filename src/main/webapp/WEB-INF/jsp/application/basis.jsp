@@ -615,7 +615,7 @@
                 </c:choose>
 
 
-                    <c:if test="${basis.application.admsTypeCode == 'C'}">
+                    <%--<c:if test="${basis.application.admsTypeCode == 'C'}">--%>
                         <div class="panel panel-darkgray" id="stayInfo" style="display: ${basis.application.citzCntrCode == '118' ? 'none;' : 'block;'}">
                             <div class="panel-heading">체류 정보</div>
                             <div class="panel-body">
@@ -720,7 +720,7 @@
                                 </div>
                             </div>
                         </div>
-                    </c:if>
+                    <%--</c:if>--%>
 
                         <div class="panel panel-darkgray">
                             <div class="panel-heading">지원자 연락처</div>
