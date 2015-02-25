@@ -52,14 +52,27 @@ public class PDFServiceImpl implements PDFService {
 
 
         List<ApplicationDocument> pdfList = commonDAO.queryForList(NAME_SPACE + "CustomApplicationDocumentMapper.selectPDFByApplNo", param, ApplicationDocument.class);
+        String slipFilePath = null;
+        String slipFileName = null;
+        String applicationFilePath = null;
+        String applicationFileName = null;
         for (ApplicationDocument aDoc : pdfList) {
-            File pdfFile = new File(aDoc.getFilePath(), aDoc.getFileName());
-            mergerUtil.addSource(pdfFile);
-            if (destPath == null)
-                destPath = aDoc.getFilePath();
+            if ("수험표".equals(aDoc.getDocItemName())) {
+                slipFilePath = aDoc.getFilePath();
+                slipFileName = aDoc.getFileName();
+            } else if ("지원서".equals(aDoc.getDocItemName())) {
+                applicationFilePath = aDoc.getFilePath();
+                applicationFileName = aDoc.getFileName();
+            } else {
+                File pdfFile = new File(aDoc.getFilePath(), aDoc.getFileName());
+                mergerUtil.addSource(pdfFile);
+                if (destPath == null)
+                    destPath = aDoc.getFilePath();
+            }
         }
+        //TODO 파일명 FileUtil 통해서 처리하도록 수정 필요
         String destFileFullPath = new StringBuilder().append(destPath).append("/").append(applNo).append("-merged.pdf").toString();
-        String numberedDestFileFullPath = new StringBuilder().append(destPath).append("/").append(applNo).append("-merged-numbered.pdf").toString();
+        String numberedDestFileFullPath = new StringBuilder().append(destPath).append("/").append(applNo).append("-merged-numbered-wo-slip-appl.pdf").toString();
         mergerUtil.setDestinationFileName(destFileFullPath);
         PDDocument mergedPDF = null;
         try {
@@ -67,6 +80,13 @@ public class PDFServiceImpl implements PDFService {
             File mergedFile = new File(destFileFullPath);
             mergedPDF = PDDocument.load(mergedFile);
             ec = generatePageNumberedPDF(mergedPDF, numberedDestFileFullPath, applNo);
+
+            PDFMergerUtility lastMergeUtil = new PDFMergerUtility();
+            lastMergeUtil.addSource(new File(applicationFilePath, applicationFileName));
+            lastMergeUtil.addSource(new File(numberedDestFileFullPath));
+            lastMergeUtil.setDestinationFileName(new StringBuilder().append(destPath).append("/").append(applNo).append("-merged-numbered.pdf").toString());
+            lastMergeUtil.mergeDocuments();
+
         } catch (IOException e) {
             ec.setResult(ExecutionContext.FAIL);
             ec.setMessage(messageResolver.getMessage("U801"));

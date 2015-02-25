@@ -56,11 +56,11 @@
                                             <button id="modify" class="btn btn-warning modify ${item.applStsCode.lastIndexOf('0')==3?"":"disabled"}"
                                                     data-applNo="${item.applNo}" data-admsNo="${item.admsNo}" data-entrYear="${item.entrYear}"
                                                     data-admsTypeCode="${item.admsTypeCode}" <c:if test="${item.applStsCode.lastIndexOf('0')!=3}">disabled</c:if> >원서 수정하기<span class="my-tooltip">작성 중인 상태에서만 수정 가능합니다.</span></button>
-                                                <%--<button id="preview" class="btn btn-info preview ${item.applStsCode=="00010"?"":"disabled"}"--%>
-                                            <button id="preview" class="btn btn-info preview"
+                                            <button id="preview" class="btn btn-info preview ${item.applStsCode=="00010"?"":"disabled"}"
+                                            <%--<button id="preview" class="btn btn-info preview"--%>
                                                     data-applNo="${item.applNo}" data-admsNo="${item.admsNo}" data-entrYear="${item.entrYear}"
-                                                <%--data-admsTypeCode="${item.admsTypeCode}" <c:if test="${item.applStsCode!='00010'}">disabled</c:if> >원서 미리보기</button>--%>
-                                                    data-admsTypeCode="${item.admsTypeCode}" >원서 미리보기</button>
+                                                data-admsTypeCode="${item.admsTypeCode}" <c:if test="${item.applStsCode!='00010'}">disabled</c:if> >원서 미리보기</button>
+                                                    <%--data-admsTypeCode="${item.admsTypeCode}" >원서 미리보기</button>--%>
 
                                             <button id="pay" class="btn btn-primary pay ${item.applStsCode=="00010"?"":(item.applStsCode=="00021"?"":"disabled")}"
                                                     name="2015학년도 ${item.campName} ${item.admsTypeName} ${item.deptName} ${item.corsTypeName}"
@@ -73,6 +73,7 @@
                                                 <ul class="dropdown-menu" role="menu">
                                                     <li><a class="print" data-applNo="${item.applNo}" data-format="pdf" data-filename="application_${item.admsTypeCode=="C" ? "en" : "kr"}">지원서(PDF)</a></li>
                                                     <li><a class="print" data-applNo="${item.applNo}" data-format="pdf" data-filename="admission_${item.admsTypeCode=="C" ? "en" : "kr"}">수험표(PDF)</a></li>
+                                                    <li><a class="print" data-admsNo="${item.admsNo}" data-applNo="${item.applNo}" data-format="pdf">전체 파일(PDF)</a></li>
                                                 </ul>
                                             </div>
                                         </td>
@@ -134,11 +135,18 @@
             $('.print').click(function(e){
                 e.preventDefault();
                 var target = e.target;
+
+                var admsNo = target.getAttribute('data-admsNo');
                 var applNo = target.getAttribute('data-applNo');
                 var reportFormat = target.getAttribute('data-format');
-                var reportName = target.getAttribute('data-filename');
-                window.open('${contextPath}/application/print?applNo=' + applNo +
-                        '&reportFormat=pdf&reportName=' + reportName);
+
+                if (admsNo != null && admsNo.length > 0) {
+                    window.open('${contextPath}/pdf/download/' + admsNo + '/' + applNo);
+                } else {
+                    var reportName = target.getAttribute('data-filename');
+                    window.open('${contextPath}/application/print?applNo=' + applNo +
+                    '&reportFormat=pdf&reportName=' + reportName);
+                }
             });
 
             <%-- action 성공 여부 알림 처리 --%>
