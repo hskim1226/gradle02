@@ -80,7 +80,10 @@ public class AdminController {
    		pStsList = adminService.retrieveApplicantCntByDept(searchForm);	
    		return pStsList;
 	}
-  
+    @RequestMapping(value="/stats")
+    public String initAdmin() {
+        return "admin/stats/category";
+    }
     
     @RequestMapping(value="/stats/category")
     public String statsCategory() {
@@ -199,7 +202,7 @@ public class AdminController {
 
     @RequestMapping(value="/search/applicant/applInfoDetail")
     public String displayQnaDetail(@RequestParam("applNo") int applNo, Model model){
-        ExecutionContext ecRetrieve = adminService.getApplicantDetail(applNo);
+        ExecutionContext ecRetrieve = adminService.getApplicantDetail(applNo,"");
         Map<String, Object> map = (Map<String, Object>)ecRetrieve.getData();
         model.addAttribute("applInfo", map.get("applInfo"));
 
@@ -208,8 +211,30 @@ public class AdminController {
 
     @RequestMapping(value="/search/unpaid")
     public String statsUnpaid() {
-        return "admin/search/unpaid";
+        return "admin/stats/unpaid";
     }
+
+
+    @RequestMapping(value="/search/unpaid/search")
+    @ResponseBody
+    public String statsUnpaidSearch(CourseSearchGridForm searchForm)
+            throws NoSuchAlgorithmException, JsonProcessingException, UnsupportedEncodingException {
+        List<ApplicantCnt> pStsList =null;
+        pStsList = adminService.retrieveUnpaidApplicantCntByDept(searchForm);
+
+        ObjectMapper mapper = new ObjectMapper();
+        Map<String, Object> modelMap = new HashMap<String, Object>();
+        modelMap.put("total",pStsList.size());
+        modelMap.put("records", pStsList.size());
+        modelMap.put("rows",pStsList);
+        modelMap.put("page", 1);
+
+        String value = mapper.writeValueAsString(modelMap);
+
+        return value;
+    }
+
+
     
     @RequestMapping(value="/modification/searchAdms")
     public String searchAdms(ApplicantSearchForm searchForm, Model model) {
@@ -220,7 +245,7 @@ public class AdminController {
     }
 
     @RequestMapping(value="/modification/changeList")
-    public ModelAndView modificationList(@ModelAttribute ChangeSearchPageForm searchPageForm,
+    public ModelAndView retrieveModificationList(@ModelAttribute ChangeSearchPageForm searchPageForm,
                                    BindingResult bindingResult,
                                    ModelAndView mv) {
         mv.setViewName("admin/modification/changeList");
@@ -241,25 +266,19 @@ public class AdminController {
         return mv;
     }
 
-    @RequestMapping(value="/modification/changeInfo")
-    public String callChangeInfo(@RequestParam("applNo") int applNo, Model model) {
-        ExecutionContext ecRetrieve = adminService.getApplicantDetail(applNo);
-        Map<String, Object> map = (Map<String, Object>)ecRetrieve.getData();
-        model.addAttribute("applInfo", map.get("applInfo"));
-        return "admin/modification/changeInfo";
-    }
-    @RequestMapping(value="/modification/changeUnit")
-    public ModelAndView callChangeUnit( @ModelAttribute ApplicantSearchForm applicantSearchForm,
-                                  BindingResult bindingResult,
-                                  ModelAndView mv) {
 
-        mv.setViewName("admin/modification/changeUnit");
+    @RequestMapping(value="/modification/changeInfo")
+    public ModelAndView callChangeInfo( @ModelAttribute ApplicantSearchForm applicantSearchForm,
+                                        BindingResult bindingResult,
+                                        ModelAndView mv) {
+
+        mv.setViewName("admin/modification/changeInfo");
 
         if (bindingResult.hasErrors()) {
             mv.addObject("resultMsg", messageResolver.getMessage("U334"));
 
         }
-        ExecutionContext ecRetrieve = adminService.getApplicantDetail(applicantSearchForm.getApplNo());
+        ExecutionContext ecRetrieve = adminService.getApplicantDetail(applicantSearchForm.getApplNo(),applicantSearchForm.getApplId() );
         if (ecRetrieve.getResult().equals(ExecutionContext.SUCCESS)) {
             Map<String, Object> map = (Map<String, Object>)ecRetrieve.getData();
             mv.addObject("selection", map.get("selection"));
@@ -272,6 +291,53 @@ public class AdminController {
         return mv;
     }
 
+    @RequestMapping(value="/modification/changeUnit")
+      public ModelAndView callChangeUnit( @ModelAttribute ApplicantSearchForm applicantSearchForm,
+                                          BindingResult bindingResult,
+                                          ModelAndView mv) {
+
+        mv.setViewName("admin/modification/changeUnit");
+
+        if (bindingResult.hasErrors()) {
+            mv.addObject("resultMsg", messageResolver.getMessage("U334"));
+
+        }
+        ExecutionContext ecRetrieve = adminService.getApplicantDetail(applicantSearchForm.getApplNo(),applicantSearchForm.getApplId() );
+        if (ecRetrieve.getResult().equals(ExecutionContext.SUCCESS)) {
+            Map<String, Object> map = (Map<String, Object>)ecRetrieve.getData();
+            mv.addObject("selection", map.get("selection"));
+            mv.addObject("applicantSearchForm",applicantSearchForm);
+            mv.addObject("applInfo", map.get("applInfo"));
+            mv.addObject("customApplicationChange", new CustomApplicationChange());
+        } else {
+            mv = getErrorMV("common/error", ecRetrieve);
+        }
+        return mv;
+    }
+
+    @RequestMapping(value="/modification/cancelAppl")
+    public ModelAndView callCancelInfo( @ModelAttribute ApplicantSearchForm applicantSearchForm,
+                                        BindingResult bindingResult,
+                                        ModelAndView mv) {
+
+        mv.setViewName("admin/modification/cancelAppl");
+
+        if (bindingResult.hasErrors()) {
+            mv.addObject("resultMsg", messageResolver.getMessage("U334"));
+
+        }
+        ExecutionContext ecRetrieve = adminService.getApplicantDetail(applicantSearchForm.getApplNo(),applicantSearchForm.getApplId() );
+        if (ecRetrieve.getResult().equals(ExecutionContext.SUCCESS)) {
+            Map<String, Object> map = (Map<String, Object>)ecRetrieve.getData();
+            mv.addObject("selection", map.get("selection"));
+            mv.addObject("applicantSearchForm",applicantSearchForm);
+            mv.addObject("applInfo", map.get("applInfo"));
+            mv.addObject("customApplicationChange", new CustomApplicationChange());
+        } else {
+            mv = getErrorMV("common/error", ecRetrieve);
+        }
+        return mv;
+    }
 
     @RequestMapping(value="/modification/requestChangeInfo")
     public ModelAndView changeApplicaitonInfo (@ModelAttribute ChangeInfoForm changeInfoForm,
@@ -297,7 +363,6 @@ public class AdminController {
             searchForm.setAdmsNo(changeInfoForm.getAdmsNo());
             searchForm.setApplChgCode("");
             searchForm.setChgStsCode("");
-            searchForm.setAdmsNo("");
             searchForm.setCampCode("");
             searchForm.setCollCode("");
 
@@ -306,7 +371,7 @@ public class AdminController {
             if (ecRetrieve.getResult().equals(ExecutionContext.SUCCESS)) {
                 Map<String, Object> map = (Map<String, Object>) ecRetrieve.getData();
                 mv.addObject("selection", map.get("selection"));
-                mv.addObject("ChangeSearchPageForm", new ChangeSearchPageForm());
+                mv.addObject("changeSearchPageForm", map.get("changeSearchPageForm"));
                 mv.addObject("chgList", map.get("chgList"));
             }else{
                 mv = getErrorMV("common/error", ecRetrieve);
@@ -319,7 +384,7 @@ public class AdminController {
     }
 
     @RequestMapping(value="/modification/requestChangeUnit")
-    public ModelAndView modificationUnit(@ModelAttribute ChangeInfoForm changeInfoForm,
+    public ModelAndView modificationUnit(@ModelAttribute CustomApplicationChange changeInfoForm,
                                    Principal principal,
                                    BindingResult bindingResult,
                                    ModelAndView mv) {
@@ -333,7 +398,7 @@ public class AdminController {
         //TODO 로그인 정보로 변경
         String userId = "test";
         //String userId = principal.getName();
-        ExecutionContext ecRetrieve = changeService.createInfoChange(changeInfoForm,userId);
+        ExecutionContext ecRetrieve = changeService.createUnitChange(changeInfoForm,userId);
         if (ecRetrieve.getResult().equals(ExecutionContext.SUCCESS)) {
 
             ChangeSearchPageForm searchForm = new ChangeSearchPageForm();
@@ -345,7 +410,7 @@ public class AdminController {
             if (ecRetrieve.getResult().equals(ExecutionContext.SUCCESS)) {
                 Map<String, Object> map = (Map<String, Object>) ecRetrieve.getData();
                 mv.addObject("selection", map.get("selection"));
-                mv.addObject("ChangeSearchPageForm", new ChangeSearchPageForm());
+                mv.addObject("changeSearchPageForm", map.get("changeSearchPageForm"));
                 mv.addObject("chgList", map.get("chgList"));
             }else{
                 mv = getErrorMV("common/error", ecRetrieve);
@@ -355,7 +420,63 @@ public class AdminController {
         }
         return mv;
     }
+    @RequestMapping(value="/modification/requestCancel")
+    public ModelAndView cancelApplication(@ModelAttribute ChangeInfoForm changeInfoForm,
+                                         Principal principal,
+                                         BindingResult bindingResult,
+                                         ModelAndView mv) {
 
+        mv.setViewName("admin/modification/changeList");
+
+        if (bindingResult.hasErrors()) {
+            mv.addObject("resultMsg", messageResolver.getMessage("U334"));
+        }
+
+        //TODO 로그인 정보로 변경
+        String userId = "test";
+        //String userId = principal.getName();
+        ExecutionContext ecRetrieve = changeService.createApplicationCancel(changeInfoForm,userId);
+        if (ecRetrieve.getResult().equals(ExecutionContext.SUCCESS)) {
+
+            ChangeSearchPageForm searchForm = new ChangeSearchPageForm();
+            searchForm.setAdmsNo(changeInfoForm.getAdmsNo());
+            searchForm.setApplChgCode("");
+            searchForm.setChgStsCode("");
+
+            ecRetrieve = changeService.retrieveChangePaginatedList(searchForm);
+            if (ecRetrieve.getResult().equals(ExecutionContext.SUCCESS)) {
+                Map<String, Object> map = (Map<String, Object>) ecRetrieve.getData();
+                mv.addObject("selection", map.get("selection"));
+                mv.addObject("changeSearchPageForm", map.get("changeSearchPageForm"));
+                mv.addObject("chgList", map.get("chgList"));
+            }else{
+                mv = getErrorMV("common/error", ecRetrieve);
+            }
+        } else {
+            mv = getErrorMV("common/error", ecRetrieve);
+        }
+        return mv;
+    }
+    @RequestMapping(value="/modification/changeInfoDetail")
+    public ModelAndView retreiveChangeDetail(@ModelAttribute String chgId,
+                                             Principal principal,
+                                             BindingResult bindingResult,
+                                             ModelAndView mv){
+        mv.setViewName("admin/modification/changeInfoDetail");
+        if (bindingResult.hasErrors()) {
+            mv.addObject("resultMsg", messageResolver.getMessage("U334"));
+        }
+        ExecutionContext ecRetrieve =ecRetrieve = changeService.retrieveChangeDetail(chgId);
+        if (ecRetrieve.getResult().equals(ExecutionContext.SUCCESS)) {
+                Map<String, Object> map = (Map<String, Object>) ecRetrieve.getData();
+                mv.addObject("chgInfo", map.get("chgInfo"));
+
+        } else {
+            mv = getErrorMV("common/error", ecRetrieve);
+        }
+        return mv;
+
+    }
     @RequestMapping(value="/cancel/application")
     public String cancelApplication() {
         return "admin/cancel/application";

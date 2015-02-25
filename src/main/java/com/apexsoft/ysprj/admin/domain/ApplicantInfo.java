@@ -11,7 +11,9 @@ public class ApplicantInfo {
     private String userId;
 	private String admsNo;
     private String admsType;
-    private String admsTypeName;     
+    private String admsTypeName;
+    private String applAttrCode;
+    private String applAttrName;
 	private String campName;
     private String collName;
     private String deptCode;    
@@ -57,7 +59,9 @@ public class ApplicantInfo {
 	}
 	private String applId;    
     private String applStsCode; 
-    private String applStsName; 
+    private String applStsName;
+    private String payTypeCode;
+    private String payTypeName;
     private int admsFee;
     
     public int getAdmsFee() {
@@ -248,5 +252,36 @@ public class ApplicantInfo {
 	public void setDetlAddr(String detlAddr) {
 		this.detlAddr = detlAddr;
 	}
-	
+
+    public String getApplAttrCode() {
+        return applAttrCode;
+    }
+
+    public void setApplAttrCode(String applAttrCode) {
+        this.applAttrCode = applAttrCode;
+    }
+
+    public String getApplAttrName() {
+        return applAttrName;
+    }
+
+    public void setApplAttrName(String applAttrName) {
+        this.applAttrName = applAttrName;
+    }
+
+    public String getPayTypeCode() {
+        return payTypeCode;
+    }
+
+    public void setPayTypeCode(String payTypeCode) {
+        this.payTypeCode = payTypeCode;
+    }
+
+    public String getPayTypeName() {
+        return payTypeName;
+    }
+
+    public void setPayTypeName(String payTypeName) {
+        this.payTypeName = payTypeName;
+    }
 }

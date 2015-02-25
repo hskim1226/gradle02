@@ -33,7 +33,7 @@
                                 <td>
                                     <form:select path="applChgCode" id="applChgCode" cssClass="form-control base-info">
                                         <form:option value="" label="--전체--" />
-                                        <form:options items="${selection.chgCodeList}" itemValue="code" itemLabel="codeVal"/>
+                                        <form:options items="${selection.applChgCodeList}" itemValue="code" itemLabel="codeVal"/>
                                     </form:select>
                                 </td>
                                 <th><label for="chgStsCode">처리결과</label></th>
@@ -91,7 +91,7 @@
                     <th class="Lfirst">요청번호</th>
                     <th>변경대상자</th>
                     <th>변경구분</th>
-                    <th>변경정보</th>
+                    <th>변경항목</th>
                     <th>변경전</th>
                     <th>변경후</th>
                     <th>요청일자</th>
@@ -108,7 +108,7 @@
                 <c:forEach var="chgList" items="${chgList}" varStatus="status">
                     <tr class="<c:if test="${status.index == 0}">Lfirst </c:if>chgList" chgList="${chgList.applNo}">
                         <td>${chgList.admsNo}-${chgList.chgNo}</td>
-                        <td>${chgList.korName}<br>${chgList.applNo}</td>
+                        <td>${chgList.korName}<br>${chgList.applId}</td>
                         <td>${chgList.applChgCodeName}</td>
                         <td >${chgList.chgColmName}</td>
                         <td >${chgList.befVal}</td>
@@ -154,10 +154,11 @@
 <content tag="local-script">
     <script>
         jQuery(document).ready( function(){
+            /*
             jQuery(".chgList").on('click', function(){
                 location.href = "${contextPath}/admin/modification/chgInfoDetail?chgNo="+jQuery(this).attr('chgNo');
             }).css("cursor","pointer");
-
+            */
             jQuery(".Limage").on('click', function(e) {
                 e.preventDefault();
                 submitForm();
@@ -206,6 +207,7 @@
                         jQuery('#' + clean[i]).children('option').filter(function() {
                             return this.value !== '';
                         }).remove();
+
                         jQuery('#' + clean[i]).trigger('change');
                     }
 

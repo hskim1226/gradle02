@@ -16,13 +16,15 @@ public interface AdminService {
 
     PageInfo<ApplicantInfo> retrieveApplicantPaginatedList(ApplicantSearchPageForm applicantSearchForm);
 
-    ExecutionContext getApplicantDetail(int id);
+    ExecutionContext getApplicantDetail(int applNo, String applId);
 	 
 	List<ApplicantCnt> retrieveApplicantCntByDept(CourseSearchGridForm searchForm);
 	 
 	List<ApplicantInfo> getApplicantListForSelect(ApplicantSearchForm searchForm);
 	 
 	ApplicantInfo getApplicantInfo(ApplicantSearchForm applicantSearchForm);
+
+    List<ApplicantCnt> retrieveUnpaidApplicantCntByDept(CourseSearchGridForm searchForm);
 
 
 

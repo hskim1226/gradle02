@@ -12,11 +12,11 @@
             <ul>
                 <li class="Lfirst"><span><a href="#">HOME</a></span></li>
                 <li><span><a href="#">통계</a></span></li>
-                <li class="Llast"><span>전형별 지원현황</span></li>
+                <li class="Llast"><span>전형별 미결제자현황</span></li>
             </ul>
         </div>
 
-        <h1>전형별지원현황</h1>
+        <h1>전형별 미결제자현황</h1>
     </div>
 
     <div id="LblockMainBody" >
@@ -24,8 +24,8 @@
             <div>
                 <div>
                     <form  action="" method="post">
-                        <table summary="지원현황 검색조건">
-                            <caption>지원현황 검색조건</caption>
+                        <table summary="미결제자현황 검색조건">
+                            <caption>미결제자현황 검색조건</caption>
                             <tbody>
                             <tr>  
                                 <th><label for="admsNo">지원전형</label></th>
@@ -67,7 +67,7 @@
         </div>
 
  	<div>
-            <table summary="전형별 지원현황"  id="applicantCntTbl"  ></table>
+            <table summary="미결제자 현황"  id="applicantCntTbl"  ></table>
 			<div id="gridpager"></div>
 
 
@@ -107,7 +107,7 @@
       	$source.on('click', function(event) {
       		event.preventDefault();
       		
-			var newUrl ='${contextPath}/admin/stats/category/search';	 
+			var newUrl ='${contextPath}/admin/search/unpaid/search';
 			newUrl = newUrl +"?admsNo="+jQuery("#admsNo option:selected").val();
 			newUrl = newUrl +"&campCode="+jQuery("#campCode option:selected").val();
 			newUrl = newUrl +"&collCode="+jQuery("#collCode option:selected").val();

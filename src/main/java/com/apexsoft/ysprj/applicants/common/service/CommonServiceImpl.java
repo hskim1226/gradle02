@@ -62,6 +62,25 @@ public class CommonServiceImpl implements CommonService {
         }
         return collegeList;
     }
+    /**
+     * 단과대별 모든학과 조회
+     *
+     * @param paramForSetupCourses
+     * @return
+     */
+    @Override
+    public List<CodeNameDepartment> retrieveAllDepartmentByColl(ParamForSetupCourses paramForSetupCourses) {
+        List<CodeNameDepartment> codeNameDepartmentList = null;
+        try {
+            codeNameDepartmentList = commonDAO.queryForList(NAME_SPACE+"CustomDepartmentMapper.selectAllDepartmentByColl",
+                    paramForSetupCourses,
+                    CodeNameDepartment.class);
+            converter.convert(codeNameDepartmentList, request);
+        } catch (Exception e) {
+            throw new BusinessException(e.getMessage(), e);
+        }
+        return codeNameDepartmentList;
+    }
 
     /**
      * 단과대별 학과 조회

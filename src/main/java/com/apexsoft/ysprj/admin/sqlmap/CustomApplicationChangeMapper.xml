@@ -100,7 +100,7 @@
             AND B.APPL_NO = #{applNo}
         </if>
         <if test="campCode != null and campCode !=''">
-            AND B.DETL_MAJ_CODE = #{campCode}
+            AND B.CAMP_CODE = #{campCode}
         </if>
         <if test="korName != null and korName !=''">
             AND B.KOR_NAME = #{korName}
@@ -109,7 +109,7 @@
             AND B.APPL_ID = #{applId}
         </if>
         <if test="admsNo != null and admsNo !=''">
-            AND A.ADMS_NO = #{admsNo,jdbcType=VARCHAR}
+            AND A.ADMS_NO = #{admsNo}
         </if>
         <if test="chgNo != null and chgNo !=''">
             AND CHG_NO = #{chgNo,jdbcType=INTEGER}
@@ -144,7 +144,7 @@
             AND B.APPL_NO = #{applNo}
         </if>
         <if test="campCode != null and campCode !=''">
-            AND B.DETL_MAJ_CODE = #{campCode}
+            AND B.CAMP_CODE = #{campCode}
         </if>
         <if test="korName != null and korName !=''">
             AND B.KOR_NAME = #{korName}

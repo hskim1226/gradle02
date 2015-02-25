@@ -29,7 +29,8 @@
         <div id="LblockSearch">
 
             <div>
-                <form id="idSearchForm" action="${contextPath}/admin/search/applicants/idSearch" method="post">
+                <form:form commandName="searchForm"  method="post" role="form" action="${contextPath}/admin/search/applicants/idSearch" id="search-form">
+
                     <input type="hidden" id="page-number-hidden" name="page.no" value="${searchForm.page.no}" />
                     <table summary="지원현황 검색조건">
                         <caption>지원현황 검색조건</caption>
@@ -43,7 +44,7 @@
                         </tbody>
                     </table>
                     <input id="idSearchBtn" type='image' class="Limage" src="${contextPath}/img/admin/btn_search.gif" />
-                </form>
+                </form:form>
             </div>
         </div>
 
@@ -54,11 +55,11 @@
                 <tr>
                     <th class="Lfirst">수험번호</th>
                     <th>캠퍼스</th>
-                    <th>지원학과</th>
-                    <th>지원전형</th>
-                    <th>학생정보</th>
-                    <th>연락처</th>
-                    <th>결제내역</th>
+                    <th>지원학과<br>세부전공</th>
+                    <th>지원전형<br>지원과정</th>
+                    <th>성명<br>생년월일</th>
+                    <th>전화번호<br>이메일</th>
+                    <th>결제방법<br>결제금액</th>
                 </tr>
                 </thead>
                     <c:if test="${applList.size() == 0}" >
@@ -71,10 +72,10 @@
                         <td>${applList.applId}</td>
                         <td>${applList.campName}</td>
                         <td>${applList.deptName}</td>
-                        <td >${applList.corsTypeName}</td>
+                        <td >${applList.applAttrName}<br>${applList.corsTypeName}</td>
                         <td >${applList.korName} <br> ${applList.rgstNo}</td>
                         <td >${applList.mobiNum} <br>${applList.mailAddr} </td>
-                        <td >${applList.applStsName}</td>
+                        <td >${applList.payTypeName}<br>${applList.admsFee} </td>
                     </tr>
                     </c:forEach>
             </table>
@@ -117,6 +118,7 @@
             e.preventDefault();
             submitForm();
         });
+
 
         function submitForm(){
             jQuery("#page-number-hidden").val(1);

@@ -47,38 +47,33 @@
 				<td>${applInfo.applId}</td>				
 				<th>전형구분</th>
 				<td>${applInfo.admsTypeName}</td>
-				<th>지원일자</th>
-				<td><fmt:formatDate value="${applInfo.applDate}" pattern="yyyy년 MM월 dd일 HH시 mm분" /></td>			
+                <th>학연산 기관</th>
+                <td><c:if test="${empty applInfo.ariInstName}" >해당없음</c:if><c:if test="${not empty applInfo.ariInstName}" >${applInfo.ariInstName}</c:if></td>
 			</tr>
 			<tr>
 				<th>캠퍼스</th>
 				<td>${applInfo.campName}</td>
-                <th>지원과정</th>
-                <td>${applInfo.corsTypeName}</td>
-                <th>전형료</th>
-                <td><fmt:formatNumber type="currency"   maxFractionDigits="3" value="${applInfo.admsFee}" /></td>
-
+                <th>지원구분</th>
+                <td>${applInfo.applAttrName}</td>
+                <th>지원일자</th>
+                <td><fmt:formatDate value="${applInfo.applDate}" pattern="yyyy년 MM월 dd일 HH시 mm분" /></td>
             </tr>
 			<tr>
                 <th>대학</th>
                 <td>${applInfo.collName}</td>
-                <th>세부전공</th>
-                <td>${applInfo.detlMajName}</td>
-                <th>결제방법</th>
-                <td></td>
+                <th>지원과정</th>
+                <td>${applInfo.corsTypeName}</td>
+                <th>전형료</th>
+                <td><fmt:formatNumber type="currency"   maxFractionDigits="3" value="${applInfo.admsFee}" /></td>
 			</tr>				
 			<tr>
                 <th>학과</th>
                 <td>${applInfo.deptName}</td>
-                <th>학연산 기관</th>
-                <td><c:if test="${empty applInfo.ariInstName}" >해당없음</c:if><c:if test="${not empty applInfo.ariInstName}" >${applInfo.ariInstName}</c:if></td>
-                <th>지원상태</th>
-				<td>${applInfo.applStsName}</td>					
+                <th>세부전공</th>
+                <td>${applInfo.detlMajName}</td>
+                <th>결제방법</th>
+                <td>${applInfo.payTypeName}</td>
 			</tr>
-            <tr>
-
-
-            </tr>
         </tbody>
 	</table>
 </div>
@@ -126,25 +121,17 @@
 		</tbody>
 	</table>
 </div>
-<div id="LblockSubbutton01" class="LblockSubbutton">
-    <a href="#"><input type="button"  id="chgDeptBtn" value="지원단위 변경"  /></a>
-</div>
-<div id="LblockcChgInfoBtn" class="LblockSubbutton">
-	<a href="#"><input type="button"  id="chgInfoBtn" value="개인 정보수정" /></a>	
-</div>
-<div id="LblockCancelBtn"class="LblockSubbutton">
-	<a href="#"><input type="button"  id="cancelBtn" value="지원 취소"  /></a>
-</div>
-    <div id="LblockBacklBtn"class="LblockSubbutton">
-        <a href="#"><input type="button"  id="backBtn" value="목록"  /></a>
-    </div>
-</div>
+<div  id="LblockcChgInfoBtn" class="LblockSubbutton">
+    <a href="#"><input type="button"  id="backBtn" value="목록"  /></a>
+    <a href="#"><input type="button"  id="chgInfoBtn" value="개인 정보수정" /></a>
+    <a href="#"><input type="button"  id="chgDeptBtn"  value="지원단위 변경"  /></a>
+    <a href="#"><input type="button"  id="cancelBtn" value="지원 취소"  /></a>
 
 </div>
 
 
 
-</div>
+
 
 
 
@@ -166,10 +153,8 @@
 	   	});
     	jQuery('#cancelBtn').on('click', function(event) {
 	   		event.preventDefault();
-            alert("아직 개발중입니다")
-            <%--
-            jQuery('#searchForm').attr("action", '${contextPath}/admin//modification/cancel');
-            document.getElementById('searchForm').submit();--%>
+            jQuery('#searchForm').attr("action", '${contextPath}/admin//modification/cancelAppl');
+            document.getElementById('searchForm').submit();
         });
         jQuery('#backBtn').on('click', function(event) {
             event.preventDefault();

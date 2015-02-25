@@ -1,9 +1,4 @@
-﻿/**
- *  common.js version 1.0
- *
- * AUTHORS LIST       E-MAIL  
- * jaehyun lim    jhylim@lgcns.com
- */
+﻿
 var _leftMenu, _leftMenuHtml;
 var _slideMenu;
 function changeLeftMenuStyle(aEvent) { 

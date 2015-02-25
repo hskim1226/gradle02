@@ -10,8 +10,11 @@ public class ApplicantCnt {
 	private int cnt1 = 0;
 	private int cnt2 = 0;
 	private int cnt3 = 0;
-	private int cnt4 = 0;	
-	private int totalCnt = 0;
+	private int cnt4 = 0;
+    private int cnt5 = 0;
+    private int cnt6 = 0;
+    private int cnt7 = 0;
+    private int totalCnt = 0;
 	
 
 	public int getTotalCnt() {
@@ -74,7 +77,29 @@ public class ApplicantCnt {
 	}
 	public void setCnt4(int cnt4) {
 		this.cnt4 = cnt4;
-	}	
+	}
 
-	
+    public int getCnt5() {
+        return cnt5;
+    }
+
+    public void setCnt5(int cnt5) {
+        this.cnt5 = cnt5;
+    }
+
+    public int getCnt6() {
+        return cnt6;
+    }
+
+    public void setCnt6(int cnt6) {
+        this.cnt6 = cnt6;
+    }
+
+    public int getCnt7() {
+        return cnt7;
+    }
+
+    public void setCnt7(int cnt7) {
+        this.cnt7 = cnt7;
+    }
 }

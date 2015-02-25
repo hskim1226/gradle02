@@ -30,5 +30,18 @@
         from DEPT
         where DEPT_CODE = #{deptCode,jdbcType=VARCHAR}
     </select>
+    <select id="selectAllDepartmentByColl"
+            resultType="com.apexsoft.ysprj.applicants.common.domain.CodeNameDepartment"
+            parameterType="com.apexsoft.ysprj.applicants.common.domain.ParamForSetupCourses" >
+        SELECT A.DEPT_CODE, B.DEPT_NAME, B.DEPT_NAME_XXEN
+        FROM ADMS_DEPT A, DEPT B
+        WHERE A.DEPT_CODE = B.DEPT_CODE
+        <if test="admsNo != null and admsNo !=''">
+            AND A.ADMS_NO = #{admsNo,jdbcType=VARCHAR}
+        </if>
+        AND B.COLL_CODE = #{collCode,jdbcType=VARCHAR}
+        AND ( A.ADMS_NO ='Y' OR A.ARI_YN ='Y' OR A.COM_YN ='Y')
+        ORDER BY B.DEPT_SEQ
+    </select>
 
 </mapper>

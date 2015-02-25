@@ -121,8 +121,8 @@
                     <tr class="<c:if test="${status.index == 0}">Lfirst </c:if>applList" applNo="${applList.applNo}">
                         <td>${applList.applId}</td>
                         <td>${applList.campName}</td>
-                        <td>${applList.deptName}</td>
-                        <td >${applList.corsTypeCode}</td>
+                        <td>${applList.deptName}<br>${applList.detlMajName} </td>
+                        <td >${applList.corsTypeName}</td>
                         <td >${applList.korName} <br> ${applList.rgstNo}</td>
                         <td >${applList.mobiNum} <br>${applList.mailAddr} </td>
                         <td >${applList.applStsCode}</td>                
