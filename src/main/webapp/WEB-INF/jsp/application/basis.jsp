@@ -833,7 +833,7 @@
                                 </spring:bind>
                                     </div>
                                 </div>
-                                <div class="form-group">
+                                <div class="form-group required">
                                     <label for="applicationGeneral.emerContCode" class="col-sm-2 control-label">관계</label>
                                     <div class="col-sm-9">
                                         <div class="col-sm-12">
@@ -842,6 +842,13 @@
                                                 <form:options items="${selection.emerContList}" itemValue="code" itemLabel="codeVal" />
                                             </form:select>
                                         </div>
+                                <spring:bind path="applicationGeneral.emerContCode">
+                                    <c:if test="${status.error}">
+                                        <div class="col-sm-12">
+                                            <div class="validation-error">${status.errorMessage}</div>
+                                        </div>
+                                    </c:if>
+                                </spring:bind>
                                     </div>
                                 </div>
                                 <div class="form-group required">
