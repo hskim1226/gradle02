@@ -28,7 +28,7 @@ public interface UserAccountService {
 
     //void modifyUsersGrade(String[] usernames, String[] grades);
 
-    Integer modifyUsers(Users users);
+    ExecutionContext modifyUser( Users users );
 
     ExecutionContext retrieveUserIds(Users users, int showLength);
 

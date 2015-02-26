@@ -29,16 +29,16 @@ public class MypageController {
         return "user/detail";
     }
 
-    @RequestMapping(value = "/mypageXXX", method = RequestMethod.POST)
-    @ResponseBody
-    public ExecutionContext editAccount(@ModelAttribute @Valid Users users, BindingResult bindingResult) {
-        if( bindingResult.hasErrors() ) {
-            return new ExecutionContext( ExecutionContext.FAIL );
-        }
-        if( userAccountService.modifyUsers(users) != 1 ) {
-            String message = bindingResult.toString();
-            return new ExecutionContext( ExecutionContext.FAIL, message );
-        }
-        return new ExecutionContext();
-    }
+//    @RequestMapping(value = "/mypageXXX", method = RequestMethod.POST)
+//    @ResponseBody
+//    public ExecutionContext editAccount(@ModelAttribute @Valid Users users, BindingResult bindingResult) {
+//        if( bindingResult.hasErrors() ) {
+//            return new ExecutionContext( ExecutionContext.FAIL );
+//        }
+//        if( userAccountService.modifyUser(users) != 1 ) {
+//            String message = bindingResult.toString();
+//            return new ExecutionContext( ExecutionContext.FAIL, message );
+//        }
+//        return new ExecutionContext();
+//    }
 }

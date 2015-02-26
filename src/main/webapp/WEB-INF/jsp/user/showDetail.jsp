@@ -1,105 +1,256 @@
 <%@ page contentType="text/html;charset=UTF-8"%>
-<%@include file="/WEB-INF/jsp/common/env.jsp"%>
-<html>
+<%@ include file="/WEB-INF/jsp/common/env.jsp"%>
+<html lang='ko'>
 <head>
-    <title></title>
+    <title>회원 정보</title>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css">
     <style>
-        section.detail .form-control[disabled] {
-            cursor: auto;
-            background-color: #569;
-            color: #fff;
+        section.normal-white div.btn-group>label.btn {
+            max-width: none;
+        }
+        
+        section.normal-white textarea.form-control[readonly] {
+            cursor: default;
+            resize: none;
+            -moz-user-select: none;
+            -webkit-user-select: none;
+            -khtml-user-select: none;
+            user-select: none;
+        }
+        input[readonly] {
+            background-color: white !important;
+            cursor: text !important;
         }
     </style>
 </head>
 <body>
 <section class="normal-white">
     <div class="container">
-        <h3> detail </h3>
-
-        <form:form commandName="users" class="form-horizontal" action="${contextPath}/mypage" method="post">
-            <form:errors path="*" css="errors" />
-            <%--user id--%>
-            <div class="form-group">
-                <form:label path="userId" cssClass="col-sm-2 control-label">User ID</form:label>
-                <div class="col-sm-10">
-                    <form:input path="userId" cssClass="form-control" disabled="true" />
-                </div>
-            </div>
-            <%--password--%>
-<%--
-            <div class="form-group">
-                <label for="newPassword" class="col-sm-2 control-label">Password</label>
-                <div class="col-sm-10">
-                    <div class="input-group">
-                        <input type="password" class="form-control" id="password" name="password" />
-                        <input type="password" class="form-control" id="newPassword" name="newPassword" />
-                        <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" />
+        <form:form class="form-horizontal" id="sign-up-form" commandName="users" action="${contextPath}/user/signup/save" method="post" role="form">
+            <form:hidden path="userAgreYn" />
+            <form:hidden path="privInfoYn" />
+            <div class="col-md-offset-2 col-md-8">
+                <div class="form-group inner-container-white">
+                    <div class="col-sm-offset-1 col-sm-10 text-gray">
+                        <i class="fa fa-user fa-3x" style="vertical-align: middle; line-height:40px;"></i>&nbsp;&nbsp;<span style="font-size: 35px; vertical-align: middle; line-height:40px;"><b>회원 정보</b></span>
                     </div>
-                </div>
-            </div>
---%>
-            <%--email--%>
-            <div class="form-group">
-                <form:label path="mailAddr" cssClass="col-sm-2 control-label" cssErrorClass="errorMessage">E-Mail</form:label>
-                <div class="col-sm-6">
-                    <form:input path="mailAddr" cssClass="form-control" />
-                </div>
-                <form:label path="mailRecvYn" cssClass="control-label">
-                    <form:checkbox path="mailRecvYn" value="y" label="I Agree" />
-                </form:label>
-            </div>
-            <%--mobiNum--%>
-            <div class="form-group">
-                <form:label path="mobiNum" cssClass="col-sm-2 control-label">Mobile</form:label>
-                <div class="col-sm-6">
-                    <form:input path="mobiNum" cssClass="form-control" placeholder="###-####-####" />
-                </div>
-                <form:label path="smsRecvYn" cssClass="control-label">
-                    <form:checkbox path="smsRecvYn" value="y" label="I Agree" />
-                </form:label>
-            </div>
-            <%--name--%>
-            <div class="form-group">
-                <form:label path="name" cssClass="col-sm-2 control-label">User Name</form:label>
-                <div class="col-sm-10">
-                    <form:input path="name" cssClass="form-control" placeholder="Name" />
-                </div>
-            </div>
-            <%--gend--%>
-            <div class="form-group">
-                <form:label path="gend" class="col-sm-2 control-label">Gender</form:label>
-                <div class="col-sm-10">
-                    <div class="btn-group" data-toggle="buttons">
-                        <label class="btn btn-default">
-                            <form:radiobutton path="gend" id="gend-male" value="m" />Male
-                        </label>
-                        <label class="btn btn-default">
-                            <form:radiobutton path="gend" id="gend-female" value="f" />Female
-                        </label>
+                    <div class="spacer-small">&nbsp;</div>
+                    <%--user id--%>
+                    <div class="form-group text-gray">
+                        <div class="col-sm-offset-2 col-sm-8">
+                            <div class="form-group col-sm-4">
+                                <label for="userId" class="control-label"><spring:message code="L101" /></label>
+                            </div>
+                            <div class="col-sm-8 nopadding">
+                                <div>
+                                    <h4>${users.userId}</h4>
+                                    <form:hidden path="userId" />
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </div>
-            <%--calendar--%>
-            <div class="form-group">
-                <form:label path="bornDay" cssClass="col-sm-2 control-label">Birthday</form:label>
-                <div class="col-sm-10" id="sandbox-container">
-                    <div class="input-group date">
-                        <form:input path="bornDay" class="form-control" />
-                        <span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
+                    <%--email--%>
+                    <div class="form-group text-gray">
+                        <div class="col-sm-offset-2 col-sm-8">
+                            <div class="form-group col-sm-4">
+                                <label for="mailAddr" class="control-label"><spring:message code="L103" /></label>
+                            </div>
+                            <div class="col-sm-8 nopadding">
+                                <div><form:input type="email" cssClass="form-control emailOnly" path="mailAddr" placeholder="이메일 주소를 입력해 주세요" /></div>
+                        <spring:bind path="mailAddr">
+                            <c:if test="${status.error}">
+                                <div class="validation-error">${status.errorMessage}</div>
+                            </c:if>
+                        </spring:bind>
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </div>
-            <%--submit--%>
-            <div class="form-group">
-                <div class="col-sm-offset-2 col-sm-5 col-xs-6">
-                    <button type="submit" id="update-button" class="btn btn-primary btn-lg btn-block">수정</button>
-                </div>
-                <div class="col-sm-5 col-xs-6">
-                    <button type="reset" id="cancel-button" class="btn btn-default btn-lg btn-block">취소</button>
+                    <%--mobiNum--%>
+                    <div class="form-group text-gray">
+                        <div class="col-sm-offset-2 col-sm-8">
+                            <div class="form-group col-sm-4">
+                                <label for="mobiNum" class="control-label"><spring:message code="L104" /></label>
+                            </div>
+                            <div class="col-sm-8 nopadding">
+                                <div><form:input type="text" cssClass="form-control numOnly phone" path="mobiNum" placeholder="숫자로만 입력해 주세요" /></div>
+                        <spring:bind path="mobiNum">
+                            <c:if test="${status.error}">
+                                <div class="validation-error">${status.errorMessage}</div>
+                            </c:if>
+                        </spring:bind>
+                            </div>
+                        </div>
+                    </div>
+                    <%--name--%>
+                    <div class="form-group text-gray">
+                        <div class="col-sm-offset-2 col-sm-8">
+                            <div class="form-group col-sm-4">
+                                <label for="name" class="control-label"><spring:message code="L105" /></label>
+                            </div>
+                            <div class="col-sm-8 nopadding">
+                                <div><form:input type="text" cssClass="form-control" path="name" placeholder="실명을 입력해주세요" /></div>
+                        <spring:bind path="name">
+                            <c:if test="${status.error}">
+                                <div class="validation-error">${status.errorMessage}</div>
+                            </c:if>
+                        </spring:bind>
+                            </div>
+                        </div>
+                    </div>
+                    <%--gend--%>
+                    <div class="form-group text-gray">
+                        <div class="col-sm-offset-2 col-sm-8">
+                            <div class="form-group col-sm-4">
+                                <label class="control-label"><spring:message code="L106" /></label>
+                            </div>
+                            <div class="col-sm-8 nopadding">
+                                <div>
+                                    <div class="btn-group btn-group-justified" data-toggle="buttons">
+                                        <label class="btn btn-default active">
+                                            <input type="radio" name="gend" id="gend[]" value="m" checked /><spring:message code="L114" />
+                                        </label>
+                                        <label class="btn btn-default">
+                                            <input type="radio" name="gend" id="gend[]" value="f" /><spring:message code="L115" />
+                                        </label>
+                                    </div>
+                                </div>
+                        <spring:bind path="gend">
+                            <c:if test="${status.error}">
+                                <div class="validation-error">${status.errorMessage}</div>
+                            </c:if>
+                        </spring:bind>
+                            </div>
+                        </div>
+                    </div>
+                    <%--calendar--%>
+                    <div class="form-group text-gray">
+                        <div class="col-sm-offset-2 col-sm-8">
+                            <div class="form-group col-sm-4">
+                                <label for="bornDay" class="control-label"><spring:message code="L107" /></label>
+                            </div>
+                            <div class="col-sm-8 nopadding">
+                                <div>
+                                    <div class="input-group date">
+                                        <form:input path="bornDay" cssClass="form-control" readonly="true"/>
+                                        <span class="input-group-addon calendar-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                    </div>
+                                </div>
+                        <spring:bind path="bornDay">
+                            <c:if test="${status.error}">
+                                <div class="validation-error">${status.errorMessage}</div>
+                            </c:if>
+                        </spring:bind>
+                            </div>
+                        </div>
+                    </div>
+                    <%--submit--%>
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-8">
+                            <div class="col-sm-12 btn-group btn-group-justified">
+                                <div class="btn-group col-sm-6">
+                                    <button id="modify" class="btn btn-primary btn-lg"><spring:message code="L118" /></button>
+                                </div>
+                                <div class="btn-group col-sm-6">
+                                    <button id="change-pwd" class="btn btn-info btn-lg"><spring:message code="L119" /></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </form:form>
     </div>
 </section>
+<content tag="local-script">
+<script src="${contextPath}/js/jquery-ui.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function(){
+        $("#modify").on("click", function(e){
+            e.preventDefault();
+
+            $('.phone').each( function() {
+                this.value = this.value.replace(/(^02.{0}|^01.{1}|[0-9]{3})([0-9]+)([0-9]{4})/,"$1-$2-$3");
+            });
+            document.forms[0].action = "${contextPath}/user/modify";
+            document.forms[0].submit();
+
+        });
+
+        $("#change-pwd").on("click", function(e){
+            e.preventDefault();
+
+            document.forms[0].action = "${contextPath}/user/changePwd";
+            document.forms[0].submit();
+
+        });
+
+        <%-- 아이디 영대소문자 처리 시작 --%>
+        $('.engName').on('keyup', function() {
+            this.value = this.value.replace(/([^0-9A-Za-z])/g,"");
+        });
+        <%-- 아이디 영대소문자 처리 시작 --%>
+
+        <%-- 메일 주소 validation --%>
+        $('.emailOnly').on('blur', function () {
+            var emailRegExp = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+                    val = this.value;
+            if (!emailRegExp.test(val) && val != '') {
+                alert("이메일 주소를 정확히 기재해 주세요")
+                this.value = "";
+                this.focus();
+            }
+        });
+        <%-- 메일 주소 validation --%>
+
+        <%-- 숫자만 입력 - 주민번호, 휴대폰, 전화번호 --%>
+        $('.numOnly').on('blur', function () {
+            var numCheckRegExp = /^[0-9]*$/,
+                    val = this.value;
+            if (!numCheckRegExp.test(val) && val != '') {
+                alert("형식에 맞게 정확히 기재해 주세요");
+                this.value = "";
+                this.focus();
+            }
+        });
+        <%-- 숫자만 입력 - 주민번호, 휴대폰, 전화번호 --%>
+
+        <%-- 달력 옵션 --%>
+        var datePickerOption = {
+            dateFormat: 'yymmdd',
+            yearRange: "1950:",
+            monthNamesShort: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
+            dayNamesMin: ['일','월','화','수','목','금','토'],
+            changeMonth: true, //월변경가능
+            changeYear: true, //년변경가능
+            showMonthAfterYear: true //년 뒤에 월 표시
+        };
+        <%-- 달력 옵션 --%>
+
+        <%-- 달력 시작 --%>
+        $('.input-group.date>input').datepicker(datePickerOption);
+        $('.calendar-addon').on('click', function () {
+            $(this.parentNode).children('input')[0].focus();
+        });
+        <%-- 달력 끝 --%>
+
+        <%-- 달력 reset 함수 --%>
+        var resetCalendar = function (block, calendarClass) {
+            $(block).find(calendarClass).datepicker('destroy');
+            $(block).find(calendarClass).datepicker(datePickerOption);
+        };
+        <%-- 달력 reset 함수 --%>
+
+        <%-- action 성공 여부 알림 처리 --%>
+        var showActionResult = function() {
+            var msg = '${resultMsg}';
+            if (msg.length > 0) {
+                confirm(msg);
+            }
+        };
+        showActionResult();
+        <%-- action 성공 여부 알림 처리 --%>
+    });
+</script>
+</content>
 </body>
 </html>

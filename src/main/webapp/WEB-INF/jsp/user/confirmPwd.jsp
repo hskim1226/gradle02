@@ -3,7 +3,6 @@
 <html lang='ko'>
 <head>
     <title>비밀번호 재설정</title>
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css">
     <style>
         .input-text {
             height: 50px;
@@ -34,7 +33,7 @@
                             </div>
                             <div class="col-sm-9">
                                 <div class="col-sm-12 nopadding input-group">
-                                    <input id="pswd" name="pswd" class="form-control input-text" placeholder="새 비밀번호 입력" />
+                                    <input type="password" id="pswd" name="pswd" class="form-control input-text passwd" placeholder="새 비밀번호 입력" />
                                 </div>
                         <spring:bind path="pswd">
                             <c:if test="${status.error}">
@@ -53,7 +52,7 @@
                             </div>
                             <div class="col-sm-9">
                                 <div class="col-sm-12 nopadding input-group">
-                                    <input id="pswd2" name="pswd2" class="form-control input-text" placeholder="새 비밀번호 입력" />
+                                    <input type="password" id="pswd2" name="pswd2" class="form-control input-text passwd" placeholder="새 비밀번호 입력" />
                                 </div>
                             </div>
                         </div>
@@ -70,7 +69,6 @@
     </div>
 </section>
 <content tag="local-script">
-<script src="${contextPath}/js/jquery-ui.min.js"></script>
 <script type="text/javascript">
 $(document).ready(function() {
 
@@ -89,6 +87,18 @@ $(document).ready(function() {
         return pwdOk;
     }
     <%-- 비밀번호 비교 --%>
+
+    <%-- 비밀 번호 validation --%>
+    $('.passwd').on('blur', function () {
+        var passwdRegExp = /^(?=\w{6,}$)(?=.*\d)(?=.*[A-Z]).*/,
+                val = this.value;
+        if (!passwdRegExp.test(val) && val != '') {
+            alert("비밀번호는 6자리 이상, 영 대/소문자와 숫자가 포함되어야 합니다.");
+            this.value = "";
+            this.focus();
+        }
+    });
+    <%-- 비밀 번호 validation --%>
 
     <%-- 하단 버튼 처리 --%>
     var formProcess = function(event) {
@@ -117,10 +127,6 @@ $(document).ready(function() {
     <%-- action 성공 여부 알림 처리 --%>
 
     $('#pswd').focus();
-
-    <%-- placeholder polyfill --%>
-    $('input, textarea').placeholder();
-    <%-- placeholder polyfill --%>
 });
 </script>
 </content>

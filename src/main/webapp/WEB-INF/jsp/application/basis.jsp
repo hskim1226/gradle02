@@ -770,7 +770,7 @@
                                         <label for="application.telNum" class="col-sm-2 control-label">전화번호</label>
                                         <div class="col-sm-9">
                                             <div class="col-sm-12">
-                                                <form:input path="application.telNum" cssClass="form-control numOnly" maxlength="20" placeholder="전화번호를 '-'와 숫자로만 입력해주세요"/>
+                                                <form:input path="application.telNum" cssClass="form-control numOnly phone" maxlength="20" placeholder="전화번호를 숫자로만 입력해주세요"/>
                                             </div>
                                             <spring:bind path="application.telNum">
                                                 <c:if test="${status.error}">
@@ -785,7 +785,7 @@
                                         <label for="application.mobiNum" class="col-sm-2 control-label">휴대폰</label>
                                         <div class="col-sm-9">
                                             <div class="col-sm-12">
-                                                <form:input path="application.mobiNum" cssClass="form-control numOnly" maxlength="20" placeholder="휴대폰번호를 '-'와 숫자로만 입력해주세요"/>
+                                                <form:input path="application.mobiNum" cssClass="form-control numOnly phone" maxlength="20" placeholder="휴대폰번호를 숫자로만 입력해주세요"/>
                                             </div>
                                             <spring:bind path="application.mobiNum">
                                                 <c:if test="${status.error}">
@@ -856,7 +856,7 @@
                                                 <label for="applicationGeneral.emerContTel" class="col-sm-2 control-label">전화번호</label>
                                                 <div class="col-sm-9">
                                                     <div class="col-sm-12">
-                                                        <form:input path="applicationGeneral.emerContTel" cssClass="form-control numOnly" maxlength="20" placeholder="전화번호를 '-'와 숫자로만 입력해주세요"/>
+                                                        <form:input path="applicationGeneral.emerContTel" cssClass="form-control numOnly phone" maxlength="20" placeholder="전화번호를 숫자로만 입력해주세요"/>
                                                     </div>
                                                     <spring:bind path="applicationGeneral.emerContTel">
                                                         <c:if test="${status.error}">
@@ -907,7 +907,7 @@
                                                         <label for="applicationForeigner.korEmrgTel" class="col-sm-2 control-label">전화번호</label>
                                                         <div class="col-sm-9">
                                                             <div class="col-sm-12">
-                                                                <form:input path="applicationForeigner.korEmrgTel" cssClass="form-control numOnly" maxlength="20" placeholder="전화번호를 '-'와 숫자로만 입력해주세요"/>
+                                                                <form:input path="applicationForeigner.korEmrgTel" cssClass="form-control numOnly phone" maxlength="20" placeholder="전화번호를 숫자로만 입력해주세요"/>
                                                             </div>
                                                             <spring:bind path="applicationForeigner.korEmrgTel">
                                                                 <c:if test="${status.error}">
@@ -953,7 +953,7 @@
                                                         <label for="applicationForeigner.homeEmrgTel" class="col-sm-2 control-label">전화번호</label>
                                                         <div class="col-sm-9">
                                                             <div class="col-sm-12">
-                                                                <form:input path="applicationForeigner.homeEmrgTel" cssClass="form-control numOnly" maxlength="20" placeholder="전화번호를 '-'와 숫자로만 입력해주세요"/>
+                                                                <form:input path="applicationForeigner.homeEmrgTel" cssClass="form-control numOnly" maxlength="20" placeholder="전화번호를 숫자로만 입력해주세요"/>
                                                             </div>
                                                             <spring:bind path="applicationForeigner.homeEmrgTel">
                                                                 <c:if test="${status.error}">
@@ -1167,6 +1167,9 @@
                 alert('<spring:message code="U329"/>');
                 $('#applAttrCode').focus();
             } else {
+                $('.phone').each( function() {
+                    this.value = this.value.replace(/(^02.{0}|^01.{1}|[0-9]{3})([0-9]+)([0-9]{4})/,"$1-$2-$3");
+                });
                 form.action = "${contextPath}/application/basis/save";
                 form.submit();
             }
@@ -1192,7 +1195,7 @@
 
         <%-- 숫자만 입력 - 주민번호, 휴대폰, 전화번호 --%>
         $('.numOnly').on('blur', function () {
-            var numCheckRegExp = this.id == 'application.rgstNo' ? /^[0-9]*$/ : /^[0-9\-]*$/,
+            var numCheckRegExp = /^[0-9]*$/,
                 val = this.value;
             if (!numCheckRegExp.test(val) && val != '') {
                 alert("형식에 맞게 정확히 기재해 주세요");

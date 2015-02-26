@@ -4,6 +4,8 @@ import com.apexsoft.framework.common.vo.ExecutionContext;
 import com.apexsoft.framework.message.MessageResolver;
 import com.apexsoft.ysprj.user.domain.Users;
 import com.apexsoft.ysprj.user.service.UserAccountService;
+import com.apexsoft.ysprj.user.validator.UserModValidator;
+import com.apexsoft.ysprj.user.validator.UserValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -33,6 +35,12 @@ public class UserAccountController {
 
     @Autowired
     private ServletContext context;
+
+    @Autowired
+    private UserValidator userValidator;
+
+    @Autowired
+    private UserModValidator userModValidator;
 
     @Autowired
     private UserAccountService userAccountService;
@@ -104,12 +112,14 @@ public class UserAccountController {
 
     @RequestMapping(value="/signup/save", method= RequestMethod.POST)
     public ModelAndView signUp(Users users, BindingResult bindingResult, ModelAndView mv) {
-        mv.setViewName("user/login");
+        userValidator.validate(users, bindingResult);
+        mv.setViewName("user/signupok");
         ExecutionContext ec;
         if (bindingResult.hasErrors()){
-
+            mv.setViewName("user/signup");
+            mv.addObject("resultMsg", messageResolver.getMessage("U334"));
+            return mv;
         }
-        int r = 0;
         ec = userAccountService.registerUserAndAuthority(users);
         mv.addObject("resultMsg", ec.getMessage());
         return mv;
@@ -125,7 +135,7 @@ public class UserAccountController {
     public String detail(Model model, Principal principal) {
         Users users = userAccountService.retrieveUser(principal.getName());
         model.addAttribute(users);
-        return "user/showDetail";
+        return "unused/showDetail";
     }
 
     /**
@@ -284,5 +294,56 @@ public class UserAccountController {
         return mv;
     }
 
+    /**
+     * 개인 정보 수정
+     *
+     * @param users
+     * @param mv
+     * @return
+     */
+    @RequestMapping(value = "/modify", method = RequestMethod.POST)
+    public ModelAndView modifyUserInfo(Users users, BindingResult bindingResult, ModelAndView mv) {
 
+        userModValidator.validate(users, bindingResult);
+        mv.setViewName("user/showDetail");
+        if (bindingResult.hasErrors()){
+            mv.addObject("resultMsg", messageResolver.getMessage("U334"));
+            return mv;
+        }
+        users.setEnabled(true);
+        ExecutionContext ec = userAccountService.modifyUser(users);
+        mv.addObject("resultMsg", ec.getMessage());
+        return mv;
+    }
+
+    /**
+     * 비밀 번호 변경 요청
+     *
+     * @return
+     */
+    @RequestMapping(value = "/changePwd", method = RequestMethod.POST)
+    public String showPasswdView() {
+        return "user/modifyPwd";
+    }
+
+    /**
+     * 현재 비밀 번호 체크
+     *
+     * @return
+     */
+    @RequestMapping(value = "/checkCurrPwd", method = RequestMethod.POST)
+    public ModelAndView checkCurrPwd(Users users, Principal principal, ModelAndView mv) {
+
+        users.setUserId(principal.getName());
+        ExecutionContext ec = userAccountService.checkPwd(users);
+        if (ExecutionContext.SUCCESS.equals(ec.getResult())) {
+            mv.setViewName("user/confirmPwd");
+            mv.addObject("users", ec.getData());
+        } else {
+            mv.setViewName("user/modifyPwd");
+            mv.addObject("resultMsg", ec.getMessage());
+        }
+
+        return mv;
+    }
 }

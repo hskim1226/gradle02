@@ -11,7 +11,7 @@ import org.springframework.validation.Validator;
  * Created by hanmomhanda on 15. 2. 26.
  */
 @Component
-public class UserValidator implements Validator{
+public class UserModValidator implements Validator{
 
     @Autowired
     MessageResolver messageResolver;
@@ -25,14 +25,6 @@ public class UserValidator implements Validator{
     public void validate(Object o, Errors errors) {
         Users users = (Users) o;
 
-        if (users.getUserId() == null || users.getUserId().length() == 0) {
-            errors.rejectValue("userId", "U331",
-                    new Object[]{"아이디"}, messageResolver.getMessage("U332"));
-        }
-        if (users.getPswd() == null || users.getPswd().length() == 0) {
-            errors.rejectValue("pswd", "U331",
-                    new Object[]{"비밀 번호"}, messageResolver.getMessage("U332"));
-        }
         if (users.getMailAddr() == null || users.getMailAddr().length() == 0) {
             errors.rejectValue("mailAddr", "U331",
                     new Object[]{"메일 주소"}, messageResolver.getMessage("U332"));

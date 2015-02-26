@@ -84,6 +84,56 @@
 		]]>
     </update>
 
+    <update id="updateUserByPrimaryKeySelective" parameterType="com.apexsoft.ysprj.user.domain.Users">
+
+        update USER
+        <set>
+            <if test="name != null">
+                NAME = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="bornDay != null">
+                BORN_DAY = #{bornDay,jdbcType=VARCHAR},
+            </if>
+            <if test="gend != null">
+                GEND = #{gend,jdbcType=VARCHAR},
+            </if>
+            <if test="mobiNum != null">
+                MOBI_NUM = #{mobiNum,jdbcType=VARCHAR},
+            </if>
+            <if test="mailAddr != null">
+                MAIL_ADDR = #{mailAddr,jdbcType=VARCHAR},
+            </if>
+            <if test="smsRecvYn != null">
+                SMS_RECV_YN = #{smsRecvYn,jdbcType=VARCHAR},
+            </if>
+            <if test="mailRecvYn != null">
+                MAIL_RECV_YN = #{mailRecvYn,jdbcType=VARCHAR},
+            </if>
+            <if test="userDivsCode != null">
+                USER_DIVS_CODE = #{userDivsCode,jdbcType=VARCHAR},
+            </if>
+            <if test="userAgreYn != null">
+                USER_AGRE_YN = #{userAgreYn,jdbcType=VARCHAR},
+            </if>
+            <if test="privInfoYn != null">
+                PRIV_INFO_YN = #{privInfoYn,jdbcType=VARCHAR},
+            </if>
+            <if test="userStsCode != null">
+                USER_STS_CODE = #{userStsCode,jdbcType=VARCHAR},
+            </if>
+            <if test="enabled != null">
+                ENABLED = #{enabled,jdbcType=VARCHAR},
+            </if>
+            <if test="modId != null">
+                MOD_ID = #{modId,jdbcType=VARCHAR},
+            </if>
+            <if test="modDate != null">
+                MOD_DATE = #{modDate,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where USER_ID = #{userId,jdbcType=INTEGER}
+    </update>
+
     <select id="selectByPk" resultMap="user" parameterType="String">
         <![CDATA[
 		  SELECT *

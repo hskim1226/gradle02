@@ -41,7 +41,9 @@
         </list>
         </property>
         <property name="defaultEncoding" value="utf-8" />
-        <!-- 운영 시 사용 안함 <property name="cacheSeconds" value="1"/>-->
+        <!-- 운영 시 사용 안함 -->
+        <property name="cacheSeconds" value="1"/>
+        <!-- 운영 시 사용 안함 -->
     </bean>
 
     <bean id="messageResolver"

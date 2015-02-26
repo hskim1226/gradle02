@@ -1,6 +1,7 @@
 package com.apexsoft.ysprj.user.service;
 
 import com.apexsoft.framework.common.vo.ExecutionContext;
+import com.apexsoft.framework.exception.ErrorInfo;
 import com.apexsoft.framework.exception.YSBizException;
 import com.apexsoft.framework.message.MessageResolver;
 import com.apexsoft.framework.persistence.dao.CommonDAO;
@@ -20,6 +21,7 @@ import org.springframework.security.crypto.keygen.StringKeyGenerator;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -214,8 +216,27 @@ public class UserAccountServiceImpl implements UserAccountService {
 //    }
 
     @Override
-    public Integer modifyUsers(Users users) {
-        return commonDAO.update(NAME_SPACE + "updateUser", users);
+    public ExecutionContext modifyUser( Users users ) {
+        ExecutionContext ec = new ExecutionContext();
+
+        users.setModId(users.getUserId());
+        users.setModDate(new Date());
+
+        int u1 = commonDAO.update(NAME_SPACE + "updateUserByPrimaryKeySelective", users);
+
+        if (u1 == 1) {
+            ec.setResult(ExecutionContext.SUCCESS);
+            ec.setMessage(messageResolver.getMessage("U106"));
+        } else {
+            ec.setResult(ExecutionContext.FAIL);
+            ec.setMessage(messageResolver.getMessage("U107"));
+            ec.setErrCode("ERRU001");
+            Map<String, String> errorInfo = new HashMap<String, String>();
+            errorInfo.put("userId", users.getUserId());
+            ec.setErrorInfo(new ErrorInfo(errorInfo));
+            throw new YSBizException(ec);
+        }
+        return ec;
     }
 
     @Override
@@ -224,9 +245,7 @@ public class UserAccountServiceImpl implements UserAccountService {
         Users usersFromDB = retrieveUser(users.getUserId());
 
         String pwd = users.getPswd();
-        passwordEncoder.encode(pwd);
-        System.out.println(passwordEncoder.encode(pwd));
-        System.out.println(usersFromDB.getPswd());
+
         if (passwordEncoder.matches(pwd, usersFromDB.getPswd())) {
             ec.setResult(ExecutionContext.SUCCESS);
             ec.setData(usersFromDB);
