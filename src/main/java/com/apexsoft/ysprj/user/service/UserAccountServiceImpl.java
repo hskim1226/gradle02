@@ -217,4 +217,23 @@ public class UserAccountServiceImpl implements UserAccountService {
     public Integer modifyUsers(Users users) {
         return commonDAO.update(NAME_SPACE + "updateUser", users);
     }
+
+    @Override
+    public ExecutionContext checkPwd(Users users) {
+        ExecutionContext ec = new ExecutionContext();
+        Users usersFromDB = retrieveUser(users.getUserId());
+
+        String pwd = users.getPswd();
+        passwordEncoder.encode(pwd);
+        System.out.println(passwordEncoder.encode(pwd));
+        System.out.println(usersFromDB.getPswd());
+        if (passwordEncoder.matches(pwd, usersFromDB.getPswd())) {
+            ec.setResult(ExecutionContext.SUCCESS);
+            ec.setData(usersFromDB);
+        } else {
+            ec.setResult(ExecutionContext.FAIL);
+            ec.setMessage(messageResolver.getMessage("U105"));
+        }
+        return ec;
+    }
 }

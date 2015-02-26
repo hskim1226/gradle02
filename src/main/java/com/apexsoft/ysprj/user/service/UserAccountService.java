@@ -37,4 +37,6 @@ public interface UserAccountService {
     ExecutionContext retrievePwdLink(Users users);
 
     ExecutionContext isUserIdAvailable(Users users);
+
+    ExecutionContext checkPwd(Users users);
 }

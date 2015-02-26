@@ -1191,11 +1191,13 @@
         <%-- 영문 이름 처리 끝 --%>
 
         <%-- 숫자만 입력 - 주민번호, 휴대폰, 전화번호 --%>
-        $('.numOnly').on('keyup', function () {
-            var numCheckRegExp = this.id == 'application.rgstNo' ? /^[0-9]*$/ : /^[0-9-]*$/,
+        $('.numOnly').on('blur', function () {
+            var numCheckRegExp = this.id == 'application.rgstNo' ? /^[0-9]*$/ : /^[0-9\-]*$/,
                 val = this.value;
-            if (!numCheckRegExp.test(val)) {
-                this.value = val.substr(0, val.length-1);
+            if (!numCheckRegExp.test(val) && val != '') {
+                alert("형식에 맞게 정확히 기재해 주세요");
+                this.value = "";
+                this.focus();
             }
         });
         <%-- 숫자만 입력 - 주민번호, 휴대폰, 전화번호 --%>
@@ -1205,7 +1207,7 @@
             var emailRegExp = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
                 val = this.value;
             if (!emailRegExp.test(val) && val != '') {
-                alert("이메일 주소를 정확히 기재해 주세요")
+                alert("이메일 주소를 정확히 기재해 주세요");
                 this.value = "";
                 this.focus();
             }

@@ -14,9 +14,6 @@
 <body>
 <section class="normal-white">
     <div class="container">
-        <div class="page-header">
-            <h1>회원 정보 수정</h1>
-        </div>
         <h3> detail </h3>
 
         <form:form commandName="users" class="form-horizontal" action="${contextPath}/mypage" method="post">

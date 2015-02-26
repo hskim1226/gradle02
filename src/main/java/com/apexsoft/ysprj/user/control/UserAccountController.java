@@ -125,7 +125,7 @@ public class UserAccountController {
     public String detail(Model model, Principal principal) {
         Users users = userAccountService.retrieveUser(principal.getName());
         model.addAttribute(users);
-        return "user/detail";
+        return "user/showDetail";
     }
 
     /**
@@ -251,9 +251,38 @@ public class UserAccountController {
         return mv;
     }
 
-//    @ModelAttribute("users")
-//    public Users initUsers() {
-//        return new Users();
-//    }
+    /**
+     * 개인 정보 확인
+     *
+     * @return
+     */
+    @RequestMapping(value = "/info")
+    public String showCheckPassword() {
+        return "user/checkPwd";
+    }
+
+    /**
+     * 개인 정보 수정을 위한 비밀번호 입력 화면
+     *
+     * @param users
+     * @param mv
+     * @return
+     */
+    @RequestMapping(value = "/view", method = RequestMethod.POST)
+    public ModelAndView checkPassword(Users users, Principal principal, ModelAndView mv) {
+
+        users.setUserId(principal.getName());
+        ExecutionContext ec = userAccountService.checkPwd(users);
+        if (ExecutionContext.SUCCESS.equals(ec.getResult())) {
+            mv.setViewName("user/showDetail");
+            mv.addObject("users", ec.getData());
+        } else {
+            mv.setViewName("user/checkPwd");
+            mv.addObject("resultMsg", ec.getMessage());
+        }
+
+        return mv;
+    }
+
 
 }
