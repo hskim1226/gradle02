@@ -14,6 +14,8 @@ public interface ChangeService {
 
     ExecutionContext createApplicationCancel( ChangeInfoForm changeInfoForm, String userId );
 
+    ExecutionContext createEtcInfoChange( ChangeInfoForm changeInfoForm, String userId );
+
     ExecutionContext retrieveChangePaginatedList(ChangeSearchPageForm searchForm);
 
     ExecutionContext retrieveChangeDetail(String chgId);

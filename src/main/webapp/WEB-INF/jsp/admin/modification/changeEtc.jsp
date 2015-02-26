@@ -11,8 +11,8 @@
         <div id="LblockPageLocation">
             <ul>
                 <li class="Lfirst"><span><a href="#">HOME</a></span></li>
-                <li><span><a href="#">지원취소</a></span></li>
-                <li class="Llast"><span>지원취소</span></li>
+                <li><span><a href="#">기타 지원내용 변경</a></span></li>
+                <li class="Llast"><span>기타 지원내용 변경</span></li>
             </ul>
         </div>
 
@@ -23,9 +23,9 @@
         <div id="LblockSearch">
             <div>
                 <div>
-                    <form id ="applicantSearchForm" action="${contextPath}/admin//modification/cancelAppl" method="post">
-                        <table summary="지원취소 대상자검색">
-                            <caption>지원취소 대상자검색</caption>
+                    <form id ="applicantSearchForm" action="${contextPath}/admin//modification/changeEtc" method="post">
+                        <table summary="변경 대상자검색">
+                            <caption>변경 대상자검색</caption>
                             <tbody>
                                 <th><label for="applId">수험번호</label></th>
                                 <td><input type="text" class="Ltext" id="applId" name="applId" size="15"  value="${applicantSearchForm.applId}">
@@ -43,20 +43,26 @@
 
         <c:if test="${applInfo.applNo != null}" >
             <div id="LblockPageSubtitle03" class="LblockPageSubtitle">
-                <h2>지원 취소내용</h2>
+                <h2>변경내용</h2>
             </div>
             <div id="LblockDetail03" class="LblockDetail">
 
-                <form id ="changeForm" action="${contextPath}/admin/modification/requestCancel" method="post">
+                <form id ="changeForm" action="${contextPath}/admin/modification/requestChangeEtc" method="post">
                     <input type="hidden" name="applNo" value=${applInfo.applNo}> </input>
                     <input type="hidden" name="admsNo" value=${applInfo.admsNo}> </input>
-                    <input type="hidden" id="befValInput" name ="befVal"> </input>
-                    <input type="hidden" id="aftValInput" name ="aftVal"> </input>
                 <table summary="변경요청 지원정보">
                     <caption>변경요청 지원정보</caption>
                     <tbody>
                     <tr>
-                        <th>취소사유</th>
+                        <th>변경전 내용</th>
+                        <td colspan="5"><textarea  r rows ="5" cols="60" name="befVal"  id="befVal" ></textarea></td>
+                    </tr>
+                    <tr>
+                        <th>변경할 내용</th>
+                        <td colspan="5"><textarea  r rows ="5" cols="60" name="aftVal"  id="aftVal" ></textarea></td>
+                    </tr>
+                    <tr>
+                        <th>변경 사유</th>
                         <td colspan="5"><textarea  r rows ="5" cols="60" name="cnclResn"  id="cnclResn" ></textarea></td>
                     </tr>
                     </tbody>
@@ -65,7 +71,7 @@
             </div>
 
             <div id="LblockButton">
-                <a href="#"><input type="button"  id="changeBtn" value="지원취소요청" /></a>
+                <a href="#"><input type="button"  id="changeBtn" value="기타정보 변경요청" /></a>
             </div>
         </c:if>
     </div>
@@ -78,17 +84,7 @@
         jQuery(document).ready(function() {
             jQuery('#changeBtn').on('click', function(e) {
                 event.preventDefault();
-                if (confirm('해당 지원서를 취소요청 하시겠습니까?')) {
-
-                    jQuery('#befValInput').val(
-                                    "${applInfo.admsTypeName}" +"-"+
-                                    "${applInfo.ariInstName}" +"-"+
-                                    "${applInfo.campName}" +"<br>"+
-                                    "${applInfo.collName}" +"-"+
-                                    "${applInfo.deptName}" +"<br>"+
-                                    "${applInfo.corsTypeName}" +"<br>"+
-                                    "${applInfo.detlMajName}" );
-                    jQuery('#aftValInput').val('--지원 취소--');
+                if (confirm('지원정보를 변경요청 하시겠습니까?')) {
                     jQuery('#changeForm').submit();
                 }
 
