@@ -109,6 +109,7 @@
     <script src="${contextPath}/js/jquery.word-break-keep-all.min.js"></script>
     <script src="${contextPath}/js/json2.js"></script>
     <script src="${contextPath}/js/main.js"></script>
+    <script src="${contextPath}/js/apex.js"></script>
     <%--<script type="text/javascript">--%>
         <%--$(document).ready(function() {--%>
             <%--$('div[role=locale]').on('click', function(e) {--%>

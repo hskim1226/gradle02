@@ -425,7 +425,7 @@
                                         <label for="application.korName" class="col-sm-2 control-label">한글 이름</label>
                                         <div class="col-sm-9">
                                             <div class="col-sm-12">
-                                                <form:input path="application.korName" cssClass="form-control" placeholder="한글 이름을 공백 없이 입력해주세요"/>
+                                                <form:input path="application.korName" cssClass="form-control korName" placeholder="한글 이름을 공백 없이 입력해주세요"/>
                                             </div>
                                             <spring:bind path="application.korName">
                                                 <c:if test="${status.error}">
@@ -1167,9 +1167,7 @@
                 alert('<spring:message code="U329"/>');
                 $('#applAttrCode').focus();
             } else {
-                $('.phone').each( function() {
-                    this.value = this.value.replace(/(^02.{0}|^01.{1}|[0-9]{3})([0-9]+)([0-9]{4})/,"$1-$2-$3");
-                });
+                apex.transKorPhoneNumber('phone');
                 form.action = "${contextPath}/application/basis/save";
                 form.submit();
             }
@@ -1178,43 +1176,19 @@
         <%-- 하단 버튼 처리 --%>
 
         <%-- 한글 이름 공백 제거 --%>
-        var removeSpaceInKorName = function () {
-            var korName = document.getElementById('application.korName');
-            $(korName).on('blur', function () {
-                this.value = this.value.replace(/(\s*)/gi,"");
-            });
-        };
-        removeSpaceInKorName();
+        apex.removeSpace('korName');
         <%-- 한글 이름 공백 제거 --%>
 
         <%-- 영문 이름 처리 시작 --%>
-        $('.engName').on('keyup', function() {
-            this.value = this.value.toUpperCase().replace(/([^A-Z.\-])/g,"");
-        });
+        apex.engNameCheck('engName');
         <%-- 영문 이름 처리 끝 --%>
 
         <%-- 숫자만 입력 - 주민번호, 휴대폰, 전화번호 --%>
-        $('.numOnly').on('blur', function () {
-            var numCheckRegExp = /^[0-9]*$/,
-                val = this.value;
-            if (!numCheckRegExp.test(val) && val != '') {
-                alert("형식에 맞게 정확히 기재해 주세요");
-                this.value = "";
-                this.focus();
-            }
-        });
+        apex.numCheck('numOnly');
         <%-- 숫자만 입력 - 주민번호, 휴대폰, 전화번호 --%>
 
         <%-- 메일 주소 validation --%>
-        $('.emailOnly').on('blur', function () {
-            var emailRegExp = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-                val = this.value;
-            if (!emailRegExp.test(val) && val != '') {
-                alert("이메일 주소를 정확히 기재해 주세요");
-                this.value = "";
-                this.focus();
-            }
-        });
+        apex.emailCheck('emailOnly');
         <%-- 메일 주소 validation --%>
 
         <%-- 국가/학교 검색 시작 --%>
