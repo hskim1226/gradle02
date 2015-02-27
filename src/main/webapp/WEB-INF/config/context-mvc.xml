@@ -55,6 +55,11 @@
         <property name="prefix" value="/WEB-INF/jsp/"/>
         <property name="suffix" value=".jsp"/>
         <property name="order" value="1"/>
+        <property name="exposedContextBeanNames">
+            <list>
+                <value>app</value>
+            </list>
+        </property>
     </bean>
 
     <bean class="org.springframework.web.servlet.view.BeanNameViewResolver">

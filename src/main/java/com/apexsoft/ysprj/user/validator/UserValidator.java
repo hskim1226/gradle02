@@ -37,6 +37,10 @@ public class UserValidator implements Validator{
             errors.rejectValue("mailAddr", "U331",
                     new Object[]{"메일 주소"}, messageResolver.getMessage("U332"));
         }
+        if (users.getPrefLang() == null || users.getPrefLang().length() == 0) {
+            errors.rejectValue("prefLang", "U331",
+                    new Object[]{"선호 언어"}, messageResolver.getMessage("U332"));
+        }
         if (users.getMobiNum() == null || users.getMobiNum().length() == 0) {
             errors.rejectValue("mobiNum", "U331",
                     new Object[]{"휴대폰 번호"}, messageResolver.getMessage("U332"));

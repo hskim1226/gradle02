@@ -49,10 +49,35 @@
                             </div>
                         </div>
                     </div>
+                    <%--preferrence language--%>
+                    <div class="form-group text-gray">
+                        <div class="col-sm-offset-2 col-sm-8">
+                            <div class="form-group col-sm-4 required">
+                                <label class="control-label"><spring:message code="L120" /></label>
+                            </div>
+                            <div class="col-sm-8 nopadding">
+                                <div>
+                                    <div class="btn-group btn-group-justified" data-toggle="buttons">
+                                        <label class="btn btn-default ${users.prefLang == app['lang.kr']?'active':''}">
+                                            <input type="radio" name="prefLang" value="${app['lang.kr']}" ${users.prefLang == app['lang.kr']?'checked':''} /><spring:message code="L121" />
+                                        </label>
+                                        <label class="btn btn-default ${users.prefLang == app['lang.en']?'active':''}">
+                                            <input type="radio" name="prefLang" value="${app['lang.en']}" ${users.prefLang == app['lang.en']?'checked':''} /><spring:message code="L122" />
+                                        </label>
+                                    </div>
+                                </div>
+                                <spring:bind path="prefLang">
+                                    <c:if test="${status.error}">
+                                        <div class="validation-error">${status.errorMessage}</div>
+                                    </c:if>
+                                </spring:bind>
+                            </div>
+                        </div>
+                    </div>
                     <%--email--%>
                     <div class="form-group text-gray">
                         <div class="col-sm-offset-2 col-sm-8">
-                            <div class="form-group col-sm-4">
+                            <div class="form-group col-sm-4 required">
                                 <label for="mailAddr" class="control-label"><spring:message code="L103" /></label>
                             </div>
                             <div class="col-sm-8 nopadding">
@@ -68,7 +93,7 @@
                     <%--mobiNum--%>
                     <div class="form-group text-gray">
                         <div class="col-sm-offset-2 col-sm-8">
-                            <div class="form-group col-sm-4">
+                            <div class="form-group col-sm-4 required">
                                 <label for="mobiNum" class="control-label"><spring:message code="L104" /></label>
                             </div>
                             <div class="col-sm-8 nopadding">
@@ -84,7 +109,7 @@
                     <%--name--%>
                     <div class="form-group text-gray">
                         <div class="col-sm-offset-2 col-sm-8">
-                            <div class="form-group col-sm-4">
+                            <div class="form-group col-sm-4 required">
                                 <label for="name" class="control-label"><spring:message code="L105" /></label>
                             </div>
                             <div class="col-sm-8 nopadding">
@@ -100,17 +125,17 @@
                     <%--gend--%>
                     <div class="form-group text-gray">
                         <div class="col-sm-offset-2 col-sm-8">
-                            <div class="form-group col-sm-4">
+                            <div class="form-group col-sm-4 required">
                                 <label class="control-label"><spring:message code="L106" /></label>
                             </div>
                             <div class="col-sm-8 nopadding">
                                 <div>
                                     <div class="btn-group btn-group-justified" data-toggle="buttons">
-                                        <label class="btn btn-default active">
-                                            <input type="radio" name="gend" id="gend[]" value="m" checked /><spring:message code="L114" />
+                                        <label class="btn btn-default ${users.gend == 'm'?'active':''}">
+                                            <input type="radio" name="gend" value="m" ${users.gend == 'm'?'checked':''} /><spring:message code="L114" />
                                         </label>
-                                        <label class="btn btn-default">
-                                            <input type="radio" name="gend" id="gend[]" value="f" /><spring:message code="L115" />
+                                        <label class="btn btn-default ${users.gend == 'f'?'active':''}">
+                                            <input type="radio" name="gend" value="f" ${users.gend == 'f'?'checked':''} /><spring:message code="L115" />
                                         </label>
                                     </div>
                                 </div>
@@ -125,7 +150,7 @@
                     <%--calendar--%>
                     <div class="form-group text-gray">
                         <div class="col-sm-offset-2 col-sm-8">
-                            <div class="form-group col-sm-4">
+                            <div class="form-group col-sm-4 required">
                                 <label for="bornDay" class="control-label"><spring:message code="L107" /></label>
                             </div>
                             <div class="col-sm-8 nopadding">

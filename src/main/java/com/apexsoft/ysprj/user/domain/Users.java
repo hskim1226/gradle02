@@ -19,6 +19,7 @@ public class Users {
     private String privInfoYn;
     private String userStsCode;
     private boolean enabled;
+    private String prefLang;
     private String creId;
     private Date   creDate;
     private String modId;
@@ -142,6 +143,14 @@ public class Users {
 
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
+    }
+
+    public String getPrefLang() {
+        return prefLang;
+    }
+
+    public void setPrefLang(String prefLang) {
+        this.prefLang = prefLang == null ? null : prefLang.trim();
     }
 
     public String getCreId() {

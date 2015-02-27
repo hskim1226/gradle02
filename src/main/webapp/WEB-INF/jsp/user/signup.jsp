@@ -87,6 +87,31 @@
                             </div>
                         </div>
                     </div>
+                    <%--preferrence language--%>
+                    <div class="form-group text-gray">
+                        <div class="col-sm-offset-2 col-sm-8">
+                            <div class="form-group col-sm-4 required">
+                                <label class="control-label"><spring:message code="L120" /></label>
+                            </div>
+                            <div class="col-sm-8 nopadding">
+                                <div>
+                                    <div class="btn-group btn-group-justified" data-toggle="buttons">
+                                        <label class="btn btn-default active">
+                                            <input type="radio" name="prefLang" value="${app['lang.kr']}" checked /><spring:message code="L121" />
+                                        </label>
+                                        <label class="btn btn-default">
+                                            <input type="radio" name="prefLang" value="${app['lang.en']}" /><spring:message code="L122" />
+                                        </label>
+                                    </div>
+                                </div>
+                                <spring:bind path="prefLang">
+                                    <c:if test="${status.error}">
+                                        <div class="validation-error">${status.errorMessage}</div>
+                                    </c:if>
+                                </spring:bind>
+                            </div>
+                        </div>
+                    </div>
                     <%--email--%>
                     <div class="form-group text-gray">
                         <div class="col-sm-offset-2 col-sm-8">
@@ -145,10 +170,10 @@
                                 <div>
                                     <div class="btn-group btn-group-justified" data-toggle="buttons">
                                         <label class="btn btn-default active">
-                                            <input type="radio" name="gend" id="gend[]" value="m" checked /><spring:message code="L114" />
+                                            <input type="radio" name="gend" value="m" checked /><spring:message code="L114" />
                                         </label>
                                         <label class="btn btn-default">
-                                            <input type="radio" name="gend" id="gend[]" value="f" /><spring:message code="L115" />
+                                            <input type="radio" name="gend" value="f" /><spring:message code="L115" />
                                         </label>
                                     </div>
                                 </div>

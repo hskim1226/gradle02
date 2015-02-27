@@ -18,6 +18,7 @@
         <result property="privInfoYn"   column="PRIV_INFO_YN"/>
         <result property="userStsCode"  column="USER_STS_CODE"/>
         <result property="enabled"      column="ENABLED"/>
+        <result property="prefLang"      column="PREF_LANG"/>
         <result property="creId"        column="CRE_ID"/>
         <result property="creDate"      column="CRE_DATE"/>
         <result property="modId"        column="MOD_ID"/>
@@ -41,6 +42,7 @@
                              PRIV_INFO_YN,
                              USER_STS_CODE,
                              ENABLED,
+                             PREF_LANG,
                              CRE_ID,
                              CRE_DATE)
 		             VALUES(#{userId},
@@ -58,6 +60,7 @@
                              #{privInfoYn},
                              #{userStsCode},
                              #{enabled},
+                             #{prefLang},
                              #{userId},
                              now())
 		]]>
@@ -123,6 +126,9 @@
             </if>
             <if test="enabled != null">
                 ENABLED = #{enabled,jdbcType=VARCHAR},
+            </if>
+            <if test="prefLang != null">
+                PREF_LANG = #{prefLang,jdbcType=VARCHAR},
             </if>
             <if test="modId != null">
                 MOD_ID = #{modId,jdbcType=VARCHAR},

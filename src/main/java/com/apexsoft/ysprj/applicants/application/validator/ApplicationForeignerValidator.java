@@ -87,6 +87,10 @@ public class ApplicationForeignerValidator implements NamedValidator {
             errors.rejectValue(prefix + "korEmrgName", "U331",
                     new Object[]{"국내 비상연락처 이름"}, messageResolver.getMessage("U332"));
         }
+        if (applicationForeigner.getKorEmrgRela() == null || applicationForeigner.getKorEmrgRela().length() == 0) {
+            errors.rejectValue(prefix + "korEmrgRela", "U331",
+                    new Object[]{"국내 비상연락처 관계"}, messageResolver.getMessage("U332"));
+        }
         if (applicationForeigner.getKorEmrgTel() == null || applicationForeigner.getKorEmrgTel().length() == 0) {
             errors.rejectValue(prefix + "korEmrgTel", "U331",
                     new Object[]{"국내 비상연락처 전화번호"}, messageResolver.getMessage("U332"));
@@ -94,6 +98,10 @@ public class ApplicationForeignerValidator implements NamedValidator {
         if (applicationForeigner.getHomeEmrgName() == null || applicationForeigner.getHomeEmrgName().length() == 0) {
             errors.rejectValue(prefix + "homeEmrgName", "U331",
                     new Object[]{"본국 비상연락처 이름"}, messageResolver.getMessage("U332"));
+        }
+        if (applicationForeigner.getHomeEmrgRela() == null || applicationForeigner.getHomeEmrgRela().length() == 0) {
+            errors.rejectValue(prefix + "homeEmrgRela", "U331",
+                    new Object[]{"본국 비상연락처 관계"}, messageResolver.getMessage("U332"));
         }
         if (applicationForeigner.getHomeEmrgTel() == null || applicationForeigner.getHomeEmrgTel().length() == 0) {
             errors.rejectValue(prefix + "homeEmrgTel", "U331",
