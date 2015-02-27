@@ -42,6 +42,17 @@ var apex = {
             }
         });
     },
+    'passwordCheck' : function(className) { // 비밀 번호 6자리 이상, 영 대/소문자와 숫자 포함
+        $('.'+className).on('blur', function () {
+            var passwdRegExp = /^(?=\w{6,}$)(?=.*\d)(?=.*[A-Z]).*/,
+                val = this.value;
+            if (!passwdRegExp.test(val) && val != '') {
+                alert("비밀번호는 6자리 이상, 영 대/소문자와 숫자가 포함되어야 합니다.");
+                this.value = "";
+                this.focus();
+            }
+        });
+    },
     'transKorPhoneNumber' : function(className) { // 국내 전화번호를 #-#-# 형태로 변환
         $('.'+className).each( function() {
             this.value = this.value.replace(/(^02.{0}|^01.{1}|[0-9]{3})([0-9]+)([0-9]{4})/,"$1-$2-$3");

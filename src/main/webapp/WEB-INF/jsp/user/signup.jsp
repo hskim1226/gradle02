@@ -210,15 +210,14 @@
                 $('.phone').each( function() {
                     this.value = this.value.replace(/(^02.{0}|^01.{1}|[0-9]{3})([0-9]+)([0-9]{4})/,"$1-$2-$3");
                 });
+                apex.transKorPhoneNumber('phone');
                 document.forms[0].action = "${contextPath}/user/signup/save";
                 document.forms[0].submit();
             }
         });
 
         <%-- 아이디 영대소문자 처리 시작 --%>
-        $('.engName').on('keyup', function() {
-            this.value = this.value.replace(/([^0-9A-Za-z])/g,"");
-        });
+        apex.engNameCheck('engName');
         <%-- 아이디 영대소문자 처리 시작 --%>
 
         <%-- 아이디 중복 체크 --%>
@@ -246,39 +245,15 @@
         <%-- 아이디 중복 체크 --%>
 
         <%-- 비밀 번호 validation --%>
-        $('.passwd').on('blur', function () {
-            var passwdRegExp = /^(?=\w{6,}$)(?=.*\d)(?=.*[A-Z]).*/,
-                    val = this.value;
-            if (!passwdRegExp.test(val) && val != '') {
-                alert("비밀번호는 6자리 이상, 영 대/소문자와 숫자가 포함되어야 합니다.");
-                this.value = "";
-                this.focus();
-            }
-        });
+        apex.passwordCheck('passwd');
         <%-- 비밀 번호 validation --%>
 
         <%-- 메일 주소 validation --%>
-        $('.emailOnly').on('blur', function () {
-            var emailRegExp = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-                    val = this.value;
-            if (!emailRegExp.test(val) && val != '') {
-                alert("이메일 주소를 정확히 기재해 주세요")
-                this.value = "";
-                this.focus();
-            }
-        });
+        apex.emailCheck('emailOnly');
         <%-- 메일 주소 validation --%>
 
         <%-- 숫자만 입력 - 주민번호, 휴대폰, 전화번호 --%>
-        $('.numOnly').on('blur', function () {
-            var numCheckRegExp = /^[0-9]*$/,
-                    val = this.value;
-            if (!numCheckRegExp.test(val) && val != '') {
-                alert("형식에 맞게 정확히 기재해 주세요");
-                this.value = "";
-                this.focus();
-            }
-        });
+        apex.numCheck('numOnly');
         <%-- 숫자만 입력 - 주민번호, 휴대폰, 전화번호 --%>
 
         <%-- 달력 옵션 --%>
