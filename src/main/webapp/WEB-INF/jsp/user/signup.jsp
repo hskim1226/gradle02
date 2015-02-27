@@ -26,7 +26,7 @@
 <body>
 <section class="normal-white">
     <div class="container">
-        <form:form class="form-horizontal" id="sign-up-form" commandName="users" action="${contextPath}/user/signup/save" method="post" role="form">
+        <form:form class="form-horizontal" id="sign-up-form" commandName="user" action="${contextPath}/user/signup/save" method="post" role="form">
             <form:hidden path="userAgreYn" />
             <form:hidden path="privInfoYn" />
             <div class="col-md-offset-2 col-md-8">

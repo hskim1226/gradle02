@@ -1,4 +1,4 @@
-package com.apexsoft.ysprj.applicants.user.domain;
+package com.apexsoft.ysprj.unused;
 
 import java.util.Date;
 

@@ -2,7 +2,7 @@ package com.apexsoft.ysprj.user.domain;
 
 import java.util.Date;
 
-public class Users {
+public class User {
 
     private String userId;
     private String userType;
@@ -187,7 +187,7 @@ public class Users {
 
     @Override
     public String toString() {
-        return "Users{" +
+        return "User{" +
                 "userId=" + userId +
                 ", userType=" + userType +
                 ", name=" + name +

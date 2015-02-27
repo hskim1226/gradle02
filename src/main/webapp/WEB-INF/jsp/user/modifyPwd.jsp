@@ -15,7 +15,7 @@
     <body>
     <section class="normal-white">
         <div class="container">
-            <form id="users" name="users" cssClass="form-horizontal" role="form" method="post">
+            <form id="user" name="user" cssClass="form-horizontal" role="form" method="post">
                 <div class="col-md-offset-2 col-md-8">
                     <div class="inner-container-white">
                         <div class="col-sm-12 text-gray">
@@ -53,7 +53,7 @@
         var formProcess = function(event) {
             event.preventDefault();
             var inputValue = document.getElementById('pswd').value,
-                form = document.getElementById('users');
+                form = document.getElementById('user');
 
             if (inputValue.length > 0) {
                 form.action = "${contextPath}/user/checkCurrPwd";

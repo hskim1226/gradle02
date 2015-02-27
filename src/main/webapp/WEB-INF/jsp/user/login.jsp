@@ -102,7 +102,7 @@
 <section class="login">
     <div class="container">
         <div class="col-md-offset-3 col-md-6">
-            <form class="form-horizontal" role="form" name="users" action="${contextPath}/j_spring_security_check.do" method="post">
+            <form class="form-horizontal" role="form" name="user" action="${contextPath}/j_spring_security_check.do" method="post">
                 <div class="form-group" id="login-form-container">
                     <div class="col-sm-offset-1 col-sm-10" id="logo-container">
                         <img src="${contextPath}/img/common/yonsei-logo01.png" align="center">

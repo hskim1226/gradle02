@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.apexsoft.ysprj.user.Mapper">
+<mapper namespace="com.apexsoft.ysprj.user.sqlmap">
 
-    <resultMap id="user" type="com.apexsoft.ysprj.user.domain.Users">
+    <resultMap id="user" type="com.apexsoft.ysprj.user.domain.User">
         <result property="userId"       column="USER_ID"/>
         <result property="userType"     column="USER_TYPE"/>
         <result property="name"         column="NAME"/>
@@ -25,7 +25,7 @@
         <result property="modDate"      column="MOD_DATE"/>
     </resultMap>
 
-    <insert id="insertUser" parameterType="com.apexsoft.ysprj.user.domain.Users">
+    <insert id="insertUser" parameterType="com.apexsoft.ysprj.user.domain.User">
         <![CDATA[
           INSERT INTO USER(USER_ID,
                              USER_TYPE,
@@ -66,7 +66,7 @@
 		]]>
     </insert>
 
-    <update id="updateUser" parameterType="com.apexsoft.ysprj.user.domain.Users">
+    <update id="updateUser" parameterType="com.apexsoft.ysprj.user.domain.User">
         <![CDATA[
 		  UPDATE USER SET
                              NAME = #{name},
@@ -87,7 +87,7 @@
 		]]>
     </update>
 
-    <update id="updateUserByPrimaryKeySelective" parameterType="com.apexsoft.ysprj.user.domain.Users">
+    <update id="updateUserByPrimaryKeySelective" parameterType="com.apexsoft.ysprj.user.domain.User">
 
         update USER
         <set>
@@ -149,7 +149,7 @@
 		]]>
     </select>
 
-    <select id="selectUsername" resultType="String" parameterType="com.apexsoft.ysprj.user.domain.Users">
+    <select id="selectUsername" resultType="String" parameterType="com.apexsoft.ysprj.user.domain.User">
         <![CDATA[
           SELECT USER_ID
             FROM USER
@@ -164,7 +164,7 @@
         </if>
     </select>
 
-    <select id="findUserId" resultMap="user" parameterType="com.apexsoft.ysprj.user.domain.Users">
+    <select id="findUserId" resultMap="user" parameterType="com.apexsoft.ysprj.user.domain.User">
         SELECT *
         FROM USER
         WHERE 1=1
@@ -176,7 +176,7 @@
         AND MAIL_ADDR = #{mailAddr,jdbcType=VARCHAR}
     </select>
 
-    <select id="changePasswd" resultType="java.lang.Integer" parameterType="com.apexsoft.ysprj.user.domain.Users">
+    <select id="changePasswd" resultType="java.lang.Integer" parameterType="com.apexsoft.ysprj.user.domain.User">
         UPDATE USER SET
             PSWD = #{pswd}
         WHERE 1=1
@@ -185,7 +185,7 @@
 
     <!-- Queries for Authority      -->
 
-    <select id="selectAuthorities" resultType="com.apexsoft.ysprj.applicants.user.domain.Authorities"  parameterType="String">
+    <select id="selectAuthorities" resultType="com.apexsoft.ysprj.user.domain.Authorities"  parameterType="String">
         <![CDATA[
 		  SELECT username, authority
 		    FROM authorities
@@ -194,7 +194,7 @@
 		]]>
     </select>
 
-    <insert id="insertAuthority"  parameterType="com.apexsoft.ysprj.applicants.user.domain.Authorities" >
+    <insert id="insertAuthority"  parameterType="com.apexsoft.ysprj.user.domain.Authorities" >
         <![CDATA[
 		  INSERT INTO authorities
 		                   (authority,
@@ -204,7 +204,7 @@
 		]]>
     </insert>
 
-    <delete id="deleteAuthority" parameterType="com.apexsoft.ysprj.applicants.user.domain.Authorities">
+    <delete id="deleteAuthority" parameterType="com.apexsoft.ysprj.user.domain.Authorities">
         <![CDATA[
 		  DELETE FROM authorities
 			WHERE username = #{username}

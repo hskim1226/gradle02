@@ -19,7 +19,7 @@
 <body>
 <section class="normal-white">
     <div class="container">
-        <form:form commandName="users" cssClass="form-horizontal" role="form" method="post">
+        <form:form commandName="user" cssClass="form-horizontal" role="form" method="post">
             <div class="col-md-offset-3 col-md-6">
                 <div class="form-group inner-container-white">
                     <div class="col-sm-offset-1 col-sm-10 text-gray">
@@ -96,7 +96,7 @@ $(document).ready(function() {
     var formProcess = function(event) {
         event.preventDefault();
         if (checkPwd()) {
-            var form = document.getElementById('users');
+            var form = document.getElementById('user');
             form.action = "${contextPath}/user/savePwd";
             form.submit();
         }

@@ -12,10 +12,9 @@ import javax.servlet.http.HttpServletRequest;
 
 import com.apexsoft.framework.common.vo.ExecutionContext;
 import com.apexsoft.ysprj.admin.control.form.*;
-import com.apexsoft.ysprj.admin.domain.ApplicationChange;
 import com.apexsoft.ysprj.admin.domain.CustomApplicationChange;
 import com.apexsoft.ysprj.admin.service.ChangeService;
-import com.apexsoft.ysprj.user.domain.Users;
+import com.apexsoft.ysprj.user.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -53,7 +52,7 @@ public class AdminController {
 
 
     @RequestMapping(value="/login", method= RequestMethod.GET)
-    public ModelAndView displayLoginForm(Users users,
+    public ModelAndView displayLoginForm(User user,
                                          BindingResult bindingResult,
                                          ModelAndView mv,
                                          HttpServletRequest request) {

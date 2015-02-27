@@ -26,7 +26,7 @@
 <body>
 <section class="normal-white">
     <div class="container">
-        <form:form class="form-horizontal" id="sign-up-form" commandName="users" action="${contextPath}/user/signup/save" method="post" role="form">
+        <form:form class="form-horizontal" id="sign-up-form" commandName="user" action="${contextPath}/user/signup/save" method="post" role="form">
             <form:hidden path="userAgreYn" />
             <form:hidden path="privInfoYn" />
             <div class="col-md-offset-2 col-md-8">
@@ -43,7 +43,7 @@
                             </div>
                             <div class="col-sm-8 nopadding">
                                 <div>
-                                    <h4>${users.userId}</h4>
+                                    <h4>${user.userId}</h4>
                                     <form:hidden path="userId" />
                                 </div>
                             </div>
@@ -58,11 +58,11 @@
                             <div class="col-sm-8 nopadding">
                                 <div>
                                     <div class="btn-group btn-group-justified" data-toggle="buttons">
-                                        <label class="btn btn-default ${users.prefLang == app['lang.kr']?'active':''}">
-                                            <input type="radio" name="prefLang" value="${app['lang.kr']}" ${users.prefLang == app['lang.kr']?'checked':''} /><spring:message code="L121" />
+                                        <label class="btn btn-default ${user.prefLang == app['lang.kr']?'active':''}">
+                                            <input type="radio" name="prefLang" value="${app['lang.kr']}" ${user.prefLang == app['lang.kr']?'checked':''} /><spring:message code="L121" />
                                         </label>
-                                        <label class="btn btn-default ${users.prefLang == app['lang.en']?'active':''}">
-                                            <input type="radio" name="prefLang" value="${app['lang.en']}" ${users.prefLang == app['lang.en']?'checked':''} /><spring:message code="L122" />
+                                        <label class="btn btn-default ${user.prefLang == app['lang.en']?'active':''}">
+                                            <input type="radio" name="prefLang" value="${app['lang.en']}" ${user.prefLang == app['lang.en']?'checked':''} /><spring:message code="L122" />
                                         </label>
                                     </div>
                                 </div>
@@ -131,11 +131,11 @@
                             <div class="col-sm-8 nopadding">
                                 <div>
                                     <div class="btn-group btn-group-justified" data-toggle="buttons">
-                                        <label class="btn btn-default ${users.gend == 'm'?'active':''}">
-                                            <input type="radio" name="gend" value="m" ${users.gend == 'm'?'checked':''} /><spring:message code="L114" />
+                                        <label class="btn btn-default ${user.gend == 'm'?'active':''}">
+                                            <input type="radio" name="gend" value="m" ${user.gend == 'm'?'checked':''} /><spring:message code="L114" />
                                         </label>
-                                        <label class="btn btn-default ${users.gend == 'f'?'active':''}">
-                                            <input type="radio" name="gend" value="f" ${users.gend == 'f'?'checked':''} /><spring:message code="L115" />
+                                        <label class="btn btn-default ${user.gend == 'f'?'active':''}">
+                                            <input type="radio" name="gend" value="f" ${user.gend == 'f'?'checked':''} /><spring:message code="L115" />
                                         </label>
                                     </div>
                                 </div>
