@@ -38,12 +38,12 @@
                     <%--user id--%>
                     <div class="form-group text-gray">
                         <div class="col-sm-offset-2 col-sm-8">
-                            <div class="form-group col-sm-4">
+                            <div class="form-group col-sm-4 required">
                                 <label for="userId" class="control-label"><spring:message code="L101" /></label>
                             </div>
                             <div class="col-sm-8 nopadding">
                                 <div class="input-group">
-                                    <form:input type="text" cssClass="form-control engName" path="userId" placeholder="알파벳 대소문자와 숫자로 입력해 주세요" />
+                                    <form:input type="text" cssClass="form-control userId" path="userId" placeholder="알파벳 대소문자와 숫자로 입력해 주세요" />
                                     <span class="input-group-btn">
                                         <button class="btn btn-info" id="available-check-button">Check</button>
                                     </span>
@@ -59,7 +59,7 @@
                     <%--password--%>
                     <div class="form-group text-gray">
                         <div class="col-sm-offset-2 col-sm-8">
-                            <div class="form-group col-sm-4">
+                            <div class="form-group col-sm-4 required">
                                 <label for="pswd1" class="control-label"><spring:message code="L102" /></label>
                             </div>
                             <div class="col-sm-8 nopadding">
@@ -74,7 +74,7 @@
                     </div>
                     <div class="form-group text-gray">
                         <div class="col-sm-offset-2 col-sm-8">
-                            <div class="form-group col-sm-4">
+                            <div class="form-group col-sm-4 required">
                                 <label for="pswd2" class="control-label"><spring:message code="L117" /></label>
                             </div>
                             <div class="col-sm-8 nopadding">
@@ -90,7 +90,7 @@
                     <%--email--%>
                     <div class="form-group text-gray">
                         <div class="col-sm-offset-2 col-sm-8">
-                            <div class="form-group col-sm-4">
+                            <div class="form-group col-sm-4 required">
                                 <label for="mailAddr" class="control-label"><spring:message code="L103" /></label>
                             </div>
                             <div class="col-sm-8 nopadding">
@@ -106,7 +106,7 @@
                     <%--mobiNum--%>
                     <div class="form-group text-gray">
                         <div class="col-sm-offset-2 col-sm-8">
-                            <div class="form-group col-sm-4">
+                            <div class="form-group col-sm-4 required">
                                 <label for="mobiNum" class="control-label"><spring:message code="L104" /></label>
                             </div>
                             <div class="col-sm-8 nopadding">
@@ -122,7 +122,7 @@
                     <%--name--%>
                     <div class="form-group text-gray">
                         <div class="col-sm-offset-2 col-sm-8">
-                            <div class="form-group col-sm-4">
+                            <div class="form-group col-sm-4 required">
                                 <label for="name" class="control-label"><spring:message code="L105" /></label>
                             </div>
                             <div class="col-sm-8 nopadding">
@@ -138,7 +138,7 @@
                     <%--gend--%>
                     <div class="form-group text-gray">
                         <div class="col-sm-offset-2 col-sm-8">
-                            <div class="form-group col-sm-4">
+                            <div class="form-group col-sm-4 required">
                                 <label class="control-label"><spring:message code="L106" /></label>
                             </div>
                             <div class="col-sm-8 nopadding">
@@ -163,7 +163,7 @@
                     <%--calendar--%>
                     <div class="form-group text-gray">
                         <div class="col-sm-offset-2 col-sm-8">
-                            <div class="form-group col-sm-4">
+                            <div class="form-group col-sm-4 required">
                                 <label for="bornDay" class="control-label"><spring:message code="L107" /></label>
                             </div>
                             <div class="col-sm-8 nopadding">
@@ -207,18 +207,15 @@
                 alert("패스워드가 일치하지 않습니다.");
                 return;
             } else {
-                $('.phone').each( function() {
-                    this.value = this.value.replace(/(^02.{0}|^01.{1}|[0-9]{3})([0-9]+)([0-9]{4})/,"$1-$2-$3");
-                });
                 apex.transKorPhoneNumber('phone');
                 document.forms[0].action = "${contextPath}/user/signup/save";
                 document.forms[0].submit();
             }
         });
 
-        <%-- 아이디 영대소문자 처리 시작 --%>
-        apex.engNameCheck('engName');
-        <%-- 아이디 영대소문자 처리 시작 --%>
+        <%-- 아이디 처리 --%>
+        apex.idCheck('userId');
+        <%-- 아이디 처리 --%>
 
         <%-- 아이디 중복 체크 --%>
         $("#available-check-button").on("click", function(e){
