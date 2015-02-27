@@ -40,6 +40,9 @@ public class PreApplicationController {
     @Value("#{app['adms.foreign']}")
     private String admsForeign;
 
+    @Value("#{app['adms.early']}")
+    private String admsEarly;
+
     /**
      * 공고 목록 화면
      *
@@ -51,6 +54,7 @@ public class PreApplicationController {
 
         mv.addObject("admsGeneral", admissionService.retrieveAdmissionByAdmsNo(admsGeneral));
         mv.addObject("admsForeign", admissionService.retrieveAdmissionByAdmsNo(admsForeign));
+        mv.addObject("admsEarly", admissionService.retrieveAdmissionByAdmsNo(admsEarly));
 
         return mv;
     }
@@ -79,6 +83,20 @@ public class PreApplicationController {
         ModelAndView mv = new ModelAndView("application/foreign");
 
         mv.addObject("admsForeign", admissionService.retrieveAdmissionByAdmsNo(admsForeign));
+
+        return mv;
+    }
+
+    /**
+     * 조기 전형
+     *
+     * @return
+     */
+    @RequestMapping(value = "/early", method = RequestMethod.POST)
+    public ModelAndView showEarly() {
+        ModelAndView mv = new ModelAndView("application/early");
+
+        mv.addObject("admsEarly", admissionService.retrieveAdmissionByAdmsNo(admsEarly));
 
         return mv;
     }
