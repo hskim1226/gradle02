@@ -68,18 +68,28 @@ public class AdminController {
     
     @RequestMapping(value="/stats/daily")
     public String statsDaily() {
-        return "admin/stats/daily";
+        return "admin/stats/recentDay";
     }
     
     @RequestMapping(value="/stats/daily/search")
 
-    public List<ApplicantCnt> statsDailySearch(CourseSearchGridForm searchForm)
+    public String statsDailySearch(CourseSearchGridForm searchForm)
     		throws NoSuchAlgorithmException, JsonProcessingException, UnsupportedEncodingException {
-    	
-   		List<ApplicantCnt> pStsList =null;
-   		pStsList = adminService.retrieveApplicantCntByDept(searchForm);	
-   		return pStsList;
-	}
+        List<ApplicantCnt> pStsList =null;
+        pStsList = adminService.retrieveApplicantCntByDept(searchForm);
+
+        ObjectMapper mapper = new ObjectMapper();
+        Map<String, Object> modelMap = new HashMap<String, Object>();
+        modelMap.put("total",pStsList.size());
+        modelMap.put("records", pStsList.size());
+        modelMap.put("rows",pStsList);
+        modelMap.put("page", 1);
+
+        String value = mapper.writeValueAsString(modelMap);
+
+        return value;
+    }
+
     @RequestMapping(value="/stats")
     public String initAdmin() {
         return "admin/stats/category";
@@ -95,13 +105,15 @@ public class AdminController {
     public String statsCategorySearch(CourseSearchGridForm searchForm)
     		throws NoSuchAlgorithmException, JsonProcessingException, UnsupportedEncodingException {    	
    		List<ApplicantCnt> pStsList =null;
-   		pStsList = adminService.retrieveApplicantCntByDept(searchForm);
+        List<String> headList = null;
+   		pStsList = adminService.retrieveApplicantCntByRecent(searchForm);
 
         ObjectMapper mapper = new ObjectMapper();
         Map<String, Object> modelMap = new HashMap<String, Object>();
         modelMap.put("total",pStsList.size());
         modelMap.put("records", pStsList.size());
         modelMap.put("rows",pStsList);
+        modelMap.put("header",headList);
         modelMap.put("page", 1);
 
         String value = mapper.writeValueAsString(modelMap);

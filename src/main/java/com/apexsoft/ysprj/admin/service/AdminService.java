@@ -19,8 +19,8 @@ public interface AdminService {
     ExecutionContext getApplicantDetail(int applNo, String applId);
 	 
 	List<ApplicantCnt> retrieveApplicantCntByDept(CourseSearchGridForm searchForm);
-	 
-	List<ApplicantInfo> getApplicantListForSelect(ApplicantSearchForm searchForm);
+
+    List<ApplicantCnt> retrieveApplicantCntByRecent(CourseSearchGridForm searchForm);
 	 
 	ApplicantInfo getApplicantInfo(ApplicantSearchForm applicantSearchForm);
 

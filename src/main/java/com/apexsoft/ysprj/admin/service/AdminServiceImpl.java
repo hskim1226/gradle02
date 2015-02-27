@@ -220,11 +220,11 @@ public class AdminServiceImpl implements AdminService{
         return campusList;
     }
 
-    public List<ApplicantCnt> retrieveApplicantCntByDate(CourseSearchGridForm searchForm) {
+    public List<ApplicantCnt> retrieveApplicantCntByRecent(CourseSearchGridForm searchForm) {
         List<ApplicantCnt> campusList = null;
         try {
 
-            campusList = commonDAO.queryForList(NAME_SPACE+"selectApplicantCnt", searchForm, ApplicantCnt.class);
+            campusList = commonDAO.queryForList(NAME_SPACE+"selectApplicantRecentCnt", searchForm, ApplicantCnt.class);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -232,12 +232,7 @@ public class AdminServiceImpl implements AdminService{
         return campusList;
     }
 
-    @Override
-	  public List<ApplicantInfo> getApplicantListForSelect(ApplicantSearchForm searchForm){
-		  List<ApplicantInfo> applInfo = null;
-		  applInfo = commonDAO.queryForList(CANCEL_NAME_SPACE+"retrieveApplicantListByNameForSelect", searchForm, ApplicantInfo.class);  
-		  return applInfo;
-	  }
+
 
     @Override
 	  public ApplicantInfo getApplicantInfo(ApplicantSearchForm searchForm ){

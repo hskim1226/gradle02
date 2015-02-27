@@ -74,9 +74,8 @@
                 <ul>
                     <li class="Lfirst"><span><a href="${contextPath}/admin/stats/category">전형별 지원현황</a></span></li>
                     <li class="Llast"><span><a href="${contextPath}/admin/search/unpaid">미결제자현황</a></span></li>
-                    <%--
-                    <li class="Llast"><span><a href="${contextPath}/admin/stats/daily">일자별 지원현황</a></span></li>
-                    --%>
+                    <li class="Llast"><span><a href="${contextPath}/admin/stats/daily">최근일자별 지원현황</a></span></li>
+
                   </ul>
               </li>
               <li class="Lidx1">
