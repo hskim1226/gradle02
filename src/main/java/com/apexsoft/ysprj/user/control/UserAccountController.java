@@ -2,8 +2,10 @@ package com.apexsoft.ysprj.user.control;
 
 import com.apexsoft.framework.common.vo.ExecutionContext;
 import com.apexsoft.framework.message.MessageResolver;
-import com.apexsoft.ysprj.user.domain.Users;
+import com.apexsoft.ysprj.user.domain.User;
 import com.apexsoft.ysprj.user.service.UserAccountService;
+import com.apexsoft.ysprj.user.validator.UserModValidator;
+import com.apexsoft.ysprj.user.validator.UserValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -35,13 +37,19 @@ public class UserAccountController {
     private ServletContext context;
 
     @Autowired
+    private UserValidator userValidator;
+
+    @Autowired
+    private UserModValidator userModValidator;
+
+    @Autowired
     private UserAccountService userAccountService;
 
     @Autowired
     private MessageResolver messageResolver;
 
     @RequestMapping(value="/login", method= RequestMethod.GET)
-    public ModelAndView displayLoginForm(Users users,
+    public ModelAndView displayLoginForm(User user,
                                    BindingResult bindingResult,
                                    ModelAndView mv,
                                    HttpServletRequest request) {
@@ -94,39 +102,41 @@ public class UserAccountController {
     @RequestMapping(value="/signup"/*, method= RequestMethod.POST*/)
     public String displaySignUpForm(@RequestParam("privInfoYn") String privInfoYn,
                                     @RequestParam("userAgreYn") String userAgreYn,
-                                    @ModelAttribute("users") Users users,
+                                    @ModelAttribute("user") User user,
                                     Model model) {
-        users.setPrivInfoYn(privInfoYn);
-        users.setUserAgreYn(userAgreYn);
-        model.addAttribute("users", users);
+        user.setPrivInfoYn(privInfoYn);
+        user.setUserAgreYn(userAgreYn);
+        model.addAttribute("user", user);
         return "user/signup";
     }
 
     @RequestMapping(value="/signup/save", method= RequestMethod.POST)
-    public ModelAndView signUp(Users users, BindingResult bindingResult, ModelAndView mv) {
-        mv.setViewName("user/login");
+    public ModelAndView signUp(User user, BindingResult bindingResult, ModelAndView mv) {
+        userValidator.validate(user, bindingResult);
+        mv.setViewName("user/signupok");
         ExecutionContext ec;
         if (bindingResult.hasErrors()){
-
+            mv.setViewName("user/signup");
+            mv.addObject("resultMsg", messageResolver.getMessage("U334"));
+            return mv;
         }
-        int r = 0;
-        ec = userAccountService.registerUserAndAuthority(users);
+        ec = userAccountService.registerUserAndAuthority(user);
         mv.addObject("resultMsg", ec.getMessage());
         return mv;
     }
 
     @RequestMapping(value="/idCheck", method= RequestMethod.GET)
     @ResponseBody
-    public ExecutionContext idCheck(Users users) {
-        return userAccountService.isUserIdAvailable(users);
+    public ExecutionContext idCheck(User user) {
+        return userAccountService.isUserIdAvailable(user);
     }
 
-    @RequestMapping(value = "/detail")
-    public String detail(Model model, Principal principal) {
-        Users users = userAccountService.retrieveUser(principal.getName());
-        model.addAttribute(users);
-        return "user/detail";
-    }
+//    @RequestMapping(value = "/detail")
+//    public String detail(Model model, Principal principal) {
+//        User user = userAccountService.retrieveUser(principal.getName());
+//        model.addAttribute(user);
+//        return "unused/showDetail";
+//    }
 
     /**
      * 아이디 찾기 정보 입력 화면
@@ -136,7 +146,7 @@ public class UserAccountController {
      * @return
      */
     @RequestMapping(value = "/findId")
-    public ModelAndView showFindId(Users formData, ModelAndView mv) {
+    public ModelAndView showFindId(User formData, ModelAndView mv) {
         mv.setViewName("user/findId");
         return mv;
     }
@@ -152,7 +162,7 @@ public class UserAccountController {
      * @return
      */
     @RequestMapping(value = "/getId", method = RequestMethod.POST)
-    public ModelAndView findID(Users formData, BindingResult bindingResult, ModelAndView mv) {
+    public ModelAndView findID(User formData, BindingResult bindingResult, ModelAndView mv) {
 
 //        findIdValidator.validate(formData, bindingResult);
         if (bindingResult.hasErrors()) {
@@ -178,12 +188,12 @@ public class UserAccountController {
     /**
      * 비밀번호 찾기 화면
      *
-     * @param users
+     * @param user
      * @param mv
      * @return
      */
     @RequestMapping(value = "/findPwd")
-    public ModelAndView showFindPwd(Users users, ModelAndView mv) {
+    public ModelAndView showFindPwd(User user, ModelAndView mv) {
         mv.setViewName("user/findPwd");
         return mv;
     }
@@ -199,7 +209,7 @@ public class UserAccountController {
      * @return
      */
     @RequestMapping(value = "/resetPwd", method = RequestMethod.POST)
-    public ModelAndView findPwd(Users formData, BindingResult bindingResult, ModelAndView mv) {
+    public ModelAndView findPwd(User formData, BindingResult bindingResult, ModelAndView mv) {
         //        findIdValidator.validate(formData, bindingResult);
         if (bindingResult.hasErrors()) {
             mv.addObject("resultMsg", messageResolver.getMessage("U334"));
@@ -230,7 +240,7 @@ public class UserAccountController {
      * @return
      */
     @RequestMapping(value = "/savePwd", method = RequestMethod.POST)
-    public ModelAndView savePwd(Users formData, BindingResult bindingResult, ModelAndView mv) {
+    public ModelAndView savePwd(User formData, BindingResult bindingResult, ModelAndView mv) {
         //        findIdValidator.validate(formData, bindingResult);
         if (bindingResult.hasErrors()) {
             mv.addObject("resultMsg", messageResolver.getMessage("U334"));
@@ -251,9 +261,89 @@ public class UserAccountController {
         return mv;
     }
 
-//    @ModelAttribute("users")
-//    public Users initUsers() {
-//        return new Users();
-//    }
+    /**
+     * 개인 정보 확인
+     *
+     * @return
+     */
+    @RequestMapping(value = "/info")
+    public String showCheckPassword() {
+        return "user/checkPwd";
+    }
 
+    /**
+     * 개인 정보 수정을 위한 비밀번호 입력 화면
+     *
+     * @param user
+     * @param mv
+     * @return
+     */
+    @RequestMapping(value = "/view", method = RequestMethod.POST)
+    public ModelAndView checkPassword(User user, Principal principal, ModelAndView mv) {
+
+        user.setUserId(principal.getName());
+        ExecutionContext ec = userAccountService.checkPwd(user);
+        if (ExecutionContext.SUCCESS.equals(ec.getResult())) {
+            mv.setViewName("user/showDetail");
+            mv.addObject("user", ec.getData());
+        } else {
+            mv.setViewName("user/checkPwd");
+            mv.addObject("resultMsg", ec.getMessage());
+        }
+
+        return mv;
+    }
+
+    /**
+     * 개인 정보 수정
+     *
+     * @param user
+     * @param mv
+     * @return
+     */
+    @RequestMapping(value = "/modify", method = RequestMethod.POST)
+    public ModelAndView modifyUserInfo(User user, BindingResult bindingResult, ModelAndView mv) {
+
+        userModValidator.validate(user, bindingResult);
+        mv.setViewName("user/showDetail");
+        if (bindingResult.hasErrors()){
+            mv.addObject("resultMsg", messageResolver.getMessage("U334"));
+            return mv;
+        }
+        user.setEnabled(true);
+        ExecutionContext ec = userAccountService.modifyUser(user);
+        mv.addObject("resultMsg", ec.getMessage());
+        return mv;
+    }
+
+    /**
+     * 비밀 번호 변경 요청
+     *
+     * @return
+     */
+    @RequestMapping(value = "/changePwd", method = RequestMethod.POST)
+    public String showPasswdView() {
+        return "user/modifyPwd";
+    }
+
+    /**
+     * 현재 비밀 번호 체크
+     *
+     * @return
+     */
+    @RequestMapping(value = "/checkCurrPwd", method = RequestMethod.POST)
+    public ModelAndView checkCurrPwd(User user, Principal principal, ModelAndView mv) {
+
+        user.setUserId(principal.getName());
+        ExecutionContext ec = userAccountService.checkPwd(user);
+        if (ExecutionContext.SUCCESS.equals(ec.getResult())) {
+            mv.setViewName("user/confirmPwd");
+            mv.addObject("user", ec.getData());
+        } else {
+            mv.setViewName("user/modifyPwd");
+            mv.addObject("resultMsg", ec.getMessage());
+        }
+
+        return mv;
+    }
 }

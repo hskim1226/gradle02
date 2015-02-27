@@ -120,6 +120,9 @@
                 form.action = "${contextPath}/application/preview";
                 form.target = "_blank";
                 form.submit();
+                <%--var target = e.target;--%>
+                <%--var applNo = target.getAttribute('data-applNo');--%>
+                <%--window.open('${contextPath}/application/preview/' + applNo);--%>
             });
             $('.pay').click(function(e){
                 e.preventDefault();

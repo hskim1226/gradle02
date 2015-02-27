@@ -1,14 +1,10 @@
 package com.apexsoft.ysprj.unused;
 
-import com.apexsoft.framework.common.vo.ExecutionContext;
-import com.apexsoft.ysprj.user.domain.Users;
 import com.apexsoft.ysprj.user.service.UserAccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.ModelMap;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.security.Principal;
 
 /**
@@ -29,16 +25,16 @@ public class MypageController {
         return "user/detail";
     }
 
-    @RequestMapping(value = "/mypageXXX", method = RequestMethod.POST)
-    @ResponseBody
-    public ExecutionContext editAccount(@ModelAttribute @Valid Users users, BindingResult bindingResult) {
-        if( bindingResult.hasErrors() ) {
-            return new ExecutionContext( ExecutionContext.FAIL );
-        }
-        if( userAccountService.modifyUsers(users) != 1 ) {
-            String message = bindingResult.toString();
-            return new ExecutionContext( ExecutionContext.FAIL, message );
-        }
-        return new ExecutionContext();
-    }
+//    @RequestMapping(value = "/mypageXXX", method = RequestMethod.POST)
+//    @ResponseBody
+//    public ExecutionContext editAccount(@ModelAttribute @Valid User users, BindingResult bindingResult) {
+//        if( bindingResult.hasErrors() ) {
+//            return new ExecutionContext( ExecutionContext.FAIL );
+//        }
+//        if( userAccountService.modifyUser(users) != 1 ) {
+//            String message = bindingResult.toString();
+//            return new ExecutionContext( ExecutionContext.FAIL, message );
+//        }
+//        return new ExecutionContext();
+//    }
 }

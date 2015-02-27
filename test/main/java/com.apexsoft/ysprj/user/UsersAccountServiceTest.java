@@ -1,7 +1,7 @@
 package com.apexsoft.ysprj.user;
 
 import com.apexsoft.framework.common.vo.ExecutionContext;
-import com.apexsoft.ysprj.user.domain.Users;
+import com.apexsoft.ysprj.user.domain.User;
 import com.apexsoft.ysprj.user.service.UserAccountService;
 import org.junit.Assert;
 import org.junit.Test;
@@ -30,10 +30,10 @@ public class UsersAccountServiceTest {
 
     @Test
     public void testRetrieveUserId() {
-        Users users = new Users();
-        users.setName("홍길동");
-//        users.setMailAddr("go2zo@apexsoft.co.kr");
-        ExecutionContext c = userAccountService.retrieveUserIds(users, 3);
+        User user = new User();
+        user.setName("홍길동");
+//        user.setMailAddr("go2zo@apexsoft.co.kr");
+        ExecutionContext c = userAccountService.retrieveUserIds(user, 3);
         Assert.assertNotNull(c.getData());
         printObject(c.getData());
     }

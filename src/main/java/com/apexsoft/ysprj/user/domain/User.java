@@ -2,7 +2,7 @@ package com.apexsoft.ysprj.user.domain;
 
 import java.util.Date;
 
-public class Users {
+public class User {
 
     private String userId;
     private String userType;
@@ -19,6 +19,7 @@ public class Users {
     private String privInfoYn;
     private String userStsCode;
     private boolean enabled;
+    private String prefLang;
     private String creId;
     private Date   creDate;
     private String modId;
@@ -144,6 +145,14 @@ public class Users {
         this.enabled = enabled;
     }
 
+    public String getPrefLang() {
+        return prefLang;
+    }
+
+    public void setPrefLang(String prefLang) {
+        this.prefLang = prefLang == null ? null : prefLang.trim();
+    }
+
     public String getCreId() {
         return creId;
     }
@@ -178,7 +187,7 @@ public class Users {
 
     @Override
     public String toString() {
-        return "Users{" +
+        return "User{" +
                 "userId=" + userId +
                 ", userType=" + userType +
                 ", name=" + name +

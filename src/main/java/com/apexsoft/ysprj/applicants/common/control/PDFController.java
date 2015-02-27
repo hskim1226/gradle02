@@ -1,8 +1,9 @@
 package com.apexsoft.ysprj.applicants.common.control;
 
 import com.apexsoft.framework.common.vo.ExecutionContext;
-import com.apexsoft.ysprj.applicants.application.domain.ApplicationDocumentKey;
-import com.apexsoft.ysprj.applicants.application.domain.TotalApplicationDocument;
+import com.apexsoft.framework.exception.ErrorInfo;
+import com.apexsoft.framework.exception.YSBizException;
+import com.apexsoft.framework.message.MessageResolver;
 import com.apexsoft.ysprj.applicants.application.service.DocumentService;
 import com.apexsoft.ysprj.applicants.common.service.PDFService;
 import com.apexsoft.ysprj.applicants.common.util.FileUtil;
@@ -18,8 +19,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.security.Principal;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by hanmomhanda on 15. 2. 22.
@@ -33,6 +37,9 @@ public class PDFController {
 
     @Autowired
     DocumentService documentService;
+
+    @Autowired
+    MessageResolver messageResolver;
 
     @Value("#{app['file.baseDir']}")
     private String fileBaseDir;
@@ -70,19 +77,45 @@ public class PDFController {
     public byte[] fileDownload(@PathVariable("admsNo") String admsNo,
                                @PathVariable("applNo") int applNo,
                                Principal principal,
-                               HttpServletResponse response)
-            throws IOException {
+                               HttpServletResponse response) {
 
         String userId = principal.getName();
 
-        String dir = FileUtil.getUploadDirectoryFullPath(fileBaseDir, admsNo, userId, String.valueOf(applNo));
-        //TODO 파일명 FileUtil 통해 해결하도록 수정 필요
-        String fileName = applNo + "-merged-numbered.pdf";
-        String downLoadFileName = userId + "_all.pdf";
-        File file =  new File(dir, fileName);
-        byte[] bytes = org.springframework.util.FileCopyUtils.copyToByteArray(file);
+        String uploadDirectoryFullPath = FileUtil.getUploadDirectoryFullPath(fileBaseDir, admsNo, userId, applNo);
+        String fileFileFullPath = FileUtil.getFinalMergedFileFullPath(uploadDirectoryFullPath, applNo);
+        String downLoadFileName = FileUtil.getFinalUserDownloadFileName(userId);
+        File file =  new File(fileFileFullPath);
+        byte[] bytes = null;
+        try {
+            bytes = org.springframework.util.FileCopyUtils.copyToByteArray(file);
+        } catch (IOException e) {
+            ExecutionContext ec = new ExecutionContext(ExecutionContext.FAIL);
+            ec.setMessage(messageResolver.getMessage("U341"));
+            ec.setErrCode("ERR0058");
+            Map<String, String> errorInfo = new HashMap<String, String>();
+            errorInfo.put("applNo", String.valueOf(applNo));
+            errorInfo.put("userId", userId);
+            errorInfo.put("fileName", userId);
+            errorInfo.put("hint", "수험표, 원서 생성 및 All-in-One 파일 생성에 시간이 걸리므로, 결제 완료 직후에는 오류 발생할 수 있음");
+            ec.setErrorInfo(new ErrorInfo(errorInfo));
+            throw new YSBizException(ec);
+        }
 
-        response.setHeader("Content-Disposition", "attachment; filename=\"" + URLEncoder.encode(downLoadFileName, "UTF-8") + "\"");
+        try {
+            response.setHeader("Content-Disposition", "attachment; filename=\"" + URLEncoder.encode(downLoadFileName, "UTF-8") + "\"");
+        } catch (UnsupportedEncodingException e) {
+            ExecutionContext ec = new ExecutionContext(ExecutionContext.FAIL);
+            ec.setMessage(messageResolver.getMessage("U342"));
+            ec.setErrCode("ERR0059");
+            Map<String, String> errorInfo = new HashMap<String, String>();
+            errorInfo.put("applNo", String.valueOf(applNo));
+            errorInfo.put("userId", userId);
+            errorInfo.put("fileName", downLoadFileName);
+            errorInfo.put("encoding", "UTF-8");
+            ec.setErrorInfo(new ErrorInfo(errorInfo));
+            throw new YSBizException(ec);
+        }
+
         response.setHeader("Content-Transfer-Encoding", "binary;");
         response.setHeader("Pragma", "no-cache;");
         response.setHeader("Expires", "-1;");

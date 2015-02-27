@@ -1,7 +1,7 @@
 package com.apexsoft.ysprj.unused;
 
 import com.apexsoft.framework.common.vo.ExecutionContext;
-import com.apexsoft.ysprj.user.domain.Users;
+import com.apexsoft.ysprj.user.domain.User;
 import com.apexsoft.ysprj.user.service.UserAccountService;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,8 +18,8 @@ public class SearchServiceImpl implements SearchService {
     private UserAccountService userAccountService;
 
     @Override
-    public ExecutionContext searchId(Users users) {
-//        Users usersVO1 = userAccountService.retrieveUserByName(users.getName());
+    public ExecutionContext searchId(User user) {
+//        User usersVO1 = userAccountService.retrieveUserByName(user.getName());
 //        if( usersVO1 != null ) {
 //            ExecutionContext context = new ExecutionContext();
 //            String userId = usersVO1.getUsername();
@@ -27,7 +27,7 @@ public class SearchServiceImpl implements SearchService {
 //            context.setData( userId );
 //            return context;
 //        }
-        String userId = null/*userAccountService.retrieveUsername(users)*/;
+        String userId = null/*userAccountService.retrieveUsername(user)*/;
         if( userId != null ) {
             ExecutionContext context = new ExecutionContext();
             userId = userId.substring(0, 3) + StringUtils.repeat("*", userId.length() - 3);
@@ -38,7 +38,7 @@ public class SearchServiceImpl implements SearchService {
     }
 
     @Override
-    public ExecutionContext resetPassword(Users users) {
+    public ExecutionContext resetPassword(com.apexsoft.ysprj.user.domain.User user) {
         return new ExecutionContext();
     }
 }

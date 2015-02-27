@@ -1,7 +1,7 @@
 package com.apexsoft.ysprj.unused;
 
 import com.apexsoft.framework.common.vo.ExecutionContext;
-import com.apexsoft.ysprj.user.domain.Users;
+import com.apexsoft.ysprj.user.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,11 +27,11 @@ public class SearchController {
 
     @RequestMapping(value = "/search/id", method = RequestMethod.POST)
     @ResponseBody
-    public ExecutionContext searchId(@Valid Users users, BindingResult bindingResult) {
+    public ExecutionContext searchId(@Valid User user, BindingResult bindingResult) {
         if( bindingResult.hasErrors() ) {
             return new ExecutionContext( ExecutionContext.FAIL );
         }
-        return searchService.searchId(users);
+        return searchService.searchId(user);
     }
 
     @RequestMapping(value = "/search/pw", method = RequestMethod.GET)

@@ -20,7 +20,7 @@
 <body>
 <section class="normal-white">
     <div class="container">
-        <form:form commandName="users" cssClass="form-horizontal" role="form" method="post">
+        <form:form commandName="user" cssClass="form-horizontal" role="form" method="post">
             <div class="col-md-offset-3 col-md-6">
                 <div class="form-group inner-container-white">
                     <div class="col-sm-offset-1 col-sm-10 text-gray">
@@ -96,6 +96,7 @@
         </form:form>
     </div>
 </section>
+<content tag="local-script">
 <script src="${contextPath}/js/jquery-ui.min.js"></script>
 <script type="text/javascript">
 $(document).ready(function() {
@@ -103,7 +104,7 @@ $(document).ready(function() {
     <%-- 하단 버튼 처리 --%>
     var formProcess = function(event) {
         event.preventDefault();
-        var form = document.getElementById('users');
+        var form = document.getElementById('user');
         form.action = "${contextPath}/user/getId";
         form.submit();
     };
@@ -145,5 +146,6 @@ $(document).ready(function() {
     <%-- placeholder polyfill --%>
 });
 </script>
+</content>
 </body>
 </html>

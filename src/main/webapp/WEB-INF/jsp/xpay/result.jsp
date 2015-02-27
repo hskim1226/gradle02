@@ -3,68 +3,46 @@
 <%@ include file="/WEB-INF/jsp/common/env.jsp"%>
 <html>
 <head>
-    <title></title>
+    <title>결제 및 신청 완료</title>
     <style>
-        th.header {
-            background-color: #444488;
-        }
-        section.resultPayment {
-            padding: 200px 0 60px;
-            background: #333377;
-            color: #fdfdfd;
-            position:relative;
-            min-height: 615px;
-        }
-
-        section.resultPayment h2.slogan {
-            color: #fff;
-            font-size: 36px;
-            font-weight: 900;
-        }
-
-        section.resultPayment h3.pay {
-            color: #fff;
-            font-size: 24px;
-            font-weight: 200;
-        }
-
-        section.resultPayment .spacer-big {
-            margin-bottom: 7em;
-        }
-
-        section.resultPayment .spacer-mid {
-            margin-bottom: 5em;
-        }
-
-        section.resultPayment .spacer-small {
-            margin-bottom: 3em;
-        }
-
-        section.resultPayment .spacer-tiny {
-            margin-bottom: 1em;
-        }
     </style>
 </head>
 <body>
-<section class="resultPayment" id="resultPayment">
+<section class="normal-white">
     <div class="container">
-        <div class="row mar-bot40">
-            <div class="col-md-6 col-md-offset-3">
-                <h2 class="slogan">결제 처리</h2>
-                <hr>
-                    <%--${transactionVO.sysMsg}--%>
-                <h3 class="pay">${transactionVO.userMsg}</h3>
-                <div>
-                    <button class="btn btn-primary btn-lg btn-block" id="goMain">내 원서 보기</button>
-                </div>
-                <div>
-                    <%--<c:forEach var="item" items="${transactionVO.txMap}" varStatus="status">--%>
-                        <%--${status.count}<br/>--%>
-                        <%--${item.key} : ${item.value}<br/>--%>
-                    <%--</c:forEach>--%>
+        <form id="resultForm" method="post">
+            <div class="row mar-bot40">
+                <div class="col-md-offset-1 col-md-10">
+                    <div class="form-group inner-container-white">
+                        <div class="col-md-offset-1 col-md-10">
+                            <div class="col-sm-12 text-gray">
+                                <i class="fa fa-thumbs-o-up fa-3x" style="vertical-align: middle; line-height:40px;"></i>&nbsp;<span style="font-size: 35px; vertical-align: middle; line-height:40px;"><b>결제 및 신청 완료</b></span>
+                            </div>
+                            <div class="spacer-small">&nbsp;</div>
+                            <div class="col-sm-12 text-gray">
+                                <h3 class="pay">${transactionVO.userMsg}</h3>
+                                <div class="col-sm-12 file-gen">
+                                    <div class="col-sm-12">수험표 및 원서 파일 생성 중 입니다.</div>
+                                    <div class="col-sm-12">잠시만 기다리시면 내 원서 보기 버튼이 나타납니다.</div>
+                                </div>
+                            </div>
+                            <div class="spacer-tiny">&nbsp;</div>
+                            <div class="col-sm-12">
+                                <button class="btn btn-primary btn-lg btn-block" id="goMain" style="display: none;">내 원서 보기</button>
+                            </div>
+                            <%--${transactionVO.sysMsg}--%>
+
+
+
+                            <%--<c:forEach var="item" items="${transactionVO.txMap}" varStatus="status">--%>
+                            <%--${status.count}<br/>--%>
+                            <%--${item.key} : ${item.value}<br/>--%>
+                            <%--</c:forEach>--%>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
+        </form>
     </div>
 </section>
 <content tag="local-script">
@@ -75,9 +53,30 @@ $(document).ready(function() {
     var genFile = function () {
         $.ajax({
             type: 'GET',
-            url: '${contextPath}/application/generate/${transactionVO.applNo}',
+            url: '${contextPath}/application/generate/application/${transactionVO.applNo}',
             success: function (data) {
-                console.log('파일 생성 완료');
+                console.log('원서 파일 생성 완료');
+                $.ajax({
+                    type: 'GET',
+                    url: '${contextPath}/pdf/merge/applicant/${transactionVO.applNo}',
+                    success: function (data) {
+                        console.log('머지 파일 생성 완료');
+                        document.getElementById('goMain').style.display = 'block';
+                    },
+                    error: function (data, status, e) {
+
+                    }
+                });
+            },
+            error: function (data, status, e) {
+
+            }
+        });
+        $.ajax({
+            type: 'GET',
+            url: '${contextPath}/application/generate/slip/${transactionVO.applNo}',
+            success: function (data) {
+                console.log('수험표 파일 생성 완료');
             },
             error: function (data, status, e) {
 
@@ -86,7 +85,11 @@ $(document).ready(function() {
     };
     genFile();
 
-    $('#goMain').click( function () { location.href='${contextPath}/application/mylist'; });
+    $('#goMain').click( function () {
+        var form = document.getElementById('resultForm');
+        form.action = '${contextPath}/application/mylist';
+        form.submit();
+    });
 });
 </script>
 </content>

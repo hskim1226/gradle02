@@ -7,6 +7,7 @@ import com.apexsoft.framework.message.MessageResolver;
 import com.apexsoft.framework.persistence.dao.CommonDAO;
 import com.apexsoft.ysprj.applicants.application.domain.ApplicationDocument;
 import com.apexsoft.ysprj.applicants.common.domain.ParamForPDFDocument;
+import com.apexsoft.ysprj.applicants.common.util.FileUtil;
 import org.apache.pdfbox.exceptions.COSVisitorException;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
@@ -15,7 +16,6 @@ import org.apache.pdfbox.pdmodel.edit.PDPageContentStream;
 import org.apache.pdfbox.pdmodel.font.PDFont;
 import org.apache.pdfbox.pdmodel.font.PDType1Font;
 import org.apache.pdfbox.util.PDFMergerUtility;
-import org.omg.CORBA.portable.ValueOutputStream;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -48,7 +48,7 @@ public class PDFServiceImpl implements PDFService {
         ExecutionContext ec = new ExecutionContext();
         ParamForPDFDocument param = new ParamForPDFDocument(applNo, "pdf");
         PDFMergerUtility mergerUtil = new PDFMergerUtility();
-        String destPath = null;
+        String uploadDirFullPath = null;
 
 
         List<ApplicationDocument> pdfList = commonDAO.queryForList(NAME_SPACE + "CustomApplicationDocumentMapper.selectPDFByApplNo", param, ApplicationDocument.class);
@@ -66,25 +66,26 @@ public class PDFServiceImpl implements PDFService {
             } else {
                 File pdfFile = new File(aDoc.getFilePath(), aDoc.getFileName());
                 mergerUtil.addSource(pdfFile);
-                if (destPath == null)
-                    destPath = aDoc.getFilePath();
+                if (uploadDirFullPath == null)
+                    uploadDirFullPath = aDoc.getFilePath();
             }
         }
-        //TODO 파일명 FileUtil 통해서 처리하도록 수정 필요
-        String destFileFullPath = new StringBuilder().append(destPath).append("/").append(applNo).append("-merged.pdf").toString();
-        String numberedDestFileFullPath = new StringBuilder().append(destPath).append("/").append(applNo).append("-merged-numbered-wo-slip-appl.pdf").toString();
-        mergerUtil.setDestinationFileName(destFileFullPath);
+
+        String rawMergedFileFullPath = FileUtil.getRawMergedFileFullPath(uploadDirFullPath, applNo);
+        String numberedMergedFileFullPath = FileUtil.getNumberedMergedFileFullPath(uploadDirFullPath, applNo);
+
+        mergerUtil.setDestinationFileName(rawMergedFileFullPath);
         PDDocument mergedPDF = null;
         try {
             mergerUtil.mergeDocuments();
-            File mergedFile = new File(destFileFullPath);
+            File mergedFile = new File(rawMergedFileFullPath);
             mergedPDF = PDDocument.load(mergedFile);
-            ec = generatePageNumberedPDF(mergedPDF, numberedDestFileFullPath, applNo);
+            ec = generatePageNumberedPDF(mergedPDF, numberedMergedFileFullPath, applNo);
 
             PDFMergerUtility lastMergeUtil = new PDFMergerUtility();
             lastMergeUtil.addSource(new File(applicationFilePath, applicationFileName));
-            lastMergeUtil.addSource(new File(numberedDestFileFullPath));
-            lastMergeUtil.setDestinationFileName(new StringBuilder().append(destPath).append("/").append(applNo).append("-merged-numbered.pdf").toString());
+            lastMergeUtil.addSource(new File(numberedMergedFileFullPath));
+            lastMergeUtil.setDestinationFileName(FileUtil.getFinalMergedFileFullPath(uploadDirFullPath, applNo));
             lastMergeUtil.mergeDocuments();
 
         } catch (IOException e) {

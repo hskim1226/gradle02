@@ -35,6 +35,9 @@ public class BirtController {
     private final String RPT_APPLICATION_KR = "application_kr";
     private final String RPT_APPLICATION_EN = "application_en";
 
+    private final String RPT_ADMISSION_KR = "admission_kr";
+    private final String RPT_ADMISSION_EN = "admission_en";
+
     @RequestMapping(value = "/print")
     public ModelAndView previewApplicationByParam(@RequestParam(value = "applNo") Integer applNo,
                                                   @RequestParam(value = "reportFormat") String reportFormat,
@@ -43,7 +46,7 @@ public class BirtController {
         mv.setViewName("pdfSingleFormatBirtView");
         mv.addObject("reportFormat", reportFormat);
         mv.addObject("reportName", reportName);
-        ExecutionContext ec = birtService.processBirt(applNo);
+        ExecutionContext ec = birtService.processBirt(applNo, reportName);
         mv.addAllObjects((Map<String, Object>)ec.getData());
         return mv;
     }
@@ -56,29 +59,40 @@ public class BirtController {
         mv.setViewName("pdfSingleFormatBirtView");
         mv.addObject("reportFormat", reportFormat);
         mv.addObject("reportName", reportName);
-        ExecutionContext ec = birtService.processBirt(applNo);
+        ExecutionContext ec = birtService.processBirt(applNo, reportName);
         mv.addAllObjects((Map<String, Object>)ec.getData());
         return mv;
     }
 
     @RequestMapping(value = "/preview")
-    public ModelAndView previewAppInfo(@RequestParam(value = "application.applNo") Integer applNo,
+    public ModelAndView previewAppInfo(@RequestParam(value = "applNo") Integer applNo,
                                        ModelAndView mv) {
         mv.setViewName("pdfSingleFormatBirtView");
         mv.addObject("reportFormat", REPORT_FORMAT);
         mv.addObject("reportName", RPT_APPLICATION_KR);
-        ExecutionContext ec = birtService.processBirt(applNo);
+        ExecutionContext ec = birtService.processBirt(applNo, RPT_APPLICATION_KR);
         mv.addAllObjects((Map<String, Object>)ec.getData());
         return mv;
     }
 
-    @RequestMapping(value = "/generate/{applNo}")
-    public ModelAndView generateSlipAndApplicationFile(@PathVariable(value = "applNo") Integer applNo,
+    @RequestMapping(value = "/generate/application/{applNo}")
+    public ModelAndView generateApplicationFile(@PathVariable(value = "applNo") Integer applNo,
                                                        ModelAndView mv) {
         mv.setViewName("pdfSingleFormatBirtSaveToFile");
         mv.addObject("reportFormat", REPORT_FORMAT);
         mv.addObject("reportName", RPT_APPLICATION_KR);
-        ExecutionContext ec = birtService.processBirt(applNo);
+        ExecutionContext ec = birtService.processBirt(applNo, RPT_APPLICATION_KR);
+        mv.addAllObjects((Map<String, Object>)ec.getData());
+        return mv;
+    }
+
+    @RequestMapping(value = "/generate/slip/{applNo}")
+    public ModelAndView generateSlipFile(@PathVariable(value = "applNo") Integer applNo,
+                                                       ModelAndView mv) {
+        mv.setViewName("pdfSingleFormatBirtSaveToFile");
+        mv.addObject("reportFormat", REPORT_FORMAT);
+        mv.addObject("reportName", RPT_ADMISSION_KR);
+        ExecutionContext ec = birtService.processBirt(applNo, RPT_ADMISSION_KR);
         mv.addAllObjects((Map<String, Object>)ec.getData());
         return mv;
     }

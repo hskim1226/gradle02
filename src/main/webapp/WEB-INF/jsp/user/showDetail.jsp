@@ -2,7 +2,7 @@
 <%@ include file="/WEB-INF/jsp/common/env.jsp"%>
 <html lang='ko'>
 <head>
-    <title>회원 가입</title>
+    <title>회원 정보</title>
     <link rel="stylesheet" href="//code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css">
     <style>
         section.normal-white div.btn-group>label.btn {
@@ -32,58 +32,20 @@
             <div class="col-md-offset-2 col-md-8">
                 <div class="form-group inner-container-white">
                     <div class="col-sm-offset-1 col-sm-10 text-gray">
-                        <i class="fa fa-user fa-3x" style="vertical-align: middle; line-height:40px;"></i>&nbsp;<span style="font-size: 35px; vertical-align: middle; line-height:40px;"><b>회원 가입</b></span>
+                        <i class="fa fa-user fa-3x" style="vertical-align: middle; line-height:40px;"></i>&nbsp;&nbsp;<span style="font-size: 35px; vertical-align: middle; line-height:40px;"><b>회원 정보</b></span>
                     </div>
                     <div class="spacer-small">&nbsp;</div>
                     <%--user id--%>
                     <div class="form-group text-gray">
                         <div class="col-sm-offset-2 col-sm-8">
-                            <div class="form-group col-sm-4 required">
+                            <div class="form-group col-sm-4">
                                 <label for="userId" class="control-label"><spring:message code="L101" /></label>
                             </div>
                             <div class="col-sm-8 nopadding">
-                                <div class="input-group">
-                                    <form:input type="text" cssClass="form-control userId" path="userId" placeholder="알파벳 대소문자와 숫자로 입력해 주세요" />
-                                    <span class="input-group-btn">
-                                        <button class="btn btn-info" id="available-check-button">Check</button>
-                                    </span>
+                                <div>
+                                    <h4>${user.userId}</h4>
+                                    <form:hidden path="userId" />
                                 </div>
-                        <spring:bind path="userId">
-                            <c:if test="${status.error}">
-                                <div class="validation-error">${status.errorMessage}</div>
-                            </c:if>
-                        </spring:bind>
-                            </div>
-                        </div>
-                    </div>
-                    <%--password--%>
-                    <div class="form-group text-gray">
-                        <div class="col-sm-offset-2 col-sm-8">
-                            <div class="form-group col-sm-4 required">
-                                <label for="pswd1" class="control-label"><spring:message code="L102" /></label>
-                            </div>
-                            <div class="col-sm-8 nopadding">
-                                <div><form:input type="password" cssClass="form-control passwd" path="pswd" id="pswd1" placeholder="Password"/></div>
-                        <spring:bind path="pswd">
-                            <c:if test="${status.error}">
-                                <div class="validation-error">${status.errorMessage}</div>
-                            </c:if>
-                        </spring:bind>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group text-gray">
-                        <div class="col-sm-offset-2 col-sm-8">
-                            <div class="form-group col-sm-4 required">
-                                <label for="pswd2" class="control-label"><spring:message code="L117" /></label>
-                            </div>
-                            <div class="col-sm-8 nopadding">
-                                <div><input type="password" class="form-control passwd" id="pswd2" placeholder="Password 확인" /></div>
-                        <spring:bind path="pswd">
-                            <c:if test="${status.error}">
-                                <div class="validation-error">${status.errorMessage}</div>
-                            </c:if>
-                        </spring:bind>
                             </div>
                         </div>
                     </div>
@@ -96,11 +58,11 @@
                             <div class="col-sm-8 nopadding">
                                 <div>
                                     <div class="btn-group btn-group-justified" data-toggle="buttons">
-                                        <label class="btn btn-default active">
-                                            <input type="radio" name="prefLang" value="${app['lang.kr']}" checked /><spring:message code="L121" />
+                                        <label class="btn btn-default ${user.prefLang == app['lang.kr']?'active':''}">
+                                            <input type="radio" name="prefLang" value="${app['lang.kr']}" ${user.prefLang == app['lang.kr']?'checked':''} /><spring:message code="L121" />
                                         </label>
-                                        <label class="btn btn-default">
-                                            <input type="radio" name="prefLang" value="${app['lang.en']}" /><spring:message code="L122" />
+                                        <label class="btn btn-default ${user.prefLang == app['lang.en']?'active':''}">
+                                            <input type="radio" name="prefLang" value="${app['lang.en']}" ${user.prefLang == app['lang.en']?'checked':''} /><spring:message code="L122" />
                                         </label>
                                     </div>
                                 </div>
@@ -169,11 +131,11 @@
                             <div class="col-sm-8 nopadding">
                                 <div>
                                     <div class="btn-group btn-group-justified" data-toggle="buttons">
-                                        <label class="btn btn-default active">
-                                            <input type="radio" name="gend" value="m" checked /><spring:message code="L114" />
+                                        <label class="btn btn-default ${user.gend == 'm'?'active':''}">
+                                            <input type="radio" name="gend" value="m" ${user.gend == 'm'?'checked':''} /><spring:message code="L114" />
                                         </label>
-                                        <label class="btn btn-default">
-                                            <input type="radio" name="gend" value="f" /><spring:message code="L115" />
+                                        <label class="btn btn-default ${user.gend == 'f'?'active':''}">
+                                            <input type="radio" name="gend" value="f" ${user.gend == 'f'?'checked':''} /><spring:message code="L115" />
                                         </label>
                                     </div>
                                 </div>
@@ -210,8 +172,11 @@
                     <div class="form-group">
                         <div class="col-sm-offset-2 col-sm-8">
                             <div class="col-sm-12 btn-group btn-group-justified">
-                                <div class="btn-group col-sm-12">
-                                    <button id="sign-up-button" class="btn btn-primary btn-lg" disabled="disabled" ><spring:message code="L116" /></button>
+                                <div class="btn-group col-sm-6">
+                                    <button id="modify" class="btn btn-primary btn-lg"><spring:message code="L118" /></button>
+                                </div>
+                                <div class="btn-group col-sm-6">
+                                    <button id="change-pwd" class="btn btn-info btn-lg"><spring:message code="L119" /></button>
                                 </div>
                             </div>
                         </div>
@@ -225,54 +190,29 @@
 <script src="${contextPath}/js/jquery-ui.min.js"></script>
 <script type="text/javascript">
     $(document).ready(function(){
-        $("#sign-up-button").on("click", function(e){
-//            $('#sign-up-form').bootstrapValidator('validate');
+        $("#modify").on("click", function(e){
             e.preventDefault();
-            if ( document.getElementById('pswd1').value !== document.getElementById('pswd2').value ) {
-                alert("패스워드가 일치하지 않습니다.");
-                return;
-            } else {
-                apex.transKorPhoneNumber('phone');
-                document.forms[0].action = "${contextPath}/user/signup/save";
-                document.forms[0].submit();
-            }
+
+            apex.transKorPhoneNumber('phone');
+
+            document.forms[0].action = "${contextPath}/user/modify";
+            document.forms[0].submit();
+
         });
 
-        <%-- 아이디 처리 --%>
-        apex.idCheck('userId');
-        <%-- 아이디 처리 --%>
-
-        <%-- 아이디 중복 체크 --%>
-        $("#available-check-button").on("click", function(e){
+        $("#change-pwd").on("click", function(e){
             e.preventDefault();
-            var idValue = document.getElementById('userId').value;
-            if (idValue.length > 5) {
-                $.get("${contextPath}/user/idCheck",
-                        $("#sign-up-form").serialize(),
-                        function(data){
-                            var container = JSON.parse(data);
-                            if(container.result == "SUCCESS"){
-                                alert("사용가능한 username 입니다.");
-                                $("#sign-up-button").prop('disabled', false);
-                            }else{
-                                alert("이미 사용 중인 username 입니다.");
-                                $("#sign-up-button").prop('disabled', true);
-                            }
-                        }
-                );
-            } else {
-                alert('아이디는 6자 이상이어야 합니다.');
-            }
-        });
-        <%-- 아이디 중복 체크 --%>
 
-        <%-- 비밀 번호 validation --%>
-        apex.passwordCheck('passwd');
-        <%-- 비밀 번호 validation --%>
+            document.forms[0].action = "${contextPath}/user/changePwd";
+            document.forms[0].submit();
+
+        });
 
         <%-- 메일 주소 validation --%>
         apex.emailCheck('emailOnly');
         <%-- 메일 주소 validation --%>
+
+
 
         <%-- 숫자만 입력 - 주민번호, 휴대폰, 전화번호 --%>
         apex.numCheck('numOnly');

@@ -7,5 +7,5 @@ import com.apexsoft.framework.common.vo.ExecutionContext;
  */
 public interface BirtService {
 
-    ExecutionContext processBirt(int applNo);
+    ExecutionContext processBirt(int applNo, String birtRptFileName);
 }

@@ -1,15 +1,16 @@
 package com.apexsoft.ysprj.user.service;
 
 import com.apexsoft.framework.common.vo.ExecutionContext;
+import com.apexsoft.framework.exception.ErrorInfo;
 import com.apexsoft.framework.exception.YSBizException;
 import com.apexsoft.framework.message.MessageResolver;
 import com.apexsoft.framework.persistence.dao.CommonDAO;
 import com.apexsoft.framework.persistence.dao.handler.RowHandler;
 import com.apexsoft.framework.persistence.dao.page.PageInfo;
 import com.apexsoft.framework.persistence.dao.page.PageStatement;
-import com.apexsoft.ysprj.applicants.user.domain.Authorities;
+import com.apexsoft.ysprj.user.domain.Authorities;
 import com.apexsoft.ysprj.code.AuthorityType;
-import com.apexsoft.ysprj.user.domain.Users;
+import com.apexsoft.ysprj.user.domain.User;
 import com.apexsoft.ysprj.user.web.form.UserSearchForm;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang.StringUtils;
@@ -20,6 +21,7 @@ import org.springframework.security.crypto.keygen.StringKeyGenerator;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,7 +29,7 @@ import java.util.Map;
 @Service
 public class UserAccountServiceImpl implements UserAccountService {
 
-    private static String NAME_SPACE="com.apexsoft.ysprj.user.Mapper.";
+    private static String NAME_SPACE="com.apexsoft.ysprj.user.sqlmap.";
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -39,16 +41,16 @@ public class UserAccountServiceImpl implements UserAccountService {
     private CommonDAO commonDAO;
 
     @Override
-    public ExecutionContext registerUserAndAuthority(Users users) {
+    public ExecutionContext registerUserAndAuthority(User user) {
         ExecutionContext ec = new ExecutionContext();
         int rUserInsert = 0, rAuthInsert = 0;
 
-        users.setEnabled( true );
-        users.setPswd( passwordEncoder.encode( users.getPswd() ) );
-        rUserInsert = commonDAO.insert( NAME_SPACE + "insertUser", users );
+        user.setEnabled( true );
+        user.setPswd( passwordEncoder.encode( user.getPswd() ) );
+        rUserInsert = commonDAO.insert( NAME_SPACE + "insertUser", user);
 
         Authorities authVO = new Authorities();
-        authVO.setUsername(users.getUserId());
+        authVO.setUsername(user.getUserId());
         authVO.setAuthority(AuthorityType.ROLE_USER.getValue());
         rAuthInsert = commonDAO.insert(NAME_SPACE+"insertAuthority", authVO);
 
@@ -67,9 +69,9 @@ public class UserAccountServiceImpl implements UserAccountService {
         return ec;
     }
 
-    public ExecutionContext registerUser(Users users){
+    public ExecutionContext registerUser(User user){
         try {
-            registerUserAndAuthority(users);
+            registerUserAndAuthority(user);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -77,7 +79,7 @@ public class UserAccountServiceImpl implements UserAccountService {
 	}
 
     @Override
-    public PageInfo<Users> getUserPaginatedList(UserSearchForm userSearchForm) {
+    public PageInfo<User> getUserPaginatedList(UserSearchForm userSearchForm) {
         return commonDAO.queryForPagenatedList(new PageStatement(){
             /**
              * @return the totalCountStatementId
@@ -97,15 +99,15 @@ public class UserAccountServiceImpl implements UserAccountService {
     }
 
     @Override
-	public Users retrieveUser(String userName) {
-        Users users = commonDAO.queryForObject(NAME_SPACE+"selectByPk",userName, Users.class);
+	public User retrieveUser(String userName) {
+        User user = commonDAO.queryForObject(NAME_SPACE+"selectByPk",userName, User.class);
 
-		return users;
+		return user;
 	}
 
     @Override
-    public ExecutionContext retrieveUserIds(Users users, int showLength) {
-        List<String> list = commonDAO.queryForList(NAME_SPACE + "selectUsername", users, String.class);
+    public ExecutionContext retrieveUserIds(User user, int showLength) {
+        List<String> list = commonDAO.queryForList(NAME_SPACE + "selectUsername", user, String.class);
         ExecutionContext context = new ExecutionContext();
         if( list.size() > 0 ) {
             String[] userIdArray = new String[list.size()];
@@ -125,9 +127,9 @@ public class UserAccountServiceImpl implements UserAccountService {
     }
 
     @Override
-    public ExecutionContext retrieveUserId(Users users) {
+    public ExecutionContext retrieveUserId(User user) {
         ExecutionContext ec = new ExecutionContext();
-        Users result = commonDAO.queryForObject(NAME_SPACE + "findUserId", users, Users.class);
+        User result = commonDAO.queryForObject(NAME_SPACE + "findUserId", user, User.class);
         if (result != null) {
             ec.setResult(ExecutionContext.SUCCESS);
             Map<String, Object> ecDataMap = new HashMap<String, Object>();
@@ -141,9 +143,9 @@ public class UserAccountServiceImpl implements UserAccountService {
     }
 
     @Override
-    public ExecutionContext retrievePwdLink(Users users) {
+    public ExecutionContext retrievePwdLink(User user) {
         ExecutionContext ec = new ExecutionContext();
-        Users result = commonDAO.queryForObject(NAME_SPACE + "findUserId", users, Users.class);
+        User result = commonDAO.queryForObject(NAME_SPACE + "findUserId", user, User.class);
         if (result != null) {
             ec.setResult(ExecutionContext.SUCCESS);
             String shaStr = DigestUtils.shaHex(new StringBuilder().append(result.getUserId()).append(result.getMailAddr()).toString());
@@ -158,17 +160,17 @@ public class UserAccountServiceImpl implements UserAccountService {
     }
 
     @Override
-    public Integer resetPassword(Users users) {
+    public Integer resetPassword(User user) {
         StringKeyGenerator generator = KeyGenerators.string();
         String key = generator.generateKey();
-        users.setPswd(key);
-        return changePassword(users);
+        user.setPswd(key);
+        return changePassword(user);
     }
 
     @Override
-    public Integer changePassword(Users users) {
-        users.setPswd( passwordEncoder.encode( users.getPswd() ) );
-        return commonDAO.update(NAME_SPACE + "changePasswd", users);
+    public Integer changePassword(User user) {
+        user.setPswd( passwordEncoder.encode( user.getPswd() ) );
+        return commonDAO.update(NAME_SPACE + "changePasswd", user);
     }
 
     @Override
@@ -182,9 +184,9 @@ public class UserAccountServiceImpl implements UserAccountService {
     }
 
     @Override
-    public ExecutionContext isUserIdAvailable(Users users) {
+    public ExecutionContext isUserIdAvailable(User user) {
         ExecutionContext context = new ExecutionContext();
-        if( retrieveUser( users.getUserId() ) != null ) {
+        if( retrieveUser( user.getUserId() ) != null ) {
             context.setResult( ExecutionContext.FAIL );
             context.setMessage( "이미 존재하는 ID 입니다." );
         }
@@ -198,7 +200,7 @@ public class UserAccountServiceImpl implements UserAccountService {
 //            return;
 //        }
 //        for (int inx=0 ; inx < usernames.length ; inx++ ){
-//            Users usersVO = usersDAO.selectByPk(usernames[inx]);
+//            User usersVO = usersDAO.selectByPk(usernames[inx]);
 //            if ( Integer.parseInt(grades[inx])==usersVO.getGrade()) {
 //                continue;
 //            }
@@ -214,7 +216,43 @@ public class UserAccountServiceImpl implements UserAccountService {
 //    }
 
     @Override
-    public Integer modifyUsers(Users users) {
-        return commonDAO.update(NAME_SPACE + "updateUser", users);
+    public ExecutionContext modifyUser( User user) {
+        ExecutionContext ec = new ExecutionContext();
+
+        user.setModId(user.getUserId());
+        user.setModDate(new Date());
+
+        int u1 = commonDAO.update(NAME_SPACE + "updateUserByPrimaryKeySelective", user);
+
+        if (u1 == 1) {
+            ec.setResult(ExecutionContext.SUCCESS);
+            ec.setMessage(messageResolver.getMessage("U106"));
+        } else {
+            ec.setResult(ExecutionContext.FAIL);
+            ec.setMessage(messageResolver.getMessage("U107"));
+            ec.setErrCode("ERRU001");
+            Map<String, String> errorInfo = new HashMap<String, String>();
+            errorInfo.put("userId", user.getUserId());
+            ec.setErrorInfo(new ErrorInfo(errorInfo));
+            throw new YSBizException(ec);
+        }
+        return ec;
+    }
+
+    @Override
+    public ExecutionContext checkPwd(User user) {
+        ExecutionContext ec = new ExecutionContext();
+        User userFromDB = retrieveUser(user.getUserId());
+
+        String pwd = user.getPswd();
+
+        if (passwordEncoder.matches(pwd, userFromDB.getPswd())) {
+            ec.setResult(ExecutionContext.SUCCESS);
+            ec.setData(userFromDB);
+        } else {
+            ec.setResult(ExecutionContext.FAIL);
+            ec.setMessage(messageResolver.getMessage("U105"));
+        }
+        return ec;
     }
 }

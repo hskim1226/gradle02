@@ -55,6 +55,7 @@
                     <li class="active"><a href="${contextPath}">Home</a></li>
                     <li><a href="${contextPath}/application/admsList">원서 접수</a></li>
                     <li><a href="${contextPath}/application/mylist">내 원서</a></li>
+                    <li><a href="${contextPath}/user/info">내 정보</a></li>
                     <sec:authorize access="!isAuthenticated()">
                         <li><a href="${contextPath}/user/agreement">회원 가입</a></li>
                     </sec:authorize>
@@ -108,6 +109,7 @@
     <script src="${contextPath}/js/jquery.word-break-keep-all.min.js"></script>
     <script src="${contextPath}/js/json2.js"></script>
     <script src="${contextPath}/js/main.js"></script>
+    <script src="${contextPath}/js/apex.js"></script>
     <%--<script type="text/javascript">--%>
         <%--$(document).ready(function() {--%>
             <%--$('div[role=locale]').on('click', function(e) {--%>

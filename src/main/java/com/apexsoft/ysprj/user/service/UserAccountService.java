@@ -2,7 +2,7 @@ package com.apexsoft.ysprj.user.service;
 
 import com.apexsoft.framework.common.vo.ExecutionContext;
 import com.apexsoft.framework.persistence.dao.page.PageInfo;
-import com.apexsoft.ysprj.user.domain.Users;
+import com.apexsoft.ysprj.user.domain.User;
 import com.apexsoft.ysprj.user.web.form.UserSearchForm;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
@@ -10,31 +10,33 @@ import java.util.List;
 
 public interface UserAccountService {
 
-    ExecutionContext registerUserAndAuthority(Users users);
+    ExecutionContext registerUserAndAuthority(User user);
 
-    ExecutionContext registerUser(Users users);
+    ExecutionContext registerUser(User user);
 
-    Users retrieveUser(String userName);
+    User retrieveUser(String userName);
 
-    Integer resetPassword(Users users);
+    Integer resetPassword(User user);
 
-    Integer changePassword(Users users);
+    Integer changePassword(User user);
 
     List<SimpleGrantedAuthority> retrieveAuthorities(String userName);
 
-    // List<Users> retrieveUserList() throws Exception;
+    // List<User> retrieveUserList() throws Exception;
 
-    PageInfo<Users> getUserPaginatedList(UserSearchForm userSearchForm);
+    PageInfo<User> getUserPaginatedList(UserSearchForm userSearchForm);
 
     //void modifyUsersGrade(String[] usernames, String[] grades);
 
-    Integer modifyUsers(Users users);
+    ExecutionContext modifyUser( User user);
 
-    ExecutionContext retrieveUserIds(Users users, int showLength);
+    ExecutionContext retrieveUserIds(User user, int showLength);
 
-    ExecutionContext retrieveUserId(Users users);
+    ExecutionContext retrieveUserId(User user);
 
-    ExecutionContext retrievePwdLink(Users users);
+    ExecutionContext retrievePwdLink(User user);
 
-    ExecutionContext isUserIdAvailable(Users users);
+    ExecutionContext isUserIdAvailable(User user);
+
+    ExecutionContext checkPwd(User user);
 }

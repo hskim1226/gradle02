@@ -40,6 +40,9 @@ public class PreApplicationController {
     @Value("#{app['adms.foreign']}")
     private String admsForeign;
 
+    @Value("#{app['adms.early']}")
+    private String admsEarly;
+
     /**
      * 공고 목록 화면
      *
@@ -51,6 +54,7 @@ public class PreApplicationController {
 
         mv.addObject("admsGeneral", admissionService.retrieveAdmissionByAdmsNo(admsGeneral));
         mv.addObject("admsForeign", admissionService.retrieveAdmissionByAdmsNo(admsForeign));
+        mv.addObject("admsEarly", admissionService.retrieveAdmissionByAdmsNo(admsEarly));
 
         return mv;
     }
@@ -84,14 +88,28 @@ public class PreApplicationController {
     }
 
     /**
+     * 조기 전형
+     *
+     * @return
+     */
+    @RequestMapping(value = "/early", method = RequestMethod.POST)
+    public ModelAndView showEarly() {
+        ModelAndView mv = new ModelAndView("application/early");
+
+        mv.addObject("admsEarly", admissionService.retrieveAdmissionByAdmsNo(admsEarly));
+
+        return mv;
+    }
+
+    /**
      * 내원서 화면
      * @param principal
-     * @param model
+     * @param mv
      * @return
      */
     @RequestMapping(value="/mylist")
-    public String myApplicationList(Principal principal, Model model) {
-
+    public ModelAndView myApplicationList(Principal principal, ModelAndView mv) {
+        mv.setViewName("application/mylist");
         ParamForApplication parameter = new ParamForApplication();
         parameter.setUserId(principal.getName());
 
@@ -99,8 +117,8 @@ public class PreApplicationController {
                 commonDAO.queryForList("com.apexsoft.ysprj.applicants.application.sqlmap.CustomApplicationMapper.selectApplByUserId",
                     parameter, CustomMyList.class);
 
-        model.addAttribute("myList", myList);
-        return "application/mylist";
+        mv.addObject("myList", myList);
+        return mv;
     }
 
     /**

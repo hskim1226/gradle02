@@ -2,7 +2,7 @@
 <%@ include file="/WEB-INF/jsp/common/env.jsp"%>
 <html lang='ko'>
 <head>
-    <title>아이디 찾기</title>
+    <title>회원 가입 성공</title>
     <style>
         .input-text {
             height: 50px;
@@ -28,14 +28,12 @@
             <div class="col-md-offset-3 col-md-6">
                 <div class="form-group inner-container-white">
                     <div class="col-sm-offset-1 col-sm-10 text-gray">
-                        <i class="fa fa-search fa-3x" style="vertical-align: middle; line-height:40px;"></i>&nbsp;<span style="font-size: 35px; vertical-align: middle; line-height:40px;"><b>아이디 찾기</b></span>
+                        <i class="fa fa-graduation-cap fa-3x" style="vertical-align: middle; line-height:40px;"></i>&nbsp;<span style="font-size: 35px; vertical-align: middle; line-height:40px;"><b>환영합니다</b></span>
                     </div>
                     <div class="spacer-small">&nbsp;</div>
                     <div class="form-group required">
                         <div class="col-sm-offset-1 col-sm-10">
-                            <div class="col-sm-12 text-gray">회원님의 아이디는</div>
-                            <div class="col-sm-12 text-red"><b>${userId}</b></div>
-                            <div class="col-sm-12 text-gray">입니다</div>
+                            <div class="col-sm-12 text-gray"><h3>회원 가입을 축하드립니다.</h3></div>
                         </div>
                     </div>
                     <div class="col-sm-offset-1 col-sm-10">
@@ -59,16 +57,6 @@ $(document).ready(function() {
     };
     $('.btn-save').on('click', formProcess);
     <%-- 하단 버튼 처리 --%>
-
-    <%-- action 성공 여부 알림 처리 --%>
-    var showActionResult = function() {
-        var msg = '${resultMsg}';
-        if (msg.length > 0) {
-            confirm(msg);
-        }
-    };
-    showActionResult();
-    <%-- action 성공 여부 알림 처리 --%>
 });
 </script>
 </content>

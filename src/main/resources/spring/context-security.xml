@@ -31,7 +31,16 @@
     <http auto-config="true"  use-expressions="true" access-denied-page="/user/login.do?auth=true" >
         <intercept-url pattern="/index"  access="isAnonymous() or isAuthenticated()"/>
         <intercept-url pattern="/index.jsp"  access="isAnonymous() or isAuthenticated()"/>
-        <intercept-url pattern="/user/**"  access="isAnonymous() or isAuthenticated()"/>
+        <intercept-url pattern="/user/login*"  access="isAnonymous() or isAuthenticated()"/>
+        <intercept-url pattern="/user/agreement"  access="isAnonymous() or isAuthenticated()"/>
+        <intercept-url pattern="/user/signup"  access="isAnonymous() or isAuthenticated()"/>
+        <intercept-url pattern="/user/signup/save"  access="isAnonymous() or isAuthenticated()"/>
+        <intercept-url pattern="/user/idCheck"  access="isAnonymous() or isAuthenticated()"/>
+        <intercept-url pattern="/user/findId"  access="isAnonymous() or isAuthenticated()"/>
+        <intercept-url pattern="/user/getId"  access="isAnonymous() or isAuthenticated()"/>
+        <intercept-url pattern="/user/findPwd"  access="isAnonymous() or isAuthenticated()"/>
+        <intercept-url pattern="/user/resetPwd"  access="isAnonymous() or isAuthenticated()"/>
+        <intercept-url pattern="/user/savePwd"  access="isAnonymous() or isAuthenticated()"/>
         <intercept-url pattern="/upload/**"  access="isAuthenticated()"/>
         <intercept-url pattern="/admin/**" access="hasRole('ROLE_ADMIN')" />
         <intercept-url pattern="/qna/**" access="isAnonymous() or isAuthenticated()" />

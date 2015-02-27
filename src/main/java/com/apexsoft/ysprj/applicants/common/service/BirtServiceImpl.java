@@ -39,9 +39,15 @@ public class BirtServiceImpl implements BirtService {
     @Value("#{app['file.baseDir']}")
     private String BASE_DIR;
 
+    private final String RPT_APPLICATION_KR = "application_kr";
+    private final String RPT_APPLICATION_EN = "application_en";
+
+    private final String RPT_ADMISSION_KR = "admission_kr";
+    private final String RPT_ADMISSION_EN = "admission_en";
+
     //TODO 수험표 생성
     @Override
-    public ExecutionContext processBirt(int applNo) {
+    public ExecutionContext processBirt(int applNo, String birtRptFileName) {
         Map<String, Object> rptInfoMap = new HashMap<String, Object>();
         ExecutionContext ecResult = new ExecutionContext();
         ExecutionContext ecBasis = basisService.retrieveBasis(applNo);
@@ -67,10 +73,12 @@ public class BirtServiceImpl implements BirtService {
 
         String admsNo = application.getAdmsNo();
         String userId = application.getUserId();
-        String rptFileName = FileUtil.getApplicationFileName(userId);
+        String pdfFileName = birtRptFileName.startsWith("application") ?
+                FileUtil.getApplicationFileName(userId) :
+                FileUtil.getSlipFileName(userId);
 
-        rptInfoMap.put("rptDirectoryFullPath", FileUtil.getUploadDirectoryFullPath(BASE_DIR, admsNo, userId, String.valueOf(applNo)));
-        rptInfoMap.put("rptFileName", rptFileName);
+        rptInfoMap.put("pdfDirectoryFullPath", FileUtil.getUploadDirectoryFullPath(BASE_DIR, admsNo, userId, applNo));
+        rptInfoMap.put("pdfFileName", pdfFileName);
 
         CommonCode commonCode;
         commonCode = commonService.retrieveCommonCodeValueByCodeGroupCode("ADMS_TYPE", application.getAdmsTypeCode());

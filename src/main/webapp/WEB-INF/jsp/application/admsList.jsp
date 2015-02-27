@@ -52,6 +52,18 @@
                                 <input type="hidden" name="admsTypeCode" value="${admsForeign.admsType}" />
                             </form>
                         </tr>
+                        <tr>
+                            <form id="earlyApplyForm" method="post">
+                                <td>조기</td>
+                                <td>2015학년도 전기 연세대학교 대학원 조기 전형</td>
+                                <td><button type="button" id="toEarlyInfo" class="btn btn-info">모집 요강</button></td>
+                                <td><button type="submit" id="toEarlyApply" class="btn btn-primary">원서 작성</button></td>
+                                <td>2014-09-28(월) / 2014-10-08(수)</td>
+                                <input type="hidden" name="admsNo" value="${admsEarly.admsNo}" />
+                                <input type="hidden" name="entrYear" value="${admsEarly.entrYear}" />
+                                <input type="hidden" name="admsTypeCode" value="${admsEarly.admsType}" />
+                            </form>
+                        </tr>
                         </tbody>
                     </table>
                 </div>
@@ -63,7 +75,8 @@
     <script>
         $(document).ready( function() {
             var generalForm = document.getElementById('generalApplyForm'),
-                foreignForm = document.getElementById('foreignApplyForm');
+                foreignForm = document.getElementById('foreignApplyForm'),
+                earlyApplyForm = document.getElementById('earlyApplyForm');
             $('#toGeneralInfo').on('click', function(){
                 generalForm.action = "${contextPath}/application/general";
                 generalForm.submit();
@@ -79,6 +92,14 @@
             $('#toForeignApply').on('click', function(){
                 foreignForm.action = "${contextPath}/application/agreement";
                 foreignForm.submit();
+            });
+            $('#toEarlyInfo').on('click', function(){
+                earlyApplyForm.action = "${contextPath}/application/early";
+                earlyApplyForm.submit();
+            });
+            $('#toEarlyApply').on('click', function(){
+                earlyApplyForm.action = "${contextPath}/application/agreement";
+                earlyApplyForm.submit();
             });
         });
     </script>

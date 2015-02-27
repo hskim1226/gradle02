@@ -2,7 +2,7 @@
 <%@ include file="/WEB-INF/jsp/common/env.jsp"%>
 <html>
 <head>
-    <title>내 원서</title>
+    <title>일반 전형</title>
     <style>
         .my-tooltip {
             display: none;
@@ -23,7 +23,7 @@
         <div class="row mar-bot10">
             <div class="col-md-offset-1 col-md-10 form-group inner-container-white">
                 <div class="col-sm-offset-1 col-sm-10 text-gray">
-                    <i class="fa fa-calendar fa-3x" style="vertical-align: middle; line-height:40px;"></i>&nbsp;&nbsp;<span style="font-size: 35px; vertical-align: middle; line-height:40px;"><b>2015년도 일반전형 주요 일정 안내</b></span>
+                    <i class="fa fa-calendar fa-3x" style="vertical-align: middle; line-height:40px;"></i>&nbsp;&nbsp;<span style="font-size: 35px; vertical-align: middle; line-height:40px;"><b>2015년도 일반 전형 주요 일정 안내</b></span>
                 </div>
                 <div class="spacer-small">&nbsp;</div>
                 <div class="col-sm-offset-1 col-md-10 align-center text-gray">

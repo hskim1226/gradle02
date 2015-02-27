@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.apexsoft.ysprj.user.Mapper">
+<mapper namespace="com.apexsoft.ysprj.user.sqlmap">
 
-    <resultMap id="user" type="com.apexsoft.ysprj.user.domain.Users">
+    <resultMap id="user" type="com.apexsoft.ysprj.user.domain.User">
         <result property="userId"       column="USER_ID"/>
         <result property="userType"     column="USER_TYPE"/>
         <result property="name"         column="NAME"/>
@@ -18,13 +18,14 @@
         <result property="privInfoYn"   column="PRIV_INFO_YN"/>
         <result property="userStsCode"  column="USER_STS_CODE"/>
         <result property="enabled"      column="ENABLED"/>
+        <result property="prefLang"      column="PREF_LANG"/>
         <result property="creId"        column="CRE_ID"/>
         <result property="creDate"      column="CRE_DATE"/>
         <result property="modId"        column="MOD_ID"/>
         <result property="modDate"      column="MOD_DATE"/>
     </resultMap>
 
-    <insert id="insertUser" parameterType="com.apexsoft.ysprj.user.domain.Users">
+    <insert id="insertUser" parameterType="com.apexsoft.ysprj.user.domain.User">
         <![CDATA[
           INSERT INTO USER(USER_ID,
                              USER_TYPE,
@@ -41,6 +42,7 @@
                              PRIV_INFO_YN,
                              USER_STS_CODE,
                              ENABLED,
+                             PREF_LANG,
                              CRE_ID,
                              CRE_DATE)
 		             VALUES(#{userId},
@@ -58,12 +60,13 @@
                              #{privInfoYn},
                              #{userStsCode},
                              #{enabled},
+                             #{prefLang},
                              #{userId},
                              now())
 		]]>
     </insert>
 
-    <update id="updateUser" parameterType="com.apexsoft.ysprj.user.domain.Users">
+    <update id="updateUser" parameterType="com.apexsoft.ysprj.user.domain.User">
         <![CDATA[
 		  UPDATE USER SET
                              NAME = #{name},
@@ -84,6 +87,59 @@
 		]]>
     </update>
 
+    <update id="updateUserByPrimaryKeySelective" parameterType="com.apexsoft.ysprj.user.domain.User">
+
+        update USER
+        <set>
+            <if test="name != null">
+                NAME = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="bornDay != null">
+                BORN_DAY = #{bornDay,jdbcType=VARCHAR},
+            </if>
+            <if test="gend != null">
+                GEND = #{gend,jdbcType=VARCHAR},
+            </if>
+            <if test="mobiNum != null">
+                MOBI_NUM = #{mobiNum,jdbcType=VARCHAR},
+            </if>
+            <if test="mailAddr != null">
+                MAIL_ADDR = #{mailAddr,jdbcType=VARCHAR},
+            </if>
+            <if test="smsRecvYn != null">
+                SMS_RECV_YN = #{smsRecvYn,jdbcType=VARCHAR},
+            </if>
+            <if test="mailRecvYn != null">
+                MAIL_RECV_YN = #{mailRecvYn,jdbcType=VARCHAR},
+            </if>
+            <if test="userDivsCode != null">
+                USER_DIVS_CODE = #{userDivsCode,jdbcType=VARCHAR},
+            </if>
+            <if test="userAgreYn != null">
+                USER_AGRE_YN = #{userAgreYn,jdbcType=VARCHAR},
+            </if>
+            <if test="privInfoYn != null">
+                PRIV_INFO_YN = #{privInfoYn,jdbcType=VARCHAR},
+            </if>
+            <if test="userStsCode != null">
+                USER_STS_CODE = #{userStsCode,jdbcType=VARCHAR},
+            </if>
+            <if test="enabled != null">
+                ENABLED = #{enabled,jdbcType=VARCHAR},
+            </if>
+            <if test="prefLang != null">
+                PREF_LANG = #{prefLang,jdbcType=VARCHAR},
+            </if>
+            <if test="modId != null">
+                MOD_ID = #{modId,jdbcType=VARCHAR},
+            </if>
+            <if test="modDate != null">
+                MOD_DATE = #{modDate,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where USER_ID = #{userId,jdbcType=INTEGER}
+    </update>
+
     <select id="selectByPk" resultMap="user" parameterType="String">
         <![CDATA[
 		  SELECT *
@@ -93,7 +149,7 @@
 		]]>
     </select>
 
-    <select id="selectUsername" resultType="String" parameterType="com.apexsoft.ysprj.user.domain.Users">
+    <select id="selectUsername" resultType="String" parameterType="com.apexsoft.ysprj.user.domain.User">
         <![CDATA[
           SELECT USER_ID
             FROM USER
@@ -108,7 +164,7 @@
         </if>
     </select>
 
-    <select id="findUserId" resultMap="user" parameterType="com.apexsoft.ysprj.user.domain.Users">
+    <select id="findUserId" resultMap="user" parameterType="com.apexsoft.ysprj.user.domain.User">
         SELECT *
         FROM USER
         WHERE 1=1
@@ -120,7 +176,7 @@
         AND MAIL_ADDR = #{mailAddr,jdbcType=VARCHAR}
     </select>
 
-    <select id="changePasswd" resultType="java.lang.Integer" parameterType="com.apexsoft.ysprj.user.domain.Users">
+    <select id="changePasswd" resultType="java.lang.Integer" parameterType="com.apexsoft.ysprj.user.domain.User">
         UPDATE USER SET
             PSWD = #{pswd}
         WHERE 1=1
@@ -129,7 +185,7 @@
 
     <!-- Queries for Authority      -->
 
-    <select id="selectAuthorities" resultType="com.apexsoft.ysprj.applicants.user.domain.Authorities"  parameterType="String">
+    <select id="selectAuthorities" resultType="com.apexsoft.ysprj.user.domain.Authorities"  parameterType="String">
         <![CDATA[
 		  SELECT username, authority
 		    FROM authorities
@@ -138,7 +194,7 @@
 		]]>
     </select>
 
-    <insert id="insertAuthority"  parameterType="com.apexsoft.ysprj.applicants.user.domain.Authorities" >
+    <insert id="insertAuthority"  parameterType="com.apexsoft.ysprj.user.domain.Authorities" >
         <![CDATA[
 		  INSERT INTO authorities
 		                   (authority,
@@ -148,7 +204,7 @@
 		]]>
     </insert>
 
-    <delete id="deleteAuthority" parameterType="com.apexsoft.ysprj.applicants.user.domain.Authorities">
+    <delete id="deleteAuthority" parameterType="com.apexsoft.ysprj.user.domain.Authorities">
         <![CDATA[
 		  DELETE FROM authorities
 			WHERE username = #{username}

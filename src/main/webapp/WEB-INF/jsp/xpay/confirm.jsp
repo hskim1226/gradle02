@@ -2,91 +2,67 @@
 <%@ include file="/WEB-INF/jsp/common/env.jsp"%>
 <html>
 <head>
-    <title></title>
+    <title>결제 내용 확인</title>
     <style>
         th.header {
-            background-color: #444488;
-        }
-        section.confirmPayment {
-            padding: 200px 0 60px;
-            background: #333377;
-            color: #fdfdfd;
-            position:relative;
-            min-height: 615px;
-        }
-
-        section.confirmPayment h2.slogan {
-            color: #fff;
-            font-size: 36px;
-            font-weight: 900;
-        }
-
-        section.confirmPayment .spacer-big {
-            margin-bottom: 7em;
-        }
-
-        section.confirmPayment .spacer-mid {
-            margin-bottom: 5em;
-        }
-
-        section.confirmPayment .spacer-small {
-            margin-bottom: 3em;
-        }
-
-        section.confirmPayment .spacer-tiny {
-            margin-bottom: 1em;
+            background-color: #eeeeee;
         }
     </style>
 </head>
 <body>
-<section class="confirmPayment" id="confirmPayment">
+<section class="normal-white">
     <div class="container">
-        <div class="row mar-bot40">
-            <div class="col-md-6 col-md-offset-3">
-                <h2 class="slogan">결제 내용 확인</h2>
-                <div class="align-center">
-                    <table class="table table-bordered">
-                        <tr><th class="header col-md-4">회원ID</th><td class="col-md-8">${payment.LGD_BUYERID}</td></tr>
-                        <tr><th class="header">회원명</th><td>${payment.LGD_BUYER}</td></tr>
-                        <tr><th class="header">신청과정</th><td>${payment.LGD_PRODUCTINFO}</td></tr>
-                        <tr><th class="header">결제금액</th><td>${payment.LGD_AMOUNT}원</td></tr>
-                    </table>
-                    <form class="form-horizontal" id="LGD_PAYINFO" role="form" action="${contextPath}/payment/process" method="post">
-
-                        <input type="hidden" name="LGD_AMOUNT"             id="LGD_AMOUNT"      value="${payment.LGD_AMOUNT}"/>
-                        <input type="hidden" name="LGD_BUYER"              id="LGD_BUYER"       value="${payment.LGD_BUYER}"/>
-                        <input type="hidden" name="LGD_PRODUCTINFO"        id="LGD_PRODUCTINFO" value="${payment.LGD_PRODUCTINFO}"/>
-                        <input type="hidden" name="LGD_BUYERID"            id="LGD_BUYERID"     value="${payment.LGD_BUYERID}">
-
-                        <input type="hidden" name="CST_PLATFORM"           id="CST_PLATFORM">
-                        <input type="hidden" name="CST_MID"                id="CST_MID">
-                        <input type="hidden" name="LGD_MID"                id="LGD_MID">
-                        <input type="hidden" name="LGD_OID"                id="LGD_OID">
-                        <input type="hidden" name="LGD_TIMESTAMP"          id="LGD_TIMESTAMP">
-                        <input type="hidden" name="LGD_HASHDATA"           id="LGD_HASHDATA">
-                        <input type="hidden" name="LGD_BUYERIP"            id="LGD_BUYERIP">
-                        <input type="hidden" name="LGD_BUYEREMAIL"         id="LGD_BUYEREMAIL">
-                        <input type="hidden" name="LGD_CUSTOM_SKIN"        id="LGD_CUSTOM_SKIN">
-                        <input type="hidden" name="LGD_WINDOW_VER"         id="LGD_WINDOW_VER">
-                        <input type="hidden" name="LGD_CUSTOM_PROCESSTYPE" id="LGD_CUSTOM_PROCESSTYPE">
-                        <input type="hidden" name="LGD_VERSION"            id="LGD_VERSION">
-                        <input type="hidden" name="LGD_CASNOTEURL"         id="LGD_CASNOTEURL">
-
-                        <input type="hidden" name="LGD_PAYKEY"             id="LGD_PAYKEY">
-                        <input type="hidden" name="LGD_RESPCODE"           id="LGD_RESPCODE">
-                        <input type="hidden" name="LGD_RESPMSG"            id="LGD_RESPMSG">
-
-                        <input type="hidden" name="application.applNo" id="applNo"/>
-                    </form>
-                    <div>
-                        <button class="btn btn-primary btn-lg btn-block" id="processPayment">결제하기</button>
+        <form class="form-horizontal" id="LGD_PAYINFO" role="form" action="${contextPath}/payment/process" method="post">
+            <div class="row mar-bot40">
+                <div class="col-md-offset-1 col-md-10">
+                    <div class="form-group inner-container-white">
+                        <div class="col-sm-12 text-gray">
+                            <i class="fa fa-check-square-o fa-3x" style="vertical-align: middle; line-height:40px;"></i>&nbsp;<span style="font-size: 35px; vertical-align: middle; line-height:40px;"><b>결제 내용 확인</b></span>
+                        </div>
+                        <div class="spacer-small">&nbsp;</div>
+                        <div class="col-sm-offset-1 col-sm-10 text-gray">
+                            <div class="col-sm-12 align-center">
+                                <table class="table table-bordered">
+                                    <tr><th class="header col-md-4">회원ID</th><td class="col-md-8">${payment.LGD_BUYERID}</td></tr>
+                                    <tr><th class="header">회원명</th><td>${payment.LGD_BUYER}</td></tr>
+                                    <tr><th class="header">신청과정</th><td>${payment.LGD_PRODUCTINFO}</td></tr>
+                                    <tr><th class="header">결제금액</th><td>${payment.LGD_AMOUNT}원</td></tr>
+                                </table>
+                                <div>
+                                    <button class="btn btn-primary btn-lg btn-block" id="processPayment">결제하기</button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div id="LGD_ACTIVEX_DIV"></div> <!-- ActiveX 설치 안내 Layer 입니다. 수정하지 마세요. -->
-                <div id="xpayLoad"></div>
-
             </div>
-        </div>
+            <div id="LGD_ACTIVEX_DIV"></div> <!-- ActiveX 설치 안내 Layer 입니다. 수정하지 마세요. -->
+            <div id="xpayLoad"></div>
+            <input type="hidden" name="LGD_AMOUNT"             id="LGD_AMOUNT"      value="${payment.LGD_AMOUNT}"/>
+            <input type="hidden" name="LGD_BUYER"              id="LGD_BUYER"       value="${payment.LGD_BUYER}"/>
+            <input type="hidden" name="LGD_PRODUCTINFO"        id="LGD_PRODUCTINFO" value="${payment.LGD_PRODUCTINFO}"/>
+            <input type="hidden" name="LGD_BUYERID"            id="LGD_BUYERID"     value="${payment.LGD_BUYERID}">
+
+            <input type="hidden" name="CST_PLATFORM"           id="CST_PLATFORM">
+            <input type="hidden" name="CST_MID"                id="CST_MID">
+            <input type="hidden" name="LGD_MID"                id="LGD_MID">
+            <input type="hidden" name="LGD_OID"                id="LGD_OID">
+            <input type="hidden" name="LGD_TIMESTAMP"          id="LGD_TIMESTAMP">
+            <input type="hidden" name="LGD_HASHDATA"           id="LGD_HASHDATA">
+            <input type="hidden" name="LGD_BUYERIP"            id="LGD_BUYERIP">
+            <input type="hidden" name="LGD_BUYEREMAIL"         id="LGD_BUYEREMAIL">
+            <input type="hidden" name="LGD_CUSTOM_SKIN"        id="LGD_CUSTOM_SKIN">
+            <input type="hidden" name="LGD_WINDOW_VER"         id="LGD_WINDOW_VER">
+            <input type="hidden" name="LGD_CUSTOM_PROCESSTYPE" id="LGD_CUSTOM_PROCESSTYPE">
+            <input type="hidden" name="LGD_VERSION"            id="LGD_VERSION">
+            <input type="hidden" name="LGD_CASNOTEURL"         id="LGD_CASNOTEURL">
+
+            <input type="hidden" name="LGD_PAYKEY"             id="LGD_PAYKEY">
+            <input type="hidden" name="LGD_RESPCODE"           id="LGD_RESPCODE">
+            <input type="hidden" name="LGD_RESPMSG"            id="LGD_RESPMSG">
+
+            <input type="hidden" name="application.applNo" id="applNo"/>
+        </form>
     </div>
 </section>
 <content tag="local-script">
