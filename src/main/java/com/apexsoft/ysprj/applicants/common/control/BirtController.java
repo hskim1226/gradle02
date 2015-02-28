@@ -3,6 +3,7 @@ package com.apexsoft.ysprj.applicants.common.control;
 import com.apexsoft.framework.common.vo.ExecutionContext;
 import com.apexsoft.ysprj.applicants.application.domain.*;
 import com.apexsoft.ysprj.applicants.application.service.*;
+import com.apexsoft.ysprj.applicants.common.domain.BirtRequest;
 import com.apexsoft.ysprj.applicants.common.domain.CommonCode;
 import com.apexsoft.ysprj.applicants.common.service.BirtService;
 import com.apexsoft.ysprj.applicants.common.service.CommonService;
@@ -37,16 +38,14 @@ public class BirtController {
     private final String RPT_ADMISSION_EN = "yonsei-adms-en";
 
     @RequestMapping(value = "/print")
-    public ModelAndView previewApplicationByParam(Basis basis,
+    public ModelAndView previewApplicationByParam(BirtRequest birtRequest,
                                                   ModelAndView mv) {
         mv.setViewName("pdfSingleFormatBirtView");
-        Application application = basis.getApplication();
+        Application application = birtRequest.getApplication();
         String admsTypeCode = application.getAdmsTypeCode();
-        String reportName;
-        if ("C".equals(admsTypeCode))
-            reportName = RPT_APPLICATION_EN;
-        else
-            reportName = RPT_APPLICATION_KR;
+        String reqType = birtRequest.getReqType();
+        String lang = "C".equals(admsTypeCode) ? "en" : "kr";
+        String reportName = "yonsei-" + reqType + "-" + lang;
         int applNo = application.getApplNo();
 
         mv.addObject("reportFormat", REPORT_FORMAT);
@@ -70,29 +69,27 @@ public class BirtController {
     }
 
     @RequestMapping(value = "/preview")
-    public ModelAndView previewAppInfo(Basis basis,
+    public ModelAndView previewAppInfo(BirtRequest birtRequest,
                                        ModelAndView mv) {
 
         mv.setViewName("pdfSingleFormatBirtView");
-        Application application = basis.getApplication();
+        Application application = birtRequest.getApplication();
         String admsTypeCode = application.getAdmsTypeCode();
-        String reportName;
-        if ("C".equals(admsTypeCode))
-            reportName = RPT_APPLICATION_EN;
-        else
-            reportName = RPT_APPLICATION_KR;
+        String reqType = birtRequest.getReqType();
+        String lang = "C".equals(admsTypeCode) ? "en" : "kr";
+        String reportName = "yonsei-" + reqType + "-" + lang;
         int applNo = application.getApplNo();
         mv.addObject("reportFormat", REPORT_FORMAT);
         mv.addObject("reportName", reportName);
-        ExecutionContext ec = birtService.processBirt(basis.getApplication().getApplNo(), RPT_APPLICATION_KR);
+        ExecutionContext ec = birtService.processBirt(applNo, reportName);
         mv.addAllObjects((Map<String, Object>)ec.getData());
         return mv;
     }
 
     @RequestMapping(value = "/generate/application")
-    public ModelAndView generateApplicationFile(Basis basis,
+    public ModelAndView generateApplicationFile(BirtRequest birtRequest,
                                                 ModelAndView mv) {
-        Application application = basis.getApplication();
+        Application application = birtRequest.getApplication();
         int applNo = application.getApplNo();
         mv.setViewName("pdfSingleFormatBirtSaveToFile");
         mv.addObject("reportFormat", REPORT_FORMAT);
@@ -103,9 +100,9 @@ public class BirtController {
     }
 
     @RequestMapping(value = "/generate/slip")
-    public ModelAndView generateSlipFile(Basis basis,
+    public ModelAndView generateSlipFile(BirtRequest birtRequest,
                                          ModelAndView mv) {
-        Application application = basis.getApplication();
+        Application application = birtRequest.getApplication();
         int applNo = application.getApplNo();
         mv.setViewName("pdfSingleFormatBirtSaveToFile");
         mv.addObject("reportFormat", REPORT_FORMAT);

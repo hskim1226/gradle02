@@ -58,7 +58,7 @@
                                                     data-admsTypeCode="${item.admsTypeCode}" <c:if test="${item.applStsCode.lastIndexOf('0')!=3}">disabled</c:if> >원서 수정하기<span class="my-tooltip">작성 중인 상태에서만 수정 가능합니다.</span></button>
                                             <button id="preview" class="btn btn-info preview ${item.applStsCode=="00010"?"":"disabled"}"
                                             <%--<button id="preview" class="btn btn-info preview"--%>
-                                                    data-applNo="${item.applNo}" data-admsNo="${item.admsNo}" data-entrYear="${item.entrYear}"
+                                                    data-applNo="${item.applNo}" data-admsNo="${item.admsNo}" data-entrYear="${item.entrYear}" data-reqType="appl"
                                                 data-admsTypeCode="${item.admsTypeCode}" <c:if test="${item.applStsCode!='00010'}">disabled</c:if> >원서 미리보기</button>
                                                     <%--data-admsTypeCode="${item.admsTypeCode}" >원서 미리보기</button>--%>
 
@@ -71,8 +71,8 @@
                                             <div class="btn-group">
                                                 <a type="button" class="btn btn-success dropdown-toggle ${item.applStsCode=="00020"?"":"disabled"}" <c:if test="${item.applStsCode!='00020'}">disabled</c:if> data-toggle="dropdown" data-target="#">지원서 보기<span class="caret"></span></a>
                                                 <ul class="dropdown-menu" role="menu">
-                                                    <li><a class="print" data-applNo="${item.applNo}" data-format="pdf" data-filename="yonsei-appl-${item.admsTypeCode=="C" ? "en" : "kr"}">지원서(PDF)</a></li>
-                                                    <li><a class="print" data-applNo="${item.applNo}" data-format="pdf" data-filename="yonsei-adms-${item.admsTypeCode=="C" ? "en" : "kr"}">수험표(PDF)</a></li>
+                                                    <li><a class="print" data-applNo="${item.applNo}" data-admsTypeCode="${item.admsTypeCode}" data-reqType="appl">지원서(PDF)</a></li>
+                                                    <li><a class="print" data-applNo="${item.applNo}" data-admsTypeCode="${item.admsTypeCode}" data-reqType="adms">수험표(PDF)</a></li>
                                                     <li><a class="print" data-admsNo="${item.admsNo}" data-applNo="${item.applNo}" data-format="pdf">전체 파일(PDF)</a></li>
                                                 </ul>
                                             </div>
@@ -87,6 +87,7 @@
                             <input type="hidden" name="application.admsNo" id="admsNo"/>
                             <input type="hidden" name="application.entrYear" id="entrYear"/>
                             <input type="hidden" name="application.admsTypeCode" id="admsTypeCode"/>
+                            <input type="hidden" name="reqType" id="reqType"/>
                         </div>
                     </div>
                 </div>
@@ -103,6 +104,7 @@
                 document.getElementById('admsNo').value = obj.getAttribute('data-admsNo');
                 document.getElementById('entrYear').value = obj.getAttribute('data-entrYear');
                 document.getElementById('admsTypeCode').value = obj.getAttribute('data-admsTypeCode');
+                document.getElementById('reqType').value = obj.getAttribute('data-reqType');
             };
 
             $('.modify').click(function(e){
@@ -137,18 +139,14 @@
             });
             $('.print').click(function(e){
                 e.preventDefault();
-                var target = e.target;
+                setHidden(e.target);
                 var form = document.getElementById('LGD_PAYINFO');
                 form.target = "_blank";
-//                var admsNo = target.getAttribute('data-admsNo');
-//                var applNo = target.getAttribute('data-applNo');
-//                var reportFormat = target.getAttribute('data-format');
-
+                var admsNo = e.target.getAttribute('data-admsNo');
                 if (admsNo != null && admsNo.length > 0) {
                     form.action = '${contextPath}/pdf/download';
                     form.submit();
                 } else {
-//                    var reportName = target.getAttribute('data-filename');
                     form.action = '${contextPath}/application/print';
                     form.submit();
                 }
