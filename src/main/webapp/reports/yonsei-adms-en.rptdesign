@@ -304,7 +304,7 @@ var appContext = reportContext.getAppContext(),
                                     <list-property name="boundDataColumns">
                                         <structure>
                                             <property name="name">entrYear</property>
-                                            <expression name="expression" type="javascript">params["entrYear"] + " 학년도 " + params["admsTypeName1"] + " 대학원"</expression>
+                                            <expression name="expression" type="javascript">params["entrYear"] + " 학년도 " + params["admsTypeName1"] + " " + params["admsTypeName2"] + " 대학원"</expression>
                                             <property name="dataType">string</property>
                                             <property name="allowExport">true</property>
                                         </structure>
@@ -313,7 +313,7 @@ var appContext = reportContext.getAppContext(),
                                 </data>
                                 <label id="42">
                                     <text-property name="text">수          험          표
-Admssion Slip</text-property>
+Admission Slip</text-property>
                                 </label>
                             </cell>
                         </row>
