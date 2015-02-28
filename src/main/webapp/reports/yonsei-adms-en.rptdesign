@@ -276,7 +276,7 @@ var appContext = reportContext.getAppContext(),
                     <grid id="7">
                         <property name="fontFamily">"새굴림"</property>
                         <property name="textAlign">center</property>
-                        <property name="height">6.479166666666667in</property>
+                        <property name="height">6.677083333333333in</property>
                         <property name="width">4.364583333333333in</property>
                         <column id="8">
                             <property name="width">1.2916666666666667in</property>
@@ -312,7 +312,8 @@ var appContext = reportContext.getAppContext(),
                                     <property name="resultSetColumn">entrYear</property>
                                 </data>
                                 <label id="42">
-                                    <text-property name="text">수          험          표</text-property>
+                                    <text-property name="text">수          험          표
+Admssion Slip</text-property>
                                 </label>
                             </cell>
                         </row>
@@ -329,7 +330,8 @@ var appContext = reportContext.getAppContext(),
                                 <property name="borderTopWidth">1px</property>
                                 <property name="verticalAlign">middle</property>
                                 <label id="34">
-                                    <text-property name="text">수 험 번 호</text-property>
+                                    <text-property name="text">수 험 번 호
+Registration Number</text-property>
                                 </label>
                             </cell>
                             <cell id="15">
@@ -368,7 +370,8 @@ var appContext = reportContext.getAppContext(),
                                 <property name="borderTopWidth">1px</property>
                                 <property name="verticalAlign">middle</property>
                                 <label id="35">
-                                    <text-property name="text">학 위 과 정</text-property>
+                                    <text-property name="text">학 위 과 정
+Course of Degree</text-property>
                                 </label>
                             </cell>
                             <cell id="18">
@@ -406,7 +409,8 @@ var appContext = reportContext.getAppContext(),
                                 <property name="borderTopWidth">1px</property>
                                 <property name="verticalAlign">middle</property>
                                 <label id="36">
-                                    <text-property name="text">지 원 학 과</text-property>
+                                    <text-property name="text">지 원 학 과
+Department</text-property>
                                 </label>
                             </cell>
                             <cell id="21">
@@ -444,7 +448,8 @@ var appContext = reportContext.getAppContext(),
                                 <property name="borderTopWidth">1px</property>
                                 <property name="verticalAlign">middle</property>
                                 <label id="37">
-                                    <text-property name="text">세 부 전 공</text-property>
+                                    <text-property name="text">세 부 전 공
+Major</text-property>
                                 </label>
                             </cell>
                             <cell id="24">
@@ -482,7 +487,8 @@ var appContext = reportContext.getAppContext(),
                                 <property name="borderTopWidth">1px</property>
                                 <property name="verticalAlign">middle</property>
                                 <label id="38">
-                                    <text-property name="text">성          명</text-property>
+                                    <text-property name="text">성          명
+Name of Applicant</text-property>
                                 </label>
                             </cell>
                             <cell id="27">
@@ -508,7 +514,7 @@ var appContext = reportContext.getAppContext(),
                             </cell>
                         </row>
                         <row id="28">
-                            <property name="height">3.3541666666666665in</property>
+                            <property name="height">3.5520833333333335in</property>
                             <cell id="29">
                                 <property name="colSpan">2</property>
                                 <property name="rowSpan">1</property>
@@ -529,7 +535,9 @@ var appContext = reportContext.getAppContext(),
                                     <expression name="uri" type="javascript">params["photoUri"]</expression>
                                 </image>
                                 <label id="43">
+                                    <property name="verticalAlign">bottom</property>
                                     <property name="whiteSpace">nowrap</property>
+                                    <property name="height">1cm</property>
                                     <text-property name="text">※ 이 수험표는 서류제출 시 제출하지 않으며 구술시험 시 지참하세요.</text-property>
                                 </label>
                             </cell>
