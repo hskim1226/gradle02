@@ -202,6 +202,7 @@ public class DocumentController {
         documentValidator.validate(formData, bindingResult);
         mv.setViewName("application/mylist");
         if (bindingResult.hasErrors()) {
+            mv.setViewName("application/document");
             mv.addObject("resultMsg", messageResolver.getMessage("U334"));
             return mv;
         }
