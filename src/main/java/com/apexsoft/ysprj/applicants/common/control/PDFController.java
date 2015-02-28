@@ -7,6 +7,7 @@ import com.apexsoft.framework.message.MessageResolver;
 import com.apexsoft.ysprj.applicants.application.domain.Application;
 import com.apexsoft.ysprj.applicants.application.domain.Basis;
 import com.apexsoft.ysprj.applicants.application.service.DocumentService;
+import com.apexsoft.ysprj.applicants.common.domain.BirtRequest;
 import com.apexsoft.ysprj.applicants.common.service.PDFService;
 import com.apexsoft.ysprj.applicants.common.util.FileUtil;
 import org.slf4j.Logger;
@@ -50,8 +51,8 @@ public class PDFController {
 
     @RequestMapping(value="/merge/applicant")
     @ResponseBody
-    public String mergeByApplicant(Basis basis) {
-        int applNo = basis.getApplication().getApplNo();
+    public String mergeByApplicant(BirtRequest birtRequest) {
+        int applNo = birtRequest.getApplication().getApplNo();
         ExecutionContext ec = pdfService.getMergedPDFByApplicants(applNo);
         if (ExecutionContext.SUCCESS.equals(ec.getResult())) {
             return ExecutionContext.SUCCESS;
