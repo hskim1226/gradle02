@@ -605,6 +605,62 @@
             </structure>
         </scalar-parameter>
     </parameters>
+    <data-sources>
+        <script-data-source name="DocDataSource" id="1630"/>
+    </data-sources>
+    <data-sets>
+        <script-data-set name="SubmittedFiles" id="1631">
+            <list-property name="resultSetHints">
+                <structure>
+                    <property name="position">1</property>
+                    <property name="name">docItemName</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">2</property>
+                    <property name="name">pages</property>
+                    <property name="dataType">integer</property>
+                </structure>
+            </list-property>
+            <list-property name="columnHints">
+                <structure>
+                    <property name="columnName">docItemName</property>
+                    <text-property name="displayName">docItemName</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">pages</property>
+                    <text-property name="displayName">pages</text-property>
+                </structure>
+            </list-property>
+            <structure name="cachedMetaData">
+                <list-property name="resultSet">
+                    <structure>
+                        <property name="position">1</property>
+                        <property name="name">docItemName</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">2</property>
+                        <property name="name">pages</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                </list-property>
+            </structure>
+            <property name="dataSource">DocDataSource</property>
+            <method name="open"><![CDATA[var appContext = reportContext.getAppContext();
+documentList = appContext.get("documents");
+iterator = documentList.iterator();]]></method>
+            <method name="fetch"><![CDATA[var i = 0;
+if (iterator.hasNext()) {
+	var docItem = iterator.next();
+	row['docItemName'] = docItem.getDocItemName();
+    row['pages'] = docItem.getPageCnt();
+    return true;
+} else return false;]]></method>
+            <method name="close"><![CDATA[documentList = null;
+iterator = null;]]></method>
+        </script-data-set>
+    </data-sets>
     <styles>
         <style name="report" id="4">
             <property name="fontFamily">sans-serif</property>
@@ -651,7 +707,7 @@
             <property name="headerHeight">0in</property>
             <property name="footerHeight">0in</property>
         </simple-master-page>
-        <simple-master-page name="Yonsei-en-Documents-Master" id="1505">
+        <simple-master-page name="Yonsei-Documents-en-Master" id="1505">
             <property name="type">a4</property>
             <property name="orientation">portrait</property>
             <property name="headerHeight">5cm</property>
@@ -668,12 +724,16 @@
     </page-setup>
     <body>
         <grid id="7">
+            <property name="height">2cm</property>
+            <property name="width">19cm</property>
             <column id="8"/>
             <row id="9">
                 <cell id="10">
                     <data id="1610">
-                        <property name="fontSize">25pt</property>
+                        <property name="fontSize">20pt</property>
                         <property name="textAlign">center</property>
+                        <property name="verticalAlign">top</property>
+                        <property name="height">2cm</property>
                         <list-property name="boundDataColumns">
                             <structure>
                                 <property name="name">title</property>
@@ -793,8 +853,6 @@
                 <cell id="243">
                     <property name="colSpan">8</property>
                     <property name="rowSpan">1</property>
-                    <property name="borderBottomStyle">solid</property>
-                    <property name="borderBottomWidth">thin</property>
                     <property name="borderLeftStyle">solid</property>
                     <property name="borderLeftWidth">thin</property>
                     <property name="borderRightStyle">solid</property>
@@ -803,6 +861,23 @@
                     <property name="borderTopWidth">thin</property>
                     <label id="388">
                         <text-property name="text">지원 과정 정보 Applying Course Information</text-property>
+                    </label>
+                </cell>
+            </row>
+            <row id="1639">
+                <cell id="1640">
+                    <property name="colSpan">8</property>
+                    <property name="rowSpan">1</property>
+                    <property name="borderBottomStyle">solid</property>
+                    <property name="borderBottomWidth">thin</property>
+                    <property name="borderLeftStyle">solid</property>
+                    <property name="borderLeftWidth">thin</property>
+                    <property name="borderRightStyle">solid</property>
+                    <property name="borderRightWidth">thin</property>
+                    <label id="1648">
+                        <property name="fontSize">9pt</property>
+                        <text-property name="text">* 모집 요강 및 홈페이지를 통해서 정확한 정보를 확인해 주시기 바랍니다.&#13;
+Please make application refer to admission guideline and webpage.</text-property>
                     </label>
                 </cell>
             </row>
@@ -892,9 +967,9 @@ Semester of Entrance</text-property>
                     <property name="borderTopStyle">solid</property>
                     <property name="borderTopWidth">thin</property>
                     <image id="425">
-                        <property name="height">140px</property>
-                        <property name="width">95px</property>
-                        <property name="source">url</property>
+                        <property name="height">3.96875cm</property>
+                        <property name="width">2.7252083333333337cm</property>
+                        <property name="source">file</property>
                         <property name="fitToContainer">true</property>
                         <expression name="uri" type="javascript">params['photoUri']</expression>
                     </image>
@@ -2037,8 +2112,6 @@ Relationship</text-property>
                 <property name="width">3cm</property>
             </column>
             <row id="1525">
-                <property name="borderBottomStyle">solid</property>
-                <property name="borderBottomWidth">thin</property>
                 <property name="borderLeftStyle">solid</property>
                 <property name="borderLeftWidth">thin</property>
                 <property name="borderRightStyle">solid</property>
@@ -2053,10 +2126,32 @@ Relationship</text-property>
                     <property name="borderRightStyle">solid</property>
                     <property name="borderRightWidth">thin</property>
                     <label id="1531">
+                        <property name="fontSize">10pt</property>
+                        <property name="textAlign">left</property>
+                        <text-property name="text">학력 사항  Educational Background</text-property>
+                    </label>
+                </cell>
+            </row>
+            <row id="1649">
+                <property name="borderBottomStyle">solid</property>
+                <property name="borderBottomWidth">thin</property>
+                <property name="borderLeftStyle">solid</property>
+                <property name="borderLeftWidth">thin</property>
+                <property name="borderRightStyle">solid</property>
+                <property name="borderRightWidth">thin</property>
+                <property name="textAlign">center</property>
+                <property name="verticalAlign">middle</property>
+                <cell id="1650">
+                    <property name="colSpan">5</property>
+                    <property name="rowSpan">1</property>
+                    <property name="borderLeftStyle">solid</property>
+                    <property name="borderLeftWidth">thin</property>
+                    <property name="borderRightStyle">solid</property>
+                    <property name="borderRightWidth">thin</property>
+                    <label id="1655">
                         <property name="fontSize">9pt</property>
                         <property name="textAlign">left</property>
-                        <text-property name="text">학력 사항  Educational Background
-* 고등학교 이후의 학력을 학위 증명서 상의 정확한 날짜 및 과정을 기입 바랍니다
+                        <text-property name="text">* 고등학교 이후의 학력을 학위 증명서 상의 정확한 날짜 및 과정을 기입 바랍니다&#13;
 Please fill in identical information on your certificate from high school</text-property>
                     </label>
                 </cell>
@@ -2511,8 +2606,6 @@ Degree of Diploma</text-property>
             </row>
         </grid>
         <grid id="473">
-            <property name="borderBottomStyle">solid</property>
-            <property name="borderBottomWidth">thin</property>
             <property name="borderLeftStyle">solid</property>
             <property name="borderLeftWidth">thin</property>
             <property name="borderRightStyle">solid</property>
@@ -2774,14 +2867,10 @@ Language Test of Result</text-property>
             </row>
         </grid>
         <grid id="504">
-            <property name="borderBottomStyle">solid</property>
-            <property name="borderBottomWidth">thin</property>
             <property name="borderLeftStyle">solid</property>
             <property name="borderLeftWidth">thin</property>
             <property name="borderRightStyle">solid</property>
             <property name="borderRightWidth">thin</property>
-            <property name="borderTopStyle">solid</property>
-            <property name="borderTopWidth">thin</property>
             <property name="width">19cm</property>
             <column id="505"/>
             <row id="506">
@@ -2825,8 +2914,6 @@ Hereby, with above information and related documents, I apply for Yonsei Univers
                     <property name="borderLeftWidth">thin</property>
                     <property name="borderRightStyle">solid</property>
                     <property name="borderRightWidth">thin</property>
-                    <property name="borderTopStyle">solid</property>
-                    <property name="borderTopWidth">thin</property>
                     <label id="519">
                         <property name="fontSize">15pt</property>
                         <property name="textAlign">center</property>
@@ -2834,6 +2921,160 @@ Hereby, with above information and related documents, I apply for Yonsei Univers
                         <property name="height">2cm</property>
                         <text-property name="text">연세대학교 대학원장 귀하</text-property>
                     </label>
+                </cell>
+            </row>
+        </grid>
+        <grid id="1611">
+            <property name="masterPage">Yonsei-Documents-en-Master</property>
+            <property name="pageBreakBefore">always</property>
+            <property name="width">19cm</property>
+            <column id="1612"/>
+            <row id="1613">
+                <cell id="1614">
+                    <property name="textAlign">center</property>
+                    <table id="1615">
+                        <property name="width">15cm</property>
+                        <property name="dataSet">SubmittedFiles</property>
+                        <list-property name="boundDataColumns">
+                            <structure>
+                                <property name="name">docItemName</property>
+                                <text-property name="displayName">docItemName</text-property>
+                                <expression name="expression" type="javascript">dataSetRow["docItemName"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">pages</property>
+                                <text-property name="displayName">pages</text-property>
+                                <expression name="expression" type="javascript">dataSetRow["pages"]</expression>
+                                <property name="dataType">integer</property>
+                            </structure>
+                            <structure>
+                                <property name="name">docItemCount</property>
+                                <property name="dataType">integer</property>
+                                <property name="aggregateFunction">COUNT</property>
+                                <list-property name="arguments">
+                                    <structure>
+                                        <property name="name">Expression</property>
+                                        <expression name="value" type="javascript">row["docItemName"]</expression>
+                                    </structure>
+                                </list-property>
+                                <property name="allowExport">true</property>
+                            </structure>
+                            <structure>
+                                <property name="name">pagesCount</property>
+                                <property name="dataType">float</property>
+                                <property name="aggregateFunction">SUM</property>
+                                <list-property name="arguments">
+                                    <structure>
+                                        <property name="name">Expression</property>
+                                        <expression name="value" type="javascript">row["pages"]</expression>
+                                    </structure>
+                                </list-property>
+                                <property name="allowExport">true</property>
+                            </structure>
+                        </list-property>
+                        <column id="1625"/>
+                        <column id="1626"/>
+                        <header>
+                            <row id="1616">
+                                <cell id="1617">
+                                    <property name="borderBottomStyle">solid</property>
+                                    <property name="borderBottomWidth">thin</property>
+                                    <property name="borderLeftStyle">solid</property>
+                                    <property name="borderLeftWidth">thin</property>
+                                    <property name="borderRightStyle">solid</property>
+                                    <property name="borderRightWidth">thin</property>
+                                    <property name="borderTopStyle">solid</property>
+                                    <property name="borderTopWidth">thin</property>
+                                    <label id="1627">
+                                        <property name="fontSize">15pt</property>
+                                        <text-property name="text">제출한 문서 목록</text-property>
+                                    </label>
+                                </cell>
+                                <cell id="1618">
+                                    <property name="borderBottomStyle">solid</property>
+                                    <property name="borderBottomWidth">thin</property>
+                                    <property name="borderLeftStyle">solid</property>
+                                    <property name="borderLeftWidth">thin</property>
+                                    <property name="borderRightStyle">solid</property>
+                                    <property name="borderRightWidth">thin</property>
+                                    <property name="borderTopStyle">solid</property>
+                                    <property name="borderTopWidth">thin</property>
+                                    <label id="1628">
+                                        <property name="fontSize">15pt</property>
+                                        <text-property name="text">페이지 수</text-property>
+                                    </label>
+                                </cell>
+                            </row>
+                        </header>
+                        <detail>
+                            <row id="1619">
+                                <cell id="1620">
+                                    <property name="borderBottomStyle">solid</property>
+                                    <property name="borderBottomWidth">thin</property>
+                                    <property name="borderLeftStyle">solid</property>
+                                    <property name="borderLeftWidth">thin</property>
+                                    <property name="borderRightStyle">solid</property>
+                                    <property name="borderRightWidth">thin</property>
+                                    <property name="borderTopStyle">solid</property>
+                                    <property name="borderTopWidth">thin</property>
+                                    <data id="1635">
+                                        <property name="fontSize">13pt</property>
+                                        <property name="textAlign">left</property>
+                                        <property name="resultSetColumn">docItemName</property>
+                                    </data>
+                                </cell>
+                                <cell id="1621">
+                                    <property name="borderBottomStyle">solid</property>
+                                    <property name="borderBottomWidth">thin</property>
+                                    <property name="borderLeftStyle">solid</property>
+                                    <property name="borderLeftWidth">thin</property>
+                                    <property name="borderRightStyle">solid</property>
+                                    <property name="borderRightWidth">thin</property>
+                                    <property name="borderTopStyle">solid</property>
+                                    <property name="borderTopWidth">thin</property>
+                                    <data id="1636">
+                                        <property name="fontSize">13pt</property>
+                                        <property name="textAlign">right</property>
+                                        <property name="resultSetColumn">pages</property>
+                                    </data>
+                                </cell>
+                            </row>
+                        </detail>
+                        <footer>
+                            <row id="1622">
+                                <cell id="1623">
+                                    <property name="borderBottomStyle">solid</property>
+                                    <property name="borderBottomWidth">thin</property>
+                                    <property name="borderLeftStyle">solid</property>
+                                    <property name="borderLeftWidth">thin</property>
+                                    <property name="borderRightStyle">solid</property>
+                                    <property name="borderRightWidth">thin</property>
+                                    <property name="borderTopStyle">solid</property>
+                                    <property name="borderTopWidth">thin</property>
+                                    <data id="1637">
+                                        <property name="fontSize">13pt</property>
+                                        <property name="resultSetColumn">docItemCount</property>
+                                    </data>
+                                </cell>
+                                <cell id="1624">
+                                    <property name="borderBottomStyle">solid</property>
+                                    <property name="borderBottomWidth">thin</property>
+                                    <property name="borderLeftStyle">solid</property>
+                                    <property name="borderLeftWidth">thin</property>
+                                    <property name="borderRightStyle">solid</property>
+                                    <property name="borderRightWidth">thin</property>
+                                    <property name="borderTopStyle">solid</property>
+                                    <property name="borderTopWidth">thin</property>
+                                    <data id="1638">
+                                        <property name="fontSize">13pt</property>
+                                        <property name="textAlign">right</property>
+                                        <property name="resultSetColumn">pagesCount</property>
+                                    </data>
+                                </cell>
+                            </row>
+                        </footer>
+                    </table>
                 </cell>
             </row>
         </grid>
