@@ -33,7 +33,7 @@ public class PdfSingleFormatBirtSaveToFile extends AbstractSingleFormatBirtView 
         pdfOptions.setOption(IPDFRenderOption.PAGE_OVERFLOW, IPDFRenderOption.FIT_TO_PAGE_SIZE);
         pdfOptions.setOutputFileName(map.get("pdfDirectoryFullPath") + "/" + fileName);
 System.err.println("#########################");
-System.err.println("## PDF GEN - File Full Path : " + fileName);
+System.err.println("## PDF GEN - File Full Path : " + map.get("pdfDirectoryFullPath") + "/" + fileName);
 System.err.println("#########################");
         return pdfOptions;
     }

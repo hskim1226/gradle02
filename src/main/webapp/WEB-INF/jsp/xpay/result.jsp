@@ -69,12 +69,12 @@ $(document).ready(function() {
                         document.getElementById('goMain').style.display = 'block';
                     },
                     error: function (data, status, e) {
-
+console.log('머지 파일 생성 실패');
                     }
                 });
             },
             error: function (data, status, e) {
-
+console.log('원서 파일 생성 실패');
             }
         });
         $.ajax({
@@ -85,7 +85,7 @@ $(document).ready(function() {
                 console.log('수험표 파일 생성 완료');
             },
             error: function (data, status, e) {
-
+console.log('수험표 파일 생성 실패');
             }
         });
     };
