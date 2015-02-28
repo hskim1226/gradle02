@@ -48,10 +48,11 @@ public class PDFController {
 
     private static final Logger logger = LoggerFactory.getLogger(PDFController.class);
 
-    @RequestMapping(value="/merge/applicant/{applNo}")
+    @RequestMapping(value="/merge/applicant")
     @ResponseBody
-    public String mergeByApplicant(@PathVariable("applNo") String applNo) {
-        ExecutionContext ec = pdfService.getMergedPDFByApplicants(Integer.parseInt(applNo));
+    public String mergeByApplicant(Basis basis) {
+        int applNo = basis.getApplication().getApplNo();
+        ExecutionContext ec = pdfService.getMergedPDFByApplicants(applNo);
         if (ExecutionContext.SUCCESS.equals(ec.getResult())) {
             return ExecutionContext.SUCCESS;
         } else {
