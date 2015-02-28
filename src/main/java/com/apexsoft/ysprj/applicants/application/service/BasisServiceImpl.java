@@ -127,56 +127,6 @@ public class BasisServiceImpl implements BasisService {
         basis.setApplication(application);
         ec = retrieveBasis(basis);
 
-//        if (applNo > 0) {
-//            application = commonDAO.queryForObject(NAME_SPACE + "ApplicationMapper.selectByPrimaryKey",
-//                    applNo, Application.class);
-//            application = application == null ? new Application() : application;
-//            basis.setApplication(application);
-//
-//            ApplicationForeigner applicationForeigner = commonDAO.queryForObject(NAME_SPACE + "ApplicationForeignerMapper.selectByPrimaryKey",
-//                    applNo, ApplicationForeigner.class);
-//            applicationForeigner = applicationForeigner == null ? new ApplicationForeigner() : applicationForeigner;
-//            basis.setApplicationForeigner(applicationForeigner);
-//
-//            ApplicationGeneral applicationGeneral = commonDAO.queryForObject(NAME_SPACE + "ApplicationGeneralMapper.selectByPrimaryKey",
-//                    applNo, ApplicationGeneral.class);
-//            applicationGeneral = applicationGeneral == null ? new ApplicationGeneral() : applicationGeneral;
-//            basis.setApplicationGeneral(applicationGeneral);
-//
-//            Map<String, Object> map =  (Map<String, Object>) retrieveSelectionMap(basis).getData();
-//            selectionMap.putAll((Map<String, Object>) map.get("selection"));
-//
-//        } else {
-//            basis.setApplication(new Application());
-//            basis.setApplicationForeigner(new ApplicationForeigner());
-//            basis.setApplicationGeneral(new ApplicationGeneral());
-//
-//            List<Campus> campList = commonService.retrieveCampus();
-//            List<AcademyResearchIndustryInstitution> ariInstList = commonService.retrieveAriInst();
-//            if (campList != null)      selectionMap.put("campList", campList);
-//            if (ariInstList != null)   selectionMap.put("ariInstList", ariInstList);
-//            selectionMap.put("applAttrList", commonService.retrieveCommonCodeValueByCodeGroup("APPL_ATTR"));
-//            selectionMap.put("emerContList", commonService.retrieveCommonCodeValueByCodeGroup("EMER_CONT"));
-//        }
-//
-//        String cntrCode = basis.getApplication().getCitzCntrCode();
-//        cntrCode = cntrCode == null ? "" : cntrCode;
-//        Country ctznCntr = commonService.retrieveCountryByCode(cntrCode);
-//
-//        cntrCode = basis.getApplicationForeigner().getBornCntrCode();
-//        cntrCode = cntrCode == null ? "" : cntrCode;
-//        Country bornCntr = commonService.retrieveCountryByCode(cntrCode);
-//
-//        foreignMap.put("foreignTypeList", commonService.retrieveCommonCodeValueByCodeGroup("FORN_TYPE"));
-//
-//        ec.setResult(ExecutionContext.SUCCESS);
-//        ecDataMap.put("basis", basis);
-//        ecDataMap.put("selection", selectionMap);
-//        ecDataMap.put("ctznCntr", ctznCntr);
-//        ecDataMap.put("bornCntr", bornCntr);
-//        ecDataMap.put("foreign", foreignMap);
-//        ec.setData(ecDataMap);
-
         return ec;
     }
 

@@ -32,11 +32,11 @@ public class BirtController {
     @Value("#{app['rpt.format']}")
     private String REPORT_FORMAT;
 
-    private final String RPT_APPLICATION_KR = "application_kr";
-    private final String RPT_APPLICATION_EN = "application_en";
+    private final String RPT_APPLICATION_KR = "yonsei-appl-kr";
+    private final String RPT_APPLICATION_EN = "yonsei-appl-en";
 
-    private final String RPT_ADMISSION_KR = "admission_kr";
-    private final String RPT_ADMISSION_EN = "admission_en";
+    private final String RPT_ADMISSION_KR = "yonsei-adms-kr";
+    private final String RPT_ADMISSION_EN = "yonsei-adms-en";
 
     @RequestMapping(value = "/print")
     public ModelAndView previewApplicationByParam(@RequestParam(value = "applNo") Integer applNo,

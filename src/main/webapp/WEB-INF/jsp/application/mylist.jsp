@@ -71,8 +71,8 @@
                                             <div class="btn-group">
                                                 <a type="button" class="btn btn-success dropdown-toggle ${item.applStsCode=="00020"?"":"disabled"}" <c:if test="${item.applStsCode!='00020'}">disabled</c:if> data-toggle="dropdown" data-target="#">지원서 보기<span class="caret"></span></a>
                                                 <ul class="dropdown-menu" role="menu">
-                                                    <li><a class="print" data-applNo="${item.applNo}" data-format="pdf" data-filename="application_${item.admsTypeCode=="C" ? "en" : "kr"}">지원서(PDF)</a></li>
-                                                    <li><a class="print" data-applNo="${item.applNo}" data-format="pdf" data-filename="admission_${item.admsTypeCode=="C" ? "en" : "kr"}">수험표(PDF)</a></li>
+                                                    <li><a class="print" data-applNo="${item.applNo}" data-format="pdf" data-filename="yonsei-appl-${item.admsTypeCode=="C" ? "en" : "kr"}">지원서(PDF)</a></li>
+                                                    <li><a class="print" data-applNo="${item.applNo}" data-format="pdf" data-filename="yonsei-adms-${item.admsTypeCode=="C" ? "en" : "kr"}">수험표(PDF)</a></li>
                                                     <li><a class="print" data-admsNo="${item.admsNo}" data-applNo="${item.applNo}" data-format="pdf">전체 파일(PDF)</a></li>
                                                 </ul>
                                             </div>

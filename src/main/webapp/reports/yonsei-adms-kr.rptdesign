@@ -3,23 +3,8 @@
     <property name="createdBy">Eclipse BIRT Designer Version 4.4.0.v201405191524 Build &lt;4.4.0.v20140606-1451></property>
     <property name="units">in</property>
     <method name="initialize"><![CDATA[
-// importPackage(Packages.org.springframework.context);
-// importPackage(Packages.org.springframework.web.context.support );
-// //ServletContext
-// var sc = reportContext.getHttpServletRequest().getSession().getServletContext();
-// //ApplicationContext
-// var spring = WebApplicationContextUtils.getWebApplicationContext(sc);
-// var commonService = spring.getBean("commonServiceImpl");
-
-// entire = reportContext.getAppContext().get("entireApplication");
-// application = entire.getApplication();
-// general = entire.getApplicationGeneral();
-// etc = entire.getApplicationETCWithBLOBs();
-// highSchool = entire.getHighSchool();
-// collegeList = entire.getCollegeList();
-// graduateList = entire.getGraduateList();
-// experienceList = entire.getApplicationExperienceList();
-// languageList = entire.getApplicationLanguageList();
+//importPackage(Packages.java.lang);
+// System.out.println("########## beans from Spring ########");
 
 var appContext = reportContext.getAppContext(),
     applId = appContext.get('applId'),

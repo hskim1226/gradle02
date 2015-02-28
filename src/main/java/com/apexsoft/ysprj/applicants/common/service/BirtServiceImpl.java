@@ -6,8 +6,12 @@ import com.apexsoft.ysprj.applicants.application.service.AcademyService;
 import com.apexsoft.ysprj.applicants.application.service.BasisService;
 import com.apexsoft.ysprj.applicants.application.service.DocumentService;
 import com.apexsoft.ysprj.applicants.application.service.LangCareerService;
+import com.apexsoft.ysprj.applicants.common.domain.Campus;
 import com.apexsoft.ysprj.applicants.common.domain.CommonCode;
+import com.apexsoft.ysprj.applicants.common.domain.Country;
 import com.apexsoft.ysprj.applicants.common.util.FileUtil;
+import com.apexsoft.ysprj.applicants.common.util.StringUtil;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -39,11 +43,11 @@ public class BirtServiceImpl implements BirtService {
     @Value("#{app['file.baseDir']}")
     private String BASE_DIR;
 
-    private final String RPT_APPLICATION_KR = "application_kr";
-    private final String RPT_APPLICATION_EN = "application_en";
+    private final String RPT_APPLICATION_KR = "yonsei-appl-kr";
+    private final String RPT_APPLICATION_EN = "yonsei-appl-en";
 
-    private final String RPT_ADMISSION_KR = "admission_kr";
-    private final String RPT_ADMISSION_EN = "admission_en";
+    private final String RPT_ADMISSION_KR = "yonsei-adms-kr";
+    private final String RPT_ADMISSION_EN = "yonsei-adms-en";
 
     //TODO 수험표 생성
     @Override
@@ -64,6 +68,7 @@ public class BirtServiceImpl implements BirtService {
         List<CustomApplicationExperience> expList = langCareer.getApplicationExperienceList();
         Application application = basis.getApplication();
         ApplicationGeneral applicationGeneral = basis.getApplicationGeneral();
+        ApplicationForeigner applicationForeigner = basis.getApplicationForeigner();
         List<CustomApplicationAcademy> collegeList = academy.getCollegeList();
         List<CustomApplicationAcademy> graduateList = academy.getGraduateList();
         List<CustomApplicationAcademy> academyList = new ArrayList<CustomApplicationAcademy>();
@@ -73,7 +78,7 @@ public class BirtServiceImpl implements BirtService {
 
         String admsNo = application.getAdmsNo();
         String userId = application.getUserId();
-        String pdfFileName = birtRptFileName.startsWith("application") ?
+        String pdfFileName = StringUtils.indexOf(birtRptFileName, "appl") > 0 ?
                 FileUtil.getApplicationFileName(userId) :
                 FileUtil.getSlipFileName(userId);
 
@@ -91,19 +96,19 @@ public class BirtServiceImpl implements BirtService {
         }
 
         String campName = "-- 해당사항 없음 -- ";
-        if(basis.getApplication().getCampCode() !=null && !"".equals(basis.getApplication().getCampCode())) {
-            campName = commonService.retrieveCampNameByCode(basis.getApplication().getCampCode());
+        if(application.getCampCode() !=null && !"".equals(application.getCampCode())) {
+            campName = commonService.retrieveCampNameByCode(application.getCampCode());
         }
-        String corsTypeName = commonService.retrieveCorsTypeNameByCode(basis.getApplication().getCorsTypeCode());
+        String corsTypeName = commonService.retrieveCorsTypeNameByCode(application.getCorsTypeCode());
 
         String ariInstName= "-- 해당사항 없음 -- ";
-        if(basis.getApplication().getAriInstCode() !=null && !"".equals(basis.getApplication().getAriInstCode())) {
-            ariInstName = commonService.retrieveAriInstNameByCode(basis.getApplication().getAriInstCode());
+        if(application.getAriInstCode() !=null && !"".equals(application.getAriInstCode())) {
+            ariInstName = commonService.retrieveAriInstNameByCode(application.getAriInstCode());
         }
 
-        String deptName = commonService.retrieveDeptNameByCode(basis.getApplication().getDeptCode());
+        String deptName = commonService.retrieveDeptNameByCode(application.getDeptCode());
         String deptCode = application.getDeptCode();
-        String detlMajName = commonService.retrieveDetlMajNameByCode(basis.getApplication().getDetlMajCode());
+        String detlMajName = commonService.retrieveDetlMajNameByCode(application.getDetlMajCode());
 
         rptInfoMap.put("campName", campName);
         rptInfoMap.put("corsTypeName", corsTypeName);
@@ -115,6 +120,7 @@ public class BirtServiceImpl implements BirtService {
         String korName = application.getKorName();
         String engName = application.getEngName();
         String engSur = application.getEngSur();
+        String gend = application.getGend();
         String rgstNo = application.getRgstNo();
         String mailAddr = application.getMailAddr();
         String telNum = application.getTelNum();
@@ -125,17 +131,38 @@ public class BirtServiceImpl implements BirtService {
         rptInfoMap.put("korName", korName);
         rptInfoMap.put("engName", engName);
         rptInfoMap.put("engSur", engSur);
+        rptInfoMap.put("gend", gend);
         rptInfoMap.put("rgstNo", rgstNo);
+        Country tmpCountry = commonService.retrieveCountryByCode(StringUtil.getEmptyIfNull(applicationForeigner.getBornCntrCode()));
+        rptInfoMap.put("bornCntrName", tmpCountry == null ? "" : tmpCountry.getEngCntrName());
+        tmpCountry = commonService.retrieveCountryByCode(StringUtil.getEmptyIfNull(application.getCitzCntrCode()));
+        rptInfoMap.put("citzCntrName", tmpCountry == null ? "" : tmpCountry.getEngCntrName());
+        rptInfoMap.put("bornDay", application.getBornDay());
+        rptInfoMap.put("paspNo", applicationForeigner.getPaspNo());
+        rptInfoMap.put("visaTypeName", StringUtil.getEmptyIfNull(applicationForeigner.getVisaTypeCode()) + StringUtil.getEmptyIfNull(applicationForeigner.getVisaTypeEtc()));
+        rptInfoMap.put("fornRgstYn", StringUtil.getEmptyIfNull(applicationForeigner.getFornRgstNo()).length() > 0 ? "등록 (Registered)" : "미등록 (Not Registered");
+        rptInfoMap.put("homeAdddr", StringUtil.getEmptyIfNull(applicationForeigner.getHomeAddr()));
+        rptInfoMap.put("korAddr", addr + " " + detlAddr);
         rptInfoMap.put("mailAddr", mailAddr);
+        rptInfoMap.put("homeTel", StringUtil.getEmptyIfNull(applicationForeigner.getHomeTel()));
         rptInfoMap.put("telNum", telNum);
         rptInfoMap.put("mobiNum", mobiNum);
         rptInfoMap.put("addr", addr);
         rptInfoMap.put("detlAddr", detlAddr);
+        rptInfoMap.put("homeEmrgName", StringUtil.getEmptyIfNull(applicationForeigner.getHomeEmrgName()));
+        rptInfoMap.put("homeEmrgTel", StringUtil.getEmptyIfNull(applicationForeigner.getHomeEmrgTel()));
+        rptInfoMap.put("homeEmrgRela", StringUtil.getEmptyIfNull(applicationForeigner.getHomeEmrgRela()));
+        rptInfoMap.put("korEmrgName", StringUtil.getEmptyIfNull(applicationForeigner.getKorEmrgName()));
+        rptInfoMap.put("korEmrgTel", StringUtil.getEmptyIfNull(applicationForeigner.getKorEmrgTel()));
+        rptInfoMap.put("korEmrgRela", StringUtil.getEmptyIfNull(applicationForeigner.getKorEmrgRela()));
+
+        List<String> oneAcad = new ArrayList<String>();
+
 
         rptInfoMap.put("photoUri", documentService.retrievePhotoUri(applNo));
 
-        String currWrkpName = applicationGeneral.getCurrWrkpName();
-        String currWrkpTel = applicationGeneral.getCurrWrkpTel();
+        String currWrkpName = StringUtil.getEmptyIfNull(applicationGeneral.getCurrWrkpName());
+        String currWrkpTel = StringUtil.getEmptyIfNull(applicationGeneral.getCurrWrkpTel());
 
         String academy0 = "";
         String academy1 = "";
@@ -219,8 +246,8 @@ public class BirtServiceImpl implements BirtService {
         rptInfoMap.put("currWrkpTel", currWrkpTel);
 
 
-        String hndcGrad = applicationGeneral.getHndcGrad();
-        String hndcType = applicationGeneral.getHndcType();
+        String hndcGrad = StringUtil.getEmptyIfNull(applicationGeneral.getHndcGrad());
+        String hndcType = StringUtil.getEmptyIfNull(applicationGeneral.getHndcType());
 
         rptInfoMap.put("hndcGrad", hndcGrad);
         rptInfoMap.put("hndcType", hndcType);
@@ -267,15 +294,7 @@ public class BirtServiceImpl implements BirtService {
         rptInfoMap.put("tepsScore", tepsScore);
         rptInfoMap.put("ieltsScore", ieltsScore);
         rptInfoMap.put("greScore", greScore);
-
-
-
-        String forlExmp = "";
-        if(applicationGeneral.getForlExmpCode() !=null) {
-            forlExmp = applicationGeneral.getForlExmpCode();
-        }
-
-        rptInfoMap.put("forlExmp", forlExmp);
+        rptInfoMap.put("forlExmp", StringUtil.getEmptyIfNull(applicationGeneral.getForlExmpCode()));
 
         // TODO
         String range0 = "";
