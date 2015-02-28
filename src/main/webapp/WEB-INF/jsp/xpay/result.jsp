@@ -42,6 +42,7 @@
                     </div>
                 </div>
             </div>
+            <input type="hidden" name="application.applNo" value="${transactionVO.applNo}"/>
         </form>
     </div>
 </section>
@@ -52,13 +53,13 @@ $(document).ready(function() {
     // 결제 완료 후 BirtController를 호출해야 수험표와 원서를 물리적 파일로 저장할 수 있음
     var genFile = function () {
         $.ajax({
-            type: 'GET',
-            url: '${contextPath}/application/generate/application/${transactionVO.applNo}',
+            type: 'POST',
+            url: '${contextPath}/application/generate/application',
             success: function (data) {
                 console.log('원서 파일 생성 완료');
                 $.ajax({
-                    type: 'GET',
-                    url: '${contextPath}/pdf/merge/applicant/${transactionVO.applNo}',
+                    type: 'POST',
+                    url: '${contextPath}/pdf/merge/applicant',
                     success: function (data) {
                         console.log('머지 파일 생성 완료');
                         document.getElementById('goMain').style.display = 'block';
@@ -73,8 +74,8 @@ $(document).ready(function() {
             }
         });
         $.ajax({
-            type: 'GET',
-            url: '${contextPath}/application/generate/slip/${transactionVO.applNo}',
+            type: 'POST',
+            url: '${contextPath}/application/generate/slip',
             success: function (data) {
                 console.log('수험표 파일 생성 완료');
             },
