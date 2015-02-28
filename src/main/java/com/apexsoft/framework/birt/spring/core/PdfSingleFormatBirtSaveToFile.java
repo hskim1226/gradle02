@@ -28,10 +28,6 @@ public class PdfSingleFormatBirtSaveToFile extends AbstractSingleFormatBirtView 
                                         String reportName, String format, IRenderOption options) throws Throwable {
 
         String fileName = (String)map.get("pdfFileName");
-//        String header = "filename=" + URLEncoder.encode(fileName, "UTF-8") + ".pdf";
-//
-//        response.setHeader ("Content-Disposition", header);
-
         PDFRenderOption pdfOptions = new PDFRenderOption(options);
         pdfOptions.setOutputFormat(IRenderOption.OUTPUT_FORMAT_PDF);
         pdfOptions.setOption(IPDFRenderOption.PAGE_OVERFLOW, IPDFRenderOption.FIT_TO_PAGE_SIZE);

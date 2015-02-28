@@ -3,12 +3,13 @@
     <property name="createdBy">Eclipse BIRT Designer Version 4.4.0.v201405191524 Build &lt;4.4.0.v20140606-1451></property>
     <property name="units">cm</property>
     <property name="iconFile">/templates/blank_report.gif</property>
-    <property name="layoutPreference">auto layout</property>
+    <property name="layoutPreference">fixed layout</property>
     <property name="bidiLayoutOrientation">ltr</property>
     <property name="imageDPI">96</property>
     <parameters>
-        <scalar-parameter name="Title" id="11">
+        <scalar-parameter name="title" id="11">
             <property name="valueType">static</property>
+            <property name="isRequired">false</property>
             <property name="dataType">string</property>
             <property name="distinct">true</property>
             <list-property name="selectionList"/>
@@ -453,6 +454,156 @@
                 <property name="category">Unformatted</property>
             </structure>
         </scalar-parameter>
+        <scalar-parameter name="academy0" id="1590">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant"></value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="academy1" id="1591">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant"></value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="academy2" id="1592">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant"></value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="academy3" id="1593">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant"></value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="academy4" id="1594">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant"></value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="topikScore" id="1600">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant"></value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="toeicScore" id="1601">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant"></value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="toeflScore" id="1602">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant"></value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="tepsScore" id="1603">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant"></value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="ieltsScore" id="1604">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant"></value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
     </parameters>
     <styles>
         <style name="report" id="4">
@@ -499,12 +650,6 @@
             <property name="textAlign">center</property>
             <property name="headerHeight">0in</property>
             <property name="footerHeight">0in</property>
-            <page-footer>
-                <text id="3">
-                    <property name="contentType">html</property>
-                    <text-property name="content"><![CDATA[<value-of>new Date()</value-of>]]></text-property>
-                </text>
-            </page-footer>
         </simple-master-page>
         <simple-master-page name="Yonsei-en-Documents-Master" id="1505">
             <property name="type">a4</property>
@@ -526,17 +671,17 @@
             <column id="8"/>
             <row id="9">
                 <cell id="10">
-                    <data id="14">
+                    <data id="1610">
                         <property name="fontSize">25pt</property>
                         <property name="textAlign">center</property>
                         <list-property name="boundDataColumns">
                             <structure>
-                                <property name="name">Title</property>
-                                <expression name="expression" type="javascript">params["Title"]</expression>
+                                <property name="name">title</property>
+                                <expression name="expression" type="javascript">params["title"]</expression>
                                 <property name="dataType">string</property>
                             </structure>
                         </list-property>
-                        <property name="resultSetColumn">Title</property>
+                        <property name="resultSetColumn">title</property>
                     </data>
                 </cell>
             </row>
@@ -557,7 +702,7 @@
             </column>
             <column id="226">
                 <property name="verticalAlign">middle</property>
-                <property name="width">1.5cm</property>
+                <property name="width">2cm</property>
             </column>
             <column id="227">
                 <property name="verticalAlign">middle</property>
@@ -565,11 +710,11 @@
             </column>
             <column id="228">
                 <property name="verticalAlign">middle</property>
-                <property name="width">2.5cm</property>
+                <property name="width">3.5cm</property>
             </column>
             <column id="229">
                 <property name="verticalAlign">middle</property>
-                <property name="width">1.5cm</property>
+                <property name="width">2cm</property>
             </column>
             <column id="230">
                 <property name="verticalAlign">middle</property>
@@ -577,10 +722,11 @@
             </column>
             <column id="231">
                 <property name="verticalAlign">middle</property>
-                <property name="width">1.5cm</property>
+                <property name="width">2cm</property>
             </column>
             <column id="232">
                 <property name="verticalAlign">middle</property>
+                <property name="width">3cm</property>
             </column>
             <row id="233">
                 <cell id="234">
@@ -689,6 +835,7 @@ Campus</text-property>
                     <property name="borderTopStyle">solid</property>
                     <property name="borderTopWidth">thin</property>
                     <data id="1535">
+                        <property name="textAlign">center</property>
                         <property name="resultSetColumn">campName</property>
                     </data>
                 </cell>
@@ -722,6 +869,7 @@ Semester of Entrance</text-property>
                     <property name="borderTopStyle">solid</property>
                     <property name="borderTopWidth">thin</property>
                     <data id="1540">
+                        <property name="textAlign">center</property>
                         <list-property name="boundDataColumns">
                             <structure>
                                 <property name="name">semester</property>
@@ -747,6 +895,7 @@ Semester of Entrance</text-property>
                         <property name="height">140px</property>
                         <property name="width">95px</property>
                         <property name="source">url</property>
+                        <property name="fitToContainer">true</property>
                         <expression name="uri" type="javascript">params['photoUri']</expression>
                     </image>
                 </cell>
@@ -780,6 +929,7 @@ Course of Degree</text-property>
                     <property name="borderTopStyle">solid</property>
                     <property name="borderTopWidth">thin</property>
                     <data id="1564">
+                        <property name="textAlign">center</property>
                         <list-property name="boundDataColumns">
                             <structure>
                                 <property name="name">corsTypeName</property>
@@ -820,6 +970,7 @@ Department</text-property>
                     <property name="borderTopStyle">solid</property>
                     <property name="borderTopWidth">thin</property>
                     <data id="1565">
+                        <property name="textAlign">center</property>
                         <list-property name="boundDataColumns">
                             <structure>
                                 <property name="name">deptName</property>
@@ -860,6 +1011,7 @@ Major</text-property>
                     <property name="borderTopStyle">solid</property>
                     <property name="borderTopWidth">thin</property>
                     <data id="1566">
+                        <property name="textAlign">center</property>
                         <list-property name="boundDataColumns">
                             <structure>
                                 <property name="name">detlMajName</property>
@@ -896,6 +1048,7 @@ Department Code</text-property>
                     <property name="borderTopStyle">solid</property>
                     <property name="borderTopWidth">thin</property>
                     <data id="1567">
+                        <property name="textAlign">center</property>
                         <list-property name="boundDataColumns">
                             <structure>
                                 <property name="name">deptCode</property>
@@ -983,6 +1136,7 @@ Surname</text-property>
                     <property name="borderTopStyle">solid</property>
                     <property name="borderTopWidth">thin</property>
                     <data id="1568">
+                        <property name="textAlign">center</property>
                         <list-property name="boundDataColumns">
                             <structure>
                                 <property name="name">engSur</property>
@@ -1019,6 +1173,7 @@ Given name</text-property>
                     <property name="borderTopStyle">solid</property>
                     <property name="borderTopWidth">thin</property>
                     <data id="1569">
+                        <property name="textAlign">center</property>
                         <list-property name="boundDataColumns">
                             <structure>
                                 <property name="name">engName</property>
@@ -1055,6 +1210,7 @@ Gender</text-property>
                     <property name="borderTopStyle">solid</property>
                     <property name="borderTopWidth">thin</property>
                     <data id="1570">
+                        <property name="textAlign">center</property>
                         <list-property name="boundDataColumns">
                             <structure>
                                 <property name="name">gend</property>
@@ -1111,6 +1267,7 @@ Country of Birth</text-property>
                     <property name="borderTopStyle">solid</property>
                     <property name="borderTopWidth">thin</property>
                     <data id="1571">
+                        <property name="textAlign">center</property>
                         <list-property name="boundDataColumns">
                             <structure>
                                 <property name="name">bornCntrName</property>
@@ -1147,6 +1304,7 @@ Citizenship</text-property>
                     <property name="borderTopStyle">solid</property>
                     <property name="borderTopWidth">thin</property>
                     <data id="1572">
+                        <property name="textAlign">center</property>
                         <list-property name="boundDataColumns">
                             <structure>
                                 <property name="name">citzCntrName</property>
@@ -1183,6 +1341,7 @@ Date of Birth</text-property>
                     <property name="borderTopStyle">solid</property>
                     <property name="borderTopWidth">thin</property>
                     <data id="1573">
+                        <property name="textAlign">center</property>
                         <list-property name="boundDataColumns">
                             <structure>
                                 <property name="name">bornDay</property>
@@ -1239,6 +1398,7 @@ Passport Number</text-property>
                     <property name="borderTopStyle">solid</property>
                     <property name="borderTopWidth">thin</property>
                     <data id="1574">
+                        <property name="textAlign">center</property>
                         <list-property name="boundDataColumns">
                             <structure>
                                 <property name="name">paspNo</property>
@@ -1275,6 +1435,7 @@ Type of Visa</text-property>
                     <property name="borderTopStyle">solid</property>
                     <property name="borderTopWidth">thin</property>
                     <data id="1575">
+                        <property name="textAlign">center</property>
                         <list-property name="boundDataColumns">
                             <structure>
                                 <property name="name">visaTypeName</property>
@@ -1311,6 +1472,8 @@ Registration</text-property>
                     <property name="borderTopStyle">solid</property>
                     <property name="borderTopWidth">thin</property>
                     <data id="1576">
+                        <property name="fontSize">9pt</property>
+                        <property name="textAlign">center</property>
                         <list-property name="boundDataColumns">
                             <structure>
                                 <property name="name">fornRgstYn</property>
@@ -1351,6 +1514,7 @@ Homeland Address</text-property>
                     <property name="borderTopStyle">solid</property>
                     <property name="borderTopWidth">thin</property>
                     <data id="1577">
+                        <property name="textAlign">center</property>
                         <list-property name="boundDataColumns">
                             <structure>
                                 <property name="name">homeAddr</property>
@@ -1391,6 +1555,7 @@ Address in Korea</text-property>
                     <property name="borderTopStyle">solid</property>
                     <property name="borderTopWidth">thin</property>
                     <data id="1578">
+                        <property name="textAlign">center</property>
                         <list-property name="boundDataColumns">
                             <structure>
                                 <property name="name">korAddr</property>
@@ -1452,6 +1617,7 @@ e-mail Address</text-property>
                     <property name="borderTopStyle">solid</property>
                     <property name="borderTopWidth">thin</property>
                     <data id="1579">
+                        <property name="textAlign">center</property>
                         <list-property name="boundDataColumns">
                             <structure>
                                 <property name="name">mailAddr</property>
@@ -1490,6 +1656,7 @@ Homeland Phone</text-property>
                     <property name="borderTopStyle">solid</property>
                     <property name="borderTopWidth">thin</property>
                     <data id="1580">
+                        <property name="textAlign">center</property>
                         <list-property name="boundDataColumns">
                             <structure>
                                 <property name="name">homeTel</property>
@@ -1533,6 +1700,7 @@ Korean Phone</text-property>
                     <property name="borderTopStyle">solid</property>
                     <property name="borderTopWidth">thin</property>
                     <data id="1581">
+                        <property name="textAlign">center</property>
                         <list-property name="boundDataColumns">
                             <structure>
                                 <property name="name">telNum</property>
@@ -1571,6 +1739,7 @@ Korean Cell Phone</text-property>
                     <property name="borderTopStyle">solid</property>
                     <property name="borderTopWidth">thin</property>
                     <data id="1582">
+                        <property name="textAlign">center</property>
                         <list-property name="boundDataColumns">
                             <structure>
                                 <property name="name">mobiNum</property>
@@ -1627,6 +1796,7 @@ Name</text-property>
                     <property name="borderTopStyle">solid</property>
                     <property name="borderTopWidth">thin</property>
                     <data id="1583">
+                        <property name="textAlign">center</property>
                         <list-property name="boundDataColumns">
                             <structure>
                                 <property name="name">homeEmrgName</property>
@@ -1663,6 +1833,7 @@ Phone</text-property>
                     <property name="borderTopStyle">solid</property>
                     <property name="borderTopWidth">thin</property>
                     <data id="1584">
+                        <property name="textAlign">center</property>
                         <list-property name="boundDataColumns">
                             <structure>
                                 <property name="name">homeEmrgTel</property>
@@ -1699,6 +1870,7 @@ Relationship</text-property>
                     <property name="borderTopStyle">solid</property>
                     <property name="borderTopWidth">thin</property>
                     <data id="1585">
+                        <property name="textAlign">center</property>
                         <list-property name="boundDataColumns">
                             <structure>
                                 <property name="name">homeEmrgRela</property>
@@ -1755,6 +1927,7 @@ Name</text-property>
                     <property name="borderTopStyle">solid</property>
                     <property name="borderTopWidth">thin</property>
                     <data id="1586">
+                        <property name="textAlign">center</property>
                         <list-property name="boundDataColumns">
                             <structure>
                                 <property name="name">korEmrgName</property>
@@ -1791,6 +1964,7 @@ Phone</text-property>
                     <property name="borderTopStyle">solid</property>
                     <property name="borderTopWidth">thin</property>
                     <data id="1587">
+                        <property name="textAlign">center</property>
                         <list-property name="boundDataColumns">
                             <structure>
                                 <property name="name">korEmrgTel</property>
@@ -1827,6 +2001,7 @@ Relationship</text-property>
                     <property name="borderTopStyle">solid</property>
                     <property name="borderTopWidth">thin</property>
                     <data id="1588">
+                        <property name="textAlign">center</property>
                         <list-property name="boundDataColumns">
                             <structure>
                                 <property name="name">korEmrgRela</property>
@@ -1846,30 +2021,28 @@ Relationship</text-property>
             <property name="borderLeftWidth">thin</property>
             <property name="borderRightStyle">solid</property>
             <property name="borderRightWidth">thin</property>
-            <property name="borderTopStyle">solid</property>
-            <property name="borderTopWidth">thin</property>
             <column id="427">
-                <property name="width">1.78125in</property>
+                <property name="width">5cm</property>
             </column>
             <column id="428">
-                <property name="width">1.5520833333333333in</property>
+                <property name="width">4cm</property>
             </column>
             <column id="429">
-                <property name="width">1.6458333333333333in</property>
+                <property name="width">4cm</property>
             </column>
             <column id="430">
-                <property name="width">1.1458333333333333in</property>
+                <property name="width">3cm</property>
             </column>
             <column id="431">
-                <property name="width">1.1770833333333333in</property>
+                <property name="width">3cm</property>
             </column>
             <row id="1525">
+                <property name="borderBottomStyle">solid</property>
+                <property name="borderBottomWidth">thin</property>
                 <property name="borderLeftStyle">solid</property>
                 <property name="borderLeftWidth">thin</property>
                 <property name="borderRightStyle">solid</property>
                 <property name="borderRightWidth">thin</property>
-                <property name="borderTopStyle">solid</property>
-                <property name="borderTopWidth">thin</property>
                 <property name="textAlign">center</property>
                 <property name="verticalAlign">middle</property>
                 <cell id="1526">
@@ -1879,8 +2052,6 @@ Relationship</text-property>
                     <property name="borderLeftWidth">thin</property>
                     <property name="borderRightStyle">solid</property>
                     <property name="borderRightWidth">thin</property>
-                    <property name="borderTopStyle">solid</property>
-                    <property name="borderTopWidth">thin</property>
                     <label id="1531">
                         <property name="fontSize">9pt</property>
                         <property name="textAlign">left</property>
@@ -1997,6 +2168,17 @@ Degree of Diploma</text-property>
                     <property name="borderRightWidth">thin</property>
                     <property name="borderTopStyle">solid</property>
                     <property name="borderTopWidth">thin</property>
+                    <data id="1595">
+                        <property name="textAlign">center</property>
+                        <list-property name="boundDataColumns">
+                            <structure>
+                                <property name="name">academy0</property>
+                                <expression name="expression" type="javascript">params["academy0"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                        </list-property>
+                        <property name="resultSetColumn">academy0</property>
+                    </data>
                 </cell>
                 <cell id="440">
                     <property name="borderBottomStyle">solid</property>
@@ -2058,6 +2240,17 @@ Degree of Diploma</text-property>
                     <property name="borderRightWidth">thin</property>
                     <property name="borderTopStyle">solid</property>
                     <property name="borderTopWidth">thin</property>
+                    <data id="1596">
+                        <property name="textAlign">center</property>
+                        <list-property name="boundDataColumns">
+                            <structure>
+                                <property name="name">academy1</property>
+                                <expression name="expression" type="javascript">params["academy1"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                        </list-property>
+                        <property name="resultSetColumn">academy1</property>
+                    </data>
                 </cell>
                 <cell id="446">
                     <property name="borderBottomStyle">solid</property>
@@ -2119,6 +2312,17 @@ Degree of Diploma</text-property>
                     <property name="borderRightWidth">thin</property>
                     <property name="borderTopStyle">solid</property>
                     <property name="borderTopWidth">thin</property>
+                    <data id="1597">
+                        <property name="textAlign">center</property>
+                        <list-property name="boundDataColumns">
+                            <structure>
+                                <property name="name">academy2</property>
+                                <expression name="expression" type="javascript">params["academy2"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                        </list-property>
+                        <property name="resultSetColumn">academy2</property>
+                    </data>
                 </cell>
                 <cell id="452">
                     <property name="borderBottomStyle">solid</property>
@@ -2180,6 +2384,17 @@ Degree of Diploma</text-property>
                     <property name="borderRightWidth">thin</property>
                     <property name="borderTopStyle">solid</property>
                     <property name="borderTopWidth">thin</property>
+                    <data id="1598">
+                        <property name="textAlign">center</property>
+                        <list-property name="boundDataColumns">
+                            <structure>
+                                <property name="name">academy3</property>
+                                <expression name="expression" type="javascript">params["academy3"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                        </list-property>
+                        <property name="resultSetColumn">academy3</property>
+                    </data>
                 </cell>
                 <cell id="458">
                     <property name="borderBottomStyle">solid</property>
@@ -2241,6 +2456,17 @@ Degree of Diploma</text-property>
                     <property name="borderRightWidth">thin</property>
                     <property name="borderTopStyle">solid</property>
                     <property name="borderTopWidth">thin</property>
+                    <data id="1599">
+                        <property name="textAlign">center</property>
+                        <list-property name="boundDataColumns">
+                            <structure>
+                                <property name="name">academy4</property>
+                                <expression name="expression" type="javascript">params["academy4"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                        </list-property>
+                        <property name="resultSetColumn">academy4</property>
+                    </data>
                 </cell>
                 <cell id="464">
                     <property name="borderBottomStyle">solid</property>
@@ -2291,8 +2517,7 @@ Degree of Diploma</text-property>
             <property name="borderLeftWidth">thin</property>
             <property name="borderRightStyle">solid</property>
             <property name="borderRightWidth">thin</property>
-            <property name="borderTopStyle">solid</property>
-            <property name="borderTopWidth">thin</property>
+            <property name="width">19cm</property>
             <column id="474"/>
             <column id="475"/>
             <column id="476"/>
@@ -2302,14 +2527,14 @@ Degree of Diploma</text-property>
             <column id="480"/>
             <row id="481">
                 <cell id="482">
+                    <property name="colSpan">1</property>
+                    <property name="rowSpan">2</property>
                     <property name="borderBottomStyle">solid</property>
                     <property name="borderBottomWidth">thin</property>
                     <property name="borderLeftStyle">solid</property>
                     <property name="borderLeftWidth">thin</property>
                     <property name="borderRightStyle">solid</property>
                     <property name="borderRightWidth">thin</property>
-                    <property name="borderTopStyle">solid</property>
-                    <property name="borderTopWidth">thin</property>
                     <label id="497">
                         <property name="fontSize">9pt</property>
                         <property name="borderBottomStyle">none</property>
@@ -2328,8 +2553,6 @@ Language Test of Result</text-property>
                     <property name="borderLeftWidth">thin</property>
                     <property name="borderRightStyle">solid</property>
                     <property name="borderRightWidth">thin</property>
-                    <property name="borderTopStyle">solid</property>
-                    <property name="borderTopWidth">thin</property>
                     <property name="verticalAlign">middle</property>
                     <label id="498">
                         <property name="fontSize">9pt</property>
@@ -2348,8 +2571,6 @@ Language Test of Result</text-property>
                     <property name="borderLeftWidth">thin</property>
                     <property name="borderRightStyle">solid</property>
                     <property name="borderRightWidth">thin</property>
-                    <property name="borderTopStyle">solid</property>
-                    <property name="borderTopWidth">thin</property>
                     <property name="verticalAlign">middle</property>
                     <label id="499">
                         <property name="fontSize">9pt</property>
@@ -2368,8 +2589,6 @@ Language Test of Result</text-property>
                     <property name="borderLeftWidth">thin</property>
                     <property name="borderRightStyle">solid</property>
                     <property name="borderRightWidth">thin</property>
-                    <property name="borderTopStyle">solid</property>
-                    <property name="borderTopWidth">thin</property>
                     <property name="verticalAlign">middle</property>
                     <label id="500">
                         <property name="fontSize">9pt</property>
@@ -2388,8 +2607,6 @@ Language Test of Result</text-property>
                     <property name="borderLeftWidth">thin</property>
                     <property name="borderRightStyle">solid</property>
                     <property name="borderRightWidth">thin</property>
-                    <property name="borderTopStyle">solid</property>
-                    <property name="borderTopWidth">thin</property>
                     <property name="verticalAlign">middle</property>
                     <label id="501">
                         <property name="fontSize">9pt</property>
@@ -2408,8 +2625,6 @@ Language Test of Result</text-property>
                     <property name="borderLeftWidth">thin</property>
                     <property name="borderRightStyle">solid</property>
                     <property name="borderRightWidth">thin</property>
-                    <property name="borderTopStyle">solid</property>
-                    <property name="borderTopWidth">thin</property>
                     <property name="verticalAlign">middle</property>
                     <label id="502">
                         <property name="fontSize">9pt</property>
@@ -2428,8 +2643,6 @@ Language Test of Result</text-property>
                     <property name="borderLeftWidth">thin</property>
                     <property name="borderRightStyle">solid</property>
                     <property name="borderRightWidth">thin</property>
-                    <property name="borderTopStyle">solid</property>
-                    <property name="borderTopWidth">thin</property>
                     <property name="verticalAlign">middle</property>
                     <label id="503">
                         <property name="fontSize">9pt</property>
@@ -2443,16 +2656,6 @@ Language Test of Result</text-property>
                 </cell>
             </row>
             <row id="489">
-                <cell id="490">
-                    <property name="borderBottomStyle">solid</property>
-                    <property name="borderBottomWidth">thin</property>
-                    <property name="borderLeftStyle">solid</property>
-                    <property name="borderLeftWidth">thin</property>
-                    <property name="borderRightStyle">solid</property>
-                    <property name="borderRightWidth">thin</property>
-                    <property name="borderTopStyle">solid</property>
-                    <property name="borderTopWidth">thin</property>
-                </cell>
                 <cell id="491">
                     <property name="borderBottomStyle">solid</property>
                     <property name="borderBottomWidth">thin</property>
@@ -2462,6 +2665,17 @@ Language Test of Result</text-property>
                     <property name="borderRightWidth">thin</property>
                     <property name="borderTopStyle">solid</property>
                     <property name="borderTopWidth">thin</property>
+                    <data id="1605">
+                        <property name="textAlign">center</property>
+                        <list-property name="boundDataColumns">
+                            <structure>
+                                <property name="name">topikScore</property>
+                                <expression name="expression" type="javascript">params["topikScore"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                        </list-property>
+                        <property name="resultSetColumn">topikScore</property>
+                    </data>
                 </cell>
                 <cell id="492">
                     <property name="borderBottomStyle">solid</property>
@@ -2472,6 +2686,17 @@ Language Test of Result</text-property>
                     <property name="borderRightWidth">thin</property>
                     <property name="borderTopStyle">solid</property>
                     <property name="borderTopWidth">thin</property>
+                    <data id="1606">
+                        <property name="textAlign">center</property>
+                        <list-property name="boundDataColumns">
+                            <structure>
+                                <property name="name">toeicScore</property>
+                                <expression name="expression" type="javascript">params["toeicScore"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                        </list-property>
+                        <property name="resultSetColumn">toeicScore</property>
+                    </data>
                 </cell>
                 <cell id="493">
                     <property name="borderBottomStyle">solid</property>
@@ -2482,6 +2707,17 @@ Language Test of Result</text-property>
                     <property name="borderRightWidth">thin</property>
                     <property name="borderTopStyle">solid</property>
                     <property name="borderTopWidth">thin</property>
+                    <data id="1607">
+                        <property name="textAlign">center</property>
+                        <list-property name="boundDataColumns">
+                            <structure>
+                                <property name="name">toeflScore</property>
+                                <expression name="expression" type="javascript">params["toeflScore"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                        </list-property>
+                        <property name="resultSetColumn">toeflScore</property>
+                    </data>
                 </cell>
                 <cell id="494">
                     <property name="borderBottomStyle">solid</property>
@@ -2492,6 +2728,17 @@ Language Test of Result</text-property>
                     <property name="borderRightWidth">thin</property>
                     <property name="borderTopStyle">solid</property>
                     <property name="borderTopWidth">thin</property>
+                    <data id="1608">
+                        <property name="textAlign">center</property>
+                        <list-property name="boundDataColumns">
+                            <structure>
+                                <property name="name">tepsScore</property>
+                                <expression name="expression" type="javascript">params["tepsScore"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                        </list-property>
+                        <property name="resultSetColumn">tepsScore</property>
+                    </data>
                 </cell>
                 <cell id="495">
                     <property name="borderBottomStyle">solid</property>
@@ -2502,6 +2749,17 @@ Language Test of Result</text-property>
                     <property name="borderRightWidth">thin</property>
                     <property name="borderTopStyle">solid</property>
                     <property name="borderTopWidth">thin</property>
+                    <data id="1609">
+                        <property name="textAlign">center</property>
+                        <list-property name="boundDataColumns">
+                            <structure>
+                                <property name="name">ieltsScore</property>
+                                <expression name="expression" type="javascript">params["ieltsScore"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                        </list-property>
+                        <property name="resultSetColumn">ieltsScore</property>
+                    </data>
                 </cell>
                 <cell id="496">
                     <property name="borderBottomStyle">solid</property>
@@ -2516,6 +2774,15 @@ Language Test of Result</text-property>
             </row>
         </grid>
         <grid id="504">
+            <property name="borderBottomStyle">solid</property>
+            <property name="borderBottomWidth">thin</property>
+            <property name="borderLeftStyle">solid</property>
+            <property name="borderLeftWidth">thin</property>
+            <property name="borderRightStyle">solid</property>
+            <property name="borderRightWidth">thin</property>
+            <property name="borderTopStyle">solid</property>
+            <property name="borderTopWidth">thin</property>
+            <property name="width">19cm</property>
             <column id="505"/>
             <row id="506">
                 <cell id="507">
@@ -2541,6 +2808,7 @@ Hereby, with above information and related documents, I apply for Yonsei Univers
         </grid>
         <grid id="513">
             <property name="height">2cm</property>
+            <property name="width">19cm</property>
             <column id="514">
                 <property name="width">5.854166666666667in</property>
             </column>
@@ -2551,6 +2819,14 @@ Hereby, with above information and related documents, I apply for Yonsei Univers
                 <cell id="517">
                     <property name="colSpan">2</property>
                     <property name="rowSpan">1</property>
+                    <property name="borderBottomStyle">solid</property>
+                    <property name="borderBottomWidth">thin</property>
+                    <property name="borderLeftStyle">solid</property>
+                    <property name="borderLeftWidth">thin</property>
+                    <property name="borderRightStyle">solid</property>
+                    <property name="borderRightWidth">thin</property>
+                    <property name="borderTopStyle">solid</property>
+                    <property name="borderTopWidth">thin</property>
                     <label id="519">
                         <property name="fontSize">15pt</property>
                         <property name="textAlign">center</property>

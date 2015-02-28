@@ -9,10 +9,8 @@ import com.apexsoft.ysprj.applicants.common.service.CommonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.ArrayList;
@@ -39,12 +37,19 @@ public class BirtController {
     private final String RPT_ADMISSION_EN = "yonsei-adms-en";
 
     @RequestMapping(value = "/print")
-    public ModelAndView previewApplicationByParam(@RequestParam(value = "applNo") Integer applNo,
-                                                  @RequestParam(value = "reportFormat") String reportFormat,
-                                                  @RequestParam(value = "reportName") String reportName,
+    public ModelAndView previewApplicationByParam(Basis basis,
                                                   ModelAndView mv) {
         mv.setViewName("pdfSingleFormatBirtView");
-        mv.addObject("reportFormat", reportFormat);
+        Application application = basis.getApplication();
+        String admsTypeCode = application.getAdmsTypeCode();
+        String reportName;
+        if ("C".equals(admsTypeCode))
+            reportName = RPT_APPLICATION_EN;
+        else
+            reportName = RPT_APPLICATION_KR;
+        int applNo = application.getApplNo();
+
+        mv.addObject("reportFormat", REPORT_FORMAT);
         mv.addObject("reportName", reportName);
         ExecutionContext ec = birtService.processBirt(applNo, reportName);
         mv.addAllObjects((Map<String, Object>)ec.getData());
@@ -65,19 +70,30 @@ public class BirtController {
     }
 
     @RequestMapping(value = "/preview")
-    public ModelAndView previewAppInfo(@RequestParam(value = "applNo") Integer applNo,
+    public ModelAndView previewAppInfo(Basis basis,
                                        ModelAndView mv) {
+
         mv.setViewName("pdfSingleFormatBirtView");
+        Application application = basis.getApplication();
+        String admsTypeCode = application.getAdmsTypeCode();
+        String reportName;
+        if ("C".equals(admsTypeCode))
+            reportName = RPT_APPLICATION_EN;
+        else
+            reportName = RPT_APPLICATION_KR;
+        int applNo = application.getApplNo();
         mv.addObject("reportFormat", REPORT_FORMAT);
-        mv.addObject("reportName", RPT_APPLICATION_KR);
-        ExecutionContext ec = birtService.processBirt(applNo, RPT_APPLICATION_KR);
+        mv.addObject("reportName", reportName);
+        ExecutionContext ec = birtService.processBirt(basis.getApplication().getApplNo(), RPT_APPLICATION_KR);
         mv.addAllObjects((Map<String, Object>)ec.getData());
         return mv;
     }
 
-    @RequestMapping(value = "/generate/application/{applNo}")
-    public ModelAndView generateApplicationFile(@PathVariable(value = "applNo") Integer applNo,
-                                                       ModelAndView mv) {
+    @RequestMapping(value = "/generate/application")
+    public ModelAndView generateApplicationFile(Basis basis,
+                                                ModelAndView mv) {
+        Application application = basis.getApplication();
+        int applNo = application.getApplNo();
         mv.setViewName("pdfSingleFormatBirtSaveToFile");
         mv.addObject("reportFormat", REPORT_FORMAT);
         mv.addObject("reportName", RPT_APPLICATION_KR);
@@ -86,9 +102,11 @@ public class BirtController {
         return mv;
     }
 
-    @RequestMapping(value = "/generate/slip/{applNo}")
-    public ModelAndView generateSlipFile(@PathVariable(value = "applNo") Integer applNo,
-                                                       ModelAndView mv) {
+    @RequestMapping(value = "/generate/slip")
+    public ModelAndView generateSlipFile(Basis basis,
+                                         ModelAndView mv) {
+        Application application = basis.getApplication();
+        int applNo = application.getApplNo();
         mv.setViewName("pdfSingleFormatBirtSaveToFile");
         mv.addObject("reportFormat", REPORT_FORMAT);
         mv.addObject("reportName", RPT_ADMISSION_KR);

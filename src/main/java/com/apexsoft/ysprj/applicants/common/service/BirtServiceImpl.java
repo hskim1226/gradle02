@@ -94,6 +94,7 @@ public class BirtServiceImpl implements BirtService {
             rptInfoMap.put("admsTypeName1", admsTypeNames[0]);
             rptInfoMap.put("admsTypeName2", admsTypeNames[1]);
         }
+        rptInfoMap.put("title", application.getEntrYear() + " 학년도 " + admsTypeNames[0] + " " + admsTypeNames[1] + " 대학원 입학원서");
 
         String campName = "-- 해당사항 없음 -- ";
         if(application.getCampCode() !=null && !"".equals(application.getCampCode())) {
@@ -111,6 +112,7 @@ public class BirtServiceImpl implements BirtService {
         String detlMajName = commonService.retrieveDetlMajNameByCode(application.getDetlMajCode());
 
         rptInfoMap.put("campName", campName);
+        rptInfoMap.put("semester", application.getEntrYear() + "-" + admsTypeNames[0]);
         rptInfoMap.put("corsTypeName", corsTypeName);
         rptInfoMap.put("ariInstName", ariInstName);
         rptInfoMap.put("deptName", deptName);
@@ -140,7 +142,7 @@ public class BirtServiceImpl implements BirtService {
         rptInfoMap.put("bornDay", application.getBornDay());
         rptInfoMap.put("paspNo", applicationForeigner.getPaspNo());
         rptInfoMap.put("visaTypeName", StringUtil.getEmptyIfNull(applicationForeigner.getVisaTypeCode()) + StringUtil.getEmptyIfNull(applicationForeigner.getVisaTypeEtc()));
-        rptInfoMap.put("fornRgstYn", StringUtil.getEmptyIfNull(applicationForeigner.getFornRgstNo()).length() > 0 ? "등록 (Registered)" : "미등록 (Not Registered");
+        rptInfoMap.put("fornRgstYn", StringUtil.getEmptyIfNull(applicationForeigner.getFornRgstNo()).length() > 0 ? "등록"+"\n"+"(Registered)" : "미등록"+"\n"+"(Not Registered)");
         rptInfoMap.put("homeAdddr", StringUtil.getEmptyIfNull(applicationForeigner.getHomeAddr()));
         rptInfoMap.put("korAddr", addr + " " + detlAddr);
         rptInfoMap.put("mailAddr", mailAddr);

@@ -20,7 +20,7 @@
 <body>
 <section class="normal-white">
     <div class="container">
-        <form class="form-horizontal" id="LGD_PAYINFO" name="applicationIdentifier" role="form" method="post">
+        <form class="form-horizontal" id="LGD_PAYINFO" name="mylist" role="form" method="post">
             <div class="row mar-bot40">
                 <div class="col-sm-offset-1 col-sm-10">
                     <div class="form-group inner-container-white">
@@ -138,17 +138,19 @@
             $('.print').click(function(e){
                 e.preventDefault();
                 var target = e.target;
-
-                var admsNo = target.getAttribute('data-admsNo');
-                var applNo = target.getAttribute('data-applNo');
-                var reportFormat = target.getAttribute('data-format');
+                var form = document.getElementById('LGD_PAYINFO');
+                form.target = "_blank";
+//                var admsNo = target.getAttribute('data-admsNo');
+//                var applNo = target.getAttribute('data-applNo');
+//                var reportFormat = target.getAttribute('data-format');
 
                 if (admsNo != null && admsNo.length > 0) {
-                    window.open('${contextPath}/pdf/download/' + admsNo + '/' + applNo);
+                    form.action = '${contextPath}/pdf/download';
+                    form.submit();
                 } else {
-                    var reportName = target.getAttribute('data-filename');
-                    window.open('${contextPath}/application/print?applNo=' + applNo +
-                    '&reportFormat=pdf&reportName=' + reportName);
+//                    var reportName = target.getAttribute('data-filename');
+                    form.action = '${contextPath}/application/print';
+                    form.submit();
                 }
             });
 

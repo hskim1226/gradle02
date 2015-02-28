@@ -4,6 +4,8 @@ import com.apexsoft.framework.common.vo.ExecutionContext;
 import com.apexsoft.framework.exception.ErrorInfo;
 import com.apexsoft.framework.exception.YSBizException;
 import com.apexsoft.framework.message.MessageResolver;
+import com.apexsoft.ysprj.applicants.application.domain.Application;
+import com.apexsoft.ysprj.applicants.application.domain.Basis;
 import com.apexsoft.ysprj.applicants.application.service.DocumentService;
 import com.apexsoft.ysprj.applicants.common.service.PDFService;
 import com.apexsoft.ysprj.applicants.common.util.FileUtil;
@@ -57,29 +59,25 @@ public class PDFController {
         }
     }
 
-    @RequestMapping(value="/merge/dept/{deptCode}")
-    public void mergeByDept(@PathVariable("deptCode") String deptCode) {
-
-    }
-
     /**
      * 전체 파일 다운로드
      *
-     * @param admsNo
-     * @param applNo
+     * @param basis
+     * @param principal
      * @param response
      * @return
      * @throws java.io.IOException
      */
-//    @RequestMapping(value="/attached/{admsNo}/{applNo}/{fileName:.+}/{originalFileName}")
-    @RequestMapping(value="/download/{admsNo}/{applNo}", produces = "application/pdf")
+    @RequestMapping(value="/download", produces = "application/pdf")
     @ResponseBody
-    public byte[] fileDownload(@PathVariable("admsNo") String admsNo,
-                               @PathVariable("applNo") int applNo,
+    public byte[] fileDownload(Basis basis,
                                Principal principal,
                                HttpServletResponse response) {
 
         String userId = principal.getName();
+        Application application = basis.getApplication();
+        String admsNo = application.getAdmsNo();
+        int applNo = application.getApplNo();
 
         String uploadDirectoryFullPath = FileUtil.getUploadDirectoryFullPath(fileBaseDir, admsNo, userId, applNo);
         String fileFileFullPath = FileUtil.getFinalMergedFileFullPath(uploadDirectoryFullPath, applNo);

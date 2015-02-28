@@ -30,7 +30,7 @@ public class PdfSingleFormatBirtView extends AbstractSingleFormatBirtView {
         String header = "";
 //        header += "attachment;";
         String fileName = (String)map.get("pdfFileName");
-        header += "filename=" + URLEncoder.encode(fileName, "UTF-8") + ".pdf";
+        header += "filename=" + URLEncoder.encode(fileName, "UTF-8");
 
         response.setHeader ("Content-Disposition", header);
 
