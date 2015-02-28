@@ -243,7 +243,6 @@ public class DocumentServiceImpl implements DocumentService {
         //기존 파일이 업로드 되어 있는 경우
         if( oneDocument.isFileUploadFg()){
             rUpdate++;
-            oneDocument.setFileUploadFg(true);
             oneDocument.setCreId("" );
             oneDocument.setModDate(date );
             oneDocument.setModId(userId );
