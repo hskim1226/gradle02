@@ -79,11 +79,11 @@ public abstract class FileUploadEventCallbackHandler<T, P, Q> {
      * omw - 새로 저장될 이름 반환.
      * <p>
      *
-     * @param fileMetaForm
+     * @param attributes
 	 * @param fileItem
 	 * @return
      */
-    protected abstract String createFileName(FileMetaForm fileMetaForm, FileItem fileItem);
+    protected abstract String createFileName(P attributes, FileItem fileItem);
 
 	/**
 	 * Multipart로 업로드 할 파일 메타 정보와 DB에 저장할 도메인 정보를 받아
