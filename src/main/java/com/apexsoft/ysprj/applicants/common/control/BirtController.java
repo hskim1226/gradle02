@@ -4,24 +4,18 @@ import com.apexsoft.framework.common.vo.ExecutionContext;
 import com.apexsoft.framework.exception.ErrorInfo;
 import com.apexsoft.framework.exception.YSBizException;
 import com.apexsoft.framework.message.MessageResolver;
-import com.apexsoft.ysprj.applicants.application.domain.*;
-import com.apexsoft.ysprj.applicants.application.service.*;
+import com.apexsoft.ysprj.applicants.application.domain.Application;
 import com.apexsoft.ysprj.applicants.common.domain.BirtRequest;
-import com.apexsoft.ysprj.applicants.common.domain.CommonCode;
 import com.apexsoft.ysprj.applicants.common.service.BirtService;
-import com.apexsoft.ysprj.applicants.common.service.CommonService;
-import com.sun.javaws.exceptions.ExitException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.security.Principal;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
