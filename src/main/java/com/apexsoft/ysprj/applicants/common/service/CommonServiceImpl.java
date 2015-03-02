@@ -531,4 +531,14 @@ public class CommonServiceImpl implements CommonService {
 
     }
 
+    @Override
+    public List<Integer> retrieveAvailableApplNos(String userId) {
+        List<Integer> availableApplNoList = null;
+        try {
+            availableApplNoList = commonDAO.queryForList("com.apexsoft.ysprj.applicants.application.sqlmap.CustomApplicationMapper.selectAvailableApplNos", userId, Integer.class);
+        } catch (Exception e) {
+            throw new BusinessException(e.getMessage(), e);
+        }
+        return availableApplNoList;
+    }
 }
