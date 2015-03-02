@@ -281,7 +281,7 @@ public class ChangeServiceImpl implements ChangeService {
     }
 
     @Override
-    public ExecutionContext createApplicationCancel( ChangeInfoForm changeInfoForm, String userId ) {
+        public ExecutionContext createApplicationCancel( ChangeInfoForm changeInfoForm, String userId ) {
 
         ExecutionContext ec = new ExecutionContext();
         Map<String, Object> ecDataMap = new HashMap<String, Object>();
@@ -359,6 +359,76 @@ public class ChangeServiceImpl implements ChangeService {
         }
         return ec;
     }
+
+    @Override
+    public ExecutionContext createEtcInfoChange( ChangeInfoForm changeInfoForm, String userId ) {
+
+        ExecutionContext ec = new ExecutionContext();
+        Map<String, Object> ecDataMap = new HashMap<String, Object>();
+        Map<String, Object> selectionMap = new HashMap<String, Object>();
+        ApplicantInfo applInfo = null;
+
+        int upAppl = 0, insert = 0, update = 0, delete = 0;
+        int rUpApplGen = 0;
+        int rUpAppl = 0, rInsert = 0, rUpdate = 0, rDelete = 0;
+        Boolean applChangeFg = false;
+        Boolean geneChangeFg = false;
+
+
+        applInfo = commonDAO.queryForObject(NAME_SPACE_INFO+"retrieveApplicantInfoByKey", changeInfoForm.getApplNo(), ApplicantInfo.class);
+        if( applInfo == null ){
+            //에러 로직 처리
+        }
+
+        Date date = new Date();
+        ApplicationChange appChg = new ApplicationChange();
+
+        appChg.setApplNo(changeInfoForm.getApplNo());
+        appChg.setAdmsNo(changeInfoForm.getAdmsNo());
+        SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
+
+        appChg.setReqDay( format.format(date));
+        appChg.setReqUserId(userId);
+        appChg.setReqName(userId);
+        appChg.setActUserId(userId);
+        appChg.setApplChgCode("00001");//지원취소
+        appChg.setChgStsCode("00001");//접수
+        appChg.setChgColmName("-기타-");
+        appChg.setBefVal(changeInfoForm.getBefVal());
+        appChg.setAftVal(changeInfoForm.getAftVal());
+        appChg.setCnclResn(changeInfoForm.getCnclResn());
+        appChg.setCreId(userId);
+        appChg.setCreDate(date);
+
+        int maxSeq =0;
+
+        rInsert++;
+        maxSeq = commonDAO.queryForInt(NAME_SPACE + "CustomApplicationChangeMapper.selectMaxSeqByAdmsNo", changeInfoForm);
+        maxSeq ++;
+        appChg.setChgNo(maxSeq);
+        insert = insert +commonDAO.insertItem( appChg, NAME_SPACE, "ApplicationChangeMapper");
+
+
+        if ( rUpAppl == update && insert == rInsert) {
+            ec.setResult(ExecutionContext.SUCCESS);
+            ec.setMessage(messageResolver.getMessage("U319"));
+            ecDataMap.put("changeInfoForm", changeInfoForm);
+
+        } else {
+            ec.setResult(ExecutionContext.FAIL);
+            ec.setMessage(messageResolver.getMessage("U320"));
+
+            String errCode = null;
+            if ( rUpAppl != upAppl ) errCode = "ERR0003";
+            if ( insert != rInsert ) errCode = "ERR0017";
+            if ( update != rUpdate ) errCode = "ERR0018";
+            if ( delete != rDelete ) errCode = "ERR0019";
+            ec.setErrCode(errCode);
+            throw new YSBizException(ec);
+        }
+        return ec;
+    }
+
     public ExecutionContext retrieveChangePaginatedList(ChangeSearchPageForm searchForm){
         ExecutionContext ec = new ExecutionContext();
         Map<String, Object> ecDataMap = new HashMap<String, Object>();

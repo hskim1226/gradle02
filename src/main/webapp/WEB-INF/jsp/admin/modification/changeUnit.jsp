@@ -141,7 +141,7 @@
         jQuery(document).ready(function() {
             jQuery('#changeBtn').on('click', function(e) {
                 event.preventDefault();
-                if (confirm('지원단위를 변경하시겠습니까?')) {
+                if (confirm('지원단위를 변경요청 하시겠습니까?')) {
                     var aris ='';
                     var aftAris='';
                     if("${applInfo.ariInstName}"!=""){

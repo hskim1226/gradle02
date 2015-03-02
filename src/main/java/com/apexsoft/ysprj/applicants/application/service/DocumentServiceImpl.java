@@ -536,6 +536,7 @@ public class DocumentServiceImpl implements DocumentService {
             List<TotalApplicationDocumentContainer> subDocList;
             subDocList = commonDAO.queryForList(NAME_SPACE + "CustomApplicationDocumentMapper.selectCodeMandatoryGroupByCode", codeParam, TotalApplicationDocumentContainer.class);
             for (TotalApplicationDocumentContainer aSubDoc : subDocList) {
+                aSubDoc.setApplNo(applNo);
                 rList.add(aSubDoc);
                 aSubDoc.setAdmsNo(admsNo);
                 if( aSubDoc.getMsgNo()!= null && aSubDoc.getMsgNo()!= "" ) {
@@ -563,6 +564,7 @@ public class DocumentServiceImpl implements DocumentService {
             List<TotalApplicationDocumentContainer> subDocList;
             subDocList = commonDAO.queryForList(NAME_SPACE + "CustomApplicationDocumentMapper.selectCodeMandatoryGroupByCode", codeParam, TotalApplicationDocumentContainer.class);
             for (TotalApplicationDocumentContainer aSubDoc : subDocList) {
+                aSubDoc.setApplNo(applNo);
                 rList.add(aSubDoc);
                 aSubDoc.setAdmsNo(admsNo);
                 if( aSubDoc.getMsgNo()!= null && aSubDoc.getMsgNo()!= "" ) {
@@ -585,6 +587,7 @@ public class DocumentServiceImpl implements DocumentService {
         subDocList = commonDAO.queryForList(NAME_SPACE + "CustomApplicationDocumentMapper.selectMandatoryDocumentByDocType", codeParam, TotalApplicationDocumentContainer.class);
         aCont = new TotalApplicationDocumentContainer();
         for (TotalApplicationDocumentContainer aSubDoc : subDocList) {
+            aSubDoc.setApplNo(applNo);
             aSubDoc.setAdmsNo(admsNo);
             aSubDoc.setLastYn("Y");
             aSubDoc.setCheckedFg(true);
@@ -719,6 +722,7 @@ public class DocumentServiceImpl implements DocumentService {
                 pCont.setDocItemNameXxen( aDoc.getDocItemNameXxen());
                 pCont.setDocGrpName( aDoc.getDocGrpName());
                 pCont.setFileUploadFg(true);
+                System.out.println("");
             }
             if( pCont.getMsgNo()!= null && pCont.getMsgNo()!= "" ) {
                 pCont.setMsg(messageResolver.getMessage(pCont.getMsgNo()));

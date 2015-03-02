@@ -124,8 +124,9 @@
 <div  id="LblockcChgInfoBtn" class="LblockSubbutton">
     <a href="#"><input type="button"  id="backBtn" value="목록"  /></a>
     <a href="#"><input type="button"  id="chgInfoBtn" value="개인 정보수정" /></a>
-    <a href="#"><input type="button"  id="chgDeptBtn"  value="지원단위 변경"  /></a>
-    <a href="#"><input type="button"  id="cancelBtn" value="지원 취소"  /></a>
+    <a href="#"><input type="button"  id="chgDeptBtn"  value="지원단위 변경요청"  /></a>
+    <a href="#"><input type="button"  id="chgEtcBtn" value="기타정보 변경요청"  /></a>
+    <a href="#"><input type="button"  id="cancelBtn" value="지원 취소요청"  /></a>
 
 </div>
 
@@ -151,8 +152,13 @@
 	   		jQuery('#searchForm').attr("action", '${contextPath}/admin/modification/changeInfo');
 	   		document.getElementById('searchForm').submit();	   		
 	   	});
-    	jQuery('#cancelBtn').on('click', function(event) {
+    	jQuery('#chgEtcBtn').on('click', function(event) {
 	   		event.preventDefault();
+            jQuery('#searchForm').attr("action", '${contextPath}/admin//modification/changeEtc');
+            document.getElementById('searchForm').submit();
+        });
+        jQuery('#cancelBtn').on('click', function(event) {
+            event.preventDefault();
             jQuery('#searchForm').attr("action", '${contextPath}/admin//modification/cancelAppl');
             document.getElementById('searchForm').submit();
         });

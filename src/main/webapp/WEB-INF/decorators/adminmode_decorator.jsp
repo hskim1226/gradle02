@@ -74,13 +74,12 @@
                 <ul>
                     <li class="Lfirst"><span><a href="${contextPath}/admin/stats/category">전형별 지원현황</a></span></li>
                     <li class="Llast"><span><a href="${contextPath}/admin/search/unpaid">미결제자현황</a></span></li>
-                    <%--
-                    <li class="Llast"><span><a href="${contextPath}/admin/stats/daily">일자별 지원현황</a></span></li>
-                    --%>
+                    <li class="Llast"><span><a href="${contextPath}/admin/stats/daily">최근일자별 지원현황</a></span></li>
+
                   </ul>
               </li>
               <li class="Lidx1">
-                  <span><a href="#">지원자관리</a></span>
+                  <span><a href="#">지원자검색</a></span>
                   <ul>
                       <li class="Lfirst"><span><a href="${contextPath}/admin/search/applicants/deptSearch">지원자검색(학과)</a></span></li>
                       <li class="Lidx1"><span><a href="${contextPath}/admin/search/applicants/idSearch">지원자검색(수험번호)</a></span></li>
@@ -95,6 +94,7 @@
                       <li class="Lidx1"><span><a href="${contextPath}/admin/modification/changeInfo">지원자정보수정</a></span></li>
                       <li class="Lidx1"><span><a href="${contextPath}/admin/modification/changeUnit">지원단위변경</a></span></li>
                       <li class="Llast"><span><a href="${contextPath}/admin/modification/cancelAppl">지원취소</a></span></li>
+                      <li class="Llast"><span><a href="${contextPath}/admin/modification/changeEtc">기타변경요청</a></span></li>
                  </ul>
              </li>
             <%--
