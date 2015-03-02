@@ -47,7 +47,7 @@ var apex = {
             var passwdRegExp = /^(?=\w{6,}$)(?=.*\d)(?=.*[A-Z]).*/,
                 val = this.value;
             if (!passwdRegExp.test(val) && val != '') {
-                alert("비밀번호는 6자리 이상, 영 대/소문자와 숫자가 포함되어야 합니다.");
+                alert("비밀번호는 6자리 이상, 영 대문자, 소문자, 숫자가 하나 이상 포함되어야 합니다.");
                 this.value = "";
                 this.focus();
             }

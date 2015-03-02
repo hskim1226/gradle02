@@ -43,7 +43,7 @@
                             </div>
                             <div class="col-sm-8 nopadding">
                                 <div class="input-group">
-                                    <form:input type="text" cssClass="form-control userId" path="userId" placeholder="알파벳 대소문자와 숫자로 입력해 주세요" />
+                                    <form:input type="text" cssClass="form-control userId" path="userId" placeholder="알파벳 대문자, 소문자, 숫자로 입력해 주세요" />
                                     <span class="input-group-btn">
                                         <button class="btn btn-info" id="available-check-button">Check</button>
                                     </span>
