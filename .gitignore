@@ -1,4 +1,5 @@
 src/main/webapp/WEB-INF/web.xml
+src/main/resources/properties/config/app.local.properties
 *.class
 *.log
 
