@@ -38,7 +38,11 @@
 </div>
 
 <div id="LblockDetail01" class="LblockDetail">
-<form id= "searchForm" method="post"><input type="hidden" name="applNo" value="${applInfo.applNo}" /></form>
+<form id= "searchForm" method="post">
+    <input type="hidden" name="applNo" value="${applInfo.applNo}" />
+    <input type="hidden" name="userId" value="${applInfo.userId}" />
+    <input type="hidden" name="admsNo" value="${applInfo.admsNo}" />
+</form>
 	<table summary="지원 기본정보">
 		<caption>지원 기본정보</caption>
 		<tbody>
@@ -76,6 +80,7 @@
 			</tr>
         </tbody>
 	</table>
+
 </div>
        
 
@@ -126,6 +131,7 @@
     <a href="#"><input type="button"  id="chgInfoBtn" value="개인 정보수정" /></a>
     <a href="#"><input type="button"  id="chgDeptBtn"  value="지원단위 변경요청"  /></a>
     <a href="#"><input type="button"  id="chgEtcBtn" value="기타정보 변경요청"  /></a>
+    <a href="#"><input type="button"  id="downloadPdf" value="지원서 다운로드"  /></a>
     <a href="#"><input type="button"  id="cancelBtn" value="지원 취소요청"  /></a>
 
 </div>
@@ -160,6 +166,11 @@
         jQuery('#cancelBtn').on('click', function(event) {
             event.preventDefault();
             jQuery('#searchForm').attr("action", '${contextPath}/admin//modification/cancelAppl');
+            document.getElementById('searchForm').submit();
+        });
+        jQuery('#downloadPdf').on('click', function(event) {
+            event.preventDefault();
+            jQuery('#searchForm').attr("action", '${contextPath}/admin//search/download');
             document.getElementById('searchForm').submit();
         });
         jQuery('#backBtn').on('click', function(event) {

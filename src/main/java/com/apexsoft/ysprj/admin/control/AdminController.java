@@ -29,6 +29,14 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.web.servlet.ModelAndView;
 
+import org.springframework.beans.factory.annotation.Value;
+import javax.servlet.http.HttpServletResponse;
+import java.io.File;
+import java.io.IOException;
+import java.net.URLEncoder;
+import com.apexsoft.ysprj.applicants.common.util.FileUtil;
+
+
 /**
  * Created by hanmomhanda on 14. 8. 6.
  */
@@ -50,6 +58,8 @@ public class AdminController {
 	@Resource(name = "messageResolver")
     private MessageResolver messageResolver;
 
+    @Value("#{app['file.baseDir']}")
+    private String fileBaseDir;
 
     @RequestMapping(value="/login", method= RequestMethod.GET)
     public ModelAndView displayLoginForm(User user,
@@ -285,5 +295,43 @@ public class AdminController {
         ModelAndView mv = new ModelAndView(errorViewName);
         mv.addObject("ec", ec);
         return mv;
+    }
+
+    /**
+     * 전체 파일 다운로드
+     * @return
+     * @throws java.io.IOException
+     */
+
+    @RequestMapping(value="/search/download", produces = "application/pdf")
+    @ResponseBody
+    public byte[] fileDownload( @ModelAttribute CourseSearchPageForm courseSearchPageForm,
+                                BindingResult bindingResult,
+                               Principal principal,
+                               HttpServletResponse response)
+            throws IOException {
+
+
+        String admsNo = courseSearchPageForm.getAdmsNo();
+        int applNo = courseSearchPageForm.getApplNo();
+        String userId = courseSearchPageForm.getUserId();
+
+        String uploadDirectoryFullPath = FileUtil.getUploadDirectoryFullPath(fileBaseDir, admsNo, userId, applNo);
+        //TODO 파일명 FileUtil 통해 해결하도록 수정 필요
+
+        String fileFileFullPath = FileUtil.getFinalMergedFileFullPath(uploadDirectoryFullPath, applNo);
+        String fileName = applNo + "-merged-numbered.pdf";
+        String downLoadFileName = userId + "_all.pdf";
+        File file =  new File(fileFileFullPath, fileName);
+        byte[] bytes = org.springframework.util.FileCopyUtils.copyToByteArray(file);
+
+        response.setHeader("Content-Disposition", "attachment; filename=\"" + URLEncoder.encode(downLoadFileName, "UTF-8") + "\"");
+        response.setHeader("Content-Transfer-Encoding", "binary;");
+        response.setHeader("Pragma", "no-cache;");
+        response.setHeader("Expires", "-1;");
+        response.setHeader("Content-Type", "application/pdf");
+        response.setContentLength(bytes.length);
+
+        return bytes;
     }
 }
