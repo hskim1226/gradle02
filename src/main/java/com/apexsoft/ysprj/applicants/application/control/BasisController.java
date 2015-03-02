@@ -2,7 +2,10 @@ package com.apexsoft.ysprj.applicants.application.control;
 
 import com.apexsoft.framework.common.vo.ExecutionContext;
 import com.apexsoft.framework.message.MessageResolver;
-import com.apexsoft.ysprj.applicants.application.domain.*;
+import com.apexsoft.ysprj.applicants.application.domain.Application;
+import com.apexsoft.ysprj.applicants.application.domain.Basis;
+import com.apexsoft.ysprj.applicants.application.domain.CustomMyList;
+import com.apexsoft.ysprj.applicants.application.domain.ParamForApplication;
 import com.apexsoft.ysprj.applicants.application.service.BasisService;
 import com.apexsoft.ysprj.applicants.application.validator.BasisValidator;
 import org.springframework.beans.factory.annotation.Autowired;

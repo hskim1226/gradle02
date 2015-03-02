@@ -36,4 +36,5 @@ public interface CommonService {
     String retrieveDetlMajNameByCode(String detlMajCode);
 
     List<LanguageExam> retrieveLangExamByLangCode(String langCode);
+    List<Integer> retrieveAvailableApplNos(String userId);
 }

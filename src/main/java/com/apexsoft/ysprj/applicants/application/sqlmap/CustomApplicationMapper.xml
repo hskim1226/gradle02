@@ -408,4 +408,9 @@
             SELECT LAST_INSERT_ID() as applNo;
         </selectKey>
     </insert>
+
+    <select id="selectAvailableApplNos" resultType="int" parameterType="java.lang.String">
+        SELECT APPL_NO FROM APPL
+        WHERE USER_ID = #{userId,jdbcType=VARCHAR}
+    </select>
 </mapper>

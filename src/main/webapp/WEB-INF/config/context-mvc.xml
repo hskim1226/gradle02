@@ -49,6 +49,11 @@
         <bean class="com.apexsoft.framework.interceptor.DomainLocaleConvertInterceptor">
             <property name="converter" ref="converter" />
         </bean>
+        <mvc:interceptor>
+            <mvc:mapping path="/application/**"/>
+            <mvc:mapping path="/pdf/**"/>
+            <bean class="com.apexsoft.framework.interceptor.KeyInfoBlockInterceptor"/>
+        </mvc:interceptor>
     </mvc:interceptors>
 
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">

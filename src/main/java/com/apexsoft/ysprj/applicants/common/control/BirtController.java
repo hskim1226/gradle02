@@ -1,12 +1,16 @@
 package com.apexsoft.ysprj.applicants.common.control;
 
 import com.apexsoft.framework.common.vo.ExecutionContext;
+import com.apexsoft.framework.exception.ErrorInfo;
+import com.apexsoft.framework.exception.YSBizException;
+import com.apexsoft.framework.message.MessageResolver;
 import com.apexsoft.ysprj.applicants.application.domain.*;
 import com.apexsoft.ysprj.applicants.application.service.*;
 import com.apexsoft.ysprj.applicants.common.domain.BirtRequest;
 import com.apexsoft.ysprj.applicants.common.domain.CommonCode;
 import com.apexsoft.ysprj.applicants.common.service.BirtService;
 import com.apexsoft.ysprj.applicants.common.service.CommonService;
+import com.sun.javaws.exceptions.ExitException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -14,7 +18,9 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.security.Principal;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -28,6 +34,9 @@ public class BirtController {
     @Autowired
     BirtService birtService;
 
+    @Autowired
+    MessageResolver messageResolver;
+
     @Value("#{app['rpt.format']}")
     private String REPORT_FORMAT;
 
@@ -39,19 +48,25 @@ public class BirtController {
 
     @RequestMapping(value = "/print")
     public ModelAndView previewApplicationByParam(BirtRequest birtRequest,
+                                                  Principal principal,
                                                   ModelAndView mv) {
         mv.setViewName("pdfSingleFormatBirtView");
         Application application = birtRequest.getApplication();
-        String admsTypeCode = application.getAdmsTypeCode();
-        String reqType = birtRequest.getReqType();
-        String lang = "C".equals(admsTypeCode) ? "en" : "kr";
-        String reportName = "yonsei-" + reqType + "-" + lang;
-        int applNo = application.getApplNo();
+        if (application == null) {
+            filterApplicationNull(principal);
+        } else {
+            String admsTypeCode = application.getAdmsTypeCode();
+            String reqType = birtRequest.getReqType();
+            String lang = "C".equals(admsTypeCode) ? "en" : "kr";
+            String reportName = "yonsei-" + reqType + "-" + lang;
+            int applNo = application.getApplNo();
 
-        mv.addObject("reportFormat", REPORT_FORMAT);
-        mv.addObject("reportName", reportName);
-        ExecutionContext ec = birtService.processBirt(applNo, reportName);
-        mv.addAllObjects((Map<String, Object>)ec.getData());
+            mv.addObject("reportFormat", REPORT_FORMAT);
+            mv.addObject("reportName", reportName);
+            ExecutionContext ec = birtService.processBirt(applNo, reportName);
+            mv.addAllObjects((Map<String, Object>)ec.getData());
+        }
+
         return mv;
     }
 
@@ -70,45 +85,74 @@ public class BirtController {
 
     @RequestMapping(value = "/preview")
     public ModelAndView previewAppInfo(BirtRequest birtRequest,
+                                       Principal principal,
                                        ModelAndView mv) {
 
         mv.setViewName("pdfSingleFormatBirtView");
         Application application = birtRequest.getApplication();
-        String admsTypeCode = application.getAdmsTypeCode();
-        String reqType = birtRequest.getReqType();
-        String lang = "C".equals(admsTypeCode) ? "en" : "kr";
-        String reportName = "yonsei-" + reqType + "-" + lang;
-        int applNo = application.getApplNo();
-        mv.addObject("reportFormat", REPORT_FORMAT);
-        mv.addObject("reportName", reportName);
-        ExecutionContext ec = birtService.processBirt(applNo, reportName);
-        mv.addAllObjects((Map<String, Object>)ec.getData());
+        if (application == null) {
+            filterApplicationNull(principal);
+        } else {
+            String admsTypeCode = application.getAdmsTypeCode();
+            String reqType = birtRequest.getReqType();
+            String lang = "C".equals(admsTypeCode) ? "en" : "kr";
+            String reportName = "yonsei-" + reqType + "-" + lang;
+            int applNo = application.getApplNo();
+            mv.addObject("reportFormat", REPORT_FORMAT);
+            mv.addObject("reportName", reportName);
+            ExecutionContext ec = birtService.processBirt(applNo, reportName);
+            mv.addAllObjects((Map<String, Object>)ec.getData());
+        }
+
         return mv;
     }
 
     @RequestMapping(value = "/generate/application")
     public ModelAndView generateApplicationFile(BirtRequest birtRequest,
+                                                Principal principal,
                                                 ModelAndView mv) {
         Application application = birtRequest.getApplication();
-        int applNo = application.getApplNo();
-        mv.setViewName("pdfSingleFormatBirtSaveToFile");
-        mv.addObject("reportFormat", REPORT_FORMAT);
-        mv.addObject("reportName", RPT_APPLICATION_KR);
-        ExecutionContext ec = birtService.processBirt(applNo, RPT_APPLICATION_KR);
-        mv.addAllObjects((Map<String, Object>)ec.getData());
+        if (application == null) {
+            filterApplicationNull(principal);
+        } else {
+            int applNo = application.getApplNo();
+            mv.setViewName("pdfSingleFormatBirtSaveToFile");
+            mv.addObject("reportFormat", REPORT_FORMAT);
+            mv.addObject("reportName", RPT_APPLICATION_KR);
+            ExecutionContext ec = birtService.processBirt(applNo, RPT_APPLICATION_KR);
+            mv.addAllObjects((Map<String, Object>)ec.getData());
+        }
+
         return mv;
     }
 
     @RequestMapping(value = "/generate/slip")
     public ModelAndView generateSlipFile(BirtRequest birtRequest,
+                                         Principal principal,
                                          ModelAndView mv) {
         Application application = birtRequest.getApplication();
-        int applNo = application.getApplNo();
-        mv.setViewName("pdfSingleFormatBirtSaveToFile");
-        mv.addObject("reportFormat", REPORT_FORMAT);
-        mv.addObject("reportName", RPT_ADMISSION_KR);
-        ExecutionContext ec = birtService.processBirt(applNo, RPT_ADMISSION_KR);
-        mv.addAllObjects((Map<String, Object>)ec.getData());
+        if (application == null) {
+            filterApplicationNull(principal);
+        } else {
+            int applNo = application.getApplNo();
+            mv.setViewName("pdfSingleFormatBirtSaveToFile");
+            mv.addObject("reportFormat", REPORT_FORMAT);
+            mv.addObject("reportName", RPT_ADMISSION_KR);
+            ExecutionContext ec = birtService.processBirt(applNo, RPT_ADMISSION_KR);
+            mv.addAllObjects((Map<String, Object>)ec.getData());
+        }
+
         return mv;
+    }
+
+    private void filterApplicationNull(Principal principal) {
+        ExecutionContext ec = new ExecutionContext(ExecutionContext.FAIL);
+        ec.setMessage(messageResolver.getMessage("U343"));
+
+        ec.setErrCode("ERR0071");
+        Map<String, String> errorInfo = new HashMap<String, String>();
+        errorInfo.put("userId", principal.getName());
+        ec.setErrorInfo(new ErrorInfo(errorInfo));
+        throw new YSBizException(ec);
     }
 }
