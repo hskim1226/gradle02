@@ -11,4 +11,8 @@ public class StringUtil {
     public static String getEmptyIfNull(String str) {
         return str == null ? "" : str;
     }
+
+    public static String removeHyphen(String str) {
+        return str.replaceAll("-", "");
+    }
 }

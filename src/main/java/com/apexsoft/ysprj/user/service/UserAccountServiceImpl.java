@@ -8,6 +8,7 @@ import com.apexsoft.framework.persistence.dao.CommonDAO;
 import com.apexsoft.framework.persistence.dao.handler.RowHandler;
 import com.apexsoft.framework.persistence.dao.page.PageInfo;
 import com.apexsoft.framework.persistence.dao.page.PageStatement;
+import com.apexsoft.ysprj.applicants.common.util.StringUtil;
 import com.apexsoft.ysprj.code.AuthorityType;
 import com.apexsoft.ysprj.user.domain.Authorities;
 import com.apexsoft.ysprj.user.domain.User;
@@ -227,6 +228,7 @@ public class UserAccountServiceImpl implements UserAccountService {
         if (u1 == 1) {
             ec.setResult(ExecutionContext.SUCCESS);
             ec.setMessage(messageResolver.getMessage("U106"));
+            user.setMobiNum(StringUtil.removeHyphen(user.getMobiNum()));
         } else {
             ec.setResult(ExecutionContext.FAIL);
             ec.setMessage(messageResolver.getMessage("U107"));
@@ -243,7 +245,7 @@ public class UserAccountServiceImpl implements UserAccountService {
     public ExecutionContext checkPwd(User user) {
         ExecutionContext ec = new ExecutionContext();
         User userFromDB = retrieveUser(user.getUserId());
-
+        userFromDB.setMobiNum(StringUtil.removeHyphen(userFromDB.getMobiNum()));
         String pwd = user.getPswd();
 
         if (passwordEncoder.matches(pwd, userFromDB.getPswd())) {
