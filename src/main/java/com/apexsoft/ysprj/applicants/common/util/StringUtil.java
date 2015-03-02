@@ -13,6 +13,6 @@ public class StringUtil {
     }
 
     public static String removeHyphen(String str) {
-        return str.replaceAll("-", "");
+        return str == null ? "" : str.replaceAll("-", "");
     }
 }
