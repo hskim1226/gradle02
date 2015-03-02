@@ -60,7 +60,7 @@ public class AdminController {
 
     @Value("#{app['file.baseDir']}")
     private String fileBaseDir;
-
+/*
     @RequestMapping(value="/login", method= RequestMethod.GET)
     public ModelAndView displayLoginForm(User user,
                                          BindingResult bindingResult,
@@ -74,7 +74,7 @@ public class AdminController {
 
         return mv;
     }
-    
+    */
     @RequestMapping(value="/stats/daily")
     public String statsDaily() {
         return "admin/stats/recentDay";
