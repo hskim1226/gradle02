@@ -1,9 +1,7 @@
 package com.apexsoft.ysprj.applicants.application.service;
 
 import com.apexsoft.framework.common.vo.ExecutionContext;
-import com.apexsoft.ysprj.applicants.application.domain.*;
-
-import java.util.List;
+import com.apexsoft.ysprj.applicants.application.domain.LangCareer;
 
 /**
  * Created by hanmomhanda on 15. 1. 13.

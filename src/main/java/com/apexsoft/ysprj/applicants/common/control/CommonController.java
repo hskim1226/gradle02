@@ -318,7 +318,7 @@ public class CommonController {
     public ExecutionContext retrieveCodeValueByCodeGroup(@PathVariable("codeGrp") String codeGrp)
             throws NoSuchAlgorithmException, JsonProcessingException, UnsupportedEncodingException {
 
-        List<CommonCode> commonCodeList = commonService.retrieveCommonCodeValueByCodeGroup(codeGrp);
+        List<CommonCode> commonCodeList = commonService.retrieveCommonCodeByCodeGroup(codeGrp);
         String json = jacksonObjectMapper.writeValueAsString(commonCodeList);
 
         ExecutionContext executionContext = new ExecutionContext();

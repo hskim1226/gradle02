@@ -34,6 +34,7 @@ public class CommonServiceImpl implements CommonService {
      * @return
      */
     @Override
+    @Cacheable(value = "campus")
     public List<Campus> retrieveCampus() {
         List<Campus> campusList = null;
         try {
@@ -52,6 +53,7 @@ public class CommonServiceImpl implements CommonService {
      * @return
      */
     @Override
+    @Cacheable(value = "collegeByCampus")
     public List<College> retrieveCollegeByCampus(String campusCode) {
         List<College> collegeList = null;
         try {
@@ -69,6 +71,7 @@ public class CommonServiceImpl implements CommonService {
      * @return
      */
     @Override
+    @Cacheable(value = "allDepartmentByColl")
     public List<CodeNameDepartment> retrieveAllDepartmentByColl(ParamForSetupCourses paramForSetupCourses) {
         List<CodeNameDepartment> codeNameDepartmentList = null;
         try {
@@ -89,6 +92,7 @@ public class CommonServiceImpl implements CommonService {
      * @return
      */
     @Override
+    @Cacheable(value = "generalDepartmentByAdmsColl")
     public List<CodeNameDepartment> retrieveGeneralDepartmentByAdmsColl(ParamForSetupCourses paramForSetupCourses) {
         List<CodeNameDepartment> codeNameDepartmentList = null;
         try {
@@ -109,6 +113,7 @@ public class CommonServiceImpl implements CommonService {
      * @return
      */
     @Override
+    @Cacheable(value = "generalCourseByAdmsDept")
     public List<CodeNameCourse> retrieveGeneralCourseByAdmsDept(ParamForSetupCourses paramForSetupCourses) {
         List<CodeNameCourse> codeNameCourseList = null;
         try {
@@ -129,6 +134,7 @@ public class CommonServiceImpl implements CommonService {
      * @return
      */
     @Override
+    @Cacheable(value = "generalDetailMajorByAdmsDeptCors")
     public List<CodeNameDetailMajor> retrieveGeneralDetailMajorByAdmsDeptCors(ParamForSetupCourses paramForSetupCourses) {
         List<CodeNameDetailMajor> codeNameDetailMajorList = null;
         try {
@@ -149,6 +155,7 @@ public class CommonServiceImpl implements CommonService {
      * @return
      */
     @Override
+    @Cacheable(value = "commissionCourseByAdmsDept")
     public List<CodeNameCourse> retrieveCommissionCourseByAdmsDept(ParamForSetupCourses paramForSetupCourses) {
         List<CodeNameCourse> codeNameCourseList = null;
         try {
@@ -168,6 +175,7 @@ public class CommonServiceImpl implements CommonService {
      * @return
      */
     @Override
+    @Cacheable(value = "ariInst")
     public List<AcademyResearchIndustryInstitution> retrieveAriInst() {
         List<AcademyResearchIndustryInstitution> academyResearchIndustryInstitutionList = null;
         try {
@@ -187,6 +195,7 @@ public class CommonServiceImpl implements CommonService {
      * @return
      */
     @Override
+    @Cacheable(value = "ariInstDepartmentByAdmsAriInst")
     public List<CodeNameDepartment> retrieveAriInstDepartmentByAdmsAriInst(ParamForSetupCourses paramForSetupCourses) {
         List<CodeNameDepartment> codeNameDepartmentList = null;
         try {
@@ -207,6 +216,7 @@ public class CommonServiceImpl implements CommonService {
      * @return
      */
     @Override
+    @Cacheable(value = "ariInstCourseByAdmsDeptAriInst")
     public List<CodeNameCourse> retrieveAriInstCourseByAdmsDeptAriInst(ParamForSetupCourses paramForSetupCourses) {
         List<CodeNameCourse> codeNameCourseList = null;
         try {
@@ -227,6 +237,7 @@ public class CommonServiceImpl implements CommonService {
      * @return
      */
     @Override
+    @Cacheable(value = "ariInstDetailMajorByAdmsDeptAriInst")
     public List<CodeNameDetailMajor> retrieveAriInstDetailMajorByAdmsDeptAriInst(ParamForSetupCourses paramForSetupCourses) {
         List<CodeNameDetailMajor> codeNameDetailMajorList = null;
         try {
@@ -247,6 +258,7 @@ public class CommonServiceImpl implements CommonService {
      * @return
      */
     @Override
+    @Cacheable(value = "countryByName")
     public List<Country> retrieveCountryByName(String keyword) {
         List<Country> countryList = null;
         try {
@@ -267,6 +279,7 @@ public class CommonServiceImpl implements CommonService {
      * @return
      */
     @Override
+    @Cacheable(value = "countryByCode")
     public Country retrieveCountryByCode(String cntrCode) {
         Country country = null;
         try {
@@ -288,6 +301,7 @@ public class CommonServiceImpl implements CommonService {
      * @return
      */
     @Override
+    @Cacheable(value = "schoolByTypeName")
     public List<School> retrieveSchoolByTypeName(String schlType, String keyword) {
         List<School> schoolList = null;
         ParamForSchoolSearch paramForSchoolSearch = new ParamForSchoolSearch();
@@ -312,8 +326,8 @@ public class CommonServiceImpl implements CommonService {
      * @return
      */
     @Override
-    @Cacheable(value = "commonCodeListCache")
-    public List<CommonCode> retrieveCommonCodeValueByCodeGroup(String codeGrp) {
+    @Cacheable(value = "commonCodeByCodeGroup")
+    public List<CommonCode> retrieveCommonCodeByCodeGroup(String codeGrp) {
         List<CommonCode> commonCodeList = null;
         try {
             commonCodeList = commonDAO.queryForList(NAME_SPACE+"CustomCommonCodeMapper.selectAllByCodeGroup",
@@ -334,8 +348,8 @@ public class CommonServiceImpl implements CommonService {
      * @return
      */
     @Override
-    @Cacheable(value = "commonCodeCache")
-    public CommonCode retrieveCommonCodeValueByCodeGroupCode(String codeGrp, String code) {
+    @Cacheable(value = "commonCodeByCodeGroupCode")
+    public CommonCode retrieveCommonCodeByCodeGroupCode(String codeGrp, String code) {
         CommonCode commonCode = null;
         ParamForCommonCode paramForCommonCode = new ParamForCommonCode();
         paramForCommonCode.setCodeGrp(codeGrp);
@@ -359,7 +373,7 @@ public class CommonServiceImpl implements CommonService {
      * @return
      */
     @Override
-    @Cacheable(value = "commonCodeCache")
+    @Cacheable(value = "commonCodeListByCodeGroupKeyword")
     public List<CommonCode> retrieveCommonCodeListByCodeGroupKeyword(ParamForCommonCode paramForCommonCode) {
         List<CommonCode> commonCodeList = null;
         try {
@@ -380,7 +394,7 @@ public class CommonServiceImpl implements CommonService {
      * @return
      */
     @Override
-    @Cacheable(value = "commonCodeCache")
+    @Cacheable(value = "commonCodeListByCodeGroupCode")
     public CommonCode retrieveCommonCodeListByCodeGroupCode(ParamForCommonCode paramForCommonCode) {
         CommonCode commonCode = null;
         try {
@@ -401,6 +415,7 @@ public class CommonServiceImpl implements CommonService {
      * @return
      */
     @Override
+    @Cacheable(value = "campNameByCode")
     public String retrieveCampNameByCode(String campCode) {
         String campName = null;
         try {
@@ -422,6 +437,7 @@ public class CommonServiceImpl implements CommonService {
      * @return
      */
     @Override
+    @Cacheable(value = "collNameByCode")
     public String retrieveCollNameByCode(String collCode) {
         String collName = null;
         try {
@@ -443,6 +459,7 @@ public class CommonServiceImpl implements CommonService {
      * @return
      */
     @Override
+    @Cacheable(value = "ariInstNameByCode")
     public String retrieveAriInstNameByCode(String ariInstCode) {
         String ariInstName = null;
         try {
@@ -462,6 +479,7 @@ public class CommonServiceImpl implements CommonService {
      * @return
      */
     @Override
+    @Cacheable(value = "deptNameByCode")
     public String retrieveDeptNameByCode(String deptCode) {
         String deptName = null;
         try {
@@ -483,6 +501,7 @@ public class CommonServiceImpl implements CommonService {
      * @return
      */
     @Override
+    @Cacheable(value = "corsTypeNameByCode")
     public String retrieveCorsTypeNameByCode(String corsTypeCode) {
         String corsTypeName = null;
         try {
@@ -504,6 +523,7 @@ public class CommonServiceImpl implements CommonService {
      * @return
      */
     @Override
+    @Cacheable(value = "detlMajNameByCode")
     public String retrieveDetlMajNameByCode(String detlMajCode) {
         String detlMajName = null;
         try {
@@ -519,6 +539,7 @@ public class CommonServiceImpl implements CommonService {
     }
 
     @Override
+    @Cacheable(value = "langExamByLangCode")
     public List<LanguageExam> retrieveLangExamByLangCode(String langCode) {
         List<LanguageExam> langExamList = null;
         try {
@@ -532,6 +553,7 @@ public class CommonServiceImpl implements CommonService {
     }
 
     @Override
+    @Cacheable(value = "availableApplNos")
     public List<Integer> retrieveAvailableApplNos(String userId) {
         List<Integer> availableApplNoList = null;
         try {

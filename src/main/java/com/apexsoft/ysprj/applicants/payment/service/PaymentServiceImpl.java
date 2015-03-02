@@ -7,7 +7,6 @@ import com.apexsoft.framework.persistence.dao.CommonDAO;
 import com.apexsoft.framework.unused.xpay.service.TransactionVO;
 import com.apexsoft.ysprj.applicants.application.domain.Application;
 import com.apexsoft.ysprj.applicants.application.domain.CustomNewSeq;
-import com.apexsoft.ysprj.applicants.application.domain.CustomPayInfo;
 import com.apexsoft.ysprj.applicants.application.domain.TotalApplicationDocument;
 import com.apexsoft.ysprj.applicants.application.service.DocumentService;
 import com.apexsoft.ysprj.applicants.common.util.FileUtil;

@@ -23,8 +23,8 @@ public interface CommonService {
     List<Country> retrieveCountryByName(String keyword);
     Country retrieveCountryByCode(String cntrCode);
     List<School> retrieveSchoolByTypeName(String type, String keyword);
-    List<CommonCode> retrieveCommonCodeValueByCodeGroup(String codeGrp);
-    CommonCode retrieveCommonCodeValueByCodeGroupCode(String codeGrp, String code);
+    List<CommonCode> retrieveCommonCodeByCodeGroup(String codeGrp);
+    CommonCode retrieveCommonCodeByCodeGroupCode(String codeGrp, String code);
     List<CommonCode> retrieveCommonCodeListByCodeGroupKeyword(ParamForCommonCode paramForCommonCode);
     CommonCode retrieveCommonCodeListByCodeGroupCode(ParamForCommonCode paramForCommonCode);
 

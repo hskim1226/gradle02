@@ -211,15 +211,15 @@ public class ApplicationController {
         if( "A".equals(admsTypeCode) || "B".equals(admsTypeCode) ) {
             result += "appinfo";
 
-            commonCodeMap.put( "applAttrList", commonService.retrieveCommonCodeValueByCodeGroup("APPL_ATTR") );
-            commonCodeMap.put( "mltrServList", commonService.retrieveCommonCodeValueByCodeGroup("MLTR_SERV") );
-            commonCodeMap.put( "mltrTypeList", commonService.retrieveCommonCodeValueByCodeGroup("MLTR_TYPE") );
-            commonCodeMap.put( "mltrRankList", commonService.retrieveCommonCodeValueByCodeGroup("MLTR_RANK") );
+            commonCodeMap.put( "applAttrList", commonService.retrieveCommonCodeByCodeGroup("APPL_ATTR") );
+            commonCodeMap.put( "mltrServList", commonService.retrieveCommonCodeByCodeGroup("MLTR_SERV") );
+            commonCodeMap.put( "mltrTypeList", commonService.retrieveCommonCodeByCodeGroup("MLTR_TYPE") );
+            commonCodeMap.put( "mltrRankList", commonService.retrieveCommonCodeByCodeGroup("MLTR_RANK") );
             langExamList.addAll( commonService.retrieveLangExamByLangCode("ENG") );
         } else if( "C".equals(admsTypeCode) ) {
             result += "appinfo-fore";
 
-            commonCodeMap.put( "fornTypeList", commonService.retrieveCommonCodeValueByCodeGroup("FORN_TYPE") );
+            commonCodeMap.put( "fornTypeList", commonService.retrieveCommonCodeByCodeGroup("FORN_TYPE") );
             langExamList.addAll( commonService.retrieveLangExamByLangCode("KOR"));
             for (LanguageExam languageExam : commonService.retrieveLangExamByLangCode("ENG")) {
                 if (!"GRE".equals(languageExam.getExamName())) {
@@ -229,10 +229,10 @@ public class ApplicationController {
         }
 
         commonCodeMap.put( "country", commonService.retrieveCountryByCode(entireApplication.getApplication().getCitzCntrCode()));
-        commonCodeMap.put( "emerContList", commonService.retrieveCommonCodeValueByCodeGroup("EMER_CONT") );
-        commonCodeMap.put( "toflTypeList", commonService.retrieveCommonCodeValueByCodeGroup("TOFL_TYPE") );
-        commonCodeMap.put( "fornExmpList", commonService.retrieveCommonCodeValueByCodeGroup("FORN_EXMP") );
-        commonCodeMap.put( "qualAreaList", commonService.retrieveCommonCodeValueByCodeGroup("QUAL_AREA") );
+        commonCodeMap.put( "emerContList", commonService.retrieveCommonCodeByCodeGroup("EMER_CONT") );
+        commonCodeMap.put( "toflTypeList", commonService.retrieveCommonCodeByCodeGroup("TOFL_TYPE") );
+        commonCodeMap.put( "fornExmpList", commonService.retrieveCommonCodeByCodeGroup("FORN_EXMP") );
+        commonCodeMap.put( "qualAreaList", commonService.retrieveCommonCodeByCodeGroup("QUAL_AREA") );
         commonCodeMap.put( "langExamList", langExamList);
 
 
@@ -342,15 +342,15 @@ public class ApplicationController {
 //        if( "A".equals(admsTypeCode) || "B".equals(admsTypeCode) ) {
 //            result += "appinfo";
 //
-//            commonCodeMap.put( "applAttrList", commonService.retrieveCommonCodeValueByCodeGroup("APPL_ATTR") );
-//            commonCodeMap.put( "mltrServList", commonService.retrieveCommonCodeValueByCodeGroup("MLTR_SERV") );
-//            commonCodeMap.put( "mltrTypeList", commonService.retrieveCommonCodeValueByCodeGroup("MLTR_TYPE") );
-//            commonCodeMap.put( "mltrRankList", commonService.retrieveCommonCodeValueByCodeGroup("MLTR_RANK") );
+//            commonCodeMap.put( "applAttrList", commonService.retrieveCommonCodeByCodeGroup("APPL_ATTR") );
+//            commonCodeMap.put( "mltrServList", commonService.retrieveCommonCodeByCodeGroup("MLTR_SERV") );
+//            commonCodeMap.put( "mltrTypeList", commonService.retrieveCommonCodeByCodeGroup("MLTR_TYPE") );
+//            commonCodeMap.put( "mltrRankList", commonService.retrieveCommonCodeByCodeGroup("MLTR_RANK") );
 //            langExamList.addAll( commonService.retrieveLangExamByLangCode("ENG") );
 //        } else if( "C".equals(admsTypeCode) ) {
 //            result += "appinfo-fore";
 //
-//            commonCodeMap.put( "fornTypeList", commonService.retrieveCommonCodeValueByCodeGroup("FORN_TYPE") );
+//            commonCodeMap.put( "fornTypeList", commonService.retrieveCommonCodeByCodeGroup("FORN_TYPE") );
 //            langExamList.addAll( commonService.retrieveLangExamByLangCode("KOR"));
 //            for (LanguageExam languageExam : commonService.retrieveLangExamByLangCode("ENG")) {
 //                if (!"GRE".equals(languageExam.getExamName())) {
@@ -360,10 +360,10 @@ public class ApplicationController {
 //        }
 //
 //        commonCodeMap.put( "country", commonService.retrieveCountryByCode(entireApplication.getApplication().getCitzCntrCode()));
-//        commonCodeMap.put( "emerContList", commonService.retrieveCommonCodeValueByCodeGroup("EMER_CONT") );
-//        commonCodeMap.put( "toflTypeList", commonService.retrieveCommonCodeValueByCodeGroup("TOFL_TYPE") );
-//        commonCodeMap.put( "fornExmpList", commonService.retrieveCommonCodeValueByCodeGroup("FORN_EXMP") );
-//        commonCodeMap.put( "qualAreaList", commonService.retrieveCommonCodeValueByCodeGroup("QUAL_AREA") );
+//        commonCodeMap.put( "emerContList", commonService.retrieveCommonCodeByCodeGroup("EMER_CONT") );
+//        commonCodeMap.put( "toflTypeList", commonService.retrieveCommonCodeByCodeGroup("TOFL_TYPE") );
+//        commonCodeMap.put( "fornExmpList", commonService.retrieveCommonCodeByCodeGroup("FORN_EXMP") );
+//        commonCodeMap.put( "qualAreaList", commonService.retrieveCommonCodeByCodeGroup("QUAL_AREA") );
 //        commonCodeMap.put( "langExamList", langExamList);
 //
 //

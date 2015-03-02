@@ -1,11 +1,15 @@
 package com.apexsoft.ysprj.admin.service;
 
-import java.util.List;
-
 import com.apexsoft.framework.common.vo.ExecutionContext;
 import com.apexsoft.framework.persistence.dao.page.PageInfo;
-import com.apexsoft.ysprj.admin.control.form.*;
-import com.apexsoft.ysprj.admin.domain.*;
+import com.apexsoft.ysprj.admin.control.form.ApplicantSearchForm;
+import com.apexsoft.ysprj.admin.control.form.ApplicantSearchPageForm;
+import com.apexsoft.ysprj.admin.control.form.CourseSearchGridForm;
+import com.apexsoft.ysprj.admin.control.form.CourseSearchPageForm;
+import com.apexsoft.ysprj.admin.domain.ApplicantCnt;
+import com.apexsoft.ysprj.admin.domain.ApplicantInfo;
+
+import java.util.List;
 
 
 public interface AdminService {

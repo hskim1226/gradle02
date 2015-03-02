@@ -3,7 +3,6 @@ package com.apexsoft.ysprj.applicants.application.service;
 import com.apexsoft.framework.common.vo.ExecutionContext;
 import com.apexsoft.framework.exception.ErrorInfo;
 import com.apexsoft.framework.exception.YSBizException;
-import com.apexsoft.framework.exception.YSNoRedirectBizException;
 import com.apexsoft.framework.message.MessageResolver;
 import com.apexsoft.framework.persistence.dao.CommonDAO;
 import com.apexsoft.ysprj.applicants.application.domain.*;
@@ -712,15 +711,15 @@ public class DocumentServiceImpl implements DocumentService {
             aDoc = commonDAO.queryForObject(NAME_SPACE + "CustomApplicationDocumentMapper.selectCodeApplicationDocumentByTotalDocumentContainner", pCont, ApplicationDocument.class);
             if( aDoc != null){
                 pCont.setDocSeq( aDoc.getDocSeq());
-                pCont.setDocName( aDoc.getDocName());
-                pCont.setFileExt( aDoc.getFileExt());
-                pCont.setImgYn( aDoc.getImgYn());
-                pCont.setFilePath( aDoc.getFilePath());
+                pCont.setDocName(aDoc.getDocName());
+                pCont.setFileExt(aDoc.getFileExt());
+                pCont.setImgYn(aDoc.getImgYn());
+                pCont.setFilePath(aDoc.getFilePath());
                 pCont.setFileName(aDoc.getFileName());
                 pCont.setOrgFileName(aDoc.getOrgFileName());
                 pCont.setPageCnt(aDoc.getPageCnt());
-                pCont.setDocItemNameXxen( aDoc.getDocItemNameXxen());
-                pCont.setDocGrpName( aDoc.getDocGrpName());
+                pCont.setDocItemNameXxen(aDoc.getDocItemNameXxen());
+                pCont.setDocGrpName(aDoc.getDocGrpName());
                 pCont.setFileUploadFg(true);
                 System.out.println("");
             }

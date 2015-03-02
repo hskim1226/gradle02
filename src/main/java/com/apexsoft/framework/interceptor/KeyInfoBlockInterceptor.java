@@ -38,7 +38,9 @@ public class KeyInfoBlockInterceptor extends HandlerInterceptorAdapter {
         while (parameterNames.hasMoreElements()) {
             String paramName = (String)parameterNames.nextElement();
             if (paramName.indexOf("applNo") >= 0) {
-                requestedApplNoList.add(request.getParameter(paramName));
+                String paramVal = request.getParameter(paramName);
+                if (paramVal !=null && paramVal.length() > 0)
+                    requestedApplNoList.add(request.getParameter(paramName));
             }
         }
 
@@ -57,6 +59,7 @@ public class KeyInfoBlockInterceptor extends HandlerInterceptorAdapter {
                 return false;
             }
         }
+
         return true;
     }
 

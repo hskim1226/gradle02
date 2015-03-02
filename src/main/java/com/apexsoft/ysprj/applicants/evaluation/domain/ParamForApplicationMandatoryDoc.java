@@ -1,7 +1,5 @@
 package com.apexsoft.ysprj.applicants.evaluation.domain;
 
-import java.util.List;
-
 /**
  * Created by hanmomhanda on 14. 9. 14.
  */

@@ -6,7 +6,6 @@ import com.apexsoft.ysprj.applicants.application.service.AcademyService;
 import com.apexsoft.ysprj.applicants.application.service.BasisService;
 import com.apexsoft.ysprj.applicants.application.service.DocumentService;
 import com.apexsoft.ysprj.applicants.application.service.LangCareerService;
-import com.apexsoft.ysprj.applicants.common.domain.Campus;
 import com.apexsoft.ysprj.applicants.common.domain.CommonCode;
 import com.apexsoft.ysprj.applicants.common.domain.Country;
 import com.apexsoft.ysprj.applicants.common.util.FileUtil;
@@ -15,9 +14,11 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.web.servlet.ModelAndView;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by hanmomhanda on 15. 2. 24.
@@ -86,7 +87,7 @@ public class BirtServiceImpl implements BirtService {
         rptInfoMap.put("pdfFileName", pdfFileName);
 
         CommonCode commonCode;
-        commonCode = commonService.retrieveCommonCodeValueByCodeGroupCode("ADMS_TYPE", application.getAdmsTypeCode());
+        commonCode = commonService.retrieveCommonCodeByCodeGroupCode("ADMS_TYPE", application.getAdmsTypeCode());
         String admsTypeName = commonCode != null ? commonCode.getCodeVal() : null;
         String[] admsTypeNames = admsTypeName.split(" ");
         rptInfoMap.put("entrYear", application.getEntrYear());

@@ -1,27 +1,25 @@
 package com.apexsoft.ysprj.admin.service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import com.apexsoft.framework.common.vo.ExecutionContext;
 import com.apexsoft.framework.message.MessageResolver;
+import com.apexsoft.framework.persistence.dao.CommonDAO;
+import com.apexsoft.framework.persistence.dao.page.PageInfo;
+import com.apexsoft.framework.persistence.dao.page.PageStatement;
 import com.apexsoft.ysprj.admin.control.form.*;
+import com.apexsoft.ysprj.admin.domain.ApplicantCnt;
+import com.apexsoft.ysprj.admin.domain.ApplicantInfo;
 import com.apexsoft.ysprj.applicants.admission.domain.Admission;
+import com.apexsoft.ysprj.applicants.application.domain.ApplicationDocument;
 import com.apexsoft.ysprj.applicants.common.domain.*;
-
 import com.apexsoft.ysprj.applicants.common.service.CommonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.apexsoft.framework.persistence.dao.CommonDAO;
-import com.apexsoft.framework.persistence.dao.page.PageInfo;
-import com.apexsoft.framework.persistence.dao.page.PageStatement;
-import com.apexsoft.ysprj.admin.domain.*;
-import com.apexsoft.ysprj.applicants.application.domain.ApplicationDocument;
-
 import javax.annotation.Resource;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 
 @Service
@@ -289,7 +287,7 @@ public class AdminServiceImpl implements AdminService{
         if(searchForm.getDeptCode()!=null){
             deptList = commonDAO.queryForList(NAME_SPACE+"selectDepartmentListByCollege", searchForm, Department.class);
         }
-        applAttrList= commonService.retrieveCommonCodeValueByCodeGroup("APPL_ATTR");
+        applAttrList= commonService.retrieveCommonCodeByCodeGroup("APPL_ATTR");
         if (admsList != null)      selectionMap.put("admsList", admsList);
         if (applAttrList != null)  selectionMap.put("applAttrList", applAttrList);
         if (campList != null)      selectionMap.put("campList", campList);
