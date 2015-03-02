@@ -1,7 +1,8 @@
 package com.apexsoft.ysprj.admin.control.form;
 public class CourseSearchForm extends ApplicantSearchForm {
 
-	private String admsNo;//ADMS_NO	
+	private String admsNo;//ADMS_NO
+    private String userId;
 	private String campCode;//CAMP_CODE
 	private String collCode;//COLL_CODE
 	private String deptCode;//DEPT_CODE
@@ -37,6 +38,14 @@ public class CourseSearchForm extends ApplicantSearchForm {
     }
     public void setCorsTypeCode(String corsTypeCode) {
         this.corsTypeCode = corsTypeCode;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
     public String getApplStscode() {

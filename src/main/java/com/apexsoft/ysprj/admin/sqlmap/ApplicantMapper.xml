@@ -78,6 +78,7 @@
 		SELECT A.APPL_NO APPL_NO, 
 			A.APPL_ID,
 			A.ADMS_NO,
+			A.USER_ID,
 			H.ADMS_TYPE, 
 			CODEVAL( 'ADMS_TYPE',H.ADMS_TYPE )ADMS_TYPE_NAME,
 		    A.APPL_ATTR_CODE,
@@ -136,6 +137,7 @@
         SELECT A.APPL_NO APPL_NO,
         A.APPL_ID,
         A.ADMS_NO,
+        A.USER_ID,
         H.ADMS_TYPE,
         CODEVAL( 'ADMS_TYPE',H.ADMS_TYPE )ADMS_TYPE_NAME,
         A.APPL_ATTR_CODE,
@@ -192,7 +194,7 @@
 	
 	
   <select id="retrieveApplicantInfo" resultMap="entireApplicantInfo" parameterType="java.lang.Integer">
-		SELECT a.APPL_NO APPL_NO, a.APPL_ID, H.ADMS_TYPE, F.CAMP_NAME, e.COLL_NAME, b.DEPT_NAME, a.CORS_TYPE_CODE, d.ARI_INST_NAME,a.DETL_MAJ_CODE,a.KOR_NAME,a.ENG_SUR,a.ENG_NAME, a.RGST_NO, a.MOBI_NUM,a.MAIL_ADDR 
+		SELECT a.APPL_NO APPL_NO,a.USER_ID, a.APPL_ID, H.ADMS_TYPE, F.CAMP_NAME, e.COLL_NAME, b.DEPT_NAME, a.CORS_TYPE_CODE, d.ARI_INST_NAME,a.DETL_MAJ_CODE,a.KOR_NAME,a.ENG_SUR,a.ENG_NAME, a.RGST_NO, a.MOBI_NUM,a.MAIL_ADDR
 		FROM  APPL a 
 		left outer join ARI_INST d
 		on a.ARI_INST_CODE = d.ARI_INST_CODE
@@ -209,7 +211,7 @@
 	
     <select id="retrieveApplicantListByName" resultMap="entireApplicantInfo" parameterType="com.apexsoft.ysprj.admin.control.form.ApplicantSearchForm">
     	<![CDATA[
-		SELECT a.APPL_NO APPL_NO, a.APPL_ID, H.ADMS_TYPE,
+		SELECT a.APPL_NO APPL_NO, a.USER_ID,a.APPL_ID, H.ADMS_TYPE,
 		F.CAMP_NAME,
 		e.COLL_NAME,
 		b.DEPT_NAME,
@@ -295,7 +297,7 @@
   
    <select id="retrieveApplicantListByDept" resultMap="entireApplicantInfo" parameterType="com.apexsoft.ysprj.admin.control.form.CourseSearchForm">
 
-		SELECT a.APPL_NO APPL_NO, a.APPL_ID, H.ADMS_TYPE, F.CAMP_NAME, e.COLL_NAME, b.DEPT_NAME, a.CORS_TYPE_CODE, d.ARI_INST_NAME,a.DETL_MAJ_CODE,a.KOR_NAME,a.ENG_SUR,a.ENG_NAME, a.RGST_NO, a.MOBI_NUM,a.MAIL_ADDR,
+		SELECT a.APPL_NO APPL_NO,a.USER_ID, a.APPL_ID, H.ADMS_TYPE, F.CAMP_NAME, e.COLL_NAME, b.DEPT_NAME, a.CORS_TYPE_CODE, d.ARI_INST_NAME,a.DETL_MAJ_CODE,a.KOR_NAME,a.ENG_SUR,a.ENG_NAME, a.RGST_NO, a.MOBI_NUM,a.MAIL_ADDR,
            P.ADMS_FEE,
            P.PAY_TYPE_CODE,
            CODEVAL( 'PAY_TYPE',P.PAY_TYPE_CODE) PAY_TYPE_NAME

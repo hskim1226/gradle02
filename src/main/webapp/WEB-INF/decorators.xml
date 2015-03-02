@@ -3,8 +3,10 @@
 <decorators defaultdir="/WEB-INF/decorators">
     <excludes>
         <pattern>/user/login*</pattern>
+        <pattern>/user/adminlogin*</pattern>
         <!--<pattern>/user/signup/save</pattern>-->
     </excludes>
+
 
 	<decorator name="main" page="main_decorator.jsp">
 		<pattern>/admin/user*</pattern>

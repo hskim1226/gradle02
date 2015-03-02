@@ -104,6 +104,7 @@
         <div class="col-md-offset-3 col-md-6">
             <form class="form-horizontal" role="form" name="users" action="${contextPath}/j_spring_security_check.do" method="post">
                 <div class="form-group" id="login-form-container">
+                    <div align="center">대학 관리자</div>
                     <div class="col-sm-offset-1 col-sm-10" id="logo-container">
                         <img src="${contextPath}/img/common/yonsei-logo01.png" align="center">
                     </div>
@@ -126,9 +127,6 @@
                         </div>
                     </c:if>
                     <div class="spacer-small">&nbsp;</div>
-                    <div class="col-sm-offset-1 col-sm-10">
-                        <div class="text-gray">아직 회원이 아니세요? <a href="${contextPath}/user/agreement">회원 가입</a></div>
-                    </div>
                 </div>
             </form>
         </div>
