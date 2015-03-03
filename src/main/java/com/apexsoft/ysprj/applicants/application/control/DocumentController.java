@@ -18,6 +18,7 @@ import com.apexsoft.ysprj.applicants.application.service.DocumentService;
 import com.apexsoft.ysprj.applicants.application.validator.DocumentValidator;
 import com.apexsoft.ysprj.applicants.common.service.CommonService;
 import com.apexsoft.ysprj.applicants.common.util.FileUtil;
+import com.apexsoft.ysprj.applicants.common.util.StringUtil;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.io.FileUtils;
@@ -281,7 +282,7 @@ public class DocumentController {
                  */
                 @Override
                 protected String createFileName(FileMetaForm fileMetaForm, FileItem fileItem) {
-                    return fileMetaForm.getFieldName() + "-" + fileItem.getOriginalFileName();
+                    return fileMetaForm.getFieldName() + "-" + StringUtil.reverseSlashToSlash(fileItem.getOriginalFileName());
                 }
 
                 /**

@@ -15,4 +15,8 @@ public class StringUtil {
     public static String removeHyphen(String str) {
         return str == null ? "" : str.replaceAll("-", "");
     }
+
+    public static String reverseSlashToSlash(String str) {
+        return str != null ? str.replaceAll("\\\\", "/") : str;
+    }
 }
