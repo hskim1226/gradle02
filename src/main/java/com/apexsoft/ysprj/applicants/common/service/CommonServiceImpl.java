@@ -553,7 +553,6 @@ public class CommonServiceImpl implements CommonService {
     }
 
     @Override
-    @Cacheable(value = "availableApplNos")
     public List<Integer> retrieveAvailableApplNos(String userId) {
         List<Integer> availableApplNoList = null;
         try {

@@ -987,13 +987,15 @@
             }
         });
         $('.gradAvr').on('blur', function () {
-            var regexp = /\d\.\d{2}/;
-            if (!regexp.test(this.value) && this.value != '') {
-                validFlag.value = false;
-                alert('소수점 둘째자리까지 작성해 주세요');
-                this.focus();
-            } else {
-                validFlag.value = true;
+            if (this.value.length > 0) {
+                var regexp = /\d\.\d{2}/;
+                if (!regexp.test(this.value) && this.value != '') {
+                    validFlag.value = false;
+                    alert('소수점 둘째자리까지 작성해 주세요');
+//                    this.focus();
+                } else {
+                    validFlag.value = true;
+                }
             }
         });
         $('.gradFull').on('keyup', function () {
@@ -1004,19 +1006,21 @@
             }
         });
         $('.gradFull').on('blur', function () {
-            var regexp = /\d.\d/,
-                gradAvgInput = document.getElementById(this.getAttribute('data-gradAvr-id'));
-            if (!regexp.test(this.value) && this.value != '') {
-                validFlag.value = false;
-                alert('소수점 첫째자리까지 작성해 주세요');
-                this.focus();
-            } else {
-                if (parseFloat(this.value) < parseFloat(gradAvgInput.value)) {
+            if (this.value.length > 0) {
+                var regexp = /\d.\d/,
+                        gradAvgInput = document.getElementById(this.getAttribute('data-gradAvr-id'));
+                if (!regexp.test(this.value) && this.value != '') {
                     validFlag.value = false;
-                    alert('평점은 만점 이하여야 합니다');
-                    gradAvgInput.focus();
+                    alert('소수점 첫째자리까지 작성해 주세요');
+//                    this.focus();
                 } else {
-                    validFlag.value = true;
+                    if (parseFloat(this.value) < parseFloat(gradAvgInput.value)) {
+                        validFlag.value = false;
+                        alert('평점은 만점 이하여야 합니다');
+                        gradAvgInput.focus();
+                    } else {
+                        validFlag.value = true;
+                    }
                 }
             }
         });
