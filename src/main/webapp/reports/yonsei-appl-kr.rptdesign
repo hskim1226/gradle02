@@ -12,6 +12,8 @@
 //importPackage(Packages.java.lang);
 // System.out.println("########## beans from Spring ########");
 importPackage(Packages.java.lang);
+System.err.println("######### in rptdesign #########");
+System.err.println(appContext.get("photoUri"));
 var appContext = reportContext.getAppContext(),
     entrYear = appContext.get("entrYear"),
     admsTypeName1 = appContext.get("admsTypeName1"),

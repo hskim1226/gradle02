@@ -992,7 +992,7 @@
                 if (!regexp.test(this.value) && this.value != '') {
                     validFlag.value = false;
                     alert('소수점 둘째자리까지 작성해 주세요');
-//                    this.focus();
+                    this.focus();
                 } else {
                     validFlag.value = true;
                 }
@@ -1012,7 +1012,7 @@
                 if (!regexp.test(this.value) && this.value != '') {
                     validFlag.value = false;
                     alert('소수점 첫째자리까지 작성해 주세요');
-//                    this.focus();
+                    this.focus();
                 } else {
                     if (parseFloat(this.value) < parseFloat(gradAvgInput.value)) {
                         validFlag.value = false;

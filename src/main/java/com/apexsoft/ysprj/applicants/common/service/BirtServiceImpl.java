@@ -163,7 +163,8 @@ public class BirtServiceImpl implements BirtService {
 
 
         rptInfoMap.put("photoUri", documentService.retrievePhotoUri(applNo));
-
+System.err.println("######### in birtServiceImpl #########");
+System.err.println(rptInfoMap.get("photoUri"));
         String currWrkpName = StringUtil.getEmptyIfNull(applicationGeneral.getCurrWrkpName());
         String currWrkpTel = StringUtil.getEmptyIfNull(applicationGeneral.getCurrWrkpTel());
 
