@@ -131,7 +131,9 @@
     <a href="#"><input type="button"  id="chgInfoBtn" value="개인 정보수정" /></a>
     <a href="#"><input type="button"  id="chgDeptBtn"  value="지원단위 변경요청"  /></a>
     <a href="#"><input type="button"  id="chgEtcBtn" value="기타정보 변경요청"  /></a>
+    <%--
     <a href="#"><input type="button"  id="downloadPdf" value="지원서 다운로드"  /></a>
+    --%>
     <a href="#"><input type="button"  id="cancelBtn" value="지원 취소요청"  /></a>
 
 </div>
