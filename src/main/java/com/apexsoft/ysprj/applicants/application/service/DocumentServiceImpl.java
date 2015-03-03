@@ -558,7 +558,7 @@ public class DocumentServiceImpl implements DocumentService {
             codeParam.setAdmsCodeGrp("FORN_TYPE");
             codeParam.setAdmsCode(tempApp.getFornTypeCode());
             codeParam.setGrpLevel(1);
-            codeParam.setItemTypeCode("00007");//Doc 테이블의 Item Type 으로 바로 조회하는 용도, MDT에서 가져오는 용도가 아님
+            codeParam.setItemCode("00007");
 
             List<TotalApplicationDocumentContainer> subDocList;
             subDocList = commonDAO.queryForList(NAME_SPACE + "CustomApplicationDocumentMapper.selectCodeMandatoryGroupByCode", codeParam, TotalApplicationDocumentContainer.class);
@@ -581,7 +581,7 @@ public class DocumentServiceImpl implements DocumentService {
         //기타 및 자유입력 조회
 
         codeParam.setGrpLevel(1);
-        codeParam.setItemCode("00009");// 기타 및 추가제출
+        codeParam.setItemTypeCode("00009");// 기타 및 추가제출 Doc 테이블의 Item Type 으로 바로 조회하는 용도, MDT에서 가져오는 용도가 아님
         List<TotalApplicationDocumentContainer> subDocList;
         subDocList = commonDAO.queryForList(NAME_SPACE + "CustomApplicationDocumentMapper.selectMandatoryDocumentByDocType", codeParam, TotalApplicationDocumentContainer.class);
         aCont = new TotalApplicationDocumentContainer();
