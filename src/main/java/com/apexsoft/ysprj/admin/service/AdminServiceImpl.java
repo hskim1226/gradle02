@@ -298,7 +298,7 @@ public class AdminServiceImpl implements AdminService{
 
         return selectionMap;
     }
-    private Map<String, Object> getCouurseSelectionBasicMap(){
+    public  Map<String, Object> getCouurseSelectionBasicMap(){
         CourseSearchForm aForm = new ChangeSearchForm();
         return getCouurseSelectionBasicMap( aForm);
     }

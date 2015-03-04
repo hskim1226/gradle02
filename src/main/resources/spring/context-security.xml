@@ -23,22 +23,12 @@
     <http pattern="/favicon.ico"  security="none"/>
     <http pattern="/intro.html"  security="none"/>
     <http pattern="/test/**"  security="none"/>
-    <!-- http pattern="/admin/**"  security="none"/ -->
+    <http pattern="/admin/**"  security="none"/>
     <!--<http pattern="/application/**"  security="none"/>-->
     <http pattern="/common/**"  security="none"/>
     <http pattern="/template/**"  security="none"/>
     <http pattern="/user/adminLogin"  security="none"/>
 
-    <http realm="admin" pattern="/admin/**" auto-config="true"  use-expressions="true" access-denied-page="/user/adminLogin.do?auth=true" >
-        <intercept-url pattern="/admin/**" access="hasRole('ROLE_ADMIN')" />
-        <form-login login-processing-url="/j_spring_security_check.do"
-                    login-page="/user/adminLogin?auth=true"
-                    default-target-url="/admin/stats"
-                    always-use-default-target="false"
-                    authentication-failure-handler-ref="authenticationFailureHandler"
-                    authentication-failure-url="/user/adminLogin?fail=true" />
-        <logout logout-url="/j_spring_security_logout.do" invalidate-session="true" logout-success-url="/user/adminLogin"/>
-    </http>
 
     <http auto-config="true"  use-expressions="true" access-denied-page="/user/login.do?auth=true" >
         <intercept-url pattern="/index"  access="isAnonymous() or isAuthenticated()"/>

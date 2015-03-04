@@ -76,7 +76,11 @@ public class AdminController {
     }
     */
     @RequestMapping(value="/stats/daily")
-    public String statsDaily() {
+    public String statsDaily(Model model) {
+        Map<String, Object> modelMap = new HashMap<String, Object>();
+        modelMap = adminService.getCouurseSelectionBasicMap();
+        ExecutionContext ec = new ExecutionContext();
+        model.addAttribute("admsList", modelMap.get("admsList"));
         return "admin/stats/recentDay";
     }
     
@@ -105,7 +109,11 @@ public class AdminController {
     }
     
     @RequestMapping(value="/stats/category")
-    public String statsCategory() {
+    public String statsCategory(Model model) {
+        Map<String, Object> modelMap = new HashMap<String, Object>();
+        modelMap = adminService.getCouurseSelectionBasicMap();
+        ExecutionContext ec = new ExecutionContext();
+        model.addAttribute("admsList", modelMap.get("admsList"));
         return "admin/stats/category";
     }
        
@@ -231,7 +239,11 @@ public class AdminController {
     }    
 
     @RequestMapping(value="/search/unpaid")
-    public String statsUnpaid() {
+    public String statsUnpaid(Model model) {
+        Map<String, Object> modelMap = new HashMap<String, Object>();
+        modelMap = adminService.getCouurseSelectionBasicMap();
+        ExecutionContext ec = new ExecutionContext();
+        model.addAttribute("admsList", modelMap.get("admsList"));
         return "admin/stats/unpaid";
     }
 

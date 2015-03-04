@@ -1,6 +1,7 @@
 package com.apexsoft.ysprj.admin.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.apexsoft.framework.common.vo.ExecutionContext;
 import com.apexsoft.framework.persistence.dao.page.PageInfo;
@@ -25,6 +26,8 @@ public interface AdminService {
 	ApplicantInfo getApplicantInfo(ApplicantSearchForm applicantSearchForm);
 
     List<ApplicantCnt> retrieveUnpaidApplicantCntByDept(CourseSearchGridForm searchForm);
+
+    Map<String, Object> getCouurseSelectionBasicMap();
 
 
 
