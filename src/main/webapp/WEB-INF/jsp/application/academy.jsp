@@ -397,7 +397,7 @@
                                                 <div class="col-sm-3">
                                                     <label class="radio-inline">
                                                             <%--<form:radiobutton path="collegeList[${stat.index}].lastSchlYn" cssClass="radio-group" value="${academy.collegeList[stat.index].lastSchlYn}"/>&nbsp;&nbsp;최종 학교--%>
-                                                        <input type="radio" class="college-radio" id="college-radio-${stat.index}" name="collegeRadio" data-last-radio-id="collegeList${stat.index}.lastSchlYn" <c:if test="${academy.collegeList[stat.index].lastSchlYn == 'Y'}">checked</c:if> />&nbsp;&nbsp;최종 학교
+                                                        <input type="radio" class="college-radio" id="college-radio-${stat.index}" name="collegeRadio" data-last-radio-id="collegeList${stat.index}.lastSchlYn" <c:if test="${academy.collegeList[stat.index].lastSchlYn == 'Y'}">checked</c:if> />&nbsp;&nbsp;학부 최종 학교
                                                         <form:hidden path="collegeList[${stat.index}].lastSchlYn"/>
                                                     </label>
                                                 </div>
@@ -429,7 +429,7 @@
                                             <form:label path="collegeList[${stat.index}].majName" cssClass="col-sm-2 control-label">학과 이름</form:label>
                                             <div class="col-sm-9">
                                                 <div class="col-sm-12">
-                                                    <form:input path="collegeList[${stat.index}].majName" cssClass="form-control" />
+                                                    <form:input path="collegeList[${stat.index}].majName" cssClass="form-control" placeholder="다수 전공은 컴마로 구분하여 모두 입력해 주세요." />
                                                 </div>
                                         <spring:bind path="collegeList[${stat.index}].majName">
                                             <c:if test="${status.error}">
@@ -577,7 +577,7 @@
                                                 <div class="col-sm-3">
                                                     <label class="radio-inline">
                                                             <%--<form:radiobutton path="graduateList[${stat.index}].lastSchlYn" cssClass="radio-group" value="${academy.graduateList[stat.index].lastSchlYn}"/>&nbsp;&nbsp;최종 학교--%>
-                                                        <input type="radio" class="graduate-radio" id="graduate-radio-${stat.index}" name="graduateRadio" data-last-radio-id="graduateList${stat.index}.lastSchlYn" <c:if test="${academy.graduateList[stat.index].lastSchlYn == 'Y'}">checked</c:if> />&nbsp;&nbsp;최종 학교
+                                                        <input type="radio" class="graduate-radio" id="graduate-radio-${stat.index}" name="graduateRadio" data-last-radio-id="graduateList${stat.index}.lastSchlYn" <c:if test="${academy.graduateList[stat.index].lastSchlYn == 'Y'}">checked</c:if> />&nbsp;&nbsp;대학원 최종 학교
                                                         <form:hidden path="graduateList[${stat.index}].lastSchlYn"/>
                                                     </label>
                                                 </div>
@@ -609,7 +609,7 @@
                                             <form:label path="graduateList[${stat.index}].majName" cssClass="col-sm-2 control-label">학과 이름</form:label>
                                             <div class="col-sm-9">
                                                 <div class="col-sm-12">
-                                                    <form:input path="graduateList[${stat.index}].majName" cssClass="form-control" />
+                                                    <form:input path="graduateList[${stat.index}].majName" cssClass="form-control" placeholder="다수 전공은 컴마로 구분하여 모두 입력해 주세요." />
                                                 </div>
                                         <spring:bind path="graduateList[${stat.index}].majName">
                                             <c:if test="${status.error}">

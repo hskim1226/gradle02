@@ -104,6 +104,14 @@ public class PDFServiceImpl implements PDFService {
             errorInfo.put("applNo", String.valueOf(applNo));
             ec.setErrorInfo(new ErrorInfo(errorInfo));
             throw new YSBizException(ec);
+        } catch (Exception e) {
+            ec.setResult(ExecutionContext.FAIL);
+            ec.setMessage(messageResolver.getMessage("U801"));
+            ec.setErrCode("ERR1101");
+            Map<String, String> errorInfo = new HashMap<String, String>();
+            errorInfo.put("applNo", String.valueOf(applNo));
+            ec.setErrorInfo(new ErrorInfo(errorInfo));
+            throw new YSBizException(ec);
         } finally {
             if (mergedPDF != null) {
                 try {
