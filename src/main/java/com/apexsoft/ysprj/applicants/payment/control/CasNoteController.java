@@ -12,13 +12,13 @@ import javax.servlet.http.HttpServletRequest;
  * Created by cosb071 on 15. 1. 22.
  */
 @Controller
-@RequestMapping(value = "/test/payment")
+@RequestMapping(value = "/casnote")
 public class CasNoteController {
 
     @Autowired
     private PaymentService paymentService;
 
-    @RequestMapping(value="/casnote")
+    @RequestMapping(value="")
     public String processCasNote( HttpServletRequest request ) {
 
         String LGD_RESPCODE = "";           // 응답코드: 0000(성공) 그외 실패
