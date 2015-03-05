@@ -159,7 +159,7 @@
                     contentType: "application/x-www-form-urlencoded; charset=UTF-8",
 
                     success: function(data){
-//                        var parsed = $.parseJSON(data);
+
                         var container = JSON.parse(data),
                             parsed = JSON.parse(container.data);
 
