@@ -332,8 +332,8 @@ public class PaymentServiceImpl implements PaymentService {
         application.setApplStsCode("00020");
         commonDAO.updateItem(application, "com.apexsoft.ysprj.applicants.application.sqlmap.", "ApplicationMapper");
 
-        //APPL_DOC에 수험표, 원서 정보 저장
-        documentService.saveApplicationPaperInfo(application);
+        //APPL_DOC에 수험표 정보 저장 - 원서는 첨부 파일 원서 미리보기에서 이미 저장
+//        documentService.saveApplicationPaperInfo(application);
         documentService.saveAdmissionSlipPaperInfo(application);
 
         //BirtController 호출해서 수험표, 수험원서를 물리적 PDF 파일로 저장은 xpay/result에서 ajax로 몰래 BirtController호출하는걸로
@@ -492,8 +492,8 @@ public class PaymentServiceImpl implements PaymentService {
         applPay.setPayStsCode("00002");
         r3 = commonDAO.updateItem(applPay, NAME_SPACE, "ApplicationPaymentCurStatMapper");
 
-        //APPL_DOC에 수험표, 원서 정보 저장
-        documentService.saveApplicationPaperInfo(application);
+        //APPL_DOC에 수험표 정보 저장 - 원서는 첨부 파일 원서 미리보기에서 이미 저장
+//        documentService.saveApplicationPaperInfo(application);
         documentService.saveAdmissionSlipPaperInfo(application);
 
         //BirtController 호출해서 수험표, 수험원서를 물리적 PDF 파일로 저장은 xpay/result에서 ajax로 몰래 BirtController호출하는걸로

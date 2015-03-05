@@ -144,8 +144,8 @@
                 }
             }
 
-            $('#processPayment').click( function() {
-
+            $('#processPayment').click( function(e) {
+                e.preventDefault();
 //                alert('결제를 진행합니다');
 
                 document.getElementById('LGD_TIMESTAMP').value = dateToFormat(new Date(), 'yyyyMMddhhmmss');

@@ -247,9 +247,8 @@ public class DocumentServiceImpl implements DocumentService {
         //기존 파일이 업로드 되어 있는 경우
         if( oneDocument.isFileUploadFg()){
             rUpdate++;
-            oneDocument.setCreId("" );
-            oneDocument.setModDate(date );
-            oneDocument.setModId(userId );
+            oneDocument.setModDate(date);
+            oneDocument.setModId(userId);
             update = update + commonDAO.updateItem(oneDocument, NAME_SPACE, "ApplicationDocumentMapper");
 
         }else{
@@ -258,7 +257,7 @@ public class DocumentServiceImpl implements DocumentService {
             int maxSeq = commonDAO.queryForInt(NAME_SPACE +"CustomApplicationDocumentMapper.selectMaxSeqByApplNo", applNo ) ;
             oneDocument.setFileUploadFg(true);
             oneDocument.setDocSeq(++maxSeq);
-            oneDocument.setCreDate(date );
+            oneDocument.setCreDate(date);
             insert = insert + commonDAO.insertItem(oneDocument, NAME_SPACE, "ApplicationDocumentMapper");
 
         }
@@ -336,6 +335,7 @@ public class DocumentServiceImpl implements DocumentService {
 
     @Override
     public ExecutionContext saveApplicationPaperInfo(Application application) {
+        ExecutionContext ec = new ExecutionContext();
         String userId = application.getUserId();
         String admsNo = application.getAdmsNo();
         int applNo = application.getApplNo();
@@ -349,11 +349,35 @@ public class DocumentServiceImpl implements DocumentService {
         aDoc.setFileName(FileUtil.getApplicationFileName(userId));
         aDoc.setOrgFileName(FileUtil.getApplicationFileName(userId));
         aDoc.setPageCnt(2);
-        aDoc.setFileUploadFg(false);
+        // 지원서 정보가 이미 저장 되어 있으면(즉 원서 작성 단계에서 미리보기를 했으면) true
+        List<ApplicationDocument> applPaperInfosList = retrieveApplicationPaperInfo(applNo);
+        if (applPaperInfosList.size() == 0)
+            aDoc.setFileUploadFg(false);
+        else if (applPaperInfosList.size() == 1) {
+            aDoc.setFileUploadFg(true);
+            aDoc.setDocSeq(applPaperInfosList.get(0).getDocSeq());
+        } else {
+            ec.setResult(ExecutionContext.FAIL);
+            ec.setMessage(messageResolver.getMessage("U344"));
+            ec.setErrCode("ERR0033");
 
-        ExecutionContext ec = saveOneDocument(aDoc);
+            Map<String, String> errorInfo = new HashMap<String, String>();
+            errorInfo.put("applNo", String.valueOf(applNo));
+            errorInfo.put("userId", userId);
+            errorInfo.put("docItemName", "지원서");
+            ec.setErrorInfo(new ErrorInfo(errorInfo));
+            throw new YSBizException(ec);
+        }
+
+        ec = saveOneDocument(aDoc);
 
         return ec;
+    }
+
+    private List<ApplicationDocument> retrieveApplicationPaperInfo(int applNo) {
+
+        List<ApplicationDocument> applDocList = commonDAO.queryForList(NAME_SPACE + "CustomApplicationDocumentMapper.selectApplPaperInfoByApplNo", applNo, ApplicationDocument.class);
+        return applDocList;
     }
 
     @Override
