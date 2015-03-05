@@ -6,8 +6,10 @@ import com.apexsoft.framework.exception.YSBizException;
 import com.apexsoft.framework.message.MessageResolver;
 import com.apexsoft.framework.persistence.dao.CommonDAO;
 import com.apexsoft.ysprj.applicants.application.domain.*;
+import com.apexsoft.ysprj.applicants.common.util.FileUtil;
 import com.apexsoft.ysprj.applicants.payment.service.PaymentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -27,6 +29,9 @@ public class DocumentServiceImpl implements DocumentService {
 
     @Autowired
     private PaymentService paymentService;
+
+    @Value("#{app['file.baseDir']}")
+    private String BASE_DIR;
 
     @Resource(name = "messageResolver")
     MessageResolver messageResolver;
@@ -327,6 +332,50 @@ public class DocumentServiceImpl implements DocumentService {
         }
         return ec;
 
+    }
+
+    @Override
+    public ExecutionContext saveApplicationPaperInfo(Application application) {
+        String userId = application.getUserId();
+        String admsNo = application.getAdmsNo();
+        int applNo = application.getApplNo();
+
+        TotalApplicationDocument aDoc = new TotalApplicationDocument();
+        aDoc.setApplNo(applNo);
+        aDoc.setFileExt("pdf");
+        aDoc.setImgYn("N");
+        aDoc.setFilePath(FileUtil.getUploadDirectoryFullPath(BASE_DIR, admsNo, userId, applNo));
+        aDoc.setDocItemName("지원서");
+        aDoc.setFileName(FileUtil.getApplicationFileName(userId));
+        aDoc.setOrgFileName(FileUtil.getApplicationFileName(userId));
+        aDoc.setPageCnt(2);
+        aDoc.setFileUploadFg(false);
+
+        ExecutionContext ec = saveOneDocument(aDoc);
+
+        return ec;
+    }
+
+    @Override
+    public ExecutionContext saveAdmissionSlipPaperInfo(Application application) {
+        String userId = application.getUserId();
+        String admsNo = application.getAdmsNo();
+        int applNo = application.getApplNo();
+
+        TotalApplicationDocument aDoc = new TotalApplicationDocument();
+        aDoc.setApplNo(applNo);
+        aDoc.setFileExt("pdf");
+        aDoc.setImgYn("N");
+        aDoc.setFilePath(FileUtil.getUploadDirectoryFullPath(BASE_DIR, admsNo, userId, applNo));
+        aDoc.setDocItemName("수험표");
+        aDoc.setFileName(FileUtil.getSlipFileName(userId));
+        aDoc.setOrgFileName(FileUtil.getSlipFileName(userId));
+        aDoc.setPageCnt(1);
+        aDoc.setFileUploadFg(false);
+
+        ExecutionContext ec =saveOneDocument(aDoc);
+
+        return ec;
     }
 
     private List<TotalApplicationDocumentContainer> retrieveManatoryApplicatoinlDocListByApplNo(int applNo) {

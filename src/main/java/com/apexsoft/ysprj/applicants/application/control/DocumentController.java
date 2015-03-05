@@ -376,17 +376,6 @@ public class DocumentController {
         ec.setData(returnFileMetaForm);
 
         return ec;
-
-//        ec.setData(returnFileMetaForm);
-//
-//
-//        Application application = document.getApplication();
-//
-//        ApplicationIdentifier data = (ApplicationIdentifier)ec.getData();
-//
-//        return getEntireInfo(data.getApplNo(), application.getAdmsNo(),
-//                application.getEntrYear(), application.getAdmsTypeCode(), "application/appinfo",
-//                entireApplication);
     }
 
 
@@ -461,6 +450,23 @@ public class DocumentController {
             logger.error("SimpleStackTrace ::" +
                     StackTraceFilter.getFilteredCallStack(ybe.getStackTrace(), "com.apexsoft", false));
         }
+
+        return ec;
+    }
+
+    /**
+     * 원서+첨부 파일 미리보기 용 원서 파일 정보 저장
+     *
+     * @param document
+     * @param principal
+     * @return
+     * @throws IOException
+     */
+    @RequestMapping(value="/savePreview/application", method=RequestMethod.POST)
+    @ResponseBody
+    public ExecutionContext saveApplicationPaperInfo(Document document, Principal principal) {
+        document.getApplication().setUserId(principal.getName());
+        ExecutionContext ec = documentService.saveApplicationPaperInfo(document.getApplication());
 
         return ec;
     }

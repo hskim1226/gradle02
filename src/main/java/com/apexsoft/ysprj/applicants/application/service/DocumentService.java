@@ -1,6 +1,7 @@
 package com.apexsoft.ysprj.applicants.application.service;
 
 import com.apexsoft.framework.common.vo.ExecutionContext;
+import com.apexsoft.ysprj.applicants.application.domain.Application;
 import com.apexsoft.ysprj.applicants.application.domain.ApplicationDocumentKey;
 import com.apexsoft.ysprj.applicants.application.domain.Document;
 import com.apexsoft.ysprj.applicants.application.domain.TotalApplicationDocument;
@@ -30,4 +31,7 @@ public interface DocumentService {
 
     <T> ExecutionContext retrieveInfoListByParamObj(Object parameter, String mapperNameSqlId, Class<T> clazz);
 
+    ExecutionContext saveApplicationPaperInfo(Application application);
+
+    ExecutionContext saveAdmissionSlipPaperInfo(Application application);
 }
