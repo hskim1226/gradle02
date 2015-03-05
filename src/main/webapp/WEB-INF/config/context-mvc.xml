@@ -102,6 +102,9 @@
 
     <bean id="RecaptchaController" class="com.apexsoft.framework.recaptcha.RecaptchaController"/>
 -->
+    <bean id="ExcelRevenueSummary"
+          class="com.apexsoft.framework.web.view.ExcelDownloadView" >
+    </bean>
 
     <mvc:default-servlet-handler/>
 

@@ -35,6 +35,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URLEncoder;
 import com.apexsoft.ysprj.applicants.common.util.FileUtil;
+import org.springframework.web.bind.ServletRequestUtils;
 
 
 /**
@@ -346,4 +347,37 @@ public class AdminController {
 
         return bytes;
     }
+    /**
+     * 전체 파일 다운로드
+     * @return
+     * @throws java.io.IOException
+     */
+
+    @RequestMapping(value="/search/excelDownload", produces = "application/pdf")
+    @ResponseBody
+    public ModelAndView  ExcelfileDownload( HttpServletRequest request,
+                                            HttpServletResponse response) throws Exception {
+        String output =
+                ServletRequestUtils.getStringParameter(request, "output");
+        Map<String,String> revenueData = new HashMap<String,String>();
+        revenueData.put("Jan-2010", "$100,000,000");
+        revenueData.put("Feb-2010", "$110,000,000");
+        revenueData.put("Mar-2010", "$130,000,000");
+        revenueData.put("Apr-2010", "$140,000,000");
+        revenueData.put("May-2010", "$200,000,000");
+        if(output ==null || "".equals(output)){
+            //return normal view
+            return new ModelAndView("RevenueSummary","revenueData",revenueData);
+
+        }else if("EXCEL".equals(output.toUpperCase())){
+            //return excel view
+            return new ModelAndView("ExcelRevenueSummary","revenueData",revenueData);
+
+        }else{
+            //return normal view
+            return new ModelAndView("RevenueSummary","revenueData",revenueData);
+
+        }
+    }
+
 }

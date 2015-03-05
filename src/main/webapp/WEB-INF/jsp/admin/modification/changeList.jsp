@@ -143,12 +143,6 @@
             </ul>
         </div>
     </div>
-    <%--
-    <div id="LblockButton">
-        <a href="#"><input type="button" value="엑셀파일 다운로드" onclick="doSomething(); return false;" /></a>
-        <a href="#"><input type="button" value="신규요청등록" onclick="doSomething(); return false;" /></a>
-    </div>
-    --%>
 </div>
 
 <content tag="local-script">
