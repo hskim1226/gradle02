@@ -125,6 +125,7 @@ public class BirtServiceImpl implements BirtService {
         String engSur = application.getEngSur();
         String gend = application.getGend();
         String rgstNo = application.getRgstNo();
+        String rgstBornDate = application.getRgstBornDate();
         String mailAddr = application.getMailAddr();
         String telNum = application.getTelNum();
         String mobiNum = application.getMobiNum();
@@ -135,7 +136,8 @@ public class BirtServiceImpl implements BirtService {
         rptInfoMap.put("engName", engName);
         rptInfoMap.put("engSur", engSur);
         rptInfoMap.put("gend", gend);
-        rptInfoMap.put("rgstNo", StringUtil.insertHyphenAt(rgstNo, 6));
+        rptInfoMap.put("rgstBornDate", rgstBornDate);
+//        rptInfoMap.put("rgstNo", StringUtil.insertHyphenAt(rgstNo, 6));
         rptInfoMap.put("fornRgstNo", StringUtil.insertHyphenAt(applicationForeigner.getFornRgstNo(), 6));
         Country tmpCountry = commonService.retrieveCountryByCode(StringUtil.getEmptyIfNull(applicationForeigner.getBornCntrCode()));
         rptInfoMap.put("bornCntrName", tmpCountry == null ? "" : tmpCountry.getEngCntrName());
@@ -298,7 +300,8 @@ public class BirtServiceImpl implements BirtService {
         rptInfoMap.put("tepsScore", tepsScore);
         rptInfoMap.put("ieltsScore", ieltsScore);
         rptInfoMap.put("greScore", greScore);
-        rptInfoMap.put("forlExmp", StringUtil.getEmptyIfNull(applicationGeneral.getForlExmpCode()));
+        String forlExmp = StringUtil.getEmptyIfNull(applicationGeneral.getForlExmpCode());
+        rptInfoMap.put("forlExmp", forlExmp.length() > 0 ? "O" : "");
 
         // TODO
         String range0 = "";

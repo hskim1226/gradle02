@@ -925,6 +925,21 @@ var appContext = reportContext.getAppContext(),
                 <property name="category">Unformatted</property>
             </structure>
         </scalar-parameter>
+        <scalar-parameter name="rgstBornDate" id="1496">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant"></value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
     </parameters>
     <data-sources>
         <script-data-source name="DocDataSource" id="1469"/>
@@ -1152,18 +1167,18 @@ iterator = null;]]></method>
                         <property name="textAlign">center</property>
                         <column id="10">
                             <property name="fontWeight">bold</property>
-                            <property name="width">15%</property>
+                            <property name="width">1.073in</property>
                         </column>
                         <column id="111">
                             <property name="fontWeight">normal</property>
                             <property name="width">10%</property>
                         </column>
                         <column id="11">
-                            <property name="width">30%</property>
+                            <property name="width">2.0520833333333335in</property>
                         </column>
                         <column id="12">
                             <property name="fontWeight">bold</property>
-                            <property name="width">10%</property>
+                            <property name="width">0.8125in</property>
                         </column>
                         <column id="13">
                             <property name="width">15%</property>
@@ -1282,7 +1297,8 @@ iterator = null;]]></method>
                                 <property name="borderTopWidth">1px</property>
                                 <property name="verticalAlign">middle</property>
                                 <label id="60">
-                                    <text-property name="text">학·연·산 연구기관명</text-property>
+                                    <text-property name="text">학·연·산
+연구기관명</text-property>
                                 </label>
                             </cell>
                             <cell id="105">
@@ -1527,7 +1543,7 @@ iterator = null;]]></method>
                                 <property name="borderTopWidth">1px</property>
                                 <property name="verticalAlign">middle</property>
                                 <label id="92">
-                                    <text-property name="text">주민등록번호</text-property>
+                                    <text-property name="text">생년월일</text-property>
                                 </label>
                             </cell>
                             <cell id="109">
@@ -1542,15 +1558,15 @@ iterator = null;]]></method>
                                 <property name="borderTopStyle">solid</property>
                                 <property name="borderTopWidth">1px</property>
                                 <property name="verticalAlign">middle</property>
-                                <data id="1190">
+                                <data id="1497">
                                     <list-property name="boundDataColumns">
                                         <structure>
-                                            <property name="name">rgstNo</property>
-                                            <expression name="expression" type="javascript">params["rgstNo"]</expression>
+                                            <property name="name">rgstBornDate</property>
+                                            <expression name="expression" type="javascript">params["rgstBornDate"]</expression>
                                             <property name="dataType">string</property>
                                         </structure>
                                     </list-property>
-                                    <property name="resultSetColumn">rgstNo</property>
+                                    <property name="resultSetColumn">rgstBornDate</property>
                                 </data>
                             </cell>
                             <cell id="85">
@@ -1665,7 +1681,7 @@ iterator = null;]]></method>
                         <property name="textAlign">center</property>
                         <column id="256">
                             <property name="fontWeight">bold</property>
-                            <property name="width">15%</property>
+                            <property name="width">1.073in</property>
                         </column>
                         <column id="257">
                             <property name="width">50%</property>
@@ -1691,6 +1707,7 @@ iterator = null;]]></method>
                                 <property name="paddingBottom">0pt</property>
                                 <property name="paddingRight">0pt</property>
                                 <property name="verticalAlign">middle</property>
+                                <property name="width">1.073in</property>
                                 <label id="312">
                                     <text-property name="text">주소</text-property>
                                 </label>
@@ -1721,95 +1738,6 @@ iterator = null;]]></method>
                                         </structure>
                                     </list-property>
                                     <property name="resultSetColumn">addr + detlAddr</property>
-                                </data>
-                            </cell>
-                        </row>
-                        <row id="261">
-                            <property name="height">34px</property>
-                            <cell id="262">
-                                <property name="borderBottomStyle">solid</property>
-                                <property name="borderBottomWidth">2px</property>
-                                <property name="borderLeftStyle">solid</property>
-                                <property name="borderLeftWidth">2px</property>
-                                <property name="borderRightStyle">solid</property>
-                                <property name="borderRightWidth">2px</property>
-                                <property name="borderTopStyle">solid</property>
-                                <property name="borderTopWidth">2px</property>
-                                <property name="paddingTop">0pt</property>
-                                <property name="paddingLeft">0pt</property>
-                                <property name="paddingBottom">0pt</property>
-                                <property name="paddingRight">0pt</property>
-                                <property name="verticalAlign">middle</property>
-                                <label id="313">
-                                    <text-property name="text">현재근무처</text-property>
-                                </label>
-                            </cell>
-                            <cell id="263">
-                                <property name="borderBottomStyle">solid</property>
-                                <property name="borderBottomWidth">2px</property>
-                                <property name="borderLeftStyle">solid</property>
-                                <property name="borderLeftWidth">2px</property>
-                                <property name="borderRightStyle">solid</property>
-                                <property name="borderRightWidth">2px</property>
-                                <property name="borderTopStyle">solid</property>
-                                <property name="borderTopWidth">2px</property>
-                                <property name="paddingTop">0pt</property>
-                                <property name="paddingLeft">0pt</property>
-                                <property name="paddingBottom">0pt</property>
-                                <property name="paddingRight">0pt</property>
-                                <property name="verticalAlign">middle</property>
-                                <data id="1286">
-                                    <list-property name="boundDataColumns">
-                                        <structure>
-                                            <property name="name">currWrkpName</property>
-                                            <expression name="expression" type="javascript">params["currWrkpName"]</expression>
-                                            <property name="dataType">string</property>
-                                        </structure>
-                                    </list-property>
-                                    <property name="resultSetColumn">currWrkpName</property>
-                                </data>
-                            </cell>
-                            <cell id="1045">
-                                <property name="borderBottomStyle">solid</property>
-                                <property name="borderBottomWidth">2px</property>
-                                <property name="borderLeftStyle">solid</property>
-                                <property name="borderLeftWidth">2px</property>
-                                <property name="borderRightStyle">solid</property>
-                                <property name="borderRightWidth">1px</property>
-                                <property name="borderTopStyle">solid</property>
-                                <property name="borderTopWidth">2px</property>
-                                <property name="paddingTop">0pt</property>
-                                <property name="paddingLeft">0pt</property>
-                                <property name="paddingBottom">0pt</property>
-                                <property name="paddingRight">0pt</property>
-                                <property name="verticalAlign">middle</property>
-                                <label id="1052">
-                                    <text-property name="text">연락처</text-property>
-                                </label>
-                            </cell>
-                            <cell id="1049">
-                                <property name="borderBottomStyle">solid</property>
-                                <property name="borderBottomWidth">2px</property>
-                                <property name="borderLeftStyle">solid</property>
-                                <property name="borderLeftWidth">1px</property>
-                                <property name="borderRightStyle">solid</property>
-                                <property name="borderRightWidth">2px</property>
-                                <property name="borderTopStyle">solid</property>
-                                <property name="borderTopWidth">2px</property>
-                                <property name="paddingTop">0pt</property>
-                                <property name="paddingLeft">0pt</property>
-                                <property name="paddingBottom">0pt</property>
-                                <property name="paddingRight">0pt</property>
-                                <property name="verticalAlign">middle</property>
-                                <data id="1287">
-                                    <list-property name="boundDataColumns">
-                                        <structure>
-                                            <property name="name">currWrkpTel</property>
-                                            <expression name="expression" type="javascript">params["currWrkpTel"]</expression>
-                                            <property name="dataType">string</property>
-                                        </structure>
-                                    </list-property>
-                                    <property name="resultSetColumn">currWrkpTel</property>
                                 </data>
                             </cell>
                         </row>
@@ -1943,18 +1871,14 @@ iterator = null;]]></method>
                         <property name="textAlign">center</property>
                         <column id="933">
                             <property name="fontWeight">bold</property>
-                            <property name="width">15%</property>
+                            <property name="width">1.073in</property>
                         </column>
                         <column id="934">
                             <property name="fontWeight">bold</property>
-                            <property name="width">10%</property>
                         </column>
-                        <column id="935">
-                            <property name="width">25%</property>
-                        </column>
+                        <column id="935"/>
                         <column id="943">
                             <property name="fontWeight">bold</property>
-                            <property name="width">10%</property>
                         </column>
                         <column id="936"/>
                         <row id="937">
@@ -2360,6 +2284,17 @@ iterator = null;]]></method>
                                 <property name="borderTopStyle">solid</property>
                                 <property name="borderTopWidth">1px</property>
                                 <property name="verticalAlign">middle</property>
+                                <data id="1495">
+                                    <property name="width">1cm</property>
+                                    <list-property name="boundDataColumns">
+                                        <structure>
+                                            <property name="name">forlExmp</property>
+                                            <expression name="expression" type="javascript">params["forlExmp"]</expression>
+                                            <property name="dataType">string</property>
+                                        </structure>
+                                    </list-property>
+                                    <property name="resultSetColumn">forlExmp</property>
+                                </data>
                             </cell>
                         </row>
                     </grid>
@@ -2783,135 +2718,6 @@ iterator = null;]]></method>
                             </cell>
                         </row>
                     </grid>
-                    <grid id="1122">
-                        <property name="textAlign">center</property>
-                        <column id="1123">
-                            <property name="fontWeight">normal</property>
-                            <property name="width">15%</property>
-                        </column>
-                        <column id="1124">
-                            <property name="width">42%</property>
-                        </column>
-                        <column id="1125">
-                            <property name="width">11%</property>
-                        </column>
-                        <column id="1143"/>
-                        <row id="1126">
-                            <cell id="1127">
-                                <property name="colSpan">1</property>
-                                <property name="rowSpan">3</property>
-                                <property name="fontWeight">bold</property>
-                                <property name="borderLeftStyle">solid</property>
-                                <property name="borderLeftWidth">2px</property>
-                                <property name="borderRightStyle">solid</property>
-                                <property name="borderRightWidth">2px</property>
-                                <property name="borderTopStyle">solid</property>
-                                <property name="borderTopWidth">2px</property>
-                                <property name="verticalAlign">middle</property>
-                                <label id="604">
-                                    <text-property name="text">병역관계</text-property>
-                                </label>
-                            </cell>
-                            <cell id="1128">
-                                <property name="colSpan">1</property>
-                                <property name="rowSpan">3</property>
-                                <property name="borderRightStyle">solid</property>
-                                <property name="borderRightWidth">1px</property>
-                                <property name="borderTopStyle">solid</property>
-                                <property name="borderTopWidth">2px</property>
-                                <property name="verticalAlign">middle</property>
-                                <data id="1290">
-                                    <list-property name="boundDataColumns">
-                                        <structure>
-                                            <property name="name">mltrServName</property>
-                                            <expression name="expression" type="javascript">params["mltrServName"]</expression>
-                                            <property name="dataType">string</property>
-                                        </structure>
-                                    </list-property>
-                                    <property name="resultSetColumn">mltrServName</property>
-                                </data>
-                            </cell>
-                            <cell id="1129">
-                                <property name="borderBottomStyle">solid</property>
-                                <property name="borderBottomWidth">1px</property>
-                                <property name="borderLeftStyle">solid</property>
-                                <property name="borderLeftWidth">1px</property>
-                                <property name="borderTopStyle">solid</property>
-                                <property name="borderTopWidth">2px</property>
-                                <label id="1144">
-                                    <text-property name="text">입대일자 :</text-property>
-                                </label>
-                            </cell>
-                            <cell id="1140">
-                                <property name="borderBottomStyle">solid</property>
-                                <property name="borderBottomWidth">1px</property>
-                                <property name="borderRightStyle">solid</property>
-                                <property name="borderRightWidth">2px</property>
-                                <property name="borderTopStyle">solid</property>
-                                <property name="borderTopWidth">2px</property>
-                                <data id="1261">
-                                    <list-property name="boundDataColumns">
-                                        <structure>
-                                            <property name="name">mltrJoinDay</property>
-                                            <expression name="expression" type="javascript">params["mltrJoinDay"]</expression>
-                                            <property name="dataType">string</property>
-                                        </structure>
-                                    </list-property>
-                                    <property name="resultSetColumn">mltrJoinDay</property>
-                                </data>
-                            </cell>
-                        </row>
-                        <row id="1130">
-                            <cell id="1133">
-                                <property name="borderBottomStyle">solid</property>
-                                <property name="borderBottomWidth">1px</property>
-                                <property name="borderLeftStyle">solid</property>
-                                <property name="borderLeftWidth">1px</property>
-                                <label id="1145">
-                                    <text-property name="text">제대일자 :</text-property>
-                                </label>
-                            </cell>
-                            <cell id="1141">
-                                <property name="borderBottomStyle">solid</property>
-                                <property name="borderBottomWidth">1px</property>
-                                <property name="borderRightStyle">solid</property>
-                                <property name="borderRightWidth">2px</property>
-                                <data id="1262">
-                                    <list-property name="boundDataColumns">
-                                        <structure>
-                                            <property name="name">mltrDschDay</property>
-                                            <expression name="expression" type="javascript">params["mltrDschDay"]</expression>
-                                            <property name="dataType">string</property>
-                                        </structure>
-                                    </list-property>
-                                    <property name="resultSetColumn">mltrDschDay</property>
-                                </data>
-                            </cell>
-                        </row>
-                        <row id="1134">
-                            <cell id="1137">
-                                <property name="borderLeftStyle">solid</property>
-                                <property name="borderLeftWidth">1px</property>
-                                <label id="1146">
-                                    <text-property name="text">군별 :</text-property>
-                                </label>
-                            </cell>
-                            <cell id="1142">
-                                <property name="borderRightStyle">solid</property>
-                                <property name="borderRightWidth">2px</property>
-                                <data id="1291">
-                                    <list-property name="boundDataColumns">
-                                        <structure>
-                                            <property name="name">mltrRankName</property>
-                                            <expression name="expression" type="javascript">params["mltrRankName"]</expression>
-                                            <property name="dataType">string</property>
-                                        </structure>
-                                    </list-property>
-                                    <property name="resultSetColumn">mltrRankName</property>
-                                </data>
-                            </cell>
-                        </row>
-                    </grid>
                     <grid id="1147">
                         <property name="display">block</property>
                         <column id="1148">
@@ -2980,10 +2786,6 @@ iterator = null;]]></method>
                                 <property name="borderRightStyle">solid</property>
                                 <property name="borderRightWidth">2px</property>
                                 <property name="textAlign">justify</property>
-                                <label id="1296">
-                                    <property name="fontWeight">bold</property>
-                                    <text-property name="text">(서명)</text-property>
-                                </label>
                             </cell>
                         </row>
                     </grid>
