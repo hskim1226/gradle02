@@ -492,7 +492,7 @@
                                         <label for="application.rgstNo" class="col-sm-2 control-label">주민등록번호</label>
                                         <div class="col-sm-9">
                                             <div class="col-sm-12">
-                                                <form:input path="application.rgstNo" cssClass="form-control numOnly" maxlength="13" placeholder="주민등록번호를 13자리 숫자로 입력해주세요"/>
+                                                <form:input path="application.rgstNo" cssClass="form-control numOnly rgstNo" maxlength="13" placeholder="주민등록번호를 13자리 숫자로 입력해주세요"/>
                                             </div>
                                             <spring:bind path="application.rgstNo">
                                                 <c:if test="${status.error}">
@@ -599,7 +599,7 @@
                                                 <label class="col-sm-2 control-label">본국 연락처</label>
                                                 <div class="col-sm-9">
                                                     <div class="col-sm-12">
-                                                        <form:input path="applicationForeigner.homeTel" cssClass="form-control" placeholder="본국 연락처를 입력해 주세요."/>
+                                                        <form:input path="applicationForeigner.homeTel" cssClass="form-control" placeholder="본국 연락처를 입력해 주세요." />
                                                     </div>
                                                     <spring:bind path="applicationForeigner.homeTel">
                                                         <c:if test="${status.error}">
@@ -705,7 +705,7 @@
                                         <label for="applicationForeigner.fornRgstNo" class="col-sm-2 control-label">외국인등록번호</label>
                                         <div class="col-sm-9">
                                             <div class="col-sm-12">
-                                                <input id="applicationForeigner.fornRgstNo" name="applicationForeigner.fornRgstNo" class="form-control numOnly"
+                                                <input id="applicationForeigner.fornRgstNo" name="applicationForeigner.fornRgstNo" class="form-control numOnly rgstNo"
                                                        maxlength="13" placeholder="외국인등록번호를 13자리 숫자로 입력해주세요"
                                                        value="${basis.applicationForeigner.fornRgstNo}"
                                                        <c:if test="${basis.applicationForeigner.visaTypeCode == '00999'}">disabled</c:if> />
@@ -1182,6 +1182,7 @@
                 $('#applAttrCode').focus();
             } else {
                 apex.transKorPhoneNumber('phone');
+//                apex.transKorRgstNumber('rgstNo');
                 form.action = "${contextPath}/application/basis/save";
                 form.submit();
             }

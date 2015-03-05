@@ -2,12 +2,10 @@ package com.apexsoft.ysprj.applicants.application.control;
 
 import com.apexsoft.framework.common.vo.ExecutionContext;
 import com.apexsoft.framework.message.MessageResolver;
-import com.apexsoft.ysprj.applicants.application.domain.Application;
-import com.apexsoft.ysprj.applicants.application.domain.Basis;
-import com.apexsoft.ysprj.applicants.application.domain.CustomMyList;
-import com.apexsoft.ysprj.applicants.application.domain.ParamForApplication;
+import com.apexsoft.ysprj.applicants.application.domain.*;
 import com.apexsoft.ysprj.applicants.application.service.BasisService;
 import com.apexsoft.ysprj.applicants.application.validator.BasisValidator;
+import com.apexsoft.ysprj.applicants.common.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -52,7 +50,7 @@ public class BasisController {
         mv.setViewName(TARGET_VIEW);
         if (bindingResult.hasErrors()) return mv;
 
-        ExecutionContext ec = basisService.retrieveBasis(basis);
+        ExecutionContext ec = removeHyphen(basisService.retrieveBasis(basis));
 
         Map<String, Object> map = (Map<String, Object>)ec.getData();
         addObjectToMV(mv, map, ec);
@@ -94,7 +92,7 @@ public class BasisController {
         ec = basisService.saveBasis(formData);
 
         if (ExecutionContext.SUCCESS.equals(ec.getResult())) {
-            ExecutionContext ecRetrieve = basisService.retrieveBasis(formData);
+            ExecutionContext ecRetrieve = removeHyphen(basisService.retrieveBasis(formData));
             if (ExecutionContext.SUCCESS.equals(ecRetrieve.getResult())) {
                 Map<String, Object> map = (Map<String, Object>)ecRetrieve.getData();
                 addObjectToMV(mv, map, ec);
@@ -183,5 +181,30 @@ public class BasisController {
     private void addObjectToMV(ModelAndView mv, Map<String, Object> map, ExecutionContext ec) {
         mv.addAllObjects(map);
         mv.addObject("resultMsg", ec.getMessage());
+    }
+
+    /**
+     * 전화번호 류 하이픈 제거
+     */
+    private ExecutionContext removeHyphen(ExecutionContext result) {
+        Map<String, Object> map = (Map<String, Object>)result.getData();
+        Basis basis = (Basis)map.get("basis");
+
+        Application application = basis.getApplication();
+        application.setFaxNum(StringUtil.removeHyphen(application.getFaxNum()));
+        application.setTelNum(StringUtil.removeHyphen(application.getTelNum()));
+        application.setMobiNum(StringUtil.removeHyphen(application.getMobiNum()));
+        application.setRgstNo(StringUtil.removeHyphen(application.getRgstNo()));
+
+        ApplicationForeigner applicationForeigner = basis.getApplicationForeigner();
+        applicationForeigner.setHomeTel(StringUtil.removeHyphen(applicationForeigner.getHomeTel()));
+        applicationForeigner.setHomeEmrgTel(StringUtil.removeHyphen(applicationForeigner.getHomeEmrgTel()));
+        applicationForeigner.setKorEmrgTel(StringUtil.removeHyphen(applicationForeigner.getKorEmrgTel()));
+        applicationForeigner.setFornRgstNo(StringUtil.removeHyphen(applicationForeigner.getFornRgstNo()));
+
+        ApplicationGeneral applicationGeneral = basis.getApplicationGeneral();
+        applicationGeneral.setEmerContTel(StringUtil.removeHyphen(applicationGeneral.getEmerContTel()));
+
+        return result;
     }
 }
