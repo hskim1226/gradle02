@@ -27,6 +27,8 @@
     <result column="ENG_SUR" jdbcType="VARCHAR" property="engSur" />
     <result column="ENG_NAME" jdbcType="VARCHAR" property="engName" />
     <result column="RGST_NO" jdbcType="VARCHAR" property="rgstNo" />
+    <result column="RGST_BORN_DATE" jdbcType="VARCHAR" property="rgstBornDate" />
+    <result column="RGST_ENCR" jdbcType="VARCHAR" property="rgstEncr" />
     <result column="CITZ_CNTR_CODE" jdbcType="VARCHAR" property="citzCntrCode" />
     <result column="BORN_DAY" jdbcType="VARCHAR" property="bornDay" />
     <result column="GEND" jdbcType="VARCHAR" property="gend" />
@@ -122,7 +124,7 @@
     -->
     APPL_NO, USER_ID, ADMS_NO, ENTR_YEAR, ADMS_TYPE_CODE, APPL_ATTR_CODE, FORN_TYPE_CODE, 
     CAMP_CODE, COLL_CODE, DEPT_CODE, ARI_INST_CODE, CORS_TYPE_CODE, DETL_MAJ_CODE, INP_DETL_MAJ, 
-    PART_TIME_YN, KOR_NAME, CHN_NAME, ENG_SUR, ENG_NAME, RGST_NO, CITZ_CNTR_CODE, BORN_DAY, 
+    PART_TIME_YN, KOR_NAME, CHN_NAME, ENG_SUR, ENG_NAME, RGST_NO, RGST_BORN_DATE, RGST_ENCR, CITZ_CNTR_CODE, BORN_DAY,
     GEND, ZIP_CODE, ADDR, DETL_ADDR, TEL_NUM, MOBI_NUM, FAX_NUM, MAIL_ADDR, APPL_ID, 
     APPL_DATE, APPL_STS_CODE, PRIV_INFO_YN, CRE_ID, CRE_DATE, MOD_ID, MOD_DATE
   </sql>
@@ -188,7 +190,7 @@
       DEPT_CODE, ARI_INST_CODE, CORS_TYPE_CODE, 
       DETL_MAJ_CODE, INP_DETL_MAJ, PART_TIME_YN, 
       KOR_NAME, CHN_NAME, ENG_SUR, 
-      ENG_NAME, RGST_NO, CITZ_CNTR_CODE, 
+      ENG_NAME, RGST_NO, RGST_BORN_DATE, RGST_ENCR, CITZ_CNTR_CODE,
       BORN_DAY, GEND, ZIP_CODE, 
       ADDR, DETL_ADDR, TEL_NUM, 
       MOBI_NUM, FAX_NUM, MAIL_ADDR, 
@@ -201,7 +203,7 @@
       #{deptCode,jdbcType=VARCHAR}, #{ariInstCode,jdbcType=VARCHAR}, #{corsTypeCode,jdbcType=VARCHAR}, 
       #{detlMajCode,jdbcType=VARCHAR}, #{inpDetlMaj,jdbcType=VARCHAR}, #{partTimeYn,jdbcType=VARCHAR}, 
       #{korName,jdbcType=VARCHAR}, #{chnName,jdbcType=VARCHAR}, #{engSur,jdbcType=VARCHAR}, 
-      #{engName,jdbcType=VARCHAR}, #{rgstNo,jdbcType=VARCHAR}, #{citzCntrCode,jdbcType=VARCHAR}, 
+      #{engName,jdbcType=VARCHAR}, #{rgstNo,jdbcType=VARCHAR}, #{rgstBornDate,jdbcType=VARCHAR}, #{rgstEncr,jdbcType=VARCHAR}, #{citzCntrCode,jdbcType=VARCHAR},
       #{bornDay,jdbcType=VARCHAR}, #{gend,jdbcType=VARCHAR}, #{zipCode,jdbcType=VARCHAR}, 
       #{addr,jdbcType=VARCHAR}, #{detlAddr,jdbcType=VARCHAR}, #{telNum,jdbcType=VARCHAR}, 
       #{mobiNum,jdbcType=VARCHAR}, #{faxNum,jdbcType=VARCHAR}, #{mailAddr,jdbcType=VARCHAR}, 
@@ -276,6 +278,12 @@
       </if>
       <if test="rgstNo != null">
         RGST_NO,
+      </if>
+      <if test="rgstBornDate != null">
+        RGST_BORN_DATE,
+      </if>
+      <if test="rgstEncr != null">
+        RGST_ENCR,
       </if>
       <if test="citzCntrCode != null">
         CITZ_CNTR_CODE,
@@ -392,6 +400,12 @@
       </if>
       <if test="rgstNo != null">
         #{rgstNo,jdbcType=VARCHAR},
+      </if>
+      <if test="rgstBornDate != null">
+        #{rgstBornDate,jdbcType=VARCHAR},
+      </if>
+      <if test="rgstEncr != null">
+        #{rgstEncr,jdbcType=VARCHAR},
       </if>
       <if test="citzCntrCode != null">
         #{citzCntrCode,jdbcType=VARCHAR},
@@ -701,6 +715,12 @@
       <if test="rgstNo != null">
         RGST_NO = #{rgstNo,jdbcType=VARCHAR},
       </if>
+      <if test="rgstBornDate != null">
+        RGST_BORN_DATE = #{rgstBornDate,jdbcType=VARCHAR},
+      </if>
+      <if test="rgstEncr != null">
+        RGST_ENCR = #{rgstEncr,jdbcType=VARCHAR},
+      </if>
       <if test="citzCntrCode != null">
         CITZ_CNTR_CODE = #{citzCntrCode,jdbcType=VARCHAR},
       </if>
@@ -784,6 +804,8 @@
       ENG_SUR = #{engSur,jdbcType=VARCHAR},
       ENG_NAME = #{engName,jdbcType=VARCHAR},
       RGST_NO = #{rgstNo,jdbcType=VARCHAR},
+      RGST_BORN_DATE = #{rgstBornDate,jdbcType=VARCHAR},
+      RGST_ENCR = #{rgstEncr,jdbcType=VARCHAR},
       CITZ_CNTR_CODE = #{citzCntrCode,jdbcType=VARCHAR},
       BORN_DAY = #{bornDay,jdbcType=VARCHAR},
       GEND = #{gend,jdbcType=VARCHAR},

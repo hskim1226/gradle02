@@ -21,6 +21,8 @@
         <result column="ENG_SUR" property="engSur" jdbcType="VARCHAR" />
         <result column="ENG_NAME" property="engName" jdbcType="VARCHAR" />
         <result column="RGST_NO" property="rgstNo" jdbcType="VARCHAR" />
+        <result column="RGST_BORN_DATE" jdbcType="VARCHAR" property="rgstBornDate" />
+        <result column="RGST_ENCR" jdbcType="VARCHAR" property="rgstEncr" />
         <result column="ZIP_CODE" property="zipCode" jdbcType="VARCHAR" />
         <result column="ADDR" property="addr" jdbcType="VARCHAR" />
         <result column="DETL_ADDR" property="detlAddr" jdbcType="VARCHAR" />
@@ -44,7 +46,7 @@
           This element was generated on Mon Aug 25 20:54:40 KST 2014.
         -->
         APPL_NO, USER_ID, ADMS_NO, DEPT_CODE, ARI_INST_CODE, CORS_TYPE_CODE, DETL_MAJ_CODE,
-        INP_DETL_MAJ, PART_TIME_YN, KOR_NAME, CHN_NAME, ENG_SUR, ENG_NAME, RGST_NO, ZIP_CODE,
+        INP_DETL_MAJ, PART_TIME_YN, KOR_NAME, CHN_NAME, ENG_SUR, ENG_NAME, RGST_NO, RGST_BORN_DATE, RGST_ENCR, ZIP_CODE,
         ADDR, DETL_ADDR, TEL_NUM, MOBI_NUM, FAX_NUM, MAIL_ADDR, APPL_ID, APPL_STS_CODE, PRIV_INFO_YN,
         CRE_ID, CRE_DATE, MOD_ID, MOD_DATE
     </sql>
@@ -233,6 +235,12 @@
             <if test="rgstNo != null">
                 RGST_NO,
             </if>
+            <if test="rgstBornDate != null">
+                RGST_BORN_DATE,
+            </if>
+            <if test="rgstEncr != null">
+                RGST_ENCR,
+            </if>
             <if test="citzCntrCode != null">
                 CITZ_CNTR_CODE,
             </if>
@@ -348,6 +356,12 @@
             </if>
             <if test="rgstNo != null">
                 #{rgstNo,jdbcType=VARCHAR},
+            </if>
+            <if test="rgstBornDate != null">
+                #{rgstBornDate,jdbcType=VARCHAR},
+            </if>
+            <if test="rgstEncr != null">
+                #{rgstEncr,jdbcType=VARCHAR},
             </if>
             <if test="citzCntrCode != null">
                 #{citzCntrCode,jdbcType=VARCHAR},

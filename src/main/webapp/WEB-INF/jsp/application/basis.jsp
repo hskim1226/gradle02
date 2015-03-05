@@ -489,10 +489,18 @@
                                         </div>
                                     </div>
                                     <div class="form-group required" id="divRgstNo" style="display: <c:choose><c:when test='${basis.application.citzCntrCode == "118"}'>block;</c:when><c:otherwise>none;</c:otherwise></c:choose>">
-                                        <label for="application.rgstNo" class="col-sm-2 control-label">주민등록번호</label>
+                                        <label class="col-sm-2 control-label">주민등록번호</label>
                                         <div class="col-sm-9">
                                             <div class="col-sm-12">
-                                                <form:input path="application.rgstNo" cssClass="form-control numOnly rgstNo" maxlength="13" placeholder="주민등록번호를 13자리 숫자로 입력해주세요"/>
+                                                <div class="col-sm-4 nopadding">
+                                                    <form:input path="application.rgstBornDate" cssClass="form-control numOnly" maxlength="6" placeholder="주민등록 상 생년월일"/>
+                                                </div>
+                                                <div class="col-sm-1" style="text-align: center;">
+                                                    <label>-</label>
+                                                </div>
+                                                <div class="col-sm-4 nopadding">
+                                                    <form:input path="application.rgstEncr" cssClass="form-control numOnly" maxlength="7" placeholder="주민등록번호 뒤 7자리"/>
+                                                </div>
                                             </div>
                                             <spring:bind path="application.rgstNo">
                                                 <c:if test="${status.error}">
