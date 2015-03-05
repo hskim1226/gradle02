@@ -47,7 +47,6 @@ public class UserAccountServiceImpl implements UserAccountService {
         int rUserInsert = 0, rAuthInsert = 0;
 
         user.setEnabled( true );
-        user.setPswd( passwordEncoder.encode( user.getPswd() ) );
         rUserInsert = commonDAO.insert( NAME_SPACE + "insertUser", user);
 
         Authorities authVO = new Authorities();
@@ -160,17 +159,16 @@ public class UserAccountServiceImpl implements UserAccountService {
         return ec;
     }
 
-    @Override
-    public Integer resetPassword(User user) {
-        StringKeyGenerator generator = KeyGenerators.string();
-        String key = generator.generateKey();
-        user.setPswd(key);
-        return changePassword(user);
-    }
+//    @Override
+//    public Integer resetPassword(User user) {
+//        StringKeyGenerator generator = KeyGenerators.string();
+//        String key = generator.generateKey();
+//        user.setPswd(key);
+//        return changePassword(user);
+//    }
 
     @Override
     public Integer changePassword(User user) {
-        user.setPswd( passwordEncoder.encode( user.getPswd() ) );
         return commonDAO.update(NAME_SPACE + "changePasswd", user);
     }
 
