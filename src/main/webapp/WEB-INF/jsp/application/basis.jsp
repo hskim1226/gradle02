@@ -1043,7 +1043,7 @@
     <%-- 도로명 주소 사용 안내 팝업 --%>
 
     <%-- 다음 주소 검색 팝업 --%>
-    <div id="postLayer" style="display:none;border:5px solid;position:fixed;width:310px;height:510px;left:50%;margin-left:-155px;top:50%;margin-top:-235px;overflow:hidden;-webkit-overflow-scrolling:touch;z-index:2;background-color:#fff;color: #111;">
+    <div id="postLayer" style="display:none;border:5px solid;position:fixed;width:720px;height:510px;left:50%;margin-left:-360px;top:50%;margin-top:-235px;overflow:hidden;-webkit-overflow-scrolling:touch;z-index:2;background-color:#fff;color: #111;">
         <img src="${contextPath}/img/user/addr-close.png" id="btnClosePostLayer" style="cursor:pointer;position:absolute;right:-3px;top:-3px" alt="닫기 버튼">
     </div>
     <%-- 다음 주소 검색 팝업 --%>
