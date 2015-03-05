@@ -8,7 +8,7 @@ var apex = {
         numOnly : /^[0-9]*$/,
         email : /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
         id : /^(?=\w{6,}$)(?=.*\d)(?=.*[A-Z]).*/,
-        password : /^(?=\w{6,}$)(?=.*\d)(?=.*[A-Z]).*/,
+        password : /^(?=\w{8,}$)(?=.*\d)(?=.*[A-Z]).*/,
         korPhoneNumber : /(^02.{0}|^01.{1}|[0-9]{3})([0-9]+)([0-9]{4})/,
         hyphen : /-/g
     },
@@ -49,11 +49,11 @@ var apex = {
             }
         });
     },
-    passwordCheck : function(className) { // 비밀 번호 6자리 이상, 영 대/소문자와 숫자 포함
+    passwordCheck : function(className) { // 비밀 번호 8자리 이상, 영 대/소문자와 숫자 포함
         $('.'+className).on('blur', function () {
             var val = this.value;
             if (!apex.rx.password.test(val) && val != '') {
-                alert("비밀번호는 6자리 이상, 영 대문자, 소문자, 숫자가 하나 이상 포함되어야 합니다.");
+                alert("비밀번호는 알파벳 대문자, 소문자, 숫자를 하나 이상 포함하여 8자리 이상이어야 합니다.");
                 this.value = "";
                 this.focus();
             }
