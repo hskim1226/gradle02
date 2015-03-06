@@ -90,6 +90,8 @@ public class LangCareerController {
             HashMap<String, Object> commonCodeMap = new HashMap<String, Object>();
             commonCodeMap.put( "toflTypeList", commonService.retrieveCommonCodeByCodeGroup("TOFL_TYPE") );
             commonCodeMap.put( "fornExmpList", commonService.retrieveCommonCodeByCodeGroup("FORN_EXMP") );
+            commonCodeMap.put( "ieltsLevelList", commonService.retrieveCommonCodeByCodeGroup("IELT_LEVL") );
+            commonCodeMap.put( "topikLevelList", commonService.retrieveCommonCodeByCodeGroup("TOPK_LEVL") );
 
             mv.addObject("common", commonCodeMap);
 
