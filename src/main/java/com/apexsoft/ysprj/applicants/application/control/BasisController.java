@@ -1,12 +1,16 @@
 package com.apexsoft.ysprj.applicants.application.control;
 
 import com.apexsoft.framework.common.vo.ExecutionContext;
+import com.apexsoft.framework.exception.ErrorInfo;
+import com.apexsoft.framework.exception.YSBizException;
 import com.apexsoft.framework.message.MessageResolver;
 import com.apexsoft.ysprj.applicants.application.domain.*;
 import com.apexsoft.ysprj.applicants.application.service.BasisService;
 import com.apexsoft.ysprj.applicants.application.validator.BasisValidator;
 import com.apexsoft.ysprj.applicants.common.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.encrypt.Encryptors;
+import org.springframework.security.crypto.encrypt.TextEncryptor;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -15,8 +19,21 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
-import java.security.Principal;
+import javax.crypto.Cipher;
+import javax.crypto.NoSuchPaddingException;
+import javax.servlet.ServletConfig;
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.ContentHandler;
+import java.security.*;
+import java.security.cert.CertificateException;
+import java.util.HashMap;
 import java.util.Map;
+import java.util.Properties;
 
 /**
  * Created by hanmomhanda on 15. 1. 9.
@@ -32,6 +49,9 @@ public class BasisController {
 
     @Autowired
     private BasisValidator basisValidator;
+
+    @Autowired
+    private ServletContext context;
 
     @Resource(name = "messageResolver")
     MessageResolver messageResolver;
@@ -88,6 +108,20 @@ public class BasisController {
         String userId = principal.getName();
         Application application = formData.getApplication();
         application.setUserId(userId);
+
+        String applStsCode = application.getApplStsCode();
+        if (applStsCode == null || applStsCode.trim().length() == 0) {
+            try {
+                application.setRgstEncr(getEncryptedString(application.getRgstEncr()));
+            } catch (IOException e) {
+                ec = new ExecutionContext(ExecutionContext.FAIL);
+                Map<String, Object> errMap = new HashMap<String, Object>();
+                errMap.put("applNo", application.getApplNo());
+                errMap.put("situation", "thrown when encryption");
+                ec.setErrorInfo(new ErrorInfo(errMap));
+                throw new YSBizException(ec);
+            }
+        }
 
         ec = basisService.saveBasis(formData);
 
@@ -206,5 +240,26 @@ public class BasisController {
         applicationGeneral.setEmerContTel(StringUtil.removeHyphen(applicationGeneral.getEmerContTel()));
 
         return result;
+    }
+
+    private String getEncryptedString(String input) throws IOException {
+        Properties prop = new Properties();
+        InputStream is = context.getResourceAsStream("WEB-INF/grad-ks");
+        String encrypted = null;
+
+        try {
+            prop.load(is);
+            TextEncryptor textEncryptor = Encryptors.queryableText(prop.getProperty("ENC_PSWD"), prop.getProperty("ENC_SALT"));
+            encrypted = textEncryptor.encrypt(input);
+        } finally {
+            try {
+                if (is != null) {
+                    is.close();
+                }
+            } catch (IOException e) {
+                throw e;
+            }
+        }
+        return encrypted;
     }
 }

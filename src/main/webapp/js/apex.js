@@ -82,5 +82,24 @@ var apex = {
             var val = this.value;
             this.value = val.substring(0, 6) + '-' + val.substring(6);
         });
+    },
+    lenCheck : function(className, min, max) {
+        $('.'+className).on('blur', function() {
+            var valLength = this.value.length;
+            if (valLength > 0) {
+                if (valLength < min || valLength > max) {
+                    if (min == max) {
+                        alert(min + "자로 입력해 주세요.");
+                    } else if (min < 0) {
+                        alert(max + "자 이하로 입력해 주세요.");
+                    } else if (max > 9999) {
+                        alert(min + "자 이상 입력해 주세요.");
+                    } else {
+                        alert(min + "자 이상 " + max + "자 이하로 입력해 주세요.");
+                    }
+                    this.focus();
+                }
+            }
+        });
     }
 };

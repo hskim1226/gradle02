@@ -270,6 +270,10 @@
             background: #ffdddd;
             color: #f55;
         }
+        .input-info {
+            background: #ddddff;
+            color: #55c;
+        }
     </style>
 </head>
 <body>
@@ -493,26 +497,34 @@
                                         <div class="col-sm-9">
                                             <div class="col-sm-12">
                                                 <div class="col-sm-4 nopadding">
-                                                    <div><form:input path="application.rgstBornDate" cssClass="form-control numOnly" maxlength="6" placeholder="주민등록 상 생년월일 6자리"/></div>
+                                                    <div><form:input path="application.rgstBornDate" cssClass="form-control numOnly lenCheck-6" maxlength="6" placeholder="주민등록 상 생년월일 6자리"/></div>
                                             <spring:bind path="application.rgstBornDate">
                                                 <c:if test="${status.error}">
                                                     <div class="validation-error">${status.errorMessage}</div>
                                                 </c:if>
                                             </spring:bind>
                                                 </div>
-                                                <div class="col-sm-1" style="text-align: center;">
-                                                    <label>-</label>
-                                                </div>
-                                                <div class="col-sm-4 nopadding">
-                                                    <div><form:input path="application.rgstEncr" cssClass="form-control numOnly" maxlength="7" placeholder="주민등록번호 뒤 7자리"/></div>
-                                            <spring:bind path="application.rgstEncr">
-                                                <c:if test="${status.error}">
-                                                    <div class="validation-error">${status.errorMessage}</div>
-                                                </c:if>
-                                            </spring:bind>
-                                                </div>
-                                            </div>
+                                                <c:choose>
+                                                    <c:when test="${basis.application.applStsCode == null || basis.application.applStsCode.length() == 0}">
+                                                        <div class="col-sm-1" style="text-align: center;">
+                                                            <label>-</label>
+                                                        </div>
+                                                        <div class="col-sm-4 nopadding">
+                                                            <div><form:input path="application.rgstEncr" cssClass="form-control numOnly lenCheck-7" maxlength="7" placeholder="주민등록번호 뒤 7자리"/></div>
+                                                            <div class="input-info word-keep-all">보안을 위해 추후 수정할 수 없으므로 정확히 입력해 주십시오.</div>
+                                                            <spring:bind path="application.rgstEncr">
+                                                                <c:if test="${status.error}">
+                                                                    <div class="validation-error">${status.errorMessage}</div>
+                                                                </c:if>
+                                                            </spring:bind>
+                                                        </div>
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        <div style="color: #337799; vertical-align: middle;">주민등록번호 뒷자리는 보안을 위해 화면에 노출하지 않습니다.</div>
+                                                    </c:otherwise>
+                                                </c:choose>
 
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -1148,6 +1160,14 @@
                 $('#baseCancel').css('display', 'block');
                 $('#baseSave').css('display', 'none');
                 $('#basis2Container').css('display', 'block');
+
+//                (function () {
+//                    if($(window).innerWidth() <= 960) {
+//                        $('html').niceScroll().remove();
+//                    } else {
+//                        $("html").niceScroll({zindex:999,cursorborder:"",cursorwidth:"8px",cursorborderradius:"4px",cursorcolor:"#888888",cursoropacitymin:.5,horizrailenabled:false});
+//                    }
+//                })();
             }
         };
 
@@ -1213,6 +1233,11 @@
         <%-- 숫자만 입력 - 주민번호, 휴대폰, 전화번호 --%>
         apex.numCheck('numOnly');
         <%-- 숫자만 입력 - 주민번호, 휴대폰, 전화번호 --%>
+
+        <%-- 주민번호 길이 체크 --%>
+        apex.lenCheck('lenCheck-6', 6, 6);
+        apex.lenCheck('lenCheck-7', 7, 7);
+        <%-- 주민번호 길이 체크 --%>
 
         <%-- 메일 주소 validation --%>
         apex.emailCheck('emailOnly');

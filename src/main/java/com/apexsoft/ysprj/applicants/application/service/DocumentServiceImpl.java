@@ -156,6 +156,12 @@ public class DocumentServiceImpl implements DocumentService {
         Application application = document.getApplication();
 
         int r1, applNo = application.getApplNo();
+
+        // TODO 제출된 원서의 주민 번호 체크
+//        if (checkSubmittedRgstNo(applNo)) {
+//
+//        }
+
         Date date = new Date();
         String userId = application.getUserId();
         application.setModDate(date);
@@ -821,5 +827,10 @@ public class DocumentServiceImpl implements DocumentService {
         return photoUrl;
     }
 
-
+    private ExecutionContext checkSubmittedRgstNo(int applNo) {
+        // applNo 로 rgstBornDate, rgstEncr 조회
+        // rgstEncr 복호화
+        // 현재 제출 완료 된 원서의 전체 rgstNo와 비교 결과 반환
+        return null;
+    }
 }
