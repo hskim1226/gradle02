@@ -365,21 +365,33 @@
                                             <label class="col-sm-2 control-label">졸업 구분</label>
                                             <div class="col-sm-9">
                                                 <div class="col-sm-4">
-                                                    <label class="radio-inline degr-radio"><form:radiobutton path="collegeList[${stat.index}].grdaTypeCode" cssClass="grad-yn" value="00001" />졸업</label>
-                                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                                    <label class="radio-inline degr-radio"><form:radiobutton path="collegeList[${stat.index}].grdaTypeCode" cssClass="grad-yn" value="00002" />졸업 예정</label>
+                                                    <div>
+                                                        <label class="radio-inline degr-radio"><form:radiobutton path="collegeList[${stat.index}].grdaTypeCode" cssClass="grad-yn" value="00001" />졸업</label>
+                                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                        <label class="radio-inline degr-radio"><form:radiobutton path="collegeList[${stat.index}].grdaTypeCode" cssClass="grad-yn" value="00002" />졸업 예정</label>
+                                                    </div>
+                                            <spring:bind path="collegeList[${stat.index}].grdaTypeCode">
+                                                <c:if test="${status.error}">
+                                                    <div class="col-sm-12 nopadding validation-container">
+                                                        <div class="validation-error">${status.errorMessage}</div>
+                                                    </div>
+                                                </c:if>
+                                            </spring:bind>
                                                 </div>
                                                 <div class="col-sm-8">
-                                                    <form:input path="collegeList[${stat.index}].degrNo" cssClass="degr-no form-control" placeholder="학위등록번호를 입력해주세요"/>
-                                                    <label id='collegeList${stat.index}.label-grad-not' class="col-sm-10 grda-not degr-message" style="display:none;" >합격 후 입학 시 졸업증명서를 대학원 사무실로 반드시 제출하세요</label>
+                                                    <div>
+                                                        <form:input path="collegeList[${stat.index}].degrNo" cssClass="degr-no form-control" placeholder="학위등록번호를 입력해주세요"/>
+                                                        <label id='collegeList${stat.index}.label-grad-not' class="col-sm-10 grda-not degr-message" style="display:none;" >합격 후 입학 시 졸업증명서를 대학원 사무실로 반드시 제출하세요</label>
+                                                    </div>
+                                            <spring:bind path="collegeList[${stat.index}].degrNo">
+                                                <c:if test="${status.error}">
+                                                    <div class="col-sm-12 nopadding validation-container">
+                                                        <div class="validation-error">${status.errorMessage}</div>
+                                                    </div>
+                                                </c:if>
+                                            </spring:bind>
                                                 </div>
-                                        <spring:bind path="collegeList[${stat.index}].grdaTypeCode">
-                                            <c:if test="${status.error}">
-                                                <div class="col-sm-12 validation-container">
-                                                    <div class="validation-error">${status.errorMessage}</div>
-                                                </div>
-                                            </c:if>
-                                        </spring:bind>
+
                                             </div>
                                         </div>
                                         <div class="form-group required">

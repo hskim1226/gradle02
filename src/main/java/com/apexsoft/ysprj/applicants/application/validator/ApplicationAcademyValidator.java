@@ -43,6 +43,11 @@ public class ApplicationAcademyValidator extends NamedListValidator {
             if (caa.getGrdaTypeCode() == null || caa.getGrdaTypeCode().length() == 0) {
                 errors.rejectValue(prefix + "grdaTypeCode", "U331",
                         new Object[]{"졸업 구분"}, messageResolver.getMessage("U332"));
+            } else if ("00001".equals(caa.getGrdaTypeCode())) {
+                if (caa.getDegrNo() == null || caa.getDegrNo().length() == 0) {
+                    errors.rejectValue(prefix + "degrNo", "U331",
+                            new Object[]{"학위 번호"}, messageResolver.getMessage("U332"));
+                }
             }
             if (caa.getSchlName() == null || caa.getSchlName().length() == 0) {
                 errors.rejectValue(prefix + "schlName", "U331",

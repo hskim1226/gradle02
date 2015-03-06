@@ -488,27 +488,31 @@
                                             </spring:bind>
                                         </div>
                                     </div>
-                                    <div class="form-group required" id="divRgstNo" style="display: <c:choose><c:when test='${basis.application.citzCntrCode == "118"}'>block;</c:when><c:otherwise>none;</c:otherwise></c:choose>">
+                                    <div class="form-group required" id="divRgstNo" style="display: ${basis.application.citzCntrCode == "118" ? 'block;' : 'none;'}">
                                         <label class="col-sm-2 control-label">주민등록번호</label>
                                         <div class="col-sm-9">
                                             <div class="col-sm-12">
                                                 <div class="col-sm-4 nopadding">
-                                                    <form:input path="application.rgstBornDate" cssClass="form-control numOnly" maxlength="6" placeholder="주민등록 상 생년월일"/>
+                                                    <div><form:input path="application.rgstBornDate" cssClass="form-control numOnly" maxlength="6" placeholder="주민등록 상 생년월일 6자리"/></div>
+                                            <spring:bind path="application.rgstBornDate">
+                                                <c:if test="${status.error}">
+                                                    <div class="validation-error">${status.errorMessage}</div>
+                                                </c:if>
+                                            </spring:bind>
                                                 </div>
                                                 <div class="col-sm-1" style="text-align: center;">
                                                     <label>-</label>
                                                 </div>
                                                 <div class="col-sm-4 nopadding">
-                                                    <form:input path="application.rgstEncr" cssClass="form-control numOnly" maxlength="7" placeholder="주민등록번호 뒤 7자리"/>
-                                                </div>
-                                            </div>
-                                            <spring:bind path="application.rgstNo">
+                                                    <div><form:input path="application.rgstEncr" cssClass="form-control numOnly" maxlength="7" placeholder="주민등록번호 뒤 7자리"/></div>
+                                            <spring:bind path="application.rgstEncr">
                                                 <c:if test="${status.error}">
-                                                    <div class="col-sm-12">
-                                                        <div class="validation-error">${status.errorMessage}</div>
-                                                    </div>
+                                                    <div class="validation-error">${status.errorMessage}</div>
                                                 </c:if>
                                             </spring:bind>
+                                                </div>
+                                            </div>
+
                                         </div>
                                     </div>
                                 </div>
@@ -1342,7 +1346,8 @@
 
         $('#citzCntrCode').on('change', function(e) {
             var divRgstNo = document.getElementById('divRgstNo'),
-                rgstNo = document.getElementById('application.rgstNo'),
+                rgstBornDate = document.getElementById('application.rgstBornDate'),
+                rgstEncr = document.getElementById('application.rgstEncr'),
                 divStayInfo = document.getElementById('stayInfo'),
                 stayInfoItems, item, i, itemL;
             if (this.value == '118') {
@@ -1363,8 +1368,10 @@
                     stayInfoItems[i].selectedIndex = 0;
                 }
             } else {
-                rgstNo.setAttribute('value', '');
-                rgstNo.value = '';
+                rgstBornDate.setAttribute('value', '');
+                rgstBornDate.value = '';
+                rgstEncr.setAttribute('value', '');
+                rgstEncr.value = '';
                 divRgstNo.style.display = 'none';
                 divStayInfo.style.display = 'block';
             }
