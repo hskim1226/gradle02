@@ -41,32 +41,32 @@
                             <td rowspan="3" valign="center">기관 토플<br/>(필요자만 응시)</td>
                             <td>접수일</td>
                             <td>2014. 9. 1(월) ~ 9.21(일)</td>
-                            <td>미정</td>
+                            <td>2015. 3. 2(월) ~ 3.22(일)</td>
                         </tr>
                         <tr>
                             <td>시험일</td>
                             <td>2014. 9.27(토)</td>
-                            <td>미정</td>
+                            <td>2015. 3.28(토)</td>
                         </tr>
                         <tr>
                             <td>성적발표</td>
                             <td>2014.10. 1(수) ~</td>
-                            <td>미정</td>
+                            <td>2015. 4. 2(목)</td>
                         </tr>
                         <tr>
                             <td colspan="2">입학원서 접수</td>
                             <td>2014. 9. 29(월) ~ 10. 8(수)</td>
-                            <td>2015. 3. 30(월) ~  4. 8(수)</td>
+                            <td>2015. 4.  8(수) ~  4.10(금)</td>
                         </tr>
                         <tr>
                             <td colspan="2">구술시험 대상자 발표</td>
                             <td>2014.10.31(금)</td>
-                            <td>2015. 4.24(금)</td>
+                            <td>2015. 5. 8(금)</td>
                         </tr>
                         <tr>
                             <td colspan="2">구술면접 및 음대실기</td>
                             <td>2014.11. 8(토)</td>
-                            <td>2015. 5. 2(토)</td>
+                            <td>2015. 5.16(토)</td>
                         </tr>
                         <tr>
                             <td colspan="2">최종 합격자 발표</td>
@@ -77,33 +77,27 @@
                     </table>
                     <div class="spacer-small">&nbsp;</div>
                     <div class="col-sm-12 text-gray">
-                        <i class="fa fa-download fa-3x" style="vertical-align: middle; line-height:40px;"></i>&nbsp;&nbsp;<span style="font-size: 35px; vertical-align: middle; line-height:40px;"><b>모집 요강 다운로드</b></span>
+                        <i class="fa fa-download fa-3x" style="vertical-align: middle; line-height:40px;"></i>&nbsp;&nbsp;<span style="font-size: 35px; vertical-align: middle; line-height:40px;"><b>2015학년도 대학원 전기전형 모집 요강 다운로드</b></span>
                     </div>
                     <div class="spacer-tiny">&nbsp;</div>
-                    <div class="col-sm-12">아래는 참고용 2014년 후기 자료이며, 2015년 전기 요강은 2014. 9월초 업로드 예정</div>
+                    <div class="col-sm-12">2015학년도 후기 모집요강은 3월 업로드 예정</div>
                     <div class="spacer-tiny">&nbsp;</div>
                     <div>
                         <table class="table table-stripped">
                             <tr>
-                                <td align="left">2014학년도 9월입학 대학원 일반 전형 요강<a href="http://graduate.yonsei.ac.kr/download/sub03/info(2014-2).pdf" target="_blank"><img src="${contextPath}/img/common/button_pdf.gif"/></a><a href=""><img src="${contextPath}/img/common/button_word.gif"/></a></td>
+                                <td align="left"><img src="${contextPath}/img/common/button_pdf.gif"/><a href="http://graduate.yonsei.ac.kr/download/sub03/info(2015-1).pdf" target="_blank">2015학년도 3월 입학 대학원 일반 전형 모집 요강(한국어, PDF)</a></td>
                             </tr>
                             <tr>
-                                <td align="left">학업 및 연구계획서<a href="http://graduate.yonsei.ac.kr/download/sub03/D2006form4.pdf" target="_blank"><img src="${contextPath}/img/common/button_pdf.gif"/></a><a href="http://graduate.yonsei.ac.kr/download/sub03/D2006form4.hwp" target="_blank"><img src="${contextPath}/img/common/button_hwp.gif"/></a></td>
+                                <td align="left"><img src="${contextPath}/img/common/button_pdf.gif"/><a href="http://graduate.yonsei.ac.kr/download/sub03/D2006form4.pdf" target="_blank">학업 및 연구계획서(PDF)</a>&nbsp;&nbsp;&nbsp;<img src="${contextPath}/img/common/button_hwp.gif"/><a href="http://graduate.yonsei.ac.kr/download/sub03/D2006form4.hwp" target="_blank">(아래한글)</a></td>
                             </tr>
                             <tr>
-                                <td align="left">외국어시험면제승인서  ※ 연세대 석사를 마치고 3년이내에 박사과정 진학하는 자만 작성(건축공학과 제외)</td>
+                                <td align="left"><img src="${contextPath}/img/common/button_pdf.gif"/><a href="http://graduate.yonsei.ac.kr/download/sub03/D2006form1.pdf" target="_blank">외국어시험면제승인서(PDF)  ※ 연세대 석사를 마치고 3년이내에 박사과정 진학하는 자만 작성(건축공학과 제외)</a></td>
                             </tr>
                             <tr>
-                                <td align="left">학력조회 동의서</td>
+                                <td align="left"><img src="${contextPath}/img/common/button_pdf.gif"/><a href="http://graduate.yonsei.ac.kr/download/sub03/Letter_of_Consent.pdf" targert="_blank">학력조회 동의서</a></td>
                             </tr>
-                            <%--<tr>--%>
-                            <%--<td align="left">최종 출신대학 확인서</td>--%>
-                            <%--</tr>--%>
-                            <%--<tr>--%>
-                            <%--<td align="left">치과대학, 원주의과대학(의학,간호학,치위생학) 전공교실 주임교수 확인서</td>--%>
-                            <%--</tr>--%>
                             <tr>
-                                <td align="left">원주의과대학 전일제 대학원생 장학금 지급 신청서</td>
+                                <td align="left"><img src="${contextPath}/img/common/button_pdf.gif"/><a href="http://graduate.yonsei.ac.kr/download/sub03/info_scholar.pdf" target="_blank">원주의과대학 전일제 대학원생 장학금 지급 신청서</a></td>
                             </tr>
                         </table>
                     </div>
