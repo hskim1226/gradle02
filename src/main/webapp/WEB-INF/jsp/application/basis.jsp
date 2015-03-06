@@ -1160,14 +1160,6 @@
                 $('#baseCancel').css('display', 'block');
                 $('#baseSave').css('display', 'none');
                 $('#basis2Container').css('display', 'block');
-
-//                (function () {
-//                    if($(window).innerWidth() <= 960) {
-//                        $('html').niceScroll().remove();
-//                    } else {
-//                        $("html").niceScroll({zindex:999,cursorborder:"",cursorwidth:"8px",cursorborderradius:"4px",cursorcolor:"#888888",cursoropacitymin:.5,horizrailenabled:false});
-//                    }
-//                })();
             }
         };
 

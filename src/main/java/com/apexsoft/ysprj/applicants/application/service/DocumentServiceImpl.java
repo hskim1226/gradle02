@@ -10,10 +10,15 @@ import com.apexsoft.ysprj.applicants.common.util.FileUtil;
 import com.apexsoft.ysprj.applicants.payment.service.PaymentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.crypto.encrypt.Encryptors;
+import org.springframework.security.crypto.encrypt.TextEncryptor;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import javax.servlet.ServletContext;
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.*;
 
 /**
@@ -26,6 +31,9 @@ public class DocumentServiceImpl implements DocumentService {
 
     @Autowired
     private CommonDAO commonDAO;
+
+    @Autowired
+    private ServletContext context;
 
     @Autowired
     private PaymentService paymentService;
@@ -832,5 +840,26 @@ public class DocumentServiceImpl implements DocumentService {
         // rgstEncr 복호화
         // 현재 제출 완료 된 원서의 전체 rgstNo와 비교 결과 반환
         return null;
+    }
+
+    private String getDecryptedString(String encrypted) throws IOException {
+        Properties prop = new Properties();
+        InputStream is = context.getResourceAsStream("WEB-INF/grad-ks");
+        String decrypted = null;
+
+        try {
+            prop.load(is);
+            TextEncryptor textEncryptor = Encryptors.queryableText(prop.getProperty("ENC_PSWD"), prop.getProperty("ENC_SALT"));
+            decrypted = textEncryptor.decrypt(encrypted);
+        } finally {
+            try {
+                if (is != null) {
+                    is.close();
+                }
+            } catch (IOException e) {
+                throw e;
+            }
+        }
+        return decrypted;
     }
 }
