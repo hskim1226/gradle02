@@ -33,9 +33,9 @@ public class ApplicantInfo {
     private String addr; 
     private String detlAddr;      
 
-	private String mobiNum; 
-    private String mailAddr;  
-    private String emerContCode;      
+	private String mobiNum;
+    private String mailAddr;
+    private String emerContCode;
 	private String emerContName; 
     private String emerContTel;      
     

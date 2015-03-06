@@ -1,4 +1,4 @@
-package com.apexsoft.framework.web.view;
+package com.apexsoft.framework.excel;
 
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
@@ -10,7 +10,7 @@ import org.springframework.web.servlet.view.document.AbstractExcelView;
 /**
  * Created by Dhkim on 2015-03-05.
  */
-public class ExcelDownloadView extends AbstractExcelView{
+public class ApplicantListExcelDownloadView extends AbstractExcelView{
 
 
     @Override

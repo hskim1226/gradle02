@@ -29,6 +29,8 @@ public interface AdminService {
 
     Map<String, Object> getCouurseSelectionBasicMap();
 
+    ExecutionContext retrieveEntireApplicantListByDept(CourseSearchPageForm courseSearchPageForm);
+
 
 
 
