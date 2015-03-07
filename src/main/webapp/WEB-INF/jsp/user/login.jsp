@@ -102,7 +102,7 @@
 <section class="login">
     <div class="container">
         <div class="col-md-offset-3 col-md-6">
-            <form class="form-horizontal" role="form" name="user" action="${contextPath}/j_spring_security_check.do" method="post">
+            <form class="form-horizontal" role="form" id="loginForm" name="user" method="post">
                 <div class="form-group" id="login-form-container">
                     <div class="col-sm-offset-1 col-sm-10" id="logo-container">
                         <img src="${contextPath}/img/common/yonsei-logo01.png" align="center">
@@ -117,7 +117,11 @@
                     </div>
                     <div class="spacer-small">&nbsp;</div>
                     <div class="col-sm-offset-1 col-sm-10">
-                        <button class="btn btn-primary btn-lg btn-block logintext">로그인</button>
+                        <button class="btn btn-primary btn-lg btn-block btn-login" data-lang="ko">로그인(한국어)</button>
+                    </div>
+                    <div class="spacer-small">&nbsp;</div>
+                    <div class="col-sm-offset-1 col-sm-10">
+                        <button class="btn btn-primary btn-lg btn-block btn-login" data-lang="en">로그인(영어)</button>
                     </div>
                     <c:if test="${loginMessage}">
                         <div class="spacer-small">&nbsp;</div>
@@ -134,6 +138,7 @@
                         <div class="text-gray">아이디/비밀번호를 잊으셨나요? <a href="${contextPath}/user/findId">아이디 찾기</a>&nbsp;<a href="${contextPath}/user/findPwd">비밀번호 찾기</a></div>
                     </div>
                 </div>
+                <input type="hidden" name="lang" value="en" />
             </form>
         </div>
     </div>
@@ -163,6 +168,14 @@
 
 <script type="text/javascript">
 $(document).ready(function() {
+
+    $('.btn-login').on('click', function(e) {
+        e.preventDefault();
+        var lang = this.getAttribute('data-lang'),
+            form = document.getElementById('loginForm');
+        form.action = "${contextPath}/j_spring_security_check.do?lang=" + lang;
+        form.submit();
+    });
     <%-- action 성공 여부 알림 처리 --%>
     var showActionResult = function() {
         var msg = '${resultMsg}';

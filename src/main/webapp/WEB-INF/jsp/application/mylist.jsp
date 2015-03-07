@@ -25,7 +25,7 @@
                 <div class="col-sm-offset-1 col-sm-10">
                     <div class="form-group inner-container-white">
                         <div class="col-sm-offset-1 col-sm-10 text-gray">
-                            <i class="fa fa-list fa-3x" style="vertical-align: middle; line-height:40px;"></i>&nbsp;&nbsp;<span style="font-size: 35px; vertical-align: middle; line-height:40px;"><b>지원 내역</b></span>
+                            <i class="fa fa-list fa-3x" style="vertical-align: middle; line-height:40px;"></i>&nbsp;&nbsp;<span style="font-size: 35px; vertical-align: middle; line-height:40px;"><b><spring:message code="L00201"/><%--지원 내역--%></b></span>
                         </div>
                         <div class="spacer-small">&nbsp;</div>
                         <div class="col-sm-offset-1 col-sm-10 align-center">

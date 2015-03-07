@@ -282,7 +282,7 @@
         <div id="stepContainer">
             <table width="100%">
                 <tr>
-                    <td id="stepStatusTitle" colspan=4 align="center" height="70px">원서 작성 현황</td>
+                    <td id="stepStatusTitle" colspan=4 align="center" height="70px"><spring:message code="L01001"/><%--원서 작성 현황--%></td>
                 </tr>
                 <tr id="stepTR">
                     <td id="stepBasis" width="25%" height="50px" align="center" class="stepDisabled">1. 기본 정보</td>
