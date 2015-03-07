@@ -67,7 +67,7 @@
         }
 
         section.login .spacer-tiny {
-            margin-bottom: 1em;
+            margin-bottom: 0.2em;
         }
 
         #login-form-container {
@@ -81,7 +81,6 @@
             height: 50px;
             font-size: 100%;
             opacity: 1.0;
-            margin-bottom: 5%;
         }
 
         .text-gray {
@@ -89,7 +88,10 @@
             opacity: 1.0;
             text-align: center;
         }
-
+        .text-warning {
+            color: #ff7777;
+            text-align: center;
+        }
         #logo-container {
             text-align: center;
             margin-bottom: 5%;
@@ -107,38 +109,45 @@
                     <div class="col-sm-offset-1 col-sm-10" id="logo-container">
                         <img src="${contextPath}/img/common/yonsei-logo01.png" align="center">
                     </div>
-                    <div class="spacer-small">&nbsp;</div>
-                    <div class="col-sm-offset-1 col-sm-10">
-                        <input type="text" class="form-control logintext" id="username" name="j_username" placeholder="User ID">
-                    </div>
-                    <div class="spacer-small">&nbsp;</div>
-                    <div class="col-sm-offset-1 col-sm-10">
-                        <input type="password" class="form-control logintext" id="password" name="j_password" placeholder="Password">
-                    </div>
-                    <div class="spacer-small">&nbsp;</div>
-                    <div class="col-sm-offset-1 col-sm-10">
-                        <button class="btn btn-primary btn-lg btn-block btn-login" data-lang="ko">로그인(한국어)</button>
-                    </div>
-                    <div class="spacer-small">&nbsp;</div>
-                    <div class="col-sm-offset-1 col-sm-10">
-                        <button class="btn btn-primary btn-lg btn-block btn-login" data-lang="en">로그인(영어)</button>
-                    </div>
-                    <c:if test="${loginMessage}">
-                        <div class="spacer-small">&nbsp;</div>
+                    <div class="spacer-tiny col-sm-12">&nbsp;</div>
+                    <div>
                         <div class="col-sm-offset-1 col-sm-10">
-                            <div class="panel panel-danger">${loginMessage}</div>
+                            <input type="text" class="form-control logintext" id="username" name="j_username" placeholder="User ID">
+                        </div>
+                    </div>
+                    <div class="spacer-tiny col-sm-12">&nbsp;</div>
+                    <div>
+                        <div class="col-sm-offset-1 col-sm-10">
+                            <input type="password" class="form-control logintext" id="password" name="j_password" placeholder="Password">
+                        </div>
+                    </div>
+                    <div class="spacer-tiny col-sm-12">&nbsp;</div>
+                    <div>
+                        <div class="col-sm-offset-1 col-sm-10">
+                            <button class="btn btn-primary btn-lg btn-block btn-login" data-lang="ko">로그인(한국어)</button>
+                        </div>
+                    </div>
+                    <div class="spacer-tiny col-sm-12">&nbsp;</div>
+                    <div>
+                        <div class="col-sm-offset-1 col-sm-10">
+                            <button class="btn btn-success btn-lg btn-block btn-login" data-lang="en">로그인(영어)</button>
+                        </div>
+                    </div>
+                    <c:if test="${loginMessage.length() > 0}">
+                        <div class="spacer-tiny col-sm-12">&nbsp;</div>
+                        <div class="col-sm-offset-1 col-sm-10">
+                            <div class="panel panel-danger text-warning">${loginMessage}</div>
                         </div>
                     </c:if>
-                    <div class="spacer-small">&nbsp;</div>
+                    <div class="spacer-tiny col-sm-12">&nbsp;</div>
                     <div class="col-sm-offset-1 col-sm-10">
                         <div class="text-gray">아직 회원이 아니세요? <a href="${contextPath}/user/agreement">회원 가입</a></div>
                     </div>
-                    <div class="spacer-small">&nbsp;</div>
+                    <div class="spacer-tiny col-sm-12">&nbsp;</div>
                     <div class="col-sm-offset-1 col-sm-10">
                         <div class="text-gray">아이디/비밀번호를 잊으셨나요? <a href="${contextPath}/user/findId">아이디 찾기</a>&nbsp;<a href="${contextPath}/user/findPwd">비밀번호 찾기</a></div>
                     </div>
                 </div>
-                <input type="hidden" name="lang" value="en" />
             </form>
         </div>
     </div>

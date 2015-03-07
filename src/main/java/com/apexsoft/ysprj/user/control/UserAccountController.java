@@ -60,7 +60,7 @@ public class UserAccountController {
         mv.setViewName("user/login");
         if (bindingResult.hasErrors()) return mv;
 
-        if (request.getAttribute("LOGIN_FAILURE") == Boolean.TRUE)
+        if ("fail".equals(request.getParameter("auth")))
             mv.addObject("loginMessage", messageResolver.getMessage("U330"));
 
         return mv;

@@ -22,15 +22,6 @@ public class CustomLoginFilter extends UsernamePasswordAuthenticationFilter {
     @Override
     public Authentication attemptAuthentication( HttpServletRequest request, HttpServletResponse response ) throws AuthenticationException {
 
-        Enumeration parameterNames = request.getParameterNames();
-        System.err.println("in CustomLoginFilter");
-        while (parameterNames.hasMoreElements()) {
-            String paramName = (String)parameterNames.nextElement();
-            System.err.println(paramName + " : " + request.getParameter(paramName));
-        }
-
-//        LocaleResolver localeResolver = RequestContextUtils.getLocaleResolver(request);
-//        localeResolver.setLocale(request, response, new Locale(request.getParameter("lang")));
         WebUtils.setSessionAttribute(request, SessionLocaleResolver.LOCALE_SESSION_ATTRIBUTE_NAME, new Locale(request.getParameter("lang")));
 
         return super.attemptAuthentication(request, response);
