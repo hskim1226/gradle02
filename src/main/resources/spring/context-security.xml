@@ -41,7 +41,8 @@
         <!--<logout logout-url="/j_spring_security_logout.do" invalidate-session="true" logout-success-url="/user/adminLogin"/>-->
     <!--</http>-->
 
-    <http auto-config="true"  use-expressions="true" access-denied-page="/user/login.do?auth=true" >
+    <!--<http auto-config="true" use-expressions="true" entry-point-ref="loginEntryPoint" access-denied-page="/user/login.do?auth=true" >-->
+    <http auto-config="false" use-expressions="true" entry-point-ref="loginEntryPoint" access-denied-page="/user/login.do?auth=true" >
         <intercept-url pattern="/index"  access="isAnonymous() or isAuthenticated()"/>
         <intercept-url pattern="/index.jsp"  access="isAnonymous() or isAuthenticated()"/>
         <intercept-url pattern="/user/login*"  access="isAnonymous() or isAuthenticated()"/>
@@ -59,26 +60,44 @@
         <intercept-url pattern="/qna/**" access="isAnonymous() or isAuthenticated()" />
         <intercept-url pattern="/**" access="hasRole('ROLE_USER')" />
 
-        <form-login login-processing-url="/j_spring_security_check.do"
-                    login-page="/user/login?auth=true"
-                    default-target-url="/application/mylist"
-                    always-use-default-target="false"
-                    authentication-failure-handler-ref="authenticationFailureHandler"
-                    authentication-failure-url="/user/login?fail=true" />
+        <!--<form-login login-processing-url="/j_spring_security_check.do"-->
+                    <!--login-page="/user/login?auth=true"-->
+                    <!--default-target-url="/application/mylist"-->
+                    <!--always-use-default-target="false"-->
+                    <!--authentication-failure-handler-ref="authenticationFailureHandler"-->
+                    <!--authentication-failure-url="/user/login?fail=true" />-->
+        <custom-filter position="FORM_LOGIN_FILTER" ref="customLoginFilter" />
         <logout logout-url="/j_spring_security_logout.do" invalidate-session="true" logout-success-url="/"/>
     </http>
 
     <beans:bean id="encoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>
 
-    <beans:bean id="userDetailsService" class="com.apexsoft.framework.security.UserDetailsServiceImpl" >
+    <beans:bean id="userDetailsService" class="com.apexsoft.framework.security.UserDetailsServiceImpl" />
+
+    <!-- for CustomLoginFilter -->
+    <beans:bean id="loginEntryPoint" class="org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint">
+        <beans:constructor-arg name="loginFormUrl" value="/user/login?auth=true" />
     </beans:bean>
 
-    <authentication-manager>
+    <beans:bean id="customLoginFilter" class="com.apexsoft.framework.security.CustomLoginFilter">
+        <beans:property name="filterProcessesUrl" value="/j_spring_security_check.do" />
+        <beans:property name="authenticationManager" ref="authenticationManager" />
+        <beans:property name="authenticationSuccessHandler" ref="loginSuccessHandler" />
+        <beans:property name="authenticationFailureHandler" ref="authenticationFailureHandler" />
+    </beans:bean>
+
+    <beans:bean id="loginSuccessHandler" class="org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler">
+        <beans:property name="defaultTargetUrl" value="/application/mylist" />
+        <beans:property name="alwaysUseDefaultTargetUrl" value="false" />
+    </beans:bean>
+    <!-- for CustomLoginFilter -->
+
+    <authentication-manager alias="authenticationManager">
         <authentication-provider user-service-ref="userDetailsService">
             <password-encoder ref="encoder"  />
         </authentication-provider>
     </authentication-manager>
 
-    <beans:bean id="authenticationFailureHandler" class="com.apexsoft.framework.security.handler.YsAuthenticationFailureHandler"></beans:bean>
+    <beans:bean id="authenticationFailureHandler" class="com.apexsoft.framework.security.handler.YsAuthenticationFailureHandler" />
 
 </beans:beans>
