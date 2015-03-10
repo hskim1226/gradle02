@@ -21,7 +21,10 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 
 /**
  * Created by hanmomhanda on 14. 8. 6.
@@ -66,6 +69,28 @@ public class CommonController {
             throws NoSuchAlgorithmException, JsonProcessingException, UnsupportedEncodingException {
 
         List<College> collegeList = commonService.retrieveCollegeByCampus(campCode);
+
+        String json = jacksonObjectMapper.writeValueAsString(collegeList);
+
+        ExecutionContext executionContext = new ExecutionContext();
+        if (!(collegeList.size() > 0)) {
+            executionContext.setMessage(messageResolver.getMessage("U300"));
+        }
+        executionContext.setData(json);
+
+        return executionContext;
+    }
+
+    @RequestMapping(value="/code/admscollege/{admsNo}/{campCode}", method= RequestMethod.GET)
+    @ResponseBody
+    public ExecutionContext getCollegeByAdmsCamp(@PathVariable("admsNo") String admsNo,
+                                                 @PathVariable("campCode") String campCode)
+            throws NoSuchAlgorithmException, JsonProcessingException, UnsupportedEncodingException {
+
+        ParamForSetupCourses paramForSetupCourses = new ParamForSetupCourses();
+        paramForSetupCourses.setAdmsNo(admsNo);
+        paramForSetupCourses.setCampCode(campCode);
+        List<College> collegeList = commonService.retrieveCollegeByAdmsCamp(paramForSetupCourses);
 
         String json = jacksonObjectMapper.writeValueAsString(collegeList);
 

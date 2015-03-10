@@ -15,6 +15,14 @@
     where CAMP_CODE = #{campusCode,jdbcType=VARCHAR}
   </select>
 
+    <select id="selectByAdmsCamp" resultMap="BaseResultMap" parameterType="java.lang.String" >
+        select B.*
+        from ADMS_COLL A, COLL B
+        where A.COLL_CODE = B.COLL_CODE
+        and A.ADMS_NO = #{admsNo,jdbcType=VARCHAR}
+        and B.CAMP_CODE = #{campCode,jdbcType=VARCHAR}
+    </select>
+
     <select id="selectNameByCode" resultMap="BaseResultMap" parameterType="java.lang.String">
         select COLL_NAME, COLL_NAME_XXEN
         from COLL
