@@ -1,7 +1,5 @@
 package com.apexsoft.ysprj.applicants.application.domain;
 
-import java.util.Date;
-
 public class CommonMandatoryLang extends CustomApplicationLanguage{
 
     //Mandatory  항목

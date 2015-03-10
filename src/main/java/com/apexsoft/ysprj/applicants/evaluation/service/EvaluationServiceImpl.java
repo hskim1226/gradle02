@@ -1,18 +1,14 @@
 package com.apexsoft.ysprj.applicants.evaluation.service;
 
-import com.apexsoft.framework.common.vo.ExecutionContext;
 import com.apexsoft.framework.message.MessageResolver;
 import com.apexsoft.framework.persistence.dao.CommonDAO;
 import com.apexsoft.ysprj.applicants.evaluation.domain.*;
-import com.apexsoft.ysprj.applicants.application.domain.*;
-import com.apexsoft.ysprj.applicants.evaluation.domain.MandatoryNAppliedDoc;
-import com.apexsoft.ysprj.applicants.evaluation.domain.ParamForApplicationMandatoryDoc;
-import org.apache.batik.ext.awt.image.rendered.MultiplyAlphaRed;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Administrator on 2014-08-12.

@@ -2,8 +2,9 @@ package com.apexsoft.ysprj.applicants.application.control;
 
 import com.apexsoft.framework.common.vo.ExecutionContext;
 import com.apexsoft.framework.message.MessageResolver;
-import com.apexsoft.ysprj.applicants.admission.domain.ParamForAdmissionCourseMajor;
-import com.apexsoft.ysprj.applicants.application.domain.*;
+import com.apexsoft.ysprj.applicants.application.domain.Application;
+import com.apexsoft.ysprj.applicants.application.domain.CustomApplicationExperience;
+import com.apexsoft.ysprj.applicants.application.domain.LangCareer;
 import com.apexsoft.ysprj.applicants.application.service.LangCareerService;
 import com.apexsoft.ysprj.applicants.application.validator.LangCareerValidator;
 import com.apexsoft.ysprj.applicants.common.service.CommonService;
@@ -87,8 +88,10 @@ public class LangCareerController {
             mv.addObject("resultMsg", messageResolver.getMessage("U334"));
 
             HashMap<String, Object> commonCodeMap = new HashMap<String, Object>();
-            commonCodeMap.put( "toflTypeList", commonService.retrieveCommonCodeValueByCodeGroup("TOFL_TYPE") );
-            commonCodeMap.put( "fornExmpList", commonService.retrieveCommonCodeValueByCodeGroup("FORN_EXMP") );
+            commonCodeMap.put( "toflTypeList", commonService.retrieveCommonCodeByCodeGroup("TOFL_TYPE") );
+            commonCodeMap.put( "fornExmpList", commonService.retrieveCommonCodeByCodeGroup("FORN_EXMP") );
+            commonCodeMap.put( "ieltsLevelList", commonService.retrieveCommonCodeByCodeGroup("IELT_LEVL") );
+            commonCodeMap.put( "topikLevelList", commonService.retrieveCommonCodeByCodeGroup("TOPK_LEVL") );
 
             mv.addObject("common", commonCodeMap);
 

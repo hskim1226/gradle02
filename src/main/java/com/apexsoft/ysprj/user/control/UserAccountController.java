@@ -349,5 +349,18 @@ public class UserAccountController {
         return mv;
     }
 
+    @RequestMapping(value="/adminLogin", method= RequestMethod.GET)
+    public ModelAndView displayAdminLoginForm(User user,
+                                         BindingResult bindingResult,
+                                         ModelAndView mv,
+                                         HttpServletRequest request) {
+        mv.setViewName("user/adminLogin");
+        if (bindingResult.hasErrors()) return mv;
+
+        if (request.getAttribute("LOGIN_FAILURE") == Boolean.TRUE)
+            mv.addObject("loginMessage", messageResolver.getMessage("U330"));
+
+        return mv;
+    }
 
 }

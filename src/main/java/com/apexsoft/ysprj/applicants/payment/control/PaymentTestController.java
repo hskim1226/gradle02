@@ -1,16 +1,12 @@
 package com.apexsoft.ysprj.applicants.payment.control;
 
-import com.apexsoft.framework.persistence.dao.CommonDAO;
 import com.apexsoft.ysprj.applicants.application.domain.Application;
-import com.apexsoft.ysprj.applicants.payment.domain.ApplicationPayment;
-import com.apexsoft.ysprj.applicants.payment.domain.ApplicationPaymentExample;
 import com.apexsoft.ysprj.applicants.payment.service.PaymentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.List;
 
 /**
  * Created by cosb071 on 15. 1. 22.

@@ -1,8 +1,5 @@
 package com.apexsoft.ysprj.admin.control.form;
 
-import com.apexsoft.framework.persistence.dao.page.PagenateInfo;
-
-
 public class ApplicantSearchForm {
 
 

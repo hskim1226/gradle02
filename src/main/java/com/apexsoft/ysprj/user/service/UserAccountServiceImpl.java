@@ -8,8 +8,9 @@ import com.apexsoft.framework.persistence.dao.CommonDAO;
 import com.apexsoft.framework.persistence.dao.handler.RowHandler;
 import com.apexsoft.framework.persistence.dao.page.PageInfo;
 import com.apexsoft.framework.persistence.dao.page.PageStatement;
-import com.apexsoft.ysprj.user.domain.Authorities;
+import com.apexsoft.ysprj.applicants.common.util.StringUtil;
 import com.apexsoft.ysprj.code.AuthorityType;
+import com.apexsoft.ysprj.user.domain.Authorities;
 import com.apexsoft.ysprj.user.domain.User;
 import com.apexsoft.ysprj.user.web.form.UserSearchForm;
 import org.apache.commons.codec.digest.DigestUtils;
@@ -46,7 +47,6 @@ public class UserAccountServiceImpl implements UserAccountService {
         int rUserInsert = 0, rAuthInsert = 0;
 
         user.setEnabled( true );
-        user.setPswd( passwordEncoder.encode( user.getPswd() ) );
         rUserInsert = commonDAO.insert( NAME_SPACE + "insertUser", user);
 
         Authorities authVO = new Authorities();
@@ -159,17 +159,16 @@ public class UserAccountServiceImpl implements UserAccountService {
         return ec;
     }
 
-    @Override
-    public Integer resetPassword(User user) {
-        StringKeyGenerator generator = KeyGenerators.string();
-        String key = generator.generateKey();
-        user.setPswd(key);
-        return changePassword(user);
-    }
+//    @Override
+//    public Integer resetPassword(User user) {
+//        StringKeyGenerator generator = KeyGenerators.string();
+//        String key = generator.generateKey();
+//        user.setPswd(key);
+//        return changePassword(user);
+//    }
 
     @Override
     public Integer changePassword(User user) {
-        user.setPswd( passwordEncoder.encode( user.getPswd() ) );
         return commonDAO.update(NAME_SPACE + "changePasswd", user);
     }
 
@@ -227,6 +226,7 @@ public class UserAccountServiceImpl implements UserAccountService {
         if (u1 == 1) {
             ec.setResult(ExecutionContext.SUCCESS);
             ec.setMessage(messageResolver.getMessage("U106"));
+            user.setMobiNum(StringUtil.removeHyphen(user.getMobiNum()));
         } else {
             ec.setResult(ExecutionContext.FAIL);
             ec.setMessage(messageResolver.getMessage("U107"));
@@ -243,7 +243,7 @@ public class UserAccountServiceImpl implements UserAccountService {
     public ExecutionContext checkPwd(User user) {
         ExecutionContext ec = new ExecutionContext();
         User userFromDB = retrieveUser(user.getUserId());
-
+        userFromDB.setMobiNum(StringUtil.removeHyphen(userFromDB.getMobiNum()));
         String pwd = user.getPswd();
 
         if (passwordEncoder.matches(pwd, userFromDB.getPswd())) {

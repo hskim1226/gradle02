@@ -40,10 +40,23 @@
                 cursor: hand;
             }
 
+            #main-text-container {
+                background-color: rgba(55, 55, 55, 0.8);
+                filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr='#a7ffffff', endColorstr='#a7ffffff'); /* IE */
+                padding-top: 10%;
+                padding-bottom: 6%;
+            }
+
             section.intro {
                 padding: 200px 0 60px;
                 background: #70B9B0;
                 color: #fdfdfd;
+            }
+
+            section.intro h1.slogan {
+                color: #fff;
+                font-size: 64px;
+                font-weight: 900;
             }
 
             section.intro h2.slogan {
@@ -80,13 +93,13 @@
 		<section class="intro" id="intro" data-stellar-background-ratio="0.5">
 			<div class="container"> 
 				<div class="row mar-bot40">
-					<div class="col-md-6 col-md-offset-3">
-						
-						<div class="align-center">
-							<h2 class="slogan">연세대학교 대학원</h2>
-							<h2 class="slogan">입학원서 접수 시스템</h2>
-						</div>
-					</div>
+                    <div class="col-sm-offset-2 col-sm-8 align-center">
+                        <div class="form-group" id="main-text-container">
+                            <h1 class="slogan">연세대학교 대학원</h1>
+                            <br/>
+                            <h1 class="slogan">입학원서 접수 시스템</h1>
+                        </div>
+                    </div>
 				</div>
 			</div>
 		</section>
@@ -99,27 +112,27 @@
 			<div class="row mar-bot40">
 				<div class="col-lg-4" >
 					<div class="align-center" id="toList">
-						<i class="fa fa-code fa-5x mar-bot20"></i>
+						<i class="fa fa-pencil-square-o fa-5x mar-bot20"></i>
 						<h2 class="text-bold">원서 접수</h2>
-						<p>연세대학교 대학원 입학 신청서를 작성할 수 있습니다.
+						<p class="word-keep-all">연세대학교 대학원 입학 신청서를 작성할 수 있습니다.
 						</p>
 					</div>
 				</div>
 					
 				<div class="col-lg-4" >
 					<div class="align-center" id="toMyList">
-						<i class="fa fa-terminal fa-5x mar-bot20"></i>
+						<i class="fa fa-list-alt fa-5x mar-bot20"></i>
 						<h2 class="text-bold">내 원서</h2>
-						<p>작성 중이거나 신청 중인 내 원서를 확인할 수 있습니다.
+						<p class="word-keep-all">작성 중이거나 신청 중인 내 원서를 확인할 수 있습니다.
 						</p>
 					</div>
 				</div>
 			
 				<div class="col-lg-4" >
 					<div class="align-center" id="toSignUp">
-						<i class="fa fa-bolt fa-5x mar-bot20"></i>
+						<i class="fa fa-user fa-5x mar-bot20"></i>
 						<h2 class="text-bold">회원 가입</h2>
-						<p>연세대학교 대학원 입학 신청 시스템의 회원으로 가입할 수 있습니다.
+						<p class="word-keep-all">연세대학교 대학원 입학 신청 시스템의 회원으로 가입할 수 있습니다.
 						</p>
 					</div>
 				</div>
@@ -146,11 +159,14 @@
         <script src="${contextPath}/js/jquery.localScroll.min.js"></script>
         <script src="${contextPath}/js/jquery.appear.min.js"></script>
         <script src="${contextPath}/js/jquery.stellar.min.js"></script>
+        <script src="${contextPath}/js/jquery.word-break-keep-all.min.js"></script>
         <script src="${contextPath}/js/main.js"></script>
         <script>
             $('#toList').click(function(){location.href='${contextPath}/application/admsList'});
             $('#toMyList').click(function(){location.href='${contextPath}/application/mylist'});
             $('#toSignUp').click(function(){location.href='${contextPath}/user/agreement'});
+            <%-- 단어 잘림 방지 --%>
+            $('.word-keep-all').wordBreakKeepAll();
         </script>
 	</body>
 </html>

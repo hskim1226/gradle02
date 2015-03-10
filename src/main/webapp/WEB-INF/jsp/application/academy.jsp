@@ -365,21 +365,33 @@
                                             <label class="col-sm-2 control-label">졸업 구분</label>
                                             <div class="col-sm-9">
                                                 <div class="col-sm-4">
-                                                    <label class="radio-inline degr-radio"><form:radiobutton path="collegeList[${stat.index}].grdaTypeCode" cssClass="grad-yn" value="00001" />졸업</label>
-                                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                                    <label class="radio-inline degr-radio"><form:radiobutton path="collegeList[${stat.index}].grdaTypeCode" cssClass="grad-yn" value="00002" />졸업 예정</label>
+                                                    <div>
+                                                        <label class="radio-inline degr-radio"><form:radiobutton path="collegeList[${stat.index}].grdaTypeCode" cssClass="grad-yn" value="00001" />졸업</label>
+                                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                        <label class="radio-inline degr-radio"><form:radiobutton path="collegeList[${stat.index}].grdaTypeCode" cssClass="grad-yn" value="00002" />졸업 예정</label>
+                                                    </div>
+                                            <spring:bind path="collegeList[${stat.index}].grdaTypeCode">
+                                                <c:if test="${status.error}">
+                                                    <div class="col-sm-12 nopadding validation-container">
+                                                        <div class="validation-error">${status.errorMessage}</div>
+                                                    </div>
+                                                </c:if>
+                                            </spring:bind>
                                                 </div>
                                                 <div class="col-sm-8">
-                                                    <form:input path="collegeList[${stat.index}].degrNo" cssClass="degr-no form-control" placeholder="학위등록번호를 입력해주세요"/>
-                                                    <label id='collegeList${stat.index}.label-grad-not' class="col-sm-10 grda-not degr-message" style="display:none;" >합격 후 입학 시 졸업증명서를 대학원 사무실로 반드시 제출하세요</label>
+                                                    <div>
+                                                        <form:input path="collegeList[${stat.index}].degrNo" cssClass="degr-no form-control" placeholder="학위등록번호를 입력해주세요"/>
+                                                        <label id='collegeList${stat.index}.label-grad-not' class="col-sm-10 grda-not degr-message" style="display:none;" >합격 후 입학 시 졸업증명서를 대학원 사무실로 반드시 제출하세요</label>
+                                                    </div>
+                                            <spring:bind path="collegeList[${stat.index}].degrNo">
+                                                <c:if test="${status.error}">
+                                                    <div class="col-sm-12 nopadding validation-container">
+                                                        <div class="validation-error">${status.errorMessage}</div>
+                                                    </div>
+                                                </c:if>
+                                            </spring:bind>
                                                 </div>
-                                        <spring:bind path="collegeList[${stat.index}].grdaTypeCode">
-                                            <c:if test="${status.error}">
-                                                <div class="col-sm-12 validation-container">
-                                                    <div class="validation-error">${status.errorMessage}</div>
-                                                </div>
-                                            </c:if>
-                                        </spring:bind>
+
                                             </div>
                                         </div>
                                         <div class="form-group required">
@@ -397,7 +409,7 @@
                                                 <div class="col-sm-3">
                                                     <label class="radio-inline">
                                                             <%--<form:radiobutton path="collegeList[${stat.index}].lastSchlYn" cssClass="radio-group" value="${academy.collegeList[stat.index].lastSchlYn}"/>&nbsp;&nbsp;최종 학교--%>
-                                                        <input type="radio" class="college-radio" id="college-radio-${stat.index}" name="collegeRadio" data-last-radio-id="collegeList${stat.index}.lastSchlYn" <c:if test="${academy.collegeList[stat.index].lastSchlYn == 'Y'}">checked</c:if> />&nbsp;&nbsp;최종 학교
+                                                        <input type="radio" class="college-radio" id="college-radio-${stat.index}" name="collegeRadio" data-last-radio-id="collegeList${stat.index}.lastSchlYn" <c:if test="${academy.collegeList[stat.index].lastSchlYn == 'Y'}">checked</c:if> />&nbsp;&nbsp;학부 최종 학교
                                                         <form:hidden path="collegeList[${stat.index}].lastSchlYn"/>
                                                     </label>
                                                 </div>
@@ -429,7 +441,7 @@
                                             <form:label path="collegeList[${stat.index}].majName" cssClass="col-sm-2 control-label">학과 이름</form:label>
                                             <div class="col-sm-9">
                                                 <div class="col-sm-12">
-                                                    <form:input path="collegeList[${stat.index}].majName" cssClass="form-control" />
+                                                    <form:input path="collegeList[${stat.index}].majName" cssClass="form-control" placeholder="다수 전공은 컴마로 구분하여 모두 입력해 주세요." />
                                                 </div>
                                         <spring:bind path="collegeList[${stat.index}].majName">
                                             <c:if test="${status.error}">
@@ -577,7 +589,7 @@
                                                 <div class="col-sm-3">
                                                     <label class="radio-inline">
                                                             <%--<form:radiobutton path="graduateList[${stat.index}].lastSchlYn" cssClass="radio-group" value="${academy.graduateList[stat.index].lastSchlYn}"/>&nbsp;&nbsp;최종 학교--%>
-                                                        <input type="radio" class="graduate-radio" id="graduate-radio-${stat.index}" name="graduateRadio" data-last-radio-id="graduateList${stat.index}.lastSchlYn" <c:if test="${academy.graduateList[stat.index].lastSchlYn == 'Y'}">checked</c:if> />&nbsp;&nbsp;최종 학교
+                                                        <input type="radio" class="graduate-radio" id="graduate-radio-${stat.index}" name="graduateRadio" data-last-radio-id="graduateList${stat.index}.lastSchlYn" <c:if test="${academy.graduateList[stat.index].lastSchlYn == 'Y'}">checked</c:if> />&nbsp;&nbsp;대학원 최종 학교
                                                         <form:hidden path="graduateList[${stat.index}].lastSchlYn"/>
                                                     </label>
                                                 </div>
@@ -609,7 +621,7 @@
                                             <form:label path="graduateList[${stat.index}].majName" cssClass="col-sm-2 control-label">학과 이름</form:label>
                                             <div class="col-sm-9">
                                                 <div class="col-sm-12">
-                                                    <form:input path="graduateList[${stat.index}].majName" cssClass="form-control" />
+                                                    <form:input path="graduateList[${stat.index}].majName" cssClass="form-control" placeholder="다수 전공은 컴마로 구분하여 모두 입력해 주세요." />
                                                 </div>
                                         <spring:bind path="graduateList[${stat.index}].majName">
                                             <c:if test="${status.error}">
@@ -987,13 +999,15 @@
             }
         });
         $('.gradAvr').on('blur', function () {
-            var regexp = /\d\.\d{2}/;
-            if (!regexp.test(this.value) && this.value != '') {
-                validFlag.value = false;
-                alert('소수점 둘째자리까지 작성해 주세요');
-                this.focus();
-            } else {
-                validFlag.value = true;
+            if (this.value.length > 0) {
+                var regexp = /\d\.\d{2}/;
+                if (!regexp.test(this.value) && this.value != '') {
+                    validFlag.value = false;
+                    alert('소수점 둘째자리까지 작성해 주세요');
+                    this.focus();
+                } else {
+                    validFlag.value = true;
+                }
             }
         });
         $('.gradFull').on('keyup', function () {
@@ -1004,19 +1018,21 @@
             }
         });
         $('.gradFull').on('blur', function () {
-            var regexp = /\d.\d/,
-                gradAvgInput = document.getElementById(this.getAttribute('data-gradAvr-id'));
-            if (!regexp.test(this.value) && this.value != '') {
-                validFlag.value = false;
-                alert('소수점 첫째자리까지 작성해 주세요');
-                this.focus();
-            } else {
-                if (parseFloat(this.value) < parseFloat(gradAvgInput.value)) {
+            if (this.value.length > 0) {
+                var regexp = /\d.\d/,
+                        gradAvgInput = document.getElementById(this.getAttribute('data-gradAvr-id'));
+                if (!regexp.test(this.value) && this.value != '') {
                     validFlag.value = false;
-                    alert('평점은 만점 이하여야 합니다');
-                    gradAvgInput.focus();
+                    alert('소수점 첫째자리까지 작성해 주세요');
+                    this.focus();
                 } else {
-                    validFlag.value = true;
+                    if (parseFloat(this.value) < parseFloat(gradAvgInput.value)) {
+                        validFlag.value = false;
+                        alert('평점은 만점 이하여야 합니다');
+                        gradAvgInput.focus();
+                    } else {
+                        validFlag.value = true;
+                    }
                 }
             }
         });

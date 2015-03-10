@@ -1,10 +1,5 @@
 package com.apexsoft.ysprj.admin.domain;
 
-import java.util.Date;
-import java.util.List;
-
-import com.apexsoft.ysprj.applicants.application.domain.ApplicationDocument;
-
 public class ApplicantInfoAll extends ApplicantInfo{
 	  
 	private String EmerContCode;//    EMER_CONT_CODE

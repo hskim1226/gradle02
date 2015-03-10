@@ -3,7 +3,6 @@ package com.apexsoft.ysprj.applicants.application.validator;
 import com.apexsoft.framework.message.MessageResolver;
 import com.apexsoft.framework.web.validation.NamedValidator;
 import com.apexsoft.ysprj.applicants.application.domain.ApplicationForeigner;
-import com.apexsoft.ysprj.applicants.application.domain.ApplicationGeneral;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;

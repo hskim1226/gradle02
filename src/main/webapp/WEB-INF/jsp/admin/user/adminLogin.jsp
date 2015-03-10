@@ -157,6 +157,7 @@
 
 <script type="text/javascript">
 $(document).ready(function() {
+    event.preventDefault();
     <%-- action 성공 여부 알림 처리 --%>
     var showActionResult = function() {
         var msg = '${resultMsg}';

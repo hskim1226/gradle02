@@ -3,10 +3,10 @@ package com.apexsoft.ysprj.applicants.application.validator;
 import com.apexsoft.framework.message.MessageResolver;
 import com.apexsoft.framework.web.validation.NamedValidator;
 import com.apexsoft.ysprj.applicants.application.domain.Application;
+import com.apexsoft.ysprj.applicants.common.util.ValidationUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
-import org.springframework.validation.Validator;
 
 /**
  * Created by hanmomhanda on 15. 2. 1.
@@ -48,10 +48,25 @@ public class ApplicationValidator implements NamedValidator {
                     new Object[]{"영문 이름"}, messageResolver.getMessage("U332"));
         }
         if ("118".equals(application.getCitzCntrCode())) {
-            if ( application.getRgstNo() == null || application.getRgstNo().length() == 0 ) {
-                errors.rejectValue(prefix + "rgstNo", "U331",
-                        new Object[]{"주민등록번호"}, messageResolver.getMessage("U332"));
+//            if ( application.getRgstNo() == null || application.getRgstNo().length() == 0 ) {
+//                errors.rejectValue(prefix + "rgstNo", "U331",
+//                        new Object[]{"주민등록번호"}, messageResolver.getMessage("U332"));
+//            }
+            if ( application.getRgstBornDate() == null || application.getRgstBornDate().length() == 0 ) {
+                errors.rejectValue(prefix + "rgstBornDate", "U331",
+                        new Object[]{"주민등록번호 앞자리"}, messageResolver.getMessage("U332"));
             }
+            if (application.getApplStsCode() == null || application.getApplStsCode().length() == 0) {
+                if ( application.getRgstEncr() == null || application.getRgstEncr().length() == 0 ) {
+                    errors.rejectValue(prefix + "rgstEncr", "U331",
+                            new Object[]{"주민등록번호 뒷자리"}, messageResolver.getMessage("U332"));
+                }
+                String rgstNo = application.getRgstBornDate() + application.getRgstEncr();
+                if (!ValidationUtil.checkKorSSN(rgstNo)) {
+                    errors.rejectValue(prefix + "rgstEncr", "U345", messageResolver.getMessage("U332"));
+                }
+            }
+
         }
         if (application.getCitzCntrCode() == null || application.getCitzCntrCode().length() == 0) {
             errors.rejectValue(prefix + "citzCntrCode", "U331",

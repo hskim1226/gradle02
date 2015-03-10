@@ -8,12 +8,12 @@ import com.apexsoft.framework.persistence.dao.page.PageInfo;
 import com.apexsoft.framework.persistence.dao.page.PageStatement;
 import com.apexsoft.ysprj.admin.control.form.ChangeInfoForm;
 import com.apexsoft.ysprj.admin.control.form.ChangeSearchPageForm;
-import com.apexsoft.ysprj.admin.domain.*;
+import com.apexsoft.ysprj.admin.domain.ApplicantInfo;
+import com.apexsoft.ysprj.admin.domain.ApplicationChange;
+import com.apexsoft.ysprj.admin.domain.CustomApplicationChange;
 import com.apexsoft.ysprj.applicants.admission.domain.Admission;
 import com.apexsoft.ysprj.applicants.application.domain.Application;
-import com.apexsoft.ysprj.applicants.application.domain.ApplicationDocument;
 import com.apexsoft.ysprj.applicants.application.domain.ApplicationGeneral;
-import com.apexsoft.ysprj.applicants.application.domain.ApplicationIdentifier;
 import com.apexsoft.ysprj.applicants.common.domain.*;
 import com.apexsoft.ysprj.applicants.common.service.CommonService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -453,8 +453,8 @@ public class ChangeServiceImpl implements ChangeService {
         collList = commonService.retrieveCollegeByCampus( searchForm.getCampCode() );
         deptList = commonService.retrieveGeneralDepartmentByAdmsColl(param);
 
-        applChgCodeList= commonService.retrieveCommonCodeValueByCodeGroup("APPL_CHG");
-        chgStsCodeList= commonService.retrieveCommonCodeValueByCodeGroup("CHG_STS");
+        applChgCodeList= commonService.retrieveCommonCodeByCodeGroup("APPL_CHG");
+        chgStsCodeList= commonService.retrieveCommonCodeByCodeGroup("CHG_STS");
         try{
 
             if( searchForm.getChgNo()!= null || searchForm.getChgStsCode()!= null || searchForm.getAdmsNo()!= null || searchForm.getKorName()!= null) {

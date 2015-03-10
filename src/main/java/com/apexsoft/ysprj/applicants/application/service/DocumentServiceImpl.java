@@ -3,16 +3,22 @@ package com.apexsoft.ysprj.applicants.application.service;
 import com.apexsoft.framework.common.vo.ExecutionContext;
 import com.apexsoft.framework.exception.ErrorInfo;
 import com.apexsoft.framework.exception.YSBizException;
-import com.apexsoft.framework.exception.YSNoRedirectBizException;
 import com.apexsoft.framework.message.MessageResolver;
 import com.apexsoft.framework.persistence.dao.CommonDAO;
 import com.apexsoft.ysprj.applicants.application.domain.*;
+import com.apexsoft.ysprj.applicants.common.util.FileUtil;
 import com.apexsoft.ysprj.applicants.payment.service.PaymentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.crypto.encrypt.Encryptors;
+import org.springframework.security.crypto.encrypt.TextEncryptor;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import javax.servlet.ServletContext;
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.*;
 
 /**
@@ -27,7 +33,13 @@ public class DocumentServiceImpl implements DocumentService {
     private CommonDAO commonDAO;
 
     @Autowired
+    private ServletContext context;
+
+    @Autowired
     private PaymentService paymentService;
+
+    @Value("#{app['file.baseDir']}")
+    private String BASE_DIR;
 
     @Resource(name = "messageResolver")
     MessageResolver messageResolver;
@@ -152,6 +164,12 @@ public class DocumentServiceImpl implements DocumentService {
         Application application = document.getApplication();
 
         int r1, applNo = application.getApplNo();
+
+        // TODO 제출된 원서의 주민 번호 체크
+//        if (checkSubmittedRgstNo(applNo)) {
+//
+//        }
+
         Date date = new Date();
         String userId = application.getUserId();
         application.setModDate(date);
@@ -243,9 +261,8 @@ public class DocumentServiceImpl implements DocumentService {
         //기존 파일이 업로드 되어 있는 경우
         if( oneDocument.isFileUploadFg()){
             rUpdate++;
-            oneDocument.setCreId("" );
-            oneDocument.setModDate(date );
-            oneDocument.setModId(userId );
+            oneDocument.setModDate(date);
+            oneDocument.setModId(userId);
             update = update + commonDAO.updateItem(oneDocument, NAME_SPACE, "ApplicationDocumentMapper");
 
         }else{
@@ -254,7 +271,7 @@ public class DocumentServiceImpl implements DocumentService {
             int maxSeq = commonDAO.queryForInt(NAME_SPACE +"CustomApplicationDocumentMapper.selectMaxSeqByApplNo", applNo ) ;
             oneDocument.setFileUploadFg(true);
             oneDocument.setDocSeq(++maxSeq);
-            oneDocument.setCreDate(date );
+            oneDocument.setCreDate(date);
             insert = insert + commonDAO.insertItem(oneDocument, NAME_SPACE, "ApplicationDocumentMapper");
 
         }
@@ -328,6 +345,75 @@ public class DocumentServiceImpl implements DocumentService {
         }
         return ec;
 
+    }
+
+    @Override
+    public ExecutionContext saveApplicationPaperInfo(Application application) {
+        ExecutionContext ec = new ExecutionContext();
+        String userId = application.getUserId();
+        String admsNo = application.getAdmsNo();
+        int applNo = application.getApplNo();
+
+        TotalApplicationDocument aDoc = new TotalApplicationDocument();
+        aDoc.setApplNo(applNo);
+        aDoc.setFileExt("pdf");
+        aDoc.setImgYn("N");
+        aDoc.setFilePath(FileUtil.getUploadDirectoryFullPath(BASE_DIR, admsNo, userId, applNo));
+        aDoc.setDocItemName("지원서");
+        aDoc.setFileName(FileUtil.getApplicationFileName(userId));
+        aDoc.setOrgFileName(FileUtil.getApplicationFileName(userId));
+        aDoc.setPageCnt(2);
+        // 지원서 정보가 이미 저장 되어 있으면(즉 원서 작성 단계에서 미리보기를 했으면) true
+        List<ApplicationDocument> applPaperInfosList = retrieveApplicationPaperInfo(applNo);
+        if (applPaperInfosList.size() == 0)
+            aDoc.setFileUploadFg(false);
+        else if (applPaperInfosList.size() == 1) {
+            aDoc.setFileUploadFg(true);
+            aDoc.setDocSeq(applPaperInfosList.get(0).getDocSeq());
+        } else {
+            ec.setResult(ExecutionContext.FAIL);
+            ec.setMessage(messageResolver.getMessage("U344"));
+            ec.setErrCode("ERR0033");
+
+            Map<String, String> errorInfo = new HashMap<String, String>();
+            errorInfo.put("applNo", String.valueOf(applNo));
+            errorInfo.put("userId", userId);
+            errorInfo.put("docItemName", "지원서");
+            ec.setErrorInfo(new ErrorInfo(errorInfo));
+            throw new YSBizException(ec);
+        }
+
+        ec = saveOneDocument(aDoc);
+
+        return ec;
+    }
+
+    private List<ApplicationDocument> retrieveApplicationPaperInfo(int applNo) {
+
+        List<ApplicationDocument> applDocList = commonDAO.queryForList(NAME_SPACE + "CustomApplicationDocumentMapper.selectApplPaperInfoByApplNo", applNo, ApplicationDocument.class);
+        return applDocList;
+    }
+
+    @Override
+    public ExecutionContext saveAdmissionSlipPaperInfo(Application application) {
+        String userId = application.getUserId();
+        String admsNo = application.getAdmsNo();
+        int applNo = application.getApplNo();
+
+        TotalApplicationDocument aDoc = new TotalApplicationDocument();
+        aDoc.setApplNo(applNo);
+        aDoc.setFileExt("pdf");
+        aDoc.setImgYn("N");
+        aDoc.setFilePath(FileUtil.getUploadDirectoryFullPath(BASE_DIR, admsNo, userId, applNo));
+        aDoc.setDocItemName("수험표");
+        aDoc.setFileName(FileUtil.getSlipFileName(userId));
+        aDoc.setOrgFileName(FileUtil.getSlipFileName(userId));
+        aDoc.setPageCnt(1);
+        aDoc.setFileUploadFg(false);
+
+        ExecutionContext ec =saveOneDocument(aDoc);
+
+        return ec;
     }
 
     private List<TotalApplicationDocumentContainer> retrieveManatoryApplicatoinlDocListByApplNo(int applNo) {
@@ -712,15 +798,15 @@ public class DocumentServiceImpl implements DocumentService {
             aDoc = commonDAO.queryForObject(NAME_SPACE + "CustomApplicationDocumentMapper.selectCodeApplicationDocumentByTotalDocumentContainner", pCont, ApplicationDocument.class);
             if( aDoc != null){
                 pCont.setDocSeq( aDoc.getDocSeq());
-                pCont.setDocName( aDoc.getDocName());
-                pCont.setFileExt( aDoc.getFileExt());
-                pCont.setImgYn( aDoc.getImgYn());
-                pCont.setFilePath( aDoc.getFilePath());
+                pCont.setDocName(aDoc.getDocName());
+                pCont.setFileExt(aDoc.getFileExt());
+                pCont.setImgYn(aDoc.getImgYn());
+                pCont.setFilePath(aDoc.getFilePath());
                 pCont.setFileName(aDoc.getFileName());
                 pCont.setOrgFileName(aDoc.getOrgFileName());
                 pCont.setPageCnt(aDoc.getPageCnt());
-                pCont.setDocItemNameXxen( aDoc.getDocItemNameXxen());
-                pCont.setDocGrpName( aDoc.getDocGrpName());
+                pCont.setDocItemNameXxen(aDoc.getDocItemNameXxen());
+                pCont.setDocGrpName(aDoc.getDocGrpName());
                 pCont.setFileUploadFg(true);
                 System.out.println("");
             }
@@ -749,5 +835,31 @@ public class DocumentServiceImpl implements DocumentService {
         return photoUrl;
     }
 
+    private ExecutionContext checkSubmittedRgstNo(int applNo) {
+        // applNo 로 rgstBornDate, rgstEncr 조회
+        // rgstEncr 복호화
+        // 현재 제출 완료 된 원서의 전체 rgstNo와 비교 결과 반환
+        return null;
+    }
 
+    private String getDecryptedString(String encrypted) throws IOException {
+        Properties prop = new Properties();
+        InputStream is = context.getResourceAsStream("WEB-INF/grad-ks");
+        String decrypted = null;
+
+        try {
+            prop.load(is);
+            TextEncryptor textEncryptor = Encryptors.queryableText(prop.getProperty("ENC_PSWD"), prop.getProperty("ENC_SALT"));
+            decrypted = textEncryptor.decrypt(encrypted);
+        } finally {
+            try {
+                if (is != null) {
+                    is.close();
+                }
+            } catch (IOException e) {
+                throw e;
+            }
+        }
+        return decrypted;
+    }
 }

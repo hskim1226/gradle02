@@ -11,23 +11,29 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 import com.apexsoft.framework.common.vo.ExecutionContext;
-import com.apexsoft.ysprj.admin.control.form.*;
-import com.apexsoft.ysprj.admin.domain.CustomApplicationChange;
+import com.apexsoft.framework.message.MessageResolver;
+import com.apexsoft.ysprj.admin.control.form.CourseSearchGridForm;
+import com.apexsoft.ysprj.admin.control.form.CourseSearchPageForm;
+import com.apexsoft.ysprj.admin.domain.ApplicantCnt;
+import com.apexsoft.ysprj.admin.service.AdminService;
 import com.apexsoft.ysprj.admin.service.ChangeService;
 import com.apexsoft.ysprj.user.domain.User;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-
-import com.apexsoft.framework.message.MessageResolver;
-import com.apexsoft.ysprj.admin.domain.ApplicantCnt;
-import com.apexsoft.ysprj.admin.domain.ApplicantInfo;
-import com.apexsoft.ysprj.admin.service.AdminService;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.web.servlet.ModelAndView;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Value;
 import javax.servlet.http.HttpServletResponse;
@@ -62,19 +68,6 @@ public class AdminController {
     @Value("#{app['file.baseDir']}")
     private String fileBaseDir;
 
-    @RequestMapping(value="/adminLogin", method= RequestMethod.GET)
-    public ModelAndView displayLoginForm(User user,
-                                         BindingResult bindingResult,
-                                         ModelAndView mv,
-                                         HttpServletRequest request) {
-        mv.setViewName("admin/user/adminLogin");
-        if (bindingResult.hasErrors()) return mv;
-
-        if (request.getAttribute("LOGIN_FAILURE") == Boolean.TRUE)
-            mv.addObject("loginMessage", messageResolver.getMessage("U330"));
-
-        return mv;
-    }
 
     @RequestMapping(value="/stats/daily")
     public String statsDaily(Model model) {

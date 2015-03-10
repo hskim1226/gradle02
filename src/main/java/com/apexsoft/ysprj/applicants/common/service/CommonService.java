@@ -11,6 +11,7 @@ public interface CommonService {
 
     List<Campus> retrieveCampus();
     List<College> retrieveCollegeByCampus(String campusCode);
+    List<College> retrieveCollegeByAdmsCamp(ParamForSetupCourses paramForSetupCourses);
     List<CodeNameDepartment> retrieveAllDepartmentByColl(ParamForSetupCourses paramForSetupCourses);
     List<CodeNameDepartment> retrieveGeneralDepartmentByAdmsColl(ParamForSetupCourses paramForSetupCourses);
     List<CodeNameCourse> retrieveGeneralCourseByAdmsDept(ParamForSetupCourses paramForSetupCourses);
@@ -23,8 +24,8 @@ public interface CommonService {
     List<Country> retrieveCountryByName(String keyword);
     Country retrieveCountryByCode(String cntrCode);
     List<School> retrieveSchoolByTypeName(String type, String keyword);
-    List<CommonCode> retrieveCommonCodeValueByCodeGroup(String codeGrp);
-    CommonCode retrieveCommonCodeValueByCodeGroupCode(String codeGrp, String code);
+    List<CommonCode> retrieveCommonCodeByCodeGroup(String codeGrp);
+    CommonCode retrieveCommonCodeByCodeGroupCode(String codeGrp, String code);
     List<CommonCode> retrieveCommonCodeListByCodeGroupKeyword(ParamForCommonCode paramForCommonCode);
     CommonCode retrieveCommonCodeListByCodeGroupCode(ParamForCommonCode paramForCommonCode);
 

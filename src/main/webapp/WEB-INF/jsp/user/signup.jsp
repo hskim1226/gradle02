@@ -21,6 +21,10 @@
             background-color: white !important;
             cursor: text !important;
         }
+        .input-info {
+            background: #ddddff;
+            color: #55c;
+        }
     </style>
 </head>
 <body>
@@ -43,11 +47,12 @@
                             </div>
                             <div class="col-sm-8 nopadding">
                                 <div class="input-group">
-                                    <form:input type="text" cssClass="form-control userId" path="userId" placeholder="알파벳 대문자, 소문자, 숫자로 입력해 주세요" />
+                                    <form:input type="text" cssClass="form-control userId" path="userId" placeholder="입력 후 Check를 눌러 확인해주세요" />
                                     <span class="input-group-btn">
                                         <button class="btn btn-info" id="available-check-button">Check</button>
                                     </span>
                                 </div>
+                                <div class="input-info word-keep-all"><spring:message code="U108"/></div>
                         <spring:bind path="userId">
                             <c:if test="${status.error}">
                                 <div class="validation-error">${status.errorMessage}</div>
@@ -63,7 +68,8 @@
                                 <label for="pswd1" class="control-label"><spring:message code="L102" /></label>
                             </div>
                             <div class="col-sm-8 nopadding">
-                                <div><form:input type="password" cssClass="form-control passwd" path="pswd" id="pswd1" placeholder="Password"/></div>
+                                <div><form:input type="password" cssClass="form-control passwd" path="pswd" id="pswd1" placeholder="비밀 번호"/></div>
+                                <div class="input-info word-keep-all"><spring:message code="U109"/></div>
                         <spring:bind path="pswd">
                             <c:if test="${status.error}">
                                 <div class="validation-error">${status.errorMessage}</div>
@@ -78,7 +84,7 @@
                                 <label for="pswd2" class="control-label"><spring:message code="L117" /></label>
                             </div>
                             <div class="col-sm-8 nopadding">
-                                <div><input type="password" class="form-control passwd" id="pswd2" placeholder="Password 확인" /></div>
+                                <div><input type="password" class="form-control passwd" id="pswd2" placeholder="비밀 번호 확인" /></div>
                         <spring:bind path="pswd">
                             <c:if test="${status.error}">
                                 <div class="validation-error">${status.errorMessage}</div>
@@ -313,6 +319,9 @@
         };
         showActionResult();
         <%-- action 성공 여부 알림 처리 --%>
+
+        <%-- 단어 잘림 방지 --%>
+        $('.word-keep-all').wordBreakKeepAll();
     });
 </script>
 </content>

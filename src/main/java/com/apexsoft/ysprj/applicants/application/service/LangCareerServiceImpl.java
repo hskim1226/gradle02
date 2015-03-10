@@ -65,8 +65,8 @@ public class LangCareerServiceImpl implements LangCareerService {
             aExpr.setSaveFg(true);
         }
 
-        commonCodeMap.put( "toflTypeList", commonService.retrieveCommonCodeValueByCodeGroup("TOFL_TYPE") );
-        commonCodeMap.put( "fornExmpList", commonService.retrieveCommonCodeValueByCodeGroup("FORN_EXMP") );
+        commonCodeMap.put( "toflTypeList", commonService.retrieveCommonCodeByCodeGroup("TOFL_TYPE") );
+        commonCodeMap.put( "fornExmpList", commonService.retrieveCommonCodeByCodeGroup("FORN_EXMP") );
 
         ecDataMap.put("langCareer", langCareer);
         ecDataMap.put("common", commonCodeMap);
@@ -102,8 +102,8 @@ public class LangCareerServiceImpl implements LangCareerService {
             aExpr.setSaveFg(true);
         }
 
-        commonCodeMap.put( "toflTypeList", commonService.retrieveCommonCodeValueByCodeGroup("TOFL_TYPE") );
-        commonCodeMap.put( "fornExmpList", commonService.retrieveCommonCodeValueByCodeGroup("FORN_EXMP") );
+        commonCodeMap.put( "toflTypeList", commonService.retrieveCommonCodeByCodeGroup("TOFL_TYPE") );
+        commonCodeMap.put( "fornExmpList", commonService.retrieveCommonCodeByCodeGroup("FORN_EXMP") );
 
         ecDataMap.put("langCareer", langCareer);
         ecDataMap.put("common", commonCodeMap);
@@ -142,10 +142,10 @@ public class LangCareerServiceImpl implements LangCareerService {
             aExpr.setSaveFg(true);
         }
 
-        commonCodeMap.put( "toflTypeList", commonService.retrieveCommonCodeValueByCodeGroup("TOFL_TYPE") );
-        commonCodeMap.put( "fornExmpList", commonService.retrieveCommonCodeValueByCodeGroup("FORN_EXMP") );
-        commonCodeMap.put( "ieltsLevelList", commonService.retrieveCommonCodeValueByCodeGroup("IELT_LEVL") );
-        commonCodeMap.put( "topikLevelList", commonService.retrieveCommonCodeValueByCodeGroup("TOPK_LEVL") );
+        commonCodeMap.put( "toflTypeList", commonService.retrieveCommonCodeByCodeGroup("TOFL_TYPE") );
+        commonCodeMap.put( "fornExmpList", commonService.retrieveCommonCodeByCodeGroup("FORN_EXMP") );
+        commonCodeMap.put( "ieltsLevelList", commonService.retrieveCommonCodeByCodeGroup("IELT_LEVL") );
+        commonCodeMap.put( "topikLevelList", commonService.retrieveCommonCodeByCodeGroup("TOPK_LEVL") );
 
         ecDataMap.put("langCareer", langCareer);
         ecDataMap.put("common", commonCodeMap);

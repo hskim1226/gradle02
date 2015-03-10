@@ -1,7 +1,5 @@
 package com.apexsoft.ysprj.admin.domain;
 
-import java.util.List;
-
 public class CommonMandatory extends CommonMandatoryKey{
 
 

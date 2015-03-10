@@ -2,7 +2,6 @@ package com.apexsoft.ysprj.unused;
 
 import com.apexsoft.framework.common.vo.ExecutionContext;
 import com.apexsoft.ysprj.applicants.application.domain.*;
-import com.apexsoft.ysprj.unused.EntireApplication;
 
 import java.util.List;
 

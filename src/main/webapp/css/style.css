@@ -332,7 +332,8 @@ section.section {
 ============================= */
 
 #intro{	
-	background-image: url(../img/parallax/img4.jpg);
+	background-image: url(../img/parallax/img9.jpg);
+    background-size: cover;
 }
 
 /*===========================

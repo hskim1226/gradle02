@@ -5,6 +5,73 @@
 <head>
     <title>결제 및 신청 완료</title>
     <style>
+    /* spinner */
+    /* http://projects.lukehaas.me/css-loaders/ */
+    .loader {
+        font-size: 7px;
+        margin: 4em auto;
+        width: 1em;
+        height: 1em;
+        border-radius: 50%;
+        position: relative;
+        text-indent: -9999em;
+        -webkit-animation: load4 1.3s infinite linear;
+        animation: load4 1.3s infinite linear;
+    }
+    @-webkit-keyframes load4 {
+        0%,
+        100% {
+            box-shadow: 0em -3em 0em 0.2em #428bca, 2em -2em 0 0em #428bca, 3em 0em 0 -0.5em #428bca, 2em 2em 0 -0.5em #428bca, 0em 3em 0 -0.5em #428bca, -2em 2em 0 -0.5em #428bca, -3em 0em 0 -0.5em #428bca, -2em -2em 0 0em #428bca;
+        }
+        12.5% {
+            box-shadow: 0em -3em 0em 0em #428bca, 2em -2em 0 0.2em #428bca, 3em 0em 0 0em #428bca, 2em 2em 0 -0.5em #428bca, 0em 3em 0 -0.5em #428bca, -2em 2em 0 -0.5em #428bca, -3em 0em 0 -0.5em #428bca, -2em -2em 0 -0.5em #428bca;
+        }
+        25% {
+            box-shadow: 0em -3em 0em -0.5em #428bca, 2em -2em 0 0em #428bca, 3em 0em 0 0.2em #428bca, 2em 2em 0 0em #428bca, 0em 3em 0 -0.5em #428bca, -2em 2em 0 -0.5em #428bca, -3em 0em 0 -0.5em #428bca, -2em -2em 0 -0.5em #428bca;
+        }
+        37.5% {
+            box-shadow: 0em -3em 0em -0.5em #428bca, 2em -2em 0 -0.5em #428bca, 3em 0em 0 0em #428bca, 2em 2em 0 0.2em #428bca, 0em 3em 0 0em #428bca, -2em 2em 0 -0.5em #428bca, -3em 0em 0 -0.5em #428bca, -2em -2em 0 -0.5em #428bca;
+        }
+        50% {
+            box-shadow: 0em -3em 0em -0.5em #428bca, 2em -2em 0 -0.5em #428bca, 3em 0em 0 -0.5em #428bca, 2em 2em 0 0em #428bca, 0em 3em 0 0.2em #428bca, -2em 2em 0 0em #428bca, -3em 0em 0 -0.5em #428bca, -2em -2em 0 -0.5em #428bca;
+        }
+        62.5% {
+            box-shadow: 0em -3em 0em -0.5em #428bca, 2em -2em 0 -0.5em #428bca, 3em 0em 0 -0.5em #428bca, 2em 2em 0 -0.5em #428bca, 0em 3em 0 0em #428bca, -2em 2em 0 0.2em #428bca, -3em 0em 0 0em #428bca, -2em -2em 0 -0.5em #428bca;
+        }
+        75% {
+            box-shadow: 0em -3em 0em -0.5em #428bca, 2em -2em 0 -0.5em #428bca, 3em 0em 0 -0.5em #428bca, 2em 2em 0 -0.5em #428bca, 0em 3em 0 -0.5em #428bca, -2em 2em 0 0em #428bca, -3em 0em 0 0.2em #428bca, -2em -2em 0 0em #428bca;
+        }
+        87.5% {
+            box-shadow: 0em -3em 0em 0em #428bca, 2em -2em 0 -0.5em #428bca, 3em 0em 0 -0.5em #428bca, 2em 2em 0 -0.5em #428bca, 0em 3em 0 -0.5em #428bca, -2em 2em 0 0em #428bca, -3em 0em 0 0em #428bca, -2em -2em 0 0.2em #428bca;
+        }
+    }
+    @keyframes load4 {
+        0%,
+        100% {
+            box-shadow: 0em -3em 0em 0.2em #428bca, 2em -2em 0 0em #428bca, 3em 0em 0 -0.5em #428bca, 2em 2em 0 -0.5em #428bca, 0em 3em 0 -0.5em #428bca, -2em 2em 0 -0.5em #428bca, -3em 0em 0 -0.5em #428bca, -2em -2em 0 0em #428bca;
+        }
+        12.5% {
+            box-shadow: 0em -3em 0em 0em #428bca, 2em -2em 0 0.2em #428bca, 3em 0em 0 0em #428bca, 2em 2em 0 -0.5em #428bca, 0em 3em 0 -0.5em #428bca, -2em 2em 0 -0.5em #428bca, -3em 0em 0 -0.5em #428bca, -2em -2em 0 -0.5em #428bca;
+        }
+        25% {
+            box-shadow: 0em -3em 0em -0.5em #428bca, 2em -2em 0 0em #428bca, 3em 0em 0 0.2em #428bca, 2em 2em 0 0em #428bca, 0em 3em 0 -0.5em #428bca, -2em 2em 0 -0.5em #428bca, -3em 0em 0 -0.5em #428bca, -2em -2em 0 -0.5em #428bca;
+        }
+        37.5% {
+            box-shadow: 0em -3em 0em -0.5em #428bca, 2em -2em 0 -0.5em #428bca, 3em 0em 0 0em #428bca, 2em 2em 0 0.2em #428bca, 0em 3em 0 0em #428bca, -2em 2em 0 -0.5em #428bca, -3em 0em 0 -0.5em #428bca, -2em -2em 0 -0.5em #428bca;
+        }
+        50% {
+            box-shadow: 0em -3em 0em -0.5em #428bca, 2em -2em 0 -0.5em #428bca, 3em 0em 0 -0.5em #428bca, 2em 2em 0 0em #428bca, 0em 3em 0 0.2em #428bca, -2em 2em 0 0em #428bca, -3em 0em 0 -0.5em #428bca, -2em -2em 0 -0.5em #428bca;
+        }
+        62.5% {
+            box-shadow: 0em -3em 0em -0.5em #428bca, 2em -2em 0 -0.5em #428bca, 3em 0em 0 -0.5em #428bca, 2em 2em 0 -0.5em #428bca, 0em 3em 0 0em #428bca, -2em 2em 0 0.2em #428bca, -3em 0em 0 0em #428bca, -2em -2em 0 -0.5em #428bca;
+        }
+        75% {
+            box-shadow: 0em -3em 0em -0.5em #428bca, 2em -2em 0 -0.5em #428bca, 3em 0em 0 -0.5em #428bca, 2em 2em 0 -0.5em #428bca, 0em 3em 0 -0.5em #428bca, -2em 2em 0 0em #428bca, -3em 0em 0 0.2em #428bca, -2em -2em 0 0em #428bca;
+        }
+        87.5% {
+            box-shadow: 0em -3em 0em 0em #428bca, 2em -2em 0 -0.5em #428bca, 3em 0em 0 -0.5em #428bca, 2em 2em 0 -0.5em #428bca, 0em 3em 0 -0.5em #428bca, -2em 2em 0 0em #428bca, -3em 0em 0 0em #428bca, -2em -2em 0 0.2em #428bca;
+        }
+    }
     </style>
 </head>
 <body>
@@ -27,6 +94,9 @@
                                 </div>
                             </div>
                             <div class="spacer-tiny">&nbsp;</div>
+                            <div id="spinner" class="col-sm-12">
+                                <div class="loader">Loading...</div>
+                            </div>
                             <div class="col-sm-12">
                                 <button class="btn btn-primary btn-lg btn-block" id="goMain" style="display: none;">내 원서 보기</button>
                             </div>
@@ -66,6 +136,7 @@ $(document).ready(function() {
                     data: formData,
                     success: function (data) {
                         console.log('머지 파일 생성 완료');
+                        document.getElementById('spinner').style.display = 'none';
                         document.getElementById('goMain').style.display = 'block';
                     },
                     error: function (data, status, e) {

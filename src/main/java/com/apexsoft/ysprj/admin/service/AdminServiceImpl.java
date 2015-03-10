@@ -15,7 +15,6 @@ import com.apexsoft.ysprj.applicants.application.domain.ApplicationLanguage;
 import com.apexsoft.ysprj.applicants.common.domain.*;
 
 import com.apexsoft.ysprj.applicants.common.service.CommonService;
-import com.apexsoft.ysprj.applicants.test.EntireApplication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -293,7 +292,7 @@ public class AdminServiceImpl implements AdminService{
         if(searchForm.getDeptCode()!=null){
             deptList = commonDAO.queryForList(NAME_SPACE+"selectDepartmentListByCollege", searchForm, Department.class);
         }
-        applAttrList= commonService.retrieveCommonCodeValueByCodeGroup("APPL_ATTR");
+        //applAttrList= commonService.retrieveCommonCodeValueByCodeGroup("APPL_ATTR");
         if (admsList != null)      selectionMap.put("admsList", admsList);
         if (applAttrList != null)  selectionMap.put("applAttrList", applAttrList);
         if (campList != null)      selectionMap.put("campList", campList);

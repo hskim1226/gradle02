@@ -635,4 +635,14 @@
         and FILE_EXT = #{fileExt,jdbcType=VARCHAR}
         order by DOC_SEQ DESC
     </select>
+
+    <select id="selectApplPaperInfoByApplNo" parameterType="com.apexsoft.ysprj.applicants.application.domain.ApplicationDocument" resultMap="applDoc">
+
+        select
+        <include refid="Base_Column_List" />
+        from APPL_DOC
+        where APPL_NO = #{applNo,jdbcType=INTEGER}
+        and DOC_ITEM_NAME = '지원서'
+        order by DOC_SEQ DESC
+    </select>
 </mapper>

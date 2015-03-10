@@ -27,15 +27,16 @@
     <!--<http pattern="/application/**"  security="none"/>-->
     <http pattern="/common/**"  security="none"/>
     <http pattern="/template/**"  security="none"/>
-    <http pattern="/admin/adminLogin"  security="none"/>
+    <!--<http pattern="/user/adminLogin"  security="none"/>-->
 
-    <http realm="admin" pattern="/admin/**"   auto-config="true"  use-expressions="true" access-denied-page="/admin/adminLogin.do?auth=false" >
+    <http realm="admin" pattern="/admin/**"   auto-config="true"  use-expressions="true" access-denied-page="/user/adminLogin.do?auth=true" >
+        <intercept-url pattern="/admin/**" access="hasRole('ROLE_ADMIN')" />
         <form-login login-processing-url="/j_spring_security_check.do"
-                    login-page="/admin/adminLogin?auth=true"
+                    login-page="/user/adminLogin?auth=true"
                     default-target-url="/admin/stats"
                     always-use-default-target="false"
                     authentication-failure-handler-ref="adminAuthenticationFailureHandler"
-                    authentication-failure-url="/admin/adminLogin?fail=true" />
+                    authentication-failure-url="/user/adminLogin?fail=true" />
         <logout logout-url="/j_spring_security_logout.do" invalidate-session="true" logout-success-url="/"/>
     </http>
 

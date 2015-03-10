@@ -5,14 +5,21 @@ import com.apexsoft.framework.exception.ErrorInfo;
 import com.apexsoft.framework.exception.YSBizException;
 import com.apexsoft.framework.message.MessageResolver;
 import com.apexsoft.framework.persistence.dao.CommonDAO;
-import com.apexsoft.ysprj.applicants.application.domain.*;
+import com.apexsoft.ysprj.applicants.application.domain.Application;
+import com.apexsoft.ysprj.applicants.application.domain.ApplicationForeigner;
+import com.apexsoft.ysprj.applicants.application.domain.ApplicationGeneral;
+import com.apexsoft.ysprj.applicants.application.domain.Basis;
 import com.apexsoft.ysprj.applicants.common.domain.*;
 import com.apexsoft.ysprj.applicants.common.service.CommonService;
+import com.apexsoft.ysprj.applicants.common.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.*;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by hanmomhanda on 15. 1. 9.
@@ -52,6 +59,7 @@ public class BasisServiceImpl implements BasisService {
 
         ParamForSetupCourses param = new ParamForSetupCourses();
         param.setAdmsNo(basis.getApplication().getAdmsNo());
+        param.setCampCode(basis.getApplication().getCampCode());
         param.setCollCode(basis.getApplication().getCollCode());
         param.setDeptCode(basis.getApplication().getDeptCode());
         param.setCorsTypeCode(basis.getApplication().getCorsTypeCode());
@@ -65,7 +73,7 @@ public class BasisServiceImpl implements BasisService {
             detlMajList = commonService.retrieveAriInstDetailMajorByAdmsDeptAriInst(param);
         } else {
             campList = commonService.retrieveCampus();
-            collList = commonService.retrieveCollegeByCampus( basis.getApplication().getCampCode() );
+            collList = commonService.retrieveCollegeByAdmsCamp(param);
             deptList = commonService.retrieveGeneralDepartmentByAdmsColl(param);
             detlMajList = commonService.retrieveGeneralDetailMajorByAdmsDeptCors(param);
             if ("00001".equals(applAttrCode))
@@ -81,8 +89,8 @@ public class BasisServiceImpl implements BasisService {
         if (corsTypeList != null)  selectionMap.put("corsTypeList", corsTypeList);
         if (detlMajList != null)   selectionMap.put("detlMajList", detlMajList);
 
-        selectionMap.put("applAttrList", commonService.retrieveCommonCodeValueByCodeGroup("APPL_ATTR"));
-        selectionMap.put("emerContList", commonService.retrieveCommonCodeValueByCodeGroup("EMER_CONT"));
+        selectionMap.put("applAttrList", commonService.retrieveCommonCodeByCodeGroup("APPL_ATTR"));
+        selectionMap.put("emerContList", commonService.retrieveCommonCodeByCodeGroup("EMER_CONT"));
 
         String cntrCode = basis.getApplication().getCitzCntrCode();
         cntrCode = cntrCode == null ? "" : cntrCode;
@@ -93,8 +101,8 @@ public class BasisServiceImpl implements BasisService {
             cntrCode = cntrCode == null ? "" : cntrCode;
             Country bornCntr = commonService.retrieveCountryByCode(cntrCode);
 
-            foreignMap.put("foreignTypeList", commonService.retrieveCommonCodeValueByCodeGroup("FORN_TYPE"));
-            foreignMap.put("visaTypeList", commonService.retrieveCommonCodeValueByCodeGroup("VISA_TYPE"));
+            foreignMap.put("foreignTypeList", commonService.retrieveCommonCodeByCodeGroup("FORN_TYPE"));
+            foreignMap.put("visaTypeList", commonService.retrieveCommonCodeByCodeGroup("VISA_TYPE"));
 
             ecDataMap.put("bornCntr", bornCntr);
             ecDataMap.put("foreign", foreignMap);
@@ -161,11 +169,13 @@ public class BasisServiceImpl implements BasisService {
                 ApplicationForeigner applicationForeigner = commonDAO.queryForObject(NAME_SPACE + "ApplicationForeignerMapper.selectByPrimaryKey",
                         applNo, ApplicationForeigner.class);
                 applicationForeigner = applicationForeigner == null ? new ApplicationForeigner() : applicationForeigner;
+
                 basis.setApplicationForeigner(applicationForeigner);
 
                 ApplicationGeneral applicationGeneral = commonDAO.queryForObject(NAME_SPACE + "ApplicationGeneralMapper.selectByPrimaryKey",
                         applNo, ApplicationGeneral.class);
                 applicationGeneral = applicationGeneral == null ? new ApplicationGeneral() : applicationGeneral;
+
                 basis.setApplicationGeneral(applicationGeneral);
             }
 
@@ -181,8 +191,8 @@ public class BasisServiceImpl implements BasisService {
             List<AcademyResearchIndustryInstitution> ariInstList = commonService.retrieveAriInst();
             if (campList != null)      selectionMap.put("campList", campList);
             if (ariInstList != null)   selectionMap.put("ariInstList", ariInstList);
-            selectionMap.put("applAttrList", commonService.retrieveCommonCodeValueByCodeGroup("APPL_ATTR"));
-            selectionMap.put("emerContList", commonService.retrieveCommonCodeValueByCodeGroup("EMER_CONT"));
+            selectionMap.put("applAttrList", commonService.retrieveCommonCodeByCodeGroup("APPL_ATTR"));
+            selectionMap.put("emerContList", commonService.retrieveCommonCodeByCodeGroup("EMER_CONT"));
         }
 
         String cntrCode = basis.getApplication().getCitzCntrCode();
@@ -193,8 +203,8 @@ public class BasisServiceImpl implements BasisService {
         cntrCode = cntrCode == null ? "" : cntrCode;
         Country bornCntr = commonService.retrieveCountryByCode(cntrCode);
 
-        foreignMap.put("foreignTypeList", commonService.retrieveCommonCodeValueByCodeGroup("FORN_TYPE"));
-        foreignMap.put("visaTypeList", commonService.retrieveCommonCodeValueByCodeGroup("VISA_TYPE"));
+        foreignMap.put("foreignTypeList", commonService.retrieveCommonCodeByCodeGroup("FORN_TYPE"));
+        foreignMap.put("visaTypeList", commonService.retrieveCommonCodeByCodeGroup("VISA_TYPE"));
 
         ec.setResult(ExecutionContext.SUCCESS);
         ecDataMap.put("basis", basis);

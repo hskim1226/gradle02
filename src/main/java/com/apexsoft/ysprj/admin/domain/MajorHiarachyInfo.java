@@ -1,11 +1,5 @@
 package com.apexsoft.ysprj.admin.domain;
 
-import com.apexsoft.ysprj.applicants.application.domain.ApplicationAcademy;
-import com.apexsoft.ysprj.applicants.application.domain.ApplicationDocument;
-import com.apexsoft.ysprj.applicants.application.domain.ApplicationLanguage;
-
-import java.util.List;
-
 public class MajorHiarachyInfo {
 	
 

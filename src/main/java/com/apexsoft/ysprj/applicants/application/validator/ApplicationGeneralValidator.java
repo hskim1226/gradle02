@@ -6,7 +6,6 @@ import com.apexsoft.ysprj.applicants.application.domain.ApplicationGeneral;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
-import org.springframework.validation.Validator;
 
 /**
  * Created by hanmomhanda on 15. 2. 1.

@@ -270,6 +270,10 @@
             background: #ffdddd;
             color: #f55;
         }
+        .input-info {
+            background: #ddddff;
+            color: #55c;
+        }
     </style>
 </head>
 <body>
@@ -278,7 +282,7 @@
         <div id="stepContainer">
             <table width="100%">
                 <tr>
-                    <td id="stepStatusTitle" colspan=4 align="center" height="70px">원서 작성 현황</td>
+                    <td id="stepStatusTitle" colspan=4 align="center" height="70px"><spring:message code="L01001"/><%--원서 작성 현황--%></td>
                 </tr>
                 <tr id="stepTR">
                     <td id="stepBasis" width="25%" height="50px" align="center" class="stepDisabled">1. 기본 정보</td>
@@ -488,19 +492,39 @@
                                             </spring:bind>
                                         </div>
                                     </div>
-                                    <div class="form-group required" id="divRgstNo" style="display: <c:choose><c:when test='${basis.application.citzCntrCode == "118"}'>block;</c:when><c:otherwise>none;</c:otherwise></c:choose>">
-                                        <label for="application.rgstNo" class="col-sm-2 control-label">주민등록번호</label>
+                                    <div class="form-group required" id="divRgstNo" style="display: ${basis.application.citzCntrCode == "118" ? 'block;' : 'none;'}">
+                                        <label class="col-sm-2 control-label">주민등록번호</label>
                                         <div class="col-sm-9">
                                             <div class="col-sm-12">
-                                                <form:input path="application.rgstNo" cssClass="form-control numOnly" maxlength="13" placeholder="주민등록번호를 13자리 숫자로 입력해주세요"/>
-                                            </div>
-                                            <spring:bind path="application.rgstNo">
+                                                <div class="col-sm-4 nopadding">
+                                                    <div><form:input path="application.rgstBornDate" cssClass="form-control numOnly lenCheck-6" maxlength="6" placeholder="주민등록 상 생년월일 6자리"/></div>
+                                            <spring:bind path="application.rgstBornDate">
                                                 <c:if test="${status.error}">
-                                                    <div class="col-sm-12">
-                                                        <div class="validation-error">${status.errorMessage}</div>
-                                                    </div>
+                                                    <div class="validation-error">${status.errorMessage}</div>
                                                 </c:if>
                                             </spring:bind>
+                                                </div>
+                                                <c:choose>
+                                                    <c:when test="${basis.application.applStsCode == null || basis.application.applStsCode.length() == 0}">
+                                                        <div class="col-sm-1" style="text-align: center;">
+                                                            <label>-</label>
+                                                        </div>
+                                                        <div class="col-sm-4 nopadding">
+                                                            <div><form:input path="application.rgstEncr" cssClass="form-control numOnly lenCheck-7" maxlength="7" placeholder="주민등록번호 뒤 7자리"/></div>
+                                                            <div class="input-info word-keep-all">보안을 위해 추후 수정할 수 없으므로 정확히 입력해 주십시오.</div>
+                                                            <spring:bind path="application.rgstEncr">
+                                                                <c:if test="${status.error}">
+                                                                    <div class="validation-error">${status.errorMessage}</div>
+                                                                </c:if>
+                                                            </spring:bind>
+                                                        </div>
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        <div style="color: #337799; vertical-align: middle;">주민등록번호 뒷자리는 보안을 위해 화면에 노출하지 않습니다.</div>
+                                                    </c:otherwise>
+                                                </c:choose>
+
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -599,7 +623,7 @@
                                                 <label class="col-sm-2 control-label">본국 연락처</label>
                                                 <div class="col-sm-9">
                                                     <div class="col-sm-12">
-                                                        <form:input path="applicationForeigner.homeTel" cssClass="form-control" placeholder="본국 연락처를 입력해 주세요."/>
+                                                        <form:input path="applicationForeigner.homeTel" cssClass="form-control" placeholder="본국 연락처를 입력해 주세요." />
                                                     </div>
                                                     <spring:bind path="applicationForeigner.homeTel">
                                                         <c:if test="${status.error}">
@@ -705,7 +729,7 @@
                                         <label for="applicationForeigner.fornRgstNo" class="col-sm-2 control-label">외국인등록번호</label>
                                         <div class="col-sm-9">
                                             <div class="col-sm-12">
-                                                <input id="applicationForeigner.fornRgstNo" name="applicationForeigner.fornRgstNo" class="form-control numOnly"
+                                                <input id="applicationForeigner.fornRgstNo" name="applicationForeigner.fornRgstNo" class="form-control numOnly rgstNo"
                                                        maxlength="13" placeholder="외국인등록번호를 13자리 숫자로 입력해주세요"
                                                        value="${basis.applicationForeigner.fornRgstNo}"
                                                        <c:if test="${basis.applicationForeigner.visaTypeCode == '00999'}">disabled</c:if> />
@@ -1035,7 +1059,7 @@
     <%-- 도로명 주소 사용 안내 팝업 --%>
 
     <%-- 다음 주소 검색 팝업 --%>
-    <div id="postLayer" style="display:none;border:5px solid;position:fixed;width:310px;height:510px;left:50%;margin-left:-155px;top:50%;margin-top:-235px;overflow:hidden;-webkit-overflow-scrolling:touch;z-index:2;background-color:#fff;color: #111;">
+    <div id="postLayer" style="display:none;border:5px solid;position:fixed;width:720px;height:510px;left:50%;margin-left:-360px;top:50%;margin-top:-235px;overflow:hidden;-webkit-overflow-scrolling:touch;z-index:2;background-color:#fff;color: #111;">
         <img src="${contextPath}/img/user/addr-close.png" id="btnClosePostLayer" style="cursor:pointer;position:absolute;right:-3px;top:-3px" alt="닫기 버튼">
     </div>
     <%-- 다음 주소 검색 팝업 --%>
@@ -1182,6 +1206,7 @@
                 $('#applAttrCode').focus();
             } else {
                 apex.transKorPhoneNumber('phone');
+//                apex.transKorRgstNumber('rgstNo');
                 form.action = "${contextPath}/application/basis/save";
                 form.submit();
             }
@@ -1200,6 +1225,11 @@
         <%-- 숫자만 입력 - 주민번호, 휴대폰, 전화번호 --%>
         apex.numCheck('numOnly');
         <%-- 숫자만 입력 - 주민번호, 휴대폰, 전화번호 --%>
+
+        <%-- 주민번호 길이 체크 --%>
+        apex.lenCheck('lenCheck-6', 6, 6);
+        apex.lenCheck('lenCheck-7', 7, 7);
+        <%-- 주민번호 길이 체크 --%>
 
         <%-- 메일 주소 validation --%>
         apex.emailCheck('emailOnly');
@@ -1333,7 +1363,8 @@
 
         $('#citzCntrCode').on('change', function(e) {
             var divRgstNo = document.getElementById('divRgstNo'),
-                rgstNo = document.getElementById('application.rgstNo'),
+                rgstBornDate = document.getElementById('application.rgstBornDate'),
+                rgstEncr = document.getElementById('application.rgstEncr'),
                 divStayInfo = document.getElementById('stayInfo'),
                 stayInfoItems, item, i, itemL;
             if (this.value == '118') {
@@ -1354,8 +1385,10 @@
                     stayInfoItems[i].selectedIndex = 0;
                 }
             } else {
-                rgstNo.setAttribute('value', '');
-                rgstNo.value = '';
+                rgstBornDate.setAttribute('value', '');
+                rgstBornDate.value = '';
+                rgstEncr.setAttribute('value', '');
+                rgstEncr.value = '';
                 divRgstNo.style.display = 'none';
                 divStayInfo.style.display = 'block';
             }
@@ -1617,7 +1650,7 @@
                     labelKey: 'collName',
                     // clean: ['ariInstCode', 'deptCode', 'corsTypeCode', 'detlMajCode'],
                     url: function(arg) {
-                        return '/college/' + arg;
+                        return '/admscollege/' + admsNo + '/' + arg;
                     }
                 }
         );
