@@ -61,13 +61,13 @@ public class AdminController {
 
     @Value("#{app['file.baseDir']}")
     private String fileBaseDir;
-/*
-    @RequestMapping(value="/login", method= RequestMethod.GET)
+
+    @RequestMapping(value="/adminLogin", method= RequestMethod.GET)
     public ModelAndView displayLoginForm(User user,
                                          BindingResult bindingResult,
                                          ModelAndView mv,
                                          HttpServletRequest request) {
-        mv.setViewName("admin/login/adminLogin");
+        mv.setViewName("admin/user/adminLogin");
         if (bindingResult.hasErrors()) return mv;
 
         if (request.getAttribute("LOGIN_FAILURE") == Boolean.TRUE)
@@ -75,7 +75,7 @@ public class AdminController {
 
         return mv;
     }
-    */
+
     @RequestMapping(value="/stats/daily")
     public String statsDaily(Model model) {
         Map<String, Object> modelMap = new HashMap<String, Object>();
