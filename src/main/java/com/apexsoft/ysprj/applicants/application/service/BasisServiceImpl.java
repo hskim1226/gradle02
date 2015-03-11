@@ -59,6 +59,7 @@ public class BasisServiceImpl implements BasisService {
 
         ParamForSetupCourses param = new ParamForSetupCourses();
         param.setAdmsNo(basis.getApplication().getAdmsNo());
+        param.setCampCode(basis.getApplication().getCampCode());
         param.setCollCode(basis.getApplication().getCollCode());
         param.setDeptCode(basis.getApplication().getDeptCode());
         param.setCorsTypeCode(basis.getApplication().getCorsTypeCode());
@@ -72,7 +73,7 @@ public class BasisServiceImpl implements BasisService {
             detlMajList = commonService.retrieveAriInstDetailMajorByAdmsDeptAriInst(param);
         } else {
             campList = commonService.retrieveCampus();
-            collList = commonService.retrieveCollegeByCampus( basis.getApplication().getCampCode() );
+            collList = commonService.retrieveCollegeByAdmsCamp(param);
             deptList = commonService.retrieveGeneralDepartmentByAdmsColl(param);
             detlMajList = commonService.retrieveGeneralDetailMajorByAdmsDeptCors(param);
             if ("00001".equals(applAttrCode))

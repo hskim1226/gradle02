@@ -1650,7 +1650,7 @@
                     labelKey: 'collName',
                     // clean: ['ariInstCode', 'deptCode', 'corsTypeCode', 'detlMajCode'],
                     url: function(arg) {
-                        return '/college/' + arg;
+                        return '/admscollege/' + admsNo + '/' + arg;
                     }
                 }
         );
