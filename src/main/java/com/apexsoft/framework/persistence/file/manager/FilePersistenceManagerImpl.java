@@ -123,7 +123,8 @@ public class FilePersistenceManagerImpl implements FilePersistenceManager {
             }
         }
 
-        return new FileInfo(uploadDirectory.getAbsolutePath(), fileName, orgFileName, uploadFile.length(), pageCnt);
+//        return new FileInfo(uploadDirectory.getAbsolutePath(), fileName, orgFileName, uploadFile.length(), pageCnt);
+        return new FileInfo(uploadDirectory.getAbsolutePath().replace("\\", "/"), fileName, orgFileName, uploadFile.length(), pageCnt);
 	}
 
 	/*
