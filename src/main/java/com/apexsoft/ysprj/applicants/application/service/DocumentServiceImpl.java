@@ -105,12 +105,13 @@ public class DocumentServiceImpl implements DocumentService {
         int r1 = 0, rSave = 0;
 
         int currentStsCode = Integer.parseInt(application.getApplStsCode());
-        if (currentStsCode < Integer.parseInt(FILE_UPLOAD_SAVED)) {
+        if (currentStsCode <= Integer.parseInt(FILE_UPLOAD_SAVED)) {
             rSave++;
             Date date = new Date();
 
             application.setModDate(date);
             application.setModId(userId);
+//            application.setDocChckYn(application.getDocChckYn());
             application.setApplStsCode(FILE_UPLOAD_SAVED);
             r1 = commonDAO.updateItem(application, NAME_SPACE, "ApplicationMapper");
         }

@@ -33,6 +33,7 @@
         <result column="APPL_ID" property="applId" jdbcType="VARCHAR" />
         <result column="APPL_STS_CODE" property="applStsCode" jdbcType="VARCHAR" />
         <result column="PRIV_INFO_YN" property="privInfoYn" jdbcType="VARCHAR" />
+        <result column="DOC_CHCK_YN" property="docChckYn" jdbcType="VARCHAR" />
         <result column="CRE_ID" property="creId" jdbcType="VARCHAR" />
         <result column="CRE_DATE" property="creDate" jdbcType="DATE" />
         <result column="MOD_ID" property="modId" jdbcType="VARCHAR" />
@@ -47,7 +48,7 @@
         -->
         APPL_NO, USER_ID, ADMS_NO, DEPT_CODE, ARI_INST_CODE, CORS_TYPE_CODE, DETL_MAJ_CODE,
         INP_DETL_MAJ, PART_TIME_YN, KOR_NAME, CHN_NAME, ENG_SUR, ENG_NAME, RGST_NO, RGST_BORN_DATE, RGST_ENCR, ZIP_CODE,
-        ADDR, DETL_ADDR, TEL_NUM, MOBI_NUM, FAX_NUM, MAIL_ADDR, APPL_ID, APPL_STS_CODE, PRIV_INFO_YN,
+        ADDR, DETL_ADDR, TEL_NUM, MOBI_NUM, FAX_NUM, MAIL_ADDR, APPL_ID, APPL_STS_CODE, PRIV_INFO_YN, DOC_CHCK_YN
         CRE_ID, CRE_DATE, MOD_ID, MOD_DATE
     </sql>
 
@@ -283,6 +284,9 @@
             <if test="privInfoYn != null">
                 PRIV_INFO_YN,
             </if>
+            <if test="docChckYn != null">
+                DOC_CHCK_YN,
+            </if>
             <if test="creId != null">
                 CRE_ID,
             </if>
@@ -404,6 +408,9 @@
             </if>
             <if test="privInfoYn != null">
                 #{privInfoYn,jdbcType=VARCHAR},
+            </if>
+            <if test="docChckYn != null">
+                #{docChckYn,jdbcType=VARCHAR},
             </if>
             <if test="creId != null">
                 #{creId,jdbcType=VARCHAR},
