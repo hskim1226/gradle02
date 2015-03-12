@@ -12,27 +12,27 @@
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
-    <script src="${contextPath}/js/html5shiv.min.js"></script>
-    <script src="${contextPath}/js/respond.min.js"></script>
+    <script src="<spring:eval expression="@app.getProperty('path.static')" />/js/html5shiv.min.js"></script>
+    <script src="<spring:eval expression="@app.getProperty('path.static')" />/js/respond.min.js"></script>
     <![endif]-->
     <!--<link rel="stylesheet" type="text/css" href="../css/isotope.css" media="screen" />-->
     <!--<link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/jquery.isotope/2.0.0/isotope.pkgd.min.js" media="screen" />-->
     <!--<link rel="stylesheet" href="../js/fancybox/jquery.fancybox.css" type="text/css" media="screen" />-->
     <!--<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.pack.js" type="text/css" media="screen" />-->
     <!-- Bootstrap -->
-    <link rel="stylesheet" href="${contextPath}/css/bootstrap.min.css"/>
-    <link rel="stylesheet" href="${contextPath}/css/bootstrap-theme.min.css"/>
+    <link rel="stylesheet" href="<spring:eval expression="@app.getProperty('path.static')" />/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="<spring:eval expression="@app.getProperty('path.static')" />/css/bootstrap-theme.min.css"/>
     <!-- Font-awesome -->
-    <link rel="stylesheet" href="${contextPath}/css/font-awesome.css"/>
+    <link rel="stylesheet" href="<spring:eval expression="@app.getProperty('path.static')" />/css/font-awesome.css"/>
     <!-- Overwrite Bootstrap -->
-    <link rel="stylesheet" href="${contextPath}/css/overwrite.css"/>
-    <link rel="stylesheet" href="${contextPath}/css/animate.css"/>
+    <link rel="stylesheet" href="<spring:eval expression="@app.getProperty('path.static')" />/css/overwrite.css"/>
+    <link rel="stylesheet" href="<spring:eval expression="@app.getProperty('path.static')" />/css/animate.css"/>
     <!-- skin -->
-    <link rel="stylesheet" href="${contextPath}/skin/default.css">
+    <link rel="stylesheet" href="<spring:eval expression="@app.getProperty('path.static')" />/skin/default.css">
     <!-- custom style -->
-    <link rel="stylesheet" href="${contextPath}/css/style.css"/>
+    <link rel="stylesheet" href="<spring:eval expression="@app.getProperty('path.static')" />/css/style.css"/>
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="${contextPath}/js/jquery.min.js"></script>
+    <script src="<spring:eval expression="@app.getProperty('path.static')" />/js/jquery.min.js"></script>
     <decorator:head />
 </head>
 <body>
@@ -44,7 +44,7 @@
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                     <span class="fa fa-bars color-white"></span>
                 </button>
-                <h1><a class="navbar-brand" href="${contextPath}" data-0="line-height:60px;" data-300="line-height:60px;"><img src="${contextPath}/img/common/yonsei-logo02.png"/></a></h1>
+                <h1><a class="navbar-brand" href="${contextPath}" data-0="line-height:60px;" data-300="line-height:60px;"><img src="<spring:eval expression="@app.getProperty('path.static')" />/img/common/yonsei-logo02.png"/></a></h1>
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav" style="float: right;" data-0="margin-top:5px;" data-300="margin-top:5px;">
@@ -85,27 +85,27 @@
     <a href="#header" class="scrollup"><i class="fa fa-chevron-up"></i></a>
 
     <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script src="${contextPath}/js/bootstrap.min.js"></script>
-    <script src="${contextPath}/js/bootstrapValidator.min.js"></script>
-    <script src="${contextPath}/js/modernizr-2.6.2-respond-1.1.0.min.js"></script>
-    <script src="${contextPath}/js/jquery.easing.min.js"></script>
-    <script src="${contextPath}/js/isotope.pkgd.min.js"></script>
-    <script src="${contextPath}/js/jquery.nicescroll.min.js"></script>
-    <script src="${contextPath}/js/fancybox/jquery.fancybox.pack.js"></script>
-    <script src="${contextPath}/js/skrollr.min.js"></script>
-    <script src="${contextPath}/js/jquery.scrollTo.min.js"></script>
-    <script src="${contextPath}/js/jquery.localScroll.min.js"></script>
-    <script src="${contextPath}/js/jquery.stellar.min.js"></script>
-    <script src="${contextPath}/js/jquery.appear.min.js"></script>
-    <script src="${contextPath}/js/jquery.bpopup.min.js"></script>
-    <script src="${contextPath}/js/jquery.form.min.js"></script>
-    <script src="${contextPath}/js/ajaxfileupload.js"></script>
-    <script src="${contextPath}/js/validate.min.js"></script>
-    <script src="${contextPath}/js/jquery.placeholder.js"></script>
-    <script src="${contextPath}/js/jquery.word-break-keep-all.min.js"></script>
-    <script src="${contextPath}/js/json2.js"></script>
-    <script src="${contextPath}/js/main.js"></script>
-    <script src="${contextPath}/js/apex.js"></script>
+    <script src="<spring:eval expression="@app.getProperty('path.static')" />/js/bootstrap.min.js"></script>
+    <script src="<spring:eval expression="@app.getProperty('path.static')" />/js/bootstrapValidator.min.js"></script>
+    <script src="<spring:eval expression="@app.getProperty('path.static')" />/js/modernizr-2.6.2-respond-1.1.0.min.js"></script>
+    <script src="<spring:eval expression="@app.getProperty('path.static')" />/js/jquery.easing.min.js"></script>
+    <script src="<spring:eval expression="@app.getProperty('path.static')" />/js/isotope.pkgd.min.js"></script>
+    <script src="<spring:eval expression="@app.getProperty('path.static')" />/js/jquery.nicescroll.min.js"></script>
+    <script src="<spring:eval expression="@app.getProperty('path.static')" />/js/fancybox/jquery.fancybox.pack.js"></script>
+    <script src="<spring:eval expression="@app.getProperty('path.static')" />/js/skrollr.min.js"></script>
+    <script src="<spring:eval expression="@app.getProperty('path.static')" />/js/jquery.scrollTo.min.js"></script>
+    <script src="<spring:eval expression="@app.getProperty('path.static')" />/js/jquery.localScroll.min.js"></script>
+    <script src="<spring:eval expression="@app.getProperty('path.static')" />/js/jquery.stellar.min.js"></script>
+    <script src="<spring:eval expression="@app.getProperty('path.static')" />/js/jquery.appear.min.js"></script>
+    <script src="<spring:eval expression="@app.getProperty('path.static')" />/js/jquery.bpopup.min.js"></script>
+    <script src="<spring:eval expression="@app.getProperty('path.static')" />/js/jquery.form.min.js"></script>
+    <script src="<spring:eval expression="@app.getProperty('path.static')" />/js/ajaxfileupload.js"></script>
+    <script src="<spring:eval expression="@app.getProperty('path.static')" />/js/validate.min.js"></script>
+    <script src="<spring:eval expression="@app.getProperty('path.static')" />/js/jquery.placeholder.js"></script>
+    <script src="<spring:eval expression="@app.getProperty('path.static')" />/js/jquery.word-break-keep-all.min.js"></script>
+    <script src="<spring:eval expression="@app.getProperty('path.static')" />/js/json2.js"></script>
+    <script src="<spring:eval expression="@app.getProperty('path.static')" />/js/main.js"></script>
+    <script src="<spring:eval expression="@app.getProperty('path.static')" />/js/apex.js"></script>
     <%--<script type="text/javascript">--%>
         <%--$(document).ready(function() {--%>
             <%--$('div[role=locale]').on('click', function(e) {--%>
