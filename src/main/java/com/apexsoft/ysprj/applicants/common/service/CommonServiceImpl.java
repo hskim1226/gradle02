@@ -64,6 +64,26 @@ public class CommonServiceImpl implements CommonService {
         }
         return collegeList;
     }
+
+    /**
+     * 캠퍼스 별 단과대학 조회 (각 입학전형에서 모집하는 단과대학만 조회)
+     *
+     * @param paramForSetupCourses
+     * @return
+     */
+    @Override
+    @Cacheable(value = "collegeByAdmsCamp")
+    public List<College> retrieveCollegeByAdmsCamp(ParamForSetupCourses paramForSetupCourses) {
+        List<College> collegeList = null;
+        try {
+            collegeList = commonDAO.queryForList(NAME_SPACE+"CustomCollegeMapper.selectByAdmsCamp", paramForSetupCourses, College.class);
+            converter.convert(collegeList, request);
+        } catch (Exception e) {
+            throw new BusinessException(e.getMessage(), e);
+        }
+        return collegeList;
+    }
+
     /**
      * 단과대별 모든학과 조회
      *

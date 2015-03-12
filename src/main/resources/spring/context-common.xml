@@ -56,7 +56,7 @@
     <bean id="jacksonObjectMapper"
           class="com.fasterxml.jackson.databind.ObjectMapper"/>
 
-    <beans profile="local,dev,test,stag,qa,real">
+    <beans profile="local,dev,test,stag,qa,real,aws">
     </beans>
 
 </beans>

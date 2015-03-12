@@ -9,6 +9,7 @@ package com.apexsoft.ysprj.applicants.common.domain;
 public class ParamForSetupCourses {
 
     private String admsNo;
+    private String campCode;
     private String collCode;
     private String deptCode;
     private String corsTypeCode;
@@ -20,6 +21,14 @@ public class ParamForSetupCourses {
 
     public void setAdmsNo(String admsNo) {
         this.admsNo = admsNo;
+    }
+
+    public String getCampCode() {
+        return campCode;
+    }
+
+    public void setCampCode(String campCode) {
+        this.campCode = campCode;
     }
 
     public String getCollCode() {
