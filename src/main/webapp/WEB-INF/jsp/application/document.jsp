@@ -1165,43 +1165,76 @@
                 <%-- 지원서 파일 정보 DB 저장 --%>
                 $.ajax({
                     type: 'POST',
-                    url: '${contextPath}/application/document/savePreview/application',
+                    url: '${contextPath}/application/document/generate/appl',
                     data: formData,
                     success: function (data) {
                         var ec = JSON.parse(data);
                         if (ec.result == 'SUCCESS') {
-                            console.log('원서 파일 정보 저장 완료');
+                            console.log('원서 파일 정보 저장 및 원서 파일 생성 완료');
                             <%-- 파일 생성 --%>
                             document.getElementById('spinner').style.display = 'block';
-
                             $.ajax({
                                 type: 'POST',
-                                url: '${contextPath}/application/generate/application',
+                                url: '${contextPath}/pdf/merge/applicant',
                                 data: formData,
                                 success: function (data) {
-                                    console.log('원서 파일 생성 완료');
-                                    $.ajax({
-                                        type: 'POST',
-                                        url: '${contextPath}/pdf/merge/applicant',
-                                        data: formData,
-                                        success: function (data) {
-                                            console.log('머지 파일 생성 완료');
-                                            document.getElementById('spinner').style.display = 'none';
-                                            document.getElementById('previewApplication').style.display = 'block';
-                                        },
-                                        error: function (data, status, e) {
-                                            console.log('머지 파일 생성 실패');
-                                        }
-                                    });
+                                    console.log('머지 파일 생성 완료');
+                                    document.getElementById('spinner').style.display = 'none';
+                                    document.getElementById('previewApplication').style.display = 'block';
                                 },
                                 error: function (data, status, e) {
-                                    console.log('원서 파일 생성 실패');
+                                    console.log('머지 파일 생성 실패');
                                 }
                             });
                             <%-- 파일 생성 --%>
                         }
+                    },
+                    error: function (data, status, e) {
+                        console.log('원서 파일 정보 저장 및 원서 파일 생성 실패');
                     }
                 });
+                <%-- 지원서 파일 정보 DB 저장 --%>
+
+                <%-- 지원서 파일 정보 DB 저장 --%>
+                <%--$.ajax({--%>
+                    <%--type: 'POST',--%>
+                    <%--url: '${contextPath}/application/document/savePreview/application',--%>
+                    <%--data: formData,--%>
+                    <%--success: function (data) {--%>
+                        <%--var ec = JSON.parse(data);--%>
+                        <%--if (ec.result == 'SUCCESS') {--%>
+                            <%--console.log('원서 파일 정보 저장 완료');--%>
+                            <%--&lt;%&ndash; 파일 생성 &ndash;%&gt;--%>
+                            <%--document.getElementById('spinner').style.display = 'block';--%>
+
+                            <%--$.ajax({--%>
+                                <%--type: 'POST',--%>
+                                <%--url: '${contextPath}/application/generate/application',--%>
+                                <%--data: formData,--%>
+                                <%--success: function (data) {--%>
+                                    <%--console.log('원서 파일 생성 완료');--%>
+                                    <%--$.ajax({--%>
+                                        <%--type: 'POST',--%>
+                                        <%--url: '${contextPath}/pdf/merge/applicant',--%>
+                                        <%--data: formData,--%>
+                                        <%--success: function (data) {--%>
+                                            <%--console.log('머지 파일 생성 완료');--%>
+                                            <%--document.getElementById('spinner').style.display = 'none';--%>
+                                            <%--document.getElementById('previewApplication').style.display = 'block';--%>
+                                        <%--},--%>
+                                        <%--error: function (data, status, e) {--%>
+                                            <%--console.log('머지 파일 생성 실패');--%>
+                                        <%--}--%>
+                                    <%--});--%>
+                                <%--},--%>
+                                <%--error: function (data, status, e) {--%>
+                                    <%--console.log('원서 파일 생성 실패');--%>
+                                <%--}--%>
+                            <%--});--%>
+                            <%--&lt;%&ndash; 파일 생성 &ndash;%&gt;--%>
+                        <%--}--%>
+                    <%--}--%>
+                <%--});--%>
                 <%-- 지원서 파일 정보 DB 저장 --%>
 
             } else if (saveType == 'preview') {

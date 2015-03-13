@@ -1,5 +1,8 @@
 package com.apexsoft.ysprj.applicants.common.control;
 
+import com.apexsoft.framework.birt.spring.core.BirtEngineFactory;
+import com.apexsoft.framework.birt.spring.core.CustomAbstractSingleFormatBirtProcessor;
+import com.apexsoft.framework.birt.spring.core.CustomPdfSingleFormatBirtSaveToFile;
 import com.apexsoft.framework.common.vo.ExecutionContext;
 import com.apexsoft.framework.exception.ErrorInfo;
 import com.apexsoft.framework.exception.YSBizException;
@@ -7,6 +10,7 @@ import com.apexsoft.framework.message.MessageResolver;
 import com.apexsoft.ysprj.applicants.application.domain.Application;
 import com.apexsoft.ysprj.applicants.common.domain.BirtRequest;
 import com.apexsoft.ysprj.applicants.common.service.BirtService;
+import org.eclipse.birt.report.engine.api.IReportEngine;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -14,6 +18,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
 import java.util.HashMap;
 import java.util.Map;
@@ -27,6 +32,9 @@ public class BirtController {
 
     @Autowired
     BirtService birtService;
+
+    @Autowired
+    BirtEngineFactory birtEngineFactory;
 
     @Autowired
     MessageResolver messageResolver;
@@ -134,6 +142,34 @@ public class BirtController {
             mv.addObject("reportName", RPT_ADMISSION_KR);
             ExecutionContext ec = birtService.processBirt(applNo, RPT_ADMISSION_KR);
             mv.addAllObjects((Map<String, Object>)ec.getData());
+        }
+
+        return mv;
+    }
+
+    @RequestMapping(value = "")
+    public ModelAndView testCasNote(@PathVariable("applNo") int applNo,
+                                    Principal principal,
+                                    ModelAndView mv,
+                                    HttpServletRequest request) {
+
+        mv.setViewName("application/mylist");
+        mv.addObject("reportFormat", REPORT_FORMAT);
+        mv.addObject("reportName", RPT_ADMISSION_KR);
+        String pathToRptdesignFile = "/reports/"+RPT_ADMISSION_KR+".rptdesign";
+        String fullPathToRptdesignFile = request.getSession().getServletContext().getRealPath(pathToRptdesignFile);
+        mv.addObject("rptdesignFullPath", fullPathToRptdesignFile);
+        ExecutionContext ec = birtService.processBirt(applNo, RPT_ADMISSION_KR);
+        mv.addAllObjects((Map<String, Object>)ec.getData());
+
+        IReportEngine reportEngine = birtEngineFactory.getObject();
+        CustomAbstractSingleFormatBirtProcessor birtProcessor = new CustomPdfSingleFormatBirtSaveToFile();
+        birtProcessor.setBirtEngine(reportEngine);
+        try {
+            birtProcessor.createReport(mv.getModel());
+        } catch ( Exception e ) {
+            e.printStackTrace();
+            throw new YSBizException();
         }
 
         return mv;
