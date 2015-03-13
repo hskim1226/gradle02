@@ -1160,8 +1160,8 @@
                     form.submit();
                 }
             } else if (saveType == 'generate') {
+                document.getElementById('spinner').style.display = 'block';
                 formData = $(form).serialize();
-
                 <%-- 지원서 파일 정보 DB 저장 --%>
                 $.ajax({
                     type: 'POST',
@@ -1172,7 +1172,7 @@
                         if (ec.result == 'SUCCESS') {
                             console.log('원서 파일 정보 저장 및 원서 파일 생성 완료');
                             <%-- 파일 생성 --%>
-                            document.getElementById('spinner').style.display = 'block';
+
                             $.ajax({
                                 type: 'POST',
                                 url: '${contextPath}/pdf/merge/applicant',

@@ -1,7 +1,10 @@
 package com.apexsoft.ysprj.applicants.payment.control;
 
 import com.apexsoft.framework.common.vo.ExecutionContext;
+import com.apexsoft.framework.exception.YSBizException;
+import com.apexsoft.framework.persistence.dao.CommonDAO;
 import com.apexsoft.ysprj.applicants.application.domain.Application;
+import com.apexsoft.ysprj.applicants.application.service.BasisService;
 import com.apexsoft.ysprj.applicants.common.domain.BirtRequest;
 import com.apexsoft.ysprj.applicants.common.service.BirtService;
 import com.apexsoft.ysprj.applicants.common.service.PDFService;
@@ -31,6 +34,9 @@ import java.util.Map;
 @Controller
 @RequestMapping(value = "/casnote")
 public class CasNoteController {
+
+    @Autowired
+    private CommonDAO commonDAO;
 
     @Autowired
     private PaymentService paymentService;
@@ -128,10 +134,25 @@ public class CasNoteController {
             int applNo = paymentService.registerCasNote(applPay);
 
             //수험표, 지원서 생섬 및 Merge
-            String urlHead = "http://localhost:" + Integer.toString(request.getLocalPort()) + request.getContextPath();
-            genApplFileAndMerge( applNo, urlHead );
-            genSlipFile( applNo, urlHead );
+//            String urlHead = "http://localhost:" + Integer.toString(request.getLocalPort()) + request.getContextPath();
+//            genApplFileAndMerge( applNo, urlHead );
+//            genSlipFile( applNo, urlHead );
 
+            // 타 대학원 확장 시 TODO - 학교 이름을 파라미터로 받도록
+            Application application = commonDAO.queryForObject("com.apexsoft.ysprj.applicants.application.sqlmap.ApplicationMapper.selectByPrimaryKey",
+                    applNo, Application.class);
+            String admsTypeCode = application.getAdmsTypeCode();
+            String lang = "C".equals(admsTypeCode) ? "en" : "kr";
+            String reportName = "yonsei-appl-" + lang;
+            ExecutionContext ecGenAppl = birtService.generateBirtFile(application.getApplNo(), reportName);
+            reportName = "yonsei-adms-" + lang;
+            ExecutionContext ecGenAdms = birtService.generateBirtFile(application.getApplNo(), reportName);
+            ExecutionContext ecPdfMerge = pdfService.getMergedPDFByApplicants(applNo);
+            if ( ExecutionContext.FAIL.equals(ecGenAppl.getResult()) ||
+                 ExecutionContext.FAIL.equals(ecGenAdms.getResult()) ||
+                 ExecutionContext.FAIL.equals(ecPdfMerge.getResult()) ) {
+                throw new YSBizException();
+            }
         }
 
         return "xpay/casnote";

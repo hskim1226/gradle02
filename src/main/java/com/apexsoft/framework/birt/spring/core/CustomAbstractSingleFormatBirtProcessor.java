@@ -154,6 +154,17 @@ abstract public class CustomAbstractSingleFormatBirtProcessor implements Initial
             this.renderOption = new RenderOption();
     }
 
+    /**
+     * 자식 클래스에서 미리 보기 또는 파일 저장 등 필요에 따라 구현
+     *
+     * @param map
+     * @param resourcePathCallback
+     * @param reportName
+     * @param format
+     * @param options
+     * @return
+     * @throws Throwable
+     */
     abstract protected RenderOption renderReport( Map<String, Object> map,
                                                   BirtViewResourcePathCallback resourcePathCallback,
                                                   String reportName, String format, IRenderOption options ) throws Throwable;
@@ -165,6 +176,12 @@ abstract public class CustomAbstractSingleFormatBirtProcessor implements Initial
         return !reportName.toLowerCase().endsWith( DEFAULT_REPORT_EXT ) ? reportName + DEFAULT_REPORT_EXT : reportName;
     }
 
+    /**
+     * 외부에서 직접 호출되어 Birt 파일을 미리보기 또는 생성한다.
+     *
+     * @param modelData Birt 보고서에 표시될 데이타
+     * @throws Exception
+     */
     @SuppressWarnings("unchecked")
     public void createReport(Map<String, Object> modelData) throws Exception {
         FileInputStream fis = null;

@@ -43,6 +43,15 @@ public class PDFServiceImpl implements PDFService {
 
     private final static String NAME_SPACE = "com.apexsoft.ysprj.applicants.application.sqlmap.";
 
+    /**
+     * 지원자 별 PDF 묶음 파일 생성
+     * 첨부 파일을 먼저 합치고, 페이지를 먹인 후,
+     * 이미 생성되어 있는 지원서 파일과 합쳐서 최종 파일을 생성한다.
+     *
+     *
+     * @param applNo
+     * @return
+     */
     @Override
     public ExecutionContext getMergedPDFByApplicants(int applNo) {
         ExecutionContext ec = new ExecutionContext();
@@ -130,6 +139,16 @@ public class PDFServiceImpl implements PDFService {
         return ec;
     }
 
+    /**
+     * 합쳐진 첨부 파일 우상단에 '현재 페이지/전체 페이지' 텍스트를 추가한다.
+     *
+     * @param pdDocument
+     * @param destFilePath
+     * @param applNo
+     * @return
+     * @throws IOException
+     * @throws COSVisitorException
+     */
     private ExecutionContext generatePageNumberedPDF(PDDocument pdDocument, String destFilePath, int applNo)
             throws IOException, COSVisitorException{
         ExecutionContext ec = new ExecutionContext();

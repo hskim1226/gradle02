@@ -147,34 +147,6 @@ public class BirtController {
         return mv;
     }
 
-    @RequestMapping(value = "")
-    public ModelAndView testCasNote(@PathVariable("applNo") int applNo,
-                                    Principal principal,
-                                    ModelAndView mv,
-                                    HttpServletRequest request) {
-
-        mv.setViewName("application/mylist");
-        mv.addObject("reportFormat", REPORT_FORMAT);
-        mv.addObject("reportName", RPT_ADMISSION_KR);
-        String pathToRptdesignFile = "/reports/"+RPT_ADMISSION_KR+".rptdesign";
-        String fullPathToRptdesignFile = request.getSession().getServletContext().getRealPath(pathToRptdesignFile);
-        mv.addObject("rptdesignFullPath", fullPathToRptdesignFile);
-        ExecutionContext ec = birtService.processBirt(applNo, RPT_ADMISSION_KR);
-        mv.addAllObjects((Map<String, Object>)ec.getData());
-
-        IReportEngine reportEngine = birtEngineFactory.getObject();
-        CustomAbstractSingleFormatBirtProcessor birtProcessor = new CustomPdfSingleFormatBirtSaveToFile();
-        birtProcessor.setBirtEngine(reportEngine);
-        try {
-            birtProcessor.createReport(mv.getModel());
-        } catch ( Exception e ) {
-            e.printStackTrace();
-            throw new YSBizException();
-        }
-
-        return mv;
-    }
-
     private void filterApplicationNull(Principal principal) {
         ExecutionContext ec = new ExecutionContext(ExecutionContext.FAIL);
         ec.setMessage(messageResolver.getMessage("U343"));
