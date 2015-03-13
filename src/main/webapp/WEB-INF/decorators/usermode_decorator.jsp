@@ -12,15 +12,15 @@
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
-    <script src="<spring:eval expression="@app.getProperty('path.static')" />/js/html5shiv.min.js"></script>
-    <script src="<spring:eval expression="@app.getProperty('path.static')" />/js/respond.min.js"></script>
+    <script src='<spring:eval expression="@app.getProperty(\"path.static\")" />/js/html5shiv.min.js'></script>
+    <script src='<spring:eval expression="@app.getProperty(\"path.static\")" />/js/respond.min.js'></script>
     <![endif]-->
     <!--<link rel="stylesheet" type="text/css" href="../css/isotope.css" media="screen" />-->
     <!--<link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/jquery.isotope/2.0.0/isotope.pkgd.min.js" media="screen" />-->
     <!--<link rel="stylesheet" href="../js/fancybox/jquery.fancybox.css" type="text/css" media="screen" />-->
     <!--<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.pack.js" type="text/css" media="screen" />-->
     <!-- Bootstrap -->
-    <link rel="stylesheet" href="<spring:eval expression="@app.getProperty('path.static')" />/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="${contextPath}/static/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="<spring:eval expression="@app.getProperty('path.static')" />/css/bootstrap-theme.min.css"/>
     <!-- Font-awesome -->
     <link rel="stylesheet" href="<spring:eval expression="@app.getProperty('path.static')" />/css/font-awesome.css"/>
@@ -85,9 +85,8 @@
     <a href="#header" class="scrollup"><i class="fa fa-chevron-up"></i></a>
 
     <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script src="<spring:eval expression="@app.getProperty('path.static')" />/js/bootstrap.min.js"></script>
-    <script src="<spring:eval expression="@app.getProperty('path.static')" />/js/bootstrapValidator.min.js"></script>
     <script src="<spring:eval expression="@app.getProperty('path.static')" />/js/modernizr-2.6.2-respond-1.1.0.min.js"></script>
+    <script src="<spring:eval expression="@app.getProperty('path.static')" />/js/bootstrap.min.js"></script>
     <script src="<spring:eval expression="@app.getProperty('path.static')" />/js/jquery.easing.min.js"></script>
     <script src="<spring:eval expression="@app.getProperty('path.static')" />/js/isotope.pkgd.min.js"></script>
     <script src="<spring:eval expression="@app.getProperty('path.static')" />/js/jquery.nicescroll.min.js"></script>
