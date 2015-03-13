@@ -9,6 +9,7 @@
 
     <global-method-security secured-annotations="enabled" />
 
+    <http pattern="/static/**"    security="none"/>
     <http pattern="/css/**"    security="none"/>
     <http pattern="/images/**" security="none"/>
     <http pattern="/image/**" security="none"/>

@@ -313,7 +313,8 @@ public class DocumentController {
                                     uploadFileName,
                                     originalFileName,
                                     fis = new FileInputStream(fileItem.getFile()));
-                            String path = fileInfo.getDirectory().replace('\\','/');
+//                            String path = fileInfo.getDirectory().replace('\\', '/');
+                            String path = fileInfo.getDirectory();
                             String pathWithoutContextPath;
                             if (path.startsWith(fileBaseDir)) {
                                 pathWithoutContextPath = path.substring(fileBaseDir.length());
@@ -324,7 +325,8 @@ public class DocumentController {
                             fileMetaForm.setFileName(fileInfo.getFileName());
                             fileMetaForm.setOriginalFileName(originalFileName);
 
-                            document.setFilePath(fileInfo.getDirectory().replace('\\','/'));
+//                            document.setFilePath(fileInfo.getDirectory().replace('\\', '/'));
+                            document.setFilePath(fileInfo.getDirectory());
                             document.setFileName(fileInfo.getFileName());
                             document.setOrgFileName(originalFileName);
                             document.setFileExt(originalFileName.substring(originalFileName.lastIndexOf('.') + 1));

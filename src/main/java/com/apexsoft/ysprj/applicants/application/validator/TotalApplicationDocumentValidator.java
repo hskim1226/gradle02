@@ -34,9 +34,11 @@ public class TotalApplicationDocumentValidator extends NamedListValidator {
 
             if ( "Y".equals(item.getLastYn()) ) {
                 if ( "Y".equals(item.getMdtYn()) ) {
-                    if ( !item.isFileUploadFg() ) {
-                        errors.rejectValue(prefix + "fileUploadFg", "U331",
-                                new Object[]{item.getDocItemName()}, messageResolver.getMessage("U332"));
+                    if ( "Y".equals(item.getUploadYn()) ) {
+                        if ( !item.isFileUploadFg() ) {
+                            errors.rejectValue(prefix + "fileUploadFg", "U331",
+                                    new Object[]{item.getDocItemName()}, messageResolver.getMessage("U332"));
+                        }
                     }
                 }
             }

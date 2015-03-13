@@ -251,8 +251,6 @@ public class BasisController {
             prop.load(is);
             TextEncryptor textEncryptor = Encryptors.queryableText(prop.getProperty("ENC_PSWD"), prop.getProperty("ENC_SALT"));
             encrypted = textEncryptor.encrypt(input);
-        } catch (Exception e) {
-            e.printStackTrace();
         } finally {
             try {
                 if (is != null) {
