@@ -530,7 +530,7 @@ public class DocumentServiceImpl implements DocumentService {
             codeParam.setAdmsCodeGrp("APPL_ATTR");
             codeParam.setAdmsCode("00002");
             codeParam.setGrpLevel(1);
-            codeParam.setItemTypeCode("00006");//학연산
+            codeParam.setItemCode("00006");//학연산
 
             List<TotalApplicationDocumentContainer> subDocList;
             subDocList = commonDAO.queryForList(NAME_SPACE + "CustomApplicationDocumentMapper.selectCodeMandatoryGroupByCode", codeParam, TotalApplicationDocumentContainer.class);
