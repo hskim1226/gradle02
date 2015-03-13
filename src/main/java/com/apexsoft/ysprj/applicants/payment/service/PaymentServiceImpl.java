@@ -178,7 +178,9 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
-    public void executePayment( Payment payment, TransactionVO transactionVO ) {
+    public String executePayment( Payment payment, TransactionVO transactionVO ) {
+
+        String rtnStr;
 
         /*
          * [최종결제요청 페이지(STEP2-2)]
@@ -207,7 +209,7 @@ public class PaymentServiceImpl implements PaymentService {
             //API 초기화 실패 화면 처리
             transactionVO.setSysMsg(messageResolver.getMessage("A000"));
             transactionVO.setUserMsg(messageResolver.getMessage("U000"));
-            return;
+            return "InitFail";
         } else {
             try {
 
@@ -221,7 +223,7 @@ public class PaymentServiceImpl implements PaymentService {
             } catch(Exception e) {
                 transactionVO.setSysMsg(messageResolver.getMessage("A001") + e.getMessage());
                 transactionVO.setUserMsg(messageResolver.getMessage("U001"));
-                return;
+                return "InitFail";
             }
         }
 
@@ -274,11 +276,14 @@ public class PaymentServiceImpl implements PaymentService {
                     //가상계좌 입금대기에 대한 DB 처리
                     registerPaymentWait(payment, xpay);
 
+                    payment.setLGD_FINANCENAME( xpay.Response("LGD_FINANCENAME", 0) );
+                    payment.setLGD_ACCOUNTNUM( xpay.Response("LGD_ACCOUNTNUM", 0) );
+
                     //결제 성공에 대한 화면 처리
                     String msg = messageResolver.getMessage("U003");
-                    msg = msg + "<br><br> 가상계좌정보";
-                    msg = msg + "<br> 은행 : " + xpay.Response("LGD_FINANCENAME", 0);
-                    msg = msg + "<br> 계좌 : " + xpay.Response("LGD_ACCOUNTNUM", 0);
+//                    msg = msg + "<br><br> 가상계좌정보";
+//                    msg = msg + "<br> 은행 : " + xpay.Response("LGD_FINANCENAME", 0);
+//                    msg = msg + "<br> 계좌 : " + xpay.Response("LGD_ACCOUNTNUM", 0);
                     transactionVO.setSysMsg(transactionVO.getSysMsg() + "최종결제요청 결과 성공 DB처리하시기 바랍니다.<br>");
                     transactionVO.setUserMsg(msg);
 
@@ -286,11 +291,14 @@ public class PaymentServiceImpl implements PaymentService {
                     //TODO 예외 처리
                 }
 
+                rtnStr = payType;
+
             } else {
 
                 //결제 실패에 대한 화면 처리
                 transactionVO.setSysMsg(transactionVO.getSysMsg() + "최종결제요청 결과 실패 DB처리하시기 바랍니다.<br>");
                 transactionVO.setUserMsg(messageResolver.getMessage(""));
+                rtnStr = "PayFail";
                 //TODO 실패 코드 필요
             }
 
@@ -301,8 +309,10 @@ public class PaymentServiceImpl implements PaymentService {
                             "TX 결제요청 Response_msg = " + xpay.m_szResMsg + "<p>"
             );
             transactionVO.setSysMsg(transactionVO.getSysMsg() + "최종결제요청 결과 실패 DB처리하시기 바랍니다.<br>");
+            rtnStr = "ReqFail";
         }
 
+        return rtnStr;
     }
 
     @Override

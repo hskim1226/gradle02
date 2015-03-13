@@ -17,7 +17,7 @@ public interface PaymentService {
 
     ExecutionContext registerPaymentCertifyLog( Payment payment );
 
-    void executePayment( Payment payment, TransactionVO transactionVO );
+    String executePayment( Payment payment, TransactionVO transactionVO );
 
     void registerCasNote( ApplicationPaymentCurStat applPay );
 
