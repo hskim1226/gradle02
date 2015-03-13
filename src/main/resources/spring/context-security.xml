@@ -29,7 +29,7 @@
     <http pattern="/common/**"  security="none"/>
     <http pattern="/template/**"  security="none"/>
     <http pattern="/user/adminLogin"  security="none"/>
-    <http pattern="/casnote"  security="none"/>
+    <http pattern="/casnote/**"  security="none"/>
 
     <!--<http realm="admin" pattern="/admin/**" auto-config="true"  use-expressions="true" access-denied-page="/user/adminLogin.do?auth=true" >-->
         <!--<intercept-url pattern="/admin/**" access="hasRole('ROLE_ADMIN')" />-->
