@@ -19,7 +19,7 @@ public interface PaymentService {
 
     String executePayment( Payment payment, TransactionVO transactionVO );
 
-    void registerCasNote( ApplicationPaymentCurStat applPay );
+    int registerCasNote( ApplicationPaymentCurStat applPay );
 
     ExecutionContext saveApplicationPayment(Application application);
 

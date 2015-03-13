@@ -316,7 +316,7 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
-    public void registerCasNote( ApplicationPaymentCurStat applPay ) {
+    public int registerCasNote( ApplicationPaymentCurStat applPay ) {
 
         //LGD_OID로 해당 결제 조회
         ApplicationPaymentCurStatExample param = new ApplicationPaymentCurStatExample();
@@ -345,6 +345,8 @@ public class PaymentServiceImpl implements PaymentService {
         //APPL_DOC에 수험표 정보 저장 - 원서는 첨부 파일 원서 미리보기에서 이미 저장
 //        documentService.saveApplicationPaperInfo(application);
         documentService.saveAdmissionSlipPaperInfo(application);
+
+        return applPay.getApplNo();
 
         //BirtController 호출해서 수험표, 수험원서를 물리적 PDF 파일로 저장은 xpay/result에서 ajax로 몰래 BirtController호출하는걸로
 
