@@ -175,6 +175,7 @@ public class DocumentServiceImpl implements DocumentService {
         String userId = application.getUserId();
         application.setModDate(date);
         application.setModId(userId);
+        application.setDocChckYn("on".equals(application.getDocChckYn())?"Y":"N");
         application.setApplStsCode(APPLICATION_SUBMITTED);
 
         r1 = commonDAO.updateItem(application, NAME_SPACE, "ApplicationMapper");

@@ -1,12 +1,17 @@
 package com.apexsoft.ysprj.applicants.payment.control;
 
+import com.apexsoft.ysprj.applicants.application.domain.Application;
+import com.apexsoft.ysprj.applicants.common.control.BirtController;
+import com.apexsoft.ysprj.applicants.common.domain.BirtRequest;
 import com.apexsoft.ysprj.applicants.payment.domain.ApplicationPaymentCurStat;
 import com.apexsoft.ysprj.applicants.payment.service.PaymentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import java.security.Principal;
 
 /**
  * Created by cosb071 on 15. 1. 22.
@@ -18,8 +23,11 @@ public class CasNoteController {
     @Autowired
     private PaymentService paymentService;
 
+    @Autowired
+    private BirtController birtController;
+
     @RequestMapping(value="")
-    public String processCasNote( HttpServletRequest request ) {
+    public ModelAndView processCasNote( HttpServletRequest request, Principal principal, ModelAndView mv ) {
 
         String LGD_RESPCODE = "";           // 응답코드: 0000(성공) 그외 실패
         String LGD_RESPMSG = "";            // 응답메세지
@@ -102,9 +110,17 @@ public class CasNoteController {
         if( "I".equals(LGD_CASFLAG) ) {
             //가상계좌 입금내역에 대한 DB 처리
             paymentService.registerCasNote(applPay);
+
+            Application application = new Application();
+            application.setApplNo(applPay.getApplNo());
+            BirtRequest birtRequest = new BirtRequest();
+            birtRequest.setApplication(application);
+
+            birtController.generateSlipFile(birtRequest, principal, mv);
         }
 
-        return "xpay/casnote";
+//        return "xpay/casnote";
+        return mv;
     }
 
 }

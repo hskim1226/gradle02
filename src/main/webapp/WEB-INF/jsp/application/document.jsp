@@ -431,7 +431,7 @@
 
                                 <p>파일 업로드 후 오른쪽의 '내려받기' 버튼을 클릭해서 파일이 올바르게 업로드 되었는지 확인할 수 있습니다.</p>
 
-                                <div class="col-md-12 text-center mid-font slogan"><label>[${document.application.docChckYn}, ${document.application.docChckYn == '' ? 'blank' : document.application.docChckYn == null ? 'null' : 'etc' }] 위 내용을 확인하였으며, 업로드 한 파일의 적정 여부에 대한 책임은 지원 신청자에게 있음을 확인합니다.<input type="checkbox" name="application.docChckYn" id="docChckYn" value="${document.application.docChckYn == 'Y' ? 'on' : 'off'}" ${document.application.docChckYn == 'Y' ? 'checked' : ''}/></label></div>
+                                <div class="col-md-12 text-center mid-font slogan"><label>위 내용을 확인하였으며, 업로드 한 파일의 적정 여부에 대한 책임은 지원 신청자에게 있음을 확인합니다.<input type="checkbox" name="application.docChckYn" id="docChckYn" value="${document.application.docChckYn == 'Y' ? 'on' : 'off'}" ${document.application.docChckYn == 'Y' ? 'checked' : ''}/></label></div>
                             <spring:bind path="application.docChckYn">
                                 <c:if test="${status.error}">
                                     <div class="col-sm-12 validation-container">
