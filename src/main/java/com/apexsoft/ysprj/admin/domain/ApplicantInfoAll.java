@@ -6,6 +6,7 @@ public class ApplicantInfoAll extends ApplicantInfo{
 	private String EmerContCodeName;
 	private String EmerContName; //    EMER_CONT_NAME
 	private String EmerContTel;//    EMER_CONT_TEL
+    private String ForlExmpCode;//FORL_EXMP_CODE
 
 	private String FornTypeCode; //    FORN_TYPE_CODE
 	private String BornCntrCode;//    BORN_CNTR_CODE
@@ -103,5 +104,11 @@ public class ApplicantInfoAll extends ApplicantInfo{
 		KorEmrgRela = korEmrgRela;
 	}
 
+    public String getForlExmpCode() {
+        return ForlExmpCode;
+    }
 
+    public void setForlExmpCode(String forlExmpCode) {
+        ForlExmpCode = forlExmpCode;
+    }
 }
