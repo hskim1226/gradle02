@@ -59,6 +59,7 @@ public class BasisServiceImpl implements BasisService {
 
         ParamForSetupCourses param = new ParamForSetupCourses();
         param.setAdmsNo(basis.getApplication().getAdmsNo());
+        param.setCampCode(basis.getApplication().getCampCode());
         param.setCollCode(basis.getApplication().getCollCode());
         param.setDeptCode(basis.getApplication().getDeptCode());
         param.setCorsTypeCode(basis.getApplication().getCorsTypeCode());
@@ -72,7 +73,7 @@ public class BasisServiceImpl implements BasisService {
             detlMajList = commonService.retrieveAriInstDetailMajorByAdmsDeptAriInst(param);
         } else {
             campList = commonService.retrieveCampus();
-            collList = commonService.retrieveCollegeByCampus( basis.getApplication().getCampCode() );
+            collList = commonService.retrieveCollegeByAdmsCamp(param);
             deptList = commonService.retrieveGeneralDepartmentByAdmsColl(param);
             detlMajList = commonService.retrieveGeneralDetailMajorByAdmsDeptCors(param);
             if ("00001".equals(applAttrCode))
@@ -163,23 +164,18 @@ public class BasisServiceImpl implements BasisService {
                 application = commonDAO.queryForObject(NAME_SPACE + "ApplicationMapper.selectByPrimaryKey",
                         applNo, Application.class);
                 application = application == null ? new Application() : application;
-                application.setFaxNum(StringUtil.removeHyphen(application.getFaxNum()));
-                application.setTelNum(StringUtil.removeHyphen(application.getTelNum()));
-                application.setMobiNum(StringUtil.removeHyphen(application.getMobiNum()));
                 basis.setApplication(application);
 
                 ApplicationForeigner applicationForeigner = commonDAO.queryForObject(NAME_SPACE + "ApplicationForeignerMapper.selectByPrimaryKey",
                         applNo, ApplicationForeigner.class);
                 applicationForeigner = applicationForeigner == null ? new ApplicationForeigner() : applicationForeigner;
-                applicationForeigner.setHomeTel(StringUtil.removeHyphen(applicationForeigner.getHomeTel()));
-                applicationForeigner.setHomeEmrgTel(StringUtil.removeHyphen(applicationForeigner.getHomeEmrgTel()));
-                applicationForeigner.setKorEmrgTel(StringUtil.removeHyphen(applicationForeigner.getKorEmrgTel()));
+
                 basis.setApplicationForeigner(applicationForeigner);
 
                 ApplicationGeneral applicationGeneral = commonDAO.queryForObject(NAME_SPACE + "ApplicationGeneralMapper.selectByPrimaryKey",
                         applNo, ApplicationGeneral.class);
                 applicationGeneral = applicationGeneral == null ? new ApplicationGeneral() : applicationGeneral;
-                applicationGeneral.setEmerContTel(StringUtil.removeHyphen(applicationGeneral.getEmerContTel()));
+
                 basis.setApplicationGeneral(applicationGeneral);
             }
 

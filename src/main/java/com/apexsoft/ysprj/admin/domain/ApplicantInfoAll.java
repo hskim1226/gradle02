@@ -1,8 +1,6 @@
 package com.apexsoft.ysprj.admin.domain;
 
 public class ApplicantInfoAll extends ApplicantInfo{
-	
-  
 	  
 	private String EmerContCode;//    EMER_CONT_CODE
 	private String EmerContCodeName;

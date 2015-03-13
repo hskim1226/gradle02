@@ -16,7 +16,7 @@ public interface UserAccountService {
 
     User retrieveUser(String userName);
 
-    Integer resetPassword(User user);
+//    Integer resetPassword(User user);
 
     Integer changePassword(User user);
 

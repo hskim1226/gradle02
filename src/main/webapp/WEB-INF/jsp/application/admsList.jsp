@@ -31,10 +31,10 @@
                         <tr>
                             <form id="generalApplyForm" method="post">
                                 <td>일반</td>
-                                <td>2015학년도 전기 연세대학교 대학원 일반 전형</td>
+                                <td>2015학년도 후기 연세대학교 대학원 일반 전형</td>
                                 <td><button type="button" id="toGeneralInfo" class="btn btn-info">모집 요강</button></td>
                                 <td><button type="submit" id="toGeneralApply" class="btn btn-primary">원서 작성</button></td>
-                                <td>2014-09-28(월) / 2014-10-08(수)</td>
+                                <td>2015-04-08(수) / 2015-04-10(금)</td>
                                 <input type="hidden" name="admsNo" value="${admsGeneral.admsNo}" />
                                 <input type="hidden" name="entrYear" value="${admsGeneral.entrYear}" />
                                 <input type="hidden" name="admsTypeCode" value="${admsGeneral.admsType}" />
@@ -43,10 +43,10 @@
                         <tr>
                             <form id="foreignApplyForm" method="post">
                                 <td>외국인</td>
-                                <td>2015학년도 전기 연세대학교 대학원 외국인 전형</td>
+                                <td>2015학년도 후기 연세대학교 대학원 외국인 전형</td>
                                 <td><button type="button" id="toForeignInfo" class="btn btn-info">모집 요강</button></td>
                                 <td><button type="submit" id="toForeignApply" class="btn btn-primary">원서 작성</button></td>
-                                <td>2014-09-28(월) / 2014-10-08(수)</td>
+                                <td>2015-04-08(수) / 2015-04-10(금)</td>
                                 <input type="hidden" name="admsNo" value="${admsForeign.admsNo}" />
                                 <input type="hidden" name="entrYear" value="${admsForeign.entrYear}" />
                                 <input type="hidden" name="admsTypeCode" value="${admsForeign.admsType}" />
@@ -55,10 +55,10 @@
                         <tr>
                             <form id="earlyApplyForm" method="post">
                                 <td>조기</td>
-                                <td>2015학년도 전기 연세대학교 대학원 조기 전형</td>
+                                <td>2016학년도 전기 연세대학교 대학원 조기 전형</td>
                                 <td><button type="button" id="toEarlyInfo" class="btn btn-info">모집 요강</button></td>
                                 <td><button type="submit" id="toEarlyApply" class="btn btn-primary">원서 작성</button></td>
-                                <td>2014-09-28(월) / 2014-10-08(수)</td>
+                                <td>2015-04-08(수) / 2015-04-10(금)</td>
                                 <input type="hidden" name="admsNo" value="${admsEarly.admsNo}" />
                                 <input type="hidden" name="entrYear" value="${admsEarly.entrYear}" />
                                 <input type="hidden" name="admsTypeCode" value="${admsEarly.admsType}" />

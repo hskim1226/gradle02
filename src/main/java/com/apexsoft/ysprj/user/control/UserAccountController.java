@@ -62,6 +62,8 @@ public class UserAccountController {
         return mv;
     }
 
+
+
     @RequestMapping(value = "/agreement", method = RequestMethod.GET)
     public String displaySignupAgreementForm(Model model, HttpServletResponse response) {
         Map<String, String> contentFiles = new HashMap<String, String>();

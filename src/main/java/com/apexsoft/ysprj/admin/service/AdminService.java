@@ -1,15 +1,12 @@
 package com.apexsoft.ysprj.admin.service;
 
+import java.util.List;
+import java.util.Map;
+
 import com.apexsoft.framework.common.vo.ExecutionContext;
 import com.apexsoft.framework.persistence.dao.page.PageInfo;
-import com.apexsoft.ysprj.admin.control.form.ApplicantSearchForm;
-import com.apexsoft.ysprj.admin.control.form.ApplicantSearchPageForm;
-import com.apexsoft.ysprj.admin.control.form.CourseSearchGridForm;
-import com.apexsoft.ysprj.admin.control.form.CourseSearchPageForm;
-import com.apexsoft.ysprj.admin.domain.ApplicantCnt;
-import com.apexsoft.ysprj.admin.domain.ApplicantInfo;
-
-import java.util.List;
+import com.apexsoft.ysprj.admin.control.form.*;
+import com.apexsoft.ysprj.admin.domain.*;
 
 
 public interface AdminService {
@@ -29,6 +26,10 @@ public interface AdminService {
 	ApplicantInfo getApplicantInfo(ApplicantSearchForm applicantSearchForm);
 
     List<ApplicantCnt> retrieveUnpaidApplicantCntByDept(CourseSearchGridForm searchForm);
+
+    Map<String, Object> getCouurseSelectionBasicMap();
+
+    ExecutionContext retrieveEntireApplicantListByDept(CourseSearchPageForm courseSearchPageForm);
 
 
 

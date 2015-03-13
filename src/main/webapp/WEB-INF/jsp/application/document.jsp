@@ -285,6 +285,73 @@
         .warn-info {
             color: #f00;
         }
+        /* spinner */
+        /* http://projects.lukehaas.me/css-loaders/ */
+        .loader {
+            font-size: 7px;
+            margin: 4em auto;
+            width: 1em;
+            height: 1em;
+            border-radius: 50%;
+            position: relative;
+            text-indent: -9999em;
+            -webkit-animation: load4 1.3s infinite linear;
+            animation: load4 1.3s infinite linear;
+        }
+        @-webkit-keyframes load4 {
+            0%,
+            100% {
+                box-shadow: 0em -3em 0em 0.2em #ffffff, 2em -2em 0 0em #ffffff, 3em 0em 0 -0.5em #ffffff, 2em 2em 0 -0.5em #ffffff, 0em 3em 0 -0.5em #ffffff, -2em 2em 0 -0.5em #ffffff, -3em 0em 0 -0.5em #ffffff, -2em -2em 0 0em #ffffff;
+            }
+            12.5% {
+                box-shadow: 0em -3em 0em 0em #ffffff, 2em -2em 0 0.2em #ffffff, 3em 0em 0 0em #ffffff, 2em 2em 0 -0.5em #ffffff, 0em 3em 0 -0.5em #ffffff, -2em 2em 0 -0.5em #ffffff, -3em 0em 0 -0.5em #ffffff, -2em -2em 0 -0.5em #ffffff;
+            }
+            25% {
+                box-shadow: 0em -3em 0em -0.5em #ffffff, 2em -2em 0 0em #ffffff, 3em 0em 0 0.2em #ffffff, 2em 2em 0 0em #ffffff, 0em 3em 0 -0.5em #ffffff, -2em 2em 0 -0.5em #ffffff, -3em 0em 0 -0.5em #ffffff, -2em -2em 0 -0.5em #ffffff;
+            }
+            37.5% {
+                box-shadow: 0em -3em 0em -0.5em #ffffff, 2em -2em 0 -0.5em #ffffff, 3em 0em 0 0em #ffffff, 2em 2em 0 0.2em #ffffff, 0em 3em 0 0em #ffffff, -2em 2em 0 -0.5em #ffffff, -3em 0em 0 -0.5em #ffffff, -2em -2em 0 -0.5em #ffffff;
+            }
+            50% {
+                box-shadow: 0em -3em 0em -0.5em #ffffff, 2em -2em 0 -0.5em #ffffff, 3em 0em 0 -0.5em #ffffff, 2em 2em 0 0em #ffffff, 0em 3em 0 0.2em #ffffff, -2em 2em 0 0em #ffffff, -3em 0em 0 -0.5em #ffffff, -2em -2em 0 -0.5em #ffffff;
+            }
+            62.5% {
+                box-shadow: 0em -3em 0em -0.5em #ffffff, 2em -2em 0 -0.5em #ffffff, 3em 0em 0 -0.5em #ffffff, 2em 2em 0 -0.5em #ffffff, 0em 3em 0 0em #ffffff, -2em 2em 0 0.2em #ffffff, -3em 0em 0 0em #ffffff, -2em -2em 0 -0.5em #ffffff;
+            }
+            75% {
+                box-shadow: 0em -3em 0em -0.5em #ffffff, 2em -2em 0 -0.5em #ffffff, 3em 0em 0 -0.5em #ffffff, 2em 2em 0 -0.5em #ffffff, 0em 3em 0 -0.5em #ffffff, -2em 2em 0 0em #ffffff, -3em 0em 0 0.2em #ffffff, -2em -2em 0 0em #ffffff;
+            }
+            87.5% {
+                box-shadow: 0em -3em 0em 0em #ffffff, 2em -2em 0 -0.5em #ffffff, 3em 0em 0 -0.5em #ffffff, 2em 2em 0 -0.5em #ffffff, 0em 3em 0 -0.5em #ffffff, -2em 2em 0 0em #ffffff, -3em 0em 0 0em #ffffff, -2em -2em 0 0.2em #ffffff;
+            }
+        }
+        @keyframes load4 {
+            0%,
+            100% {
+                box-shadow: 0em -3em 0em 0.2em #ffffff, 2em -2em 0 0em #ffffff, 3em 0em 0 -0.5em #ffffff, 2em 2em 0 -0.5em #ffffff, 0em 3em 0 -0.5em #ffffff, -2em 2em 0 -0.5em #ffffff, -3em 0em 0 -0.5em #ffffff, -2em -2em 0 0em #ffffff;
+            }
+            12.5% {
+                box-shadow: 0em -3em 0em 0em #ffffff, 2em -2em 0 0.2em #ffffff, 3em 0em 0 0em #ffffff, 2em 2em 0 -0.5em #ffffff, 0em 3em 0 -0.5em #ffffff, -2em 2em 0 -0.5em #ffffff, -3em 0em 0 -0.5em #ffffff, -2em -2em 0 -0.5em #ffffff;
+            }
+            25% {
+                box-shadow: 0em -3em 0em -0.5em #ffffff, 2em -2em 0 0em #ffffff, 3em 0em 0 0.2em #ffffff, 2em 2em 0 0em #ffffff, 0em 3em 0 -0.5em #ffffff, -2em 2em 0 -0.5em #ffffff, -3em 0em 0 -0.5em #ffffff, -2em -2em 0 -0.5em #ffffff;
+            }
+            37.5% {
+                box-shadow: 0em -3em 0em -0.5em #ffffff, 2em -2em 0 -0.5em #ffffff, 3em 0em 0 0em #ffffff, 2em 2em 0 0.2em #ffffff, 0em 3em 0 0em #ffffff, -2em 2em 0 -0.5em #ffffff, -3em 0em 0 -0.5em #ffffff, -2em -2em 0 -0.5em #ffffff;
+            }
+            50% {
+                box-shadow: 0em -3em 0em -0.5em #ffffff, 2em -2em 0 -0.5em #ffffff, 3em 0em 0 -0.5em #ffffff, 2em 2em 0 0em #ffffff, 0em 3em 0 0.2em #ffffff, -2em 2em 0 0em #ffffff, -3em 0em 0 -0.5em #ffffff, -2em -2em 0 -0.5em #ffffff;
+            }
+            62.5% {
+                box-shadow: 0em -3em 0em -0.5em #ffffff, 2em -2em 0 -0.5em #ffffff, 3em 0em 0 -0.5em #ffffff, 2em 2em 0 -0.5em #ffffff, 0em 3em 0 0em #ffffff, -2em 2em 0 0.2em #ffffff, -3em 0em 0 0em #ffffff, -2em -2em 0 -0.5em #ffffff;
+            }
+            75% {
+                box-shadow: 0em -3em 0em -0.5em #ffffff, 2em -2em 0 -0.5em #ffffff, 3em 0em 0 -0.5em #ffffff, 2em 2em 0 -0.5em #ffffff, 0em 3em 0 -0.5em #ffffff, -2em 2em 0 0em #ffffff, -3em 0em 0 0.2em #ffffff, -2em -2em 0 0em #ffffff;
+            }
+            87.5% {
+                box-shadow: 0em -3em 0em 0em #ffffff, 2em -2em 0 -0.5em #ffffff, 3em 0em 0 -0.5em #ffffff, 2em 2em 0 -0.5em #ffffff, 0em 3em 0 -0.5em #ffffff, -2em 2em 0 0em #ffffff, -3em 0em 0 0em #ffffff, -2em -2em 0 0.2em #ffffff;
+            }
+        }
     </style>
 </head>
 <body>
@@ -322,45 +389,53 @@
             <form:hidden path="application.admsNo" id="admsNo" />
             <form:hidden path="application.entrYear" id="entrYear" />
             <form:hidden path="application.admsTypeCode" id="admsTypeCode" />
+            <input type="hidden" name="reqType" id="reqType" value="appl"/>
             <div id="myTabContent" class="tab-content">
                 <div class="spacer-tiny"></div>
-                <%--<div class="row">--%>
-                    <%--<div class="col-sm-offset-1 col-sm-10">--%>
-                        <%--<div class="panel panel-darkgray">--%>
-                            <%--<div class="panel-heading">첨부 파일 안내</div>--%>
-                            <%--<div class="panel-body">--%>
-                                <%--<p>사진 외의 모든 첨부 파일은 서류 종류별로 하나의 PDF 파일만 업로드 가능합니다.</p>--%>
+                <div class="row">
+                    <div class="col-sm-offset-1 col-sm-10">
+                        <div class="panel panel-darkgray">
+                            <div class="panel-heading">첨부 파일 안내</div>
+                            <div class="panel-body">
+                                <p>사진 외의 모든 첨부 파일은 서류 종류별로 하나의 PDF 파일만 업로드 가능합니다.</p>
 
-                                <%--<p>만약 한가지 종류의 서류가 여러개의 PDF 파일로 되어 있다면,--%>
-                                    <%--하나의 PDF 파일로 합친 후 업로드 하시기 바랍니다.</p>--%>
+                                <p>만약 한 가지 종류의 서류가 여러 개의 PDF 파일로 되어 있다면,
+                                    하나의 PDF 파일로 합친 후 업로드 하시기 바랍니다.</p>
 
-                                <%--<p>PDF 파일 합치기는 전용프로그램이나 인터넷 서비스를 이용하시기 바랍니다.</p>--%>
+                                <p>PDF 파일 합치기는 전용프로그램이나 인터넷 서비스를 이용하시기 바랍니다.</p>
 
-                                <%--예)<br/>--%>
-                                <%--<a href="http://convert.neevia.com/pdfmerge/" target="_blank">http://convert.neevia.com/pdfmerge/</a><br/>--%>
-                                <%--<a href="http://www.pdfmerge.com/" target="_blank">http://www.pdfmerge.com/</a><br/>--%>
+                                예)<br/>
+                                <a href="http://convert.neevia.com/pdfmerge/" target="_blank">http://convert.neevia.com/pdfmerge/</a><br/>
+                                <a href="http://www.pdfmerge.com/" target="_blank">http://www.pdfmerge.com/</a><br/>
 
-                                <%--<p>예시 사이트에서 발생하는 모든 문제는 당사에서 책임지지 않습니다.</p>--%>
+                                <p>예시 사이트에서 발생하는 모든 문제는 당사에서 책임지지 않습니다.</p>
 
-                                <%--<p>사진 파일은 JPG, GIF, PNG 파일만 업로드 가능합니다.</p>--%>
+                                <p>사진 파일은 JPG, GIF, PNG 파일만 업로드 가능합니다.</p>
 
-                                <%--<p>사진 파일의 편집은 전용 프로그램이나 인터넷 서비스를 이용하시기 바랍니다.</p>--%>
+                                <p>사진 파일의 편집은 전용 프로그램이나 인터넷 서비스를 이용하시기 바랍니다.</p>
 
-                                <%--예)<br/>--%>
-                                <%--<a href="http://apps.pixlr.com/editor/" target="_blank">http://apps.pixlr.com/editor/</a><br/>--%>
-                                <%--<a href="http://www.fotor.com/" target="_blank">http://www.fotor.com/</a><br/>--%>
-                                <%--<p>예시 사이트에서 발생하는 모든 문제는 당사에서 책임지지 않습니다.</p>--%>
-                                <%--<hr/>--%>
-                                <%--<p>파일 첨부 시 주의사항</p>--%>
-                                <%--1. 문서별로 1개의 파일만 첨부 가능합니다.<br/>--%>
-                                <%--2. 사진 및 문서의 해상도와 가독성 여부를 반드시 확인하세요.<br/>--%>
-                                <%--3. 스캔시에는 300dpi 이상으로 스캔하시기 바랍니다.<br/>--%>
-                                <%--4. 문서 크기는 A4 크기로 생성하여 첨부하셔야 합니다.<br/>--%>
-                                <%--</p>--%>
-                            <%--</div>--%>
-                        <%--</div>--%>
-                    <%--</div>--%>
-                <%--</div>--%>
+                                예)<br/>
+                                <a href="http://apps.pixlr.com/editor/" target="_blank">http://apps.pixlr.com/editor/</a><br/>
+                                <a href="http://www.fotor.com/" target="_blank">http://www.fotor.com/</a><br/>
+                                <p>예시 사이트에서 발생하는 모든 문제는 당사에서 책임지지 않습니다.</p>
+                                <hr/>
+                                <p>파일 첨부 시 주의사항</p>
+                                1. 문서별로 1개의 파일만 첨부 가능합니다.<br/>
+                                2. 사진 및 문서의 해상도와 가독성 여부를 반드시 확인하세요.<br/>
+                                3. 스캔시에는 300dpi 이상으로 스캔하시기 바랍니다.<br/>
+                                4. 문서 크기는 A4 크기로 생성하여 첨부하셔야 합니다.<br/>
+                                </p>
+
+                                <p>인터넷에서 '한글 문서 PDF 변환'으로 검색하면 아래 한글 문서를 PDF 파일로 변환할 수 있는<br/>
+                                다양한 방법이 있으니 참고하시기 바랍니다.</p>
+
+                                <p>파일 업로드 후 오른쪽의 '내려받기' 버튼을 클릭해서 파일이 올바르게 업로드 되었는지 확인할 수 있습니다.</p>
+
+                                <div class="col-md-12 text-center mid-font slogan"><label>위 내용을 확인하였으며, 업로드 한 파일의 적정 여부에 대한 책임은 지원 신청자에게 있음을 확인합니다.<input type="checkbox" id="docConfirm" name="docConfirm"></label></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <div class="spacer-tiny"></div>
                 <div class="row">
                     <div class="col-sm-offset-1 col-sm-10">
@@ -971,7 +1046,7 @@
 
                     </div>
                 </div>
-            <div class="spacer-tiny"></div>
+                <div class="spacer-tiny"></div>
                 <div class="btn-group btn-group-justified">
                     <div class="btn-group">
                         <button id="saveDocument" type="button" class="btn btn-primary btn-lg btn-save" data-saveType="document">첨부 파일 저장</button>
@@ -981,7 +1056,25 @@
             <div class="spacer-tiny"></div>
             <div class="btn-group btn-group-justified">
                 <div class="btn-group">
-                    <button id="submitApplication" type="button" class="btn btn-info btn-lg btn-save" data-saveType="submit" <c:if test="${document.application.applStsCode != '00004'}">disabled</c:if> >원서 제출</button>
+                    <button id="generateApplication" type="button" class="btn btn-warning btn-lg btn-save" data-saveType="generate" <c:if test="${document.application.applStsCode != '00004'}">disabled</c:if> >원서 미리보기 생성</button>
+                </div>
+            </div>
+            <div id="spinner" class="btn-group btn-group-justified" style="display: none;">
+                <div class="btn-group">
+                    <div class="col-sm-12">
+                        <div class="loader">Loading...</div>
+                    </div>
+                </div>
+            </div>
+            <div class="btn-group btn-group-justified">
+                <div class="btn-group">
+                    <button id="previewApplication" type="button" style="display: none;" class="btn btn-info btn-lg btn-save" data-saveType="preview" <c:if test="${document.application.applStsCode != '00004'}">disabled</c:if> >원서 미리보기</button>
+                </div>
+            </div>
+            <div class="spacer-tiny"></div>
+            <div class="btn-group btn-group-justified">
+                <div class="btn-group">
+                    <button id="submitApplication" type="button" class="btn btn-success btn-lg btn-save" data-saveType="submit" <c:if test="${document.application.applStsCode != '00004'}">disabled</c:if> >원서 제출</button>
                 </div>
             </div>
         </div> <%--myTabContent--%>
@@ -1047,12 +1140,61 @@
         var formProcess = function(event) {
             event.preventDefault();
             var form = document.forms[0],
+                formData,
                 saveType = this.getAttribute('data-saveType');
             if (saveType == 'document') {
                 form.action = "${contextPath}/application/document/save";
                 form.submit();
-            }
-            else if (saveType == 'submit') {
+            } else if (saveType == 'generate') {
+                formData = $(form).serialize();
+
+                <%-- 지원서 파일 정보 DB 저장 --%>
+                $.ajax({
+                    type: 'POST',
+                    url: '${contextPath}/application/document/savePreview/application',
+                    data: formData,
+                    success: function (data) {
+                        var ec = JSON.parse(data);
+                        if (ec.result == 'SUCCESS') {
+                            console.log('원서 파일 정보 저장 완료');
+                            <%-- 파일 생성 --%>
+                            document.getElementById('spinner').style.display = 'block';
+
+                            $.ajax({
+                                type: 'POST',
+                                url: '${contextPath}/application/generate/application',
+                                data: formData,
+                                success: function (data) {
+                                    console.log('원서 파일 생성 완료');
+                                    $.ajax({
+                                        type: 'POST',
+                                        url: '${contextPath}/pdf/merge/applicant',
+                                        data: formData,
+                                        success: function (data) {
+                                            console.log('머지 파일 생성 완료');
+                                            document.getElementById('spinner').style.display = 'none';
+                                            document.getElementById('previewApplication').style.display = 'block';
+                                        },
+                                        error: function (data, status, e) {
+                                            console.log('머지 파일 생성 실패');
+                                        }
+                                    });
+                                },
+                                error: function (data, status, e) {
+                                    console.log('원서 파일 생성 실패');
+                                }
+                            });
+                            <%-- 파일 생성 --%>
+                        }
+                    }
+                });
+                <%-- 지원서 파일 정보 DB 저장 --%>
+
+            } else if (saveType == 'preview') {
+                form.action = "${contextPath}/pdf/download";
+                form.target="_blank";
+                form.submit();
+            } else if (saveType == 'submit') {
                 if (confirm('원서 제출 후에는 원서 내용을 수정할 수 없습니다.\n\n계속하시겠습니까?')) {
                     form.action = "${contextPath}/application/document/submit";
                     form.submit();

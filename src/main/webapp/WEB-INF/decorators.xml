@@ -33,6 +33,10 @@
         <pattern>/admin/*</pattern>
     </decorator>
 
+    <decorator name="dbadmin" page="dbadmin_decorator.jsp">
+        <pattern>/dbadmin/*</pattern>
+    </decorator>
+
     <decorator name="template" page="temp_decorator.jsp">
 		<pattern>/template/*</pattern>
 	</decorator>

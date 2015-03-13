@@ -1,25 +1,30 @@
 package com.apexsoft.ysprj.admin.service;
 
-import com.apexsoft.framework.common.vo.ExecutionContext;
-import com.apexsoft.framework.message.MessageResolver;
-import com.apexsoft.framework.persistence.dao.CommonDAO;
-import com.apexsoft.framework.persistence.dao.page.PageInfo;
-import com.apexsoft.framework.persistence.dao.page.PageStatement;
-import com.apexsoft.ysprj.admin.control.form.*;
-import com.apexsoft.ysprj.admin.domain.ApplicantCnt;
-import com.apexsoft.ysprj.admin.domain.ApplicantInfo;
-import com.apexsoft.ysprj.applicants.admission.domain.Admission;
-import com.apexsoft.ysprj.applicants.application.domain.ApplicationDocument;
-import com.apexsoft.ysprj.applicants.common.domain.*;
-import com.apexsoft.ysprj.applicants.common.service.CommonService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import com.apexsoft.framework.common.vo.ExecutionContext;
+import com.apexsoft.framework.message.MessageResolver;
+import com.apexsoft.ysprj.admin.control.form.*;
+import com.apexsoft.ysprj.applicants.admission.domain.Admission;
+import com.apexsoft.ysprj.applicants.application.domain.ApplicationAcademy;
+import com.apexsoft.ysprj.applicants.application.domain.ApplicationExperience;
+import com.apexsoft.ysprj.applicants.application.domain.ApplicationLanguage;
+import com.apexsoft.ysprj.applicants.common.domain.*;
+
+import com.apexsoft.ysprj.applicants.common.service.CommonService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.apexsoft.framework.persistence.dao.CommonDAO;
+import com.apexsoft.framework.persistence.dao.page.PageInfo;
+import com.apexsoft.framework.persistence.dao.page.PageStatement;
+import com.apexsoft.ysprj.admin.domain.*;
+import com.apexsoft.ysprj.applicants.application.domain.ApplicationDocument;
+
+import javax.annotation.Resource;
 
 
 @Service
@@ -287,7 +292,7 @@ public class AdminServiceImpl implements AdminService{
         if(searchForm.getDeptCode()!=null){
             deptList = commonDAO.queryForList(NAME_SPACE+"selectDepartmentListByCollege", searchForm, Department.class);
         }
-        applAttrList= commonService.retrieveCommonCodeByCodeGroup("APPL_ATTR");
+        //applAttrList= commonService.retrieveCommonCodeValueByCodeGroup("APPL_ATTR");
         if (admsList != null)      selectionMap.put("admsList", admsList);
         if (applAttrList != null)  selectionMap.put("applAttrList", applAttrList);
         if (campList != null)      selectionMap.put("campList", campList);
@@ -296,7 +301,7 @@ public class AdminServiceImpl implements AdminService{
 
         return selectionMap;
     }
-    private Map<String, Object> getCouurseSelectionBasicMap(){
+    public  Map<String, Object> getCouurseSelectionBasicMap(){
         CourseSearchForm aForm = new ChangeSearchForm();
         return getCouurseSelectionBasicMap( aForm);
     }
@@ -310,6 +315,50 @@ public class AdminServiceImpl implements AdminService{
             e.printStackTrace();
         }
         return campusList;
+    }
+
+
+    @Override
+    public ExecutionContext retrieveEntireApplicantListByDept(CourseSearchPageForm courseSearchPageForm){
+        ExecutionContext ec = new ExecutionContext();
+        Map<String, Object> ecDataMap = new HashMap<String, Object>();
+
+        List<ApplicantInfoEntire>  tempInfoList =null;
+        try{
+
+            ParamForSetupCourses param = new ParamForSetupCourses();
+            param.setAdmsNo(courseSearchPageForm.getAdmsNo());
+            //param.setCorsTypeCode(courseSearchPageForm.getCorsTypeCode());
+            param.setCollCode(courseSearchPageForm.getCollCode());
+            param.setDeptCode(courseSearchPageForm.getDeptCode());
+            //향후 학교나 연도별로 데이터가 섞여 있는 경우
+            //admsList = commonDAO.queryForList(ADMS_NAME_SPACE +"CustomAdmissionMapper.selectByYear","2015", Admission.class);
+            if( courseSearchPageForm.getAdmsNo()!= null) {
+
+                tempInfoList = commonDAO.queryForList(NAME_SPACE + "retrieveApplicantEntireListByDept", courseSearchPageForm, ApplicantInfoEntire.class);
+
+                for( ApplicantInfoEntire aInfo : tempInfoList ) {
+                    aInfo.setAcadList(commonDAO.queryForList(APPL_NAME_SPACE + "selectByApplNo", aInfo.getApplNo(), ApplicationAcademy.class));
+                    aInfo.setLangList(commonDAO.queryForList(APPL_NAME_SPACE + "selectByApplNo", aInfo.getApplNo(), ApplicationLanguage.class));
+                    aInfo.setExprList(commonDAO.queryForList(APPL_NAME_SPACE + "selectByApplNo", aInfo.getApplNo(), ApplicationExperience.class));
+                    aInfo.setDocList (commonDAO.queryForList(APPL_NAME_SPACE + "selectByApplNo", aInfo.getApplNo(), ApplicationDocument.class));
+                }
+                ecDataMap.put("applList",tempInfoList);
+
+
+            }else{
+
+                ecDataMap.put("applList", new ArrayList<ApplicantInfo>());
+
+            }
+            ecDataMap.put("searchPageForm", courseSearchPageForm);
+            ec.setData(ecDataMap);
+
+        }catch(Exception e){
+            e.printStackTrace();
+
+        }
+        return ec;
     }
 
 }

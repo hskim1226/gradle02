@@ -41,6 +41,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URLEncoder;
 import com.apexsoft.ysprj.applicants.common.util.FileUtil;
+import org.springframework.web.bind.ServletRequestUtils;
 
 
 /**
@@ -66,23 +67,14 @@ public class AdminController {
 
     @Value("#{app['file.baseDir']}")
     private String fileBaseDir;
-/*
-    @RequestMapping(value="/login", method= RequestMethod.GET)
-    public ModelAndView displayLoginForm(User user,
-                                         BindingResult bindingResult,
-                                         ModelAndView mv,
-                                         HttpServletRequest request) {
-        mv.setViewName("admin/login/adminLogin");
-        if (bindingResult.hasErrors()) return mv;
 
-        if (request.getAttribute("LOGIN_FAILURE") == Boolean.TRUE)
-            mv.addObject("loginMessage", messageResolver.getMessage("U330"));
 
-        return mv;
-    }
-    */
     @RequestMapping(value="/stats/daily")
-    public String statsDaily() {
+    public String statsDaily(Model model) {
+        Map<String, Object> modelMap = new HashMap<String, Object>();
+        modelMap = adminService.getCouurseSelectionBasicMap();
+        ExecutionContext ec = new ExecutionContext();
+        model.addAttribute("admsList", modelMap.get("admsList"));
         return "admin/stats/recentDay";
     }
     
@@ -111,7 +103,11 @@ public class AdminController {
     }
     
     @RequestMapping(value="/stats/category")
-    public String statsCategory() {
+    public String statsCategory(Model model) {
+        Map<String, Object> modelMap = new HashMap<String, Object>();
+        modelMap = adminService.getCouurseSelectionBasicMap();
+        ExecutionContext ec = new ExecutionContext();
+        model.addAttribute("admsList", modelMap.get("admsList"));
         return "admin/stats/category";
     }
        
@@ -237,7 +233,11 @@ public class AdminController {
     }    
 
     @RequestMapping(value="/search/unpaid")
-    public String statsUnpaid() {
+    public String statsUnpaid(Model model) {
+        Map<String, Object> modelMap = new HashMap<String, Object>();
+        modelMap = adminService.getCouurseSelectionBasicMap();
+        ExecutionContext ec = new ExecutionContext();
+        model.addAttribute("admsList", modelMap.get("admsList"));
         return "admin/stats/unpaid";
     }
 
@@ -340,4 +340,31 @@ public class AdminController {
 
         return bytes;
     }
+    /**
+     * 전체 파일 다운로드
+     * @return
+     * @throws java.io.IOException
+     */
+
+    @RequestMapping(value="/search/excelDownload", produces = "application/pdf")
+    @ResponseBody
+    public ModelAndView  ExcelfileDownload( @ModelAttribute CourseSearchPageForm courseSearchPageForm,
+                                            BindingResult bindingResult,
+                                            Principal principal,
+                                            HttpServletResponse respons) throws Exception {
+
+       // ExecutionContext ecRetrieve = adminService.getApplicantDetail();
+        //Map<String, Object> map = (Map<String, Object>)ecRetrieve.getData();
+
+        Map<String,String> revenueData = new HashMap<String,String>();
+        revenueData.put("Jan-2010", "$100,000,000");
+        revenueData.put("Feb-2010", "$110,000,000");
+        revenueData.put("Mar-2010", "$130,000,000");
+        revenueData.put("Apr-2010", "$140,000,000");
+        revenueData.put("May-2010", "$200,000,000");
+
+        return new ModelAndView("ExcelRevenueSummary","revenueData",revenueData);
+
+    }
+
 }

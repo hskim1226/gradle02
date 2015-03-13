@@ -114,7 +114,7 @@
            overflowToDisk="false" diskPersistent="false" timeToIdleSeconds="0"
            timeToLiveSeconds="60" memoryStoreEvictionPolicy="LRU" statistics="false" />
 
-    <cache name="availableApplNos" eternal="false" maxElementsInMemory="2000"
+    <cache name="collegeByAdmsCamp" eternal="false" maxElementsInMemory="2000"
            overflowToDisk="false" diskPersistent="false" timeToIdleSeconds="0"
            timeToLiveSeconds="60" memoryStoreEvictionPolicy="LRU" statistics="false" />
 

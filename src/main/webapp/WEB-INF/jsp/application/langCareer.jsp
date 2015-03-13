@@ -452,8 +452,8 @@
                                                                                     </div>
                                                                                 </div>
                                                                                 <div class="col-sm-5">
-                                                                                    <div id="forlExmpSelect-${langGroupStat.index}" style="display: <c:choose><c:when test="${subContainer.checkedFg == true}">block;</c:when><c:otherwise>none;</c:otherwise></c:choose>" >
-                                                                                        <form:select path="applicationGeneral.forlExmpCode" id="forlExmpCode-${langGroupStat.index}" cssClass="form-control"
+                                                                                    <div id="forlExmpSelect-${langGroupStat.index}" style="display: ${subContainer.checkedFg ? 'block;' : 'none;'}" >
+                                                                                        <form:select path="applicationGeneral.forlExmpCode" id="forlExmpCode-${langGroupStat.index}" cssClass="form-control forlExmpCode"
                                                                                                      data-selGrpCode-id="languageGroupList${langGroupStat.index}.langList${langListStat.index}.subContainer${subContainerStat.index}.selGrpCode">
                                                                                             <form:option value="" label="--선택--" />
                                                                                             <form:options items="${common.fornExmpList}" itemValue="code" itemLabel="codeVal" />
@@ -804,7 +804,7 @@
             }
         });
 
-        $('#forlExmpCode').on('change', function () {
+        $('.forlExmpCode').on('change', function () {
             var selGrpCodeHidden = document.getElementById(this.getAttribute('data-selGrpCode-id'));
             selGrpCodeHidden.value = this[this.selectedIndex].value;
         });

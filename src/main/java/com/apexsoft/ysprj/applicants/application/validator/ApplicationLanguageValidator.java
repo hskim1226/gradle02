@@ -70,6 +70,7 @@ public class ApplicationLanguageValidator extends NamedListValidator {
                         }
                     }
                 }
+                prefix = name + "[" + i + "].";
             }
         }
     }
