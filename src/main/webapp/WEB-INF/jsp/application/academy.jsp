@@ -333,7 +333,7 @@
                                             <div class="col-sm-9">
                                                 <div class="col-sm-6 start-date-container">
                                                     <div class="input-group date">
-                                                        <span class="input-group-addon">입학일</span>
+                                                        <span class="input-group-addon">시작일</span>
                                                         <form:input path="collegeList[${stat.index}].entrDay" cssClass="form-control" readonly="true" />
                                                         <span class="input-group-addon calendar-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                                                     </div>
@@ -347,7 +347,7 @@
                                                 </div>
                                                 <div class="col-sm-6 end-date-container">
                                                     <div class="input-group date">
-                                                        <span class="input-group-addon">졸업(예정)일</span>
+                                                        <span class="input-group-addon">종료일</span>
                                                         <form:input path="collegeList[${stat.index}].grdaDay" cssClass="form-control" readonly="true" />
                                                         <span class="input-group-addon calendar-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                                                     </div>
@@ -525,7 +525,7 @@
                                             <div class="col-sm-9">
                                                 <div class="col-sm-6 start-date-container">
                                                     <div class="input-group date">
-                                                        <span class="input-group-addon">입학일</span>
+                                                        <span class="input-group-addon">시작일</span>
                                                         <form:input path="graduateList[${stat.index}].entrDay" cssClass="form-control" readonly="true" />
                                                         <span class="input-group-addon calendar-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                                                     </div>
@@ -539,7 +539,7 @@
                                                 </div>
                                                 <div class="col-sm-6 end-date-container">
                                                     <div class="input-group date">
-                                                        <span class="input-group-addon">졸업(예정)일</span>
+                                                        <span class="input-group-addon">종료일</span>
                                                         <form:input path="graduateList[${stat.index}].grdaDay" cssClass="form-control" readonly="true" />
                                                         <span class="input-group-addon calendar-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                                                     </div>

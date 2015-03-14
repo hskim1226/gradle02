@@ -25,10 +25,10 @@ public class UserModValidator implements Validator{
     public void validate(Object o, Errors errors) {
         User user = (User) o;
 
-        if (user.getPrefLang() == null || user.getPrefLang().length() == 0) {
-            errors.rejectValue("prefLang", "U331",
-                    new Object[]{"선호 언어"}, messageResolver.getMessage("U332"));
-        }
+//        if (user.getPrefLang() == null || user.getPrefLang().length() == 0) {
+//            errors.rejectValue("prefLang", "U331",
+//                    new Object[]{"선호 언어"}, messageResolver.getMessage("U332"));
+//        }
         if (user.getMailAddr() == null || user.getMailAddr().length() == 0) {
             errors.rejectValue("mailAddr", "U331",
                     new Object[]{"메일 주소"}, messageResolver.getMessage("U332"));

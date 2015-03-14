@@ -664,6 +664,38 @@
                                         <div class="col-sm-9">
                                             <div class="col-sm-6">
                                                 <div class="input-group">
+                                                    <span class="input-group-addon">&nbsp;종류&nbsp;</span>
+                                                    <form:select path="applicationForeigner.visaTypeCode" cssClass="form-control">
+                                                        <form:option value="" label="--선택--" />
+                                                        <form:options items="${foreign.visaTypeList}" itemValue="code" itemLabel="codeVal" />
+                                                    </form:select>
+                                                </div>
+                                                <spring:bind path="applicationForeigner.visaTypeCode">
+                                                    <c:if test="${status.error}">
+                                                        <div>
+                                                            <div class="validation-error">${status.errorMessage}</div>
+                                                        </div>
+                                                    </c:if>
+                                                </spring:bind>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <div class="input-group" id="tmpVisaTypeCode" style="display: <c:choose><c:when test="${basis.applicationForeigner.visaTypeCode == '00099'}">block;</c:when><c:otherwise>none;</c:otherwise></c:choose>">
+                                                    <form:input path="applicationForeigner.visaTypeEtc" cssClass="form-control" placeholder="예) D-2, D-4" />
+                                                </div>
+                                                <spring:bind path="applicationForeigner.visaTypeEtc">
+                                                    <c:if test="${status.error}">
+                                                        <div>
+                                                            <div class="validation-error">${status.errorMessage}</div>
+                                                        </div>
+                                                    </c:if>
+                                                </spring:bind>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group required">
+                                        <div class="col-sm-offset-2 col-sm-9">
+                                            <div class="col-sm-6">
+                                                <div class="input-group">
                                                     <span class="input-group-addon">&nbsp;번호&nbsp;</span>
                                                     <form:input path="applicationForeigner.visaNo" cssClass="form-control" />
                                                 </div>
@@ -687,38 +719,6 @@
                                                     <c:if test="${status.error}">
                                                         <div class="validation-error validation-container">
                                                                 ${status.errorMessage}
-                                                        </div>
-                                                    </c:if>
-                                                </spring:bind>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <div class="col-sm-offset-2 col-sm-9">
-                                            <div class="col-sm-6">
-                                                <div class="input-group">
-                                                    <span class="input-group-addon">&nbsp;종류&nbsp;</span>
-                                                    <form:select path="applicationForeigner.visaTypeCode" cssClass="form-control">
-                                                        <form:option value="" label="--선택--" />
-                                                        <form:options items="${foreign.visaTypeList}" itemValue="code" itemLabel="codeVal" />
-                                                    </form:select>
-                                                </div>
-                                                <spring:bind path="applicationForeigner.visaTypeCode">
-                                                    <c:if test="${status.error}">
-                                                        <div>
-                                                            <div class="validation-error">${status.errorMessage}</div>
-                                                        </div>
-                                                    </c:if>
-                                                </spring:bind>
-                                            </div>
-                                            <div class="col-sm-6">
-                                                <div class="input-group" id="tmpVisaTypeCode" style="display: <c:choose><c:when test="${basis.applicationForeigner.visaTypeCode == '00099'}">block;</c:when><c:otherwise>none;</c:otherwise></c:choose>">
-                                                    <form:input path="applicationForeigner.visaTypeEtc" cssClass="form-control" placeholder="예) D-2, D-4" />
-                                                </div>
-                                                <spring:bind path="applicationForeigner.visaTypeEtc">
-                                                    <c:if test="${status.error}">
-                                                        <div>
-                                                            <div class="validation-error">${status.errorMessage}</div>
                                                         </div>
                                                     </c:if>
                                                 </spring:bind>
