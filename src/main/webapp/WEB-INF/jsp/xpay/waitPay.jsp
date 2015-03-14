@@ -50,7 +50,10 @@
 </section>
 <content tag="local-script">
     <script>
-        $('#goMain').click( function () { location.href='${contextPath}/application/mylist'; });
+        $('#goMain').click( function (e) {
+            e.preventDefault();
+            location.href='${contextPath}/application/mylist';
+        });
     </script>
 </content>
 </body>
