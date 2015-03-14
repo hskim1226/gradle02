@@ -633,7 +633,7 @@
         from APPL_DOC
         where APPL_NO = #{applNo,jdbcType=INTEGER}
         and FILE_EXT = #{fileExt,jdbcType=VARCHAR}
-        order by DOC_SEQ DESC
+        order by DOC_ITEM_CODE
     </select>
 
     <select id="selectApplPaperInfoByApplNo" parameterType="com.apexsoft.ysprj.applicants.application.domain.ApplicationDocument" resultMap="applDoc">
