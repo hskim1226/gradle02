@@ -8,7 +8,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>연세대학교 대학원 입학원서 접수 시스템</title>
+        <title><spring:message code="L00001"/>&nbsp;<spring:message code="L00002"/><%--연세대학교 대학원 입학원서 접수 시스템--%></title>
         <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
         <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
         <!--[if lt IE 9]>
@@ -95,9 +95,9 @@
 				<div class="row mar-bot40">
                     <div class="col-sm-offset-2 col-sm-8 align-center">
                         <div class="form-group" id="main-text-container">
-                            <h1 class="slogan">연세대학교 대학원</h1>
+                            <h1 class="slogan"><spring:message code="L00001"/><%--연세대학교 대학원--%></h1>
                             <br/>
-                            <h1 class="slogan">입학원서 접수 시스템</h1>
+                            <h1 class="slogan"><spring:message code="L00002"/><%--입학원서 접수 시스템--%></h1>
                         </div>
                     </div>
 				</div>
@@ -113,8 +113,8 @@
 				<div class="col-lg-4" >
 					<div class="align-center" id="toList">
 						<i class="fa fa-pencil-square-o fa-5x mar-bot20"></i>
-						<h2 class="text-bold">원서 접수</h2>
-						<p class="word-keep-all">연세대학교 대학원 입학 신청서를 작성할 수 있습니다.
+						<h2 class="text-bold"><spring:message code="L00003"/><%--원서 접수--%></h2>
+						<p class="word-keep-all"><spring:message code="L00004"/><%--연세대학교 대학원 입학 신청서를 작성할 수 있습니다.--%>
 						</p>
 					</div>
 				</div>
@@ -122,8 +122,8 @@
 				<div class="col-lg-4" >
 					<div class="align-center" id="toMyList">
 						<i class="fa fa-list-alt fa-5x mar-bot20"></i>
-						<h2 class="text-bold">내 원서</h2>
-						<p class="word-keep-all">작성 중이거나 신청 중인 내 원서를 확인할 수 있습니다.
+						<h2 class="text-bold"><spring:message code="L00005"/><%--내 원서--%></h2>
+						<p class="word-keep-all"><spring:message code="L00006"/><%--작성 중이거나 신청 중인 내 원서를 확인할 수 있습니다.--%>
 						</p>
 					</div>
 				</div>
@@ -131,8 +131,8 @@
 				<div class="col-lg-4" >
 					<div class="align-center" id="toSignUp">
 						<i class="fa fa-user fa-5x mar-bot20"></i>
-						<h2 class="text-bold">회원 가입</h2>
-						<p class="word-keep-all">연세대학교 대학원 입학 신청 시스템의 회원으로 가입할 수 있습니다.
+						<h2 class="text-bold"><spring:message code="L00007"/><%--회원 가입--%></h2>
+						<p class="word-keep-all"><spring:message code="L00008"/><%--연세대학교 대학원 입학 신청 시스템의 회원으로 가입할 수 있습니다.--%>
 						</p>
 					</div>
 				</div>

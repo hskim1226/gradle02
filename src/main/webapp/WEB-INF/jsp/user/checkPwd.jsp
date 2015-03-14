@@ -2,7 +2,7 @@
 <%@ include file="/WEB-INF/jsp/common/env.jsp"%>
 <html lang='ko'>
 <head>
-    <title>비밀번호 확인</title>
+    <title><spring:message code="L00161"/><%--비밀번호 확인--%></title>
     <style>
         .input-text {
             height: 50px;
@@ -19,13 +19,13 @@
                 <div class="col-md-offset-2 col-md-8">
                     <div class="inner-container-white">
                         <div class="col-sm-12 text-gray">
-                            <i class="fa fa-unlock fa-3x" style="vertical-align: middle; line-height:40px;"></i>&nbsp;<span style="font-size: 35px; vertical-align: middle; line-height:40px;"><b>비밀 번호 확인</b></span>
+                            <i class="fa fa-unlock fa-3x" style="vertical-align: middle; line-height:40px;"></i>&nbsp;<span style="font-size: 35px; vertical-align: middle; line-height:40px;"><b><spring:message code="L00161"/><%--비밀 번호 확인--%></b></span>
                         </div>
                         <div class="spacer-small">&nbsp;</div>
                         <div class="form-group required col-sm-12">
                             <div class="col-sm-offset-1 col-sm-10">
                                 <div class="col-sm-3 text-gray">
-                                    <label for="pswd" class="control-label">비밀 번호</label>
+                                    <label for="pswd" class="control-label"><spring:message code="L00162"/><%--비밀 번호--%></label>
                                 </div>
                                 <div class="col-sm-9">
                                     <input type="password" id="pswd" name="pswd" class="form-control input-text" placeholder="비밀 번호를 입력해 주세요." />
@@ -35,7 +35,7 @@
                         <div class="form-group col-sm-12">
                             <div class="col-sm-offset-1 col-sm-10">
                                 <div class="col-sm-12">
-                                    <button class="btn btn-primary btn-lg btn-block btn-save input-text">내 정보 확인</button>
+                                    <button class="btn btn-primary btn-lg btn-block btn-save input-text"><spring:message code="L00163"/><%--내 정보 확인--%></button>
                                 </div>
                             </div>
                         </div>

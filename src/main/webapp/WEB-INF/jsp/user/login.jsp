@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>로그인</title>
+    <title><spring:message code="L00081"/><%--로그인--%></title>
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -124,13 +124,13 @@
                     <div class="spacer-tiny col-sm-12">&nbsp;</div>
                     <div>
                         <div class="col-sm-offset-1 col-sm-10">
-                            <button class="btn btn-primary btn-lg btn-block btn-login" data-lang="ko">로그인(한국어)</button>
+                            <button class="btn btn-primary btn-lg btn-block btn-login" data-lang="ko"><spring:message code="L00087"/><%--로그인(한국어)--%></button>
                         </div>
                     </div>
                     <div class="spacer-tiny col-sm-12">&nbsp;</div>
                     <div>
                         <div class="col-sm-offset-1 col-sm-10">
-                            <button class="btn btn-success btn-lg btn-block btn-login" data-lang="en">로그인(영어)</button>
+                            <button class="btn btn-success btn-lg btn-block btn-login" data-lang="en"><spring:message code="L00088"/><%--로그인(영어)--%></button>
                         </div>
                     </div>
                     <c:if test="${loginMessage.length() > 0}">
@@ -141,11 +141,11 @@
                     </c:if>
                     <div class="spacer-tiny col-sm-12">&nbsp;</div>
                     <div class="col-sm-offset-1 col-sm-10">
-                        <div class="text-gray">아직 회원이 아니세요? <a href="${contextPath}/user/agreement">회원 가입</a></div>
+                        <div class="text-gray"><spring:message code="L00082"/><%--아직 회원이 아니세요?--%> <a href="${contextPath}/user/agreement"><spring:message code="L00083"/><%--회원 가입--%></a></div>
                     </div>
                     <div class="spacer-tiny col-sm-12">&nbsp;</div>
                     <div class="col-sm-offset-1 col-sm-10">
-                        <div class="text-gray">아이디/비밀번호를 잊으셨나요? <a href="${contextPath}/user/findId">아이디 찾기</a>&nbsp;<a href="${contextPath}/user/findPwd">비밀번호 찾기</a></div>
+                        <div class="text-gray"><spring:message code="L00084"/><%--아이디/비밀번호를 잊으셨나요?--%> <a href="${contextPath}/user/findId"><spring:message code="L00085"/><%--아이디 찾기--%></a>&nbsp;<a href="${contextPath}/user/findPwd"><spring:message code="L00086"/><%--비밀번호 찾기--%></a></div>
                     </div>
                 </div>
             </form>

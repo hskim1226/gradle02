@@ -48,18 +48,18 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav" style="float: right;" data-0="margin-top:5px;" data-300="margin-top:5px;">
-                    <li class="active"><a href="${contextPath}">Home</a></li>
-                    <li><a href="${contextPath}/application/admsList">원서 접수</a></li>
-                    <li><a href="${contextPath}/application/mylist">내 원서</a></li>
-                    <li><a href="${contextPath}/user/info">내 정보</a></li>
+                    <li class="active"><a href="${contextPath}"><spring:message code="L00009"/><%--Home--%></a></li>
+                    <li><a href="${contextPath}/application/admsList"><spring:message code="L00003"/><%--원서 접수--%></a></li>
+                    <li><a href="${contextPath}/application/mylist"><spring:message code="L00005"/><%--내 원서--%></a></li>
+                    <li><a href="${contextPath}/user/info"><spring:message code="L00010"/><%--내 정보--%></a></li>
                     <sec:authorize access="!isAuthenticated()">
-                        <li><a href="${contextPath}/user/agreement">회원 가입</a></li>
+                        <li><a href="${contextPath}/user/agreement"><spring:message code="L00083"/><%--회원 가입--%></a></li>
                     </sec:authorize>
                     <sec:authorize access="!isAuthenticated()">
-                        <li><a href="${contextPath}/user/login">로그인</a></li>
+                        <li><a href="${contextPath}/user/login"><spring:message code="L00081"/><%--로그인--%></a></li>
                     </sec:authorize>
                     <sec:authorize access="hasRole('ROLE_USER')">
-                        <li><a href="${contextPath}/j_spring_security_logout.do">[<sec:authentication property="principal.name" />]sign out</a></li>
+                        <li><a href="${contextPath}/j_spring_security_logout.do">[<sec:authentication property="principal.name" />]<spring:message code="L00011"/><%--sign out--%></a></li>
                     </sec:authorize>
                     <li>
                         <c:set var="clientLocale" value="${pageContext.response.locale}" />
