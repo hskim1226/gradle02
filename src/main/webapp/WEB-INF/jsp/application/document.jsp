@@ -2,7 +2,7 @@
 <%@ include file="/WEB-INF/jsp/common/env.jsp"%>
 <html lang="ko">
 <head>
-    <title>원서 작성 - 파일 첨부</title>
+    <title><spring:message code="L04101"/><%--원서 작성 - 파일 첨부--%></title>
     <link rel="stylesheet" href="//code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css">
     <style>
         section.application {
@@ -360,13 +360,13 @@
         <div id="stepContainer">
             <table width="100%">
                 <tr>
-                    <td id="stepStatusTitle" colspan=4 align="center" height="70px">원서 작성 현황</td>
+                    <td id="stepStatusTitle" colspan=4 align="center" height="70px">${msg.getMessage('L01001')}<%--원서 작성 현황--%></td>
                 </tr>
                 <tr id="stepTR">
-                    <td id="stepBasis" width="25%" height="50px" align="center" class="stepDisabled">1. 기본 정보</td>
-                    <td id="stepAcademy" width="25%" height="50px" align="center" class="stepDisabled">2. 학력 정보</td>
-                    <td id="stepLangCareer" width="25%" height="50px" align="center" class="stepDisabled">3. 어학/경력 정보</td>
-                    <td id="stepDocument" width="25%" height="50px" align="center" class="stepDisabled">4. 파일 첨부</td>
+                    <td id="stepBasis" width="25%" height="50px" align="center" class="stepDisabled">${msg.getMessage('L01002')}<%--1. 기본 정보--%></td>
+                    <td id="stepAcademy" width="25%" height="50px" align="center" class="stepDisabled">${msg.getMessage('L01003')}<%--2. 학력 정보--%></td>
+                    <td id="stepLangCareer" width="25%" height="50px" align="center" class="stepDisabled">${msg.getMessage('L01004')}<%--3. 어학/경력 정보--%></td>
+                    <td id="stepDocument" width="25%" height="50px" align="center" class="stepDisabled">${msg.getMessage('L01005')}<%--4. 파일 첨부--%></td>
                 </tr>
             </table>
         </div>
@@ -375,10 +375,10 @@
             <div class="col-sm-12">
                 <table width="100%">
                     <tr id="tabTR">
-                        <td id="tab-basis" width="25%" height="35px" align="center" class="inactiveTab" data-target-tab="basis" data-tab-available="true">1. 기본 정보</td>
-                        <td id="tab-academy" width="25%" height="35px" align="center" class="inactiveTab" data-target-tab="academy" data-tab-available="false" data-unavailable-msg='<spring:message code="U321"/>'>2. 학력 정보</td>
-                        <td id="tab-langCareer" width="25%" height="35px" align="center" class="inactiveTab" data-target-tab="langCareer" data-tab-available="false" data-unavailable-msg='<spring:message code="U322"/>'>3. 어학/경력 정보</td>
-                        <td id="tab-document" width="25%" height="35px" align="center" class="inactiveTab" data-target-tab="document" data-tab-available="false" data-unavailable-msg='<spring:message code="U323"/>'>4. 파일 첨부</td>
+                        <td id="tab-basis" width="25%" height="35px" align="center" class="inactiveTab" data-target-tab="basis" data-tab-available="true"><spring:message code="L01002"/><%--1. 기본 정보--%></td>
+                        <td id="tab-academy" width="25%" height="35px" align="center" class="inactiveTab" data-target-tab="academy" data-tab-available="false" data-unavailable-msg='<spring:message code="U321"/>'><spring:message code="L01003"/><%--2. 학력 정보--%></td>
+                        <td id="tab-langCareer" width="25%" height="35px" align="center" class="inactiveTab" data-target-tab="langCareer" data-tab-available="false" data-unavailable-msg='<spring:message code="U322"/>'><spring:message code="L01004"/><%--3. 어학/경력 정보--%></td>
+                        <td id="tab-document" width="25%" height="35px" align="center" class="inactiveTab" data-target-tab="document" data-tab-available="false" data-unavailable-msg='<spring:message code="U323"/>'><spring:message code="L01005"/><%--4. 파일 첨부--%></td>
                     </tr>
                 </table>
             </div>
@@ -395,7 +395,7 @@
                 <div class="row">
                     <div class="col-sm-offset-1 col-sm-10">
                         <div class="panel panel-darkgray">
-                            <div class="panel-heading">첨부 파일 안내</div>
+                            <div class="panel-heading"><spring:message code="L04102"/><%--첨부 파일 안내--%></div>
                             <div class="panel-body">
                                 <p>사진 외의 모든 첨부 파일은 서류 종류별로 하나의 PDF 파일만 업로드 가능합니다.</p>
 
@@ -419,7 +419,7 @@
                                 <a href="http://www.fotor.com/" target="_blank">http://www.fotor.com/</a><br/>
                                 <p>예시 사이트에서 발생하는 모든 문제는 당사에서 책임지지 않습니다.</p>
                                 <hr/>
-                                <p>파일 첨부 시 주의사항</p>
+                                <p><spring:message code="L04103"/><%--파일 첨부 시 주의사항--%></p>
                                 1. 문서별로 1개의 파일만 첨부 가능합니다.<br/>
                                 2. 사진 및 문서의 해상도와 가독성 여부를 반드시 확인하세요.<br/>
                                 3. 스캔시에는 300dpi 이상으로 스캔하시기 바랍니다.<br/>

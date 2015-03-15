@@ -2,7 +2,7 @@
 <%@ include file="/WEB-INF/jsp/common/env.jsp"%>
 <html lang="ko">
 <head>
-    <title>원서 작성 - 어학/경력 정보</title>
+    <title><spring:message code="L03101"/><%--원서 작성 - 어학/경력 정보--%></title>
     <link rel="stylesheet" href="//code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css">
     <style>
         section.application {
@@ -285,13 +285,13 @@
         <div id="stepContainer">
             <table width="100%">
                 <tr>
-                    <td id="stepStatusTitle" colspan=4 align="center" height="70px">원서 작성 현황</td>
+                    <td id="stepStatusTitle" colspan=4 align="center" height="70px">${msg.getMessage('L01001')}<%--원서 작성 현황--%></td>
                 </tr>
                 <tr id="stepTR">
-                    <td id="stepBasis" width="25%" height="50px" align="center" class="stepDisabled">1. 기본 정보</td>
-                    <td id="stepAcademy" width="25%" height="50px" align="center" class="stepDisabled">2. 학력 정보</td>
-                    <td id="stepLangCareer" width="25%" height="50px" align="center" class="stepDisabled">3. 어학/경력 정보</td>
-                    <td id="stepDocument" width="25%" height="50px" align="center" class="stepDisabled">4. 파일 첨부</td>
+                    <td id="stepBasis" width="25%" height="50px" align="center" class="stepDisabled">${msg.getMessage('L01002')}<%--1. 기본 정보--%></td>
+                    <td id="stepAcademy" width="25%" height="50px" align="center" class="stepDisabled">${msg.getMessage('L01003')}<%--2. 학력 정보--%></td>
+                    <td id="stepLangCareer" width="25%" height="50px" align="center" class="stepDisabled">${msg.getMessage('L01004')}<%--3. 어학/경력 정보--%></td>
+                    <td id="stepDocument" width="25%" height="50px" align="center" class="stepDisabled">${msg.getMessage('L01005')}<%--4. 파일 첨부--%></td>
                 </tr>
             </table>
         </div>
@@ -300,10 +300,10 @@
             <div class="col-sm-12">
                 <table width="100%">
                     <tr id="tabTR">
-                        <td id="tab-basis" width="25%" height="35px" align="center" class="inactiveTab" data-target-tab="basis" data-tab-available="true">1. 기본 정보</td>
-                        <td id="tab-academy" width="25%" height="35px" align="center" class="inactiveTab" data-target-tab="academy" data-tab-available="false" data-unavailable-msg='<spring:message code="U321"/>'>2. 학력 정보</td>
-                        <td id="tab-langCareer" width="25%" height="35px" align="center" class="inactiveTab" data-target-tab="langCareer" data-tab-available="false" data-unavailable-msg='<spring:message code="U322"/>'>3. 어학/경력 정보</td>
-                        <td id="tab-document" width="25%" height="35px" align="center" class="inactiveTab" data-target-tab="document" data-tab-available="false" data-unavailable-msg='<spring:message code="U323"/>'>4. 파일 첨부</td>
+                        <td id="tab-basis" width="25%" height="35px" align="center" class="inactiveTab" data-target-tab="basis" data-tab-available="true"><spring:message code="L01002"/><%--1. 기본 정보--%></td>
+                        <td id="tab-academy" width="25%" height="35px" align="center" class="inactiveTab" data-target-tab="academy" data-tab-available="false" data-unavailable-msg='<spring:message code="U321"/>'><spring:message code="L01003"/><%--2. 학력 정보--%></td>
+                        <td id="tab-langCareer" width="25%" height="35px" align="center" class="inactiveTab" data-target-tab="langCareer" data-tab-available="false" data-unavailable-msg='<spring:message code="U322"/>'><spring:message code="L01004"/><%--3. 어학/경력 정보--%></td>
+                        <td id="tab-document" width="25%" height="35px" align="center" class="inactiveTab" data-target-tab="document" data-tab-available="false" data-unavailable-msg='<spring:message code="U323"/>'><spring:message code="L01005"/><%--4. 파일 첨부--%></td>
                     </tr>
                 </table>
             </div>
@@ -319,7 +319,7 @@
                 <div class="row">
                     <div class="col-sm-offset-1 col-sm-10">
                         <div class="panel panel-darkgray">
-                            <div class="panel-heading">어학성적</div>
+                            <div class="panel-heading"><spring:message code="L03102"/><%--어학성적--%></div>
                             <div class="panel-body" id="english-score-list">
                                 <c:forEach items="${langCareer.languageGroupList}" var="langGroup" varStatus="langGroupStat">
                                     <div class="panel panel-darkgray1">
@@ -399,7 +399,7 @@
                                                                         </div>
                                                                         <div class="col-sm-4 langDetail-${langGroupStat.index}-${langListStat.index}-${subContainerStat.index} langDetail-${langGroupStat.index}" style='display: <c:choose><c:when test="${subContainer.checkedFg == true}">block;</c:when><c:otherwise>none;</c:otherwise></c:choose>'>
                                                                             <div class="input-group date">
-                                                                                <span class="input-group-addon">시험일</span>
+                                                                                <span class="input-group-addon"><spring:message code="L03103"/><%--시험일--%></span>
                                                                                 <form:input path="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].subContainer[${subContainerStat.index}].examDay" cssClass="form-control forlInput-${langGroupStat.index}" readonly="true" />
                                                                                 <span class="input-group-addon calendar-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                                                                             </div>
@@ -413,7 +413,7 @@
                                                                         </div>
                                                                         <div class="col-sm-3 langDetail-${langGroupStat.index}-${langListStat.index}-${subContainerStat.index} langDetail-${langGroupStat.index}" style='display: <c:choose><c:when test="${subContainer.checkedFg == true}">block;</c:when><c:otherwise>none;</c:otherwise></c:choose>'>
                                                                             <div class="input-group">
-                                                                                <span class="input-group-addon">점수</span>
+                                                                                <span class="input-group-addon"><spring:message code="L03104"/><%--점수--%></span>
                                                                                 <c:choose>
                                                                                     <c:when test="${subContainer.itemName == 'IELTS'}">
                                                                                         <form:select path="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].subContainer[${subContainerStat.index}].langGrad" cssClass="form-control">
@@ -472,7 +472,7 @@
                                                                     </c:when>
                                                                     <c:otherwise>
                                                                         <div class="col-sm-2">
-                                                                            <label class="lbl-lang" id="checkLangLabel${subContainerStat.index}" >인정 불가</label>
+                                                                            <label class="lbl-lang" id="checkLangLabel${subContainerStat.index}" ><spring:message code="L03105"/><%--인정 불가--%></label>
                                                                         </div>
                                                                     </c:otherwise>
                                                                 </c:choose>
@@ -488,7 +488,7 @@
                             </div>
                         </div>
                         <div class="panel panel-darkgray">
-                            <div class="panel-heading">경력 사항</div>
+                            <div class="panel-heading"><spring:message code="L03201"/><%--경력 사항--%></div>
                             <div class="panel-body">
                                 <div id="career-container" class="form-group-block-list">
                                     <c:forEach varStatus="stat" begin="0" end="${langCareer.applicationExperienceList.size() > 0 ? langCareer.applicationExperienceList.size() - 1 : 0}">
@@ -498,11 +498,11 @@
                                             <form:hidden path="applicationExperienceList[${stat.index}].saveFg"/>
                                             <form:hidden path="applicationExperienceList[${stat.index}].checkedFg" value="true"/>
                                             <div class="form-group">
-                                                <label class="col-sm-2 control-label">재직 기간</label>
+                                                <label class="col-sm-2 control-label"><spring:message code="L03202"/><%--재직 기간--%></label>
                                                 <div class="col-sm-9">
                                                     <div class="col-sm-4 start-date-container">
                                                         <div class="input-group date">
-                                                            <span class="input-group-addon">입사일</span>
+                                                            <span class="input-group-addon"><spring:message code="L03203"/><%--입사일--%></span>
                                                             <form:input path="applicationExperienceList[${stat.index}].joinDay" cssClass="form-control" readonly="true" />
                                                             <span class="input-group-addon calendar-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                                                         </div>
@@ -516,7 +516,7 @@
                                                     </div>
                                                     <div class="col-sm-4 end-date-container">
                                                         <div class="input-group date">
-                                                            <span class="input-group-addon">퇴사일</span>
+                                                            <span class="input-group-addon"><spring:message code="L03204"/><%--퇴사일--%></span>
                                                             <form:input path="applicationExperienceList[${stat.index}].retrDay" cssClass="form-control" readonly="true" />
                                                             <span class="input-group-addon calendar-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                                                         </div>
@@ -529,14 +529,14 @@
                                                 </spring:bind>
                                                     </div>
                                                     <div class="col-sm-2">
-                                                        <label class="radio-inline"><input type="radio" class="curr-radio" id="radioCurr-${stat.index}" name="radioCurrWork" data-curr-work-id="applicationExperienceList${stat.index}.currYn" <c:if test="${langCareer.applicationExperienceList[stat.index].currYn == 'Y'}">checked</c:if> />재직중</label>
+                                                        <label class="radio-inline"><input type="radio" class="curr-radio" id="radioCurr-${stat.index}" name="radioCurrWork" data-curr-work-id="applicationExperienceList${stat.index}.currYn" <c:if test="${langCareer.applicationExperienceList[stat.index].currYn == 'Y'}">checked</c:if> /><spring:message code="L03205"/><%--재직중--%></label>
                                                         <form:hidden path="applicationExperienceList[${stat.index}].currYn"/>
                                                     </div>
                                                 </div>
 
                                             </div>
                                             <div class="form-group">
-                                                <form:label path="applicationExperienceList[${stat.index}].corpName" cssClass="col-sm-2 control-label">기관명</form:label>
+                                                <form:label path="applicationExperienceList[${stat.index}].corpName" cssClass="col-sm-2 control-label"><spring:message code="L03206"/><%--기관명--%></form:label>
                                                 <div class="col-sm-9">
                                                     <div class="col-sm-12">
                                                         <form:input path="applicationExperienceList[${stat.index}].corpName" cssClass="form-control" />
@@ -551,7 +551,7 @@
                                                 </div>
                                             </div>
                                             <div class="form-group">
-                                                <form:label path="applicationExperienceList[${stat.index}].exprDesc" cssClass="col-sm-2 control-label">경력 내용</form:label>
+                                                <form:label path="applicationExperienceList[${stat.index}].exprDesc" cssClass="col-sm-2 control-label"><spring:message code="L03207"/><%--경력 내용--%></form:label>
                                                 <div class="col-sm-9">
                                                     <div class="col-sm-12">
                                                         <form:input path="applicationExperienceList[${stat.index}].exprDesc" cssClass="form-control" />
@@ -578,7 +578,7 @@
                 </div>
                 <div class="btn-group btn-group-justified">
                     <div class="btn-group">
-                        <button id="saveLangCareer" type="button" class="btn btn-primary btn-lg btn-save" data-saveType="langCareer">어학 및 경력 저장</button>
+                        <button id="saveLangCareer" type="button" class="btn btn-primary btn-lg btn-save" data-saveType="langCareer"><spring:message code="L03301"/><%--어학 및 경력 저장--%></button>
                     </div>
                 </div>
             </div> <%--myTabContent--%>
