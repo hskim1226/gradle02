@@ -530,8 +530,8 @@
                                     </div>
                                     <div class="col-sm-4">
                                         <div class="col-sm-4 nopadding">
-                                            <input type="button" id="upload-button-${lv1Status.index}-${lv2Status.index}"
-                                                   class="btn btn-default btn-upload" value="올리기"
+                                            <button id="upload-button-${lv1Status.index}-${lv2Status.index}"
+                                                   class="btn btn-default btn-upload"
 
                                                    data-checkbox-id="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.checkedFg"
 
@@ -571,11 +571,11 @@
                                                    data-doc-prop-mdtYn="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.mdtYn"
                                                    data-doc-prop-uploadYn="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.uploadYn"
                                                    data-doc-prop-sendCnt="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.sendCnt"
-                                                    />
+                                                   ><spring:message code="L04104"/><%--올리기--%></button>
                                         </div>
                                         <div class="col-sm-4 upload-delete-button-container-${lv1Status.index}-${lv2Status.index}" style='display: <c:choose><c:when test="${lv2Container.fileUploadFg == true}">block;</c:when><c:otherwise>none;</c:otherwise></c:choose>'>
                                             <a class="btn btn-default file-download" id="file-download-link-${lv1Status.index}-${lv2Status.index}"
-                                               href="${contextPath}/application/document/fileDownload/${lv2Container.applNo}/${lv2Container.docSeq}">내려받기</a>
+                                               href="${contextPath}/application/document/fileDownload/${lv2Container.applNo}/${lv2Container.docSeq}"><spring:message code="L04105"/><%--내려받기--%></a>
                                         </div>
                                         <div class="col-sm-4 upload-delete-button-container-${lv1Status.index}-${lv2Status.index}" style='display: <c:choose><c:when test="${lv2Container.fileUploadFg == true}">block;</c:when><c:otherwise>none;</c:otherwise></c:choose>'>
                                             <a class="btn btn-default file-delete" id="file-delete-link-${lv1Status.index}-${lv2Status.index}"
@@ -584,7 +584,7 @@
                                                data-upload-button-id="upload-button-${lv1Status.index}-${lv2Status.index}"
                                                data-button-container-class="upload-delete-button-container-${lv1Status.index}-${lv2Status.index}"
                                                data-fileUploadFg-id="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.fileUploadFg"
-                                               href="${contextPath}/application/document/fileDelete/${lv2Container.applNo}/${lv2Container.docSeq}">삭제</a>
+                                               href="${contextPath}/application/document/fileDelete/${lv2Container.applNo}/${lv2Container.docSeq}"><spring:message code="L04106"/><%--삭제--%></a>
                                         </div>
                                     </div>
                                     <spring:bind path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].fileUploadFg">
@@ -664,8 +664,8 @@
                                             </div>
                                             <div class="col-sm-4">
                                                 <div class="col-sm-4 nopadding">
-                                                    <input type="button" id="upload-button-${lv1Status.index}-${lv2Status.index}-${lv3Status.index}"
-                                                           class="btn btn-default btn-upload" value="올리기"
+                                                    <button id="upload-button-${lv1Status.index}-${lv2Status.index}-${lv3Status.index}"
+                                                           class="btn btn-default btn-upload"
 
                                                            data-checkbox-id="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.checkedFg"
 
@@ -705,12 +705,12 @@
                                                            data-doc-prop-mdtYn="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.mdtYn"
                                                            data-doc-prop-uploadYn="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.uploadYn"
                                                            data-doc-prop-sendCnt="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.sendCnt"
-                                                            />
+                                                           ><spring:message code="L04104"/><%--올리기--%></button>
                                                 </div>
                                                 <div class="col-sm-4 upload-delete-button-container-${lv1Status.index}-${lv2Status.index}-${lv3Status.index}"
                                                      style='display: <c:choose><c:when test="${lv3Container.fileUploadFg == true}">block;</c:when><c:otherwise>none;</c:otherwise></c:choose>'>
                                                     <a class="btn btn-default file-download" id="file-download-link-${lv1Status.index}-${lv2Status.index}-${lv3Status.index}"
-                                                       href="${contextPath}/application/document/fileDownload/${lv3Container.applNo}/${lv3Container.docSeq}">내려받기</a>
+                                                       href="${contextPath}/application/document/fileDownload/${lv3Container.applNo}/${lv3Container.docSeq}"><spring:message code="L04105"/><%--내려받기--%></a>
                                                 </div>
                                                 <div class="col-sm-4 upload-delete-button-container-${lv1Status.index}-${lv2Status.index}-${lv3Status.index}"
                                                      style='display: <c:choose><c:when test="${lv3Container.fileUploadFg == true}">block;</c:when><c:otherwise>none;</c:otherwise></c:choose>'>
@@ -720,7 +720,7 @@
                                                        data-upload-button-id="upload-button-${lv1Status.index}-${lv2Status.index}-${lv3Status.index}"
                                                        data-button-container-class="upload-delete-button-container-${lv1Status.index}-${lv2Status.index}-${lv3Status.index}"
                                                        data-fileUploadFg-id="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.fileUploadFg"
-                                                       href="${contextPath}/application/document/fileDelete/${lv3Container.applNo}/${lv3Container.docSeq}">삭제</a>
+                                                       href="${contextPath}/application/document/fileDelete/${lv3Container.applNo}/${lv3Container.docSeq}"><spring:message code="L04106"/><%--삭제--%></a>
                                                 </div>
                                             </div>
                                     <spring:bind path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].subContainer[${lv3Status.index}].fileUploadFg">
@@ -800,8 +800,8 @@
                                                     </div>
                                                     <div class="col-sm-4">
                                                         <div class="col-sm-4 nopadding">
-                                                            <input type="button" id="upload-button-${lv1Status.index}-${lv2Status.index}-${lv3Status.index}-${lv4Status.index}"
-                                                                   class="btn btn-default btn-upload" value="올리기"
+                                                            <button id="upload-button-${lv1Status.index}-${lv2Status.index}-${lv3Status.index}-${lv4Status.index}"
+                                                                   class="btn btn-default btn-upload"
 
                                                                    data-checkbox-id="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.subContainer${lv4Status.index}.checkedFg"
 
@@ -841,12 +841,12 @@
                                                                    data-doc-prop-mdtYn="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.subContainer${lv4Status.index}.mdtYn"
                                                                    data-doc-prop-uploadYn="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.subContainer${lv4Status.index}.uploadYn"
                                                                    data-doc-prop-sendCnt="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.subContainer${lv4Status.index}.sendCnt"
-                                                                    />
+                                                                   ><spring:message code="L04104"/><%--올리기--%></button>
                                                         </div>
                                                         <div class="col-sm-4 upload-delete-button-container-${lv1Status.index}-${lv2Status.index}-${lv3Status.index}-${lv4Status.index}"
                                                              style='display: <c:choose><c:when test="${lv4Container.fileUploadFg == true}">block;</c:when><c:otherwise>none;</c:otherwise></c:choose>'>
                                                             <a class="btn btn-default file-download" id="file-download-link-${lv1Status.index}-${lv2Status.index}-${lv3Status.index}-${lv4Status.index}"
-                                                               href="${contextPath}/application/document/fileDownload/${lv4Container.applNo}/${lv4Container.docSeq}">내려받기</a>
+                                                               href="${contextPath}/application/document/fileDownload/${lv4Container.applNo}/${lv4Container.docSeq}"><spring:message code="L04105"/><%--내려받기--%></a>
                                                         </div>
                                                         <div class="col-sm-4 upload-delete-button-container-${lv1Status.index}-${lv2Status.index}-${lv3Status.index}-${lv4Status.index}"
                                                              style='display: <c:choose><c:when test="${lv4Container.fileUploadFg == true}">block;</c:when><c:otherwise>none;</c:otherwise></c:choose>'>
@@ -856,7 +856,7 @@
                                                                data-upload-button-id="upload-button-${lv1Status.index}-${lv2Status.index}-${lv3Status.index}-${lv4Status.index}"
                                                                data-button-container-class="upload-delete-button-container-${lv1Status.index}-${lv2Status.index}-${lv3Status.index}-${lv4Status.index}"
                                                                data-fileUploadFg-id="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.subContainer${lv4Status.index}.fileUploadFg"
-                                                               href="${contextPath}/application/document/fileDelete/${lv4Container.applNo}/${lv4Container.docSeq}">삭제</a>
+                                                               href="${contextPath}/application/document/fileDelete/${lv4Container.applNo}/${lv4Container.docSeq}"><spring:message code="L04106"/><%--삭제--%></a>
                                                         </div>
                                                     </div>
                                             <spring:bind path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].subContainer[${lv3Status.index}].subContainer[${lv4Status.index}].fileUploadFg">
@@ -976,8 +976,8 @@
                                         </div>
                                         <div class="col-sm-4">
                                             <div class="col-sm-4 nopadding">
-                                                <input type="button" id="upload-button-${lv1Status.index}-${lv2EtcStatus.index}"
-                                                        class="btn btn-default btn-upload" value="올리기"
+                                                <button id="upload-button-${lv1Status.index}-${lv2EtcStatus.index}"
+                                                        class="btn btn-default btn-upload"
 
                                                         data-checkbox-id="documentContainerList${lv1Status.index}.subContainer${lv2EtcStatus.index}.checkedFg"
 
@@ -1017,10 +1017,10 @@
                                                         data-doc-prop-mdtYn="documentContainerList${lv1Status.index}.subContainer${lv2EtcStatus.index}.mdtYn"
                                                         data-doc-prop-uploadYn="documentContainerList${lv1Status.index}.subContainer${lv2EtcStatus.index}.uploadYn"
                                                         data-doc-prop-sendCnt="documentContainerList${lv1Status.index}.subContainer${lv2EtcStatus.index}.sendCnt"
-                                                />
+                                                ><spring:message code="L04104"/><%--올리기--%></button>
                                             </div>
                                             <div class="col-sm-4 upload-delete-button-container-${lv1Status.index}-${lv2EtcStatus.index}" style='display: none;'>
-                                                <a class="btn btn-default file-download" id="file-download-link-${lv1Status.index}-${lv2EtcStatus.index}">내려받기</a>
+                                                <a class="btn btn-default file-download" id="file-download-link-${lv1Status.index}-${lv2EtcStatus.index}"><spring:message code="L04105"/><%--내려받기--%></a>
                                             </div>
                                             <div class="col-sm-4 upload-delete-button-container-${lv1Status.index}-${lv2EtcStatus.index}" style='display: none;'>
                                                 <a class="btn btn-default file-delete" id="file-delete-link-${lv1Status.index}-${lv2EtcStatus.index}"
@@ -1028,7 +1028,7 @@
                                                     data-docitemname-id="documentContainerList${lv1Status.index}.subContainer${lv2EtcStatus.index}.docItemName"
                                                     data-upload-button-id="upload-button-${lv1Status.index}-${lv2EtcStatus.index}"
                                                     data-button-container-class="upload-delete-button-container-${lv1Status.index}-${lv2EtcStatus.index}"
-                                                    data-fileUploadFg-id="documentContainerList${lv1Status.index}.subContainer${lv2EtcStatus.index}.fileUploadFg">삭제</a>
+                                                    data-fileUploadFg-id="documentContainerList${lv1Status.index}.subContainer${lv2EtcStatus.index}.fileUploadFg"><spring:message code="L04106"/><%--삭제--%></a>
                                             </div>
                                         </div>
                                         <spring:bind path="documentContainerList[${lv1Status.index}].subContainer[${lv2EtcStatus.index}].fileUploadFg">
@@ -1056,14 +1056,14 @@
                 <div class="spacer-tiny"></div>
                 <div class="btn-group btn-group-justified">
                     <div class="btn-group">
-                        <button id="saveDocument" type="button" class="btn btn-primary btn-lg btn-save" data-saveType="document">첨부 파일 저장</button>
+                        <button id="saveDocument" type="button" class="btn btn-primary btn-lg btn-save" data-saveType="document"><spring:message code="L04201"/><%--첨부 파일 저장--%></button>
                     </div>
                 </div>
             </div>
             <div class="spacer-tiny"></div>
             <div class="btn-group btn-group-justified">
                 <div class="btn-group">
-                    <button id="generateApplication" type="button" class="btn btn-warning btn-lg btn-save" data-saveType="generate" <c:if test="${document.application.applStsCode != '00004'}">disabled</c:if> >원서 미리보기 생성</button>
+                    <button id="generateApplication" type="button" class="btn btn-warning btn-lg btn-save" data-saveType="generate" <c:if test="${document.application.applStsCode != '00004'}">disabled</c:if> ><spring:message code="L04202"/><%--원서 미리보기 생성--%></button>
                 </div>
             </div>
             <div id="spinner" class="btn-group btn-group-justified" style="display: none;">
@@ -1075,13 +1075,13 @@
             </div>
             <div class="btn-group btn-group-justified">
                 <div class="btn-group">
-                    <button id="previewApplication" type="button" style="display: none;" class="btn btn-info btn-lg btn-save" data-saveType="preview" <c:if test="${document.application.applStsCode != '00004'}">disabled</c:if> >원서 미리보기</button>
+                    <button id="previewApplication" type="button" style="display: none;" class="btn btn-info btn-lg btn-save" data-saveType="preview" <c:if test="${document.application.applStsCode != '00004'}">disabled</c:if> ><spring:message code="L04203"/><%--원서 미리보기--%></button>
                 </div>
             </div>
             <div class="spacer-tiny"></div>
             <div class="btn-group btn-group-justified">
                 <div class="btn-group">
-                    <button id="submitApplication" type="button" class="btn btn-success btn-lg btn-save" data-saveType="submit" <c:if test="${document.application.applStsCode != '00004'}">disabled</c:if> >원서 제출</button>
+                    <button id="submitApplication" type="button" class="btn btn-success btn-lg btn-save" data-saveType="submit" <c:if test="${document.application.applStsCode != '00004'}">disabled</c:if> ><spring:message code="L04204"/><%--원서 제출--%></button>
                 </div>
             </div>
         </div> <%--myTabContent--%>
