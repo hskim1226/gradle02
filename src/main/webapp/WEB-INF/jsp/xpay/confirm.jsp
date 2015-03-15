@@ -2,7 +2,7 @@
 <%@ include file="/WEB-INF/jsp/common/env.jsp"%>
 <html>
 <head>
-    <title>결제 내용 확인</title>
+    <title><spring:message code="L05101"/><%--결제 내용 확인--%></title>
     <style>
         th.header {
             background-color: #eeeeee;
@@ -17,19 +17,19 @@
                 <div class="col-md-offset-1 col-md-10">
                     <div class="form-group inner-container-white">
                         <div class="col-sm-12 text-gray">
-                            <i class="fa fa-check-square-o fa-3x" style="vertical-align: middle; line-height:40px;"></i>&nbsp;<span style="font-size: 35px; vertical-align: middle; line-height:40px;"><b>결제 내용 확인</b></span>
+                            <i class="fa fa-check-square-o fa-3x" style="vertical-align: middle; line-height:40px;"></i>&nbsp;<span style="font-size: 35px; vertical-align: middle; line-height:40px;"><b><spring:message code="L05101"/><%--결제 내용 확인--%></b></span>
                         </div>
                         <div class="spacer-small">&nbsp;</div>
                         <div class="col-sm-offset-1 col-sm-10 text-gray">
                             <div class="col-sm-12 align-center">
                                 <table class="table table-bordered">
-                                    <tr><th class="header col-md-4">회원ID</th><td class="col-md-8">${payment.LGD_BUYERID}</td></tr>
-                                    <tr><th class="header">회원명</th><td>${payment.LGD_BUYER}</td></tr>
-                                    <tr><th class="header">신청과정</th><td>${payment.LGD_PRODUCTINFO}</td></tr>
-                                    <tr><th class="header">결제금액</th><td>${payment.LGD_AMOUNT}원</td></tr>
+                                    <tr><th class="header col-md-4"><spring:message code="L05102"/><%--회원ID--%></th><td class="col-md-8">${payment.LGD_BUYERID}</td></tr>
+                                    <tr><th class="header"><spring:message code="L05103"/><%--회원명--%></th><td>${payment.LGD_BUYER}</td></tr>
+                                    <tr><th class="header"><spring:message code="L05104"/><%--신청과정--%></th><td>${payment.LGD_PRODUCTINFO}</td></tr>
+                                    <tr><th class="header"><spring:message code="L05105"/><%--결제금액--%></th><td>${payment.LGD_AMOUNT}원</td></tr>
                                 </table>
                                 <div>
-                                    <button class="btn btn-primary btn-lg btn-block" id="processPayment">결제하기</button>
+                                    <button class="btn btn-primary btn-lg btn-block" id="processPayment"><spring:message code="L05106"/><%--결제하기--%></button>
                                 </div>
                             </div>
                         </div>

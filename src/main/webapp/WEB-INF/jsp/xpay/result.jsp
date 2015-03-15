@@ -3,7 +3,7 @@
 <%@ include file="/WEB-INF/jsp/common/env.jsp"%>
 <html>
 <head>
-    <title>결제 및 신청 완료</title>
+    <title><spring:message code="L05301"/><%--결제 및 신청 완료--%></title>
     <style>
     /* spinner */
     /* http://projects.lukehaas.me/css-loaders/ */
@@ -83,7 +83,7 @@
                     <div class="form-group inner-container-white">
                         <div class="col-md-offset-1 col-md-10">
                             <div class="col-sm-12 text-gray">
-                                <i class="fa fa-thumbs-o-up fa-3x" style="vertical-align: middle; line-height:40px;"></i>&nbsp;<span style="font-size: 35px; vertical-align: middle; line-height:40px;"><b>결제 및 신청 완료</b></span>
+                                <i class="fa fa-thumbs-o-up fa-3x" style="vertical-align: middle; line-height:40px;"></i>&nbsp;<span style="font-size: 35px; vertical-align: middle; line-height:40px;"><b><spring:message code="L05301"/><%--결제 및 신청 완료--%></b></span>
                             </div>
                             <div class="spacer-small">&nbsp;</div>
                             <div class="col-sm-12 text-gray">
@@ -98,7 +98,7 @@
                                 <div class="loader">Loading...</div>
                             </div>
                             <div class="col-sm-12">
-                                <button class="btn btn-primary btn-lg btn-block" id="goMain" style="display: none;">내 원서 보기</button>
+                                <button class="btn btn-primary btn-lg btn-block" id="goMain" style="display: none;"><spring:message code="L05302"/><%--내 원서 보기--%></button>
                             </div>
                             <%--${transactionVO.sysMsg}--%>
 
