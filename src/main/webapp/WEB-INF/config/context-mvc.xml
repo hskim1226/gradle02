@@ -54,6 +54,10 @@
             <mvc:mapping path="/pdf/**"/>
             <bean class="com.apexsoft.framework.interceptor.KeyInfoBlockInterceptor"/>
         </mvc:interceptor>
+        <mvc:interceptor>
+            <mvc:mapping path="/application/**"/>
+            <bean class="com.apexsoft.framework.interceptor.MessageResolverInterceptor"/>
+        </mvc:interceptor>
     </mvc:interceptors>
 
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
