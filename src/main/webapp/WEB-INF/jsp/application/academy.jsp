@@ -1061,7 +1061,7 @@
                         }
                     }
                     if (name) {
-                        if (element.type != 'radio') {
+                        if (element.type != 'radio' || element.id.indexOf('grdaTypeCode') > 0) {
                             prefix = name.substring(0, name.indexOf('['));
                             suffix = name.substring(name.indexOf(']') + 1);
                             element.name = prefix + '[' + index + ']' + suffix;
