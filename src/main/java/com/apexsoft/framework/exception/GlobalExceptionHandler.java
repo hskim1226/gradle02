@@ -29,6 +29,8 @@ public class GlobalExceptionHandler {
         ModelAndView mv = new ModelAndView(DEFAULT_ERROR_VIEW_NAME);
         ExecutionContext ec = new ExecutionContext();
         logger.error("SQLException Occured:: URL=" + request.getRequestURL());
+        logger.error("Message:: " + e.getMessage());
+        logger.error("Cause:: " + e.getCause());
         logger.error("StackTrace::" + ExceptionUtils.getFullStackTrace(e));
 
         ec.setResult(ExecutionContext.FAIL);
@@ -45,6 +47,8 @@ public class GlobalExceptionHandler {
         ModelAndView mv = new ModelAndView(DEFAULT_ERROR_VIEW_NAME);
         ExecutionContext ec = new ExecutionContext();
         logger.error("NullPointerException Occured:: URL=" + request.getRequestURL());
+        logger.error("Message:: " + e.getMessage());
+        logger.error("Cause:: " + e.getCause());
         logger.error("FilteredStackTrace::" +
                 StackTraceFilter.getFilteredCallStack(e.getStackTrace(), "com.apexsoft", false));
 
@@ -64,6 +68,8 @@ public class GlobalExceptionHandler {
         ExecutionContext ec = e.getExecutionContext();
         ErrorInfo eInfo = ec.getErrorInfo();
         logger.error("YSBizException Occured :: URL=" + request.getRequestURL());
+        logger.error("Message:: " + e.getMessage());
+        logger.error("Cause:: " + e.getCause());
         logger.error("ErrorInfo :: " + eInfo.toString());
         logger.error("ErrorType :: " + e.toString());
         logger.error("FilteredStackTrace ::" +
@@ -81,6 +87,8 @@ public class GlobalExceptionHandler {
         ExecutionContext ec = e.getExecutionContext();
         ErrorInfo eInfo = ec.getErrorInfo();
         logger.error("YSNoRedirectBizException Occured :: URL=" + request.getRequestURL());
+        logger.error("Message:: " + e.getMessage());
+        logger.error("Cause:: " + e.getCause());
         logger.error("ErrorInfo :: " + eInfo.toString());
         logger.error("ErrorType :: " + e.toString());
         logger.error("FilteredStackTrace ::" +
@@ -97,6 +105,8 @@ public class GlobalExceptionHandler {
         ModelAndView mv = new ModelAndView(DEFAULT_ERROR_VIEW_NAME);
         ExecutionContext ec = new ExecutionContext();
         logger.error("MyBatisSystemException Occured:: URL=" + request.getRequestURL());
+        logger.error("Message:: " + e.getMessage());
+        logger.error("Cause:: " + e.getCause());
         logger.error("FilteredStackTrace::" +
                 StackTraceFilter.getFilteredCallStack(e.getStackTrace(), "com.apexsoft", false));
 
@@ -114,6 +124,8 @@ public class GlobalExceptionHandler {
         ModelAndView mv = new ModelAndView(DEFAULT_ERROR_VIEW_NAME);
         ExecutionContext ec = new ExecutionContext();
         logger.error("IllegalArgumentException Occured:: URL=" + request.getRequestURL());
+        logger.error("Message:: " + e.getMessage());
+        logger.error("Cause:: " + e.getCause());
         logger.error("FilteredStackTrace::" +
                 StackTraceFilter.getFilteredCallStack(e.getStackTrace(), "com.apexsoft", false));
 
@@ -131,6 +143,8 @@ public class GlobalExceptionHandler {
         ModelAndView mv = new ModelAndView(DEFAULT_ERROR_VIEW_NAME);
         ExecutionContext ec = new ExecutionContext();
         logger.error("Exception Occured:: URL=" + request.getRequestURL());
+        logger.error("Message:: " + e.getMessage());
+        logger.error("Cause:: " + e.getCause());
         logger.error("FilteredStackTrace::" +
                 StackTraceFilter.getFilteredCallStack(e.getStackTrace(), "com.apexsoft", false));
 

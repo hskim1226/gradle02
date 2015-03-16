@@ -2,7 +2,7 @@
 <%@ include file="/WEB-INF/jsp/common/env.jsp"%>
 <html lang="ko">
 <head>
-    <title>원서 작성 - 기본 정보</title>
+    <title>${msg.getMessage('L01101')}<%--원서 작성 - 기본 정보--%></title>
     <link rel="stylesheet" href="//code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css">
     <style>
         section.application {
@@ -282,13 +282,13 @@
         <div id="stepContainer">
             <table width="100%">
                 <tr>
-                    <td id="stepStatusTitle" colspan=4 align="center" height="70px"><spring:message code="L01001"/><%--원서 작성 현황--%></td>
+                    <td id="stepStatusTitle" colspan=4 align="center" height="70px">${msg.getMessage('L01001', locale)}<%--원서 작성 현황--%></td>
                 </tr>
                 <tr id="stepTR">
-                    <td id="stepBasis" width="25%" height="50px" align="center" class="stepDisabled">1. 기본 정보</td>
-                    <td id="stepAcademy" width="25%" height="50px" align="center" class="stepDisabled">2. 학력 정보</td>
-                    <td id="stepLangCareer" width="25%" height="50px" align="center" class="stepDisabled">3. 어학/경력 정보</td>
-                    <td id="stepDocument" width="25%" height="50px" align="center" class="stepDisabled">4. 파일 첨부</td>
+                    <td id="stepBasis" width="25%" height="50px" align="center" class="stepDisabled">${msg.getMessage('L01002', locale)}<%--1. 기본 정보--%></td>
+                    <td id="stepAcademy" width="25%" height="50px" align="center" class="stepDisabled">${msg.getMessage('L01003', locale)}<%--2. 학력 정보--%></td>
+                    <td id="stepLangCareer" width="25%" height="50px" align="center" class="stepDisabled">${msg.getMessage('L01004', locale)}<%--3. 어학/경력 정보--%></td>
+                    <td id="stepDocument" width="25%" height="50px" align="center" class="stepDisabled">${msg.getMessage('L01005', locale)}<%--4. 파일 첨부--%></td>
                 </tr>
             </table>
         </div>
@@ -297,10 +297,10 @@
             <div class="col-sm-12">
                 <table width="100%">
                     <tr id="tabTR">
-                        <td id="tab-basis" width="25%" height="35px" align="center" class="inactiveTab" data-target-tab="basis" data-tab-available="true">1. 기본 정보</td>
-                        <td id="tab-academy" width="25%" height="35px" align="center" class="inactiveTab" data-target-tab="academy" data-tab-available="false" data-unavailable-msg='<spring:message code="U321"/>'>2. 학력 정보</td>
-                        <td id="tab-langCareer" width="25%" height="35px" align="center" class="inactiveTab" data-target-tab="langCareer" data-tab-available="false" data-unavailable-msg='<spring:message code="U322"/>'>3. 어학/경력 정보</td>
-                        <td id="tab-document" width="25%" height="35px" align="center" class="inactiveTab" data-target-tab="document" data-tab-available="false" data-unavailable-msg='<spring:message code="U323"/>'>4. 파일 첨부</td>
+                        <td id="tab-basis" width="25%" height="35px" align="center" class="inactiveTab" data-target-tab="basis" data-tab-available="true"><spring:message code="L01002"/><%--1. 기본 정보--%></td>
+                        <td id="tab-academy" width="25%" height="35px" align="center" class="inactiveTab" data-target-tab="academy" data-tab-available="false" data-unavailable-msg='<spring:message code="U321"/>'><spring:message code="L01003"/><%--2. 학력 정보--%></td>
+                        <td id="tab-langCareer" width="25%" height="35px" align="center" class="inactiveTab" data-target-tab="langCareer" data-tab-available="false" data-unavailable-msg='<spring:message code="U322"/>'><spring:message code="L01004"/><%--3. 어학/경력 정보--%></td>
+                        <td id="tab-document" width="25%" height="35px" align="center" class="inactiveTab" data-target-tab="document" data-tab-available="false" data-unavailable-msg='<spring:message code="U323"/>'><spring:message code="L01005"/><%--4. 파일 첨부--%></td>
                     </tr>
                 </table>
             </div>
@@ -319,14 +319,14 @@
                             <%--<div class="validation-error"><form:errors path="*"/></div>--%>
                         <%--</div>--%>
                         <div class="panel panel-darkgray">
-                            <div class="panel-heading">지원 사항</div>
+                            <div class="panel-heading"><spring:message code="L01102"/><%--지원 사항--%></div>
                             <div class="panel-body">
                                 <div class="form-group required">
-                                    <label for="applAttrCode" class="col-sm-2 control-label">지원 구분</label>
+                                    <label for="applAttrCode" class="col-sm-2 control-label"><spring:message code="L01103"/><%--지원 구분--%></label>
                                     <div class="col-sm-9">
                                         <div class="col-sm-12">
                                             <form:select path="application.applAttrCode" id="applAttrCode" cssClass="form-control base-info">
-                                                <form:option value="" label="--선택--" />
+                                                <form:option value="" label="--${msg.getMessage('L01006', locale)}--" />
                                                 <form:options items="${selection.applAttrList}" itemValue="code" itemLabel="codeVal"/>
                                             </form:select>
                                         </div>
@@ -334,20 +334,20 @@
                                 </div>
                                 <div id="applyKindDynamic">
                                     <div class="form-group hidden-apply-kind-2 required">
-                                        <label path="campCode" class="col-sm-2 control-label">캠퍼스</label>
+                                        <label path="campCode" class="col-sm-2 control-label"><spring:message code="L01104"/><%--캠퍼스--%></label>
                                         <div class="col-sm-9">
                                             <div class="col-sm-3">
                                                 <form:select path="application.campCode" id="campCode" cssClass="form-control base-info base-non-ariInst">
-                                                    <form:option value="" label="--선택--" />
+                                                    <form:option value="" label="--${msg.getMessage('L01006', locale)}--" />
                                                     <c:if test="${basis.application.applAttrCode == '00001' || basis.application.applAttrCode == '00003'}">
                                                         <form:options items="${selection.campList}" itemValue="campCode" itemLabel="campName" />
                                                     </c:if>
                                                 </form:select>
                                             </div>
-                                            <label path="collCode" class="col-sm-2 control-label">대학</label>
+                                            <label path="collCode" class="col-sm-2 control-label"><spring:message code="L01105"/><%--대학--%></label>
                                             <div class="col-sm-7">
                                                 <form:select path="application.collCode" id="collCode" cssClass="form-control base-info base-non-ariInst">
-                                                    <form:option value="" label="--선택--" />
+                                                    <form:option value="" label="--${msg.getMessage('L01006', locale)}--" />
                                                     <c:if test="${basis.application.applAttrCode == '00001' || basis.application.applAttrCode == '00003'}">
                                                         <form:options items="${selection.collList}" itemValue="collCode" itemLabel="collName" />
                                                     </c:if>
@@ -356,11 +356,11 @@
                                         </div>
                                     </div>
                                     <div class="form-group hidden-apply-kind-0 hidden-apply-kind-1 hidden-apply-kind-3 required">
-                                        <label for="ariInstCode" class="col-sm-2 control-label">학·연·산 연구기관</label>
+                                        <label for="ariInstCode" class="col-sm-2 control-label"><spring:message code="L01106"/><%--학·연·산 연구기관--%></label>
                                         <div class="col-sm-9">
                                             <div class="col-sm-12">
                                                 <form:select path="application.ariInstCode" id="ariInstCode" cssClass="form-control base-info base-ariInst">
-                                                    <form:option value="" label="--선택--" />
+                                                    <form:option value="" label="--${msg.getMessage('L01006', locale)}--" />
                                                     <c:if test="${basis.application.applAttrCode == '00002'}">
                                                     <form:options items="${selection.ariInstList}" itemValue="ariInstCode" itemLabel="ariInstName" />
                                                     </c:if>
@@ -369,33 +369,33 @@
                                         </div>
                                     </div>
                                     <div class="form-group required">
-                                        <label for="deptCode" class="col-sm-2 control-label">지원 학과</label>
+                                        <label for="deptCode" class="col-sm-2 control-label"><spring:message code="L01107"/><%--지원 학과--%></label>
                                         <div class="col-sm-9">
                                             <div class="col-sm-12">
                                                 <form:select path="application.deptCode" id="deptCode" cssClass="form-control base-info base-non-ariInst base-ariInst">
-                                                    <form:option value="" label="--선택--" />
+                                                    <form:option value="" label="--${msg.getMessage('L01006', locale)}--" />
                                                     <form:options items="${selection.deptList}" itemValue="deptCode" itemLabel="deptName" />
                                                 </form:select>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="form-group required">
-                                        <label for="corsTypeCode" class="col-sm-2 control-label">지원 과정</label>
+                                        <label for="corsTypeCode" class="col-sm-2 control-label"><spring:message code="L01108"/><%--지원 과정--%></label>
                                         <div class="col-sm-9">
                                             <div class="col-sm-12">
                                                 <form:select path="application.corsTypeCode" id="corsTypeCode" cssClass="form-control base-info base-non-ariInst base-ariInst">
-                                                    <form:option value="" label="--선택--" />
+                                                    <form:option value="" label="--${msg.getMessage('L01006', locale)}--" />
                                                     <form:options items="${selection.corsTypeList}" itemValue="corsTypeCode" itemLabel="codeVal" />
                                                 </form:select>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="form-group required">
-                                        <label for="detlMajCode" class="col-sm-2 control-label">세부 전공</label>
+                                        <label for="detlMajCode" class="col-sm-2 control-label"><spring:message code="L01109"/><%--세부 전공--%></label>
                                         <div class="col-sm-9">
                                             <div class="col-sm-12">
                                                 <form:select path="application.detlMajCode" id="detlMajCode" cssClass="form-control base-info base-non-ariInst base-ariInst">
-                                                    <form:option value="" label="--선택--" />
+                                                    <form:option value="" label="--${msg.getMessage('L01006', locale)}--" />
                                                     <form:options items="${selection.detlMajList}" itemValue="detlMajCode" itemLabel="detlMajName" />
                                                 </form:select>
                                             </div>
@@ -411,11 +411,11 @@
                                 <div>
                                     <div class="col-sm-11" id="baseSave">
                                         <span class="col-sm-8"><spring:message code="U310"/></span>
-                                        <button id="btnBaseSave" class="btn btn-info btn-lg col-sm-4">지원사항 저장</button>
+                                        <button id="btnBaseSave" class="btn btn-info btn-lg col-sm-4"><spring:message code="L01110"/><%--지원사항 저장--%></button>
                                     </div>
                                     <div class="col-sm-11" id="baseCancel" style="display:none;">
                                         <span class="col-sm-8"><spring:message code="U311"/></span>
-                                        <button id="btnBaseCancel" class="btn btn-warning btn-lg col-sm-4">지원사항 취소</button>
+                                        <button id="btnBaseCancel" class="btn btn-warning btn-lg col-sm-4"><spring:message code="L01111"/><%--지원사항 취소--%></button>
                                     </div>
                                 </div>
                             </div>
@@ -423,10 +423,10 @@
 
                         <div id="basis2Container" style="display: ${basis.application.applNo == null || basis.application.applNo <= 0 ? 'none;' : 'block;'}">
                             <div class="panel panel-darkgray">
-                                <div class="panel-heading">지원자 정보</div>
+                                <div class="panel-heading"><spring:message code="L01201"/><%--지원자 정보--%></div>
                                 <div class="panel-body">
                                     <div class="form-group required">
-                                        <label for="application.korName" class="col-sm-2 control-label">한글 이름</label>
+                                        <label for="application.korName" class="col-sm-2 control-label"><spring:message code="L01202"/><%--한글 이름--%></label>
                                         <div class="col-sm-9">
                                             <div class="col-sm-12">
                                                 <form:input path="application.korName" cssClass="form-control korName" placeholder="한글 이름을 공백 없이 입력해주세요"/>
@@ -441,11 +441,11 @@
                                         </div>
                                     </div>
                                     <div class="form-group required">
-                                        <label class="col-sm-2 control-label">영문 이름</label>
+                                        <label class="col-sm-2 control-label"><spring:message code="L01203"/><%--영문 이름--%></label>
                                         <div class="col-sm-9">
                                             <div class="col-sm-6">
                                                 <div class="input-group">
-                                                    <span class="input-group-addon">&nbsp;성&nbsp;</span>
+                                                    <span class="input-group-addon">&nbsp;<spring:message code="L01204"/><%--성--%>&nbsp;</span>
                                                     <form:input path="application.engSur" cssClass="form-control engName" />
                                                 </div>
                                                 <spring:bind path="application.engSur">
@@ -458,7 +458,7 @@
                                             </div>
                                             <div class="col-sm-6">
                                                 <div class="input-group">
-                                                    <span class="input-group-addon">이름</span>
+                                                    <span class="input-group-addon"><spring:message code="L01205"/><%--이름--%></span>
                                                     <form:input path="application.engName" cssClass="form-control engName" />
                                                 </div>
                                                 <spring:bind path="application.engName">
@@ -472,11 +472,11 @@
                                         </div>
                                     </div>
                                     <div class="form-group required">
-                                        <label for="citzCntrName" class="col-sm-2 control-label">국적</label>
+                                        <label for="citzCntrName" class="col-sm-2 control-label"><spring:message code="L01206"/><%--국적--%></label>
                                         <div class="col-sm-9">
                                             <div class="col-sm-3">
                                                 <button type="button" class="btn btn-default btn-search bpopper" data-targetNode1="citzCntrCode" data-targetNode2='citzCntrName' data-category="country">
-                                                    <span class="glyphicon glyphicon-search"></span> 검색
+                                                    <span class="glyphicon glyphicon-search"></span> <spring:message code="L01207"/><%--검색--%>
                                                 </button>
                                             </div>
                                             <div class="col-sm-9">
@@ -493,7 +493,7 @@
                                         </div>
                                     </div>
                                     <div class="form-group required" id="divRgstNo" style="display: ${basis.application.citzCntrCode == "118" ? 'block;' : 'none;'}">
-                                        <label class="col-sm-2 control-label">주민등록번호</label>
+                                        <label class="col-sm-2 control-label"><spring:message code="L01208"/><%--주민등록번호--%></label>
                                         <div class="col-sm-9">
                                             <div class="col-sm-12">
                                                 <div class="col-sm-4 nopadding">
@@ -533,26 +533,37 @@
                             <c:choose>
                                 <c:when test="${basis.application.admsTypeCode != 'C'}">
                                     <div class="panel panel-darkgray">
-                                        <div class="panel-heading">지원자 상세정보</div>
+                                        <div class="panel-heading"><spring:message code="L01301"/><%--지원자 상세정보--%></div>
                                         <div class="panel-body">
 
                                             <div class="form-group">
-                                                <label class="col-sm-2 control-label">장애 사항</label>
+                                                <label class="col-sm-2 control-label"><spring:message code="L01302"/><%--장애 사항--%></label>
                                                 <div class="col-sm-9">
                                                     <div class="col-sm-12">
-                                                        <div class="input-group">
-                                                            <span class="input-group-addon">장애유형</span>
-                                                            <form:input path="applicationGeneral.hndcGrad" cssClass="col-sm-6 form-control" />
-                                                        </div>
+                                                        <button class="btn btn-default btn-block" id="disadvantageYn"><spring:message code="L01303"/><%--장애 사항 입력하기--%></button>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="form-group">
-                                                <div class="col-sm-offset-2 col-sm-9">
-                                                    <div class="col-sm-12">
-                                                        <div class="input-group">
-                                                            <span class="input-group-addon">장애등급</span>
-                                                            <form:input path="applicationGeneral.hndcType" cssClass="col-sm-6 form-control" />
+                                            <div id="disAdv"
+                                                 style="display: ${( (basis.applicationGeneral.hndcGrad != null && basis.applicationGeneral.hndcGrad.length() > 0) ||
+                                                                     (basis.applicationGeneral.hndcType != null && basis.applicationGeneral.hndcType.length() > 0) ) ? 'block;' : 'none;'}">
+                                                <div class="form-group">
+                                                    <div class="col-sm-offset-2 col-sm-9">
+                                                        <div class="col-sm-12">
+                                                            <div class="input-group">
+                                                                <span class="input-group-addon"><spring:message code="L01304"/><%--장애 유형--%></span>
+                                                                <form:input path="applicationGeneral.hndcGrad" cssClass="col-sm-6 form-control" />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="col-sm-offset-2 col-sm-9">
+                                                        <div class="col-sm-12">
+                                                            <div class="input-group">
+                                                                <span class="input-group-addon"><spring:message code="L01305"/><%--장애 등급--%></span>
+                                                                <form:input path="applicationGeneral.hndcType" cssClass="col-sm-6 form-control" />
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -562,7 +573,7 @@
                                 </c:when>
                                 <c:otherwise> <%-- 외국인 --%>
                                     <div class="panel panel-darkgray">
-                                        <div class="panel-heading">지원자 상세정보</div>
+                                        <div class="panel-heading"><spring:message code="L01301"/><%--지원자 상세정보--%></div>
                                         <div class="panel-body">
                                                 <%--<div class="form-group required">--%>
                                                 <%--<label for="citzCntrName" class="col-sm-2 control-label">출생국</label>--%>
@@ -586,11 +597,11 @@
                                                 <%--</div>--%>
                                                 <%--</div>--%>
                                             <div class="form-group required">
-                                                <label class="col-sm-2 control-label">외국인 구분</label>
+                                                <label class="col-sm-2 control-label"><spring:message code="L01306"/><%--외국인 구분--%></label>
                                                 <div class="col-sm-9">
                                                     <div class="col-sm-4">
                                                         <form:select path="application.fornTypeCode" id="fornTypeCode" cssClass="form-control">
-                                                            <form:option value="" label="--선택--" />
+                                                            <form:option value="" label="--${msg.getMessage('L01006', locale)}--" />
                                                             <form:options items="${foreign.foreignTypeList}" itemValue="code" itemLabel="codeVal" />
                                                         </form:select>
                                                     </div>
@@ -605,7 +616,7 @@
                                                 </div>
                                             </div>
                                             <div class="form-group required">
-                                                <label class="col-sm-2 control-label">본국 주소</label>
+                                                <label class="col-sm-2 control-label"><spring:message code="L01307"/><%--본국 주소--%></label>
                                                 <div class="col-sm-9">
                                                     <div class="col-sm-12">
                                                         <form:input path="applicationForeigner.homeAddr" cssClass="form-control" placeholder="본국 주소를 입력해 주세요."/>
@@ -620,7 +631,7 @@
                                                 </div>
                                             </div>
                                             <div class="form-group required">
-                                                <label class="col-sm-2 control-label">본국 연락처</label>
+                                                <label class="col-sm-2 control-label"><spring:message code="L01308"/><%--본국 연락처--%></label>
                                                 <div class="col-sm-9">
                                                     <div class="col-sm-12">
                                                         <form:input path="applicationForeigner.homeTel" cssClass="form-control" placeholder="본국 연락처를 입력해 주세요." />
@@ -642,10 +653,10 @@
 
                                 <%--<c:if test="${basis.application.admsTypeCode == 'C'}">--%>
                             <div class="panel panel-darkgray" id="stayInfo" style="display: ${basis.application.admsTypeCode != 'C' ? 'none;' : basis.application.citzCntrCode != '118' ? 'block;' : 'none;' }">
-                                <div class="panel-heading">체류 정보</div>
+                                <div class="panel-heading"><spring:message code="L01401"/><%--체류 정보--%></div>
                                 <div class="panel-body">
                                     <div class="form-group required">
-                                        <label for="applicationForeigner.paspNo" class="col-sm-2 control-label">여권 번호</label>
+                                        <label for="applicationForeigner.paspNo" class="col-sm-2 control-label"><spring:message code="L01402"/><%--여권 번호--%></label>
                                         <div class="col-sm-9">
                                             <div class="col-sm-12">
                                                 <form:input path="applicationForeigner.paspNo" cssClass="form-control" placeholder="여권 번호를 입력해주세요"/>
@@ -660,13 +671,13 @@
                                         </div>
                                     </div>
                                     <div class="form-group required">
-                                        <label class="col-sm-2 control-label">비자</label>
+                                        <label class="col-sm-2 control-label"><spring:message code="L01403"/><%--비자--%></label>
                                         <div class="col-sm-9">
                                             <div class="col-sm-6">
                                                 <div class="input-group">
-                                                    <span class="input-group-addon">&nbsp;종류&nbsp;</span>
+                                                    <span class="input-group-addon">&nbsp;<spring:message code="L01404"/><%--종류--%>&nbsp;</span>
                                                     <form:select path="applicationForeigner.visaTypeCode" cssClass="form-control">
-                                                        <form:option value="" label="--선택--" />
+                                                        <form:option value="" label="--${msg.getMessage('L01006', locale)}--" />
                                                         <form:options items="${foreign.visaTypeList}" itemValue="code" itemLabel="codeVal" />
                                                     </form:select>
                                                 </div>
@@ -696,7 +707,7 @@
                                         <div class="col-sm-offset-2 col-sm-9">
                                             <div class="col-sm-6">
                                                 <div class="input-group">
-                                                    <span class="input-group-addon">&nbsp;번호&nbsp;</span>
+                                                    <span class="input-group-addon">&nbsp;<spring:message code="L01405"/><%--번호--%>&nbsp;</span>
                                                     <form:input path="applicationForeigner.visaNo" cssClass="form-control" />
                                                 </div>
                                                 <spring:bind path="applicationForeigner.visaNo">
@@ -709,7 +720,7 @@
                                             </div>
                                             <div class="col-sm-6 start-date-container">
                                                 <div class="input-group date">
-                                                    <span class="input-group-addon">만료일</span>
+                                                    <span class="input-group-addon"><spring:message code="L01406"/><%--만료일--%></span>
                                                     <input id="applicationForeigner.visaExprDay" name="applicationForeigner.visaExprDay"
                                                            class="form-control" readonly="true" value="${basis.applicationForeigner.visaExprDay}"
                                                            <c:if test="${basis.applicationForeigner.visaTypeCode == '00999'}">disabled</c:if> />
@@ -726,7 +737,7 @@
                                         </div>
                                     </div>
                                     <div class="form-group required">
-                                        <label for="applicationForeigner.fornRgstNo" class="col-sm-2 control-label">외국인등록번호</label>
+                                        <label for="applicationForeigner.fornRgstNo" class="col-sm-2 control-label"><spring:message code="L01407"/><%--외국인등록번호--%></label>
                                         <div class="col-sm-9">
                                             <div class="col-sm-12">
                                                 <input id="applicationForeigner.fornRgstNo" name="applicationForeigner.fornRgstNo" class="form-control numOnly rgstNo"
@@ -748,14 +759,14 @@
                                 <%--</c:if>--%>
 
                             <div class="panel panel-darkgray">
-                                <div class="panel-heading">지원자 연락처</div>
+                                <div class="panel-heading"><spring:message code="L01501"/><%--지원자 연락처--%></div>
                                 <div class="panel-body">
                                     <div class="form-group required">
-                                        <label class="col-sm-2 control-label">주소</label>
+                                        <label class="col-sm-2 control-label"><spring:message code="L01502"/><%--주소--%></label>
                                         <div class="col-sm-9">
                                             <div class="col-sm-3">
                                                 <button type="button" class="btn btn-default btn-block btn-search" id="searchAddress">
-                                                    <span class="glyphicon glyphicon-search"></span> 우편번호 찾기
+                                                    <span class="glyphicon glyphicon-search"></span> <spring:message code="L01503"/><%--우편번호 찾기--%>
                                                 </button>
                                             </div>
                                             <div class="col-sm-9">
@@ -791,7 +802,7 @@
                                         </div>
                                     </div>
                                     <div class="form-group required">
-                                        <label for="application.telNum" class="col-sm-2 control-label">전화번호</label>
+                                        <label for="application.telNum" class="col-sm-2 control-label"><spring:message code="L01504"/><%--전화번호--%></label>
                                         <div class="col-sm-9">
                                             <div class="col-sm-12">
                                                 <form:input path="application.telNum" cssClass="form-control numOnly phone" maxlength="20" placeholder="전화번호를 숫자로만 입력해주세요"/>
@@ -806,7 +817,7 @@
                                         </div>
                                     </div>
                                     <div class="form-group required">
-                                        <label for="application.mobiNum" class="col-sm-2 control-label">휴대폰</label>
+                                        <label for="application.mobiNum" class="col-sm-2 control-label"><spring:message code="L01505"/><%--휴대폰--%></label>
                                         <div class="col-sm-9">
                                             <div class="col-sm-12">
                                                 <form:input path="application.mobiNum" cssClass="form-control numOnly phone" maxlength="20" placeholder="휴대폰번호를 숫자로만 입력해주세요"/>
@@ -821,7 +832,7 @@
                                         </div>
                                     </div>
                                     <div class="form-group required">
-                                        <label for="application.mailAddr" class="col-sm-2 control-label">E-mail</label>
+                                        <label for="application.mailAddr" class="col-sm-2 control-label"><spring:message code="L01506"/><%--이메일--%></label>
                                         <div class="col-sm-9">
                                             <div class="col-sm-12">
                                                 <form:input path="application.mailAddr" type="email" cssClass="form-control emailOnly" placeholder="이메일 주소를 입력해주세요"/>
@@ -841,10 +852,10 @@
                             <c:choose>
                                 <c:when test="${basis.application.admsTypeCode != 'C'}">
                                     <div class="panel panel-darkgray">
-                                        <div class="panel-heading">비상연락처</div>
+                                        <div class="panel-heading"><spring:message code="L01601"/><%--비상연락처--%></div>
                                         <div class="panel-body">
                                             <div class="form-group required">
-                                                <label for="applicationGeneral.emerContName" class="col-sm-2 control-label">이름</label>
+                                                <label for="applicationGeneral.emerContName" class="col-sm-2 control-label"><spring:message code="L01604"/><%--이름--%></label>
                                                 <div class="col-sm-9">
                                                     <div class="col-sm-12">
                                                         <form:input path="applicationGeneral.emerContName" cssClass="form-control" />
@@ -859,11 +870,11 @@
                                                 </div>
                                             </div>
                                             <div class="form-group required">
-                                                <label for="applicationGeneral.emerContCode" class="col-sm-2 control-label">관계</label>
+                                                <label for="applicationGeneral.emerContCode" class="col-sm-2 control-label"><spring:message code="L01605"/><%--관계--%></label>
                                                 <div class="col-sm-9">
                                                     <div class="col-sm-12">
                                                         <form:select path="applicationGeneral.emerContCode" cssClass="form-control">
-                                                            <form:option value="" label="--선택--" />
+                                                            <form:option value="" label="--${msg.getMessage('L01006', locale)}--" />
                                                             <form:options items="${selection.emerContList}" itemValue="code" itemLabel="codeVal" />
                                                         </form:select>
                                                     </div>
@@ -877,7 +888,7 @@
                                                 </div>
                                             </div>
                                             <div class="form-group required">
-                                                <label for="applicationGeneral.emerContTel" class="col-sm-2 control-label">전화번호</label>
+                                                <label for="applicationGeneral.emerContTel" class="col-sm-2 control-label"><spring:message code="L01606"/><%--전화번호--%></label>
                                                 <div class="col-sm-9">
                                                     <div class="col-sm-12">
                                                         <form:input path="applicationGeneral.emerContTel" cssClass="form-control numOnly phone" maxlength="20" placeholder="전화번호를 숫자로만 입력해주세요"/>
@@ -896,13 +907,13 @@
                                 </c:when>
                                 <c:otherwise> <%-- 외국인 전형 --%>
                                     <div class="panel panel-darkgray">
-                                        <div class="panel-heading">비상연락처</div>
+                                        <div class="panel-heading"><spring:message code="L01601"/><%--비상연락처--%></div>
                                         <div class="panel-body">
                                             <div class="panel panel-darkgray1">
-                                                <div class="panel-heading">국내</div>
+                                                <div class="panel-heading"><spring:message code="L01602"/><%--국내--%></div>
                                                 <div class="panel-body">
                                                     <div class="form-group required">
-                                                        <label for="applicationForeigner.korEmrgName" class="col-sm-2 control-label">이름</label>
+                                                        <label for="applicationForeigner.korEmrgName" class="col-sm-2 control-label"><spring:message code="L01604"/><%--이름--%></label>
                                                         <div class="col-sm-9">
                                                             <div class="col-sm-12">
                                                                 <form:input path="applicationForeigner.korEmrgName" cssClass="form-control" />
@@ -917,11 +928,11 @@
                                                         </div>
                                                     </div>
                                                     <div class="form-group required">
-                                                        <label for="applicationForeigner.korEmrgRela" class="col-sm-2 control-label">관계</label>
+                                                        <label for="applicationForeigner.korEmrgRela" class="col-sm-2 control-label"><spring:message code="L01605"/><%--관계--%></label>
                                                         <div class="col-sm-9">
                                                             <div class="col-sm-12">
                                                                 <form:select path="applicationForeigner.korEmrgRela" cssClass="form-control">
-                                                                    <form:option value="" label="--선택--" />
+                                                                    <form:option value="" label="--${msg.getMessage('L01006', locale)}--" />
                                                                     <form:options items="${selection.emerContList}" itemValue="code" itemLabel="codeVal" />
                                                                 </form:select>
                                                             </div>
@@ -935,7 +946,7 @@
                                                         </div>
                                                     </div>
                                                     <div class="form-group required">
-                                                        <label for="applicationForeigner.korEmrgTel" class="col-sm-2 control-label">전화번호</label>
+                                                        <label for="applicationForeigner.korEmrgTel" class="col-sm-2 control-label"><spring:message code="L01606"/><%--전화번호--%></label>
                                                         <div class="col-sm-9">
                                                             <div class="col-sm-12">
                                                                 <form:input path="applicationForeigner.korEmrgTel" cssClass="form-control numOnly phone" maxlength="20" placeholder="전화번호를 숫자로만 입력해주세요"/>
@@ -952,10 +963,10 @@
                                                 </div>
                                             </div>
                                             <div class="panel panel-darkgray1">
-                                                <div class="panel-heading">본국</div>
+                                                <div class="panel-heading"><spring:message code="L01603"/><%--본국--%></div>
                                                 <div class="panel-body">
                                                     <div class="form-group required">
-                                                        <label for="applicationForeigner.homeEmrgName" class="col-sm-2 control-label">이름</label>
+                                                        <label for="applicationForeigner.homeEmrgName" class="col-sm-2 control-label"><spring:message code="L01604"/><%--이름--%></label>
                                                         <div class="col-sm-9">
                                                             <div class="col-sm-12">
                                                                 <form:input path="applicationForeigner.homeEmrgName" cssClass="form-control" />
@@ -970,11 +981,11 @@
                                                         </div>
                                                     </div>
                                                     <div class="form-group required">
-                                                        <label for="applicationForeigner.homeEmrgRela" class="col-sm-2 control-label">관계</label>
+                                                        <label for="applicationForeigner.homeEmrgRela" class="col-sm-2 control-label"><spring:message code="L01605"/><%--관계--%></label>
                                                         <div class="col-sm-9">
                                                             <div class="col-sm-12">
                                                                 <form:select path="applicationForeigner.homeEmrgRela" cssClass="form-control">
-                                                                    <form:option value="" label="--선택--" />
+                                                                    <form:option value="" label="--${msg.getMessage('L01006', locale)}--" />
                                                                     <form:options items="${selection.emerContList}" itemValue="code" itemLabel="codeVal" />
                                                                 </form:select>
                                                             </div>
@@ -988,7 +999,7 @@
                                                         </div>
                                                     </div>
                                                     <div class="form-group required">
-                                                        <label for="applicationForeigner.homeEmrgTel" class="col-sm-2 control-label">전화번호</label>
+                                                        <label for="applicationForeigner.homeEmrgTel" class="col-sm-2 control-label"><spring:message code="L01606"/><%--전화번호--%></label>
                                                         <div class="col-sm-9">
                                                             <div class="col-sm-12">
                                                                 <form:input path="applicationForeigner.homeEmrgTel" cssClass="form-control numOnly" maxlength="20" placeholder="전화번호를 숫자로만 입력해주세요"/>
@@ -1014,7 +1025,7 @@
                 </div><%--row--%>
                 <div class="btn-group btn-group-justified">
                     <div class="btn-group">
-                        <button id="saveBasis" type="button" class="btn btn-primary btn-lg btn-save">기본 정보 저장</button>
+                        <button id="saveBasis" type="button" class="btn btn-primary btn-lg btn-save"><spring:message code="L01112"/><%--기본 정보 저장--%></button>
                     </div>
                 </div>
             </div> <%--myTabContent--%>
@@ -1404,6 +1415,13 @@
             }
         });
         <%-- 외국인 구분 - 국적 대한민국이면 외국인 선택 불가--%>
+
+        <%-- 장애 사항 입력란 toggle --%>
+        $('#disadvantageYn').on('click', function(e) {
+            e.preventDefault();
+            $('#disAdv').css('display', 'block');
+        });
+        <%-- 장애 사항 입력란 toggle --%>
 
         <%-- 다음 주소 검색 시작 --%>
         var postLayer = document.getElementById('postLayer');

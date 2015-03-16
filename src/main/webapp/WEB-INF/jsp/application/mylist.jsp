@@ -2,7 +2,7 @@
 <%@ include file="/WEB-INF/jsp/common/env.jsp"%>
 <html>
 <head>
-    <title>내 원서</title>
+    <title><spring:message code="L00301"/><%--내 원서--%></title>
     <style>
         .my-tooltip {
             display: none;
@@ -25,19 +25,19 @@
                 <div class="col-sm-offset-1 col-sm-10">
                     <div class="form-group inner-container-white">
                         <div class="col-sm-offset-1 col-sm-10 text-gray">
-                            <i class="fa fa-list fa-3x" style="vertical-align: middle; line-height:40px;"></i>&nbsp;&nbsp;<span style="font-size: 35px; vertical-align: middle; line-height:40px;"><b><spring:message code="L00201"/><%--지원 내역--%></b></span>
+                            <i class="fa fa-list fa-3x" style="vertical-align: middle; line-height:40px;"></i>&nbsp;&nbsp;<span style="font-size: 35px; vertical-align: middle; line-height:40px;"><b><spring:message code="L00301"/><%--지원 내역--%></b></span>
                         </div>
                         <div class="spacer-small">&nbsp;</div>
                         <div class="col-sm-offset-1 col-sm-10 align-center">
                             <table class="table table-stripped text-gray">
                                 <thead>
                                 <tr>
-                                    <th>캠퍼스</th>
-                                    <th>전형</th>
-                                    <th>학과</th>
-                                    <th>과정</th>
-                                    <th>세부전공</th>
-                                    <th>지원상태</th>
+                                    <th><spring:message code="L00302"/><%--캠퍼스--%></th>
+                                    <th><spring:message code="L00303"/><%--전형--%></th>
+                                    <th><spring:message code="L00304"/><%--학과--%></th>
+                                    <th><spring:message code="L00305"/><%--과정--%></th>
+                                    <th><spring:message code="L00306"/><%--세부전공--%></th>
+                                    <th><spring:message code="L00307"/><%--지원상태--%></th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -59,29 +59,36 @@
                                             </tr>
                                             <tr>
                                                 <td colspan="6">
-
-                                                    <button id="modify" class="btn btn-warning modify ${item.applStsCode.lastIndexOf('0')==3?"":"disabled"}"
-                                                            data-applNo="${item.applNo}" data-admsNo="${item.admsNo}" data-entrYear="${item.entrYear}"
-                                                            data-admsTypeCode="${item.admsTypeCode}" <c:if test="${item.applStsCode.lastIndexOf('0')!=3}">disabled</c:if> >원서 수정하기<span class="my-tooltip">작성 중인 상태에서만 수정 가능합니다.</span></button>
-                                                    <button id="preview" class="btn btn-info preview ${item.applStsCode=="00010"?"":"disabled"}"
-                                                        <%--<button id="preview" class="btn btn-info preview"--%>
-                                                            data-applNo="${item.applNo}" data-admsNo="${item.admsNo}" data-entrYear="${item.entrYear}" data-reqType="appl"
-                                                            data-admsTypeCode="${item.admsTypeCode}" <c:if test="${item.applStsCode!='00010'}">disabled</c:if> >원서 미리보기</button>
-                                                        <%--data-admsTypeCode="${item.admsTypeCode}" >원서 미리보기</button>--%>
-
-                                                    <button id="pay" class="btn btn-primary pay ${item.applStsCode=="00010"?"":(item.applStsCode=="00021"?"":"disabled")}"
-                                                            name="2015학년도 ${item.campName} ${item.admsTypeName} ${item.deptName} ${item.corsTypeName}"
-                                                            data-applNo="${item.applNo}"
-                                                            value="${item.admsFee}"
-                                                            <c:if test="${item.applStsCode!='00010' && item.applStsCode!='00021'}">disabled</c:if> >전형료 결제하기</button>
-
-                                                    <div class="btn-group">
-                                                        <a type="button" class="btn btn-success dropdown-toggle ${item.applStsCode=="00020"?"":"disabled"}" <c:if test="${item.applStsCode!='00020'}">disabled</c:if> data-toggle="dropdown" data-target="#">지원서 보기<span class="caret"></span></a>
-                                                        <ul class="dropdown-menu" role="menu">
-                                                            <li><a class="print" data-applNo="${item.applNo}" data-admsTypeCode="${item.admsTypeCode}" data-reqType="appl">지원서(PDF)</a></li>
-                                                            <li><a class="print" data-applNo="${item.applNo}" data-admsTypeCode="${item.admsTypeCode}" data-reqType="adms">수험표(PDF)</a></li>
-                                                            <li><a class="print" data-admsNo="${item.admsNo}" data-applNo="${item.applNo}" data-format="pdf">전체 파일(PDF)</a></li>
-                                                        </ul>
+                                                    <div class="col-sm-offset-1 col-sm-10">
+                                                        <div class="col-sm-3">
+                                                            <button id="modify" class="btn btn-block btn-warning modify ${item.applStsCode.lastIndexOf('0')==3?"":"disabled"}"
+                                                                    data-applNo="${item.applNo}" data-admsNo="${item.admsNo}" data-entrYear="${item.entrYear}"
+                                                                    data-admsTypeCode="${item.admsTypeCode}" <c:if test="${item.applStsCode.lastIndexOf('0')!=3}">disabled</c:if> ><spring:message code="L00308"/><%--원서 수정하기--%><span class="my-tooltip">작성 중인 상태에서만 수정 가능합니다.</span></button>
+                                                        </div>
+                                                        <div class="col-sm-3">
+                                                            <button id="preview" class="btn btn-block btn-info preview ${item.applStsCode=="00010"?"":"disabled"}"
+                                                                <%--<button id="preview" class="btn btn-info preview"--%>
+                                                                    data-applNo="${item.applNo}" data-admsNo="${item.admsNo}" data-entrYear="${item.entrYear}" data-reqType="appl"
+                                                                    data-admsTypeCode="${item.admsTypeCode}" <c:if test="${item.applStsCode!='00010'}">disabled</c:if> ><spring:message code="L00309"/><%--원서 미리보기--%></button>
+                                                                <%--data-admsTypeCode="${item.admsTypeCode}" >원서 미리보기</button>--%>
+                                                        </div>
+                                                        <div class="col-sm-3">
+                                                            <button id="pay" class="btn btn-block btn-primary pay ${item.applStsCode=="00010"?"":(item.applStsCode=="00021"?"":"disabled")}"
+                                                                    name="2015학년도 ${item.campName} ${item.admsTypeName} ${item.deptName} ${item.corsTypeName}"
+                                                                    data-applNo="${item.applNo}"
+                                                                    value="${item.admsFee}"
+                                                                    <c:if test="${item.applStsCode!='00010' && item.applStsCode!='00021'}">disabled</c:if> ><spring:message code="L00310"/><%--전형료 결제하기--%></button>
+                                                        </div>
+                                                        <div class="col-sm-3">
+                                                            <div class="btn-group btn-block">
+                                                                <a type="button" class="btn btn-block btn-success dropdown-toggle ${item.applStsCode=="00020"?"":"disabled"}" <c:if test="${item.applStsCode!='00020'}">disabled</c:if> data-toggle="dropdown" data-target="#"><spring:message code="L00311"/><%--지원서 보기--%><span class="caret"></span></a>
+                                                                <ul class="dropdown-menu" role="menu">
+                                                                    <li><a class="print" data-applNo="${item.applNo}" data-admsTypeCode="${item.admsTypeCode}" data-reqType="appl"><spring:message code="L00312"/><%--지원서(PDF)--%></a></li>
+                                                                    <li><a class="print" data-applNo="${item.applNo}" data-admsTypeCode="${item.admsTypeCode}" data-reqType="adms"><spring:message code="L00313"/><%--수험표(PDF)--%></a></li>
+                                                                    <li><a class="print" data-admsNo="${item.admsNo}" data-applNo="${item.applNo}" data-format="pdf"><spring:message code="L00314"/><%--전체 파일(PDF)--%></a></li>
+                                                                </ul>
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </td>
                                             </tr>
