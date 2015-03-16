@@ -492,6 +492,7 @@
                         </div>
                         <div class="panel panel-darkgray">
                             <div class="panel-heading">대학원</div>
+                            <div class="col-sm-12" style="margin-top: 0.5em; color: blue;">박사 과정에 지원한 경우에는 대학원 최종 학교가 사정 기준이 됩니다.</div>
                             <div class="panel-body">
                                 <div class="form-group-block-list">
                                     <c:forEach begin="0" end="${academy.graduateList.size() > 0 ? academy.graduateList.size() - 1 : 0}" varStatus="stat">

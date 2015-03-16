@@ -692,7 +692,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="form-group required">
+                                    <div class="form-group required" id="visaInfoContainer">
                                         <div class="col-sm-offset-2 col-sm-9">
                                             <div class="col-sm-6">
                                                 <div class="input-group">
@@ -1496,24 +1496,36 @@
         $('#applicationForeigner\\.visaTypeCode').on('change', function () {
             var visaEtc = document.getElementById('applicationForeigner.visaTypeEtc'),
                 visaEtcContainer = document.getElementById('tmpVisaTypeCode'),
-                fornRgstNo = document.getElementById('applicationForeigner.fornRgstNo'),
-                visaExprDate = document.getElementById('applicationForeigner.visaExprDay');
+                visaInfoContainer = document.getElementById('visaInfoContainer'),
+                visaNo = document.getElementById('applicationForeigner.visaNo'),
+                visaExprDate = document.getElementById('applicationForeigner.visaExprDay'),
+            fornRgstNo = document.getElementById('applicationForeigner.fornRgstNo');
+console.log(visaEtc.value);
+console.log(fornRgstNo.value);
+console.log(visaExprDate.value);
             if (this.value == '00099') {
                 visaEtcContainer.style.display = 'block';
-                fornRgstNo.disabled = false;
+                visaInfoContainer.style.display = 'block';
+                visaNo.disabled = false;
                 visaExprDate.disabled = false;
+                fornRgstNo.disabled = false;
             } else if (this.value == '00999') {
                 visaEtc.value = '';
                 visaEtcContainer.style.display = 'none';
-                fornRgstNo.value = '';
+                visaNo.value = '';
                 visaExprDate.value = '';
-                fornRgstNo.disabled = true;
-                visaExprDate.disabled = true;
+                fornRgstNo.value = '';
+                visaInfoContainer.style.display = 'none';
+                visaNo.disabled = false;
+                visaExprDate.disabled = false;
+                fornRgstNo.disabled = false;
             } else {
                 visaEtc.value = '';
                 visaEtcContainer.style.display = 'none';
-                fornRgstNo.disabled = false;
+                visaInfoContainer.style.display = 'block';
+                visaNo.disabled = false;
                 visaExprDate.disabled = false;
+                fornRgstNo.disabled = false;
             }
         });
         <%-- 비자 종류 처리 --%>
