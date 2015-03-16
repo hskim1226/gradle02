@@ -366,9 +366,13 @@
                                             <div class="col-sm-9">
                                                 <div class="col-sm-4">
                                                     <div>
-                                                        <label class="radio-inline degr-radio"><form:radiobutton path="collegeList[${stat.index}].grdaTypeCode" cssClass="grad-yn" value="00001" /><spring:message code="L02109"/><%--졸업--%></label>
-                                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                                        <label class="radio-inline degr-radio"><form:radiobutton path="collegeList[${stat.index}].grdaTypeCode" cssClass="grad-yn" value="00002" /><spring:message code="L02110"/><%--졸업 예정--%></label>
+                                                        <%--<label class="radio-inline degr-radio"><form:radiobutton path="collegeList[${stat.index}].grdaTypeCode" cssClass="grad-yn" value="00001" /><spring:message code="L02109"/>&lt;%&ndash;졸업&ndash;%&gt;</label>--%>
+                                                        <%--&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--%>
+                                                        <%--<label class="radio-inline degr-radio"><form:radiobutton path="collegeList[${stat.index}].grdaTypeCode" cssClass="grad-yn" value="00002" /><spring:message code="L02110"/>&lt;%&ndash;졸업 예정&ndash;%&gt;</label>--%>
+                                                        <form:select path="collegeList[${stat.index}].grdaTypeCode" cssClass="form-control grad-type">
+                                                            <form:option value="" label="--${msg.getMessage('L01006', locale)}--" />
+                                                            <form:options items="${selection.grdaTypeList}" itemValue="code" itemLabel="codeVal" />
+                                                        </form:select>
                                                     </div>
                                             <spring:bind path="collegeList[${stat.index}].grdaTypeCode">
                                                 <c:if test="${status.error}">
@@ -381,7 +385,9 @@
                                                 <div class="col-sm-8">
                                                     <div>
                                                         <form:input path="collegeList[${stat.index}].degrNo" cssClass="degr-no form-control" placeholder="학위등록번호를 입력해주세요"/>
-                                                        <label id='collegeList${stat.index}.label-grad-not' class="col-sm-10 grda-not degr-message" style="display:none;" >합격 후 입학 시 졸업증명서를 대학원 사무실로 반드시 제출하세요</label>
+                                                        <label id='collegeList${stat.index}.label-grad-02' class="col-sm-10 grda-not degr-message" style="display:none;" >합격 후 입학 시 졸업증명서를 대학원 사무실로 반드시 제출하세요</label>
+                                                        <label id='collegeList${stat.index}.label-grad-02' class="col-sm-10 grda-not degr-message" style="display:none;" ></label>
+                                                        <label id='collegeList${stat.index}.label-grad-02' class="col-sm-10 grda-not degr-message" style="display:none;" ></label>
                                                     </div>
                                             <spring:bind path="collegeList[${stat.index}].degrNo">
                                                 <c:if test="${status.error}">
@@ -558,13 +564,19 @@
                                             <label class="col-sm-2 control-label"><spring:message code="L02108"/><%--졸업 구분--%></label>
                                             <div class="col-sm-9">
                                                 <div class="col-sm-4">
-                                                    <label class="radio-inline degr-radio"><form:radiobutton path="graduateList[${stat.index}].grdaTypeCode" cssClass="grad-yn" value="00001" /><spring:message code="L02109"/><%--졸업--%></label>
-                                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                                    <label class="radio-inline degr-radio"><form:radiobutton path="graduateList[${stat.index}].grdaTypeCode" cssClass="grad-yn" value="00002" /><spring:message code="L02110"/><%--졸업 예정--%></label>
+                                                    <%--<label class="radio-inline degr-radio"><form:radiobutton path="graduateList[${stat.index}].grdaTypeCode" cssClass="grad-yn" value="00001" /><spring:message code="L02109"/>&lt;%&ndash;졸업&ndash;%&gt;</label>--%>
+                                                    <%--&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--%>
+                                                    <%--<label class="radio-inline degr-radio"><form:radiobutton path="graduateList[${stat.index}].grdaTypeCode" cssClass="grad-yn" value="00002" /><spring:message code="L02110"/>&lt;%&ndash;졸업 예정&ndash;%&gt;</label>--%>
+                                                    <form:select path="graduateList[${stat.index}].grdaTypeCode" cssClass="form-control grad-type">
+                                                        <form:option value="" label="--${msg.getMessage('L01006', locale)}--" />
+                                                        <form:options items="${selection.grdaTypeList}" itemValue="code" itemLabel="codeVal" />
+                                                    </form:select>
                                                 </div>
                                                 <div class="col-sm-8">
                                                     <form:input path="graduateList[${stat.index}].degrNo" cssClass="degr-no form-control" placeholder="학위등록번호를 입력해주세요"/>
-                                                    <label id='graduateList${stat.index}.label-grad-not' class="col-sm-10 grda-not degr-message" style="display:none;" >합격 후 입학 시 졸업증명서를 대학원 사무실로 반드시 제출하세요</label>
+                                                    <label id='graduateList${stat.index}.label-grad-02' class="col-sm-10 grda-not degr-message" style="display:none;" >합격 후 입학 시 졸업증명서를 대학원 사무실로 반드시 제출하세요</label>
+                                                    <label id='graduateList${stat.index}.label-grad-03' class="col-sm-10 grda-not degr-message" style="display:none;" ></label>
+                                                    <label id='graduateList${stat.index}.label-grad-04' class="col-sm-10 grda-not degr-message" style="display:none;" ></label>
                                                 </div>
                                         <spring:bind path="graduateList[${stat.index}].grdaTypeCode">
                                             <c:if test="${status.error}">
@@ -953,19 +965,46 @@
         <%-- 달력 reset 함수 --%>
 
         <%-- 졸업/졸업 예정 처리 --%>
-        $('.grad-yn').on('change', function () {
+        $('.grad-type').on('change', function () {
+//            var id = this.id,
+//                prefix = id.substr(0, id.lastIndexOf('.')),
+//                showObj, hideObj;
+//            if (this.checked && this.value == "00001") {
+//                showObj = document.getElementById(prefix + '.degrNo');
+//                hideObj = document.getElementById(prefix + '.label-grad-not');
+//            } else if (this.checked && this.value == "00002") {
+//                hideObj = document.getElementById(prefix + '.degrNo');
+//                showObj = document.getElementById(prefix + '.label-grad-not');
+//            }
             var id = this.id,
-                prefix = id.substr(0, id.lastIndexOf('.')),
-                showObj, hideObj;
-            if (this.checked && this.value == "00001") {
+                    prefix = id.substr(0, id.lastIndexOf('.')),
+                    showObj, hideObj = [];
+            if (this[this.selectedIndex].value == "00001") {
                 showObj = document.getElementById(prefix + '.degrNo');
-                hideObj = document.getElementById(prefix + '.label-grad-not');
-            } else if (this.checked && this.value == "00002") {
-                hideObj = document.getElementById(prefix + '.degrNo');
-                showObj = document.getElementById(prefix + '.label-grad-not');
+                hideObj.push(document.getElementById(prefix + '.label-grad-02'));
+                hideObj.push(document.getElementById(prefix + '.label-grad-03'));
+                hideObj.push(document.getElementById(prefix + '.label-grad-04'));
+            } else if (this[this.selectedIndex].value == "00002") {
+                hideObj.push(document.getElementById(prefix + '.degrNo'));
+                hideObj.push(document.getElementById(prefix + '.label-grad-03'));
+                hideObj.push(document.getElementById(prefix + '.label-grad-04'));
+                showObj = document.getElementById(prefix + '.label-grad-02');
+            } else if (this[this.selectedIndex].value == "00003") {
+                hideObj.push(document.getElementById(prefix + '.degrNo'));
+                hideObj.push(document.getElementById(prefix + '.label-grad-02'));
+                hideObj.push(document.getElementById(prefix + '.label-grad-04'));
+                showObj = document.getElementById(prefix + '.label-grad-03');
+            } else if (this[this.selectedIndex].value == "00004") {
+                hideObj.push(document.getElementById(prefix + '.degrNo'));
+                hideObj.push(document.getElementById(prefix + '.label-grad-02'));
+                hideObj.push(document.getElementById(prefix + '.label-grad-03'));
+                showObj = document.getElementById(prefix + '.label-grad-04');
             }
             showObj.style.display = "block";
-            hideObj.style.display = "none";
+
+            for (var i = 0, hideObjL = hideObj.length ; i < hideObjL ; i++) {
+                hideObj[i].style.display = 'none';
+            }
         });
         <%-- 졸업/졸업 예정 처리 --%>
 

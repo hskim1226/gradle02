@@ -6,6 +6,7 @@ import com.apexsoft.framework.exception.YSBizException;
 import com.apexsoft.framework.message.MessageResolver;
 import com.apexsoft.framework.persistence.dao.CommonDAO;
 import com.apexsoft.ysprj.applicants.application.domain.*;
+import com.apexsoft.ysprj.applicants.common.service.CommonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +24,9 @@ public class AcademyServiceImpl implements AcademyService {
     @Autowired
     private CommonDAO commonDAO;
 
+    @Autowired
+    private CommonService commonService;
+
     @Resource(name = "messageResolver")
     MessageResolver messageResolver;
 
@@ -31,10 +35,11 @@ public class AcademyServiceImpl implements AcademyService {
 
     @Override
     public ExecutionContext retrieveAcademy(int applNo) {
+        //TODO retrieveAcademy(Academy academy)와 코드 중복 리팩터링
         String aaMapperSqlId = "CustomApplicationAcademyMapper.selectByApplNoAcadTypeCode";
         ExecutionContext ec = new ExecutionContext();
         Map<String, Object> ecDataMap = new HashMap<String, Object>();
-
+        Map<String, Object> selectionMap = new HashMap<String, Object>();
         Academy academy = new Academy();
 
         Application application = commonDAO.queryForObject(NAME_SPACE + "ApplicationMapper.selectByPrimaryKey",
@@ -52,8 +57,11 @@ public class AcademyServiceImpl implements AcademyService {
         List<CustomApplicationAcademy> graduateList = retrieveInfoListByParamObj(paramForAcademy, aaMapperSqlId, CustomApplicationAcademy.class);
         academy.setGraduateList(setUserDataStatus(graduateList, UserCUDType.UPDATE));
 
+        selectionMap.put("grdaTypeList", commonService.retrieveCommonCodeByCodeGroup("GRDA_TYPE"));
+
         ec.setResult(ExecutionContext.SUCCESS);
         ecDataMap.put("academy", academy);
+        ecDataMap.put("selection", selectionMap);
         ec.setData(ecDataMap);
 
         return ec;
@@ -64,6 +72,7 @@ public class AcademyServiceImpl implements AcademyService {
         String aaMapperSqlId = "CustomApplicationAcademyMapper.selectByApplNoAcadTypeCode";
         ExecutionContext ec = new ExecutionContext();
         Map<String, Object> ecDataMap = new HashMap<String, Object>();
+        Map<String, Object> selectionMap = new HashMap<String, Object>();
         int applNo = academy.getApplication().getApplNo();
 
         Application application = commonDAO.queryForObject(NAME_SPACE + "ApplicationMapper.selectByPrimaryKey",
@@ -81,8 +90,11 @@ public class AcademyServiceImpl implements AcademyService {
         List<CustomApplicationAcademy> graduateList = retrieveInfoListByParamObj(paramForAcademy, aaMapperSqlId, CustomApplicationAcademy.class);
         academy.setGraduateList(setUserDataStatus(graduateList, UserCUDType.UPDATE));
 
+        selectionMap.put("grdaTypeList", commonService.retrieveCommonCodeByCodeGroup("GRDA_TYPE"));
+
         ec.setResult(ExecutionContext.SUCCESS);
         ecDataMap.put("academy", academy);
+        ecDataMap.put("selection", selectionMap);
         ec.setData(ecDataMap);
 
         return ec;
