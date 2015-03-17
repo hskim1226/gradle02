@@ -73,6 +73,10 @@
 
     <beans:bean id="encoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>
 
+    <beans:bean id="sha256Encoder" class="org.springframework.security.authentication.encoding.ShaPasswordEncoder">
+        <beans:constructor-arg value="256"/>
+    </beans:bean>
+
     <beans:bean id="userDetailsService" class="com.apexsoft.framework.security.UserDetailsServiceImpl" />
 
     <!-- for CustomLoginFilter -->

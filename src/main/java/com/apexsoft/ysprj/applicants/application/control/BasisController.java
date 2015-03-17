@@ -9,8 +9,10 @@ import com.apexsoft.ysprj.applicants.application.service.BasisService;
 import com.apexsoft.ysprj.applicants.application.validator.BasisValidator;
 import com.apexsoft.ysprj.applicants.common.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.encoding.ShaPasswordEncoder;
 import org.springframework.security.crypto.encrypt.Encryptors;
 import org.springframework.security.crypto.encrypt.TextEncryptor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -47,6 +49,9 @@ public class BasisController {
 
     @Autowired
     private ServletContext context;
+
+    @Autowired
+    private ShaPasswordEncoder shaPasswordEncoder;
 
     @Resource(name = "messageResolver")
     MessageResolver messageResolver;
@@ -240,15 +245,11 @@ public class BasisController {
     }
 
     private String getSha256(String input) {
-        try {
-            MessageDigest digest = MessageDigest.getInstance("SHA-256");
-            byte[] hash = digest.digest(input.getBytes("UTF-8"));
-            return hash.toString();
-        } catch (NoSuchAlgorithmException e) {
-            throw new YSBizException(e);
-        } catch (UnsupportedEncodingException e) {
-            throw new YSBizException(e);
-        }
+//            MessageDigest digest = MessageDigest.getInstance("SHA-256");
+//            byte[] hash = digest.digest(input.getBytes("UTF-8"));
+//            return new String(hash);
+        String sha256 = shaPasswordEncoder.encodePassword(input, "");
+        return sha256;
     }
 
     private String getEncryptedString(String input) throws IOException {
