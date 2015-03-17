@@ -384,10 +384,14 @@
                                                 </div>
                                                 <div class="col-sm-8">
                                                     <div>
-                                                        <form:input path="collegeList[${stat.index}].degrNo" cssClass="degr-no form-control" placeholder="학위등록번호를 입력해주세요"/>
-                                                        <label id='collegeList${stat.index}.label-grad-02' class="col-sm-10 grda-not degr-message" style="display:none;" >합격 후 입학 시 졸업증명서를 대학원 사무실로 반드시 제출하세요</label>
-                                                        <label id='collegeList${stat.index}.label-grad-02' class="col-sm-10 grda-not degr-message" style="display:none;" ></label>
-                                                        <label id='collegeList${stat.index}.label-grad-02' class="col-sm-10 grda-not degr-message" style="display:none;" ></label>
+                                                        <form:input path="collegeList[${stat.index}].degrNo" cssClass="degr-no form-control erase-hide" placeholder="학위등록번호를 입력해주세요"
+                                                                style="display: ${academy.collegeList[stat.index].grdaTypeCode == '00001' ? 'block;' : 'none;'}"/>
+                                                        <label id='collegeList${stat.index}.label-grad-02' class="col-sm-10 grda-not degr-message erase-hide word-keep-all"
+                                                               style="display: ${academy.collegeList[stat.index].grdaTypeCode == '00002' ? 'block;' : 'none;'}" >합격 후 입학 시 졸업증명서를 대학원 사무실로 반드시 제출하세요</label>
+                                                        <label id='collegeList${stat.index}.label-grad-03' class="col-sm-10 grda-not degr-message erase-hide"
+                                                               style="display: ${academy.collegeList[stat.index].grdaTypeCode == '00003' ? 'block;' : 'none;'}" ></label>
+                                                        <label id='collegeList${stat.index}.label-grad-04' class="col-sm-10 grda-not degr-message erase-hide"
+                                                               style="display: ${academy.collegeList[stat.index].grdaTypeCode == '00004' ? 'block;' : 'none;'}" ></label>
                                                     </div>
                                             <spring:bind path="collegeList[${stat.index}].degrNo">
                                                 <c:if test="${status.error}">
@@ -573,10 +577,14 @@
                                                     </form:select>
                                                 </div>
                                                 <div class="col-sm-8">
-                                                    <form:input path="graduateList[${stat.index}].degrNo" cssClass="degr-no form-control" placeholder="학위등록번호를 입력해주세요"/>
-                                                    <label id='graduateList${stat.index}.label-grad-02' class="col-sm-10 grda-not degr-message" style="display:none;" >합격 후 입학 시 졸업증명서를 대학원 사무실로 반드시 제출하세요</label>
-                                                    <label id='graduateList${stat.index}.label-grad-03' class="col-sm-10 grda-not degr-message" style="display:none;" ></label>
-                                                    <label id='graduateList${stat.index}.label-grad-04' class="col-sm-10 grda-not degr-message" style="display:none;" ></label>
+                                                    <form:input path="graduateList[${stat.index}].degrNo" cssClass="degr-no form-control erase-hide" placeholder="학위등록번호를 입력해주세요"
+                                                            style="display: ${academy.graduateList[stat.index].grdaTypeCode == '00001' ? 'block;' : 'none;'}"/>
+                                                    <label id='graduateList${stat.index}.label-grad-02' class="col-sm-10 grda-not degr-message erase-hide"
+                                                           style="display: ${academy.graduateList[stat.index].grdaTypeCode == '00002' ? 'block;' : 'none;'}" >합격 후 입학 시 졸업증명서를 대학원 사무실로 반드시 제출하세요</label>
+                                                    <label id='graduateList${stat.index}.label-grad-03' class="col-sm-10 grda-not degr-message erase-hide"
+                                                           style="display: ${academy.graduateList[stat.index].grdaTypeCode == '00003' ? 'block;' : 'none;'}" ></label>
+                                                    <label id='graduateList${stat.index}.label-grad-04' class="col-sm-10 grda-not degr-message erase-hide"
+                                                           style="display: ${academy.graduateList[stat.index].grdaTypeCode == '00004' ? 'block;' : 'none;'}" ></label>
                                                 </div>
                                         <spring:bind path="graduateList[${stat.index}].grdaTypeCode">
                                             <c:if test="${status.error}">
@@ -984,25 +992,35 @@
                 hideObj.push(document.getElementById(prefix + '.label-grad-02'));
                 hideObj.push(document.getElementById(prefix + '.label-grad-03'));
                 hideObj.push(document.getElementById(prefix + '.label-grad-04'));
+                showObj.style.display = "block";
             } else if (this[this.selectedIndex].value == "00002") {
                 hideObj.push(document.getElementById(prefix + '.degrNo'));
                 hideObj.push(document.getElementById(prefix + '.label-grad-03'));
                 hideObj.push(document.getElementById(prefix + '.label-grad-04'));
                 showObj = document.getElementById(prefix + '.label-grad-02');
+                showObj.style.display = "block";
             } else if (this[this.selectedIndex].value == "00003") {
                 hideObj.push(document.getElementById(prefix + '.degrNo'));
                 hideObj.push(document.getElementById(prefix + '.label-grad-02'));
                 hideObj.push(document.getElementById(prefix + '.label-grad-04'));
                 showObj = document.getElementById(prefix + '.label-grad-03');
+                showObj.style.display = "block";
             } else if (this[this.selectedIndex].value == "00004") {
                 hideObj.push(document.getElementById(prefix + '.degrNo'));
                 hideObj.push(document.getElementById(prefix + '.label-grad-02'));
                 hideObj.push(document.getElementById(prefix + '.label-grad-03'));
                 showObj = document.getElementById(prefix + '.label-grad-04');
+                showObj.style.display = "block";
+            } else if (this[this.selectedIndex].value == "") {
+                hideObj.push(document.getElementById(prefix + '.degrNo'));
+                hideObj.push(document.getElementById(prefix + '.label-grad-02'));
+                hideObj.push(document.getElementById(prefix + '.label-grad-03'));
+                hideObj.push(document.getElementById(prefix + '.label-grad-04'));
             }
-            showObj.style.display = "block";
 
             for (var i = 0, hideObjL = hideObj.length ; i < hideObjL ; i++) {
+                hideObj[i].value = '';
+                hideObj[i].setAttribute('value', '');
                 hideObj[i].style.display = 'none';
             }
         });
@@ -1216,8 +1234,24 @@
 //                            element.checked = true;
 //                        }
                     }
+
+
                 }
             }
+            items = block.querySelectorAll('label');
+            if (items) {
+                for (i = 0, itemsL = items.length ; i < itemsL; i++) {
+                    if (items[i].className.indexOf('erase-hide') > 0) {
+                        console.log(items[i].id);
+                        console.log(items[i].value);
+                        console.log(items[i].style.display);
+                        items[i].value = 0;
+                        items[i].setAttribute('value', '');
+                        items[i].style.display = 'none';
+                    }
+                }
+            }
+
             resetCalendar(block, '.input-group.date>input');
 
 //            var validationContainers = block.querySelectorAll('.validation-container');
