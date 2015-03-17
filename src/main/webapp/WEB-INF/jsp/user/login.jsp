@@ -107,7 +107,8 @@
             <form class="form-horizontal" role="form" id="loginForm" name="user" method="post">
                 <div class="form-group" id="login-form-container">
                     <div class="col-sm-offset-1 col-sm-10" id="logo-container">
-                        <img src="<spring:eval expression="@app.getProperty('path.static')" />/img/common/yonsei-logo01.png" align="center">
+                        <%--<img src="<spring:eval expression="@app.getProperty('path.static')" />/img/common/yonsei-logo01.png" align="center">--%>
+                        <span style="font-size: 35px; vertical-align: middle; line-height:40px; color: black;"><b>연세대학교 대학원<br/>입학신청 시스템</b></span>
                     </div>
                     <div class="spacer-tiny col-sm-12">&nbsp;</div>
                     <div>

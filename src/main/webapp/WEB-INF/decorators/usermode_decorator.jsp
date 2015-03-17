@@ -44,7 +44,8 @@
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                     <span class="fa fa-bars color-white"></span>
                 </button>
-                <h1><a class="navbar-brand" href="${contextPath}" data-0="line-height:60px;" data-300="line-height:60px;"><img src="<spring:eval expression="@app.getProperty('path.static')" />/img/common/yonsei-logo02.png"/></a></h1>
+                <%--<h1><a class="navbar-brand" href="${contextPath}" data-0="line-height:60px;" data-300="line-height:60px;"><img src="<spring:eval expression="@app.getProperty('path.static')" />/img/common/yonsei-logo02.png"/></a></h1>--%>
+                <h1><a class="navbar-brand" href="${contextPath}" data-0="line-height:60px;" data-300="line-height:60px;">GradNet</a></h1>
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav" style="float: right;" data-0="margin-top:5px;" data-300="margin-top:5px;">
