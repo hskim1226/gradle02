@@ -1,11 +1,13 @@
 package com.apexsoft.framework.exception;
 
 import com.apexsoft.framework.common.vo.ExecutionContext;
+import com.apexsoft.framework.message.MessageResolver;
 import org.apache.commons.lang.exception.ExceptionUtils;
 import org.apache.ibatis.exceptions.PersistenceException;
 import org.mybatis.spring.MyBatisSystemException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.ModelAndView;
@@ -24,6 +26,9 @@ public class GlobalExceptionHandler {
     private final String DEFAULT_ERROR_VIEW_NAME = "common/error";
     private final String RUNTIME_ERROR = "런타임 오류";
 
+    @Autowired
+    private MessageResolver messageResolver;
+
     @ExceptionHandler(SQLException.class)
     public ModelAndView handleSQLException(HttpServletRequest request, SQLException e){
         ModelAndView mv = new ModelAndView(DEFAULT_ERROR_VIEW_NAME);
@@ -35,8 +40,7 @@ public class GlobalExceptionHandler {
 
         ec.setResult(ExecutionContext.FAIL);
         ec.setMessage(RUNTIME_ERROR);
-        String errCode = "ERR9980";
-        ec.setErrCode(errCode);
+        ec.setErrCode("ERR9980");
         mv.addObject("ec", ec);
         return mv;
     }
@@ -54,8 +58,7 @@ public class GlobalExceptionHandler {
 
         ec.setResult(ExecutionContext.FAIL);
         ec.setMessage(RUNTIME_ERROR);
-        String errCode = "ERR9990";
-        ec.setErrCode(errCode);
+        ec.setErrCode("ERR9990");
         mv.addObject("ec", ec);
 
         return mv;
@@ -138,6 +141,25 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(Exception.class)
+    public ModelAndView handleHttpRequestMethodNotSupportedException(HttpServletRequest request,
+                                                                     Exception e){
+        ModelAndView mv = new ModelAndView(DEFAULT_ERROR_VIEW_NAME);
+        ExecutionContext ec = new ExecutionContext();
+        logger.error("HttpRequestMethodNotSupportedException Occured:: URL=" + request.getRequestURL());
+        logger.error("Message:: " + e.getMessage());
+        logger.error("Cause:: " + e.getCause());
+        logger.error("FilteredStackTrace::" +
+                StackTraceFilter.getFilteredCallStack(e.getStackTrace(), "com.apexsoft", false));
+
+        ec.setResult(ExecutionContext.FAIL);
+        ec.setMessage(messageResolver.getMessage("U901"));
+        ec.setErrCode("ERR9950");
+        mv.addObject("ec", ec);
+
+        return mv;
+    }
+
+    @ExceptionHandler(Exception.class)
     public ModelAndView handleException(HttpServletRequest request,
                                         Exception e){
         ModelAndView mv = new ModelAndView(DEFAULT_ERROR_VIEW_NAME);
@@ -150,8 +172,7 @@ public class GlobalExceptionHandler {
 
         ec.setResult(ExecutionContext.FAIL);
         ec.setMessage(RUNTIME_ERROR);
-        String errCode = "ERR9999";
-        ec.setErrCode(errCode);
+        ec.setErrCode("ERR9999");
         mv.addObject("ec", ec);
 
         return mv;

@@ -433,6 +433,7 @@ public class DocumentController {
      */
 //    @RequestMapping(value="/attached/{admsNo}/{applNo}/{fileName:.+}/{originalFileName}")
     @RequestMapping(value="/fileDelete/{applNo}/{docSeq}", method=RequestMethod.POST)
+//    @RequestMapping(value="/fileDelete/{applNo}/{docSeq}")
     @ResponseBody
     public ExecutionContext fileDelete(@PathVariable("applNo") int applNo,
                                        @PathVariable("docSeq") int docSeq,
