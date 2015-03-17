@@ -2,10 +2,10 @@ package com.apexsoft.framework.interceptor;
 
 import com.apexsoft.framework.security.UserSessionVO;
 import com.apexsoft.ysprj.applicants.common.service.CommonService;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
-import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import javax.servlet.RequestDispatcher;
@@ -43,6 +43,23 @@ public class KeyInfoBlockInterceptor extends HandlerInterceptorAdapter {
                     requestedApplNoList.add(request.getParameter(paramName));
             }
         }
+        // *download/{applNo}, *delete/{applNo}/{docSeq} 같은 형식인 경우
+        String url = request.getRequestURI();
+        String lowerUrl = url.toLowerCase();
+        int indexOfDownload = lowerUrl.indexOf("download");
+        if (indexOfDownload > 0) {
+            String tmpUrl = url.substring(indexOfDownload);
+            String applNo = extractApplNo(tmpUrl);
+            if (applNo.length() > 0)
+                requestedApplNoList.add(applNo);
+        }
+        int indexOfDelete = lowerUrl.indexOf("delete");
+        if (indexOfDelete > 0) {
+            String tmpUrl = url.substring(indexOfDelete);
+            String applNo = extractApplNo(tmpUrl);
+            if (applNo.length() > 0)
+                requestedApplNoList.add(applNo);
+        }
 
         SecurityContext sc = (SecurityContext)request.getSession().getAttribute("SPRING_SECURITY_CONTEXT");
         Authentication auth = sc.getAuthentication();
@@ -61,5 +78,21 @@ public class KeyInfoBlockInterceptor extends HandlerInterceptorAdapter {
         }
 
         return true;
+    }
+
+    private String extractApplNo(String substring) {
+        int indexOfSlash = substring.indexOf('/');
+        if (indexOfSlash > 0) {
+            String tmpUrl2 = substring.substring(indexOfSlash+1);
+            if (NumberUtils.isDigits(tmpUrl2)) {
+                return tmpUrl2;
+            } else {
+                String no = tmpUrl2.substring(0, tmpUrl2.indexOf('/'));
+                if (NumberUtils.isNumber(no)) {
+                    return no;
+                }
+            }
+        }
+        return "";
     }
 }
