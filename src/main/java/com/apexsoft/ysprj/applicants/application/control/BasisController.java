@@ -107,7 +107,9 @@ public class BasisController {
         String applStsCode = application.getApplStsCode();
         if (applStsCode == null || applStsCode.trim().length() == 0) {
             try {
-                application.setRgstEncr(getEncryptedString(application.getRgstEncr()));
+                String rgstLatter = application.getRgstEncr();
+                application.setRgstHash(getSha256(application.getRgstBornDate() + rgstLatter));
+                application.setRgstEncr(getEncryptedString(rgstLatter));
             } catch (IOException e) {
                 ec = new ExecutionContext(ExecutionContext.FAIL);
                 Map<String, Object> errMap = new HashMap<String, Object>();
