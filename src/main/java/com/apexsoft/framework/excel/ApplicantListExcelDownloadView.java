@@ -106,9 +106,9 @@ public class ApplicantListExcelDownloadView extends AbstractExcelView{
             rows.createCell(8).setCellValue(aAppl.getEngName());//"영문이름(이름)"
             rows.createCell(9).setCellValue(aAppl.getRgstNo());//"주민등록번호"
             rows.createCell(10).setCellValue(aAppl.getCitzCntrCode());//"국적"
-            if(aAppl.getForlExmpCode()==null ||aAppl.getForlExmpCode()=="" ){
+            if(aAppl.getForlExmpCode() == null || "".equals(aAppl.getForlExmpCode())){
                 for( ApplicationLanguage aLang : aAppl.getLangList()) {
-                    if ("00001".equals(aLang.getLangExamGrp())) {
+                    if ("LANG_EXAM".equals(aLang.getLangExamGrp())) {
                         if ("00001".equals(aLang.getLangExamCode())) {//토플
                             rows.createCell(11).setCellValue(aLang.getToflTypeCode());//"토플종류"
                             rows.createCell(12).setCellValue(aLang.getExamDay());//"토플시행일"
