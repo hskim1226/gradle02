@@ -503,7 +503,9 @@
                                                     <div class="col-sm-4 start-date-container">
                                                         <div class="input-group date">
                                                             <span class="input-group-addon"><spring:message code="L03203"/><%--입사일--%></span>
-                                                            <form:input path="applicationExperienceList[${stat.index}].joinDay" cssClass="form-control" readonly="true" />
+                                                            <form:input path="applicationExperienceList[${stat.index}].joinDay" cssClass="form-control checkDate" readonly="true"
+                                                                    data-startDate="applicationExperienceList${stat.index}.joinDay"
+                                                                    data-endDate="applicationExperienceList${stat.index}.retrDay"/>
                                                             <span class="input-group-addon calendar-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                                                         </div>
                                                 <spring:bind path="applicationExperienceList[${stat.index}].joinDay">
@@ -517,7 +519,9 @@
                                                     <div class="col-sm-4 end-date-container">
                                                         <div class="input-group date">
                                                             <span class="input-group-addon"><spring:message code="L03204"/><%--퇴사일--%></span>
-                                                            <form:input path="applicationExperienceList[${stat.index}].retrDay" cssClass="form-control" readonly="true" />
+                                                            <form:input path="applicationExperienceList[${stat.index}].retrDay" cssClass="form-control checkDate" readonly="true"                                                                    data-startDate="applicationExperienceList${stat.index}.joinDay"
+                                                                    data-endDate="applicationExperienceList${stat.index}.retrDay"/>
+
                                                             <span class="input-group-addon calendar-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                                                         </div>
                                                 <spring:bind path="applicationExperienceList[${stat.index}].retrDay">
@@ -764,6 +768,20 @@
             $(block).find(calendarClass).datepicker(datePickerOption);
         };
         <%-- 달력 reset 함수 --%>
+
+        <%-- 달력 선후 관계 체크 --%>
+        $('.checkDate').on('change', function(e) {
+            var entrDate = document.getElementById(this.getAttribute('data-startDate')).value,
+                    exprDate = document.getElementById(this.getAttribute('data-endDate')).value;
+            if ( entrDate != '' && exprDate != '') {
+                if (parseInt(entrDate) > parseInt(exprDate)) {
+                    alert('시작일은 종료일보다 앞선 날짜여야 합니다.');
+                    this.value = '';
+                }
+            }
+
+        });
+        <%-- 달력 선후 관계 체크 --%>
 
         <%-- 외국어 성적 면제 해당 처리 --%>
         var checkForlExmp = function (isExmp, checkbox) {

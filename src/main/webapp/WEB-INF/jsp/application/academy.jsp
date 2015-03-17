@@ -334,7 +334,9 @@
                                                 <div class="col-sm-6 start-date-container">
                                                     <div class="input-group date">
                                                         <span class="input-group-addon"><spring:message code="L02106"/><%--시작일--%></span>
-                                                        <form:input path="collegeList[${stat.index}].entrDay" cssClass="form-control" readonly="true" />
+                                                        <form:input path="collegeList[${stat.index}].entrDay" cssClass="form-control checkDate" readonly="true"
+                                                                    data-entrDate="collegeList${stat.index}.entrDay"
+                                                                    data-exprDate="collegeList${stat.index}.grdaDay"/>
                                                         <span class="input-group-addon calendar-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                                                     </div>
                                             <spring:bind path="collegeList[${stat.index}].entrDay">
@@ -348,7 +350,9 @@
                                                 <div class="col-sm-6 end-date-container">
                                                     <div class="input-group date">
                                                         <span class="input-group-addon"><spring:message code="L02107"/><%--종료일--%></span>
-                                                        <form:input path="collegeList[${stat.index}].grdaDay" cssClass="form-control" readonly="true" />
+                                                        <form:input path="collegeList[${stat.index}].grdaDay" cssClass="form-control checkDate" readonly="true"
+                                                                    data-entrDate="collegeList${stat.index}.entrDay"
+                                                                    data-exprDate="collegeList${stat.index}.grdaDay"/>
                                                         <span class="input-group-addon calendar-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                                                     </div>
                                             <spring:bind path="collegeList[${stat.index}].grdaDay">
@@ -537,7 +541,9 @@
                                                 <div class="col-sm-6 start-date-container">
                                                     <div class="input-group date">
                                                         <span class="input-group-addon"><spring:message code="L02106"/><%--시작일--%></span>
-                                                        <form:input path="graduateList[${stat.index}].entrDay" cssClass="form-control" readonly="true" />
+                                                        <form:input path="graduateList[${stat.index}].entrDay" cssClass="form-control checkDate" readonly="true"
+                                                                date-entrDate="graduateList${stat.index}.entrDay"
+                                                                date-exprDate="graduateList${stat.index}.grdaDay"/>
                                                         <span class="input-group-addon calendar-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                                                     </div>
                                             <spring:bind path="graduateList[${stat.index}].entrDay">
@@ -551,7 +557,9 @@
                                                 <div class="col-sm-6 end-date-container">
                                                     <div class="input-group date">
                                                         <span class="input-group-addon"><spring:message code="L02107"/><%--종료일--%></span>
-                                                        <form:input path="graduateList[${stat.index}].grdaDay" cssClass="form-control" readonly="true" />
+                                                        <form:input path="graduateList[${stat.index}].grdaDay" cssClass="form-control checkDate" readonly="true"
+                                                                date-entrDate="graduateList${stat.index}.entrDay"
+                                                                date-exprDate="graduateList${stat.index}.grdaDay"/>
                                                         <span class="input-group-addon calendar-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                                                     </div>
                                             <spring:bind path="graduateList[${stat.index}].grdaDay">
@@ -971,6 +979,21 @@
             $(block).find(calendarClass).datepicker(datePickerOption);
         };
         <%-- 달력 reset 함수 --%>
+
+        <%-- 달력 선후 관계 체크 --%>
+        $('.checkDate').on('change', function(e) {
+            var entrDate = document.getElementById(this.getAttribute('data-entrDate')).value,
+                exprDate = document.getElementById(this.getAttribute('data-exprDate')).value;
+            if ( entrDate != '' && exprDate != '') {
+                if (parseInt(entrDate) > parseInt(exprDate)) {
+                    alert('시작일은 종료일보다 앞선 날짜여야 합니다.');
+                    this.value = '';
+                }
+            }
+
+        });
+        <%-- 달력 선후 관계 체크 --%>
+
 
         <%-- 졸업/졸업 예정 처리 --%>
         $('.grad-type').on('change', function () {
