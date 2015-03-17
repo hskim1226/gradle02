@@ -29,6 +29,27 @@ public class CommonServiceImpl implements CommonService {
     private Converter converter;
 
     /**
+     * 지원 구분(일반, 학연산, 위탁) 조회
+     * 지원 구분은 일반 전형에만 학연산, 위탁이 있고
+     * 외국인 전형과 조기 전형에는 없으므로
+     * 캐쉬 하지 않는 별도 메서드로 조회
+     *
+     */
+    @Override
+    public List<CommonCode> retrieveApplAttrList(String codeGrp) {
+        List<CommonCode> applAttrList = null;
+        try {
+            applAttrList = commonDAO.queryForList(NAME_SPACE+"CustomCommonCodeMapper.selectAllByCodeGroup",
+                    codeGrp,
+                    CommonCode.class);
+            converter.convert(applAttrList, request);
+        } catch (Exception e) {
+            throw new BusinessException(e.getMessage(), e);
+        }
+        return applAttrList;
+    }
+
+    /**
      * 캠퍼스 조회
      *
      * @return

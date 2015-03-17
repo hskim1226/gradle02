@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
+import sun.plugin2.message.Message;
 
 import javax.annotation.Resource;
 import javax.crypto.Cipher;
@@ -24,10 +25,7 @@ import javax.crypto.NoSuchPaddingException;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.net.ContentHandler;
 import java.security.*;
 import java.security.cert.CertificateException;
@@ -242,6 +240,18 @@ public class BasisController {
         return result;
     }
 
+    private String getSha256(String input) {
+        try {
+            MessageDigest digest = MessageDigest.getInstance("SHA-256");
+            byte[] hash = digest.digest(input.getBytes("UTF-8"));
+            return hash.toString();
+        } catch (NoSuchAlgorithmException e) {
+            throw new YSBizException(e);
+        } catch (UnsupportedEncodingException e) {
+            throw new YSBizException(e);
+        }
+    }
+
     private String getEncryptedString(String input) throws IOException {
         Properties prop = new Properties();
         InputStream is = context.getResourceAsStream("WEB-INF/grad-ks");
@@ -257,7 +267,7 @@ public class BasisController {
                     is.close();
                 }
             } catch (IOException e) {
-                throw e;
+                throw new YSBizException(e);
             }
         }
         return encrypted;

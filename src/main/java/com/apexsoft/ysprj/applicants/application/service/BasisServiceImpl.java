@@ -191,7 +191,16 @@ public class BasisServiceImpl implements BasisService {
             List<AcademyResearchIndustryInstitution> ariInstList = commonService.retrieveAriInst();
             if (campList != null)      selectionMap.put("campList", campList);
             if (ariInstList != null)   selectionMap.put("ariInstList", ariInstList);
-            selectionMap.put("applAttrList", commonService.retrieveCommonCodeByCodeGroup("APPL_ATTR"));
+            selectionMap.put("applAttrList", commonService.retrieveApplAttrList("APPL_ATTR"));
+            if( !"15A".equals(basis.getApplication().getAdmsNo()) &&
+                !"15B".equals(basis.getApplication().getAdmsNo())){
+                List<CommonCode> attrList = (List<CommonCode>)selectionMap.get("applAttrList");
+                for(int i = attrList.size()-1; i >= 0 ; i--){
+                    if( !"00001".equals(attrList.get(i).getCode())){
+                        attrList.remove(i);
+                    }
+                }
+            }
             selectionMap.put("emerContList", commonService.retrieveCommonCodeByCodeGroup("EMER_CONT"));
         }
 
