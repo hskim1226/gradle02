@@ -166,10 +166,17 @@ public class DocumentServiceImpl implements DocumentService {
 
         int r1, applNo = application.getApplNo();
 
-        // TODO 제출된 원서의 주민 번호 체크
-//        if (checkSubmittedRgstNo(applNo)) {
-//
-//        }
+        // 동일한 주민번호로 제출된 원서 존재 여부 확인
+        if (isRgstNoDuplicate(applNo)) {
+            ec.setResult(ExecutionContext.FAIL);
+            ec.setMessage(messageResolver.getMessage("U346"));
+            ec.setErrCode("ERR0042");
+            Map<String, String> errorInfo = new HashMap<String, String>();
+            errorInfo.put("applNo", String.valueOf(applNo));
+            errorInfo.put("userId", application.getUserId());
+            ec.setErrorInfo(new ErrorInfo(errorInfo));
+            throw new YSBizException(ec);
+        }
 
         Date date = new Date();
         String userId = application.getUserId();
@@ -837,11 +844,12 @@ public class DocumentServiceImpl implements DocumentService {
         return photoUrl;
     }
 
-    private ExecutionContext checkSubmittedRgstNo(int applNo) {
-        // applNo 로 rgstBornDate, rgstEncr 조회
-        // rgstEncr 복호화
-        // 현재 제출 완료 된 원서의 전체 rgstNo와 비교 결과 반환
-        return null;
+    private boolean isRgstNoDuplicate(int applNo) {
+        Application applFromDB = commonDAO.queryForObject(NAME_SPACE + "ApplicationMapper.selectByPrimaryKey", applNo, Application.class);
+        List<String> submittedRgstHashList = commonDAO.queryForList(NAME_SPACE + "CustomApplicationMapper.selectSubmittedApplNoHashes", String.class );
+        Set<String> submittedRgstHashSet = new HashSet<String>(submittedRgstHashList);
+        String thisRgstHash = applFromDB.getRgstHash();
+        return submittedRgstHashSet.contains(thisRgstHash);
     }
 
     private String getDecryptedString(String encrypted) throws IOException {

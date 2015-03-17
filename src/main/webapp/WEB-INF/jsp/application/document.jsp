@@ -389,7 +389,6 @@
             <form:hidden path="application.admsNo" id="admsNo" />
             <form:hidden path="application.entrYear" id="entrYear" />
             <form:hidden path="application.admsTypeCode" id="admsTypeCode" />
-            <input type="hidden" name="reqType" id="reqType" value="appl"/>
             <div id="myTabContent" class="tab-content">
                 <div class="spacer-tiny"></div>
                 <div class="row">

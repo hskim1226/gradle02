@@ -441,4 +441,9 @@
         SELECT APPL_NO FROM APPL
         WHERE USER_ID = #{userId,jdbcType=VARCHAR}
     </select>
+
+    <select id="selectSubmittedApplNoHashes" resultType="java.lang.String">
+        SELECT RGST_HASH FROM APPL
+        WHERE APPL_STS_CODE IN ('00010', '00020', '00021', '00030')
+    </select>
 </mapper>
