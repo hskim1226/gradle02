@@ -47,7 +47,7 @@
                             </div>
                             <div class="col-sm-8 nopadding">
                                 <div class="input-group">
-                                    <form:input type="text" cssClass="form-control userId" path="userId" placeholder="입력 후 Check를 눌러 확인해주세요" />
+                                    <form:input type="text" cssClass="form-control userId" path="userId" maxlength="12" placeholder="입력 후 Check를 눌러 확인해주세요" />
                                     <span class="input-group-btn">
                                         <button class="btn btn-info" id="available-check-button">Check</button>
                                     </span>
