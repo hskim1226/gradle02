@@ -189,7 +189,7 @@ public class BirtServiceImpl implements BirtService {
         rptInfoMap.put("rgstBornDate", rgstBornDate);
 //        rptInfoMap.put("rgstNo", StringUtil.insertHyphenAt(rgstNo, 6));
         String fornRgstNo = applicationForeigner.getFornRgstNo();
-        if (fornRgstNo.length() > 0) {
+        if (fornRgstNo != null && fornRgstNo.length() > 0) {
             rptInfoMap.put("fornRgstNo", StringUtil.insertHyphenAt(fornRgstNo, 6));
         }
         Country tmpCountry = commonService.retrieveCountryByCode(StringUtil.getEmptyIfNull(applicationForeigner.getBornCntrCode()));
