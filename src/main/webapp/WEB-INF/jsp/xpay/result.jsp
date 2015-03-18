@@ -129,23 +129,35 @@ $(document).ready(function() {
             url: '${contextPath}/application/generate/application',
             data: formData,
             success: function (data) {
-                console.log('원서 파일 생성 완료');
+                if (console) {
+                    console.log('원서 파일 생성 완료');
+                }
+
                 $.ajax({
                     type: 'POST',
                     url: '${contextPath}/pdf/merge/applicant',
                     data: formData,
                     success: function (data) {
-                        console.log('머지 파일 생성 완료');
+                        if (console) {
+                            console.log('머지 파일 생성 완료');
+                        }
+
                         document.getElementById('spinner').style.display = 'none';
                         document.getElementById('goMain').style.display = 'block';
                     },
                     error: function (data, status, e) {
-console.log('머지 파일 생성 실패');
+                        if (console) {
+                            console.log('머지 파일 생성 실패');
+                        }
+
                     }
                 });
             },
             error: function (data, status, e) {
-console.log('원서 파일 생성 실패');
+                if (console) {
+                    console.log('원서 파일 생성 실패');
+                }
+
             }
         });
         $.ajax({
@@ -153,10 +165,16 @@ console.log('원서 파일 생성 실패');
             url: '${contextPath}/application/generate/slip',
             data: formData,
             success: function (data) {
-                console.log('수험표 파일 생성 완료');
+                if (console) {
+                    console.log('수험표 파일 생성 완료');
+                }
+
             },
             error: function (data, status, e) {
-console.log('수험표 파일 생성 실패');
+                if (console) {
+                    console.log('수험표 파일 생성 실패');
+                }
+
             }
         });
     };

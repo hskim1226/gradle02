@@ -288,13 +288,14 @@
         /* spinner */
         /* http://projects.lukehaas.me/css-loaders/ */
         .loader {
-            font-size: 7px;
+            font-size: 12px;
             margin: 4em auto;
             width: 1em;
             height: 1em;
             border-radius: 50%;
             position: relative;
-            text-indent: -9999em;
+            /*text-indent: -9999em;*/
+            text-align: center;
             -webkit-animation: load4 1.3s infinite linear;
             animation: load4 1.3s infinite linear;
         }
@@ -1068,8 +1069,9 @@
             <div id="spinner" class="btn-group btn-group-justified" style="display: none;">
                 <div class="btn-group">
                     <div class="col-sm-12">
-                        <div class="loader">Loading...</div>
+                        <div class="loader"></div>
                     </div>
+                    <div class="col-sm-12" style="font-size: 20px; color: white; text-align: center;">Loading...</div>
                 </div>
             </div>
             <div class="btn-group btn-group-justified">
@@ -1169,7 +1171,9 @@
                     success: function (data) {
                         var ec = JSON.parse(data);
                         if (ec.result == 'SUCCESS') {
-                            console.log('원서 파일 정보 저장 및 원서 파일 생성 완료');
+                            if (console) {
+                                console.log('원서 파일 정보 저장 및 원서 파일 생성 완료');
+                            }
                             <%-- 파일 생성 --%>
 
                             $.ajax({
@@ -1177,19 +1181,25 @@
                                 url: '${contextPath}/pdf/merge/applicant',
                                 data: formData,
                                 success: function (data) {
-                                    console.log('머지 파일 생성 완료');
+                                    if (console) {
+                                        console.log('머지 파일 생성 완료');
+                                    }
                                     document.getElementById('spinner').style.display = 'none';
                                     document.getElementById('previewApplication').style.display = 'block';
                                 },
                                 error: function (data, status, e) {
-                                    console.log('머지 파일 생성 실패');
+                                    if (console) {
+                                        console.log('머지 파일 생성 실패');
+                                    }
                                 }
                             });
                             <%-- 파일 생성 --%>
                         }
                     },
                     error: function (data, status, e) {
-                        console.log('원서 파일 정보 저장 및 원서 파일 생성 실패');
+                        if (console) {
+                            console.log('원서 파일 정보 저장 및 원서 파일 생성 실패');
+                        }
                     }
                 });
                 <%-- 지원서 파일 정보 DB 저장 --%>

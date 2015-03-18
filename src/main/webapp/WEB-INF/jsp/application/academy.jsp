@@ -1278,9 +1278,11 @@
             if (items) {
                 for (i = 0, itemsL = items.length ; i < itemsL; i++) {
                     if (items[i].className.indexOf('erase-hide') > 0) {
-                        console.log(items[i].id);
-                        console.log(items[i].value);
-                        console.log(items[i].style.display);
+if (console) {
+    console.log(items[i].id);
+    console.log(items[i].value);
+    console.log(items[i].style.display);
+}
                         items[i].value = 0;
                         items[i].setAttribute('value', '');
                         items[i].style.display = 'none';

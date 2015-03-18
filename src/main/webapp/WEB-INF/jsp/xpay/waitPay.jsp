@@ -33,7 +33,7 @@
                                     해당 가상계좌로 입금해야 지원이 완료됩니다.<br><br>
                                 </div>
                                 <div class="col-sm-12">
-                                    <button class="btn btn-primary btn-lg btn-block" id="goMain"><spring:message code="L05208"/>내 원서 보기</button>
+                                    <button class="btn btn-primary btn-lg btn-block" id="goMain"><spring:message code="L05208"/><%--내 원서 보기--%></button>
                                 </div>
                                 <div class="col-sm-12 align-left">
                                     <br>
