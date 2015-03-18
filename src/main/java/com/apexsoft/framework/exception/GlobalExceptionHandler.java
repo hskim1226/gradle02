@@ -8,6 +8,7 @@ import org.mybatis.spring.MyBatisSystemException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.ModelAndView;
@@ -140,7 +141,7 @@ public class GlobalExceptionHandler {
         return mv;
     }
 
-    @ExceptionHandler(Exception.class)
+    @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
     public ModelAndView handleHttpRequestMethodNotSupportedException(HttpServletRequest request,
                                                                      Exception e){
         ModelAndView mv = new ModelAndView(DEFAULT_ERROR_VIEW_NAME);

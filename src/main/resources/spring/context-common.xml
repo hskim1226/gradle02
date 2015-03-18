@@ -30,15 +30,16 @@
     <bean id="messageSource"
           class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
         <property name="basenames">
-        <list>
-            <value>classpath:message/applicants/xpay</value>
-            <value>classpath:message/applicants/user</value>
-            <value>classpath:message/applicants/cs</value>
-            <value>classpath:message/applicants/application</value>
-            <value>classpath:message/applicants/application.labels</value>
-            <value>classpath:message/applicants/application.err</value>
-            <value>classpath:message/applicants/signup.labels</value>
-        </list>
+            <list>
+                <value>classpath:message/applicants/xpay</value>
+                <value>classpath:message/applicants/user</value>
+                <value>classpath:message/applicants/cs</value>
+                <value>classpath:message/applicants/application</value>
+                <value>classpath:message/applicants/application.labels</value>
+                <value>classpath:message/applicants/application.err</value>
+                <value>classpath:message/applicants/signup.labels</value>
+                <value>classpath:message/university/yonsei</value>
+            </list>
         </property>
         <property name="defaultEncoding" value="utf-8" />
         <!-- 운영 시 사용 안함 -->
@@ -56,7 +57,7 @@
     <bean id="jacksonObjectMapper"
           class="com.fasterxml.jackson.databind.ObjectMapper"/>
 
-    <beans profile="local,dev,test,stag,qa,real,aws">
+    <beans profile="local,dev,test,stag,qa,real">
     </beans>
 
 </beans>
