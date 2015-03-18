@@ -53,17 +53,9 @@ public class ApplicationForeignerValidator implements NamedValidator {
                 errors.rejectValue(prefix + "paspNo", "U331",
                         new Object[]{"여권 번호"}, messageResolver.getMessage("U332"));
             }
-            if (applicationForeigner.getVisaNo() == null || applicationForeigner.getVisaNo().length() == 0) {
-                errors.rejectValue(prefix + "visaNo", "U331",
-                        new Object[]{"비자 번호"}, messageResolver.getMessage("U332"));
-            }
             if (applicationForeigner.getVisaTypeCode() == null || applicationForeigner.getVisaTypeCode().length() == 0) {
                 errors.rejectValue(prefix + "visaTypeCode", "U331",
                         new Object[]{"비자 종류"}, messageResolver.getMessage("U332"));
-            }
-            if (applicationForeigner.getVisaExprDay() == null || applicationForeigner.getVisaExprDay().length() == 0) {
-                errors.rejectValue(prefix + "visaExprDay", "U331",
-                        new Object[]{"비자 만료일"}, messageResolver.getMessage("U332"));
             }
             if ("00099".equals(applicationForeigner.getVisaTypeCode())) { // 비자 종류 기타 일 때
                 if (applicationForeigner.getVisaTypeEtc() == null || applicationForeigner.getVisaTypeEtc().length() == 0) {
@@ -72,13 +64,13 @@ public class ApplicationForeignerValidator implements NamedValidator {
                 }
             }
             if (!"00999".equals(applicationForeigner.getVisaTypeCode())) { // 비자 종류 없음이 아닐 경우
+                if (applicationForeigner.getVisaNo() == null || applicationForeigner.getVisaNo().length() == 0) {
+                    errors.rejectValue(prefix + "visaNo", "U331",
+                            new Object[]{"비자 번호"}, messageResolver.getMessage("U332"));
+                }
                 if (applicationForeigner.getVisaExprDay() == null || applicationForeigner.getVisaExprDay().length() == 0) {
                     errors.rejectValue(prefix + "visaExprDay", "U331",
                             new Object[]{"비자 만료일"}, messageResolver.getMessage("U332"));
-                }
-                if (applicationForeigner.getFornRgstNo() == null || applicationForeigner.getFornRgstNo().length() == 0) {
-                    errors.rejectValue(prefix + "fornRgstNo", "U331",
-                            new Object[]{"외국인등록번호"}, messageResolver.getMessage("U332"));
                 }
             }
         }

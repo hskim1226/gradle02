@@ -34,12 +34,26 @@ public class AcademyServiceImpl implements AcademyService {
     private final String ACAD_SAVED = "00002";           // 학력 저장
 
     @Override
+    public ExecutionContext retrieveSelectionMap(Academy academy) {
+        ExecutionContext ec = new ExecutionContext();
+        Map<String, Object> ecDataMap = new HashMap<String, Object>();
+        Map<String, Object> selectionMap = new HashMap<String, Object>();
+
+        selectionMap.put("grdaTypeList", commonService.retrieveCommonCodeByCodeGroup("GRDA_TYPE"));
+        ecDataMap.put("selection", selectionMap);
+        ec.setData(ecDataMap);
+
+        return ec;
+    }
+
+    @Override
     public ExecutionContext retrieveAcademy(int applNo) {
         //TODO retrieveAcademy(Academy academy)와 코드 중복 리팩터링
         String aaMapperSqlId = "CustomApplicationAcademyMapper.selectByApplNoAcadTypeCode";
         ExecutionContext ec = new ExecutionContext();
         Map<String, Object> ecDataMap = new HashMap<String, Object>();
         Map<String, Object> selectionMap = new HashMap<String, Object>();
+
         Academy academy = new Academy();
 
         Application application = commonDAO.queryForObject(NAME_SPACE + "ApplicationMapper.selectByPrimaryKey",
@@ -57,7 +71,8 @@ public class AcademyServiceImpl implements AcademyService {
         List<CustomApplicationAcademy> graduateList = retrieveInfoListByParamObj(paramForAcademy, aaMapperSqlId, CustomApplicationAcademy.class);
         academy.setGraduateList(setUserDataStatus(graduateList, UserCUDType.UPDATE));
 
-        selectionMap.put("grdaTypeList", commonService.retrieveCommonCodeByCodeGroup("GRDA_TYPE"));
+        Map<String, Object> map =  (Map<String, Object>) retrieveSelectionMap(academy).getData();
+        selectionMap.putAll((Map<String, Object>) map.get("selection"));
 
         ec.setResult(ExecutionContext.SUCCESS);
         ecDataMap.put("academy", academy);
@@ -73,6 +88,7 @@ public class AcademyServiceImpl implements AcademyService {
         ExecutionContext ec = new ExecutionContext();
         Map<String, Object> ecDataMap = new HashMap<String, Object>();
         Map<String, Object> selectionMap = new HashMap<String, Object>();
+
         int applNo = academy.getApplication().getApplNo();
 
         Application application = commonDAO.queryForObject(NAME_SPACE + "ApplicationMapper.selectByPrimaryKey",
@@ -90,7 +106,8 @@ public class AcademyServiceImpl implements AcademyService {
         List<CustomApplicationAcademy> graduateList = retrieveInfoListByParamObj(paramForAcademy, aaMapperSqlId, CustomApplicationAcademy.class);
         academy.setGraduateList(setUserDataStatus(graduateList, UserCUDType.UPDATE));
 
-        selectionMap.put("grdaTypeList", commonService.retrieveCommonCodeByCodeGroup("GRDA_TYPE"));
+        Map<String, Object> map =  (Map<String, Object>) retrieveSelectionMap(academy).getData();
+        selectionMap.putAll((Map<String, Object>) map.get("selection"));
 
         ec.setResult(ExecutionContext.SUCCESS);
         ecDataMap.put("academy", academy);

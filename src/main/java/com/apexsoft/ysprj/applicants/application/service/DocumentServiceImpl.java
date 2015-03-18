@@ -845,11 +845,17 @@ public class DocumentServiceImpl implements DocumentService {
     }
 
     private boolean isRgstNoDuplicate(int applNo) {
+        boolean isDup = false;
         Application applFromDB = commonDAO.queryForObject(NAME_SPACE + "ApplicationMapper.selectByPrimaryKey", applNo, Application.class);
-        List<String> submittedRgstHashList = commonDAO.queryForList(NAME_SPACE + "CustomApplicationMapper.selectSubmittedApplNoHashes", String.class );
-        Set<String> submittedRgstHashSet = new HashSet<String>(submittedRgstHashList);
-        String thisRgstHash = applFromDB.getRgstHash();
-        return submittedRgstHashSet.contains(thisRgstHash);
+        String rgstBornDate = applFromDB.getRgstBornDate();
+        if (rgstBornDate.length() == 6) {
+            List<String> submittedRgstHashList = commonDAO.queryForList(NAME_SPACE + "CustomApplicationMapper.selectSubmittedApplNoHashes", String.class );
+            Set<String> submittedRgstHashSet = new HashSet<String>(submittedRgstHashList);
+            String thisRgstHash = applFromDB.getRgstHash();
+            isDup = submittedRgstHashSet.contains(thisRgstHash);
+        }
+
+        return isDup;
     }
 
     private String getDecryptedString(String encrypted) throws IOException {

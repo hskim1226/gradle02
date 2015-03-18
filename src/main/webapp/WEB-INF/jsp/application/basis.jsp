@@ -703,7 +703,8 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="form-group required" id="visaInfoContainer">
+                                    <div class="form-group required" id="visaInfoContainer"
+                                         style="display: ${basis.applicationForeigner.visaTypeCode == '00999' ? 'none;' : 'block;'}">
                                         <div class="col-sm-offset-2 col-sm-9">
                                             <div class="col-sm-6">
                                                 <div class="input-group">
@@ -736,14 +737,15 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="form-group required">
+                                    <div class="form-group">
                                         <label for="applicationForeigner.fornRgstNo" class="col-sm-2 control-label"><spring:message code="L01407"/><%--외국인등록번호--%></label>
                                         <div class="col-sm-9">
                                             <div class="col-sm-12">
                                                 <input id="applicationForeigner.fornRgstNo" name="applicationForeigner.fornRgstNo" class="form-control numOnly rgstNo"
                                                        maxlength="13" placeholder="외국인등록번호를 13자리 숫자로 입력해주세요"
                                                        value="${basis.applicationForeigner.fornRgstNo}"
-                                                       <c:if test="${basis.applicationForeigner.visaTypeCode == '00999'}">disabled</c:if> />
+                                                       <%--<c:if test="${basis.applicationForeigner.visaTypeCode == '00999'}">disabled</c:if> />--%>
+                                                        />
                                             </div>
                                             <spring:bind path="applicationForeigner.fornRgstNo">
                                                 <c:if test="${status.error}">
@@ -1518,9 +1520,7 @@
                 visaNo = document.getElementById('applicationForeigner.visaNo'),
                 visaExprDate = document.getElementById('applicationForeigner.visaExprDay'),
             fornRgstNo = document.getElementById('applicationForeigner.fornRgstNo');
-console.log(visaEtc.value);
-console.log(fornRgstNo.value);
-console.log(visaExprDate.value);
+
             if (this.value == '00099') {
                 visaEtcContainer.style.display = 'block';
                 visaInfoContainer.style.display = 'block';

@@ -240,13 +240,17 @@ public class BasisController {
         application.setRgstNo(StringUtil.removeHyphen(application.getRgstNo()));
 
         ApplicationForeigner applicationForeigner = basis.getApplicationForeigner();
-        applicationForeigner.setHomeTel(StringUtil.removeHyphen(applicationForeigner.getHomeTel()));
-        applicationForeigner.setHomeEmrgTel(StringUtil.removeHyphen(applicationForeigner.getHomeEmrgTel()));
-        applicationForeigner.setKorEmrgTel(StringUtil.removeHyphen(applicationForeigner.getKorEmrgTel()));
-        applicationForeigner.setFornRgstNo(StringUtil.removeHyphen(applicationForeigner.getFornRgstNo()));
+        if (applicationForeigner != null) {
+            applicationForeigner.setHomeTel(StringUtil.removeHyphen(applicationForeigner.getHomeTel()));
+            applicationForeigner.setHomeEmrgTel(StringUtil.removeHyphen(applicationForeigner.getHomeEmrgTel()));
+            applicationForeigner.setKorEmrgTel(StringUtil.removeHyphen(applicationForeigner.getKorEmrgTel()));
+            applicationForeigner.setFornRgstNo(StringUtil.removeHyphen(applicationForeigner.getFornRgstNo()));
+        }
 
         ApplicationGeneral applicationGeneral = basis.getApplicationGeneral();
-        applicationGeneral.setEmerContTel(StringUtil.removeHyphen(applicationGeneral.getEmerContTel()));
+        if (applicationGeneral != null) {
+            applicationGeneral.setEmerContTel(StringUtil.removeHyphen(applicationGeneral.getEmerContTel()));
+        }
     }
 
     private String getSha256(String input) {
