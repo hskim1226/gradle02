@@ -252,6 +252,12 @@
             background: #ffdddd;
             color: #f55;
         }
+        .grad-notice {
+            margin-top: 5px;
+            margin-bottom: 5px;
+            padding-bottom: 5px;
+            color: blue;
+        }
     </style>
 </head>
 <body>
@@ -506,7 +512,7 @@
                         </div>
                         <div class="panel panel-darkgray">
                             <div class="panel-heading"><spring:message code="L02201"/><%--대학원--%></div>
-                            <div class="col-sm-12" style="margin-top: 0.5em; margin-bottom: 0.5em; color: blue;">박사 과정에 지원한 경우에는 대학원 최종 학교가 사정 기준이 됩니다.</div>
+                            <div class="col-sm-12 grad-notice"><label>박사 과정에 지원한 경우에는 대학원 최종 학교가 사정 기준이 됩니다.</label></div>
                             <div class="panel-body">
                                 <div class="form-group-block-list">
                                     <c:forEach begin="0" end="${academy.graduateList.size() > 0 ? academy.graduateList.size() - 1 : 0}" varStatus="stat">
@@ -542,8 +548,8 @@
                                                     <div class="input-group date">
                                                         <span class="input-group-addon"><spring:message code="L02106"/><%--시작일--%></span>
                                                         <form:input path="graduateList[${stat.index}].entrDay" cssClass="form-control checkDate" readonly="true"
-                                                                date-entrDate="graduateList${stat.index}.entrDay"
-                                                                date-exprDate="graduateList${stat.index}.grdaDay"/>
+                                                                data-entrDate="graduateList${stat.index}.entrDay"
+                                                                data-exprDate="graduateList${stat.index}.grdaDay"/>
                                                         <span class="input-group-addon calendar-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                                                     </div>
                                             <spring:bind path="graduateList[${stat.index}].entrDay">
@@ -558,8 +564,8 @@
                                                     <div class="input-group date">
                                                         <span class="input-group-addon"><spring:message code="L02107"/><%--종료일--%></span>
                                                         <form:input path="graduateList[${stat.index}].grdaDay" cssClass="form-control checkDate" readonly="true"
-                                                                date-entrDate="graduateList${stat.index}.entrDay"
-                                                                date-exprDate="graduateList${stat.index}.grdaDay"/>
+                                                                data-entrDate="graduateList${stat.index}.entrDay"
+                                                                data-exprDate="graduateList${stat.index}.grdaDay"/>
                                                         <span class="input-group-addon calendar-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                                                     </div>
                                             <spring:bind path="graduateList[${stat.index}].grdaDay">
@@ -833,7 +839,9 @@
         $('.bpopper').on('click', function(e) {
             e.preventDefault();
             $('#bpopResult').empty();
-            document.getElementById('bpop').value="";
+            var bpopSearchText = document.getElementById('bpop');
+            bpopSearchText.value="";
+
 
             var dataCategory = this.getAttribute('data-category');
             var targetNode = null, title = null, columnHead = [];
@@ -869,7 +877,9 @@
             $('#bpopHead').empty();
             $('#bpopHead').append($thead);
             $('#bpopContainer').bPopup();
-            document.getElementById('bpop').focus();
+//            document.getElementById('bpop').focus();
+
+            $(bpopSearchText).focus().focus();
         });
 
         $('#bpopBtnSearch').on('click', function(e) {
@@ -1009,33 +1019,36 @@
 //            }
             var id = this.id,
                     prefix = id.substr(0, id.lastIndexOf('.')),
-                    showObj, hideObj = [];
+                    showObj, hideObj = [],
+                    degrNoObj = document.getElementById(prefix + '.degrNo');
             if (this[this.selectedIndex].value == "00001") {
-                showObj = document.getElementById(prefix + '.degrNo');
+                showObj = degrNoObj;
                 hideObj.push(document.getElementById(prefix + '.label-grad-02'));
                 hideObj.push(document.getElementById(prefix + '.label-grad-03'));
                 hideObj.push(document.getElementById(prefix + '.label-grad-04'));
                 showObj.style.display = "block";
+                degrNoObj.placeholder = "학위등록번호를 입력해주세요";
+                $(degrNoObj).placeholder();
             } else if (this[this.selectedIndex].value == "00002") {
-                hideObj.push(document.getElementById(prefix + '.degrNo'));
+                hideObj.push(degrNoObj);
                 hideObj.push(document.getElementById(prefix + '.label-grad-03'));
                 hideObj.push(document.getElementById(prefix + '.label-grad-04'));
                 showObj = document.getElementById(prefix + '.label-grad-02');
                 showObj.style.display = "block";
             } else if (this[this.selectedIndex].value == "00003") {
-                hideObj.push(document.getElementById(prefix + '.degrNo'));
+                hideObj.push(degrNoObj);
                 hideObj.push(document.getElementById(prefix + '.label-grad-02'));
                 hideObj.push(document.getElementById(prefix + '.label-grad-04'));
                 showObj = document.getElementById(prefix + '.label-grad-03');
                 showObj.style.display = "block";
             } else if (this[this.selectedIndex].value == "00004") {
-                hideObj.push(document.getElementById(prefix + '.degrNo'));
+                hideObj.push(degrNoObj);
                 hideObj.push(document.getElementById(prefix + '.label-grad-02'));
                 hideObj.push(document.getElementById(prefix + '.label-grad-03'));
                 showObj = document.getElementById(prefix + '.label-grad-04');
                 showObj.style.display = "block";
             } else if (this[this.selectedIndex].value == "") {
-                hideObj.push(document.getElementById(prefix + '.degrNo'));
+                hideObj.push(degrNoObj);
                 hideObj.push(document.getElementById(prefix + '.label-grad-02'));
                 hideObj.push(document.getElementById(prefix + '.label-grad-03'));
                 hideObj.push(document.getElementById(prefix + '.label-grad-04'));
