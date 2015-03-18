@@ -219,7 +219,8 @@
                 alert("동의하지 않을 경우 원서를 접수할 수 없습니다.");
             }
 
-            $('#composePaper').click(function(){
+            $('#composePaper').click(function(e){
+                e.preventDefault();
                 var l = $('#formAgreement').find('input').filter('[type="radio"]').length/2, i, t0;
                 for (i = 1 ; i <= l ; i++) {
                     t0 = $('input[name=radio'+i+']:checked', '#formAgreement');
