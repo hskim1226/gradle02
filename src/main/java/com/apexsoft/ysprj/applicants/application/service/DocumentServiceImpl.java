@@ -819,7 +819,7 @@ public class DocumentServiceImpl implements DocumentService {
                 pCont.setFileUploadFg(true);
                 System.out.println("");
             }
-            if( pCont.getMsgNo()!= null && pCont.getMsgNo()!= "" ) {
+            if( pCont.getMsgNo()!= null && !"".equals(pCont.getMsgNo()) ) {
                 pCont.setMsg(messageResolver.getMessage(pCont.getMsgNo()));
             }
             pList.add(pCont);
