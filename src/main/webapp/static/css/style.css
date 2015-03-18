@@ -654,6 +654,9 @@ section.normal-white .spacer-tiny {
     content:"*";
     color:red;
 }
+.placeholder { color: #707070; }
+/*::-webkit-input-placeholder { color: #d0d0d0; }*/
+/*input:-moz-placeholder, textarea:-moz-placeholder { color: #d0d0d0; }*/
 /*-- ysprojec --*/
 /*=========================
   Footer

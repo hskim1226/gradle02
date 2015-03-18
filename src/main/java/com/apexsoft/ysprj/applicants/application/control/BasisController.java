@@ -98,6 +98,7 @@ public class BasisController {
             if (ExecutionContext.SUCCESS.equals(ecRetrieve.getResult())) {
                 Map<String, Object> map = (Map<String, Object>)ecRetrieve.getData();
                 mv.addAllObjects(map);
+                removeHyphen(formData);
             } else {
                 mv = getErrorMV("common/error", ecRetrieve);
             }
@@ -226,6 +227,12 @@ public class BasisController {
         Map<String, Object> map = (Map<String, Object>)result.getData();
         Basis basis = (Basis)map.get("basis");
 
+        removeHyphen(basis);
+
+        return result;
+    }
+
+    private void removeHyphen(Basis basis) {
         Application application = basis.getApplication();
         application.setFaxNum(StringUtil.removeHyphen(application.getFaxNum()));
         application.setTelNum(StringUtil.removeHyphen(application.getTelNum()));
@@ -240,8 +247,6 @@ public class BasisController {
 
         ApplicationGeneral applicationGeneral = basis.getApplicationGeneral();
         applicationGeneral.setEmerContTel(StringUtil.removeHyphen(applicationGeneral.getEmerContTel()));
-
-        return result;
     }
 
     private String getSha256(String input) {

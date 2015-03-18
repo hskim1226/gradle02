@@ -429,7 +429,7 @@
                                         <label for="application.korName" class="col-sm-2 control-label"><spring:message code="L01202"/><%--한글 이름--%></label>
                                         <div class="col-sm-9">
                                             <div class="col-sm-12">
-                                                <form:input path="application.korName" cssClass="form-control korName" placeholder="한글 이름을 공백 없이 입력해주세요"/>
+                                                <form:input path="application.korName" cssClass="form-control korName" maxlength="20" placeholder="한글 이름을 공백 없이 입력해주세요"/>
                                             </div>
                                             <spring:bind path="application.korName">
                                                 <c:if test="${status.error}">
@@ -446,7 +446,7 @@
                                             <div class="col-sm-6">
                                                 <div class="input-group">
                                                     <span class="input-group-addon">&nbsp;<spring:message code="L01204"/><%--성--%>&nbsp;</span>
-                                                    <form:input path="application.engSur" cssClass="form-control engName" />
+                                                    <form:input path="application.engSur" cssClass="form-control engName" maxlength="20" />
                                                 </div>
                                                 <spring:bind path="application.engSur">
                                                     <c:if test="${status.error}">
@@ -459,7 +459,7 @@
                                             <div class="col-sm-6">
                                                 <div class="input-group">
                                                     <span class="input-group-addon"><spring:message code="L01205"/><%--이름--%></span>
-                                                    <form:input path="application.engName" cssClass="form-control engName" />
+                                                    <form:input path="application.engName" cssClass="form-control engName" maxlength="20" />
                                                 </div>
                                                 <spring:bind path="application.engName">
                                                     <c:if test="${status.error}">
@@ -552,7 +552,7 @@
                                                         <div class="col-sm-12">
                                                             <div class="input-group">
                                                                 <span class="input-group-addon"><spring:message code="L01304"/><%--장애 유형--%></span>
-                                                                <form:input path="applicationGeneral.hndcGrad" cssClass="col-sm-6 form-control" />
+                                                                <form:input path="applicationGeneral.hndcGrad" cssClass="col-sm-6 form-control" maxlength="50" />
                                                             </div>
                                                         </div>
                                                     </div>
@@ -562,7 +562,7 @@
                                                         <div class="col-sm-12">
                                                             <div class="input-group">
                                                                 <span class="input-group-addon"><spring:message code="L01305"/><%--장애 등급--%></span>
-                                                                <form:input path="applicationGeneral.hndcType" cssClass="col-sm-6 form-control" />
+                                                                <form:input path="applicationGeneral.hndcType" cssClass="col-sm-6 form-control" maxlength="10" />
                                                             </div>
                                                         </div>
                                                     </div>
@@ -619,7 +619,7 @@
                                                 <label class="col-sm-2 control-label"><spring:message code="L01307"/><%--본국 주소--%></label>
                                                 <div class="col-sm-9">
                                                     <div class="col-sm-12">
-                                                        <form:input path="applicationForeigner.homeAddr" cssClass="form-control" placeholder="본국 주소를 입력해 주세요."/>
+                                                        <form:input path="applicationForeigner.homeAddr" cssClass="form-control" maxlength="500" placeholder="본국 주소를 입력해 주세요."/>
                                                     </div>
                                                     <spring:bind path="applicationForeigner.homeAddr">
                                                         <c:if test="${status.error}">
@@ -634,7 +634,7 @@
                                                 <label class="col-sm-2 control-label"><spring:message code="L01308"/><%--본국 연락처--%></label>
                                                 <div class="col-sm-9">
                                                     <div class="col-sm-12">
-                                                        <form:input path="applicationForeigner.homeTel" cssClass="form-control" placeholder="본국 연락처를 입력해 주세요." />
+                                                        <form:input path="applicationForeigner.homeTel" cssClass="form-control" maxlength="20" placeholder="본국 연락처를 입력해 주세요." />
                                                     </div>
                                                     <spring:bind path="applicationForeigner.homeTel">
                                                         <c:if test="${status.error}">
@@ -659,7 +659,7 @@
                                         <label for="applicationForeigner.paspNo" class="col-sm-2 control-label"><spring:message code="L01402"/><%--여권 번호--%></label>
                                         <div class="col-sm-9">
                                             <div class="col-sm-12">
-                                                <form:input path="applicationForeigner.paspNo" cssClass="form-control" placeholder="여권 번호를 입력해주세요"/>
+                                                <form:input path="applicationForeigner.paspNo" cssClass="form-control" maxlength="15" placeholder="여권 번호를 입력해주세요"/>
                                             </div>
                                             <spring:bind path="applicationForeigner.paspNo">
                                                 <c:if test="${status.error}">
@@ -691,7 +691,7 @@
                                             </div>
                                             <div class="col-sm-6">
                                                 <div class="input-group" id="tmpVisaTypeCode" style="display: <c:choose><c:when test="${basis.applicationForeigner.visaTypeCode == '00099'}">block;</c:when><c:otherwise>none;</c:otherwise></c:choose>">
-                                                    <form:input path="applicationForeigner.visaTypeEtc" cssClass="form-control" placeholder="예) D-2, D-4" />
+                                                    <form:input path="applicationForeigner.visaTypeEtc" cssClass="form-control" maxlength="20" placeholder="예) D-2, D-4" />
                                                 </div>
                                                 <spring:bind path="applicationForeigner.visaTypeEtc">
                                                     <c:if test="${status.error}">
@@ -708,7 +708,7 @@
                                             <div class="col-sm-6">
                                                 <div class="input-group">
                                                     <span class="input-group-addon">&nbsp;<spring:message code="L01405"/><%--번호--%>&nbsp;</span>
-                                                    <form:input path="applicationForeigner.visaNo" cssClass="form-control" />
+                                                    <form:input path="applicationForeigner.visaNo" cssClass="form-control" maxlength="50" />
                                                 </div>
                                                 <spring:bind path="applicationForeigner.visaNo">
                                                     <c:if test="${status.error}">
@@ -790,7 +790,7 @@
                                                 <form:input path="application.addr" cssClass="form-control" id="address" readonly="true" />
                                             </div>
                                             <div class="col-sm-6">
-                                                <form:input path="application.detlAddr" cssClass="form-control" id="addressDetail" placeholder="세부주소" />
+                                                <form:input path="application.detlAddr" cssClass="form-control" id="addressDetail" maxlength="500" placeholder="세부주소" />
                                             </div>
                                             <spring:bind path="application.addr">
                                                 <c:if test="${status.error}">
@@ -835,7 +835,7 @@
                                         <label for="application.mailAddr" class="col-sm-2 control-label"><spring:message code="L01506"/><%--이메일--%></label>
                                         <div class="col-sm-9">
                                             <div class="col-sm-12">
-                                                <form:input path="application.mailAddr" type="email" cssClass="form-control emailOnly" placeholder="이메일 주소를 입력해주세요"/>
+                                                <form:input path="application.mailAddr" type="email" cssClass="form-control emailOnly" maxlength="50" placeholder="이메일 주소를 입력해주세요"/>
                                             </div>
                                             <spring:bind path="application.mailAddr">
                                                 <c:if test="${status.error}">
@@ -858,7 +858,7 @@
                                                 <label for="applicationGeneral.emerContName" class="col-sm-2 control-label"><spring:message code="L01604"/><%--이름--%></label>
                                                 <div class="col-sm-9">
                                                     <div class="col-sm-12">
-                                                        <form:input path="applicationGeneral.emerContName" cssClass="form-control" />
+                                                        <form:input path="applicationGeneral.emerContName" cssClass="form-control" maxlength="50" />
                                                     </div>
                                                     <spring:bind path="applicationGeneral.emerContName">
                                                         <c:if test="${status.error}">
@@ -916,7 +916,7 @@
                                                         <label for="applicationForeigner.korEmrgName" class="col-sm-2 control-label"><spring:message code="L01604"/><%--이름--%></label>
                                                         <div class="col-sm-9">
                                                             <div class="col-sm-12">
-                                                                <form:input path="applicationForeigner.korEmrgName" cssClass="form-control" />
+                                                                <form:input path="applicationForeigner.korEmrgName" maxlength="50" cssClass="form-control" />
                                                             </div>
                                                             <spring:bind path="applicationForeigner.korEmrgName">
                                                                 <c:if test="${status.error}">
@@ -969,7 +969,7 @@
                                                         <label for="applicationForeigner.homeEmrgName" class="col-sm-2 control-label"><spring:message code="L01604"/><%--이름--%></label>
                                                         <div class="col-sm-9">
                                                             <div class="col-sm-12">
-                                                                <form:input path="applicationForeigner.homeEmrgName" cssClass="form-control" />
+                                                                <form:input path="applicationForeigner.homeEmrgName" cssClass="form-control" maxlength="50" />
                                                             </div>
                                                             <spring:bind path="applicationForeigner.homeEmrgName">
                                                                 <c:if test="${status.error}">
