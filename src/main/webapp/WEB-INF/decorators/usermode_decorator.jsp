@@ -104,6 +104,7 @@
     <script src="<spring:eval expression="@app.getProperty('path.static')" />/js/validate.min.js"></script>
     <%--<script src="<spring:eval expression="@app.getProperty('path.static')" />/js/jquery.placeholder.js"></script>--%>
     <script src="${contextPath}/static/js/jquery.placeholder.js"></script>
+    <script src="${contextPath}/static/js/polyfill-console.js"></script>
     <script src="<spring:eval expression="@app.getProperty('path.static')" />/js/jquery.word-break-keep-all.min.js"></script>
     <script src="<spring:eval expression="@app.getProperty('path.static')" />/js/json2.js"></script>
     <script src="<spring:eval expression="@app.getProperty('path.static')" />/js/main.js"></script>
