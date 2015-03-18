@@ -1253,6 +1253,7 @@
             } else if (saveType == 'submit') {
                 if (confirm('원서 제출 후에는 원서 내용을 수정할 수 없습니다.\n\n계속하시겠습니까?')) {
                     form.action = "${contextPath}/application/document/submit";
+                    form.target = "_self";
                     form.submit();
                 }
             }

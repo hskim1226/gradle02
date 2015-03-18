@@ -1252,7 +1252,8 @@
         $('.bpopper').on('click', function(e) {
             e.preventDefault();
             $('#bpopResult').empty();
-            document.getElementById('bpop').value="";
+            var bpopText = document.getElementById('bpop');
+            bpopText.value="";
 
             var dataCategory = this.getAttribute('data-category');
             var targetNode = null, title = null, columnHead = [];
@@ -1288,7 +1289,8 @@
             $('#bpopHead').empty();
             $('#bpopHead').append($thead);
             $('#bpopContainer').bPopup();
-            document.getElementById('bpop').focus();
+            bpopText.focus();
+            $(bpopText).focus().focus();
         });
 
         $('#bpopBtnSearch').on('click', function(e) {

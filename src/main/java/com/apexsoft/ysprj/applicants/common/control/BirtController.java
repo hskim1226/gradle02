@@ -7,6 +7,7 @@ import com.apexsoft.framework.common.vo.ExecutionContext;
 import com.apexsoft.framework.exception.ErrorInfo;
 import com.apexsoft.framework.exception.YSBizException;
 import com.apexsoft.framework.message.MessageResolver;
+import com.apexsoft.framework.persistence.dao.CommonDAO;
 import com.apexsoft.ysprj.applicants.application.domain.Application;
 import com.apexsoft.ysprj.applicants.common.domain.BirtRequest;
 import com.apexsoft.ysprj.applicants.common.service.BirtService;
@@ -32,6 +33,9 @@ public class BirtController {
 
     @Autowired
     BirtService birtService;
+
+    @Autowired
+    CommonDAO commonDAO;
 
     @Autowired
     BirtEngineFactory birtEngineFactory;
@@ -118,10 +122,17 @@ public class BirtController {
             filterApplicationNull(principal);
         } else {
             int applNo = application.getApplNo();
+
+            Application applicationFromDB = commonDAO.queryForObject("com.apexsoft.ysprj.applicants.application.sqlmap.ApplicationMapper.selectByPrimaryKey",
+                    applNo, Application.class);
+            String admsTypeCode = applicationFromDB.getAdmsTypeCode();
+            String lang = "C".equals(admsTypeCode) ? "en" : "kr";
+            String reportName = "yonsei-appl-" + lang;
+
             mv.setViewName("pdfSingleFormatBirtSaveToFile");
             mv.addObject("reportFormat", REPORT_FORMAT);
-            mv.addObject("reportName", RPT_APPLICATION_KR);
-            ExecutionContext ec = birtService.processBirt(applNo, RPT_APPLICATION_KR);
+            mv.addObject("reportName", reportName);
+            ExecutionContext ec = birtService.processBirt(applNo, reportName);
             mv.addAllObjects((Map<String, Object>)ec.getData());
         }
 
@@ -137,10 +148,17 @@ public class BirtController {
             filterApplicationNull(principal);
         } else {
             int applNo = application.getApplNo();
+
+            Application applicationFromDB = commonDAO.queryForObject("com.apexsoft.ysprj.applicants.application.sqlmap.ApplicationMapper.selectByPrimaryKey",
+                    applNo, Application.class);
+            String admsTypeCode = applicationFromDB.getAdmsTypeCode();
+            String lang = "C".equals(admsTypeCode) ? "en" : "kr";
+            String reportName = "yonsei-adms-" + lang;
+
             mv.setViewName("pdfSingleFormatBirtSaveToFile");
             mv.addObject("reportFormat", REPORT_FORMAT);
-            mv.addObject("reportName", RPT_ADMISSION_KR);
-            ExecutionContext ec = birtService.processBirt(applNo, RPT_ADMISSION_KR);
+            mv.addObject("reportName", reportName);
+            ExecutionContext ec = birtService.processBirt(applNo, reportName);
             mv.addAllObjects((Map<String, Object>)ec.getData());
         }
 
