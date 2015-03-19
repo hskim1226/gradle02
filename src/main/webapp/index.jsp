@@ -111,7 +111,7 @@
                     <br/>
                     <h1 class="slogan"><spring:message code="L00002"/><%--입학원서 접수 시스템--%></h1>
                     <p>&nbsp;</p>
-                    <span class="lang" data-lang="kr">Korean</span> | <span class="lang" data-lang="en">English</span>
+                    <span class="lang" data-lang="ko">Korean</span> | <span class="lang" data-lang="en">English</span>
                 </div>
             </div>
         </div>
