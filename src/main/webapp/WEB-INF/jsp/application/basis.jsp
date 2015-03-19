@@ -531,7 +531,7 @@
                             </div>
 
                             <c:choose>
-                                <c:when test="${basis.application.admsTypeCode != 'C'}">
+                                <c:when test="${basis.application.admsTypeCode != 'C' && basis.application.admsTypeCode != 'D'}">
                                     <div class="panel panel-darkgray">
                                         <div class="panel-heading"><spring:message code="L01301"/><%--지원자 상세정보--%></div>
                                         <div class="panel-body">
@@ -652,7 +652,7 @@
 
 
                                 <%--<c:if test="${basis.application.admsTypeCode == 'C'}">--%>
-                            <div class="panel panel-darkgray" id="stayInfo" style="display: ${basis.application.admsTypeCode != 'C' ? 'none;' : basis.application.citzCntrCode != '118' ? 'block;' : 'none;' }">
+                            <div class="panel panel-darkgray" id="stayInfo" style="display: ${basis.application.admsTypeCode != 'C' && basis.application.admsTypeCode != 'D' ? 'none;' : basis.application.citzCntrCode != '118' ? 'block;' : 'none;' }">
                                 <div class="panel-heading"><spring:message code="L01401"/><%--체류 정보--%></div>
                                 <div class="panel-body">
                                     <div class="form-group required">
@@ -719,7 +719,8 @@
                                                     </c:if>
                                                 </spring:bind>
                                             </div>
-                                            <div class="col-sm-6 start-date-container">
+                                            <div class="col-sm-6" id="expr-date-container"
+                                                 style="display: ${basis.applicationForeigner.visaTypeCode == '00999' || basis.applicationForeigner.visaTypeCode == 'F-5' ? 'none;' : 'block;' }">
                                                 <div class="input-group date">
                                                     <span class="input-group-addon"><spring:message code="L01406"/><%--만료일--%></span>
                                                     <input id="applicationForeigner.visaExprDay" name="applicationForeigner.visaExprDay"
@@ -803,7 +804,7 @@
                                             </spring:bind>
                                         </div>
                                     </div>
-                                    <div class="form-group required">
+                                    <div class="form-group ${basis.application.admsTypeCode == 'C' || basis.application.admsTypeCode == 'D' ? '' : 'required'}">
                                         <label for="application.telNum" class="col-sm-2 control-label"><spring:message code="L01504"/><%--전화번호--%></label>
                                         <div class="col-sm-9">
                                             <div class="col-sm-12">
@@ -852,7 +853,7 @@
                             </div>
 
                             <c:choose>
-                                <c:when test="${basis.application.admsTypeCode != 'C'}">
+                                <c:when test="${basis.application.admsTypeCode != 'C' && basis.application.admsTypeCode != 'D'}">
                                     <div class="panel panel-darkgray">
                                         <div class="panel-heading"><spring:message code="L01601"/><%--비상연락처--%></div>
                                         <div class="panel-body">
@@ -914,7 +915,7 @@
                                             <div class="panel panel-darkgray1">
                                                 <div class="panel-heading"><spring:message code="L01602"/><%--국내--%></div>
                                                 <div class="panel-body">
-                                                    <div class="form-group required">
+                                                    <div class="form-group ${basis.application.admsTypeCode == 'C' || basis.application.admsTypeCode == 'D' ? '' : 'required'}">
                                                         <label for="applicationForeigner.korEmrgName" class="col-sm-2 control-label"><spring:message code="L01604"/><%--이름--%></label>
                                                         <div class="col-sm-9">
                                                             <div class="col-sm-12">
@@ -929,7 +930,7 @@
                                                             </spring:bind>
                                                         </div>
                                                     </div>
-                                                    <div class="form-group required">
+                                                    <div class="form-group ${basis.application.admsTypeCode == 'C' || basis.application.admsTypeCode == 'D' ? '' : 'required'}">
                                                         <label for="applicationForeigner.korEmrgRela" class="col-sm-2 control-label"><spring:message code="L01605"/><%--관계--%></label>
                                                         <div class="col-sm-9">
                                                             <div class="col-sm-12">
@@ -947,7 +948,7 @@
                                                             </spring:bind>
                                                         </div>
                                                     </div>
-                                                    <div class="form-group required">
+                                                    <div class="form-group ${basis.application.admsTypeCode == 'C' || basis.application.admsTypeCode == 'D' ? '' : 'required'}">
                                                         <label for="applicationForeigner.korEmrgTel" class="col-sm-2 control-label"><spring:message code="L01606"/><%--전화번호--%></label>
                                                         <div class="col-sm-9">
                                                             <div class="col-sm-12">
@@ -1521,14 +1522,16 @@
                 visaInfoContainer = document.getElementById('visaInfoContainer'),
                 visaNo = document.getElementById('applicationForeigner.visaNo'),
                 visaExprDate = document.getElementById('applicationForeigner.visaExprDay'),
-            fornRgstNo = document.getElementById('applicationForeigner.fornRgstNo');
+                visaExprDateContainer = document.getElementById('expr-date-container'),
+                fornRgstNo = document.getElementById('applicationForeigner.fornRgstNo');
 
             if (this.value == '00099') {
                 visaEtcContainer.style.display = 'block';
                 visaInfoContainer.style.display = 'block';
                 visaNo.disabled = false;
                 visaExprDate.disabled = false;
-                fornRgstNo.disabled = false;
+                visaExprDateContainer.style.display = 'block';
+//                fornRgstNo.disabled = false;
             } else if (this.value == '00999') {
                 visaEtc.value = '';
                 visaEtcContainer.style.display = 'none';
@@ -1538,14 +1541,24 @@
                 visaInfoContainer.style.display = 'none';
                 visaNo.disabled = false;
                 visaExprDate.disabled = false;
-                fornRgstNo.disabled = false;
-            } else {
+                visaExprDateContainer.style.display = 'none';
+//                fornRgstNo.disabled = false;
+            } else if (this.value == 'F-5') {
+                visaEtc.value = '';
+                visaEtcContainer.style.display = 'none';
+                visaInfoContainer.style.display = 'block';
+                visaNo.disabled = false;
+                visaExprDate.value = '';
+                visaExprDateContainer.style.display = 'none';
+            }
+            else {
                 visaEtc.value = '';
                 visaEtcContainer.style.display = 'none';
                 visaInfoContainer.style.display = 'block';
                 visaNo.disabled = false;
                 visaExprDate.disabled = false;
-                fornRgstNo.disabled = false;
+                visaExprDateContainer.style.display = 'block';
+//                fornRgstNo.disabled = false;
             }
         });
         <%-- 비자 종류 처리 --%>

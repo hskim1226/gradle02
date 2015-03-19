@@ -491,7 +491,7 @@
                                                 <div class="col-sm-6">
                                                     <div class="input-group">
                                                         <span class="input-group-addon"><spring:message code="L02119"/><%--만점--%></span>
-                                                        <form:input path="collegeList[${stat.index}].gradFull" cssClass="form-control gradFull" maxlength="3" placeholder="#.#" data-gradAvr-id="collegeList${stat.index}.gradAvr"/>
+                                                        <form:input path="collegeList[${stat.index}].gradFull" cssClass="form-control gradFull" maxlength="4" placeholder="#.#" data-gradAvr-id="collegeList${stat.index}.gradAvr"/>
                                                     </div>
                                             <spring:bind path="collegeList[${stat.index}].gradFull">
                                                 <c:if test="${status.error}">
@@ -686,7 +686,7 @@
                                                 <div class="col-sm-6">
                                                     <div class="input-group">
                                                         <span class="input-group-addon"><spring:message code="L02119"/><%--만점--%></span>
-                                                        <form:input path="graduateList[${stat.index}].gradFull" cssClass="form-control gradFull" maxlength="3" placeholder="#.#" data-gradAvr-id="graduateList${stat.index}.gradAvr"/>
+                                                        <form:input path="graduateList[${stat.index}].gradFull" cssClass="form-control gradFull" maxlength="4" placeholder="#.#" data-gradAvr-id="graduateList${stat.index}.gradAvr"/>
                                                     </div>
                                             <spring:bind path="graduateList[${stat.index}].gradFull">
                                                 <c:if test="${status.error}">
@@ -1113,11 +1113,11 @@
         });
         $('.gradFull').on('blur', function () {
             if (this.value.length > 0) {
-                var regexp = /\d.\d/,
+                var regexp = /\d.\d{2}/,
                         gradAvgInput = document.getElementById(this.getAttribute('data-gradAvr-id'));
                 if (!regexp.test(this.value) && this.value != '') {
                     validFlag.value = false;
-                    alert('소수점 첫째자리까지 작성해 주세요');
+                    alert('소수점 둘째자리까지 작성해 주세요');
                     this.focus();
                 } else {
                     if (parseFloat(this.value) < parseFloat(gradAvgInput.value)) {

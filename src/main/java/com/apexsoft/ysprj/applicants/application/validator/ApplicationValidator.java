@@ -49,6 +49,10 @@ public class ApplicationValidator implements NamedValidator {
                 errors.rejectValue(prefix + "addr", "U331",
                         new Object[]{"주소"}, messageResolver.getMessage("U332"));
             }
+            if (application.getTelNum() == null || application.getTelNum().length() == 0) {
+                errors.rejectValue(prefix + "telNum", "U331",
+                        new Object[]{"전화번호"}, messageResolver.getMessage("U332"));
+            }
             if (application.getMobiNum() == null || application.getMobiNum().length() == 0) {
                 errors.rejectValue(prefix + "mobiNum", "U331",
                         new Object[]{"휴대폰"}, messageResolver.getMessage("U332"));
@@ -94,11 +98,6 @@ public class ApplicationValidator implements NamedValidator {
         if (application.getCitzCntrCode() == null || application.getCitzCntrCode().length() == 0) {
             errors.rejectValue(prefix + "citzCntrCode", "U331",
                     new Object[]{"국적"}, messageResolver.getMessage("U332"));
-        }
-
-        if (application.getTelNum() == null || application.getTelNum().length() == 0) {
-            errors.rejectValue(prefix + "telNum", "U331",
-                    new Object[]{"전화번호"}, messageResolver.getMessage("U332"));
         }
 
         if (application.getMailAddr() == null || application.getMailAddr().length() == 0) {
