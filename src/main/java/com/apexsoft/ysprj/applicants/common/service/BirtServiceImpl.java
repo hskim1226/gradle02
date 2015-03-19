@@ -235,6 +235,7 @@ public class BirtServiceImpl implements BirtService {
         String tepsScore = "";
         String ieltsScore = "";
         String greScore = "";
+        String topikScore = "";
 
         int collCnt = 0;
         boolean collLastFg = false;
@@ -346,6 +347,16 @@ public class BirtServiceImpl implements BirtService {
                     }
                 }
             }
+            // 국어인 경우
+            else if ("00002".equals(aLangGrp.getExamCode())) {
+                for( CustomApplicationLanguage aLang  : aLangGrp.getLangList() ){
+                    if( aLang.isLangInfoSaveFg()) {
+                        if ("00001".equals(aLang.getItemCode())) {
+                            topikScore = aLang.getLangGrad();
+                        }
+                    }
+                }
+            }
         }
 
         rptInfoMap.put("toeflScore", toeflScore);
@@ -355,6 +366,7 @@ public class BirtServiceImpl implements BirtService {
         rptInfoMap.put("greScore", greScore);
         String forlExmp = StringUtil.getEmptyIfNull(applicationGeneral.getForlExmpCode());
         rptInfoMap.put("forlExmp", forlExmp.length() > 0 ? "O" : "");
+        rptInfoMap.put("topik", topikScore);
 
         // TODO
         String range0 = "";
