@@ -63,10 +63,10 @@
                     <sec:authorize access="hasRole('ROLE_USER')">
                         <li><a href="${contextPath}/j_spring_security_logout.do">[<sec:authentication property="principal.name" />]<spring:message code="L00011"/><%--sign out--%></a></li>
                     </sec:authorize>
-                    <li>
-                        <c:set var="clientLocale" value="${pageContext.response.locale}" />
-                        ${clientLocale.displayLanguage}
-                    </li>
+                    <c:set var="clientLocale" value="${pageContext.response.locale}" />
+                    <%--<li><a href="#">${clientLocale.displayLanguage}</a></li>--%>
+                    <li><a href="${contextPath}/common/displayTransLang"><spring:message code="L00014"/></a></li>
+
                 </ul>
             </div><!--/.navbar-collapse -->
         </div>

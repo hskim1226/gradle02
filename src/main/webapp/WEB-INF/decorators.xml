@@ -26,6 +26,8 @@
         <pattern>/test/*</pattern>
         <pattern>/common/error.jsp</pattern>
         <pattern>/common/404.jsp</pattern>
+        <pattern>/common/displayTransLang</pattern>
+        <pattern>/common/transLang</pattern>
         <pattern>/user/*</pattern>
     </decorator>
 
