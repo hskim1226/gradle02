@@ -1,4 +1,4 @@
-package com.apexsoft.ysprj.main.web;
+package com.apexsoft.ysprj.unused;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,11 +11,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
  * Time: 오후 6:20
  * To change this template use File | Settings | File Templates.
  */
-@Controller
+//@Controller
+@Deprecated
 public class IndexController {
 
-    @RequestMapping(value="/index", method= RequestMethod.GET)
-    public String displayIndex( ) {
-        return "main/index";
-    }
+//    @RequestMapping(value="/index", method= RequestMethod.GET)
+//    public String displayIndex( ) {
+//        return "main/index";
+//    }
 }
