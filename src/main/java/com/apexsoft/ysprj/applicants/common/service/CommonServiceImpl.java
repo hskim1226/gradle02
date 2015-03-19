@@ -42,7 +42,7 @@ public class CommonServiceImpl implements CommonService {
             applAttrList = commonDAO.queryForList(NAME_SPACE+"CustomCommonCodeMapper.selectAllByCodeGroup",
                     codeGrp,
                     CommonCode.class);
-            converter.convert(applAttrList, request);
+//            converter.convert(applAttrList, request);
         } catch (Exception e) {
             throw new BusinessException(e.getMessage(), e);
         }
@@ -55,12 +55,12 @@ public class CommonServiceImpl implements CommonService {
      * @return
      */
     @Override
-    @Cacheable(value = "campus")
+//    @Cacheable(value = "campus")
     public List<Campus> retrieveCampus() {
         List<Campus> campusList = null;
         try {
             campusList = commonDAO.queryForList(NAME_SPACE+"CustomCampusMapper.selectAll", Campus.class);
-            converter.convert(campusList, request);
+//            converter.convert(campusList, request);
         } catch (Exception e) {
             throw new BusinessException(e.getMessage(), e);
         }
@@ -74,12 +74,12 @@ public class CommonServiceImpl implements CommonService {
      * @return
      */
     @Override
-    @Cacheable(value = "collegeByCampus")
+//    @Cacheable(value = "collegeByCampus")
     public List<College> retrieveCollegeByCampus(String campusCode) {
         List<College> collegeList = null;
         try {
             collegeList = commonDAO.queryForList(NAME_SPACE+"CustomCollegeMapper.selectByCampus", campusCode, College.class);
-            converter.convert(collegeList, request);
+//            converter.convert(collegeList, request);
         } catch (Exception e) {
             throw new BusinessException(e.getMessage(), e);
         }
@@ -93,12 +93,12 @@ public class CommonServiceImpl implements CommonService {
      * @return
      */
     @Override
-    @Cacheable(value = "collegeByAdmsCamp")
+//    @Cacheable(value = "collegeByAdmsCamp")
     public List<College> retrieveCollegeByAdmsCamp(ParamForSetupCourses paramForSetupCourses) {
         List<College> collegeList = null;
         try {
             collegeList = commonDAO.queryForList(NAME_SPACE+"CustomCollegeMapper.selectByAdmsCamp", paramForSetupCourses, College.class);
-            converter.convert(collegeList, request);
+//            converter.convert(collegeList, request);
         } catch (Exception e) {
             throw new BusinessException(e.getMessage(), e);
         }
@@ -112,14 +112,14 @@ public class CommonServiceImpl implements CommonService {
      * @return
      */
     @Override
-    @Cacheable(value = "allDepartmentByColl")
+//    @Cacheable(value = "allDepartmentByColl")
     public List<CodeNameDepartment> retrieveAllDepartmentByColl(ParamForSetupCourses paramForSetupCourses) {
         List<CodeNameDepartment> codeNameDepartmentList = null;
         try {
             codeNameDepartmentList = commonDAO.queryForList(NAME_SPACE+"CustomDepartmentMapper.selectAllDepartmentByColl",
                     paramForSetupCourses,
                     CodeNameDepartment.class);
-            converter.convert(codeNameDepartmentList, request);
+//            converter.convert(codeNameDepartmentList, request);
         } catch (Exception e) {
             throw new BusinessException(e.getMessage(), e);
         }
@@ -133,14 +133,14 @@ public class CommonServiceImpl implements CommonService {
      * @return
      */
     @Override
-    @Cacheable(value = "generalDepartmentByAdmsColl")
+//    @Cacheable(value = "generalDepartmentByAdmsColl")
     public List<CodeNameDepartment> retrieveGeneralDepartmentByAdmsColl(ParamForSetupCourses paramForSetupCourses) {
         List<CodeNameDepartment> codeNameDepartmentList = null;
         try {
             codeNameDepartmentList = commonDAO.queryForList(NAME_SPACE+"CustomDepartmentMapper.selectByAdmsColl",
                     paramForSetupCourses,
                     CodeNameDepartment.class);
-            converter.convert(codeNameDepartmentList, request);
+//            converter.convert(codeNameDepartmentList, request);
         } catch (Exception e) {
             throw new BusinessException(e.getMessage(), e);
         }
@@ -154,14 +154,14 @@ public class CommonServiceImpl implements CommonService {
      * @return
      */
     @Override
-    @Cacheable(value = "generalCourseByAdmsDept")
+//    @Cacheable(value = "generalCourseByAdmsDept")
     public List<CodeNameCourse> retrieveGeneralCourseByAdmsDept(ParamForSetupCourses paramForSetupCourses) {
         List<CodeNameCourse> codeNameCourseList = null;
         try {
             codeNameCourseList = commonDAO.queryForList(NAME_SPACE+"CustomCourseMapper.selectGeneralByAdmsDept",
                     paramForSetupCourses,
                     CodeNameCourse.class);
-            converter.convert(codeNameCourseList, request);
+//            converter.convert(codeNameCourseList, request);
         } catch (Exception e) {
             throw new BusinessException(e.getMessage(), e);
         }
@@ -175,14 +175,14 @@ public class CommonServiceImpl implements CommonService {
      * @return
      */
     @Override
-    @Cacheable(value = "generalDetailMajorByAdmsDeptCors")
+//    @Cacheable(value = "generalDetailMajorByAdmsDeptCors")
     public List<CodeNameDetailMajor> retrieveGeneralDetailMajorByAdmsDeptCors(ParamForSetupCourses paramForSetupCourses) {
         List<CodeNameDetailMajor> codeNameDetailMajorList = null;
         try {
             codeNameDetailMajorList = commonDAO.queryForList(NAME_SPACE+"CustomDetailMajorMapper.selectGeneralByAdmsDeptCors",
                     paramForSetupCourses,
                     CodeNameDetailMajor.class);
-            converter.convert(codeNameDetailMajorList, request);
+//            converter.convert(codeNameDetailMajorList, request);
         } catch (Exception e) {
             throw new BusinessException(e.getMessage(), e);
         }
@@ -196,14 +196,14 @@ public class CommonServiceImpl implements CommonService {
      * @return
      */
     @Override
-    @Cacheable(value = "commissionCourseByAdmsDept")
+//    @Cacheable(value = "commissionCourseByAdmsDept")
     public List<CodeNameCourse> retrieveCommissionCourseByAdmsDept(ParamForSetupCourses paramForSetupCourses) {
         List<CodeNameCourse> codeNameCourseList = null;
         try {
             codeNameCourseList = commonDAO.queryForList(NAME_SPACE+"CustomCourseMapper.selectCommissionByAdmsDept",
                     paramForSetupCourses,
                     CodeNameCourse.class);
-            converter.convert(codeNameCourseList, request);
+//            converter.convert(codeNameCourseList, request);
         } catch (Exception e) {
             throw new BusinessException(e.getMessage(), e);
         }
@@ -216,13 +216,13 @@ public class CommonServiceImpl implements CommonService {
      * @return
      */
     @Override
-    @Cacheable(value = "ariInst")
+//    @Cacheable(value = "ariInst")
     public List<AcademyResearchIndustryInstitution> retrieveAriInst() {
         List<AcademyResearchIndustryInstitution> academyResearchIndustryInstitutionList = null;
         try {
             academyResearchIndustryInstitutionList = commonDAO.queryForList(NAME_SPACE+"CustomAcademyResearchIndustryInstitutionMapper.selectAll",
                     AcademyResearchIndustryInstitution.class);
-            converter.convert(academyResearchIndustryInstitutionList, request);
+//            converter.convert(academyResearchIndustryInstitutionList, request);
         } catch (Exception e) {
             throw new BusinessException(e.getMessage(), e);
         }
@@ -236,14 +236,14 @@ public class CommonServiceImpl implements CommonService {
      * @return
      */
     @Override
-    @Cacheable(value = "ariInstDepartmentByAdmsAriInst")
+//    @Cacheable(value = "ariInstDepartmentByAdmsAriInst")
     public List<CodeNameDepartment> retrieveAriInstDepartmentByAdmsAriInst(ParamForSetupCourses paramForSetupCourses) {
         List<CodeNameDepartment> codeNameDepartmentList = null;
         try {
             codeNameDepartmentList = commonDAO.queryForList(NAME_SPACE+"CustomDepartmentMapper.selectByAdmsAriInst",
                     paramForSetupCourses,
                     CodeNameDepartment.class);
-            converter.convert(codeNameDepartmentList, request);
+//            converter.convert(codeNameDepartmentList, request);
         } catch (Exception e) {
             throw new BusinessException(e.getMessage(), e);
         }
@@ -257,14 +257,14 @@ public class CommonServiceImpl implements CommonService {
      * @return
      */
     @Override
-    @Cacheable(value = "ariInstCourseByAdmsDeptAriInst")
+//    @Cacheable(value = "ariInstCourseByAdmsDeptAriInst")
     public List<CodeNameCourse> retrieveAriInstCourseByAdmsDeptAriInst(ParamForSetupCourses paramForSetupCourses) {
         List<CodeNameCourse> codeNameCourseList = null;
         try {
             codeNameCourseList = commonDAO.queryForList(NAME_SPACE+"CustomCourseMapper.selectAriInstByAdmsDeptAriInst",
                     paramForSetupCourses,
                     CodeNameCourse.class);
-            converter.convert(codeNameCourseList, request);
+//            converter.convert(codeNameCourseList, request);
         } catch (Exception e) {
             throw new BusinessException(e.getMessage(), e);
         }
@@ -278,14 +278,14 @@ public class CommonServiceImpl implements CommonService {
      * @return
      */
     @Override
-    @Cacheable(value = "ariInstDetailMajorByAdmsDeptAriInst")
+//    @Cacheable(value = "ariInstDetailMajorByAdmsDeptAriInst")
     public List<CodeNameDetailMajor> retrieveAriInstDetailMajorByAdmsDeptAriInst(ParamForSetupCourses paramForSetupCourses) {
         List<CodeNameDetailMajor> codeNameDetailMajorList = null;
         try {
             codeNameDetailMajorList = commonDAO.queryForList(NAME_SPACE+"CustomDetailMajorMapper.selectAriInstByAdmsDeptAriInstCors",
                     paramForSetupCourses,
                     CodeNameDetailMajor.class);
-            converter.convert(codeNameDetailMajorList, request);
+//            converter.convert(codeNameDetailMajorList, request);
         } catch (Exception e) {
             throw new BusinessException(e.getMessage(), e);
         }
@@ -299,14 +299,14 @@ public class CommonServiceImpl implements CommonService {
      * @return
      */
     @Override
-    @Cacheable(value = "countryByName")
+//    @Cacheable(value = "countryByName")
     public List<Country> retrieveCountryByName(String keyword) {
         List<Country> countryList = null;
         try {
             countryList = commonDAO.queryForList(NAME_SPACE+"CustomCountryMapper.selectCountryListByName",
                     keyword,
                     Country.class);
-            converter.convert(countryList, request);
+//            converter.convert(countryList, request);
         } catch (Exception e) {
             throw new BusinessException(e.getMessage(), e);
         }
@@ -320,14 +320,14 @@ public class CommonServiceImpl implements CommonService {
      * @return
      */
     @Override
-    @Cacheable(value = "countryByCode")
+//    @Cacheable(value = "countryByCode")
     public Country retrieveCountryByCode(String cntrCode) {
         Country country = null;
         try {
             country = commonDAO.queryForObject(NAME_SPACE+"CustomCountryMapper.selectCountryByCode",
                     cntrCode,
                     Country.class);
-            converter.convert(country, request);
+//            converter.convert(country, request);
         } catch (Exception e) {
             throw new BusinessException(e.getMessage(), e);
         }
@@ -342,7 +342,7 @@ public class CommonServiceImpl implements CommonService {
      * @return
      */
     @Override
-    @Cacheable(value = "schoolByTypeName")
+//    @Cacheable(value = "schoolByTypeName")
     public List<School> retrieveSchoolByTypeName(String schlType, String keyword) {
         List<School> schoolList = null;
         ParamForSchoolSearch paramForSchoolSearch = new ParamForSchoolSearch();
@@ -353,7 +353,7 @@ public class CommonServiceImpl implements CommonService {
             schoolList = commonDAO.queryForList(NAME_SPACE+"CustomSchoolMapper.selectSchoolListByTypeName",
                     paramForSchoolSearch,
                     School.class);
-            converter.convert(schoolList, request);
+//            converter.convert(schoolList, request);
         } catch (Exception e) {
             throw new BusinessException(e.getMessage(), e);
         }
@@ -367,14 +367,14 @@ public class CommonServiceImpl implements CommonService {
      * @return
      */
     @Override
-    @Cacheable(value = "commonCodeByCodeGroup")
+//    @Cacheable(value = "commonCodeByCodeGroup")
     public List<CommonCode> retrieveCommonCodeByCodeGroup(String codeGrp) {
         List<CommonCode> commonCodeList = null;
         try {
             commonCodeList = commonDAO.queryForList(NAME_SPACE+"CustomCommonCodeMapper.selectAllByCodeGroup",
                     codeGrp,
                     CommonCode.class);
-            converter.convert(commonCodeList, request);
+//            converter.convert(commonCodeList, request);
         } catch (Exception e) {
             throw new BusinessException(e.getMessage(), e);
         }
@@ -389,7 +389,7 @@ public class CommonServiceImpl implements CommonService {
      * @return
      */
     @Override
-    @Cacheable(value = "commonCodeByCodeGroupCode")
+//    @Cacheable(value = "commonCodeByCodeGroupCode")
     public CommonCode retrieveCommonCodeByCodeGroupCode(String codeGrp, String code) {
         CommonCode commonCode = null;
         ParamForCommonCode paramForCommonCode = new ParamForCommonCode();
@@ -400,7 +400,7 @@ public class CommonServiceImpl implements CommonService {
             commonCode = commonDAO.queryForObject(NAME_SPACE + "CustomCommonCodeMapper.selectByCodeGroupCode",
                     paramForCommonCode,
                     CommonCode.class);
-            converter.convert(commonCode, request);
+//            converter.convert(commonCode, request);
         } catch (Exception e) {
             throw new BusinessException(e.getMessage(), e);
         }
@@ -414,14 +414,14 @@ public class CommonServiceImpl implements CommonService {
      * @return
      */
     @Override
-    @Cacheable(value = "commonCodeListByCodeGroupKeyword")
+//    @Cacheable(value = "commonCodeListByCodeGroupKeyword")
     public List<CommonCode> retrieveCommonCodeListByCodeGroupKeyword(ParamForCommonCode paramForCommonCode) {
         List<CommonCode> commonCodeList = null;
         try {
             commonCodeList = commonDAO.queryForList(NAME_SPACE + "CustomCommonCodeMapper.selectListByCodeGroupKeyword",
                     paramForCommonCode,
                     CommonCode.class);
-            converter.convert(commonCodeList, request);
+//            converter.convert(commonCodeList, request);
         } catch (Exception e) {
             throw new BusinessException(e.getMessage(), e);
         }
@@ -435,14 +435,14 @@ public class CommonServiceImpl implements CommonService {
      * @return
      */
     @Override
-    @Cacheable(value = "commonCodeListByCodeGroupCode")
+//    @Cacheable(value = "commonCodeListByCodeGroupCode")
     public CommonCode retrieveCommonCodeListByCodeGroupCode(ParamForCommonCode paramForCommonCode) {
         CommonCode commonCode = null;
         try {
             commonCode = commonDAO.queryForObject(NAME_SPACE+"CustomCommonCodeMapper.selectListByCodeGroupCode",
                     paramForCommonCode,
                     CommonCode.class);
-            converter.convert(commonCode, request);
+//            converter.convert(commonCode, request);
         } catch (Exception e) {
             throw new BusinessException(e.getMessage(), e);
         }
@@ -456,14 +456,14 @@ public class CommonServiceImpl implements CommonService {
      * @return
      */
     @Override
-    @Cacheable(value = "campNameByCode")
+//    @Cacheable(value = "campNameByCode")
     public String retrieveCampNameByCode(String campCode) {
         String campName = null;
         try {
             Campus campus = commonDAO.queryForObject(NAME_SPACE + "CustomCampusMapper.selectNameByCode",
                     campCode,
                     Campus.class);
-            converter.convert(campus, request);
+//            converter.convert(campus, request);
             campName = campus.getCampName();
         } catch (Exception e) {
             throw new BusinessException(e.getMessage(), e);
@@ -478,14 +478,14 @@ public class CommonServiceImpl implements CommonService {
      * @return
      */
     @Override
-    @Cacheable(value = "collNameByCode")
+//    @Cacheable(value = "collNameByCode")
     public String retrieveCollNameByCode(String collCode) {
         String collName = null;
         try {
             College college = commonDAO.queryForObject(NAME_SPACE + "CustomCollegeMapper.selectNameByCode",
                     collCode,
                     College.class);
-            converter.convert(college, request);
+//            converter.convert(college, request);
             collName = college.getCollName();
         } catch (Exception e) {
             throw new BusinessException(e.getMessage(), e);
@@ -500,7 +500,7 @@ public class CommonServiceImpl implements CommonService {
      * @return
      */
     @Override
-    @Cacheable(value = "ariInstNameByCode")
+//    @Cacheable(value = "ariInstNameByCode")
     public String retrieveAriInstNameByCode(String ariInstCode) {
         String ariInstName = null;
         try {
@@ -520,14 +520,14 @@ public class CommonServiceImpl implements CommonService {
      * @return
      */
     @Override
-    @Cacheable(value = "deptNameByCode")
+//    @Cacheable(value = "deptNameByCode")
     public String retrieveDeptNameByCode(String deptCode) {
         String deptName = null;
         try {
             CodeNameDepartment codeNameDepartment = commonDAO.queryForObject(NAME_SPACE + "CustomDepartmentMapper.selectNameByCode",
                     deptCode,
                     CodeNameDepartment.class);
-            converter.convert(codeNameDepartment, request);
+//            converter.convert(codeNameDepartment, request);
             deptName = codeNameDepartment.getDeptName();
         } catch (Exception e) {
             throw new BusinessException(e.getMessage(), e);
@@ -542,14 +542,14 @@ public class CommonServiceImpl implements CommonService {
      * @return
      */
     @Override
-    @Cacheable(value = "corsTypeNameByCode")
+//    @Cacheable(value = "corsTypeNameByCode")
     public String retrieveCorsTypeNameByCode(String corsTypeCode) {
         String corsTypeName = null;
         try {
             CodeNameCourse codeNameCourse = commonDAO.queryForObject(NAME_SPACE + "CustomCourseMapper.selectNameByCode",
                     corsTypeCode,
                     CodeNameCourse.class);
-            converter.convert(codeNameCourse, request);
+//            converter.convert(codeNameCourse, request);
             corsTypeName = codeNameCourse.getCodeVal();
         } catch (Exception e) {
             throw new BusinessException(e.getMessage(), e);
@@ -564,14 +564,14 @@ public class CommonServiceImpl implements CommonService {
      * @return
      */
     @Override
-    @Cacheable(value = "detlMajNameByCode")
+//    @Cacheable(value = "detlMajNameByCode")
     public String retrieveDetlMajNameByCode(String detlMajCode) {
         String detlMajName = null;
         try {
             CodeNameDetailMajor codeNameDetailMajor = commonDAO.queryForObject(NAME_SPACE + "CustomDetailMajorMapper.selectNameByCode",
                     detlMajCode,
                     CodeNameDetailMajor.class);
-            converter.convert(codeNameDetailMajor, request);
+//            converter.convert(codeNameDetailMajor, request);
             detlMajName = codeNameDetailMajor.getDetlMajName();
         } catch (Exception e) {
             throw new BusinessException(e.getMessage(), e);
@@ -580,12 +580,12 @@ public class CommonServiceImpl implements CommonService {
     }
 
     @Override
-    @Cacheable(value = "langExamByLangCode")
+//    @Cacheable(value = "langExamByLangCode")
     public List<LanguageExam> retrieveLangExamByLangCode(String langCode) {
         List<LanguageExam> langExamList = null;
         try {
             langExamList = commonDAO.queryForList(NAME_SPACE+"CustomLanguageExamMapper.selectByLangCode", langCode, LanguageExam.class);
-            converter.convert(langExamList, request);
+//            converter.convert(langExamList, request);
         } catch (Exception e) {
             throw new BusinessException(e.getMessage(), e);
         }
