@@ -10,112 +10,112 @@
                   overflowToDisk="false" diskPersistent="false" timeToIdleSeconds="0"
                   timeToLiveSeconds="600" memoryStoreEvictionPolicy="LRU" statistics="false" />
 
-    <!--<cache name="defaultCache" eternal="false" maxElementsInMemory="2000"-->
-           <!--overflowToDisk="false" diskPersistent="false" timeToIdleSeconds="0"-->
-           <!--timeToLiveSeconds="60" memoryStoreEvictionPolicy="LRU" statistics="false" />-->
+    <cache name="defaultCache" eternal="false" maxElementsInMemory="2000"
+           overflowToDisk="false" diskPersistent="false" timeToIdleSeconds="0"
+           timeToLiveSeconds="60" memoryStoreEvictionPolicy="LRU" statistics="false" />
 
-    <!--<cache name="campus" eternal="false" maxElementsInMemory="2000"-->
-           <!--overflowToDisk="false" diskPersistent="false" timeToIdleSeconds="0"-->
-           <!--timeToLiveSeconds="60" memoryStoreEvictionPolicy="LRU" statistics="false" />-->
+    <cache name="campus" eternal="false" maxElementsInMemory="2000"
+           overflowToDisk="false" diskPersistent="false" timeToIdleSeconds="0"
+           timeToLiveSeconds="60" memoryStoreEvictionPolicy="LRU" statistics="false" />
 
-    <!--<cache name="collegeByCampus" eternal="false" maxElementsInMemory="2000"-->
-           <!--overflowToDisk="false" diskPersistent="false" timeToIdleSeconds="0"-->
-           <!--timeToLiveSeconds="60" memoryStoreEvictionPolicy="LRU" statistics="false" />-->
+    <cache name="collegeByCampus" eternal="false" maxElementsInMemory="2000"
+           overflowToDisk="false" diskPersistent="false" timeToIdleSeconds="0"
+           timeToLiveSeconds="60" memoryStoreEvictionPolicy="LRU" statistics="false" />
 
-    <!--<cache name="allDepartmentByColl" eternal="false" maxElementsInMemory="2000"-->
-           <!--overflowToDisk="false" diskPersistent="false" timeToIdleSeconds="0"-->
-           <!--timeToLiveSeconds="60" memoryStoreEvictionPolicy="LRU" statistics="false" />-->
+    <cache name="allDepartmentByColl" eternal="false" maxElementsInMemory="2000"
+           overflowToDisk="false" diskPersistent="false" timeToIdleSeconds="0"
+           timeToLiveSeconds="60" memoryStoreEvictionPolicy="LRU" statistics="false" />
 
-    <!--<cache name="generalDepartmentByAdmsColl" eternal="false" maxElementsInMemory="2000"-->
-           <!--overflowToDisk="false" diskPersistent="false" timeToIdleSeconds="0"-->
-           <!--timeToLiveSeconds="60" memoryStoreEvictionPolicy="LRU" statistics="false" />-->
+    <cache name="generalDepartmentByAdmsColl" eternal="false" maxElementsInMemory="2000"
+           overflowToDisk="false" diskPersistent="false" timeToIdleSeconds="0"
+           timeToLiveSeconds="60" memoryStoreEvictionPolicy="LRU" statistics="false" />
 
-    <!--<cache name="generalCourseByAdmsDept" eternal="false" maxElementsInMemory="2000"-->
-           <!--overflowToDisk="false" diskPersistent="false" timeToIdleSeconds="0"-->
-           <!--timeToLiveSeconds="60" memoryStoreEvictionPolicy="LRU" statistics="false" />-->
+    <cache name="generalCourseByAdmsDept" eternal="false" maxElementsInMemory="2000"
+           overflowToDisk="false" diskPersistent="false" timeToIdleSeconds="0"
+           timeToLiveSeconds="60" memoryStoreEvictionPolicy="LRU" statistics="false" />
 
-    <!--<cache name="generalDetailMajorByAdmsDeptCors" eternal="false" maxElementsInMemory="2000"-->
-           <!--overflowToDisk="false" diskPersistent="false" timeToIdleSeconds="0"-->
-           <!--timeToLiveSeconds="60" memoryStoreEvictionPolicy="LRU" statistics="false" />-->
+    <cache name="generalDetailMajorByAdmsDeptCors" eternal="false" maxElementsInMemory="2000"
+           overflowToDisk="false" diskPersistent="false" timeToIdleSeconds="0"
+           timeToLiveSeconds="60" memoryStoreEvictionPolicy="LRU" statistics="false" />
 
-    <!--<cache name="commissionCourseByAdmsDept" eternal="false" maxElementsInMemory="2000"-->
-           <!--overflowToDisk="false" diskPersistent="false" timeToIdleSeconds="0"-->
-           <!--timeToLiveSeconds="60" memoryStoreEvictionPolicy="LRU" statistics="false" />-->
+    <cache name="commissionCourseByAdmsDept" eternal="false" maxElementsInMemory="2000"
+           overflowToDisk="false" diskPersistent="false" timeToIdleSeconds="0"
+           timeToLiveSeconds="60" memoryStoreEvictionPolicy="LRU" statistics="false" />
 
-    <!--<cache name="ariInst" eternal="false" maxElementsInMemory="2000"-->
-           <!--overflowToDisk="false" diskPersistent="false" timeToIdleSeconds="0"-->
-           <!--timeToLiveSeconds="60" memoryStoreEvictionPolicy="LRU" statistics="false" />-->
+    <cache name="ariInst" eternal="false" maxElementsInMemory="2000"
+           overflowToDisk="false" diskPersistent="false" timeToIdleSeconds="0"
+           timeToLiveSeconds="60" memoryStoreEvictionPolicy="LRU" statistics="false" />
 
-    <!--<cache name="ariInstDepartmentByAdmsAriInst" eternal="false" maxElementsInMemory="2000"-->
-           <!--overflowToDisk="false" diskPersistent="false" timeToIdleSeconds="0"-->
-           <!--timeToLiveSeconds="60" memoryStoreEvictionPolicy="LRU" statistics="false" />-->
+    <cache name="ariInstDepartmentByAdmsAriInst" eternal="false" maxElementsInMemory="2000"
+           overflowToDisk="false" diskPersistent="false" timeToIdleSeconds="0"
+           timeToLiveSeconds="60" memoryStoreEvictionPolicy="LRU" statistics="false" />
 
-    <!--<cache name="ariInstCourseByAdmsDeptAriInst" eternal="false" maxElementsInMemory="2000"-->
-           <!--overflowToDisk="false" diskPersistent="false" timeToIdleSeconds="0"-->
-           <!--timeToLiveSeconds="60" memoryStoreEvictionPolicy="LRU" statistics="false" />-->
+    <cache name="ariInstCourseByAdmsDeptAriInst" eternal="false" maxElementsInMemory="2000"
+           overflowToDisk="false" diskPersistent="false" timeToIdleSeconds="0"
+           timeToLiveSeconds="60" memoryStoreEvictionPolicy="LRU" statistics="false" />
 
-    <!--<cache name="ariInstDetailMajorByAdmsDeptAriInst" eternal="false" maxElementsInMemory="2000"-->
-           <!--overflowToDisk="false" diskPersistent="false" timeToIdleSeconds="0"-->
-           <!--timeToLiveSeconds="60" memoryStoreEvictionPolicy="LRU" statistics="false" />-->
+    <cache name="ariInstDetailMajorByAdmsDeptAriInst" eternal="false" maxElementsInMemory="2000"
+           overflowToDisk="false" diskPersistent="false" timeToIdleSeconds="0"
+           timeToLiveSeconds="60" memoryStoreEvictionPolicy="LRU" statistics="false" />
 
-    <!--<cache name="countryByName" eternal="false" maxElementsInMemory="2000"-->
-           <!--overflowToDisk="false" diskPersistent="false" timeToIdleSeconds="0"-->
-           <!--timeToLiveSeconds="60" memoryStoreEvictionPolicy="LRU" statistics="false" />-->
+    <cache name="countryByName" eternal="false" maxElementsInMemory="2000"
+           overflowToDisk="false" diskPersistent="false" timeToIdleSeconds="0"
+           timeToLiveSeconds="60" memoryStoreEvictionPolicy="LRU" statistics="false" />
 
-    <!--<cache name="countryByCode" eternal="false" maxElementsInMemory="2000"-->
-           <!--overflowToDisk="false" diskPersistent="false" timeToIdleSeconds="0"-->
-           <!--timeToLiveSeconds="60" memoryStoreEvictionPolicy="LRU" statistics="false" />-->
+    <cache name="countryByCode" eternal="false" maxElementsInMemory="2000"
+           overflowToDisk="false" diskPersistent="false" timeToIdleSeconds="0"
+           timeToLiveSeconds="60" memoryStoreEvictionPolicy="LRU" statistics="false" />
 
-    <!--<cache name="schoolByTypeName" eternal="false" maxElementsInMemory="2000"-->
-           <!--overflowToDisk="false" diskPersistent="false" timeToIdleSeconds="0"-->
-           <!--timeToLiveSeconds="60" memoryStoreEvictionPolicy="LRU" statistics="false" />-->
+    <cache name="schoolByTypeName" eternal="false" maxElementsInMemory="2000"
+           overflowToDisk="false" diskPersistent="false" timeToIdleSeconds="0"
+           timeToLiveSeconds="60" memoryStoreEvictionPolicy="LRU" statistics="false" />
 
-    <!--<cache name="commonCodeByCodeGroup" eternal="false" maxElementsInMemory="2000"-->
-           <!--overflowToDisk="false" diskPersistent="false" timeToIdleSeconds="0"-->
-           <!--timeToLiveSeconds="60" memoryStoreEvictionPolicy="LRU" statistics="false" />-->
+    <cache name="commonCodeByCodeGroup" eternal="false" maxElementsInMemory="2000"
+           overflowToDisk="false" diskPersistent="false" timeToIdleSeconds="0"
+           timeToLiveSeconds="60" memoryStoreEvictionPolicy="LRU" statistics="false" />
 
-    <!--<cache name="commonCodeByCodeGroupCode" eternal="false" maxElementsInMemory="2000"-->
-           <!--overflowToDisk="false" diskPersistent="false" timeToIdleSeconds="0"-->
-           <!--timeToLiveSeconds="60" memoryStoreEvictionPolicy="LRU" statistics="false" />-->
+    <cache name="commonCodeByCodeGroupCode" eternal="false" maxElementsInMemory="2000"
+           overflowToDisk="false" diskPersistent="false" timeToIdleSeconds="0"
+           timeToLiveSeconds="60" memoryStoreEvictionPolicy="LRU" statistics="false" />
 
-    <!--<cache name="commonCodeListByCodeGroupKeyword" eternal="false" maxElementsInMemory="2000"-->
-           <!--overflowToDisk="false" diskPersistent="false" timeToIdleSeconds="0"-->
-           <!--timeToLiveSeconds="60" memoryStoreEvictionPolicy="LRU" statistics="false" />-->
+    <cache name="commonCodeListByCodeGroupKeyword" eternal="false" maxElementsInMemory="2000"
+           overflowToDisk="false" diskPersistent="false" timeToIdleSeconds="0"
+           timeToLiveSeconds="60" memoryStoreEvictionPolicy="LRU" statistics="false" />
 
-    <!--<cache name="commonCodeListByCodeGroupCode" eternal="false" maxElementsInMemory="2000"-->
-           <!--overflowToDisk="false" diskPersistent="false" timeToIdleSeconds="0"-->
-           <!--timeToLiveSeconds="60" memoryStoreEvictionPolicy="LRU" statistics="false" />-->
+    <cache name="commonCodeListByCodeGroupCode" eternal="false" maxElementsInMemory="2000"
+           overflowToDisk="false" diskPersistent="false" timeToIdleSeconds="0"
+           timeToLiveSeconds="60" memoryStoreEvictionPolicy="LRU" statistics="false" />
 
-    <!--<cache name="campNameByCode" eternal="false" maxElementsInMemory="2000"-->
-           <!--overflowToDisk="false" diskPersistent="false" timeToIdleSeconds="0"-->
-           <!--timeToLiveSeconds="60" memoryStoreEvictionPolicy="LRU" statistics="false" />-->
+    <cache name="campNameByCode" eternal="false" maxElementsInMemory="2000"
+           overflowToDisk="false" diskPersistent="false" timeToIdleSeconds="0"
+           timeToLiveSeconds="60" memoryStoreEvictionPolicy="LRU" statistics="false" />
 
-    <!--<cache name="collNameByCode" eternal="false" maxElementsInMemory="2000"-->
-           <!--overflowToDisk="false" diskPersistent="false" timeToIdleSeconds="0"-->
-           <!--timeToLiveSeconds="60" memoryStoreEvictionPolicy="LRU" statistics="false" />-->
+    <cache name="collNameByCode" eternal="false" maxElementsInMemory="2000"
+           overflowToDisk="false" diskPersistent="false" timeToIdleSeconds="0"
+           timeToLiveSeconds="60" memoryStoreEvictionPolicy="LRU" statistics="false" />
 
-    <!--<cache name="ariInstNameByCode" eternal="false" maxElementsInMemory="2000"-->
-           <!--overflowToDisk="false" diskPersistent="false" timeToIdleSeconds="0"-->
-           <!--timeToLiveSeconds="60" memoryStoreEvictionPolicy="LRU" statistics="false" />-->
+    <cache name="ariInstNameByCode" eternal="false" maxElementsInMemory="2000"
+           overflowToDisk="false" diskPersistent="false" timeToIdleSeconds="0"
+           timeToLiveSeconds="60" memoryStoreEvictionPolicy="LRU" statistics="false" />
 
-    <!--<cache name="deptNameByCode" eternal="false" maxElementsInMemory="2000"-->
-           <!--overflowToDisk="false" diskPersistent="false" timeToIdleSeconds="0"-->
-           <!--timeToLiveSeconds="60" memoryStoreEvictionPolicy="LRU" statistics="false" />-->
+    <cache name="deptNameByCode" eternal="false" maxElementsInMemory="2000"
+           overflowToDisk="false" diskPersistent="false" timeToIdleSeconds="0"
+           timeToLiveSeconds="60" memoryStoreEvictionPolicy="LRU" statistics="false" />
 
-    <!--<cache name="corsTypeNameByCode" eternal="false" maxElementsInMemory="2000"-->
-           <!--overflowToDisk="false" diskPersistent="false" timeToIdleSeconds="0"-->
-           <!--timeToLiveSeconds="60" memoryStoreEvictionPolicy="LRU" statistics="false" />-->
+    <cache name="corsTypeNameByCode" eternal="false" maxElementsInMemory="2000"
+           overflowToDisk="false" diskPersistent="false" timeToIdleSeconds="0"
+           timeToLiveSeconds="60" memoryStoreEvictionPolicy="LRU" statistics="false" />
 
-    <!--<cache name="detlMajNameByCode" eternal="false" maxElementsInMemory="2000"-->
-           <!--overflowToDisk="false" diskPersistent="false" timeToIdleSeconds="0"-->
-           <!--timeToLiveSeconds="60" memoryStoreEvictionPolicy="LRU" statistics="false" />-->
+    <cache name="detlMajNameByCode" eternal="false" maxElementsInMemory="2000"
+           overflowToDisk="false" diskPersistent="false" timeToIdleSeconds="0"
+           timeToLiveSeconds="60" memoryStoreEvictionPolicy="LRU" statistics="false" />
 
-    <!--<cache name="langExamByLangCode" eternal="false" maxElementsInMemory="2000"-->
-           <!--overflowToDisk="false" diskPersistent="false" timeToIdleSeconds="0"-->
-           <!--timeToLiveSeconds="60" memoryStoreEvictionPolicy="LRU" statistics="false" />-->
+    <cache name="langExamByLangCode" eternal="false" maxElementsInMemory="2000"
+           overflowToDisk="false" diskPersistent="false" timeToIdleSeconds="0"
+           timeToLiveSeconds="60" memoryStoreEvictionPolicy="LRU" statistics="false" />
 
-    <!--<cache name="collegeByAdmsCamp" eternal="false" maxElementsInMemory="2000"-->
-           <!--overflowToDisk="false" diskPersistent="false" timeToIdleSeconds="0"-->
-           <!--timeToLiveSeconds="60" memoryStoreEvictionPolicy="LRU" statistics="false" />-->
+    <cache name="collegeByAdmsCamp" eternal="false" maxElementsInMemory="2000"
+           overflowToDisk="false" diskPersistent="false" timeToIdleSeconds="0"
+           timeToLiveSeconds="60" memoryStoreEvictionPolicy="LRU" statistics="false" />
 
 </ehcache>
