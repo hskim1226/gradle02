@@ -425,7 +425,7 @@
                             <div class="panel panel-darkgray">
                                 <div class="panel-heading"><spring:message code="L01201"/><%--지원자 정보--%></div>
                                 <div class="panel-body">
-                                    <div class="form-group required">
+                                    <div class="form-group ${basis.application.admsTypeCode == "C" || basis.application.admsTypeCode == "D" ? '' : 'required' }">
                                         <label for="application.korName" class="col-sm-2 control-label"><spring:message code="L01202"/><%--한글 이름--%></label>
                                         <div class="col-sm-9">
                                             <div class="col-sm-12">
@@ -763,7 +763,7 @@
                             <div class="panel panel-darkgray">
                                 <div class="panel-heading"><spring:message code="L01501"/><%--지원자 연락처--%></div>
                                 <div class="panel-body">
-                                    <div class="form-group required">
+                                    <div class="form-group ${basis.application.admsTypeCode == "C" || basis.application.admsTypeCode == "D" ? '' : 'required' }">
                                         <label class="col-sm-2 control-label"><spring:message code="L01502"/><%--주소--%></label>
                                         <div class="col-sm-9">
                                             <div class="col-sm-3">
@@ -818,7 +818,7 @@
                                             </spring:bind>
                                         </div>
                                     </div>
-                                    <div class="form-group required">
+                                    <div class="form-group ${basis.application.admsTypeCode == "C" || basis.application.admsTypeCode == "D" ? '' : 'required' }">
                                         <label for="application.mobiNum" class="col-sm-2 control-label"><spring:message code="L01505"/><%--휴대폰--%></label>
                                         <div class="col-sm-9">
                                             <div class="col-sm-12">

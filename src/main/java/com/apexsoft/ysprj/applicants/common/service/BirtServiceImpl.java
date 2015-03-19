@@ -182,7 +182,7 @@ public class BirtServiceImpl implements BirtService {
         String addr = application.getAddr();
         String detlAddr = application.getDetlAddr();
 
-        rptInfoMap.put("korName", korName);
+        rptInfoMap.put("korName", StringUtil.getEmptyIfNull(korName));
         rptInfoMap.put("engName", engName);
         rptInfoMap.put("engSur", engSur);
         rptInfoMap.put("gend", gend);
@@ -201,13 +201,13 @@ public class BirtServiceImpl implements BirtService {
         rptInfoMap.put("visaTypeName", StringUtil.getEmptyIfNull(applicationForeigner.getVisaTypeCode()) + StringUtil.getEmptyIfNull(applicationForeigner.getVisaTypeEtc()));
         rptInfoMap.put("fornRgstYn", StringUtil.getEmptyIfNull(applicationForeigner.getFornRgstNo()).length() > 0 ? "등록"+"\n"+"(Registered)" : "미등록"+"\n"+"(Not Registered)");
         rptInfoMap.put("homeAdddr", StringUtil.getEmptyIfNull(applicationForeigner.getHomeAddr()));
-        rptInfoMap.put("korAddr", addr + " " + detlAddr);
+        rptInfoMap.put("korAddr", StringUtil.getEmptyIfNull(addr) + " " + StringUtil.getEmptyIfNull(detlAddr));
         rptInfoMap.put("mailAddr", mailAddr);
         rptInfoMap.put("homeTel", StringUtil.getEmptyIfNull(applicationForeigner.getHomeTel()));
         rptInfoMap.put("telNum", telNum);
-        rptInfoMap.put("mobiNum", mobiNum);
-        rptInfoMap.put("addr", addr);
-        rptInfoMap.put("detlAddr", detlAddr);
+        rptInfoMap.put("mobiNum", StringUtil.getEmptyIfNull(mobiNum));
+        rptInfoMap.put("addr", StringUtil.getEmptyIfNull(addr));
+        rptInfoMap.put("detlAddr", StringUtil.getEmptyIfNull(detlAddr));
         rptInfoMap.put("homeEmrgName", StringUtil.getEmptyIfNull(applicationForeigner.getHomeEmrgName()));
         rptInfoMap.put("homeEmrgTel", StringUtil.getEmptyIfNull(applicationForeigner.getHomeEmrgTel()));
         rptInfoMap.put("homeEmrgRela", StringUtil.getEmptyIfNull(applicationForeigner.getHomeEmrgRela()));
