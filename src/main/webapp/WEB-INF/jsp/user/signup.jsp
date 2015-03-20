@@ -216,6 +216,11 @@
                     <div class="form-group">
                         <div class="col-sm-offset-2 col-sm-8">
                             <div class="col-sm-12 btn-group btn-group-justified">
+                                <div class="btn-group col-sm-12" id="warn-id-check">
+                                    <button id="btn-warn-id-check" class="btn btn-danger btn-lg">ID 중복 체크를 해주세요.</button>
+                                </div>
+                            </div>
+                            <div class="col-sm-12 btn-group btn-group-justified">
                                 <div class="btn-group col-sm-12">
                                     <button id="sign-up-button" class="btn btn-primary btn-lg" disabled="disabled" ><spring:message code="L00130"/><%--회원 가입--%></button>
                                 </div>
@@ -260,6 +265,7 @@
                             if(container.result == "SUCCESS"){
                                 alert("사용가능한 username 입니다.");
                                 $("#sign-up-button").prop('disabled', false);
+                                document.getElementById('warn-id-check').style.display = 'none';
                             }else{
                                 alert("이미 사용 중인 username 입니다.");
                                 $("#sign-up-button").prop('disabled', true);
@@ -309,6 +315,13 @@
             $(block).find(calendarClass).datepicker(datePickerOption);
         };
         <%-- 달력 reset 함수 --%>
+
+        <%-- ID 중복 체크 경고 버튼 클릭 시 ID 입력란에 focus --%>
+        $('#btn-warn-id-check').on('click', function(e) {
+            e.preventDefault();
+            $('#userId').focus();
+        });
+        <%-- ID 중복 체크 경고 버튼 클릭 시 ID 입력란에 focus --%>
 
         <%-- action 성공 여부 알림 처리 --%>
         var showActionResult = function() {
