@@ -2,7 +2,7 @@
 <%@ include file="/WEB-INF/jsp/common/env.jsp"%>
 <html lang='ko'>
 <head>
-    <title>비밀번호 재설정</title>
+    <title><spring:message code="L00191"/><%--비밀번호 재설정--%></title>
     <style>
         .input-text {
             height: 50px;
@@ -23,13 +23,13 @@
             <div class="col-md-offset-3 col-md-6">
                 <div class="form-group inner-container-white">
                     <div class="col-sm-offset-1 col-sm-10 text-gray">
-                        <i class="fa fa-key fa-3x" style="vertical-align: middle; line-height:40px;"></i>&nbsp;<span style="font-size: 35px; vertical-align: middle; line-height:40px;"><b>비밀번호 재설정</b></span>
+                        <i class="fa fa-key fa-3x" style="vertical-align: middle; line-height:40px;"></i>&nbsp;<span style="font-size: 35px; vertical-align: middle; line-height:40px;"><b><spring:message code="L00191"/><%--비밀번호 재설정--%></b></span>
                     </div>
                     <div class="spacer-small">&nbsp;</div>
                     <div class="form-group required">
                         <div class="col-sm-offset-1 col-sm-10">
                             <div class="col-sm-3 text-gray">
-                                <label for="pswd" class="control-label">비밀번호</label>
+                                <label for="pswd" class="control-label"><spring:message code="L00192"/><%--비밀번호--%></label>
                             </div>
                             <div class="col-sm-9">
                                 <div class="col-sm-12 nopadding input-group">
@@ -48,7 +48,7 @@
                     <div class="form-group required">
                         <div class="col-sm-offset-1 col-sm-10">
                             <div class="col-sm-3 text-gray">
-                                <label for="pswd" class="control-label">다시입력</label>
+                                <label for="pswd" class="control-label"><spring:message code="L00193"/><%--다시입력--%></label>
                             </div>
                             <div class="col-sm-9">
                                 <div class="col-sm-12 nopadding input-group">
@@ -59,7 +59,7 @@
                     </div>
                     <div class="col-sm-offset-1 col-sm-10">
                         <div class="col-sm-12 nopadding">
-                            <button class="btn btn-primary btn-lg btn-block btn-save input-text">비밀번호 저장</button>
+                            <button class="btn btn-primary btn-lg btn-block btn-save input-text"><spring:message code="L00194"/><%--비밀번호 변경--%></button>
                         </div>
                     </div>
                 </div>

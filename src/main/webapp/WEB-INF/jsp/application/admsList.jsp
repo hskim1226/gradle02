@@ -2,7 +2,7 @@
 <%@ include file="/WEB-INF/jsp/common/env.jsp"%>
 <html>
 <head>
-    <title>전형 목록</title>
+    <title><spring:message code="L00401"/><%--전형 목록--%></title>
     <style>
         a { color: #fdfdfd; }
     </style>
@@ -13,28 +13,28 @@
         <div class="row mar-bot40">
             <div class="col-sm-12 form-group inner-container-white">
                 <div class="col-sm-12 text-gray">
-                    <i class="fa fa-list-alt fa-3x" style="vertical-align: middle; line-height:40px;"></i>&nbsp;&nbsp;<span style="font-size: 35px; vertical-align: middle; line-height:40px;"><b>전형 목록</b></span>
+                    <i class="fa fa-list-alt fa-3x" style="vertical-align: middle; line-height:40px;"></i>&nbsp;&nbsp;<span style="font-size: 35px; vertical-align: middle; line-height:40px;"><b><spring:message code="L00401"/><%--전형 목록--%></b></span>
                 </div>
                 <div class="spacer-small">&nbsp;</div>
                 <div class="col-sm-12 align-center">
                     <table class="table table-stripped text-gray">
                         <thead>
                         <tr>
-                            <th>전형 구분</th>
-                            <th>공고명</th>
-                            <th>모집 요강</th>
-                            <th>원서 작성</th>
-                            <th>접수 기간</th>
+                            <th><spring:message code="L00402"/><%--전형 구분--%></th>
+                            <th><spring:message code="L00403"/><%--공고명--%></th>
+                            <th><spring:message code="L00404"/><%--모집 요강--%></th>
+                            <th><spring:message code="L00405"/><%--원서 작성--%></th>
+                            <th><spring:message code="L00406"/><%--접수 기간--%></th>
                         </tr>
                         </thead>
                         <tbody>
                         <tr>
                             <form id="generalApplyForm" method="post">
-                                <td>일반</td>
-                                <td>2015학년도 후기 연세대학교 대학원 일반 전형</td>
-                                <td><button type="button" id="toGeneralInfo" class="btn btn-info">모집 요강</button></td>
-                                <td><button type="submit" id="toGeneralApply" class="btn btn-primary">원서 작성</button></td>
-                                <td>2015-04-08(수) / 2015-04-10(금)</td>
+                                <td><spring:message code="L00407"/><%--일반--%></td>
+                                <td><spring:message code="L00410"/><%--2015학년도 후기 연세대학교 대학원 일반 전형--%></td>
+                                <td><button type="button" id="toGeneralInfo" class="btn btn-info"><spring:message code="L00404"/><%--모집 요강--%></button></td>
+                                <td><button type="submit" id="toGeneralApply" class="btn btn-primary"><spring:message code="L00405"/><%--원서 작성--%></button></td>
+                                <td><spring:message code="L00413"/><%--2015-04-08(수) / 2015-04-10(금)--%></td>
                                 <input type="hidden" name="admsNo" value="${admsGeneral.admsNo}" />
                                 <input type="hidden" name="entrYear" value="${admsGeneral.entrYear}" />
                                 <input type="hidden" name="admsTypeCode" value="${admsGeneral.admsType}" />
@@ -42,11 +42,11 @@
                         </tr>
                         <tr>
                             <form id="foreignApplyForm" method="post">
-                                <td>외국인</td>
-                                <td>2015학년도 후기 연세대학교 대학원 외국인 전형</td>
-                                <td><button type="button" id="toForeignInfo" class="btn btn-info">모집 요강</button></td>
-                                <td><button type="submit" id="toForeignApply" class="btn btn-primary">원서 작성</button></td>
-                                <td>2015-04-08(수) / 2015-04-10(금)</td>
+                                <td><spring:message code="L00408"/><%--외국인--%></td>
+                                <td><spring:message code="L00411"/><%--2015학년도 후기 연세대학교 대학원 외국인 전형--%></td>
+                                <td><button type="button" id="toForeignInfo" class="btn btn-info"><spring:message code="L00404"/><%--모집 요강--%></button></td>
+                                <td><button type="submit" id="toForeignApply" class="btn btn-primary"><spring:message code="L00405"/><%--원서 작성--%></button></td>
+                                <td><spring:message code="L00414"/><%--2015-04-08(수) / 2015-04-10(금)--%></td>
                                 <input type="hidden" name="admsNo" value="${admsForeign.admsNo}" />
                                 <input type="hidden" name="entrYear" value="${admsForeign.entrYear}" />
                                 <input type="hidden" name="admsTypeCode" value="${admsForeign.admsType}" />
@@ -54,11 +54,11 @@
                         </tr>
                         <tr>
                             <form id="earlyApplyForm" method="post">
-                                <td>조기</td>
-                                <td>2016학년도 전기 연세대학교 대학원 조기 전형</td>
-                                <td><button type="button" id="toEarlyInfo" class="btn btn-info">모집 요강</button></td>
-                                <td><button type="submit" id="toEarlyApply" class="btn btn-primary">원서 작성</button></td>
-                                <td>2015-04-08(수) / 2015-04-10(금)</td>
+                                <td><spring:message code="L00409"/><%--조기--%></td>
+                                <td><spring:message code="L00412"/><%--2016학년도 전기 연세대학교 대학원 조기 전형--%></td>
+                                <td><button type="button" id="toEarlyInfo" class="btn btn-info"><spring:message code="L00404"/><%--모집 요강--%></button></td>
+                                <td><button type="submit" id="toEarlyApply" class="btn btn-primary"><spring:message code="L00405"/><%--원서 작성--%></button></td>
+                                <td><spring:message code="L00415"/><%--2015-04-08(수) / 2015-04-10(금)--%></td>
                                 <input type="hidden" name="admsNo" value="${admsEarly.admsNo}" />
                                 <input type="hidden" name="entrYear" value="${admsEarly.entrYear}" />
                                 <input type="hidden" name="admsTypeCode" value="${admsEarly.admsType}" />

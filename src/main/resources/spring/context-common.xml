@@ -30,16 +30,16 @@
     <bean id="messageSource"
           class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
         <property name="basenames">
-        <list>
-            <value>classpath:message/applicants/xpay</value>
-            <value>classpath:message/applicants/user</value>
-            <value>classpath:message/applicants/cs</value>
-            <value>classpath:message/applicants/application</value>
-            <value>classpath:message/applicants/application.labels</value>
-            <value>classpath:message/applicants/application.err</value>
-            <value>classpath:message/applicants/signup.labels</value>
-            <value>classpath:message/university/yonsei</value>
-        </list>
+            <list>
+                <value>classpath:message/applicants/xpay</value>
+                <value>classpath:message/applicants/user</value>
+                <value>classpath:message/applicants/cs</value>
+                <value>classpath:message/applicants/application</value>
+                <value>classpath:message/applicants/application.labels</value>
+                <value>classpath:message/applicants/application.err</value>
+                <value>classpath:message/applicants/signup.labels</value>
+                <value>classpath:message/university/yonsei</value>
+            </list>
         </property>
         <property name="defaultEncoding" value="utf-8" />
         <!-- 운영 시 사용 안함 -->

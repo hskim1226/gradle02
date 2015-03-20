@@ -2,7 +2,7 @@
 <%@ include file="/WEB-INF/jsp/common/env.jsp"%>
 <html>
 <head>
-    <title>원서 작성 사전 동의</title>
+    <title><spring:message code="L00504"/><%--원서 작성 사전 동의--%></title>
     <style>
         section.normal-white h4.slogan {
             color: #333333;
@@ -45,7 +45,7 @@
                 <div class="form-group inner-container-white">
                     <div class="col-md-10 col-md-offset-1 word-keep-all text-gray">
                         <div class="col-sm-12 text-gray">
-                            <i class="fa fa-check fa-3x" style="vertical-align: middle; line-height:40px;"></i>&nbsp;<span style="font-size: 35px; vertical-align: middle; line-height:40px;"><b>원서 작성 사전 동의</b></span>
+                            <i class="fa fa-check fa-3x" style="vertical-align: middle; line-height:40px;"></i>&nbsp;<span style="font-size: 35px; vertical-align: middle; line-height:40px;"><b><spring:message code="L00504"/><%--원서 작성 사전 동의--%></b></span>
                         </div>
                         <div class="spacer-small">&nbsp;</div>
                         <div class="col-sm-12 text-left">
@@ -171,12 +171,12 @@
                             <div class="spacer-small">&nbsp;</div>
                             <hr/>
                             <div class="form-group" align="center">
-                                <div class="col-md-12 text-center mid-font slogan"><label>전체 동의 <input type="checkbox" id="checkAll" name="check1"></label></div>
+                                <div class="col-md-12 text-center mid-font slogan"><label><spring:message code="L00505"/><%--전체 동의--%> <input type="checkbox" id="checkAll" name="check1"></label></div>
                                 <p>&nbsp;</p>
                                 <div><h3 class="slogan" style="text-align: center">원서 접수 완료(전형료 결제 완료) 후에는 접수 취소 및 변경이 불가능합니다!!</h3></div>
                                 <div class="spacer-tiny">&nbsp;</div>
                                 <div class="col-md-offset-2 col-md-8">
-                                    <button class="btn btn-primary btn-lg btn-block" id="composePaper">원서 작성</button>
+                                    <button class="btn btn-primary btn-lg btn-block" id="composePaper"><spring:message code="L00506"/><%--원서 작성--%></button>
                                 </div>
                             </div>
                         </div>
@@ -219,7 +219,8 @@
                 alert("동의하지 않을 경우 원서를 접수할 수 없습니다.");
             }
 
-            $('#composePaper').click(function(){
+            $('#composePaper').click(function(e){
+                e.preventDefault();
                 var l = $('#formAgreement').find('input').filter('[type="radio"]').length/2, i, t0;
                 for (i = 1 ; i <= l ; i++) {
                     t0 = $('input[name=radio'+i+']:checked', '#formAgreement');

@@ -46,7 +46,7 @@
                     <li class="Lidx1"><span><a href="#"></a></span>
                    
                     </li>
-                    <li class="Llast"><span><a href="/ysproject/j_spring_security_logout.do">sign out</a></span>
+                    <li class="Llast"><span><a href="${contextPath}/j_spring_security_logout.do">sign out</a></span>
 
                     </li>
                 </ul>

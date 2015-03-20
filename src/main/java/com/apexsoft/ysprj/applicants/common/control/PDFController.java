@@ -48,6 +48,12 @@ public class PDFController {
 
     private static final Logger logger = LoggerFactory.getLogger(PDFController.class);
 
+    /**
+     * 지원자 별 PDF 묶음 파일 생성
+     *
+     * @param birtRequest
+     * @return
+     */
     @RequestMapping(value="/merge/applicant")
     @ResponseBody
     public String mergeByApplicant(BirtRequest birtRequest) {

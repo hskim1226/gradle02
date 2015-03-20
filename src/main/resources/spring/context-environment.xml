@@ -32,5 +32,8 @@
         <util:properties id="app" location="classpath:properties/config/app.test.properties" />
     </beans>
 
+    <beans profile="aws">
+        <util:properties id="app" location="classpath:properties/config/app.aws.properties" />
+    </beans>
 
 </beans>

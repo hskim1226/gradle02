@@ -42,7 +42,7 @@ public class BasisValidator implements Validator {
         boolean isKorean = "118".equals(application.getCitzCntrCode());
         applicationValidator.validate(application, errors, "application");
 
-        if ("C".equals(application.getAdmsTypeCode())) {
+        if ("C".equals(application.getAdmsTypeCode()) || "D".equals(application.getAdmsTypeCode())) {
             ApplicationForeigner applicationForeigner = basis.getApplicationForeigner();
             applicationForeignerValidator.validate(applicationForeigner, errors, "applicationForeigner", isKorean);
         } else {

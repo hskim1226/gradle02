@@ -9,6 +9,7 @@ import java.util.List;
  */
 public interface CommonService {
 
+    List<CommonCode> retrieveApplAttrList(String codeGrp);
     List<Campus> retrieveCampus();
     List<College> retrieveCollegeByCampus(String campusCode);
     List<College> retrieveCollegeByAdmsCamp(ParamForSetupCourses paramForSetupCourses);

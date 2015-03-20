@@ -37,8 +37,10 @@ public class LangCareerServiceImpl implements LangCareerService {
     private final String APP_NULL_STATUS = "00000";      // 에러일 때 반환값
     private final String LANG_CAREER_SAVED = "00003";    // 어학/경력 저장
 
+
+    //사용안하는 것이로 보이는 메소드
     @Override
-         public ExecutionContext retrieveLangCareer(int applNo) {
+    public ExecutionContext retrieveLangCareer(int applNo) {
         ExecutionContext ec = new ExecutionContext();
 
         Map<String, Object> ecDataMap = new HashMap<String, Object>();
@@ -74,6 +76,8 @@ public class LangCareerServiceImpl implements LangCareerService {
 
         return ec;
     }
+
+    //Birt에서 사용하는 언어경력조회
     @Override
     public ExecutionContext retrieveCurrentLangCareer(int applNo) {
         ExecutionContext ec = new ExecutionContext();

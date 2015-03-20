@@ -1,6 +1,12 @@
 package com.apexsoft.ysprj.applicants.common.service;
 
+import com.apexsoft.framework.birt.spring.core.BirtEngineFactory;
+import com.apexsoft.framework.birt.spring.core.CustomAbstractSingleFormatBirtProcessor;
+import com.apexsoft.framework.birt.spring.core.CustomPdfSingleFormatBirtSaveToFile;
 import com.apexsoft.framework.common.vo.ExecutionContext;
+import com.apexsoft.framework.exception.ErrorInfo;
+import com.apexsoft.framework.exception.YSBizException;
+import com.apexsoft.framework.message.MessageResolver;
 import com.apexsoft.ysprj.applicants.application.domain.*;
 import com.apexsoft.ysprj.applicants.application.service.AcademyService;
 import com.apexsoft.ysprj.applicants.application.service.BasisService;
@@ -11,10 +17,12 @@ import com.apexsoft.ysprj.applicants.common.domain.Country;
 import com.apexsoft.ysprj.applicants.common.util.FileUtil;
 import com.apexsoft.ysprj.applicants.common.util.StringUtil;
 import org.apache.commons.lang.StringUtils;
+import org.eclipse.birt.report.engine.api.IReportEngine;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.ServletContext;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -41,16 +49,58 @@ public class BirtServiceImpl implements BirtService {
     @Autowired
     DocumentService documentService;
 
+    @Autowired
+    MessageResolver messageResolver;
+
+    @Autowired
+    BirtEngineFactory birtEngineFactory;
+
+    @Autowired
+    ServletContext servletContext;
+
     @Value("#{app['file.baseDir']}")
     private String BASE_DIR;
 
-    private final String RPT_APPLICATION_KR = "yonsei-appl-kr";
-    private final String RPT_APPLICATION_EN = "yonsei-appl-en";
+    @Value("#{app['rpt.format']}")
+    private String REPORT_FORMAT;
 
-    private final String RPT_ADMISSION_KR = "yonsei-adms-kr";
-    private final String RPT_ADMISSION_EN = "yonsei-adms-en";
+    @Value("#{app['path.static']}")
+    private String STATIC_PATH;
 
-    //TODO 수험표 생성
+    @Override
+    public ExecutionContext generateBirtFile(int applNo, String birtRptFileName) {
+
+        ExecutionContext ec = processBirt(applNo, birtRptFileName);
+        Map<String, Object> map = (Map<String, Object>)ec.getData();
+        map.put("reportFormat", REPORT_FORMAT);
+        map.put("reportName", birtRptFileName);
+        String pathToRptdesignFile = "/reports/" +  birtRptFileName + ".rptdesign";
+//        String fullPathToRptdesignFile = STATIC_PATH + pathToRptdesignFile;
+        String fullPathToRptdesignFile = servletContext.getRealPath(pathToRptdesignFile);
+        map.put("rptdesignFullPath", fullPathToRptdesignFile);
+
+        IReportEngine reportEngine = birtEngineFactory.getObject();
+        CustomAbstractSingleFormatBirtProcessor birtProcessor = new CustomPdfSingleFormatBirtSaveToFile();
+        birtProcessor.setBirtEngine(reportEngine);
+        try {
+            birtProcessor.createReport(map);
+        } catch ( Exception e ) {
+            ExecutionContext ecError = new ExecutionContext(ExecutionContext.FAIL);
+
+            ecError.setMessage(messageResolver.getMessage("U803"));
+            ecError.setErrCode("ERR0072");
+
+            Map<String, String> errorInfo = new HashMap<String, String>();
+            errorInfo.put("applNo", String.valueOf(applNo));
+
+            ecError.setErrorInfo(new ErrorInfo(errorInfo));
+            throw new YSBizException(ecError);
+        }
+        return ec;
+    }
+
+
+    //원서 정보 수험표 정보 모두 여기서 추출
     @Override
     public ExecutionContext processBirt(int applNo, String birtRptFileName) {
         Map<String, Object> rptInfoMap = new HashMap<String, Object>();
@@ -132,29 +182,32 @@ public class BirtServiceImpl implements BirtService {
         String addr = application.getAddr();
         String detlAddr = application.getDetlAddr();
 
-        rptInfoMap.put("korName", korName);
-        rptInfoMap.put("engName", engName);
-        rptInfoMap.put("engSur", engSur);
-        rptInfoMap.put("gend", gend);
-        rptInfoMap.put("rgstBornDate", rgstBornDate);
+        rptInfoMap.put("korName", StringUtil.getEmptyIfNull(korName));
+        rptInfoMap.put("engName", StringUtil.getEmptyIfNull(engName));
+        rptInfoMap.put("engSur", StringUtil.getEmptyIfNull(engSur));
+        rptInfoMap.put("gend", StringUtil.getEmptyIfNull(gend));
+        rptInfoMap.put("rgstBornDate", StringUtil.getEmptyIfNull(rgstBornDate));
 //        rptInfoMap.put("rgstNo", StringUtil.insertHyphenAt(rgstNo, 6));
-        rptInfoMap.put("fornRgstNo", StringUtil.insertHyphenAt(applicationForeigner.getFornRgstNo(), 6));
+        String fornRgstNo = applicationForeigner.getFornRgstNo();
+        if (fornRgstNo != null && fornRgstNo.length() > 0) {
+            rptInfoMap.put("fornRgstNo", StringUtil.insertHyphenAt(fornRgstNo, 6));
+        }
         Country tmpCountry = commonService.retrieveCountryByCode(StringUtil.getEmptyIfNull(applicationForeigner.getBornCntrCode()));
         rptInfoMap.put("bornCntrName", tmpCountry == null ? "" : tmpCountry.getEngCntrName());
         tmpCountry = commonService.retrieveCountryByCode(StringUtil.getEmptyIfNull(application.getCitzCntrCode()));
         rptInfoMap.put("citzCntrName", tmpCountry == null ? "" : tmpCountry.getEngCntrName());
-        rptInfoMap.put("bornDay", application.getBornDay());
-        rptInfoMap.put("paspNo", applicationForeigner.getPaspNo());
+        rptInfoMap.put("bornDay", StringUtil.getEmptyIfNull(application.getBornDay()));
+        rptInfoMap.put("paspNo", StringUtil.getEmptyIfNull(applicationForeigner.getPaspNo()));
         rptInfoMap.put("visaTypeName", StringUtil.getEmptyIfNull(applicationForeigner.getVisaTypeCode()) + StringUtil.getEmptyIfNull(applicationForeigner.getVisaTypeEtc()));
         rptInfoMap.put("fornRgstYn", StringUtil.getEmptyIfNull(applicationForeigner.getFornRgstNo()).length() > 0 ? "등록"+"\n"+"(Registered)" : "미등록"+"\n"+"(Not Registered)");
         rptInfoMap.put("homeAdddr", StringUtil.getEmptyIfNull(applicationForeigner.getHomeAddr()));
-        rptInfoMap.put("korAddr", addr + " " + detlAddr);
-        rptInfoMap.put("mailAddr", mailAddr);
+        rptInfoMap.put("korAddr", StringUtil.getEmptyIfNull(addr) + " " + StringUtil.getEmptyIfNull(detlAddr));
+        rptInfoMap.put("mailAddr", StringUtil.getEmptyIfNull(mailAddr));
         rptInfoMap.put("homeTel", StringUtil.getEmptyIfNull(applicationForeigner.getHomeTel()));
-        rptInfoMap.put("telNum", telNum);
-        rptInfoMap.put("mobiNum", mobiNum);
-        rptInfoMap.put("addr", addr);
-        rptInfoMap.put("detlAddr", detlAddr);
+        rptInfoMap.put("telNum", StringUtil.getEmptyIfNull(telNum));
+        rptInfoMap.put("mobiNum", StringUtil.getEmptyIfNull(mobiNum));
+        rptInfoMap.put("addr", StringUtil.getEmptyIfNull(addr));
+        rptInfoMap.put("detlAddr", StringUtil.getEmptyIfNull(detlAddr));
         rptInfoMap.put("homeEmrgName", StringUtil.getEmptyIfNull(applicationForeigner.getHomeEmrgName()));
         rptInfoMap.put("homeEmrgTel", StringUtil.getEmptyIfNull(applicationForeigner.getHomeEmrgTel()));
         rptInfoMap.put("homeEmrgRela", StringUtil.getEmptyIfNull(applicationForeigner.getHomeEmrgRela()));
@@ -182,6 +235,7 @@ public class BirtServiceImpl implements BirtService {
         String tepsScore = "";
         String ieltsScore = "";
         String greScore = "";
+        String topikScore = "";
 
         int collCnt = 0;
         boolean collLastFg = false;
@@ -293,6 +347,16 @@ public class BirtServiceImpl implements BirtService {
                     }
                 }
             }
+            // 국어인 경우
+            else if ("00002".equals(aLangGrp.getExamCode())) {
+                for( CustomApplicationLanguage aLang  : aLangGrp.getLangList() ){
+                    if( aLang.isLangInfoSaveFg()) {
+                        if ("00001".equals(aLang.getItemCode())) {
+                            topikScore = aLang.getLangGrad();
+                        }
+                    }
+                }
+            }
         }
 
         rptInfoMap.put("toeflScore", toeflScore);
@@ -302,6 +366,7 @@ public class BirtServiceImpl implements BirtService {
         rptInfoMap.put("greScore", greScore);
         String forlExmp = StringUtil.getEmptyIfNull(applicationGeneral.getForlExmpCode());
         rptInfoMap.put("forlExmp", forlExmp.length() > 0 ? "O" : "");
+        rptInfoMap.put("topik", topikScore);
 
         // TODO
         String range0 = "";

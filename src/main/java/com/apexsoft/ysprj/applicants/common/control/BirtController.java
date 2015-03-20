@@ -1,12 +1,17 @@
 package com.apexsoft.ysprj.applicants.common.control;
 
+import com.apexsoft.framework.birt.spring.core.BirtEngineFactory;
+import com.apexsoft.framework.birt.spring.core.CustomAbstractSingleFormatBirtProcessor;
+import com.apexsoft.framework.birt.spring.core.CustomPdfSingleFormatBirtSaveToFile;
 import com.apexsoft.framework.common.vo.ExecutionContext;
 import com.apexsoft.framework.exception.ErrorInfo;
 import com.apexsoft.framework.exception.YSBizException;
 import com.apexsoft.framework.message.MessageResolver;
+import com.apexsoft.framework.persistence.dao.CommonDAO;
 import com.apexsoft.ysprj.applicants.application.domain.Application;
 import com.apexsoft.ysprj.applicants.common.domain.BirtRequest;
 import com.apexsoft.ysprj.applicants.common.service.BirtService;
+import org.eclipse.birt.report.engine.api.IReportEngine;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -14,6 +19,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
 import java.util.HashMap;
 import java.util.Map;
@@ -27,6 +33,12 @@ public class BirtController {
 
     @Autowired
     BirtService birtService;
+
+    @Autowired
+    CommonDAO commonDAO;
+
+    @Autowired
+    BirtEngineFactory birtEngineFactory;
 
     @Autowired
     MessageResolver messageResolver;
@@ -110,10 +122,17 @@ public class BirtController {
             filterApplicationNull(principal);
         } else {
             int applNo = application.getApplNo();
+
+            Application applicationFromDB = commonDAO.queryForObject("com.apexsoft.ysprj.applicants.application.sqlmap.ApplicationMapper.selectByPrimaryKey",
+                    applNo, Application.class);
+            String admsTypeCode = applicationFromDB.getAdmsTypeCode();
+            String lang = "C".equals(admsTypeCode) ? "en" : "kr";
+            String reportName = "yonsei-appl-" + lang;
+
             mv.setViewName("pdfSingleFormatBirtSaveToFile");
             mv.addObject("reportFormat", REPORT_FORMAT);
-            mv.addObject("reportName", RPT_APPLICATION_KR);
-            ExecutionContext ec = birtService.processBirt(applNo, RPT_APPLICATION_KR);
+            mv.addObject("reportName", reportName);
+            ExecutionContext ec = birtService.processBirt(applNo, reportName);
             mv.addAllObjects((Map<String, Object>)ec.getData());
         }
 
@@ -129,10 +148,17 @@ public class BirtController {
             filterApplicationNull(principal);
         } else {
             int applNo = application.getApplNo();
+
+            Application applicationFromDB = commonDAO.queryForObject("com.apexsoft.ysprj.applicants.application.sqlmap.ApplicationMapper.selectByPrimaryKey",
+                    applNo, Application.class);
+            String admsTypeCode = applicationFromDB.getAdmsTypeCode();
+            String lang = "C".equals(admsTypeCode) ? "en" : "kr";
+            String reportName = "yonsei-adms-" + lang;
+
             mv.setViewName("pdfSingleFormatBirtSaveToFile");
             mv.addObject("reportFormat", REPORT_FORMAT);
-            mv.addObject("reportName", RPT_ADMISSION_KR);
-            ExecutionContext ec = birtService.processBirt(applNo, RPT_ADMISSION_KR);
+            mv.addObject("reportName", reportName);
+            ExecutionContext ec = birtService.processBirt(applNo, reportName);
             mv.addAllObjects((Map<String, Object>)ec.getData());
         }
 

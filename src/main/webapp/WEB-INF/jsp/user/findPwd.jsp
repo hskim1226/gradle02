@@ -2,7 +2,7 @@
 <%@ include file="/WEB-INF/jsp/common/env.jsp"%>
 <html lang='ko'>
 <head>
-    <title>비밀번호 찾기</title>
+    <title><spring:message code="L00221"/><%--비밀번호 찾기--%></title>
     <link rel="stylesheet" href="//code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css">
     <style>
         .input-text {
@@ -24,13 +24,13 @@
             <div class="col-md-offset-3 col-md-6">
                 <div class="form-group inner-container-white">
                     <div class="col-sm-offset-1 col-sm-10 text-gray">
-                        <i class="fa fa-search fa-3x" style="vertical-align: middle; line-height:40px;"></i>&nbsp;<span style="font-size: 35px; vertical-align: middle; line-height:40px;"><b>비밀번호 찾기</b></span>
+                        <i class="fa fa-search fa-3x" style="vertical-align: middle; line-height:40px;"></i>&nbsp;<span style="font-size: 35px; vertical-align: middle; line-height:40px;"><b><spring:message code="L00221"/><%--비밀번호 찾기--%></b></span>
                     </div>
                     <div class="spacer-small">&nbsp;</div>
                     <div class="form-group required">
                         <div class="col-sm-offset-1 col-sm-10">
                             <div class="col-sm-3 text-gray">
-                                <label for="userId" class="control-label">아이디</label>
+                                <label for="userId" class="control-label"><spring:message code="L00222"/><%--아이디--%></label>
                             </div>
                             <div class="col-sm-9">
                                 <div class="col-sm-12 nopadding">
@@ -49,7 +49,7 @@
                     <div class="form-group required">
                         <div class="col-sm-offset-1 col-sm-10">
                             <div class="col-sm-3 text-gray">
-                                <label for="name" class="control-label">이름</label>
+                                <label for="name" class="control-label"><spring:message code="L00223"/><%--이름--%></label>
                             </div>
                             <div class="col-sm-9">
                                 <div class="col-sm-12 nopadding">
@@ -68,7 +68,7 @@
                     <div class="form-group required">
                         <div class="col-sm-offset-1 col-sm-10">
                             <div class="col-sm-3 text-gray">
-                                <label for="mailAddr" class="control-label">이메일</label>
+                                <label for="mailAddr" class="control-label"><spring:message code="L00224"/><%--이메일--%></label>
                             </div>
                             <div class="col-sm-9">
                                 <div class="col-sm-12 nopadding">
@@ -87,7 +87,7 @@
                     <div class="form-group required">
                         <div class="col-sm-offset-1 col-sm-10">
                             <div class="col-sm-3 text-gray">
-                                <label for="bornDay" class="control-label">생일</label>
+                                <label for="bornDay" class="control-label"><spring:message code="L00225"/><%--생년월일--%></label>
                             </div>
                             <div class="col-sm-9">
                                 <div class="input-group date">
@@ -107,7 +107,7 @@
                     <div style="margin-bottom: 10px">&nbsp;</div>
                     <div class="col-sm-offset-1 col-sm-10">
                         <div class="col-sm-12 nopadding">
-                            <button class="btn btn-primary btn-lg btn-block btn-save input-text">비밀번호 찾기</button>
+                            <button class="btn btn-primary btn-lg btn-block btn-save input-text"><spring:message code="L00226"/><%--비밀번호 찾기--%></button>
                         </div>
                     </div>
                 </div>
