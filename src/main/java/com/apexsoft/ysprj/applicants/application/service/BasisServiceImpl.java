@@ -187,10 +187,10 @@ public class BasisServiceImpl implements BasisService {
             basis.setApplicationForeigner(new ApplicationForeigner());
             basis.setApplicationGeneral(new ApplicationGeneral());
 
-            List<Campus> campList = commonService.retrieveCampus();
-            List<AcademyResearchIndustryInstitution> ariInstList = commonService.retrieveAriInst();
-            if (campList != null)      selectionMap.put("campList", campList);
-            if (ariInstList != null)   selectionMap.put("ariInstList", ariInstList);
+//            List<Campus> campList = commonService.retrieveCampus();
+//            List<AcademyResearchIndustryInstitution> ariInstList = commonService.retrieveAriInst();
+//            if (campList != null)      selectionMap.put("campList", campList);
+//            if (ariInstList != null)   selectionMap.put("ariInstList", ariInstList);
             selectionMap.put("applAttrList", commonService.retrieveApplAttrList("APPL_ATTR"));
             if( !"15A".equals(basis.getApplication().getAdmsNo()) &&
                 !"15B".equals(basis.getApplication().getAdmsNo())){
