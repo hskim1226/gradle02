@@ -1,7 +1,7 @@
 package com.apexsoft.ysprj.applicants.common.service;
 
 import com.apexsoft.framework.exception.BusinessException;
-import com.apexsoft.framework.interceptor.Converter;
+import com.apexsoft.framework.unused.Converter;
 import com.apexsoft.framework.persistence.dao.CommonDAO;
 import com.apexsoft.ysprj.applicants.common.domain.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +9,6 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
 import java.util.List;
 
 /**

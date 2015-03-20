@@ -1,4 +1,4 @@
-package com.apexsoft.framework.interceptor;
+package com.apexsoft.framework.unused;
 
 import org.springframework.util.StringUtils;
 import org.springframework.web.servlet.LocaleResolver;
@@ -18,6 +18,7 @@ import java.util.Map;
  * Date: 2014-09-15
  * Time: 오후 6:47
  */
+@Deprecated
 public class DomainLocaleConverter implements Converter {
 
     private final static String PREFIX_GET = "get";

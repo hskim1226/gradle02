@@ -1,16 +1,11 @@
-package com.apexsoft.framework.interceptor;
+package com.apexsoft.framework.unused;
 
-import org.springframework.ui.ModelMap;
-import org.springframework.web.servlet.LocaleResolver;
+import com.apexsoft.framework.unused.Converter;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
-import org.springframework.web.servlet.support.RequestContextUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Iterator;
-import java.util.Locale;
-import java.util.Map.Entry;
 
 /**
  * Created with IntelliJ IDEA.
@@ -18,6 +13,7 @@ import java.util.Map.Entry;
  * Date: 2014-09-15
  * Time: 오후 5:58
  */
+@Deprecated
 public class DomainLocaleConvertInterceptor extends HandlerInterceptorAdapter {
 
     private Converter converter;
