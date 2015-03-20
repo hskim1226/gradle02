@@ -183,10 +183,10 @@ public class BirtServiceImpl implements BirtService {
         String detlAddr = application.getDetlAddr();
 
         rptInfoMap.put("korName", StringUtil.getEmptyIfNull(korName));
-        rptInfoMap.put("engName", engName);
-        rptInfoMap.put("engSur", engSur);
-        rptInfoMap.put("gend", gend);
-        rptInfoMap.put("rgstBornDate", rgstBornDate);
+        rptInfoMap.put("engName", StringUtil.getEmptyIfNull(engName));
+        rptInfoMap.put("engSur", StringUtil.getEmptyIfNull(engSur));
+        rptInfoMap.put("gend", StringUtil.getEmptyIfNull(gend));
+        rptInfoMap.put("rgstBornDate", StringUtil.getEmptyIfNull(rgstBornDate));
 //        rptInfoMap.put("rgstNo", StringUtil.insertHyphenAt(rgstNo, 6));
         String fornRgstNo = applicationForeigner.getFornRgstNo();
         if (fornRgstNo != null && fornRgstNo.length() > 0) {
@@ -196,15 +196,15 @@ public class BirtServiceImpl implements BirtService {
         rptInfoMap.put("bornCntrName", tmpCountry == null ? "" : tmpCountry.getEngCntrName());
         tmpCountry = commonService.retrieveCountryByCode(StringUtil.getEmptyIfNull(application.getCitzCntrCode()));
         rptInfoMap.put("citzCntrName", tmpCountry == null ? "" : tmpCountry.getEngCntrName());
-        rptInfoMap.put("bornDay", application.getBornDay());
-        rptInfoMap.put("paspNo", applicationForeigner.getPaspNo());
+        rptInfoMap.put("bornDay", StringUtil.getEmptyIfNull(application.getBornDay()));
+        rptInfoMap.put("paspNo", StringUtil.getEmptyIfNull(applicationForeigner.getPaspNo()));
         rptInfoMap.put("visaTypeName", StringUtil.getEmptyIfNull(applicationForeigner.getVisaTypeCode()) + StringUtil.getEmptyIfNull(applicationForeigner.getVisaTypeEtc()));
         rptInfoMap.put("fornRgstYn", StringUtil.getEmptyIfNull(applicationForeigner.getFornRgstNo()).length() > 0 ? "등록"+"\n"+"(Registered)" : "미등록"+"\n"+"(Not Registered)");
         rptInfoMap.put("homeAdddr", StringUtil.getEmptyIfNull(applicationForeigner.getHomeAddr()));
         rptInfoMap.put("korAddr", StringUtil.getEmptyIfNull(addr) + " " + StringUtil.getEmptyIfNull(detlAddr));
-        rptInfoMap.put("mailAddr", mailAddr);
+        rptInfoMap.put("mailAddr", StringUtil.getEmptyIfNull(mailAddr));
         rptInfoMap.put("homeTel", StringUtil.getEmptyIfNull(applicationForeigner.getHomeTel()));
-        rptInfoMap.put("telNum", telNum);
+        rptInfoMap.put("telNum", StringUtil.getEmptyIfNull(telNum));
         rptInfoMap.put("mobiNum", StringUtil.getEmptyIfNull(mobiNum));
         rptInfoMap.put("addr", StringUtil.getEmptyIfNull(addr));
         rptInfoMap.put("detlAddr", StringUtil.getEmptyIfNull(detlAddr));
@@ -235,6 +235,7 @@ public class BirtServiceImpl implements BirtService {
         String tepsScore = "";
         String ieltsScore = "";
         String greScore = "";
+        String topikScore = "";
 
         int collCnt = 0;
         boolean collLastFg = false;
@@ -346,6 +347,16 @@ public class BirtServiceImpl implements BirtService {
                     }
                 }
             }
+            // 국어인 경우
+            else if ("00002".equals(aLangGrp.getExamCode())) {
+                for( CustomApplicationLanguage aLang  : aLangGrp.getLangList() ){
+                    if( aLang.isLangInfoSaveFg()) {
+                        if ("00001".equals(aLang.getItemCode())) {
+                            topikScore = aLang.getLangGrad();
+                        }
+                    }
+                }
+            }
         }
 
         rptInfoMap.put("toeflScore", toeflScore);
@@ -355,6 +366,7 @@ public class BirtServiceImpl implements BirtService {
         rptInfoMap.put("greScore", greScore);
         String forlExmp = StringUtil.getEmptyIfNull(applicationGeneral.getForlExmpCode());
         rptInfoMap.put("forlExmp", forlExmp.length() > 0 ? "O" : "");
+        rptInfoMap.put("topik", topikScore);
 
         // TODO
         String range0 = "";
