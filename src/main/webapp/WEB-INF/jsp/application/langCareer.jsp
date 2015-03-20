@@ -385,7 +385,8 @@
                                                                                 <div class="input-group">
                                                                                     <form:select path="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].subContainer[${subContainerStat.index}].toflTypeCode" cssClass="form-control forlInput-${langGroupStat.index}">
                                                                                         <form:option value="" label="--선택--" />
-                                                                                        <form:options items="${common.toflTypeList}" itemValue="code" itemLabel="codeVal" />
+                                                                                        <form:options items="${common.toflTypeList}" itemValue="code"
+                                                                                                      itemLabel="${pageContext.response.locale == 'en' ? 'codeValXxen' : 'codeVal'}"/>
                                                                                     </form:select>
                                                                                 </div>
                                                                                 <spring:bind path="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].subContainer[${subContainerStat.index}].toflTypeCode">
@@ -456,7 +457,8 @@
                                                                                         <form:select path="applicationGeneral.forlExmpCode" id="forlExmpCode-${langGroupStat.index}" cssClass="form-control forlExmpCode"
                                                                                                      data-selGrpCode-id="languageGroupList${langGroupStat.index}.langList${langListStat.index}.subContainer${subContainerStat.index}.selGrpCode">
                                                                                             <form:option value="" label="--선택--" />
-                                                                                            <form:options items="${common.fornExmpList}" itemValue="code" itemLabel="codeVal" />
+                                                                                            <form:options items="${common.fornExmpList}" itemValue="code"
+                                                                                                          itemLabel="${pageContext.response.locale == 'en' ? 'codeValXxen' : 'codeVal'}"/>
                                                                                         </form:select>
                                                                                     </div>
                                                                                     <spring:bind path="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].subContainer[${subContainerStat.index}].selGrpCode">
