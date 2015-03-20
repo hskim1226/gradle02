@@ -137,7 +137,7 @@
                     <%--mobiNum--%>
                     <div class="form-group text-gray">
                         <div class="col-sm-offset-2 col-sm-8">
-                            <div class="form-group col-sm-4 required">
+                            <div class="form-group col-sm-4">
                                 <label for="mobiNum" class="control-label"><spring:message code="L00126"/><%--휴대폰--%></label>
                             </div>
                             <div class="col-sm-8 nopadding">

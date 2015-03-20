@@ -33,10 +33,10 @@ public class UserModValidator implements Validator{
             errors.rejectValue("mailAddr", "U331",
                     new Object[]{"메일 주소"}, messageResolver.getMessage("U332"));
         }
-        if (user.getMobiNum() == null || user.getMobiNum().length() == 0) {
-            errors.rejectValue("mobiNum", "U331",
-                    new Object[]{"휴대폰 번호"}, messageResolver.getMessage("U332"));
-        }
+//        if (user.getMobiNum() == null || user.getMobiNum().length() == 0) {
+//            errors.rejectValue("mobiNum", "U331",
+//                    new Object[]{"휴대폰 번호"}, messageResolver.getMessage("U332"));
+//        }
         if (user.getName() == null || user.getName().length() == 0) {
             errors.rejectValue("name", "U331",
                     new Object[]{"이름"}, messageResolver.getMessage("U332"));
