@@ -327,7 +327,8 @@
                                         <div class="col-sm-12">
                                             <form:select path="application.applAttrCode" id="applAttrCode" cssClass="form-control base-info">
                                                 <form:option value="" label="--${msg.getMessage('L01006', locale)}--" />
-                                                <form:options items="${selection.applAttrList}" itemValue="code" itemLabel="codeVal"/>
+                                                <form:options items="${selection.applAttrList}" itemValue="code"
+                                                              itemLabel="${pageContext.response.locale == 'en' ? 'codeValXxen' : 'codeVal'}"/>
                                             </form:select>
                                         </div>
                                     </div>
@@ -340,7 +341,9 @@
                                                 <form:select path="application.campCode" id="campCode" cssClass="form-control base-info base-non-ariInst">
                                                     <form:option value="" label="--${msg.getMessage('L01006', locale)}--" />
                                                     <c:if test="${basis.application.applAttrCode == '00001' || basis.application.applAttrCode == '00003'}">
-                                                        <form:options items="${selection.campList}" itemValue="campCode" itemLabel="campName" />
+                                                        <form:options items="${selection.campList}" itemValue="campCode"
+                                                                      itemLabel="${pageContext.response.locale == 'en' ? 'campNameXxen' : 'campName'}"/>
+                                                                      <%--itemLabel="campName" />--%>
                                                     </c:if>
                                                 </form:select>
                                             </div>
@@ -349,7 +352,9 @@
                                                 <form:select path="application.collCode" id="collCode" cssClass="form-control base-info base-non-ariInst">
                                                     <form:option value="" label="--${msg.getMessage('L01006', locale)}--" />
                                                     <c:if test="${basis.application.applAttrCode == '00001' || basis.application.applAttrCode == '00003'}">
-                                                        <form:options items="${selection.collList}" itemValue="collCode" itemLabel="collName" />
+                                                        <form:options items="${selection.collList}" itemValue="collCode"
+                                                                      itemLabel="${pageContext.response.locale == 'en' ? 'collNameXxen' : 'collName'}"/>
+                                                        <%--itemLabel="collName" />--%>
                                                     </c:if>
                                                 </form:select>
                                             </div>
@@ -1653,8 +1658,8 @@
                             $(data).each(function (i, item) {
                                 var $op = $('<option>').attr({
                                     'value': item[valueKey],
-                                    'label': item[labelKey]}
-                                )
+                                    'label': item[labelKey]
+                                });
                                 if ('detlMajCode' == targetId) {
                                     for (var key in item) {
                                         if (key !== valueKey && key !== labelKey) {
@@ -1681,7 +1686,7 @@
                     '00002': {targetId: 'ariInstCode', valueKey: 'ariInstCode', labelKey: 'ariInstName', url: '/ariInst'}, // applAttrCode == '02'
                     targetId: 'campCode',
                     valueKey: 'campCode',
-                    labelKey: 'campName',
+                    labelKey: '${pageContext.response.locale == 'en' ? 'campNameXxen' : 'campName'}',
                     clean: ['collCode', 'ariInstCode', 'deptCode', 'corsTypeCode', 'detlMajCode'],
                     url: '/campus'
                 }
@@ -1692,7 +1697,8 @@
                 {
                     targetId: 'collCode',
                     valueKey: 'collCode',
-                    labelKey: 'collName',
+//                    labelKey: 'collName',
+                    labelKey: '${pageContext.response.locale == 'en' ? 'collNameXxen' : 'collName'}',
                     // clean: ['ariInstCode', 'deptCode', 'corsTypeCode', 'detlMajCode'],
                     url: function(arg) {
                         return '/admscollege/' + admsNo + '/' + arg;
@@ -1705,7 +1711,8 @@
                 {
                     targetId: 'deptCode',
                     valueKey: 'deptCode',
-                    labelKey: 'deptName',
+//                    labelKey: 'deptName',
+                    labelKey: '${pageContext.response.locale == 'en' ? 'deptNameXxen' : 'deptName'}',
                     // clean: ['corsTypeCode', 'detlMajCode'],
                     url: function(arg) {
                         var admsNo = $('#admsNo').val();
@@ -1719,7 +1726,8 @@
                 {
                     targetId: 'deptCode',
                     valueKey: 'deptCode',
-                    labelKey: 'deptName',
+//                    labelKey: 'deptName',
+                    labelKey: '${pageContext.response.locale == 'en' ? 'deptNameXxen' : 'deptName'}',
                     // clean: ['corsTypeCode', 'detlMajCode'],
                     url: function(arg) {
                         var admsNo = $('#admsNo').val();
@@ -1733,7 +1741,8 @@
                 {
                     targetId: 'corsTypeCode',
                     valueKey: 'corsTypeCode',
-                    labelKey: 'codeVal',
+//                    labelKey: 'codeVal',
+                    labelKey: '${pageContext.response.locale == 'en' ? 'codeValXxen' : 'codeVal'}',
                     // clean: ['detlMajCode'],
                     url: function(arg) {   <%-- 지원과정 조회 --%>
                         var admsNo = $('#admsNo').val();
@@ -1754,7 +1763,8 @@
                 {
                     targetId: 'detlMajCode',
                     valueKey: 'detlMajCode',
-                    labelKey: 'detlMajName',
+//                    labelKey: 'detlMajName',
+                    labelKey: '${pageContext.response.locale == 'en' ? 'detlMajNameXxen' : 'detlMajName'}',
                     url: function(arg) {
                         var admsNo = $('#admsNo').val();
                         var applAttrCode = $('#applAttrCode').val();

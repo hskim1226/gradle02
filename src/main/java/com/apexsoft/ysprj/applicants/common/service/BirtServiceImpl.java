@@ -67,6 +67,9 @@ public class BirtServiceImpl implements BirtService {
     @Value("#{app['path.static']}")
     private String STATIC_PATH;
 
+    private String ADMS_FORN_1 = "C";
+    private String ADMS_FORN_2 = "D";
+
     @Override
     public ExecutionContext generateBirtFile(int applNo, String birtRptFileName) {
 
@@ -129,6 +132,7 @@ public class BirtServiceImpl implements BirtService {
 
         String admsNo = application.getAdmsNo();
         String userId = application.getUserId();
+        String admsTypeCode = application.getAdmsTypeCode();
         String pdfFileName = StringUtils.indexOf(birtRptFileName, "appl") > 0 ?
                 FileUtil.getApplicationFileName(userId) :
                 FileUtil.getSlipFileName(userId);
@@ -149,6 +153,8 @@ public class BirtServiceImpl implements BirtService {
 
         String campName = "-- 해당사항 없음 -- ";
         if(application.getCampCode() !=null && !"".equals(application.getCampCode())) {
+//            String campNameArr[] = commonService.retrieveCampNameByCode(application.getCampCode());
+//            campName = campNameArr[0] + "N" + campNameArr[1];
             campName = commonService.retrieveCampNameByCode(application.getCampCode());
         }
         String corsTypeName = commonService.retrieveCorsTypeNameByCode(application.getCorsTypeCode());
