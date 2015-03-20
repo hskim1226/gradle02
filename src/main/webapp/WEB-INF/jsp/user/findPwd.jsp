@@ -34,7 +34,7 @@
                             </div>
                             <div class="col-sm-9">
                                 <div class="col-sm-12 nopadding">
-                                    <form:input path="userId" cssClass="form-control input-text" placeholder="아이디" />
+                                    <form:input path="userId" cssClass="form-control input-text" maxlength="12" placeholder="아이디" />
                                 </div>
                         <spring:bind path="userId">
                             <c:if test="${status.error}">
@@ -53,7 +53,7 @@
                             </div>
                             <div class="col-sm-9">
                                 <div class="col-sm-12 nopadding">
-                                    <form:input path="name" cssClass="form-control input-text" placeholder="이름" />
+                                    <form:input path="name" cssClass="form-control input-text" maxlength="20" placeholder="이름" />
                                 </div>
                         <spring:bind path="name">
                             <c:if test="${status.error}">
@@ -72,7 +72,7 @@
                             </div>
                             <div class="col-sm-9">
                                 <div class="col-sm-12 nopadding">
-                                    <form:input path="mailAddr" cssClass="form-control input-text" placeholder="이메일" />
+                                    <form:input path="mailAddr" cssClass="form-control input-text" maxlength="50" placeholder="이메일" />
                                 </div>
                                 <spring:bind path="mailAddr">
                                     <c:if test="${status.error}">
