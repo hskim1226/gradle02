@@ -52,10 +52,14 @@ public class LangCareerServiceImpl implements LangCareerService {
                 applNo, Application.class);
         langCareer.setApplication(applicationFromDB);
 
+        // TODO 의견 > 김도훈
+        // 아래 applicationGeneral 쓰는 부분 제거 필요
+        // LangCareer.java에서 ApplicationGeneral 제거 필요
         ApplicationGeneral applicationGeneralFromDB = commonDAO.queryForObject(NAME_SPACE + "ApplicationGeneralMapper.selectByPrimaryKey",
                 applNo, ApplicationGeneral.class);
         applicationGeneralFromDB = applicationGeneralFromDB == null ? new ApplicationGeneral() : applicationGeneralFromDB;
         langCareer.setApplicationGeneral(applicationGeneralFromDB);
+
 
         List<LanguageGroup> langGroupList = retrieveLanguageGroupListByApplNo(applNo, applicationGeneralFromDB);
         langCareer.setLanguageGroupList(langGroupList);
@@ -68,6 +72,10 @@ public class LangCareerServiceImpl implements LangCareerService {
         }
 
         commonCodeMap.put( "toflTypeList", commonService.retrieveCommonCodeByCodeGroup("TOFL_TYPE") );
+
+        // TODO 의견 > 김도훈
+        // 면제 사유 리스트 조회인데 subCodeList를 사용하므로 필요 없음
+        // 대신 controller에 TODO 표시된 부분에 조회 내용 있어야 함
         commonCodeMap.put( "fornExmpList", commonService.retrieveCommonCodeByCodeGroup("FORN_EXMP") );
 
         ecDataMap.put("langCareer", langCareer);
@@ -91,6 +99,9 @@ public class LangCareerServiceImpl implements LangCareerService {
                 applNo, Application.class);
         langCareer.setApplication(applicationFromDB);
 
+        // TODO 의견 > 김도훈
+        // 아래 applicationGeneral 쓰는 부분 제거 필요
+        // LangCareer.java에서 ApplicationGeneral 제거 필요
         ApplicationGeneral applicationGeneralFromDB = commonDAO.queryForObject(NAME_SPACE + "ApplicationGeneralMapper.selectByPrimaryKey",
                 applNo, ApplicationGeneral.class);
         applicationGeneralFromDB = applicationGeneralFromDB == null ? new ApplicationGeneral() : applicationGeneralFromDB;
@@ -107,6 +118,10 @@ public class LangCareerServiceImpl implements LangCareerService {
         }
 
         commonCodeMap.put( "toflTypeList", commonService.retrieveCommonCodeByCodeGroup("TOFL_TYPE") );
+
+        // TODO 의견 > 김도훈
+        // 면제 사유 리스트 조회인데 subCodeList를 사용하므로 필요 없음
+        // 대신 controller에 TODO 표시된 부분에 조회 내용 있어야 함
         commonCodeMap.put( "fornExmpList", commonService.retrieveCommonCodeByCodeGroup("FORN_EXMP") );
 
         ecDataMap.put("langCareer", langCareer);
@@ -131,6 +146,9 @@ public class LangCareerServiceImpl implements LangCareerService {
                 applNo, Application.class);
         langCareer.setApplication(applicationFromDB);
 
+        // TODO 의견 > 김도훈
+        // 아래 applicationGeneral 쓰는 부분 제거 필요
+        // LangCareer.java에서 ApplicationGeneral 제거 필요
         ApplicationGeneral applicationGeneralFromDB = commonDAO.queryForObject(NAME_SPACE + "ApplicationGeneralMapper.selectByPrimaryKey",
                 applNo, ApplicationGeneral.class);
         applicationGeneralFromDB = applicationGeneralFromDB == null ? new ApplicationGeneral() : applicationGeneralFromDB;
@@ -150,7 +168,12 @@ public class LangCareerServiceImpl implements LangCareerService {
         }
 
         commonCodeMap.put( "toflTypeList", commonService.retrieveCommonCodeByCodeGroup("TOFL_TYPE") );
+
+        // TODO 의견 > 김도훈
+        // 면제 사유 리스트 조회인데 subCodeList를 사용하므로 필요 없음
+        // 대신 controller에 TODO 표시된 부분에 조회 내용 있어야 함
         commonCodeMap.put( "fornExmpList", commonService.retrieveCommonCodeByCodeGroup("FORN_EXMP") );
+        
         commonCodeMap.put( "ieltsLevelList", commonService.retrieveCommonCodeByCodeGroup("IELT_LEVL") );
         commonCodeMap.put( "topikLevelList", commonService.retrieveCommonCodeByCodeGroup("TOPK_LEVL") );
 
@@ -461,7 +484,7 @@ public class LangCareerServiceImpl implements LangCareerService {
                 pCont.setFileUploadFg(false);
             }
             if( pCont.getSelGrpCode()!= null && !"".equals(pCont.getSelGrpCode())){
-                pCont.setSubCodeList(commonService.retrieveCommonCodeByCodeGroup( pCont.getSelGrpCode()));
+                pCont.setSubCodeList(commonService.retrieveCommonCodeByCodeGroup(pCont.getSelGrpCode()));
             }
             if( pCont.getSubCodeGrp()!= null && !"".equals(pCont.getSubCodeGrp())){
                 pCont.setSubCodeList(commonService.retrieveCommonCodeByCodeGroup( pCont.getSubCodeGrp()));

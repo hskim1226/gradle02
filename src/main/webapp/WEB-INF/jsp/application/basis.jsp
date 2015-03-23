@@ -417,11 +417,11 @@
                                 </div>
                                 <div>
                                     <div class="col-sm-11" id="baseSave">
-                                        <span class="col-sm-8"><spring:message code="U310"/></span>
+                                        <span class="col-sm-8"><spring:message code="U01101"/></span>
                                         <button id="btnBaseSave" class="btn btn-info btn-lg col-sm-4"><spring:message code="L01110"/><%--지원사항 저장--%></button>
                                     </div>
                                     <div class="col-sm-11" id="baseCancel" style="display:none;">
-                                        <span class="col-sm-8"><spring:message code="U311"/></span>
+                                        <span class="col-sm-8"><spring:message code="U01105"/></span>
                                         <button id="btnBaseCancel" class="btn btn-warning btn-lg col-sm-4"><spring:message code="L01111"/><%--지원사항 취소--%></button>
                                     </div>
                                 </div>
@@ -436,7 +436,7 @@
                                         <label for="application.korName" class="col-sm-2 control-label"><spring:message code="L01202"/><%--한글 이름--%></label>
                                         <div class="col-sm-9">
                                             <div class="col-sm-12">
-                                                <form:input path="application.korName" cssClass="form-control korName" maxlength="20" placeholder="한글 이름을 공백 없이 입력해주세요"/>
+                                                <form:input path="application.korName" cssClass="form-control korName" maxlength="20" placeholder="${msg.getMessage('U01201')}"/><%--한글 이름을 공백 없이 입력해주세요--%>
                                             </div>
                                             <spring:bind path="application.korName">
                                                 <c:if test="${status.error}">
@@ -627,7 +627,7 @@
                                                 <label class="col-sm-2 control-label"><spring:message code="L01307"/><%--본국 주소--%></label>
                                                 <div class="col-sm-9">
                                                     <div class="col-sm-12">
-                                                        <form:input path="applicationForeigner.homeAddr" cssClass="form-control" maxlength="500" placeholder="본국 주소를 입력해 주세요."/>
+                                                        <form:input path="applicationForeigner.homeAddr" cssClass="form-control" maxlength="500" placeholder="${msg.getMessage('U01302')}"/> <%--본국 주소를 입력해 주세요.--%>
                                                     </div>
                                                     <spring:bind path="applicationForeigner.homeAddr">
                                                         <c:if test="${status.error}">
@@ -642,7 +642,7 @@
                                                 <label class="col-sm-2 control-label"><spring:message code="L01308"/><%--본국 연락처--%></label>
                                                 <div class="col-sm-9">
                                                     <div class="col-sm-12">
-                                                        <form:input path="applicationForeigner.homeTel" cssClass="form-control" maxlength="20" placeholder="본국 연락처를 입력해 주세요." />
+                                                        <form:input path="applicationForeigner.homeTel" cssClass="form-control" maxlength="20" placeholder="${msg.getMessage('U01303')}" /> <%--본국 연락처를 입력해 주세요.--%>
                                                     </div>
                                                     <spring:bind path="applicationForeigner.homeTel">
                                                         <c:if test="${status.error}">
@@ -667,7 +667,7 @@
                                         <label for="applicationForeigner.paspNo" class="col-sm-2 control-label"><spring:message code="L01402"/><%--여권 번호--%></label>
                                         <div class="col-sm-9">
                                             <div class="col-sm-12">
-                                                <form:input path="applicationForeigner.paspNo" cssClass="form-control" maxlength="15" placeholder="여권 번호를 입력해주세요"/>
+                                                <form:input path="applicationForeigner.paspNo" cssClass="form-control" maxlength="15" placeholder="${msg.getMessage('U01401')}"/>  <%--여권 번호를 입력해주세요--%>
                                             </div>
                                             <spring:bind path="applicationForeigner.paspNo">
                                                 <c:if test="${status.error}">
@@ -700,7 +700,7 @@
                                             </div>
                                             <div class="col-sm-6">
                                                 <div class="input-group" id="tmpVisaTypeCode" style="display: ${basis.applicationForeigner.visaTypeCode == '00099' ? 'block;' : 'none;'}">
-                                                    <form:input path="applicationForeigner.visaTypeEtc" cssClass="form-control" maxlength="20" placeholder="예) D-2, D-4" />
+                                                    <form:input path="applicationForeigner.visaTypeEtc" cssClass="form-control" maxlength="20" placeholder="${msg.getMessage('U01402')}" /> <%--예) D-2, D-4--%>
                                                 </div>
                                                 <spring:bind path="applicationForeigner.visaTypeEtc">
                                                     <c:if test="${status.error}">
@@ -752,7 +752,7 @@
                                         <div class="col-sm-9">
                                             <div class="col-sm-12">
                                                 <input id="applicationForeigner.fornRgstNo" name="applicationForeigner.fornRgstNo" class="form-control numOnly rgstNo"
-                                                       maxlength="13" placeholder="외국인등록번호를 13자리 숫자로 입력해주세요"
+                                                       maxlength="13" placeholder="${msg.getMessage('U01403')}" <%--외국인등록번호를 13자리 숫자로 입력해주세요--%>
                                                        value="${basis.applicationForeigner.fornRgstNo}"
                                                        <%--<c:if test="${basis.applicationForeigner.visaTypeCode == '00999'}">disabled</c:if> />--%>
                                                         />
@@ -802,7 +802,7 @@
                                                 <form:input path="application.addr" cssClass="form-control" id="address" readonly="true" />
                                             </div>
                                             <div class="col-sm-6">
-                                                <form:input path="application.detlAddr" cssClass="form-control" id="addressDetail" maxlength="500" placeholder="세부주소" />
+                                                <form:input path="application.detlAddr" cssClass="form-control" id="addressDetail" maxlength="500" placeholder="${msg.getMessage('U01502')}" /> <%--세부주소--%>
                                             </div>
                                             <spring:bind path="application.addr">
                                                 <c:if test="${status.error}">
@@ -817,7 +817,7 @@
                                         <label for="application.telNum" class="col-sm-2 control-label"><spring:message code="L01504"/><%--전화번호--%></label>
                                         <div class="col-sm-9">
                                             <div class="col-sm-12">
-                                                <form:input path="application.telNum" cssClass="form-control numOnly phone" maxlength="20" placeholder="전화번호를 숫자로만 입력해주세요"/>
+                                                <form:input path="application.telNum" cssClass="form-control numOnly phone" maxlength="20" placeholder="${msg.getMessage('U01503')}"/> <%--전화번호를 숫자로만 입력해주세요--%>
                                             </div>
                                             <spring:bind path="application.telNum">
                                                 <c:if test="${status.error}">
@@ -832,7 +832,7 @@
                                         <label for="application.mobiNum" class="col-sm-2 control-label"><spring:message code="L01505"/><%--휴대폰--%></label>
                                         <div class="col-sm-9">
                                             <div class="col-sm-12">
-                                                <form:input path="application.mobiNum" cssClass="form-control numOnly phone" maxlength="20" placeholder="휴대폰번호를 숫자로만 입력해주세요"/>
+                                                <form:input path="application.mobiNum" cssClass="form-control numOnly phone" maxlength="20" placeholder="${msg.getMessage('U01504')}"/> <%--휴대폰번호를 숫자로만 입력해주세요--%>
                                             </div>
                                             <spring:bind path="application.mobiNum">
                                                 <c:if test="${status.error}">
@@ -847,7 +847,7 @@
                                         <label for="application.mailAddr" class="col-sm-2 control-label"><spring:message code="L01506"/><%--이메일--%></label>
                                         <div class="col-sm-9">
                                             <div class="col-sm-12">
-                                                <form:input path="application.mailAddr" type="email" cssClass="form-control emailOnly" maxlength="50" placeholder="이메일 주소를 입력해주세요"/>
+                                                <form:input path="application.mailAddr" type="email" cssClass="form-control emailOnly" maxlength="50" placeholder="${msg.getMessage('U01505')}"/> <%--이메일 주소를 입력해주세요--%>
                                             </div>
                                             <spring:bind path="application.mailAddr">
                                                 <c:if test="${status.error}">
@@ -870,7 +870,7 @@
                                                 <label for="applicationGeneral.emerContName" class="col-sm-2 control-label"><spring:message code="L01604"/><%--이름--%></label>
                                                 <div class="col-sm-9">
                                                     <div class="col-sm-12">
-                                                        <form:input path="applicationGeneral.emerContName" cssClass="form-control" maxlength="50" />
+                                                        <form:input path="applicationGeneral.emerContName" cssClass="form-control" maxlength="50" placeholder="${msg.getMessage('U01601')}"/> <%--보호자 이름을 입력해 주세요.--%>
                                                     </div>
                                                     <spring:bind path="applicationGeneral.emerContName">
                                                         <c:if test="${status.error}">
@@ -904,7 +904,7 @@
                                                 <label for="applicationGeneral.emerContTel" class="col-sm-2 control-label"><spring:message code="L01606"/><%--전화번호--%></label>
                                                 <div class="col-sm-9">
                                                     <div class="col-sm-12">
-                                                        <form:input path="applicationGeneral.emerContTel" cssClass="form-control numOnly phone" maxlength="20" placeholder="전화번호를 숫자로만 입력해주세요"/>
+                                                        <form:input path="applicationGeneral.emerContTel" cssClass="form-control numOnly phone" maxlength="20" placeholder="${msg.getMessage('U01602')}"/> <%--전화(또는 휴대폰)번호를 숫자로만 입력해 주세요.--%>
                                                     </div>
                                                     <spring:bind path="applicationGeneral.emerContTel">
                                                         <c:if test="${status.error}">
@@ -929,7 +929,7 @@
                                                         <label for="applicationForeigner.korEmrgName" class="col-sm-2 control-label"><spring:message code="L01604"/><%--이름--%></label>
                                                         <div class="col-sm-9">
                                                             <div class="col-sm-12">
-                                                                <form:input path="applicationForeigner.korEmrgName" maxlength="50" cssClass="form-control" />
+                                                                <form:input path="applicationForeigner.korEmrgName" maxlength="50" cssClass="form-control" placeholder="${msg.getMessage('U01601')}" /> <%--보호자 이름을 입력해 주세요.--%>
                                                             </div>
                                                             <spring:bind path="applicationForeigner.korEmrgName">
                                                                 <c:if test="${status.error}">
@@ -963,7 +963,7 @@
                                                         <label for="applicationForeigner.korEmrgTel" class="col-sm-2 control-label"><spring:message code="L01606"/><%--전화번호--%></label>
                                                         <div class="col-sm-9">
                                                             <div class="col-sm-12">
-                                                                <form:input path="applicationForeigner.korEmrgTel" cssClass="form-control numOnly phone" maxlength="20" placeholder="전화번호를 숫자로만 입력해주세요"/>
+                                                                <form:input path="applicationForeigner.korEmrgTel" cssClass="form-control numOnly phone" maxlength="20" placeholder="${msg.getMessage('U01602')}"/> <%--전화(또는 휴대폰)번호를 숫자로만 입력해 주세요.--%>
                                                             </div>
                                                             <spring:bind path="applicationForeigner.korEmrgTel">
                                                                 <c:if test="${status.error}">
@@ -983,7 +983,7 @@
                                                         <label for="applicationForeigner.homeEmrgName" class="col-sm-2 control-label"><spring:message code="L01604"/><%--이름--%></label>
                                                         <div class="col-sm-9">
                                                             <div class="col-sm-12">
-                                                                <form:input path="applicationForeigner.homeEmrgName" cssClass="form-control" maxlength="50" />
+                                                                <form:input path="applicationForeigner.homeEmrgName" cssClass="form-control" maxlength="50" placeholder="${msg.getMessage('U01601')}" /> <%--보호자 이름을 입력해 주세요.--%>
                                                             </div>
                                                             <spring:bind path="applicationForeigner.homeEmrgName">
                                                                 <c:if test="${status.error}">
@@ -1017,7 +1017,7 @@
                                                         <label for="applicationForeigner.homeEmrgTel" class="col-sm-2 control-label"><spring:message code="L01606"/><%--전화번호--%></label>
                                                         <div class="col-sm-9">
                                                             <div class="col-sm-12">
-                                                                <form:input path="applicationForeigner.homeEmrgTel" cssClass="form-control numOnly" maxlength="20" placeholder="전화번호를 숫자로만 입력해주세요"/>
+                                                                <form:input path="applicationForeigner.homeEmrgTel" cssClass="form-control numOnly" maxlength="20" placeholder="${msg.getMessage('U01602')}"/> <%--전화(또는 휴대폰)번호를 숫자로만 입력해 주세요.--%>
                                                             </div>
                                                             <spring:bind path="applicationForeigner.homeEmrgTel">
                                                                 <c:if test="${status.error}">
@@ -1058,7 +1058,7 @@
                 <div class="col-sm-10">
                     <input type="text" id="bpop" name="bpop" class="form-control ime-mode-kr" />
                 </div>
-                <button id="bpopBtnSearch" class="btn btn-info col-sm-2">검색</button>
+                <button id="bpopBtnSearch" class="btn btn-info col-sm-2"><spring:message code="L01207"/></button>
             </div>
             <div class="form-group">
                 <div class="col-sm-12" style="overflow-y: auto; height: 300px;">
@@ -1079,7 +1079,7 @@
 
     <%-- 도로명 주소 사용 안내 팝업 --%>
     <div id="street-name-notice" title="도로명 주소 사용 안내" style="display:none;">
-        <p>주소 검색 결과에서 '지번 주소'를 클릭하지 마시고,<br/>아래와 같이 <b>도로명 주소</b>를 사용해 주시기 바랍니다.</p>
+        <p><spring:message code="U01506"/></p> <%-- 주소 검색 결과에서 '지번 주소'를 클릭하지 마시고,<br/>아래와 같이 <b>도로명 주소</b>를 사용해 주시기 바랍니다. --%>
         <p align="center"><img src="${contextPath}/img/application/street-name-capture.png"/></p>
     </div>
     <%-- 도로명 주소 사용 안내 팝업 --%>
@@ -1155,7 +1155,7 @@
                 isValid = true;
 
             if (applAttrCode.value == null || applAttrCode.value == '') {
-                alert('지원 구분을 선택해 주십시오.');
+                alert('<spring:message code="U01103"/>'); // 지원 구분을 선택해 주세요.
                 applAttrCode.focus();
                 isValid = false;
                 return false;
@@ -1169,7 +1169,7 @@
 
             $targetGroup.each( function () {
                 if (this.selectedIndex == 0) {
-                    alert('지원 사항을 모두 선택해주세요');
+                    alert('<spring:message code="U01104"/>'); // 지원 사항을 모두 선택해주세요.
                     this.focus();
                     isValid = false;
                     return false;
@@ -1197,7 +1197,7 @@
         <%-- 기본 정보 > 지원 사항 처리 --%>
         $('#btnBaseSave').on('click', function(e) {
             e.preventDefault();
-            if ( confirm('<spring:message code="U313"/>') ) {
+            if ( confirm('<spring:message code="U01102"/>') ) { // 지원 사항을 정확히 지정 하셨습니까?
                 baseInfoSaved();
             } else {
                 return false;
@@ -1207,7 +1207,7 @@
         $('#btnBaseCancel').on('click', function(e) {
             e.preventDefault();
             var form, applStsCode;
-            if ( confirm('<spring:message code="U314"/>') ) {
+            if ( confirm('<spring:message code="U01106"/>') ) { // 지원 사항을 취소하면 작성 중인 내용은 모두 삭제됩니다.
                 //TODO 지원 취소로 상태 변경 후 공고 목록으로 이동
                 form = document.getElementById('basis');
                 document.getElementById('applStsCode').value = '00022';
@@ -1245,20 +1245,32 @@
         <%-- 한글 이름 공백 제거 --%>
 
         <%-- 영문 이름 처리 시작 --%>
-        apex.engNameCheck('engName');
+        apex.engNameCheck('engName', '<spring:message code="APEXJS_0001"/>'); // 영 대소문자와 공백, [.], [-]만 가능합니다.
         <%-- 영문 이름 처리 끝 --%>
 
         <%-- 숫자만 입력 - 주민번호, 휴대폰, 전화번호 --%>
-        apex.numCheck('numOnly');
+        apex.numCheck('numOnly', '<spring:message code="APEXJS_0002"/>'); // 숫자만 입력해 주세요.
         <%-- 숫자만 입력 - 주민번호, 휴대폰, 전화번호 --%>
 
         <%-- 주민번호 길이 체크 --%>
-        apex.lenCheck('lenCheck-6', 6, 6);
-        apex.lenCheck('lenCheck-7', 7, 7);
+        apex.lenCheck('lenCheck-6', 6, 6,
+                '<spring:message code="APEXJS_0006"/>',
+                '<spring:message code="APEXJS_0007"/>',
+                '<spring:message code="APEXJS_0008"/>',
+                '<spring:message code="APEXJS_0009"/>',
+                '<spring:message code="APEXJS_0010"/>'
+        );
+        apex.lenCheck('lenCheck-7', 7, 7,
+                '<spring:message code="APEXJS_0006"/>',
+                '<spring:message code="APEXJS_0007"/>',
+                '<spring:message code="APEXJS_0008"/>',
+                '<spring:message code="APEXJS_0009"/>',
+                '<spring:message code="APEXJS_0010"/>'
+        );
         <%-- 주민번호 길이 체크 --%>
 
         <%-- 메일 주소 validation --%>
-        apex.emailCheck('emailOnly');
+        apex.emailCheck('emailOnly', '<spring:message code="APEXJS_0003"/>'); // 이메일 주소를 정확히 기재해 주세요.
         <%-- 메일 주소 validation --%>
 
         <%-- 국가/학교 검색 시작 --%>
@@ -1275,19 +1287,19 @@
                 document.getElementById('targetNode' + i).value = targetNode ? targetNode : null;
             }
             if (dataCategory.indexOf('country') > -1) {
-                title = '국가 검색';
-                columnHead = ['', '한글 이름', '영문 이름'];
+                title = '<spring:message code="L01209"/>'; // 국가 검색
+                columnHead = ['', '<spring:message code="L01210"/>', '<spring:message code="L01211"/>']; // 한글 이름, 영문 이름
                 document.getElementById('bpopContent').setAttribute('data-category', dataCategory);
             } else if (dataCategory.indexOf('school') > -1) {
-                columnHead = ['', '학교 이름'];
+                columnHead = ['', '<spring:message code="L01215"/>']; // 학교 이름
                 document.getElementById('bpopContent').setAttribute('data-category', dataCategory);
                 var suffix = dataCategory.split('-')[1];
                 if (suffix == 'h') {
-                    title = '고등학교 검색';
+                    title = '<spring:message code="L01212"/>'; // 고등학교 검색
                 } else if (suffix == 'u') {
-                    title = '대학교 검색';
+                    title = '<spring:message code="L01213"/>'; // 대학교 검색
                 } else if (suffix == 'g') {
-                    title = '대학원 검색';
+                    title = '<spring:message code="L01214"/>'; // 대학원 검색
                 } else {
                 }
             }
@@ -1352,9 +1364,9 @@
                         }
                     } else {
                         if (category.isCountry) {
-                            record = $('<tr>' + '<td><span style="display: none;" class="b-close">' + '999' + '</span></td>' + '<td colspan="2"><span class="b-close" style="cursor: pointer">' + '검색 결과가 없습니다. 다시 검색해 주세요' + '</span></td>' + '</tr>');
+                            record = $('<tr>' + '<td><span style="display: none;" class="b-close">' + '999' + '</span></td>' + '<td colspan="2"><span class="b-close" style="cursor: pointer">' + '<spring:message code="U01202"/>' + '</span></td>' + '</tr>'); //
                         } else if (category.isSchool) {
-                            record = $('<tr>' + '<td><span style="display: none;" class="b-close">' + '999' + '</span></td>' + '<td><span class="b-close" style="cursor: pointer">' + '검색 결과가 없습니다. 여기를 눌러 직접 입력해 주세요' + '</span></td>' + '</tr>');
+                            record = $('<tr>' + '<td><span style="display: none;" class="b-close">' + '999' + '</span></td>' + '<td><span class="b-close" style="cursor: pointer">' + '<spring:message code="U01203"/>' + '</span></td>' + '</tr>');
                         }
                         $('#bpopResult').append(record);
                         $(record).on('click', function(e) {
@@ -1370,9 +1382,9 @@
                                 resultInputText = document.getElementById(targetInputId[1]);
                                 resultInputText.value = '';
                                 if (category.isCountry)
-                                    resultInputText.placeholder = '다시 검색해주세요';
+                                    resultInputText.placeholder = '<spring:message code="U01204"/>'; // 다시 검색해주세요
                                 if (category.isSchool) {
-                                    resultInputText.placeholder = '직접 입력해주세요';
+                                    resultInputText.placeholder = '<spring:message code="U01205"/>'; // 직접 입력해주세요
                                     resultInputText.readOnly = false;
                                     resultInputText.focus();
                                 }
@@ -1427,7 +1439,7 @@
         $('#fornTypeCode').on('change', function () {
             var citzCntrCode = document.getElementById('citzCntrCode').value;
             if (citzCntrCode == '118' && this.selectedIndex == 1) {
-                alert('국적이 대한민국이면 외국인을 선택할 수 없습니다.');
+                alert('<spring:message code="U01301"/>'); // 국적이 대한민국이면 외국인을 선택할 수 없습니다.
                 this.selectedIndex = 0;
             }
         });
@@ -1473,7 +1485,7 @@
                     } else {
                         // iframe을 넣은 element를 안보이게 한다.
                         closeDaumPostCode();
-                        confirm('주소를 다시 검색해서 도로명 주소를 사용해 주시기 바랍니다.');
+                        confirm('<spring:message code="U01501"/>'); // 주소를 다시 검색해서 도로명 주소를 사용해 주시기 바랍니다.
                         document.getElementById('zipCode').value = '';
                         document.getElementById('zipCode').setAttribute('value', '');
                         document.getElementById('address').value = '';
@@ -1498,7 +1510,7 @@
                 modal: true,
                 width: 380,
                 buttons: [{
-                        text: "확인",
+                        text: '<spring:message code="L01507"/>', // 확인
                         click: function() {
                             $(this).dialog("close");
                             showDaumPostcode();
@@ -1829,7 +1841,7 @@
                     'id': 'partTimeYn',
                     'name': 'partTimeYn'
                 });
-                $childNode2 = $('<label/>').addClass('checkbox-inline').text('파트타임 여부');
+                $childNode2 = $('<label/>').addClass('checkbox-inline').text('<spring:message code="L01113"/>'); //파트타임 여부
                 $childNode.prependTo($childNode2);
                 $childNode2.appendTo($divNode);
                 $divNode.appendTo($(parent));
