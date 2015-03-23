@@ -81,7 +81,7 @@
                                 <label for="mailAddr" class="control-label"><spring:message code="L00125"/><%--이메일--%></label>
                             </div>
                             <div class="col-sm-8 nopadding">
-                                <div><form:input type="email" cssClass="form-control emailOnly" path="mailAddr" placeholder="이메일 주소를 입력해 주세요" /></div>
+                                <div><form:input type="email" cssClass="form-control emailOnly" path="mailAddr" maxlength="50" placeholder="이메일 주소를 입력해 주세요" /></div>
                         <spring:bind path="mailAddr">
                             <c:if test="${status.error}">
                                 <div class="validation-error">${status.errorMessage}</div>
@@ -93,11 +93,11 @@
                     <%--mobiNum--%>
                     <div class="form-group text-gray">
                         <div class="col-sm-offset-2 col-sm-8">
-                            <div class="form-group col-sm-4 required">
+                            <div class="form-group col-sm-4">
                                 <label for="mobiNum" class="control-label"><spring:message code="L00126"/><%--휴대폰--%></label>
                             </div>
                             <div class="col-sm-8 nopadding">
-                                <div><form:input type="text" cssClass="form-control numOnly phone" path="mobiNum" placeholder="숫자로만 입력해 주세요" /></div>
+                                <div><form:input type="text" cssClass="form-control numOnly phone" path="mobiNum" maxlength="20" placeholder="숫자로만 입력해 주세요" /></div>
                         <spring:bind path="mobiNum">
                             <c:if test="${status.error}">
                                 <div class="validation-error">${status.errorMessage}</div>
@@ -113,7 +113,7 @@
                                 <label for="name" class="control-label"><spring:message code="L00127"/><%--이름--%></label>
                             </div>
                             <div class="col-sm-8 nopadding">
-                                <div><form:input type="text" cssClass="form-control" path="name" placeholder="실명을 입력해주세요" /></div>
+                                <div><form:input type="text" cssClass="form-control" path="name" maxlength="20" placeholder="실명을 입력해주세요" /></div>
                         <spring:bind path="name">
                             <c:if test="${status.error}">
                                 <div class="validation-error">${status.errorMessage}</div>

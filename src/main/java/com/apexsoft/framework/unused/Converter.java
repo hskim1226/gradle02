@@ -1,4 +1,4 @@
-package com.apexsoft.framework.interceptor;
+package com.apexsoft.framework.unused;
 
 import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.InvocationTargetException;
@@ -10,6 +10,7 @@ import java.util.Locale;
  * Date: 2014-09-18
  * Time: 오전 1:19
  */
+@Deprecated
 public interface Converter {
     void convert(Object object, HttpServletRequest request) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException;
     void convert(Object object, Locale locale, HttpServletRequest request) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException;

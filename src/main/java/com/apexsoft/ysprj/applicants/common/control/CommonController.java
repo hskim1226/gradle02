@@ -63,7 +63,8 @@ public class CommonController {
     public ExecutionContext getCampusCode(HttpServletRequest request)
             throws NoSuchAlgorithmException, JsonProcessingException, UnsupportedEncodingException {
 
-        List<Campus> campusList = commonService.retrieveCampus();
+        List<Campus> campusList = null;
+        campusList = commonService.retrieveCampus();
 
         String json = jacksonObjectMapper.writeValueAsString(campusList);
 

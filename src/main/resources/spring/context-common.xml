@@ -34,6 +34,7 @@
                 <value>classpath:message/applicants/xpay</value>
                 <value>classpath:message/applicants/user</value>
                 <value>classpath:message/applicants/cs</value>
+                <value>classpath:message/applicants/agreement</value>
                 <value>classpath:message/applicants/application</value>
                 <value>classpath:message/applicants/application.labels</value>
                 <value>classpath:message/applicants/application.err</value>
@@ -52,7 +53,7 @@
         <property name="messageSourceAccessor" ref="messageSourceAccessor" />
     </bean>
 
-    <bean id="converter" class="com.apexsoft.framework.interceptor.DomainLocaleConverter" />
+    <bean id="converter" class="com.apexsoft.framework.unused.DomainLocaleConverter" />
 
     <bean id="jacksonObjectMapper"
           class="com.fasterxml.jackson.databind.ObjectMapper"/>

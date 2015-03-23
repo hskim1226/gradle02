@@ -1,6 +1,6 @@
 package com.apexsoft.framework.web.servlet.i18n;
 
-import com.apexsoft.framework.interceptor.DomainLocaleConverter;
+import com.apexsoft.framework.unused.DomainLocaleConverter;
 import junit.framework.TestCase;
 import org.junit.Assert;
 

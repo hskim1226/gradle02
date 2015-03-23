@@ -136,113 +136,113 @@ public class ApplicationController {
                                 @ModelAttribute("entireApplication") EntireApplication entireApplication) {
         ModelAndView model = new ModelAndView(targetView);
 
-        Map<String, Object> commonCodeMap = new HashMap<String, Object>();
-
-        if( applNo != null ) {
-//            if( applNo != entireApplication.getApplication().getApplNo() ) {
-            entireApplication = applicationService.retrieveEntireApplication(applNo);
+//        Map<String, Object> commonCodeMap = new HashMap<String, Object>();
+//
+//        if( applNo != null ) {
+////            if( applNo != entireApplication.getApplication().getApplNo() ) {
+//            entireApplication = applicationService.retrieveEntireApplication(applNo);
+////            }
+//            CampusCollege campusCollege = applicationService.retrieveInfoByApplNo(applNo,
+//                    "EntireApplicationMapper.selectCampusCollegeCode",
+//                    CampusCollege.class);
+//
+//            // 지원사항 select 초기값 설정
+//            List<com.apexsoft.ysprj.applicants.common.domain.Campus> campList = null;
+//            List<AcademyResearchIndustryInstitution> ariInstList = null;
+//            List<College> collList = null;
+//            List<CodeNameDepartment> deptList = null;
+//            List<CodeNameCourse> corsTypeList = null;
+//            List<CodeNameDetailMajor> detlMajList = null;
+//
+//            ParamForSetupCourses param = new ParamForSetupCourses();
+//            param.setAdmsNo( entireApplication.getApplication().getAdmsNo() );
+//            param.setCollCode( entireApplication.getApplication().getCollCode() );
+//            param.setDeptCode( entireApplication.getApplication().getDeptCode() );
+//            param.setCorsTypeCode( entireApplication.getApplication().getCorsTypeCode() );
+//            param.setAriInstCode( entireApplication.getApplication().getAriInstCode() );
+//
+//            String applAttrCode = entireApplication.getApplication().getApplAttrCode();
+//            if( "00001".equals( applAttrCode ) ) {
+//                campList = commonService.retrieveCampus();
+//                collList = commonService.retrieveCollegeByCampus( entireApplication.getApplication().getCampCode() );
+//                deptList = commonService.retrieveGeneralDepartmentByAdmsColl(param);
+//                corsTypeList = commonService.retrieveGeneralCourseByAdmsDept(param);
+//                detlMajList = commonService.retrieveGeneralDetailMajorByAdmsDeptCors(param);
+//            } else if( "00002".equals( applAttrCode ) ) {
+//                ariInstList = commonService.retrieveAriInst();
+//                deptList = commonService.retrieveAriInstDepartmentByAdmsAriInst(param);
+//                corsTypeList = commonService.retrieveAriInstCourseByAdmsDeptAriInst(param);
+//                detlMajList = commonService.retrieveAriInstDetailMajorByAdmsDeptAriInst(param);
+//            } else if( "00003".equals( applAttrCode ) ) {
+//                campList = commonService.retrieveCampus();
+//                collList = commonService.retrieveCollegeByCampus( entireApplication.getApplication().getCampCode() );
+//                deptList = commonService.retrieveGeneralDepartmentByAdmsColl(param);
+//                corsTypeList = commonService.retrieveCommissionCourseByAdmsDept(param);
+//                detlMajList = commonService.retrieveGeneralDetailMajorByAdmsDeptCors(param);
 //            }
-            CampusCollege campusCollege = applicationService.retrieveInfoByApplNo(applNo,
-                    "EntireApplicationMapper.selectCampusCollegeCode",
-                    CampusCollege.class);
-
-            // 지원사항 select 초기값 설정
-            List<com.apexsoft.ysprj.applicants.common.domain.Campus> campList = null;
-            List<AcademyResearchIndustryInstitution> ariInstList = null;
-            List<College> collList = null;
-            List<CodeNameDepartment> deptList = null;
-            List<CodeNameCourse> corsTypeList = null;
-            List<CodeNameDetailMajor> detlMajList = null;
-
-            ParamForSetupCourses param = new ParamForSetupCourses();
-            param.setAdmsNo( entireApplication.getApplication().getAdmsNo() );
-            param.setCollCode( entireApplication.getApplication().getCollCode() );
-            param.setDeptCode( entireApplication.getApplication().getDeptCode() );
-            param.setCorsTypeCode( entireApplication.getApplication().getCorsTypeCode() );
-            param.setAriInstCode( entireApplication.getApplication().getAriInstCode() );
-
-            String applAttrCode = entireApplication.getApplication().getApplAttrCode();
-            if( "00001".equals( applAttrCode ) ) {
-                campList = commonService.retrieveCampus();
-                collList = commonService.retrieveCollegeByCampus( entireApplication.getApplication().getCampCode() );
-                deptList = commonService.retrieveGeneralDepartmentByAdmsColl(param);
-                corsTypeList = commonService.retrieveGeneralCourseByAdmsDept(param);
-                detlMajList = commonService.retrieveGeneralDetailMajorByAdmsDeptCors(param);
-            } else if( "00002".equals( applAttrCode ) ) {
-                ariInstList = commonService.retrieveAriInst();
-                deptList = commonService.retrieveAriInstDepartmentByAdmsAriInst(param);
-                corsTypeList = commonService.retrieveAriInstCourseByAdmsDeptAriInst(param);
-                detlMajList = commonService.retrieveAriInstDetailMajorByAdmsDeptAriInst(param);
-            } else if( "00003".equals( applAttrCode ) ) {
-                campList = commonService.retrieveCampus();
-                collList = commonService.retrieveCollegeByCampus( entireApplication.getApplication().getCampCode() );
-                deptList = commonService.retrieveGeneralDepartmentByAdmsColl(param);
-                corsTypeList = commonService.retrieveCommissionCourseByAdmsDept(param);
-                detlMajList = commonService.retrieveGeneralDetailMajorByAdmsDeptCors(param);
-            }
-
-            if( campList != null )      commonCodeMap.put( "campList", campList );
-            if( collList != null )      commonCodeMap.put( "collList", collList );
-            if( ariInstList != null)    commonCodeMap.put( "ariInstList", ariInstList );
-            if( deptList != null )      commonCodeMap.put( "deptList", deptList );
-            if( corsTypeList != null )  commonCodeMap.put( "corsTypeList", corsTypeList );
-            if( detlMajList != null )   commonCodeMap.put( "detlMajList", detlMajList );
-
-            entireApplication.setDocGroupList( applicationService.retrieveManApplDocListByApplNo(applNo ) );
-        } else {
-            entireApplication = entireApplication();
-            entireApplication.getApplication().setAdmsNo(admsNo);
-            entireApplication.getApplication().setEntrYear(entrYear);
-            entireApplication.getApplication().setAdmsTypeCode(admsTypeCode);
-            entireApplication.getApplication().setApplAttrCode("00001");
-//            entireApplication.getHighSchool().setAcadTypeCode("00001");
-
-            List<Campus> campList = commonService.retrieveCampus();
-            List<AcademyResearchIndustryInstitution> ariInstList = commonService.retrieveAriInst();
-            if( campList != null )      commonCodeMap.put( "campList", campList );
-            if( ariInstList != null)    commonCodeMap.put( "ariInstList", ariInstList );
-        }
-
-        model.addObject("entireApplication", entireApplication);
-//        model.addAttribute("fromCareerLang", "fromCareerLang"); jsp에서 사용 안 함. 필요없는 것으로 추측
-
-        List<LanguageExam> langExamList = new ArrayList<LanguageExam>();
-        String result = "application/";
-        if( "A".equals(admsTypeCode) || "B".equals(admsTypeCode) ) {
-            result += "appinfo";
-
-            commonCodeMap.put( "applAttrList", commonService.retrieveCommonCodeByCodeGroup("APPL_ATTR") );
-            commonCodeMap.put( "mltrServList", commonService.retrieveCommonCodeByCodeGroup("MLTR_SERV") );
-            commonCodeMap.put( "mltrTypeList", commonService.retrieveCommonCodeByCodeGroup("MLTR_TYPE") );
-            commonCodeMap.put( "mltrRankList", commonService.retrieveCommonCodeByCodeGroup("MLTR_RANK") );
-            langExamList.addAll( commonService.retrieveLangExamByLangCode("ENG") );
-        } else if( "C".equals(admsTypeCode) ) {
-            result += "appinfo-fore";
-
-            commonCodeMap.put( "fornTypeList", commonService.retrieveCommonCodeByCodeGroup("FORN_TYPE") );
-            langExamList.addAll( commonService.retrieveLangExamByLangCode("KOR"));
-            for (LanguageExam languageExam : commonService.retrieveLangExamByLangCode("ENG")) {
-                if (!"GRE".equals(languageExam.getExamName())) {
-                    langExamList.add(languageExam);
-                }
-            }
-        }
-
-        commonCodeMap.put( "country", commonService.retrieveCountryByCode(entireApplication.getApplication().getCitzCntrCode()));
-        commonCodeMap.put( "emerContList", commonService.retrieveCommonCodeByCodeGroup("EMER_CONT") );
-        commonCodeMap.put( "toflTypeList", commonService.retrieveCommonCodeByCodeGroup("TOFL_TYPE") );
-        commonCodeMap.put( "fornExmpList", commonService.retrieveCommonCodeByCodeGroup("FORN_EXMP") );
-        commonCodeMap.put( "qualAreaList", commonService.retrieveCommonCodeByCodeGroup("QUAL_AREA") );
-        commonCodeMap.put( "langExamList", langExamList);
-
-
-        model.addObject( "common", commonCodeMap );
-
-        model.addObject( "msgRgstNo", messageResolver.getMessage("U304"));
-        model.addObject( "msgPhoneNo", messageResolver.getMessage("U305"));
-        model.addObject( "msgImageOnly", messageResolver.getMessage("U308"));
-        model.addObject( "msgPDFOnly", messageResolver.getMessage("U309"));
-        model.addObject( "msgGrad", messageResolver.getMessage("U324"));
+//
+//            if( campList != null )      commonCodeMap.put( "campList", campList );
+//            if( collList != null )      commonCodeMap.put( "collList", collList );
+//            if( ariInstList != null)    commonCodeMap.put( "ariInstList", ariInstList );
+//            if( deptList != null )      commonCodeMap.put( "deptList", deptList );
+//            if( corsTypeList != null )  commonCodeMap.put( "corsTypeList", corsTypeList );
+//            if( detlMajList != null )   commonCodeMap.put( "detlMajList", detlMajList );
+//
+//            entireApplication.setDocGroupList( applicationService.retrieveManApplDocListByApplNo(applNo ) );
+//        } else {
+//            entireApplication = entireApplication();
+//            entireApplication.getApplication().setAdmsNo(admsNo);
+//            entireApplication.getApplication().setEntrYear(entrYear);
+//            entireApplication.getApplication().setAdmsTypeCode(admsTypeCode);
+//            entireApplication.getApplication().setApplAttrCode("00001");
+////            entireApplication.getHighSchool().setAcadTypeCode("00001");
+//
+//            List<Campus> campList = commonService.retrieveCampus();
+//            List<AcademyResearchIndustryInstitution> ariInstList = commonService.retrieveAriInst();
+//            if( campList != null )      commonCodeMap.put( "campList", campList );
+//            if( ariInstList != null)    commonCodeMap.put( "ariInstList", ariInstList );
+//        }
+//
+//        model.addObject("entireApplication", entireApplication);
+////        model.addAttribute("fromCareerLang", "fromCareerLang"); jsp에서 사용 안 함. 필요없는 것으로 추측
+//
+//        List<LanguageExam> langExamList = new ArrayList<LanguageExam>();
+//        String result = "application/";
+//        if( "A".equals(admsTypeCode) || "B".equals(admsTypeCode) ) {
+//            result += "appinfo";
+//
+//            commonCodeMap.put( "applAttrList", commonService.retrieveCommonCodeByCodeGroup("APPL_ATTR") );
+//            commonCodeMap.put( "mltrServList", commonService.retrieveCommonCodeByCodeGroup("MLTR_SERV") );
+//            commonCodeMap.put( "mltrTypeList", commonService.retrieveCommonCodeByCodeGroup("MLTR_TYPE") );
+//            commonCodeMap.put( "mltrRankList", commonService.retrieveCommonCodeByCodeGroup("MLTR_RANK") );
+//            langExamList.addAll( commonService.retrieveLangExamByLangCode("ENG") );
+//        } else if( "C".equals(admsTypeCode) ) {
+//            result += "appinfo-fore";
+//
+//            commonCodeMap.put( "fornTypeList", commonService.retrieveCommonCodeByCodeGroup("FORN_TYPE") );
+//            langExamList.addAll( commonService.retrieveLangExamByLangCode("KOR"));
+//            for (LanguageExam languageExam : commonService.retrieveLangExamByLangCode("ENG")) {
+//                if (!"GRE".equals(languageExam.getExamName())) {
+//                    langExamList.add(languageExam);
+//                }
+//            }
+//        }
+//
+//        commonCodeMap.put( "country", commonService.retrieveCountryByCode(entireApplication.getApplication().getCitzCntrCode()));
+//        commonCodeMap.put( "emerContList", commonService.retrieveCommonCodeByCodeGroup("EMER_CONT") );
+//        commonCodeMap.put( "toflTypeList", commonService.retrieveCommonCodeByCodeGroup("TOFL_TYPE") );
+//        commonCodeMap.put( "fornExmpList", commonService.retrieveCommonCodeByCodeGroup("FORN_EXMP") );
+//        commonCodeMap.put( "qualAreaList", commonService.retrieveCommonCodeByCodeGroup("QUAL_AREA") );
+//        commonCodeMap.put( "langExamList", langExamList);
+//
+//
+//        model.addObject( "common", commonCodeMap );
+//
+//        model.addObject( "msgRgstNo", messageResolver.getMessage("U304"));
+//        model.addObject( "msgPhoneNo", messageResolver.getMessage("U305"));
+//        model.addObject( "msgImageOnly", messageResolver.getMessage("U308"));
+//        model.addObject( "msgPDFOnly", messageResolver.getMessage("U309"));
+//        model.addObject( "msgGrad", messageResolver.getMessage("U324"));
 
         return model;
     }
