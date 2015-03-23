@@ -292,82 +292,68 @@ public class LangCareerServiceImpl implements LangCareerService {
         //어학정보 저장
         for( LanguageGroup aGroup : languageGroupList){
             List<TotalApplicationLanguageContainer> langList = aGroup.getLangList();
-
+            // 성적제출, 미제출
             for(TotalApplicationLanguageContainer aLangOrExempt : langList){
                 List<TotalApplicationLanguageContainer> subContainer = aLangOrExempt.getSubContainer();
 
                 for (TotalApplicationLanguageContainer aCont : subContainer) {
                     //저장요청건
                     if( aCont.isCheckedFg()) {
-
-                        //면제 해당여부 처리
-                        if ("ENG_EXMP1".equals(aLangOrExempt.getSelGrpCode())) {
-                            if(aCont.isCheckedFg()) {
-                                applicationGene.setApplNo(applNo);
-                                rUpApplGen++;
-                                if ( applicationGene.getForlExmpCode() != null || applicationGene.getForlExmpCode() != "" ) {
-                                    upApplGen = upApplGen + commonDAO.updateItem(applicationGene, NAME_SPACE, "ApplicationGeneralMapper");
-                                }
+                        aCont.setLangExamGrp(aCont.getItemGrpCode());
+                        aCont.setLangExamCode(aCont.getItemCode());
+                        //기존정보 처리
+                        if(aCont.isLangInfoSaveFg()){
+                            //APPL_LANG,  UPDATE
+                            rUpdate++;
+                            aCont.setModId(application.getModId());
+                            //토플 종류코드로 입력된 경우 이를 하부코드에 입력한다. 기존 코드가 있으며 이를 사용한다.
+                            if( aCont.getSubCodeGrp() == null &&  "".equals(aCont.getSubCodeGrp()) ){
+                                aCont.setSubCodeGrp(aCont.getSubCodeGrp() );
+                                aCont.setSubCode( aCont.getToflTypeCode() );
                             }
-                        } else {
-                            aCont.setLangExamGrp(aCont.getItemGrpCode());
-                            aCont.setLangExamCode(aCont.getItemCode());
-                            //기존정보 처리
-                            if(aCont.isLangInfoSaveFg()){
-                                //APPL_LANG,  UPDATE
-                                rUpdate++;
-                                aCont.setModId(application.getModId());
-                                //토플 종류코드로 입력된 경우 이를 하부코드에 입력한다. 기존 코드가 있으며 이를 사용한다.
-                                if( aCont.getSubCodeGrp() == null &&  "".equals(aCont.getSubCodeGrp()) ){
-                                    aCont.setSubCodeGrp(aCont.getSubCodeGrp() );
-                                    aCont.setSubCode( aCont.getToflTypeCode() );
-                                }
-                                aCont.setModDate(date);
-                                update = update + commonDAO.updateItem( aCont, NAME_SPACE, "ApplicationLanguageMapper");
+                            aCont.setModDate(date);
+                            update = update + commonDAO.updateItem( aCont, NAME_SPACE, "ApplicationLanguageMapper");
 
-                            }else{ //신규 입력정보
-                                //APPL_LANG, INSERT
-                                rInsert++;
-                                aCont.setCreId(application.getModId());
-                                aCont.setCreDate(date);
-                                if( aCont.getSubCodeGrp() == null &&  "".equals(aCont.getSubCodeGrp()) ){
-                                    aCont.setSubCodeGrp(aCont.getSubCodeGrp() );
-                                    aCont.setSubCode( aCont.getToflTypeCode() );
-                                }
-                                int maxSeq = commonDAO.queryForInt(NAME_SPACE +"CustomApplicationLanguageMapper.selectMaxSeqByApplNo", applNo ) ;
-                                maxSeq++;
-                                aCont.setLangSeq(maxSeq);
-                                insert = insert + commonDAO.insertItem( aCont, NAME_SPACE, "ApplicationLanguageMapper");
+                        }else{ //신규 입력정보
+                            //APPL_LANG, INSERT
+                            rInsert++;
+                            aCont.setCreId(application.getModId());
+                            aCont.setCreDate(date);
+                            if( aCont.getSubCodeGrp() == null &&  "".equals(aCont.getSubCodeGrp()) ){
+                                aCont.setSubCodeGrp(aCont.getSubCodeGrp() );
+                                aCont.setSubCode( aCont.getToflTypeCode() );
                             }
+                            //미제출건인 경우
+                            if( "00002".equals(aLangOrExempt.getItemCode())){
+                              aCont.setExmpYn("Y");
+                            }
+
+
+                            int maxSeq = commonDAO.queryForInt(NAME_SPACE +"CustomApplicationLanguageMapper.selectMaxSeqByApplNo", applNo ) ;
+                            maxSeq++;
+                            aCont.setLangSeq(maxSeq);
+                            insert = insert + commonDAO.insertItem( aCont, NAME_SPACE, "ApplicationLanguageMapper");
                         }
+
                     }else if(aCont.isLangInfoSaveFg() ) {//기존 정보 선택 취소
-
-                        // 외국어 면제 선택 상태를 해제하고 영어성적 입력한 경우, 면제 코드를 빈 문자열로 초기화
-                        if ("ENG_EXMP1".equals(aLangOrExempt.getSelGrpCode())) {
-                            applicationGene = new ApplicationGeneral();
-                            applicationGene.setApplNo(applNo);
-                            rUpApplGen++;
-                            applicationGene.setForlExmpCode("");
-                            upApplGen = upApplGen+ commonDAO.updateItem(applicationGene, NAME_SPACE, "ApplicationGeneralMapper");
-                        } else {
+                        rDelete++;
+                        //APPL_LANG, APPL_DOC, DELETE
+                        delete = delete + commonDAO.delete(NAME_SPACE + "ApplicationLanguageMapper.deleteByPrimaryKey", aCont);
+                        if( aCont.isFileUploadFg()){
                             rDelete++;
-                            //APPL_LANG, APPL_DOC, DELETE
-                            delete = delete + commonDAO.delete(NAME_SPACE + "ApplicationLanguageMapper.deleteByPrimaryKey", aCont);
-                            if( aCont.isFileUploadFg()){
-                                rDelete++;
-                                ApplicationDocument aDoc = new ApplicationDocument();
-                                aDoc.setApplNo(applNo);
-                                aDoc.setDocSeq(aCont.getDocSeq());
+                            ApplicationDocument aDoc = new ApplicationDocument();
+                            aDoc.setApplNo(applNo);
+                            aDoc.setDocSeq(aCont.getDocSeq());
 
-                                ExecutionContext ecFileDelete = documentService.retrieveOneDocument(aDoc);
-                                TotalApplicationDocument totalDoc = (TotalApplicationDocument)ecFileDelete.getData();
+                            ExecutionContext ecFileDelete = documentService.retrieveOneDocument(aDoc);
+                            TotalApplicationDocument totalDoc = (TotalApplicationDocument)ecFileDelete.getData();
 
-                                delete = delete + commonDAO.delete(NAME_SPACE + "ApplicationDocumentMapper.deleteByPrimaryKey", aDoc);
+                            delete = delete + commonDAO.delete(NAME_SPACE + "ApplicationDocumentMapper.deleteByPrimaryKey", aDoc);
 
-                                File file = new File(totalDoc.getFilePath(), totalDoc.getFileName());
-                                deleteOk = file.delete();
-                            }
+                            File file = new File(totalDoc.getFilePath(), totalDoc.getFileName());
+                            deleteOk = file.delete();
                         }
+
                     }
                 }
             }

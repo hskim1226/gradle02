@@ -83,9 +83,14 @@ public class LangCareerController {
                                        BindingResult bindingResult,
                                        ModelAndView mv) {
         langCareerValidator.validate(formData, bindingResult);
+        ExecutionContext ec = null;
         mv.setViewName(TARGET_VIEW);
         if (bindingResult.hasErrors()) {
             mv.addObject("resultMsg", messageResolver.getMessage("U334"));
+            ExecutionContext ecRetrieve = langCareerService.retrieveLangCareer(formData);
+
+            Map<String, Object> setupMap = (Map<String, Object>)ecRetrieve.getData();
+            addObjectToMV(mv, setupMap, ec);
 
             HashMap<String, Object> commonCodeMap = new HashMap<String, Object>();
             commonCodeMap.put( "toflTypeList", commonService.retrieveCommonCodeByCodeGroup("TOFL_TYPE") );
@@ -101,7 +106,7 @@ public class LangCareerController {
             return mv;
         }
 
-        ExecutionContext ec = null;
+
         String userId = principal.getName();
 
         Application application = formData.getApplication();
