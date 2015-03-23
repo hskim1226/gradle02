@@ -30,12 +30,23 @@
                             <tr>  
                                 <th><label for="admsNo">지원전형</label></th>
                                 <td>
-                                    <select id="admsNo">
-                                        <option value="">-- 전체 --</option>
-                                        <option value="15A">15 전기일반</option>
-                                        <option value="15C">15 전기외국인</option>
+                                    <select id="admsNo" name="admsNo" >
+                                        <option value="" label="--전체--" />
+                                        <c:forEach items="${admsList}" var="admsNo" varStatus="admsSatus">
+                                            <option value="${admsNo.admsNo}" label="${admsNo.admsNo}" />
+                                        </c:forEach>
                                     </select>
-                                </td>                                                
+                                </td>
+
+                                <%--
+                                <td>
+                                    <form:select path="admsNo" id="admsNo" cssClass="form-control base-info">
+                                        <form:option value="" label="--전체--" />
+                                        <form:options items="${admsList}" itemValue="admsNo" itemLabel="admsNo"/>
+                                    </form:select>
+
+                                </td>   --%>
+
 <!--                                 <th><label for="applAttrCode">모집구분</label></th>
                                 <td>
                                     <select id="applAttrCode">

@@ -16,10 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by hanmomhanda on 15. 1. 9.
@@ -103,6 +100,8 @@ public class BasisServiceImpl implements BasisService {
 
             foreignMap.put("foreignTypeList", commonService.retrieveCommonCodeByCodeGroup("FORN_TYPE"));
             foreignMap.put("visaTypeList", commonService.retrieveCommonCodeByCodeGroup("VISA_TYPE"));
+
+
 
             ecDataMap.put("bornCntr", bornCntr);
             ecDataMap.put("foreign", foreignMap);
@@ -202,6 +201,16 @@ public class BasisServiceImpl implements BasisService {
                 }
             }
             selectionMap.put("emerContList", commonService.retrieveCommonCodeByCodeGroup("EMER_CONT"));
+            if( "15C".equals(basis.getApplication().getAdmsNo())){
+
+                ArrayList<CommonCode> attrList = (ArrayList<CommonCode>)selectionMap.get("applAttrList");
+                for(int i = attrList.size()-1; i >= 0 ; i--){
+                    if( !"00001".equals(attrList.get(i).getCode())){
+                        attrList.remove(i);
+                    }
+                }
+
+            }
         }
 
         String cntrCode = basis.getApplication().getCitzCntrCode();

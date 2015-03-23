@@ -310,11 +310,11 @@
                                     </div>
                                     <div>
                                         <div class="col-sm-11" id="baseSave">
-                                            <span class="col-sm-8"><spring:message code="U310"/></span>
+                                            <span class="col-sm-8"><spring:message code="U01101"/></span>
                                             <button id="btnBaseSave" class="btn btn-info btn-lg col-sm-4">지원사항 저장</button>
                                         </div>
                                         <div class="col-sm-11" id="baseCancel" style="display:none;">
-                                            <span class="col-sm-8"><spring:message code="U311"/></span>
+                                            <span class="col-sm-8"><spring:message code="U01105"/></span>
                                             <button id="btnBaseCancel" class="btn btn-warning btn-lg col-sm-4">지원사항 취소</button>
                                         </div>
                                     </div>
@@ -1448,7 +1448,7 @@
 
             <%-- 기본 정보 > 지원 사항 처리 --%>
             $('#btnBaseSave').on('click', function(e) {
-                if ( confirm('<spring:message code="U313"/>') ) {
+                if ( confirm('<spring:message code="U01102"/>') ) {
                     baseInfoSaved();
                 } else {
                     return false;
@@ -1457,7 +1457,7 @@
             });
 
             $('#btnBaseCancel').on('click', function(e) {
-                if ( confirm('<spring:message code="U314"/>') ) {
+                if ( confirm('<spring:message code="U01106"/>') ) {
                     //TODO DB 삭제 후 공고 목록으로 이동
                 } else {
                     return false;

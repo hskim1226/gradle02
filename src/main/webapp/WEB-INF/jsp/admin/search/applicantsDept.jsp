@@ -70,6 +70,7 @@
                             </tbody>
                         </table>
                         <input id="deptSearchBtn" type='image' class="Limage" src="${contextPath}/img/admin/btn_search.gif" />
+
                     </form:form>
                 </div>
             </div>
@@ -127,6 +128,9 @@
                     <li class="Lend"><span><a href="#" onclick="movePage(${indexCount}); return false;">${indexCount}page</a></span></li>
                 </c:if>
             </ul>
+            <div  id="LblockcChgInfoBtn" class="LblockSubbutton">
+                <a href="#"><input type="button"  id="downBtn" value="엑셀파일 다운로드"  /></a>
+            </div>
         </div>
     </div>
 </div>
@@ -149,7 +153,12 @@
             jQuery("#search-form").submit();
 
         };
+        jQuery('#downBtn').on('click', function(event) {
+            event.preventDefault();
+            jQuery('#search-form').attr("action", '${contextPath}/admin/search/excelDownload');
+            document.getElementById('search-form').submit();
 
+        });
 
         function attachChangeEvent( sourceId, context ) {
             var $source = jQuery('#' + sourceId);
