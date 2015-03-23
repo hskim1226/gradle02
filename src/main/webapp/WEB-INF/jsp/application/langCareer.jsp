@@ -333,6 +333,8 @@
                                                     <div class="panel-heading">${langList.itemName}</div>
                                                     <div class="panel-body" id="languageGroupList${langGroupStat.index}.langList${langListStat.index}.list">
                                                         <form:hidden path="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].itemName" value="${langList.itemName}"/>
+                                                        <form:hidden path="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].itemCode" value="${langList.itemCode}"/>
+                                                        <form:hidden path="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].itemGrpCode" value="${langList.itemGrpCode}"/>
                                                         <form:hidden path="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].selGrpCode" value="${langList.selGrpCode}"/>
                                                         <c:forEach items="${langList.subContainer}" var="subContainer" varStatus="subContainerStat">
                                                             <div class="form-group">
@@ -352,12 +354,13 @@
                                                                 <form:hidden path="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].subContainer[${subContainerStat.index}].itemName" value="${subContainer.itemName}"/>
                                                                 <form:hidden path="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].subContainer[${subContainerStat.index}].subCodeGrp" value="${subContainer.subCodeGrp}"/>
                                                                 <form:hidden path="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].subContainer[${subContainerStat.index}].exmpYn" value="${subContainer.exmpYn}"/>
+                                                                <form:hidden path="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].subContainer[${subContainerStat.index}].subCodeList" value="${subContainer.subCodeList}"/>
                                                                 <div class="col-sm-3">
                                                                     <%--<c:if test="${langList.selGrpCode != 'ENG_EXMP1' && langList.selGrpCode != 'KOR_EXMP1'}">--%>
                                                                         <div class="checkbox">
                                                                             <%--<c:if test='${subContainer.canYn == "Y"}'>--%>
                                                                                 <c:choose>
-                                                                                    <c:when test='${subContainer.exmpYn == "Y"}'>
+                                                                                    <c:when test='${langList.itemCode == "00002"}'>
                                                                                         <label for="checkForlExmp-${langGroupStat.index}">
                                                                                             <input type="checkbox" class="checkboxForlExmp"
                                                                                                    id="checkForlExmp-${langGroupStat.index}"
@@ -392,20 +395,34 @@
                                                                     <c:when test='${subContainer.canYn == "Y"}'>
                                                                         <div class="col-sm-2 langDetail-${langGroupStat.index}-${langListStat.index}-${subContainerStat.index} langDetail-${langGroupStat.index}" style='display: <c:choose><c:when test="${subContainer.checkedFg == true}">block;</c:when><c:otherwise>none;</c:otherwise></c:choose>'>
                                                                             <c:if test="${subContainer.itemGrpCode == 'LANG_EXAM' && subContainer.itemCode == '00001'}">
+                                                                                <%--<div class="input-group">--%>
+                                                                                    <%--<form:select path="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].subContainer[${subContainerStat.index}].toflTypeCode" cssClass="form-control forlInput-${langGroupStat.index}">--%>
+                                                                                        <%--<form:option value="" label="--선택--" />--%>
+                                                                                        <%--<form:options items="${common.toflTypeList}" itemValue="code"--%>
+                                                                                                      <%--itemLabel="${pageContext.response.locale == 'en' ? 'codeValXxen' : 'codeVal'}"/>--%>
+                                                                                    <%--</form:select>--%>
+                                                                                <%--</div>--%>
+                                                                                <%--<spring:bind path="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].subContainer[${subContainerStat.index}].toflTypeCode">--%>
+                                                                                    <%--<c:if test="${status.error}">--%>
+                                                                                        <%--<div class="validation-container">--%>
+                                                                                            <%--<div class="validation-error">${status.errorMessage}</div>--%>
+                                                                                        <%--</div>--%>
+                                                                                    <%--</c:if>--%>
+                                                                                <%--</spring:bind>--%>
                                                                                 <div class="input-group">
-                                                                                    <form:select path="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].subContainer[${subContainerStat.index}].toflTypeCode" cssClass="form-control forlInput-${langGroupStat.index}">
-                                                                                        <form:option value="" label="--선택--" />
-                                                                                        <form:options items="${common.toflTypeList}" itemValue="code"
-                                                                                                      itemLabel="${pageContext.response.locale == 'en' ? 'codeValXxen' : 'codeVal'}"/>
-                                                                                    </form:select>
+                                                                                <form:select path="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].subContainer[${subContainerStat.index}].subCode" cssClass="form-control forlInput-${langGroupStat.index}">
+                                                                                    <form:option value="" label="--선택--" />
+                                                                                    <form:options items="${langCareer.languageGroupList[langGroupStat.index].langList[langListStat.index].subContainer[subContainerStat.index].subCodeList}" itemValue="code"
+                                                                                                  itemLabel="${pageContext.response.locale == 'en' ? 'codeValXxen' : 'codeVal'}"/>
+                                                                                </form:select>
                                                                                 </div>
-                                                                                <spring:bind path="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].subContainer[${subContainerStat.index}].toflTypeCode">
-                                                                                    <c:if test="${status.error}">
-                                                                                        <div class="validation-container">
-                                                                                            <div class="validation-error">${status.errorMessage}</div>
-                                                                                        </div>
-                                                                                    </c:if>
-                                                                                </spring:bind>
+                                                                        <spring:bind path="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].subContainer[${subContainerStat.index}].toflTypeCode">
+                                                                            <c:if test="${status.error}">
+                                                                                <div class="validation-container">
+                                                                                    <div class="validation-error">${status.errorMessage}</div>
+                                                                                </div>
+                                                                            </c:if>
+                                                                        </spring:bind>
                                                                             </c:if>
                                                                         </div>
                                                                         <div class="col-sm-4 langDetail-${langGroupStat.index}-${langListStat.index}-${subContainerStat.index} langDetail-${langGroupStat.index}" style='display: <c:choose><c:when test="${subContainer.checkedFg == true}">block;</c:when><c:otherwise>none;</c:otherwise></c:choose>'>
@@ -459,7 +476,8 @@
                                                                                     <form:select path="applicationGeneral.forlExmpCode" id="forlExmpCode-${langGroupStat.index}" cssClass="form-control forlExmpCode"
                                                                                                  data-selGrpCode-id="languageGroupList${langGroupStat.index}.langList${langListStat.index}.subContainer${subContainerStat.index}.selGrpCode">
                                                                                         <form:option value="" label="--선택--" />
-                                                                                        <form:options items="${common.fornExmpList}" itemValue="code"
+                                                                                        <%--<form:options items="${common.fornExmpList}" itemValue="code"--%>
+                                                                                        <form:options items="${langCareer.languageGroupList[langGroupStat.index].langList[langListStat.index].subContainer[subContainerStat.index].subCodeList}" itemValue="code"
                                                                                                       itemLabel="${pageContext.response.locale == 'en' ? 'codeValXxen' : 'codeVal'}"/>
                                                                                     </form:select>
                                                                                 </div>
