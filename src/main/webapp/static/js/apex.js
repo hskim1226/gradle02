@@ -12,15 +12,17 @@ var apex = {
         korPhoneNumber : /(^02.{0}|^01.{1}|[0-9]{3})([0-9]+)([0-9]{4})/,
         hyphen : /-/g
     },
-    engNameCheck : function(className) { // 영문 이름 : 영 대소문자, 공백, '.', '-'만 허용
+    engNameCheck : function(className, msg) { // 영문 이름 : 영 대소문자, 공백, '.', '-'만 허용
         $('.'+className).on('blur', function () {
             var val = this.value;
             if (!apex.rx.engName.test(val) && val != '') {
                 this.value = "";
                 this.focus();
-                alert("영 대소문자와 공백, '.', '-'만 가능합니다.");
+                alert(msg);
+                return false;
             } else {
                 this.value = this.value.toUpperCase();
+                return true;
             }
         });
     },
@@ -29,41 +31,42 @@ var apex = {
             this.value = this.value.replace(apex.rx.space,"");
         });
     },
-    numCheck : function(className) { // 숫자만 허용
+    numCheck : function(className, msg) { // 숫자만 허용
         $('.'+className).on('blur', function () {
             var val = this.value;
             if (!apex.rx.numOnly.test(val) && val != '') {
-                alert("숫자만 입력해 주세요.");
+                alert(msg); // 숫자만 입력해 주세요.
                 this.value = "";
                 this.focus();
             }
         });
     },
-    emailCheck : function(className) { // 이메일 주소만 허용
+    emailCheck : function(className, msg) { // 이메일 주소만 허용
         $('.'+className).on('blur', function () {
             var val = this.value;
             if (!apex.rx.email.test(val) && val != '') {
-                alert("이메일 주소를 정확히 기재해 주세요");
+                alert(msg); // "이메일 주소를 정확히 기재해 주세요"
                 this.value = "";
                 this.focus();
             }
         });
     },
-    passwordCheck : function(className) { // 비밀 번호 8자리 이상, 영 대/소문자와 숫자 포함
+    passwordCheck : function(className, msg) { // 비밀 번호 8자리 이상, 영 대/소문자와 숫자 포함
         $('.'+className).on('blur', function () {
             var val = this.value;
             if (!apex.rx.password.test(val) && val != '') {
-                alert("비밀번호는 알파벳 대문자, 소문자, 숫자를 하나 이상 포함하여 8자리 이상이어야 합니다.");
+                alert(msg);
+                // 비밀번호는 알파벳 대문자, 소문자, 숫자를 하나 이상 포함하여 8자리 이상이어야 합니다.
                 this.value = "";
                 this.focus();
             }
         });
     },
-    idCheck : function(className) {
+    idCheck : function(className, msg) {
         $('.'+className).on('blur', function () {
             var val = this.value;
             if (!apex.rx.id.test(val) && val != '') {
-                alert("아이디는 6자리 이상, 영 대/소문자와 숫자가 포함되어야 합니다.");
+                alert(msg); // 아이디는 6자리 이상, 영 대/소문자와 숫자가 포함되어야 합니다.
                 this.value = "";
                 this.focus();
             }
@@ -83,19 +86,19 @@ var apex = {
             this.value = val.substring(0, 6) + '-' + val.substring(6);
         });
     },
-    lenCheck : function(className, min, max) {
+    lenCheck : function(className, min, max, msg1, msg2, msg3, msg4, msg5) {
         $('.'+className).on('blur', function() {
             var valLength = this.value.length;
             if (valLength > 0) {
                 if (valLength < min || valLength > max) {
                     if (min == max) {
-                        alert(min + "자로 입력해 주세요.");
+                        alert(min + "자로 입력해 주세요."); // 자로 입력해 주세요.
                     } else if (min < 0) {
-                        alert(max + "자 이하로 입력해 주세요.");
+                        alert(max + "자 이하로 입력해 주세요."); // 자 이하로 입력해 주세요.
                     } else if (max > 9999) {
-                        alert(min + "자 이상 입력해 주세요.");
+                        alert(min + "자 이상 입력해 주세요."); // 자 이상 입력해 주세요.
                     } else {
-                        alert(min + "자 이상 " + max + "자 이하로 입력해 주세요.");
+                        alert(min + "자 이상 " + max + "자 이하로 입력해 주세요."); // 자 이상, 자 이하로 입력해 주세요.
                     }
                     this.focus();
                 }
