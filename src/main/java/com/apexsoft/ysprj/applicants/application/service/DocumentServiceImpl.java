@@ -472,17 +472,23 @@ public class DocumentServiceImpl implements DocumentService {
         List<TotalApplicationDocumentContainer> rList = new ArrayList<TotalApplicationDocumentContainer>();
         List<TotalApplicationDocumentContainer> applDocList;
 
-        int i =1;
+
         applDocList = commonDAO.queryForList(NAME_SPACE + "CustomApplicationDocumentMapper.selectLanguageTotalDocListByApplNo", applNo, TotalApplicationDocumentContainer.class);
         if( applDocList != null){
-            for ( TotalApplicationDocumentContainer aCont : applDocList){
-                rList.add(aCont);
-                aCont.setDocItemName(aCont.getDocItemName()+" 성적표(증명)");
-                aCont.setDocItemCode("00016");
-                if(aCont.getDocSeq()!=null && aCont.getDocSeq()>0){
-                    aCont.setFileUploadFg(true);
+
+            for( int idx = applDocList.size()-1; idx > 0; idx--){
+                TotalApplicationDocumentContainer aCont = applDocList.get(idx);
+                if( "EXMP_TYPE".equals(aCont.getDocItemGrp())){
+                    applDocList.remove(idx);
+                }else {
+                    rList.add(aCont);
+                    aCont.setDocItemName(aCont.getDocItemName() + " 성적표(증명)");
+                    aCont.setDocItemCode("00016");
+                    if (aCont.getDocSeq() != null && aCont.getDocSeq() > 0) {
+                        aCont.setFileUploadFg(true);
+                    }
+                    aCont.setCheckedFg(true);
                 }
-                aCont.setCheckedFg(true);
             }
         }
         rApplDoc = new TotalApplicationDocumentContainer();
@@ -553,7 +559,10 @@ public class DocumentServiceImpl implements DocumentService {
                 }
                 aSubDoc.setSubContainer( getSubCodeDocumentContainer(aSubDoc,rList));
             }
+            adjustAcademyDocByGrdaType(aAcad.getGrdaTypeCode(),subDocList);
             aCont.setSubContainer(subDocList);
+
+
             //전체 학력 컨테이너에 추가
             rApplDoc.getSubContainer().add(aCont);
 
@@ -600,6 +609,7 @@ public class DocumentServiceImpl implements DocumentService {
                 }
                 aSubDoc.setSubContainer( getSubCodeDocumentContainer(aSubDoc,rList));
             }
+            adjustAcademyDocByGrdaType(aAcad.getGrdaTypeCode(),subDocList);
             aCont.setSubContainer(subDocList);
             //전체 학력 컨테이너에 추가
             rApplDoc.getSubContainer().add(aCont);
@@ -877,5 +887,22 @@ public class DocumentServiceImpl implements DocumentService {
             }
         }
         return decrypted;
+    }
+
+    private void adjustAcademyDocByGrdaType(String grdaType, List<TotalApplicationDocumentContainer> subDocList){
+        if( "00003".equals(grdaType) || "00004".equals(grdaType)){ //중퇴, 수료인경우
+            for( int i = subDocList.size()-1; i>=0; i--){
+                TotalApplicationDocumentContainer aCont = subDocList.get(i);
+                if("Y".equals(aCont.getLastYn())){ //마지막 컨테이너(문서)인 경우
+                    String docCode = aCont.getDocItemCode();
+                    if ("00008".equals(docCode) || "00010".equals(docCode) || "00011".equals(docCode)) { //졸업관련 서류 삭제
+                        subDocList.remove(i);
+                    }
+                }else {
+                    adjustAcademyDocByGrdaType( grdaType, aCont.getSubContainer());
+                }
+            }
+        }
+
     }
 }

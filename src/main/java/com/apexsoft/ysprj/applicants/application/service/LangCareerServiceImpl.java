@@ -37,8 +37,10 @@ public class LangCareerServiceImpl implements LangCareerService {
     private final String APP_NULL_STATUS = "00000";      // 에러일 때 반환값
     private final String LANG_CAREER_SAVED = "00003";    // 어학/경력 저장
 
+
+    //사용안하는 것이로 보이는 메소드
     @Override
-         public ExecutionContext retrieveLangCareer(int applNo) {
+    public ExecutionContext retrieveLangCareer(int applNo) {
         ExecutionContext ec = new ExecutionContext();
 
         Map<String, Object> ecDataMap = new HashMap<String, Object>();
@@ -74,6 +76,8 @@ public class LangCareerServiceImpl implements LangCareerService {
 
         return ec;
     }
+
+    //Birt에서 사용하는 언어경력조회
     @Override
     public ExecutionContext retrieveCurrentLangCareer(int applNo) {
         ExecutionContext ec = new ExecutionContext();
@@ -132,8 +136,11 @@ public class LangCareerServiceImpl implements LangCareerService {
         applicationGeneralFromDB = applicationGeneralFromDB == null ? new ApplicationGeneral() : applicationGeneralFromDB;
         langCareer.setApplicationGeneral(applicationGeneralFromDB);
 
+
+        //어학성적을 제출할 수 있는 언어시험 목록을 가져온다
         List<LanguageGroup> langGroupList = retrieveLanguageGroupListByApplNo(applNo, applicationGeneralFromDB);
         langCareer.setLanguageGroupList(langGroupList);
+
 
         List<CustomApplicationExperience> applicationExperienceList = retrieveInfoListByApplNo(applNo, "CustomApplicationExperienceMapper", CustomApplicationExperience.class);
         langCareer.setApplicationExperienceList(applicationExperienceList);
@@ -153,7 +160,7 @@ public class LangCareerServiceImpl implements LangCareerService {
 
         return ec;
     }
-
+    //지원번호에 따른 언어시험 목록을 가져온다.
     private List<LanguageGroup> retrieveLanguageGroupListByApplNo(int applNo, ApplicationGeneral applicationGeneral) {
 
         List<LanguageGroup> langGroupList = null;
@@ -181,7 +188,8 @@ public class LangCareerServiceImpl implements LangCareerService {
             aCont.setItemCode(alangGroup.getExamCode());
             aCont.setMdtSeq(alangGroup.getMdtSeq());
 
-            //두번째 레벨의 정보를 가져온다
+            //두번째 레벨의 정보를 가져온다 (level 1)
+            //두번째 레벨은 필수/면제로 언어(영어/한국어)별로 생성된다.
             aLangList = commonDAO.queryForList(NAME_SPACE + "CustomApplicationDocumentMapper.selectTotalLanguageDoc", aCont, TotalApplicationLanguageContainer.class);
 
             //하부 레벨의 정보를 채운다
@@ -216,7 +224,7 @@ public class LangCareerServiceImpl implements LangCareerService {
 
             //하부 레벨의 정보를 채운다
             for (TotalApplicationLanguageContainer alang : aLangList) {
-                if("N".equals(alang.getLastYn())){//시험입력인 경우(Lang_Send)
+                if("N".equals(alang.getLastYn())){
                     alang.setApplNo(applNo);
                     List<TotalApplicationLanguageContainer> aSubList = new ArrayList<TotalApplicationLanguageContainer>();
                     rtnList = setCurrentSubContainer(alangGroup, alang, aSubList, applicationGeneral);
@@ -286,17 +294,26 @@ public class LangCareerServiceImpl implements LangCareerService {
                                 //APPL_LANG,  UPDATE
                                 rUpdate++;
                                 aCont.setModId(application.getModId());
+                                //토플 종류코드로 입력된 경우 이를 하부코드에 입력한다. 기존 코드가 있으며 이를 사용한다.
+                                if( aCont.getSubCodeGrp() == null &&  "".equals(aCont.getSubCodeGrp()) ){
+                                    aCont.setSubCodeGrp(aCont.getSubCodeGrp() );
+                                    aCont.setSubCode( aCont.getToflTypeCode() );
+                                }
                                 aCont.setModDate(date);
                                 update = update + commonDAO.updateItem( aCont, NAME_SPACE, "ApplicationLanguageMapper");
 
                             }else{ //신규 입력정보
                                 //APPL_LANG, INSERT
                                 rInsert++;
+                                aCont.setCreId(application.getModId());
+                                aCont.setCreDate(date);
+                                if( aCont.getSubCodeGrp() == null &&  "".equals(aCont.getSubCodeGrp()) ){
+                                    aCont.setSubCodeGrp(aCont.getSubCodeGrp() );
+                                    aCont.setSubCode( aCont.getToflTypeCode() );
+                                }
                                 int maxSeq = commonDAO.queryForInt(NAME_SPACE +"CustomApplicationLanguageMapper.selectMaxSeqByApplNo", applNo ) ;
                                 maxSeq++;
                                 aCont.setLangSeq(maxSeq);
-                                aCont.setCreId(application.getModId());
-                                aCont.setCreDate(date);
                                 insert = insert + commonDAO.insertItem( aCont, NAME_SPACE, "ApplicationLanguageMapper");
                             }
                         }
@@ -444,6 +461,9 @@ public class LangCareerServiceImpl implements LangCareerService {
                 pCont.setFileUploadFg(false);
             }
 
+
+            //성적면제인 경우 컨테이너를 강제로 생성 (ASIS)
+            /*
             if ("ENG_EXMP1".equals(pCont.getSelGrpCode()) || "KOR_EXMP1".equals(pCont.getSelGrpCode())) {
                 TotalApplicationLanguageContainer exemptContainer = new TotalApplicationLanguageContainer();
                 pCont.setLastYn("N");
@@ -460,7 +480,7 @@ public class LangCareerServiceImpl implements LangCareerService {
                     rContList = new ArrayList<TotalApplicationLanguageContainer>();
                 }
                 rContList.add(exemptContainer);
-            }
+            }*/
         }
         return rContList;
     }

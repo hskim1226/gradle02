@@ -7,7 +7,6 @@ import com.apexsoft.ysprj.user.service.UserAccountService;
 import com.apexsoft.ysprj.user.validator.UserModValidator;
 import com.apexsoft.ysprj.user.validator.UserValidator;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -49,9 +48,6 @@ public class UserAccountController {
     @Autowired
     private MessageResolver messageResolver;
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-
     @RequestMapping(value="/login", method= RequestMethod.GET)
     public ModelAndView displayLoginForm(User user,
                                    BindingResult bindingResult,
@@ -60,11 +56,13 @@ public class UserAccountController {
         mv.setViewName("user/login");
         if (bindingResult.hasErrors()) return mv;
 
-        if ("fail".equals(request.getParameter("auth")))
+        if (request.getAttribute("LOGIN_FAILURE") == Boolean.TRUE)
             mv.addObject("loginMessage", messageResolver.getMessage("U330"));
 
         return mv;
     }
+
+
 
     @RequestMapping(value = "/agreement", method = RequestMethod.GET)
     public String displaySignupAgreementForm(Model model, HttpServletResponse response) {
@@ -124,7 +122,6 @@ public class UserAccountController {
             mv.addObject("resultMsg", messageResolver.getMessage("U334"));
             return mv;
         }
-        user.setPswd(passwordEncoder.encode(user.getPswd()));
         ec = userAccountService.registerUserAndAuthority(user);
         mv.addObject("resultMsg", ec.getMessage());
         return mv;
@@ -251,7 +248,7 @@ public class UserAccountController {
             mv.addObject("resultMsg", messageResolver.getMessage("U334"));
             return mv;
         }
-        formData.setPswd(passwordEncoder.encode(formData.getPswd()));
+
         int r1 = userAccountService.changePassword(formData);
 
         if (r1 == 1) {

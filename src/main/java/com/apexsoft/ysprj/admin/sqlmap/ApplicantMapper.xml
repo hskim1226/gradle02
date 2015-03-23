@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="admin.applicant">
 
-    <resultMap id="entireApplicantInfo"   type="com.apexsoft.ysprj.admin.domain.ApplicantInfo">
+    <resultMap id="applicantInfo"   type="com.apexsoft.ysprj.admin.domain.ApplicantInfo">
         <id property="applNo" column="appl_no"/>
         <result property="userId" column="user_id"/>
         <result property="admsNo" column="adms_no"/>
@@ -40,6 +40,49 @@
         <result property="applDate" column="appl_date" jdbcType="DATE"/>             
 
     </resultMap>
+
+    <resultMap id="entireApplicantInfo"   type="com.apexsoft.ysprj.admin.domain.ApplicantInfoEntire">
+        <id property="applNo" column="appl_no"/>
+        <result property="userId" column="user_id"/>
+        <result property="admsNo" column="adms_no"/>
+        <result property="admsType" column="adms_type"/>
+        <result property="admsTypeName" column="adms_type_name"/>
+        <result property="applAttrCode" column="appl_attr_code"/>
+        <result property="applAttrName" column="appl_attr_name"/>
+        <result property="campName" column="camp_name"/>
+        <result property="collName" column="coll_name"/>
+        <result property="deptCode" column="dept_code"/>
+        <result property="deptName" column="dept_name"/>
+        <result property="ariInstCode" column="ari_inst_code"/>
+        <result property="ariInstName" column="ari_inst_name"/>
+        <result property="corsTypeCode" column="cors_type_code"/>
+        <result property="corsTypeName" column="cors_type_name"/>
+        <result property="detlMajCode" column="detl_maj_code"/>
+        <result property="detlMajName" column="detl_maj_Name"/>
+        <result property="korName" column="kor_name"/>
+        <result property="engSur" column="eng_sur"/>
+        <result property="engName" column="eng_name"/>
+        <result property="rgstNo" column="rgst_no"/>
+        <result property="citzCntrCode" column="CITZ_CNTR_CODE"/>
+
+        <result property="addr" column="addr"/>
+        <result property="detlAddr" column="detl_addr"/>
+        <result property="mobiNum" column="mobi_num"/>
+        <result property="mailAddr" column="mail_addr"/>
+        <result property="emerContCode" column="EMER_CONT_CODE"/>
+        <result property="emerContName" column="EMER_CONT_NAME"/>
+        <result property="emerContTel" column="EMER_CONT_TEL"/>
+        <result property="ForlExmpCode" column="FORL_EXMP_CODE"/>
+
+        <result property="applId" column="appl_id"/>
+        <result property="applStsCode" column="APPL_STS_CODE"/>
+        <result property="applStsName" column="APPL_STS_NAME"/>
+        <result property="payTypeCode" column="PAY_TYPE_CODE"/>
+        <result property="payTypeName" column="PAY_TYPE_NAME"/>
+        <result property="admsFee" column="adms_fee" jdbcType="INTEGER" />
+        <result property="applDate" column="appl_date" jdbcType="DATE"/>
+
+    </resultMap>
     
     <resultMap id="ApplicationDocument" type="com.apexsoft.ysprj.applicants.application.domain.ApplicationDocument" >
     <id column="APPL_NO" property="applNo" />
@@ -74,7 +117,7 @@
     <result column="TOTAL_CNT" property="totalCnt" jdbcType="INTEGER" />
   </resultMap>
  
-  <select id="retrieveApplicantInfoByKey" resultMap="entireApplicantInfo" parameterType="java.lang.Integer">
+  <select id="retrieveApplicantInfoByKey" resultMap="applicantInfo" parameterType="java.lang.Integer">
 		SELECT A.APPL_NO APPL_NO, 
 			A.APPL_ID,
 			A.ADMS_NO,
@@ -133,7 +176,7 @@
        ORDER BY  APPL_ID DESC, APPL_NO DESC
 	</select>
 
-    <select id="retrieveApplicantInfoByApplId" resultMap="entireApplicantInfo" parameterType="java.lang.String">
+    <select id="retrieveApplicantInfoByApplId" resultMap="applicantInfo" parameterType="java.lang.String">
         SELECT A.APPL_NO APPL_NO,
         A.APPL_ID,
         A.ADMS_NO,
@@ -193,7 +236,7 @@
     </select>
 	
 	
-  <select id="retrieveApplicantInfo" resultMap="entireApplicantInfo" parameterType="java.lang.Integer">
+  <select id="retrieveApplicantInfo" resultMap="applicantInfo" parameterType="java.lang.Integer">
 		SELECT a.APPL_NO APPL_NO,a.USER_ID, a.APPL_ID, H.ADMS_TYPE, F.CAMP_NAME, e.COLL_NAME, b.DEPT_NAME, a.CORS_TYPE_CODE, d.ARI_INST_NAME,a.DETL_MAJ_CODE,a.KOR_NAME,a.ENG_SUR,a.ENG_NAME, a.RGST_NO, a.MOBI_NUM,a.MAIL_ADDR
 		FROM  APPL a 
 		left outer join ARI_INST d
@@ -209,7 +252,7 @@
         ORDER BY  APPL_ID DESC, APPL_NO DESC
 	</select>
 	
-    <select id="retrieveApplicantListByName" resultMap="entireApplicantInfo" parameterType="com.apexsoft.ysprj.admin.control.form.ApplicantSearchForm">
+    <select id="retrieveApplicantListByName" resultMap="applicantInfo" parameterType="com.apexsoft.ysprj.admin.control.form.ApplicantSearchForm">
     	<![CDATA[
 		SELECT a.APPL_NO APPL_NO, a.USER_ID,a.APPL_ID, H.ADMS_TYPE,
 		F.CAMP_NAME,
@@ -295,7 +338,7 @@
 
    
   
-   <select id="retrieveApplicantListByDept" resultMap="entireApplicantInfo" parameterType="com.apexsoft.ysprj.admin.control.form.CourseSearchForm">
+   <select id="retrieveApplicantListByDept" resultMap="applicantInfo" parameterType="com.apexsoft.ysprj.admin.control.form.CourseSearchForm">
 
 		SELECT a.APPL_NO APPL_NO,a.USER_ID, a.APPL_ID, H.ADMS_TYPE, F.CAMP_NAME, e.COLL_NAME, b.DEPT_NAME, a.CORS_TYPE_CODE, d.ARI_INST_NAME,a.DETL_MAJ_CODE,a.KOR_NAME,a.ENG_SUR,a.ENG_NAME, a.RGST_NO, a.MOBI_NUM,a.MAIL_ADDR,
            P.ADMS_FEE,
@@ -548,6 +591,80 @@
         AND B.COLL_CODE = #{collCode}
         AND ( A.ADMS_NO ='Y' OR A.ARI_YN ='Y' OR A.COM_YN ='Y')
         ORDER BY B.DEPT_SEQ
+    </select>
+
+    <select id="retrieveApplicantEntireListByDept" resultMap="entireApplicantInfo" parameterType="com.apexsoft.ysprj.admin.control.form.CourseSearchForm">
+
+        SELECT A.APPL_NO APPL_NO,
+        A.APPL_ID,
+        A.ADMS_NO,
+        A.USER_ID,
+        H.ADMS_TYPE,
+        CODEVAL( 'ADMS_TYPE',H.ADMS_TYPE )ADMS_TYPE_NAME,
+        A.APPL_ATTR_CODE,
+        CODEVAL('APPL_ATTR', A.APPL_ATTR_CODE ) APPL_ATTR_NAME,
+        F.CAMP_NAME,
+        e.COLL_NAME,
+        b.DEPT_CODE,
+        b.DEPT_NAME,
+        A.CORS_TYPE_CODE,
+        CODEVAL( 'CORS_TYPE',A.CORS_TYPE_CODE)CORS_TYPE_NAME ,
+        D.ARI_INST_NAME,
+        A.DETL_MAJ_CODE,
+        G.DETL_MAJ_NAME,
+        A.KOR_NAME,
+        A.ENG_SUR,
+        A.ENG_NAME,
+        A.RGST_NO,
+        A.CITZ_CNTR_CODE,
+        A.TEL_NUM,
+        A.MOBI_NUM,
+        A.MAIL_ADDR,
+        A.ADDR,
+        A.DETL_ADDR,
+        J.EMER_CONT_CODE,
+        J.EMER_CONT_NAME,
+        J.EMER_CONT_TEL,
+        J.FORL_EXMP_CODE,
+        A.APPL_STS_CODE,
+        CODEVAL( 'APPL_STS',A.APPL_STS_CODE)APPL_STS_NAME ,
+        A.APPL_DATE,
+        P.ADMS_FEE,
+        P.PAY_TYPE_CODE,
+        CODEVAL( 'PAY_TYPE',P.PAY_TYPE_CODE) PAY_TYPE_NAME
+        FROM  APPL A
+        left outer join APPL_PAY_CS P
+        ON A.APPL_NO = P.APPL_NO
+        left outer join ARI_INST D
+        on A.ARI_INST_CODE = D.ARI_INST_CODE
+        left outer join APPL_GENE J
+        on A.APPL_NO = J.APPL_NO
+        , DEPT b, COLL e, CAMP F, DETL_MAJ G, ADMS H, ADMS_CORS I
+
+        where 1=1
+        AND A.DEPT_CODE = b.DEPT_CODE
+        AND b.COLL_CODE= e.COLL_CODE
+        AND e.CAMP_CODE = F.CAMP_CODE
+        AND G.DETL_MAJ_CODE = A.DETL_MAJ_CODE
+        AND A.ADMS_NO = H.ADMS_NO
+        AND A.ADMS_NO = I.ADMS_NO
+        AND A.CORS_TYPE_CODE = I.CORS_TYPE_CODE
+        AND A.DEPT_CODE = I.DEPT_CODE
+        AND IFNULL(A.ARI_INST_CODE,'') = IFNULL(I.ARI_INST_CODE,'')
+        AND A.APPL_STS_CODE = '00020'
+        <if test="admsNo != null and admsNo !=''">
+            AND A.ADMS_NO =#{admsNo}
+        </if>
+        <if test="campCode != null and campCode !=''">
+            AND F.CAMP_CODE =#{campCode}
+        </if>
+        <if test="collCode != null and collCode !=''">
+            AND e.COLL_CODE =#{collCode}
+        </if>
+        <if test="deptCode != null and deptCode!=''">
+            AND b.DEPT_CODE = #{deptCode}
+        </if>
+        ORDER BY  APPL_ID DESC, APPL_NO DESC
     </select>
   
 </mapper>
