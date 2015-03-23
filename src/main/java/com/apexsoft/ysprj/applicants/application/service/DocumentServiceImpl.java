@@ -472,17 +472,23 @@ public class DocumentServiceImpl implements DocumentService {
         List<TotalApplicationDocumentContainer> rList = new ArrayList<TotalApplicationDocumentContainer>();
         List<TotalApplicationDocumentContainer> applDocList;
 
-        int i =1;
+
         applDocList = commonDAO.queryForList(NAME_SPACE + "CustomApplicationDocumentMapper.selectLanguageTotalDocListByApplNo", applNo, TotalApplicationDocumentContainer.class);
         if( applDocList != null){
-            for ( TotalApplicationDocumentContainer aCont : applDocList){
-                rList.add(aCont);
-                aCont.setDocItemName(aCont.getDocItemName()+" 성적표(증명)");
-                aCont.setDocItemCode("00016");
-                if(aCont.getDocSeq()!=null && aCont.getDocSeq()>0){
-                    aCont.setFileUploadFg(true);
+
+            for( int idx = applDocList.size()-1; idx > 0; idx--){
+                TotalApplicationDocumentContainer aCont = applDocList.get(idx);
+                if( "EXMP_TYPE".equals(aCont.getDocItemGrp())){
+                    applDocList.remove(idx);
+                }else {
+                    rList.add(aCont);
+                    aCont.setDocItemName(aCont.getDocItemName() + " 성적표(증명)");
+                    aCont.setDocItemCode("00016");
+                    if (aCont.getDocSeq() != null && aCont.getDocSeq() > 0) {
+                        aCont.setFileUploadFg(true);
+                    }
+                    aCont.setCheckedFg(true);
                 }
-                aCont.setCheckedFg(true);
             }
         }
         rApplDoc = new TotalApplicationDocumentContainer();
