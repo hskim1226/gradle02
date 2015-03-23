@@ -11,8 +11,8 @@
 
 //importPackage(Packages.java.lang);
 // System.out.println("########## beans from Spring ########");
-importPackage(Packages.java.lang);
-System.err.println("------------------");
+//importPackage(Packages.java.lang);
+//System.err.println("------------------");
 var appContext = reportContext.getAppContext(),
     entrYear = appContext.get("entrYear"),
     admsTypeName1 = appContext.get("admsTypeName1"),

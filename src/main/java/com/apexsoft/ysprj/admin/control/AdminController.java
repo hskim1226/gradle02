@@ -15,6 +15,7 @@ import com.apexsoft.framework.message.MessageResolver;
 import com.apexsoft.ysprj.admin.control.form.CourseSearchGridForm;
 import com.apexsoft.ysprj.admin.control.form.CourseSearchPageForm;
 import com.apexsoft.ysprj.admin.domain.ApplicantCnt;
+import com.apexsoft.ysprj.admin.domain.ApplicantInfoEntire;
 import com.apexsoft.ysprj.admin.service.AdminService;
 import com.apexsoft.ysprj.admin.service.ChangeService;
 import com.apexsoft.ysprj.user.domain.User;
@@ -352,18 +353,13 @@ public class AdminController {
                                             BindingResult bindingResult,
                                             Principal principal,
                                             HttpServletResponse respons) throws Exception {
-
-       // ExecutionContext ecRetrieve = adminService.getApplicantDetail();
-        //Map<String, Object> map = (Map<String, Object>)ecRetrieve.getData();
-
-        Map<String,String> revenueData = new HashMap<String,String>();
-        revenueData.put("Jan-2010", "$100,000,000");
-        revenueData.put("Feb-2010", "$110,000,000");
-        revenueData.put("Mar-2010", "$130,000,000");
-        revenueData.put("Apr-2010", "$140,000,000");
-        revenueData.put("May-2010", "$200,000,000");
-
-        return new ModelAndView("ExcelRevenueSummary","revenueData",revenueData);
+        ModelAndView mv =new ModelAndView();
+        ExecutionContext ecRetrieve = adminService.retrieveEntireApplicantListByDept(courseSearchPageForm);
+        Map<String, Object> map = (Map<String, Object>)ecRetrieve.getData();
+        mv.setViewName("ApplicantListDownload");
+        mv.addObject("applList", map.get("applList"));
+        mv.addObject("searchForm", map.get("searchForm"));
+        return mv;
 
     }
 

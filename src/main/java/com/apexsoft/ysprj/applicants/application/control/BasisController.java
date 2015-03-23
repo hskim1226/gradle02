@@ -9,8 +9,10 @@ import com.apexsoft.ysprj.applicants.application.service.BasisService;
 import com.apexsoft.ysprj.applicants.application.validator.BasisValidator;
 import com.apexsoft.ysprj.applicants.common.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.encoding.ShaPasswordEncoder;
 import org.springframework.security.crypto.encrypt.Encryptors;
 import org.springframework.security.crypto.encrypt.TextEncryptor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -19,18 +21,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
-import javax.crypto.Cipher;
-import javax.crypto.NoSuchPaddingException;
-import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServletRequest;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.ContentHandler;
-import java.security.*;
-import java.security.cert.CertificateException;
+import java.io.UnsupportedEncodingException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.security.Principal;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
@@ -52,6 +49,9 @@ public class BasisController {
 
     @Autowired
     private ServletContext context;
+
+    @Autowired
+    private ShaPasswordEncoder shaPasswordEncoder;
 
     @Resource(name = "messageResolver")
     MessageResolver messageResolver;
@@ -98,6 +98,7 @@ public class BasisController {
             if (ExecutionContext.SUCCESS.equals(ecRetrieve.getResult())) {
                 Map<String, Object> map = (Map<String, Object>)ecRetrieve.getData();
                 mv.addAllObjects(map);
+                removeHyphen(formData);
             } else {
                 mv = getErrorMV("common/error", ecRetrieve);
             }
@@ -112,7 +113,9 @@ public class BasisController {
         String applStsCode = application.getApplStsCode();
         if (applStsCode == null || applStsCode.trim().length() == 0) {
             try {
-                application.setRgstEncr(getEncryptedString(application.getRgstEncr()));
+                String rgstLatter = application.getRgstEncr();
+                application.setRgstHash(getSha256(application.getRgstBornDate() + rgstLatter));
+                application.setRgstEncr(getEncryptedString(rgstLatter));
             } catch (IOException e) {
                 ec = new ExecutionContext(ExecutionContext.FAIL);
                 Map<String, Object> errMap = new HashMap<String, Object>();
@@ -224,6 +227,12 @@ public class BasisController {
         Map<String, Object> map = (Map<String, Object>)result.getData();
         Basis basis = (Basis)map.get("basis");
 
+        removeHyphen(basis);
+
+        return result;
+    }
+
+    private void removeHyphen(Basis basis) {
         Application application = basis.getApplication();
         application.setFaxNum(StringUtil.removeHyphen(application.getFaxNum()));
         application.setTelNum(StringUtil.removeHyphen(application.getTelNum()));
@@ -231,15 +240,25 @@ public class BasisController {
         application.setRgstNo(StringUtil.removeHyphen(application.getRgstNo()));
 
         ApplicationForeigner applicationForeigner = basis.getApplicationForeigner();
-        applicationForeigner.setHomeTel(StringUtil.removeHyphen(applicationForeigner.getHomeTel()));
-        applicationForeigner.setHomeEmrgTel(StringUtil.removeHyphen(applicationForeigner.getHomeEmrgTel()));
-        applicationForeigner.setKorEmrgTel(StringUtil.removeHyphen(applicationForeigner.getKorEmrgTel()));
-        applicationForeigner.setFornRgstNo(StringUtil.removeHyphen(applicationForeigner.getFornRgstNo()));
+        if (applicationForeigner != null) {
+            applicationForeigner.setHomeTel(StringUtil.removeHyphen(applicationForeigner.getHomeTel()));
+            applicationForeigner.setHomeEmrgTel(StringUtil.removeHyphen(applicationForeigner.getHomeEmrgTel()));
+            applicationForeigner.setKorEmrgTel(StringUtil.removeHyphen(applicationForeigner.getKorEmrgTel()));
+            applicationForeigner.setFornRgstNo(StringUtil.removeHyphen(applicationForeigner.getFornRgstNo()));
+        }
 
         ApplicationGeneral applicationGeneral = basis.getApplicationGeneral();
-        applicationGeneral.setEmerContTel(StringUtil.removeHyphen(applicationGeneral.getEmerContTel()));
+        if (applicationGeneral != null) {
+            applicationGeneral.setEmerContTel(StringUtil.removeHyphen(applicationGeneral.getEmerContTel()));
+        }
+    }
 
-        return result;
+    private String getSha256(String input) {
+//            MessageDigest digest = MessageDigest.getInstance("SHA-256");
+//            byte[] hash = digest.digest(input.getBytes("UTF-8"));
+//            return new String(hash);
+        String sha256 = shaPasswordEncoder.encodePassword(input, "");
+        return sha256;
     }
 
     private String getEncryptedString(String input) throws IOException {
@@ -257,7 +276,7 @@ public class BasisController {
                     is.close();
                 }
             } catch (IOException e) {
-                throw e;
+                throw new YSBizException(e);
             }
         }
         return encrypted;

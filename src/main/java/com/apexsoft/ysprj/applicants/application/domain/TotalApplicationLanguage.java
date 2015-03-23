@@ -1,5 +1,10 @@
 package com.apexsoft.ysprj.applicants.application.domain;
 
+import com.apexsoft.ysprj.applicants.common.domain.CommonCode;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class TotalApplicationLanguage extends CustomApplicationLanguage{
 
     // 어학 항목 별 사용자 CUD 상태
@@ -27,6 +32,7 @@ public class TotalApplicationLanguage extends CustomApplicationLanguage{
 
     //파일 업로드 여부
     private boolean fileUploadFg = false;
+    private List<CommonCode> subCodeList = new ArrayList<CommonCode>();
 
     public boolean isCheckedFg() {
         return checkedFg;
@@ -146,5 +152,13 @@ public class TotalApplicationLanguage extends CustomApplicationLanguage{
 
     public void setDocGrpName(String docGrpName) {
         this.docGrpName = docGrpName;
+    }
+
+    public List<CommonCode> getSubCodeList() {
+        return subCodeList;
+    }
+
+    public void setSubCodeList(List<CommonCode> subCodeList) {
+        this.subCodeList = subCodeList;
     }
 }

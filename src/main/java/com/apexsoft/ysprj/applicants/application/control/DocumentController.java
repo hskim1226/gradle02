@@ -16,6 +16,7 @@ import com.apexsoft.framework.persistence.file.model.FileMetaForm;
 import com.apexsoft.ysprj.applicants.application.domain.*;
 import com.apexsoft.ysprj.applicants.application.service.DocumentService;
 import com.apexsoft.ysprj.applicants.application.validator.DocumentValidator;
+import com.apexsoft.ysprj.applicants.common.service.BirtService;
 import com.apexsoft.ysprj.applicants.common.service.CommonService;
 import com.apexsoft.ysprj.applicants.common.util.FileUtil;
 import com.apexsoft.ysprj.applicants.common.util.StringUtil;
@@ -58,6 +59,9 @@ public class DocumentController {
 
     @Autowired
     private CommonService commonService;
+
+    @Autowired
+    private BirtService birtService;
 
     @Autowired
     private DocumentValidator documentValidator;
@@ -313,6 +317,7 @@ public class DocumentController {
                                     uploadFileName,
                                     originalFileName,
                                     fis = new FileInputStream(fileItem.getFile()));
+//                            String path = fileInfo.getDirectory().replace('\\', '/');
                             String path = fileInfo.getDirectory();
                             String pathWithoutContextPath;
                             if (path.startsWith(fileBaseDir)) {
@@ -324,6 +329,7 @@ public class DocumentController {
                             fileMetaForm.setFileName(fileInfo.getFileName());
                             fileMetaForm.setOriginalFileName(originalFileName);
 
+//                            document.setFilePath(fileInfo.getDirectory().replace('\\', '/'));
                             document.setFilePath(fileInfo.getDirectory());
                             document.setFileName(fileInfo.getFileName());
                             document.setOrgFileName(originalFileName);
@@ -427,6 +433,7 @@ public class DocumentController {
      */
 //    @RequestMapping(value="/attached/{admsNo}/{applNo}/{fileName:.+}/{originalFileName}")
     @RequestMapping(value="/fileDelete/{applNo}/{docSeq}", method=RequestMethod.POST)
+//    @RequestMapping(value="/fileDelete/{applNo}/{docSeq}")
     @ResponseBody
     public ExecutionContext fileDelete(@PathVariable("applNo") int applNo,
                                        @PathVariable("docSeq") int docSeq,
@@ -462,11 +469,41 @@ public class DocumentController {
      * @return
      * @throws IOException
      */
+    @RequestMapping(value="/generate/{reqType}", method=RequestMethod.POST)
+    @ResponseBody
+    public ExecutionContext generateApplicationFiles(Document document, Principal principal,
+                                                     @PathVariable(value = "reqType") String reqType) {
+        Application application = document.getApplication();
+        application.setUserId(principal.getName());
+        ExecutionContext ecSaveInfo = documentService.saveApplicationPaperInfo(application);
+        // 타 대학원 확장 시 TODO - 학교 이름을 파라미터로 받도록
+        String admsTypeCode = application.getAdmsTypeCode();
+        String lang = "C".equals(admsTypeCode) ? "en" : "kr";
+        String reportName = "yonsei-" + reqType + "-" + lang;
+        ExecutionContext ecGenerate = birtService.generateBirtFile(application.getApplNo(), reportName);
+
+        if (ExecutionContext.SUCCESS.equals(ecSaveInfo.getResult()) &&
+            ExecutionContext.SUCCESS.equals(ecGenerate.getResult()) )
+            return ecSaveInfo;
+        else
+            return new ExecutionContext(ExecutionContext.FAIL);
+    }
+
+    /**
+     * 원서+첨부 파일 미리보기 용 원서 파일 정보 저장
+     *
+     * @param document
+     * @param principal
+     * @return
+     * @throws IOException
+     */
     @RequestMapping(value="/savePreview/application", method=RequestMethod.POST)
     @ResponseBody
     public ExecutionContext saveApplicationPaperInfo(Document document, Principal principal) {
         document.getApplication().setUserId(principal.getName());
         ExecutionContext ec = documentService.saveApplicationPaperInfo(document.getApplication());
+
+        //
 
         return ec;
     }

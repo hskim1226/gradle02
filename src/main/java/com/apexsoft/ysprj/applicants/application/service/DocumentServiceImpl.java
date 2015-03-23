@@ -105,12 +105,13 @@ public class DocumentServiceImpl implements DocumentService {
         int r1 = 0, rSave = 0;
 
         int currentStsCode = Integer.parseInt(application.getApplStsCode());
-        if (currentStsCode < Integer.parseInt(FILE_UPLOAD_SAVED)) {
+        if (currentStsCode <= Integer.parseInt(FILE_UPLOAD_SAVED)) {
             rSave++;
             Date date = new Date();
 
             application.setModDate(date);
             application.setModId(userId);
+//            application.setDocChckYn(application.getDocChckYn());
             application.setApplStsCode(FILE_UPLOAD_SAVED);
             r1 = commonDAO.updateItem(application, NAME_SPACE, "ApplicationMapper");
         }
@@ -165,15 +166,23 @@ public class DocumentServiceImpl implements DocumentService {
 
         int r1, applNo = application.getApplNo();
 
-        // TODO 제출된 원서의 주민 번호 체크
-//        if (checkSubmittedRgstNo(applNo)) {
-//
-//        }
+        // 동일한 주민번호로 제출된 원서 존재 여부 확인
+        if (isRgstNoDuplicate(applNo)) {
+            ec.setResult(ExecutionContext.FAIL);
+            ec.setMessage(messageResolver.getMessage("U346"));
+            ec.setErrCode("ERR0042");
+            Map<String, String> errorInfo = new HashMap<String, String>();
+            errorInfo.put("applNo", String.valueOf(applNo));
+            errorInfo.put("userId", application.getUserId());
+            ec.setErrorInfo(new ErrorInfo(errorInfo));
+            throw new YSBizException(ec);
+        }
 
         Date date = new Date();
         String userId = application.getUserId();
         application.setModDate(date);
         application.setModId(userId);
+        application.setDocChckYn("on".equals(application.getDocChckYn())?"Y":"N");
         application.setApplStsCode(APPLICATION_SUBMITTED);
 
         r1 = commonDAO.updateItem(application, NAME_SPACE, "ApplicationMapper");
@@ -463,17 +472,23 @@ public class DocumentServiceImpl implements DocumentService {
         List<TotalApplicationDocumentContainer> rList = new ArrayList<TotalApplicationDocumentContainer>();
         List<TotalApplicationDocumentContainer> applDocList;
 
-        int i =1;
+
         applDocList = commonDAO.queryForList(NAME_SPACE + "CustomApplicationDocumentMapper.selectLanguageTotalDocListByApplNo", applNo, TotalApplicationDocumentContainer.class);
         if( applDocList != null){
-            for ( TotalApplicationDocumentContainer aCont : applDocList){
-                rList.add(aCont);
-                aCont.setDocItemName(aCont.getDocItemName()+" 성적표(증명)");
-                aCont.setDocItemCode("00016");
-                if(aCont.getDocSeq()!=null && aCont.getDocSeq()>0){
-                    aCont.setFileUploadFg(true);
+
+            for( int idx = applDocList.size()-1; idx > 0; idx--){
+                TotalApplicationDocumentContainer aCont = applDocList.get(idx);
+                if( "EXMP_TYPE".equals(aCont.getDocItemGrp())){
+                    applDocList.remove(idx);
+                }else {
+                    rList.add(aCont);
+                    aCont.setDocItemName(aCont.getDocItemName() + " 성적표(증명)");
+                    aCont.setDocItemCode("00016");
+                    if (aCont.getDocSeq() != null && aCont.getDocSeq() > 0) {
+                        aCont.setFileUploadFg(true);
+                    }
+                    aCont.setCheckedFg(true);
                 }
-                aCont.setCheckedFg(true);
             }
         }
         rApplDoc = new TotalApplicationDocumentContainer();
@@ -544,7 +559,10 @@ public class DocumentServiceImpl implements DocumentService {
                 }
                 aSubDoc.setSubContainer( getSubCodeDocumentContainer(aSubDoc,rList));
             }
+            adjustAcademyDocByGrdaType(aAcad.getGrdaTypeCode(),subDocList);
             aCont.setSubContainer(subDocList);
+
+
             //전체 학력 컨테이너에 추가
             rApplDoc.getSubContainer().add(aCont);
 
@@ -591,6 +609,7 @@ public class DocumentServiceImpl implements DocumentService {
                 }
                 aSubDoc.setSubContainer( getSubCodeDocumentContainer(aSubDoc,rList));
             }
+            adjustAcademyDocByGrdaType(aAcad.getGrdaTypeCode(),subDocList);
             aCont.setSubContainer(subDocList);
             //전체 학력 컨테이너에 추가
             rApplDoc.getSubContainer().add(aCont);
@@ -810,7 +829,7 @@ public class DocumentServiceImpl implements DocumentService {
                 pCont.setFileUploadFg(true);
                 System.out.println("");
             }
-            if( pCont.getMsgNo()!= null && pCont.getMsgNo()!= "" ) {
+            if( pCont.getMsgNo()!= null && !"".equals(pCont.getMsgNo()) ) {
                 pCont.setMsg(messageResolver.getMessage(pCont.getMsgNo()));
             }
             pList.add(pCont);
@@ -835,11 +854,18 @@ public class DocumentServiceImpl implements DocumentService {
         return photoUrl;
     }
 
-    private ExecutionContext checkSubmittedRgstNo(int applNo) {
-        // applNo 로 rgstBornDate, rgstEncr 조회
-        // rgstEncr 복호화
-        // 현재 제출 완료 된 원서의 전체 rgstNo와 비교 결과 반환
-        return null;
+    private boolean isRgstNoDuplicate(int applNo) {
+        boolean isDup = false;
+        Application applFromDB = commonDAO.queryForObject(NAME_SPACE + "ApplicationMapper.selectByPrimaryKey", applNo, Application.class);
+        String rgstBornDate = applFromDB.getRgstBornDate();
+        if (rgstBornDate.length() == 6) {
+            List<String> submittedRgstHashList = commonDAO.queryForList(NAME_SPACE + "CustomApplicationMapper.selectSubmittedApplNoHashes", String.class );
+            Set<String> submittedRgstHashSet = new HashSet<String>(submittedRgstHashList);
+            String thisRgstHash = applFromDB.getRgstHash();
+            isDup = submittedRgstHashSet.contains(thisRgstHash);
+        }
+
+        return isDup;
     }
 
     private String getDecryptedString(String encrypted) throws IOException {
@@ -861,5 +887,22 @@ public class DocumentServiceImpl implements DocumentService {
             }
         }
         return decrypted;
+    }
+
+    private void adjustAcademyDocByGrdaType(String grdaType, List<TotalApplicationDocumentContainer> subDocList){
+        if( "00003".equals(grdaType) || "00004".equals(grdaType)){ //중퇴, 수료인경우
+            for( int i = subDocList.size()-1; i>=0; i--){
+                TotalApplicationDocumentContainer aCont = subDocList.get(i);
+                if("Y".equals(aCont.getLastYn())){ //마지막 컨테이너(문서)인 경우
+                    String docCode = aCont.getDocItemCode();
+                    if ("00008".equals(docCode) || "00010".equals(docCode) || "00011".equals(docCode)) { //졸업관련 서류 삭제
+                        subDocList.remove(i);
+                    }
+                }else {
+                    adjustAcademyDocByGrdaType( grdaType, aCont.getSubContainer());
+                }
+            }
+        }
+
     }
 }

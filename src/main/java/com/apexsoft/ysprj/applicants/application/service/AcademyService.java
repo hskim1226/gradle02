@@ -10,6 +10,8 @@ import com.apexsoft.ysprj.applicants.application.domain.Academy;
  */
 public interface AcademyService {
 
+    ExecutionContext retrieveSelectionMap(Academy academy);
+
     ExecutionContext retrieveAcademy(int applNo);
 
     ExecutionContext retrieveAcademy(Academy academy);

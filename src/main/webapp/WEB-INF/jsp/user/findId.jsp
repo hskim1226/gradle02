@@ -2,7 +2,7 @@
 <%@ include file="/WEB-INF/jsp/common/env.jsp"%>
 <html lang='ko'>
 <head>
-    <title>아이디 찾기</title>
+    <title><spring:message code="L00201"/><%--아이디 찾기--%></title>
     <link rel="stylesheet" href="//code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css">
     <style>
         .input-text {
@@ -24,17 +24,17 @@
             <div class="col-md-offset-3 col-md-6">
                 <div class="form-group inner-container-white">
                     <div class="col-sm-offset-1 col-sm-10 text-gray">
-                        <i class="fa fa-search fa-3x" style="vertical-align: middle; line-height:40px;"></i>&nbsp;<span style="font-size: 35px; vertical-align: middle; line-height:40px;"><b>아이디 찾기</b></span>
+                        <i class="fa fa-search fa-3x" style="vertical-align: middle; line-height:40px;"></i>&nbsp;<span style="font-size: 35px; vertical-align: middle; line-height:40px;"><b><spring:message code="L00201"/><%--아이디 찾기--%></b></span>
                     </div>
                     <div class="spacer-small">&nbsp;</div>
                     <div class="form-group required">
                         <div class="col-sm-offset-1 col-sm-10">
                             <div class="col-sm-3 text-gray">
-                                <label for="name" class="control-label">이름</label>
+                                <label for="name" class="control-label"><spring:message code="L00202"/><%--이름--%></label>
                             </div>
                             <div class="col-sm-9">
                                 <div class="col-sm-12 nopadding">
-                                    <form:input path="name" cssClass="form-control input-text" placeholder="이름" />
+                                    <form:input path="name" cssClass="form-control input-text" maxlength="20" placeholder="이름" />
                                 </div>
                         <spring:bind path="name">
                             <c:if test="${status.error}">
@@ -49,11 +49,11 @@
                     <div class="form-group required">
                         <div class="col-sm-offset-1 col-sm-10">
                             <div class="col-sm-3 text-gray">
-                                <label for="mailAddr" class="control-label">이메일</label>
+                                <label for="mailAddr" class="control-label"><spring:message code="L00203"/><%--이메일--%></label>
                             </div>
                             <div class="col-sm-9">
                                 <div class="col-sm-12 nopadding">
-                                    <form:input path="mailAddr" cssClass="form-control input-text" placeholder="이메일" />
+                                    <form:input path="mailAddr" cssClass="form-control input-text" maxlength="50" placeholder="이메일" />
                                 </div>
                                 <spring:bind path="mailAddr">
                                     <c:if test="${status.error}">
@@ -68,7 +68,7 @@
                     <div class="form-group required">
                         <div class="col-sm-offset-1 col-sm-10">
                             <div class="col-sm-3 text-gray">
-                                <label for="bornDay" class="control-label">생일</label>
+                                <label for="bornDay" class="control-label"><spring:message code="L00204"/><%--생년월일--%></label>
                             </div>
                             <div class="col-sm-9">
                                 <div class="input-group date">
@@ -88,7 +88,7 @@
                     <div style="margin-bottom: 10px">&nbsp;</div>
                     <div class="col-sm-offset-1 col-sm-10">
                         <div class="col-sm-12 nopadding">
-                            <button class="btn btn-primary btn-lg btn-block btn-save input-text">ID 찾기</button>
+                            <button class="btn btn-primary btn-lg btn-block btn-save input-text"><spring:message code="L00205"/><%--아이디 찾기--%></button>
                         </div>
                     </div>
                 </div>

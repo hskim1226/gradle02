@@ -77,6 +77,10 @@
         <result column="EXAM_NO" jdbcType="VARCHAR" property="examNo" />
         <result column="EXAM_DAY" jdbcType="VARCHAR" property="examDay" />
         <result column="EXPR_DAY" jdbcType="VARCHAR" property="exprDay" />
+        <result column="EXMP_YN" jdbcType="VARCHAR" property="exmpYn" />
+        <result column="SUB_CODE_GRP" jdbcType="VARCHAR" property="subCodeGrp" />
+        <result column="SUB_CODE" jdbcType="VARCHAR" property="subCode" />
+
 
         <result column="DOC_SEQ" jdbcType="INTEGER" property="docSeq" />
         <result column="DOC_GRP" jdbcType="INTEGER" property="docGrp" />
@@ -326,6 +330,7 @@
         LANG_GRAD,
         EXAM_DAY,
         EXPR_DAY,
+        EXMP_YN, SUB_CODE_GRP, SUB_CODE,
 
         DOC_SEQ,
         DOC_GRP,
@@ -350,7 +355,7 @@
         )B
         ON B.EXAM_CODE = A.CODE
         LEFT OUTER JOIN
-        ( SELECT LANG_SEQ, LANG_EXAM_GRP, LANG_EXAM_CODE, TOFL_TYPE_CODE, EXAM_NO, LANG_GRAD, EXAM_DAY, EXPR_DAY FROM APPL_LANG
+        ( SELECT LANG_SEQ, LANG_EXAM_GRP, LANG_EXAM_CODE, TOFL_TYPE_CODE, EXAM_NO, LANG_GRAD, EXAM_DAY, EXPR_DAY, EXMP_YN, SUB_CODE_GRP, SUB_CODE FROM APPL_LANG
         WHERE APPL_NO = #{applNo}) C
         ON C.LANG_EXAM_CODE = B.EXAM_CODE AND C.LANG_EXAM_GRP =B.EXAM_CODE_GRP
         LEFT OUTER JOIN
@@ -387,6 +392,8 @@
         LANG_GRAD,
         EXAM_DAY,
         EXPR_DAY,
+        EXMP_YN,
+        EXMP_YN, SUB_CODE_GRP, SUB_CODE,
 
         DOC_SEQ,
         DOC_GRP,
@@ -410,7 +417,7 @@
         AND BA.UP_MDT_SEQ = #{mdtSeq}
         )B
         LEFT OUTER JOIN
-        ( SELECT LANG_SEQ, LANG_EXAM_GRP, LANG_EXAM_CODE, TOFL_TYPE_CODE, EXAM_NO, LANG_GRAD, EXAM_DAY, EXPR_DAY FROM APPL_LANG
+        ( SELECT LANG_SEQ, LANG_EXAM_GRP, LANG_EXAM_CODE, TOFL_TYPE_CODE, EXAM_NO, LANG_GRAD, EXAM_DAY, EXPR_DAY, EXMP_YN, SUB_CODE_GRP, SUB_CODE FROM APPL_LANG
         WHERE APPL_NO = #{applNo}) C
         ON C.LANG_EXAM_CODE = B.EXAM_CODE AND C.LANG_EXAM_GRP =B.EXAM_CODE_GRP
         LEFT OUTER JOIN
@@ -633,7 +640,7 @@
         from APPL_DOC
         where APPL_NO = #{applNo,jdbcType=INTEGER}
         and FILE_EXT = #{fileExt,jdbcType=VARCHAR}
-        order by DOC_SEQ DESC
+        order by DOC_ITEM_CODE
     </select>
 
     <select id="selectApplPaperInfoByApplNo" parameterType="com.apexsoft.ysprj.applicants.application.domain.ApplicationDocument" resultMap="applDoc">

@@ -12,19 +12,17 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.i18n.SessionLocaleResolver;
+import org.springframework.web.util.WebUtils;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
-import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
-import java.util.ListIterator;
+import java.util.Locale;
 
 /**
  * Created by hanmomhanda on 14. 8. 6.
@@ -45,12 +43,28 @@ public class CommonController {
     @Resource(name = "messageResolver")
     private MessageResolver messageResolver;
 
+    @RequestMapping(value="/displayTransLang", method= RequestMethod.GET)
+    public ModelAndView displayTransLang(ModelAndView mv) {
+        mv.setViewName("common/transLang");
+        return mv;
+    }
+    @RequestMapping(value="/transLang", method= RequestMethod.POST)
+    public ModelAndView transLang(@RequestParam("lang") String lang, HttpServletRequest request, ModelAndView mv) {
+        mv.setViewName("common/transLang");
+        if (lang != null) {
+            WebUtils.setSessionAttribute(request, SessionLocaleResolver.LOCALE_SESSION_ATTRIBUTE_NAME, new Locale(lang));
+        }
+        return mv;
+    }
+
+
     @RequestMapping(value="/code/campus", method= RequestMethod.GET)
     @ResponseBody
     public ExecutionContext getCampusCode(HttpServletRequest request)
             throws NoSuchAlgorithmException, JsonProcessingException, UnsupportedEncodingException {
 
-        List<Campus> campusList = commonService.retrieveCampus();
+        List<Campus> campusList = null;
+        campusList = commonService.retrieveCampus();
 
         String json = jacksonObjectMapper.writeValueAsString(campusList);
 

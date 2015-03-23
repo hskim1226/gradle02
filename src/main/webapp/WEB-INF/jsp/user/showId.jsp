@@ -2,7 +2,7 @@
 <%@ include file="/WEB-INF/jsp/common/env.jsp"%>
 <html lang='ko'>
 <head>
-    <title>아이디 찾기</title>
+    <title><spring:message code="L00201"/>아이디 찾기</title>
     <style>
         .input-text {
             height: 50px;
@@ -28,19 +28,19 @@
             <div class="col-md-offset-3 col-md-6">
                 <div class="form-group inner-container-white">
                     <div class="col-sm-offset-1 col-sm-10 text-gray">
-                        <i class="fa fa-search fa-3x" style="vertical-align: middle; line-height:40px;"></i>&nbsp;<span style="font-size: 35px; vertical-align: middle; line-height:40px;"><b>아이디 찾기</b></span>
+                        <i class="fa fa-search fa-3x" style="vertical-align: middle; line-height:40px;"></i>&nbsp;<span style="font-size: 35px; vertical-align: middle; line-height:40px;"><b><spring:message code="L00201"/><%--아이디 찾기--%></b></span>
                     </div>
                     <div class="spacer-small">&nbsp;</div>
                     <div class="form-group required">
                         <div class="col-sm-offset-1 col-sm-10">
-                            <div class="col-sm-12 text-gray">회원님의 아이디는</div>
+                            <div class="col-sm-12 text-gray"><spring:message code="L00206"/><%--회원님의 아이디는--%></div>
                             <div class="col-sm-12 text-red"><b>${userId}</b></div>
-                            <div class="col-sm-12 text-gray">입니다</div>
+                            <div class="col-sm-12 text-gray"><spring:message code="L00207"/><%--입니다--%></div>
                         </div>
                     </div>
                     <div class="col-sm-offset-1 col-sm-10">
                         <div class="col-sm-12 nopadding">
-                            <button class="btn btn-primary btn-lg btn-block btn-save input-text">로그인</button>
+                            <button class="btn btn-primary btn-lg btn-block btn-save input-text"><spring:message code="L00208"/><%--로그인--%></button>
                         </div>
                     </div>
                 </div>

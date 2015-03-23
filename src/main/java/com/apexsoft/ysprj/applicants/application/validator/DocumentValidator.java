@@ -1,6 +1,7 @@
 package com.apexsoft.ysprj.applicants.application.validator;
 
 import com.apexsoft.framework.message.MessageResolver;
+import com.apexsoft.ysprj.applicants.application.domain.Application;
 import com.apexsoft.ysprj.applicants.application.domain.Document;
 import com.apexsoft.ysprj.applicants.application.domain.TotalApplicationDocumentContainer;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,8 +33,15 @@ public class DocumentValidator implements Validator {
 
     @Override
     public void validate(Object o, Errors errors) {
-        int i = 0;
+
         Document document = (Document)o;
+
+        Application application = document.getApplication();
+
+        if (application.getDocChckYn() == null || application.getDocChckYn().length() == 0 || "N".equals(application.getDocChckYn())) {
+            errors.rejectValue("application.docChckYn", "U331",
+                    new Object[]{"첨부 파일 안내 확인"}, messageResolver.getMessage("U332"));
+        }
 
         List<TotalApplicationDocumentContainer> documentContainerList = document.getDocumentContainerList();
 

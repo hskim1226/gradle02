@@ -29,6 +29,7 @@
     <result column="RGST_NO" jdbcType="VARCHAR" property="rgstNo" />
     <result column="RGST_BORN_DATE" jdbcType="VARCHAR" property="rgstBornDate" />
     <result column="RGST_ENCR" jdbcType="VARCHAR" property="rgstEncr" />
+    <result column="RGST_HASH" jdbcType="VARCHAR" property="rgstHash" />
     <result column="CITZ_CNTR_CODE" jdbcType="VARCHAR" property="citzCntrCode" />
     <result column="BORN_DAY" jdbcType="VARCHAR" property="bornDay" />
     <result column="GEND" jdbcType="VARCHAR" property="gend" />
@@ -43,6 +44,7 @@
     <result column="APPL_DATE" jdbcType="TIMESTAMP" property="applDate" />
     <result column="APPL_STS_CODE" jdbcType="VARCHAR" property="applStsCode" />
     <result column="PRIV_INFO_YN" jdbcType="VARCHAR" property="privInfoYn" />
+    <result column="DOC_CHCK_YN" jdbcType="VARCHAR" property="docChckYn" />
     <result column="CRE_ID" jdbcType="VARCHAR" property="creId" />
     <result column="CRE_DATE" jdbcType="TIMESTAMP" property="creDate" />
     <result column="MOD_ID" jdbcType="VARCHAR" property="modId" />
@@ -124,9 +126,9 @@
     -->
     APPL_NO, USER_ID, ADMS_NO, ENTR_YEAR, ADMS_TYPE_CODE, APPL_ATTR_CODE, FORN_TYPE_CODE, 
     CAMP_CODE, COLL_CODE, DEPT_CODE, ARI_INST_CODE, CORS_TYPE_CODE, DETL_MAJ_CODE, INP_DETL_MAJ, 
-    PART_TIME_YN, KOR_NAME, CHN_NAME, ENG_SUR, ENG_NAME, RGST_NO, RGST_BORN_DATE, RGST_ENCR, CITZ_CNTR_CODE, BORN_DAY,
+    PART_TIME_YN, KOR_NAME, CHN_NAME, ENG_SUR, ENG_NAME, RGST_NO, RGST_BORN_DATE, RGST_ENCR, RGST_HASH, CITZ_CNTR_CODE, BORN_DAY,
     GEND, ZIP_CODE, ADDR, DETL_ADDR, TEL_NUM, MOBI_NUM, FAX_NUM, MAIL_ADDR, APPL_ID, 
-    APPL_DATE, APPL_STS_CODE, PRIV_INFO_YN, CRE_ID, CRE_DATE, MOD_ID, MOD_DATE
+    APPL_DATE, APPL_STS_CODE, PRIV_INFO_YN, DOC_CHCK_YN, CRE_ID, CRE_DATE, MOD_ID, MOD_DATE
   </sql>
   <select id="selectByExample" parameterType="com.apexsoft.ysprj.applicants.application.domain.ApplicationExample" resultMap="BaseResultMap">
     <!--
@@ -190,12 +192,12 @@
       DEPT_CODE, ARI_INST_CODE, CORS_TYPE_CODE, 
       DETL_MAJ_CODE, INP_DETL_MAJ, PART_TIME_YN, 
       KOR_NAME, CHN_NAME, ENG_SUR, 
-      ENG_NAME, RGST_NO, RGST_BORN_DATE, RGST_ENCR, CITZ_CNTR_CODE,
+      ENG_NAME, RGST_NO, RGST_BORN_DATE, RGST_ENCR, RGST_HASH, CITZ_CNTR_CODE,
       BORN_DAY, GEND, ZIP_CODE, 
       ADDR, DETL_ADDR, TEL_NUM, 
       MOBI_NUM, FAX_NUM, MAIL_ADDR, 
       APPL_ID, APPL_DATE, APPL_STS_CODE, 
-      PRIV_INFO_YN, CRE_ID, CRE_DATE, 
+      PRIV_INFO_YN, DOC_CHCK_YN, CRE_ID, CRE_DATE,
       MOD_ID, MOD_DATE)
     values (#{applNo,jdbcType=INTEGER}, #{userId,jdbcType=VARCHAR}, #{admsNo,jdbcType=VARCHAR}, 
       #{entrYear,jdbcType=VARCHAR}, #{admsTypeCode,jdbcType=VARCHAR}, #{applAttrCode,jdbcType=VARCHAR}, 
@@ -203,12 +205,12 @@
       #{deptCode,jdbcType=VARCHAR}, #{ariInstCode,jdbcType=VARCHAR}, #{corsTypeCode,jdbcType=VARCHAR}, 
       #{detlMajCode,jdbcType=VARCHAR}, #{inpDetlMaj,jdbcType=VARCHAR}, #{partTimeYn,jdbcType=VARCHAR}, 
       #{korName,jdbcType=VARCHAR}, #{chnName,jdbcType=VARCHAR}, #{engSur,jdbcType=VARCHAR}, 
-      #{engName,jdbcType=VARCHAR}, #{rgstNo,jdbcType=VARCHAR}, #{rgstBornDate,jdbcType=VARCHAR}, #{rgstEncr,jdbcType=VARCHAR}, #{citzCntrCode,jdbcType=VARCHAR},
+      #{engName,jdbcType=VARCHAR}, #{rgstNo,jdbcType=VARCHAR}, #{rgstBornDate,jdbcType=VARCHAR}, #{rgstEncr,jdbcType=VARCHAR}, #{rgstHash,jdbcType=VARCHAR}, #{citzCntrCode,jdbcType=VARCHAR},
       #{bornDay,jdbcType=VARCHAR}, #{gend,jdbcType=VARCHAR}, #{zipCode,jdbcType=VARCHAR}, 
       #{addr,jdbcType=VARCHAR}, #{detlAddr,jdbcType=VARCHAR}, #{telNum,jdbcType=VARCHAR}, 
       #{mobiNum,jdbcType=VARCHAR}, #{faxNum,jdbcType=VARCHAR}, #{mailAddr,jdbcType=VARCHAR}, 
       #{applId,jdbcType=VARCHAR}, #{applDate,jdbcType=TIMESTAMP}, #{applStsCode,jdbcType=VARCHAR}, 
-      #{privInfoYn,jdbcType=VARCHAR}, #{creId,jdbcType=VARCHAR}, #{creDate,jdbcType=TIMESTAMP}, 
+      #{privInfoYn,jdbcType=VARCHAR}, #{docChckYn,jdbcType=VARCHAR}, #{creId,jdbcType=VARCHAR}, #{creDate,jdbcType=TIMESTAMP},
       #{modId,jdbcType=VARCHAR}, #{modDate,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.apexsoft.ysprj.applicants.application.domain.Application">
@@ -285,6 +287,9 @@
       <if test="rgstEncr != null">
         RGST_ENCR,
       </if>
+      <if test="rgstHash != null">
+        RGST_HASH,
+      </if>
       <if test="citzCntrCode != null">
         CITZ_CNTR_CODE,
       </if>
@@ -326,6 +331,9 @@
       </if>
       <if test="privInfoYn != null">
         PRIV_INFO_YN,
+      </if>
+      <if test="docChckYn != null">
+        DOC_CHCK_YN,
       </if>
       <if test="creId != null">
         CRE_ID,
@@ -407,6 +415,9 @@
       <if test="rgstEncr != null">
         #{rgstEncr,jdbcType=VARCHAR},
       </if>
+      <if test="rgstHash != null">
+        #{rgstHash,jdbcType=VARCHAR},
+      </if>
       <if test="citzCntrCode != null">
         #{citzCntrCode,jdbcType=VARCHAR},
       </if>
@@ -448,6 +459,9 @@
       </if>
       <if test="privInfoYn != null">
         #{privInfoYn,jdbcType=VARCHAR},
+      </if>
+      <if test="docChckYn != null">
+        #{docChckYn,jdbcType=VARCHAR},
       </if>
       <if test="creId != null">
         #{creId,jdbcType=VARCHAR},
@@ -721,6 +735,9 @@
       <if test="rgstEncr != null">
         RGST_ENCR = #{rgstEncr,jdbcType=VARCHAR},
       </if>
+      <if test="rgstHash != null">
+        RGST_HASH = #{rgstHash,jdbcType=VARCHAR},
+      </if>
       <if test="citzCntrCode != null">
         CITZ_CNTR_CODE = #{citzCntrCode,jdbcType=VARCHAR},
       </if>
@@ -762,6 +779,9 @@
       </if>
       <if test="privInfoYn != null">
         PRIV_INFO_YN = #{privInfoYn,jdbcType=VARCHAR},
+      </if>
+      <if test="docChckYn != null">
+        DOC_CHCK_YN = #{docChckYn,jdbcType=VARCHAR},
       </if>
       <if test="creId != null">
         CRE_ID = #{creId,jdbcType=VARCHAR},
@@ -806,6 +826,7 @@
       RGST_NO = #{rgstNo,jdbcType=VARCHAR},
       RGST_BORN_DATE = #{rgstBornDate,jdbcType=VARCHAR},
       RGST_ENCR = #{rgstEncr,jdbcType=VARCHAR},
+      RGST_HASH = #{rgstHash,jdbcType=VARCHAR},
       CITZ_CNTR_CODE = #{citzCntrCode,jdbcType=VARCHAR},
       BORN_DAY = #{bornDay,jdbcType=VARCHAR},
       GEND = #{gend,jdbcType=VARCHAR},
@@ -820,6 +841,7 @@
       APPL_DATE = #{applDate,jdbcType=TIMESTAMP},
       APPL_STS_CODE = #{applStsCode,jdbcType=VARCHAR},
       PRIV_INFO_YN = #{privInfoYn,jdbcType=VARCHAR},
+      DOC_CHCK_YN = #{docChckYn,jdbcType=VARCHAR},
       CRE_ID = #{creId,jdbcType=VARCHAR},
       CRE_DATE = #{creDate,jdbcType=TIMESTAMP},
       MOD_ID = #{modId,jdbcType=VARCHAR},

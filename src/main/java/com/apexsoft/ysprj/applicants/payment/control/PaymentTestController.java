@@ -1,7 +1,11 @@
 package com.apexsoft.ysprj.applicants.payment.control;
 
 import com.apexsoft.ysprj.applicants.application.domain.Application;
+import com.apexsoft.ysprj.applicants.common.domain.BirtRequest;
 import com.apexsoft.ysprj.applicants.payment.service.PaymentService;
+import org.apache.commons.httpclient.HttpClient;
+import org.apache.commons.httpclient.NameValuePair;
+import org.apache.commons.httpclient.methods.PostMethod;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -113,6 +117,38 @@ public class PaymentTestController {
         appl.setApplNo(Integer.valueOf(applNo));
 
         paymentService.saveApplicationPayment(appl);
+
+        return "test/test2";
+    }
+
+    @RequestMapping(value="/test3")
+    public String test3(String applNo) {
+
+        try {
+
+            HttpClient httpClient = new HttpClient();
+            PostMethod postMethod = new PostMethod("http://localhost:8080/ysproject/test/payment/test4");
+
+            NameValuePair[] params = new NameValuePair[1];
+            params[0] = new NameValuePair("application.applNo", "398");
+
+            postMethod.addParameters(params);
+            postMethod.setRequestHeader("Content-Type", "application/x-www-form-urlencoded;charset=UTF-8");
+
+            httpClient.executeMethod(postMethod);
+
+
+        } catch( Exception e) {
+
+        }
+
+        return "xpay/casnote";
+    }
+
+    @RequestMapping(value="/test4")
+    public String test4( BirtRequest birtRequest ) {
+
+        Application application = birtRequest.getApplication();
 
         return "test/test2";
     }

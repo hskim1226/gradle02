@@ -23,6 +23,7 @@
         <result column="RGST_NO" property="rgstNo" jdbcType="VARCHAR" />
         <result column="RGST_BORN_DATE" jdbcType="VARCHAR" property="rgstBornDate" />
         <result column="RGST_ENCR" jdbcType="VARCHAR" property="rgstEncr" />
+        <result column="RGST_HASH" jdbcType="VARCHAR" property="rgstHash" />
         <result column="ZIP_CODE" property="zipCode" jdbcType="VARCHAR" />
         <result column="ADDR" property="addr" jdbcType="VARCHAR" />
         <result column="DETL_ADDR" property="detlAddr" jdbcType="VARCHAR" />
@@ -33,6 +34,7 @@
         <result column="APPL_ID" property="applId" jdbcType="VARCHAR" />
         <result column="APPL_STS_CODE" property="applStsCode" jdbcType="VARCHAR" />
         <result column="PRIV_INFO_YN" property="privInfoYn" jdbcType="VARCHAR" />
+        <result column="DOC_CHCK_YN" property="docChckYn" jdbcType="VARCHAR" />
         <result column="CRE_ID" property="creId" jdbcType="VARCHAR" />
         <result column="CRE_DATE" property="creDate" jdbcType="DATE" />
         <result column="MOD_ID" property="modId" jdbcType="VARCHAR" />
@@ -46,8 +48,8 @@
           This element was generated on Mon Aug 25 20:54:40 KST 2014.
         -->
         APPL_NO, USER_ID, ADMS_NO, DEPT_CODE, ARI_INST_CODE, CORS_TYPE_CODE, DETL_MAJ_CODE,
-        INP_DETL_MAJ, PART_TIME_YN, KOR_NAME, CHN_NAME, ENG_SUR, ENG_NAME, RGST_NO, RGST_BORN_DATE, RGST_ENCR, ZIP_CODE,
-        ADDR, DETL_ADDR, TEL_NUM, MOBI_NUM, FAX_NUM, MAIL_ADDR, APPL_ID, APPL_STS_CODE, PRIV_INFO_YN,
+        INP_DETL_MAJ, PART_TIME_YN, KOR_NAME, CHN_NAME, ENG_SUR, ENG_NAME, RGST_NO, RGST_BORN_DATE, RGST_ENCR, RGST_HASH, ZIP_CODE,
+        ADDR, DETL_ADDR, TEL_NUM, MOBI_NUM, FAX_NUM, MAIL_ADDR, APPL_ID, APPL_STS_CODE, PRIV_INFO_YN, DOC_CHCK_YN
         CRE_ID, CRE_DATE, MOD_ID, MOD_DATE
     </sql>
 
@@ -241,6 +243,9 @@
             <if test="rgstEncr != null">
                 RGST_ENCR,
             </if>
+            <if test="rgstHash != null">
+                RGST_HASH,
+            </if>
             <if test="citzCntrCode != null">
                 CITZ_CNTR_CODE,
             </if>
@@ -282,6 +287,9 @@
             </if>
             <if test="privInfoYn != null">
                 PRIV_INFO_YN,
+            </if>
+            <if test="docChckYn != null">
+                DOC_CHCK_YN,
             </if>
             <if test="creId != null">
                 CRE_ID,
@@ -363,6 +371,9 @@
             <if test="rgstEncr != null">
                 #{rgstEncr,jdbcType=VARCHAR},
             </if>
+            <if test="rgstHash != null">
+                #{rgstHash,jdbcType=VARCHAR},
+            </if>
             <if test="citzCntrCode != null">
                 #{citzCntrCode,jdbcType=VARCHAR},
             </if>
@@ -405,6 +416,9 @@
             <if test="privInfoYn != null">
                 #{privInfoYn,jdbcType=VARCHAR},
             </if>
+            <if test="docChckYn != null">
+                #{docChckYn,jdbcType=VARCHAR},
+            </if>
             <if test="creId != null">
                 #{creId,jdbcType=VARCHAR},
             </if>
@@ -426,5 +440,10 @@
     <select id="selectAvailableApplNos" resultType="int" parameterType="java.lang.String">
         SELECT APPL_NO FROM APPL
         WHERE USER_ID = #{userId,jdbcType=VARCHAR}
+    </select>
+
+    <select id="selectSubmittedApplNoHashes" resultType="java.lang.String">
+        SELECT RGST_HASH FROM APPL
+        WHERE APPL_STS_CODE IN ('00010', '00020', '00021', '00030')
     </select>
 </mapper>

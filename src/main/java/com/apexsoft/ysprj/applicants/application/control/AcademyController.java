@@ -76,6 +76,13 @@ public class AcademyController {
         mv.setViewName(TARGET_VIEW);
         if (bindingResult.hasErrors()) {
             mv.addObject("resultMsg", messageResolver.getMessage("U334"));
+            ExecutionContext ecRetrieve = academyService.retrieveSelectionMap(formData);
+            if (ExecutionContext.SUCCESS.equals(ecRetrieve.getResult())) {
+                Map<String, Object> map = (Map<String, Object>)ecRetrieve.getData();
+                mv.addAllObjects(map);
+            } else {
+                mv = getErrorMV("common/error", ecRetrieve);
+            }
             return mv;
         }
 

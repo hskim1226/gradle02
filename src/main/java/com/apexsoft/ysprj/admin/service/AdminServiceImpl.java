@@ -9,9 +9,7 @@ import com.apexsoft.framework.common.vo.ExecutionContext;
 import com.apexsoft.framework.message.MessageResolver;
 import com.apexsoft.ysprj.admin.control.form.*;
 import com.apexsoft.ysprj.applicants.admission.domain.Admission;
-import com.apexsoft.ysprj.applicants.application.domain.ApplicationAcademy;
-import com.apexsoft.ysprj.applicants.application.domain.ApplicationExperience;
-import com.apexsoft.ysprj.applicants.application.domain.ApplicationLanguage;
+import com.apexsoft.ysprj.applicants.application.domain.*;
 import com.apexsoft.ysprj.applicants.common.domain.*;
 
 import com.apexsoft.ysprj.applicants.common.service.CommonService;
@@ -22,7 +20,6 @@ import com.apexsoft.framework.persistence.dao.CommonDAO;
 import com.apexsoft.framework.persistence.dao.page.PageInfo;
 import com.apexsoft.framework.persistence.dao.page.PageStatement;
 import com.apexsoft.ysprj.admin.domain.*;
-import com.apexsoft.ysprj.applicants.application.domain.ApplicationDocument;
 
 import javax.annotation.Resource;
 
@@ -33,7 +30,7 @@ public class AdminServiceImpl implements AdminService{
 
     private final static String NAME_SPACE = "admin.applicant.";
     private final static String CANCEL_NAME_SPACE = "admin.cancel.";    
-    private final static String APPL_NAME_SPACE = "applicants.application.sqlmap.";
+    private final static String APPL_NAME_SPACE = "com.apexsoft.ysprj.applicants.application.sqlmap.";
     private final static String ADMS_NAME_SPACE = "com.apexsoft.ysprj.applicants.admission.sqlmap.";
 
     @Autowired
@@ -338,10 +335,9 @@ public class AdminServiceImpl implements AdminService{
                 tempInfoList = commonDAO.queryForList(NAME_SPACE + "retrieveApplicantEntireListByDept", courseSearchPageForm, ApplicantInfoEntire.class);
 
                 for( ApplicantInfoEntire aInfo : tempInfoList ) {
-                    aInfo.setAcadList(commonDAO.queryForList(APPL_NAME_SPACE + "selectByApplNo", aInfo.getApplNo(), ApplicationAcademy.class));
-                    aInfo.setLangList(commonDAO.queryForList(APPL_NAME_SPACE + "selectByApplNo", aInfo.getApplNo(), ApplicationLanguage.class));
-                    aInfo.setExprList(commonDAO.queryForList(APPL_NAME_SPACE + "selectByApplNo", aInfo.getApplNo(), ApplicationExperience.class));
-                    aInfo.setDocList (commonDAO.queryForList(APPL_NAME_SPACE + "selectByApplNo", aInfo.getApplNo(), ApplicationDocument.class));
+                    aInfo.setAcadList(commonDAO.queryForList(APPL_NAME_SPACE + "CustomApplicationAcademyMapper.selectByApplNo", aInfo.getApplNo(), CustomApplicationAcademy.class));
+                    aInfo.setLangList(commonDAO.queryForList(APPL_NAME_SPACE + "CustomApplicationLanguageMapper.selectByApplNo", aInfo.getApplNo(), ApplicationLanguage.class));
+                    aInfo.setExprList(commonDAO.queryForList(APPL_NAME_SPACE + "CustomApplicationExperienceMapper.selectByApplNo", aInfo.getApplNo(), CustomApplicationExperience.class));
                 }
                 ecDataMap.put("applList",tempInfoList);
 
@@ -351,7 +347,7 @@ public class AdminServiceImpl implements AdminService{
                 ecDataMap.put("applList", new ArrayList<ApplicantInfo>());
 
             }
-            ecDataMap.put("searchPageForm", courseSearchPageForm);
+            ecDataMap.put("searchForm", courseSearchPageForm);
             ec.setData(ecDataMap);
 
         }catch(Exception e){

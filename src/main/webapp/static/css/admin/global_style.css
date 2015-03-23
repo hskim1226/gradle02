@@ -1,0 +1,352 @@
+/* Block : skipLink
+---------------------------------------------------------*/
+#LblockSkipLink {
+	position:absolute; width:0; height:0; font-size:0; line-height:0; overflow:hidden; visibility:hidden;
+}
+/* Block : wrapper
+---------------------------------------------------------*/
+#LblockWrapper {
+	*zoom:1;
+}
+
+/* Block : header
+---------------------------------------------------------*/
+#LblockHeader {
+	background:url(../../img/admin/header_bg.gif) repeat-x;
+}
+#LblockHeader .Lwrapper {
+	position:relative;	
+	width:990px; 
+}
+
+/* Block : topLogo
+---------------------------------------------------------*/
+#LblockTopLogo a {
+}
+
+/* Block : supportMenu
+---------------------------------------------------------*/
+#LblockSupportMenu li {
+	display:inline;
+	padding:0px 7px 0px 10px;
+	font-size:0.9em;
+	background:url(../../img/admin/supportMenu_bar.gif) no-repeat 0 50%;
+}
+#LblockSupportMenu li.Lfirst {
+	background:none;
+}
+#LblockSupportMenu li a {
+	text-decoration:none;
+	color:#4e7db3;
+}
+
+
+/* Block : totalSearch
+---------------------------------------------------------*/
+#LblockTotalSearch {
+	font-size:0.9em;
+	color:#4e7db3;
+}
+
+/* Block : topMenu
+---------------------------------------------------------*/
+#LblockTopMenu {
+}
+#LblockTopMenu ul {
+	width:765px;
+}
+#LblockTopMenu li {
+	float:left;
+}
+#LblockTopMenu li span {
+	display:block;
+	padding:0px 30px 0 25px;
+}
+#LblockTopMenu li.Lfirst {
+	margin-left:14px;
+}
+#LblockTopMenu li.Llast span {
+	background:none;
+}
+#LblockTopMenu li span a {
+	display:block;
+	line-height:35px;
+	color:#e4f0f9;
+	text-decoration:none;
+	font-weight:bold;
+	padding-top:3px;
+}
+#LblockTopMenu li.Lcurrent {	
+	background:url(../../img/admin/topMenu_tab_on_left.gif) no-repeat left 1px;
+	padding-bottom:2px;
+}
+#LblockTopMenu li.Lcurrent span {
+	background:url(../../img/admin/topMenu_tab_on_right.gif) no-repeat right 1px;	
+	padding-bottom:4px;
+}
+#LblockTopMenu li.Lcurrent span a,
+#LblockTopMenu li.Lcurrent span a:hover,
+#LblockTopMenu li.Lcurrent span a:active {
+	color:#2970a1;
+}
+#LblockTopMenu li span a:hover,
+#LblockTopMenu li span a:active {
+	color:#FFFFFF;
+}
+/* 2 depth */
+#LblockTopMenu li ul {
+	position:absolute;
+	top:33px;
+	display:none;
+	background:none;
+}
+
+#LblockTopMenu li li,
+#LblockTopMenu li li.Lcurrent,
+#LblockTopMenu li li.Lfirst,
+#LblockTopMenu li li.Llast{
+	background:none;
+	margin-right:0px;
+}
+#LblockTopMenu li li span,
+#LblockTopMenu li.Lfirst li span,
+#LblockTopMenu li li.Lcurrent span,
+#LblockTopMenu li li.Lfirst span,
+#LblockTopMenu li li.Llast span {
+	padding:1px 8px;
+	background:none;
+}
+#LblockTopMenu li li span a {
+	line-height:20px;
+	color:#7F866C;
+	font-weight:normal;
+}
+#LblockTopMenu li.Lcurrent li span a {
+	font-weight:normal;
+	background:none;
+	color:#7F866C;
+}
+#LblockTopMenu li li.Lcurrent span a,
+#LblockTopMenu li li.Lcurrent span a:hover,
+#LblockTopMenu li li.Lcurrent span a:active {
+	font-weight:bold;
+	color:#FBA50F;
+}
+#LblockTopMenu li li span a:hover,
+#LblockTopMenu li li span a:active {
+	color:#FBA50F;
+}
+
+/* Block : left
+---------------------------------------------------------*/
+#LblockLeft {}
+
+/* Block : leftTitle
+---------------------------------------------------------*/
+#LblockLeftTitle {
+	background-color:white;
+}
+#LblockLeftTitle h1 {
+	padding:10px 0px 0px 20px;
+	height:23px;
+	color:#257E9E;
+	font-size:1.1em;
+	background:url(../../img/admin/leftTitle_bg.gif) no-repeat right top;
+}
+/* Block : leftMenuStyle
+---------------------------------------------------------*/
+#LblockLeftMenuStyle {
+	line-height:15px;
+}
+#LblockLeftMenuStyle img {
+	vertical-align:top;
+}
+
+/* Block : leftMenu
+---------------------------------------------------------*/
+/* --------- slide menu --------- */
+#LblockLeftMenu.LslideMenu{
+	background:url(../../img/admin/left_bg.gif) repeat-y left top;
+}
+#LblockLeftMenu.LslideMenu li {
+	background:url(../../img/admin/leftMenu_bg.gif) repeat-x left bottom;
+}
+#LblockLeftMenu.LslideMenu li.Lcurrent a {
+	color:#489CCA;
+	font-weight:bold;
+}
+#LblockLeftMenu.LslideMenu li.Lcurrent li a,
+#LblockLeftMenu.LslideMenu li.Lcurrent li li a {
+	color:#898989;
+	font-weight:normal;
+}
+#LblockLeftMenu.LslideMenu li.Llast{
+	background:url(../../img/admin/left_bg_Last.gif) no-repeat left bottom;
+}
+#LblockLeftMenu.LslideMenu li span {
+	display:block;
+	_height:1%;
+	font-weight:bold;
+	padding:6px 0px 3px 12px;
+}
+#LblockLeftMenu.LslideMenu li span a {
+	color:#4FA2CC;
+	font-weight:bold;
+	line-height:22px;
+	padding:0 0 0 8px;
+	background:url(../../img/admin/leftMenu_blt.gif) no-repeat 0 30%;
+}
+
+#LblockLeftMenu.LslideMenu li span a:hover,
+#LblockLeftMenu.LslideMenu li span a:active {
+	color:#0770FF;
+}
+
+/* 2 depth */
+
+#LblockLeftMenu.LslideMenu li ul {
+	background-color:#fff;
+	margin:-2px 1px 1px 1px;
+	padding:1px 0 0 0;
+	display:none;
+	width:98%;
+}
+#LblockLeftMenu.LslideMenu li li {
+	background:none;
+	padding:0;
+}
+#LblockLeftMenu.LslideMenu li li.Llast {
+	background:none;
+}
+#LblockLeftMenu.LslideMenu li li span {
+	display:block;
+	padding:0 0 0 20px;
+	font-weight:normal;
+	
+}
+#LblockLeftMenu.LslideMenu li li span a {
+	color:#898989;
+	padding:0 0 0 8px;
+	font-weight:normal;
+	background:url(../../img/admin/leftMenu_blt.gif) no-repeat 0 40%;
+}
+/* 3 depth */
+#LblockLeftMenu.LslideMenu li li ul{
+	border-top:none;
+}
+#LblockLeftMenu.LslideMenu li li li.Llast {
+	background:none;
+}
+#LblockLeftMenu.LslideMenu li li li span {
+	border:none;
+	display:block;
+	padding:0 0 0 30px;
+	font-weight:normal;
+}
+#LblockLeftMenu.LslideMenu li li li span a {
+	color:#898989;
+	padding:0 0 0 8px;
+	font-weight:normal;
+	background:url(../../img/admin/leftMenu_blt.gif) no-repeat 0 40%;
+}
+/* --------- tree menu --------- */
+#LblockLeftMenu.LtreeMenu {
+	*zoom:1;
+	background:url(../../img/admin/left_bg.gif) no-repeat left bottom;
+	padding-bottom:3px;
+}
+#LblockLeftMenu.LtreeMenu ul {
+	display:none;
+}
+#LblockLeftMenu.LtreeMenu ul {
+	padding-top:3px;
+}
+#LblockLeftMenu.LtreeMenu a:link,
+#LblockLeftMenu.LtreeMenu a:visited { text-decoration:none; color:black; }
+#LblockLeftMenu.LtreeMenu a:hover, 
+#LblockLeftMenu.LtreeMenu a:focus { text-decoration:none; color:black; }
+#LblockLeftMenu.LtreeMenu li.Lcurrent a {
+	color:#489CCA;
+	font-weight:bold;
+}
+#LblockLeftMenu.LtreeMenu li.Lcurrent li a,
+#LblockLeftMenu.LtreeMenu li.Lcurrent li li a {
+	color:#000;
+	font-weight:normal;
+}
+.LtreeDragged a:link, .LtreeDragged a:visited { text-decoration:none; color:black; }
+.LtreeDragged a:hover, .LtreeDragged a:focus { text-decoration:none; color:black; }
+span.LtreeDragItem span {
+	padding-left:2px;
+}
+.LtreeDragged {
+	border:1px dashed #bbb;
+	background:#fff;
+}
+.LtreeDragged * {
+	vertical-align:middle;
+}
+.LtreeDragged a:link, .LtreeDragged a:visited { text-decoration:none; color:black; }
+.LtreeDragged a:hover, .LtreeDragged a:focus { text-decoration:none; color:black; }
+.LtreeClone {
+	background-color:#eef;
+}
+.LtreeBoundLine {
+	height:2px;
+	background-color:#555;
+}
+/* Block : main
+---------------------------------------------------------*/
+#LblockMain {
+	padding:10px 10px 10px 230px;
+}
+
+/* Block : footer
+---------------------------------------------------------*/
+#LblockFooter {
+	padding-top:0px;
+	color:#555;
+	font-size:0.9em;
+	background:url(../../img/admin/footer_bg.gif) repeat-x left bottom;
+}
+#LblockFooter .Lwrapper {
+	position:relative;
+	width:977px;
+}
+
+/* Block : footerCopyright
+---------------------------------------------------------*/
+#LblockFooterCopyright span {
+	line-height:27px;
+}
+
+/* Block : footerLogo
+---------------------------------------------------------*/
+#LblockFooterLogo a {
+	font-size:1.2em;
+	font-weight:bold;
+	color:#999;
+	text-decoration:none;
+}
+
+/* Block : footerMenu
+---------------------------------------------------------*/
+#LblockFooterMenu li {
+	display:inline;
+	padding:0px 7px 0px 10px;
+	font-size:0.9em;
+	background:url(../../img/admin/supportMenu_bar.gif) no-repeat 0 50%;
+}
+#LblockFooterMenu li.Lfirst {
+	background:none;
+}
+#LblockFooterMenu li a {
+	line-height:25px;
+	text-decoration:none;
+}
+
+/* Block : banner
+---------------------------------------------------------*/
+.LblockBanner {
+    text-align: center;
+}

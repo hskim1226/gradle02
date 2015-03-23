@@ -9,6 +9,7 @@ import java.util.List;
  */
 public interface CommonService {
 
+    List<CommonCode> retrieveApplAttrList(String codeGrp);
     List<Campus> retrieveCampus();
     List<College> retrieveCollegeByCampus(String campusCode);
     List<College> retrieveCollegeByAdmsCamp(ParamForSetupCourses paramForSetupCourses);
@@ -30,12 +31,12 @@ public interface CommonService {
     CommonCode retrieveCommonCodeListByCodeGroupCode(ParamForCommonCode paramForCommonCode);
 
     String retrieveCampNameByCode(String campCode);
-    String retrieveCollNameByCode(String collCode);
+//    String retrieveCollNameByCode(String collCode);
     String retrieveAriInstNameByCode(String ariInstCode);
     String retrieveDeptNameByCode(String deptCode);
     String retrieveCorsTypeNameByCode(String corsTypeCode);
     String retrieveDetlMajNameByCode(String detlMajCode);
 
-    List<LanguageExam> retrieveLangExamByLangCode(String langCode);
+//    List<LanguageExam> retrieveLangExamByLangCode(String langCode);
     List<Integer> retrieveAvailableApplNos(String userId);
 }

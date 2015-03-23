@@ -46,13 +46,18 @@
         <bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor">
             <property name="paramName" value="lang" />
         </bean>
-        <bean class="com.apexsoft.framework.interceptor.DomainLocaleConvertInterceptor">
-            <property name="converter" ref="converter" />
-        </bean>
+        <!--codeValXxen의 값을 codeVal에 덮어쓰는 컨버터 대신 로케일에 따라 codeValXXen, codeVal을 가져오는 방식으로 변경-->
+        <!--<bean class="com.apexsoft.framework.interceptor.DomainLocaleConvertInterceptor">-->
+            <!--<property name="converter" ref="converter" />-->
+        <!--</bean>-->
         <mvc:interceptor>
             <mvc:mapping path="/application/**"/>
             <mvc:mapping path="/pdf/**"/>
             <bean class="com.apexsoft.framework.interceptor.KeyInfoBlockInterceptor"/>
+        </mvc:interceptor>
+        <mvc:interceptor>
+            <mvc:mapping path="/application/**"/>
+            <bean class="com.apexsoft.framework.interceptor.MessageResolverInterceptor"/>
         </mvc:interceptor>
     </mvc:interceptors>
 

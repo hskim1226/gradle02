@@ -2,7 +2,7 @@
 <%@ include file="/WEB-INF/jsp/common/env.jsp"%>
 <html lang="ko">
 <head>
-    <title>원서 작성 - 학력 정보</title>
+    <title><spring:message code="L02101"/><%--원서 작성 - 학력 정보--%></title>
     <link rel="stylesheet" href="//code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css">
     <style>
         section.application {
@@ -252,6 +252,12 @@
             background: #ffdddd;
             color: #f55;
         }
+        .grad-notice {
+            margin-top: 5px;
+            margin-bottom: 5px;
+            padding-bottom: 5px;
+            color: blue;
+        }
     </style>
 </head>
 <body>
@@ -260,13 +266,13 @@
         <div id="stepContainer">
             <table width="100%">
                 <tr>
-                    <td id="stepStatusTitle" colspan=4 align="center" height="70px">원서 작성 현황</td>
+                    <td id="stepStatusTitle" colspan=4 align="center" height="70px">${msg.getMessage('L01001', locale)}<%--원서 작성 현황--%></td>
                 </tr>
                 <tr id="stepTR">
-                    <td id="stepBasis" width="25%" height="50px" align="center" class="stepDisabled">1. 기본 정보</td>
-                    <td id="stepAcademy" width="25%" height="50px" align="center" class="stepDisabled">2. 학력 정보</td>
-                    <td id="stepLangCareer" width="25%" height="50px" align="center" class="stepDisabled">3. 어학/경력 정보</td>
-                    <td id="stepDocument" width="25%" height="50px" align="center" class="stepDisabled">4. 파일 첨부</td>
+                    <td id="stepBasis" width="25%" height="50px" align="center" class="stepDisabled">${msg.getMessage('L01002', locale)}<%--1. 기본 정보--%></td>
+                    <td id="stepAcademy" width="25%" height="50px" align="center" class="stepDisabled">${msg.getMessage('L01003', locale)}<%--2. 학력 정보--%></td>
+                    <td id="stepLangCareer" width="25%" height="50px" align="center" class="stepDisabled">${msg.getMessage('L01004', locale)}<%--3. 어학/경력 정보--%></td>
+                    <td id="stepDocument" width="25%" height="50px" align="center" class="stepDisabled">${msg.getMessage('L01005', locale)}<%--4. 파일 첨부--%></td>
                 </tr>
             </table>
         </div>
@@ -275,10 +281,10 @@
             <div class="col-sm-12">
                 <table width="100%">
                     <tr id="tabTR">
-                        <td id="tab-basis" width="25%" height="35px" align="center" class="inactiveTab" data-target-tab="basis" data-tab-available="true">1. 기본 정보</td>
-                        <td id="tab-academy" width="25%" height="35px" align="center" class="inactiveTab" data-target-tab="academy" data-tab-available="false" data-unavailable-msg='<spring:message code="U321"/>'>2. 학력 정보</td>
-                        <td id="tab-langCareer" width="25%" height="35px" align="center" class="inactiveTab" data-target-tab="langCareer" data-tab-available="false" data-unavailable-msg='<spring:message code="U322"/>'>3. 어학/경력 정보</td>
-                        <td id="tab-document" width="25%" height="35px" align="center" class="inactiveTab" data-target-tab="document" data-tab-available="false" data-unavailable-msg='<spring:message code="U323"/>'>4. 파일 첨부</td>
+                        <td id="tab-basis" width="25%" height="35px" align="center" class="inactiveTab" data-target-tab="basis" data-tab-available="true"><spring:message code="L01002"/><%--1. 기본 정보--%></td>
+                        <td id="tab-academy" width="25%" height="35px" align="center" class="inactiveTab" data-target-tab="academy" data-tab-available="false" data-unavailable-msg='<spring:message code="U321"/>'><spring:message code="L01003"/><%--2. 학력 정보--%></td>
+                        <td id="tab-langCareer" width="25%" height="35px" align="center" class="inactiveTab" data-target-tab="langCareer" data-tab-available="false" data-unavailable-msg='<spring:message code="U322"/>'><spring:message code="L01004"/><%--3. 어학/경력 정보--%></td>
+                        <td id="tab-document" width="25%" height="35px" align="center" class="inactiveTab" data-target-tab="document" data-tab-available="false" data-unavailable-msg='<spring:message code="U323"/>'><spring:message code="L01005"/><%--4. 파일 첨부--%></td>
                     </tr>
                 </table>
             </div>
@@ -299,7 +305,7 @@
                             <%--<div class="validation-error"><form:errors path="*"/></div>--%>
                         <%--</div>--%>
                         <div class="panel panel-darkgray">
-                            <div class="panel-heading">대학교</div>
+                            <div class="panel-heading"><spring:message code="L02102"/><%--대학교--%></div>
                             <div class="panel-body">
                                 <div class="form-group-block-list">
                                     <c:forEach begin="0" end="${academy.collegeList.size() > 0 ? academy.collegeList.size() - 1 : 0}" varStatus="stat">
@@ -308,11 +314,11 @@
                                         <form:hidden path="collegeList[${stat.index}].acadSeq" />
                                         <form:hidden path="collegeList[${stat.index}].userCUDType" value='${academy.collegeList[stat.index].userCUDType == null ? "INSERT" : academy.collegeList[stat.index].userCUDType}'/>
                                         <div class="form-group required">
-                                            <label class="col-sm-2 control-label">소재 국가</label>
+                                            <label class="col-sm-2 control-label"><spring:message code="L02103"/><%--소재 국가--%></label>
                                             <div class="col-sm-9">
                                                 <div class="col-sm-3">
                                                     <button type="button" class="btn btn-default btn-search bpopper" data-targetNode1="collegeList${stat.index}.schlCntrCode" data-targetNode2='collegeList${stat.index}.korCntrName' data-category="country">
-                                                        <span class="glyphicon glyphicon-search"></span> 검색
+                                                        <span class="glyphicon glyphicon-search"></span> <spring:message code="L02104"/><%--검색--%>
                                                     </button>
                                                 </div>
                                                 <div class="col-sm-9">
@@ -329,12 +335,14 @@
                                             </div>
                                         </div>
                                         <div class="form-group required">
-                                            <label class="col-sm-2 control-label">재학 기간</label>
+                                            <label class="col-sm-2 control-label"><spring:message code="L02105"/><%--재학 기간--%></label>
                                             <div class="col-sm-9">
                                                 <div class="col-sm-6 start-date-container">
                                                     <div class="input-group date">
-                                                        <span class="input-group-addon">입학일</span>
-                                                        <form:input path="collegeList[${stat.index}].entrDay" cssClass="form-control" readonly="true" />
+                                                        <span class="input-group-addon"><spring:message code="L02106"/><%--시작일--%></span>
+                                                        <form:input path="collegeList[${stat.index}].entrDay" cssClass="form-control checkDate" readonly="true"
+                                                                    data-entrDate="collegeList${stat.index}.entrDay"
+                                                                    data-exprDate="collegeList${stat.index}.grdaDay"/>
                                                         <span class="input-group-addon calendar-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                                                     </div>
                                             <spring:bind path="collegeList[${stat.index}].entrDay">
@@ -347,8 +355,10 @@
                                                 </div>
                                                 <div class="col-sm-6 end-date-container">
                                                     <div class="input-group date">
-                                                        <span class="input-group-addon">졸업(예정)일</span>
-                                                        <form:input path="collegeList[${stat.index}].grdaDay" cssClass="form-control" readonly="true" />
+                                                        <span class="input-group-addon"><spring:message code="L02107"/><%--종료일--%></span>
+                                                        <form:input path="collegeList[${stat.index}].grdaDay" cssClass="form-control checkDate" readonly="true"
+                                                                    data-entrDate="collegeList${stat.index}.entrDay"
+                                                                    data-exprDate="collegeList${stat.index}.grdaDay"/>
                                                         <span class="input-group-addon calendar-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                                                     </div>
                                             <spring:bind path="collegeList[${stat.index}].grdaDay">
@@ -362,13 +372,18 @@
                                             </div>
                                         </div>
                                         <div class="form-group required">
-                                            <label class="col-sm-2 control-label">졸업 구분</label>
+                                            <label class="col-sm-2 control-label"><spring:message code="L02108"/><%--졸업 구분--%></label>
                                             <div class="col-sm-9">
                                                 <div class="col-sm-4">
                                                     <div>
-                                                        <label class="radio-inline degr-radio"><form:radiobutton path="collegeList[${stat.index}].grdaTypeCode" cssClass="grad-yn" value="00001" />졸업</label>
-                                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                                        <label class="radio-inline degr-radio"><form:radiobutton path="collegeList[${stat.index}].grdaTypeCode" cssClass="grad-yn" value="00002" />졸업 예정</label>
+                                                        <%--<label class="radio-inline degr-radio"><form:radiobutton path="collegeList[${stat.index}].grdaTypeCode" cssClass="grad-yn" value="00001" /><spring:message code="L02109"/>&lt;%&ndash;졸업&ndash;%&gt;</label>--%>
+                                                        <%--&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--%>
+                                                        <%--<label class="radio-inline degr-radio"><form:radiobutton path="collegeList[${stat.index}].grdaTypeCode" cssClass="grad-yn" value="00002" /><spring:message code="L02110"/>&lt;%&ndash;졸업 예정&ndash;%&gt;</label>--%>
+                                                        <form:select path="collegeList[${stat.index}].grdaTypeCode" cssClass="form-control grad-type">
+                                                            <form:option value="" label="--${msg.getMessage('L01006', locale)}--" />
+                                                            <form:options items="${selection.grdaTypeList}" itemValue="code"
+                                                                          itemLabel="${pageContext.response.locale == 'en' ? 'codeValXxen' : 'codeVal'}"/>
+                                                        </form:select>
                                                     </div>
                                             <spring:bind path="collegeList[${stat.index}].grdaTypeCode">
                                                 <c:if test="${status.error}">
@@ -380,8 +395,14 @@
                                                 </div>
                                                 <div class="col-sm-8">
                                                     <div>
-                                                        <form:input path="collegeList[${stat.index}].degrNo" cssClass="degr-no form-control" placeholder="학위등록번호를 입력해주세요"/>
-                                                        <label id='collegeList${stat.index}.label-grad-not' class="col-sm-10 grda-not degr-message" style="display:none;" >합격 후 입학 시 졸업증명서를 대학원 사무실로 반드시 제출하세요</label>
+                                                        <form:input path="collegeList[${stat.index}].degrNo" cssClass="degr-no form-control erase-hide" placeholder="학위등록번호를 입력해주세요"
+                                                                style="display: ${academy.collegeList[stat.index].grdaTypeCode == '00001' ? 'block;' : 'none;'}"/>
+                                                        <label id='collegeList${stat.index}.label-grad-02' class="col-sm-10 grda-not degr-message erase-hide word-keep-all"
+                                                               style="display: ${academy.collegeList[stat.index].grdaTypeCode == '00002' ? 'block;' : 'none;'}" >합격 후 입학 시 졸업증명서를 대학원 사무실로 반드시 제출하세요</label>
+                                                        <label id='collegeList${stat.index}.label-grad-03' class="col-sm-10 grda-not degr-message erase-hide"
+                                                               style="display: ${academy.collegeList[stat.index].grdaTypeCode == '00003' ? 'block;' : 'none;'}" ></label>
+                                                        <label id='collegeList${stat.index}.label-grad-04' class="col-sm-10 grda-not degr-message erase-hide"
+                                                               style="display: ${academy.collegeList[stat.index].grdaTypeCode == '00004' ? 'block;' : 'none;'}" ></label>
                                                     </div>
                                             <spring:bind path="collegeList[${stat.index}].degrNo">
                                                 <c:if test="${status.error}">
@@ -395,11 +416,11 @@
                                             </div>
                                         </div>
                                         <div class="form-group required">
-                                            <form:label path="collegeList[${stat.index}].schlName" cssClass="col-sm-2 control-label">학교 이름</form:label>
+                                            <form:label path="collegeList[${stat.index}].schlName" cssClass="col-sm-2 control-label"><spring:message code="L02112"/><%--학교 이름--%></form:label>
                                             <div class="col-sm-9">
                                                 <div class="col-sm-3">
                                                     <button type="button" class="btn btn-default btn-search bpopper" data-targetNode1="collegeList${stat.index}.schlCode" data-targetNode2='collegeList${stat.index}.schlName' data-category="school-u">
-                                                        <span class="glyphicon glyphicon-search"></span> 검색
+                                                        <span class="glyphicon glyphicon-search"></span> <spring:message code="L02113"/><%--검색--%>
                                                     </button>
                                                 </div>
                                                 <div class="col-sm-6">
@@ -409,7 +430,7 @@
                                                 <div class="col-sm-3">
                                                     <label class="radio-inline">
                                                             <%--<form:radiobutton path="collegeList[${stat.index}].lastSchlYn" cssClass="radio-group" value="${academy.collegeList[stat.index].lastSchlYn}"/>&nbsp;&nbsp;최종 학교--%>
-                                                        <input type="radio" class="college-radio" id="college-radio-${stat.index}" name="collegeRadio" data-last-radio-id="collegeList${stat.index}.lastSchlYn" <c:if test="${academy.collegeList[stat.index].lastSchlYn == 'Y'}">checked</c:if> />&nbsp;&nbsp;학부 최종 학교
+                                                        <input type="radio" class="college-radio" id="college-radio-${stat.index}" name="collegeRadio" data-last-radio-id="collegeList${stat.index}.lastSchlYn" <c:if test="${academy.collegeList[stat.index].lastSchlYn == 'Y'}">checked</c:if> />&nbsp;&nbsp;<spring:message code="L02114"/><%--학부 최종 학교--%>
                                                         <form:hidden path="collegeList[${stat.index}].lastSchlYn"/>
                                                     </label>
                                                 </div>
@@ -423,7 +444,7 @@
                                             </div>
                                         </div>
                                         <div class="form-group required">
-                                            <form:label path="collegeList[${stat.index}].collName" cssClass="col-sm-2 control-label">단과 대학</form:label>
+                                            <form:label path="collegeList[${stat.index}].collName" cssClass="col-sm-2 control-label"><spring:message code="L02115"/><%--단과 대학--%></form:label>
                                             <div class="col-sm-9">
                                                 <div class="col-sm-12">
                                                     <form:input path="collegeList[${stat.index}].collName" cssClass="form-control" />
@@ -438,7 +459,7 @@
                                             </div>
                                         </div>
                                         <div class="form-group required">
-                                            <form:label path="collegeList[${stat.index}].majName" cssClass="col-sm-2 control-label">학과 이름</form:label>
+                                            <form:label path="collegeList[${stat.index}].majName" cssClass="col-sm-2 control-label"><spring:message code="L02116"/><%--학과 이름--%></form:label>
                                             <div class="col-sm-9">
                                                 <div class="col-sm-12">
                                                     <form:input path="collegeList[${stat.index}].majName" cssClass="form-control" placeholder="다수 전공은 컴마로 구분하여 모두 입력해 주세요." />
@@ -453,11 +474,11 @@
                                             </div>
                                         </div>
                                         <div class="form-group required">
-                                            <label class="col-sm-2 control-label">평량 평균</label>
+                                            <label class="col-sm-2 control-label"><spring:message code="L02117"/><%--평량 평균--%></label>
                                             <div class="col-sm-9">
                                                 <div class="col-sm-6">
                                                     <div class="input-group">
-                                                        <span class="input-group-addon">평점</span>
+                                                        <span class="input-group-addon"><spring:message code="L02118"/><%--평점--%></span>
                                                         <form:input path="collegeList[${stat.index}].gradAvr" cssClass="form-control gradAvr" maxlength="4" placeholder="#.##"/>
                                                     </div>
                                             <spring:bind path="collegeList[${stat.index}].gradAvr">
@@ -470,8 +491,8 @@
                                                 </div>
                                                 <div class="col-sm-6">
                                                     <div class="input-group">
-                                                        <span class="input-group-addon">만점</span>
-                                                        <form:input path="collegeList[${stat.index}].gradFull" cssClass="form-control gradFull" maxlength="3" placeholder="#.#" data-gradAvr-id="collegeList${stat.index}.gradAvr"/>
+                                                        <span class="input-group-addon"><spring:message code="L02119"/><%--만점--%></span>
+                                                        <form:input path="collegeList[${stat.index}].gradFull" cssClass="form-control gradFull" maxlength="4" placeholder="#.#" data-gradAvr-id="collegeList${stat.index}.gradAvr"/>
                                                     </div>
                                             <spring:bind path="collegeList[${stat.index}].gradFull">
                                                 <c:if test="${status.error}">
@@ -486,12 +507,13 @@
                                         <div class="btn btn-remove" data-list-name="collegeList" data-block-index="${stat.index}"><button type="button" class="close" aria-hidden="true">×</button></div>
                                     </div>
                                     </c:forEach>
-                                    <div class="btn btn-info btn-add">추가</div>
+                                    <div class="btn btn-info btn-add"><spring:message code="L02120"/><%--추가--%></div>
                                 </div>
                             </div>
                         </div>
                         <div class="panel panel-darkgray">
-                            <div class="panel-heading">대학원</div>
+                            <div class="panel-heading"><spring:message code="L02201"/><%--대학원--%></div>
+                            <div class="col-sm-12 grad-notice"><label>박사 과정에 지원한 경우에는 대학원 최종 학교가 사정 기준이 됩니다.</label></div>
                             <div class="panel-body">
                                 <div class="form-group-block-list">
                                     <c:forEach begin="0" end="${academy.graduateList.size() > 0 ? academy.graduateList.size() - 1 : 0}" varStatus="stat">
@@ -500,11 +522,11 @@
                                         <form:hidden path="graduateList[${stat.index}].acadSeq" />
                                         <form:hidden path="graduateList[${stat.index}].userCUDType" value='${academy.graduateList[stat.index].userCUDType == null ? "INSERT" : academy.graduateList[stat.index].userCUDType}'/>
                                         <div class="form-group <c:if test="${corsTypeCode.equals('2') || corsTypeCode.equals('6') || corsTypeCode.equals('8')}">required</c:if>">
-                                            <label class="col-sm-2 control-label">소재 국가</label>
+                                            <label class="col-sm-2 control-label"><spring:message code="L02103"/><%--소재 국가--%></label>
                                             <div class="col-sm-9">
                                                 <div class="col-sm-3">
                                                     <button type="button" class="btn btn-default btn-search bpopper" data-targetNode1="graduateList${stat.index}.schlCntrCode" data-targetNode2='graduateList${stat.index}.korCntrName' data-category="country">
-                                                        <span class="glyphicon glyphicon-search"></span> 검색
+                                                        <span class="glyphicon glyphicon-search"></span> <spring:message code="L02104"/><%--검색--%>
                                                     </button>
                                                 </div>
                                                 <div class="col-sm-9">
@@ -521,12 +543,14 @@
                                             </div>
                                         </div>
                                         <div class="form-group <c:if test="${corsTypeCode.equals('2') || corsTypeCode.equals('6') || corsTypeCode.equals('8')}">required</c:if>">
-                                            <label class="col-sm-2 control-label">재학 기간</label>
+                                            <label class="col-sm-2 control-label"><spring:message code="L02105"/><%--재학 기간--%></label>
                                             <div class="col-sm-9">
                                                 <div class="col-sm-6 start-date-container">
                                                     <div class="input-group date">
-                                                        <span class="input-group-addon">입학일</span>
-                                                        <form:input path="graduateList[${stat.index}].entrDay" cssClass="form-control" readonly="true" />
+                                                        <span class="input-group-addon"><spring:message code="L02106"/><%--시작일--%></span>
+                                                        <form:input path="graduateList[${stat.index}].entrDay" cssClass="form-control checkDate" readonly="true"
+                                                                data-entrDate="graduateList${stat.index}.entrDay"
+                                                                data-exprDate="graduateList${stat.index}.grdaDay"/>
                                                         <span class="input-group-addon calendar-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                                                     </div>
                                             <spring:bind path="graduateList[${stat.index}].entrDay">
@@ -539,8 +563,10 @@
                                                 </div>
                                                 <div class="col-sm-6 end-date-container">
                                                     <div class="input-group date">
-                                                        <span class="input-group-addon">졸업(예정)일</span>
-                                                        <form:input path="graduateList[${stat.index}].grdaDay" cssClass="form-control" readonly="true" />
+                                                        <span class="input-group-addon"><spring:message code="L02107"/><%--종료일--%></span>
+                                                        <form:input path="graduateList[${stat.index}].grdaDay" cssClass="form-control checkDate" readonly="true"
+                                                                data-entrDate="graduateList${stat.index}.entrDay"
+                                                                data-exprDate="graduateList${stat.index}.grdaDay"/>
                                                         <span class="input-group-addon calendar-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                                                     </div>
                                             <spring:bind path="graduateList[${stat.index}].grdaDay">
@@ -554,16 +580,27 @@
                                             </div>
                                         </div>
                                         <div class="form-group <c:if test="${corsTypeCode.equals('2') || corsTypeCode.equals('6') || corsTypeCode.equals('8')}">required</c:if>">
-                                            <label class="col-sm-2 control-label">졸업 구분</label>
+                                            <label class="col-sm-2 control-label"><spring:message code="L02108"/><%--졸업 구분--%></label>
                                             <div class="col-sm-9">
                                                 <div class="col-sm-4">
-                                                    <label class="radio-inline degr-radio"><form:radiobutton path="graduateList[${stat.index}].grdaTypeCode" cssClass="grad-yn" value="00001" />졸업</label>
-                                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                                    <label class="radio-inline degr-radio"><form:radiobutton path="graduateList[${stat.index}].grdaTypeCode" cssClass="grad-yn" value="00002" />졸업 예정</label>
+                                                    <%--<label class="radio-inline degr-radio"><form:radiobutton path="graduateList[${stat.index}].grdaTypeCode" cssClass="grad-yn" value="00001" /><spring:message code="L02109"/>&lt;%&ndash;졸업&ndash;%&gt;</label>--%>
+                                                    <%--&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--%>
+                                                    <%--<label class="radio-inline degr-radio"><form:radiobutton path="graduateList[${stat.index}].grdaTypeCode" cssClass="grad-yn" value="00002" /><spring:message code="L02110"/>&lt;%&ndash;졸업 예정&ndash;%&gt;</label>--%>
+                                                    <form:select path="graduateList[${stat.index}].grdaTypeCode" cssClass="form-control grad-type">
+                                                        <form:option value="" label="--${msg.getMessage('L01006', locale)}--" />
+                                                        <form:options items="${selection.grdaTypeList}" itemValue="code"
+                                                                      itemLabel="${pageContext.response.locale == 'en' ? 'codeValXxen' : 'codeVal'}"/>
+                                                    </form:select>
                                                 </div>
                                                 <div class="col-sm-8">
-                                                    <form:input path="graduateList[${stat.index}].degrNo" cssClass="degr-no form-control" placeholder="학위등록번호를 입력해주세요"/>
-                                                    <label id='graduateList${stat.index}.label-grad-not' class="col-sm-10 grda-not degr-message" style="display:none;" >합격 후 입학 시 졸업증명서를 대학원 사무실로 반드시 제출하세요</label>
+                                                    <form:input path="graduateList[${stat.index}].degrNo" cssClass="degr-no form-control erase-hide" placeholder="학위등록번호를 입력해주세요"
+                                                            style="display: ${academy.graduateList[stat.index].grdaTypeCode == '00001' ? 'block;' : 'none;'}"/>
+                                                    <label id='graduateList${stat.index}.label-grad-02' class="col-sm-10 grda-not degr-message erase-hide"
+                                                           style="display: ${academy.graduateList[stat.index].grdaTypeCode == '00002' ? 'block;' : 'none;'}" >합격 후 입학 시 졸업증명서를 대학원 사무실로 반드시 제출하세요</label>
+                                                    <label id='graduateList${stat.index}.label-grad-03' class="col-sm-10 grda-not degr-message erase-hide"
+                                                           style="display: ${academy.graduateList[stat.index].grdaTypeCode == '00003' ? 'block;' : 'none;'}" ></label>
+                                                    <label id='graduateList${stat.index}.label-grad-04' class="col-sm-10 grda-not degr-message erase-hide"
+                                                           style="display: ${academy.graduateList[stat.index].grdaTypeCode == '00004' ? 'block;' : 'none;'}" ></label>
                                                 </div>
                                         <spring:bind path="graduateList[${stat.index}].grdaTypeCode">
                                             <c:if test="${status.error}">
@@ -575,11 +612,11 @@
                                             </div>
                                         </div>
                                         <div class="form-group <c:if test="${corsTypeCode.equals('2') || corsTypeCode.equals('6') || corsTypeCode.equals('8')}">required</c:if>">
-                                            <form:label path="graduateList[${stat.index}].schlName" cssClass="col-sm-2 control-label">학교 이름</form:label>
+                                            <form:label path="graduateList[${stat.index}].schlName" cssClass="col-sm-2 control-label"><spring:message code="L02112"/><%--학교 이름--%></form:label>
                                             <div class="col-sm-9">
                                                 <div class="col-sm-3">
                                                     <button type="button" class="btn btn-default btn-search bpopper" data-targetNode1="graduateList${stat.index}.schlCode" data-targetNode2='graduateList${stat.index}.schlName' data-category="school-u">
-                                                        <span class="glyphicon glyphicon-search"></span> 검색
+                                                        <span class="glyphicon glyphicon-search"></span> <spring:message code="L02113"/><%--검색--%>
                                                     </button>
                                                 </div>
                                                 <div class="col-sm-6">
@@ -589,7 +626,7 @@
                                                 <div class="col-sm-3">
                                                     <label class="radio-inline">
                                                             <%--<form:radiobutton path="graduateList[${stat.index}].lastSchlYn" cssClass="radio-group" value="${academy.graduateList[stat.index].lastSchlYn}"/>&nbsp;&nbsp;최종 학교--%>
-                                                        <input type="radio" class="graduate-radio" id="graduate-radio-${stat.index}" name="graduateRadio" data-last-radio-id="graduateList${stat.index}.lastSchlYn" <c:if test="${academy.graduateList[stat.index].lastSchlYn == 'Y'}">checked</c:if> />&nbsp;&nbsp;대학원 최종 학교
+                                                        <input type="radio" class="graduate-radio" id="graduate-radio-${stat.index}" name="graduateRadio" data-last-radio-id="graduateList${stat.index}.lastSchlYn" <c:if test="${academy.graduateList[stat.index].lastSchlYn == 'Y'}">checked</c:if> />&nbsp;&nbsp;<spring:message code="L02202"/><%--대학원 최종 학교--%>
                                                         <form:hidden path="graduateList[${stat.index}].lastSchlYn"/>
                                                     </label>
                                                 </div>
@@ -603,7 +640,7 @@
                                             </div>
                                         </div>
                                         <div class="form-group <c:if test="${corsTypeCode.equals('2') || corsTypeCode.equals('6') || corsTypeCode.equals('8')}">required</c:if>">
-                                            <form:label path="graduateList[${stat.index}].collName" cssClass="col-sm-2 control-label">단과 대학</form:label>
+                                            <form:label path="graduateList[${stat.index}].collName" cssClass="col-sm-2 control-label"><spring:message code="L02115"/><%--단과 대학--%></form:label>
                                             <div class="col-sm-9">
                                                 <div class="col-sm-12">
                                                     <form:input path="graduateList[${stat.index}].collName" cssClass="form-control" />
@@ -618,7 +655,7 @@
                                             </div>
                                         </div>
                                         <div class="form-group <c:if test="${corsTypeCode.equals('2') || corsTypeCode.equals('6') || corsTypeCode.equals('8')}">required</c:if>">
-                                            <form:label path="graduateList[${stat.index}].majName" cssClass="col-sm-2 control-label">학과 이름</form:label>
+                                            <form:label path="graduateList[${stat.index}].majName" cssClass="col-sm-2 control-label"><spring:message code="L02116"/><%--학과 이름--%></form:label>
                                             <div class="col-sm-9">
                                                 <div class="col-sm-12">
                                                     <form:input path="graduateList[${stat.index}].majName" cssClass="form-control" placeholder="다수 전공은 컴마로 구분하여 모두 입력해 주세요." />
@@ -633,11 +670,11 @@
                                             </div>
                                         </div>
                                         <div class="form-group <c:if test="${corsTypeCode.equals('2') || corsTypeCode.equals('6') || corsTypeCode.equals('8')}">required</c:if>">
-                                            <label class="col-sm-2 control-label">평량 평균</label>
+                                            <label class="col-sm-2 control-label"><spring:message code="L02117"/><%--평량 평균--%></label>
                                             <div class="col-sm-9">
                                                 <div class="col-sm-6">
                                                     <div class="input-group">
-                                                        <span class="input-group-addon">평점</span>
+                                                        <span class="input-group-addon"><spring:message code="L02118"/><%--평점--%></span>
                                                         <form:input path="graduateList[${stat.index}].gradAvr" cssClass="form-control gradAvr" maxlength="4" placeholder="#.##"/>
                                                     </div>
                                             <spring:bind path="graduateList[${stat.index}].gradAvr">
@@ -650,8 +687,8 @@
                                                 </div>
                                                 <div class="col-sm-6">
                                                     <div class="input-group">
-                                                        <span class="input-group-addon">만점</span>
-                                                        <form:input path="graduateList[${stat.index}].gradFull" cssClass="form-control gradFull" maxlength="3" placeholder="#.#" data-gradAvr-id="graduateList${stat.index}.gradAvr"/>
+                                                        <span class="input-group-addon"><spring:message code="L02119"/><%--만점--%></span>
+                                                        <form:input path="graduateList[${stat.index}].gradFull" cssClass="form-control gradFull" maxlength="4" placeholder="#.#" data-gradAvr-id="graduateList${stat.index}.gradAvr"/>
                                                     </div>
                                             <spring:bind path="graduateList[${stat.index}].gradFull">
                                                 <c:if test="${status.error}">
@@ -666,7 +703,7 @@
                                         <div class="btn btn-remove" data-list-name="graduateList" data-block-index="${stat.index}"><button type="button" class="close" aria-hidden="true">×</button></div>
                                     </div>
                                     </c:forEach>
-                                    <div class="btn btn-info btn-add">추가</div>
+                                    <div class="btn btn-info btn-add"><spring:message code="L02120"/><%--추가--%></div>
                                 </div>
                             </div>
                         </div>
@@ -674,7 +711,7 @@
                 </div>
                 <div class="btn-group btn-group-justified">
                     <div class="btn-group">
-                        <button id="saveAcademy" type="button" class="btn btn-primary btn-lg btn-save">학력 저장</button>
+                        <button id="saveAcademy" type="button" class="btn btn-primary btn-lg btn-save"><spring:message code="L02301"/><%--학력 저장--%></button>
                     </div>
                 </div>
             </div> <%--myTabContent--%>
@@ -804,7 +841,9 @@
         $('.bpopper').on('click', function(e) {
             e.preventDefault();
             $('#bpopResult').empty();
-            document.getElementById('bpop').value="";
+            var bpopSearchText = document.getElementById('bpop');
+            bpopSearchText.value="";
+
 
             var dataCategory = this.getAttribute('data-category');
             var targetNode = null, title = null, columnHead = [];
@@ -840,7 +879,9 @@
             $('#bpopHead').empty();
             $('#bpopHead').append($thead);
             $('#bpopContainer').bPopup();
-            document.getElementById('bpop').focus();
+//            document.getElementById('bpop').focus();
+
+            $(bpopSearchText).focus().focus();
         });
 
         $('#bpopBtnSearch').on('click', function(e) {
@@ -951,20 +992,75 @@
         };
         <%-- 달력 reset 함수 --%>
 
-        <%-- 졸업/졸업 예정 처리 --%>
-        $('.grad-yn').on('change', function () {
-            var id = this.id,
-                prefix = id.substr(0, id.lastIndexOf('.')),
-                showObj, hideObj;
-            if (this.checked && this.value == "00001") {
-                showObj = document.getElementById(prefix + '.degrNo');
-                hideObj = document.getElementById(prefix + '.label-grad-not');
-            } else if (this.checked && this.value == "00002") {
-                hideObj = document.getElementById(prefix + '.degrNo');
-                showObj = document.getElementById(prefix + '.label-grad-not');
+        <%-- 달력 선후 관계 체크 --%>
+        $('.checkDate').on('change', function(e) {
+            var entrDate = document.getElementById(this.getAttribute('data-entrDate')).value,
+                exprDate = document.getElementById(this.getAttribute('data-exprDate')).value;
+            if ( entrDate != '' && exprDate != '') {
+                if (parseInt(entrDate) > parseInt(exprDate)) {
+                    alert('시작일은 종료일보다 앞선 날짜여야 합니다.');
+                    this.value = '';
+                }
             }
-            showObj.style.display = "block";
-            hideObj.style.display = "none";
+
+        });
+        <%-- 달력 선후 관계 체크 --%>
+
+
+        <%-- 졸업/졸업 예정 처리 --%>
+        $('.grad-type').on('change', function () {
+//            var id = this.id,
+//                prefix = id.substr(0, id.lastIndexOf('.')),
+//                showObj, hideObj;
+//            if (this.checked && this.value == "00001") {
+//                showObj = document.getElementById(prefix + '.degrNo');
+//                hideObj = document.getElementById(prefix + '.label-grad-not');
+//            } else if (this.checked && this.value == "00002") {
+//                hideObj = document.getElementById(prefix + '.degrNo');
+//                showObj = document.getElementById(prefix + '.label-grad-not');
+//            }
+            var id = this.id,
+                    prefix = id.substr(0, id.lastIndexOf('.')),
+                    showObj, hideObj = [],
+                    degrNoObj = document.getElementById(prefix + '.degrNo');
+            if (this[this.selectedIndex].value == "00001") {
+                showObj = degrNoObj;
+                hideObj.push(document.getElementById(prefix + '.label-grad-02'));
+                hideObj.push(document.getElementById(prefix + '.label-grad-03'));
+                hideObj.push(document.getElementById(prefix + '.label-grad-04'));
+                showObj.style.display = "block";
+                degrNoObj.placeholder = "학위등록번호를 입력해주세요";
+                $(degrNoObj).placeholder();
+            } else if (this[this.selectedIndex].value == "00002") {
+                hideObj.push(degrNoObj);
+                hideObj.push(document.getElementById(prefix + '.label-grad-03'));
+                hideObj.push(document.getElementById(prefix + '.label-grad-04'));
+                showObj = document.getElementById(prefix + '.label-grad-02');
+                showObj.style.display = "block";
+            } else if (this[this.selectedIndex].value == "00003") {
+                hideObj.push(degrNoObj);
+                hideObj.push(document.getElementById(prefix + '.label-grad-02'));
+                hideObj.push(document.getElementById(prefix + '.label-grad-04'));
+                showObj = document.getElementById(prefix + '.label-grad-03');
+                showObj.style.display = "block";
+            } else if (this[this.selectedIndex].value == "00004") {
+                hideObj.push(degrNoObj);
+                hideObj.push(document.getElementById(prefix + '.label-grad-02'));
+                hideObj.push(document.getElementById(prefix + '.label-grad-03'));
+                showObj = document.getElementById(prefix + '.label-grad-04');
+                showObj.style.display = "block";
+            } else if (this[this.selectedIndex].value == "") {
+                hideObj.push(degrNoObj);
+                hideObj.push(document.getElementById(prefix + '.label-grad-02'));
+                hideObj.push(document.getElementById(prefix + '.label-grad-03'));
+                hideObj.push(document.getElementById(prefix + '.label-grad-04'));
+            }
+
+            for (var i = 0, hideObjL = hideObj.length ; i < hideObjL ; i++) {
+                hideObj[i].value = '';
+                hideObj[i].setAttribute('value', '');
+                hideObj[i].style.display = 'none';
+            }
         });
         <%-- 졸업/졸업 예정 처리 --%>
 
@@ -1019,11 +1115,11 @@
         });
         $('.gradFull').on('blur', function () {
             if (this.value.length > 0) {
-                var regexp = /\d.\d/,
+                var regexp = /\d.\d{2}/,
                         gradAvgInput = document.getElementById(this.getAttribute('data-gradAvr-id'));
                 if (!regexp.test(this.value) && this.value != '') {
                     validFlag.value = false;
-                    alert('소수점 첫째자리까지 작성해 주세요');
+                    alert('소수점 둘째자리까지 작성해 주세요');
                     this.focus();
                 } else {
                     if (parseFloat(this.value) < parseFloat(gradAvgInput.value)) {
@@ -1061,7 +1157,7 @@
                         }
                     }
                     if (name) {
-                        if (element.type != 'radio') {
+                        if (element.type != 'radio' || element.id.indexOf('grdaTypeCode') > 0) {
                             prefix = name.substring(0, name.indexOf('['));
                             suffix = name.substring(name.indexOf(']') + 1);
                             element.name = prefix + '[' + index + ']' + suffix;
@@ -1176,8 +1272,26 @@
 //                            element.checked = true;
 //                        }
                     }
+
+
                 }
             }
+            items = block.querySelectorAll('label');
+            if (items) {
+                for (i = 0, itemsL = items.length ; i < itemsL; i++) {
+                    if (items[i].className.indexOf('erase-hide') > 0) {
+if (console) {
+    console.log(items[i].id);
+    console.log(items[i].value);
+    console.log(items[i].style.display);
+}
+                        items[i].value = 0;
+                        items[i].setAttribute('value', '');
+                        items[i].style.display = 'none';
+                    }
+                }
+            }
+
             resetCalendar(block, '.input-group.date>input');
 
 //            var validationContainers = block.querySelectorAll('.validation-container');

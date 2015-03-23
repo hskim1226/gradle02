@@ -147,7 +147,11 @@ public class PaymentController {
     public String processXPay( Payment payment, Basis model, @ModelAttribute TransactionVO transactionVO ) throws NoSuchAlgorithmException {
 
         payment.setApplNo(model.getApplication().getApplNo());
-        paymentService.executePayment(payment, transactionVO);
+        String respStr = paymentService.executePayment(payment, transactionVO);
+
+        if( respStr.equals("SC0040") ) {
+            return "xpay/waitPay";
+        }
 
         return "xpay/result";
 

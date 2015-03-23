@@ -21,8 +21,9 @@ public class CustomLoginFilter extends UsernamePasswordAuthenticationFilter {
 
     @Override
     public Authentication attemptAuthentication( HttpServletRequest request, HttpServletResponse response ) throws AuthenticationException {
+        // 로케일 지정을 로그인이 아닌 인트로 화면에서 하기로 하여 여기서 제외
+//        WebUtils.setSessionAttribute(request, SessionLocaleResolver.LOCALE_SESSION_ATTRIBUTE_NAME, new Locale(request.getParameter("lang")));
 
-        WebUtils.setSessionAttribute(request, SessionLocaleResolver.LOCALE_SESSION_ATTRIBUTE_NAME, new Locale(request.getParameter("lang")));
 
         return super.attemptAuthentication(request, response);
     }

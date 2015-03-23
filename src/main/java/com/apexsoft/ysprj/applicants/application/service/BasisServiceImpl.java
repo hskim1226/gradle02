@@ -16,10 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by hanmomhanda on 15. 1. 9.
@@ -104,6 +101,8 @@ public class BasisServiceImpl implements BasisService {
             foreignMap.put("foreignTypeList", commonService.retrieveCommonCodeByCodeGroup("FORN_TYPE"));
             foreignMap.put("visaTypeList", commonService.retrieveCommonCodeByCodeGroup("VISA_TYPE"));
 
+
+
             ecDataMap.put("bornCntr", bornCntr);
             ecDataMap.put("foreign", foreignMap);
         }
@@ -187,12 +186,31 @@ public class BasisServiceImpl implements BasisService {
             basis.setApplicationForeigner(new ApplicationForeigner());
             basis.setApplicationGeneral(new ApplicationGeneral());
 
-            List<Campus> campList = commonService.retrieveCampus();
-            List<AcademyResearchIndustryInstitution> ariInstList = commonService.retrieveAriInst();
-            if (campList != null)      selectionMap.put("campList", campList);
-            if (ariInstList != null)   selectionMap.put("ariInstList", ariInstList);
-            selectionMap.put("applAttrList", commonService.retrieveCommonCodeByCodeGroup("APPL_ATTR"));
+//            List<Campus> campList = commonService.retrieveCampus();
+//            List<AcademyResearchIndustryInstitution> ariInstList = commonService.retrieveAriInst();
+//            if (campList != null)      selectionMap.put("campList", campList);
+//            if (ariInstList != null)   selectionMap.put("ariInstList", ariInstList);
+            selectionMap.put("applAttrList", commonService.retrieveApplAttrList("APPL_ATTR"));
+            if( !"15A".equals(basis.getApplication().getAdmsNo()) &&
+                !"15B".equals(basis.getApplication().getAdmsNo())){
+                List<CommonCode> attrList = (List<CommonCode>)selectionMap.get("applAttrList");
+                for(int i = attrList.size()-1; i >= 0 ; i--){
+                    if( !"00001".equals(attrList.get(i).getCode())){
+                        attrList.remove(i);
+                    }
+                }
+            }
             selectionMap.put("emerContList", commonService.retrieveCommonCodeByCodeGroup("EMER_CONT"));
+            if( "15C".equals(basis.getApplication().getAdmsNo())){
+
+                ArrayList<CommonCode> attrList = (ArrayList<CommonCode>)selectionMap.get("applAttrList");
+                for(int i = attrList.size()-1; i >= 0 ; i--){
+                    if( !"00001".equals(attrList.get(i).getCode())){
+                        attrList.remove(i);
+                    }
+                }
+
+            }
         }
 
         String cntrCode = basis.getApplication().getCitzCntrCode();
