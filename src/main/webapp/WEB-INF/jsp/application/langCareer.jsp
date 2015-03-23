@@ -411,6 +411,7 @@
                                                                                         <%--</div>--%>
                                                                                     <%--</c:if>--%>
                                                                                 <%--</spring:bind>--%>
+                                                                                <c:if test="${subContainer.subCodeList.size() > 0}">
                                                                                 <div class="input-group">
                                                                                     <form:select path="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].subContainer[${subContainerStat.index}].subCode"
                                                                                             cssClass="form-control forlInput-${langGroupStat.index}">
@@ -419,6 +420,7 @@
                                                                                                       itemLabel="${pageContext.response.locale == 'en' ? 'codeValXxen' : 'codeVal'}"/>
                                                                                     </form:select>
                                                                                 </div>
+                                                                                </c:if>
                                                                         <%--<spring:bind path="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].subContainer[${subContainerStat.index}].toflTypeCode">--%>
                                                                             <%--<c:if test="${status.error}">--%>
                                                                                 <%--<div class="validation-container">--%>
