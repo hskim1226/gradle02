@@ -460,7 +460,12 @@ public class LangCareerServiceImpl implements LangCareerService {
             } else {
                 pCont.setFileUploadFg(false);
             }
-
+            if( pCont.getSelGrpCode()!= null && !"".equals(pCont.getSelGrpCode())){
+                pCont.setSubCodeList(commonService.retrieveCommonCodeByCodeGroup( pCont.getSelGrpCode()));
+            }
+            if( pCont.getSubCodeGrp()!= null && !"".equals(pCont.getSubCodeGrp())){
+                pCont.setSubCodeList(commonService.retrieveCommonCodeByCodeGroup( pCont.getSubCodeGrp()));
+            }
 
             //성적면제인 경우 컨테이너를 강제로 생성 (ASIS)
             /*
