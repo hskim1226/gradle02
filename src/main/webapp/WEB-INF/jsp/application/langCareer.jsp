@@ -350,12 +350,14 @@
                                                                 <form:hidden path="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].subContainer[${subContainerStat.index}].lastYn" value="${subContainer.lastYn}"/>
                                                                 <form:hidden path="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].subContainer[${subContainerStat.index}].selGrpCode" value="${subContainer.selGrpCode}"/>
                                                                 <form:hidden path="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].subContainer[${subContainerStat.index}].itemName" value="${subContainer.itemName}"/>
+                                                                <form:hidden path="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].subContainer[${subContainerStat.index}].subCodeGrp" value="${subContainer.subCodeGrp}"/>
+                                                                <form:hidden path="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].subContainer[${subContainerStat.index}].exmpYn" value="${subContainer.exmpYn}"/>
                                                                 <div class="col-sm-3">
                                                                     <%--<c:if test="${langList.selGrpCode != 'ENG_EXMP1' && langList.selGrpCode != 'KOR_EXMP1'}">--%>
                                                                         <div class="checkbox">
                                                                             <%--<c:if test='${subContainer.canYn == "Y"}'>--%>
                                                                                 <c:choose>
-                                                                                    <c:when test='${subContainer.canYn == "N"}'>
+                                                                                    <c:when test='${subContainer.exmpYn == "Y"}'>
                                                                                         <label for="checkForlExmp-${langGroupStat.index}">
                                                                                             <input type="checkbox" class="checkboxForlExmp"
                                                                                                    id="checkForlExmp-${langGroupStat.index}"
