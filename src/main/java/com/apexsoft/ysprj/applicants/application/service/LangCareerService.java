@@ -17,4 +17,6 @@ public interface LangCareerService {
     ExecutionContext retrieveLangCareer(LangCareer langCareer);
 
     ExecutionContext saveLangCareer(LangCareer langCareer);
+
+    void  retrieveLangSubCode(LangCareer langCareer);
 }

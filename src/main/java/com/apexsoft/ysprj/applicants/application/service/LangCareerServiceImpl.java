@@ -313,9 +313,6 @@ public class LangCareerServiceImpl implements LangCareerService {
                             }
                             aCont.setModDate(date);
                             update = update + commonDAO.updateItem( aCont, NAME_SPACE, "ApplicationLanguageMapper");
-                            if( rUpdate != update){
-                                ;
-                            }
 
                         }else{ //신규 입력정보
                             //APPL_LANG, INSERT
@@ -530,6 +527,36 @@ public class LangCareerServiceImpl implements LangCareerService {
 
         }
         return rContList;
+    }
+
+    @Override
+    public void retrieveLangSubCode(LangCareer langCareer) {
+
+        List<LanguageGroup> languageGroupList = langCareer.getLanguageGroupList();
+        //언어별
+        for (LanguageGroup aGroup : languageGroupList) {
+            List<TotalApplicationLanguageContainer> langList = aGroup.getLangList();
+            //제출 미제출별
+            for (TotalApplicationLanguageContainer aLangOrExempt : langList) {
+                List<TotalApplicationLanguageContainer> subContainer = aLangOrExempt.getSubContainer();
+                //각각 시험별
+                for (TotalApplicationLanguageContainer aCont : subContainer) {
+                    if (aCont.getSelGrpCode() != null && !"".equals(aCont.getSelGrpCode())) {
+
+                        aCont.setSubCodeList(commonService.retrieveCommonCodeByCodeGroup(aCont.getSelGrpCode()));
+
+                    }
+                    if (aCont.getSubCodeGrp() != null && !"".equals(aCont.getSubCodeGrp())) {
+
+                        aCont.setSubCodeList(commonService.retrieveCommonCodeByCodeGroup(aCont.getSubCodeGrp()));
+
+                    }
+
+                }
+            }
+        }
+
+
     }
 
 //    private List<CustomApplicationExperience> setExprUserDataStatus(List<CustomApplicationExperience> list, UserCUDType userCUDType) {
