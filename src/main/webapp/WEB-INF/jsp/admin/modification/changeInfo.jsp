@@ -30,7 +30,7 @@
 
                         <th><label for="applId">수험번호</label></th>
                         <td><input type="text" class="Ltext" id="applId" name="applId" size="15"  value="${applicantSearchForm.applId}">
-                            <img class="Limage" id="searchBtn"  src="${contextPath}/img/admin/btn_search.gif" alt="검색버튼" />
+                            <img class="Limage" id="searchBtn"  src="${contextPath}/img/admin/repository/btn_search.gif" alt="검색버튼" />
                         </td>
 
                     </tbody>

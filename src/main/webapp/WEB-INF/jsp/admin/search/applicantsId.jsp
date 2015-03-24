@@ -43,7 +43,7 @@
                         <tr> <td colsapn =2></td> </tr>
                         </tbody>
                     </table>
-                    <input id="idSearchBtn" type='image' class="Limage" src="${contextPath}/img/admin/btn_search.gif" />
+                    <input id="idSearchBtn" type='image' class="Limage" src="${contextPath}/img/admin/repository/btn_search.gif" />
                 </form:form>
             </div>
         </div>
@@ -84,7 +84,7 @@
                 <c:if test="${indexCount != 0}">
                     <li class="Lbegin"><span><a href="#" onclick="movePage(1); return false;">1page</a></span></li>
                     <c:if test="${idSearchForm.page.no-1 > 0}">
-                        <li class="Lprevious"><span><a href="#" onclick="movePage(${idSearchForm.page.no-1}); return false;"><img src="${contextPath}/img/admin/list_page_previous.gif" alt="이전페이지" /></a></span></li>
+                        <li class="Lprevious"><span><a href="#" onclick="movePage(${idSearchForm.page.no-1}); return false;"><img src="${contextPath}/img/admin/repository/list_page_previous.gif" alt="이전페이지" /></a></span></li>
                     </c:if>
                     <c:forEach begin="1" end="${indexCount}" var="pageNumIndex">
                         <c:if test="${idSearchForm.page.no==pageNumIndex}">
@@ -95,7 +95,7 @@
                         </c:if>
                     </c:forEach>
                     <c:if test="${idSearchForm.page.no < indexCount}">
-                        <li class="Lnext"><span><a href="#" onclick="movePage(${idSearchForm.page.no+1}); return false;"><img src="${contextPath}/img/admin/list_page_next.gif" alt="다음페이지" /></a></span></li>
+                        <li class="Lnext"><span><a href="#" onclick="movePage(${idSearchForm.page.no+1}); return false;"><img src="${contextPath}/img/admin/repository/list_page_next.gif" alt="다음페이지" /></a></span></li>
                     </c:if>
                     <li class="Lend"><span><a href="#" onclick="movePage(${indexCount}); return false;">${indexCount}page</a></span></li>
                 </c:if>

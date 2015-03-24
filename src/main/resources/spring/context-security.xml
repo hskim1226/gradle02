@@ -35,7 +35,7 @@
         <intercept-url pattern="/admin/**" access="hasRole('ROLE_ADMIN')" />
         <form-login login-processing-url="/j_spring_security_check.do"
                     login-page="/user/adminLogin?auth=true"
-                    default-target-url="/admin/stats"
+                    default-target-url="/admin/main"
                     always-use-default-target="false"
                     authentication-failure-handler-ref="adminAuthenticationFailureHandler"
                     authentication-failure-url="/user/adminLogin?fail=true" />

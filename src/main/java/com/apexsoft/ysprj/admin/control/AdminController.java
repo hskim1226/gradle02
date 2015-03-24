@@ -98,9 +98,9 @@ public class AdminController {
         return value;
     }
 
-    @RequestMapping(value="/stats")
+    @RequestMapping(value="/main")
     public String initAdmin() {
-        return "admin/stats/category";
+        return "admin/stats/main";
     }
     
     @RequestMapping(value="/stats/category")

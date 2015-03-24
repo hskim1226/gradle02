@@ -62,7 +62,7 @@
                             </tr>
                             </tbody>
                         </table>
-                        <input type="image" class="Limage" id='searchBtn' src="${contextPath}/img/admin/btn_search.gif" /></a>
+                        <input type="image" class="Limage" id='searchBtn' src="${contextPath}/img/admin/repository/btn_search.gif" /></a>
                     </form>
                 </div>
             </div>

@@ -7,11 +7,11 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>"연세대학교 대학원 입학원서 접수 시스템"</title>
-    <link rel="stylesheet" href="${contextPath}/css/admin/base.css"/>
-    <link rel="stylesheet" href="${contextPath}/css/admin/global_style.css"/>
-    <link rel="stylesheet" href="${contextPath}/css/admin/global_layout.css"/>
-    <link rel="stylesheet" href="${contextPath}/css/admin/page_style.css"/>
-    <link rel="stylesheet" href="${contextPath}/css/admin/page_layout.css"/>
+    <link rel="stylesheet" href="${contextPath}/css/admin/old/base.css"/>
+    <link rel="stylesheet" href="${contextPath}/css/admin/old/global_style.css"/>
+    <link rel="stylesheet" href="${contextPath}/css/admin/old/global_layout.css"/>
+    <link rel="stylesheet" href="${contextPath}/css/admin/old/page_style.css"/>
+    <link rel="stylesheet" href="${contextPath}/css/admin/old/page_layout.css"/>
     <link rel="stylesheet" href="${contextPath}/jquery-ui/jquery-ui.css"/>    
     <link rel="stylesheet" href="${contextPath}/jquery-ui/jquery-ui.structure.css"/>    
     <link rel="stylesheet" href="${contextPath}/jquery-ui/jquery-ui.theme.css"/>      
@@ -43,7 +43,7 @@
                             </tr>
                             </tbody>
                         </table>
-                        <input type="image" class="Limage" src="${contextPath}/img/admin/btn_search.gif" /></a>
+                        <input type="image" class="Limage" src="${contextPath}/img/admin/repository/btn_search.gif" /></a>
                     </form>
                 </div>
             </div>
@@ -78,14 +78,14 @@
     <script src="${contextPath}/jqgrid/js/jquery.jqGrid.min.js"></script>    
     <script src="${contextPath}/jquery-ui/i18n/grid.locale-kr.js"></script> 
     <script src="${contextPath}/js/jquery.bpopup.min.js"></script>
-    <script src="${contextPath}/js/admin/prototype.js"></script>
-    <script src="${contextPath}/js/admin/dui_base.js"></script>
-    <script src="${contextPath}/js/admin/dui_effect.js"></script>
-    <script src="${contextPath}/js/admin/dui_dragndrop.js"></script>
-    <script src="${contextPath}/js/admin/dui_hhmenu.js"></script>
-    <script src="${contextPath}/js/admin/dui_tree.js"></script>
-    <script src="${contextPath}/js/admin/dui_slidemenu.js"></script>
-    <script src="${contextPath}/js/admin/common.js"></script>
+    <script src="${contextPath}/js/admin/old/prototype.js"></script>
+    <script src="${contextPath}/js/admin/old/dui_base.js"></script>
+    <script src="${contextPath}/js/admin/old/dui_effect.js"></script>
+    <script src="${contextPath}/js/admin/old/dui_dragndrop.js"></script>
+    <script src="${contextPath}/js/admin/old/dui_hhmenu.js"></script>
+    <script src="${contextPath}/js/admin/old/dui_tree.js"></script>
+    <script src="${contextPath}/js/admin/old/dui_slidemenu.js"></script>
+    <script src="${contextPath}/js/admin/old/common.js"></script>
     <script src="${contextPath}/js/json2.js"></script>
 
 

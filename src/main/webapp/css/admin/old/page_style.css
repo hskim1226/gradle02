@@ -1,7 +1,7 @@
 /* Block : pageTitle
 ---------------------------------------------------------*/
 #LblockPageTitle {
-	background:url(../../img/admin/pageTitle_bg.gif) no-repeat scroll left top;
+	background:url(../../../img/admin/repository/pageTitle_bg.gif) no-repeat scroll left top;
 }
 #LblockPageTitle h1 {
 	font-size:1.2em;
@@ -16,7 +16,7 @@
 	font-size:1em;
 	font-weight:bold;
 	padding:0px 0px 0px 9px;
-	background:url(../../img/admin/pageSubtitle_blt.gif) no-repeat 0 40%;
+	background:url(../../../img/admin/repository/pageSubtitle_blt.gif) no-repeat 0 40%;
 }
 
 /* Block : pageLocation
@@ -32,7 +32,7 @@
 #LblockPageLocation li span {
 	color:#4FA1CC;
 	padding-left:11px;
-	background:url(../../img/admin/pageLocation_separater.gif) no-repeat left top;
+	background:url(../../../img/admin/repository/pageLocation_separater.gif) no-repeat left top;
 }
 #LblockPageLocation li.Lfirst span {
 	background:none;
@@ -176,7 +176,7 @@
 }
 .LblockListTable a.Lbtn,
 .LblockListTable a.Lbtn button,
-.LblockListTable a.Lbtn input { position:relative; margin:0; display:inline-block; border:0; font:11px Sans-serif; white-space:nowrap; background:url(../../img/admin/btn_bg1.gif) no-repeat; vertical-align:middle;}
+.LblockListTable a.Lbtn input { position:relative; margin:0; display:inline-block; border:0; font:11px Sans-serif; white-space:nowrap; background:url(../../../img/admin/repository/btn_bg1.gif) no-repeat; vertical-align:middle;}
 .LblockListTable a.Lbtn { text-decoration:none; padding:0; background-position:left top;}
 .LblockListTable a.Lbtn button,
 .LblockListTable a.Lbtn input { height:20px; left:7px; *top:0px; _top:0; padding:0 15px 0 8px; *padding:0 10px 0 3px; line-height:20px; background-position:right top; cursor:pointer;}
@@ -213,12 +213,12 @@
 /* Block : tab
 ---------------------------------------------------------*/
 .LblockTab {
-	background:url(../../img/admin/tab_bg.gif) repeat-x left bottom;
+	background:url(../../../img/admin/repository/tab_bg.gif) repeat-x left bottom;
 	height:23px;
 }
 .LblockTab li {
 	float:left;
-	background:url(../../img/admin/tab_l.gif) no-repeat;
+	background:url(../../../img/admin/repository/tab_l.gif) no-repeat;
 	margin-left:3px;
 }
 .LblockTab li.Lcurrent {
@@ -226,7 +226,7 @@
 }
 .LblockTab li span {
 	display:block;
-	background:url(../../img/admin/tab_r.gif) no-repeat right top;
+	background:url(../../../img/admin/repository/tab_r.gif) no-repeat right top;
 }
 .LblockTab li.Lcurrent span {
 	background-position:right -23px;
@@ -261,13 +261,13 @@
 /* Block : button
 ---------------------------------------------------------*/
 #LblockButton {
-	background:url(../../img/admin/button_bg.gif) repeat-x left top;
+	background:url(../../../img/admin/repository/button_bg.gif) repeat-x left top;
 	padding-top:10px;
 	text-align:right;
 }
 #LblockButton a,
 #LblockButton a button,
-#LblockButton a input { position:relative; margin:0; display:inline-block; border:0; font:12px Sans-serif; white-space:nowrap; background:url(../../img/admin/btn_bg2.gif) no-repeat; vertical-align:middle;}
+#LblockButton a input { position:relative; margin:0; display:inline-block; border:0; font:12px Sans-serif; white-space:nowrap; background:url(../../../img/admin/repository/btn_bg2.gif) no-repeat; vertical-align:middle;}
 #LblockButton a { text-decoration:none; padding:0; background-position:left top;}
 #LblockButton a button,
 #LblockButton a input { height:21px; left:8px; *top:-1px; _top:0; padding:0 15px 0 8px; *padding:0 10px 0 3px; line-height:22px; background-position:right top; cursor:pointer;}
@@ -283,7 +283,7 @@
 }
 .LblockSubbutton a,
 .LblockSubbutton a button,
-.LblockSubbutton a input { position:relative; margin:0; display:inline-block; border:0; font:12px Sans-serif; white-space:nowrap; background:url(../../img/admin/btn_bg2.gif) no-repeat; vertical-align:middle;}
+.LblockSubbutton a input { position:relative; margin:0; display:inline-block; border:0; font:12px Sans-serif; white-space:nowrap; background:url(../../../img/admin/repository/btn_bg2.gif) no-repeat; vertical-align:middle;}
 .LblockSubbutton a { text-decoration:none; padding:0; background-position:left top;}
 .LblockSubbutton a button,
 .LblockSubbutton a input { height:21px; left:8px; *top:-1px; _top:0; padding:0 15px 0 8px; *padding:0 10px 0 3px; line-height:22px; background-position:right top; cursor:pointer;}
