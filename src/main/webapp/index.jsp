@@ -61,7 +61,7 @@
             <div class="row">
                 <div class="col-lg-12">
                     <h1 class="mtit1"><spring:message code="L00001"/> <spring:message code="L00002"/><%--연세대학교 대학원 입학원서 접수 시스템--%></h1>
-                    <h2 class="sub_tit1 fs100"><a href="#" class="pr15 lang" datg-lang="ko">Korean</a><img src="img/bu_vline.png" alt=""/><a href="#" class="pl15 lang" data-lang="en">English</a> </h2>
+                    <h2 class="sub_tit1 fs100"><a href="#" class="pr15 lang" datg-lang="ko">Korean</a><img src="<spring:eval expression="@app.getProperty('path.static')" />/img/bu_vline.png" alt=""/><a href="#" class="pl15 lang" data-lang="en">English</a> </h2>
                 </div>
                 <article class="col-md-4">
                     <a href="#">
