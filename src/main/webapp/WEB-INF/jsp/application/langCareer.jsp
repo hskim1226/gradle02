@@ -354,6 +354,7 @@
                                                                 <form:hidden path="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].subContainer[${subContainerStat.index}].itemName" value="${subContainer.itemName}"/>
                                                                 <form:hidden path="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].subContainer[${subContainerStat.index}].subCodeGrp" value="${subContainer.subCodeGrp}"/>
                                                                 <form:hidden path="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].subContainer[${subContainerStat.index}].exmpYn" value="${subContainer.exmpYn}"/>
+                                                                <form:hidden path="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].subContainer[${subContainerStat.index}].mdtSeq" value="${subContainer.mdtSeq}"/>
                                                                 <div class="col-sm-3">
                                                                     <%--<c:if test="${langList.selGrpCode != 'ENG_EXMP1' && langList.selGrpCode != 'KOR_EXMP1'}">--%>
                                                                         <div class="checkbox">

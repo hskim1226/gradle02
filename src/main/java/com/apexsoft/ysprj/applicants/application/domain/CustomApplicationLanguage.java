@@ -141,14 +141,6 @@ public class CustomApplicationLanguage extends ApplicationLanguage {
 
     public void setLastYn(String lastYn) { this.lastYn = lastYn; }
 
-    public int getMdtSeq() {
-        return mdtSeq;
-    }
-
-    public void setMdtSeq(int mdtSeq) {
-        this.mdtSeq = mdtSeq;
-    }
-
     public int getUpMdtSeq() {
         return upMdtSeq;
     }
