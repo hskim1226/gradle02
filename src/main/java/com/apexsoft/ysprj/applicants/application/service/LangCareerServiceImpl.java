@@ -313,6 +313,9 @@ public class LangCareerServiceImpl implements LangCareerService {
                             }
                             aCont.setModDate(date);
                             update = update + commonDAO.updateItem( aCont, NAME_SPACE, "ApplicationLanguageMapper");
+                            if( rUpdate != update){
+                                ;
+                            }
 
                         }else{ //신규 입력정보
                             //APPL_LANG, INSERT
