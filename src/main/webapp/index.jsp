@@ -117,7 +117,7 @@
                         </ul>
                     </div>
                     <div class="col-md-3">
-                        <p class="ft_right"><a href="http://bootstraptaste.com/" target="_blank" title="새창이동"><img src="img/footer_img1.png" alt="Designed by Bootstraptaste"></a></p>
+                        <p class="ft_right"><a href="http://bootstraptaste.com/" target="_blank" title="새창이동"><img src="<spring:eval expression="@app.getProperty('path.static')" />/img/footer_img1.png" alt="Designed by Bootstraptaste"></a></p>
                     </div>
                 </div>
             </div>
@@ -149,9 +149,9 @@
         form.method = 'post';
         form.submit();
     });
-    $('#toList').click(function(){location.href='${contextPath}/application/admsList'});
-    $('#toMyList').click(function(){location.href='${contextPath}/application/mylist'});
-    $('#toSignUp').click(function(){location.href='${contextPath}/user/agreement'});
+    $('#toList').click(function(e){e.preventDefault(); location.href='${contextPath}/application/admsList'});
+    $('#toMyList').click(function(e){e.preventDefault(); location.href='${contextPath}/application/mylist'});
+    $('#toSignUp').click(function(e){e.preventDefault(); location.href='${contextPath}/user/agreement'});
     <%-- 단어 잘림 방지 --%>
     $('.word-keep-all').wordBreakKeepAll();
 </script>
