@@ -36,16 +36,6 @@
             font-weight: 900;
         }
 
-/*
-        section.application .btn {
-            border: 1px;
-        }
-
-        section.application .input-group-btn .btn {
-            border-radius: 4px;
-        }
-*/
-
         .btn-file {
             position: relative;
             overflow: hidden;
@@ -77,14 +67,6 @@
         }
         .tab-gray {
             background-color: #444444;
-        }
-        .nav-tabs>li.active>a,
-        .nav-tabs>li.active>a:hover,
-        .nav-tabs>li.active>a:focus,
-        .nav-tabs>li.active>a:link {
-            background-color: #f0f0f0;
-            color: #333;
-            cursor: pointer;
         }
 
         .control-label {
@@ -217,10 +199,6 @@
             color: #333333;
             font-weight: bold;
         }
-        .inactiveTab {
-            background: #777777;
-            color: #eeeeee;
-        }
         #tabTR {
             cursor: pointer;
         }
@@ -331,18 +309,16 @@
             </ul>
         </div>
         <!-- /진행상태바 끝 -->
-        <div class="row">
-            <div class="col-sm-12">
-                <table width="100%">
-                    <tr id="tabTR">
-                        <td id="tab-basis" width="25%" height="35px" align="center" class="inactiveTab" data-target-tab="basis" data-tab-available="true"><spring:message code="L01002"/><%--1. 기본 정보--%></td>
-                        <td id="tab-academy" width="25%" height="35px" align="center" class="inactiveTab" data-target-tab="academy" data-tab-available="false" data-unavailable-msg='<spring:message code="U321"/>'><spring:message code="L01003"/><%--2. 학력 정보--%></td>
-                        <td id="tab-langCareer" width="25%" height="35px" align="center" class="inactiveTab" data-target-tab="langCareer" data-tab-available="false" data-unavailable-msg='<spring:message code="U322"/>'><spring:message code="L01004"/><%--3. 어학/경력 정보--%></td>
-                        <td id="tab-document" width="25%" height="35px" align="center" class="inactiveTab" data-target-tab="document" data-tab-available="false" data-unavailable-msg='<spring:message code="U323"/>'><spring:message code="L01005"/><%--4. 파일 첨부--%></td>
-                    </tr>
-                </table>
-            </div>
+        <!-- 데스크탑 탭메뉴 시작 -->
+        <div id="pc_tab" class="nav_wrap clearfix tab-container">
+            <ul id="navTabUL" class="nav nav-tabs nav-justified">
+                <li id="tab-basis" class="inactive inactiveTab" data-target-tab="basis" data-tab-available="true"><a><spring:message code="L01002"/><%--1. 기본 정보--%></a></li>
+                <li id="tab-academy" class="inactive inactiveTab" data-target-tab="academy" data-tab-available="false" data-unavailable-msg='<spring:message code="U321"/>'><a><spring:message code="L01003"/><%--2. 학력 정보--%></a></li>
+                <li id="tab-langCareer" class="inactive inactiveTab" data-target-tab="langCareer" data-tab-available="false" data-unavailable-msg='<spring:message code="U322"/>'><a><spring:message code="L01004"/><%--3. 어학/경력 정보--%></a></li>
+                <li id="tab-document" class="inactive inactiveTab" data-target-tab="document" data-tab-available="false" data-unavailable-msg='<spring:message code="U323"/>'><a><spring:message code="L01005"/><%--4. 파일 첨부--%></a></li>
+            </ul>
         </div>
+        <!-- /데스크탑 탭메뉴 끝 -->
         <form:form commandName="document" cssClass="form-horizontal" method="post" role="form">
             <form:hidden path="application.applNo" id="applNo" />
             <form:hidden path="application.applStsCode" id="applStsCode" />
@@ -1062,17 +1038,14 @@
         <%-- 원서 작성 현황 처리 --%>
         var processCurrentStep = function (applStsCode) {
             var code = Number(applStsCode),
-//                stepTR = document.getElementById('stepTR'),
-//                l = stepTR.children.length, i,
-                    stepBox = document.getElementById('step_box'),
-                    l = stepBox.children.length, i,
-                    tabTR = document.getElementById('tabTR');
+                stepBox = document.getElementById('step_box'),
+                l = stepBox.children.length, i,
+                navTabUL = document.getElementById('navTabUL');
             for ( i = 0 ; i < code && i < l ; i++ ) {
-//                stepTR.children[i].className = 'stepEnabled';
                 stepBox.children[i].className = 'active';
-                tabTR.children[i].setAttribute('data-tab-available', 'true');
-                if (tabTR.children[i+1])
-                    tabTR.children[i+1].setAttribute('data-tab-available', 'true');
+                navTabUL.children[i].setAttribute('data-tab-available', 'true');
+                if (navTabUL.children[i+1])
+                    navTabUL.children[i+1].setAttribute('data-tab-available', 'true');
             }
         };
         processCurrentStep(document.getElementById('applStsCode').value);
@@ -1081,10 +1054,10 @@
         <%-- active 탭 표시 --%>
         var setActiveTab = function () {
             var urlStr = document.location.pathname,
-                    substrToFirstSlash = urlStr.substring(0, urlStr.lastIndexOf("/")),
-                    targetTD = document.getElementById('tab-' + substrToFirstSlash.substring(substrToFirstSlash.lastIndexOf("/") + 1));
+                substrToFirstSlash = urlStr.substring(0, urlStr.lastIndexOf("/")),
+                targetTabLI = document.getElementById('tab-' + substrToFirstSlash.substring(substrToFirstSlash.lastIndexOf("/") + 1));
 
-            targetTD.className = "activeTab";
+            targetTabLI.className = 'active activeTab';
         };
         setActiveTab();
         <%-- active 탭 표시 --%>
