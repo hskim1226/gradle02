@@ -26,6 +26,8 @@
     <!--[if lt IE 9]>
     <script src='<spring:eval expression="@app.getProperty(\"path.static\")" />/js/html5shiv.min.js'></script>
     <script src='<spring:eval expression="@app.getProperty(\"path.static\")" />/js/respond.min.js'></script>
+    <script src='<spring:eval expression="@app.getProperty(\"path.static\")" />/js/html5.js'></script>
+    <script src='<spring:eval expression="@app.getProperty(\"path.static\")" />/js/css3-mediaqueries.js'></script>
     <![endif]-->
     <!-- Bootstrap -->
     <link rel="stylesheet" href="<spring:eval expression="@app.getProperty(\"path.static\")" />/css/bootstrap.min.css"/>
