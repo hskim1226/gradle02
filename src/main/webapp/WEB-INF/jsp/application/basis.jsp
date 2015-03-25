@@ -216,16 +216,16 @@
         <div class="step_wrap">
             <ul class="step_box" id="step_box">
                 <li class="inactive"><span class="step"><strong>1</strong></span>
-                    <p class="txt1">기본 정보</p>
+                    <p class="txt1"><spring:message code="L01002"/><%--기본 정보--%></p>
                 </li>
                 <li class="inactive"><span class="step"><strong>2</strong></span>
-                    <p class="txt1">학력 정보</p>
+                    <p class="txt1"><spring:message code="L01003"/><%--학력 정보--%></p>
                 </li>
                 <li class="inactive"><span class="step"><strong>3</strong></span>
-                    <p class="txt1">어학/경력 정보</p>
+                    <p class="txt1"><spring:message code="L01004"/><%--어학/경력 정보--%></p>
                 </li>
                 <li class="inactive"><span class="step"><strong>4</strong></span>
-                    <p class="txt1">파일 첨부</p>
+                    <p class="txt1"><spring:message code="L01005"/><%--파일 첨부--%></p>
                 </li>
             </ul>
         </div>
