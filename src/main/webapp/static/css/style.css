@@ -637,6 +637,53 @@ section.normal-white .spacer-small {
 section.normal-white .spacer-tiny {
     margin-bottom: 0.5em;
 }
+section.application {
+    padding: 30px 0 60px;
+    background: #eeeeee;
+    color: #000;
+    position:relative;
+}
+section.application p#stepStatusTitle {
+    color: #333333;
+    font-size: 30px;
+}
+section.application .tab-content {
+    background-color: #ffffff;
+    color: #000;
+}
+div .panel {
+    border-color: #333333;
+}
+div .panel-darkgray0 > .panel-heading {
+    background-image: -webkit-linear-gradient(top, #7a7a7a 0%, #888888 100%);
+    background-image:      -o-linear-gradient(top, #7a7a7a 0%, #888888 100%);
+    background-image: -webkit-gradient(linear, left top, left bottom, from(#7a7a7a), to(#888888));
+    background-image:         linear-gradient(to bottom, #7a7a7a 0%, #888888 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#7a7a7a', endColorstr='#ff888888', GradientType=0);
+    background-repeat: repeat-x;
+    color: #fff;
+    background-color: #7a7a7a;
+    border-color: #7a7a7a;
+}
+div .panel-darkgray0 > .panel-body {
+    border-color: #333333;
+}
+div .panel-darkgray0 .panel-darkgray1, .panel-darkgray2, .panel-darkgray3, .panel-darkgray4 {
+    /*background-color: #8c8c8c;*/
+    color: #fff;
+    border-color: #333333;
+}
+div .panel-darkgray1 > .panel-heading {
+    background-image: -webkit-linear-gradient(left, #888888 0%, #cccccc 100%);
+    background-image:      -o-linear-gradient(left, #888888 0%, #cccccc 100%);
+    background-image: -webkit-gradient(linear, left top, right bottom, from(#888888), to(#cccccc));
+    background-image:         linear-gradient(to right, #888888 0%, #cccccc 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#888888', endColorstr='#cccccc', GradientType=1);
+    background-repeat: repeat-x;
+    color: #fff;
+    /*background-color: #7a7a7a;*/
+    border-color: #cccccc;
+}
 .nopadding {
     padding: 0 !important;
     margin: 0 !important;

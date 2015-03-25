@@ -5,13 +5,6 @@
     <title><spring:message code="L04101"/><%--원서 작성 - 파일 첨부--%></title>
     <link rel="stylesheet" href="//code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css">
     <style>
-        section.application {
-            padding: 160px 0 60px;
-            background: #555555;
-            color: #000;
-            position:relative;
-        }
-
         section.application h2.slogan {
             color: #000;
             font-size: 36px;
@@ -34,11 +27,6 @@
             height: 1em;
         }
 
-        section.application .tab-content {
-            background-color: #d0d0d0;
-            color: #000;
-        }
-
         section.application .nav>li>a {
             display: block;
         }
@@ -57,36 +45,6 @@
             border-radius: 4px;
         }
 */
-
-        .panel-darkgray > .panel-heading {
-            /*background-image: -webkit-linear-gradient(top, #7a7a7a 0%, #888888 100%);*/
-            /*background-image:      -o-linear-gradient(top, #7a7a7a 0%, #888888 100%);*/
-            /*background-image: -webkit-gradient(linear, left top, left bottom, from(#7a7a7a), to(#888888));*/
-            /*background-image:         linear-gradient(to bottom, #7a7a7a 0%, #888888 100%);*/
-            /*filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#7a7a7a', endColorstr='#ff888888', GradientType=0);*/
-            /*background-repeat: repeat-x;*/
-            color: #fff;
-            background-color: #7a7a7a;
-            border-color: #7a7a7a;
-        }
-
-        .panel-darkgray1, .panel-darkgray2, .panel-darkgray3, .panel-darkgray4 {
-            /*background-color: #8c8c8c;*/
-            /*color: #fff;*/
-            border-color: #333333;
-        }
-
-        .panel-darkgray1 > .panel-heading {
-            background-image: -webkit-linear-gradient(left, #888888 0%, #cccccc 100%);
-            background-image:      -o-linear-gradient(left, #888888 0%, #cccccc 100%);
-            background-image: -webkit-gradient(linear, left top, right bottom, from(#888888), to(#cccccc));
-            background-image:         linear-gradient(to right, #888888 0%, #cccccc 100%);
-            filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#888888', endColorstr='#cccccc', GradientType=1);
-            background-repeat: repeat-x;
-            color: #fff;
-            /*background-color: #7a7a7a;*/
-            border-color: #cccccc;
-        }
 
         .btn-file {
             position: relative;
@@ -254,10 +212,6 @@
             background: #888888;
             color: #bbbbbb;
         }
-        #stepStatusTitle {
-            color: #eeeeee;
-            font-size: 30px;
-        }
         .activeTab {
             background: #d0d0d0;
             color: #333333;
@@ -358,20 +312,25 @@
 <body>
 <section class="application">
     <div class="container">
-        <div id="stepContainer">
-            <table width="100%">
-                <tr>
-                    <td id="stepStatusTitle" colspan=4 align="center" height="70px">${msg.getMessage('L01001', locale)}<%--원서 작성 현황--%></td>
-                </tr>
-                <tr id="stepTR">
-                    <td id="stepBasis" width="25%" height="50px" align="center" class="stepDisabled">${msg.getMessage('L01002', locale)}<%--1. 기본 정보--%></td>
-                    <td id="stepAcademy" width="25%" height="50px" align="center" class="stepDisabled">${msg.getMessage('L01003', locale)}<%--2. 학력 정보--%></td>
-                    <td id="stepLangCareer" width="25%" height="50px" align="center" class="stepDisabled">${msg.getMessage('L01004', locale)}<%--3. 어학/경력 정보--%></td>
-                    <td id="stepDocument" width="25%" height="50px" align="center" class="stepDisabled">${msg.getMessage('L01005', locale)}<%--4. 파일 첨부--%></td>
-                </tr>
-            </table>
+        <p id="stepStatusTitle" colspan=4 align="center" height="70px">${msg.getMessage('L01001', locale)}<%--원서 작성 현황--%></p>
+        <!-- 진행상태바 시작 -->
+        <div class="step_wrap">
+            <ul class="step_box" id="step_box">
+                <li class="inactive"><span class="step"><strong>1</strong></span>
+                    <p class="txt1">기본 정보</p>
+                </li>
+                <li class="inactive"><span class="step"><strong>2</strong></span>
+                    <p class="txt1">학력 정보</p>
+                </li>
+                <li class="inactive"><span class="step"><strong>3</strong></span>
+                    <p class="txt1">어학/경력 정보</p>
+                </li>
+                <li class="inactive"><span class="step"><strong>4</strong></span>
+                    <p class="txt1">파일 첨부</p>
+                </li>
+            </ul>
         </div>
-        <div class="spacer-mid"></div>
+        <!-- /진행상태바 끝 -->
         <div class="row">
             <div class="col-sm-12">
                 <table width="100%">
@@ -394,7 +353,7 @@
                 <div class="spacer-tiny"></div>
                 <div class="row">
                     <div class="col-sm-offset-1 col-sm-10">
-                        <div class="panel panel-darkgray">
+                        <div class="panel panel-darkgray0">
                             <div class="panel-heading"><spring:message code="L04102"/><%--첨부 파일 안내--%></div>
                             <div class="panel-body">
                                 <p>사진 외의 모든 첨부 파일은 서류 종류별로 하나의 PDF 파일만 업로드 가능합니다.</p>
@@ -452,7 +411,7 @@
                         <div class="form-group"><label class="col-sm-3 control-label word-keep-all">${lv1Container.docItemName}</label></div>
                         </c:when>
                         <c:otherwise>
-                        <div class="panel panel-darkgray">
+                        <div class="panel panel-darkgray0">
                             <div class="panel-heading">${lv1Container.grpLabel}</div>
                             <form:hidden path="documentContainerList[${lv1Status.index}].grpLabel" value="${lv1Container.grpLabel}" />
                             <form:hidden path="documentContainerList[${lv1Status.index}].docTypeCode" value="${lv1Container.docTypeCode}" />
@@ -1103,11 +1062,14 @@
         <%-- 원서 작성 현황 처리 --%>
         var processCurrentStep = function (applStsCode) {
             var code = Number(applStsCode),
-                    stepTR = document.getElementById('stepTR'),
-                    l = stepTR.children.length, i,
+//                stepTR = document.getElementById('stepTR'),
+//                l = stepTR.children.length, i,
+                    stepBox = document.getElementById('step_box'),
+                    l = stepBox.children.length, i,
                     tabTR = document.getElementById('tabTR');
             for ( i = 0 ; i < code && i < l ; i++ ) {
-                stepTR.children[i].className = 'stepEnabled';
+//                stepTR.children[i].className = 'stepEnabled';
+                stepBox.children[i].className = 'active';
                 tabTR.children[i].setAttribute('data-tab-available', 'true');
                 if (tabTR.children[i+1])
                     tabTR.children[i+1].setAttribute('data-tab-available', 'true');
