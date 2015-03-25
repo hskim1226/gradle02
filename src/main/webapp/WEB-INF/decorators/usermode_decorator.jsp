@@ -67,7 +67,8 @@
                         <sec:authorize access="hasRole('ROLE_USER')">
                         <li><a href="${contextPath}/j_spring_security_logout.do"><i class="fa fa-sign-out"></i><spring:message code="L00011"/><%--로그아웃--%></a> </li>
                         </sec:authorize>
-                        <li><span class="nav_lang"><a href="#">&middot; Korean</a><a href="#">&middot; English</a></span></li>
+                        <li><a href="${contextPath}/common/displayTransLang"><i class="fa fa-globe"></i><spring:message code="L00014"/></a></li>
+                        <%--<li><span class="nav_lang"><a href="#">&middot; Korean</a><a href="#">&middot; English</a></span></li>--%>
                     </ul>
                 </div>
             </nav>
