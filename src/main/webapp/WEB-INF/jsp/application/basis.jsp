@@ -277,6 +277,7 @@
     </style>
 </head>
 <body>
+<div id="overlay" class="web_dialog_overlay"></div>
 <section class="application">
     <div class="container">
         <div id="stepContainer">
@@ -1053,30 +1054,56 @@
     </div> <%--container--%>
 
     <%-- 국가/학교 검색 팝업 --%>
-    <div id="bpopContainer" class="bpopContainer">
-        <span class="button b-close"><span>X</span></span>
-        <div id="bpopContent">
-            <div class="form-group">
+    <%--<div id="bpopContainer" class="bpopContainer">--%>
+        <%--<span class="button b-close"><span>X</span></span>--%>
+        <%--<div id="bpopContent">--%>
+            <%--<div class="form-group">--%>
+                <%--<label id="searchTitle"></label>--%>
+            <%--</div>--%>
+            <%--<div class="form-group">--%>
+                <%--<div class="col-sm-10">--%>
+                    <%--<input type="text" id="bpop" name="bpop" class="form-control ime-mode-kr" />--%>
+                <%--</div>--%>
+                <%--<button id="bpopBtnSearch" class="btn btn-info col-sm-2"><spring:message code="L01207"/></button>--%>
+            <%--</div>--%>
+            <%--<div class="form-group">--%>
+                <%--<div class="col-sm-12" style="overflow-y: auto; height: 300px;">--%>
+                    <%--<table class="table table-stripped">--%>
+                        <%--<thead id="bpopHead">--%>
+                        <%--</thead>--%>
+                        <%--<tbody id="bpopResult">--%>
+                        <%--</tbody>--%>
+                    <%--</table>--%>
+                <%--</div>--%>
+            <%--</div>--%>
+        <%--</div>--%>
+    <%--</div>--%>
+    <!-- 모달팝업:팝업창 시작 -->
+    <div id="modal_popup3" class="popup1_wrap" style="display:none; margin-top:-240px; margin-left:-250px;">
+        <div id="bpopContent" class="popuphead">
+            <h1>
                 <label id="searchTitle"></label>
-            </div>
-            <div class="form-group">
+            </h1>
+        </div>
+        <div class="popupbody">
+            <div class="form-group clearfix">
                 <div class="col-sm-10">
-                    <input type="text" id="bpop" name="bpop" class="form-control ime-mode-kr" />
+                    <input type="text" id="bpop" name="bpop" class="form-control ime-mode-kr">
                 </div>
-                <button id="bpopBtnSearch" class="btn btn-info col-sm-2"><spring:message code="L01207"/></button>
+                <button id="bpopBtnSearch" class="btn btn-info col-sm-2" style="margin-left:-14px;">검색</button>
             </div>
-            <div class="form-group">
-                <div class="col-sm-12" style="overflow-y: auto; height: 300px;">
-                    <table class="table table-stripped">
-                        <thead id="bpopHead">
-                        </thead>
-                        <tbody id="bpopResult">
-                        </tbody>
-                    </table>
-                </div>
+            <div class="col-sm-12" style="overflow-y: auto; height: 300px;">
+                <table class="table table-stripped">
+                    <thead id="bpopHead">
+                    </thead>
+                    <tbody id="bpopResult">
+                    </tbody>
+                </table>
             </div>
         </div>
+        <a class="btn_close b-close" title="닫기"><img src="<spring:eval expression="@app.getProperty('path.static')" />/img/btn_close1.png" alt="닫기"></a>
     </div>
+    <!-- /모달팝업:팝업창 끝 -->
     <input type="hidden" id="targetNode1" />
     <input type="hidden" id="targetNode2" />
     <input type="hidden" id="targetNode3" />
@@ -1087,6 +1114,24 @@
         <p><spring:message code="U01506"/></p> <%-- 주소 검색 결과에서 '지번 주소'를 클릭하지 마시고,<br/>아래와 같이 <b>도로명 주소</b>를 사용해 주시기 바랍니다. --%>
         <p align="center"><img src="<spring:eval expression="@app.getProperty('path.static')" />/img/application/street-name-capture.png"/></p>
     </div>
+    <!-- 모달팝업:우편번호 찾기 시작 -->
+    <%--<div id="modal_popup4" class="popup1_wrap" style="display:none; margin-top:-240px; margin-left:-250px;">--%>
+        <%--<div class="popuphead">--%>
+            <%--<h1>도로명 주소 사용 안내</h1>--%>
+        <%--</div>--%>
+        <%--<div class="popupbody">--%>
+            <%--<div class="text-center"> 주소 검색 결과에서 '지번 주소'를 클릭하지 마시고,<br>--%>
+                <%--아래와 같이 <strong>도로명 주소</strong>를 사용해 주시기 바랍니다.<br>--%>
+                <%--<br>--%>
+                <%--<img src="<spring:eval expression="@app.getProperty('path.static')" />/img/street-name-capture.png" alt="우편번호 찾기 참고사진"> </div>--%>
+            <%--<div class="popup_btn">--%>
+                <%--<button onclick="HideDialog('#modal_popup4')" type="button" class="btn btn-default">확인</button>--%>
+            <%--</div>--%>
+
+        <%--</div>--%>
+        <%--<a class="btn_close" title="닫기"><img src="<spring:eval expression="@app.getProperty('path.static')" />/img/btn_close1.png" alt="닫기"></a>--%>
+    <%--</div>--%>
+    <!-- /모달팝업:우편번호 찾기 끝 -->
     <%-- 도로명 주소 사용 안내 팝업 --%>
 
     <%-- 다음 주소 검색 팝업 --%>
@@ -1279,8 +1324,27 @@
         <%-- 메일 주소 validation --%>
 
         <%-- 국가/학교 검색 시작 --%>
+        var hideDialog = function(obj) {
+            $("#overlay").hide();
+            $(obj).fadeOut(300);
+        };
+        var showDialog = function(modal, obj) {
+            $("#overlay").show();
+            $(obj).fadeIn(300);
+
+            if (modal) {
+                $("#overlay").unbind("click");
+            }
+            else {
+                $("#overlay").click(function(e) {
+                    hideDialog(obj);
+                });
+            }
+        };
+
         $('.bpopper').on('click', function(e) {
             e.preventDefault();
+            showDialog(true, "#modal_popup3");
             $('#bpopResult').empty();
             var bpopText = document.getElementById('bpop');
             bpopText.value="";
@@ -1314,7 +1378,7 @@
             }
             var $thead = $('<tr></tr>');
             for (var i = 0, len = columnHead.length; i < len; i++) {
-                $thead.append($('<td>' + columnHead[i] + '</td>'));
+                $thead.append($('<th>' + columnHead[i] + '</th>'));
             }
             $('#bpopHead').empty();
             $('#bpopHead').append($thead);
@@ -1348,6 +1412,7 @@
                     if (obj.length > 0) {
                         for ( i = 0, l = obj.length ; i < l ; i++ ) {
                             if (category.isCountry) {
+//                                record = $('<tr>' + '<td><span style="display: none;" class="b-close">' + obj[i].cntrCode + '</span></td>' + '<td><span class="b-close" style="cursor: pointer">' + obj[i].korCntrName + '</span></td>' + '<td><span class="b-close" style="cursor: pointer">' + obj[i].engCntrName + '</span></td>' + '</tr>');
                                 record = $('<tr>' + '<td><span style="display: none;" class="b-close">' + obj[i].cntrCode + '</span></td>' + '<td><span class="b-close" style="cursor: pointer">' + obj[i].korCntrName + '</span></td>' + '<td><span class="b-close" style="cursor: pointer">' + obj[i].engCntrName + '</span></td>' + '</tr>');
                             } else if (category.isSchool) {
                                 record = $('<tr>' + '<td><span style="display: none;" class="b-close">' + obj[i].schlCode + '</span></td>' + '<td><span class="b-close" style="cursor: pointer">' + obj[i].schlName + '</span></td>' + '</tr>');
@@ -1365,6 +1430,7 @@
                                         $(document.getElementById(targetInputId[i])).change();
                                     }
                                 }
+                                hideDialog('#modal_popup3');
                             });
                         }
                     } else {
@@ -1394,6 +1460,7 @@
                                     resultInputText.focus();
                                 }
                             }
+                            hideDialog('#modal_popup3');
                         });
                     }
                 }
@@ -1406,6 +1473,11 @@
             }
         });
 
+        $('.b-close').on('click', function(e) {
+            e.preventDefault();
+            hideDialog('#modal_popup3');
+        });
+
         $('#citzCntrCode').on('change', function(e) {
             var divRgstNo = document.getElementById('divRgstNo'),
                 rgstBornDate = document.getElementById('application.rgstBornDate'),
@@ -1414,7 +1486,6 @@
                 dateOfBirthLabel = document.getElementById('dateOfBirthLabel'),
                 dateOfBirthLabel1 = '<spring:message code="L01208"/>',
                 dateOfBirthLabel2 = '<spring:message code="L01216"/>',
-                dateOfBirthPlaceholder = rgstBornDate.getAttribute('placeholder'),
                 dateOfBirthPlaceholder1 = '<spring:message code="U01206"/>',
                 dateOfBirthPlaceholder2 = '<spring:message code="U01207"/>',
                 stayInfoItems, item, i, itemL;
@@ -1534,6 +1605,7 @@
                         }
                 }]
             });
+//            showDialog(true, '#modal_popup4');
         });
 
         <%-- 다음 주소 검색 끝 --%>

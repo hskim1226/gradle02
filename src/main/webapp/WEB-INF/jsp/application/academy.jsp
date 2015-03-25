@@ -719,30 +719,56 @@
     </div> <%--container--%>
 
     <%-- 국가/학교 검색 팝업 --%>
-    <div id="bpopContainer" class="bpopContainer">
-        <span class="button b-close"><span>X</span></span>
-        <div id="bpopContent">
-            <div class="form-group">
+    <%--<div id="bpopContainer" class="bpopContainer">--%>
+        <%--<span class="button b-close"><span>X</span></span>--%>
+        <%--<div id="bpopContent">--%>
+            <%--<div class="form-group">--%>
+                <%--<label id="searchTitle"></label>--%>
+            <%--</div>--%>
+            <%--<div class="form-group">--%>
+                <%--<div class="col-sm-10">--%>
+                    <%--<input type="text" id="bpop" name="bpop" class="form-control ime-mode-kr" />--%>
+                <%--</div>--%>
+                <%--<button id="bpopBtnSearch" class="btn btn-info col-sm-2">검색</button>--%>
+            <%--</div>--%>
+            <%--<div class="form-group">--%>
+                <%--<div class="col-sm-12" style="overflow-y: auto; height: 300px;">--%>
+                    <%--<table class="table table-stripped">--%>
+                        <%--<thead id="bpopHead">--%>
+                        <%--</thead>--%>
+                        <%--<tbody id="bpopResult">--%>
+                        <%--</tbody>--%>
+                    <%--</table>--%>
+                <%--</div>--%>
+            <%--</div>--%>
+        <%--</div>--%>
+    <%--</div>--%>
+    <!-- 모달팝업:팝업창 시작 -->
+    <div id="modal_popup3" class="popup1_wrap" style="display:none; margin-top:-240px; margin-left:-250px;">
+        <div id="bpopContent" class="popuphead">
+            <h1>
                 <label id="searchTitle"></label>
-            </div>
-            <div class="form-group">
+            </h1>
+        </div>
+        <div class="popupbody">
+            <div class="form-group clearfix">
                 <div class="col-sm-10">
-                    <input type="text" id="bpop" name="bpop" class="form-control ime-mode-kr" />
+                    <input type="text" id="bpop" name="bpop" class="form-control ime-mode-kr">
                 </div>
-                <button id="bpopBtnSearch" class="btn btn-info col-sm-2">검색</button>
+                <button id="bpopBtnSearch" class="btn btn-info col-sm-2" style="margin-left:-14px;">검색</button>
             </div>
-            <div class="form-group">
-                <div class="col-sm-12" style="overflow-y: auto; height: 300px;">
-                    <table class="table table-stripped">
-                        <thead id="bpopHead">
-                        </thead>
-                        <tbody id="bpopResult">
-                        </tbody>
-                    </table>
-                </div>
+            <div class="col-sm-12" style="overflow-y: auto; height: 300px;">
+                <table class="table table-stripped">
+                    <thead id="bpopHead">
+                    </thead>
+                    <tbody id="bpopResult">
+                    </tbody>
+                </table>
             </div>
         </div>
+        <a class="btn_close b-close" title="닫기"><img src="<spring:eval expression="@app.getProperty('path.static')" />/img/btn_close1.png" alt="닫기"></a>
     </div>
+    <!-- /모달팝업:팝업창 끝 -->
     <input type="hidden" id="targetNode1" />
     <input type="hidden" id="targetNode2" />
     <input type="hidden" id="targetNode3" />
@@ -753,7 +779,7 @@
 
 </section>
 <content tag="local-script">
-    <script src="${contextPath}/js/jquery-ui.min.js"></script>
+    <script src="<spring:eval expression="@app.getProperty('path.static')" />/js/jquery-ui.min.js"></script>
     <script type="text/javascript">
     $(document).ready(function() {
         var applNo = document.getElementById('applNo').value = '${academy.application.applNo}',
@@ -838,8 +864,26 @@
         <%-- 하단 버튼 처리 --%>
 
         <%-- 국가/학교 검색 시작 --%>
+        var hideDialog = function(obj) {
+            $("#overlay").hide();
+            $(obj).fadeOut(300);
+        };
+        var showDialog = function(modal, obj) {
+            $("#overlay").show();
+            $(obj).fadeIn(300);
+
+            if (modal) {
+                $("#overlay").unbind("click");
+            }
+            else {
+                $("#overlay").click(function(e) {
+                    hideDialog(obj);
+                });
+            }
+        };
         $('.bpopper').on('click', function(e) {
             e.preventDefault();
+            showDialog(true, "#modal_popup3");
             $('#bpopResult').empty();
             var bpopSearchText = document.getElementById('bpop');
             bpopSearchText.value="";
@@ -874,7 +918,7 @@
             }
             var $thead = $('<tr></tr>');
             for (var i = 0, len = columnHead.length; i < len; i++) {
-                $thead.append($('<td>' + columnHead[i] + '</td>'));
+                $thead.append($('<th>' + columnHead[i] + '</th>'));
             }
             $('#bpopHead').empty();
             $('#bpopHead').append($thead);
@@ -924,6 +968,7 @@
                                         document.getElementById(targetInputId[i]).value = tr.children[i].firstChild.innerText;
                                     }
                                 }
+                                hideDialog('#modal_popup3');
                             });
                         }
                     } else {
@@ -953,6 +998,7 @@
                                     resultInputText.focus();
                                 }
                             }
+                            hideDialog('#modal_popup3');
                         });
                     }
                 }
@@ -963,6 +1009,11 @@
             if(e.keyCode == 13) {
                 $('#bpopBtnSearch').trigger('click');
             }
+        });
+
+        $('.b-close').on('click', function(e) {
+            e.preventDefault();
+            hideDialog('#modal_popup3');
         });
         <%-- 국가/학교 검색 끝 --%>
 

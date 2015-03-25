@@ -792,9 +792,9 @@ footer p.ft_right {
 	margin: 0;
 	padding: 0;
 	background: #000000;
-	opacity: .15;
-	filter: alpha(opacity=15);
-	-moz-opacity: .15;
+	opacity: .35;
+	filter: alpha(opacity=35);
+	-moz-opacity: .35;
 	z-index: 101;
 	display: none;
 }
@@ -1009,6 +1009,28 @@ h2.sub_tit1:after {
 	position:absolute;
 	margin-left:-50px;
 	left:50%;
+}
+
+@media (min-width:1200px){
+    h2.sub_tit1 {
+        margin-bottom:17px;
+        font-size:24px;
+        line-height: 24px;
+        margin-bottom:90px;
+        text-align:center;
+    }
+
+    h2.sub_tit1:after {
+        display:block;
+        height:1px;
+        width:100px;
+        background:#00b5d8;
+        content:'';
+        bottom:52px;
+        position:absolute;
+        margin-left:-50px;
+        left:50%;
+    }
 }
 
 h2.sub_tit2 {
