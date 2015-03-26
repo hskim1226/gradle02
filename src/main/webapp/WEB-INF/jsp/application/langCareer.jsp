@@ -264,14 +264,14 @@
                             <div class="panel-body" id="english-score-list">
                                 <c:forEach items="${langCareer.languageGroupList}" var="langGroup" varStatus="langGroupStat">
                                     <div class="panel panel-darkgray1">
-                                        <div class="panel-heading">${langGroup.examGrpName}</div>
+                                        <div class="panel-heading">${pageContext.response.locale == 'en' ? langGroup.examGrpNameXxen : langGroup.examGrpName}</div>
                                         <div class="panel-body" id="languageGroupList${langGroupStat.index}.list">
                                             <form:hidden path="languageGroupList[${langGroupStat.index}].examGrpName" value="${langGroup.examGrpName}" />
                                             <form:hidden path="languageGroupList[${langGroupStat.index}].examCodeGrp" value="${langGroup.examCodeGrp}"/>
                                             <form:hidden path="languageGroupList[${langGroupStat.index}].multiYn" value="${langGroup.multiYn}"/>
                                             <c:forEach items="${langGroup.langList}" var="langList" varStatus="langListStat">
                                                 <div class="panel panel-default">
-                                                    <div class="panel-heading">${langList.itemName}</div>
+                                                    <div class="panel-heading">${pageContext.response.locale == 'en' ? langList.itemNameXxen : langList.itemName}</div>
                                                     <div class="panel-body" id="languageGroupList${langGroupStat.index}.langList${langListStat.index}.list">
                                                         <form:hidden path="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].itemName" value="${langList.itemName}"/>
                                                         <form:hidden path="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].itemCode" value="${langList.itemCode}"/>
@@ -306,7 +306,8 @@
                                                                                             <input type="checkbox" class="checkboxForlExmp"
                                                                                                    id="checkForlExmp-${langGroupStat.index}"
                                                                                                    name="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].subContainer[${subContainerStat.index}].checkedFg"
-                                                                                                   ${subContainer.checkedFg == true ? 'checked' : ''}/>${subContainer.itemName}
+                                                                                                   ${subContainer.checkedFg == true ? 'checked' : ''}/>
+                                                                                            ${pageContext.response.locale == 'en' ? subContainer.itemNameXxen : subContainer.itemName}
                                                                                         </label>
                                                                                     </c:when>
                                                                                     <c:when test='${langGroup.multiYn == "Y"}'>
@@ -315,8 +316,8 @@
                                                                                                    id="checkLang-${langGroupStat.index}-${langListStat.index}-${subContainerStat.index}"
                                                                                                    name="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].subContainer[${subContainerStat.index}].checkedFg"
                                                                                                     ${subContainer.checkedFg == true ? 'checked' : ''}
-                                                                                                   <%--<c:if test="${langCareer.applicationGeneral.forlExmpCode.length() > 0}">disabled</c:if> />${subContainer.itemName}--%>
-                                                                                                    <c:if test="${languageGroupList[langGroupStat.index].langList[langListStat.index].subContainer[subContainerStat.index].subCodeList.length() > 0}">disabled</c:if> />${subContainer.itemName}
+                                                                                                    <c:if test="${subContainer.subCodeList.size() > 0}">disabled</c:if> />
+                                                                                            ${pageContext.response.locale == 'en' ? subContainer.itemNameXxen : subContainer.itemName}
                                                                                         </label>
                                                                                     </c:when>
                                                                                     <c:otherwise>
@@ -325,8 +326,8 @@
                                                                                                    id="radioLang-${langGroupStat.index}-${langListStat.index}-${subContainerStat.index}"
                                                                                                    name="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].subContainer[${subContainerStat.index}].checkedFg"
                                                                                                     ${subContainer.checkedFg == true ? 'checked' : ''}
-                                                                                                   <%--<c:if test="${langCareer.applicationGeneral.forlExmpCode.length() > 0}">disabled</c:if> />${subContainer.itemName}--%>
-                                                                                                   <c:if test="${languageGroupList[langGroupStat.index].langList[langListStat.index].subContainer[subContainerStat.index].subCodeList.length() > 0}">disabled</c:if> />${subContainer.itemName}
+                                                                                                   <c:if test="${subContainer.subCodeList.size() > 0}">disabled</c:if> />
+                                                                                            ${pageContext.response.locale == 'en' ? subContainer.itemNameXxen : subContainer.itemName}
                                                                                         </label>
                                                                                     </c:otherwise>
                                                                                 </c:choose>
@@ -554,7 +555,7 @@
                                             </div>
                                         </div>
                                     </c:forEach>
-                                    <div class="btn btn-info btn-add">추가</div>
+                                    <div class="btn btn-info btn-add"><spring:message code="L03106"/><%--추가--%></div>
                                 </div>
                             </div>
                         </div>
@@ -799,7 +800,8 @@
 
         $('.checkboxForlExmp').on('click', function () {
             if (this.checked) {
-                if (confirm('외국어 성적 면제 해당자를 선택하면\n외국어 성적을 입력할 수 없으며,\n이미 입력한 외국어 성적도 삭제됩니다.\n\n외국어 성적 면제 해당자를 선택하시겠습니까?')) {
+                if (confirm('<spring:message code="U03101"/>\n<spring:message code="U03102"/>\n<spring:message code="U03103"/>\n\n<spring:message code="U03104"/>')) {
+                <%--외국어 성적 면제 해당자를 선택하면 외국어 성적을 입력할 수 없으며, 이미 입력한 외국어 성적도 삭제됩니다. 외국어 성적 면제 해당자를 선택하시겠습니까?--%>
                     checkForlExmp(true, this);
                 } else {
                     this.checked = false;

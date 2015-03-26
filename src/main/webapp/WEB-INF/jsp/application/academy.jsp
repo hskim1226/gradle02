@@ -351,10 +351,10 @@
                                                 </div>
                                                 <div class="col-sm-8">
                                                     <div>
-                                                        <form:input path="collegeList[${stat.index}].degrNo" cssClass="degr-no form-control erase-hide" placeholder="학위등록번호를 입력해주세요"
+                                                        <form:input path="collegeList[${stat.index}].degrNo" cssClass="degr-no form-control erase-hide" placeholder="${msg.getMessage('U02104')}<%--학위등록번호를 입력해주세요--%>"
                                                                 style="display: ${academy.collegeList[stat.index].grdaTypeCode == '00001' ? 'block;' : 'none;'}"/>
                                                         <label id='collegeList${stat.index}.label-grad-02' class="col-sm-10 grda-not degr-message erase-hide word-keep-all"
-                                                               style="display: ${academy.collegeList[stat.index].grdaTypeCode == '00002' ? 'block;' : 'none;'}" >합격 후 입학 시 졸업증명서를 대학원 사무실로 반드시 제출하세요</label>
+                                                               style="display: ${academy.collegeList[stat.index].grdaTypeCode == '00002' ? 'block;' : 'none;'}" ><spring:message code="U02105"/><%--합격 후 입학 시 졸업증명서를 대학원 사무실로 반드시 제출하세요--%></label>
                                                         <label id='collegeList${stat.index}.label-grad-03' class="col-sm-10 grda-not degr-message erase-hide"
                                                                style="display: ${academy.collegeList[stat.index].grdaTypeCode == '00003' ? 'block;' : 'none;'}" ></label>
                                                         <label id='collegeList${stat.index}.label-grad-04' class="col-sm-10 grda-not degr-message erase-hide"
@@ -418,7 +418,7 @@
                                             <form:label path="collegeList[${stat.index}].majName" cssClass="col-sm-2 control-label"><spring:message code="L02116"/><%--학과 이름--%></form:label>
                                             <div class="col-sm-9">
                                                 <div class="col-sm-12">
-                                                    <form:input path="collegeList[${stat.index}].majName" cssClass="form-control" placeholder="다수 전공은 컴마로 구분하여 모두 입력해 주세요." />
+                                                    <form:input path="collegeList[${stat.index}].majName" cssClass="form-control" placeholder="${msg.getMessage('U02108')}<%--다수 전공은 컴마로 구분하여 모두 입력해 주세요.--%>" />
                                                 </div>
                                         <spring:bind path="collegeList[${stat.index}].majName">
                                             <c:if test="${status.error}">
@@ -435,7 +435,7 @@
                                                 <div class="col-sm-6">
                                                     <div class="input-group">
                                                         <span class="input-group-addon"><spring:message code="L02118"/><%--평점--%></span>
-                                                        <form:input path="collegeList[${stat.index}].gradAvr" cssClass="form-control gradAvr" maxlength="4" placeholder="#.##"/>
+                                                        <form:input path="collegeList[${stat.index}].gradAvr" cssClass="form-control gradAvr" maxlength="4" placeholder="${msg.getMessage('U02109')}<%--#.##--%>"/>
                                                     </div>
                                             <spring:bind path="collegeList[${stat.index}].gradAvr">
                                                 <c:if test="${status.error}">
@@ -448,7 +448,7 @@
                                                 <div class="col-sm-6">
                                                     <div class="input-group">
                                                         <span class="input-group-addon"><spring:message code="L02119"/><%--만점--%></span>
-                                                        <form:input path="collegeList[${stat.index}].gradFull" cssClass="form-control gradFull" maxlength="4" placeholder="#.#" data-gradAvr-id="collegeList${stat.index}.gradAvr"/>
+                                                        <form:input path="collegeList[${stat.index}].gradFull" cssClass="form-control gradFull" maxlength="4" placeholder="${msg.getMessage('U02109')}<%--#.##--%>" data-gradAvr-id="collegeList${stat.index}.gradAvr"/>
                                                     </div>
                                             <spring:bind path="collegeList[${stat.index}].gradFull">
                                                 <c:if test="${status.error}">
@@ -644,7 +644,7 @@
                                                 <div class="col-sm-6">
                                                     <div class="input-group">
                                                         <span class="input-group-addon"><spring:message code="L02119"/><%--만점--%></span>
-                                                        <form:input path="graduateList[${stat.index}].gradFull" cssClass="form-control gradFull" maxlength="4" placeholder="#.#" data-gradAvr-id="graduateList${stat.index}.gradAvr"/>
+                                                        <form:input path="graduateList[${stat.index}].gradFull" cssClass="form-control gradFull" maxlength="4" placeholder="${msg.getMessage('U02109')}<%--#.##--%>" data-gradAvr-id="graduateList${stat.index}.gradAvr"/>
                                                     </div>
                                             <spring:bind path="graduateList[${stat.index}].gradFull">
                                                 <c:if test="${status.error}">

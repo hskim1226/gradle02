@@ -342,41 +342,41 @@
                         <div class="panel panel-darkgray0">
                             <div class="panel-heading"><spring:message code="L04102"/><%--첨부 파일 안내--%></div>
                             <div class="panel-body">
-                                <p>사진 외의 모든 첨부 파일은 서류 종류별로 하나의 PDF 파일만 업로드 가능합니다.</p>
+                                <p><spring:message code="U04101"/><%--사진 외의 모든 첨부 파일은 서류 종류별로 하나의 PDF 파일만 업로드 가능합니다.--%></p>
 
-                                <p>만약 한 가지 종류의 서류가 여러 개의 PDF 파일로 되어 있다면,
-                                    하나의 PDF 파일로 합친 후 업로드 하시기 바랍니다.</p>
+                                <p><spring:message code="U04102"/><%--만약 한 가지 종류의 서류가 여러 개의 PDF 파일로 되어 있다면,
+                                    하나의 PDF 파일로 합친 후 업로드 하시기 바랍니다.--%></p>
 
-                                <p>PDF 파일 합치기는 전용프로그램이나 인터넷 서비스를 이용하시기 바랍니다.</p>
+                                <p><spring:message code="U04103"/><%--PDF 파일 합치기는 전용프로그램이나 인터넷 서비스를 이용하시기 바랍니다.--%></p>
 
-                                예)<br/>
-                                <a href="http://convert.neevia.com/pdfmerge/" target="_blank">http://convert.neevia.com/pdfmerge/</a><br/>
-                                <a href="http://www.pdfmerge.com/" target="_blank">http://www.pdfmerge.com/</a><br/>
+                                <spring:message code="U04104"/><%--예)--%><br/>
+                                <a href="http://convert.neevia.com/pdfmerge/" target="_blank"><spring:message code="U04105"/><%--http://convert.neevia.com/pdfmerge/--%></a><br/>
+                                <a href="http://www.pdfmerge.com/" target="_blank"><spring:message code="U04106"/><%--http://www.pdfmerge.com/--%></a><br/>
 
-                                <p>예시 사이트에서 발생하는 모든 문제는 당사에서 책임지지 않습니다.</p>
+                                <p><spring:message code="U04107"/><%--예시 사이트에서 발생하는 모든 문제는 당사에서 책임지지 않습니다.--%></p>
 
-                                <p>사진 파일은 JPG, GIF, PNG 파일만 업로드 가능합니다.</p>
+                                <p><spring:message code="U04108"/><%--사진 파일은 JPG, GIF, PNG 파일만 업로드 가능합니다.--%></p>
 
-                                <p>사진 파일의 편집은 전용 프로그램이나 인터넷 서비스를 이용하시기 바랍니다.</p>
+                                <p><spring:message code="U04109"/><%--사진 파일의 편집은 전용 프로그램이나 인터넷 서비스를 이용하시기 바랍니다.--%></p>
 
-                                예)<br/>
-                                <a href="http://apps.pixlr.com/editor/" target="_blank">http://apps.pixlr.com/editor/</a><br/>
-                                <a href="http://www.fotor.com/" target="_blank">http://www.fotor.com/</a><br/>
-                                <p>예시 사이트에서 발생하는 모든 문제는 당사에서 책임지지 않습니다.</p>
+                                <spring:message code="U04104"/><%--예)--%><br/>
+                                <a href="http://apps.pixlr.com/editor/" target="_blank"><spring:message code="U04110"/><%--http://apps.pixlr.com/editor/--%></a><br/>
+                                <a href="http://www.fotor.com/" target="_blank"><spring:message code="U04111"/><%--http://www.fotor.com/--%></a><br/>
+                                <p><spring:message code="U04112"/><%--예시 사이트에서 발생하는 모든 문제는 당사에서 책임지지 않습니다.--%></p>
                                 <hr/>
-                                <p><spring:message code="L04103"/><%--파일 첨부 시 주의사항--%></p>
-                                1. 문서별로 1개의 파일만 첨부 가능합니다.<br/>
-                                2. 사진 및 문서의 해상도와 가독성 여부를 반드시 확인하세요.<br/>
-                                3. 스캔시에는 300dpi 이상으로 스캔하시기 바랍니다.<br/>
-                                4. 문서 크기는 A4 크기로 생성하여 첨부하셔야 합니다.<br/>
+                                <p><spring:message code="U04113"/><%--파일 첨부 시 주의사항--%></p>
+                                <spring:message code="U04114"/><%--1. 문서별로 1개의 파일만 첨부 가능합니다.--%><br/>
+                                <spring:message code="U04115"/><%--2. 사진 및 문서의 해상도와 가독성 여부를 반드시 확인하세요.--%><br/>
+                                <spring:message code="U04116"/><%--3. 스캔시에는 300dpi 이상으로 스캔하시기 바랍니다.--%><br/>
+                                <spring:message code="U04117"/><%--4. 문서 크기는 A4 크기로 생성하여 첨부하셔야 합니다.--%><br/>
                                 </p>
 
-                                <p>인터넷에서 '한글 문서 PDF 변환'으로 검색하면 아래 한글 문서를 PDF 파일로 변환할 수 있는<br/>
-                                다양한 방법이 있으니 참고하시기 바랍니다.</p>
+                                <p><spring:message code="U04118"/><%--인터넷에서 '한글 문서 PDF 변환'으로 검색하면 아래 한글 문서를 PDF 파일로 변환할 수 있는--%><br/>
+                                    <spring:message code="U04119"/><%--다양한 방법이 있으니 참고하시기 바랍니다.--%></p>
 
-                                <p>파일 업로드 후 오른쪽의 '내려받기' 버튼을 클릭해서 파일이 올바르게 업로드 되었는지 확인할 수 있습니다.</p>
+                                <p><spring:message code="U04120"/><%--파일 업로드 후 오른쪽의 '내려받기' 버튼을 클릭해서 파일이 올바르게 업로드 되었는지 확인할 수 있습니다.--%></p>
 
-                                <div class="col-md-12 text-center mid-font slogan"><label>위 내용을 확인하였으며, 업로드 한 파일의 적정 여부에 대한 책임은 지원 신청자에게 있음을 확인합니다.<input type="checkbox" name="application.docChckYn" id="docChckYn" value="${document.application.docChckYn == 'Y' ? 'on' : 'off'}" ${document.application.docChckYn == 'Y' ? 'checked' : ''}/></label></div>
+                                <div class="col-md-12 text-center mid-font slogan"><label style="font-size: 15px; color: red;"><spring:message code="U04121"/><%--위 내용을 확인하였으며, 업로드 한 파일의 적정 여부에 대한 책임은 지원 신청자에게 있음을 확인합니다.--%> <input type="checkbox" name="application.docChckYn" id="docChckYn" value="${document.application.docChckYn == 'Y' ? 'on' : 'off'}" ${document.application.docChckYn == 'Y' ? 'checked' : ''}/></label></div>
                             <spring:bind path="application.docChckYn">
                                 <c:if test="${status.error}">
                                     <div class="col-sm-12 validation-container">

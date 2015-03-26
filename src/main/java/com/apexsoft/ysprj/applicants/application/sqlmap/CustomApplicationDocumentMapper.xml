@@ -44,6 +44,7 @@
         <result column="LANG_SEQ" jdbcType="INTEGER" property="langSeq" />
         <result column="EXAM_CODE_GRP" jdbcType="VARCHAR" property="examCodeGrp" />
         <result column="EXAM_GROUP_NAME" jdbcType="VARCHAR" property="examGrpName" />
+        <result column="EXAM_GROUP_NAME_XXEN" jdbcType="VARCHAR" property="examGrpNameXxen" />
         <result column="EXAM_CODE" jdbcType="VARCHAR" property="examCode" />
         <result column="SEL_GRP_CODE" jdbcType="VARCHAR" property="selGrpCode" />
         <result column="MDT_YN" jdbcType="VARCHAR" property="mdtYn" />
@@ -59,6 +60,7 @@
         <result column="CODE_GRP" jdbcType="VARCHAR" property="itemGrpCode" />
         <result column="CODE" jdbcType="VARCHAR" property="itemCode" />
         <result column="CODE_VAL" jdbcType="VARCHAR" property="itemName" />
+        <result column="CODE_VAL_XXEN" jdbcType="VARCHAR" property="itemNameXxen" />
         <result column="MDT_SEQ" jdbcType="INTEGER" property="mdtSeq" />
         <result column="UP_CODE_GRP" jdbcType="VARCHAR" property="upCodeGrp" />
         <result column="UP_CODE"       jdbcType="VARCHAR" property="upCode" />
@@ -285,6 +287,7 @@
         BA.DETL_MAJ_CODE,
         EXAM_CODE_GRP ,
         C.CODE_VAL EXAM_GROUP_NAME,
+        C.CODE_VAL_XXEN EXAM_GROUP_NAME_XXEN,
         EXAM_CODE ,
         MDT_SEQ,
         SEL_GRP_CODE,
@@ -314,6 +317,7 @@
         CODE_GRP,
         CODE,
         CODE_VAL,
+        CODE_VAL_XXEN,
         B.MDT_SEQ,
         UP_MDT_SEQ,
         UP_CODE_GRP,
@@ -374,6 +378,7 @@
         EXAM_CODE  AS CODE,
         GRP_LEVEL,
         CODEVAL( EXAM_CODE_GRP,EXAM_CODE)  AS CODE_VAL ,
+        CODEVALXXEN( EXAM_CODE_GRP,EXAM_CODE)  AS CODE_VAL_XXEN ,
         B.MDT_SEQ,
         UP_CODE_GRP,
         UP_CODE,

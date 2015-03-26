@@ -467,8 +467,8 @@
                                                     <label>-</label>
                                                 </div>
                                                 <div class="col-sm-4 nopadding">
-                                                    <div><form:input path="application.rgstEncr" cssClass="form-control numOnly lenCheck-7" maxlength="7" placeholder="주민등록번호 뒤 7자리"/></div>
-                                                    <div class="input-info word-keep-all">보안을 위해 추후 수정할 수 없으므로 정확히 입력해 주십시오.</div>
+                                                    <div><form:input path="application.rgstEncr" cssClass="form-control numOnly lenCheck-7" maxlength="7" placeholder="${msg.getMessage('U01208')}<%--주민등록번호 뒤 7자리--%>"/></div>
+                                                    <div class="input-info word-keep-all"><spring:message code="U01209"/><%--보안을 위해 추후 수정할 수 없으므로 정확히 입력해 주십시오.--%></div>
                                                     <spring:bind path="application.rgstEncr">
                                                         <c:if test="${status.error}">
                                                             <div class="validation-error">${status.errorMessage}</div>
@@ -477,7 +477,7 @@
                                                 </div>
                                             </c:when>
                                             <c:otherwise>
-                                                <div style="color: #337799; vertical-align: middle;">주민등록번호 뒷자리는 보안을 위해 화면에 노출하지 않습니다.</div>
+                                                <div style="color: #337799; vertical-align: middle;"><spring:message code="U01210"/><%--주민등록번호 뒷자리는 보안을 위해 화면에 노출하지 않습니다.--%></div>
                                             </c:otherwise>
                                         </c:choose>
                                     </c:if>
