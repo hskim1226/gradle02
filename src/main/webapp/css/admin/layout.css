@@ -5,7 +5,7 @@
 body {
 	font: 12px "돋움", Dotum, "굴림", Gulim, Arial, AppleGothic, sans-serif;
 	color: #333;
-	background:#f3f3f4 url(../images/bg_header.png) repeat-x left top;
+	background:#f3f3f4 url(../../img/admin/bg_header.png) repeat-x left top;
 }
 
 #wrap {
@@ -55,7 +55,7 @@ body {
 
 #header .gnb ul li {
 	float:left;
-	background:url(../images/bu_vline2.png) no-repeat left 3px;
+	background:url(../../img/admin/bu_vline2.png) no-repeat left 3px;
 	padding:0 15px;
 }
 
@@ -91,7 +91,7 @@ body {
 	margin-bottom:7px;
 	padding-left:75px;
 	border:1px solid #c6491d;
-	background:#e67046 url(../images/img_icon2.png) no-repeat 16px 14px;
+	background:#e67046 url(../../img/admin/img_icon2.png) no-repeat 16px 14px;
 	font-size:11px;
 }
 
@@ -219,7 +219,7 @@ body {
 	padding:8px 16px;
 	display:block;
 	color:#fff;
-	background:url(../images/bu_arrow2.png) no-repeat 195px 16px;
+	background:url(../../img/admin/bu_arrow2.png) no-repeat 195px 16px;
 }
 
 .menu_wrap ul.dep2 {
@@ -235,7 +235,7 @@ body {
 	display:block;
 	padding:4px 16px 4px 23px;
 	color:#b3cdd9;
-	background:url(../images/bu_1.png) no-repeat 16px 10px;
+	background:url(../../img/admin/bu_1.png) no-repeat 16px 10px;
 }
 
 
@@ -310,7 +310,7 @@ body {
 	overflow:hidden;
 	text-overflow:ellipsis;
 	white-space:nowrap;
-	background:url(../images/bu_1.png) no-repeat left 4px;
+	background:url(../../img/admin/bu_1.png) no-repeat left 4px;
 	color:#666666;
 }
 
@@ -344,7 +344,7 @@ body {
 	width:62px;
 	float:left;
 	font-weight:bold;
-	background:url(../images/bu_arrow1.png) no-repeat right 11px;
+	background:url(../../img/admin/bu_arrow1.png) no-repeat right 11px;
 }
 
 #admin_box .state ul {
@@ -355,7 +355,7 @@ body {
 	padding:0 6px;
 	float:left;
 	color:#666;
-	background:url(../images/bu_vline1.png) no-repeat left 11px;
+	background:url(../../img/admin/bu_vline1.png) no-repeat left 11px;
 }
 
 #admin_box .state ul li:first-child {
@@ -389,7 +389,7 @@ body {
 }
 
 .tbl_list1 .tit1 {
-	background:url(../images/bu_1.png) no-repeat left 4px;
+	background:url(../../img/admin/bu_1.png) no-repeat left 4px;
 	padding-left:9px;
 }
 
@@ -642,7 +642,7 @@ body {
 	margin: -5px 0 8px;
 	padding-left: 10px;
 	font-size: 11px;
-	background: url(../images/bu_etc1.png) no-repeat left 3px;
+	background: url(../../img/admin/bu_etc1.png) no-repeat left 3px;
 }
 
 
@@ -651,7 +651,7 @@ body {
 h3.tit1 {
 	padding: 0 0 7px 16px;
 	font: 14px "맑은고딕", Malgun Gothic, "돋움", Dotum, "굴림", Gulim;
-	background: url(../images/bu_dep1.png) no-repeat 0 4px;
+	background: url(../../img/admin/bu_dep1.png) no-repeat 0 4px;
 	color:#434343;
 }
 
@@ -660,7 +660,7 @@ h3.tit1 {
 }
 
 .txt_dep1 > li, .txt_tit1 {
-	background: url(../images/bu_dep1.png) no-repeat 0 4px;
+	background: url(../../img/admin/bu_dep1.png) no-repeat 0 4px;
 	font-weight: bold;
 	font-size: 14px;
 	margin-bottom: 7px;
@@ -673,7 +673,7 @@ h3.tit1 {
 }
 
 .txt_dep2 > li, .txt_tit2 {
-	background: url(../images/bu_dep2.png) no-repeat 0 5px;
+	background: url(../../img/admin/bu_dep2.png) no-repeat 0 5px;
 	font-weight: normal;
 	font-size: 12px;
 	margin-bottom: 7px;
@@ -685,7 +685,7 @@ h3.tit1 {
 }
 
 .txt_dep3 > li, .txt_tit3 {
-	background: url(../images/bu_dep3.png) no-repeat 0 6px;
+	background: url(../../img/admin/bu_dep3.png) no-repeat 0 6px;
 	font-weight: normal;
 	font-size: 12px;
 	color: #919191;
@@ -745,33 +745,33 @@ a.btn_set span {display: inline-block; padding-right: 20px; *display:inline; *zo
 a.btn_set.btnWhiteB, a.btn_set.btnBlackB, a.btn_set.btnBlueB, a.btn_set.btnRedB {height: 33px; line-height: 32px; font-size: 12px; font-weight: bold;}
 a.btn_set.btnWhiteS, a.btn_set.btnBlackS, a.btn_set.btnBlueS, a.btn_set.btnRedS {height: 22px; line-height: 21px; font-size: 11px; font-weight: normal;}
 
-a.btn_set.btnWhiteB {background: url("../images/bg_button.png") no-repeat 0 0; color: #545454; padding-left:20px;}
-a.btn_set.btnWhiteB span {background: url("../images/bg_button.png") no-repeat 100% 0; padding-right:20px;}
-a.btn_set.btnWhiteB.goto span {background: url("../images/bg_button.png") no-repeat 100% -38px; padding-right:30px;}
-a.btn_set.btnWhiteS {background: url("../images/bg_button.png") no-repeat 0 -76px; color: #545454; padding-left:10px;}
-a.btn_set.btnWhiteS span {background: url("../images/bg_button.png") no-repeat 100% -76px; padding-right:10px;}
-a.btn_set.btnWhiteS.goto span {background: url("../images/bg_button.png") no-repeat 100% -103px; padding-right:20px;}
+a.btn_set.btnWhiteB {background: url("../../img/admin/bg_button.png") no-repeat 0 0; color: #545454; padding-left:20px;}
+a.btn_set.btnWhiteB span {background: url("../../img/admin/bg_button.png") no-repeat 100% 0; padding-right:20px;}
+a.btn_set.btnWhiteB.goto span {background: url("../../img/admin/bg_button.png") no-repeat 100% -38px; padding-right:30px;}
+a.btn_set.btnWhiteS {background: url("../../img/admin/bg_button.png") no-repeat 0 -76px; color: #545454; padding-left:10px;}
+a.btn_set.btnWhiteS span {background: url("../../img/admin/bg_button.png") no-repeat 100% -76px; padding-right:10px;}
+a.btn_set.btnWhiteS.goto span {background: url("../../img/admin/bg_button.png") no-repeat 100% -103px; padding-right:20px;}
 
-a.btn_set.btnBlackB {background: url("../images/bg_button.png") no-repeat 0 -130px; color: #fff; padding-left:20px;}
-a.btn_set.btnBlackB span {background: url("../images/bg_button.png") no-repeat 100% -130px; padding-right:20px;}
-a.btn_set.btnBlackB.goto span {background: url("../images/bg_button.png") no-repeat 100% -168px; padding-right:30px;}
-a.btn_set.btnBlackS {background: url("../images/bg_button.png") no-repeat 0 -206px; color: #fff; padding-left:10px;}
-a.btn_set.btnBlackS span {background: url("../images/bg_button.png") no-repeat 100% -206px; padding-right:10px;}
-a.btn_set.btnBlackS.goto span {background: url("../images/bg_button.png") no-repeat 100% -233px; padding-right:20px;}
+a.btn_set.btnBlackB {background: url("../../img/admin/bg_button.png") no-repeat 0 -130px; color: #fff; padding-left:20px;}
+a.btn_set.btnBlackB span {background: url("../../img/admin/bg_button.png") no-repeat 100% -130px; padding-right:20px;}
+a.btn_set.btnBlackB.goto span {background: url("../../img/admin/bg_button.png") no-repeat 100% -168px; padding-right:30px;}
+a.btn_set.btnBlackS {background: url("../../img/admin/bg_button.png") no-repeat 0 -206px; color: #fff; padding-left:10px;}
+a.btn_set.btnBlackS span {background: url("../../img/admin/bg_button.png") no-repeat 100% -206px; padding-right:10px;}
+a.btn_set.btnBlackS.goto span {background: url("../../img/admin/bg_button.png") no-repeat 100% -233px; padding-right:20px;}
 
-a.btn_set.btnBlueB {background: url("../images/bg_button.png") no-repeat 0 -260px; color: #fff; padding-left:20px;}
-a.btn_set.btnBlueB span {background: url("../images/bg_button.png") no-repeat 100% -260px; padding-right:20px;}
-a.btn_set.btnBlueB.goto span {background: url("../images/bg_button.png") no-repeat 100% -298px; padding-right:30px;}
-a.btn_set.btnBlueS {background: url("../images/bg_button.png") no-repeat 0 -336px; color: #fff; padding-left:10px;}
-a.btn_set.btnBlueS span {background: url("../images/bg_button.png") no-repeat 100% -336px; padding-right:10px;}
-a.btn_set.btnBlueS.goto span {background: url("../images/bg_button.png") no-repeat 100% -363px; padding-right:20px;}
+a.btn_set.btnBlueB {background: url("../../img/admin/bg_button.png") no-repeat 0 -260px; color: #fff; padding-left:20px;}
+a.btn_set.btnBlueB span {background: url("../../img/admin/bg_button.png") no-repeat 100% -260px; padding-right:20px;}
+a.btn_set.btnBlueB.goto span {background: url("../../img/admin/bg_button.png") no-repeat 100% -298px; padding-right:30px;}
+a.btn_set.btnBlueS {background: url("../../img/admin/bg_button.png") no-repeat 0 -336px; color: #fff; padding-left:10px;}
+a.btn_set.btnBlueS span {background: url("../../img/admin/bg_button.png") no-repeat 100% -336px; padding-right:10px;}
+a.btn_set.btnBlueS.goto span {background: url("../../img/admin/bg_button.png") no-repeat 100% -363px; padding-right:20px;}
 
-a.btn_set.btnRedB {background: url("../images/bg_button.png") no-repeat 0 -390px; color: #fff; padding-left:20px;}
-a.btn_set.btnRedB span {background: url("../images/bg_button.png") no-repeat 100% -390px; padding-right:20px;}
-a.btn_set.btnRedB.goto span {background: url("../images/bg_button.png") no-repeat 100% -428px; padding-right:30px;}
-a.btn_set.btnRedS {background: url("../images/bg_button.png") no-repeat 0 -466px; color: #fff; padding-left:10px;}
-a.btn_set.btnRedS span {background: url("../images/bg_button.png") no-repeat 100% -466px; padding-right:10px;}
-a.btn_set.btnRedS.goto span {background: url("../images/bg_button.png") no-repeat 100% -493px; padding-right:20px;}
+a.btn_set.btnRedB {background: url("../../img/admin/bg_button.png") no-repeat 0 -390px; color: #fff; padding-left:20px;}
+a.btn_set.btnRedB span {background: url("../../img/admin/bg_button.png") no-repeat 100% -390px; padding-right:20px;}
+a.btn_set.btnRedB.goto span {background: url("../../img/admin/bg_button.png") no-repeat 100% -428px; padding-right:30px;}
+a.btn_set.btnRedS {background: url("../../img/admin/bg_button.png") no-repeat 0 -466px; color: #fff; padding-left:10px;}
+a.btn_set.btnRedS span {background: url("../../img/admin/bg_button.png") no-repeat 100% -466px; padding-right:10px;}
+a.btn_set.btnRedS.goto span {background: url("../../img/admin/bg_button.png") no-repeat 100% -493px; padding-right:20px;}
 
 
 /* button type3  (input) */
@@ -779,42 +779,42 @@ input[type=submit].btnBox {border:0 none;}
 span.btnWhiteB, span.btnWhiteB input[type=submit], span.btnBlackB, span.btnBlackB input[type=submit], span.btnBlueB, span.btnBlueB input[type=submit], span.btnRedB, span.btnRedB input[type=submit] {height:33px; line-height:30px; display: inline-block; font-size: 12px; font-weight: bold; letter-spacing: -1px; text-align: center; vertical-align: middle; cursor: pointer;}
 span.btnWhiteS, span.btnWhiteS input[type=submit], span.btnBlackS, span.btnBlackS input[type=submit], span.btnBlueS, span.btnBlueS input[type=submit], span.btnRedS, span.btnRedS input[type=submit] {height: 22px; line-height:20px; display: inline-block; letter-spacing: -1px; font-size:11px; text-align: center; vertical-align: middle; cursor: pointer;}
 
-span.btnWhiteB {background: url("../images/bg_button.png") no-repeat  0 0 !important; padding-left: 20px;}
-span.btnWhiteB input[type=submit] {background: url("../images/bg_button.png") no-repeat  100% 0 !important; padding-right: 20px; color: #545454;}
-span.btnWhiteS {background: url("../images/bg_button.png") no-repeat  0 -76px !important; padding-left: 10px;}
-span.btnWhiteS input[type=submit] {background: url("../images/bg_button.png") no-repeat  100% -76px !important; padding-right: 10px; color: #545454;}
+span.btnWhiteB {background: url("../../img/admin/bg_button.png") no-repeat  0 0 !important; padding-left: 20px;}
+span.btnWhiteB input[type=submit] {background: url("../../img/admin/bg_button.png") no-repeat  100% 0 !important; padding-right: 20px; color: #545454;}
+span.btnWhiteS {background: url("../../img/admin/bg_button.png") no-repeat  0 -76px !important; padding-left: 10px;}
+span.btnWhiteS input[type=submit] {background: url("../../img/admin/bg_button.png") no-repeat  100% -76px !important; padding-right: 10px; color: #545454;}
 
-span.btnBlackB {background: url("../images/bg_button.png") no-repeat  0 -130px !important; padding-left: 20px;}
-span.btnBlackB input[type=submit] {background: url("../images/bg_button.png") no-repeat  100% -130px !important; padding-right: 20px; color: #fff;}
-span.btnBlackS {background: url("../images/bg_button.png") no-repeat  0 -206px !important; padding-left: 10px;}
-span.btnBlackS input[type=submit] {background: url("../images/bg_button.png") no-repeat  100% -206px !important; padding-right: 10px; color: #fff;}
+span.btnBlackB {background: url("../../img/admin/bg_button.png") no-repeat  0 -130px !important; padding-left: 20px;}
+span.btnBlackB input[type=submit] {background: url("../../img/admin/bg_button.png") no-repeat  100% -130px !important; padding-right: 20px; color: #fff;}
+span.btnBlackS {background: url("../../img/admin/bg_button.png") no-repeat  0 -206px !important; padding-left: 10px;}
+span.btnBlackS input[type=submit] {background: url("../../img/admin/bg_button.png") no-repeat  100% -206px !important; padding-right: 10px; color: #fff;}
 
-span.btnBlueB {background: url("../images/bg_button.png") no-repeat  0 -260px !important; padding-left: 20px;}
-span.btnBlueB input[type=submit] {background: url("../images/bg_button.png") no-repeat  100% -260px !important; padding-right: 20px; color: #fff;}
-span.btnBlueS {background: url("../images/bg_button.png") no-repeat  0 -336px !important; padding-left: 10px;}
-span.btnBlueS input[type=submit] {background: url("../images/bg_button.png") no-repeat  100% -336px !important; padding-right: 10px; color: #fff;}
+span.btnBlueB {background: url("../../img/admin/bg_button.png") no-repeat  0 -260px !important; padding-left: 20px;}
+span.btnBlueB input[type=submit] {background: url("../../img/admin/bg_button.png") no-repeat  100% -260px !important; padding-right: 20px; color: #fff;}
+span.btnBlueS {background: url("../../img/admin/bg_button.png") no-repeat  0 -336px !important; padding-left: 10px;}
+span.btnBlueS input[type=submit] {background: url("../../img/admin/bg_button.png") no-repeat  100% -336px !important; padding-right: 10px; color: #fff;}
 
-span.btnRedB {background: url("../images/bg_button.png") no-repeat  0 -390px !important; padding-left: 20px;}
-span.btnRedB input[type=submit] {background: url("../images/bg_button.png") no-repeat  100% -390px !important; padding-right: 20px; color: #fff;}
-span.btnRedS {background: url("../images/bg_button.png") no-repeat  0 -466px !important; padding-left: 10px;}
-span.btnRedS input[type=submit] {background: url("../images/bg_button.png") no-repeat  100% -466px !important; padding-right: 10px; color: #fff;}
+span.btnRedB {background: url("../../img/admin/bg_button.png") no-repeat  0 -390px !important; padding-left: 20px;}
+span.btnRedB input[type=submit] {background: url("../../img/admin/bg_button.png") no-repeat  100% -390px !important; padding-right: 20px; color: #fff;}
+span.btnRedS {background: url("../../img/admin/bg_button.png") no-repeat  0 -466px !important; padding-left: 10px;}
+span.btnRedS input[type=submit] {background: url("../../img/admin/bg_button.png") no-repeat  100% -466px !important; padding-right: 10px; color: #fff;}
 
 
 /* button type4  (button) */
 button.btnBox {border:0 none; height: 22px; padding-left:10px !important; font-size:11px;}
 button.btnBox span {height: 22px; line-height:20px; display: block; padding-right:10px; position:relative; left:0; top:0}
 
-button.btnBox.btnWhiteS {background: url("../images/bg_button.png") no-repeat 0 -76px;}
-button.btnBox.btnWhiteS span {background: url("../images/bg_button.png") no-repeat 100% -76px; color: #545454;}
+button.btnBox.btnWhiteS {background: url("../../img/admin/bg_button.png") no-repeat 0 -76px;}
+button.btnBox.btnWhiteS span {background: url("../../img/admin/bg_button.png") no-repeat 100% -76px; color: #545454;}
 
-button.btnBox.btnBlackS {background: url("../images/bg_button.png") no-repeat 0 -206px;}
-button.btnBox.btnBlackS span {background: url("../images/bg_button.png") no-repeat 100% -206px; color: #fff;}
+button.btnBox.btnBlackS {background: url("../../img/admin/bg_button.png") no-repeat 0 -206px;}
+button.btnBox.btnBlackS span {background: url("../../img/admin/bg_button.png") no-repeat 100% -206px; color: #fff;}
 
-button.btnBox.btnBlueS {background: url("../images/bg_button.png") no-repeat 0 -336px;}
-button.btnBox.btnBlueS span {background: url("../images/bg_button.png") no-repeat 100% -336px; color: #fff;}
+button.btnBox.btnBlueS {background: url("../../img/admin/bg_button.png") no-repeat 0 -336px;}
+button.btnBox.btnBlueS span {background: url("../../img/admin/bg_button.png") no-repeat 100% -336px; color: #fff;}
 
-button.btnBox.btnRedS {background: url("../images/bg_button.png") no-repeat 0 -466px;}
-button.btnBox.btnRedS span {background: url("../images/bg_button.png") no-repeat 100% -466px; color: #fff;}
+button.btnBox.btnRedS {background: url("../../img/admin/bg_button.png") no-repeat 0 -466px;}
+button.btnBox.btnRedS span {background: url("../../img/admin/bg_button.png") no-repeat 100% -466px; color: #fff;}
 
 
 

@@ -1,19 +1,25 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<div id="LblockPageSubtitle02" class="LblockPageSubtitle">
-    <h2>지원서 상세정보</h2>
-</div>
 
-<div id="LblockDetail02" class="LblockDetail">
-    <table summary="지원서 상세정보">
-        <caption>지원자개인정보</caption>
 
-        <tbody>
+<h3 class="tit1">지원서 상세정보</h3>
+<table class="tbl_typeA mb15" summary="지원서 상세정보">
+    <caption>
+        지원서 상세정보
+    </caption>
+    <colgroup>
+        <col width="20%" />
+        <col width="33%" />
+        <col width="14%" />
+        <col width="33%" />
+    </colgroup>
+    <tbody>
         <c:if test="${applInfo.applNo == null}" >
-            <tr >
+            <tr>
                 <td colspan="7">해당 정보 없음</td>
             </tr>
         </c:if>
         <c:if test="${applInfo.applNo != null}" >
+
         <tr>
             <th>성명</th>
             <td>${applInfo.korName}</td>
@@ -44,8 +50,7 @@
             <th>비상연락처</th>
             <td>${applInfo.emerContTel}</td>
         </tr>
-        <tr></tr>
         </c:if>
-        </tbody>
-    </table>
-</div>
+    </tbody>
+</table>
+

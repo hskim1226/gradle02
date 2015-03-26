@@ -6,77 +6,52 @@
 </head>
 <body>
 
-<div id="LblockMain">
-    <div id="LblockPageTitle">
-        <div id="LblockPageLocation">
-            <ul>
-                <li class="Lfirst"><span><a href="#">HOME</a></span></li>
-                <li><span><a href="#">통계</a></span></li>
-                <li class="Llast"><span>전형별 미결제자현황</span></li>
-            </ul>
-        </div>
-
-        <h1>전형별 미결제자현황</h1>
-    </div>
-
-    <div id="LblockMainBody" >
-        <div id="LblockSearch">
-            <div>
-                <div>
-                    <form  action="" method="post">
-                        <table summary="미결제자현황 검색조건">
-                            <caption>미결제자현황 검색조건</caption>
-                            <tbody>
-                            <tr>  
-                                <th><label for="admsNo">지원전형</label></th>
-                                <td>
-                                    <select id="admsNo" name="admsNo" >
-                                        <option value="" label="--전체--" />
-                                        <c:forEach items="${admsList}" var="admsNo" varStatus="admsSatus">
-                                            <option value="${admsNo.admsNo}" label="${admsNo.admsNo}" />
-                                        </c:forEach>
-                                    </select>
-                                </td>
-<!--                                 <th><label for="applAttrCode">모집구분</label></th>
-                                <td>
-                                    <select id="applAttrCode">
-                                        <option value="-">-- 전체 --</option>
-                                    </select>
-                                </td> -->
-                                <th><label for="campCode">캠퍼스</label></th>
-                                <td>
-                                    <select id="campCode" name="campCode" >         
-                                        <option value="">-- 전체 --</option>
-                                        <option value="10">서울</option>
-                                        <option value="11">원주</option>
-                                        <option value="12">국제</option>
-                                    </select>
-                                </td>                                
-                                <th><label for="collCode"  >대학</label></th>
-                                <td>
-                                    <select id="collCode" name="collCode" >
-                                        <option value="" label="--전체--" />                          
-                                    </select>
-                                </td>
-                            </tr>
-                            </tbody>
-                        </table>
-                        <input type="image" class="Limage" id='searchBtn' src="${contextPath}/img/admin/repository/btn_search.gif" /></a>
-                    </form>
-                </div>
-            </div>
-        </div>
-
- 	<div>
-            <table summary="미결제자 현황"  id="applicantCntTbl"  ></table>
-			<div id="gridpager"></div>
-
-
-	</div>
+<div class="content">
+    <div class="con_tit">
+        <h2><span>전형별 미결제자현황</span></h2>
+        <div class="location"> HOME &gt; 통계 &gt; <span>전형별 미결제자현황</span> </div>
 
     </div>
+    <div class="con_section">
+        <div class="srch_box">
+            <label for="admsNo"><strong>지원전형</strong></label>
+            <td>
+                <select id="admsNo" name="admsNo" class="ipt_slt1">
+                    <option value="" label="--전체--" />
+                    <c:forEach items="${admsList}" var="admsNo" varStatus="admsSatus">
+                        <option value="${admsNo.admsNo}" label="${admsNo.admsNo}" />
+                    </c:forEach>
+                </select>&nbsp;&nbsp;&nbsp;
+            </td>
 
+            <label for="campCode"><strong>캠퍼스</strong></label>
+            <select id="campCode" name="campCode" class="ipt_slt1">
+                <option value="">-- 전체 --</option>
+                <option value="10">서울</option>
+                <option value="11">원주</option>
+                <option value="12">국제</option>
+            </select>&nbsp;&nbsp;&nbsp;
+
+            <label for="collCode"><strong>대학</strong></label>
+            <select id="collCode" name="collCode" class="ipt_slt1">
+                <option value="" label="--전체--">  --전체--
+                </option></select>
+      <span class="btnBlueS">
+          <input type="submit" value="검색" class="btnBox" id='searchBtn' />
+          </span>
+        </div>
+
+        <table summary="미결제자 현황"  id="applicantCntTbl"  ></table>
+        <div id="gridpager"></div>
+
+
+    </div>
 </div>
+<!-- /con_section -->
+</div>
+<!-- /content -->
+
+
 
 <content tag="local-script">
     <script>

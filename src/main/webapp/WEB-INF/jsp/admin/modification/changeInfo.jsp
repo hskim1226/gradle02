@@ -6,135 +6,114 @@
 
 </head>
 <body>
-
-<div id="LblockMain">
-    <div id="LblockPageTitle">
-        <div id="LblockPageLocation">
-            <ul>
-                <li class="Lfirst"><span><a href="#">HOME</a></span></li>
-                <li><span><a href="#">지원변경/원서수정</a></span></li>
-                <li class="Llast"><span>원서수정</span></li>
-            </ul>
-        </div>
-
-        <h1>원서수정</h1>
+<div class="content">
+    <div class="con_tit">
+        <h2><span>원서수정</span></h2>
+        <div class="location"> HOME &gt; 지원변경/원서수정 &gt; <span>원서수정</span> </div>
     </div>
 
-    <div id="LblockMainBody" >
-        <div id="LblockSearch">
-            <div><div>
-                <form id ="applicantSearchForm" action="${contextPath}/admin//modification/changeInfo" method="post">
-                <table summary="원서수정 대상자검색">
-                    <caption>원서수정 대상자검색</caption>
-                    <tbody>
-
-                        <th><label for="applId">수험번호</label></th>
-                        <td><input type="text" class="Ltext" id="applId" name="applId" size="15"  value="${applicantSearchForm.applId}">
-                            <img class="Limage" id="searchBtn"  src="${contextPath}/img/admin/repository/btn_search.gif" alt="검색버튼" />
-                        </td>
-
-                    </tbody>
-                </table>
-                </form>
-            </div></div>
-        </div>
-    </div>
+    <div class="con_section">
+        <form id ="applicantSearchForm" action="${contextPath}/admin//modification/changeInfo" method="post">
+        <div class="srch_box"> <strong><label for="applId">수험번호</label></strong>
+            <input type="text" name="applId" id="applId" class="ipt_txt1"  value="${applicantSearchForm.applId}" >
+          <span class="btnBlueS">
+          <input type="submit" value="검색" class="btnBox" id="searchBtn"  />
+          </span> </div>
+        </form>
 
 
         <%@include file="applicationInfo.jsp"%>
 
+        <h3 class="tit1">지원서 상세정보</h3>
+        <table class="tbl_typeA mb15" summary="지원서 상세정보">
+            <caption>
+                지원자 상세정보
+            </caption>
+            <colgroup>
+                <col width="20%" />
+                <col width="33%" />
+                <col width="14%" />
+                <col width="33%" />
+            </colgroup>
 
-        <div id="LblockPageSubtitle02" class="LblockPageSubtitle">
-            <h2>지원서 상세정보</h2>
-        </div>
+            <tbody>
 
-        <div id="LblockDetail02" class="LblockDetail">
-            <form id ="changeForm" action="${contextPath}/admin/modification/requestChangeInfo" method="post">
-                <input type="hidden" name="applNo" value=${applInfo.applNo}> </input>
-                <input type="hidden" name="admsNo" value=${applInfo.admsNo}> </input>
-            <table summary="지원서 상세정보">
-                <caption>지원자개인정보</caption>
+            <c:if test="${applInfo.applNo == null}" >
+                <tr >
+                    <td colspan="7">해당 정보 없음</td>
+                </tr>
+            </c:if>
+            <c:if test="${applInfo.applNo != null}" >
+            <tr>
+            <th>성명</th>
+            <td><input type="radio" class="Lradio" id="korName" name="infoRadio" value ="korName" ><label id="lbkorName"  for="korName" >${applInfo.korName}</label></td>
+            <th>Name</th>
+            <td><input type="radio" class="Lradio" id="engName" name="infoRadio" value ="engName"><label id="lbengName" for="engName">${applInfo.engName}</td>
+            </tr>
+            <tr>
+            <th>생년월일/주민번호</th>
+            <td><input type="radio" class="Lradio" id="rgstNo" name="infoRadio" value ="rgstNo"><label id="lbrgstNo" for="rgstNo">${applInfo.rgstNo}</td>
+            <th>Sur Name</th>
+            <td><input type="radio" class="Lradio" id="engSur" name="infoRadio" value ="engSur"><label id="lbengSur" for="engSur">${applInfo.engSur}</td>
+            </tr>
+            <tr>
+            <th>전화번호</th>
+            <td><input type="radio" class="Lradio" id="telNum" name="infoRadio" value ="telNum"><label id="lbtelNum" for="telNum">${applInfo.telNum}</td>
+            <th>핸드폰 번호</th>
+            <td><input type="radio" class="Lradio" id="mobiNum" name="infoRadio" value ="mobiNum"><label id="lbmobiNum"  for="mobiNum">${applInfo.mobiNum}</td>
+            </tr>
+            <tr>
+            <th>주소</th>
+            <td><input type="radio" class="Lradio" id="addr" name="infoRadio" value ="addr"><label id="lbaddr"  for="addr">${applInfo.addr}<br>${applInfo.detlAddr}</td>
+            <th>E-mail</th>
+            <td><input type="radio" class="Lradio" id="mailAddr" name="infoRadio" value ="mailAddr"><label id="lbmailAddr"  for="mailAddr">${applInfo.mailAddr}</td>
+            </tr>
+            <tr>
+            <th>비상연락대상</th>
+            <td><input type="radio" class="Lradio" id="emerContName" name="infoRadio" value ="emerContName" ><label id="lbemerContName" for="emerContName">${applInfo.emerContName}</td>
+            <th>비상연락처</th>
+            <td><input type="radio" class="Lradio" id="emerContTel" name="infoRadio" value ="emerContTel"><label id="lbemerContTel" for="emerContTel">${applInfo.emerContTel}</td>
+            </tr>
+            </c:if>
+            </tbody>
+        </table>
+        <table class="tbl_typeA" summary="지원서 상세정보">
+            <caption>
+                지원자 상세정보
+            </caption>
+            <colgroup>
+                <col width="15%" />
+                <col />
+            </colgroup>
+            <tbody>
 
-                <tbody>
-                <c:if test="${applInfo.applNo == null}" >
-                    <tr >
-                        <td colspan="7">해당 정보 없음</td>
-                    </tr>
-                </c:if>
-                <c:if test="${applInfo.applNo != null}" >
-                <tr>
-                    <th>성명</th>
-                    <td><input type="radio" class="Lradio" id="korName" name="infoRadio" value ="korName" ><label id="lbkorName"  for="korName" >${applInfo.korName}</label></td>
-                    <th>Name</th>
-                    <td><input type="radio" class="Lradio" id="engName" name="infoRadio" value ="engName"><label id="lbengName" for="engName">${applInfo.engName}</td>
-                </tr>
-                <tr>
-                    <th>생년월일/주민번호</th>
-                    <td><input type="radio" class="Lradio" id="rgstNo" name="infoRadio" value ="rgstNo"><label id="lbrgstNo" for="rgstNo">${applInfo.rgstNo}</td>
-                    <th>Sur Name</th>
-                    <td><input type="radio" class="Lradio" id="engSur" name="infoRadio" value ="engSur"><label id="lbengSur" for="engSur">${applInfo.engSur}</td>
-                </tr>
-                <tr>
-                    <th>전화번호</th>
-                    <td><input type="radio" class="Lradio" id="telNum" name="infoRadio" value ="telNum"><label id="lbtelNum" for="telNum">${applInfo.telNum}</td>
-                    <th>핸드폰 번호</th>
-                    <td><input type="radio" class="Lradio" id="mobiNum" name="infoRadio" value ="mobiNum"><label id="lbmobiNum"  for="mobiNum">${applInfo.mobiNum}</td>
-                </tr>
-                <tr>
-                    <th>주소</th>
-                    <td><input type="radio" class="Lradio" id="addr" name="infoRadio" value ="addr"><label id="lbaddr"  for="addr">${applInfo.addr}<br>${applInfo.detlAddr}</td>
-                    <th>E-mail</th>
-                    <td><input type="radio" class="Lradio" id="mailAddr" name="infoRadio" value ="mailAddr"><label id="lbmailAddr"  for="mailAddr">${applInfo.mailAddr}</td>
-                </tr>
-                <tr>
-                    <th>비상연락대상</th>
-                    <td><input type="radio" class="Lradio" id="emerContName" name="infoRadio" value ="emerContName" ><label id="lbemerContName" for="emerContName">${applInfo.emerContName}</td>
-                    <th>비상연락처</th>
-                    <td><input type="radio" class="Lradio" id="emerContTel" name="infoRadio" value ="emerContTel"><label id="lbemerContTel" for="emerContTel">${applInfo.emerContTel}</td>
-                </tr>
-                </tr>
-                <tr></tr>
-                </tbody>
-                </c:if>
-                </table>
 
-                <c:if test="${applInfo.applNo != null}" >
-                <div><br>
-                <table summary="지원서 상세정보">
-                    <tbody>
-                <tr>
-                    <th><label >변경이전정보</label></th>
-                    <td colspan="5"><label  id="befVal" ></label></td>
-                    <input type="hidden" id="defValInput" name ="befVal"> </input>
-                </tr>
-                <tr>
-                    <th>변경이후정보</th>
-                    <td colspan="5"><input type="text"  name="aftVal"  id="aftVal" ></td>
-                </tr>
-                <tr>
-                    <th>변경사유</th>
-                    <td colspan="5"><textarea  r rows ="5" cols="60" name="cnclResn"  id="cnclResn" ></textarea></td>
-                </tr>
+            <tr>
+            <th><label >변경이전정보</label></th>
+            <td colspan="5"><label  id="befVal" ></label></td>
+            <input type="hidden" id="defValInput" name ="befVal"> </input>
+            </tr>
+            <tr>
+            <th>변경이후정보</th>
+            <td colspan="5"><input type="text"  name="aftVal"  id="aftVal" class="ipt_txt1" ></td>
+            </tr>
+            <tr>
+            <th>변경사유</th>
+            <td colspan="5"><textarea  r rows ="5" cols="60" name="cnclResn"  id="cnclResn" class="ipt_area1" ></textarea></td>
+            </tr>
+            </tbody>
+        </table>
 
-                    </tbody>
+        <c:if test="${applInfo.applNo != null}" >
+            <div class="con_btn text-right">
+                <a class="btn_set btnRedS" id="changeBtn" ><span>수정요청</span></a>
+            </div>
+        </c:if>
+    </div>
+    <!-- /con_section -->
+</div>
+<!-- /content -->
 
-            </table></div>
-                    </c:if>
-            </form>
-        </div>
-    <c:if test="${applInfo.applNo != null}" >
-        <div id="LblockButton">
-
-            <a href="#"><input type="button" id="changeBtn" value="수정요청"  /></a>
-        </div>
-    </c:if>
-        </div>
-
- 
-	    </body>
-
-	</div>
-	
 	    
 <content tag="local-script">
     <script>

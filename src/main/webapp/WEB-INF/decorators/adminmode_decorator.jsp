@@ -16,23 +16,38 @@
     <script src="${contextPath}/js/html5shiv.min.js"></script>
     <script src="${contextPath}/js/respond.min.js"></script>
     <![endif]-->
-    <script src="${contextPath}/jqgrid/js/jquery-1.11.0.min.js"></script>
+
     <link rel="stylesheet" href="${contextPath}/css/admin/base.css"/>
     <link rel="stylesheet" href="${contextPath}/css/admin/global_style.css"/>
     <link rel="stylesheet" href="${contextPath}/css/admin/global_layout.css"/>
     <link rel="stylesheet" href="${contextPath}/css/admin/page_style.css"/>
     <link rel="stylesheet" href="${contextPath}/css/admin/page_layout.css"/>
-    <link rel="stylesheet" href="${contextPath}/jquery-ui/jquery-ui.css"/>    
-    <link rel="stylesheet" href="${contextPath}/jquery-ui/jquery-ui.structure.css"/>    
-    <link rel="stylesheet" href="${contextPath}/jquery-ui/jquery-ui.theme.css"/>      
-	<link rel="stylesheet" href="${contextPath}/jqgrid/css/ui.jqgrid.css"/>
+
+
 
     --%>
+    <link rel="stylesheet" href="${contextPath}/jquery-ui/jquery-ui.css"/>
+    <link rel="stylesheet" href="${contextPath}/jquery-ui/jquery-ui.structure.css"/>
+    <link rel="stylesheet" href="${contextPath}/jquery-ui/jquery-ui.theme.css"/>
+    <link rel="stylesheet" href="${contextPath}/jqgrid/css/ui.jqgrid.css"/>
+
+
     <link type="text/css" rel="stylesheet" href="${contextPath}/css/admin/default.css" />
     <link rel="stylesheet" href="${contextPath}/css/admin/font-awesome.min.css">
+
     <script type="text/javascript" src="${contextPath}/js/admin/jquery-1.9.0.js"></script>
     <script type="text/javascript" src="${contextPath}/js/admin/jquery-ui-1.10.3.custom.js"></script>
+
     <script type="text/javascript" src="${contextPath}/js/admin/default.js"></script>
+
+    <%--
+    <script src="${contextPath}/jqgrid/js/jquery-1.11.0.min.js"></script>
+    <script src="${contextPath}/jquery-ui/jquery-ui.min.js"></script>
+
+    --%>
+
+    <script src="${contextPath}/jqgrid/js/jquery.jqGrid.min.js"></script>
+    <script src="${contextPath}/jquery-ui/i18n/grid.locale-kr.js"></script>
     <decorator:head />
 </head>
 <body>
@@ -44,8 +59,8 @@
     <div class="date_info"><img src="${contextPath}/img/admin/img_icon1.png" alt="" /> <strong>원서접수기간 :</strong> 2014-04-07 09:30:00 ~ 2014-04-10 17:00:00</div>
     <div class="gnb">
         <ul>
-            <li><a href="#"><img src="${contextPath}/img/admin/btn_home.png" alt="Home" /></a></li>
-            <li><a href="#"><img src="${contextPath}/img/admin/btn_logout.png" alt="Logout" /></a></li>
+            <li><a href="${contextPath}/admin/main"><img src="${contextPath}/img/admin/btn_home.png" alt="Home" /></a></li>
+            <li><a href="/ysproject/j_spring_security_logout.do"><img src="${contextPath}/img/admin/btn_logout.png" alt="Logout" /></a></li>
         </ul>
     </div>
 </div>
@@ -54,7 +69,6 @@
 <div class="snb">
     <div class="user_info">
         <p class="name"><strong>홍길동</strong>님 반갑습니다.</p>
-        <p class="date">최종접속: 2015-03-16</p>
     </div>
     <!-- /user_info -->
 
@@ -124,10 +138,9 @@
 <div id="footer"> COPYRIGHT (C) 2015. <strong>APEXSOFT</strong>. All Rights Reserved. </div>
 </div>
 <!-- /wrap -->
+
+
 <%--
-<script src="${contextPath}/jquery-ui/jquery-ui.min.js"></script>    
-<script src="${contextPath}/jqgrid/js/jquery.jqGrid.min.js"></script>    
-<script src="${contextPath}/jquery-ui/i18n/grid.locale-kr.js"></script> 
 <script src="${contextPath}/js/jquery.bpopup.min.js"></script>
 <script src="${contextPath}/js/admin/prototype.js"></script>
 <script src="${contextPath}/js/admin/dui_base.js"></script>

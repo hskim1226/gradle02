@@ -1,18 +1,25 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<div id="LblockPageSubtitle01" class="LblockPageSubtitle">
-    <h2>지원정보</h2>
-</div>
 
-<div id="LblockDetail01" class="LblockDetail">
-    <table summary="지원 기본정보">
-        <caption>지원 기본정보</caption>
-        <tbody>
-        <c:if test="${applInfo.applNo == null}" >
-            <tr >
-                <td colspan="7">해당 정보 없음</td>
-            </tr>
-        </c:if>
-        <c:if test="${applInfo.applNo != null}" >
+<h3 class="tit1">지원정보</h3>
+<table class="tbl_typeA mb15" summary="지원 기본정보">
+    <caption>
+        지원 기본정보
+    </caption>
+    <colgroup>
+        <col width="12%" />
+        <col width="20%" />
+        <col width="12%" />
+        <col />
+        <col width="12%" />
+        <col width="25%" />
+    </colgroup>
+    <tbody>
+    <c:if test="${applInfo.applNo == null}" >
+        <tr>
+            <td colspan="7">해당 정보 없음</td>
+        </tr>
+    </c:if>
+    <c:if test="${applInfo.applNo != null}" >
         <tr>
             <th>수험번호</th>
             <td>${applInfo.applId}</td>
@@ -45,7 +52,9 @@
             <th>결제방법</th>
             <td>${applInfo.payTypeName}</td>
         </tr>
-        </c:if>
-        </tbody>
-    </table>
-</div>
+    </c:if>
+    </tbody>
+</table>
+
+
+

@@ -6,134 +6,129 @@
 </head>
 <body>
 
-<div id="LblockMain">
-    <div id="LblockPageTitle">
-        <div id="LblockPageLocation">
-            <ul>
-                <li class="Lfirst"><span><a href="#">HOME</a></span></li>
-                <li><span><a href="#">지원변경/원서수정</a></span></li>
-                <li class="Llast"><span>지원단위변경</span></li>
-            </ul>
-        </div>
-
-        <h1>지원단위변경</h1>
+<div class="content">
+    <div class="con_tit">
+        <h2><span>지원단위변경</span></h2>
+        <div class="location"> HOME &gt; 지원변경/원서수정 &gt; <span>지원단위변경</span> </div>
     </div>
 
-    <div id="LblockMainBody" >
-        <div id="LblockSearch">
-            <div><div>
-            <form id ="applicantSearchForm" action="${contextPath}/admin//modification/changeUnit" method="post">
-                <table summary="지원단위변경 대상자검색">
-                    <caption>지원단위변경 대상자검색</caption>
-                    <tbody>
-                        <th><label for="applId">수험번호</label></th>
-                        <td><input type="text" class="Ltext" id="applId" name="applId" size="15"  value="${applicantSearchForm.applId}">
-                            <img class="Limage" id="searchBtn"  src="${contextPath}/img/admin/repository/btn_search.gif" alt="검색버튼" />
-                        </td>
-                    </tbody>
-                </table>
-            </form>
-            </div></div>
-        </div>
-    </div>
+    <div class="con_section">
+        <form id ="applicantSearchForm" action="${contextPath}/admin//modification/changeUnit" method="post">
+            <div class="srch_box"> <strong><label for="applId">수험번호</label></strong>
+                <input type="text" name="applId" id="applId" class="ipt_txt1" style  value="${applicantSearchForm.applId}" />
+          <span class="btnBlueS">
+          <input type="submit" value="검색" class="btnBox" id="searchBtn"  />
+          </span> </div>
+        </form>
 
-    <%@include file="applicationInfo.jsp"%>
-    <%@include file="applicantInfo.jsp"%>
+
+        <%@include file="applicationInfo.jsp"%>
+        <%@include file="applicantInfo.jsp"%>
 
     <c:if test="${applInfo.applNo != null}" >
-        <div id="LblockPageSubtitle03" class="LblockPageSubtitle">
-            <h2>변경요청 지원정보</h2>
-        </div>
-        <div id="LblockDetail03" class="LblockDetail">
-            <form:form commandName="customApplicationChange"  method="post" role="form" action="${contextPath}/admin/modification/requestChangeUnit" id="changeUnitt-form">
-                <input type="hidden" name="applNo" value=${applInfo.applNo}>
+        <h3 class="tit1">변경요청 지원정보</h3>
 
-                <input type="hidden" id="befValInput" name ="befVal">
-                <input type="hidden" id="aftValInput" name ="aftVal">
-            <table summary="변경요청 지원정보">
-                <caption>변경요청 지원정보</caption>
-                <tbody>
-                <tr>
-                    <th><label for="admsNo">지원 전형</label></th>
-                    <td>
-                        <form:select path="admsNo" id="admsNo" cssClass="form-control base-info">
-                            <form:option value="" label="--선택--" />
-                            <form:options items="${selection.admsList}" itemValue="admsNo" itemLabel="admsNo"/>
-                         </form:select></td>
-                    <th><label for="applAttrCode" >지원 구분</label></th>
-                    <td>
-                        <form:select path="applAttrCode" id="applAttrCode" cssClass="form-control base-info">
-                            <form:option value="" label="--선택--" />
-                            <form:options items="${selection.applAttrList}" itemValue="code" itemLabel="codeVal"/>
-                        </form:select>
-                    </td>
-                    <th><label for="ariInstCode">학·연·산 연구기관</label></th>
-                    <td>
-                        <form:select path="ariInstCode" id="ariInstCode" cssClass="form-control base-info">
-                            <form:option value="" label="--선택--" />
-                            <c:if test="${entireApplication.application.applAttrCode == '00002'}">
-                                <form:options items="${common.ariInstList}" itemValue="ariInstCode" itemLabel="ariInstName" />
-                            </c:if>
-                        </form:select>
-                    </td>
-                </tr>
-                <tr>
-                    <th><label for="campCode">캠퍼스</label></th>
-                    <td>
-                        <form:select path="campCode" id="campCode" cssClass="form-control base-info">
-                            <form:option value="" label="--선택--" />
-                            <form:options items="${selection.campList}" itemValue="campCode" itemLabel="campName" />
-                        </form:select>
-                    </td>
-                    <th><label for="collCode"  >대학</label></th>
-                    <td>
-                        <form:select path="collCode" id="collCode" cssClass="form-control base-info">
-                            <form:option value="" label="--선택--" />
-                            <form:options items="${selection.collList}" itemValue="collCode" itemLabel="collName" />
-                        </form:select>
-                    </td>
-                    <th><label for="deptCode">지원 학과</label></th>
-                    <td>
-                        <form:select path="deptCode" id="deptCode" cssClass="form-control base-info">
-                            <form:option value="" label="--선택--" />
-                            <form:options items="${common.deptList}" itemValue="deptCode" itemLabel="deptName" />
-                        </form:select>
-                    </td>
-                </tr>
-                <tr>
+        <form:form commandName="customApplicationChange"  method="post" role="form" action="${contextPath}/admin/modification/requestChangeUnit" id="changeUnitt-form">
+        <input type="hidden" name="applNo" value=${applInfo.applNo}>
+        <input type="hidden" id="befValInput" name ="befVal">
+        <input type="hidden" id="aftValInput" name ="aftVal">
+        <table class="tbl_typeA mb15" summary="변경요청 지원정보">
+            <caption>
+                변경요청 지원정보
+            </caption>
+            <colgroup>
+                <col width="12%" />
+                <col width="20%" />
+                <col width="12%" />
+                <col />
+                <col width="12%" />
+                <col width="25%" />
+            </colgroup>
+            <tbody>
+            <tr>
+                <th><label for="admsNo">지원 전형</label></th>
+                <td>
+                    <form:select path="admsNo" id="admsNo" class="ipt_slt1">
+                        <form:option value="" label="--선택--" />
+                        <form:options items="${selection.admsList}" itemValue="admsNo" itemLabel="admsNo"/>
+                    </form:select></td>
+                <th><label for="applAttrCode" >지원 구분</label></th>
+                <td>
+                    <form:select path="applAttrCode" id="applAttrCode" class="ipt_slt1">
+                        <form:option value="" label="--선택--" />
+                        <form:options items="${selection.applAttrList}" itemValue="code" itemLabel="codeVal"/>
+                    </form:select>
+                </td>
+                <th><label for="ariInstCode">학·연·산 연구기관</label></th>
+                <td>
+                    <form:select path="ariInstCode" id="ariInstCode" class="ipt_slt1">
+                        <form:option value="" label="--선택--" />
+                        <c:if test="${entireApplication.application.applAttrCode == '00002'}">
+                            <form:options items="${common.ariInstList}" itemValue="ariInstCode" itemLabel="ariInstName" />
+                        </c:if>
+                    </form:select>
+                </td>
+            </tr>
+            <tr>
+                <th><label for="campCode">캠퍼스</label></th>
+                <td>
+                    <form:select path="campCode" id="campCode" class="ipt_slt1">
+                        <form:option value="" label="--선택--" />
+                        <form:options items="${selection.campList}" itemValue="campCode" itemLabel="campName" />
+                    </form:select>
+                </td>
+                <th><label for="collCode"  >대학</label></th>
+                <td>
+                    <form:select path="collCode" id="collCode" class="ipt_slt1">
+                        <form:option value="" label="--선택--" />
+                        <form:options items="${selection.collList}" itemValue="collCode" itemLabel="collName" />
+                    </form:select>
+                </td>
+                <th><label for="deptCode">지원 학과</label></th>
+                <td>
+                    <form:select path="deptCode" id="deptCode" class="ipt_slt1">
+                        <form:option value="" label="--선택--" />
+                        <form:options items="${common.deptList}" itemValue="deptCode" itemLabel="deptName" />
+                    </form:select>
+                </td>
+            </tr>
+            <tr>
 
-                    <th><label for="corsTypeCode" >지원 과정</label></th>
-                    <td>
-                        <form:select path="corsTypeCode" id="corsTypeCode" cssClass="form-control base-info">
-                            <form:option value="" label="--선택--" />
-                            <form:options items="${common.corsTypeList}" itemValue="corsTypeCode" itemLabel="codeVal" />
-                        </form:select>
-                    </td>
-                    <th><label for="detlMajCode" >세부 전공</label></th>
-                    <td>
-                        <form:select path="detlMajCode" id="detlMajCode" cssClass="form-control base-info">
-                            <form:option value="" label="--선택--" />
-                            <form:options items="${common.detlMajList}" itemValue="detlMajCode" itemLabel="detlMajName" />
-                        </form:select>
-                    </td>
-                    <th>금액변경</th>
-                    <td></td>
-                </tr>
-                <tr>
-                    <th>변경사유</th>
-                    <td colspan="5"><textarea  r rows ="5" cols="60" name="cnclResn"  id="cnclResn" ></textarea></td>
-                </tr>
-                </tbody>
+                <th><label for="corsTypeCode" >지원 과정</label></th>
+                <td>
+                    <form:select path="corsTypeCode" id="corsTypeCode" class="ipt_slt1">
+                        <form:option value="" label="--선택--" />
+                        <form:options items="${common.corsTypeList}" itemValue="corsTypeCode" itemLabel="codeVal" />
+                    </form:select>
+                </td>
+                <th><label for="detlMajCode" >세부 전공</label></th>
+                <td>
+                    <form:select path="detlMajCode" id="detlMajCode" class="ipt_slt1">
+                        <form:option value="" label="--선택--" />
+                        <form:options items="${common.detlMajList}" itemValue="detlMajCode" itemLabel="detlMajName" />
+                    </form:select>
+                </td>
+                <th>금액변경</th>
+                <td></td>
+            </tr>
+            <tr>
+                <th>변경사유</th>
+                <td colspan="5"><textarea  r rows ="5" cols="60" name="cnclResn"  id="cnclResn" ></textarea></td>
+            </tr>
+            </tbody>
             </table>
             </form:form>
-        </div>
-    </c:if>
-    <c:if test="${applInfo.applNo != null}" >
-        <div id="LblockButton">
-            <a href="#"><input type="button"  id="changeBtn" value="변경요청" /></a>
-        </div>
-    </c:if>
+
+            </c:if>
+            <c:if test="${applInfo.applNo != null}" >
+                <div class="con_btn text-right">
+                    <a class="btn_set btnRedS" id="changeBtn" ><span>변경요청</span></a>
+                </div>
+            </c:if>
+    </div>
+    <!-- /con_section -->
 </div>
+<!-- /content -->
 </body>
 
 <content tag="local-script">
@@ -256,7 +251,7 @@
                         '00002': {targetId: 'ariInstCode', valueKey: 'ariInstCode', labelKey: 'ariInstName', url: '/ariInst'}, // applAttrCode == '02'
                         targetId: 'campCode',
                         valueKey: 'campCode',
-                        labelKey: 'campName',
+                        labelKey: '${pageContext.response.locale == 'en' ? 'campNameXxen' : 'campName'}',
                         clean: ['collCode', 'ariInstCode', 'deptCode', 'corsTypeCode', 'detlMajCode'],
                         url: '/campus'
                     }

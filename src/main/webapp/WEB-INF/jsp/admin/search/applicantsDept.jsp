@@ -3,137 +3,116 @@
 <html>
 <head>
     <title>    </title>
-    <script type="text/javascript">
-
-
-
-  
-    </script>
 </head>
 <body>
 
-<div id="LblockMain">
-    <div id="LblockPageTitle">
-        <div id="LblockPageLocation">
-            <ul>
-                <li class="Lfirst"><span><a href="#">HOME</a></span></li>
-                <li><span><a href="#">지원자관리</a></span></li>
-                <li class="Llast"><span>지원자검색</span></li>
-            </ul>
-        </div>
+<div class="content">
+<div class="con_tit">
+    <h2><span>지원자검색</span></h2>
+    <div class="location"> HOME &gt; 지원자관리 &gt; <span>지원자검색</span> </div>
 
-        <h1>지원자검색</h1>
-    </div>
-
-    <div id="LblockMainBody" >
-        <div id="LblockSearch">
-            <div>
-                <div>
-                    <form:form commandName="searchPageForm"  method="post" role="form" action="${contextPath}/admin/search/applicants/deptSearch" id="search-form">
-                        <input type="hidden" id="page-number-hidden" name="page.no" value="${searchPageForm.page.no}" />
-                        <table summary="지원현황 검색조건">
-                            <caption>지원현황 검색조건</caption>
-                            <tbody>
-                            <tr><th class="Cat">지원단위검색 : </th>
-                                <th><label for="admsNo">지원 전형</label></th>
-                                <td>
-                                    <form:select path="admsNo" id="admsNo" cssClass="form-control base-info">
-                                        <form:option value="" label="--전체--" />
-                                        <form:options items="${selection.admsList}" itemValue="admsNo" itemLabel="admsNo"/>
-                                    </form:select>
-                                </td>                        
-                                <th><label for="campCode">캠퍼스</label></th>
-                                <td>
-                                    <form:select path="campCode" id="campCode" cssClass="form-control base-info">
-                                        <form:option value="" label="--전체--" />
-                                        <form:options items="${selection.campList}" itemValue="campCode" itemLabel="campName" />
-                                    </form:select>
-                                </td>
-                                </tr>
-                            <tr>
-                                <td></td>
-                                <th><label for="collCode"  >대학</label></th>
-                                <td>
-                                    <form:select path="collCode" id="collCode" cssClass="form-control base-info">
-                                        <form:option value="" label="--전체--" />
-                                        <form:options items="${selection.collList}" itemValue="collCode" itemLabel="collName" />
-                                    </form:select>
-                                </td>
-                                <th><label for= "deptCode">학과</label></th>
-                                <td>
-                                    <form:select path="deptCode" id="deptCode" cssClass="form-control base-info">
-                                        <form:option value="" label="--전체--" />
-                                        <form:options items="${selection.deptList}" itemValue="deptCode" itemLabel="deptName" />
-                                    </form:select>
-                                </td>
-                            </tr>
-                            </tbody>
-                        </table>
-                        <input id="deptSearchBtn" type='image' class="Limage" src="${contextPath}/img/admin/repository/btn_search.gif" />
-
-                    </form:form>
-                </div>
-            </div>
-        </div>
-
-        <div id="LblockListTable01" class="LblockListTable">
-            <table summary="전형별 지원현황" >
-                <caption>전형별 지원현황</caption>
-                <thead>
-                <tr>
-                    <th class="Lfirst">수험번호</th>
-                    <th>캠퍼스</th>
-                    <th>지원학과<br>세부전공</th>
-                    <th>지원전형<br>지원과정</th>
-                    <th>성명<br>생년월일</th>
-                    <th>전화번호<br>이메일</th>
-                    <th>결제방법<br>결제금액</th>
-                </tr>
-                </thead>
-                    <c:if test="${applList.size() == 0}" >
-                        <tr >
-                            <td colspan="7">해당 정보 없음</td>
-                        </tr>
-                    </c:if>
-                   <c:forEach var="applList" items="${applList}" varStatus="status">
-                    <tr class="<c:if test="${status.index == 0}">Lfirst </c:if>applList" applNo="${applList.applNo}">
-                        <td>${applList.applId}</td>
-                        <td>${applList.campName}</td>
-                        <td>${applList.deptName}</td>
-                        <td >${applList.applAttrName}<br>${applList.corsTypeName}</td>
-                        <td >${applList.korName} <br> ${applList.rgstNo}</td>
-                        <td >${applList.mobiNum} <br>${applList.mailAddr} </td>
-                        <td >${applList.payTypeName}<br>${applList.admsFee} </td>
-                    </tr>
-                    </c:forEach>
-            </table>
-            <ul>
-                <fmt:parseNumber var="indexCount" integerOnly= "true" value="${searchPageForm.page.totalCount/searchPageForm.page.rows + 1}" />
-                <c:if test="${indexCount != 0}">
-                    <li class="Lbegin"><span><a href="#" onclick="movePage(1); return false;">1page</a></span></li>
-                    <c:if test="${searchPageForm.page.no-1 > 0}">
-                        <li class="Lprevious"><span><a href="#" onclick="movePage(${searchPageForm.page.no-1}); return false;"><img src="${contextPath}/img/admin/repository/list_page_previous.gif" alt="이전페이지" /></a></span></li>
-                    </c:if>
-                    <c:forEach begin="1" end="${indexCount}" var="pageNumIndex">
-                        <c:if test="${searchPageForm.page.no==pageNumIndex}">
-                            <li class="Lfirst"><span>${pageNumIndex}</span></li>
-                        </c:if>
-                        <c:if test="${searchPageForm.page.no!=pageNumIndex}">
-                            <li><span><a href="#" onclick="movePage(${pageNumIndex}); return false;">${pageNumIndex}</a></span></li>
-                        </c:if>
-                    </c:forEach>
-                    <c:if test="${searchPageForm.page.no < indexCount}">
-                        <li class="Lnext"><span><a href="#" onclick="movePage(${searchPageForm.page.no+1}); return false;"><img src="${contextPath}/img/admin/repository/list_page_next.gif" alt="다음페이지" /></a></span></li>
-                    </c:if>
-                    <li class="Lend"><span><a href="#" onclick="movePage(${indexCount}); return false;">${indexCount}page</a></span></li>
-                </c:if>
-            </ul>
-            <div  id="LblockcChgInfoBtn" class="LblockSubbutton">
-                <a href="#"><input type="button"  id="downBtn" value="엑셀파일 다운로드"  /></a>
-            </div>
-        </div>
-    </div>
 </div>
+
+<div class="con_section">
+    <form:form commandName="searchPageForm"  method="post" role="form" action="${contextPath}/admin/search/applicants/deptSearch" id="search-form">
+    <div class="srch_box">
+
+    <input type="hidden" id="page-number-hidden" name="page.no" value="${searchPageForm.page.no}" />
+    <p class="srch_tit"><i class="fa fa-search"></i>지원단위검색</p>
+
+
+        <label for="admsNo"><strong>지원 전형</strong></label>
+
+        <form:select path="admsNo" id="admsNo" class="ipt_slt1">
+            <form:option value="" label="--전체--" />
+            <form:options items="${selection.admsList}" itemValue="admsNo" itemLabel="admsNo"/>
+        </form:select>&nbsp;&nbsp;&nbsp;
+
+    <label for="campCode"><strong>캠퍼스</strong></label>
+    <form:select path="campCode" id="campCode" class="ipt_slt1">
+        <form:option value="" label="--전체--" />
+        <form:options items="${selection.campList}" itemValue="campCode" itemLabel="campName" />
+    </form:select>&nbsp;&nbsp;&nbsp;
+
+    <label for="collCode"  ><strong>대학</strong></label>
+        <form:select path="collCode" id="collCode" class="ipt_slt1">
+            <form:option value="" label="--전체--" />
+            <form:options items="${selection.collList}" itemValue="collCode" itemLabel="collName" />
+        </form:select>&nbsp;&nbsp;&nbsp;
+    <label for= "deptCode"><strong>학과</strong></label>
+        <form:select path="deptCode" id="deptCode" class="ipt_slt1">
+            <form:option value="" label="--전체--" />
+            <form:options items="${selection.deptList}" itemValue="deptCode" itemLabel="deptName" />
+        </form:select>&nbsp;&nbsp;&nbsp;
+
+      <span class="btnBlueS">
+          <input type="submit" value="검색" class="btnBox" id='searchBtn' />
+          </span>
+    </div>
+    </form:form>
+<table class="tbl_typeA text-center" summary="전형별 지원현황">
+    <caption>전형별 지원현황</caption>
+    <thead>
+    <tr>
+        <th>수험번호</th>
+        <th>캠퍼스</th>
+        <th>지원학과<br>세부전공</th>
+        <th>지원전형<br>지원과정</th>
+        <th>성명<br>생년월일</th>
+        <th>전화번호<br>이메일</th>
+        <th>결제방법<br>결제금액</th>
+    </tr>
+    </thead>
+    <tbody>
+    <c:if test="${applList.size() == 0}" >
+        <tr >
+            <td colspan="7">해당 정보 없음</td>
+        </tr>
+    </c:if>
+    <c:forEach var="applList" items="${applList}" varStatus="status">
+        <tr class="applList"  applNo="${applList.applNo}">
+            <td>${applList.applId}</td>
+            <td>${applList.campName}</td>
+            <td>${applList.deptName}</td>
+            <td >${applList.applAttrName}<br>${applList.corsTypeName}</td>
+            <td >${applList.korName} <br> ${applList.rgstNo}</td>
+            <td >${applList.mobiNum} <br>${applList.mailAddr} </td>
+            <td >${applList.payTypeName}<br>${applList.admsFee} </td>
+        </tr>
+    </c:forEach>
+    </tbody>
+</table>
+    <div class="page_number">
+    <fmt:parseNumber var="indexCount" integerOnly= "true" value="${searchPageForm.page.totalCount/searchPageForm.page.rows + 1}" />
+    <c:if test="${indexCount != 0}">
+        <a class="Lbegin"><span><a href="#" class="end" onclick="movePage(1); return false;">1page</a>
+        <c:if test="${searchPageForm.page.no-1 > 0}">
+           <a href="#" onclick="movePage(${searchPageForm.page.no-1}); return false;"><img src="${contextPath}/img/admin/repository/list_page_previous.gif" alt="이전페이지" /></a>
+        </c:if>
+        <c:forEach begin="1" end="${indexCount}" var="pageNumIndex">
+            <c:if test="${searchPageForm.page.no==pageNumIndex}">
+               <span class="active">${pageNumIndex}</span>
+            </c:if>
+            <c:if test="${searchPageForm.page.no!=pageNumIndex}">
+                <a href="#" onclick="movePage(${pageNumIndex}); return false;">${pageNumIndex}</a>
+            </c:if>
+        </c:forEach>
+        <c:if test="${searchPageForm.page.no < indexCount}">
+            <a href="#" onclick="movePage(${searchPageForm.page.no+1}); return false;"><img src="${contextPath}/img/admin/repository/list_page_next.gif" alt="다음페이지" /></a>
+        </c:if>
+        <a href="#" class="end" onclick="movePage(${indexCount}); return false;">${indexCount}page</a>
+    </c:if>
+    </div>
+
+
+
+<div id="LblockcChgInfoBtn" class="con_btn text-right">
+    <a class="btn_set btnBlueS" id="downBtn"  href="#"><span>엑셀파일 다운로드</span></a>
+</div>
+</div>
+<!-- /con_section -->
+</div>
+<!-- /content -->
 
 <content tag="local-script">
 
@@ -143,7 +122,7 @@
             location.href = "${contextPath}/admin/search/applicant/applInfoDetail?applNo="+jQuery(this).attr('applNo');
         }).css("cursor","pointer");
 
-        jQuery(".Limage").on('click', function(e) {
+        jQuery("#searchBtn").on('click', function(e) {
             e.preventDefault();
             submitForm();
         });

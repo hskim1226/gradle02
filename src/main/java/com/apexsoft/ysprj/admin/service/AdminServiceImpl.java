@@ -289,7 +289,7 @@ public class AdminServiceImpl implements AdminService{
         if(searchForm.getDeptCode()!=null){
             deptList = commonDAO.queryForList(NAME_SPACE+"selectDepartmentListByCollege", searchForm, Department.class);
         }
-        //applAttrList= commonService.retrieveCommonCodeValueByCodeGroup("APPL_ATTR");
+        applAttrList= commonService.retrieveCommonCodeByCodeGroup("APPL_ATTR");
         if (admsList != null)      selectionMap.put("admsList", admsList);
         if (applAttrList != null)  selectionMap.put("applAttrList", applAttrList);
         if (campList != null)      selectionMap.put("campList", campList);

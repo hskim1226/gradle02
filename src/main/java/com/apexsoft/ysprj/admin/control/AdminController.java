@@ -97,7 +97,10 @@ public class AdminController {
 
         return value;
     }
-
+    @RequestMapping(value="")
+    public String initZeroAdmin() {
+        return "admin/stats/main";
+    }
     @RequestMapping(value="/main")
     public String initAdmin() {
         return "admin/stats/main";
