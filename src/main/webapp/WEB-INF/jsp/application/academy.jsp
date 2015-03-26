@@ -430,7 +430,7 @@
                                                 <div class="col-sm-3">
                                                     <label class="radio-inline">
                                                             <%--<form:radiobutton path="collegeList[${stat.index}].lastSchlYn" cssClass="radio-group" value="${academy.collegeList[stat.index].lastSchlYn}"/>&nbsp;&nbsp;최종 학교--%>
-                                                        <input type="radio" class="college-radio" id="college-radio-${stat.index}" name="collegeRadio" data-last-radio-id="collegeList${stat.index}.lastSchlYn" <c:if test="${academy.collegeList[stat.index].lastSchlYn == 'Y'}">checked</c:if> />&nbsp;&nbsp;<spring:message code="L02114"/><%--학부 최종 학교--%>
+                                                        <input type="radio" class="college-radio" id="college-radio-${stat.index}" name="collegeRadio" data-last-radio-id="collegeList${stat.index}.lastSchlYn" ${academy.collegeList[stat.index].lastSchlYn == 'Y' ? 'checked' : ''} />&nbsp;&nbsp;<spring:message code="L02114"/><%--학부 최종 학교--%>
                                                         <form:hidden path="collegeList[${stat.index}].lastSchlYn"/>
                                                     </label>
                                                 </div>
@@ -513,7 +513,7 @@
                         </div>
                         <div class="panel panel-darkgray">
                             <div class="panel-heading"><spring:message code="L02201"/><%--대학원--%></div>
-                            <div class="col-sm-12 grad-notice"><label>박사 과정에 지원한 경우에는 대학원 최종 학교가 사정 기준이 됩니다.</label></div>
+                            <div class="col-sm-12 grad-notice"><label><spring:message code="U02201"/></label></div>    <%--박사 과정에 지원한 경우에는 대학원 최종 학교가 사정 기준이 됩니다.--%>
                             <div class="panel-body">
                                 <div class="form-group-block-list">
                                     <c:forEach begin="0" end="${academy.graduateList.size() > 0 ? academy.graduateList.size() - 1 : 0}" varStatus="stat">
@@ -593,10 +593,10 @@
                                                     </form:select>
                                                 </div>
                                                 <div class="col-sm-8">
-                                                    <form:input path="graduateList[${stat.index}].degrNo" cssClass="degr-no form-control erase-hide" placeholder="학위등록번호를 입력해주세요"
-                                                            style="display: ${academy.graduateList[stat.index].grdaTypeCode == '00001' ? 'block;' : 'none;'}"/>
+                                                    <form:input path="graduateList[${stat.index}].degrNo" cssClass="degr-no form-control erase-hide" placeholder="${msg.getMessage('U02104')}"
+                                                            style="display: ${academy.graduateList[stat.index].grdaTypeCode == '00001' ? 'block;' : 'none;'}"/> <%--학위등록번호를 입력해주세요--%>
                                                     <label id='graduateList${stat.index}.label-grad-02' class="col-sm-10 grda-not degr-message erase-hide"
-                                                           style="display: ${academy.graduateList[stat.index].grdaTypeCode == '00002' ? 'block;' : 'none;'}" >합격 후 입학 시 졸업증명서를 대학원 사무실로 반드시 제출하세요</label>
+                                                           style="display: ${academy.graduateList[stat.index].grdaTypeCode == '00002' ? 'block;' : 'none;'}" ><spring:message code="U02105"/></label>    <%--합격 후 입학 시 졸업증명서를 대학원 사무실로 반드시 제출하세요--%>
                                                     <label id='graduateList${stat.index}.label-grad-03' class="col-sm-10 grda-not degr-message erase-hide"
                                                            style="display: ${academy.graduateList[stat.index].grdaTypeCode == '00003' ? 'block;' : 'none;'}" ></label>
                                                     <label id='graduateList${stat.index}.label-grad-04' class="col-sm-10 grda-not degr-message erase-hide"
@@ -626,7 +626,7 @@
                                                 <div class="col-sm-3">
                                                     <label class="radio-inline">
                                                             <%--<form:radiobutton path="graduateList[${stat.index}].lastSchlYn" cssClass="radio-group" value="${academy.graduateList[stat.index].lastSchlYn}"/>&nbsp;&nbsp;최종 학교--%>
-                                                        <input type="radio" class="graduate-radio" id="graduate-radio-${stat.index}" name="graduateRadio" data-last-radio-id="graduateList${stat.index}.lastSchlYn" <c:if test="${academy.graduateList[stat.index].lastSchlYn == 'Y'}">checked</c:if> />&nbsp;&nbsp;<spring:message code="L02202"/><%--대학원 최종 학교--%>
+                                                        <input type="radio" class="graduate-radio" id="graduate-radio-${stat.index}" name="graduateRadio" data-last-radio-id="graduateList${stat.index}.lastSchlYn" ${academy.graduateList[stat.index].lastSchlYn == 'Y' ? 'checked' : ''} />&nbsp;&nbsp;<spring:message code="L02202"/><%--대학원 최종 학교--%>
                                                         <form:hidden path="graduateList[${stat.index}].lastSchlYn"/>
                                                     </label>
                                                 </div>
@@ -658,7 +658,7 @@
                                             <form:label path="graduateList[${stat.index}].majName" cssClass="col-sm-2 control-label"><spring:message code="L02116"/><%--학과 이름--%></form:label>
                                             <div class="col-sm-9">
                                                 <div class="col-sm-12">
-                                                    <form:input path="graduateList[${stat.index}].majName" cssClass="form-control" placeholder="다수 전공은 컴마로 구분하여 모두 입력해 주세요." />
+                                                    <form:input path="graduateList[${stat.index}].majName" cssClass="form-control" placeholder="${msg.getMessage('U02108')}" />   <%--다수 전공은 컴마로 구분하여 모두 입력해 주세요.--%>
                                                 </div>
                                         <spring:bind path="graduateList[${stat.index}].majName">
                                             <c:if test="${status.error}">
@@ -675,7 +675,7 @@
                                                 <div class="col-sm-6">
                                                     <div class="input-group">
                                                         <span class="input-group-addon"><spring:message code="L02118"/><%--평점--%></span>
-                                                        <form:input path="graduateList[${stat.index}].gradAvr" cssClass="form-control gradAvr" maxlength="4" placeholder="#.##"/>
+                                                        <form:input path="graduateList[${stat.index}].gradAvr" cssClass="form-control gradAvr" maxlength="4" placeholder="${msg.getMessage('U02109')}"/>    <%--#.##--%>
                                                     </div>
                                             <spring:bind path="graduateList[${stat.index}].gradAvr">
                                                 <c:if test="${status.error}">
@@ -852,19 +852,19 @@
                 document.getElementById('targetNode' + i).value = targetNode ? targetNode : null;
             }
             if (dataCategory.indexOf('country') > -1) {
-                title = '국가 검색';
-                columnHead = ['', '한글 이름', '영문 이름'];
+                title = '<spring:message code="L02121"/>';  /*국가 검색*/
+                columnHead = ['', '<spring:message code="L02122"/>', '<spring:message code="L02123"/>'];   /*한글 이름, 영문 이름*/
                 document.getElementById('bpopContent').setAttribute('data-category', dataCategory);
             } else if (dataCategory.indexOf('school') > -1) {
-                columnHead = ['', '학교 이름'];
+                columnHead = ['', '<spring:message code="L02127"/>'];    /*학교 이름*/
                 document.getElementById('bpopContent').setAttribute('data-category', dataCategory);
                 var suffix = dataCategory.split('-')[1];
                 if (suffix == 'h') {
-                    title = '고등학교 검색';
+                    title = '<spring:message code="L02124"/>';  /*고등학교 검색*/
                 } else if (suffix == 'u') {
-                    title = '대학교 검색';
+                    title = '<spring:message code="L02125"/>';  /*대학교 검색*/
                 } else if (suffix == 'g') {
-                    title = '대학원 검색';
+                    title = '<spring:message code="L02126"/>';  /*대학원 검색*/
                 } else {
                 }
             }
@@ -928,9 +928,9 @@
                         }
                     } else {
                         if (category.isCountry) {
-                            record = $('<tr>' + '<td><span style="display: none;" class="b-close">' + '999' + '</span></td>' + '<td colspan="2"><span class="b-close" style="cursor: pointer">' + '검색 결과가 없습니다. 다시 검색해 주세요' + '</span></td>' + '</tr>');
+                            record = $('<tr>' + '<td><span style="display: none;" class="b-close">' + '999' + '</span></td>' + '<td colspan="2"><span class="b-close" style="cursor: pointer">' + '<spring:message code="U02101"/>' + '</span></td>' + '</tr>'); /*검색 결과가 없습니다. 다시 검색해 주세요*/
                         } else if (category.isSchool) {
-                            record = $('<tr>' + '<td><span style="display: none;" class="b-close">' + '999' + '</span></td>' + '<td><span class="b-close" style="cursor: pointer">' + '검색 결과가 없습니다. 여기를 눌러 직접 입력해 주세요' + '</span></td>' + '</tr>');
+                            record = $('<tr>' + '<td><span style="display: none;" class="b-close">' + '999' + '</span></td>' + '<td><span class="b-close" style="cursor: pointer">' + '<spring:message code="U02106"/>' + '</span></td>' + '</tr>'); /*검색 결과가 없습니다. 여기를 눌러 직접 입력해 주세요*/
                         }
                         $('#bpopResult').append(record);
                         $(record).on('click', function(e) {
@@ -946,9 +946,9 @@
                                 resultInputText = document.getElementById(targetInputId[1]);
                                 resultInputText.value = '';
                                 if (category.isCountry)
-                                    resultInputText.placeholder = '다시 검색해주세요';
+                                    resultInputText.placeholder = '<spring:message code="U02102"/>';  /*다시 검색해주세요*/
                                 if (category.isSchool) {
-                                    resultInputText.placeholder = '직접 입력해주세요';
+                                    resultInputText.placeholder = '<spring:message code="U02107"/>';  /*직접 입력해주세요*/
                                     resultInputText.readOnly = false;
                                     resultInputText.focus();
                                 }
@@ -998,7 +998,7 @@
                 exprDate = document.getElementById(this.getAttribute('data-exprDate')).value;
             if ( entrDate != '' && exprDate != '') {
                 if (parseInt(entrDate) > parseInt(exprDate)) {
-                    alert('시작일은 종료일보다 앞선 날짜여야 합니다.');
+                    alert('<spring:message code="U02103"/>');    /*시작일은 종료일보다 앞선 날짜여야 합니다.*/
                     this.value = '';
                 }
             }
@@ -1029,7 +1029,7 @@
                 hideObj.push(document.getElementById(prefix + '.label-grad-03'));
                 hideObj.push(document.getElementById(prefix + '.label-grad-04'));
                 showObj.style.display = "block";
-                degrNoObj.placeholder = "학위등록번호를 입력해주세요";
+                degrNoObj.placeholder = "<spring:message code="U02104"/>";    /*학위등록번호를 입력해주세요*/
                 $(degrNoObj).placeholder();
             } else if (this[this.selectedIndex].value == "00002") {
                 hideObj.push(degrNoObj);
@@ -1099,7 +1099,7 @@
                 var regexp = /\d\.\d{2}/;
                 if (!regexp.test(this.value) && this.value != '') {
                     validFlag.value = false;
-                    alert('소수점 둘째자리까지 작성해 주세요');
+                    alert('<spring:message code="U02110"/>');    /*소수점 둘째자리까지 작성해 주세요*/
                     this.focus();
                 } else {
                     validFlag.value = true;
@@ -1119,12 +1119,12 @@
                         gradAvgInput = document.getElementById(this.getAttribute('data-gradAvr-id'));
                 if (!regexp.test(this.value) && this.value != '') {
                     validFlag.value = false;
-                    alert('소수점 둘째자리까지 작성해 주세요');
+                    alert('<spring:message code="U02110"/>');    /*소수점 둘째자리까지 작성해 주세요*/
                     this.focus();
                 } else {
                     if (parseFloat(this.value) < parseFloat(gradAvgInput.value)) {
                         validFlag.value = false;
-                        alert('평점은 만점 이하여야 합니다');
+                        alert('<spring:message code="U02111"/>');   /*평점은 만점 이하여야 합니다*/
                         gradAvgInput.focus();
                     } else {
                         validFlag.value = true;
@@ -1327,7 +1327,7 @@ if (console) {
 
         <%-- 삭제 버튼 --%>
         $('.btn-remove').on('click', function(e) {
-            if (confirm('학력 정보를 삭제하시면 관련 첨부 파일도 함께 삭제 됩니다.\n\n계속 하시겠습니까?')) {
+            if (confirm('<spring:message code="U02112"/>\n\n<spring:message code="U02113"/>')) {    /*학력 정보를 삭제하시면 관련 첨부 파일도 함께 삭제 됩니다.\n\n계속 하시겠습니까?*/
                 var target = e.currentTarget ? e.currentTarget : e.target;
                 var blockToRemove = target.parentNode;
                 while (blockToRemove && !$(blockToRemove).hasClass('form-group-block')) {

@@ -97,10 +97,6 @@ public class LangCareerController {
             */
             langCareerService.retrieveLangSubCode(formData);
             HashMap<String, Object> commonCodeMap = new HashMap<String, Object>();
-            commonCodeMap.put( "toflTypeList", commonService.retrieveCommonCodeByCodeGroup("TOFL_TYPE") );
-
-            // TODO 김도훈 validation 실패 시 아래와 같이 면제 사유 리스트를 다시 세팅해줘야 함.
-            commonCodeMap.put( "fornExmpList", commonService.retrieveCommonCodeByCodeGroup("FORN_EXMP") );
 
             commonCodeMap.put( "ieltsLevelList", commonService.retrieveCommonCodeByCodeGroup("IELT_LEVL") );
             commonCodeMap.put( "topikLevelList", commonService.retrieveCommonCodeByCodeGroup("TOPK_LEVL") );

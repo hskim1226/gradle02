@@ -499,38 +499,43 @@
                                             </spring:bind>
                                         </div>
                                     </div>
-                                    <div class="form-group required" id="divRgstNo" style="display: ${basis.application.citzCntrCode == "118" ? 'block;' : 'none;'}">
-                                        <label class="col-sm-2 control-label"><spring:message code="L01208"/><%--주민등록번호--%></label>
+                                    <%--<div class="form-group required" id="divRgstNo" style="display: ${basis.application.citzCntrCode == "118" ? 'block;' : 'none;'}">--%>
+                                    <div class="form-group required" id="divRgstNo">
+                                        <label class="col-sm-2 control-label" id="dateOfBirthLabel">
+                                            ${basis.application.citzCntrCode == '118' ? msg.getMessage('L01208') : msg.getMessage('L01216')}<%--주민등록번호 or 생년월일--%>
+                                        </label>
                                         <div class="col-sm-9">
                                             <div class="col-sm-12">
                                                 <div class="col-sm-4 nopadding">
-                                                    <div><form:input path="application.rgstBornDate" cssClass="form-control numOnly lenCheck-6" maxlength="6" placeholder="주민등록 상 생년월일 6자리"/></div>
+                                                    <div><form:input path="application.rgstBornDate" cssClass="form-control numOnly lenCheck-6"
+                                                                     maxlength="6" placeholder="${basis.application.citzCntrCode == '118' ? msg.getMessage('U01206') : msg.getMessage('U01207')}"/></div>
                                             <spring:bind path="application.rgstBornDate">
                                                 <c:if test="${status.error}">
                                                     <div class="validation-error">${status.errorMessage}</div>
                                                 </c:if>
                                             </spring:bind>
                                                 </div>
-                                                <c:choose>
-                                                    <c:when test="${basis.application.applStsCode == null || basis.application.applStsCode.length() == 0}">
-                                                        <div class="col-sm-1" style="text-align: center;">
-                                                            <label>-</label>
-                                                        </div>
-                                                        <div class="col-sm-4 nopadding">
-                                                            <div><form:input path="application.rgstEncr" cssClass="form-control numOnly lenCheck-7" maxlength="7" placeholder="주민등록번호 뒤 7자리"/></div>
-                                                            <div class="input-info word-keep-all">보안을 위해 추후 수정할 수 없으므로 정확히 입력해 주십시오.</div>
-                                                            <spring:bind path="application.rgstEncr">
-                                                                <c:if test="${status.error}">
-                                                                    <div class="validation-error">${status.errorMessage}</div>
-                                                                </c:if>
-                                                            </spring:bind>
-                                                        </div>
-                                                    </c:when>
-                                                    <c:otherwise>
-                                                        <div style="color: #337799; vertical-align: middle;">주민등록번호 뒷자리는 보안을 위해 화면에 노출하지 않습니다.</div>
-                                                    </c:otherwise>
-                                                </c:choose>
-
+                                    <c:if test="${basis.application.admsTypeCode != 'C' && basis.application.admsTypeCode != 'D'}">
+                                        <c:choose>
+                                            <c:when test="${basis.application.applStsCode == null || basis.application.applStsCode.length() == 0}">
+                                                <div class="col-sm-1" style="text-align: center;">
+                                                    <label>-</label>
+                                                </div>
+                                                <div class="col-sm-4 nopadding">
+                                                    <div><form:input path="application.rgstEncr" cssClass="form-control numOnly lenCheck-7" maxlength="7" placeholder="주민등록번호 뒤 7자리"/></div>
+                                                    <div class="input-info word-keep-all">보안을 위해 추후 수정할 수 없으므로 정확히 입력해 주십시오.</div>
+                                                    <spring:bind path="application.rgstEncr">
+                                                        <c:if test="${status.error}">
+                                                            <div class="validation-error">${status.errorMessage}</div>
+                                                        </c:if>
+                                                    </spring:bind>
+                                                </div>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <div style="color: #337799; vertical-align: middle;">주민등록번호 뒷자리는 보안을 위해 화면에 노출하지 않습니다.</div>
+                                            </c:otherwise>
+                                        </c:choose>
+                                    </c:if>
                                             </div>
                                         </div>
                                     </div>
@@ -1080,13 +1085,13 @@
     <%-- 도로명 주소 사용 안내 팝업 --%>
     <div id="street-name-notice" title="도로명 주소 사용 안내" style="display:none;">
         <p><spring:message code="U01506"/></p> <%-- 주소 검색 결과에서 '지번 주소'를 클릭하지 마시고,<br/>아래와 같이 <b>도로명 주소</b>를 사용해 주시기 바랍니다. --%>
-        <p align="center"><img src="${contextPath}/img/application/street-name-capture.png"/></p>
+        <p align="center"><img src="<spring:eval expression="@app.getProperty('path.static')" />/img/application/street-name-capture.png"/></p>
     </div>
     <%-- 도로명 주소 사용 안내 팝업 --%>
 
     <%-- 다음 주소 검색 팝업 --%>
     <div id="postLayer" style="display:none;border:5px solid;position:fixed;width:720px;height:510px;left:50%;margin-left:-360px;top:50%;margin-top:-235px;overflow:hidden;-webkit-overflow-scrolling:touch;z-index:2;background-color:#fff;color: #111;">
-        <img src="${contextPath}/img/user/addr-close.png" id="btnClosePostLayer" style="cursor:pointer;position:absolute;right:-3px;top:-3px" alt="닫기 버튼">
+        <img src="<spring:eval expression="@app.getProperty('path.static')" />/img/user/addr-close.png" id="btnClosePostLayer" style="cursor:pointer;position:absolute;right:-3px;top:-3px" alt="닫기 버튼">
     </div>
     <%-- 다음 주소 검색 팝업 --%>
 
@@ -1094,7 +1099,7 @@
 </section>
 <content tag="local-script">
     <script src="http://dmaps.daum.net/map_js_init/postcode.js"></script>
-    <script src="${contextPath}/js/jquery-ui.min.js"></script>
+    <script src="<spring:eval expression="@app.getProperty('path.static')" />/js/jquery-ui.min.js"></script>
     <script type="text/javascript">
     $(document).ready(function() {
         var applNo = document.getElementById('applNo').value = '${basis.application.applNo}',
@@ -1406,9 +1411,17 @@
                 rgstBornDate = document.getElementById('application.rgstBornDate'),
                 rgstEncr = document.getElementById('application.rgstEncr'),
                 divStayInfo = document.getElementById('stayInfo'),
+                dateOfBirthLabel = document.getElementById('dateOfBirthLabel'),
+                dateOfBirthLabel1 = '<spring:message code="L01208"/>',
+                dateOfBirthLabel2 = '<spring:message code="L01216"/>',
+                dateOfBirthPlaceholder = rgstBornDate.getAttribute('placeholder'),
+                dateOfBirthPlaceholder1 = '<spring:message code="U01206"/>',
+                dateOfBirthPlaceholder2 = '<spring:message code="U01207"/>',
                 stayInfoItems, item, i, itemL;
             if (this.value == '118') {
                 divRgstNo.style.display = 'block';
+                dateOfBirthLabel.innerHTML = dateOfBirthLabel1;
+                rgstBornDate.setAttribute('placeholder', dateOfBirthPlaceholder1);
                 divStayInfo.style.display = 'none';
                 stayInfoItems = divStayInfo.querySelectorAll('input');
                 itemL = stayInfoItems.length;
@@ -1427,9 +1440,13 @@
             } else {
                 rgstBornDate.setAttribute('value', '');
                 rgstBornDate.value = '';
-                rgstEncr.setAttribute('value', '');
-                rgstEncr.value = '';
-                divRgstNo.style.display = 'none';
+                if (rgstEncr) {
+                    rgstEncr.setAttribute('value', '');
+                    rgstEncr.value = '';
+                }
+//                divRgstNo.style.display = 'none';
+                dateOfBirthLabel.innerHTML = dateOfBirthLabel2;
+                rgstBornDate.setAttribute('placeholder', dateOfBirthPlaceholder2);
                 divStayInfo.style.display = 'block';
             }
         });

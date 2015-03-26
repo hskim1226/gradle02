@@ -73,16 +73,18 @@ public class ApplicationValidator implements NamedValidator {
             errors.rejectValue(prefix + "engName", "U331",
                     new Object[]{"영문 이름"}, messageResolver.getMessage("U332"));
         }
+        if ( application.getRgstBornDate() == null || application.getRgstBornDate().length() == 0 ) {
+            String itemName = "118".equals(application.getCitzCntrCode()) ? "주민등록 상 생년월일" : "생년월일";
+            errors.rejectValue(prefix + "rgstBornDate", "U331",
+                    new Object[]{itemName}, messageResolver.getMessage("U332"));
+        }
         if ("118".equals(application.getCitzCntrCode())) {
 //            if ( application.getRgstNo() == null || application.getRgstNo().length() == 0 ) {
 //                errors.rejectValue(prefix + "rgstNo", "U331",
 //                        new Object[]{"주민등록번호"}, messageResolver.getMessage("U332"));
 //            }
             // 국적이 대한민국 일 때만 필수
-            if ( application.getRgstBornDate() == null || application.getRgstBornDate().length() == 0 ) {
-                errors.rejectValue(prefix + "rgstBornDate", "U331",
-                        new Object[]{"주민등록번호 앞자리"}, messageResolver.getMessage("U332"));
-            }
+
             if (application.getApplStsCode() == null || application.getApplStsCode().length() == 0) {
                 if ( application.getRgstEncr() == null || application.getRgstEncr().length() == 0 ) {
                     errors.rejectValue(prefix + "rgstEncr", "U331",
