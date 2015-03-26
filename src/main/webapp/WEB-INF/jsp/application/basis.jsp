@@ -232,14 +232,24 @@
         <!-- /진행상태바 끝 -->
         <!-- 데스크탑 탭메뉴 시작 -->
         <div id="pc_tab" class="nav_wrap clearfix tab-container">
-            <ul id="navTabUL" class="nav nav-tabs nav-justified">
-                <li id="tab-basis" class="inactive inactiveTab" data-target-tab="basis" data-tab-available="true"><a><spring:message code="L01002"/><%--1. 기본 정보--%></a></li>
-                <li id="tab-academy" class="inactive inactiveTab" data-target-tab="academy" data-tab-available="false" data-unavailable-msg='<spring:message code="U321"/>'><a><spring:message code="L01003"/><%--2. 학력 정보--%></a></li>
-                <li id="tab-langCareer" class="inactive inactiveTab" data-target-tab="langCareer" data-tab-available="false" data-unavailable-msg='<spring:message code="U322"/>'><a><spring:message code="L01004"/><%--3. 어학/경력 정보--%></a></li>
-                <li id="tab-document" class="inactive inactiveTab" data-target-tab="document" data-tab-available="false" data-unavailable-msg='<spring:message code="U323"/>'><a><spring:message code="L01005"/><%--4. 파일 첨부--%></a></li>
+            <ul id="navPcTabUL" class="nav nav-tabs nav-justified">
+                <li id="tab-pc-basis" class="inactive inactiveTab" data-target-tab="basis" data-tab-available="true"><a><spring:message code="L01002"/><%--1. 기본 정보--%></a></li>
+                <li id="tab-pc-academy" class="inactive inactiveTab" data-target-tab="academy" data-tab-available="false" data-unavailable-msg='<spring:message code="U321"/>'><a><spring:message code="L01003"/><%--2. 학력 정보--%></a></li>
+                <li id="tab-pc-langCareer" class="inactive inactiveTab" data-target-tab="langCareer" data-tab-available="false" data-unavailable-msg='<spring:message code="U322"/>'><a><spring:message code="L01004"/><%--3. 어학/경력 정보--%></a></li>
+                <li id="tab-pc-document" class="inactive inactiveTab" data-target-tab="document" data-tab-available="false" data-unavailable-msg='<spring:message code="U323"/>'><a><spring:message code="L01005"/><%--4. 파일 첨부--%></a></li>
             </ul>
         </div>
         <!-- /데스크탑 탭메뉴 끝 -->
+        <!-- 모바일 탭메뉴 시작 -->
+        <div id="mb_tab" class="nav_wrap clearfix tab-container">
+            <ul id="navMbTabUL" class="nav nav-pills nav-stacked">
+                <li id="tab-mb-basis" class="inactive inactiveTab" data-target-tab="basis" data-tab-available="true"><a><spring:message code="L01002"/><%--1. 기본 정보--%></a></li>
+                <li id="tab-mb-academy" class="inactive inactiveTab" data-target-tab="academy" data-tab-available="false" data-unavailable-msg='<spring:message code="U321"/>'><a><spring:message code="L01003"/><%--2. 학력 정보--%></a></li>
+                <li id="tab-mb-langCareer" class="inactive inactiveTab" data-target-tab="langCareer" data-tab-available="false" data-unavailable-msg='<spring:message code="U322"/>'><a><spring:message code="L01004"/><%--3. 어학/경력 정보--%></a></li>
+                <li id="tab-mb-document" class="inactive inactiveTab" data-target-tab="document" data-tab-available="false" data-unavailable-msg='<spring:message code="U323"/>'><a><spring:message code="L01005"/><%--4. 파일 첨부--%></a></li>
+            </ul>
+        </div>
+        <!-- 모바일 탭메뉴 끝 -->
         <form:form commandName="basis" cssClass="form-horizontal" method="post" role="form">
             <form:hidden path="application.applNo" id="applNo" />
             <form:hidden path="application.applStsCode" id="applStsCode" />
@@ -1093,12 +1103,16 @@
             var code = Number(applStsCode),
                 stepBox = document.getElementById('step_box'),
                 l = stepBox.children.length, i,
-                navTabUL = document.getElementById('navTabUL');
+                navPcTabUL = document.getElementById('navPcTabUL'),
+                navMbTabUL = document.getElementById('navMbTabUL');
             for ( i = 0 ; i < code && i < l ; i++ ) {
                 stepBox.children[i].className = 'active';
-                navTabUL.children[i].setAttribute('data-tab-available', 'true');
-                if (navTabUL.children[i+1])
-                    navTabUL.children[i+1].setAttribute('data-tab-available', 'true');
+                navPcTabUL.children[i].setAttribute('data-tab-available', 'true');
+                if (navPcTabUL.children[i+1])
+                    navPcTabUL.children[i+1].setAttribute('data-tab-available', 'true');
+                navMbTabUL.children[i].setAttribute('data-tab-available', 'true');
+                if (navMbTabUL.children[i+1])
+                    navMbTabUL.children[i+1].setAttribute('data-tab-available', 'true');
             }
         };
         processCurrentStep(document.getElementById('applStsCode').value);
@@ -1107,10 +1121,13 @@
         <%-- active 탭 표시 --%>
         var setActiveTab = function () {
             var urlStr = document.location.pathname,
-                substrToFirstSlash = urlStr.substring(0, urlStr.lastIndexOf("/")),
-                targetTabLI = document.getElementById('tab-' + substrToFirstSlash.substring(substrToFirstSlash.lastIndexOf("/") + 1));
+                substrToLastSlash = urlStr.substring(0, urlStr.lastIndexOf("/")),
+                tabName = substrToLastSlash.substring(substrToLastSlash.lastIndexOf("/") + 1),
+                targetPcTabLI = document.getElementById('tab-pc-' + tabName),
+                targetMbTabLI = document.getElementById('tab-mb-' + tabName);
 
-            targetTabLI.className = 'active activeTab';
+            targetPcTabLI.className = 'active activeTab';
+            targetMbTabLI.className = 'active activeTab';
         };
         setActiveTab();
         <%-- active 탭 표시 --%>
