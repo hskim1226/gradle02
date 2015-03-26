@@ -34,7 +34,7 @@
                             </div>
                             <div class="col-sm-9">
                                 <div class="col-sm-12 nopadding">
-                                    <form:input path="userId" cssClass="form-control input-text" maxlength="12" placeholder="아이디" />
+                                    <form:input path="userId" cssClass="form-control input-text" maxlength="12" placeholder="${msg.getMessage('U00221')}" />  <%--아이디를 입력해 주세요.--%>
                                 </div>
                         <spring:bind path="userId">
                             <c:if test="${status.error}">
@@ -53,7 +53,7 @@
                             </div>
                             <div class="col-sm-9">
                                 <div class="col-sm-12 nopadding">
-                                    <form:input path="name" cssClass="form-control input-text" maxlength="20" placeholder="이름" />
+                                    <form:input path="name" cssClass="form-control input-text" maxlength="20" placeholder="${msg.getMessage('U00222')}" />  <%--이름을 입력해 주세요.--%>
                                 </div>
                         <spring:bind path="name">
                             <c:if test="${status.error}">
@@ -72,7 +72,7 @@
                             </div>
                             <div class="col-sm-9">
                                 <div class="col-sm-12 nopadding">
-                                    <form:input path="mailAddr" cssClass="form-control input-text" maxlength="50" placeholder="이메일" />
+                                    <form:input path="mailAddr" cssClass="form-control input-text" maxlength="50" placeholder="${msg.getMessage('U00223')}" />  <%--이메일을 입력해 주세요.--%>
                                 </div>
                                 <spring:bind path="mailAddr">
                                     <c:if test="${status.error}">
@@ -116,7 +116,7 @@
     </div>
 </section>
 <content tag="local-script">
-<script src="${contextPath}/js/jquery-ui.min.js"></script>
+<script src="<spring:eval expression="@app.getProperty('path.static')" />/js/jquery-ui.min.js"></script>
 <script type="text/javascript">
 $(document).ready(function() {
 

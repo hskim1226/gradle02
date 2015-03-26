@@ -34,7 +34,7 @@
                             </div>
                             <div class="col-sm-9">
                                 <div class="col-sm-12 nopadding">
-                                    <form:input path="name" cssClass="form-control input-text" maxlength="20" placeholder="이름" />
+                                    <form:input path="name" cssClass="form-control input-text" maxlength="20" placeholder="${msg.getMessage('U00201')}" /> <%--이름--%>
                                 </div>
                         <spring:bind path="name">
                             <c:if test="${status.error}">
@@ -53,7 +53,7 @@
                             </div>
                             <div class="col-sm-9">
                                 <div class="col-sm-12 nopadding">
-                                    <form:input path="mailAddr" cssClass="form-control input-text" maxlength="50" placeholder="이메일" />
+                                    <form:input path="mailAddr" cssClass="form-control input-text" maxlength="50" placeholder="${msg.getMessage('U00202')}" />  <%--이메일을 입력해 주세요--%>
                                 </div>
                                 <spring:bind path="mailAddr">
                                     <c:if test="${status.error}">
@@ -97,7 +97,7 @@
     </div>
 </section>
 <content tag="local-script">
-<script src="${contextPath}/js/jquery-ui.min.js"></script>
+<script src="<spring:eval expression="@app.getProperty('path.static')" />/js/jquery-ui.min.js"></script>
 <script type="text/javascript">
 $(document).ready(function() {
 

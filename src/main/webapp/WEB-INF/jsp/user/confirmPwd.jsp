@@ -33,7 +33,7 @@
                             </div>
                             <div class="col-sm-9">
                                 <div class="col-sm-12 nopadding input-group">
-                                    <input type="password" id="pswd" name="pswd" class="form-control input-text passwd" maxlength="16" placeholder="새 비밀번호 입력" />
+                                    <input type="password" id="pswd" name="pswd" class="form-control input-text passwd" maxlength="16" placeholder="<spring:message code="U00191"/>" />  <%--새 비밀번호 입력--%>
                                 </div>
                         <spring:bind path="pswd">
                             <c:if test="${status.error}">
@@ -52,7 +52,7 @@
                             </div>
                             <div class="col-sm-9">
                                 <div class="col-sm-12 nopadding input-group">
-                                    <input type="password" id="pswd2" name="pswd2" class="form-control input-text passwd" maxlength="16" placeholder="새 비밀번호 입력" />
+                                    <input type="password" id="pswd2" name="pswd2" class="form-control input-text passwd" maxlength="16" placeholder="<spring:message code="U00192"/>" />  <%--새 비밀번호 입력--%>
                                 </div>
                             </div>
                         </div>

@@ -81,7 +81,7 @@
                                 <label for="mailAddr" class="control-label"><spring:message code="L00125"/><%--이메일--%></label>
                             </div>
                             <div class="col-sm-8 nopadding">
-                                <div><form:input type="email" cssClass="form-control emailOnly" path="mailAddr" maxlength="50" placeholder="이메일 주소를 입력해 주세요" /></div>
+                                <div><form:input type="email" cssClass="form-control emailOnly" path="mailAddr" maxlength="50" placeholder="${msg.getMessage('U00126')}" /></div>  <%--이메일 주소를 입력해 주세요--%>
                         <spring:bind path="mailAddr">
                             <c:if test="${status.error}">
                                 <div class="validation-error">${status.errorMessage}</div>
@@ -97,7 +97,7 @@
                                 <label for="mobiNum" class="control-label"><spring:message code="L00126"/><%--휴대폰--%></label>
                             </div>
                             <div class="col-sm-8 nopadding">
-                                <div><form:input type="text" cssClass="form-control numOnly phone" path="mobiNum" maxlength="20" placeholder="숫자로만 입력해 주세요" /></div>
+                                <div><form:input type="text" cssClass="form-control numOnly phone" path="mobiNum" maxlength="20" placeholder="${msg.getMessage('U00127')}" /></div>  <%--숫자로만 입력해 주세요--%>
                         <spring:bind path="mobiNum">
                             <c:if test="${status.error}">
                                 <div class="validation-error">${status.errorMessage}</div>
@@ -113,7 +113,7 @@
                                 <label for="name" class="control-label"><spring:message code="L00127"/><%--이름--%></label>
                             </div>
                             <div class="col-sm-8 nopadding">
-                                <div><form:input type="text" cssClass="form-control" path="name" maxlength="20" placeholder="실명을 입력해주세요" /></div>
+                                <div><form:input type="text" cssClass="form-control" path="name" maxlength="20" placeholder="${msg.getMessage('U00128')}" /></div>  <%--실명을 입력해주세요--%>
                         <spring:bind path="name">
                             <c:if test="${status.error}">
                                 <div class="validation-error">${status.errorMessage}</div>
@@ -187,7 +187,7 @@
     </div>
 </section>
 <content tag="local-script">
-<script src="${contextPath}/js/jquery-ui.min.js"></script>
+<script src="<spring:eval expression="@app.getProperty('path.static')" />/js/jquery-ui.min.js"></script>
 <script type="text/javascript">
     $(document).ready(function(){
         $("#modify").on("click", function(e){

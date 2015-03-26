@@ -118,13 +118,13 @@
                     <div class="spacer-tiny col-sm-12">&nbsp;</div>
                     <div>
                         <div class="col-sm-offset-1 col-sm-10">
-                            <input type="text" class="form-control logintext" id="username" name="j_username" maxlength="12" placeholder="User ID">
+                            <input type="text" class="form-control logintext" id="username" name="j_username" maxlength="12" placeholder="<spring:message code="U00081"/>">  <%--User ID--%>
                         </div>
                     </div>
                     <div class="spacer-tiny col-sm-12">&nbsp;</div>
                     <div>
                         <div class="col-sm-offset-1 col-sm-10">
-                            <input type="password" class="form-control logintext" id="password" name="j_password" maxlength="16" placeholder="Password">
+                            <input type="password" class="form-control logintext" id="password" name="j_password" maxlength="16" placeholder="<spring:message code="U00082"/>">  <%--Password--%>
                         </div>
                     </div>
                     <div class="spacer-tiny col-sm-12">&nbsp;</div>
