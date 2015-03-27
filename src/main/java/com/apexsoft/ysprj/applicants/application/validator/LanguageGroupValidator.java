@@ -28,7 +28,7 @@ public class LanguageGroupValidator extends NamedListValidator {
         int l = languageGroupList.size();
         String prefix;
 
-        for ( int i = 0 ; i < l ; i++ ) {
+        for ( int i = 0 ; i < l ; i++ ) { // 영어, 한국어, ...
             LanguageGroup item = languageGroupList.get(i);
             prefix = className + "[" + i + "].langList";
 

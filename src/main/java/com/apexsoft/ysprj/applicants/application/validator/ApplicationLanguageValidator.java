@@ -24,20 +24,22 @@ public class ApplicationLanguageValidator extends NamedListValidator {
         List<TotalApplicationLanguageContainer> applicationLanguageList = (List<TotalApplicationLanguageContainer>) o;
         int l = applicationLanguageList.size();
         String prefix;
+        int checkedCnt = 0; // 시험성적정보, 시험면제정보를 통털어 checked된게 하나도 없으면 invalid
 
-        for ( int i = 0 ; i < l ; i++ ) {
+        for ( int i = 0 ; i < l ; i++ ) { // 시험성적정보, 시험면제정보
             TotalApplicationLanguageContainer langList = applicationLanguageList.get(i);
             prefix = name + "[" + i + "].";
 
             List<TotalApplicationLanguageContainer> aLangOrExemptList = langList.getSubContainer();
             int aLangOrExemptL = aLangOrExemptList.size();
 
+
             for ( int j = 0 ; j < aLangOrExemptL ; j++ ) {
                 prefix += "subContainer[" + j + "].";
                 TotalApplicationLanguageContainer aLangOrExempt = aLangOrExemptList.get(j);
 
-                if (aLangOrExempt.isCheckedFg()) {
-
+                if (aLangOrExempt.isCheckedFg()) { // TOEFL, TOEIC, TEPS, ..., 면제사유
+                    checkedCnt++;
 //                    if ("ENG_EXMP1".equals(langList.getSelGrpCode())) {
 //                        String selGrpCode = aLangOrExempt.getSelGrpCode();
 //                        if (selGrpCode == null || selGrpCode.length() == 0 || Integer.parseInt(selGrpCode) <= 0) {
@@ -82,6 +84,10 @@ public class ApplicationLanguageValidator extends NamedListValidator {
                 }
                 prefix = name + "[" + i + "].";
             }
+        }
+        if (checkedCnt == 0) {
+            errors.rejectValue(name.substring(0, name.indexOf('.')), "U331",
+                    new Object[]{"시험 성적 또는 면제 정보 중 최소한 하나는 입력해야 합니다."}, messageResolver.getMessage("U332"));
         }
     }
 }

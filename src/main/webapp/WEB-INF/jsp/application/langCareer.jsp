@@ -315,8 +315,7 @@
                                                                                             <input type="checkbox" class="langCheckbox-${langGroupStat.index}-${langListStat.index}-${subContainerStat.index} langCheckbox-${langGroupStat.index} langCheckbox"
                                                                                                    id="checkLang-${langGroupStat.index}-${langListStat.index}-${subContainerStat.index}"
                                                                                                    name="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].subContainer[${subContainerStat.index}].checkedFg"
-                                                                                                    ${subContainer.checkedFg == true ? 'checked' : ''}
-                                                                                                    <c:if test="${subContainer.subCodeList.size() > 0}">disabled</c:if> />
+                                                                                                    ${subContainer.checkedFg == true ? 'checked' : ''}/>
                                                                                             ${pageContext.response.locale == 'en' ? subContainer.itemNameXxen : subContainer.itemName}
                                                                                         </label>
                                                                                     </c:when>
@@ -325,8 +324,7 @@
                                                                                             <input type="radio" class="langRadio-${langGroupStat.index}-${langListStat.index}-${subContainerStat.index} langCheckbox-${langGroupStat.index} langCheckbox"
                                                                                                    id="radioLang-${langGroupStat.index}-${langListStat.index}-${subContainerStat.index}"
                                                                                                    name="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].subContainer[${subContainerStat.index}].checkedFg"
-                                                                                                    ${subContainer.checkedFg == true ? 'checked' : ''}
-                                                                                                   <c:if test="${subContainer.subCodeList.size() > 0}">disabled</c:if> />
+                                                                                                    ${subContainer.checkedFg == true ? 'checked' : ''}/>
                                                                                             ${pageContext.response.locale == 'en' ? subContainer.itemNameXxen : subContainer.itemName}
                                                                                         </label>
                                                                                     </c:otherwise>
@@ -459,8 +457,14 @@
                                                         </c:forEach>
                                                     </div>
                                                 </div>
-
                                             </c:forEach>
+                                    <spring:bind path="languageGroupList[${langGroupStat.index}]">
+                                        <c:if test="${status.error}">
+                                            <div class="validation-container">
+                                                <div class="validation-error">${status.errorMessage}</div>
+                                            </div>
+                                        </c:if>
+                                    </spring:bind>
                                         </div>
                                     </div>
                                 </c:forEach>
