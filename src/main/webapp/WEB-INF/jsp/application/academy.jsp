@@ -279,7 +279,7 @@
                                                 </div>
                                                 <div class="col-sm-9">
                                                     <form:hidden path="collegeList[${stat.index}].schlCntrCode" />
-                                                    <form:input path="collegeList[${stat.index}].korCntrName" class="form-control" readonly="true"/>
+                                                    <form:input path="collegeList[${stat.index}].korCntrName" value="${pageContext.response.locale == 'en' ? academy.collegeList[stat.index].engCntrName : academy.collegeList[stat.index].korCntrName}" class="form-control" readonly="true"/>
                                                 </div>
                                         <spring:bind path="collegeList[${stat.index}].schlCntrCode">
                                             <c:if test="${status.error}">
@@ -487,7 +487,7 @@
                                                 </div>
                                                 <div class="col-sm-9">
                                                     <form:hidden path="graduateList[${stat.index}].schlCntrCode" />
-                                                    <form:input path="graduateList[${stat.index}].korCntrName" class="form-control" readonly="true"/>
+                                                    <form:input path="graduateList[${stat.index}].korCntrName" class="form-control" value="${pageContext.response.locale == 'en' ? academy.graduateList[stat.index].engCntrName : academy.graduateList[stat.index].korCntrName}" readonly="true"/>
                                                 </div>
                                         <spring:bind path="graduateList[${stat.index}].schlCntrCode">
                                             <c:if test="${status.error}">
