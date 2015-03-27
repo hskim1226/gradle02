@@ -267,6 +267,7 @@
                                         <div class="panel-heading">${pageContext.response.locale == 'en' ? langGroup.examGrpNameXxen : langGroup.examGrpName}</div>
                                         <div class="panel-body" id="languageGroupList${langGroupStat.index}.list">
                                             <form:hidden path="languageGroupList[${langGroupStat.index}].examGrpName" value="${langGroup.examGrpName}" />
+                                            <form:hidden path="languageGroupList[${langGroupStat.index}].examGrpNameXxen" value="${langGroup.examGrpNameXxen}" />
                                             <form:hidden path="languageGroupList[${langGroupStat.index}].examCodeGrp" value="${langGroup.examCodeGrp}"/>
                                             <form:hidden path="languageGroupList[${langGroupStat.index}].multiYn" value="${langGroup.multiYn}"/>
                                             <c:forEach items="${langGroup.langList}" var="langList" varStatus="langListStat">
@@ -274,6 +275,7 @@
                                                     <div class="panel-heading">${pageContext.response.locale == 'en' ? langList.itemNameXxen : langList.itemName}</div>
                                                     <div class="panel-body" id="languageGroupList${langGroupStat.index}.langList${langListStat.index}.list">
                                                         <form:hidden path="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].itemName" value="${langList.itemName}"/>
+                                                        <form:hidden path="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].itemNameXxen" value="${langList.itemNameXxen}"/>
                                                         <form:hidden path="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].itemCode" value="${langList.itemCode}"/>
                                                         <form:hidden path="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].itemGrpCode" value="${langList.itemGrpCode}"/>
                                                         <form:hidden path="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].selGrpCode" value="${langList.selGrpCode}"/>
@@ -293,6 +295,7 @@
                                                                 <form:hidden path="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].subContainer[${subContainerStat.index}].lastYn" value="${subContainer.lastYn}"/>
                                                                 <form:hidden path="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].subContainer[${subContainerStat.index}].selGrpCode" value="${subContainer.selGrpCode}"/>
                                                                 <form:hidden path="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].subContainer[${subContainerStat.index}].itemName" value="${subContainer.itemName}"/>
+                                                                <form:hidden path="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].subContainer[${subContainerStat.index}].itemNameXxen" value="${subContainer.itemNameXxen}"/>
                                                                 <form:hidden path="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].subContainer[${subContainerStat.index}].subCodeGrp" value="${subContainer.subCodeGrp}"/>
                                                                 <form:hidden path="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].subContainer[${subContainerStat.index}].exmpYn" value="${subContainer.exmpYn}"/>
                                                                 <form:hidden path="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].subContainer[${subContainerStat.index}].mdtSeq" value="${subContainer.mdtSeq}"/>
