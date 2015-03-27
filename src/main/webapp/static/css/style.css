@@ -589,7 +589,7 @@ div .panel-darkgray0 > .panel-body {
 }
 div .panel-darkgray0 .panel-darkgray1, .panel-darkgray2, .panel-darkgray3, .panel-darkgray4 {
     /*background-color: #8c8c8c;*/
-    color: #fff;
+    color: #333;
     border-color: #333333;
 }
 div .panel-darkgray1 > .panel-heading {

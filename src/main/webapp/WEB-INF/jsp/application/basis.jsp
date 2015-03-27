@@ -433,7 +433,7 @@
                                             </div>
                                             <div class="col-sm-9">
                                                 <form:hidden path="application.citzCntrCode" id="citzCntrCode" cssClass="form-control" />
-                                                <input id="citzCntrName" class="form-control" value="${ctznCntr.korCntrName}" readonly="true"/>
+                                                <input id="citzCntrName" class="form-control" value="${pageContext.response.locale == 'en' ? ctznCntr.engCntrName : ctznCntr.korCntrName}" readonly="true"/>
                                             </div>
                                             <spring:bind path="application.citzCntrCode">
                                                 <c:if test="${status.error}">
@@ -467,7 +467,7 @@
                                                     <label>-</label>
                                                 </div>
                                                 <div class="col-sm-4 nopadding">
-                                                    <div><form:input path="application.rgstEncr" cssClass="form-control numOnly lenCheck-7" maxlength="7" placeholder="${msg.getMessage('U01208')}<%--주민등록번호 뒤 7자리--%>"/></div>
+                                                    <div><form:input path="application.rgstEncr" cssClass="form-control numOnly lenCheck-7" maxlength="7" placeholder="${msg.getMessage('U01208')}"/></div>  <%--주민등록번호 뒤 7자리--%>
                                                     <div class="input-info word-keep-all"><spring:message code="U01209"/><%--보안을 위해 추후 수정할 수 없으므로 정확히 입력해 주십시오.--%></div>
                                                     <spring:bind path="application.rgstEncr">
                                                         <c:if test="${status.error}">
@@ -1370,10 +1370,17 @@
                             }
                             $('#bpopResult').append(record);
                             $(record).on('click', function(e) {
-                                var targetInputId = [ document.getElementById('targetNode1').value,
+                                var targetInputId = [
+                                    document.getElementById('targetNode1').value,
                                     document.getElementById('targetNode2').value,
-                                    document.getElementById('targetNode3').value ];
+                                    document.getElementById('targetNode3').value
+                                ];
                                 var tr = this;
+
+                                // 국가 검색이고 locale == en 일 때 targetNode2 인 citzCntrName에 영어 국가명을 넣게함
+                                if ('${pageContext.response.locale == 'en'}' === 'true' && category.isCountry)
+                                    targetInputId[2] = document.getElementById('targetNode2').value;
+
                                 for ( var i = 0 , len = tr.children.length; i < len; i++ ) {
                                     if (document.getElementById(targetInputId[i])) {
                                         document.getElementById(targetInputId[i]).value = tr.children[i].firstChild.innerText;

@@ -30,44 +30,44 @@ public class ApplicationAcademyValidator extends NamedListValidator {
 
             if (caa.getSchlCntrCode() == null || caa.getSchlCntrCode().length() == 0) {
                 errors.rejectValue(prefix + "schlCntrCode", "U331",
-                        new Object[]{"학교 소재 국가"}, messageResolver.getMessage("U332"));
+                        new Object[]{messageResolver.getMessage("L02103")}, messageResolver.getMessage("U332"));  /*학교 소재 국가*/
             }
             if (caa.getEntrDay() == null || caa.getEntrDay().length() == 0) {
                 errors.rejectValue(prefix + "entrDay", "U331",
-                        new Object[]{"입학일"}, messageResolver.getMessage("U332"));
+                        new Object[]{messageResolver.getMessage("L02106")}, messageResolver.getMessage("U332"));  /*"시작일"*/
             }
             if (caa.getGrdaDay() == null || caa.getGrdaDay().length() == 0) {
                 errors.rejectValue(prefix + "grdaDay", "U331",
-                        new Object[]{"졸업(예정)일"}, messageResolver.getMessage("U332"));
+                        new Object[]{messageResolver.getMessage("L02107")}, messageResolver.getMessage("U332"));  /*"종료일"*/
             }
             if (caa.getGrdaTypeCode() == null || caa.getGrdaTypeCode().length() == 0) {
                 errors.rejectValue(prefix + "grdaTypeCode", "U331",
-                        new Object[]{"졸업 구분"}, messageResolver.getMessage("U332"));
+                        new Object[]{messageResolver.getMessage("L02108")}, messageResolver.getMessage("U332"));  /*"졸업 구분"*/
             } else if ("00001".equals(caa.getGrdaTypeCode())) {
                 if (caa.getDegrNo() == null || caa.getDegrNo().length() == 0) {
                     errors.rejectValue(prefix + "degrNo", "U331",
-                            new Object[]{"학위 번호"}, messageResolver.getMessage("U332"));
+                            new Object[]{messageResolver.getMessage("L02128")}, messageResolver.getMessage("U332"));  /*"학위 번호"*/
                 }
             }
             if (caa.getSchlName() == null || caa.getSchlName().length() == 0) {
                 errors.rejectValue(prefix + "schlName", "U331",
-                        new Object[]{"학교 이름"}, messageResolver.getMessage("U332"));
+                        new Object[]{messageResolver.getMessage("L02127")}, messageResolver.getMessage("U332"));  /*"학교 이름"*/
             }
             if (caa.getCollName() == null || caa.getCollName().length() == 0) {
                 errors.rejectValue(prefix + "collName", "U331",
-                        new Object[]{"단과 대학"}, messageResolver.getMessage("U332"));
+                        new Object[]{messageResolver.getMessage("L02115")}, messageResolver.getMessage("U332"));  /*"단과 대학"*/
             }
             if (caa.getMajName() == null || caa.getMajName().length() == 0) {
                 errors.rejectValue(prefix + "majName", "U331",
-                        new Object[]{"학과 이름"}, messageResolver.getMessage("U332"));
+                        new Object[]{messageResolver.getMessage("L02116")}, messageResolver.getMessage("U332"));  /*"학과 이름"*/
             }
             if (caa.getGradAvr() == null || caa.getGradAvr().length() == 0) {
                 errors.rejectValue(prefix + "gradAvr", "U331",
-                        new Object[]{"평량 평균"}, messageResolver.getMessage("U332"));
+                        new Object[]{messageResolver.getMessage("L02118")}, messageResolver.getMessage("U332"));  /*"평점"*/
             }
             if (caa.getGradFull() == null || caa.getGradFull().length() == 0 ) {
                 errors.rejectValue(prefix + "gradFull", "U331",
-                        new Object[]{"평량 평균"}, messageResolver.getMessage("U332"));
+                        new Object[]{messageResolver.getMessage("L02119")}, messageResolver.getMessage("U332"));  /*"만점"*/
             }
         }
     }

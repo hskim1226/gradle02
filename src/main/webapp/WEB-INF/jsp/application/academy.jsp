@@ -418,7 +418,7 @@
                                             <form:label path="collegeList[${stat.index}].majName" cssClass="col-sm-2 control-label"><spring:message code="L02116"/><%--학과 이름--%></form:label>
                                             <div class="col-sm-9">
                                                 <div class="col-sm-12">
-                                                    <form:input path="collegeList[${stat.index}].majName" cssClass="form-control" placeholder="${msg.getMessage('U02108')}<%--다수 전공은 컴마로 구분하여 모두 입력해 주세요.--%>" />
+                                                    <form:input path="collegeList[${stat.index}].majName" cssClass="form-control" placeholder="${msg.getMessage('U02108')}" />  <%--다수 전공은 컴마로 구분하여 모두 입력해 주세요.--%>
                                                 </div>
                                         <spring:bind path="collegeList[${stat.index}].majName">
                                             <c:if test="${status.error}">
@@ -435,7 +435,7 @@
                                                 <div class="col-sm-6">
                                                     <div class="input-group">
                                                         <span class="input-group-addon"><spring:message code="L02118"/><%--평점--%></span>
-                                                        <form:input path="collegeList[${stat.index}].gradAvr" cssClass="form-control gradAvr" maxlength="4" placeholder="${msg.getMessage('U02109')}<%--#.##--%>"/>
+                                                        <form:input path="collegeList[${stat.index}].gradAvr" cssClass="form-control gradAvr" maxlength="4" placeholder="${msg.getMessage('U02109')}"/>  <%--#.##--%>
                                                     </div>
                                             <spring:bind path="collegeList[${stat.index}].gradAvr">
                                                 <c:if test="${status.error}">
@@ -448,7 +448,7 @@
                                                 <div class="col-sm-6">
                                                     <div class="input-group">
                                                         <span class="input-group-addon"><spring:message code="L02119"/><%--만점--%></span>
-                                                        <form:input path="collegeList[${stat.index}].gradFull" cssClass="form-control gradFull" maxlength="4" placeholder="${msg.getMessage('U02109')}<%--#.##--%>" data-gradAvr-id="collegeList${stat.index}.gradAvr"/>
+                                                        <form:input path="collegeList[${stat.index}].gradFull" cssClass="form-control gradFull" maxlength="4" placeholder="${msg.getMessage('U02109')}" data-gradAvr-id="collegeList${stat.index}.gradAvr"/>  <%--#.##--%>
                                                     </div>
                                             <spring:bind path="collegeList[${stat.index}].gradFull">
                                                 <c:if test="${status.error}">
@@ -922,10 +922,17 @@
                             }
                             $('#bpopResult').append(record);
                             $(record).on('click', function(e) {
-                                var targetInputId = [ document.getElementById('targetNode1').value,
+                                var targetInputId = [
+                                    document.getElementById('targetNode1').value,
                                     document.getElementById('targetNode2').value,
-                                    document.getElementById('targetNode3').value ];
+                                    document.getElementById('targetNode3').value
+                                ];
                                 var tr = this;
+
+                                // 국가 검색이고 locale == en 일 때 targetNode2 인 citzCntrName에 영어 국가명을 넣게함
+                                if ('${pageContext.response.locale == 'en'}' === 'true' && category.isCountry)
+                                    targetInputId[2] = document.getElementById('targetNode2').value;
+
                                 for ( var i = 0 , len = tr.children.length; i < len; i++ ) {
                                     if (document.getElementById(targetInputId[i])) {
                                         document.getElementById(targetInputId[i]).value = tr.children[i].firstChild.innerText;

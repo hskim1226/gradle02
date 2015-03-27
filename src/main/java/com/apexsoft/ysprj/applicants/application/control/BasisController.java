@@ -115,7 +115,7 @@ public class BasisController {
             try {
                 String rgstLatter = application.getRgstEncr();
                 application.setRgstHash(getSha256(application.getRgstBornDate() + rgstLatter));
-                application.setRgstEncr(getEncryptedString(rgstLatter));
+                application.setRgstEncr((rgstLatter != null && !StringUtil.EMPTY_STRING.equals(rgstLatter)) ? getEncryptedString(rgstLatter) : StringUtil.EMPTY_STRING);
             } catch (IOException e) {
                 ec = new ExecutionContext(ExecutionContext.FAIL);
                 Map<String, Object> errMap = new HashMap<String, Object>();
