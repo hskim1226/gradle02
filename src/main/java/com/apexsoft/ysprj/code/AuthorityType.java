@@ -13,7 +13,8 @@ import java.util.Map;
 public enum AuthorityType {
 
     ROLE_USER("ROLE_USER"),
-    ROLE_ADMIN("ROLE_ADMIN");
+    ROLE_ADMIN("ROLE_ADMIN"),
+    ROLE_SYSADMIN("ROLE_SYSADMIN");
 
     private String value;
 
@@ -30,6 +31,7 @@ public enum AuthorityType {
     static {
         map.put(AuthorityType.ROLE_USER.getValue(), AuthorityType.ROLE_USER);
         map.put(AuthorityType.ROLE_ADMIN.getValue(), AuthorityType.ROLE_ADMIN);
+        map.put(AuthorityType.ROLE_SYSADMIN.getValue(), AuthorityType.ROLE_SYSADMIN);
     }
 
     /**

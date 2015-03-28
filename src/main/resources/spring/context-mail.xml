@@ -5,10 +5,10 @@
 
     <!-- SET default mail properties -->
     <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
-        <property name="host" value="smtp.gmail.com"/>
+        <property name="host" value="email-smtp.us-west-2.amazonaws.com"/>
         <property name="port" value="587"/>
-        <property name="username" value="hanmomhanda"/>
-        <property name="password" value="Google2048"/>
+        <property name="username" value="AKIAIOKD2G4K3OOOTZXA"/>
+        <property name="password" value="As8vhEt1Zk1bCMJNSsHxjjabz+5DxDRCvExx2cuUal/Z"/>
         <property name="defaultEncoding" value="UTF-8"/>
         <property name="javaMailProperties">
             <props>
