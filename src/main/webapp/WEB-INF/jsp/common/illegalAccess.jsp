@@ -3,41 +3,13 @@
 <html lang="ko">
 <head>
     <title>인가 되지 않은 접근</title>
-    <style>
-        section.application {
-            padding: 160px 0 60px;
-            background: #555555;
-            color: #ddd;
-            position:relative;
-        }
-
-        section.application h2 {
-            color: #ddd;
-            font-size: 36px;
-            font-weight: 900;
-        }
-
-        section.application .spacer-big {
-            margin-bottom: 7em;
-        }
-
-        section.application .spacer-mid {
-            margin-bottom: 5em;
-        }
-
-        section.application .spacer-small {
-            height: 3em;
-        }
-
-        section.application .spacer-tiny {
-            height: 1em;
-        }
-    </style>
 </head>
 <body>
-<section class="application">
-    <div class="container">
-        <h2>인가 되지 않은 접근입니다.</h2>
+<section class="normal-white">
+    <div class="container" style="padding-top: 10em;">
+        <div class="col-sm-12 text-gray">
+            <i class="fa fa-warning fa-3x" style="vertical-align: middle; line-height:40px;"></i>&nbsp;&nbsp;<span style="font-size: 35px; vertical-align: middle; line-height:40px;"><b><spring:message code="U903"/><%--인가되지 않은 접근입니다--%></b></span>
+        </div>
     </div>
 </section>
 </body>

@@ -636,6 +636,10 @@ div .tab-container {
     content:"*";
     color:red;
 }
+p.error-msg {
+    font-size: 1.7em;
+    color: #333;
+}
 .placeholder { color: #707070; }
 /*::-webkit-input-placeholder { color: #d0d0d0; }*/
 /*input:-moz-placeholder, textarea:-moz-placeholder { color: #d0d0d0; }*/
