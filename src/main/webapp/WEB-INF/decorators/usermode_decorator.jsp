@@ -33,8 +33,8 @@
     <!-- skin -->
     <link rel="stylesheet" href="<spring:eval expression="@app.getProperty('path.static')" />/skin/default.css">
     <!-- custom style -->
-    <%--<link rel="stylesheet" href="<spring:eval expression="@app.getProperty('path.static')" />/css/style.css"/>--%>
-    <link rel="stylesheet" href="${contextPath}/static/css/style.css"/>
+    <link rel="stylesheet" href="<spring:eval expression="@app.getProperty('path.static')" />/css/style.css"/>
+    <%--<link rel="stylesheet" href="${contextPath}/static/css/style.css"/>--%>
     <link rel="stylesheet" href="<spring:eval expression="@app.getProperty('path.static')" />/css/layout.css"/>
     <%--<link rel="stylesheet" href="${contextPath}/static/css/layout.css"/>--%>
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
