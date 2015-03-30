@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.encoding.ShaPasswordEncoder;
 import org.springframework.security.crypto.encrypt.Encryptors;
 import org.springframework.security.crypto.encrypt.TextEncryptor;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -24,9 +23,6 @@ import javax.annotation.Resource;
 import javax.servlet.ServletContext;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.security.Principal;
 import java.util.HashMap;
 import java.util.Map;
@@ -71,6 +67,18 @@ public class BasisController {
         if (bindingResult.hasErrors()) return mv;
 
         ExecutionContext ec = removeHyphen(basisService.retrieveBasis(basis));
+        try {
+            ec = processForeignPersonalInfo(ec);
+        } catch (IOException e) {
+            ec = new ExecutionContext(ExecutionContext.FAIL);
+            ec.setMessage(messageResolver.getMessage("U347"));
+            ec.setErrCode("ERR0043");
+            Map<String, Object> errMap = new HashMap<String, Object>();
+            errMap.put("applNo", basis.getApplication().getApplNo());
+            errMap.put("situation", "Error while loading props for En/Decryption");
+            ec.setErrorInfo(new ErrorInfo(errMap));
+            throw new YSBizException(ec);
+        }
 
         Map<String, Object> map = (Map<String, Object>)ec.getData();
         addObjectToMV(mv, map, ec);
@@ -115,26 +123,63 @@ public class BasisController {
             try {
                 String rgstLatter = application.getRgstEncr();
                 application.setRgstHash(getSha256(application.getRgstBornDate() + rgstLatter));
-                application.setRgstEncr((rgstLatter != null && !StringUtil.EMPTY_STRING.equals(rgstLatter)) ? getEncryptedString(rgstLatter) : StringUtil.EMPTY_STRING);
+                application.setRgstEncr((rgstLatter != null && !StringUtil.EMPTY_STRING.equals(rgstLatter)) ? getEncryptedString(rgstLatter, true) : StringUtil.EMPTY_STRING);
             } catch (IOException e) {
                 ec = new ExecutionContext(ExecutionContext.FAIL);
+                ec.setMessage(messageResolver.getMessage("U316"));
+                ec.setErrCode("ERR0043");
                 Map<String, Object> errMap = new HashMap<String, Object>();
                 errMap.put("applNo", application.getApplNo());
-                errMap.put("situation", "thrown when encryption");
+                errMap.put("situation", "Error while loading props for En/Decryption");
                 ec.setErrorInfo(new ErrorInfo(errMap));
                 throw new YSBizException(ec);
             }
+        }
+
+        try {
+            if ("C".equals(application.getAdmsTypeCode()) || "D".equals(application.getAdmsTypeCode())) {
+                ApplicationForeigner applicationForeigner = formData.getApplicationForeigner();
+                String fornRgstNo = applicationForeigner.getFornRgstNo();
+                String paspNo = applicationForeigner.getPaspNo();
+                String visaNo = applicationForeigner.getVisaNo();
+
+                applicationForeigner.setFornRgstNoEncr((fornRgstNo != null && !StringUtil.EMPTY_STRING.equals(fornRgstNo)) ? getEncryptedString(fornRgstNo, true) : StringUtil.EMPTY_STRING);
+                applicationForeigner.setPaspNoEncr((paspNo != null && !StringUtil.EMPTY_STRING.equals(paspNo)) ? getEncryptedString(paspNo, true) : StringUtil.EMPTY_STRING);
+                applicationForeigner.setVisaNoEncr((visaNo != null && !StringUtil.EMPTY_STRING.equals(visaNo)) ? getEncryptedString(visaNo, true) : StringUtil.EMPTY_STRING);
+            }
+        } catch (IOException e) {
+            ec = new ExecutionContext(ExecutionContext.FAIL);
+            ec.setMessage(messageResolver.getMessage("U316"));
+            ec.setErrCode("ERR0043");
+            Map<String, Object> errMap = new HashMap<String, Object>();
+            errMap.put("applNo", application.getApplNo());
+            errMap.put("situation", "Error while loading props for En/Decryption");
+            ec.setErrorInfo(new ErrorInfo(errMap));
+            throw new YSBizException(ec);
         }
 
         ec = basisService.saveBasis(formData);
 
         if (ExecutionContext.SUCCESS.equals(ec.getResult())) {
             ExecutionContext ecRetrieve = removeHyphen(basisService.retrieveBasis(formData));
-            if (ExecutionContext.SUCCESS.equals(ecRetrieve.getResult())) {
+            ExecutionContext ecRetrieveEncr = null;
+            try {
+                ecRetrieveEncr = processForeignPersonalInfo(ecRetrieve);
+            } catch (IOException e) {
+                ecRetrieveEncr = new ExecutionContext(ExecutionContext.FAIL);
+                ecRetrieveEncr.setMessage(messageResolver.getMessage("U347"));
+                ecRetrieveEncr.setErrCode("ERR0043");
+                Map<String, Object> errMap = new HashMap<String, Object>();
+                errMap.put("applNo", formData.getApplication().getApplNo());
+                errMap.put("situation", "Error while loading props for En/Decryption");
+                ec.setErrorInfo(new ErrorInfo(errMap));
+                throw new YSBizException(ecRetrieveEncr);
+            }
+            if (ExecutionContext.SUCCESS.equals(ecRetrieve.getResult()) && ExecutionContext.SUCCESS.equals(ecRetrieveEncr.getResult())) {
                 Map<String, Object> map = (Map<String, Object>)ecRetrieve.getData();
                 addObjectToMV(mv, map, ec);
             } else {
-                mv = getErrorMV("common/error", ecRetrieve);
+                mv = getErrorMV("common/error", ExecutionContext.FAIL.equals(ecRetrieve.getResult()) ? ecRetrieve : ecRetrieveEncr);
             }
         } else {
             mv = getErrorMV("common/error", ec);
@@ -253,23 +298,40 @@ public class BasisController {
         }
     }
 
+    private ExecutionContext processForeignPersonalInfo(ExecutionContext result) throws IOException {
+        Map<String, Object> map = (Map<String, Object>)result.getData();
+        Basis basis = (Basis)map.get("basis");
+
+        processForeignPersonalInfo(basis);
+
+        return result;
+    }
+
+    private void processForeignPersonalInfo(Basis basis) throws IOException {
+        ApplicationForeigner applicationForeigner = basis.getApplicationForeigner();
+        String fornRgstNoEncr = applicationForeigner.getFornRgstNoEncr();
+        String paspNoEncr = applicationForeigner.getPaspNoEncr();
+        String visaNoEncr = applicationForeigner.getVisaNoEncr();
+
+        applicationForeigner.setFornRgstNo(fornRgstNoEncr != null ? getEncryptedString(fornRgstNoEncr, false) : StringUtil.EMPTY_STRING);
+        applicationForeigner.setPaspNo(paspNoEncr != null ? getEncryptedString(paspNoEncr, false) : StringUtil.EMPTY_STRING);
+        applicationForeigner.setVisaNo(visaNoEncr != null ? getEncryptedString(visaNoEncr, false) : StringUtil.EMPTY_STRING);
+    }
+
     private String getSha256(String input) {
-//            MessageDigest digest = MessageDigest.getInstance("SHA-256");
-//            byte[] hash = digest.digest(input.getBytes("UTF-8"));
-//            return new String(hash);
         String sha256 = shaPasswordEncoder.encodePassword(input, "");
         return sha256;
     }
 
-    private String getEncryptedString(String input) throws IOException {
+    private String getEncryptedString(String input, boolean isEncrypt) throws IOException {
         Properties prop = new Properties();
         InputStream is = context.getResourceAsStream("WEB-INF/grad-ks");
-        String encrypted = null;
+        String result = null;
 
         try {
             prop.load(is);
             TextEncryptor textEncryptor = Encryptors.queryableText(prop.getProperty("ENC_PSWD"), prop.getProperty("ENC_SALT"));
-            encrypted = textEncryptor.encrypt(input);
+            result = isEncrypt ? textEncryptor.encrypt(input) : textEncryptor.decrypt(input);
         } finally {
             try {
                 if (is != null) {
@@ -279,6 +341,27 @@ public class BasisController {
                 throw new YSBizException(e);
             }
         }
-        return encrypted;
+        return result;
+    }
+
+    private String getDecryptedString(String input) throws IOException {
+        Properties prop = new Properties();
+        InputStream is = context.getResourceAsStream("WEB-INF/grad-ks");
+        String decrypted = null;
+
+        try {
+            prop.load(is);
+            TextEncryptor textEncryptor = Encryptors.queryableText(prop.getProperty("ENC_PSWD"), prop.getProperty("ENC_SALT"));
+            decrypted = textEncryptor.decrypt(input);
+        } finally {
+            try {
+                if (is != null) {
+                    is.close();
+                }
+            } catch (IOException e) {
+                throw new YSBizException(e);
+            }
+        }
+        return decrypted;
     }
 }

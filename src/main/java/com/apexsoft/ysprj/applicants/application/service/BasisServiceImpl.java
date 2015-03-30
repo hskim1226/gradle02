@@ -294,7 +294,7 @@ public class BasisServiceImpl implements BasisService {
             application.setModDate(date);
             r1 = commonDAO.updateItem(application, NAME_SPACE, "ApplicationMapper");
 
-            if ("C".equals(admsTypeCode)) {
+            if ("C".equals(admsTypeCode) || "D".equals(admsTypeCode)) {
                 applicationForeigner.setApplNo(applNo);
                 applicationForeigner.setModId(userId);
                 applicationForeigner.setModDate(date);
@@ -320,12 +320,12 @@ public class BasisServiceImpl implements BasisService {
             String errCode = null;
             if (isInsert) {
                 if (r1 == 0) errCode = "ERR0001";
-                else if (r2 == 0 && !"C".equals(admsTypeCode)) errCode = "ERR0006";
-                else if (r3 == 0 && "C".equals(admsTypeCode)) errCode = "ERR0026";
+                else if (r2 == 0 && !"C".equals(admsTypeCode) && !"D".equals(admsTypeCode)) errCode = "ERR0006";
+                else if (r3 == 0 && ("C".equals(admsTypeCode) || "D".equals(admsTypeCode))) errCode = "ERR0026";
             } else {
                 if (r1 == 0) errCode = "ERR0003";
-                else if (r2 == 0 && !"C".equals(admsTypeCode)) errCode = "ERR0008";
-                else if (r3 == 0 && "C".equals(admsTypeCode)) errCode = "ERR0028";
+                else if (r2 == 0 && !"C".equals(admsTypeCode) && !"D".equals(admsTypeCode)) errCode = "ERR0008";
+                else if (r3 == 0 && ("C".equals(admsTypeCode) || "D".equals(admsTypeCode))) errCode = "ERR0028";
             }
             ec.setErrCode(errCode);
             Map<String, String> errorInfo = new HashMap<String, String>();
