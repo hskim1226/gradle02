@@ -190,9 +190,10 @@ public class BasisServiceImpl implements BasisService {
 //            List<AcademyResearchIndustryInstitution> ariInstList = commonService.retrieveAriInst();
 //            if (campList != null)      selectionMap.put("campList", campList);
 //            if (ariInstList != null)   selectionMap.put("ariInstList", ariInstList);
+            // 외국인 전형에서는 지원자 타입이 일반 지원자 밖에 없음
             selectionMap.put("applAttrList", commonService.retrieveApplAttrList("APPL_ATTR"));
-            if( !"15A".equals(basis.getApplication().getAdmsNo()) &&
-                !"15B".equals(basis.getApplication().getAdmsNo())){
+            if( "C".equals(basis.getApplication().getAdmsTypeCode()) ||
+                "D".equals(basis.getApplication().getAdmsTypeCode())){
                 List<CommonCode> attrList = (List<CommonCode>)selectionMap.get("applAttrList");
                 for(int i = attrList.size()-1; i >= 0 ; i--){
                     if( !"00001".equals(attrList.get(i).getCode())){
@@ -201,16 +202,16 @@ public class BasisServiceImpl implements BasisService {
                 }
             }
             selectionMap.put("emerContList", commonService.retrieveCommonCodeByCodeGroup("EMER_CONT"));
-            if( "15C".equals(basis.getApplication().getAdmsNo())){
-
-                ArrayList<CommonCode> attrList = (ArrayList<CommonCode>)selectionMap.get("applAttrList");
-                for(int i = attrList.size()-1; i >= 0 ; i--){
-                    if( !"00001".equals(attrList.get(i).getCode())){
-                        attrList.remove(i);
-                    }
-                }
-
-            }
+//            if( "15C".equals(basis.getApplication().getAdmsNo())){
+//
+//                ArrayList<CommonCode> attrList = (ArrayList<CommonCode>)selectionMap.get("applAttrList");
+//                for(int i = attrList.size()-1; i >= 0 ; i--){
+//                    if( !"00001".equals(attrList.get(i).getCode())){
+//                        attrList.remove(i);
+//                    }
+//                }
+//
+//            }
         }
 
         String cntrCode = basis.getApplication().getCitzCntrCode();
