@@ -220,7 +220,10 @@
                     <p class="txt1"><spring:message code="L01004"/><%--어학/경력 정보--%></p>
                 </li>
                 <li class="inactive"><span class="step"><strong>4</strong></span>
-                    <p class="txt1"><spring:message code="L01005"/><%--파일 첨부--%></p>
+                    <p class="txt1"><spring:message code="L01005"/><%--파일 첨부 및 제출--%></p>
+                </li>
+                <li class="inactive"><span class="step"><strong>5</strong></span>
+                    <p class="txt1"><spring:message code="L01006"/><%--결제--%></p>
                 </li>
             </ul>
         </div>
@@ -336,7 +339,7 @@
                                                         <%--&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--%>
                                                         <%--<label class="radio-inline degr-radio"><form:radiobutton path="collegeList[${stat.index}].grdaTypeCode" cssClass="grad-yn" value="00002" /><spring:message code="L02110"/>&lt;%&ndash;졸업 예정&ndash;%&gt;</label>--%>
                                                         <form:select path="collegeList[${stat.index}].grdaTypeCode" cssClass="form-control grad-type">
-                                                            <form:option value="" label="--${msg.getMessage('L01006', locale)}--" />
+                                                            <form:option value="" label="--${msg.getMessage('L01011', locale)}--" />
                                                             <form:options items="${selection.grdaTypeList}" itemValue="code"
                                                                           itemLabel="${pageContext.response.locale == 'en' ? 'codeValXxen' : 'codeVal'}"/>
                                                         </form:select>
@@ -543,7 +546,7 @@
                                                     <%--&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--%>
                                                     <%--<label class="radio-inline degr-radio"><form:radiobutton path="graduateList[${stat.index}].grdaTypeCode" cssClass="grad-yn" value="00002" /><spring:message code="L02110"/>&lt;%&ndash;졸업 예정&ndash;%&gt;</label>--%>
                                                     <form:select path="graduateList[${stat.index}].grdaTypeCode" cssClass="form-control grad-type">
-                                                        <form:option value="" label="--${msg.getMessage('L01006', locale)}--" />
+                                                        <form:option value="" label="--${msg.getMessage('L01011', locale)}--" />
                                                         <form:options items="${selection.grdaTypeList}" itemValue="code"
                                                                       itemLabel="${pageContext.response.locale == 'en' ? 'codeValXxen' : 'codeVal'}"/>
                                                     </form:select>

@@ -225,7 +225,10 @@
                     <p class="txt1"><spring:message code="L01004"/><%--어학/경력 정보--%></p>
                 </li>
                 <li class="inactive"><span class="step"><strong>4</strong></span>
-                    <p class="txt1"><spring:message code="L01005"/><%--파일 첨부--%></p>
+                    <p class="txt1"><spring:message code="L01005"/><%--파일 첨부 및 제출--%></p>
+                </li>
+                <li class="inactive"><span class="step"><strong>5</strong></span>
+                    <p class="txt1"><spring:message code="L01006"/><%--결제--%></p>
                 </li>
             </ul>
         </div>
@@ -271,7 +274,7 @@
                                     <div class="col-sm-9">
                                         <div class="col-sm-12">
                                             <form:select path="application.applAttrCode" id="applAttrCode" cssClass="form-control base-info">
-                                                <form:option value="" label="--${msg.getMessage('L01006', locale)}--" />
+                                                <form:option value="" label="--${msg.getMessage('L01011', locale)}--" />
                                                 <form:options items="${selection.applAttrList}" itemValue="code"
                                                               itemLabel="${pageContext.response.locale == 'en' ? 'codeValXxen' : 'codeVal'}"/>
                                             </form:select>
@@ -284,7 +287,7 @@
                                         <div class="col-sm-9">
                                             <div class="col-sm-3">
                                                 <form:select path="application.campCode" id="campCode" cssClass="form-control base-info base-non-ariInst">
-                                                    <form:option value="" label="--${msg.getMessage('L01006', locale)}--" />
+                                                    <form:option value="" label="--${msg.getMessage('L01011', locale)}--" />
                                                     <c:if test="${basis.application.applAttrCode == '00001' || basis.application.applAttrCode == '00003'}">
                                                         <form:options items="${selection.campList}" itemValue="campCode"
                                                                       itemLabel="${pageContext.response.locale == 'en' ? 'campNameXxen' : 'campName'}"/>
@@ -294,7 +297,7 @@
                                             <label path="collCode" class="col-sm-2 control-label"><spring:message code="L01105"/><%--대학--%></label>
                                             <div class="col-sm-7">
                                                 <form:select path="application.collCode" id="collCode" cssClass="form-control base-info base-non-ariInst">
-                                                    <form:option value="" label="--${msg.getMessage('L01006', locale)}--" />
+                                                    <form:option value="" label="--${msg.getMessage('L01011', locale)}--" />
                                                     <c:if test="${basis.application.applAttrCode == '00001' || basis.application.applAttrCode == '00003'}">
                                                         <form:options items="${selection.collList}" itemValue="collCode"
                                                                       itemLabel="${pageContext.response.locale == 'en' ? 'collNameXxen' : 'collName'}"/>
@@ -308,7 +311,7 @@
                                         <div class="col-sm-9">
                                             <div class="col-sm-12">
                                                 <form:select path="application.ariInstCode" id="ariInstCode" cssClass="form-control base-info base-ariInst">
-                                                    <form:option value="" label="--${msg.getMessage('L01006', locale)}--" />
+                                                    <form:option value="" label="--${msg.getMessage('L01011', locale)}--" />
                                                     <c:if test="${basis.application.applAttrCode == '00002'}">
                                                     <form:options items="${selection.ariInstList}" itemValue="ariInstCode"
                                                                   itemLabel="${pageContext.response.locale == 'en' ? 'ariInstNameXxen' : 'ariInstName'}"/>
@@ -322,7 +325,7 @@
                                         <div class="col-sm-9">
                                             <div class="col-sm-12">
                                                 <form:select path="application.deptCode" id="deptCode" cssClass="form-control base-info base-non-ariInst base-ariInst">
-                                                    <form:option value="" label="--${msg.getMessage('L01006', locale)}--" />
+                                                    <form:option value="" label="--${msg.getMessage('L01011', locale)}--" />
                                                     <form:options items="${selection.deptList}" itemValue="deptCode"
                                                                   itemLabel="${pageContext.response.locale == 'en' ? 'deptNameXxen' : 'deptName'}"/>
                                                 </form:select>
@@ -334,7 +337,7 @@
                                         <div class="col-sm-9">
                                             <div class="col-sm-12">
                                                 <form:select path="application.corsTypeCode" id="corsTypeCode" cssClass="form-control base-info base-non-ariInst base-ariInst">
-                                                    <form:option value="" label="--${msg.getMessage('L01006', locale)}--" />
+                                                    <form:option value="" label="--${msg.getMessage('L01011', locale)}--" />
                                                     <form:options items="${selection.corsTypeList}" itemValue="corsTypeCode"
                                                                   itemLabel="${pageContext.response.locale == 'en' ? 'codeValXxen' : 'codeVal'}"/>
                                                 </form:select>
@@ -346,7 +349,7 @@
                                         <div class="col-sm-9">
                                             <div class="col-sm-12">
                                                 <form:select path="application.detlMajCode" id="detlMajCode" cssClass="form-control base-info base-non-ariInst base-ariInst">
-                                                    <form:option value="" label="--${msg.getMessage('L01006', locale)}--" />
+                                                    <form:option value="" label="--${msg.getMessage('L01011', locale)}--" />
                                                     <form:options items="${selection.detlMajList}" itemValue="detlMajCode"
                                                                   itemLabel="${pageContext.response.locale == 'en' ? 'detlMajNameXxen' : 'detlMajName'}"/>
                                                 </form:select>
@@ -558,7 +561,7 @@
                                                 <div class="col-sm-9">
                                                     <div class="col-sm-4">
                                                         <form:select path="application.fornTypeCode" id="fornTypeCode" cssClass="form-control">
-                                                            <form:option value="" label="--${msg.getMessage('L01006', locale)}--" />
+                                                            <form:option value="" label="--${msg.getMessage('L01011', locale)}--" />
                                                             <form:options items="${foreign.foreignTypeList}" itemValue="code"
                                                                           itemLabel="${pageContext.response.locale == 'en' ? 'codeValXxen' : 'codeVal'}"/>
                                                         </form:select>
@@ -635,7 +638,7 @@
                                                 <div class="input-group">
                                                     <span class="input-group-addon">&nbsp;<spring:message code="L01404"/><%--종류--%>&nbsp;</span>
                                                     <form:select path="applicationForeigner.visaTypeCode" cssClass="form-control">
-                                                        <form:option value="" label="--${msg.getMessage('L01006', locale)}--" />
+                                                        <form:option value="" label="--${msg.getMessage('L01011', locale)}--" />
                                                         <form:options items="${foreign.visaTypeList}" itemValue="code"
                                                                       itemLabel="${pageContext.response.locale == 'en' ? 'codeValXxen' : 'codeVal'}"/>
                                                     </form:select>
@@ -836,7 +839,7 @@
                                                 <div class="col-sm-9">
                                                     <div class="col-sm-12">
                                                         <form:select path="applicationGeneral.emerContCode" cssClass="form-control">
-                                                            <form:option value="" label="--${msg.getMessage('L01006', locale)}--" />
+                                                            <form:option value="" label="--${msg.getMessage('L01011', locale)}--" />
                                                             <form:options items="${selection.emerContList}" itemValue="code"
                                                                           itemLabel="${pageContext.response.locale == 'en' ? 'codeValXxen' : 'codeVal'}"/>
                                                         </form:select>
@@ -895,7 +898,7 @@
                                                         <div class="col-sm-9">
                                                             <div class="col-sm-12">
                                                                 <form:select path="applicationForeigner.korEmrgRela" cssClass="form-control">
-                                                                    <form:option value="" label="--${msg.getMessage('L01006', locale)}--" />
+                                                                    <form:option value="" label="--${msg.getMessage('L01011', locale)}--" />
                                                                     <form:options items="${selection.emerContList}" itemValue="code"
                                                                                   itemLabel="${pageContext.response.locale == 'en' ? 'codeValXxen' : 'codeVal'}"/>
                                                                 </form:select>
@@ -949,7 +952,7 @@
                                                         <div class="col-sm-9">
                                                             <div class="col-sm-12">
                                                                 <form:select path="applicationForeigner.homeEmrgRela" cssClass="form-control">
-                                                                    <form:option value="" label="--${msg.getMessage('L01006', locale)}--" />
+                                                                    <form:option value="" label="--${msg.getMessage('L01011', locale)}--" />
                                                                     <form:options items="${selection.emerContList}" itemValue="code"
                                                                                   itemLabel="${pageContext.response.locale == 'en' ? 'codeValXxen' : 'codeVal'}"/>
                                                                 </form:select>

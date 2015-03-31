@@ -304,7 +304,10 @@
                     <p class="txt1"><spring:message code="L01004"/><%--어학/경력 정보--%></p>
                 </li>
                 <li class="inactive"><span class="step"><strong>4</strong></span>
-                    <p class="txt1"><spring:message code="L01005"/><%--파일 첨부--%></p>
+                    <p class="txt1"><spring:message code="L01005"/><%--파일 첨부 및 제출--%></p>
+                </li>
+                <li class="inactive"><span class="step"><strong>5</strong></span>
+                    <p class="txt1"><spring:message code="L01006"/><%--결제--%></p>
                 </li>
             </ul>
         </div>
