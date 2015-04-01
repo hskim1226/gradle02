@@ -22,6 +22,7 @@ import com.apexsoft.ysprj.applicants.common.util.FileUtil;
 import com.apexsoft.ysprj.applicants.common.util.StringUtil;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.commons.fileupload.FileUpload;
 import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -308,6 +309,13 @@ public class DocumentController {
                     String uploadDir = getDirectory(fileMetaForm);
                     String uploadFileName = "";
                     for ( FileItem fileItem : fileItems){
+                        if (fileItem.getFile().length() > MAX_LENGTH) {
+                            ec = new ExecutionContext(ExecutionContext.FAIL);
+                            Map<String, String> errorInfo = new HashMap<String, String>();
+                            errorInfo.put("applNo", String.valueOf(document.getApplNo()));
+                            ec.setErrorInfo(new ErrorInfo(errorInfo));
+                            throw new FileUploadException(ec, "U04301", "ERR0060");
+                        }
                         FileInputStream fis = null;
                         String originalFileName = fileItem.getOriginalFileName();
                         try{

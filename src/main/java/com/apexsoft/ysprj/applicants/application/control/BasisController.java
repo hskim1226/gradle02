@@ -313,9 +313,9 @@ public class BasisController {
         String paspNoEncr = applicationForeigner.getPaspNoEncr();
         String visaNoEncr = applicationForeigner.getVisaNoEncr();
 
-        applicationForeigner.setFornRgstNo(fornRgstNoEncr != null ? getEncryptedString(fornRgstNoEncr, false) : StringUtil.EMPTY_STRING);
-        applicationForeigner.setPaspNo(paspNoEncr != null ? getEncryptedString(paspNoEncr, false) : StringUtil.EMPTY_STRING);
-        applicationForeigner.setVisaNo(visaNoEncr != null ? getEncryptedString(visaNoEncr, false) : StringUtil.EMPTY_STRING);
+        applicationForeigner.setFornRgstNo(fornRgstNoEncr != null && !StringUtil.EMPTY_STRING.equals(fornRgstNoEncr) ? getEncryptedString(fornRgstNoEncr, false) : StringUtil.EMPTY_STRING);
+        applicationForeigner.setPaspNo(paspNoEncr != null && !StringUtil.EMPTY_STRING.equals(paspNoEncr) ? getEncryptedString(paspNoEncr, false) : StringUtil.EMPTY_STRING);
+        applicationForeigner.setVisaNo(visaNoEncr != null && !StringUtil.EMPTY_STRING.equals(visaNoEncr) ? getEncryptedString(visaNoEncr, false) : StringUtil.EMPTY_STRING);
     }
 
     private String getSha256(String input) {

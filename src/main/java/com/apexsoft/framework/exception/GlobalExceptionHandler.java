@@ -2,6 +2,7 @@ package com.apexsoft.framework.exception;
 
 import com.apexsoft.framework.common.vo.ExecutionContext;
 import com.apexsoft.framework.message.MessageResolver;
+import com.apexsoft.framework.persistence.file.exception.FileUploadException;
 import org.apache.commons.lang.exception.ExceptionUtils;
 import org.apache.ibatis.exceptions.PersistenceException;
 import org.mybatis.spring.MyBatisSystemException;
@@ -11,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -65,6 +67,25 @@ public class GlobalExceptionHandler {
         return mv;
     }
 
+    @ExceptionHandler(FileUploadException.class)
+    @ResponseBody
+    public ExecutionContext handleFileUploadException(HttpServletRequest request,
+                                                      FileUploadException e){
+        ExecutionContext ec = e.getExecutionContext();
+        ErrorInfo eInfo = ec.getErrorInfo();
+        ec.setMessage(messageResolver.getMessage(e.getUserMessageCode()));
+        logger.error("FileUploadException Occured :: URL=" + request.getRequestURL());
+        logger.error("Message:: " + e.getMessage());
+        logger.error("ErrorCode:: " + e.getErrorCode());
+        logger.error("Cause:: " + e.getCause());
+        logger.error("ErrorInfo :: " + eInfo != null ? eInfo.toString() : "");
+        logger.error("ErrorType :: " + e.toString());
+        logger.error("FilteredStackTrace ::" +
+                StackTraceFilter.getFilteredCallStack(e.getStackTrace(), "com.apexsoft", false));
+
+        return ec;
+    }
+
     @ExceptionHandler(YSBizException.class)
     public ModelAndView handleBizException(HttpServletRequest request,
                                            YSBizException e){
@@ -74,7 +95,7 @@ public class GlobalExceptionHandler {
         logger.error("YSBizException Occured :: URL=" + request.getRequestURL());
         logger.error("Message:: " + e.getMessage());
         logger.error("Cause:: " + e.getCause());
-        logger.error("ErrorInfo :: " + eInfo.toString());
+        logger.error("ErrorInfo :: " + eInfo != null ? eInfo.toString() : "");
         logger.error("ErrorType :: " + e.toString());
         logger.error("FilteredStackTrace ::" +
                 StackTraceFilter.getFilteredCallStack(e.getStackTrace(), "com.apexsoft", false));
@@ -93,7 +114,7 @@ public class GlobalExceptionHandler {
         logger.error("YSNoRedirectBizException Occured :: URL=" + request.getRequestURL());
         logger.error("Message:: " + e.getMessage());
         logger.error("Cause:: " + e.getCause());
-        logger.error("ErrorInfo :: " + eInfo.toString());
+        logger.error("ErrorInfo :: " + eInfo != null ? eInfo.toString() : "");
         logger.error("ErrorType :: " + e.toString());
         logger.error("FilteredStackTrace ::" +
                 StackTraceFilter.getFilteredCallStack(e.getStackTrace(), "com.apexsoft", false));

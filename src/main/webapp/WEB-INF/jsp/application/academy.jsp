@@ -354,7 +354,7 @@
                                                 </div>
                                                 <div class="col-sm-8">
                                                     <div>
-                                                        <form:input path="collegeList[${stat.index}].degrNo" cssClass="degr-no form-control erase-hide" placeholder="${msg.getMessage('U02104')}<%--학위등록번호를 입력해주세요--%>"
+                                                        <form:input path="collegeList[${stat.index}].degrNo" maxlength="20" cssClass="degr-no form-control erase-hide" placeholder="${msg.getMessage('U02104')}<%--학위등록번호를 입력해주세요--%>"
                                                                 style="display: ${academy.collegeList[stat.index].grdaTypeCode == '00001' ? 'block;' : 'none;'}"/>
                                                         <label id='collegeList${stat.index}.label-grad-02' class="col-sm-10 grda-not degr-message erase-hide word-keep-all"
                                                                style="display: ${academy.collegeList[stat.index].grdaTypeCode == '00002' ? 'block;' : 'none;'}" ><spring:message code="U02105"/><%--합격 후 입학 시 졸업증명서를 대학원 사무실로 반드시 제출하세요--%></label>
@@ -552,7 +552,7 @@
                                                     </form:select>
                                                 </div>
                                                 <div class="col-sm-8">
-                                                    <form:input path="graduateList[${stat.index}].degrNo" cssClass="degr-no form-control erase-hide" placeholder="${msg.getMessage('U02104')}"
+                                                    <form:input path="graduateList[${stat.index}].degrNo" maxlength="20" cssClass="degr-no form-control erase-hide" placeholder="${msg.getMessage('U02104')}"
                                                             style="display: ${academy.graduateList[stat.index].grdaTypeCode == '00001' ? 'block;' : 'none;'}"/> <%--학위등록번호를 입력해주세요--%>
                                                     <label id='graduateList${stat.index}.label-grad-02' class="col-sm-10 grda-not degr-message erase-hide"
                                                            style="display: ${academy.graduateList[stat.index].grdaTypeCode == '00002' ? 'block;' : 'none;'}" ><spring:message code="U02105"/></label>    <%--합격 후 입학 시 졸업증명서를 대학원 사무실로 반드시 제출하세요--%>
@@ -647,7 +647,7 @@
                                                 <div class="col-sm-6">
                                                     <div class="input-group">
                                                         <span class="input-group-addon"><spring:message code="L02119"/><%--만점--%></span>
-                                                        <form:input path="graduateList[${stat.index}].gradFull" cssClass="form-control gradFull" maxlength="4" placeholder="${msg.getMessage('U02109')}<%--#.##--%>" data-gradAvr-id="graduateList${stat.index}.gradAvr"/>
+                                                        <form:input path="graduateList[${stat.index}].gradFull" cssClass="form-control gradFull" maxlength="4" placeholder="${msg.getMessage('U02109')}" data-gradAvr-id="graduateList${stat.index}.gradAvr"/>  <%--#.##--%>
                                                     </div>
                                             <spring:bind path="graduateList[${stat.index}].gradFull">
                                                 <c:if test="${status.error}">

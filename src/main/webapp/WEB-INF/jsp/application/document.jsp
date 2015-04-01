@@ -1312,37 +1312,40 @@
                             admsNo: document.getElementById('admsNo').value
                         },
                         success: function (data, status) {
-                            var d = JSON.parse(data.data);
-                            var targetBtnId = d.targetButton,
-                                    targetBtn = document.getElementById(targetBtnId),
-                                    $targetBtn = $(targetBtn),
-                                    originalFileName = d.originalFileName,
-                                    targetFileDownloadLinkId = d.targetFileDownloadLinkId,
-                                    targetFileDeleteLinkId = d.targetFileDeleteLinkId,
-                                    applNo = d.applNo,
-                                    downloadURL,
-                                    oneDocument = d.oneDocument,
-                                    docSeq = oneDocument.docSeq,
-                                    oneDocumentHidden;
-                            $targetBtn.removeClass("btn-default");
-                            $targetBtn.removeClass("btn-danger");
-                            $targetBtn.addClass("btn-info");
-                            $targetBtn.val("올리기 성공");
+                            if (data.result == 'SUCCESS') {
+                                var d = JSON.parse(data.data);
+                                var targetBtnId = d.targetButton,
+                                        targetBtn = document.getElementById(targetBtnId),
+                                        $targetBtn = $(targetBtn),
+                                        originalFileName = d.originalFileName,
+                                        targetFileDownloadLinkId = d.targetFileDownloadLinkId,
+                                        targetFileDeleteLinkId = d.targetFileDeleteLinkId,
+                                        applNo = d.applNo,
+                                        downloadURL,
+                                        oneDocument = d.oneDocument,
+                                        docSeq = oneDocument.docSeq,
+                                        oneDocumentHidden;
+                                $targetBtn.removeClass("btn-default");
+                                $targetBtn.removeClass("btn-danger");
+                                $targetBtn.addClass("btn-info");
+                                $targetBtn.val("올리기 성공");
 
-                            document.getElementById(targetFileDownloadLinkId).parentNode.style.display = 'block';
-                            document.getElementById(targetFileDownloadLinkId).setAttribute('href', '${contextPath}/application/document/fileDownload/' + applNo + '/' + docSeq);
+                                document.getElementById(targetFileDownloadLinkId).parentNode.style.display = 'block';
+                                document.getElementById(targetFileDownloadLinkId).setAttribute('href', '${contextPath}/application/document/fileDownload/' + applNo + '/' + docSeq);
 
-                            document.getElementById(targetFileDeleteLinkId).parentNode.style.display = 'block';
-                            document.getElementById(targetFileDeleteLinkId).setAttribute('href', '${contextPath}/application/document/fileDelete/' + applNo + '/' + docSeq);
+                                document.getElementById(targetFileDeleteLinkId).parentNode.style.display = 'block';
+                                document.getElementById(targetFileDeleteLinkId).setAttribute('href', '${contextPath}/application/document/fileDelete/' + applNo + '/' + docSeq);
 
-                            document.getElementById(targetOrgFileNameHiddenId).value = originalFileName;
+                                document.getElementById(targetOrgFileNameHiddenId).value = originalFileName;
 
-                            for (key in oneDocument) {
-                                oneDocumentHidden = document.getElementById(targetSubContainerId + key);
-                                if (oneDocumentHidden) {
-                                    oneDocumentHidden.value = oneDocument[key];
-//console.log(key, oneDocumentHidden.value);
+                                for (key in oneDocument) {
+                                    oneDocumentHidden = document.getElementById(targetSubContainerId + key);
+                                    if (oneDocumentHidden) {
+                                        oneDocumentHidden.value = oneDocument[key];
+                                    }
                                 }
+                            } else {
+                                alert(data.message);
                             }
                         },
                         error: function (data, status, e) {
