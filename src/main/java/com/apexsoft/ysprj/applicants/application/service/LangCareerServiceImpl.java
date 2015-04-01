@@ -307,8 +307,11 @@ public class LangCareerServiceImpl implements LangCareerService {
                             rUpdate++;
                             aCont.setModId(application.getModId());
                             //토플 종류코드로 입력된 경우 이를 하부코드에 입력한다. 기존 코드가 있으며 이를 사용한다.
-                            if( aCont.getSubCodeGrp() == null &&  "".equals(aCont.getSubCodeGrp()) ){
-                                aCont.setSubCodeGrp(aCont.getSubCodeGrp() );
+                            if( aCont.getSubCodeGrp() == null ||  "".equals(aCont.getSubCodeGrp()) ){
+                                aCont.setSubCodeGrp(aCont.getSelGrpCode() );
+                            }
+
+                            if( aCont.getSubCode() == null ||  "".equals(aCont.getSubCode()) ){
                                 aCont.setSubCode( aCont.getToflTypeCode() );
                             }
                             aCont.setModDate(date);
@@ -319,8 +322,12 @@ public class LangCareerServiceImpl implements LangCareerService {
                             rInsert++;
                             aCont.setCreId(application.getModId());
                             aCont.setCreDate(date);
-                            if( aCont.getSubCodeGrp() == null &&  "".equals(aCont.getSubCodeGrp()) ){
-                                aCont.setSubCodeGrp(aCont.getSubCodeGrp() );
+                            //토플 종류코드로 입력된 경우 이를 하부코드에 입력한다. 기존 코드가 있으며 이를 사용한다.
+                            if( aCont.getSubCodeGrp() == null ||  "".equals(aCont.getSubCodeGrp()) ){
+                                aCont.setSubCodeGrp(aCont.getSelGrpCode() );
+                            }
+
+                            if( aCont.getSubCode() == null ||  "".equals(aCont.getSubCode()) ){
                                 aCont.setSubCode( aCont.getToflTypeCode() );
                             }
                             //미제출건인 경우

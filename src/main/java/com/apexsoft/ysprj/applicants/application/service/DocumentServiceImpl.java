@@ -476,7 +476,7 @@ public class DocumentServiceImpl implements DocumentService {
         applDocList = commonDAO.queryForList(NAME_SPACE + "CustomApplicationDocumentMapper.selectLanguageTotalDocListByApplNo", applNo, TotalApplicationDocumentContainer.class);
         if( applDocList != null){
 
-            for( int idx = applDocList.size()-1; idx > 0; idx--){
+            for( int idx = applDocList.size()-1; idx > -1; idx--){
                 TotalApplicationDocumentContainer aCont = applDocList.get(idx);
                 if( "EXMP_TYPE".equals(aCont.getDocItemGrp())){
                     applDocList.remove(idx);
