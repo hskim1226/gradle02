@@ -620,7 +620,7 @@
                                         <label for="applicationForeigner.paspNo" class="col-sm-2 control-label"><spring:message code="L01402"/><%--여권 번호--%></label>
                                         <div class="col-sm-9">
                                             <div class="col-sm-12">
-                                                <form:input path="applicationForeigner.paspNo" cssClass="form-control" maxlength="15" placeholder="${msg.getMessage('U01401')}"/>  <%--여권 번호를 입력해주세요--%>
+                                                <form:input path="applicationForeigner.paspNo" cssClass="form-control" maxlength="50" placeholder="${msg.getMessage('U01401')}"/>  <%--여권 번호를 입력해주세요--%>
                                             </div>
                                             <spring:bind path="applicationForeigner.paspNo">
                                                 <c:if test="${status.error}">
