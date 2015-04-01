@@ -379,7 +379,10 @@
 
                                 <p><spring:message code="U04120"/><%--파일 업로드 후 오른쪽의 '내려받기' 버튼을 클릭해서 파일이 올바르게 업로드 되었는지 확인할 수 있습니다.--%></p>
 
-                                <div class="col-md-12 text-center mid-font slogan"><label style="font-size: 15px; color: red;"><spring:message code="U04121"/><%--위 내용을 확인하였으며, 업로드 한 파일의 적정 여부에 대한 책임은 지원 신청자에게 있음을 확인합니다.--%> <input type="checkbox" name="application.docChckYn" id="docChckYn" value="${document.application.docChckYn == 'Y' ? 'on' : 'off'}" ${document.application.docChckYn == 'Y' ? 'checked' : ''}/></label></div>
+                                <p style="font-size: 14px; color: blue"><b><spring:message code="U04121"/></b><%--입학 신청과 관련하여 제출 또는 업로드 해야 할 서류나 파일에 대한 정보는 모집 요강을 반드시 참고하시기 바랍니다.--%><br/>
+                                    <b><spring:message code="U04122"/></b><%--제출 해야 할 서류나 파일의 누락에 대한 책임은 지원 신청자 본인에게 있습니다.--%></p>
+
+                                <div class="col-md-12 text-center mid-font slogan"><label style="font-size: 15px; color: red;"><spring:message code="U04123"/><%--위 내용을 확인하였으며, 입학 신청과 관련한 서류나 파일의 누락 및 적정 여부에 대한 책임은 지원 신청자에게 있음을 확인합니다.--%> <input type="checkbox" name="application.docChckYn" id="docChckYn" value="${document.application.docChckYn == 'Y' ? 'on' : 'off'}" ${document.application.docChckYn == 'Y' ? 'checked' : ''}/></label></div>
                             <spring:bind path="application.docChckYn">
                                 <c:if test="${status.error}">
                                     <div class="col-sm-12 validation-container">
