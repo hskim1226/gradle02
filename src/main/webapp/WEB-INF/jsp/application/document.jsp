@@ -403,8 +403,8 @@
                         <div class="form-group"><label class="col-sm-3 control-label word-keep-all">${lv1Container.docItemName}</label></div>
                         </c:when>
                         <c:otherwise>
-                        <div class="panel panel-darkgray">
-                            <div class="panel-heading">${msg.getMessage(lv1Container.grpLabel, locale)}</div>
+                        <div class="panel panel-darkgray0">
+                            <div class="panel-heading">${msg.getMessage(lv1Container.grpLabel)}</div>
                             <form:hidden path="documentContainerList[${lv1Status.index}].grpLabel" value="${lv1Container.grpLabel}" />
                             <form:hidden path="documentContainerList[${lv1Status.index}].docTypeCode" value="${lv1Container.docTypeCode}" />
                             <form:hidden path="documentContainerList[${lv1Status.index}].docItemCode" value="${lv1Container.docItemCode}" />
@@ -452,7 +452,7 @@
                                     <div class="col-sm-3"><label>${pageContext.response.locale == 'en' ? lv2Container.docItemNameXxen : lv2Container.docItemName}</label></div>
                                     <div class="col-sm-9 warn-info"><label>${lv2Container.msg}</label></div>
                                 </c:when>
-                                <c:otherwise>`
+                                <c:otherwise>
                                     <div class="col-sm-3">
                                         <div class="checkbox-upload">
                                             <label class="word-keep-all" for="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.checkedFg">
