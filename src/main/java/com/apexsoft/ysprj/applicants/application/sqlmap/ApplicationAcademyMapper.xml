@@ -17,6 +17,7 @@
     <result column="SCHL_NAME" jdbcType="VARCHAR" property="schlName" />
     <result column="COLL_NAME" jdbcType="VARCHAR" property="collName" />
     <result column="MAJ_NAME" jdbcType="VARCHAR" property="majName" />
+    <result column="GRAD_FORM_CODE" jdbcType="VARCHAR" property="gradFormCode" />
     <result column="GRAD_AVR" jdbcType="VARCHAR" property="gradAvr" />
     <result column="GRAD_FULL" jdbcType="VARCHAR" property="gradFull" />
     <result column="DEGR_NO" jdbcType="VARCHAR" property="degrNo" />
@@ -107,7 +108,7 @@
       This element was generated on Thu Sep 18 18:37:48 KST 2014.
     -->
     APPL_NO, ACAD_TYPE_CODE, ACAD_SEQ, LAST_SCHL_YN, ENTR_DAY, GRDA_DAY, SCHL_CODE, SCHL_NAME, 
-    COLL_NAME, MAJ_NAME, GRAD_AVR, GRAD_FULL, DEGR_NO, GRDA_TYPE_CODE, QUAL_EXAM_DAY, 
+    COLL_NAME, MAJ_NAME, GRAD_FORM_CODE, GRAD_AVR, GRAD_FULL, DEGR_NO, GRDA_TYPE_CODE, QUAL_EXAM_DAY,
     QUAL_AREA_CODE, SCHL_CNTR_CODE, SCHL_ZIP_CODE, SCHL_ADDR, SCHL_TEL, CRE_ID, CRE_DATE, 
     MOD_ID, MOD_DATE
   </sql>
@@ -174,7 +175,7 @@
     insert into APPL_ACAD (APPL_NO, ACAD_TYPE_CODE, ACAD_SEQ, 
       LAST_SCHL_YN, ENTR_DAY, GRDA_DAY, 
       SCHL_CODE, SCHL_NAME, COLL_NAME, 
-      MAJ_NAME, GRAD_AVR, GRAD_FULL, 
+      MAJ_NAME, GRAD_FORM_CODE, GRAD_AVR, GRAD_FULL,
       DEGR_NO, GRDA_TYPE_CODE, QUAL_EXAM_DAY, 
       QUAL_AREA_CODE, SCHL_CNTR_CODE, SCHL_ZIP_CODE, 
       SCHL_ADDR, SCHL_TEL, CRE_ID, 
@@ -183,7 +184,7 @@
     values (#{applNo,jdbcType=INTEGER}, #{acadTypeCode,jdbcType=VARCHAR}, #{acadSeq,jdbcType=INTEGER}, 
       #{lastSchlYn,jdbcType=VARCHAR}, #{entrDay,jdbcType=VARCHAR}, #{grdaDay,jdbcType=VARCHAR}, 
       #{schlCode,jdbcType=VARCHAR}, #{schlName,jdbcType=VARCHAR}, #{collName,jdbcType=VARCHAR}, 
-      #{majName,jdbcType=VARCHAR}, #{gradAvr,jdbcType=VARCHAR}, #{gradFull,jdbcType=VARCHAR}, 
+      #{majName,jdbcType=VARCHAR}, #{gradFormCode,jdbcType=VARCHAR}, #{gradAvr,jdbcType=VARCHAR}, #{gradFull,jdbcType=VARCHAR},
       #{degrNo,jdbcType=VARCHAR}, #{grdaTypeCode,jdbcType=VARCHAR}, #{qualExamDay,jdbcType=VARCHAR}, 
       #{qualAreaCode,jdbcType=VARCHAR}, #{schlCntrCode,jdbcType=VARCHAR}, #{schlZipCode,jdbcType=VARCHAR}, 
       #{schlAddr,jdbcType=VARCHAR}, #{schlTel,jdbcType=VARCHAR}, #{creId,jdbcType=VARCHAR}, 
@@ -227,6 +228,9 @@
       </if>
       <if test="majName != null">
         MAJ_NAME,
+      </if>
+      <if test="gradFormCode != null">
+        GRAD_FORM_CODE,
       </if>
       <if test="gradAvr != null">
         GRAD_AVR,
@@ -301,6 +305,9 @@
       </if>
       <if test="majName != null">
         #{majName,jdbcType=VARCHAR},
+      </if>
+      <if test="gradFormCode != null">
+        #{gradFormCode,jdbcType=VARCHAR},
       </if>
       <if test="gradAvr != null">
         #{gradAvr,jdbcType=VARCHAR},
@@ -395,6 +402,9 @@
       <if test="record.majName != null">
         MAJ_NAME = #{record.majName,jdbcType=VARCHAR},
       </if>
+      <if test="record.gradFormCode != null">
+        GRAD_FORM_CODE = #{record.gradFormCode,jdbcType=VARCHAR},
+      </if>
       <if test="record.gradAvr != null">
         GRAD_AVR = #{record.gradAvr,jdbcType=VARCHAR},
       </if>
@@ -459,6 +469,7 @@
       SCHL_NAME = #{record.schlName,jdbcType=VARCHAR},
       COLL_NAME = #{record.collName,jdbcType=VARCHAR},
       MAJ_NAME = #{record.majName,jdbcType=VARCHAR},
+      GRAD_FORM_CODE = #{record.gradFormCode,jdbcType=VARCHAR},
       GRAD_AVR = #{record.gradAvr,jdbcType=VARCHAR},
       GRAD_FULL = #{record.gradFull,jdbcType=VARCHAR},
       DEGR_NO = #{record.degrNo,jdbcType=VARCHAR},
@@ -505,6 +516,9 @@
       </if>
       <if test="majName != null">
         MAJ_NAME = #{majName,jdbcType=VARCHAR},
+      </if>
+      <if test="gradFormCode != null">
+        GRAD_FORM_CODE = #{gradFormCode,jdbcType=VARCHAR},
       </if>
       <if test="gradAvr != null">
         GRAD_AVR = #{gradAvr,jdbcType=VARCHAR},
@@ -567,6 +581,7 @@
       SCHL_NAME = #{schlName,jdbcType=VARCHAR},
       COLL_NAME = #{collName,jdbcType=VARCHAR},
       MAJ_NAME = #{majName,jdbcType=VARCHAR},
+      GRAD_FORM_CODE = #{gradFormCode,jdbcType=VARCHAR},
       GRAD_AVR = #{gradAvr,jdbcType=VARCHAR},
       GRAD_FULL = #{gradFull,jdbcType=VARCHAR},
       DEGR_NO = #{degrNo,jdbcType=VARCHAR},
