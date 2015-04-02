@@ -5,13 +5,6 @@
     <title><spring:message code="L02101"/><%--원서 작성 - 학력 정보--%></title>
     <link rel="stylesheet" href="//code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css">
     <style>
-        section.application {
-            padding: 160px 0 60px;
-            background: #555555;
-            color: #000;
-            position:relative;
-        }
-
         section.application h2.slogan {
             color: #000;
             font-size: 36px;
@@ -34,11 +27,6 @@
             height: 1em;
         }
 
-        section.application .tab-content {
-            background-color: #d0d0d0;
-            color: #000;
-        }
-
         section.application .nav>li>a {
             display: block;
         }
@@ -46,28 +34,6 @@
             color: #f00;
             font-size: 16px;
             font-weight: 900;
-        }
-
-/*
-        section.application .btn {
-            border: 1px;
-        }
-
-        section.application .input-group-btn .btn {
-            border-radius: 4px;
-        }
-*/
-
-        .panel-darkgray > .panel-heading {
-            background-image: -webkit-linear-gradient(top, #7a7a7a 0%, #888888 100%);
-            background-image:      -o-linear-gradient(top, #7a7a7a 0%, #888888 100%);
-            background-image: -webkit-gradient(linear, left top, left bottom, from(#7a7a7a), to(#888888));
-            background-image:         linear-gradient(to bottom, #7a7a7a 0%, #888888 100%);
-            filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#7a7a7a', endColorstr='#ff888888', GradientType=0);
-            background-repeat: repeat-x;
-            color: #fff;
-            background-color: #7a7a7a;
-            border-color: #7a7a7a;
         }
 
         .btn-file {
@@ -92,23 +58,11 @@
             background-color: white !important;
             cursor: text !important;
         }
-        /*a:hover, a:visited, a:link {*/
-            /*text-decoration: none;*/
-            /*color: #fdfdfd;*/
-        /*}*/
         body {
             font-size: 14px;
         }
         .tab-gray {
             background-color: #444444;
-        }
-        .nav-tabs>li.active>a,
-        .nav-tabs>li.active>a:hover,
-        .nav-tabs>li.active>a:focus,
-        .nav-tabs>li.active>a:link {
-            background-color: #f0f0f0;
-            color: #333;
-            cursor: pointer;
         }
 
         .form-group.required .control-label:after {
@@ -232,21 +186,10 @@
             background: #888888;
             color: #bbbbbb;
         }
-        #stepStatusTitle {
-            color: #eeeeee;
-            font-size: 30px;
-        }
         .activeTab {
             background: #d0d0d0;
             color: #333333;
             font-weight: bold;
-        }
-        .inactiveTab {
-            background: #777777;
-            color: #eeeeee;
-        }
-        #tabTR {
-            cursor: pointer;
         }
         .validation-error {
             background: #ffdddd;
@@ -263,32 +206,48 @@
 <body>
 <section class="application">
     <div class="container">
-        <div id="stepContainer">
-            <table width="100%">
-                <tr>
-                    <td id="stepStatusTitle" colspan=4 align="center" height="70px">${msg.getMessage('L01001', locale)}<%--원서 작성 현황--%></td>
-                </tr>
-                <tr id="stepTR">
-                    <td id="stepBasis" width="25%" height="50px" align="center" class="stepDisabled">${msg.getMessage('L01002', locale)}<%--1. 기본 정보--%></td>
-                    <td id="stepAcademy" width="25%" height="50px" align="center" class="stepDisabled">${msg.getMessage('L01003', locale)}<%--2. 학력 정보--%></td>
-                    <td id="stepLangCareer" width="25%" height="50px" align="center" class="stepDisabled">${msg.getMessage('L01004', locale)}<%--3. 어학/경력 정보--%></td>
-                    <td id="stepDocument" width="25%" height="50px" align="center" class="stepDisabled">${msg.getMessage('L01005', locale)}<%--4. 파일 첨부--%></td>
-                </tr>
-            </table>
+        <p id="stepStatusTitle" colspan=4 align="center" height="70px">${msg.getMessage('L01001', locale)}<%--원서 작성 현황--%></p>
+        <!-- 진행상태바 시작 -->
+        <div class="step_wrap">
+            <ul class="step_box" id="step_box">
+                <li class="inactive"><span class="step"><strong>1</strong></span>
+                    <p class="txt1"><spring:message code="L01002"/><%--기본 정보--%></p>
+                </li>
+                <li class="inactive"><span class="step"><strong>2</strong></span>
+                    <p class="txt1"><spring:message code="L01003"/><%--학력 정보--%></p>
+                </li>
+                <li class="inactive"><span class="step"><strong>3</strong></span>
+                    <p class="txt1"><spring:message code="L01004"/><%--어학/경력 정보--%></p>
+                </li>
+                <li class="inactive"><span class="step"><strong>4</strong></span>
+                    <p class="txt1"><spring:message code="L01005"/><%--파일 첨부 및 제출--%></p>
+                </li>
+                <li class="inactive"><span class="step"><strong>5</strong></span>
+                    <p class="txt1"><spring:message code="L01006"/><%--결제--%></p>
+                </li>
+            </ul>
         </div>
-        <div class="spacer-mid"></div>
-        <div class="row">
-            <div class="col-sm-12">
-                <table width="100%">
-                    <tr id="tabTR">
-                        <td id="tab-basis" width="25%" height="35px" align="center" class="inactiveTab" data-target-tab="basis" data-tab-available="true"><spring:message code="L01002"/><%--1. 기본 정보--%></td>
-                        <td id="tab-academy" width="25%" height="35px" align="center" class="inactiveTab" data-target-tab="academy" data-tab-available="false" data-unavailable-msg='<spring:message code="U321"/>'><spring:message code="L01003"/><%--2. 학력 정보--%></td>
-                        <td id="tab-langCareer" width="25%" height="35px" align="center" class="inactiveTab" data-target-tab="langCareer" data-tab-available="false" data-unavailable-msg='<spring:message code="U322"/>'><spring:message code="L01004"/><%--3. 어학/경력 정보--%></td>
-                        <td id="tab-document" width="25%" height="35px" align="center" class="inactiveTab" data-target-tab="document" data-tab-available="false" data-unavailable-msg='<spring:message code="U323"/>'><spring:message code="L01005"/><%--4. 파일 첨부--%></td>
-                    </tr>
-                </table>
-            </div>
+        <!-- /진행상태바 끝 -->
+        <!-- 데스크탑 탭메뉴 시작 -->
+        <div id="pc_tab" class="nav_wrap clearfix tab-container">
+            <ul id="navPcTabUL" class="nav nav-tabs nav-justified">
+                <li id="tab-pc-basis" class="inactive inactiveTab" data-target-tab="basis" data-tab-available="true"><a><spring:message code="L01002"/><%--1. 기본 정보--%></a></li>
+                <li id="tab-pc-academy" class="inactive inactiveTab" data-target-tab="academy" data-tab-available="false" data-unavailable-msg='<spring:message code="U321"/>'><a><spring:message code="L01003"/><%--2. 학력 정보--%></a></li>
+                <li id="tab-pc-langCareer" class="inactive inactiveTab" data-target-tab="langCareer" data-tab-available="false" data-unavailable-msg='<spring:message code="U322"/>'><a><spring:message code="L01004"/><%--3. 어학/경력 정보--%></a></li>
+                <li id="tab-pc-document" class="inactive inactiveTab" data-target-tab="document" data-tab-available="false" data-unavailable-msg='<spring:message code="U323"/>'><a><spring:message code="L01005"/><%--4. 파일 첨부--%></a></li>
+            </ul>
         </div>
+        <!-- /데스크탑 탭메뉴 끝 -->
+        <!-- 모바일 탭메뉴 시작 -->
+        <div id="mb_tab" class="nav_wrap clearfix tab-container">
+            <ul id="navMbTabUL" class="nav nav-pills nav-stacked">
+                <li id="tab-mb-basis" class="inactive inactiveTab" data-target-tab="basis" data-tab-available="true"><a><spring:message code="L01002"/><%--1. 기본 정보--%></a></li>
+                <li id="tab-mb-academy" class="inactive inactiveTab" data-target-tab="academy" data-tab-available="false" data-unavailable-msg='<spring:message code="U321"/>'><a><spring:message code="L01003"/><%--2. 학력 정보--%></a></li>
+                <li id="tab-mb-langCareer" class="inactive inactiveTab" data-target-tab="langCareer" data-tab-available="false" data-unavailable-msg='<spring:message code="U322"/>'><a><spring:message code="L01004"/><%--3. 어학/경력 정보--%></a></li>
+                <li id="tab-mb-document" class="inactive inactiveTab" data-target-tab="document" data-tab-available="false" data-unavailable-msg='<spring:message code="U323"/>'><a><spring:message code="L01005"/><%--4. 파일 첨부--%></a></li>
+            </ul>
+        </div>
+        <!-- 모바일 탭메뉴 끝 -->
         <form:form commandName="academy" cssClass="form-horizontal" method="post" role="form">
             <form:hidden path="application.applNo" id="applNo" />
             <form:hidden path="application.applStsCode" id="applStsCode" />
@@ -304,7 +263,7 @@
                         <%--<div>--%>
                             <%--<div class="validation-error"><form:errors path="*"/></div>--%>
                         <%--</div>--%>
-                        <div class="panel panel-darkgray">
+                        <div class="panel panel-darkgray0">
                             <div class="panel-heading"><spring:message code="L02102"/><%--대학교--%></div>
                             <div class="panel-body">
                                 <div class="form-group-block-list">
@@ -323,7 +282,7 @@
                                                 </div>
                                                 <div class="col-sm-9">
                                                     <form:hidden path="collegeList[${stat.index}].schlCntrCode" />
-                                                    <form:input path="collegeList[${stat.index}].korCntrName" class="form-control" readonly="true"/>
+                                                    <form:input path="collegeList[${stat.index}].korCntrName" value="${pageContext.response.locale == 'en' ? academy.collegeList[stat.index].engCntrName : academy.collegeList[stat.index].korCntrName}" class="form-control" readonly="true"/>
                                                 </div>
                                         <spring:bind path="collegeList[${stat.index}].schlCntrCode">
                                             <c:if test="${status.error}">
@@ -380,7 +339,7 @@
                                                         <%--&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--%>
                                                         <%--<label class="radio-inline degr-radio"><form:radiobutton path="collegeList[${stat.index}].grdaTypeCode" cssClass="grad-yn" value="00002" /><spring:message code="L02110"/>&lt;%&ndash;졸업 예정&ndash;%&gt;</label>--%>
                                                         <form:select path="collegeList[${stat.index}].grdaTypeCode" cssClass="form-control grad-type">
-                                                            <form:option value="" label="--${msg.getMessage('L01006', locale)}--" />
+                                                            <form:option value="" label="--${msg.getMessage('L01011', locale)}--" />
                                                             <form:options items="${selection.grdaTypeList}" itemValue="code"
                                                                           itemLabel="${pageContext.response.locale == 'en' ? 'codeValXxen' : 'codeVal'}"/>
                                                         </form:select>
@@ -395,10 +354,10 @@
                                                 </div>
                                                 <div class="col-sm-8">
                                                     <div>
-                                                        <form:input path="collegeList[${stat.index}].degrNo" cssClass="degr-no form-control erase-hide" placeholder="학위등록번호를 입력해주세요"
+                                                        <form:input path="collegeList[${stat.index}].degrNo" cssClass="degr-no form-control erase-hide" placeholder="${msg.getMessage('U02104')}<%--학위등록번호를 입력해주세요--%>"
                                                                 style="display: ${academy.collegeList[stat.index].grdaTypeCode == '00001' ? 'block;' : 'none;'}"/>
                                                         <label id='collegeList${stat.index}.label-grad-02' class="col-sm-10 grda-not degr-message erase-hide word-keep-all"
-                                                               style="display: ${academy.collegeList[stat.index].grdaTypeCode == '00002' ? 'block;' : 'none;'}" >합격 후 입학 시 졸업증명서를 대학원 사무실로 반드시 제출하세요</label>
+                                                               style="display: ${academy.collegeList[stat.index].grdaTypeCode == '00002' ? 'block;' : 'none;'}" ><spring:message code="U02105"/><%--합격 후 입학 시 졸업증명서를 대학원 사무실로 반드시 제출하세요--%></label>
                                                         <label id='collegeList${stat.index}.label-grad-03' class="col-sm-10 grda-not degr-message erase-hide"
                                                                style="display: ${academy.collegeList[stat.index].grdaTypeCode == '00003' ? 'block;' : 'none;'}" ></label>
                                                         <label id='collegeList${stat.index}.label-grad-04' class="col-sm-10 grda-not degr-message erase-hide"
@@ -462,7 +421,7 @@
                                             <form:label path="collegeList[${stat.index}].majName" cssClass="col-sm-2 control-label"><spring:message code="L02116"/><%--학과 이름--%></form:label>
                                             <div class="col-sm-9">
                                                 <div class="col-sm-12">
-                                                    <form:input path="collegeList[${stat.index}].majName" cssClass="form-control" placeholder="다수 전공은 컴마로 구분하여 모두 입력해 주세요." />
+                                                    <form:input path="collegeList[${stat.index}].majName" cssClass="form-control" placeholder="${msg.getMessage('U02108')}" />  <%--다수 전공은 컴마로 구분하여 모두 입력해 주세요.--%>
                                                 </div>
                                         <spring:bind path="collegeList[${stat.index}].majName">
                                             <c:if test="${status.error}">
@@ -479,7 +438,7 @@
                                                 <div class="col-sm-6">
                                                     <div class="input-group">
                                                         <span class="input-group-addon"><spring:message code="L02118"/><%--평점--%></span>
-                                                        <form:input path="collegeList[${stat.index}].gradAvr" cssClass="form-control gradAvr" maxlength="4" placeholder="#.##"/>
+                                                        <form:input path="collegeList[${stat.index}].gradAvr" cssClass="form-control gradAvr" maxlength="4" placeholder="${msg.getMessage('U02109')}"/>  <%--#.##--%>
                                                     </div>
                                             <spring:bind path="collegeList[${stat.index}].gradAvr">
                                                 <c:if test="${status.error}">
@@ -492,7 +451,7 @@
                                                 <div class="col-sm-6">
                                                     <div class="input-group">
                                                         <span class="input-group-addon"><spring:message code="L02119"/><%--만점--%></span>
-                                                        <form:input path="collegeList[${stat.index}].gradFull" cssClass="form-control gradFull" maxlength="4" placeholder="#.#" data-gradAvr-id="collegeList${stat.index}.gradAvr"/>
+                                                        <form:input path="collegeList[${stat.index}].gradFull" cssClass="form-control gradFull" maxlength="4" placeholder="${msg.getMessage('U02109')}" data-gradAvr-id="collegeList${stat.index}.gradAvr"/>  <%--#.##--%>
                                                     </div>
                                             <spring:bind path="collegeList[${stat.index}].gradFull">
                                                 <c:if test="${status.error}">
@@ -511,7 +470,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="panel panel-darkgray">
+                        <div class="panel panel-darkgray0">
                             <div class="panel-heading"><spring:message code="L02201"/><%--대학원--%></div>
                             <div class="col-sm-12 grad-notice"><label><spring:message code="U02201"/></label></div>    <%--박사 과정에 지원한 경우에는 대학원 최종 학교가 사정 기준이 됩니다.--%>
                             <div class="panel-body">
@@ -531,7 +490,7 @@
                                                 </div>
                                                 <div class="col-sm-9">
                                                     <form:hidden path="graduateList[${stat.index}].schlCntrCode" />
-                                                    <form:input path="graduateList[${stat.index}].korCntrName" class="form-control" readonly="true"/>
+                                                    <form:input path="graduateList[${stat.index}].korCntrName" class="form-control" value="${pageContext.response.locale == 'en' ? academy.graduateList[stat.index].engCntrName : academy.graduateList[stat.index].korCntrName}" readonly="true"/>
                                                 </div>
                                         <spring:bind path="graduateList[${stat.index}].schlCntrCode">
                                             <c:if test="${status.error}">
@@ -587,7 +546,7 @@
                                                     <%--&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--%>
                                                     <%--<label class="radio-inline degr-radio"><form:radiobutton path="graduateList[${stat.index}].grdaTypeCode" cssClass="grad-yn" value="00002" /><spring:message code="L02110"/>&lt;%&ndash;졸업 예정&ndash;%&gt;</label>--%>
                                                     <form:select path="graduateList[${stat.index}].grdaTypeCode" cssClass="form-control grad-type">
-                                                        <form:option value="" label="--${msg.getMessage('L01006', locale)}--" />
+                                                        <form:option value="" label="--${msg.getMessage('L01011', locale)}--" />
                                                         <form:options items="${selection.grdaTypeList}" itemValue="code"
                                                                       itemLabel="${pageContext.response.locale == 'en' ? 'codeValXxen' : 'codeVal'}"/>
                                                     </form:select>
@@ -688,7 +647,7 @@
                                                 <div class="col-sm-6">
                                                     <div class="input-group">
                                                         <span class="input-group-addon"><spring:message code="L02119"/><%--만점--%></span>
-                                                        <form:input path="graduateList[${stat.index}].gradFull" cssClass="form-control gradFull" maxlength="4" placeholder="#.#" data-gradAvr-id="graduateList${stat.index}.gradAvr"/>
+                                                        <form:input path="graduateList[${stat.index}].gradFull" cssClass="form-control gradFull" maxlength="4" placeholder="${msg.getMessage('U02109')}<%--#.##--%>" data-gradAvr-id="graduateList${stat.index}.gradAvr"/>
                                                     </div>
                                             <spring:bind path="graduateList[${stat.index}].gradFull">
                                                 <c:if test="${status.error}">
@@ -719,30 +678,56 @@
     </div> <%--container--%>
 
     <%-- 국가/학교 검색 팝업 --%>
-    <div id="bpopContainer" class="bpopContainer">
-        <span class="button b-close"><span>X</span></span>
-        <div id="bpopContent">
-            <div class="form-group">
+    <%--<div id="bpopContainer" class="bpopContainer">--%>
+        <%--<span class="button b-close"><span>X</span></span>--%>
+        <%--<div id="bpopContent">--%>
+            <%--<div class="form-group">--%>
+                <%--<label id="searchTitle"></label>--%>
+            <%--</div>--%>
+            <%--<div class="form-group">--%>
+                <%--<div class="col-sm-10">--%>
+                    <%--<input type="text" id="bpop" name="bpop" class="form-control ime-mode-kr" />--%>
+                <%--</div>--%>
+                <%--<button id="bpopBtnSearch" class="btn btn-info col-sm-2">검색</button>--%>
+            <%--</div>--%>
+            <%--<div class="form-group">--%>
+                <%--<div class="col-sm-12" style="overflow-y: auto; height: 300px;">--%>
+                    <%--<table class="table table-stripped">--%>
+                        <%--<thead id="bpopHead">--%>
+                        <%--</thead>--%>
+                        <%--<tbody id="bpopResult">--%>
+                        <%--</tbody>--%>
+                    <%--</table>--%>
+                <%--</div>--%>
+            <%--</div>--%>
+        <%--</div>--%>
+    <%--</div>--%>
+    <!-- 모달팝업:팝업창 시작 -->
+    <div id="modal_popup3" class="popup1_wrap" style="display:none; margin-top:-240px; margin-left:-250px;">
+        <div id="bpopContent" class="popuphead">
+            <h1>
                 <label id="searchTitle"></label>
-            </div>
-            <div class="form-group">
+            </h1>
+        </div>
+        <div class="popupbody">
+            <div class="form-group clearfix">
                 <div class="col-sm-10">
-                    <input type="text" id="bpop" name="bpop" class="form-control ime-mode-kr" />
+                    <input type="text" id="bpop" name="bpop" class="form-control ime-mode-kr">
                 </div>
-                <button id="bpopBtnSearch" class="btn btn-info col-sm-2">검색</button>
+                <button id="bpopBtnSearch" class="btn btn-info col-sm-2" style="margin-left:-14px;">검색</button>
             </div>
-            <div class="form-group">
-                <div class="col-sm-12" style="overflow-y: auto; height: 300px;">
-                    <table class="table table-stripped">
-                        <thead id="bpopHead">
-                        </thead>
-                        <tbody id="bpopResult">
-                        </tbody>
-                    </table>
-                </div>
+            <div class="col-sm-12" style="overflow-y: auto; height: 300px;">
+                <table class="table table-stripped">
+                    <thead id="bpopHead">
+                    </thead>
+                    <tbody id="bpopResult">
+                    </tbody>
+                </table>
             </div>
         </div>
+        <a class="btn_close b-close" title="닫기"><img src="<spring:eval expression="@app.getProperty('path.static')" />/img/btn_close1.png" alt="닫기"></a>
     </div>
+    <!-- /모달팝업:팝업창 끝 -->
     <input type="hidden" id="targetNode1" />
     <input type="hidden" id="targetNode2" />
     <input type="hidden" id="targetNode3" />
@@ -753,7 +738,7 @@
 
 </section>
 <content tag="local-script">
-    <script src="${contextPath}/js/jquery-ui.min.js"></script>
+    <script src="<spring:eval expression="@app.getProperty('path.static')" />/js/jquery-ui.min.js"></script>
     <script type="text/javascript">
     $(document).ready(function() {
         var applNo = document.getElementById('applNo').value = '${academy.application.applNo}',
@@ -767,14 +752,18 @@
         <%-- 원서 작성 현황 처리 --%>
         var processCurrentStep = function (applStsCode) {
             var code = Number(applStsCode),
-                    stepTR = document.getElementById('stepTR'),
-                    l = stepTR.children.length, i,
-                    tabTR = document.getElementById('tabTR');
+                stepBox = document.getElementById('step_box'),
+                l = stepBox.children.length, i,
+                navPcTabUL = document.getElementById('navPcTabUL'),
+                navMbTabUL = document.getElementById('navMbTabUL');
             for ( i = 0 ; i < code && i < l ; i++ ) {
-                stepTR.children[i].className = 'stepEnabled';
-                tabTR.children[i].setAttribute('data-tab-available', 'true');
-                if (tabTR.children[i+1])
-                    tabTR.children[i+1].setAttribute('data-tab-available', 'true');
+                stepBox.children[i].className = 'active';
+                navPcTabUL.children[i].setAttribute('data-tab-available', 'true');
+                if (navPcTabUL.children[i+1])
+                    navPcTabUL.children[i+1].setAttribute('data-tab-available', 'true');
+                navMbTabUL.children[i].setAttribute('data-tab-available', 'true');
+                if (navMbTabUL.children[i+1])
+                    navMbTabUL.children[i+1].setAttribute('data-tab-available', 'true');
             }
         };
         processCurrentStep(document.getElementById('applStsCode').value);
@@ -783,10 +772,13 @@
         <%-- active 탭 표시 --%>
         var setActiveTab = function () {
             var urlStr = document.location.pathname,
-                    substrToFirstSlash = urlStr.substring(0, urlStr.lastIndexOf("/")),
-                    targetTD = document.getElementById('tab-' + substrToFirstSlash.substring(substrToFirstSlash.lastIndexOf("/") + 1));
+                substrToLastSlash = urlStr.substring(0, urlStr.lastIndexOf("/")),
+                tabName = substrToLastSlash.substring(substrToLastSlash.lastIndexOf("/") + 1),
+                targetPcTabLI = document.getElementById('tab-pc-' + tabName),
+                targetMbTabLI = document.getElementById('tab-mb-' + tabName);
 
-            targetTD.className = "activeTab";
+            targetPcTabLI.className = 'active activeTab';
+            targetMbTabLI.className = 'active activeTab';
         };
         setActiveTab();
         <%-- active 탭 표시 --%>
@@ -838,8 +830,26 @@
         <%-- 하단 버튼 처리 --%>
 
         <%-- 국가/학교 검색 시작 --%>
+        var hideDialog = function(obj) {
+            $("#overlay").hide();
+            $(obj).fadeOut(300);
+        };
+        var showDialog = function(modal, obj) {
+            $("#overlay").show();
+            $(obj).fadeIn(300);
+
+            if (modal) {
+                $("#overlay").unbind("click");
+            }
+            else {
+                $("#overlay").click(function(e) {
+                    hideDialog(obj);
+                });
+            }
+        };
         $('.bpopper').on('click', function(e) {
             e.preventDefault();
+            showDialog(true, "#modal_popup3");
             $('#bpopResult').empty();
             var bpopSearchText = document.getElementById('bpop');
             bpopSearchText.value="";
@@ -874,7 +884,7 @@
             }
             var $thead = $('<tr></tr>');
             for (var i = 0, len = columnHead.length; i < len; i++) {
-                $thead.append($('<td>' + columnHead[i] + '</td>'));
+                $thead.append($('<th>' + columnHead[i] + '</th>'));
             }
             $('#bpopHead').empty();
             $('#bpopHead').append($thead);
@@ -915,15 +925,23 @@
                             }
                             $('#bpopResult').append(record);
                             $(record).on('click', function(e) {
-                                var targetInputId = [ document.getElementById('targetNode1').value,
+                                var targetInputId = [
+                                    document.getElementById('targetNode1').value,
                                     document.getElementById('targetNode2').value,
-                                    document.getElementById('targetNode3').value ];
+                                    document.getElementById('targetNode3').value
+                                ];
                                 var tr = this;
+
+                                // 국가 검색이고 locale == en 일 때 targetNode2 인 citzCntrName에 영어 국가명을 넣게함
+                                if ('${pageContext.response.locale == 'en'}' === 'true' && category.isCountry)
+                                    targetInputId[2] = document.getElementById('targetNode2').value;
+
                                 for ( var i = 0 , len = tr.children.length; i < len; i++ ) {
                                     if (document.getElementById(targetInputId[i])) {
                                         document.getElementById(targetInputId[i]).value = tr.children[i].firstChild.innerText;
                                     }
                                 }
+                                hideDialog('#modal_popup3');
                             });
                         }
                     } else {
@@ -953,6 +971,7 @@
                                     resultInputText.focus();
                                 }
                             }
+                            hideDialog('#modal_popup3');
                         });
                     }
                 }
@@ -963,6 +982,11 @@
             if(e.keyCode == 13) {
                 $('#bpopBtnSearch').trigger('click');
             }
+        });
+
+        $('.b-close').on('click', function(e) {
+            e.preventDefault();
+            hideDialog('#modal_popup3');
         });
         <%-- 국가/학교 검색 끝 --%>
 

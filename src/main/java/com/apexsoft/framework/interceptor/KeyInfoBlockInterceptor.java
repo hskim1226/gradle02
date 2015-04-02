@@ -2,9 +2,12 @@ package com.apexsoft.framework.interceptor;
 
 import com.apexsoft.framework.security.UserSessionVO;
 import com.apexsoft.ysprj.applicants.common.service.CommonService;
+import com.apexsoft.ysprj.code.AuthorityType;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
@@ -65,15 +68,24 @@ public class KeyInfoBlockInterceptor extends HandlerInterceptorAdapter {
         Authentication auth = sc.getAuthentication();
         UserSessionVO userSessionVO = (UserSessionVO)auth.getPrincipal();
         String userId = userSessionVO.getUsername();
+        Collection<? extends GrantedAuthority> userRoles = userSessionVO.getAuthorities();
+        boolean isValidAccess = false;
 
         List<Integer> availableApplNos = commonService.retrieveAvailableApplNos(userId);
         Set<Integer> availableApplNoSet = new HashSet<Integer>(availableApplNos);
 
         for(String requestedApplNo : requestedApplNoList) {
             if (!availableApplNoSet.contains(Integer.parseInt(requestedApplNo))) {
-                RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/common/illegalAccess.jsp");
-                rd.forward(request, response);
-                return false;
+                for (GrantedAuthority authority : userRoles) {
+                    if (authority.getAuthority().equals(AuthorityType.ROLE_SYSADMIN.getValue())) {
+                        isValidAccess = true;
+                    }
+                }
+                if (!isValidAccess) {
+                    RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/common/illegalAccess.jsp");
+                    rd.forward(request, response);
+                    return false;
+                }
             }
         }
 

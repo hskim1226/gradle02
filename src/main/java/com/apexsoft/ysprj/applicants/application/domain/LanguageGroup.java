@@ -6,6 +6,7 @@ public class LanguageGroup {
 
     private String examCodeGrp;
     private String examGrpName;
+    private String examGrpNameXxen;
     private String examCode;
     private int mdtSeq;
     private String selGrpCode;
@@ -32,6 +33,14 @@ public class LanguageGroup {
 
     public void setExamGrpName(String examGrpName) {
         this.examGrpName = examGrpName;
+    }
+
+    public String getExamGrpNameXxen() {
+        return examGrpNameXxen;
+    }
+
+    public void setExamGrpNameXxen(String examGrpNameXxen) {
+        this.examGrpNameXxen = examGrpNameXxen;
     }
 
     public String getExamCode() {

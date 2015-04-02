@@ -5,12 +5,6 @@
     <title>${msg.getMessage('L01101')}<%--원서 작성 - 기본 정보--%></title>
     <link rel="stylesheet" href="//code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css">
     <style>
-        section.application {
-            padding: 160px 0 60px;
-            background: #555555;
-            color: #000;
-            position:relative;
-        }
 
         section.application h2.slogan {
             color: #000;
@@ -34,11 +28,6 @@
             height: 1em;
         }
 
-        section.application .tab-content {
-            background-color: #d0d0d0;
-            color: #000;
-        }
-
         section.application .nav>li>a {
             display: block;
         }
@@ -46,46 +35,6 @@
             color: #000;
             font-size: 12px;
             font-weight: 900;
-        }
-
-/*
-        section.application .btn {
-            border: 1px;
-        }
-
-        section.application .input-group-btn .btn {
-            border-radius: 4px;
-        }
-*/
-
-        .panel-darkgray > .panel-heading {
-            /*background-image: -webkit-linear-gradient(top, #7a7a7a 0%, #888888 100%);*/
-            /*background-image:      -o-linear-gradient(top, #7a7a7a 0%, #888888 100%);*/
-            /*background-image: -webkit-gradient(linear, left top, left bottom, from(#7a7a7a), to(#888888));*/
-            /*background-image:         linear-gradient(to bottom, #7a7a7a 0%, #888888 100%);*/
-            /*filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#7a7a7a', endColorstr='#ff888888', GradientType=0);*/
-            /*background-repeat: repeat-x;*/
-            color: #fff;
-            background-color: #7a7a7a;
-            border-color: #7a7a7a;
-        }
-
-        .panel-darkgray1, .panel-darkgray2, .panel-darkgray3, .panel-darkgray4 {
-            /*background-color: #8c8c8c;*/
-            /*color: #fff;*/
-            border-color: #333333;
-        }
-
-        .panel-darkgray1 > .panel-heading {
-            background-image: -webkit-linear-gradient(left, #888888 0%, #cccccc 100%);
-            background-image:      -o-linear-gradient(left, #888888 0%, #cccccc 100%);
-            background-image: -webkit-gradient(linear, left top, right bottom, from(#888888), to(#cccccc));
-            background-image:         linear-gradient(to right, #888888 0%, #cccccc 100%);
-            filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#888888', endColorstr='#cccccc', GradientType=1);
-            background-repeat: repeat-x;
-            color: #fff;
-            /*background-color: #7a7a7a;*/
-            border-color: #cccccc;
         }
 
         .btn-file {
@@ -119,14 +68,6 @@
         }
         .tab-gray {
             background-color: #444444;
-        }
-        .nav-tabs>li.active>a,
-        .nav-tabs>li.active>a:hover,
-        .nav-tabs>li.active>a:focus,
-        .nav-tabs>li.active>a:link {
-            background-color: #f0f0f0;
-            color: #333;
-            cursor: pointer;
         }
 
         .form-group.required .control-label:after {
@@ -250,21 +191,11 @@
             background: #888888;
             color: #bbbbbb;
         }
-        #stepStatusTitle {
-            color: #eeeeee;
-            font-size: 30px;
-        }
+
         .activeTab {
             background: #d0d0d0;
             color: #333333;
             font-weight: bold;
-        }
-        .inactiveTab {
-            background: #777777;
-            color: #eeeeee;
-        }
-        #tabTR {
-            cursor: pointer;
         }
         .validation-error {
             background: #ffdddd;
@@ -277,34 +208,51 @@
     </style>
 </head>
 <body>
+<div id="overlay" class="web_dialog_overlay"></div>
 <section class="application">
     <div class="container">
-        <div id="stepContainer">
-            <table width="100%">
-                <tr>
-                    <td id="stepStatusTitle" colspan=4 align="center" height="70px">${msg.getMessage('L01001', locale)}<%--원서 작성 현황--%></td>
-                </tr>
-                <tr id="stepTR">
-                    <td id="stepBasis" width="25%" height="50px" align="center" class="stepDisabled">${msg.getMessage('L01002', locale)}<%--1. 기본 정보--%></td>
-                    <td id="stepAcademy" width="25%" height="50px" align="center" class="stepDisabled">${msg.getMessage('L01003', locale)}<%--2. 학력 정보--%></td>
-                    <td id="stepLangCareer" width="25%" height="50px" align="center" class="stepDisabled">${msg.getMessage('L01004', locale)}<%--3. 어학/경력 정보--%></td>
-                    <td id="stepDocument" width="25%" height="50px" align="center" class="stepDisabled">${msg.getMessage('L01005', locale)}<%--4. 파일 첨부--%></td>
-                </tr>
-            </table>
+        <p id="stepStatusTitle" colspan=4 align="center" height="70px">${msg.getMessage('L01001', locale)}<%--원서 작성 현황--%></p>
+        <!-- 진행상태바 시작 -->
+        <div class="step_wrap">
+            <ul class="step_box" id="step_box">
+                <li class="inactive"><span class="step"><strong>1</strong></span>
+                    <p class="txt1"><spring:message code="L01002"/><%--기본 정보--%></p>
+                </li>
+                <li class="inactive"><span class="step"><strong>2</strong></span>
+                    <p class="txt1"><spring:message code="L01003"/><%--학력 정보--%></p>
+                </li>
+                <li class="inactive"><span class="step"><strong>3</strong></span>
+                    <p class="txt1"><spring:message code="L01004"/><%--어학/경력 정보--%></p>
+                </li>
+                <li class="inactive"><span class="step"><strong>4</strong></span>
+                    <p class="txt1"><spring:message code="L01005"/><%--파일 첨부 및 제출--%></p>
+                </li>
+                <li class="inactive"><span class="step"><strong>5</strong></span>
+                    <p class="txt1"><spring:message code="L01006"/><%--결제--%></p>
+                </li>
+            </ul>
         </div>
-        <div class="spacer-mid"></div>
-        <div class="row">
-            <div class="col-sm-12">
-                <table width="100%">
-                    <tr id="tabTR">
-                        <td id="tab-basis" width="25%" height="35px" align="center" class="inactiveTab" data-target-tab="basis" data-tab-available="true"><spring:message code="L01002"/><%--1. 기본 정보--%></td>
-                        <td id="tab-academy" width="25%" height="35px" align="center" class="inactiveTab" data-target-tab="academy" data-tab-available="false" data-unavailable-msg='<spring:message code="U321"/>'><spring:message code="L01003"/><%--2. 학력 정보--%></td>
-                        <td id="tab-langCareer" width="25%" height="35px" align="center" class="inactiveTab" data-target-tab="langCareer" data-tab-available="false" data-unavailable-msg='<spring:message code="U322"/>'><spring:message code="L01004"/><%--3. 어학/경력 정보--%></td>
-                        <td id="tab-document" width="25%" height="35px" align="center" class="inactiveTab" data-target-tab="document" data-tab-available="false" data-unavailable-msg='<spring:message code="U323"/>'><spring:message code="L01005"/><%--4. 파일 첨부--%></td>
-                    </tr>
-                </table>
-            </div>
+        <!-- /진행상태바 끝 -->
+        <!-- 데스크탑 탭메뉴 시작 -->
+        <div id="pc_tab" class="nav_wrap clearfix tab-container">
+            <ul id="navPcTabUL" class="nav nav-tabs nav-justified">
+                <li id="tab-pc-basis" class="inactive inactiveTab" data-target-tab="basis" data-tab-available="true"><a><spring:message code="L01002"/><%--1. 기본 정보--%></a></li>
+                <li id="tab-pc-academy" class="inactive inactiveTab" data-target-tab="academy" data-tab-available="false" data-unavailable-msg='<spring:message code="U321"/>'><a><spring:message code="L01003"/><%--2. 학력 정보--%></a></li>
+                <li id="tab-pc-langCareer" class="inactive inactiveTab" data-target-tab="langCareer" data-tab-available="false" data-unavailable-msg='<spring:message code="U322"/>'><a><spring:message code="L01004"/><%--3. 어학/경력 정보--%></a></li>
+                <li id="tab-pc-document" class="inactive inactiveTab" data-target-tab="document" data-tab-available="false" data-unavailable-msg='<spring:message code="U323"/>'><a><spring:message code="L01005"/><%--4. 파일 첨부--%></a></li>
+            </ul>
         </div>
+        <!-- /데스크탑 탭메뉴 끝 -->
+        <!-- 모바일 탭메뉴 시작 -->
+        <div id="mb_tab" class="nav_wrap clearfix tab-container">
+            <ul id="navMbTabUL" class="nav nav-pills nav-stacked">
+                <li id="tab-mb-basis" class="inactive inactiveTab" data-target-tab="basis" data-tab-available="true"><a><spring:message code="L01002"/><%--1. 기본 정보--%></a></li>
+                <li id="tab-mb-academy" class="inactive inactiveTab" data-target-tab="academy" data-tab-available="false" data-unavailable-msg='<spring:message code="U321"/>'><a><spring:message code="L01003"/><%--2. 학력 정보--%></a></li>
+                <li id="tab-mb-langCareer" class="inactive inactiveTab" data-target-tab="langCareer" data-tab-available="false" data-unavailable-msg='<spring:message code="U322"/>'><a><spring:message code="L01004"/><%--3. 어학/경력 정보--%></a></li>
+                <li id="tab-mb-document" class="inactive inactiveTab" data-target-tab="document" data-tab-available="false" data-unavailable-msg='<spring:message code="U323"/>'><a><spring:message code="L01005"/><%--4. 파일 첨부--%></a></li>
+            </ul>
+        </div>
+        <!-- 모바일 탭메뉴 끝 -->
         <form:form commandName="basis" cssClass="form-horizontal" method="post" role="form">
             <form:hidden path="application.applNo" id="applNo" />
             <form:hidden path="application.applStsCode" id="applStsCode" />
@@ -318,7 +266,7 @@
                         <%--<div>--%>
                             <%--<div class="validation-error"><form:errors path="*"/></div>--%>
                         <%--</div>--%>
-                        <div class="panel panel-darkgray">
+                        <div class="panel panel-darkgray0">
                             <div class="panel-heading"><spring:message code="L01102"/><%--지원 사항--%></div>
                             <div class="panel-body">
                                 <div class="form-group required">
@@ -326,7 +274,7 @@
                                     <div class="col-sm-9">
                                         <div class="col-sm-12">
                                             <form:select path="application.applAttrCode" id="applAttrCode" cssClass="form-control base-info">
-                                                <form:option value="" label="--${msg.getMessage('L01006', locale)}--" />
+                                                <form:option value="" label="--${msg.getMessage('L01011', locale)}--" />
                                                 <form:options items="${selection.applAttrList}" itemValue="code"
                                                               itemLabel="${pageContext.response.locale == 'en' ? 'codeValXxen' : 'codeVal'}"/>
                                             </form:select>
@@ -339,7 +287,7 @@
                                         <div class="col-sm-9">
                                             <div class="col-sm-3">
                                                 <form:select path="application.campCode" id="campCode" cssClass="form-control base-info base-non-ariInst">
-                                                    <form:option value="" label="--${msg.getMessage('L01006', locale)}--" />
+                                                    <form:option value="" label="--${msg.getMessage('L01011', locale)}--" />
                                                     <c:if test="${basis.application.applAttrCode == '00001' || basis.application.applAttrCode == '00003'}">
                                                         <form:options items="${selection.campList}" itemValue="campCode"
                                                                       itemLabel="${pageContext.response.locale == 'en' ? 'campNameXxen' : 'campName'}"/>
@@ -349,7 +297,7 @@
                                             <label path="collCode" class="col-sm-2 control-label"><spring:message code="L01105"/><%--대학--%></label>
                                             <div class="col-sm-7">
                                                 <form:select path="application.collCode" id="collCode" cssClass="form-control base-info base-non-ariInst">
-                                                    <form:option value="" label="--${msg.getMessage('L01006', locale)}--" />
+                                                    <form:option value="" label="--${msg.getMessage('L01011', locale)}--" />
                                                     <c:if test="${basis.application.applAttrCode == '00001' || basis.application.applAttrCode == '00003'}">
                                                         <form:options items="${selection.collList}" itemValue="collCode"
                                                                       itemLabel="${pageContext.response.locale == 'en' ? 'collNameXxen' : 'collName'}"/>
@@ -363,7 +311,7 @@
                                         <div class="col-sm-9">
                                             <div class="col-sm-12">
                                                 <form:select path="application.ariInstCode" id="ariInstCode" cssClass="form-control base-info base-ariInst">
-                                                    <form:option value="" label="--${msg.getMessage('L01006', locale)}--" />
+                                                    <form:option value="" label="--${msg.getMessage('L01011', locale)}--" />
                                                     <c:if test="${basis.application.applAttrCode == '00002'}">
                                                     <form:options items="${selection.ariInstList}" itemValue="ariInstCode"
                                                                   itemLabel="${pageContext.response.locale == 'en' ? 'ariInstNameXxen' : 'ariInstName'}"/>
@@ -377,7 +325,7 @@
                                         <div class="col-sm-9">
                                             <div class="col-sm-12">
                                                 <form:select path="application.deptCode" id="deptCode" cssClass="form-control base-info base-non-ariInst base-ariInst">
-                                                    <form:option value="" label="--${msg.getMessage('L01006', locale)}--" />
+                                                    <form:option value="" label="--${msg.getMessage('L01011', locale)}--" />
                                                     <form:options items="${selection.deptList}" itemValue="deptCode"
                                                                   itemLabel="${pageContext.response.locale == 'en' ? 'deptNameXxen' : 'deptName'}"/>
                                                 </form:select>
@@ -389,7 +337,7 @@
                                         <div class="col-sm-9">
                                             <div class="col-sm-12">
                                                 <form:select path="application.corsTypeCode" id="corsTypeCode" cssClass="form-control base-info base-non-ariInst base-ariInst">
-                                                    <form:option value="" label="--${msg.getMessage('L01006', locale)}--" />
+                                                    <form:option value="" label="--${msg.getMessage('L01011', locale)}--" />
                                                     <form:options items="${selection.corsTypeList}" itemValue="corsTypeCode"
                                                                   itemLabel="${pageContext.response.locale == 'en' ? 'codeValXxen' : 'codeVal'}"/>
                                                 </form:select>
@@ -401,7 +349,7 @@
                                         <div class="col-sm-9">
                                             <div class="col-sm-12">
                                                 <form:select path="application.detlMajCode" id="detlMajCode" cssClass="form-control base-info base-non-ariInst base-ariInst">
-                                                    <form:option value="" label="--${msg.getMessage('L01006', locale)}--" />
+                                                    <form:option value="" label="--${msg.getMessage('L01011', locale)}--" />
                                                     <form:options items="${selection.detlMajList}" itemValue="detlMajCode"
                                                                   itemLabel="${pageContext.response.locale == 'en' ? 'detlMajNameXxen' : 'detlMajName'}"/>
                                                 </form:select>
@@ -429,7 +377,7 @@
                         </div>
 
                         <div id="basis2Container" style="display: ${basis.application.applNo == null || basis.application.applNo <= 0 ? 'none;' : 'block;'}">
-                            <div class="panel panel-darkgray">
+                            <div class="panel panel-darkgray0">
                                 <div class="panel-heading"><spring:message code="L01201"/><%--지원자 정보--%></div>
                                 <div class="panel-body">
                                     <div class="form-group ${basis.application.admsTypeCode == "C" || basis.application.admsTypeCode == "D" ? '' : 'required' }">
@@ -488,7 +436,7 @@
                                             </div>
                                             <div class="col-sm-9">
                                                 <form:hidden path="application.citzCntrCode" id="citzCntrCode" cssClass="form-control" />
-                                                <input id="citzCntrName" class="form-control" value="${ctznCntr.korCntrName}" readonly="true"/>
+                                                <input id="citzCntrName" class="form-control" value="${pageContext.response.locale == 'en' ? ctznCntr.engCntrName : ctznCntr.korCntrName}" readonly="true"/>
                                             </div>
                                             <spring:bind path="application.citzCntrCode">
                                                 <c:if test="${status.error}">
@@ -522,8 +470,8 @@
                                                     <label>-</label>
                                                 </div>
                                                 <div class="col-sm-4 nopadding">
-                                                    <div><form:input path="application.rgstEncr" cssClass="form-control numOnly lenCheck-7" maxlength="7" placeholder="주민등록번호 뒤 7자리"/></div>
-                                                    <div class="input-info word-keep-all">보안을 위해 추후 수정할 수 없으므로 정확히 입력해 주십시오.</div>
+                                                    <div><form:input path="application.rgstEncr" cssClass="form-control numOnly lenCheck-7" maxlength="7" placeholder="${msg.getMessage('U01208')}"/></div>  <%--주민등록번호 뒤 7자리--%>
+                                                    <div class="input-info word-keep-all"><spring:message code="U01209"/><%--보안을 위해 추후 수정할 수 없으므로 정확히 입력해 주십시오.--%></div>
                                                     <spring:bind path="application.rgstEncr">
                                                         <c:if test="${status.error}">
                                                             <div class="validation-error">${status.errorMessage}</div>
@@ -532,7 +480,7 @@
                                                 </div>
                                             </c:when>
                                             <c:otherwise>
-                                                <div style="color: #337799; vertical-align: middle;">주민등록번호 뒷자리는 보안을 위해 화면에 노출하지 않습니다.</div>
+                                                <div style="color: #337799; vertical-align: middle;"><spring:message code="U01210"/><%--주민등록번호 뒷자리는 보안을 위해 화면에 노출하지 않습니다.--%></div>
                                             </c:otherwise>
                                         </c:choose>
                                     </c:if>
@@ -544,7 +492,7 @@
 
                             <c:choose>
                                 <c:when test="${basis.application.admsTypeCode != 'C' && basis.application.admsTypeCode != 'D'}">
-                                    <div class="panel panel-darkgray">
+                                    <div class="panel panel-darkgray0">
                                         <div class="panel-heading"><spring:message code="L01301"/><%--지원자 상세정보--%></div>
                                         <div class="panel-body">
 
@@ -584,7 +532,7 @@
                                     </div>
                                 </c:when>
                                 <c:otherwise> <%-- 외국인 --%>
-                                    <div class="panel panel-darkgray">
+                                    <div class="panel panel-darkgray0">
                                         <div class="panel-heading"><spring:message code="L01301"/><%--지원자 상세정보--%></div>
                                         <div class="panel-body">
                                                 <%--<div class="form-group required">--%>
@@ -613,7 +561,7 @@
                                                 <div class="col-sm-9">
                                                     <div class="col-sm-4">
                                                         <form:select path="application.fornTypeCode" id="fornTypeCode" cssClass="form-control">
-                                                            <form:option value="" label="--${msg.getMessage('L01006', locale)}--" />
+                                                            <form:option value="" label="--${msg.getMessage('L01011', locale)}--" />
                                                             <form:options items="${foreign.foreignTypeList}" itemValue="code"
                                                                           itemLabel="${pageContext.response.locale == 'en' ? 'codeValXxen' : 'codeVal'}"/>
                                                         </form:select>
@@ -665,7 +613,7 @@
 
 
                                 <%--<c:if test="${basis.application.admsTypeCode == 'C'}">--%>
-                            <div class="panel panel-darkgray" id="stayInfo" style="display: ${basis.application.admsTypeCode != 'C' && basis.application.admsTypeCode != 'D' ? 'none;' : basis.application.citzCntrCode != '118' ? 'block;' : 'none;' }">
+                            <div class="panel panel-darkgray0" id="stayInfo" style="display: ${basis.application.admsTypeCode != 'C' && basis.application.admsTypeCode != 'D' ? 'none;' : basis.application.citzCntrCode != '118' ? 'block;' : 'none;' }">
                                 <div class="panel-heading"><spring:message code="L01401"/><%--체류 정보--%></div>
                                 <div class="panel-body">
                                     <div class="form-group required">
@@ -690,7 +638,7 @@
                                                 <div class="input-group">
                                                     <span class="input-group-addon">&nbsp;<spring:message code="L01404"/><%--종류--%>&nbsp;</span>
                                                     <form:select path="applicationForeigner.visaTypeCode" cssClass="form-control">
-                                                        <form:option value="" label="--${msg.getMessage('L01006', locale)}--" />
+                                                        <form:option value="" label="--${msg.getMessage('L01011', locale)}--" />
                                                         <form:options items="${foreign.visaTypeList}" itemValue="code"
                                                                       itemLabel="${pageContext.response.locale == 'en' ? 'codeValXxen' : 'codeVal'}"/>
                                                     </form:select>
@@ -775,7 +723,7 @@
                             </div>
                                 <%--</c:if>--%>
 
-                            <div class="panel panel-darkgray">
+                            <div class="panel panel-darkgray0">
                                 <div class="panel-heading"><spring:message code="L01501"/><%--지원자 연락처--%></div>
                                 <div class="panel-body">
                                     <div class="form-group ${basis.application.admsTypeCode == "C" || basis.application.admsTypeCode == "D" ? '' : 'required' }">
@@ -868,7 +816,7 @@
 
                             <c:choose>
                                 <c:when test="${basis.application.admsTypeCode != 'C' && basis.application.admsTypeCode != 'D'}">
-                                    <div class="panel panel-darkgray">
+                                    <div class="panel panel-darkgray0">
                                         <div class="panel-heading"><spring:message code="L01601"/><%--비상연락처--%></div>
                                         <div class="panel-body">
                                             <div class="form-group required">
@@ -891,7 +839,7 @@
                                                 <div class="col-sm-9">
                                                     <div class="col-sm-12">
                                                         <form:select path="applicationGeneral.emerContCode" cssClass="form-control">
-                                                            <form:option value="" label="--${msg.getMessage('L01006', locale)}--" />
+                                                            <form:option value="" label="--${msg.getMessage('L01011', locale)}--" />
                                                             <form:options items="${selection.emerContList}" itemValue="code"
                                                                           itemLabel="${pageContext.response.locale == 'en' ? 'codeValXxen' : 'codeVal'}"/>
                                                         </form:select>
@@ -924,7 +872,7 @@
                                     </div>
                                 </c:when>
                                 <c:otherwise> <%-- 외국인 전형 --%>
-                                    <div class="panel panel-darkgray">
+                                    <div class="panel panel-darkgray0">
                                         <div class="panel-heading"><spring:message code="L01601"/><%--비상연락처--%></div>
                                         <div class="panel-body">
                                             <div class="panel panel-darkgray1">
@@ -950,7 +898,7 @@
                                                         <div class="col-sm-9">
                                                             <div class="col-sm-12">
                                                                 <form:select path="applicationForeigner.korEmrgRela" cssClass="form-control">
-                                                                    <form:option value="" label="--${msg.getMessage('L01006', locale)}--" />
+                                                                    <form:option value="" label="--${msg.getMessage('L01011', locale)}--" />
                                                                     <form:options items="${selection.emerContList}" itemValue="code"
                                                                                   itemLabel="${pageContext.response.locale == 'en' ? 'codeValXxen' : 'codeVal'}"/>
                                                                 </form:select>
@@ -1004,7 +952,7 @@
                                                         <div class="col-sm-9">
                                                             <div class="col-sm-12">
                                                                 <form:select path="applicationForeigner.homeEmrgRela" cssClass="form-control">
-                                                                    <form:option value="" label="--${msg.getMessage('L01006', locale)}--" />
+                                                                    <form:option value="" label="--${msg.getMessage('L01011', locale)}--" />
                                                                     <form:options items="${selection.emerContList}" itemValue="code"
                                                                                   itemLabel="${pageContext.response.locale == 'en' ? 'codeValXxen' : 'codeVal'}"/>
                                                                 </form:select>
@@ -1053,30 +1001,56 @@
     </div> <%--container--%>
 
     <%-- 국가/학교 검색 팝업 --%>
-    <div id="bpopContainer" class="bpopContainer">
-        <span class="button b-close"><span>X</span></span>
-        <div id="bpopContent">
-            <div class="form-group">
+    <%--<div id="bpopContainer" class="bpopContainer">--%>
+        <%--<span class="button b-close"><span>X</span></span>--%>
+        <%--<div id="bpopContent">--%>
+            <%--<div class="form-group">--%>
+                <%--<label id="searchTitle"></label>--%>
+            <%--</div>--%>
+            <%--<div class="form-group">--%>
+                <%--<div class="col-sm-10">--%>
+                    <%--<input type="text" id="bpop" name="bpop" class="form-control ime-mode-kr" />--%>
+                <%--</div>--%>
+                <%--<button id="bpopBtnSearch" class="btn btn-info col-sm-2"><spring:message code="L01207"/></button>--%>
+            <%--</div>--%>
+            <%--<div class="form-group">--%>
+                <%--<div class="col-sm-12" style="overflow-y: auto; height: 300px;">--%>
+                    <%--<table class="table table-stripped">--%>
+                        <%--<thead id="bpopHead">--%>
+                        <%--</thead>--%>
+                        <%--<tbody id="bpopResult">--%>
+                        <%--</tbody>--%>
+                    <%--</table>--%>
+                <%--</div>--%>
+            <%--</div>--%>
+        <%--</div>--%>
+    <%--</div>--%>
+    <!-- 모달팝업:팝업창 시작 -->
+    <div id="modal_popup3" class="popup1_wrap" style="display:none; margin-top:-240px; margin-left:-250px;">
+        <div id="bpopContent" class="popuphead">
+            <h1>
                 <label id="searchTitle"></label>
-            </div>
-            <div class="form-group">
+            </h1>
+        </div>
+        <div class="popupbody">
+            <div class="form-group clearfix">
                 <div class="col-sm-10">
-                    <input type="text" id="bpop" name="bpop" class="form-control ime-mode-kr" />
+                    <input type="text" id="bpop" name="bpop" class="form-control ime-mode-kr">
                 </div>
-                <button id="bpopBtnSearch" class="btn btn-info col-sm-2"><spring:message code="L01207"/></button>
+                <button id="bpopBtnSearch" class="btn btn-info col-sm-2" style="margin-left:-14px;">검색</button>
             </div>
-            <div class="form-group">
-                <div class="col-sm-12" style="overflow-y: auto; height: 300px;">
-                    <table class="table table-stripped">
-                        <thead id="bpopHead">
-                        </thead>
-                        <tbody id="bpopResult">
-                        </tbody>
-                    </table>
-                </div>
+            <div class="col-sm-12" style="overflow-y: auto; height: 300px;">
+                <table class="table table-stripped">
+                    <thead id="bpopHead">
+                    </thead>
+                    <tbody id="bpopResult">
+                    </tbody>
+                </table>
             </div>
         </div>
+        <a class="btn_close b-close" title="닫기"><img src="<spring:eval expression="@app.getProperty('path.static')" />/img/btn_close1.png" alt="닫기"></a>
     </div>
+    <!-- /모달팝업:팝업창 끝 -->
     <input type="hidden" id="targetNode1" />
     <input type="hidden" id="targetNode2" />
     <input type="hidden" id="targetNode3" />
@@ -1087,6 +1061,24 @@
         <p><spring:message code="U01506"/></p> <%-- 주소 검색 결과에서 '지번 주소'를 클릭하지 마시고,<br/>아래와 같이 <b>도로명 주소</b>를 사용해 주시기 바랍니다. --%>
         <p align="center"><img src="<spring:eval expression="@app.getProperty('path.static')" />/img/application/street-name-capture.png"/></p>
     </div>
+    <!-- 모달팝업:우편번호 찾기 시작 -->
+    <%--<div id="modal_popup4" class="popup1_wrap" style="display:none; margin-top:-240px; margin-left:-250px;">--%>
+        <%--<div class="popuphead">--%>
+            <%--<h1>도로명 주소 사용 안내</h1>--%>
+        <%--</div>--%>
+        <%--<div class="popupbody">--%>
+            <%--<div class="text-center"> 주소 검색 결과에서 '지번 주소'를 클릭하지 마시고,<br>--%>
+                <%--아래와 같이 <strong>도로명 주소</strong>를 사용해 주시기 바랍니다.<br>--%>
+                <%--<br>--%>
+                <%--<img src="<spring:eval expression="@app.getProperty('path.static')" />/img/street-name-capture.png" alt="우편번호 찾기 참고사진"> </div>--%>
+            <%--<div class="popup_btn">--%>
+                <%--<button onclick="HideDialog('#modal_popup4')" type="button" class="btn btn-default">확인</button>--%>
+            <%--</div>--%>
+
+        <%--</div>--%>
+        <%--<a class="btn_close" title="닫기"><img src="<spring:eval expression="@app.getProperty('path.static')" />/img/btn_close1.png" alt="닫기"></a>--%>
+    <%--</div>--%>
+    <!-- /모달팝업:우편번호 찾기 끝 -->
     <%-- 도로명 주소 사용 안내 팝업 --%>
 
     <%-- 다음 주소 검색 팝업 --%>
@@ -1112,14 +1104,18 @@
         <%-- 원서 작성 현황 및 사용 가능한 탭 처리 --%>
         var processCurrentStep = function (applStsCode) {
             var code = Number(applStsCode),
-                stepTR = document.getElementById('stepTR'),
-                l = stepTR.children.length, i,
-                tabTR = document.getElementById('tabTR');
+                stepBox = document.getElementById('step_box'),
+                l = stepBox.children.length, i,
+                navPcTabUL = document.getElementById('navPcTabUL'),
+                navMbTabUL = document.getElementById('navMbTabUL');
             for ( i = 0 ; i < code && i < l ; i++ ) {
-                stepTR.children[i].className = 'stepEnabled';
-                tabTR.children[i].setAttribute('data-tab-available', 'true');
-                if (tabTR.children[i+1])
-                    tabTR.children[i+1].setAttribute('data-tab-available', 'true');
+                stepBox.children[i].className = 'active';
+                navPcTabUL.children[i].setAttribute('data-tab-available', 'true');
+                if (navPcTabUL.children[i+1])
+                    navPcTabUL.children[i+1].setAttribute('data-tab-available', 'true');
+                navMbTabUL.children[i].setAttribute('data-tab-available', 'true');
+                if (navMbTabUL.children[i+1])
+                    navMbTabUL.children[i+1].setAttribute('data-tab-available', 'true');
             }
         };
         processCurrentStep(document.getElementById('applStsCode').value);
@@ -1128,10 +1124,13 @@
         <%-- active 탭 표시 --%>
         var setActiveTab = function () {
             var urlStr = document.location.pathname,
-                    substrToFirstSlash = urlStr.substring(0, urlStr.lastIndexOf("/")),
-                    targetTD = document.getElementById('tab-' + substrToFirstSlash.substring(substrToFirstSlash.lastIndexOf("/") + 1));
+                substrToLastSlash = urlStr.substring(0, urlStr.lastIndexOf("/")),
+                tabName = substrToLastSlash.substring(substrToLastSlash.lastIndexOf("/") + 1),
+                targetPcTabLI = document.getElementById('tab-pc-' + tabName),
+                targetMbTabLI = document.getElementById('tab-mb-' + tabName);
 
-            targetTD.className = "activeTab";
+            targetPcTabLI.className = 'active activeTab';
+            targetMbTabLI.className = 'active activeTab';
         };
         setActiveTab();
         <%-- active 탭 표시 --%>
@@ -1279,8 +1278,27 @@
         <%-- 메일 주소 validation --%>
 
         <%-- 국가/학교 검색 시작 --%>
+        var hideDialog = function(obj) {
+            $("#overlay").hide();
+            $(obj).fadeOut(300);
+        };
+        var showDialog = function(modal, obj) {
+            $("#overlay").show();
+            $(obj).fadeIn(300);
+
+            if (modal) {
+                $("#overlay").unbind("click");
+            }
+            else {
+                $("#overlay").click(function(e) {
+                    hideDialog(obj);
+                });
+            }
+        };
+
         $('.bpopper').on('click', function(e) {
             e.preventDefault();
+            showDialog(true, "#modal_popup3");
             $('#bpopResult').empty();
             var bpopText = document.getElementById('bpop');
             bpopText.value="";
@@ -1314,7 +1332,7 @@
             }
             var $thead = $('<tr></tr>');
             for (var i = 0, len = columnHead.length; i < len; i++) {
-                $thead.append($('<td>' + columnHead[i] + '</td>'));
+                $thead.append($('<th>' + columnHead[i] + '</th>'));
             }
             $('#bpopHead').empty();
             $('#bpopHead').append($thead);
@@ -1348,16 +1366,24 @@
                     if (obj.length > 0) {
                         for ( i = 0, l = obj.length ; i < l ; i++ ) {
                             if (category.isCountry) {
+//                                record = $('<tr>' + '<td><span style="display: none;" class="b-close">' + obj[i].cntrCode + '</span></td>' + '<td><span class="b-close" style="cursor: pointer">' + obj[i].korCntrName + '</span></td>' + '<td><span class="b-close" style="cursor: pointer">' + obj[i].engCntrName + '</span></td>' + '</tr>');
                                 record = $('<tr>' + '<td><span style="display: none;" class="b-close">' + obj[i].cntrCode + '</span></td>' + '<td><span class="b-close" style="cursor: pointer">' + obj[i].korCntrName + '</span></td>' + '<td><span class="b-close" style="cursor: pointer">' + obj[i].engCntrName + '</span></td>' + '</tr>');
                             } else if (category.isSchool) {
                                 record = $('<tr>' + '<td><span style="display: none;" class="b-close">' + obj[i].schlCode + '</span></td>' + '<td><span class="b-close" style="cursor: pointer">' + obj[i].schlName + '</span></td>' + '</tr>');
                             }
                             $('#bpopResult').append(record);
                             $(record).on('click', function(e) {
-                                var targetInputId = [ document.getElementById('targetNode1').value,
+                                var targetInputId = [
+                                    document.getElementById('targetNode1').value,
                                     document.getElementById('targetNode2').value,
-                                    document.getElementById('targetNode3').value ];
+                                    document.getElementById('targetNode3').value
+                                ];
                                 var tr = this;
+
+                                // 국가 검색이고 locale == en 일 때 targetNode2 인 citzCntrName에 영어 국가명을 넣게함
+                                if ('${pageContext.response.locale == 'en'}' === 'true' && category.isCountry)
+                                    targetInputId[2] = document.getElementById('targetNode2').value;
+
                                 for ( var i = 0 , len = tr.children.length; i < len; i++ ) {
                                     if (document.getElementById(targetInputId[i])) {
                                         document.getElementById(targetInputId[i]).value = tr.children[i].firstChild.innerText;
@@ -1365,6 +1391,7 @@
                                         $(document.getElementById(targetInputId[i])).change();
                                     }
                                 }
+                                hideDialog('#modal_popup3');
                             });
                         }
                     } else {
@@ -1394,6 +1421,7 @@
                                     resultInputText.focus();
                                 }
                             }
+                            hideDialog('#modal_popup3');
                         });
                     }
                 }
@@ -1406,6 +1434,11 @@
             }
         });
 
+        $('.b-close').on('click', function(e) {
+            e.preventDefault();
+            hideDialog('#modal_popup3');
+        });
+
         $('#citzCntrCode').on('change', function(e) {
             var divRgstNo = document.getElementById('divRgstNo'),
                 rgstBornDate = document.getElementById('application.rgstBornDate'),
@@ -1414,7 +1447,6 @@
                 dateOfBirthLabel = document.getElementById('dateOfBirthLabel'),
                 dateOfBirthLabel1 = '<spring:message code="L01208"/>',
                 dateOfBirthLabel2 = '<spring:message code="L01216"/>',
-                dateOfBirthPlaceholder = rgstBornDate.getAttribute('placeholder'),
                 dateOfBirthPlaceholder1 = '<spring:message code="U01206"/>',
                 dateOfBirthPlaceholder2 = '<spring:message code="U01207"/>',
                 stayInfoItems, item, i, itemL;
@@ -1534,6 +1566,7 @@
                         }
                 }]
             });
+//            showDialog(true, '#modal_popup4');
         });
 
         <%-- 다음 주소 검색 끝 --%>

@@ -9,6 +9,7 @@ public class CustomApplicationLanguage extends ApplicationLanguage {
     private String itemGrpCode;
     private String itemCode;
     private String itemName;
+    private String itemNameXxen;
     private int mdtSeq;
     private String upCodeGrp;
     private String upCode;
@@ -52,6 +53,14 @@ public class CustomApplicationLanguage extends ApplicationLanguage {
 
     public void setItemName(String itemName) {
         this.itemName = itemName;
+    }
+
+    public String getItemNameXxen() {
+        return itemNameXxen;
+    }
+
+    public void setItemNameXxen(String itemNameXxen) {
+        this.itemNameXxen = itemNameXxen;
     }
 
     public String getSelGrpCode() {

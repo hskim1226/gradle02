@@ -34,15 +34,15 @@ public class ApplicationGeneralValidator implements NamedValidator {
 
         if (applicationGeneral.getEmerContName() == null || applicationGeneral.getEmerContName().length() == 0) {
             errors.rejectValue(prefix + "emerContName", "U331",
-                    new Object[]{"비상연락처 이름"}, messageResolver.getMessage("U332"));
+                    new Object[]{messageResolver.getMessage("L01604")}, messageResolver.getMessage("U332"));  /*"비상연락처 이름"*/
         }
         if (applicationGeneral.getEmerContCode() == null || applicationGeneral.getEmerContCode().length() == 0) {
             errors.rejectValue(prefix + "emerContCode", "U331",
-                    new Object[]{"비상연락처 관계"}, messageResolver.getMessage("U332"));
+                    new Object[]{messageResolver.getMessage("L01605")}, messageResolver.getMessage("U332"));  /*"비상연락처 관계"*/
         }
         if (applicationGeneral.getEmerContTel() == null || applicationGeneral.getEmerContTel().length() == 0) {
             errors.rejectValue(prefix + "emerContTel", "U331",
-                    new Object[]{"비상연락처 전화번호"}, messageResolver.getMessage("U332"));
+                    new Object[]{messageResolver.getMessage("L01606")}, messageResolver.getMessage("U332"));  /*"비상연락처 전화번호"*/
         }
     }
 }

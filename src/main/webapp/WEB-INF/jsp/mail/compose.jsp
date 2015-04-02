@@ -39,7 +39,10 @@
             $.post("${contextPath}/mail/send",
                     $("#mail-form").serialize(),
                     function(data){
-                        alert(data.result);
+console.log('raw data : ', data);
+                        var result = JSON.parse(data);
+console.log('parsed data : ', result);
+                        alert(result.result);
                     });
         });
     });

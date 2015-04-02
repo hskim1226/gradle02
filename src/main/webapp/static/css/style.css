@@ -339,87 +339,6 @@ section.section {
 /*===========================
   --- Header & menu ----
 =========================== */
-.navbar {
-	line-height: 100px;
-	/*height: 100px;*/
-	/*background-color: rgba(0,0,0,0.3);*/
-    background-image: url(../img/etc/alphagray.png);
-	display: block;
-	vertical-align: middle;
-	text-align: center;
-	margin-bottom: 0;
-	padding-bottom:0;
-}
-
-.navbar .navbar-collapse {
-	margin-bottom: 0;
-	padding-bottom:0;
-}
-
-.nav li {
-	height: 100%;
-	line-height: 100%;
-	margin-bottom: 0;
-	padding-bottom:0;
-}
-
-.nav>li>a {
-	display: table-cell;
-	height: 100%;
-	line-height: 100%;
-	vertical-align: middle;
-	color: #fff;
-	/*font-weight: 700;*/
-	font-size: 13px;
-	letter-spacing: .1em;
-	text-transform: uppercase;
-}
-
-.nav>li>a:hover {
-	color: #fff;
-	background: none;
-}
-
-.navbar-nav {
-	float: right;
-	margin-bottom: 0;
-	padding-bottom:0;	
-}
-
-.navbar .navbar-nav > .active > a {
-	color: #fff;
-}
-.navbar .navbar-nav > .active > a {
-	padding-bottom: 22px;
-}
-
-h1 a.navbar-brand {
-	font-size: 24px;
-	color: #fff;
-	font-weight: 900;
-	text-shadow: none;
-}
-
-.navbar-brand {
-	padding: 0;
-	display: table-cell;
-	vertical-align: middle;
-	line-height: 90px;
-}
-
-.navbar-brand img {
-	vertical-align: middle;
-}
-
-.navbar-toggle {
-	padding: 0;
-	margin: 0;
-	width: 80px;
-}
-
-.navbar-collapse.in {
-	margin-top: -5px !important;
-}
 
 section .spacer-big {
     margin-bottom: 7em;
@@ -614,7 +533,7 @@ div.cform-response-output {
     padding-bottom: 6%;
 }
 section.normal-white {
-    padding: 150px 0 60px;
+    padding: 30px 0 60px;
     background: #eeeeee;
     color: #fdfdfd;
     position:relative;
@@ -637,6 +556,69 @@ section.normal-white .spacer-small {
 section.normal-white .spacer-tiny {
     margin-bottom: 0.5em;
 }
+section.application {
+    padding: 30px 0 60px;
+    background: #eeeeee;
+    color: #000;
+    position:relative;
+}
+section.application p#stepStatusTitle {
+    color: #333333;
+    font-size: 30px;
+}
+section.application .tab-content {
+    background-color: #ffffff;
+    color: #000;
+}
+div .panel {
+    border-color: #333333;
+}
+div .panel-darkgray0 > .panel-heading {
+    background-image: -webkit-linear-gradient(top, #7a7a7a 0%, #888888 100%);
+    background-image:      -o-linear-gradient(top, #7a7a7a 0%, #888888 100%);
+    background-image: -webkit-gradient(linear, left top, left bottom, from(#7a7a7a), to(#888888));
+    background-image:         linear-gradient(to bottom, #7a7a7a 0%, #888888 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#7a7a7a', endColorstr='#ff888888', GradientType=0);
+    background-repeat: repeat-x;
+    color: #fff;
+    background-color: #7a7a7a;
+    border-color: #7a7a7a;
+}
+div .panel-darkgray0 > .panel-body {
+    border-color: #333333;
+}
+div .panel-darkgray0 .panel-darkgray1, .panel-darkgray2, .panel-darkgray3, .panel-darkgray4 {
+    /*background-color: #8c8c8c;*/
+    color: #333;
+    border-color: #333333;
+}
+div .panel-darkgray1 > .panel-heading {
+    background-image: -webkit-linear-gradient(left, #888888 0%, #cccccc 100%);
+    background-image:      -o-linear-gradient(left, #888888 0%, #cccccc 100%);
+    background-image: -webkit-gradient(linear, left top, right bottom, from(#888888), to(#cccccc));
+    background-image:         linear-gradient(to right, #888888 0%, #cccccc 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#888888', endColorstr='#cccccc', GradientType=1);
+    background-repeat: repeat-x;
+    color: #fff;
+    /*background-color: #7a7a7a;*/
+    border-color: #cccccc;
+}
+div .tab-container {
+    background-color: #ffffff;
+}
+.nav-tabs>li.active>a, .nav-tabs>li.active>a:hover, .nav-tabs>li.active>a:focus {
+    cursor: pointer;
+    text-decoration: none;
+    font-weight: 800;
+}
+.nav-tabs>li.inactive>a, .nav-tabs>li.inactive>a:hover, .nav-tabs>li.inactive>a:focus {
+    cursor: pointer;
+    text-decoration: none;
+    color: #333;
+}
+.nav>li>a:hover, .nav>li>a:focus {
+    background-color: #ddd;
+}
 .nopadding {
     padding: 0 !important;
     margin: 0 !important;
@@ -653,6 +635,10 @@ section.normal-white .spacer-tiny {
 .required .control-label:after {
     content:"*";
     color:red;
+}
+p.error-msg {
+    font-size: 1.7em;
+    color: #333;
 }
 .placeholder { color: #707070; }
 /*::-webkit-input-placeholder { color: #d0d0d0; }*/

@@ -3,40 +3,45 @@
 <!DOCTYPE html>
 <html lang='ko'>
 <head>
+    <!-- BASICS -->
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="description" content="연세대학교 대학원">
     <title><spring:message code="L00081"/><%--로그인--%></title>
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="<spring:eval expression="@app.getProperty(\"path.static\")" />/css/bootstrap.min.css"/>
+    <%--<link rel="stylesheet" href="<spring:eval expression="@app.getProperty('path.static')" />/css/bootstrap-theme.min.css"/>--%>
+    <!-- Font-awesome -->
+    <link rel="stylesheet" href="<spring:eval expression="@app.getProperty('path.static')" />/css/font-awesome.css"/>
+    <!-- Overwrite Bootstrap -->
+    <%--<link rel="stylesheet" href="<spring:eval expression="@app.getProperty('path.static')" />/css/overwrite.css"/>--%>
+    <%--<link rel="stylesheet" href="<spring:eval expression="@app.getProperty('path.static')" />/css/animate.css"/>--%>
+    <%--<!-- skin -->--%>
+    <%--<link rel="stylesheet" href="<spring:eval expression="@app.getProperty('path.static')" />/skin/default.css">--%>
+    <!-- custom style -->
+    <link rel="stylesheet" href="<spring:eval expression="@app.getProperty('path.static')" />/css/style.css"/>
+    <%--<link rel="stylesheet" href="<spring:eval expression="@app.getProperty('path.static')" />/css/layout.css"/>--%>
+    <link rel="stylesheet" href="${contextPath}/static/css/layout.css"/>
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
     <script src='<spring:eval expression="@app.getProperty(\"path.static\")" />/js/html5shiv.min.js'></script>
     <script src='<spring:eval expression="@app.getProperty(\"path.static\")" />/js/respond.min.js'></script>
+    <script src='<spring:eval expression="@app.getProperty(\"path.static\")" />/js/html5.js'></script>
+    <script src='<spring:eval expression="@app.getProperty(\"path.static\")" />/js/css3-mediaqueries.js'></script>
     <![endif]-->
-    <!--<link rel="stylesheet" type="text/css" href="../css/isotope.css" media="screen" />-->
-    <!--<link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/jquery.isotope/2.0.0/isotope.pkgd.min.js" media="screen" />-->
-    <!--<link rel="stylesheet" href="../js/fancybox/jquery.fancybox.css" type="text/css" media="screen" />-->
-    <!--<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.pack.js" type="text/css" media="screen" />-->
-    <!-- Bootstrap -->
-    <link rel="stylesheet" href="${contextPath}/static/css/bootstrap.min.css"/>
-    <link rel="stylesheet" href="<spring:eval expression="@app.getProperty('path.static')" />/css/bootstrap-theme.min.css"/>
-    <!-- Font-awesome -->
-    <link rel="stylesheet" href="<spring:eval expression="@app.getProperty('path.static')" />/css/font-awesome.css"/>
-    <!-- Overwrite Bootstrap -->
-    <link rel="stylesheet" href="<spring:eval expression="@app.getProperty('path.static')" />/css/overwrite.css"/>
-    <link rel="stylesheet" href="<spring:eval expression="@app.getProperty('path.static')" />/css/animate.css"/>
-    <!-- skin -->
-    <link rel="stylesheet" href="<spring:eval expression="@app.getProperty('path.static')" />/skin/default.css">
-    <!-- custom style -->
-    <link rel="stylesheet" href="<spring:eval expression="@app.getProperty('path.static')" />/css/style.css"/>
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="<spring:eval expression="@app.getProperty('path.static')" />/js/jquery.min.js"></script>
     <style>
+        body {
+            padding-top: 0px;
+        }
         section.login {
-            padding: 200px 0 60px;
+            padding: 100px 0 60px;
             /*background: #336655;*/
-            background-image: url(<spring:eval expression="@app.getProperty('path.static')" />/img/common/login-bg1.jpg);
+            background-image: url(<spring:eval expression="@app.getProperty('path.static')" />/img/yonsei-underwood.jpg);
             background-size: cover;
             color: #fdfdfd;
             min-height: 615px;
@@ -113,13 +118,13 @@
                     <div class="spacer-tiny col-sm-12">&nbsp;</div>
                     <div>
                         <div class="col-sm-offset-1 col-sm-10">
-                            <input type="text" class="form-control logintext" id="username" name="j_username" maxlength="12" placeholder="User ID">
+                            <input type="text" class="form-control logintext" id="username" name="j_username" maxlength="12" placeholder="<spring:message code="U00081"/>">  <%--User ID--%>
                         </div>
                     </div>
                     <div class="spacer-tiny col-sm-12">&nbsp;</div>
                     <div>
                         <div class="col-sm-offset-1 col-sm-10">
-                            <input type="password" class="form-control logintext" id="password" name="j_password" maxlength="16" placeholder="Password">
+                            <input type="password" class="form-control logintext" id="password" name="j_password" maxlength="16" placeholder="<spring:message code="U00082"/>">  <%--Password--%>
                         </div>
                     </div>
                     <div class="spacer-tiny col-sm-12">&nbsp;</div>
@@ -160,17 +165,35 @@
         </div>
     </div>
 </section>
-<section id="footer" class="section footer">
-    <div class="container">
-        <div class="row align-center">
-            <div class="col-sm-12 legalnotice"><p>(주)에이펙스소프트 | 서울 마포구 양화로 156, 1121(동교동, 엘지팰리스) | 대표이사 김도훈 | 사업자등록번호 105-87-66045 | 전화 <spring:eval expression="@app.getProperty('site.tel')" /></p></div>
-            <div class="col-sm-12 legalnotice"><p>통신판매업신고번호 서울마포-1109호 | 개인정보관리책임자 김도훈 | 개인정보보유기간 회원 탈퇴시까지</p></div>
+<!-- footer -->
+<footer>
+    <section id="mainFooter">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-9">
+
+                    <ul class="txt_list1">
+                        <li><span>(주)에이펙스소프트</span></li>
+                        <li>서울 마포구 양화로 156, 1121(동교동, 엘지팰리스)</li>
+                        <li>대표이사 <span>김도훈</span></li>
+                        <li>사업자등록번호 <span>105-87-66045</span></li>
+                        <li>전화 <span>1899-1016</span></li>
+                    </ul>
+
+                    <ul class="txt_list1">
+                        <li>통신판매업신고번호 <span>서울마포-1109호</span></li>
+                        <li>개인정보관리책임자 <span>김도훈</span></li>
+                        <li>개인정보보유기간 <span>회원 탈퇴시까지</span></li>
+                    </ul>
+                </div>
+                <div class="col-md-3">
+                    <p class="ft_right"><a href="http://bootstraptaste.com/" target="_blank" title="새창이동"><img src="<spring:eval expression="@app.getProperty('path.static')" />/img/footer_img1.png" alt="Designed by Bootstraptaste"></a></p>
+                </div>
+            </div>
         </div>
-        <div class="row align-center copyright">
-            <div class="col-sm-12"><p>Designed by <a href="http://bootstraptaste.com" style="color: darkseagreen;">Bootstraptaste</a></p></div>
-        </div>
-    </div>
-</section>
+    </section>
+</footer>
+<!-- /footer -->
 <script src="<spring:eval expression="@app.getProperty('path.static')" />/js/modernizr-2.6.2-respond-1.1.0.min.js"></script>
 <script src="<spring:eval expression="@app.getProperty('path.static')" />/js/bootstrap.min.js"></script>
 <script src="<spring:eval expression="@app.getProperty('path.static')" />/js/jquery.easing.min.js"></script>

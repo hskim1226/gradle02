@@ -33,7 +33,7 @@
         <form:form class="form-horizontal" id="sign-up-form" commandName="user" action="${contextPath}/user/signup/save" method="post" role="form">
             <form:hidden path="userAgreYn" />
             <form:hidden path="privInfoYn" />
-            <div class="col-md-offset-2 col-md-8">
+            <div class="col-md-offset-1 col-md-10">
                 <div class="form-group inner-container-white">
                     <div class="col-sm-offset-1 col-sm-10 text-gray">
                         <i class="fa fa-user fa-3x" style="vertical-align: middle; line-height:40px;"></i>&nbsp;<span style="font-size: 35px; vertical-align: middle; line-height:40px;"><b><spring:message code="L00121"/><%--회원 가입--%></b></span>
@@ -47,12 +47,12 @@
                             </div>
                             <div class="col-sm-8 nopadding">
                                 <div class="input-group">
-                                    <form:input type="text" cssClass="form-control userId" path="userId" maxlength="12" placeholder="입력 후 Check를 눌러 확인해주세요" />
+                                    <form:input type="text" cssClass="form-control userId" path="userId" maxlength="12" placeholder="${msg.getMessage('U00121')}" />  <%--입력 후 Check를 눌러 확인해주세요--%>
                                     <span class="input-group-btn">
-                                        <button class="btn btn-info" id="available-check-button">Check</button>
+                                        <button class="btn btn-info" id="available-check-button"><spring:message code="L00131"/><%--Check--%></button>
                                     </span>
                                 </div>
-                                <div class="input-info word-keep-all"><spring:message code="U108"/></div>
+                                <div class="input-info word-keep-all"><spring:message code="U00122"/></div>
                         <spring:bind path="userId">
                             <c:if test="${status.error}">
                                 <div class="validation-error">${status.errorMessage}</div>
@@ -68,8 +68,8 @@
                                 <label for="pswd1" class="control-label"><spring:message code="L00123"/><%--비밀번호--%></label>
                             </div>
                             <div class="col-sm-8 nopadding">
-                                <div><form:input type="password" cssClass="form-control passwd" path="pswd" id="pswd1" maxlength="16" placeholder="비밀 번호"/></div>
-                                <div class="input-info word-keep-all"><spring:message code="U109"/></div>
+                                <div><form:input type="password" cssClass="form-control passwd" path="pswd" id="pswd1" maxlength="16" placeholder="${msg.getMessage('U00123')}"/></div>  <%--비밀 번호--%>
+                                <div class="input-info word-keep-all"><spring:message code="U00124"/></div>
                         <spring:bind path="pswd">
                             <c:if test="${status.error}">
                                 <div class="validation-error">${status.errorMessage}</div>
@@ -84,7 +84,7 @@
                                 <label for="pswd2" class="control-label"><spring:message code="L00124"/><%--비밀번호 확인--%></label>
                             </div>
                             <div class="col-sm-8 nopadding">
-                                <div><input type="password" class="form-control passwd" id="pswd2" maxlength="16" placeholder="비밀 번호 확인" /></div>
+                                <div><input type="password" class="form-control passwd" id="pswd2" maxlength="16" placeholder="${msg.getMessage('U00125')}" /></div>  <%--비밀 번호 확인--%>
                         <spring:bind path="pswd">
                             <c:if test="${status.error}">
                                 <div class="validation-error">${status.errorMessage}</div>
@@ -125,7 +125,7 @@
                                 <label for="mailAddr" class="control-label"><spring:message code="L00125"/><%--이메일--%></label>
                             </div>
                             <div class="col-sm-8 nopadding">
-                                <div><form:input type="email" cssClass="form-control emailOnly" path="mailAddr" maxlength="50" placeholder="이메일 주소를 입력해 주세요" /></div>
+                                <div><form:input type="email" cssClass="form-control emailOnly" path="mailAddr" maxlength="50" placeholder="${msg.getMessage('U00126')}" /></div>  <%--이메일 주소를 입력해 주세요--%>
                         <spring:bind path="mailAddr">
                             <c:if test="${status.error}">
                                 <div class="validation-error">${status.errorMessage}</div>
@@ -141,7 +141,7 @@
                                 <label for="mobiNum" class="control-label"><spring:message code="L00126"/><%--휴대폰--%></label>
                             </div>
                             <div class="col-sm-8 nopadding">
-                                <div><form:input type="text" cssClass="form-control numOnly phone" path="mobiNum" maxlength="20" placeholder="숫자로만 입력해 주세요" /></div>
+                                <div><form:input type="text" cssClass="form-control numOnly phone" path="mobiNum" maxlength="20" placeholder="${msg.getMessage('U00127')}" /></div>  <%--숫자로만 입력해 주세요--%>
                         <spring:bind path="mobiNum">
                             <c:if test="${status.error}">
                                 <div class="validation-error">${status.errorMessage}</div>
@@ -157,7 +157,7 @@
                                 <label for="name" class="control-label"><spring:message code="L00127"/><%--이름--%></label>
                             </div>
                             <div class="col-sm-8 nopadding">
-                                <div><form:input type="text" cssClass="form-control" path="name" maxlength="20" placeholder="실명을 입력해주세요" /></div>
+                                <div><form:input type="text" cssClass="form-control" path="name" maxlength="20" placeholder="${msg.getMessage('U00128')}" /></div>  <%--실명을 입력해주세요--%>
                         <spring:bind path="name">
                             <c:if test="${status.error}">
                                 <div class="validation-error">${status.errorMessage}</div>
@@ -217,7 +217,7 @@
                         <div class="col-sm-offset-2 col-sm-8">
                             <div class="col-sm-12 btn-group btn-group-justified">
                                 <div class="btn-group col-sm-12" id="warn-id-check">
-                                    <button id="btn-warn-id-check" class="btn btn-danger btn-lg">ID 중복 체크를 해주세요.</button>
+                                    <button id="btn-warn-id-check" class="btn btn-danger btn-lg"><spring:message code="U00129"/><%--ID 중복 체크를 해주세요.--%></button>
                                 </div>
                             </div>
                             <div class="col-sm-12 btn-group btn-group-justified">
@@ -233,14 +233,26 @@
     </div>
 </section>
 <content tag="local-script">
-<script src="${contextPath}/js/jquery-ui.min.js"></script>
+<script src="<spring:eval expression="@app.getProperty('path.static')" />/js/jquery-ui.min.js"></script>
 <script type="text/javascript">
     $(document).ready(function(){
+        var isIDChecked = false;
         $("#sign-up-button").on("click", function(e){
 //            $('#sign-up-form').bootstrapValidator('validate');
             e.preventDefault();
-            if ( document.getElementById('pswd1').value !== document.getElementById('pswd2').value ) {
-                alert("패스워드가 일치하지 않습니다.");
+            var pswd1 = document.getElementById('pswd1'),
+                pswd2 = document.getElementById('pswd2');
+            if ( pswd1.value !== pswd2.value ) {
+                alert("<spring:message code="U00130"/>"); <%--패스워드가 일치하지 않습니다--%>
+                pswd1.focus();
+                return;
+            } else if (pswd1.value.length == 0) {
+                alert("<spring:message code="U00124"/>"); <%--알파벳 대문자, 소문자, 숫자를 하나 이상 포함하여 8~16글자이어야 합니다.--%>
+                pswd1.focus();
+                return;
+            } else if (pswd2.value.length == 0) {
+                alert("<spring:message code="U00124"/>"); <%--알파벳 대문자, 소문자, 숫자를 하나 이상 포함하여 8~16글자이어야 합니다.--%>
+                pswd2.focus();
                 return;
             } else {
                 apex.transKorPhoneNumber('phone');
@@ -249,11 +261,25 @@
             }
         });
 
+        <%-- 아이디 체크 후 수정 시 재 체크 처리 --%>
+        var setUnavailableID = function () {
+            $("#sign-up-button").prop('disabled', true);
+            isIDChecked = false;
+            document.getElementById('btn-warn-id-check').style.display = 'block';
+        };
+        $('#userId').on('change', function(e) {
+            if (isIDChecked) {
+                setUnavailableID();
+            }
+        });
+        <%-- 아이디 체크 후 수정 시 재 체크 처리 --%>
+
         <%-- 아이디 처리 --%>
-        apex.idCheck('userId');
+        apex.idCheck('userId', '<spring:message code="U00122"/>');  <%--알파벳 대문자, 소문자, 숫자를 하나 이상 포함하여 6~12글자이어야 합니다.--%>
         <%-- 아이디 처리 --%>
 
         <%-- 아이디 중복 체크 --%>
+
         $("#available-check-button").on("click", function(e){
             e.preventDefault();
             var idValue = document.getElementById('userId').value;
@@ -263,31 +289,33 @@
                         function(data){
                             var container = JSON.parse(data);
                             if(container.result == "SUCCESS"){
-                                alert("사용가능한 username 입니다.");
+                                alert("<spring:message code="U00131"/>");  <%--사용가능한 username 입니다.--%>
                                 $("#sign-up-button").prop('disabled', false);
-                                document.getElementById('warn-id-check').style.display = 'none';
+                                isIDChecked = true;
+                                document.getElementById('btn-warn-id-check').style.display = 'none';
+                                document.getElementById('pswd1').focus();
                             }else{
-                                alert("이미 사용 중인 username 입니다.");
-                                $("#sign-up-button").prop('disabled', true);
+                                alert("<spring:message code="U00132"/>");  <%--이미 사용 중인 username 입니다.--%>
+                                setUnavailableID();
                             }
                         }
                 );
             } else {
-                alert('아이디는 6자 이상이어야 합니다.');
+                alert('<spring:message code="U00133"/>');  <%--아이디는 6자 이상이어야 합니다.--%>
             }
         });
         <%-- 아이디 중복 체크 --%>
 
         <%-- 비밀 번호 validation --%>
-        apex.passwordCheck('passwd');
+        apex.passwordCheck('passwd', '<spring:message code="U00124"/>');  <%--알파벳 대문자, 소문자, 숫자를 하나 이상 포함하여 8~16글자이어야 합니다.--%>
         <%-- 비밀 번호 validation --%>
 
         <%-- 메일 주소 validation --%>
-        apex.emailCheck('emailOnly');
+        apex.emailCheck('emailOnly', '<spring:message code="U00134"/>');  <%--이메일 주소를 정확히 기재해 주세요--%>
         <%-- 메일 주소 validation --%>
 
         <%-- 숫자만 입력 - 주민번호, 휴대폰, 전화번호 --%>
-        apex.numCheck('numOnly');
+        apex.numCheck('numOnly', '<spring:message code="U00135"/>');
         <%-- 숫자만 입력 - 주민번호, 휴대폰, 전화번호 --%>
 
         <%-- 달력 옵션 --%>

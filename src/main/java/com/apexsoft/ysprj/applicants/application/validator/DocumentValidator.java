@@ -40,7 +40,7 @@ public class DocumentValidator implements Validator {
 
         if (application.getDocChckYn() == null || application.getDocChckYn().length() == 0 || "N".equals(application.getDocChckYn())) {
             errors.rejectValue("application.docChckYn", "U331",
-                    new Object[]{"첨부 파일 안내 확인"}, messageResolver.getMessage("U332"));
+                    new Object[]{messageResolver.getMessage("L04103")}, messageResolver.getMessage("U332"));  /*"첨부 파일 안내 확인"*/
         }
 
         List<TotalApplicationDocumentContainer> documentContainerList = document.getDocumentContainerList();

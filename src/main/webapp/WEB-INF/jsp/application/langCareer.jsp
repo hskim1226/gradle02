@@ -5,13 +5,6 @@
     <title><spring:message code="L03101"/><%--원서 작성 - 어학/경력 정보--%></title>
     <link rel="stylesheet" href="//code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css">
     <style>
-        section.application {
-            padding: 160px 0 60px;
-            background: #555555;
-            color: #000;
-            position:relative;
-        }
-
         section.application h2.slogan {
             color: #000;
             font-size: 36px;
@@ -34,11 +27,6 @@
             height: 1em;
         }
 
-        section.application .tab-content {
-            background-color: #d0d0d0;
-            color: #000;
-        }
-
         section.application .nav>li>a {
             display: block;
         }
@@ -47,47 +35,6 @@
             font-size: 12px;
             font-weight: 900;
         }
-
-/*
-        section.application .btn {
-            border: 1px;
-        }
-
-        section.application .input-group-btn .btn {
-            border-radius: 4px;
-        }
-*/
-
-        .panel-darkgray > .panel-heading {
-            background-image: -webkit-linear-gradient(top, #7a7a7a 0%, #888888 100%);
-            background-image:      -o-linear-gradient(top, #7a7a7a 0%, #888888 100%);
-            background-image: -webkit-gradient(linear, left top, left bottom, from(#7a7a7a), to(#888888));
-            background-image:         linear-gradient(to bottom, #7a7a7a 0%, #888888 100%);
-            filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#7a7a7a', endColorstr='#ff888888', GradientType=0);
-            background-repeat: repeat-x;
-            color: #fff;
-            background-color: #7a7a7a;
-            border-color: #7a7a7a;
-        }
-
-        .panel-darkgray1, .panel-darkgray2, .panel-darkgray3, .panel-darkgray4 {
-            /*background-color: #8c8c8c;*/
-            color: #fff;
-            border-color: #333333;
-        }
-
-        .panel-darkgray1 > .panel-heading {
-            background-image: -webkit-linear-gradient(left, #888888 0%, #cccccc 100%);
-            background-image:      -o-linear-gradient(left, #888888 0%, #cccccc 100%);
-            background-image: -webkit-gradient(linear, left top, right bottom, from(#888888), to(#cccccc));
-            background-image:         linear-gradient(to right, #888888 0%, #cccccc 100%);
-            filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#888888', endColorstr='#cccccc', GradientType=1);
-            background-repeat: repeat-x;
-            color: #fff;
-            /*background-color: #7a7a7a;*/
-            border-color: #cccccc;
-        }
-
         .btn-file {
             position: relative;
             overflow: hidden;
@@ -119,14 +66,6 @@
         }
         .tab-gray {
             background-color: #444444;
-        }
-        .nav-tabs>li.active>a,
-        .nav-tabs>li.active>a:hover,
-        .nav-tabs>li.active>a:focus,
-        .nav-tabs>li.active>a:link {
-            background-color: #f0f0f0;
-            color: #333;
-            cursor: pointer;
         }
 
         .form-group.required .control-label:after {
@@ -250,21 +189,10 @@
             background: #888888;
             color: #bbbbbb;
         }
-        #stepStatusTitle {
-            color: #eeeeee;
-            font-size: 30px;
-        }
         .activeTab {
             background: #d0d0d0;
             color: #333333;
             font-weight: bold;
-        }
-        .inactiveTab {
-            background: #777777;
-            color: #eeeeee;
-        }
-        #tabTR {
-            cursor: pointer;
         }
         .checkbox {
             min-height: 20px;
@@ -282,32 +210,48 @@
 <body>
 <section class="application">
     <div class="container">
-        <div id="stepContainer">
-            <table width="100%">
-                <tr>
-                    <td id="stepStatusTitle" colspan=4 align="center" height="70px">${msg.getMessage('L01001', locale)}<%--원서 작성 현황--%></td>
-                </tr>
-                <tr id="stepTR">
-                    <td id="stepBasis" width="25%" height="50px" align="center" class="stepDisabled">${msg.getMessage('L01002', locale)}<%--1. 기본 정보--%></td>
-                    <td id="stepAcademy" width="25%" height="50px" align="center" class="stepDisabled">${msg.getMessage('L01003', locale)}<%--2. 학력 정보--%></td>
-                    <td id="stepLangCareer" width="25%" height="50px" align="center" class="stepDisabled">${msg.getMessage('L01004', locale)}<%--3. 어학/경력 정보--%></td>
-                    <td id="stepDocument" width="25%" height="50px" align="center" class="stepDisabled">${msg.getMessage('L01005', locale)}<%--4. 파일 첨부--%></td>
-                </tr>
-            </table>
+        <p id="stepStatusTitle" colspan=4 align="center" height="70px">${msg.getMessage('L01001', locale)}<%--원서 작성 현황--%></p>
+        <!-- 진행상태바 시작 -->
+        <div class="step_wrap">
+            <ul class="step_box" id="step_box">
+                <li class="inactive"><span class="step"><strong>1</strong></span>
+                    <p class="txt1"><spring:message code="L01002"/><%--기본 정보--%></p>
+                </li>
+                <li class="inactive"><span class="step"><strong>2</strong></span>
+                    <p class="txt1"><spring:message code="L01003"/><%--학력 정보--%></p>
+                </li>
+                <li class="inactive"><span class="step"><strong>3</strong></span>
+                    <p class="txt1"><spring:message code="L01004"/><%--어학/경력 정보--%></p>
+                </li>
+                <li class="inactive"><span class="step"><strong>4</strong></span>
+                    <p class="txt1"><spring:message code="L01005"/><%--파일 첨부 및 제출--%></p>
+                </li>
+                <li class="inactive"><span class="step"><strong>5</strong></span>
+                    <p class="txt1"><spring:message code="L01006"/><%--결제--%></p>
+                </li>
+            </ul>
         </div>
-        <div class="spacer-mid"></div>
-        <div class="row">
-            <div class="col-sm-12">
-                <table width="100%">
-                    <tr id="tabTR">
-                        <td id="tab-basis" width="25%" height="35px" align="center" class="inactiveTab" data-target-tab="basis" data-tab-available="true"><spring:message code="L01002"/><%--1. 기본 정보--%></td>
-                        <td id="tab-academy" width="25%" height="35px" align="center" class="inactiveTab" data-target-tab="academy" data-tab-available="false" data-unavailable-msg='<spring:message code="U321"/>'><spring:message code="L01003"/><%--2. 학력 정보--%></td>
-                        <td id="tab-langCareer" width="25%" height="35px" align="center" class="inactiveTab" data-target-tab="langCareer" data-tab-available="false" data-unavailable-msg='<spring:message code="U322"/>'><spring:message code="L01004"/><%--3. 어학/경력 정보--%></td>
-                        <td id="tab-document" width="25%" height="35px" align="center" class="inactiveTab" data-target-tab="document" data-tab-available="false" data-unavailable-msg='<spring:message code="U323"/>'><spring:message code="L01005"/><%--4. 파일 첨부--%></td>
-                    </tr>
-                </table>
-            </div>
+        <!-- /진행상태바 끝 -->
+        <!-- 데스크탑 탭메뉴 시작 -->
+        <div id="pc_tab" class="nav_wrap clearfix tab-container">
+            <ul id="navPcTabUL" class="nav nav-tabs nav-justified">
+                <li id="tab-pc-basis" class="inactive inactiveTab" data-target-tab="basis" data-tab-available="true"><a><spring:message code="L01002"/><%--1. 기본 정보--%></a></li>
+                <li id="tab-pc-academy" class="inactive inactiveTab" data-target-tab="academy" data-tab-available="false" data-unavailable-msg='<spring:message code="U321"/>'><a><spring:message code="L01003"/><%--2. 학력 정보--%></a></li>
+                <li id="tab-pc-langCareer" class="inactive inactiveTab" data-target-tab="langCareer" data-tab-available="false" data-unavailable-msg='<spring:message code="U322"/>'><a><spring:message code="L01004"/><%--3. 어학/경력 정보--%></a></li>
+                <li id="tab-pc-document" class="inactive inactiveTab" data-target-tab="document" data-tab-available="false" data-unavailable-msg='<spring:message code="U323"/>'><a><spring:message code="L01005"/><%--4. 파일 첨부--%></a></li>
+            </ul>
         </div>
+        <!-- /데스크탑 탭메뉴 끝 -->
+        <!-- 모바일 탭메뉴 시작 -->
+        <div id="mb_tab" class="nav_wrap clearfix tab-container">
+            <ul id="navMbTabUL" class="nav nav-pills nav-stacked">
+                <li id="tab-mb-basis" class="inactive inactiveTab" data-target-tab="basis" data-tab-available="true"><a><spring:message code="L01002"/><%--1. 기본 정보--%></a></li>
+                <li id="tab-mb-academy" class="inactive inactiveTab" data-target-tab="academy" data-tab-available="false" data-unavailable-msg='<spring:message code="U321"/>'><a><spring:message code="L01003"/><%--2. 학력 정보--%></a></li>
+                <li id="tab-mb-langCareer" class="inactive inactiveTab" data-target-tab="langCareer" data-tab-available="false" data-unavailable-msg='<spring:message code="U322"/>'><a><spring:message code="L01004"/><%--3. 어학/경력 정보--%></a></li>
+                <li id="tab-mb-document" class="inactive inactiveTab" data-target-tab="document" data-tab-available="false" data-unavailable-msg='<spring:message code="U323"/>'><a><spring:message code="L01005"/><%--4. 파일 첨부--%></a></li>
+            </ul>
+        </div>
+        <!-- 모바일 탭메뉴 끝 -->
         <form:form commandName="langCareer" cssClass="form-horizontal" method="post" role="form">
             <form:hidden path="application.applNo" id="applNo" />
             <form:hidden path="application.applStsCode" id="applStsCode" />
@@ -318,21 +262,23 @@
                 <div class="spacer-tiny"></div>
                 <div class="row">
                     <div class="col-sm-offset-1 col-sm-10">
-                        <div class="panel panel-darkgray">
+                        <div class="panel panel-darkgray0">
                             <div class="panel-heading"><spring:message code="L03102"/><%--어학성적--%></div>
                             <div class="panel-body" id="english-score-list">
                                 <c:forEach items="${langCareer.languageGroupList}" var="langGroup" varStatus="langGroupStat">
                                     <div class="panel panel-darkgray1">
-                                        <div class="panel-heading">${langGroup.examGrpName}</div>
+                                        <div class="panel-heading">${pageContext.response.locale == 'en' ? langGroup.examGrpNameXxen : langGroup.examGrpName}</div>
                                         <div class="panel-body" id="languageGroupList${langGroupStat.index}.list">
                                             <form:hidden path="languageGroupList[${langGroupStat.index}].examGrpName" value="${langGroup.examGrpName}" />
+                                            <form:hidden path="languageGroupList[${langGroupStat.index}].examGrpNameXxen" value="${langGroup.examGrpNameXxen}" />
                                             <form:hidden path="languageGroupList[${langGroupStat.index}].examCodeGrp" value="${langGroup.examCodeGrp}"/>
                                             <form:hidden path="languageGroupList[${langGroupStat.index}].multiYn" value="${langGroup.multiYn}"/>
                                             <c:forEach items="${langGroup.langList}" var="langList" varStatus="langListStat">
                                                 <div class="panel panel-default">
-                                                    <div class="panel-heading">${langList.itemName}</div>
+                                                    <div class="panel-heading">${pageContext.response.locale == 'en' ? langList.itemNameXxen : langList.itemName}</div>
                                                     <div class="panel-body" id="languageGroupList${langGroupStat.index}.langList${langListStat.index}.list">
                                                         <form:hidden path="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].itemName" value="${langList.itemName}"/>
+                                                        <form:hidden path="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].itemNameXxen" value="${langList.itemNameXxen}"/>
                                                         <form:hidden path="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].itemCode" value="${langList.itemCode}"/>
                                                         <form:hidden path="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].itemGrpCode" value="${langList.itemGrpCode}"/>
                                                         <form:hidden path="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].selGrpCode" value="${langList.selGrpCode}"/>
@@ -352,6 +298,7 @@
                                                                 <form:hidden path="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].subContainer[${subContainerStat.index}].lastYn" value="${subContainer.lastYn}"/>
                                                                 <form:hidden path="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].subContainer[${subContainerStat.index}].selGrpCode" value="${subContainer.selGrpCode}"/>
                                                                 <form:hidden path="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].subContainer[${subContainerStat.index}].itemName" value="${subContainer.itemName}"/>
+                                                                <form:hidden path="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].subContainer[${subContainerStat.index}].itemNameXxen" value="${subContainer.itemNameXxen}"/>
                                                                 <form:hidden path="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].subContainer[${subContainerStat.index}].subCodeGrp" value="${subContainer.subCodeGrp}"/>
                                                                 <form:hidden path="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].subContainer[${subContainerStat.index}].exmpYn" value="${subContainer.exmpYn}"/>
                                                                 <form:hidden path="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].subContainer[${subContainerStat.index}].mdtSeq" value="${subContainer.mdtSeq}"/>
@@ -365,7 +312,8 @@
                                                                                             <input type="checkbox" class="checkboxForlExmp"
                                                                                                    id="checkForlExmp-${langGroupStat.index}"
                                                                                                    name="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].subContainer[${subContainerStat.index}].checkedFg"
-                                                                                                   ${subContainer.checkedFg == true ? 'checked' : ''}/>${subContainer.itemName}
+                                                                                                   ${subContainer.checkedFg == true ? 'checked' : ''}/>
+                                                                                            ${pageContext.response.locale == 'en' ? subContainer.itemNameXxen : subContainer.itemName}
                                                                                         </label>
                                                                                     </c:when>
                                                                                     <c:when test='${langGroup.multiYn == "Y"}'>
@@ -373,9 +321,8 @@
                                                                                             <input type="checkbox" class="langCheckbox-${langGroupStat.index}-${langListStat.index}-${subContainerStat.index} langCheckbox-${langGroupStat.index} langCheckbox"
                                                                                                    id="checkLang-${langGroupStat.index}-${langListStat.index}-${subContainerStat.index}"
                                                                                                    name="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].subContainer[${subContainerStat.index}].checkedFg"
-                                                                                                    ${subContainer.checkedFg == true ? 'checked' : ''}
-                                                                                                   <%--<c:if test="${langCareer.applicationGeneral.forlExmpCode.length() > 0}">disabled</c:if> />${subContainer.itemName}--%>
-                                                                                                    <c:if test="${languageGroupList[langGroupStat.index].langList[langListStat.index].subContainer[subContainerStat.index].subCodeList.length() > 0}">disabled</c:if> />${subContainer.itemName}
+                                                                                                    ${subContainer.checkedFg == true ? 'checked' : ''}/>
+                                                                                            ${pageContext.response.locale == 'en' ? subContainer.itemNameXxen : subContainer.itemName}
                                                                                         </label>
                                                                                     </c:when>
                                                                                     <c:otherwise>
@@ -383,9 +330,8 @@
                                                                                             <input type="radio" class="langRadio-${langGroupStat.index}-${langListStat.index}-${subContainerStat.index} langCheckbox-${langGroupStat.index} langCheckbox"
                                                                                                    id="radioLang-${langGroupStat.index}-${langListStat.index}-${subContainerStat.index}"
                                                                                                    name="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].subContainer[${subContainerStat.index}].checkedFg"
-                                                                                                    ${subContainer.checkedFg == true ? 'checked' : ''}
-                                                                                                   <%--<c:if test="${langCareer.applicationGeneral.forlExmpCode.length() > 0}">disabled</c:if> />${subContainer.itemName}--%>
-                                                                                                   <c:if test="${languageGroupList[langGroupStat.index].langList[langListStat.index].subContainer[subContainerStat.index].subCodeList.length() > 0}">disabled</c:if> />${subContainer.itemName}
+                                                                                                    ${subContainer.checkedFg == true ? 'checked' : ''}/>
+                                                                                            ${pageContext.response.locale == 'en' ? subContainer.itemNameXxen : subContainer.itemName}
                                                                                         </label>
                                                                                     </c:otherwise>
                                                                                 </c:choose>
@@ -517,14 +463,20 @@
                                                         </c:forEach>
                                                     </div>
                                                 </div>
-
                                             </c:forEach>
+                                    <spring:bind path="languageGroupList[${langGroupStat.index}]">
+                                        <c:if test="${status.error}">
+                                            <div class="validation-container">
+                                                <div class="validation-error">${status.errorMessage}</div>
+                                            </div>
+                                        </c:if>
+                                    </spring:bind>
                                         </div>
                                     </div>
                                 </c:forEach>
                             </div>
                         </div>
-                        <div class="panel panel-darkgray">
+                        <div class="panel panel-darkgray0">
                             <div class="panel-heading"><spring:message code="L03201"/><%--경력 사항--%></div>
                             <div class="panel-body">
                                 <div id="career-container" class="form-group-block-list">
@@ -613,7 +565,7 @@
                                             </div>
                                         </div>
                                     </c:forEach>
-                                    <div class="btn btn-info btn-add">추가</div>
+                                    <div class="btn btn-info btn-add"><spring:message code="L03106"/><%--추가--%></div>
                                 </div>
                             </div>
                         </div>
@@ -630,7 +582,7 @@
 
 </section>
 <content tag="local-script">
-    <script src="${contextPath}/js/jquery-ui.min.js"></script>
+    <script src="<spring:eval expression="@app.getProperty('path.static')" />/js/jquery-ui.min.js"></script>
     <script type="text/javascript">
     $(document).ready(function() {
         var applNo = document.getElementById('applNo').value = '${langCareer.application.applNo}',
@@ -642,14 +594,18 @@
         <%-- 원서 작성 현황 처리 --%>
         var processCurrentStep = function (applStsCode) {
             var code = Number(applStsCode),
-                    stepTR = document.getElementById('stepTR'),
-                    l = stepTR.children.length, i,
-                    tabTR = document.getElementById('tabTR');
+                    stepBox = document.getElementById('step_box'),
+                    l = stepBox.children.length, i,
+                    navPcTabUL = document.getElementById('navPcTabUL'),
+                    navMbTabUL = document.getElementById('navMbTabUL');
             for ( i = 0 ; i < code && i < l ; i++ ) {
-                stepTR.children[i].className = 'stepEnabled';
-                tabTR.children[i].setAttribute('data-tab-available', 'true');
-                if (tabTR.children[i+1])
-                    tabTR.children[i+1].setAttribute('data-tab-available', 'true');
+                stepBox.children[i].className = 'active';
+                navPcTabUL.children[i].setAttribute('data-tab-available', 'true');
+                if (navPcTabUL.children[i+1])
+                    navPcTabUL.children[i+1].setAttribute('data-tab-available', 'true');
+                navMbTabUL.children[i].setAttribute('data-tab-available', 'true');
+                if (navMbTabUL.children[i+1])
+                    navMbTabUL.children[i+1].setAttribute('data-tab-available', 'true');
             }
         };
         processCurrentStep(document.getElementById('applStsCode').value);
@@ -658,10 +614,13 @@
         <%-- active 탭 표시 --%>
         var setActiveTab = function () {
             var urlStr = document.location.pathname,
-                    substrToFirstSlash = urlStr.substring(0, urlStr.lastIndexOf("/")),
-                    targetTD = document.getElementById('tab-' + substrToFirstSlash.substring(substrToFirstSlash.lastIndexOf("/") + 1));
+                    substrToLastSlash = urlStr.substring(0, urlStr.lastIndexOf("/")),
+                    tabName = substrToLastSlash.substring(substrToLastSlash.lastIndexOf("/") + 1),
+                    targetPcTabLI = document.getElementById('tab-pc-' + tabName),
+                    targetMbTabLI = document.getElementById('tab-mb-' + tabName);
 
-            targetTD.className = "activeTab";
+            targetPcTabLI.className = 'active activeTab';
+            targetMbTabLI.className = 'active activeTab';
         };
         setActiveTab();
         <%-- active 탭 표시 --%>
@@ -851,7 +810,8 @@
 
         $('.checkboxForlExmp').on('click', function () {
             if (this.checked) {
-                if (confirm('외국어 성적 면제 해당자를 선택하면\n외국어 성적을 입력할 수 없으며,\n이미 입력한 외국어 성적도 삭제됩니다.\n\n외국어 성적 면제 해당자를 선택하시겠습니까?')) {
+                if (confirm('<spring:message code="U03101"/>\n<spring:message code="U03102"/>\n<spring:message code="U03103"/>\n\n<spring:message code="U03104"/>')) {
+                <%--외국어 성적 면제 해당자를 선택하면 외국어 성적을 입력할 수 없으며, 이미 입력한 외국어 성적도 삭제됩니다. 외국어 성적 면제 해당자를 선택하시겠습니까?--%>
                     checkForlExmp(true, this);
                 } else {
                     this.checked = false;

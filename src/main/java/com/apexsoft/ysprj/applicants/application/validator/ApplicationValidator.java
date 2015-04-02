@@ -39,42 +39,42 @@ public class ApplicationValidator implements NamedValidator {
             // 외국인 전형 아닐 때만 필수인 것들
             if (application.getKorName() == null || application.getKorName().length() == 0) {
                 errors.rejectValue(prefix + "korName", "U331",
-                        new Object[]{"한글 이름"}, messageResolver.getMessage("U332"));
+                        new Object[]{messageResolver.getMessage("L02122")}, messageResolver.getMessage("U332"));  /*"한글 이름"*/
             }
             if (application.getZipCode() == null || application.getZipCode().length() == 0) {
                 errors.rejectValue(prefix + "zipCode", "U331",
-                        new Object[]{"우편번호"}, messageResolver.getMessage("U332"));
+                        new Object[]{messageResolver.getMessage("L01503")}, messageResolver.getMessage("U332"));  /*"우편번호"*/
             }
             if (application.getAddr() == null || application.getAddr().length() == 0) {
                 errors.rejectValue(prefix + "addr", "U331",
-                        new Object[]{"주소"}, messageResolver.getMessage("U332"));
+                        new Object[]{messageResolver.getMessage("L01502")}, messageResolver.getMessage("U332"));  /*"주소"*/
             }
             if (application.getTelNum() == null || application.getTelNum().length() == 0) {
                 errors.rejectValue(prefix + "telNum", "U331",
-                        new Object[]{"전화번호"}, messageResolver.getMessage("U332"));
+                        new Object[]{messageResolver.getMessage("L01504")}, messageResolver.getMessage("U332"));  /*"전화번호"*/
             }
             if (application.getMobiNum() == null || application.getMobiNum().length() == 0) {
                 errors.rejectValue(prefix + "mobiNum", "U331",
-                        new Object[]{"휴대폰"}, messageResolver.getMessage("U332"));
+                        new Object[]{messageResolver.getMessage("L01505")}, messageResolver.getMessage("U332"));  /*"휴대폰"*/
             }
         } else {
             // 외국인 전형일 때만 필수인 것들
             if (application.getFornTypeCode() == null || application.getFornTypeCode().length() == 0) {
                 errors.rejectValue(prefix + "fornTypeCode", "U331",
-                        new Object[]{"외국인 구분"}, messageResolver.getMessage("U332"));
+                        new Object[]{messageResolver.getMessage("L01306")}, messageResolver.getMessage("U332"));  /*"외국인 구분"*/
             }
         }
 
         if (application.getEngSur() == null || application.getEngSur().length() == 0) {
             errors.rejectValue(prefix + "engSur", "U331",
-                    new Object[]{"영문 성"}, messageResolver.getMessage("U332"));
+                    new Object[]{messageResolver.getMessage("L01204")}, messageResolver.getMessage("U332"));  /*"영문 성"*/
         }
         if (application.getEngName() == null || application.getEngName().length() == 0) {
             errors.rejectValue(prefix + "engName", "U331",
-                    new Object[]{"영문 이름"}, messageResolver.getMessage("U332"));
+                    new Object[]{messageResolver.getMessage("L01205")}, messageResolver.getMessage("U332"));  /*"영문 이름"*/
         }
         if ( application.getRgstBornDate() == null || application.getRgstBornDate().length() == 0 ) {
-            String itemName = "118".equals(application.getCitzCntrCode()) ? "주민등록 상 생년월일" : "생년월일";
+            String itemName = "118".equals(application.getCitzCntrCode()) ? messageResolver.getMessage("L01217") : messageResolver.getMessage("L01216");  /*"주민등록 상 생년월일" : "생년월일"*/
             errors.rejectValue(prefix + "rgstBornDate", "U331",
                     new Object[]{itemName}, messageResolver.getMessage("U332"));
         }
@@ -88,7 +88,7 @@ public class ApplicationValidator implements NamedValidator {
             if (application.getApplStsCode() == null || application.getApplStsCode().length() == 0) {
                 if ( application.getRgstEncr() == null || application.getRgstEncr().length() == 0 ) {
                     errors.rejectValue(prefix + "rgstEncr", "U331",
-                            new Object[]{"주민등록번호 뒷자리"}, messageResolver.getMessage("U332"));
+                            new Object[]{messageResolver.getMessage("U01208")}, messageResolver.getMessage("U332"));  /*"주민등록번호 뒷자리"*/
                 }
                 String rgstNo = application.getRgstBornDate() + application.getRgstEncr();
                 if (!ValidationUtil.checkKorSSN(rgstNo)) {
@@ -99,12 +99,12 @@ public class ApplicationValidator implements NamedValidator {
         }
         if (application.getCitzCntrCode() == null || application.getCitzCntrCode().length() == 0) {
             errors.rejectValue(prefix + "citzCntrCode", "U331",
-                    new Object[]{"국적"}, messageResolver.getMessage("U332"));
+                    new Object[]{messageResolver.getMessage("L01206")}, messageResolver.getMessage("U332"));  /*"국적"*/
         }
 
         if (application.getMailAddr() == null || application.getMailAddr().length() == 0) {
             errors.rejectValue(prefix + "mailAddr", "U331",
-                    new Object[]{"E-mail"}, messageResolver.getMessage("U332"));
+                    new Object[]{messageResolver.getMessage("L01506")}, messageResolver.getMessage("U332"));  /*"E-mail"*/
         }
 
     }

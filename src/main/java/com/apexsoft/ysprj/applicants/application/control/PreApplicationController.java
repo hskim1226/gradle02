@@ -1,14 +1,19 @@
 package com.apexsoft.ysprj.applicants.application.control;
 
+import com.apexsoft.framework.common.vo.ExecutionContext;
+import com.apexsoft.framework.exception.ErrorInfo;
+import com.apexsoft.framework.exception.YSBizException;
 import com.apexsoft.framework.message.MessageResolver;
 import com.apexsoft.framework.persistence.dao.CommonDAO;
 import com.apexsoft.ysprj.applicants.admission.service.AdmissionService;
+import com.apexsoft.ysprj.applicants.application.domain.ApplicationIdentifier;
 import com.apexsoft.ysprj.applicants.application.domain.CustomMyList;
 import com.apexsoft.ysprj.applicants.application.domain.ParamForApplication;
 import com.apexsoft.ysprj.applicants.common.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -16,7 +21,9 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
 import java.security.Principal;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by hanmomhanda on 15. 2. 14.
@@ -118,6 +125,38 @@ public class PreApplicationController {
                     parameter, CustomMyList.class);
 
         mv.addObject("myList", myList);
+        return mv;
+    }
+
+    /**
+     * 관리자용 내원서 화면
+     * @param principal
+     * @param mv
+     * @return
+     */
+    @RequestMapping(value="/showlist/{userId}")
+    public ModelAndView showApplListByUserId(Principal principal, @PathVariable("userId") String userId, ModelAndView mv) {
+        mv.setViewName("application/mylist");
+        String adminID = principal.getName();
+        if (adminID.equals("Apex1234")) {
+            ParamForApplication parameter = new ParamForApplication();
+            parameter.setUserId(userId);
+
+            List<CustomMyList> myList =
+                    commonDAO.queryForList("com.apexsoft.ysprj.applicants.application.sqlmap.CustomApplicationMapper.selectApplByUserId",
+                            parameter, CustomMyList.class);
+
+            mv.addObject("myList", myList);
+        } else {
+            ExecutionContext ec = new ExecutionContext(ExecutionContext.FAIL);
+            ec.setMessage(messageResolver.getMessage("U902"));
+            ec.setErrCode("ERR0801");
+            Map<String, String> errorInfo = new HashMap<String, String>();
+            errorInfo.put("adminID", adminID);
+            ec.setErrorInfo(new ErrorInfo(errorInfo));
+            throw new YSBizException(ec);
+        }
+
         return mv;
     }
 

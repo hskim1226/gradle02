@@ -34,7 +34,8 @@
     <%--<link rel="stylesheet" href="<spring:eval expression="@app.getProperty('path.static')" />/skin/default.css">--%>
     <!-- custom style -->
     <link rel="stylesheet" href="<spring:eval expression="@app.getProperty('path.static')" />/css/style.css"/>
-    <link rel="stylesheet" href="<spring:eval expression="@app.getProperty('path.static')" />/css/layout.css"/>
+    <%--<link rel="stylesheet" href="<spring:eval expression="@app.getProperty('path.static')" />/css/layout.css"/>--%>
+    <link rel="stylesheet" href="${contextPath}/static/css/layout.css"/>
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -45,6 +46,11 @@
     <![endif]-->
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="<spring:eval expression="@app.getProperty('path.static')" />/js/jquery.min.js"></script>
+    <style>
+    .main_box1 {
+        cursor: pointer;
+    }
+    </style>
 </head>
 <body data-spy="scroll" data-target="#scrollTarget" data-offset="150" style="background:#fff;padding-top:0;">
 <!-- globalWrapper -->
@@ -74,12 +80,12 @@
                     </a>
                 </article>
                 <article class="col-md-4">
-                    <a href="#">
+                    <%--<a href="#">--%>
                         <section id="toMyList" class="main_box1">
                             <h2 class="mtit1"><spring:message code="L00005"/><%--내 원서--%></h2>
                             <p class="txt1 word-keep-all"><spring:message code="L00006"/><%--작성 중이거나 신청 중인 내 원서를 확인할 수 있습니다.--%></p>
                         </section>
-                    </a>
+                    <%--</a>--%>
                 </article>
                 <article class="col-md-4">
                     <a href="#">

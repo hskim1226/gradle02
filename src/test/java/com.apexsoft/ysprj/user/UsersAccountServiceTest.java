@@ -20,8 +20,8 @@ import java.util.List;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {
-        "file:src/main/webapp/WEB-INF/config/context-*.xml",
-        "classpath*:/spring/context-*.xml"
+        "file:../../../../../src/main/webapp/WEB-INF/config/context-mvc.xml",
+        "classpath*:/spring/context-persistence.xml"
 })
 public class UsersAccountServiceTest {
 

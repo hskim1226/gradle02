@@ -5,13 +5,6 @@
     <title><spring:message code="L04101"/><%--원서 작성 - 파일 첨부--%></title>
     <link rel="stylesheet" href="//code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css">
     <style>
-        section.application {
-            padding: 160px 0 60px;
-            background: #555555;
-            color: #000;
-            position:relative;
-        }
-
         section.application h2.slogan {
             color: #000;
             font-size: 36px;
@@ -34,11 +27,6 @@
             height: 1em;
         }
 
-        section.application .tab-content {
-            background-color: #d0d0d0;
-            color: #000;
-        }
-
         section.application .nav>li>a {
             display: block;
         }
@@ -46,46 +34,6 @@
             color: #000;
             font-size: 12px;
             font-weight: 900;
-        }
-
-/*
-        section.application .btn {
-            border: 1px;
-        }
-
-        section.application .input-group-btn .btn {
-            border-radius: 4px;
-        }
-*/
-
-        .panel-darkgray > .panel-heading {
-            /*background-image: -webkit-linear-gradient(top, #7a7a7a 0%, #888888 100%);*/
-            /*background-image:      -o-linear-gradient(top, #7a7a7a 0%, #888888 100%);*/
-            /*background-image: -webkit-gradient(linear, left top, left bottom, from(#7a7a7a), to(#888888));*/
-            /*background-image:         linear-gradient(to bottom, #7a7a7a 0%, #888888 100%);*/
-            /*filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#7a7a7a', endColorstr='#ff888888', GradientType=0);*/
-            /*background-repeat: repeat-x;*/
-            color: #fff;
-            background-color: #7a7a7a;
-            border-color: #7a7a7a;
-        }
-
-        .panel-darkgray1, .panel-darkgray2, .panel-darkgray3, .panel-darkgray4 {
-            /*background-color: #8c8c8c;*/
-            /*color: #fff;*/
-            border-color: #333333;
-        }
-
-        .panel-darkgray1 > .panel-heading {
-            background-image: -webkit-linear-gradient(left, #888888 0%, #cccccc 100%);
-            background-image:      -o-linear-gradient(left, #888888 0%, #cccccc 100%);
-            background-image: -webkit-gradient(linear, left top, right bottom, from(#888888), to(#cccccc));
-            background-image:         linear-gradient(to right, #888888 0%, #cccccc 100%);
-            filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#888888', endColorstr='#cccccc', GradientType=1);
-            background-repeat: repeat-x;
-            color: #fff;
-            /*background-color: #7a7a7a;*/
-            border-color: #cccccc;
         }
 
         .btn-file {
@@ -119,14 +67,6 @@
         }
         .tab-gray {
             background-color: #444444;
-        }
-        .nav-tabs>li.active>a,
-        .nav-tabs>li.active>a:hover,
-        .nav-tabs>li.active>a:focus,
-        .nav-tabs>li.active>a:link {
-            background-color: #f0f0f0;
-            color: #333;
-            cursor: pointer;
         }
 
         .control-label {
@@ -254,18 +194,10 @@
             background: #888888;
             color: #bbbbbb;
         }
-        #stepStatusTitle {
-            color: #eeeeee;
-            font-size: 30px;
-        }
         .activeTab {
             background: #d0d0d0;
             color: #333333;
             font-weight: bold;
-        }
-        .inactiveTab {
-            background: #777777;
-            color: #eeeeee;
         }
         #tabTR {
             cursor: pointer;
@@ -358,32 +290,48 @@
 <body>
 <section class="application">
     <div class="container">
-        <div id="stepContainer">
-            <table width="100%">
-                <tr>
-                    <td id="stepStatusTitle" colspan=4 align="center" height="70px">${msg.getMessage('L01001', locale)}<%--원서 작성 현황--%></td>
-                </tr>
-                <tr id="stepTR">
-                    <td id="stepBasis" width="25%" height="50px" align="center" class="stepDisabled">${msg.getMessage('L01002', locale)}<%--1. 기본 정보--%></td>
-                    <td id="stepAcademy" width="25%" height="50px" align="center" class="stepDisabled">${msg.getMessage('L01003', locale)}<%--2. 학력 정보--%></td>
-                    <td id="stepLangCareer" width="25%" height="50px" align="center" class="stepDisabled">${msg.getMessage('L01004', locale)}<%--3. 어학/경력 정보--%></td>
-                    <td id="stepDocument" width="25%" height="50px" align="center" class="stepDisabled">${msg.getMessage('L01005', locale)}<%--4. 파일 첨부--%></td>
-                </tr>
-            </table>
+        <p id="stepStatusTitle" colspan=4 align="center" height="70px">${msg.getMessage('L01001', locale)}<%--원서 작성 현황--%></p>
+        <!-- 진행상태바 시작 -->
+        <div class="step_wrap">
+            <ul class="step_box" id="step_box">
+                <li class="inactive"><span class="step"><strong>1</strong></span>
+                    <p class="txt1"><spring:message code="L01002"/><%--기본 정보--%></p>
+                </li>
+                <li class="inactive"><span class="step"><strong>2</strong></span>
+                    <p class="txt1"><spring:message code="L01003"/><%--학력 정보--%></p>
+                </li>
+                <li class="inactive"><span class="step"><strong>3</strong></span>
+                    <p class="txt1"><spring:message code="L01004"/><%--어학/경력 정보--%></p>
+                </li>
+                <li class="inactive"><span class="step"><strong>4</strong></span>
+                    <p class="txt1"><spring:message code="L01005"/><%--파일 첨부 및 제출--%></p>
+                </li>
+                <li class="inactive"><span class="step"><strong>5</strong></span>
+                    <p class="txt1"><spring:message code="L01006"/><%--결제--%></p>
+                </li>
+            </ul>
         </div>
-        <div class="spacer-mid"></div>
-        <div class="row">
-            <div class="col-sm-12">
-                <table width="100%">
-                    <tr id="tabTR">
-                        <td id="tab-basis" width="25%" height="35px" align="center" class="inactiveTab" data-target-tab="basis" data-tab-available="true"><spring:message code="L01002"/><%--1. 기본 정보--%></td>
-                        <td id="tab-academy" width="25%" height="35px" align="center" class="inactiveTab" data-target-tab="academy" data-tab-available="false" data-unavailable-msg='<spring:message code="U321"/>'><spring:message code="L01003"/><%--2. 학력 정보--%></td>
-                        <td id="tab-langCareer" width="25%" height="35px" align="center" class="inactiveTab" data-target-tab="langCareer" data-tab-available="false" data-unavailable-msg='<spring:message code="U322"/>'><spring:message code="L01004"/><%--3. 어학/경력 정보--%></td>
-                        <td id="tab-document" width="25%" height="35px" align="center" class="inactiveTab" data-target-tab="document" data-tab-available="false" data-unavailable-msg='<spring:message code="U323"/>'><spring:message code="L01005"/><%--4. 파일 첨부--%></td>
-                    </tr>
-                </table>
-            </div>
+        <!-- /진행상태바 끝 -->
+        <!-- 데스크탑 탭메뉴 시작 -->
+        <div id="pc_tab" class="nav_wrap clearfix tab-container">
+            <ul id="navPcTabUL" class="nav nav-tabs nav-justified">
+                <li id="tab-pc-basis" class="inactive inactiveTab" data-target-tab="basis" data-tab-available="true"><a><spring:message code="L01002"/><%--1. 기본 정보--%></a></li>
+                <li id="tab-pc-academy" class="inactive inactiveTab" data-target-tab="academy" data-tab-available="false" data-unavailable-msg='<spring:message code="U321"/>'><a><spring:message code="L01003"/><%--2. 학력 정보--%></a></li>
+                <li id="tab-pc-langCareer" class="inactive inactiveTab" data-target-tab="langCareer" data-tab-available="false" data-unavailable-msg='<spring:message code="U322"/>'><a><spring:message code="L01004"/><%--3. 어학/경력 정보--%></a></li>
+                <li id="tab-pc-document" class="inactive inactiveTab" data-target-tab="document" data-tab-available="false" data-unavailable-msg='<spring:message code="U323"/>'><a><spring:message code="L01005"/><%--4. 파일 첨부--%></a></li>
+            </ul>
         </div>
+        <!-- /데스크탑 탭메뉴 끝 -->
+        <!-- 모바일 탭메뉴 시작 -->
+        <div id="mb_tab" class="nav_wrap clearfix tab-container">
+            <ul id="navMbTabUL" class="nav nav-pills nav-stacked">
+                <li id="tab-mb-basis" class="inactive inactiveTab" data-target-tab="basis" data-tab-available="true"><a><spring:message code="L01002"/><%--1. 기본 정보--%></a></li>
+                <li id="tab-mb-academy" class="inactive inactiveTab" data-target-tab="academy" data-tab-available="false" data-unavailable-msg='<spring:message code="U321"/>'><a><spring:message code="L01003"/><%--2. 학력 정보--%></a></li>
+                <li id="tab-mb-langCareer" class="inactive inactiveTab" data-target-tab="langCareer" data-tab-available="false" data-unavailable-msg='<spring:message code="U322"/>'><a><spring:message code="L01004"/><%--3. 어학/경력 정보--%></a></li>
+                <li id="tab-mb-document" class="inactive inactiveTab" data-target-tab="document" data-tab-available="false" data-unavailable-msg='<spring:message code="U323"/>'><a><spring:message code="L01005"/><%--4. 파일 첨부--%></a></li>
+            </ul>
+        </div>
+        <!-- 모바일 탭메뉴 끝 -->
         <form:form commandName="document" cssClass="form-horizontal" method="post" role="form">
             <form:hidden path="application.applNo" id="applNo" />
             <form:hidden path="application.applStsCode" id="applStsCode" />
@@ -394,44 +342,44 @@
                 <div class="spacer-tiny"></div>
                 <div class="row">
                     <div class="col-sm-offset-1 col-sm-10">
-                        <div class="panel panel-darkgray">
+                        <div class="panel panel-darkgray0">
                             <div class="panel-heading"><spring:message code="L04102"/><%--첨부 파일 안내--%></div>
                             <div class="panel-body">
-                                <p>사진 외의 모든 첨부 파일은 서류 종류별로 하나의 PDF 파일만 업로드 가능합니다.</p>
+                                <p><spring:message code="U04101"/><%--사진 외의 모든 첨부 파일은 서류 종류별로 하나의 PDF 파일만 업로드 가능합니다.--%></p>
 
-                                <p>만약 한 가지 종류의 서류가 여러 개의 PDF 파일로 되어 있다면,
-                                    하나의 PDF 파일로 합친 후 업로드 하시기 바랍니다.</p>
+                                <p><spring:message code="U04102"/><%--만약 한 가지 종류의 서류가 여러 개의 PDF 파일로 되어 있다면,
+                                    하나의 PDF 파일로 합친 후 업로드 하시기 바랍니다.--%></p>
 
-                                <p>PDF 파일 합치기는 전용프로그램이나 인터넷 서비스를 이용하시기 바랍니다.</p>
+                                <p><spring:message code="U04103"/><%--PDF 파일 합치기는 전용프로그램이나 인터넷 서비스를 이용하시기 바랍니다.--%></p>
 
-                                예)<br/>
-                                <a href="http://convert.neevia.com/pdfmerge/" target="_blank">http://convert.neevia.com/pdfmerge/</a><br/>
-                                <a href="http://www.pdfmerge.com/" target="_blank">http://www.pdfmerge.com/</a><br/>
+                                <spring:message code="U04104"/><%--예)--%><br/>
+                                <a href="http://convert.neevia.com/pdfmerge/" target="_blank"><spring:message code="U04105"/><%--http://convert.neevia.com/pdfmerge/--%></a><br/>
+                                <a href="http://www.pdfmerge.com/" target="_blank"><spring:message code="U04106"/><%--http://www.pdfmerge.com/--%></a><br/>
 
-                                <p>예시 사이트에서 발생하는 모든 문제는 당사에서 책임지지 않습니다.</p>
+                                <p><spring:message code="U04107"/><%--예시 사이트에서 발생하는 모든 문제는 당사에서 책임지지 않습니다.--%></p>
 
-                                <p>사진 파일은 JPG, GIF, PNG 파일만 업로드 가능합니다.</p>
+                                <p><spring:message code="U04108"/><%--사진 파일은 JPG, GIF, PNG 파일만 업로드 가능합니다.--%></p>
 
-                                <p>사진 파일의 편집은 전용 프로그램이나 인터넷 서비스를 이용하시기 바랍니다.</p>
+                                <p><spring:message code="U04109"/><%--사진 파일의 편집은 전용 프로그램이나 인터넷 서비스를 이용하시기 바랍니다.--%></p>
 
-                                예)<br/>
-                                <a href="http://apps.pixlr.com/editor/" target="_blank">http://apps.pixlr.com/editor/</a><br/>
-                                <a href="http://www.fotor.com/" target="_blank">http://www.fotor.com/</a><br/>
-                                <p>예시 사이트에서 발생하는 모든 문제는 당사에서 책임지지 않습니다.</p>
+                                <spring:message code="U04104"/><%--예)--%><br/>
+                                <a href="http://apps.pixlr.com/editor/" target="_blank"><spring:message code="U04110"/><%--http://apps.pixlr.com/editor/--%></a><br/>
+                                <a href="http://www.fotor.com/" target="_blank"><spring:message code="U04111"/><%--http://www.fotor.com/--%></a><br/>
+                                <p><spring:message code="U04112"/><%--예시 사이트에서 발생하는 모든 문제는 당사에서 책임지지 않습니다.--%></p>
                                 <hr/>
-                                <p><spring:message code="L04103"/><%--파일 첨부 시 주의사항--%></p>
-                                1. 문서별로 1개의 파일만 첨부 가능합니다.<br/>
-                                2. 사진 및 문서의 해상도와 가독성 여부를 반드시 확인하세요.<br/>
-                                3. 스캔시에는 300dpi 이상으로 스캔하시기 바랍니다.<br/>
-                                4. 문서 크기는 A4 크기로 생성하여 첨부하셔야 합니다.<br/>
+                                <p><spring:message code="U04113"/><%--파일 첨부 시 주의사항--%></p>
+                                <spring:message code="U04114"/><%--1. 문서별로 1개의 파일만 첨부 가능합니다.--%><br/>
+                                <spring:message code="U04115"/><%--2. 사진 및 문서의 해상도와 가독성 여부를 반드시 확인하세요.--%><br/>
+                                <spring:message code="U04116"/><%--3. 스캔시에는 300dpi 이상으로 스캔하시기 바랍니다.--%><br/>
+                                <spring:message code="U04117"/><%--4. 문서 크기는 A4 크기로 생성하여 첨부하셔야 합니다.--%><br/>
                                 </p>
 
-                                <p>인터넷에서 '한글 문서 PDF 변환'으로 검색하면 아래 한글 문서를 PDF 파일로 변환할 수 있는<br/>
-                                다양한 방법이 있으니 참고하시기 바랍니다.</p>
+                                <p><spring:message code="U04118"/><%--인터넷에서 '한글 문서 PDF 변환'으로 검색하면 아래 한글 문서를 PDF 파일로 변환할 수 있는--%><br/>
+                                    <spring:message code="U04119"/><%--다양한 방법이 있으니 참고하시기 바랍니다.--%></p>
 
-                                <p>파일 업로드 후 오른쪽의 '내려받기' 버튼을 클릭해서 파일이 올바르게 업로드 되었는지 확인할 수 있습니다.</p>
+                                <p><spring:message code="U04120"/><%--파일 업로드 후 오른쪽의 '내려받기' 버튼을 클릭해서 파일이 올바르게 업로드 되었는지 확인할 수 있습니다.--%></p>
 
-                                <div class="col-md-12 text-center mid-font slogan"><label>위 내용을 확인하였으며, 업로드 한 파일의 적정 여부에 대한 책임은 지원 신청자에게 있음을 확인합니다.<input type="checkbox" name="application.docChckYn" id="docChckYn" value="${document.application.docChckYn == 'Y' ? 'on' : 'off'}" ${document.application.docChckYn == 'Y' ? 'checked' : ''}/></label></div>
+                                <div class="col-md-12 text-center mid-font slogan"><label style="font-size: 15px; color: red;"><spring:message code="U04121"/><%--위 내용을 확인하였으며, 업로드 한 파일의 적정 여부에 대한 책임은 지원 신청자에게 있음을 확인합니다.--%> <input type="checkbox" name="application.docChckYn" id="docChckYn" value="${document.application.docChckYn == 'Y' ? 'on' : 'off'}" ${document.application.docChckYn == 'Y' ? 'checked' : ''}/></label></div>
                             <spring:bind path="application.docChckYn">
                                 <c:if test="${status.error}">
                                     <div class="col-sm-12 validation-container">
@@ -457,9 +405,6 @@
                             <form:hidden path="documentContainerList[${lv1Status.index}].grpLabel" value="${lv1Container.grpLabel}" />
                             <form:hidden path="documentContainerList[${lv1Status.index}].docTypeCode" value="${lv1Container.docTypeCode}" />
                             <form:hidden path="documentContainerList[${lv1Status.index}].docItemCode" value="${lv1Container.docItemCode}" />
-                            <form:hidden path="documentContainerList[${lv1Status.index}].grpLabelXxen" value="${lv1Container.grpLabelXxen}" />
-                            <form:hidden path="documentContainerList[${lv1Status.index}].docItemNameXxen" value="${lv1Container.docItemNameXxen}" />
-
                             <div class="panel-body" id="docContainerList${lv1Status.index}.list">
 
                             <c:forEach items="${lv1Container.subContainer}" var="lv2Container" varStatus="lv2Status">
@@ -608,8 +553,6 @@
                                     <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].grpLabel" value="${lv2Container.grpLabel}" />
                                         <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].docTypeCode" value="${lv2Container.docTypeCode}" />
                                         <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].docItemCode" value="${lv2Container.docItemCode}" />
-                                        <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].grpLabelXxen" value="${lv2Container.grpLabelXxen}" />
-
                                     <div class="panel-body" id="docContainerList${lv2Status.index}.list">
 
                                         <c:forEach items="${lv2Container.subContainer}" var="lv3Container" varStatus="lv3Status">
@@ -746,7 +689,6 @@
                                             <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].subContainer[${lv3Status.index}].grpLabel" value="${lv3Container.grpLabel}" />
                                                     <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].subContainer[${lv3Status.index}].docTypeCode" value="${lv3Container.docTypeCode}" />
                                                     <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].subContainer[${lv3Status.index}].docItemCode" value="${lv3Container.docItemCode}" />
-                                                    <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].subContainer[${lv3Status.index}].grpLabelXxen" value="${lv3Container.grpLabelXxen}" />
                                             <div class="panel-body" id="docContainerList${lv3Status.index}.list">
 
                                                     <c:forEach items="${lv3Container.subContainer}" var="lv4Container" varStatus="lv4Status">
@@ -1097,7 +1039,7 @@
 
 </section>
 <content tag="local-script">
-    <script src="${contextPath}/js/jquery-ui.min.js"></script>
+    <script src="<spring:eval expression="@app.getProperty('path.static')" />/js/jquery-ui.min.js"></script>
     <script type="text/javascript">
     $(document).ready(function() {
         var applNo = document.getElementById('applNo').value = '${document.application.applNo}',
@@ -1109,14 +1051,18 @@
         <%-- 원서 작성 현황 처리 --%>
         var processCurrentStep = function (applStsCode) {
             var code = Number(applStsCode),
-                    stepTR = document.getElementById('stepTR'),
-                    l = stepTR.children.length, i,
-                    tabTR = document.getElementById('tabTR');
+                    stepBox = document.getElementById('step_box'),
+                    l = stepBox.children.length, i,
+                    navPcTabUL = document.getElementById('navPcTabUL'),
+                    navMbTabUL = document.getElementById('navMbTabUL');
             for ( i = 0 ; i < code && i < l ; i++ ) {
-                stepTR.children[i].className = 'stepEnabled';
-                tabTR.children[i].setAttribute('data-tab-available', 'true');
-                if (tabTR.children[i+1])
-                    tabTR.children[i+1].setAttribute('data-tab-available', 'true');
+                stepBox.children[i].className = 'active';
+                navPcTabUL.children[i].setAttribute('data-tab-available', 'true');
+                if (navPcTabUL.children[i+1])
+                    navPcTabUL.children[i+1].setAttribute('data-tab-available', 'true');
+                navMbTabUL.children[i].setAttribute('data-tab-available', 'true');
+                if (navMbTabUL.children[i+1])
+                    navMbTabUL.children[i+1].setAttribute('data-tab-available', 'true');
             }
         };
         processCurrentStep(document.getElementById('applStsCode').value);
@@ -1125,10 +1071,13 @@
         <%-- active 탭 표시 --%>
         var setActiveTab = function () {
             var urlStr = document.location.pathname,
-                    substrToFirstSlash = urlStr.substring(0, urlStr.lastIndexOf("/")),
-                    targetTD = document.getElementById('tab-' + substrToFirstSlash.substring(substrToFirstSlash.lastIndexOf("/") + 1));
+                    substrToLastSlash = urlStr.substring(0, urlStr.lastIndexOf("/")),
+                    tabName = substrToLastSlash.substring(substrToLastSlash.lastIndexOf("/") + 1),
+                    targetPcTabLI = document.getElementById('tab-pc-' + tabName),
+                    targetMbTabLI = document.getElementById('tab-mb-' + tabName);
 
-            targetTD.className = "activeTab";
+            targetPcTabLI.className = 'active activeTab';
+            targetMbTabLI.className = 'active activeTab';
         };
         setActiveTab();
         <%-- active 탭 표시 --%>
