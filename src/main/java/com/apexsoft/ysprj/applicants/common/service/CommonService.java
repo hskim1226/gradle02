@@ -18,6 +18,7 @@ public interface CommonService {
     List<CodeNameCourse> retrieveGeneralCourseByAdmsDept(ParamForSetupCourses paramForSetupCourses);
     List<CodeNameDetailMajor> retrieveGeneralDetailMajorByAdmsDeptCors(ParamForSetupCourses paramForSetupCourses);
     List<CodeNameCourse> retrieveCommissionCourseByAdmsDept(ParamForSetupCourses paramForSetupCourses);
+    List<CodeNameCourse> retrieveNorthDefectorCourseByAdmsDept(ParamForSetupCourses paramForSetupCourses);
     List<AcademyResearchIndustryInstitution> retrieveAriInst();
     List<CodeNameDepartment> retrieveAriInstDepartmentByAdmsAriInst(ParamForSetupCourses paramForSetupCourses);
     List<CodeNameCourse> retrieveAriInstCourseByAdmsDeptAriInst(ParamForSetupCourses paramForSetupCourses);

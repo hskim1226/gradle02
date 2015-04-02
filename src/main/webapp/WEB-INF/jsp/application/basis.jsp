@@ -1822,6 +1822,8 @@
                             return '/ariInst/course/' + admsNo + "/" + arg + "/" + $('#ariInstCode').val();
                         } else if (applAttrCode == '00003') {
                             return '/commission/course/' + admsNo + '/' + arg;
+                        } else if (applAttrCode == '00004') {
+                            return '/northDefector/course/' + admsNo + '/' + arg;
                         }
                     }
                 }
