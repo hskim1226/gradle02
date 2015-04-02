@@ -219,7 +219,7 @@ public class BasisController {
         Application application = formData.getApplication();
         application.setUserId(userId);
 
-        ec = basisService.saveBasis(formData);
+        ec = basisService.cancelBasis(formData);
 
         if (ExecutionContext.SUCCESS.equals(ec.getResult())) {
             ExecutionContext ecApplicationByUserId;

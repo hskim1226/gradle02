@@ -18,5 +18,7 @@ public interface BasisService {
 
     ExecutionContext saveBasis(Basis basis);
 
+    ExecutionContext cancelBasis(Basis basis);
+
     <T> ExecutionContext retrieveInfoListByParamObj(Object parameter, String mapperNameSqlId, Class<T> clazz);
 }

@@ -275,7 +275,7 @@ public class BasisServiceImpl implements BasisService {
                 r1 = commonDAO.insertItem(application, NAME_SPACE, "CustomApplicationMapper");
                 applNo = application.getApplNo();
 
-                if ("C".equals(admsTypeCode)) {
+                if ("C".equals(admsTypeCode) || "D".equals(admsTypeCode)) {
                     applicationForeigner.setApplNo(applNo);
                     applicationForeigner.setCreId(userId);
                     applicationForeigner.setCreDate(date);
@@ -327,6 +327,92 @@ public class BasisServiceImpl implements BasisService {
                 if (r1 == 0) errCode = "ERR0003";
                 else if (r2 == 0 && !"C".equals(admsTypeCode) && !"D".equals(admsTypeCode)) errCode = "ERR0008";
                 else if (r3 == 0 && ("C".equals(admsTypeCode) || "D".equals(admsTypeCode))) errCode = "ERR0028";
+            }
+            ec.setErrCode(errCode);
+            Map<String, String> errorInfo = new HashMap<String, String>();
+            errorInfo.put("applNo", String.valueOf(applNo));
+            errorInfo.put("userId", userId);
+            ec.setErrorInfo(new ErrorInfo(errorInfo));
+
+            throw new YSBizException(ec);
+//            if (isInsert && !isValidInsertRequest) {
+//                원래 페이지로 돌아가는 테스트는 성공,
+//                단순 데이터는 복원해서 원래 페이지, 원래 상태로 되돌릴 수 있으나,
+//                SelectBox 선택사항, 리스트 데이터 등을 원상복구하기는 매우 번거로움
+
+//                YSNoRedirectBizException nrBizException = new YSNoRedirectBizException(ec);
+//                Map<String, Object> map = nrBizException.getPreviousDataMap();
+//                map.put("basis", basis);
+//                throw nrBizException;
+//            } else {
+//                applNo = application.getApplNo() == null ? 0 : application.getApplNo();
+//                ec.setData(new ApplicationIdentifier(applNo));
+//                throw new YSBizException(ec);
+//            }
+        }
+
+        return ec;
+    }
+
+    /**
+     * 지원 사항 취소
+     *
+     * @param basis
+     * @return
+     */
+    @Override
+    public ExecutionContext cancelBasis(Basis basis) {
+        ExecutionContext ec = new ExecutionContext();
+        Application application = basis.getApplication();
+
+        String userId = application.getUserId();
+        String admsTypeCode = application.getAdmsTypeCode();
+        boolean isMultipleApplicationAllowed = true;
+        boolean isValidInsertRequest = false;
+        boolean isInsert;
+        int r1 = 0, applNo = 0;
+        Date date = new Date();
+
+        if (application.getApplNo() == null) {
+            isInsert = true;
+            // applNo도 없는 상태이면 insert 할 필요 없이 그냥 아무것도 안함
+            r1 = 1;
+//            if (isMultipleApplicationAllowed) {
+//                isValidInsertRequest = true;
+//            } else {
+//                if (hasApplication(userId)) {
+//                    isValidInsertRequest = false;
+//                } else {
+//                    isValidInsertRequest = true;
+//                }
+//            }
+//            if (isValidInsertRequest) {
+//                application.setApplStsCode(APP_INFO_SAVED);
+//                application.setCreId(userId);
+//                application.setCreDate(date);
+//                application.setApplStsCode("00022");
+//                r1 = commonDAO.insertItem(application, NAME_SPACE, "CustomApplicationMapper");
+//            }
+        } else {
+            isInsert = false;
+            application.setModId(userId);
+            application.setModDate(date);
+            application.setApplStsCode("00022");
+            r1 = commonDAO.updateItem(application, NAME_SPACE, "ApplicationMapper");
+
+        }
+
+        if ( r1 == 1 ) {
+            ec.setResult(ExecutionContext.SUCCESS);
+            ec.setMessage(messageResolver.getMessage("U315"));
+        } else {
+            ec.setResult(ExecutionContext.FAIL);
+            ec.setMessage(messageResolver.getMessage("U316"));
+            String errCode = null;
+            if (isInsert) {
+                if (r1 == 0) errCode = "ERR0001";
+            } else {
+                if (r1 == 0) errCode = "ERR0003";
             }
             ec.setErrCode(errCode);
             Map<String, String> errorInfo = new HashMap<String, String>();
