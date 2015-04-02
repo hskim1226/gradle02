@@ -403,8 +403,8 @@
                         <div class="form-group"><label class="col-sm-3 control-label word-keep-all">${lv1Container.docItemName}</label></div>
                         </c:when>
                         <c:otherwise>
-                        <div class="panel panel-darkgray0">
-                            <div class="panel-heading">${lv1Container.grpLabel}</div>
+                        <div class="panel panel-darkgray">
+                            <div class="panel-heading">${msg.getMessage(lv1Container.grpLabel, locale)}</div>
                             <form:hidden path="documentContainerList[${lv1Status.index}].grpLabel" value="${lv1Container.grpLabel}" />
                             <form:hidden path="documentContainerList[${lv1Status.index}].docTypeCode" value="${lv1Container.docTypeCode}" />
                             <form:hidden path="documentContainerList[${lv1Status.index}].docItemCode" value="${lv1Container.docItemCode}" />
@@ -449,10 +449,10 @@
                                     <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].msg" value="${lv2Container.msg}" />
                             <c:choose>
                                 <c:when test="${document.documentContainerList[lv1Status.index].subContainer[lv2Status.index].uploadYn == 'N'}">
-                                    <div class="col-sm-3"><label>${lv2Container.docItemName}</label></div>
+                                    <div class="col-sm-3"><label>${pageContext.response.locale == 'en' ? lv2Container.docItemNameXxen : lv2Container.docItemName}</label></div>
                                     <div class="col-sm-9 warn-info"><label>${lv2Container.msg}</label></div>
                                 </c:when>
-                                <c:otherwise>
+                                <c:otherwise>`
                                     <div class="col-sm-3">
                                         <div class="checkbox-upload">
                                             <label class="word-keep-all" for="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.checkedFg">
@@ -552,7 +552,7 @@
                                     </c:when>
                                     <c:otherwise>
                                 <div class="panel panel-darkgray1">
-                                    <div class="panel-heading">${lv2Container.grpLabel}</div>
+                                    <div class="panel-heading">${pageContext.response.locale == 'en' ? lv2Container.grpLabelXxen : lv2Container.grpLabel}</div>
                                     <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].grpLabel" value="${lv2Container.grpLabel}" />
                                         <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].docTypeCode" value="${lv2Container.docTypeCode}" />
                                         <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].docItemCode" value="${lv2Container.docItemCode}" />
@@ -606,7 +606,7 @@
                                                                id="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.checkedFg"
                                                                name="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].subContainer[${lv3Status.index}].checkedFg"
                                                                data-upload-button-id="upload-button-${lv1Status.index}-${lv2Status.index}-${lv3Status.index}"
-                                                               <c:if test="${lv3Container.fileUploadFg == true}">checked</c:if> />${lv3Container.docItemName}
+                                                               <c:if test="${lv3Container.fileUploadFg == true}">checked</c:if> />${pageContext.response.locale == 'en' ? lv3Container.docItemNameXxen : lv3Container.docItemName}
                                                     </label>
                                                 </div>
                                             </div>
@@ -688,7 +688,7 @@
                                                 </c:when>
                                                 <c:otherwise>
                                         <div class="panel panel-default">
-                                            <div class="panel-heading">${lv3Container.grpLabel}</div>
+                                            <div class="panel-heading">${pageContext.response.locale == 'en' ? lv3Container.grpLabelXxen : lv3Container.grpLabel}</div>
                                             <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].subContainer[${lv3Status.index}].grpLabel" value="${lv3Container.grpLabel}" />
                                                     <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].subContainer[${lv3Status.index}].docTypeCode" value="${lv3Container.docTypeCode}" />
                                                     <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].subContainer[${lv3Status.index}].docItemCode" value="${lv3Container.docItemCode}" />
@@ -742,7 +742,7 @@
                                                                        id="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.subContainer${lv3Status.index}.subContainer${lv4Status.index}.checkedFg"
                                                                        name="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].subContainer[${lv3Status.index}].subContainer[${lv4Status.index}].checkedFg"
                                                                        data-upload-button-id="upload-button-${lv1Status.index}-${lv2Status.index}-${lv3Status.index}-${lv4Status.index}"
-                                                                       <c:if test="${lv4Container.fileUploadFg == true}">checked</c:if> />${lv4Container.docItemName}
+                                                                       <c:if test="${lv4Container.fileUploadFg == true}">checked</c:if> />${pageContext.response.locale == 'en' ? lv4Container.docItemNameXxen : lv4Container.docItemName}
                                                             </label>
                                                         </div>
                                                     </div>

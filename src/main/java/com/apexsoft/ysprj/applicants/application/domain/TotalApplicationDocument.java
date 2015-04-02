@@ -1,9 +1,10 @@
 package com.apexsoft.ysprj.applicants.application.domain;
 
-public class TotalApplicationDocument extends ApplicationDocument{
+public class TotalApplicationDocument extends CustomApplicationDocumnet{
 
     //화면 표시용 그룹정보
     private String grpLabel;
+    private String grpLabelXxen;
     private boolean fileUploadFg = false;
     private boolean displayGrpFg = false;
     private boolean checkedFg;
@@ -235,5 +236,13 @@ public class TotalApplicationDocument extends ApplicationDocument{
 
     public void setMsg(String msg) {
         this.msg = msg;
+    }
+
+    public String getGrpLabelXxen() {
+        return grpLabelXxen;
+    }
+
+    public void setGrpLabelXxen(String grpLabelXxen) {
+        this.grpLabelXxen = grpLabelXxen;
     }
 }

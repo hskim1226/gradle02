@@ -3,128 +3,104 @@
 <html>
 <head>
     <title>    </title>
-    <script type="text/javascript">
-
-
-
-  
-    </script>
 </head>
 <body>
 
-<div id="LblockMain">
-    <div id="LblockPageTitle">
-        <div id="LblockPageLocation">
-            <ul>
-                <li class="Lfirst"><span><a href="#">HOME</a></span></li>
-                <li><span><a href="#">지원자관리</a></span></li>
-                <li class="Llast"><span>지원자검색</span></li>
-            </ul>
-        </div>
 
-        <h1>지원자검색</h1>
-    </div>
+<div class="content">
+<div class="con_tit">
+    <h2><span>지원자검색</span></h2>
+    <div class="location"> HOME &gt; 지원자관리 &gt; <span>성명검색</span> </div>
 
-    <div id="LblockMainBody" >
-        <div id="LblockSearch">
-            <div>
-                <form:form commandName="searchPageForm"  method="post" role="form" action="${contextPath}/admin/search/applicants/nameSearch" id="search-form">
-                    <input type="hidden" id="page-number-hidden" name="page.no" value="${searchForm.page.no}" />
-                    <table summary="지원현황 검색조건">
-                        <caption>지원현황 검색조건</caption>
-                        <tbody>
-                        <tr><th class="Cat">지원자검색 : </th>
-                            <th>
-                                <form:label path="korName">한글 이름</form:label></th>
-                            <td>
-                            <div class="col-sm-9">
-                                <form:input path="korName" cssClass="Ltext"/>
-                            </div></td>
-                            <th>
-                                <form:label path="rgstNo">주민등록번호</form:label></th>
-                            <td>
-                                <div class="col-sm-9">
-                                    <form:input path="rgstNo" cssClass="Ltext"/>
-                                </div></td>
-                        </tr>
-                        <tr><th class="Cat"></th>
-                            <th>
-                                <form:label path="engSur">SUR</form:label></th>
-                            <td>
-                                <div class="col-sm-9">
-                                    <form:input path="engSur" cssClass="Ltext" onClick ="resetInputs()"/>
-                                </div></td>
-                            <th>
-                                <form:label path="engName">NAME</form:label></th>
-                            <td>
-                                <div class="col-sm-9">
-                                    <form:input path="engName" cssClass="Ltext" onClick ="resetInputs()"/>
-                                </div></td>
-                        </tr>
-                        </tbody>
-                    </table>
-                    <input id="nameSearchBtn" type='image' class="Limage" src="${contextPath}/img/admin/btn_search.gif" />
-                </form:form>
-            </div>
-        </div>
-
-        <div id="LblockListTable01" class="LblockListTable">
-            <table summary="전형별 지원현황" >
-                <caption>전형별 지원현황</caption>
-                <thead>
-                <tr>
-                    <th class="Lfirst">수험번호</th>
-                    <th>캠퍼스</th>
-                    <th>지원학과<br>세부전공</th>
-                    <th>지원전형<br>지원과정</th>
-                    <th>성명<br>생년월일</th>
-                    <th>전화번호<br>이메일</th>
-                    <th>결제방법<br>결제금액</th>
-                </tr>
-                </thead>
-
-                    <c:if test="${applList.size() == 0}" >
-                        <tr >
-                            <td colspan="7">해당 정보 없음</td>
-                        </tr>
-                    </c:if>
-                   <c:forEach var="applList" items="${applList}" varStatus="status">
-                    <tr class="<c:if test="${status.index == 0}">Lfirst </c:if>applList" applNo="${applList.applNo}">
-                        <td>${applList.applId}</td>
-                        <td>${applList.campName}</td>
-                        <td>${applList.deptName}</td>
-                        <td >${applList.applAttrName}<br>${applList.corsTypeName}</td>
-                        <td >${applList.korName} <br> ${applList.rgstNo}</td>
-                        <td >${applList.mobiNum} <br>${applList.mailAddr} </td>
-                        <td >${applList.payTypeName}<br>${applList.admsFee} </td>
-                    </tr>
-                    </c:forEach>
-            </table>
-            <ul>
-                <fmt:parseNumber var="indexCount" integerOnly= "true" value="${searchPageForm.page.totalCount/searchPageForm.page.rows + 1}" />
-                <c:if test="${indexCount != 0}">
-                    <li class="Lbegin"><span><a href="#" onclick="movePage(1); return false;">1page</a></span></li>
-                    <c:if test="${searchPageForm.page.no-1 > 0}">
-                        <li class="Lprevious"><span><a href="#" onclick="movePage(${searchPageForm.page.no-1}); return false;"><img src="${contextPath}/img/admin/list_page_previous.gif" alt="이전페이지" /></a></span></li>
-                    </c:if>
-                    <c:forEach begin="1" end="${indexCount}" var="pageNumIndex">
-                        <c:if test="${searchPageForm.page.no==pageNumIndex}">
-                            <li class="Lfirst"><span>${pageNumIndex}</span></li>
-                        </c:if>
-                        <c:if test="${searchPageForm.page.no!=pageNumIndex}">
-                            <li><span><a href="#" onclick="movePage(${pageNumIndex}); return false;">${pageNumIndex}</a></span></li>
-                        </c:if>
-                    </c:forEach>
-                    <c:if test="${searchPageForm.page.no < indexCount}">
-                        <li class="Lnext"><span><a href="#" onclick="movePage(${searchPageForm.page.no+1}); return false;"><img src="${contextPath}/img/admin/list_page_next.gif" alt="다음페이지" /></a></span></li>
-                    </c:if>
-                    <li class="Lend"><span><a href="#" onclick="movePage(${indexCount}); return false;">${indexCount}page</a></span></li>
-                </c:if>
-            </ul>
-            
-        </div>
-    </div>
 </div>
+
+
+    <div class="con_section">
+        <form:form commandName="searchPageForm"  method="post" role="form" action="${contextPath}/admin/search/applicants/nameSearch" id="search-form">
+            <div class="srch_box">
+
+                <input type="hidden" id="page-number-hidden" name="page.no" value="${searchPageForm.page.no}" />
+                <p class="srch_tit"><i class="fa fa-search"></i>지원자명 검색</p>
+
+                <label for="korName">한글 이름</label>
+                <form:input path="korName" id="korName" />&nbsp;&nbsp;&nbsp;
+                <label for="rgstNo">주민등록번호</label>
+                <form:input path="rgstNo" id="rgstNo" />&nbsp;&nbsp;&nbsp;
+                <p class="srch_tit"><i class="fa fa-search"></i>영문성명 검색</p>
+                <label for="engSur">SUR</label>
+                <form:input path="engSur" id="engSur" onClick ="resetInputs()" />&nbsp;&nbsp;&nbsp;
+                <label for="engName">NAME</label>
+                <form:input path="engName" id="engName" onClick ="resetInputs()"/>&nbsp;&nbsp;&nbsp;
+
+
+      <span class="btnBlueS">
+          <input type="submit" value="검색" class="btnBox" id='nameSearchBtn' />
+          </span>
+            </div>
+        </form:form>
+        <table class="tbl_typeA text-center" summary="전형별 지원현황">
+            <caption>전형별 지원현황</caption>
+            <thead>
+            <tr>
+                <th>수험번호</th>
+                <th>캠퍼스</th>
+                <th>지원학과<br>세부전공</th>
+                <th>지원전형<br>지원과정</th>
+                <th>성명<br>생년월일</th>
+                <th>전화번호<br>이메일</th>
+                <th>결제방법<br>결제금액</th>
+            </tr>
+            </thead>
+            <tbody>
+            <c:if test="${applList.size() == 0}" >
+                <tr >
+                    <td colspan="7">해당 정보 없음</td>
+                </tr>
+            </c:if>
+            <c:forEach var="applList" items="${applList}" varStatus="status">
+                <tr class="applList"  applNo="${applList.applNo}">
+                    <td>${applList.applId}</td>
+                    <td>${applList.campName}</td>
+                    <td>${applList.deptName}</td>
+                    <td >${applList.applAttrName}<br>${applList.corsTypeName}</td>
+                    <td >${applList.korName} <br> ${applList.rgstNo}</td>
+                    <td >${applList.mobiNum} <br>${applList.mailAddr} </td>
+                    <td >${applList.payTypeName}<br>${applList.admsFee} </td>
+                </tr>
+            </c:forEach>
+            </tbody>
+        </table>
+        <div class="page_number">
+            <fmt:parseNumber var="indexCount" integerOnly= "true" value="${searchPageForm.page.totalCount/searchPageForm.page.rows + 1}" />
+            <c:if test="${indexCount != 0}">
+            <a class="Lbegin"><span><a href="#" class="end" onclick="movePage(1); return false;">1page</a>
+        <c:if test="${searchPageForm.page.no-1 > 0}">
+           <a href="#" onclick="movePage(${searchPageForm.page.no-1}); return false;"><img src="${contextPath}/img/admin/repository/list_page_previous.gif" alt="이전페이지" /></a>
+        </c:if>
+        <c:forEach begin="1" end="${indexCount}" var="pageNumIndex">
+            <c:if test="${searchPageForm.page.no==pageNumIndex}">
+               <span class="active">${pageNumIndex}</span>
+            </c:if>
+            <c:if test="${searchPageForm.page.no!=pageNumIndex}">
+                <a href="#" onclick="movePage(${pageNumIndex}); return false;">${pageNumIndex}</a>
+            </c:if>
+        </c:forEach>
+        <c:if test="${searchPageForm.page.no < indexCount}">
+            <a href="#" onclick="movePage(${searchPageForm.page.no+1}); return false;"><img src="${contextPath}/img/admin/repository/list_page_next.gif" alt="다음페이지" /></a>
+        </c:if>
+        <a href="#" class="end" onclick="movePage(${indexCount}); return false;">${indexCount}page</a>
+    </c:if>
+        </div>
+
+
+
+        <div id="LblockcChgInfoBtn" class="con_btn text-right">
+            <a class="btn_set btnBlueS" id="downBtn"  href="#"><span>엑셀파일 다운로드</span></a>
+        </div>
+    </div>
+    <!-- /con_section -->
+</div>
+<!-- /content -->
 
 <content tag="local-script">
 
@@ -159,7 +135,7 @@
     		jQuery('#korName, #rsdnNo, #engSur, #engName').val(''); 	
     	});
 
-        jQuery(".Limage").on('click', function(e) {
+        jQuery(".btnBox").on('click', function(e) {
             e.preventDefault();
             submitForm();
         });

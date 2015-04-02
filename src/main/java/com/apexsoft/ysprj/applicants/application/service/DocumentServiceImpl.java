@@ -460,7 +460,7 @@ public class DocumentServiceImpl implements DocumentService {
         }
         rApplDoc = new TotalApplicationDocumentContainer();
         rApplDoc.setSubContainer(applDocList);
-        rApplDoc.setGrpLabel("기본-학과지정 제출서류");
+        rApplDoc.setGrpLabel("L04301");
         rApplDoc.setDisplayGrpFg(true);
 
         return rApplDoc;
@@ -476,7 +476,7 @@ public class DocumentServiceImpl implements DocumentService {
         applDocList = commonDAO.queryForList(NAME_SPACE + "CustomApplicationDocumentMapper.selectLanguageTotalDocListByApplNo", applNo, TotalApplicationDocumentContainer.class);
         if( applDocList != null){
 
-            for( int idx = applDocList.size()-1; idx > 0; idx--){
+            for( int idx = applDocList.size()-1; idx > -1; idx--){
                 TotalApplicationDocumentContainer aCont = applDocList.get(idx);
                 if( "EXMP_TYPE".equals(aCont.getDocItemGrp())){
                     applDocList.remove(idx);
@@ -493,7 +493,7 @@ public class DocumentServiceImpl implements DocumentService {
         }
         rApplDoc = new TotalApplicationDocumentContainer();
         rApplDoc.setSubContainer(applDocList);
-        rApplDoc.setGrpLabel("어학 관련서류");
+        rApplDoc.setGrpLabel("L04307");
         rApplDoc.setDisplayGrpFg(true);
 
         return rApplDoc;
@@ -510,7 +510,7 @@ public class DocumentServiceImpl implements DocumentService {
 
         rApplDoc = new TotalApplicationDocumentContainer();
         rApplDoc.setSubContainer(new ArrayList<TotalApplicationDocumentContainer>());
-        rApplDoc.setGrpLabel("대학 관련서류");
+        rApplDoc.setGrpLabel("L04302");
         rApplDoc.setDisplayGrpFg(true);
 
         param.setApplNo(applNo);
@@ -522,8 +522,8 @@ public class DocumentServiceImpl implements DocumentService {
         for(CustomApplicationAcademy aAcad : acadList){
             aCont = new TotalApplicationDocumentContainer();
             aCont.setApplNo( aAcad.getApplNo());
-            aCont.setGrpLabel(aAcad.getSchlName() + " 관련서류");
-
+            aCont.setGrpLabel(aAcad.getSchlName());
+            aCont.setGrpLabelXxen( aAcad.getSchlName());
             rList.add(aCont);
 
 
@@ -577,7 +577,8 @@ public class DocumentServiceImpl implements DocumentService {
 
             aCont = new TotalApplicationDocumentContainer();
             aCont.setApplNo( aAcad.getApplNo());
-            aCont.setGrpLabel( aAcad.getSchlName() + " 관련서류" );
+            aCont.setGrpLabel( aAcad.getSchlName() );
+            aCont.setGrpLabelXxen( aAcad.getSchlName());
             rList.add(aCont);
 
             //학위별 필수서류 셋팅
@@ -630,13 +631,13 @@ public class DocumentServiceImpl implements DocumentService {
         codeParam.setApplNo(applNo);
         codeParam.setAdmsNo(admsNo);
 
-        //학연산 조회
-        if( "00002".equals(tempApp.getApplAttrCode())) {
+        //학연산 , 새터민 조회
+        if( "00002".equals(tempApp.getApplAttrCode())||"00004".equals(tempApp.getApplAttrCode())) {
             rList = new ArrayList<TotalApplicationDocumentContainer>();
             codeParam.setAdmsCodeGrp("APPL_ATTR");
-            codeParam.setAdmsCode("00002");
+            codeParam.setAdmsCode(tempApp.getApplAttrCode());
             codeParam.setGrpLevel(1);
-            codeParam.setItemCode("00006");//학연산
+            codeParam.setItemCode("00006");//학연산, 새터민
 
             List<TotalApplicationDocumentContainer> subDocList;
             subDocList = commonDAO.queryForList(NAME_SPACE + "CustomApplicationDocumentMapper.selectCodeMandatoryGroupByCode", codeParam, TotalApplicationDocumentContainer.class);
@@ -650,7 +651,7 @@ public class DocumentServiceImpl implements DocumentService {
                 aSubDoc.setSubContainer(getSubCodeDocumentContainer(aSubDoc,rList));
             }
             aCont = new TotalApplicationDocumentContainer();
-            aCont.setGrpLabel("학연산 관련서류");
+            aCont.setGrpLabel("L04305");
             aCont.setDisplayGrpFg(true);
             aCont.setSubContainer(subDocList);
             rContList.add(aCont);
@@ -678,7 +679,7 @@ public class DocumentServiceImpl implements DocumentService {
                 aSubDoc.setSubContainer(getSubCodeDocumentContainer(aSubDoc,rList));
             }
             aCont = new TotalApplicationDocumentContainer();
-            aCont.setGrpLabel("외국인전형 관련서류");
+            aCont.setGrpLabel("L04306");
             aCont.setDisplayGrpFg(true);
             aCont.setSubContainer(subDocList);
             rContList.add(aCont);
@@ -702,7 +703,7 @@ public class DocumentServiceImpl implements DocumentService {
                 aSubDoc.setMsg(messageResolver.getMessage(aSubDoc.getMsgNo()));
             }
         }
-        aCont.setGrpLabel("기타 및 추가제출");
+        aCont.setGrpLabel("L04308");
         aCont.setDocTypeCode(codeParam.getItemTypeCode());
         aCont.setDisplayGrpFg(true);
         aCont.setSubContainer(subDocList);
@@ -723,6 +724,7 @@ public class DocumentServiceImpl implements DocumentService {
                 }
             }
             pCont.setGrpLabel( pCont.getDocItemName());
+            pCont.setGrpLabelXxen( pCont.getDocItemNameXxen());
         }
         return rContList;
     }
@@ -739,6 +741,7 @@ public class DocumentServiceImpl implements DocumentService {
                 }
             }
             pCont.setGrpLabel( pCont.getDocItemName());
+            pCont.setGrpLabelXxen( pCont.getDocItemNameXxen());
         }else{
             ApplicationDocument aDoc;
 
@@ -764,6 +767,7 @@ public class DocumentServiceImpl implements DocumentService {
 
         if (!"Y".equals( pCont.getLastYn())) {
             pCont.setGrpLabel( pCont.getDocItemName());
+            pCont.setGrpLabelXxen( pCont.getDocItemNameXxen());
             if( pCont.getMsgNo()!= null && pCont.getMsgNo()!= "" ) {
                 pCont.setMsg(messageResolver.getMessage(pCont.getMsgNo()));
             }
@@ -797,6 +801,7 @@ public class DocumentServiceImpl implements DocumentService {
 
         if (!"Y".equals( pCont.getLastYn())) {
             pCont.setGrpLabel( pCont.getDocItemName());
+            pCont.setGrpLabelXxen( pCont.getDocItemNameXxen());
             pList.add(pCont);
             if( pCont.getMsgNo()!= null && pCont.getMsgNo()!= "" ) {
                 pCont.setMsg(messageResolver.getMessage(pCont.getMsgNo()));

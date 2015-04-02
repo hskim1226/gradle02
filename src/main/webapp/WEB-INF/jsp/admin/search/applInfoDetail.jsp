@@ -2,50 +2,39 @@
 <%@ include file="/WEB-INF/jsp/common/env.jsp"%>
 <html>
 <head>
-<meta charset="utf-8"/>
-<title>지원서정보</title>
-<link rel="stylesheet" type="text/css" href="../css/import.css" />
-<script type="text/javascript" src="../js/prototype.js"></script>
-<script type="text/javascript" src="../js/dui_base.js"></script>
-<script type="text/javascript" src="../js/dui_effect.js"></script>
-<script type="text/javascript" src="../js/dui_dragndrop.js"></script>
-<script type="text/javascript" src="../js/dui_hhmenu.js"></script>
-<script type="text/javascript" src="../js/dui_tree.js"></script>
-<script type="text/javascript" src="../js/dui_slidemenu.js"></script>
-<script type="text/javascript" src="../js/common.js"></script>
 </head>
 <body>
 
 
 
+<div class="content">
+    <div class="con_tit">
+        <h2><span>지원서정보</span></h2>
+        <div class="location"> HOME &gt; 지원서정보 &gt; <span>지원서정보</span> </div>
 
-<div id="LblockMain">
-<div id="LblockPageTitle">
-<div id="LblockPageLocation">
-	<ul>
-		<li class="Lfirst"><span><a href="#">HOME</a></span></li>
-		<li><span><a href="#">지원서정보</a></span></li>
-		<li class="Llast"><span>지원서정보</span></li>
-	</ul>
-</div>
+    </div>
+    <div class="con_section">
+        <h3 class="tit1">지원단위</h3>
 
-	<h1>지원서정보</h1>
-</div>
 
-<div id="LblockMainBody" >
-<div id="LblockPageSubtitle01" class="LblockPageSubtitle">
-	<h2>지원단위</h2>
-</div>
 
-<div id="LblockDetail01" class="LblockDetail">
+
 <form id= "searchForm" method="post">
     <input type="hidden" name="applNo" value="${applInfo.applNo}" />
     <input type="hidden" name="userId" value="${applInfo.userId}" />
     <input type="hidden" name="admsNo" value="${applInfo.admsNo}" />
 </form>
-	<table summary="지원 기본정보">
-		<caption>지원 기본정보</caption>
-		<tbody>
+    <table class="tbl_typeA mb15" summary="지원 기본정보">
+        <caption>지원 기본정보</caption>
+        <colgroup>
+            <col width="12%" />
+            <col width="20%" />
+            <col width="12%" />
+            <col />
+            <col width="12%" />
+            <col width="25%" />
+        </colgroup>
+        <tbody>
 			<tr>
 				<th>수험번호</th>
 				<td>${applInfo.applId}</td>				
@@ -81,18 +70,17 @@
         </tbody>
 	</table>
 
-</div>
-       
+        <h3 class="tit1">지원자개인정보</h3>
+        <table class="tbl_typeA mb15" summary="지원자개인정보">
+            <caption>지원자개인정보</caption>
+            <colgroup>
+                <col width="20%" />
+                <col width="33%" />
+                <col width="14%" />
+                <col width="33%" />
+            </colgroup>
 
-
-<div id="LblockPageSubtitle02" class="LblockPageSubtitle">
-	<h2>지원자개인정보</h2>
-</div>
-
-<div id="LblockDetail02" class="LblockDetail">
-	<table summary="지원자개인정보">
-		<caption>지원자개인정보</caption>
-		<tbody>
+            <tbody>
 			<tr>
 				<th>성명</th>
 				<td>${applInfo.korName}</td>
@@ -125,23 +113,21 @@
 			</tr>												
 		</tbody>
 	</table>
+
+        <div class="con_btn text-right">
+            <a class="btn_set btnWhiteS" id="backBtn" href="#"><span>목록</span></a>
+            <a class="btn_set btnRedS"  id="chgInfoBtn" href="#"><span>개인정보수정</span></a>
+            <a class="btn_set btnBlueS" id="chgDeptBtn" href="#"><span>지원단위 변경요청</span></a>
+            <a class="btn_set btnBlueS" id="chgEtcBtn" href="#"><span>기타정보 변경요청</span></a>
+            <a class="btn_set btnBlackS" id="cancelBtn" href="#"><span>지원 취소요청</span></a>
+
+        </div>
+    </div>
+    <!-- /con_section -->
 </div>
-<div  id="LblockcChgInfoBtn" class="LblockSubbutton">
-    <a href="#"><input type="button"  id="backBtn" value="목록"  /></a>
-    <a href="#"><input type="button"  id="chgInfoBtn" value="개인 정보수정" /></a>
-    <a href="#"><input type="button"  id="chgDeptBtn"  value="지원단위 변경요청"  /></a>
-    <a href="#"><input type="button"  id="chgEtcBtn" value="기타정보 변경요청"  /></a>
-    <%--
-    <a href="#"><input type="button"  id="downloadPdf" value="지원서 다운로드"  /></a>
-    --%>
-    <a href="#"><input type="button"  id="cancelBtn" value="지원 취소요청"  /></a>
-
+<!-- /content -->
 </div>
-
-
-
-
-
+<!-- /container -->
 
 
 <content tag="local-script">

@@ -6,54 +6,42 @@
 </head>
 <body>
 
-<div id="LblockMain">
-    <div id="LblockPageTitle">
-        <div id="LblockPageLocation">
-            <ul>
-                <li class="Lfirst"><span><a href="#">HOME</a></span></li>
-                <li><span><a href="#">지원취소</a></span></li>
-                <li class="Llast"><span>지원취소</span></li>
-            </ul>
-        </div>
-
-        <h1>지원단위변경</h1>
+<div class="content">
+    <div class="con_tit">
+        <h2><span>지원취소</span></h2>
+        <div class="location"> HOME &gt; 지원변경/원서수정 &gt; <span>지원취소</span> </div>
     </div>
 
-    <div id="LblockMainBody" >
-        <div id="LblockSearch">
-            <div>
-                <div>
-                    <form id ="applicantSearchForm" action="${contextPath}/admin//modification/cancelAppl" method="post">
-                        <table summary="지원취소 대상자검색">
-                            <caption>지원취소 대상자검색</caption>
-                            <tbody>
-                                <th><label for="applId">수험번호</label></th>
-                                <td><input type="text" class="Ltext" id="applId" name="applId" size="15"  value="${applicantSearchForm.applId}">
-                                    <img class="Limage" id="searchBtn"  src="${contextPath}/img/admin/btn_search.gif" alt="검색버튼" />
-                                </td>
-                            </tbody>
-                        </table>
-                    </form>
-                </div>
-            </div>
-        </div>
+    <div class="con_section">
+        <form id ="applicantSearchForm" action="${contextPath}/admin//modification/cancelAppl" method="post">
+            <div class="srch_box"> <strong><label for="applId">수험번호</label></strong>
+                <input type="text" name="applId" id="applId" class="ipt_txt1"  value="${applicantSearchForm.applId}" >
+          <span class="btnBlueS">
+          <input type="submit" value="검색" class="btnBox" id="searchBtn"  />
+          </span> </div>
+        </form>
+
 
         <%@include file="applicationInfo.jsp"%>
         <%@include file="applicantInfo.jsp"%>
 
         <c:if test="${applInfo.applNo != null}" >
-            <div id="LblockPageSubtitle03" class="LblockPageSubtitle">
-                <h2>지원 취소내용</h2>
-            </div>
-            <div id="LblockDetail03" class="LblockDetail">
+            <h3 class="tit1">변경요청 지원정보용</h3>
 
                 <form id ="changeForm" action="${contextPath}/admin/modification/requestCancel" method="post">
                     <input type="hidden" name="applNo" value=${applInfo.applNo}> </input>
                     <input type="hidden" name="admsNo" value=${applInfo.admsNo}> </input>
                     <input type="hidden" id="befValInput" name ="befVal"> </input>
                     <input type="hidden" id="aftValInput" name ="aftVal"> </input>
-                <table summary="변경요청 지원정보">
-                    <caption>변경요청 지원정보</caption>
+
+                    <table class="tbl_typeA mb15" summary="변경요청 지원정보">
+                        <caption>
+                            변경요청 지원정보
+                        </caption>
+                        <colgroup>
+                            <col width="20%" />
+                            <col width="80%" />
+                        </colgroup>
                     <tbody>
                     <tr>
                         <th>취소사유</th>
@@ -62,15 +50,16 @@
                     </tbody>
                 </table>
                 </form>
-            </div>
-
-            <div id="LblockButton">
-                <a href="#"><input type="button"  id="changeBtn" value="지원취소요청" /></a>
+        </c:if>
+        <c:if test="${applInfo.applNo != null}" >
+            <div class="con_btn text-right">
+                <a class="btn_set btnRedS" id="changeBtn" ><span>지원취소요청</span></a>
             </div>
         </c:if>
     </div>
-  </div>
-</body>
+    <!-- /con_section -->
+</div>
+<!-- /content -->
 
 
 <content tag="local-script">
