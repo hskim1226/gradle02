@@ -16,6 +16,8 @@
         <result column="DOC_TYPE_CODE" jdbcType="VARCHAR" property="docTypeCode" />
         <result column="DOC_ITEM_CODE" jdbcType="VARCHAR" property="docItemCode" />
         <result column="DOC_ITEM_NAME" jdbcType="VARCHAR" property="docItemName" />
+        <result column="DOC_ITEM_NAME_XXEN" jdbcType="VARCHAR" property="docItemNameXxen" />
+
         <result column="UP_CODE_GRP"   jdbcType="VARCHAR" property="upCodeGrp" />
         <result column="UP_CODE"       jdbcType="VARCHAR" property="upCode" />
         <result column="SEL_CODE_GRP"  jdbcType="VARCHAR" property="selCodeGrp" />
@@ -86,6 +88,7 @@
         <result column="DOC_GRP" jdbcType="INTEGER" property="docGrp" />
         <result column="DOC_ITEM_NAME" jdbcType="VARCHAR" property="docItemName" />
         <result column="DOC_ITEM_CODE" jdbcType="VARCHAR" property="docItemCode" />
+        <result column="DOC_ITEM_NAME_XXEN" jdbcType="VARCHAR" property="docItemNameXxen" />
         <result column="DOC_NAME" jdbcType="VARCHAR" property="docName" />
     </resultMap>
 
@@ -121,6 +124,7 @@
             BA.DOC_TYPE_CODE,
             BA.DOC_ITEM_CODE,
             BA.DOC_ITEM_NAME,
+            CODEVALXXEN(DOC_ITEM_GRP, BA.DOC_ITEM_CODE) AS DOC_ITEM_NAME_XXEN,
             UP_CODE_GRP,
             UP_CODE,
             SEL_CODE_GRP,
@@ -183,6 +187,7 @@
         BA.DOC_TYPE_CODE,
         BA.DOC_ITEM_CODE,
         BA.DOC_ITEM_NAME,
+        CODEVALXXEN(DOC_ITEM_GRP, BA.DOC_ITEM_CODE) AS DOC_ITEM_NAME_XXEN,
         UP_CODE_GRP,
         UP_CODE,
         SEL_CODE_GRP,
@@ -245,7 +250,7 @@
         BA.LANG_EXAM_GRP AS DOC_ITEM_GRP,
         '00005' AS DOC_TYPE_CODE,
         CODEVAL(BA.LANG_EXAM_GRP,LANG_EXAM_CODE) AS DOC_ITEM_NAME,
-
+        CODEVALXXEN(BA.LANG_EXAM_GRP,LANG_EXAM_CODE) AS DOC_ITEM_NAME_XXEN,
         'NO' AS UP_CODE_GRP,
         'NO' AS UP_CODE,
         'NO' AS SEL_CODE_GRP,
@@ -438,6 +443,7 @@
             ITEM_CODE AS DOC_TYPE_CODE,
             ITEM_CODE AS DOC_ITEM_CODE,
             CODEVAL(ITEM_CODE_GRP,ITEM_CODE) AS DOC_ITEM_NAME,
+            CODEVALXXEN(ITEM_CODE_GRP,ITEM_CODE) AS DOC_ITEM_NAME_XXEN,
             UP_CODE_GRP,
             UP_CODE,
             SEL_CODE_GRP,
@@ -465,6 +471,7 @@
             ITEM_CODE AS DOC_TYPE_CODE,
             ITEM_CODE AS DOC_ITEM_CODE,
             CODEVAL(ITEM_CODE_GRP,ITEM_CODE) AS DOC_ITEM_NAME,
+            CODEVALXXEN(ITEM_CODE_GRP,ITEM_CODE) AS DOC_ITEM_NAME_XXEN,
             UP_CODE_GRP,
             UP_CODE,
             SEL_CODE_GRP,
@@ -495,6 +502,7 @@
           #{docGrp} AS DOC_GRP,
           #{docTypeCode} AS  DOC_TYPE_CODE,
           CODEVAL(ITEM_CODE_GRP,ITEM_CODE) AS DOC_ITEM_NAME,
+          CODEVALXXEN(ITEM_CODE_GRP,ITEM_CODE) AS DOC_ITEM_NAME_XXEN,
           UP_CODE_GRP,
           UP_CODE,
           SEL_CODE_GRP,
@@ -517,8 +525,9 @@
 
     <select id="selectCodeApplicationDocumentByTotalDocumentContainner"   resultMap="totalDoc"   parameterType="com.apexsoft.ysprj.applicants.application.domain.TotalApplicationDocumentContainer" >
         SELECT
-        APPL_NO, DOC_SEQ, DOC_TYPE_CODE, DOC_GRP, DOC_ITEM_CODE, DOC_ITEM_NAME, DOC_NAME,
-        FILE_EXT, IMG_YN, FILE_PATH, FILE_NAME, ORG_FILE_NAME, PAGE_CNT, CRE_ID, CRE_DATE, MOD_ID,
+        APPL_NO, DOC_SEQ, DOC_TYPE_CODE, DOC_GRP, DOC_ITEM_CODE, DOC_ITEM_NAME,
+        CODEVALXXEN('DOC_ITEM',DOC_ITEM_CODE) AS DOC_ITEM_NAME_XXEN,
+        DOC_NAME, FILE_EXT, IMG_YN, FILE_PATH, FILE_NAME, ORG_FILE_NAME, PAGE_CNT, CRE_ID, CRE_DATE, MOD_ID,
         MOD_DATE, DOC_ITEM_NAME_XXEN, DOC_GRP_NAME
         FROM APPL_DOC
         WHERE APPL_NO = #{applNo}
@@ -532,8 +541,8 @@
 
     <select id="selectApplicationDocumentByTotalDocumentContainnerDocGrp"   resultMap="totalDoc"   parameterType="com.apexsoft.ysprj.applicants.application.domain.TotalApplicationDocumentContainer" >
         SELECT
-        APPL_NO, DOC_SEQ, DOC_TYPE_CODE, DOC_GRP, DOC_ITEM_CODE, DOC_ITEM_NAME, DOC_NAME,
-        FILE_EXT, IMG_YN, FILE_PATH, FILE_NAME, ORG_FILE_NAME, PAGE_CNT, CRE_ID, CRE_DATE, MOD_ID,
+        APPL_NO, DOC_SEQ, DOC_TYPE_CODE, DOC_GRP, DOC_ITEM_CODE, DOC_ITEM_NAME, CODEVALXXEN('DOC_ITEM',DOC_ITEM_CODE) AS DOC_ITEM_NAME_XXEN,
+        DOC_NAME, FILE_EXT, IMG_YN, FILE_PATH, FILE_NAME, ORG_FILE_NAME, PAGE_CNT, CRE_ID, CRE_DATE, MOD_ID,
         MOD_DATE, DOC_ITEM_NAME_XXEN, DOC_GRP_NAME
         FROM APPL_DOC
         WHERE APPL_NO = #{applNo}
@@ -551,6 +560,7 @@
       DOC_TYPE_CODE,
       DOC_ITEM_CODE,
       DOC_ITEM_NAME,
+      CODEVALXXEN('DOC_ITEM',DOC_ITEM_CODE) AS DOC_ITEM_NAME_XXEN,
       DOC_NAME,
       FILE_EXT,
       IMG_YN,
@@ -566,8 +576,8 @@
     </select>
     <select id="selectApplicationDocumentListByDocGrp"   resultMap="totalDoc"   parameterType="com.apexsoft.ysprj.applicants.application.domain.ParamForApplicationDocument" >
         SELECT
-        APPL_NO, DOC_SEQ, DOC_TYPE_CODE, DOC_GRP, DOC_ITEM_CODE, DOC_ITEM_NAME, DOC_NAME,
-        FILE_EXT, IMG_YN, FILE_PATH, FILE_NAME, ORG_FILE_NAME, PAGE_CNT, CRE_ID, CRE_DATE, MOD_ID,
+        APPL_NO, DOC_SEQ, DOC_TYPE_CODE, DOC_GRP, DOC_ITEM_CODE, DOC_ITEM_NAME, CODEVALXXEN('DOC_ITEM',DOC_ITEM_CODE) AS DOC_ITEM_NAME_XXEN,
+        DOC_NAME,FILE_EXT, IMG_YN, FILE_PATH, FILE_NAME, ORG_FILE_NAME, PAGE_CNT, CRE_ID, CRE_DATE, MOD_ID,
         MOD_DATE, DOC_ITEM_NAME_XXEN, DOC_GRP_NAME
         FROM APPL_DOC
         WHERE APPL_NO = #{applNo}
@@ -579,8 +589,8 @@
             parameterType="com.apexsoft.ysprj.applicants.application.domain.ParamForDocumentType" >
         SELECT
         APPL_NO, DOC_SEQ, DOC_TYPE_CODE, DOC_GRP, DOC_ITEM_CODE, DOC_ITEM_NAME,
-        DOC_NAME,
-        FILE_EXT, IMG_YN, FILE_PATH, FILE_NAME, ORG_FILE_NAME, PAGE_CNT, CRE_ID, CRE_DATE
+        CODEVALXXEN('DOC_ITEM',DOC_ITEM_CODE) AS DOC_ITEM_NAME_XXEN,
+        DOC_NAME, FILE_EXT, IMG_YN, FILE_PATH, FILE_NAME, ORG_FILE_NAME, PAGE_CNT, CRE_ID, CRE_DATE
         , MOD_ID,
         MOD_DATE, DOC_ITEM_NAME_XXEN, DOC_GRP_NAME
         FROM APPL_DOC
@@ -609,8 +619,8 @@
 
     <select id="selectOneDocument"   resultMap="totalDoc"   parameterType="com.apexsoft.ysprj.applicants.application.domain.ApplicationDocumentKey" >
         SELECT
-        APPL_NO, DOC_SEQ, DOC_TYPE_CODE, DOC_GRP, DOC_ITEM_CODE, DOC_ITEM_NAME, DOC_NAME,
-        FILE_EXT, IMG_YN, FILE_PATH, FILE_NAME, ORG_FILE_NAME, PAGE_CNT, CRE_ID, CRE_DATE, MOD_ID,
+        APPL_NO, DOC_SEQ, DOC_TYPE_CODE, DOC_GRP, DOC_ITEM_CODE, DOC_ITEM_NAME,CODEVALXXEN('DOC_ITEM',DOC_ITEM_CODE) AS DOC_ITEM_NAME_XXEN,
+        DOC_NAME, FILE_EXT, IMG_YN, FILE_PATH, FILE_NAME, ORG_FILE_NAME, PAGE_CNT, CRE_ID, CRE_DATE, MOD_ID,
         MOD_DATE, DOC_ITEM_NAME_XXEN, DOC_GRP_NAME
         FROM APPL_DOC
         WHERE 1=1
@@ -624,7 +634,7 @@
           This element is automatically generated by MyBatis Generator, do not modify.
           This element was generated on Wed Jan 28 17:22:47 KST 2015.
         -->
-        APPL_NO, DOC_SEQ, DOC_TYPE_CODE, DOC_GRP, DOC_ITEM_CODE, DOC_ITEM_NAME, DOC_NAME,
+        APPL_NO, DOC_SEQ, DOC_TYPE_CODE, DOC_GRP, DOC_ITEM_CODE, DOC_ITEM_NAME, CODEVALXXEN('DOC_ITEM',DOC_ITEM_CODE) AS DOC_ITEM_NAME_XXEN, DOC_NAME,
         FILE_EXT, IMG_YN, FILE_PATH, FILE_NAME, ORG_FILE_NAME, PAGE_CNT, CRE_ID, CRE_DATE, MOD_ID,
         MOD_DATE, DOC_ITEM_NAME_XXEN, DOC_GRP_NAME
     </sql>

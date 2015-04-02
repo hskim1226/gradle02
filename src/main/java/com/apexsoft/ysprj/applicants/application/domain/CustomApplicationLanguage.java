@@ -5,6 +5,7 @@ package com.apexsoft.ysprj.applicants.application.domain;
 public class CustomApplicationLanguage extends ApplicationLanguage {
 
     private String grpLevel;
+    private String grpLabelXxen;
     private String itemGrpCode;
     private String itemCode;
     private String itemName;
@@ -155,5 +156,13 @@ public class CustomApplicationLanguage extends ApplicationLanguage {
 
     public void setMultiYn(String multiYn) {
         this.multiYn = multiYn;
+    }
+
+    public String getGrpLabelXxen() {
+        return grpLabelXxen;
+    }
+
+    public void setGrpLabelXxen(String grpLabelXxen) {
+        this.grpLabelXxen = grpLabelXxen;
     }
 }

@@ -673,7 +673,7 @@ h3.tit1 {
 }
 
 .txt_dep2 > li, .txt_tit2 {
-	background: url(../../img/admin/bu_dep2.png) no-repeat 0 5px;
+	background: url(../../img/admin/bu_dep1.png) no-repeat 0 5px;
 	font-weight: normal;
 	font-size: 12px;
 	margin-bottom: 7px;
@@ -685,7 +685,7 @@ h3.tit1 {
 }
 
 .txt_dep3 > li, .txt_tit3 {
-	background: url(../../img/admin/bu_dep3.png) no-repeat 0 6px;
+	background: url(../../img/admin/bu_dep1.png) no-repeat 0 6px;
 	font-weight: normal;
 	font-size: 12px;
 	color: #919191;
@@ -820,7 +820,7 @@ button.btnBox.btnRedS span {background: url("../../img/admin/bg_button.png") no-
 
 /* print */
 @media print {
-body {height: 98%; font: 12px/120% "돋움", Dotum, "굴림", Gulim, Arial, AppleGothic, sans-serif; color: #000; background: url() repeat-x left top;}
+body {height: 98%; font: 12px/120% "돋움", Dotum, "굴림", Gulim, Arial, AppleGothic, sans-serif; color: #000; background:  repeat-x left top;}
 #accessibility{display: none;}
 #headerWrap{display: none;}
 #footer{display: none;}
