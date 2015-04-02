@@ -42,6 +42,10 @@
            overflowToDisk="false" diskPersistent="false" timeToIdleSeconds="0"
            timeToLiveSeconds="60" memoryStoreEvictionPolicy="LRU" statistics="false" />
 
+    <cache name="northDefectorCourseByAdmsDept" eternal="false" maxElementsInMemory="2000"
+           overflowToDisk="false" diskPersistent="false" timeToIdleSeconds="0"
+           timeToLiveSeconds="60" memoryStoreEvictionPolicy="LRU" statistics="false" />
+
     <cache name="ariInst" eternal="false" maxElementsInMemory="2000"
            overflowToDisk="false" diskPersistent="false" timeToIdleSeconds="0"
            timeToLiveSeconds="60" memoryStoreEvictionPolicy="LRU" statistics="false" />

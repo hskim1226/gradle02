@@ -134,6 +134,15 @@
 
     <decorator:getProperty property="page.local-script"/>
     <script>
+    <%-- prevent enter event on form --%>
+    $('form').on('keypress', function(e) {
+        if (e.keyCode == 13) {
+            e.preventDefault();
+            return false;
+        }
+    });
+    <%-- prevent enter event on form --%>
+
     <%-- placeholder polyfill --%>
     $('input, textarea').placeholder();
     <%-- placeholder polyfill --%>

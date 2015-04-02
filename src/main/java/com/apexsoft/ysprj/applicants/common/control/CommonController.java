@@ -229,6 +229,28 @@ public class CommonController {
         return executionContext;
     }
 
+    @RequestMapping(value="/code/northDefector/course/{admsNo}/{deptCode}", method= RequestMethod.GET)
+    @ResponseBody
+    public ExecutionContext retrieveNorthDefectorCourseByAdmsDept(@PathVariable("admsNo") String admsNo,
+                                                                  @PathVariable("deptCode") String deptCode)
+            throws NoSuchAlgorithmException, JsonProcessingException, UnsupportedEncodingException {
+
+        ParamForSetupCourses paramForSetupCourses = new ParamForSetupCourses();
+        paramForSetupCourses.setAdmsNo(admsNo);
+        paramForSetupCourses.setDeptCode(deptCode);
+        List<CodeNameCourse> codeNameCourseList = commonService.retrieveNorthDefectorCourseByAdmsDept(paramForSetupCourses);
+
+        String json = jacksonObjectMapper.writeValueAsString(codeNameCourseList);
+
+        ExecutionContext executionContext = new ExecutionContext();
+        if (!(codeNameCourseList.size() > 0)) {
+            executionContext.setMessage(messageResolver.getMessage("U300"));
+        }
+        executionContext.setData(json);
+
+        return executionContext;
+    }
+
     @RequestMapping(value="/code/ariInst", method= RequestMethod.GET)
     @ResponseBody
     public ExecutionContext retrieveAriInst()

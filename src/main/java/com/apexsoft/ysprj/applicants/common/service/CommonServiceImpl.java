@@ -211,6 +211,27 @@ public class CommonServiceImpl implements CommonService {
     }
 
     /**
+     * 학과별 새터민 과정 조회
+     *
+     * @param paramForSetupCourses
+     * @return
+     */
+    @Override
+    @Cacheable(value = "northDefectorCourseByAdmsDept")
+    public List<CodeNameCourse> retrieveNorthDefectorCourseByAdmsDept(ParamForSetupCourses paramForSetupCourses) {
+        List<CodeNameCourse> codeNameCourseList = null;
+        try {
+            codeNameCourseList = commonDAO.queryForList(NAME_SPACE+"CustomCourseMapper.selectNorthDefectorByAdmsDept",
+                    paramForSetupCourses,
+                    CodeNameCourse.class);
+//            converter.convert(codeNameCourseList, request);
+        } catch (Exception e) {
+            throw new BusinessException(e.getMessage(), e);
+        }
+        return codeNameCourseList;
+    }
+
+    /**
      * 학연산 조회
      *
      * @return

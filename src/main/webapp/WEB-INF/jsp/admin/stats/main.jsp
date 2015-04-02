@@ -6,7 +6,7 @@
 </head>
 <body>
 <div class="main_con">
-    <div class="spot"> <img src="${contextPath}/img/admin/img_banner.jpg" alt="에이펙스소프트가 온라인 입학지원에 혁신을 가져오겠습니다 !" /> </div>
+    <div class="spot"> <img src="<spring:eval expression="@app.getProperty(\"path.static\")"/>/img/admin/img_banner.jpg" alt="에이펙스소프트가 온라인 입학지원에 혁신을 가져오겠습니다 !" /> </div>
     <!-- /spot -->
 
     <div class="main_sec1">
@@ -21,7 +21,7 @@
                     <li><a href="#"><span class="tit">공지사항</span><span class="date">2015-03-16</span></a></li>
                 </ul>
             </div>
-            <a href="#" class="btn_more"><img src="${contextPath}/img/admin/btn_more.png" alt="더보기" /></a> </div>
+            <a href="#" class="btn_more"><img src="<spring:eval expression="@app.getProperty(\"path.static\")"/>/img/admin/btn_more.png" alt="더보기" /></a> </div>
         <!-- /notice_board -->
 
         <div id="admin_box" class="mboard">
@@ -53,40 +53,40 @@
                         <td>홍길동</td>
                         <td>모집단위변경</td>
                         <td>2014-04-14</td>
-                        <td><img src="${contextPath}/img/admin/img_step1.png" alt="처리요청"></td>
+                        <td><img src="<spring:eval expression="@app.getProperty(\"path.static\")"/>/img/admin/img_step1.png" alt="처리요청"></td>
                     </tr>
                     <tr>
                         <th scope="row" class="text-left"><span class="tit1"><a href="#">047A1001</a></span></th>
                         <td>홍길동</td>
                         <td>모집단위변경</td>
                         <td>2014-04-14</td>
-                        <td><img src="${contextPath}/img/admin/img_step2.png" alt="처리완료"></td>
+                        <td><img src="<spring:eval expression="@app.getProperty(\"path.static\")"/>/img/admin/img_step2.png" alt="처리완료"></td>
                     </tr>
                     <tr>
                         <th scope="row" class="text-left"><span class="tit1"><a href="#">047A1001</a></span></th>
                         <td>홍길동</td>
                         <td>모집단위변경</td>
                         <td>2014-04-14</td>
-                        <td><img src="${contextPath}/img/admin/img_step3.png" alt="처리중"></td>
+                        <td><img src="<spring:eval expression="@app.getProperty(\"path.static\")"/>/img/admin/img_step3.png" alt="처리중"></td>
                     </tr>
                     <tr>
                         <th scope="row" class="text-left"><span class="tit1"><a href="#">047A1001</a></span></th>
                         <td>홍길동</td>
                         <td>모집단위변경</td>
                         <td>2014-04-14</td>
-                        <td><img src="${contextPath}/img/admin/img_step4.png" alt="처리불가"></td>
+                        <td><img src="<spring:eval expression="@app.getProperty(\"path.static\")"/>/img/admin/img_step4.png" alt="처리불가"></td>
                     </tr>
                     <tr>
                         <th scope="row" class="text-left"><span class="tit1"><a href="#">047A1001</a></span></th>
                         <td>홍길동</td>
                         <td>모집단위변경</td>
                         <td>2014-04-14</td>
-                        <td><img src="${contextPath}/img/admin/img_step1.png" alt="처리요청"></td>
+                        <td><img src="<spring:eval expression="@app.getProperty(\"path.static\")"/>/img/admin/img_step1.png" alt="처리요청"></td>
                     </tr>
                     </tbody>
                 </table>
             </div>
-            <a href="#" class="btn_more"><img src="${contextPath}/img/admin/btn_more.png" alt="더보기" /></a> </div>
+            <a href="#" class="btn_more"><img src="<spring:eval expression="@app.getProperty(\"path.static\")"/>/img/admin/btn_more.png" alt="더보기" /></a> </div>
         <!-- /admin_board -->
 
     </div>
@@ -106,32 +106,32 @@
                 <tbody>
                 <tr>
                     <th scope="row">2015-03-19</th>
-                    <td><img src='${contextPath}/img/admin/bu_box1.png' width="50%" height="10" alt="">&nbsp;60명</td>
+                    <td><img src='<spring:eval expression="@app.getProperty(\"path.static\")"/>/img/admin/bu_box1.png' width="50%" height="10" alt="">&nbsp;60명</td>
                 </tr>
                 <tr>
                     <th scope="row">2015-03-19</th>
-                    <td><img src='${contextPath}/img/admin/bu_box1.png' width="70%" height="10" alt="">&nbsp;100명</td>
+                    <td><img src='<spring:eval expression="@app.getProperty(\"path.static\")"/>/img/admin/bu_box1.png' width="70%" height="10" alt="">&nbsp;100명</td>
                 </tr>
                 <tr>
                     <th scope="row">2015-03-19</th>
-                    <td><img src='${contextPath}/img/admin/bu_box1.png' width="20%" height="10" alt="">&nbsp;65명</td>
+                    <td><img src='<spring:eval expression="@app.getProperty(\"path.static\")"/>/img/admin/bu_box1.png' width="20%" height="10" alt="">&nbsp;65명</td>
                 </tr>
                 <tr>
                     <th scope="row">2015-03-19</th>
-                    <td><img src='${contextPath}/img/admin/bu_box1.png' width="80%" height="10" alt="">&nbsp;65명</td>
+                    <td><img src='<spring:eval expression="@app.getProperty(\"path.static\")"/>/img/admin/bu_box1.png' width="80%" height="10" alt="">&nbsp;65명</td>
                 </tr>
                 <tr>
                     <th scope="row">2015-03-19</th>
-                    <td><img src='${contextPath}/img/admin/bu_box1.png' width="50%" height="10" alt="">&nbsp;65명</td>
+                    <td><img src='<spring:eval expression="@app.getProperty(\"path.static\")"/>/img/admin/bu_box1.png' width="50%" height="10" alt="">&nbsp;65명</td>
                 </tr>
                 <tr>
                     <th scope="row">2015-03-19</th>
-                    <td><img src='${contextPath}/img/admin/bu_box1.png' width="66%" height="10" alt="">&nbsp;65명</td>
+                    <td><img src='<spring:eval expression="@app.getProperty(\"path.static\")"/>/img/admin/bu_box1.png' width="66%" height="10" alt="">&nbsp;65명</td>
                 </tr>
                 </tbody>
             </table>
         </div>
-        <a href="#" class="btn_more"><img src="${contextPath}/img/admin/btn_more.png" alt="더보기" /></a> </div>
+        <a href="#" class="btn_more"><img src="<spring:eval expression="@app.getProperty(\"path.static\")"/>/img/admin/btn_more.png" alt="더보기" /></a> </div>
     <!-- /counter -->
 
 </div>

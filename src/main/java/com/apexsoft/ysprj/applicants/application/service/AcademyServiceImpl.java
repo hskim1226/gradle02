@@ -40,6 +40,7 @@ public class AcademyServiceImpl implements AcademyService {
         Map<String, Object> selectionMap = new HashMap<String, Object>();
 
         selectionMap.put("grdaTypeList", commonService.retrieveCommonCodeByCodeGroup("GRDA_TYPE"));
+        selectionMap.put("gradFormList", commonService.retrieveCommonCodeByCodeGroup("GRAD_FORM"));
         ecDataMap.put("selection", selectionMap);
         ec.setData(ecDataMap);
 

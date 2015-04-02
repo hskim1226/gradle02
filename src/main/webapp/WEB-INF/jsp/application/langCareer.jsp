@@ -534,7 +534,7 @@
                                                 <form:label path="applicationExperienceList[${stat.index}].corpName" cssClass="col-sm-2 control-label"><spring:message code="L03206"/><%--기관명--%></form:label>
                                                 <div class="col-sm-9">
                                                     <div class="col-sm-12">
-                                                        <form:input path="applicationExperienceList[${stat.index}].corpName" cssClass="form-control" />
+                                                        <form:input path="applicationExperienceList[${stat.index}].corpName" maxlength="100" cssClass="form-control" />
                                                     </div>
                                             <spring:bind path="applicationExperienceList[${stat.index}].corpName">
                                                 <c:if test="${status.error}">
@@ -549,7 +549,7 @@
                                                 <form:label path="applicationExperienceList[${stat.index}].exprDesc" cssClass="col-sm-2 control-label"><spring:message code="L03207"/><%--경력 내용--%></form:label>
                                                 <div class="col-sm-9">
                                                     <div class="col-sm-12">
-                                                        <form:input path="applicationExperienceList[${stat.index}].exprDesc" cssClass="form-control" />
+                                                        <form:input path="applicationExperienceList[${stat.index}].exprDesc" maxlength="300" cssClass="form-control" />
                                                     </div>
                                             <spring:bind path="applicationExperienceList[${stat.index}].exprDesc">
                                                 <c:if test="${status.error}">

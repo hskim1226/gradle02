@@ -61,6 +61,10 @@ public class ApplicationAcademyValidator extends NamedListValidator {
                 errors.rejectValue(prefix + "majName", "U331",
                         new Object[]{messageResolver.getMessage("L02116")}, messageResolver.getMessage("U332"));  /*"학과 이름"*/
             }
+            if (caa.getGradFormCode() == null || caa.getGradFormCode().length() == 0) {
+                errors.rejectValue(prefix + "gradFormCode", "U331",
+                        new Object[]{messageResolver.getMessage("L02129")}, messageResolver.getMessage("U332"));  /*"학점 구분"*/
+            }
             if (caa.getGradAvr() == null || caa.getGradAvr().length() == 0) {
                 errors.rejectValue(prefix + "gradAvr", "U331",
                         new Object[]{messageResolver.getMessage("L02118")}, messageResolver.getMessage("U332"));  /*"평점"*/

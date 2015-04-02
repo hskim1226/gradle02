@@ -13,54 +13,54 @@
 
     <%--
 
-    <script src="${contextPath}/js/html5shiv.min.js"></script>
-    <script src="${contextPath}/js/respond.min.js"></script>
+    <script src="<spring:eval expression="@app.getProperty(\"path.static\")"/>/js/html5shiv.min.js"></script>
+    <script src="<spring:eval expression="@app.getProperty(\"path.static\")"/>/js/respond.min.js"></script>
     <![endif]-->
 
-    <link rel="stylesheet" href="${contextPath}/css/admin/base.css"/>
-    <link rel="stylesheet" href="${contextPath}/css/admin/global_style.css"/>
-    <link rel="stylesheet" href="${contextPath}/css/admin/global_layout.css"/>
-    <link rel="stylesheet" href="${contextPath}/css/admin/page_style.css"/>
-    <link rel="stylesheet" href="${contextPath}/css/admin/page_layout.css"/>
+    <link rel="stylesheet" href="<spring:eval expression="@app.getProperty(\"path.static\")"/>/css/admin/base.css"/>
+    <link rel="stylesheet" href="<spring:eval expression="@app.getProperty(\"path.static\")"/>/css/admin/global_style.css"/>
+    <link rel="stylesheet" href="<spring:eval expression="@app.getProperty(\"path.static\")"/>/css/admin/global_layout.css"/>
+    <link rel="stylesheet" href="<spring:eval expression="@app.getProperty(\"path.static\")"/>/css/admin/page_style.css"/>
+    <link rel="stylesheet" href="<spring:eval expression="@app.getProperty(\"path.static\")"/>/css/admin/page_layout.css"/>
 
 
 
     --%>
-    <link rel="stylesheet" href="${contextPath}/jquery-ui/jquery-ui.css"/>
-    <link rel="stylesheet" href="${contextPath}/jquery-ui/jquery-ui.structure.css"/>
-    <link rel="stylesheet" href="${contextPath}/jquery-ui/jquery-ui.theme.css"/>
-    <link rel="stylesheet" href="${contextPath}/jqgrid/css/ui.jqgrid.css"/>
+    <link rel="stylesheet" href="<spring:eval expression="@app.getProperty(\"path.static\")"/>/jquery-ui/jquery-ui.css"/>
+    <link rel="stylesheet" href="<spring:eval expression="@app.getProperty(\"path.static\")"/>/jquery-ui/jquery-ui.structure.css"/>
+    <link rel="stylesheet" href="<spring:eval expression="@app.getProperty(\"path.static\")"/>/jquery-ui/jquery-ui.theme.css"/>
+    <link rel="stylesheet" href="<spring:eval expression="@app.getProperty(\"path.static\")"/>/jqgrid/css/ui.jqgrid.css"/>
 
 
-    <link type="text/css" rel="stylesheet" href="${contextPath}/css/admin/default.css" />
-    <link rel="stylesheet" href="${contextPath}/css/admin/font-awesome.min.css">
+    <link type="text/css" rel="stylesheet" href="<spring:eval expression="@app.getProperty(\"path.static\")"/>/css/admin/default.css" />
+    <link rel="stylesheet" href="<spring:eval expression="@app.getProperty(\"path.static\")"/>/css/admin/font-awesome.min.css">
 
-    <script type="text/javascript" src="${contextPath}/js/admin/jquery-1.9.0.js"></script>
-    <script type="text/javascript" src="${contextPath}/js/admin/jquery-ui-1.10.3.custom.js"></script>
+    <script type="text/javascript" src="<spring:eval expression="@app.getProperty(\"path.static\")"/>/js/admin/jquery-1.9.0.js"></script>
+    <script type="text/javascript" src="<spring:eval expression="@app.getProperty(\"path.static\")"/>/js/admin/jquery-ui-1.10.3.custom.js"></script>
 
-    <script type="text/javascript" src="${contextPath}/js/admin/default.js"></script>
+    <script type="text/javascript" src="<spring:eval expression="@app.getProperty(\"path.static\")"/>/js/admin/default.js"></script>
 
     <%--
-    <script src="${contextPath}/jqgrid/js/jquery-1.11.0.min.js"></script>
-    <script src="${contextPath}/jquery-ui/jquery-ui.min.js"></script>
+    <script src="<spring:eval expression="@app.getProperty(\"path.static\")"/>/jqgrid/js/jquery-1.11.0.min.js"></script>
+    <script src="<spring:eval expression="@app.getProperty(\"path.static\")"/>/jquery-ui/jquery-ui.min.js"></script>
 
     --%>
 
-    <script src="${contextPath}/jqgrid/js/jquery.jqGrid.min.js"></script>
-    <script src="${contextPath}/jquery-ui/i18n/grid.locale-kr.js"></script>
+    <script src="<spring:eval expression="@app.getProperty(\"path.static\")"/>/jqgrid/js/jquery.jqGrid.min.js"></script>
+    <script src="<spring:eval expression="@app.getProperty(\"path.static\")"/>/jquery-ui/i18n/grid.locale-kr.js"></script>
     <decorator:head />
 </head>
 <body>
 <div id="wrap">
 <div id="header">
     <div class="logo">
-        <h1><a href="${contextPath}/main/index.asp"><img src="${contextPath}/img/admin/h1_logo.png" alt="gradnet" /></a></h1>
+        <h1><img src="<spring:eval expression="@app.getProperty(\"path.static\")"/>/img/admin/h1_logo.png" alt="gradnet" /></h1>
     </div>
-    <div class="date_info"><img src="${contextPath}/img/admin/img_icon1.png" alt="" /> <strong>원서접수기간 :</strong> 2014-04-07 09:30:00 ~ 2014-04-10 17:00:00</div>
+    <div class="date_info"><img src="<spring:eval expression="@app.getProperty(\"path.static\")"/>/img/admin/img_icon1.png" alt="" /> <strong>원서접수기간 :</strong> 2014-04-07 09:30:00 ~ 2014-04-10 17:00:00</div>
     <div class="gnb">
         <ul>
-            <li><a href="${contextPath}/admin/main"><img src="${contextPath}/img/admin/btn_home.png" alt="Home" /></a></li>
-            <li><a href="/ysproject/j_spring_security_logout.do"><img src="${contextPath}/img/admin/btn_logout.png" alt="Logout" /></a></li>
+            <li><a href="${contextPath}/admin/main"><img src="<spring:eval expression="@app.getProperty(\"path.static\")"/>/img/admin/btn_home.png" alt="Home" /></a></li>
+            <li><a href="${contextPath}/j_spring_security_logout.do"><img src="<spring:eval expression="@app.getProperty(\"path.static\")"/>/img/admin/btn_logout.png" alt="Logout" /></a></li>
         </ul>
     </div>
 </div>
@@ -84,7 +84,7 @@
         </div>
         <!-- /목록 리스트 -->
 
-        <a href="#open" title="목록 펼치기" id="recru_select" class="btn_more"><img src="${contextPath}/img/admin/btn_menu1.png" alt="목록"></a> </div>
+        <a href="#open" title="목록 펼치기" id="recru_select" class="btn_more"><img src="<spring:eval expression="@app.getProperty(\"path.static\")"/>/img/admin/btn_menu1.png" alt="목록"></a> </div>
     <!-- /recru -->
 
     <div id="state" class="snb_box1">
@@ -97,7 +97,7 @@
                 <li><span class="tit">접수취소인원</span><span class="number"><strong>370</strong> 명</span></li>
             </ul>
         </div>
-        <a href="#" title="새로고침" class="btn_more"><img src="${contextPath}/img/admin/btn_menu2.png" alt="새로고침"></a> </div>
+        <a href="#" title="새로고침" class="btn_more"><img src="<spring:eval expression="@app.getProperty(\"path.static\")"/>/img/admin/btn_menu2.png" alt="새로고침"></a> </div>
     <!-- /state -->
 
     <div class="menu_wrap">
@@ -141,16 +141,16 @@
 
 
 <%--
-<script src="${contextPath}/js/jquery.bpopup.min.js"></script>
-<script src="${contextPath}/js/admin/prototype.js"></script>
-<script src="${contextPath}/js/admin/dui_base.js"></script>
-<script src="${contextPath}/js/admin/dui_effect.js"></script>
-<script src="${contextPath}/js/admin/dui_dragndrop.js"></script>
-<script src="${contextPath}/js/admin/dui_hhmenu.js"></script>
-<script src="${contextPath}/js/admin/dui_tree.js"></script>
-<script src="${contextPath}/js/admin/dui_slidemenu.js"></script>
-<script src="${contextPath}/js/admin/common.js"></script>
-<script src="${contextPath}/js/json2.js"></script>
+<script src="<spring:eval expression="@app.getProperty(\"path.static\")"/>/js/jquery.bpopup.min.js"></script>
+<script src="<spring:eval expression="@app.getProperty(\"path.static\")"/>/js/admin/prototype.js"></script>
+<script src="<spring:eval expression="@app.getProperty(\"path.static\")"/>/js/admin/dui_base.js"></script>
+<script src="<spring:eval expression="@app.getProperty(\"path.static\")"/>/js/admin/dui_effect.js"></script>
+<script src="<spring:eval expression="@app.getProperty(\"path.static\")"/>/js/admin/dui_dragndrop.js"></script>
+<script src="<spring:eval expression="@app.getProperty(\"path.static\")"/>/js/admin/dui_hhmenu.js"></script>
+<script src="<spring:eval expression="@app.getProperty(\"path.static\")"/>/js/admin/dui_tree.js"></script>
+<script src="<spring:eval expression="@app.getProperty(\"path.static\")"/>/js/admin/dui_slidemenu.js"></script>
+<script src="<spring:eval expression="@app.getProperty(\"path.static\")"/>/js/admin/common.js"></script>
+<script src="<spring:eval expression="@app.getProperty(\"path.static\")"/>/js/json2.js"></script>
 --%>
 <script type="text/javascript">
 

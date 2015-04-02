@@ -379,7 +379,10 @@
 
                                 <p><spring:message code="U04120"/><%--파일 업로드 후 오른쪽의 '내려받기' 버튼을 클릭해서 파일이 올바르게 업로드 되었는지 확인할 수 있습니다.--%></p>
 
-                                <div class="col-md-12 text-center mid-font slogan"><label style="font-size: 15px; color: red;"><spring:message code="U04121"/><%--위 내용을 확인하였으며, 업로드 한 파일의 적정 여부에 대한 책임은 지원 신청자에게 있음을 확인합니다.--%> <input type="checkbox" name="application.docChckYn" id="docChckYn" value="${document.application.docChckYn == 'Y' ? 'on' : 'off'}" ${document.application.docChckYn == 'Y' ? 'checked' : ''}/></label></div>
+                                <p style="font-size: 14px; color: blue"><b><spring:message code="U04121"/></b><%--입학 신청과 관련하여 제출 또는 업로드 해야 할 서류나 파일에 대한 정보는 모집 요강을 반드시 참고하시기 바랍니다.--%><br/>
+                                    <b><spring:message code="U04122"/></b><%--제출 해야 할 서류나 파일의 누락에 대한 책임은 지원 신청자 본인에게 있습니다.--%></p>
+
+                                <div class="col-md-12 text-center mid-font slogan"><label style="font-size: 15px; color: red;"><spring:message code="U04123"/><%--위 내용을 확인하였으며, 입학 신청과 관련한 서류나 파일의 누락 및 적정 여부에 대한 책임은 지원 신청자에게 있음을 확인합니다.--%> <input type="checkbox" name="application.docChckYn" id="docChckYn" value="${document.application.docChckYn == 'Y' ? 'on' : 'off'}" ${document.application.docChckYn == 'Y' ? 'checked' : ''}/></label></div>
                             <spring:bind path="application.docChckYn">
                                 <c:if test="${status.error}">
                                     <div class="col-sm-12 validation-container">
@@ -400,8 +403,8 @@
                         <div class="form-group"><label class="col-sm-3 control-label word-keep-all">${lv1Container.docItemName}</label></div>
                         </c:when>
                         <c:otherwise>
-                        <div class="panel panel-darkgray">
-                            <div class="panel-heading">${msg.getMessage(lv1Container.grpLabel, locale)}</div>
+                        <div class="panel panel-darkgray0">
+                            <div class="panel-heading">${msg.getMessage(lv1Container.grpLabel)}</div>
                             <form:hidden path="documentContainerList[${lv1Status.index}].grpLabel" value="${lv1Container.grpLabel}" />
                             <form:hidden path="documentContainerList[${lv1Status.index}].docTypeCode" value="${lv1Container.docTypeCode}" />
                             <form:hidden path="documentContainerList[${lv1Status.index}].docItemCode" value="${lv1Container.docItemCode}" />
@@ -449,7 +452,7 @@
                                     <div class="col-sm-3"><label>${pageContext.response.locale == 'en' ? lv2Container.docItemNameXxen : lv2Container.docItemName}</label></div>
                                     <div class="col-sm-9 warn-info"><label>${lv2Container.msg}</label></div>
                                 </c:when>
-                                <c:otherwise>`
+                                <c:otherwise>
                                     <div class="col-sm-3">
                                         <div class="checkbox-upload">
                                             <label class="word-keep-all" for="documentContainerList${lv1Status.index}.subContainer${lv2Status.index}.checkedFg">
@@ -1312,37 +1315,40 @@
                             admsNo: document.getElementById('admsNo').value
                         },
                         success: function (data, status) {
-                            var d = JSON.parse(data.data);
-                            var targetBtnId = d.targetButton,
-                                    targetBtn = document.getElementById(targetBtnId),
-                                    $targetBtn = $(targetBtn),
-                                    originalFileName = d.originalFileName,
-                                    targetFileDownloadLinkId = d.targetFileDownloadLinkId,
-                                    targetFileDeleteLinkId = d.targetFileDeleteLinkId,
-                                    applNo = d.applNo,
-                                    downloadURL,
-                                    oneDocument = d.oneDocument,
-                                    docSeq = oneDocument.docSeq,
-                                    oneDocumentHidden;
-                            $targetBtn.removeClass("btn-default");
-                            $targetBtn.removeClass("btn-danger");
-                            $targetBtn.addClass("btn-info");
-                            $targetBtn.val("올리기 성공");
+                            if (data.result == 'SUCCESS') {
+                                var d = JSON.parse(data.data);
+                                var targetBtnId = d.targetButton,
+                                        targetBtn = document.getElementById(targetBtnId),
+                                        $targetBtn = $(targetBtn),
+                                        originalFileName = d.originalFileName,
+                                        targetFileDownloadLinkId = d.targetFileDownloadLinkId,
+                                        targetFileDeleteLinkId = d.targetFileDeleteLinkId,
+                                        applNo = d.applNo,
+                                        downloadURL,
+                                        oneDocument = d.oneDocument,
+                                        docSeq = oneDocument.docSeq,
+                                        oneDocumentHidden;
+                                $targetBtn.removeClass("btn-default");
+                                $targetBtn.removeClass("btn-danger");
+                                $targetBtn.addClass("btn-info");
+                                $targetBtn.val("올리기 성공");
 
-                            document.getElementById(targetFileDownloadLinkId).parentNode.style.display = 'block';
-                            document.getElementById(targetFileDownloadLinkId).setAttribute('href', '${contextPath}/application/document/fileDownload/' + applNo + '/' + docSeq);
+                                document.getElementById(targetFileDownloadLinkId).parentNode.style.display = 'block';
+                                document.getElementById(targetFileDownloadLinkId).setAttribute('href', '${contextPath}/application/document/fileDownload/' + applNo + '/' + docSeq);
 
-                            document.getElementById(targetFileDeleteLinkId).parentNode.style.display = 'block';
-                            document.getElementById(targetFileDeleteLinkId).setAttribute('href', '${contextPath}/application/document/fileDelete/' + applNo + '/' + docSeq);
+                                document.getElementById(targetFileDeleteLinkId).parentNode.style.display = 'block';
+                                document.getElementById(targetFileDeleteLinkId).setAttribute('href', '${contextPath}/application/document/fileDelete/' + applNo + '/' + docSeq);
 
-                            document.getElementById(targetOrgFileNameHiddenId).value = originalFileName;
+                                document.getElementById(targetOrgFileNameHiddenId).value = originalFileName;
 
-                            for (key in oneDocument) {
-                                oneDocumentHidden = document.getElementById(targetSubContainerId + key);
-                                if (oneDocumentHidden) {
-                                    oneDocumentHidden.value = oneDocument[key];
-//console.log(key, oneDocumentHidden.value);
+                                for (key in oneDocument) {
+                                    oneDocumentHidden = document.getElementById(targetSubContainerId + key);
+                                    if (oneDocumentHidden) {
+                                        oneDocumentHidden.value = oneDocument[key];
+                                    }
                                 }
+                            } else {
+                                alert(data.message);
                             }
                         },
                         error: function (data, status, e) {

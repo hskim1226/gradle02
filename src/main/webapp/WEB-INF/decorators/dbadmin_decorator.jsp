@@ -11,19 +11,19 @@
 
     <title><decorator:title default="연세대학교 대학원 입학원서 접수 시스템"/></title>
 
-    <script src="${contextPath}/js/html5shiv.min.js"></script>
-    <script src="${contextPath}/js/respond.min.js"></script>
-    <script src="${contextPath}/jqgrid/js/jquery-1.11.0.min.js"></script>
+    <script src="<spring:eval expression="@app.getProperty(\"path.static\")"/>/js/html5shiv.min.js"></script>
+    <script src="<spring:eval expression="@app.getProperty(\"path.static\")"/>/js/respond.min.js"></script>
+    <script src="<spring:eval expression="@app.getProperty(\"path.static\")"/>/jqgrid/js/jquery-1.11.0.min.js"></script>
 
-    <link rel="stylesheet" href="${contextPath}/css/admin/old/base.css"/>
-    <link rel="stylesheet" href="${contextPath}/css/admin/old/global_style.css"/>
-    <link rel="stylesheet" href="${contextPath}/css/admin/old/global_layout.css"/>
-    <link rel="stylesheet" href="${contextPath}/css/admin/old/page_style.css"/>
-    <link rel="stylesheet" href="${contextPath}/css/admin/old/page_layout.css"/>
-    <link rel="stylesheet" href="${contextPath}/jquery-ui/jquery-ui.css"/>    
-    <link rel="stylesheet" href="${contextPath}/jquery-ui/jquery-ui.structure.css"/>    
-    <link rel="stylesheet" href="${contextPath}/jquery-ui/jquery-ui.theme.css"/>      
-	<link rel="stylesheet" href="${contextPath}/jqgrid/css/ui.jqgrid.css"/>    
+    <link rel="stylesheet" href="<spring:eval expression="@app.getProperty(\"path.static\")"/>/css/admin/old/base.css"/>
+    <link rel="stylesheet" href="<spring:eval expression="@app.getProperty(\"path.static\")"/>/css/admin/old/global_style.css"/>
+    <link rel="stylesheet" href="<spring:eval expression="@app.getProperty(\"path.static\")"/>/css/admin/old/global_layout.css"/>
+    <link rel="stylesheet" href="<spring:eval expression="@app.getProperty(\"path.static\")"/>/css/admin/old/page_style.css"/>
+    <link rel="stylesheet" href="<spring:eval expression="@app.getProperty(\"path.static\")"/>/css/admin/old/page_layout.css"/>
+    <link rel="stylesheet" href="<spring:eval expression="@app.getProperty(\"path.static\")"/>/jquery-ui/jquery-ui.css"/>
+    <link rel="stylesheet" href="<spring:eval expression="@app.getProperty(\"path.static\")"/>/jquery-ui/jquery-ui.structure.css"/>
+    <link rel="stylesheet" href="<spring:eval expression="@app.getProperty(\"path.static\")"/>/jquery-ui/jquery-ui.theme.css"/>
+	<link rel="stylesheet" href="<spring:eval expression="@app.getProperty(\"path.static\")"/>/jqgrid/css/ui.jqgrid.css"/>
 
     <decorator:head />
 </head>
@@ -68,19 +68,19 @@
 
 <decorator:body />
 
-<script src="${contextPath}/jquery-ui/jquery-ui.min.js"></script>    
-<script src="${contextPath}/jqgrid/js/jquery.jqGrid.min.js"></script>    
-<script src="${contextPath}/jquery-ui/i18n/grid.locale-kr.js"></script> 
-<script src="${contextPath}/js/jquery.bpopup.min.js"></script>
-<script src="${contextPath}/js/admin/old/prototype.js"></script>
-<script src="${contextPath}/js/admin/old/dui_base.js"></script>
-<script src="${contextPath}/js/admin/old/dui_effect.js"></script>
-<script src="${contextPath}/js/admin/old/dui_dragndrop.js"></script>
-<script src="${contextPath}/js/admin/old/dui_hhmenu.js"></script>
-<script src="${contextPath}/js/admin/old/dui_tree.js"></script>
-<script src="${contextPath}/js/admin/old/dui_slidemenu.js"></script>
-<script src="${contextPath}/js/admin/old/common.js"></script>
-<script src="${contextPath}/js/json2.js"></script>
+<script src="<spring:eval expression="@app.getProperty(\"path.static\")"/>/jquery-ui/jquery-ui.min.js"></script>
+<script src="<spring:eval expression="@app.getProperty(\"path.static\")"/>/jqgrid/js/jquery.jqGrid.min.js"></script>
+<script src="<spring:eval expression="@app.getProperty(\"path.static\")"/>/jquery-ui/i18n/grid.locale-kr.js"></script>
+<script src="<spring:eval expression="@app.getProperty(\"path.static\")"/>/js/jquery.bpopup.min.js"></script>
+<script src="<spring:eval expression="@app.getProperty(\"path.static\")"/>/js/admin/old/prototype.js"></script>
+<script src="<spring:eval expression="@app.getProperty(\"path.static\")"/>/js/admin/old/dui_base.js"></script>
+<script src="<spring:eval expression="@app.getProperty(\"path.static\")"/>/js/admin/old/dui_effect.js"></script>
+<script src="<spring:eval expression="@app.getProperty(\"path.static\")"/>/js/admin/old/dui_dragndrop.js"></script>
+<script src="<spring:eval expression="@app.getProperty(\"path.static\")"/>/js/admin/old/dui_hhmenu.js"></script>
+<script src="<spring:eval expression="@app.getProperty(\"path.static\")"/>/js/admin/old/dui_tree.js"></script>
+<script src="<spring:eval expression="@app.getProperty(\"path.static\")"/>/js/admin/old/dui_slidemenu.js"></script>
+<script src="<spring:eval expression="@app.getProperty(\"path.static\")"/>/js/admin/old/common.js"></script>
+<script src="<spring:eval expression="@app.getProperty(\"path.static\")"/>/js/json2.js"></script>
 
 <decorator:getProperty property="page.local-script"/>
 </body>

@@ -96,9 +96,9 @@
     <bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean"/>
 
 
-    <bean id="velocityEngine" class="org.springframework.ui.velocity.VelocityEngineFactoryBean">
-        <property name="resourceLoaderPath" value="classpath:template/excel" />
-    </bean>
+    <!--<bean id="velocityEngine" class="org.springframework.ui.velocity.VelocityEngineFactoryBean">-->
+        <!--<property name="resourceLoaderPath" value="classpath:template/excel" />-->
+    <!--</bean>-->
 
     <bean id="localeResolver" class="org.springframework.web.servlet.i18n.SessionLocaleResolver">
         <property name="defaultLocale" value="ko" />

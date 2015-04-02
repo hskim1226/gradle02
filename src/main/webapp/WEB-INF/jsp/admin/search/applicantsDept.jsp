@@ -87,7 +87,7 @@
     <c:if test="${indexCount != 0}">
         <a class="Lbegin"><span><a href="#" class="end" onclick="movePage(1); return false;">1page</a>
         <c:if test="${searchPageForm.page.no-1 > 0}">
-           <a href="#" onclick="movePage(${searchPageForm.page.no-1}); return false;"><img src="${contextPath}/img/admin/repository/list_page_previous.gif" alt="이전페이지" /></a>
+           <a href="#" onclick="movePage(${searchPageForm.page.no-1}); return false;"><img src="<spring:eval expression="@app.getProperty(\"path.static\")"/>/img/admin/repository/list_page_previous.gif" alt="이전페이지" /></a>
         </c:if>
         <c:forEach begin="1" end="${indexCount}" var="pageNumIndex">
             <c:if test="${searchPageForm.page.no==pageNumIndex}">
@@ -98,7 +98,7 @@
             </c:if>
         </c:forEach>
         <c:if test="${searchPageForm.page.no < indexCount}">
-            <a href="#" onclick="movePage(${searchPageForm.page.no+1}); return false;"><img src="${contextPath}/img/admin/repository/list_page_next.gif" alt="다음페이지" /></a>
+            <a href="#" onclick="movePage(${searchPageForm.page.no+1}); return false;"><img src="<spring:eval expression="@app.getProperty(\"path.static\")"/>/img/admin/repository/list_page_next.gif" alt="다음페이지" /></a>
         </c:if>
         <a href="#" class="end" onclick="movePage(${indexCount}); return false;">${indexCount}page</a>
     </c:if>

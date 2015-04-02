@@ -16,6 +16,7 @@
     <result column="SCHL_NAME" jdbcType="VARCHAR" property="schlName" />
     <result column="COLL_NAME" jdbcType="VARCHAR" property="collName" />
     <result column="MAJ_NAME" jdbcType="VARCHAR" property="majName" />
+    <result column="GRAD_FORM_CODE" jdbcType="VARCHAR" property="gradFormCode" />
     <result column="GRAD_AVR" jdbcType="VARCHAR" property="gradAvr" />
     <result column="GRAD_FULL" jdbcType="VARCHAR" property="gradFull" />
     <result column="DEGR_NO" jdbcType="VARCHAR" property="degrNo" />
@@ -41,7 +42,7 @@
       This element was generated on Mon Aug 25 20:54:40 KST 2014.
     -->
     APPL_NO, ACAD_SEQ, ACAD_TYPE_CODE, LAST_SCHL_YN, ENTR_DAY, GRDA_DAY, SCHL_CODE, SCHL_NAME,
-    COLL_NAME, MAJ_NAME, GRAD_AVR, GRAD_FULL, GRDA_TYPE_CODE, QUAL_EXAM_DAY, QUAL_AREA_CODE,
+    COLL_NAME, MAJ_NAME, GRAD_FORM_CODE, GRAD_AVR, GRAD_FULL, GRDA_TYPE_CODE, QUAL_EXAM_DAY, QUAL_AREA_CODE,
     SCHL_ADDR, SCHL_TEL, CRE_ID, CRE_DATE, MOD_ID, MOD_DATE
   </sql>
 
