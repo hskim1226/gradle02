@@ -288,7 +288,7 @@
                                             <div class="col-sm-3">
                                                 <form:select path="application.campCode" id="campCode" cssClass="form-control base-info base-non-ariInst">
                                                     <form:option value="" label="--${msg.getMessage('L01011', locale)}--" />
-                                                    <c:if test="${basis.application.applAttrCode == '00001' || basis.application.applAttrCode == '00003'}">
+                                                    <c:if test="${basis.application.applAttrCode == '00001' || basis.application.applAttrCode == '00003' || basis.application.applAttrCode == '00004'}">
                                                         <form:options items="${selection.campList}" itemValue="campCode"
                                                                       itemLabel="${pageContext.response.locale == 'en' ? 'campNameXxen' : 'campName'}"/>
                                                     </c:if>
@@ -298,7 +298,7 @@
                                             <div class="col-sm-7">
                                                 <form:select path="application.collCode" id="collCode" cssClass="form-control base-info base-non-ariInst">
                                                     <form:option value="" label="--${msg.getMessage('L01011', locale)}--" />
-                                                    <c:if test="${basis.application.applAttrCode == '00001' || basis.application.applAttrCode == '00003'}">
+                                                    <c:if test="${basis.application.applAttrCode == '00001' || basis.application.applAttrCode == '00003' || basis.application.applAttrCode == '00004'}">
                                                         <form:options items="${selection.collList}" itemValue="collCode"
                                                                       itemLabel="${pageContext.response.locale == 'en' ? 'collNameXxen' : 'collName'}"/>
                                                     </c:if>
@@ -306,7 +306,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="form-group hidden-apply-kind-0 hidden-apply-kind-1 hidden-apply-kind-3 required">
+                                    <div class="form-group hidden-apply-kind-0 hidden-apply-kind-1 hidden-apply-kind-3 hidden-apply-kind-4 required">
                                         <label for="ariInstCode" class="col-sm-2 control-label"><spring:message code="L01106"/><%--학·연·산 연구기관--%></label>
                                         <div class="col-sm-9">
                                             <div class="col-sm-12">
@@ -1844,6 +1844,8 @@
                         } else if (applAttrCode == '00002') {
                             return '/ariInst/detailMajor/' + admsNo + "/" + $('#deptCode').val() + "/" + $('#ariInstCode').val() + '/' + arg;
                         } else if (applAttrCode == '00003') {
+                            return '/general/detailMajor/' + admsNo + '/' + $('#deptCode').val() + '/' + arg;
+                        } else if (applAttrCode == '00004') {
                             return '/general/detailMajor/' + admsNo + '/' + $('#deptCode').val() + '/' + arg;
                         }
                     }

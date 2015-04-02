@@ -221,7 +221,7 @@ public class CommonServiceImpl implements CommonService {
     public List<CodeNameCourse> retrieveNorthDefectorCourseByAdmsDept(ParamForSetupCourses paramForSetupCourses) {
         List<CodeNameCourse> codeNameCourseList = null;
         try {
-            codeNameCourseList = commonDAO.queryForList(NAME_SPACE+"CustomCourseMapper.selectNorthDefectorCommissionByAdmsDept",
+            codeNameCourseList = commonDAO.queryForList(NAME_SPACE+"CustomCourseMapper.selectNorthDefectorByAdmsDept",
                     paramForSetupCourses,
                     CodeNameCourse.class);
 //            converter.convert(codeNameCourseList, request);
