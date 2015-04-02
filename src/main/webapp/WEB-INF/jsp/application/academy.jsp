@@ -502,7 +502,7 @@
                                         <form:hidden path="graduateList[${stat.index}].acadTypeCode" value="00003" />
                                         <form:hidden path="graduateList[${stat.index}].acadSeq" />
                                         <form:hidden path="graduateList[${stat.index}].userCUDType" value='${academy.graduateList[stat.index].userCUDType == null ? "INSERT" : academy.graduateList[stat.index].userCUDType}'/>
-                                        <div class="form-group <c:if test="${corsTypeCode.equals('02') || corsTypeCode.equals('06') || corsTypeCode.equals('08')}">required</c:if>">
+                                        <div class="form-group <c:if test="${corsTypeCode.equals('02') || corsTypeCode.equals('06') || corsTypeCode.equals('08') || corsTypeCode.equals('11')}">required</c:if>">
                                             <label class="col-sm-2 control-label"><spring:message code="L02103"/><%--소재 국가--%></label>
                                             <div class="col-sm-9">
                                                 <div class="col-sm-3">
@@ -523,7 +523,7 @@
                                         </spring:bind>
                                             </div>
                                         </div>
-                                        <div class="form-group <c:if test="${corsTypeCode.equals('02') || corsTypeCode.equals('06') || corsTypeCode.equals('08')}">required</c:if>">
+                                        <div class="form-group <c:if test="${corsTypeCode.equals('02') || corsTypeCode.equals('06') || corsTypeCode.equals('08') || corsTypeCode.equals('11')}">required</c:if>">
                                             <label class="col-sm-2 control-label"><spring:message code="L02105"/><%--재학 기간--%></label>
                                             <div class="col-sm-9">
                                                 <div class="col-sm-6 start-date-container">
@@ -560,7 +560,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="form-group <c:if test="${corsTypeCode.equals('02') || corsTypeCode.equals('06') || corsTypeCode.equals('08')}">required</c:if>">
+                                        <div class="form-group <c:if test="${corsTypeCode.equals('02') || corsTypeCode.equals('06') || corsTypeCode.equals('08') || corsTypeCode.equals('11')}">required</c:if>">
                                             <label class="col-sm-2 control-label"><spring:message code="L02108"/><%--졸업 구분--%></label>
                                             <div class="col-sm-9">
                                                 <div class="col-sm-4">
@@ -592,7 +592,7 @@
                                         </spring:bind>
                                             </div>
                                         </div>
-                                        <div class="form-group <c:if test="${corsTypeCode.equals('02') || corsTypeCode.equals('06') || corsTypeCode.equals('08')}">required</c:if>">
+                                        <div class="form-group <c:if test="${corsTypeCode.equals('02') || corsTypeCode.equals('06') || corsTypeCode.equals('08') || corsTypeCode.equals('11')}">required</c:if>">
                                             <form:label path="graduateList[${stat.index}].schlName" cssClass="col-sm-2 control-label"><spring:message code="L02112"/><%--학교 이름--%></form:label>
                                             <div class="col-sm-9">
                                                 <div class="col-sm-3">
@@ -620,7 +620,7 @@
                                         </spring:bind>
                                             </div>
                                         </div>
-                                        <div class="form-group <c:if test="${corsTypeCode.equals('02') || corsTypeCode.equals('06') || corsTypeCode.equals('08')}">required</c:if>">
+                                        <div class="form-group <c:if test="${corsTypeCode.equals('02') || corsTypeCode.equals('06') || corsTypeCode.equals('08') || corsTypeCode.equals('11')}">required</c:if>">
                                             <form:label path="graduateList[${stat.index}].collName" cssClass="col-sm-2 control-label"><spring:message code="L02115"/><%--단과 대학--%></form:label>
                                             <div class="col-sm-9">
                                                 <div class="col-sm-12">
@@ -635,7 +635,7 @@
                                         </spring:bind>
                                             </div>
                                         </div>
-                                        <div class="form-group <c:if test="${corsTypeCode.equals('02') || corsTypeCode.equals('06') || corsTypeCode.equals('08')}">required</c:if>">
+                                        <div class="form-group <c:if test="${corsTypeCode.equals('02') || corsTypeCode.equals('06') || corsTypeCode.equals('08') || corsTypeCode.equals('11')}">required</c:if>">
                                             <form:label path="graduateList[${stat.index}].majName" cssClass="col-sm-2 control-label"><spring:message code="L02116"/><%--학과 이름--%></form:label>
                                             <div class="col-sm-9">
                                                 <div class="col-sm-12">
@@ -650,7 +650,7 @@
                                         </spring:bind>
                                             </div>
                                         </div>
-                                        <div class="form-group <c:if test="${corsTypeCode.equals('02') || corsTypeCode.equals('06') || corsTypeCode.equals('08')}">required</c:if>">
+                                        <div class="form-group <c:if test="${corsTypeCode.equals('02') || corsTypeCode.equals('06') || corsTypeCode.equals('08') || corsTypeCode.equals('11')}">required</c:if>">
                                             <label class="col-sm-2 control-label"><spring:message code="L02117"/><%--평량 평균--%></label>
                                             <div class="col-sm-9">
                                                 <div class="col-sm-4">
@@ -857,7 +857,7 @@
                     isCollegeLastSchlChecked = true;
             });
 
-            <c:if test="${corsTypeCode.equals('02') || corsTypeCode.equals('06') || corsTypeCode.equals('08')}">
+            <c:if test="${corsTypeCode.equals('02') || corsTypeCode.equals('06') || corsTypeCode.equals('08') || corsTypeCode.equals('11')}">
             isGraduateLastSchlChecked = false;
             $('.graduate-radio').each( function () {
                 if (this.value == 'on' && this.checked == true)
