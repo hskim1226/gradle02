@@ -14,9 +14,19 @@
 							default-autowire="byType">
 					
 
-	<bean id="persistenceManager" class="com.apexsoft.framework.persistence.file.manager.FilePersistenceManagerImpl">
-		<property name="baseDirectory" value="${file.baseDir}" />
-	</bean>	
+	<!--<bean id="persistenceManager" class="com.apexsoft.framework.persistence.file.manager.FilePersistenceManagerImpl">-->
+		<!--<property name="baseDirectory" value="${file.baseDir}" />-->
+	<!--</bean>-->
+
+	<bean id="amazonS3" class="com.amazonaws.services.s3.AmazonS3Client"/>
+
+	<bean id="s3PersistenceManager" class="com.apexsoft.framework.persistence.file.manager.S3PersistenceManagerImpl">
+		<constructor-arg ref="amazonS3"/>
+		<constructor-arg value="${s3.region}"/>
+		<constructor-arg value="${s3.bucketName}"/>
+		<constructor-arg value="${s3.midPath}"/>
+
+	</bean>
 	
 	<bean id="multiPartReceiver" class="com.apexsoft.framework.persistence.file.receiver.MultiPartReceiverImpl" />
 

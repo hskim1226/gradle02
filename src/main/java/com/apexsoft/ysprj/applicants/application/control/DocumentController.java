@@ -327,13 +327,14 @@ public class DocumentController {
                                     fis = new FileInputStream(fileItem.getFile()));
 //                            String path = fileInfo.getDirectory().replace('\\', '/');
                             String path = fileInfo.getDirectory();
-                            String pathWithoutContextPath;
-                            if (path.startsWith(fileBaseDir)) {
-                                pathWithoutContextPath = path.substring(fileBaseDir.length());
-                            } else {
-                                throw new FileUploadException("ERR0057");
-                            }
-                            fileMetaForm.setPath(pathWithoutContextPath);
+//                            String pathWithoutContextPath = ;
+//                            if (path.startsWith(fileBaseDir)) {
+//                                pathWithoutContextPath = path.substring(fileBaseDir.length());
+//                            } else {
+//                                throw new FileUploadException("ERR0057");
+//                            }
+//                            fileMetaForm.setPath(pathWithoutContextPath);
+                            fileMetaForm.setPath(path);
                             fileMetaForm.setFileName(fileInfo.getFileName());
                             fileMetaForm.setOriginalFileName(originalFileName);
 
@@ -354,30 +355,109 @@ public class DocumentController {
                             jsonFileMetaForm = objectMapper.writeValueAsString(fileMetaForm);
 
                         } catch (FileNotFoundException fnfe) {
-                            persistence.deleteFile(uploadDir, uploadFileName);
+//                            persistence.deleteFile(uploadDir, uploadFileName);
                             throw getYSBizException(document, principal, "U339", "ERR0058");
                         } catch (FileUploadException foe) {
-                            persistence.deleteFile(uploadDir, uploadFileName);
+//                            persistence.deleteFile(uploadDir, uploadFileName);
                             throw getYSBizException(document, principal, "U339", foe.getMessage());
                         } catch (JsonProcessingException jpe) {
-                            persistence.deleteFile(uploadDir, uploadFileName);
+//                            persistence.deleteFile(uploadDir, uploadFileName);
                             throw getYSBizException(document, principal, "U339", "ERR0201");
                         } catch (YSBizException ybe) {
-                            persistence.deleteFile(uploadDir, uploadFileName);
+//                            persistence.deleteFile(uploadDir, uploadFileName);
                             throw ybe;
                         } catch (Exception e) {
-                            persistence.deleteFile(uploadDir, uploadFileName);
+//                            persistence.deleteFile(uploadDir, uploadFileName);
                             throw getYSBizException(document, principal, "U339", "ERR0052");
                         }finally {
                             try {
                                 if (fis!= null) fis.close();
                             } catch (IOException e) {}
-                            FileUtils.deleteQuietly(fileItem.getFile());
+//                            FileUtils.deleteQuietly(fileItem.getFile());
                         }
                     }
 
                     return jsonFileMetaForm;
                 }
+//                public String handleEvent(List<FileItem> fileItems,
+//                                          FileMetaForm fileMetaForm,
+//                                          FilePersistenceManager persistence,
+//                                          TotalApplicationDocument document) {
+//                    ExecutionContext ec = null;
+//                    String jsonFileMetaForm = null;
+//                    FileInfo fileInfo;
+//                    String uploadDir = getDirectory(fileMetaForm);
+//                    String uploadFileName = "";
+//                    for ( FileItem fileItem : fileItems){
+//                        if (fileItem.getFile().length() > MAX_LENGTH) {
+//                            ec = new ExecutionContext(ExecutionContext.FAIL);
+//                            Map<String, String> errorInfo = new HashMap<String, String>();
+//                            errorInfo.put("applNo", String.valueOf(document.getApplNo()));
+//                            ec.setErrorInfo(new ErrorInfo(errorInfo));
+//                            throw new FileUploadException(ec, "U04301", "ERR0060");
+//                        }
+//                        FileInputStream fis = null;
+//                        String originalFileName = fileItem.getOriginalFileName();
+//                        try{
+//                            uploadDir = getDirectory(fileMetaForm);
+//                            uploadFileName = createFileName(fileMetaForm, fileItem);
+//                            fileInfo = persistence.save(uploadDir,
+//                                    uploadFileName,
+//                                    originalFileName,
+//                                    fis = new FileInputStream(fileItem.getFile()));
+////                            String path = fileInfo.getDirectory().replace('\\', '/');
+//                            String path = fileInfo.getDirectory();
+//                            String pathWithoutContextPath;
+//                            if (path.startsWith(fileBaseDir)) {
+//                                pathWithoutContextPath = path.substring(fileBaseDir.length());
+//                            } else {
+//                                throw new FileUploadException("ERR0057");
+//                            }
+//                            fileMetaForm.setPath(pathWithoutContextPath);
+//                            fileMetaForm.setFileName(fileInfo.getFileName());
+//                            fileMetaForm.setOriginalFileName(originalFileName);
+//
+////                            document.setFilePath(fileInfo.getDirectory().replace('\\', '/'));
+//                            document.setFilePath(fileInfo.getDirectory());
+//                            document.setFileName(fileInfo.getFileName());
+//                            document.setOrgFileName(originalFileName);
+//                            document.setFileExt(originalFileName.substring(originalFileName.lastIndexOf('.') + 1));
+//                            document.setPageCnt(fileInfo.getPageCnt());
+//                            document.setCreId(principal.getName());
+//
+//                            ec = documentService.saveOneDocument(document);
+//
+//                            if (ExecutionContext.SUCCESS.equals(ec.getResult())) {
+//                                fileMetaForm.setTotalApplicationDocument((TotalApplicationDocument)ec.getData());
+//                            }
+//
+//                            jsonFileMetaForm = objectMapper.writeValueAsString(fileMetaForm);
+//
+//                        } catch (FileNotFoundException fnfe) {
+//                            persistence.deleteFile(uploadDir, uploadFileName);
+//                            throw getYSBizException(document, principal, "U339", "ERR0058");
+//                        } catch (FileUploadException foe) {
+//                            persistence.deleteFile(uploadDir, uploadFileName);
+//                            throw getYSBizException(document, principal, "U339", foe.getMessage());
+//                        } catch (JsonProcessingException jpe) {
+//                            persistence.deleteFile(uploadDir, uploadFileName);
+//                            throw getYSBizException(document, principal, "U339", "ERR0201");
+//                        } catch (YSBizException ybe) {
+//                            persistence.deleteFile(uploadDir, uploadFileName);
+//                            throw ybe;
+//                        } catch (Exception e) {
+//                            persistence.deleteFile(uploadDir, uploadFileName);
+//                            throw getYSBizException(document, principal, "U339", "ERR0052");
+//                        }finally {
+//                            try {
+//                                if (fis!= null) fis.close();
+//                            } catch (IOException e) {}
+//                            FileUtils.deleteQuietly(fileItem.getFile());
+//                        }
+//                    }
+//
+//                    return jsonFileMetaForm;
+//                }
             }, FileMetaForm.class, TotalApplicationDocument.class);
         } catch (YSBizException ybe) {
             logger.error("ErrorInfo :: " + ybe.getExecutionContext().getErrorInfo().toString());
