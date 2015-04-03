@@ -29,7 +29,7 @@
                                     <tr><th class="header"><spring:message code="L05105"/><%--결제금액--%></th><td>${payment.LGD_AMOUNT}원</td></tr>
                                 </table>
                                 <div>
-                                    <button class="btn btn-primary btn-lg btn-block" id="processPayment"><spring:message code="L05106"/><%--결제하기--%></button>
+                                    <button class="btn btn-primary btn-lg btn-block ${payment.admsSts.equals("OP")?"":"disabled"}" id="processPayment"><spring:message code="L05106"/><%--결제하기--%></button>
                                 </div>
                             </div>
                         </div>
@@ -42,6 +42,7 @@
             <input type="hidden" name="LGD_BUYER"              id="LGD_BUYER"       value="${payment.LGD_BUYER}"/>
             <input type="hidden" name="LGD_PRODUCTINFO"        id="LGD_PRODUCTINFO" value="${payment.LGD_PRODUCTINFO}"/>
             <input type="hidden" name="LGD_BUYERID"            id="LGD_BUYERID"     value="${payment.LGD_BUYERID}">
+            <input type="hidden" name="admsSts"                id="admsSts"         value="${payment.admsSts}">
 
             <input type="hidden" name="CST_PLATFORM"           id="CST_PLATFORM">
             <input type="hidden" name="CST_MID"                id="CST_MID">
@@ -69,7 +70,11 @@
     <script language="javascript" src="http://xpay.uplus.co.kr:7080/xpay/js/xpay_utf-8.js" type="text/javascript"></script>
     <script>
         $(document).ready( function() {
+
             isActiveXOK();
+
+            admsStsCheck();
+
             /*
              * 상점결제 인증요청후 PAYKEY를 받아서 최종결제 요청.
              */
@@ -182,6 +187,13 @@
                     }
                 });
             });
+
+            function admsStsCheck() {
+
+                if( document.getElementById('admsSts').value == "CL" ) {
+                    alert('죄송합니다.\n\n원서 접수 기간이 아니므로 결제를 하실 수 없습니다.\n\n');
+                }
+            }
         })
     </script>
 </content>

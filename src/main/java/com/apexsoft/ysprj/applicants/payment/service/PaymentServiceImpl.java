@@ -149,6 +149,7 @@ public class PaymentServiceImpl implements PaymentService {
         payment.setLGD_AMOUNT(newPayInfo.getLGD_AMOUNT());
         payment.setLGD_FINANCENAME(newPayInfo.getLGD_FINANCENAME());
         payment.setLGD_ACCOUNTNUM(newPayInfo.getLGD_ACCOUNTNUM());
+        payment.setAdmsSts(newPayInfo.getAdmsSts());
 
         return ec;
     }

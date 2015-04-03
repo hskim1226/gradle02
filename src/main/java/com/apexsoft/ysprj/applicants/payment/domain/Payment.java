@@ -11,6 +11,8 @@ public class Payment {
 
     private String applStsCode;
 
+    private String admsSts;
+
     private String LGD_MID;
 
     private String LGD_OID;
@@ -247,5 +249,11 @@ public class Payment {
         this.LGD_ACCOUNTNUM = LGD_ACCOUNTNUM;
     }
 
+    public String getAdmsSts() {
+        return admsSts;
+    }
 
+    public void setAdmsSts(String admsSts) {
+        this.admsSts = admsSts;
+    }
 }
