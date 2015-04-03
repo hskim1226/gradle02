@@ -142,7 +142,7 @@ public class CasNoteController {
             Application application = commonDAO.queryForObject("com.apexsoft.ysprj.applicants.application.sqlmap.ApplicationMapper.selectByPrimaryKey",
                     applNo, Application.class);
             String admsTypeCode = application.getAdmsTypeCode();
-            String lang = "C".equals(admsTypeCode) ? "en" : "kr";
+            String lang = "C".equals(admsTypeCode) || "D".equals(admsTypeCode) ? "en" : "kr";
             String reportName = "yonsei-appl-" + lang;
             ExecutionContext ecGenAppl = birtService.generateBirtFile(application.getApplNo(), reportName);
             reportName = "yonsei-adms-" + lang;

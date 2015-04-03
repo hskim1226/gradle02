@@ -63,7 +63,7 @@ public class BirtController {
         } else {
             String admsTypeCode = application.getAdmsTypeCode();
             String reqType = birtRequest.getReqType();
-            String lang = "C".equals(admsTypeCode) ? "en" : "kr";
+            String lang = "C".equals(admsTypeCode) || "D".equals(admsTypeCode) ? "en" : "kr";
             String reportName = "yonsei-" + reqType + "-" + lang;
             int applNo = application.getApplNo();
 
@@ -101,7 +101,7 @@ public class BirtController {
         } else {
             String admsTypeCode = application.getAdmsTypeCode();
             String reqType = birtRequest.getReqType();
-            String lang = "C".equals(admsTypeCode) ? "en" : "kr";
+            String lang = "C".equals(admsTypeCode) || "D".equals(admsTypeCode) ? "en" : "kr";
             String reportName = "yonsei-" + reqType + "-" + lang;
             int applNo = application.getApplNo();
             mv.addObject("reportFormat", REPORT_FORMAT);
@@ -126,7 +126,7 @@ public class BirtController {
             Application applicationFromDB = commonDAO.queryForObject("com.apexsoft.ysprj.applicants.application.sqlmap.ApplicationMapper.selectByPrimaryKey",
                     applNo, Application.class);
             String admsTypeCode = applicationFromDB.getAdmsTypeCode();
-            String lang = "C".equals(admsTypeCode) ? "en" : "kr";
+            String lang = "C".equals(admsTypeCode) || "D".equals(admsTypeCode)? "en" : "kr";
             String reportName = "yonsei-appl-" + lang;
 
             mv.setViewName("pdfSingleFormatBirtSaveToFile");
@@ -152,7 +152,7 @@ public class BirtController {
             Application applicationFromDB = commonDAO.queryForObject("com.apexsoft.ysprj.applicants.application.sqlmap.ApplicationMapper.selectByPrimaryKey",
                     applNo, Application.class);
             String admsTypeCode = applicationFromDB.getAdmsTypeCode();
-            String lang = "C".equals(admsTypeCode) ? "en" : "kr";
+            String lang = "C".equals(admsTypeCode) || "D".equals(admsTypeCode) ? "en" : "kr";
             String reportName = "yonsei-adms-" + lang;
 
             mv.setViewName("pdfSingleFormatBirtSaveToFile");

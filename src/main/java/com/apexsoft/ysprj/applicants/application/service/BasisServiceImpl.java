@@ -93,7 +93,7 @@ public class BasisServiceImpl implements BasisService {
         cntrCode = cntrCode == null ? "" : cntrCode;
         Country ctznCntr = commonService.retrieveCountryByCode(cntrCode);
 
-        if ("C".equals(basis.getApplication().getAdmsTypeCode())) {
+        if ("C".equals(basis.getApplication().getAdmsTypeCode()) || "D".equals(basis.getApplication().getAdmsTypeCode())) {
             cntrCode = basis.getApplicationForeigner().getBornCntrCode();
             cntrCode = cntrCode == null ? "" : cntrCode;
             Country bornCntr = commonService.retrieveCountryByCode(cntrCode);

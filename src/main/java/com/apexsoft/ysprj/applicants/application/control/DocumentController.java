@@ -486,7 +486,7 @@ public class DocumentController {
         ExecutionContext ecSaveInfo = documentService.saveApplicationPaperInfo(application);
         // 타 대학원 확장 시 TODO - 학교 이름을 파라미터로 받도록
         String admsTypeCode = application.getAdmsTypeCode();
-        String lang = "C".equals(admsTypeCode) ? "en" : "kr";
+        String lang = "C".equals(admsTypeCode) || "D".equals(admsTypeCode) ? "en" : "kr";
         String reportName = "yonsei-" + reqType + "-" + lang;
         ExecutionContext ecGenerate = birtService.generateBirtFile(application.getApplNo(), reportName);
 
