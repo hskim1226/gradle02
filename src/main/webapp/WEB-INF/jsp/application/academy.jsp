@@ -887,7 +887,7 @@
             }
 
             if (!isCollegeLastSchlChecked || !isGraduateLastSchlChecked) {
-                alert('최종학교를 선택해 주세요.');
+                alert('<spring:message code="U02114"/> ');//최종학교를 선택해 주세요.
                 return false;
             }
 

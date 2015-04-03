@@ -12,15 +12,21 @@ public class CustomMyList {
     private String korName;
     private String admsTypeCode;
     private String admsTypeName;
+    private String admsTypeNameXxen;
     private String campName;
+    private String campNameXxen;
     private String deptCode;
     private String deptName;
+    private String deptNameXxen;
     private String corsTypeCode;
     private String corsTypeName;
+    private String corsTypeNameXxen;
     private String detlMajCode;
     private String detlMajName;
+    private String detlMajNameXxen;
     private String applStsCode;
     private String applStsName;
+    private String applStsNameXxen;
     private int admsFee;
 
     public int getApplNo() {
@@ -157,5 +163,53 @@ public class CustomMyList {
 
     public void setAdmsFee(int admsFee) {
         this.admsFee = admsFee;
+    }
+
+    public String getApplStsNameXxen() {
+        return applStsNameXxen;
+    }
+
+    public void setApplStsNameXxen(String applStsNameXxen) {
+        this.applStsNameXxen = applStsNameXxen;
+    }
+
+    public String getDeptNameXxen() {
+        return deptNameXxen;
+    }
+
+    public void setDeptNameXxen(String deptNameXxen) {
+        this.deptNameXxen = deptNameXxen;
+    }
+
+    public String getCorsTypeNameXxen() {
+        return corsTypeNameXxen;
+    }
+
+    public void setCorsTypeNameXxen(String corsTypeNameXxen) {
+        this.corsTypeNameXxen = corsTypeNameXxen;
+    }
+
+    public String getDetlMajNameXxen() {
+        return detlMajNameXxen;
+    }
+
+    public void setDetlMajNameXxen(String detlMajNameXxen) {
+        this.detlMajNameXxen = detlMajNameXxen;
+    }
+
+    public String getCampNameXxen() {
+        return campNameXxen;
+    }
+
+    public void setCampNameXxen(String campNameXxen) {
+        this.campNameXxen = campNameXxen;
+    }
+
+    public String getAdmsTypeNameXxen() {
+        return admsTypeNameXxen;
+    }
+
+    public void setAdmsTypeNameXxen(String admsTypeNameXxen) {
+        this.admsTypeNameXxen = admsTypeNameXxen;
     }
 }
