@@ -77,6 +77,8 @@ public class BasisServiceImpl implements BasisService {
                 corsTypeList = commonService.retrieveGeneralCourseByAdmsDept(param);
             if ("00003".equals(applAttrCode))
                 corsTypeList = commonService.retrieveCommissionCourseByAdmsDept(param);
+            if ("00004".equals(applAttrCode))
+                corsTypeList = commonService.retrieveNorthDefectorCourseByAdmsDept(param);
         }
 
         if (campList != null)      selectionMap.put("campList", campList);
