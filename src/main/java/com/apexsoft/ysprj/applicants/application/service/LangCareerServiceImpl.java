@@ -52,16 +52,7 @@ public class LangCareerServiceImpl implements LangCareerService {
                 applNo, Application.class);
         langCareer.setApplication(applicationFromDB);
 
-        // TODO 의견 > 김도훈
-        // 아래 applicationGeneral 쓰는 부분 제거 필요
-        // LangCareer.java에서 ApplicationGeneral 제거 필요
-        ApplicationGeneral applicationGeneralFromDB = commonDAO.queryForObject(NAME_SPACE + "ApplicationGeneralMapper.selectByPrimaryKey",
-                applNo, ApplicationGeneral.class);
-        applicationGeneralFromDB = applicationGeneralFromDB == null ? new ApplicationGeneral() : applicationGeneralFromDB;
-        langCareer.setApplicationGeneral(applicationGeneralFromDB);
-
-
-        List<LanguageGroup> langGroupList = retrieveLanguageGroupListByApplNo(applNo, applicationGeneralFromDB);
+        List<LanguageGroup> langGroupList = retrieveLanguageGroupListByApplNo(applNo);
         langCareer.setLanguageGroupList(langGroupList);
 
         List<CustomApplicationExperience> applicationExperienceList = retrieveInfoListByApplNo(applNo, "CustomApplicationExperienceMapper", CustomApplicationExperience.class);
@@ -99,15 +90,7 @@ public class LangCareerServiceImpl implements LangCareerService {
                 applNo, Application.class);
         langCareer.setApplication(applicationFromDB);
 
-        // TODO 의견 > 김도훈
-        // 아래 applicationGeneral 쓰는 부분 제거 필요
-        // LangCareer.java에서 ApplicationGeneral 제거 필요
-        ApplicationGeneral applicationGeneralFromDB = commonDAO.queryForObject(NAME_SPACE + "ApplicationGeneralMapper.selectByPrimaryKey",
-                applNo, ApplicationGeneral.class);
-        applicationGeneralFromDB = applicationGeneralFromDB == null ? new ApplicationGeneral() : applicationGeneralFromDB;
-        langCareer.setApplicationGeneral(applicationGeneralFromDB);
-
-        List<LanguageGroup> langGroupList = retrieveCurrentLanguageGroupListByApplNo(applNo, applicationGeneralFromDB);
+        List<LanguageGroup> langGroupList = retrieveCurrentLanguageGroupListByApplNo(applNo);
         langCareer.setLanguageGroupList(langGroupList);
 
         List<CustomApplicationExperience> applicationExperienceList = retrieveInfoListByApplNo(applNo, "CustomApplicationExperienceMapper", CustomApplicationExperience.class);
@@ -146,17 +129,8 @@ public class LangCareerServiceImpl implements LangCareerService {
                 applNo, Application.class);
         langCareer.setApplication(applicationFromDB);
 
-        // TODO 의견 > 김도훈
-        // 아래 applicationGeneral 쓰는 부분 제거 필요
-        // LangCareer.java에서 ApplicationGeneral 제거 필요
-        ApplicationGeneral applicationGeneralFromDB = commonDAO.queryForObject(NAME_SPACE + "ApplicationGeneralMapper.selectByPrimaryKey",
-                applNo, ApplicationGeneral.class);
-        applicationGeneralFromDB = applicationGeneralFromDB == null ? new ApplicationGeneral() : applicationGeneralFromDB;
-        langCareer.setApplicationGeneral(applicationGeneralFromDB);
-
-
         //어학성적을 제출할 수 있는 언어시험 목록을 가져온다
-        List<LanguageGroup> langGroupList = retrieveLanguageGroupListByApplNo(applNo, applicationGeneralFromDB);
+        List<LanguageGroup> langGroupList = retrieveLanguageGroupListByApplNo(applNo);
         langCareer.setLanguageGroupList(langGroupList);
 
 
@@ -184,7 +158,7 @@ public class LangCareerServiceImpl implements LangCareerService {
         return ec;
     }
     //지원번호에 따른 언어시험 목록을 가져온다.
-    private List<LanguageGroup> retrieveLanguageGroupListByApplNo(int applNo, ApplicationGeneral applicationGeneral) {
+    private List<LanguageGroup> retrieveLanguageGroupListByApplNo(int applNo) {
 
         List<LanguageGroup> langGroupList = null;
 
@@ -219,13 +193,13 @@ public class LangCareerServiceImpl implements LangCareerService {
             for (TotalApplicationLanguageContainer alang : aLangList) {
                 alang.setApplNo(applNo);
                 List<TotalApplicationLanguageContainer> aSubList = new ArrayList<TotalApplicationLanguageContainer>();
-                alang.setSubContainer(getSubLangContainer(alangGroup, alang, aSubList, applicationGeneral));
+                alang.setSubContainer(getSubLangContainer(alangGroup, alang, aSubList));
             }
             alangGroup.setLangList(aLangList);
         }
         return langGroupList;
     }
-    private List<LanguageGroup> retrieveCurrentLanguageGroupListByApplNo(int applNo, ApplicationGeneral applicationGeneral) {
+    private List<LanguageGroup> retrieveCurrentLanguageGroupListByApplNo(int applNo) {
         List<LanguageGroup> langGroupList = null;
 
         langGroupList = commonDAO.queryForList(NAME_SPACE + "CustomApplicationDocumentMapper.selectLanguageGroupByApplNo",
@@ -250,7 +224,7 @@ public class LangCareerServiceImpl implements LangCareerService {
                 if("N".equals(alang.getLastYn())){
                     alang.setApplNo(applNo);
                     List<TotalApplicationLanguageContainer> aSubList = new ArrayList<TotalApplicationLanguageContainer>();
-                    rtnList = setCurrentSubContainer(alangGroup, alang, aSubList, applicationGeneral);
+                    rtnList = setCurrentSubContainer(alangGroup, alang, aSubList);
                     alangGroup.setLangList( rtnList);
                 }
 
@@ -442,8 +416,7 @@ public class LangCareerServiceImpl implements LangCareerService {
     //하부 그룹이 있으면 하부 그룹을 조회하고, 최말단 이면 상세정보를 조회한다.
     private  List<TotalApplicationLanguageContainer> getSubLangContainer( LanguageGroup aLangGroup,
                                                                           TotalApplicationLanguageContainer pCont,
-                                                                          List<TotalApplicationLanguageContainer> pList,
-                                                                          ApplicationGeneral applicationGeneral){
+                                                                          List<TotalApplicationLanguageContainer> pList ){
         List<TotalApplicationLanguageContainer> rContList = null;
 
         if (!"Y".equals( pCont.getLastYn())) {
@@ -454,7 +427,7 @@ public class LangCareerServiceImpl implements LangCareerService {
             if (rContList != null) {
                 for (TotalApplicationLanguageContainer aCont : rContList) {
                     aCont.setApplNo(pCont.getApplNo());
-                    aCont.setSubContainer(getSubLangContainer(aLangGroup, aCont, pList, applicationGeneral));
+                    aCont.setSubContainer(getSubLangContainer(aLangGroup, aCont, pList));
                 }
             }
             //TODO 어학 전체를 넣을지, 등록된 것만 넣을지 결정
@@ -508,8 +481,7 @@ public class LangCareerServiceImpl implements LangCareerService {
     //하부 그룹이 있으면 하부 그룹을 조회하고, 최말단 이면 상세정보를 조회한다.
     private  List<TotalApplicationLanguageContainer> setCurrentSubContainer( LanguageGroup aLangGroup,
                                                                           TotalApplicationLanguageContainer pCont,
-                                                                          List<TotalApplicationLanguageContainer> pList,
-                                                                          ApplicationGeneral applicationGeneral){
+                                                                          List<TotalApplicationLanguageContainer> pList){
         List<TotalApplicationLanguageContainer> rContList = null;
 
         if ("2".equals( pCont.getGrpLevel())) {

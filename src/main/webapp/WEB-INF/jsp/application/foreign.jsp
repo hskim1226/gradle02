@@ -32,75 +32,75 @@
                         <thead>
                         <tr>
                             <th colspan="2"><spring:message code="L00702"/><%--지원 절차--%></th>
-                            <th><spring:message code="L00703"/><%--2015년 전기전형(2015.3월 입학)--%></th>
                             <th><spring:message code="L00704"/><%--2015년 후기전형(2015.9월 입학)--%></th>
                         </tr>
                         </thead>
                         <tbody>
                         <tr>
-                            <td rowspan="3" valign="center"><spring:message code="L00705"/><%--기관 토플--%><br/><spring:message code="L00706"/><%--(필요자만 응시)--%></td>
-                            <td><spring:message code="L00707"/><%--접수일--%></td>
-                            <td>2014. 9. 1(월) ~ 9.21(일)</td>
-                            <td>미정</td>
+                            <td rowspan="3" valign="center"><spring:message code="L00605"/><%--기관 토플--%><br/><spring:message code="L00606"/><%--(필요자만 응시)--%></td>
+                            <td><spring:message code="L00607"/><%--접수일--%></td>
+                            <td><spring:message code="L00511"/></td>
                         </tr>
                         <tr>
-                            <td><spring:message code="L00708"/><%--시험일--%></td>
-                            <td>2014. 9.27(토)</td>
-                            <td>미정</td>
+                            <td><spring:message code="L00608"/><%--시험일--%></td>
+                            <td><spring:message code="L00512"/></td>
                         </tr>
                         <tr>
-                            <td><spring:message code="L00709"/><%--성적발표--%></td>
-                            <td>2014.10. 1(수) ~</td>
-                            <td>미정</td>
+                            <td><spring:message code="L00609"/><%--성적발표--%></td>
+                            <td><spring:message code="L00513"/></td>
                         </tr>
                         <tr>
-                            <td colspan="2"><spring:message code="L00710"/><%--입학원서 접수--%></td>
-                            <td>2014. 9. 29(월) ~ 10. 8(수)</td>
-                            <td>2015. 3. 30(월) ~  4. 8(수)</td>
+                            <td colspan="2"><spring:message code="L00610"/><%--입학원서 접수--%></td>
+                            <td><spring:message code="L00514"/></td>
                         </tr>
                         <tr>
-                            <td colspan="2"><spring:message code="L00711"/><%--구술시험 대상자 발표--%></td>
-                            <td>2014.10.31(금)</td>
-                            <td>2015. 4.24(금)</td>
+                            <td colspan="2"><spring:message code="L00612"/><%--구술면접 및 음대실기--%></td>
+                            <td><spring:message code="L00516"/></td>
                         </tr>
                         <tr>
-                            <td colspan="2"><spring:message code="L00712"/><%--구술면접 및 음대실기--%></td>
-                            <td>2014.11. 8(토)</td>
-                            <td>2015. 5. 2(토)</td>
-                        </tr>
-                        <tr>
-                            <td colspan="2"><spring:message code="L00713"/><%--최종 합격자 발표--%></td>
-                            <td>2014.11.28(금)</td>
-                            <td>2015. 5.29(금)</td>
+                            <td colspan="2"><spring:message code="L00613"/><%--최종 합격자 발표--%></td>
+                            <td><spring:message code="L00517"/></td>
                         </tr>
                         </tbody>
                     </table>
                     <div class="spacer-small">&nbsp;</div>
                     <div class="col-sm-12 text-gray">
-                        <i class="fa fa-download fa-3x" style="vertical-align: middle; line-height:40px;"></i>&nbsp;&nbsp;<span style="font-size: 35px; vertical-align: middle; line-height:40px;"><b><spring:message code="L00714"/><%--모집 요강 다운로드--%></b></span>
+                        <i class="fa fa-download fa-3x" style="vertical-align: middle; line-height:40px;"></i>&nbsp;&nbsp;<span style="font-size: 35px; vertical-align: middle; line-height:40px;"><b>
+                        <spring:message code="L00714"/><%--2015학년도 대학원 후기 전형 모집요강 다운로드--%></b></span>
                     </div>
                     <div class="spacer-tiny">&nbsp;</div>
-                    <div class="col-sm-12"><spring:message code="L00715"/><%--아래는 참고용 2014년 후기 자료이며, 2015년 전기 요강은 2014. 9월초 업로드 예정--%></div>
+                    <div class="col-sm-12"><spring:message code="L00715"/><%--(※ 새터민은 일반전형으로 지원하시기 바랍니다)--%></div>
                     <div class="spacer-tiny">&nbsp;</div>
                     <div>
                         <table class="table table-stripped">
                             <tr>
-                                <td align="left"><spring:message code="L00716"/><%--2014학년도 9월입학 대학원 외국인 전형 요강(한국어)--%><a href="http://graduate.yonsei.ac.kr/download/sub03/info(2014-2).pdf" target="_blank"><img src="${contextPath}/img/common/button_pdf.gif"/></a><a href=""><img src="${contextPath}/img/common/button_word.gif"/></a></td>
+                                <td align="left"><img src="${contextPath}/img/common/button_pdf.gif"/>
+                                    <a href="<spring:message code="L00716URL"/>" target="_blank">
+                                    <spring:message code="L00716"/><%--2014학년도 9월입학 대학원 외국인 전형 요강(PDF)--%></a></td>
                             </tr>
                             <tr>
-                                <td align="left"><spring:message code="L00717"/><%--Graduate Admissions for International Students(English)--%><a href="http://graduate.yonsei.ac.kr/download/sub03/D2006form4.pdf" target="_blank"><img src="${contextPath}/img/common/button_pdf.gif"/></a><a href="http://graduate.yonsei.ac.kr/download/sub03/D2006form4.hwp" target="_blank"><img src="${contextPath}/img/common/button_hwp.gif"/></a></td>
+                                <td align="left"><img src="${contextPath}/img/common/button_pdf.gif"/>
+                                    <a href="<spring:message code="L00719URL"/>" target="_blank">
+                                        <spring:message code="L00719"/><%--학업 및 연구계획서(PDF)--%></a>&nbsp;&nbsp;&nbsp;<img src="${contextPath}/img/common/button_hwp.gif"/>
+                                    <a href="<spring:message code="L00720URL"/>" target="_blank">
+                                        <spring:message code="L00720"/><%--(아래한글)--%></a></td>
                             </tr>
                             <tr>
-                                <td align="left"><spring:message code="L00719"/><%--학업 및 연구 계획서--%></td>
+                                <td align="left"><img src="${contextPath}/img/common/button_pdf.gif"/>
+                                    <a href="<spring:message code="L00721URL"/>" targert="_blank">
+                                        <spring:message code="L00721"/><%--학력조회 동의서--%></a></td>
                             </tr>
                             <tr>
-                                <td align="left"><spring:message code="L00720"/><%--학력조회 동의서--%></td>
+                                <td align="left"><img src="${contextPath}/img/common/button_pdf.gif"/>
+                                    <a href="<spring:message code="L00727URL"/>" targert="_blank">
+                                        <spring:message code="L00727"/><%--2015년 신촌캠퍼스 외국인 장학금 가이드(한국어, PDF)--%></a></td>
                             </tr>
                             <tr>
-                                <td align="left"><spring:message code="L00721"/><%--최종 출신대학 확인서--%></td>
-                            </tr>
-                            <tr>
-                                <td align="left"><spring:message code="L00722"/><%--원주의과대학 전일제 대학원생 장학금 지급 신청서--%></td>
+                                <td align="left"><img src="${contextPath}/img/common/button_pdf.gif"/>
+                                    <a href="<spring:message code="L00722URL"/>" target="_blank">
+                                        <spring:message code="L00722"/><%--원주의과대학 전일제 대학원생 장학금 지급 신청서--%></a>&nbsp;&nbsp;&nbsp;<img src="${contextPath}/img/common/button_hwp.gif"/>
+                                    <a href="<spring:message code="L00723URL"/>" target="_blank">
+                                        <spring:message code="L00723"/><%--(아래한글)--%></a></td>
                             </tr>
                         </table>
                         <div>
