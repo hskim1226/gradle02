@@ -362,7 +362,7 @@
                                                                                 <div class="input-group">
                                                                                     <form:select path="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].subContainer[${subContainerStat.index}].subCode"
                                                                                             cssClass="form-control forlInput-${langGroupStat.index}">
-                                                                                        <form:option value="" label="--선택--" />
+                                                                                        <form:option value="" label="--${msg.getMessage('L01011', locale)}--" />
                                                                                         <form:options items="${langCareer.languageGroupList[langGroupStat.index].langList[langListStat.index].subContainer[subContainerStat.index].subCodeList}" itemValue="code"
                                                                                                       itemLabel="${pageContext.response.locale == 'en' ? 'codeValXxen' : 'codeVal'}"/>
                                                                                     </form:select>
@@ -404,13 +404,13 @@
                                                                                 <c:choose>
                                                                                     <c:when test="${subContainer.itemName == 'IELTS'}">
                                                                                         <form:select path="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].subContainer[${subContainerStat.index}].langGrad" cssClass="form-control">
-                                                                                            <form:option value="" label="--선택--" />
+                                                                                            <form:option value="" label="--${msg.getMessage('L01011', locale)}--" />
                                                                                             <form:options items="${common.ieltsLevelList}" itemValue="code" itemLabel="codeVal" />
                                                                                         </form:select>
                                                                                     </c:when>
                                                                                     <c:when test="${subContainer.itemName == 'TOPIK'}">
                                                                                         <form:select path="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].subContainer[${subContainerStat.index}].langGrad" cssClass="form-control">
-                                                                                            <form:option value="" label="--선택--" />
+                                                                                            <form:option value="" label="--${msg.getMessage('L01011', locale)}--" />
                                                                                             <form:options items="${common.topikLevelList}" itemValue="code" itemLabel="codeVal" />
                                                                                         </form:select>
                                                                                     </c:when>
@@ -437,7 +437,7 @@
                                                                                     <form:select path="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].subContainer[${subContainerStat.index}].subCode"
                                                                                                  id="forlExmpCode-${langGroupStat.index}" cssClass="form-control forlExmpCode">
                                                                                                  <%--data-selGrpCode-id="languageGroupList${langGroupStat.index}.langList${langListStat.index}.subContainer${subContainerStat.index}.selGrpCode">--%>
-                                                                                        <form:option value="" label="--선택--" />
+                                                                                        <form:option value="" label="--${msg.getMessage('L01011', locale)}--" />
                                                                                         <%--<form:options items="${common.fornExmpList}" itemValue="code"--%>
                                                                                         <form:options items="${langCareer.languageGroupList[langGroupStat.index].langList[langListStat.index].subContainer[subContainerStat.index].subCodeList}" itemValue="code"
                                                                                                       itemLabel="${pageContext.response.locale == 'en' ? 'codeValXxen' : 'codeVal'}"/>

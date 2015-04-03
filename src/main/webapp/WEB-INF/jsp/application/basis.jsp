@@ -487,6 +487,35 @@
                                             </div>
                                         </div>
                                     </div>
+
+
+
+                                    <div class="form-group required" id="divRgstNo">
+                                        <label class="col-sm-2 control-label" id="genderLabel">
+                                            <spring:message code="L00128"/><%--성별--%>
+                                        </label>
+                                        <div class="col-sm-9">
+                                            <div class="col-sm-12">
+                                                <div class="col-sm-4 nopadding">
+                                                     <label class="radio-inline">
+                                                     <form:radiobutton path="application.gend" value="m" label="${msg.getMessage('L114')}"/>
+                                                     </label>
+                                                     <label class="radio-inline">
+                                                     <form:radiobutton path="application.gend" value="f" label="${msg.getMessage('L115')}"/>
+                                                     </label>
+                                                         <spring:bind path="application.gend">
+                                                         <c:if test="${status.error}">
+                                                         <div class="validation-error">${status.errorMessage}</div>
+                                                         </c:if>
+                                                         </spring:bind>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+
+
                                 </div>
                             </div>
 
