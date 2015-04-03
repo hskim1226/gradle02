@@ -14,7 +14,7 @@ import com.apexsoft.ysprj.user.domain.Authorities;
 import com.apexsoft.ysprj.user.domain.User;
 import com.apexsoft.ysprj.user.web.form.UserSearchForm;
 import org.apache.commons.codec.digest.DigestUtils;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.crypto.keygen.KeyGenerators;
