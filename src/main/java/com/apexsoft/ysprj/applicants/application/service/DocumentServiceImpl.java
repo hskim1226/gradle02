@@ -894,7 +894,7 @@ public class DocumentServiceImpl implements DocumentService {
         return decrypted;
     }
 
-    private void adjustAcademyDocByGrdaType(String grdaType, List<TotalApplicationDocumentContainer> subDocList){
+    private void adjustAcademyDocByGrdaType_old(String grdaType, List<TotalApplicationDocumentContainer> subDocList){
         if( "00003".equals(grdaType) || "00004".equals(grdaType)){ //중퇴, 수료인경우
             for( int i = subDocList.size()-1; i>=0; i--){
                 TotalApplicationDocumentContainer aCont = subDocList.get(i);
@@ -907,7 +907,51 @@ public class DocumentServiceImpl implements DocumentService {
                     adjustAcademyDocByGrdaType( grdaType, aCont.getSubContainer());
                 }
             }
+        }else if("00005".equals(grdaType) ){//재학인 경우- 졸업증명서를 재학증명명서로 변경
+            for( int i = subDocList.size()-1; i>=0; i--){
+                TotalApplicationDocumentContainer aCont= subDocList.get(i);
+                if("Y".equals(aCont.getLastYn())){ //마지막 컨테이너(문서)인 경우
+                    String docCode = aCont.getDocItemCode();
+                    if ("00008".equals(docCode) ){
+                        aCont.setDocItemCode("00046");
+                        aCont.setDocItemName("재학증명서");
+                        aCont.setDocItemNameXxen("Certificate of Studentship");
+                    }else if( "00010".equals(docCode) || "00011".equals(docCode)) { //졸업관련 서류 삭제
+                        subDocList.remove(i);
+                    }
+                }else {
+                    adjustAcademyDocByGrdaType( grdaType, aCont.getSubContainer());
+                }
+            }
         }
+    }
 
+    private void adjustAcademyDocByGrdaType(String grdaType, List<TotalApplicationDocumentContainer> subDocList){
+
+        for( int i = subDocList.size()-1; i>=0; i--){
+            TotalApplicationDocumentContainer aCont = subDocList.get(i);
+            if("Y".equals(aCont.getLastYn())){ //마지막 컨테이너(문서)인 경우
+                if(! "00001".equals(grdaType)) { //졸업이 아니면
+                    if( "00008".equals(subDocList.get(i).getDocItemCode()) || "00012".equals(subDocList.get(i).getDocItemCode())) {//졸증 삭제
+                        subDocList.remove(i);
+                        continue;
+                    }
+                }
+                if(! "00002".equals(grdaType)) { //졸업예정이
+                    if("00047".equals(subDocList.get(i).getDocItemCode()) || "00049".equals(subDocList.get(i).getDocItemCode())) {//졸예증 삭제
+                        subDocList.remove(i);
+                        continue;
+                    }
+                }
+                if(! "00005".equals(grdaType)) { //재학이 아니면
+                    if("00046".equals(subDocList.get(i).getDocItemCode()) || "00048".equals(subDocList.get(i).getDocItemCode())) {//재학증 삭제
+                        subDocList.remove(i);
+                        continue;
+                    }
+                }
+            }else {
+                adjustAcademyDocByGrdaType( grdaType, aCont.getSubContainer());
+            }
+        }
     }
 }
