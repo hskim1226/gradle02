@@ -291,7 +291,7 @@
         SELECT BA.ADMS_CORS_NO,
         BA.DETL_MAJ_CODE,
         EXAM_CODE_GRP ,
-        C.CODE_VAL EXAM_GROUP_NAME,
+        C.CODE_VAL      EXAM_GROUP_NAME,
         C.CODE_VAL_XXEN EXAM_GROUP_NAME_XXEN,
         EXAM_CODE ,
         MDT_SEQ,

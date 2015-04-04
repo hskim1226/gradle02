@@ -50,12 +50,12 @@
                                     <c:otherwise>
                                         <c:forEach items="${myList}" var="item" varStatus="itemStatus">
                                             <tr>
-                                                <td valign="middle" style="vertical-align: middle;">${item.campName}</td>
-                                                <td valign="middle" style="vertical-align: middle;">${item.admsTypeName}</td>
-                                                <td valign="middle" style="vertical-align: middle;">${item.deptName}</td>
-                                                <td valign="middle" style="vertical-align: middle;">${item.corsTypeName}</td>
-                                                <td valign="middle" style="vertical-align: middle;">${item.detlMajName}</td>
-                                                <td valign="middle" style="vertical-align: middle;">${item.applStsName}</td>
+                                                <td valign="middle" style="vertical-align: middle;">${pageContext.response.locale == 'en' ? item.campNameXxen : item.campName}</td>
+                                                <td valign="middle" style="vertical-align: middle;">${pageContext.response.locale == 'en' ? item.admsTypeNameXxen : item.admsTypeName}</td>
+                                                <td valign="middle" style="vertical-align: middle;">${pageContext.response.locale == 'en' ? item.deptNameXxen : item.deptName}</td>
+                                                <td valign="middle" style="vertical-align: middle;">${pageContext.response.locale == 'en' ? item.corsTypeNameXxen : item.corsTypeName}</td>
+                                                <td valign="middle" style="vertical-align: middle;">${pageContext.response.locale == 'en' ? item.detlMajNameXxen : item.detlMajName}</td>
+                                                <td valign="middle" style="vertical-align: middle;">${pageContext.response.locale == 'en' ? item.applStsNameXxen : item.applStsName}</td>
                                             </tr>
                                             <tr>
                                                 <td colspan="6">
@@ -159,11 +159,11 @@
                 var form = document.getElementById('LGD_PAYINFO');
                 form.target = "_blank";
                 var admsNo = e.target.getAttribute('data-admsNo');
-                if (admsNo != null && admsNo.length > 0) {
-                    form.action = '${contextPath}/pdf/download';
+                if (admsNo != null && admsNo.length > 0) { // 전체 파일
+                    form.action = '${contextPath}/pdf/download'; // TODO : S3에서 받아오도록
                     form.submit();
-                } else {
-                    form.action = '${contextPath}/application/print';
+                } else { // 지원서 또는 수험표
+                    form.action = '${contextPath}/application/preview';
                     form.submit();
                 }
             });

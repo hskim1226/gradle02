@@ -46,6 +46,9 @@ public class PDFController {
     @Value("#{app['file.baseDir']}")
     private String fileBaseDir;
 
+    @Value("#{app['s3.midPath']}")
+    private String s3MidPath;
+
     private static final Logger logger = LoggerFactory.getLogger(PDFController.class);
 
     /**
@@ -86,7 +89,7 @@ public class PDFController {
         String admsNo = application.getAdmsNo();
         int applNo = application.getApplNo();
 
-        String uploadDirectoryFullPath = FileUtil.getUploadDirectoryFullPath(fileBaseDir, admsNo, userId, applNo);
+        String uploadDirectoryFullPath = FileUtil.getUploadDirectoryFullPath(fileBaseDir, s3MidPath, admsNo, userId, applNo);
         String fileFileFullPath = FileUtil.getFinalMergedFileFullPath(uploadDirectoryFullPath, applNo);
         String downLoadFileName = FileUtil.getFinalUserDownloadFileName(userId);
         File file =  new File(fileFileFullPath);

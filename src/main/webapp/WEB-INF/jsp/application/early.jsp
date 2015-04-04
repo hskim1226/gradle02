@@ -32,46 +32,38 @@
                         <thead>
                         <tr>
                             <th colspan="2"><spring:message code="L00802"/><%--지원 절차--%></th>
-                            <th><spring:message code="L00803"/><%--2015년 전기전형(2015.9월 입학)--%></th>
-                            <th><spring:message code="L00804"/><%--2015년 후기전형(2016.3월 입학)--%></th>
+                            <th><spring:message code="L00803"/><%--2015년 후기전형(2016.3월 입학)--%></th>
                         </tr>
                         </thead>
                         <tbody>
                         <tr>
-                            <td rowspan="3" valign="center"><spring:message code="L00805"/><%--기관 토플--%><br/><spring:message code="L00806"/><%--(필요자만 응시)--%></td>
-                            <td><spring:message code="L00807"/><%--접수일--%></td>
-                            <td>2014. 9. 1(월) ~ 9.21(일)</td>
-                            <td>미정</td>
+                            <td rowspan="3" valign="center"><spring:message code="L00605"/><%--기관 토플--%><br/><spring:message code="L00606"/><%--(필요자만 응시)--%></td>
+                            <td><spring:message code="L00607"/><%--접수일--%></td>
+                            <td><spring:message code="L00511"/></td>
                         </tr>
                         <tr>
-                            <td><spring:message code="L00808"/><%--시험일--%></td>
-                            <td>2014. 9.27(토)</td>
-                            <td>미정</td>
+                            <td><spring:message code="L00608"/><%--시험일--%></td>
+                            <td><spring:message code="L00512"/></td>
                         </tr>
                         <tr>
-                            <td><spring:message code="L00809"/><%--성적발표--%></td>
-                            <td>2014.10. 1(수) ~</td>
-                            <td>미정</td>
+                            <td><spring:message code="L00609"/><%--성적발표--%></td>
+                            <td><spring:message code="L00513"/></td>
                         </tr>
                         <tr>
-                            <td colspan="2"><spring:message code="L00810"/><%--입학원서 접수--%></td>
-                            <td>2014. 9. 29(월) ~ 10. 8(수)</td>
-                            <td>2015. 3. 30(월) ~  4. 8(수)</td>
+                            <td colspan="2"><spring:message code="L00610"/><%--입학원서 접수--%></td>
+                            <td><spring:message code="L00514"/></td>
                         </tr>
                         <tr>
-                            <td colspan="2"><spring:message code="L00811"/><%--구술시험 대상자 발표--%></td>
-                            <td>2014.10.31(금)</td>
-                            <td>2015. 4.24(금)</td>
+                            <td colspan="2"><spring:message code="L00611"/><%--구술시험 대상자 발표--%></td>
+                            <td><spring:message code="L00515"/></td>
                         </tr>
                         <tr>
-                            <td colspan="2"><spring:message code="L00812"/><%--구술면접 및 음대실기--%></td>
-                            <td>2014.11. 8(토)</td>
-                            <td>2015. 5. 2(토)</td>
+                            <td colspan="2"><spring:message code="L00612"/><%--구술면접 및 음대실기--%></td>
+                            <td><spring:message code="L00516"/></td>
                         </tr>
                         <tr>
-                            <td colspan="2"><spring:message code="L00813"/><%--최종 합격자 발표--%></td>
-                            <td>2014.11.28(금)</td>
-                            <td>2015. 5.29(금)</td>
+                            <td colspan="2"><spring:message code="L00613"/><%--최종 합격자 발표--%></td>
+                            <td><spring:message code="L00517"/></td>
                         </tr>
                         </tbody>
                     </table>
@@ -85,29 +77,23 @@
                     <div>
                         <table class="table table-stripped">
                             <tr>
-                                <td align="left"><spring:message code="L00816"/><%--2014학년도 9월입학 대학원 조기 전형 요강--%><a href="http://graduate.yonsei.ac.kr/download/sub03/info(2014-2).pdf" target="_blank"><img src="${contextPath}/img/common/button_pdf.gif"/></a><a href=""><img src="${contextPath}/img/common/button_word.gif"/></a></td>
+                                <td align="left"><img src="${contextPath}/img/common/button_pdf.gif"/>
+                                    <a href="<spring:message code="L00816URL"/>" target="_blank">
+                                        <spring:message code="L00816"/><%--2014학년도 9월입학 대학원 조기 전형 요강--%></a></td>
                             </tr>
                             <tr>
-                                <td align="left"><spring:message code="L00817"/><%--2014학년도 9월입학 대학원 조기 전형 요강--%><a href="http://graduate.yonsei.ac.kr/download/sub03/info(2014-2).pdf" target="_blank"><img src="${contextPath}/img/common/button_pdf.gif"/></a><a href=""><img src="${contextPath}/img/common/button_word.gif"/></a></td>
+                                <td align="left"><img src="${contextPath}/img/common/button_pdf.gif"/>
+                                    <a href="<spring:message code="L00818URL"/>" target="_blank">
+                                        <spring:message code="L00818"/><%--학업 및 연구계획서(PDF)--%></a>&nbsp;&nbsp;&nbsp;<img src="${contextPath}/img/common/button_hwp.gif"/>
+                                    <a href="<spring:message code="L00819URL"/>" target="_blank">
+                                        <spring:message code="L00819"/><%--(아래한글)--%></a></td>
                             </tr>
                             <tr>
-                                <td align="left"><spring:message code="L00818"/><%--학업 및 연구계획서--%><a href="http://graduate.yonsei.ac.kr/download/sub03/D2006form4.pdf" target="_blank"><img src="${contextPath}/img/common/button_pdf.gif"/></a><a href="http://graduate.yonsei.ac.kr/download/sub03/D2006form4.hwp" target="_blank"><img src="${contextPath}/img/common/button_hwp.gif"/></a></td>
+                                <td align="left"><img src="${contextPath}/img/common/button_pdf.gif"/>
+                                    <a href="<spring:message code="L00821URL"/>" targert="_blank">
+                                        <spring:message code="L00821"/><%--학력조회 동의서--%></a></td>
                             </tr>
-                            <tr>
-                                <td align="left"><spring:message code="L00820"/><%--외국어시험면제승인서  ※ 연세대 석사를 마치고 3년이내에 박사과정 진학하는 자만 작성(건축공학과 제외)--%></td>
-                            </tr>
-                            <tr>
-                                <td align="left"><spring:message code="L00821"/><%--학력조회 동의서--%></td>
-                            </tr>
-                            <%--<tr>--%>
-                            <%--<td align="left">최종 출신대학 확인서</td>--%>
-                            <%--</tr>--%>
-                            <%--<tr>--%>
-                            <%--<td align="left">치과대학, 원주의과대학(의학,간호학,치위생학) 전공교실 주임교수 확인서</td>--%>
-                            <%--</tr>--%>
-                            <tr>
-                                <td align="left"><spring:message code="L00822"/><%--원주의과대학 전일제 대학원생 장학금 지급 신청서--%></td>
-                            </tr>
+
                         </table>
                     </div>
                     <div>
