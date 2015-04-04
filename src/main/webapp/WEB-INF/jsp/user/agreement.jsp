@@ -66,17 +66,17 @@ $(document).ready(function(){
     <%-- 단어 잘림 방지 --%>
     $('.word-keep-all').wordBreakKeepAll();
 
-    $('#sign-up-button').on('click', function() {
-        if ( !$("input:checkbox[id='terms-agree']").is(":checked") ) {
+    $('#sign-up-button').on('click', function(e) {
+        e.preventDefault();
+        if (!$("input:checkbox[id='terms-agree']").is(":checked")) {
             alert("${msg1}");
             return;
-        }
-
-        if ( !$("input:checkbox[id='privacy-agree']").is(":checked") ) {
+        } else if (!$("input:checkbox[id='privacy-agree']").is(":checked")) {
             alert("${msg2}");
             return;
+        } else {
+            $('#sign-up-form').submit();
         }
-        $('#sign-up-form').submit();
     });
 });
 </script>
