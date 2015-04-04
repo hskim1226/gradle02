@@ -20,6 +20,7 @@ public class FileMetaForm {
     private String targetFileDeleteLinkId;
     private String applNo;
     private String admsNo;
+    private String resultMessage;
     private TotalApplicationDocument totalApplicationDocument;
 
     public String getPath() {
@@ -92,6 +93,14 @@ public class FileMetaForm {
 
     public void setAdmsNo(String admsNo) {
         this.admsNo = admsNo;
+    }
+
+    public String getResultMessage() {
+        return resultMessage;
+    }
+
+    public void setResultMessage(String resultMessage) {
+        this.resultMessage = resultMessage;
     }
 
     public TotalApplicationDocument getOneDocument() {
