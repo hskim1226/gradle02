@@ -444,7 +444,8 @@ public class DocumentServiceImpl implements DocumentService {
         return ec;
     }
 
-    private List<ApplicationDocument> retrieveApplicationPaperInfo(int applNo) {
+    @Override
+    public List<ApplicationDocument> retrieveApplicationPaperInfo(int applNo) {
 
         List<ApplicationDocument> applDocList = commonDAO.queryForList(NAME_SPACE + "CustomApplicationDocumentMapper.selectApplPaperInfoByApplNo", applNo, ApplicationDocument.class);
         return applDocList;

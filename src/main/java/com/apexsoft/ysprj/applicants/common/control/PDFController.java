@@ -1,15 +1,22 @@
 package com.apexsoft.ysprj.applicants.common.control;
 
+import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.AmazonS3Client;
+import com.amazonaws.services.s3.model.GetObjectRequest;
+import com.amazonaws.services.s3.model.ObjectMetadata;
+import com.amazonaws.services.s3.model.S3Object;
 import com.apexsoft.framework.common.vo.ExecutionContext;
 import com.apexsoft.framework.exception.ErrorInfo;
 import com.apexsoft.framework.exception.YSBizException;
 import com.apexsoft.framework.message.MessageResolver;
 import com.apexsoft.ysprj.applicants.application.domain.Application;
+import com.apexsoft.ysprj.applicants.application.domain.ApplicationDocument;
 import com.apexsoft.ysprj.applicants.application.domain.Basis;
 import com.apexsoft.ysprj.applicants.application.service.DocumentService;
 import com.apexsoft.ysprj.applicants.common.domain.BirtRequest;
 import com.apexsoft.ysprj.applicants.common.service.PDFService;
 import com.apexsoft.ysprj.applicants.common.util.FileUtil;
+import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,10 +28,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.security.Principal;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -45,6 +54,9 @@ public class PDFController {
 
     @Value("#{app['file.baseDir']}")
     private String fileBaseDir;
+
+    @Value("#{app['s3.bucketName']}")
+    private String s3BucketName;
 
     @Value("#{app['s3.midPath']}")
     private String s3MidPath;
@@ -70,7 +82,7 @@ public class PDFController {
     }
 
     /**
-     * 전체 파일 다운로드
+     * DB에 저장된 원서 정보를 토대로 S3에서 원서+첨부파일 PDF 파일 미리보기
      *
      * @param basis
      * @param principal
@@ -88,47 +100,53 @@ public class PDFController {
         Application application = basis.getApplication();
         String admsNo = application.getAdmsNo();
         int applNo = application.getApplNo();
-
-        String uploadDirectoryFullPath = FileUtil.getUploadDirectoryFullPath(fileBaseDir, s3MidPath, admsNo, userId, applNo);
-        String fileFileFullPath = FileUtil.getFinalMergedFileFullPath(uploadDirectoryFullPath, applNo);
-        String downLoadFileName = FileUtil.getFinalUserDownloadFileName(userId);
-        File file =  new File(fileFileFullPath);
         byte[] bytes = null;
-        try {
-            bytes = org.springframework.util.FileCopyUtils.copyToByteArray(file);
-        } catch (IOException e) {
-            ExecutionContext ec = new ExecutionContext(ExecutionContext.FAIL);
-            ec.setMessage(messageResolver.getMessage("U341"));
-            ec.setErrCode("ERR0058");
+
+        List<ApplicationDocument> applPaperInfosList =
+                documentService.retrieveApplicationPaperInfo(applNo); // DB에서 filePath가져온다
+        if (applPaperInfosList.size() == 1) {
+            String applPaperLocalFilePath = applPaperInfosList.get(0).getFilePath();
+            String s3FilePath = FileUtil.getS3PathFromLocalFullPath(applPaperLocalFilePath, fileBaseDir);
+            AmazonS3 s3 = new AmazonS3Client();
+            S3Object object = s3.getObject(new GetObjectRequest(s3BucketName, FileUtil.getFinalMergedFileFullPath(s3FilePath, applNo)));
+            InputStream inputStream = object.getObjectContent();
+            ObjectMetadata meta = object.getObjectMetadata();
+            try {
+                bytes = IOUtils.toByteArray(inputStream);
+            } catch (IOException e) {
+                ExecutionContext ecError = new ExecutionContext(ExecutionContext.FAIL);
+
+                ecError.setMessage(messageResolver.getMessage("U350"));
+                ecError.setErrCode("ERR0062");
+
+                Map<String, String> errorInfo = new HashMap<String, String>();
+                errorInfo.put("applNo", String.valueOf(applNo));
+                errorInfo.put("userId", basis.getApplication().getUserId());
+
+                ecError.setErrorInfo(new ErrorInfo(errorInfo));
+                throw new YSBizException(ecError);
+            }
+
+            response.setContentType(meta.getContentType());
+            response.setHeader("Content-Length", String.valueOf(meta.getContentLength()));
+            response.setHeader("Content-Encoding", meta.getContentEncoding());
+            response.setHeader("ETag", meta.getETag());
+            response.setHeader("Last-Modified", meta.getLastModified().toString());
+//            아래 헤더 추가하면 파일명은 지정할 수 있으나 미리 보기는 안되고 다운로드만 됨
+//            response.setHeader("Content-Disposition", "attachment; filename=\"" + URLEncoder.encode(FileUtil.getFinalUserDownloadFileName(userId), "UTF-8") + "\"");
+        } else {
+            ExecutionContext ecError = new ExecutionContext(ExecutionContext.FAIL);
+
+            ecError.setMessage(messageResolver.getMessage("U349"));
+            ecError.setErrCode("ERR0061");
+
             Map<String, String> errorInfo = new HashMap<String, String>();
             errorInfo.put("applNo", String.valueOf(applNo));
-            errorInfo.put("userId", userId);
-            errorInfo.put("fileName", userId);
-            errorInfo.put("hint", "수험표, 원서 생성 및 All-in-One 파일 생성에 시간이 걸리므로, 결제 완료 직후에는 오류 발생할 수 있음");
-            ec.setErrorInfo(new ErrorInfo(errorInfo));
-            throw new YSBizException(ec);
-        }
+            errorInfo.put("userId", basis.getApplication().getUserId());
 
-        try {
-            response.setHeader("Content-Disposition", "attachment; filename=\"" + URLEncoder.encode(downLoadFileName, "UTF-8") + "\"");
-        } catch (UnsupportedEncodingException e) {
-            ExecutionContext ec = new ExecutionContext(ExecutionContext.FAIL);
-            ec.setMessage(messageResolver.getMessage("U342"));
-            ec.setErrCode("ERR0059");
-            Map<String, String> errorInfo = new HashMap<String, String>();
-            errorInfo.put("applNo", String.valueOf(applNo));
-            errorInfo.put("userId", userId);
-            errorInfo.put("fileName", downLoadFileName);
-            errorInfo.put("encoding", "UTF-8");
-            ec.setErrorInfo(new ErrorInfo(errorInfo));
-            throw new YSBizException(ec);
+            ecError.setErrorInfo(new ErrorInfo(errorInfo));
+            throw new YSBizException(ecError);
         }
-
-        response.setHeader("Content-Transfer-Encoding", "binary;");
-        response.setHeader("Pragma", "no-cache;");
-        response.setHeader("Expires", "-1;");
-        response.setHeader("Content-Type", "application/pdf");
-        response.setContentLength(bytes.length);
 
         return bytes;
     }
