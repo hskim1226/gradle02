@@ -1729,6 +1729,7 @@
                                     'value': item[valueKey],
                                     'label': item[labelKey]
                                 });
+                                $op.html(item[labelKey]);
                                 if ('detlMajCode' == targetId) {
                                     for (var key in item) {
                                         if (key !== valueKey && key !== labelKey) {
