@@ -101,6 +101,10 @@ public class ApplicationValidator implements NamedValidator {
             errors.rejectValue(prefix + "citzCntrCode", "U331",
                     new Object[]{messageResolver.getMessage("L01206")}, messageResolver.getMessage("U332"));  /*"국적"*/
         }
+        if (application.getGend() == null || application.getGend().length() == 0) {
+            errors.rejectValue(prefix + "gend", "U331",
+                    new Object[]{messageResolver.getMessage("L01218")}, messageResolver.getMessage("U332"));  /*"성별"*/
+        }
 
         if (application.getMailAddr() == null || application.getMailAddr().length() == 0) {
             errors.rejectValue(prefix + "mailAddr", "U331",

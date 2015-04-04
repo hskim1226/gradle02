@@ -348,20 +348,66 @@
                                         <label for="detlMajCode" class="col-sm-2 control-label"><spring:message code="L01109"/><%--세부 전공--%></label>
                                         <div class="col-sm-9">
                                             <div class="col-sm-12">
-                                                <form:select path="application.detlMajCode" id="detlMajCode" cssClass="form-control base-info base-non-ariInst base-ariInst">
-                                                    <form:option value="" label="--${msg.getMessage('L01011', locale)}--" />
-                                                    <form:options items="${selection.detlMajList}" itemValue="detlMajCode"
-                                                                  itemLabel="${pageContext.response.locale == 'en' ? 'detlMajNameXxen' : 'detlMajName'}"/>
-                                                </form:select>
-                                            </div>
+                                                <select name="application.detlMajCode" class="form-control base-info base-non-ariInst base-ariInst" id="detlMajCode">
+                                                    <option value>--<spring:message code="L01011"/>--</option>
+                                                    <c:forEach var="detlList" items="${selection.detlMajList}" varStatus="status">
+                                                        <c:choose>
+                                                        <c:when test='${application.detlMajCode == detlList.detlMajCode}'>
+                                                        <option selected="true" value="${detlList.detlMajCode}" data-partTimeYn="${detlList.partTimeYn}">${detlList.detlMajName}</option>
+                                                        </c:when>
+                                                        <c:otherwise>
+                                                            <option selected="" value="${detlList.detlMajCode}" data-partTimeYn="${detlList.partTimeYn}">${detlList.detlMajName}</option>
+                                                        </c:otherwise>
+                                                        </c:choose>
+                                                    </c:forEach>
+                                                </select>
                                             <div class="col-sm-7">
                                                 <label id="detMajDesc" class="apexMessage"></label>
                                             </div>
-                                            <div class="col-sm-5">
-                                                <form:input path="application.inpDetlMaj" cssClass="form-control" style="display:none" />
+                                            <div class="col-sm-offset-2 col-sm-9">
+                                                <form:input path="application.inpDetlMaj" id="inpDetlMaj" cssClass="form-control base-info-input" style="display:none" disabeld="true"/>
+                                            </div>
+                                            <div class="col-sm-9" id="partTimeYnGrp" style="display:none" disabeld="true">
+                                                <div class="col-sm-12">
+
+                                                    <form:select path="application.partTimeYn" id="partTimeYn" cssClass="form-control base-info">
+                                                        <form:option value="" label="--${msg.getMessage('L01011', locale)}--" />
+                                                        <form:option value="Y" label="${msg.getMessage('L01113')}" /><%--파트타임--%>
+                                                        <form:option value="N" label="${msg.getMessage('L01114')}" /><%--풀타임--%>
+                                                    </form:select>
+
+
+<%--
+                                                    <label class="radio-inline base-info-input">
+                                                        <form:radiobutton path="application.partTimeYn" readonly="true" cssClass="base-info-input" value="Y" label="${msg.getMessage('L01113')}"/>
+                                                    </label>
+                                                    <label class="radio-inline base-info-input">
+                                                        <form:radiobutton path="application.partTimeYn" cssClass="base-info-input" value=" " label="${msg.getMessage('L01114')}"/>
+                                                    </label>
+
+                                                    --%>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
+<%--
+                                    <div id="partTimeYnGrp" style="display:none">
+                                        <label class="col-sm-2 control-label"></label>
+                                        <div class="col-sm-9">
+                                            <div class="col-sm-12">
+                                                <label class="radio-inline">
+                                                    <form:radiobutton path="application.partTimeYn"  value="Y" label="${msg.getMessage('L01113')}"/>
+                                                </label>
+                                                <label class="radio-inline">
+                                                    <form:radiobutton path="application.partTimeYn"  value=" " label="${msg.getMessage('L01114')}"/>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+
+--%>
+
+
                                 </div>
                                 <div>
                                     <div class="col-sm-11" id="baseSave">
@@ -487,6 +533,35 @@
                                             </div>
                                         </div>
                                     </div>
+
+
+
+                                    <div class="form-group required" id="divRgstNo">
+                                        <label class="col-sm-2 control-label" id="genderLabel">
+                                            <spring:message code="L00128"/><%--성별--%>
+                                        </label>
+                                        <div class="col-sm-9">
+                                            <div class="col-sm-12">
+                                                <div class="col-sm-4 nopadding">
+                                                     <label class="radio-inline">
+                                                     <form:radiobutton path="application.gend" value="m" label="${msg.getMessage('L114')}"/>
+                                                     </label>
+                                                     <label class="radio-inline">
+                                                     <form:radiobutton path="application.gend" value="f" label="${msg.getMessage('L115')}"/>
+                                                     </label>
+                                                         <spring:bind path="application.gend">
+                                                         <c:if test="${status.error}">
+                                                         <div class="validation-error">${status.errorMessage}</div>
+                                                         </c:if>
+                                                         </spring:bind>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+
+
                                 </div>
                             </div>
 
@@ -1100,6 +1175,14 @@
             entrYear = document.getElementById('entrYear').value = '${basis.application.entrYear}',
             admsTypeCode = document.getElementById('admsTypeCode').value = '${basis.application.admsTypeCode}',
             corsTypeCode = '${basis.application.corsTypeCode}';
+        var detlMaj = $('#detlMajCode').find('option:selected');
+
+        if( detlMaj.attr('data-parttimeyn') ==="Y"){
+            document.getElementById('partTimeYnGrp').setAttribute("style", "display");
+        }
+        if( detlMaj.attr('value')=== "99999" ){
+            document.getElementById('inpDetlMaj').setAttribute("style", "display");
+        }
 
         <%-- 원서 작성 현황 및 사용 가능한 탭 처리 --%>
         var processCurrentStep = function (applStsCode) {
@@ -1181,10 +1264,15 @@
             });
 
             if (isValid) {
+
                 $('.base-info>option').filter( function() {
                     return !this.selected;
                 }).each( function() {
                     $(this).prop('disabled', true);
+                });
+
+                $('.base-info-input').each( function() {
+                    $(this).attr('readonly', true);
                 });
 
                 $('#baseCancel').css('display', 'block');
@@ -1870,38 +1958,23 @@
             var parent = this.parentNode.parentNode;
             var $divNode,$divNode2, $childNode, $childNode2, $childNode3;
 
-            $(parent).find('#detlMajRadio').remove();
             $(parent).find('#detlMajText').remove();
             $(parent).find('#detlMajDescDiv').remove();
             $(parent).find('#detlMajDescLabel').remove();
             if (detlMajCode == '99999') {   // 세부전공 직접입력
-                $divNode = $('<div></div>').addClass('col-sm-offset-2 col-sm-9').attr({
-                    'id': 'detlMajText'
-                });
-                $childNode = $('<input/>').addClass('form-control').attr({
-                    'type': 'text',
-                    'id': 'detlMajDesc',
-                    'name': 'detlMajDesc'
-                });
-                $('#DetlMajDesc').text('');
-                $childNode.appendTo($divNode);
-                $divNode.appendTo($(parent));
+                $(parent).find('#inpDetlMaj').attr("style", "display");
+                $(parent).find('#partTimeYnGrp').attr("disabled", "false");
+            }else{
+                $(parent).find('#inpDetlMaj').attr("style", "display:none");
+                $(parent).find('#partTimeYnGrp').attr("disabled", "true");
             }
-            if ($(selected).attr('partTimeYn') === 'Y' || $(selected).attr('partTimeYn') === 'y') { // 세부전공 PART_TIME_YN이 Y인 경우
-                $divNode = $('<div></div>').addClass('col-sm-offset-2 col-sm-9').attr({
-                    'id': 'detlMajRadio'
-                });
-                $childNode = $('<input/>').attr({
-                    'type': 'checkbox',
-                    'id': 'partTimeYn',
-                    'name': 'partTimeYn'
-                });
-                $childNode2 = $('<label/>').addClass('checkbox-inline').text('<spring:message code="L01113"/>'); //파트타임 여부
-                $childNode.prependTo($childNode2);
-                $childNode2.appendTo($divNode);
-                $divNode.appendTo($(parent));
+            if( selected.getAttribute('partTimeYn') === 'Y' || selected.getAttribute('partTimeYn') === 'y') { // 세부전공 PART_TIME_YN이 Y인 경우
+                $(parent).find('#partTimeYnGrp').attr("style", "display");
+                $(parent).find('#partTimeYnGrp').attr("disabled", "false");
+            }else{
+                $(parent).find('#partTimeYnGrp').attr("style", "display:none");
+                $(parent).find('#partTimeYnGrp').attr("disabled", "true");
             }
-
             var temp = jQuery.type($(selected).attr('detlmajdesc'));
             var temp2 = $(selected).attr('detlmajdesc');
             if (jQuery.type($(selected).attr('detlmajdesc')) !=='undefined') { // 세부전공 desc 가 들어가 있는경우

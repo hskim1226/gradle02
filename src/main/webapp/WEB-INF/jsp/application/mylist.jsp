@@ -50,12 +50,12 @@
                                     <c:otherwise>
                                         <c:forEach items="${myList}" var="item" varStatus="itemStatus">
                                             <tr>
-                                                <td valign="middle" style="vertical-align: middle;">${item.campName}</td>
-                                                <td valign="middle" style="vertical-align: middle;">${item.admsTypeName}</td>
-                                                <td valign="middle" style="vertical-align: middle;">${item.deptName}</td>
-                                                <td valign="middle" style="vertical-align: middle;">${item.corsTypeName}</td>
-                                                <td valign="middle" style="vertical-align: middle;">${item.detlMajName}</td>
-                                                <td valign="middle" style="vertical-align: middle;">${item.applStsName}</td>
+                                                <td valign="middle" style="vertical-align: middle;">${pageContext.response.locale == 'en' ? item.campNameXxen : item.campName}</td>
+                                                <td valign="middle" style="vertical-align: middle;">${pageContext.response.locale == 'en' ? item.admsTypeNameXxen : item.admsTypeName}</td>
+                                                <td valign="middle" style="vertical-align: middle;">${pageContext.response.locale == 'en' ? item.deptNameXxen : item.deptName}</td>
+                                                <td valign="middle" style="vertical-align: middle;">${pageContext.response.locale == 'en' ? item.corsTypeNameXxen : item.corsTypeName}</td>
+                                                <td valign="middle" style="vertical-align: middle;">${pageContext.response.locale == 'en' ? item.detlMajNameXxen : item.detlMajName}</td>
+                                                <td valign="middle" style="vertical-align: middle;">${pageContext.response.locale == 'en' ? item.applStsNameXxen : item.applStsName}</td>
                                             </tr>
                                             <tr>
                                                 <td colspan="6">

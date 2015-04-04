@@ -216,7 +216,7 @@
             });
 
             function nonagreeAlert() {
-                alert("동의하지 않을 경우 원서를 접수할 수 없습니다.");
+                alert("<spring:message code="U01100"/>");//동의하지 않을 경우 원서를 접수할 수 없습니다.
             }
 
             $('#composePaper').click(function(e){

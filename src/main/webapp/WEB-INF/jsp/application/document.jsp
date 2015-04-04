@@ -916,7 +916,7 @@
                                                     </div>
                                                     <div class="col-sm-10 nopadding">
                                                         <form:input path="documentContainerList[${lv1Status.index}].subContainer[${lv2EtcStatus.index}].docItemName"
-                                                                    placeholder="서류명 직접 입력"
+                                                                    placeholder="${msg.getMessage('L04404', locale)}"
                                                                     cssClass="form-control" />
                                                     </div>
                                                 </label>
@@ -1111,7 +1111,7 @@
             if (saveType == 'document') {
                 var checkDocChckYn = document.getElementById('docChckYn');
                 if (!checkDocChckYn.checked) {
-                    alert('첨부 파일 안내 사항 확인란에 체크 하셔야 합니다.');
+                    alert('<spring:message code="U04501"/>');//첨부 파일 안내 사항 확인란에 체크 하셔야 합니다.
                     checkDocChckYn.focus();
                 } else {
                     checkDocChckYn.value = "Y";
@@ -1209,7 +1209,7 @@
                 form.target="_blank";
                 form.submit();
             } else if (saveType == 'submit') {
-                if (confirm('원서 제출 후에는 원서 내용을 수정할 수 없습니다.\n\n계속하시겠습니까?')) {
+                if (confirm('<spring:message code="U04509"/>')) {//원서 제출 후에는 원서 내용을 수정할 수 없습니다.\n\n계속하시겠습니까?
                     form.action = "${contextPath}/application/document/submit";
                     form.target = "_self";
                     form.submit();
@@ -1249,7 +1249,7 @@
                     targetButton = this;
 
             if (docItemName && !docItemName.value.length > 0) {
-                alert('서류명을 직접 입력해 주세요.');
+                alert('<spring:message code="U04502"/>');//서류명을 직접 입력해 주세요.
                 docItemName.focus();
                 return false;
             }
@@ -1260,13 +1260,13 @@
                     if (regexpImage.test(fileName)) {
                         extIsOk = true;
                     } else {
-                        alert('사진은 GIF, JPG, PNG 만 업로드 할 수 있습니다.');
+                        alert('<spring:message code="U04503"/>');//사진은 GIF, JPG, PNG 만 업로드 할 수 있습니다.
                         return false;
                     }
                 } else if (regexpPDF.test(fileName)) {
                     extIsOk = true;
                 } else {
-                    alert('첨부파일은 PDF 파일만 업로드 할 수 있습니다.')
+                    alert('<spring:message code="U04504"/>');//첨부파일은 PDF 파일만 업로드 할 수 있습니다.
                     return false;
                 }
 
@@ -1331,7 +1331,7 @@
                                 $targetBtn.removeClass("btn-default");
                                 $targetBtn.removeClass("btn-danger");
                                 $targetBtn.addClass("btn-info");
-                                $targetBtn.val("올리기 성공");
+                                $targetBtn.val("<spring:message code="U04508"/>");//올리기 성공
 
                                 document.getElementById(targetFileDownloadLinkId).parentNode.style.display = 'block';
                                 document.getElementById(targetFileDownloadLinkId).setAttribute('href', '${contextPath}/application/document/fileDownload/' + applNo + '/' + docSeq);
@@ -1354,7 +1354,7 @@
                         error: function (data, status, e) {
                             $(targetButton).removeClass("btn-default"),
                             $(targetButton).addClass("btn-danger"),
-                            $(targetButton).val("올리기 실패");
+                            $(targetButton).val("<spring:message code="U04506"/>");//올리기 실패
 //                            if(console) {
 //                                console.log("data : ", data);
 //                                console.log("status : ", status);
@@ -1365,7 +1365,7 @@
                 }
 
             } else {
-                alert("파일을 선택해 주십시오");
+                alert("<spring:message code="U04505"/>");//파일을 선택해 주십시오
             }
 
 
@@ -1381,7 +1381,7 @@
                 targetUploadButton = document.getElementById(this.getAttribute('data-upload-button-id')),
                 targetButtonContainerClass = '.' + this.getAttribute('data-button-container-class'),
                 targetFileUploadFg = document.getElementById(this.getAttribute('data-fileUploadFg-id'));
-            if (confirm('첨부한 파일을 삭제하시겠습니까?')) {
+            if (confirm('<spring:message code="U04510"/>')) {//첨부한 파일을 삭제하시겠습니까?
                 $.ajax({
                     type: 'POST',
                     url: this.href,
@@ -1390,18 +1390,18 @@
                             $targetUploadButton = $(targetUploadButton);
                         if (data.result == 'SUCCESS') {
                             targetCheckBox.checked = false,
-                            targetDocItemName.type == 'text' ? (targetDocItemName.value = '', targetDocItemName.placeholder = '서류명 직접 입력' ) : true,
+                            targetDocItemName.type == 'text' ? (targetDocItemName.value = '', targetDocItemName.placeholder = '${msg.getMessage('L04404', locale)}' ) : true,
                             $targetUploadButton.removeClass('btn-info'),
                             $targetUploadButton.addClass('btn-default'),
                             $targetUploadButton.val("올리기"),
                             $(targetButtonContainerClass).css('display', 'none'),
                             targetFileUploadFg.value = false;
                         } else {
-                            alert('파일 삭제에 실패했습니다.');
+                            alert('<spring:message code="U04507"/>');//파일 삭제에 실패했습니다.
                         }
                     },
                     error: function (data, status, e) {
-                        alert('파일 삭제에 실패했습니다.');
+                        alert('<spring:message code="U04507"/>');//파일 삭제에 실패했습니다.
                     }
                 });
             }
