@@ -69,6 +69,8 @@ public class AdminController {
     @Value("#{app['file.baseDir']}")
     private String fileBaseDir;
 
+    @Value("#{app['s3.midPath']}")
+    private String s3MidPath;
 
     @RequestMapping(value="/stats/daily")
     public String statsDaily(Model model) {
@@ -326,7 +328,7 @@ public class AdminController {
         int applNo = courseSearchPageForm.getApplNo();
         String userId = courseSearchPageForm.getUserId();
 
-        String uploadDirectoryFullPath = FileUtil.getUploadDirectoryFullPath(fileBaseDir, admsNo, userId, applNo);
+        String uploadDirectoryFullPath = FileUtil.getUploadDirectoryFullPath(fileBaseDir, s3MidPath, admsNo, userId, applNo);
         //TODO 파일명 FileUtil 통해 해결하도록 수정 필요
 
         String fileFileFullPath = FileUtil.getFinalMergedFileFullPath(uploadDirectoryFullPath, applNo);

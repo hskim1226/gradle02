@@ -159,10 +159,10 @@
                 var form = document.getElementById('LGD_PAYINFO');
                 form.target = "_blank";
                 var admsNo = e.target.getAttribute('data-admsNo');
-                if (admsNo != null && admsNo.length > 0) {
+                if (admsNo != null && admsNo.length > 0) { // 전체 파일
                     form.action = '${contextPath}/pdf/download';
                     form.submit();
-                } else {
+                } else { // 지원서 또는 수험표
                     form.action = '${contextPath}/application/print';
                     form.submit();
                 }

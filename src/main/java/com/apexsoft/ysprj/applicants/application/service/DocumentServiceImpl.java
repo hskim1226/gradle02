@@ -20,9 +20,10 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import javax.servlet.ServletContext;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.*;
 
 /**
@@ -48,8 +49,14 @@ public class DocumentServiceImpl implements DocumentService {
     @Resource(name = "messageResolver")
     MessageResolver messageResolver;
 
+    @Value("#{app['s3.url']}")
+    private String s3URL;
+
     @Value("#{app['s3.bucketName']}")
     private String s3BucketName;
+
+    @Value("#{app['s3.midPath']}")
+    private String s3MidPath;
 
     private final String APP_NULL_STATUS = "00000";      // 에러일 때 반환값
     private final String FILE_UPLOAD_SAVED = "00004";    // 첨부파일 저장
@@ -407,7 +414,7 @@ public class DocumentServiceImpl implements DocumentService {
         aDoc.setApplNo(applNo);
         aDoc.setFileExt("pdf");
         aDoc.setImgYn("N");
-        aDoc.setFilePath(FileUtil.getUploadDirectoryFullPath(BASE_DIR, admsNo, userId, applNo));
+        aDoc.setFilePath(FileUtil.getUploadDirectoryFullPath(BASE_DIR, s3MidPath, admsNo, userId, applNo));
         aDoc.setDocItemName("지원서");
         aDoc.setFileName(FileUtil.getApplicationFileName(userId));
         aDoc.setOrgFileName(FileUtil.getApplicationFileName(userId));
@@ -453,7 +460,7 @@ public class DocumentServiceImpl implements DocumentService {
         aDoc.setApplNo(applNo);
         aDoc.setFileExt("pdf");
         aDoc.setImgYn("N");
-        aDoc.setFilePath(FileUtil.getUploadDirectoryFullPath(BASE_DIR, admsNo, userId, applNo));
+        aDoc.setFilePath(FileUtil.getUploadDirectoryFullPath(BASE_DIR, s3MidPath, admsNo, userId, applNo));
         aDoc.setDocItemName("수험표");
         aDoc.setFileName(FileUtil.getSlipFileName(userId));
         aDoc.setOrgFileName(FileUtil.getSlipFileName(userId));
@@ -780,7 +787,7 @@ public class DocumentServiceImpl implements DocumentService {
 
                 }
             }
-            pCont.setGrpLabel( pCont.getDocItemName());
+            pCont.setGrpLabel(pCont.getDocItemName());
             pCont.setGrpLabelXxen( pCont.getDocItemNameXxen());
         }else{
             ApplicationDocument aDoc;
@@ -806,8 +813,8 @@ public class DocumentServiceImpl implements DocumentService {
         List<TotalApplicationDocumentContainer> rContList = null;
 
         if (!"Y".equals( pCont.getLastYn())) {
-            pCont.setGrpLabel( pCont.getDocItemName());
-            pCont.setGrpLabelXxen( pCont.getDocItemNameXxen());
+            pCont.setGrpLabel(pCont.getDocItemName());
+            pCont.setGrpLabelXxen(pCont.getDocItemNameXxen());
             if( pCont.getMsgNo()!= null && pCont.getMsgNo()!= "" ) {
                 pCont.setMsg(messageResolver.getMessage(pCont.getMsgNo()));
             }
@@ -886,7 +893,7 @@ public class DocumentServiceImpl implements DocumentService {
     @Override
     public String retrievePhotoUri(int applNo) {
         ParamForDocumentType aParam = new ParamForDocumentType();
-        String photoUrl = null;
+        String urlEncodedPhotoURL = null;
         aParam.setApplNo( applNo);
         aParam.setDocTypeCode("00001");//기본
         aParam.setDocItemCode("00001");//사진
@@ -894,9 +901,18 @@ public class DocumentServiceImpl implements DocumentService {
 
         rList = commonDAO.queryForList(NAME_SPACE + "CustomApplicationDocumentMapper.selectApplicationDocumentByDocumentType", aParam, TotalApplicationDocument.class );
         if( rList != null && rList.size()>0 ) {
-            photoUrl =  rList.get(0).getFilePath() + "/" + rList.get(0).getFileName();
+            try {
+                urlEncodedPhotoURL =  new StringBuilder()
+                        .append(s3URL).append('/')
+                        .append(s3BucketName).append('/')
+                        .append(URLEncoder.encode(rList.get(0).getFilePath(), "UTF-8"))
+                        .toString();
+            } catch (UnsupportedEncodingException e) {
+
+            }
         }
-        return photoUrl;
+
+        return urlEncodedPhotoURL;
     }
 
     private boolean isRgstNoDuplicate(int applNo) {
@@ -948,6 +964,5 @@ public class DocumentServiceImpl implements DocumentService {
                 }
             }
         }
-
     }
 }

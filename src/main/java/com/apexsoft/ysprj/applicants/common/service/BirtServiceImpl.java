@@ -67,6 +67,9 @@ public class BirtServiceImpl implements BirtService {
     @Value("#{app['path.static']}")
     private String STATIC_PATH;
 
+    @Value("#{app['s3.midPath']}")
+    private String s3MidPath;
+
     private String ADMS_FORN_1 = "C";
     private String ADMS_FORN_2 = "D";
 
@@ -137,7 +140,7 @@ public class BirtServiceImpl implements BirtService {
                 FileUtil.getApplicationFileName(userId) :
                 FileUtil.getSlipFileName(userId);
 
-        rptInfoMap.put("pdfDirectoryFullPath", FileUtil.getUploadDirectoryFullPath(BASE_DIR, admsNo, userId, applNo));
+        rptInfoMap.put("pdfDirectoryFullPath", FileUtil.getUploadDirectoryFullPath(BASE_DIR, s3MidPath, admsNo, userId, applNo));
         rptInfoMap.put("pdfFileName", pdfFileName);
 
         CommonCode commonCode;

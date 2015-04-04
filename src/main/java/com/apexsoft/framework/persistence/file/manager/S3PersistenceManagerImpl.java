@@ -110,15 +110,20 @@ public class S3PersistenceManagerImpl implements FilePersistenceManager {
                 } catch (IOException e) {
                     throw new UploadException("error counting pdf page " + orgFileName, e);
                 }
+            } else if ("jpg".equalsIgnoreCase(fileExt)) {
+                meta.setContentType("image/jpeg");
+            } else if ("png".equalsIgnoreCase(fileExt)) {
+                meta.setContentType("image/png");
+            } else if ("gif".equalsIgnoreCase(fileExt)) {
+                meta.setContentType("image/gif");
             }
             meta.setContentEncoding("UTF-8");
             meta.setContentLength(fileSize);
-            meta.setHeader("x-amz-storage-class", "REDUCED_REDUNDANCY");
+            meta.setHeader("x-amz-storage-class", s3StorageClass);
 
-            InputStream forUpload = new ByteArrayInputStream(baos.toByteArray());
-            long size = forUpload.available();
+            InputStream uplaodFileInputStream = new ByteArrayInputStream(baos.toByteArray());
 
-            s3.putObject(new PutObjectRequest(s3BucketName, filePath, forUpload, meta)
+            s3.putObject(new PutObjectRequest(s3BucketName, filePath, uplaodFileInputStream, meta)
                     .withCannedAcl(CannedAccessControlList.AuthenticatedRead.PublicRead));
         } catch (IOException e) {
             throw e;
