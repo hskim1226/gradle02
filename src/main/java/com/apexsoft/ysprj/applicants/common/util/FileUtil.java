@@ -63,6 +63,6 @@ public class FileUtil {
     }
 
     public static String getS3PathFromLocalFullPath(String localFullPath, String baseDir) {
-        return localFullPath.substring(baseDir.length());
+        return localFullPath.substring(baseDir.length()+1);
     }
 }

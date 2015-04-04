@@ -47,6 +47,13 @@ public class CasNoteController {
     @Autowired
     PDFService pdfService;
 
+    /**
+     * 가상 계좌 입금 완료 확인 시 LG U+에서 호출
+     *
+     *
+     * @param request
+     * @return
+     */
     @RequestMapping(value="/notice")
     public String processCasNote( HttpServletRequest request ) {
 
@@ -138,6 +145,7 @@ public class CasNoteController {
 //            genApplFileAndMerge( applNo, urlHead );
 //            genSlipFile( applNo, urlHead );
 
+            // 수험표, 지원서 생성 및 Merge
             // 타 대학원 확장 시 TODO - 학교 이름을 파라미터로 받도록
             Application application = commonDAO.queryForObject("com.apexsoft.ysprj.applicants.application.sqlmap.ApplicationMapper.selectByPrimaryKey",
                     applNo, Application.class);

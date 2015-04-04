@@ -136,12 +136,14 @@ public class PDFServiceImpl implements PDFService {
             meta.setContentLength(lastMergedFile.length());
             meta.setHeader("x-amz-storage-class", s3StorageClass);
             s3.putObject(new PutObjectRequest(s3BucketName,
-                    s3MidPath + "/" + FileUtil.getS3PathFromLocalFullPath(lastMergeUtil.getDestinationFileName(), fileBaseDir),
+                    FileUtil.getS3PathFromLocalFullPath(lastMergeUtil.getDestinationFileName(), fileBaseDir),
                     lastMergedFile)
                     .withMetadata(meta)
                     .withCannedAcl(CannedAccessControlList.AuthenticatedRead.PublicRead));
 
             //TODO : PDF numbering을 위해 App서버 로컬에 저장된 중간 파일들을 이 시점에서 지울 것이냐 말 것이냐
+            // 여기서 지우면 파일 지우기 위한 I/O 추가 발생하지만 저장 공간은 절약
+            // 나중에 batch로 지우면 I/O 는 절약하지만 지우기 전까지 저장 공간은 낭비
         } catch (IOException e) {
             ec.setResult(ExecutionContext.FAIL);
             ec.setMessage(messageResolver.getMessage("U801"));

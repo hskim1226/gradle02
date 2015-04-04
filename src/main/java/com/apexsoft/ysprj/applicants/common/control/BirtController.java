@@ -52,29 +52,32 @@ public class BirtController {
     private final String RPT_ADMISSION_KR = "yonsei-adms-kr";
     private final String RPT_ADMISSION_EN = "yonsei-adms-en";
 
-    @RequestMapping(value = "/print")
-    public ModelAndView previewApplicationByParam(BirtRequest birtRequest,
-                                                  Principal principal,
-                                                  ModelAndView mv) {
-        mv.setViewName("pdfSingleFormatBirtView");
-        Application application = birtRequest.getApplication();
-        if (application == null) {
-            filterApplicationNull(principal);
-        } else {
-            String admsTypeCode = application.getAdmsTypeCode();
-            String reqType = birtRequest.getReqType();
-            String lang = "C".equals(admsTypeCode) || "D".equals(admsTypeCode) ? "en" : "kr";
-            String reportName = "yonsei-" + reqType + "-" + lang;
-            int applNo = application.getApplNo();
-
-            mv.addObject("reportFormat", REPORT_FORMAT);
-            mv.addObject("reportName", reportName);
-            ExecutionContext ec = birtService.processBirt(applNo, reportName);
-            mv.addAllObjects((Map<String, Object>)ec.getData());
-        }
-
-        return mv;
-    }
+//    내 원서의 '지원서 보기에서 수험표, 지원서를 누르는 경우
+//    application/print 를 통하는데 application/print와 application/preview가 하는 일이 정확히 같아서
+//    application/print는 deprate처리하고 application/preview로 일원화
+//    @RequestMapping(value = "/print")
+//    public ModelAndView previewApplicationByParam(BirtRequest birtRequest,
+//                                                  Principal principal,
+//                                                  ModelAndView mv) {
+//        mv.setViewName("pdfSingleFormatBirtView");
+//        Application application = birtRequest.getApplication();
+//        if (application == null) {
+//            filterApplicationNull(principal);
+//        } else {
+//            String admsTypeCode = application.getAdmsTypeCode();
+//            String reqType = birtRequest.getReqType();
+//            String lang = "C".equals(admsTypeCode) || "D".equals(admsTypeCode) ? "en" : "kr";
+//            String reportName = "yonsei-" + reqType + "-" + lang;
+//            int applNo = application.getApplNo();
+//
+//            mv.addObject("reportFormat", REPORT_FORMAT);
+//            mv.addObject("reportName", reportName);
+//            ExecutionContext ec = birtService.processBirt(applNo, reportName);
+//            mv.addAllObjects((Map<String, Object>)ec.getData());
+//        }
+//
+//        return mv;
+//    }
 
     @RequestMapping(value = "/print/{applNo}/{reportFormat}/{reportName}")
     public ModelAndView previewApplicationByRESTful(@PathVariable("applNo") Integer applNo,
@@ -113,6 +116,15 @@ public class BirtController {
         return mv;
     }
 
+    /**
+     * 결제 완료 후 성공 화면에서 호출
+     * 수험번호가 채번된 원서 PDF 파일을 로컬에 저장
+     *
+     * @param birtRequest
+     * @param principal
+     * @param mv
+     * @return
+     */
     @RequestMapping(value = "/generate/application")
     public ModelAndView generateApplicationFile(BirtRequest birtRequest,
                                                 Principal principal,
@@ -139,6 +151,15 @@ public class BirtController {
         return mv;
     }
 
+    /**
+     * 결제 완료 후 성공 화면에서 호출
+     * 수험번호가 채번된 수험표 PDF 파일을 로컬에 저장
+     *
+     * @param birtRequest
+     * @param principal
+     * @param mv
+     * @return
+     */
     @RequestMapping(value = "/generate/slip")
     public ModelAndView generateSlipFile(BirtRequest birtRequest,
                                          Principal principal,
