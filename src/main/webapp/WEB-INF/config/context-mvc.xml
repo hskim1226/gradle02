@@ -26,7 +26,8 @@
         <mvc:argument-resolvers>
             <bean class="com.apexsoft.framework.web.bind.FileHandlerWebArgumentResolver">
                 <property name="multiPartReceiver" ref="multiPartReceiver" />
-                <property name="filePersistenceManager" ref="persistenceManager" />
+                <!--<property name="filePersistenceManager" ref="persistenceManager" />-->
+                <property name="filePersistenceManager" ref="s3PersistenceManager" />
             </bean>
         </mvc:argument-resolvers>
         <mvc:message-converters>

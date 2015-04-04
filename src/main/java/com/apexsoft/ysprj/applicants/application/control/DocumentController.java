@@ -1,5 +1,11 @@
 package com.apexsoft.ysprj.applicants.application.control;
 
+import com.amazonaws.AmazonClientException;
+import com.amazonaws.AmazonServiceException;
+import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.AmazonS3Client;
+import com.amazonaws.services.s3.model.GetObjectRequest;
+import com.amazonaws.services.s3.model.S3Object;
 import com.apexsoft.framework.common.vo.ExecutionContext;
 import com.apexsoft.framework.exception.ErrorInfo;
 import com.apexsoft.framework.exception.GlobalExceptionHandler;
@@ -24,6 +30,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.fileupload.FileUpload;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,10 +43,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import java.io.*;
 import java.net.URLEncoder;
 import java.security.Principal;
 import java.util.HashMap;
@@ -75,6 +79,9 @@ public class DocumentController {
 
     @Value("#{app['file.baseDir']}")
     private String fileBaseDir;
+
+    @Value("#{app['s3.bucketName']}")
+    private String bucketName;
 
     private static final Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
     private final String TARGET_VIEW = "application/document";
@@ -321,23 +328,16 @@ public class DocumentController {
                         try{
                             uploadDir = getDirectory(fileMetaForm);
                             uploadFileName = createFileName(fileMetaForm, fileItem);
-                            fileInfo = persistence.save(uploadDir,
-                                    uploadFileName,
-                                    originalFileName,
-                                    fis = new FileInputStream(fileItem.getFile()));
-//                            String path = fileInfo.getDirectory().replace('\\', '/');
+                            fileInfo = persistence.save(uploadDir, uploadFileName, originalFileName,
+                                    fis = new FileInputStream(fileItem.getFile())
+                            );
+
                             String path = fileInfo.getDirectory();
-                            String pathWithoutContextPath;
-                            if (path.startsWith(fileBaseDir)) {
-                                pathWithoutContextPath = path.substring(fileBaseDir.length());
-                            } else {
-                                throw new FileUploadException("ERR0057");
-                            }
-                            fileMetaForm.setPath(pathWithoutContextPath);
+
+                            fileMetaForm.setPath(path);
                             fileMetaForm.setFileName(fileInfo.getFileName());
                             fileMetaForm.setOriginalFileName(originalFileName);
 
-//                            document.setFilePath(fileInfo.getDirectory().replace('\\', '/'));
                             document.setFilePath(fileInfo.getDirectory());
                             document.setFileName(fileInfo.getFileName());
                             document.setOrgFileName(originalFileName);
@@ -349,35 +349,128 @@ public class DocumentController {
 
                             if (ExecutionContext.SUCCESS.equals(ec.getResult())) {
                                 fileMetaForm.setTotalApplicationDocument((TotalApplicationDocument)ec.getData());
+                                fileMetaForm.setResultMessage(messageResolver.getMessage("U348"));
+                            } else {
+                                fileMetaForm.setResultMessage(messageResolver.getMessage("U339"));
                             }
 
                             jsonFileMetaForm = objectMapper.writeValueAsString(fileMetaForm);
 
-                        } catch (FileNotFoundException fnfe) {
-                            persistence.deleteFile(uploadDir, uploadFileName);
-                            throw getYSBizException(document, principal, "U339", "ERR0058");
-                        } catch (FileUploadException foe) {
-                            persistence.deleteFile(uploadDir, uploadFileName);
-                            throw getYSBizException(document, principal, "U339", foe.getMessage());
-                        } catch (JsonProcessingException jpe) {
-                            persistence.deleteFile(uploadDir, uploadFileName);
-                            throw getYSBizException(document, principal, "U339", "ERR0201");
-                        } catch (YSBizException ybe) {
-                            persistence.deleteFile(uploadDir, uploadFileName);
-                            throw ybe;
+                        } catch (AmazonServiceException ase) {
+                            ec = new ExecutionContext(ExecutionContext.FAIL);
+                            ec.setMessage(messageResolver.getMessage("U339"));
+                            ec.setErrCode("ERR0052");
+                            Map<String, String> errorInfo = new HashMap<String, String>();
+                            errorInfo.put("userId", String.valueOf(principal.getName()));
+                            errorInfo.put("applNo", String.valueOf(document.getApplNo()));
+                            errorInfo.put("docSeq", String.valueOf(document.getDocSeq()));
+                            errorInfo.put("AWS Error Message", ase.getMessage());
+                            errorInfo.put("AWS HTTP Status Code", String.valueOf(ase.getStatusCode()));
+                            errorInfo.put("AWS HTTP Error Code", String.valueOf(ase.getErrorCode()));
+                            errorInfo.put("AWS Error Type", ase.getErrorType().toString());
+                            errorInfo.put("AWS Request ID", ase.getRequestId());
+                            ec.setErrorInfo(new ErrorInfo(errorInfo));
+                            throw new YSBizException(ec);
+                        } catch (AmazonClientException ace) {
+                            ec = new ExecutionContext(ExecutionContext.FAIL);
+                            ec.setMessage(messageResolver.getMessage("U339"));
+                            ec.setErrCode("ERR0052");
+                            Map<String, String> errorInfo = new HashMap<String, String>();
+                            errorInfo.put("applNo", String.valueOf(document.getApplNo()));
+                            errorInfo.put("docSeq", String.valueOf(document.getDocSeq()));
+                            errorInfo.put("AWS Error Message", ace.getMessage());
+                            ec.setErrorInfo(new ErrorInfo(errorInfo));
+                            throw new YSBizException(ec);
                         } catch (Exception e) {
-                            persistence.deleteFile(uploadDir, uploadFileName);
                             throw getYSBizException(document, principal, "U339", "ERR0052");
                         }finally {
                             try {
                                 if (fis!= null) fis.close();
                             } catch (IOException e) {}
-                            FileUtils.deleteQuietly(fileItem.getFile());
                         }
                     }
 
                     return jsonFileMetaForm;
                 }
+//                public String handleEvent(List<FileItem> fileItems,
+//                                          FileMetaForm fileMetaForm,
+//                                          FilePersistenceManager persistence,
+//                                          TotalApplicationDocument document) {
+//                    ExecutionContext ec = null;
+//                    String jsonFileMetaForm = null;
+//                    FileInfo fileInfo;
+//                    String uploadDir = getDirectory(fileMetaForm);
+//                    String uploadFileName = "";
+//                    for ( FileItem fileItem : fileItems){
+//                        if (fileItem.getFile().length() > MAX_LENGTH) {
+//                            ec = new ExecutionContext(ExecutionContext.FAIL);
+//                            Map<String, String> errorInfo = new HashMap<String, String>();
+//                            errorInfo.put("applNo", String.valueOf(document.getApplNo()));
+//                            ec.setErrorInfo(new ErrorInfo(errorInfo));
+//                            throw new FileUploadException(ec, "U04301", "ERR0060");
+//                        }
+//                        FileInputStream fis = null;
+//                        String originalFileName = fileItem.getOriginalFileName();
+//                        try{
+//                            uploadDir = getDirectory(fileMetaForm);
+//                            uploadFileName = createFileName(fileMetaForm, fileItem);
+//                            fileInfo = persistence.save(uploadDir,
+//                                    uploadFileName,
+//                                    originalFileName,
+//                                    fis = new FileInputStream(fileItem.getFile()));
+////                            String path = fileInfo.getDirectory().replace('\\', '/');
+//                            String path = fileInfo.getDirectory();
+//                            String pathWithoutContextPath;
+//                            if (path.startsWith(fileBaseDir)) {
+//                                pathWithoutContextPath = path.substring(fileBaseDir.length());
+//                            } else {
+//                                throw new FileUploadException("ERR0057");
+//                            }
+//                            fileMetaForm.setPath(pathWithoutContextPath);
+//                            fileMetaForm.setFileName(fileInfo.getFileName());
+//                            fileMetaForm.setOriginalFileName(originalFileName);
+//
+////                            document.setFilePath(fileInfo.getDirectory().replace('\\', '/'));
+//                            document.setFilePath(fileInfo.getDirectory());
+//                            document.setFileName(fileInfo.getFileName());
+//                            document.setOrgFileName(originalFileName);
+//                            document.setFileExt(originalFileName.substring(originalFileName.lastIndexOf('.') + 1));
+//                            document.setPageCnt(fileInfo.getPageCnt());
+//                            document.setCreId(principal.getName());
+//
+//                            ec = documentService.saveOneDocument(document);
+//
+//                            if (ExecutionContext.SUCCESS.equals(ec.getResult())) {
+//                                fileMetaForm.setTotalApplicationDocument((TotalApplicationDocument)ec.getData());
+//                            }
+//
+//                            jsonFileMetaForm = objectMapper.writeValueAsString(fileMetaForm);
+//
+//                        } catch (FileNotFoundException fnfe) {
+//                            persistence.deleteFile(uploadDir, uploadFileName);
+//                            throw getYSBizException(document, principal, "U339", "ERR0058");
+//                        } catch (FileUploadException foe) {
+//                            persistence.deleteFile(uploadDir, uploadFileName);
+//                            throw getYSBizException(document, principal, "U339", foe.getMessage());
+//                        } catch (JsonProcessingException jpe) {
+//                            persistence.deleteFile(uploadDir, uploadFileName);
+//                            throw getYSBizException(document, principal, "U339", "ERR0201");
+//                        } catch (YSBizException ybe) {
+//                            persistence.deleteFile(uploadDir, uploadFileName);
+//                            throw ybe;
+//                        } catch (Exception e) {
+//                            persistence.deleteFile(uploadDir, uploadFileName);
+//                            throw getYSBizException(document, principal, "U339", "ERR0052");
+//                        }finally {
+//                            try {
+//                                if (fis!= null) fis.close();
+//                            } catch (IOException e) {}
+//                            FileUtils.deleteQuietly(fileItem.getFile());
+//                        }
+//                    }
+//
+//                    return jsonFileMetaForm;
+//                }
             }, FileMetaForm.class, TotalApplicationDocument.class);
         } catch (YSBizException ybe) {
             logger.error("ErrorInfo :: " + ybe.getExecutionContext().getErrorInfo().toString());
@@ -402,7 +495,6 @@ public class DocumentController {
      * @return
      * @throws IOException
      */
-//    @RequestMapping(value="/attached/{admsNo}/{applNo}/{fileName:.+}/{originalFileName}")
     @RequestMapping(value="/fileDownload/{applNo}/{docSeq}", produces = "application/pdf")
     @ResponseBody
     public byte[] fileDownload(@PathVariable("applNo") int applNo,
@@ -416,19 +508,45 @@ public class DocumentController {
         appDocKey.setDocSeq(docSeq);
         ec = documentService.retrieveOneDocument(appDocKey);
         TotalApplicationDocument totalDoc = (TotalApplicationDocument)ec.getData();
-        File file = new File(totalDoc.getFilePath(), totalDoc.getFileName());
-        byte[] bytes = org.springframework.util.FileCopyUtils.copyToByteArray(file);
+
+        AmazonS3 s3 = new AmazonS3Client();
+        S3Object object = s3.getObject(new GetObjectRequest(bucketName, totalDoc.getFilePath()));
+        InputStream inputStream = object.getObjectContent();
+        byte[] bytes = IOUtils.toByteArray(inputStream);
 
         response.setHeader("Content-Disposition", "attachment; filename=\"" + URLEncoder.encode(totalDoc.getOrgFileName(), "UTF-8") + "\"");
         response.setHeader("Content-Transfer-Encoding", "binary;");
         response.setHeader("Pragma", "no-cache;");
         response.setHeader("Expires", "-1;");
         response.setHeader("Content-Type", "application/octet-stream");
-//        response.setHeader("Content-Type", "application/pdf");
         response.setContentLength(bytes.length);
 
         return bytes;
     }
+//    public byte[] fileDownload(@PathVariable("applNo") int applNo,
+//                               @PathVariable("docSeq") int docSeq,
+//                               HttpServletResponse response)
+//            throws IOException {
+//        ExecutionContext ec;
+//
+//        ApplicationDocumentKey appDocKey = new ApplicationDocumentKey();
+//        appDocKey.setApplNo(applNo);
+//        appDocKey.setDocSeq(docSeq);
+//        ec = documentService.retrieveOneDocument(appDocKey);
+//        TotalApplicationDocument totalDoc = (TotalApplicationDocument)ec.getData();
+//        File file = new File(totalDoc.getFilePath(), totalDoc.getFileName());
+//        byte[] bytes = org.springframework.util.FileCopyUtils.copyToByteArray(file);
+//
+//        response.setHeader("Content-Disposition", "attachment; filename=\"" + URLEncoder.encode(totalDoc.getOrgFileName(), "UTF-8") + "\"");
+//        response.setHeader("Content-Transfer-Encoding", "binary;");
+//        response.setHeader("Pragma", "no-cache;");
+//        response.setHeader("Expires", "-1;");
+//        response.setHeader("Content-Type", "application/octet-stream");
+////        response.setHeader("Content-Type", "application/pdf");
+//        response.setContentLength(bytes.length);
+//
+//        return bytes;
+//    }
 
     /**
      * 원서 첨부 파일 삭제

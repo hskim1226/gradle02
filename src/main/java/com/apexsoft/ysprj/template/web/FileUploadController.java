@@ -62,14 +62,16 @@ public class FileUploadController {
 
                 for ( FileItem fileItem : fileItems){
                     FileInputStream fis = null;
-                    try{
+                    try {
                         // persistence.save()의 첫번째 인자로 baseDir/첫번째인자 라는 폴더 생성
                         //
                         fileInfo = persistence.save("/", fileItem.getOriginalFileName(), fileItem.getOriginalFileName(), fis = new FileInputStream(fileItem.getFile()));
                         tempFileVO.setPath(fileInfo.getDirectory());
                         tempFileVO.setFileName(fileInfo.getFileName());
-                    }catch(FileNotFoundException fnfe){
+                    } catch (FileNotFoundException fnfe){
                         throw new UploadException("", fnfe);
+                    } catch (IOException e) {
+                        throw new UploadException("", e);
                     }finally {
                         try {
                             if (fis!= null) fis.close();

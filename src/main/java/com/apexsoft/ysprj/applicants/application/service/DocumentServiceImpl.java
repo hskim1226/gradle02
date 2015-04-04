@@ -1,5 +1,9 @@
 package com.apexsoft.ysprj.applicants.application.service;
 
+import com.amazonaws.AmazonClientException;
+import com.amazonaws.AmazonServiceException;
+import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.AmazonS3Client;
 import com.apexsoft.framework.common.vo.ExecutionContext;
 import com.apexsoft.framework.exception.ErrorInfo;
 import com.apexsoft.framework.exception.YSBizException;
@@ -43,6 +47,9 @@ public class DocumentServiceImpl implements DocumentService {
 
     @Resource(name = "messageResolver")
     MessageResolver messageResolver;
+
+    @Value("#{app['s3.bucketName']}")
+    private String s3BucketName;
 
     private final String APP_NULL_STATUS = "00000";      // 에러일 때 반환값
     private final String FILE_UPLOAD_SAVED = "00004";    // 첨부파일 저장
@@ -317,17 +324,50 @@ public class DocumentServiceImpl implements DocumentService {
         ExecutionContext ec = new ExecutionContext();
         int rDelete = 0;
         int delete=0;
-        boolean deleteOk = true;
+        boolean deleteOk = false;
         int applNo = oneDocument.getApplNo();
         int docSeq = oneDocument.getDocSeq();
 
 
-        //기존 파일이 업로드 되어 있는 경우
+        //기존 파일이 업로드 되어 있는 경우 DB에서 정보 지우는 것이 오류없이 성공하면 S3의 파일을 지운다.
         if( oneDocument.isFileUploadFg()){
             rDelete++;
             delete = commonDAO.delete( NAME_SPACE + "ApplicationDocumentMapper.deleteByPrimaryKey", oneDocument);
-            File file = new File(oneDocument.getFilePath(), oneDocument.getFileName());
-            deleteOk = file.delete();
+
+            try {
+                AmazonS3 s3 = new AmazonS3Client();
+                s3.deleteObject(s3BucketName, oneDocument.getFilePath());
+                deleteOk = true;
+            } catch (AmazonServiceException ase) {
+                deleteOk = false;
+                ec = new ExecutionContext(ExecutionContext.FAIL);
+                ec.setMessage(messageResolver.getMessage("U338"));
+                ec.setErrCode("ERR0051");
+                Map<String, String> errorInfo = new HashMap<String, String>();
+                errorInfo.put("applNo", String.valueOf(oneDocument.getApplNo()));
+                errorInfo.put("docSeq", String.valueOf(oneDocument.getDocSeq()));
+                errorInfo.put("AWS Error Message", ase.getMessage());
+                errorInfo.put("AWS HTTP Status Code", String.valueOf(ase.getStatusCode()));
+                errorInfo.put("AWS HTTP Error Code", String.valueOf(ase.getErrorCode()));
+                errorInfo.put("AWS Error Type", ase.getErrorType().toString());
+                errorInfo.put("AWS Request ID", ase.getRequestId());
+                ec.setErrorInfo(new ErrorInfo(errorInfo));
+                throw new YSBizException(ec);
+            } catch (AmazonClientException ace) {
+                deleteOk = false;
+                ec = new ExecutionContext(ExecutionContext.FAIL);
+                ec.setMessage(messageResolver.getMessage("U338"));
+                ec.setErrCode("ERR0051");
+                Map<String, String> errorInfo = new HashMap<String, String>();
+                errorInfo.put("applNo", String.valueOf(oneDocument.getApplNo()));
+                errorInfo.put("docSeq", String.valueOf(oneDocument.getDocSeq()));
+                errorInfo.put("AWS Error Message", ace.getMessage());
+                ec.setErrorInfo(new ErrorInfo(errorInfo));
+                throw new YSBizException(ec);
+            }
+
+//            File file = new File(oneDocument.getFilePath(), oneDocument.getFileName());
+//            deleteOk = file.delete();
         }
 
         if (  delete == rDelete && deleteOk ) {
