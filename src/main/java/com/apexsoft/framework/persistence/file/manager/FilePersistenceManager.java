@@ -3,6 +3,7 @@ package com.apexsoft.framework.persistence.file.manager;
 import com.apexsoft.framework.persistence.file.model.FileInfo;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 
 
@@ -61,7 +62,7 @@ public interface FilePersistenceManager {
 	 * @param stream
 	 * @return fileLength, 기타 생성 데이터 모델 포함.
 	 */
-	FileInfo save(String folder, String fileName, String orgFileName, InputStream stream);
+	FileInfo save(String folder, String fileName, String orgFileName, InputStream stream) throws IOException;
 	
 	/**
 	 * 

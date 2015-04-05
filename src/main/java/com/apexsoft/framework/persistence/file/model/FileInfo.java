@@ -52,7 +52,7 @@ public final class FileInfo {
 	 * @return
 	 */
 	public String getDirectory() {
-		return directory;
+		return directory.replace("\\", "/");
 	}
 
 	/**

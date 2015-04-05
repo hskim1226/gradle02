@@ -83,16 +83,18 @@ public class ApplicationValidator implements NamedValidator {
 //                errors.rejectValue(prefix + "rgstNo", "U331",
 //                        new Object[]{"주민등록번호"}, messageResolver.getMessage("U332"));
 //            }
-            // 국적이 대한민국 일 때만 필수
 
+            // 주민번호 뒷자리는 국적 대한민국, 외국인 전형 아니고 최초 저장할 때만 validation
             if (application.getApplStsCode() == null || application.getApplStsCode().length() == 0) {
-                if ( application.getRgstEncr() == null || application.getRgstEncr().length() == 0 ) {
-                    errors.rejectValue(prefix + "rgstEncr", "U331",
-                            new Object[]{messageResolver.getMessage("U01208")}, messageResolver.getMessage("U332"));  /*"주민등록번호 뒷자리"*/
-                }
-                String rgstNo = application.getRgstBornDate() + application.getRgstEncr();
-                if (!ValidationUtil.checkKorSSN(rgstNo)) {
-                    errors.rejectValue(prefix + "rgstEncr", "U345", messageResolver.getMessage("U332"));
+                if (!"C".equals(application.getAdmsTypeCode()) && !"D".equals(application.getAdmsTypeCode())) {
+                    if ( application.getRgstEncr() == null || application.getRgstEncr().length() == 0 ) {
+                        errors.rejectValue(prefix + "rgstEncr", "U331",
+                                new Object[]{messageResolver.getMessage("U01208")}, messageResolver.getMessage("U332"));  /*"주민등록번호 뒷자리"*/
+                    }
+                    String rgstNo = application.getRgstBornDate() + application.getRgstEncr();
+                    if (!ValidationUtil.checkKorSSN(rgstNo)) {
+                        errors.rejectValue(prefix + "rgstEncr", "U345", messageResolver.getMessage("U332"));
+                    }
                 }
             }
 
@@ -100,6 +102,10 @@ public class ApplicationValidator implements NamedValidator {
         if (application.getCitzCntrCode() == null || application.getCitzCntrCode().length() == 0) {
             errors.rejectValue(prefix + "citzCntrCode", "U331",
                     new Object[]{messageResolver.getMessage("L01206")}, messageResolver.getMessage("U332"));  /*"국적"*/
+        }
+        if (application.getGend() == null || application.getGend().length() == 0) {
+            errors.rejectValue(prefix + "gend", "U331",
+                    new Object[]{messageResolver.getMessage("L01218")}, messageResolver.getMessage("U332"));  /*"성별"*/
         }
 
         if (application.getMailAddr() == null || application.getMailAddr().length() == 0) {

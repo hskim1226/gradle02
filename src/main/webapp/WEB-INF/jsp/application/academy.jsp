@@ -887,7 +887,7 @@
             }
 
             if (!isCollegeLastSchlChecked || !isGraduateLastSchlChecked) {
-                alert('최종학교를 선택해 주세요.');
+                alert('<spring:message code="U02114"/> ');//최종학교를 선택해 주세요.
                 return false;
             }
 
@@ -1117,7 +1117,7 @@
                     prefix = id.substr(0, id.lastIndexOf('.')),
                     showObj, hideObj = [],
                     degrNoObj = document.getElementById(prefix + '.degrNo');
-            if (this[this.selectedIndex].value == "00001") {
+            if (this[this.selectedIndex].value == "00001") { // 졸업
                 showObj = degrNoObj;
                 hideObj.push(document.getElementById(prefix + '.label-grad-02'));
                 hideObj.push(document.getElementById(prefix + '.label-grad-03'));
@@ -1125,19 +1125,25 @@
                 showObj.style.display = "block";
                 degrNoObj.placeholder = "<spring:message code="U02104"/>";    /*학위등록번호를 입력해주세요*/
                 $(degrNoObj).placeholder();
-            } else if (this[this.selectedIndex].value == "00002") {
+            } else if (this[this.selectedIndex].value == "00002") { // 졸업 예정
                 hideObj.push(degrNoObj);
                 hideObj.push(document.getElementById(prefix + '.label-grad-03'));
                 hideObj.push(document.getElementById(prefix + '.label-grad-04'));
                 showObj = document.getElementById(prefix + '.label-grad-02');
                 showObj.style.display = "block";
-            } else if (this[this.selectedIndex].value == "00003") {
+            } else if (this[this.selectedIndex].value == "00003") { // 중퇴
                 hideObj.push(degrNoObj);
                 hideObj.push(document.getElementById(prefix + '.label-grad-02'));
                 hideObj.push(document.getElementById(prefix + '.label-grad-04'));
                 showObj = document.getElementById(prefix + '.label-grad-03');
                 showObj.style.display = "block";
-            } else if (this[this.selectedIndex].value == "00004") {
+            } else if (this[this.selectedIndex].value == "00004") { // 수료
+                hideObj.push(degrNoObj);
+                hideObj.push(document.getElementById(prefix + '.label-grad-02'));
+                hideObj.push(document.getElementById(prefix + '.label-grad-03'));
+                showObj = document.getElementById(prefix + '.label-grad-04');
+                showObj.style.display = "block";
+            } else if (this[this.selectedIndex].value == "00005") { // 재학
                 hideObj.push(degrNoObj);
                 hideObj.push(document.getElementById(prefix + '.label-grad-02'));
                 hideObj.push(document.getElementById(prefix + '.label-grad-03'));
