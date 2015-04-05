@@ -361,6 +361,7 @@
                                                         </c:choose>
                                                     </c:forEach>
                                                 </select>
+                                            </div>
                                             <div class="col-sm-7">
                                                 <label id="detMajDesc" class="apexMessage"></label>
                                             </div>
@@ -369,28 +370,24 @@
                                             </div>
                                             <div class="col-sm-9" id="partTimeYnGrp" style="display:none" disabeld="true">
                                                 <div class="col-sm-12">
-
                                                     <form:select path="application.partTimeYn" id="partTimeYn" cssClass="form-control base-info">
                                                         <form:option value="" label="--${msg.getMessage('L01011', locale)}--" />
                                                         <form:option value="Y" label="${msg.getMessage('L01113')}" /><%--파트타임--%>
                                                         <form:option value="N" label="${msg.getMessage('L01114')}" /><%--풀타임--%>
                                                     </form:select>
-
-
-<%--
+                                                <%--
                                                     <label class="radio-inline base-info-input">
                                                         <form:radiobutton path="application.partTimeYn" readonly="true" cssClass="base-info-input" value="Y" label="${msg.getMessage('L01113')}"/>
                                                     </label>
                                                     <label class="radio-inline base-info-input">
                                                         <form:radiobutton path="application.partTimeYn" cssClass="base-info-input" value=" " label="${msg.getMessage('L01114')}"/>
                                                     </label>
-
-                                                    --%>
+                                                --%>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-<%--
+                                <%--
                                     <div id="partTimeYnGrp" style="display:none">
                                         <label class="col-sm-2 control-label"></label>
                                         <div class="col-sm-9">
@@ -404,10 +401,7 @@
                                             </div>
                                         </div>
                                     </div>
-
---%>
-
-
+                                --%>
                                 </div>
                                 <div>
                                     <div class="col-sm-11" id="baseSave">
