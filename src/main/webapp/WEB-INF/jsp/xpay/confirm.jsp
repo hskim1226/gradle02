@@ -38,11 +38,12 @@
             </div>
             <div id="LGD_ACTIVEX_DIV"></div> <!-- ActiveX 설치 안내 Layer 입니다. 수정하지 마세요. -->
             <div id="xpayLoad"></div>
-            <input type="hidden" name="LGD_AMOUNT"             id="LGD_AMOUNT"      value="${payment.LGD_AMOUNT}"/>
-            <input type="hidden" name="LGD_BUYER"              id="LGD_BUYER"       value="${payment.LGD_BUYER}"/>
-            <input type="hidden" name="LGD_PRODUCTINFO"        id="LGD_PRODUCTINFO" value="${payment.LGD_PRODUCTINFO}"/>
-            <input type="hidden" name="LGD_BUYERID"            id="LGD_BUYERID"     value="${payment.LGD_BUYERID}">
-            <input type="hidden" name="admsSts"                id="admsSts"         value="${payment.admsSts}">
+            <input type="hidden" name="LGD_AMOUNT"             id="LGD_AMOUNT"         value="${payment.LGD_AMOUNT}"/>
+            <input type="hidden" name="LGD_TAXFREEAMOUNT"      id="LGD_TAXFREEAMOUNT"  value="${payment.LGD_AMOUNT}"/>
+            <input type="hidden" name="LGD_BUYER"              id="LGD_BUYER"          value="${payment.LGD_BUYER}"/>
+            <input type="hidden" name="LGD_PRODUCTINFO"        id="LGD_PRODUCTINFO"    value="${payment.LGD_PRODUCTINFO}"/>
+            <input type="hidden" name="LGD_BUYERID"            id="LGD_BUYERID"        value="${payment.LGD_BUYERID}">
+            <input type="hidden" name="admsSts"                id="admsSts"            value="${payment.admsSts}">
 
             <input type="hidden" name="CST_PLATFORM"           id="CST_PLATFORM">
             <input type="hidden" name="CST_MID"                id="CST_MID">
