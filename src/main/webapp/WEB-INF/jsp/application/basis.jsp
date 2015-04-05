@@ -353,10 +353,10 @@
                                                     <c:forEach var="detlList" items="${selection.detlMajList}" varStatus="status">
                                                         <c:choose>
                                                         <c:when test='${application.detlMajCode == detlList.detlMajCode}'>
-                                                        <option selected="true" value="${detlList.detlMajCode}" data-partTimeYn="${detlList.partTimeYn}">${detlList.detlMajName}</option>
+                                                        <option selected="true" value="${detlList.detlMajCode}" data-partTimeYn="${detlList.partTimeYn}">${pageContext.response.locale == 'en' ? detlList.detlMajNameXxen : detlList.detlMajName}</option>
                                                         </c:when>
                                                         <c:otherwise>
-                                                            <option selected="" value="${detlList.detlMajCode}" data-partTimeYn="${detlList.partTimeYn}">${detlList.detlMajName}</option>
+                                                            <option selected="" value="${detlList.detlMajCode}" data-partTimeYn="${detlList.partTimeYn}">${pageContext.response.locale == 'en' ? detlList.detlMajNameXxen : detlList.detlMajName}</option>
                                                         </c:otherwise>
                                                         </c:choose>
                                                     </c:forEach>

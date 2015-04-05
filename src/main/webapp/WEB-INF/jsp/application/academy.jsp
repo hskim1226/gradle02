@@ -583,7 +583,7 @@
                                                     <label id='graduateList${stat.index}.label-grad-04' class="col-sm-10 grda-not degr-message erase-hide"
                                                            style="display: ${academy.graduateList[stat.index].grdaTypeCode == '00004' ? 'block;' : 'none;'}" ></label>
                                                 </div>
-                                        <spring:bind path="graduateList[${stat.index}].grdaTypeCode">
+                                            <spring:bind path="graduateList[${stat.index}].degrNo">
                                             <c:if test="${status.error}">
                                                 <div class="col-sm-12 validation-container">
                                                     <div class="validation-error">${status.errorMessage}</div>
