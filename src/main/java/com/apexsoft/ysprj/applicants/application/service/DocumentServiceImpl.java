@@ -958,38 +958,6 @@ public class DocumentServiceImpl implements DocumentService {
     }
 
     private void adjustAcademyDocByGrdaType(String grdaType, List<TotalApplicationDocumentContainer> subDocList){
-        if( "00003".equals(grdaType) || "00004".equals(grdaType)){ //중퇴, 수료인경우
-            for( int i = subDocList.size()-1; i>=0; i--){
-                TotalApplicationDocumentContainer aCont = subDocList.get(i);
-                if("Y".equals(aCont.getLastYn())){ //마지막 컨테이너(문서)인 경우
-                    String docCode = aCont.getDocItemCode();
-                    if ("00008".equals(docCode) || "00010".equals(docCode) || "00011".equals(docCode)) { //졸업관련 서류 삭제
-                        subDocList.remove(i);
-                    }
-                }else {
-                    adjustAcademyDocByGrdaType( grdaType, aCont.getSubContainer());
-                }
-            }
-        }else if("00005".equals(grdaType) ){//재학인 경우- 졸업증명서를 재학증명명서로 변경
-            for( int i = subDocList.size()-1; i>=0; i--){
-                TotalApplicationDocumentContainer aCont= subDocList.get(i);
-                if("Y".equals(aCont.getLastYn())){ //마지막 컨테이너(문서)인 경우
-                    String docCode = aCont.getDocItemCode();
-                    if ("00008".equals(docCode) ){
-                        aCont.setDocItemCode("00046");
-                        aCont.setDocItemName("재학증명서");
-                        aCont.setDocItemNameXxen("Certificate of Studentship");
-                    }else if( "00010".equals(docCode) || "00011".equals(docCode)) { //졸업관련 서류 삭제
-                        subDocList.remove(i);
-                    }
-                }else {
-                    adjustAcademyDocByGrdaType( grdaType, aCont.getSubContainer());
-                }
-            }
-        }
-    }
-
-    private void adjustAcademyDocByGrdaType(String grdaType, List<TotalApplicationDocumentContainer> subDocList){
 
         for( int i = subDocList.size()-1; i>=0; i--){
             TotalApplicationDocumentContainer aCont = subDocList.get(i);
