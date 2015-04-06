@@ -217,8 +217,9 @@ public class DocumentController {
     public ModelAndView submitApplication(@ModelAttribute Document formData,
                                           Principal principal,
                                           BindingResult bindingResult,
+                                          HttpServletRequest request,
                                           ModelAndView mv) {
-        documentValidator.validate(formData, bindingResult);
+        documentValidator.validate(formData, bindingResult, localeResolver.resolveLocale(request));
         mv.setViewName("application/mylist");
         if (bindingResult.hasErrors()) {
             mv.setViewName("application/document");
