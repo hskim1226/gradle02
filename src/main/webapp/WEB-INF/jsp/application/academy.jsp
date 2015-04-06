@@ -1018,7 +1018,7 @@
                         if (category.isCountry) {
                             record = $('<tr>' + '<td><span style="display: none;" class="b-close">' + '999' + '</span></td>' + '<td colspan="2"><span class="b-close" style="cursor: pointer">' + '<spring:message code="U02101"/>' + '</span></td>' + '</tr>'); /*검색 결과가 없습니다. 다시 검색해 주세요*/
                         } else if (category.isSchool) {
-                            record = $('<tr>' + '<td><span style="display: none;" class="b-close">' + '999' + '</span></td>' + '<td><span class="b-close" style="cursor: pointer">' + '<spring:message code="U02106"/>' + '</span></td>' + '</tr>'); /*검색 결과가 없습니다. 여기를 눌러 직접 입력해 주세요*/
+                            record = $('<tr>' + '<td><span style="display: none;" class="b-close">' + '999' + '</span></td>' + '<td><span class="b-close" style="cursor: pointer; color: blue; font-weight: 300; background: #ddf;">' + '<spring:message code="U02106"/>' + '</span></td>' + '</tr>'); /*검색 결과가 없습니다. 여기를 눌러 직접 입력해 주세요*/
                         }
                         $('#bpopResult').append(record);
                         $(record).on('click', function(e) {

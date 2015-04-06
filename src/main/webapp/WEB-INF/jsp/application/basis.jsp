@@ -1479,7 +1479,7 @@
                         if (category.isCountry) {
                             record = $('<tr>' + '<td><span style="display: none;" class="b-close">' + '999' + '</span></td>' + '<td colspan="2"><span class="b-close" style="cursor: pointer">' + '<spring:message code="U01202"/>' + '</span></td>' + '</tr>'); //
                         } else if (category.isSchool) {
-                            record = $('<tr>' + '<td><span style="display: none;" class="b-close">' + '999' + '</span></td>' + '<td><span class="b-close" style="cursor: pointer">' + '<spring:message code="U01203"/>' + '</span></td>' + '</tr>');
+                            record = $('<tr>' + '<td><span style="display: none;" class="b-close">' + '999' + '</span></td>' + '<td><span class="b-close" style="cursor: pointer; color: blue; font-weight: 300;">' + '<spring:message code="U01203"/>' + '</span></td>' + '</tr>');
                         }
                         $('#bpopResult').append(record);
                         $(record).on('click', function(e) {
