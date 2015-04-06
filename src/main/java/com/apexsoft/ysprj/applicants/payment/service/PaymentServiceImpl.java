@@ -149,6 +149,7 @@ public class PaymentServiceImpl implements PaymentService {
         payment.setLGD_AMOUNT(newPayInfo.getLGD_AMOUNT());
         payment.setLGD_FINANCENAME(newPayInfo.getLGD_FINANCENAME());
         payment.setLGD_ACCOUNTNUM(newPayInfo.getLGD_ACCOUNTNUM());
+        payment.setAdmsSts(newPayInfo.getAdmsSts());
 
         return ec;
     }
@@ -388,6 +389,7 @@ public class PaymentServiceImpl implements PaymentService {
         certReq.setLgdMid(payment.getLGD_MID());
         certReq.setLgdOid(payment.getLGD_OID());
         certReq.setLgdAmount(payment.getLGD_AMOUNT());
+        certReq.setLgdTaxfreeamount(payment.getLGD_TAXFREEAMOUNT());
         certReq.setLgdBuyer(payment.getLGD_BUYER());
         certReq.setLgdProductinfo(payment.getLGD_PRODUCTINFO());
         certReq.setLgdTimestamp(payment.getLGD_TIMESTAMP());

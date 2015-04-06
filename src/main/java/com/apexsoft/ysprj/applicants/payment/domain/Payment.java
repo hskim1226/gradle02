@@ -11,11 +11,15 @@ public class Payment {
 
     private String applStsCode;
 
+    private String admsSts;
+
     private String LGD_MID;
 
     private String LGD_OID;
 
     private String LGD_AMOUNT;
+
+    private String LGD_TAXFREEAMOUNT;
 
     private String LGD_BUYER;
 
@@ -85,6 +89,14 @@ public class Payment {
 
     public void setLGD_AMOUNT(String LGD_AMOUNT) {
         this.LGD_AMOUNT = LGD_AMOUNT;
+    }
+
+    public String getLGD_TAXFREEAMOUNT() {
+        return LGD_TAXFREEAMOUNT;
+    }
+
+    public void setLGD_TAXFREEAMOUNT(String LGD_TAXFREEAMOUNT) {
+        this.LGD_TAXFREEAMOUNT = LGD_TAXFREEAMOUNT;
     }
 
     public String getLGD_BUYER() {
@@ -247,5 +259,11 @@ public class Payment {
         this.LGD_ACCOUNTNUM = LGD_ACCOUNTNUM;
     }
 
+    public String getAdmsSts() {
+        return admsSts;
+    }
 
+    public void setAdmsSts(String admsSts) {
+        this.admsSts = admsSts;
+    }
 }
