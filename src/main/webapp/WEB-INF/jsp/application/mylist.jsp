@@ -144,7 +144,7 @@
             });
             $('.pay').click(function(e){
                 e.preventDefault();
-                var payMsg = '전형료 결제이후에는 정보 수정이 불가합니다.\n\n입력하신 모든 정보를 재차 확인하시기 바라며 기입 오류에 대한 책임은 모두 지원자 본인에게 있습니다.';
+                var payMsg = '<spring:message code="U00241"/>';   /*전형료 결제이후에는 정보 수정이 불가합니다.\n\n입력하신 모든 정보를 재차 확인하시기 바라며 기입 오류에 대한 책임은 모두 지원자 본인에게 있습니다.*/
                 if (confirm(payMsg)) {
                     document.getElementById('LGD_PRODUCTINFO').value = e.target.name;
                     document.getElementById('LGD_AMOUNT').value = e.target.value;

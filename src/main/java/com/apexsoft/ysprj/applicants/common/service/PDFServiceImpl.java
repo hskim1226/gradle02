@@ -86,7 +86,8 @@ public class PDFServiceImpl implements PDFService {
             if ("지원서".equals(aDoc.getDocItemName())) {
                 applicationFilePath = filePath;
                 applicationFileName = fileName;
-//            } else if ("수험표".equals(aDoc.getDocItemName())) { // 수험표는 합치지 않으므로 주석처리
+            } else if ("수험표".equals(aDoc.getDocItemName())) {
+//                수험표는 합치지 않으므로 주석처리
 //                slipFilePath = filePath;
 //                slipFileName = fileName;
             } else {
