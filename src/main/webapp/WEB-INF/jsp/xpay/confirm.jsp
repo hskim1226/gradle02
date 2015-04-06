@@ -100,20 +100,20 @@
 
                     } else { //인증실패
 
-                        alert("인증이 실패하였습니다. " + LGD_RESPMSG);
+                        alert("<spring:message code="U05101"/>" + LGD_RESPMSG);  /*인증이 실패하였습니다.*/
 
                     }
 
                 } else {
 
-                    alert("LG U+ 전자결제를 위한 ActiveX Control 이 설치되지 않았습니다.");
+                    alert("<spring:message code="U05102"/>");  /*LG U+ 전자결제를 위한 ActiveX Control 이 설치되지 않았습니다.*/
 
                 }
             }
 
             function isActiveXOK() {
                 if(lgdacom_atx_flag != true){
-                    $('#xpayLoad').text("전자결제 모듈이 로딩되지 않았습니다.");
+                    $('#xpayLoad').text("<spring:message code="U05103"/>");  /*전자결제 모듈이 로딩되지 않았습니다.*/
                 }
             }
 

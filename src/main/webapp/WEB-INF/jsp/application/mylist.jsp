@@ -74,7 +74,7 @@
                                                         </div>
                                                         <div class="col-sm-3">
                                                             <button id="pay${itemStatus.index}" class="btn btn-block btn-primary pay ${item.applStsCode=="00010"?"":(item.applStsCode=="00021"?"":"disabled")}"
-                                                                    name="2015학년도 ${item.campName} ${item.admsTypeName} ${item.deptName} ${item.corsTypeName}"
+                                                                    name="${item.entrYear} ${pageContext.response.locale == 'en' ? item.campNameXxen : item.campName} ${pageContext.response.locale == 'en' ? item.admsTypeNameXxen : item.admsTypeName} ${pageContext.response.locale == 'en' ? item.deptNameXxen : item.deptName} ${pageContext.response.locale == 'en' ? item.corsTypeNameXxen : item.corsTypeName}"
                                                                     data-applNo="${item.applNo}"
                                                                     value="${item.admsFee}"
                                                                     <c:if test="${item.applStsCode!='00010' && item.applStsCode!='00021'}">disabled</c:if> ><spring:message code="L00310"/><%--전형료 결제하기--%></button>

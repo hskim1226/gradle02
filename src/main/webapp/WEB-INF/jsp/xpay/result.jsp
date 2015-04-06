@@ -89,8 +89,8 @@
                             <div class="col-sm-12 text-gray">
                                 <h3 class="pay">${transactionVO.userMsg}</h3>
                                 <div class="col-sm-12 file-gen">
-                                    <div class="col-sm-12">수험표 및 원서 파일 생성 중 입니다.</div>
-                                    <div class="col-sm-12">잠시만 기다리시면 내 원서 보기 버튼이 나타납니다.</div>
+                                    <div class="col-sm-12"><spring:message code="U05201"/><%--수험표 및 원서 파일 생성 중 입니다.--%></div>
+                                    <div class="col-sm-12"><spring:message code="U05202"/><%--잠시만 기다리시면 내 원서 보기 버튼이 나타납니다.--%></div>
                                 </div>
                             </div>
                             <div class="spacer-tiny">&nbsp;</div>

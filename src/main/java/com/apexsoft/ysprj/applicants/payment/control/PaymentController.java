@@ -68,7 +68,7 @@ public class PaymentController {
         paymentService.retrieveConfirmInfo(payment);
 
         String retPage;
-        if( payment.getApplStsCode().equals("00021") ) {
+        if( "00021".equals(payment.getApplStsCode()) ) {
             retPage = "xpay/waitPay";
         } else {
             retPage = "xpay/confirm";
