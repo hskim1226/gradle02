@@ -81,7 +81,7 @@
              */
             function doPay_ActiveX() {
 
-                ret = xpay_check(document.getElementById('LGD_PAYINFO'), 'test');
+                ret = xpay_check(document.getElementById('LGD_PAYINFO'), document.getElementById('CST_PLATFORM').value);
 
                 if (ret=="00") {     //ActiveX 로딩 성공
 
