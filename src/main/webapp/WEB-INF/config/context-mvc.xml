@@ -26,7 +26,8 @@
         <mvc:argument-resolvers>
             <bean class="com.apexsoft.framework.web.bind.FileHandlerWebArgumentResolver">
                 <property name="multiPartReceiver" ref="multiPartReceiver" />
-                <property name="filePersistenceManager" ref="persistenceManager" />
+                <!--<property name="filePersistenceManager" ref="persistenceManager" />-->
+                <property name="filePersistenceManager" ref="s3PersistenceManager" />
             </bean>
         </mvc:argument-resolvers>
         <mvc:message-converters>
@@ -60,6 +61,11 @@
             <mvc:mapping path="/user/**"/>
             <bean class="com.apexsoft.framework.interceptor.MessageResolverInterceptor"/>
         </mvc:interceptor>
+        <mvc:interceptor>
+            <mvc:mapping path="/admin/**"/>
+            <bean class="com.apexsoft.framework.interceptor.AdminInterceptor"/>
+        </mvc:interceptor>
+
     </mvc:interceptors>
 
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">

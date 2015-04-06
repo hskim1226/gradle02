@@ -110,6 +110,7 @@
             </div>
         </form>
     </div>
+
 </section>
 <content tag="local-script">
     <script>
@@ -159,11 +160,11 @@
                 var form = document.getElementById('LGD_PAYINFO');
                 form.target = "_blank";
                 var admsNo = e.target.getAttribute('data-admsNo');
-                if (admsNo != null && admsNo.length > 0) {
-                    form.action = '${contextPath}/pdf/download';
+                if (admsNo != null && admsNo.length > 0) { // 전체 파일
+                    form.action = '${contextPath}/pdf/download'; // TODO : S3에서 받아오도록
                     form.submit();
-                } else {
-                    form.action = '${contextPath}/application/print';
+                } else { // 지원서 또는 수험표
+                    form.action = '${contextPath}/application/preview';
                     form.submit();
                 }
             });

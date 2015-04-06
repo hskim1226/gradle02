@@ -462,16 +462,24 @@
                                                     </div>
                                                 </div>
                                             </c:forEach>
-                                    <spring:bind path="languageGroupList[${langGroupStat.index}]">
-                                        <c:if test="${status.error}">
-                                            <div class="validation-container">
-                                                <div class="validation-error">${status.errorMessage}</div>
-                                            </div>
-                                        </c:if>
-                                    </spring:bind>
+                                    <%--언어 별로 성적과 미제출 사유 중 최소한 하나는 제출해야 할 경우--%>
+                                    <%--<spring:bind path="languageGroupList[${langGroupStat.index}]">--%>
+                                        <%--<c:if test="${status.error}">--%>
+                                            <%--<div class="validation-container">--%>
+                                                <%--<div class="validation-error">${status.errorMessage}</div>--%>
+                                            <%--</div>--%>
+                                        <%--</c:if>--%>
+                                    <%--</spring:bind>--%>
                                         </div>
                                     </div>
                                 </c:forEach>
+                        <spring:bind path="languageGroupList">
+                            <c:if test="${status.error}">
+                                <div class="validation-container">
+                                    <div class="validation-error">${status.errorMessage}</div>
+                                </div>
+                            </c:if>
+                        </spring:bind>
                             </div>
                         </div>
                         <div class="panel panel-darkgray0">

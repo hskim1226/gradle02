@@ -103,6 +103,7 @@ public class AdminServiceImpl implements AdminService{
             campList = commonService.retrieveCampus();
 
             admsList = commonDAO.queryForList(ADMS_NAME_SPACE +"CustomAdmissionMapper.selectByYear","2015", Admission.class);
+            admsList.addAll(commonDAO.queryForList(ADMS_NAME_SPACE +"CustomAdmissionMapper.selectByYear","2016", Admission.class));
             if( courseSearchPageForm.getAdmsNo()!= null) {
                 PageStatement tempStst = new PageStatement(NAME_SPACE+"retrieveApplicantCountByDept", NAME_SPACE+"retrieveApplicantListByDept");
 
@@ -283,6 +284,7 @@ public class AdminServiceImpl implements AdminService{
         List<Department> deptList = new ArrayList<Department>();
         campList = commonService.retrieveCampus();
         admsList = commonDAO.queryForList(ADMS_NAME_SPACE +"CustomAdmissionMapper.selectByYear","2015", Admission.class);
+        admsList.addAll( commonDAO.queryForList(ADMS_NAME_SPACE +"CustomAdmissionMapper.selectByYear","2016", Admission.class));
         if(searchForm.getCampCode()!= null ) {
             collList = commonService.retrieveCollegeByCampus(searchForm.getCampCode());
         }
@@ -356,5 +358,9 @@ public class AdminServiceImpl implements AdminService{
         }
         return ec;
     }
-
+    public CommonAdminInfo retrieveCommonAdminInfo(){
+        CommonAdminInfo info= null;
+                info =commonDAO.queryForObject(NAME_SPACE+"retrieveStatusCount", CommonAdminInfo.class);
+        return info;
+    }
 }

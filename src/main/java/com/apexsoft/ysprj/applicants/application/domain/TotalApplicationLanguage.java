@@ -25,6 +25,7 @@ public class TotalApplicationLanguage extends CustomApplicationLanguage{
     private String filePath;
     private String fileName;
     private String orgFileName;
+    private String docItemNameXxen;
 
     //필요없는 필드 DB삭제예정
     private String docGrpName;
@@ -137,7 +138,13 @@ public class TotalApplicationLanguage extends CustomApplicationLanguage{
         this.orgFileName = orgFileName;
     }
 
+    public String getDocItemNameXxen() {
+        return docItemNameXxen;
+    }
 
+    public void setDocItemNameXxen(String docItemNameXxen) {
+        this.docItemNameXxen = docItemNameXxen;
+    }
 
     public String getDocGrpName() {
         return docGrpName;

@@ -448,7 +448,7 @@ public class ChangeServiceImpl implements ChangeService {
         param.setDeptCode(searchForm.getDeptCode());
 
         admsList = commonDAO.queryForList(ADMS_NAME_SPACE +"CustomAdmissionMapper.selectByYear","2015", Admission.class);
-
+        admsList.addAll(commonDAO.queryForList(ADMS_NAME_SPACE +"CustomAdmissionMapper.selectByYear","2016", Admission.class));
         campList = commonService.retrieveCampus();
         collList = commonService.retrieveCollegeByCampus( searchForm.getCampCode() );
         deptList = commonService.retrieveGeneralDepartmentByAdmsColl(param);

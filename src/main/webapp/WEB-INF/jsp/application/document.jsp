@@ -1315,8 +1315,8 @@
                             admsNo: document.getElementById('admsNo').value
                         },
                         success: function (data, status) {
+                            var d = JSON.parse(data.data);
                             if (data.result == 'SUCCESS') {
-                                var d = JSON.parse(data.data);
                                 var targetBtnId = d.targetButton,
                                         targetBtn = document.getElementById(targetBtnId),
                                         $targetBtn = $(targetBtn),
@@ -1324,7 +1324,6 @@
                                         targetFileDownloadLinkId = d.targetFileDownloadLinkId,
                                         targetFileDeleteLinkId = d.targetFileDeleteLinkId,
                                         applNo = d.applNo,
-                                        downloadURL,
                                         oneDocument = d.oneDocument,
                                         docSeq = oneDocument.docSeq,
                                         oneDocumentHidden;
@@ -1347,11 +1346,11 @@
                                         oneDocumentHidden.value = oneDocument[key];
                                     }
                                 }
-                            } else {
-                                alert(data.message);
                             }
+                            alert(d.resultMessage);
                         },
                         error: function (data, status, e) {
+//                            var d = JSON.parse(data.data);
                             $(targetButton).removeClass("btn-default"),
                             $(targetButton).addClass("btn-danger"),
                             $(targetButton).val("<spring:message code="U04506"/>");//올리기 실패
@@ -1396,6 +1395,7 @@
                             $targetUploadButton.val("올리기"),
                             $(targetButtonContainerClass).css('display', 'none'),
                             targetFileUploadFg.value = false;
+                            alert(data.message);
                         } else {
                             alert('<spring:message code="U04507"/>');//파일 삭제에 실패했습니다.
                         }

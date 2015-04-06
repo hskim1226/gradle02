@@ -28,7 +28,10 @@ public class ApplicantInfo {
 	private String korName;  //
     private String engSur;  // 
     private String engName;  //     
-    private String rgstNo;  // 
+    private String rgstNo;  //
+    private String rgstBornDate;//RGST_BORN_DATE
+    private String bornDay;//BORN_DAY
+
     private String telNum;  //  
     private String addr; 
     private String detlAddr;      

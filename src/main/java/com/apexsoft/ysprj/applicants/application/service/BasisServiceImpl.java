@@ -77,6 +77,8 @@ public class BasisServiceImpl implements BasisService {
                 corsTypeList = commonService.retrieveGeneralCourseByAdmsDept(param);
             if ("00003".equals(applAttrCode))
                 corsTypeList = commonService.retrieveCommissionCourseByAdmsDept(param);
+            if ("00004".equals(applAttrCode))
+                corsTypeList = commonService.retrieveNorthDefectorCourseByAdmsDept(param);
         }
 
         if (campList != null)      selectionMap.put("campList", campList);
@@ -93,7 +95,7 @@ public class BasisServiceImpl implements BasisService {
         cntrCode = cntrCode == null ? "" : cntrCode;
         Country ctznCntr = commonService.retrieveCountryByCode(cntrCode);
 
-        if ("C".equals(basis.getApplication().getAdmsTypeCode())) {
+        if ("C".equals(basis.getApplication().getAdmsTypeCode()) || "D".equals(basis.getApplication().getAdmsTypeCode())) {
             cntrCode = basis.getApplicationForeigner().getBornCntrCode();
             cntrCode = cntrCode == null ? "" : cntrCode;
             Country bornCntr = commonService.retrieveCountryByCode(cntrCode);
@@ -193,7 +195,8 @@ public class BasisServiceImpl implements BasisService {
             // 외국인 전형에서는 지원자 타입이 일반 지원자 밖에 없음
             selectionMap.put("applAttrList", commonService.retrieveApplAttrList("APPL_ATTR"));
             if( "C".equals(basis.getApplication().getAdmsTypeCode()) ||
-                "D".equals(basis.getApplication().getAdmsTypeCode())){
+                "D".equals(basis.getApplication().getAdmsTypeCode()) ||
+                "W".equals(basis.getApplication().getAdmsTypeCode())){
                 List<CommonCode> attrList = (List<CommonCode>)selectionMap.get("applAttrList");
                 for(int i = attrList.size()-1; i >= 0 ; i--){
                     if( !"00001".equals(attrList.get(i).getCode())){
