@@ -35,11 +35,6 @@
                                 <div class="col-sm-12">
                                     <button class="btn btn-primary btn-lg btn-block" id="goMain"><spring:message code="L05208"/><%--내 원서 보기--%></button>
                                 </div>
-                                <div class="col-sm-12 align-left">
-                                    <br>
-                                    <spring:message code="L05209"/><%--* 테스트용 계좌이체 실행 (무통장입금 테스트 데모 선택)--%>
-                                    <a target=new href="http://pgweb.uplus.co.kr:8080/pg/wmp/Home2009/skill/payment_demo.jsp">http://pgweb.uplus.co.kr:8080/pg/wmp/Home2009/skill/payment_demo.jsp</a>
-                                </div>
                             </div>
                         </div>
                     </div>
