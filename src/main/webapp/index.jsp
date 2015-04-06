@@ -149,6 +149,17 @@
 <script src="<spring:eval expression="@app.getProperty('path.static')" />/js/jquery.word-break-keep-all.min.js"></script>
 <script src="<spring:eval expression="@app.getProperty('path.static')" />/js/main.js"></script>
 <script>
+    (function browser_check() {
+        var agt = navigator.userAgent.toUpperCase();
+        if( agt == null || typeof(agt) == "UNDEFINED" ) {
+        } else {
+            if( agt.indexOf("MSIE 7.0") != -1 || agt.indexOf("MSIE 8.0") != -1 || agt.indexOf("TRIDENT/4.0") != -1 ) {
+
+                alert("<spring:message code="U00021"/>");  /*Internet Exploer 8.0 은 지원하지 않습니다.\n\nInternet Exploer 9.0 이상을 사용하셔야 정상적으로 동작합니다.*/
+            }
+        }
+    })();
+
     $('.lang').click( function() {
         var lang = this.getAttribute('data-lang'),
                 form = document.getElementById('introForm'),
