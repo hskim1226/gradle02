@@ -361,6 +361,7 @@
                                                         </c:choose>
                                                     </c:forEach>
                                                 </select>
+                                            </div>
                                             <div class="col-sm-7">
                                                 <label id="detMajDesc" class="apexMessage"></label>
                                             </div>
@@ -369,28 +370,24 @@
                                             </div>
                                             <div class="col-sm-9" id="partTimeYnGrp" style="display:none" disabeld="true">
                                                 <div class="col-sm-12">
-
                                                     <form:select path="application.partTimeYn" id="partTimeYn" cssClass="form-control base-info">
                                                         <form:option value="" label="--${msg.getMessage('L01011', locale)}--" />
                                                         <form:option value="Y" label="${msg.getMessage('L01113')}" /><%--파트타임--%>
                                                         <form:option value="N" label="${msg.getMessage('L01114')}" /><%--풀타임--%>
                                                     </form:select>
-
-
-<%--
+                                                <%--
                                                     <label class="radio-inline base-info-input">
                                                         <form:radiobutton path="application.partTimeYn" readonly="true" cssClass="base-info-input" value="Y" label="${msg.getMessage('L01113')}"/>
                                                     </label>
                                                     <label class="radio-inline base-info-input">
                                                         <form:radiobutton path="application.partTimeYn" cssClass="base-info-input" value=" " label="${msg.getMessage('L01114')}"/>
                                                     </label>
-
-                                                    --%>
+                                                --%>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-<%--
+                                <%--
                                     <div id="partTimeYnGrp" style="display:none">
                                         <label class="col-sm-2 control-label"></label>
                                         <div class="col-sm-9">
@@ -404,10 +401,7 @@
                                             </div>
                                         </div>
                                     </div>
-
---%>
-
-
+                                --%>
                                 </div>
                                 <div>
                                     <div class="col-sm-11" id="baseSave">
@@ -496,7 +490,7 @@
                                     <%--<div class="form-group required" id="divRgstNo" style="display: ${basis.application.citzCntrCode == "118" ? 'block;' : 'none;'}">--%>
                                     <div class="form-group required" id="divRgstNo">
                                         <label class="col-sm-2 control-label" id="dateOfBirthLabel">
-                                            ${basis.application.citzCntrCode == '118' ? msg.getMessage('L01208') : msg.getMessage('L01216')}<%--주민등록번호 or 생년월일--%>
+                                            ${basis.application.admsTypeCode != 'C' && basis.application.admsTypeCode != 'D' && basis.application.citzCntrCode == '118' ? msg.getMessage('L01208') : msg.getMessage('L01216')}<%--주민등록번호 or 생년월일--%>
                                         </label>
                                         <div class="col-sm-9">
                                             <div class="col-sm-12">
@@ -512,10 +506,10 @@
                                     <c:if test="${basis.application.admsTypeCode != 'C' && basis.application.admsTypeCode != 'D'}">
                                         <c:choose>
                                             <c:when test="${basis.application.applStsCode == null || basis.application.applStsCode.length() == 0}">
-                                                <div class="col-sm-1" style="text-align: center;">
+                                                <div class="col-sm-1 warn-rgstEncr" style="text-align: center; display: ${basis.application.citzCntrCode == '118' ? 'block;' : 'none;'}">
                                                     <label>-</label>
                                                 </div>
-                                                <div class="col-sm-4 nopadding">
+                                                <div class="col-sm-4 nopadding warn-rgstEncr" style="display: ${basis.application.citzCntrCode == '118' ? 'block;' : 'none;'}">
                                                     <div><form:input path="application.rgstEncr" cssClass="form-control numOnly lenCheck-7" maxlength="7" placeholder="${msg.getMessage('U01208')}"/></div>  <%--주민등록번호 뒤 7자리--%>
                                                     <div class="input-info word-keep-all"><spring:message code="U01209"/><%--보안을 위해 추후 수정할 수 없으므로 정확히 입력해 주십시오.--%></div>
                                                     <spring:bind path="application.rgstEncr">
@@ -526,7 +520,8 @@
                                                 </div>
                                             </c:when>
                                             <c:otherwise>
-                                                <div style="color: #337799; vertical-align: middle;"><spring:message code="U01210"/><%--주민등록번호 뒷자리는 보안을 위해 화면에 노출하지 않습니다.--%></div>
+                                                <div class='col-sm-6'
+                                                     style="color: #337799; vertical-align: middle; display: ${basis.application.citzCntrCode == '118' ? 'block;' : 'none;'}"><spring:message code="U01210"/><%--주민등록번호 뒷자리는 보안을 위해 화면에 노출하지 않습니다.--%></div>
                                             </c:otherwise>
                                         </c:choose>
                                     </c:if>
@@ -534,9 +529,7 @@
                                         </div>
                                     </div>
 
-
-
-                                    <div class="form-group required" id="divRgstNo">
+                                    <div class="form-group required">
                                         <label class="col-sm-2 control-label" id="genderLabel">
                                             <spring:message code="L00128"/><%--성별--%>
                                         </label>
@@ -1540,33 +1533,49 @@
                 stayInfoItems, item, i, itemL;
             if (this.value == '118') {
                 divRgstNo.style.display = 'block';
-                dateOfBirthLabel.innerHTML = dateOfBirthLabel1;
-                rgstBornDate.setAttribute('placeholder', dateOfBirthPlaceholder1);
-                divStayInfo.style.display = 'none';
-                stayInfoItems = divStayInfo.querySelectorAll('input');
-                itemL = stayInfoItems.length;
-                for (i = 0 ; i < itemL ; i++) {
-                    item = stayInfoItems[i];
-                    if (item.type == 'hidden' || item.type == 'text') {
-                        item.setAttribute('value', '');
-                        item.value = '';
+
+                if (rgstEncr) rgstEncr.style.display = 'block';
+                $('.warn-rgstEncr').each( function() {
+                    this.style.display = 'block';
+                });
+
+                if (admsTypeCode != 'C' && admsTypeCode != 'D') {
+                    dateOfBirthLabel.innerHTML = dateOfBirthLabel1;
+                    rgstBornDate.setAttribute('placeholder', dateOfBirthPlaceholder1);
+
+                    divStayInfo.style.display = 'none';
+                    stayInfoItems = divStayInfo.querySelectorAll('input');
+                    itemL = stayInfoItems.length;
+                    for (i = 0 ; i < itemL ; i++) {
+                        item = stayInfoItems[i];
+                        if (item.type == 'hidden' || item.type == 'text') {
+                            item.setAttribute('value', '');
+                            item.value = '';
+                        }
+                    }
+                    stayInfoItems = divStayInfo.querySelectorAll('select');
+                    itemL = stayInfoItems.length;
+                    for (i = 0 ; i < itemL ; i++) {
+                        stayInfoItems[i].selectedIndex = 0;
                     }
                 }
-                stayInfoItems = divStayInfo.querySelectorAll('select');
-                itemL = stayInfoItems.length;
-                for (i = 0 ; i < itemL ; i++) {
-                    stayInfoItems[i].selectedIndex = 0;
-                }
+
+
             } else {
-                rgstBornDate.setAttribute('value', '');
-                rgstBornDate.value = '';
+//                rgstBornDate.setAttribute('value', '');
+//                rgstBornDate.value = '';
                 if (rgstEncr) {
                     rgstEncr.setAttribute('value', '');
                     rgstEncr.value = '';
+                    rgstEncr.style.display = 'none';
                 }
-//                divRgstNo.style.display = 'none';
+
                 dateOfBirthLabel.innerHTML = dateOfBirthLabel2;
                 rgstBornDate.setAttribute('placeholder', dateOfBirthPlaceholder2);
+
+                $('.warn-rgstEncr').each( function() {
+                    this.style.display = 'none';
+                });
                 divStayInfo.style.display = 'block';
             }
         });
@@ -1817,6 +1826,7 @@
                                     'value': item[valueKey],
                                     'label': item[labelKey]
                                 });
+                                $op.html(item[labelKey]);
                                 if ('detlMajCode' == targetId) {
                                     for (var key in item) {
                                         if (key !== valueKey && key !== labelKey) {

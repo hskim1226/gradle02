@@ -16,7 +16,7 @@ import com.apexsoft.ysprj.applicants.common.domain.CommonCode;
 import com.apexsoft.ysprj.applicants.common.domain.Country;
 import com.apexsoft.ysprj.applicants.common.util.FileUtil;
 import com.apexsoft.ysprj.applicants.common.util.StringUtil;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.eclipse.birt.report.engine.api.IReportEngine;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -67,6 +67,9 @@ public class BirtServiceImpl implements BirtService {
     @Value("#{app['path.static']}")
     private String STATIC_PATH;
 
+    @Value("#{app['s3.midPath']}")
+    private String s3MidPath;
+
     private String ADMS_FORN_1 = "C";
     private String ADMS_FORN_2 = "D";
 
@@ -110,7 +113,7 @@ public class BirtServiceImpl implements BirtService {
         ExecutionContext ecResult = new ExecutionContext();
         ExecutionContext ecBasis = basisService.retrieveBasis(applNo);
         ExecutionContext ecAcademy = academyService.retrieveAcademy(applNo);
-        ExecutionContext ecLangCareer = langCareerService.retrieveCurrentLangCareer(applNo);
+        ExecutionContext ecLangCareer = langCareerService.retrieveLangCareer(applNo);
         ExecutionContext ecDocument = documentService.retrieveDocument(applNo);
 
         Basis basis = ((Map<String, Basis>)ecBasis.getData()).get("basis");
@@ -137,7 +140,7 @@ public class BirtServiceImpl implements BirtService {
                 FileUtil.getApplicationFileName(userId) :
                 FileUtil.getSlipFileName(userId);
 
-        rptInfoMap.put("pdfDirectoryFullPath", FileUtil.getUploadDirectoryFullPath(BASE_DIR, admsNo, userId, applNo));
+        rptInfoMap.put("pdfDirectoryFullPath", FileUtil.getUploadDirectoryFullPath(BASE_DIR, s3MidPath, admsNo, userId, applNo));
         rptInfoMap.put("pdfFileName", pdfFileName);
 
         CommonCode commonCode;
@@ -324,41 +327,88 @@ public class BirtServiceImpl implements BirtService {
         rptInfoMap.put("lastCollegeScore", lastCollegeScore);
         rptInfoMap.put("lastGraduateScore", lastGraduateScore);
 
+        String forlExmp = "";
+
         for( LanguageGroup aLangGrp : langGrpList){
             //영어인경우
             if( "00001".equals(aLangGrp.getExamCode())){
-                for( CustomApplicationLanguage aLang  : aLangGrp.getLangList() ){
-                    if( aLang.isLangInfoSaveFg()) {
-                        if ("00001".equals(aLang.getItemCode())) {
-                            String toflType ="";
-                            if( "00001".equals(aLang.getToflTypeCode()))
-                                toflType ="IBT";
-                            if( "00002".equals(aLang.getToflTypeCode()))
-                                toflType ="CBT";
-                            if( "00003".equals(aLang.getToflTypeCode()))
-                                toflType ="PBT";
+                for( TotalApplicationLanguageContainer aLangSend  : aLangGrp.getLangList() ){
+                    for ( CustomApplicationLanguage aLang : aLangSend.getSubContainer() ) {
+                        if ("00001".equals(aLangSend.getItemCode())) { // 제출
+                            if (aLang.isLangInfoSaveFg()) {
+                                if ("00001".equals(aLang.getItemCode())) {
+                                    String toflType = "";
+                                    if ("00001".equals(aLang.getSubCode()))
+                                        toflType = "IBT";
+                                    if ("00002".equals(aLang.getSubCode()))
+                                        toflType = "CBT";
+                                    if ("00003".equals(aLang.getSubCode()))
+                                        toflType = "PBT";
 
-                            toeflScore = toflType + "  " + aLang.getLangGrad();
-                        } else if ("00002".equals(aLang.getItemCode())) {
-                            toeicScore = aLang.getLangGrad();
-                        } else if ("00003".equals(aLang.getItemCode())) {
-                            tepsScore = aLang.getLangGrad();
+                                    toeflScore = toflType + "  " + aLang.getLangGrad();
+                                } else if ("00002".equals(aLang.getItemCode())) {
+                                    toeicScore = aLang.getLangGrad();
+                                } else if ("00003".equals(aLang.getItemCode())) {
+                                    tepsScore = aLang.getLangGrad();
 
-                        } else if ("00004".equals(aLang.getItemCode())) {
-                            ieltsScore = aLang.getLangGrad();
+                                } else if ("00004".equals(aLang.getItemCode())) {
+                                    ieltsScore = aLang.getLangGrad();
 
-                        } else if ("00005".equals(aLang.getItemCode())) {
-                            greScore = aLang.getLangGrad();
+                                } else if ("00005".equals(aLang.getItemCode())) {
+                                    greScore = aLang.getLangGrad();
+                                }
+                            }
+                        } else { // 면제
+                            if (aLang.isLangInfoSaveFg()) {
+                                if ("00001".equals(aLang.getItemCode())) { // 영어권 외국인
+                                    forlExmp = "영어권 외국인";
+                                } else if ("00002".equals(aLang.getItemCode())) {
+                                    forlExmp = "영어권 졸업자";
+                                } else if ("00003".equals(aLang.getItemCode())) {
+                                    forlExmp = "본교 석사 출신";
+                                } else if ("00005".equals(aLang.getItemCode())) {
+                                    forlExmp = "학과 면제";
+                                } else if ("00006".equals(aLang.getItemCode())) {
+                                    forlExmp = "본교 의예,치의예 졸업";
+                                } else if ("00007".equals(aLang.getItemCode())) {
+                                    forlExmp = "본교 의학,의전원 졸업";
+                                } else if ("00008".equals(aLang.getItemCode())) {
+                                    forlExmp = "구사 능력 증빙";
+                                }
+                            }
                         }
                     }
                 }
             }
             // 국어인 경우
             else if ("00002".equals(aLangGrp.getExamCode())) {
-                for( CustomApplicationLanguage aLang  : aLangGrp.getLangList() ){
-                    if( aLang.isLangInfoSaveFg()) {
-                        if ("00001".equals(aLang.getItemCode())) {
-                            topikScore = aLang.getLangGrad();
+                for( TotalApplicationLanguageContainer aLangSend  : aLangGrp.getLangList() ){
+                    for( CustomApplicationLanguage aLang  : aLangSend.getSubContainer() ) {
+                        if ("00001".equals(aLangSend.getItemCode())) { // 제출
+                            if (aLang.isLangInfoSaveFg()) {
+                                if ("00001".equals(aLang.getItemCode())) {
+                                    topikScore = aLang.getLangGrad();
+                                }
+                            }
+                        } else {
+                            if (aLang.isLangInfoSaveFg()) {
+                                if ("00001".equals(aLang.getItemCode())) { // 영어권 외국인
+                                    forlExmp = "영어권 외국인";
+                                } else if ("00002".equals(aLang.getItemCode())) {
+                                    forlExmp = "영어권 졸업자";
+                                } else if ("00003".equals(aLang.getItemCode())) {
+                                    forlExmp = "본교 석사 출신";
+                                } else if ("00005".equals(aLang.getItemCode())) {
+                                    forlExmp = "학과 면제";
+                                } else if ("00006".equals(aLang.getItemCode())) {
+                                    forlExmp = "본교 의예,치의예 졸업";
+                                } else if ("00007".equals(aLang.getItemCode())) {
+                                    forlExmp = "본교 의학,의전원 졸업";
+                                } else if ("00008".equals(aLang.getItemCode())) {
+                                    forlExmp = "구사 능력 증빙";
+                                }
+                            }
+
                         }
                     }
                 }
@@ -370,7 +420,6 @@ public class BirtServiceImpl implements BirtService {
         rptInfoMap.put("tepsScore", tepsScore);
         rptInfoMap.put("ieltsScore", ieltsScore);
         rptInfoMap.put("greScore", greScore);
-        String forlExmp = StringUtil.getEmptyIfNull(applicationGeneral.getForlExmpCode());
         rptInfoMap.put("forlExmp", forlExmp.length() > 0 ? "O" : "");
         rptInfoMap.put("topik", topikScore);
 
