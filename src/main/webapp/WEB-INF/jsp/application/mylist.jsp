@@ -160,7 +160,7 @@
                 form.target = "_blank";
                 var admsNo = e.target.getAttribute('data-admsNo');
                 if (admsNo != null && admsNo.length > 0) { // 전체 파일
-                    form.action = '${contextPath}/pdf/download'; // TODO : S3에서 받아오도록
+                    form.action = '${contextPath}/pdf/download';
                     form.submit();
                 } else { // 지원서 또는 수험표
                     form.action = '${contextPath}/application/preview';
