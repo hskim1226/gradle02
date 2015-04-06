@@ -61,6 +61,11 @@
             <mvc:mapping path="/user/**"/>
             <bean class="com.apexsoft.framework.interceptor.MessageResolverInterceptor"/>
         </mvc:interceptor>
+        <mvc:interceptor>
+            <mvc:mapping path="/admin/**"/>
+            <bean class="com.apexsoft.framework.interceptor.AdminInterceptor"/>
+        </mvc:interceptor>
+
     </mvc:interceptors>
 
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">

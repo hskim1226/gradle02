@@ -31,7 +31,6 @@ public interface AdminService {
 
     ExecutionContext retrieveEntireApplicantListByDept(CourseSearchPageForm courseSearchPageForm);
 
-
-
+    CommonAdminInfo retrieveCommonAdminInfo();
 
 }
