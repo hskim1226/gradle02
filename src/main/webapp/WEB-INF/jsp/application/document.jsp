@@ -288,6 +288,7 @@
     </style>
 </head>
 <body>
+<div id="overlay" class="web_dialog_overlay"></div>
 <section class="application">
     <div class="container">
         <p id="stepStatusTitle" colspan=4 align="center" height="70px">${msg.getMessage('L01001', locale)}<%--원서 작성 현황--%></p>
@@ -1039,7 +1040,6 @@
         </div> <%--myTabContent--%>
         </form:form>
     </div> <%--container--%>
-
 </section>
 <content tag="local-script">
     <script src="<spring:eval expression="@app.getProperty('path.static')" />/js/jquery-ui.min.js"></script>
@@ -1119,6 +1119,7 @@
                     form.submit();
                 }
             } else if (saveType == 'generate') {
+                $('#overlay').show();
                 document.getElementById('spinner').style.display = 'block';
                 formData = $(form).serialize();
                 <%-- 지원서 파일 정보 DB 저장 --%>
@@ -1144,11 +1145,13 @@
                                     }
                                     document.getElementById('spinner').style.display = 'none';
                                     document.getElementById('previewApplication').style.display = 'block';
+                                    $('#overlay').hide();
                                 },
                                 error: function (data, status, e) {
                                     if (console) {
                                         console.log('머지 파일 생성 실패');
                                     }
+                                    $('#overlay').hide();
                                 }
                             });
                             <%-- 파일 생성 --%>
@@ -1158,6 +1161,7 @@
                         if (console) {
                             console.log('원서 파일 정보 저장 및 원서 파일 생성 실패');
                         }
+                        $('#overlay').hide();
                     }
                 });
                 <%-- 지원서 파일 정보 DB 저장 --%>
@@ -1231,6 +1235,7 @@
         <%-- 파일 업로드 버튼 이벤트 --%>
         $('.btn-upload').on('click', function (e) {
             e.preventDefault();
+            $("#overlay").show();
             var actionUrl = "${contextPath}/application/document/fileUpload",
                     docItemName = document.getElementById(this.getAttribute('data-doc-prop-docItemName')),
                     fileInputId = this.getAttribute('data-file-input-id'),
@@ -1348,6 +1353,7 @@
                                 }
                             }
                             alert(d.resultMessage);
+                            $("#overlay").hide();
                         },
                         error: function (data, status, e) {
 //                            var d = JSON.parse(data.data);
@@ -1359,6 +1365,7 @@
 //                                console.log("status : ", status);
 //                                console.log("e : ", e);
 //                            }
+                            $("#overlay").hide();
                         }
                     });
                 }
