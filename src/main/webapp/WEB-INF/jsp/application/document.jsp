@@ -1032,6 +1032,9 @@
                 </div>
             </div>
             <div class="spacer-tiny"></div>
+            <div class="panel-body tab-content">
+                <span style="color: blue;"><spring:message code="U04511"/><%--원서 제출 후에는 지원 정보를 수정할 수 없습니다. 입력한 정보가 정확한 지 확인 후에 원서 제출을 진행해 주세요.--%></span>
+            </div>
             <div class="btn-group btn-group-justified">
                 <div class="btn-group">
                     <button id="submitApplication" type="button" class="btn btn-success btn-lg btn-save" data-saveType="submit" <c:if test="${document.application.applStsCode != '00004'}">disabled</c:if> ><spring:message code="L04204"/><%--원서 제출--%></button>
