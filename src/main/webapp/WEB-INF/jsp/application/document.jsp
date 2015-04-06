@@ -1361,8 +1361,11 @@
                                         oneDocumentHidden.value = oneDocument[key];
                                     }
                                 }
+                                alert(d.resultMessage);
+                            } else {
+                                alert(data.message);
                             }
-                            alert(d.resultMessage);
+
                             $('#overlay').hide();
                         },
                         error: function (data, status, e) {
