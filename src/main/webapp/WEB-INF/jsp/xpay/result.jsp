@@ -21,55 +21,55 @@
     @-webkit-keyframes load4 {
         0%,
         100% {
-            box-shadow: 0em -3em 0em 0.2em #428bca, 2em -2em 0 0em #428bca, 3em 0em 0 -0.5em #428bca, 2em 2em 0 -0.5em #428bca, 0em 3em 0 -0.5em #428bca, -2em 2em 0 -0.5em #428bca, -3em 0em 0 -0.5em #428bca, -2em -2em 0 0em #428bca;
+            box-shadow: 0em -3em 0em 0.2em #55aaff, 2em -2em 0 0em #55aaff, 3em 0em 0 -0.5em #55aaff, 2em 2em 0 -0.5em #55aaff, 0em 3em 0 -0.5em #55aaff, -2em 2em 0 -0.5em #55aaff, -3em 0em 0 -0.5em #55aaff, -2em -2em 0 0em #55aaff;
         }
         12.5% {
-            box-shadow: 0em -3em 0em 0em #428bca, 2em -2em 0 0.2em #428bca, 3em 0em 0 0em #428bca, 2em 2em 0 -0.5em #428bca, 0em 3em 0 -0.5em #428bca, -2em 2em 0 -0.5em #428bca, -3em 0em 0 -0.5em #428bca, -2em -2em 0 -0.5em #428bca;
+            box-shadow: 0em -3em 0em 0em #55aaff, 2em -2em 0 0.2em #55aaff, 3em 0em 0 0em #55aaff, 2em 2em 0 -0.5em #55aaff, 0em 3em 0 -0.5em #55aaff, -2em 2em 0 -0.5em #55aaff, -3em 0em 0 -0.5em #55aaff, -2em -2em 0 -0.5em #55aaff;
         }
         25% {
-            box-shadow: 0em -3em 0em -0.5em #428bca, 2em -2em 0 0em #428bca, 3em 0em 0 0.2em #428bca, 2em 2em 0 0em #428bca, 0em 3em 0 -0.5em #428bca, -2em 2em 0 -0.5em #428bca, -3em 0em 0 -0.5em #428bca, -2em -2em 0 -0.5em #428bca;
+            box-shadow: 0em -3em 0em -0.5em #55aaff, 2em -2em 0 0em #55aaff, 3em 0em 0 0.2em #55aaff, 2em 2em 0 0em #55aaff, 0em 3em 0 -0.5em #55aaff, -2em 2em 0 -0.5em #55aaff, -3em 0em 0 -0.5em #55aaff, -2em -2em 0 -0.5em #55aaff;
         }
         37.5% {
-            box-shadow: 0em -3em 0em -0.5em #428bca, 2em -2em 0 -0.5em #428bca, 3em 0em 0 0em #428bca, 2em 2em 0 0.2em #428bca, 0em 3em 0 0em #428bca, -2em 2em 0 -0.5em #428bca, -3em 0em 0 -0.5em #428bca, -2em -2em 0 -0.5em #428bca;
+            box-shadow: 0em -3em 0em -0.5em #55aaff, 2em -2em 0 -0.5em #55aaff, 3em 0em 0 0em #55aaff, 2em 2em 0 0.2em #55aaff, 0em 3em 0 0em #55aaff, -2em 2em 0 -0.5em #55aaff, -3em 0em 0 -0.5em #55aaff, -2em -2em 0 -0.5em #55aaff;
         }
         50% {
-            box-shadow: 0em -3em 0em -0.5em #428bca, 2em -2em 0 -0.5em #428bca, 3em 0em 0 -0.5em #428bca, 2em 2em 0 0em #428bca, 0em 3em 0 0.2em #428bca, -2em 2em 0 0em #428bca, -3em 0em 0 -0.5em #428bca, -2em -2em 0 -0.5em #428bca;
+            box-shadow: 0em -3em 0em -0.5em #55aaff, 2em -2em 0 -0.5em #55aaff, 3em 0em 0 -0.5em #55aaff, 2em 2em 0 0em #55aaff, 0em 3em 0 0.2em #55aaff, -2em 2em 0 0em #55aaff, -3em 0em 0 -0.5em #55aaff, -2em -2em 0 -0.5em #55aaff;
         }
         62.5% {
-            box-shadow: 0em -3em 0em -0.5em #428bca, 2em -2em 0 -0.5em #428bca, 3em 0em 0 -0.5em #428bca, 2em 2em 0 -0.5em #428bca, 0em 3em 0 0em #428bca, -2em 2em 0 0.2em #428bca, -3em 0em 0 0em #428bca, -2em -2em 0 -0.5em #428bca;
+            box-shadow: 0em -3em 0em -0.5em #55aaff, 2em -2em 0 -0.5em #55aaff, 3em 0em 0 -0.5em #55aaff, 2em 2em 0 -0.5em #55aaff, 0em 3em 0 0em #55aaff, -2em 2em 0 0.2em #55aaff, -3em 0em 0 0em #55aaff, -2em -2em 0 -0.5em #55aaff;
         }
         75% {
-            box-shadow: 0em -3em 0em -0.5em #428bca, 2em -2em 0 -0.5em #428bca, 3em 0em 0 -0.5em #428bca, 2em 2em 0 -0.5em #428bca, 0em 3em 0 -0.5em #428bca, -2em 2em 0 0em #428bca, -3em 0em 0 0.2em #428bca, -2em -2em 0 0em #428bca;
+            box-shadow: 0em -3em 0em -0.5em #55aaff, 2em -2em 0 -0.5em #55aaff, 3em 0em 0 -0.5em #55aaff, 2em 2em 0 -0.5em #55aaff, 0em 3em 0 -0.5em #55aaff, -2em 2em 0 0em #55aaff, -3em 0em 0 0.2em #55aaff, -2em -2em 0 0em #55aaff;
         }
         87.5% {
-            box-shadow: 0em -3em 0em 0em #428bca, 2em -2em 0 -0.5em #428bca, 3em 0em 0 -0.5em #428bca, 2em 2em 0 -0.5em #428bca, 0em 3em 0 -0.5em #428bca, -2em 2em 0 0em #428bca, -3em 0em 0 0em #428bca, -2em -2em 0 0.2em #428bca;
+            box-shadow: 0em -3em 0em 0em #55aaff, 2em -2em 0 -0.5em #55aaff, 3em 0em 0 -0.5em #55aaff, 2em 2em 0 -0.5em #55aaff, 0em 3em 0 -0.5em #55aaff, -2em 2em 0 0em #55aaff, -3em 0em 0 0em #55aaff, -2em -2em 0 0.2em #55aaff;
         }
     }
     @keyframes load4 {
         0%,
         100% {
-            box-shadow: 0em -3em 0em 0.2em #428bca, 2em -2em 0 0em #428bca, 3em 0em 0 -0.5em #428bca, 2em 2em 0 -0.5em #428bca, 0em 3em 0 -0.5em #428bca, -2em 2em 0 -0.5em #428bca, -3em 0em 0 -0.5em #428bca, -2em -2em 0 0em #428bca;
+            box-shadow: 0em -3em 0em 0.2em #55aaff, 2em -2em 0 0em #55aaff, 3em 0em 0 -0.5em #55aaff, 2em 2em 0 -0.5em #55aaff, 0em 3em 0 -0.5em #55aaff, -2em 2em 0 -0.5em #55aaff, -3em 0em 0 -0.5em #55aaff, -2em -2em 0 0em #55aaff;
         }
         12.5% {
-            box-shadow: 0em -3em 0em 0em #428bca, 2em -2em 0 0.2em #428bca, 3em 0em 0 0em #428bca, 2em 2em 0 -0.5em #428bca, 0em 3em 0 -0.5em #428bca, -2em 2em 0 -0.5em #428bca, -3em 0em 0 -0.5em #428bca, -2em -2em 0 -0.5em #428bca;
+            box-shadow: 0em -3em 0em 0em #55aaff, 2em -2em 0 0.2em #55aaff, 3em 0em 0 0em #55aaff, 2em 2em 0 -0.5em #55aaff, 0em 3em 0 -0.5em #55aaff, -2em 2em 0 -0.5em #55aaff, -3em 0em 0 -0.5em #55aaff, -2em -2em 0 -0.5em #55aaff;
         }
         25% {
-            box-shadow: 0em -3em 0em -0.5em #428bca, 2em -2em 0 0em #428bca, 3em 0em 0 0.2em #428bca, 2em 2em 0 0em #428bca, 0em 3em 0 -0.5em #428bca, -2em 2em 0 -0.5em #428bca, -3em 0em 0 -0.5em #428bca, -2em -2em 0 -0.5em #428bca;
+            box-shadow: 0em -3em 0em -0.5em #55aaff, 2em -2em 0 0em #55aaff, 3em 0em 0 0.2em #55aaff, 2em 2em 0 0em #55aaff, 0em 3em 0 -0.5em #55aaff, -2em 2em 0 -0.5em #55aaff, -3em 0em 0 -0.5em #55aaff, -2em -2em 0 -0.5em #55aaff;
         }
         37.5% {
-            box-shadow: 0em -3em 0em -0.5em #428bca, 2em -2em 0 -0.5em #428bca, 3em 0em 0 0em #428bca, 2em 2em 0 0.2em #428bca, 0em 3em 0 0em #428bca, -2em 2em 0 -0.5em #428bca, -3em 0em 0 -0.5em #428bca, -2em -2em 0 -0.5em #428bca;
+            box-shadow: 0em -3em 0em -0.5em #55aaff, 2em -2em 0 -0.5em #55aaff, 3em 0em 0 0em #55aaff, 2em 2em 0 0.2em #55aaff, 0em 3em 0 0em #55aaff, -2em 2em 0 -0.5em #55aaff, -3em 0em 0 -0.5em #55aaff, -2em -2em 0 -0.5em #55aaff;
         }
         50% {
-            box-shadow: 0em -3em 0em -0.5em #428bca, 2em -2em 0 -0.5em #428bca, 3em 0em 0 -0.5em #428bca, 2em 2em 0 0em #428bca, 0em 3em 0 0.2em #428bca, -2em 2em 0 0em #428bca, -3em 0em 0 -0.5em #428bca, -2em -2em 0 -0.5em #428bca;
+            box-shadow: 0em -3em 0em -0.5em #55aaff, 2em -2em 0 -0.5em #55aaff, 3em 0em 0 -0.5em #55aaff, 2em 2em 0 0em #55aaff, 0em 3em 0 0.2em #55aaff, -2em 2em 0 0em #55aaff, -3em 0em 0 -0.5em #55aaff, -2em -2em 0 -0.5em #55aaff;
         }
         62.5% {
-            box-shadow: 0em -3em 0em -0.5em #428bca, 2em -2em 0 -0.5em #428bca, 3em 0em 0 -0.5em #428bca, 2em 2em 0 -0.5em #428bca, 0em 3em 0 0em #428bca, -2em 2em 0 0.2em #428bca, -3em 0em 0 0em #428bca, -2em -2em 0 -0.5em #428bca;
+            box-shadow: 0em -3em 0em -0.5em #55aaff, 2em -2em 0 -0.5em #55aaff, 3em 0em 0 -0.5em #55aaff, 2em 2em 0 -0.5em #55aaff, 0em 3em 0 0em #55aaff, -2em 2em 0 0.2em #55aaff, -3em 0em 0 0em #55aaff, -2em -2em 0 -0.5em #55aaff;
         }
         75% {
-            box-shadow: 0em -3em 0em -0.5em #428bca, 2em -2em 0 -0.5em #428bca, 3em 0em 0 -0.5em #428bca, 2em 2em 0 -0.5em #428bca, 0em 3em 0 -0.5em #428bca, -2em 2em 0 0em #428bca, -3em 0em 0 0.2em #428bca, -2em -2em 0 0em #428bca;
+            box-shadow: 0em -3em 0em -0.5em #55aaff, 2em -2em 0 -0.5em #55aaff, 3em 0em 0 -0.5em #55aaff, 2em 2em 0 -0.5em #55aaff, 0em 3em 0 -0.5em #55aaff, -2em 2em 0 0em #55aaff, -3em 0em 0 0.2em #55aaff, -2em -2em 0 0em #55aaff;
         }
         87.5% {
-            box-shadow: 0em -3em 0em 0em #428bca, 2em -2em 0 -0.5em #428bca, 3em 0em 0 -0.5em #428bca, 2em 2em 0 -0.5em #428bca, 0em 3em 0 -0.5em #428bca, -2em 2em 0 0em #428bca, -3em 0em 0 0em #428bca, -2em -2em 0 0.2em #428bca;
+            box-shadow: 0em -3em 0em 0em #55aaff, 2em -2em 0 -0.5em #55aaff, 3em 0em 0 -0.5em #55aaff, 2em 2em 0 -0.5em #55aaff, 0em 3em 0 -0.5em #55aaff, -2em 2em 0 0em #55aaff, -3em 0em 0 0em #55aaff, -2em -2em 0 0.2em #55aaff;
         }
     }
     </style>
@@ -122,6 +122,7 @@ $(document).ready(function() {
 
     // 결제 완료 후 BirtController를 호출해야 수험표와 원서를 물리적 파일로 저장할 수 있음
     var genFile = function () {
+
         var form = document.getElementById('resultForm'),
             formData = $(form).serialize();
         $.ajax({
