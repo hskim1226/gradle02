@@ -70,4 +70,5 @@ public class ChangeInfoForm {
     public void setAftVal(String aftVal) {
         this.aftVal = aftVal;
     }
+
 }

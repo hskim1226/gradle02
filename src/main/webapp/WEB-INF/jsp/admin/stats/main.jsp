@@ -11,15 +11,78 @@
 
     <div class="main_sec1">
         <div id="notice_box" class="mboard">
-            <h2><span>공지사항</span></h2>
+            <h2><span>지원현황</span></h2>
             <div class="mboard_con">
-                <ul>
-                    <li><a href="#"><span class="tit">공지사항입니다.공지사항입니다.공지사항입니다.공지사항입니다.공지사항입니다.</span><span class="date">2015-03-16</span></a></li>
-                    <li><a href="#"><span class="tit">공지사항</span><span class="date">2015-03-16</span></a></li>
-                    <li><a href="#"><span class="tit">공지사항</span><span class="date">2015-03-16</span></a></li>
-                    <li><a href="#"><span class="tit">공지사항</span><span class="date">2015-03-16</span></a></li>
-                    <li><a href="#"><span class="tit">공지사항</span><span class="date">2015-03-16</span></a></li>
-                </ul>
+                <table class="tbl_list1" summary="지원현황">
+                    <caption>
+                        원서수정/취소관리
+                    </caption>
+                    <colgroup>
+                        <col width="25%" />
+                        <col width="15%" />
+                        <col width="15%" />
+                        <col width="15%" />
+                        <col width="15%" />
+                        <col width="15%" />
+
+                    </colgroup>
+                    <tbody>
+                    <tr>
+                        <th scope="row" class="text-left"><span class="tit1">일반-일반</a></span></th>
+                        <td>석사 0명</td>
+                        <td>박사 0명</td>
+                        <td>통합 0명</td>
+                        <td>연구 0명</td>
+                        <td>총계 0명</td>
+
+                    </tr>
+                    <tr>
+                        <th scope="row" class="text-left"><span class="tit1">일반-학연산</a></span></th>
+                        <td>석사 0명</td>
+                        <td>박사 0명</td>
+                        <td>통합 0명</td>
+                        <td>연구 0명</td>
+                        <td>총계 0명</td>
+
+                    </tr>
+                    <tr>
+                        <th scope="row" class="text-left"><span class="tit1">일반-위탁</a></span></th>
+                        <td>석사 0명</td>
+                        <td>박사 0명</td>
+                        <td>통합 0명</td>
+                        <td>연구 0명</td>
+                        <td>총계 0명</td>
+
+                    </tr>
+                    <tr>
+                        <th scope="row" class="text-left"><span class="tit1">일반-새터민</a></span></th>
+                        <td>석사 0명</td>
+                        <td>박사 0명</td>
+                        <td>통합 0명</td>
+                        <td>연구 0명</td>
+                        <td>총계 0명</td>
+
+                    </tr>
+                    <tr>
+                        <th scope="row" class="text-left"><span class="tit1">외국인</a></span></th>
+                        <td>석사 0명</td>
+                        <td>박사 0명</td>
+                        <td>통합 0명</td>
+                        <td>연구 0명</td>
+                        <td>총계 0명</td>
+
+                    </tr>
+                    <tr>
+                        <th scope="row" class="text-left"><span class="tit1">조기</a></span></th>
+                        <td>석사 0명</td>
+                        <td>박사 0명</td>
+                        <td>통합 0명</td>
+                        <td>연구 0명</td>
+                        <td>총계 0명</td>
+
+                    </tr>
+                    </tbody>
+                </table>
             </div>
             <a href="#" class="btn_more"><img src="<spring:eval expression="@app.getProperty(\"path.static\")"/>/img/admin/btn_more.png" alt="더보기" /></a> </div>
         <!-- /notice_board -->
@@ -48,41 +111,7 @@
                         <col width="18%" />
                     </colgroup>
                     <tbody>
-                    <tr>
-                        <th scope="row" class="text-left"><span class="tit1"><a href="#">047A1001</a></span></th>
-                        <td>홍길동</td>
-                        <td>모집단위변경</td>
-                        <td>2014-04-14</td>
-                        <td><img src="<spring:eval expression="@app.getProperty(\"path.static\")"/>/img/admin/img_step1.png" alt="처리요청"></td>
-                    </tr>
-                    <tr>
-                        <th scope="row" class="text-left"><span class="tit1"><a href="#">047A1001</a></span></th>
-                        <td>홍길동</td>
-                        <td>모집단위변경</td>
-                        <td>2014-04-14</td>
-                        <td><img src="<spring:eval expression="@app.getProperty(\"path.static\")"/>/img/admin/img_step2.png" alt="처리완료"></td>
-                    </tr>
-                    <tr>
-                        <th scope="row" class="text-left"><span class="tit1"><a href="#">047A1001</a></span></th>
-                        <td>홍길동</td>
-                        <td>모집단위변경</td>
-                        <td>2014-04-14</td>
-                        <td><img src="<spring:eval expression="@app.getProperty(\"path.static\")"/>/img/admin/img_step3.png" alt="처리중"></td>
-                    </tr>
-                    <tr>
-                        <th scope="row" class="text-left"><span class="tit1"><a href="#">047A1001</a></span></th>
-                        <td>홍길동</td>
-                        <td>모집단위변경</td>
-                        <td>2014-04-14</td>
-                        <td><img src="<spring:eval expression="@app.getProperty(\"path.static\")"/>/img/admin/img_step4.png" alt="처리불가"></td>
-                    </tr>
-                    <tr>
-                        <th scope="row" class="text-left"><span class="tit1"><a href="#">047A1001</a></span></th>
-                        <td>홍길동</td>
-                        <td>모집단위변경</td>
-                        <td>2014-04-14</td>
-                        <td><img src="<spring:eval expression="@app.getProperty(\"path.static\")"/>/img/admin/img_step1.png" alt="처리요청"></td>
-                    </tr>
+
                     </tbody>
                 </table>
             </div>
@@ -105,28 +134,28 @@
                 </colgroup>
                 <tbody>
                 <tr>
-                    <th scope="row">2015-03-19</th>
-                    <td><img src='<spring:eval expression="@app.getProperty(\"path.static\")"/>/img/admin/bu_box1.png' width="50%" height="10" alt="">&nbsp;60명</td>
+                    <th scope="row">2015-04-07</th>
+                    <td><img src='<spring:eval expression="@app.getProperty(\"path.static\")"/>/img/admin/bu_box1.png' width="1%" height="10" alt="">&nbsp;00명</td>
                 </tr>
                 <tr>
-                    <th scope="row">2015-03-19</th>
-                    <td><img src='<spring:eval expression="@app.getProperty(\"path.static\")"/>/img/admin/bu_box1.png' width="70%" height="10" alt="">&nbsp;100명</td>
+                    <th scope="row">2015-04-06</th>
+                    <td><img src='<spring:eval expression="@app.getProperty(\"path.static\")"/>/img/admin/bu_box1.png' width="1%" height="10" alt="">&nbsp;00명</td>
                 </tr>
                 <tr>
-                    <th scope="row">2015-03-19</th>
-                    <td><img src='<spring:eval expression="@app.getProperty(\"path.static\")"/>/img/admin/bu_box1.png' width="20%" height="10" alt="">&nbsp;65명</td>
+                    <th scope="row">2015-04-05</th>
+                    <td><img src='<spring:eval expression="@app.getProperty(\"path.static\")"/>/img/admin/bu_box1.png' width="1%" height="10" alt="">&nbsp;00명</td>
                 </tr>
                 <tr>
-                    <th scope="row">2015-03-19</th>
-                    <td><img src='<spring:eval expression="@app.getProperty(\"path.static\")"/>/img/admin/bu_box1.png' width="80%" height="10" alt="">&nbsp;65명</td>
+                    <th scope="row">2015-04-04</th>
+                    <td><img src='<spring:eval expression="@app.getProperty(\"path.static\")"/>/img/admin/bu_box1.png' width="1%" height="10" alt="">&nbsp;00명</td>
                 </tr>
                 <tr>
-                    <th scope="row">2015-03-19</th>
-                    <td><img src='<spring:eval expression="@app.getProperty(\"path.static\")"/>/img/admin/bu_box1.png' width="50%" height="10" alt="">&nbsp;65명</td>
+                    <th scope="row">2015-04-03</th>
+                    <td><img src='<spring:eval expression="@app.getProperty(\"path.static\")"/>/img/admin/bu_box1.png' width="1%" height="10" alt="">&nbsp;00명</td>
                 </tr>
                 <tr>
-                    <th scope="row">2015-03-19</th>
-                    <td><img src='<spring:eval expression="@app.getProperty(\"path.static\")"/>/img/admin/bu_box1.png' width="66%" height="10" alt="">&nbsp;65명</td>
+                    <th scope="row">2015-04-02</th>
+                    <td><img src='<spring:eval expression="@app.getProperty(\"path.static\")"/>/img/admin/bu_box1.png' width="1%" height="10" alt="">&nbsp;00명</td>
                 </tr>
                 </tbody>
             </table>

@@ -6,7 +6,10 @@ package com.apexsoft.ysprj.admin.domain;
 public class CustomApplicationChange extends ApplicationChange {
 
 
+    private String admsNo;
     private String korName;
+    private String engName;
+    private String engSur;
     private String applId;
     private String collName;
     private String campName;
@@ -24,6 +27,29 @@ public class CustomApplicationChange extends ApplicationChange {
     private String corsTypeCode;
     private String detlMajCode;
 
+    public String getAdmsNo() {
+        return admsNo;
+    }
+
+    public void setAdmsNo(String admsNo) {
+        this.admsNo = admsNo;
+    }
+
+    public String getEngName() {
+        return engName;
+    }
+
+    public void setEngName(String engName) {
+        this.engName = engName;
+    }
+
+    public String getEngSur() {
+        return engSur;
+    }
+
+    public void setEngSur(String engSur) {
+        this.engSur = engSur;
+    }
 
     public String getKorName() {
         return korName;

@@ -141,7 +141,7 @@
                     groupColumnShow : [true,  true],
                     hideFirstGroupCol: false,
                     groupSummaryPos: ['header',  'header'],
-                    groupCollapse : false
+                    groupCollapse : true
 
                 },
                 viewrecords: true,

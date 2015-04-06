@@ -57,7 +57,7 @@
                 <th>지원과정</th>
                 <td>${applInfo.corsTypeName}</td>
                 <th>전형료</th>
-                <td><fmt:formatNumber type="currency"   maxFractionDigits="3" value="${applInfo.admsFee}" /></td>
+                <td>${applInfo.admsFee}</td>
 			</tr>				
 			<tr>
                 <th>학과</th>
@@ -88,8 +88,15 @@
 				<td>${applInfo.engName}</td>			
 			</tr>
 			<tr>
-				<th>생년월일/주민번호</th>
-				<td>${applInfo.rgstNo}</td>		
+                <th>생년월일/주민번호</th>
+                <c:choose>
+                    <c:when test="${applList.admsNo == '15D'}">
+                        <td>${applInfo.bornDay}</td>
+                    </c:when>
+                    <c:otherwise>
+                        <td>${applInfo.rgstBornDate}</td>
+                    </c:otherwise>
+                </c:choose>
 				<th>Sur Name</th>
 				<td>${applInfo.engSur}</td>			
 			</tr>

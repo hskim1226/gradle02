@@ -21,7 +21,7 @@
 
             <p class="srch_tit"><i class="fa fa-search"></i>수험번호검색</p>
             <label for="applId"><strong>수험번호</strong></label>
-            <input type="text" id="applId" name="applId" class="ipt_txt1" style />&nbsp;&nbsp;&nbsp;
+            <input type="text" id="applId" name="applId" class="ipt_txt1" style />&nbsp;&nbsp;
             <span class="btnBlueS">
           <input type="submit" value="검색" class="btnBox" id='idSearchBtn' />
             </span>
@@ -53,11 +53,30 @@
                     <tr class="applList"  applNo="${applList.applNo}">
                         <td>${applList.applId}</td>
                         <td>${applList.campName}</td>
-                        <td>${applList.deptName}</td>
-                        <td >${applList.applAttrName}<br>${applList.corsTypeName}</td>
-                        <td >${applList.korName} <br> ${applList.rgstNo}</td>
-                        <td >${applList.mobiNum} <br>${applList.mailAddr} </td>
-                        <td >${applList.payTypeName}<br>${applList.admsFee} </td>
+                        <td>${applList.deptName}
+                            <c:if test ="${applList.detlMajCode != 'DM000'}">
+                                <br>${applList.detlMajName}
+                            </c:if>
+                        </td>
+                        <td>
+                            <c:if test ="${applList.admsNo == '15B'}">
+                                ${applList.applAttrName}<br>
+                            </c:if>
+                                ${applList.corsTypeName}
+                        </td>
+                        <td>
+                            <c:choose>
+                                <c:when test="${applList.admsNo == '15D'}">
+                                    ${applList.engName},${applList.engSur} <br> ${applList.bornDay}
+                                </c:when>
+                                <c:otherwise>
+                                    ${applList.korName} <br> ${applList.rgstBornDate}
+                                </c:otherwise>
+
+                            </c:choose>
+                        </td>
+                        <td>${applList.mobiNum} <br>${applList.mailAddr} </td>
+                        <td>${applList.payTypeName}<br>${applList.admsFee} </td>
                     </tr>
                 </c:forEach>
                 </tbody>

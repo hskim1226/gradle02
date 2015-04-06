@@ -287,4 +287,20 @@ public class ApplicantInfo {
     public void setPayTypeName(String payTypeName) {
         this.payTypeName = payTypeName;
     }
+
+    public String getRgstBornDate() {
+        return rgstBornDate;
+    }
+
+    public void setRgstBornDate(String rgstBornDate) {
+        this.rgstBornDate = rgstBornDate;
+    }
+
+    public String getBornDay() {
+        return bornDay;
+    }
+
+    public void setBornDay(String bornDay) {
+        this.bornDay = bornDay;
+    }
 }
