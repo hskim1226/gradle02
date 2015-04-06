@@ -1271,11 +1271,14 @@
                 $('#baseCancel').css('display', 'block');
                 $('#baseSave').css('display', 'none');
                 $('#basis2Container').css('display', 'block');
+                $('#overlay').hide();
             }
         };
 
         // 입력 검증 오류로 DB에 저장되지 않고 다시 돌아왔을 때 지원사항 저장 상태로 설정
-        if (document.getElementById('detlMajCode').value.length > 0) baseInfoSaved();
+        if (document.getElementById('detlMajCode').value.length > 0) {
+            baseInfoSaved();
+        }
         // TODO : 지원사항 저장 시 applNo 따서 DB에 저장하는 것으로 로직 수정
         <%-- 지원 사항 저장 버튼 처리 --%>
 
@@ -1307,6 +1310,7 @@
         <%-- 하단 버튼 처리 --%>
         var formProcess = function(event) {
             event.preventDefault();
+            $('#overlay').show();
             var $form = $(this),
                 form = document.getElementById('basis'),
                 isValidProcess = true;
@@ -1314,6 +1318,7 @@
             if ($('#baseSave').css('display') == 'block') {
                 isValidProcess = false;
                 alert('<spring:message code="U329"/>');
+                $('#overlay').hide();
                 $('#applAttrCode').focus();
             } else {
                 apex.transKorPhoneNumber('phone');
