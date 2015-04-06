@@ -354,8 +354,8 @@
                                                 </div>
                                                 <div class="col-sm-8">
                                                     <div>
-                                                        <form:input path="collegeList[${stat.index}].degrNo" maxlength="20" cssClass="degr-no form-control erase-hide" placeholder="${msg.getMessage('U02104')}<%--학위등록번호를 입력해주세요--%>"
-                                                                style="display: ${academy.collegeList[stat.index].grdaTypeCode == '00001' ? 'block;' : 'none;'}"/>
+                                                        <form:input path="collegeList[${stat.index}].degrNo" maxlength="20" cssClass="degr-no form-control erase-hide" placeholder="${msg.getMessage('U02104')}"
+                                                                style="display: ${academy.collegeList[stat.index].grdaTypeCode == '00001' ? 'block;' : 'none;'}"/><%--학위등록번호를 입력해주세요--%>
                                                         <label id='collegeList${stat.index}.label-grad-02' class="col-sm-10 grda-not degr-message erase-hide word-keep-all"
                                                                style="display: ${academy.collegeList[stat.index].grdaTypeCode == '00002' ? 'block;' : 'none;'}" ><spring:message code="U02105"/><%--합격 후 입학 시 졸업증명서를 대학원 사무실로 반드시 제출하세요--%></label>
                                                         <label id='collegeList${stat.index}.label-grad-03' class="col-sm-10 grda-not degr-message erase-hide"

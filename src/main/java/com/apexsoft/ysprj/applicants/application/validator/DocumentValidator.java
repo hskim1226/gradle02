@@ -1,21 +1,22 @@
 package com.apexsoft.ysprj.applicants.application.validator;
 
 import com.apexsoft.framework.message.MessageResolver;
+import com.apexsoft.framework.web.validation.WithLocaleValidator;
 import com.apexsoft.ysprj.applicants.application.domain.Application;
 import com.apexsoft.ysprj.applicants.application.domain.Document;
 import com.apexsoft.ysprj.applicants.application.domain.TotalApplicationDocumentContainer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
-import org.springframework.validation.Validator;
 
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by hanmomhanda on 15. 2. 6.
  */
 @Component
-public class DocumentValidator implements Validator {
+public class DocumentValidator extends WithLocaleValidator {
 
     @Autowired
     MessageResolver messageResolver;
@@ -32,7 +33,7 @@ public class DocumentValidator implements Validator {
     }
 
     @Override
-    public void validate(Object o, Errors errors) {
+    public void validate(Object o, Errors errors, Locale locale) {
 
         Document document = (Document)o;
 
@@ -45,7 +46,7 @@ public class DocumentValidator implements Validator {
 
         List<TotalApplicationDocumentContainer> documentContainerList = document.getDocumentContainerList();
 
-        totalApplicationDocumentValidator.validate(documentContainerList, errors, "documentContainerList");
+        totalApplicationDocumentValidator.validate(documentContainerList, errors, "documentContainerList", locale);
 
     }
 }

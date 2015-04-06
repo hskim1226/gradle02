@@ -38,6 +38,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
@@ -48,6 +49,7 @@ import java.net.URLEncoder;
 import java.security.Principal;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 /**
@@ -70,6 +72,9 @@ public class DocumentController {
 
     @Autowired
     private DocumentValidator documentValidator;
+
+    @Autowired
+    LocaleResolver localeResolver;
 
     @Autowired
     private ObjectMapper objectMapper;
@@ -165,8 +170,9 @@ public class DocumentController {
     public ModelAndView saveDocument(@ModelAttribute Document formData,
                                      Principal principal,
                                      BindingResult bindingResult,
+                                     HttpServletRequest request,
                                      ModelAndView mv) {
-        documentValidator.validate(formData, bindingResult);
+        documentValidator.validate(formData, bindingResult, localeResolver.resolveLocale(request));
         mv.setViewName(TARGET_VIEW);
         if (bindingResult.hasErrors()) {
             mv.addObject("resultMsg", messageResolver.getMessage("U334"));
