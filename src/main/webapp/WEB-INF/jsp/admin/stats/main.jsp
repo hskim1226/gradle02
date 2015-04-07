@@ -27,60 +27,40 @@
 
                     </colgroup>
                     <tbody>
+                    <c:forEach var="corsCntList" items="${corsCntList}" varStatus="status">
                     <tr>
-                        <th scope="row" class="text-left"><span class="tit1">일반-일반</a></span></th>
-                        <td>석사 0명</td>
-                        <td>박사 0명</td>
-                        <td>통합 0명</td>
-                        <td>연구 0명</td>
-                        <td>총계 0명</td>
+                        <c:choose>
+                            <c:when test="${corsCntList.admsNo == '15B'}">
+                                <c:choose>
+                                <c:when test="${corsCntList.applAttrCode == '00001'}">
+                                    <th scope="row" class="text-left"><span class="tit1">일반-일반</a></span></th>
+                                </c:when>
+                                <c:when test="${corsCntList.applAttrCode == '00002'}">
+                                    <th scope="row" class="text-left"><span class="tit1">일반-학연산</a></span></th>
+                                </c:when>
+                                <c:when test="${corsCntList.applAttrCode == '00003'}">
+                                    <th scope="row" class="text-left"><span class="tit1">일반-위탁</a></span></th>
+                                </c:when>
+                                <c:when test="${corsCntList.applAttrCode == '00004'}">
+                                    <th scope="row" class="text-left"><span class="tit1">일반-새터민</a></span></th>
+                                </c:when>
+                                </c:choose>
+                            </c:when>
+                            <c:when test="${corsCntList.admsNo == '15D'}">
+                                <th scope="row" class="text-left"><span class="tit1">외국인전형</a></span></th>
+                            </c:when>
+                            <c:when test="${corsCntList.admsNo == '15W'}">
+                                <th scope="row" class="text-left"><span class="tit1">조기전형</a></span></th>
+                            </c:when>
 
+                        </c:choose>
+                        <td>석사 ${corsCntList.cnt1}명</td>
+                        <td>박사 ${corsCntList.cnt2}명</td>
+                        <td>통합 ${corsCntList.cnt3}명</td>
+                        <td>연구 ${corsCntList.cnt4}명</td>
+                        <td>총계 ${corsCntList.totalCnt}명</td>
                     </tr>
-                    <tr>
-                        <th scope="row" class="text-left"><span class="tit1">일반-학연산</a></span></th>
-                        <td>석사 0명</td>
-                        <td>박사 0명</td>
-                        <td>통합 0명</td>
-                        <td>연구 0명</td>
-                        <td>총계 0명</td>
-
-                    </tr>
-                    <tr>
-                        <th scope="row" class="text-left"><span class="tit1">일반-위탁</a></span></th>
-                        <td>석사 0명</td>
-                        <td>박사 0명</td>
-                        <td>통합 0명</td>
-                        <td>연구 0명</td>
-                        <td>총계 0명</td>
-
-                    </tr>
-                    <tr>
-                        <th scope="row" class="text-left"><span class="tit1">일반-새터민</a></span></th>
-                        <td>석사 0명</td>
-                        <td>박사 0명</td>
-                        <td>통합 0명</td>
-                        <td>연구 0명</td>
-                        <td>총계 0명</td>
-
-                    </tr>
-                    <tr>
-                        <th scope="row" class="text-left"><span class="tit1">외국인</a></span></th>
-                        <td>석사 0명</td>
-                        <td>박사 0명</td>
-                        <td>통합 0명</td>
-                        <td>연구 0명</td>
-                        <td>총계 0명</td>
-
-                    </tr>
-                    <tr>
-                        <th scope="row" class="text-left"><span class="tit1">조기</a></span></th>
-                        <td>석사 0명</td>
-                        <td>박사 0명</td>
-                        <td>통합 0명</td>
-                        <td>연구 0명</td>
-                        <td>총계 0명</td>
-
-                    </tr>
+                        </c:forEach>
                     </tbody>
                 </table>
             </div>
@@ -133,30 +113,12 @@
                     <col width="" />
                 </colgroup>
                 <tbody>
+                <c:forEach var="weekCntList" items="${weekCntList}" varStatus="status">
                 <tr>
-                    <th scope="row">2015-04-07</th>
-                    <td><img src='<spring:eval expression="@app.getProperty(\"path.static\")"/>/img/admin/bu_box1.png' width="1%" height="10" alt="">&nbsp;00명</td>
+                    <th scope="row">${weekCntList.applDate}</th>
+                    <td><img src='<spring:eval expression="@app.getProperty(\"path.static\")"/>/img/admin/bu_box1.png' width="${(weekCntList.totalCnt)%2000}%" height="10" alt="">&nbsp;${weekCntList.totalCnt}명</td>
                 </tr>
-                <tr>
-                    <th scope="row">2015-04-06</th>
-                    <td><img src='<spring:eval expression="@app.getProperty(\"path.static\")"/>/img/admin/bu_box1.png' width="1%" height="10" alt="">&nbsp;00명</td>
-                </tr>
-                <tr>
-                    <th scope="row">2015-04-05</th>
-                    <td><img src='<spring:eval expression="@app.getProperty(\"path.static\")"/>/img/admin/bu_box1.png' width="1%" height="10" alt="">&nbsp;00명</td>
-                </tr>
-                <tr>
-                    <th scope="row">2015-04-04</th>
-                    <td><img src='<spring:eval expression="@app.getProperty(\"path.static\")"/>/img/admin/bu_box1.png' width="1%" height="10" alt="">&nbsp;00명</td>
-                </tr>
-                <tr>
-                    <th scope="row">2015-04-03</th>
-                    <td><img src='<spring:eval expression="@app.getProperty(\"path.static\")"/>/img/admin/bu_box1.png' width="1%" height="10" alt="">&nbsp;00명</td>
-                </tr>
-                <tr>
-                    <th scope="row">2015-04-02</th>
-                    <td><img src='<spring:eval expression="@app.getProperty(\"path.static\")"/>/img/admin/bu_box1.png' width="1%" height="10" alt="">&nbsp;00명</td>
-                </tr>
+                </c:forEach>
                 </tbody>
             </table>
         </div>

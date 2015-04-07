@@ -577,7 +577,7 @@
         ORDER BY DD.CAMP_CODE,DD.COLL_CODE, DD.DEPT_SEQ
     </select>
 
-    <select id="selectApplicantRecentCnt" resultMap="ApplicantCnt"  parameterType="com.apexsoft.ysprj.admin.control.form.CourseSearchForm">
+    <select id="selectApplicantRecentCntByDept" resultMap="ApplicantCnt"  parameterType="com.apexsoft.ysprj.admin.control.form.CourseSearchForm">
         SELECT DD.DEPT_SEQ AS DEPT_SEQ, DD.DEPT_CODE, DD.CAMP_NAME, DD.COLL_NAME, DD.DEPT_NAME,DD.CAMP_CODE,DD.COLL_CODE,
         COUNT(CASE WHEN DATE_FORMAT(APPL_DATE, '%Y%m%d')= DATE_FORMAT(NOW(),'%Y%m%d')-6 THEN 1 END) AS CNT1,
         COUNT(CASE WHEN DATE_FORMAT(APPL_DATE, '%Y%m%d')= DATE_FORMAT(NOW(),'%Y%m%d')-5 THEN 1 END) AS CNT2,
@@ -729,5 +729,22 @@
         (SELECT COUNT(*) CURR_CNT FROM APPL WHERE ADMS_NO IN ('15B', '15D', '16W') AND APPL_STS_CODE IN ( '00020') )  CURR_CNT ,
         (SELECT COUNT(*) FROM APPL_CHG WHERE ADMS_NO IN ('15B', '15D', '16W') AND CHG_STS_CODE ='00003') CHANGE_CNT FROM DUAL
 
+    </select>
+
+    <select id="selectApplicantRecentCnt" resultType="com.apexsoft.ysprj.admin.domain.ApplicantDailyCnt"  parameterType="com.apexsoft.ysprj.admin.control.form.CourseSearchForm">
+        SELECT
+        A.APPL_DATE, COUNT(*) totalCnt FROM(
+        SELECT  DATE_FORMAT(APPL_DATE, '%Y%m%d') AS APPL_DATE, APPL_ID  FROM APPL WHERE APPL_STS_CODE ='00020')  A
+        GROUP BY APPL_DATE ORDER BY APPL_DATE DESC
+    </select>
+
+    <select id="selectApplicantCntByCorse" resultType="com.apexsoft.ysprj.admin.domain.ApplicantDailyCnt"  parameterType="com.apexsoft.ysprj.admin.control.form.CourseSearchForm">
+        SELECT A.ADMS_NO, A.ADMS_TYPE_CODE, A.APPL_ATTR_CODE, A.CORS_TYPE_CODE,
+        COUNT(CASE WHEN CORS_TYPE_CODE IN('01', '05','07','10') THEN 1 END) AS CNT1,
+        COUNT(CASE WHEN CORS_TYPE_CODE IN('02', '06','08','11') THEN 1 END) AS CNT2,
+        COUNT(CASE WHEN CORS_TYPE_CODE IN('03', '04','12') THEN 1 END) AS CNT3,
+        COUNT(CASE WHEN CORS_TYPE_CODE IN('09') THEN 1 END) AS CNT4,
+        COUNT(A.CORS_TYPE_CODE ) AS TOTAL_CNT
+        FROM APPL A WHERE A.APPL_STS_CODE = '00020'  GROUP BY A.ADMS_NO, A.ADMS_TYPE_CODE, A.APPL_ATTR_CODE, A.CORS_TYPE_CODE
     </select>
 </mapper>
