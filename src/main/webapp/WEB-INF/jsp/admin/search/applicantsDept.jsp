@@ -44,12 +44,13 @@
             <form:option value="" label="--전체--" />
             <form:options items="${selection.deptList}" itemValue="deptCode" itemLabel="deptName" />
         </form:select>&nbsp;&nbsp;&nbsp;
+            <span class="btnBlueS">
+          <input type="submit" value="검색" class="btnBox" id='idSearchBtn' />
+            </span>
 
-      <span class="btnBlueS">
-          <input type="submit" value="검색" class="btnBox" id='searchBtn' />
-          </span>
     </div>
     </form:form>
+
 <table class="tbl_typeA text-center" summary="전형별 지원현황">
     <caption>전형별 지원현황</caption>
     <thead>
@@ -61,30 +62,31 @@
         <th>성명<br>생년월일</th>
         <th>전화번호<br>이메일</th>
         <th>결제방법<br>결제금액</th>
+        <th>원서확인</th>
     </tr>
     </thead>
     <tbody>
     <c:if test="${applList.size() == 0}" >
         <tr >
-            <td colspan="7">해당 정보 없음</td>
+            <td colspan="8">해당 정보 없음</td>
         </tr>
     </c:if>
     <c:forEach var="applList" items="${applList}" varStatus="status">
         <tr class="applList"  applNo="${applList.applNo}">
-            <td>${applList.applId}</td>
-            <td>${applList.campName}</td>
-            <td>${applList.deptName}
+            <td class="appl">${applList.applId}</td>
+            <td class="appl">${applList.campName}</td>
+            <td class="appl">${applList.deptName}
                 <c:if test ="${applList.detlMajCode != 'DM000'}">
                     <br>${applList.detlMajName}
                 </c:if>
             </td>
-            <td>
+            <td class="appl">
                 <c:if test ="${applList.admsNo == '15B'}">
                     ${applList.applAttrName}<br>
                 </c:if>
                     ${applList.corsTypeName}
             </td>
-            <td>
+            <td class="appl">
                 <c:choose>
                     <c:when test="${applList.admsNo == '15D'}">
                         ${applList.engName},${applList.engSur} <br> ${applList.bornDay}
@@ -92,11 +94,21 @@
                     <c:otherwise>
                         ${applList.korName} <br> ${applList.rgstBornDate}
                     </c:otherwise>
-
                 </c:choose>
             </td>
-            <td>${applList.mobiNum} <br>${applList.mailAddr} </td>
-            <td>${applList.payTypeName}<br>${applList.admsFee} </td>
+            <td class="appl">${applList.mobiNum} <br>${applList.mailAddr} </td>
+            <td class="appl">${applList.payTypeName}<br>${applList.admsFee}
+            <td>
+            <c:choose>
+                <c:when test="${applList.checkYn == 'Y'}">
+                    <a class="btn_set btnWhiteS pdfDown" id="pdfDownBtn" applNo="${applList.applNo}"><span>원서</span></a>
+                </c:when>
+                <c:otherwise>
+                    <a class="btn_set btnBlackS pdfDown" id="pdfDownBtn" applNo="${applList.applNo}"><span>원서</span></a>
+                </c:otherwise>
+            </c:choose>
+            </td>
+
         </tr>
     </c:forEach>
     </tbody>
@@ -137,9 +149,13 @@
 
     <script>
     jQuery(document).ready( function(){
-        jQuery(".applList").on('click', function(){
-            location.href = "${contextPath}/admin/search/applicant/applInfoDetail?applNo="+jQuery(this).attr('applNo');
+        jQuery(".appl").on('click', function(){
+            location.href = "${contextPath}/admin/search/applicant/applInfoDetail?applNo="+jQuery(this.parentNode).attr('applNo');
         }).css("cursor","pointer");
+
+        jQuery(".pdfDown").on('click', function(event){
+            location.href = "${contextPath}/admin/search/pdfDownload?applNo="+jQuery(this).attr('applNo');
+        });
 
         jQuery("#searchBtn").on('click', function(e) {
             e.preventDefault();

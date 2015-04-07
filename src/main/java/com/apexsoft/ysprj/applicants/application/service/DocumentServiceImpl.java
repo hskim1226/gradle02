@@ -537,6 +537,7 @@ public class DocumentServiceImpl implements DocumentService {
                 }else {
                     rList.add(aCont);
                     aCont.setDocItemName(aCont.getDocItemName() + " 성적표(증명)");
+                    aCont.setDocItemNameXxen(aCont.getDocItemNameXxen() + " Test Results");
                     aCont.setDocItemCode("00016");
                     if (aCont.getDocSeq() != null && aCont.getDocSeq() > 0) {
                         aCont.setFileUploadFg(true);

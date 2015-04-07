@@ -179,7 +179,7 @@
 			AND IFNULL(A.ARI_INST_CODE,'') = IFNULL(I.ARI_INST_CODE,'')
 	        AND A.APPL_NO = #{applNo}
 
-       ORDER BY  APPL_ID DESC, APPL_NO DESC
+       ORDER BY  APPL_DATE DESC , APPL_ID DESC
 	</select>
 
     <select id="retrieveApplicantInfoByApplId" resultMap="applicantInfo" parameterType="java.lang.String">
@@ -240,7 +240,7 @@
         AND IFNULL(A.ARI_INST_CODE,'') = IFNULL(I.ARI_INST_CODE,'')
         AND A.APPL_ID = #{applId}
 
-        ORDER BY  APPL_ID DESC, APPL_NO DESC
+        ORDER BY APPL_ID DESC
     </select>
 	
 	
@@ -313,7 +313,7 @@
            AND RGST_NO = #{rgstNo}
         </if>
 
-        ORDER BY  APPL_ID DESC, APPL_NO DESC
+        ORDER BY  APPL_DATE DESC, APPL_ID DESC
 
 	</select>
 	
@@ -423,7 +423,7 @@
        <if test="deptCode != null and deptCode!=''">
            AND b.DEPT_CODE = #{deptCode}
        </if>
-       ORDER BY  APPL_ID DESC, APPL_NO DESC
+       ORDER BY  APPL_DATE DESC, APPL_ID DESC
 
 	</select>
 
@@ -718,7 +718,7 @@
         <if test="deptCode != null and deptCode!=''">
             AND b.DEPT_CODE = #{deptCode}
         </if>
-        ORDER BY  APPL_ID DESC, APPL_NO DESC
+        ORDER BY  APPL_DATE DESC, APPL_ID DESC
     </select>
 
 
