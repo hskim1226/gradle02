@@ -95,8 +95,10 @@
                             </div>
                             <div class="spacer-tiny">&nbsp;</div>
                             <div id="spinner" class="col-sm-12">
-                                <div class="loader">Loading...</div>
+                                <div class="loader"></div>
+                                <div class="col-sm-12" style="font-size: 24px; color: #55aaff; text-align: center;"><spring:message code="U04512"/></div>  <%--Loading...--%>
                             </div>
+
                             <div class="col-sm-12">
                                 <button class="btn btn-primary btn-lg btn-block" id="goMain" style="display: none;"><spring:message code="L05302"/><%--내 원서 보기--%></button>
                             </div>
