@@ -823,7 +823,7 @@
                                         <div class="col-sm-9">
                                             <div class="col-sm-6">
                                                 <%--<form:input path="application.addr" cssClass="form-control" id="address" readonly="true" />--%>
-                                                <input type="text" name="application.addr" class="form-control" id="address"
+                                                <input type="text" name="application.addr" class="form-control" id="address" value="${basis.application.addr}"
                                                     ${basis.application.admsTypeCode == 'C' || basis.application.admsTypeCode == 'D' ? '' : 'readonly'}/>
                                             </div>
                                             <div class="col-sm-6">
