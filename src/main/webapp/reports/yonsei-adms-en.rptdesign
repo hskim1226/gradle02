@@ -225,6 +225,21 @@ var appContext = reportContext.getAppContext(),
                 <property name="category">Unformatted</property>
             </structure>
         </scalar-parameter>
+        <scalar-parameter name="engFullName" id="1372">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant"></value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
     </parameters>
     <styles>
         <style name="report" id="4">
@@ -501,15 +516,15 @@ Name of Applicant</text-property>
                                 <property name="borderTopStyle">solid</property>
                                 <property name="borderTopWidth">1px</property>
                                 <property name="verticalAlign">middle</property>
-                                <data id="1188">
+                                <data id="1373">
                                     <list-property name="boundDataColumns">
                                         <structure>
-                                            <property name="name">korName</property>
-                                            <expression name="expression" type="javascript">params['korName'];</expression>
+                                            <property name="name">engFullName</property>
+                                            <expression name="expression" type="javascript">params["engFullName"]</expression>
                                             <property name="dataType">string</property>
                                         </structure>
                                     </list-property>
-                                    <property name="resultSetColumn">korName</property>
+                                    <property name="resultSetColumn">engFullName</property>
                                 </data>
                             </cell>
                         </row>
@@ -528,8 +543,8 @@ Name of Applicant</text-property>
                                 <property name="borderTopWidth">1px</property>
                                 <property name="verticalAlign">middle</property>
                                 <image id="44">
-                                    <property name="height">2.7708333333333335in</property>
-                                    <property name="width">2.15625in</property>
+                                    <property name="height">2.5729166666666665in</property>
+                                    <property name="width">2in</property>
                                     <property name="source">file</property>
                                     <property name="fitToContainer">true</property>
                                     <expression name="uri" type="javascript">params["photoUri"]</expression>
@@ -539,6 +554,10 @@ Name of Applicant</text-property>
                                     <property name="whiteSpace">nowrap</property>
                                     <property name="height">1cm</property>
                                     <text-property name="text">※ 이 수험표는 서류제출 시 제출하지 않으며 구술시험 시 지참하세요.</text-property>
+                                </label>
+                                <label id="1370">
+                                    <text-property name="text">※ This slip does NOT need to be submitted.&#13;
+Interviewee MUST take this slip to the interview.</text-property>
                                 </label>
                             </cell>
                         </row>

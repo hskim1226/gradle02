@@ -196,6 +196,7 @@ public class BirtServiceImpl implements BirtService {
         rptInfoMap.put("engName", StringUtil.getEmptyIfNull(engName));
         rptInfoMap.put("engSur", StringUtil.getEmptyIfNull(engSur));
         rptInfoMap.put("gend", StringUtil.getEmptyIfNull(gend));
+        rptInfoMap.put("engFullName", StringUtil.getEmptyIfNull(engName) + " " + StringUtil.getEmptyIfNull(engSur));
 
         String generalAdmsGender = StringUtil.EMPTY_STRING;
         if ( !"C".equals(admsTypeCode) && !"D".equals(admsTypeCode) ) {
