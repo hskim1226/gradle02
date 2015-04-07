@@ -84,17 +84,17 @@
                     <div class="col-md-9">
 
                         <ul class="txt_list1">
-                            <li><span>(주)에이펙스소프트</span></li>
-                            <li>서울 마포구 양화로 156, 1121(동교동, 엘지팰리스)</li>
-                            <li>대표이사 <span>김도훈</span></li>
-                            <li>사업자등록번호 <span>105-87-66045</span></li>
-                            <li>전화 <span>1899-1016</span></li>
+                            <li><span><spring:message code="L00031"/></span></li>  <%--(주)에이펙스소프트--%>
+                            <li><spring:message code="L00032"/></li>  <%--서울 마포구 양화로 156, 1121(동교동, 엘지팰리스)--%>
+                            <li><spring:message code="L00033"/> <span><spring:message code="L00034"/></span></li>  <%--대표이사--%>  <%--김도훈--%>
+                            <li><spring:message code="L00035"/> <span><spring:message code="L00036"/></span></li>  <%--사업자등록번호--%>  <%--105-87-66045--%>
+                            <li><spring:message code="L00037"/> <span><spring:message code="L00038"/></span></li>  <%--전화--%>  <%--1899-1016--%>
                         </ul>
 
                         <ul class="txt_list1">
-                            <li>통신판매업신고번호 <span>서울마포-1109호</span></li>
-                            <li>개인정보관리책임자 <span>김도훈</span></li>
-                            <li>개인정보보유기간 <span>회원 탈퇴시까지</span></li>
+                            <li><spring:message code="L00039"/> <span><spring:message code="L00040"/></span></li>  <%--통신판매업신고번호--%>  <%--서울마포-1109호--%>
+                            <li><spring:message code="L00041"/> <span><spring:message code="L00042"/></span></li>  <%--개인정보관리책임자--%>  <%--김도훈--%>
+                            <li><spring:message code="L00043"/> <span><spring:message code="L00044"/></span></li>  <%--개인정보보유기간--%>  <%--회원 탈퇴시까지--%>
                         </ul>
                     </div>
                     <div class="col-md-3">
