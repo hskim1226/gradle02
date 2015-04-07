@@ -31,12 +31,12 @@ public interface CommonService {
     List<CommonCode> retrieveCommonCodeListByCodeGroupKeyword(ParamForCommonCode paramForCommonCode);
     CommonCode retrieveCommonCodeListByCodeGroupCode(ParamForCommonCode paramForCommonCode);
 
-    String retrieveCampNameByCode(String campCode);
+    Campus retrieveCampNameByCode(String campCode);
 //    String retrieveCollNameByCode(String collCode);
     String retrieveAriInstNameByCode(String ariInstCode);
-    String retrieveDeptNameByCode(String deptCode);
-    String retrieveCorsTypeNameByCode(String corsTypeCode);
-    String retrieveDetlMajNameByCode(String detlMajCode);
+    CodeNameDepartment retrieveDeptNameByCode(String deptCode);
+    CodeNameCourse retrieveCorsTypeNameByCode(String corsTypeCode);
+    CodeNameDetailMajor retrieveDetlMajNameByCode(String detlMajCode);
 
 //    List<LanguageExam> retrieveLangExamByLangCode(String langCode);
     List<Integer> retrieveAvailableApplNos(String userId);

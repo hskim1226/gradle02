@@ -1,6 +1,6 @@
 package com.apexsoft.ysprj.admin.control;
 
-import java.io.UnsupportedEncodingException;
+import java.io.*;
 import java.security.NoSuchAlgorithmException;
 import java.security.Principal;
 import java.util.HashMap;
@@ -10,7 +10,14 @@ import java.util.Map;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
+import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.AmazonS3Client;
+import com.amazonaws.services.s3.model.GetObjectRequest;
+import com.amazonaws.services.s3.model.ObjectMetadata;
+import com.amazonaws.services.s3.model.S3Object;
 import com.apexsoft.framework.common.vo.ExecutionContext;
+import com.apexsoft.framework.exception.ErrorInfo;
+import com.apexsoft.framework.exception.YSBizException;
 import com.apexsoft.framework.message.MessageResolver;
 import com.apexsoft.ysprj.admin.control.form.CourseSearchGridForm;
 import com.apexsoft.ysprj.admin.control.form.CourseSearchPageForm;
@@ -18,9 +25,14 @@ import com.apexsoft.ysprj.admin.domain.ApplicantCnt;
 import com.apexsoft.ysprj.admin.domain.ApplicantInfoEntire;
 import com.apexsoft.ysprj.admin.service.AdminService;
 import com.apexsoft.ysprj.admin.service.ChangeService;
+import com.apexsoft.ysprj.admin.service.PostApplicationService;
+import com.apexsoft.ysprj.applicants.application.domain.ApplicationDocument;
+import com.apexsoft.ysprj.applicants.application.service.DocumentService;
+import com.apexsoft.ysprj.applicants.common.service.PDFService;
 import com.apexsoft.ysprj.user.domain.User;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -38,8 +50,6 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Value;
 import javax.servlet.http.HttpServletResponse;
-import java.io.File;
-import java.io.IOException;
 import java.net.URLEncoder;
 import com.apexsoft.ysprj.applicants.common.util.FileUtil;
 import org.springframework.web.bind.ServletRequestUtils;
@@ -52,12 +62,17 @@ import org.springframework.web.bind.ServletRequestUtils;
 @RequestMapping(value="/admin")
 public class AdminController {
 
+    @Autowired
+    PDFService pdfService;
+
+    @Autowired
+    DocumentService documentService;
 
     @Autowired
     private AdminService adminService;
 
     @Autowired
-    private ChangeService changeService;
+    private PostApplicationService postApplicationService;
 
     @Autowired
     private ObjectMapper jacksonObjectMapper;    
@@ -68,6 +83,9 @@ public class AdminController {
 
     @Value("#{app['file.baseDir']}")
     private String fileBaseDir;
+
+    @Value("#{app['s3.bucketName']}")
+    private String s3BucketName;
 
     @Value("#{app['s3.midPath']}")
     private String s3MidPath;
@@ -334,22 +352,62 @@ public class AdminController {
      * @throws java.io.IOException
      */
 
-    @RequestMapping(value="/search/download", produces = "application/pdf")
+    @RequestMapping(value="/search/pdfDownload")
     @ResponseBody
-    public byte[] fileDownload( @ModelAttribute CourseSearchPageForm courseSearchPageForm,
-                                BindingResult bindingResult,
-                               Principal principal,
-                               HttpServletResponse response)
+    public byte[] fileDownload(@RequestParam("applNo") int applNo, Principal principal, HttpServletResponse response)
             throws IOException {
 
+        byte[] bytes = null;
+        String userId = principal.getName();
+        List<ApplicationDocument> applPaperInfosList =
+                documentService.retrieveApplicationPaperInfo(applNo); // DB에서 filePath가져온다
 
-        String admsNo = courseSearchPageForm.getAdmsNo();
-        int applNo = courseSearchPageForm.getApplNo();
-        String userId = courseSearchPageForm.getUserId();
+        if (applPaperInfosList.size() == 1) {
+            String applPaperLocalFilePath = applPaperInfosList.get(0).getFilePath();
+            String s3FilePath = FileUtil.getS3PathFromLocalFullPath(applPaperLocalFilePath, fileBaseDir);
+            AmazonS3 s3 = new AmazonS3Client();
+            S3Object object = s3.getObject(new GetObjectRequest(s3BucketName, FileUtil.getFinalMergedFileFullPath(s3FilePath, applNo)));
+            InputStream inputStream = object.getObjectContent();
+            ObjectMetadata meta = object.getObjectMetadata();
+            try {
+                bytes = IOUtils.toByteArray(inputStream);
+                ExecutionContext ecRetrieve = postApplicationService.checkDocumentRead(applNo, userId);
 
-        String uploadDirectoryFullPath = FileUtil.getUploadDirectoryFullPath(fileBaseDir, s3MidPath, admsNo, userId, applNo);
-        //TODO 파일명 FileUtil 통해 해결하도록 수정 필요
+            } catch (IOException e) {
+                ExecutionContext ecError = new ExecutionContext(ExecutionContext.FAIL);
 
+                ecError.setMessage(messageResolver.getMessage("U350"));
+                ecError.setErrCode("ERR0062");
+
+                Map<String, String> errorInfo = new HashMap<String, String>();
+                errorInfo.put("applNo", String.valueOf(applNo));
+                ecError.setErrorInfo(new ErrorInfo(errorInfo));
+                throw new YSBizException(ecError);
+            }
+
+            response.setContentType(meta.getContentType());
+            response.setHeader("Content-Length", String.valueOf(meta.getContentLength()));
+            response.setHeader("Content-Encoding", meta.getContentEncoding());
+            response.setHeader("ETag", meta.getETag());
+            response.setHeader("Last-Modified", meta.getLastModified().toString());
+//            아래 헤더 추가하면 파일명은 지정할 수 있으나 미리 보기는 안되고 다운로드만 됨
+//            response.setHeader("Content-Disposition", "attachment; filename=\"" + URLEncoder.encode(FileUtil.getFinalUserDownloadFileName(userId), "UTF-8") + "\"");
+        } else {
+            ExecutionContext ecError = new ExecutionContext(ExecutionContext.FAIL);
+
+            ecError.setMessage(messageResolver.getMessage("U349"));
+            ecError.setErrCode("ERR0061");
+
+            Map<String, String> errorInfo = new HashMap<String, String>();
+            errorInfo.put("applNo", String.valueOf(applNo));
+
+            ecError.setErrorInfo(new ErrorInfo(errorInfo));
+            throw new YSBizException(ecError);
+        }
+
+        return bytes;
+    }
+/*
         String fileFileFullPath = FileUtil.getFinalMergedFileFullPath(uploadDirectoryFullPath, applNo);
         String fileName = applNo + "-merged-numbered.pdf";
         String downLoadFileName = userId + "_all.pdf";
@@ -363,8 +421,7 @@ public class AdminController {
         response.setHeader("Content-Type", "application/pdf");
         response.setContentLength(bytes.length);
 
-        return bytes;
-    }
+        return bytes; */
     /**
      * 전체 파일 다운로드
      * @return

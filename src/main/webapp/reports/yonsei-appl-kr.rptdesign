@@ -14,6 +14,7 @@
 //importPackage(Packages.java.lang);
 //System.err.println("------------------");
 var appContext = reportContext.getAppContext(),
+    title = appContext.get("title"),
     entrYear = appContext.get("entrYear"),
     admsTypeName1 = appContext.get("admsTypeName1"),
     admsTypeName2 = appContext.get("admsTypeName2"),
@@ -940,6 +941,21 @@ var appContext = reportContext.getAppContext(),
                 <property name="category">Unformatted</property>
             </structure>
         </scalar-parameter>
+        <scalar-parameter name="title" id="1498">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant"></value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
     </parameters>
     <data-sources>
         <script-data-source name="DocDataSource" id="1469"/>
@@ -1078,7 +1094,7 @@ iterator = null;]]></method>
                                     <list-property name="boundDataColumns">
                                         <structure>
                                             <property name="name">title</property>
-                                            <expression name="expression" type="javascript">params["entrYear"] + " 학년도 " + params["admsTypeName1"] + " 대학원 입학원서"</expression>
+                                            <expression name="expression" type="javascript">params["title"]</expression>
                                         </structure>
                                     </list-property>
                                     <property name="resultSetColumn">title</property>
@@ -1098,25 +1114,8 @@ iterator = null;]]></method>
                         </column>
                         <row id="641">
                             <cell id="642"/>
-                            <cell id="643">
-                                <label id="645">
-                                    <text-property name="text">분류 :</text-property>
-                                </label>
-                            </cell>
-                            <cell id="644">
-                                <property name="borderBottomStyle">solid</property>
-                                <property name="borderBottomWidth">1px</property>
-                                <data id="1361">
-                                    <list-property name="boundDataColumns">
-                                        <structure>
-                                            <property name="name">admsTypeName2</property>
-                                            <expression name="expression" type="javascript">params["admsTypeName2"]</expression>
-                                            <property name="dataType">string</property>
-                                        </structure>
-                                    </list-property>
-                                    <property name="resultSetColumn">admsTypeName2</property>
-                                </data>
-                            </cell>
+                            <cell id="643"/>
+                            <cell id="644"/>
                         </row>
                     </grid>
                     <grid id="41">
@@ -1867,106 +1866,14 @@ iterator = null;]]></method>
                             </cell>
                         </row>
                     </grid>
-                    <grid id="932">
-                        <property name="textAlign">center</property>
-                        <column id="933">
-                            <property name="fontWeight">bold</property>
-                            <property name="width">1.073in</property>
-                        </column>
-                        <column id="934">
-                            <property name="fontWeight">bold</property>
-                        </column>
-                        <column id="935"/>
-                        <column id="943">
-                            <property name="fontWeight">bold</property>
-                        </column>
-                        <column id="936"/>
-                        <row id="937">
-                            <property name="height">34px</property>
-                            <cell id="938">
-                                <property name="borderLeftStyle">solid</property>
-                                <property name="borderLeftWidth">2px</property>
-                                <property name="borderRightStyle">solid</property>
-                                <property name="borderRightWidth">2px</property>
-                                <property name="borderTopStyle">solid</property>
-                                <property name="borderTopWidth">2px</property>
-                                <property name="verticalAlign">middle</property>
-                                <label id="491">
-                                    <text-property name="text">장애사항</text-property>
-                                </label>
-                            </cell>
-                            <cell id="939">
-                                <property name="borderLeftStyle">solid</property>
-                                <property name="borderLeftWidth">2px</property>
-                                <property name="borderRightStyle">solid</property>
-                                <property name="borderRightWidth">1px</property>
-                                <property name="borderTopStyle">solid</property>
-                                <property name="borderTopWidth">2px</property>
-                                <property name="verticalAlign">middle</property>
-                                <label id="500">
-                                    <text-property name="text">장애등급</text-property>
-                                </label>
-                            </cell>
-                            <cell id="940">
-                                <property name="borderLeftStyle">solid</property>
-                                <property name="borderLeftWidth">1px</property>
-                                <property name="borderRightStyle">solid</property>
-                                <property name="borderRightWidth">2px</property>
-                                <property name="borderTopStyle">solid</property>
-                                <property name="borderTopWidth">2px</property>
-                                <property name="verticalAlign">middle</property>
-                                <data id="1259">
-                                    <list-property name="boundDataColumns">
-                                        <structure>
-                                            <property name="name">hndcGrad</property>
-                                            <expression name="expression" type="javascript">params["hndcGrad"]</expression>
-                                            <property name="dataType">string</property>
-                                        </structure>
-                                    </list-property>
-                                    <property name="resultSetColumn">hndcGrad</property>
-                                </data>
-                            </cell>
-                            <cell id="942">
-                                <property name="borderLeftStyle">solid</property>
-                                <property name="borderLeftWidth">2px</property>
-                                <property name="borderRightStyle">solid</property>
-                                <property name="borderRightWidth">1px</property>
-                                <property name="borderTopStyle">solid</property>
-                                <property name="borderTopWidth">2px</property>
-                                <property name="verticalAlign">middle</property>
-                                <label id="503">
-                                    <text-property name="text">장애유형</text-property>
-                                </label>
-                            </cell>
-                            <cell id="941">
-                                <property name="borderLeftStyle">solid</property>
-                                <property name="borderLeftWidth">1px</property>
-                                <property name="borderRightStyle">solid</property>
-                                <property name="borderRightWidth">2px</property>
-                                <property name="borderTopStyle">solid</property>
-                                <property name="borderTopWidth">2px</property>
-                                <property name="verticalAlign">middle</property>
-                                <data id="1260">
-                                    <list-property name="boundDataColumns">
-                                        <structure>
-                                            <property name="name">hndcType</property>
-                                            <expression name="expression" type="javascript">params["hndcType"]</expression>
-                                            <property name="dataType">string</property>
-                                        </structure>
-                                    </list-property>
-                                    <property name="resultSetColumn">hndcType</property>
-                                </data>
-                            </cell>
-                        </row>
-                    </grid>
                     <grid id="980">
                         <property name="textAlign">center</property>
                         <column id="981">
                             <property name="fontWeight">bold</property>
-                            <property name="width">15%</property>
+                            <property name="width">1.073in</property>
                         </column>
                         <column id="982">
-                            <property name="width">17%</property>
+                            <property name="width">1.3in</property>
                         </column>
                         <column id="983"/>
                         <column id="1080"/>
@@ -2301,7 +2208,7 @@ iterator = null;]]></method>
                     <grid id="1217">
                         <column id="1218">
                             <property name="fontWeight">bold</property>
-                            <property name="width">15%</property>
+                            <property name="width">1.073in</property>
                         </column>
                         <column id="1219"/>
                         <row id="1220">
@@ -2718,6 +2625,98 @@ iterator = null;]]></method>
                             </cell>
                         </row>
                     </grid>
+                    <grid id="932">
+                        <property name="textAlign">center</property>
+                        <column id="933">
+                            <property name="fontWeight">bold</property>
+                            <property name="width">1.073in</property>
+                        </column>
+                        <column id="934">
+                            <property name="fontWeight">bold</property>
+                        </column>
+                        <column id="935"/>
+                        <column id="943">
+                            <property name="fontWeight">bold</property>
+                        </column>
+                        <column id="936"/>
+                        <row id="937">
+                            <property name="height">34px</property>
+                            <cell id="938">
+                                <property name="borderLeftStyle">solid</property>
+                                <property name="borderLeftWidth">2px</property>
+                                <property name="borderRightStyle">solid</property>
+                                <property name="borderRightWidth">2px</property>
+                                <property name="borderTopStyle">solid</property>
+                                <property name="borderTopWidth">2px</property>
+                                <property name="verticalAlign">middle</property>
+                                <label id="491">
+                                    <text-property name="text">장애사항</text-property>
+                                </label>
+                            </cell>
+                            <cell id="939">
+                                <property name="borderLeftStyle">solid</property>
+                                <property name="borderLeftWidth">2px</property>
+                                <property name="borderRightStyle">solid</property>
+                                <property name="borderRightWidth">1px</property>
+                                <property name="borderTopStyle">solid</property>
+                                <property name="borderTopWidth">2px</property>
+                                <property name="verticalAlign">middle</property>
+                                <label id="500">
+                                    <text-property name="text">장애등급</text-property>
+                                </label>
+                            </cell>
+                            <cell id="940">
+                                <property name="borderLeftStyle">solid</property>
+                                <property name="borderLeftWidth">1px</property>
+                                <property name="borderRightStyle">solid</property>
+                                <property name="borderRightWidth">2px</property>
+                                <property name="borderTopStyle">solid</property>
+                                <property name="borderTopWidth">2px</property>
+                                <property name="verticalAlign">middle</property>
+                                <data id="1259">
+                                    <list-property name="boundDataColumns">
+                                        <structure>
+                                            <property name="name">hndcGrad</property>
+                                            <expression name="expression" type="javascript">params["hndcGrad"]</expression>
+                                            <property name="dataType">string</property>
+                                        </structure>
+                                    </list-property>
+                                    <property name="resultSetColumn">hndcGrad</property>
+                                </data>
+                            </cell>
+                            <cell id="942">
+                                <property name="borderLeftStyle">solid</property>
+                                <property name="borderLeftWidth">2px</property>
+                                <property name="borderRightStyle">solid</property>
+                                <property name="borderRightWidth">1px</property>
+                                <property name="borderTopStyle">solid</property>
+                                <property name="borderTopWidth">2px</property>
+                                <property name="verticalAlign">middle</property>
+                                <label id="503">
+                                    <text-property name="text">장애유형</text-property>
+                                </label>
+                            </cell>
+                            <cell id="941">
+                                <property name="borderLeftStyle">solid</property>
+                                <property name="borderLeftWidth">1px</property>
+                                <property name="borderRightStyle">solid</property>
+                                <property name="borderRightWidth">2px</property>
+                                <property name="borderTopStyle">solid</property>
+                                <property name="borderTopWidth">2px</property>
+                                <property name="verticalAlign">middle</property>
+                                <data id="1260">
+                                    <list-property name="boundDataColumns">
+                                        <structure>
+                                            <property name="name">hndcType</property>
+                                            <expression name="expression" type="javascript">params["hndcType"]</expression>
+                                            <property name="dataType">string</property>
+                                        </structure>
+                                    </list-property>
+                                    <property name="resultSetColumn">hndcType</property>
+                                </data>
+                            </cell>
+                        </row>
+                    </grid>
                     <grid id="1147">
                         <property name="display">block</property>
                         <column id="1148">
@@ -2745,6 +2744,7 @@ iterator = null;]]></method>
                                 <property name="borderTopWidth">2px</property>
                                 <label id="1151">
                                     <property name="fontWeight">bold</property>
+                                    <property name="paddingLeft">20pt</property>
                                     <text-property name="text">위와 같이 귀 대학교 대학원에 입학하고자 소정의 서류를 갖추어 지원합니다.</text-property>
                                 </label>
                             </cell>
@@ -2808,7 +2808,7 @@ iterator = null;]]></method>
                                     <property name="fontFamily">"궁서"</property>
                                     <property name="fontSize">20pt</property>
                                     <property name="textAlign">center</property>
-                                    <text-property name="text">연세대학교 대학원장 귀하</text-property>
+                                    <text-property name="text">연세대학교 대학원 귀중</text-property>
                                 </label>
                             </cell>
                         </row>

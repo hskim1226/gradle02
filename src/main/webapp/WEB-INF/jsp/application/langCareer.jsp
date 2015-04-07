@@ -705,7 +705,7 @@
 
         <%-- 어학 성적 validation --%>
         var getToeflMaxScore = function (id) {
-            var toeflTypeSelectId = id.substr(0, id.lastIndexOf('.')) + '.toflTypeCode',
+            var toeflTypeSelectId = id.substr(0, id.lastIndexOf('.')) + '.subCode',
                 toeflTypeSelect = document.getElementById(toeflTypeSelectId),
                 toeflType = toeflTypeSelect.options[toeflTypeSelect.selectedIndex].innerHTML,
                 maxScore;

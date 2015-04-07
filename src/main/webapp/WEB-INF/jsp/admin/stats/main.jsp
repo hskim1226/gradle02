@@ -12,6 +12,9 @@
     <div class="main_sec1">
         <div id="notice_box" class="mboard">
             <h2><span>지원현황</span></h2>
+            <div class="state">
+                <ul></ul>
+            </div>
             <div class="mboard_con">
                 <table class="tbl_list1" summary="지원현황">
                     <caption>
@@ -52,7 +55,6 @@
                             <c:when test="${corsCntList.admsNo == '15W'}">
                                 <th scope="row" class="text-left"><span class="tit1">조기전형</a></span></th>
                             </c:when>
-
                         </c:choose>
                         <td>석사 ${corsCntList.cnt1}명</td>
                         <td>박사 ${corsCntList.cnt2}명</td>
@@ -64,7 +66,9 @@
                     </tbody>
                 </table>
             </div>
-            <a href="#" class="btn_more"><img src="<spring:eval expression="@app.getProperty(\"path.static\")"/>/img/admin/btn_more.png" alt="더보기" /></a> </div>
+            <a href="${contextPath}/admin/stats/category" class="btn_more" id="" ><img src="<spring:eval expression="@app.getProperty(\"path.static\")"/>/img/admin/btn_more.png" alt="더보기" /></a>
+        </div>
+
         <!-- /notice_board -->
 
         <div id="admin_box" class="mboard">
@@ -95,7 +99,7 @@
                     </tbody>
                 </table>
             </div>
-            <a href="#" class="btn_more"><img src="<spring:eval expression="@app.getProperty(\"path.static\")"/>/img/admin/btn_more.png" alt="더보기" /></a> </div>
+            <a href="${contextPath}/admin/modification/changeList"  class="btn_more"><img src="<spring:eval expression="@app.getProperty(\"path.static\")"/>/img/admin/btn_more.png" alt="더보기" /></a> </div>
         <!-- /admin_board -->
 
     </div>
@@ -122,10 +126,13 @@
                 </tbody>
             </table>
         </div>
-        <a href="#" class="btn_more"><img src="<spring:eval expression="@app.getProperty(\"path.static\")"/>/img/admin/btn_more.png" alt="더보기" /></a> </div>
+        <a href="${contextPath}/admin/stats/daily" class="btn_more"><img src="<spring:eval expression="@app.getProperty(\"path.static\")"/>/img/admin/btn_more.png" alt="더보기" /></a> </div>
     <!-- /counter -->
 
 </div>
 <!-- /main_con -->
+    </content>
 </body>
+
+
 </html>

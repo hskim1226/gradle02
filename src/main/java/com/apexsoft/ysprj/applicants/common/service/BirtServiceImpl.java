@@ -158,18 +158,18 @@ public class BirtServiceImpl implements BirtService {
         if(application.getCampCode() !=null && !"".equals(application.getCampCode())) {
 //            String campNameArr[] = commonService.retrieveCampNameByCode(application.getCampCode());
 //            campName = campNameArr[0] + "N" + campNameArr[1];
-            campName = commonService.retrieveCampNameByCode(application.getCampCode());
+            campName = commonService.retrieveCampNameByCode(application.getCampCode()).getCampName();
         }
-        String corsTypeName = commonService.retrieveCorsTypeNameByCode(application.getCorsTypeCode());
+        String corsTypeName = commonService.retrieveCorsTypeNameByCode(application.getCorsTypeCode()).getCodeVal();
 
         String ariInstName= "-- 해당사항 없음 -- ";
         if(application.getAriInstCode() !=null && !"".equals(application.getAriInstCode())) {
             ariInstName = commonService.retrieveAriInstNameByCode(application.getAriInstCode());
         }
 
-        String deptName = commonService.retrieveDeptNameByCode(application.getDeptCode());
+        String deptName = commonService.retrieveDeptNameByCode(application.getDeptCode()).getDeptName();
         String deptCode = application.getDeptCode();
-        String detlMajName = commonService.retrieveDetlMajNameByCode(application.getDetlMajCode());
+        String detlMajName = commonService.retrieveDetlMajNameByCode(application.getDetlMajCode()).getDetlMajName();
 
         rptInfoMap.put("campName", campName);
         rptInfoMap.put("semester", application.getEntrYear() + "-" + admsTypeNames[0]);
@@ -195,7 +195,13 @@ public class BirtServiceImpl implements BirtService {
         rptInfoMap.put("engName", StringUtil.getEmptyIfNull(engName));
         rptInfoMap.put("engSur", StringUtil.getEmptyIfNull(engSur));
         rptInfoMap.put("gend", StringUtil.getEmptyIfNull(gend));
-        rptInfoMap.put("rgstBornDate", StringUtil.getEmptyIfNull(rgstBornDate));
+
+        String generalAdmsGender = StringUtil.EMPTY_STRING;
+        if ( !"C".equals(admsTypeCode) && !"D".equals(admsTypeCode) ) {
+            generalAdmsGender = "m".equals(StringUtil.getEmptyIfNull(gend).toLowerCase()) ? "(1******)" :
+                    "f".equals(StringUtil.getEmptyIfNull(gend).toLowerCase()) ? "(2******)" : StringUtil.EMPTY_STRING;
+        }
+        rptInfoMap.put("rgstBornDate", StringUtil.getEmptyIfNull(rgstBornDate) + " " + generalAdmsGender);
 //        rptInfoMap.put("rgstNo", StringUtil.insertHyphenAt(rgstNo, 6));
         String fornRgstNo = applicationForeigner.getFornRgstNo();
         if (fornRgstNo != null && fornRgstNo.length() > 0) {

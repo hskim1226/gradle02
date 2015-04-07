@@ -66,6 +66,7 @@ public class ApplicantInfo {
     private String payTypeCode;
     private String payTypeName;
     private int admsFee;
+    private String checkYn;
     
     public int getAdmsFee() {
 		return admsFee;
@@ -302,5 +303,13 @@ public class ApplicantInfo {
 
     public void setBornDay(String bornDay) {
         this.bornDay = bornDay;
+    }
+
+    public String getCheckYn() {
+        return checkYn;
+    }
+
+    public void setCheckYn(String checkYn) {
+        this.checkYn = checkYn;
     }
 }

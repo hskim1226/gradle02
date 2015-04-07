@@ -470,6 +470,8 @@ public class CommonServiceImpl implements CommonService {
         return commonCode;
     }
 
+//  아래는 Birt에서 사용
+
     /**
      * 코드로 캠퍼스 이름 검색
      * List<String></String>을 반환하는 함수는 Birt에서 사용     *
@@ -479,18 +481,20 @@ public class CommonServiceImpl implements CommonService {
      */
     @Override
     @Cacheable(value = "campNameByCode")
-    public String retrieveCampNameByCode(String campCode) {
-        String campName = null;
+    public Campus retrieveCampNameByCode(String campCode) {
+//        String campName = null;
+        Campus campus = null;
         try {
-            Campus campus = commonDAO.queryForObject(NAME_SPACE + "CustomCampusMapper.selectNameByCode",
+            campus = commonDAO.queryForObject(NAME_SPACE + "CustomCampusMapper.selectNameByCode",
                     campCode,
                     Campus.class);
 //            converter.convert(campus, request);
-            campName = campus.getCampName();
+//            campName = campus.getCampName();
         } catch (Exception e) {
             throw new BusinessException(e.getMessage(), e);
         }
-        return campName;
+//        return campName;
+        return campus;
     }
 //    public List<String> retrieveCampNameByCode(String campCode) {
 //        List<String> campName = new ArrayList<String>();
@@ -529,6 +533,8 @@ public class CommonServiceImpl implements CommonService {
 //        return collName;
 //    }
 
+
+
     /**
      * 코드로 학연산 이름 검색
      * 학연산은 외국인 전형이 없으므로 영어 이름 없음
@@ -558,18 +564,20 @@ public class CommonServiceImpl implements CommonService {
      */
     @Override
     @Cacheable(value = "deptNameByCode")
-    public String retrieveDeptNameByCode(String deptCode) {
-        String deptName = null;
+    public CodeNameDepartment retrieveDeptNameByCode(String deptCode) {
+        CodeNameDepartment codeNameDepartment = null;
+//        String deptName = null;
         try {
-            CodeNameDepartment codeNameDepartment = commonDAO.queryForObject(NAME_SPACE + "CustomDepartmentMapper.selectNameByCode",
+            codeNameDepartment = commonDAO.queryForObject(NAME_SPACE + "CustomDepartmentMapper.selectNameByCode",
                     deptCode,
                     CodeNameDepartment.class);
-            converter.convert(codeNameDepartment, request);
-            deptName = codeNameDepartment.getDeptName();
+//            converter.convert(codeNameDepartment, request);
+//            deptName = codeNameDepartment.getDeptName();
         } catch (Exception e) {
             throw new BusinessException(e.getMessage(), e);
         }
-        return deptName;
+//        return deptName;
+        return codeNameDepartment;
     }
 
     /**
@@ -580,18 +588,16 @@ public class CommonServiceImpl implements CommonService {
      */
     @Override
     @Cacheable(value = "corsTypeNameByCode")
-    public String retrieveCorsTypeNameByCode(String corsTypeCode) {
-        String corsTypeName = null;
+    public CodeNameCourse retrieveCorsTypeNameByCode(String corsTypeCode) {
+        CodeNameCourse codeNameCourse = null;
         try {
-            CodeNameCourse codeNameCourse = commonDAO.queryForObject(NAME_SPACE + "CustomCourseMapper.selectNameByCode",
+            codeNameCourse = commonDAO.queryForObject(NAME_SPACE + "CustomCourseMapper.selectNameByCode",
                     corsTypeCode,
                     CodeNameCourse.class);
-            converter.convert(codeNameCourse, request);
-            corsTypeName = codeNameCourse.getCodeVal();
         } catch (Exception e) {
             throw new BusinessException(e.getMessage(), e);
         }
-        return corsTypeName;
+        return codeNameCourse;
     }
 
     /**
@@ -602,18 +608,16 @@ public class CommonServiceImpl implements CommonService {
      */
     @Override
     @Cacheable(value = "detlMajNameByCode")
-    public String retrieveDetlMajNameByCode(String detlMajCode) {
-        String detlMajName = null;
+    public CodeNameDetailMajor retrieveDetlMajNameByCode(String detlMajCode) {
+        CodeNameDetailMajor codeNameDetailMajor = null;
         try {
-            CodeNameDetailMajor codeNameDetailMajor = commonDAO.queryForObject(NAME_SPACE + "CustomDetailMajorMapper.selectNameByCode",
+            codeNameDetailMajor = commonDAO.queryForObject(NAME_SPACE + "CustomDetailMajorMapper.selectNameByCode",
                     detlMajCode,
                     CodeNameDetailMajor.class);
-            converter.convert(codeNameDetailMajor, request);
-            detlMajName = codeNameDetailMajor.getDetlMajName();
         } catch (Exception e) {
             throw new BusinessException(e.getMessage(), e);
         }
-        return detlMajName;
+        return codeNameDetailMajor;
     }
 
 // Entire에서 사용되던 것으로 삭제

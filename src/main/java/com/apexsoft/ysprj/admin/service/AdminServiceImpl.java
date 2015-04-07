@@ -29,7 +29,8 @@ public class AdminServiceImpl implements AdminService{
 	
 
     private final static String NAME_SPACE = "admin.applicant.";
-    private final static String CANCEL_NAME_SPACE = "admin.cancel.";    
+    private final static String CANCEL_NAME_SPACE = "admin.cancel.";
+    private final static String POST_NAME_SPACE = "com.apexsoft.ysprj.admin.sqlmap.";
     private final static String APPL_NAME_SPACE = "com.apexsoft.ysprj.applicants.application.sqlmap.";
     private final static String ADMS_NAME_SPACE = "com.apexsoft.ysprj.applicants.admission.sqlmap.";
 
@@ -101,7 +102,7 @@ public class AdminServiceImpl implements AdminService{
             param.setCollCode(courseSearchPageForm.getCollCode());
             param.setDeptCode(courseSearchPageForm.getDeptCode());
             campList = commonService.retrieveCampus();
-
+            List<ApplicationCheck> applChkList= null;
             admsList = commonDAO.queryForList(ADMS_NAME_SPACE +"CustomAdmissionMapper.selectByYear","2015", Admission.class);
             admsList.addAll(commonDAO.queryForList(ADMS_NAME_SPACE +"CustomAdmissionMapper.selectByYear","2016", Admission.class));
             if( courseSearchPageForm.getAdmsNo()!= null) {
@@ -113,6 +114,14 @@ public class AdminServiceImpl implements AdminService{
                     ApplicantInfo tempInfo = tempInfoList.get(idx);
                     int applNo = tempInfo.getApplNo();
                     tempInfo.setDocList(commonDAO.queryForList(NAME_SPACE + "selectByApplNo", applNo, ApplicationDocument.class));
+
+                    applChkList =commonDAO.queryForList(POST_NAME_SPACE + "CustomApplicationCheckMapper.selectByApplNo",tempInfo.getApplNo(), ApplicationCheck.class );
+                    for( ApplicationCheck aChk :applChkList){
+                        if("Y".equals(aChk.getChkYn())){
+                            tempInfo.setCheckYn("Y");
+                            break;
+                        }
+                    }
                 }
 
                 collList = commonService.retrieveCollegeByCampus( courseSearchPageForm.getCampCode() );
@@ -323,6 +332,7 @@ public class AdminServiceImpl implements AdminService{
         Map<String, Object> ecDataMap = new HashMap<String, Object>();
 
         List<ApplicantInfoEntire>  tempInfoList =null;
+        List<ApplicationCheck> applChkList= null;
         try{
 
             ParamForSetupCourses param = new ParamForSetupCourses();
@@ -340,6 +350,7 @@ public class AdminServiceImpl implements AdminService{
                     aInfo.setAcadList(commonDAO.queryForList(APPL_NAME_SPACE + "CustomApplicationAcademyMapper.selectByApplNo", aInfo.getApplNo(), CustomApplicationAcademy.class));
                     aInfo.setLangList(commonDAO.queryForList(APPL_NAME_SPACE + "CustomApplicationLanguageMapper.selectByApplNo", aInfo.getApplNo(), ApplicationLanguage.class));
                     aInfo.setExprList(commonDAO.queryForList(APPL_NAME_SPACE + "CustomApplicationExperienceMapper.selectByApplNo", aInfo.getApplNo(), CustomApplicationExperience.class));
+
                 }
                 ecDataMap.put("applList",tempInfoList);
 
