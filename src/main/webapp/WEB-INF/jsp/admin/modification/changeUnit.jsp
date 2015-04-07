@@ -177,7 +177,7 @@
             });
 
             function attachChangeEvent( sourceId, context ) {
-                var $source = jQuery('#' + sourceId);
+                var $source = $('#' + sourceId);
 
                 $source.on('change', function(event) {
                     var info, targetId, valueKey, labelKey, url, clean, addon, i;
@@ -204,35 +204,46 @@
                     }
 
                     clean = info.clean ? info.clean : context.clean;
-                    if (typeof clean === 'string') {
-                        clean = [].concat( clean );
-                    }
                     clean = [].concat( targetId, clean );
+                    var $clean, oldVal;
                     for (i = 0; i < clean.length; i++) {
-                        jQuery('#' + clean[i]).children('option').filter(function() {
-                            return this.value !== '';
-                        }).remove();
-
-                        jQuery('#' + clean[i]).trigger('change');
+                        if (clean[i]) {
+                            $clean = $('#' + clean[i]);
+                            oldVal = $clean.val();
+                            $clean.children('option').filter(function() {
+                                return this.value !== '';
+                            }).remove();
+                            if (oldVal !== $clean.val()) {
+                                $clean.trigger('change');
+                            }
+                        }
                     }
 
-                    jQuery.ajax({
+                    if (!val || val == '') {
+                        return;
+                    }
+
+                    $.ajax({
                         type: 'GET',
                         url: baseUrl,
                         success: function(e) {
-                            var ec = JSON && JSON.parse(e) || $.parseJSON(e);
-                            if(ec.result && ec.result === 'SUCCESS') {
-                                var $target = jQuery('#' + targetId);
-                                var data = JSON && JSON.parse(ec.data) || $.parseJSON(ec.data);
+                            var container = JSON.parse(e),
+                                    data = JSON.parse(container.data);
+                            if(container.result && container.result === 'SUCCESS') {
+                                var $target = $('#' + targetId);
+//                            var data = JSON && JSON.parse(e.data) || $.parseJSON(e.data);
 
-                                jQuery(data).each(function (i, item) {
-                                    var $op = jQuery('<option>').attr({
-                                                'value': item[valueKey],
-                                                'label': item[labelKey]}
-                                    )
-                                    for (var key in item) {
-                                        if (key !== valueKey && key !== labelKey) {
-                                            $op.attr(key, item[key]);
+                                $(data).each(function (i, item) {
+                                    var $op = $('<option>').attr({
+                                        'value': item[valueKey],
+                                        'label': item[labelKey]
+                                    });
+                                    $op.html(item[labelKey]);
+                                    if ('detlMajCode' == targetId) {
+                                        for (var key in item) {
+                                            if (key !== valueKey && key !== labelKey) {
+                                                $op.attr(key, item[key]);
+                                            }
                                         }
                                     }
                                     $op.appendTo($target);
@@ -245,7 +256,10 @@
                     });
                 });
             }
+            <%-- select 폼 change 이벤트 처리 끝 --%>
 
+            <%--지원사항 select 폼 change 이벤트 핸들러 등록 시작 --%>
+            <%-- 지원구분 변경 --%>
             attachChangeEvent( 'applAttrCode',
                     {
                         '00002': {targetId: 'ariInstCode', valueKey: 'ariInstCode', labelKey: 'ariInstName', url: '/ariInst'}, // applAttrCode == '02'
@@ -254,7 +268,6 @@
                         labelKey: '${pageContext.response.locale == 'en' ? 'campNameXxen' : 'campName'}',
                         clean: ['collCode', 'ariInstCode', 'deptCode', 'corsTypeCode', 'detlMajCode'],
                         url: '/campus'
-
                     }
             );
 
@@ -263,10 +276,11 @@
                     {
                         targetId: 'collCode',
                         valueKey: 'collCode',
-                        labelKey: 'collName',
+//                    labelKey: 'collName',
+                        labelKey: '${pageContext.response.locale == 'en' ? 'collNameXxen' : 'collName'}',
                         // clean: ['ariInstCode', 'deptCode', 'corsTypeCode', 'detlMajCode'],
                         url: function(arg) {
-                            return '/college/' + arg;
+                            return '/admscollege/' + admsNo + '/' + arg;
                         }
                     }
             );
@@ -276,10 +290,11 @@
                     {
                         targetId: 'deptCode',
                         valueKey: 'deptCode',
-                        labelKey: 'deptName',
+//                    labelKey: 'deptName',
+                        labelKey: '${pageContext.response.locale == 'en' ? 'deptNameXxen' : 'deptName'}',
                         // clean: ['corsTypeCode', 'detlMajCode'],
                         url: function(arg) {
-                            var admsNo = jQuery('#admsNo').val();
+                            var admsNo = $('#admsNo').val();
                             return '/general/department/' + admsNo + '/' + arg;
                         }
                     }
@@ -290,10 +305,11 @@
                     {
                         targetId: 'deptCode',
                         valueKey: 'deptCode',
-                        labelKey: 'deptName',
+//                    labelKey: 'deptName',
+                        labelKey: '${pageContext.response.locale == 'en' ? 'deptNameXxen' : 'deptName'}',
                         // clean: ['corsTypeCode', 'detlMajCode'],
                         url: function(arg) {
-                            var admsNo = jQuery('#admsNo').val();
+                            var admsNo = $('#admsNo').val();
                             return '/ariInst/department/' + admsNo + '/' + arg;
                         }
                     }
@@ -304,17 +320,20 @@
                     {
                         targetId: 'corsTypeCode',
                         valueKey: 'corsTypeCode',
-                        labelKey: 'codeVal',
+//                    labelKey: 'codeVal',
+                        labelKey: '${pageContext.response.locale == 'en' ? 'codeValXxen' : 'codeVal'}',
                         // clean: ['detlMajCode'],
                         url: function(arg) {   <%-- 지원과정 조회 --%>
-                            var admsNo = jQuery('#admsNo').val();
-                            var applAttrCode = jQuery('#applAttrCode').val();
+                            var admsNo = $('#admsNo').val();
+                            var applAttrCode = $('#applAttrCode').val();
                             if (applAttrCode == '00001') {
                                 return '/general/course/' + admsNo + '/' + arg;
                             } else if (applAttrCode == '00002') {
-                                return '/ariInst/course/' + admsNo + "/" + arg + "/" + jQuery('#ariInstCode').val();
+                                return '/ariInst/course/' + admsNo + "/" + arg + "/" + $('#ariInstCode').val();
                             } else if (applAttrCode == '00003') {
                                 return '/commission/course/' + admsNo + '/' + arg;
+                            } else if (applAttrCode == '00004') {
+                                return '/northDefector/course/' + admsNo + '/' + arg;
                             }
                         }
                     }
@@ -325,20 +344,20 @@
                     {
                         targetId: 'detlMajCode',
                         valueKey: 'detlMajCode',
-                        labelKey: 'detlMajName',
+//                    labelKey: 'detlMajName',
+                        labelKey: '${pageContext.response.locale == 'en' ? 'detlMajNameXxen' : 'detlMajName'}',
                         url: function(arg) {
-                            var admsNo = jQuery('#admsNo').val();
-                            var applAttrCode = jQuery('#applAttrCode').val();
+                            var admsNo = $('#admsNo').val();
+                            var applAttrCode = $('#applAttrCode').val();
                             if (applAttrCode == '00001') {
-                                return '/general/detailMajor/' + admsNo + '/' + jQuery('#deptCode').val() + '/' + arg;
+                                return '/general/detailMajor/' + admsNo + '/' + $('#deptCode').val() + '/' + arg;
                             } else if (applAttrCode == '00002') {
-                                return '/ariInst/detailMajor/' + admsNo + "/" + jQuery('#deptCode').val() + "/" + jQuery('#ariInstCode').val() + '/' + arg;
+                                return '/ariInst/detailMajor/' + admsNo + "/" + $('#deptCode').val() + "/" + $('#ariInstCode').val() + '/' + arg;
                             } else if (applAttrCode == '00003') {
-                                return '/general/detailMajor/' + admsNo + '/' + jQuery('#deptCode').val() + '/' + arg;
+                                return '/general/detailMajor/' + admsNo + '/' + $('#deptCode').val() + '/' + arg;
                             } else if (applAttrCode == '00004') {
-                                return '/general/detailMajor/' + admsNo + '/' + jQuery('#deptCode').val() + '/' + arg;
+                                return '/general/detailMajor/' + admsNo + '/' + $('#deptCode').val() + '/' + arg;
                             }
-
                         }
                     }
             );
