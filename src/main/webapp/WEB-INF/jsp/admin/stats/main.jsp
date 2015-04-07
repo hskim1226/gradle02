@@ -12,13 +12,11 @@
     <div class="main_sec1">
         <div id="notice_box" class="mboard">
             <h2><span>지원현황</span></h2>
-            <div class="state">
-                <ul></ul>
-            </div>
+
             <div class="mboard_con">
                 <table class="tbl_list1" summary="지원현황">
                     <caption>
-                        원서수정/취소관리
+                        지원현황
                     </caption>
                     <colgroup>
                         <col width="25%" />
@@ -76,10 +74,11 @@
             <div class="state">
                 <h3>처리현황</h3>
                 <ul>
-                    <li><strong>요청: <span class="color-org">000</span></strong>건</li>
-                    <li><strong>완료: <span class="color-org">000</span></strong>건</li>
-                    <li><strong>처리중: <span class="color-org">000</span></strong>건</li>
-                    <li><strong>불가: <span class="color-org">000</span></strong>건</li>
+                    <c:forEach var="chgCntList" items="${chgCntList}" varStatus="status">
+
+                            <li><strong>${chgCntList.codeVal}: <span class="color-org">${chgCntList.cnt}</span></strong>건</li>
+
+                    </c:forEach>
                 </ul>
             </div>
             <div class="mboard_con">
@@ -95,7 +94,15 @@
                         <col width="18%" />
                     </colgroup>
                     <tbody>
-
+                    <c:forEach var="chgList" items="${chgList}" varStatus="status">
+                        <tr>
+                            <th scope="row" class="text-left"><span class="tit1"><a href="#">${chgList.applId}</a></span></th>
+                            <td>${chgList.korName}</td>
+                            <td>${chgList.chgStsCodeName}</td>
+                            <td>${chgList.reqDay}</td>
+                            <td><img src="<spring:eval expression="@app.getProperty(\"path.static\")"/>/img/admin/img_step1.png" alt="처리요청"></td>
+                        </tr>
+                    </c:forEach>
                     </tbody>
                 </table>
             </div>
@@ -120,7 +127,7 @@
                 <c:forEach var="weekCntList" items="${weekCntList}" varStatus="status">
                 <tr>
                     <th scope="row">${weekCntList.applDate}</th>
-                    <td><img src='<spring:eval expression="@app.getProperty(\"path.static\")"/>/img/admin/bu_box1.png' width="${(weekCntList.totalCnt)%2000}%" height="10" alt="">&nbsp;${weekCntList.totalCnt}명</td>
+                    <td><img src='<spring:eval expression="@app.getProperty(\"path.static\")"/>/img/admin/bu_box1.png' width="${(weekCntList.totalCnt)/(1000)}%" height="10" alt="">&nbsp;${weekCntList.totalCnt}명</td>
                 </tr>
                 </c:forEach>
                 </tbody>

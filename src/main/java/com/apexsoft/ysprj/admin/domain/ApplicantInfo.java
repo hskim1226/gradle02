@@ -11,6 +11,7 @@ public class ApplicantInfo {
     private String userId;
 	private String admsNo;
     private String admsType;
+    private String admsName;
     private String admsTypeName;
     private String applAttrCode;
     private String applAttrName;
@@ -42,24 +43,7 @@ public class ApplicantInfo {
 	private String emerContName; 
     private String emerContTel;      
     
-	public String getEmerContCode() {
-		return emerContCode;
-	}
-	public void setEmerContCode(String emerContCode) {
-		this.emerContCode = emerContCode;
-	}
-	public String getEmerContName() {
-		return emerContName;
-	}
-	public void setEmerContName(String emerContName) {
-		this.emerContName = emerContName;
-	}
-	public String getEmerContTel() {
-		return emerContTel;
-	}
-	public void setEmerContTel(String emerContTel) {
-		this.emerContTel = emerContTel;
-	}
+
 	private String applId;    
     private String applStsCode; 
     private String applStsName;
@@ -305,11 +289,38 @@ public class ApplicantInfo {
         this.bornDay = bornDay;
     }
 
+    public String getEmerContCode() {
+        return emerContCode;
+    }
+    public void setEmerContCode(String emerContCode) {
+        this.emerContCode = emerContCode;
+    }
+    public String getEmerContName() {
+        return emerContName;
+    }
+    public void setEmerContName(String emerContName) {
+        this.emerContName = emerContName;
+    }
+    public String getEmerContTel() {
+        return emerContTel;
+    }
+    public void setEmerContTel(String emerContTel) {
+        this.emerContTel = emerContTel;
+    }
+
     public String getCheckYn() {
         return checkYn;
     }
 
     public void setCheckYn(String checkYn) {
         this.checkYn = checkYn;
+    }
+
+    public String getAdmsName() {
+        return admsName;
+    }
+
+    public void setAdmsName(String admsName) {
+        this.admsName = admsName;
     }
 }

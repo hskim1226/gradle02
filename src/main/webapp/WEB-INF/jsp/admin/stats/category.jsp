@@ -18,7 +18,7 @@
                 <select id="admsNo" name="admsNo" class="ipt_slt1">
                     <option value="" label="--전체--" />
                     <c:forEach items="${admsList}" var="admsNo" varStatus="admsSatus">
-                        <option value="${admsNo.admsNo}" label="${admsNo.admsNo}" />
+                        <option value="${admsNo.admsNo}" label="${admsNo.admsName}" />
                     </c:forEach>
                 </select>&nbsp;&nbsp;&nbsp;
             </td>

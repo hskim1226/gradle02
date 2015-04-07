@@ -25,13 +25,13 @@
 
 
         <c:if test="${applInfo.applNo != null}" >
-        <h3 class="tit1">변경요청 지원정보용</h3>
+        <h3 class="tit1">기타 변경사항</h3>
         <form id ="changeForm" action="${contextPath}/admin/modification/requestChangeEtc" method="post">
             <input type="hidden" name="applNo" value=${applInfo.applNo}> </input>
             <input type="hidden" name="admsNo" value=${applInfo.admsNo}> </input>
-        <table class="tbl_typeA mb15" summary="변경요청 지원정보">
+        <table class="tbl_typeA mb15" summary="기타 변경사항">
             <caption>
-                변경요청 지원정보
+                기타 변경사항
             </caption>
             <colgroup>
                 <col width="20%" />

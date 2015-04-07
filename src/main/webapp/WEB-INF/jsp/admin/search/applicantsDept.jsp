@@ -16,7 +16,6 @@
 <div class="con_section">
     <form:form commandName="searchPageForm"  method="post" role="form" action="${contextPath}/admin/search/applicants/deptSearch" id="search-form">
     <div class="srch_box">
-
     <input type="hidden" id="page-number-hidden" name="page.no" value="${searchPageForm.page.no}" />
     <p class="srch_tit"><i class="fa fa-search"></i>지원단위검색</p>
 
@@ -25,7 +24,7 @@
 
         <form:select path="admsNo" id="admsNo" class="ipt_slt1">
             <form:option value="" label="--전체--" />
-            <form:options items="${selection.admsList}" itemValue="admsNo" itemLabel="admsNo"/>
+            <form:options items="${selection.admsList}" itemValue="admsNo" itemLabel="admsName"/>
         </form:select>&nbsp;&nbsp;&nbsp;
 
     <label for="campCode"><strong>캠퍼스</strong></label>
@@ -135,11 +134,13 @@
     </c:if>
     </div>
 
-
+<%--
 
 <div id="LblockcChgInfoBtn" class="con_btn text-right">
     <a class="btn_set btnBlueS" id="downBtn"  href="#"><span>엑셀파일 다운로드</span></a>
 </div>
+
+    --%>
 </div>
 <!-- /con_section -->
 </div>
@@ -155,10 +156,11 @@
 
         jQuery(".pdfDown").on('click', function(event){
             location.href = "${contextPath}/admin/search/pdfDownload?applNo="+jQuery(this).attr('applNo');
+            jQuery("#pdfDownBtn").attr("class","btn_set btnWhiteS pdfDown") ;
         });
 
-        jQuery("#searchBtn").on('click', function(e) {
-            e.preventDefault();
+        jQuery("#idSearchBtn").on('click', function(event) {
+            event.preventDefault();
             submitForm();
         });
 

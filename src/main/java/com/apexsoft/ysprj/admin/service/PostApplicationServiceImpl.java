@@ -82,7 +82,8 @@ public class PostApplicationServiceImpl implements PostApplicationService{
         if ( insert == rInsert) {
             ec.setResult(ExecutionContext.SUCCESS);
             ec.setMessage(messageResolver.getMessage("U319"));
-
+            ecDataMap.put("applInfo",applInfo );
+            ec.setData(ecDataMap);
 
         } else {
             ec.setResult(ExecutionContext.FAIL);

@@ -39,7 +39,7 @@
 				<th>수험번호</th>
 				<td>${applInfo.applId}</td>				
 				<th>전형구분</th>
-				<td>${applInfo.admsTypeName}</td>
+				<td>${applInfo.admsName}</td>
                 <th>학연산 기관</th>
                 <td><c:if test="${empty applInfo.ariInstName}" >해당없음</c:if><c:if test="${not empty applInfo.ariInstName}" >${applInfo.ariInstName}</c:if></td>
 			</tr>

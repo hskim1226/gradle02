@@ -35,4 +35,6 @@ public interface AdminService {
 
     ExecutionContext retrieveInitInfo();
 
+    Map<String, Object> retrieveInterceptorInfo();
+
 }

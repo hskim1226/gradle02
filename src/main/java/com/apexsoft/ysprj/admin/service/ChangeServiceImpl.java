@@ -12,6 +12,7 @@ import com.apexsoft.ysprj.admin.domain.ApplicantInfo;
 import com.apexsoft.ysprj.admin.domain.ApplicationChange;
 import com.apexsoft.ysprj.admin.domain.CustomApplicationChange;
 import com.apexsoft.ysprj.applicants.admission.domain.Admission;
+import com.apexsoft.ysprj.applicants.admission.domain.AdmissionName;
 import com.apexsoft.ysprj.applicants.application.domain.Application;
 import com.apexsoft.ysprj.applicants.application.domain.ApplicationGeneral;
 import com.apexsoft.ysprj.applicants.common.domain.*;
@@ -441,7 +442,7 @@ public class ChangeServiceImpl implements ChangeService {
 
         PageInfo<CustomApplicationChange>  tempPageInfo =null;
 
-        List<Admission> admsList = null;
+        List<AdmissionName> admsList = null;
         List<Campus> campList = null;
         List<College> collList = null;
         List<CodeNameDepartment> deptList = null;
@@ -452,8 +453,10 @@ public class ChangeServiceImpl implements ChangeService {
         param.setCollCode(searchForm.getCollCode());
         param.setDeptCode(searchForm.getDeptCode());
 
-        admsList = commonDAO.queryForList(ADMS_NAME_SPACE +"CustomAdmissionMapper.selectByYear","2015", Admission.class);
-        admsList.addAll(commonDAO.queryForList(ADMS_NAME_SPACE +"CustomAdmissionMapper.selectByYear","2016", Admission.class));
+        admsList = commonDAO.queryForList(ADMS_NAME_SPACE +"CustomAdmissionMapper.selectAdmsNameByYear","2015", AdmissionName.class);
+        admsList.addAll( commonDAO.queryForList(ADMS_NAME_SPACE +"CustomAdmissionMapper.selectAdmsNameByYear","2016", AdmissionName.class));
+        addShortAdmissionName(admsList);
+
         campList = commonService.retrieveCampus();
         collList = commonService.retrieveCollegeByCampus( searchForm.getCampCode() );
         deptList = commonService.retrieveGeneralDepartmentByAdmsColl(param);
@@ -468,6 +471,7 @@ public class ChangeServiceImpl implements ChangeService {
                 List<CustomApplicationChange> tempInfoList = tempPageInfo.getData();
                 ecDataMap.put("chgList", tempInfoList);
                 ecDataMap.put("totalCnt", tempPageInfo.getTotalRowCount());
+
 
             }else{
                 ecDataMap.put("chgList", new ArrayList<CustomApplicationChange>());
@@ -519,5 +523,28 @@ public class ChangeServiceImpl implements ChangeService {
 
         }
         return ec;
+    }
+    private void addShortAdmissionName(List<AdmissionName> admsList){
+        for( AdmissionName aAdms : admsList){
+            if( "15B".equals(aAdms.getAdmsNo())){
+                aAdms.setAdmsName("15년 후기 일반");
+            }else if( "15D".equals(aAdms.getAdmsNo())){
+                aAdms.setAdmsName("15년 후기 외국인");
+            }else if( "16W".equals(aAdms.getAdmsNo())){
+                aAdms.setAdmsName("16년 전기 조기");
+            }
+        }
+    }
+    private String abridgeAdmsCode(String admsCode){
+        String admsName = "";
+
+        if( "15B".equals(admsCode)) {
+            admsName = "15년 후기 일반";
+        }else if( "15D".equals(admsCode)){
+            admsName ="15년 후기 외국인";
+        }else if( "16W".equals(admsCode)){
+            admsName ="16년 전기 조기";
+        }
+        return admsName;
     }
 }

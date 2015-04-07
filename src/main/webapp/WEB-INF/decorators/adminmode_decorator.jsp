@@ -74,16 +74,14 @@
 
     <div id="recru" class="snb_box1">
         <h2 class="lang-kor-malgun"><span>모집구분</span></h2>
-        <div class="box_con" id="box_con_title">15학년도 후기모집</div>
+        <div class="box_con">
+        <c:forEach var="applCntList" items="${applCntList}" varStatus="status">
 
-        <!-- 목록 리스트 (버튼을 클릭하면 box_con_list 활성화) -->
-        <div class="box_con_list">
-            <ul>
-                <li><a href="#" id="box_con_list2">15학년도 후기모집</a></li>
-            </ul>
-        </div>
+            <li><span style="width: 142px; float: left" >${applCntList.codeVal}</span><span class="number"  style ="float:left; width:40px; color:#ffd800; text-align:right"><strong>${applCntList.cnt}</strong> 명</span></li>
+        </c:forEach>
+
         <!-- /목록 리스트 -->
-
+        </div>
         <a href="#open" title="목록 펼치기" id="recru_select" class="btn_more"><img src="<spring:eval expression="@app.getProperty(\"path.static\")"/>/img/admin/btn_menu1.png" alt="목록"></a> </div>
     <!-- /recru -->
 
@@ -97,7 +95,7 @@
                 <li><span class="tit" id="changeCnt">지원취소/변경인원</span><span class="number"><strong>${adminInfo.changeCnt}</strong> 명</span></li>
             </ul>
         </div>
-        <a href="#" title="새로고침" class="btn_more"><img src="<spring:eval expression="@app.getProperty(\"path.static\")"/>/img/admin/btn_menu2.png" alt="새로고침"></a> </div>
+        <a href="#" title="새로고침" class="btn_more"><img src="<spring:eval expression="@app.getProperty(\"path.static\")"/>/img/admin/btn_menu1.png" alt="새로고침"></a> </div>
     <!-- /state -->
 
     <div class="menu_wrap">

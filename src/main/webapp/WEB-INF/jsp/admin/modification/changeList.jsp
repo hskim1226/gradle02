@@ -135,7 +135,7 @@
                 location.href = "${contextPath}/admin/modification/chgInfoDetail?chgNo="+jQuery(this).attr('chgNo');
             }).css("cursor","pointer");
             */
-            jQuery("#searchBtn").on('click', function(e) {
+            jQuery("#deptSearchBtn").on('click', function(e) {
                 e.preventDefault();
                 submitForm();
             });

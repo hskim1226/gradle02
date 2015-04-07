@@ -187,4 +187,10 @@
             WHERE ADMS_NO =#{admsNo}
         </if>
     </select>
+
+
+    <select id="selectChangeStatusCnt" resultType="com.apexsoft.ysprj.admin.domain.CommonCodeCnt" parameterType="java.lang.String" >
+        SELECT A.CODE, A.CODE_VAL, IFNULL (B.CNT,0)CNT FROM ( SELECT CODE, CODE_VAL FROM COMM_CODE WHERE CODE_GRP ='CHG_STS')A LEFT OUTER JOIN
+        (SELECT DISTINCT( CHG_STS_CODE ) CHG_STS_CODE, COUNT(*) CNT FROM APPL_CHG GROUP BY CHG_STS_CODE) B ON A.CODE = B.CHG_STS_CODE
+    </select>
 </mapper>
