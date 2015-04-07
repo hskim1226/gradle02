@@ -204,6 +204,7 @@
     </style>
 </head>
 <body>
+<div id="overlay" class="web_dialog_overlay"></div>
 <section class="application">
     <div class="container">
         <p id="stepStatusTitle" colspan=4 align="center" height="70px">${msg.getMessage('L01001', locale)}<%--원서 작성 현황--%></p>
@@ -847,6 +848,7 @@
         <%-- 하단 버튼 처리 --%>
         var formProcess = function(e) {
             e.preventDefault();
+            $("#overlay").show();
             var isCollegeLastSchlChecked = false,
                 isGraduateLastSchlChecked = true,
                 isAvrEqualOrSmallerThanFullmark = true,
@@ -873,6 +875,7 @@
                     } else {
                         gradValid.push(false);
                         alert('<spring:message code="U02111"/>');   /*평점은 만점 이하여야 합니다*/
+                        $("#overlay").hide();
                         gradAvgInput.focus();
                         return false;
                     }
@@ -888,6 +891,7 @@
 
             if (!isCollegeLastSchlChecked || !isGraduateLastSchlChecked) {
                 alert('<spring:message code="U02114"/> ');//최종학교를 선택해 주세요.
+                $("#overlay").hide();
                 return false;
             }
 

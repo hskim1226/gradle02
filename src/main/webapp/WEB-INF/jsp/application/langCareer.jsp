@@ -208,6 +208,7 @@
     </style>
 </head>
 <body>
+<div id="overlay" class="web_dialog_overlay"></div>
 <section class="application">
     <div class="container">
         <p id="stepStatusTitle" colspan=4 align="center" height="70px">${msg.getMessage('L01001', locale)}<%--원서 작성 현황--%></p>
@@ -651,6 +652,7 @@
         <%-- 하단 버튼 처리 --%>
         var formProcess = function(event) {
             event.preventDefault();
+            $('#overlay').show();
             var form = document.forms[0];
 
             form.action = "${contextPath}/application/langCareer/save";

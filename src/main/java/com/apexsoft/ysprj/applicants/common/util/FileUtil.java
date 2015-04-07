@@ -54,12 +54,12 @@ public class FileUtil {
 
     public static String getSlipFileName(String userId) {
         return new StringBuilder()
-                .append("수험표_").append(userId).append(".pdf").toString();
+                .append("application_slip_").append(userId).append(".pdf").toString();
     }
 
     public static String getApplicationFileName(String userId) {
         return new StringBuilder()
-                .append("지원서_").append(userId).append(".pdf").toString();
+                .append("application_form_").append(userId).append(".pdf").toString();
     }
 
     public static String getS3PathFromLocalFullPath(String localFullPath, String baseDir) {
