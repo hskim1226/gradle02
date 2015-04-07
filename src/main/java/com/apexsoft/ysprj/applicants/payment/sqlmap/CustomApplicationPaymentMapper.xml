@@ -130,4 +130,14 @@
     AND A.APPL_NO = #{applNo,jdbcType=INTEGER};
   </select>
 
+  <resultMap id="deptMap" type="com.apexsoft.ysprj.applicants.common.domain.Department" >
+    <result column="DEPT_SEQ" property="deptSeq" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <select id="selectDeptSeq" resultMap="deptMap" parameterType="java.lang.String" >
+    SELECT DEPT_SEQ
+    FROM DEPT
+    WHERE DEPT_CODE = #{deptCode,jdbcType=VARCHAR};
+  </select>
+
 </mapper>

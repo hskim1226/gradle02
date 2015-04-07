@@ -26,7 +26,7 @@
                                     <tr><th class="header col-md-4"><spring:message code="L05202"/><%--회원ID--%></th><td class="col-md-8">${payment.LGD_BUYERID}</td></tr>
                                     <tr><th class="header"><spring:message code="L05203"/><%--회원명--%></th><td>${payment.LGD_BUYER}</td></tr>
                                     <tr><th class="header"><spring:message code="L05204"/><%--신청과정--%></th><td>${payment.LGD_PRODUCTINFO}</td></tr>
-                                    <tr><th class="header"><spring:message code="L05205"/><%--결제금액--%></th><td>${payment.LGD_AMOUNT}</td></tr>
+                                    <tr><th class="header"><spring:message code="L05205"/><%--결제금액--%></th><td>${payment.LGD_AMOUNT} 원(Won)</td></tr>
                                     <tr><th class="header"><spring:message code="L05206"/><%--가상계좌정보--%> <br> <spring:message code="L05207"/><%--(입금전)--%></th><td><spring:message code="L05210"/><%--은행--%> : ${payment.LGD_FINANCENAME} <br> <spring:message code="L05211"/><%--계좌--%> : ${payment.LGD_ACCOUNTNUM}</td></tr>
                                 </table>
                                 <div class="col-sm-12 align-left">
