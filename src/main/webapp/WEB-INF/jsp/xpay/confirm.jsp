@@ -105,7 +105,7 @@
     <div id="modal_popup3" class="popup1_wrap" style="display:none; margin-top:-240px; margin-left:-250px;">
         <div id="bpopContent" class="popuphead">
             <h1>
-                <label id="searchTitle"> 결제 관련 안내 사항 </label>
+                <label id="searchTitle"> <spring:message code="U05106"/> </label>
             </h1>
         </div>
         <div class="popupbody">
