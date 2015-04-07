@@ -26,7 +26,7 @@
                                     <tr><th class="header col-md-4"><spring:message code="L05102"/><%--회원ID--%></th><td class="col-md-8">${payment.LGD_BUYERID}</td></tr>
                                     <tr><th class="header"><spring:message code="L05103"/><%--회원명--%></th><td>${payment.LGD_BUYER}</td></tr>
                                     <tr><th class="header"><spring:message code="L05104"/><%--신청과정--%></th><td>${payment.LGD_PRODUCTINFO}</td></tr>
-                                    <tr><th class="header"><spring:message code="L05105"/><%--결제금액--%></th><td>${payment.LGD_AMOUNT}원</td></tr>
+                                    <tr><th class="header"><spring:message code="L05105"/><%--결제금액--%></th><td>${payment.LGD_AMOUNT}</td></tr>
                                 </table>
                                 <div>
                                     <button class="btn btn-primary btn-lg btn-block ${payment.admsSts.equals("OP")?"":"disabled"}" id="processPayment"><spring:message code="L05106"/><%--결제하기--%></button>

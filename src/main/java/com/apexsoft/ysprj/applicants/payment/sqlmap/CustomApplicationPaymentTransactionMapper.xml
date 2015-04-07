@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.apexsoft.ysprj.applicants.payment.sqlmap.ApplicationPaymentTransactionMapper" >
+
+  <resultMap id="BaseResultMap" type="com.apexsoft.ysprj.applicants.payment.domain.ApplicationPaymentTransaction" >
+    <id column="APPL_NO" property="applNo" jdbcType="INTEGER" />
+    <id column="PAY_SEQ" property="paySeq" jdbcType="INTEGER" />
+    <result column="EXP_PAY_AMT" property="expPayAmt" jdbcType="INTEGER" />
+    <result column="PAY_TYPE_CODE" property="payTypeCode" jdbcType="VARCHAR" />
+    <result column="PAY_AMT" property="payAmt" jdbcType="INTEGER" />
+    <result column="PAY_DATE" property="payDate" jdbcType="VARCHAR" />
+    <result column="RTN_BANK" property="rtnBank" jdbcType="VARCHAR" />
+    <result column="RTN_ACCT" property="rtnAcct" jdbcType="VARCHAR" />
+    <result column="RTN_HOLD" property="rtnHold" jdbcType="VARCHAR" />
+    <result column="PAPL_DESC" property="paplDesc" jdbcType="VARCHAR" />
+    <result column="HNDR_NAME" property="hndrName" jdbcType="VARCHAR" />
+    <result column="PAY_STS_CODE" property="payStsCode" jdbcType="VARCHAR" />
+    <result column="LGD_OID" property="lgdOid" jdbcType="VARCHAR" />
+    <result column="LGD_TID" property="lgdTid" jdbcType="VARCHAR" />
+    <result column="CRE_ID" property="creId" jdbcType="VARCHAR" />
+    <result column="CRE_DATE" property="creDate" jdbcType="TIMESTAMP" />
+    <result column="MOD_ID" property="modId" jdbcType="VARCHAR" />
+    <result column="MOD_DATE" property="modDate" jdbcType="TIMESTAMP" />
+  </resultMap>
+
+  <select id="selectMaxSeqByApplNo" resultType="int" parameterType="int" >
+    SELECT MAX(PAY_SEQ)
+    FROM APPL_PAY_TR
+    WHERE APPL_NO = #{applNo,jdbcType=INTEGER};
+  </select>
+
+</mapper>
