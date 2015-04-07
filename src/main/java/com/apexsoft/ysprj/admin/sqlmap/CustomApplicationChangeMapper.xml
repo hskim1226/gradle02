@@ -8,6 +8,9 @@
 
         <result column="APPL_ID" jdbcType="VARCHAR" property="applId" />
         <result column="KOR_NAME" jdbcType="VARCHAR" property="korName" />
+        <result column="ENG_NAME" jdbcType="VARCHAR" property="engName" />
+        <result column="ENG_SUR" jdbcType="VARCHAR" property="engSur" />
+
         <result column="APPL_CHG_CODE_NAME" jdbcType="VARCHAR" property="applChgCodeName" />
         <result column="CHG_STS_CODE_NAME" jdbcType="VARCHAR" property="chgStsCodeName" />
 
@@ -51,6 +54,8 @@
         B.APPL_NO,
         APPL_ID,
         KOR_NAME,
+        ENG_NAME,
+        ENG_SUR,
         CHG_NO,
         APPL_CHG_CODE,
         CODEVAL( 'APPL_CHG', APPL_CHG_CODE) APPL_CHG_CODE_NAME,

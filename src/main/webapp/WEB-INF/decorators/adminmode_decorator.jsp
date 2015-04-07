@@ -56,7 +56,7 @@
     <div class="logo">
         <h1><img src="<spring:eval expression="@app.getProperty(\"path.static\")"/>/img/admin/h1_logo.png" alt="gradnet" /></h1>
     </div>
-    <div class="date_info"><img src="<spring:eval expression="@app.getProperty(\"path.static\")"/>/img/admin/img_icon1.png" alt="" /> <strong>원서접수기간 :</strong> 2014-04-07 09:30:00 ~ 2014-04-10 17:00:00</div>
+    <div class="date_info"><img src="<spring:eval expression="@app.getProperty(\"path.static\")"/>/img/admin/img_icon1.png" alt="" /> <strong>원서접수기간 :</strong> 2014-04-07 09:30 ~ 2014-04-10 16:30</div>
     <div class="gnb">
         <ul>
             <li><a href="${contextPath}/admin/main"><img src="<spring:eval expression="@app.getProperty(\"path.static\")"/>/img/admin/btn_home.png" alt="Home" /></a></li>
@@ -68,7 +68,7 @@
 <div id="container">
 <div class="snb">
     <div class="user_info">
-        <p class="name"><strong>홍길동</strong>님 반갑습니다.</p>
+        <p class="name"><strong>${adminInfo.adminName}</strong>님 반갑습니다.</p>
     </div>
     <!-- /user_info -->
 
@@ -91,10 +91,10 @@
         <h2 class="lang-kor-malgun"><span>접수현황</span></h2>
         <div class="box_con">
             <ul>
-                <li><span class="tit">현재접수인원</span><span class="number"><strong>370</strong> 명</span></li>
-                <li><span class="tit">미결제작성인원</span><span class="number"><strong>370</strong> 명</span></li>
-                <li><span class="tit">지원사항변경인원</span><span class="number"><strong>370</strong> 명</span></li>
-                <li><span class="tit">접수취소인원</span><span class="number"><strong>370</strong> 명</span></li>
+                <li><span class="tit" id="currCnt">현재접수인원</span><span class="number"><strong>${adminInfo.currCnt}</strong> 명</span></li>
+                <li><span class="tit" id="unpaidCnt">미결제인원</span><span class="number"><strong>${adminInfo.unpaidCnt}</strong> 명</span></li>
+                <li><span class="tit" id="unpaidCnt">원서작성중인원</span><span class="number"><strong>${adminInfo.uncmplCnt}</strong> 명</span></li>
+                <li><span class="tit" id="changeCnt">지원취소/변경인원</span><span class="number"><strong>${adminInfo.changeCnt}</strong> 명</span></li>
             </ul>
         </div>
         <a href="#" title="새로고침" class="btn_more"><img src="<spring:eval expression="@app.getProperty(\"path.static\")"/>/img/admin/btn_menu2.png" alt="새로고침"></a> </div>

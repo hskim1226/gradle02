@@ -53,6 +53,7 @@ public class CommonController {
         mv.setViewName("common/transLang");
         if (lang != null) {
             WebUtils.setSessionAttribute(request, SessionLocaleResolver.LOCALE_SESSION_ATTRIBUTE_NAME, new Locale(lang));
+
         }
         return mv;
     }

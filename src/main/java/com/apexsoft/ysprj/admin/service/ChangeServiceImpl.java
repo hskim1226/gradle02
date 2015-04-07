@@ -50,7 +50,7 @@ public class ChangeServiceImpl implements ChangeService {
         Map<String, Object> ecDataMap = new HashMap<String, Object>();
         Map<String, Object> selectionMap = new HashMap<String, Object>();
         ApplicantInfo applInfo = null;
-        String itemName = changeInfoForm.getInfoRadio();
+        String itemName = changeInfoForm.getColName();
         String colName = "";
         String tblName = "appl";
         int upAppl = 0, insert = 0, update = 0, delete = 0;
@@ -87,9 +87,14 @@ public class ChangeServiceImpl implements ChangeService {
                 colName = "영문성";
                 applChangeFg =true;
             }
-            if( itemName.equals("rgstNo")){
-                changeAppl.setRgstNo( changeInfoForm.getAftVal());
-                colName = "주민등록번호";
+            if( itemName.equals("bornDay")){
+                changeAppl.setBornDay( changeInfoForm.getAftVal());
+                colName = "생년월일";
+                applChangeFg =true;
+            }
+            if( itemName.equals("rgstBornDate")){
+                changeAppl.setRgstBornDate( changeInfoForm.getAftVal());
+                colName = "생년월일";
                 applChangeFg =true;
             }
             if( itemName.equals("telNum")){
@@ -448,7 +453,7 @@ public class ChangeServiceImpl implements ChangeService {
         param.setDeptCode(searchForm.getDeptCode());
 
         admsList = commonDAO.queryForList(ADMS_NAME_SPACE +"CustomAdmissionMapper.selectByYear","2015", Admission.class);
-
+        admsList.addAll(commonDAO.queryForList(ADMS_NAME_SPACE +"CustomAdmissionMapper.selectByYear","2016", Admission.class));
         campList = commonService.retrieveCampus();
         collList = commonService.retrieveCollegeByCampus( searchForm.getCampCode() );
         deptList = commonService.retrieveGeneralDepartmentByAdmsColl(param);

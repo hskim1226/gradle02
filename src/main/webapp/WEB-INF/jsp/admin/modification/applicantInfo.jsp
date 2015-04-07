@@ -27,8 +27,15 @@
             <td>${applInfo.engName}</td>
         </tr>
         <tr>
-            <th>생년월일/주민번호</th>
-            <td>${applInfo.rgstNo}</td>
+            <th>생년월일</th>
+            <c:choose>
+                <c:when test="${applList.admsNo == '15D'}">
+                    <td>${applInfo.bornDay}</td>
+                </c:when>
+                <c:otherwise>
+                    <td>${applInfo.rgstBornDate}</td>
+                </c:otherwise>
+            </c:choose>
             <th>Sur Name</th>
             <td>${applInfo.engSur}</td>
         </tr>

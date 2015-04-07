@@ -28,7 +28,10 @@ public class ApplicantInfo {
 	private String korName;  //
     private String engSur;  // 
     private String engName;  //     
-    private String rgstNo;  // 
+    private String rgstNo;  //
+    private String rgstBornDate;//RGST_BORN_DATE
+    private String bornDay;//BORN_DAY
+
     private String telNum;  //  
     private String addr; 
     private String detlAddr;      
@@ -283,5 +286,21 @@ public class ApplicantInfo {
 
     public void setPayTypeName(String payTypeName) {
         this.payTypeName = payTypeName;
+    }
+
+    public String getRgstBornDate() {
+        return rgstBornDate;
+    }
+
+    public void setRgstBornDate(String rgstBornDate) {
+        this.rgstBornDate = rgstBornDate;
+    }
+
+    public String getBornDay() {
+        return bornDay;
+    }
+
+    public void setBornDay(String bornDay) {
+        this.bornDay = bornDay;
     }
 }

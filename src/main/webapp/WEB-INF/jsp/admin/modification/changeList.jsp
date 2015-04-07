@@ -83,7 +83,16 @@
         <c:forEach var="chgList" items="${chgList}" varStatus="status">
             <tr  chgList="${chgList.applNo}">
                 <td>${chgList.admsNo}-${chgList.chgNo}</td>
-                <td>${chgList.korName}<br>${chgList.applId}</td>
+                <td>
+                    <c:choose>
+                        <c:when test="${chgList.admsNo == '15D'}">
+                            ${chgList.engName},${chgList.engSur}
+                        </c:when>
+                        <c:otherwise>
+                            ${chgList.korName}
+                        </c:otherwise>
+                    </c:choose>
+                    <br>${chgList.applId}</td>
                 <td>${chgList.applChgCodeName}</td>
                 <td >${chgList.chgColmName}</td>
                 <td >${chgList.befVal}</td>

@@ -13,7 +13,7 @@
     </div>
 
     <div class="con_section">
-        <form id ="applicantSearchForm" action="${contextPath}/admin//modification/changeInfo" method="post">
+        <form id ="applicantSearchForm" action="${contextPath}/admin/modification/changeInfo" method="post">
         <div class="srch_box"> <strong><label for="applId">수험번호</label></strong>
             <input type="text" name="applId" id="applId" class="ipt_txt1"  value="${applicantSearchForm.applId}" >
           <span class="btnBlueS">
@@ -35,7 +35,6 @@
                 <col width="14%" />
                 <col width="33%" />
             </colgroup>
-
             <tbody>
 
             <c:if test="${applInfo.applNo == null}" >
@@ -46,48 +45,59 @@
             <c:if test="${applInfo.applNo != null}" >
             <tr>
             <th>성명</th>
-            <td><input type="radio" class="Lradio" id="korName" name="infoRadio" value ="korName" ><label id="lbkorName"  for="korName" >${applInfo.korName}</label></td>
+            <td><input type="radio" class="Lradio" id="korName" name="infoRadio" value ="korName" ><label id="lbkorName"  for="korName" >&nbsp;${applInfo.korName}</label></td>
             <th>Name</th>
-            <td><input type="radio" class="Lradio" id="engName" name="infoRadio" value ="engName"><label id="lbengName" for="engName">${applInfo.engName}</td>
+            <td><input type="radio" class="Lradio" id="engName" name="infoRadio" value ="engName"><label id="lbengName" for="engName">&nbsp;${applInfo.engName}</td>
             </tr>
             <tr>
             <th>생년월일/주민번호</th>
-            <td><input type="radio" class="Lradio" id="rgstNo" name="infoRadio" value ="rgstNo"><label id="lbrgstNo" for="rgstNo">${applInfo.rgstNo}</td>
+            <td>
+                <c:choose>
+                <c:when test="${applList.admsNo == '15D'}">
+                    <input type="radio" class="Lradio" id="bornDay" name="infoRadio" value ="bornDay"><label id="lbbornDay" for="bornDay">&nbsp;${applInfo.bornDay}</td>
+                </c:when>
+                <c:otherwise>
+                    <input type="radio" class="Lradio" id="rgstBornDate" name="infoRadio" value ="rgstBornDate"><label id="lbrgstBornDate" for="rgstBornDate">${applInfo.rgstBornDate}</td>
+                </c:otherwise>
+                </c:choose>
             <th>Sur Name</th>
-            <td><input type="radio" class="Lradio" id="engSur" name="infoRadio" value ="engSur"><label id="lbengSur" for="engSur">${applInfo.engSur}</td>
+            <td><input type="radio" class="Lradio" id="engSur" name="infoRadio" value ="engSur"><label id="lbengSur" for="engSur">&nbsp;${applInfo.engSur}</td>
             </tr>
             <tr>
             <th>전화번호</th>
-            <td><input type="radio" class="Lradio" id="telNum" name="infoRadio" value ="telNum"><label id="lbtelNum" for="telNum">${applInfo.telNum}</td>
+            <td><input type="radio" class="Lradio" id="telNum" name="infoRadio" value ="telNum"><label id="lbtelNum" for="telNum">&nbsp;${applInfo.telNum}</td>
             <th>핸드폰 번호</th>
-            <td><input type="radio" class="Lradio" id="mobiNum" name="infoRadio" value ="mobiNum"><label id="lbmobiNum"  for="mobiNum">${applInfo.mobiNum}</td>
+            <td><input type="radio" class="Lradio" id="mobiNum" name="infoRadio" value ="mobiNum"><label id="lbmobiNum"  for="mobiNum">&nbsp;${applInfo.mobiNum}</td>
             </tr>
             <tr>
             <th>주소</th>
-            <td><input type="radio" class="Lradio" id="addr" name="infoRadio" value ="addr"><label id="lbaddr"  for="addr">${applInfo.addr}<br>${applInfo.detlAddr}</td>
+            <td><input type="radio" class="Lradio" id="addr" name="infoRadio" value ="addr"><label id="lbaddr"  for="addr">&nbsp;${applInfo.addr}<br>&nbsp;${applInfo.detlAddr}</td>
             <th>E-mail</th>
-            <td><input type="radio" class="Lradio" id="mailAddr" name="infoRadio" value ="mailAddr"><label id="lbmailAddr"  for="mailAddr">${applInfo.mailAddr}</td>
+            <td><input type="radio" class="Lradio" id="mailAddr" name="infoRadio" value ="mailAddr"><label id="lbmailAddr"  for="mailAddr">&nbsp;${applInfo.mailAddr}</td>
             </tr>
             <tr>
             <th>비상연락대상</th>
-            <td><input type="radio" class="Lradio" id="emerContName" name="infoRadio" value ="emerContName" ><label id="lbemerContName" for="emerContName">${applInfo.emerContName}</td>
+            <td><input type="radio" class="Lradio" id="emerContName" name="infoRadio" value ="emerContName" ><label id="lbemerContName" for="emerContName">&nbsp;${applInfo.emerContName}</td>
             <th>비상연락처</th>
-            <td><input type="radio" class="Lradio" id="emerContTel" name="infoRadio" value ="emerContTel"><label id="lbemerContTel" for="emerContTel">${applInfo.emerContTel}</td>
+            <td><input type="radio" class="Lradio" id="emerContTel" name="infoRadio" value ="emerContTel"><label id="lbemerContTel" for="emerContTel">&nbsp;${applInfo.emerContTel}</td>
             </tr>
             </c:if>
             </tbody>
         </table>
-        <table class="tbl_typeA" summary="지원서 상세정보">
+        <h3 class="tit1">변경요청정보</h3>
+        <table class="tbl_typeA mb15" summary="변경요청정보">
             <caption>
                 지원자 상세정보
             </caption>
             <colgroup>
-                <col width="15%" />
-                <col />
+                <col width="20%" />
+                <col width="70%" />
             </colgroup>
+            <form id ="changeInfoForm" action="${contextPath}/admin/modification/requestChangeInfo" method="post">
+                <input type="hidden" name="applNo" value=${applInfo.applNo}> </input>
+                <input type="hidden" name="admsNo" value=${applInfo.admsNo}> </input>
+                <input type="hidden" name="colName" id="colName"></input>
             <tbody>
-
-
             <tr>
             <th><label >변경이전정보</label></th>
             <td colspan="5"><label  id="befVal" ></label></td>
@@ -102,11 +112,14 @@
             <td colspan="5"><textarea  r rows ="5" cols="60" name="cnclResn"  id="cnclResn" class="ipt_area1" ></textarea></td>
             </tr>
             </tbody>
+            </form>
         </table>
 
         <c:if test="${applInfo.applNo != null}" >
             <div class="con_btn text-right">
-                <a class="btn_set btnRedS" id="changeBtn" ><span>수정요청</span></a>
+                <a class="btn_set btnWhiteS" id="backBtn" href="#"><span>상세정보</span></a>
+                <a class="btn_set btnRedS" id="changeBtn" href="#"><span>정보수정</span></a>
+
             </div>
         </c:if>
     </div>
@@ -122,6 +135,7 @@
 
             var chgItem = jQuery("input[name='infoRadio']:checked").val();
             if( jQuery('#lb'+chgItem).text() != null && jQuery('#lb'+chgItem).text()!='') {
+                jQuery('#colName').val(chgItem);
                 jQuery('#befVal').text(jQuery('#lb' + chgItem).text());
                 jQuery('#defValInput').val(jQuery('#lb' + chgItem).text());
             }else{
@@ -131,13 +145,18 @@
 
         });
 
-        jQuery('#changeBtn').on('click', function(e) {
+        jQuery('#changeBtn').on('click', function(event) {
             event.preventDefault();
 
             if (confirm('지원자 정보를 수정하시겠습니까?')) {
-                jQuery('#changeForm').submit();
+                jQuery('#changeInfoForm').submit();
+
             }
 
+        });
+        jQuery('#backBtn').on('click', function(event) {
+            event.preventDefault();
+            history.go(-1);
         });
 
         jQuery('#searchBtn').on('click', function(event) {

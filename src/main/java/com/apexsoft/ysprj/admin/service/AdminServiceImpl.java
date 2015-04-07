@@ -103,6 +103,7 @@ public class AdminServiceImpl implements AdminService{
             campList = commonService.retrieveCampus();
 
             admsList = commonDAO.queryForList(ADMS_NAME_SPACE +"CustomAdmissionMapper.selectByYear","2015", Admission.class);
+            admsList.addAll(commonDAO.queryForList(ADMS_NAME_SPACE +"CustomAdmissionMapper.selectByYear","2016", Admission.class));
             if( courseSearchPageForm.getAdmsNo()!= null) {
                 PageStatement tempStst = new PageStatement(NAME_SPACE+"retrieveApplicantCountByDept", NAME_SPACE+"retrieveApplicantListByDept");
 
@@ -219,12 +220,12 @@ public class AdminServiceImpl implements AdminService{
         }
         return campusList;
     }
-
+    //최근 1주일간 지원자 수 조회
     public List<ApplicantCnt> retrieveApplicantCntByRecent(CourseSearchGridForm searchForm) {
         List<ApplicantCnt> campusList = null;
         try {
 
-            campusList = commonDAO.queryForList(NAME_SPACE+"selectApplicantRecentCnt", searchForm, ApplicantCnt.class);
+            campusList = commonDAO.queryForList(NAME_SPACE+"selectApplicantRecentCntByDept", searchForm, ApplicantCnt.class);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -283,6 +284,7 @@ public class AdminServiceImpl implements AdminService{
         List<Department> deptList = new ArrayList<Department>();
         campList = commonService.retrieveCampus();
         admsList = commonDAO.queryForList(ADMS_NAME_SPACE +"CustomAdmissionMapper.selectByYear","2015", Admission.class);
+        admsList.addAll( commonDAO.queryForList(ADMS_NAME_SPACE +"CustomAdmissionMapper.selectByYear","2016", Admission.class));
         if(searchForm.getCampCode()!= null ) {
             collList = commonService.retrieveCollegeByCampus(searchForm.getCampCode());
         }
@@ -356,5 +358,27 @@ public class AdminServiceImpl implements AdminService{
         }
         return ec;
     }
+    public CommonAdminInfo retrieveCommonAdminInfo(){
+        CommonAdminInfo info= null;
+                info =commonDAO.queryForObject(NAME_SPACE+"retrieveStatusCount", CommonAdminInfo.class);
+        return info;
+    }
 
+
+    public ExecutionContext retrieveInitInfo(){
+        ExecutionContext ec = new ExecutionContext();
+        Map<String, Object> ecDataMap = new HashMap<String, Object>();
+        List<ApplicantDailyCnt> weekCntList = null;
+        List<ApplicantDailyCnt> corsCntList = null;
+        try{
+            weekCntList = commonDAO.queryForList(NAME_SPACE+"selectApplicantRecentCnt", ApplicantDailyCnt.class);
+            corsCntList = commonDAO.queryForList(NAME_SPACE+"selectApplicantCntByCorse", ApplicantDailyCnt.class);
+            ecDataMap.put("weekCntList",weekCntList);
+            ecDataMap.put("corsCntList",corsCntList);
+            ec.setData(ecDataMap);
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return ec;
+    }
 }

@@ -65,7 +65,7 @@
 <content tag="local-script">
     <script>
         jQuery(document).ready(function() {
-            jQuery('#changeBtn').on('click', function(e) {
+            jQuery('#changeBtn').on('click', function(event) {
                 event.preventDefault();
                 if (confirm('해당 지원서를 취소요청 하시겠습니까?')) {
 
