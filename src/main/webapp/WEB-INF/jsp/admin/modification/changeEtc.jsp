@@ -70,7 +70,7 @@
 <content tag="local-script">
     <script>
         jQuery(document).ready(function() {
-            jQuery('#changeBtn').on('click', function(e) {
+            jQuery('#changeBtn').on('click', function(event) {
                 event.preventDefault();
                 if (confirm('지원정보를 변경요청 하시겠습니까?')) {
                     jQuery('#changeForm').submit();

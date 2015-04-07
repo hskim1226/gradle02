@@ -187,8 +187,7 @@ public class ModificationController {
         }
 
         //TODO 로그인 정보로 변경
-        String userId = "test";
-        //String userId = principal.getName();
+        String userId = principal.getName();
         ExecutionContext ecRetrieve = changeService.createInfoChange(changeInfoForm,userId);
         if (ecRetrieve.getResult().equals(ExecutionContext.SUCCESS)) {
 

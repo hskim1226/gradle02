@@ -61,11 +61,30 @@
                 <tr class="applList"  applNo="${applList.applNo}">
                     <td>${applList.applId}</td>
                     <td>${applList.campName}</td>
-                    <td>${applList.deptName}</td>
-                    <td >${applList.applAttrName}<br>${applList.corsTypeName}</td>
-                    <td >${applList.korName} <br> ${applList.rgstNo}</td>
-                    <td >${applList.mobiNum} <br>${applList.mailAddr} </td>
-                    <td >${applList.payTypeName}<br>${applList.admsFee} </td>
+                    <td>${applList.deptName}
+                        <c:if test ="${applList.detlMajCode != 'DM000'}">
+                            <br>${applList.detlMajName}
+                        </c:if>
+                    </td>
+                    <td>
+                        <c:if test ="${applList.admsNo == '15B'}">
+                            ${applList.applAttrName}<br>
+                        </c:if>
+                            ${applList.corsTypeName}
+                    </td>
+                    <td>
+                        <c:choose>
+                            <c:when test="${applList.admsNo == '15D'}">
+                                ${applList.engName},${applList.engSur} <br> ${applList.bornDay}
+                            </c:when>
+                            <c:otherwise>
+                                ${applList.korName} <br> ${applList.rgstBornDate}
+                            </c:otherwise>
+
+                        </c:choose>
+                    </td>
+                    <td>${applList.mobiNum} <br>${applList.mailAddr} </td>
+                    <td>${applList.payTypeName}<br>${applList.admsFee} </td>
                 </tr>
             </c:forEach>
             </tbody>

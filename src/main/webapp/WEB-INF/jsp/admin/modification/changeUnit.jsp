@@ -254,6 +254,7 @@
                         labelKey: '${pageContext.response.locale == 'en' ? 'campNameXxen' : 'campName'}',
                         clean: ['collCode', 'ariInstCode', 'deptCode', 'corsTypeCode', 'detlMajCode'],
                         url: '/campus'
+
                     }
             );
 
@@ -334,7 +335,10 @@
                                 return '/ariInst/detailMajor/' + admsNo + "/" + jQuery('#deptCode').val() + "/" + jQuery('#ariInstCode').val() + '/' + arg;
                             } else if (applAttrCode == '00003') {
                                 return '/general/detailMajor/' + admsNo + '/' + jQuery('#deptCode').val() + '/' + arg;
+                            } else if (applAttrCode == '00004') {
+                                return '/general/detailMajor/' + admsNo + '/' + jQuery('#deptCode').val() + '/' + arg;
                             }
+
                         }
                     }
             );

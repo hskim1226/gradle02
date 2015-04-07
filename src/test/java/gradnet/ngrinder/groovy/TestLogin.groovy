@@ -1,4 +1,4 @@
-package gradnet.groovy
+package gradnet.ngrinder.groovy
 
 import HTTPClient.NVPair
 import org.junit.FixMethodOrder
@@ -58,19 +58,15 @@ class TestLogin {
     public void test0Login(){
 //        HTTPResponse result = request.GET("http://localhost:8080/yonsei");
 //        HTTPResponse result = request.POST("http://www.gradnet.co.kr/yonsei/j_spring_security_check.do",
-
-        HTTPResponse result = request.POST("http://localhost:8080/yonsei/j_spring_security_check.do",
+//        HTTPResponse result = request.POST("http://localhost:8080/yonsei/j_spring_security_check.do",
+        HTTPResponse result = request.POST("http://apexsoft-svr2:8080/yonsei/j_spring_security_check.do",
                 nvs([
-                    "j_username":"Hanm0mhanda",
-                    "j_password":"Hanm0mhanda"
+                    "j_username":"Abc333",
+                    "j_password":"Abc333"
                 ])
         )
-//                [
-//                    new NVPair("j_username","Hanm0mhanda"),
-//                    new NVPair("j_password":"Hanm0mhanda")
-//                ] as NVPair[]);
+
         if (result.statusCode == 301 || result.statusCode == 302) {
-//            grinder.logger.warn("Warning. The response may not be correct. The response code was {}.", result.statusCode);
             grinder.logger.warn("Warning. The response may not be correct. The response code was {}.", result.statusCode);
         } else {
             assertThat(result.statusCode, is(200));

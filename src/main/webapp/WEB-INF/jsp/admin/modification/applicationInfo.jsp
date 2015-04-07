@@ -42,7 +42,7 @@
             <th>지원과정</th>
             <td>${applInfo.corsTypeName}</td>
             <th>전형료</th>
-            <td><fmt:formatNumber type="currency"   maxFractionDigits="3" value="${applInfo.admsFee}" /></td>
+            <td>${applInfo.admsFee}</td>
         </tr>
         <tr>
             <th>학과</th>

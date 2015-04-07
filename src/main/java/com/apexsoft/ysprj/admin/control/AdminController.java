@@ -103,9 +103,28 @@ public class AdminController {
     public String initZeroAdmin() {
         return "admin/stats/main";
     }
+
     @RequestMapping(value="/main")
-    public String initAdmin() {
-        return "admin/stats/main";
+    public ModelAndView initAdmin( @ModelAttribute CourseSearchPageForm courseSearchPageForm,
+                             BindingResult bindingResult,
+                             ModelAndView mv)
+            throws NoSuchAlgorithmException, JsonProcessingException, UnsupportedEncodingException {
+        mv.setViewName("admin/stats/main");
+        ExecutionContext ec;
+        if (bindingResult.hasErrors()) {
+            mv.addObject("resultMsg", messageResolver.getMessage("U334"));
+
+        }
+        ExecutionContext ecRetrieve = adminService.retrieveInitInfo();
+        if (ecRetrieve.getResult().equals(ExecutionContext.SUCCESS)) {
+            Map<String, Object> map = (Map<String, Object>)ecRetrieve.getData();
+
+            mv.addObject("weekCntList", map.get("weekCntList"));
+            mv.addObject("corsCntList", map.get("corsCntList"));
+        } else {
+            mv = getErrorMV("common/error", ecRetrieve);
+        }
+        return mv;
     }
     
     @RequestMapping(value="/stats/category")

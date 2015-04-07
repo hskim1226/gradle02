@@ -11,15 +11,58 @@
 
     <div class="main_sec1">
         <div id="notice_box" class="mboard">
-            <h2><span>공지사항</span></h2>
+            <h2><span>지원현황</span></h2>
             <div class="mboard_con">
-                <ul>
-                    <li><a href="#"><span class="tit">공지사항입니다.공지사항입니다.공지사항입니다.공지사항입니다.공지사항입니다.</span><span class="date">2015-03-16</span></a></li>
-                    <li><a href="#"><span class="tit">공지사항</span><span class="date">2015-03-16</span></a></li>
-                    <li><a href="#"><span class="tit">공지사항</span><span class="date">2015-03-16</span></a></li>
-                    <li><a href="#"><span class="tit">공지사항</span><span class="date">2015-03-16</span></a></li>
-                    <li><a href="#"><span class="tit">공지사항</span><span class="date">2015-03-16</span></a></li>
-                </ul>
+                <table class="tbl_list1" summary="지원현황">
+                    <caption>
+                        원서수정/취소관리
+                    </caption>
+                    <colgroup>
+                        <col width="25%" />
+                        <col width="15%" />
+                        <col width="15%" />
+                        <col width="15%" />
+                        <col width="15%" />
+                        <col width="15%" />
+
+                    </colgroup>
+                    <tbody>
+                    <c:forEach var="corsCntList" items="${corsCntList}" varStatus="status">
+                    <tr>
+                        <c:choose>
+                            <c:when test="${corsCntList.admsNo == '15B'}">
+                                <c:choose>
+                                <c:when test="${corsCntList.applAttrCode == '00001'}">
+                                    <th scope="row" class="text-left"><span class="tit1">일반-일반</a></span></th>
+                                </c:when>
+                                <c:when test="${corsCntList.applAttrCode == '00002'}">
+                                    <th scope="row" class="text-left"><span class="tit1">일반-학연산</a></span></th>
+                                </c:when>
+                                <c:when test="${corsCntList.applAttrCode == '00003'}">
+                                    <th scope="row" class="text-left"><span class="tit1">일반-위탁</a></span></th>
+                                </c:when>
+                                <c:when test="${corsCntList.applAttrCode == '00004'}">
+                                    <th scope="row" class="text-left"><span class="tit1">일반-새터민</a></span></th>
+                                </c:when>
+                                </c:choose>
+                            </c:when>
+                            <c:when test="${corsCntList.admsNo == '15D'}">
+                                <th scope="row" class="text-left"><span class="tit1">외국인전형</a></span></th>
+                            </c:when>
+                            <c:when test="${corsCntList.admsNo == '15W'}">
+                                <th scope="row" class="text-left"><span class="tit1">조기전형</a></span></th>
+                            </c:when>
+
+                        </c:choose>
+                        <td>석사 ${corsCntList.cnt1}명</td>
+                        <td>박사 ${corsCntList.cnt2}명</td>
+                        <td>통합 ${corsCntList.cnt3}명</td>
+                        <td>연구 ${corsCntList.cnt4}명</td>
+                        <td>총계 ${corsCntList.totalCnt}명</td>
+                    </tr>
+                        </c:forEach>
+                    </tbody>
+                </table>
             </div>
             <a href="#" class="btn_more"><img src="<spring:eval expression="@app.getProperty(\"path.static\")"/>/img/admin/btn_more.png" alt="더보기" /></a> </div>
         <!-- /notice_board -->
@@ -48,41 +91,7 @@
                         <col width="18%" />
                     </colgroup>
                     <tbody>
-                    <tr>
-                        <th scope="row" class="text-left"><span class="tit1"><a href="#">047A1001</a></span></th>
-                        <td>홍길동</td>
-                        <td>모집단위변경</td>
-                        <td>2014-04-14</td>
-                        <td><img src="<spring:eval expression="@app.getProperty(\"path.static\")"/>/img/admin/img_step1.png" alt="처리요청"></td>
-                    </tr>
-                    <tr>
-                        <th scope="row" class="text-left"><span class="tit1"><a href="#">047A1001</a></span></th>
-                        <td>홍길동</td>
-                        <td>모집단위변경</td>
-                        <td>2014-04-14</td>
-                        <td><img src="<spring:eval expression="@app.getProperty(\"path.static\")"/>/img/admin/img_step2.png" alt="처리완료"></td>
-                    </tr>
-                    <tr>
-                        <th scope="row" class="text-left"><span class="tit1"><a href="#">047A1001</a></span></th>
-                        <td>홍길동</td>
-                        <td>모집단위변경</td>
-                        <td>2014-04-14</td>
-                        <td><img src="<spring:eval expression="@app.getProperty(\"path.static\")"/>/img/admin/img_step3.png" alt="처리중"></td>
-                    </tr>
-                    <tr>
-                        <th scope="row" class="text-left"><span class="tit1"><a href="#">047A1001</a></span></th>
-                        <td>홍길동</td>
-                        <td>모집단위변경</td>
-                        <td>2014-04-14</td>
-                        <td><img src="<spring:eval expression="@app.getProperty(\"path.static\")"/>/img/admin/img_step4.png" alt="처리불가"></td>
-                    </tr>
-                    <tr>
-                        <th scope="row" class="text-left"><span class="tit1"><a href="#">047A1001</a></span></th>
-                        <td>홍길동</td>
-                        <td>모집단위변경</td>
-                        <td>2014-04-14</td>
-                        <td><img src="<spring:eval expression="@app.getProperty(\"path.static\")"/>/img/admin/img_step1.png" alt="처리요청"></td>
-                    </tr>
+
                     </tbody>
                 </table>
             </div>
@@ -104,30 +113,12 @@
                     <col width="" />
                 </colgroup>
                 <tbody>
+                <c:forEach var="weekCntList" items="${weekCntList}" varStatus="status">
                 <tr>
-                    <th scope="row">2015-03-19</th>
-                    <td><img src='<spring:eval expression="@app.getProperty(\"path.static\")"/>/img/admin/bu_box1.png' width="50%" height="10" alt="">&nbsp;60명</td>
+                    <th scope="row">${weekCntList.applDate}</th>
+                    <td><img src='<spring:eval expression="@app.getProperty(\"path.static\")"/>/img/admin/bu_box1.png' width="${(weekCntList.totalCnt)%2000}%" height="10" alt="">&nbsp;${weekCntList.totalCnt}명</td>
                 </tr>
-                <tr>
-                    <th scope="row">2015-03-19</th>
-                    <td><img src='<spring:eval expression="@app.getProperty(\"path.static\")"/>/img/admin/bu_box1.png' width="70%" height="10" alt="">&nbsp;100명</td>
-                </tr>
-                <tr>
-                    <th scope="row">2015-03-19</th>
-                    <td><img src='<spring:eval expression="@app.getProperty(\"path.static\")"/>/img/admin/bu_box1.png' width="20%" height="10" alt="">&nbsp;65명</td>
-                </tr>
-                <tr>
-                    <th scope="row">2015-03-19</th>
-                    <td><img src='<spring:eval expression="@app.getProperty(\"path.static\")"/>/img/admin/bu_box1.png' width="80%" height="10" alt="">&nbsp;65명</td>
-                </tr>
-                <tr>
-                    <th scope="row">2015-03-19</th>
-                    <td><img src='<spring:eval expression="@app.getProperty(\"path.static\")"/>/img/admin/bu_box1.png' width="50%" height="10" alt="">&nbsp;65명</td>
-                </tr>
-                <tr>
-                    <th scope="row">2015-03-19</th>
-                    <td><img src='<spring:eval expression="@app.getProperty(\"path.static\")"/>/img/admin/bu_box1.png' width="66%" height="10" alt="">&nbsp;65명</td>
-                </tr>
+                </c:forEach>
                 </tbody>
             </table>
         </div>
