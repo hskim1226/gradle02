@@ -20,13 +20,14 @@ import org.apache.commons.lang3.StringUtils;
 import org.eclipse.birt.report.engine.api.IReportEngine;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.crypto.encrypt.Encryptors;
+import org.springframework.security.crypto.encrypt.TextEncryptor;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.ServletContext;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.*;
 
 /**
  * Created by hanmomhanda on 15. 2. 24.
@@ -155,7 +156,7 @@ public class BirtServiceImpl implements BirtService {
         rptInfoMap.put("title", application.getEntrYear() + " 학년도 " + admsTypeNames[0] + " " + admsTypeNames[1] + " 대학원 입학원서");
 
         String campName = "-- 해당사항 없음 -- ";
-        if(application.getCampCode() !=null && !"".equals(application.getCampCode())) {
+        if(application.getCampCode() !=null && !StringUtil.EMPTY_STRING.equals(application.getCampCode())) {
 //            String campNameArr[] = commonService.retrieveCampNameByCode(application.getCampCode());
 //            campName = campNameArr[0] + "N" + campNameArr[1];
             campName = commonService.retrieveCampNameByCode(application.getCampCode()).getCampName();
@@ -163,7 +164,7 @@ public class BirtServiceImpl implements BirtService {
         String corsTypeName = commonService.retrieveCorsTypeNameByCode(application.getCorsTypeCode()).getCodeVal();
 
         String ariInstName= "-- 해당사항 없음 -- ";
-        if(application.getAriInstCode() !=null && !"".equals(application.getAriInstCode())) {
+        if(application.getAriInstCode() !=null && !StringUtil.EMPTY_STRING.equals(application.getAriInstCode())) {
             ariInstName = commonService.retrieveAriInstNameByCode(application.getAriInstCode());
         }
 
@@ -203,19 +204,49 @@ public class BirtServiceImpl implements BirtService {
         }
         rptInfoMap.put("rgstBornDate", StringUtil.getEmptyIfNull(rgstBornDate) + " " + generalAdmsGender);
 //        rptInfoMap.put("rgstNo", StringUtil.insertHyphenAt(rgstNo, 6));
-        String fornRgstNo = applicationForeigner.getFornRgstNo();
-        if (fornRgstNo != null && fornRgstNo.length() > 0) {
-            rptInfoMap.put("fornRgstNo", StringUtil.insertHyphenAt(fornRgstNo, 6));
+
+
+
+
+
+
+//        Country tmpCountry = commonService.retrieveCountryByCode(StringUtil.getEmptyIfNull(applicationForeigner.getBornCntrCode()));
+//        rptInfoMap.put("bornCntrName", tmpCountry == null ? StringUtil.EMPTY_STRING : tmpCountry.getEngCntrName());
+        Country tmpCountry = commonService.retrieveCountryByCode(StringUtil.getEmptyIfNull(application.getCitzCntrCode()));
+        rptInfoMap.put("citzCntrName", tmpCountry == null ? StringUtil.EMPTY_STRING : tmpCountry.getEngCntrName());
+//        rptInfoMap.put("bornDay", StringUtil.getEmptyIfNull(application.getBornDay()));  // rgstBornDate로 대체
+//        rptInfoMap.put("paspNo", StringUtil.getEmptyIfNull(applicationForeigner.getPaspNo()));
+
+        if ( "C".equals(admsTypeCode) || "D".equals(admsTypeCode)) {
+            try {
+                String fornRgstNoEncr = applicationForeigner.getFornRgstNoEncr();
+                String fornRgstNo = fornRgstNoEncr != null && !StringUtil.EMPTY_STRING.equals(fornRgstNoEncr) ? getEncryptedString(fornRgstNoEncr, false) : StringUtil.EMPTY_STRING;
+                if (fornRgstNo != null && fornRgstNo.length() > 0) {
+                    rptInfoMap.put("fornRgstNo", StringUtil.insertHyphenAt(fornRgstNo, 6));
+                } else {
+                    rptInfoMap.put("fornRgstNo", "미등록"+"\n"+"(Not Registered)");
+                }
+                String paspNoEncr = applicationForeigner.getPaspNoEncr();
+                String paspNo = paspNoEncr != null && !StringUtil.EMPTY_STRING.equals(paspNoEncr) ? getEncryptedString(paspNoEncr, false) : StringUtil.EMPTY_STRING;
+                rptInfoMap.put("paspNo", paspNo);
+//                String visaNoEncr = applicationForeigner.getVisaNoEncr();
+//                String visaNo = visaNoEncr != null && !StringUtil.EMPTY_STRING.equals(visaNoEncr) ? getEncryptedString(visaNoEncr, false) : StringUtil.EMPTY_STRING;
+            } catch (IOException e) {
+                ExecutionContext ecEncr = new ExecutionContext(ExecutionContext.FAIL);
+                ecEncr.setMessage(messageResolver.getMessage("U347"));
+                ecEncr.setErrCode("ERR0043");
+                Map<String, Object> errMap = new HashMap<String, Object>();
+                errMap.put("applNo", basis.getApplication().getApplNo());
+                errMap.put("userId", userId);
+                errMap.put("situation", "Error while loading props for En/Decryption");
+                ecEncr.setErrorInfo(new ErrorInfo(errMap));
+                throw new YSBizException(ecEncr);
+            }
         }
-        Country tmpCountry = commonService.retrieveCountryByCode(StringUtil.getEmptyIfNull(applicationForeigner.getBornCntrCode()));
-        rptInfoMap.put("bornCntrName", tmpCountry == null ? "" : tmpCountry.getEngCntrName());
-        tmpCountry = commonService.retrieveCountryByCode(StringUtil.getEmptyIfNull(application.getCitzCntrCode()));
-        rptInfoMap.put("citzCntrName", tmpCountry == null ? "" : tmpCountry.getEngCntrName());
-        rptInfoMap.put("bornDay", StringUtil.getEmptyIfNull(application.getBornDay()));
-        rptInfoMap.put("paspNo", StringUtil.getEmptyIfNull(applicationForeigner.getPaspNo()));
+
         rptInfoMap.put("visaTypeName", StringUtil.getEmptyIfNull(applicationForeigner.getVisaTypeCode()) + StringUtil.getEmptyIfNull(applicationForeigner.getVisaTypeEtc()));
-        rptInfoMap.put("fornRgstYn", StringUtil.getEmptyIfNull(applicationForeigner.getFornRgstNo()).length() > 0 ? "등록"+"\n"+"(Registered)" : "미등록"+"\n"+"(Not Registered)");
-        rptInfoMap.put("homeAdddr", StringUtil.getEmptyIfNull(applicationForeigner.getHomeAddr()));
+//        rptInfoMap.put("fornRgstNo", StringUtil.getEmptyIfNull(applicationForeigner.getFornRgstNo()).length() > 0 ? "등록"+"\n"+"(Registered)" : "미등록"+"\n"+"(Not Registered)");
+        rptInfoMap.put("homeAddr", StringUtil.getEmptyIfNull(applicationForeigner.getHomeAddr()));
         rptInfoMap.put("korAddr", StringUtil.getEmptyIfNull(addr) + " " + StringUtil.getEmptyIfNull(detlAddr));
         rptInfoMap.put("mailAddr", StringUtil.getEmptyIfNull(mailAddr));
         rptInfoMap.put("homeTel", StringUtil.getEmptyIfNull(applicationForeigner.getHomeTel()));
@@ -225,97 +256,127 @@ public class BirtServiceImpl implements BirtService {
         rptInfoMap.put("detlAddr", StringUtil.getEmptyIfNull(detlAddr));
         rptInfoMap.put("homeEmrgName", StringUtil.getEmptyIfNull(applicationForeigner.getHomeEmrgName()));
         rptInfoMap.put("homeEmrgTel", StringUtil.getEmptyIfNull(applicationForeigner.getHomeEmrgTel()));
-        rptInfoMap.put("homeEmrgRela", StringUtil.getEmptyIfNull(applicationForeigner.getHomeEmrgRela()));
+        CommonCode homeEmrgRela = commonService.retrieveCommonCodeByCodeGroupCode("EMER_CONT", StringUtil.getEmptyIfNull(applicationForeigner.getHomeEmrgRela()));
+        String homeEmrgRelaVal = homeEmrgRela != null ? homeEmrgRela.getCodeVal() : StringUtil.EMPTY_STRING;
+        rptInfoMap.put("homeEmrgRela", homeEmrgRelaVal);
         rptInfoMap.put("korEmrgName", StringUtil.getEmptyIfNull(applicationForeigner.getKorEmrgName()));
         rptInfoMap.put("korEmrgTel", StringUtil.getEmptyIfNull(applicationForeigner.getKorEmrgTel()));
-        rptInfoMap.put("korEmrgRela", StringUtil.getEmptyIfNull(applicationForeigner.getKorEmrgRela()));
-
-        List<String> oneAcad = new ArrayList<String>();
-
+        CommonCode korEmrgRela = commonService.retrieveCommonCodeByCodeGroupCode("EMER_CONT", StringUtil.getEmptyIfNull(applicationForeigner.getKorEmrgRela()));
+        String korEmrgRelaVal = korEmrgRela != null ? korEmrgRela.getCodeVal() : StringUtil.EMPTY_STRING;
+        rptInfoMap.put("korEmrgRela", korEmrgRelaVal);
 
         rptInfoMap.put("photoUri", documentService.retrievePhotoUri(applNo));
 
         String currWrkpName = StringUtil.getEmptyIfNull(applicationGeneral.getCurrWrkpName());
         String currWrkpTel = StringUtil.getEmptyIfNull(applicationGeneral.getCurrWrkpTel());
 
-        String academy0 = "";
-        String academy1 = "";
-        String academy2 = "";
-        String academy3 = "";
-        String academy4 = "";
-        String lastCollegeScore = "";
-        String lastGraduateScore = "";
-        String toeflScore = "";
-        String toeicScore = "";
-        String tepsScore = "";
-        String ieltsScore = "";
-        String greScore = "";
-        String topikScore = "";
+        String lastCollegeScore = StringUtil.EMPTY_STRING;
+        String lastGraduateScore = StringUtil.EMPTY_STRING;
+        String toeflScore = StringUtil.EMPTY_STRING;
+        String toeicScore = StringUtil.EMPTY_STRING;
+        String tepsScore = StringUtil.EMPTY_STRING;
+        String ieltsScore = StringUtil.EMPTY_STRING;
+        String greScore = StringUtil.EMPTY_STRING;
+        String topikScore = StringUtil.EMPTY_STRING;
 
-        int collCnt = 0;
+//        int collCnt = 0;
         boolean collLastFg = false;
-        boolean gradLastFg = false;
 
-        for(CustomApplicationAcademy aColl : collegeList ){
-            collCnt++;
-            if( collCnt ==1){
-                academy0 = "(대학) "+aColl.getSchlName()+" "+aColl.getCollName() + " "+aColl.getMajName();
-            }
-            else if( collCnt ==2){
-                academy1 =  "(대학) "+aColl.getSchlName()+" "+aColl.getCollName() + " "+aColl.getMajName();
-            }
-            else if( collCnt ==3){
-                academy2 =  "(대학) "+aColl.getSchlName()+" "+aColl.getCollName() + " "+aColl.getMajName();
-            }
-            else if( collCnt ==4){
-                academy3 =  "(대학) "+aColl.getSchlName()+" "+aColl.getCollName() + " "+aColl.getMajName();
-            }
-            else if( collCnt ==5){
-                academy4 =  "(대학) "+aColl.getSchlName()+" "+aColl.getCollName() + " "+aColl.getMajName();
+
+//        for(CustomApplicationAcademy aColl : collegeList ){
+//            collCnt++;
+//            if( collCnt ==1){
+//                academy0 = "(대학) "+aColl.getSchlName()+" "+aColl.getCollName() + " "+aColl.getMajName();
+//            }
+//            else if( collCnt ==2){
+//                academy1 =  "(대학) "+aColl.getSchlName()+" "+aColl.getCollName() + " "+aColl.getMajName();
+//            }
+//            else if( collCnt ==3){
+//                academy2 =  "(대학) "+aColl.getSchlName()+" "+aColl.getCollName() + " "+aColl.getMajName();
+//            }
+//            else if( collCnt ==4){
+//                academy3 =  "(대학) "+aColl.getSchlName()+" "+aColl.getCollName() + " "+aColl.getMajName();
+//            }
+//            else if( collCnt ==5){
+//                academy4 =  "(대학) "+aColl.getSchlName()+" "+aColl.getCollName() + " "+aColl.getMajName();
+//            }
+//            if( !collLastFg ) {
+//                lastCollegeScore = aColl.getGradAvr() + "/" + aColl.getGradFull();
+//            }
+//            if( "Y".equals(aColl.getLastSchlYn())){
+//                collLastFg = true;
+//            }
+//
+//        }
+
+        int collegeListL = collegeList.size();
+        int i;
+        for(i = 0 ; i < collegeListL ; i++) {
+            CustomApplicationAcademy aColl = collegeList.get(i);
+
+            if ("C".equals(admsTypeCode) || "D".equals(admsTypeCode)) {
+                rptInfoMap.put("acadPeriod" + i, aColl.getEntrDay() + "~" + aColl.getGrdaDay());
+                rptInfoMap.put("academy" + i, "(대학) "+ aColl.getSchlName() + " " + aColl.getCollName());
+                rptInfoMap.put("majName" + i, aColl.getMajName());
+                rptInfoMap.put("gpaFull" + i, aColl.getGradAvr() + " / " + aColl.getGradFull());
+            } else {
+                rptInfoMap.put("academy" + i, "(대학) "+ aColl.getSchlName() + " " + aColl.getCollName() + " " + aColl.getMajName());
             }
             if( !collLastFg ) {
-                lastCollegeScore = aColl.getGradAvr() + "/" + aColl.getGradFull();
+                lastGraduateScore = aColl.getGradAvr() + " / " + aColl.getGradFull();
             }
-            if( "Y".equals(aColl.getLastSchlYn())){
+            if( "Y".equals(aColl.getLastSchlYn())) {
                 collLastFg = true;
             }
-
         }
 
+        boolean gradLastFg = false;
+        int graduateListL = graduateList.size();
+        for(int j = 0 ; j < graduateListL ; j++) {
+            CustomApplicationAcademy aGrad = graduateList.get(j);
 
-        for(CustomApplicationAcademy aColl : graduateList ){
-            collCnt++;
-            if( collCnt ==1){
-                academy0 = "(대학원) "+aColl.getSchlName()+" "+aColl.getCollName() + " "+aColl.getMajName();
+            if ("C".equals(admsTypeCode) || "D".equals(admsTypeCode)) {
+                rptInfoMap.put("acadPeriod" + (i+j), aGrad.getEntrDay() + "~" + aGrad.getGrdaDay());
+                rptInfoMap.put("academy" + (i+j), "(대학원) " + aGrad.getSchlName() + " " + aGrad.getCollName());
+                rptInfoMap.put("majName" + (i+j), aGrad.getMajName());
+                rptInfoMap.put("gpaFull" + (i+j), aGrad.getGradAvr() + " / " + aGrad.getGradFull());
+            } else {
+                rptInfoMap.put("academy" + (i+j), "(대학원) "+ aGrad.getSchlName() + " " + aGrad.getCollName() + " " + aGrad.getMajName());
             }
-            else if( collCnt ==2){
-                academy1 =  "(대학원) "+aColl.getSchlName()+" "+aColl.getCollName() + " "+aColl.getMajName();
-            }
-            else if( collCnt ==3){
-                academy2 =  "(대학원) "+aColl.getSchlName()+" "+aColl.getCollName() + " "+aColl.getMajName();
-            }
-            else if( collCnt ==4){
-                academy3 =  "(대학원) "+aColl.getSchlName()+" "+aColl.getCollName() + " "+aColl.getMajName();
-            }
-            else if( collCnt ==5){
-                academy4 =  "(대학원) "+aColl.getSchlName()+" "+aColl.getCollName() + " "+aColl.getMajName();
-            }
-
             if( !gradLastFg ) {
-                lastGraduateScore = aColl.getGradAvr() + "/" + aColl.getGradFull();
+                lastGraduateScore = aGrad.getGradAvr() + " / " + aGrad.getGradFull();
             }
-            if( "Y".equals(aColl.getLastSchlYn())){
+            if( "Y".equals(aGrad.getLastSchlYn())) {
                 gradLastFg = true;
             }
         }
 
 
-        rptInfoMap.put("academy0", academy0);
-        rptInfoMap.put("academy1", academy1);
-        rptInfoMap.put("academy2", academy2);
-        rptInfoMap.put("academy3", academy3);
-        rptInfoMap.put("academy4", academy4);
-
+//        for(CustomApplicationAcademy aColl : graduateList ){
+//            collCnt++;
+//            if( collCnt ==1){
+//                academy0 = "(대학원) "+aColl.getSchlName()+" "+aColl.getCollName() + " "+aColl.getMajName();
+//            }
+//            else if( collCnt ==2){
+//                academy1 =  "(대학원) "+aColl.getSchlName()+" "+aColl.getCollName() + " "+aColl.getMajName();
+//            }
+//            else if( collCnt ==3){
+//                academy2 =  "(대학원) "+aColl.getSchlName()+" "+aColl.getCollName() + " "+aColl.getMajName();
+//            }
+//            else if( collCnt ==4){
+//                academy3 =  "(대학원) "+aColl.getSchlName()+" "+aColl.getCollName() + " "+aColl.getMajName();
+//            }
+//            else if( collCnt ==5){
+//                academy4 =  "(대학원) "+aColl.getSchlName()+" "+aColl.getCollName() + " "+aColl.getMajName();
+//            }
+//
+//            if( !gradLastFg ) {
+//                lastGraduateScore = aColl.getGradAvr() + "/" + aColl.getGradFull();
+//            }
+//            if( "Y".equals(aColl.getLastSchlYn())){
+//                gradLastFg = true;
+//            }
+//        }
 
         rptInfoMap.put("currWrkpName", currWrkpName);
         rptInfoMap.put("currWrkpTel", currWrkpTel);
@@ -333,7 +394,7 @@ public class BirtServiceImpl implements BirtService {
         rptInfoMap.put("lastCollegeScore", lastCollegeScore);
         rptInfoMap.put("lastGraduateScore", lastGraduateScore);
 
-        String forlExmp = "";
+        String forlExmp = StringUtil.EMPTY_STRING;
 
         for( LanguageGroup aLangGrp : langGrpList){
             //영어인경우
@@ -343,7 +404,7 @@ public class BirtServiceImpl implements BirtService {
                         if ("00001".equals(aLangSend.getItemCode())) { // 제출
                             if (aLang.isLangInfoSaveFg()) {
                                 if ("00001".equals(aLang.getItemCode())) {
-                                    String toflType = "";
+                                    String toflType = StringUtil.EMPTY_STRING;
                                     if ("00001".equals(aLang.getSubCode()))
                                         toflType = "IBT";
                                     if ("00002".equals(aLang.getSubCode()))
@@ -356,31 +417,31 @@ public class BirtServiceImpl implements BirtService {
                                     toeicScore = aLang.getLangGrad();
                                 } else if ("00003".equals(aLang.getItemCode())) {
                                     tepsScore = aLang.getLangGrad();
-
                                 } else if ("00004".equals(aLang.getItemCode())) {
-                                    ieltsScore = aLang.getLangGrad();
-
+                                    String ieltsCode = aLang.getLangGrad();
+                                    ieltsScore = commonService.retrieveCommonCodeByCodeGroupCode("IELT_LEVL", ieltsCode).getCodeVal();
                                 } else if ("00005".equals(aLang.getItemCode())) {
                                     greScore = aLang.getLangGrad();
                                 }
                             }
                         } else { // 면제
                             if (aLang.isLangInfoSaveFg()) {
-                                if ("00001".equals(aLang.getItemCode())) { // 영어권 외국인
-                                    forlExmp = "영어권 외국인";
-                                } else if ("00002".equals(aLang.getItemCode())) {
-                                    forlExmp = "영어권 졸업자";
-                                } else if ("00003".equals(aLang.getItemCode())) {
-                                    forlExmp = "본교 석사 출신";
-                                } else if ("00005".equals(aLang.getItemCode())) {
-                                    forlExmp = "학과 면제";
-                                } else if ("00006".equals(aLang.getItemCode())) {
-                                    forlExmp = "본교 의예,치의예 졸업";
-                                } else if ("00007".equals(aLang.getItemCode())) {
-                                    forlExmp = "본교 의학,의전원 졸업";
-                                } else if ("00008".equals(aLang.getItemCode())) {
-                                    forlExmp = "구사 능력 증빙";
-                                }
+//                                if ("00001".equals(aLang.getItemCode())) { // 영어권 외국인
+//                                    forlExmp = "영어권 외국인";
+//                                } else if ("00002".equals(aLang.getItemCode())) {
+//                                    forlExmp = "영어권 졸업자";
+//                                } else if ("00003".equals(aLang.getItemCode())) {
+//                                    forlExmp = "본교 석사 출신";
+//                                } else if ("00005".equals(aLang.getItemCode())) {
+//                                    forlExmp = "학과 면제";
+//                                } else if ("00006".equals(aLang.getItemCode())) {
+//                                    forlExmp = "본교 의예,치의예 졸업";
+//                                } else if ("00007".equals(aLang.getItemCode())) {
+//                                    forlExmp = "본교 의학,의전원 졸업";
+//                                } else if ("00008".equals(aLang.getItemCode())) {
+//                                    forlExmp = "구사 능력 증빙";
+//                                }
+                                forlExmp = "O";
                             }
                         }
                     }
@@ -398,23 +459,23 @@ public class BirtServiceImpl implements BirtService {
                             }
                         } else {
                             if (aLang.isLangInfoSaveFg()) {
-                                if ("00001".equals(aLang.getItemCode())) { // 영어권 외국인
-                                    forlExmp = "영어권 외국인";
-                                } else if ("00002".equals(aLang.getItemCode())) {
-                                    forlExmp = "영어권 졸업자";
-                                } else if ("00003".equals(aLang.getItemCode())) {
-                                    forlExmp = "본교 석사 출신";
-                                } else if ("00005".equals(aLang.getItemCode())) {
-                                    forlExmp = "학과 면제";
-                                } else if ("00006".equals(aLang.getItemCode())) {
-                                    forlExmp = "본교 의예,치의예 졸업";
-                                } else if ("00007".equals(aLang.getItemCode())) {
-                                    forlExmp = "본교 의학,의전원 졸업";
-                                } else if ("00008".equals(aLang.getItemCode())) {
-                                    forlExmp = "구사 능력 증빙";
-                                }
+//                                if ("00001".equals(aLang.getItemCode())) { // 영어권 외국인
+//                                    forlExmp = "영어권 외국인";
+//                                } else if ("00002".equals(aLang.getItemCode())) {
+//                                    forlExmp = "영어권 졸업자";
+//                                } else if ("00003".equals(aLang.getItemCode())) {
+//                                    forlExmp = "본교 석사 출신";
+//                                } else if ("00005".equals(aLang.getItemCode())) {
+//                                    forlExmp = "학과 면제";
+//                                } else if ("00006".equals(aLang.getItemCode())) {
+//                                    forlExmp = "본교 의예,치의예 졸업";
+//                                } else if ("00007".equals(aLang.getItemCode())) {
+//                                    forlExmp = "본교 의학,의전원 졸업";
+//                                } else if ("00008".equals(aLang.getItemCode())) {
+//                                    forlExmp = "구사 능력 증빙";
+//                                }
+                                forlExmp = "O";
                             }
-
                         }
                     }
                 }
@@ -426,25 +487,25 @@ public class BirtServiceImpl implements BirtService {
         rptInfoMap.put("tepsScore", tepsScore);
         rptInfoMap.put("ieltsScore", ieltsScore);
         rptInfoMap.put("greScore", greScore);
-        rptInfoMap.put("forlExmp", forlExmp.length() > 0 ? "O" : "");
+        rptInfoMap.put("forlExmp", forlExmp.length() > 0 ? "O" : StringUtil.EMPTY_STRING);
         rptInfoMap.put("topik", topikScore);
 
         // TODO
-        String range0 = "";
-        String corpName0 = "";
-        String exprDesc0 = "";
-        String range1 = "";
-        String corpName1 = "";
-        String exprDesc1 = "";
-        String range2 = "";
-        String corpName2 = "";
-        String exprDesc2 = "";
-        String range3 = "";
-        String corpName3 = "";
-        String exprDesc3 = "";
-        String range4 = "";
-        String corpName4 = "";
-        String exprDesc4 = "";
+        String range0 = StringUtil.EMPTY_STRING;
+        String corpName0 = StringUtil.EMPTY_STRING;
+        String exprDesc0 = StringUtil.EMPTY_STRING;
+        String range1 = StringUtil.EMPTY_STRING;
+        String corpName1 = StringUtil.EMPTY_STRING;
+        String exprDesc1 = StringUtil.EMPTY_STRING;
+        String range2 = StringUtil.EMPTY_STRING;
+        String corpName2 = StringUtil.EMPTY_STRING;
+        String exprDesc2 = StringUtil.EMPTY_STRING;
+        String range3 = StringUtil.EMPTY_STRING;
+        String corpName3 = StringUtil.EMPTY_STRING;
+        String exprDesc3 = StringUtil.EMPTY_STRING;
+        String range4 = StringUtil.EMPTY_STRING;
+        String corpName4 = StringUtil.EMPTY_STRING;
+        String exprDesc4 = StringUtil.EMPTY_STRING;
 
         int exprCnt =0;
         for(CustomApplicationExperience aExpr : expList ){
@@ -494,10 +555,10 @@ public class BirtServiceImpl implements BirtService {
         rptInfoMap.put("exprDesc4", exprDesc4);
 
         // TODO
-        rptInfoMap.put("mltrServName", "");
-        rptInfoMap.put("mltrJoinDay", "");
-        rptInfoMap.put("mltrDschDay", "");
-        rptInfoMap.put("mltrRankName", "");
+        rptInfoMap.put("mltrServName", StringUtil.EMPTY_STRING);
+        rptInfoMap.put("mltrJoinDay", StringUtil.EMPTY_STRING);
+        rptInfoMap.put("mltrDschDay", StringUtil.EMPTY_STRING);
+        rptInfoMap.put("mltrRankName", StringUtil.EMPTY_STRING);
 
         // TODO
 
@@ -507,7 +568,7 @@ public class BirtServiceImpl implements BirtService {
 
         String appId = "지원 미완료";
 
-        if( application.getApplId() != null && !application.getApplId().equals("")){
+        if( application.getApplId() != null && !application.getApplId().equals(StringUtil.EMPTY_STRING)){
             appId = application.getApplId();
         }
         rptInfoMap.put("applId", appId);
@@ -527,5 +588,26 @@ public class BirtServiceImpl implements BirtService {
                 getDocList(item.getSubContainer(), docList);
             }
         }
+    }
+
+    private String getEncryptedString(String input, boolean isEncrypt) throws IOException {
+        Properties prop = new Properties();
+        InputStream is = servletContext.getResourceAsStream("WEB-INF/grad-ks");
+        String result = null;
+
+        try {
+            prop.load(is);
+            TextEncryptor textEncryptor = Encryptors.queryableText(prop.getProperty("ENC_PSWD"), prop.getProperty("ENC_SALT"));
+            result = isEncrypt ? textEncryptor.encrypt(input) : textEncryptor.decrypt(input);
+        } finally {
+            try {
+                if (is != null) {
+                    is.close();
+                }
+            } catch (IOException e) {
+                throw new YSBizException(e);
+            }
+        }
+        return result;
     }
 }

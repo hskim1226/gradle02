@@ -199,7 +199,7 @@
                 <property name="category">Unformatted</property>
             </structure>
         </scalar-parameter>
-        <scalar-parameter name="bornDay" id="1548">
+        <scalar-parameter name="rgstBornDate" id="1548">
             <property name="valueType">static</property>
             <property name="isRequired">false</property>
             <property name="dataType">string</property>
@@ -244,7 +244,7 @@
                 <property name="category">Unformatted</property>
             </structure>
         </scalar-parameter>
-        <scalar-parameter name="fornRgstYn" id="1551">
+        <scalar-parameter name="fornRgstNo" id="1551">
             <property name="valueType">static</property>
             <property name="isRequired">false</property>
             <property name="dataType">string</property>
@@ -619,6 +619,246 @@
                 <property name="category">Unformatted</property>
             </structure>
         </scalar-parameter>
+        <scalar-parameter name="forlExmp" id="1959">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant"></value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="acadPeriod0" id="1962">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant"></value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="acadPeriod1" id="1963">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant"></value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="acadPeriod2" id="1964">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant"></value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="acadPeriod3" id="1965">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant"></value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="acadPeriod4" id="1966">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant"></value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="majName0" id="1972">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant"></value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="majName1" id="1973">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant"></value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="majName2" id="1974">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant"></value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="majName3" id="1975">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant"></value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="majName4" id="1976">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant"></value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="gpaFull0" id="1977">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant"></value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="gpaFull1" id="1978">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant"></value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="gpaFull2" id="1979">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant"></value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="gpaFull3" id="1980">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant"></value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="gpaFull4" id="1981">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant"></value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
     </parameters>
     <data-sources>
         <script-data-source name="DocDataSource" id="1630"/>
@@ -768,13 +1008,13 @@ iterator = null;]]></method>
                 <property name="width">3cm</property>
             </column>
             <column id="1714">
-                <property name="width">6cm</property>
+                <property name="width">6.5cm</property>
             </column>
             <column id="1715">
                 <property name="width">2cm</property>
             </column>
             <column id="1716">
-                <property name="width">1cm</property>
+                <property name="width">1.5cm</property>
             </column>
             <column id="1717">
                 <property name="width">1.5cm</property>
@@ -1442,16 +1682,16 @@ Date of Birth</text-property>
                     <property name="borderRightWidth">thin</property>
                     <property name="borderTopStyle">solid</property>
                     <property name="borderTopWidth">thin</property>
-                    <data id="1901">
+                    <data id="1957">
                         <property name="textAlign">center</property>
                         <list-property name="boundDataColumns">
                             <structure>
-                                <property name="name">bornDay</property>
-                                <expression name="expression" type="javascript">params["bornDay"]</expression>
+                                <property name="name">rgstBornDate</property>
+                                <expression name="expression" type="javascript">params["rgstBornDate"]</expression>
                                 <property name="dataType">string</property>
                             </structure>
                         </list-property>
-                        <property name="resultSetColumn">bornDay</property>
+                        <property name="resultSetColumn">rgstBornDate</property>
                     </data>
                 </cell>
             </row>
@@ -1580,17 +1820,16 @@ Registration</text-property>
                     <property name="borderRightWidth">thin</property>
                     <property name="borderTopStyle">solid</property>
                     <property name="borderTopWidth">thin</property>
-                    <data id="1911">
-                        <property name="fontSize">9pt</property>
+                    <data id="1992">
                         <property name="textAlign">center</property>
                         <list-property name="boundDataColumns">
                             <structure>
-                                <property name="name">fornRgstYn</property>
-                                <expression name="expression" type="javascript">params["fornRgstYn"]</expression>
+                                <property name="name">fornRgstNo</property>
+                                <expression name="expression" type="javascript">params["fornRgstNo"]</expression>
                                 <property name="dataType">string</property>
                             </structure>
                         </list-property>
-                        <property name="resultSetColumn">fornRgstYn</property>
+                        <property name="resultSetColumn">fornRgstNo</property>
                     </data>
                 </cell>
             </row>
@@ -1631,7 +1870,7 @@ Homeland Address</text-property>
                     <property name="borderRightWidth">thin</property>
                     <property name="borderTopStyle">solid</property>
                     <property name="borderTopWidth">thin</property>
-                    <data id="1913">
+                    <data id="1958">
                         <property name="textAlign">center</property>
                         <list-property name="boundDataColumns">
                             <structure>
@@ -2176,7 +2415,7 @@ Relationship</text-property>
             <property name="borderRightStyle">solid</property>
             <property name="borderRightWidth">thin</property>
             <column id="427">
-                <property name="width">5cm</property>
+                <property name="width">3.5cm</property>
             </column>
             <column id="428">
                 <property name="width">4cm</property>
@@ -2185,7 +2424,7 @@ Relationship</text-property>
                 <property name="width">4cm</property>
             </column>
             <column id="430">
-                <property name="width">3cm</property>
+                <property name="width">4.5cm</property>
             </column>
             <column id="431">
                 <property name="width">3.5cm</property>
@@ -2263,6 +2502,8 @@ Period of Attendance
                     </label>
                 </cell>
                 <cell id="434">
+                    <property name="colSpan">2</property>
+                    <property name="rowSpan">1</property>
                     <property name="borderBottomStyle">solid</property>
                     <property name="borderBottomWidth">thin</property>
                     <property name="borderLeftStyle">solid</property>
@@ -2277,7 +2518,7 @@ Period of Attendance
 Name of Institution</text-property>
                     </label>
                 </cell>
-                <cell id="435">
+                <cell id="436">
                     <property name="borderBottomStyle">solid</property>
                     <property name="borderBottomWidth">thin</property>
                     <property name="borderLeftStyle">solid</property>
@@ -2292,7 +2533,7 @@ Name of Institution</text-property>
 Major</text-property>
                     </label>
                 </cell>
-                <cell id="436">
+                <cell id="437">
                     <property name="borderBottomStyle">solid</property>
                     <property name="borderBottomWidth">thin</property>
                     <property name="borderLeftStyle">solid</property>
@@ -2305,21 +2546,6 @@ Major</text-property>
                         <property name="fontSize">9pt</property>
                         <text-property name="text">성적/만점
 GPA/Full-Mark</text-property>
-                    </label>
-                </cell>
-                <cell id="437">
-                    <property name="borderBottomStyle">solid</property>
-                    <property name="borderBottomWidth">thin</property>
-                    <property name="borderLeftStyle">solid</property>
-                    <property name="borderLeftWidth">thin</property>
-                    <property name="borderRightStyle">solid</property>
-                    <property name="borderRightWidth">thin</property>
-                    <property name="borderTopStyle">solid</property>
-                    <property name="borderTopWidth">thin</property>
-                    <label id="472">
-                        <property name="fontSize">9pt</property>
-                        <text-property name="text">학위
-Degree of Diploma</text-property>
                     </label>
                 </cell>
             </row>
@@ -2342,6 +2568,29 @@ Degree of Diploma</text-property>
                     <property name="borderRightWidth">thin</property>
                     <property name="borderTopStyle">solid</property>
                     <property name="borderTopWidth">thin</property>
+                    <data id="1967">
+                        <property name="textAlign">center</property>
+                        <list-property name="boundDataColumns">
+                            <structure>
+                                <property name="name">acadPeriod0</property>
+                                <expression name="expression" type="javascript">params["acadPeriod0"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                        </list-property>
+                        <property name="resultSetColumn">acadPeriod0</property>
+                    </data>
+                </cell>
+                <cell id="440">
+                    <property name="colSpan">2</property>
+                    <property name="rowSpan">1</property>
+                    <property name="borderBottomStyle">solid</property>
+                    <property name="borderBottomWidth">thin</property>
+                    <property name="borderLeftStyle">solid</property>
+                    <property name="borderLeftWidth">thin</property>
+                    <property name="borderRightStyle">solid</property>
+                    <property name="borderRightWidth">thin</property>
+                    <property name="borderTopStyle">solid</property>
+                    <property name="borderTopWidth">thin</property>
                     <data id="1595">
                         <property name="textAlign">center</property>
                         <list-property name="boundDataColumns">
@@ -2354,26 +2603,6 @@ Degree of Diploma</text-property>
                         <property name="resultSetColumn">academy0</property>
                     </data>
                 </cell>
-                <cell id="440">
-                    <property name="borderBottomStyle">solid</property>
-                    <property name="borderBottomWidth">thin</property>
-                    <property name="borderLeftStyle">solid</property>
-                    <property name="borderLeftWidth">thin</property>
-                    <property name="borderRightStyle">solid</property>
-                    <property name="borderRightWidth">thin</property>
-                    <property name="borderTopStyle">solid</property>
-                    <property name="borderTopWidth">thin</property>
-                </cell>
-                <cell id="441">
-                    <property name="borderBottomStyle">solid</property>
-                    <property name="borderBottomWidth">thin</property>
-                    <property name="borderLeftStyle">solid</property>
-                    <property name="borderLeftWidth">thin</property>
-                    <property name="borderRightStyle">solid</property>
-                    <property name="borderRightWidth">thin</property>
-                    <property name="borderTopStyle">solid</property>
-                    <property name="borderTopWidth">thin</property>
-                </cell>
                 <cell id="442">
                     <property name="borderBottomStyle">solid</property>
                     <property name="borderBottomWidth">thin</property>
@@ -2383,6 +2612,17 @@ Degree of Diploma</text-property>
                     <property name="borderRightWidth">thin</property>
                     <property name="borderTopStyle">solid</property>
                     <property name="borderTopWidth">thin</property>
+                    <data id="1982">
+                        <property name="textAlign">center</property>
+                        <list-property name="boundDataColumns">
+                            <structure>
+                                <property name="name">majName0</property>
+                                <expression name="expression" type="javascript">params["majName0"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                        </list-property>
+                        <property name="resultSetColumn">majName0</property>
+                    </data>
                 </cell>
                 <cell id="443">
                     <property name="borderBottomStyle">solid</property>
@@ -2393,6 +2633,17 @@ Degree of Diploma</text-property>
                     <property name="borderRightWidth">thin</property>
                     <property name="borderTopStyle">solid</property>
                     <property name="borderTopWidth">thin</property>
+                    <data id="1987">
+                        <property name="textAlign">center</property>
+                        <list-property name="boundDataColumns">
+                            <structure>
+                                <property name="name">gpaFull0</property>
+                                <expression name="expression" type="javascript">params["gpaFull0"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                        </list-property>
+                        <property name="resultSetColumn">gpaFull0</property>
+                    </data>
                 </cell>
             </row>
             <row id="444">
@@ -2414,6 +2665,29 @@ Degree of Diploma</text-property>
                     <property name="borderRightWidth">thin</property>
                     <property name="borderTopStyle">solid</property>
                     <property name="borderTopWidth">thin</property>
+                    <data id="1969">
+                        <property name="textAlign">center</property>
+                        <list-property name="boundDataColumns">
+                            <structure>
+                                <property name="name">acadPeriod1</property>
+                                <expression name="expression" type="javascript">params["acadPeriod1"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                        </list-property>
+                        <property name="resultSetColumn">acadPeriod1</property>
+                    </data>
+                </cell>
+                <cell id="446">
+                    <property name="colSpan">2</property>
+                    <property name="rowSpan">1</property>
+                    <property name="borderBottomStyle">solid</property>
+                    <property name="borderBottomWidth">thin</property>
+                    <property name="borderLeftStyle">solid</property>
+                    <property name="borderLeftWidth">thin</property>
+                    <property name="borderRightStyle">solid</property>
+                    <property name="borderRightWidth">thin</property>
+                    <property name="borderTopStyle">solid</property>
+                    <property name="borderTopWidth">thin</property>
                     <data id="1596">
                         <property name="textAlign">center</property>
                         <list-property name="boundDataColumns">
@@ -2426,26 +2700,6 @@ Degree of Diploma</text-property>
                         <property name="resultSetColumn">academy1</property>
                     </data>
                 </cell>
-                <cell id="446">
-                    <property name="borderBottomStyle">solid</property>
-                    <property name="borderBottomWidth">thin</property>
-                    <property name="borderLeftStyle">solid</property>
-                    <property name="borderLeftWidth">thin</property>
-                    <property name="borderRightStyle">solid</property>
-                    <property name="borderRightWidth">thin</property>
-                    <property name="borderTopStyle">solid</property>
-                    <property name="borderTopWidth">thin</property>
-                </cell>
-                <cell id="447">
-                    <property name="borderBottomStyle">solid</property>
-                    <property name="borderBottomWidth">thin</property>
-                    <property name="borderLeftStyle">solid</property>
-                    <property name="borderLeftWidth">thin</property>
-                    <property name="borderRightStyle">solid</property>
-                    <property name="borderRightWidth">thin</property>
-                    <property name="borderTopStyle">solid</property>
-                    <property name="borderTopWidth">thin</property>
-                </cell>
                 <cell id="448">
                     <property name="borderBottomStyle">solid</property>
                     <property name="borderBottomWidth">thin</property>
@@ -2455,6 +2709,17 @@ Degree of Diploma</text-property>
                     <property name="borderRightWidth">thin</property>
                     <property name="borderTopStyle">solid</property>
                     <property name="borderTopWidth">thin</property>
+                    <data id="1983">
+                        <property name="textAlign">center</property>
+                        <list-property name="boundDataColumns">
+                            <structure>
+                                <property name="name">majName1</property>
+                                <expression name="expression" type="javascript">params["majName1"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                        </list-property>
+                        <property name="resultSetColumn">majName1</property>
+                    </data>
                 </cell>
                 <cell id="449">
                     <property name="borderBottomStyle">solid</property>
@@ -2465,6 +2730,17 @@ Degree of Diploma</text-property>
                     <property name="borderRightWidth">thin</property>
                     <property name="borderTopStyle">solid</property>
                     <property name="borderTopWidth">thin</property>
+                    <data id="1988">
+                        <property name="textAlign">center</property>
+                        <list-property name="boundDataColumns">
+                            <structure>
+                                <property name="name">gpaFull1</property>
+                                <expression name="expression" type="javascript">params["gpaFull1"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                        </list-property>
+                        <property name="resultSetColumn">gpaFull1</property>
+                    </data>
                 </cell>
             </row>
             <row id="450">
@@ -2486,6 +2762,29 @@ Degree of Diploma</text-property>
                     <property name="borderRightWidth">thin</property>
                     <property name="borderTopStyle">solid</property>
                     <property name="borderTopWidth">thin</property>
+                    <data id="1968">
+                        <property name="textAlign">center</property>
+                        <list-property name="boundDataColumns">
+                            <structure>
+                                <property name="name">acadPeriod2</property>
+                                <expression name="expression" type="javascript">params["acadPeriod2"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                        </list-property>
+                        <property name="resultSetColumn">acadPeriod2</property>
+                    </data>
+                </cell>
+                <cell id="452">
+                    <property name="colSpan">2</property>
+                    <property name="rowSpan">1</property>
+                    <property name="borderBottomStyle">solid</property>
+                    <property name="borderBottomWidth">thin</property>
+                    <property name="borderLeftStyle">solid</property>
+                    <property name="borderLeftWidth">thin</property>
+                    <property name="borderRightStyle">solid</property>
+                    <property name="borderRightWidth">thin</property>
+                    <property name="borderTopStyle">solid</property>
+                    <property name="borderTopWidth">thin</property>
                     <data id="1597">
                         <property name="textAlign">center</property>
                         <list-property name="boundDataColumns">
@@ -2498,26 +2797,6 @@ Degree of Diploma</text-property>
                         <property name="resultSetColumn">academy2</property>
                     </data>
                 </cell>
-                <cell id="452">
-                    <property name="borderBottomStyle">solid</property>
-                    <property name="borderBottomWidth">thin</property>
-                    <property name="borderLeftStyle">solid</property>
-                    <property name="borderLeftWidth">thin</property>
-                    <property name="borderRightStyle">solid</property>
-                    <property name="borderRightWidth">thin</property>
-                    <property name="borderTopStyle">solid</property>
-                    <property name="borderTopWidth">thin</property>
-                </cell>
-                <cell id="453">
-                    <property name="borderBottomStyle">solid</property>
-                    <property name="borderBottomWidth">thin</property>
-                    <property name="borderLeftStyle">solid</property>
-                    <property name="borderLeftWidth">thin</property>
-                    <property name="borderRightStyle">solid</property>
-                    <property name="borderRightWidth">thin</property>
-                    <property name="borderTopStyle">solid</property>
-                    <property name="borderTopWidth">thin</property>
-                </cell>
                 <cell id="454">
                     <property name="borderBottomStyle">solid</property>
                     <property name="borderBottomWidth">thin</property>
@@ -2527,6 +2806,17 @@ Degree of Diploma</text-property>
                     <property name="borderRightWidth">thin</property>
                     <property name="borderTopStyle">solid</property>
                     <property name="borderTopWidth">thin</property>
+                    <data id="1984">
+                        <property name="textAlign">center</property>
+                        <list-property name="boundDataColumns">
+                            <structure>
+                                <property name="name">majName2</property>
+                                <expression name="expression" type="javascript">params["majName2"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                        </list-property>
+                        <property name="resultSetColumn">majName2</property>
+                    </data>
                 </cell>
                 <cell id="455">
                     <property name="borderBottomStyle">solid</property>
@@ -2537,6 +2827,17 @@ Degree of Diploma</text-property>
                     <property name="borderRightWidth">thin</property>
                     <property name="borderTopStyle">solid</property>
                     <property name="borderTopWidth">thin</property>
+                    <data id="1989">
+                        <property name="textAlign">center</property>
+                        <list-property name="boundDataColumns">
+                            <structure>
+                                <property name="name">gpaFull2</property>
+                                <expression name="expression" type="javascript">params["gpaFull2"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                        </list-property>
+                        <property name="resultSetColumn">gpaFull2</property>
+                    </data>
                 </cell>
             </row>
             <row id="456">
@@ -2558,6 +2859,29 @@ Degree of Diploma</text-property>
                     <property name="borderRightWidth">thin</property>
                     <property name="borderTopStyle">solid</property>
                     <property name="borderTopWidth">thin</property>
+                    <data id="1970">
+                        <property name="textAlign">center</property>
+                        <list-property name="boundDataColumns">
+                            <structure>
+                                <property name="name">acadPeriod3</property>
+                                <expression name="expression" type="javascript">params["acadPeriod3"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                        </list-property>
+                        <property name="resultSetColumn">acadPeriod3</property>
+                    </data>
+                </cell>
+                <cell id="458">
+                    <property name="colSpan">2</property>
+                    <property name="rowSpan">1</property>
+                    <property name="borderBottomStyle">solid</property>
+                    <property name="borderBottomWidth">thin</property>
+                    <property name="borderLeftStyle">solid</property>
+                    <property name="borderLeftWidth">thin</property>
+                    <property name="borderRightStyle">solid</property>
+                    <property name="borderRightWidth">thin</property>
+                    <property name="borderTopStyle">solid</property>
+                    <property name="borderTopWidth">thin</property>
                     <data id="1598">
                         <property name="textAlign">center</property>
                         <list-property name="boundDataColumns">
@@ -2570,26 +2894,6 @@ Degree of Diploma</text-property>
                         <property name="resultSetColumn">academy3</property>
                     </data>
                 </cell>
-                <cell id="458">
-                    <property name="borderBottomStyle">solid</property>
-                    <property name="borderBottomWidth">thin</property>
-                    <property name="borderLeftStyle">solid</property>
-                    <property name="borderLeftWidth">thin</property>
-                    <property name="borderRightStyle">solid</property>
-                    <property name="borderRightWidth">thin</property>
-                    <property name="borderTopStyle">solid</property>
-                    <property name="borderTopWidth">thin</property>
-                </cell>
-                <cell id="459">
-                    <property name="borderBottomStyle">solid</property>
-                    <property name="borderBottomWidth">thin</property>
-                    <property name="borderLeftStyle">solid</property>
-                    <property name="borderLeftWidth">thin</property>
-                    <property name="borderRightStyle">solid</property>
-                    <property name="borderRightWidth">thin</property>
-                    <property name="borderTopStyle">solid</property>
-                    <property name="borderTopWidth">thin</property>
-                </cell>
                 <cell id="460">
                     <property name="borderBottomStyle">solid</property>
                     <property name="borderBottomWidth">thin</property>
@@ -2599,6 +2903,17 @@ Degree of Diploma</text-property>
                     <property name="borderRightWidth">thin</property>
                     <property name="borderTopStyle">solid</property>
                     <property name="borderTopWidth">thin</property>
+                    <data id="1985">
+                        <property name="textAlign">center</property>
+                        <list-property name="boundDataColumns">
+                            <structure>
+                                <property name="name">majName3</property>
+                                <expression name="expression" type="javascript">params["majName3"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                        </list-property>
+                        <property name="resultSetColumn">majName3</property>
+                    </data>
                 </cell>
                 <cell id="461">
                     <property name="borderBottomStyle">solid</property>
@@ -2609,6 +2924,17 @@ Degree of Diploma</text-property>
                     <property name="borderRightWidth">thin</property>
                     <property name="borderTopStyle">solid</property>
                     <property name="borderTopWidth">thin</property>
+                    <data id="1990">
+                        <property name="textAlign">center</property>
+                        <list-property name="boundDataColumns">
+                            <structure>
+                                <property name="name">gpaFull3</property>
+                                <expression name="expression" type="javascript">params["gpaFull3"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                        </list-property>
+                        <property name="resultSetColumn">gpaFull3</property>
+                    </data>
                 </cell>
             </row>
             <row id="462">
@@ -2630,6 +2956,29 @@ Degree of Diploma</text-property>
                     <property name="borderRightWidth">thin</property>
                     <property name="borderTopStyle">solid</property>
                     <property name="borderTopWidth">thin</property>
+                    <data id="1971">
+                        <property name="textAlign">center</property>
+                        <list-property name="boundDataColumns">
+                            <structure>
+                                <property name="name">acadPeriod4</property>
+                                <expression name="expression" type="javascript">params["acadPeriod4"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                        </list-property>
+                        <property name="resultSetColumn">acadPeriod4</property>
+                    </data>
+                </cell>
+                <cell id="464">
+                    <property name="colSpan">2</property>
+                    <property name="rowSpan">1</property>
+                    <property name="borderBottomStyle">solid</property>
+                    <property name="borderBottomWidth">thin</property>
+                    <property name="borderLeftStyle">solid</property>
+                    <property name="borderLeftWidth">thin</property>
+                    <property name="borderRightStyle">solid</property>
+                    <property name="borderRightWidth">thin</property>
+                    <property name="borderTopStyle">solid</property>
+                    <property name="borderTopWidth">thin</property>
                     <data id="1599">
                         <property name="textAlign">center</property>
                         <list-property name="boundDataColumns">
@@ -2642,26 +2991,6 @@ Degree of Diploma</text-property>
                         <property name="resultSetColumn">academy4</property>
                     </data>
                 </cell>
-                <cell id="464">
-                    <property name="borderBottomStyle">solid</property>
-                    <property name="borderBottomWidth">thin</property>
-                    <property name="borderLeftStyle">solid</property>
-                    <property name="borderLeftWidth">thin</property>
-                    <property name="borderRightStyle">solid</property>
-                    <property name="borderRightWidth">thin</property>
-                    <property name="borderTopStyle">solid</property>
-                    <property name="borderTopWidth">thin</property>
-                </cell>
-                <cell id="465">
-                    <property name="borderBottomStyle">solid</property>
-                    <property name="borderBottomWidth">thin</property>
-                    <property name="borderLeftStyle">solid</property>
-                    <property name="borderLeftWidth">thin</property>
-                    <property name="borderRightStyle">solid</property>
-                    <property name="borderRightWidth">thin</property>
-                    <property name="borderTopStyle">solid</property>
-                    <property name="borderTopWidth">thin</property>
-                </cell>
                 <cell id="466">
                     <property name="borderBottomStyle">solid</property>
                     <property name="borderBottomWidth">thin</property>
@@ -2671,6 +3000,17 @@ Degree of Diploma</text-property>
                     <property name="borderRightWidth">thin</property>
                     <property name="borderTopStyle">solid</property>
                     <property name="borderTopWidth">thin</property>
+                    <data id="1986">
+                        <property name="textAlign">center</property>
+                        <list-property name="boundDataColumns">
+                            <structure>
+                                <property name="name">majName4</property>
+                                <expression name="expression" type="javascript">params["majName4"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                        </list-property>
+                        <property name="resultSetColumn">majName4</property>
+                    </data>
                 </cell>
                 <cell id="467">
                     <property name="borderBottomStyle">solid</property>
@@ -2681,6 +3021,17 @@ Degree of Diploma</text-property>
                     <property name="borderRightWidth">thin</property>
                     <property name="borderTopStyle">solid</property>
                     <property name="borderTopWidth">thin</property>
+                    <data id="1991">
+                        <property name="textAlign">center</property>
+                        <list-property name="boundDataColumns">
+                            <structure>
+                                <property name="name">gpaFull4</property>
+                                <expression name="expression" type="javascript">params["gpaFull4"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                        </list-property>
+                        <property name="resultSetColumn">gpaFull4</property>
+                    </data>
                 </cell>
             </row>
         </grid>
@@ -2694,22 +3045,22 @@ Degree of Diploma</text-property>
                 <property name="width">2.5cm</property>
             </column>
             <column id="475">
-                <property name="width">2.5cm</property>
+                <property name="width">3cm</property>
             </column>
             <column id="476">
-                <property name="width">2.5cm</property>
+                <property name="width">3cm</property>
             </column>
             <column id="477">
-                <property name="width">2.5cm</property>
+                <property name="width">3cm</property>
             </column>
             <column id="478">
-                <property name="width">2.5cm</property>
+                <property name="width">3cm</property>
             </column>
             <column id="479">
-                <property name="width">2.5cm</property>
+                <property name="width">3cm</property>
             </column>
             <column id="480">
-                <property name="width">4.5cm</property>
+                <property name="width">2cm</property>
             </column>
             <row id="481">
                 <cell id="482">
@@ -2837,7 +3188,7 @@ Language Test of Result</text-property>
                         <property name="borderRightStyle">none</property>
                         <property name="borderTopStyle">none</property>
                         <property name="textAlign">center</property>
-                        <text-property name="text">증빙서류</text-property>
+                        <text-property name="text">면제</text-property>
                     </label>
                 </cell>
             </row>
@@ -2956,6 +3307,17 @@ Language Test of Result</text-property>
                     <property name="borderRightWidth">thin</property>
                     <property name="borderTopStyle">solid</property>
                     <property name="borderTopWidth">thin</property>
+                    <data id="1960">
+                        <property name="textAlign">center</property>
+                        <list-property name="boundDataColumns">
+                            <structure>
+                                <property name="name">forlExmp</property>
+                                <expression name="expression" type="javascript">params["forlExmp"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                        </list-property>
+                        <property name="resultSetColumn">forlExmp</property>
+                    </data>
                 </cell>
             </row>
         </grid>
@@ -2985,8 +3347,8 @@ Hereby, with above information and related documents, I apply for Yonsei Univers
             <row id="509">
                 <cell id="510">
                     <label id="511">
-                        <property name="textAlign">right</property>
-                        <text-property name="text">지원자 Applicant :                                                            </text-property>
+                        <property name="textAlign">center</property>
+                        <text-property name="text">                                지원자 Applicant :</text-property>
                     </label>
                 </cell>
             </row>

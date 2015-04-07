@@ -126,8 +126,10 @@ public class PDFServiceImpl implements PDFService {
             ec = generatePageNumberedPDF(mergedPDF, numberedMergedFileFullPath, applNo);
 
             PDFMergerUtility lastMergeUtil = new PDFMergerUtility();
-            lastMergeUtil.addSource(new File(applicationFilePath, applicationFileName));
-            lastMergeUtil.addSource(new File(numberedMergedFileFullPath));
+            File applicationFormFile = new File(applicationFilePath, applicationFileName);
+            File numberedMergedFile = new File(numberedMergedFileFullPath);
+            lastMergeUtil.addSource(applicationFormFile);
+            lastMergeUtil.addSource(numberedMergedFile);
             lastMergeUtil.setDestinationFileName(FileUtil.getFinalMergedFileFullPath(uploadDirFullPath, applNo));
             lastMergeUtil.mergeDocuments();
 
@@ -142,9 +144,12 @@ public class PDFServiceImpl implements PDFService {
                     .withMetadata(meta)
                     .withCannedAcl(CannedAccessControlList.AuthenticatedRead.PublicRead));
 
-            //TODO : PDF numbering을 위해 App서버 로컬에 저장된 중간 파일들을 이 시점에서 지울 것이냐 말 것이냐
             // 여기서 지우면 파일 지우기 위한 I/O 추가 발생하지만 저장 공간은 절약
             // 나중에 batch로 지우면 I/O 는 절약하지만 지우기 전까지 저장 공간은 낭비
+            mergedFile.delete();
+            applicationFormFile.delete();
+            numberedMergedFile.delete();
+            lastMergedFile.delete();
         } catch (IOException e) {
             ec.setResult(ExecutionContext.FAIL);
             ec.setMessage(messageResolver.getMessage("U801"));
