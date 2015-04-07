@@ -804,7 +804,9 @@
                                             </div>
                                             <div class="col-sm-9">
                                                 <div class="input-group">
-                                                    <form:input path="application.zipCode" cssClass="form-control" id="zipCode" readonly="true"/>
+                                                    <%--<form:input path="application.zipCode" cssClass="form-control" id="zipCode" readonly="true"/>--%>
+                                                    <input type="text" id="zipCode" name="application.zipCode" value="${basis.application.zipCode}" class="form-control"
+                                                           ${basis.application.admsTypeCode == 'C' || basis.application.admsTypeCode == 'D' ? '' : 'readonly'}/>
                                                 </div>
                                             </div>
                                             <spring:bind path="application.zipCode">
@@ -820,7 +822,9 @@
                                         <div class="col-sm-2"></div>
                                         <div class="col-sm-9">
                                             <div class="col-sm-6">
-                                                <form:input path="application.addr" cssClass="form-control" id="address" readonly="true" />
+                                                <%--<form:input path="application.addr" cssClass="form-control" id="address" readonly="true" />--%>
+                                                <input type="text" name="application.addr" class="form-control" id="address"
+                                                    ${basis.application.admsTypeCode == 'C' || basis.application.admsTypeCode == 'D' ? '' : 'readonly'}/>
                                             </div>
                                             <div class="col-sm-6">
                                                 <form:input path="application.detlAddr" cssClass="form-control" id="addressDetail" maxlength="500" placeholder="${msg.getMessage('U01502')}" /> <%--세부주소--%>
@@ -1276,7 +1280,8 @@
         };
 
         // 입력 검증 오류로 DB에 저장되지 않고 다시 돌아왔을 때 지원사항 저장 상태로 설정
-        if (document.getElementById('detlMajCode').value.length > 0) {
+//        if (document.getElementById('detlMajCode').value.length > 0) {
+        if (document.getElementById('detlMajCode').selectedIndex > 0) {
             baseInfoSaved();
         }
         // TODO : 지원사항 저장 시 applNo 따서 DB에 저장하는 것으로 로직 수정
