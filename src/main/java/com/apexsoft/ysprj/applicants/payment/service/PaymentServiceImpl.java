@@ -9,6 +9,7 @@ import com.apexsoft.ysprj.applicants.application.domain.Application;
 import com.apexsoft.ysprj.applicants.application.domain.CustomNewSeq;
 import com.apexsoft.ysprj.applicants.application.domain.TotalApplicationDocument;
 import com.apexsoft.ysprj.applicants.application.service.DocumentService;
+import com.apexsoft.ysprj.applicants.common.domain.Department;
 import com.apexsoft.ysprj.applicants.common.util.FileUtil;
 import com.apexsoft.ysprj.applicants.payment.domain.*;
 import lgdacom.XPayClient.XPayClient;
@@ -641,7 +642,9 @@ public class PaymentServiceImpl implements PaymentService {
         else if( newSeq < 100 ) applNo3 = "0" + newSeq;
         else applNo3 = "" + newSeq;
 
-        applId = application.getAdmsNo() + application.getDeptCode() + application.getCorsTypeCode() + applNo3;
+        Department dept = commonDAO.queryForObject(NAME_SPACE + "CustomApplicationPaymentMapper.selectDeptSeq", application.getDeptCode(), Department.class);
+
+        applId = application.getAdmsNo().substring(1) + dept.getDeptSeq() + application.getCorsTypeCode() + applNo3;
 
         return applId;
     }
