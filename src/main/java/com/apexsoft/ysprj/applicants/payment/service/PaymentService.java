@@ -4,6 +4,7 @@ import com.apexsoft.framework.common.vo.ExecutionContext;
 import com.apexsoft.framework.unused.xpay.service.TransactionVO;
 import com.apexsoft.ysprj.applicants.application.domain.Application;
 import com.apexsoft.ysprj.applicants.payment.domain.ApplicationPaymentCurStat;
+import com.apexsoft.ysprj.applicants.payment.domain.ApplicationPaymentTransaction;
 import com.apexsoft.ysprj.applicants.payment.domain.Payment;
 
 /**
@@ -22,6 +23,8 @@ public interface PaymentService {
     int registerCasNote( ApplicationPaymentCurStat applPay );
 
     ExecutionContext saveApplicationPayment(Application application);
+
+    ExecutionContext registerManualPay( ApplicationPaymentTransaction applPayTr );
 
     //ExecutionContext saveApplicationPayment2(Application application);
 

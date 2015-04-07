@@ -67,6 +67,11 @@
                                     <button class="btn btn-primary btn-lg btn-block ${payment.admsSts.equals("OP")?"":"disabled"}" id="processPayment"><spring:message code="L05106"/><%--결제하기--%></button>
                                 </div>
                             </div>
+                            <div class="spacer-tiny">&nbsp;</div>
+                            <div class="col-sm-8 align-left"></div>
+                            <div class="col-sm-4 align-right">
+                                <button class="btn btn-warning btn-lg btn-block" id="inform"> <spring:message code="U05107"/> </button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -110,10 +115,10 @@
         </div>
         <div class="popupbody">
 
-            <h4><br>
+            <h4><strong><br>
                 <spring:message code="U05105"/>
                 <br><br>
-            </h4>
+            </strong></h4>
 
         </div>
         <a class="btn_close b-close" title="닫기"><img src="<spring:eval expression="@app.getProperty('path.static')" />/img/btn_close1.png" alt="닫기"></a>
@@ -280,6 +285,11 @@
         $('.b-close').on('click', function(e) {
             e.preventDefault();
             hideDialog('#modal_popup3');
+        });
+
+        $('#inform').click( function(e) {
+            e.preventDefault();
+            showDialog(true, "#modal_popup3");
         });
 
     </script>

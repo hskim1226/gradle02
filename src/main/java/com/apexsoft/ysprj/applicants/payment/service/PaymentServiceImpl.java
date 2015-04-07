@@ -18,6 +18,10 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.text.DateFormat;
+import java.text.FieldPosition;
+import java.text.ParsePosition;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -386,6 +390,57 @@ public class PaymentServiceImpl implements PaymentService {
         commonDAO.updateItem(application, "com.apexsoft.ysprj.applicants.application.sqlmap.", "ApplicationMapper");
         */
 
+    }
+
+    @Override
+    public ExecutionContext registerManualPay( ApplicationPaymentTransaction applPayTr ) {
+
+        ExecutionContext ec = new ExecutionContext();
+        Date date = new Date();
+        DateFormat df = new SimpleDateFormat("yyyyMMddHHmmss");
+
+        ApplicationPaymentCurStat applPay = new ApplicationPaymentCurStat();
+        applPay.setApplNo(applPayTr.getApplNo());
+        applPay.setPayStsCode("00002");
+        applPay.setPayTypeCode(applPayTr.getPayTypeCode());
+        applPay.setPayAmt(applPayTr.getPayAmt());
+        applPay.setPayDate(df.format(date));
+        applPay.setModId("admin_pay");
+        applPay.setModDate(date);
+
+        commonDAO.updateItem(applPay, NAME_SPACE, "ApplicationPaymentCurStatMapper");
+
+        //수헙번호 순번 조회
+        CustomNewSeq customNewSeq = commonDAO.queryForObject("com.apexsoft.ysprj.applicants.application.sqlmap.CustomApplicationMapper.selectNewSeq",
+                                                             applPay.getApplNo(), CustomNewSeq.class);
+        //수험번호 순번 갱신
+        commonDAO.updateItem(customNewSeq, "com.apexsoft.ysprj.applicants.application.sqlmap.", "CustomApplicationMapper.", "updateApplIdSeqIdByNewSeq");
+
+        //수험번호, 결제완료 상태 적용
+        Application application = commonDAO.queryForObject("com.apexsoft.ysprj.applicants.application.sqlmap.ApplicationMapper.selectByPrimaryKey",
+                                                           applPay.getApplNo(), Application.class);
+        application.setApplId(getApplId(application, customNewSeq.getNewSeq()));
+        application.setApplDate(date);
+        application.setApplStsCode("00020");
+        commonDAO.updateItem(application, "com.apexsoft.ysprj.applicants.application.sqlmap.", "ApplicationMapper");
+
+        //결제 트랜젝션 정보 처리 (APPL_PAY_TR)
+        applPayTr.setPayDate(applPay.getPayDate());
+        applPayTr.setPayStsCode(applPay.getPayStsCode());
+        applPayTr.setCreId(applPay.getModId());
+        applPayTr.setCreDate(date);
+
+        int lastSeq = 0;
+        lastSeq = commonDAO.queryForInt(NAME_SPACE + "CustomApplicationPaymentTransactionMapper.selectMaxSeqByApplNo", applPayTr.getApplNo());
+        applPayTr.setPaySeq(lastSeq+1);
+
+        commonDAO.insertItem(applPayTr, NAME_SPACE, "ApplicationPaymentTransactionMapper");
+
+        //APPL_DOC에 수험번호가 채번된 원서, 수험표 정보 저장
+        documentService.saveApplicationPaperInfo(application);
+        documentService.saveAdmissionSlipPaperInfo(application);
+
+        return ec;
     }
 
     private XPayCertRequest setXPayCertRequest( Payment payment ) {
