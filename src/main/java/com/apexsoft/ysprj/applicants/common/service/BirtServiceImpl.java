@@ -324,7 +324,7 @@ public class BirtServiceImpl implements BirtService {
                 rptInfoMap.put("academy" + i, "(대학) "+ aColl.getSchlName() + " " + aColl.getCollName() + " " + aColl.getMajName());
             }
             if( !collLastFg ) {
-                lastGraduateScore = aColl.getGradAvr() + " / " + aColl.getGradFull();
+                lastCollegeScore = aColl.getGradAvr() + " / " + aColl.getGradFull();
             }
             if( "Y".equals(aColl.getLastSchlYn())) {
                 collLastFg = true;
