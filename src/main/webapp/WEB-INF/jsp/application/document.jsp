@@ -1385,6 +1385,7 @@
 
             } else {
                 alert("<spring:message code="U04505"/>");//파일을 선택해 주십시오
+                $('#overlay').hide();
             }
 
 
