@@ -604,6 +604,21 @@
                 <property name="category">Unformatted</property>
             </structure>
         </scalar-parameter>
+        <scalar-parameter name="korName" id="1951">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant"></value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
     </parameters>
     <data-sources>
         <script-data-source name="DocDataSource" id="1630"/>
@@ -700,9 +715,9 @@ iterator = null;]]></method>
             <property name="type">a4</property>
             <property name="orientation">portrait</property>
             <property name="topMargin">1.2cm</property>
-            <property name="leftMargin">1.2cm</property>
+            <property name="leftMargin">1.3cm</property>
             <property name="bottomMargin">1.2cm</property>
-            <property name="rightMargin">1.2cm</property>
+            <property name="rightMargin">1.3cm</property>
             <property name="textAlign">center</property>
             <property name="headerHeight">0in</property>
             <property name="footerHeight">0in</property>
@@ -746,86 +761,36 @@ iterator = null;]]></method>
                 </cell>
             </row>
         </grid>
-        <grid id="224">
+        <grid id="1712">
             <property name="verticalAlign">middle</property>
-            <list-property name="boundDataColumns">
-                <structure>
-                    <property name="name">campName</property>
-                    <expression name="expression" type="javascript">params['campName']</expression>
-                    <property name="dataType">string</property>
-                    <property name="allowExport">true</property>
-                </structure>
-            </list-property>
-            <column id="225">
-                <property name="verticalAlign">middle</property>
+            <property name="width">19.473333333333333cm</property>
+            <column id="1713">
                 <property name="width">3cm</property>
             </column>
-            <column id="226">
-                <property name="verticalAlign">middle</property>
+            <column id="1714">
+                <property name="width">6cm</property>
+            </column>
+            <column id="1715">
                 <property name="width">2cm</property>
             </column>
-            <column id="227">
-                <property name="verticalAlign">middle</property>
-                <property name="width">0.5cm</property>
+            <column id="1716">
+                <property name="width">1cm</property>
             </column>
-            <column id="228">
-                <property name="verticalAlign">middle</property>
+            <column id="1717">
+                <property name="width">1.5cm</property>
+            </column>
+            <column id="1718">
+                <property name="width">1.5cm</property>
+            </column>
+            <column id="1719">
                 <property name="width">3.5cm</property>
             </column>
-            <column id="229">
+            <row id="1720">
                 <property name="verticalAlign">middle</property>
-                <property name="width">2cm</property>
-            </column>
-            <column id="230">
-                <property name="verticalAlign">middle</property>
-                <property name="width">3cm</property>
-            </column>
-            <column id="231">
-                <property name="verticalAlign">middle</property>
-                <property name="width">2cm</property>
-            </column>
-            <column id="232">
-                <property name="verticalAlign">middle</property>
-                <property name="width">3cm</property>
-            </column>
-            <row id="233">
-                <cell id="234">
-                    <property name="borderBottomStyle">solid</property>
-                    <property name="borderBottomWidth">thin</property>
-                </cell>
-                <cell id="235">
-                    <property name="borderBottomStyle">solid</property>
-                    <property name="borderBottomWidth">thin</property>
-                </cell>
-                <cell id="236">
-                    <property name="borderBottomStyle">solid</property>
-                    <property name="borderBottomWidth">thin</property>
-                </cell>
-                <cell id="237">
-                    <property name="borderBottomStyle">solid</property>
-                    <property name="borderBottomWidth">thin</property>
-                </cell>
-                <cell id="238">
-                    <property name="borderBottomStyle">solid</property>
-                    <property name="borderBottomWidth">thin</property>
-                    <property name="borderRightStyle">solid</property>
-                    <property name="borderRightWidth">thin</property>
-                </cell>
-                <cell id="239">
-                    <property name="borderBottomStyle">solid</property>
-                    <property name="borderBottomWidth">thin</property>
-                    <property name="borderLeftStyle">solid</property>
-                    <property name="borderLeftWidth">thin</property>
-                    <property name="borderRightStyle">solid</property>
-                    <property name="borderRightWidth">thin</property>
-                    <property name="borderTopStyle">solid</property>
-                    <property name="borderTopWidth">thin</property>
-                    <label id="386">
-                        <property name="textAlign">center</property>
-                        <text-property name="text">수험번호</text-property>
-                    </label>
-                </cell>
-                <cell id="240">
+                <cell id="1721"/>
+                <cell id="1722"/>
+                <cell id="1723"/>
+                <cell id="1724">
                     <property name="colSpan">2</property>
                     <property name="rowSpan">1</property>
                     <property name="borderBottomStyle">solid</property>
@@ -836,7 +801,23 @@ iterator = null;]]></method>
                     <property name="borderRightWidth">thin</property>
                     <property name="borderTopStyle">solid</property>
                     <property name="borderTopWidth">thin</property>
-                    <data id="387">
+                    <label id="1953">
+                        <property name="textAlign">center</property>
+                        <text-property name="text">수험번호</text-property>
+                    </label>
+                </cell>
+                <cell id="1726">
+                    <property name="colSpan">2</property>
+                    <property name="rowSpan">1</property>
+                    <property name="borderBottomStyle">solid</property>
+                    <property name="borderBottomWidth">thin</property>
+                    <property name="borderLeftStyle">solid</property>
+                    <property name="borderLeftWidth">thin</property>
+                    <property name="borderRightStyle">solid</property>
+                    <property name="borderRightWidth">thin</property>
+                    <property name="borderTopStyle">solid</property>
+                    <property name="borderTopWidth">thin</property>
+                    <data id="1954">
                         <property name="textAlign">center</property>
                         <list-property name="boundDataColumns">
                             <structure>
@@ -849,40 +830,51 @@ iterator = null;]]></method>
                     </data>
                 </cell>
             </row>
-            <row id="242">
-                <cell id="243">
-                    <property name="colSpan">8</property>
+            <row id="1776">
+                <property name="borderLeftStyle">solid</property>
+                <property name="borderLeftWidth">thin</property>
+                <property name="borderRightStyle">solid</property>
+                <property name="borderRightWidth">thin</property>
+                <property name="borderTopStyle">solid</property>
+                <property name="borderTopWidth">thin</property>
+                <property name="verticalAlign">middle</property>
+                <cell id="1777">
+                    <property name="colSpan">7</property>
                     <property name="rowSpan">1</property>
-                    <property name="borderLeftStyle">solid</property>
-                    <property name="borderLeftWidth">thin</property>
-                    <property name="borderRightStyle">solid</property>
-                    <property name="borderRightWidth">thin</property>
-                    <property name="borderTopStyle">solid</property>
-                    <property name="borderTopWidth">thin</property>
-                    <label id="388">
+                    <label id="1784">
                         <text-property name="text">지원 과정 정보 Applying Course Information</text-property>
                     </label>
                 </cell>
             </row>
-            <row id="1639">
-                <cell id="1640">
-                    <property name="colSpan">8</property>
+            <row id="1728">
+                <property name="borderBottomStyle">solid</property>
+                <property name="borderBottomWidth">thin</property>
+                <property name="borderLeftStyle">solid</property>
+                <property name="borderLeftWidth">thin</property>
+                <property name="borderRightStyle">solid</property>
+                <property name="borderRightWidth">thin</property>
+                <property name="verticalAlign">middle</property>
+                <cell id="1729">
+                    <property name="colSpan">7</property>
                     <property name="rowSpan">1</property>
-                    <property name="borderBottomStyle">solid</property>
-                    <property name="borderBottomWidth">thin</property>
-                    <property name="borderLeftStyle">solid</property>
-                    <property name="borderLeftWidth">thin</property>
-                    <property name="borderRightStyle">solid</property>
-                    <property name="borderRightWidth">thin</property>
-                    <label id="1648">
+                    <label id="1785">
                         <property name="fontSize">9pt</property>
                         <text-property name="text">* 모집 요강 및 홈페이지를 통해서 정확한 정보를 확인해 주시기 바랍니다.&#13;
 Please make application refer to admission guideline and webpage.</text-property>
                     </label>
                 </cell>
             </row>
-            <row id="251">
-                <cell id="252">
+            <row id="1736">
+                <property name="borderBottomStyle">solid</property>
+                <property name="borderBottomWidth">thin</property>
+                <property name="borderLeftStyle">solid</property>
+                <property name="borderLeftWidth">thin</property>
+                <property name="borderRightStyle">solid</property>
+                <property name="borderRightWidth">thin</property>
+                <property name="borderTopStyle">solid</property>
+                <property name="borderTopWidth">thin</property>
+                <property name="verticalAlign">middle</property>
+                <cell id="1737">
                     <property name="borderBottomStyle">solid</property>
                     <property name="borderBottomWidth">thin</property>
                     <property name="borderLeftStyle">solid</property>
@@ -891,15 +883,15 @@ Please make application refer to admission guideline and webpage.</text-property
                     <property name="borderRightWidth">thin</property>
                     <property name="borderTopStyle">solid</property>
                     <property name="borderTopWidth">thin</property>
-                    <label id="389">
+                    <label id="1786">
                         <property name="fontSize">9pt</property>
                         <property name="textAlign">center</property>
                         <text-property name="text">지원 캠퍼스
 Campus</text-property>
                     </label>
                 </cell>
-                <cell id="253">
-                    <property name="colSpan">7</property>
+                <cell id="1738">
+                    <property name="colSpan">5</property>
                     <property name="rowSpan">1</property>
                     <property name="borderBottomStyle">solid</property>
                     <property name="borderBottomWidth">thin</property>
@@ -909,53 +901,19 @@ Campus</text-property>
                     <property name="borderRightWidth">thin</property>
                     <property name="borderTopStyle">solid</property>
                     <property name="borderTopWidth">thin</property>
-                    <data id="1535">
-                        <property name="textAlign">center</property>
-                        <property name="resultSetColumn">campName</property>
-                    </data>
-                </cell>
-            </row>
-            <row id="260">
-                <cell id="261">
-                    <property name="borderBottomStyle">solid</property>
-                    <property name="borderBottomWidth">thin</property>
-                    <property name="borderLeftStyle">solid</property>
-                    <property name="borderLeftWidth">thin</property>
-                    <property name="borderRightStyle">solid</property>
-                    <property name="borderRightWidth">thin</property>
-                    <property name="borderTopStyle">solid</property>
-                    <property name="borderTopWidth">thin</property>
-                    <label id="390">
-                        <property name="fontSize">9pt</property>
-                        <property name="textAlign">center</property>
-                        <text-property name="text">입학 시기
-Semester of Entrance</text-property>
-                    </label>
-                </cell>
-                <cell id="262">
-                    <property name="colSpan">6</property>
-                    <property name="rowSpan">1</property>
-                    <property name="borderBottomStyle">solid</property>
-                    <property name="borderBottomWidth">thin</property>
-                    <property name="borderLeftStyle">solid</property>
-                    <property name="borderLeftWidth">thin</property>
-                    <property name="borderRightStyle">solid</property>
-                    <property name="borderRightWidth">thin</property>
-                    <property name="borderTopStyle">solid</property>
-                    <property name="borderTopWidth">thin</property>
-                    <data id="1540">
+                    <data id="1956">
                         <property name="textAlign">center</property>
                         <list-property name="boundDataColumns">
                             <structure>
-                                <property name="name">semester</property>
-                                <expression name="expression" type="javascript">params["semester"]</expression>
+                                <property name="name">campName</property>
+                                <expression name="expression" type="javascript">params["campName"]</expression>
                                 <property name="dataType">string</property>
                             </structure>
                         </list-property>
-                        <property name="resultSetColumn">semester</property>
+                        <property name="resultSetColumn">campName</property>
                     </data>
                 </cell>
-                <cell id="268">
+                <cell id="1743">
                     <property name="colSpan">1</property>
                     <property name="rowSpan">4</property>
                     <property name="borderBottomStyle">solid</property>
@@ -966,17 +924,27 @@ Semester of Entrance</text-property>
                     <property name="borderRightWidth">thin</property>
                     <property name="borderTopStyle">solid</property>
                     <property name="borderTopWidth">thin</property>
-                    <image id="425">
-                        <property name="height">3.96875cm</property>
-                        <property name="width">2.7252083333333337cm</property>
+                    <property name="textAlign">center</property>
+                    <image id="1955">
+                        <property name="height">161px</property>
+                        <property name="width">124px</property>
                         <property name="source">file</property>
                         <property name="fitToContainer">true</property>
                         <expression name="uri" type="javascript">params['photoUri']</expression>
                     </image>
                 </cell>
             </row>
-            <row id="269">
-                <cell id="270">
+            <row id="1744">
+                <property name="borderBottomStyle">solid</property>
+                <property name="borderBottomWidth">thin</property>
+                <property name="borderLeftStyle">solid</property>
+                <property name="borderLeftWidth">thin</property>
+                <property name="borderRightStyle">solid</property>
+                <property name="borderRightWidth">thin</property>
+                <property name="borderTopStyle">solid</property>
+                <property name="borderTopWidth">thin</property>
+                <property name="verticalAlign">middle</property>
+                <cell id="1745">
                     <property name="borderBottomStyle">solid</property>
                     <property name="borderBottomWidth">thin</property>
                     <property name="borderLeftStyle">solid</property>
@@ -985,15 +953,15 @@ Semester of Entrance</text-property>
                     <property name="borderRightWidth">thin</property>
                     <property name="borderTopStyle">solid</property>
                     <property name="borderTopWidth">thin</property>
-                    <label id="391">
+                    <label id="1788">
                         <property name="fontSize">9pt</property>
                         <property name="textAlign">center</property>
                         <text-property name="text">모집 구분
 Course of Degree</text-property>
                     </label>
                 </cell>
-                <cell id="271">
-                    <property name="colSpan">6</property>
+                <cell id="1746">
+                    <property name="colSpan">5</property>
                     <property name="rowSpan">1</property>
                     <property name="borderBottomStyle">solid</property>
                     <property name="borderBottomWidth">thin</property>
@@ -1003,7 +971,7 @@ Course of Degree</text-property>
                     <property name="borderRightWidth">thin</property>
                     <property name="borderTopStyle">solid</property>
                     <property name="borderTopWidth">thin</property>
-                    <data id="1564">
+                    <data id="1798">
                         <property name="textAlign">center</property>
                         <list-property name="boundDataColumns">
                             <structure>
@@ -1016,8 +984,17 @@ Course of Degree</text-property>
                     </data>
                 </cell>
             </row>
-            <row id="278">
-                <cell id="279">
+            <row id="1752">
+                <property name="borderBottomStyle">solid</property>
+                <property name="borderBottomWidth">thin</property>
+                <property name="borderLeftStyle">solid</property>
+                <property name="borderLeftWidth">thin</property>
+                <property name="borderRightStyle">solid</property>
+                <property name="borderRightWidth">thin</property>
+                <property name="borderTopStyle">solid</property>
+                <property name="borderTopWidth">thin</property>
+                <property name="verticalAlign">middle</property>
+                <cell id="1753">
                     <property name="borderBottomStyle">solid</property>
                     <property name="borderBottomWidth">thin</property>
                     <property name="borderLeftStyle">solid</property>
@@ -1026,15 +1003,15 @@ Course of Degree</text-property>
                     <property name="borderRightWidth">thin</property>
                     <property name="borderTopStyle">solid</property>
                     <property name="borderTopWidth">thin</property>
-                    <label id="392">
+                    <label id="1789">
                         <property name="fontSize">9pt</property>
                         <property name="textAlign">center</property>
                         <text-property name="text">지원 학과
 Department</text-property>
                     </label>
                 </cell>
-                <cell id="280">
-                    <property name="colSpan">6</property>
+                <cell id="1754">
+                    <property name="colSpan">5</property>
                     <property name="rowSpan">1</property>
                     <property name="borderBottomStyle">solid</property>
                     <property name="borderBottomWidth">thin</property>
@@ -1044,7 +1021,7 @@ Department</text-property>
                     <property name="borderRightWidth">thin</property>
                     <property name="borderTopStyle">solid</property>
                     <property name="borderTopWidth">thin</property>
-                    <data id="1565">
+                    <data id="1799">
                         <property name="textAlign">center</property>
                         <list-property name="boundDataColumns">
                             <structure>
@@ -1057,8 +1034,17 @@ Department</text-property>
                     </data>
                 </cell>
             </row>
-            <row id="287">
-                <cell id="288">
+            <row id="1760">
+                <property name="borderBottomStyle">solid</property>
+                <property name="borderBottomWidth">thin</property>
+                <property name="borderLeftStyle">solid</property>
+                <property name="borderLeftWidth">thin</property>
+                <property name="borderRightStyle">solid</property>
+                <property name="borderRightWidth">thin</property>
+                <property name="borderTopStyle">solid</property>
+                <property name="borderTopWidth">thin</property>
+                <property name="verticalAlign">middle</property>
+                <cell id="1761">
                     <property name="borderBottomStyle">solid</property>
                     <property name="borderBottomWidth">thin</property>
                     <property name="borderLeftStyle">solid</property>
@@ -1067,16 +1053,14 @@ Department</text-property>
                     <property name="borderRightWidth">thin</property>
                     <property name="borderTopStyle">solid</property>
                     <property name="borderTopWidth">thin</property>
-                    <label id="393">
+                    <label id="1790">
                         <property name="fontSize">9pt</property>
                         <property name="textAlign">center</property>
                         <text-property name="text">세부 전공
 Major</text-property>
                     </label>
                 </cell>
-                <cell id="289">
-                    <property name="colSpan">4</property>
-                    <property name="rowSpan">1</property>
+                <cell id="1762">
                     <property name="borderBottomStyle">solid</property>
                     <property name="borderBottomWidth">thin</property>
                     <property name="borderLeftStyle">solid</property>
@@ -1085,7 +1069,7 @@ Major</text-property>
                     <property name="borderRightWidth">thin</property>
                     <property name="borderTopStyle">solid</property>
                     <property name="borderTopWidth">thin</property>
-                    <data id="1566">
+                    <data id="1800">
                         <property name="textAlign">center</property>
                         <list-property name="boundDataColumns">
                             <structure>
@@ -1097,23 +1081,19 @@ Major</text-property>
                         <property name="resultSetColumn">detlMajName</property>
                     </data>
                 </cell>
-                <cell id="293">
-                    <property name="borderBottomStyle">solid</property>
-                    <property name="borderBottomWidth">thin</property>
-                    <property name="borderLeftStyle">solid</property>
-                    <property name="borderLeftWidth">thin</property>
-                    <property name="borderRightStyle">solid</property>
-                    <property name="borderRightWidth">thin</property>
-                    <property name="borderTopStyle">solid</property>
-                    <property name="borderTopWidth">thin</property>
-                    <label id="394">
+                <cell id="1763">
+                    <property name="colSpan">2</property>
+                    <property name="rowSpan">1</property>
+                    <label id="1794">
                         <property name="fontSize">9pt</property>
                         <property name="textAlign">center</property>
                         <text-property name="text">학과 코드
 Department Code</text-property>
                     </label>
                 </cell>
-                <cell id="294">
+                <cell id="1765">
+                    <property name="colSpan">2</property>
+                    <property name="rowSpan">1</property>
                     <property name="borderBottomStyle">solid</property>
                     <property name="borderBottomWidth">thin</property>
                     <property name="borderLeftStyle">solid</property>
@@ -1122,7 +1102,7 @@ Department Code</text-property>
                     <property name="borderRightWidth">thin</property>
                     <property name="borderTopStyle">solid</property>
                     <property name="borderTopWidth">thin</property>
-                    <data id="1567">
+                    <data id="1801">
                         <property name="textAlign">center</property>
                         <list-property name="boundDataColumns">
                             <structure>
@@ -1135,24 +1115,57 @@ Department Code</text-property>
                     </data>
                 </cell>
             </row>
-            <row id="296">
-                <cell id="297">
-                    <property name="colSpan">8</property>
+        </grid>
+        <grid id="1802">
+            <column id="1803">
+                <property name="width">3cm</property>
+            </column>
+            <column id="1804">
+                <property name="width">2.5cm</property>
+            </column>
+            <column id="1805">
+                <property name="width">3cm</property>
+            </column>
+            <column id="1806">
+                <property name="width">2.5cm</property>
+            </column>
+            <column id="1807">
+                <property name="width">3cm</property>
+            </column>
+            <column id="1808">
+                <property name="width">2.5cm</property>
+            </column>
+            <column id="1809">
+                <property name="width">3cm</property>
+            </column>
+            <row id="1810">
+                <property name="borderLeftStyle">solid</property>
+                <property name="borderLeftWidth">thin</property>
+                <property name="borderRightStyle">solid</property>
+                <property name="borderRightWidth">thin</property>
+                <property name="verticalAlign">middle</property>
+                <cell id="1811">
+                    <property name="colSpan">7</property>
                     <property name="rowSpan">1</property>
                     <property name="borderLeftStyle">solid</property>
                     <property name="borderLeftWidth">thin</property>
                     <property name="borderRightStyle">solid</property>
                     <property name="borderRightWidth">thin</property>
-                    <property name="borderTopStyle">solid</property>
-                    <property name="borderTopWidth">thin</property>
-                    <label id="395">
+                    <label id="1890">
                         <text-property name="text">지원자 정보 Applicants Information</text-property>
                     </label>
                 </cell>
             </row>
-            <row id="1509">
-                <cell id="1510">
-                    <property name="colSpan">8</property>
+            <row id="1818">
+                <property name="borderBottomStyle">solid</property>
+                <property name="borderBottomWidth">thin</property>
+                <property name="borderLeftStyle">solid</property>
+                <property name="borderLeftWidth">thin</property>
+                <property name="borderRightStyle">solid</property>
+                <property name="borderRightWidth">thin</property>
+                <property name="verticalAlign">middle</property>
+                <cell id="1819">
+                    <property name="colSpan">7</property>
                     <property name="rowSpan">1</property>
                     <property name="borderBottomStyle">solid</property>
                     <property name="borderBottomWidth">thin</property>
@@ -1160,14 +1173,23 @@ Department Code</text-property>
                     <property name="borderLeftWidth">thin</property>
                     <property name="borderRightStyle">solid</property>
                     <property name="borderRightWidth">thin</property>
-                    <label id="1518">
+                    <label id="1891">
                         <property name="fontSize">9pt</property>
                         <text-property name="text">* 여권 및 비자 상의 정보와 동일하게 입력 바랍니다. Please fill in identical information on your Passport and Visa.</text-property>
                     </label>
                 </cell>
             </row>
-            <row id="305">
-                <cell id="306">
+            <row id="1826">
+                <property name="borderBottomStyle">solid</property>
+                <property name="borderBottomWidth">thin</property>
+                <property name="borderLeftStyle">solid</property>
+                <property name="borderLeftWidth">thin</property>
+                <property name="borderRightStyle">solid</property>
+                <property name="borderRightWidth">thin</property>
+                <property name="borderTopStyle">solid</property>
+                <property name="borderTopWidth">thin</property>
+                <property name="verticalAlign">middle</property>
+                <cell id="1827">
                     <property name="borderBottomStyle">solid</property>
                     <property name="borderBottomWidth">thin</property>
                     <property name="borderLeftStyle">solid</property>
@@ -1176,14 +1198,14 @@ Department Code</text-property>
                     <property name="borderRightWidth">thin</property>
                     <property name="borderTopStyle">solid</property>
                     <property name="borderTopWidth">thin</property>
-                    <label id="396">
+                    <label id="1892">
                         <property name="fontSize">9pt</property>
                         <property name="textAlign">center</property>
                         <text-property name="text">이름
 Name of Applicant</text-property>
                     </label>
                 </cell>
-                <cell id="307">
+                <cell id="1828">
                     <property name="borderBottomStyle">solid</property>
                     <property name="borderBottomWidth">thin</property>
                     <property name="borderLeftStyle">solid</property>
@@ -1192,16 +1214,14 @@ Name of Applicant</text-property>
                     <property name="borderRightWidth">thin</property>
                     <property name="borderTopStyle">solid</property>
                     <property name="borderTopWidth">thin</property>
-                    <label id="397">
+                    <label id="1893">
                         <property name="fontSize">9pt</property>
                         <property name="textAlign">center</property>
                         <text-property name="text">성
 Surname</text-property>
                     </label>
                 </cell>
-                <cell id="308">
-                    <property name="colSpan">2</property>
-                    <property name="rowSpan">1</property>
+                <cell id="1829">
                     <property name="borderBottomStyle">solid</property>
                     <property name="borderBottomWidth">thin</property>
                     <property name="borderLeftStyle">solid</property>
@@ -1210,7 +1230,7 @@ Surname</text-property>
                     <property name="borderRightWidth">thin</property>
                     <property name="borderTopStyle">solid</property>
                     <property name="borderTopWidth">thin</property>
-                    <data id="1568">
+                    <data id="1894">
                         <property name="textAlign">center</property>
                         <list-property name="boundDataColumns">
                             <structure>
@@ -1222,7 +1242,7 @@ Surname</text-property>
                         <property name="resultSetColumn">engSur</property>
                     </data>
                 </cell>
-                <cell id="310">
+                <cell id="1830">
                     <property name="borderBottomStyle">solid</property>
                     <property name="borderBottomWidth">thin</property>
                     <property name="borderLeftStyle">solid</property>
@@ -1231,14 +1251,14 @@ Surname</text-property>
                     <property name="borderRightWidth">thin</property>
                     <property name="borderTopStyle">solid</property>
                     <property name="borderTopWidth">thin</property>
-                    <label id="398">
+                    <label id="1895">
                         <property name="fontSize">9pt</property>
                         <property name="textAlign">center</property>
                         <text-property name="text">이름
 Given name</text-property>
                     </label>
                 </cell>
-                <cell id="311">
+                <cell id="1831">
                     <property name="borderBottomStyle">solid</property>
                     <property name="borderBottomWidth">thin</property>
                     <property name="borderLeftStyle">solid</property>
@@ -1247,7 +1267,7 @@ Given name</text-property>
                     <property name="borderRightWidth">thin</property>
                     <property name="borderTopStyle">solid</property>
                     <property name="borderTopWidth">thin</property>
-                    <data id="1569">
+                    <data id="1896">
                         <property name="textAlign">center</property>
                         <list-property name="boundDataColumns">
                             <structure>
@@ -1259,7 +1279,7 @@ Given name</text-property>
                         <property name="resultSetColumn">engName</property>
                     </data>
                 </cell>
-                <cell id="312">
+                <cell id="1832">
                     <property name="borderBottomStyle">solid</property>
                     <property name="borderBottomWidth">thin</property>
                     <property name="borderLeftStyle">solid</property>
@@ -1268,14 +1288,14 @@ Given name</text-property>
                     <property name="borderRightWidth">thin</property>
                     <property name="borderTopStyle">solid</property>
                     <property name="borderTopWidth">thin</property>
-                    <label id="399">
+                    <label id="1898">
                         <property name="fontSize">9pt</property>
                         <property name="textAlign">center</property>
-                        <text-property name="text">성별
-Gender</text-property>
+                        <text-property name="text">한글이름&#13;
+Korean Name</text-property>
                     </label>
                 </cell>
-                <cell id="313">
+                <cell id="1833">
                     <property name="borderBottomStyle">solid</property>
                     <property name="borderBottomWidth">thin</property>
                     <property name="borderLeftStyle">solid</property>
@@ -1284,21 +1304,30 @@ Gender</text-property>
                     <property name="borderRightWidth">thin</property>
                     <property name="borderTopStyle">solid</property>
                     <property name="borderTopWidth">thin</property>
-                    <data id="1570">
+                    <data id="1952">
                         <property name="textAlign">center</property>
                         <list-property name="boundDataColumns">
                             <structure>
-                                <property name="name">gend</property>
-                                <expression name="expression" type="javascript">params["gend"]</expression>
+                                <property name="name">korName</property>
+                                <expression name="expression" type="javascript">params["korName"]</expression>
                                 <property name="dataType">string</property>
                             </structure>
                         </list-property>
-                        <property name="resultSetColumn">gend</property>
+                        <property name="resultSetColumn">korName</property>
                     </data>
                 </cell>
             </row>
-            <row id="314">
-                <cell id="315">
+            <row id="1834">
+                <property name="borderBottomStyle">solid</property>
+                <property name="borderBottomWidth">thin</property>
+                <property name="borderLeftStyle">solid</property>
+                <property name="borderLeftWidth">thin</property>
+                <property name="borderRightStyle">solid</property>
+                <property name="borderRightWidth">thin</property>
+                <property name="borderTopStyle">solid</property>
+                <property name="borderTopWidth">thin</property>
+                <property name="verticalAlign">middle</property>
+                <cell id="1835">
                     <property name="borderBottomStyle">solid</property>
                     <property name="borderBottomWidth">thin</property>
                     <property name="borderLeftStyle">solid</property>
@@ -1307,16 +1336,14 @@ Gender</text-property>
                     <property name="borderRightWidth">thin</property>
                     <property name="borderTopStyle">solid</property>
                     <property name="borderTopWidth">thin</property>
-                    <label id="400">
+                    <label id="1902">
                         <property name="fontSize">9pt</property>
                         <property name="textAlign">center</property>
                         <text-property name="text">국적
 Nationality</text-property>
                     </label>
                 </cell>
-                <cell id="316">
-                    <property name="colSpan">2</property>
-                    <property name="rowSpan">1</property>
+                <cell id="1836">
                     <property name="borderBottomStyle">solid</property>
                     <property name="borderBottomWidth">thin</property>
                     <property name="borderLeftStyle">solid</property>
@@ -1325,51 +1352,14 @@ Nationality</text-property>
                     <property name="borderRightWidth">thin</property>
                     <property name="borderTopStyle">solid</property>
                     <property name="borderTopWidth">thin</property>
-                    <label id="401">
-                        <property name="fontSize">9pt</property>
-                        <property name="textAlign">center</property>
-                        <text-property name="text">출생국
-Country of Birth</text-property>
-                    </label>
-                </cell>
-                <cell id="318">
-                    <property name="borderBottomStyle">solid</property>
-                    <property name="borderBottomWidth">thin</property>
-                    <property name="borderLeftStyle">solid</property>
-                    <property name="borderLeftWidth">thin</property>
-                    <property name="borderRightStyle">solid</property>
-                    <property name="borderRightWidth">thin</property>
-                    <property name="borderTopStyle">solid</property>
-                    <property name="borderTopWidth">thin</property>
-                    <data id="1571">
-                        <property name="textAlign">center</property>
-                        <list-property name="boundDataColumns">
-                            <structure>
-                                <property name="name">bornCntrName</property>
-                                <expression name="expression" type="javascript">params["bornCntrName"]</expression>
-                                <property name="dataType">string</property>
-                            </structure>
-                        </list-property>
-                        <property name="resultSetColumn">bornCntrName</property>
-                    </data>
-                </cell>
-                <cell id="319">
-                    <property name="borderBottomStyle">solid</property>
-                    <property name="borderBottomWidth">thin</property>
-                    <property name="borderLeftStyle">solid</property>
-                    <property name="borderLeftWidth">thin</property>
-                    <property name="borderRightStyle">solid</property>
-                    <property name="borderRightWidth">thin</property>
-                    <property name="borderTopStyle">solid</property>
-                    <property name="borderTopWidth">thin</property>
-                    <label id="402">
+                    <label id="1903">
                         <property name="fontSize">9pt</property>
                         <property name="textAlign">center</property>
                         <text-property name="text">국적국
 Citizenship</text-property>
                     </label>
                 </cell>
-                <cell id="320">
+                <cell id="1837">
                     <property name="borderBottomStyle">solid</property>
                     <property name="borderBottomWidth">thin</property>
                     <property name="borderLeftStyle">solid</property>
@@ -1378,7 +1368,7 @@ Citizenship</text-property>
                     <property name="borderRightWidth">thin</property>
                     <property name="borderTopStyle">solid</property>
                     <property name="borderTopWidth">thin</property>
-                    <data id="1572">
+                    <data id="1904">
                         <property name="textAlign">center</property>
                         <list-property name="boundDataColumns">
                             <structure>
@@ -1390,7 +1380,7 @@ Citizenship</text-property>
                         <property name="resultSetColumn">citzCntrName</property>
                     </data>
                 </cell>
-                <cell id="321">
+                <cell id="1838">
                     <property name="borderBottomStyle">solid</property>
                     <property name="borderBottomWidth">thin</property>
                     <property name="borderLeftStyle">solid</property>
@@ -1399,14 +1389,51 @@ Citizenship</text-property>
                     <property name="borderRightWidth">thin</property>
                     <property name="borderTopStyle">solid</property>
                     <property name="borderTopWidth">thin</property>
-                    <label id="403">
+                    <label id="1897">
+                        <property name="fontSize">9pt</property>
+                        <property name="textAlign">center</property>
+                        <text-property name="text">성별
+Gender</text-property>
+                    </label>
+                </cell>
+                <cell id="1839">
+                    <property name="borderBottomStyle">solid</property>
+                    <property name="borderBottomWidth">thin</property>
+                    <property name="borderLeftStyle">solid</property>
+                    <property name="borderLeftWidth">thin</property>
+                    <property name="borderRightStyle">solid</property>
+                    <property name="borderRightWidth">thin</property>
+                    <property name="borderTopStyle">solid</property>
+                    <property name="borderTopWidth">thin</property>
+                    <data id="1899">
+                        <property name="textAlign">center</property>
+                        <list-property name="boundDataColumns">
+                            <structure>
+                                <property name="name">gend</property>
+                                <expression name="expression" type="javascript">params["gend"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                        </list-property>
+                        <property name="resultSetColumn">gend</property>
+                    </data>
+                </cell>
+                <cell id="1840">
+                    <property name="borderBottomStyle">solid</property>
+                    <property name="borderBottomWidth">thin</property>
+                    <property name="borderLeftStyle">solid</property>
+                    <property name="borderLeftWidth">thin</property>
+                    <property name="borderRightStyle">solid</property>
+                    <property name="borderRightWidth">thin</property>
+                    <property name="borderTopStyle">solid</property>
+                    <property name="borderTopWidth">thin</property>
+                    <label id="1900">
                         <property name="fontSize">9pt</property>
                         <property name="textAlign">center</property>
                         <text-property name="text">출생일
 Date of Birth</text-property>
                     </label>
                 </cell>
-                <cell id="322">
+                <cell id="1841">
                     <property name="borderBottomStyle">solid</property>
                     <property name="borderBottomWidth">thin</property>
                     <property name="borderLeftStyle">solid</property>
@@ -1415,7 +1442,7 @@ Date of Birth</text-property>
                     <property name="borderRightWidth">thin</property>
                     <property name="borderTopStyle">solid</property>
                     <property name="borderTopWidth">thin</property>
-                    <data id="1573">
+                    <data id="1901">
                         <property name="textAlign">center</property>
                         <list-property name="boundDataColumns">
                             <structure>
@@ -1428,8 +1455,17 @@ Date of Birth</text-property>
                     </data>
                 </cell>
             </row>
-            <row id="323">
-                <cell id="324">
+            <row id="1842">
+                <property name="borderBottomStyle">solid</property>
+                <property name="borderBottomWidth">thin</property>
+                <property name="borderLeftStyle">solid</property>
+                <property name="borderLeftWidth">thin</property>
+                <property name="borderRightStyle">solid</property>
+                <property name="borderRightWidth">thin</property>
+                <property name="borderTopStyle">solid</property>
+                <property name="borderTopWidth">thin</property>
+                <property name="verticalAlign">middle</property>
+                <cell id="1843">
                     <property name="borderBottomStyle">solid</property>
                     <property name="borderBottomWidth">thin</property>
                     <property name="borderLeftStyle">solid</property>
@@ -1438,16 +1474,14 @@ Date of Birth</text-property>
                     <property name="borderRightWidth">thin</property>
                     <property name="borderTopStyle">solid</property>
                     <property name="borderTopWidth">thin</property>
-                    <label id="404">
+                    <label id="1905">
                         <property name="fontSize">9pt</property>
                         <property name="textAlign">center</property>
                         <text-property name="text">사증 정보
 Visa Information</text-property>
                     </label>
                 </cell>
-                <cell id="325">
-                    <property name="colSpan">2</property>
-                    <property name="rowSpan">1</property>
+                <cell id="1844">
                     <property name="borderBottomStyle">solid</property>
                     <property name="borderBottomWidth">thin</property>
                     <property name="borderLeftStyle">solid</property>
@@ -1456,14 +1490,14 @@ Visa Information</text-property>
                     <property name="borderRightWidth">thin</property>
                     <property name="borderTopStyle">solid</property>
                     <property name="borderTopWidth">thin</property>
-                    <label id="406">
+                    <label id="1906">
                         <property name="fontSize">9pt</property>
                         <property name="textAlign">center</property>
                         <text-property name="text">여권 번호
 Passport Number</text-property>
                     </label>
                 </cell>
-                <cell id="327">
+                <cell id="1845">
                     <property name="borderBottomStyle">solid</property>
                     <property name="borderBottomWidth">thin</property>
                     <property name="borderLeftStyle">solid</property>
@@ -1472,7 +1506,7 @@ Passport Number</text-property>
                     <property name="borderRightWidth">thin</property>
                     <property name="borderTopStyle">solid</property>
                     <property name="borderTopWidth">thin</property>
-                    <data id="1574">
+                    <data id="1907">
                         <property name="textAlign">center</property>
                         <list-property name="boundDataColumns">
                             <structure>
@@ -1484,7 +1518,7 @@ Passport Number</text-property>
                         <property name="resultSetColumn">paspNo</property>
                     </data>
                 </cell>
-                <cell id="328">
+                <cell id="1846">
                     <property name="borderBottomStyle">solid</property>
                     <property name="borderBottomWidth">thin</property>
                     <property name="borderLeftStyle">solid</property>
@@ -1493,14 +1527,14 @@ Passport Number</text-property>
                     <property name="borderRightWidth">thin</property>
                     <property name="borderTopStyle">solid</property>
                     <property name="borderTopWidth">thin</property>
-                    <label id="407">
+                    <label id="1908">
                         <property name="fontSize">9pt</property>
                         <property name="textAlign">center</property>
                         <text-property name="text">사증 종류
 Type of Visa</text-property>
                     </label>
                 </cell>
-                <cell id="329">
+                <cell id="1847">
                     <property name="borderBottomStyle">solid</property>
                     <property name="borderBottomWidth">thin</property>
                     <property name="borderLeftStyle">solid</property>
@@ -1509,7 +1543,7 @@ Type of Visa</text-property>
                     <property name="borderRightWidth">thin</property>
                     <property name="borderTopStyle">solid</property>
                     <property name="borderTopWidth">thin</property>
-                    <data id="1575">
+                    <data id="1909">
                         <property name="textAlign">center</property>
                         <list-property name="boundDataColumns">
                             <structure>
@@ -1521,7 +1555,7 @@ Type of Visa</text-property>
                         <property name="resultSetColumn">visaTypeName</property>
                     </data>
                 </cell>
-                <cell id="330">
+                <cell id="1848">
                     <property name="borderBottomStyle">solid</property>
                     <property name="borderBottomWidth">thin</property>
                     <property name="borderLeftStyle">solid</property>
@@ -1530,14 +1564,14 @@ Type of Visa</text-property>
                     <property name="borderRightWidth">thin</property>
                     <property name="borderTopStyle">solid</property>
                     <property name="borderTopWidth">thin</property>
-                    <label id="408">
+                    <label id="1910">
                         <property name="fontSize">9pt</property>
                         <property name="textAlign">center</property>
                         <text-property name="text">외국인등록
 Registration</text-property>
                     </label>
                 </cell>
-                <cell id="331">
+                <cell id="1849">
                     <property name="borderBottomStyle">solid</property>
                     <property name="borderBottomWidth">thin</property>
                     <property name="borderLeftStyle">solid</property>
@@ -1546,7 +1580,7 @@ Registration</text-property>
                     <property name="borderRightWidth">thin</property>
                     <property name="borderTopStyle">solid</property>
                     <property name="borderTopWidth">thin</property>
-                    <data id="1576">
+                    <data id="1911">
                         <property name="fontSize">9pt</property>
                         <property name="textAlign">center</property>
                         <list-property name="boundDataColumns">
@@ -1560,8 +1594,17 @@ Registration</text-property>
                     </data>
                 </cell>
             </row>
-            <row id="332">
-                <cell id="333">
+            <row id="1850">
+                <property name="borderBottomStyle">solid</property>
+                <property name="borderBottomWidth">thin</property>
+                <property name="borderLeftStyle">solid</property>
+                <property name="borderLeftWidth">thin</property>
+                <property name="borderRightStyle">solid</property>
+                <property name="borderRightWidth">thin</property>
+                <property name="borderTopStyle">solid</property>
+                <property name="borderTopWidth">thin</property>
+                <property name="verticalAlign">middle</property>
+                <cell id="1851">
                     <property name="borderBottomStyle">solid</property>
                     <property name="borderBottomWidth">thin</property>
                     <property name="borderLeftStyle">solid</property>
@@ -1570,15 +1613,15 @@ Registration</text-property>
                     <property name="borderRightWidth">thin</property>
                     <property name="borderTopStyle">solid</property>
                     <property name="borderTopWidth">thin</property>
-                    <label id="409">
+                    <label id="1912">
                         <property name="fontSize">9pt</property>
                         <property name="textAlign">center</property>
                         <text-property name="text">본국 주소
 Homeland Address</text-property>
                     </label>
                 </cell>
-                <cell id="334">
-                    <property name="colSpan">7</property>
+                <cell id="1852">
+                    <property name="colSpan">6</property>
                     <property name="rowSpan">1</property>
                     <property name="borderBottomStyle">solid</property>
                     <property name="borderBottomWidth">thin</property>
@@ -1588,7 +1631,7 @@ Homeland Address</text-property>
                     <property name="borderRightWidth">thin</property>
                     <property name="borderTopStyle">solid</property>
                     <property name="borderTopWidth">thin</property>
-                    <data id="1577">
+                    <data id="1913">
                         <property name="textAlign">center</property>
                         <list-property name="boundDataColumns">
                             <structure>
@@ -1601,8 +1644,17 @@ Homeland Address</text-property>
                     </data>
                 </cell>
             </row>
-            <row id="341">
-                <cell id="342">
+            <row id="1858">
+                <property name="borderBottomStyle">solid</property>
+                <property name="borderBottomWidth">thin</property>
+                <property name="borderLeftStyle">solid</property>
+                <property name="borderLeftWidth">thin</property>
+                <property name="borderRightStyle">solid</property>
+                <property name="borderRightWidth">thin</property>
+                <property name="borderTopStyle">solid</property>
+                <property name="borderTopWidth">thin</property>
+                <property name="verticalAlign">middle</property>
+                <cell id="1859">
                     <property name="borderBottomStyle">solid</property>
                     <property name="borderBottomWidth">thin</property>
                     <property name="borderLeftStyle">solid</property>
@@ -1611,15 +1663,15 @@ Homeland Address</text-property>
                     <property name="borderRightWidth">thin</property>
                     <property name="borderTopStyle">solid</property>
                     <property name="borderTopWidth">thin</property>
-                    <label id="410">
+                    <label id="1914">
                         <property name="fontSize">9pt</property>
                         <property name="textAlign">center</property>
                         <text-property name="text">한국 내 주소
 Address in Korea</text-property>
                     </label>
                 </cell>
-                <cell id="343">
-                    <property name="colSpan">7</property>
+                <cell id="1860">
+                    <property name="colSpan">6</property>
                     <property name="rowSpan">1</property>
                     <property name="borderBottomStyle">solid</property>
                     <property name="borderBottomWidth">thin</property>
@@ -1629,7 +1681,7 @@ Address in Korea</text-property>
                     <property name="borderRightWidth">thin</property>
                     <property name="borderTopStyle">solid</property>
                     <property name="borderTopWidth">thin</property>
-                    <data id="1578">
+                    <data id="1915">
                         <property name="textAlign">center</property>
                         <list-property name="boundDataColumns">
                             <structure>
@@ -1642,8 +1694,17 @@ Address in Korea</text-property>
                     </data>
                 </cell>
             </row>
-            <row id="350">
-                <cell id="351">
+            <row id="1866">
+                <property name="borderBottomStyle">solid</property>
+                <property name="borderBottomWidth">thin</property>
+                <property name="borderLeftStyle">solid</property>
+                <property name="borderLeftWidth">thin</property>
+                <property name="borderRightStyle">solid</property>
+                <property name="borderRightWidth">thin</property>
+                <property name="borderTopStyle">solid</property>
+                <property name="borderTopWidth">thin</property>
+                <property name="verticalAlign">middle</property>
+                <cell id="1867">
                     <property name="colSpan">1</property>
                     <property name="rowSpan">2</property>
                     <property name="borderBottomStyle">solid</property>
@@ -1654,17 +1715,14 @@ Address in Korea</text-property>
                     <property name="borderRightWidth">thin</property>
                     <property name="borderTopStyle">solid</property>
                     <property name="borderTopWidth">thin</property>
-                    <property name="verticalAlign">middle</property>
-                    <label id="412">
+                    <label id="1916">
                         <property name="fontSize">9pt</property>
                         <property name="textAlign">center</property>
                         <text-property name="text">연락처
 Contact Information</text-property>
                     </label>
                 </cell>
-                <cell id="352">
-                    <property name="colSpan">2</property>
-                    <property name="rowSpan">1</property>
+                <cell id="1868">
                     <property name="borderBottomStyle">solid</property>
                     <property name="borderBottomWidth">thin</property>
                     <property name="borderLeftStyle">solid</property>
@@ -1673,14 +1731,14 @@ Contact Information</text-property>
                     <property name="borderRightWidth">thin</property>
                     <property name="borderTopStyle">solid</property>
                     <property name="borderTopWidth">thin</property>
-                    <label id="413">
+                    <label id="1921">
                         <property name="fontSize">9pt</property>
                         <property name="textAlign">center</property>
                         <text-property name="text">전자우편
 e-mail Address</text-property>
                     </label>
                 </cell>
-                <cell id="354">
+                <cell id="1869">
                     <property name="colSpan">2</property>
                     <property name="rowSpan">1</property>
                     <property name="borderBottomStyle">solid</property>
@@ -1691,7 +1749,7 @@ e-mail Address</text-property>
                     <property name="borderRightWidth">thin</property>
                     <property name="borderTopStyle">solid</property>
                     <property name="borderTopWidth">thin</property>
-                    <data id="1579">
+                    <data id="1922">
                         <property name="textAlign">center</property>
                         <list-property name="boundDataColumns">
                             <structure>
@@ -1703,7 +1761,7 @@ e-mail Address</text-property>
                         <property name="resultSetColumn">mailAddr</property>
                     </data>
                 </cell>
-                <cell id="356">
+                <cell id="1871">
                     <property name="borderBottomStyle">solid</property>
                     <property name="borderBottomWidth">thin</property>
                     <property name="borderLeftStyle">solid</property>
@@ -1712,14 +1770,14 @@ e-mail Address</text-property>
                     <property name="borderRightWidth">thin</property>
                     <property name="borderTopStyle">solid</property>
                     <property name="borderTopWidth">thin</property>
-                    <label id="415">
+                    <label id="1923">
                         <property name="fontSize">9pt</property>
                         <property name="textAlign">center</property>
                         <text-property name="text">본국 전화번호
 Homeland Phone</text-property>
                     </label>
                 </cell>
-                <cell id="357">
+                <cell id="1872">
                     <property name="colSpan">2</property>
                     <property name="rowSpan">1</property>
                     <property name="borderBottomStyle">solid</property>
@@ -1730,7 +1788,7 @@ Homeland Phone</text-property>
                     <property name="borderRightWidth">thin</property>
                     <property name="borderTopStyle">solid</property>
                     <property name="borderTopWidth">thin</property>
-                    <data id="1580">
+                    <data id="1924">
                         <property name="textAlign">center</property>
                         <list-property name="boundDataColumns">
                             <structure>
@@ -1743,10 +1801,17 @@ Homeland Phone</text-property>
                     </data>
                 </cell>
             </row>
-            <row id="359">
-                <cell id="361">
-                    <property name="colSpan">2</property>
-                    <property name="rowSpan">1</property>
+            <row id="1925">
+                <property name="borderBottomStyle">solid</property>
+                <property name="borderBottomWidth">thin</property>
+                <property name="borderLeftStyle">solid</property>
+                <property name="borderLeftWidth">thin</property>
+                <property name="borderRightStyle">solid</property>
+                <property name="borderRightWidth">thin</property>
+                <property name="borderTopStyle">solid</property>
+                <property name="borderTopWidth">thin</property>
+                <property name="verticalAlign">middle</property>
+                <cell id="1927">
                     <property name="borderBottomStyle">solid</property>
                     <property name="borderBottomWidth">thin</property>
                     <property name="borderLeftStyle">solid</property>
@@ -1755,7 +1820,7 @@ Homeland Phone</text-property>
                     <property name="borderRightWidth">thin</property>
                     <property name="borderTopStyle">solid</property>
                     <property name="borderTopWidth">thin</property>
-                    <label id="414">
+                    <label id="1933">
                         <property name="fontSize">9pt</property>
                         <property name="textAlign">center</property>
                         <text-property name="text">한국
@@ -1763,7 +1828,7 @@ Homeland Phone</text-property>
 Korean Phone</text-property>
                     </label>
                 </cell>
-                <cell id="363">
+                <cell id="1928">
                     <property name="colSpan">2</property>
                     <property name="rowSpan">1</property>
                     <property name="borderBottomStyle">solid</property>
@@ -1774,7 +1839,7 @@ Korean Phone</text-property>
                     <property name="borderRightWidth">thin</property>
                     <property name="borderTopStyle">solid</property>
                     <property name="borderTopWidth">thin</property>
-                    <data id="1581">
+                    <data id="1934">
                         <property name="textAlign">center</property>
                         <list-property name="boundDataColumns">
                             <structure>
@@ -1786,7 +1851,7 @@ Korean Phone</text-property>
                         <property name="resultSetColumn">telNum</property>
                     </data>
                 </cell>
-                <cell id="365">
+                <cell id="1930">
                     <property name="borderBottomStyle">solid</property>
                     <property name="borderBottomWidth">thin</property>
                     <property name="borderLeftStyle">solid</property>
@@ -1795,14 +1860,14 @@ Korean Phone</text-property>
                     <property name="borderRightWidth">thin</property>
                     <property name="borderTopStyle">solid</property>
                     <property name="borderTopWidth">thin</property>
-                    <label id="416">
+                    <label id="1935">
                         <property name="fontSize">9pt</property>
                         <property name="textAlign">center</property>
                         <text-property name="text">한국 휴대전화
 Korean Cell Phone</text-property>
                     </label>
                 </cell>
-                <cell id="366">
+                <cell id="1931">
                     <property name="colSpan">2</property>
                     <property name="rowSpan">1</property>
                     <property name="borderBottomStyle">solid</property>
@@ -1813,7 +1878,7 @@ Korean Cell Phone</text-property>
                     <property name="borderRightWidth">thin</property>
                     <property name="borderTopStyle">solid</property>
                     <property name="borderTopWidth">thin</property>
-                    <data id="1582">
+                    <data id="1936">
                         <property name="textAlign">center</property>
                         <list-property name="boundDataColumns">
                             <structure>
@@ -1826,8 +1891,17 @@ Korean Cell Phone</text-property>
                     </data>
                 </cell>
             </row>
-            <row id="368">
-                <cell id="369">
+            <row id="1874">
+                <property name="borderBottomStyle">solid</property>
+                <property name="borderBottomWidth">thin</property>
+                <property name="borderLeftStyle">solid</property>
+                <property name="borderLeftWidth">thin</property>
+                <property name="borderRightStyle">solid</property>
+                <property name="borderRightWidth">thin</property>
+                <property name="borderTopStyle">solid</property>
+                <property name="borderTopWidth">thin</property>
+                <property name="verticalAlign">middle</property>
+                <cell id="1875">
                     <property name="borderBottomStyle">solid</property>
                     <property name="borderBottomWidth">thin</property>
                     <property name="borderLeftStyle">solid</property>
@@ -1836,16 +1910,14 @@ Korean Cell Phone</text-property>
                     <property name="borderRightWidth">thin</property>
                     <property name="borderTopStyle">solid</property>
                     <property name="borderTopWidth">thin</property>
-                    <label id="417">
+                    <label id="1937">
                         <property name="fontSize">9pt</property>
                         <property name="textAlign">center</property>
                         <text-property name="text">본국 보호자
 Homeland Chaperon(e)</text-property>
                     </label>
                 </cell>
-                <cell id="370">
-                    <property name="colSpan">2</property>
-                    <property name="rowSpan">1</property>
+                <cell id="1876">
                     <property name="borderBottomStyle">solid</property>
                     <property name="borderBottomWidth">thin</property>
                     <property name="borderLeftStyle">solid</property>
@@ -1854,14 +1926,14 @@ Homeland Chaperon(e)</text-property>
                     <property name="borderRightWidth">thin</property>
                     <property name="borderTopStyle">solid</property>
                     <property name="borderTopWidth">thin</property>
-                    <label id="419">
+                    <label id="1938">
                         <property name="fontSize">9pt</property>
                         <property name="textAlign">center</property>
                         <text-property name="text">성명
 Name</text-property>
                     </label>
                 </cell>
-                <cell id="372">
+                <cell id="1877">
                     <property name="borderBottomStyle">solid</property>
                     <property name="borderBottomWidth">thin</property>
                     <property name="borderLeftStyle">solid</property>
@@ -1870,7 +1942,7 @@ Name</text-property>
                     <property name="borderRightWidth">thin</property>
                     <property name="borderTopStyle">solid</property>
                     <property name="borderTopWidth">thin</property>
-                    <data id="1583">
+                    <data id="1939">
                         <property name="textAlign">center</property>
                         <list-property name="boundDataColumns">
                             <structure>
@@ -1882,7 +1954,7 @@ Name</text-property>
                         <property name="resultSetColumn">homeEmrgName</property>
                     </data>
                 </cell>
-                <cell id="373">
+                <cell id="1878">
                     <property name="borderBottomStyle">solid</property>
                     <property name="borderBottomWidth">thin</property>
                     <property name="borderLeftStyle">solid</property>
@@ -1891,14 +1963,14 @@ Name</text-property>
                     <property name="borderRightWidth">thin</property>
                     <property name="borderTopStyle">solid</property>
                     <property name="borderTopWidth">thin</property>
-                    <label id="421">
+                    <label id="1940">
                         <property name="fontSize">9pt</property>
                         <property name="textAlign">center</property>
                         <text-property name="text">전화번호
 Phone</text-property>
                     </label>
                 </cell>
-                <cell id="374">
+                <cell id="1879">
                     <property name="borderBottomStyle">solid</property>
                     <property name="borderBottomWidth">thin</property>
                     <property name="borderLeftStyle">solid</property>
@@ -1907,7 +1979,7 @@ Phone</text-property>
                     <property name="borderRightWidth">thin</property>
                     <property name="borderTopStyle">solid</property>
                     <property name="borderTopWidth">thin</property>
-                    <data id="1584">
+                    <data id="1941">
                         <property name="textAlign">center</property>
                         <list-property name="boundDataColumns">
                             <structure>
@@ -1919,7 +1991,7 @@ Phone</text-property>
                         <property name="resultSetColumn">homeEmrgTel</property>
                     </data>
                 </cell>
-                <cell id="375">
+                <cell id="1880">
                     <property name="borderBottomStyle">solid</property>
                     <property name="borderBottomWidth">thin</property>
                     <property name="borderLeftStyle">solid</property>
@@ -1928,14 +2000,14 @@ Phone</text-property>
                     <property name="borderRightWidth">thin</property>
                     <property name="borderTopStyle">solid</property>
                     <property name="borderTopWidth">thin</property>
-                    <label id="423">
+                    <label id="1942">
                         <property name="fontSize">9pt</property>
                         <property name="textAlign">center</property>
                         <text-property name="text">관계
 Relationship</text-property>
                     </label>
                 </cell>
-                <cell id="376">
+                <cell id="1881">
                     <property name="borderBottomStyle">solid</property>
                     <property name="borderBottomWidth">thin</property>
                     <property name="borderLeftStyle">solid</property>
@@ -1944,7 +2016,7 @@ Relationship</text-property>
                     <property name="borderRightWidth">thin</property>
                     <property name="borderTopStyle">solid</property>
                     <property name="borderTopWidth">thin</property>
-                    <data id="1585">
+                    <data id="1943">
                         <property name="textAlign">center</property>
                         <list-property name="boundDataColumns">
                             <structure>
@@ -1957,8 +2029,17 @@ Relationship</text-property>
                     </data>
                 </cell>
             </row>
-            <row id="377">
-                <cell id="378">
+            <row id="1882">
+                <property name="borderBottomStyle">solid</property>
+                <property name="borderBottomWidth">thin</property>
+                <property name="borderLeftStyle">solid</property>
+                <property name="borderLeftWidth">thin</property>
+                <property name="borderRightStyle">solid</property>
+                <property name="borderRightWidth">thin</property>
+                <property name="borderTopStyle">solid</property>
+                <property name="borderTopWidth">thin</property>
+                <property name="verticalAlign">middle</property>
+                <cell id="1883">
                     <property name="borderBottomStyle">solid</property>
                     <property name="borderBottomWidth">thin</property>
                     <property name="borderLeftStyle">solid</property>
@@ -1967,16 +2048,14 @@ Relationship</text-property>
                     <property name="borderRightWidth">thin</property>
                     <property name="borderTopStyle">solid</property>
                     <property name="borderTopWidth">thin</property>
-                    <label id="418">
+                    <label id="1944">
                         <property name="fontSize">9pt</property>
                         <property name="textAlign">center</property>
                         <text-property name="text">한국 내 보호자
 Korean Chaperon(e)</text-property>
                     </label>
                 </cell>
-                <cell id="379">
-                    <property name="colSpan">2</property>
-                    <property name="rowSpan">1</property>
+                <cell id="1884">
                     <property name="borderBottomStyle">solid</property>
                     <property name="borderBottomWidth">thin</property>
                     <property name="borderLeftStyle">solid</property>
@@ -1985,14 +2064,14 @@ Korean Chaperon(e)</text-property>
                     <property name="borderRightWidth">thin</property>
                     <property name="borderTopStyle">solid</property>
                     <property name="borderTopWidth">thin</property>
-                    <label id="420">
+                    <label id="1945">
                         <property name="fontSize">9pt</property>
                         <property name="textAlign">center</property>
                         <text-property name="text">성명
 Name</text-property>
                     </label>
                 </cell>
-                <cell id="381">
+                <cell id="1885">
                     <property name="borderBottomStyle">solid</property>
                     <property name="borderBottomWidth">thin</property>
                     <property name="borderLeftStyle">solid</property>
@@ -2001,7 +2080,7 @@ Name</text-property>
                     <property name="borderRightWidth">thin</property>
                     <property name="borderTopStyle">solid</property>
                     <property name="borderTopWidth">thin</property>
-                    <data id="1586">
+                    <data id="1946">
                         <property name="textAlign">center</property>
                         <list-property name="boundDataColumns">
                             <structure>
@@ -2013,7 +2092,7 @@ Name</text-property>
                         <property name="resultSetColumn">korEmrgName</property>
                     </data>
                 </cell>
-                <cell id="382">
+                <cell id="1886">
                     <property name="borderBottomStyle">solid</property>
                     <property name="borderBottomWidth">thin</property>
                     <property name="borderLeftStyle">solid</property>
@@ -2022,14 +2101,14 @@ Name</text-property>
                     <property name="borderRightWidth">thin</property>
                     <property name="borderTopStyle">solid</property>
                     <property name="borderTopWidth">thin</property>
-                    <label id="422">
+                    <label id="1947">
                         <property name="fontSize">9pt</property>
                         <property name="textAlign">center</property>
                         <text-property name="text">전화번호
 Phone</text-property>
                     </label>
                 </cell>
-                <cell id="383">
+                <cell id="1887">
                     <property name="borderBottomStyle">solid</property>
                     <property name="borderBottomWidth">thin</property>
                     <property name="borderLeftStyle">solid</property>
@@ -2038,7 +2117,7 @@ Phone</text-property>
                     <property name="borderRightWidth">thin</property>
                     <property name="borderTopStyle">solid</property>
                     <property name="borderTopWidth">thin</property>
-                    <data id="1587">
+                    <data id="1948">
                         <property name="textAlign">center</property>
                         <list-property name="boundDataColumns">
                             <structure>
@@ -2050,7 +2129,7 @@ Phone</text-property>
                         <property name="resultSetColumn">korEmrgTel</property>
                     </data>
                 </cell>
-                <cell id="384">
+                <cell id="1888">
                     <property name="borderBottomStyle">solid</property>
                     <property name="borderBottomWidth">thin</property>
                     <property name="borderLeftStyle">solid</property>
@@ -2059,14 +2138,14 @@ Phone</text-property>
                     <property name="borderRightWidth">thin</property>
                     <property name="borderTopStyle">solid</property>
                     <property name="borderTopWidth">thin</property>
-                    <label id="424">
+                    <label id="1949">
                         <property name="fontSize">9pt</property>
                         <property name="textAlign">center</property>
                         <text-property name="text">관계
 Relationship</text-property>
                     </label>
                 </cell>
-                <cell id="385">
+                <cell id="1889">
                     <property name="borderBottomStyle">solid</property>
                     <property name="borderBottomWidth">thin</property>
                     <property name="borderLeftStyle">solid</property>
@@ -2075,7 +2154,7 @@ Relationship</text-property>
                     <property name="borderRightWidth">thin</property>
                     <property name="borderTopStyle">solid</property>
                     <property name="borderTopWidth">thin</property>
-                    <data id="1588">
+                    <data id="1950">
                         <property name="textAlign">center</property>
                         <list-property name="boundDataColumns">
                             <structure>
@@ -2109,7 +2188,7 @@ Relationship</text-property>
                 <property name="width">3cm</property>
             </column>
             <column id="431">
-                <property name="width">3cm</property>
+                <property name="width">3.5cm</property>
             </column>
             <row id="1525">
                 <property name="borderLeftStyle">solid</property>
@@ -2611,13 +2690,27 @@ Degree of Diploma</text-property>
             <property name="borderRightStyle">solid</property>
             <property name="borderRightWidth">thin</property>
             <property name="width">19cm</property>
-            <column id="474"/>
-            <column id="475"/>
-            <column id="476"/>
-            <column id="477"/>
-            <column id="478"/>
-            <column id="479"/>
-            <column id="480"/>
+            <column id="474">
+                <property name="width">2.5cm</property>
+            </column>
+            <column id="475">
+                <property name="width">2.5cm</property>
+            </column>
+            <column id="476">
+                <property name="width">2.5cm</property>
+            </column>
+            <column id="477">
+                <property name="width">2.5cm</property>
+            </column>
+            <column id="478">
+                <property name="width">2.5cm</property>
+            </column>
+            <column id="479">
+                <property name="width">2.5cm</property>
+            </column>
+            <column id="480">
+                <property name="width">4.5cm</property>
+            </column>
             <row id="481">
                 <cell id="482">
                     <property name="colSpan">1</property>
@@ -2872,11 +2965,14 @@ Language Test of Result</text-property>
             <property name="borderRightStyle">solid</property>
             <property name="borderRightWidth">thin</property>
             <property name="width">19cm</property>
-            <column id="505"/>
+            <column id="505">
+                <property name="width">19.5cm</property>
+            </column>
             <row id="506">
                 <cell id="507">
                     <label id="508">
-                        <text-property name="text">위와 같이 소정의 서류와 함께 귀 대학교 대학원에 입학하고자 소정의 서류를 갖추어 지원합니다.
+                        <property name="paddingLeft">20pt</property>
+                        <text-property name="text">위와 같이 귀 대학교 대학원에 입학하고자 소정의 서류를 갖추어 지원합니다.&#13;
 Hereby, with above information and related documents, I apply for Yonsei University Graduate School.</text-property>
                     </label>
                 </cell>
@@ -2890,7 +2986,7 @@ Hereby, with above information and related documents, I apply for Yonsei Univers
                 <cell id="510">
                     <label id="511">
                         <property name="textAlign">right</property>
-                        <text-property name="text">지원자 Applicant :                                          (서명/Signature)       </text-property>
+                        <text-property name="text">지원자 Applicant :                                                            </text-property>
                     </label>
                 </cell>
             </row>
@@ -2899,10 +2995,10 @@ Hereby, with above information and related documents, I apply for Yonsei Univers
             <property name="height">2cm</property>
             <property name="width">19cm</property>
             <column id="514">
-                <property name="width">5.854166666666667in</property>
+                <property name="width">15cm</property>
             </column>
             <column id="515">
-                <property name="width">1.4479166666666667in</property>
+                <property name="width">4.5cm</property>
             </column>
             <row id="516">
                 <cell id="517">
@@ -2919,7 +3015,7 @@ Hereby, with above information and related documents, I apply for Yonsei Univers
                         <property name="textAlign">center</property>
                         <property name="verticalAlign">middle</property>
                         <property name="height">2cm</property>
-                        <text-property name="text">연세대학교 대학원장 귀하</text-property>
+                        <text-property name="text">연세대학교 대학원 귀중</text-property>
                     </label>
                 </cell>
             </row>
