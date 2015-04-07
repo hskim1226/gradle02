@@ -238,7 +238,7 @@
         AND A.CORS_TYPE_CODE = I.CORS_TYPE_CODE
         AND A.DEPT_CODE = I.DEPT_CODE
         AND IFNULL(A.ARI_INST_CODE,'') = IFNULL(I.ARI_INST_CODE,'')
-        AND A.APPL_ID = #{applId}
+        AND A.APPL_ID LIKE #{applId}
 
         ORDER BY APPL_ID DESC
     </select>
@@ -298,7 +298,7 @@
         AND a.APPL_STS_CODE = '00020'
 		]]>
         <if test="applId != null and applId!=''">
-           AND APPL_ID = #{applId}
+            AND APPL_ID LIKE #{applId}
         </if>
         <if test="korName != null and korName!=''">
            AND KOR_NAME = #{korName}
@@ -331,7 +331,7 @@
 		AND a.ADMS_NO = H.ADMS_NO
         AND a.APPL_STS_CODE = '00020'
         <if test="applId != null and applId!=''">
-           AND APPL_ID = #{applId}
+           AND APPL_ID LIKE #{applId}
         </if>		
         <if test="korName != null and korName!=''">
            AND KOR_NAME = #{korName}
@@ -739,12 +739,18 @@
     </select>
 
     <select id="selectApplicantCntByCorse" resultType="com.apexsoft.ysprj.admin.domain.ApplicantDailyCnt"  parameterType="com.apexsoft.ysprj.admin.control.form.CourseSearchForm">
-        SELECT A.ADMS_NO, A.ADMS_TYPE_CODE, A.APPL_ATTR_CODE, A.CORS_TYPE_CODE,
+        SELECT A.ADMS_NO, A.ADMS_TYPE_CODE, A.APPL_ATTR_CODE,
         COUNT(CASE WHEN CORS_TYPE_CODE IN('01', '05','07','10') THEN 1 END) AS CNT1,
         COUNT(CASE WHEN CORS_TYPE_CODE IN('02', '06','08','11') THEN 1 END) AS CNT2,
         COUNT(CASE WHEN CORS_TYPE_CODE IN('03', '04','12') THEN 1 END) AS CNT3,
         COUNT(CASE WHEN CORS_TYPE_CODE IN('09') THEN 1 END) AS CNT4,
         COUNT(A.CORS_TYPE_CODE ) AS TOTAL_CNT
-        FROM APPL A WHERE A.APPL_STS_CODE = '00020'  GROUP BY A.ADMS_NO, A.ADMS_TYPE_CODE, A.APPL_ATTR_CODE, A.CORS_TYPE_CODE
+        FROM APPL A WHERE A.APPL_STS_CODE = '00020'  GROUP BY A.ADMS_NO, A.ADMS_TYPE_CODE, A.APPL_ATTR_CODE
     </select>
+
+    <select id="selectApplicantCntByAdms" resultType="com.apexsoft.ysprj.admin.domain.CommonCodeCnt"  parameterType="java.lang.String">
+        SELECT DISTINCT(ADMS_NO) CODE, COUNT(*) CNT
+        FROM APPL A WHERE A.APPL_STS_CODE = '00020'  GROUP BY ADMS_NO
+    </select>
+
 </mapper>

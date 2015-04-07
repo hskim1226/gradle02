@@ -22,6 +22,7 @@ import com.apexsoft.framework.message.MessageResolver;
 import com.apexsoft.ysprj.admin.control.form.CourseSearchGridForm;
 import com.apexsoft.ysprj.admin.control.form.CourseSearchPageForm;
 import com.apexsoft.ysprj.admin.domain.ApplicantCnt;
+import com.apexsoft.ysprj.admin.domain.ApplicantInfo;
 import com.apexsoft.ysprj.admin.domain.ApplicantInfoEntire;
 import com.apexsoft.ysprj.admin.service.AdminService;
 import com.apexsoft.ysprj.admin.service.ChangeService;
@@ -81,6 +82,7 @@ public class AdminController {
 	@Resource(name = "messageResolver")
     private MessageResolver messageResolver;
 
+
     @Value("#{app['file.baseDir']}")
     private String fileBaseDir;
 
@@ -136,7 +138,9 @@ public class AdminController {
         ExecutionContext ecRetrieve = adminService.retrieveInitInfo();
         if (ecRetrieve.getResult().equals(ExecutionContext.SUCCESS)) {
             Map<String, Object> map = (Map<String, Object>)ecRetrieve.getData();
-
+            mv.addObject("applCntList", map.get("applCntList"));
+            mv.addObject("chgCntList", map.get("chgCntList"));
+            mv.addObject("chgList", map.get("chgList"));
             mv.addObject("weekCntList", map.get("weekCntList"));
             mv.addObject("corsCntList", map.get("corsCntList"));
         } else {
@@ -361,7 +365,7 @@ public class AdminController {
         String userId = principal.getName();
         List<ApplicationDocument> applPaperInfosList =
                 documentService.retrieveApplicationPaperInfo(applNo); // DB에서 filePath가져온다
-
+        ExecutionContext ecRetrieve = null;
         if (applPaperInfosList.size() == 1) {
             String applPaperLocalFilePath = applPaperInfosList.get(0).getFilePath();
             String s3FilePath = FileUtil.getS3PathFromLocalFullPath(applPaperLocalFilePath, fileBaseDir);
@@ -371,7 +375,7 @@ public class AdminController {
             ObjectMetadata meta = object.getObjectMetadata();
             try {
                 bytes = IOUtils.toByteArray(inputStream);
-                ExecutionContext ecRetrieve = postApplicationService.checkDocumentRead(applNo, userId);
+                ecRetrieve = postApplicationService.checkDocumentRead(applNo, userId);
 
             } catch (IOException e) {
                 ExecutionContext ecError = new ExecutionContext(ExecutionContext.FAIL);
@@ -390,8 +394,19 @@ public class AdminController {
             response.setHeader("Content-Encoding", meta.getContentEncoding());
             response.setHeader("ETag", meta.getETag());
             response.setHeader("Last-Modified", meta.getLastModified().toString());
+//            response.setHeader("Content-Type", "application/pdf");
+            Map<String, Object> map = (Map<String, Object>)ecRetrieve.getData();
+            ApplicantInfo appInfo = (ApplicantInfo) map.get("applInfo");
+            String fileName;
+            if( "15B".equals(appInfo.getAdmsNo())){
+                fileName = appInfo.getApplId() + "-" + appInfo.getKorName()+ "-"+ appInfo.getApplAttrName().replaceAll("\\p{Space}", "" )+ "-" + appInfo.getDeptName()+ "-" + appInfo.getCorsTypeName()  + ".pdf";
+            }else if ( "15D".equals(appInfo.getAdmsNo())){
+                fileName = appInfo.getApplId()+ "-" + appInfo.getEngName()+"-" + "외국인전형" + "-" + appInfo.getDeptName()+"-" + appInfo.getCorsTypeName()  + ".pdf";
+            }else{
+                fileName = appInfo.getApplId() + "-" + appInfo.getKorName()+"-" + "조기전형" + "-" + appInfo.getDeptName()+"-" + appInfo.getCorsTypeName()  + ".pdf";
+            }
 //            아래 헤더 추가하면 파일명은 지정할 수 있으나 미리 보기는 안되고 다운로드만 됨
-//            response.setHeader("Content-Disposition", "attachment; filename=\"" + URLEncoder.encode(FileUtil.getFinalUserDownloadFileName(userId), "UTF-8") + "\"");
+            response.setHeader("Content-Disposition", "attachment; filename=\"" + URLEncoder.encode(fileName, "UTF-8") + "\"");
         } else {
             ExecutionContext ecError = new ExecutionContext(ExecutionContext.FAIL);
 

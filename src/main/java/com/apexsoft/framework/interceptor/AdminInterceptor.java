@@ -15,6 +15,7 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.util.Map;
 
 /**
  * Created by hanmomhanda on 15. 3. 15.
@@ -37,8 +38,12 @@ public class AdminInterceptor extends HandlerInterceptorAdapter {
             UserSessionVO userSessionVO = (UserSessionVO)auth.getPrincipal();
 
             CommonAdminInfo info = adminService.retrieveCommonAdminInfo();
+            Map<String, Object> eMap = adminService.retrieveInterceptorInfo();
             info.setAdminName(userSessionVO.getUsername());
-            modelAndView.addObject("adminInfo",info);
+            modelAndView.addObject("applCntList",eMap.get("applCntList"));
+            modelAndView.addObject("adminInfo",eMap.get("adminInfo"));
+
+
         }
     }
 }

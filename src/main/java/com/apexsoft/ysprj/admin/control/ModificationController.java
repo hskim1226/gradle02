@@ -9,6 +9,7 @@ import com.apexsoft.ysprj.admin.domain.ApplicantInfo;
 import com.apexsoft.ysprj.admin.domain.CustomApplicationChange;
 import com.apexsoft.ysprj.admin.service.AdminService;
 import com.apexsoft.ysprj.admin.service.ChangeService;
+import com.apexsoft.ysprj.applicants.admission.domain.AdmissionName;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,6 +21,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
 import java.security.Principal;
+import java.util.List;
 import java.util.Map;
 
 //import com.apexsoft.ysprj.user.domain.Users;
@@ -358,4 +360,7 @@ public class ModificationController {
         mv.addObject("ec", ec);
         return mv;
     }
+
+
+
 }

@@ -20,7 +20,7 @@
                 <select id="admsNo" name="admsNo" class="ipt_slt1">
                     <option value="" label="--전체--" />
                     <c:forEach items="${admsList}" var="admsNo" varStatus="admsSatus">
-                        <option value="${admsNo.admsNo}" label="${admsNo.admsNo}" />
+                        <option value="${admsNo.admsNo}" label="${admsNo.admsName}" />
                     </c:forEach>
                 </select>&nbsp;&nbsp;&nbsp;
             </td>
@@ -84,9 +84,9 @@
 			height: 'auto',			
 		   	colNames:['캠퍼스','대학명', '학과명', '<%=headDay[6]%>','<%=headDay[5]%>','<%=headDay[4]%>','<%=headDay[3]%>','<%=headDay[2]%>','<%=headDay[1]%>','<%=headDay[0]%>','총원'],
 		   	colModel:[
-		   		{name: 'campName', index: 'campName', align: "right", sortable:false, width:100},
-                {name: 'collName', index: 'collName',  align: "center", sortable:false, width:90},
-                {name: 'deptName', index: 'deptName', align: "center", sortable:false, width:120},
+                {name: 'campName', index: 'campName', align: "right", sortable:false, width:150},
+                {name: 'collName', index: 'collName',  align: "center", sortable:false, width:100},
+                {name: 'deptName', index: 'deptName', align: "center", sortable:false, width:150},
                 {name: 'cnt1', index: 'cnt1', width:80, align: "right" ,sortable:false, width:50, summaryType: 'sum' },
                 {name: 'cnt2', index: 'cnt2', width:80, align: "right" ,sortable:false, width:50, summaryType: 'sum'},
                 {name: 'cnt3', index: 'cnt3', width:80, align: "right" ,sortable:false, width:50, summaryType: 'sum'},
@@ -119,9 +119,9 @@
                 height: 'auto',
                 colNames:['캠퍼스','대학명', '학과명', '<%=headDay[6]%>','<%=headDay[5]%>','<%=headDay[4]%>','<%=headDay[3]%>','<%=headDay[2]%>','<%=headDay[1]%>','<%=headDay[0]%>','총원'],
 			   	colModel:[
-                    {name: 'campName', index: 'campName', align: "right", sortable:false, width:100},
-                    {name: 'collName', index: 'collName',  align: "center", sortable:false, width:90},
-                    {name: 'deptName', index: 'deptName', align: "center", sortable:false, width:120},
+                    {name: 'campName', index: 'campName', align: "right", sortable:false, width:150},
+                    {name: 'collName', index: 'collName',  align: "center", sortable:false, width:100},
+                    {name: 'deptName', index: 'deptName', align: "center", sortable:false, width:150},
                     {name: 'cnt1', index: 'cnt1', width:80, align: "right" ,sortable:false, width:50, summaryType: 'sum' },
                     {name: 'cnt2', index: 'cnt2', width:80, align: "right" ,sortable:false, width:50, summaryType: 'sum'},
                     {name: 'cnt3', index: 'cnt3', width:80, align: "right" ,sortable:false, width:50, summaryType: 'sum'},

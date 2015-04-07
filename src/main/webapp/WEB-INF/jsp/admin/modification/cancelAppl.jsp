@@ -26,7 +26,7 @@
         <%@include file="applicantInfo.jsp"%>
 
         <c:if test="${applInfo.applNo != null}" >
-            <h3 class="tit1">변경요청 지원정보용</h3>
+            <h3 class="tit1">취소요청 내용</h3>
 
                 <form id ="changeForm" action="${contextPath}/admin/modification/requestCancel" method="post">
                     <input type="hidden" name="applNo" value=${applInfo.applNo}> </input>
@@ -34,9 +34,9 @@
                     <input type="hidden" id="befValInput" name ="befVal"> </input>
                     <input type="hidden" id="aftValInput" name ="aftVal"> </input>
 
-                    <table class="tbl_typeA mb15" summary="변경요청 지원정보">
+                    <table class="tbl_typeA mb15" summary="취소요청 내용">
                         <caption>
-                            변경요청 지원정보
+                            변취소요청 내용
                         </caption>
                         <colgroup>
                             <col width="20%" />

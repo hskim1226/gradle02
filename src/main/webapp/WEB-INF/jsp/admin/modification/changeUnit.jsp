@@ -26,15 +26,15 @@
         <%@include file="applicantInfo.jsp"%>
 
     <c:if test="${applInfo.applNo != null}" >
-        <h3 class="tit1">변경요청 지원정보</h3>
+        <h3 class="tit1">지원단위 변경사항</h3>
 
         <form:form commandName="customApplicationChange"  method="post" role="form" action="${contextPath}/admin/modification/requestChangeUnit" id="changeUnitt-form">
         <input type="hidden" name="applNo" value=${applInfo.applNo}>
         <input type="hidden" id="befValInput" name ="befVal">
         <input type="hidden" id="aftValInput" name ="aftVal">
-        <table class="tbl_typeA mb15" summary="변경요청 지원정보">
+        <table class="tbl_typeA mb15" summary="지원단위 변경사항">
             <caption>
-                변경요청 지원정보
+                지원단위 변경사항
             </caption>
             <colgroup>
                 <col width="12%" />
@@ -50,7 +50,7 @@
                 <td>
                     <form:select path="admsNo" id="admsNo" class="ipt_slt1">
                         <form:option value="" label="--선택--" />
-                        <form:options items="${selection.admsList}" itemValue="admsNo" itemLabel="admsNo"/>
+                        <form:options items="${selection.admsList}" itemValue="admsNo" itemLabel="admsName"/>
                     </form:select></td>
                 <th><label for="applAttrCode" >지원 구분</label></th>
                 <td>
@@ -146,7 +146,7 @@
                     }
 
                     jQuery('#befValInput').val(
-                        "${applInfo.admsNo}" +"-"+"${applInfo.applAttrName}"+"<br>"+
+                        "${applInfo.admsName}" +"-"+"${applInfo.applAttrName}"+"<br>"+
                      aris +
                     "${applInfo.deptName}" +"-"+
                     "${applInfo.corsTypeName}" +"<br>"+
@@ -165,7 +165,7 @@
                         jQuery('#deptCode option:selected').attr('label') +"-"+
                         jQuery('#corsTypeCode option:selected').attr('label') +"<br>"+
                         jQuery('#detlMajCode option:selected').attr('label') );
-                    alert(jQuery('#aftValInput').val());
+
                     jQuery('#changeUnitt-form').submit();
                 }
 
@@ -175,6 +175,7 @@
             jQuery('#searchBtn').on('click', function(event) {
                 jQuery('#applicantSearchForm').submit();
             });
+
 
             function attachChangeEvent( sourceId, context ) {
                 var $source = $('#' + sourceId);
@@ -260,6 +261,9 @@
 
             <%--지원사항 select 폼 change 이벤트 핸들러 등록 시작 --%>
             <%-- 지원구분 변경 --%>
+
+
+
             attachChangeEvent( 'applAttrCode',
                     {
                         '00002': {targetId: 'ariInstCode', valueKey: 'ariInstCode', labelKey: 'ariInstName', url: '/ariInst'}, // applAttrCode == '02'
@@ -267,7 +271,10 @@
                         valueKey: 'campCode',
                         labelKey: '${pageContext.response.locale == 'en' ? 'campNameXxen' : 'campName'}',
                         clean: ['collCode', 'ariInstCode', 'deptCode', 'corsTypeCode', 'detlMajCode'],
-                        url: '/campus'
+
+                        url: function(arg) {
+                            return '/campus';
+                        }
                     }
             );
 
@@ -278,8 +285,9 @@
                         valueKey: 'collCode',
 //                    labelKey: 'collName',
                         labelKey: '${pageContext.response.locale == 'en' ? 'collNameXxen' : 'collName'}',
-                        // clean: ['ariInstCode', 'deptCode', 'corsTypeCode', 'detlMajCode'],
+                        clean: ['ariInstCode', 'deptCode', 'corsTypeCode', 'detlMajCode'],
                         url: function(arg) {
+                            var admsNo = $('#admsNo').val();
                             return '/admscollege/' + admsNo + '/' + arg;
                         }
                     }
@@ -292,7 +300,7 @@
                         valueKey: 'deptCode',
 //                    labelKey: 'deptName',
                         labelKey: '${pageContext.response.locale == 'en' ? 'deptNameXxen' : 'deptName'}',
-                        // clean: ['corsTypeCode', 'detlMajCode'],
+                        clean: ['corsTypeCode', 'detlMajCode'],
                         url: function(arg) {
                             var admsNo = $('#admsNo').val();
                             return '/general/department/' + admsNo + '/' + arg;
@@ -322,7 +330,7 @@
                         valueKey: 'corsTypeCode',
 //                    labelKey: 'codeVal',
                         labelKey: '${pageContext.response.locale == 'en' ? 'codeValXxen' : 'codeVal'}',
-                        // clean: ['detlMajCode'],
+                        clean: ['detlMajCode'],
                         url: function(arg) {   <%-- 지원과정 조회 --%>
                             var admsNo = $('#admsNo').val();
                             var applAttrCode = $('#applAttrCode').val();
