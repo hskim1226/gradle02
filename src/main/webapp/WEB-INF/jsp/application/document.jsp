@@ -1023,7 +1023,7 @@
                     <div class="col-sm-12">
                         <div class="loader"></div>
                     </div>
-                    <div class="col-sm-12" style="font-size: 20px; color: #55aaff; text-align: center;">Loading...</div>
+                    <div class="col-sm-12" style="font-size: 24px; color: #55aaff; text-align: center;"><spring:message code="U04512"/></div>  <%--Loading...--%>
                 </div>
             </div>
             <div class="btn-group btn-group-justified">
