@@ -42,6 +42,11 @@ public class PaymentController {
     @Autowired
     private PaymentService paymentService;
 
+    @Value("#{app['pay.platform']}")
+    private String payPlatform;
+
+    //private String LGD_MID = payPlatform.equals("test") ? "t" + PaymentConfig.CST_MID : PaymentConfig.CST_MID;
+
     @Value("#{app['pay.casnoteurl']}")
     private String casnoteURL;
 
@@ -68,7 +73,7 @@ public class PaymentController {
         paymentService.retrieveConfirmInfo(payment);
 
         String retPage;
-        if( payment.getApplStsCode().equals("00021") ) {
+        if( "00021".equals(payment.getApplStsCode()) ) {
             retPage = "xpay/waitPay";
         } else {
             retPage = "xpay/confirm";
@@ -101,9 +106,9 @@ public class PaymentController {
         Authentication auth = sc.getAuthentication();
         UserSessionVO userSessionVO = (UserSessionVO)auth.getPrincipal();
 
-        payment.setCST_PLATFORM(PaymentConfig.CST_PLATFORM);
+        payment.setCST_PLATFORM(payPlatform);
         payment.setCST_MID(PaymentConfig.CST_MID);
-        payment.setLGD_MID(PaymentConfig.LGD_MID);
+        payment.setLGD_MID(payPlatform.equals("test") ? "t" + PaymentConfig.CST_MID : PaymentConfig.CST_MID);
         payment.setLGD_OID( getOrderNumber(userSessionVO.getUsername() + payment.getLGD_TIMESTAMP()) );
         payment.setLGD_HASHDATA( getHashData(payment.getLGD_OID(), payment.getLGD_AMOUNT(), payment.getLGD_TIMESTAMP()) );
         payment.setLGD_BUYERIP( (request.getHeader("HTTP_X_FORWARDED_FOR") != null) ? request.getHeader("HTTP_X_FORWARDED_FOR") : request.getRemoteAddr() );
@@ -209,7 +214,7 @@ public class PaymentController {
         * LG유플러스에서 발급한 상점키(MertKey)를 환경설정 파일(lgdacom/conf/mall.conf)에 반드시 입력하여 주시기 바랍니다.
         */
         StringBuffer sb = new StringBuffer();
-        sb.append(PaymentConfig.LGD_MID);
+        sb.append(payPlatform.equals("test") ? "t" + PaymentConfig.CST_MID : PaymentConfig.CST_MID);
         sb.append(LGD_OID);
         sb.append(LGD_AMOUNT);
         sb.append(LGD_TIMESTAMP);

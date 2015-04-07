@@ -74,7 +74,7 @@
                                                         </div>
                                                         <div class="col-sm-3">
                                                             <button id="pay${itemStatus.index}" class="btn btn-block btn-primary pay ${item.applStsCode=="00010"?"":(item.applStsCode=="00021"?"":"disabled")}"
-                                                                    name="2015학년도 ${item.campName} ${item.admsTypeName} ${item.deptName} ${item.corsTypeName}"
+                                                                    name="${item.entrYear} ${pageContext.response.locale == 'en' ? item.campNameXxen : item.campName} ${pageContext.response.locale == 'en' ? item.admsTypeNameXxen : item.admsTypeName} ${pageContext.response.locale == 'en' ? item.deptNameXxen : item.deptName} ${pageContext.response.locale == 'en' ? item.corsTypeNameXxen : item.corsTypeName}"
                                                                     data-applNo="${item.applNo}"
                                                                     value="${item.admsFee}"
                                                                     <c:if test="${item.applStsCode!='00010' && item.applStsCode!='00021'}">disabled</c:if> ><spring:message code="L00310"/><%--전형료 결제하기--%></button>
@@ -145,7 +145,7 @@
             });
             $('.pay').click(function(e){
                 e.preventDefault();
-                var payMsg = '전형료 결제이후에는 정보 수정이 불가합니다.\n\n입력하신 모든 정보를 재차 확인하시기 바라며 기입 오류에 대한 책임은 모두 지원자 본인에게 있습니다.';
+                var payMsg = '<spring:message code="U00241"/>';   /*전형료 결제이후에는 정보 수정이 불가합니다.\n\n입력하신 모든 정보를 재차 확인하시기 바라며 기입 오류에 대한 책임은 모두 지원자 본인에게 있습니다.*/
                 if (confirm(payMsg)) {
                     document.getElementById('LGD_PRODUCTINFO').value = e.target.name;
                     document.getElementById('LGD_AMOUNT').value = e.target.value;
@@ -161,7 +161,7 @@
                 form.target = "_blank";
                 var admsNo = e.target.getAttribute('data-admsNo');
                 if (admsNo != null && admsNo.length > 0) { // 전체 파일
-                    form.action = '${contextPath}/pdf/download'; // TODO : S3에서 받아오도록
+                    form.action = '${contextPath}/pdf/download';
                     form.submit();
                 } else { // 지원서 또는 수험표
                     form.action = '${contextPath}/application/preview';

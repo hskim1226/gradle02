@@ -204,6 +204,7 @@
     </style>
 </head>
 <body>
+<div id="overlay" class="web_dialog_overlay"></div>
 <section class="application">
     <div class="container">
         <p id="stepStatusTitle" colspan=4 align="center" height="70px">${msg.getMessage('L01001', locale)}<%--원서 작성 현황--%></p>
@@ -354,8 +355,8 @@
                                                 </div>
                                                 <div class="col-sm-8">
                                                     <div>
-                                                        <form:input path="collegeList[${stat.index}].degrNo" maxlength="20" cssClass="degr-no form-control erase-hide" placeholder="${msg.getMessage('U02104')}<%--학위등록번호를 입력해주세요--%>"
-                                                                style="display: ${academy.collegeList[stat.index].grdaTypeCode == '00001' ? 'block;' : 'none;'}"/>
+                                                        <form:input path="collegeList[${stat.index}].degrNo" maxlength="20" cssClass="degr-no form-control erase-hide" placeholder="${msg.getMessage('U02104')}"
+                                                                style="display: ${academy.collegeList[stat.index].grdaTypeCode == '00001' ? 'block;' : 'none;'}"/><%--학위등록번호를 입력해주세요--%>
                                                         <label id='collegeList${stat.index}.label-grad-02' class="col-sm-10 grda-not degr-message erase-hide word-keep-all"
                                                                style="display: ${academy.collegeList[stat.index].grdaTypeCode == '00002' ? 'block;' : 'none;'}" ><spring:message code="U02105"/><%--합격 후 입학 시 졸업증명서를 대학원 사무실로 반드시 제출하세요--%></label>
                                                         <label id='collegeList${stat.index}.label-grad-03' class="col-sm-10 grda-not degr-message erase-hide"
@@ -847,6 +848,7 @@
         <%-- 하단 버튼 처리 --%>
         var formProcess = function(e) {
             e.preventDefault();
+            $("#overlay").show();
             var isCollegeLastSchlChecked = false,
                 isGraduateLastSchlChecked = true,
                 isAvrEqualOrSmallerThanFullmark = true,
@@ -873,6 +875,7 @@
                     } else {
                         gradValid.push(false);
                         alert('<spring:message code="U02111"/>');   /*평점은 만점 이하여야 합니다*/
+                        $("#overlay").hide();
                         gradAvgInput.focus();
                         return false;
                     }
@@ -888,6 +891,7 @@
 
             if (!isCollegeLastSchlChecked || !isGraduateLastSchlChecked) {
                 alert('<spring:message code="U02114"/> ');//최종학교를 선택해 주세요.
+                $("#overlay").hide();
                 return false;
             }
 
@@ -1018,7 +1022,7 @@
                         if (category.isCountry) {
                             record = $('<tr>' + '<td><span style="display: none;" class="b-close">' + '999' + '</span></td>' + '<td colspan="2"><span class="b-close" style="cursor: pointer">' + '<spring:message code="U02101"/>' + '</span></td>' + '</tr>'); /*검색 결과가 없습니다. 다시 검색해 주세요*/
                         } else if (category.isSchool) {
-                            record = $('<tr>' + '<td><span style="display: none;" class="b-close">' + '999' + '</span></td>' + '<td><span class="b-close" style="cursor: pointer">' + '<spring:message code="U02106"/>' + '</span></td>' + '</tr>'); /*검색 결과가 없습니다. 여기를 눌러 직접 입력해 주세요*/
+                            record = $('<tr>' + '<td><span style="display: none;" class="b-close">' + '999' + '</span></td>' + '<td><span class="b-close" style="cursor: pointer; color: blue; font-weight: 300; background: #ddf;">' + '<spring:message code="U02106"/>' + '</span></td>' + '</tr>'); /*검색 결과가 없습니다. 여기를 눌러 직접 입력해 주세요*/
                         }
                         $('#bpopResult').append(record);
                         $(record).on('click', function(e) {

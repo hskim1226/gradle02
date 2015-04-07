@@ -234,60 +234,61 @@
         @-webkit-keyframes load4 {
             0%,
             100% {
-                box-shadow: 0em -3em 0em 0.2em #ffffff, 2em -2em 0 0em #ffffff, 3em 0em 0 -0.5em #ffffff, 2em 2em 0 -0.5em #ffffff, 0em 3em 0 -0.5em #ffffff, -2em 2em 0 -0.5em #ffffff, -3em 0em 0 -0.5em #ffffff, -2em -2em 0 0em #ffffff;
+                box-shadow: 0em -3em 0em 0.2em #55aaff, 2em -2em 0 0em #55aaff, 3em 0em 0 -0.5em #55aaff, 2em 2em 0 -0.5em #55aaff, 0em 3em 0 -0.5em #55aaff, -2em 2em 0 -0.5em #55aaff, -3em 0em 0 -0.5em #55aaff, -2em -2em 0 0em #55aaff;
             }
             12.5% {
-                box-shadow: 0em -3em 0em 0em #ffffff, 2em -2em 0 0.2em #ffffff, 3em 0em 0 0em #ffffff, 2em 2em 0 -0.5em #ffffff, 0em 3em 0 -0.5em #ffffff, -2em 2em 0 -0.5em #ffffff, -3em 0em 0 -0.5em #ffffff, -2em -2em 0 -0.5em #ffffff;
+                box-shadow: 0em -3em 0em 0em #55aaff, 2em -2em 0 0.2em #55aaff, 3em 0em 0 0em #55aaff, 2em 2em 0 -0.5em #55aaff, 0em 3em 0 -0.5em #55aaff, -2em 2em 0 -0.5em #55aaff, -3em 0em 0 -0.5em #55aaff, -2em -2em 0 -0.5em #55aaff;
             }
             25% {
-                box-shadow: 0em -3em 0em -0.5em #ffffff, 2em -2em 0 0em #ffffff, 3em 0em 0 0.2em #ffffff, 2em 2em 0 0em #ffffff, 0em 3em 0 -0.5em #ffffff, -2em 2em 0 -0.5em #ffffff, -3em 0em 0 -0.5em #ffffff, -2em -2em 0 -0.5em #ffffff;
+                box-shadow: 0em -3em 0em -0.5em #55aaff, 2em -2em 0 0em #55aaff, 3em 0em 0 0.2em #55aaff, 2em 2em 0 0em #55aaff, 0em 3em 0 -0.5em #55aaff, -2em 2em 0 -0.5em #55aaff, -3em 0em 0 -0.5em #55aaff, -2em -2em 0 -0.5em #55aaff;
             }
             37.5% {
-                box-shadow: 0em -3em 0em -0.5em #ffffff, 2em -2em 0 -0.5em #ffffff, 3em 0em 0 0em #ffffff, 2em 2em 0 0.2em #ffffff, 0em 3em 0 0em #ffffff, -2em 2em 0 -0.5em #ffffff, -3em 0em 0 -0.5em #ffffff, -2em -2em 0 -0.5em #ffffff;
+                box-shadow: 0em -3em 0em -0.5em #55aaff, 2em -2em 0 -0.5em #55aaff, 3em 0em 0 0em #55aaff, 2em 2em 0 0.2em #55aaff, 0em 3em 0 0em #55aaff, -2em 2em 0 -0.5em #55aaff, -3em 0em 0 -0.5em #55aaff, -2em -2em 0 -0.5em #55aaff;
             }
             50% {
-                box-shadow: 0em -3em 0em -0.5em #ffffff, 2em -2em 0 -0.5em #ffffff, 3em 0em 0 -0.5em #ffffff, 2em 2em 0 0em #ffffff, 0em 3em 0 0.2em #ffffff, -2em 2em 0 0em #ffffff, -3em 0em 0 -0.5em #ffffff, -2em -2em 0 -0.5em #ffffff;
+                box-shadow: 0em -3em 0em -0.5em #55aaff, 2em -2em 0 -0.5em #55aaff, 3em 0em 0 -0.5em #55aaff, 2em 2em 0 0em #55aaff, 0em 3em 0 0.2em #55aaff, -2em 2em 0 0em #55aaff, -3em 0em 0 -0.5em #55aaff, -2em -2em 0 -0.5em #55aaff;
             }
             62.5% {
-                box-shadow: 0em -3em 0em -0.5em #ffffff, 2em -2em 0 -0.5em #ffffff, 3em 0em 0 -0.5em #ffffff, 2em 2em 0 -0.5em #ffffff, 0em 3em 0 0em #ffffff, -2em 2em 0 0.2em #ffffff, -3em 0em 0 0em #ffffff, -2em -2em 0 -0.5em #ffffff;
+                box-shadow: 0em -3em 0em -0.5em #55aaff, 2em -2em 0 -0.5em #55aaff, 3em 0em 0 -0.5em #55aaff, 2em 2em 0 -0.5em #55aaff, 0em 3em 0 0em #55aaff, -2em 2em 0 0.2em #55aaff, -3em 0em 0 0em #55aaff, -2em -2em 0 -0.5em #55aaff;
             }
             75% {
-                box-shadow: 0em -3em 0em -0.5em #ffffff, 2em -2em 0 -0.5em #ffffff, 3em 0em 0 -0.5em #ffffff, 2em 2em 0 -0.5em #ffffff, 0em 3em 0 -0.5em #ffffff, -2em 2em 0 0em #ffffff, -3em 0em 0 0.2em #ffffff, -2em -2em 0 0em #ffffff;
+                box-shadow: 0em -3em 0em -0.5em #55aaff, 2em -2em 0 -0.5em #55aaff, 3em 0em 0 -0.5em #55aaff, 2em 2em 0 -0.5em #55aaff, 0em 3em 0 -0.5em #55aaff, -2em 2em 0 0em #55aaff, -3em 0em 0 0.2em #55aaff, -2em -2em 0 0em #55aaff;
             }
             87.5% {
-                box-shadow: 0em -3em 0em 0em #ffffff, 2em -2em 0 -0.5em #ffffff, 3em 0em 0 -0.5em #ffffff, 2em 2em 0 -0.5em #ffffff, 0em 3em 0 -0.5em #ffffff, -2em 2em 0 0em #ffffff, -3em 0em 0 0em #ffffff, -2em -2em 0 0.2em #ffffff;
+                box-shadow: 0em -3em 0em 0em #55aaff, 2em -2em 0 -0.5em #55aaff, 3em 0em 0 -0.5em #55aaff, 2em 2em 0 -0.5em #55aaff, 0em 3em 0 -0.5em #55aaff, -2em 2em 0 0em #55aaff, -3em 0em 0 0em #55aaff, -2em -2em 0 0.2em #55aaff;
             }
         }
         @keyframes load4 {
             0%,
             100% {
-                box-shadow: 0em -3em 0em 0.2em #ffffff, 2em -2em 0 0em #ffffff, 3em 0em 0 -0.5em #ffffff, 2em 2em 0 -0.5em #ffffff, 0em 3em 0 -0.5em #ffffff, -2em 2em 0 -0.5em #ffffff, -3em 0em 0 -0.5em #ffffff, -2em -2em 0 0em #ffffff;
+                box-shadow: 0em -3em 0em 0.2em #55aaff, 2em -2em 0 0em #55aaff, 3em 0em 0 -0.5em #55aaff, 2em 2em 0 -0.5em #55aaff, 0em 3em 0 -0.5em #55aaff, -2em 2em 0 -0.5em #55aaff, -3em 0em 0 -0.5em #55aaff, -2em -2em 0 0em #55aaff;
             }
             12.5% {
-                box-shadow: 0em -3em 0em 0em #ffffff, 2em -2em 0 0.2em #ffffff, 3em 0em 0 0em #ffffff, 2em 2em 0 -0.5em #ffffff, 0em 3em 0 -0.5em #ffffff, -2em 2em 0 -0.5em #ffffff, -3em 0em 0 -0.5em #ffffff, -2em -2em 0 -0.5em #ffffff;
+                box-shadow: 0em -3em 0em 0em #55aaff, 2em -2em 0 0.2em #55aaff, 3em 0em 0 0em #55aaff, 2em 2em 0 -0.5em #55aaff, 0em 3em 0 -0.5em #55aaff, -2em 2em 0 -0.5em #55aaff, -3em 0em 0 -0.5em #55aaff, -2em -2em 0 -0.5em #55aaff;
             }
             25% {
-                box-shadow: 0em -3em 0em -0.5em #ffffff, 2em -2em 0 0em #ffffff, 3em 0em 0 0.2em #ffffff, 2em 2em 0 0em #ffffff, 0em 3em 0 -0.5em #ffffff, -2em 2em 0 -0.5em #ffffff, -3em 0em 0 -0.5em #ffffff, -2em -2em 0 -0.5em #ffffff;
+                box-shadow: 0em -3em 0em -0.5em #55aaff, 2em -2em 0 0em #55aaff, 3em 0em 0 0.2em #55aaff, 2em 2em 0 0em #55aaff, 0em 3em 0 -0.5em #55aaff, -2em 2em 0 -0.5em #55aaff, -3em 0em 0 -0.5em #55aaff, -2em -2em 0 -0.5em #55aaff;
             }
             37.5% {
-                box-shadow: 0em -3em 0em -0.5em #ffffff, 2em -2em 0 -0.5em #ffffff, 3em 0em 0 0em #ffffff, 2em 2em 0 0.2em #ffffff, 0em 3em 0 0em #ffffff, -2em 2em 0 -0.5em #ffffff, -3em 0em 0 -0.5em #ffffff, -2em -2em 0 -0.5em #ffffff;
+                box-shadow: 0em -3em 0em -0.5em #55aaff, 2em -2em 0 -0.5em #55aaff, 3em 0em 0 0em #55aaff, 2em 2em 0 0.2em #55aaff, 0em 3em 0 0em #55aaff, -2em 2em 0 -0.5em #55aaff, -3em 0em 0 -0.5em #55aaff, -2em -2em 0 -0.5em #55aaff;
             }
             50% {
-                box-shadow: 0em -3em 0em -0.5em #ffffff, 2em -2em 0 -0.5em #ffffff, 3em 0em 0 -0.5em #ffffff, 2em 2em 0 0em #ffffff, 0em 3em 0 0.2em #ffffff, -2em 2em 0 0em #ffffff, -3em 0em 0 -0.5em #ffffff, -2em -2em 0 -0.5em #ffffff;
+                box-shadow: 0em -3em 0em -0.5em #55aaff, 2em -2em 0 -0.5em #55aaff, 3em 0em 0 -0.5em #55aaff, 2em 2em 0 0em #55aaff, 0em 3em 0 0.2em #55aaff, -2em 2em 0 0em #55aaff, -3em 0em 0 -0.5em #55aaff, -2em -2em 0 -0.5em #55aaff;
             }
             62.5% {
-                box-shadow: 0em -3em 0em -0.5em #ffffff, 2em -2em 0 -0.5em #ffffff, 3em 0em 0 -0.5em #ffffff, 2em 2em 0 -0.5em #ffffff, 0em 3em 0 0em #ffffff, -2em 2em 0 0.2em #ffffff, -3em 0em 0 0em #ffffff, -2em -2em 0 -0.5em #ffffff;
+                box-shadow: 0em -3em 0em -0.5em #55aaff, 2em -2em 0 -0.5em #55aaff, 3em 0em 0 -0.5em #55aaff, 2em 2em 0 -0.5em #55aaff, 0em 3em 0 0em #55aaff, -2em 2em 0 0.2em #55aaff, -3em 0em 0 0em #55aaff, -2em -2em 0 -0.5em #55aaff;
             }
             75% {
-                box-shadow: 0em -3em 0em -0.5em #ffffff, 2em -2em 0 -0.5em #ffffff, 3em 0em 0 -0.5em #ffffff, 2em 2em 0 -0.5em #ffffff, 0em 3em 0 -0.5em #ffffff, -2em 2em 0 0em #ffffff, -3em 0em 0 0.2em #ffffff, -2em -2em 0 0em #ffffff;
+                box-shadow: 0em -3em 0em -0.5em #55aaff, 2em -2em 0 -0.5em #55aaff, 3em 0em 0 -0.5em #55aaff, 2em 2em 0 -0.5em #55aaff, 0em 3em 0 -0.5em #55aaff, -2em 2em 0 0em #55aaff, -3em 0em 0 0.2em #55aaff, -2em -2em 0 0em #55aaff;
             }
             87.5% {
-                box-shadow: 0em -3em 0em 0em #ffffff, 2em -2em 0 -0.5em #ffffff, 3em 0em 0 -0.5em #ffffff, 2em 2em 0 -0.5em #ffffff, 0em 3em 0 -0.5em #ffffff, -2em 2em 0 0em #ffffff, -3em 0em 0 0em #ffffff, -2em -2em 0 0.2em #ffffff;
+                box-shadow: 0em -3em 0em 0em #55aaff, 2em -2em 0 -0.5em #55aaff, 3em 0em 0 -0.5em #55aaff, 2em 2em 0 -0.5em #55aaff, 0em 3em 0 -0.5em #55aaff, -2em 2em 0 0em #55aaff, -3em 0em 0 0em #55aaff, -2em -2em 0 0.2em #55aaff;
             }
         }
     </style>
 </head>
 <body>
+<div id="overlay" class="web_dialog_overlay"></div>
 <section class="application">
     <div class="container">
         <p id="stepStatusTitle" colspan=4 align="center" height="70px">${msg.getMessage('L01001', locale)}<%--원서 작성 현황--%></p>
@@ -1014,7 +1015,7 @@
             <div class="spacer-tiny"></div>
             <div class="btn-group btn-group-justified">
                 <div class="btn-group">
-                    <button id="generateApplication" type="button" class="btn btn-warning btn-lg btn-save" data-saveType="generate" <c:if test="${document.application.applStsCode != '00004'}">disabled</c:if> ><spring:message code="L04202"/><%--원서 미리보기 생성--%></button>
+                    <button id="generateApplication" type="button" class="btn btn-warning btn-lg btn-save" data-saveType="generate" ${document.application.applStsCode != '00004' || resultMsg != msg.getMessage('U325') ? 'disabled="disabled"' : ''}><spring:message code="L04202"/><%--원서 미리보기 생성--%></button>
                 </div>
             </div>
             <div id="spinner" class="btn-group btn-group-justified" style="display: none;">
@@ -1022,7 +1023,7 @@
                     <div class="col-sm-12">
                         <div class="loader"></div>
                     </div>
-                    <div class="col-sm-12" style="font-size: 20px; color: white; text-align: center;">Loading...</div>
+                    <div class="col-sm-12" style="font-size: 20px; color: #55aaff; text-align: center;">Loading...</div>
                 </div>
             </div>
             <div class="btn-group btn-group-justified">
@@ -1031,6 +1032,9 @@
                 </div>
             </div>
             <div class="spacer-tiny"></div>
+            <div class="panel-body tab-content">
+                <span style="color: blue;"><spring:message code="U04511"/><%--원서 제출 후에는 지원 정보를 수정할 수 없습니다. 입력한 정보가 정확한 지 확인 후에 원서 제출을 진행해 주세요.--%></span>
+            </div>
             <div class="btn-group btn-group-justified">
                 <div class="btn-group">
                     <button id="submitApplication" type="button" class="btn btn-success btn-lg btn-save" data-saveType="submit" <c:if test="${document.application.applStsCode != '00004'}">disabled</c:if> ><spring:message code="L04204"/><%--원서 제출--%></button>
@@ -1039,7 +1043,6 @@
         </div> <%--myTabContent--%>
         </form:form>
     </div> <%--container--%>
-
 </section>
 <content tag="local-script">
     <script src="<spring:eval expression="@app.getProperty('path.static')" />/js/jquery-ui.min.js"></script>
@@ -1105,13 +1108,16 @@
         <%-- 하단 버튼 처리 --%>
         var formProcess = function(event) {
             event.preventDefault();
+
             var form = document.forms[0],
                 formData,
                 saveType = this.getAttribute('data-saveType');
             if (saveType == 'document') {
+                $('#overlay').show();
                 var checkDocChckYn = document.getElementById('docChckYn');
                 if (!checkDocChckYn.checked) {
                     alert('<spring:message code="U04501"/>');//첨부 파일 안내 사항 확인란에 체크 하셔야 합니다.
+                    $('#overlay').hide();
                     checkDocChckYn.focus();
                 } else {
                     checkDocChckYn.value = "Y";
@@ -1119,6 +1125,7 @@
                     form.submit();
                 }
             } else if (saveType == 'generate') {
+                $('#overlay').show();
                 document.getElementById('spinner').style.display = 'block';
                 formData = $(form).serialize();
                 <%-- 지원서 파일 정보 DB 저장 --%>
@@ -1144,11 +1151,13 @@
                                     }
                                     document.getElementById('spinner').style.display = 'none';
                                     document.getElementById('previewApplication').style.display = 'block';
+                                    $('#overlay').hide();
                                 },
                                 error: function (data, status, e) {
                                     if (console) {
                                         console.log('머지 파일 생성 실패');
                                     }
+                                    $('#overlay').hide();
                                 }
                             });
                             <%-- 파일 생성 --%>
@@ -1158,6 +1167,7 @@
                         if (console) {
                             console.log('원서 파일 정보 저장 및 원서 파일 생성 실패');
                         }
+                        $('#overlay').hide();
                     }
                 });
                 <%-- 지원서 파일 정보 DB 저장 --%>
@@ -1209,6 +1219,7 @@
                 form.target="_blank";
                 form.submit();
             } else if (saveType == 'submit') {
+                $('#overlay').show();
                 if (confirm('<spring:message code="U04509"/>')) {//원서 제출 후에는 원서 내용을 수정할 수 없습니다.\n\n계속하시겠습니까?
                     form.action = "${contextPath}/application/document/submit";
                     form.target = "_self";
@@ -1231,6 +1242,7 @@
         <%-- 파일 업로드 버튼 이벤트 --%>
         $('.btn-upload').on('click', function (e) {
             e.preventDefault();
+            $("#overlay").show();
             var actionUrl = "${contextPath}/application/document/fileUpload",
                     docItemName = document.getElementById(this.getAttribute('data-doc-prop-docItemName')),
                     fileInputId = this.getAttribute('data-file-input-id'),
@@ -1250,6 +1262,7 @@
 
             if (docItemName && !docItemName.value.length > 0) {
                 alert('<spring:message code="U04502"/>');//서류명을 직접 입력해 주세요.
+                $('#overlay').hide();
                 docItemName.focus();
                 return false;
             }
@@ -1261,12 +1274,14 @@
                         extIsOk = true;
                     } else {
                         alert('<spring:message code="U04503"/>');//사진은 GIF, JPG, PNG 만 업로드 할 수 있습니다.
+                        $('#overlay').hide();
                         return false;
                     }
                 } else if (regexpPDF.test(fileName)) {
                     extIsOk = true;
                 } else {
                     alert('<spring:message code="U04504"/>');//첨부파일은 PDF 파일만 업로드 할 수 있습니다.
+                    $('#overlay').hide();
                     return false;
                 }
 
@@ -1346,8 +1361,12 @@
                                         oneDocumentHidden.value = oneDocument[key];
                                     }
                                 }
+                                alert(d.resultMessage);
+                            } else {
+                                alert(data.message);
                             }
-                            alert(d.resultMessage);
+
+                            $('#overlay').hide();
                         },
                         error: function (data, status, e) {
 //                            var d = JSON.parse(data.data);
@@ -1359,6 +1378,7 @@
 //                                console.log("status : ", status);
 //                                console.log("e : ", e);
 //                            }
+                            $('#overlay').hide();
                         }
                     });
                 }

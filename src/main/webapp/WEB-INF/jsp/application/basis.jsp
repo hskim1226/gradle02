@@ -1151,7 +1151,7 @@
 
     <%-- 다음 주소 검색 팝업 --%>
     <div id="postLayer" style="display:none;border:5px solid;position:fixed;width:720px;height:510px;left:50%;margin-left:-360px;top:50%;margin-top:-235px;overflow:hidden;-webkit-overflow-scrolling:touch;z-index:2;background-color:#fff;color: #111;">
-        <img src="<spring:eval expression="@app.getProperty('path.static')" />/img/user/addr-close.png" id="btnClosePostLayer" style="cursor:pointer;position:absolute;right:-3px;top:-3px" alt="닫기 버튼">
+        &nbsp;<img src="<spring:eval expression="@app.getProperty('path.static')" />/img/user/addr-close.png" id="btnClosePostLayer" style="cursor:pointer;position:absolute;right:-6px;top:-6px" alt="닫기 버튼">
     </div>
     <%-- 다음 주소 검색 팝업 --%>
 
@@ -1271,11 +1271,14 @@
                 $('#baseCancel').css('display', 'block');
                 $('#baseSave').css('display', 'none');
                 $('#basis2Container').css('display', 'block');
+                $('#overlay').hide();
             }
         };
 
         // 입력 검증 오류로 DB에 저장되지 않고 다시 돌아왔을 때 지원사항 저장 상태로 설정
-        if (document.getElementById('detlMajCode').value.length > 0) baseInfoSaved();
+        if (document.getElementById('detlMajCode').value.length > 0) {
+            baseInfoSaved();
+        }
         // TODO : 지원사항 저장 시 applNo 따서 DB에 저장하는 것으로 로직 수정
         <%-- 지원 사항 저장 버튼 처리 --%>
 
@@ -1307,6 +1310,7 @@
         <%-- 하단 버튼 처리 --%>
         var formProcess = function(event) {
             event.preventDefault();
+            $('#overlay').show();
             var $form = $(this),
                 form = document.getElementById('basis'),
                 isValidProcess = true;
@@ -1314,6 +1318,7 @@
             if ($('#baseSave').css('display') == 'block') {
                 isValidProcess = false;
                 alert('<spring:message code="U329"/>');
+                $('#overlay').hide();
                 $('#applAttrCode').focus();
             } else {
                 apex.transKorPhoneNumber('phone');
@@ -1479,7 +1484,7 @@
                         if (category.isCountry) {
                             record = $('<tr>' + '<td><span style="display: none;" class="b-close">' + '999' + '</span></td>' + '<td colspan="2"><span class="b-close" style="cursor: pointer">' + '<spring:message code="U01202"/>' + '</span></td>' + '</tr>'); //
                         } else if (category.isSchool) {
-                            record = $('<tr>' + '<td><span style="display: none;" class="b-close">' + '999' + '</span></td>' + '<td><span class="b-close" style="cursor: pointer">' + '<spring:message code="U01203"/>' + '</span></td>' + '</tr>');
+                            record = $('<tr>' + '<td><span style="display: none;" class="b-close">' + '999' + '</span></td>' + '<td><span class="b-close" style="cursor: pointer; color: blue; font-weight: 300;">' + '<spring:message code="U01203"/>' + '</span></td>' + '</tr>');
                         }
                         $('#bpopResult').append(record);
                         $(record).on('click', function(e) {
