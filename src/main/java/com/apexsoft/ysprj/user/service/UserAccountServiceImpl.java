@@ -106,7 +106,7 @@ public class UserAccountServiceImpl implements UserAccountService {
 	}
 
     @Override
-    public ExecutionContext retrieveUserIds(User user, int showLength) {
+    public ExecutionContext retrieveUserIds(User user, int showLength) { // 예전 go2zo의 테스트용에만 사용됨 무시
         List<String> list = commonDAO.queryForList(NAME_SPACE + "selectUsername", user, String.class);
         ExecutionContext context = new ExecutionContext();
         if( list.size() > 0 ) {
@@ -187,9 +187,9 @@ public class UserAccountServiceImpl implements UserAccountService {
         ExecutionContext context = new ExecutionContext();
         if( retrieveUser( user.getUserId() ) != null ) {
             context.setResult( ExecutionContext.FAIL );
-            context.setMessage( "이미 존재하는 ID 입니다." );
+            context.setMessage( messageResolver.getMessage("U00132"));  // 이미 존재하는 ID 입니다.
         }
-        context.setMessage( "유효한 ID 입니다." );
+        context.setMessage( messageResolver.getMessage("U00131") );  // 사용 가능한 ID 입니다.
         return context;
     }
 

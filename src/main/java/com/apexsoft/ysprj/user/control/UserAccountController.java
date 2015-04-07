@@ -254,7 +254,8 @@ public class UserAccountController {
             mv.addObject("resultMsg", messageResolver.getMessage("U334"));
             return mv;
         }
-
+        String encryptedPswd = encoder.encode(formData.getPswd());
+        formData.setPswd(encryptedPswd);
         int r1 = userAccountService.changePassword(formData);
 
         if (r1 == 1) {
