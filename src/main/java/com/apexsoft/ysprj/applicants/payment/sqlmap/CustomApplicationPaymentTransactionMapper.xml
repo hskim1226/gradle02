@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.apexsoft.ysprj.applicants.payment.sqlmap.ApplicationPaymentTransactionMapper" >
+<mapper namespace="com.apexsoft.ysprj.applicants.payment.sqlmap.CustomApplicationPaymentTransactionMapper" >
 
   <resultMap id="BaseResultMap" type="com.apexsoft.ysprj.applicants.payment.domain.ApplicationPaymentTransaction" >
     <id column="APPL_NO" property="applNo" jdbcType="INTEGER" />
@@ -23,7 +23,7 @@
     <result column="MOD_DATE" property="modDate" jdbcType="TIMESTAMP" />
   </resultMap>
 
-  <select id="selectMaxSeqByApplNo" resultType="int" parameterType="int" >
+  <select id="selectMaxSeqByApplNo" resultType="java.lang.Integer" parameterType="java.lang.Integer" >
     SELECT MAX(PAY_SEQ)
     FROM APPL_PAY_TR
     WHERE APPL_NO = #{applNo,jdbcType=INTEGER};

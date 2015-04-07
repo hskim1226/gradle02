@@ -18,7 +18,7 @@
     <result column="MOD_DATE" property="modDate" jdbcType="TIMESTAMP" />
   </resultMap>
 
-  <select id="selectPayInfoByApplNo" resultType="com.apexsoft.ysprj.applicants.payment.domain.ApplicationPaymentCurStat" parameterType="int" >
+  <select id="selectPayInfoByApplNo" resultType="com.apexsoft.ysprj.applicants.payment.domain.ApplicationPaymentCurStat" parameterType="java.lang.Integer" >
     SELECT A.APPL_NO, B.ADMS_FEE, C.PAY_STS_CODE
     FROM APPL A LEFT OUTER JOIN APPL_PAY_CS C ON A.APPL_NO = C.APPL_NO,
          ADMS_CORS B

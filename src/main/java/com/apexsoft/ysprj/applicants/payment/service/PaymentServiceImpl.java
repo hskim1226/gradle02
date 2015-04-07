@@ -142,7 +142,7 @@ public class PaymentServiceImpl implements PaymentService {
 
         ExecutionContext ec = new ExecutionContext();
 
-        Payment newPayInfo = commonDAO.queryForObject("com.apexsoft.ysprj.applicants.payment.sqlmap.CustomApplicationPaymentMapper.selectConfirmInfo",
+        Payment newPayInfo = commonDAO.queryForObject(NAME_SPACE + "CustomApplicationPaymentMapper.selectConfirmInfo",
                                                       payment.getApplNo(), Payment.class);
 
         payment.setApplStsCode(newPayInfo.getApplStsCode());
@@ -326,6 +326,8 @@ public class PaymentServiceImpl implements PaymentService {
         ApplicationPaymentCurStat orgApplPay = commonDAO.queryForObject(NAME_SPACE+"ApplicationPaymentCurStatMapper.selectByExample", param, ApplicationPaymentCurStat.class);
         applPay.setApplNo(orgApplPay.getApplNo());
         applPay.setPayStsCode("00002");
+        applPay.setModId("cas_note");
+        applPay.setModDate(new Date());
         commonDAO.updateItem(applPay, NAME_SPACE, "ApplicationPaymentCurStatMapper");
 
         //수헙번호 순번 조회
@@ -342,6 +344,9 @@ public class PaymentServiceImpl implements PaymentService {
         application.setApplDate(date);
         application.setApplStsCode("00020");
         commonDAO.updateItem(application, "com.apexsoft.ysprj.applicants.application.sqlmap.", "ApplicationMapper");
+
+        //결제 트랜젝션 정보 처리 (APPL_PAY_TR)
+        registerPaymentTransaction(applPay);
 
         //APPL_DOC에 수험번호가 채번된 원서, 수험표 정보 저장
         documentService.saveApplicationPaperInfo(application);
@@ -493,7 +498,7 @@ public class PaymentServiceImpl implements PaymentService {
         application.setApplStsCode("00020");
         r2 = commonDAO.updateItem(application, "com.apexsoft.ysprj.applicants.application.sqlmap.", "ApplicationMapper");
 
-        //결제 정보 처리
+        //결제 정보 처리 (APPL_PAY_CS)
         ApplicationPaymentCurStat applPay = new ApplicationPaymentCurStat();
         applPay.setApplNo(payment.getApplNo());
         applPay.setPayTypeCode(xpay.Response("LGD_PAYTYPE", 0));
@@ -504,7 +509,12 @@ public class PaymentServiceImpl implements PaymentService {
         applPay.setLgdOid(xpay.Response("LGD_OID", 0));
         applPay.setLgdTid(xpay.Response("LGD_TID", 0));
         applPay.setPayStsCode("00002");
+        applPay.setModId(application.getUserId());
+        applPay.setModDate(new Date());
         r3 = commonDAO.updateItem(applPay, NAME_SPACE, "ApplicationPaymentCurStatMapper");
+
+        //결제 트랜젝션 정보 처리 (APPL_PAY_TR)
+        registerPaymentTransaction(applPay);
 
         //APPL_DOC에 수험번호가 채번된 원서, 수험표 정보 저장
         documentService.saveApplicationPaperInfo(application);
@@ -549,7 +559,7 @@ public class PaymentServiceImpl implements PaymentService {
         application.setApplStsCode("00021");
         r1 = commonDAO.updateItem(application, "com.apexsoft.ysprj.applicants.application.sqlmap.", "ApplicationMapper");
 
-        //결제 정보 처리
+        //결제 정보 처리 (APPL_PAY_CS)
         ApplicationPaymentCurStat applPay = new ApplicationPaymentCurStat();
         applPay.setApplNo(payment.getApplNo());
         applPay.setPayTypeCode(xpay.Response("LGD_PAYTYPE", 0));
@@ -559,7 +569,12 @@ public class PaymentServiceImpl implements PaymentService {
         applPay.setLgdOid(xpay.Response("LGD_OID", 0));
         applPay.setLgdTid(xpay.Response("LGD_TID", 0));
         applPay.setPayStsCode("00005");
+        applPay.setModId(application.getUserId());
+        applPay.setModDate(new Date());
         r2 = commonDAO.updateItem(applPay, NAME_SPACE, "ApplicationPaymentCurStatMapper");
+
+        //결제 트랜젝션 정보 처리 (APPL_PAY_TR)
+        registerPaymentTransaction(applPay);
 
         /*
         int paySeq = commonDAO.queryForInt(NAME_SPACE+"CustomApplicationPaymentMapper.getSeq", payment.getApplNo());
@@ -586,6 +601,36 @@ public class PaymentServiceImpl implements PaymentService {
 
         return ec;
     }
+
+    private ExecutionContext registerPaymentTransaction( ApplicationPaymentCurStat applPayCS ) {
+
+        ExecutionContext ec = new ExecutionContext();
+        int r1 = 0;
+
+        ApplicationPaymentTransaction applPayTr = new ApplicationPaymentTransaction();
+        applPayTr.setApplNo(applPayCS.getApplNo());
+        applPayTr.setPayTypeCode(applPayCS.getPayTypeCode());
+        applPayTr.setPayAmt(applPayCS.getPayAmt());
+        applPayTr.setPayDate(applPayCS.getPayDate());
+        applPayTr.setPayStsCode(applPayCS.getPayStsCode());
+        applPayTr.setCreId(applPayCS.getModId());
+        applPayTr.setCreDate(new Date());
+
+        int lastSeq = 0;
+        lastSeq = commonDAO.queryForInt(NAME_SPACE + "CustomApplicationPaymentTransactionMapper.selectMaxSeqByApplNo", applPayCS.getApplNo());
+        applPayTr.setPaySeq(lastSeq+1);
+
+        r1 = commonDAO.insertItem(applPayTr, NAME_SPACE, "ApplicationPaymentTransactionMapper");
+
+        if( r1>0 ) {
+            ec.setResult(ExecutionContext.SUCCESS);
+        } else {
+            ec.setResult(ExecutionContext.FAIL);
+        }
+
+        return ec;
+    }
+
 
     private String getApplId( Application application, int newSeq ) {
 
