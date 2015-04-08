@@ -12,6 +12,8 @@ import com.apexsoft.ysprj.applicants.application.domain.Application;
 import com.apexsoft.ysprj.applicants.common.domain.BirtRequest;
 import com.apexsoft.ysprj.applicants.common.service.BirtService;
 import org.eclipse.birt.report.engine.api.IReportEngine;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -45,6 +47,8 @@ public class BirtController {
 
     @Value("#{app['rpt.format']}")
     private String REPORT_FORMAT;
+
+    private static final Logger logger = LoggerFactory.getLogger(BirtController.class);
 
     private final String RPT_APPLICATION_KR = "yonsei-appl-kr";
     private final String RPT_APPLICATION_EN = "yonsei-appl-en";
@@ -113,7 +117,10 @@ public class BirtController {
             ExecutionContext ec = birtService.processBirt(applNo, reportName);
             bigDataMap = (Map<String, Object>)ec.getData();
             mv.addAllObjects(bigDataMap);
+            logger.error("in BirtController bigDataMap clear start");
             bigDataMap.clear();
+            bigDataMap = null;
+            logger.error("in BirtController bigDataMap clear end");
         }
 
         return mv;
