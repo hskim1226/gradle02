@@ -359,7 +359,6 @@ public class BirtServiceImpl implements BirtService {
         }
 
         for (int k = i+j ; k < 5 ; k++) {
-            logger.error("academy key overwriter inserted : academy" + k);
             rptInfoMap.put("academy" + k, "");
             if ("C".equals(admsTypeCode) || "D".equals(admsTypeCode)) {
                 rptInfoMap.put("acadPeriod" + k, "");

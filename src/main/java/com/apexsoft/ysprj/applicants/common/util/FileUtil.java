@@ -63,10 +63,28 @@ public class FileUtil {
     }
 
     public static String getS3PathFromLocalFullPath(String localFullPath, String baseDir) {
-        return localFullPath.substring(baseDir.length()+1);
+        return localFullPath.substring(baseDir.length() + 1);
     }
 
-    public static String removeSlashForS3(String path) {
-        return path.replace('/', '-').replace('\\', '-');
+    public static String removeSlash(String path) {
+        return path.replace('/', '-');
+    }
+
+    public static String encodeSlash(String path, String temp) {
+        return path.replace("/", temp);
+    }
+
+    public static String decodeSlash(String path, String temp) {
+        return path.replace(temp, "/");
+    }
+
+    public static String encodeColonSlash(String path, String temp) {
+        int posColon = path.indexOf(':');
+        if ( posColon > 0) {
+            String windowPos = path.substring(posColon);
+            String encoded = windowPos.replace("/", temp);
+            return path.substring(0, posColon) + encoded;
+        }
+        return path;
     }
 }

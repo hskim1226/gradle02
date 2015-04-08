@@ -9,9 +9,9 @@ import com.apexsoft.framework.exception.YSBizException;
 import com.apexsoft.framework.message.MessageResolver;
 import com.apexsoft.framework.persistence.dao.CommonDAO;
 import com.apexsoft.ysprj.applicants.application.domain.ApplicationDocument;
+import com.apexsoft.ysprj.applicants.application.service.DocumentService;
 import com.apexsoft.ysprj.applicants.common.domain.ParamForPDFDocument;
 import com.apexsoft.ysprj.applicants.common.util.FileUtil;
-import org.apache.commons.io.IOUtils;
 import org.apache.pdfbox.exceptions.COSVisitorException;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
@@ -44,6 +44,9 @@ public class PDFServiceImpl implements PDFService {
 
     @Autowired
     MessageResolver messageResolver;
+
+    @Autowired
+    DocumentService documentService;
 
     @Value("#{app['file.baseDir']}")
     private String fileBaseDir;
@@ -125,17 +128,40 @@ public class PDFServiceImpl implements PDFService {
         // mergerUtil.setDestinationStream() 를 사용할 수 없고,
         // 머지된 파일을 APP 로컬에 저장 후 다시 S3로 보내는 방법 밖에 없음
         // 성능 상으로 PDF numbering을 하기 위한 파일 저장은 로컬에 하는 것이 맞을 듯
+        String tempSlashReplacer = "_";
 
-        String rawMergedFileFullPath = FileUtil.getRawMergedFileFullPath(uploadDirFullPath, applNo);
-        String numberedMergedFileFullPath = FileUtil.getNumberedMergedFileFullPath(uploadDirFullPath, applNo);
+        String rawMergedFileFullPath = FileUtil.encodeColonSlash(FileUtil.getRawMergedFileFullPath(uploadDirFullPath, applNo), tempSlashReplacer);
+        String numberedMergedFileFullPath = FileUtil.encodeColonSlash(FileUtil.getNumberedMergedFileFullPath(uploadDirFullPath, applNo), tempSlashReplacer);
 
         mergerUtil.setDestinationFileName(rawMergedFileFullPath);
         //TODO : S3에 대한 OutputStream을 가져올 수 있다면 아래 방식 가능
         //mergerUtil.setDestinationStream(OutputStream to S3);
 
         PDDocument mergedPDF = null;
+
         try {
             mergerUtil.mergeDocuments();
+        } catch (IOException e) {
+            logger.error("merge files from S3 failed");
+            logger.error("applNo : " + applNo);
+            logger.error(e.getMessage());
+            logger.error("destFileName : " + mergerUtil.getDestinationFileName());
+            ec.setResult(ExecutionContext.FAIL);
+            ec.setMessage(messageResolver.getMessage("U06101"));
+            ec.setErrCode("ERR1101");
+            throw new YSBizException(ec);
+        } catch (COSVisitorException e) {
+            ec.setResult(ExecutionContext.FAIL);
+            ec.setMessage(messageResolver.getMessage("U801"));
+            ec.setErrCode("ERR1101");
+            Map<String, String> errorInfo = new HashMap<String, String>();
+            errorInfo.put("applNo", String.valueOf(applNo));
+            ec.setErrorInfo(new ErrorInfo(errorInfo));
+            throw new YSBizException(ec);
+        }
+        try {
+
+
             logger.error("raw Merge 성공, applNo : " + applNo);
             File mergedFile = new File(rawMergedFileFullPath);
             mergedPDF = PDDocument.load(mergedFile);
@@ -147,29 +173,36 @@ public class PDFServiceImpl implements PDFService {
             File numberedMergedFile = new File(numberedMergedFileFullPath);
             lastMergeUtil.addSource(applicationFormFile);
             lastMergeUtil.addSource(numberedMergedFile);
-            lastMergeUtil.setDestinationFileName(FileUtil.getFinalMergedFileFullPath(uploadDirFullPath, applNo));
+
+            lastMergeUtil.setDestinationFileName(FileUtil.encodeSlash(FileUtil.getFinalMergedFileFullPath(uploadDirFullPath, applNo), tempSlashReplacer));
             lastMergeUtil.mergeDocuments();
             logger.error("All Merge 성공, applNo : " + applNo);
-
             File lastMergedFile = new File(lastMergeUtil.getDestinationFileName());
             ObjectMetadata meta = new ObjectMetadata();
             meta.setContentEncoding("UTF-8");
             meta.setContentLength(lastMergedFile.length());
             meta.setHeader("x-amz-storage-class", s3StorageClass);
-            try {
-                s3.putObject(new PutObjectRequest(s3BucketName,
-                        FileUtil.getS3PathFromLocalFullPath(lastMergeUtil.getDestinationFileName(), fileBaseDir),
-                        lastMergedFile)
-                        .withMetadata(meta)
-                        .withCannedAcl(CannedAccessControlList.AuthenticatedRead.PublicRead));
-            } catch (Exception e) {
-                logger.error("Err in uploading final file to S3");
-                logger.error(e.getMessage());
-                logger.error("s3BucketName : [" + s3BucketName + "]");
-                logger.error("applNo : [" + applNo + "]");
-                logger.error("ObjectKey : [" + FileUtil.getS3PathFromLocalFullPath(lastMergeUtil.getDestinationFileName(), fileBaseDir) + "]");
-                throw new YSBizException(e);
+            List<ApplicationDocument> applPaperInfosList =
+                    documentService.retrieveApplicationPaperInfo(applNo); // DB에서 filePath가져온다
+            if (applPaperInfosList.size() == 1) {
+                String applPaperLocalFilePath = applPaperInfosList.get(0).getFilePath();
+                String s3FilePath = FileUtil.getS3PathFromLocalFullPath(applPaperLocalFilePath, fileBaseDir);
+                try {
+                    s3.putObject(new PutObjectRequest(s3BucketName,
+                            FileUtil.getFinalMergedFileFullPath(s3FilePath, applNo),
+                            lastMergedFile)
+                            .withMetadata(meta)
+                            .withCannedAcl(CannedAccessControlList.AuthenticatedRead.PublicRead));
+                } catch (Exception e) {
+                    logger.error("Err in uploading final file to S3");
+                    logger.error(e.getMessage());
+                    logger.error("s3BucketName : [" + s3BucketName + "]");
+                    logger.error("applNo : [" + applNo + "]");
+                    logger.error("ObjectKey : [" + FileUtil.getS3PathFromLocalFullPath(lastMergeUtil.getDestinationFileName(), fileBaseDir) + "]");
+                    throw new YSBizException(e);
+                }
             }
+
 
 
             // 여기서 지우면 파일 지우기 위한 I/O 추가 발생하지만 저장 공간은 절약
@@ -187,14 +220,6 @@ public class PDFServiceImpl implements PDFService {
             ec.setErrorInfo(new ErrorInfo(errorInfo));
             throw new YSBizException(ec);
         } catch (COSVisitorException e) {
-            ec.setResult(ExecutionContext.FAIL);
-            ec.setMessage(messageResolver.getMessage("U801"));
-            ec.setErrCode("ERR1101");
-            Map<String, String> errorInfo = new HashMap<String, String>();
-            errorInfo.put("applNo", String.valueOf(applNo));
-            ec.setErrorInfo(new ErrorInfo(errorInfo));
-            throw new YSBizException(ec);
-        } catch (Exception e) {
             ec.setResult(ExecutionContext.FAIL);
             ec.setMessage(messageResolver.getMessage("U801"));
             ec.setErrCode("ERR1101");

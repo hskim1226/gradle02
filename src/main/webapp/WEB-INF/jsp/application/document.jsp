@@ -295,6 +295,11 @@
             color: red;
             font-weight: 900;
         }
+        .inline-notice-red-big {
+            font-size: 1.7em;
+            color: red;
+            font-weight: 900;
+        }
     </style>
 </head>
 <body>
@@ -383,6 +388,7 @@
                                 <span class="inline-notice"><spring:message code="U04115"/></span><%--2. 사진 및 문서의 해상도와 가독성 여부를 반드시 확인하세요.--%><br/>
                                 <span class="inline-notice-red"><spring:message code="U04116"/></span><%--3. 스캔시에는 300dpi 이상으로 스캔하시기 바랍니다.--%><br/>
                                 <span class="inline-notice"><spring:message code="U04117"/></span><%--4. 문서 크기는 A4 크기로 생성하여 첨부하셔야 합니다.--%><br/>
+                                <span class="inline-notice-red-big"><spring:message code="U04124"/></span><%--5. 암호화 된 PDF는 제출하시면 안됩니다.--%><br/>
                                 </p>
 
                                 <p><spring:message code="U04118"/><%--인터넷에서 '한글 문서 PDF 변환'으로 검색하면 아래 한글 문서를 PDF 파일로 변환할 수 있는--%><br/>

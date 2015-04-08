@@ -93,9 +93,9 @@ public class GlobalExceptionHandler {
         ExecutionContext ec = e.getExecutionContext();
         ErrorInfo eInfo = ec.getErrorInfo();
         logger.error("YSBizException Occured :: URL=" + request.getRequestURL());
-        logger.error("Message:: " + e.getMessage());
+        logger.error("Message:: " + ec.getMessage());
         logger.error("Cause:: " + e.getCause());
-        logger.error("ErrorInfo :: " + eInfo != null ? eInfo.toString() : "");
+        logger.error("ErrorInfo :: " + (eInfo != null ? eInfo.toString() : "") );
         logger.error("ErrorType :: " + e.toString());
         logger.error("FilteredStackTrace ::" +
                 StackTraceFilter.getFilteredCallStack(e.getStackTrace(), "com.apexsoft", false));

@@ -118,6 +118,7 @@ public class PDFController {
                 logger.error("admsNo : [" + admsNo + "]");
                 logger.error("userId : [" + userId + "]");
                 logger.error("objectKey : [" + FileUtil.getFinalMergedFileFullPath(s3FilePath, applNo) + "]");
+//                throw new YSBizException()
             }
 
             InputStream inputStream = object.getObjectContent();
