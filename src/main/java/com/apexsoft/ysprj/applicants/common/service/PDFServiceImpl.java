@@ -20,6 +20,8 @@ import org.apache.pdfbox.pdmodel.edit.PDPageContentStream;
 import org.apache.pdfbox.pdmodel.font.PDFont;
 import org.apache.pdfbox.pdmodel.font.PDType1Font;
 import org.apache.pdfbox.util.PDFMergerUtility;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -54,6 +56,8 @@ public class PDFServiceImpl implements PDFService {
 
     @Value("#{app['s3.storageClass']}")
     private String s3StorageClass;
+
+    private static final Logger logger = LoggerFactory.getLogger(PDFServiceImpl.class);
 
     private final static String NAME_SPACE = "com.apexsoft.ysprj.applicants.application.sqlmap.";
 
@@ -93,7 +97,18 @@ public class PDFServiceImpl implements PDFService {
             } else {
 //                File pdfFile = new File(aDoc.getFilePath(), aDoc.getFileName());
 //                mergerUtil.addSource(pdfFile);
-                S3Object object = s3.getObject(new GetObjectRequest(s3BucketName, filePath));
+                S3Object object = null;
+                try {
+                    object = s3.getObject(new GetObjectRequest(s3BucketName, filePath));
+                } catch (Exception e) {
+                    logger.error("Err in s3.getObject i PDFServiceImpl.getMergedPDFByApplicants");
+                    logger.error(e.getMessage());
+                    logger.error("bucketName : [" + s3BucketName + "]");
+                    logger.error("applNo : [" + applNo + "]");
+                    logger.error("objectKey : [" + filePath +"]");
+                    throw new YSBizException(e);
+                }
+
                 InputStream inputStream = object.getObjectContent();
                 mergerUtil.addSource(inputStream);
 
@@ -121,9 +136,11 @@ public class PDFServiceImpl implements PDFService {
         PDDocument mergedPDF = null;
         try {
             mergerUtil.mergeDocuments();
+            logger.error("raw Merge 성공, applNo : " + applNo);
             File mergedFile = new File(rawMergedFileFullPath);
             mergedPDF = PDDocument.load(mergedFile);
             ec = generatePageNumberedPDF(mergedPDF, numberedMergedFileFullPath, applNo);
+            logger.error("numbering Merge 성공, applNo : " + applNo);
 
             PDFMergerUtility lastMergeUtil = new PDFMergerUtility();
             File applicationFormFile = new File(applicationFilePath, applicationFileName);
@@ -132,17 +149,28 @@ public class PDFServiceImpl implements PDFService {
             lastMergeUtil.addSource(numberedMergedFile);
             lastMergeUtil.setDestinationFileName(FileUtil.getFinalMergedFileFullPath(uploadDirFullPath, applNo));
             lastMergeUtil.mergeDocuments();
+            logger.error("All Merge 성공, applNo : " + applNo);
 
             File lastMergedFile = new File(lastMergeUtil.getDestinationFileName());
             ObjectMetadata meta = new ObjectMetadata();
             meta.setContentEncoding("UTF-8");
             meta.setContentLength(lastMergedFile.length());
             meta.setHeader("x-amz-storage-class", s3StorageClass);
-            s3.putObject(new PutObjectRequest(s3BucketName,
-                    FileUtil.getS3PathFromLocalFullPath(lastMergeUtil.getDestinationFileName(), fileBaseDir),
-                    lastMergedFile)
-                    .withMetadata(meta)
-                    .withCannedAcl(CannedAccessControlList.AuthenticatedRead.PublicRead));
+            try {
+                s3.putObject(new PutObjectRequest(s3BucketName,
+                        FileUtil.getS3PathFromLocalFullPath(lastMergeUtil.getDestinationFileName(), fileBaseDir),
+                        lastMergedFile)
+                        .withMetadata(meta)
+                        .withCannedAcl(CannedAccessControlList.AuthenticatedRead.PublicRead));
+            } catch (Exception e) {
+                logger.error("Err in uploading final file to S3");
+                logger.error(e.getMessage());
+                logger.error("s3BucketName : [" + s3BucketName + "]");
+                logger.error("applNo : [" + applNo + "]");
+                logger.error("ObjectKey : [" + FileUtil.getS3PathFromLocalFullPath(lastMergeUtil.getDestinationFileName(), fileBaseDir) + "]");
+                throw new YSBizException(e);
+            }
+
 
             // 여기서 지우면 파일 지우기 위한 I/O 추가 발생하지만 저장 공간은 절약
             // 나중에 batch로 지우면 I/O 는 절약하지만 지우기 전까지 저장 공간은 낭비
