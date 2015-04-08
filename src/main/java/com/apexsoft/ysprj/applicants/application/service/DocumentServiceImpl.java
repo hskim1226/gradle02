@@ -843,7 +843,8 @@ public class DocumentServiceImpl implements DocumentService {
             if( "DOC_ITEM".equals(pCont.getDocItemGrp()) && "00001".equals(pCont.getDocItemCode())){
                 pCont.setImgYn("Y");
             }
-            if( pCont.getMsgNo()!= null && pCont.getMsgNo()!= "" ) {
+//            if( pCont.getMsgNo()!= null && pCont.getMsgNo()!= "" ) { // 4/8에러 발생
+            if( pCont.getMsgNo()!= null && "".equals(pCont.getMsgNo())) { // 4/8에러 고침
                 pCont.setMsg(messageResolver.getMessage(pCont.getMsgNo()));
             }
             pList.add(pCont);
