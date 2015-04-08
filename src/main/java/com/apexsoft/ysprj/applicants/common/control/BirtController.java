@@ -99,6 +99,7 @@ public class BirtController {
 
         mv.setViewName("pdfSingleFormatBirtView");
         Application application = birtRequest.getApplication();
+        Map<String, Object> bigDataMap = null;
         if (application == null) {
             filterApplicationNull(principal);
         } else {
@@ -110,7 +111,9 @@ public class BirtController {
             mv.addObject("reportFormat", REPORT_FORMAT);
             mv.addObject("reportName", reportName);
             ExecutionContext ec = birtService.processBirt(applNo, reportName);
-            mv.addAllObjects((Map<String, Object>)ec.getData());
+            bigDataMap = (Map<String, Object>)ec.getData();
+            mv.addAllObjects(bigDataMap);
+            bigDataMap.clear();
         }
 
         return mv;
