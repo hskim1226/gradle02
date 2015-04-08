@@ -14,6 +14,11 @@ public class ApplicantCnt {
     private int cnt5 = 0;
     private int cnt6 = 0;
     private int cnt7 = 0;
+    private int cnt8 = 0;
+    private int cnt9 = 0;
+    private int cnt10 = 0;
+    private int cnt11 = 0;
+    private int cnt12 = 0;
     private int totalCnt = 0;
 	
 
@@ -101,5 +106,45 @@ public class ApplicantCnt {
 
     public void setCnt7(int cnt7) {
         this.cnt7 = cnt7;
+    }
+
+    public int getCnt8() {
+        return cnt8;
+    }
+
+    public void setCnt8(int cnt8) {
+        this.cnt8 = cnt8;
+    }
+
+    public int getCnt9() {
+        return cnt9;
+    }
+
+    public void setCnt9(int cnt9) {
+        this.cnt9 = cnt9;
+    }
+
+    public int getCnt10() {
+        return cnt10;
+    }
+
+    public void setCnt10(int cnt10) {
+        this.cnt10 = cnt10;
+    }
+
+    public int getCnt11() {
+        return cnt11;
+    }
+
+    public void setCnt11(int cnt11) {
+        this.cnt11 = cnt11;
+    }
+
+    public int getCnt12() {
+        return cnt12;
+    }
+
+    public void setCnt12(int cnt12) {
+        this.cnt12 = cnt12;
     }
 }

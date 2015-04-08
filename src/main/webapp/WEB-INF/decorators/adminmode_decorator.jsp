@@ -103,6 +103,7 @@
             <li><a href="#" id="menu_wrap1_click">통계</a>
                 <ul class="dep2" id="menu_wrap1">
                     <li><a href="${contextPath}/admin/stats/category">전형별 지원현황</a></li>
+                    <li><a href="${contextPath}/admin/stats/detailCategory">전형별 상세 지원현황</a></li>
                     <li><a href="${contextPath}/admin/search/unpaid">미결제자현황</a></li>
                     <li><a href="${contextPath}/admin/stats/daily">최근일자별 지원현황</a></li>
                 </ul>

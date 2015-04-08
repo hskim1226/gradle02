@@ -100,10 +100,10 @@
             <td>
             <c:choose>
                 <c:when test="${applList.checkYn == 'Y'}">
-                    <a class="btn_set btnWhiteS pdfDown" id="pdfDownBtn" applNo="${applList.applNo}"><span>원서</span></a>
+                    <a class="btn_set btnWhiteS pdfDown" id="pdfDownBtn" applNo="${applList.applNo}" href="#"><span>원서</span></a>
                 </c:when>
                 <c:otherwise>
-                    <a class="btn_set btnBlackS pdfDown" id="pdfDownBtn" applNo="${applList.applNo}"><span>원서</span></a>
+                    <a class="btn_set btnBlackS pdfDown" id="pdfDownBtn" applNo="${applList.applNo}" href="#"><span>원서</span></a>
                 </c:otherwise>
             </c:choose>
             </td>
