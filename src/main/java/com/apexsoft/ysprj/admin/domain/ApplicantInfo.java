@@ -32,6 +32,9 @@ public class ApplicantInfo {
     private String rgstNo;  //
     private String rgstBornDate;//RGST_BORN_DATE
     private String bornDay;//BORN_DAY
+    private String citzCntrCode;//CITZ_CNTR_CODE
+    private String fornTypeCode;
+    private String gend;//GEND
 
     private String telNum;  //  
     private String addr; 
@@ -322,5 +325,29 @@ public class ApplicantInfo {
 
     public void setAdmsName(String admsName) {
         this.admsName = admsName;
+    }
+
+    public String getCitzCntrCode() {
+        return citzCntrCode;
+    }
+
+    public void setCitzCntrCode(String citzCntrCode) {
+        this.citzCntrCode = citzCntrCode;
+    }
+
+    public String getFornTypeCode() {
+        return fornTypeCode;
+    }
+
+    public void setFornTypeCode(String fornTypeCode) {
+        this.fornTypeCode = fornTypeCode;
+    }
+
+    public String getGend() {
+        return gend;
+    }
+
+    public void setGend(String gend) {
+        this.gend = gend;
     }
 }

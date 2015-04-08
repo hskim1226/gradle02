@@ -24,6 +24,9 @@
 
         <%@include file="applicationInfo.jsp"%>
         <%@include file="applicantInfo.jsp"%>
+        <c:if test = "${applInfo.citzCntrCode != '118'}">
+            <%@include file="../modification/applicantFron.jsp"%>
+        </c:if>
 
         <c:if test="${applInfo.applNo != null}" >
             <h3 class="tit1">취소요청 내용</h3>

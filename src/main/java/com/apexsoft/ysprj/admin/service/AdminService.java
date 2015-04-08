@@ -37,4 +37,6 @@ public interface AdminService {
 
     Map<String, Object> retrieveInterceptorInfo();
 
+    List<ApplicantCnt> retrieveApplicantDetailCntByDept(CourseSearchGridForm searchForm);
+
 }

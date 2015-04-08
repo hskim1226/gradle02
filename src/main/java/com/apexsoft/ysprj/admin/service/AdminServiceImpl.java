@@ -35,6 +35,7 @@ public class AdminServiceImpl implements AdminService{
     private final static String ADMIN_NAME_SPACE = "com.apexsoft.ysprj.admin.sqlmap.";
     private final static String APPL_NAME_SPACE = "com.apexsoft.ysprj.applicants.application.sqlmap.";
     private final static String ADMS_NAME_SPACE = "com.apexsoft.ysprj.applicants.admission.sqlmap.";
+    private final static String COMMON_NAME_SPACE = "com.apexsoft.ysprj.applicants.common.sqlmap.";
 
     @Autowired
     private CommonDAO commonDAO;
@@ -189,8 +190,21 @@ public class AdminServiceImpl implements AdminService{
         Map<String, Object> ecDataMap = new HashMap<String, Object>();
         ApplicantInfo applInfo = new ApplicantInfo();
         try{
+
             applInfo = commonDAO.queryForObject(NAME_SPACE+"retrieveApplicantInfoByKey", applNo, ApplicantInfo.class);
+
+            ApplicationForeigner applForn = commonDAO.queryForObject(APPL_NAME_SPACE + "ApplicationForeignerMapper.selectByPrimaryKey",
+                    applNo, ApplicationForeigner.class);
+            applForn = applForn == null ? new ApplicationForeigner() : applForn;
+            ApplicationGeneral applGene = commonDAO.queryForObject(APPL_NAME_SPACE + "ApplicationGeneralMapper.selectByPrimaryKey",
+                    applNo, ApplicationGeneral.class);
+            applGene = applGene == null ? new ApplicationGeneral() : applGene;
+            Country  cntr = commonDAO.queryForObject( COMMON_NAME_SPACE+"CountryMapper.selectByPrimaryKey",applInfo.getCitzCntrCode(), Country.class);
+            cntr = cntr == null ? new Country() : cntr;
             applInfo.setAdmsName(abridgeAdmsCodeName(applInfo.getAdmsNo()));
+            ecDataMap.put("cntr",cntr);
+            ecDataMap.put("applForn",applForn);
+            ecDataMap.put("applGene",applGene);
             ecDataMap.put("applInfo",applInfo);
             ecDataMap.put("selection", getCouurseSelectionBasicMap());
 
@@ -233,6 +247,18 @@ public class AdminServiceImpl implements AdminService{
 
            campusList = commonDAO.queryForList(NAME_SPACE+"selectApplicantCnt", searchForm, ApplicantCnt.class);
            
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return campusList;
+    }
+
+    public List<ApplicantCnt> retrieveApplicantDetailCntByDept(CourseSearchGridForm searchForm) {
+        List<ApplicantCnt> campusList = null;
+        try {
+
+            campusList = commonDAO.queryForList(NAME_SPACE+"selectApplicantDetailCnt", searchForm, ApplicantCnt.class);
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -326,6 +352,8 @@ public class AdminServiceImpl implements AdminService{
         CourseSearchForm aForm = new ChangeSearchForm();
         return getCouurseSelectionBasicMap( aForm);
     }
+
+
     public List<ApplicantCnt> retrieveUnpaidApplicantCntByDept(CourseSearchGridForm searchForm) {
         List<ApplicantCnt> campusList = null;
         try {

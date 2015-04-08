@@ -108,7 +108,7 @@
       	$source.on('click', function(event) {
       		event.preventDefault();
       		
-			var newUrl ='${contextPath}/admin/stats/category/search';	 
+			var newUrl ='${contextPath}/admin/stats/daily/search';
 			newUrl = newUrl +"?admsNo="+jQuery("#admsNo option:selected").val();
 			newUrl = newUrl +"&campCode="+jQuery("#campCode option:selected").val();
 			newUrl = newUrl +"&collCode="+jQuery("#collCode option:selected").val();
@@ -137,7 +137,7 @@
                 groupingView : {
                     groupField : ['campName','collName'],
                     groupSummary: [true, true],
-                    groupText : ['<b>{0}</b>','<b>{0}</b>'],
+                    groupText : ['<b> {0}</b>','<b>     {0}</b>'],
                     groupColumnShow : [true,  true],
                     hideFirstGroupCol: false,
                     groupSummaryPos: ['header',  'header'],
@@ -148,6 +148,7 @@
 
                 rowNum:200
             });
+
 
 
 

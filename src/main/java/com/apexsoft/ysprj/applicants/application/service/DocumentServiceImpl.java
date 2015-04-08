@@ -469,6 +469,7 @@ public class DocumentServiceImpl implements DocumentService {
         aDoc.setImgYn("N");
         aDoc.setFilePath(FileUtil.getUploadDirectoryFullPath(BASE_DIR, s3MidPath, admsNo, userId, applNo));
         aDoc.setDocItemName("수험표");
+        aDoc.setDocItemNameXxen("Application Slip");
         aDoc.setFileName(FileUtil.getSlipFileName(userId));
         aDoc.setOrgFileName(FileUtil.getSlipFileName(userId));
         aDoc.setPageCnt(1);

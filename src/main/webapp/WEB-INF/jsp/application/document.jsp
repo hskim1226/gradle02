@@ -371,7 +371,7 @@
                                 <p><spring:message code="U04113"/><%--파일 첨부 시 주의사항--%></p>
                                 <spring:message code="U04114"/><%--1. 문서별로 1개의 파일만 첨부 가능합니다.--%><br/>
                                 <spring:message code="U04115"/><%--2. 사진 및 문서의 해상도와 가독성 여부를 반드시 확인하세요.--%><br/>
-                                <spring:message code="U04116"/><%--3. 스캔시에는 300dpi 이상으로 스캔하시기 바랍니다.--%><br/>
+                                <b><spring:message code="U04116"/><%--3. 스캔시에는 300dpi 이상으로 스캔하시기 바랍니다.--%><br/></b>
                                 <spring:message code="U04117"/><%--4. 문서 크기는 A4 크기로 생성하여 첨부하셔야 합니다.--%><br/>
                                 </p>
 
@@ -464,9 +464,11 @@
                                                            data-upload-button-id="upload-button-${lv1Status.index}-${lv2Status.index}"
                                                            <c:if test="${lv2Container.fileUploadFg == true}">checked</c:if> />
                                                 </div>
+
+
                                                 <div class="col-sm-10 nopadding">
                                                     <c:choose>
-                                                        <c:when test="${lv2Container.docTypeCode != '00009'}">${lv2Container.docItemName}</c:when>
+                                                        <c:when test="${lv2Container.docTypeCode != '00009'}">${pageContext.response.locale == 'en' ? lv2Container.docItemNameXxen : lv2Container.docItemName}</c:when>
                                                         <c:otherwise>
                                                             <form:input path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].docItemName"
                                                                         value="${lv2Container.docItemName}"
