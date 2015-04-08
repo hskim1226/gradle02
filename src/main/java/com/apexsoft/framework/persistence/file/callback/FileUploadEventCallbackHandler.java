@@ -26,7 +26,7 @@ import java.util.List;
 public abstract class FileUploadEventCallbackHandler<T, P, Q> {
 	
 	protected static final int UNLIMITED = Integer.MIN_VALUE;
-    protected static final int MAX_LENGTH = 3*1024*1024;
+    protected static final int MAX_LENGTH = 5*1024*1024;
 	
 	/**
      * 최대 업로드 사이즈 지정. (주 : 파일 단위가 아닌 멀티파트 요청 단위임)

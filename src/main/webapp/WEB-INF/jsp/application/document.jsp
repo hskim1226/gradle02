@@ -874,7 +874,7 @@
 
                             <%-- level2인 기타 첨부 서류 입력 란 --%>
                             <c:if test="${lv1Container.docTypeCode == '00009'}">
-                                <c:forEach begin="${lv1Container.subContainer.size()}" end="4" varStatus="lv2EtcStatus">
+                                <c:forEach begin="${lv1Container.subContainer.size()}" end="9" varStatus="lv2EtcStatus">
                                     <div class="form-group">
                                         <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2EtcStatus.index}].applNo" value="${document.application.applNo}"/>
                                         <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2EtcStatus.index}].docSeq" />
