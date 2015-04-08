@@ -348,15 +348,20 @@
                                         <label for="detlMajCode" class="col-sm-2 control-label"><spring:message code="L01109"/><%--세부 전공--%></label>
                                         <div class="col-sm-9">
                                             <div class="col-sm-12">
+                                                <%--<form:select path="application.detlMajCode" cssClass="form-control base-info base-non-ariInst base-ariInst" id="detlMajCode">--%>
+                                                    <%--<form:option value="" label="--${msg.getMessage('L01011', locale)}--" />--%>
+                                                    <%--<form:options items="${detlList.detlMajCode}" itemValue="detlMajCode"--%>
+                                                                  <%--itemLabel="${pageContext.response.locale == 'en' ? detlList.detlMajNameXxen : detlList.detlMajName}"/>--%>
+                                                <%--</form:select>--%>
                                                 <select name="application.detlMajCode" class="form-control base-info base-non-ariInst base-ariInst" id="detlMajCode">
-                                                    <option value>--<spring:message code="L01011"/>--</option>
+                                                    <option value="">--<spring:message code="L01011"/>--</option>
                                                     <c:forEach var="detlList" items="${selection.detlMajList}" varStatus="status">
                                                         <c:choose>
-                                                        <c:when test='${application.detlMajCode == detlList.detlMajCode}'>
-                                                        <option selected="true" value="${detlList.detlMajCode}" data-partTimeYn="${detlList.partTimeYn}">${pageContext.response.locale == 'en' ? detlList.detlMajNameXxen : detlList.detlMajName}</option>
+                                                        <c:when test='${basis.application.detlMajCode == detlList.detlMajCode}'>
+                                                        <option value="${detlList.detlMajCode}" selected data-partTimeYn="${detlList.partTimeYn}">${pageContext.response.locale == 'en' ? detlList.detlMajNameXxen : detlList.detlMajName}</option>
                                                         </c:when>
                                                         <c:otherwise>
-                                                            <option selected="" value="${detlList.detlMajCode}" data-partTimeYn="${detlList.partTimeYn}">${pageContext.response.locale == 'en' ? detlList.detlMajNameXxen : detlList.detlMajName}</option>
+                                                            <option value="${detlList.detlMajCode}" data-partTimeYn="${detlList.partTimeYn}">${pageContext.response.locale == 'en' ? detlList.detlMajNameXxen : detlList.detlMajName}</option>
                                                         </c:otherwise>
                                                         </c:choose>
                                                     </c:forEach>
@@ -1175,10 +1180,12 @@
         var detlMaj = $('#detlMajCode').find('option:selected');
 
         if( detlMaj.attr('data-parttimeyn') ==="Y"){
-            document.getElementById('partTimeYnGrp').setAttribute("style", "display");
+//            document.getElementById('partTimeYnGrp').setAttribute("style", "display");
+            document.getElementById('partTimeYnGrp').style.display = 'block';
         }
         if( detlMaj.attr('value')=== "99999" ){
-            document.getElementById('inpDetlMaj').setAttribute("style", "display");
+//            document.getElementById('inpDetlMaj').setAttribute("style", "display");
+            document.getElementById('inpDetlMaj').style.display = 'block';
         }
 
         <%-- 원서 작성 현황 및 사용 가능한 탭 처리 --%>
@@ -1977,33 +1984,43 @@
             var parent = this.parentNode.parentNode;
             var $divNode,$divNode2, $childNode, $childNode2, $childNode3;
 
-            $(parent).find('#detlMajText').remove();
-            $(parent).find('#detlMajDescDiv').remove();
-            $(parent).find('#detlMajDescLabel').remove();
+//            $(parent).find('#detlMajText').remove();
+//            $(parent).find('#detlMajDescDiv').remove();
+//            $(parent).find('#detlMajDescLabel').remove();
+
             if (detlMajCode == '99999') {   // 세부전공 직접입력
-                $(parent).find('#inpDetlMaj').attr("style", "display");
-                $(parent).find('#partTimeYnGrp').attr("disabled", "false");
+//                $(parent).find('#inpDetlMaj').attr("style", "display");
+                document.getElementById('inpDetlMaj').style.display = 'block';
+                document.getElementById('partTimeYnGrp').style.display = 'block';
+
+//                $(parent).find('#inpDetlMaj').attr("style", "display");
+//                $(parent).find('#partTimeYnGrp').attr("disabled", "false");
             }else{
-                $(parent).find('#inpDetlMaj').attr("style", "display:none");
-                $(parent).find('#partTimeYnGrp').attr("disabled", "true");
+                document.getElementById('inpDetlMaj').style.display = 'none';
+                document.getElementById('partTimeYnGrp').style.display = 'none';
+//                $(parent).find('#inpDetlMaj').attr("style", "display:none");
+//                $(parent).find('#partTimeYnGrp').attr("disabled", "true");
             }
             if( selected.getAttribute('partTimeYn') === 'Y' || selected.getAttribute('partTimeYn') === 'y') { // 세부전공 PART_TIME_YN이 Y인 경우
-                $(parent).find('#partTimeYnGrp').attr("style", "display");
-                $(parent).find('#partTimeYnGrp').attr("disabled", "false");
+                document.getElementById('partTimeYnGrp').style.display = 'block';
+
+//                $(parent).find('#partTimeYnGrp').attr("style", "display");
+//                $(parent).find('#partTimeYnGrp').attr("disabled", "false");
             }else{
-                $(parent).find('#partTimeYnGrp').attr("style", "display:none");
-                $(parent).find('#partTimeYnGrp').attr("disabled", "true");
+                document.getElementById('partTimeYnGrp').style.display = 'none';
+//                $(parent).find('#partTimeYnGrp').attr("style", "display:none");
+//                $(parent).find('#partTimeYnGrp').attr("disabled", "true");
             }
-            var temp = jQuery.type($(selected).attr('detlmajdesc'));
-            var temp2 = $(selected).attr('detlmajdesc');
-            if (jQuery.type($(selected).attr('detlmajdesc')) !=='undefined') { // 세부전공 desc 가 들어가 있는경우
-                $divNode = $('<div></div>').addClass('col-sm-offset-2 col-sm-9').attr({
-                    'id': 'detlMajDescDiv'
-                });
-                $childNode = $('<label/>').addClass('apexMsg').text(temp2).autoLink();
-                $childNode.appendTo($divNode);
-                $divNode.appendTo($(parent));
-            }
+//            var temp = jQuery.type($(selected).attr('detlmajdesc'));
+//            var temp2 = $(selected).attr('detlmajdesc');
+//            if (jQuery.type($(selected).attr('detlmajdesc')) !=='undefined') { // 세부전공 desc 가 들어가 있는경우
+//                $divNode = $('<div></div>').addClass('col-sm-offset-2 col-sm-9').attr({
+//                    'id': 'detlMajDescDiv'
+//                });
+//                $childNode = $('<label/>').addClass('apexMsg').text(temp2).autoLink();
+//                $childNode.appendTo($divNode);
+//                $divNode.appendTo($(parent));
+//            }
 
         });
         <%-- 지원사항 select 폼 change 이벤트 핸들러 등록 끝 --%>
