@@ -360,8 +360,9 @@ public class BirtServiceImpl implements BirtService {
 
         for (int k = i+j ; k < 5 ; k++) {
             if ( rptInfoMap.containsKey("academy" + k)) {
-                logger.error("academy key remover inserted");
-                rptInfoMap.remove("academy" + k);
+                logger.error("academy key overwriter inserted");
+//                rptInfoMap.remove("academy" + k);
+                rptInfoMap.put("academy" + k, "");
             }
         }
 
