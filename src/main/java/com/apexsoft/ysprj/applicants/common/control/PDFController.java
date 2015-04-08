@@ -108,7 +108,18 @@ public class PDFController {
             String applPaperLocalFilePath = applPaperInfosList.get(0).getFilePath();
             String s3FilePath = FileUtil.getS3PathFromLocalFullPath(applPaperLocalFilePath, fileBaseDir);
             AmazonS3 s3 = new AmazonS3Client();
-            S3Object object = s3.getObject(new GetObjectRequest(s3BucketName, FileUtil.getFinalMergedFileFullPath(s3FilePath, applNo)));
+            S3Object object = null;
+            try {
+                object = s3.getObject(new GetObjectRequest(s3BucketName, FileUtil.getFinalMergedFileFullPath(s3FilePath, applNo)));
+            } catch (Exception e) {
+                logger.error("Err in s3.getObject FiledDownload in PDFController");
+                logger.error(e.getMessage());
+                logger.error("bucketName : [" + s3BucketName + "]");
+                logger.error("admsNo : [" + admsNo + "]");
+                logger.error("userId : [" + userId + "]");
+                logger.error("objectKey : [" + FileUtil.getFinalMergedFileFullPath(s3FilePath, applNo) + "]");
+            }
+
             InputStream inputStream = object.getObjectContent();
             ObjectMetadata meta = object.getObjectMetadata();
             try {

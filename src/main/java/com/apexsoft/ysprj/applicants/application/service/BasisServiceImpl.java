@@ -156,7 +156,7 @@ public class BasisServiceImpl implements BasisService {
 
         Application application = basis.getApplication();
 
-        int applNo = application.getApplNo() == null ? 0 : application.getApplNo();
+        int applNo = application == null ? 0 : application.getApplNo() == null ? 0 : application.getApplNo();
         String detlMajCode = application.getDetlMajCode();
 
         if ((detlMajCode != null && !"".equals(detlMajCode)) || applNo > 0) {
