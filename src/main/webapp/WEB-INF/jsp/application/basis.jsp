@@ -480,7 +480,7 @@
                                                 </button>
                                             </div>
                                             <div class="col-sm-9">
-                                                <form:hidden path="application.citzCntrCode" id="citzCntrCode" cssClass="form-control" />
+                                                <form:hidden path="application.citzCntrCode" id="citzCntrCode" maxlength='5' cssClass="form-control" />
                                                 <input id="citzCntrName" class="form-control" value="${pageContext.response.locale == 'en' ? ctznCntr.engCntrName : ctznCntr.korCntrName}" readonly="true"/>
                                             </div>
                                             <spring:bind path="application.citzCntrCode">
@@ -668,7 +668,7 @@
                                                 <label class="col-sm-2 control-label"><spring:message code="L01308"/><%--본국 연락처--%></label>
                                                 <div class="col-sm-9">
                                                     <div class="col-sm-12">
-                                                        <form:input path="applicationForeigner.homeTel" cssClass="form-control" maxlength="20" placeholder="${msg.getMessage('U01303')}" /> <%--본국 연락처를 입력해 주세요.--%>
+                                                        <form:input path="applicationForeigner.homeTel" cssClass="form-control" maxlength="16" placeholder="${msg.getMessage('U01303')}" /> <%--본국 연락처를 입력해 주세요.--%>
                                                     </div>
                                                     <spring:bind path="applicationForeigner.homeTel">
                                                         <c:if test="${status.error}">
@@ -1048,7 +1048,7 @@
                                                         <label for="applicationForeigner.homeEmrgTel" class="col-sm-2 control-label"><spring:message code="L01606"/><%--전화번호--%></label>
                                                         <div class="col-sm-9">
                                                             <div class="col-sm-12">
-                                                                <form:input path="applicationForeigner.homeEmrgTel" cssClass="form-control numOnly" maxlength="20" placeholder="${msg.getMessage('U01602')}"/> <%--전화(또는 휴대폰)번호를 숫자로만 입력해 주세요.--%>
+                                                                <form:input path="applicationForeigner.homeEmrgTel" cssClass="form-control numOnly" maxlength="16" placeholder="${msg.getMessage('U01602')}"/> <%--전화(또는 휴대폰)번호를 숫자로만 입력해 주세요.--%>
                                                             </div>
                                                             <spring:bind path="applicationForeigner.homeEmrgTel">
                                                                 <c:if test="${status.error}">

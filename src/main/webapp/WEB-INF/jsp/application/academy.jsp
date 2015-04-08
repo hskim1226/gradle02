@@ -422,7 +422,7 @@
                                             <form:label path="collegeList[${stat.index}].majName" cssClass="col-sm-2 control-label"><spring:message code="L02116"/><%--학과 이름--%></form:label>
                                             <div class="col-sm-9">
                                                 <div class="col-sm-12">
-                                                    <form:input path="collegeList[${stat.index}].majName" cssClass="form-control" placeholder="${msg.getMessage('U02108')}" />  <%--다수 전공은 컴마로 구분하여 모두 입력해 주세요.--%>
+                                                    <form:input path="collegeList[${stat.index}].majName" cssClass="form-control" maxlength="35" placeholder="${msg.getMessage('U02108')}" />  <%--다수 전공은 컴마로 구분하여 모두 입력해 주세요.--%>
                                                 </div>
                                         <spring:bind path="collegeList[${stat.index}].majName">
                                             <c:if test="${status.error}">
@@ -594,7 +594,7 @@
                                             </div>
                                         </div>
                                         <div class="form-group <c:if test="${corsTypeCode.equals('02') || corsTypeCode.equals('06') || corsTypeCode.equals('08') || corsTypeCode.equals('11')}">required</c:if>">
-                                            <form:label path="graduateList[${stat.index}].schlName" cssClass="col-sm-2 control-label"><spring:message code="L02112"/><%--학교 이름--%></form:label>
+                                            <form:label path="graduateList[${stat.index}].schlName" maxlength="35" cssClass="col-sm-2 control-label"><spring:message code="L02112"/><%--학교 이름--%></form:label>
                                             <div class="col-sm-9">
                                                 <div class="col-sm-3">
                                                     <button type="button" class="btn btn-default btn-search bpopper" data-targetNode1="graduateList${stat.index}.schlCode" data-targetNode2='graduateList${stat.index}.schlName' data-category="school-u">
@@ -625,7 +625,7 @@
                                             <form:label path="graduateList[${stat.index}].collName" cssClass="col-sm-2 control-label"><spring:message code="L02115"/><%--단과 대학--%></form:label>
                                             <div class="col-sm-9">
                                                 <div class="col-sm-12">
-                                                    <form:input path="graduateList[${stat.index}].collName" cssClass="form-control" />
+                                                    <form:input path="graduateList[${stat.index}].collName" maxlength="35" cssClass="form-control" />
                                                 </div>
                                         <spring:bind path="graduateList[${stat.index}].collName">
                                             <c:if test="${status.error}">
@@ -640,7 +640,7 @@
                                             <form:label path="graduateList[${stat.index}].majName" cssClass="col-sm-2 control-label"><spring:message code="L02116"/><%--학과 이름--%></form:label>
                                             <div class="col-sm-9">
                                                 <div class="col-sm-12">
-                                                    <form:input path="graduateList[${stat.index}].majName" cssClass="form-control" placeholder="${msg.getMessage('U02108')}" />   <%--다수 전공은 컴마로 구분하여 모두 입력해 주세요.--%>
+                                                    <form:input path="graduateList[${stat.index}].majName" cssClass="form-control" maxlength="35" placeholder="${msg.getMessage('U02108')}" />   <%--다수 전공은 컴마로 구분하여 모두 입력해 주세요.--%>
                                                 </div>
                                         <spring:bind path="graduateList[${stat.index}].majName">
                                             <c:if test="${status.error}">
