@@ -319,7 +319,7 @@ public class DocumentController {
                                           TotalApplicationDocument document) {
                     ExecutionContext ec = null;
                     String jsonFileMetaForm = null;
-                    FileInfo fileInfo;
+                    FileInfo fileInfo = null;
                     String uploadDir = getDirectory(fileMetaForm);
                     String uploadFileName = "";
                     for ( FileItem fileItem : fileItems){
@@ -332,12 +332,17 @@ public class DocumentController {
                         }
                         FileInputStream fis = null;
                         String originalFileName = fileItem.getOriginalFileName();
+
                         try{
                             uploadDir = getDirectory(fileMetaForm);
                             uploadFileName = createFileName(fileMetaForm, fileItem);
-                            fileInfo = persistence.save(uploadDir, uploadFileName, originalFileName,
-                                    fis = new FileInputStream(fileItem.getFile())
-                            );
+                            try {
+                                fileInfo = persistence.save(uploadDir, uploadFileName, originalFileName,
+                                        fis = new FileInputStream(fileItem.getFile())
+                                );
+                            } catch (IOException ioe) {
+                                throw getYSBizException(document, principal, "U339", "ERR0063");
+                            }
 
                             String path = fileInfo.getDirectory();
 
@@ -389,6 +394,9 @@ public class DocumentController {
                             ec.setErrorInfo(new ErrorInfo(errorInfo));
                             throw new YSBizException(ec);
                         } catch (Exception e) {
+                            logger.error("S3 저장시 아마존 예외 외의 오류");
+                            logger.error(e.getMessage());
+                            e.printStackTrace();
                             throw getYSBizException(document, principal, "U339", "ERR0052");
                         }finally {
                             try {
