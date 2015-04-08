@@ -65,4 +65,8 @@ public class FileUtil {
     public static String getS3PathFromLocalFullPath(String localFullPath, String baseDir) {
         return localFullPath.substring(baseDir.length()+1);
     }
+
+    public static String removeSlashForS3(String path) {
+        return path.replace('/', '-').replace('\\', '-');
+    }
 }
