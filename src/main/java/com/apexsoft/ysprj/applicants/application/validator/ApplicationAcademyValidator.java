@@ -44,9 +44,11 @@ public class ApplicationAcademyValidator extends NamedListValidator {
                 errors.rejectValue(prefix + "grdaTypeCode", "U331",
                         new Object[]{messageResolver.getMessage("L02108")}, messageResolver.getMessage("U332"));  /*"졸업 구분"*/
             } else if ("00001".equals(caa.getGrdaTypeCode())) {
-                if (caa.getDegrNo() == null || caa.getDegrNo().length() == 0) {
-                    errors.rejectValue(prefix + "degrNo", "U331",
-                            new Object[]{messageResolver.getMessage("L02128")}, messageResolver.getMessage("U332"));  /*"학위 번호"*/
+                if ("118".equals(caa.getSchlCntrCode())) { // 외국소재 대학은 학위등록번호 vali 안함
+                    if (caa.getDegrNo() == null || caa.getDegrNo().length() == 0) {
+                        errors.rejectValue(prefix + "degrNo", "U331",
+                                new Object[]{messageResolver.getMessage("L02128")}, messageResolver.getMessage("U332"));  /*"학위 번호"*/
+                    }
                 }
             }
             if (caa.getSchlName() == null || caa.getSchlName().length() == 0) {
