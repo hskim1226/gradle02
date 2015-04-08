@@ -18,6 +18,8 @@ import com.apexsoft.ysprj.applicants.common.util.FileUtil;
 import com.apexsoft.ysprj.applicants.common.util.StringUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.eclipse.birt.report.engine.api.IReportEngine;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.encrypt.Encryptors;
@@ -58,6 +60,8 @@ public class BirtServiceImpl implements BirtService {
 
     @Autowired
     ServletContext servletContext;
+
+    private static final Logger logger = LoggerFactory.getLogger(BirtServiceImpl.class);
 
     @Value("#{app['file.baseDir']}")
     private String BASE_DIR;
@@ -334,7 +338,8 @@ public class BirtServiceImpl implements BirtService {
 
         boolean gradLastFg = false;
         int graduateListL = graduateList.size();
-        for(int j = 0 ; j < graduateListL ; j++) {
+        int j;
+        for(j = 0 ; j < graduateListL ; j++) {
             CustomApplicationAcademy aGrad = graduateList.get(j);
 
             if ("C".equals(admsTypeCode) || "D".equals(admsTypeCode)) {
@@ -351,6 +356,11 @@ public class BirtServiceImpl implements BirtService {
             if( "Y".equals(aGrad.getLastSchlYn())) {
                 gradLastFg = true;
             }
+        }
+        logger.error("academy key remover inserted");
+        for (int k = i+j ; k < 5 ; k++) {
+            if ( rptInfoMap.containsKey("academy" + k))
+                rptInfoMap.remove("academy" + k);
         }
 
 
