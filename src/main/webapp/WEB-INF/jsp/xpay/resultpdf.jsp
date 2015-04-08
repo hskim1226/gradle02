@@ -28,7 +28,7 @@
 
 <section class="test">
     <div class="col-sm-offset-1">
-        <h3 class="slogan"> 결제 처리 결과 </h3>
+        <h3 class="slogan"> PDF 처리 결과 </h3>
         <hr/>
     </div>
     <br>
@@ -38,9 +38,10 @@
         </div>
     </div>
     <div class="spacer-tiny">&nbsp;</div>
+    <div class="spacer-tiny">&nbsp;</div>
     <div class="col-sm-offset-1 col-sm-8">
         <div class="col-sm-3">
-            <button class="btn btn-primary btn-lg btn-block btn-save input-text" id="back"> 결제 처리 돌아가기 </button>
+            <button class="btn btn-primary btn-lg btn-block btn-save input-text" id="back"> PDF 처리 돌아가기 </button>
         </div>
     </div>
 </section>
@@ -52,13 +53,14 @@
             $('#back').click( function(e) {
                 e.preventDefault();
 
-                location.href = "${contextPath}/payment/admin/paymanual";
+                location.href = "${contextPath}/payment/admin/pdfmanual";
             });
 
         });
 
     </script>
 </content>
+
 
 </body>
 </html>

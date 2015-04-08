@@ -104,4 +104,48 @@ public class PaymentAdminController {
         return "xpay/resultmanual";
     }
 
+    @RequestMapping(value="/pdfmanual")
+    public ModelAndView pdfmanual( Principal principal, ModelAndView mv ) {
+
+        mv.setViewName("xpay/pdfmanual");
+
+        String adminID = principal.getName();
+        if (!adminID.equals("Apex1234")) {
+            ExecutionContext ec = new ExecutionContext(ExecutionContext.FAIL);
+            ec.setMessage(messageResolver.getMessage("U902"));
+            ec.setErrCode("ERR0801");
+            Map<String, String> errorInfo = new HashMap<String, String>();
+            errorInfo.put("adminID", adminID);
+            ec.setErrorInfo(new ErrorInfo(errorInfo));
+            throw new YSBizException(ec);
+        }
+
+        return mv;
+    }
+
+    @RequestMapping(value="/exepdfmanual")
+    public String exepdfmanually( ApplicationPaymentTransaction applPayTr ) {
+
+
+
+        // 수험표, 지원서 생성 및 Merge
+        // 타 대학원 확장 시 TODO - 학교 이름을 파라미터로 받도록
+        Application application = commonDAO.queryForObject("com.apexsoft.ysprj.applicants.application.sqlmap.ApplicationMapper.selectByPrimaryKey",
+                                                           applPayTr.getApplNo(), Application.class);
+        String admsTypeCode = application.getAdmsTypeCode();
+        String lang = "C".equals(admsTypeCode) || "D".equals(admsTypeCode) ? "en" : "kr";
+        String reportName = "yonsei-appl-" + lang;
+        ExecutionContext ecGenAppl = birtService.generateBirtFile(application.getApplNo(), reportName);
+        reportName = "yonsei-adms-" + lang;
+        ExecutionContext ecGenAdms = birtService.generateBirtFile(application.getApplNo(), reportName);
+        ExecutionContext ecPdfMerge = pdfService.getMergedPDFByApplicants(applPayTr.getApplNo());
+        if ( ExecutionContext.FAIL.equals(ecGenAppl.getResult()) ||
+                ExecutionContext.FAIL.equals(ecGenAdms.getResult()) ||
+                ExecutionContext.FAIL.equals(ecPdfMerge.getResult()) ) {
+            throw new YSBizException();
+        }
+
+        return "xpay/resultpdf";
+    }
+
 }
