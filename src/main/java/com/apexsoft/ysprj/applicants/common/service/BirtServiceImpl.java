@@ -357,10 +357,12 @@ public class BirtServiceImpl implements BirtService {
                 gradLastFg = true;
             }
         }
-        logger.error("academy key remover inserted");
+
         for (int k = i+j ; k < 5 ; k++) {
-            if ( rptInfoMap.containsKey("academy" + k))
+            if ( rptInfoMap.containsKey("academy" + k)) {
+                logger.error("academy key remover inserted");
                 rptInfoMap.remove("academy" + k);
+            }
         }
 
 
