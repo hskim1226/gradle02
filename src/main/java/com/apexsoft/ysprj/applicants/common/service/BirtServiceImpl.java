@@ -92,6 +92,7 @@ public class BirtServiceImpl implements BirtService {
         try {
             birtProcessor.createReport(map);
         } catch ( Exception e ) {
+            e.printStackTrace();
             ExecutionContext ecError = new ExecutionContext(ExecutionContext.FAIL);
 
             ecError.setMessage(messageResolver.getMessage("U803"));
@@ -489,7 +490,7 @@ public class BirtServiceImpl implements BirtService {
         rptInfoMap.put("ieltsScore", ieltsScore);
         rptInfoMap.put("greScore", greScore);
         rptInfoMap.put("forlExmp", forlExmp.length() > 0 ? "O" : StringUtil.EMPTY_STRING);
-        rptInfoMap.put("topik", topikScore);
+        rptInfoMap.put("topikScore", commonService.retrieveCommonCodeByCodeGroupCode("TOPK_LEVL", topikScore).getCodeVal());
 
         // TODO
         String range0 = StringUtil.EMPTY_STRING;
