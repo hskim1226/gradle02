@@ -457,6 +457,7 @@ public class BirtServiceImpl implements BirtService {
                             if (aLang.isLangInfoSaveFg()) {
                                 if ("00001".equals(aLang.getItemCode())) {
                                     topikScore = aLang.getLangGrad();
+                                    topikScore = commonService.retrieveCommonCodeByCodeGroupCode("TOPK_LEVL", topikScore).getCodeVal();
                                 }
                             }
                         } else {
@@ -490,7 +491,7 @@ public class BirtServiceImpl implements BirtService {
         rptInfoMap.put("ieltsScore", ieltsScore);
         rptInfoMap.put("greScore", greScore);
         rptInfoMap.put("forlExmp", forlExmp.length() > 0 ? "O" : StringUtil.EMPTY_STRING);
-        rptInfoMap.put("topikScore", commonService.retrieveCommonCodeByCodeGroupCode("TOPK_LEVL", topikScore).getCodeVal());
+        rptInfoMap.put("topikScore", topikScore);
 
         // TODO
         String range0 = StringUtil.EMPTY_STRING;
