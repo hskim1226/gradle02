@@ -810,7 +810,7 @@
                                             <div class="col-sm-9">
                                                 <div class="input-group">
                                                     <%--<form:input path="application.zipCode" cssClass="form-control" id="zipCode" readonly="true"/>--%>
-                                                    <input type="text" id="zipCode" name="application.zipCode" value="${basis.application.zipCode}" class="form-control"
+                                                    <input type="text" id="zipCode" name="application.zipCode" value="${basis.application.zipCode}" maxlength="6" class="form-control"
                                                            ${basis.application.admsTypeCode == 'C' || basis.application.admsTypeCode == 'D' ? '' : 'readonly'}/>
                                                 </div>
                                             </div>
