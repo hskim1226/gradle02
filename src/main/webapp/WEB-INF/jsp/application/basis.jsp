@@ -858,7 +858,8 @@
                                             </spring:bind>
                                         </div>
                                     </div>
-                                    <div class="form-group ${basis.application.admsTypeCode == "C" || basis.application.admsTypeCode == "D" ? '' : 'required' }">
+                                    <%--<div class="form-group ${basis.application.admsTypeCode == "C" || basis.application.admsTypeCode == "D" ? '' : 'required' }">--%> <%--학교측 요구로 필수화 4.8--%>
+                                    <div class="form-group required">
                                         <label for="application.mobiNum" class="col-sm-2 control-label"><spring:message code="L01505"/><%--휴대폰--%></label>
                                         <div class="col-sm-9">
                                             <div class="col-sm-12">

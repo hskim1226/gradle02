@@ -65,6 +65,12 @@ public class ApplicationValidator implements NamedValidator {
             }
         }
 
+        // 4/8 학교 측에서 외국인 전형 전화 응대를 위해 휴대폰 번호 vali 묶으라 함
+        if (application.getMobiNum() == null || application.getMobiNum().length() == 0) {
+            errors.rejectValue(prefix + "mobiNum", "U331",
+                    new Object[]{messageResolver.getMessage("L01505")}, messageResolver.getMessage("U332"));  /*"휴대폰"*/
+        }
+
         if (application.getEngSur() == null || application.getEngSur().length() == 0) {
             errors.rejectValue(prefix + "engSur", "U331",
                     new Object[]{messageResolver.getMessage("L01204")}, messageResolver.getMessage("U332"));  /*"영문 성"*/
