@@ -285,6 +285,16 @@
                 box-shadow: 0em -3em 0em 0em #55aaff, 2em -2em 0 -0.5em #55aaff, 3em 0em 0 -0.5em #55aaff, 2em 2em 0 -0.5em #55aaff, 0em 3em 0 -0.5em #55aaff, -2em 2em 0 0em #55aaff, -3em 0em 0 0em #55aaff, -2em -2em 0 0.2em #55aaff;
             }
         }
+        .inline-notice {
+            font-size: 1.5em;
+            color: blue;
+            font-weight: 900;
+        }
+        .inline-notice-red {
+            font-size: 1.5em;
+            color: red;
+            font-weight: 900;
+        }
     </style>
 </head>
 <body>
@@ -368,11 +378,11 @@
                                 <a href="http://www.fotor.com/" target="_blank"><spring:message code="U04111"/><%--http://www.fotor.com/--%></a><br/>
                                 <p><spring:message code="U04112"/><%--예시 사이트에서 발생하는 모든 문제는 당사에서 책임지지 않습니다.--%></p>
                                 <hr/>
-                                <p><spring:message code="U04113"/><%--파일 첨부 시 주의사항--%></p>
-                                <spring:message code="U04114"/><%--1. 문서별로 1개의 파일만 첨부 가능합니다.--%><br/>
-                                <spring:message code="U04115"/><%--2. 사진 및 문서의 해상도와 가독성 여부를 반드시 확인하세요.--%><br/>
-                                <spring:message code="U04116"/><%--3. 스캔시에는 300dpi 이상으로 스캔하시기 바랍니다.--%><br/>
-                                <spring:message code="U04117"/><%--4. 문서 크기는 A4 크기로 생성하여 첨부하셔야 합니다.--%><br/>
+                                <p class="inline-notice"><spring:message code="U04113"/><%--파일 첨부 시 주의사항--%></p>
+                                <span class="inline-notice"><spring:message code="U04114"/></span><%--1. 문서별로 1개의 파일만 첨부 가능합니다.--%><br/>
+                                <span class="inline-notice"><spring:message code="U04115"/></span><%--2. 사진 및 문서의 해상도와 가독성 여부를 반드시 확인하세요.--%><br/>
+                                <span class="inline-notice-red"><spring:message code="U04116"/></span><%--3. 스캔시에는 300dpi 이상으로 스캔하시기 바랍니다.--%><br/>
+                                <span class="inline-notice"><spring:message code="U04117"/></span><%--4. 문서 크기는 A4 크기로 생성하여 첨부하셔야 합니다.--%><br/>
                                 </p>
 
                                 <p><spring:message code="U04118"/><%--인터넷에서 '한글 문서 PDF 변환'으로 검색하면 아래 한글 문서를 PDF 파일로 변환할 수 있는--%><br/>
