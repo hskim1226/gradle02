@@ -7,6 +7,7 @@ import com.amazonaws.services.s3.AmazonS3Client;
 import com.apexsoft.framework.common.vo.ExecutionContext;
 import com.apexsoft.framework.exception.ErrorInfo;
 import com.apexsoft.framework.exception.YSBizException;
+import com.apexsoft.framework.exception.YSBizNoticeException;
 import com.apexsoft.framework.message.MessageResolver;
 import com.apexsoft.framework.persistence.dao.CommonDAO;
 import com.apexsoft.ysprj.applicants.application.domain.*;
@@ -181,15 +182,17 @@ public class DocumentServiceImpl implements DocumentService {
         int r1, applNo = application.getApplNo();
 
         // 동일한 주민번호로 제출된 원서 존재 여부 확인
-        if (isRgstNoDuplicate(applNo)) {
-            ec.setResult(ExecutionContext.FAIL);
-            ec.setMessage(messageResolver.getMessage("U346"));
-            ec.setErrCode("ERR0042");
-            Map<String, String> errorInfo = new HashMap<String, String>();
-            errorInfo.put("applNo", String.valueOf(applNo));
-            errorInfo.put("userId", application.getUserId());
-            ec.setErrorInfo(new ErrorInfo(errorInfo));
-            throw new YSBizException(ec);
+        if (!"C".equals(application.getAdmsTypeCode()) && !"D".equals(application.getAdmsTypeCode())) {
+            if (isRgstNoDuplicate(applNo)) {
+                ec.setResult(ExecutionContext.FAIL);
+                ec.setMessage(messageResolver.getMessage("U346"));
+                ec.setErrCode("ERR0042");
+                Map<String, String> errorInfo = new HashMap<String, String>();
+                errorInfo.put("applNo", String.valueOf(applNo));
+                errorInfo.put("userId", application.getUserId());
+                ec.setErrorInfo(new ErrorInfo(errorInfo));
+                throw new YSBizNoticeException(ec);
+            }
         }
 
         Date date = new Date();

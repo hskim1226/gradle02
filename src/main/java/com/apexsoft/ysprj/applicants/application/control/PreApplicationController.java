@@ -3,6 +3,7 @@ package com.apexsoft.ysprj.applicants.application.control;
 import com.apexsoft.framework.common.vo.ExecutionContext;
 import com.apexsoft.framework.exception.ErrorInfo;
 import com.apexsoft.framework.exception.YSBizException;
+import com.apexsoft.framework.exception.YSBizNoticeException;
 import com.apexsoft.framework.message.MessageResolver;
 import com.apexsoft.framework.persistence.dao.CommonDAO;
 import com.apexsoft.ysprj.applicants.admission.service.AdmissionService;
@@ -154,7 +155,7 @@ public class PreApplicationController {
             Map<String, String> errorInfo = new HashMap<String, String>();
             errorInfo.put("adminID", adminID);
             ec.setErrorInfo(new ErrorInfo(errorInfo));
-            throw new YSBizException(ec);
+            throw new YSBizNoticeException(ec);
         }
 
         return mv;

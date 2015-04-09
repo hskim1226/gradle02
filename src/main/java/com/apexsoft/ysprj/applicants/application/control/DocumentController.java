@@ -13,6 +13,7 @@ import com.apexsoft.framework.exception.StackTraceFilter;
 import com.apexsoft.framework.exception.YSBizException;
 import com.apexsoft.framework.message.MessageResolver;
 import com.apexsoft.framework.persistence.file.callback.FileUploadEventCallbackHandler;
+import com.apexsoft.framework.persistence.file.exception.FileNoticeException;
 import com.apexsoft.framework.persistence.file.exception.FileUploadException;
 import com.apexsoft.framework.persistence.file.handler.FileHandler;
 import com.apexsoft.framework.persistence.file.manager.FilePersistenceManager;
@@ -26,11 +27,15 @@ import com.apexsoft.ysprj.applicants.common.service.BirtService;
 import com.apexsoft.ysprj.applicants.common.service.CommonService;
 import com.apexsoft.ysprj.applicants.common.util.FileUtil;
 import com.apexsoft.ysprj.applicants.common.util.StringUtil;
+import com.apexsoft.ysprj.applicants.common.util.WebUtil;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.fileupload.FileUpload;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
+import org.apache.pdfbox.exceptions.COSVisitorException;
+import org.apache.pdfbox.exceptions.CryptographyException;
+import org.apache.pdfbox.pdmodel.PDDocument;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -88,6 +93,9 @@ public class DocumentController {
     @Value("#{app['s3.bucketName']}")
     private String bucketName;
 
+    @Autowired
+    WebUtil webUtil;
+
     private static final Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
     private final String TARGET_VIEW = "application/document";
 
@@ -143,7 +151,9 @@ public class DocumentController {
     @RequestMapping(value="/edit")
     public ModelAndView getDocument(@ModelAttribute Document formData,
                                     BindingResult bindingResult,
+                                    HttpServletRequest request,
                                     ModelAndView mv) {
+        webUtil.blockGetMethod(request, formData.getApplication());
         mv.setViewName(TARGET_VIEW);
         if (bindingResult.hasErrors()) return mv;
 
@@ -172,6 +182,7 @@ public class DocumentController {
                                      BindingResult bindingResult,
                                      HttpServletRequest request,
                                      ModelAndView mv) {
+        webUtil.blockGetMethod(request, formData.getApplication());
         documentValidator.validate(formData, bindingResult, localeResolver.resolveLocale(request));
         mv.setViewName(TARGET_VIEW);
         if (bindingResult.hasErrors()) {
@@ -219,6 +230,7 @@ public class DocumentController {
                                           BindingResult bindingResult,
                                           HttpServletRequest request,
                                           ModelAndView mv) {
+        webUtil.blockGetMethod(request, formData.getApplication());
         documentValidator.validate(formData, bindingResult, localeResolver.resolveLocale(request));
         mv.setViewName("application/mylist");
         if (bindingResult.hasErrors()) {
@@ -328,8 +340,42 @@ public class DocumentController {
                             Map<String, String> errorInfo = new HashMap<String, String>();
                             errorInfo.put("applNo", String.valueOf(document.getApplNo()));
                             ec.setErrorInfo(new ErrorInfo(errorInfo));
-                            throw new FileUploadException(ec, "U04301", "ERR0060");
+                            throw new FileNoticeException(ec, "U04301", "ERR0060");
                         }
+                        if (fileItem.getOriginalFileName().toLowerCase().endsWith("pdf")) {
+                            PDDocument pdf = null;
+                            try {
+                                pdf = PDDocument.load(fileItem.getFile());
+
+                                if (pdf.isEncrypted()) {
+                                    ec = new ExecutionContext(ExecutionContext.FAIL);
+                                    Map<String, String> errorInfo = new HashMap<String, String>();
+                                    errorInfo.put("applNo", String.valueOf(document.getApplNo()));
+                                    errorInfo.put("originalFileName", fileItem.getOriginalFileName());
+                                    ec.setErrorInfo(new ErrorInfo(errorInfo));
+                                    throw new FileNoticeException(ec, "U04514", "ERR0060");
+                                }
+                            } catch (IOException e) {
+                                logger.error("Upload PDF is NOT loaded to PDDocument, DocumentController.fileUpload()");
+                                logger.error("modId : " + document.getModId());
+                                logger.error("applNo: " + document.getApplNo());
+                                ec = new ExecutionContext(ExecutionContext.FAIL);
+                                Map<String, String> errorInfo = new HashMap<String, String>();
+                                errorInfo.put("applNo", String.valueOf(document.getApplNo()));
+                                errorInfo.put("originalFileName", fileItem.getOriginalFileName());
+                                ec.setErrorInfo(new ErrorInfo(errorInfo));
+                                throw new FileNoticeException(ec, "U04514", "ERR0060");
+                            } finally {
+                                if (pdf != null) {
+                                    try {
+                                        pdf.close();
+                                    } catch (IOException e) {
+                                        logger.error("PDF is NOT closed, DocumentController.fileUpload()");
+                                    }
+                                }
+                            }
+                        }
+
                         FileInputStream fis = null;
                         String originalFileName = fileItem.getOriginalFileName();
 

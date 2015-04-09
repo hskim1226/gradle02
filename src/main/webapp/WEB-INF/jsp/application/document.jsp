@@ -290,6 +290,11 @@
             color: blue;
             font-weight: 900;
         }
+        .inline-notice-small {
+            font-size: 1.2em;
+            color: blue;
+            font-weight: 600;
+        }
         .inline-notice-red {
             font-size: 1.5em;
             color: red;
@@ -389,6 +394,7 @@
                                 <span class="inline-notice-red"><spring:message code="U04116"/></span><%--3. 스캔시에는 300dpi 이상으로 스캔하시기 바랍니다.--%><br/>
                                 <span class="inline-notice"><spring:message code="U04117"/></span><%--4. 문서 크기는 A4 크기로 생성하여 첨부하셔야 합니다.--%><br/>
                                 <span class="inline-notice-red-big"><spring:message code="U04124"/></span><%--5. 암호화 된 PDF는 제출하시면 안됩니다.--%><br/>
+                                <span class="inline-notice-small"><spring:message code="U04125"/></span><%--예를 들어 TOEFL iBT 성적표의 경우 비밀번호는 없지만, 파일 자체는 암호화 되어 있습니다.--%><br/>
                                 </p>
 
                                 <p><spring:message code="U04118"/><%--인터넷에서 '한글 문서 PDF 변환'으로 검색하면 아래 한글 문서를 PDF 파일로 변환할 수 있는--%><br/>
@@ -1049,7 +1055,7 @@
             </div>
             <div class="spacer-tiny"></div>
             <div class="panel-body tab-content">
-                <span style="color: blue;"><spring:message code="U04511"/><%--원서 제출 후에는 지원 정보를 수정할 수 없습니다. 입력한 정보가 정확한 지 확인 후에 원서 제출을 진행해 주세요.--%></span>
+                <span style="color: blue; font-size: 20px; font-weight: 900;"><spring:message code="U04511"/><%--원서 제출 후에는 지원 정보를 수정할 수 없습니다. 입력한 정보가 정확한 지 확인 후에 원서 제출을 진행해 주세요.--%></span>
             </div>
             <div class="btn-group btn-group-justified">
                 <div class="btn-group">
@@ -1240,6 +1246,8 @@
                     form.action = "${contextPath}/application/document/submit";
                     form.target = "_self";
                     form.submit();
+                } else {
+                    $('#overlay').hide();
                 }
             }
         };
@@ -1275,7 +1283,11 @@
                     extIsOk = false,
                     checkboxId = this.getAttribute('data-checkbox-id'),
                     targetButton = this;
-
+if (fileName.length > 80) {
+    alert('<spring:message code="U04513"/>');  /*파일 경로가 너무 깁니다. \\n\\n파일을 PC의 바탕화면이나 D: 드라이브 바로 아래로 복사하신 후에 업로드해 주세요.*/
+    $('#overlay').hide();
+    return false;
+}
             if (docItemName && !docItemName.value.length > 0) {
                 alert('<spring:message code="U04502"/>');//서류명을 직접 입력해 주세요.
                 $('#overlay').hide();

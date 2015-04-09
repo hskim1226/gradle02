@@ -129,6 +129,7 @@
                 var form = document.getElementById('LGD_PAYINFO');
                 setHidden(e.target);
                 form.action = "${contextPath}/application/basis/edit";
+                form.target = '_self';
                 form.submit();
 
             });

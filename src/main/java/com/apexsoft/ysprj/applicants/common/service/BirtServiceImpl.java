@@ -175,8 +175,8 @@ public class BirtServiceImpl implements BirtService {
 
         String deptName = commonService.retrieveDeptNameByCode(application.getDeptCode()).getDeptName();
         String deptCode = application.getDeptCode();
-        String detlMajName = commonService.retrieveDetlMajNameByCode(application.getDetlMajCode()).getDetlMajName();
-
+        String detlMajName = "99999".equals(application.getDetlMajCode()) ? application.getInpDetlMaj()
+                                        : commonService.retrieveDetlMajNameByCode(application.getDetlMajCode()).getDetlMajName();
         rptInfoMap.put("campName", campName);
         rptInfoMap.put("semester", application.getEntrYear() + "-" + admsTypeNames[0]);
         rptInfoMap.put("corsTypeName", corsTypeName);

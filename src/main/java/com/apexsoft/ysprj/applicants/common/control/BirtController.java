@@ -11,6 +11,7 @@ import com.apexsoft.framework.persistence.dao.CommonDAO;
 import com.apexsoft.ysprj.applicants.application.domain.Application;
 import com.apexsoft.ysprj.applicants.common.domain.BirtRequest;
 import com.apexsoft.ysprj.applicants.common.service.BirtService;
+import com.apexsoft.ysprj.applicants.common.util.WebUtil;
 import org.eclipse.birt.report.engine.api.IReportEngine;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
 import java.util.HashMap;
@@ -44,6 +46,9 @@ public class BirtController {
 
     @Autowired
     MessageResolver messageResolver;
+
+    @Autowired
+    WebUtil webUtil;
 
     @Value("#{app['rpt.format']}")
     private String REPORT_FORMAT;
@@ -99,8 +104,9 @@ public class BirtController {
     @RequestMapping(value = "/preview")
     public ModelAndView previewAppInfo(BirtRequest birtRequest,
                                        Principal principal,
+                                       HttpServletRequest request,
                                        ModelAndView mv) {
-
+        webUtil.blockGetMethod(request, birtRequest.getApplication());
         mv.setViewName("pdfSingleFormatBirtView");
         Application application = birtRequest.getApplication();
         Map<String, Object> bigDataMap = null;
@@ -117,10 +123,10 @@ public class BirtController {
             ExecutionContext ec = birtService.processBirt(applNo, reportName);
             bigDataMap = (Map<String, Object>)ec.getData();
             mv.addAllObjects(bigDataMap);
-            logger.error("in BirtController bigDataMap clear start");
+            logger.debug("in BirtController bigDataMap clear start");
             bigDataMap.clear();
             bigDataMap = null;
-            logger.error("in BirtController bigDataMap clear end");
+            logger.debug("in BirtController bigDataMap clear end");
         }
 
         return mv;
@@ -138,7 +144,9 @@ public class BirtController {
     @RequestMapping(value = "/generate/application")
     public ModelAndView generateApplicationFile(BirtRequest birtRequest,
                                                 Principal principal,
+                                                HttpServletRequest request,
                                                 ModelAndView mv) {
+        webUtil.blockGetMethod(request, birtRequest.getApplication());
         Application application = birtRequest.getApplication();
         if (application == null) {
             filterApplicationNull(principal);
@@ -173,7 +181,9 @@ public class BirtController {
     @RequestMapping(value = "/generate/slip")
     public ModelAndView generateSlipFile(BirtRequest birtRequest,
                                          Principal principal,
+                                         HttpServletRequest request,
                                          ModelAndView mv) {
+        webUtil.blockGetMethod(request, birtRequest.getApplication());
         Application application = birtRequest.getApplication();
         if (application == null) {
             filterApplicationNull(principal);

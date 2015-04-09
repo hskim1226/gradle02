@@ -7,6 +7,7 @@ import com.apexsoft.ysprj.applicants.application.domain.Application;
 import com.apexsoft.ysprj.applicants.application.domain.CustomApplicationAcademy;
 import com.apexsoft.ysprj.applicants.application.service.AcademyService;
 import com.apexsoft.ysprj.applicants.application.validator.AcademyValidator;
+import com.apexsoft.ysprj.applicants.common.util.WebUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
 import java.util.List;
 import java.util.Map;
@@ -37,6 +39,9 @@ public class AcademyController {
     @Resource(name = "messageResolver")
     MessageResolver messageResolver;
 
+    @Autowired
+    WebUtil webUtil;
+
     private final String TARGET_VIEW = "application/academy";
 
     /**
@@ -48,7 +53,10 @@ public class AcademyController {
     @RequestMapping(value="/edit")
     public ModelAndView getAcademy(Academy formData,
                                    BindingResult bindingResult,
+                                   HttpServletRequest request,
                                    ModelAndView mv) {
+        webUtil.blockGetMethod(request, formData.getApplication());
+
         mv.setViewName(TARGET_VIEW);
         if (bindingResult.hasErrors()) return mv;
 
@@ -71,7 +79,9 @@ public class AcademyController {
     public ModelAndView saveAcademy(Academy formData,
                                     Principal principal,
                                     BindingResult bindingResult,
+                                    HttpServletRequest request,
                                     ModelAndView mv) {
+        webUtil.blockGetMethod(request, formData.getApplication());
         academyValidator.validate(formData, bindingResult);
         mv.setViewName(TARGET_VIEW);
         if (bindingResult.hasErrors()) {

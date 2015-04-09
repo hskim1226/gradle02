@@ -16,6 +16,7 @@ import com.apexsoft.ysprj.applicants.application.service.DocumentService;
 import com.apexsoft.ysprj.applicants.common.domain.BirtRequest;
 import com.apexsoft.ysprj.applicants.common.service.PDFService;
 import com.apexsoft.ysprj.applicants.common.util.FileUtil;
+import com.apexsoft.ysprj.applicants.common.util.WebUtil;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,6 +26,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
@@ -52,6 +54,9 @@ public class PDFController {
     @Autowired
     MessageResolver messageResolver;
 
+    @Autowired
+    WebUtil webUtil;
+
     @Value("#{app['file.baseDir']}")
     private String fileBaseDir;
 
@@ -71,7 +76,7 @@ public class PDFController {
      */
     @RequestMapping(value="/merge/applicant")
     @ResponseBody
-    public String mergeByApplicant(BirtRequest birtRequest) {
+    public String mergeByApplicant(BirtRequest birtRequest, HttpServletRequest request) {
         int applNo = birtRequest.getApplication().getApplNo();
         ExecutionContext ec = pdfService.getMergedPDFByApplicants(applNo);
         if (ExecutionContext.SUCCESS.equals(ec.getResult())) {
@@ -94,8 +99,9 @@ public class PDFController {
     @ResponseBody
     public byte[] fileDownload(Basis basis,
                                Principal principal,
+                               HttpServletRequest request,
                                HttpServletResponse response) {
-
+        webUtil.blockGetMethod(request, basis.getApplication());
         String userId = principal.getName();
         Application application = basis.getApplication();
         String admsNo = application.getAdmsNo();
@@ -114,11 +120,15 @@ public class PDFController {
             } catch (Exception e) {
                 logger.error("Err in s3.getObject FiledDownload in PDFController");
                 logger.error(e.getMessage());
-                logger.error("bucketName : [" + s3BucketName + "]");
-                logger.error("admsNo : [" + admsNo + "]");
-                logger.error("userId : [" + userId + "]");
-                logger.error("objectKey : [" + FileUtil.getFinalMergedFileFullPath(s3FilePath, applNo) + "]");
-//                throw new YSBizException()
+                ExecutionContext ec = new ExecutionContext(ExecutionContext.FAIL);
+                ec.setMessage(messageResolver.getMessage("U00242"));
+                Map<String, Object> ecMap = new HashMap<String, Object>();
+                ecMap.put("bucketName", "[" + s3BucketName + "]");
+                ecMap.put("admsNo", "[" + admsNo + "]");
+                ecMap.put("userId", "[" + userId + "]");
+                ecMap.put("objectKey", "[" + FileUtil.getFinalMergedFileFullPath(s3FilePath, applNo) + "]");
+                ec.setErrorInfo(new ErrorInfo(ecMap));
+                throw new YSBizException(ec);
             }
 
             InputStream inputStream = object.getObjectContent();
@@ -145,7 +155,12 @@ public class PDFController {
             response.setHeader("ETag", meta.getETag());
             response.setHeader("Last-Modified", meta.getLastModified().toString());
 //            아래 헤더 추가하면 파일명은 지정할 수 있으나 미리 보기는 안되고 다운로드만 됨
-//            response.setHeader("Content-Disposition", "attachment; filename=\"" + URLEncoder.encode(FileUtil.getFinalUserDownloadFileName(userId), "UTF-8") + "\"");
+            try {
+                response.setHeader("Content-Disposition", "attachment; filename=\"" + URLEncoder.encode(FileUtil.getFinalUserDownloadFileName(userId), "UTF-8") + "\"");
+            } catch (UnsupportedEncodingException e) {
+                throw new YSBizException(messageResolver.getMessage("U04516"));  /*지원하지 않는 인코딩 방식입니다.*/
+            }
+
         } else {
             ExecutionContext ecError = new ExecutionContext(ExecutionContext.FAIL);
 

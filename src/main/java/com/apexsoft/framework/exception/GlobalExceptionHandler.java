@@ -2,7 +2,10 @@ package com.apexsoft.framework.exception;
 
 import com.apexsoft.framework.common.vo.ExecutionContext;
 import com.apexsoft.framework.message.MessageResolver;
+import com.apexsoft.framework.persistence.file.exception.FileNoticeException;
 import com.apexsoft.framework.persistence.file.exception.FileUploadException;
+import com.apexsoft.ysprj.applicants.common.util.FileUtil;
+import com.apexsoft.ysprj.applicants.common.util.StringUtil;
 import org.apache.commons.lang.exception.ExceptionUtils;
 import org.apache.ibatis.exceptions.PersistenceException;
 import org.mybatis.spring.MyBatisSystemException;
@@ -10,6 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
+import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -86,6 +90,25 @@ public class GlobalExceptionHandler {
         return ec;
     }
 
+    @ExceptionHandler(FileNoticeException.class)
+    @ResponseBody
+    public ExecutionContext handleFileNoticeException(HttpServletRequest request,
+                                                      FileNoticeException e){
+        ExecutionContext ec = e.getExecutionContext();
+        ErrorInfo eInfo = ec.getErrorInfo();
+        ec.setMessage(messageResolver.getMessage(e.getUserMessageCode()));
+        logger.debug("FileNoticeException Occured :: URL=" + request.getRequestURL());
+        logger.debug("Message:: " + StringUtil.getEmptyIfNull(ec.getErrCode()));
+        logger.debug("ErrorCode:: " + StringUtil.getEmptyIfNull(e.getErrorCode()));
+        logger.debug("Cause:: " + e.getCause());
+        logger.debug("ErrorInfo :: " + eInfo != null ? eInfo.toString() : "");
+        logger.debug("ErrorType :: " + e.toString());
+        logger.debug("FilteredStackTrace ::" +
+                StackTraceFilter.getFilteredCallStack(e.getStackTrace(), "com.apexsoft", false));
+
+        return ec;
+    }
+
     @ExceptionHandler(YSBizException.class)
     public ModelAndView handleBizException(HttpServletRequest request,
                                            YSBizException e){
@@ -95,9 +118,28 @@ public class GlobalExceptionHandler {
         logger.error("YSBizException Occured :: URL=" + request.getRequestURL());
         logger.error("Message:: " + ec.getMessage());
         logger.error("Cause:: " + e.getCause());
-        logger.error("ErrorInfo :: " + (eInfo != null ? eInfo.toString() : "") );
+        logger.error("ErrorInfo :: " + (eInfo != null ? eInfo.toString() : ""));
         logger.error("ErrorType :: " + e.toString());
         logger.error("FilteredStackTrace ::" +
+                StackTraceFilter.getFilteredCallStack(e.getStackTrace(), "com.apexsoft", false));
+
+        mv.addObject("ec", e.getExecutionContext());
+
+        return mv;
+    }
+
+    @ExceptionHandler(YSBizNoticeException.class)
+    public ModelAndView handleBizNoticeException(HttpServletRequest request,
+                                                 YSBizNoticeException e){
+        ModelAndView mv = new ModelAndView(DEFAULT_ERROR_VIEW_NAME);
+        ExecutionContext ec = e.getExecutionContext();
+        ErrorInfo eInfo = ec.getErrorInfo();
+        logger.debug("YSBizNoticeException Occured :: URL=" + request.getRequestURL());
+        logger.debug("Message:: " + ec.getMessage());
+        logger.debug("Cause:: " + e.getCause());
+        logger.debug("ErrorInfo :: " + (eInfo != null ? eInfo.toString() : ""));
+        logger.debug("ErrorType :: " + e.toString());
+        logger.debug("FilteredStackTrace ::" +
                 StackTraceFilter.getFilteredCallStack(e.getStackTrace(), "com.apexsoft", false));
 
         mv.addObject("ec", e.getExecutionContext());
@@ -164,18 +206,37 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
     public ModelAndView handleHttpRequestMethodNotSupportedException(HttpServletRequest request,
-                                                                     Exception e){
+                                                                     HttpRequestMethodNotSupportedException e){
         ModelAndView mv = new ModelAndView(DEFAULT_ERROR_VIEW_NAME);
         ExecutionContext ec = new ExecutionContext();
-        logger.error("HttpRequestMethodNotSupportedException Occured:: URL=" + request.getRequestURL());
-        logger.error("Message:: " + e.getMessage());
-        logger.error("Cause:: " + e.getCause());
-        logger.error("FilteredStackTrace::" +
+        logger.debug("HttpRequestMethodNotSupportedException Occured:: URL=" + request.getRequestURL());
+        logger.debug("Message:: " + e.getMessage());
+        logger.debug("Cause:: " + e.getCause());
+        logger.debug("FilteredStackTrace::" +
                 StackTraceFilter.getFilteredCallStack(e.getStackTrace(), "com.apexsoft", false));
 
         ec.setResult(ExecutionContext.FAIL);
         ec.setMessage(messageResolver.getMessage("U901"));
         ec.setErrCode("ERR9950");
+        mv.addObject("ec", ec);
+
+        return mv;
+    }
+
+    @ExceptionHandler(MissingServletRequestParameterException.class)
+    public ModelAndView handleMissingServletRequestParameterException(HttpServletRequest request,
+                                           MissingServletRequestParameterException e){
+        ModelAndView mv = new ModelAndView(DEFAULT_ERROR_VIEW_NAME);
+        ExecutionContext ec = new ExecutionContext();
+        ErrorInfo eInfo = ec.getErrorInfo();
+        logger.error("MissingServletRequestParameterException Occured :: URL=" + request.getRequestURL());
+        logger.error("Message:: " + ec.getMessage());
+        logger.error("Cause:: " + e.getCause());
+        logger.error("ErrorInfo :: " + (eInfo != null ? eInfo.toString() : ""));
+        logger.error("ErrorType :: " + e.toString());
+        logger.error("FilteredStackTrace ::" +
+                StackTraceFilter.getFilteredCallStack(e.getStackTrace(), "com.apexsoft", false));
+
         mv.addObject("ec", ec);
 
         return mv;
