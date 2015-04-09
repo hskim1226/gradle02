@@ -334,49 +334,39 @@ public class DocumentController {
                             ec.setErrorInfo(new ErrorInfo(errorInfo));
                             throw new FileNoticeException(ec, "U04301", "ERR0060");
                         }
-                        PDDocument pdf = null;
-                        try {
-                            pdf = PDDocument.load(fileItem.getFile());
-//                            try {
-//                                pdf.encrypt("hanmomhanda", "apex2014");
-//                                logger.debug("encrypted");
-//                                pdf.save("/home/hanmomhanda/encryptedPDF.pdf");
-//                            } catch (CryptographyException e) {
-//                                logger.error("pdf is not encrypted");
-//                            } catch (IOException e) {
-//                                logger.error("pdf is not saved to local");
-//                            } catch (COSVisitorException e) {
-//                                logger.error("COSVisitor Exception");
-//                            }
+                        if (fileItem.getOriginalFileName().toLowerCase().endsWith("pdf")) {
+                            PDDocument pdf = null;
+                            try {
+                                pdf = PDDocument.load(fileItem.getFile());
 
-                            if (pdf.isEncrypted()) {
+                                if (pdf.isEncrypted()) {
+                                    ec = new ExecutionContext(ExecutionContext.FAIL);
+                                    Map<String, String> errorInfo = new HashMap<String, String>();
+                                    errorInfo.put("applNo", String.valueOf(document.getApplNo()));
+                                    errorInfo.put("originalFileName", fileItem.getOriginalFileName());
+                                    ec.setErrorInfo(new ErrorInfo(errorInfo));
+                                    throw new FileNoticeException(ec, "U04514", "ERR0060");
+                                }
+                            } catch (IOException e) {
+                                logger.error("Upload PDF is NOT loaded to PDDocument, DocumentController.fileUpload()");
+                                logger.error("modId : " + document.getModId());
+                                logger.error("applNo: " + document.getApplNo());
                                 ec = new ExecutionContext(ExecutionContext.FAIL);
                                 Map<String, String> errorInfo = new HashMap<String, String>();
                                 errorInfo.put("applNo", String.valueOf(document.getApplNo()));
                                 errorInfo.put("originalFileName", fileItem.getOriginalFileName());
                                 ec.setErrorInfo(new ErrorInfo(errorInfo));
-                                throw new FileNoticeException(ec, "U04514", "ERR0060");
-                            }
-                        } catch (IOException e) {
-                            logger.error("Upload PDF is NOT loaded to PDDocument, DocumentController.fileUpload()");
-                            logger.error("modId : " + document.getModId());
-                            logger.error("applNo: " + document.getApplNo());
-                            ec = new ExecutionContext(ExecutionContext.FAIL);
-                            Map<String, String> errorInfo = new HashMap<String, String>();
-                            errorInfo.put("applNo", String.valueOf(document.getApplNo()));
-                            errorInfo.put("originalFileName", fileItem.getOriginalFileName());
-                            ec.setErrorInfo(new ErrorInfo(errorInfo));
-                            throw new FileUploadException(ec, "U04514", "ERR0060");
-                        } finally {
-                            if (pdf != null) {
-                                try {
-                                    pdf.close();
-                                } catch (IOException e) {
-                                    logger.error("PDF is NOT closed, DocumentController.fileUpload()");
+                                throw new FileUploadException(ec, "U04514", "ERR0060");
+                            } finally {
+                                if (pdf != null) {
+                                    try {
+                                        pdf.close();
+                                    } catch (IOException e) {
+                                        logger.error("PDF is NOT closed, DocumentController.fileUpload()");
+                                    }
                                 }
                             }
                         }
-
 
                         FileInputStream fis = null;
                         String originalFileName = fileItem.getOriginalFileName();
