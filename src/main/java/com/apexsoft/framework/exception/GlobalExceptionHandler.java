@@ -13,6 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
+import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -129,11 +130,11 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(YSBizNoticeException.class)
     public ModelAndView handleBizNoticeException(HttpServletRequest request,
-                                           YSBizException e){
+                                                 YSBizNoticeException e){
         ModelAndView mv = new ModelAndView(DEFAULT_ERROR_VIEW_NAME);
         ExecutionContext ec = e.getExecutionContext();
         ErrorInfo eInfo = ec.getErrorInfo();
-        logger.debug("YSBizException Occured :: URL=" + request.getRequestURL());
+        logger.debug("YSBizNoticeException Occured :: URL=" + request.getRequestURL());
         logger.debug("Message:: " + ec.getMessage());
         logger.debug("Cause:: " + e.getCause());
         logger.debug("ErrorInfo :: " + (eInfo != null ? eInfo.toString() : ""));
@@ -205,7 +206,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
     public ModelAndView handleHttpRequestMethodNotSupportedException(HttpServletRequest request,
-                                                                     Exception e){
+                                                                     HttpRequestMethodNotSupportedException e){
         ModelAndView mv = new ModelAndView(DEFAULT_ERROR_VIEW_NAME);
         ExecutionContext ec = new ExecutionContext();
         logger.debug("HttpRequestMethodNotSupportedException Occured:: URL=" + request.getRequestURL());
@@ -217,6 +218,25 @@ public class GlobalExceptionHandler {
         ec.setResult(ExecutionContext.FAIL);
         ec.setMessage(messageResolver.getMessage("U901"));
         ec.setErrCode("ERR9950");
+        mv.addObject("ec", ec);
+
+        return mv;
+    }
+
+    @ExceptionHandler(MissingServletRequestParameterException.class)
+    public ModelAndView handleMissingServletRequestParameterException(HttpServletRequest request,
+                                           MissingServletRequestParameterException e){
+        ModelAndView mv = new ModelAndView(DEFAULT_ERROR_VIEW_NAME);
+        ExecutionContext ec = new ExecutionContext();
+        ErrorInfo eInfo = ec.getErrorInfo();
+        logger.error("MissingServletRequestParameterException Occured :: URL=" + request.getRequestURL());
+        logger.error("Message:: " + ec.getMessage());
+        logger.error("Cause:: " + e.getCause());
+        logger.error("ErrorInfo :: " + (eInfo != null ? eInfo.toString() : ""));
+        logger.error("ErrorType :: " + e.toString());
+        logger.error("FilteredStackTrace ::" +
+                StackTraceFilter.getFilteredCallStack(e.getStackTrace(), "com.apexsoft", false));
+
         mv.addObject("ec", ec);
 
         return mv;

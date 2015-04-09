@@ -5,6 +5,7 @@ import com.apexsoft.framework.message.MessageResolver;
 import com.apexsoft.framework.security.UserSessionVO;
 import com.apexsoft.framework.unused.xpay.service.TransactionVO;
 import com.apexsoft.ysprj.applicants.application.domain.Basis;
+import com.apexsoft.ysprj.applicants.common.util.WebUtil;
 import com.apexsoft.ysprj.applicants.payment.domain.Payment;
 import com.apexsoft.ysprj.applicants.payment.domain.PaymentConfig;
 import com.apexsoft.ysprj.applicants.payment.service.PaymentService;
@@ -50,6 +51,9 @@ public class PaymentController {
     @Value("#{app['pay.casnoteurl']}")
     private String casnoteURL;
 
+    @Autowired
+    WebUtil webUtil;
+
     /**
      * 사용자 이름과 아이디를 결제 확인 화면에 반환
      *
@@ -60,8 +64,12 @@ public class PaymentController {
      * @throws NoSuchAlgorithmException
      */
     @RequestMapping(value = "/confirm", method = RequestMethod.POST)
-    public String confirmPayment( HttpSession httpSession, Payment payment, Basis model ) throws NoSuchAlgorithmException {
+    public String confirmPayment( HttpSession httpSession,
+                                  HttpServletRequest request,
+                                  Payment payment,
+                                  Basis model ) throws NoSuchAlgorithmException {
 
+        webUtil.blockGetMethod(request, model.getApplication());
         SecurityContext sc = (SecurityContext)httpSession.getAttribute("SPRING_SECURITY_CONTEXT");
         Authentication auth = sc.getAuthentication();
         UserSessionVO userSessionVO = (UserSessionVO)auth.getPrincipal();

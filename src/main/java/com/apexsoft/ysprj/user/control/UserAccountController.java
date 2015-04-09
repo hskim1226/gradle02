@@ -2,6 +2,7 @@ package com.apexsoft.ysprj.user.control;
 
 import com.apexsoft.framework.common.vo.ExecutionContext;
 import com.apexsoft.framework.message.MessageResolver;
+import com.apexsoft.ysprj.applicants.common.util.WebUtil;
 import com.apexsoft.ysprj.user.domain.User;
 import com.apexsoft.ysprj.user.service.UserAccountService;
 import com.apexsoft.ysprj.user.validator.UserModValidator;
@@ -52,11 +53,15 @@ public class UserAccountController {
     @Autowired
     private PasswordEncoder encoder;
 
+    @Autowired
+    private WebUtil webUtil;
+
     @RequestMapping(value="/login", method= RequestMethod.GET)
     public ModelAndView displayLoginForm(User user,
                                    BindingResult bindingResult,
                                    ModelAndView mv,
                                    HttpServletRequest request) {
+
         mv.setViewName("user/login");
         if (bindingResult.hasErrors()) return mv;
 
@@ -105,15 +110,29 @@ public class UserAccountController {
         return "user/agreement";
     }
 
-    @RequestMapping(value="/signup"/*, method= RequestMethod.POST*/)
-    public String displaySignUpForm(@RequestParam("privInfoYn") String privInfoYn,
+    @RequestMapping(value="/signup", method= RequestMethod.POST)
+    public ModelAndView displaySignUpForm(@RequestParam("privInfoYn") String privInfoYn,
                                     @RequestParam("userAgreYn") String userAgreYn,
                                     @ModelAttribute("user") User user,
-                                    Model model) {
+                                    HttpServletRequest request,
+                                    BindingResult bindingResult,
+                                    ModelAndView mv) {
+
+        if (bindingResult.hasErrors()) {
+            mv.setViewName("common/error");
+            ExecutionContext ec = new ExecutionContext(ExecutionContext.FAIL);
+            ec.setMessage(messageResolver.getMessage("U901"));
+            ec.setErrCode("ERR9950");
+            mv.addObject("ec", ec);
+
+            return mv;
+        }
+        mv.setViewName("user/signup");
+        webUtil.blockGetMethod(request, user.getUserId());
         user.setPrivInfoYn(privInfoYn);
         user.setUserAgreYn(userAgreYn);
-        model.addAttribute("user", user);
-        return "user/signup";
+        mv.addObject("user", user);
+        return mv;
     }
 
     @RequestMapping(value="/signup/save", method= RequestMethod.POST)
@@ -170,8 +189,11 @@ public class UserAccountController {
      * @return
      */
     @RequestMapping(value = "/getId", method = RequestMethod.POST)
-    public ModelAndView findID(User formData, BindingResult bindingResult, ModelAndView mv) {
-
+    public ModelAndView findID(User formData,
+                               BindingResult bindingResult,
+                               HttpServletRequest request,
+                               ModelAndView mv) {
+        webUtil.blockGetMethod(request, formData.getUserId());
 //        findIdValidator.validate(formData, bindingResult);
         if (bindingResult.hasErrors()) {
             mv.addObject("resultMsg", messageResolver.getMessage("U334"));
@@ -288,8 +310,9 @@ public class UserAccountController {
      * @return
      */
     @RequestMapping(value = "/view", method = RequestMethod.POST)
-    public ModelAndView checkPassword(User user, Principal principal, ModelAndView mv) {
-
+    public ModelAndView checkPassword(User user,
+                                      Principal principal,
+                                      ModelAndView mv) {
         user.setUserId(principal.getName());
         ExecutionContext ec = userAccountService.checkPwd(user);
         if (ExecutionContext.SUCCESS.equals(ec.getResult())) {
@@ -311,8 +334,9 @@ public class UserAccountController {
      * @return
      */
     @RequestMapping(value = "/modify", method = RequestMethod.POST)
-    public ModelAndView modifyUserInfo(User user, BindingResult bindingResult, ModelAndView mv) {
-
+    public ModelAndView modifyUserInfo(User user,
+                                       BindingResult bindingResult,
+                                       ModelAndView mv) {
         userModValidator.validate(user, bindingResult);
         mv.setViewName("user/showDetail");
         if (bindingResult.hasErrors()){
@@ -361,6 +385,7 @@ public class UserAccountController {
                                          BindingResult bindingResult,
                                          ModelAndView mv,
                                          HttpServletRequest request) {
+        webUtil.blockGetMethod(request, user.getUserId());
         mv.setViewName("user/adminLogin");
         if (bindingResult.hasErrors()) return mv;
 

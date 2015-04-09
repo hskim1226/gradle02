@@ -1,13 +1,16 @@
 package com.apexsoft.ysprj.applicants.application.control;
 
+import com.amazonaws.http.HttpRequest;
 import com.apexsoft.framework.common.vo.ExecutionContext;
 import com.apexsoft.framework.exception.ErrorInfo;
 import com.apexsoft.framework.exception.YSBizException;
+import com.apexsoft.framework.exception.YSBizNoticeException;
 import com.apexsoft.framework.message.MessageResolver;
 import com.apexsoft.ysprj.applicants.application.domain.*;
 import com.apexsoft.ysprj.applicants.application.service.BasisService;
 import com.apexsoft.ysprj.applicants.application.validator.BasisValidator;
 import com.apexsoft.ysprj.applicants.common.util.StringUtil;
+import com.apexsoft.ysprj.applicants.common.util.WebUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.encoding.ShaPasswordEncoder;
 import org.springframework.security.crypto.encrypt.Encryptors;
@@ -21,6 +24,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
 import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.io.InputStream;
 import java.security.Principal;
@@ -52,6 +56,9 @@ public class BasisController {
     @Resource(name = "messageResolver")
     MessageResolver messageResolver;
 
+    @Autowired
+    WebUtil webUtil;
+
     private final String TARGET_VIEW = "application/basis";
 
     /**
@@ -62,9 +69,12 @@ public class BasisController {
     @RequestMapping(value="/edit")
     public ModelAndView getBasis(@ModelAttribute Basis basis,
                                  BindingResult bindingResult,
+                                 HttpServletRequest request,
                                  ModelAndView mv) {
         mv.setViewName(TARGET_VIEW);
         if (bindingResult.hasErrors()) return mv;
+
+        webUtil.blockGetMethod(request, basis.getApplication());
 
         ExecutionContext ec = removeHyphen(basisService.retrieveBasis(basis));
         try {
@@ -97,7 +107,10 @@ public class BasisController {
     public ModelAndView saveBasis(@ModelAttribute Basis formData,
                                   Principal principal,
                                   BindingResult bindingResult,
+                                  HttpServletRequest request,
                                   ModelAndView mv) {
+        webUtil.blockGetMethod(request, formData.getApplication());
+
         basisValidator.validate(formData, bindingResult);
         mv.setViewName(TARGET_VIEW);
         if (bindingResult.hasErrors()) {
@@ -199,7 +212,9 @@ public class BasisController {
     public ModelAndView cancelBasis(@ModelAttribute Basis formData,
                                   Principal principal,
                                   BindingResult bindingResult,
+                                    HttpServletRequest request,
                                   ModelAndView mv) {
+        webUtil.blockGetMethod(request, formData.getApplication());
 
         mv.setViewName("application/mylist");
         if (bindingResult.hasErrors()) {
