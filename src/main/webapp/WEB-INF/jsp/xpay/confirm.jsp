@@ -13,7 +13,7 @@
             background-color: #fff;
             color: #111;
             display: none;
-            min-width: 450px;
+            min-width: 500px;
             padding: 25px;
         }
 
@@ -107,19 +107,50 @@
         </form>
     </div>
 
-    <div id="modal_popup3" class="popup1_wrap" style="display:none; margin-top:-240px; margin-left:-250px;">
+    <div id="modal_popup3" class="popup1_wrap" style="display:none; margin-top:-250px; margin-left:-250px;">
         <div id="bpopContent" class="popuphead">
             <h1>
                 <label id="searchTitle"> <spring:message code="U05106"/> </label>
             </h1>
         </div>
-        <div class="popupbody">
-
-            <h4><strong><br>
-                <spring:message code="U05105"/>
-                <br><br>
+        <div class="popupbody" style="display:${pageContext.response.locale == 'en' ?'none':'visible'}">
+            <h4><strong>
+                1. 결제 모듈은 인터넷 익스플로러 (9.0 이상) 32Bit 버전만 지원됩니다.<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;64Bit 버전을 실행중이신 분은 ActiveX 설치에 문제가 발생합니다.<br>
+                2. 크롬, 사파리 등의 웹브라우저에서는 결제를 진행하실 수 없습니다.<br>
+                3. 국내 카드와 UnionPay가 지원됩니다.(해외 비자, 마스터 카드 불가)<br><br>
+                <font color="red" size="3"> [[ 결제가 불가능한 경우 ]] <br><br></font>
+                시스템에서 결제가 불가능한 경우 아래 계좌로 입금 후 메일을 주시기 바랍니다.<br>
+                <font color="blue">&nbsp;&nbsp;입금은행 : 하나은행<br>
+                &nbsp;&nbsp;계좌번호 : 178-910029-30904<br>
+                &nbsp;&nbsp;예금주명 : 에이펙스소프트<br><br></font>
+                <font color="orange">입금 완료 후 아이디와 입금자명을 반드시 기입하여<br>
+                help@apexsoft.co.kr 로 보내주시기 바랍니다.<br></font>
             </strong></h4>
-
+        </div>
+        <div class="popupbody" style="display:${pageContext.response.locale == 'en' ?'visible':'none'}">
+            <h4><strong>
+                1. CANNOT pay with VISA, MASTER.<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;UnionPay and Korean Local Card is supported.<br>
+                2. Internet Explorer (9.0 or above) 32Bit is supported only.<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;You may have problem with ActiveX Installation in 64Bit version.<br>
+                3. Browser except Internet Explorer (like Chrome, Safari, Firefox, ...)<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;is NOT supported in payment.<br><br>
+                <font color="red" size="3"> [[ If payment is impossible in System ]] <br><br></font>
+                &nbsp;&nbsp;1. Paypal Payment<br>
+                <font color="blue">&nbsp;&nbsp;&nbsp;&nbsp;Send email with Gradnet UserID , Paypal account and Name<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;to help@apexsoft.co.kr. Then You can receive Paypal Invoice.<br><br></font>
+                &nbsp;&nbsp;2. Wire Transfer<br>
+                <font color="blue">&nbsp;&nbsp;&nbsp;&nbsp;Send fee to this bank account.<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;After that, You should send email with Gradnet UserID<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;and Transfer Receipt(photo)<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-BANK NAME : HANA BANK<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-BANK SWIFT :  HNBNKRSE XXX<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-BRANCH ADDR.: 97, Wausan-ro, Mapo-gu, Seoul, KOREA<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-BRANCH NAME : SEOGYODONG<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-ACCOUNT NO. : 178-910029-30904<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-ACCOUNT NAME : APEXSOFT<br></font>
+            </strong></h4>
         </div>
         <a class="btn_close b-close" title="닫기"><img src="<spring:eval expression="@app.getProperty('path.static')" />/img/btn_close1.png" alt="닫기"></a>
     </div>
