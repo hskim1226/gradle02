@@ -72,10 +72,11 @@ public class PaymentAdminController {
         Application application = commonDAO.queryForObject("com.apexsoft.ysprj.applicants.application.sqlmap.ApplicationMapper.selectByPrimaryKey",
                                                            applPayTr.getApplNo(), Application.class);
 
-        // 지원상태가 '00010' 만 처리 가능
-        if( application == null || application.getApplStsCode() == null || !application.getApplStsCode().equals("00010")) {
+        // 지원상태가 '00010' / '00021' 만 처리 가능
+        if( application == null || application.getApplStsCode() == null ||
+                (!application.getApplStsCode().equals("00010") && !application.getApplStsCode().equals("00021")) ) {
             ExecutionContext ec = new ExecutionContext(ExecutionContext.FAIL);
-            ec.setMessage("지원상태가 '작성완료(00010)' 이어야 처리 가능합니다.");
+            ec.setMessage("지원상태가 '작성완료(00010/00021)' 이어야 처리 가능합니다.");
             ec.setErrCode("");
             Map<String, String> errorInfo = new HashMap<String, String>();
             errorInfo.put("applNo", applPayTr.getApplNo().toString());
