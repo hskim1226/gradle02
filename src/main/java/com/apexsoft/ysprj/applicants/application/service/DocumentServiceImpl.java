@@ -7,6 +7,7 @@ import com.amazonaws.services.s3.AmazonS3Client;
 import com.apexsoft.framework.common.vo.ExecutionContext;
 import com.apexsoft.framework.exception.ErrorInfo;
 import com.apexsoft.framework.exception.YSBizException;
+import com.apexsoft.framework.exception.YSBizNoticeException;
 import com.apexsoft.framework.message.MessageResolver;
 import com.apexsoft.framework.persistence.dao.CommonDAO;
 import com.apexsoft.ysprj.applicants.application.domain.*;
@@ -190,7 +191,7 @@ public class DocumentServiceImpl implements DocumentService {
                 errorInfo.put("applNo", String.valueOf(applNo));
                 errorInfo.put("userId", application.getUserId());
                 ec.setErrorInfo(new ErrorInfo(errorInfo));
-                throw new YSBizException(ec);
+                throw new YSBizNoticeException(ec);
             }
         }
 

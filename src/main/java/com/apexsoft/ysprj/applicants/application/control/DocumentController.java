@@ -356,7 +356,7 @@ public class DocumentController {
                                 errorInfo.put("applNo", String.valueOf(document.getApplNo()));
                                 errorInfo.put("originalFileName", fileItem.getOriginalFileName());
                                 ec.setErrorInfo(new ErrorInfo(errorInfo));
-                                throw new FileUploadException(ec, "U04514", "ERR0060");
+                                throw new FileNoticeException(ec, "U04514", "ERR0060");
                             } finally {
                                 if (pdf != null) {
                                     try {

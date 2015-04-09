@@ -117,9 +117,28 @@ public class GlobalExceptionHandler {
         logger.error("YSBizException Occured :: URL=" + request.getRequestURL());
         logger.error("Message:: " + ec.getMessage());
         logger.error("Cause:: " + e.getCause());
-        logger.error("ErrorInfo :: " + (eInfo != null ? eInfo.toString() : "") );
+        logger.error("ErrorInfo :: " + (eInfo != null ? eInfo.toString() : ""));
         logger.error("ErrorType :: " + e.toString());
         logger.error("FilteredStackTrace ::" +
+                StackTraceFilter.getFilteredCallStack(e.getStackTrace(), "com.apexsoft", false));
+
+        mv.addObject("ec", e.getExecutionContext());
+
+        return mv;
+    }
+
+    @ExceptionHandler(YSBizNoticeException.class)
+    public ModelAndView handleBizNoticeException(HttpServletRequest request,
+                                           YSBizException e){
+        ModelAndView mv = new ModelAndView(DEFAULT_ERROR_VIEW_NAME);
+        ExecutionContext ec = e.getExecutionContext();
+        ErrorInfo eInfo = ec.getErrorInfo();
+        logger.debug("YSBizException Occured :: URL=" + request.getRequestURL());
+        logger.debug("Message:: " + ec.getMessage());
+        logger.debug("Cause:: " + e.getCause());
+        logger.debug("ErrorInfo :: " + (eInfo != null ? eInfo.toString() : ""));
+        logger.debug("ErrorType :: " + e.toString());
+        logger.debug("FilteredStackTrace ::" +
                 StackTraceFilter.getFilteredCallStack(e.getStackTrace(), "com.apexsoft", false));
 
         mv.addObject("ec", e.getExecutionContext());
@@ -189,10 +208,10 @@ public class GlobalExceptionHandler {
                                                                      Exception e){
         ModelAndView mv = new ModelAndView(DEFAULT_ERROR_VIEW_NAME);
         ExecutionContext ec = new ExecutionContext();
-        logger.error("HttpRequestMethodNotSupportedException Occured:: URL=" + request.getRequestURL());
-        logger.error("Message:: " + e.getMessage());
-        logger.error("Cause:: " + e.getCause());
-        logger.error("FilteredStackTrace::" +
+        logger.debug("HttpRequestMethodNotSupportedException Occured:: URL=" + request.getRequestURL());
+        logger.debug("Message:: " + e.getMessage());
+        logger.debug("Cause:: " + e.getCause());
+        logger.debug("FilteredStackTrace::" +
                 StackTraceFilter.getFilteredCallStack(e.getStackTrace(), "com.apexsoft", false));
 
         ec.setResult(ExecutionContext.FAIL);

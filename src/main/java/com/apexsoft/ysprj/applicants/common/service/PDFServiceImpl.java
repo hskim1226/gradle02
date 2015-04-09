@@ -6,6 +6,7 @@ import com.amazonaws.services.s3.model.*;
 import com.apexsoft.framework.common.vo.ExecutionContext;
 import com.apexsoft.framework.exception.ErrorInfo;
 import com.apexsoft.framework.exception.YSBizException;
+import com.apexsoft.framework.exception.YSBizNoticeException;
 import com.apexsoft.framework.message.MessageResolver;
 import com.apexsoft.framework.persistence.dao.CommonDAO;
 import com.apexsoft.ysprj.applicants.application.domain.ApplicationDocument;
@@ -149,7 +150,7 @@ public class PDFServiceImpl implements PDFService {
             ec.setResult(ExecutionContext.FAIL);
             ec.setMessage(messageResolver.getMessage("U06101"));
             ec.setErrCode("ERR1101");
-            throw new YSBizException(ec);
+            throw new YSBizNoticeException(ec);
         } catch (COSVisitorException e) {
             ec.setResult(ExecutionContext.FAIL);
             ec.setMessage(messageResolver.getMessage("U801"));
@@ -162,11 +163,11 @@ public class PDFServiceImpl implements PDFService {
         try {
 
 
-            logger.error("raw Merge 성공, applNo : " + applNo);
+            logger.debug("raw Merge 성공, applNo : " + applNo);
             File mergedFile = new File(rawMergedFileFullPath);
             mergedPDF = PDDocument.load(mergedFile);
             ec = generatePageNumberedPDF(mergedPDF, numberedMergedFileFullPath, applNo);
-            logger.error("numbering Merge 성공, applNo : " + applNo);
+            logger.debug("numbering Merge 성공, applNo : " + applNo);
 
             PDFMergerUtility lastMergeUtil = new PDFMergerUtility();
             File applicationFormFile = new File(applicationFilePath, applicationFileName);
@@ -176,7 +177,7 @@ public class PDFServiceImpl implements PDFService {
 
             lastMergeUtil.setDestinationFileName(FileUtil.encodeSlash(FileUtil.getFinalMergedFileFullPath(uploadDirFullPath, applNo), tempSlashReplacer));
             lastMergeUtil.mergeDocuments();
-            logger.error("All Merge 성공, applNo : " + applNo);
+            logger.debug("All Merge 성공, applNo : " + applNo);
             File lastMergedFile = new File(lastMergeUtil.getDestinationFileName());
             ObjectMetadata meta = new ObjectMetadata();
             meta.setContentEncoding("UTF-8");
