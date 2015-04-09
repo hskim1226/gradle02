@@ -181,15 +181,17 @@ public class DocumentServiceImpl implements DocumentService {
         int r1, applNo = application.getApplNo();
 
         // 동일한 주민번호로 제출된 원서 존재 여부 확인
-        if (isRgstNoDuplicate(applNo)) {
-            ec.setResult(ExecutionContext.FAIL);
-            ec.setMessage(messageResolver.getMessage("U346"));
-            ec.setErrCode("ERR0042");
-            Map<String, String> errorInfo = new HashMap<String, String>();
-            errorInfo.put("applNo", String.valueOf(applNo));
-            errorInfo.put("userId", application.getUserId());
-            ec.setErrorInfo(new ErrorInfo(errorInfo));
-            throw new YSBizException(ec);
+        if (!"C".equals(application.getAdmsTypeCode()) && !"D".equals(application.getAdmsTypeCode())) {
+            if (isRgstNoDuplicate(applNo)) {
+                ec.setResult(ExecutionContext.FAIL);
+                ec.setMessage(messageResolver.getMessage("U346"));
+                ec.setErrCode("ERR0042");
+                Map<String, String> errorInfo = new HashMap<String, String>();
+                errorInfo.put("applNo", String.valueOf(applNo));
+                errorInfo.put("userId", application.getUserId());
+                ec.setErrorInfo(new ErrorInfo(errorInfo));
+                throw new YSBizException(ec);
+            }
         }
 
         Date date = new Date();
