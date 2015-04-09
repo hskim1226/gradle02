@@ -92,7 +92,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(FileNoticeException.class)
     @ResponseBody
     public ExecutionContext handleFileNoticeException(HttpServletRequest request,
-                                                            FileUploadException e){
+                                                      FileNoticeException e){
         ExecutionContext ec = e.getExecutionContext();
         ErrorInfo eInfo = ec.getErrorInfo();
         ec.setMessage(messageResolver.getMessage(e.getUserMessageCode()));
