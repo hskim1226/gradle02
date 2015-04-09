@@ -55,6 +55,7 @@
                                     <option value="PAY001">계좌 입금 (국내)</option>
                                     <option value="PAY002">계좌 입금 (해외)</option>
                                     <option value="PAY003">Paypal 결제</option>
+                                    <option value="PAY004">가상계좌 오류 처리</option>
                                 </select>
                             </div>
                         </div>
