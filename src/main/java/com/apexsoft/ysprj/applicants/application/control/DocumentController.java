@@ -13,6 +13,7 @@ import com.apexsoft.framework.exception.StackTraceFilter;
 import com.apexsoft.framework.exception.YSBizException;
 import com.apexsoft.framework.message.MessageResolver;
 import com.apexsoft.framework.persistence.file.callback.FileUploadEventCallbackHandler;
+import com.apexsoft.framework.persistence.file.exception.FileNoticeException;
 import com.apexsoft.framework.persistence.file.exception.FileUploadException;
 import com.apexsoft.framework.persistence.file.handler.FileHandler;
 import com.apexsoft.framework.persistence.file.manager.FilePersistenceManager;
@@ -331,7 +332,7 @@ public class DocumentController {
                             Map<String, String> errorInfo = new HashMap<String, String>();
                             errorInfo.put("applNo", String.valueOf(document.getApplNo()));
                             ec.setErrorInfo(new ErrorInfo(errorInfo));
-                            throw new FileUploadException(ec, "U04301", "ERR0060");
+                            throw new FileNoticeException(ec, "U04301", "ERR0060");
                         }
                         PDDocument pdf = null;
                         try {
@@ -354,7 +355,7 @@ public class DocumentController {
                                 errorInfo.put("applNo", String.valueOf(document.getApplNo()));
                                 errorInfo.put("originalFileName", fileItem.getOriginalFileName());
                                 ec.setErrorInfo(new ErrorInfo(errorInfo));
-                                throw new FileUploadException(ec, "U04514", "ERR0060");
+                                throw new FileNoticeException(ec, "U04514", "ERR0060");
                             }
                         } catch (IOException e) {
                             logger.error("Upload PDF is NOT loaded to PDDocument, DocumentController.fileUpload()");

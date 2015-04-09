@@ -4,12 +4,12 @@ import com.apexsoft.framework.common.vo.ExecutionContext;
 import org.springframework.core.NestedRuntimeException;
 
 /**
- * 파일 업로드 모듈에서의 오류.
+ * 파일 핸들링 관련 사용자 알림 또는 디버그 성 예외
  *
  * @author Administrator
  */
 @SuppressWarnings("serial")
-public class FileUploadException extends NestedRuntimeException {
+public class FileNoticeException extends NestedRuntimeException {
 
 	private static final long serialVersionUID = 1L;
 
@@ -23,7 +23,7 @@ public class FileUploadException extends NestedRuntimeException {
 	 *
 	 * @param msg
 	 */
-	public FileUploadException(String msg) {
+	public FileNoticeException(String msg) {
 		super(msg);
 	}
 
@@ -32,16 +32,16 @@ public class FileUploadException extends NestedRuntimeException {
 	 * @param msg
 	 * @param ex
 	 */
-	public FileUploadException(String msg, Exception ex) {
+	public FileNoticeException(String msg, Exception ex) {
 		super(msg, ex);
 	}
 
-	public FileUploadException(ExecutionContext ec) {
+	public FileNoticeException(ExecutionContext ec) {
 		super(ec.getMessage());
 		this.ec = ec;
 	}
 
-	public FileUploadException(ExecutionContext ec, String userMessage, String errorCode) {
+	public FileNoticeException(ExecutionContext ec, String userMessage, String errorCode) {
 		super(ec.getMessage());
 		this.ec = ec;
 		this.userMessageCode = userMessage;

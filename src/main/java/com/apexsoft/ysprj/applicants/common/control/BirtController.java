@@ -117,10 +117,10 @@ public class BirtController {
             ExecutionContext ec = birtService.processBirt(applNo, reportName);
             bigDataMap = (Map<String, Object>)ec.getData();
             mv.addAllObjects(bigDataMap);
-            logger.error("in BirtController bigDataMap clear start");
+            logger.debug("in BirtController bigDataMap clear start");
             bigDataMap.clear();
             bigDataMap = null;
-            logger.error("in BirtController bigDataMap clear end");
+            logger.debug("in BirtController bigDataMap clear end");
         }
 
         return mv;

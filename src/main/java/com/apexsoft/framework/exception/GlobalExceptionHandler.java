@@ -2,7 +2,10 @@ package com.apexsoft.framework.exception;
 
 import com.apexsoft.framework.common.vo.ExecutionContext;
 import com.apexsoft.framework.message.MessageResolver;
+import com.apexsoft.framework.persistence.file.exception.FileNoticeException;
 import com.apexsoft.framework.persistence.file.exception.FileUploadException;
+import com.apexsoft.ysprj.applicants.common.util.FileUtil;
+import com.apexsoft.ysprj.applicants.common.util.StringUtil;
 import org.apache.commons.lang.exception.ExceptionUtils;
 import org.apache.ibatis.exceptions.PersistenceException;
 import org.mybatis.spring.MyBatisSystemException;
@@ -81,6 +84,25 @@ public class GlobalExceptionHandler {
         logger.error("ErrorInfo :: " + eInfo != null ? eInfo.toString() : "");
         logger.error("ErrorType :: " + e.toString());
         logger.error("FilteredStackTrace ::" +
+                StackTraceFilter.getFilteredCallStack(e.getStackTrace(), "com.apexsoft", false));
+
+        return ec;
+    }
+
+    @ExceptionHandler(FileNoticeException.class)
+    @ResponseBody
+    public ExecutionContext handleFileNoticeException(HttpServletRequest request,
+                                                            FileUploadException e){
+        ExecutionContext ec = e.getExecutionContext();
+        ErrorInfo eInfo = ec.getErrorInfo();
+        ec.setMessage(messageResolver.getMessage(e.getUserMessageCode()));
+        logger.debug("FileNoticeException Occured :: URL=" + request.getRequestURL());
+        logger.debug("Message:: " + StringUtil.getEmptyIfNull(ec.getErrCode()));
+        logger.debug("ErrorCode:: " + StringUtil.getEmptyIfNull(e.getErrorCode()));
+        logger.debug("Cause:: " + e.getCause());
+        logger.debug("ErrorInfo :: " + eInfo != null ? eInfo.toString() : "");
+        logger.debug("ErrorType :: " + e.toString());
+        logger.debug("FilteredStackTrace ::" +
                 StackTraceFilter.getFilteredCallStack(e.getStackTrace(), "com.apexsoft", false));
 
         return ec;
