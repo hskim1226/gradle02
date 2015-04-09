@@ -155,7 +155,12 @@ public class PDFController {
             response.setHeader("ETag", meta.getETag());
             response.setHeader("Last-Modified", meta.getLastModified().toString());
 //            아래 헤더 추가하면 파일명은 지정할 수 있으나 미리 보기는 안되고 다운로드만 됨
-//            response.setHeader("Content-Disposition", "attachment; filename=\"" + URLEncoder.encode(FileUtil.getFinalUserDownloadFileName(userId), "UTF-8") + "\"");
+            try {
+                response.setHeader("Content-Disposition", "attachment; filename=\"" + URLEncoder.encode(FileUtil.getFinalUserDownloadFileName(userId), "UTF-8") + "\"");
+            } catch (UnsupportedEncodingException e) {
+                throw new YSBizException(messageResolver.getMessage("U04516"));  /*지원하지 않는 인코딩 방식입니다.*/
+            }
+
         } else {
             ExecutionContext ecError = new ExecutionContext(ExecutionContext.FAIL);
 
