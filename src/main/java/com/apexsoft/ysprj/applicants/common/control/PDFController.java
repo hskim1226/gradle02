@@ -114,11 +114,15 @@ public class PDFController {
             } catch (Exception e) {
                 logger.error("Err in s3.getObject FiledDownload in PDFController");
                 logger.error(e.getMessage());
-                logger.error("bucketName : [" + s3BucketName + "]");
-                logger.error("admsNo : [" + admsNo + "]");
-                logger.error("userId : [" + userId + "]");
-                logger.error("objectKey : [" + FileUtil.getFinalMergedFileFullPath(s3FilePath, applNo) + "]");
-//                throw new YSBizException()
+                ExecutionContext ec = new ExecutionContext(ExecutionContext.FAIL);
+                ec.setMessage(messageResolver.getMessage("U00242"));
+                Map<String, Object> ecMap = new HashMap<String, Object>();
+                ecMap.put("bucketName", "[" + s3BucketName + "]");
+                ecMap.put("admsNo", "[" + admsNo + "]");
+                ecMap.put("userId", "[" + userId + "]");
+                ecMap.put("objectKey", "[" + FileUtil.getFinalMergedFileFullPath(s3FilePath, applNo) + "]");
+                ec.setErrorInfo(new ErrorInfo(ecMap));
+                throw new YSBizException(ec);
             }
 
             InputStream inputStream = object.getObjectContent();
