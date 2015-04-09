@@ -27,6 +27,7 @@ import com.apexsoft.ysprj.applicants.common.service.BirtService;
 import com.apexsoft.ysprj.applicants.common.service.CommonService;
 import com.apexsoft.ysprj.applicants.common.util.FileUtil;
 import com.apexsoft.ysprj.applicants.common.util.StringUtil;
+import com.apexsoft.ysprj.applicants.common.util.WebUtil;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.fileupload.FileUpload;
@@ -92,6 +93,9 @@ public class DocumentController {
     @Value("#{app['s3.bucketName']}")
     private String bucketName;
 
+    @Autowired
+    WebUtil webUtil;
+
     private static final Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
     private final String TARGET_VIEW = "application/document";
 
@@ -147,7 +151,9 @@ public class DocumentController {
     @RequestMapping(value="/edit")
     public ModelAndView getDocument(@ModelAttribute Document formData,
                                     BindingResult bindingResult,
+                                    HttpServletRequest request,
                                     ModelAndView mv) {
+        webUtil.blockGetMethod(request, formData.getApplication());
         mv.setViewName(TARGET_VIEW);
         if (bindingResult.hasErrors()) return mv;
 
@@ -176,6 +182,7 @@ public class DocumentController {
                                      BindingResult bindingResult,
                                      HttpServletRequest request,
                                      ModelAndView mv) {
+        webUtil.blockGetMethod(request, formData.getApplication());
         documentValidator.validate(formData, bindingResult, localeResolver.resolveLocale(request));
         mv.setViewName(TARGET_VIEW);
         if (bindingResult.hasErrors()) {
@@ -223,6 +230,7 @@ public class DocumentController {
                                           BindingResult bindingResult,
                                           HttpServletRequest request,
                                           ModelAndView mv) {
+        webUtil.blockGetMethod(request, formData.getApplication());
         documentValidator.validate(formData, bindingResult, localeResolver.resolveLocale(request));
         mv.setViewName("application/mylist");
         if (bindingResult.hasErrors()) {

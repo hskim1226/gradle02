@@ -16,6 +16,7 @@ import com.apexsoft.ysprj.applicants.application.service.DocumentService;
 import com.apexsoft.ysprj.applicants.common.domain.BirtRequest;
 import com.apexsoft.ysprj.applicants.common.service.PDFService;
 import com.apexsoft.ysprj.applicants.common.util.FileUtil;
+import com.apexsoft.ysprj.applicants.common.util.WebUtil;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,6 +26,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
@@ -52,6 +54,9 @@ public class PDFController {
     @Autowired
     MessageResolver messageResolver;
 
+    @Autowired
+    WebUtil webUtil;
+
     @Value("#{app['file.baseDir']}")
     private String fileBaseDir;
 
@@ -71,7 +76,7 @@ public class PDFController {
      */
     @RequestMapping(value="/merge/applicant")
     @ResponseBody
-    public String mergeByApplicant(BirtRequest birtRequest) {
+    public String mergeByApplicant(BirtRequest birtRequest, HttpServletRequest request) {
         int applNo = birtRequest.getApplication().getApplNo();
         ExecutionContext ec = pdfService.getMergedPDFByApplicants(applNo);
         if (ExecutionContext.SUCCESS.equals(ec.getResult())) {
@@ -94,8 +99,9 @@ public class PDFController {
     @ResponseBody
     public byte[] fileDownload(Basis basis,
                                Principal principal,
+                               HttpServletRequest request,
                                HttpServletResponse response) {
-
+        webUtil.blockGetMethod(request, basis.getApplication());
         String userId = principal.getName();
         Application application = basis.getApplication();
         String admsNo = application.getAdmsNo();

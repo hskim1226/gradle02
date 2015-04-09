@@ -8,6 +8,7 @@ import com.apexsoft.ysprj.applicants.application.domain.LangCareer;
 import com.apexsoft.ysprj.applicants.application.service.LangCareerService;
 import com.apexsoft.ysprj.applicants.application.validator.LangCareerValidator;
 import com.apexsoft.ysprj.applicants.common.service.CommonService;
+import com.apexsoft.ysprj.applicants.common.util.WebUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
 import java.util.HashMap;
 import java.util.List;
@@ -43,6 +45,9 @@ public class LangCareerController {
     @Resource(name = "messageResolver")
     MessageResolver messageResolver;
 
+    @Autowired
+    WebUtil webUtil;
+
     private final String TARGET_VIEW = "application/langCareer";
 
     /**
@@ -56,7 +61,9 @@ public class LangCareerController {
     @RequestMapping(value="/edit")
     public ModelAndView getLangCareer(@ModelAttribute LangCareer formData,
                                       BindingResult bindingResult,
+                                      HttpServletRequest request,
                                       ModelAndView mv) {
+        webUtil.blockGetMethod(request, formData.getApplication());
         mv.setViewName(TARGET_VIEW);
         if (bindingResult.hasErrors()) return mv;
 
@@ -81,7 +88,9 @@ public class LangCareerController {
     public ModelAndView saveLangCareer(@ModelAttribute LangCareer formData,
                                        Principal principal,
                                        BindingResult bindingResult,
+                                       HttpServletRequest request,
                                        ModelAndView mv) {
+        webUtil.blockGetMethod(request, formData.getApplication());
         langCareerValidator.validate(formData, bindingResult);
         ExecutionContext ec = null;
         mv.setViewName(TARGET_VIEW);
