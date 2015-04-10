@@ -13,6 +13,10 @@ import com.apexsoft.framework.persistence.dao.CommonDAO;
 import com.apexsoft.ysprj.applicants.application.domain.*;
 import com.apexsoft.ysprj.applicants.common.util.FileUtil;
 import com.apexsoft.ysprj.applicants.payment.service.PaymentService;
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.encrypt.Encryptors;
@@ -32,6 +36,8 @@ import java.util.*;
  */
 @Service
 public class DocumentServiceImpl implements DocumentService {
+
+    private static final Logger logger = LoggerFactory.getLogger(DocumentServiceImpl.class);
 
     private final static String NAME_SPACE = "com.apexsoft.ysprj.applicants.application.sqlmap.";
 
@@ -176,6 +182,27 @@ public class DocumentServiceImpl implements DocumentService {
 
     @Override
     public ExecutionContext submit( Document document ) {
+
+        DateTime now = new DateTime();
+        DateTimeZone seoul = DateTimeZone.forID("Asia/Seoul");
+        DateTime dueTime = new DateTime(2015, 4, 10, 16, 30, 3, seoul);
+
+        Application tApplication = document.getApplication();
+        String tUserId = tApplication != null ? tApplication.getUserId() : "APPLICATION IS NULL";
+        int tApplNo = tApplication != null ? tApplication.getApplNo() : -1;
+        if (now.isAfter(dueTime)) {
+            logger.error("DUE : " + dueTime);
+            logger.error("NOW : " + now);
+            logger.error("STATUS LATE");
+            logger.error("APPL STATUS CODE : " + tApplication.getApplStsCode());
+            logger.error("userId : [" + tUserId + "], " + "applNo : [" + tApplNo + "]" );
+            ExecutionContext ec = new ExecutionContext(ExecutionContext.FAIL);
+            ec.setMessage(messageResolver.getMessage("U04517"));
+            ec.setErrCode("ERR3011");
+
+            throw new YSBizException(ec);
+        }
+
         ExecutionContext ec = new ExecutionContext();
         Application application = document.getApplication();
 
