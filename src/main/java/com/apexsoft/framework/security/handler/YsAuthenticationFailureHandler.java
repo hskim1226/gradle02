@@ -18,7 +18,7 @@ public class YsAuthenticationFailureHandler implements org.springframework.secur
 	public void onAuthenticationFailure(HttpServletRequest req, HttpServletResponse res, AuthenticationException exception) throws IOException,
             ServletException {
 
-		logger.error(exception.getMessage() + "로그인 실패");
+		logger.debug(exception.getMessage() + "로그인 실패");
 
         res.sendRedirect(req.getContextPath()+"/user/login?auth=fail");
 	}
