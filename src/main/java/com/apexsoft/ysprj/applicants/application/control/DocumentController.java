@@ -183,6 +183,7 @@ public class DocumentController {
                                      HttpServletRequest request,
                                      ModelAndView mv) {
         webUtil.blockGetMethod(request, formData.getApplication());
+        webUtil.blockGetMethod(request, formData.getApplication().getDocChckYn());
         documentValidator.validate(formData, bindingResult, localeResolver.resolveLocale(request));
         mv.setViewName(TARGET_VIEW);
         if (bindingResult.hasErrors()) {
