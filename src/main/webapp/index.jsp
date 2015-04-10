@@ -72,6 +72,7 @@
                     <h1 class="mtit1"><spring:message code="L00001"/> <spring:message code="L00002"/><%--연세대학교 대학원 입학원서 접수 시스템--%></h1>
                     <h2 class="sub_tit1 fs100"><a href="#" class="pr15 lang" datg-lang="ko">Korean</a><img src="<spring:eval expression="@app.getProperty('path.static')" />/img/bu_vline.png" alt=""/><a href="#" class="pl15 lang" data-lang="en">English</a> </h2>
                 </div>
+                <div><span style="font-weight: 900; color: red; font-size: 25px;">현재 입금자가 폭주하여 입금 확인이 지연되고 있습니다.<br/>입금 확인이 지연되더라도, 16:30 전까지 입금을 완료하신 신청건은 모두 유효한 신청으로 완료된 것이므로<br/>별도의 연락이 없더라도 걱정하지 않으셔도 됩니다.</span></div>
                 <article class="col-md-4">
                     <a href="#">
                         <section id="toList" class="main_box1">
