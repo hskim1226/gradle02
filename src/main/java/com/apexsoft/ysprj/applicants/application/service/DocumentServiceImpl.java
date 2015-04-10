@@ -185,7 +185,7 @@ public class DocumentServiceImpl implements DocumentService {
 
         DateTime now = new DateTime();
         DateTimeZone seoul = DateTimeZone.forID("Asia/Seoul");
-        DateTime dueTime = new DateTime(2015, 4, 10, 18, 00, 3, seoul);
+        DateTime dueTime = new DateTime(2015, 4, 10, 18, 50, 3, seoul);
 
         Application tApplication = document.getApplication();
         String tUserId = tApplication != null ? tApplication.getUserId() : "APPLICATION IS NULL";
