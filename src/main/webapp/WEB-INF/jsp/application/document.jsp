@@ -395,6 +395,7 @@
                                 <span class="inline-notice"><spring:message code="U04117"/></span><%--4. 문서 크기는 A4 크기로 생성하여 첨부하셔야 합니다.--%><br/>
                                 <span class="inline-notice-red-big"><spring:message code="U04124"/></span><%--5. 암호화 된 PDF는 제출하시면 안됩니다.--%><br/>
                                 <span class="inline-notice-small"><spring:message code="U04125"/></span><%--예를 들어 TOEFL iBT 성적표의 경우 비밀번호는 없지만, 파일 자체는 암호화 되어 있습니다.--%><br/>
+                                <span class="inline-notice-red-big"><spring:message code="U04126"/></span><%--6. 파일명에 '/'나 '\'와 같은 특수문자가 있으면 정상 동작하지 않을 수 있으니, 제거 후 올려 주세요.--%><br/>
                                 </p>
 
                                 <p><spring:message code="U04118"/><%--인터넷에서 '한글 문서 PDF 변환'으로 검색하면 아래 한글 문서를 PDF 파일로 변환할 수 있는--%><br/>
