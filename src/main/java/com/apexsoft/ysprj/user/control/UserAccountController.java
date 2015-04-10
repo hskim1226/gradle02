@@ -385,7 +385,7 @@ public class UserAccountController {
                                          BindingResult bindingResult,
                                          ModelAndView mv,
                                          HttpServletRequest request) {
-        webUtil.blockGetMethod(request, user.getUserId());
+//        webUtil.blockGetMethod(request, user.getUserId());
         mv.setViewName("user/adminLogin");
         if (bindingResult.hasErrors()) return mv;
 
