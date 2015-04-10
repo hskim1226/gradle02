@@ -4,6 +4,7 @@ import com.apexsoft.framework.common.vo.ExecutionContext;
 import com.apexsoft.framework.message.MessageResolver;
 import com.apexsoft.framework.security.UserSessionVO;
 import com.apexsoft.framework.unused.xpay.service.TransactionVO;
+import com.apexsoft.ysprj.applicants.application.domain.Application;
 import com.apexsoft.ysprj.applicants.application.domain.Basis;
 import com.apexsoft.ysprj.applicants.common.util.WebUtil;
 import com.apexsoft.ysprj.applicants.payment.domain.Payment;
@@ -159,7 +160,10 @@ public class PaymentController {
     @RequestMapping(value = "/process", method = RequestMethod.POST)
     public String processXPay( Payment payment, Basis model, @ModelAttribute TransactionVO transactionVO ) throws NoSuchAlgorithmException {
 
-        payment.setApplNo(model.getApplication().getApplNo());
+//        payment.setApplNo(model.getApplication().getApplNo());
+        Application application = model.getApplication();
+        int applNo = application.getApplNo();
+        payment.setApplNo(applNo);
         String respStr = paymentService.executePayment(payment, transactionVO);
 
         if( respStr.equals("SC0040") ) {
