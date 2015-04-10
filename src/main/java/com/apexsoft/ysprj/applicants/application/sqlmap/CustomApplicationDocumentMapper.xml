@@ -665,6 +665,7 @@
         from APPL_DOC
         where APPL_NO = #{applNo,jdbcType=INTEGER}
         and DOC_ITEM_NAME = '지원서'
+        and DOC_ITEM_CODE IS NULL
         order by DOC_SEQ DESC
     </select>
 </mapper>

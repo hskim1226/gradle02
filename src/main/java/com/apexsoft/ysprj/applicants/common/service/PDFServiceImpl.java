@@ -13,6 +13,8 @@ import com.apexsoft.ysprj.applicants.application.domain.ApplicationDocument;
 import com.apexsoft.ysprj.applicants.application.service.DocumentService;
 import com.apexsoft.ysprj.applicants.common.domain.ParamForPDFDocument;
 import com.apexsoft.ysprj.applicants.common.util.FileUtil;
+import com.apexsoft.ysprj.applicants.common.util.StringUtil;
+import org.apache.commons.io.FileUtils;
 import org.apache.pdfbox.exceptions.COSVisitorException;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
@@ -91,10 +93,10 @@ public class PDFServiceImpl implements PDFService {
         for (ApplicationDocument aDoc : pdfList) {
             String filePath = aDoc.getFilePath();
             String fileName = aDoc.getFileName();
-            if ("지원서".equals(aDoc.getDocItemName())) {
+            if ("지원서".equals(aDoc.getDocItemName()) && StringUtil.getEmptyIfNull(aDoc.getDocItemCode()).equals(StringUtil.EMPTY_STRING)) {
                 applicationFilePath = filePath;
                 applicationFileName = fileName;
-            } else if ("수험표".equals(aDoc.getDocItemName())) {
+            } else if ("수험표".equals(aDoc.getDocItemName()) && StringUtil.getEmptyIfNull(aDoc.getDocItemCode()).equals(StringUtil.EMPTY_STRING)) {
 //                수험표는 합치지 않으므로 주석처리
 //                slipFilePath = filePath;
 //                slipFileName = fileName;
@@ -171,6 +173,12 @@ public class PDFServiceImpl implements PDFService {
 
             PDFMergerUtility lastMergeUtil = new PDFMergerUtility();
             File applicationFormFile = new File(applicationFilePath, applicationFileName);
+//            File applicationFormFile = new File(applicationFilePath);
+//            if (!applicationFormFile.exists()) {
+//                S3Object tObject = s3.getObject(new GetObjectRequest(s3BucketName, applicationFilePath));
+//                InputStream tInputStream = tObject.getObjectContent();
+//                FileUtils.copyInputStreamToFile(tInputStream, applicationFormFile);
+//            }
             File numberedMergedFile = new File(numberedMergedFileFullPath);
             lastMergeUtil.addSource(applicationFormFile);
             lastMergeUtil.addSource(numberedMergedFile);
@@ -202,6 +210,15 @@ public class PDFServiceImpl implements PDFService {
                     logger.error("ObjectKey : [" + FileUtil.getS3PathFromLocalFullPath(lastMergeUtil.getDestinationFileName(), fileBaseDir) + "]");
                     throw new YSBizException(e);
                 }
+            } else {
+                logger.error("Err in preparing uploading final file to S3");
+                logger.error("s3BucketName : [" + s3BucketName + "]");
+                logger.error("applNo : [" + applNo + "]");
+                logger.error("ObjectKey : [" + FileUtil.getS3PathFromLocalFullPath(lastMergeUtil.getDestinationFileName(), fileBaseDir) + "]");
+                ExecutionContext ec1 = new ExecutionContext(ExecutionContext.FAIL);
+                ec1.setErrCode("ERR1102");
+                ec1.setMessage(messageResolver.getMessage("U04518"));
+                throw new YSBizException(ec1);
             }
 
 

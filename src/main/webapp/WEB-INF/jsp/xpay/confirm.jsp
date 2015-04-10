@@ -126,7 +126,6 @@
                 &nbsp;&nbsp;예금주명 : 에이펙스소프트<br><br></font>
                 <font color="orange">입금 완료 후 아이디와 입금자명을 반드시 기입하여<br>
                 help@apexsoft.co.kr 로 보내주시기 바랍니다.<br></font>
-                <span style="font-weight: 900; color: red; font-size: 25px;">현재 입금자가 폭주하여 입금 확인이 지연되고 있습니다.<br/>입금 확인이 지연되더라도, 시스템에서 원서를 제출하시고 16:30 전까지 입금을 완료하신 신청건은 모두 유효한 신청으로 완료된 것이므로<br/>별도의 연락이 없더라도 걱정하지 않으셔도 됩니다.</span>
             </strong></h4>
         </div>
         <div class="popupbody" style="display:${pageContext.response.locale == 'en' ?'visible':'none'}">
