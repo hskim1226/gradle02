@@ -51,11 +51,38 @@
     .main_box1 {
         cursor: pointer;
     }
+    .expire-notice {
+        width: 800px;
+        left: 50%;
+        margin-left: -400px;
+        margin-top: 200px;
+        position: fixed;
+        text-align: center;
+        z-index: 999;
+    }
+    #notice-container {
+        background-color: rgba(240, 240, 240, 0.7);
+        filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr='#a7ffffff', endColorstr='#a7ffffff'); /* IE */
+        padding-top: 10%;
+        padding-bottom: 6%;
+        color: #3355cc;
+        font-weight: 900;
+        font-size: 2em;
+        line-height: 1.5em;
+    }
     </style>
 </head>
 <body data-spy="scroll" data-target="#scrollTarget" data-offset="150" style="background:#fff;padding-top:0;">
 <!-- globalWrapper -->
 <div id="globalWrapper" class="localscroll">
+
+    <!-- expire-notice -->
+    <div class="expire-notice">
+        <div class="col-sm-12" id="notice-container">
+            <div class="col-sm-12">입학원서 접수가 마감되었습니다.</div>
+            <div class="col-sm-12">원서 신청을 마치신 분들만 내 원서 메뉴를 통해<br/>작성하신 원서를 확인하실 수 있습니다.</div>
+        </div>
+    </div>
 
     <!-- main content -->
     <div id="paralaxSlice1" data-stellar-background-ratio="0.5">
@@ -65,6 +92,7 @@
             </div-->
         </div>
     </div>
+
     <section class="slice">
         <div class="container">
             <div class="row">
@@ -73,12 +101,12 @@
                     <h2 class="sub_tit1 fs100"><a href="#" class="pr15 lang" datg-lang="ko">Korean</a><img src="<spring:eval expression="@app.getProperty('path.static')" />/img/bu_vline.png" alt=""/><a href="#" class="pl15 lang" data-lang="en">English</a> </h2>
                 </div>
                 <article class="col-md-4">
-                    <a href="#">
+                    <%--<a href="#">--%>
                         <section id="toList" class="main_box1">
                             <h2 class="mtit1"><spring:message code="L00003"/><%--원서접수--%></h2>
                             <p class="txt1 word-keep-all"><spring:message code="L00004"/><%--연세대학교 대학원 입학 신청서를 작성할 수 있습니다.--%></p>
                         </section>
-                    </a>
+                    <%--</a>--%>
                 </article>
                 <article class="col-md-4">
                     <%--<a href="#">--%>
@@ -89,12 +117,12 @@
                     <%--</a>--%>
                 </article>
                 <article class="col-md-4">
-                    <a href="#">
+                    <%--<a href="#">--%>
                         <section id="toSignUp" class="main_box1">
                             <h2 class="mtit1"><spring:message code="L00007"/><%--회원가입--%></h2>
                             <p class="txt1 word-keep-all"><spring:message code="L00008"/><%--연세대학교 대학원 입학 신청 시스템의 회원으로 가입할 수 있습니다.--%></p>
                         </section>
-                    </a>
+                    <%--</a>--%>
                 </article>
             </div>
         </div>
@@ -169,9 +197,9 @@
         form.method = 'post';
         form.submit();
     });
-    $('#toList').click(function(e){e.preventDefault(); location.href='${contextPath}/application/admsList'});
+    <%--$('#toList').click(function(e){e.preventDefault(); location.href='${contextPath}/application/admsList'});--%>
     $('#toMyList').click(function(e){e.preventDefault(); location.href='${contextPath}/application/mylist'});
-    $('#toSignUp').click(function(e){e.preventDefault(); location.href='${contextPath}/user/agreement'});
+    <%--$('#toSignUp').click(function(e){e.preventDefault(); location.href='${contextPath}/user/agreement'});--%>
     <%-- 단어 잘림 방지 --%>
     $('.word-keep-all').wordBreakKeepAll();
 </script>
