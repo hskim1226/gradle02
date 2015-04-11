@@ -13,10 +13,12 @@ import com.apexsoft.ysprj.applicants.common.service.PDFService;
 import com.apexsoft.ysprj.applicants.common.util.FileUtil;
 import com.apexsoft.ysprj.applicants.payment.domain.ApplicationPaymentCurStat;
 import com.apexsoft.ysprj.applicants.payment.domain.ApplicationPaymentTransaction;
+import com.apexsoft.ysprj.applicants.payment.domain.CustomApplicationDocumentResult;
 import com.apexsoft.ysprj.applicants.payment.service.PaymentService;
 import com.snowtide.PDF;
 import com.snowtide.pdf.Document;
 import com.snowtide.pdf.OutputTarget;
+import com.snowtide.pdf.layout.BlockParent;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -30,6 +32,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -174,6 +177,11 @@ public class PaymentAdminController {
         map.put("fileWithoutApplId", 0);
         map.put("fileNotFound", 0);
         String notPaidApplId = "지원 미완료";
+        String applIdTitle = "수험번호";
+        String applIdNone = "NONE";
+        String comma = ", ";
+        String strY = "Y";
+        String strN = "N";
         String adminID = principal.getName();
         if (!adminID.equals("Apex1234")) {
             ExecutionContext ec = new ExecutionContext(ExecutionContext.FAIL);
@@ -185,7 +193,9 @@ public class PaymentAdminController {
             throw new YSBizException(ec);
         } else {
             List<Application> paidApplList = paymentService.retrieveApplByApplStsCode("00020");
+            commonDAO.delete("com.apexsoft.ysprj.applicants.payment.sqlmap.CustomApplicationDocumentResultMapper.deleteAllRowsFromApplDocRslt");
             int fileWithApplId = 0, fileWithoutApplId = 0, fileNotFound = 0;
+            List<CustomApplicationDocumentResult> docRsltList = new ArrayList<CustomApplicationDocumentResult>();
             for (Application appl : paidApplList) {
                 String pdfFileFulPath = FileUtil.getFinalMergedFileFullPath(MERGE_TEST_DIR, MID_PATH, appl);
                 File mergedPdfFile = new File(pdfFileFulPath);
@@ -197,6 +207,13 @@ public class PaymentAdminController {
                     Document pdf = PDF.open(mergedPdfFile);
                     StringBuilder text = new StringBuilder(100);
                     pdf.getPage(0).pipe(new OutputTarget(text));
+                    String applId = null;
+//                    BlockParent bp = pdf.getPage(0).getTextContent();
+//                    System.out.println(bp.getChild(0).getLineCnt());
+//                    System.out.println(bp.getChildCnt());
+//                    System.out.println(bp.getChild(0));
+//                    System.out.println(bp.getChild(1).getLineCnt());
+//                    System.out.println("##################################################################");
 
                     try {
                         pdf.close();
@@ -205,16 +222,34 @@ public class PaymentAdminController {
                         ec.setErrCode("PDFTextStream Document Closing Error");
                         throw new YSBizException(ec);
                     }
-                    System.err.println(text);
-                    if (text.indexOf(notPaidApplId) < 0)
+//                    System.err.println(text);
+                    if (text.indexOf(notPaidApplId) < 0) {
                         fileWithApplId++;
-                    else
+                        int posOfapplId = text.indexOf(applIdTitle) + applIdTitle.length() + 5;
+                        int lengthOfapplId = 10;
+                        applId = text.substring(posOfapplId, posOfapplId + lengthOfapplId);
+                    }
+                    else {
                         fileWithoutApplId++;
+                        applId = applIdNone;
+                    }
 
                     // insert FILE_YN = Y, APPL_ID = $값
+                    CustomApplicationDocumentResult aDocRslt = new CustomApplicationDocumentResult();
+                    aDocRslt.setApplNo(appl.getApplNo());
+                    aDocRslt.setFileYn(strY);
+                    aDocRslt.setApplId(applId);
+                    System.out.println(new StringBuilder().append(aDocRslt.getApplNo()).append(comma).append(aDocRslt.getFileYn()).append(comma).append(aDocRslt.getApplId()));
+                    docRsltList.add(aDocRslt);
                 } catch (IOException e) {
                     // insert FILE_YN = N
                     fileNotFound++;
+                    CustomApplicationDocumentResult aDocRslt = new CustomApplicationDocumentResult();
+                    aDocRslt.setApplNo(appl.getApplNo());
+                    aDocRslt.setFileYn(strN);
+                    aDocRslt.setApplId(applIdNone);
+                    System.out.println(new StringBuilder().append(aDocRslt.getApplNo()).append(comma).append(aDocRslt.getFileYn()).append(comma).append(aDocRslt.getApplId()));
+                    docRsltList.add(aDocRslt);
                 } finally {
                     if (fis != null) {
                         try {
@@ -227,6 +262,9 @@ public class PaymentAdminController {
                     }
                 }
             }
+            Map<String, Object> dataMap = new HashMap<String, Object>();
+            dataMap.put("paramList", docRsltList)
+            commonDAO.insert("com.apexsoft.ysprj.applicants.payment.sqlmap.CustomApplicationDocumentResultMapper.insertRows", dataMap);
             map.put("totalPaidAppl", paidApplList.size());
             map.put("fileWithApplId", fileWithApplId);
             map.put("fileWithoutApplId", fileWithoutApplId);

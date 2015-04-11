@@ -304,7 +304,7 @@ public class CommonDAOMyBatisImpl implements CommonDAO {
 			}
 
 			LOGGER.debug("Statement[{}] Executed ({}) : {} Records retrieved.",
-					new Object[] { statement.getDataStatementId(), new Date(), list == null ? 0 : list.size() });
+					new Object[]{statement.getDataStatementId(), new Date(), list == null ? 0 : list.size()});
 
 			return new PageInfo<R>(totalRowCount, list);
 
@@ -344,6 +344,11 @@ public class CommonDAOMyBatisImpl implements CommonDAO {
 	@Override
 	public Integer delete(String statementId, Object parameter) {
 		return this.template.delete(statementId, parameter);
+	}
+
+	@Override
+	public Integer delete(String statementId) {
+		return this.template.delete(statementId);
 	}
 
     @Override

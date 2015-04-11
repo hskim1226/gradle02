@@ -237,6 +237,8 @@ public interface CommonDAO {
 	 */
 	Integer delete(String statementId, Object parameter);
 
+	Integer delete(String statementId);
+
     /**
      * 도메인 객체 단건 입력
      *
