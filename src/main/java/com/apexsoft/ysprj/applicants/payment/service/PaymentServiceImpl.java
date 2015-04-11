@@ -23,6 +23,7 @@ import java.text.FieldPosition;
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by cosb071 on 15. 1. 22.
@@ -432,7 +433,7 @@ public class PaymentServiceImpl implements PaymentService {
 
         int lastSeq = 0;
         lastSeq = commonDAO.queryForInt(NAME_SPACE + "CustomApplicationPaymentTransactionMapper.selectMaxSeqByApplNo", applPayTr.getApplNo());
-        applPayTr.setPaySeq(lastSeq+1);
+        applPayTr.setPaySeq(lastSeq + 1);
 
         commonDAO.insertItem(applPayTr, NAME_SPACE, "ApplicationPaymentTransactionMapper");
 
@@ -704,4 +705,11 @@ public class PaymentServiceImpl implements PaymentService {
         return applId;
     }
 
+    public List<Application> retrieveApplByApplStsCode(String applStsCode) {
+        List<Application> applList = commonDAO.queryForList(
+                "com.apexsoft.ysprj.applicants.application.sqlmap.CustomApplicationMapper.selectApplListByApplStsCode",
+                applStsCode,
+                Application.class);
+        return applList;
+    }
 }

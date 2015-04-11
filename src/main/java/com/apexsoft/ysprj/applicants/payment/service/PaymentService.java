@@ -7,6 +7,8 @@ import com.apexsoft.ysprj.applicants.payment.domain.ApplicationPaymentCurStat;
 import com.apexsoft.ysprj.applicants.payment.domain.ApplicationPaymentTransaction;
 import com.apexsoft.ysprj.applicants.payment.domain.Payment;
 
+import java.util.List;
+
 /**
  * Created by cosb071 on 15. 1. 22.
  *
@@ -33,5 +35,7 @@ public interface PaymentService {
     //ExecutionContext registerPaymentResultLog( XPayClient xpay );
 
     //ExecutionContext registerPaymentSuccess( Payment payment );
+
+    List<Application> retrieveApplByApplStsCode(String applStsCode);
 
 }

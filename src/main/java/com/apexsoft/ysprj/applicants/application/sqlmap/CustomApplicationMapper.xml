@@ -447,4 +447,12 @@
         SELECT RGST_HASH FROM APPL
         WHERE APPL_STS_CODE IN ('00010', '00020', '00021', '00030')
     </select>
+
+
+    <select id="selectApplListByApplStsCode" resultType="com.apexsoft.ysprj.applicants.application.domain.Application" parameterType="java.lang.Integer" >
+        select *
+        from APPL a
+        where a.APPL_STS_CODE = #{applStsCode,jdbcType=VARCHAR};
+    </select>
+
 </mapper>

@@ -1,5 +1,6 @@
 package com.apexsoft.ysprj.applicants.common.util;
 
+import com.apexsoft.ysprj.applicants.application.domain.Application;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -8,6 +9,15 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class FileUtil {
+
+    private static final String SLASH = "/";
+    private static final String MERGED_PDF = "-merged.pdf";
+    private static final String NUMBERED_PDF_WITHOUT_SLIP = "-merged-numbered-wo-slip-appl.pdf";
+    private static final String MERGED_FINAL_PDF = "-merged-final.pdf";
+    private static final String ALL_FILE_PDF = "-all-fle.pdf";
+    private static final String APPLICATION_SLIP_PREFIX = "application_slip_";
+    private static final String APPLICATION_FORM_PREFIX = "application_form_";
+
 
     public static String getUploadDirectory(String admsNo, String userId, int applNo) {
         return new StringBuilder()
@@ -86,5 +96,28 @@ public class FileUtil {
             return path.substring(0, posColon) + encoded;
         }
         return path;
+    }
+
+    public static String getFinalMergedFileFullPath(String bucketName, String midPath, Application appl) {
+        int applNo = appl.getApplNo();
+        String admsNo = appl.getAdmsNo();
+        String userId = appl.getUserId();
+        String pathToPdfDir = new StringBuilder()
+                .append(bucketName)
+                .append(SLASH)
+                .append(midPath)
+                .append(SLASH)
+                .append(admsNo)
+                .append(SLASH)
+                .append(userId.substring(0, 1))
+                .append(SLASH)
+                .append(userId)
+                .append(SLASH)
+                .append(String.valueOf(applNo))
+                .append(SLASH)
+                .append(applNo)
+                .append("-merged-final.pdf")
+                .toString();
+        return pathToPdfDir;
     }
 }

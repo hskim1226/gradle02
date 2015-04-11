@@ -10,16 +10,25 @@ import com.apexsoft.ysprj.applicants.application.domain.CustomMyList;
 import com.apexsoft.ysprj.applicants.application.domain.ParamForApplication;
 import com.apexsoft.ysprj.applicants.common.service.BirtService;
 import com.apexsoft.ysprj.applicants.common.service.PDFService;
+import com.apexsoft.ysprj.applicants.common.util.FileUtil;
 import com.apexsoft.ysprj.applicants.payment.domain.ApplicationPaymentCurStat;
 import com.apexsoft.ysprj.applicants.payment.domain.ApplicationPaymentTransaction;
 import com.apexsoft.ysprj.applicants.payment.service.PaymentService;
+import com.snowtide.PDF;
+import com.snowtide.pdf.Document;
+import com.snowtide.pdf.OutputTarget;
+import org.apache.pdfbox.pdmodel.PDDocument;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.security.Principal;
 import java.util.HashMap;
 import java.util.List;
@@ -46,6 +55,12 @@ public class PaymentAdminController {
 
     @Autowired
     private CommonDAO commonDAO;
+
+    @Value("#{app['file.mergeTestDir']}")
+    private String MERGE_TEST_DIR;
+
+    @Value("#{app['s3.midPath']}")
+    private String MID_PATH;
 
     @RequestMapping(value="/paymanual")
     public ModelAndView paymanual( Principal principal, ModelAndView mv ) {
@@ -147,6 +162,78 @@ public class PaymentAdminController {
         }
 
         return "xpay/resultpdf";
+    }
+
+    @RequestMapping(value="/analyze/pdf")
+    public ModelAndView analyzeFinalPDF(Principal principal,
+                                        ModelAndView mv) {
+        mv.setViewName("xpay/appldocresult");
+        Map<String, Integer> map = new HashMap<String, Integer>();
+        map.put("totalPaidAppl", 0);
+        map.put("fileWithApplId", 0);
+        map.put("fileWithoutApplId", 0);
+        map.put("fileNotFound", 0);
+        String notPaidApplId = "지원 미완료";
+        String adminID = principal.getName();
+        if (!adminID.equals("Apex1234")) {
+            ExecutionContext ec = new ExecutionContext(ExecutionContext.FAIL);
+            ec.setMessage(messageResolver.getMessage("U902"));
+            ec.setErrCode("ERR0801");
+            Map<String, String> errorInfo = new HashMap<String, String>();
+            errorInfo.put("adminID", adminID);
+            ec.setErrorInfo(new ErrorInfo(errorInfo));
+            throw new YSBizException(ec);
+        } else {
+            List<Application> paidApplList = paymentService.retrieveApplByApplStsCode("00020");
+            int fileWithApplId = 0, fileWithoutApplId = 0, fileNotFound = 0;
+            for (Application appl : paidApplList) {
+                String pdfFileFulPath = FileUtil.getFinalMergedFileFullPath(MERGE_TEST_DIR, MID_PATH, appl);
+                File mergedPdfFile = new File(pdfFileFulPath);
+                FileInputStream fis = null;
+
+                try {
+                    fis = new FileInputStream(mergedPdfFile);
+
+                    Document pdf = PDF.open(mergedPdfFile);
+                    StringBuilder text = new StringBuilder(100);
+                    pdf.getPage(0).pipe(new OutputTarget(text));
+
+                    try {
+                        pdf.close();
+                    } catch (IOException e) {
+                        ExecutionContext ec = new ExecutionContext(ExecutionContext.FAIL);
+                        ec.setErrCode("PDFTextStream Document Closing Error");
+                        throw new YSBizException(ec);
+                    }
+                    System.err.println(text);
+                    if (text.indexOf(notPaidApplId) < 0)
+                        fileWithApplId++;
+                    else
+                        fileWithoutApplId++;
+
+                    // insert FILE_YN = Y, APPL_ID = $값
+                } catch (IOException e) {
+                    // insert FILE_YN = N
+                    fileNotFound++;
+                } finally {
+                    if (fis != null) {
+                        try {
+                            fis.close();
+                        } catch (IOException e) {
+                            ExecutionContext ec = new ExecutionContext(ExecutionContext.FAIL);
+                            ec.setErrCode("Error While closing a file");
+                            throw new YSBizException(ec);
+                        }
+                    }
+                }
+            }
+            map.put("totalPaidAppl", paidApplList.size());
+            map.put("fileWithApplId", fileWithApplId);
+            map.put("fileWithoutApplId", fileWithoutApplId);
+            map.put("fileNotFound", fileNotFound);
+        }
+        mv.addAllObjects(map);
+        return mv;
     }
 
 }
