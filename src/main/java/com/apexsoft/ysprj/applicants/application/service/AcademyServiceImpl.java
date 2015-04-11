@@ -7,6 +7,7 @@ import com.apexsoft.framework.message.MessageResolver;
 import com.apexsoft.framework.persistence.dao.CommonDAO;
 import com.apexsoft.ysprj.applicants.application.domain.*;
 import com.apexsoft.ysprj.applicants.common.service.CommonService;
+import com.apexsoft.ysprj.applicants.common.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -127,7 +128,8 @@ public class AcademyServiceImpl implements AcademyService {
 
         Application application = academy.getApplication();
         int applNo = application.getApplNo();
-        String userId = application.getUserId();
+        String userId = StringUtil.getEmptyIfNull(application.getUserId());
+        String modId = application.getModId();
 
         List<CustomApplicationAcademy> collegeList = academy.getCollegeList();
         List<CustomApplicationAcademy> graduateList = academy.getGraduateList();
@@ -181,6 +183,7 @@ public class AcademyServiceImpl implements AcademyService {
             Map<String, String> errorInfo = new HashMap<String, String>();
             errorInfo.put("applNo", String.valueOf(applNo));
             errorInfo.put("userId", userId);
+            errorInfo.put("modId", modId);
             ec.setErrorInfo(new ErrorInfo(errorInfo));
             throw new YSBizException(ec);
         }
@@ -264,7 +267,8 @@ public class AcademyServiceImpl implements AcademyService {
                 if ( seqMap.containsKey(acadSeqFromView) ) { //화면 seq 값이 DB에도 있는 경우
                     if (UserCUDType.UPDATE.equals(academyFromView.getUserCUDType())) {
                         academyFromView.setApplNo(applNo);
-                        academyFromView.setModId(application.getUserId());
+//                        academyFromView.setModId(application.getUserId());
+                        academyFromView.setModId(application.getModId());
                         academyFromView.setModDate(date);
                         u1 += commonDAO.updateItem(academyFromView, NAME_SPACE, "ApplicationAcademyMapper");
                         seqMap.remove(acadSeqFromView);
@@ -298,7 +302,8 @@ public class AcademyServiceImpl implements AcademyService {
                         && !"".equals(academyFromView.getSchlCntrCode())) {
                     academyFromView.setApplNo(applNo);
                     academyFromView.setAcadSeq(++lastSeq);
-                    academyFromView.setCreId(application.getUserId());
+//                    academyFromView.setCreId(application.getUserId());
+                    academyFromView.setCreId(application.getModId());
                     academyFromView.setCreDate(date);
                     c1 += commonDAO.insertItem(academyFromView, NAME_SPACE, "ApplicationAcademyMapper");
                 }

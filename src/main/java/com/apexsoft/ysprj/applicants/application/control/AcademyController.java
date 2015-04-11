@@ -101,7 +101,7 @@ public class AcademyController {
 
         Application application = formData.getApplication();
 
-        application.setUserId(userId);
+//        application.setUserId(userId);
         application.setModId(userId);
 
         List<CustomApplicationAcademy> collegeList = formData.getCollegeList();
