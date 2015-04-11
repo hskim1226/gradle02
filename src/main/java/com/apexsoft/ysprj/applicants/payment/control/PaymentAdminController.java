@@ -32,10 +32,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.security.Principal;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by cosb071 on 15. 4. 7.
@@ -170,6 +167,7 @@ public class PaymentAdminController {
     @RequestMapping(value="/analyze/pdf")
     public ModelAndView analyzeFinalPDF(Principal principal,
                                         ModelAndView mv) {
+        long start = System.currentTimeMillis();
         mv.setViewName("xpay/appldocresult");
         Map<String, Integer> map = new HashMap<String, Integer>();
         map.put("totalPaidAppl", 0);
@@ -271,6 +269,8 @@ public class PaymentAdminController {
             map.put("fileNotFound", fileNotFound);
         }
         mv.addAllObjects(map);
+        long end = System.currentTimeMillis();
+        System.out.println("PDF Analyzer finished job in " + (end - start)/1000 + "seconds");
         return mv;
     }
 
