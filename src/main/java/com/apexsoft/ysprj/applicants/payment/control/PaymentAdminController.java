@@ -237,7 +237,7 @@ public class PaymentAdminController {
                     aDocRslt.setApplNo(appl.getApplNo());
                     aDocRslt.setFileYn(strY);
                     aDocRslt.setApplId(applId);
-                    System.out.println(new StringBuilder().append(aDocRslt.getApplNo()).append(comma).append(aDocRslt.getFileYn()).append(comma).append(aDocRslt.getApplId()));
+//                    System.out.println(new StringBuilder().append(aDocRslt.getApplNo()).append(comma).append(aDocRslt.getFileYn()).append(comma).append(aDocRslt.getApplId()));
                     docRsltList.add(aDocRslt);
                 } catch (IOException e) {
                     // insert FILE_YN = N
@@ -246,7 +246,7 @@ public class PaymentAdminController {
                     aDocRslt.setApplNo(appl.getApplNo());
                     aDocRslt.setFileYn(strN);
                     aDocRslt.setApplId(applIdNone);
-                    System.out.println(new StringBuilder().append(aDocRslt.getApplNo()).append(comma).append(aDocRslt.getFileYn()).append(comma).append(aDocRslt.getApplId()));
+//                    System.out.println(new StringBuilder().append(aDocRslt.getApplNo()).append(comma).append(aDocRslt.getFileYn()).append(comma).append(aDocRslt.getApplId()));
                     docRsltList.add(aDocRslt);
                 } finally {
                     if (fis != null) {
@@ -270,7 +270,7 @@ public class PaymentAdminController {
         }
         mv.addAllObjects(map);
         long end = System.currentTimeMillis();
-        System.out.println("PDF Analyzer finished job in " + (end - start)/1000 + "seconds");
+        System.out.println("PDF Analyzer finished job in " + (end - start)/1000 + " seconds");
         return mv;
     }
 
