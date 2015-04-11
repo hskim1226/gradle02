@@ -175,13 +175,19 @@
             <scope>provided</scope>
         </dependency>
 
-
         <dependency>
             <groupId>org.hamcrest</groupId>
             <artifactId>hamcrest-all</artifactId>
             <version>1.3</version>
             <scope>provided</scope>
         </dependency>
+
+        <dependency>
+            <groupId>org.spockframework</groupId>
+            <artifactId>spock-core</artifactId>
+            <version>1.0-groovy-2.4</version>
+        </dependency>
+
         <!-- For Testing -->
 
 

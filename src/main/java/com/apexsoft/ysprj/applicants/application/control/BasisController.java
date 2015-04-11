@@ -129,7 +129,8 @@ public class BasisController {
         ExecutionContext ec;
         String userId = principal.getName();
         Application application = formData.getApplication();
-        application.setUserId(userId);
+//        application.setUserId(userId);
+        application.setModId(userId);
 
         String applStsCode = application.getApplStsCode();
         if (applStsCode == null || applStsCode.trim().length() == 0) {
@@ -232,7 +233,8 @@ public class BasisController {
         ExecutionContext ec;
         String userId = principal.getName();
         Application application = formData.getApplication();
-        application.setUserId(userId);
+//        application.setUserId(userId);
+        application.setModId(userId);
 
         ec = basisService.cancelBasis(formData);
 

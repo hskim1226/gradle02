@@ -252,7 +252,8 @@ public class BasisServiceImpl implements BasisService {
         ApplicationGeneral applicationGeneral = basis.getApplicationGeneral();
         ApplicationForeigner applicationForeigner = basis.getApplicationForeigner();
 
-        String userId = application.getUserId();
+//        String userId = application.getUserId();
+        String modId = application.getModId();
         String admsTypeCode = application.getAdmsTypeCode();
         boolean isMultipleApplicationAllowed = true;
         boolean isValidInsertRequest = false;
@@ -265,7 +266,7 @@ public class BasisServiceImpl implements BasisService {
             if (isMultipleApplicationAllowed) {
                 isValidInsertRequest = true;
             } else {
-                if (hasApplication(userId)) {
+                if (hasApplication(modId)) {
                     isValidInsertRequest = false;
                 } else {
                     isValidInsertRequest = true;
@@ -273,19 +274,23 @@ public class BasisServiceImpl implements BasisService {
             }
             if (isValidInsertRequest) {
                 application.setApplStsCode(APP_INFO_SAVED);
-                application.setCreId(userId);
+                application.setUserId(modId);
+                application.setCreId(modId);
+                application.setModId(null);
                 application.setCreDate(date);
                 r1 = commonDAO.insertItem(application, NAME_SPACE, "CustomApplicationMapper");
                 applNo = application.getApplNo();
 
                 if ("C".equals(admsTypeCode) || "D".equals(admsTypeCode)) {
                     applicationForeigner.setApplNo(applNo);
-                    applicationForeigner.setCreId(userId);
+                    applicationForeigner.setCreId(modId);
+                    applicationForeigner.setModId(null);
                     applicationForeigner.setCreDate(date);
                     r3 = commonDAO.insertItem(applicationForeigner, NAME_SPACE, "ApplicationForeignerMapper");
                 } else {
                     applicationGeneral.setApplNo(applNo);
-                    applicationGeneral.setCreId(userId);
+                    applicationForeigner.setCreId(modId);
+                    applicationForeigner.setModId(null);
                     applicationGeneral.setCreDate(date);
                     r2 = commonDAO.insertItem(applicationGeneral, NAME_SPACE, "ApplicationGeneralMapper");
                 }
@@ -294,13 +299,13 @@ public class BasisServiceImpl implements BasisService {
             isInsert = false;
             applNo = application.getApplNo();
 
-            application.setModId(userId);
+            application.setModId(modId);
             application.setModDate(date);
             r1 = commonDAO.updateItem(application, NAME_SPACE, "ApplicationMapper");
 
             if ("C".equals(admsTypeCode) || "D".equals(admsTypeCode)) {
                 applicationForeigner.setApplNo(applNo);
-                applicationForeigner.setModId(userId);
+                applicationForeigner.setModId(modId);
                 applicationForeigner.setModDate(date);
                 if (applicationForeigner.getVisaExprDay() == null)
                     applicationForeigner.setVisaExprDay("");
@@ -309,7 +314,7 @@ public class BasisServiceImpl implements BasisService {
                 r3 = commonDAO.updateItem(applicationForeigner, NAME_SPACE, "ApplicationForeignerMapper");
             } else {
                 applicationGeneral.setApplNo(applNo);
-                applicationGeneral.setModId(userId);
+                applicationGeneral.setModId(modId);
                 applicationGeneral.setModDate(date);
                 r2 = commonDAO.updateItem(applicationGeneral, NAME_SPACE, "ApplicationGeneralMapper");
             }
@@ -334,7 +339,8 @@ public class BasisServiceImpl implements BasisService {
             ec.setErrCode(errCode);
             Map<String, String> errorInfo = new HashMap<String, String>();
             errorInfo.put("applNo", String.valueOf(applNo));
-            errorInfo.put("userId", userId);
+            errorInfo.put("userId", StringUtil.getEmptyIfNull(application.getUserId()));
+            errorInfo.put("modId", modId);
             ec.setErrorInfo(new ErrorInfo(errorInfo));
 
             throw new YSBizException(ec);
@@ -368,7 +374,8 @@ public class BasisServiceImpl implements BasisService {
         ExecutionContext ec = new ExecutionContext();
         Application application = basis.getApplication();
 
-        String userId = application.getUserId();
+//        String userId = application.getUserId();
+        String modId = application.getModId();
         String admsTypeCode = application.getAdmsTypeCode();
         boolean isMultipleApplicationAllowed = true;
         boolean isValidInsertRequest = false;
@@ -398,7 +405,8 @@ public class BasisServiceImpl implements BasisService {
 //            }
         } else {
             isInsert = false;
-            application.setModId(userId);
+//            application.setModId(userId);
+            application.setModId(modId);
             application.setModDate(date);
             application.setApplStsCode("00022");
             r1 = commonDAO.updateItem(application, NAME_SPACE, "ApplicationMapper");
@@ -420,7 +428,8 @@ public class BasisServiceImpl implements BasisService {
             ec.setErrCode(errCode);
             Map<String, String> errorInfo = new HashMap<String, String>();
             errorInfo.put("applNo", String.valueOf(applNo));
-            errorInfo.put("userId", userId);
+            errorInfo.put("userId", StringUtil.getEmptyIfNull(application.getUserId()));
+            errorInfo.put("modId", modId);
             ec.setErrorInfo(new ErrorInfo(errorInfo));
 
             throw new YSBizException(ec);
