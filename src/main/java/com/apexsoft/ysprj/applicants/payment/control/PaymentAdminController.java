@@ -263,7 +263,7 @@ public class PaymentAdminController {
                 }
             }
             Map<String, Object> dataMap = new HashMap<String, Object>();
-            dataMap.put("paramList", docRsltList)
+            dataMap.put("paramList", docRsltList);
             commonDAO.insert("com.apexsoft.ysprj.applicants.payment.sqlmap.CustomApplicationDocumentResultMapper.insertRows", dataMap);
             map.put("totalPaidAppl", paidApplList.size());
             map.put("fileWithApplId", fileWithApplId);

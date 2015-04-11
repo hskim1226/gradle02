@@ -29,15 +29,16 @@
 
   <insert id="insertRows" parameterType="java.util.Map" >
     insert into APPL_DOC_RSLT (
-    APPL_NO,
-    FILE_YN,
-    APPL_ID
+      APPL_NO,
+      FILE_YN,
+      APPL_ID
     )
-    values (
+    values
     <foreach collection="paramList" item="param" separator=",">
-    #{param.applNo,jdbcType=INTEGER},
-    #{param.fileYn,jdbcType=VARCHAR},
-    #{param.applId,jdbcType=VARCHAR}
+    (
+      #{param.applNo,jdbcType=INTEGER},
+      #{param.fileYn,jdbcType=VARCHAR},
+      #{param.applId,jdbcType=VARCHAR}
     )
     </foreach>
   </insert>
