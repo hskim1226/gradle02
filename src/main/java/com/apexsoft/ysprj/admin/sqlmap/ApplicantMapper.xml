@@ -19,7 +19,8 @@
         <result property="corsTypeCode" column="cors_type_code"/>
         <result property="corsTypeName" column="cors_type_name"/>
         <result property="detlMajCode" column="detl_maj_code"/>
-        <result property="detlMajName" column="detl_maj_Name"/>        
+        <result property="detlMajName" column="detl_maj_Name"/>
+        <result property="inpDetlMaj" column="INP_DETL_MAJ"/>
         <result property="korName" column="kor_name"/>
         <result property="engSur" column="eng_sur"/>
         <result property="engName" column="eng_name"/>
@@ -151,6 +152,7 @@
 			D.ARI_INST_NAME,
 			A.DETL_MAJ_CODE,
 			G.DETL_MAJ_NAME,
+            A.INP_DETL_MAJ,
 			A.KOR_NAME,
 			A.ENG_SUR,
 			A.ENG_NAME, 
@@ -215,6 +217,7 @@
         D.ARI_INST_NAME,
         A.DETL_MAJ_CODE,
         G.DETL_MAJ_NAME,
+        A.INP_DETL_MAJ,
         A.KOR_NAME,
         A.ENG_SUR,
         A.ENG_NAME,
@@ -264,7 +267,7 @@
 	
 	
   <select id="retrieveApplicantInfo" resultMap="applicantInfo" parameterType="java.lang.Integer">
-		SELECT a.APPL_NO APPL_NO,a.USER_ID, a.APPL_ID, H.ADMS_TYPE, F.CAMP_NAME, e.COLL_NAME, b.DEPT_NAME, a.CORS_TYPE_CODE, d.ARI_INST_NAME,a.DETL_MAJ_CODE,a.KOR_NAME,a.ENG_SUR,a.ENG_NAME, a.RGST_NO, a.RGST_BORN_DATE,
+		SELECT a.APPL_NO APPL_NO,a.USER_ID, a.APPL_ID, H.ADMS_TYPE, F.CAMP_NAME, e.COLL_NAME, b.DEPT_NAME, a.CORS_TYPE_CODE, d.ARI_INST_NAME,a.DETL_MAJ_CODE,a.INP_DETL_MAJ,a.KOR_NAME,a.ENG_SUR,a.ENG_NAME, a.RGST_NO, a.RGST_BORN_DATE,
             a.BORN_DAY,a.CITZ_CNTR_CODE, a.FORN_TYPE_CODE, a.GEND, a.MOBI_NUM,a.MAIL_ADDR
 		FROM  APPL a 
 		left outer join ARI_INST d
@@ -292,6 +295,7 @@
 		CODEVAL('APPL_ATTR', a.APPL_ATTR_CODE ) APPL_ATTR_NAME,
 		d.ARI_INST_NAME,
 		a.DETL_MAJ_CODE,
+		a.INP_DETL_MAJ,
 		a.KOR_NAME,
 		a.ENG_SUR,a.ENG_NAME,
 		a.RGST_NO,
@@ -391,6 +395,7 @@
        D.ARI_INST_NAME,
        A.DETL_MAJ_CODE,
        G.DETL_MAJ_NAME,
+       A.INP_DETL_MAJ,
        A.KOR_NAME,
        A.ENG_SUR,
        A.ENG_NAME,
@@ -750,6 +755,7 @@
         D.ARI_INST_NAME,
         A.DETL_MAJ_CODE,
         G.DETL_MAJ_NAME,
+        A.INP_DETL_MAJ,
         A.KOR_NAME,
         A.ENG_SUR,
         A.ENG_NAME,

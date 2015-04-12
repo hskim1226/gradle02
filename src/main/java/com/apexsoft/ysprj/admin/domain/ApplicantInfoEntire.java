@@ -14,12 +14,11 @@ public class ApplicantInfoEntire extends ApplicantInfoAll{
     private List <ApplicationLanguage> langList;
     private List <CustomApplicationExperience> exprList;
 
-    @Override
+
     public List<ApplicationDocument> getDocList() {
         return docList;
     }
 
-    @Override
     public void setDocList(List<ApplicationDocument> docList) {
         this.docList = docList;
     }

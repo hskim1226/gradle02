@@ -75,7 +75,7 @@
                     <td>
                         <c:choose>
                             <c:when test="${applList.admsNo == '15D'}">
-                                ${applList.engName},${applList.engSur} <br> ${applList.bornDay}
+                                ${applList.engName},${applList.engSur} <br> ${applList.rgstBornDate}
                             </c:when>
                             <c:otherwise>
                                 ${applList.korName} <br> ${applList.rgstBornDate}
@@ -84,7 +84,21 @@
                         </c:choose>
                     </td>
                     <td>${applList.mobiNum} <br>${applList.mailAddr} </td>
-                    <td>${applList.payTypeName}<br>${applList.admsFee} </td>
+
+                    <c:choose>
+                        <c:when test="${applList.payTypeCode == 'PAY001'}">
+                            <td>계좌이체<br>${applList.admsFee} </td>
+                        </c:when>
+                        <c:when test="${applList.payTypeCode == 'PAY002'}">
+                            <td>전신환<br>${applList.admsFee} </td>
+                        </c:when>
+                        <c:when test="${applList.payTypeCode == 'PAY003'}">
+                            <td>Paypal<br>${applList.admsFee} </td>
+                        </c:when>
+                        <c:otherwise>
+                            <td>${applList.payTypeName}<br>${applList.admsFee} </td>
+                        </c:otherwise>
+                    </c:choose>
                 </tr>
             </c:forEach>
             </tbody>

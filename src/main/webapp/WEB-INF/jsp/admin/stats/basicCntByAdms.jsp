@@ -118,12 +118,12 @@
                 grouping:true,
 
                 groupingView : {
-                    groupField : [ 'admsName','applAttrName','campName','collName'],
-                    groupSummary: [true, true, true],
-                    groupText : ['<b> {0}</b>','<b> {0}</b>','<b> {0}</b>','<b> {0}</b>'],
-                    groupColumnShow : [true,  true, true, true],
+                    groupField : [ 'admsName','applAttrName','campName'],
+                    groupSummary: [true, true, true ],
+                    groupText : ['<b> {0}</b>','<b> {0}</b>','<b> {0}</b>'],
+                    groupColumnShow : [true, true, true],
                     hideFirstGroupCol: false,
-                    groupSummaryPos: ['header', 'header', 'header','header'],
+                    groupSummaryPos: ['header', 'header', 'header'],
                     groupCollapse : true
 
                 },
