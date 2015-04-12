@@ -29,7 +29,7 @@
         <tr>
             <th>생년월일</th>
             <c:choose>
-                <c:when test="${applList.admsNo == '15D'}">
+                <c:when test="${applInfo.admsNo == '15D'}">
                     <td>${applInfo.bornDay}</td>
                 </c:when>
                 <c:otherwise>
@@ -42,7 +42,7 @@
         <tr>
             <th>성별</th>
             <c:choose>
-                <c:when test="${applList.gend == 'f'}">
+                <c:when test="${applInfo.gend == 'f'}">
                     <td>여자</td>
                 </c:when>
                 <c:otherwise>

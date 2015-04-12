@@ -6,7 +6,7 @@ import com.apexsoft.ysprj.applicants.application.domain.ParamForApplicationManda
 import java.util.List;
 
 
-public interface GuidelineService {
+public interface MandatoryRuleService {
 
     public List<MandatoryContainer> getWholeDeptMajMandTree( ParamForApplicationMandatoryDoc param );
 

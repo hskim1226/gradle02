@@ -5,11 +5,10 @@
     <title></title>
 </head>
 <body>
-
 <div class="content">
     <div class="con_tit">
-        <h2><span>전형별 미결제자현황</span></h2>
-        <div class="location"> HOME &gt; 통계 &gt; <span>전형별 미결제자현황</span> </div>
+        <h2><span>전형별 상세 지원현황</span></h2>
+        <div class="location"> HOME &gt; 통계 &gt; <span>전형별 상세 지원현황</span> </div>
 
     </div>
     <div class="con_section">
@@ -41,7 +40,7 @@
           </span>
         </div>
 
-        <table summary="미결제자 현황"  id="applicantCntTbl"  ></table>
+        <table summary="전형별 상세 지원현황"  id="applicantCntTbl"  ></table>
         <div id="gridpager"></div>
 
 
@@ -51,25 +50,31 @@
 </div>
 <!-- /content -->
 
-
-
 <content tag="local-script">
     <script>
   
     jQuery(document).ready( function(){
 		jQuery("#applicantCntTbl").jqGrid({
 			datatype: "json",
-			height: 'auto',			
-		   	colNames:['캠퍼스','대학명', '학과명', '석사(명)','박사(명)','통합(명)','연구(명)','Total(명)'],
+			height: 'auto',
+            colNames:['캠퍼스','대학명', '학과명', '석','박','통','학-석','학-박','학-통','위-석','위-박','연구','새-석','새-박','새-통', 'Total(명)'],
 		   	colModel:[
-                {name: 'campName', index: 'campName', align: "right", sortable:false, width:150},
+                {name: 'campName', index: 'campName', align: "right", sortable:false, width:100},
                 {name: 'collName', index: 'collName',  align: "center", sortable:false, width:100},
-                {name: 'deptName', index: 'deptName', align: "center", sortable:false, width:200},
-                {name: 'cnt1', index: 'cnt1', width:80, align: "right" ,sortable:false, width:70, summaryType: 'sum' },
-                {name: 'cnt2', index: 'cnt2', width:80, align: "right" ,sortable:false, width:70, summaryType: 'sum'},
-                {name: 'cnt3', index: 'cnt3', width:80, align: "right" ,sortable:false, width:70, summaryType: 'sum'},
-                {name: 'cnt4', index: 'cnt4', width:80, align: "right" ,sortable:false, width:70, summaryType: 'sum'},
-                {name: 'totalCnt', index: 'totalCnt', width:80, align: "right", sortable:false, width:85, summaryType: 'sum'}
+                {name: 'deptName', index: 'deptName', align: "center", sortable:false, width:110},
+                {name: 'cnt1', index: 'cnt1', width:80, align: "right" ,sortable:false, width:35, summaryType: 'sum' },
+                {name: 'cnt2', index: 'cnt2', width:80, align: "right" ,sortable:false, width:35, summaryType: 'sum'},
+                {name: 'cnt3', index: 'cnt3', width:80, align: "right" ,sortable:false, width:35, summaryType: 'sum'},
+                {name: 'cnt5', index: 'cnt5', width:80, align: "right" ,sortable:false, width:35, summaryType: 'sum'},
+                {name: 'cnt6', index: 'cnt4', width:80, align: "right" ,sortable:false, width:35, summaryType: 'sum' },
+                {name: 'cnt4', index: 'cnt4', width:80, align: "right" ,sortable:false, width:35, summaryType: 'sum'},
+                {name: 'cnt7', index: 'cnt7', width:80, align: "right" ,sortable:false, width:35, summaryType: 'sum'},
+                {name: 'cnt8', index: 'cnt8', width:80, align: "right" ,sortable:false, width:35, summaryType: 'sum'},
+                {name: 'cnt9', index: 'cnt9', width:80, align: "right" ,sortable:false, width:35, summaryType: 'sum' },
+                {name: 'cnt10', index: 'cnt10', width:80, align: "right" ,sortable:false, width:35, summaryType: 'sum'},
+                {name: 'cnt11', index: 'cnt11', width:80, align: "right" ,sortable:false, width:35, summaryType: 'sum'},
+                {name: 'cnt12', index: 'cnt12', width:80, align: "right" ,sortable:false, width:35, summaryType: 'sum'},
+                {name: 'totalCnt', index: 'totalCnt', width:80, align: "right", sortable:false, width:50, summaryType: 'sum'}
 		   	],
 
 		    viewrecords: true,
@@ -83,7 +88,7 @@
       	$source.on('click', function(event) {
       		event.preventDefault();
       		
-			var newUrl ='${contextPath}/admin/search/unpaid/search';
+			var newUrl ='${contextPath}/admin/stats/detailCntByDept/search';
 			newUrl = newUrl +"?admsNo="+jQuery("#admsNo option:selected").val();
 			newUrl = newUrl +"&campCode="+jQuery("#campCode option:selected").val();
 			newUrl = newUrl +"&collCode="+jQuery("#collCode option:selected").val();
@@ -92,16 +97,24 @@
 				url : newUrl,
                 datatype: "json",
                 height: 'auto',
-			   	colNames:['캠퍼스','대학명', '학과명', '석사(명)','박사(명)','통합(명)','연구(명)','Total(명)'],
-			   	colModel:[
-                    {name: 'campName', index: 'campName', align: "right", sortable:false, width:150},
+                colNames:['캠퍼스','대학명', '학과명', '석','박','통','학.석','학.박','학.통','위.석','위.박','연구','새.석','새.박','새.통', 'Total(명)'],
+                colModel:[
+                    {name: 'campName', index: 'campName', align: "right", sortable:false, width:100},
                     {name: 'collName', index: 'collName',  align: "center", sortable:false, width:100},
-                    {name: 'deptName', index: 'deptName', align: "center", sortable:false, width:200},
-                    {name: 'cnt1', index: 'cnt1', width:80, align: "right" ,sortable:false, width:70, summaryType: 'sum' },
-                    {name: 'cnt2', index: 'cnt2', width:80, align: "right" ,sortable:false, width:70, summaryType: 'sum'},
-                    {name: 'cnt3', index: 'cnt3', width:80, align: "right" ,sortable:false, width:70, summaryType: 'sum'},
-                    {name: 'cnt4', index: 'cnt4', width:80, align: "right" ,sortable:false, width:70, summaryType: 'sum'},
-                    {name: 'totalCnt', index: 'totalCnt', width:80, align: "right", sortable:false, width:85, summaryType: 'sum'}
+                    {name: 'deptName', index: 'deptName', align: "center", sortable:false, width:110},
+                    {name: 'cnt1', index: 'cnt1', width:80, align: "right" ,sortable:false, width:35, summaryType: 'sum' },
+                    {name: 'cnt2', index: 'cnt2', width:80, align: "right" ,sortable:false, width:35, summaryType: 'sum'},
+                    {name: 'cnt3', index: 'cnt3', width:80, align: "right" ,sortable:false, width:35, summaryType: 'sum'},
+                    {name: 'cnt5', index: 'cnt5', width:80, align: "right" ,sortable:false, width:35, summaryType: 'sum'},
+                    {name: 'cnt6', index: 'cnt4', width:80, align: "right" ,sortable:false, width:35, summaryType: 'sum' },
+                    {name: 'cnt4', index: 'cnt4', width:80, align: "right" ,sortable:false, width:35, summaryType: 'sum'},
+                    {name: 'cnt7', index: 'cnt7', width:80, align: "right" ,sortable:false, width:35, summaryType: 'sum'},
+                    {name: 'cnt8', index: 'cnt8', width:80, align: "right" ,sortable:false, width:35, summaryType: 'sum'},
+                    {name: 'cnt9', index: 'cnt9', width:80, align: "right" ,sortable:false, width:35, summaryType: 'sum' },
+                    {name: 'cnt10', index: 'cnt10', width:80, align: "right" ,sortable:false, width:35, summaryType: 'sum'},
+                    {name: 'cnt11', index: 'cnt11', width:80, align: "right" ,sortable:false, width:35, summaryType: 'sum'},
+                    {name: 'cnt12', index: 'cnt12', width:80, align: "right" ,sortable:false, width:35, summaryType: 'sum'},
+                    {name: 'totalCnt', index: 'totalCnt', width:80, align: "right", sortable:false, width:50, summaryType: 'sum'}
 			   				
 			   	],
                 grouping:true,

@@ -11,7 +11,7 @@ import java.util.List;
 
 
 @Service
-public class GuidelineServiceImpl implements GuidelineService{
+public class MandatoryRuleServiceImpl implements MandatoryRuleService {
 	
 
     private final static String NAME_SPACE = "admin.guideline.GuidelineMapper.";

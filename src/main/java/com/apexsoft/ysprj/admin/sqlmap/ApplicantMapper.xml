@@ -841,4 +841,32 @@
         FROM APPL A WHERE A.APPL_STS_CODE = '00020'  GROUP BY ADMS_NO
     </select>
 
+    <select id="selectApplicantCntByAdmsDept" resultType="com.apexsoft.ysprj.admin.domain.ApplicantDetailCnt"  parameterType="com.apexsoft.ysprj.admin.control.form.CourseSearchForm">
+        SELECT A.ADMS_NO,D.CAMP_CODE,D.CAMP_NAME, C.COLL_CODE, C.COLL_NAME, B.DEPT_CODE,B.DEPT_NAME, A.APPL_ATTR_CODE,CODEVAL( 'APPL_ATTR',A.APPL_ATTR_CODE) AS APPL_ATTR_NAME,
+            COUNT(CASE WHEN CORS_TYPE_CODE IN('01', '05','07','10') THEN 1 END) AS CNT1,
+            COUNT(CASE WHEN CORS_TYPE_CODE IN('02', '06','08','11') THEN 1 END) AS CNT2,
+            COUNT(CASE WHEN CORS_TYPE_CODE IN('03', '04','12') THEN 1 END) AS CNT3,
+            COUNT(CASE WHEN CORS_TYPE_CODE IN('09') THEN 1 END) AS CNT4,
+            COUNT(*) AS TOTAL_CNT
+        FROM APPL A, DEPT B, COLL C, CAMP D WHERE A.DEPT_CODE =B.DEPT_CODE AND B.COLL_CODE= C.COLL_CODE AND C.CAMP_CODE = D.CAMP_CODE AND A.APPL_STS_CODE = '00020'
+
+        <if test="admsNo != null and admsNo !=''">
+            AND A.ADMS_NO =#{admsNo}
+        </if>
+        <if test="applAttrCode != null and applAttrCode !=''">
+            AND A.APPL_ATTR_CODE =#{applAttrCode}
+        </if>
+        <if test="campCode != null and campCode !=''">
+            AND D.CAMP_CODE =#{campCode}
+        </if>
+        <if test="collCode != null and collCode !=''">
+            AND C.COLL_CODE =#{collCode}
+        </if>
+        <if test="deptCode != null and deptCode!=''">
+            AND B.DEPT_CODE = #{deptCode}
+        </if>
+        GROUP BY A.ADMS_NO,  A.APPL_ATTR_CODE, C.CAMP_CODE, B.COLL_CODE, B.DEPT_CODE
+        ORDER BY A.ADMS_NO, A.APPL_ATTR_CODE, C.CAMP_CODE, B.COLL_CODE, B.DEPT_SEQ
+    </select>
+
 </mapper>
