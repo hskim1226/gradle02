@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 public class FileUtil {
 
     private static final String SLASH = "/";
+    private static final String DOUBLE_SLASH = "//";
     private static final String MERGED_PDF = "-merged.pdf";
     private static final String NUMBERED_PDF_WITHOUT_SLIP = "-merged-numbered-wo-slip-appl.pdf";
     private static final String MERGED_FINAL_PDF = "-merged-final.pdf";
@@ -39,15 +40,20 @@ public class FileUtil {
                 .toString();
     }
 
+    public static String replaceDoubleSlashToSingleSlash(String path) {
+        return path.replace(DOUBLE_SLASH, SLASH);
+    }
+
     public static String getRawMergedFileFullPath(String uploadDirFullPath, int applNo) {
+
         return new StringBuilder()
-                .append(uploadDirFullPath).append("/")
+                .append(replaceDoubleSlashToSingleSlash(uploadDirFullPath)).append("/")
                 .append(applNo).append("-merged.pdf").toString();
     }
 
     public static String getNumberedMergedFileFullPath(String uploadDirFullPath, int applNo) {
         return new StringBuilder()
-                .append(uploadDirFullPath).append("/")
+                .append(replaceDoubleSlashToSingleSlash(uploadDirFullPath)).append("/")
                 .append(applNo).append("-merged-numbered-wo-slip-appl.pdf").toString();
     }
 
