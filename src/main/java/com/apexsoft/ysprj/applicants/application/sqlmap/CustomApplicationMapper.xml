@@ -447,4 +447,22 @@
         SELECT RGST_HASH FROM APPL
         WHERE APPL_STS_CODE IN ('00010', '00020', '00021', '00030')
     </select>
+
+
+    <select id="selectApplListByApplStsCode" resultType="com.apexsoft.ysprj.applicants.application.domain.Application" parameterType="java.lang.String" >
+        select *
+        from APPL a
+        where a.APPL_STS_CODE = #{applStsCode,jdbcType=VARCHAR}
+    </select>
+
+    <select id="selectPaidButApplIdNotApplieddApplList" resultType="com.apexsoft.ysprj.applicants.application.domain.Application" parameterType="java.lang.String" >
+        select a.*
+        from APPL a, APPL_DOC_RSLT b
+        where a.APPL_NO = b.APPL_NO
+        and   a.APPL_STS_CODE = '00020'
+        and   b.FILE_YN = #{fileYn,jdbcType=VARCHAR}
+        and   b.APPL_ID = 'NONE'
+    </select>
+
+
 </mapper>

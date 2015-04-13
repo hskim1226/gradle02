@@ -14,7 +14,8 @@ import com.apexsoft.ysprj.applicants.application.service.DocumentService;
 import com.apexsoft.ysprj.applicants.common.domain.ParamForPDFDocument;
 import com.apexsoft.ysprj.applicants.common.util.FileUtil;
 import com.apexsoft.ysprj.applicants.common.util.StringUtil;
-import org.apache.commons.io.FileUtils;
+import com.sun.mail.iap.ByteArray;
+import org.apache.commons.io.IOUtils;
 import org.apache.pdfbox.exceptions.COSVisitorException;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
@@ -29,9 +30,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -81,7 +81,7 @@ public class PDFServiceImpl implements PDFService {
         ExecutionContext ec = new ExecutionContext();
         ParamForPDFDocument param = new ParamForPDFDocument(applNo, "pdf");
         PDFMergerUtility mergerUtil = new PDFMergerUtility();
-        String uploadDirFullPath = null;
+//        String uploadDirFullPath = null;
         AmazonS3 s3 = new AmazonS3Client();
 
 
@@ -90,9 +90,10 @@ public class PDFServiceImpl implements PDFService {
 //        String slipFileName = null;
         String applicationFilePath = null;
         String applicationFileName = null;
+        List<ApplicationDocument> encryptedPdfList = new ArrayList<ApplicationDocument>();
         for (ApplicationDocument aDoc : pdfList) {
-            String filePath = aDoc.getFilePath();
-            String fileName = aDoc.getFileName();
+            String filePath = FileUtil.recoverAmpersand(aDoc.getFilePath());
+            String fileName = FileUtil.recoverAmpersand(aDoc.getFileName());
             if ("지원서".equals(aDoc.getDocItemName()) && StringUtil.getEmptyIfNull(aDoc.getDocItemCode()).equals(StringUtil.EMPTY_STRING)) {
                 applicationFilePath = filePath;
                 applicationFileName = fileName;
@@ -107,7 +108,7 @@ public class PDFServiceImpl implements PDFService {
                 try {
                     object = s3.getObject(new GetObjectRequest(s3BucketName, filePath));
                 } catch (Exception e) {
-                    logger.error("Err in s3.getObject i PDFServiceImpl.getMergedPDFByApplicants");
+                    logger.error("Err in s3.getObject in PDFServiceImpl.getMergedPDFByApplicants");
                     logger.error(e.getMessage());
                     logger.error("bucketName : [" + s3BucketName + "]");
                     logger.error("applNo : [" + applNo + "]");
@@ -116,15 +117,65 @@ public class PDFServiceImpl implements PDFService {
                 }
 
                 InputStream inputStream = object.getObjectContent();
-                mergerUtil.addSource(inputStream);
 
-                // uploadDirFullPath는 App서버 로컬에서만 사용
-                if (uploadDirFullPath == null) {
-                    // S3에 저장된 파일을 불러서 App 서버에 저장하는 경우
-                    uploadDirFullPath = fileBaseDir + "/" + aDoc.getFilePath().substring(0, filePath.lastIndexOf('/'));
-//                    uploadDirFullPath = aDoc.getFilePath(); // App서버 로컬에 저장된 파일을 불러서 사용하는 옛날 버전
+                ByteArrayOutputStream baos = null;
+                try {
+                    baos = new ByteArrayOutputStream();
+                    byte[] buffer = new byte[1024];
+                    int len;
+                    while ((len = inputStream.read(buffer)) != -1) {
+                        baos.write(buffer, 0, len);
+                    }
+                    baos.flush();
+                } catch (IOException e) {
+                    throw new YSBizException(e);
                 }
+
+                PDDocument tPdf = null;
+                try {
+                    tPdf = PDDocument.load(new ByteArrayInputStream(baos.toByteArray()));
+                    if (tPdf.isEncrypted()) {
+                        logger.error("file from S3 is encrypted");
+                        logger.error("applNo : " + applNo);
+                        logger.error("filePath : " + filePath);
+                        ec.setResult(ExecutionContext.FAIL);
+                        ec.setMessage(messageResolver.getMessage("U06101"));
+                        ec.setErrCode("ERR1101");
+                        encryptedPdfList.add(aDoc);
+//                        throw new YSBizNoticeException(ec);
+                    }
+                } catch ( IOException e ) {
+                    // 여기까지 왔으면 S3에서 받아온 inputStream이 문제가 없는 것이므로 IOException 발생할 일 없음
+                } finally {
+                    if (tPdf != null) {
+                        try {
+                            tPdf.close();
+                        } catch ( IOException e ) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+
+//                try {
+//                    IOUtils.copy(new ByteArrayInputStream(baos.toByteArray()), new FileOutputStream(applicationFilePath + "-test.pdf"));
+//                } catch ( IOException e ) {
+//                    logger.error("ByteArrayInputStream으로 파일 만들지 못함");
+//                }
+
+                mergerUtil.addSource(new ByteArrayInputStream(baos.toByteArray()));
+
+                // 업로드 된 파일 별로 서버 로컬에 넘버링을 위해 임시 저장할 경로를 만들지 않고 지원서 파일이 생성된 경로를 재사용
+                // uploadDirFullPath는 App서버 로컬에서만 사용
+//                if (uploadDirFullPath == null) { // 사용자가 업로드 한 파일의 원래 경로에 / 가 묻어있는 경우 매 파일마다 경로가 다르므로 null이 아니어도 재사용하면 안됨
+                    // S3에 저장된 파일을 불러서 App 서버에 저장하는 경우
+//                    uploadDirFullPath = fileBaseDir + "/" + aDoc.getFilePath().substring(0, filePath.lastIndexOf('/'));
+//                    uploadDirFullPath = aDoc.getFilePath(); // App서버 로컬에 저장된 파일을 불러서 사용하는 옛날 버전
+//                }
             }
+        }
+        if (encryptedPdfList.size() > 0) {
+            ec.setData(encryptedPdfList);
+            throw new YSBizNoticeException(ec);
         }
 
         // S3에 대한 OutputStream을 가져올 방법이 없어서
@@ -133,14 +184,14 @@ public class PDFServiceImpl implements PDFService {
         // 성능 상으로 PDF numbering을 하기 위한 파일 저장은 로컬에 하는 것이 맞을 듯
         String tempSlashReplacer = "_";
 
-        String rawMergedFileFullPath = FileUtil.encodeColonSlash(FileUtil.getRawMergedFileFullPath(uploadDirFullPath, applNo), tempSlashReplacer);
-        String numberedMergedFileFullPath = FileUtil.encodeColonSlash(FileUtil.getNumberedMergedFileFullPath(uploadDirFullPath, applNo), tempSlashReplacer);
+//        String rawMergedFileFullPath = FileUtil.encodeColonSlash(FileUtil.getRawMergedFileFullPath(uploadDirFullPath, applNo), tempSlashReplacer);
+//        String numberedMergedFileFullPath = FileUtil.encodeColonSlash(FileUtil.getNumberedMergedFileFullPath(uploadDirFullPath, applNo), tempSlashReplacer);
+        String rawMergedFileFullPath = FileUtil.encodeColonSlash(FileUtil.getRawMergedFileFullPath(applicationFilePath, applNo), tempSlashReplacer);
+        String numberedMergedFileFullPath = FileUtil.encodeColonSlash(FileUtil.getNumberedMergedFileFullPath(applicationFilePath, applNo), tempSlashReplacer);
 
         mergerUtil.setDestinationFileName(rawMergedFileFullPath);
         //TODO : S3에 대한 OutputStream을 가져올 수 있다면 아래 방식 가능
         //mergerUtil.setDestinationStream(OutputStream to S3);
-
-        PDDocument mergedPDF = null;
 
         try {
             mergerUtil.mergeDocuments();
@@ -162,9 +213,9 @@ public class PDFServiceImpl implements PDFService {
             ec.setErrorInfo(new ErrorInfo(errorInfo));
             throw new YSBizException(ec);
         }
+
+        PDDocument mergedPDF = null;
         try {
-
-
             logger.debug("raw Merge 성공, applNo : " + applNo);
             File mergedFile = new File(rawMergedFileFullPath);
             mergedPDF = PDDocument.load(mergedFile);
@@ -183,7 +234,7 @@ public class PDFServiceImpl implements PDFService {
             lastMergeUtil.addSource(applicationFormFile);
             lastMergeUtil.addSource(numberedMergedFile);
 
-            lastMergeUtil.setDestinationFileName(FileUtil.encodeSlash(FileUtil.getFinalMergedFileFullPath(uploadDirFullPath, applNo), tempSlashReplacer));
+            lastMergeUtil.setDestinationFileName(FileUtil.encodeSlash(FileUtil.getFinalMergedFileFullPath(applicationFilePath, applNo), tempSlashReplacer));
             lastMergeUtil.mergeDocuments();
             logger.debug("All Merge 성공, applNo : " + applNo);
             File lastMergedFile = new File(lastMergeUtil.getDestinationFileName());

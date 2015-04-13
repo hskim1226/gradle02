@@ -19,13 +19,7 @@ public interface AdminService {
 
     ExecutionContext getApplicantDetail(int applNo, String applId);
 	 
-	List<ApplicantCnt> retrieveApplicantCntByDept(CourseSearchGridForm searchForm);
-
-    List<ApplicantCnt> retrieveApplicantCntByRecent(CourseSearchGridForm searchForm);
-	 
 	ApplicantInfo getApplicantInfo(ApplicantSearchForm applicantSearchForm);
-
-    List<ApplicantCnt> retrieveUnpaidApplicantCntByDept(CourseSearchGridForm searchForm);
 
     Map<String, Object> getCouurseSelectionBasicMap();
 
@@ -37,6 +31,6 @@ public interface AdminService {
 
     Map<String, Object> retrieveInterceptorInfo();
 
-    List<ApplicantCnt> retrieveApplicantDetailCntByDept(CourseSearchGridForm searchForm);
+
 
 }
