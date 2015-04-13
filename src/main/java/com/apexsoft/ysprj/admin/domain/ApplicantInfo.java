@@ -24,7 +24,8 @@ public class ApplicantInfo {
     private String corsTypeCode;  //   
     private String corsTypeName;  //      
     private String detlMajCode;  //     
-    private String detlMajName;  //   
+    private String inpDetlMaj;
+    private String detlMajName; //
     
 	private String korName;  //
     private String engSur;  // 
@@ -54,195 +55,57 @@ public class ApplicantInfo {
     private String payTypeName;
     private int admsFee;
     private String checkYn;
-    
-    public int getAdmsFee() {
-		return admsFee;
-	}
-	public void setAdmsFee(int admsFee) {
-		this.admsFee = admsFee;
-	}
-	private Date applDate;
+    private Date applDate;
 
-	public Date getApplDate() {
-		return applDate;
-	}
-	public void setApplDate(Date applDate) {
-		this.applDate = applDate;
-	}
-	private List <ApplicationDocument> docList;
-    
-	public String getUserId() {
-		return userId;
-	}
-	public void setUserId(String userId) {
-		this.userId = userId;
-	}
-	public int getApplNo() {
-		return applNo;
-	}
-	public void setApplNo(int applNo) {
-		this.applNo = applNo;
-	}
-	public String getAdmsNo() {
-		return admsNo;
-	}
-	public void setAdmsNo(String admsNo) {
-		this.admsNo = admsNo;
-	}
-	public String getAdmsType() {
-		return admsType;
-	}
-	public void setAdmsType(String admsType) {
-		this.admsType = admsType;
-	}
-	public String getCampName() {
-		return campName;
-	}
-	public void setCampName(String campName) {
-		this.campName = campName;
-	}
-	public String getDeptCode() {
-		return deptCode;
-	}
-	public void setDeptCode(String deptCode) {
-		this.deptCode = deptCode;
-	}
-	public String getDeptName() {
-		return deptName;
-	}
-	public void setDeptName(String deptName) {
-		this.deptName = deptName;
-	}
-	public String getAriInstCode() {
-		return ariInstCode;
-	}
-	public void setAriInstCode(String ariInstCode) {
-		this.ariInstCode = ariInstCode;
-	}
-	public String getAriInstName() {
-		return ariInstName;
-	}
-	public void setAriInstName(String ariInstName) {
-		this.ariInstName = ariInstName;
-	}
-	public String getCorsTypeCode() {
-		return corsTypeCode;
-	}
-	public void setCorsTypeCode(String corsTypeCode) {
-		this.corsTypeCode = corsTypeCode;
-	}
-	public String getDetlMajCode() {
-		return detlMajCode;
-	}
-	public void setDetlMajCode(String detlMajCode) {
-		this.detlMajCode = detlMajCode;
-	}
-	public String getKorName() {
-		return korName;
-	}
-	public void setKorName(String korName) {
-		this.korName = korName;
-	}
-	public String getEngSur() {
-		return engSur;
-	}
-	public void setEngSur(String engSur) {
-		this.engSur = engSur;
-	}
-	public String getEngName() {
-		return engName;
-	}
-	public void setEngName(String engName) {
-		this.engName = engName;
-	}
-	public String getRgstNo() {
-		return rgstNo;
-	}
-	public void setRgstNo(String rgstNo) {
-		this.rgstNo = rgstNo;
-	}
-	public String getTelNum() {
-		return telNum;
-	}
-	public void setTelNum(String telNum) {
-		this.telNum = telNum;
-	}
-	public String getMobiNum() {
-		return mobiNum;
-	}
-	public void setMobiNum(String mobiNum) {
-		this.mobiNum = mobiNum;
-	}
-	public String getMailAddr() {
-		return mailAddr;
-	}
-	public void setMailAddr(String mailAddr) {
-		this.mailAddr = mailAddr;
-	}
-	public String getApplId() {
-		return applId;
-	}
-	public void setApplId(String applId) {
-		this.applId = applId;
-	}
-	public String getApplStsCode() {
-		return applStsCode;
-	}
-	public void setApplStsCode(String applStsCode) {
-		this.applStsCode = applStsCode;
-	}
+    private List <ApplicationDocument> docList;
 
-	public List<ApplicationDocument> getDocList() {
-		return docList;
-	}
-	public void setDocList(List<ApplicationDocument> docuList) {
-		this.docList = docuList;
-	}
-    
-    public String getCollName() {
-		return collName;
-	}
-	public void setCollName(String collName) {
-		this.collName = collName;
-	}
+    public int getApplNo() {
+        return applNo;
+    }
 
+    public void setApplNo(int applNo) {
+        this.applNo = applNo;
+    }
 
-	public String getAdmsTypeName() {
-		return admsTypeName;
-	}
-	public void setAdmsTypeName(String admsTypeName) {
-		this.admsTypeName = admsTypeName;
-	}
-	public String getCorsTypeName() {
-		return corsTypeName;
-	}
-	public void setCorsTypeName(String corsTypeName) {
-		this.corsTypeName = corsTypeName;
-	}
-	public String getDetlMajName() {
-		return detlMajName;
-	}
-	public void setDetlMajName(String detlMajName) {
-		this.detlMajName = detlMajName;
-	}
-	public String getApplStsName() {
-		return applStsName;
-	}
-	public void setApplStsName(String applStsName) {
-		this.applStsName = applStsName;
-	}
-    public String getAddr() {
-		return addr;
-	}
-	public void setAddr(String addr) {
-		this.addr = addr;
-	}
-	public String getDetlAddr() {
-		return detlAddr;
-	}
-	public void setDetlAddr(String detlAddr) {
-		this.detlAddr = detlAddr;
-	}
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public String getAdmsNo() {
+        return admsNo;
+    }
+
+    public void setAdmsNo(String admsNo) {
+        this.admsNo = admsNo;
+    }
+
+    public String getAdmsType() {
+        return admsType;
+    }
+
+    public void setAdmsType(String admsType) {
+        this.admsType = admsType;
+    }
+
+    public String getAdmsName() {
+        return admsName;
+    }
+
+    public void setAdmsName(String admsName) {
+        this.admsName = admsName;
+    }
+
+    public String getAdmsTypeName() {
+        return admsTypeName;
+    }
+
+    public void setAdmsTypeName(String admsTypeName) {
+        this.admsTypeName = admsTypeName;
+    }
 
     public String getApplAttrCode() {
         return applAttrCode;
@@ -260,20 +123,124 @@ public class ApplicantInfo {
         this.applAttrName = applAttrName;
     }
 
-    public String getPayTypeCode() {
-        return payTypeCode;
+    public String getCampName() {
+        return campName;
     }
 
-    public void setPayTypeCode(String payTypeCode) {
-        this.payTypeCode = payTypeCode;
+    public void setCampName(String campName) {
+        this.campName = campName;
     }
 
-    public String getPayTypeName() {
-        return payTypeName;
+    public String getCollName() {
+        return collName;
     }
 
-    public void setPayTypeName(String payTypeName) {
-        this.payTypeName = payTypeName;
+    public void setCollName(String collName) {
+        this.collName = collName;
+    }
+
+    public String getDeptCode() {
+        return deptCode;
+    }
+
+    public void setDeptCode(String deptCode) {
+        this.deptCode = deptCode;
+    }
+
+    public String getDeptName() {
+        return deptName;
+    }
+
+    public void setDeptName(String deptName) {
+        this.deptName = deptName;
+    }
+
+    public String getAriInstCode() {
+        return ariInstCode;
+    }
+
+    public void setAriInstCode(String ariInstCode) {
+        this.ariInstCode = ariInstCode;
+    }
+
+    public String getAriInstName() {
+        return ariInstName;
+    }
+
+    public void setAriInstName(String ariInstName) {
+        this.ariInstName = ariInstName;
+    }
+
+    public String getCorsTypeCode() {
+        return corsTypeCode;
+    }
+
+    public void setCorsTypeCode(String corsTypeCode) {
+        this.corsTypeCode = corsTypeCode;
+    }
+
+    public String getCorsTypeName() {
+        return corsTypeName;
+    }
+
+    public void setCorsTypeName(String corsTypeName) {
+        this.corsTypeName = corsTypeName;
+    }
+
+    public String getDetlMajCode() {
+        return detlMajCode;
+    }
+
+    public void setDetlMajCode(String detlMajCode) {
+        this.detlMajCode = detlMajCode;
+    }
+
+    public String getInpDetlMaj() {
+        return inpDetlMaj;
+    }
+
+    public void setInpDetlMaj(String inpDetlMaj) {
+        this.inpDetlMaj = inpDetlMaj;
+    }
+
+    public String getDetlMajName() {
+        return detlMajName;
+    }
+
+    public void setDetlMajName(String detlMajName) {
+        this.detlMajName = detlMajName;
+    }
+
+    public String getKorName() {
+        return korName;
+    }
+
+    public void setKorName(String korName) {
+        this.korName = korName;
+    }
+
+    public String getEngSur() {
+        return engSur;
+    }
+
+    public void setEngSur(String engSur) {
+        this.engSur = engSur;
+    }
+
+    public String getEngName() {
+        return engName;
+    }
+
+    public void setEngName(String engName) {
+        this.engName = engName;
+    }
+
+    public String getRgstNo() {
+        return rgstNo;
+    }
+
+    public void setRgstNo(String rgstNo) {
+        this.rgstNo = rgstNo;
     }
 
     public String getRgstBornDate() {
@@ -290,41 +257,6 @@ public class ApplicantInfo {
 
     public void setBornDay(String bornDay) {
         this.bornDay = bornDay;
-    }
-
-    public String getEmerContCode() {
-        return emerContCode;
-    }
-    public void setEmerContCode(String emerContCode) {
-        this.emerContCode = emerContCode;
-    }
-    public String getEmerContName() {
-        return emerContName;
-    }
-    public void setEmerContName(String emerContName) {
-        this.emerContName = emerContName;
-    }
-    public String getEmerContTel() {
-        return emerContTel;
-    }
-    public void setEmerContTel(String emerContTel) {
-        this.emerContTel = emerContTel;
-    }
-
-    public String getCheckYn() {
-        return checkYn;
-    }
-
-    public void setCheckYn(String checkYn) {
-        this.checkYn = checkYn;
-    }
-
-    public String getAdmsName() {
-        return admsName;
-    }
-
-    public void setAdmsName(String admsName) {
-        this.admsName = admsName;
     }
 
     public String getCitzCntrCode() {
@@ -349,5 +281,141 @@ public class ApplicantInfo {
 
     public void setGend(String gend) {
         this.gend = gend;
+    }
+
+    public String getTelNum() {
+        return telNum;
+    }
+
+    public void setTelNum(String telNum) {
+        this.telNum = telNum;
+    }
+
+    public String getAddr() {
+        return addr;
+    }
+
+    public void setAddr(String addr) {
+        this.addr = addr;
+    }
+
+    public String getDetlAddr() {
+        return detlAddr;
+    }
+
+    public void setDetlAddr(String detlAddr) {
+        this.detlAddr = detlAddr;
+    }
+
+    public String getMobiNum() {
+        return mobiNum;
+    }
+
+    public void setMobiNum(String mobiNum) {
+        this.mobiNum = mobiNum;
+    }
+
+    public String getMailAddr() {
+        return mailAddr;
+    }
+
+    public void setMailAddr(String mailAddr) {
+        this.mailAddr = mailAddr;
+    }
+
+    public String getEmerContCode() {
+        return emerContCode;
+    }
+
+    public void setEmerContCode(String emerContCode) {
+        this.emerContCode = emerContCode;
+    }
+
+    public String getEmerContName() {
+        return emerContName;
+    }
+
+    public void setEmerContName(String emerContName) {
+        this.emerContName = emerContName;
+    }
+
+    public String getEmerContTel() {
+        return emerContTel;
+    }
+
+    public void setEmerContTel(String emerContTel) {
+        this.emerContTel = emerContTel;
+    }
+
+    public String getApplId() {
+        return applId;
+    }
+
+    public void setApplId(String applId) {
+        this.applId = applId;
+    }
+
+    public String getApplStsCode() {
+        return applStsCode;
+    }
+
+    public void setApplStsCode(String applStsCode) {
+        this.applStsCode = applStsCode;
+    }
+
+    public String getApplStsName() {
+        return applStsName;
+    }
+
+    public void setApplStsName(String applStsName) {
+        this.applStsName = applStsName;
+    }
+
+    public String getPayTypeCode() {
+        return payTypeCode;
+    }
+
+    public void setPayTypeCode(String payTypeCode) {
+        this.payTypeCode = payTypeCode;
+    }
+
+    public String getPayTypeName() {
+        return payTypeName;
+    }
+
+    public void setPayTypeName(String payTypeName) {
+        this.payTypeName = payTypeName;
+    }
+
+    public int getAdmsFee() {
+        return admsFee;
+    }
+
+    public void setAdmsFee(int admsFee) {
+        this.admsFee = admsFee;
+    }
+
+    public String getCheckYn() {
+        return checkYn;
+    }
+
+    public void setCheckYn(String checkYn) {
+        this.checkYn = checkYn;
+    }
+
+    public List<ApplicationDocument> getDocList() {
+        return docList;
+    }
+
+    public void setDocList(List<ApplicationDocument> docList) {
+        this.docList = docList;
+    }
+
+    public Date getApplDate() {
+        return applDate;
+    }
+
+    public void setApplDate(Date applDate) {
+        this.applDate = applDate;
     }
 }

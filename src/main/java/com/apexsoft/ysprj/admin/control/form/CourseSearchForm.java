@@ -7,6 +7,7 @@ public class CourseSearchForm extends ApplicantSearchForm {
 	private String collCode;//COLL_CODE
 	private String deptCode;//DEPT_CODE
 	private String corsTypeCode;//CORS_TYPE_CODE
+    private String applAttrCode;//
     private String applStscode;
 
     public String getAdmsNo() {
@@ -54,5 +55,12 @@ public class CourseSearchForm extends ApplicantSearchForm {
 
     public void setApplStscode(String applStscode) {
         this.applStscode = applStscode;
+    }
+
+    public String getApplAttrCode() {
+        return applAttrCode;
+    }
+    public void setApplAttrCode(String applAttrCode) {
+        this.applAttrCode = applAttrCode;
     }
 }

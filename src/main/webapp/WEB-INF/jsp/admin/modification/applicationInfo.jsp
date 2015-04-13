@@ -48,9 +48,31 @@
             <th>학과</th>
             <td>${applInfo.deptName}</td>
             <th>세부전공</th>
-            <td>${applInfo.detlMajName}</td>
+            <c:choose>
+                <c:when test="${applInfo.detlMajCode == '99999'}">
+                    <td>${applInfo.inpDetlMaj}</td>
+                </c:when>
+                <c:otherwise>
+                    <td>${applInfo.detlMajName}</td>
+                </c:otherwise>
+            </c:choose>
+
+
             <th>결제방법</th>
-            <td>${applInfo.payTypeName}</td>
+            <c:choose>
+                <c:when test="${applInfo.payTypeCode == 'PAY001'}">
+                    <td>계좌이체</td>
+                </c:when>
+                <c:when test="${applInfo.payTypeCode == 'PAY002'}">
+                    <td>전신환</td>
+                </c:when>
+                <c:when test="${applInfo.payTypeCode == 'PAY003'}">
+                    <td>Paypal</td>
+                </c:when>
+                <c:otherwise>
+                    <td>${applInfo.payTypeName}</td>
+                </c:otherwise>
+            </c:choose>
         </tr>
     </c:if>
     </tbody>

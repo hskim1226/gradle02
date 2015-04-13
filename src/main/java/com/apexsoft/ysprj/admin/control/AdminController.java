@@ -92,124 +92,11 @@ public class AdminController {
     @Value("#{app['s3.midPath']}")
     private String s3MidPath;
 
-    @RequestMapping(value="/stats/daily")
-    public String statsDaily(Model model) {
-        Map<String, Object> modelMap = new HashMap<String, Object>();
-        modelMap = adminService.getCouurseSelectionBasicMap();
-        ExecutionContext ec = new ExecutionContext();
-        model.addAttribute("admsList", modelMap.get("admsList"));
-        return "admin/stats/recentDay";
-    }
-    
-    @RequestMapping(value="/stats/daily/search")
-    @ResponseBody
-    public String statsDailySearch(CourseSearchGridForm searchForm)
-            throws NoSuchAlgorithmException, JsonProcessingException, UnsupportedEncodingException {
-        List<ApplicantCnt> pStsList = null;
-        List<String> headList = null;
-        pStsList = adminService.retrieveApplicantCntByRecent(searchForm);
 
-        ObjectMapper mapper = new ObjectMapper();
-        Map<String, Object> modelMap = new HashMap<String, Object>();
-        modelMap.put("total", pStsList.size());
-        modelMap.put("records", pStsList.size());
-        modelMap.put("rows", pStsList);
-        modelMap.put("header", headList);
-        modelMap.put("page", 1);
-
-        String value = mapper.writeValueAsString(modelMap);
-
-        return value;
-    }
-
-    @RequestMapping(value="")
-    public String initZeroAdmin() {
-        return "admin/stats/main";
-    }
-
-    @RequestMapping(value="/main")
-    public ModelAndView initAdmin( @ModelAttribute CourseSearchPageForm courseSearchPageForm,
-                             BindingResult bindingResult,
-                             ModelAndView mv)
-            throws NoSuchAlgorithmException, JsonProcessingException, UnsupportedEncodingException {
-        mv.setViewName("admin/stats/main");
-        ExecutionContext ec;
-        if (bindingResult.hasErrors()) {
-            mv.addObject("resultMsg", messageResolver.getMessage("U334"));
-
-        }
-        ExecutionContext ecRetrieve = adminService.retrieveInitInfo();
-        if (ecRetrieve.getResult().equals(ExecutionContext.SUCCESS)) {
-            Map<String, Object> map = (Map<String, Object>)ecRetrieve.getData();
-            mv.addObject("applCntList", map.get("applCntList"));
-            mv.addObject("chgCntList", map.get("chgCntList"));
-            mv.addObject("chgList", map.get("chgList"));
-            mv.addObject("weekCntList", map.get("weekCntList"));
-            mv.addObject("corsCntList", map.get("corsCntList"));
-        } else {
-            mv = getErrorMV("common/error", ecRetrieve);
-        }
+    private ModelAndView getErrorMV(String errorViewName, ExecutionContext ec) {
+        ModelAndView mv = new ModelAndView(errorViewName);
+        mv.addObject("ec", ec);
         return mv;
-    }
-    
-    @RequestMapping(value="/stats/category")
-    public String statsCategory(Model model) {
-        Map<String, Object> modelMap = new HashMap<String, Object>();
-        modelMap = adminService.getCouurseSelectionBasicMap();
-        ExecutionContext ec = new ExecutionContext();
-        model.addAttribute("admsList", modelMap.get("admsList"));
-        return "admin/stats/category";
-    }
-       
-	@RequestMapping(value="/stats/category/search")
-         @ResponseBody
-         public String statsCategorySearch(CourseSearchGridForm searchForm)
-            throws NoSuchAlgorithmException, JsonProcessingException, UnsupportedEncodingException {
-        List<ApplicantCnt> pStsList =null;
-        List<String> headList = null;
-        pStsList = adminService.retrieveApplicantCntByDept(searchForm);
-
-
-        ObjectMapper mapper = new ObjectMapper();
-        Map<String, Object> modelMap = new HashMap<String, Object>();
-        modelMap.put("total",pStsList.size());
-        modelMap.put("records", pStsList.size());
-        modelMap.put("rows",pStsList);
-        modelMap.put("header",headList);
-        modelMap.put("page", 1);
-
-        String value = mapper.writeValueAsString(modelMap);
-
-        return value;
-    }
-    @RequestMapping(value="/stats/detailCategory")
-    public String statsDetailCategory(Model model) {
-        Map<String, Object> modelMap = new HashMap<String, Object>();
-        modelMap = adminService.getCouurseSelectionBasicMap();
-        ExecutionContext ec = new ExecutionContext();
-        model.addAttribute("admsList", modelMap.get("admsList"));
-        return "admin/stats/detailCategory";
-    }
-
-    @RequestMapping(value="/stats/category/DetailSearch")
-    @ResponseBody
-    public String statsDetailCategorySearch(CourseSearchGridForm searchForm)
-            throws NoSuchAlgorithmException, JsonProcessingException, UnsupportedEncodingException {
-        List<ApplicantCnt> pStsList =null;
-        List<String> headList = null;
-        pStsList = adminService.retrieveApplicantDetailCntByDept(searchForm);
-
-        ObjectMapper mapper = new ObjectMapper();
-        Map<String, Object> modelMap = new HashMap<String, Object>();
-        modelMap.put("total",pStsList.size());
-        modelMap.put("records", pStsList.size());
-        modelMap.put("rows",pStsList);
-        modelMap.put("header",headList);
-        modelMap.put("page", 1);
-
-        String value = mapper.writeValueAsString(modelMap);
-
-        return value;
     }
 
     @RequestMapping(value="/search/applicants")
@@ -318,34 +205,6 @@ public class AdminController {
         return "admin/search/applInfoDetail";
     }    
 
-    @RequestMapping(value="/search/unpaid")
-    public String statsUnpaid(Model model) {
-        Map<String, Object> modelMap = new HashMap<String, Object>();
-        modelMap = adminService.getCouurseSelectionBasicMap();
-        ExecutionContext ec = new ExecutionContext();
-        model.addAttribute("admsList", modelMap.get("admsList"));
-        return "admin/stats/unpaid";
-    }
-
-
-    @RequestMapping(value="/search/unpaid/search")
-    @ResponseBody
-    public String statsUnpaidSearch(CourseSearchGridForm searchForm)
-            throws NoSuchAlgorithmException, JsonProcessingException, UnsupportedEncodingException {
-        List<ApplicantCnt> pStsList =null;
-        pStsList = adminService.retrieveUnpaidApplicantCntByDept(searchForm);
-
-        ObjectMapper mapper = new ObjectMapper();
-        Map<String, Object> modelMap = new HashMap<String, Object>();
-        modelMap.put("total",pStsList.size());
-        modelMap.put("records", pStsList.size());
-        modelMap.put("rows",pStsList);
-        modelMap.put("page", 1);
-
-        String value = mapper.writeValueAsString(modelMap);
-
-        return value;
-    }
 
     @RequestMapping(value="/cancel/application")
     public String cancelApplication() {
@@ -383,9 +242,33 @@ public class AdminController {
     }
 
 
-    private ModelAndView getErrorMV(String errorViewName, ExecutionContext ec) {
-        ModelAndView mv = new ModelAndView(errorViewName);
-        mv.addObject("ec", ec);
+    @RequestMapping(value="")
+    public String initZeroAdmin() {
+        return "admin/stats/main";
+    }
+
+    @RequestMapping(value="/main")
+    public ModelAndView initAdmin( @ModelAttribute CourseSearchPageForm courseSearchPageForm,
+                                   BindingResult bindingResult,
+                                   ModelAndView mv)
+            throws NoSuchAlgorithmException, JsonProcessingException, UnsupportedEncodingException {
+        mv.setViewName("admin/stats/main");
+        ExecutionContext ec;
+        if (bindingResult.hasErrors()) {
+            mv.addObject("resultMsg", messageResolver.getMessage("U334"));
+
+        }
+        ExecutionContext ecRetrieve = adminService.retrieveInitInfo();
+        if (ecRetrieve.getResult().equals(ExecutionContext.SUCCESS)) {
+            Map<String, Object> map = (Map<String, Object>)ecRetrieve.getData();
+            mv.addObject("applCntList", map.get("applCntList"));
+            mv.addObject("chgCntList", map.get("chgCntList"));
+            mv.addObject("chgList", map.get("chgList"));
+            mv.addObject("weekCntList", map.get("weekCntList"));
+            mv.addObject("corsCntList", map.get("corsCntList"));
+        } else {
+            mv = getErrorMV("common/error", ecRetrieve);
+        }
         return mv;
     }
 
@@ -436,96 +319,6 @@ public class AdminController {
         return bytes;
     }
 
-/*
-    @RequestMapping(value="/search/pdfDownload")
-    @ResponseBody
-    public byte[] fileDownload(@RequestParam("applNo") int applNo, Principal principal, HttpServletResponse response)
-            throws IOException {
-
-        byte[] bytes = null;
-        String userId = principal.getName();
-        List<ApplicationDocument> applPaperInfosList =
-                documentService.retrieveApplicationPaperInfo(applNo); // DB에서 filePath가져온다
-        ExecutionContext ecRetrieve = null;
-        if (applPaperInfosList.size() == 1) {
-            String applPaperLocalFilePath = applPaperInfosList.get(0).getFilePath();
-            String s3FilePath = FileUtil.getS3PathFromLocalFullPath(applPaperLocalFilePath, fileBaseDir);
-            AmazonS3 s3 = new AmazonS3Client();
-            S3Object object = s3.getObject(new GetObjectRequest(s3BucketName, FileUtil.getFinalMergedFileFullPath(s3FilePath, applNo)));
-            InputStream inputStream = object.getObjectContent();
-            ObjectMetadata meta = object.getObjectMetadata();
-            try {
-                bytes = IOUtils.toByteArray(inputStream);
-                ecRetrieve = postApplicationService.checkDocumentRead(applNo, userId);
-
-            } catch (IOException e) {
-                ExecutionContext ecError = new ExecutionContext(ExecutionContext.FAIL);
-
-                ecError.setMessage(messageResolver.getMessage("U350"));
-                ecError.setErrCode("ERR0062");
-
-                Map<String, String> errorInfo = new HashMap<String, String>();
-                errorInfo.put("applNo", String.valueOf(applNo));
-                ecError.setErrorInfo(new ErrorInfo(errorInfo));
-                throw new YSBizException(ecError);
-            }
-
-            response.setHeader("Content-Transfer-Encoding", "binary;");
-            response.setHeader("Pragma", "no-cache;");
-            response.setHeader("Expires", "-1;");
-            response.setHeader("Content-Type", "application/octet-stream");
-
-
-
-            response.setContentType(meta.getContentType());
-            response.setHeader("Content-Length", String.valueOf(meta.getContentLength()));
-            response.setHeader("Content-Encoding", meta.getContentEncoding());
-            response.setHeader("ETag", meta.getETag());
-            response.setHeader("Last-Modified", meta.getLastModified().toString());
-//            response.setHeader("Content-Type", "application/pdf");
-            Map<String, Object> map = (Map<String, Object>)ecRetrieve.getData();
-            ApplicantInfo appInfo = (ApplicantInfo) map.get("applInfo");
-            String fileName;
-            if( "15B".equals(appInfo.getAdmsNo())){
-                fileName = appInfo.getApplId() + "-" + appInfo.getKorName()+ "-"+ appInfo.getApplAttrName().replaceAll("\\p{Space}", "" )+ "-" + appInfo.getDeptName()+ "-" + appInfo.getCorsTypeName()  + ".pdf";
-            }else if ( "15D".equals(appInfo.getAdmsNo())){
-                fileName = appInfo.getApplId()+ "-" + appInfo.getEngName()+"-" + "외국인전형" + "-" + appInfo.getDeptName()+"-" + appInfo.getCorsTypeName()  + ".pdf";
-            }else{
-                fileName = appInfo.getApplId() + "-" + appInfo.getKorName()+"-" + "조기전형" + "-" + appInfo.getDeptName()+"-" + appInfo.getCorsTypeName()  + ".pdf";
-            }
-//            아래 헤더 추가하면 파일명은 지정할 수 있으나 미리 보기는 안되고 다운로드만 됨
-            response.setHeader("Content-Disposition", "attachment; filename=\"" + URLEncoder.encode(fileName, "UTF-8") + "\"");
-        } else {
-            ExecutionContext ecError = new ExecutionContext(ExecutionContext.FAIL);
-
-            ecError.setMessage(messageResolver.getMessage("U349"));
-            ecError.setErrCode("ERR0061");
-
-            Map<String, String> errorInfo = new HashMap<String, String>();
-            errorInfo.put("applNo", String.valueOf(applNo));
-
-            ecError.setErrorInfo(new ErrorInfo(errorInfo));
-            throw new YSBizException(ecError);
-        }
-
-        return bytes;
-    }
-    */
-/*
-        String fileFileFullPath = FileUtil.getFinalMergedFileFullPath(uploadDirectoryFullPath, applNo);
-        String fileName = applNo + "-merged-numbered.pdf";
-        String downLoadFileName = userId + "_all.pdf";
-        File file =  new File(fileFileFullPath, fileName);
-        byte[] bytes = org.springframework.util.FileCopyUtils.copyToByteArray(file);
-
-        response.setHeader("Content-Disposition", "attachment; filename=\"" + URLEncoder.encode(downLoadFileName, "UTF-8") + "\"");
-        response.setHeader("Content-Transfer-Encoding", "binary;");
-        response.setHeader("Pragma", "no-cache;");
-        response.setHeader("Expires", "-1;");
-        response.setHeader("Content-Type", "application/pdf");
-        response.setContentLength(bytes.length);
-
-        return bytes; */
     /**
      * 전체 파일 다운로드
      * @return

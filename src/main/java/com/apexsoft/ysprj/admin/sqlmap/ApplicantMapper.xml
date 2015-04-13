@@ -19,7 +19,8 @@
         <result property="corsTypeCode" column="cors_type_code"/>
         <result property="corsTypeName" column="cors_type_name"/>
         <result property="detlMajCode" column="detl_maj_code"/>
-        <result property="detlMajName" column="detl_maj_Name"/>        
+        <result property="detlMajName" column="detl_maj_Name"/>
+        <result property="inpDetlMaj" column="INP_DETL_MAJ"/>
         <result property="korName" column="kor_name"/>
         <result property="engSur" column="eng_sur"/>
         <result property="engName" column="eng_name"/>
@@ -151,6 +152,7 @@
 			D.ARI_INST_NAME,
 			A.DETL_MAJ_CODE,
 			G.DETL_MAJ_NAME,
+            A.INP_DETL_MAJ,
 			A.KOR_NAME,
 			A.ENG_SUR,
 			A.ENG_NAME, 
@@ -215,6 +217,7 @@
         D.ARI_INST_NAME,
         A.DETL_MAJ_CODE,
         G.DETL_MAJ_NAME,
+        A.INP_DETL_MAJ,
         A.KOR_NAME,
         A.ENG_SUR,
         A.ENG_NAME,
@@ -264,7 +267,7 @@
 	
 	
   <select id="retrieveApplicantInfo" resultMap="applicantInfo" parameterType="java.lang.Integer">
-		SELECT a.APPL_NO APPL_NO,a.USER_ID, a.APPL_ID, H.ADMS_TYPE, F.CAMP_NAME, e.COLL_NAME, b.DEPT_NAME, a.CORS_TYPE_CODE, d.ARI_INST_NAME,a.DETL_MAJ_CODE,a.KOR_NAME,a.ENG_SUR,a.ENG_NAME, a.RGST_NO, a.RGST_BORN_DATE,
+		SELECT a.APPL_NO APPL_NO,a.USER_ID, a.APPL_ID, H.ADMS_TYPE, F.CAMP_NAME, e.COLL_NAME, b.DEPT_NAME, a.CORS_TYPE_CODE, d.ARI_INST_NAME,a.DETL_MAJ_CODE,a.INP_DETL_MAJ,a.KOR_NAME,a.ENG_SUR,a.ENG_NAME, a.RGST_NO, a.RGST_BORN_DATE,
             a.BORN_DAY,a.CITZ_CNTR_CODE, a.FORN_TYPE_CODE, a.GEND, a.MOBI_NUM,a.MAIL_ADDR
 		FROM  APPL a 
 		left outer join ARI_INST d
@@ -292,6 +295,7 @@
 		CODEVAL('APPL_ATTR', a.APPL_ATTR_CODE ) APPL_ATTR_NAME,
 		d.ARI_INST_NAME,
 		a.DETL_MAJ_CODE,
+		a.INP_DETL_MAJ,
 		a.KOR_NAME,
 		a.ENG_SUR,a.ENG_NAME,
 		a.RGST_NO,
@@ -391,6 +395,7 @@
        D.ARI_INST_NAME,
        A.DETL_MAJ_CODE,
        G.DETL_MAJ_NAME,
+       A.INP_DETL_MAJ,
        A.KOR_NAME,
        A.ENG_SUR,
        A.ENG_NAME,
@@ -750,6 +755,7 @@
         D.ARI_INST_NAME,
         A.DETL_MAJ_CODE,
         G.DETL_MAJ_NAME,
+        A.INP_DETL_MAJ,
         A.KOR_NAME,
         A.ENG_SUR,
         A.ENG_NAME,
@@ -839,6 +845,34 @@
     <select id="selectApplicantCntByAdms" resultType="com.apexsoft.ysprj.admin.domain.CommonCodeCnt"  parameterType="java.lang.String">
         SELECT DISTINCT(ADMS_NO) CODE, COUNT(*) CNT
         FROM APPL A WHERE A.APPL_STS_CODE = '00020'  GROUP BY ADMS_NO
+    </select>
+
+    <select id="selectApplicantCntByAdmsDept" resultType="com.apexsoft.ysprj.admin.domain.ApplicantDetailCnt"  parameterType="com.apexsoft.ysprj.admin.control.form.CourseSearchForm">
+        SELECT A.ADMS_NO,D.CAMP_CODE,D.CAMP_NAME, C.COLL_CODE, C.COLL_NAME, B.DEPT_CODE,B.DEPT_NAME, A.APPL_ATTR_CODE,CODEVAL( 'APPL_ATTR',A.APPL_ATTR_CODE) AS APPL_ATTR_NAME,
+            COUNT(CASE WHEN CORS_TYPE_CODE IN('01', '05','07','10') THEN 1 END) AS CNT1,
+            COUNT(CASE WHEN CORS_TYPE_CODE IN('02', '06','08','11') THEN 1 END) AS CNT2,
+            COUNT(CASE WHEN CORS_TYPE_CODE IN('03', '04','12') THEN 1 END) AS CNT3,
+            COUNT(CASE WHEN CORS_TYPE_CODE IN('09') THEN 1 END) AS CNT4,
+            COUNT(*) AS TOTAL_CNT
+        FROM APPL A, DEPT B, COLL C, CAMP D WHERE A.DEPT_CODE =B.DEPT_CODE AND B.COLL_CODE= C.COLL_CODE AND C.CAMP_CODE = D.CAMP_CODE AND A.APPL_STS_CODE = '00020'
+
+        <if test="admsNo != null and admsNo !=''">
+            AND A.ADMS_NO =#{admsNo}
+        </if>
+        <if test="applAttrCode != null and applAttrCode !=''">
+            AND A.APPL_ATTR_CODE =#{applAttrCode}
+        </if>
+        <if test="campCode != null and campCode !=''">
+            AND D.CAMP_CODE =#{campCode}
+        </if>
+        <if test="collCode != null and collCode !=''">
+            AND C.COLL_CODE =#{collCode}
+        </if>
+        <if test="deptCode != null and deptCode!=''">
+            AND B.DEPT_CODE = #{deptCode}
+        </if>
+        GROUP BY A.ADMS_NO,  A.APPL_ATTR_CODE, C.CAMP_CODE, B.COLL_CODE, B.DEPT_CODE
+        ORDER BY A.ADMS_NO, A.APPL_ATTR_CODE, C.CAMP_CODE, B.COLL_CODE, B.DEPT_SEQ
     </select>
 
 </mapper>

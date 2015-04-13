@@ -241,41 +241,6 @@ public class AdminServiceImpl implements AdminService{
     }
 	  
 
-    public List<ApplicantCnt> retrieveApplicantCntByDept(CourseSearchGridForm searchForm) {
-    	List<ApplicantCnt> campusList = null;
-        try {
-
-           campusList = commonDAO.queryForList(NAME_SPACE+"selectApplicantCnt", searchForm, ApplicantCnt.class);
-           
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return campusList;
-    }
-
-    public List<ApplicantCnt> retrieveApplicantDetailCntByDept(CourseSearchGridForm searchForm) {
-        List<ApplicantCnt> campusList = null;
-        try {
-
-            campusList = commonDAO.queryForList(NAME_SPACE+"selectApplicantDetailCnt", searchForm, ApplicantCnt.class);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return campusList;
-    }
-    //최근 1주일간 지원자 수 조회
-    public List<ApplicantCnt> retrieveApplicantCntByRecent(CourseSearchGridForm searchForm) {
-        List<ApplicantCnt> campusList = null;
-        try {
-
-            campusList = commonDAO.queryForList(NAME_SPACE+"selectApplicantRecentCntByDept", searchForm, ApplicantCnt.class);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return campusList;
-    }
 
 
 
@@ -353,18 +318,6 @@ public class AdminServiceImpl implements AdminService{
         return getCouurseSelectionBasicMap( aForm);
     }
 
-
-    public List<ApplicantCnt> retrieveUnpaidApplicantCntByDept(CourseSearchGridForm searchForm) {
-        List<ApplicantCnt> campusList = null;
-        try {
-
-            campusList = commonDAO.queryForList(NAME_SPACE+"selectUnpaidApplicantCnt", searchForm, ApplicantCnt.class);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return campusList;
-    }
 
 
     @Override
