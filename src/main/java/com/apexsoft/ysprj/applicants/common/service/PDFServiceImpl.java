@@ -92,8 +92,8 @@ public class PDFServiceImpl implements PDFService {
         String applicationFileName = null;
         List<ApplicationDocument> encryptedPdfList = new ArrayList<ApplicationDocument>();
         for (ApplicationDocument aDoc : pdfList) {
-            String filePath = aDoc.getFilePath();
-            String fileName = aDoc.getFileName();
+            String filePath = FileUtil.recoverAmpersand(aDoc.getFilePath());
+            String fileName = FileUtil.recoverAmpersand(aDoc.getFileName());
             if ("지원서".equals(aDoc.getDocItemName()) && StringUtil.getEmptyIfNull(aDoc.getDocItemCode()).equals(StringUtil.EMPTY_STRING)) {
                 applicationFilePath = filePath;
                 applicationFileName = fileName;

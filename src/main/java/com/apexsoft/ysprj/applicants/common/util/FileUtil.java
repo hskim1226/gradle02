@@ -18,6 +18,8 @@ public class FileUtil {
     private static final String ALL_FILE_PDF = "-all-fle.pdf";
     private static final String APPLICATION_SLIP_PREFIX = "application_slip_";
     private static final String APPLICATION_FORM_PREFIX = "application_form_";
+    private static final String ENCODED_AMP = "&amp;";
+    private static final String RECOVERED_AMP = "&";
 
 
     public static String getUploadDirectory(String admsNo, String userId, int applNo) {
@@ -102,6 +104,10 @@ public class FileUtil {
             return path.substring(0, posColon) + encoded;
         }
         return path;
+    }
+
+    public static String recoverAmpersand(String path) {
+        return path.replace(ENCODED_AMP, RECOVERED_AMP);
     }
 
     public static String getFinalMergedFileFullPath(String bucketName, String midPath, Application appl) {
