@@ -269,7 +269,8 @@ public class PaymentAdminController {
 
     /**
      * 결제 완료된 모든 원서에 대해
-     * 최종 원서가 업로드 되어 있는지
+     * APP이 실행되는 서버 로컬에 다운받은 파일을 기준으로
+     * 최종 원서가 존재하는지
      * 수험번호가 매겨져 있는 지
      * 통계를 화면에 보여주고
      * 상세 내역을 APPL_DOC_RSLT에 기록
@@ -395,7 +396,7 @@ public class PaymentAdminController {
      * @param mv
      * @return
      */
-    @RequestMapping(value = "/formDownloadAll")
+    @RequestMapping(value = "/form-download-all")
     public ModelAndView downloadAllUploadedFiles(Principal principal, ModelAndView mv) {
         mv.setViewName("xpay/formDownloadAll");
 
@@ -421,7 +422,7 @@ public class PaymentAdminController {
      * @param mv
      * @return
      */
-    @RequestMapping(value = "/downloadAll")
+    @RequestMapping(value = "/download-all")
     public ModelAndView downloadAllUploadedFiles(Principal principal,
                                                  @RequestParam("applNoList") String applNoList,
                                                  ModelAndView mv) {
