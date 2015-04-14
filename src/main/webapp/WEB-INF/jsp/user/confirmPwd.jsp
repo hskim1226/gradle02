@@ -89,7 +89,7 @@ $(document).ready(function() {
     <%-- 비밀번호 비교 --%>
 
     <%-- 비밀 번호 validation --%>
-    apex.passwordCheck('passwd');
+    apex.passwordCheck('passwd', '<spring:message code="APEXJS_0004"/>');
     <%-- 비밀 번호 validation --%>
 
     <%-- 하단 버튼 처리 --%>
