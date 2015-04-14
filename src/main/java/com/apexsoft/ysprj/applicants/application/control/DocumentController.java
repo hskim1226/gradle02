@@ -36,6 +36,8 @@ import org.apache.commons.io.IOUtils;
 import org.apache.pdfbox.exceptions.COSVisitorException;
 import org.apache.pdfbox.exceptions.CryptographyException;
 import org.apache.pdfbox.pdmodel.PDDocument;
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -233,6 +235,34 @@ public class DocumentController {
                                           HttpServletRequest request,
                                           ModelAndView mv) {
         webUtil.blockGetMethod(request, formData.getApplication());
+
+        // FOR MANAGE
+        String adminID = principal.getName();
+        if (adminID.equals("Apex1234") || adminID.startsWith("Yssub")) {
+
+        } else {
+            DateTime now = new DateTime();
+            DateTimeZone seoul = DateTimeZone.forID("Asia/Seoul");
+            DateTime dueTime = new DateTime(2015, 4, 10, 18, 50, 3, seoul);
+
+            Application tApplication = formData.getApplication();
+            String tUserId = tApplication != null ? tApplication.getUserId() : "APPLICATION IS NULL";
+            int tApplNo = tApplication != null ? tApplication.getApplNo() : -1;
+            if (now.isAfter(dueTime)) {
+                logger.error("DUE : " + dueTime);
+                logger.error("NOW : " + now);
+                logger.error("STATUS LATE");
+                logger.error("APPL STATUS CODE : " + tApplication.getApplStsCode());
+                logger.error("userId : [" + tUserId + "], " + "applNo : [" + tApplNo + "]" );
+                ExecutionContext ec = new ExecutionContext(ExecutionContext.FAIL);
+                ec.setMessage(messageResolver.getMessage("U04517"));
+                ec.setErrCode("ERR3011");
+
+                throw new YSBizException(ec);
+            }
+        }
+        // FOR MANAGE
+
         documentValidator.validate(formData, bindingResult, localeResolver.resolveLocale(request));
         mv.setViewName("application/mylist");
         if (bindingResult.hasErrors()) {
@@ -337,13 +367,15 @@ public class DocumentController {
                     String uploadDir = getDirectory(fileMetaForm);
                     String uploadFileName = "";
                     for ( FileItem fileItem : fileItems){
-                        if (fileItem.getFile().length() > MAX_LENGTH) {
-                            ec = new ExecutionContext(ExecutionContext.FAIL);
-                            Map<String, String> errorInfo = new HashMap<String, String>();
-                            errorInfo.put("applNo", String.valueOf(document.getApplNo()));
-                            ec.setErrorInfo(new ErrorInfo(errorInfo));
-                            throw new FileNoticeException(ec, "U04301", "ERR0060");
-                        }
+                        // FOR MANAGE
+//                        if (fileItem.getFile().length() > MAX_LENGTH) {
+//                            ec = new ExecutionContext(ExecutionContext.FAIL);
+//                            Map<String, String> errorInfo = new HashMap<String, String>();
+//                            errorInfo.put("applNo", String.valueOf(document.getApplNo()));
+//                            ec.setErrorInfo(new ErrorInfo(errorInfo));
+//                            throw new FileNoticeException(ec, "U04301", "ERR0060");
+//                        }
+                        // FOR MANAGE
                         if (fileItem.getOriginalFileName().toLowerCase().endsWith("pdf")) {
                             PDDocument pdf = null;
                             try {
