@@ -276,7 +276,8 @@ public class DocumentController {
 
         Application application = formData.getApplication();
         int applNo = application.getApplNo();
-        application.setUserId(userId);
+//        application.setUserId(userId);
+        application.setModId(userId);
 
         ec = documentService.submit(formData);
 
@@ -435,8 +436,8 @@ public class DocumentController {
                             document.setOrgFileName(originalFileName);
                             document.setFileExt(originalFileName.substring(originalFileName.lastIndexOf('.') + 1));
                             document.setPageCnt(fileInfo.getPageCnt());
-                            document.setCreId(principal.getName());
-
+//                            document.setCreId(principal.getName());
+                            document.setModId(principal.getName());
                             ec = documentService.saveOneDocument(document);
 
                             if (ExecutionContext.SUCCESS.equals(ec.getResult())) {

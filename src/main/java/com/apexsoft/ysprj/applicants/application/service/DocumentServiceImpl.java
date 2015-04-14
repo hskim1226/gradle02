@@ -206,9 +206,11 @@ public class DocumentServiceImpl implements DocumentService {
         }
 
         Date date = new Date();
-        String userId = application.getUserId();
+//        String userId = application.getUserId();
+        String modId = application.getModId();
         application.setModDate(date);
-        application.setModId(userId);
+//        application.setModId(userId);
+        application.setModId(modId);
         application.setDocChckYn("on".equals(application.getDocChckYn())?"Y":"N");
         application.setApplStsCode(APPLICATION_SUBMITTED);
 
@@ -231,7 +233,7 @@ public class DocumentServiceImpl implements DocumentService {
             }
             Map<String, String> errorInfo = new HashMap<String, String>();
             errorInfo.put("applNo", String.valueOf(applNo));
-            errorInfo.put("userId", userId);
+            errorInfo.put("modId", modId);
             ec.setErrorInfo(new ErrorInfo(errorInfo));
             throw new YSBizException(ec);
         }
@@ -279,7 +281,9 @@ public class DocumentServiceImpl implements DocumentService {
         int update=0, insert =0;
 
         Date date = new Date();
-        String userId = oneDocument.getCreId();
+//        String userId = oneDocument.getCreId();
+        // controller에서 principal에 있는 아이디를 ModId에 담아 넘겨줌
+        String modId = oneDocument.getModId();
 
         // applStsCode 수정 - TODO 적용할까말까
 //        int applUpdate = 0;
@@ -298,7 +302,7 @@ public class DocumentServiceImpl implements DocumentService {
         if( oneDocument.isFileUploadFg()){
             rUpdate++;
             oneDocument.setModDate(date);
-            oneDocument.setModId(userId);
+            oneDocument.setModId(modId);
             update = update + commonDAO.updateItem(oneDocument, NAME_SPACE, "ApplicationDocumentMapper");
 
         }else{
@@ -307,6 +311,7 @@ public class DocumentServiceImpl implements DocumentService {
             int maxSeq = commonDAO.queryForInt(NAME_SPACE +"CustomApplicationDocumentMapper.selectMaxSeqByApplNo", applNo ) ;
             oneDocument.setFileUploadFg(true);
             oneDocument.setDocSeq(++maxSeq);
+            oneDocument.setCreId(modId);
             oneDocument.setCreDate(date);
             insert = insert + commonDAO.insertItem(oneDocument, NAME_SPACE, "ApplicationDocumentMapper");
 
@@ -327,7 +332,8 @@ public class DocumentServiceImpl implements DocumentService {
             ec.setErrCode(errCode);
             Map<String, String> errorInfo = new HashMap<String, String>();
             errorInfo.put("applNo", String.valueOf(applNo));
-            errorInfo.put("userId", userId);
+            errorInfo.put("creId", oneDocument.getCreId());
+            errorInfo.put("modId", oneDocument.getModId());
             errorInfo.put("docSeq", String.valueOf(oneDocument.getDocSeq()));
             errorInfo.put("docItemCode", oneDocument.getDocItemCode());
             errorInfo.put("docItemName", oneDocument.getDocItemName());
