@@ -246,6 +246,7 @@ public class LangCareerServiceImpl implements LangCareerService {
         ApplicationGeneral applicationGene = langCareer.getApplicationGeneral();
         int applNo = application.getApplNo();
         String userId = application.getUserId();
+        String modId = application.getModId();
 
         Date date = new Date();
 
@@ -279,7 +280,7 @@ public class LangCareerServiceImpl implements LangCareerService {
                         if(aCont.isLangInfoSaveFg()){
                             //APPL_LANG,  UPDATE
                             rUpdate++;
-                            aCont.setModId(application.getModId());
+                            aCont.setModId(modId);
                             //토플 종류코드로 입력된 경우 이를 하부코드에 입력한다. 기존 코드가 있으며 이를 사용한다.
                             if( aCont.getSubCodeGrp() == null ||  "".equals(aCont.getSubCodeGrp()) ){
                                 aCont.setSubCodeGrp(aCont.getSelGrpCode() );
@@ -288,13 +289,14 @@ public class LangCareerServiceImpl implements LangCareerService {
                             if( aCont.getSubCode() == null ||  "".equals(aCont.getSubCode()) ){
                                 aCont.setSubCode( aCont.getToflTypeCode() );
                             }
+                            aCont.setModId(modId);
                             aCont.setModDate(date);
                             update = update + commonDAO.updateItem( aCont, NAME_SPACE, "ApplicationLanguageMapper");
 
                         }else{ //신규 입력정보
                             //APPL_LANG, INSERT
                             rInsert++;
-                            aCont.setCreId(application.getModId());
+                            aCont.setCreId(modId);
                             aCont.setCreDate(date);
                             //토플 종류코드로 입력된 경우 이를 하부코드에 입력한다. 기존 코드가 있으며 이를 사용한다.
                             if( aCont.getSubCodeGrp() == null ||  "".equals(aCont.getSubCodeGrp()) ){
@@ -347,7 +349,7 @@ public class LangCareerServiceImpl implements LangCareerService {
                 if(aExpr.isSaveFg()){
                     //APPL_LANG,  UPDATE
                     rUpdate++;
-                    aExpr.setModId(application.getModId());
+                    aExpr.setModId(modId);
                     aExpr.setModDate(date);
                     update = update + commonDAO.updateItem( aExpr, NAME_SPACE, "ApplicationExperienceMapper");
 
@@ -358,7 +360,7 @@ public class LangCareerServiceImpl implements LangCareerService {
                     aExpr.setApplNo(applNo);
                     aExpr.setExprSeq(++maxSeq);
                     aExpr.setSaveFg(true);
-                    aExpr.setCreId(application.getModId());
+                    aExpr.setCreId(modId);
                     aExpr.setCreDate(date);
                     insert = insert + commonDAO.insertItem( aExpr, NAME_SPACE, "ApplicationExperienceMapper");
                 }

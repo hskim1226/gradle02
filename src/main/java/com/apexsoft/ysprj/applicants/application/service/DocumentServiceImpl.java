@@ -121,7 +121,8 @@ public class DocumentServiceImpl implements DocumentService {
         ExecutionContext ec = new ExecutionContext();
         Application application = document.getApplication();
         int applNo = application.getApplNo();
-        String userId = application.getUserId();
+//        String userId = application.getUserId();
+        String modId = application.getModId();
 
         int r1 = 0, rSave = 0;
 
@@ -131,7 +132,7 @@ public class DocumentServiceImpl implements DocumentService {
             Date date = new Date();
 
             application.setModDate(date);
-            application.setModId(userId);
+            application.setModId(modId);
 //            application.setDocChckYn(application.getDocChckYn());
             application.setApplStsCode(FILE_UPLOAD_SAVED);
             r1 = commonDAO.updateItem(application, NAME_SPACE, "ApplicationMapper");
@@ -173,7 +174,7 @@ public class DocumentServiceImpl implements DocumentService {
             }
             Map<String, String> errorInfo = new HashMap<String, String>();
             errorInfo.put("applNo", String.valueOf(applNo));
-            errorInfo.put("userId", userId);
+            errorInfo.put("modId", modId);
             ec.setErrorInfo(new ErrorInfo(errorInfo));
             throw new YSBizException(ec);
         }

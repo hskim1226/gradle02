@@ -196,7 +196,8 @@ public class DocumentController {
 
         Application application = formData.getApplication();
         int applNo = application.getApplNo();
-        application.setUserId(userId);
+//        application.setUserId(userId);
+        application.setModId(userId);
 
         ec = documentService.saveDocument(formData);
 

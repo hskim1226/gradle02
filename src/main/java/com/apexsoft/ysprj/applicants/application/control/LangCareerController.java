@@ -115,13 +115,13 @@ public class LangCareerController {
             return mv;
         }
 
-
-        String userId = principal.getName();
+//        String userId = principal.getName();
+        String modId = principal.getName();
 
         Application application = formData.getApplication();
         int applNo = application.getApplNo();
-        application.setUserId(userId);
-        application.setModId(userId);
+//        application.setUserId(userId);
+        application.setModId(modId);
 
         List<CustomApplicationExperience> exprList = formData.getApplicationExperienceList();
 
