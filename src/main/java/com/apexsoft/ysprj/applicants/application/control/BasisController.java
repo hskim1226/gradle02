@@ -150,6 +150,7 @@ public class BasisController {
             }
         }
 
+        // 암호화 적용
         try {
             if ("C".equals(application.getAdmsTypeCode()) || "D".equals(application.getAdmsTypeCode())) {
                 ApplicationForeigner applicationForeigner = formData.getApplicationForeigner();
@@ -204,6 +205,7 @@ public class BasisController {
 
     /**
      * 지원 취소
+     * 지원 취소 후 내 원서 화면으로 이동
      *
      * @param formData
      * @param principal
