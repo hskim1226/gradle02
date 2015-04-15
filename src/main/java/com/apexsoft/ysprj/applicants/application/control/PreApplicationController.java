@@ -130,38 +130,6 @@ public class PreApplicationController {
     }
 
     /**
-     * 관리자용 내원서 화면
-     * @param principal
-     * @param mv
-     * @return
-     */
-    @RequestMapping(value="/showlist/{userId}")
-    public ModelAndView showApplListByUserId(Principal principal, @PathVariable("userId") String userId, ModelAndView mv) {
-        mv.setViewName("application/mylist");
-        String adminID = principal.getName();
-        if (adminID.equals("Apex1234")) {
-            ParamForApplication parameter = new ParamForApplication();
-            parameter.setUserId(userId);
-
-            List<CustomMyList> myList =
-                    commonDAO.queryForList("com.apexsoft.ysprj.applicants.application.sqlmap.CustomApplicationMapper.selectApplByUserId",
-                            parameter, CustomMyList.class);
-
-            mv.addObject("myList", myList);
-        } else {
-            ExecutionContext ec = new ExecutionContext(ExecutionContext.FAIL);
-            ec.setMessage(messageResolver.getMessage("U902"));
-            ec.setErrCode("ERR0801");
-            Map<String, String> errorInfo = new HashMap<String, String>();
-            errorInfo.put("adminID", adminID);
-            ec.setErrorInfo(new ErrorInfo(errorInfo));
-            throw new YSBizNoticeException(ec);
-        }
-
-        return mv;
-    }
-
-    /**
      * 원서 작성 동의 화면
      * SimpleForwardingController에서 이전
      * @return

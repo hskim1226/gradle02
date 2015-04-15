@@ -29,6 +29,14 @@
                         </div>
                         <div class="spacer-small">&nbsp;</div>
                         <div class="col-sm-offset-1 col-sm-10 align-center">
+                            <%-- SYSADMIN 일 경우 안내 배너 표시 --%>
+                            <c:if test="${isSYSADMIN}">
+                                <div class="col-sm-12">
+                                    <span class="btn-group-justified btn-lg btn-danger">THIS IS SYSADMIN, LIST of USER_ID : ${userId}</span>
+                                </div>
+                            </c:if>
+                            <div class="spacer-tiny">&nbsp;</div>
+                            <%-- SYSADMIN 일 경우 안내 배너 표시 --%>
                             <table class="table table-stripped text-gray">
                                 <thead>
                                 <tr>

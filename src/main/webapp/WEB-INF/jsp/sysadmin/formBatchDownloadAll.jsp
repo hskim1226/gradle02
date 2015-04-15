@@ -60,7 +60,7 @@
                 e.preventDefault();
 
                 var form = document.getElementById('batch-download');
-                form.action = "${contextPath}/payment/admin/downloadAll";
+                form.action = "${contextPath}/sysadmin/batch-download-all";
                 form.submit();
             });
 

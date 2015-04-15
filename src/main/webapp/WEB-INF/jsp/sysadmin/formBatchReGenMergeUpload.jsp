@@ -62,7 +62,7 @@
                 e.preventDefault();
 
                 var form = document.getElementById('sysAdminForm');
-                form.action = "${contextPath}/payment/admin/re-generate-merge-upload";
+                form.action = "${contextPath}/sysadmin/batch-re-generate-merge-upload";
                 form.submit();
             });
 

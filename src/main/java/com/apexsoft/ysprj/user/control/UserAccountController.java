@@ -56,7 +56,8 @@ public class UserAccountController {
     @Autowired
     private WebUtil webUtil;
 
-    @RequestMapping(value="/login", method= RequestMethod.GET)
+//    @RequestMapping(value="/login", method= RequestMethod.GET)
+    @RequestMapping(value="/login")
     public ModelAndView displayLoginForm(User user,
                                    BindingResult bindingResult,
                                    ModelAndView mv,
@@ -65,7 +66,8 @@ public class UserAccountController {
         mv.setViewName("user/login");
         if (bindingResult.hasErrors()) return mv;
 
-        if (request.getAttribute("LOGIN_FAILURE") == Boolean.TRUE)
+        if (request.getAttribute("LOGIN_FAILURE") == Boolean.TRUE || "fail".equals(request.getParameter("auth")))
+//        if (request.getAttribute("LOGIN_FAILURE") == Boolean.TRUE) // requestDispatcher 방식 사용 시에만 적용 가능
             mv.addObject("loginMessage", messageResolver.getMessage("U330"));
 
         return mv;

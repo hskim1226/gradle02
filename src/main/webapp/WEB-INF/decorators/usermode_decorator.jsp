@@ -67,6 +67,21 @@
                         <sec:authorize access="hasAnyRole('ROLE_USER', 'ROLE_SYSADMIN')">
                         <li><a href="${contextPath}/j_spring_security_logout.do"><i class="fa fa-sign-out"></i><spring:message code="L00011"/><%--로그아웃--%></a> </li>
                         </sec:authorize>
+                        <sec:authorize access="hasRole('ROLE_SYSADMIN')">
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-spinner"></i><spring:message code="L00015"/><%--시스템 관리자--%></a>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li><a href="${contextPath}/sysadmin/form-showlist">내 원서 보기</a></li>
+                                    <li class="divider"></li>
+                                    <li><a href="${contextPath}/sysadmin/form-pdf-manual">최종 PDF 생성 - 1건</a></li>
+                                    <li><a href="${contextPath}/sysadmin/form-batch-re-generate-merge-upload">최종 PDF 생성 - 다건</a></li>
+                                    <li class="divider"></li>
+                                    <li><a href="${contextPath}/sysadmin/form-batch-download-all">S3 다운로드</a></li>
+                                    <li class="divider"></li>
+                                    <li><a href="${contextPath}/sysadmin/form-pay-manual">결제</a></li>
+                                </ul>
+                            </li>
+                        </sec:authorize>
                         <li><a href="${contextPath}/common/displayTransLang"><i class="fa fa-globe"></i><spring:message code="L00014"/></a></li>
                         <%--<li><span class="nav_lang"><a href="#">&middot; Korean</a><a href="#">&middot; English</a></span></li>--%>
                     </ul>
