@@ -16,6 +16,7 @@ import com.apexsoft.ysprj.applicants.common.util.FileUtil;
 import com.apexsoft.ysprj.applicants.payment.domain.ApplicationPaymentTransaction;
 import com.apexsoft.ysprj.applicants.payment.domain.CustomApplicationDocumentResult;
 import com.apexsoft.ysprj.applicants.payment.service.PaymentService;
+import com.apexsoft.ysprj.sysadmin.service.SysAdminService;
 import com.snowtide.PDF;
 import com.snowtide.pdf.Document;
 import com.snowtide.pdf.OutputTarget;
@@ -48,7 +49,7 @@ import java.util.Map;
 public class SysAdminController {
 
     @Resource(name = "messageResolver")
-    MessageResolver messageResolver;
+    private MessageResolver messageResolver;
 
     @Autowired
     private PaymentService paymentService;
@@ -57,7 +58,10 @@ public class SysAdminController {
     private BirtService birtService;
 
     @Autowired
-    PDFService pdfService;
+    private PDFService pdfService;
+
+    @Autowired
+    private SysAdminService sysAdminService;
 
     @Autowired
     private CommonDAO commonDAO;
@@ -334,7 +338,7 @@ public class SysAdminController {
 //        for (int i = 0 ; i < 1 ; i++) {
 //            Application application = applList.get(i);
 
-            ec = processReGenMergeUpload(application);
+            ec = sysAdminService.processReGenMergeUpload(application);
             resultMap = (Map<String, Object>)ec.getData();
             resultGenAppl = (String)resultMap.get("genAppl");
             resultGenAdms = (String)resultMap.get("genAdms");
@@ -414,54 +418,5 @@ public class SysAdminController {
         }
 
         return mv;
-    }
-
-    private ExecutionContext processReGenMergeUpload(Application application) {
-        ExecutionContext ecResult = new ExecutionContext();
-        Map<String, Object> map = new HashMap<String, Object>();
-
-        String admsTypeCode = application.getAdmsTypeCode();
-        int applNo = application.getApplNo();
-        String lang = "C".equals(admsTypeCode) || "D".equals(admsTypeCode) ? "en" : "kr";
-        String reportName = "yonsei-appl-" + lang;
-
-        ExecutionContext ecGenAppl = null;
-
-        try {
-            ecGenAppl = birtService.generateBirtFile(applNo, reportName);
-        } catch (Exception e) {
-            ecGenAppl = new ExecutionContext(ExecutionContext.FAIL);
-        } finally {
-            map.put("genAppl", ecGenAppl.getResult());
-        }
-
-        reportName = "yonsei-adms-" + lang;
-        ExecutionContext ecGenAdms = null;
-        try {
-            ecGenAdms = birtService.generateBirtFile(applNo, reportName);
-        } catch (Exception e) {
-            ecGenAdms = new ExecutionContext(ExecutionContext.FAIL);
-        } finally {
-            map.put("genAdms", ecGenAdms.getResult());
-        }
-
-        ExecutionContext ecPdfMerge = null;
-        try {
-            ecPdfMerge = pdfService.getMergedPDFByApplicants(applNo);
-        } catch (Exception e) {
-            ecPdfMerge = new ExecutionContext(ExecutionContext.FAIL);
-            if (e instanceof YSBizNoticeException) {
-                YSBizNoticeException ybne = (YSBizNoticeException)e;
-                ExecutionContext ec = ybne.getExecutionContext();
-                List<Application> encryptedPdfList = (List<Application>)ec.getData();
-                map.put("encryptedPdfList", encryptedPdfList);
-            }
-        } finally {
-            map.put("mergePdf", ecPdfMerge.getResult());
-        }
-
-        ecResult.setData(map);
-
-        return ecResult;
     }
 }

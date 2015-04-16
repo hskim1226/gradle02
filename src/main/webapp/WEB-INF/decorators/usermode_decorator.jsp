@@ -73,6 +73,8 @@
                                 <ul class="dropdown-menu" role="menu">
                                     <li><a href="${contextPath}/sysadmin/form-showlist">내 원서 보기</a></li>
                                     <li class="divider"></li>
+                                    <li><a href="${contextPath}/sysadmin/analyze/pdf">최종 PDF 분석</a></li>
+                                    <li class="divider"></li>
                                     <li><a href="${contextPath}/sysadmin/form-pdf-manual">최종 PDF 생성 - 1건</a></li>
                                     <li><a href="${contextPath}/sysadmin/form-batch-re-generate-merge-upload">최종 PDF 생성 - 다건</a></li>
                                     <li class="divider"></li>
