@@ -22,7 +22,8 @@
 
 	<bean id="s3PersistenceManager" class="com.apexsoft.framework.persistence.file.manager.S3PersistenceManagerImpl">
 		<constructor-arg ref="amazonS3"/>
-		<constructor-arg value="${s3.region}"/>
+		<!--<constructor-arg value="${s3.region}"/>-->
+		<constructor-arg value="#{app['s3.region']}"/>
 	</bean>
 	
 	<bean id="multiPartReceiver" class="com.apexsoft.framework.persistence.file.receiver.MultiPartReceiverImpl" />

@@ -51,10 +51,19 @@
 	
 	<beans profile="local,dev,test,new,aws">
         <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
-            <property name="driverClassName" value="${jdbc.driver}"/>
-            <property name="url" value="${jdbc.url}"/>
-            <property name="username" value="${jdbc.username}"/>
-            <property name="password" value="${jdbc.password}"/>
+            <!--<property name="driverClassName" value="${jdbc.driver}"/>-->
+            <!--<property name="url" value="${jdbc.url}"/>-->
+            <!--<property name="username" value="${jdbc.username}"/>-->
+            <!--<property name="password" value="${jdbc.password}"/>-->
+            <!--<property name="defaultAutoCommit" value="false" />-->
+            <!--<property name="initialSize" value="50" />-->
+            <!--<property name="validationQuery" value="SELECT 1" />-->
+
+            <!--<context:property-placeholder>대신 SpEL 사용-->
+            <property name="driverClassName" value="#{app['jdbc.driver']}"/>
+            <property name="url" value="#{app['jdbc.url']}"/>
+            <property name="username" value="#{app['jdbc.username']}"/>
+            <property name="password" value="#{app['jdbc.password']}"/>
             <property name="defaultAutoCommit" value="false" />
             <property name="initialSize" value="50" />
             <property name="validationQuery" value="SELECT 1" />
