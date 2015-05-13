@@ -32,5 +32,10 @@
     <bean id="mailService" class="com.apexsoft.framework.mail.MailServiceImpl"/>
 
 
+    <!-- SES Mail -->
+    <bean id="sesMailService" class="com.apexsoft.framework.mail.SESMailServiceImpl">
+        <constructor-arg value="#{app['ses.region']}"/>
+    </bean>
+    <!-- SES Mail -->
 
 </beans>

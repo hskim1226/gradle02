@@ -39,6 +39,7 @@
                 <value>classpath:message/applicants/application.labels</value>
                 <value>classpath:message/applicants/application.err</value>
                 <value>classpath:message/applicants/signup.labels</value>
+                <value>classpath:message/applicants/mail</value>
                 <value>classpath:message/university/yonsei</value>
                 <value>classpath:message/apexjs/apexjs</value>
             </list>

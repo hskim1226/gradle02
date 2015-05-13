@@ -25,24 +25,27 @@ public class MailServiceImpl implements MailService {
     public void sendMail(Mail mail) {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setFrom(mail.getFrom());
-        message.setTo(getArray(mail.getTo()));
-        message.setCc(getArray(mail.getCc()));
-        message.setBcc(getArray(mail.getBc()));
+//        message.setTo(getArray(mail.getTo()));
+//        message.setCc(getArray(mail.getCc()));
+//        message.setBcc(getArray(mail.getBcc()));
+        message.setTo(mail.getTo());
+        message.setCc(mail.getCc());
+        message.setBcc(mail.getBcc());
         message.setSubject(mail.getSubject());
         message.setText(mail.getContents());
         mailSender.send(message);
     }
 
-    private String[] getArray(String addresses) {
-        return getArray(addresses, ",");
-    }
-
-    private String[] getArray(String addresses, String delimiter) {
-        List<String> addrArray = new ArrayList<String>();
-        StringTokenizer stkn = new StringTokenizer(addresses, delimiter);
-        while(stkn.hasMoreTokens()) {
-            addrArray.add(stkn.nextToken());
-        }
-        return (String[])addrArray.toArray(new String[0]);
-    }
+//    private String[] getArray(String addresses) {
+//        return getArray(addresses, ",");
+//    }
+//
+//    private String[] getArray(String addresses, String delimiter) {
+//        List<String> addrArray = new ArrayList<String>();
+//        StringTokenizer stkn = new StringTokenizer(addresses, delimiter);
+//        while(stkn.hasMoreTokens()) {
+//            addrArray.add(stkn.nextToken());
+//        }
+//        return (String[])addrArray.toArray(new String[0]);
+//    }
 }

@@ -22,7 +22,7 @@
         From 발신<br/><input type="text" name="from" /><p></p>
         To 수신<br/><input type="text" name="to" /><p></p>
         Cc 참조<br/><input type="text" name="cc" /><p></p>
-        Bc 비밀참조<br/><input type="text" name="bc" /><p></p>
+        Bc 비밀참조<br/><input type="text" name="bcc" /><p></p>
         Contents 내용<br/><textarea name="contents"></textarea>
     <!--</form>-->
     </form:form>

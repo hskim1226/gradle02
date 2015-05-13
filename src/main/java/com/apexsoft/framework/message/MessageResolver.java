@@ -8,7 +8,7 @@ import java.util.Locale;
 
 public class MessageResolver {
 
-    private MessageSourceAccessor messageSourceAccessor;
+    private static MessageSourceAccessor messageSourceAccessor;
 
     private Locale defaultLocale = Locale.KOREAN;
 
@@ -24,4 +24,15 @@ public class MessageResolver {
         return messageSourceAccessor.getMessage(code, locale);
     }
 
+    public static String getMessageS(String code) {
+        return messageSourceAccessor.getMessage(code, LocaleContextHolder.getLocale());
+    }
+
+    public static String getMessageS(String code, Object[] args) {
+        return messageSourceAccessor.getMessage(code, args, LocaleContextHolder.getLocale());
+    }
+
+    public static String getMessageS(String code, Object[] args, Locale locale) {
+        return messageSourceAccessor.getMessage(code, args, locale);
+    }
 }
