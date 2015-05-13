@@ -177,7 +177,8 @@ abstract public class CustomAbstractSingleFormatBirtProcessor implements Initial
     }
 
     /**
-     * 외부에서 직접 호출되어 Birt 파일을 미리보기 또는 생성한다.
+     * 외부에서 BirtService를 직접 호출하고,
+     * BirtService에서 본 메서드를 호출해서 Birt 파일을 미리보기 또는 생성한다.
      *
      * @param modelData Birt 보고서에 표시될 데이타
      * @throws Exception

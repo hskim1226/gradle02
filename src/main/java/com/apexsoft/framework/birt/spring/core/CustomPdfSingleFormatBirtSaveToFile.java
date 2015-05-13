@@ -21,6 +21,17 @@ public class CustomPdfSingleFormatBirtSaveToFile extends CustomAbstractSingleFor
 //        setContentType("application/pdf");
     }
 
+    /**
+     * Birt가 생성한 PDF 파일을 서버 로컬 디스크에 저장
+     *
+     * @param map
+     * @param resourcePathCallback
+     * @param reportName
+     * @param format
+     * @param options
+     * @return
+     * @throws Throwable
+     */
     @Override
     protected RenderOption renderReport( Map<String, Object> map,
                                          BirtViewResourcePathCallback resourcePathCallback,

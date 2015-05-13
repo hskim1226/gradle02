@@ -64,8 +64,9 @@ public class PDFServiceImpl implements PDFService {
 
     /**
      * 지원자 별 PDF 묶음 파일 생성
-     * 첨부 파일을 먼저 합치고, 페이지를 먹인 후,
-     * 이미 생성되어 있는 지원서 파일과 합쳐서 최종 파일을 생성한다.
+     * 첨부 파일을 S3로부터 서버 로컬에 내려받아 먼저 합치고, 페이지를 먹인 후,
+     * 이미 생성되어 있는 지원서 파일과 합쳐서 최종 파일을 생성하고,
+     * S3에 업로드
      *
      *
      * @param applNo
@@ -232,6 +233,8 @@ public class PDFServiceImpl implements PDFService {
             lastMergeUtil.setDestinationFileName(FileUtil.encodeSlash(FileUtil.getFinalMergedFileFullPath(applicationFilePath, applNo), tempSlashReplacer));
             lastMergeUtil.mergeDocuments();
             logger.debug("All Merge 성공, applNo : " + applNo);
+
+            // 머지된 최종 파일을 S3에 업로드
             File lastMergedFile = new File(lastMergeUtil.getDestinationFileName());
             ObjectMetadata meta = new ObjectMetadata();
             meta.setContentEncoding("UTF-8");

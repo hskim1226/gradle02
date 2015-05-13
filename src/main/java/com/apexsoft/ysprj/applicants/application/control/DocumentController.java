@@ -684,7 +684,8 @@ public class DocumentController {
     }
 
     /**
-     * 원서+첨부 파일 미리보기 용 원서 파일 정보 저장
+     * 원서+첨부 파일 미리보기 용 원서 파일 정보 DB 저장 및
+     * Birt가 생성한 PDF 파일을 서버 로컬 디스크에 저장
      *
      * @param document
      * @param principal

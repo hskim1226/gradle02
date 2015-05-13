@@ -65,7 +65,7 @@ public class PDFController {
     private static final Logger logger = LoggerFactory.getLogger(PDFController.class);
 
     /**
-     * 지원자 별 PDF 묶음 파일 생성
+     * 지원자 별 PDF 묶음 파일 생성 및 S3에 업로드
      *
      * @param birtRequest
      * @return

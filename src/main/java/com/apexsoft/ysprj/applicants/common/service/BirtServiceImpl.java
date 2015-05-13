@@ -75,6 +75,13 @@ public class BirtServiceImpl implements BirtService {
     private String ADMS_FORN_1 = "C";
     private String ADMS_FORN_2 = "D";
 
+    /**
+     * Birt로 파일 생성 및 서버 로컬에 저장
+     *
+     * @param applNo
+     * @param birtRptFileName
+     * @return
+     */
     @Override
     public ExecutionContext generateBirtFile(int applNo, String birtRptFileName) {
 
