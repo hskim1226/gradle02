@@ -94,6 +94,15 @@ public class BirtController {
         return mv;
     }
 
+    /**
+     * mylist에서 호출됨
+     *
+     * @param birtRequest
+     * @param principal
+     * @param request
+     * @param mv
+     * @return
+     */
     @RequestMapping(value = "/preview")
     public ModelAndView previewAppInfo(BirtRequest birtRequest,
                                        Principal principal,

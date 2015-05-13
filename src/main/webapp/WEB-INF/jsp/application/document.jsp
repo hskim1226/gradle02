@@ -1239,7 +1239,7 @@
 
             } else if (saveType == 'preview') {
                 form.action = "${contextPath}/pdf/download";
-                form.target="_blank";
+//                form.target="_blank";
                 form.submit();
             } else if (saveType == 'submit') {
                 $('#overlay').show();
