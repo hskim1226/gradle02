@@ -60,6 +60,9 @@ public class DocumentServiceImpl implements DocumentService {
     @Value("#{app['s3.midPath']}")
     private String s3MidPath;
 
+    @Value("#{app['constraint.allowSameRRN']}")
+    private String allowSameRRN;
+
     private final String APP_NULL_STATUS = "00000";      // 에러일 때 반환값
     private final String FILE_UPLOAD_SAVED = "00004";    // 첨부파일 저장
     private final String APPLICATION_SUBMITTED = "00010";    // 원서 작성 및 제출 완료
@@ -187,16 +190,18 @@ public class DocumentServiceImpl implements DocumentService {
         int r1, applNo = application.getApplNo();
 
         // 동일한 주민번호로 제출된 원서 존재 여부 확인
-        if (!"C".equals(application.getAdmsTypeCode()) && !"D".equals(application.getAdmsTypeCode())) {
-            if (isRgstNoDuplicate(applNo)) {
-                ec.setResult(ExecutionContext.FAIL);
-                ec.setMessage(MessageResolver.getMessage("U346"));
-                ec.setErrCode("ERR0042");
-                Map<String, String> errorInfo = new HashMap<String, String>();
-                errorInfo.put("applNo", String.valueOf(applNo));
-                errorInfo.put("userId", application.getUserId());
-                ec.setErrorInfo(new ErrorInfo(errorInfo));
-                throw new YSBizNoticeException(ec);
+        if ("TRUE".equals(allowSameRRN)) {
+            if (!"C".equals(application.getAdmsTypeCode()) && !"D".equals(application.getAdmsTypeCode())) {
+                if (isRgstNoDuplicate(applNo)) {
+                    ec.setResult(ExecutionContext.FAIL);
+                    ec.setMessage(MessageResolver.getMessage("U346"));
+                    ec.setErrCode("ERR0042");
+                    Map<String, String> errorInfo = new HashMap<String, String>();
+                    errorInfo.put("applNo", String.valueOf(applNo));
+                    errorInfo.put("userId", application.getUserId());
+                    ec.setErrorInfo(new ErrorInfo(errorInfo));
+                    throw new YSBizNoticeException(ec);
+                }
             }
         }
 
