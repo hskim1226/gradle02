@@ -88,6 +88,11 @@
         <location>/WEB-INF/jsp/common/404.jsp</location>
     </error-page>
 
+    <error-page>
+        <error-code>500</error-code>
+        <location>/WEB-INF/jsp/common/500.jsp</location>
+    </error-page>
+
     <welcome-file-list>
         <welcome-file>index.html</welcome-file>
         <welcome-file>index.htm</welcome-file>

@@ -78,7 +78,7 @@
                 <i class="fa fa-frown-o fa-3x" style="vertical-align: middle; line-height:40px;"></i>&nbsp;&nbsp;<span style="font-size: 35px; vertical-align: middle; line-height:40px;"><b><spring:message code="U999"/><%--사용에 불편을 드려 죄송합니다--%></b></span>
             </div>
             <div class="spacer-small">&nbsp;</div>
-            <h2 style="text-align: center;"><spring:message code="U905"/></h2>
+            <h2 style="text-align: center;"><spring:message code="U905"/></h2>  <%--접근할 수 없는 페이지입니다.--%>
         </div>
     </section>
     <!-- FOOTER -->

@@ -78,7 +78,11 @@
                 <i class="fa fa-frown-o fa-3x" style="vertical-align: middle; line-height:40px;"></i>&nbsp;&nbsp;<span style="font-size: 35px; vertical-align: middle; line-height:40px;"><b><spring:message code="U999"/><%--사용에 불편을 드려 죄송합니다--%></b></span>
             </div>
             <div class="spacer-small">&nbsp;</div>
-            <h2 style="text-align: center;"><spring:message code="U904"/></h2>  <%--요청하신 페이지가 존재하지 않습니다.--%>
+            <h2 style="text-align: center;"><spring:message code="U906"/></h2>  <%--페이지 화면 로딩 중에 오류가 발생했습니다.--%>
+            <!--
+            <p>원인 : ${pageContext.errorData.throwable.cause}</p>
+            <p>메시지 : ${pageContext.errorData.throwable.message}</p>
+            -->
         </div>
     </section>
     <!-- FOOTER -->
