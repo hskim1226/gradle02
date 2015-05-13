@@ -15,6 +15,14 @@
         <property name="reportsDirectory" value="reports" />
     </bean>
 
+    <bean id="pdfSingleFormatBirtDownload" class="com.apexsoft.framework.birt.spring.core.PdfSingleFormatBirtDownload">
+        <property name="birtEngine" ref="birtEngineFactory" />
+        <property name="reportFormatRequestParameter" value="reportFormat" />
+        <property name="reportNameRequestParameter" value="reportName" />
+        <property name="documentNameRequestParameter" value="documentName" />
+        <property name="reportsDirectory" value="reports" />
+    </bean>
+
     <bean id="pdfSingleFormatBirtSaveToFile" class="com.apexsoft.framework.birt.spring.core.PdfSingleFormatBirtSaveToFile">
         <property name="birtEngine" ref="birtEngineFactory" />
         <property name="reportFormatRequestParameter" value="reportFormat" />

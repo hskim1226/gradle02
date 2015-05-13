@@ -3,40 +3,63 @@ package com.apexsoft.ysprj.admin.control;
 import java.io.*;
 import java.security.NoSuchAlgorithmException;
 import java.security.Principal;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import javax.annotation.Resource;
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
 
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.GetObjectRequest;
+import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.S3Object;
 import com.apexsoft.framework.common.vo.ExecutionContext;
+import com.apexsoft.framework.exception.ErrorInfo;
+import com.apexsoft.framework.exception.YSBizException;
 import com.apexsoft.framework.message.MessageResolver;
+import com.apexsoft.framework.persistence.dao.CommonDAO;
+import com.apexsoft.ysprj.admin.control.form.CourseSearchGridForm;
 import com.apexsoft.ysprj.admin.control.form.CourseSearchPageForm;
+import com.apexsoft.ysprj.admin.domain.ApplicantCnt;
 import com.apexsoft.ysprj.admin.domain.ApplicantInfo;
+
+import com.apexsoft.ysprj.admin.domain.ApplicantInfoEntire;
 import com.apexsoft.ysprj.admin.service.AdminService;
+import com.apexsoft.ysprj.admin.service.ChangeService;
 import com.apexsoft.ysprj.admin.service.PostApplicationService;
+import com.apexsoft.ysprj.applicants.application.domain.Application;
 import com.apexsoft.ysprj.applicants.application.domain.ApplicationDocument;
 import com.apexsoft.ysprj.applicants.application.service.DocumentService;
+import com.apexsoft.ysprj.applicants.common.service.BirtService;
 import com.apexsoft.ysprj.applicants.common.service.PDFService;
+import com.apexsoft.ysprj.applicants.test.EntireApplication;
+import com.apexsoft.ysprj.user.domain.User;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.encrypt.Encryptors;
+import org.springframework.security.crypto.encrypt.TextEncryptor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Value;
 import javax.servlet.http.HttpServletResponse;
 import java.net.URLEncoder;
 import com.apexsoft.ysprj.applicants.common.util.FileUtil;
+import org.springframework.web.bind.ServletRequestUtils;
 
 
 /**
@@ -56,10 +79,21 @@ public class AdminController {
     private AdminService adminService;
 
     @Autowired
-    private PostApplicationService postApplicationService;
+    CommonDAO commonDAO;
 
     @Autowired
-    private ObjectMapper jacksonObjectMapper;    
+    private ServletContext context;
+
+    @Autowired
+    private PostApplicationService postApplicationService;
+
+
+    @SuppressWarnings("restriction")
+    @Resource(name = "messageResolver")
+    private MessageResolver messageResolver;
+
+    @Autowired
+    BirtService birtService;
 
     @Value("#{app['file.baseDir']}")
     private String fileBaseDir;
@@ -70,6 +104,8 @@ public class AdminController {
     @Value("#{app['s3.midPath']}")
     private String s3MidPath;
 
+    @Value("#{app['rpt.format']}")
+    private String REPORT_FORMAT;
 
     private ModelAndView getErrorMV(String errorViewName, ExecutionContext ec) {
         ModelAndView mv = new ModelAndView(errorViewName);
@@ -105,7 +141,7 @@ public class AdminController {
         mv.setViewName("admin/search/applicantsName");
         ExecutionContext ec;
         if (bindingResult.hasErrors()) {
-            mv.addObject("resultMsg", MessageResolver.getMessage("U334"));
+            mv.addObject("resultMsg", messageResolver.getMessage("U334"));
 
         }
         ExecutionContext ecRetrieve = adminService.retrieveApplicantPaginatedListByApplicantInfo(courseSearchPageForm);
@@ -120,16 +156,16 @@ public class AdminController {
         }
         return mv;
     }
-    
+
     @RequestMapping(value="/search/applicants/idSearch")
     public  ModelAndView searchApplicantById( @ModelAttribute CourseSearchPageForm courseSearchPageForm,
-                                       BindingResult bindingResult,
-                                       ModelAndView mv)
+                                              BindingResult bindingResult,
+                                              ModelAndView mv)
             throws NoSuchAlgorithmException, JsonProcessingException, UnsupportedEncodingException {
         mv.setViewName("admin/search/applicantsId");
         ExecutionContext ec;
         if (bindingResult.hasErrors()) {
-            mv.addObject("resultMsg", MessageResolver.getMessage("U334"));
+            mv.addObject("resultMsg", messageResolver.getMessage("U334"));
 
         }
         ExecutionContext ecRetrieve = adminService.retrieveApplicantPaginatedListByApplicantInfo(courseSearchPageForm);
@@ -144,16 +180,16 @@ public class AdminController {
         }
         return mv;
     }
-    
+
     @RequestMapping(value="/search/applicants/deptSearch")
     public ModelAndView searchApplicantByDept( @ModelAttribute CourseSearchPageForm courseSearchPageForm,
                                                BindingResult bindingResult,
                                                ModelAndView mv)
-    		throws NoSuchAlgorithmException, JsonProcessingException, UnsupportedEncodingException {
+            throws NoSuchAlgorithmException, JsonProcessingException, UnsupportedEncodingException {
         mv.setViewName("admin/search/applicantsDept");
         ExecutionContext ec;
         if (bindingResult.hasErrors()) {
-            mv.addObject("resultMsg", MessageResolver.getMessage("U334"));
+            mv.addObject("resultMsg", messageResolver.getMessage("U334"));
 
         }
         ExecutionContext ecRetrieve = adminService.retrieveApplicantPaginatedListByDept(courseSearchPageForm);
@@ -166,7 +202,7 @@ public class AdminController {
             mv = getErrorMV("common/error", ecRetrieve);
         }
         return mv;
-    }    
+    }
 
     @RequestMapping(value="/search/applicant/applInfoDetail")
     public String displayQnaDetail(@RequestParam("applNo") int applNo, Model model){
@@ -181,19 +217,19 @@ public class AdminController {
 
 
         return "admin/search/applInfoDetail";
-    }    
+    }
 
 
     @RequestMapping(value="/cancel/application")
     public String cancelApplication() {
         return "admin/cancel/application";
     }
-    
+
     @RequestMapping(value="/data/download")
     public String dataDownload() {
         return "/admin/data/download";
     }
-    
+
     @RequestMapping(value="/data/payment")
     public String dataPayment() {
         return "/admin/data/payment";
@@ -233,7 +269,7 @@ public class AdminController {
         mv.setViewName("admin/stats/main");
         ExecutionContext ec;
         if (bindingResult.hasErrors()) {
-            mv.addObject("resultMsg", MessageResolver.getMessage("U334"));
+            mv.addObject("resultMsg", messageResolver.getMessage("U334"));
 
         }
         ExecutionContext ecRetrieve = adminService.retrieveInitInfo();
@@ -251,7 +287,7 @@ public class AdminController {
     }
 
     /**
-     * 전체 파일 다운로드
+     * 지원서 다운로드
      * @return
      * @throws java.io.IOException
      */
@@ -295,6 +331,33 @@ public class AdminController {
         response.setContentLength(bytes.length);
 
         return bytes;
+    }
+
+    /**
+     * 수험표 다운로드
+     * @return
+     * @throws java.io.IOException
+     */
+
+    @RequestMapping(value="/search/applSlipDownload", produces = "application/pdf")
+    public ModelAndView applDownload(@RequestParam("applNo") int applNo,
+                                     @RequestParam("admsTypeCode") String admsTypeCode,
+                                     Principal principal,
+                                     HttpServletResponse response,
+                                     ModelAndView mv) throws IOException {
+
+        mv.setViewName("pdfSingleFormatBirtDownload");
+
+        Map<String, Object> bigDataMap = null;
+        String lang = "C".equals(admsTypeCode) || "D".equals(admsTypeCode) ? "en" : "kr";
+        String reportName = "yonsei-adms-" + lang;
+        mv.addObject("reportFormat", REPORT_FORMAT);
+        mv.addObject("reportName", reportName);
+        ExecutionContext ec = birtService.processBirt(applNo, reportName);
+        bigDataMap = (Map<String, Object>)ec.getData();
+        mv.addAllObjects(bigDataMap);
+
+        return mv;
     }
 
     /**
