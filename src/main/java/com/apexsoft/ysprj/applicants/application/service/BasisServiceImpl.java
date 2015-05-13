@@ -34,9 +34,6 @@ public class BasisServiceImpl implements BasisService {
     @Autowired
     private CommonService commonService;
 
-    @Resource(name = "messageResolver")
-    MessageResolver messageResolver;
-
     private final String APP_INFO_SAVED = "00001";       // 기본정보 저장
 
     @Override
@@ -322,10 +319,10 @@ public class BasisServiceImpl implements BasisService {
 
         if ( r1 == 1 && (r2 + r3 == 1) ) {
             ec.setResult(ExecutionContext.SUCCESS);
-            ec.setMessage(messageResolver.getMessage("U315"));
+            ec.setMessage(MessageResolver.getMessage("U315"));
         } else {
             ec.setResult(ExecutionContext.FAIL);
-            ec.setMessage(messageResolver.getMessage("U316"));
+            ec.setMessage(MessageResolver.getMessage("U316"));
             String errCode = null;
             if (isInsert) {
                 if (r1 == 0) errCode = "ERR0001";
@@ -415,10 +412,10 @@ public class BasisServiceImpl implements BasisService {
 
         if ( r1 == 1 ) {
             ec.setResult(ExecutionContext.SUCCESS);
-            ec.setMessage(messageResolver.getMessage("U315"));
+            ec.setMessage(MessageResolver.getMessage("U315"));
         } else {
             ec.setResult(ExecutionContext.FAIL);
-            ec.setMessage(messageResolver.getMessage("U316"));
+            ec.setMessage(MessageResolver.getMessage("U316"));
             String errCode = null;
             if (isInsert) {
                 if (r1 == 0) errCode = "ERR0001";

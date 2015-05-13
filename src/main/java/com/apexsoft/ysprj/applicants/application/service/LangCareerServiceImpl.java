@@ -25,9 +25,6 @@ public class LangCareerServiceImpl implements LangCareerService {
     @Autowired
     private CommonDAO commonDAO;
 
-    @Resource(name = "messageResolver")
-    MessageResolver messageResolver;
-
     @Autowired
     private CommonService commonService;
 
@@ -383,12 +380,12 @@ public class LangCareerServiceImpl implements LangCareerService {
 
         if ( rUpAppl == upAppl && rUpApplGen == upApplGen && insert == rInsert && update == rUpdate && delete == rDelete && deleteOk) {
             ec.setResult(ExecutionContext.SUCCESS);
-            ec.setMessage(messageResolver.getMessage("U319"));
+            ec.setMessage(MessageResolver.getMessage("U319"));
             ec.setData(new ApplicationIdentifier(applNo, application.getApplStsCode(),
                     application.getAdmsNo(), application.getEntrYear(), application.getAdmsTypeCode()));
         } else {
             ec.setResult(ExecutionContext.FAIL);
-            ec.setMessage(messageResolver.getMessage("U320"));
+            ec.setMessage(MessageResolver.getMessage("U320"));
             ec.setData(new ApplicationIdentifier(applNo, APP_NULL_STATUS));
             String errCode = null;
             if ( rUpAppl != upAppl ) errCode = "ERR0003";

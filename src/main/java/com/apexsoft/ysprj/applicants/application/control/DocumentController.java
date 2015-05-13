@@ -14,7 +14,6 @@ import com.apexsoft.framework.exception.YSBizException;
 import com.apexsoft.framework.message.MessageResolver;
 import com.apexsoft.framework.persistence.file.callback.FileUploadEventCallbackHandler;
 import com.apexsoft.framework.persistence.file.exception.FileNoticeException;
-import com.apexsoft.framework.persistence.file.exception.FileUploadException;
 import com.apexsoft.framework.persistence.file.handler.FileHandler;
 import com.apexsoft.framework.persistence.file.manager.FilePersistenceManager;
 import com.apexsoft.framework.persistence.file.model.FileInfo;
@@ -28,13 +27,8 @@ import com.apexsoft.ysprj.applicants.common.service.CommonService;
 import com.apexsoft.ysprj.applicants.common.util.FileUtil;
 import com.apexsoft.ysprj.applicants.common.util.StringUtil;
 import com.apexsoft.ysprj.applicants.common.util.WebUtil;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.apache.commons.fileupload.FileUpload;
-import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
-import org.apache.pdfbox.exceptions.COSVisitorException;
-import org.apache.pdfbox.exceptions.CryptographyException;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
@@ -56,7 +50,6 @@ import java.net.URLEncoder;
 import java.security.Principal;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 
 /**
@@ -85,9 +78,6 @@ public class DocumentController {
 
     @Autowired
     private ObjectMapper objectMapper;
-
-    @Resource(name = "messageResolver")
-    MessageResolver messageResolver;
 
     @Value("#{app['file.baseDir']}")
     private String fileBaseDir;
@@ -189,7 +179,7 @@ public class DocumentController {
         documentValidator.validate(formData, bindingResult, localeResolver.resolveLocale(request));
         mv.setViewName(TARGET_VIEW);
         if (bindingResult.hasErrors()) {
-            mv.addObject("resultMsg", messageResolver.getMessage("U334"));
+            mv.addObject("resultMsg", MessageResolver.getMessage("U334"));
             return mv;
         }
 
@@ -255,7 +245,7 @@ public class DocumentController {
                 logger.error("APPL STATUS CODE : " + tApplication.getApplStsCode());
                 logger.error("userId : [" + tUserId + "], " + "applNo : [" + tApplNo + "]" );
                 ExecutionContext ec = new ExecutionContext(ExecutionContext.FAIL);
-                ec.setMessage(messageResolver.getMessage("U04517"));
+                ec.setMessage(MessageResolver.getMessage("U04517"));
                 ec.setErrCode("ERR3011");
 
                 throw new YSBizException(ec);
@@ -267,7 +257,7 @@ public class DocumentController {
         mv.setViewName("application/mylist");
         if (bindingResult.hasErrors()) {
             mv.setViewName("application/document");
-            mv.addObject("resultMsg", messageResolver.getMessage("U334"));
+            mv.addObject("resultMsg", MessageResolver.getMessage("U334"));
             return mv;
         }
 
@@ -442,16 +432,16 @@ public class DocumentController {
 
                             if (ExecutionContext.SUCCESS.equals(ec.getResult())) {
                                 fileMetaForm.setTotalApplicationDocument((TotalApplicationDocument)ec.getData());
-                                fileMetaForm.setResultMessage(messageResolver.getMessage("U348"));
+                                fileMetaForm.setResultMessage(MessageResolver.getMessage("U348"));
                             } else {
-                                fileMetaForm.setResultMessage(messageResolver.getMessage("U339"));
+                                fileMetaForm.setResultMessage(MessageResolver.getMessage("U339"));
                             }
 
                             jsonFileMetaForm = objectMapper.writeValueAsString(fileMetaForm);
 
                         } catch (AmazonServiceException ase) {
                             ec = new ExecutionContext(ExecutionContext.FAIL);
-                            ec.setMessage(messageResolver.getMessage("U339"));
+                            ec.setMessage(MessageResolver.getMessage("U339"));
                             ec.setErrCode("ERR0052");
                             Map<String, String> errorInfo = new HashMap<String, String>();
                             errorInfo.put("userId", String.valueOf(principal.getName()));
@@ -466,7 +456,7 @@ public class DocumentController {
                             throw new YSBizException(ec);
                         } catch (AmazonClientException ace) {
                             ec = new ExecutionContext(ExecutionContext.FAIL);
-                            ec.setMessage(messageResolver.getMessage("U339"));
+                            ec.setMessage(MessageResolver.getMessage("U339"));
                             ec.setErrCode("ERR0052");
                             Map<String, String> errorInfo = new HashMap<String, String>();
                             errorInfo.put("applNo", String.valueOf(document.getApplNo()));
@@ -778,7 +768,7 @@ public class DocumentController {
         eInfo.put("docSeq", docSeq);
         eInfo.put("docItemCode", docItemCode);
         eInfo.put("docItemName", docItemName);
-        ec.setMessage(messageResolver.getMessage(messageCode));
+        ec.setMessage(MessageResolver.getMessage(messageCode));
         ec.setErrCode(errCode);
         ec.setErrorInfo(new ErrorInfo(eInfo));
         return new YSBizException(ec);

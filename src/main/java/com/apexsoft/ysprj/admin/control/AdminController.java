@@ -3,34 +3,24 @@ package com.apexsoft.ysprj.admin.control;
 import java.io.*;
 import java.security.NoSuchAlgorithmException;
 import java.security.Principal;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
 
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.GetObjectRequest;
-import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.S3Object;
 import com.apexsoft.framework.common.vo.ExecutionContext;
-import com.apexsoft.framework.exception.ErrorInfo;
-import com.apexsoft.framework.exception.YSBizException;
 import com.apexsoft.framework.message.MessageResolver;
-import com.apexsoft.ysprj.admin.control.form.CourseSearchGridForm;
 import com.apexsoft.ysprj.admin.control.form.CourseSearchPageForm;
-import com.apexsoft.ysprj.admin.domain.ApplicantCnt;
 import com.apexsoft.ysprj.admin.domain.ApplicantInfo;
-import com.apexsoft.ysprj.admin.domain.ApplicantInfoEntire;
 import com.apexsoft.ysprj.admin.service.AdminService;
-import com.apexsoft.ysprj.admin.service.ChangeService;
 import com.apexsoft.ysprj.admin.service.PostApplicationService;
 import com.apexsoft.ysprj.applicants.application.domain.ApplicationDocument;
 import com.apexsoft.ysprj.applicants.application.service.DocumentService;
 import com.apexsoft.ysprj.applicants.common.service.PDFService;
-import com.apexsoft.ysprj.user.domain.User;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.io.IOUtils;
@@ -41,19 +31,12 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
-import java.security.NoSuchAlgorithmException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Value;
 import javax.servlet.http.HttpServletResponse;
 import java.net.URLEncoder;
 import com.apexsoft.ysprj.applicants.common.util.FileUtil;
-import org.springframework.web.bind.ServletRequestUtils;
 
 
 /**
@@ -77,11 +60,6 @@ public class AdminController {
 
     @Autowired
     private ObjectMapper jacksonObjectMapper;    
-    
-    @SuppressWarnings("restriction")
-	@Resource(name = "messageResolver")
-    private MessageResolver messageResolver;
-
 
     @Value("#{app['file.baseDir']}")
     private String fileBaseDir;
@@ -127,7 +105,7 @@ public class AdminController {
         mv.setViewName("admin/search/applicantsName");
         ExecutionContext ec;
         if (bindingResult.hasErrors()) {
-            mv.addObject("resultMsg", messageResolver.getMessage("U334"));
+            mv.addObject("resultMsg", MessageResolver.getMessage("U334"));
 
         }
         ExecutionContext ecRetrieve = adminService.retrieveApplicantPaginatedListByApplicantInfo(courseSearchPageForm);
@@ -151,7 +129,7 @@ public class AdminController {
         mv.setViewName("admin/search/applicantsId");
         ExecutionContext ec;
         if (bindingResult.hasErrors()) {
-            mv.addObject("resultMsg", messageResolver.getMessage("U334"));
+            mv.addObject("resultMsg", MessageResolver.getMessage("U334"));
 
         }
         ExecutionContext ecRetrieve = adminService.retrieveApplicantPaginatedListByApplicantInfo(courseSearchPageForm);
@@ -175,7 +153,7 @@ public class AdminController {
         mv.setViewName("admin/search/applicantsDept");
         ExecutionContext ec;
         if (bindingResult.hasErrors()) {
-            mv.addObject("resultMsg", messageResolver.getMessage("U334"));
+            mv.addObject("resultMsg", MessageResolver.getMessage("U334"));
 
         }
         ExecutionContext ecRetrieve = adminService.retrieveApplicantPaginatedListByDept(courseSearchPageForm);
@@ -255,7 +233,7 @@ public class AdminController {
         mv.setViewName("admin/stats/main");
         ExecutionContext ec;
         if (bindingResult.hasErrors()) {
-            mv.addObject("resultMsg", messageResolver.getMessage("U334"));
+            mv.addObject("resultMsg", MessageResolver.getMessage("U334"));
 
         }
         ExecutionContext ecRetrieve = adminService.retrieveInitInfo();

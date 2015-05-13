@@ -7,10 +7,8 @@ import com.apexsoft.framework.persistence.dao.CommonDAO;
 import com.apexsoft.framework.unused.xpay.service.TransactionVO;
 import com.apexsoft.ysprj.applicants.application.domain.Application;
 import com.apexsoft.ysprj.applicants.application.domain.CustomNewSeq;
-import com.apexsoft.ysprj.applicants.application.domain.TotalApplicationDocument;
 import com.apexsoft.ysprj.applicants.application.service.DocumentService;
 import com.apexsoft.ysprj.applicants.common.domain.Department;
-import com.apexsoft.ysprj.applicants.common.util.FileUtil;
 import com.apexsoft.ysprj.applicants.payment.domain.*;
 import lgdacom.XPayClient.XPayClient;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,8 +17,6 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.text.DateFormat;
-import java.text.FieldPosition;
-import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -46,9 +42,6 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Value("#{app['pay.lgdacom']}")
     private String configPath;
-
-    @Resource(name = "messageResolver")
-    MessageResolver messageResolver;
 
     private final String RSLT = "00000";      // 성공/에러일 때 반환값
 
@@ -79,10 +72,10 @@ public class PaymentServiceImpl implements PaymentService {
 
         if (rInsert == 1 || rUpdate == 1) {
             ec.setResult(ExecutionContext.SUCCESS);
-            ec.setMessage(messageResolver.getMessage("U335"));
+            ec.setMessage(MessageResolver.getMessage("U335"));
         } else {
             ec.setResult(ExecutionContext.FAIL);
-            ec.setMessage(messageResolver.getMessage("U336"));
+            ec.setMessage(MessageResolver.getMessage("U336"));
             String errCode = null;
             if ( rInsert != 1 ) errCode = "ERR0101";
             else if ( rUpdate != 1 ) errCode = "ERR0103";
@@ -128,10 +121,10 @@ public class PaymentServiceImpl implements PaymentService {
 
         if (rInsert == 1 || rUpdate == 1) {
             ec.setResult(ExecutionContext.SUCCESS);
-            ec.setMessage(messageResolver.getMessage("U335"));
+            ec.setMessage(MessageResolver.getMessage("U335"));
         } else {
             ec.setResult(ExecutionContext.FAIL);
-            ec.setMessage(messageResolver.getMessage("U336"));
+            ec.setMessage(MessageResolver.getMessage("U336"));
             String errCode = null;
             if ( rInsert != 1 ) errCode = "ERR0101";
             else if ( rUpdate != 1 ) errCode = "ERR0103";
@@ -214,8 +207,8 @@ public class PaymentServiceImpl implements PaymentService {
 
         if( !isInitOK ) {
             //API 초기화 실패 화면 처리
-            transactionVO.setSysMsg(messageResolver.getMessage("A000"));
-            transactionVO.setUserMsg(messageResolver.getMessage("U000"));
+            transactionVO.setSysMsg(MessageResolver.getMessage("A000"));
+            transactionVO.setUserMsg(MessageResolver.getMessage("U000"));
             return "InitFail";
         } else {
             try {
@@ -228,8 +221,8 @@ public class PaymentServiceImpl implements PaymentService {
                 registerPaymentRequestLog(payment);
 
             } catch(Exception e) {
-                transactionVO.setSysMsg(messageResolver.getMessage("A001") + e.getMessage());
-                transactionVO.setUserMsg(messageResolver.getMessage("U001"));
+                transactionVO.setSysMsg(MessageResolver.getMessage("A001") + e.getMessage());
+                transactionVO.setUserMsg(MessageResolver.getMessage("U001"));
                 return "InitFail";
             }
         }
@@ -276,7 +269,7 @@ public class PaymentServiceImpl implements PaymentService {
 
                     //결제 성공에 대한 화면 처리
                     transactionVO.setSysMsg(transactionVO.getSysMsg() + "최종결제요청 결과 성공 DB처리하시기 바랍니다.<br>");
-                    transactionVO.setUserMsg(messageResolver.getMessage("U002"));
+                    transactionVO.setUserMsg(MessageResolver.getMessage("U002"));
 
                 } else if( "SC0040".equals(payType) ) {
 
@@ -287,7 +280,7 @@ public class PaymentServiceImpl implements PaymentService {
                     payment.setLGD_ACCOUNTNUM( xpay.Response("LGD_ACCOUNTNUM", 0) );
 
                     //결제 성공에 대한 화면 처리
-                    String msg = messageResolver.getMessage("U003");
+                    String msg = MessageResolver.getMessage("U003");
 //                    msg = msg + "<br><br> 가상계좌정보";
 //                    msg = msg + "<br> 은행 : " + xpay.Response("LGD_FINANCENAME", 0);
 //                    msg = msg + "<br> 계좌 : " + xpay.Response("LGD_ACCOUNTNUM", 0);
@@ -304,7 +297,7 @@ public class PaymentServiceImpl implements PaymentService {
 
                 //결제 실패에 대한 화면 처리
                 transactionVO.setSysMsg(transactionVO.getSysMsg() + "최종결제요청 결과 실패 DB처리하시기 바랍니다.<br>");
-                transactionVO.setUserMsg(messageResolver.getMessage("U05203"));
+                transactionVO.setUserMsg(MessageResolver.getMessage("U05203"));
                 rtnStr = "PayFail";
                 //TODO 실패 코드 필요
             }

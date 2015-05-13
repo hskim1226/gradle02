@@ -36,9 +36,6 @@ public class AcademyController {
     @Autowired
     private AcademyValidator academyValidator;
 
-    @Resource(name = "messageResolver")
-    MessageResolver messageResolver;
-
     @Autowired
     WebUtil webUtil;
 
@@ -85,7 +82,7 @@ public class AcademyController {
         academyValidator.validate(formData, bindingResult);
         mv.setViewName(TARGET_VIEW);
         if (bindingResult.hasErrors()) {
-            mv.addObject("resultMsg", messageResolver.getMessage("U334"));
+            mv.addObject("resultMsg", MessageResolver.getMessage("U334"));
             ExecutionContext ecRetrieve = academyService.retrieveSelectionMap(formData);
             if (ExecutionContext.SUCCESS.equals(ecRetrieve.getResult())) {
                 Map<String, Object> map = (Map<String, Object>)ecRetrieve.getData();

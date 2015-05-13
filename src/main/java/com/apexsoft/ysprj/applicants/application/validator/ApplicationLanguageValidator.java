@@ -15,9 +15,6 @@ import java.util.List;
 @Component
 public class ApplicationLanguageValidator extends NamedListValidator {
 
-    @Autowired
-    MessageResolver messageResolver;
-
     @Override
     public void validate(Object o, Errors errors, String name) {
 
@@ -44,20 +41,20 @@ public class ApplicationLanguageValidator extends NamedListValidator {
 //                        String selGrpCode = aLangOrExempt.getSelGrpCode();
 //                        if (selGrpCode == null || selGrpCode.length() == 0 || Integer.parseInt(selGrpCode) <= 0) {
 //                            errors.rejectValue(prefix + "selGrpCode", "U331",
-//                                    new Object[]{"외국어 시험 면제 사유"}, messageResolver.getMessage("U332"));
+//                                    new Object[]{"외국어 시험 면제 사유"}, MessageResolver.getMessage("U332"));
 //                        }
 //                    } else if ("KOR_EXMP1".equals(langList.getSelGrpCode())) {
 //                        String selGrpCode = aLangOrExempt.getSelGrpCode();
 //                        if (selGrpCode == null || selGrpCode.length() == 0 || Integer.parseInt(selGrpCode) <= 0) {
 //                            errors.rejectValue(prefix + "selGrpCode", "U331",
-//                                    new Object[]{"한국어 시험 면제 사유"}, messageResolver.getMessage("U332"));
+//                                    new Object[]{"한국어 시험 면제 사유"}, MessageResolver.getMessage("U332"));
 //                        }
 //                    }
                     if ("00002".equals(langList.getItemCode())) {
                         String subCode = aLangOrExempt.getSubCode();
                         if (subCode == null || subCode.length() == 0 || Integer.parseInt(subCode) <= 0) {
                             errors.rejectValue(prefix + "subCode", "U331",
-                                    new Object[]{messageResolver.getMessage("L03107")}, messageResolver.getMessage("U332"));  /*"시험 면제 사유"*/
+                                    new Object[]{MessageResolver.getMessage("L03107")}, MessageResolver.getMessage("U332"));  /*"시험 면제 사유"*/
                         }
                     }
 
@@ -69,16 +66,16 @@ public class ApplicationLanguageValidator extends NamedListValidator {
 //                            if (aLangOrExempt.getToflTypeCode() == null || aLangOrExempt.getToflTypeCode().length() == 0) {
                             if (aLangOrExempt.getSubCode() == null || aLangOrExempt.getSubCode().length() == 0) {
                                 errors.rejectValue(prefix + "subCode", "U331",
-                                        new Object[]{messageResolver.getMessage("L03108")}, messageResolver.getMessage("U332"));  /*"TOEFL 시험 종류"*/
+                                        new Object[]{MessageResolver.getMessage("L03108")}, MessageResolver.getMessage("U332"));  /*"TOEFL 시험 종류"*/
                             }
                         }
                         if (aLangOrExempt.getExamDay() == null || aLangOrExempt.getExamDay().length() == 0) {
                             errors.rejectValue(prefix + "examDay", "U331",
-                                    new Object[]{messageResolver.getMessage("L03103")}, messageResolver.getMessage("U332"));  /*"시험일"*/
+                                    new Object[]{MessageResolver.getMessage("L03103")}, MessageResolver.getMessage("U332"));  /*"시험일"*/
                         }
                         if (aLangOrExempt.getLangGrad() == null || aLangOrExempt.getLangGrad().length() == 0) {
                             errors.rejectValue(prefix + "langGrad", "U331",
-                                    new Object[]{messageResolver.getMessage("L03104")}, messageResolver.getMessage("U332"));  /*"점수"*/
+                                    new Object[]{MessageResolver.getMessage("L03104")}, MessageResolver.getMessage("U332"));  /*"점수"*/
                         }
                     }
                 }
@@ -87,7 +84,7 @@ public class ApplicationLanguageValidator extends NamedListValidator {
         }
         if (checkedCnt == 0) {
             errors.rejectValue(name.substring(0, name.indexOf('.')), "U331",
-                    new Object[]{messageResolver.getMessage("L03109")}, messageResolver.getMessage("U332"));  /*"시험 성적 또는 면제 정보 중 최소한 하나는 입력해야 합니다."*/
+                    new Object[]{MessageResolver.getMessage("L03109")}, MessageResolver.getMessage("U332"));  /*"시험 성적 또는 면제 정보 중 최소한 하나는 입력해야 합니다."*/
         }
     }
 }

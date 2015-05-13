@@ -40,9 +40,6 @@ public class CommonController {
     @Autowired
     private ObjectMapper jacksonObjectMapper;
 
-    @Resource(name = "messageResolver")
-    private MessageResolver messageResolver;
-
     @RequestMapping(value="/displayTransLang", method= RequestMethod.GET)
     public ModelAndView displayTransLang(ModelAndView mv) {
         mv.setViewName("common/transLang");
@@ -71,7 +68,7 @@ public class CommonController {
 
         ExecutionContext executionContext = new ExecutionContext();
         if (!(campusList.size() > 0)) {
-            executionContext.setMessage(messageResolver.getMessage("U300"));
+            executionContext.setMessage(MessageResolver.getMessage("U300"));
         }
         executionContext.setData(json);
 
@@ -89,7 +86,7 @@ public class CommonController {
 
         ExecutionContext executionContext = new ExecutionContext();
         if (!(collegeList.size() > 0)) {
-            executionContext.setMessage(messageResolver.getMessage("U300"));
+            executionContext.setMessage(MessageResolver.getMessage("U300"));
         }
         executionContext.setData(json);
 
@@ -111,7 +108,7 @@ public class CommonController {
 
         ExecutionContext executionContext = new ExecutionContext();
         if (!(collegeList.size() > 0)) {
-            executionContext.setMessage(messageResolver.getMessage("U300"));
+            executionContext.setMessage(MessageResolver.getMessage("U300"));
         }
         executionContext.setData(json);
 
@@ -132,7 +129,7 @@ public class CommonController {
 
         ExecutionContext executionContext = new ExecutionContext();
         if (!(departmentList.size() > 0)) {
-            executionContext.setMessage(messageResolver.getMessage("U300"));
+            executionContext.setMessage(MessageResolver.getMessage("U300"));
         }
         executionContext.setData(json);
 
@@ -153,7 +150,7 @@ public class CommonController {
 
         ExecutionContext executionContext = new ExecutionContext();
         if (!(codeNameDepartmentList.size() > 0)) {
-            executionContext.setMessage(messageResolver.getMessage("U300"));
+            executionContext.setMessage(MessageResolver.getMessage("U300"));
         }
         executionContext.setData(json);
 
@@ -175,7 +172,7 @@ public class CommonController {
 
         ExecutionContext executionContext = new ExecutionContext();
         if (!(codeNameCourseList.size() > 0)) {
-            executionContext.setMessage(messageResolver.getMessage("U300"));
+            executionContext.setMessage(MessageResolver.getMessage("U300"));
         }
         executionContext.setData(json);
 
@@ -199,7 +196,7 @@ public class CommonController {
 
         ExecutionContext executionContext = new ExecutionContext();
         if (!(codeNameDetailMajorList.size() > 0)) {
-            executionContext.setMessage(messageResolver.getMessage("U300"));
+            executionContext.setMessage(MessageResolver.getMessage("U300"));
         }
         executionContext.setData(json);
 
@@ -223,7 +220,7 @@ public class CommonController {
 
         ExecutionContext executionContext = new ExecutionContext();
         if (!(codeNameCourseList.size() > 0)) {
-            executionContext.setMessage(messageResolver.getMessage("U300"));
+            executionContext.setMessage(MessageResolver.getMessage("U300"));
         }
         executionContext.setData(json);
 
@@ -245,7 +242,7 @@ public class CommonController {
 
         ExecutionContext executionContext = new ExecutionContext();
         if (!(codeNameCourseList.size() > 0)) {
-            executionContext.setMessage(messageResolver.getMessage("U300"));
+            executionContext.setMessage(MessageResolver.getMessage("U300"));
         }
         executionContext.setData(json);
 
@@ -263,7 +260,7 @@ public class CommonController {
 
         ExecutionContext executionContext = new ExecutionContext();
         if (!(academyResearchIndustryInstitutionList.size() > 0)) {
-            executionContext.setMessage(messageResolver.getMessage("U300"));
+            executionContext.setMessage(MessageResolver.getMessage("U300"));
         }
         executionContext.setData(json);
 
@@ -285,7 +282,7 @@ public class CommonController {
 
         ExecutionContext executionContext = new ExecutionContext();
         if (!(codeNameDepartmentList.size() > 0)) {
-            executionContext.setMessage(messageResolver.getMessage("U300"));
+            executionContext.setMessage(MessageResolver.getMessage("U300"));
         }
         executionContext.setData(json);
 
@@ -309,7 +306,7 @@ public class CommonController {
 
         ExecutionContext executionContext = new ExecutionContext();
         if (!(codeNameDepartmentList.size() > 0)) {
-            executionContext.setMessage(messageResolver.getMessage("U300"));
+            executionContext.setMessage(MessageResolver.getMessage("U300"));
         }
         executionContext.setData(json);
 
@@ -335,7 +332,7 @@ public class CommonController {
 
         ExecutionContext executionContext = new ExecutionContext();
         if (!(codeNameDepartmentList.size() > 0)) {
-            executionContext.setMessage(messageResolver.getMessage("U300"));
+            executionContext.setMessage(MessageResolver.getMessage("U300"));
         }
         executionContext.setData(json);
 
@@ -351,7 +348,7 @@ public class CommonController {
 
         ExecutionContext executionContext = new ExecutionContext();
         if (!(countryList.size() > 0)) {
-            executionContext.setMessage(messageResolver.getMessage("U300"));
+            executionContext.setMessage(MessageResolver.getMessage("U300"));
         }
         executionContext.setData(json);
 
@@ -368,7 +365,7 @@ public class CommonController {
 
         ExecutionContext executionContext = new ExecutionContext();
         if (!(schoolList.size() > 0)) {
-            executionContext.setMessage(messageResolver.getMessage("U300"));
+            executionContext.setMessage(MessageResolver.getMessage("U300"));
         }
         executionContext.setData(json);
 
@@ -385,7 +382,7 @@ public class CommonController {
 
         ExecutionContext executionContext = new ExecutionContext();
         if (!(commonCodeList.size() > 0)) {
-            executionContext.setMessage(messageResolver.getMessage("U300"));
+            executionContext.setMessage(MessageResolver.getMessage("U300"));
         }
         executionContext.setData(json);
 
@@ -406,7 +403,7 @@ public class CommonController {
 
         ExecutionContext executionContext = new ExecutionContext();
         if (!(commonCodeList.size() > 0)) {
-            executionContext.setMessage(messageResolver.getMessage("U300"));
+            executionContext.setMessage(MessageResolver.getMessage("U300"));
         }
         executionContext.setData(json);
 
@@ -476,7 +473,7 @@ public class CommonController {
 
         ExecutionContext executionContext = new ExecutionContext();
         if (!(acmlList.size() > 0)) {
-            executionContext.setMessage(messageResolver.getMessage("U300"));
+            executionContext.setMessage(MessageResolver.getMessage("U300"));
         }
         executionContext.setData(json);
 
@@ -504,7 +501,7 @@ public class CommonController {
 
         ExecutionContext executionContext = new ExecutionContext();
         if (!(acmlList.size() > 0)) {
-            executionContext.setMessage(messageResolver.getMessage("U300"));
+            executionContext.setMessage(MessageResolver.getMessage("U300"));
         }
         executionContext.setData(json);
 

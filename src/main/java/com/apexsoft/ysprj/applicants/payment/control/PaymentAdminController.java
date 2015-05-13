@@ -3,32 +3,20 @@ package com.apexsoft.ysprj.applicants.payment.control;
 import com.apexsoft.framework.common.vo.ExecutionContext;
 import com.apexsoft.framework.exception.ErrorInfo;
 import com.apexsoft.framework.exception.YSBizException;
-import com.apexsoft.framework.exception.YSBizNoticeException;
 import com.apexsoft.framework.message.MessageResolver;
 import com.apexsoft.framework.persistence.dao.CommonDAO;
 import com.apexsoft.ysprj.applicants.application.domain.Application;
-import com.apexsoft.ysprj.applicants.application.domain.ApplicationDocument;
 import com.apexsoft.ysprj.applicants.common.service.BirtService;
 import com.apexsoft.ysprj.applicants.common.service.PDFService;
-import com.apexsoft.ysprj.applicants.common.util.FileUtil;
 import com.apexsoft.ysprj.applicants.payment.domain.ApplicationPaymentTransaction;
-import com.apexsoft.ysprj.applicants.payment.domain.CustomApplicationDocumentResult;
 import com.apexsoft.ysprj.applicants.payment.service.PaymentService;
-import com.snowtide.PDF;
-import com.snowtide.pdf.Document;
-import com.snowtide.pdf.OutputTarget;
-import org.eclipse.emf.common.util.ArrayDelegatingEList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
 import java.security.Principal;
 import java.util.*;
 
@@ -38,9 +26,6 @@ import java.util.*;
 @Controller
 @RequestMapping(value = "/payment/admin")
 public class PaymentAdminController {
-
-    @Resource(name = "messageResolver")
-    MessageResolver messageResolver;
 
     @Autowired
     private PaymentService paymentService;
@@ -68,7 +53,7 @@ public class PaymentAdminController {
         String adminID = principal.getName();
         if (!adminID.equals("Apex1234")) {
             ExecutionContext ec = new ExecutionContext(ExecutionContext.FAIL);
-            ec.setMessage(messageResolver.getMessage("U902"));
+            ec.setMessage(MessageResolver.getMessage("U902"));
             ec.setErrCode("ERR0801");
             Map<String, String> errorInfo = new HashMap<String, String>();
             errorInfo.put("adminID", adminID);
@@ -126,7 +111,7 @@ public class PaymentAdminController {
         String adminID = principal.getName();
         if (!adminID.equals("Apex1234")) {
             ExecutionContext ec = new ExecutionContext(ExecutionContext.FAIL);
-            ec.setMessage(messageResolver.getMessage("U902"));
+            ec.setMessage(MessageResolver.getMessage("U902"));
             ec.setErrCode("ERR0801");
             Map<String, String> errorInfo = new HashMap<String, String>();
             errorInfo.put("adminID", adminID);

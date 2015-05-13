@@ -23,9 +23,6 @@ public class ApplicationServiceImpl implements ApplicationService {
     @Autowired
     private CommonDAO commonDAO;
 
-    @Resource(name = "messageResolver")
-    MessageResolver messageResolver;
-
     private final String APP_NULL_STATUS = "00000";      // 에러일 때 반환값
     private final String APP_INFO_SAVED = "00001";       // 기본정보 저장
     private final String ACAD_SAVED = "00002";           // 학력 저장
@@ -66,15 +63,15 @@ public class ApplicationServiceImpl implements ApplicationService {
 
         if ( r1 > 0 && r2 > 0 && r3 > 0 ) {
             ec.setResult(ExecutionContext.SUCCESS);
-            ec.setMessage(messageResolver.getMessage("U312"));
+            ec.setMessage(MessageResolver.getMessage("U312"));
             ec.setData(new ApplicationIdentifier(applNo, tA.getApplStsCode(), tA.getAdmsNo(), tA.getEntrYear(), tA.getAdmsTypeCode()));
         } else {
             ec.setResult(ExecutionContext.FAIL);
-            ec.setMessage(messageResolver.getMessage("U306"));
+            ec.setMessage(MessageResolver.getMessage("U306"));
             String errCode = null;
-            if ( r1 == 0 ) errCode = messageResolver.getMessage("ERR0001");
-            else if ( r2 == 0 ) errCode = messageResolver.getMessage("ERR0006");
-            else if ( r3 == 0 ) errCode = messageResolver.getMessage("ERR0026");
+            if ( r1 == 0 ) errCode = MessageResolver.getMessage("ERR0001");
+            else if ( r2 == 0 ) errCode = MessageResolver.getMessage("ERR0006");
+            else if ( r3 == 0 ) errCode = MessageResolver.getMessage("ERR0026");
             ec.setData(new ApplicationIdentifier(0, APP_NULL_STATUS));
             ec.setErrCode(errCode);
         }
@@ -106,16 +103,16 @@ public class ApplicationServiceImpl implements ApplicationService {
 
         if ( r1 > 0 && r2 > 0 && r3 > 0 ) {
             ec.setResult(ExecutionContext.SUCCESS);
-            ec.setMessage(messageResolver.getMessage("U315"));
+            ec.setMessage(MessageResolver.getMessage("U315"));
             ec.setData(new ApplicationIdentifier(application.getApplNo(), application.getApplStsCode(),
                     application.getAdmsNo(), application.getEntrYear(), application.getAdmsTypeCode()));
         } else {
             ec.setResult(ExecutionContext.FAIL);
-            ec.setMessage(messageResolver.getMessage("U316"));
+            ec.setMessage(MessageResolver.getMessage("U316"));
             String errCode = null;
-            if ( r1 == 0 ) errCode = messageResolver.getMessage("ERR0003");
-            else if ( r2 == 0 ) errCode = messageResolver.getMessage("ERR0008");
-            else if ( r3 == 0 ) errCode = messageResolver.getMessage("ERR0028");
+            if ( r1 == 0 ) errCode = MessageResolver.getMessage("ERR0003");
+            else if ( r2 == 0 ) errCode = MessageResolver.getMessage("ERR0008");
+            else if ( r3 == 0 ) errCode = MessageResolver.getMessage("ERR0028");
             ec.setData(new ApplicationIdentifier(application.getApplNo(), APP_NULL_STATUS));
             ec.setErrCode(errCode);
         }
@@ -156,12 +153,12 @@ public class ApplicationServiceImpl implements ApplicationService {
 
         if ( r1 > 0 && r2 > 0 ) {
             ec.setResult(ExecutionContext.SUCCESS);
-            ec.setMessage(messageResolver.getMessage("U317"));
+            ec.setMessage(MessageResolver.getMessage("U317"));
             ec.setData(new ApplicationIdentifier(applNo, application.getApplStsCode(),
                     application.getAdmsNo(), application.getEntrYear(), application.getAdmsTypeCode()));
         } else {
             ec.setResult(ExecutionContext.FAIL);
-            ec.setMessage(messageResolver.getMessage("U318"));
+            ec.setMessage(MessageResolver.getMessage("U318"));
             String errCode = null;
             if ( r1 == 0 ) errCode = "ERR0003";
             else if ( r2 == 0 ) errCode = "ERR0011";
@@ -201,12 +198,12 @@ public class ApplicationServiceImpl implements ApplicationService {
 
         if ( r1 == collegeList.size() && r2 == graduateList.size() ) {
             ec.setResult(ExecutionContext.SUCCESS);
-            ec.setMessage(messageResolver.getMessage("U317"));
+            ec.setMessage(MessageResolver.getMessage("U317"));
             ec.setData(new ApplicationIdentifier(applNo, application.getApplStsCode(),
                     application.getAdmsNo(), application.getEntrYear(), application.getAdmsTypeCode()));
         } else {
             ec.setResult(ExecutionContext.FAIL);
-            ec.setMessage(messageResolver.getMessage("U318"));
+            ec.setMessage(MessageResolver.getMessage("U318"));
             ec.setData(new ApplicationIdentifier(applNo, APP_NULL_STATUS));
             ec.setErrCode("ERR0013");
         }
@@ -326,12 +323,12 @@ System.out.println(param.getAcadTypeCode() + " : " + c1+u1+d1);
 
         if ( r1 > 0 && r2 > 0 && r3 > 0) {
             ec.setResult(ExecutionContext.SUCCESS);
-            ec.setMessage(messageResolver.getMessage("U319"));
+            ec.setMessage(MessageResolver.getMessage("U319"));
             ec.setData(new ApplicationIdentifier(applNo, application.getApplStsCode(),
                     application.getAdmsNo(), application.getEntrYear(), application.getAdmsTypeCode()));
         } else {
             ec.setResult(ExecutionContext.FAIL);
-            ec.setMessage(messageResolver.getMessage("U320"));
+            ec.setMessage(MessageResolver.getMessage("U320"));
             String errCode = null;
             if ( r1 == 0 ) errCode = "ERR0003";
             else if ( r2 == 0 ) errCode = "ERR0016";
@@ -384,12 +381,12 @@ System.out.println(param.getAcadTypeCode() + " : " + c1+u1+d1);
 
         if ( r1 > 0 && r2 > 0 ) {
             ec.setResult(ExecutionContext.SUCCESS);
-            ec.setMessage(messageResolver.getMessage("U319"));
+            ec.setMessage(MessageResolver.getMessage("U319"));
             ec.setData(new ApplicationIdentifier(applNo, application.getApplStsCode(),
                     application.getAdmsNo(), application.getEntrYear(), application.getAdmsTypeCode()));
         } else {
             ec.setResult(ExecutionContext.FAIL);
-            ec.setMessage(messageResolver.getMessage("U320"));
+            ec.setMessage(MessageResolver.getMessage("U320"));
             String errCode = null;
             if ( r1 == 0 ) errCode = "ERR0018";
             else if ( r2 == 0 ) errCode = "ERR0023";
@@ -439,13 +436,13 @@ System.out.println(param.getAcadTypeCode() + " : " + c1+u1+d1);
 
         if ( r1 == idx ) {
             ec.setResult(ExecutionContext.SUCCESS);
-            ec.setMessage(messageResolver.getMessage("U325"));
+            ec.setMessage(MessageResolver.getMessage("U325"));
             ec.setData(new ApplicationIdentifier(applNo, application.getApplStsCode(),
                     application.getAdmsNo(), application.getEntrYear(), application.getAdmsTypeCode()));
         } else {
             ec.setResult(ExecutionContext.FAIL);
-            ec.setMessage(messageResolver.getMessage("U326"));
-            String errMsg = messageResolver.getMessage("ERR0031");
+            ec.setMessage(MessageResolver.getMessage("U326"));
+            String errMsg = MessageResolver.getMessage("ERR0031");
             ec.setData(new ApplicationIdentifier(applNo, APP_NULL_STATUS));
             ec.setErrCode("ERR0031");
         }
@@ -493,12 +490,12 @@ System.out.println(param.getAcadTypeCode() + " : " + c1+u1+d1);
 
         if ( r1 == idx ) {
             ec.setResult(ExecutionContext.SUCCESS);
-            ec.setMessage(messageResolver.getMessage("U325"));
+            ec.setMessage(MessageResolver.getMessage("U325"));
             ec.setData(new ApplicationIdentifier(applNo, application.getApplStsCode(),
                     application.getAdmsNo(), application.getEntrYear(), application.getAdmsTypeCode()));
         } else {
             ec.setResult(ExecutionContext.FAIL);
-            ec.setMessage(messageResolver.getMessage("U326"));
+            ec.setMessage(MessageResolver.getMessage("U326"));
             ec.setData(new ApplicationIdentifier(applNo, APP_NULL_STATUS));
             ec.setErrCode("ERR0033");
         }
@@ -616,10 +613,10 @@ System.out.println(param.getAcadTypeCode() + " : " + c1+u1+d1);
         int errPosition = parity.indexOf('0');
         if (errPosition  > 0) {
             ec = new ExecutionContext(ExecutionContext.FAIL,
-                    messageResolver.getMessage("U306") + " : " + errPosition);
+                    MessageResolver.getMessage("U306") + " : " + errPosition);
         } else {
             ec = new ExecutionContext(ExecutionContext.SUCCESS,
-                    messageResolver.getMessage("U301"),
+                    MessageResolver.getMessage("U301"),
                     new Integer(applNo));
         }
         return ec;
@@ -823,10 +820,10 @@ System.out.println(param.getAcadTypeCode() + " : " + c1+u1+d1);
         int errPosition = parity.indexOf('0');
         if (errPosition  > 0) {
             ec = new ExecutionContext(ExecutionContext.FAIL,
-                    messageResolver.getMessage("U307") + " : " + errPosition);
+                    MessageResolver.getMessage("U307") + " : " + errPosition);
         } else {
             ec = new ExecutionContext(ExecutionContext.SUCCESS,
-                    messageResolver.getMessage("U301"),
+                    MessageResolver.getMessage("U301"),
                     new Integer(applNo));
         }
         return ec;
@@ -904,11 +901,11 @@ System.out.println(param.getAcadTypeCode() + " : " + c1+u1+d1);
                 ec2.getResult().equals(ExecutionContext.SUCCESS) &&
                 ec3.getResult().equals(ExecutionContext.SUCCESS) ) {
             ec.setResult(ExecutionContext.SUCCESS);
-            ec.setMessage(messageResolver.getMessage("U327"));
+            ec.setMessage(MessageResolver.getMessage("U327"));
             ec.setData(new ApplicationIdentifier(applNo, entireApplication.getApplication().getApplStsCode()));
         } else {
             ec.setResult(ExecutionContext.FAIL);
-            ec.setMessage(messageResolver.getMessage("U328"));
+            ec.setMessage(MessageResolver.getMessage("U328"));
             ec.setData(new ApplicationIdentifier(applNo, APP_NULL_STATUS));
             ec.setErrCode("ERR0033");
         }

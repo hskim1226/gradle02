@@ -13,9 +13,6 @@ import org.springframework.validation.Errors;
 @Component
 public class ApplicationGeneralValidator implements NamedValidator {
 
-    @Autowired
-    MessageResolver messageResolver;
-
     @Override
     public boolean supports(Class<?> aClass) {
         return ApplicationGeneral.class.isAssignableFrom(aClass);
@@ -34,15 +31,15 @@ public class ApplicationGeneralValidator implements NamedValidator {
 
         if (applicationGeneral.getEmerContName() == null || applicationGeneral.getEmerContName().length() == 0) {
             errors.rejectValue(prefix + "emerContName", "U331",
-                    new Object[]{messageResolver.getMessage("L01604")}, messageResolver.getMessage("U332"));  /*"비상연락처 이름"*/
+                    new Object[]{MessageResolver.getMessage("L01604")}, MessageResolver.getMessage("U332"));  /*"비상연락처 이름"*/
         }
         if (applicationGeneral.getEmerContCode() == null || applicationGeneral.getEmerContCode().length() == 0) {
             errors.rejectValue(prefix + "emerContCode", "U331",
-                    new Object[]{messageResolver.getMessage("L01605")}, messageResolver.getMessage("U332"));  /*"비상연락처 관계"*/
+                    new Object[]{MessageResolver.getMessage("L01605")}, MessageResolver.getMessage("U332"));  /*"비상연락처 관계"*/
         }
         if (applicationGeneral.getEmerContTel() == null || applicationGeneral.getEmerContTel().length() == 0) {
             errors.rejectValue(prefix + "emerContTel", "U331",
-                    new Object[]{messageResolver.getMessage("L01606")}, messageResolver.getMessage("U332"));  /*"비상연락처 전화번호"*/
+                    new Object[]{MessageResolver.getMessage("L01606")}, MessageResolver.getMessage("U332"));  /*"비상연락처 전화번호"*/
         }
     }
 }

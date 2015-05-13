@@ -41,9 +41,6 @@ public class ChangeServiceImpl implements ChangeService {
     @Autowired
     private CommonService commonService;
 
-    @Resource(name = "messageResolver")
-    MessageResolver messageResolver;
-
     @Override
     public ExecutionContext createInfoChange( ChangeInfoForm changeInfoForm, String userId ) {
 
@@ -179,12 +176,12 @@ public class ChangeServiceImpl implements ChangeService {
 
             if ( rUpAppl == update && insert == rInsert) {
                 ec.setResult(ExecutionContext.SUCCESS);
-                ec.setMessage(messageResolver.getMessage("U319"));
+                ec.setMessage(MessageResolver.getMessage("U319"));
                 ecDataMap.put("changeInfoForm", changeInfoForm);
 
             } else {
                 ec.setResult(ExecutionContext.FAIL);
-                ec.setMessage(messageResolver.getMessage("U320"));
+                ec.setMessage(MessageResolver.getMessage("U320"));
 
                 String errCode = null;
                 if ( rUpAppl != upAppl ) errCode = "ERR0003";
@@ -267,12 +264,12 @@ public class ChangeServiceImpl implements ChangeService {
 
         if ( rUpAppl == update && insert == rInsert) {
             ec.setResult(ExecutionContext.SUCCESS);
-            ec.setMessage(messageResolver.getMessage("U319"));
+            ec.setMessage(MessageResolver.getMessage("U319"));
             ecDataMap.put("changeInfoForm", changeInfoForm);
 
         } else {
             ec.setResult(ExecutionContext.FAIL);
-            ec.setMessage(messageResolver.getMessage("U320"));
+            ec.setMessage(MessageResolver.getMessage("U320"));
 
             String errCode = null;
             if ( rUpAppl != upAppl ) errCode = "ERR0003";
@@ -348,12 +345,12 @@ public class ChangeServiceImpl implements ChangeService {
 
         if ( rUpAppl == update && insert == rInsert) {
             ec.setResult(ExecutionContext.SUCCESS);
-            ec.setMessage(messageResolver.getMessage("U319"));
+            ec.setMessage(MessageResolver.getMessage("U319"));
             ecDataMap.put("changeInfoForm", changeInfoForm);
 
         } else {
             ec.setResult(ExecutionContext.FAIL);
-            ec.setMessage(messageResolver.getMessage("U320"));
+            ec.setMessage(MessageResolver.getMessage("U320"));
 
             String errCode = null;
             if ( rUpAppl != upAppl ) errCode = "ERR0003";
@@ -417,12 +414,12 @@ public class ChangeServiceImpl implements ChangeService {
 
         if ( rUpAppl == update && insert == rInsert) {
             ec.setResult(ExecutionContext.SUCCESS);
-            ec.setMessage(messageResolver.getMessage("U319"));
+            ec.setMessage(MessageResolver.getMessage("U319"));
             ecDataMap.put("changeInfoForm", changeInfoForm);
 
         } else {
             ec.setResult(ExecutionContext.FAIL);
-            ec.setMessage(messageResolver.getMessage("U320"));
+            ec.setMessage(MessageResolver.getMessage("U320"));
 
             String errCode = null;
             if ( rUpAppl != upAppl ) errCode = "ERR0003";

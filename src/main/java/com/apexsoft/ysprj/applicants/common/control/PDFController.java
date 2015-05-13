@@ -28,7 +28,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
@@ -50,9 +49,6 @@ public class PDFController {
 
     @Autowired
     DocumentService documentService;
-
-    @Autowired
-    MessageResolver messageResolver;
 
     @Autowired
     WebUtil webUtil;
@@ -121,7 +117,7 @@ public class PDFController {
                 logger.error("Err in s3.getObject FiledDownload in PDFController");
                 logger.error(e.getMessage());
                 ExecutionContext ec = new ExecutionContext(ExecutionContext.FAIL);
-                ec.setMessage(messageResolver.getMessage("U00242"));
+                ec.setMessage(MessageResolver.getMessage("U00242"));
                 Map<String, Object> ecMap = new HashMap<String, Object>();
                 ecMap.put("bucketName", "[" + s3BucketName + "]");
                 ecMap.put("admsNo", "[" + admsNo + "]");
@@ -138,7 +134,7 @@ public class PDFController {
             } catch (IOException e) {
                 ExecutionContext ecError = new ExecutionContext(ExecutionContext.FAIL);
 
-                ecError.setMessage(messageResolver.getMessage("U350"));
+                ecError.setMessage(MessageResolver.getMessage("U350"));
                 ecError.setErrCode("ERR0062");
 
                 Map<String, String> errorInfo = new HashMap<String, String>();
@@ -158,13 +154,13 @@ public class PDFController {
             try {
                 response.setHeader("Content-Disposition", "attachment; filename=\"" + URLEncoder.encode(FileUtil.getFinalUserDownloadFileName(userId), "UTF-8") + "\"");
             } catch (UnsupportedEncodingException e) {
-                throw new YSBizException(messageResolver.getMessage("U04516"));  /*지원하지 않는 인코딩 방식입니다.*/
+                throw new YSBizException(MessageResolver.getMessage("U04516"));  /*지원하지 않는 인코딩 방식입니다.*/
             }
 
         } else {
             ExecutionContext ecError = new ExecutionContext(ExecutionContext.FAIL);
 
-            ecError.setMessage(messageResolver.getMessage("U349"));
+            ecError.setMessage(MessageResolver.getMessage("U349"));
             ecError.setErrCode("ERR0061");
 
             Map<String, String> errorInfo = new HashMap<String, String>();

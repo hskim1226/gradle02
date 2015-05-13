@@ -311,7 +311,7 @@
 <div id="overlay" class="web_dialog_overlay"></div>
 <section class="application">
     <div class="container">
-        <p id="stepStatusTitle" colspan=4 align="center" height="70px">${msg.getMessage('L01001', locale)}<%--원서 작성 현황--%></p>
+        <p id="stepStatusTitle" colspan=4 align="center" height="70px">${msg.getMsg('L01001', locale)}<%--원서 작성 현황--%></p>
         <!-- 진행상태바 시작 -->
         <div class="step_wrap">
             <ul class="step_box" id="step_box">
@@ -428,7 +428,7 @@
                         </c:when>
                         <c:otherwise>
                         <div class="panel panel-darkgray0">
-                            <div class="panel-heading">${msg.getMessage(lv1Container.grpLabel)}</div>
+                            <div class="panel-heading">${msg.getMsg(lv1Container.grpLabel)}</div>
                             <form:hidden path="documentContainerList[${lv1Status.index}].grpLabel" value="${lv1Container.grpLabel}" />
                             <form:hidden path="documentContainerList[${lv1Status.index}].docTypeCode" value="${lv1Container.docTypeCode}" />
                             <form:hidden path="documentContainerList[${lv1Status.index}].docItemCode" value="${lv1Container.docItemCode}" />
@@ -940,7 +940,7 @@
                                                     </div>
                                                     <div class="col-sm-10 nopadding">
                                                         <form:input path="documentContainerList[${lv1Status.index}].subContainer[${lv2EtcStatus.index}].docItemName"
-                                                                    placeholder="${msg.getMessage('L04404', locale)}"
+                                                                    placeholder="${msg.getMsg('L04404', locale)}"
                                                                     cssClass="form-control" />
                                                     </div>
                                                 </label>
@@ -1038,7 +1038,7 @@
             <div class="spacer-tiny"></div>
             <div class="btn-group btn-group-justified">
                 <div class="btn-group">
-                    <button id="generateApplication" type="button" class="btn btn-warning btn-lg btn-save" data-saveType="generate" ${document.application.applStsCode != '00004' || resultMsg != msg.getMessage('U325') ? 'disabled="disabled"' : ''}><spring:message code="L04202"/><%--원서 미리보기 생성--%></button>
+                    <button id="generateApplication" type="button" class="btn btn-warning btn-lg btn-save" data-saveType="generate" ${document.application.applStsCode != '00004' || resultMsg != msg.getMsg('U325') ? 'disabled="disabled"' : ''}><spring:message code="L04202"/><%--원서 미리보기 생성--%></button>
                 </div>
             </div>
             <div id="spinner" class="btn-group btn-group-justified" style="display: none;">
@@ -1439,7 +1439,7 @@ if (fileName.length > 80) {
                             $targetUploadButton = $(targetUploadButton);
                         if (data.result == 'SUCCESS') {
                             targetCheckBox.checked = false,
-                            targetDocItemName.type == 'text' ? (targetDocItemName.value = '', targetDocItemName.placeholder = '${msg.getMessage('L04404', locale)}' ) : true,
+                            targetDocItemName.type == 'text' ? (targetDocItemName.value = '', targetDocItemName.placeholder = '${msg.getMsg('L04404', locale)}' ) : true,
                             $targetUploadButton.removeClass('btn-info'),
                             $targetUploadButton.addClass('btn-default'),
                             $targetUploadButton.val("올리기"),

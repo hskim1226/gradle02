@@ -18,9 +18,6 @@ import java.util.List;
 public class AcademyValidator implements Validator {
 
     @Autowired
-    MessageResolver messageResolver;
-
-    @Autowired
     ApplicationAcademyValidator applicationAcademyValidator;
 
     @Override

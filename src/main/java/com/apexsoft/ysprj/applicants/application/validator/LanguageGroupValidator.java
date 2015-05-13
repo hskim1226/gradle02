@@ -17,9 +17,6 @@ import java.util.List;
 public class LanguageGroupValidator extends NamedListValidator {
 
     @Autowired
-    MessageResolver messageResolver;
-
-    @Autowired
     ApplicationLanguageValidator applicationLanguageValidator;
 
     @Override
@@ -66,20 +63,20 @@ public class LanguageGroupValidator extends NamedListValidator {
 //                        String selGrpCode = aLangOrExempt.getSelGrpCode();
 //                        if (selGrpCode == null || selGrpCode.length() == 0 || Integer.parseInt(selGrpCode) <= 0) {
 //                            errors.rejectValue(prefix + "selGrpCode", "U331",
-//                                    new Object[]{"외국어 시험 면제 사유"}, messageResolver.getMessage("U332"));
+//                                    new Object[]{"외국어 시험 면제 사유"}, MessageResolver.getMessage("U332"));
 //                        }
 //                    } else if ("KOR_EXMP1".equals(langList.getSelGrpCode())) {
 //                        String selGrpCode = aLangOrExempt.getSelGrpCode();
 //                        if (selGrpCode == null || selGrpCode.length() == 0 || Integer.parseInt(selGrpCode) <= 0) {
 //                            errors.rejectValue(prefix + "selGrpCode", "U331",
-//                                    new Object[]{"한국어 시험 면제 사유"}, messageResolver.getMessage("U332"));
+//                                    new Object[]{"한국어 시험 면제 사유"}, MessageResolver.getMessage("U332"));
 //                        }
 //                    }
                         if ("00002".equals(langList.getItemCode())) { // 성적 미제출
                             String subCode = aLangOrExempt.getSubCode();
                             if (subCode == null || subCode.length() == 0 || Integer.parseInt(subCode) <= 0) {
                                 errors.rejectValue(prefix + "subCode", "U331",
-                                        new Object[]{messageResolver.getMessage("L03107")}, messageResolver.getMessage("U332"));  /*"시험 면제 사유"*/
+                                        new Object[]{MessageResolver.getMessage("L03107")}, MessageResolver.getMessage("U332"));  /*"시험 면제 사유"*/
                             }
                         } else { // 성적 제출
                             String itemGrpCode = aLangOrExempt.getItemGrpCode();
@@ -89,16 +86,16 @@ public class LanguageGroupValidator extends NamedListValidator {
 //                            if (aLangOrExempt.getToflTypeCode() == null || aLangOrExempt.getToflTypeCode().length() == 0) {
                                 if (aLangOrExempt.getSubCode() == null || aLangOrExempt.getSubCode().length() == 0) {
                                     errors.rejectValue(prefix + "subCode", "U331",
-                                            new Object[]{messageResolver.getMessage("L03108")}, messageResolver.getMessage("U332"));  /*"TOEFL 시험 종류"*/
+                                            new Object[]{MessageResolver.getMessage("L03108")}, MessageResolver.getMessage("U332"));  /*"TOEFL 시험 종류"*/
                                 }
                             }
                             if (aLangOrExempt.getExamDay() == null || aLangOrExempt.getExamDay().length() == 0) {
                                 errors.rejectValue(prefix + "examDay", "U331",
-                                        new Object[]{messageResolver.getMessage("L03103")}, messageResolver.getMessage("U332"));  /*"시험일"*/
+                                        new Object[]{MessageResolver.getMessage("L03103")}, MessageResolver.getMessage("U332"));  /*"시험일"*/
                             }
                             if (aLangOrExempt.getLangGrad() == null || aLangOrExempt.getLangGrad().length() == 0) {
                                 errors.rejectValue(prefix + "langGrad", "U331",
-                                        new Object[]{messageResolver.getMessage("L03104")}, messageResolver.getMessage("U332"));  /*"점수"*/
+                                        new Object[]{MessageResolver.getMessage("L03104")}, MessageResolver.getMessage("U332"));  /*"점수"*/
                             }
                         }
                     }
@@ -108,13 +105,13 @@ public class LanguageGroupValidator extends NamedListValidator {
 //            언어별로 제출, 미제출 중 최소 하나는 선택해야 하는 경우
 //            if (checkedCnt == 0) {
 //                errors.rejectValue(name.substring(0, name.indexOf('.')), "U331",
-//                        new Object[]{messageResolver.getMessage("U03105")}, messageResolver.getMessage("U332"));  /*"시험 성적 또는 면제 정보 중 최소한 하나는 입력해야 합니다."*/
+//                        new Object[]{MessageResolver.getMessage("U03105")}, MessageResolver.getMessage("U332"));  /*"시험 성적 또는 면제 정보 중 최소한 하나는 입력해야 합니다."*/
 //            }
         }
         // 전체 언어에서 제출, 미제출 중 최소 하나는 선택해야 하는 경우
         if (checkedCnt == 0) {
             errors.rejectValue(className, "U331",
-                    new Object[]{messageResolver.getMessage("U03106")}, messageResolver.getMessage("U332"));  /*"시험 성적 또는 면제 정보 중 최소한 하나는 입력해야 합니다."*/
+                    new Object[]{MessageResolver.getMessage("U03106")}, MessageResolver.getMessage("U332"));  /*"시험 성적 또는 면제 정보 중 최소한 하나는 입력해야 합니다."*/
         }
     }
 }

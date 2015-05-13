@@ -39,9 +39,6 @@ public class PreApplicationController {
     @Autowired
     private CommonDAO commonDAO;
 
-    @Resource(name = "messageResolver")
-    MessageResolver messageResolver;
-
     @Value("#{app['adms.general']}")
     private String admsGeneral;
 

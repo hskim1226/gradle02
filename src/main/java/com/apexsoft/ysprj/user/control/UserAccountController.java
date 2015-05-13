@@ -48,9 +48,6 @@ public class UserAccountController {
     private UserAccountService userAccountService;
 
     @Autowired
-    private MessageResolver messageResolver;
-
-    @Autowired
     private PasswordEncoder encoder;
 
     @Autowired
@@ -68,7 +65,7 @@ public class UserAccountController {
 
         if (request.getAttribute("LOGIN_FAILURE") == Boolean.TRUE || "fail".equals(request.getParameter("auth")))
 //        if (request.getAttribute("LOGIN_FAILURE") == Boolean.TRUE) // requestDispatcher 방식 사용 시에만 적용 가능
-            mv.addObject("loginMessage", messageResolver.getMessage("U330"));
+            mv.addObject("loginMessage", MessageResolver.getMessage("U330"));
 
         return mv;
     }
@@ -106,8 +103,8 @@ public class UserAccountController {
             // ignore
         }
 
-        model.addAttribute("msg1", messageResolver.getMessage("U101"));
-        model.addAttribute("msg2", messageResolver.getMessage("U102"));
+        model.addAttribute("msg1", MessageResolver.getMessage("U101"));
+        model.addAttribute("msg2", MessageResolver.getMessage("U102"));
 
         return "user/agreement";
     }
@@ -123,7 +120,7 @@ public class UserAccountController {
         if (bindingResult.hasErrors()) {
             mv.setViewName("common/error");
             ExecutionContext ec = new ExecutionContext(ExecutionContext.FAIL);
-            ec.setMessage(messageResolver.getMessage("U901"));
+            ec.setMessage(MessageResolver.getMessage("U901"));
             ec.setErrCode("ERR9950");
             mv.addObject("ec", ec);
 
@@ -144,7 +141,7 @@ public class UserAccountController {
         ExecutionContext ec;
         if (bindingResult.hasErrors()){
             mv.setViewName("user/signup");
-            mv.addObject("resultMsg", messageResolver.getMessage("U334"));
+            mv.addObject("resultMsg", MessageResolver.getMessage("U334"));
             return mv;
         }
         String encryptedPswd = encoder.encode(user.getPswd());
@@ -198,7 +195,7 @@ public class UserAccountController {
         webUtil.blockGetMethod(request, formData.getUserId());
 //        findIdValidator.validate(formData, bindingResult);
         if (bindingResult.hasErrors()) {
-            mv.addObject("resultMsg", messageResolver.getMessage("U334"));
+            mv.addObject("resultMsg", MessageResolver.getMessage("U334"));
             return mv;
         }
 
@@ -244,7 +241,7 @@ public class UserAccountController {
     public ModelAndView findPwd(User formData, BindingResult bindingResult, ModelAndView mv) {
         //        findIdValidator.validate(formData, bindingResult);
         if (bindingResult.hasErrors()) {
-            mv.addObject("resultMsg", messageResolver.getMessage("U334"));
+            mv.addObject("resultMsg", MessageResolver.getMessage("U334"));
             return mv;
         }
 
@@ -275,7 +272,7 @@ public class UserAccountController {
     public ModelAndView savePwd(User formData, BindingResult bindingResult, ModelAndView mv) {
         //        findIdValidator.validate(formData, bindingResult);
         if (bindingResult.hasErrors()) {
-            mv.addObject("resultMsg", messageResolver.getMessage("U334"));
+            mv.addObject("resultMsg", MessageResolver.getMessage("U334"));
             return mv;
         }
         String encryptedPswd = encoder.encode(formData.getPswd());
@@ -284,11 +281,11 @@ public class UserAccountController {
 
         if (r1 == 1) {
             mv.setViewName("user/confirmPwd");
-            mv.addObject("resultMsg", messageResolver.getMessage("U504"));
+            mv.addObject("resultMsg", MessageResolver.getMessage("U504"));
             mv.addObject("result", ExecutionContext.SUCCESS);
         } else {
             mv.setViewName("user/confirmPwd");
-            mv.addObject("resultMsg", messageResolver.getMessage("U503"));
+            mv.addObject("resultMsg", MessageResolver.getMessage("U503"));
         }
 
         return mv;
@@ -342,7 +339,7 @@ public class UserAccountController {
         userModValidator.validate(user, bindingResult);
         mv.setViewName("user/showDetail");
         if (bindingResult.hasErrors()){
-            mv.addObject("resultMsg", messageResolver.getMessage("U334"));
+            mv.addObject("resultMsg", MessageResolver.getMessage("U334"));
             return mv;
         }
         user.setEnabled(true);
@@ -392,7 +389,7 @@ public class UserAccountController {
         if (bindingResult.hasErrors()) return mv;
 
         if (request.getAttribute("LOGIN_FAILURE") == Boolean.TRUE)
-            mv.addObject("loginMessage", messageResolver.getMessage("U330"));
+            mv.addObject("loginMessage", MessageResolver.getMessage("U330"));
 
         return mv;
     }

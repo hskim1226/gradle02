@@ -16,9 +16,6 @@ import java.util.List;
 public class LangCareerValidator implements Validator {
 
     @Autowired
-    MessageResolver messageResolver;
-
-    @Autowired
     LanguageGroupValidator languageGroupValidator;
 
     @Autowired

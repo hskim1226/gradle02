@@ -21,9 +21,6 @@ public class EvaluationServiceImpl implements EvaluationService {
     @Autowired
     private CommonDAO commonDAO;
 
-    @Resource(name = "messageResolver")
-    MessageResolver messageResolver;
-
     private final String APP_NULL_STATUS = "00000";      // 에러일 때 반환값
     private final String APP_INFO_SAVED = "00001";       // 기본정보 저장
     private final String ACAD_SAVED = "00002";           // 학력 저장

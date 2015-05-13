@@ -15,7 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -44,9 +43,6 @@ public class XPayController {
     String LGD_CUSTOM_PROCESSTYPE = "TWOTR";
     String LGD_VERSION = "JSP_XPay_2.5";
     String LGD_CASNOTEURL = "http://cas_noteurl.jsp";
-
-    @Resource(name = "messageResolver")
-    MessageResolver messageResolver;
 
     @Autowired
     private CommonDAO commonDAO;
@@ -190,8 +186,8 @@ public class XPayController {
 //            out.println( "LG유플러스에서 제공한 환경파일이 정상적으로 설치 되었는지 확인하시기 바랍니다.<br>");
 //            out.println( "mall.conf에는 Mert ID = Mert Key 가 반드시 등록되어 있어야 합니다.<br><br>");
 //            out.println( "문의전화 LG유플러스 1544-7772<br>");
-            transactionVO.setSysMsg(messageResolver.getMessage("A000"));
-            transactionVO.setUserMsg(messageResolver.getMessage("U000"));
+            transactionVO.setSysMsg(MessageResolver.getMessage("A000"));
+            transactionVO.setUserMsg(MessageResolver.getMessage("U000"));
 
             return "xpay/result";
 
@@ -214,8 +210,8 @@ public class XPayController {
             }catch(Exception e) {
 //                out.println("LG유플러스 제공 API를 사용할 수 없습니다. 환경파일 설정을 확인해 주시기 바랍니다. ");
 //                out.println(""+e.getMessage());
-                transactionVO.setSysMsg(messageResolver.getMessage("A001") + e.getMessage());
-                transactionVO.setUserMsg(messageResolver.getMessage("U001"));
+                transactionVO.setSysMsg(MessageResolver.getMessage("A001") + e.getMessage());
+                transactionVO.setUserMsg(MessageResolver.getMessage("U001"));
                 return "xpay/result";
             }
         }
@@ -249,7 +245,7 @@ public class XPayController {
                             "결과코드 : " + xpay.Response("LGD_RESPCODE", 0) + "<br>" +
                             "결과메세지 : " + xpay.Response("LGD_RESPMSG", 0) + "<p>"
             );
-            transactionVO.setUserMsg(messageResolver.getMessage("U002"));
+            transactionVO.setUserMsg(MessageResolver.getMessage("U002"));
 
 //            for (int i = 0; i < xpay.ResponseNameCount(); i++)
 //            {

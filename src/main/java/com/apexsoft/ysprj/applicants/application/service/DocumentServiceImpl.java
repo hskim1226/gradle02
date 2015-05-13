@@ -13,8 +13,6 @@ import com.apexsoft.framework.persistence.dao.CommonDAO;
 import com.apexsoft.ysprj.applicants.application.domain.*;
 import com.apexsoft.ysprj.applicants.common.util.FileUtil;
 import com.apexsoft.ysprj.applicants.payment.service.PaymentService;
-import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,9 +50,6 @@ public class DocumentServiceImpl implements DocumentService {
 
     @Value("#{app['file.baseDir']}")
     private String BASE_DIR;
-
-    @Resource(name = "messageResolver")
-    MessageResolver messageResolver;
 
     @Value("#{app['s3.url']}")
     private String s3URL;
@@ -161,10 +156,10 @@ public class DocumentServiceImpl implements DocumentService {
 
         if (r1 == rSave && r2 == rSaveEtc) {
             ec.setResult(ExecutionContext.SUCCESS);
-            ec.setMessage(messageResolver.getMessage("U325"));
+            ec.setMessage(MessageResolver.getMessage("U325"));
         } else {
             ec.setResult(ExecutionContext.FAIL);
-            ec.setMessage(messageResolver.getMessage("U326"));
+            ec.setMessage(MessageResolver.getMessage("U326"));
             if (r1 != rSave) {
                 ec.setData(application);
                 ec.setErrCode("ERR0003");
@@ -195,7 +190,7 @@ public class DocumentServiceImpl implements DocumentService {
         if (!"C".equals(application.getAdmsTypeCode()) && !"D".equals(application.getAdmsTypeCode())) {
             if (isRgstNoDuplicate(applNo)) {
                 ec.setResult(ExecutionContext.FAIL);
-                ec.setMessage(messageResolver.getMessage("U346"));
+                ec.setMessage(MessageResolver.getMessage("U346"));
                 ec.setErrCode("ERR0042");
                 Map<String, String> errorInfo = new HashMap<String, String>();
                 errorInfo.put("applNo", String.valueOf(applNo));
@@ -220,10 +215,10 @@ public class DocumentServiceImpl implements DocumentService {
 
         if (r1 == 1 && ExecutionContext.SUCCESS.equals(ecPay.getResult())) {
             ec.setResult(ExecutionContext.SUCCESS);
-            ec.setMessage(messageResolver.getMessage("U327"));
+            ec.setMessage(MessageResolver.getMessage("U327"));
         } else {
             ec.setResult(ExecutionContext.FAIL);
-            ec.setMessage(messageResolver.getMessage("U328"));
+            ec.setMessage(MessageResolver.getMessage("U328"));
             if (r1 != 1 ) {
                 ec.setData(application);
                 ec.setErrCode("ERR0041");
@@ -262,10 +257,10 @@ public class DocumentServiceImpl implements DocumentService {
             totalDoc.setFileUploadFg(true);
             ec.setResult(ExecutionContext.SUCCESS);
             ec.setData(totalDoc);
-//            ec.setMessage(messageResolver.getMessage("U325"));
+//            ec.setMessage(MessageResolver.getMessage("U325"));
         } else {
             ec.setResult(ExecutionContext.FAIL);
-            ec.setMessage(messageResolver.getMessage("U337"));
+            ec.setMessage(MessageResolver.getMessage("U337"));
             ec.setErrCode("ERR0035");
             throw new YSBizException(ec);
         }
@@ -320,11 +315,11 @@ public class DocumentServiceImpl implements DocumentService {
 //        if (  insert == rInsert && update == rUpdate && applUpdate == 1 ) {
         if (  insert == rInsert && update == rUpdate ) {
             ec.setResult(ExecutionContext.SUCCESS);
-            ec.setMessage(messageResolver.getMessage("U325"));
+            ec.setMessage(MessageResolver.getMessage("U325"));
             ec.setData(oneDocument);
         } else {
             ec.setResult(ExecutionContext.FAIL);
-            ec.setMessage(messageResolver.getMessage("U326"));
+            ec.setMessage(MessageResolver.getMessage("U326"));
             ec.setData(new ApplicationIdentifier(applNo, APP_NULL_STATUS));
             String errCode = null;
             if ( insert != rInsert ) errCode = "ERR0031";
@@ -367,7 +362,7 @@ public class DocumentServiceImpl implements DocumentService {
             } catch (AmazonServiceException ase) {
                 deleteOk = false;
                 ec = new ExecutionContext(ExecutionContext.FAIL);
-                ec.setMessage(messageResolver.getMessage("U338"));
+                ec.setMessage(MessageResolver.getMessage("U338"));
                 ec.setErrCode("ERR0051");
                 Map<String, String> errorInfo = new HashMap<String, String>();
                 errorInfo.put("applNo", String.valueOf(oneDocument.getApplNo()));
@@ -382,7 +377,7 @@ public class DocumentServiceImpl implements DocumentService {
             } catch (AmazonClientException ace) {
                 deleteOk = false;
                 ec = new ExecutionContext(ExecutionContext.FAIL);
-                ec.setMessage(messageResolver.getMessage("U338"));
+                ec.setMessage(MessageResolver.getMessage("U338"));
                 ec.setErrCode("ERR0051");
                 Map<String, String> errorInfo = new HashMap<String, String>();
                 errorInfo.put("applNo", String.valueOf(oneDocument.getApplNo()));
@@ -398,15 +393,15 @@ public class DocumentServiceImpl implements DocumentService {
 
         if (  delete == rDelete && deleteOk ) {
             ec.setResult(ExecutionContext.SUCCESS);
-            ec.setMessage(messageResolver.getMessage("U340"));
+            ec.setMessage(MessageResolver.getMessage("U340"));
         } else {
             if ( delete != rDelete ) {
                 ec.setResult(ExecutionContext.FAIL);
-                ec.setMessage(messageResolver.getMessage("U338"));
+                ec.setMessage(MessageResolver.getMessage("U338"));
                 ec.setErrCode("ERR0034");
             } else if (!deleteOk) {
                 ec.setResult(ExecutionContext.FAIL);
-                ec.setMessage(messageResolver.getMessage("U338"));
+                ec.setMessage(MessageResolver.getMessage("U338"));
                 ec.setErrCode("ERR0051");
             }
             Map<String, String> errorInfo = new HashMap<String, String>();
@@ -447,7 +442,7 @@ public class DocumentServiceImpl implements DocumentService {
             aDoc.setDocSeq(applPaperInfosList.get(0).getDocSeq());
         } else {
             ec.setResult(ExecutionContext.FAIL);
-            ec.setMessage(messageResolver.getMessage("U344"));
+            ec.setMessage(MessageResolver.getMessage("U344"));
             ec.setErrCode("ERR0033");
 
             Map<String, String> errorInfo = new HashMap<String, String>();
@@ -630,7 +625,7 @@ public class DocumentServiceImpl implements DocumentService {
                 aSubDoc.setApplNo(applNo);
                 aSubDoc.setAdmsNo(admsNo);
                 if( aSubDoc.getMsgNo()!= null && aSubDoc.getMsgNo()!= "" ) {
-                    aSubDoc.setMsg(messageResolver.getMessage(aSubDoc.getMsgNo()));
+                    aSubDoc.setMsg(MessageResolver.getMessage(aSubDoc.getMsgNo()));
                 }
                 aSubDoc.setSubContainer( getSubCodeDocumentContainer(aSubDoc,rList));
             }
@@ -681,7 +676,7 @@ public class DocumentServiceImpl implements DocumentService {
                 aSubDoc.setApplNo(applNo);
                 aSubDoc.setAdmsNo(admsNo);
                 if( aSubDoc.getMsgNo()!= null && aSubDoc.getMsgNo()!= "" ) {
-                    aSubDoc.setMsg(messageResolver.getMessage(aSubDoc.getMsgNo()));
+                    aSubDoc.setMsg(MessageResolver.getMessage(aSubDoc.getMsgNo()));
                 }
                 aSubDoc.setSubContainer( getSubCodeDocumentContainer(aSubDoc,rList));
             }
@@ -721,7 +716,7 @@ public class DocumentServiceImpl implements DocumentService {
                 rList.add(aSubDoc);
                 aSubDoc.setAdmsNo(admsNo);
                 if( aSubDoc.getMsgNo()!= null && aSubDoc.getMsgNo()!= "" ) {
-                    aSubDoc.setMsg(messageResolver.getMessage(aSubDoc.getMsgNo()));
+                    aSubDoc.setMsg(MessageResolver.getMessage(aSubDoc.getMsgNo()));
                 }
                 aSubDoc.setSubContainer(getSubCodeDocumentContainer(aSubDoc,rList));
             }
@@ -749,7 +744,7 @@ public class DocumentServiceImpl implements DocumentService {
                 rList.add(aSubDoc);
                 aSubDoc.setAdmsNo(admsNo);
                 if( aSubDoc.getMsgNo()!= null && aSubDoc.getMsgNo()!= "" ) {
-                    aSubDoc.setMsg(messageResolver.getMessage(aSubDoc.getMsgNo()));
+                    aSubDoc.setMsg(MessageResolver.getMessage(aSubDoc.getMsgNo()));
                 }
                 aSubDoc.setSubContainer(getSubCodeDocumentContainer(aSubDoc,rList));
             }
@@ -775,7 +770,7 @@ public class DocumentServiceImpl implements DocumentService {
             aSubDoc.setFileUploadFg(true);
             aSubDoc.setUploadYn("Y");
             if( aSubDoc.getMsgNo()!= null && aSubDoc.getMsgNo()!= "" ) {
-                aSubDoc.setMsg(messageResolver.getMessage(aSubDoc.getMsgNo()));
+                aSubDoc.setMsg(MessageResolver.getMessage(aSubDoc.getMsgNo()));
             }
         }
         aCont.setGrpLabel("L04308");
@@ -844,7 +839,7 @@ public class DocumentServiceImpl implements DocumentService {
             pCont.setGrpLabel(pCont.getDocItemName());
             pCont.setGrpLabelXxen(pCont.getDocItemNameXxen());
             if( pCont.getMsgNo()!= null && pCont.getMsgNo()!= "" ) {
-                pCont.setMsg(messageResolver.getMessage(pCont.getMsgNo()));
+                pCont.setMsg(MessageResolver.getMessage(pCont.getMsgNo()));
             }
             pList.add(pCont);
             rContList = commonDAO.queryForList(NAME_SPACE + "CustomApplicationDocumentMapper.selectTotalApplicationDocumentList", pCont, TotalApplicationDocumentContainer.class);
@@ -865,7 +860,7 @@ public class DocumentServiceImpl implements DocumentService {
             }
 //            if( pCont.getMsgNo()!= null && pCont.getMsgNo()!= "" ) { // 4/8에러 발생
             if( pCont.getMsgNo()!= null && "".equals(pCont.getMsgNo())) { // 4/8에러 고침
-                pCont.setMsg(messageResolver.getMessage(pCont.getMsgNo()));
+                pCont.setMsg(MessageResolver.getMessage(pCont.getMsgNo()));
             }
             pList.add(pCont);
         }
@@ -880,7 +875,7 @@ public class DocumentServiceImpl implements DocumentService {
             pCont.setGrpLabelXxen( pCont.getDocItemNameXxen());
             pList.add(pCont);
             if( pCont.getMsgNo()!= null && pCont.getMsgNo()!= "" ) {
-                pCont.setMsg(messageResolver.getMessage(pCont.getMsgNo()));
+                pCont.setMsg(MessageResolver.getMessage(pCont.getMsgNo()));
             }
             rContList = commonDAO.queryForList(NAME_SPACE + "CustomApplicationDocumentMapper.selectTotalCodeApplicationDocumentList", pCont, TotalApplicationDocumentContainer.class);
             if (rContList != null) {
@@ -911,7 +906,7 @@ public class DocumentServiceImpl implements DocumentService {
                 System.out.println("");
             }
             if( pCont.getMsgNo()!= null && !"".equals(pCont.getMsgNo()) ) {
-                pCont.setMsg(messageResolver.getMessage(pCont.getMsgNo()));
+                pCont.setMsg(MessageResolver.getMessage(pCont.getMsgNo()));
             }
             pList.add(pCont);
         }

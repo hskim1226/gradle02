@@ -14,8 +14,6 @@ import com.apexsoft.ysprj.applicants.application.service.DocumentService;
 import com.apexsoft.ysprj.applicants.common.domain.ParamForPDFDocument;
 import com.apexsoft.ysprj.applicants.common.util.FileUtil;
 import com.apexsoft.ysprj.applicants.common.util.StringUtil;
-import com.sun.mail.iap.ByteArray;
-import org.apache.commons.io.IOUtils;
 import org.apache.pdfbox.exceptions.COSVisitorException;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
@@ -44,9 +42,6 @@ public class PDFServiceImpl implements PDFService {
 
     @Autowired
     CommonDAO commonDAO;
-
-    @Autowired
-    MessageResolver messageResolver;
 
     @Autowired
     DocumentService documentService;
@@ -139,7 +134,7 @@ public class PDFServiceImpl implements PDFService {
                         logger.error("applNo : " + applNo);
                         logger.error("filePath : " + filePath);
                         ec.setResult(ExecutionContext.FAIL);
-                        ec.setMessage(messageResolver.getMessage("U06101"));
+                        ec.setMessage(MessageResolver.getMessage("U06101"));
                         ec.setErrCode("ERR1101");
                         encryptedPdfList.add(aDoc);
 //                        throw new YSBizNoticeException(ec);
@@ -201,12 +196,12 @@ public class PDFServiceImpl implements PDFService {
             logger.error(e.getMessage());
             logger.error("destFileName : " + mergerUtil.getDestinationFileName());
             ec.setResult(ExecutionContext.FAIL);
-            ec.setMessage(messageResolver.getMessage("U06101"));
+            ec.setMessage(MessageResolver.getMessage("U06101"));
             ec.setErrCode("ERR1101");
             throw new YSBizNoticeException(ec);
         } catch (COSVisitorException e) {
             ec.setResult(ExecutionContext.FAIL);
-            ec.setMessage(messageResolver.getMessage("U801"));
+            ec.setMessage(MessageResolver.getMessage("U801"));
             ec.setErrCode("ERR1101");
             Map<String, String> errorInfo = new HashMap<String, String>();
             errorInfo.put("applNo", String.valueOf(applNo));
@@ -268,7 +263,7 @@ public class PDFServiceImpl implements PDFService {
                 logger.error("ObjectKey : [" + FileUtil.getS3PathFromLocalFullPath(lastMergeUtil.getDestinationFileName(), fileBaseDir) + "]");
                 ExecutionContext ec1 = new ExecutionContext(ExecutionContext.FAIL);
                 ec1.setErrCode("ERR1102");
-                ec1.setMessage(messageResolver.getMessage("U04518"));
+                ec1.setMessage(MessageResolver.getMessage("U04518"));
                 throw new YSBizException(ec1);
             }
 
@@ -282,7 +277,7 @@ public class PDFServiceImpl implements PDFService {
             lastMergedFile.delete();
         } catch (IOException e) {
             ec.setResult(ExecutionContext.FAIL);
-            ec.setMessage(messageResolver.getMessage("U801"));
+            ec.setMessage(MessageResolver.getMessage("U801"));
             ec.setErrCode("ERR1101");
             Map<String, String> errorInfo = new HashMap<String, String>();
             errorInfo.put("applNo", String.valueOf(applNo));
@@ -290,7 +285,7 @@ public class PDFServiceImpl implements PDFService {
             throw new YSBizException(ec);
         } catch (COSVisitorException e) {
             ec.setResult(ExecutionContext.FAIL);
-            ec.setMessage(messageResolver.getMessage("U801"));
+            ec.setMessage(MessageResolver.getMessage("U801"));
             ec.setErrCode("ERR1101");
             Map<String, String> errorInfo = new HashMap<String, String>();
             errorInfo.put("applNo", String.valueOf(applNo));
@@ -302,7 +297,7 @@ public class PDFServiceImpl implements PDFService {
                     mergedPDF.close();
                 } catch (IOException e) {
                     ec.setResult(ExecutionContext.FAIL);
-                    ec.setMessage(messageResolver.getMessage("U801"));
+                    ec.setMessage(MessageResolver.getMessage("U801"));
                     ec.setErrCode("ERR1101");
                     Map<String, String> errorInfo = new HashMap<String, String>();
                     errorInfo.put("applNo", String.valueOf(applNo));

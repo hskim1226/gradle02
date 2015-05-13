@@ -28,7 +28,7 @@
                                     <label for="pswd" class="control-label"><spring:message code="L00182"/><%--현재 비밀 번호--%></label>
                                 </div>
                                 <div class="col-sm-9">
-                                    <input type="password" id="pswd" name="pswd" class="form-control input-text" maxlength="16" placeholder="${msg.getMessage('U00181')}" />  <%--비밀 번호를 입력해 주세요.--%>
+                                    <input type="password" id="pswd" name="pswd" class="form-control input-text" maxlength="16" placeholder="${msg.getMsg('U00181')}" />  <%--비밀 번호를 입력해 주세요.--%>
                                 </div>
                             </div>
                         </div>

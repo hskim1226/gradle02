@@ -16,9 +16,6 @@ import javax.annotation.Resource;
 @Component
 public class MailFactory {
 
-    @Resource
-    MessageResolver messageResolver;
-
     public Mail create(MailType mailType) {
         switch (mailType) {
             case DUE_NOTI:

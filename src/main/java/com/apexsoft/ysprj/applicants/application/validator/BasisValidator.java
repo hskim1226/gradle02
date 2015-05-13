@@ -17,9 +17,6 @@ import org.springframework.validation.Validator;
 public class BasisValidator implements Validator {
 
     @Autowired
-    MessageResolver messageResolver;
-
-    @Autowired
     ApplicationValidator applicationValidator;
 
     @Autowired

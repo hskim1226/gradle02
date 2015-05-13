@@ -43,9 +43,6 @@ public class AdminServiceImpl implements AdminService{
     @Autowired
     private CommonService commonService;
 
-    @Resource(name = "messageResolver")
-    MessageResolver messageResolver;
-
     @Override
     public ExecutionContext retrieveApplicantPaginatedListByApplicantInfo(CourseSearchPageForm courseSearchPageForm){
         ExecutionContext ec = new ExecutionContext();

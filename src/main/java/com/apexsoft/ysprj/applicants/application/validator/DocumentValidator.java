@@ -19,9 +19,6 @@ import java.util.Locale;
 public class DocumentValidator extends WithLocaleValidator {
 
     @Autowired
-    MessageResolver messageResolver;
-
-    @Autowired
     TotalApplicationDocumentValidator totalApplicationDocumentValidator;
 
     @Autowired
@@ -41,7 +38,7 @@ public class DocumentValidator extends WithLocaleValidator {
 
         if (application.getDocChckYn() == null || application.getDocChckYn().length() == 0 || "N".equals(application.getDocChckYn())) {
             errors.rejectValue("application.docChckYn", "U331",
-                    new Object[]{messageResolver.getMessage("L04103")}, messageResolver.getMessage("U332"));  /*"첨부 파일 안내 확인"*/
+                    new Object[]{MessageResolver.getMessage("L04103")}, MessageResolver.getMessage("U332"));  /*"첨부 파일 안내 확인"*/
         }
 
         List<TotalApplicationDocumentContainer> documentContainerList = document.getDocumentContainerList();

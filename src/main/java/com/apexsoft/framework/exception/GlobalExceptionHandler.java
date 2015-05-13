@@ -4,14 +4,11 @@ import com.apexsoft.framework.common.vo.ExecutionContext;
 import com.apexsoft.framework.message.MessageResolver;
 import com.apexsoft.framework.persistence.file.exception.FileNoticeException;
 import com.apexsoft.framework.persistence.file.exception.FileUploadException;
-import com.apexsoft.ysprj.applicants.common.util.FileUtil;
 import com.apexsoft.ysprj.applicants.common.util.StringUtil;
 import org.apache.commons.lang.exception.ExceptionUtils;
-import org.apache.ibatis.exceptions.PersistenceException;
 import org.mybatis.spring.MyBatisSystemException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -32,9 +29,6 @@ public class GlobalExceptionHandler {
 
     private final String DEFAULT_ERROR_VIEW_NAME = "common/error";
     private final String RUNTIME_ERROR = "런타임 오류";
-
-    @Autowired
-    private MessageResolver messageResolver;
 
     @ExceptionHandler(SQLException.class)
     public ModelAndView handleSQLException(HttpServletRequest request, SQLException e){
@@ -77,7 +71,7 @@ public class GlobalExceptionHandler {
                                                       FileUploadException e){
         ExecutionContext ec = e.getExecutionContext();
         ErrorInfo eInfo = ec.getErrorInfo();
-        ec.setMessage(messageResolver.getMessage(e.getUserMessageCode()));
+        ec.setMessage(MessageResolver.getMessage(e.getUserMessageCode()));
         logger.error("FileUploadException Occured :: URL=" + request.getRequestURL());
         logger.error("Message:: " + e.getMessage());
         logger.error("ErrorCode:: " + e.getErrorCode());
@@ -96,7 +90,7 @@ public class GlobalExceptionHandler {
                                                       FileNoticeException e){
         ExecutionContext ec = e.getExecutionContext();
         ErrorInfo eInfo = ec.getErrorInfo();
-        ec.setMessage(messageResolver.getMessage(e.getUserMessageCode()));
+        ec.setMessage(MessageResolver.getMessage(e.getUserMessageCode()));
         logger.debug("FileNoticeException Occured :: URL=" + request.getRequestURL());
         logger.debug("Message:: " + StringUtil.getEmptyIfNull(ec.getErrCode()));
         logger.debug("ErrorCode:: " + StringUtil.getEmptyIfNull(e.getErrorCode()));
@@ -216,7 +210,7 @@ public class GlobalExceptionHandler {
                 StackTraceFilter.getFilteredCallStack(e.getStackTrace(), "com.apexsoft", false));
 
         ec.setResult(ExecutionContext.FAIL);
-        ec.setMessage(messageResolver.getMessage("U901"));
+        ec.setMessage(MessageResolver.getMessage("U901"));
         ec.setErrCode("ERR9950");
         mv.addObject("ec", ec);
 

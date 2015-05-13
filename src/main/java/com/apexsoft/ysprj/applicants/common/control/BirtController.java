@@ -1,8 +1,6 @@
 package com.apexsoft.ysprj.applicants.common.control;
 
 import com.apexsoft.framework.birt.spring.core.BirtEngineFactory;
-import com.apexsoft.framework.birt.spring.core.CustomAbstractSingleFormatBirtProcessor;
-import com.apexsoft.framework.birt.spring.core.CustomPdfSingleFormatBirtSaveToFile;
 import com.apexsoft.framework.common.vo.ExecutionContext;
 import com.apexsoft.framework.exception.ErrorInfo;
 import com.apexsoft.framework.exception.YSBizException;
@@ -12,7 +10,6 @@ import com.apexsoft.ysprj.applicants.application.domain.Application;
 import com.apexsoft.ysprj.applicants.common.domain.BirtRequest;
 import com.apexsoft.ysprj.applicants.common.service.BirtService;
 import com.apexsoft.ysprj.applicants.common.util.WebUtil;
-import org.eclipse.birt.report.engine.api.IReportEngine;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +19,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
 import java.util.HashMap;
@@ -43,9 +39,6 @@ public class BirtController {
 
     @Autowired
     BirtEngineFactory birtEngineFactory;
-
-    @Autowired
-    MessageResolver messageResolver;
 
     @Autowired
     WebUtil webUtil;
@@ -208,7 +201,7 @@ public class BirtController {
 
     private void filterApplicationNull(Principal principal) {
         ExecutionContext ec = new ExecutionContext(ExecutionContext.FAIL);
-        ec.setMessage(messageResolver.getMessage("U343"));
+        ec.setMessage(MessageResolver.getMessage("U343"));
 
         ec.setErrCode("ERR0071");
         Map<String, String> errorInfo = new HashMap<String, String>();

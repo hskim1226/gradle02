@@ -62,11 +62,6 @@ public class MandtoryRuleController {
     @Autowired
     private ObjectMapper jacksonObjectMapper;
 
-    @SuppressWarnings("restriction")
-	@Resource(name = "messageResolver")
-    private MessageResolver messageResolver;
-
-
     @Value("#{app['file.baseDir']}")
     private String fileBaseDir;
 

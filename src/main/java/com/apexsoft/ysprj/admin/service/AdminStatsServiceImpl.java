@@ -40,12 +40,6 @@ public class AdminStatsServiceImpl implements AdminStatsService{
     @Autowired
     private CommonService commonService;
 
-    @Resource(name = "messageResolver")
-    MessageResolver messageResolver;
-
-
-
-
     public List<ApplicantCnt> retrieveUnpaidApplicantCntByDept(CourseSearchGridForm searchForm) {
         List<ApplicantCnt> campusList = null;
         try {

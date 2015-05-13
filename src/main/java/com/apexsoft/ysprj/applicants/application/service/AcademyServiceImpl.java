@@ -28,9 +28,6 @@ public class AcademyServiceImpl implements AcademyService {
     @Autowired
     private CommonService commonService;
 
-    @Resource(name = "messageResolver")
-    MessageResolver messageResolver;
-
     private final String APP_NULL_STATUS = "00000";      // 에러일 때 반환값
     private final String ACAD_SAVED = "00002";           // 학력 저장
 
@@ -167,12 +164,12 @@ public class AcademyServiceImpl implements AcademyService {
 
         if ( r0 == 1 && insert == insertResult && update == updateResult && delete == deleteResult) {
             ec.setResult(ExecutionContext.SUCCESS);
-            ec.setMessage(messageResolver.getMessage("U317"));
+            ec.setMessage(MessageResolver.getMessage("U317"));
             ec.setData(new ApplicationIdentifier(applNo, application.getApplStsCode(),
                     application.getAdmsNo(), application.getEntrYear(), application.getAdmsTypeCode()));
         } else {
             ec.setResult(ExecutionContext.FAIL);
-            ec.setMessage(messageResolver.getMessage("U318"));
+            ec.setMessage(MessageResolver.getMessage("U318"));
             ec.setData(new ApplicationIdentifier(applNo, APP_NULL_STATUS));
             String errCode = null;
             if ( r0 == 0 ) errCode = "ERR0003";
@@ -210,12 +207,12 @@ public class AcademyServiceImpl implements AcademyService {
 //
 //        if ( r1 == collegeList.size() && r2 == graduateList.size() ) {
 //            ec.setResult(ExecutionContext.SUCCESS);
-//            ec.setMessage(messageResolver.getMessage("U317"));
+//            ec.setMessage(MessageResolver.getMessage("U317"));
 //            ec.setData(new ApplicationIdentifier(applNo, application.getApplStsCode(),
 //                    application.getAdmsNo(), application.getEntrYear(), application.getAdmsTypeCode()));
 //        } else {
 //            ec.setResult(ExecutionContext.FAIL);
-//            ec.setMessage(messageResolver.getMessage("U318"));
+//            ec.setMessage(MessageResolver.getMessage("U318"));
 //            ec.setData(new ApplicationIdentifier(applNo, APP_NULL_STATUS));
 //            ec.setErrCode("ERR0013");
 //        }

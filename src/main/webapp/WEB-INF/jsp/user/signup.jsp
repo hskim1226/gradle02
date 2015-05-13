@@ -47,7 +47,7 @@
                             </div>
                             <div class="col-sm-8 nopadding">
                                 <div class="input-group">
-                                    <form:input type="text" cssClass="form-control userId" path="userId" maxlength="12" placeholder="${msg.getMessage('U00121')}" />  <%--입력 후 Check를 눌러 확인해주세요--%>
+                                    <form:input type="text" cssClass="form-control userId" path="userId" maxlength="12" placeholder="${msg.getMsg('U00121')}" />  <%--입력 후 Check를 눌러 확인해주세요--%>
                                     <span class="input-group-btn">
                                         <button class="btn btn-info" id="available-check-button"><spring:message code="L00131"/><%--Check--%></button>
                                     </span>
@@ -68,7 +68,7 @@
                                 <label for="pswd1" class="control-label"><spring:message code="L00123"/><%--비밀번호--%></label>
                             </div>
                             <div class="col-sm-8 nopadding">
-                                <div><form:input type="password" cssClass="form-control passwd" path="pswd" id="pswd1" maxlength="16" placeholder="${msg.getMessage('U00123')}"/></div>  <%--비밀 번호--%>
+                                <div><form:input type="password" cssClass="form-control passwd" path="pswd" id="pswd1" maxlength="16" placeholder="${msg.getMsg('U00123')}"/></div>  <%--비밀 번호--%>
                                 <div class="input-info word-keep-all"><spring:message code="U00124"/></div>
                         <spring:bind path="pswd">
                             <c:if test="${status.error}">
@@ -84,7 +84,7 @@
                                 <label for="pswd2" class="control-label"><spring:message code="L00124"/><%--비밀번호 확인--%></label>
                             </div>
                             <div class="col-sm-8 nopadding">
-                                <div><input type="password" class="form-control passwd" id="pswd2" maxlength="16" placeholder="${msg.getMessage('U00125')}" /></div>  <%--비밀 번호 확인--%>
+                                <div><input type="password" class="form-control passwd" id="pswd2" maxlength="16" placeholder="${msg.getMsg('U00125')}" /></div>  <%--비밀 번호 확인--%>
                         <spring:bind path="pswd">
                             <c:if test="${status.error}">
                                 <div class="validation-error">${status.errorMessage}</div>
@@ -125,7 +125,7 @@
                                 <label for="mailAddr" class="control-label"><spring:message code="L00125"/><%--이메일--%></label>
                             </div>
                             <div class="col-sm-8 nopadding">
-                                <div><form:input type="email" cssClass="form-control emailOnly" path="mailAddr" maxlength="50" placeholder="${msg.getMessage('U00126')}" /></div>  <%--이메일 주소를 입력해 주세요--%>
+                                <div><form:input type="email" cssClass="form-control emailOnly" path="mailAddr" maxlength="50" placeholder="${msg.getMsg('U00126')}" /></div>  <%--이메일 주소를 입력해 주세요--%>
                         <spring:bind path="mailAddr">
                             <c:if test="${status.error}">
                                 <div class="validation-error">${status.errorMessage}</div>
@@ -141,7 +141,7 @@
                                 <label for="mobiNum" class="control-label"><spring:message code="L00126"/><%--휴대폰--%></label>
                             </div>
                             <div class="col-sm-8 nopadding">
-                                <div><form:input type="text" cssClass="form-control numOnly phone" path="mobiNum" maxlength="20" placeholder="${msg.getMessage('U00127')}" /></div>  <%--숫자로만 입력해 주세요--%>
+                                <div><form:input type="text" cssClass="form-control numOnly phone" path="mobiNum" maxlength="20" placeholder="${msg.getMsg('U00127')}" /></div>  <%--숫자로만 입력해 주세요--%>
                         <spring:bind path="mobiNum">
                             <c:if test="${status.error}">
                                 <div class="validation-error">${status.errorMessage}</div>
@@ -157,7 +157,7 @@
                                 <label for="name" class="control-label"><spring:message code="L00127"/><%--이름--%></label>
                             </div>
                             <div class="col-sm-8 nopadding">
-                                <div><form:input type="text" cssClass="form-control" path="name" maxlength="20" placeholder="${msg.getMessage('U00128')}" /></div>  <%--실명을 입력해주세요--%>
+                                <div><form:input type="text" cssClass="form-control" path="name" maxlength="20" placeholder="${msg.getMsg('U00128')}" /></div>  <%--실명을 입력해주세요--%>
                         <spring:bind path="name">
                             <c:if test="${status.error}">
                                 <div class="validation-error">${status.errorMessage}</div>

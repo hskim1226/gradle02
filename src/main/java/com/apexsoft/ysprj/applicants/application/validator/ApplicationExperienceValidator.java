@@ -15,9 +15,6 @@ import java.util.List;
 @Component
 public class ApplicationExperienceValidator extends NamedListValidator {
 
-    @Autowired
-    MessageResolver messageResolver;
-
     @Override
     public void validate(Object o, Errors errors, String className) {
         List<CustomApplicationExperience> customApplicationExperienceList = (List<CustomApplicationExperience>) o;
@@ -30,21 +27,21 @@ public class ApplicationExperienceValidator extends NamedListValidator {
 
             if (item.getJoinDay() == null || item.getJoinDay().length() == 0) {
                 errors.rejectValue(prefix + "joinDay", "U331",
-                        new Object[]{messageResolver.getMessage("L03203")}, messageResolver.getMessage("U332"));  /*"입사일"*/
+                        new Object[]{MessageResolver.getMessage("L03203")}, MessageResolver.getMessage("U332"));  /*"입사일"*/
             }
             if ("N".equals(item.getCurrYn())) {
                 if (item.getRetrDay() == null || item.getRetrDay().length() == 0) {
                     errors.rejectValue(prefix + "retrDay", "U331",
-                            new Object[]{messageResolver.getMessage("L03204")}, messageResolver.getMessage("U332"));  /*"퇴사일"*/
+                            new Object[]{MessageResolver.getMessage("L03204")}, MessageResolver.getMessage("U332"));  /*"퇴사일"*/
                 }
             }
             if (item.getCorpName() == null || item.getCorpName().length() == 0) {
                 errors.rejectValue(prefix + "corpName", "U331",
-                        new Object[]{messageResolver.getMessage("L03206")}, messageResolver.getMessage("U332"));  /*"기관명"*/
+                        new Object[]{MessageResolver.getMessage("L03206")}, MessageResolver.getMessage("U332"));  /*"기관명"*/
             }
             if (item.getExprDesc() == null || item.getExprDesc().length() == 0) {
                 errors.rejectValue(prefix + "exprDesc", "U331",
-                        new Object[]{messageResolver.getMessage("L03207")}, messageResolver.getMessage("U332"));  /*"경력 내용"*/
+                        new Object[]{MessageResolver.getMessage("L03207")}, MessageResolver.getMessage("U332"));  /*"경력 내용"*/
             }
         }
     }

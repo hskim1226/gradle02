@@ -17,8 +17,6 @@ import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.crypto.keygen.KeyGenerators;
-import org.springframework.security.crypto.keygen.StringKeyGenerator;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -34,9 +32,6 @@ public class UserAccountServiceImpl implements UserAccountService {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
-
-    @Autowired
-    private MessageResolver messageResolver;
 
     @Autowired
     private CommonDAO commonDAO;
@@ -56,10 +51,10 @@ public class UserAccountServiceImpl implements UserAccountService {
 
         if ( rUserInsert == 1 && rAuthInsert == 1) {
             ec.setResult(ExecutionContext.SUCCESS);
-            ec.setMessage(messageResolver.getMessage("U103"));
+            ec.setMessage(MessageResolver.getMessage("U103"));
         } else {
             ec.setResult(ExecutionContext.FAIL);
-            ec.setMessage(messageResolver.getMessage("U104"));
+            ec.setMessage(MessageResolver.getMessage("U104"));
             String errCode = null;
             if ( rUserInsert != 1 ) errCode = "ERR1001";
             if ( rAuthInsert != 1 ) errCode = "ERR1002";
@@ -137,7 +132,7 @@ public class UserAccountServiceImpl implements UserAccountService {
             ec.setData(ecDataMap);
         } else {
             ec.setResult(ExecutionContext.FAIL);
-            ec.setMessage(messageResolver.getMessage("U501"));
+            ec.setMessage(MessageResolver.getMessage("U501"));
         }
         return ec;
     }
@@ -154,7 +149,7 @@ public class UserAccountServiceImpl implements UserAccountService {
             ec.setData(ecDataMap);
         } else {
             ec.setResult(ExecutionContext.FAIL);
-            ec.setMessage(messageResolver.getMessage("U502"));
+            ec.setMessage(MessageResolver.getMessage("U502"));
         }
         return ec;
     }
@@ -187,9 +182,9 @@ public class UserAccountServiceImpl implements UserAccountService {
         ExecutionContext context = new ExecutionContext();
         if( retrieveUser( user.getUserId() ) != null ) {
             context.setResult( ExecutionContext.FAIL );
-            context.setMessage( messageResolver.getMessage("U00132"));  // 이미 존재하는 ID 입니다.
+            context.setMessage( MessageResolver.getMessage("U00132"));  // 이미 존재하는 ID 입니다.
         }
-        context.setMessage( messageResolver.getMessage("U00131") );  // 사용 가능한 ID 입니다.
+        context.setMessage( MessageResolver.getMessage("U00131") );  // 사용 가능한 ID 입니다.
         return context;
     }
 
@@ -225,11 +220,11 @@ public class UserAccountServiceImpl implements UserAccountService {
 
         if (u1 == 1) {
             ec.setResult(ExecutionContext.SUCCESS);
-            ec.setMessage(messageResolver.getMessage("U106"));
+            ec.setMessage(MessageResolver.getMessage("U106"));
             user.setMobiNum(StringUtil.removeHyphen(user.getMobiNum()));
         } else {
             ec.setResult(ExecutionContext.FAIL);
-            ec.setMessage(messageResolver.getMessage("U107"));
+            ec.setMessage(MessageResolver.getMessage("U107"));
             ec.setErrCode("ERRU001");
             Map<String, String> errorInfo = new HashMap<String, String>();
             errorInfo.put("userId", user.getUserId());
@@ -251,7 +246,7 @@ public class UserAccountServiceImpl implements UserAccountService {
             ec.setData(userFromDB);
         } else {
             ec.setResult(ExecutionContext.FAIL);
-            ec.setMessage(messageResolver.getMessage("U105"));
+            ec.setMessage(MessageResolver.getMessage("U105"));
         }
         return ec;
     }

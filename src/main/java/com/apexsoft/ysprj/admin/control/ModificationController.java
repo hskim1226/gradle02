@@ -9,7 +9,6 @@ import com.apexsoft.ysprj.admin.domain.ApplicantInfo;
 import com.apexsoft.ysprj.admin.domain.CustomApplicationChange;
 import com.apexsoft.ysprj.admin.service.AdminService;
 import com.apexsoft.ysprj.admin.service.ChangeService;
-import com.apexsoft.ysprj.applicants.admission.domain.AdmissionName;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,7 +20,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
 import java.security.Principal;
-import java.util.List;
 import java.util.Map;
 
 //import com.apexsoft.ysprj.user.domain.Users;
@@ -41,12 +39,7 @@ public class ModificationController {
     private ChangeService changeService;
 
     @Autowired
-    private ObjectMapper jacksonObjectMapper;    
-    
-    @SuppressWarnings("restriction")
-	@Resource(name = "messageResolver")
-    private MessageResolver messageResolver;
-
+    private ObjectMapper jacksonObjectMapper;
 
     @RequestMapping(value="/modification/searchAdms")
     public String searchAdms(ApplicantSearchForm searchForm, Model model) {
@@ -63,7 +56,7 @@ public class ModificationController {
         mv.setViewName("admin/modification/changeList");
         ExecutionContext ec;
         if (bindingResult.hasErrors()) {
-            mv.addObject("resultMsg", messageResolver.getMessage("U334"));
+            mv.addObject("resultMsg", MessageResolver.getMessage("U334"));
 
         }
         ExecutionContext ecRetrieve = changeService.retrieveChangePaginatedList(searchPageForm);
@@ -87,7 +80,7 @@ public class ModificationController {
         mv.setViewName("admin/modification/changeInfo");
 
         if (bindingResult.hasErrors()) {
-            mv.addObject("resultMsg", messageResolver.getMessage("U334"));
+            mv.addObject("resultMsg", MessageResolver.getMessage("U334"));
 
         }
         ExecutionContext ecRetrieve = adminService.getApplicantDetail(applicantSearchForm.getApplNo(),applicantSearchForm.getApplId() );
@@ -111,7 +104,7 @@ public class ModificationController {
         mv.setViewName("admin/modification/changeUnit");
 
         if (bindingResult.hasErrors()) {
-            mv.addObject("resultMsg", messageResolver.getMessage("U334"));
+            mv.addObject("resultMsg", MessageResolver.getMessage("U334"));
 
         }
         ExecutionContext ecRetrieve = adminService.getApplicantDetail(applicantSearchForm.getApplNo(),applicantSearchForm.getApplId() );
@@ -135,7 +128,7 @@ public class ModificationController {
         mv.setViewName("admin/modification/cancelAppl");
 
         if (bindingResult.hasErrors()) {
-            mv.addObject("resultMsg", messageResolver.getMessage("U334"));
+            mv.addObject("resultMsg", MessageResolver.getMessage("U334"));
 
         }
         ExecutionContext ecRetrieve = adminService.getApplicantDetail(applicantSearchForm.getApplNo(),applicantSearchForm.getApplId() );
@@ -158,7 +151,7 @@ public class ModificationController {
         mv.setViewName("admin/modification/changeEtc");
 
         if (bindingResult.hasErrors()) {
-            mv.addObject("resultMsg", messageResolver.getMessage("U334"));
+            mv.addObject("resultMsg", MessageResolver.getMessage("U334"));
 
         }
         ExecutionContext ecRetrieve = adminService.getApplicantDetail(applicantSearchForm.getApplNo(),applicantSearchForm.getApplId() );
@@ -184,7 +177,7 @@ public class ModificationController {
         mv.setViewName("admin/modification/changeList");
 
         if (bindingResult.hasErrors()) {
-            mv.addObject("resultMsg", messageResolver.getMessage("U334"));
+            mv.addObject("resultMsg", MessageResolver.getMessage("U334"));
 
         }
 
@@ -226,7 +219,7 @@ public class ModificationController {
         mv.setViewName("admin/modification/changeList");
 
         if (bindingResult.hasErrors()) {
-            mv.addObject("resultMsg", messageResolver.getMessage("U334"));
+            mv.addObject("resultMsg", MessageResolver.getMessage("U334"));
         }
 
         //TODO 로그인 정보로 변경
@@ -263,7 +256,7 @@ public class ModificationController {
         mv.setViewName("admin/modification/changeList");
 
         if (bindingResult.hasErrors()) {
-            mv.addObject("resultMsg", messageResolver.getMessage("U334"));
+            mv.addObject("resultMsg", MessageResolver.getMessage("U334"));
         }
 
         //TODO 로그인 정보로 변경
@@ -302,7 +295,7 @@ public class ModificationController {
         mv.setViewName("admin/modification/changeList");
 
         if (bindingResult.hasErrors()) {
-            mv.addObject("resultMsg", messageResolver.getMessage("U334"));
+            mv.addObject("resultMsg", MessageResolver.getMessage("U334"));
         }
 
         //TODO 로그인 정보로 변경
@@ -338,7 +331,7 @@ public class ModificationController {
                                              ModelAndView mv){
         mv.setViewName("admin/modification/changeInfoDetail");
         if (bindingResult.hasErrors()) {
-            mv.addObject("resultMsg", messageResolver.getMessage("U334"));
+            mv.addObject("resultMsg", MessageResolver.getMessage("U334"));
         }
         ExecutionContext ecRetrieve =ecRetrieve = changeService.retrieveChangeDetail(chgId);
         if (ecRetrieve.getResult().equals(ExecutionContext.SUCCESS)) {

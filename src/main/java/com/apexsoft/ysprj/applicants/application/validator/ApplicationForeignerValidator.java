@@ -13,9 +13,6 @@ import org.springframework.validation.Errors;
 @Component
 public class ApplicationForeignerValidator implements NamedValidator {
 
-    @Autowired
-    MessageResolver messageResolver;
-
     @Override
     public boolean supports(Class<?> aClass) {
         return ApplicationForeigner.class.isAssignableFrom(aClass);
@@ -38,29 +35,29 @@ public class ApplicationForeignerValidator implements NamedValidator {
 
 //        if (applicationForeigner.getBornCntrCode() == null || applicationForeigner.getBornCntrCode().length() == 0) {
 //            errors.rejectValue(prefix + "bornCntrCode", "U331",
-//                    new Object[]{"출생국"}, messageResolver.getMessage("U332"));
+//                    new Object[]{"출생국"}, MessageResolver.getMessage("U332"));
 //        }
         if (applicationForeigner.getHomeAddr() == null || applicationForeigner.getHomeAddr().length() == 0) {
             errors.rejectValue(prefix + "homeAddr", "U331",
-                    new Object[]{messageResolver.getMessage("L01307")}, messageResolver.getMessage("U332"));  /*"본국 주소"*/
+                    new Object[]{MessageResolver.getMessage("L01307")}, MessageResolver.getMessage("U332"));  /*"본국 주소"*/
         }
         if (applicationForeigner.getHomeTel() == null || applicationForeigner.getHomeTel().length() == 0) {
             errors.rejectValue(prefix + "homeTel", "U331",
-                    new Object[]{messageResolver.getMessage("L01308")}, messageResolver.getMessage("U332"));  /*"본국 연락처"*/
+                    new Object[]{MessageResolver.getMessage("L01308")}, MessageResolver.getMessage("U332"));  /*"본국 연락처"*/
         }
         if (!isKorean) {
             if (applicationForeigner.getPaspNo() == null || applicationForeigner.getPaspNo().length() == 0) {
                 errors.rejectValue(prefix + "paspNo", "U331",
-                        new Object[]{messageResolver.getMessage("L01402")}, messageResolver.getMessage("U332"));  /*"여권 번호"*/
+                        new Object[]{MessageResolver.getMessage("L01402")}, MessageResolver.getMessage("U332"));  /*"여권 번호"*/
             }
             if (applicationForeigner.getVisaTypeCode() == null || applicationForeigner.getVisaTypeCode().length() == 0) {
                 errors.rejectValue(prefix + "visaTypeCode", "U331",
-                        new Object[]{messageResolver.getMessage("L01404")}, messageResolver.getMessage("U332"));  /*"비자 종류"*/
+                        new Object[]{MessageResolver.getMessage("L01404")}, MessageResolver.getMessage("U332"));  /*"비자 종류"*/
             } else {
                 if ("00099".equals(applicationForeigner.getVisaTypeCode())) { // 비자 종류 기타 일 때
                     if (applicationForeigner.getVisaTypeEtc() == null || applicationForeigner.getVisaTypeEtc().length() == 0) {
                         errors.rejectValue(prefix + "visaTypeEtc", "U331",
-                                new Object[]{messageResolver.getMessage("L01408")}, messageResolver.getMessage("U332"));  /*"비자 종류 직접 입력"*/
+                                new Object[]{MessageResolver.getMessage("L01408")}, MessageResolver.getMessage("U332"));  /*"비자 종류 직접 입력"*/
                     }
                 }
                 else if ("00999".equals(applicationForeigner.getVisaTypeCode())) { // 비자 종류 없음 일 때
@@ -69,17 +66,17 @@ public class ApplicationForeignerValidator implements NamedValidator {
                 else if ("F-5".equals(applicationForeigner.getVisaTypeCode())) { // 비자 종류 영주권일 때
                     if (applicationForeigner.getVisaNo() == null || applicationForeigner.getVisaNo().length() == 0) {
                         errors.rejectValue(prefix + "visaNo", "U331",
-                                new Object[]{messageResolver.getMessage("L01405")}, messageResolver.getMessage("U332"));  /*"비자 번호"*/
+                                new Object[]{MessageResolver.getMessage("L01405")}, MessageResolver.getMessage("U332"));  /*"비자 번호"*/
                     }
                 }
                 else { // 그 외의 경우 비자번호와 비자 만료일 모두 체크
                     if (applicationForeigner.getVisaNo() == null || applicationForeigner.getVisaNo().length() == 0) {
                         errors.rejectValue(prefix + "visaNo", "U331",
-                                new Object[]{messageResolver.getMessage("L01405")}, messageResolver.getMessage("U332"));  /*"비자 번호"*/
+                                new Object[]{MessageResolver.getMessage("L01405")}, MessageResolver.getMessage("U332"));  /*"비자 번호"*/
                     }
                     if (applicationForeigner.getVisaExprDay() == null || applicationForeigner.getVisaExprDay().length() == 0) {
                         errors.rejectValue(prefix + "visaExprDay", "U331",
-                                new Object[]{messageResolver.getMessage("L01406")}, messageResolver.getMessage("U332"));  /*"비자 만료일"*/
+                                new Object[]{MessageResolver.getMessage("L01406")}, MessageResolver.getMessage("U332"));  /*"비자 만료일"*/
                     }
                 }
 
@@ -88,27 +85,27 @@ public class ApplicationForeignerValidator implements NamedValidator {
         }
 //        if (applicationForeigner.getKorEmrgName() == null || applicationForeigner.getKorEmrgName().length() == 0) {
 //            errors.rejectValue(prefix + "korEmrgName", "U331",
-//                    new Object[]{"국내 비상연락처 이름"}, messageResolver.getMessage("U332"));
+//                    new Object[]{"국내 비상연락처 이름"}, MessageResolver.getMessage("U332"));
 //        }
 //        if (applicationForeigner.getKorEmrgRela() == null || applicationForeigner.getKorEmrgRela().length() == 0) {
 //            errors.rejectValue(prefix + "korEmrgRela", "U331",
-//                    new Object[]{"국내 비상연락처 관계"}, messageResolver.getMessage("U332"));
+//                    new Object[]{"국내 비상연락처 관계"}, MessageResolver.getMessage("U332"));
 //        }
 //        if (applicationForeigner.getKorEmrgTel() == null || applicationForeigner.getKorEmrgTel().length() == 0) {
 //            errors.rejectValue(prefix + "korEmrgTel", "U331",
-//                    new Object[]{"국내 비상연락처 전화번호"}, messageResolver.getMessage("U332"));
+//                    new Object[]{"국내 비상연락처 전화번호"}, MessageResolver.getMessage("U332"));
 //        }
         if (applicationForeigner.getHomeEmrgName() == null || applicationForeigner.getHomeEmrgName().length() == 0) {
             errors.rejectValue(prefix + "homeEmrgName", "U331",
-                    new Object[]{messageResolver.getMessage("L01604")}, messageResolver.getMessage("U332"));  /*"본국 비상연락처 이름"*/
+                    new Object[]{MessageResolver.getMessage("L01604")}, MessageResolver.getMessage("U332"));  /*"본국 비상연락처 이름"*/
         }
         if (applicationForeigner.getHomeEmrgRela() == null || applicationForeigner.getHomeEmrgRela().length() == 0) {
             errors.rejectValue(prefix + "homeEmrgRela", "U331",
-                    new Object[]{messageResolver.getMessage("L01605")}, messageResolver.getMessage("U332"));  /*"본국 비상연락처 관계"*/
+                    new Object[]{MessageResolver.getMessage("L01605")}, MessageResolver.getMessage("U332"));  /*"본국 비상연락처 관계"*/
         }
         if (applicationForeigner.getHomeEmrgTel() == null || applicationForeigner.getHomeEmrgTel().length() == 0) {
             errors.rejectValue(prefix + "homeEmrgTel", "U331",
-                    new Object[]{messageResolver.getMessage("L01606")}, messageResolver.getMessage("U332"));  /*"본국 비상연락처 전화번호"*/
+                    new Object[]{MessageResolver.getMessage("L01606")}, MessageResolver.getMessage("U332"));  /*"본국 비상연락처 전화번호"*/
         }
     }
 }

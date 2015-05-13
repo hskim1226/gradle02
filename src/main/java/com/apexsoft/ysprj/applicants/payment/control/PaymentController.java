@@ -38,9 +38,6 @@ import java.security.NoSuchAlgorithmException;
 @RequestMapping("/payment")
 public class PaymentController {
 
-    @Resource(name = "messageResolver")
-    MessageResolver messageResolver;
-
     @Autowired
     private PaymentService paymentService;
 

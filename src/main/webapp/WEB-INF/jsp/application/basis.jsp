@@ -2,7 +2,7 @@
 <%@ include file="/WEB-INF/jsp/common/env.jsp"%>
 <html lang="ko">
 <head>
-    <title>${msg.getMessage('L01101')}<%--원서 작성 - 기본 정보--%></title>
+    <title>${msg.getMsg('L01101')}<%--원서 작성 - 기본 정보--%></title>
     <link rel="stylesheet" href="//code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css">
     <style>
 
@@ -211,7 +211,7 @@
 <div id="overlay" class="web_dialog_overlay"></div>
 <section class="application">
     <div class="container">
-        <p id="stepStatusTitle" colspan=4 align="center" height="70px">${msg.getMessage('L01001', locale)}<%--원서 작성 현황--%></p>
+        <p id="stepStatusTitle" colspan=4 align="center" height="70px">${msg.getMsg('L01001', locale)}<%--원서 작성 현황--%></p>
         <!-- 진행상태바 시작 -->
         <div class="step_wrap">
             <ul class="step_box" id="step_box">
@@ -274,7 +274,7 @@
                                     <div class="col-sm-9">
                                         <div class="col-sm-12">
                                             <form:select path="application.applAttrCode" id="applAttrCode" cssClass="form-control base-info">
-                                                <form:option value="" label="--${msg.getMessage('L01011', locale)}--" />
+                                                <form:option value="" label="--${msg.getMsg('L01011', locale)}--" />
                                                 <form:options items="${selection.applAttrList}" itemValue="code"
                                                               itemLabel="${pageContext.response.locale == 'en' ? 'codeValXxen' : 'codeVal'}"/>
                                             </form:select>
@@ -287,7 +287,7 @@
                                         <div class="col-sm-9">
                                             <div class="col-sm-3">
                                                 <form:select path="application.campCode" id="campCode" cssClass="form-control base-info base-non-ariInst">
-                                                    <form:option value="" label="--${msg.getMessage('L01011', locale)}--" />
+                                                    <form:option value="" label="--${msg.getMsg('L01011', locale)}--" />
                                                     <c:if test="${basis.application.applAttrCode == '00001' || basis.application.applAttrCode == '00003' || basis.application.applAttrCode == '00004'}">
                                                         <form:options items="${selection.campList}" itemValue="campCode"
                                                                       itemLabel="${pageContext.response.locale == 'en' ? 'campNameXxen' : 'campName'}"/>
@@ -297,7 +297,7 @@
                                             <label path="collCode" class="col-sm-2 control-label"><spring:message code="L01105"/><%--대학--%></label>
                                             <div class="col-sm-7">
                                                 <form:select path="application.collCode" id="collCode" cssClass="form-control base-info base-non-ariInst">
-                                                    <form:option value="" label="--${msg.getMessage('L01011', locale)}--" />
+                                                    <form:option value="" label="--${msg.getMsg('L01011', locale)}--" />
                                                     <c:if test="${basis.application.applAttrCode == '00001' || basis.application.applAttrCode == '00003' || basis.application.applAttrCode == '00004'}">
                                                         <form:options items="${selection.collList}" itemValue="collCode"
                                                                       itemLabel="${pageContext.response.locale == 'en' ? 'collNameXxen' : 'collName'}"/>
@@ -311,7 +311,7 @@
                                         <div class="col-sm-9">
                                             <div class="col-sm-12">
                                                 <form:select path="application.ariInstCode" id="ariInstCode" cssClass="form-control base-info base-ariInst">
-                                                    <form:option value="" label="--${msg.getMessage('L01011', locale)}--" />
+                                                    <form:option value="" label="--${msg.getMsg('L01011', locale)}--" />
                                                     <c:if test="${basis.application.applAttrCode == '00002'}">
                                                     <form:options items="${selection.ariInstList}" itemValue="ariInstCode"
                                                                   itemLabel="${pageContext.response.locale == 'en' ? 'ariInstNameXxen' : 'ariInstName'}"/>
@@ -325,7 +325,7 @@
                                         <div class="col-sm-9">
                                             <div class="col-sm-12">
                                                 <form:select path="application.deptCode" id="deptCode" cssClass="form-control base-info base-non-ariInst base-ariInst">
-                                                    <form:option value="" label="--${msg.getMessage('L01011', locale)}--" />
+                                                    <form:option value="" label="--${msg.getMsg('L01011', locale)}--" />
                                                     <form:options items="${selection.deptList}" itemValue="deptCode"
                                                                   itemLabel="${pageContext.response.locale == 'en' ? 'deptNameXxen' : 'deptName'}"/>
                                                 </form:select>
@@ -337,7 +337,7 @@
                                         <div class="col-sm-9">
                                             <div class="col-sm-12">
                                                 <form:select path="application.corsTypeCode" id="corsTypeCode" cssClass="form-control base-info base-non-ariInst base-ariInst">
-                                                    <form:option value="" label="--${msg.getMessage('L01011', locale)}--" />
+                                                    <form:option value="" label="--${msg.getMsg('L01011', locale)}--" />
                                                     <form:options items="${selection.corsTypeList}" itemValue="corsTypeCode"
                                                                   itemLabel="${pageContext.response.locale == 'en' ? 'codeValXxen' : 'codeVal'}"/>
                                                 </form:select>
@@ -349,7 +349,7 @@
                                         <div class="col-sm-9">
                                             <div class="col-sm-12">
                                                 <%--<form:select path="application.detlMajCode" cssClass="form-control base-info base-non-ariInst base-ariInst" id="detlMajCode">--%>
-                                                    <%--<form:option value="" label="--${msg.getMessage('L01011', locale)}--" />--%>
+                                                    <%--<form:option value="" label="--${msg.getMsg('L01011', locale)}--" />--%>
                                                     <%--<form:options items="${detlList.detlMajCode}" itemValue="detlMajCode"--%>
                                                                   <%--itemLabel="${pageContext.response.locale == 'en' ? detlList.detlMajNameXxen : detlList.detlMajName}"/>--%>
                                                 <%--</form:select>--%>
@@ -376,16 +376,16 @@
                                             <div class="col-sm-9" id="partTimeYnGrp" style="display:none" disabeld="true">
                                                 <div class="col-sm-12">
                                                     <form:select path="application.partTimeYn" id="partTimeYn" cssClass="form-control base-info">
-                                                        <form:option value="" label="--${msg.getMessage('L01011', locale)}--" />
-                                                        <form:option value="Y" label="${msg.getMessage('L01113')}" /><%--파트타임--%>
-                                                        <form:option value="N" label="${msg.getMessage('L01114')}" /><%--풀타임--%>
+                                                        <form:option value="" label="--${msg.getMsg('L01011', locale)}--" />
+                                                        <form:option value="Y" label="${msg.getMsg('L01113')}" /><%--파트타임--%>
+                                                        <form:option value="N" label="${msg.getMsg('L01114')}" /><%--풀타임--%>
                                                     </form:select>
                                                 <%--
                                                     <label class="radio-inline base-info-input">
-                                                        <form:radiobutton path="application.partTimeYn" readonly="true" cssClass="base-info-input" value="Y" label="${msg.getMessage('L01113')}"/>
+                                                        <form:radiobutton path="application.partTimeYn" readonly="true" cssClass="base-info-input" value="Y" label="${msg.getMsg('L01113')}"/>
                                                     </label>
                                                     <label class="radio-inline base-info-input">
-                                                        <form:radiobutton path="application.partTimeYn" cssClass="base-info-input" value=" " label="${msg.getMessage('L01114')}"/>
+                                                        <form:radiobutton path="application.partTimeYn" cssClass="base-info-input" value=" " label="${msg.getMsg('L01114')}"/>
                                                     </label>
                                                 --%>
                                                 </div>
@@ -398,10 +398,10 @@
                                         <div class="col-sm-9">
                                             <div class="col-sm-12">
                                                 <label class="radio-inline">
-                                                    <form:radiobutton path="application.partTimeYn"  value="Y" label="${msg.getMessage('L01113')}"/>
+                                                    <form:radiobutton path="application.partTimeYn"  value="Y" label="${msg.getMsg('L01113')}"/>
                                                 </label>
                                                 <label class="radio-inline">
-                                                    <form:radiobutton path="application.partTimeYn"  value=" " label="${msg.getMessage('L01114')}"/>
+                                                    <form:radiobutton path="application.partTimeYn"  value=" " label="${msg.getMsg('L01114')}"/>
                                                 </label>
                                             </div>
                                         </div>
@@ -429,7 +429,7 @@
                                         <label for="application.korName" class="col-sm-2 control-label"><spring:message code="L01202"/><%--한글 이름--%></label>
                                         <div class="col-sm-9">
                                             <div class="col-sm-12">
-                                                <form:input path="application.korName" cssClass="form-control korName" maxlength="20" placeholder="${msg.getMessage('U01201')}"/><%--한글 이름을 공백 없이 입력해주세요--%>
+                                                <form:input path="application.korName" cssClass="form-control korName" maxlength="20" placeholder="${msg.getMsg('U01201')}"/><%--한글 이름을 공백 없이 입력해주세요--%>
                                             </div>
                                             <spring:bind path="application.korName">
                                                 <c:if test="${status.error}">
@@ -495,13 +495,13 @@
                                     <%--<div class="form-group required" id="divRgstNo" style="display: ${basis.application.citzCntrCode == "118" ? 'block;' : 'none;'}">--%>
                                     <div class="form-group required" id="divRgstNo">
                                         <label class="col-sm-2 control-label" id="dateOfBirthLabel">
-                                            ${basis.application.admsTypeCode != 'C' && basis.application.admsTypeCode != 'D' && basis.application.citzCntrCode == '118' ? msg.getMessage('L01208') : msg.getMessage('L01216')}<%--주민등록번호 or 생년월일--%>
+                                            ${basis.application.admsTypeCode != 'C' && basis.application.admsTypeCode != 'D' && basis.application.citzCntrCode == '118' ? msg.getMsg('L01208') : msg.getMsg('L01216')}<%--주민등록번호 or 생년월일--%>
                                         </label>
                                         <div class="col-sm-9">
                                             <div class="col-sm-12">
                                                 <div class="col-sm-4 nopadding">
                                                     <div><form:input path="application.rgstBornDate" cssClass="form-control numOnly lenCheck-6"
-                                                                     maxlength="6" placeholder="${basis.application.citzCntrCode == '118' ? msg.getMessage('U01206') : msg.getMessage('U01207')}"/></div>
+                                                                     maxlength="6" placeholder="${basis.application.citzCntrCode == '118' ? msg.getMsg('U01206') : msg.getMsg('U01207')}"/></div>
                                             <spring:bind path="application.rgstBornDate">
                                                 <c:if test="${status.error}">
                                                     <div class="validation-error">${status.errorMessage}</div>
@@ -515,7 +515,7 @@
                                                     <label>-</label>
                                                 </div>
                                                 <div class="col-sm-4 nopadding warn-rgstEncr" style="display: ${basis.application.citzCntrCode == '118' ? 'block;' : 'none;'}">
-                                                    <div><form:input path="application.rgstEncr" cssClass="form-control numOnly lenCheck-7" maxlength="7" placeholder="${msg.getMessage('U01208')}"/></div>  <%--주민등록번호 뒤 7자리--%>
+                                                    <div><form:input path="application.rgstEncr" cssClass="form-control numOnly lenCheck-7" maxlength="7" placeholder="${msg.getMsg('U01208')}"/></div>  <%--주민등록번호 뒤 7자리--%>
                                                     <div class="input-info word-keep-all"><spring:message code="U01209"/><%--보안을 위해 추후 수정할 수 없으므로 정확히 입력해 주십시오.--%></div>
                                                     <spring:bind path="application.rgstEncr">
                                                         <c:if test="${status.error}">
@@ -542,10 +542,10 @@
                                             <div class="col-sm-12">
                                                 <div class="col-sm-4 nopadding">
                                                      <label class="radio-inline">
-                                                     <form:radiobutton path="application.gend" value="m" label="${msg.getMessage('L114')}"/>
+                                                     <form:radiobutton path="application.gend" value="m" label="${msg.getMsg('L114')}"/>
                                                      </label>
                                                      <label class="radio-inline">
-                                                     <form:radiobutton path="application.gend" value="f" label="${msg.getMessage('L115')}"/>
+                                                     <form:radiobutton path="application.gend" value="f" label="${msg.getMsg('L115')}"/>
                                                      </label>
                                                          <spring:bind path="application.gend">
                                                          <c:if test="${status.error}">
@@ -634,7 +634,7 @@
                                                 <div class="col-sm-9">
                                                     <div class="col-sm-4">
                                                         <form:select path="application.fornTypeCode" id="fornTypeCode" cssClass="form-control">
-                                                            <form:option value="" label="--${msg.getMessage('L01011', locale)}--" />
+                                                            <form:option value="" label="--${msg.getMsg('L01011', locale)}--" />
                                                             <form:options items="${foreign.foreignTypeList}" itemValue="code"
                                                                           itemLabel="${pageContext.response.locale == 'en' ? 'codeValXxen' : 'codeVal'}"/>
                                                         </form:select>
@@ -653,7 +653,7 @@
                                                 <label class="col-sm-2 control-label"><spring:message code="L01307"/><%--본국 주소--%></label>
                                                 <div class="col-sm-9">
                                                     <div class="col-sm-12">
-                                                        <form:input path="applicationForeigner.homeAddr" cssClass="form-control" maxlength="500" placeholder="${msg.getMessage('U01302')}"/> <%--본국 주소를 입력해 주세요.--%>
+                                                        <form:input path="applicationForeigner.homeAddr" cssClass="form-control" maxlength="500" placeholder="${msg.getMsg('U01302')}"/> <%--본국 주소를 입력해 주세요.--%>
                                                     </div>
                                                     <spring:bind path="applicationForeigner.homeAddr">
                                                         <c:if test="${status.error}">
@@ -668,7 +668,7 @@
                                                 <label class="col-sm-2 control-label"><spring:message code="L01308"/><%--본국 연락처--%></label>
                                                 <div class="col-sm-9">
                                                     <div class="col-sm-12">
-                                                        <form:input path="applicationForeigner.homeTel" cssClass="form-control" maxlength="16" placeholder="${msg.getMessage('U01303')}" /> <%--본국 연락처를 입력해 주세요.--%>
+                                                        <form:input path="applicationForeigner.homeTel" cssClass="form-control" maxlength="16" placeholder="${msg.getMsg('U01303')}" /> <%--본국 연락처를 입력해 주세요.--%>
                                                     </div>
                                                     <spring:bind path="applicationForeigner.homeTel">
                                                         <c:if test="${status.error}">
@@ -693,7 +693,7 @@
                                         <label for="applicationForeigner.paspNo" class="col-sm-2 control-label"><spring:message code="L01402"/><%--여권 번호--%></label>
                                         <div class="col-sm-9">
                                             <div class="col-sm-12">
-                                                <form:input path="applicationForeigner.paspNo" cssClass="form-control" maxlength="50" placeholder="${msg.getMessage('U01401')}"/>  <%--여권 번호를 입력해주세요--%>
+                                                <form:input path="applicationForeigner.paspNo" cssClass="form-control" maxlength="50" placeholder="${msg.getMsg('U01401')}"/>  <%--여권 번호를 입력해주세요--%>
                                             </div>
                                             <spring:bind path="applicationForeigner.paspNo">
                                                 <c:if test="${status.error}">
@@ -711,7 +711,7 @@
                                                 <div class="input-group">
                                                     <span class="input-group-addon">&nbsp;<spring:message code="L01404"/><%--종류--%>&nbsp;</span>
                                                     <form:select path="applicationForeigner.visaTypeCode" cssClass="form-control">
-                                                        <form:option value="" label="--${msg.getMessage('L01011', locale)}--" />
+                                                        <form:option value="" label="--${msg.getMsg('L01011', locale)}--" />
                                                         <form:options items="${foreign.visaTypeList}" itemValue="code"
                                                                       itemLabel="${pageContext.response.locale == 'en' ? 'codeValXxen' : 'codeVal'}"/>
                                                     </form:select>
@@ -726,7 +726,7 @@
                                             </div>
                                             <div class="col-sm-6">
                                                 <div class="input-group" id="tmpVisaTypeCode" style="display: ${basis.applicationForeigner.visaTypeCode == '00099' ? 'block;' : 'none;'}">
-                                                    <form:input path="applicationForeigner.visaTypeEtc" cssClass="form-control" maxlength="20" placeholder="${msg.getMessage('U01402')}" /> <%--예) D-2, D-4--%>
+                                                    <form:input path="applicationForeigner.visaTypeEtc" cssClass="form-control" maxlength="20" placeholder="${msg.getMsg('U01402')}" /> <%--예) D-2, D-4--%>
                                                 </div>
                                                 <spring:bind path="applicationForeigner.visaTypeEtc">
                                                     <c:if test="${status.error}">
@@ -778,7 +778,7 @@
                                         <div class="col-sm-9">
                                             <div class="col-sm-12">
                                                 <input id="applicationForeigner.fornRgstNo" name="applicationForeigner.fornRgstNo" class="form-control numOnly rgstNo"
-                                                       maxlength="13" placeholder="${msg.getMessage('U01403')}" <%--외국인등록번호를 13자리 숫자로 입력해주세요--%>
+                                                       maxlength="13" placeholder="${msg.getMsg('U01403')}" <%--외국인등록번호를 13자리 숫자로 입력해주세요--%>
                                                        value="${basis.applicationForeigner.fornRgstNo}"
                                                        <%--<c:if test="${basis.applicationForeigner.visaTypeCode == '00999'}">disabled</c:if> />--%>
                                                         />
@@ -832,7 +832,7 @@
                                                     ${basis.application.admsTypeCode == 'C' || basis.application.admsTypeCode == 'D' ? '' : 'readonly'}/>
                                             </div>
                                             <div class="col-sm-6">
-                                                <form:input path="application.detlAddr" cssClass="form-control" id="addressDetail" maxlength="500" placeholder="${msg.getMessage('U01502')}" /> <%--세부주소--%>
+                                                <form:input path="application.detlAddr" cssClass="form-control" id="addressDetail" maxlength="500" placeholder="${msg.getMsg('U01502')}" /> <%--세부주소--%>
                                             </div>
                                             <spring:bind path="application.addr">
                                                 <c:if test="${status.error}">
@@ -847,7 +847,7 @@
                                         <label for="application.telNum" class="col-sm-2 control-label"><spring:message code="L01504"/><%--전화번호--%></label>
                                         <div class="col-sm-9">
                                             <div class="col-sm-12">
-                                                <form:input path="application.telNum" cssClass="form-control numOnly phone" maxlength="20" placeholder="${msg.getMessage('U01503')}"/> <%--전화번호를 숫자로만 입력해주세요--%>
+                                                <form:input path="application.telNum" cssClass="form-control numOnly phone" maxlength="20" placeholder="${msg.getMsg('U01503')}"/> <%--전화번호를 숫자로만 입력해주세요--%>
                                             </div>
                                             <spring:bind path="application.telNum">
                                                 <c:if test="${status.error}">
@@ -863,7 +863,7 @@
                                         <label for="application.mobiNum" class="col-sm-2 control-label"><spring:message code="L01505"/><%--휴대폰--%></label>
                                         <div class="col-sm-9">
                                             <div class="col-sm-12">
-                                                <form:input path="application.mobiNum" cssClass="form-control numOnly phone" maxlength="20" placeholder="${msg.getMessage('U01504')}"/> <%--휴대폰번호를 숫자로만 입력해주세요--%>
+                                                <form:input path="application.mobiNum" cssClass="form-control numOnly phone" maxlength="20" placeholder="${msg.getMsg('U01504')}"/> <%--휴대폰번호를 숫자로만 입력해주세요--%>
                                             </div>
                                             <spring:bind path="application.mobiNum">
                                                 <c:if test="${status.error}">
@@ -878,7 +878,7 @@
                                         <label for="application.mailAddr" class="col-sm-2 control-label"><spring:message code="L01506"/><%--이메일--%></label>
                                         <div class="col-sm-9">
                                             <div class="col-sm-12">
-                                                <form:input path="application.mailAddr" type="email" cssClass="form-control emailOnly" maxlength="50" placeholder="${msg.getMessage('U01505')}"/> <%--이메일 주소를 입력해주세요--%>
+                                                <form:input path="application.mailAddr" type="email" cssClass="form-control emailOnly" maxlength="50" placeholder="${msg.getMsg('U01505')}"/> <%--이메일 주소를 입력해주세요--%>
                                             </div>
                                             <spring:bind path="application.mailAddr">
                                                 <c:if test="${status.error}">
@@ -901,7 +901,7 @@
                                                 <label for="applicationGeneral.emerContName" class="col-sm-2 control-label"><spring:message code="L01604"/><%--이름--%></label>
                                                 <div class="col-sm-9">
                                                     <div class="col-sm-12">
-                                                        <form:input path="applicationGeneral.emerContName" cssClass="form-control" maxlength="50" placeholder="${msg.getMessage('U01601')}"/> <%--보호자 이름을 입력해 주세요.--%>
+                                                        <form:input path="applicationGeneral.emerContName" cssClass="form-control" maxlength="50" placeholder="${msg.getMsg('U01601')}"/> <%--보호자 이름을 입력해 주세요.--%>
                                                     </div>
                                                     <spring:bind path="applicationGeneral.emerContName">
                                                         <c:if test="${status.error}">
@@ -917,7 +917,7 @@
                                                 <div class="col-sm-9">
                                                     <div class="col-sm-12">
                                                         <form:select path="applicationGeneral.emerContCode" cssClass="form-control">
-                                                            <form:option value="" label="--${msg.getMessage('L01011', locale)}--" />
+                                                            <form:option value="" label="--${msg.getMsg('L01011', locale)}--" />
                                                             <form:options items="${selection.emerContList}" itemValue="code"
                                                                           itemLabel="${pageContext.response.locale == 'en' ? 'codeValXxen' : 'codeVal'}"/>
                                                         </form:select>
@@ -935,7 +935,7 @@
                                                 <label for="applicationGeneral.emerContTel" class="col-sm-2 control-label"><spring:message code="L01606"/><%--전화번호--%></label>
                                                 <div class="col-sm-9">
                                                     <div class="col-sm-12">
-                                                        <form:input path="applicationGeneral.emerContTel" cssClass="form-control numOnly phone" maxlength="20" placeholder="${msg.getMessage('U01602')}"/> <%--전화(또는 휴대폰)번호를 숫자로만 입력해 주세요.--%>
+                                                        <form:input path="applicationGeneral.emerContTel" cssClass="form-control numOnly phone" maxlength="20" placeholder="${msg.getMsg('U01602')}"/> <%--전화(또는 휴대폰)번호를 숫자로만 입력해 주세요.--%>
                                                     </div>
                                                     <spring:bind path="applicationGeneral.emerContTel">
                                                         <c:if test="${status.error}">
@@ -960,7 +960,7 @@
                                                         <label for="applicationForeigner.korEmrgName" class="col-sm-2 control-label"><spring:message code="L01604"/><%--이름--%></label>
                                                         <div class="col-sm-9">
                                                             <div class="col-sm-12">
-                                                                <form:input path="applicationForeigner.korEmrgName" maxlength="50" cssClass="form-control" placeholder="${msg.getMessage('U01601')}" /> <%--보호자 이름을 입력해 주세요.--%>
+                                                                <form:input path="applicationForeigner.korEmrgName" maxlength="50" cssClass="form-control" placeholder="${msg.getMsg('U01601')}" /> <%--보호자 이름을 입력해 주세요.--%>
                                                             </div>
                                                             <spring:bind path="applicationForeigner.korEmrgName">
                                                                 <c:if test="${status.error}">
@@ -976,7 +976,7 @@
                                                         <div class="col-sm-9">
                                                             <div class="col-sm-12">
                                                                 <form:select path="applicationForeigner.korEmrgRela" cssClass="form-control">
-                                                                    <form:option value="" label="--${msg.getMessage('L01011', locale)}--" />
+                                                                    <form:option value="" label="--${msg.getMsg('L01011', locale)}--" />
                                                                     <form:options items="${selection.emerContList}" itemValue="code"
                                                                                   itemLabel="${pageContext.response.locale == 'en' ? 'codeValXxen' : 'codeVal'}"/>
                                                                 </form:select>
@@ -994,7 +994,7 @@
                                                         <label for="applicationForeigner.korEmrgTel" class="col-sm-2 control-label"><spring:message code="L01606"/><%--전화번호--%></label>
                                                         <div class="col-sm-9">
                                                             <div class="col-sm-12">
-                                                                <form:input path="applicationForeigner.korEmrgTel" cssClass="form-control numOnly phone" maxlength="20" placeholder="${msg.getMessage('U01602')}"/> <%--전화(또는 휴대폰)번호를 숫자로만 입력해 주세요.--%>
+                                                                <form:input path="applicationForeigner.korEmrgTel" cssClass="form-control numOnly phone" maxlength="20" placeholder="${msg.getMsg('U01602')}"/> <%--전화(또는 휴대폰)번호를 숫자로만 입력해 주세요.--%>
                                                             </div>
                                                             <spring:bind path="applicationForeigner.korEmrgTel">
                                                                 <c:if test="${status.error}">
@@ -1014,7 +1014,7 @@
                                                         <label for="applicationForeigner.homeEmrgName" class="col-sm-2 control-label"><spring:message code="L01604"/><%--이름--%></label>
                                                         <div class="col-sm-9">
                                                             <div class="col-sm-12">
-                                                                <form:input path="applicationForeigner.homeEmrgName" cssClass="form-control" maxlength="50" placeholder="${msg.getMessage('U01601')}" /> <%--보호자 이름을 입력해 주세요.--%>
+                                                                <form:input path="applicationForeigner.homeEmrgName" cssClass="form-control" maxlength="50" placeholder="${msg.getMsg('U01601')}" /> <%--보호자 이름을 입력해 주세요.--%>
                                                             </div>
                                                             <spring:bind path="applicationForeigner.homeEmrgName">
                                                                 <c:if test="${status.error}">
@@ -1030,7 +1030,7 @@
                                                         <div class="col-sm-9">
                                                             <div class="col-sm-12">
                                                                 <form:select path="applicationForeigner.homeEmrgRela" cssClass="form-control">
-                                                                    <form:option value="" label="--${msg.getMessage('L01011', locale)}--" />
+                                                                    <form:option value="" label="--${msg.getMsg('L01011', locale)}--" />
                                                                     <form:options items="${selection.emerContList}" itemValue="code"
                                                                                   itemLabel="${pageContext.response.locale == 'en' ? 'codeValXxen' : 'codeVal'}"/>
                                                                 </form:select>
@@ -1048,7 +1048,7 @@
                                                         <label for="applicationForeigner.homeEmrgTel" class="col-sm-2 control-label"><spring:message code="L01606"/><%--전화번호--%></label>
                                                         <div class="col-sm-9">
                                                             <div class="col-sm-12">
-                                                                <form:input path="applicationForeigner.homeEmrgTel" cssClass="form-control numOnly" maxlength="16" placeholder="${msg.getMessage('U01602')}"/> <%--전화(또는 휴대폰)번호를 숫자로만 입력해 주세요.--%>
+                                                                <form:input path="applicationForeigner.homeEmrgTel" cssClass="form-control numOnly" maxlength="16" placeholder="${msg.getMsg('U01602')}"/> <%--전화(또는 휴대폰)번호를 숫자로만 입력해 주세요.--%>
                                                             </div>
                                                             <spring:bind path="applicationForeigner.homeEmrgTel">
                                                                 <c:if test="${status.error}">

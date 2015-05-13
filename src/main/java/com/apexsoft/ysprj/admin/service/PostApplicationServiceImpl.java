@@ -4,16 +4,7 @@ import com.apexsoft.framework.common.vo.ExecutionContext;
 import com.apexsoft.framework.exception.YSBizException;
 import com.apexsoft.framework.message.MessageResolver;
 import com.apexsoft.framework.persistence.dao.CommonDAO;
-import com.apexsoft.framework.persistence.dao.page.PageInfo;
-import com.apexsoft.framework.persistence.dao.page.PageStatement;
-import com.apexsoft.ysprj.admin.control.form.*;
 import com.apexsoft.ysprj.admin.domain.*;
-import com.apexsoft.ysprj.applicants.admission.domain.Admission;
-import com.apexsoft.ysprj.applicants.application.domain.ApplicationDocument;
-import com.apexsoft.ysprj.applicants.application.domain.ApplicationLanguage;
-import com.apexsoft.ysprj.applicants.application.domain.CustomApplicationAcademy;
-import com.apexsoft.ysprj.applicants.application.domain.CustomApplicationExperience;
-import com.apexsoft.ysprj.applicants.common.domain.*;
 import com.apexsoft.ysprj.applicants.common.service.CommonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -36,9 +27,6 @@ public class PostApplicationServiceImpl implements PostApplicationService{
 
     @Autowired
     private CommonService commonService;
-
-    @Resource(name = "messageResolver")
-    MessageResolver messageResolver;
 
     @Override
     public ExecutionContext checkDocumentRead (int applNo, String userId ) {
@@ -81,13 +69,13 @@ public class PostApplicationServiceImpl implements PostApplicationService{
 
         if ( insert == rInsert) {
             ec.setResult(ExecutionContext.SUCCESS);
-            ec.setMessage(messageResolver.getMessage("U319"));
+            ec.setMessage(MessageResolver.getMessage("U319"));
             ecDataMap.put("applInfo",applInfo );
             ec.setData(ecDataMap);
 
         } else {
             ec.setResult(ExecutionContext.FAIL);
-            ec.setMessage(messageResolver.getMessage("U320"));
+            ec.setMessage(MessageResolver.getMessage("U320"));
             String errCode = null;
             if ( insert != rInsert ) errCode = "ERR0017";
             ec.setErrCode(errCode);

@@ -1,10 +1,8 @@
 package com.apexsoft.ysprj.applicants.application.control;
 
-import com.amazonaws.http.HttpRequest;
 import com.apexsoft.framework.common.vo.ExecutionContext;
 import com.apexsoft.framework.exception.ErrorInfo;
 import com.apexsoft.framework.exception.YSBizException;
-import com.apexsoft.framework.exception.YSBizNoticeException;
 import com.apexsoft.framework.message.MessageResolver;
 import com.apexsoft.ysprj.applicants.application.domain.*;
 import com.apexsoft.ysprj.applicants.application.service.BasisService;
@@ -53,9 +51,6 @@ public class BasisController {
     @Autowired
     private ShaPasswordEncoder shaPasswordEncoder;
 
-    @Resource(name = "messageResolver")
-    MessageResolver messageResolver;
-
     @Autowired
     WebUtil webUtil;
 
@@ -81,7 +76,7 @@ public class BasisController {
             ec = processForeignPersonalInfo(ec);
         } catch (IOException e) {
             ec = new ExecutionContext(ExecutionContext.FAIL);
-            ec.setMessage(messageResolver.getMessage("U347"));
+            ec.setMessage(MessageResolver.getMessage("U347"));
             ec.setErrCode("ERR0043");
             Map<String, Object> errMap = new HashMap<String, Object>();
             errMap.put("applNo", basis.getApplication().getApplNo());
@@ -114,7 +109,7 @@ public class BasisController {
         basisValidator.validate(formData, bindingResult);
         mv.setViewName(TARGET_VIEW);
         if (bindingResult.hasErrors()) {
-            mv.addObject("resultMsg", messageResolver.getMessage("U334"));
+            mv.addObject("resultMsg", MessageResolver.getMessage("U334"));
             ExecutionContext ecRetrieve = basisService.retrieveSelectionMap(formData);
             if (ExecutionContext.SUCCESS.equals(ecRetrieve.getResult())) {
                 Map<String, Object> map = (Map<String, Object>)ecRetrieve.getData();
@@ -140,7 +135,7 @@ public class BasisController {
                 application.setRgstEncr((rgstLatter != null && !StringUtil.EMPTY_STRING.equals(rgstLatter)) ? getEncryptedString(rgstLatter, true) : StringUtil.EMPTY_STRING);
             } catch (IOException e) {
                 ec = new ExecutionContext(ExecutionContext.FAIL);
-                ec.setMessage(messageResolver.getMessage("U316"));
+                ec.setMessage(MessageResolver.getMessage("U316"));
                 ec.setErrCode("ERR0043");
                 Map<String, Object> errMap = new HashMap<String, Object>();
                 errMap.put("applNo", application.getApplNo());
@@ -164,7 +159,7 @@ public class BasisController {
             }
         } catch (IOException e) {
             ec = new ExecutionContext(ExecutionContext.FAIL);
-            ec.setMessage(messageResolver.getMessage("U316"));
+            ec.setMessage(MessageResolver.getMessage("U316"));
             ec.setErrCode("ERR0043");
             Map<String, Object> errMap = new HashMap<String, Object>();
             errMap.put("applNo", application.getApplNo());
@@ -182,7 +177,7 @@ public class BasisController {
                 ecRetrieveEncr = processForeignPersonalInfo(ecRetrieve);
             } catch (IOException e) {
                 ecRetrieveEncr = new ExecutionContext(ExecutionContext.FAIL);
-                ecRetrieveEncr.setMessage(messageResolver.getMessage("U347"));
+                ecRetrieveEncr.setMessage(MessageResolver.getMessage("U347"));
                 ecRetrieveEncr.setErrCode("ERR0043");
                 Map<String, Object> errMap = new HashMap<String, Object>();
                 errMap.put("applNo", formData.getApplication().getApplNo());
@@ -221,7 +216,7 @@ public class BasisController {
 
         mv.setViewName("application/mylist");
         if (bindingResult.hasErrors()) {
-            mv.addObject("resultMsg", messageResolver.getMessage("U334"));
+            mv.addObject("resultMsg", MessageResolver.getMessage("U334"));
             ExecutionContext ecRetrieve = basisService.retrieveBasis(formData);
             if (ecRetrieve.getResult().equals(ExecutionContext.SUCCESS)) {
                 Map<String, Object> map = (Map<String, Object>)ecRetrieve.getData();                

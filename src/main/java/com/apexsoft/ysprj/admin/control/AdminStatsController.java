@@ -66,12 +66,7 @@ public class AdminStatsController {
     private PostApplicationService postApplicationService;
 
     @Autowired
-    private ObjectMapper jacksonObjectMapper;    
-    
-    @SuppressWarnings("restriction")
-	@Resource(name = "messageResolver")
-    private MessageResolver messageResolver;
-
+    private ObjectMapper jacksonObjectMapper;
 
     @Value("#{app['file.baseDir']}")
     private String fileBaseDir;

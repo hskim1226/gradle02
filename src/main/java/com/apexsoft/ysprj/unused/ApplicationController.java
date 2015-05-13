@@ -40,9 +40,6 @@ public class ApplicationController {
     @Autowired
     private ObjectMapper objectMapper;
 
-    @Resource(name = "messageResolver")
-    MessageResolver messageResolver;
-
     private final String APP_INFO_SAVED = "00001";
     private final String ACAD_SAVED = "00002";
     private final String LANG_CAREER_SAVED = "00003";
@@ -238,11 +235,11 @@ public class ApplicationController {
 //
 //        model.addObject( "common", commonCodeMap );
 //
-//        model.addObject( "msgRgstNo", messageResolver.getMessage("U304"));
-//        model.addObject( "msgPhoneNo", messageResolver.getMessage("U305"));
-//        model.addObject( "msgImageOnly", messageResolver.getMessage("U308"));
-//        model.addObject( "msgPDFOnly", messageResolver.getMessage("U309"));
-//        model.addObject( "msgGrad", messageResolver.getMessage("U324"));
+//        model.addObject( "msgRgstNo", MessageResolver.getMessage("U304"));
+//        model.addObject( "msgPhoneNo", MessageResolver.getMessage("U305"));
+//        model.addObject( "msgImageOnly", MessageResolver.getMessage("U308"));
+//        model.addObject( "msgPDFOnly", MessageResolver.getMessage("U309"));
+//        model.addObject( "msgGrad", MessageResolver.getMessage("U324"));
 
         return model;
     }
@@ -369,14 +366,14 @@ public class ApplicationController {
 //
 //        model.addAttribute( "common", commonCodeMap );
 //
-//        model.addAttribute( "msgRgstNo", messageResolver.getMessage("U304"));
-//        model.addAttribute( "msgPhoneNo", messageResolver.getMessage("U305"));
-//        model.addAttribute( "msgImageOnly", messageResolver.getMessage("U308"));
-//        model.addAttribute( "msgPDFOnly", messageResolver.getMessage("U309"));
-//        model.addAttribute( "msgGrad", messageResolver.getMessage("U324"));
+//        model.addAttribute( "msgRgstNo", MessageResolver.getMessage("U304"));
+//        model.addAttribute( "msgPhoneNo", MessageResolver.getMessage("U305"));
+//        model.addAttribute( "msgImageOnly", MessageResolver.getMessage("U308"));
+//        model.addAttribute( "msgPDFOnly", MessageResolver.getMessage("U309"));
+//        model.addAttribute( "msgGrad", MessageResolver.getMessage("U324"));
 //
 //
-////        model.addAttribute( "L311", messageResolver.getMessage("L311")); jsp에서 사용안함. 필요없는 것으로 추측
+////        model.addAttribute( "L311", MessageResolver.getMessage("L311")); jsp에서 사용안함. 필요없는 것으로 추측
 //        return result;
     }
 

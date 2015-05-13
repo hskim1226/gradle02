@@ -48,9 +48,6 @@ import java.util.Map;
 @RequestMapping(value="/sysadmin")
 public class SysAdminController {
 
-    @Resource(name = "messageResolver")
-    private MessageResolver messageResolver;
-
     @Autowired
     private PaymentService paymentService;
 

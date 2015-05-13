@@ -53,9 +53,6 @@ public class BirtServiceImpl implements BirtService {
     DocumentService documentService;
 
     @Autowired
-    MessageResolver messageResolver;
-
-    @Autowired
     BirtEngineFactory birtEngineFactory;
 
     @Autowired
@@ -99,7 +96,7 @@ public class BirtServiceImpl implements BirtService {
             e.printStackTrace();
             ExecutionContext ecError = new ExecutionContext(ExecutionContext.FAIL);
 
-            ecError.setMessage(messageResolver.getMessage("U803"));
+            ecError.setMessage(MessageResolver.getMessage("U803"));
             ecError.setErrCode("ERR0072");
 
             Map<String, String> errorInfo = new HashMap<String, String>();
@@ -239,7 +236,7 @@ public class BirtServiceImpl implements BirtService {
 //                String visaNo = visaNoEncr != null && !StringUtil.EMPTY_STRING.equals(visaNoEncr) ? getEncryptedString(visaNoEncr, false) : StringUtil.EMPTY_STRING;
             } catch (IOException e) {
                 ExecutionContext ecEncr = new ExecutionContext(ExecutionContext.FAIL);
-                ecEncr.setMessage(messageResolver.getMessage("U347"));
+                ecEncr.setMessage(MessageResolver.getMessage("U347"));
                 ecEncr.setErrCode("ERR0043");
                 Map<String, Object> errMap = new HashMap<String, Object>();
                 errMap.put("applNo", basis.getApplication().getApplNo());

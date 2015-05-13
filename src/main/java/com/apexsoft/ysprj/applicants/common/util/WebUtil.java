@@ -14,13 +14,10 @@ import javax.servlet.http.HttpServletRequest;
 @Component
 public class WebUtil {
 
-    @Autowired
-    MessageResolver messageResolver;
-
     public void blockGetMethod(HttpServletRequest request, Object distinguisher) {
         if ("GET".equals(request.getMethod()) && distinguisher == null) {
             ExecutionContext ec = new ExecutionContext(ExecutionContext.FAIL);
-            ec.setMessage(messageResolver.getMessage("U00011"));
+            ec.setMessage(MessageResolver.getMessage("U00011"));
             ec.setErrCode("ERR2011");
             throw new YSBizNoticeException(ec);
         }

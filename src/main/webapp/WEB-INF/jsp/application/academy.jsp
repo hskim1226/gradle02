@@ -207,7 +207,7 @@
 <div id="overlay" class="web_dialog_overlay"></div>
 <section class="application">
     <div class="container">
-        <p id="stepStatusTitle" colspan=4 align="center" height="70px">${msg.getMessage('L01001', locale)}<%--원서 작성 현황--%></p>
+        <p id="stepStatusTitle" colspan=4 align="center" height="70px">${msg.getMsg('L01001', locale)}<%--원서 작성 현황--%></p>
         <!-- 진행상태바 시작 -->
         <div class="step_wrap">
             <ul class="step_box" id="step_box">
@@ -340,7 +340,7 @@
                                                         <%--&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--%>
                                                         <%--<label class="radio-inline degr-radio"><form:radiobutton path="collegeList[${stat.index}].grdaTypeCode" cssClass="grad-yn" value="00002" /><spring:message code="L02110"/>&lt;%&ndash;졸업 예정&ndash;%&gt;</label>--%>
                                                         <form:select path="collegeList[${stat.index}].grdaTypeCode" cssClass="form-control grad-type">
-                                                            <form:option value="" label="--${msg.getMessage('L01011', locale)}--" />
+                                                            <form:option value="" label="--${msg.getMsg('L01011', locale)}--" />
                                                             <form:options items="${selection.grdaTypeList}" itemValue="code"
                                                                           itemLabel="${pageContext.response.locale == 'en' ? 'codeValXxen' : 'codeVal'}"/>
                                                         </form:select>
@@ -355,7 +355,7 @@
                                                 </div>
                                                 <div class="col-sm-8">
                                                     <div>
-                                                        <form:input path="collegeList[${stat.index}].degrNo" maxlength="20" cssClass="degr-no form-control erase-hide" placeholder="${msg.getMessage('U02104')}"
+                                                        <form:input path="collegeList[${stat.index}].degrNo" maxlength="20" cssClass="degr-no form-control erase-hide" placeholder="${msg.getMsg('U02104')}"
                                                                 style="display: ${academy.collegeList[stat.index].grdaTypeCode == '00001' ? 'block;' : 'none;'}"/><%--학위등록번호를 입력해주세요--%>
                                                         <label id='collegeList${stat.index}.label-grad-02' class="col-sm-10 grda-not degr-message erase-hide word-keep-all"
                                                                style="display: ${academy.collegeList[stat.index].grdaTypeCode == '00002' ? 'block;' : 'none;'}" ><spring:message code="U02105"/><%--합격 후 입학 시 졸업증명서를 대학원 사무실로 반드시 제출하세요--%></label>
@@ -422,7 +422,7 @@
                                             <form:label path="collegeList[${stat.index}].majName" cssClass="col-sm-2 control-label"><spring:message code="L02116"/><%--학과 이름--%></form:label>
                                             <div class="col-sm-9">
                                                 <div class="col-sm-12">
-                                                    <form:input path="collegeList[${stat.index}].majName" cssClass="form-control" maxlength="35" placeholder="${msg.getMessage('U02108')}" />  <%--다수 전공은 컴마로 구분하여 모두 입력해 주세요.--%>
+                                                    <form:input path="collegeList[${stat.index}].majName" cssClass="form-control" maxlength="35" placeholder="${msg.getMsg('U02108')}" />  <%--다수 전공은 컴마로 구분하여 모두 입력해 주세요.--%>
                                                 </div>
                                         <spring:bind path="collegeList[${stat.index}].majName">
                                             <c:if test="${status.error}">
@@ -443,7 +443,7 @@
                                                             <%--<label class="radio-inline degr-radio"><form:radiobutton path="collegeList[${stat.index}].grdaTypeCode" cssClass="grad-yn" value="00002" /><spring:message code="L02110"/>&lt;%&ndash;졸업 예정&ndash;%&gt;</label>--%>
                                                         <form:select path="collegeList[${stat.index}].gradFormCode" cssClass="form-control grad-form"
                                                                      data-grad-avr="collegeList${stat.index}.gradAvr" data-grad-full="collegeList${stat.index}.gradFull">
-                                                            <form:option value="" label="--${msg.getMessage('L01011', locale)}--" />
+                                                            <form:option value="" label="--${msg.getMsg('L01011', locale)}--" />
                                                             <form:options items="${selection.gradFormList}" itemValue="code"
                                                                           itemLabel="${pageContext.response.locale == 'en' ? 'codeValXxen' : 'codeVal'}"/>
                                                         </form:select>
@@ -460,7 +460,7 @@
                                                     <div class="input-group">
                                                         <span class="input-group-addon"><spring:message code="L02118"/><%--평점--%></span>
                                                         <form:input path="collegeList[${stat.index}].gradAvr" cssClass="form-control gradAvr"
-                                                                    data-grad-form-code="collegeList${stat.index}.gradFormCode" maxlength="4" placeholder="${academy.collegeList[stat.index].gradFormCode == '00001' ? msg.getMessage('U02109') : ''}"/>  <%--#.##--%>
+                                                                    data-grad-form-code="collegeList${stat.index}.gradFormCode" maxlength="4" placeholder="${academy.collegeList[stat.index].gradFormCode == '00001' ? msg.getMsg('U02109') : ''}"/>  <%--#.##--%>
                                                     </div>
                                             <spring:bind path="collegeList[${stat.index}].gradAvr">
                                                 <c:if test="${status.error}">
@@ -474,7 +474,7 @@
                                                     <div class="input-group">
                                                         <span class="input-group-addon"><spring:message code="L02119"/><%--만점--%></span>
                                                         <form:input path="collegeList[${stat.index}].gradFull" cssClass="form-control gradFull"
-                                                                    data-grad-form-code="collegeList${stat.index}.gradFormCode" maxlength="4" placeholder="${academy.collegeList[stat.index].gradFormCode == '00001' ? msg.getMessage('U02109') : ''}" data-gradAvr-id="collegeList${stat.index}.gradAvr"/>  <%--#.##--%>
+                                                                    data-grad-form-code="collegeList${stat.index}.gradFormCode" maxlength="4" placeholder="${academy.collegeList[stat.index].gradFormCode == '00001' ? msg.getMsg('U02109') : ''}" data-gradAvr-id="collegeList${stat.index}.gradAvr"/>  <%--#.##--%>
                                                     </div>
                                             <spring:bind path="collegeList[${stat.index}].gradFull">
                                                 <c:if test="${status.error}">
@@ -569,13 +569,13 @@
                                                     <%--&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--%>
                                                     <%--<label class="radio-inline degr-radio"><form:radiobutton path="graduateList[${stat.index}].grdaTypeCode" cssClass="grad-yn" value="00002" /><spring:message code="L02110"/>&lt;%&ndash;졸업 예정&ndash;%&gt;</label>--%>
                                                     <form:select path="graduateList[${stat.index}].grdaTypeCode" cssClass="form-control grad-type">
-                                                        <form:option value="" label="--${msg.getMessage('L01011', locale)}--" />
+                                                        <form:option value="" label="--${msg.getMsg('L01011', locale)}--" />
                                                         <form:options items="${selection.grdaTypeList}" itemValue="code"
                                                                       itemLabel="${pageContext.response.locale == 'en' ? 'codeValXxen' : 'codeVal'}"/>
                                                     </form:select>
                                                 </div>
                                                 <div class="col-sm-8">
-                                                    <form:input path="graduateList[${stat.index}].degrNo" maxlength="20" cssClass="degr-no form-control erase-hide" placeholder="${msg.getMessage('U02104')}"
+                                                    <form:input path="graduateList[${stat.index}].degrNo" maxlength="20" cssClass="degr-no form-control erase-hide" placeholder="${msg.getMsg('U02104')}"
                                                             style="display: ${academy.graduateList[stat.index].grdaTypeCode == '00001' ? 'block;' : 'none;'}"/> <%--학위등록번호를 입력해주세요--%>
                                                     <label id='graduateList${stat.index}.label-grad-02' class="col-sm-10 grda-not degr-message erase-hide"
                                                            style="display: ${academy.graduateList[stat.index].grdaTypeCode == '00002' ? 'block;' : 'none;'}" ><spring:message code="U02105"/></label>    <%--합격 후 입학 시 졸업증명서를 대학원 사무실로 반드시 제출하세요--%>
@@ -640,7 +640,7 @@
                                             <form:label path="graduateList[${stat.index}].majName" cssClass="col-sm-2 control-label"><spring:message code="L02116"/><%--학과 이름--%></form:label>
                                             <div class="col-sm-9">
                                                 <div class="col-sm-12">
-                                                    <form:input path="graduateList[${stat.index}].majName" cssClass="form-control" maxlength="35" placeholder="${msg.getMessage('U02108')}" />   <%--다수 전공은 컴마로 구분하여 모두 입력해 주세요.--%>
+                                                    <form:input path="graduateList[${stat.index}].majName" cssClass="form-control" maxlength="35" placeholder="${msg.getMsg('U02108')}" />   <%--다수 전공은 컴마로 구분하여 모두 입력해 주세요.--%>
                                                 </div>
                                         <spring:bind path="graduateList[${stat.index}].majName">
                                             <c:if test="${status.error}">
@@ -661,7 +661,7 @@
                                                             <%--<label class="radio-inline degr-radio"><form:radiobutton path="collegeList[${stat.index}].grdaTypeCode" cssClass="grad-yn" value="00002" /><spring:message code="L02110"/>&lt;%&ndash;졸업 예정&ndash;%&gt;</label>--%>
                                                         <form:select path="graduateList[${stat.index}].gradFormCode" cssClass="form-control grad-form"
                                                                      data-grad-avr="graduateList${stat.index}.gradAvr" data-grad-full="graduateList${stat.index}.gradFull">
-                                                            <form:option value="" label="--${msg.getMessage('L01011', locale)}--" />
+                                                            <form:option value="" label="--${msg.getMsg('L01011', locale)}--" />
                                                             <form:options items="${selection.gradFormList}" itemValue="code"
                                                                           itemLabel="${pageContext.response.locale == 'en' ? 'codeValXxen' : 'codeVal'}"/>
                                                         </form:select>
@@ -678,7 +678,7 @@
                                                     <div class="input-group">
                                                         <span class="input-group-addon"><spring:message code="L02118"/><%--평점--%></span>
                                                         <form:input path="graduateList[${stat.index}].gradAvr" cssClass="form-control gradAvr"
-                                                                    data-grad-form-code="graduateList${stat.index}.gradFormCode" maxlength="4" placeholder="${academy.graduateList[stat.index].gradFormCode == '00001' ? msg.getMessage('U02109') : ''}"/>    <%--#.##--%>
+                                                                    data-grad-form-code="graduateList${stat.index}.gradFormCode" maxlength="4" placeholder="${academy.graduateList[stat.index].gradFormCode == '00001' ? msg.getMsg('U02109') : ''}"/>    <%--#.##--%>
                                                     </div>
                                             <spring:bind path="graduateList[${stat.index}].gradAvr">
                                                 <c:if test="${status.error}">
@@ -692,7 +692,7 @@
                                                     <div class="input-group">
                                                         <span class="input-group-addon"><spring:message code="L02119"/><%--만점--%></span>
                                                         <form:input path="graduateList[${stat.index}].gradFull" cssClass="form-control gradFull"
-                                                                    data-grad-form-code="graduateList${stat.index}.gradFormCode" maxlength="4" placeholder="${academy.graduateList[stat.index].gradFormCode == '00001' ? msg.getMessage('U02109') : ''}" data-gradAvr-id="graduateList${stat.index}.gradAvr"/>  <%--#.##--%>
+                                                                    data-grad-form-code="graduateList${stat.index}.gradFormCode" maxlength="4" placeholder="${academy.graduateList[stat.index].gradFormCode == '00001' ? msg.getMsg('U02109') : ''}" data-gradAvr-id="graduateList${stat.index}.gradAvr"/>  <%--#.##--%>
                                                     </div>
                                             <spring:bind path="graduateList[${stat.index}].gradFull">
                                                 <c:if test="${status.error}">

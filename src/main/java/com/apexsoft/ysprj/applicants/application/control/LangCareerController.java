@@ -42,9 +42,6 @@ public class LangCareerController {
     @Autowired
     private CommonService commonService;
 
-    @Resource(name = "messageResolver")
-    MessageResolver messageResolver;
-
     @Autowired
     WebUtil webUtil;
 
@@ -95,7 +92,7 @@ public class LangCareerController {
         ExecutionContext ec = null;
         mv.setViewName(TARGET_VIEW);
         if (bindingResult.hasErrors()) {
-            mv.addObject("resultMsg", messageResolver.getMessage("U334"));
+            mv.addObject("resultMsg", MessageResolver.getMessage("U334"));
             /*
             ExecutionContext ecRetrieve = langCareerService.retrieveLangSubCode(formData);
 
