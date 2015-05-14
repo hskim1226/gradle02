@@ -8,6 +8,4 @@ import com.apexsoft.framework.common.vo.ExecutionContext;
 public interface PDFService {
 
     ExecutionContext getMergedPDFByApplicants(int applNo);
-
-    ExecutionContext savePaidDocuments(int applNo);
 }
