@@ -72,10 +72,9 @@ public class PDFServiceImpl implements PDFService {
      * 암호화 되지 않은 PDF 파일은 BAOS에 담아 리스트로 반환하고,
      * 암호화 된 PDF 파일은 encryptedPdfList에 추가한다.
      *
-     * @param pdfList   DB에서 조회한 첨부 파일 정보 리스트
-     * @param encryptedPdfList    암호화 된 PDF 파일이 저장될 리스트
-     * @param applicationFilePath   원서 파일 경로
-     * @param applicationFileName    원서 파일 이름
+     * @param s3
+     * @param pdfList
+     * @param encryptedPdfList
      * @return
      */
     private List<ByteArrayOutputStream> getPdfListFromS3(AmazonS3 s3, List<ApplicationDocument> pdfList,
@@ -696,6 +695,44 @@ public class PDFServiceImpl implements PDFService {
         }
         return ec;
 
+    }
+
+    /**
+     * 합쳐진 첨부 파일 우상단에 '현재 페이지/전체 페이지' 텍스트를 추가한다.
+     *
+     * @param pdDocument
+     * @param destFilePath
+     * @param applNo
+     * @return
+     * @throws IOException
+     * @throws COSVisitorException
+     */
+    private ExecutionContext generatePageNumberedPDF(PDDocument pdDocument, String destFilePath, int applNo)
+            throws IOException, COSVisitorException{
+        ExecutionContext ec = new ExecutionContext();
+        List allPages = pdDocument.getDocumentCatalog().getAllPages();
+        int length = allPages.size();
+        PDFont font = PDType1Font.HELVETICA;
+        float fontSize = 15.0f;
+
+        for ( int i = 0 ; i < length ; i++ ) {
+            PDPage page = (PDPage)allPages.get(i);
+            PDRectangle pageSize = page.findMediaBox();
+            String strPage = new StringBuilder().append(i+1).append("/").append(length).toString();
+            float stringWidth = font.getStringWidth(strPage)*fontSize/1000f;
+            float pageWidth = pageSize.getWidth();
+            float pageHeight = pageSize.getHeight();
+            PDPageContentStream contentStream = new PDPageContentStream(pdDocument, page, true, true, true);
+            contentStream.beginText();
+            contentStream.setFont(font, fontSize);
+            contentStream.setTextTranslation(pageWidth - stringWidth - 15, pageHeight - 20);
+            contentStream.drawString(strPage);
+            contentStream.endText();
+            contentStream.close();
+        }
+        pdDocument.save(destFilePath);
+
+        return ec;
     }
 
 }
