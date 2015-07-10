@@ -125,20 +125,7 @@ public class SysAdminServiceImpl implements  SysAdminService {
             e.printStackTrace();
         }
 
-        int downloadedCount = 0;
-        long start = System.currentTimeMillis();
-        for (BackUpApplDoc aBackUpApplDoc : backUpApplDocList) {
-            savePdf(s3, aBackUpApplDoc);
-            downloadedCount++;
-        }
-//        savePdf(s3, backUpApplDocList.get(0));
-        long end = System.currentTimeMillis();
-        System.out.println("Backup elapsed time" + (end - start) / 1000 + " seconds");
-
-        Map<String, String> resultMap = new HashMap<>();
-        resultMap.put("requestedCount", String.valueOf(backUpApplDocList.size()));
-        resultMap.put("downloadedCount", String.valueOf(downloadedCount));
-        resultMap.put("elpasedTime", (end - start) / 1000 + " seconds");
+        Map<String, String> resultMap = savePdf(s3, backUpApplDocList);
 
         ec.setResult(ExecutionContext.SUCCESS);
         ec.setData(resultMap);
@@ -146,36 +133,53 @@ public class SysAdminServiceImpl implements  SysAdminService {
         return ec;
     }
 
-    private void savePdf(AmazonS3Client s3, BackUpApplDoc backUpApplDoc) {
+    private Map<String, String> savePdf(AmazonS3Client s3, List<BackUpApplDoc> backUpApplDocList) {
 
-        S3Object object = null;
-        Application appl = new Application();
-        appl.setApplNo(backUpApplDoc.getApplNo());
-        appl.setUserId(backUpApplDoc.getUserId());
-        appl.setAdmsNo(backUpApplDoc.getAdmsNo());
-        String fullPath = FileUtil.getFinalMergedFileFullPath(s3BucketName, s3MidPath, appl);
-        String filePath = fullPath.substring(s3BucketName.length() + 1);
-        String applicantName = StringUtil.getEmptyIfNull(backUpApplDoc.getKorName()).equals(StringUtil.EMPTY_STRING) ?
-                backUpApplDoc.getEngName() + "-" + backUpApplDoc.getEngSur() :
-                backUpApplDoc.getKorName();
-        String targetFilePath = new StringBuilder().append(s3MidPath).append("/")
-                                                   .append(backUpApplDoc.getCampName()).append("/")
-                                                   .append(backUpApplDoc.getCollName()).append("/")
-                                                   .append(backUpApplDoc.getDeptName()).append("/")
-                                                   .append(backUpApplDoc.getApplId()).append("_").append(applicantName).append(".pdf")
-                                                   .toString();
-        try {
-            object = s3.getObject(new GetObjectRequest(s3BucketName, filePath));
-            InputStream inputStream = object.getObjectContent();
-            FileUtils.copyInputStreamToFile(inputStream, new File(backupDir, targetFilePath));
-        } catch (Exception e) {
-            ExecutionContext ec = new ExecutionContext(ExecutionContext.FAIL);
-            logger.error("Err in s3.getObject in SysAdminServiceImpl.savePdf");
-            logger.error(e.getMessage());
-            logger.error("bucketName : [" + s3BucketName + "]");
-            logger.error("applNo : [" + appl.getApplNo() + "]");
-            logger.error("objectKey : [" + filePath +"]");
-            throw new YSBizException(ec);
+        int downloadedCount = 0;
+        long start = System.currentTimeMillis();
+        long totalVolume = 0;
+        for (BackUpApplDoc backUpApplDoc : backUpApplDocList) {
+            S3Object object = null;
+            Application appl = new Application();
+            appl.setApplNo(backUpApplDoc.getApplNo());
+            appl.setUserId(backUpApplDoc.getUserId());
+            appl.setAdmsNo(backUpApplDoc.getAdmsNo());
+            String fullPath = FileUtil.getFinalMergedFileFullPath(s3BucketName, s3MidPath, appl);
+            String filePath = fullPath.substring(s3BucketName.length() + 1);
+            String applicantName = StringUtil.getEmptyIfNull(backUpApplDoc.getKorName()).equals(StringUtil.EMPTY_STRING) ?
+                    backUpApplDoc.getEngName() + "-" + backUpApplDoc.getEngSur() :
+                    backUpApplDoc.getKorName();
+            String targetFilePath = new StringBuilder().append(s3MidPath).append("/")
+                    .append(backUpApplDoc.getCampName()).append("/")
+                    .append(backUpApplDoc.getCollName()).append("/")
+                    .append(backUpApplDoc.getDeptName()).append("/")
+                    .append(backUpApplDoc.getApplId()).append("_").append(applicantName).append(".pdf")
+                    .toString();
+            try {
+                object = s3.getObject(new GetObjectRequest(s3BucketName, filePath));
+                InputStream inputStream = object.getObjectContent();
+                FileUtils.copyInputStreamToFile(inputStream, new File(backupDir, targetFilePath));
+            } catch (Exception e) {
+                ExecutionContext ec = new ExecutionContext(ExecutionContext.FAIL);
+                logger.error("Err in s3.getObject in SysAdminServiceImpl.savePdf");
+                logger.error(e.getMessage());
+                logger.error("bucketName : [" + s3BucketName + "]");
+                logger.error("applNo : [" + appl.getApplNo() + "]");
+                logger.error("objectKey : [" + filePath +"]");
+                throw new YSBizException(ec);
+            }
+            downloadedCount++;
+            totalVolume += object.getObjectMetadata().getContentLength();
+            System.out.println(downloadedCount + "/" + backUpApplDocList.size() + ", totalVolume - " + totalVolume + " : " + targetFilePath);
         }
+
+        long end = System.currentTimeMillis();
+        System.out.println("Backup elapsed time" + (end - start) / 1000 + " seconds");
+
+        Map<String, String> resultMap = new HashMap<String, String>();
+        resultMap.put("requestedCount", String.valueOf(backUpApplDocList.size()));
+        resultMap.put("downloadedCount", String.valueOf(downloadedCount));
+        resultMap.put("elpasedTime", (end - start) / 1000 + " seconds");
+        return resultMap;
     }
 }
