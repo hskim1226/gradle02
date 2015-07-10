@@ -1,13 +1,17 @@
 package com.apexsoft.ysprj.sysadmin.service;
 
 import com.apexsoft.framework.common.vo.ExecutionContext;
+import com.apexsoft.framework.exception.YSBizException;
 import com.apexsoft.framework.exception.YSBizNoticeException;
+import com.apexsoft.framework.persistence.dao.CommonDAO;
 import com.apexsoft.ysprj.applicants.application.domain.Application;
 import com.apexsoft.ysprj.applicants.common.service.BirtService;
 import com.apexsoft.ysprj.applicants.common.service.PDFService;
+import com.apexsoft.ysprj.sysadmin.domain.BackUpApplDoc;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,11 +22,16 @@ import java.util.Map;
 @Service
 public class SysAdminServiceImpl implements  SysAdminService {
 
+    private final static String NAME_SPACE = "com.apexsoft.ysprj.sysadmin.sqlmap.";
+
     @Autowired
     private BirtService birtService;
 
     @Autowired
     private PDFService pdfService;
+
+    @Autowired
+    private CommonDAO commonDAO;
 
     /**
      * Batch로 최종 PDF 파일 다건을 생성한다.
@@ -79,5 +88,20 @@ public class SysAdminServiceImpl implements  SysAdminService {
         ecResult.setData(map);
 
         return ecResult;
+    }
+
+    public ExecutionContext downloadAllPdf() {
+
+        ExecutionContext ec = new ExecutionContext();
+        List<BackUpApplDoc> backUpApplDocList = null;
+
+        try {
+            backUpApplDocList = commonDAO.queryForList(NAME_SPACE + "SysAdminMapper.selectAllPdfInfo", BackUpApplDoc.class);
+        } catch (YSBizException e) {
+            e.printStackTrace();
+        }
+System.out.println("appl counts : " + backUpApplDocList.size());
+        ec.setData(backUpApplDocList);
+        return ec;
     }
 }

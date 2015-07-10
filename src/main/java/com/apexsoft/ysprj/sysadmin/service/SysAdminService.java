@@ -9,4 +9,6 @@ import com.apexsoft.ysprj.applicants.application.domain.Application;
 public interface SysAdminService {
 
     ExecutionContext processReGenMergeUpload(Application application);
+
+    ExecutionContext downloadAllPdf();
 }

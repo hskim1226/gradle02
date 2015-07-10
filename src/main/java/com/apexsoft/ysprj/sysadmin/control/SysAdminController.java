@@ -416,4 +416,12 @@ public class SysAdminController {
 
         return mv;
     }
+
+    @RequestMapping(value="/form-backup-all-pdf")
+    public ModelAndView formBackupAllPdf(ModelAndView mv) {
+        mv.setViewName("sysadmin/rsltBackupAllPdf");
+        ExecutionContext ec = sysAdminService.downloadAllPdf();
+
+        return mv;
+    }
 }
