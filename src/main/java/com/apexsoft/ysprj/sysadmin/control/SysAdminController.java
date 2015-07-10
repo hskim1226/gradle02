@@ -33,10 +33,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.security.Principal;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by hanmomhanda on 15. 4. 15.
@@ -419,9 +416,19 @@ public class SysAdminController {
 
     @RequestMapping(value="/form-backup-all-pdf")
     public ModelAndView formBackupAllPdf(ModelAndView mv) {
+        mv.setViewName("sysadmin/formBackupAllPdf");
+        return mv;
+    }
+
+    @RequestMapping(value="/rslt-backup-all-pdf")
+    public ModelAndView rsltBackupAllPdf(ModelAndView mv) {
         mv.setViewName("sysadmin/rsltBackupAllPdf");
         ExecutionContext ec = sysAdminService.downloadAllPdf();
-
+        Map<String, String> map = (Map<String, String>)ec.getData();
+        Set<Map.Entry<String, String>> entrySet = map.entrySet();
+        for (Map.Entry<String, String> item : entrySet) {
+            mv.addObject(item.getKey(), item.getValue());
+        }
         return mv;
     }
 }

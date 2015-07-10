@@ -8,17 +8,15 @@
     <result column="COLL_NAME" property="collName" jdbcType="VARCHAR" />
     <result column="DEPT_NAME" property="deptName" jdbcType="VARCHAR" />
     <result column="APPL_NO" property="applNo" jdbcType="INTEGER" />
+    <result column="APPL_ID" property="applId" jdbcType="VARCHAR" />
+    <result column="ADMS_NO" property="admsNo" jdbcType="VARCHAR" />
     <result column="KOR_NAME" property="korName" jdbcType="VARCHAR" />
     <result column="ENG_SUR" property="engSur" jdbcType="VARCHAR" />
     <result column="ENG_NAME" property="engName" jdbcType="VARCHAR" />
   </resultMap>
 
-  <sql id="Base_Column_List" >
-    CAMP_NAME, COLL_NAME, DEPT_NAME, USER_ID, APPL_NO, KOR_NAME, ENG_SUR, ENG_NAME
-  </sql>
-
   <select id="selectAllPdfInfo" resultMap="BaseResultMap">
-    select A.CAMP_NAME, B.COLL_NAME, C.DEPT_NAME, D.USER_ID, D.APPL_NO, D.KOR_NAME, D.ENG_SUR, D.ENG_NAME
+    select A.CAMP_NAME, B.COLL_NAME, C.DEPT_NAME, D.USER_ID, D.APPL_NO, D.APPL_ID, D.ADMS_NO, D.KOR_NAME, D.ENG_SUR, D.ENG_NAME
     from CAMP A, COLL B, DEPT C, APPL D
     where A.CAMP_CODE = D.CAMP_CODE
     and   B.COLL_CODE = D.COLL_CODE

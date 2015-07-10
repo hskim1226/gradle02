@@ -15,6 +15,10 @@ public class BackUpApplDoc {
 
     private int applNo;
 
+    private String applId;
+
+    private String admsNo;
+
     private String korName;
 
     private String engSur;
@@ -59,6 +63,22 @@ public class BackUpApplDoc {
 
     public void setApplNo(int applNo) {
         this.applNo = applNo;
+    }
+
+    public String getApplId() {
+        return applId;
+    }
+
+    public void setApplId(String applId) {
+        this.applId = applId;
+    }
+
+    public String getAdmsNo() {
+        return admsNo;
+    }
+
+    public void setAdmsNo(String admsNo) {
+        this.admsNo = admsNo;
     }
 
     public String getKorName() {
