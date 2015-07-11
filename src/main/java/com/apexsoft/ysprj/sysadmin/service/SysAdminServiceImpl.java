@@ -138,7 +138,8 @@ public class SysAdminServiceImpl implements  SysAdminService {
         int downloadedCount = 0;
         long start = System.currentTimeMillis();
         long totalVolume = 0;
-        for (BackUpApplDoc backUpApplDoc : backUpApplDocList) {
+//        for (BackUpApplDoc backUpApplDoc : backUpApplDocList) {
+        BackUpApplDoc backUpApplDoc = backUpApplDocList.get(0);
             S3Object object = null;
             Application appl = new Application();
             appl.setApplNo(backUpApplDoc.getApplNo());
@@ -171,7 +172,7 @@ public class SysAdminServiceImpl implements  SysAdminService {
             downloadedCount++;
             totalVolume += object.getObjectMetadata().getContentLength();
             System.out.println(downloadedCount + "/" + backUpApplDocList.size() + ", totalVolume - " + totalVolume + " : " + targetFilePath);
-        }
+//        }
 
         long end = System.currentTimeMillis();
         System.out.println("Backup elapsed time" + (end - start) / 1000 + " seconds");
