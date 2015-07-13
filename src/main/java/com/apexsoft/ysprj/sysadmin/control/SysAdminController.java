@@ -3,8 +3,6 @@ package com.apexsoft.ysprj.sysadmin.control;
 import com.apexsoft.framework.common.vo.ExecutionContext;
 import com.apexsoft.framework.exception.ErrorInfo;
 import com.apexsoft.framework.exception.YSBizException;
-import com.apexsoft.framework.exception.YSBizNoticeException;
-import com.apexsoft.framework.message.MessageResolver;
 import com.apexsoft.framework.persistence.dao.CommonDAO;
 import com.apexsoft.ysprj.applicants.application.domain.Application;
 import com.apexsoft.ysprj.applicants.application.domain.ApplicationDocument;
@@ -28,7 +26,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.annotation.Resource;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -280,7 +277,7 @@ public class SysAdminController {
         ExecutionContext ecGenAppl = birtService.generateBirtFile(application.getApplNo(), reportName);
         reportName = "yonsei-adms-" + lang;
         ExecutionContext ecGenAdms = birtService.generateBirtFile(application.getApplNo(), reportName);
-        ExecutionContext ecPdfMerge = pdfService.getMergedPDFByApplicants(application);
+        ExecutionContext ecPdfMerge = pdfService.genAndUploadPDFByApplicants(application);
         if ( ExecutionContext.FAIL.equals(ecGenAppl.getResult()) ||
                 ExecutionContext.FAIL.equals(ecGenAdms.getResult()) ||
                 ExecutionContext.FAIL.equals(ecPdfMerge.getResult()) ) {
@@ -404,7 +401,7 @@ public class SysAdminController {
         ExecutionContext ecGenAppl = birtService.generateBirtFile(application.getApplNo(), reportName);
         reportName = "yonsei-adms-" + lang;
         ExecutionContext ecGenAdms = birtService.generateBirtFile(application.getApplNo(), reportName);
-        ExecutionContext ecPdfMerge = pdfService.getMergedPDFByApplicants(application);
+        ExecutionContext ecPdfMerge = pdfService.genAndUploadPDFByApplicants(application);
         if ( ExecutionContext.FAIL.equals(ecGenAppl.getResult()) ||
                 ExecutionContext.FAIL.equals(ecGenAdms.getResult()) ||
                 ExecutionContext.FAIL.equals(ecPdfMerge.getResult()) ) {

@@ -8,5 +8,5 @@ import com.apexsoft.ysprj.applicants.application.domain.Application;
  */
 public interface PDFService {
 
-    ExecutionContext getMergedPDFByApplicants(Application application);
+    ExecutionContext genAndUploadPDFByApplicants(Application application);
 }

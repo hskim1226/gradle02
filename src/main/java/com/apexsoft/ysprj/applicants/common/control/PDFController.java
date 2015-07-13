@@ -81,7 +81,7 @@ public class PDFController {
 
         Application application = birtRequest.getApplication();
         application.setUserId(principal.getName());
-        ExecutionContext ec = pdfService.getMergedPDFByApplicants(application);
+        ExecutionContext ec = pdfService.genAndUploadPDFByApplicants(application);
         if (ExecutionContext.SUCCESS.equals(ec.getResult())) {
             return ExecutionContext.SUCCESS;
         } else {

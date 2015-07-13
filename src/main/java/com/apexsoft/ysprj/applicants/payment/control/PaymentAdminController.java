@@ -16,7 +16,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.annotation.Resource;
 import java.security.Principal;
 import java.util.*;
 
@@ -93,7 +92,7 @@ public class PaymentAdminController {
         ExecutionContext ecGenAppl = birtService.generateBirtFile(application.getApplNo(), reportName);
         reportName = "yonsei-adms-" + lang;
         ExecutionContext ecGenAdms = birtService.generateBirtFile(application.getApplNo(), reportName);
-        ExecutionContext ecPdfMerge = pdfService.getMergedPDFByApplicants(application);
+        ExecutionContext ecPdfMerge = pdfService.genAndUploadPDFByApplicants(application);
         if ( ExecutionContext.FAIL.equals(ecGenAppl.getResult()) ||
                 ExecutionContext.FAIL.equals(ecGenAdms.getResult()) ||
                 ExecutionContext.FAIL.equals(ecPdfMerge.getResult()) ) {
@@ -138,7 +137,7 @@ public class PaymentAdminController {
         ExecutionContext ecGenAppl = birtService.generateBirtFile(application.getApplNo(), reportName);
         reportName = "yonsei-adms-" + lang;
         ExecutionContext ecGenAdms = birtService.generateBirtFile(application.getApplNo(), reportName);
-        ExecutionContext ecPdfMerge = pdfService.getMergedPDFByApplicants(application);
+        ExecutionContext ecPdfMerge = pdfService.genAndUploadPDFByApplicants(application);
         if ( ExecutionContext.FAIL.equals(ecGenAppl.getResult()) ||
                 ExecutionContext.FAIL.equals(ecGenAdms.getResult()) ||
                 ExecutionContext.FAIL.equals(ecPdfMerge.getResult()) ) {

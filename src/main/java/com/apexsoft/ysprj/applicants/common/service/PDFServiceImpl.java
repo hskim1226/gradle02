@@ -97,7 +97,7 @@ public class PDFServiceImpl implements PDFService {
                 try {
                     object = s3.getObject(new GetObjectRequest(s3BucketName, filePath));
                 } catch (Exception e) {
-                    logger.error("Err in s3.getObject in PDFServiceImpl.getMergedPDFByApplicants");
+                    logger.error("Err in s3.getObject in PDFServiceImpl.genAndUploadPDFByApplicants");
                     logger.error(e.getMessage());
                     logger.error("bucketName : [" + s3BucketName + "]");
 //                    logger.error("applNo : [" + applNo + "]");
@@ -328,8 +328,11 @@ public class PDFServiceImpl implements PDFService {
         return new File(mergedApplicationFormFilePath);
     }
 
-    private File getApplicationSlipFile(int applNo) {
-        return null;
+    private File getApplicationSlipFile(Application application) {
+        String applicationSlipFileFullPath = FileUtil.getUploadDirectoryFullPath(
+                fileBaseDir, s3MidPath, application.getAdmsNo(), application.getUserId(), application.getApplNo()) + "/" +
+                FileUtil.getSlipFileName(application.getUserId());
+        return new File(applicationSlipFileFullPath);
     }
 
     private void uploadToS3(AmazonS3 s3, File file, int applNo) {
@@ -367,7 +370,7 @@ public class PDFServiceImpl implements PDFService {
      * @return
      */
     @Override
-    public ExecutionContext getMergedPDFByApplicants(Application application) {
+    public ExecutionContext genAndUploadPDFByApplicants(Application application) {
 
         ExecutionContext ec = new ExecutionContext();
         int applNo = application.getApplNo();
@@ -396,14 +399,14 @@ public class PDFServiceImpl implements PDFService {
         File applicationFormFile = new File(applicationFormFileFullPath);
         File mergedApplicationFormFile = getMergedApplicationFormFile(applicationFormFile, numberedMergedFile, uploadDirFullPath, applNo);
 
-        // 수험표 파일
-        File applicationSlipFile = getApplicationSlipFile(applNo);
-
         // 최종 머지된 파일 지원서 파일과 수험표 파일을 S3에 업로드
         uploadToS3(s3, mergedApplicationFormFile, applNo);
 
-
-//        uploadToS3(s3, applicationSlipFile, applNo); // 수험표는 결제 완료 후에 생성 및 업로드
+        if ("00020".equals(application.getApplStsCode())) {
+            // 수험표 파일
+            File applicationSlipFile = getApplicationSlipFile(application);
+            uploadToS3(s3, applicationSlipFile, applNo); // 수험표는 결제 완료 후에 생성 및 업로드
+        }
 
         // 중간 작업 파일 삭제
         // 여기서 지우면 파일 지우기 위한 I/O 추가 발생하지만 저장 공간은 절약

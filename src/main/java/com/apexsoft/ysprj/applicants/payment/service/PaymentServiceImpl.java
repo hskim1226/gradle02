@@ -9,13 +9,14 @@ import com.apexsoft.ysprj.applicants.application.domain.Application;
 import com.apexsoft.ysprj.applicants.application.domain.CustomNewSeq;
 import com.apexsoft.ysprj.applicants.application.service.DocumentService;
 import com.apexsoft.ysprj.applicants.common.domain.Department;
+import com.apexsoft.ysprj.applicants.common.service.BirtService;
+import com.apexsoft.ysprj.applicants.common.service.PDFService;
 import com.apexsoft.ysprj.applicants.payment.domain.*;
 import lgdacom.XPayClient.XPayClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -36,6 +37,12 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Autowired
     private DocumentService documentService;
+
+    @Autowired
+    BirtService birtService;
+
+    @Autowired
+    PDFService pdfService;
 
     @Value("#{app['file.baseDir']}")
     private String BASE_DIR;
@@ -142,7 +149,7 @@ public class PaymentServiceImpl implements PaymentService {
         ExecutionContext ec = new ExecutionContext();
 
         Payment newPayInfo = commonDAO.queryForObject(NAME_SPACE + "CustomApplicationPaymentMapper.selectConfirmInfo",
-                                                      payment.getApplNo(), Payment.class);
+                payment.getApplNo(), Payment.class);
 
         payment.setApplStsCode(newPayInfo.getApplStsCode());
         payment.setLGD_AMOUNT(newPayInfo.getLGD_AMOUNT());
@@ -350,6 +357,9 @@ public class PaymentServiceImpl implements PaymentService {
         //APPL_DOC에 수험번호가 채번된 원서, 수험표 정보 저장
         documentService.saveApplicationPaperInfo(application);
         documentService.saveAdmissionSlipPaperInfo(application);
+
+        // 원서 수험표, 생성, S3 업로드
+        genAndUploadApplicationFormAndSlipFile(application);
 
         return applPay.getApplNo();
 
@@ -570,7 +580,15 @@ public class PaymentServiceImpl implements PaymentService {
         documentService.saveApplicationPaperInfo(application);
         documentService.saveAdmissionSlipPaperInfo(application);
 
-        //BirtController 호출해서 수험표, 수험원서를 물리적 PDF 파일로 저장은 xpay/result에서 ajax로 몰래 BirtController호출하는걸로
+        // 원서 수험표, 생성, S3 업로드
+        genAndUploadApplicationFormAndSlipFile(application);
+
+//        // 원서, 수험표 S3로 업로드
+//        if (ExecutionContext.SUCCESS.equals(ecGen.getResult())) {
+//            uploadApplicationFormAndSlipFileToS3(application);
+//        } else {
+//            // throw YSBizException으로 적당한 예외 정보 전송
+//        }
 
         /*
         int paySeq = commonDAO.queryForInt(NAME_SPACE+"CustomApplicationPaymentMapper.getSeq", payment.getApplNo());
@@ -704,5 +722,29 @@ public class PaymentServiceImpl implements PaymentService {
                 applStsCode,
                 Application.class);
         return applList;
+    }
+
+    private ExecutionContext genAndUploadApplicationFormAndSlipFile(Application application) {
+        ExecutionContext ec = new ExecutionContext();
+
+        String admsTypeCode = application.getAdmsTypeCode();
+        String lang = "C".equals(admsTypeCode) || "D".equals(admsTypeCode) ? "en" : "kr";
+        String reportName = "yonsei-appl-" + lang;
+        ExecutionContext ecGenAppl = birtService.generateBirtFile(application.getApplNo(), reportName);
+        reportName = "yonsei-adms-" + lang;
+        ExecutionContext ecGenAdms = birtService.generateBirtFile(application.getApplNo(), reportName);
+        ExecutionContext ecPdfMerge = pdfService.genAndUploadPDFByApplicants(application);
+        if ( ExecutionContext.FAIL.equals(ecGenAppl.getResult()) ||
+                ExecutionContext.FAIL.equals(ecGenAdms.getResult()) ||
+                ExecutionContext.FAIL.equals(ecPdfMerge.getResult()) ) {
+            throw new YSBizException();
+        }
+
+        return ec;
+    }
+
+    private ExecutionContext uploadApplicationFormAndSlipFileToS3(Application application) {
+        ExecutionContext ec = new ExecutionContext();
+        return ec;
     }
 }

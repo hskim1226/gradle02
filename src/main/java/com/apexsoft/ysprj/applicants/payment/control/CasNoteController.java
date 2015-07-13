@@ -4,7 +4,6 @@ import com.apexsoft.framework.common.vo.ExecutionContext;
 import com.apexsoft.framework.exception.YSBizException;
 import com.apexsoft.framework.persistence.dao.CommonDAO;
 import com.apexsoft.ysprj.applicants.application.domain.Application;
-import com.apexsoft.ysprj.applicants.application.service.BasisService;
 import com.apexsoft.ysprj.applicants.common.domain.BirtRequest;
 import com.apexsoft.ysprj.applicants.common.service.BirtService;
 import com.apexsoft.ysprj.applicants.common.service.PDFService;
@@ -14,17 +13,12 @@ import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.NameValuePair;
 import org.apache.commons.httpclient.methods.PostMethod;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpRequest;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
-import java.net.URI;
 import java.security.Principal;
 import java.util.Map;
 
@@ -155,7 +149,7 @@ public class CasNoteController {
             ExecutionContext ecGenAppl = birtService.generateBirtFile(application.getApplNo(), reportName);
             reportName = "yonsei-adms-" + lang;
             ExecutionContext ecGenAdms = birtService.generateBirtFile(application.getApplNo(), reportName);
-            ExecutionContext ecPdfMerge = pdfService.getMergedPDFByApplicants(application);
+            ExecutionContext ecPdfMerge = pdfService.genAndUploadPDFByApplicants(application);
             if ( ExecutionContext.FAIL.equals(ecGenAppl.getResult()) ||
                  ExecutionContext.FAIL.equals(ecGenAdms.getResult()) ||
                  ExecutionContext.FAIL.equals(ecPdfMerge.getResult()) ) {
@@ -244,7 +238,7 @@ public class CasNoteController {
         System.out.println("   ** Merge 처리 시작");
 
 //        int applNo = birtRequest.getApplication().getApplNo();
-        ExecutionContext ec = pdfService.getMergedPDFByApplicants(birtRequest.getApplication());
+        ExecutionContext ec = pdfService.genAndUploadPDFByApplicants(birtRequest.getApplication());
 
         System.out.println("   ** Merge 처리 끝");
 
