@@ -93,7 +93,7 @@ public class PaymentAdminController {
         ExecutionContext ecGenAppl = birtService.generateBirtFile(application.getApplNo(), reportName);
         reportName = "yonsei-adms-" + lang;
         ExecutionContext ecGenAdms = birtService.generateBirtFile(application.getApplNo(), reportName);
-        ExecutionContext ecPdfMerge = pdfService.getMergedPDFByApplicants(applPayTr.getApplNo());
+        ExecutionContext ecPdfMerge = pdfService.getMergedPDFByApplicants(application);
         if ( ExecutionContext.FAIL.equals(ecGenAppl.getResult()) ||
                 ExecutionContext.FAIL.equals(ecGenAdms.getResult()) ||
                 ExecutionContext.FAIL.equals(ecPdfMerge.getResult()) ) {
@@ -138,7 +138,7 @@ public class PaymentAdminController {
         ExecutionContext ecGenAppl = birtService.generateBirtFile(application.getApplNo(), reportName);
         reportName = "yonsei-adms-" + lang;
         ExecutionContext ecGenAdms = birtService.generateBirtFile(application.getApplNo(), reportName);
-        ExecutionContext ecPdfMerge = pdfService.getMergedPDFByApplicants(applPayTr.getApplNo());
+        ExecutionContext ecPdfMerge = pdfService.getMergedPDFByApplicants(application);
         if ( ExecutionContext.FAIL.equals(ecGenAppl.getResult()) ||
                 ExecutionContext.FAIL.equals(ecGenAdms.getResult()) ||
                 ExecutionContext.FAIL.equals(ecPdfMerge.getResult()) ) {

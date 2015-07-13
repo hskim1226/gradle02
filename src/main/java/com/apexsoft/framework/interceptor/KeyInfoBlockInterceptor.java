@@ -99,9 +99,12 @@ public class KeyInfoBlockInterceptor extends HandlerInterceptorAdapter {
             if (NumberUtils.isDigits(tmpUrl2)) {
                 return tmpUrl2;
             } else {
-                String no = tmpUrl2.substring(0, tmpUrl2.indexOf('/'));
-                if (NumberUtils.isNumber(no)) {
-                    return no;
+                int indexOfSlash2 = tmpUrl2.indexOf('/');
+                if (indexOfSlash2 > 0) {
+                    String no = tmpUrl2.substring(0, indexOfSlash2);
+                    if (NumberUtils.isNumber(no)) {
+                        return no;
+                    }
                 }
             }
         }

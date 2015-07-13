@@ -65,16 +65,23 @@ public class PDFController {
     private static final Logger logger = LoggerFactory.getLogger(PDFController.class);
 
     /**
-     * 지원자 별 PDF 묶음 파일 생성 및 S3에 업로드
+     * 사용자가 S3로 업로드 한 pdf 파일을 로컬에 다운받아서 하나로 합치고(B파일)
+     * #/# 형식의 쪽 번호를 우상단에 추가하여 로컬에 PDF로 저장(C파일)
+     * A파일과 C파일을 합친 PDF 파일을 로컬에 저장(D파일)
+     * D파일을 S3에 업로드(v03 - 원서 미리보기 시 서버 로컬에서의 다운로드 부하를 S3로 이전)
+     * 중간 작업 파일인 A파일, B파일, C파일 삭제
      *
      * @param birtRequest
+     * @param request
      * @return
      */
-    @RequestMapping(value="/merge/applicant")
+    @RequestMapping(value="/generate/tempMergedApplicationForm")
     @ResponseBody
-    public String mergeByApplicant(BirtRequest birtRequest, HttpServletRequest request) {
-        int applNo = birtRequest.getApplication().getApplNo();
-        ExecutionContext ec = pdfService.getMergedPDFByApplicants(applNo);
+    public String generateTempMergedApplicationForm(BirtRequest birtRequest, Principal principal, HttpServletRequest request) {
+
+        Application application = birtRequest.getApplication();
+        application.setUserId(principal.getName());
+        ExecutionContext ec = pdfService.getMergedPDFByApplicants(application);
         if (ExecutionContext.SUCCESS.equals(ec.getResult())) {
             return ExecutionContext.SUCCESS;
         } else {
@@ -83,7 +90,7 @@ public class PDFController {
     }
 
     /**
-     * DB에 저장된 원서 정보를 토대로 S3에서 원서+첨부파일 PDF 파일 미리보기
+     * DB에 저장된 원서 정보를 토대로 S3에서 원서+첨부파일 PDF 파일 다운로드
      *
      * @param basis
      * @param principal
@@ -91,7 +98,7 @@ public class PDFController {
      * @return
      * @throws java.io.IOException
      */
-    @RequestMapping(value="/download", produces = "application/pdf")
+    @RequestMapping(value="/download/tempMergedApplicationForm", produces = "application/pdf")
     @ResponseBody
     public byte[] fileDownload(Basis basis,
                                Principal principal,
@@ -107,12 +114,12 @@ public class PDFController {
         List<ApplicationDocument> applPaperInfosList =
                 documentService.retrieveApplicationPaperInfo(applNo); // DB에서 filePath가져온다
         if (applPaperInfosList.size() == 1) {
-            String applPaperLocalFilePath = applPaperInfosList.get(0).getFilePath();
-            String s3FilePath = FileUtil.getS3PathFromLocalFullPath(applPaperLocalFilePath, fileBaseDir);
+            String uploadDirPath = applPaperInfosList.get(0).getFilePath();
+            String s3UploadDirPath = FileUtil.getS3PathFromLocalFullPath(uploadDirPath, fileBaseDir);
             AmazonS3 s3 = new AmazonS3Client();
             S3Object object = null;
             try {
-                object = s3.getObject(new GetObjectRequest(s3BucketName, FileUtil.getFinalMergedFileFullPath(s3FilePath, applNo)));
+                object = s3.getObject(new GetObjectRequest(s3BucketName, FileUtil.getFinalMergedFileFullPath(s3UploadDirPath, applNo)));
             } catch (Exception e) {
                 logger.error("Err in s3.getObject FiledDownload in PDFController");
                 logger.error(e.getMessage());
@@ -122,7 +129,7 @@ public class PDFController {
                 ecMap.put("bucketName", "[" + s3BucketName + "]");
                 ecMap.put("admsNo", "[" + admsNo + "]");
                 ecMap.put("userId", "[" + userId + "]");
-                ecMap.put("objectKey", "[" + FileUtil.getFinalMergedFileFullPath(s3FilePath, applNo) + "]");
+                ecMap.put("objectKey", "[" + FileUtil.getFinalMergedFileFullPath(s3UploadDirPath, applNo) + "]");
                 ec.setErrorInfo(new ErrorInfo(ecMap));
                 throw new YSBizException(ec);
             }

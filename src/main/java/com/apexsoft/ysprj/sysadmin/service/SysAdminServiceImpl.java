@@ -99,7 +99,7 @@ public class SysAdminServiceImpl implements  SysAdminService {
 
         ExecutionContext ecPdfMerge = null;
         try {
-            ecPdfMerge = pdfService.getMergedPDFByApplicants(applNo);
+            ecPdfMerge = pdfService.getMergedPDFByApplicants(application);
         } catch (Exception e) {
             ecPdfMerge = new ExecutionContext(ExecutionContext.FAIL);
             if (e instanceof YSBizNoticeException) {

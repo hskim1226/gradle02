@@ -155,7 +155,7 @@ public class CasNoteController {
             ExecutionContext ecGenAppl = birtService.generateBirtFile(application.getApplNo(), reportName);
             reportName = "yonsei-adms-" + lang;
             ExecutionContext ecGenAdms = birtService.generateBirtFile(application.getApplNo(), reportName);
-            ExecutionContext ecPdfMerge = pdfService.getMergedPDFByApplicants(applNo);
+            ExecutionContext ecPdfMerge = pdfService.getMergedPDFByApplicants(application);
             if ( ExecutionContext.FAIL.equals(ecGenAppl.getResult()) ||
                  ExecutionContext.FAIL.equals(ecGenAdms.getResult()) ||
                  ExecutionContext.FAIL.equals(ecPdfMerge.getResult()) ) {
@@ -243,8 +243,8 @@ public class CasNoteController {
 
         System.out.println("   ** Merge 처리 시작");
 
-        int applNo = birtRequest.getApplication().getApplNo();
-        ExecutionContext ec = pdfService.getMergedPDFByApplicants(applNo);
+//        int applNo = birtRequest.getApplication().getApplNo();
+        ExecutionContext ec = pdfService.getMergedPDFByApplicants(birtRequest.getApplication());
 
         System.out.println("   ** Merge 처리 끝");
 

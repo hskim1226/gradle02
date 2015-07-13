@@ -1166,7 +1166,7 @@
 
                             $.ajax({
                                 type: 'POST',
-                                url: '${contextPath}/pdf/merge/applicant',
+                                url: '${contextPath}/pdf/generate/tempMergedApplicationForm',
                                 data: formData,
                                 success: function (data) {
                                     if (console) {
@@ -1238,7 +1238,7 @@
                 <%-- 지원서 파일 정보 DB 저장 --%>
 
             } else if (saveType == 'preview') {
-                form.action = "${contextPath}/pdf/download";
+                form.action = "${contextPath}/pdf/download/tempMergedApplicationForm";
 //                form.target="_blank";
                 form.submit();
             } else if (saveType == 'submit') {
