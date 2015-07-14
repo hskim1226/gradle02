@@ -62,7 +62,7 @@ public class FileUtil {
     public static String getFinalMergedFileFullPath(String uploadDirFullPath, int applNo) {
         return new StringBuilder()
                 .append(uploadDirFullPath).append("/")
-                .append(applNo).append("-merged-final.pdf").toString();
+                .append(getFinalMergedFileName(applNo)).toString();
     }
 
     public static String getFinalUserDownloadFileName(String userId) {
@@ -70,12 +70,17 @@ public class FileUtil {
                 .append(userId).append("-all-file.pdf").toString();
     }
 
-    public static String getSlipFileName(String userId) {
+    public static String getFinalMergedFileName(int applNo) {
+        return new StringBuilder()
+                .append(applNo).append("-merged-final.pdf").toString();
+    }
+
+    public static String getApplicationSlipFileName(String userId) {
         return new StringBuilder()
                 .append("application_slip_").append(userId).append(".pdf").toString();
     }
 
-    public static String getApplicationFileName(String userId) {
+    public static String getApplicationFormFileName(String userId) {
         return new StringBuilder()
                 .append("application_form_").append(userId).append(".pdf").toString();
     }

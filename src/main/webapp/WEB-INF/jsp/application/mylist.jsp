@@ -91,9 +91,9 @@
                                                             <div class="btn-group btn-block">
                                                                 <a type="button${itemStatus.index}" class="btn btn-block btn-success dropdown-toggle ${item.applStsCode=="00020"?"":"disabled"}" <c:if test="${item.applStsCode!='00020'}">disabled</c:if> data-toggle="dropdown" data-target="#"><spring:message code="L00311"/><%--지원서 보기--%><span class="caret"></span></a>
                                                                 <ul class="dropdown-menu" role="menu">
-                                                                    <li><a class="print" data-applNo="${item.applNo}" data-admsTypeCode="${item.admsTypeCode}" data-reqType="appl"><spring:message code="L00312"/><%--지원서(PDF)--%></a></li>
-                                                                    <li><a class="print" data-applNo="${item.applNo}" data-admsTypeCode="${item.admsTypeCode}" data-reqType="adms"><spring:message code="L00313"/><%--수험표(PDF)--%></a></li>
-                                                                    <li><a class="print" data-admsNo="${item.admsNo}" data-applNo="${item.applNo}" data-format="pdf"><spring:message code="L00314"/><%--전체 파일(PDF)--%></a></li>
+                                                                    <li><a class="print" data-applNo="${item.applNo}" data-admsNo="${item.admsNo}" data-admsTypeCode="${item.admsTypeCode}" data-reqType="appl"><spring:message code="L00312"/><%--지원서(PDF)--%></a></li>
+                                                                    <li><a class="print" data-applNo="${item.applNo}" data-admsNo="${item.admsNo}" data-admsTypeCode="${item.admsTypeCode}" data-reqType="adms"><spring:message code="L00313"/><%--수험표(PDF)--%></a></li>
+                                                                    <li><a class="print" data-applNo="${item.applNo}" data-admsNo="${item.admsNo}" data-admsTypeCode="${item.admsTypeCode}" data-reqType="merged" data-format="pdf"><spring:message code="L00314"/><%--전체 파일(PDF)--%></a></li>
                                                                 </ul>
                                                             </div>
                                                         </div>
@@ -168,15 +168,11 @@
                 e.preventDefault();
                 setHidden(e.target);
                 var form = document.getElementById('LGD_PAYINFO');
-                form.target = "_blank";
-                var admsNo = e.target.getAttribute('data-admsNo');
-                if (admsNo != null && admsNo.length > 0) { // 전체 파일
-                    form.action = '${contextPath}/pdf/download';
-                    form.submit();
-                } else { // 지원서 또는 수험표
-                    form.action = '${contextPath}/application/preview';
-                    form.submit();
-                }
+//                form.target = "_blank";
+//                var admsNo = e.target.getAttribute('data-admsNo');
+                var reqType = e.target.getAttribute('data-reqType');
+                form.action = '${contextPath}/postApplication/download/' + reqType;
+                form.submit();
             });
 
             <%-- action 성공 여부 알림 처리 --%>

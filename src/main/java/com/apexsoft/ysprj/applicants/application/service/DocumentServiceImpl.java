@@ -21,7 +21,6 @@ import org.springframework.security.crypto.encrypt.Encryptors;
 import org.springframework.security.crypto.encrypt.TextEncryptor;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
 import javax.servlet.ServletContext;
 import java.io.IOException;
 import java.io.InputStream;
@@ -435,8 +434,8 @@ public class DocumentServiceImpl implements DocumentService {
         aDoc.setImgYn("N");
         aDoc.setFilePath(FileUtil.getUploadDirectoryFullPath(BASE_DIR, s3MidPath, admsNo, userId, applNo));
         aDoc.setDocItemName("지원서");
-        aDoc.setFileName(FileUtil.getApplicationFileName(userId));
-        aDoc.setOrgFileName(FileUtil.getApplicationFileName(userId));
+        aDoc.setFileName(FileUtil.getApplicationFormFileName(userId));
+        aDoc.setOrgFileName(FileUtil.getApplicationFormFileName(userId));
         aDoc.setPageCnt(2);
         // 지원서 정보가 이미 저장 되어 있으면(즉 원서 작성 단계에서 미리보기를 했으면) true
         List<ApplicationDocument> applPaperInfosList = retrieveApplicationPaperInfo(applNo);
@@ -489,8 +488,8 @@ public class DocumentServiceImpl implements DocumentService {
         aDoc.setFilePath(FileUtil.getUploadDirectoryFullPath(BASE_DIR, s3MidPath, admsNo, userId, applNo));
         aDoc.setDocItemName("수험표");
         aDoc.setDocItemNameXxen("Application Slip");
-        aDoc.setFileName(FileUtil.getSlipFileName(userId));
-        aDoc.setOrgFileName(FileUtil.getSlipFileName(userId));
+        aDoc.setFileName(FileUtil.getApplicationSlipFileName(userId));
+        aDoc.setOrgFileName(FileUtil.getApplicationSlipFileName(userId));
         aDoc.setPageCnt(1);
         aDoc.setFileUploadFg(false);
 

@@ -331,7 +331,7 @@ public class PDFServiceImpl implements PDFService {
     private File getApplicationSlipFile(Application application) {
         String applicationSlipFileFullPath = FileUtil.getUploadDirectoryFullPath(
                 fileBaseDir, s3MidPath, application.getAdmsNo(), application.getUserId(), application.getApplNo()) + "/" +
-                FileUtil.getSlipFileName(application.getUserId());
+                FileUtil.getApplicationSlipFileName(application.getUserId());
         return new File(applicationSlipFileFullPath);
     }
 
@@ -381,7 +381,7 @@ public class PDFServiceImpl implements PDFService {
         List<ApplicationDocument> encryptedPdfList = new ArrayList<ApplicationDocument>();
 
         String uploadDirFullPath = FileUtil.getUploadDirectoryFullPath(fileBaseDir, s3MidPath, application.getAdmsNo(), userId, applNo);
-        String applicationFormFileFullPath = uploadDirFullPath + "/" + FileUtil.getApplicationFileName(userId);
+        String applicationFormFileFullPath = uploadDirFullPath + "/" + FileUtil.getApplicationFormFileName(userId);
 
         // DB에서 첨부 파일 정보 조회
         List<ApplicationDocument> pdfList = commonDAO.queryForList(NAME_SPACE + "CustomApplicationDocumentMapper.selectPDFByApplNo", param, ApplicationDocument.class);
@@ -399,13 +399,17 @@ public class PDFServiceImpl implements PDFService {
         File applicationFormFile = new File(applicationFormFileFullPath);
         File mergedApplicationFormFile = getMergedApplicationFormFile(applicationFormFile, numberedMergedFile, uploadDirFullPath, applNo);
 
-        // 최종 머지된 파일 지원서 파일과 수험표 파일을 S3에 업로드
+        // 머지된 파일은 결제 전, 후에 S3에 업로드
         uploadToS3(s3, mergedApplicationFormFile, applNo);
 
-        if ("00020".equals(application.getApplStsCode())) {
+        if ("00020".equals(application.getApplStsCode())) { // 결제 완료 시
             // 수험표 파일
             File applicationSlipFile = getApplicationSlipFile(application);
             uploadToS3(s3, applicationSlipFile, applNo); // 수험표는 결제 완료 후에 생성 및 업로드
+            applicationSlipFile.delete();
+
+            // 지원서 파일
+            uploadToS3(s3, applicationFormFile, applNo);
         }
 
         // 중간 작업 파일 삭제

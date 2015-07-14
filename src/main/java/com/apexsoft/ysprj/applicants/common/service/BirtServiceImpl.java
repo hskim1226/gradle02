@@ -147,8 +147,8 @@ public class BirtServiceImpl implements BirtService {
         String userId = application.getUserId();
         String admsTypeCode = application.getAdmsTypeCode();
         String pdfFileName = StringUtils.indexOf(birtRptFileName, "appl") > 0 ?
-                FileUtil.getApplicationFileName(userId) :
-                FileUtil.getSlipFileName(userId);
+                FileUtil.getApplicationFormFileName(userId) :
+                FileUtil.getApplicationSlipFileName(userId);
 
         rptInfoMap.put("pdfDirectoryFullPath", FileUtil.getUploadDirectoryFullPath(BASE_DIR, s3MidPath, admsNo, userId, applNo));
         rptInfoMap.put("pdfFileName", pdfFileName);

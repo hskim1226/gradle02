@@ -742,9 +742,4 @@ public class PaymentServiceImpl implements PaymentService {
 
         return ec;
     }
-
-    private ExecutionContext uploadApplicationFormAndSlipFileToS3(Application application) {
-        ExecutionContext ec = new ExecutionContext();
-        return ec;
-    }
 }
