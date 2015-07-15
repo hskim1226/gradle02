@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -62,10 +63,11 @@ public class PaymentController {
      * @throws NoSuchAlgorithmException
      */
     @RequestMapping(value = "/confirm", method = RequestMethod.POST)
-    public String confirmPayment( HttpSession httpSession,
+    public ModelAndView confirmPayment( HttpSession httpSession,
                                   HttpServletRequest request,
                                   Payment payment,
-                                  Basis model ) throws NoSuchAlgorithmException {
+                                  Basis model,
+                                  ModelAndView mv) throws NoSuchAlgorithmException {
 
         webUtil.blockGetMethod(request, model.getApplication());
         SecurityContext sc = (SecurityContext)httpSession.getAttribute("SPRING_SECURITY_CONTEXT");
@@ -80,12 +82,15 @@ public class PaymentController {
 
         String retPage;
         if( "00021".equals(payment.getApplStsCode()) ) {
-            retPage = "xpay/waitPay";
+//            retPage = "xpay/waitPay";
+            mv.addObject("payPlatform", payPlatform);
+            mv.setViewName("xpay/waitPay");
         } else {
-            retPage = "xpay/confirm";
+//            retPage = "xpay/confirm";
+            mv.setViewName("xpay/confirm");
         }
 
-        return retPage;
+        return mv;
     }
 
     /**

@@ -31,6 +31,11 @@
                                 </table>
                                 <div class="col-sm-12 align-left">
                                     <spring:message code="U05301"/><%--해당 가상계좌로 입금해야 지원이 완료됩니다.--%><br><br>
+                                    <c:choose>
+                                        <c:when test="${payPlatform == 'test'}">
+                                            <spring:message code="U05302"/><%--모의 입금 화면 링크--%><br><br>
+                                        </c:when>
+                                    </c:choose>
                                 </div>
                                 <div class="col-sm-12">
                                     <button class="btn btn-primary btn-lg btn-block" id="goMain"><spring:message code="L05208"/><%--내 원서 보기--%></button>
