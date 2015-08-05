@@ -2,6 +2,9 @@ package com.apexsoft.ysprj.applicants.payment.service;
 
 import com.apexsoft.framework.common.vo.ExecutionContext;
 import com.apexsoft.framework.exception.YSBizException;
+import com.apexsoft.framework.mail.Mail;
+import com.apexsoft.framework.mail.MailType;
+import com.apexsoft.framework.mail.SESMailService;
 import com.apexsoft.framework.message.MessageResolver;
 import com.apexsoft.framework.persistence.dao.CommonDAO;
 import com.apexsoft.framework.unused.xpay.service.TransactionVO;
@@ -9,8 +12,11 @@ import com.apexsoft.ysprj.applicants.application.domain.Application;
 import com.apexsoft.ysprj.applicants.application.domain.CustomNewSeq;
 import com.apexsoft.ysprj.applicants.application.service.DocumentService;
 import com.apexsoft.ysprj.applicants.common.domain.Department;
+import com.apexsoft.ysprj.applicants.common.domain.MailContentsParamKey;
+import com.apexsoft.ysprj.applicants.common.domain.MailInfo;
 import com.apexsoft.ysprj.applicants.common.service.BirtService;
 import com.apexsoft.ysprj.applicants.common.service.PDFService;
+import com.apexsoft.ysprj.applicants.common.util.MailFactory;
 import com.apexsoft.ysprj.applicants.payment.domain.*;
 import lgdacom.XPayClient.XPayClient;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +43,12 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Autowired
     private DocumentService documentService;
+
+    @Autowired
+    MailFactory mailFactory;
+
+    @Autowired
+    SESMailService sesMailService;
 
     @Autowired
     BirtService birtService;
@@ -358,6 +370,9 @@ public class PaymentServiceImpl implements PaymentService {
         documentService.saveApplicationPaperInfo(application);
         documentService.saveAdmissionSlipPaperInfo(application);
 
+        // 입학 신청 완료 메일 발송
+        sendMail(application);
+
         // 원서 수험표, 생성, S3 업로드
         genAndUploadApplicationFormAndSlipFile(application);
 
@@ -580,6 +595,9 @@ public class PaymentServiceImpl implements PaymentService {
         documentService.saveApplicationPaperInfo(application);
         documentService.saveAdmissionSlipPaperInfo(application);
 
+        // 결제 완료 메일 발송
+        sendMail(application);
+
         // 원서 수험표, 생성, S3 업로드
         genAndUploadApplicationFormAndSlipFile(application);
 
@@ -741,5 +759,32 @@ public class PaymentServiceImpl implements PaymentService {
         }
 
         return ec;
+    }
+
+    private void sendMail(Application application) {
+        MailInfo mailInfo = commonDAO.queryForObject("com.apexsoft.ysprj.applicants.common.sqlmap.CustomMailMapper.selectApplicationCompletedMailInfo",
+                application.getApplNo(), MailInfo.class);
+        String mailAddr = application.getMailAddr();
+        String userName = application.getKorName().trim().length() > 0 ?
+                application.getKorName() :
+                application.getEngName() + " " + application.getEngSur();
+        String userId = application.getUserId();
+        String campName = mailInfo.getCampName();
+        String major = mailInfo.getDeptName();
+        String applId = mailInfo.getApplId();
+
+        Mail mail = mailFactory.create(MailType.COMPLETE_NOTI);
+        mail.setTo(new String[]{mailAddr});
+        mail.withContentsParam(MailContentsParamKey.USER_NAME, userName)
+                .withContentsParam(MailContentsParamKey.USER_ID, userId)
+                .withContentsParam(MailContentsParamKey.INSTITUTE_NAME, campName)
+                .withContentsParam(MailContentsParamKey.MAJOR, major)
+                .withContentsParam(MailContentsParamKey.APPL_ID, applId)
+                .makeContents();
+        try {
+            sesMailService.sendMail(mail);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
