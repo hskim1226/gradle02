@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/util
+        http://www.springframework.org/schema/util/spring-util-3.2.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-3.1.xsd
+        http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+
+    <mvc:annotation-driven />
+
+    <mvc:default-servlet-handler />
+
+    <context:property-placeholder properties-ref="app"/>
+
+    <beans profile="new">
+        <util:properties id="app" location="classpath:properties/config/app.new.properties" />
+        <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+            <property name="prefix" value="/WEB-INF/jsp/"/>
+            <property name="suffix" value=".jsp"/>
+            <property name="order" value="1"/>
+            <property name="exposedContextBeanNames">
+                <list>
+                    <value>app</value>
+                </list>
+            </property>
+        </bean>
+
+        <bean id="UserAccountController" class="com.apexsoft.ysprj.user.control.UserAccountController"/>
+        <bean id="UserValidator" class="com.apexsoft.ysprj.user.validator.UserValidator"/>
+        <bean id="UserModValidator" class="com.apexsoft.ysprj.user.validator.UserModValidator"/>
+        <bean id="UserAccountService" class="com.apexsoft.ysprj.user.service.UserAccountServiceImpl"/>
+        <bean id="webUtil" class="com.apexsoft.ysprj.applicants.common.util.WebUtil"/>
+        <bean id="commonDao" class="com.apexsoft.framework.persistence.dao.CommonDAOMyBatisImpl"/>
+    </beans>
+
+
+</beans>
