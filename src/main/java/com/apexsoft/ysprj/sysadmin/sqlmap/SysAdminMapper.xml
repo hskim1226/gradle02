@@ -40,6 +40,7 @@
     from STUD_NO A, APPL_DOC B, APPL C
     where A.APPL_ID = C.APPL_ID
     and C.APPL_NO = B.APPL_NO
+    and B.DOC_ITEM_CODE = '00001'
   </select>
 
 </mapper>

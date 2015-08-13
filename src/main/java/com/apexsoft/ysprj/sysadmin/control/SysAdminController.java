@@ -438,12 +438,13 @@ public class SysAdminController {
     @RequestMapping(value="/rslt-generate-pic")
     public ModelAndView rsltGeneratePic(ModelAndView mv) {
         mv.setViewName("sysadmin/rsltGeneratePic");
-        ExecutionContext ec = sysAdminService.downaloadRenamedPictures();
-        Map<String, String> map = (Map<String, String>)ec.getData();
-        Set<Map.Entry<String, String>> entrySet = map.entrySet();
-        for (Map.Entry<String, String> item : entrySet) {
-            mv.addObject(item.getKey(), item.getValue());
-        }
+        sysAdminService.downaloadRenamedPictures();
+//        ExecutionContext ec = sysAdminService.downaloadRenamedPictures();
+//        Map<String, String> map = (Map<String, String>)ec.getData();
+//        Set<Map.Entry<String, String>> entrySet = map.entrySet();
+//        for (Map.Entry<String, String> item : entrySet) {
+//            mv.addObject(item.getKey(), item.getValue());
+//        }
         return mv;
     }
 }

@@ -50,6 +50,9 @@ public class SysAdminServiceImpl implements  SysAdminService {
     @Autowired
     private CommonDAO commonDAO;
 
+    @Value("#{app['file.baseDir']}")
+    private String fileBaseDir;
+
     @Value("#{app['s3.bucketName']}")
     private String s3BucketName;
 
@@ -58,6 +61,9 @@ public class SysAdminServiceImpl implements  SysAdminService {
 
     @Value("#{app['file.backupDir']}")
     private String backupDir;
+
+    @Value("#{app['file.picturesDir']}")
+    private String picturesDir;
 
     private static final Logger logger = LoggerFactory.getLogger(SysAdminServiceImpl.class);
 
@@ -142,10 +148,38 @@ public class SysAdminServiceImpl implements  SysAdminService {
     public ExecutionContext downaloadRenamedPictures() {
         ExecutionContext ec = new ExecutionContext();
         List<StudentNumber> studentNumberList = null;
+        AmazonS3Client s3Client = new AmazonS3Client();
+        S3Object s3Object = null;
+        int count = 0;
 
         studentNumberList = commonDAO.queryForList(NAME_SPACE + "SysAdminMapper.selectStudentPicInfo", StudentNumber.class);
 
-
+long start = System.currentTimeMillis();
+        for (StudentNumber studentNumber : studentNumberList) {
+            s3Object = s3Client.getObject(new GetObjectRequest(s3BucketName, studentNumber.getS3FullPath()));
+            InputStream inputStream = s3Object.getObjectContent();
+            ObjectMetadata s3ObjMeta = s3Object.getObjectMetadata();
+            String type = s3ObjMeta.getContentType();
+            if (type.startsWith("image/")) {
+                String ext = type.substring(6);
+                if ("jpeg".equals(ext))
+                    ext = "jpg";
+                Map<String, String> s3ObjUserMeta = s3ObjMeta.getUserMetadata();
+                try {
+                    FileUtils.copyInputStreamToFile(inputStream, new File(picturesDir, studentNumber.getStudNo() + "." + ext));
+                    System.out.println("[LOCAL SAVE] " + ++count);
+                } catch (Exception e) {
+                    ExecutionContext ec1 = new ExecutionContext(ExecutionContext.FAIL);
+                    logger.error("Err in downaloadRenamedPictures() in SysAdminServiceImpl");
+                    logger.error(e.getMessage());
+                    logger.error("bucketName : [" + s3BucketName + "]");
+                    logger.error("applId : [" + studentNumber.getApplId() + "]");
+                    logger.error("objectKey : [" + s3ObjUserMeta.get("filePath") +"]");
+                    throw new YSBizException(ec1);
+                }
+            }
+        }
+System.err.println("Total Elapsed Time : " + (System.currentTimeMillis() - start)/1000);
 
         return null;
     }
