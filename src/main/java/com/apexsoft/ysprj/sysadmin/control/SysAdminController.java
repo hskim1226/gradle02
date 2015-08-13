@@ -428,4 +428,22 @@ public class SysAdminController {
         }
         return mv;
     }
+
+    @RequestMapping(value="/form-generate-pic")
+    public ModelAndView formGeneratePic(ModelAndView mv) {
+        mv.setViewName("sysadmin/formGeneratePic");
+        return mv;
+    }
+
+    @RequestMapping(value="/rslt-generate-pic")
+    public ModelAndView rsltGeneratePic(ModelAndView mv) {
+        mv.setViewName("sysadmin/rsltGeneratePic");
+        ExecutionContext ec = sysAdminService.downaloadRenamedPictures();
+        Map<String, String> map = (Map<String, String>)ec.getData();
+        Set<Map.Entry<String, String>> entrySet = map.entrySet();
+        for (Map.Entry<String, String> item : entrySet) {
+            mv.addObject(item.getKey(), item.getValue());
+        }
+        return mv;
+    }
 }

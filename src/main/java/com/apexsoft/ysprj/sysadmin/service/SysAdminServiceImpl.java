@@ -14,6 +14,7 @@ import com.apexsoft.ysprj.applicants.common.service.PDFService;
 import com.apexsoft.ysprj.applicants.common.util.FileUtil;
 import com.apexsoft.ysprj.applicants.common.util.StringUtil;
 import com.apexsoft.ysprj.sysadmin.domain.BackUpApplDoc;
+import com.apexsoft.ysprj.sysadmin.domain.StudentNumber;
 import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -135,6 +136,18 @@ public class SysAdminServiceImpl implements  SysAdminService {
         ec.setData(resultMap);
 
         return ec;
+    }
+
+    @Override
+    public ExecutionContext downaloadRenamedPictures() {
+        ExecutionContext ec = new ExecutionContext();
+        List<StudentNumber> studentNumberList = null;
+
+        studentNumberList = commonDAO.queryForList(NAME_SPACE + "SysAdminMapper.selectStudentPicInfo", StudentNumber.class);
+
+
+
+        return null;
     }
 
     private Map<String, String> savePdf(AmazonS3Client s3Client, List<BackUpApplDoc> backUpApplDocList) {

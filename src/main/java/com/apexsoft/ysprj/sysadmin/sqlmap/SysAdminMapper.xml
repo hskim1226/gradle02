@@ -25,4 +25,21 @@
     order by 1, 2, 3, 4;
   </select>
 
+  <resultMap id="studentPicInfoMap" type="com.apexsoft.ysprj.sysadmin.domain.StudentNumber" >
+    <id column="APPL_ID" property="applId" jdbcType="VARCHAR" />
+    <result column="STUD_NAME" property="studName" jdbcType="VARCHAR" />
+    <result column="STUD_NO" property="studNo" jdbcType="VARCHAR" />
+    <result column="INST_NAME" property="instName" jdbcType="VARCHAR" />
+    <result column="DEPT_NAME" property="deptName" jdbcType="VARCHAR" />
+    <result column="CORS_NAME" property="corsName" jdbcType="VARCHAR" />
+    <result column="S3_FULL_PATH" property="s3FullPath" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <select id="selectStudentPicInfo" resultMap="studentPicInfoMap">
+    select A.APPL_ID, A.STUD_NAME, A.STUD_NO, A.INST_NAME, A.DEPT_NAME, A.CORS_NAME, B.FILE_PATH as S3_FULL_PATH
+    from STUD_NO A, APPL_DOC B, APPL C
+    where A.APPL_ID = C.APPL_ID
+    and C.APPL_NO = B.APPL_NO
+  </select>
+
 </mapper>
