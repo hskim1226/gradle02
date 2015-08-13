@@ -10,17 +10,21 @@ import com.apexsoft.ysprj.applicants.admission.service.AdmissionService;
 import com.apexsoft.ysprj.applicants.application.domain.ApplicationIdentifier;
 import com.apexsoft.ysprj.applicants.application.domain.CustomMyList;
 import com.apexsoft.ysprj.applicants.application.domain.ParamForApplication;
+import com.apexsoft.ysprj.applicants.application.domain.Recommendation;
+import com.apexsoft.ysprj.applicants.common.util.CryptoUtil;
 import com.apexsoft.ysprj.applicants.common.util.StringUtil;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
+import javax.servlet.ServletContext;
+import java.io.IOException;
 import java.security.Principal;
 import java.util.HashMap;
 import java.util.List;
@@ -34,7 +38,13 @@ import java.util.Map;
 public class PreApplicationController {
 
     @Autowired
+    private ObjectMapper jacksonObjectMapper;
+
+    @Autowired
     private AdmissionService admissionService;
+
+    @Autowired
+    private ServletContext context;
 
     @Autowired
     private CommonDAO commonDAO;
@@ -140,5 +150,59 @@ public class PreApplicationController {
         mv.addObject("entrYear", entrYear);
         mv.addObject("admsTypeCode", admsTypeCode);
         return mv;
+    }
+
+    @RequestMapping(value = "/recReq/list")
+    public ModelAndView recommendationList(ModelAndView mv) {
+        mv.setViewName("application/recReqList");
+
+        // TODO : 추천 요청 리스트 가져와서 mv에 세팅
+
+        return mv;
+    }
+
+    @RequestMapping(value = "/recReq/edit")
+    public ModelAndView recommendationEdit(ModelAndView mv) {
+        mv.setViewName("application/recReqEdit");
+
+        // TODO : 추천 요청 조회 mv에 세팅
+
+        return mv;
+    }
+
+    @RequestMapping(value = "/recReq/preview", method = RequestMethod.POST)
+    @ResponseBody
+    public ExecutionContext recommendationPreview(Recommendation recommendation,
+                                              BindingResult bindingResult,
+                                              ModelAndView mv) {
+//        mv.setViewName("application/recReqPreview");
+//        if (bindingResult.hasErrors()) return mv;
+
+        ExecutionContext ec = new ExecutionContext();
+
+        int applNo = recommendation.getApplNo();
+        String profName = recommendation.getProfName();
+        String profMailAddr = recommendation.getProfMailAddr();
+        String input = applNo + ";" + profName + ";" + profMailAddr;
+
+        String encrypted = null;
+        try {
+            encrypted = CryptoUtil.getCryptedString(context, input, true);
+        } catch (IOException e) {
+            throw new YSBizException(e);
+        }
+        recommendation.setRecKey(encrypted);
+        recommendation.setRecStsCode("00001");
+
+        String json = null;
+        try {
+            json = jacksonObjectMapper.writeValueAsString(recommendation);
+        } catch (JsonProcessingException e) {
+            throw new YSBizException(e);
+        }
+
+        ec.setData(json);
+
+        return ec;
     }
 }

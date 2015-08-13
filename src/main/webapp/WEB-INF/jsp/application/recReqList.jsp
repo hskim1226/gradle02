@@ -20,7 +20,7 @@
 <body>
 <section class="normal-white">
     <div class="container">
-        <form class="form-horizontal" id="LGD_PAYINFO" name="mylist" role="form" method="post">
+        <form class="form-horizontal" id="rec-req" name="mylist" role="form" method="post">
             <div class="row mar-bot40">
                 <div class="col-sm-offset-1 col-sm-10">
                     <div class="form-group inner-container-white">
@@ -132,7 +132,7 @@
 
             $('.modify').click(function(e){
                 e.preventDefault();
-                var form = document.getElementById('LGD_PAYINFO');
+                var form = document.getElementById('rec-req');
                 setHidden(e.target);
                 form.action = "${contextPath}/application/basis/edit";
                 form.target = '_self';
@@ -141,7 +141,7 @@
             });
             $('.recommendation').click(function(e){
                 e.preventDefault();
-                var form = document.getElementById('LGD_PAYINFO');
+                var form = document.getElementById('rec-req');
                 setHidden(e.target);
                 form.action = "${contextPath}/application/recommendation";
                 form.target = "_blank";
@@ -153,15 +153,15 @@
                 if (confirm(payMsg)) {
                     document.getElementById('LGD_PRODUCTINFO').value = e.target.name;
                     document.getElementById('LGD_AMOUNT').value = e.target.value;
-                    document.getElementById('LGD_PAYINFO').setAttribute("action", "${contextPath}/payment/confirm");
+                    document.getElementById('rec-req').setAttribute("action", "${contextPath}/payment/confirm");
                     document.getElementById('applNo').value = e.target.getAttribute('data-applNo');
-                    $('#LGD_PAYINFO').submit();
+                    $('#rec-req').submit();
                 }
             });
             $('.print').click(function(e){
                 e.preventDefault();
                 setHidden(e.target);
-                var form = document.getElementById('LGD_PAYINFO');
+                var form = document.getElementById('rec-req');
 //                form.target = "_blank";
 //                var admsNo = e.target.getAttribute('data-admsNo');
                 var reqType = e.target.getAttribute('data-reqType');

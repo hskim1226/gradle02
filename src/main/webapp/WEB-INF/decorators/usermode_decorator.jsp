@@ -153,7 +153,7 @@
     <script>
     <%-- prevent enter event on form --%>
     $('form').on('keypress', function(e) {
-        if (e.keyCode == 13) {
+        if (e.target.tagName !== 'TEXTAREA' && e.keyCode == 13) {
             e.preventDefault();
             return false;
         }
