@@ -24,6 +24,8 @@
             background-color: white;
             color: #555;
             border: 1px solid #ccc;
+            overflow: auto;
+            height: 250px;
         }
     </style>
 </head>
@@ -31,8 +33,8 @@
 <div id="overlay" class="web_dialog_overlay"></div>
 <section class="normal-white">
     <div class="container">
-        <%--<form:form commandName="user" cssClass="form-horizontal" role="form" method="post">--%>
-        <form id="reqRec" class="form-horizontal" method="post">
+        <form:form id="reqRec" commandName="recommendation" cssClass="form-horizontal" role="form">
+        <%--<form id="reqRec" class="form-horizontal">--%>
             <div class="col-md-offset-1 col-md-10">
                 <div class="form-group inner-container-white">
                     <div class="col-sm-offset-1 col-sm-10 text-gray">
@@ -46,7 +48,7 @@
                             </div>
                             <div class="col-sm-9">
                                 <div class="col-sm-12 nopadding input-group">
-                                    <input type="text" id="profName" name="profName" class="form-control input-text" maxlength="16" placeholder="<spring:message code="L06502"/>" />  <%--교수 이름--%>
+                                    <form:input path="profName" cssClass="form-control input-text" maxlength="16" placeholder='${msg.getMsg("L06502")}' />  <%--교수 이름--%>
                                 </div>
                         <%--<spring:bind path="profName">--%>
                             <%--<c:if test="${status.error}">--%>
@@ -65,7 +67,8 @@
                             </div>
                             <div class="col-sm-9">
                                 <div class="col-sm-12 nopadding input-group">
-                                    <input type="text" id="profMailAddr" name="profMailAddr" class="form-control input-text" maxlength="16" placeholder="<spring:message code="L06503"/>" />  <%--교수 e-mail--%>
+                                    <%--<input type="text" id="profMailAddr" name="profMailAddr" class="form-control input-text" maxlength="16" placeholder="<spring:message code="L06503"/>" />  &lt;%&ndash;교수 e-mail&ndash;%&gt;--%>
+                                    <form:input path="profMailAddr" cssClass="form-control input-text" maxlength="16" placeholder='${msg.getMsg("L06503")}' />  <%--교수 e-mail--%>
                                 </div>
                             </div>
                         </div>
@@ -77,32 +80,35 @@
                             </div>
                             <div class="col-sm-9">
                                 <div class="col-sm-12 nopadding input-group">
-                                    <textarea id="reqText" name="reqText" class="form-control" rows="10" placeholder="<spring:message code="U06503"/>"></textarea>  <%--교수님께 보낼 메일 내용을 500자 이내로 입력해주세요.--%>
-                                    <%--<input type="password" id="pswd2" name="pswd2" class="form-control input-text" maxlength="16" placeholder="<spring:message code="U06503"/>" />  &lt;%&ndash;교수님께 보낼 메일 내용을 입력해주세요.&ndash;%&gt;--%>
+                                    <%--<textarea id="reqText" name="reqText" class="form-control" rows="10" placeholder="<spring:message code="U06503"/>"></textarea>  &lt;%&ndash;교수님께 보낼 메일 내용을 500자 이내로 입력해주세요.&ndash;%&gt;--%>
+                                    <form:textarea path="reqText" cssClass="form-control" rows="10" placeholder='${msg.getMsg("U06503")}'></form:textarea>  <%--교수님께 보낼 메일 내용을 500자 이내로 입력해주세요.--%>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="col-sm-offset-1 col-sm-10">
-                        <div class="col-sm-4 nopadding">
+                        <div class="col-sm-3 nopadding">
                             <button class="preview btn btn-info btn-lg btn-block btn-save input-text"><spring:message code="L06531"/><%--미리 보기--%></button>
                         </div>
-                        <div class="col-sm-4">
+                        <div class="col-sm-3">
                             <button class="save btn btn-warning btn-lg btn-block btn-save input-text"><spring:message code="L06532"/><%--임시 저장--%></button>
                         </div>
-                        <div class="col-sm-4 nopadding">
+                        <div class="col-sm-3">
+                            <button class="cancel btn btn-warning btn-lg btn-block btn-save input-text"><spring:message code="L06535"/><%--취소--%></button>
+                        </div>
+                        <div class="col-sm-3 nopadding">
                             <button class="send btn btn-primary btn-lg btn-block btn-save input-text"><spring:message code="L06533"/><%--추천서 요청 메일 보내기--%></button>
                         </div>
                     </div>
                 </div>
             </div>
-            <%--<form:hidden path="userId" />--%>
-            <input type="hidden" name="applNo"/>
-        </form>
+            <form:hidden path="applNo"/>
+            <form:hidden path="recSeq"/>
+        </form:form>
     </div>
 
     <%-- 미리보기 팝업 --%>
-    <div id="modal_popup1" class="popup0_wrap" style="display:none; margin-top:-250px; margin-left:-250px;">
+    <div id="modal_popup1" class="popup0_wrap" style="display:none;">
         <div id="bpopContent" class="popuphead">
             <h1>
                 <label id="searchTitle"> <spring:message code="L06531"/><%--미리 보기--%> </label>
@@ -148,7 +154,18 @@
             </div>
         </div>
         <div class="spacer-tiny">&nbsp;</div>
-        <%-- TODO 첨부파일 --%>
+        <div class="form-group">
+            <div class="col-sm-12">
+                <div class="col-sm-2 text-gray">
+                    <label for="reqText" class="control-label"><spring:message code="L06505"/><%--첨부 파일--%></label>
+                </div>
+                <div class="col-sm-10">
+                    <div class="col-sm-12 nopadding input-group">
+                        <a href="<spring:eval expression="@app.getProperty('path.static')" />/etc/LetterOfRecommendation.docx">Letter Of Recommendation.docx</a>
+                    </div>
+                </div>
+            </div>
+        </div>
         <a class="btn_close b-close" title="닫기"><img src="<spring:eval expression="@app.getProperty('path.static')" />/img/btn_close1.png" alt="닫기"></a>
     </div>
 </section>
@@ -156,6 +173,9 @@
 <script type="text/javascript">
 $(document).ready(function() {
 
+    var form = document.getElementById('reqRec');
+
+    <%-- 화면 가리개 --%>
     var hideDialog = function(obj) {
         $("#overlay").hide();
         $(obj).fadeOut(300);
@@ -174,12 +194,16 @@ $(document).ready(function() {
             });
         }
     };
+    <%-- 화면 가리개 --%>
 
+    <%-- 미리 보기 팝업 처리 --%>
     $('.b-close').on('click', function(e) {
         e.preventDefault();
         hideDialog('#modal_popup1');
     });
+    <%-- 미리 보기 팝업 처리 --%>
 
+    <%-- 하단 버튼 처리 --%>
     $('.preview').click(function(e){
         e.preventDefault();
         showDialog(true, '#modal_popup1');
@@ -205,22 +229,40 @@ $(document).ready(function() {
                 var linkString = "<spring:eval expression="@app.getProperty('site.url')" />" + "${contextPath}/application/recommend?key=" + obj.recKey;
                 var link = "<a href='" + linkString + "' target='_blank'>" + linkString + "</a>";
 
-                document.getElementById('pv-reqText').innerHTML = reqText + info + link;
+                document.getElementById('pv-reqText').innerHTML = apex.newLine2Br(reqText) + info + link;
             }
         });
 
     });
 
-    <%-- 하단 버튼 처리 --%>
-    var formProcess = function(event) {
-        event.preventDefault();
-        if (checkPwd()) {
-            var form = document.getElementById('reqRec');
-            form.action = "${contextPath}/user/savePwd";
-            form.submit();
-        }
-    };
-    $('.btn-save').on('click', formProcess);
+    $('.save').click(function(e) {
+        e.preventDefault();
+        form.action = "${contextPath}/application/recReq/save";
+        form.method = "post";
+        form.submit();
+    });
+
+    $('.cancel').click(function(e) {
+        e.preventDefault();
+        form.action = "${contextPath}/application/recReq/cancel";
+        form.method = "post";
+        form.submit();
+    });
+
+    $('.send').click(function(e) {
+        e.preventDefault();
+    });
+
+
+    <%--var formProcess = function(event) {--%>
+        <%--event.preventDefault();--%>
+
+        <%--var form = document.getElementById('reqRec');--%>
+        <%--form.action = "${contextPath}/user/savePwd";--%>
+        <%--form.submit();--%>
+
+    <%--};--%>
+    <%--$('.btn-save').on('click', formProcess);--%>
     <%-- 하단 버튼 처리 --%>
 
     <%-- action 성공 여부 알림 처리 --%>
@@ -229,15 +271,10 @@ $(document).ready(function() {
             result = '${result}';
         if (msg.length > 0) {
             confirm(msg);
-            if (result == 'SUCCESS') {
-                document.location.href = '${contextPath}/user/login';
-            }
         }
     };
     showActionResult();
     <%-- action 성공 여부 알림 처리 --%>
-
-    $('#pswd').focus();
 });
 </script>
 </content>

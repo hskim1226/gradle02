@@ -76,7 +76,7 @@
                                                         <div class="col-sm-3">
                                                             <button id="recommendation${itemStatus.index}" class="btn btn-block btn-info recommendation ${(item.admsTypeCode=="C" || item.admsTypeCode=="D")?"":"disabled"}"
                                                                     data-applNo="${item.applNo}" data-admsNo="${item.admsNo}" data-entrYear="${item.entrYear}"
-                                                                    data-admsTypeCode="${item.admsTypeCode}" <c:if test="${item.applStsCode!='00010'}">disabled</c:if> ><spring:message code="L00315"/><%--추천서 요청--%></button>
+                                                                    data-admsTypeCode="${item.admsTypeCode}"><spring:message code="L00315"/><%--추천서 요청--%></button>
                                                         </div>
                                                         <div class="col-sm-3">
                                                             <button id="pay${itemStatus.index}" class="btn btn-block btn-primary pay ${item.applStsCode=="00010"?"":(item.applStsCode=="00021"?"":"disabled")}"
@@ -143,8 +143,8 @@
                 e.preventDefault();
                 var form = document.getElementById('LGD_PAYINFO');
                 setHidden(e.target);
-                form.action = "${contextPath}/application/recommendation";
-                form.target = "_blank";
+                form.action = "${contextPath}/application/recReq/list";
+//                form.target = "_blank";
                 form.submit();
             });
             $('.pay').click(function(e){

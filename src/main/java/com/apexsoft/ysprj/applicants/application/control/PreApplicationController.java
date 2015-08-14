@@ -7,10 +7,8 @@ import com.apexsoft.framework.exception.YSBizNoticeException;
 import com.apexsoft.framework.message.MessageResolver;
 import com.apexsoft.framework.persistence.dao.CommonDAO;
 import com.apexsoft.ysprj.applicants.admission.service.AdmissionService;
-import com.apexsoft.ysprj.applicants.application.domain.ApplicationIdentifier;
-import com.apexsoft.ysprj.applicants.application.domain.CustomMyList;
-import com.apexsoft.ysprj.applicants.application.domain.ParamForApplication;
-import com.apexsoft.ysprj.applicants.application.domain.Recommendation;
+import com.apexsoft.ysprj.applicants.application.domain.*;
+import com.apexsoft.ysprj.applicants.application.service.RecommendationService;
 import com.apexsoft.ysprj.applicants.common.util.CryptoUtil;
 import com.apexsoft.ysprj.applicants.common.util.StringUtil;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -42,6 +40,9 @@ public class PreApplicationController {
 
     @Autowired
     private AdmissionService admissionService;
+
+    @Autowired
+    private RecommendationService recommendationService;
 
     @Autowired
     private ServletContext context;
@@ -153,7 +154,7 @@ public class PreApplicationController {
     }
 
     @RequestMapping(value = "/recReq/list")
-    public ModelAndView recommendationList(ModelAndView mv) {
+    public ModelAndView recommendationList(Application application, ModelAndView mv) {
         mv.setViewName("application/recReqList");
 
         // TODO : 추천 요청 리스트 가져와서 mv에 세팅
@@ -162,7 +163,7 @@ public class PreApplicationController {
     }
 
     @RequestMapping(value = "/recReq/edit")
-    public ModelAndView recommendationEdit(ModelAndView mv) {
+    public ModelAndView recommendationEdit(Recommendation recommendation, ModelAndView mv) {
         mv.setViewName("application/recReqEdit");
 
         // TODO : 추천 요청 조회 mv에 세팅
@@ -181,16 +182,7 @@ public class PreApplicationController {
         ExecutionContext ec = new ExecutionContext();
 
         int applNo = recommendation.getApplNo();
-        String profName = recommendation.getProfName();
-        String profMailAddr = recommendation.getProfMailAddr();
-        String input = applNo + ";" + profName + ";" + profMailAddr;
-
-        String encrypted = null;
-        try {
-            encrypted = CryptoUtil.getCryptedString(context, input, true);
-        } catch (IOException e) {
-            throw new YSBizException(e);
-        }
+        String encrypted = getEncryptedRecKey(recommendation);
         recommendation.setRecKey(encrypted);
         recommendation.setRecStsCode("00001");
 
@@ -204,5 +196,54 @@ public class PreApplicationController {
         ec.setData(json);
 
         return ec;
+    }
+
+    @RequestMapping(value = "/recReq/save", method = RequestMethod.POST)
+    public ModelAndView recommendationSave(Recommendation recommendation, BindingResult bindingResult, ModelAndView mv) {
+        if (bindingResult.hasErrors()) {
+            System.err.println(bindingResult);
+        }
+        mv.setViewName("application/recReqEdit");
+        recommendation.setRecKey(getEncryptedRecKey(recommendation));
+        ExecutionContext ec = recommendationService.saveRecommendationRequest(recommendation);
+
+        // TODO : DB 저장 후 model에 DB 내용을 채워서 편집 화면으로 이동
+        Recommendation result = (Recommendation)ec.getData();
+        mv.addObject("recommendation", result);
+        mv.addObject("resultMsg", ec.getMessage());
+
+        return mv;
+    }
+
+    @RequestMapping(value = "/recReq/cancel", method = RequestMethod.POST)
+    public ModelAndView recommendationCancel(Recommendation recommendation, BindingResult bindingResult, ModelAndView mv) {
+        if (bindingResult.hasErrors()) {
+            System.err.println(bindingResult);
+        }
+        // TODO : DB cancel
+        mv.setViewName("application/recReqList");
+
+        ExecutionContext ec = recommendationService.deleteRecommendationRequest(recommendation);
+
+        Recommendation result = (Recommendation)ec.getData();
+        mv.addObject("recommendation", result);
+        mv.addObject("resultMsg", ec.getMessage());
+
+        return mv;
+    }
+
+    private String getEncryptedRecKey(Recommendation recommendation) {
+        int applNo = recommendation.getApplNo();
+        String profName = recommendation.getProfName();
+        String profMailAddr = recommendation.getProfMailAddr();
+        String input = applNo + ";" + profName + ";" + profMailAddr;
+
+        String encrypted = null;
+        try {
+            encrypted = CryptoUtil.getCryptedString(context, input, true);
+        } catch (IOException e) {
+            throw new YSBizException(e);
+        }
+        return encrypted;
     }
 }

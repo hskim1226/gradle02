@@ -609,7 +609,7 @@ footer p.ft_right {
 
 /* 모달팝업(너비800) */
 .popup0_wrap {
-	width:800px;
+	width:900px;
 	min-height:200px;
 	padding-bottom:15px;
 	border-radius:20px;
@@ -617,10 +617,11 @@ footer p.ft_right {
 	background:#fff;
 	position:fixed;
 	z-index:999;
-	left:20%;
+	left:50%;
 	top:50%;
 	overflow:hidden;
 	box-shadow:2px 2px 4px #aeaeae;
+	transform: translate(-50%, -50%);
 }
 
 .popup0_wrap .popuphead {

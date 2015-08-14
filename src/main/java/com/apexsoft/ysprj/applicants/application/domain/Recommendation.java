@@ -1,13 +1,17 @@
 package com.apexsoft.ysprj.applicants.application.domain;
 
+import java.util.Date;
+
 /**
  * Created by hanmomhanda on 15. 8. 12.
  */
 public class Recommendation {
 
+    private int recNo;
+
     private int applNo;
 
-    private int docSeq;
+    private int recSeq;
 
     private String profName;
 
@@ -19,6 +23,22 @@ public class Recommendation {
 
     private String recStsCode;
 
+    private String creId;
+
+    private Date creDate;
+
+    private String modId;
+
+    private Date modDate;
+
+    public int getRecNo() {
+        return recNo;
+    }
+
+    public void setRecNo(int recNo) {
+        this.recNo = recNo;
+    }
+
     public int getApplNo() {
         return applNo;
     }
@@ -27,12 +47,12 @@ public class Recommendation {
         this.applNo = applNo;
     }
 
-    public int getDocSeq() {
-        return docSeq;
+    public int getRecSeq() {
+        return recSeq;
     }
 
-    public void setDocSeq(int docSeq) {
-        this.docSeq = docSeq;
+    public void setRecSeq(int recSeq) {
+        this.recSeq = recSeq;
     }
 
     public String getProfName() {
@@ -73,5 +93,37 @@ public class Recommendation {
 
     public void setRecStsCode(String recStsCode) {
         this.recStsCode = recStsCode;
+    }
+
+    public String getCreId() {
+        return creId;
+    }
+
+    public void setCreId(String creId) {
+        this.creId = creId;
+    }
+
+    public Date getCreDate() {
+        return creDate;
+    }
+
+    public void setCreDate(Date creDate) {
+        this.creDate = creDate;
+    }
+
+    public String getModId() {
+        return modId;
+    }
+
+    public void setModId(String modId) {
+        this.modId = modId;
+    }
+
+    public Date getModDate() {
+        return modDate;
+    }
+
+    public void setModDate(Date modDate) {
+        this.modDate = modDate;
     }
 }
