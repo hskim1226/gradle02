@@ -8,6 +8,8 @@ import com.apexsoft.ysprj.applicants.application.domain.Recommendation;
  */
 public interface RecommendationService {
 
+    ExecutionContext retrieveRecommendation(int recNo);
+
     ExecutionContext retrieveRecommendationList(int applNo);
 
     ExecutionContext saveRecommendationRequest(Recommendation recommendation);

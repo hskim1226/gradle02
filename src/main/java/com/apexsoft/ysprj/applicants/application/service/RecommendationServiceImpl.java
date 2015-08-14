@@ -25,11 +25,17 @@ public class RecommendationServiceImpl implements RecommendationService {
     @Autowired
     private CommonDAO commonDAO;
 
-    @Autowired
-    private CommonService commonService;
+    @Override
+    public ExecutionContext retrieveRecommendation(int recNo) {
+        ExecutionContext ec = new ExecutionContext();
 
-    private final String APP_NULL_STATUS = "00000";      // 에러일 때 반환값
-    private final String LANG_CAREER_SAVED = "00003";    // 어학/경력 저장
+        Recommendation recommendation =
+                commonDAO.queryForObject(NAME_SPACE + "CustomRecommendationMapper.selectByRecNo",
+                        recNo, Recommendation.class);
+
+        ec.setData(recommendation);
+        return ec;
+    }
 
     @Override
     public ExecutionContext retrieveRecommendationList(int applNo) {
@@ -39,6 +45,7 @@ public class RecommendationServiceImpl implements RecommendationService {
                 commonDAO.queryForList(NAME_SPACE + "CustomRecommendationMapper.selectListByApplNo",
                         applNo, Recommendation.class);
 
+        ec.setData(recommendationList);
         return ec;
     }
 

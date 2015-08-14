@@ -154,19 +154,28 @@ public class PreApplicationController {
     }
 
     @RequestMapping(value = "/recReq/list")
-    public ModelAndView recommendationList(Application application, ModelAndView mv) {
+    public ModelAndView recommendationList(Basis basis, ModelAndView mv) {
         mv.setViewName("application/recReqList");
+        Application application = basis.getApplication();
+        int applNo = application.getApplNo();
 
-        // TODO : 추천 요청 리스트 가져와서 mv에 세팅
+        ExecutionContext ec = recommendationService.retrieveRecommendationList(applNo);
 
+        mv.addObject("recommendationList", ec.getData());
+        mv.addObject("applNo", applNo);
         return mv;
     }
 
     @RequestMapping(value = "/recReq/edit")
     public ModelAndView recommendationEdit(Recommendation recommendation, ModelAndView mv) {
         mv.setViewName("application/recReqEdit");
-
-        // TODO : 추천 요청 조회 mv에 세팅
+        int recNo = recommendation.getRecNo();
+        if (recNo > 0) {
+            ExecutionContext ec = recommendationService.retrieveRecommendation(recommendation.getRecNo());
+            mv.addObject("recommendation", ec.getData());
+        } else {
+            mv.addObject("recommendation", recommendation);
+        }
 
         return mv;
     }
