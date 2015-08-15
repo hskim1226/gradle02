@@ -9,6 +9,7 @@ import com.apexsoft.framework.persistence.dao.CommonDAO;
 import com.apexsoft.ysprj.applicants.admission.service.AdmissionService;
 import com.apexsoft.ysprj.applicants.application.domain.*;
 import com.apexsoft.ysprj.applicants.application.service.RecommendationService;
+import com.apexsoft.ysprj.applicants.application.validator.RecommendationValidator;
 import com.apexsoft.ysprj.applicants.common.util.CryptoUtil;
 import com.apexsoft.ysprj.applicants.common.util.StringUtil;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -43,6 +44,9 @@ public class PreApplicationController {
 
     @Autowired
     private RecommendationService recommendationService;
+
+    @Autowired
+    private RecommendationValidator recommendationValidator;
 
     @Autowired
     private ServletContext context;
@@ -210,11 +214,17 @@ public class PreApplicationController {
     }
 
     @RequestMapping(value = "/recReq/save", method = RequestMethod.POST)
-    public ModelAndView recommendationSave(Recommendation recommendation, BindingResult bindingResult, ModelAndView mv) {
-        if (bindingResult.hasErrors()) {
-            System.err.println(bindingResult);
-        }
+    public ModelAndView recommendationSave(Recommendation recommendation,
+                                           BindingResult bindingResult,
+                                           ModelAndView mv) {
+
+        recommendationValidator.validate(recommendation, bindingResult);
         mv.setViewName("application/recReqEdit");
+        if (bindingResult.hasErrors()) {
+            mv.addObject("resultMsg", MessageResolver.getMessage("U334"));
+            return mv;
+        }
+
         recommendation.setRecKey(getEncryptedRecKey(recommendation));
         ExecutionContext ec = recommendationService.saveRecommendationRequest(recommendation);
 
@@ -231,14 +241,14 @@ public class PreApplicationController {
         if (bindingResult.hasErrors()) {
             System.err.println(bindingResult);
         }
-        // TODO : DB cancel
         mv.setViewName("application/recReqList");
 
         ExecutionContext ec = recommendationService.deleteRecommendationRequest(recommendation);
+        ExecutionContext ec2 = recommendationService.retrieveRecommendationList(recommendation.getApplNo());
 
-        Recommendation result = (Recommendation)ec.getData();
-        mv.addObject("recommendation", result);
+        mv.addObject("recommendationList", ec2.getData());
         mv.addObject("resultMsg", ec.getMessage());
+        mv.addObject("applNo", recommendation.getApplNo());
 
         return mv;
     }

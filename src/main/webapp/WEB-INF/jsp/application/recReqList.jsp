@@ -5,7 +5,7 @@
     <title><spring:message code="L06551"/><%--추천서 요청 내역--%></title>
     <style>
         .editable {
-            cursor: hand;
+            cursor: pointer;
         }
     </style>
 </head>
@@ -42,7 +42,7 @@
                                             <tr>
                                             <c:choose>
                                                 <c:when test='${item.getRecStsCode().equals("00001")}'>
-                                                    <td valign="middle" style="vertical-align: middle;"><span class="editable" data-recNo="${item.recNo}">${item.recSeq}</span></td>
+                                                    <td valign="middle" style="vertical-align: middle;"><span class="editable" data-recNo="${item.recNo}">${itemStatus.index+1}</span></td>
                                                     <td valign="middle" style="vertical-align: middle;"><span class="editable" data-recNo="${item.recNo}">${item.profName}</span></td>
                                                     <td valign="middle" style="vertical-align: middle;"><span class="editable" data-recNo="${item.recNo}">${item.profMailAddr}</span></td>
                                                     <td valign="middle" style="vertical-align: middle;"><span class="editable" data-recNo="${item.recNo}">${pageContext.response.locale == 'en' ? item.recStsNameXxen : item.recStsName}</span></td>

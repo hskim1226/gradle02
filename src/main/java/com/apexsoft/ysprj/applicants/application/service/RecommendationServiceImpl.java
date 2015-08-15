@@ -62,6 +62,7 @@ public class RecommendationServiceImpl implements RecommendationService {
         if (isUpdate) {
             r1 = commonDAO.updateItem(recommendation, NAME_SPACE, "CustomRecommendationMapper", ".updateSelective");
         } else {
+            recSeq = commonDAO.queryForInt(NAME_SPACE + "CustomRecommendationMapper.selectMaxRecSeqByApplNo", applNo);
             recommendation.setRecSeq(++recSeq);
             r1 = commonDAO.insertItem(recommendation, NAME_SPACE, "CustomRecommendationMapper");
         }
@@ -95,7 +96,28 @@ public class RecommendationServiceImpl implements RecommendationService {
 
     @Override
     public ExecutionContext deleteRecommendationRequest(Recommendation recommendation) {
-        return null;
+        ExecutionContext ec = new ExecutionContext();
+        int applNo = recommendation.getApplNo();
+        int recNo = recommendation.getRecNo();
+        int r1 = 0;
+
+        r1 = commonDAO.delete(NAME_SPACE + "CustomRecommendationMapper.deleteByPrimaryKey", recommendation);
+
+        if (r1 == 1) {
+            ec.setResult(ExecutionContext.SUCCESS);
+            ec.setMessage(MessageResolver.getMessage("U06507")); // 추천서 요청을 취소했습니다.
+        } else {
+            ec.setResult(ExecutionContext.FAIL);
+            ec.setMessage(MessageResolver.getMessage("U06508")); // 추천서 요청 취소에 실패했습니다.
+            ec.setErrCode("ERR0084");
+            Map<String, String> errorInfo = new HashMap<String, String>();
+            errorInfo.put("applNo", String.valueOf(applNo));
+            errorInfo.put("recNo", String.valueOf(recNo));
+            ec.setErrorInfo(new ErrorInfo(errorInfo));
+
+            throw new YSBizException(ec);
+        }
+        return ec;
     }
 
     @Override

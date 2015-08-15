@@ -192,4 +192,16 @@
         and a.REC_STS_CODE = b.CODE
     </select>
 
+    <select id="selectMaxRecSeqByApplNo" resultType="java.lang.Integer"
+            parameterType="java.lang.Integer">
+        select MAX(REC_SEQ)
+        from APPL_REC a
+        where a.APPL_NO = #{applNo,jdbcType=INTEGER}
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="com.apexsoft.ysprj.applicants.application.domain.Recommendation">
+        delete from APPL_REC
+        where REC_NO = #{recNo,jdbcType=INTEGER}
+    </delete>
+
 </mapper>

@@ -48,15 +48,15 @@
                             </div>
                             <div class="col-sm-9">
                                 <div class="col-sm-12 nopadding input-group">
-                                    <form:input path="profName" cssClass="form-control input-text" maxlength="16" placeholder='${msg.getMsg("L06502")}' />  <%--교수 이름--%>
+                                    <form:input path="profName" cssClass="form-control input-text" maxlength="40" placeholder='${msg.getMsg("L06502")}' />  <%--교수 이름--%>
                                 </div>
-                        <%--<spring:bind path="profName">--%>
-                            <%--<c:if test="${status.error}">--%>
-                                <%--<div class="col-sm-12 nopadding">--%>
-                                    <%--<div class="validation-error">${status.errorMessage}</div>--%>
-                                <%--</div>--%>
-                            <%--</c:if>--%>
-                        <%--</spring:bind>--%>
+                        <spring:bind path="profName">
+                            <c:if test="${status.error}">
+                                <div class="col-sm-12 nopadding">
+                                    <div class="validation-error">${status.errorMessage}</div>
+                                </div>
+                            </c:if>
+                        </spring:bind>
                             </div>
                         </div>
                     </div>
@@ -67,9 +67,15 @@
                             </div>
                             <div class="col-sm-9">
                                 <div class="col-sm-12 nopadding input-group">
-                                    <%--<input type="text" id="profMailAddr" name="profMailAddr" class="form-control input-text" maxlength="16" placeholder="<spring:message code="L06503"/>" />  &lt;%&ndash;교수 e-mail&ndash;%&gt;--%>
-                                    <form:input path="profMailAddr" cssClass="form-control input-text" maxlength="16" placeholder='${msg.getMsg("L06503")}' />  <%--교수 e-mail--%>
+                                    <form:input path="profMailAddr" cssClass="form-control input-text emailOnly" maxlength="40" placeholder='${msg.getMsg("L06503")}' />  <%--교수 e-mail--%>
                                 </div>
+                        <spring:bind path="profMailAddr">
+                            <c:if test="${status.error}">
+                                <div class="col-sm-12 nopadding">
+                                    <div class="validation-error">${status.errorMessage}</div>
+                                </div>
+                            </c:if>
+                        </spring:bind>
                             </div>
                         </div>
                     </div>
@@ -80,9 +86,15 @@
                             </div>
                             <div class="col-sm-9">
                                 <div class="col-sm-12 nopadding input-group">
-                                    <%--<textarea id="reqText" name="reqText" class="form-control" rows="10" placeholder="<spring:message code="U06503"/>"></textarea>  &lt;%&ndash;교수님께 보낼 메일 내용을 500자 이내로 입력해주세요.&ndash;%&gt;--%>
                                     <form:textarea path="reqText" cssClass="form-control" rows="10" placeholder='${msg.getMsg("U06503")}'></form:textarea>  <%--교수님께 보낼 메일 내용을 500자 이내로 입력해주세요.--%>
                                 </div>
+                        <spring:bind path="reqText">
+                            <c:if test="${status.error}">
+                                <div class="col-sm-12 nopadding">
+                                    <div class="validation-error">${status.errorMessage}</div>
+                                </div>
+                            </c:if>
+                        </spring:bind>
                             </div>
                         </div>
                     </div>
@@ -102,6 +114,7 @@
                     </div>
                 </div>
             </div>
+            <form:hidden path="recNo"/>
             <form:hidden path="applNo"/>
             <form:hidden path="recSeq"/>
         </form:form>
@@ -122,7 +135,7 @@
                 </div>
                 <div class="col-sm-10">
                     <div class="col-sm-12 nopadding input-group">
-                        <input type="text" id="pv-profName"class="form-control input-text" maxlength="50" placeholder="<spring:message code="L06502"/>" readonly="true"/>  <%--교수 이름--%>
+                        <input type="text" id="pv-profName" class="form-control input-text" maxlength="120" placeholder="<spring:message code="L06502"/>" readonly="true"/>  <%--교수 이름--%>
                     </div>
                 </div>
             </div>
@@ -135,7 +148,7 @@
                 </div>
                 <div class="col-sm-10">
                     <div class="col-sm-12 nopadding input-group">
-                        <input type="text" id="pv-profMailAddr" class="form-control input-text" maxlength="50" placeholder="<spring:message code="L06503"/>" readonly="true" />  <%--교수 e-mail--%>
+                        <input type="text" id="pv-profMailAddr" class="form-control input-text" maxlength="120" placeholder="<spring:message code="L06503"/>" readonly="true" />  <%--교수 e-mail--%>
                     </div>
                 </div>
             </div>
@@ -252,6 +265,10 @@ $(document).ready(function() {
     $('.send').click(function(e) {
         e.preventDefault();
     });
+
+    <%-- 메일 주소 validation --%>
+    apex.emailCheck('emailOnly', '<spring:message code="APEXJS_0003"/>'); // 이메일 주소를 정확히 기재해 주세요.
+    <%-- 메일 주소 validation --%>
 
 
     <%--var formProcess = function(event) {--%>
