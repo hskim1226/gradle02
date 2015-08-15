@@ -30,11 +30,15 @@ public class RecommendationValidator implements Validator {
         }
         if (recommendation.getProfMailAddr() == null || recommendation.getProfMailAddr().length() == 0) {
             errors.rejectValue("profMailAddr", "U331",
-                    new Object[]{MessageResolver.getMessage("L06503")}, MessageResolver.getMessage("U332"));  /*"교수 이름"*/
+                    new Object[]{MessageResolver.getMessage("L06503")}, MessageResolver.getMessage("U332"));  /*"교수 e-mail"*/
+        }
+        if (recommendation.getReqSubject() == null || recommendation.getReqSubject().length() == 0) {
+            errors.rejectValue("reqSubject", "U331",
+                    new Object[]{MessageResolver.getMessage("L06536")}, MessageResolver.getMessage("U332"));  /*"메일 제목"*/
         }
         if (recommendation.getReqText() == null || recommendation.getReqText().length() == 0) {
             errors.rejectValue("reqText", "U331",
-                    new Object[]{MessageResolver.getMessage("L06504")}, MessageResolver.getMessage("U332"));  /*"교수 이름"*/
+                    new Object[]{MessageResolver.getMessage("L06504")}, MessageResolver.getMessage("U332"));  /*"요청 내용"*/
         }
     }
 }

@@ -13,19 +13,33 @@ public class Recommendation {
 
     private int recSeq;
 
+    private String applicantName;
+
+    private String applicantNationality;
+
+    private String degree;
+
+    private String major;
+
     private String profName;
 
     private String profMailAddr;
 
+    private String reqSubject;
+
     private String reqText;
 
     private String recKey;
+
+    private String mailContents;
 
     private String recStsCode;
 
     private String recStsName;
 
     private String recStsNameXxen;
+
+    private String dueDate;
 
     private String creId;
 
@@ -59,6 +73,38 @@ public class Recommendation {
         this.recSeq = recSeq;
     }
 
+    public String getApplicantName() {
+        return applicantName;
+    }
+
+    public void setApplicantName(String applicantName) {
+        this.applicantName = applicantName;
+    }
+
+    public String getApplicantNationality() {
+        return applicantNationality;
+    }
+
+    public void setApplicantNationality(String applicantNationality) {
+        this.applicantNationality = applicantNationality;
+    }
+
+    public String getDegree() {
+        return degree;
+    }
+
+    public void setDegree(String degree) {
+        this.degree = degree;
+    }
+
+    public String getMajor() {
+        return major;
+    }
+
+    public void setMajor(String major) {
+        this.major = major;
+    }
+
     public String getProfName() {
         return profName;
     }
@@ -75,6 +121,14 @@ public class Recommendation {
         this.profMailAddr = profMailAddr;
     }
 
+    public String getReqSubject() {
+        return reqSubject;
+    }
+
+    public void setReqSubject(String reqSubject) {
+        this.reqSubject = reqSubject;
+    }
+
     public String getReqText() {
         return reqText;
     }
@@ -89,6 +143,14 @@ public class Recommendation {
 
     public void setRecKey(String recKey) {
         this.recKey = recKey;
+    }
+
+    public String getMailContents() {
+        return mailContents;
+    }
+
+    public void setMailContents(String mailContents) {
+        this.mailContents = mailContents;
     }
 
     public String getRecStsCode() {
@@ -113,6 +175,14 @@ public class Recommendation {
 
     public void setRecStsNameXxen(String recStsNameXxen) {
         this.recStsNameXxen = recStsNameXxen;
+    }
+
+    public String getDueDate() {
+        return dueDate;
+    }
+
+    public void setDueDate(String dueDate) {
+        this.dueDate = dueDate;
     }
 
     public String getCreId() {

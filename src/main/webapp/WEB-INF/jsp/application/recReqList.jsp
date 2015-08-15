@@ -17,7 +17,7 @@
                 <div class="col-sm-offset-1 col-sm-10">
                     <div class="form-group inner-container-white">
                         <div class="col-sm-offset-1 col-sm-10 text-gray">
-                            <i class="fa fa-list fa-3x" style="vertical-align: middle; line-height:40px;"></i>&nbsp;&nbsp;<span style="font-size: 35px; vertical-align: middle; line-height:40px;"><b><spring:message code="L00301"/><%--지원 내역--%></b></span>
+                            <i class="fa fa-list fa-3x" style="vertical-align: middle; line-height:40px;"></i>&nbsp;&nbsp;<span style="font-size: 35px; vertical-align: middle; line-height:40px;"><b><spring:message code="L06551"/><%--추천서 요청 내역--%></b></span>
                         </div>
                         <div class="spacer-small">&nbsp;</div>
                         <div class="col-sm-offset-1 col-sm-10 align-center">
@@ -48,7 +48,7 @@
                                                     <td valign="middle" style="vertical-align: middle;"><span class="editable" data-recNo="${item.recNo}">${pageContext.response.locale == 'en' ? item.recStsNameXxen : item.recStsName}</span></td>
                                                 </c:when>
                                                 <c:otherwise>
-                                                    <td valign="middle" style="vertical-align: middle;">${item.recSeq}</td>
+                                                    <td valign="middle" style="vertical-align: middle;">${itemStatus.index+1}</td>
                                                     <td valign="middle" style="vertical-align: middle;">${item.profName}</td>
                                                     <td valign="middle" style="vertical-align: middle;">${item.profMailAddr}</td>
                                                     <td valign="middle" style="vertical-align: middle;">${pageContext.response.locale == 'en' ? item.recStsNameXxen : item.recStsName}</td>

@@ -5,5 +5,6 @@ package com.apexsoft.framework.mail;
  */
 public enum MailType {
     DUE_NOTI,
-    COMPLETE_NOTI;
+    COMPLETE_NOTI,
+    REQUEST_RECOMMENDATION;
 }

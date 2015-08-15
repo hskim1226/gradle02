@@ -23,6 +23,10 @@ public abstract class Mail {
 
     String contents;
 
+    Object info;
+
+    Class infoType;
+
     Map<Object, String> contentsParam = new HashMap<Object, String>();
 
     public String getFrom() {
@@ -75,6 +79,22 @@ public abstract class Mail {
 
     public Map<Object, String> getContentsParam() {
         return contentsParam;
+    }
+
+    public Object getInfo() {
+        return info;
+    }
+
+    public void setInfo(Object info) {
+        this.info = info;
+    }
+
+    public Class getInfoType() {
+        return infoType;
+    }
+
+    public void setInfoType(Class infoType) {
+        this.infoType = infoType;
     }
 
     public Mail withContentsParam(Object key, String value) {

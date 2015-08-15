@@ -17,7 +17,6 @@
         .span-box {
             display: inline-block;
             position: relative;
-            width: 100%;
             padding: 6px 12px;
             font-size: 14px;
             line-height: 1.42857143;
@@ -25,7 +24,8 @@
             color: #555;
             border: 1px solid #ccc;
             overflow: auto;
-            height: 250px;
+            width: 690px;
+            height: 180px;
         }
     </style>
 </head>
@@ -76,6 +76,25 @@
                                 </div>
                             </c:if>
                         </spring:bind>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group required">
+                        <div class="col-sm-offset-1 col-sm-10">
+                            <div class="col-sm-3 text-gray">
+                                <label for="reqSubject" class="control-label"><spring:message code="L06536"/><%--메일 제목--%></label>
+                            </div>
+                            <div class="col-sm-9">
+                                <div class="col-sm-12 nopadding input-group">
+                                    <form:input path="reqSubject" cssClass="form-control input-text" maxlength="40" placeholder='${msg.getMsg("U06511")}' />  <%--메일 제목을 입력해 주세요--%>
+                                </div>
+                                <spring:bind path="reqSubject">
+                                    <c:if test="${status.error}">
+                                        <div class="col-sm-12 nopadding">
+                                            <div class="validation-error">${status.errorMessage}</div>
+                                        </div>
+                                    </c:if>
+                                </spring:bind>
                             </div>
                         </div>
                     </div>
@@ -157,6 +176,19 @@
         <div class="form-group">
             <div class="col-sm-12">
                 <div class="col-sm-2 text-gray">
+                    <label for="reqSubject" class="control-label"><spring:message code="L06536"/><%--메일 제목--%></label>
+                </div>
+                <div class="col-sm-10">
+                    <div class="col-sm-12 nopadding input-group">
+                        <input type="text" id="pv-reqSubject" class="form-control input-text" maxlength="120" placeholder="<spring:message code="U06511"/>" readonly="true" />  <%--메일 제목을 입력해 주세요--%>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="spacer-tiny">&nbsp;</div>
+        <div class="form-group">
+            <div class="col-sm-12">
+                <div class="col-sm-2 text-gray">
                     <label for="reqText" class="control-label"><spring:message code="L06504"/><%--요청 내용--%></label>
                 </div>
                 <div class="col-sm-10">
@@ -166,19 +198,18 @@
                 </div>
             </div>
         </div>
-        <div class="spacer-tiny">&nbsp;</div>
-        <div class="form-group">
-            <div class="col-sm-12">
-                <div class="col-sm-2 text-gray">
-                    <label for="reqText" class="control-label"><spring:message code="L06505"/><%--첨부 파일--%></label>
-                </div>
-                <div class="col-sm-10">
-                    <div class="col-sm-12 nopadding input-group">
-                        <a href="<spring:eval expression="@app.getProperty('path.static')" />/etc/LetterOfRecommendation.docx">Letter Of Recommendation.docx</a>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <%--<div class="form-group">--%>
+            <%--<div class="col-sm-12">--%>
+                <%--<div class="col-sm-2 text-gray">--%>
+                    <%--<label for="reqText" class="control-label"><spring:message code="L06505"/>&lt;%&ndash;첨부 파일&ndash;%&gt;</label>--%>
+                <%--</div>--%>
+                <%--<div class="col-sm-10">--%>
+                    <%--<div class="col-sm-12 nopadding input-group">--%>
+                        <%--<a href="<spring:eval expression="@app.getProperty('path.static')" />/etc/LetterOfRecommendation.docx">Letter Of Recommendation.docx</a>--%>
+                    <%--</div>--%>
+                <%--</div>--%>
+            <%--</div>--%>
+        <%--</div>--%>
         <a class="btn_close b-close" title="닫기"><img src="<spring:eval expression="@app.getProperty('path.static')" />/img/btn_close1.png" alt="닫기"></a>
     </div>
 </section>
@@ -225,10 +256,12 @@ $(document).ready(function() {
         var formData = $('#reqRec').serialize(),
             profName = document.getElementById('profName').value,
             profMailAddr = document.getElementById('profMailAddr').value,
+            reqSubject = document.getElementById('reqSubject').value,
             reqText = document.getElementById('reqText').value;
 
         document.getElementById('pv-profName').value = profName,
         document.getElementById('pv-profMailAddr').value = profMailAddr,
+        document.getElementById('pv-reqSubject').value = reqSubject,
         document.getElementById('pv-reqText').value = reqText;
 
         $.ajax({
@@ -238,17 +271,19 @@ $(document).ready(function() {
             success: function(data) {
                 var container = JSON.parse(data),
                     obj = JSON.parse(container.data);
-                var info = "<br/><br/><spring:message code="L06534"/><br/>" + "<spring:message code="U06504"/><br/>";
-                var linkString = "<spring:eval expression="@app.getProperty('site.url')" />" + "${contextPath}/application/recommend?key=" + obj.recKey;
-                var link = "<a href='" + linkString + "' target='_blank'>" + linkString + "</a>";
+                <%--var info = "<br/><br/><spring:message code="L06534"/><br/>" + "<spring:message code="U06504"/><br/>";--%>
+                <%--var linkString = "<spring:eval expression="@app.getProperty('site.url')" />" + "${contextPath}/application/recommend?key=" + obj.recKey;--%>
+                <%--var link = "<a href='" + linkString + "' target='_blank'>" + linkString + "</a>";--%>
 
-                document.getElementById('pv-reqText').innerHTML = apex.newLine2Br(reqText) + info + link;
+//                document.getElementById('pv-reqText').innerHTML = apex.newLine2Br(reqText) + obj.linkText;
+                document.getElementById('pv-reqText').innerHTML = apex.newLine2Br(obj.mailContents);
             }
         });
 
     });
 
     $('.save').click(function(e) {
+        $("#overlay").show();
         e.preventDefault();
         form.action = "${contextPath}/application/recReq/save";
         form.method = "post";
@@ -256,14 +291,27 @@ $(document).ready(function() {
     });
 
     $('.cancel').click(function(e) {
+        $("#overlay").show();
         e.preventDefault();
         form.action = "${contextPath}/application/recReq/cancel";
         form.method = "post";
-        form.submit();
+        if (confirm('<spring:message code="U06512"/>')) {
+            form.submit();
+        } else {
+            $("#overlay").hide();
+        }
     });
 
     $('.send').click(function(e) {
+        $("#overlay").show();
         e.preventDefault();
+        form.action = "${contextPath}/application/recReq/send";
+        form.method = "post";
+        if (confirm('<spring:message code="U06501"/>')) {
+            form.submit();
+        } else {
+            $("#overlay").hide();
+        }
     });
 
     <%-- 메일 주소 validation --%>
@@ -288,6 +336,7 @@ $(document).ready(function() {
             result = '${result}';
         if (msg.length > 0) {
             confirm(msg);
+            $("#overlay").hide();
         }
     };
     showActionResult();
