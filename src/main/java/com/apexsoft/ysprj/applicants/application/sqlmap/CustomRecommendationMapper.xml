@@ -15,6 +15,8 @@
         <result column="REQ_TEXT" property="reqText" jdbcType="VARCHAR" />
         <result column="REC_KEY" property="recKey" jdbcType="VARCHAR" />
         <result column="REC_STS_CODE" property="recStsCode" jdbcType="VARCHAR" />
+        <result column="REC_STS_NAME" property="recStsName" jdbcType="VARCHAR" />
+        <result column="REC_STS_NAME_XXEN" property="recStsNameXxen" jdbcType="VARCHAR" />
         <result column="CRE_ID" jdbcType="VARCHAR" property="creId" />
         <result column="CRE_DATE" jdbcType="TIMESTAMP" property="creDate" />
         <result column="MOD_ID" jdbcType="VARCHAR" property="modId" />
@@ -28,7 +30,7 @@
           This element was generated on Mon Aug 25 20:54:40 KST 2014.
         -->
         REC_NO, APPL_NO, REC_SEQ, PROF_NAME, PROF_MAIL_ADDR, REQ_TEXT, REC_KEY, REC_STS_CODE,
-        CRE_ID, CRE_DATE, MOD_ID, MOD_DATE
+        a.CRE_ID, a.CRE_DATE, a.MOD_ID, a.MOD_DATE
     </sql>
 
     <insert id="insertSelective" parameterType="com.apexsoft.ysprj.applicants.application.domain.Recommendation"
@@ -123,38 +125,38 @@
         -->
         update APPL_REC
         <set>
-            <if test="record.applNo != null">
-                APPL_NO = #{record.applNo,jdbcType=INTEGER},
+            <if test="applNo != null">
+                APPL_NO = #{applNo,jdbcType=INTEGER},
             </if>
-            <if test="record.recSeq != null">
-                REC_SEQ = #{record.recSeq,jdbcType=INTEGER},
+            <if test="recSeq != null">
+                REC_SEQ = #{recSeq,jdbcType=INTEGER},
             </if>
-            <if test="record.profName != null">
-                PROF_NAME = #{record.profName,jdbcType=VARCHAR},
+            <if test="profName != null">
+                PROF_NAME = #{profName,jdbcType=VARCHAR},
             </if>
-            <if test="record.profMailAddr != null">
-                PROF_MAIL_ADDR = #{record.profMailAddr,jdbcType=VARCHAR},
+            <if test="profMailAddr != null">
+                PROF_MAIL_ADDR = #{profMailAddr,jdbcType=VARCHAR},
             </if>
-            <if test="record.reqText != null">
-                REQ_TEXT = #{record.reqText,jdbcType=VARCHAR},
+            <if test="reqText != null">
+                REQ_TEXT = #{reqText,jdbcType=VARCHAR},
             </if>
-            <if test="record.recKey != null">
-                REC_KEY = #{record.recKey,jdbcType=VARCHAR},
+            <if test="recKey != null">
+                REC_KEY = #{recKey,jdbcType=VARCHAR},
             </if>
-            <if test="record.recStsCode != null">
-                REC_STS_CODE = #{record.recStsCode,jdbcType=VARCHAR},
+            <if test="recStsCode != null">
+                REC_STS_CODE = #{recStsCode,jdbcType=VARCHAR},
             </if>
-            <if test="record.creId != null">
-                CRE_ID = #{record.creId,jdbcType=VARCHAR},
+            <if test="creId != null">
+                CRE_ID = #{creId,jdbcType=VARCHAR},
             </if>
-            <if test="record.creDate != null">
-                CRE_DATE = #{record.creDate,jdbcType=TIMESTAMP},
+            <if test="creDate != null">
+                CRE_DATE = #{creDate,jdbcType=TIMESTAMP},
             </if>
-            <if test="record.modId != null">
-                MOD_ID = #{record.modId,jdbcType=VARCHAR},
+            <if test="modId != null">
+                MOD_ID = #{modId,jdbcType=VARCHAR},
             </if>
-            <if test="record.modDate != null">
-                MOD_DATE = #{record.modDate,jdbcType=TIMESTAMP},
+            <if test="modDate != null">
+                MOD_DATE = #{modDate,jdbcType=TIMESTAMP},
             </if>
         </set>
         where APPL_NO = #{applNo,jdbcType=INTEGER}
@@ -163,25 +165,31 @@
 
     <select id="selectListByApplNo" resultType="com.apexsoft.ysprj.applicants.application.domain.Recommendation" parameterType="int">
         select
-        <include refid="Base_Column_List" />
-        from APPL_REC a
-        where APPL_NO = #{applNo,jdbcType=INTEGER}
+        <include refid="Base_Column_List" />, b.CODE_VAL as REC_STS_NAME, b.CODE_VAL_XXEN as REC_STS_NAME_XXEN
+        from APPL_REC a, COMM_CODE b
+        where a.APPL_NO = #{applNo,jdbcType=INTEGER}
+        and b.CODE_GRP = 'REC_STS'
+        and a.REC_STS_CODE = b.CODE
     </select>
 
     <select id="selectByRecNo" resultType="com.apexsoft.ysprj.applicants.application.domain.Recommendation" parameterType="int">
         select
-        <include refid="Base_Column_List" />
-        from APPL_REC a
-        where REC_NO = #{recNo,jdbcType=INTEGER}
+        <include refid="Base_Column_List" />, b.CODE_VAL as REC_STS_NAME, b.CODE_VAL_XXEN as REC_STS_NAME_XXEN
+        from APPL_REC a, COMM_CODE b
+        where a.REC_NO = #{recNo,jdbcType=INTEGER}
+        and b.CODE_GRP = 'REC_STS'
+        and a.REC_STS_CODE = b.CODE
     </select>
 
     <select id="selectByApplNoRecSeq" resultType="com.apexsoft.ysprj.applicants.application.domain.Recommendation"
             parameterType="com.apexsoft.ysprj.applicants.application.domain.ParamForApplicationRecommendation">
         select
-        <include refid="Base_Column_List" />
-        from APPL_REC a
-        where APPL_NO = #{applNo,jdbcType=INTEGER}
-        and REC_SEQ = #{recSeq,jdbcType=INTEGER}
+        <include refid="Base_Column_List" />, b.CODE_VAL as REC_STS_NAME, b.CODE_VAL_XXEN as REC_STS_NAME_XXEN
+        from APPL_REC a, COMM_CODE b
+        where a.APPL_NO = #{applNo,jdbcType=INTEGER}
+        and a.REC_SEQ = #{recSeq,jdbcType=INTEGER}
+        and b.CODE_GRP = 'REC_STS'
+        and a.REC_STS_CODE = b.CODE
     </select>
 
 </mapper>

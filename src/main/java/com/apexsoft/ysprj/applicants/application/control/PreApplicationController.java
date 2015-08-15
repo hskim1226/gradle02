@@ -167,7 +167,9 @@ public class PreApplicationController {
     }
 
     @RequestMapping(value = "/recReq/edit")
-    public ModelAndView recommendationEdit(Recommendation recommendation, ModelAndView mv) {
+    public ModelAndView recommendationEdit(Recommendation recommendation, BindingResult bindingResult, ModelAndView mv) {
+        if (bindingResult.hasErrors())
+            return null;
         mv.setViewName("application/recReqEdit");
         int recNo = recommendation.getRecNo();
         if (recNo > 0) {

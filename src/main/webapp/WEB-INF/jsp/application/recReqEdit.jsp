@@ -87,16 +87,16 @@
                         </div>
                     </div>
                     <div class="col-sm-offset-1 col-sm-10">
-                        <div class="col-sm-3 nopadding">
+                        <div class="col-sm-3">
                             <button class="preview btn btn-info btn-lg btn-block btn-save input-text"><spring:message code="L06531"/><%--미리 보기--%></button>
                         </div>
                         <div class="col-sm-3">
                             <button class="save btn btn-warning btn-lg btn-block btn-save input-text"><spring:message code="L06532"/><%--임시 저장--%></button>
                         </div>
-                        <div class="col-sm-3">
-                            <button class="cancel btn btn-warning btn-lg btn-block btn-save input-text"><spring:message code="L06535"/><%--취소--%></button>
+                        <div class="col-sm-2">
+                            <button class="cancel btn btn-danger btn-lg btn-block btn-save input-text"><spring:message code="L06535"/><%--취소--%></button>
                         </div>
-                        <div class="col-sm-3 nopadding">
+                        <div class="col-sm-4">
                             <button class="send btn btn-primary btn-lg btn-block btn-save input-text"><spring:message code="L06533"/><%--추천서 요청 메일 보내기--%></button>
                         </div>
                     </div>

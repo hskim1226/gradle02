@@ -40,7 +40,8 @@
                                     <c:otherwise>
                                         <c:forEach items="${recommendationList}" var="item" varStatus="itemStatus">
                                             <tr>
-                                                <c:when test='${item.recStsCode().equals("00001")}'>
+                                            <c:choose>
+                                                <c:when test='${item.getRecStsCode().equals("00001")}'>
                                                     <td valign="middle" style="vertical-align: middle;"><span class="editable" data-recNo="${item.recNo}">${item.recSeq}</span></td>
                                                     <td valign="middle" style="vertical-align: middle;"><span class="editable" data-recNo="${item.recNo}">${item.profName}</span></td>
                                                     <td valign="middle" style="vertical-align: middle;"><span class="editable" data-recNo="${item.recNo}">${item.profMailAddr}</span></td>
@@ -52,6 +53,7 @@
                                                     <td valign="middle" style="vertical-align: middle;">${item.profMailAddr}</td>
                                                     <td valign="middle" style="vertical-align: middle;">${pageContext.response.locale == 'en' ? item.recStsNameXxen : item.recStsName}</td>
                                                 </c:otherwise>
+                                            </c:choose>
                                             </tr>
                                         </c:forEach>
                                     </c:otherwise>
@@ -92,6 +94,7 @@
             $('.create').click(function(e){
                 e.preventDefault();
                 var form = document.getElementById('rec-req');
+                document.getElementById('recNo').value = -1;
                 form.action = "${contextPath}/application/recReq/edit";
                 form.submit();
 

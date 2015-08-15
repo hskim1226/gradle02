@@ -23,6 +23,10 @@ public class Recommendation {
 
     private String recStsCode;
 
+    private String recStsName;
+
+    private String recStsNameXxen;
+
     private String creId;
 
     private Date creDate;
@@ -93,6 +97,22 @@ public class Recommendation {
 
     public void setRecStsCode(String recStsCode) {
         this.recStsCode = recStsCode;
+    }
+
+    public String getRecStsName() {
+        return recStsName;
+    }
+
+    public void setRecStsName(String recStsName) {
+        this.recStsName = recStsName;
+    }
+
+    public String getRecStsNameXxen() {
+        return recStsNameXxen;
+    }
+
+    public void setRecStsNameXxen(String recStsNameXxen) {
+        this.recStsNameXxen = recStsNameXxen;
     }
 
     public String getCreId() {

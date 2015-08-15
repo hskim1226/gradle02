@@ -60,7 +60,7 @@ public class RecommendationServiceImpl implements RecommendationService {
         recommendation.setRecStsCode("00001");
 
         if (isUpdate) {
-            r1 = commonDAO.updateItem(recommendation, NAME_SPACE, "CustomRecommendationMapper");
+            r1 = commonDAO.updateItem(recommendation, NAME_SPACE, "CustomRecommendationMapper", ".updateSelective");
         } else {
             recommendation.setRecSeq(++recSeq);
             r1 = commonDAO.insertItem(recommendation, NAME_SPACE, "CustomRecommendationMapper");
