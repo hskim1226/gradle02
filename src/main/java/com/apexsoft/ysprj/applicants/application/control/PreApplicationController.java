@@ -6,6 +6,7 @@ import com.apexsoft.framework.message.MessageResolver;
 import com.apexsoft.framework.persistence.dao.CommonDAO;
 import com.apexsoft.ysprj.applicants.admission.service.AdmissionService;
 import com.apexsoft.ysprj.applicants.application.domain.*;
+import com.apexsoft.ysprj.applicants.application.service.BasisService;
 import com.apexsoft.ysprj.applicants.application.service.RecommendationService;
 import com.apexsoft.ysprj.applicants.application.validator.RecommendationValidator;
 import com.apexsoft.ysprj.applicants.common.util.CryptoUtil;
@@ -22,6 +23,7 @@ import javax.servlet.ServletContext;
 import java.io.IOException;
 import java.security.Principal;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by hanmomhanda on 15. 2. 14.
@@ -35,6 +37,9 @@ public class PreApplicationController {
 
     @Autowired
     private AdmissionService admissionService;
+
+    @Autowired
+    private BasisService basisService;
 
     @Autowired
     private RecommendationService recommendationService;
@@ -62,6 +67,8 @@ public class PreApplicationController {
 
     @Value("#{app['recommendation.duedate']}")
     private String REC_DUE_DATE;
+
+    private final String sampleRecKey = "f865d2b5becebbf95b65871442fcccb95695340e7a5967ab247baf34183f4027";
 
     /**
      * 공고 목록 화면
@@ -210,8 +217,7 @@ public class PreApplicationController {
 
         ExecutionContext ec = new ExecutionContext();
 
-        String encrypted = getEncryptedRecKey(recommendation);
-        recommendation.setRecKey(encrypted);
+        recommendation.setRecKey(sampleRecKey);
         recommendation.setRecStsCode("00001");
         recommendation.setDueDate(REC_DUE_DATE);
         recommendationService.fillEtcInfo(recommendation);
@@ -249,7 +255,7 @@ public class PreApplicationController {
             return mv;
         }
 
-        recommendation.setRecKey(getEncryptedRecKey(recommendation));
+//        recommendation.setRecKey(getEncryptedRecKey(recommendation));
         recommendation.setDueDate(REC_DUE_DATE);
         ExecutionContext ec = recommendationService.saveRecommendationRequest(recommendation);
 
@@ -281,6 +287,14 @@ public class PreApplicationController {
         return mv;
     }
 
+    /**
+     * 교수에게 추천서 요청 메일 발송
+     *
+     * @param recommendation
+     * @param bindingResult
+     * @param mv
+     * @return
+     */
     @RequestMapping(value = "/recReq/send", method = RequestMethod.POST)
     public ModelAndView recommendationSend(Recommendation recommendation, BindingResult bindingResult, ModelAndView mv) {
         recommendationValidator.validate(recommendation, bindingResult);
@@ -307,11 +321,89 @@ public class PreApplicationController {
         return mv;
     }
 
+    /**
+     * 교수가 보는 추천서 등록 화면
+     *
+     * @param key
+     * @param mv
+     * @return
+     */
+    @RequestMapping(value = "/recommend", method = RequestMethod.GET)
+    public ModelAndView recommendationForm(@RequestParam(value = "key") String key,
+                                           ModelAndView mv) {
+
+        String decrypted = null;
+        // key 복호화해서 applNo 추출
+        try {
+            decrypted = CryptoUtil.getCryptedString(context, key, false);
+        } catch (IOException e) {
+            throw new YSBizException(e);
+        }
+
+        // applNo 와 key 로 추천서 DB 조회
+        Recommendation recommendation = new Recommendation();
+        recommendation.setRecNo(Integer.parseInt(decrypted.split(";")[0]));
+//        recommendation.setApplNo(Integer.parseInt(decrypted.split(";")[0]));
+//        recommendation.setRecKey(key);
+        ExecutionContext ec = recommendationService.retrieveRecommendationByProfessor(recommendation);
+
+        // 추천서 상태가 요청 완료이면 추천서 등록 화면 보여줌
+        if (ExecutionContext.SUCCESS.equals(ec.getResult())) {
+            mv.setViewName("application/formRecommendation");
+            mv.addObject("applInfo", ec.getData());
+        } else { // 위의 내용 아니면 403으로 별도 화면 보여줌
+            // throw new YSBizException();
+        }
+
+        return mv;
+    }
+
+    /**
+     * 교수가 추천서 등록화면에서 등록 완료
+     *
+     * @param recNo
+     * @param mv
+     * @return
+     */
+    @RequestMapping(value = "/recommend", method = RequestMethod.POST)
+    public ModelAndView recommendationSave(Recommendation recommendation,
+                                           ModelAndView mv) {
+
+        // 추천 상태 변경 DB 반영 및 지원자에게 메일 발송 처리
+        ExecutionContext ec = recommendationService.registerRecommendationByProfessor(recommendation);
+
+
+        // return
+
+        // applNo 와 key 로 추천서 DB 조회
+//        Recommendation recommendation = new Recommendation();
+//        recommendation.setApplNo(Integer.parseInt(decrypted.split(";")[0]));
+//        recommendation.setRecKey(key);
+//        ExecutionContext ec = recommendationService.retrieveRecommendationByProfessor(recommendation);
+//
+//        // 추천서 상태가 요청 완료이면 추천서 등록 화면 보여줌
+//        if (ExecutionContext.SUCCESS.equals(ec.getResult())) {
+//            mv.setViewName("application/formRecommendation");
+//
+//            mv.addObject("applInfo", ec.getData());
+//        } else { // 위의 내용 아니면 403으로 별도 화면 보여줌
+//            // throw new YSBizException();
+//        }
+
+        return mv;
+    }
+
+    /**
+     * 추천서 등록화면 접근 URL을 위한 암호화 해쉬 문자열 반환
+     * @param recommendation
+     * @return
+     */
     private String getEncryptedRecKey(Recommendation recommendation) {
+        int recNo = recommendation.getRecNo();
         int applNo = recommendation.getApplNo();
         String profName = recommendation.getProfName();
         String profMailAddr = recommendation.getProfMailAddr();
-        String input = applNo + ";" + profName + ";" + profMailAddr;
+        String input = recNo + ";" + applNo + ";" + profName + ";" + profMailAddr;
 
         String encrypted = null;
         try {
@@ -323,6 +415,12 @@ public class PreApplicationController {
         return encrypted;
     }
 
+    /**
+     * 추천서 등록 화면을 위한 HTML Link 생성
+     * @param recommendation
+     * @param isPreview
+     * @return
+     */
     private String makeLinkText(Recommendation recommendation, boolean isPreview) {
         String splitLiner = MessageResolver.getMessage("L06534"); // ------
         String whoAmI = MessageResolver.getMessage("U06701"); // 안녕하십니까. 연세대학교 대학원 입학 신청 시스템입니다.
@@ -408,5 +506,10 @@ public class PreApplicationController {
         }
 
         return sb.toString();
+    }
+
+    private String makeRecommendationCompletedMailContents(Recommendation recommendation) {
+
+        return null;
     }
 }

@@ -41,6 +41,8 @@ public class Recommendation {
 
     private String dueDate;
 
+    private String notifyApplicantYn;
+
     private String creId;
 
     private Date creDate;
@@ -183,6 +185,14 @@ public class Recommendation {
 
     public void setDueDate(String dueDate) {
         this.dueDate = dueDate;
+    }
+
+    public String getNotifyApplicantYn() {
+        return notifyApplicantYn;
+    }
+
+    public void setNotifyApplicantYn(String notifyApplicantYn) {
+        this.notifyApplicantYn = notifyApplicantYn;
     }
 
     public String getCreId() {

@@ -8,5 +8,6 @@ public enum MailContentsParamKey {
     USER_ID,
     INSTITUTE_NAME,
     MAJOR,
-    APPL_ID
+    APPL_ID,
+    PROF_NAME
 }

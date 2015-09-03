@@ -20,5 +20,7 @@ public interface RecommendationService {
 
     ExecutionContext sendRecommendationRequest(Recommendation recommendation);
 
+    ExecutionContext retrieveRecommendationByProfessor(Recommendation recommendation);
+
     ExecutionContext registerRecommendationByProfessor(Recommendation recommendation);
 }

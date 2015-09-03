@@ -5,6 +5,12 @@ package com.apexsoft.ysprj.applicants.application.domain;
  */
 public class RecommendationApplicationInfo {
 
+    private int recNo;
+
+    private int applNo;
+
+    private int recSeq;
+
     private String korName;
 
     private String chnName;
@@ -16,6 +22,30 @@ public class RecommendationApplicationInfo {
     private String degree;
 
     private String dept;
+
+    public int getRecNo() {
+        return recNo;
+    }
+
+    public void setRecNo(int recNo) {
+        this.recNo = recNo;
+    }
+
+    public int getApplNo() {
+        return applNo;
+    }
+
+    public void setApplNo(int applNo) {
+        this.applNo = applNo;
+    }
+
+    public int getRecSeq() {
+        return recSeq;
+    }
+
+    public void setRecSeq(int recSeq) {
+        this.recSeq = recSeq;
+    }
 
     public String getKorName() {
         return korName;

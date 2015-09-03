@@ -77,12 +77,12 @@
 <div id="globalWrapper" class="localscroll">
 
     <!-- expire-notice -->
-    <div class="expire-notice">
-        <div class="col-sm-12" id="notice-container">
-            <div class="col-sm-12">입학원서 접수가 마감되었습니다.</div>
-            <div class="col-sm-12">원서 신청을 마치신 분들만 내 원서 메뉴를 통해<br/>작성하신 원서를 확인하실 수 있습니다.</div>
-        </div>
-    </div>
+    <%--<div class="expire-notice">--%>
+        <%--<div class="col-sm-12" id="notice-container">--%>
+            <%--<div class="col-sm-12">입학원서 접수가 마감되었습니다.</div>--%>
+            <%--<div class="col-sm-12">원서 신청을 마치신 분들만 내 원서 메뉴를 통해<br/>작성하신 원서를 확인하실 수 있습니다.</div>--%>
+        <%--</div>--%>
+    <%--</div>--%>
 
     <!-- main content -->
     <div id="paralaxSlice1" data-stellar-background-ratio="0.5">
