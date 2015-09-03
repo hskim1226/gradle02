@@ -263,7 +263,7 @@ public class RecommendationServiceImpl implements RecommendationService {
 //        ParamForApplication param = new ParamForApplication();
 //        param.setApplNo(recommendation.getApplNo());
 
-        int recNo = recommendation.getRecNo();
+        int recNo = recommendation.getApplNo();
         RecommendationApplicationInfo recApplInfo = commonDAO.queryForObject(NAME_SPACE + "CustomRecommendationMapper.selectRecommendApplInfo",
                 recNo, RecommendationApplicationInfo.class);
         recommendation.setApplicantName(recApplInfo.getEngName());

@@ -221,13 +221,12 @@
 
     <select id="selectRecommendApplInfo" resultType="com.apexsoft.ysprj.applicants.application.domain.RecommendationApplicationInfo"
             parameterType="java.lang.Integer">
-        select e.REC_NO, a.KOR_NAME, a.CHN_NAME, concat(a.ENG_NAME, ' ', a.ENG_SUR) as ENG_NAME,
+        select a.KOR_NAME, a.CHN_NAME, concat(a.ENG_NAME, ' ', a.ENG_SUR) as ENG_NAME,
               b.ENG_CNTR_NAME as NATIONALITY,
               c.CODE_VAL_XXEN as DEGREE,
               d.DEPT_NAME_XXEN as DEPT
-        from APPL a, CNTR b, COMM_CODE c, DEPT d, APPL_REC e
-        where e.REC_NO = #{recNo,jdbcType=INTEGER}
-        and a.APPL_NO = e.APPL_NO
+        from APPL a, CNTR b, COMM_CODE c, DEPT d
+        where a.APPL_NO = #{applNo,jdbcType=INTEGER}
         and a.CITZ_CNTR_CODE = b.CNTR_CODE
         and c.CODE_GRP = 'CORS_TYPE'
         and a.CORS_TYPE_CODE = c.CODE

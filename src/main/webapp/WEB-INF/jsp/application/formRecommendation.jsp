@@ -78,6 +78,16 @@
                             <%--</div>--%>
                             <div class="spacer-tiny">&nbsp;</div>
                             <div class="col-sm-3 text-gray">
+                                <label class="control-label"><spring:message code="L06736"/><%--추천서 양식--%></label>
+                            </div>
+                            <div class="col-sm-6 text-gray">
+                                <a href="<spring:eval expression="@app.getProperty(\"path.static\")" />/etc/LetterOfRecommendation.docx" class="btn btn-lg btn-info btn-group-justified"><spring:message code="L06737"/><%--다운로드--%></a>
+                            </div>
+                            <div class="col-sm-3 text-gray">
+                                &nbsp;
+                            </div>
+                            <div class="spacer-tiny">&nbsp;</div>
+                            <div class="col-sm-3 text-gray">
                                 <label class="control-label"><spring:message code="L06731"/><%--추천서 등록--%></label>
                             </div>
                             <div class="col-sm-6 text-gray">
@@ -90,7 +100,7 @@
                             <div class="col-sm-12 text-gray">
                                 <label class="control-label"><spring:message code="U06733"/><%--지원자에게 추천서 등록 완료...--%></label>
                             </div>
-                            <div class="spacer-small">&nbsp;</div>
+                            <div class="spacer-tiny">&nbsp;</div>
                             <div class="col-sm-12 text-gray">
                                 <button id="btnComplete" class="btn btn-lg btn-info btn-upload btn-group-justified"><spring:message code="L06733"/><%--추천서 등록 완료--%></button>
                             </div>
