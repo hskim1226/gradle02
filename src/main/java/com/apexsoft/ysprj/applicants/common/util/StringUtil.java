@@ -23,4 +23,9 @@ public class StringUtil {
     }
 
     public static String insertHyphenAt(String str, int index) { return str == null ? EMPTY_STRING : str.substring(0, index) + "-" + str.substring(index); }
+
+    public static String br2Newline(String input) {
+        String output = input.replace("<br/>", "\n");
+        return output;
+    }
 }

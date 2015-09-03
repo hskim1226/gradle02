@@ -10,7 +10,8 @@ var apex = {
         id : /^(?=\w{6,}$)(?=.*\d)(?=.*[A-Z]).*/,
         password : /^(?=\w{8,}$)(?=.*\d)(?=.*[A-Z]).*/,
         korPhoneNumber : /(^02.{0}|^01.{1}|[0-9]{3})([0-9]+)([0-9]{4})/,
-        hyphen : /-/g
+        hyphen : /-/g,
+        newLine2Br : /\n/g,
     },
     engNameCheck : function(className, msg) { // 영문 이름 : 영 대소문자, 공백, '.', '-'만 허용
         $('.'+className).on('blur', function () {
@@ -104,5 +105,8 @@ var apex = {
                 }
             }
         });
+    },
+    newLine2Br : function(text) {
+        return text.replace(apex.rx.newLine2Br, "<br/>");
     }
 };

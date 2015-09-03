@@ -607,6 +607,67 @@ footer p.ft_right {
 	font-size:22px;
 }
 
+/* 모달팝업(너비800) */
+.popup0_wrap {
+	width:900px;
+	min-height:200px;
+	padding-bottom:15px;
+	border-radius:20px;
+	border:1px solid #c0c0c0;
+	background:#fff;
+	position:fixed;
+	z-index:999;
+	left:50%;
+	top:50%;
+	overflow:hidden;
+	box-shadow:2px 2px 4px #aeaeae;
+	transform: translate(-50%, -50%);
+}
+
+.popup0_wrap .popuphead {
+	padding:0 20px;
+	margin-bottom:10px;
+	border-bottom:1px solid #e3e3e3;
+	background:#0082be;
+}
+
+.popup0_wrap .popuphead h1 {
+	font-size:18px;
+	font-weight:700;
+	color:#fff;
+	padding:0;
+	margin:0;
+	text-align:left;
+}
+
+.popup0_wrap .popupbody {
+	padding:10px 20px;
+	font-size:16px;
+	font-weight:300;
+}
+
+.popup0_wrap .btn_close {
+	position:absolute;
+	top:10px;
+	right:19px;
+}
+
+.popup0_wrap .table thead th {
+	background:#f7f7f7;
+	font-weight:bold;
+	font-size:16px;
+}
+
+.popup0_wrap .table tbody td {
+	font-size:14px;
+	font-weight:normal;
+}
+
+.popup0_wrap .popup_btn {
+	padding-top:18px;
+	text-align:center;
+}
+
 
 /* 모달팝업(디폴트) */
 .popup1_wrap {

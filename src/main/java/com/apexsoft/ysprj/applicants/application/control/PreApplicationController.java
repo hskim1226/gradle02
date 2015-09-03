@@ -1,28 +1,27 @@
 package com.apexsoft.ysprj.applicants.application.control;
 
 import com.apexsoft.framework.common.vo.ExecutionContext;
-import com.apexsoft.framework.exception.ErrorInfo;
 import com.apexsoft.framework.exception.YSBizException;
-import com.apexsoft.framework.exception.YSBizNoticeException;
 import com.apexsoft.framework.message.MessageResolver;
 import com.apexsoft.framework.persistence.dao.CommonDAO;
 import com.apexsoft.ysprj.applicants.admission.service.AdmissionService;
-import com.apexsoft.ysprj.applicants.application.domain.ApplicationIdentifier;
-import com.apexsoft.ysprj.applicants.application.domain.CustomMyList;
-import com.apexsoft.ysprj.applicants.application.domain.ParamForApplication;
-import com.apexsoft.ysprj.applicants.common.util.StringUtil;
+import com.apexsoft.ysprj.applicants.application.domain.*;
+import com.apexsoft.ysprj.applicants.application.service.BasisService;
+import com.apexsoft.ysprj.applicants.application.service.RecommendationService;
+import com.apexsoft.ysprj.applicants.application.validator.RecommendationValidator;
+import com.apexsoft.ysprj.applicants.common.util.CryptoUtil;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.annotation.Resource;
+import javax.servlet.ServletContext;
+import java.io.IOException;
 import java.security.Principal;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -34,7 +33,22 @@ import java.util.Map;
 public class PreApplicationController {
 
     @Autowired
+    private ObjectMapper jacksonObjectMapper;
+
+    @Autowired
     private AdmissionService admissionService;
+
+    @Autowired
+    private BasisService basisService;
+
+    @Autowired
+    private RecommendationService recommendationService;
+
+    @Autowired
+    private RecommendationValidator recommendationValidator;
+
+    @Autowired
+    private ServletContext context;
 
     @Autowired
     private CommonDAO commonDAO;
@@ -47,6 +61,14 @@ public class PreApplicationController {
 
     @Value("#{app['adms.early']}")
     private String admsEarly;
+
+    @Value("#{app['site.url']}")
+    private String SITE_URL;
+
+    @Value("#{app['recommendation.duedate']}")
+    private String REC_DUE_DATE;
+
+    private final String sampleRecKey = "f865d2b5becebbf95b65871442fcccb95695340e7a5967ab247baf34183f4027";
 
     /**
      * 공고 목록 화면
@@ -140,5 +162,354 @@ public class PreApplicationController {
         mv.addObject("entrYear", entrYear);
         mv.addObject("admsTypeCode", admsTypeCode);
         return mv;
+    }
+
+    /**
+     * 추천서 요청 목록
+     *
+     * @param basis
+     * @param mv
+     * @return
+     */
+    @RequestMapping(value = "/recReq/list")
+    public ModelAndView recommendationList(Basis basis, ModelAndView mv) {
+        mv.setViewName("application/recReqList");
+        Application application = basis.getApplication();
+        int applNo = application.getApplNo();
+
+        ExecutionContext ec = recommendationService.retrieveRecommendationList(applNo);
+
+        mv.addObject("recommendationList", ec.getData());
+        mv.addObject("applNo", applNo);
+        return mv;
+    }
+
+    /**
+     * 추천서 요청 작성
+     *
+     * @param recommendation
+     * @param mv
+     * @return
+     */
+    @RequestMapping(value = "/recReq/edit")
+    public ModelAndView recommendationEdit(Recommendation recommendation, ModelAndView mv) {
+        mv.setViewName("application/recReqEdit");
+        int recNo = recommendation.getRecNo();
+        if (recNo > 0) {
+            ExecutionContext ec = recommendationService.retrieveRecommendation(recommendation.getRecNo());
+            mv.addObject("recommendation", ec.getData());
+        } else {
+            mv.addObject("recommendation", recommendation);
+        }
+
+        return mv;
+    }
+
+    /**
+     * 작성 중인 추천서 미리보기
+     *
+     * @param recommendation
+     * @return
+     */
+    @RequestMapping(value = "/recReq/preview", method = RequestMethod.POST)
+    @ResponseBody
+    public ExecutionContext recommendationPreview(Recommendation recommendation) {
+
+        ExecutionContext ec = new ExecutionContext();
+
+        recommendation.setRecKey(sampleRecKey);
+        recommendation.setRecStsCode("00001");
+        recommendation.setDueDate(REC_DUE_DATE);
+        recommendationService.fillEtcInfo(recommendation);
+        recommendation.setMailContents(makeLinkText(recommendation, true));
+
+        String json = null;
+        try {
+            json = jacksonObjectMapper.writeValueAsString(recommendation);
+        } catch (JsonProcessingException e) {
+            throw new YSBizException(e);
+        }
+
+        ec.setData(json);
+
+        return ec;
+    }
+
+    /**
+     * 추천서 요청 저장
+     *
+     * @param recommendation
+     * @param bindingResult
+     * @param mv
+     * @return
+     */
+    @RequestMapping(value = "/recReq/save", method = RequestMethod.POST)
+    public ModelAndView recommendationSave(Recommendation recommendation,
+                                           BindingResult bindingResult,
+                                           ModelAndView mv) {
+
+        recommendationValidator.validate(recommendation, bindingResult);
+        mv.setViewName("application/recReqEdit");
+        if (bindingResult.hasErrors()) {
+            mv.addObject("resultMsg", MessageResolver.getMessage("U334"));
+            return mv;
+        }
+
+//        recommendation.setRecKey(getEncryptedRecKey(recommendation));
+        recommendation.setDueDate(REC_DUE_DATE);
+        ExecutionContext ec = recommendationService.saveRecommendationRequest(recommendation);
+
+        Recommendation result = (Recommendation)ec.getData();
+        mv.addObject("recommendation", result);
+        mv.addObject("resultMsg", ec.getMessage());
+
+        return mv;
+    }
+
+    /**
+     * 추천서 요청 취소 -> DB 에서 삭제
+     *
+     * @param recommendation
+     * @param mv
+     * @return
+     */
+    @RequestMapping(value = "/recReq/cancel", method = RequestMethod.POST)
+    public ModelAndView recommendationCancel(Recommendation recommendation, ModelAndView mv) {
+        mv.setViewName("application/recReqList");
+
+        ExecutionContext ec = recommendationService.deleteRecommendationRequest(recommendation);
+        ExecutionContext ec2 = recommendationService.retrieveRecommendationList(recommendation.getApplNo());
+
+        mv.addObject("recommendationList", ec2.getData());
+        mv.addObject("resultMsg", ec.getMessage());
+        mv.addObject("applNo", recommendation.getApplNo());
+
+        return mv;
+    }
+
+    /**
+     * 교수에게 추천서 요청 메일 발송
+     *
+     * @param recommendation
+     * @param bindingResult
+     * @param mv
+     * @return
+     */
+    @RequestMapping(value = "/recReq/send", method = RequestMethod.POST)
+    public ModelAndView recommendationSend(Recommendation recommendation, BindingResult bindingResult, ModelAndView mv) {
+        recommendationValidator.validate(recommendation, bindingResult);
+        mv.setViewName("application/recReqList");
+        if (bindingResult.hasErrors()) {
+            mv.addObject("resultMsg", MessageResolver.getMessage("U334"));
+            return mv;
+        }
+
+        String encrypted = getEncryptedRecKey(recommendation);
+        recommendation.setRecKey(encrypted);
+        recommendation.setDueDate(REC_DUE_DATE);
+        recommendationService.fillEtcInfo(recommendation);
+        recommendation.setMailContents(makeLinkText(recommendation, false));
+
+        // DB 저장 후 메일 보내기
+        ExecutionContext ec = recommendationService.sendRecommendationRequest(recommendation);
+        ExecutionContext ec2 = recommendationService.retrieveRecommendationList(recommendation.getApplNo());
+
+        mv.addObject("recommendationList", ec2.getData());
+        mv.addObject("resultMsg", ec.getMessage());
+        mv.addObject("applNo", recommendation.getApplNo());
+
+        return mv;
+    }
+
+    /**
+     * 교수가 보는 추천서 등록 화면
+     *
+     * @param key
+     * @param mv
+     * @return
+     */
+    @RequestMapping(value = "/recommend", method = RequestMethod.GET)
+    public ModelAndView recommendationForm(@RequestParam(value = "key") String key,
+                                           ModelAndView mv) {
+
+        String decrypted = null;
+        // key 복호화해서 applNo 추출
+        try {
+            decrypted = CryptoUtil.getCryptedString(context, key, false);
+        } catch (IOException e) {
+            throw new YSBizException(e);
+        }
+
+        // applNo 와 key 로 추천서 DB 조회
+        Recommendation recommendation = new Recommendation();
+        recommendation.setRecNo(Integer.parseInt(decrypted.split(";")[0]));
+//        recommendation.setApplNo(Integer.parseInt(decrypted.split(";")[0]));
+//        recommendation.setRecKey(key);
+        ExecutionContext ec = recommendationService.retrieveRecommendationByProfessor(recommendation);
+
+        // 추천서 상태가 요청 완료이면 추천서 등록 화면 보여줌
+        if (ExecutionContext.SUCCESS.equals(ec.getResult())) {
+            mv.setViewName("application/formRecommendation");
+            mv.addObject("applInfo", ec.getData());
+        } else { // 위의 내용 아니면 403으로 별도 화면 보여줌
+            // throw new YSBizException();
+        }
+
+        return mv;
+    }
+
+    /**
+     * 교수가 추천서 등록화면에서 등록 완료
+     *
+     * @param recNo
+     * @param mv
+     * @return
+     */
+    @RequestMapping(value = "/recommend", method = RequestMethod.POST)
+    public ModelAndView recommendationSave(Recommendation recommendation,
+                                           ModelAndView mv) {
+
+        // 추천 상태 변경 DB 반영 및 지원자에게 메일 발송 처리
+        ExecutionContext ec = recommendationService.registerRecommendationByProfessor(recommendation);
+
+
+        // return
+
+        // applNo 와 key 로 추천서 DB 조회
+//        Recommendation recommendation = new Recommendation();
+//        recommendation.setApplNo(Integer.parseInt(decrypted.split(";")[0]));
+//        recommendation.setRecKey(key);
+//        ExecutionContext ec = recommendationService.retrieveRecommendationByProfessor(recommendation);
+//
+//        // 추천서 상태가 요청 완료이면 추천서 등록 화면 보여줌
+//        if (ExecutionContext.SUCCESS.equals(ec.getResult())) {
+//            mv.setViewName("application/formRecommendation");
+//
+//            mv.addObject("applInfo", ec.getData());
+//        } else { // 위의 내용 아니면 403으로 별도 화면 보여줌
+//            // throw new YSBizException();
+//        }
+
+        return mv;
+    }
+
+    /**
+     * 추천서 등록화면 접근 URL을 위한 암호화 해쉬 문자열 반환
+     * @param recommendation
+     * @return
+     */
+    private String getEncryptedRecKey(Recommendation recommendation) {
+        int recNo = recommendation.getRecNo();
+        int applNo = recommendation.getApplNo();
+        String profName = recommendation.getProfName();
+        String profMailAddr = recommendation.getProfMailAddr();
+        String input = recNo + ";" + applNo + ";" + profName + ";" + profMailAddr;
+
+        String encrypted = null;
+        try {
+            encrypted = CryptoUtil.getCryptedString(context, input, true);
+//System.err.println("encrypted Length : " + encrypted.length());
+        } catch (IOException e) {
+            throw new YSBizException(e);
+        }
+        return encrypted;
+    }
+
+    /**
+     * 추천서 등록 화면을 위한 HTML Link 생성
+     * @param recommendation
+     * @param isPreview
+     * @return
+     */
+    private String makeLinkText(Recommendation recommendation, boolean isPreview) {
+        String splitLiner = MessageResolver.getMessage("L06534"); // ------
+        String whoAmI = MessageResolver.getMessage("U06701"); // 안녕하십니까. 연세대학교 대학원 입학 신청 시스템입니다.
+        String linkInfoText = MessageResolver.getMessage("U06504"); // 아래의 링크를 ...
+        String contextPath = context.getContextPath();
+        String linkText = SITE_URL + contextPath + "/application/recommend?key=" + recommendation.getRecKey();
+        String br = "<br/>";
+        String NEW_LINE1 = "\n";
+        String NEW_LINE2 = "\n\n";
+        String linkAnchorText = new StringBuilder()
+                                    .append("<a href='")
+                                    .append(linkText)
+                                    .append("' target='_blank'>")
+                                    .append(linkText)
+                                    .append("</a>")
+                                    .toString();
+        StringBuilder sb = null;
+
+        if (isPreview) {
+            sb = new StringBuilder()
+                    .append(MessageResolver.getMessage("MAIL_REQUEST_RECOMMENDATION_HEADER01"))
+                    .append(NEW_LINE2)
+                    .append(MessageResolver.getMessage("MAIL_REQUEST_RECOMMENDATION_HEADER02"))
+                    .append(NEW_LINE1)
+                    .append(MessageResolver.getMessage("MAIL_REQUEST_RECOMMENDATION_HEADER03",
+                            new Object[]{recommendation.getDueDate()}))
+                    .append(NEW_LINE2)
+                    .append(MessageResolver.getMessage("MAIL_REQUEST_RECOMMENDATION_BODY_INFO_TITLE"))
+                    .append(NEW_LINE1)
+                    .append(MessageResolver.getMessage("MAIL_REQUEST_RECOMMENDATION_BODY_INFO_NAME",
+                            new Object[]{recommendation.getApplicantName()}))
+                    .append(NEW_LINE1)
+                    .append(MessageResolver.getMessage("MAIL_REQUEST_RECOMMENDATION_BODY_INFO_NATIONALITY",
+                            new Object[]{recommendation.getApplicantNationality()}))
+                    .append(NEW_LINE1)
+                    .append(MessageResolver.getMessage("MAIL_REQUEST_RECOMMENDATION_BODY_INFO_DEGREE",
+                            new Object[]{recommendation.getDegree()}))
+                    .append(NEW_LINE1)
+                    .append(MessageResolver.getMessage("MAIL_REQUEST_RECOMMENDATION_BODY_INFO_MAJOR",
+                            new Object[]{recommendation.getMajor()}))
+                    .append(NEW_LINE2)
+                    .append(MessageResolver.getMessage("MAIL_REQUEST_RECOMMENDATION_BODY_LETTER_TITLE"))
+                    .append(NEW_LINE1)
+                    .append(MessageResolver.getMessage("MAIL_REQUEST_RECOMMENDATION_BODY_LETTER_CONTENTS",
+                            new Object[]{recommendation.getReqText()}))
+                    .append(NEW_LINE2)
+                    .append(MessageResolver.getMessage("MAIL_REQUEST_RECOMMENDATION_BODY_LINK_NOTICE"))
+                    .append(NEW_LINE2)
+                    .append(MessageResolver.getMessage("MAIL_REQUEST_RECOMMENDATION_BODY_LINK",
+                            new Object[]{linkAnchorText}));
+        } else {
+            sb = new StringBuilder()
+                    .append(MessageResolver.getMessage("MAIL_REQUEST_RECOMMENDATION_HEADER01"))
+                    .append(NEW_LINE2)
+                    .append(MessageResolver.getMessage("MAIL_REQUEST_RECOMMENDATION_HEADER02"))
+                    .append(NEW_LINE1)
+                    .append(MessageResolver.getMessage("MAIL_REQUEST_RECOMMENDATION_HEADER03",
+                            new Object[]{recommendation.getDueDate()}))
+                    .append(NEW_LINE2)
+                    .append(MessageResolver.getMessage("MAIL_REQUEST_RECOMMENDATION_BODY_INFO_TITLE"))
+                    .append(NEW_LINE1)
+                    .append(MessageResolver.getMessage("MAIL_REQUEST_RECOMMENDATION_BODY_INFO_NAME",
+                            new Object[]{recommendation.getApplicantName()}))
+                    .append(NEW_LINE1)
+                    .append(MessageResolver.getMessage("MAIL_REQUEST_RECOMMENDATION_BODY_INFO_NATIONALITY",
+                            new Object[]{recommendation.getApplicantNationality()}))
+                    .append(NEW_LINE1)
+                    .append(MessageResolver.getMessage("MAIL_REQUEST_RECOMMENDATION_BODY_INFO_DEGREE",
+                            new Object[]{recommendation.getDegree()}))
+                    .append(NEW_LINE1)
+                    .append(MessageResolver.getMessage("MAIL_REQUEST_RECOMMENDATION_BODY_INFO_MAJOR",
+                            new Object[]{recommendation.getMajor()}))
+                    .append(NEW_LINE2)
+                    .append(MessageResolver.getMessage("MAIL_REQUEST_RECOMMENDATION_BODY_LETTER_TITLE"))
+                    .append(NEW_LINE1)
+                    .append(MessageResolver.getMessage("MAIL_REQUEST_RECOMMENDATION_BODY_LETTER_CONTENTS",
+                            new Object[]{recommendation.getReqText()}))
+                    .append(NEW_LINE2)
+                    .append(MessageResolver.getMessage("MAIL_REQUEST_RECOMMENDATION_BODY_LINK_NOTICE"))
+                    .append(NEW_LINE2)
+                    .append(MessageResolver.getMessage("MAIL_REQUEST_RECOMMENDATION_BODY_LINK",
+                            new Object[]{linkText}));
+        }
+
+        return sb.toString();
+    }
+
+    private String makeRecommendationCompletedMailContents(Recommendation recommendation) {
+
+        return null;
     }
 }

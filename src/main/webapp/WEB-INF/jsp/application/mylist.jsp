@@ -68,26 +68,24 @@
                                             <tr>
                                                 <td colspan="6">
                                                     <div class="col-sm-offset-1 col-sm-10">
-                                                        <div class="col-sm-4">
+                                                        <div class="col-sm-3">
                                                             <button id="modify${itemStatus.index}" class="btn btn-block btn-warning modify ${item.applStsCode.lastIndexOf('0')==3?"":"disabled"}"
                                                                     data-applNo="${item.applNo}" data-admsNo="${item.admsNo}" data-entrYear="${item.entrYear}"
                                                                     data-admsTypeCode="${item.admsTypeCode}" <c:if test="${item.applStsCode.lastIndexOf('0')!=3}">disabled</c:if> ><spring:message code="L00308"/><%--원서 수정하기--%><span class="my-tooltip">작성 중인 상태에서만 수정 가능합니다.</span></button>
                                                         </div>
-                                                        <%--<div class="col-sm-3">--%>
-                                                            <%--<button id="preview${itemStatus.index}" class="btn btn-block btn-info preview ${item.applStsCode=="00010"?"":"disabled"}"--%>
-                                                                <%--&lt;%&ndash;<button id="preview" class="btn btn-info preview"&ndash;%&gt;--%>
-                                                                    <%--data-applNo="${item.applNo}" data-admsNo="${item.admsNo}" data-entrYear="${item.entrYear}" data-reqType="appl"--%>
-                                                                    <%--data-admsTypeCode="${item.admsTypeCode}" <c:if test="${item.applStsCode!='00010'}">disabled</c:if> ><spring:message code="L00309"/>&lt;%&ndash;원서 미리보기&ndash;%&gt;</button>--%>
-                                                                <%--&lt;%&ndash;data-admsTypeCode="${item.admsTypeCode}" >원서 미리보기</button>&ndash;%&gt;--%>
-                                                        <%--</div>--%>
-                                                        <div class="col-sm-4">
+                                                        <div class="col-sm-3">
+                                                            <button id="recommendation${itemStatus.index}" class="btn btn-block btn-info recommendation ${(item.admsTypeCode=="C" || item.admsTypeCode=="D")?"":"disabled"}"
+                                                                    data-applNo="${item.applNo}" data-admsNo="${item.admsNo}" data-entrYear="${item.entrYear}"
+                                                                    data-admsTypeCode="${item.admsTypeCode}"><spring:message code="L00315"/><%--추천서 요청--%></button>
+                                                        </div>
+                                                        <div class="col-sm-3">
                                                             <button id="pay${itemStatus.index}" class="btn btn-block btn-primary pay ${item.applStsCode=="00010"?"":(item.applStsCode=="00021"?"":"disabled")}"
                                                                     name="${item.entrYear} ${pageContext.response.locale == 'en' ? item.campNameXxen : item.campName} ${pageContext.response.locale == 'en' ? item.admsTypeNameXxen : item.admsTypeName} ${pageContext.response.locale == 'en' ? item.deptNameXxen : item.deptName} ${pageContext.response.locale == 'en' ? item.corsTypeNameXxen : item.corsTypeName}"
                                                                     data-applNo="${item.applNo}"
                                                                     value="${item.admsFee}"
                                                                     <c:if test="${item.applStsCode!='00010' && item.applStsCode!='00021'}">disabled</c:if> ><spring:message code="L00310"/><%--전형료 결제하기--%></button>
                                                         </div>
-                                                        <div class="col-sm-4">
+                                                        <div class="col-sm-3">
                                                             <div class="btn-group btn-block">
                                                                 <a type="button${itemStatus.index}" class="btn btn-block btn-success dropdown-toggle ${item.applStsCode=="00020"?"":"disabled"}" <c:if test="${item.applStsCode!='00020'}">disabled</c:if> data-toggle="dropdown" data-target="#"><spring:message code="L00311"/><%--지원서 보기--%><span class="caret"></span></a>
                                                                 <ul class="dropdown-menu" role="menu">
@@ -141,18 +139,14 @@
                 form.submit();
 
             });
-            <%--원서 미리보기는 첨부 파일 화면에서 최종 확인하고 제출 후에는 미리보기 제공 안 함--%>
-            <%--$('.preview').click(function(e){--%>
-                <%--e.preventDefault();--%>
-                <%--var form = document.getElementById('LGD_PAYINFO');--%>
-                <%--setHidden(e.target);--%>
-                <%--form.action = "${contextPath}/application/preview";--%>
-                <%--form.target = "_blank";--%>
-                <%--form.submit();--%>
-                <%--&lt;%&ndash;var target = e.target;&ndash;%&gt;--%>
-                <%--&lt;%&ndash;var applNo = target.getAttribute('data-applNo');&ndash;%&gt;--%>
-                <%--&lt;%&ndash;window.open('${contextPath}/application/preview/' + applNo);&ndash;%&gt;--%>
-            <%--});--%>
+            $('.recommendation').click(function(e){
+                e.preventDefault();
+                var form = document.getElementById('LGD_PAYINFO');
+                setHidden(e.target);
+                form.action = "${contextPath}/application/recReq/list";
+//                form.target = "_blank";
+                form.submit();
+            });
             $('.pay').click(function(e){
                 e.preventDefault();
                 var payMsg = '<spring:message code="U00241"/>';   /*전형료 결제이후에는 정보 수정이 불가합니다.\n\n입력하신 모든 정보를 재차 확인하시기 바라며 기입 오류에 대한 책임은 모두 지원자 본인에게 있습니다.*/
