@@ -462,6 +462,8 @@
                 <configuration>
                     <verbose>true</verbose>
                     <fork>true</fork>
+                    <source>1.7</source>
+                    <target>1.7</target>
                     <compilerVersion>1.7</compilerVersion>
                 </configuration>
             </plugin>
