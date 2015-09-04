@@ -19,6 +19,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.annotation.Resource;
+import javax.crypto.IllegalBlockSizeException;
 import javax.servlet.ServletContext;
 import java.io.IOException;
 import java.security.Principal;
@@ -39,13 +41,13 @@ public class PreApplicationController {
     private AdmissionService admissionService;
 
     @Autowired
-    private BasisService basisService;
-
-    @Autowired
     private RecommendationService recommendationService;
 
     @Autowired
     private RecommendationValidator recommendationValidator;
+
+    @Resource(name = "messageResolver")
+    private MessageResolver messageResolver;
 
     @Autowired
     private ServletContext context;
@@ -333,26 +335,31 @@ public class PreApplicationController {
                                            ModelAndView mv) {
 
         String decrypted = null;
-        // key 복호화해서 applNo 추출
+        // key 복호화해서 추천서 정보 추출
         try {
             decrypted = CryptoUtil.getCryptedString(context, key, false);
-        } catch (IOException e) {
-            throw new YSBizException(e);
+        } catch (Exception e) {
+            mv.setViewName("application/recNotice");
+            mv.addObject("title", messageResolver.getMessage("L06901"));
+            mv.addObject("notice", messageResolver.getMessage("U06901"));
+            return mv;
         }
 
         // applNo 와 key 로 추천서 DB 조회
         Recommendation recommendation = new Recommendation();
         recommendation.setRecNo(Integer.parseInt(decrypted.split(";")[0]));
-//        recommendation.setApplNo(Integer.parseInt(decrypted.split(";")[0]));
-//        recommendation.setRecKey(key);
         ExecutionContext ec = recommendationService.retrieveRecommendationByProfessor(recommendation);
 
-        // 추천서 상태가 요청 완료이면 추천서 등록 화면 보여줌
         if (ExecutionContext.SUCCESS.equals(ec.getResult())) {
-            mv.setViewName("application/formRecommendation");
-            mv.addObject("applInfo", ec.getData());
-        } else { // 위의 내용 아니면 403으로 별도 화면 보여줌
-            // throw new YSBizException();
+            RecommendationApplicationInfo recApplInfo = (RecommendationApplicationInfo)ec.getData();
+            if (RecommendStatus.SENT.codeVal().equals(recApplInfo.getRecStsCode())) {
+                mv.setViewName("application/formRecommendation");
+                mv.addObject("applInfo", ec.getData());
+            } else if (RecommendStatus.COMPLETED.codeVal().equals(recApplInfo.getRecStsCode())) {
+                mv.setViewName("application/recNotice");
+                mv.addObject("title", messageResolver.getMessage("L06902"));
+                mv.addObject("notice", messageResolver.getMessage("U06902"));
+            }
         }
 
         return mv;
@@ -361,18 +368,20 @@ public class PreApplicationController {
     /**
      * 교수가 추천서 등록화면에서 등록 완료
      *
-     * @param recNo
+     * @param recommendation
      * @param mv
      * @return
      */
     @RequestMapping(value = "/recommend", method = RequestMethod.POST)
     public ModelAndView recommendationSave(Recommendation recommendation,
                                            ModelAndView mv) {
-
+        // TODO 추천서 등록 완료 페이지 mv setting
         // 추천 상태 변경 DB 반영 및 지원자에게 메일 발송 처리
         ExecutionContext ec = recommendationService.registerRecommendationByProfessor(recommendation);
 
-
+        mv.setViewName("application/recNotice");
+        mv.addObject("title", messageResolver.getMessage("L06902"));
+        mv.addObject("notice", messageResolver.getMessage("U06902"));
         // return
 
         // applNo 와 key 로 추천서 DB 조회

@@ -181,14 +181,6 @@ public class RecommendationServiceImpl implements RecommendationService {
                         param, RecommendationApplicationInfo.class);
         ec.setData(recApplInfo);
 
-//        if (recApplInfo.equals(RecommendStatus.SENT.codeVal())) { // 상태가 Sent이면
-//            // EC에 Success 담아 리턴
-//            ec.setData(recApplInfo);
-//        } else {
-//            ec.setResult(ExecutionContext.FAIL);
-//        }
-        ec.setData(recApplInfo);
-
         return ec;
     }
 

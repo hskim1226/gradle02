@@ -81,7 +81,7 @@
                                 <label class="control-label"><spring:message code="L06736"/><%--추천서 양식--%></label>
                             </div>
                             <div class="col-sm-6 text-gray">
-                                <a href="<spring:eval expression="@app.getProperty(\"path.static\")" />/etc/LetterOfRecommendation.docx" class="btn btn-lg btn-info btn-group-justified"><spring:message code="L06737"/><%--다운로드--%></a>
+                                <a style='vertical-align: bottom;' href="<spring:eval expression="@app.getProperty(\"path.static\")" />/etc/LetterOfRecommendation.docx">LetterOfRecommendation.docx <img src="<spring:eval expression="@app.getProperty('path.static')" />/img/logo-ms-word.png"/></a>
                             </div>
                             <div class="col-sm-3 text-gray">
                                 &nbsp;
@@ -147,7 +147,11 @@ $(document).ready(function() {
         e.preventDefault();
         form.action = "${contextPath}/application/recommend";
         form.method = "post";
-        form.submit();
+        if (confirm('<spring:message code="U06738"/>')) { // 추천서를 등록하시겠습니까?\\n\\n"확인"을 누르시면 추천서가 등록되며 다시 수정할 수 없습니다.
+            form.submit();
+        } else {
+            $("#overlay").hide();
+        }
     });
     <%-- 하단 버튼 처리 --%>
 

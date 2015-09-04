@@ -60,7 +60,7 @@
                                 </c:choose>
                                 </tbody>
                             </table>
-                            <div class="spacer-small">&nbsp;</div>
+                            <div class="spacer-tiny">&nbsp;</div>
                             <div class="col-sm-12 nopadding">
                                 <button class="create btn btn-info btn-lg btn-block btn-save input-text"><spring:message code="L06556"/><%--신규 요청--%></button>
                             </div>

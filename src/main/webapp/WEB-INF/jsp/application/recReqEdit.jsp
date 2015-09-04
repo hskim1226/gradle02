@@ -82,6 +82,63 @@
                     <div class="form-group required">
                         <div class="col-sm-offset-1 col-sm-10">
                             <div class="col-sm-3 text-gray">
+                                <label for="profInstitution" class="control-label"><spring:message code="L06506"/><%--교수 소속 학교--%></label>
+                            </div>
+                            <div class="col-sm-9">
+                                <div class="col-sm-12 nopadding input-group">
+                                    <form:input path="profInstitution" cssClass="form-control input-text" maxlength="60" placeholder='${msg.getMsg("L06506")}' />  <%--교수 소속 학교--%>
+                                </div>
+                                <spring:bind path="profInstitution">
+                                    <c:if test="${status.error}">
+                                        <div class="col-sm-12 nopadding">
+                                            <div class="validation-error">${status.errorMessage}</div>
+                                        </div>
+                                    </c:if>
+                                </spring:bind>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-offset-1 col-sm-10">
+                            <div class="col-sm-3 text-gray">
+                                <label for="profMajor" class="control-label"><spring:message code="L06507"/><%--교수 전공--%></label>
+                            </div>
+                            <div class="col-sm-9">
+                                <div class="col-sm-12 nopadding input-group">
+                                    <form:input path="profMajor" cssClass="form-control input-text" maxlength="60" placeholder='${msg.getMsg("L06507")}' />  <%--교수 전공--%>
+                                </div>
+                                <%--<spring:bind path="profMajor">--%>
+                                    <%--<c:if test="${status.error}">--%>
+                                        <%--<div class="col-sm-12 nopadding">--%>
+                                            <%--<div class="validation-error">${status.errorMessage}</div>--%>
+                                        <%--</div>--%>
+                                    <%--</c:if>--%>
+                                <%--</spring:bind>--%>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-offset-1 col-sm-10">
+                            <div class="col-sm-3 text-gray">
+                                <label for="profPhone" class="control-label"><spring:message code="L06508"/><%--교수 연락처--%></label>
+                            </div>
+                            <div class="col-sm-9">
+                                <div class="col-sm-12 nopadding input-group">
+                                    <form:input path="profPhone" cssClass="form-control input-text" maxlength="40" placeholder='${msg.getMsg("L06508")}' />  <%--교수 연락처--%>
+                                </div>
+                                <%--<spring:bind path="profPhone">--%>
+                                    <%--<c:if test="${status.error}">--%>
+                                        <%--<div class="col-sm-12 nopadding">--%>
+                                            <%--<div class="validation-error">${status.errorMessage}</div>--%>
+                                        <%--</div>--%>
+                                    <%--</c:if>--%>
+                                <%--</spring:bind>--%>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group required">
+                        <div class="col-sm-offset-1 col-sm-10">
+                            <div class="col-sm-3 text-gray">
                                 <label for="reqSubject" class="control-label"><spring:message code="L06536"/><%--메일 제목--%></label>
                             </div>
                             <div class="col-sm-9">
@@ -198,18 +255,6 @@
                 </div>
             </div>
         </div>
-        <%--<div class="form-group">--%>
-            <%--<div class="col-sm-12">--%>
-                <%--<div class="col-sm-2 text-gray">--%>
-                    <%--<label for="reqText" class="control-label"><spring:message code="L06505"/>&lt;%&ndash;첨부 파일&ndash;%&gt;</label>--%>
-                <%--</div>--%>
-                <%--<div class="col-sm-10">--%>
-                    <%--<div class="col-sm-12 nopadding input-group">--%>
-                        <%--<a href="<spring:eval expression="@app.getProperty('path.static')" />/etc/LetterOfRecommendation.docx">Letter Of Recommendation.docx</a>--%>
-                    <%--</div>--%>
-                <%--</div>--%>
-            <%--</div>--%>
-        <%--</div>--%>
         <a class="btn_close b-close" title="닫기"><img src="<spring:eval expression="@app.getProperty('path.static')" />/img/btn_close1.png" alt="닫기"></a>
     </div>
 </section>
@@ -271,11 +316,6 @@ $(document).ready(function() {
             success: function(data) {
                 var container = JSON.parse(data),
                     obj = JSON.parse(container.data);
-                <%--var info = "<br/><br/><spring:message code="L06534"/><br/>" + "<spring:message code="U06504"/><br/>";--%>
-                <%--var linkString = "<spring:eval expression="@app.getProperty('site.url')" />" + "${contextPath}/application/recommend?key=" + obj.recKey;--%>
-                <%--var link = "<a href='" + linkString + "' target='_blank'>" + linkString + "</a>";--%>
-
-//                document.getElementById('pv-reqText').innerHTML = apex.newLine2Br(reqText) + obj.linkText;
                 document.getElementById('pv-reqText').innerHTML = apex.newLine2Br(obj.mailContents);
             }
         });
@@ -307,7 +347,7 @@ $(document).ready(function() {
         e.preventDefault();
         form.action = "${contextPath}/application/recReq/send";
         form.method = "post";
-        if (confirm('<spring:message code="U06501"/>')) {
+        if (confirm('<spring:message code="U06501"/>')) { // 미리보기로 최종 확인을 하셨습니까?\\n\\n"확인"을 누르시면 교수님께 메일이 발송됩니다.
             form.submit();
         } else {
             $("#overlay").hide();

@@ -25,6 +25,12 @@ public class Recommendation {
 
     private String profMailAddr;
 
+    private String profInstitution;
+
+    private String profMajor;
+
+    private String profPhone;
+
     private String reqSubject;
 
     private String reqText;
@@ -121,6 +127,30 @@ public class Recommendation {
 
     public void setProfMailAddr(String profMailAddr) {
         this.profMailAddr = profMailAddr;
+    }
+
+    public String getProfInstitution() {
+        return profInstitution;
+    }
+
+    public void setProfInstitution(String profInstitution) {
+        this.profInstitution = profInstitution;
+    }
+
+    public String getProfMajor() {
+        return profMajor;
+    }
+
+    public void setProfMajor(String profMajor) {
+        this.profMajor = profMajor;
+    }
+
+    public String getProfPhone() {
+        return profPhone;
+    }
+
+    public void setProfPhone(String profPhone) {
+        this.profPhone = profPhone;
     }
 
     public String getReqSubject() {

@@ -23,6 +23,8 @@ public class RecommendationApplicationInfo {
 
     private String dept;
 
+    private String recStsCode;
+
     public int getRecNo() {
         return recNo;
     }
@@ -93,5 +95,13 @@ public class RecommendationApplicationInfo {
 
     public void setDept(String dept) {
         this.dept = dept;
+    }
+
+    public String getRecStsCode() {
+        return recStsCode;
+    }
+
+    public void setRecStsCode(String recStsCode) {
+        this.recStsCode = recStsCode;
     }
 }
