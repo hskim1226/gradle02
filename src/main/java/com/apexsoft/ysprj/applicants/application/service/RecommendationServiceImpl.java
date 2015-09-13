@@ -295,25 +295,41 @@ public class RecommendationServiceImpl implements RecommendationService {
         recommendation.setModDate(new Date());
         int r1 = commonDAO.updateItem(recommendation, NAME_SPACE, "CustomRecommendationMapper", ".updateSelective");
         Recommendation result = commonDAO.queryForObject(NAME_SPACE + "CustomRecommendationMapper.selectByRecNo", recNo, Recommendation.class);
-        result.setNotifyApplicantYn("Y");
+
         if (r1 == 1) {
             ec.setResult(ExecutionContext.SUCCESS);
-            if ("Y".equals(result.getNotifyApplicantYn())) {
-                if (sendCompletedMail(result)) {
-                    ec.setMessage(MessageResolver.getMessage("U06737")); // 추천서 등록을 완료하고 지원자에게 알림 메일을 보냈습니다.
-                } else {
-                    ec.setResult(ExecutionContext.FAIL);
-                    ec.setMessage(MessageResolver.getMessage("U06736")); // 지원자에게 추천서 등록 완료 알림 메일을 보내는데 실패했습니다.
-                    ec.setErrCode("ERR0105");
-                    Map<String, String> errorInfo = new HashMap<String, String>();
-                    errorInfo.put("recNo", String.valueOf(recNo));
-                    ec.setErrorInfo(new ErrorInfo(errorInfo));
 
-                    throw new YSBizException(ec);
-                }
+
+            Mail mail = mailFactory.create(MailType.RECOMMENDATION_COMPLETED);
+            mail.setInfo(recommendation);
+            mail.setInfoType(Recommendation.class);
+
+            Application application =
+                    commonDAO.queryForObject(NAME_SPACE + "CustomRecommendationMapper.selectApplicantMailByRecNo",
+                            recNo, Application.class);
+            String applicantName = StringUtil.getEmptyIfNull(application.getKorName()).length() > 0 ?
+                    application.getKorName() :
+                    application.getEngName();
+            mail.setTo(new String[]{application.getMailAddr()});
+            mail.setSubject(MessageResolver.getMessage("MAIL_COMPLETED_RECOMMENDATION_SUBJECT"));
+            Map<Object, String> contentsParam = mail.getContentsParam();
+            contentsParam.put(MailContentsParamKey.USER_NAME, applicantName);
+            contentsParam.put(MailContentsParamKey.PROF_NAME, recommendation.getProfName());
+            mail.makeContents();
+
+            if (sendCompletedMail(mail)) {
+                ec.setMessage(MessageResolver.getMessage("U06737")); // 추천서 등록을 완료하고 지원자에게 알림 메일을 보냈습니다.
             } else {
-                ec.setMessage(MessageResolver.getMessage("U06734")); // 추천서 등록이 완료되었습니다.
+                ec.setResult(ExecutionContext.FAIL);
+                ec.setMessage(MessageResolver.getMessage("U06736")); // 지원자에게 추천서 등록 완료 알림 메일을 보내는데 실패했습니다.
+                ec.setErrCode("ERR0105");
+                Map<String, String> errorInfo = new HashMap<String, String>();
+                errorInfo.put("recNo", String.valueOf(recNo));
+                ec.setErrorInfo(new ErrorInfo(errorInfo));
+
+                throw new YSBizException(ec);
             }
+
 
         } else {
             ec.setResult(ExecutionContext.FAIL);
@@ -343,7 +359,21 @@ public class RecommendationServiceImpl implements RecommendationService {
         ExecutionContext ec = new ExecutionContext();
         List<Recommendation> failedList = new ArrayList<Recommendation>();
         for (Recommendation recommendation : recommendationList) {
-
+            fillEtcInfo(recommendation);
+            Mail mailToProf = mailFactory.create(MailType.RECOMMENDATION_URGE);
+            mailToProf.setTo(new String[]{recommendation.getProfMailAddr()});
+            mailToProf.setSubject(MessageResolver.getMessage("MAIL_URGENCY_RECOMMENDATION_SUBJECT",
+                    new Object[]{INST_NAME_EN}));
+            mailToProf.setInfo(recommendation);
+            mailToProf.setInfoType(Recommendation.class);
+            mailToProf.withContentsParam("contextPath", context.getContextPath())
+                    .withContentsParam("siteURL", SITE_URL)
+                    .withContentsParam("instNameEN", INST_NAME_EN)
+                    .withContentsParam("dueTime", REC_DUE_DATE);
+            mailToProf.makeContents();
+            if (!sendUrgeMail(mailToProf)) {
+                failedList.add(recommendation);
+            }
         }
         return ec;
     }
@@ -380,9 +410,6 @@ public class RecommendationServiceImpl implements RecommendationService {
 
     @Override
     public Recommendation fillEtcInfo(Recommendation recommendation) {
-//        ParamForApplication param = new ParamForApplication();
-//        param.setApplNo(recommendation.getApplNo());
-
         int recNo = recommendation.getApplNo();
         RecommendationApplicationInfo recApplInfo = commonDAO.queryForObject(NAME_SPACE + "CustomRecommendationMapper.selectRecommendApplInfo",
                 recNo, RecommendationApplicationInfo.class);
@@ -431,30 +458,43 @@ public class RecommendationServiceImpl implements RecommendationService {
     }
 
     /**
-     * 추천서 등록 후 교수가 지원자에게 확인 메일 발송
-     *
-     * @param recommendation
+     * 추천서 등록 안 될 때 독려 메일 발송
+     * @param mail
      * @return
      */
-    private boolean sendCompletedMail(Recommendation recommendation) {
-        int recNo = recommendation.getRecNo();
-        boolean isSent = false;
-        Mail mail = mailFactory.create(MailType.RECOMMENDATION_COMPLETED);
-        mail.setInfo(recommendation);
-        mail.setInfoType(Recommendation.class);
+    private boolean sendUrgeMail(Mail mail) {
 
-        Application application =
-                commonDAO.queryForObject(NAME_SPACE + "CustomRecommendationMapper.selectApplicantMailByRecNo",
-                        recNo, Application.class);
-        String applicantName = StringUtil.getEmptyIfNull(application.getKorName()).length() > 0 ?
-                application.getKorName() :
-                application.getEngName();
-        mail.setTo(new String[]{application.getMailAddr()});
-        mail.setSubject(MessageResolver.getMessage("MAIL_COMPLETED_RECOMMENDATION_SUBJECT"));
-        Map<Object, String> contentsParam = mail.getContentsParam();
-        contentsParam.put(MailContentsParamKey.USER_NAME, applicantName);
-        contentsParam.put(MailContentsParamKey.PROF_NAME, recommendation.getProfName());
-        mail.makeContents();
+        boolean isSentToProf = false;
+
+        try {
+            sesMailService.sendMail(mail);
+            isSentToProf = true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return isSentToProf;
+
+
+//        boolean isSentToApplicant = false;
+//        try {
+//            sesMailService.sendMail(mailToProf);
+//            isSentToProf = true;
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//
+//        return isSentToProf;
+    }
+
+
+    /**
+     * 추천서 등록 후 교수가 지원자에게 확인 메일 발송
+     *
+     * @param mail
+     * @return
+     */
+    private boolean sendCompletedMail(Mail mail) {
+        boolean isSent = false;
         try {
             sesMailService.sendMail(mail);
             isSent = true;
@@ -465,26 +505,5 @@ public class RecommendationServiceImpl implements RecommendationService {
 
     }
 
-    private boolean sendUrgeMail(Recommendation recommendation) {
-        int recNo = recommendation.getRecNo();
-        int applNo = recommendation.getApplNo();
 
-        boolean isSentToProf = false;
-        boolean isSentToApplicant = false;
-// TODO 교수에게 독려 메일 발송
-        Mail mailToProf = mailFactory.create(MailType.RECOMMENDATION_URGE);
-        mailToProf.setTo(new String[]{recommendation.getProfMailAddr()});
-        mailToProf.setSubject("MAIL_URGENCY_RECOMMENDATION_SUBJECT");
-        mailToProf.setInfo(recommendation);
-        mailToProf.setInfoType(Recommendation.class);
-        mailToProf.makeContents();
-        try {
-            sesMailService.sendMail(mailToProf);
-            isSentToProf = true;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return isSentToProf;
-    }
 }
