@@ -8,19 +8,18 @@ import com.apexsoft.framework.mail.MailType;
 import com.apexsoft.framework.mail.SESMailService;
 import com.apexsoft.framework.message.MessageResolver;
 import com.apexsoft.framework.persistence.dao.CommonDAO;
-import com.apexsoft.ysprj.applicants.application.domain.Application;
-import com.apexsoft.ysprj.applicants.application.domain.ParamForApplicationRecommendation;
-import com.apexsoft.ysprj.applicants.application.domain.Recommendation;
-import com.apexsoft.ysprj.applicants.application.domain.RecommendationApplicationInfo;
+import com.apexsoft.ysprj.applicants.application.domain.*;
 import com.apexsoft.ysprj.applicants.common.domain.MailContentsParamKey;
+import com.apexsoft.ysprj.applicants.common.util.CryptoUtil;
 import com.apexsoft.ysprj.applicants.common.util.MailFactory;
 import com.apexsoft.ysprj.applicants.common.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import javax.servlet.ServletContext;
+import java.io.IOException;
+import java.util.*;
 
 /**
  * Created by hanmomhanda on 15. 1. 13.
@@ -38,6 +37,23 @@ public class RecommendationServiceImpl implements RecommendationService {
 
     @Autowired
     private SESMailService sesMailService;
+
+    @Autowired
+    private ServletContext context;
+
+    @Value("#{app['site.url']}")
+    private String SITE_URL;
+
+    @Value("#{app['recommendation.duedate']}")
+    private String REC_DUE_DATE;
+
+    @Value("#{app['institution.name.kr']}")
+    private String INST_NAME_KR;
+
+    @Value("#{app['institution.name.en']}")
+    private String INST_NAME_EN;
+
+    private final String sampleRecKey = "f865d2b5becebbf95b65871442fcccb95695340e7a5967ab247baf34183f4027";
 
     @Override
     public ExecutionContext retrieveRecommendation(int recNo) {
@@ -64,13 +80,51 @@ public class RecommendationServiceImpl implements RecommendationService {
     }
 
     @Override
+    public ExecutionContext previewRecommendation(Recommendation recommendation) {
+        ExecutionContext ec = new ExecutionContext();
+        recommendation.setReqSubject(MessageResolver.getMessage("MAIL_REQUEST_RECOMMENDATION_SUBJECT",
+                new Object[]{INST_NAME_EN}));
+        recommendation.setRecKey(sampleRecKey);
+        recommendation.setDueDate(REC_DUE_DATE);
+        fillEtcInfo(recommendation);
+
+        Mail mail = mailFactory.create(MailType.RECOMMENDATION_REQUEST);
+        mail.setInfo(recommendation);
+        mail.setInfoType(Recommendation.class);
+        mail.setTo(new String[]{recommendation.getProfMailAddr()});
+        mail.setSubject(recommendation.getReqSubject());
+        mail.withContentsParam("contextPath", context.getContextPath())
+                .withContentsParam("siteURL", SITE_URL);
+        mail.makeContents();
+
+        ec.setData(mail);
+        return ec;
+    }
+
+    @Override
     public ExecutionContext saveRecommendationRequest(Recommendation recommendation) {
         ExecutionContext ec = new ExecutionContext();
         int applNo = recommendation.getApplNo();
-        int recSeq = recommendation.getRecSeq();
+        int recSeq = recommendation.getRecSeq() == null ? -1 : recommendation.getRecSeq();
+
+        recommendation.setReqSubject(MessageResolver.getMessage("MAIL_REQUEST_RECOMMENDATION_SUBJECT",
+                new Object[]{INST_NAME_EN}));
+        fillEtcInfo(recommendation);
+
+        Mail mail = mailFactory.create(MailType.RECOMMENDATION_REQUEST);
+        mail.setInfo(recommendation);
+        mail.setInfoType(Recommendation.class);
+        mail.setTo(new String[]{recommendation.getProfMailAddr()});
+        mail.setSubject(recommendation.getReqSubject());
+        mail.makeContents();
+
+//        recommendation.setMailContents(makeLinkText(recommendation, true));
+        recommendation.setMailContents(mail.getContents());
+        recommendation.setDueDate(REC_DUE_DATE);
+
         boolean isUpdate = recSeq > 0;
 
-        int r1 = saveRecommendation(recommendation, "00001");
+        int r1 = saveRecommendation(recommendation, RecommendStatus.TEMP.codeVal());
 
         if (r1 == 1) {
             ec.setResult(ExecutionContext.SUCCESS);
@@ -131,15 +185,32 @@ public class RecommendationServiceImpl implements RecommendationService {
         int recNo = recommendation.getRecNo();
         int applNo = recommendation.getApplNo();
         int recSeq = recommendation.getRecSeq();
+
+        String encrypted = getEncryptedRecKey(recommendation);
+        recommendation.setRecKey(encrypted);
+        recommendation.setDueDate(REC_DUE_DATE);
+        recommendation.setReqSubject(MessageResolver.getMessage("MAIL_REQUEST_RECOMMENDATION_SUBJECT",
+                new Object[]{INST_NAME_EN}));
+        fillEtcInfo(recommendation);
+        Mail mail = mailFactory.create(MailType.RECOMMENDATION_REQUEST);
+        mail.setInfo(recommendation);
+        mail.setInfoType(Recommendation.class);
+        mail.setTo(new String[]{recommendation.getProfMailAddr()});
+        mail.setSubject(recommendation.getReqSubject());
+        mail.withContentsParam("contextPath", context.getContextPath())
+                .withContentsParam("siteURL", SITE_URL);
+        mail.makeContents();
+        recommendation.setMailContents(mail.getContents());
+
         boolean isUpdate = recSeq > 0 || recNo > 0;
 
         fillEtcInfo(recommendation);
 
-        int r1 = saveRecommendation(recommendation, "00002"); // 요청 완료
+        int r1 = saveRecommendation(recommendation, RecommendStatus.SENT.codeVal()); // 요청 완료
 
         if (r1 == 1) {
             ec.setResult(ExecutionContext.SUCCESS);
-            if (sendRequestMail(recommendation)) {
+            if (sendRequestMail(mail)) {
                 ec.setMessage(MessageResolver.getMessage("U06509")); // 교수님께 추천서 요청을 발송했습니다.
             } else {
                 ec.setResult(ExecutionContext.FAIL);
@@ -173,6 +244,36 @@ public class RecommendationServiceImpl implements RecommendationService {
     }
 
     @Override
+    public ExecutionContext openRecommendationRequestByProfessor(Recommendation param) {
+        ExecutionContext ec = new ExecutionContext();
+        Recommendation recommendation = commonDAO.queryForObject(NAME_SPACE + "CustomRecommendationMapper.selectByRecNo",
+                param, Recommendation.class);
+        // 등록 완료가 아니면 교수 확인(OPENED)로 상태 변경
+        if (!RecommendStatus.COMPLETED.codeVal().equals(recommendation.getRecStsCode())) {
+            int r1 = 0;
+            param.setRecStsCode(RecommendStatus.OPENED.codeVal());
+            param.setModDate(new Date());
+            r1 = commonDAO.updateItem(param, NAME_SPACE, "CustomRecommendationMapper", ".updateSelective");
+
+            if (r1 != 1) {
+                ec.setResult(ExecutionContext.FAIL);
+                ec.setMessage(MessageResolver.getMessage("U06513")); // 추천서 상태 변경에 실패했습니다.
+                ec.setErrCode("ERR0081");
+
+                Map<String, String> errorInfo = new HashMap<String, String>();
+                errorInfo.put("recNo", String.valueOf(param.getRecNo()));
+                errorInfo.put("applNo", String.valueOf(param.getApplNo()));
+                errorInfo.put("recSeq", String.valueOf(param.getRecSeq()));
+                ec.setErrorInfo(new ErrorInfo(errorInfo));
+
+                throw new YSBizException(ec);
+            }
+        }
+        ec.setResult(ExecutionContext.SUCCESS);
+        return ec;
+    }
+
+    @Override
     public ExecutionContext retrieveRecommendationByProfessor(Recommendation param) {
         ExecutionContext ec = new ExecutionContext();
 
@@ -181,6 +282,8 @@ public class RecommendationServiceImpl implements RecommendationService {
                         param, RecommendationApplicationInfo.class);
         ec.setData(recApplInfo);
 
+
+
         return ec;
     }
 
@@ -188,8 +291,8 @@ public class RecommendationServiceImpl implements RecommendationService {
     public ExecutionContext registerRecommendationByProfessor(Recommendation recommendation) {
         ExecutionContext ec = new ExecutionContext();
         int recNo = recommendation.getRecNo();
-        recommendation.setRecStsCode("00003");  // 추천서 접수 완료
-
+        recommendation.setRecStsCode(RecommendStatus.COMPLETED.codeVal());  // 추천서 접수 완료
+        recommendation.setModDate(new Date());
         int r1 = commonDAO.updateItem(recommendation, NAME_SPACE, "CustomRecommendationMapper", ".updateSelective");
         Recommendation result = commonDAO.queryForObject(NAME_SPACE + "CustomRecommendationMapper.selectByRecNo", recNo, Recommendation.class);
         result.setNotifyApplicantYn("Y");
@@ -226,6 +329,25 @@ public class RecommendationServiceImpl implements RecommendationService {
         return ec;
     }
 
+    @Override
+    public ExecutionContext retrieveUncompletedRecommendationList() {
+        ExecutionContext ec = new ExecutionContext();
+        List<Recommendation> uncompletedRecList =
+                commonDAO.queryForList(NAME_SPACE + "CustomRecommendationMapper.selectUncompletedRecs", Recommendation.class);
+        ec.setData(uncompletedRecList);
+        return ec;
+    }
+
+    @Override
+    public ExecutionContext sendUrgeMail(List<Recommendation> recommendationList) {
+        ExecutionContext ec = new ExecutionContext();
+        List<Recommendation> failedList = new ArrayList<Recommendation>();
+        for (Recommendation recommendation : recommendationList) {
+
+        }
+        return ec;
+    }
+
     /**
      * 추천서 요청 저장
      *
@@ -236,15 +358,21 @@ public class RecommendationServiceImpl implements RecommendationService {
     private int saveRecommendation(Recommendation recommendation, String recStsCode) {
         int recNo = recommendation.getRecNo();
         int applNo = recommendation.getApplNo();
-        int recSeq = recommendation.getRecSeq();
+        int recSeq = recommendation.getRecSeq() == null ? -1 : recommendation.getRecSeq();
+        String id = recommendation.getModId();
         int r1 = 0;
         boolean isUpdate = recSeq > 0 || recNo > 0;
         recommendation.setRecStsCode(recStsCode);
+        Date date = new Date();
         if (isUpdate) {
+            recommendation.setModDate(date);
             r1 = commonDAO.updateItem(recommendation, NAME_SPACE, "CustomRecommendationMapper", ".updateSelective");
         } else {
             recSeq = commonDAO.queryForInt(NAME_SPACE + "CustomRecommendationMapper.selectMaxRecSeqByApplNo", applNo);
             recommendation.setRecSeq(++recSeq);
+            recommendation.setCreDate(date);
+            recommendation.setCreId(id);
+            recommendation.setModId(null);
             r1 = commonDAO.insertItem(recommendation, NAME_SPACE, "CustomRecommendationMapper");
         }
         return r1;
@@ -266,18 +394,33 @@ public class RecommendationServiceImpl implements RecommendationService {
     }
 
     /**
-     * 추천서 등록 화면 링크 암호화 해쉬 문자열을 생성하고 메일 발송
+     * 추천서 등록화면 접근 URL을 위한 암호화 해쉬 문자열 반환
      * @param recommendation
      * @return
      */
-    private boolean sendRequestMail(Recommendation recommendation) {
+    private String getEncryptedRecKey(Recommendation recommendation) {
+        int recNo = recommendation.getRecNo();
+        int applNo = recommendation.getApplNo();
+        String profName = recommendation.getProfName();
+        String profMailAddr = recommendation.getProfMailAddr();
+        String input = recNo + ";" + applNo + ";" + profName + ";" + profMailAddr;
+
+        String encrypted = null;
+        try {
+            encrypted = CryptoUtil.getCryptedString(context, input, true);
+        } catch (IOException e) {
+            throw new YSBizException(e);
+        }
+        return encrypted;
+    }
+
+    /**
+     * 추천서 등록 화면 링크 암호화 해쉬 문자열을 생성하고 메일 발송
+     * @param mail
+     * @return
+     */
+    private boolean sendRequestMail(Mail mail) {
         boolean isSent = false;
-        Mail mail = mailFactory.create(MailType.RECOMMENDATION_REQUEST);
-        mail.setInfo(recommendation);
-        mail.setInfoType(Recommendation.class);
-        mail.setTo(new String[]{recommendation.getProfMailAddr()});
-        mail.setSubject(recommendation.getReqSubject());
-        mail.makeContents();
         try {
             sesMailService.sendMail(mail);
             isSent = true;
@@ -299,7 +442,7 @@ public class RecommendationServiceImpl implements RecommendationService {
         Mail mail = mailFactory.create(MailType.RECOMMENDATION_COMPLETED);
         mail.setInfo(recommendation);
         mail.setInfoType(Recommendation.class);
-        // TODO - DB 조회해서 지원자 메일주소 세팅
+
         Application application =
                 commonDAO.queryForObject(NAME_SPACE + "CustomRecommendationMapper.selectApplicantMailByRecNo",
                         recNo, Application.class);
@@ -320,5 +463,28 @@ public class RecommendationServiceImpl implements RecommendationService {
         }
         return isSent;
 
+    }
+
+    private boolean sendUrgeMail(Recommendation recommendation) {
+        int recNo = recommendation.getRecNo();
+        int applNo = recommendation.getApplNo();
+
+        boolean isSentToProf = false;
+        boolean isSentToApplicant = false;
+// TODO 교수에게 독려 메일 발송
+        Mail mailToProf = mailFactory.create(MailType.RECOMMENDATION_URGE);
+        mailToProf.setTo(new String[]{recommendation.getProfMailAddr()});
+        mailToProf.setSubject("MAIL_URGENCY_RECOMMENDATION_SUBJECT");
+        mailToProf.setInfo(recommendation);
+        mailToProf.setInfoType(Recommendation.class);
+        mailToProf.makeContents();
+        try {
+            sesMailService.sendMail(mailToProf);
+            isSentToProf = true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return isSentToProf;
     }
 }

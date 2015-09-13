@@ -2,6 +2,7 @@ package com.apexsoft.ysprj.applicants.application.control;
 
 import com.apexsoft.framework.common.vo.ExecutionContext;
 import com.apexsoft.framework.exception.YSBizException;
+import com.apexsoft.framework.mail.Mail;
 import com.apexsoft.framework.message.MessageResolver;
 import com.apexsoft.framework.persistence.dao.CommonDAO;
 import com.apexsoft.ysprj.applicants.admission.service.AdmissionService;
@@ -10,10 +11,13 @@ import com.apexsoft.ysprj.applicants.application.service.BasisService;
 import com.apexsoft.ysprj.applicants.application.service.RecommendationService;
 import com.apexsoft.ysprj.applicants.application.validator.RecommendationValidator;
 import com.apexsoft.ysprj.applicants.common.util.CryptoUtil;
+import com.apexsoft.ysprj.user.domain.User;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.python.antlr.ast.Exec;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -22,6 +26,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.annotation.Resource;
 import javax.crypto.IllegalBlockSizeException;
 import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.security.Principal;
 import java.util.List;
@@ -55,6 +60,9 @@ public class PreApplicationController {
     @Autowired
     private CommonDAO commonDAO;
 
+    @Autowired
+    private PasswordEncoder encoder;
+
     @Value("#{app['adms.general']}")
     private String admsGeneral;
 
@@ -64,13 +72,8 @@ public class PreApplicationController {
     @Value("#{app['adms.early']}")
     private String admsEarly;
 
-    @Value("#{app['site.url']}")
-    private String SITE_URL;
-
-    @Value("#{app['recommendation.duedate']}")
-    private String REC_DUE_DATE;
-
-    private final String sampleRecKey = "f865d2b5becebbf95b65871442fcccb95695340e7a5967ab247baf34183f4027";
+    @Value("#{app['recommendation.notice.sendkey']}")
+    private String SEND_KEY;
 
     /**
      * 공고 목록 화면
@@ -217,17 +220,12 @@ public class PreApplicationController {
     @ResponseBody
     public ExecutionContext recommendationPreview(Recommendation recommendation) {
 
-        ExecutionContext ec = new ExecutionContext();
-
-        recommendation.setRecKey(sampleRecKey);
-        recommendation.setRecStsCode("00001");
-        recommendation.setDueDate(REC_DUE_DATE);
-        recommendationService.fillEtcInfo(recommendation);
-        recommendation.setMailContents(makeLinkText(recommendation, true));
+        ExecutionContext ec = recommendationService.previewRecommendation(recommendation);
+        Mail preview = (Mail) ec.getData();
 
         String json = null;
         try {
-            json = jacksonObjectMapper.writeValueAsString(recommendation);
+            json = jacksonObjectMapper.writeValueAsString(preview);
         } catch (JsonProcessingException e) {
             throw new YSBizException(e);
         }
@@ -248,6 +246,7 @@ public class PreApplicationController {
     @RequestMapping(value = "/recReq/save", method = RequestMethod.POST)
     public ModelAndView recommendationSave(Recommendation recommendation,
                                            BindingResult bindingResult,
+                                           Principal principal,
                                            ModelAndView mv) {
 
         recommendationValidator.validate(recommendation, bindingResult);
@@ -257,8 +256,7 @@ public class PreApplicationController {
             return mv;
         }
 
-//        recommendation.setRecKey(getEncryptedRecKey(recommendation));
-        recommendation.setDueDate(REC_DUE_DATE);
+        recommendation.setModId(principal.getName());
         ExecutionContext ec = recommendationService.saveRecommendationRequest(recommendation);
 
         Recommendation result = (Recommendation)ec.getData();
@@ -298,7 +296,8 @@ public class PreApplicationController {
      * @return
      */
     @RequestMapping(value = "/recReq/send", method = RequestMethod.POST)
-    public ModelAndView recommendationSend(Recommendation recommendation, BindingResult bindingResult, ModelAndView mv) {
+    public ModelAndView recommendationSend(Recommendation recommendation, BindingResult bindingResult,
+                                           Principal principal, ModelAndView mv) {
         recommendationValidator.validate(recommendation, bindingResult);
         mv.setViewName("application/recReqList");
         if (bindingResult.hasErrors()) {
@@ -306,11 +305,8 @@ public class PreApplicationController {
             return mv;
         }
 
-        String encrypted = getEncryptedRecKey(recommendation);
-        recommendation.setRecKey(encrypted);
-        recommendation.setDueDate(REC_DUE_DATE);
-        recommendationService.fillEtcInfo(recommendation);
-        recommendation.setMailContents(makeLinkText(recommendation, false));
+
+        recommendation.setModId(principal.getName());
 
         // DB 저장 후 메일 보내기
         ExecutionContext ec = recommendationService.sendRecommendationRequest(recommendation);
@@ -345,14 +341,17 @@ public class PreApplicationController {
             return mv;
         }
 
-        // applNo 와 key 로 추천서 DB 조회
+        // 복호화해서 recNo 로 추천서 DB 조회
         Recommendation recommendation = new Recommendation();
         recommendation.setRecNo(Integer.parseInt(decrypted.split(";")[0]));
+        ExecutionContext ec0 = recommendationService.openRecommendationRequestByProfessor(recommendation);
         ExecutionContext ec = recommendationService.retrieveRecommendationByProfessor(recommendation);
 
+        // 추천서 상태가 요청발송, 교수확인이면 등록화면으로 등록완료면 등록 완료 안내 화면으로
         if (ExecutionContext.SUCCESS.equals(ec.getResult())) {
             RecommendationApplicationInfo recApplInfo = (RecommendationApplicationInfo)ec.getData();
-            if (RecommendStatus.SENT.codeVal().equals(recApplInfo.getRecStsCode())) {
+            if (RecommendStatus.SENT.codeVal().equals(recApplInfo.getRecStsCode())
+                    || RecommendStatus.OPENED.codeVal().equals(recApplInfo.getRecStsCode())) {
                 mv.setViewName("application/formRecommendation");
                 mv.addObject("applInfo", ec.getData());
             } else if (RecommendStatus.COMPLETED.codeVal().equals(recApplInfo.getRecStsCode())) {
@@ -375,150 +374,33 @@ public class PreApplicationController {
     @RequestMapping(value = "/recommend", method = RequestMethod.POST)
     public ModelAndView recommendationSave(Recommendation recommendation,
                                            ModelAndView mv) {
-        // TODO 추천서 등록 완료 페이지 mv setting
+        mv.setViewName("application/recNotice");
         // 추천 상태 변경 DB 반영 및 지원자에게 메일 발송 처리
         ExecutionContext ec = recommendationService.registerRecommendationByProfessor(recommendation);
 
-        mv.setViewName("application/recNotice");
         mv.addObject("title", messageResolver.getMessage("L06902"));
         mv.addObject("notice", messageResolver.getMessage("U06902"));
-        // return
-
-        // applNo 와 key 로 추천서 DB 조회
-//        Recommendation recommendation = new Recommendation();
-//        recommendation.setApplNo(Integer.parseInt(decrypted.split(";")[0]));
-//        recommendation.setRecKey(key);
-//        ExecutionContext ec = recommendationService.retrieveRecommendationByProfessor(recommendation);
-//
-//        // 추천서 상태가 요청 완료이면 추천서 등록 화면 보여줌
-//        if (ExecutionContext.SUCCESS.equals(ec.getResult())) {
-//            mv.setViewName("application/formRecommendation");
-//
-//            mv.addObject("applInfo", ec.getData());
-//        } else { // 위의 내용 아니면 403으로 별도 화면 보여줌
-//            // throw new YSBizException();
-//        }
 
         return mv;
     }
 
-    /**
-     * 추천서 등록화면 접근 URL을 위한 암호화 해쉬 문자열 반환
-     * @param recommendation
-     * @return
-     */
-    private String getEncryptedRecKey(Recommendation recommendation) {
-        int recNo = recommendation.getRecNo();
-        int applNo = recommendation.getApplNo();
-        String profName = recommendation.getProfName();
-        String profMailAddr = recommendation.getProfMailAddr();
-        String input = recNo + ";" + applNo + ";" + profName + ";" + profMailAddr;
-
-        String encrypted = null;
-        try {
-            encrypted = CryptoUtil.getCryptedString(context, input, true);
-//System.err.println("encrypted Length : " + encrypted.length());
-        } catch (IOException e) {
-            throw new YSBizException(e);
-        }
-        return encrypted;
-    }
-
-    /**
-     * 추천서 등록 화면을 위한 HTML Link 생성
-     * @param recommendation
-     * @param isPreview
-     * @return
-     */
-    private String makeLinkText(Recommendation recommendation, boolean isPreview) {
-        String splitLiner = MessageResolver.getMessage("L06534"); // ------
-        String whoAmI = MessageResolver.getMessage("U06701"); // 안녕하십니까. 연세대학교 대학원 입학 신청 시스템입니다.
-        String linkInfoText = MessageResolver.getMessage("U06504"); // 아래의 링크를 ...
-        String contextPath = context.getContextPath();
-        String linkText = SITE_URL + contextPath + "/application/recommend?key=" + recommendation.getRecKey();
-        String br = "<br/>";
-        String NEW_LINE1 = "\n";
-        String NEW_LINE2 = "\n\n";
-        String linkAnchorText = new StringBuilder()
-                                    .append("<a href='")
-                                    .append(linkText)
-                                    .append("' target='_blank'>")
-                                    .append(linkText)
-                                    .append("</a>")
-                                    .toString();
-        StringBuilder sb = null;
-
-        if (isPreview) {
-            sb = new StringBuilder()
-                    .append(MessageResolver.getMessage("MAIL_REQUEST_RECOMMENDATION_HEADER01"))
-                    .append(NEW_LINE2)
-                    .append(MessageResolver.getMessage("MAIL_REQUEST_RECOMMENDATION_HEADER02"))
-                    .append(NEW_LINE1)
-                    .append(MessageResolver.getMessage("MAIL_REQUEST_RECOMMENDATION_HEADER03",
-                            new Object[]{recommendation.getDueDate()}))
-                    .append(NEW_LINE2)
-                    .append(MessageResolver.getMessage("MAIL_REQUEST_RECOMMENDATION_BODY_INFO_TITLE"))
-                    .append(NEW_LINE1)
-                    .append(MessageResolver.getMessage("MAIL_REQUEST_RECOMMENDATION_BODY_INFO_NAME",
-                            new Object[]{recommendation.getApplicantName()}))
-                    .append(NEW_LINE1)
-                    .append(MessageResolver.getMessage("MAIL_REQUEST_RECOMMENDATION_BODY_INFO_NATIONALITY",
-                            new Object[]{recommendation.getApplicantNationality()}))
-                    .append(NEW_LINE1)
-                    .append(MessageResolver.getMessage("MAIL_REQUEST_RECOMMENDATION_BODY_INFO_DEGREE",
-                            new Object[]{recommendation.getDegree()}))
-                    .append(NEW_LINE1)
-                    .append(MessageResolver.getMessage("MAIL_REQUEST_RECOMMENDATION_BODY_INFO_MAJOR",
-                            new Object[]{recommendation.getMajor()}))
-                    .append(NEW_LINE2)
-                    .append(MessageResolver.getMessage("MAIL_REQUEST_RECOMMENDATION_BODY_LETTER_TITLE"))
-                    .append(NEW_LINE1)
-                    .append(MessageResolver.getMessage("MAIL_REQUEST_RECOMMENDATION_BODY_LETTER_CONTENTS",
-                            new Object[]{recommendation.getReqText()}))
-                    .append(NEW_LINE2)
-                    .append(MessageResolver.getMessage("MAIL_REQUEST_RECOMMENDATION_BODY_LINK_NOTICE"))
-                    .append(NEW_LINE2)
-                    .append(MessageResolver.getMessage("MAIL_REQUEST_RECOMMENDATION_BODY_LINK",
-                            new Object[]{linkAnchorText}));
+    @RequestMapping(value = "/sendUrgeRecommendationMail", method = RequestMethod.GET)
+    public void sendUrgeRecommendationMail(@RequestParam(value = "sendkey") String sendKey) {
+        // 독려 메일 발송 키 확인
+        if (SEND_KEY.equals(sendKey)) {
+            // APPL_REC 테이블에서 REC_STS_CODE 가 00002(요청완료), 00003(교수확인)인 목록 조회
+            ExecutionContext ec = recommendationService.retrieveUncompletedRecommendationList();
+            if (ExecutionContext.SUCCESS.equals(ec.getResult())) {
+                List<Recommendation> uncompletedRecList = (List<Recommendation>) ec.getData();
+                ExecutionContext ec1 = recommendationService.sendUrgeMail(uncompletedRecList);
+            }
+            // 목록 반복 돌면서 교수, 학생에게 메일 발송
+            // 발송 오류시 파일로그 또는 DB에 기록
+            // 발송 결과 관리자에게 메일 발송
         } else {
-            sb = new StringBuilder()
-                    .append(MessageResolver.getMessage("MAIL_REQUEST_RECOMMENDATION_HEADER01"))
-                    .append(NEW_LINE2)
-                    .append(MessageResolver.getMessage("MAIL_REQUEST_RECOMMENDATION_HEADER02"))
-                    .append(NEW_LINE1)
-                    .append(MessageResolver.getMessage("MAIL_REQUEST_RECOMMENDATION_HEADER03",
-                            new Object[]{recommendation.getDueDate()}))
-                    .append(NEW_LINE2)
-                    .append(MessageResolver.getMessage("MAIL_REQUEST_RECOMMENDATION_BODY_INFO_TITLE"))
-                    .append(NEW_LINE1)
-                    .append(MessageResolver.getMessage("MAIL_REQUEST_RECOMMENDATION_BODY_INFO_NAME",
-                            new Object[]{recommendation.getApplicantName()}))
-                    .append(NEW_LINE1)
-                    .append(MessageResolver.getMessage("MAIL_REQUEST_RECOMMENDATION_BODY_INFO_NATIONALITY",
-                            new Object[]{recommendation.getApplicantNationality()}))
-                    .append(NEW_LINE1)
-                    .append(MessageResolver.getMessage("MAIL_REQUEST_RECOMMENDATION_BODY_INFO_DEGREE",
-                            new Object[]{recommendation.getDegree()}))
-                    .append(NEW_LINE1)
-                    .append(MessageResolver.getMessage("MAIL_REQUEST_RECOMMENDATION_BODY_INFO_MAJOR",
-                            new Object[]{recommendation.getMajor()}))
-                    .append(NEW_LINE2)
-                    .append(MessageResolver.getMessage("MAIL_REQUEST_RECOMMENDATION_BODY_LETTER_TITLE"))
-                    .append(NEW_LINE1)
-                    .append(MessageResolver.getMessage("MAIL_REQUEST_RECOMMENDATION_BODY_LETTER_CONTENTS",
-                            new Object[]{recommendation.getReqText()}))
-                    .append(NEW_LINE2)
-                    .append(MessageResolver.getMessage("MAIL_REQUEST_RECOMMENDATION_BODY_LINK_NOTICE"))
-                    .append(NEW_LINE2)
-                    .append(MessageResolver.getMessage("MAIL_REQUEST_RECOMMENDATION_BODY_LINK",
-                            new Object[]{linkText}));
+            // 어드민 아니면 파일로그에 남기고 종료
         }
-
-        return sb.toString();
     }
 
-    private String makeRecommendationCompletedMailContents(Recommendation recommendation) {
 
-        return null;
-    }
 }

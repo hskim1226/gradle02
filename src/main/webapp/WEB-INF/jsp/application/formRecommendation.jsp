@@ -102,7 +102,7 @@
                             </div>
                             <div class="spacer-tiny">&nbsp;</div>
                             <div class="col-sm-12 text-gray">
-                                <button id="btnComplete" class="btn btn-lg btn-info btn-upload btn-group-justified"><spring:message code="L06733"/><%--추천서 등록 완료--%></button>
+                                <button id="btnComplete" class="btn btn-lg btn-primary btn-upload btn-group-justified"><spring:message code="L06733"/><%--추천서 등록 완료--%></button>
                             </div>
                         </div>
                     </div>

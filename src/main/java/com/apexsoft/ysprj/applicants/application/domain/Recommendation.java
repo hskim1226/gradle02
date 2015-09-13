@@ -7,11 +7,11 @@ import java.util.Date;
  */
 public class Recommendation {
 
-    private int recNo;
+    private Integer recNo;
 
-    private int applNo;
+    private Integer applNo;
 
-    private int recSeq;
+    private Integer recSeq;
 
     private String applicantName;
 
@@ -25,9 +25,9 @@ public class Recommendation {
 
     private String profMailAddr;
 
-    private String profInstitution;
+    private String profInst;
 
-    private String profMajor;
+    private String profMaj;
 
     private String profPhone;
 
@@ -57,27 +57,27 @@ public class Recommendation {
 
     private Date modDate;
 
-    public int getRecNo() {
+    public Integer getRecNo() {
         return recNo;
     }
 
-    public void setRecNo(int recNo) {
+    public void setRecNo(Integer recNo) {
         this.recNo = recNo;
     }
 
-    public int getApplNo() {
+    public Integer getApplNo() {
         return applNo;
     }
 
-    public void setApplNo(int applNo) {
+    public void setApplNo(Integer applNo) {
         this.applNo = applNo;
     }
 
-    public int getRecSeq() {
+    public Integer getRecSeq() {
         return recSeq;
     }
 
-    public void setRecSeq(int recSeq) {
+    public void setRecSeq(Integer recSeq) {
         this.recSeq = recSeq;
     }
 
@@ -129,20 +129,20 @@ public class Recommendation {
         this.profMailAddr = profMailAddr;
     }
 
-    public String getProfInstitution() {
-        return profInstitution;
+    public String getProfInst() {
+        return profInst;
     }
 
-    public void setProfInstitution(String profInstitution) {
-        this.profInstitution = profInstitution;
+    public void setProfInst(String profInst) {
+        this.profInst = profInst;
     }
 
-    public String getProfMajor() {
-        return profMajor;
+    public String getProfMaj() {
+        return profMaj;
     }
 
-    public void setProfMajor(String profMajor) {
-        this.profMajor = profMajor;
+    public void setProfMaj(String profMaj) {
+        this.profMaj = profMaj;
     }
 
     public String getProfPhone() {

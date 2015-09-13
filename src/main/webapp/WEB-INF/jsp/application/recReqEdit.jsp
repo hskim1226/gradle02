@@ -82,13 +82,13 @@
                     <div class="form-group required">
                         <div class="col-sm-offset-1 col-sm-10">
                             <div class="col-sm-3 text-gray">
-                                <label for="profInstitution" class="control-label"><spring:message code="L06506"/><%--교수 소속 학교--%></label>
+                                <label for="profInst" class="control-label"><spring:message code="L06506"/><%--교수 소속 학교--%></label>
                             </div>
                             <div class="col-sm-9">
                                 <div class="col-sm-12 nopadding input-group">
-                                    <form:input path="profInstitution" cssClass="form-control input-text" maxlength="60" placeholder='${msg.getMsg("L06506")}' />  <%--교수 소속 학교--%>
+                                    <form:input path="profInst" cssClass="form-control input-text" maxlength="60" placeholder='${msg.getMsg("L06506")}' />  <%--교수 소속 학교--%>
                                 </div>
-                                <spring:bind path="profInstitution">
+                                <spring:bind path="profInst">
                                     <c:if test="${status.error}">
                                         <div class="col-sm-12 nopadding">
                                             <div class="validation-error">${status.errorMessage}</div>
@@ -101,13 +101,13 @@
                     <div class="form-group">
                         <div class="col-sm-offset-1 col-sm-10">
                             <div class="col-sm-3 text-gray">
-                                <label for="profMajor" class="control-label"><spring:message code="L06507"/><%--교수 전공--%></label>
+                                <label for="profMaj" class="control-label"><spring:message code="L06507"/><%--교수 전공--%></label>
                             </div>
                             <div class="col-sm-9">
                                 <div class="col-sm-12 nopadding input-group">
-                                    <form:input path="profMajor" cssClass="form-control input-text" maxlength="60" placeholder='${msg.getMsg("L06507")}' />  <%--교수 전공--%>
+                                    <form:input path="profMaj" cssClass="form-control input-text" maxlength="60" placeholder='${msg.getMsg("L06507")}' />  <%--교수 전공--%>
                                 </div>
-                                <%--<spring:bind path="profMajor">--%>
+                                <%--<spring:bind path="profMaj">--%>
                                     <%--<c:if test="${status.error}">--%>
                                         <%--<div class="col-sm-12 nopadding">--%>
                                             <%--<div class="validation-error">${status.errorMessage}</div>--%>
@@ -136,44 +136,45 @@
                             </div>
                         </div>
                     </div>
-                    <div class="form-group required">
-                        <div class="col-sm-offset-1 col-sm-10">
-                            <div class="col-sm-3 text-gray">
-                                <label for="reqSubject" class="control-label"><spring:message code="L06536"/><%--메일 제목--%></label>
-                            </div>
-                            <div class="col-sm-9">
-                                <div class="col-sm-12 nopadding input-group">
-                                    <form:input path="reqSubject" cssClass="form-control input-text" maxlength="40" placeholder='${msg.getMsg("U06511")}' />  <%--메일 제목을 입력해 주세요--%>
-                                </div>
-                                <spring:bind path="reqSubject">
-                                    <c:if test="${status.error}">
-                                        <div class="col-sm-12 nopadding">
-                                            <div class="validation-error">${status.errorMessage}</div>
-                                        </div>
-                                    </c:if>
-                                </spring:bind>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group required">
-                        <div class="col-sm-offset-1 col-sm-10">
-                            <div class="col-sm-3 text-gray">
-                                <label for="reqText" class="control-label"><spring:message code="L06504"/><%--요청 내용--%></label>
-                            </div>
-                            <div class="col-sm-9">
-                                <div class="col-sm-12 nopadding input-group">
-                                    <form:textarea path="reqText" cssClass="form-control" rows="10" placeholder='${msg.getMsg("U06503")}'></form:textarea>  <%--교수님께 보낼 메일 내용을 500자 이내로 입력해주세요.--%>
-                                </div>
-                        <spring:bind path="reqText">
-                            <c:if test="${status.error}">
-                                <div class="col-sm-12 nopadding">
-                                    <div class="validation-error">${status.errorMessage}</div>
-                                </div>
-                            </c:if>
-                        </spring:bind>
-                            </div>
-                        </div>
-                    </div>
+                    <%-- 메일 제목과 요청 내용은 지원자가 작성하지 않고 시스템에서 작성하는 것으로 결정 --%>
+                    <%--<div class="form-group required">--%>
+                        <%--<div class="col-sm-offset-1 col-sm-10">--%>
+                            <%--<div class="col-sm-3 text-gray">--%>
+                                <%--<label for="reqSubject" class="control-label"><spring:message code="L06536"/>&lt;%&ndash;메일 제목&ndash;%&gt;</label>--%>
+                            <%--</div>--%>
+                            <%--<div class="col-sm-9">--%>
+                                <%--<div class="col-sm-12 nopadding input-group">--%>
+                                    <%--<form:input path="reqSubject" cssClass="form-control input-text" maxlength="40" placeholder='${msg.getMsg("U06511")}' />  &lt;%&ndash;메일 제목을 입력해 주세요&ndash;%&gt;--%>
+                                <%--</div>--%>
+                                <%--<spring:bind path="reqSubject">--%>
+                                    <%--<c:if test="${status.error}">--%>
+                                        <%--<div class="col-sm-12 nopadding">--%>
+                                            <%--<div class="validation-error">${status.errorMessage}</div>--%>
+                                        <%--</div>--%>
+                                    <%--</c:if>--%>
+                                <%--</spring:bind>--%>
+                            <%--</div>--%>
+                        <%--</div>--%>
+                    <%--</div>--%>
+                    <%--<div class="form-group required">--%>
+                        <%--<div class="col-sm-offset-1 col-sm-10">--%>
+                            <%--<div class="col-sm-3 text-gray">--%>
+                                <%--<label for="reqText" class="control-label"><spring:message code="L06504"/>&lt;%&ndash;요청 내용&ndash;%&gt;</label>--%>
+                            <%--</div>--%>
+                            <%--<div class="col-sm-9">--%>
+                                <%--<div class="col-sm-12 nopadding input-group">--%>
+                                    <%--<form:textarea path="reqText" cssClass="form-control" rows="10" placeholder='${msg.getMsg("U06503")}'></form:textarea>  &lt;%&ndash;교수님께 보낼 메일 내용을 500자 이내로 입력해주세요.&ndash;%&gt;--%>
+                                <%--</div>--%>
+                        <%--<spring:bind path="reqText">--%>
+                            <%--<c:if test="${status.error}">--%>
+                                <%--<div class="col-sm-12 nopadding">--%>
+                                    <%--<div class="validation-error">${status.errorMessage}</div>--%>
+                                <%--</div>--%>
+                            <%--</c:if>--%>
+                        <%--</spring:bind>--%>
+                            <%--</div>--%>
+                        <%--</div>--%>
+                    <%--</div>--%>
                     <div class="col-sm-offset-1 col-sm-10">
                         <div class="col-sm-3">
                             <button class="preview btn btn-info btn-lg btn-block btn-save input-text"><spring:message code="L06531"/><%--미리 보기--%></button>
@@ -233,7 +234,7 @@
         <div class="form-group">
             <div class="col-sm-12">
                 <div class="col-sm-2 text-gray">
-                    <label for="reqSubject" class="control-label"><spring:message code="L06536"/><%--메일 제목--%></label>
+                    <label for="pv-reqSubject" class="control-label"><spring:message code="L06536"/><%--메일 제목--%></label>
                 </div>
                 <div class="col-sm-10">
                     <div class="col-sm-12 nopadding input-group">
@@ -246,7 +247,7 @@
         <div class="form-group">
             <div class="col-sm-12">
                 <div class="col-sm-2 text-gray">
-                    <label for="reqText" class="control-label"><spring:message code="L06504"/><%--요청 내용--%></label>
+                    <label for="pv-reqText" class="control-label"><spring:message code="L06504"/><%--요청 내용--%></label>
                 </div>
                 <div class="col-sm-10">
                     <div class="col-sm-12 nopadding input-group">
@@ -257,6 +258,7 @@
         </div>
         <a class="btn_close b-close" title="닫기"><img src="<spring:eval expression="@app.getProperty('path.static')" />/img/btn_close1.png" alt="닫기"></a>
     </div>
+    <%-- 미리보기 팝업 --%>
 </section>
 <content tag="local-script">
 <script type="text/javascript">
@@ -300,14 +302,14 @@ $(document).ready(function() {
         // 현재의 input text, textarea에 있는 값 + ajax로 받아온 값을 modal 창에 뿌림
         var formData = $('#reqRec').serialize(),
             profName = document.getElementById('profName').value,
-            profMailAddr = document.getElementById('profMailAddr').value,
-            reqSubject = document.getElementById('reqSubject').value,
-            reqText = document.getElementById('reqText').value;
+            profMailAddr = document.getElementById('profMailAddr').value;
+//            reqSubject = document.getElementById('reqSubject').value,
+//            reqText = document.getElementById('reqText').value;
 
         document.getElementById('pv-profName').value = profName,
-        document.getElementById('pv-profMailAddr').value = profMailAddr,
-        document.getElementById('pv-reqSubject').value = reqSubject,
-        document.getElementById('pv-reqText').value = reqText;
+        document.getElementById('pv-profMailAddr').value = profMailAddr;
+//        document.getElementById('pv-reqSubject').value = reqSubject,
+//        document.getElementById('pv-reqText').value = reqText;
 
         $.ajax({
             type: 'POST',
@@ -316,7 +318,8 @@ $(document).ready(function() {
             success: function(data) {
                 var container = JSON.parse(data),
                     obj = JSON.parse(container.data);
-                document.getElementById('pv-reqText').innerHTML = apex.newLine2Br(obj.mailContents);
+                document.getElementById('pv-reqSubject').value = apex.newLine2Br(obj.subject);
+                document.getElementById('pv-reqText').innerHTML = apex.newLine2Br(obj.contents);
             }
         });
 
@@ -358,16 +361,6 @@ $(document).ready(function() {
     apex.emailCheck('emailOnly', '<spring:message code="APEXJS_0003"/>'); // 이메일 주소를 정확히 기재해 주세요.
     <%-- 메일 주소 validation --%>
 
-
-    <%--var formProcess = function(event) {--%>
-        <%--event.preventDefault();--%>
-
-        <%--var form = document.getElementById('reqRec');--%>
-        <%--form.action = "${contextPath}/user/savePwd";--%>
-        <%--form.submit();--%>
-
-    <%--};--%>
-    <%--$('.btn-save').on('click', formProcess);--%>
     <%-- 하단 버튼 처리 --%>
 
     <%-- action 성공 여부 알림 처리 --%>

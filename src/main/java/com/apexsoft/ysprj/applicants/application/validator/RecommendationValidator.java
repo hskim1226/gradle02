@@ -1,9 +1,7 @@
 package com.apexsoft.ysprj.applicants.application.validator;
 
 import com.apexsoft.framework.message.MessageResolver;
-import com.apexsoft.framework.web.validation.NamedValidator;
 import com.apexsoft.ysprj.applicants.application.domain.*;
-import com.apexsoft.ysprj.applicants.common.util.ValidationUtil;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
@@ -32,13 +30,17 @@ public class RecommendationValidator implements Validator {
             errors.rejectValue("profMailAddr", "U331",
                     new Object[]{MessageResolver.getMessage("L06503")}, MessageResolver.getMessage("U332"));  /*"교수 e-mail"*/
         }
-        if (recommendation.getReqSubject() == null || recommendation.getReqSubject().length() == 0) {
-            errors.rejectValue("reqSubject", "U331",
-                    new Object[]{MessageResolver.getMessage("L06536")}, MessageResolver.getMessage("U332"));  /*"메일 제목"*/
+        if (recommendation.getProfInst() == null || recommendation.getProfInst().length() == 0) {
+            errors.rejectValue("profInstitution", "U331",
+                    new Object[]{MessageResolver.getMessage("L06506")}, MessageResolver.getMessage("U332"));  /*"교수 소속 학교"*/
         }
-        if (recommendation.getReqText() == null || recommendation.getReqText().length() == 0) {
-            errors.rejectValue("reqText", "U331",
-                    new Object[]{MessageResolver.getMessage("L06504")}, MessageResolver.getMessage("U332"));  /*"요청 내용"*/
-        }
+//        if (recommendation.getReqSubject() == null || recommendation.getReqSubject().length() == 0) {
+//            errors.rejectValue("reqSubject", "U331",
+//                    new Object[]{MessageResolver.getMessage("L06536")}, MessageResolver.getMessage("U332"));  /*"메일 제목"*/
+//        }
+//        if (recommendation.getReqText() == null || recommendation.getReqText().length() == 0) {
+//            errors.rejectValue("reqText", "U331",
+//                    new Object[]{MessageResolver.getMessage("L06504")}, MessageResolver.getMessage("U332"));  /*"요청 내용"*/
+//        }
     }
 }

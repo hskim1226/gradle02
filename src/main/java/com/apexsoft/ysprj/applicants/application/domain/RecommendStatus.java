@@ -5,7 +5,7 @@ package com.apexsoft.ysprj.applicants.application.domain;
  */
 public enum RecommendStatus {
 
-    TEMP ("00001"), SENT ("00002"), COMPLETED ("00003");
+    TEMP ("00001"), SENT ("00002"), OPENED ("00003"), COMPLETED ("00004");
 
     private String codeVal;
 

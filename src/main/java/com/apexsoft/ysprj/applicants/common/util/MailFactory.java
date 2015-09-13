@@ -5,6 +5,7 @@ import com.apexsoft.framework.mail.Mail;
 import com.apexsoft.framework.mail.MailType;
 import com.apexsoft.ysprj.applicants.application.domain.MailCompletedRecommendation;
 import com.apexsoft.ysprj.applicants.application.domain.MailRequestRecommendation;
+import com.apexsoft.ysprj.applicants.application.domain.MailUrgeRecommendation;
 import com.apexsoft.ysprj.applicants.common.domain.MailApplicationCompleted;
 import com.apexsoft.ysprj.applicants.common.domain.MailDueNotification;
 import org.springframework.stereotype.Component;
@@ -28,6 +29,9 @@ public class MailFactory {
 
             case RECOMMENDATION_COMPLETED:
                 return new MailCompletedRecommendation();
+
+            case RECOMMENDATION_URGE:
+                return new MailUrgeRecommendation();
 
             default:
                 throw new YSBizException();

@@ -5,23 +5,23 @@ package com.apexsoft.ysprj.applicants.application.domain;
  */
 public class ParamForApplicationRecommendation {
 
-    private int applNo;
+    private Integer applNo;
 
-    private int recSeq;
+    private Integer recSeq;
 
-    public int getApplNo() {
+    public Integer getApplNo() {
         return applNo;
     }
 
-    public void setApplNo(int applNo) {
+    public void setApplNo(Integer applNo) {
         this.applNo = applNo;
     }
 
-    public int getRecSeq() {
+    public Integer getRecSeq() {
         return recSeq;
     }
 
-    public void setRecSeq(int recSeq) {
+    public void setRecSeq(Integer recSeq) {
         this.recSeq = recSeq;
     }
 }

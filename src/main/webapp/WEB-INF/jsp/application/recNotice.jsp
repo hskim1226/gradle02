@@ -9,10 +9,10 @@
     <div class="container">
         <div class="row mar-bot40">
             <div class="col-sm-offset-1 col-sm-10">
-                <div class="form-group inner-container-white">
+                <div class="inner-container-white">
                     <div class="spacer-small">&nbsp;</div>
                     <div class="col-sm-offset-1 col-sm-10 text-gray">
-                        <span style="font-size: 35px; vertical-align: middle; line-height:40px;"><b>${notice}</b></span>
+                        <div style="font-size: 35px; vertical-align: middle; line-height:40px;"><b>${notice}</b></div>
                     </div>
                 </div>
             </div>

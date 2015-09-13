@@ -12,8 +12,8 @@
         <result column="REC_SEQ" property="redSeq" jdbcType="VARCHAR" />
         <result column="PROF_NAME" property="profName" jdbcType="VARCHAR" />
         <result column="PROF_MAIL_ADDR" property="profMailAddr" jdbcType="VARCHAR" />
-        <result column="PROF_INST" property="profInstitution" jdbcType="VARCHAR" />
-        <result column="PROF_MAJ" property="profMajor" jdbcType="VARCHAR" />
+        <result column="PROF_INST" property="profInst" jdbcType="VARCHAR" />
+        <result column="PROF_MAJ" property="profMaj" jdbcType="VARCHAR" />
         <result column="PROF_PHONE" property="profPhone" jdbcType="VARCHAR" />
         <result column="REQ_SUBJECT" property="reqSubject" jdbcType="VARCHAR" />
         <result column="REQ_TEXT" property="reqText" jdbcType="VARCHAR" />
@@ -61,10 +61,10 @@
             <if test="profMailAddr != null">
                 PROF_MAIL_ADDR,
             </if>
-            <if test="profInstitution != null">
+            <if test="profInst != null">
                 PROF_INST,
             </if>
-            <if test="profMajor != null">
+            <if test="profMaj != null">
                 PROF_MAJ,
             </if>
             <if test="profPhone != null">
@@ -108,11 +108,11 @@
             <if test="profMailAddr != null">
                 #{profMailAddr,jdbcType=VARCHAR},
             </if>
-            <if test="profInstitution != null">
-                #{profInstitution,jdbcType=VARCHAR},
+            <if test="profInst != null">
+                #{profInst,jdbcType=VARCHAR},
             </if>
-            <if test="profMajor != null">
-                #{profMajor,jdbcType=VARCHAR},
+            <if test="profMaj != null">
+                #{profMaj,jdbcType=VARCHAR},
             </if>
             <if test="profPhone != null">
                 #{profPhone,jdbcType=VARCHAR},
@@ -165,11 +165,11 @@
             <if test="profMailAddr != null">
                 PROF_MAIL_ADDR = #{profMailAddr,jdbcType=VARCHAR},
             </if>
-            <if test="profInstitution != null">
-                PROF_INST = #{profInstitution,jdbcType=VARCHAR},
+            <if test="profInst != null">
+                PROF_INST = #{profInst,jdbcType=VARCHAR},
             </if>
-            <if test="profMajor != null">
-                PROF_MAJ  = #{profMajor,jdbcType=VARCHAR},
+            <if test="profMaj != null">
+                PROF_MAJ  = #{profMaj,jdbcType=VARCHAR},
             </if>
             <if test="profPhone != null">
                 PROF_PHONE = #{profPhone,jdbcType=VARCHAR},
@@ -287,4 +287,9 @@
         and a.APPL_NO = b.APPL_NO
     </select>
 
+    <select id="selectUncompletedRecs" resultMap="BaseResultMap">
+        select *
+        from APPL_REC a
+        where a.REC_STS_CODE in ('00002', '00003')
+    </select>
 </mapper>
