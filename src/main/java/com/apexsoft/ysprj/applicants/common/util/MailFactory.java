@@ -5,7 +5,8 @@ import com.apexsoft.framework.mail.Mail;
 import com.apexsoft.framework.mail.MailType;
 import com.apexsoft.ysprj.applicants.application.domain.MailCompletedRecommendation;
 import com.apexsoft.ysprj.applicants.application.domain.MailRequestRecommendation;
-import com.apexsoft.ysprj.applicants.application.domain.MailUrgeRecommendation;
+import com.apexsoft.ysprj.applicants.application.domain.MailUrgeRecommendationToApplicant;
+import com.apexsoft.ysprj.applicants.application.domain.MailUrgeRecommendationToProf;
 import com.apexsoft.ysprj.applicants.common.domain.MailApplicationCompleted;
 import com.apexsoft.ysprj.applicants.common.domain.MailDueNotification;
 import org.springframework.stereotype.Component;
@@ -16,7 +17,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class MailFactory {
 
-    public Mail create(MailType mailType) {
+    public static Mail create(MailType mailType) {
         switch (mailType) {
             case DUE_NOTI:
                 return new MailDueNotification();
@@ -31,7 +32,10 @@ public class MailFactory {
                 return new MailCompletedRecommendation();
 
             case RECOMMENDATION_URGE:
-                return new MailUrgeRecommendation();
+                return new MailUrgeRecommendationToProf();
+
+            case RECOMMENDATION_URGE_NOTICE:
+                return new MailUrgeRecommendationToApplicant();
 
             default:
                 throw new YSBizException();

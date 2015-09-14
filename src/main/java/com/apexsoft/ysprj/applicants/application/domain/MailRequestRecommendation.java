@@ -56,7 +56,13 @@ public class MailRequestRecommendation extends Mail {
                 .append(NEW_LINE2)
                 .append(MessageResolver.getMessage("MAIL_REQUEST_RECOMMENDATION_BODY_LINK",
 //                        new Object[]{linkAnchorText}));
-                        new Object[]{linkText}));
+                        new Object[]{linkText}))
+                .append(NEW_LINE2)
+                .append(MessageResolver.getMessage("MAIL_COMMON_FOOTER_01"))
+                .append(NEW_LINE1)
+                .append(MessageResolver.getMessage("MAIL_COMMON_FOOTER_02"))
+                .append(NEW_LINE1)
+                .append(MessageResolver.getMessage("MAIL_COMMON_SITE_URL"));
         setContents(sb.toString());
     }
 }

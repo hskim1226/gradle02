@@ -3,19 +3,17 @@ package com.apexsoft.ysprj.applicants.application.domain;
 import com.apexsoft.framework.exception.YSBizException;
 import com.apexsoft.framework.mail.Mail;
 import com.apexsoft.framework.message.MessageResolver;
-import org.springframework.beans.factory.annotation.Value;
 
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.Map;
 
 /**
  * Created by hanmomhanda on 15. 9. 13.
  */
-public class MailUrgeRecommendation extends Mail {
+public class MailUrgeRecommendationToProf extends Mail {
 
     private final String NEW_LINE1 = "\n";
     private final String NEW_LINE2 = "\n\n";
@@ -65,6 +63,12 @@ public class MailUrgeRecommendation extends Mail {
                 .append(NEW_LINE2)
                 .append(MessageResolver.getMessage("MAIL_REQUEST_RECOMMENDATION_BODY_LINK",
                         new Object[]{linkText}))
+                .append(NEW_LINE2)
+                .append(MessageResolver.getMessage("MAIL_COMMON_FOOTER_01"))
+                .append(NEW_LINE1)
+                .append(MessageResolver.getMessage("MAIL_COMMON_FOOTER_02"))
+                .append(NEW_LINE1)
+                .append(MessageResolver.getMessage("MAIL_COMMON_SITE_URL"))
                 .toString());
     }
 }

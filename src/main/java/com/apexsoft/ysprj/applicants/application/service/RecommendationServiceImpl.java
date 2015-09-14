@@ -33,9 +33,6 @@ public class RecommendationServiceImpl implements RecommendationService {
     private CommonDAO commonDAO;
 
     @Autowired
-    private MailFactory mailFactory;
-
-    @Autowired
     private SESMailService sesMailService;
 
     @Autowired
@@ -88,7 +85,7 @@ public class RecommendationServiceImpl implements RecommendationService {
         recommendation.setDueDate(REC_DUE_DATE);
         fillEtcInfo(recommendation);
 
-        Mail mail = mailFactory.create(MailType.RECOMMENDATION_REQUEST);
+        Mail mail = MailFactory.create(MailType.RECOMMENDATION_REQUEST);
         mail.setInfo(recommendation);
         mail.setInfoType(Recommendation.class);
         mail.setTo(new String[]{recommendation.getProfMailAddr()});
@@ -111,7 +108,7 @@ public class RecommendationServiceImpl implements RecommendationService {
                 new Object[]{INST_NAME_EN}));
         fillEtcInfo(recommendation);
 
-        Mail mail = mailFactory.create(MailType.RECOMMENDATION_REQUEST);
+        Mail mail = MailFactory.create(MailType.RECOMMENDATION_REQUEST);
         mail.setInfo(recommendation);
         mail.setInfoType(Recommendation.class);
         mail.setTo(new String[]{recommendation.getProfMailAddr()});
@@ -192,7 +189,7 @@ public class RecommendationServiceImpl implements RecommendationService {
         recommendation.setReqSubject(MessageResolver.getMessage("MAIL_REQUEST_RECOMMENDATION_SUBJECT",
                 new Object[]{INST_NAME_EN}));
         fillEtcInfo(recommendation);
-        Mail mail = mailFactory.create(MailType.RECOMMENDATION_REQUEST);
+        Mail mail = MailFactory.create(MailType.RECOMMENDATION_REQUEST);
         mail.setInfo(recommendation);
         mail.setInfoType(Recommendation.class);
         mail.setTo(new String[]{recommendation.getProfMailAddr()});
@@ -300,7 +297,7 @@ public class RecommendationServiceImpl implements RecommendationService {
             ec.setResult(ExecutionContext.SUCCESS);
 
 
-            Mail mail = mailFactory.create(MailType.RECOMMENDATION_COMPLETED);
+            Mail mail = MailFactory.create(MailType.RECOMMENDATION_COMPLETED);
             mail.setInfo(result);
             mail.setInfoType(Recommendation.class);
 
@@ -357,10 +354,10 @@ public class RecommendationServiceImpl implements RecommendationService {
     @Override
     public ExecutionContext sendUrgeMail(List<Recommendation> recommendationList) {
         ExecutionContext ec = new ExecutionContext();
-        List<Recommendation> failedList = new ArrayList<Recommendation>();
+        List<Mail> failedList = new ArrayList<Mail>();
         for (Recommendation recommendation : recommendationList) {
             fillEtcInfo(recommendation);
-            Mail mailToProf = mailFactory.create(MailType.RECOMMENDATION_URGE);
+            Mail mailToProf = MailFactory.create(MailType.RECOMMENDATION_URGE);
             mailToProf.setTo(new String[]{recommendation.getProfMailAddr()});
             mailToProf.setSubject(MessageResolver.getMessage("MAIL_URGENCY_RECOMMENDATION_SUBJECT",
                     new Object[]{INST_NAME_EN}));
@@ -372,7 +369,26 @@ public class RecommendationServiceImpl implements RecommendationService {
                     .withContentsParam("dueTime", REC_DUE_DATE);
             mailToProf.makeContents();
             if (!sendUrgeMail(mailToProf)) {
-                failedList.add(recommendation);
+                failedList.add(mailToProf);
+            }
+
+            Mail mailToApplicant = MailFactory.create(MailType.RECOMMENDATION_URGE_NOTICE);
+            int recNo = recommendation.getRecNo();
+            Application application =
+                    commonDAO.queryForObject(NAME_SPACE + "CustomRecommendationMapper.selectApplicantMailByRecNo",
+                            recNo, Application.class);
+            String applicantName = StringUtil.getEmptyIfNull(application.getKorName()).length() > 0 ?
+                    application.getKorName() :
+                    application.getEngName();
+            mailToApplicant.setTo(new String[]{application.getMailAddr()});
+            mailToApplicant.setSubject(MessageResolver.getMessage("MAIL_URGENCY_RECOMMENDATION_NOTICE_SUBJECT"));
+            mailToApplicant.setInfo(recommendation);
+            mailToApplicant.setInfoType(Recommendation.class);
+            mailToApplicant.withContentsParam("dueTime", REC_DUE_DATE)
+                    .withContentsParam("applicantName", applicantName);
+            mailToApplicant.makeContents();
+            if (!sendUrgeMail(mailToApplicant)) {
+                failedList.add(mailToApplicant);
             }
         }
         return ec;
