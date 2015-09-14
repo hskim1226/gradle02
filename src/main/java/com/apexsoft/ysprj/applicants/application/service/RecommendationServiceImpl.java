@@ -301,7 +301,7 @@ public class RecommendationServiceImpl implements RecommendationService {
 
 
             Mail mail = mailFactory.create(MailType.RECOMMENDATION_COMPLETED);
-            mail.setInfo(recommendation);
+            mail.setInfo(result);
             mail.setInfoType(Recommendation.class);
 
             Application application =
@@ -314,7 +314,7 @@ public class RecommendationServiceImpl implements RecommendationService {
             mail.setSubject(MessageResolver.getMessage("MAIL_COMPLETED_RECOMMENDATION_SUBJECT"));
             Map<Object, String> contentsParam = mail.getContentsParam();
             contentsParam.put(MailContentsParamKey.USER_NAME, applicantName);
-            contentsParam.put(MailContentsParamKey.PROF_NAME, recommendation.getProfName());
+            contentsParam.put(MailContentsParamKey.PROF_NAME, result.getProfName());
             mail.makeContents();
 
             if (sendCompletedMail(mail)) {

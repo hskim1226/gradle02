@@ -67,6 +67,10 @@ public class KeyInfoBlockInterceptor extends HandlerInterceptorAdapter {
         if (indexOfRecommend > 0) {
             return true;
         }
+        int indexOfUrgeRecommend = lowerUrl.indexOf("application/sendurgerecommendationmail");
+        if (indexOfUrgeRecommend > 0) {
+            return true;
+        }
 
         SecurityContext sc = (SecurityContext)request.getSession().getAttribute("SPRING_SECURITY_CONTEXT");
         Authentication auth = sc.getAuthentication();
