@@ -94,7 +94,10 @@
                                 <input type="file" class="btn btn-file" id="fileRec" name="fileRec"/>
                             </div>
                             <div class="col-sm-3">
-                                <button id="btnUpload" class="btn btn-lg btn-primary btn-group-justified btn-upload"><spring:message code="L06732"/><%--업로드--%></button>
+                                <button id="btnUpload" class="btn btn-lg btn-primary btn-group-justified btn-upload"
+                                        data-reckey="${recKey}"><spring:message code="L06732"/><%--업로드--%></button>
+                                <%--<button id="btnDownload" class="btn btn-lg btn-primary btn-group-justified btn-upload"><spring:message code="L06732"/>&lt;%&ndash;업로드&ndash;%&gt;</button>--%>
+                                <%--<button id="btnDelete" class="btn btn-lg btn-primary btn-group-justified btn-upload"><spring:message code="L06732"/>&lt;%&ndash;업로드&ndash;%&gt;</button>--%>
                             </div>
                             <div class="spacer-tiny">&nbsp;</div>
                             <div class="col-sm-12 text-gray">
@@ -111,6 +114,9 @@
             <form:hidden path="recNo"/>
             <form:hidden path="applNo"/>
             <form:hidden path="recSeq"/>
+            <form:hidden path="admsNo"/>
+            <input type="hidden" id="recKey"/>
+            <%--<form:hidden path="orgFileName"/>--%>
         </form:form>
     </div>
 </section>
@@ -140,6 +146,145 @@ $(document).ready(function() {
         }
     };
     <%-- 화면 가리개 --%>
+
+    <%-- 파일 업로드 버튼 이벤트 --%>
+    $('.btn-upload').on('click', function (e) {
+        e.preventDefault();
+        $("#overlay").show();
+        var actionUrl = "${contextPath}/application/document/fileUpload",
+                fileInputId = 'fileRec',
+                fileInput = document.getElementById(fileInputId),
+                fileInputName = fileInput.getAttribute("name"),
+                fileName = fileInput.value,
+//                targetFileDownloadLinkId = 'targetFileDownloadLinkId',
+//                targetFileDeleteLinkId = 'targetFileDeleteLinkId',
+                targetOrgFileNameHiddenId = 'orgFileName',
+                targetSubContainerId = 'targetSubContainerId',
+                regexpPDF = (/\.(pdf)$/i),
+                extIsOk = false,
+                targetButton = this;
+        if (fileName.length > 80) {
+            alert('<spring:message code="U04513"/>');  /*파일 경로가 너무 깁니다. \\n\\n파일을 PC의 바탕화면이나 D: 드라이브 바로 아래로 복사하신 후에 업로드해 주세요.*/
+            $('#overlay').hide();
+            return false;
+        }
+
+        if ((fileInput.files && fileInput.files.length) || fileInput.value != "") {
+            if (regexpPDF.test(fileName)) {
+                extIsOk = true;
+            } else {
+                alert('<spring:message code="U04504"/>');//첨부파일은 PDF 파일만 업로드 할 수 있습니다.
+                $('#overlay').hide();
+                return false;
+            }
+
+            if (extIsOk) {
+                $.ajaxFileUpload({
+                    url: actionUrl,
+                    secureuri: false,
+                    fileElementId: fileInputId,
+                    dataType: 'json',
+                    data: {
+                        docSeq: '0',
+                        docTypeCode: '00007',
+                        docGrp: '-1',
+                        docItemCode: '00050',
+                        docItemName: '이메일추천서',
+                        grpLabel: '',
+                        fileExt: '',
+                        imgYn: 'N',
+                        filePath: 'filePath',
+                        fileName: 'fileName',
+                        orgFileName: 'orgFileName',
+                        docItemNameXxen: 'E-mail Recommendation Letter',
+                        docGrpName: '',
+                        fileUploadFg: false,
+                        displayGrpFg: false,
+                        checkedFg: '',
+                        admsCorsNo: '',
+                        detlMajCode: '',
+                        admsCodeGrp: '',
+                        admsCode: '',
+                        grpLevel: '2',
+                        docItemGrp: 'DOC_ITEM',
+                        upCodeGrp: 'DOC_TYPE',
+                        upCode: '00007',
+                        lastYn: 'Y',
+                        mdtYn: 'Y',
+                        uploadYn: 'N',
+                        sendCnt: '2',
+
+                        fieldName: fileInputName,
+                        targetButton: this.id,
+//                        targetFileDownloadLinkId: targetFileDownloadLinkId,
+//                        targetFileDeleteLinkId: targetFileDeleteLinkId,
+                        applNo: document.getElementById('applNo').value,
+                        admsNo: document.getElementById('admsNo').value,
+                        recKey: e.target.getAttribute('data-reckey')
+                    },
+                    success: function (data, status) {
+                        var d = JSON.parse(data.data);
+                        if (data.result == 'SUCCESS') {
+                            var targetBtnId = d.targetButton,
+                                    targetBtn = document.getElementById(targetBtnId),
+                                    $targetBtn = $(targetBtn),
+                                    originalFileName = d.originalFileName,
+//                                    targetFileDownloadLinkId = d.targetFileDownloadLinkId,
+//                                    targetFileDeleteLinkId = d.targetFileDeleteLinkId,
+                                    applNo = d.applNo,
+                                    oneDocument = d.oneDocument,
+                                    docSeq = oneDocument.docSeq,
+                                    oneDocumentHidden;
+                            $targetBtn.removeClass("btn-default");
+                            $targetBtn.removeClass("btn-danger");
+                            $targetBtn.addClass("btn-info");
+                            $targetBtn.val("<spring:message code="U04508"/>");//올리기 성공
+
+                            <%--document.getElementById(targetFileDownloadLinkId).parentNode.style.display = 'block';--%>
+                            <%--document.getElementById(targetFileDownloadLinkId).setAttribute('href', '${contextPath}/application/document/fileDownload/' + applNo + '/' + docSeq);--%>
+
+                            <%--document.getElementById(targetFileDeleteLinkId).parentNode.style.display = 'block';--%>
+                            <%--document.getElementById(targetFileDeleteLinkId).setAttribute('href', '${contextPath}/application/document/fileDelete/' + applNo + '/' + docSeq);--%>
+
+                            document.getElementById('orgFileName').value = originalFileName;
+
+                            for (var key in oneDocument) {
+                                oneDocumentHidden = document.getElementById(targetSubContainerId + key);
+                                if (oneDocumentHidden) {
+                                    oneDocumentHidden.value = oneDocument[key];
+                                }
+                            }
+                            alert(d.resultMessage);
+                        } else {
+                            alert(data.message);
+                        }
+
+                        $('#overlay').hide();
+                    },
+                    error: function (data, status, e) {
+//                            var d = JSON.parse(data.data);
+                        $(targetButton).removeClass("btn-default"),
+                                $(targetButton).addClass("btn-danger"),
+                                $(targetButton).val("<spring:message code="U04506"/>");//올리기 실패
+//                            if(console) {
+//                                console.log("data : ", data);
+//                                console.log("status : ", status);
+//                                console.log("e : ", e);
+//                            }
+                        $('#overlay').hide();
+                    }
+                });
+            }
+
+        } else {
+            alert("<spring:message code="U04505"/>");//파일을 선택해 주십시오
+            $('#overlay').hide();
+        }
+
+
+        return false;
+    });
+    <%-- 파일 업로드 버튼 이벤트 --%>
 
     <%-- 하단 버튼 처리 --%>
     $('#btnComplete').click(function(e) {

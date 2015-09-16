@@ -12,7 +12,7 @@
 <body>
 <section class="normal-white">
     <div class="container">
-        <form:form cssClass="form-horizontal" id="rec-req" commandName="recommendationList" role="form">
+        <form:form cssClass="form-horizontal" id="rec-req" commandName="recommendationList" method="post" role="form">
             <div class="row mar-bot40">
                 <div class="col-sm-offset-1 col-sm-10">
                     <div class="form-group inner-container-white">
@@ -51,7 +51,9 @@
                                                     <td valign="middle" style="vertical-align: middle;">${itemStatus.index+1}</td>
                                                     <td valign="middle" style="vertical-align: middle;">${item.profName}</td>
                                                     <td valign="middle" style="vertical-align: middle;">${item.profMailAddr}</td>
-                                                    <td valign="middle" style="vertical-align: middle;">${pageContext.response.locale == 'en' ? item.recStsNameXxen : item.recStsName}</td>
+                                                    <td valign="middle" style="vertical-align: middle;">${pageContext.response.locale == 'en' ? item.recStsNameXxen : item.recStsName}
+                                                        <c:if test="${item.recStsCode != '00004'}"><button class="btn btn-primary btn-block btn-resend input-text" data-recNo="${item.recNo}" data-applNo="${item.applNo}" data-recSeq="${item.recSeq}"><spring:message code="L06332"/><%--메일 다시 보내기--%></button></c:if>
+                                                    </td>
                                                 </c:otherwise>
                                             </c:choose>
                                             </tr>
@@ -62,7 +64,14 @@
                             </table>
                             <div class="spacer-tiny">&nbsp;</div>
                             <div class="col-sm-12 nopadding">
-                                <button class="create btn btn-info btn-lg btn-block btn-save input-text"><spring:message code="L06556"/><%--신규 요청--%></button>
+                        <c:choose>
+                            <c:when test="${recommendationList.size() < 2}">
+                                <button class="create btn btn-primary btn-lg btn-block btn-save input-text"><spring:message code="L06556"/><%--신규 요청--%></button>
+                            </c:when>
+                            <c:otherwise>
+                                <button class="create btn btn-info btn-lg btn-block btn-save input-text" disabled><spring:message code="L06557"/><%--추천서 요청은 2개 까지만 가능합니다.--%></button>
+                            </c:otherwise>
+                        </c:choose>
                             </div>
                         </div>
                     </div>
@@ -70,6 +79,7 @@
             </div>
             <input type="hidden" id="applNo" name="applNo" value="${applNo}"/>
             <input type="hidden" id="recNo" name="recNo"/>
+            <input type="hidden" id="recSeq" name="recSeq"/>
         </form:form>
     </div>
 
@@ -78,15 +88,21 @@
     <script>
         $(document).ready( function() {
 
-            var setHidden = function (obj) {
-                document.getElementById('recNo').value = obj.getAttribute('data-recNo');
-            };
-
             $('.editable').click(function(e){
                 e.preventDefault();
                 var form = document.getElementById('rec-req');
-                setHidden(e.target);
+                document.getElementById('recNo').value = e.target.getAttribute('data-recNo');
                 form.action = "${contextPath}/application/recReq/edit";
+                form.submit();
+            });
+
+            $('.btn-resend').click(function(e){
+                e.preventDefault();
+                var form = document.getElementById('rec-req');
+                document.getElementById('recNo').value = e.target.getAttribute('data-recNo');
+                document.getElementById('recSeq').value = e.target.getAttribute('data-recSeq');
+                form.action = "${contextPath}/application/recReq/resend";
+                form.method = 'post';
                 form.submit();
 
             });

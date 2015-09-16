@@ -20,6 +20,7 @@ public class FileMetaForm {
     private String targetFileDeleteLinkId;
     private String applNo;
     private String admsNo;
+    private String recKey;
     private String resultMessage;
     private TotalApplicationDocument totalApplicationDocument;
 
@@ -95,6 +96,18 @@ public class FileMetaForm {
         this.admsNo = admsNo;
     }
 
+    public String getRecKey() {
+        return recKey;
+    }
+
+    public void setRecKey(String recKey) {
+        this.recKey = recKey;
+    }
+
+    public TotalApplicationDocument getTotalApplicationDocument() {
+        return totalApplicationDocument;
+    }
+
     public String getResultMessage() {
         return resultMessage;
     }
@@ -116,8 +129,16 @@ public class FileMetaForm {
         return "FileMetaForm{" +
                 "path='" + path + '\'' +
                 ", fileName='" + fileName + '\'' +
-                ", fieldName='" + fieldName+ '\'' +
-                ", targetButton='" + targetButton+ '\'' +
+                ", originalFileName='" + originalFileName + '\'' +
+                ", fieldName='" + fieldName + '\'' +
+                ", targetButton='" + targetButton + '\'' +
+                ", targetFileDownloadLinkId='" + targetFileDownloadLinkId + '\'' +
+                ", targetFileDeleteLinkId='" + targetFileDeleteLinkId + '\'' +
+                ", applNo='" + applNo + '\'' +
+                ", admsNo='" + admsNo + '\'' +
+                ", recKey='" + recKey + '\'' +
+                ", resultMessage='" + resultMessage + '\'' +
+                ", totalApplicationDocument=" + totalApplicationDocument +
                 '}';
     }
 }

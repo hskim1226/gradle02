@@ -176,13 +176,13 @@
                         <%--</div>--%>
                     <%--</div>--%>
                     <div class="col-sm-offset-1 col-sm-10">
-                        <div class="col-sm-3">
-                            <button class="preview btn btn-info btn-lg btn-block btn-save input-text"><spring:message code="L06531"/><%--미리 보기--%></button>
+                        <%--<div class="col-sm-3">--%>
+                            <%--<button class="preview btn btn-info btn-lg btn-block btn-save input-text"><spring:message code="L06531"/>&lt;%&ndash;미리 보기&ndash;%&gt;</button>--%>
+                        <%--</div>--%>
+                        <div class="col-sm-4">
+                            <button class="save btn btn-success btn-lg btn-block btn-save input-text"><spring:message code="L06532"/><%--임시 저장--%></button>
                         </div>
-                        <div class="col-sm-3">
-                            <button class="save btn btn-warning btn-lg btn-block btn-save input-text"><spring:message code="L06532"/><%--임시 저장--%></button>
-                        </div>
-                        <div class="col-sm-2">
+                        <div class="col-sm-4">
                             <button class="cancel btn btn-danger btn-lg btn-block btn-save input-text"><spring:message code="L06535"/><%--취소--%></button>
                         </div>
                         <div class="col-sm-4">
@@ -198,66 +198,66 @@
     </div>
 
     <%-- 미리보기 팝업 --%>
-    <div id="modal_popup1" class="popup0_wrap" style="display:none;">
-        <div id="bpopContent" class="popuphead">
-            <h1>
-                <label id="searchTitle"> <spring:message code="L06531"/><%--미리 보기--%> </label>
-            </h1>
-        </div>
+    <%--<div id="modal_popup1" class="popup0_wrap" style="display:none;">--%>
+        <%--<div id="bpopContent" class="popuphead">--%>
+            <%--<h1>--%>
+                <%--<label id="searchTitle"> <spring:message code="L06531"/>&lt;%&ndash;미리 보기&ndash;%&gt; </label>--%>
+            <%--</h1>--%>
+        <%--</div>--%>
 
-        <div class="form-group">
-            <div class="col-sm-12">
-                <div class="col-sm-2 text-gray">
-                    <label for="profName" class="control-label"><spring:message code="L06502"/><%--교수 이름--%></label>
-                </div>
-                <div class="col-sm-10">
-                    <div class="col-sm-12 nopadding input-group">
-                        <input type="text" id="pv-profName" class="form-control input-text" maxlength="120" placeholder="<spring:message code="L06502"/>" readonly="true"/>  <%--교수 이름--%>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="spacer-tiny">&nbsp;</div>
-        <div class="form-group">
-            <div class="col-sm-12">
-                <div class="col-sm-2 text-gray">
-                    <label for="profMailAddr" class="control-label"><spring:message code="L06503"/><%--교수 e-mail--%></label>
-                </div>
-                <div class="col-sm-10">
-                    <div class="col-sm-12 nopadding input-group">
-                        <input type="text" id="pv-profMailAddr" class="form-control input-text" maxlength="120" placeholder="<spring:message code="L06503"/>" readonly="true" />  <%--교수 e-mail--%>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="spacer-tiny">&nbsp;</div>
-        <div class="form-group">
-            <div class="col-sm-12">
-                <div class="col-sm-2 text-gray">
-                    <label for="pv-reqSubject" class="control-label"><spring:message code="L06536"/><%--메일 제목--%></label>
-                </div>
-                <div class="col-sm-10">
-                    <div class="col-sm-12 nopadding input-group">
-                        <input type="text" id="pv-reqSubject" class="form-control input-text" maxlength="120" placeholder="<spring:message code="U06511"/>" readonly="true" />  <%--메일 제목을 입력해 주세요--%>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="spacer-tiny">&nbsp;</div>
-        <div class="form-group">
-            <div class="col-sm-12">
-                <div class="col-sm-2 text-gray">
-                    <label for="pv-reqText" class="control-label"><spring:message code="L06504"/><%--요청 내용--%></label>
-                </div>
-                <div class="col-sm-10">
-                    <div class="col-sm-12 nopadding input-group">
-                        <span id="pv-reqText" class="span-box"></span>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <a class="btn_close b-close" title="닫기"><img src="<spring:eval expression="@app.getProperty('path.static')" />/img/btn_close1.png" alt="닫기"></a>
-    </div>
+        <%--<div class="form-group">--%>
+            <%--<div class="col-sm-12">--%>
+                <%--<div class="col-sm-2 text-gray">--%>
+                    <%--<label for="profName" class="control-label"><spring:message code="L06502"/>&lt;%&ndash;교수 이름&ndash;%&gt;</label>--%>
+                <%--</div>--%>
+                <%--<div class="col-sm-10">--%>
+                    <%--<div class="col-sm-12 nopadding input-group">--%>
+                        <%--<input type="text" id="pv-profName" class="form-control input-text" maxlength="120" placeholder="<spring:message code="L06502"/>" readonly="true"/>  &lt;%&ndash;교수 이름&ndash;%&gt;--%>
+                    <%--</div>--%>
+                <%--</div>--%>
+            <%--</div>--%>
+        <%--</div>--%>
+        <%--<div class="spacer-tiny">&nbsp;</div>--%>
+        <%--<div class="form-group">--%>
+            <%--<div class="col-sm-12">--%>
+                <%--<div class="col-sm-2 text-gray">--%>
+                    <%--<label for="profMailAddr" class="control-label"><spring:message code="L06503"/>&lt;%&ndash;교수 e-mail&ndash;%&gt;</label>--%>
+                <%--</div>--%>
+                <%--<div class="col-sm-10">--%>
+                    <%--<div class="col-sm-12 nopadding input-group">--%>
+                        <%--<input type="text" id="pv-profMailAddr" class="form-control input-text" maxlength="120" placeholder="<spring:message code="L06503"/>" readonly="true" />  &lt;%&ndash;교수 e-mail&ndash;%&gt;--%>
+                    <%--</div>--%>
+                <%--</div>--%>
+            <%--</div>--%>
+        <%--</div>--%>
+        <%--<div class="spacer-tiny">&nbsp;</div>--%>
+        <%--<div class="form-group">--%>
+            <%--<div class="col-sm-12">--%>
+                <%--<div class="col-sm-2 text-gray">--%>
+                    <%--<label for="pv-reqSubject" class="control-label"><spring:message code="L06536"/>&lt;%&ndash;메일 제목&ndash;%&gt;</label>--%>
+                <%--</div>--%>
+                <%--<div class="col-sm-10">--%>
+                    <%--<div class="col-sm-12 nopadding input-group">--%>
+                        <%--<input type="text" id="pv-reqSubject" class="form-control input-text" maxlength="120" placeholder="<spring:message code="U06511"/>" readonly="true" />  &lt;%&ndash;메일 제목을 입력해 주세요&ndash;%&gt;--%>
+                    <%--</div>--%>
+                <%--</div>--%>
+            <%--</div>--%>
+        <%--</div>--%>
+        <%--<div class="spacer-tiny">&nbsp;</div>--%>
+        <%--<div class="form-group">--%>
+            <%--<div class="col-sm-12">--%>
+                <%--<div class="col-sm-2 text-gray">--%>
+                    <%--<label for="pv-reqText" class="control-label"><spring:message code="L06504"/>&lt;%&ndash;요청 내용&ndash;%&gt;</label>--%>
+                <%--</div>--%>
+                <%--<div class="col-sm-10">--%>
+                    <%--<div class="col-sm-12 nopadding input-group">--%>
+                        <%--<span id="pv-reqText" class="span-box"></span>--%>
+                    <%--</div>--%>
+                <%--</div>--%>
+            <%--</div>--%>
+        <%--</div>--%>
+        <%--<a class="btn_close b-close" title="닫기"><img src="<spring:eval expression="@app.getProperty('path.static')" />/img/btn_close1.png" alt="닫기"></a>--%>
+    <%--</div>--%>
     <%-- 미리보기 팝업 --%>
 </section>
 <content tag="local-script">
@@ -288,42 +288,42 @@ $(document).ready(function() {
     <%-- 화면 가리개 --%>
 
     <%-- 미리 보기 팝업 처리 --%>
-    $('.b-close').on('click', function(e) {
-        e.preventDefault();
-        hideDialog('#modal_popup1');
-    });
+//    $('.b-close').on('click', function(e) {
+//        e.preventDefault();
+//        hideDialog('#modal_popup1');
+//    });
     <%-- 미리 보기 팝업 처리 --%>
 
     <%-- 하단 버튼 처리 --%>
-    $('.preview').click(function(e){
-        e.preventDefault();
-        showDialog(true, '#modal_popup1');
-        // ajax로 보내서 recKey 포함 링크 내용을 받아오고
-        // 현재의 input text, textarea에 있는 값 + ajax로 받아온 값을 modal 창에 뿌림
-        var formData = $('#reqRec').serialize(),
-            profName = document.getElementById('profName').value,
-            profMailAddr = document.getElementById('profMailAddr').value;
-//            reqSubject = document.getElementById('reqSubject').value,
-//            reqText = document.getElementById('reqText').value;
+    <%--$('.preview').click(function(e){--%>
+        <%--e.preventDefault();--%>
+        <%--showDialog(true, '#modal_popup1');--%>
+        <%--// ajax로 보내서 recKey 포함 링크 내용을 받아오고--%>
+        <%--// 현재의 input text, textarea에 있는 값 + ajax로 받아온 값을 modal 창에 뿌림--%>
+        <%--var formData = $('#reqRec').serialize(),--%>
+            <%--profName = document.getElementById('profName').value,--%>
+            <%--profMailAddr = document.getElementById('profMailAddr').value;--%>
+<%--//            reqSubject = document.getElementById('reqSubject').value,--%>
+<%--//            reqText = document.getElementById('reqText').value;--%>
 
-        document.getElementById('pv-profName').value = profName,
-        document.getElementById('pv-profMailAddr').value = profMailAddr;
-//        document.getElementById('pv-reqSubject').value = reqSubject,
-//        document.getElementById('pv-reqText').value = reqText;
+        <%--document.getElementById('pv-profName').value = profName,--%>
+        <%--document.getElementById('pv-profMailAddr').value = profMailAddr;--%>
+<%--//        document.getElementById('pv-reqSubject').value = reqSubject,--%>
+<%--//        document.getElementById('pv-reqText').value = reqText;--%>
 
-        $.ajax({
-            type: 'POST',
-            url: "${contextPath}/application/recReq/preview",
-            data: formData,
-            success: function(data) {
-                var container = JSON.parse(data),
-                    obj = JSON.parse(container.data);
-                document.getElementById('pv-reqSubject').value = apex.newLine2Br(obj.subject);
-                document.getElementById('pv-reqText').innerHTML = apex.newLine2Br(obj.contents);
-            }
-        });
+        <%--$.ajax({--%>
+            <%--type: 'POST',--%>
+            <%--url: "${contextPath}/application/recReq/preview",--%>
+            <%--data: formData,--%>
+            <%--success: function(data) {--%>
+                <%--var container = JSON.parse(data),--%>
+                    <%--obj = JSON.parse(container.data);--%>
+                <%--document.getElementById('pv-reqSubject').value = apex.newLine2Br(obj.subject);--%>
+                <%--document.getElementById('pv-reqText').innerHTML = apex.newLine2Br(obj.contents);--%>
+            <%--}--%>
+        <%--});--%>
 
-    });
+    <%--});--%>
 
     $('.save').click(function(e) {
         $("#overlay").show();

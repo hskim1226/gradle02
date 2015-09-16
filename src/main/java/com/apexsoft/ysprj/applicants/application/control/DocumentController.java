@@ -313,10 +313,10 @@ public class DocumentController {
     @RequestMapping(value = "/fileUpload", method = RequestMethod.POST)
     @ResponseBody
     public ExecutionContext fileUpload(Document document,
-                                   BindingResult binding,
-                                   final Principal principal,
-                                   HttpServletRequest request,
-                                   FileHandler fileHandler) {
+                                       BindingResult binding,
+                                       final Principal principal,
+                                       HttpServletRequest request,
+                                       FileHandler fileHandler) {
 
         ExecutionContext ec = new ExecutionContext();
         String returnFileMetaForm = "";

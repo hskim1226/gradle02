@@ -1284,11 +1284,11 @@
                     extIsOk = false,
                     checkboxId = this.getAttribute('data-checkbox-id'),
                     targetButton = this;
-if (fileName.length > 80) {
-    alert('<spring:message code="U04513"/>');  /*파일 경로가 너무 깁니다. \\n\\n파일을 PC의 바탕화면이나 D: 드라이브 바로 아래로 복사하신 후에 업로드해 주세요.*/
-    $('#overlay').hide();
-    return false;
-}
+            if (fileName.length > 80) {
+                alert('<spring:message code="U04513"/>');  /*파일 경로가 너무 깁니다. \\n\\n파일을 PC의 바탕화면이나 D: 드라이브 바로 아래로 복사하신 후에 업로드해 주세요.*/
+                $('#overlay').hide();
+                return false;
+            }
             if (docItemName && !docItemName.value.length > 0) {
                 alert('<spring:message code="U04502"/>');//서류명을 직접 입력해 주세요.
                 $('#overlay').hide();
@@ -1384,7 +1384,7 @@ if (fileName.length > 80) {
 
                                 document.getElementById(targetOrgFileNameHiddenId).value = originalFileName;
 
-                                for (key in oneDocument) {
+                                for (var key in oneDocument) {
                                     oneDocumentHidden = document.getElementById(targetSubContainerId + key);
                                     if (oneDocumentHidden) {
                                         oneDocumentHidden.value = oneDocument[key];

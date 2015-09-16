@@ -11,6 +11,8 @@ public class RecommendationApplicationInfo {
 
     private int recSeq;
 
+    private String admsNo;
+
     private String korName;
 
     private String chnName;
@@ -47,6 +49,14 @@ public class RecommendationApplicationInfo {
 
     public void setRecSeq(int recSeq) {
         this.recSeq = recSeq;
+    }
+
+    public String getAdmsNo() {
+        return admsNo;
+    }
+
+    public void setAdmsNo(String admsNo) {
+        this.admsNo = admsNo;
     }
 
     public String getKorName() {

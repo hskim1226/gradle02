@@ -196,7 +196,7 @@ public class PreApplicationController {
      * @param mv
      * @return
      */
-    @RequestMapping(value = "/recReq/edit")
+    @RequestMapping(value = "/recReq/edit", method = RequestMethod.POST)
     public ModelAndView recommendationEdit(Recommendation recommendation, ModelAndView mv) {
         mv.setViewName("application/recReqEdit");
         int recNo = recommendation.getRecNo();
@@ -319,6 +319,28 @@ public class PreApplicationController {
         return mv;
     }
 
+    @RequestMapping(value = "/recReq/resend", method = RequestMethod.POST)
+    public ModelAndView resendRecommendationRequest(Recommendation recommendation,
+                                                    BindingResult bindingResult,
+                                                    Principal principal,
+                                                    ModelAndView mv) {
+        mv.setViewName("application/recReqList");
+        if (bindingResult.hasErrors()) {
+            mv.addObject("resultMsg", MessageResolver.getMessage("U334"));
+            return mv;
+        }
+        recommendation.setModId(principal.getName());
+
+        ExecutionContext ec = recommendationService.sendRecommendationRequest(recommendation);
+        ExecutionContext ec2 = recommendationService.retrieveRecommendationList(recommendation.getApplNo());
+
+        mv.addObject("recommendationList", ec2.getData());
+        mv.addObject("resultMsg", ec.getMessage());
+        mv.addObject("applNo", recommendation.getApplNo());
+
+        return mv;
+    }
+
     /**
      * 교수가 보는 추천서 등록 화면
      *
@@ -354,6 +376,7 @@ public class PreApplicationController {
                     || RecommendStatus.OPENED.codeVal().equals(recApplInfo.getRecStsCode())) {
                 mv.setViewName("application/formRecommendation");
                 mv.addObject("applInfo", ec.getData());
+                mv.addObject("recKey", key);
             } else if (RecommendStatus.COMPLETED.codeVal().equals(recApplInfo.getRecStsCode())) {
                 mv.setViewName("application/recNotice");
                 mv.addObject("title", messageResolver.getMessage("L06902"));

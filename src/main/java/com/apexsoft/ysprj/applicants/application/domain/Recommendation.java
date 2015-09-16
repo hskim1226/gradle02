@@ -33,8 +33,6 @@ public class Recommendation {
 
     private String reqSubject;
 
-    private String reqText;
-
     private String recKey;
 
     private String mailContents;
@@ -159,14 +157,6 @@ public class Recommendation {
 
     public void setReqSubject(String reqSubject) {
         this.reqSubject = reqSubject;
-    }
-
-    public String getReqText() {
-        return reqText;
-    }
-
-    public void setReqText(String reqText) {
-        this.reqText = reqText;
     }
 
     public String getRecKey() {

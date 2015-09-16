@@ -118,10 +118,11 @@ public class RecommendationServiceImpl implements RecommendationService {
 //        recommendation.setMailContents(makeLinkText(recommendation, true));
         recommendation.setMailContents(mail.getContents());
         recommendation.setDueDate(REC_DUE_DATE);
+        recommendation.setRecStsCode(RecommendStatus.TEMP.codeVal());
 
         boolean isUpdate = recSeq > 0;
 
-        int r1 = saveRecommendation(recommendation, RecommendStatus.TEMP.codeVal());
+        int r1 = saveRecommendation(recommendation);
 
         if (r1 == 1) {
             ec.setResult(ExecutionContext.SUCCESS);
@@ -183,11 +184,20 @@ public class RecommendationServiceImpl implements RecommendationService {
         int applNo = recommendation.getApplNo();
         int recSeq = recommendation.getRecSeq();
 
-        String encrypted = getEncryptedRecKey(recommendation);
-        recommendation.setRecKey(encrypted);
-        recommendation.setDueDate(REC_DUE_DATE);
-        recommendation.setReqSubject(MessageResolver.getMessage("MAIL_REQUEST_RECOMMENDATION_SUBJECT",
-                new Object[]{INST_NAME_EN}));
+        ExecutionContext ec0 = retrieveRecommendation(recNo);
+        Object obj = ec0.getData();
+        if (obj != null) {
+            recommendation = (Recommendation) obj;
+            recommendation.setRecStsCode(RecommendStatus.SENT.codeVal());
+        } else {
+            String encrypted = getEncryptedRecKey(recommendation);
+            recommendation.setRecKey(encrypted);
+            recommendation.setDueDate(REC_DUE_DATE);
+            recommendation.setRecStsCode(RecommendStatus.SENT.codeVal());
+            recommendation.setReqSubject(MessageResolver.getMessage("MAIL_REQUEST_RECOMMENDATION_SUBJECT",
+                    new Object[]{INST_NAME_EN}));
+        }
+
         fillEtcInfo(recommendation);
         Mail mail = MailFactory.create(MailType.RECOMMENDATION_REQUEST);
         mail.setInfo(recommendation);
@@ -203,7 +213,7 @@ public class RecommendationServiceImpl implements RecommendationService {
 
         fillEtcInfo(recommendation);
 
-        int r1 = saveRecommendation(recommendation, RecommendStatus.SENT.codeVal()); // 요청 완료
+        int r1 = saveRecommendation(recommendation); // 요청 완료
 
         if (r1 == 1) {
             ec.setResult(ExecutionContext.SUCCESS);
@@ -398,17 +408,15 @@ public class RecommendationServiceImpl implements RecommendationService {
      * 추천서 요청 저장
      *
      * @param recommendation
-     * @param recStsCode      추천서 요청 상태 코드
      * @return
      */
-    private int saveRecommendation(Recommendation recommendation, String recStsCode) {
+    private int saveRecommendation(Recommendation recommendation) {
         int recNo = recommendation.getRecNo();
         int applNo = recommendation.getApplNo();
         int recSeq = recommendation.getRecSeq() == null ? -1 : recommendation.getRecSeq();
         String id = recommendation.getModId();
         int r1 = 0;
         boolean isUpdate = recSeq > 0 || recNo > 0;
-        recommendation.setRecStsCode(recStsCode);
         Date date = new Date();
         if (isUpdate) {
             recommendation.setModDate(date);
