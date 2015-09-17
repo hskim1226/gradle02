@@ -1,7 +1,7 @@
 package com.apexsoft.ysprj.applicants.common.domain;
 
-import org.osgi.service.component.annotations.Component;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 /**
  * Created by hanmomhanda on 15. 9. 17.
@@ -9,13 +9,13 @@ import org.springframework.beans.factory.annotation.Value;
 @Component
 public class AdmsNo {
 
-    @Value("#{app['adms.general']")
+    @Value("#{app['adms.general']}")
     private String general;
 
-    @Value("#{app['adms.foreign']")
+    @Value("#{app['adms.foreign']}")
     private String foreign;
 
-    @Value("#{app['adms.early']")
+    @Value("#{app['adms.early']}")
     private String early;
 
     public String getGeneral() {

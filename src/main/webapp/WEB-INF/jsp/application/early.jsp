@@ -90,7 +90,7 @@
                             </tr>
                             <tr>
                                 <td align="left"><img src="${contextPath}/img/common/button_pdf.gif"/>
-                                    <a href="<spring:message code="L00821URL"/>" targert="_blank">
+                                    <a href="<spring:message code="L00821URL"/>" target="_blank">
                                         <spring:message code="L00821"/><%--학력조회 동의서--%></a></td>
                             </tr>
 

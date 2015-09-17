@@ -197,9 +197,9 @@
         form.method = 'post';
         form.submit();
     });
-    <%--$('#toList').click(function(e){e.preventDefault(); location.href='${contextPath}/application/admsList'});--%>
+    $('#toList').click(function(e){e.preventDefault(); location.href='${contextPath}/application/admsList'});
     $('#toMyList').click(function(e){e.preventDefault(); location.href='${contextPath}/application/mylist'});
-    <%--$('#toSignUp').click(function(e){e.preventDefault(); location.href='${contextPath}/user/agreement'});--%>
+    $('#toSignUp').click(function(e){e.preventDefault(); location.href='${contextPath}/user/agreement'});
     <%-- 단어 잘림 방지 --%>
     $('.word-keep-all').wordBreakKeepAll();
 </script>

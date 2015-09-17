@@ -52,18 +52,19 @@
                                 <input type="hidden" name="admsTypeCode" value="${admsForeign.admsType}" />
                             </form>
                         </tr>
-                        <tr>
-                            <form id="earlyApplyForm" method="post">
-                                <td><spring:message code="L00409"/><%--조기--%></td>
-                                <td><spring:message code="L00412"/><%--2016학년도 전기 연세대학교 대학원 조기 전형--%></td>
-                                <td><button type="button" id="toEarlyInfo" class="btn btn-info"><spring:message code="L00404"/><%--모집 요강--%></button></td>
-                                <td><button type="submit" id="toEarlyApply" class="btn btn-primary"><spring:message code="L00405"/><%--원서 작성--%></button></td>
-                                <td><spring:message code="L00415"/><%--2015-04-08(수) / 2015-04-10(금)--%></td>
-                                <input type="hidden" name="admsNo" value="${admsEarly.admsNo}" />
-                                <input type="hidden" name="entrYear" value="${admsEarly.entrYear}" />
-                                <input type="hidden" name="admsTypeCode" value="${admsEarly.admsType}" />
-                            </form>
-                        </tr>
+                        <%--2016-01은 조기 전형 없음--%>
+                        <%--<tr>--%>
+                            <%--<form id="earlyApplyForm" method="post">--%>
+                                <%--<td><spring:message code="L00409"/>&lt;%&ndash;조기&ndash;%&gt;</td>--%>
+                                <%--<td><spring:message code="L00412"/>&lt;%&ndash;2016학년도 전기 연세대학교 대학원 조기 전형&ndash;%&gt;</td>--%>
+                                <%--<td><button type="button" id="toEarlyInfo" class="btn btn-info"><spring:message code="L00404"/>&lt;%&ndash;모집 요강&ndash;%&gt;</button></td>--%>
+                                <%--<td><button type="submit" id="toEarlyApply" class="btn btn-primary"><spring:message code="L00405"/>&lt;%&ndash;원서 작성&ndash;%&gt;</button></td>--%>
+                                <%--<td><spring:message code="L00415"/>&lt;%&ndash;2015-04-08(수) / 2015-04-10(금)&ndash;%&gt;</td>--%>
+                                <%--<input type="hidden" name="admsNo" value="${admsEarly.admsNo}" />--%>
+                                <%--<input type="hidden" name="entrYear" value="${admsEarly.entrYear}" />--%>
+                                <%--<input type="hidden" name="admsTypeCode" value="${admsEarly.admsType}" />--%>
+                            <%--</form>--%>
+                        <%--</tr>--%>
                         </tbody>
                     </table>
                 </div>
@@ -93,14 +94,15 @@
                 foreignForm.action = "${contextPath}/application/agreement";
                 foreignForm.submit();
             });
-            $('#toEarlyInfo').on('click', function(){
-                earlyApplyForm.action = "${contextPath}/application/early";
-                earlyApplyForm.submit();
-            });
-            $('#toEarlyApply').on('click', function(){
-                earlyApplyForm.action = "${contextPath}/application/agreement";
-                earlyApplyForm.submit();
-            });
+            <%-- 2016-01은 조기 전형 없음 --%>
+            <%--$('#toEarlyInfo').on('click', function(){--%>
+                <%--earlyApplyForm.action = "${contextPath}/application/early";--%>
+                <%--earlyApplyForm.submit();--%>
+            <%--});--%>
+            <%--$('#toEarlyApply').on('click', function(){--%>
+                <%--earlyApplyForm.action = "${contextPath}/application/agreement";--%>
+                <%--earlyApplyForm.submit();--%>
+            <%--});--%>
         });
     </script>
 </content>
