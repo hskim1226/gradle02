@@ -744,7 +744,7 @@
                     break;
             }
             if (this.value > maxScore) {
-                alert( maxScore + '점 이하의 숫자를 입력해주세요.');
+                alert( maxScore + '<spring:message code="U03107"/>');
                 this.focus();
             }
         });
@@ -781,7 +781,7 @@
                     exprDate = document.getElementById(this.getAttribute('data-endDate')).value;
             if ( entrDate != '' && exprDate != '') {
                 if (parseInt(entrDate) > parseInt(exprDate)) {
-                    alert('시작일은 종료일보다 앞선 날짜여야 합니다.');
+                    alert('<spring:message code="U03108"/>');
                     this.value = '';
                 }
             }
