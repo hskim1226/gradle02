@@ -2,6 +2,8 @@ package com.apexsoft.ysprj.applicants.application.service;
 
 import com.apexsoft.framework.common.vo.ExecutionContext;
 import com.apexsoft.ysprj.applicants.application.domain.Recommendation;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import java.util.List;
 
@@ -28,9 +30,11 @@ public interface RecommendationService {
 
     ExecutionContext retrieveRecommendationByProfessor(Recommendation recommendation);
 
-    ExecutionContext registerRecommendationByProfessor(Recommendation recommendation);
+    ExecutionContext registerRecommendationByProfessor(MultipartHttpServletRequest multipartHttpServletRequest, MultipartFile multipartFile, Recommendation recommendation);
 
     ExecutionContext retrieveUncompletedRecommendationList();
 
     ExecutionContext sendUrgeMail(List<Recommendation> recommendationList);
+
+    ExecutionContext retrieveDocInfo();
 }

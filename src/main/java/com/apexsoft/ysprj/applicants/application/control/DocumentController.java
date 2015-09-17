@@ -91,7 +91,7 @@ public class DocumentController {
     @Autowired
     WebUtil webUtil;
 
-    private static final Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
+    private static final Logger logger = LoggerFactory.getLogger(DocumentController.class);
     private final String TARGET_VIEW = "application/document";
 
 //    /**
@@ -129,12 +129,6 @@ public class DocumentController {
 //        return ec;
 //    }
 
-    /**
-     * 어학/경력 정보 최초작성/수정 화면
-     *
-     * @param formData
-     * @return
-     */
     /**
      * 첨부 파일 최초 작성 및 수정 화면
      *

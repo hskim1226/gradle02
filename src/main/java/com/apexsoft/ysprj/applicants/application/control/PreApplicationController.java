@@ -1,34 +1,53 @@
 package com.apexsoft.ysprj.applicants.application.control;
 
+import com.amazonaws.AmazonClientException;
+import com.amazonaws.AmazonServiceException;
 import com.apexsoft.framework.common.vo.ExecutionContext;
+import com.apexsoft.framework.exception.ErrorInfo;
+import com.apexsoft.framework.exception.StackTraceFilter;
 import com.apexsoft.framework.exception.YSBizException;
 import com.apexsoft.framework.mail.Mail;
 import com.apexsoft.framework.message.MessageResolver;
 import com.apexsoft.framework.persistence.dao.CommonDAO;
+import com.apexsoft.framework.persistence.file.callback.FileUploadEventCallbackHandler;
+import com.apexsoft.framework.persistence.file.exception.FileNoticeException;
+import com.apexsoft.framework.persistence.file.handler.FileHandler;
+import com.apexsoft.framework.persistence.file.manager.FilePersistenceManager;
+import com.apexsoft.framework.persistence.file.model.FileInfo;
+import com.apexsoft.framework.persistence.file.model.FileItem;
+import com.apexsoft.framework.persistence.file.model.FileMetaForm;
 import com.apexsoft.ysprj.applicants.admission.service.AdmissionService;
 import com.apexsoft.ysprj.applicants.application.domain.*;
-import com.apexsoft.ysprj.applicants.application.service.BasisService;
+import com.apexsoft.ysprj.applicants.application.service.DocumentService;
 import com.apexsoft.ysprj.applicants.application.service.RecommendationService;
 import com.apexsoft.ysprj.applicants.application.validator.RecommendationValidator;
 import com.apexsoft.ysprj.applicants.common.util.CryptoUtil;
-import com.apexsoft.ysprj.user.domain.User;
+import com.apexsoft.ysprj.applicants.common.util.FileUtil;
+import com.apexsoft.ysprj.applicants.common.util.StringUtil;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.python.antlr.ast.Exec;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
-import javax.crypto.IllegalBlockSizeException;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.security.Principal;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -44,6 +63,9 @@ public class PreApplicationController {
 
     @Autowired
     private AdmissionService admissionService;
+
+    @Autowired
+    private DocumentService documentService;
 
     @Autowired
     private RecommendationService recommendationService;
@@ -75,6 +97,7 @@ public class PreApplicationController {
     @Value("#{app['recommendation.notice.sendkey']}")
     private String SEND_KEY;
 
+    private static final Logger logger = LoggerFactory.getLogger(PreApplicationController.class);
     /**
      * 공고 목록 화면
      *
@@ -368,6 +391,9 @@ public class PreApplicationController {
         recommendation.setRecNo(Integer.parseInt(decrypted.split(";")[0]));
         ExecutionContext ec0 = recommendationService.openRecommendationRequestByProfessor(recommendation);
         ExecutionContext ec = recommendationService.retrieveRecommendationByProfessor(recommendation);
+        ExecutionContext ec1 = recommendationService.retrieveDocInfo();
+        RecommendationDocument recDocInfo = (RecommendationDocument) ec1.getData();
+        recDocInfo.setDocTypeCode("00007");
 
         // 추천서 상태가 요청발송, 교수확인이면 등록화면으로 등록완료면 등록 완료 안내 화면으로
         if (ExecutionContext.SUCCESS.equals(ec.getResult())) {
@@ -376,7 +402,15 @@ public class PreApplicationController {
                     || RecommendStatus.OPENED.codeVal().equals(recApplInfo.getRecStsCode())) {
                 mv.setViewName("application/formRecommendation");
                 mv.addObject("applInfo", ec.getData());
+                mv.addObject("applicantId", recApplInfo.getUserId());
                 mv.addObject("recKey", key);
+                mv.addObject("fileUploadedYn", recApplInfo.getFileUploadedYn());
+
+                mv.addObject("docTypeCode", recDocInfo.getDocTypeCode());
+                mv.addObject("docItemCode", recDocInfo.getDocItemCode());
+                mv.addObject("docItemName", recDocInfo.getDocItemName());
+                mv.addObject("docItemNameXxen", recDocInfo.getDocItemNameXxen());
+
             } else if (RecommendStatus.COMPLETED.codeVal().equals(recApplInfo.getRecStsCode())) {
                 mv.setViewName("application/recNotice");
                 mv.addObject("title", messageResolver.getMessage("L06902"));
@@ -385,6 +419,217 @@ public class PreApplicationController {
         }
 
         return mv;
+    }
+
+//    @RequestMapping(value = "/recommend/fileupload", method = RequestMethod.POST)
+//    @ResponseBody
+//    public String uploadLetterOfRecommendation(Recommendation recommendation, FileMetaForm fileMetaForm,
+//                                               MultipartHttpServletRequest request,
+//                                                     BindingResult bindingResult,
+//                                                     Principal principal, ModelAndView mv) {
+//
+//        return "";
+//    }
+    /**
+     * 파일 업로드
+     * 개별 파일 단위로 물리적 업로드 및 파일 업로드 테이블에도 저장
+     *
+     * @param document
+     * @param binding
+     * @param principal
+     * @param fileHandler
+     * @return
+     */
+    @RequestMapping(value = "/recommend/fileupload", method = RequestMethod.POST)
+    @ResponseBody
+    public ExecutionContext uploadLetterOfRecommendation(Document document,
+                                                         BindingResult binding,
+                                                         final Principal principal,
+                                                         HttpServletRequest request,
+                                                         FileHandler fileHandler) {
+
+        ExecutionContext ec = new ExecutionContext();
+        String returnFileMetaForm = "";
+        try {
+            returnFileMetaForm = fileHandler.handleMultiPartRequest(new FileUploadEventCallbackHandler<String, FileMetaForm, TotalApplicationDocument>() {
+                /**
+                 * target 폴더 반환
+                 *
+                 * @param fileMetaForm
+                 *
+                 * @returnattribute
+                 */
+                @Override
+                protected String getDirectory(FileMetaForm fileMetaForm) {
+
+                    String admsNo = fileMetaForm.getAdmsNo();
+                    String userId = fileMetaForm.getApplicantId();
+                    String applNo = fileMetaForm.getApplNo();
+
+                    return FileUtil.getUploadDirectory(admsNo, userId, Integer.parseInt(applNo));
+                }
+
+                /**
+                 * 실제 저장될 파일 이름 반환
+                 *
+                 * @return
+                 */
+                @Override
+                protected String createFileName(FileMetaForm fileMetaForm, FileItem fileItem) {
+                    return fileMetaForm.getFieldName() + "-" + StringUtil.reverseSlashToSlash(fileItem.getOriginalFileName());
+                }
+
+                /**
+                 * 파일 업로드와 첨부 파일 관련 정보 DB 저장
+                 * @param fileItems
+                 * @param fileMetaForm
+                 * @param persistence
+                 * @param document
+                 * @return
+                 */
+                @Override
+                public String handleEvent(List<FileItem> fileItems,
+                                          FileMetaForm fileMetaForm,
+                                          FilePersistenceManager persistence,
+                                          TotalApplicationDocument document) {
+                    ExecutionContext ec = null;
+                    String jsonFileMetaForm = null;
+                    FileInfo fileInfo = null;
+//                    String uploadDir = getDirectory(fileMetaForm);
+//                    String uploadFileName = "";
+                    for ( FileItem fileItem : fileItems){
+                        // FOR MANAGE
+//                        if (fileItem.getFile().length() > MAX_LENGTH) {
+//                            ec = new ExecutionContext(ExecutionContext.FAIL);
+//                            Map<String, String> errorInfo = new HashMap<String, String>();
+//                            errorInfo.put("applNo", String.valueOf(document.getApplNo()));
+//                            ec.setErrorInfo(new ErrorInfo(errorInfo));
+//                            throw new FileNoticeException(ec, "U04301", "ERR0060");
+//                        }
+                        // FOR MANAGE
+                        if (fileItem.getOriginalFileName().toLowerCase().endsWith("pdf")) {
+                            PDDocument pdf = null;
+                            try {
+                                pdf = PDDocument.load(fileItem.getFile());
+
+                                if (pdf.isEncrypted()) {
+                                    ec = new ExecutionContext(ExecutionContext.FAIL);
+                                    Map<String, String> errorInfo = new HashMap<String, String>();
+                                    errorInfo.put("applNo", String.valueOf(document.getApplNo()));
+                                    errorInfo.put("originalFileName", fileItem.getOriginalFileName());
+                                    ec.setErrorInfo(new ErrorInfo(errorInfo));
+                                    throw new FileNoticeException(ec, "U04514", "ERR0060");
+                                }
+                            } catch (IOException e) {
+                                logger.error("Upload PDF is NOT loaded to PDDocument, DocumentController.fileUpload()");
+                                logger.error("modId : " + document.getModId());
+                                logger.error("applNo: " + document.getApplNo());
+                                ec = new ExecutionContext(ExecutionContext.FAIL);
+                                Map<String, String> errorInfo = new HashMap<String, String>();
+                                errorInfo.put("applNo", String.valueOf(document.getApplNo()));
+                                errorInfo.put("originalFileName", fileItem.getOriginalFileName());
+                                ec.setErrorInfo(new ErrorInfo(errorInfo));
+                                throw new FileNoticeException(ec, "U04514", "ERR0060");
+                            } finally {
+                                if (pdf != null) {
+                                    try {
+                                        pdf.close();
+                                    } catch (IOException e) {
+                                        logger.error("PDF is NOT closed, DocumentController.fileUpload()");
+                                    }
+                                }
+                            }
+                        }
+
+                        FileInputStream fis = null;
+                        String originalFileName = fileItem.getOriginalFileName();
+
+                        try{
+                            String uploadDir = getDirectory(fileMetaForm);
+                            String uploadFileName = createFileName(fileMetaForm, fileItem);
+                            try {
+                                fileInfo = persistence.save(uploadDir, uploadFileName, originalFileName,
+                                        fis = new FileInputStream(fileItem.getFile())
+                                );
+                            } catch (IOException ioe) {
+                                throw getYSBizException(document, fileMetaForm.getApplicantId(), "U339", "ERR0063");
+                            }
+
+                            String path = fileInfo.getDirectory();
+
+                            fileMetaForm.setPath(path);
+                            fileMetaForm.setFileName(fileInfo.getFileName());
+                            fileMetaForm.setOriginalFileName(originalFileName);
+
+                            document.setFilePath(fileInfo.getDirectory());
+                            document.setFileName(fileInfo.getFileName());
+                            document.setOrgFileName(originalFileName);
+                            document.setFileExt(originalFileName.substring(originalFileName.lastIndexOf('.') + 1));
+                            document.setPageCnt(fileInfo.getPageCnt());
+                            document.setModId(fileMetaForm.getApplicantId());
+                            document.setFileUploadFg("Y".equals(fileMetaForm.getFileUploadedYn()) ? true : false);
+                            ec = documentService.saveOneDocument(document);
+
+                            if (ExecutionContext.SUCCESS.equals(ec.getResult())) {
+                                fileMetaForm.setTotalApplicationDocument((TotalApplicationDocument)ec.getData());
+                                fileMetaForm.setResultMessage(MessageResolver.getMessage("U348"));
+                            } else {
+                                fileMetaForm.setResultMessage(MessageResolver.getMessage("U339"));
+                            }
+
+                            jsonFileMetaForm = jacksonObjectMapper.writeValueAsString(fileMetaForm);
+
+                        } catch (AmazonServiceException ase) {
+                            ec = new ExecutionContext(ExecutionContext.FAIL);
+                            ec.setMessage(MessageResolver.getMessage("U339"));
+                            ec.setErrCode("ERR0052");
+                            Map<String, String> errorInfo = new HashMap<String, String>();
+                            errorInfo.put("userId", String.valueOf(fileMetaForm.getApplicantId()));
+                            errorInfo.put("applNo", String.valueOf(document.getApplNo()));
+                            errorInfo.put("docSeq", String.valueOf(document.getDocSeq()));
+                            errorInfo.put("AWS Error Message", ase.getMessage());
+                            errorInfo.put("AWS HTTP Status Code", String.valueOf(ase.getStatusCode()));
+                            errorInfo.put("AWS HTTP Error Code", String.valueOf(ase.getErrorCode()));
+                            errorInfo.put("AWS Error Type", ase.getErrorType().toString());
+                            errorInfo.put("AWS Request ID", ase.getRequestId());
+                            ec.setErrorInfo(new ErrorInfo(errorInfo));
+                            throw new YSBizException(ec);
+                        } catch (AmazonClientException ace) {
+                            ec = new ExecutionContext(ExecutionContext.FAIL);
+                            ec.setMessage(MessageResolver.getMessage("U339"));
+                            ec.setErrCode("ERR0052");
+                            Map<String, String> errorInfo = new HashMap<String, String>();
+                            errorInfo.put("applNo", String.valueOf(document.getApplNo()));
+                            errorInfo.put("docSeq", String.valueOf(document.getDocSeq()));
+                            errorInfo.put("AWS Error Message", ace.getMessage());
+                            ec.setErrorInfo(new ErrorInfo(errorInfo));
+                            throw new YSBizException(ec);
+                        } catch (Exception e) {
+                            logger.error("S3 저장시 아마존 예외 외의 오류");
+                            logger.error(e.getMessage());
+                            e.printStackTrace();
+                            throw getYSBizException(document, fileMetaForm.getApplicantId(), "U339", "ERR0052");
+                        }finally {
+                            try {
+                                if (fis!= null) fis.close();
+                            } catch (IOException e) {}
+                        }
+                    }
+
+                    return jsonFileMetaForm;
+                }
+            }, FileMetaForm.class, TotalApplicationDocument.class);
+        } catch (YSBizException ybe) {
+            logger.error("ErrorInfo :: " + ybe.getExecutionContext().getErrorInfo().toString());
+            logger.error("ErrorType :: " + ybe.toString());
+            logger.error("SimpleStackTrace ::" +
+                    StackTraceFilter.getFilteredCallStack(ybe.getStackTrace(), "com.apexsoft", false));
+            ec = ybe.getExecutionContext();
+        }
+
+        ec.setData(returnFileMetaForm);
+
+        return ec;
     }
 
     /**
@@ -396,10 +641,16 @@ public class PreApplicationController {
      */
     @RequestMapping(value = "/recommend", method = RequestMethod.POST)
     public ModelAndView recommendationSave(Recommendation recommendation,
+                                           MultipartHttpServletRequest multipartHttpServletRequest,
+                                           @RequestParam("fileRec") MultipartFile file,
                                            ModelAndView mv) {
         mv.setViewName("application/recNotice");
+
+        // 파일 업로드
+
+
         // 추천 상태 변경 DB 반영 및 지원자에게 메일 발송 처리
-        ExecutionContext ec = recommendationService.registerRecommendationByProfessor(recommendation);
+        ExecutionContext ec = recommendationService.registerRecommendationByProfessor(multipartHttpServletRequest, file, recommendation);
 
         mv.addObject("title", messageResolver.getMessage("L06902"));
         mv.addObject("notice", messageResolver.getMessage("U06902"));
@@ -425,5 +676,31 @@ public class PreApplicationController {
         }
     }
 
-
+    /**
+     * 파일 핸들링 시 발생하는 예외에 대한 YSBizException Wrapper
+     *
+     * @param document
+     * @param userId
+     * @param messageCode
+     * @param errCode
+     * @return
+     */
+    private YSBizException getYSBizException( TotalApplicationDocument document, String userId,
+                                              String messageCode, String errCode ) {
+        ExecutionContext ec = new ExecutionContext(ExecutionContext.FAIL);
+        String applNo = String.valueOf(document.getApplNo());
+        String docSeq = String.valueOf(document.getDocSeq());
+        String docItemCode = document.getDocItemCode();
+        String docItemName = document.getDocItemName();
+        Map<String, String> eInfo = new HashMap<String, String>();
+        eInfo.put("applNo", applNo);
+        eInfo.put("userId", userId);
+        eInfo.put("docSeq", docSeq);
+        eInfo.put("docItemCode", docItemCode);
+        eInfo.put("docItemName", docItemName);
+        ec.setMessage(MessageResolver.getMessage(messageCode));
+        ec.setErrCode(errCode);
+        ec.setErrorInfo(new ErrorInfo(eInfo));
+        return new YSBizException(ec);
+    }
 }

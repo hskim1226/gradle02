@@ -13,6 +13,8 @@ public class RecommendationApplicationInfo {
 
     private String admsNo;
 
+    private String userId;
+
     private String korName;
 
     private String chnName;
@@ -26,6 +28,8 @@ public class RecommendationApplicationInfo {
     private String dept;
 
     private String recStsCode;
+
+    private String fileUploadedYn;
 
     public int getRecNo() {
         return recNo;
@@ -57,6 +61,14 @@ public class RecommendationApplicationInfo {
 
     public void setAdmsNo(String admsNo) {
         this.admsNo = admsNo;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
     public String getKorName() {
@@ -113,5 +125,13 @@ public class RecommendationApplicationInfo {
 
     public void setRecStsCode(String recStsCode) {
         this.recStsCode = recStsCode;
+    }
+
+    public String getFileUploadedYn() {
+        return fileUploadedYn;
+    }
+
+    public void setFileUploadedYn(String fileUploadedYn) {
+        this.fileUploadedYn = fileUploadedYn;
     }
 }

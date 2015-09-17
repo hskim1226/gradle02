@@ -45,7 +45,7 @@ public class Recommendation {
 
     private String dueDate;
 
-    private String notifyApplicantYn;
+    private String fileUploadedYn;
 
     private String creId;
 
@@ -207,12 +207,12 @@ public class Recommendation {
         this.dueDate = dueDate;
     }
 
-    public String getNotifyApplicantYn() {
-        return notifyApplicantYn;
+    public String getFileUploadedYn() {
+        return fileUploadedYn;
     }
 
-    public void setNotifyApplicantYn(String notifyApplicantYn) {
-        this.notifyApplicantYn = notifyApplicantYn;
+    public void setFileUploadedYn(String fileUploadedYn) {
+        this.fileUploadedYn = fileUploadedYn;
     }
 
     public String getCreId() {

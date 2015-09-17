@@ -8,16 +8,23 @@ import com.apexsoft.framework.mail.MailType;
 import com.apexsoft.framework.mail.SESMailService;
 import com.apexsoft.framework.message.MessageResolver;
 import com.apexsoft.framework.persistence.dao.CommonDAO;
+import com.apexsoft.framework.persistence.file.manager.FilePersistenceManager;
+import com.apexsoft.framework.persistence.file.model.FileInfo;
 import com.apexsoft.ysprj.applicants.application.domain.*;
 import com.apexsoft.ysprj.applicants.common.domain.MailContentsParamKey;
 import com.apexsoft.ysprj.applicants.common.util.CryptoUtil;
+import com.apexsoft.ysprj.applicants.common.util.FileUtil;
 import com.apexsoft.ysprj.applicants.common.util.MailFactory;
 import com.apexsoft.ysprj.applicants.common.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.ServletContext;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.*;
 
@@ -50,6 +57,14 @@ public class RecommendationServiceImpl implements RecommendationService {
     @Value("#{app['institution.name.en']}")
     private String INST_NAME_EN;
 
+    @Value("#{app['s3.midPath']}")
+    private String s3MidPath;
+
+    private final String APP_NULL_STATUS = "00000";      // 에러일 때 반환값
+
+    @Autowired
+    private FilePersistenceManager s3PersistenceManager;
+
     private final String sampleRecKey = "f865d2b5becebbf95b65871442fcccb95695340e7a5967ab247baf34183f4027";
 
     @Override
@@ -61,6 +76,16 @@ public class RecommendationServiceImpl implements RecommendationService {
                         recNo, Recommendation.class);
 
         ec.setData(recommendation);
+        return ec;
+    }
+
+    @Override
+    public ExecutionContext retrieveDocInfo() {
+        ExecutionContext ec = new ExecutionContext();
+        RecommendationDocument recDocInfo =
+                commonDAO.queryForObject(NAME_SPACE + "CustomRecommendationMapper.selectRecDocInfo",
+                        RecommendationDocument.class);
+        ec.setData(recDocInfo);
         return ec;
     }
 
@@ -295,18 +320,104 @@ public class RecommendationServiceImpl implements RecommendationService {
     }
 
     @Override
-    public ExecutionContext registerRecommendationByProfessor(Recommendation recommendation) {
+    public ExecutionContext registerRecommendationByProfessor(MultipartHttpServletRequest multipartHttpServletRequest,
+                                                              MultipartFile multipartFile,
+                                                              Recommendation recommendation) {
         ExecutionContext ec = new ExecutionContext();
         int recNo = recommendation.getRecNo();
+        Date date = new Date();
+
+        int applNo = Integer.parseInt(multipartHttpServletRequest.getParameter("applNo"));
+        String userId = multipartHttpServletRequest.getParameter("userId");
+        String admsNo = multipartHttpServletRequest.getParameter("admsNo");
+
+        // 파일 업로드
+        String uploadDir = FileUtil.getUploadDirectory(admsNo, userId, applNo);
+        String uploadFileName = "file-recommendation-" + recNo + "-" + multipartFile.getOriginalFilename();
+        String originalFileName = multipartFile.getOriginalFilename();
+        FileInfo fileInfo = null;
+
+        try {
+            fileInfo = s3PersistenceManager.save(uploadDir, uploadFileName, originalFileName,
+                    multipartFile.getInputStream());
+        } catch (IOException ioe) {
+            throw new YSBizException(ioe);
+        }
+
+        // APPL_REC 업데이트
         recommendation.setRecStsCode(RecommendStatus.COMPLETED.codeVal());  // 추천서 접수 완료
-        recommendation.setModDate(new Date());
+        recommendation.setModDate(date);
+        recommendation.setFileUploadedYn("Y");
+
         int r1 = commonDAO.updateItem(recommendation, NAME_SPACE, "CustomRecommendationMapper", ".updateSelective");
         Recommendation result = commonDAO.queryForObject(NAME_SPACE + "CustomRecommendationMapper.selectByRecNo", recNo, Recommendation.class);
 
         if (r1 == 1) {
             ec.setResult(ExecutionContext.SUCCESS);
 
+            // APPL_DOC 업데이트
+            TotalApplicationDocument oneDocument = new TotalApplicationDocument();
+            oneDocument.setApplNo(applNo);
+            oneDocument.setDocTypeCode(multipartHttpServletRequest.getParameter("docTypeCode"));
+            oneDocument.setDocGrp(recNo);
+            oneDocument.setDocItemCode(multipartHttpServletRequest.getParameter("docItemCode"));
+            oneDocument.setDocItemName(multipartHttpServletRequest.getParameter("docItemName"));
+            oneDocument.setDocItemNameXxen(multipartHttpServletRequest.getParameter("docItemNameXxen"));
+            oneDocument.setFileExt("pdf");
+            oneDocument.setImgYn("N");
+            oneDocument.setFilePath(s3MidPath + "/" + uploadDir + "/" + uploadFileName);
+            oneDocument.setFileName(uploadFileName);
+            oneDocument.setOrgFileName(multipartFile.getOriginalFilename());
+            oneDocument.setPageCnt(fileInfo.getPageCnt());
+            oneDocument.setFileUploadFg("Y".equals(multipartHttpServletRequest.getParameter("fileUploadedYn")));
 
+
+            int rUpdate = 0, rInsert = 0, update=0, insert =0;
+
+            //기존 파일이 업로드 되어 있는 경우
+            if( oneDocument.isFileUploadFg()){
+                rUpdate++;
+                oneDocument.setModDate(date);
+                oneDocument.setModId(userId);
+                update = update + commonDAO.updateItem(oneDocument, NAME_SPACE, "ApplicationDocumentMapper");
+
+            }else{
+                rInsert++;
+
+                int maxSeq = commonDAO.queryForInt(NAME_SPACE +"CustomApplicationDocumentMapper.selectMaxSeqByApplNo", applNo ) ;
+                oneDocument.setFileUploadFg(true);
+                oneDocument.setDocSeq(++maxSeq);
+                oneDocument.setCreId(userId);
+                oneDocument.setCreDate(date);
+                insert = insert + commonDAO.insertItem(oneDocument, NAME_SPACE, "ApplicationDocumentMapper");
+
+            }
+
+//        if (  insert == rInsert && update == rUpdate && applUpdate == 1 ) {
+            if (  insert == rInsert && update == rUpdate ) {
+                ec.setResult(ExecutionContext.SUCCESS);
+                ec.setMessage(MessageResolver.getMessage("U325"));
+                ec.setData(oneDocument);
+            } else {
+                ec.setResult(ExecutionContext.FAIL);
+                ec.setMessage(MessageResolver.getMessage("U326"));
+                ec.setData(new ApplicationIdentifier(applNo, APP_NULL_STATUS));
+                String errCode = null;
+                if ( insert != rInsert ) errCode = "ERR0031";
+                if ( update != rUpdate ) errCode = "ERR0033";
+                ec.setErrCode(errCode);
+                Map<String, String> errorInfo = new HashMap<String, String>();
+                errorInfo.put("applNo", String.valueOf(applNo));
+                errorInfo.put("creId", oneDocument.getCreId());
+                errorInfo.put("modId", oneDocument.getModId());
+                errorInfo.put("docSeq", String.valueOf(oneDocument.getDocSeq()));
+                errorInfo.put("docItemCode", oneDocument.getDocItemCode());
+                errorInfo.put("docItemName", oneDocument.getDocItemName());
+                ec.setErrorInfo(new ErrorInfo(errorInfo));
+                throw new YSBizException(ec);
+            }
+
+            // 메일 발송
             Mail mail = MailFactory.create(MailType.RECOMMENDATION_COMPLETED);
             mail.setInfo(result);
             mail.setInfoType(Recommendation.class);
@@ -350,6 +461,11 @@ public class RecommendationServiceImpl implements RecommendationService {
         }
 
         return ec;
+    }
+
+    private ExecutionContext uploadFileToS3(MultipartFile file) {
+
+        return null;
     }
 
     @Override
