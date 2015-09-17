@@ -85,7 +85,7 @@
                 <td>${chgList.admsNo}-${chgList.chgNo}</td>
                 <td>
                     <c:choose>
-                        <c:when test="${chgList.admsNo == '15D'}">
+                        <c:when test="${chgList.admsNo == app['adms.foreign']}">
                             ${chgList.engName},${chgList.engSur}
                         </c:when>
                         <c:otherwise>

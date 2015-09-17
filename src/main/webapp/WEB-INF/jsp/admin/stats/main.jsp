@@ -31,7 +31,7 @@
                     <c:forEach var="corsCntList" items="${corsCntList}" varStatus="status">
                     <tr>
                         <c:choose>
-                            <c:when test="${corsCntList.admsNo == '15B'}">
+                            <c:when test="${corsCntList.admsNo == app['adms.general']}">
                                 <c:choose>
                                 <c:when test="${corsCntList.applAttrCode == '00001'}">
                                     <th scope="row" class="text-left"><span class="tit1">일반-일반</a></span></th>
@@ -47,10 +47,10 @@
                                 </c:when>
                                 </c:choose>
                             </c:when>
-                            <c:when test="${corsCntList.admsNo == '15D'}">
+                            <c:when test="${corsCntList.admsNo == app['adms.foreign']}">
                                 <th scope="row" class="text-left"><span class="tit1">외국인전형</a></span></th>
                             </c:when>
-                            <c:when test="${corsCntList.admsNo == '15W'}">
+                            <c:when test="${corsCntList.admsNo == app['adms.early']}">
                                 <th scope="row" class="text-left"><span class="tit1">조기전형</a></span></th>
                             </c:when>
                         </c:choose>

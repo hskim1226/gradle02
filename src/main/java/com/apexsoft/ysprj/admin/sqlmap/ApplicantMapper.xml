@@ -816,12 +816,12 @@
     </select>
 
 
-    <select id="retrieveStatusCount" resultType="com.apexsoft.ysprj.admin.domain.CommonAdminInfo"  parameterType="java.lang.String">
+    <select id="retrieveStatusCount" resultType="com.apexsoft.ysprj.admin.domain.CommonAdminInfo"  parameterType="com.apexsoft.ysprj.applicants.common.domain.AdmsNo">
         SELECT
-        (SELECT COUNT(*) FROM APPL WHERE ADMS_NO IN ('15B', '15D', '16W') AND APPL_STS_CODE IN ( '00010', '00021')) UNPAID_CNT ,
-        (SELECT COUNT(*) FROM APPL WHERE ADMS_NO IN ('15B', '15D', '16W') AND APPL_STS_CODE IN ( '00001', '00002', '00003', '00004')) UNCMPL_CNT ,
-        (SELECT COUNT(*) CURR_CNT FROM APPL WHERE ADMS_NO IN ('15B', '15D', '16W') AND APPL_STS_CODE IN ( '00020') )  CURR_CNT ,
-        (SELECT COUNT(*) FROM APPL_CHG WHERE ADMS_NO IN ('15B', '15D', '16W') AND CHG_STS_CODE ='00003') CHANGE_CNT FROM DUAL
+        (SELECT COUNT(*) FROM APPL WHERE ADMS_NO IN (#{general,jdbcType=VARCHAR}, #{foreign,jdbcType=VARCHAR}, #{early,jdbcType=VARCHAR}) AND APPL_STS_CODE IN ( '00010', '00021')) UNPAID_CNT ,
+        (SELECT COUNT(*) FROM APPL WHERE ADMS_NO IN (#{general,jdbcType=VARCHAR}, #{foreign,jdbcType=VARCHAR}, #{early,jdbcType=VARCHAR}) AND APPL_STS_CODE IN ( '00001', '00002', '00003', '00004')) UNCMPL_CNT ,
+        (SELECT COUNT(*) CURR_CNT FROM APPL WHERE ADMS_NO IN (#{general,jdbcType=VARCHAR}, #{foreign,jdbcType=VARCHAR}, #{early,jdbcType=VARCHAR}) AND APPL_STS_CODE IN ( '00020') )  CURR_CNT ,
+        (SELECT COUNT(*) FROM APPL_CHG WHERE ADMS_NO IN (#{general,jdbcType=VARCHAR}, #{foreign,jdbcType=VARCHAR}, #{early,jdbcType=VARCHAR}) AND CHG_STS_CODE ='00003') CHANGE_CNT FROM DUAL
 
     </select>
 

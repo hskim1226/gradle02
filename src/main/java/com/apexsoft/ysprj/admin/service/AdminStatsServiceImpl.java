@@ -40,6 +40,9 @@ public class AdminStatsServiceImpl implements AdminStatsService{
     @Autowired
     private CommonService commonService;
 
+    @Autowired
+    private AdmsNo admsNo;
+
     public List<ApplicantCnt> retrieveUnpaidApplicantCntByDept(CourseSearchGridForm searchForm) {
         List<ApplicantCnt> campusList = null;
         try {
@@ -108,11 +111,11 @@ public class AdminStatsServiceImpl implements AdminStatsService{
     private String shortAdmsCodeName(String admsCode){
         String admsName = "";
 
-        if( "15B".equals(admsCode)) {
+        if( admsNo.getGeneral().equals(admsCode)) {
             admsName = "일반";
-        }else if( "15D".equals(admsCode)){
+        }else if( admsNo.getForeign().equals(admsCode)){
             admsName ="외국인";
-        }else if( "16W".equals(admsCode)){
+        }else if( admsNo.getEarly().equals(admsCode)){
             admsName ="조기";
         }
         return admsName;

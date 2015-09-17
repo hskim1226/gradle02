@@ -43,6 +43,9 @@ public class AdminServiceImpl implements AdminService{
     @Autowired
     private CommonService commonService;
 
+    @Autowired
+    private AdmsNo admsNo;
+
     @Override
     public ExecutionContext retrieveApplicantPaginatedListByApplicantInfo(CourseSearchPageForm courseSearchPageForm){
         ExecutionContext ec = new ExecutionContext();
@@ -362,7 +365,7 @@ public class AdminServiceImpl implements AdminService{
     }
     public CommonAdminInfo retrieveCommonAdminInfo(){
         CommonAdminInfo info= null;
-                info =commonDAO.queryForObject(NAME_SPACE+"retrieveStatusCount", CommonAdminInfo.class);
+                info =commonDAO.queryForObject(NAME_SPACE+"retrieveStatusCount", admsNo, CommonAdminInfo.class);
         return info;
     }
 
@@ -414,7 +417,7 @@ public class AdminServiceImpl implements AdminService{
             aCode.setCodeVal(abridgeAdmsCodeName(aCode.getCode()));
         }
         CommonAdminInfo info= null;
-        info =commonDAO.queryForObject(NAME_SPACE+"retrieveStatusCount", CommonAdminInfo.class);
+        info =commonDAO.queryForObject(NAME_SPACE+"retrieveStatusCount", admsNo, CommonAdminInfo.class);
 
         ecDataMap.put("applCntList", applCntList);
         ecDataMap.put("adminInfo", info);
@@ -424,35 +427,35 @@ public class AdminServiceImpl implements AdminService{
 
     private void addShortAdmissionName(List<AdmissionName> admsList){
         for( AdmissionName aAdms : admsList){
-           if( "15B".equals(aAdms.getAdmsNo())){
-                aAdms.setAdmsName("15년 후기 일반");
-           }else if( "15D".equals(aAdms.getAdmsNo())){
-               aAdms.setAdmsName("15년 후기 외국인");
-           }else if( "16W".equals(aAdms.getAdmsNo())){
-               aAdms.setAdmsName("16년 전기 조기");
+           if( admsNo.getGeneral().equals(aAdms.getAdmsNo())){
+                aAdms.setAdmsName("16년 전기 일반");
+           }else if( admsNo.getForeign() .equals(aAdms.getAdmsNo())){
+               aAdms.setAdmsName("16년 전기 외국인");
+           }else if( admsNo.getEarly().equals(aAdms.getAdmsNo())){
+               aAdms.setAdmsName("16년 후기 조기");
            }
         }
     }
     private String abridgeAdmsCodeName(String admsCode){
         String admsName = "";
 
-        if( "15B".equals(admsCode)) {
-            admsName = "15년 후기 일반";
-        }else if( "15D".equals(admsCode)){
-            admsName ="15년 후기 외국인";
-        }else if( "16W".equals(admsCode)){
-            admsName ="16년 전기 조기";
+        if( admsNo.getGeneral().equals(admsCode)) {
+            admsName = "16년 전기 일반";
+        }else if( admsNo.getForeign().equals(admsCode)){
+            admsName ="16년 전기 외국인";
+        }else if( admsNo.getEarly().equals(admsCode)){
+            admsName ="16년 후기 조기";
         }
         return admsName;
     }
     private String shortAdmsCodeName(String admsCode){
         String admsName = "";
 
-        if( "15B".equals(admsCode)) {
+        if( admsNo.getGeneral().equals(admsCode)) {
             admsName = "일반";
-        }else if( "15D".equals(admsCode)){
+        }else if( admsNo.getForeign().equals(admsCode)){
             admsName ="외국인";
-        }else if( "16W".equals(admsCode)){
+        }else if( admsNo.getEarly().equals(admsCode)){
             admsName ="조기";
         }
         return admsName;

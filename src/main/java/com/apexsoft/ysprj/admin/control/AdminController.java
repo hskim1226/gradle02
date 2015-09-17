@@ -31,6 +31,7 @@ import com.apexsoft.ysprj.admin.service.PostApplicationService;
 import com.apexsoft.ysprj.applicants.application.domain.Application;
 import com.apexsoft.ysprj.applicants.application.domain.ApplicationDocument;
 import com.apexsoft.ysprj.applicants.application.service.DocumentService;
+import com.apexsoft.ysprj.applicants.common.domain.AdmsNo;
 import com.apexsoft.ysprj.applicants.common.service.BirtService;
 import com.apexsoft.ysprj.applicants.common.service.PDFService;
 import com.apexsoft.ysprj.applicants.test.EntireApplication;
@@ -87,6 +88,8 @@ public class AdminController {
     @Autowired
     private PostApplicationService postApplicationService;
 
+    @Autowired
+    private AdmsNo admsNo;
 
     @SuppressWarnings("restriction")
     @Resource(name = "messageResolver")
@@ -316,9 +319,9 @@ public class AdminController {
         ApplicantInfo appInfo = (ApplicantInfo) map.get("applInfo");
         // 파일명 처리하세요.
         String fileName;
-        if( "15B".equals(appInfo.getAdmsNo())){
+        if( admsNo.getGeneral().equals(appInfo.getAdmsNo())){
             fileName = appInfo.getApplId() + "-" + appInfo.getKorName()+ "-"+ appInfo.getApplAttrName().replaceAll("\\p{Space}", "" )+ "-" + appInfo.getDeptName()+ "-" + appInfo.getCorsTypeName()  + ".pdf";
-        }else if ( "15D".equals(appInfo.getAdmsNo())){
+        }else if ( admsNo.getForeign().equals(appInfo.getAdmsNo())){
             fileName = appInfo.getApplId()+ "-" + appInfo.getEngName()+"-" + "외국인전형" + "-" + appInfo.getDeptName()+"-" + appInfo.getCorsTypeName()  + ".pdf";
         }else{
             fileName = appInfo.getApplId() + "-" + appInfo.getKorName()+"-" + "조기전형" + "-" + appInfo.getDeptName()+"-" + appInfo.getCorsTypeName()  + ".pdf";

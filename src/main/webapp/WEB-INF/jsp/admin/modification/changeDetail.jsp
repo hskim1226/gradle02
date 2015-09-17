@@ -53,7 +53,7 @@
             <th>생년월일/주민번호</th>
             <td>
                 <c:choose>
-                <c:when test="${applList.admsNo == '15D'}">
+                <c:when test="${applList.admsNo == app['adms.foreign']}">
                     <input type="radio" class="Lradio" id="bornDay" name="infoRadio" value ="bornDay"><label id="lbbornDay" for="bornDay">&nbsp;${applInfo.bornDay}</td>
                 </c:when>
                 <c:otherwise>

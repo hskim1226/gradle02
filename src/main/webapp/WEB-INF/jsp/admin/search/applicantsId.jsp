@@ -59,14 +59,14 @@
                             </c:if>
                         </td>
                         <td>
-                            <c:if test ="${applList.admsNo == '15B'}">
+                            <c:if test ="${applList.admsNo == app['adms.general']}">
                                 ${applList.applAttrName}<br>
                             </c:if>
                                 ${applList.corsTypeName}
                         </td>
                         <td>
                             <c:choose>
-                                <c:when test="${applList.admsNo == '15D'}">
+                                <c:when test="${applList.admsNo == app['adms.foreign']}">
                                     ${applList.engName},${applList.engSur} <br> ${applList.rgstBornDate}
                                 </c:when>
                                 <c:otherwise>
