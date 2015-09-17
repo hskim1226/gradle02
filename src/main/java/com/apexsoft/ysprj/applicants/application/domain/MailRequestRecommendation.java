@@ -22,21 +22,15 @@ public class MailRequestRecommendation extends Mail {
         String linkText = siteURL + contextPath + "/application/recommend?key=" + recommendation.getRecKey();
         String NEW_LINE1 = "\n";
         String NEW_LINE2 = "\n\n";
-        String linkAnchorText = new StringBuilder()
-                .append("<a href='")
-                .append(linkText)
-                .append("' target='_blank'>")
-                .append(linkText)
-                .append("</a>")
-                .toString();
 
         StringBuilder sb = new StringBuilder()
                 .append(MessageResolver.getMessage("MAIL_REQUEST_RECOMMENDATION_HEADER01"))
-                .append(NEW_LINE2)
-                .append(MessageResolver.getMessage("MAIL_REQUEST_RECOMMENDATION_HEADER02"))
                 .append(NEW_LINE1)
-                .append(MessageResolver.getMessage("MAIL_REQUEST_RECOMMENDATION_HEADER03",
-                        new Object[]{recommendation.getDueDate()}))
+                .append(MessageResolver.getMessage("MAIL_REQUEST_RECOMMENDATION_HEADER02"))
+                .append(NEW_LINE2)
+                .append(MessageResolver.getMessage("MAIL_REQUEST_RECOMMENDATION_HEADER03"))
+                .append(NEW_LINE2)
+                .append(MessageResolver.getMessage("MAIL_REQUEST_RECOMMENDATION_HEADER04"))
                 .append(NEW_LINE2)
                 .append(MessageResolver.getMessage("MAIL_REQUEST_RECOMMENDATION_BODY_INFO_TITLE"))
                 .append(NEW_LINE1)
@@ -52,11 +46,17 @@ public class MailRequestRecommendation extends Mail {
                 .append(MessageResolver.getMessage("MAIL_REQUEST_RECOMMENDATION_BODY_INFO_MAJOR",
                         new Object[]{recommendation.getMajor()}))
                 .append(NEW_LINE2)
+                .append(MessageResolver.getMessage("MAIL_REQUEST_RECOMMENDATION_BODY_DEADLINE",
+                        new Object[]{recommendation.getDueDate()}))
+                .append(NEW_LINE2)
                 .append(MessageResolver.getMessage("MAIL_REQUEST_RECOMMENDATION_BODY_LINK_NOTICE"))
                 .append(NEW_LINE2)
                 .append(MessageResolver.getMessage("MAIL_REQUEST_RECOMMENDATION_BODY_LINK",
-//                        new Object[]{linkAnchorText}));
                         new Object[]{linkText}))
+                .append(NEW_LINE2)
+                .append(MessageResolver.getMessage("MAIL_REQUEST_RECOMMENDATION_FOOTER_01"))
+                .append(NEW_LINE2)
+                .append(MessageResolver.getMessage("MAIL_REQUEST_RECOMMENDATION_FOOTER_02"))
                 .append(NEW_LINE2)
                 .append(MessageResolver.getMessage("MAIL_COMMON_FOOTER_01"))
                 .append(NEW_LINE1)
