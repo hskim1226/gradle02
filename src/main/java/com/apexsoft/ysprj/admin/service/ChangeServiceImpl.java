@@ -18,6 +18,7 @@ import com.apexsoft.ysprj.applicants.application.domain.ApplicationGeneral;
 import com.apexsoft.ysprj.applicants.common.domain.*;
 import com.apexsoft.ysprj.applicants.common.service.CommonService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -43,6 +44,9 @@ public class ChangeServiceImpl implements ChangeService {
 
     @Autowired
     private AdmsNo admsNo;
+
+    @Value("#{app['adms.enterYear']}")
+    private String enterYear;
 
     @Override
     public ExecutionContext createInfoChange( ChangeInfoForm changeInfoForm, String userId ) {
@@ -453,8 +457,9 @@ public class ChangeServiceImpl implements ChangeService {
         param.setCollCode(searchForm.getCollCode());
         param.setDeptCode(searchForm.getDeptCode());
 
-        admsList = commonDAO.queryForList(ADMS_NAME_SPACE +"CustomAdmissionMapper.selectAdmsNameByYear","2015", AdmissionName.class);
-        admsList.addAll( commonDAO.queryForList(ADMS_NAME_SPACE +"CustomAdmissionMapper.selectAdmsNameByYear","2016", AdmissionName.class));
+        admsList = commonDAO.queryForList(ADMS_NAME_SPACE +"CustomAdmissionMapper.selectAdmsNameByYear", enterYear, AdmissionName.class);
+        // 2016-01 조기 전형 없으므로 아래 행 주석 처리
+//        admsList.addAll( commonDAO.queryForList(ADMS_NAME_SPACE +"CustomAdmissionMapper.selectAdmsNameByYear","2016", AdmissionName.class));
         addShortAdmissionName(admsList);
 
         campList = commonService.retrieveCampus();

@@ -78,7 +78,7 @@
                         <table class="table table-stripped">
                             <tr>
                                 <td align="left"><img src="${contextPath}/img/common/button_pdf.gif"/>
-                                    <a href="http://graduate.yonsei.ac.kr/download/sub03/info(2015-2).pdf" target="_blank">
+                                    <a href="<spring:message code="L00614URL"/>" target="_blank">
                                         <spring:message code="L00636"/><%--2015학년도 9월입학 대학원 일반 전형 요강(한국어, PDF)--%></a></td>
                             </tr>
                             <tr>
