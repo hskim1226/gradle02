@@ -39,6 +39,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -310,6 +311,7 @@ public class DocumentController {
                                        BindingResult binding,
                                        final Principal principal,
                                        HttpServletRequest request,
+                                       MultipartHttpServletRequest multipartHttpServletRequest,
                                        FileHandler fileHandler) {
 
         ExecutionContext ec = new ExecutionContext();

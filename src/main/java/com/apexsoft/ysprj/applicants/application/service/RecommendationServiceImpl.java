@@ -207,7 +207,7 @@ public class RecommendationServiceImpl implements RecommendationService {
         ExecutionContext ec = new ExecutionContext();
         int recNo = recommendation.getRecNo();
         int applNo = recommendation.getApplNo();
-        int recSeq = recommendation.getRecSeq();
+        int recSeq = recommendation.getRecSeq() == null ? -1 : recommendation.getRecSeq();
 
         ExecutionContext ec0 = retrieveRecommendation(recNo);
         Object obj = ec0.getData();
@@ -498,24 +498,25 @@ public class RecommendationServiceImpl implements RecommendationService {
                 failedList.add(mailToProf);
             }
 
-            Mail mailToApplicant = MailFactory.create(MailType.RECOMMENDATION_URGE_NOTICE);
-            int recNo = recommendation.getRecNo();
-            Application application =
-                    commonDAO.queryForObject(NAME_SPACE + "CustomRecommendationMapper.selectApplicantMailByRecNo",
-                            recNo, Application.class);
-            String applicantName = StringUtil.getEmptyIfNull(application.getKorName()).length() > 0 ?
-                    application.getKorName() :
-                    application.getEngName();
-            mailToApplicant.setTo(new String[]{application.getMailAddr()});
-            mailToApplicant.setSubject(MessageResolver.getMessage("MAIL_URGENCY_RECOMMENDATION_NOTICE_SUBJECT"));
-            mailToApplicant.setInfo(recommendation);
-            mailToApplicant.setInfoType(Recommendation.class);
-            mailToApplicant.withContentsParam("dueTime", REC_DUE_DATE)
-                    .withContentsParam("applicantName", applicantName);
-            mailToApplicant.makeContents();
-            if (!sendUrgeMail(mailToApplicant)) {
-                failedList.add(mailToApplicant);
-            }
+            // 지원자에게는 안 보내기로 함(by 연대 담당자)
+//            Mail mailToApplicant = MailFactory.create(MailType.RECOMMENDATION_URGE_NOTICE);
+//            int recNo = recommendation.getRecNo();
+//            Application application =
+//                    commonDAO.queryForObject(NAME_SPACE + "CustomRecommendationMapper.selectApplicantMailByRecNo",
+//                            recNo, Application.class);
+//            String applicantName = StringUtil.getEmptyIfNull(application.getKorName()).length() > 0 ?
+//                    application.getKorName() :
+//                    application.getEngName();
+//            mailToApplicant.setTo(new String[]{application.getMailAddr()});
+//            mailToApplicant.setSubject(MessageResolver.getMessage("MAIL_URGENCY_RECOMMENDATION_NOTICE_SUBJECT"));
+//            mailToApplicant.setInfo(recommendation);
+//            mailToApplicant.setInfoType(Recommendation.class);
+//            mailToApplicant.withContentsParam("dueTime", REC_DUE_DATE)
+//                    .withContentsParam("applicantName", applicantName);
+//            mailToApplicant.makeContents();
+//            if (!sendUrgeMail(mailToApplicant)) {
+//                failedList.add(mailToApplicant);
+//            }
         }
         return ec;
     }

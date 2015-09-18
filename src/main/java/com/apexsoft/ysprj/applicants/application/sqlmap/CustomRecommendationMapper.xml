@@ -121,9 +121,6 @@
             <if test="reqSubject != null">
                 #{reqSubject,jdbcType=VARCHAR},
             </if>
-            <if test="reqText != null">
-                #{reqText,jdbcType=VARCHAR},
-            </if>
             <if test="recKey != null">
                 #{recKey,jdbcType=VARCHAR},
             </if>
