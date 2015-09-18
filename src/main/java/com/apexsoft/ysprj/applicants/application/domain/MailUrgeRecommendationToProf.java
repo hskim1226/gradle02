@@ -24,7 +24,9 @@ public class MailUrgeRecommendationToProf extends Mail {
         Map<Object, String> contentsParam = getContentsParam();
         String contextPath = contentsParam.get("contextPath");
         String siteURL = contentsParam.get("siteURL");
-        String linkText = siteURL + contextPath + "/application/recommend?key=" + recommendation.getRecKey();
+        String linkText = siteURL + contextPath +
+                "/application/recommend?key=" + recommendation.getRecKey() +
+                "&lang=en";
         String dueTimeString = contentsParam.get("dueTime");
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         Date dueTime = null;

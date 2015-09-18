@@ -213,10 +213,10 @@ public class RecommendationServiceImpl implements RecommendationService {
         Object obj = ec0.getData();
         if (obj != null) {
             recommendation = (Recommendation) obj;
+            recommendation.setDueDate(REC_DUE_DATE);
             recommendation.setRecStsCode(RecommendStatus.SENT.codeVal());
         } else {
-            String encrypted = getEncryptedRecKey(recommendation);
-            recommendation.setRecKey(encrypted);
+
             recommendation.setDueDate(REC_DUE_DATE);
             recommendation.setRecStsCode(RecommendStatus.SENT.codeVal());
             recommendation.setReqSubject(MessageResolver.getMessage("MAIL_REQUEST_RECOMMENDATION_SUBJECT",
@@ -230,13 +230,12 @@ public class RecommendationServiceImpl implements RecommendationService {
         mail.setTo(new String[]{recommendation.getProfMailAddr()});
         mail.setSubject(recommendation.getReqSubject());
         mail.withContentsParam("contextPath", context.getContextPath())
-                .withContentsParam("siteURL", SITE_URL);
+                .withContentsParam("siteURL", SITE_URL)
+                .withContentsParam("dueTime", REC_DUE_DATE);
         mail.makeContents();
         recommendation.setMailContents(mail.getContents());
 
         boolean isUpdate = recSeq > 0 || recNo > 0;
-
-        fillEtcInfo(recommendation);
 
         int r1 = saveRecommendation(recommendation); // 요청 완료
 
@@ -425,9 +424,10 @@ public class RecommendationServiceImpl implements RecommendationService {
             Application application =
                     commonDAO.queryForObject(NAME_SPACE + "CustomRecommendationMapper.selectApplicantMailByRecNo",
                             recNo, Application.class);
-            String applicantName = StringUtil.getEmptyIfNull(application.getKorName()).length() > 0 ?
-                    application.getKorName() :
-                    application.getEngName();
+//            String applicantName = StringUtil.getEmptyIfNull(application.getKorName()).length() > 0 ?
+//                    application.getKorName() :
+//                    application.getEngName();
+            String applicantName = application.getEngName() + "(" + application.getKorName() + ")";                    ;
             mail.setTo(new String[]{application.getMailAddr()});
             mail.setSubject(MessageResolver.getMessage("MAIL_COMPLETED_RECOMMENDATION_SUBJECT"));
             Map<Object, String> contentsParam = mail.getContentsParam();
@@ -461,11 +461,6 @@ public class RecommendationServiceImpl implements RecommendationService {
         }
 
         return ec;
-    }
-
-    private ExecutionContext uploadFileToS3(MultipartFile file) {
-
-        return null;
     }
 
     @Override
@@ -533,14 +528,18 @@ public class RecommendationServiceImpl implements RecommendationService {
         int recSeq = recommendation.getRecSeq() == null ? -1 : recommendation.getRecSeq();
         String id = recommendation.getModId();
         int r1 = 0;
-        boolean isUpdate = recSeq > 0 || recNo > 0;
+        boolean isUpdate = recSeq > 0;
         Date date = new Date();
         if (isUpdate) {
             recommendation.setModDate(date);
             r1 = commonDAO.updateItem(recommendation, NAME_SPACE, "CustomRecommendationMapper", ".updateSelective");
         } else {
+            int maxRecNo = commonDAO.queryForInt(NAME_SPACE + "CustomRecommendationMapper.selectMaxRecNoByApplNo", applNo) ;
+            recommendation.setRecNo(++maxRecNo);
             recSeq = commonDAO.queryForInt(NAME_SPACE + "CustomRecommendationMapper.selectMaxRecSeqByApplNo", applNo);
             recommendation.setRecSeq(++recSeq);
+            String encrypted = getEncryptedRecKey(recommendation);
+            recommendation.setRecKey(encrypted);
             recommendation.setCreDate(date);
             recommendation.setCreId(id);
             recommendation.setModId(null);
@@ -554,7 +553,11 @@ public class RecommendationServiceImpl implements RecommendationService {
         int recNo = recommendation.getApplNo();
         RecommendationApplicationInfo recApplInfo = commonDAO.queryForObject(NAME_SPACE + "CustomRecommendationMapper.selectRecommendApplInfo",
                 recNo, RecommendationApplicationInfo.class);
-        recommendation.setApplicantName(recApplInfo.getEngName());
+        String korName = recApplInfo.getKorName();
+        if (korName != null && !korName.isEmpty())
+            recommendation.setApplicantName(recApplInfo.getEngName() + "(" + recApplInfo.getKorName() +")");
+        else
+            recommendation.setApplicantName(recApplInfo.getEngName());
         recommendation.setApplicantNationality(recApplInfo.getNationality());
         recommendation.setDegree(recApplInfo.getDegree());
         recommendation.setMajor(recApplInfo.getDept());
@@ -615,16 +618,6 @@ public class RecommendationServiceImpl implements RecommendationService {
         }
         return isSentToProf;
 
-
-//        boolean isSentToApplicant = false;
-//        try {
-//            sesMailService.sendMail(mailToProf);
-//            isSentToProf = true;
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//
-//        return isSentToProf;
     }
 
 

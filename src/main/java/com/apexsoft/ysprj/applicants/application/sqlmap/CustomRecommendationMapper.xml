@@ -50,6 +50,9 @@
         <!--</selectKey>-->
         insert into APPL_REC
         <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="recNo != null">
+                REC_NO,
+            </if>
             <if test="applNo != null">
                 APPL_NO,
             </if>
@@ -97,11 +100,14 @@
             </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="recNo != null">
+                #{recNo,jdbcType=INTEGER},
+            </if>
             <if test="applNo != null">
                 #{applNo,jdbcType=INTEGER},
             </if>
             <if test="recSeq != null">
-                #{recSeq,jdbcType=VARCHAR},
+                #{recSeq,jdbcType=INTEGER},
             </if>
             <if test="profName != null">
                 #{profName,jdbcType=VARCHAR},
@@ -245,6 +251,13 @@
         where a.APPL_NO = #{applNo,jdbcType=INTEGER}
     </select>
 
+    <select id="selectMaxRecNoByApplNo" resultType="java.lang.Integer"
+            parameterType="java.lang.Integer">
+        select MAX(REC_NO)
+        from APPL_REC a
+        where a.APPL_NO = #{applNo,jdbcType=INTEGER}
+    </select>
+
     <delete id="deleteByPrimaryKey" parameterType="com.apexsoft.ysprj.applicants.application.domain.Recommendation">
         delete from APPL_REC
         where REC_NO = #{recNo,jdbcType=INTEGER}
@@ -271,7 +284,7 @@
               b.ENG_CNTR_NAME as NATIONALITY,
               c.CODE_VAL_XXEN as DEGREE,
               d.DEPT_NAME_XXEN as DEPT,
-              e.REC_STS_CODE, e.FILE_UPLOADED_YN
+              e.REC_STS_CODE, e.FILE_UPLOADED_YN, e.PROF_NAME as RECOMMENDER_NAME
         from APPL a, CNTR b, COMM_CODE c, DEPT d, APPL_REC e
         where e.REC_NO = #{recNo,jdbcType=INTEGER}
         and a.APPL_NO = e.APPL_NO

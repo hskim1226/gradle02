@@ -38,7 +38,7 @@
                     <div class="form-group">
                         <div class="col-sm-offset-1 col-sm-10">
                             <div class="col-sm-12 text-gray">
-                                <label class="control-label"><spring:message code="U06731"/><%--안녕하십니까...--%></label>
+                                <label class="control-label"><spring:message code="U06731" arguments="${applInfo.recommenderName}"/><%--안녕하십니까...--%></label>
                             </div>
                             <div class="col-sm-12 text-gray">
                                 <label class="control-label"><spring:message code="U06732"/><%--지원자의 지원 내용을 확인...--%></label>
@@ -56,7 +56,7 @@
                                         <th><spring:message code="L06705"/><%--전공--%></th>
                                     </thead>
                                     <tbody>
-                                        <td>${applInfo.korName}</td>
+                                        <td>${applInfo.engName}(${applInfo.korName})</td>
                                         <td>${applInfo.nationality}</td>
                                         <td>${applInfo.degree}</td>
                                         <td>${applInfo.dept}</td>
@@ -77,27 +77,24 @@
                                 <%--<label class="control-label"><spring:message code="L06705"/>&lt;%&ndash;전공&ndash;%&gt;</label> : 토목공학--%>
                             <%--</div>--%>
                             <div class="spacer-tiny">&nbsp;</div>
-                            <div class="col-sm-3 text-gray">
+                            <div class="col-sm-6 text-gray">
                                 <label class="control-label"><spring:message code="L06736"/><%--추천서 양식--%></label>
                             </div>
                             <div class="col-sm-6 text-gray">
-                                <a style='vertical-align: bottom;' href="<spring:eval expression="@app.getProperty(\"path.static\")" />/etc/LetterOfRecommendation.docx">LetterOfRecommendation.docx <img src="<spring:eval expression="@app.getProperty('path.static')" />/img/logo-ms-word.png"/></a>
-                            </div>
-                            <div class="col-sm-3 text-gray">
-                                &nbsp;
+                                <a style='vertical-align: bottom;' href="<spring:eval expression="@app.getProperty(\"path.static\")" />/etc/LetterOfRecommendation.docx"><img src="<spring:eval expression="@app.getProperty('path.static')" />/img/logo-ms-word.jpg"/> LetterOfRecommendation.docx</a>
                             </div>
                             <div class="spacer-tiny">&nbsp;</div>
-                            <div class="col-sm-3 text-gray">
+                            <div class="col-sm-6 text-gray">
                                 <label class="control-label"><spring:message code="L06731"/><%--추천서 등록--%></label>
                             </div>
                             <div class="col-sm-6 text-gray">
                                 <input type="file" class="btn btn-file" id="fileRec" name="fileRec"/>
                             </div>
-                            <div class="col-sm-3">
+                            <%--<div class="col-sm-3">--%>
                                 <%--<button id="btnUpload" class="btn btn-lg btn-primary btn-group-justified btn-upload"><spring:message code="L06732"/>&lt;%&ndash;업로드&ndash;%&gt;</button>--%>
                                 <%--<button id="btnDownload" class="btn btn-lg btn-primary btn-group-justified btn-upload"><spring:message code="L06732"/>&lt;%&ndash;업로드&ndash;%&gt;</button>--%>
                                 <%--<button id="btnDelete" class="btn btn-lg btn-primary btn-group-justified btn-upload"><spring:message code="L06732"/>&lt;%&ndash;업로드&ndash;%&gt;</button>--%>
-                            </div>
+                            <%--</div>--%>
                             <div class="spacer-tiny">&nbsp;</div>
                             <div class="col-sm-12 text-gray">
                                 <label class="control-label"><spring:message code="U06733"/><%--지원자에게 추천서 등록 완료...--%></label>

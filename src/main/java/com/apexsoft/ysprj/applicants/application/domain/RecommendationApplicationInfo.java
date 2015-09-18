@@ -31,6 +31,8 @@ public class RecommendationApplicationInfo {
 
     private String fileUploadedYn;
 
+    private String recommenderName;
+
     public int getRecNo() {
         return recNo;
     }
@@ -133,5 +135,13 @@ public class RecommendationApplicationInfo {
 
     public void setFileUploadedYn(String fileUploadedYn) {
         this.fileUploadedYn = fileUploadedYn;
+    }
+
+    public String getRecommenderName() {
+        return recommenderName;
+    }
+
+    public void setRecommenderName(String recommenderName) {
+        this.recommenderName = recommenderName;
     }
 }

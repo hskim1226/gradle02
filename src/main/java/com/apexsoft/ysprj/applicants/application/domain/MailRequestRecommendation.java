@@ -19,7 +19,9 @@ public class MailRequestRecommendation extends Mail {
         Map<Object, String> contentsParam = getContentsParam();
         String contextPath = contentsParam.get("contextPath");
         String siteURL = contentsParam.get("siteURL");
-        String linkText = siteURL + contextPath + "/application/recommend?key=" + recommendation.getRecKey();
+        String linkText = siteURL + contextPath +
+                "/application/recommend?key=" + recommendation.getRecKey() +
+                "&lang=en";
         String NEW_LINE1 = "\n";
         String NEW_LINE2 = "\n\n";
 
@@ -28,7 +30,8 @@ public class MailRequestRecommendation extends Mail {
                 .append(NEW_LINE1)
                 .append(MessageResolver.getMessage("MAIL_REQUEST_RECOMMENDATION_HEADER02"))
                 .append(NEW_LINE2)
-                .append(MessageResolver.getMessage("MAIL_REQUEST_RECOMMENDATION_HEADER03"))
+                .append(MessageResolver.getMessage("MAIL_REQUEST_RECOMMENDATION_HEADER03",
+                        new Object[]{recommendation.getProfName()}))
                 .append(NEW_LINE2)
                 .append(MessageResolver.getMessage("MAIL_REQUEST_RECOMMENDATION_HEADER04"))
                 .append(NEW_LINE2)

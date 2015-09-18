@@ -40,6 +40,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.i18n.SessionLocaleResolver;
+import org.springframework.web.util.WebUtils;
 
 import javax.annotation.Resource;
 import javax.servlet.ServletContext;
@@ -49,6 +51,7 @@ import java.io.IOException;
 import java.security.Principal;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 /**
@@ -374,8 +377,13 @@ public class PreApplicationController {
      */
     @RequestMapping(value = "/recommend", method = RequestMethod.GET)
     public ModelAndView recommendationForm(@RequestParam(value = "key") String key,
+                                           @RequestParam(value = "lang") String lang,
+                                           HttpServletRequest request,
                                            ModelAndView mv) {
 
+        if (lang != null) {
+            WebUtils.setSessionAttribute(request, SessionLocaleResolver.LOCALE_SESSION_ATTRIBUTE_NAME, new Locale(lang));
+        }
         String decrypted = null;
         // key 복호화해서 추천서 정보 추출
         try {
@@ -411,7 +419,6 @@ public class PreApplicationController {
                 mv.addObject("docItemCode", recDocInfo.getDocItemCode());
                 mv.addObject("docItemName", recDocInfo.getDocItemName());
                 mv.addObject("docItemNameXxen", recDocInfo.getDocItemNameXxen());
-
             } else if (RecommendStatus.COMPLETED.codeVal().equals(recApplInfo.getRecStsCode())) {
                 mv.setViewName("application/recNotice");
                 mv.addObject("title", messageResolver.getMessage("L06902"));

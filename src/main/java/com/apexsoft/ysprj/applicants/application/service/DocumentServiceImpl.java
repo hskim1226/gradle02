@@ -505,7 +505,7 @@ public class DocumentServiceImpl implements DocumentService {
         Application tempApp = commonDAO.queryForObject(NAME_SPACE + "ApplicationMapper.selectByPrimaryKey", applNo, Application.class);
         String admsNo = tempApp.getAdmsNo();
         //학과별정보 조회
-        applContList.add(retrieveDeptDocumentByApplNo(applNo ));
+        applContList.add(retrieveDeptDocumentByApplNo(applNo));
 
         //학력정보 조회
         applContList.add(retrieveAcademyDocumentByApplNo(applNo, admsNo));
@@ -886,33 +886,37 @@ public class DocumentServiceImpl implements DocumentService {
                 for (TotalApplicationDocumentContainer aCont : rContList) {
                     aCont.setDocGrp(pCont.getDocGrp());
                     aCont.setApplNo(pCont.getApplNo());
-                    aCont.setSubContainer(getSubCodeDocumentContainer(aCont,pList));
+                    aCont.setSubContainer(getSubCodeDocumentContainer(aCont, pList));
                 }
             }
 
         }else{
             //pCont에는  APPL_DOC 정보가 없이 필요한 문서정보와 저장 seq 만 있음
             //APPL_DOC에서 해당 문서가 저장되었는지 조회해야함
-            ApplicationDocument aDoc;
-            aDoc = commonDAO.queryForObject(NAME_SPACE + "CustomApplicationDocumentMapper.selectCodeApplicationDocumentByTotalDocumentContainner", pCont, ApplicationDocument.class);
-            if( aDoc != null){
-                pCont.setDocSeq( aDoc.getDocSeq());
-                pCont.setDocName(aDoc.getDocName());
-                pCont.setFileExt(aDoc.getFileExt());
-                pCont.setImgYn(aDoc.getImgYn());
-                pCont.setFilePath(aDoc.getFilePath());
-                pCont.setFileName(aDoc.getFileName());
-                pCont.setOrgFileName(aDoc.getOrgFileName());
-                pCont.setPageCnt(aDoc.getPageCnt());
-                pCont.setDocItemNameXxen(aDoc.getDocItemNameXxen());
-                pCont.setDocGrpName(aDoc.getDocGrpName());
-                pCont.setFileUploadFg(true);
-                System.out.println("");
+//            ApplicationDocument aDoc;
+//            aDoc = commonDAO.queryForObject(NAME_SPACE + "CustomApplicationDocumentMapper.selectCodeApplicationDocumentByTotalDocumentContainner", pCont, ApplicationDocument.class);
+
+            List<ApplicationDocument> aDocList = commonDAO.queryForList(NAME_SPACE + "CustomApplicationDocumentMapper.selectCodeApplicationDocumentByTotalDocumentContainner", pCont, ApplicationDocument.class);
+            for (ApplicationDocument aDoc : aDocList) {
+                if( aDoc != null){
+                    pCont.setDocSeq( aDoc.getDocSeq());
+                    pCont.setDocName(aDoc.getDocName());
+                    pCont.setFileExt(aDoc.getFileExt());
+                    pCont.setImgYn(aDoc.getImgYn());
+                    pCont.setFilePath(aDoc.getFilePath());
+                    pCont.setFileName(aDoc.getFileName());
+                    pCont.setOrgFileName(aDoc.getOrgFileName());
+                    pCont.setPageCnt(aDoc.getPageCnt());
+                    pCont.setDocItemNameXxen(aDoc.getDocItemNameXxen());
+                    pCont.setDocGrpName(aDoc.getDocGrpName());
+                    pCont.setFileUploadFg(true);
+                    System.out.println("");
+                }
+                if( pCont.getMsgNo()!= null && !"".equals(pCont.getMsgNo()) ) {
+                    pCont.setMsg(MessageResolver.getMessage(pCont.getMsgNo()));
+                }
+                pList.add(pCont);
             }
-            if( pCont.getMsgNo()!= null && !"".equals(pCont.getMsgNo()) ) {
-                pCont.setMsg(MessageResolver.getMessage(pCont.getMsgNo()));
-            }
-            pList.add(pCont);
         }
 
         return rContList;
