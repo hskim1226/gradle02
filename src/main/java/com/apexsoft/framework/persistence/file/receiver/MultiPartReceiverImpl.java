@@ -20,10 +20,7 @@ import org.springframework.web.multipart.support.DefaultMultipartHttpServletRequ
 import javax.servlet.http.HttpServletRequest;
 import java.io.*;
 import java.net.URLDecoder;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * 
@@ -77,70 +74,39 @@ public class MultiPartReceiverImpl implements MultiPartReceiver {
 //		}
 		DefaultMultipartHttpServletRequest defaultMultipartHttpServletRequest = (DefaultMultipartHttpServletRequest) request;
 		MultiValueMap<String, MultipartFile> fileMap = defaultMultipartHttpServletRequest.getMultiFileMap();
+		Map<String, String[]> paramMap = defaultMultipartHttpServletRequest.getParameterMap();
 
-		DiskFileItemFactory factory = new DiskFileItemFactory();
+//		DiskFileItemFactory factory = new DiskFileItemFactory();
 
-		ServletFileUpload upload = new ServletFileUpload(factory);
+//		ServletFileUpload upload = new ServletFileUpload(factory);
 
 //		FileItemIterator iter = upload.getItemIterator(request);
 
-		List<org.apache.commons.fileupload.FileItem> items = upload.parseRequest(defaultMultipartHttpServletRequest);
+//		List<org.apache.commons.fileupload.FileItem> items = upload.parseRequest(defaultMultipartHttpServletRequest);
 
 		Map<String, Object> attributes = new HashMap<String, Object>();
 		List<FileItem> files = new ArrayList<FileItem>();
 
-		for (org.apache.commons.fileupload.FileItem item : items) {
+		Set<Map.Entry<String, List<MultipartFile>>> entrySet = fileMap.entrySet();
+		for (Map.Entry<String, List<MultipartFile>> entry : entrySet) {
 
+			File f = File.createTempFile("upload", "temp");
+			f.deleteOnExit();
 
-			if (item.isFormField()) {
-				handleAttribute(attributes, item);
-			} else {
-				File f = File.createTempFile("upload", "temp");
-				f.deleteOnExit();
-
-				OutputStream fos = new FileOutputStream(f);
-				IOUtils.copyLarge(item.getInputStream(), fos);
-
-				files.add(new FileItem(item.getFieldName(), item.getName(), f));
+			OutputStream fos = new FileOutputStream(f);
+			List<MultipartFile> fileList = entry.getValue();
+			for (MultipartFile file : fileList) {
+				IOUtils.copyLarge(file.getInputStream(), fos);
+				files.add(new FileItem(entry.getKey(), file.getName(), f));
 			}
 		}
-
-//		for (org.apache.commons.fileupload.FileItem item : items) {
+		attributes.putAll(paramMap);
+//		String queryString = request.getQueryString();
 //
-//			if (item.isFormField()) {
-//				handleAttribute(attributes, item);
-//			} else {
-//				File f = File.createTempFile("upload", "temp");
-//				f.deleteOnExit();
-//
-//				OutputStream fos = new FileOutputStream(f);
-//				IOUtils.copyLarge(item.getInputStream(), fos);
-//
-//				files.add(new FileItem(item.getFieldName(), item.getName(), f));
-//			}
+//		if(StringUtils.hasText(queryString)){
+////			attributes.putAll(getQueryParameters(queryString));
+//			attributes.putAll(paramMap);
 //		}
-
-//		while (iter.hasNext()) {
-//			FileItemStream itemStream = iter.next();
-//
-//			if (itemStream.isFormField()) {
-//				handleAttribute(attributes, itemStream);
-//			} else {
-//				File f = File.createTempFile("upload", "temp");
-//				f.deleteOnExit();
-//
-//				OutputStream fos = new FileOutputStream(f);
-//				IOUtils.copyLarge(itemStream.openStream(), fos);
-//
-//				files.add(new FileItem(itemStream.getFieldName(), itemStream.getName(), f));
-//			}
-//		}
-
-		String queryString = request.getQueryString();
-
-		if(StringUtils.hasText(queryString)){
-			attributes.putAll(getQueryParameters(queryString));
-		}
 		
 		return new MultiPartInfo(attributes, files);
 	}
@@ -150,27 +116,6 @@ public class MultiPartReceiverImpl implements MultiPartReceiver {
 
 		String name = item.getFieldName();
 		String value = Streams.asString(item.openStream());
-
-		if (attributes.containsKey(name)) {
-			if (String[].class.isAssignableFrom(attributes.get(name).getClass())) {
-				currentValue = (String[]) attributes.get(name);
-
-			} else {
-				currentValue = (String[]) ArrayUtils.add((String[]) currentValue, attributes.get(name));
-			}
-
-			attributes.put(name, (String[]) ArrayUtils.add((String[]) currentValue, value));
-
-		} else {
-			attributes.put(name, value);
-		}
-	}
-
-	private void handleAttribute(Map<String, Object> attributes, org.apache.commons.fileupload.FileItem item) throws IOException {
-		Object currentValue = null;
-
-		String name = item.getFieldName();
-		String value = Streams.asString(item.getInputStream());
 
 		if (attributes.containsKey(name)) {
 			if (String[].class.isAssignableFrom(attributes.get(name).getClass())) {
