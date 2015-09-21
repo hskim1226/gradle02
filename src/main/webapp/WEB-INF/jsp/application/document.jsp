@@ -424,7 +424,7 @@
                 <c:forEach items="${document.documentContainerList}" var="lv1Container" varStatus="lv1Status">
                     <c:choose>
                         <c:when test="${lv1Container.lastYn == 'N'}">
-                        <div class="form-group"><label class="col-sm-3 control-label word-keep-all">${lv1Container.docItemName}</label></div>
+                        <div class="form-group"><label class="col-sm-3 control-label word-keep-all">${pageContext.response.locale == 'en' ? lv1Container.docItemNameXxen : lv1Container.docItemName}</label></div>
                         </c:when>
                         <c:otherwise>
                         <div class="panel panel-darkgray0">
@@ -489,7 +489,7 @@
                                                 </div>
                                                 <div class="col-sm-10 nopadding">
                                                     <c:choose>
-                                                        <c:when test="${lv2Container.docTypeCode != '00009'}">${lv2Container.docItemName}</c:when>
+                                                        <c:when test="${lv2Container.docTypeCode != '00009'}">${pageContext.response.locale == 'en' ? lv2Container.docItemNameXxen : lv2Container.docItemName}</c:when>
                                                         <c:otherwise>
                                                             <form:input path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].docItemName"
                                                                         value="${lv2Container.docItemName}"
@@ -619,7 +619,7 @@
                                             <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].subContainer[${lv3Status.index}].msg" value="${lv3Container.msg}" />
                                     <c:choose>
                                         <c:when test="${document.documentContainerList[lv1Status.index].subContainer[lv2Status.index].subContainer[lv3Status.index].uploadYn == 'N'}">
-                                            <div class="col-sm-3"><label>${lv3Container.docItemName}</label></div>
+                                            <div class="col-sm-3"><label>${pageContext.response.locale == 'en' ? lv3Container.docItemNameXxen : lv3Container.docItemName}</label></div>
                                             <div class="col-sm-9 warn-info"><label>${lv3Container.msg}</label></div>
                                         </c:when>
                                         <c:otherwise>
@@ -755,7 +755,7 @@
                                                     <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].subContainer[${lv3Status.index}].subContainer[${lv4Status.index}].msg" value="${lv4Container.msg}" />
                                             <c:choose>
                                                 <c:when test="${document.documentContainerList[lv1Status.index].subContainer[lv2Status.index].subContainer[lv3Status.index].subContainer[lv4Status.index].uploadYn == 'N'}">
-                                                    <div class="col-sm-3"><label>${lv4Container.docItemName}</label></div>
+                                                    <div class="col-sm-3"><label>${pageContext.response.locale == 'en' ? lv4Container.docItemNameXxen : lv4Container.docItemName}</label></div>
                                                     <div class="col-sm-9 warn-info"><label>${lv4Container.msg}</label></div>
                                                 </c:when>
                                                 <c:otherwise>
@@ -854,7 +854,7 @@
                                                                 <c:forEach items="${lv4Container.subContainer}" var="lv5Container" varStatus="lv5Status">
                                                                     <c:choose>
                                                                         <c:when test="${lv5Container.lastYn == 'Y'}">
-                                                        <div class="form-group"><label class="col-sm-3 control-label word-keep-all">${lv5Container.docItemName}</label></div>
+                                                        <div class="form-group"><label class="col-sm-3 control-label word-keep-all">${pageContext.response.locale == 'en' ? lv5Container.docItemNameXxen : lv5Container.docItemName}</label></div>
                                                                         </c:when>
                                                                         <c:otherwise>
                                                         <div class="panel panel-default">

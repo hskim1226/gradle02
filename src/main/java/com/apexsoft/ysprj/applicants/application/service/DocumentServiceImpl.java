@@ -887,6 +887,9 @@ public class DocumentServiceImpl implements DocumentService {
                     aCont.setDocGrp(pCont.getDocGrp());
                     aCont.setApplNo(pCont.getApplNo());
                     aCont.setSubContainer(getSubCodeDocumentContainer(aCont, pList));
+                    if( aCont.getMsgNo()!= null && aCont.getMsgNo()!= "" ) {
+                        aCont.setMsg(MessageResolver.getMessage(aCont.getMsgNo()));
+                    }
                 }
             }
 

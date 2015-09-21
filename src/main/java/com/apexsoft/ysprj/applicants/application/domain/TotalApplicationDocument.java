@@ -1,6 +1,6 @@
 package com.apexsoft.ysprj.applicants.application.domain;
 
-public class TotalApplicationDocument extends CustomApplicationDocumnet{
+public class TotalApplicationDocument extends ApplicationDocument {
 
     //화면 표시용 그룹정보
     private String grpLabel;
