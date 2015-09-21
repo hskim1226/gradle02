@@ -67,7 +67,7 @@
                                             </tr>
                                             <tr>
                                                 <td colspan="6">
-                                                    <div class="col-sm-offset-1 col-sm-10">
+                                                    <div class="col-sm-12">
                                                         <div class="col-sm-3">
                                                             <button id="modify${itemStatus.index}" class="btn btn-block btn-warning modify ${item.applStsCode.lastIndexOf('0')==3?"":"disabled"}"
                                                                     data-applNo="${item.applNo}" data-admsNo="${item.admsNo}" data-entrYear="${item.entrYear}"

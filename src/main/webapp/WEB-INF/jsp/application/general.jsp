@@ -37,19 +37,19 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr>
-                            <td rowspan="3" valign="center"><spring:message code="L00605"/><%--기관 토플--%><br/><spring:message code="L00606"/><%--(필요자만 응시)--%></td>
-                            <td><spring:message code="L00607"/><%--접수일--%></td>
-                            <td><spring:message code="L00511"/></td>
-                        </tr>
-                        <tr>
-                            <td><spring:message code="L00608"/><%--시험일--%></td>
-                            <td><spring:message code="L00512"/></td>
-                        </tr>
-                        <tr>
-                            <td><spring:message code="L00609"/><%--성적발표--%></td>
-                            <td><spring:message code="L00513"/></td>
-                        </tr>
+                        <%--<tr>--%>
+                            <%--<td rowspan="3" valign="center"><spring:message code="L00605"/>&lt;%&ndash;기관 토플&ndash;%&gt;<br/><spring:message code="L00606"/>&lt;%&ndash;(필요자만 응시)&ndash;%&gt;</td>--%>
+                            <%--<td><spring:message code="L00607"/>&lt;%&ndash;접수일&ndash;%&gt;</td>--%>
+                            <%--<td><spring:message code="L00511"/></td>--%>
+                        <%--</tr>--%>
+                        <%--<tr>--%>
+                            <%--<td><spring:message code="L00608"/>&lt;%&ndash;시험일&ndash;%&gt;</td>--%>
+                            <%--<td><spring:message code="L00512"/></td>--%>
+                        <%--</tr>--%>
+                        <%--<tr>--%>
+                            <%--<td><spring:message code="L00609"/>&lt;%&ndash;성적발표&ndash;%&gt;</td>--%>
+                            <%--<td><spring:message code="L00513"/></td>--%>
+                        <%--</tr>--%>
                         <tr>
                             <td colspan="2"><spring:message code="L00610"/><%--입학원서 접수--%></td>
                             <td><spring:message code="L00514"/></td>

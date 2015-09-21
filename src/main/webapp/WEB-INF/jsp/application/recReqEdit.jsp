@@ -117,7 +117,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group required">
                         <div class="col-sm-offset-1 col-sm-10">
                             <div class="col-sm-3 text-gray">
                                 <label for="profPhone" class="control-label"><spring:message code="L06508"/><%--교수 연락처--%></label>
