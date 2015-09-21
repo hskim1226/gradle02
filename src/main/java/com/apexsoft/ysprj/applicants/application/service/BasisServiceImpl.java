@@ -198,6 +198,10 @@ public class BasisServiceImpl implements BasisService {
                 for(int i = attrList.size()-1; i >= 0 ; i--){
                     if( !"00001".equals(attrList.get(i).getCode())){
                         attrList.remove(i);
+                    } else {
+                        CommonCode applAttr = attrList.get(i);
+                        applAttr.setCodeVal("외국인 전형 지원자");
+                        applAttr.setCodeValXxen("Foreigner Applicants");
                     }
                 }
             }
