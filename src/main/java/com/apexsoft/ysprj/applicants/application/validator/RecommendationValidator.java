@@ -34,6 +34,10 @@ public class RecommendationValidator implements Validator {
             errors.rejectValue("profInstitution", "U331",
                     new Object[]{MessageResolver.getMessage("L06506")}, MessageResolver.getMessage("U332"));  /*"교수 소속 학교"*/
         }
+        if (recommendation.getProfPhone() == null || recommendation.getProfPhone().length() == 0) {
+            errors.rejectValue("profPhone", "U331",
+                    new Object[]{MessageResolver.getMessage("L06508")}, MessageResolver.getMessage("U332"));  /*"연락처"*/
+        }
 //        if (recommendation.getReqSubject() == null || recommendation.getReqSubject().length() == 0) {
 //            errors.rejectValue("reqSubject", "U331",
 //                    new Object[]{MessageResolver.getMessage("L06536")}, MessageResolver.getMessage("U332"));  /*"메일 제목"*/
