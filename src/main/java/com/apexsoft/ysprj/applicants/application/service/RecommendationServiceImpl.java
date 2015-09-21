@@ -534,7 +534,7 @@ public class RecommendationServiceImpl implements RecommendationService {
             recommendation.setModDate(date);
             r1 = commonDAO.updateItem(recommendation, NAME_SPACE, "CustomRecommendationMapper", ".updateSelective");
         } else {
-            int maxRecNo = commonDAO.queryForInt(NAME_SPACE + "CustomRecommendationMapper.selectMaxRecNoByApplNo", applNo) ;
+            int maxRecNo = commonDAO.queryForInt(NAME_SPACE + "CustomRecommendationMapper.selectMaxRecNo", applNo) ;
             recommendation.setRecNo(++maxRecNo);
             recSeq = commonDAO.queryForInt(NAME_SPACE + "CustomRecommendationMapper.selectMaxRecSeqByApplNo", applNo);
             recommendation.setRecSeq(++recSeq);

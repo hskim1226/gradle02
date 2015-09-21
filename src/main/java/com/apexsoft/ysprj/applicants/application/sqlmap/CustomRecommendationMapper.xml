@@ -251,11 +251,9 @@
         where a.APPL_NO = #{applNo,jdbcType=INTEGER}
     </select>
 
-    <select id="selectMaxRecNoByApplNo" resultType="java.lang.Integer"
-            parameterType="java.lang.Integer">
+    <select id="selectMaxRecNo" resultType="java.lang.Integer">
         select MAX(REC_NO)
         from APPL_REC a
-        where a.APPL_NO = #{applNo,jdbcType=INTEGER}
     </select>
 
     <delete id="deleteByPrimaryKey" parameterType="com.apexsoft.ysprj.applicants.application.domain.Recommendation">
