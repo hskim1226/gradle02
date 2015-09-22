@@ -401,7 +401,12 @@
                                                                         </div>
                                                                         <div class="col-sm-3 langDetail-${langGroupStat.index}-${langListStat.index}-${subContainerStat.index} langDetail-${langGroupStat.index}" style='display: ${subContainer.checkedFg == true ? 'block;' : 'none;'}'>
                                                                             <div class="input-group">
-                                                                                <span class="input-group-addon"><spring:message code="L03104"/><%--점수--%></span>
+                                                                                <span class="input-group-addon">
+                                                                                    <c:choose>
+                                                                                        <c:when test="${subContainer.itemName == 'TOPIK'}"><spring:message code="L03109"/><%--등급--%></c:when>
+                                                                                        <c:otherwise><spring:message code="L03110"/><%--점수--%></c:otherwise>
+                                                                                    </c:choose>
+                                                                                </span>
                                                                                 <c:choose>
                                                                                     <c:when test="${subContainer.itemName == 'IELTS'}">
                                                                                         <form:select path="languageGroupList[${langGroupStat.index}].langList[${langListStat.index}].subContainer[${subContainerStat.index}].langGrad" cssClass="form-control">
