@@ -1,51 +1,62 @@
 package gradnet.selenium;
 
-import java.util.Date;
-import java.util.regex.Pattern;
-import java.util.concurrent.TimeUnit;
-import org.junit.*;
-import static org.junit.Assert.*;
-import static org.hamcrest.CoreMatchers.*;
-
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
+import org.junit.FixMethodOrder;
+import org.junit.Test;
 import org.junit.runners.MethodSorters;
 import org.openqa.selenium.*;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.ExpectedCondition;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
+
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class TestBasis {
-    private WebDriver driver;
-    private String baseUrl;
+    private static WebDriver driver;
+    private static String baseUrl;
     private boolean acceptNextAlert = true;
-    private StringBuffer verificationErrors = new StringBuffer();
-    private WebDriverWait wait;
-    private JavascriptExecutor js;
+    private static StringBuffer verificationErrors = new StringBuffer();
+    private static WebDriverWait wait;
+    private static JavascriptExecutor js;
 
-    @Before
-    public void setUp() throws Exception {
+    @BeforeClass
+    public static void setUp() throws Exception {
         driver = new FirefoxDriver();
-        baseUrl = "http://www.gradnet.co.kr";
+        baseUrl = "http://localhost:8080";
         driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
         wait = new WebDriverWait(driver, 15);
         js = (JavascriptExecutor) driver;
         driver.get(baseUrl + "/yonsei");
-    }
 
-    @Test
-    public void test1UpdateFornBasis() throws Exception {
         js.executeScript("scroll(0, 300)");
         driver.findElement(By.id("toMyList")).click();
 
         driver.findElement(By.id("username")).clear();
         driver.findElement(By.id("username")).sendKeys("Abc333");
         driver.findElement(By.id("password")).clear();
-        driver.findElement(By.id("password")).sendKeys("Abc333");
+        driver.findElement(By.id("password")).sendKeys("Abc33333");
         driver.findElement(By.xpath("//div[@id='login-form-container']/div[7]/div/button")).click();
+    }
 
-        driver.findElement(By.xpath("(//button[@id='modify'])[5]")).click();
+    @Test
+    public void test1UpdateFornBasis() throws Exception {
+//        js.executeScript("scroll(0, 300)");
+//        driver.findElement(By.id("toMyList")).click();
+//
+//        driver.findElement(By.id("username")).clear();
+//        driver.findElement(By.id("username")).sendKeys("Abc333");
+//        driver.findElement(By.id("password")).clear();
+//        driver.findElement(By.id("password")).sendKeys("Abc33333");
+//        driver.findElement(By.xpath("//div[@id='login-form-container']/div[7]/div/button")).click();
+
+        driver.findElement(By.xpath("(//button[@id='modify0'])")).click();
         js.executeScript("scroll(0, 1000)");
         driver.findElement(By.id("applicationForeigner.homeTel")).clear();
         driver.findElement(By.id("applicationForeigner.homeTel")).sendKeys("8765412365");
@@ -55,8 +66,33 @@ public class TestBasis {
         assertEquals("8765412365", driver.findElement(By.id("applicationForeigner.homeTel")).getAttribute("value"));
     }
 
-    @After
-    public void tearDown() throws Exception {
+    @Test
+    public void test1UpdateFornAcademy() throws Exception {
+        driver.get(baseUrl + "/yonsei/application/mylist");
+        driver.findElement(By.id("modify0")).click();
+        driver.findElement(By.linkText("2. 학력 정보")).click();
+        WebElement selectElement = driver.findElement(By.id("collegeList0.grdaTypeCode"));
+        selectElement.click();
+        Select select = new Select(selectElement);
+        select.selectByVisibleText("졸업예정");
+        List<WebElement> options = select.getOptions();
+        for (WebElement option : options) {
+            if ("00002".equals(option.getAttribute("value"))) {
+                System.err.println("======================");
+                System.err.println(option.getText());
+                System.err.println(option.getAttribute("value"));
+                System.err.println(option.isSelected());
+                System.err.println(option.isEnabled());
+            }
+        }
+
+        js.executeScript("$('#saveAcademy').click()");
+        assertEquals("학력 정보를 성공적으로 저장했습니다.", closeAlertAndGetItsText());
+        assertEquals("00002", driver.findElement(By.id("collegeList0.grdaTypeCode")).getAttribute("value"));
+    }
+
+    @AfterClass
+    public static void tearDown() throws Exception {
         driver.quit();
         String verificationErrorString = verificationErrors.toString();
         if (!"".equals(verificationErrorString)) {

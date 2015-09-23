@@ -31,7 +31,8 @@ public class TestSignUp {
     @Before
     public void setUp() throws Exception {
         driver = new FirefoxDriver();
-        baseUrl = "http://www.gradnet.co.kr";
+//        baseUrl = "http://www.gradnet.co.kr";
+        baseUrl = "http://localhost:8080";
         driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
         wait = new WebDriverWait(driver, 15);
         js = (JavascriptExecutor) driver;
@@ -51,13 +52,13 @@ public class TestSignUp {
         driver.findElement(By.id("userId")).clear();
         driver.findElement(By.id("userId")).sendKeys("Abcd1234");
         driver.findElement(By.id("available-check-button")).click();
-        assertEquals("사용가능한 ID 입니다.", closeAlertAndGetItsText());
+        assertEquals("사용 가능한 ID 입니다.", closeAlertAndGetItsText());
         driver.findElement(By.id("pswd1")).clear();
         driver.findElement(By.id("pswd1")).sendKeys("Abcd1234");
         driver.findElement(By.id("pswd2")).clear();
         driver.findElement(By.id("pswd2")).sendKeys("Abcd1234");
         driver.findElement(By.id("mailAddr")).clear();
-        driver.findElement(By.id("mailAddr")).sendKeys("bb@bb.bb");
+        driver.findElement(By.id("mailAddr")).sendKeys("hanmomhanda@gmail.com");
         driver.findElement(By.id("mobiNum")).click();
         driver.findElement(By.id("mobiNum")).clear();
         driver.findElement(By.id("mobiNum")).sendKeys("01087543214");
