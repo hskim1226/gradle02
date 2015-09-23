@@ -15,7 +15,6 @@ import com.apexsoft.ysprj.applicants.common.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
 import java.util.*;
 
 /**
@@ -178,6 +177,11 @@ public class BasisServiceImpl implements BasisService {
             }
 
             Map<String, Object> map =  (Map<String, Object>) retrieveSelectionMap(basis).getData();
+            Map<String, Object> tmpMap = (Map<String, Object>) map.get("selection");
+            List<CommonCode> applAttrList = (List<CommonCode>)tmpMap.get("applAttrList");
+            // 캐쉬에서 가져온 리스트를 변형하면 다른 요청에 영향을 미치므로
+            // 캐쉬에서 가져온 리스트를 복사한 다른 리스트 저장
+            tmpMap.put("applAttrList", getApplAttrForForeigner(basis, applAttrList));
             selectionMap.putAll((Map<String, Object>) map.get("selection"));
 
         } else {
@@ -191,20 +195,25 @@ public class BasisServiceImpl implements BasisService {
 //            if (ariInstList != null)   selectionMap.put("ariInstList", ariInstList);
             // 외국인 전형에서는 지원자 타입이 일반 지원자 밖에 없음
             selectionMap.put("applAttrList", commonService.retrieveApplAttrList("APPL_ATTR"));
-            if( "C".equals(basis.getApplication().getAdmsTypeCode()) ||
-                "D".equals(basis.getApplication().getAdmsTypeCode()) ||
-                "W".equals(basis.getApplication().getAdmsTypeCode())){
-                List<CommonCode> attrList = (List<CommonCode>)selectionMap.get("applAttrList");
-                for(int i = attrList.size()-1; i >= 0 ; i--){
-                    if( !"00001".equals(attrList.get(i).getCode())){
-                        attrList.remove(i);
-                    } else {
-                        CommonCode applAttr = attrList.get(i);
-                        applAttr.setCodeVal("외국인 전형 지원자");
-                        applAttr.setCodeValXxen("Foreigner Applicants");
-                    }
-                }
-            }
+            List<CommonCode> applAttrList = (List<CommonCode>)selectionMap.get("applAttrList");
+            // 캐쉬에서 가져온 리스트를 변형하면 다른 요청에 영향을 미치므로
+            // 캐쉬에서 가져온 리스트를 복사한 다른 리스트 저장
+            selectionMap.put("applAttrList", getApplAttrForForeigner(basis, applAttrList));
+
+//            if( "C".equals(basis.getApplication().getAdmsTypeCode()) ||
+//                "D".equals(basis.getApplication().getAdmsTypeCode()) ||
+//                "W".equals(basis.getApplication().getAdmsTypeCode())){
+//
+//                for(int i = attrList.size()-1; i >= 0 ; i--){
+//                    if( !"00001".equals(attrList.get(i).getCode())){
+//                        attrList.remove(i);
+//                    } else {
+//                        CommonCode applAttr = attrList.get(i);
+//                        applAttr.setCodeVal("외국인 전형 지원자");
+//                        applAttr.setCodeValXxen("Foreigner Applicants");
+//                    }
+//                }
+//            }
             selectionMap.put("emerContList", commonService.retrieveCommonCodeByCodeGroup("EMER_CONT"));
 //            if( "15C".equals(basis.getApplication().getAdmsNo())){
 //
@@ -476,5 +485,30 @@ public class BasisServiceImpl implements BasisService {
         ec.setResult(ExecutionContext.SUCCESS);
         ec.setData(infoList);
         return ec;
+    }
+
+    private List<CommonCode> getApplAttrForForeigner(Basis basis, List<CommonCode> applAttrList) {
+
+        String admsTypeCode = basis.getApplication().getAdmsTypeCode();
+        if( "C".equals(admsTypeCode) ||
+            "D".equals(admsTypeCode) ||
+            "W".equals(admsTypeCode) ) {
+
+            List<CommonCode> newApplAttrList = new ArrayList<CommonCode>();
+            for (CommonCode commonCode : applAttrList) {
+                newApplAttrList.add(new CommonCode(commonCode));
+            }
+            for(int i = newApplAttrList.size()-1; i >= 0 ; i--){
+                if( !"00001".equals(newApplAttrList.get(i).getCode())){
+                    newApplAttrList.remove(i);
+                } else {
+                    CommonCode applAttr = newApplAttrList.get(i);
+                    applAttr.setCodeVal("외국인 전형 지원자");
+                    applAttr.setCodeValXxen("Foreigner Applicants");
+                }
+            }
+            return newApplAttrList;
+        }
+        return applAttrList;
     }
 }
