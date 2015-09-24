@@ -168,12 +168,13 @@
             }).css("cursor","pointer");
 
             jQuery(".pdfDown").on('click', function(event){
-                location.href = "${contextPath}/admin/search/pdfDownload?applNo="+jQuery(this).attr('applNo');
+                location.href = "${contextPath}/admin/search/pdfDownload?applNo="+jQuery(this).attr('applNo')+'&type=form';
                 jQuery("#pdfDownBtn").attr("class","btn_set btnWhiteS pdfDown") ;
             });
 
             jQuery(".applDown").on('click', function(event){
-                location.href = "${contextPath}/admin/search/applSlipDownload?applNo="+jQuery(this).attr('applNo')+'&admsTypeCode='+jQuery(this).attr('admsTypeCode');
+                <%--location.href = "${contextPath}/admin/search/applSlipDownload?applNo="+jQuery(this).attr('applNo')+'&admsTypeCode='+jQuery(this).attr('admsTypeCode');--%>
+                location.href = "${contextPath}/admin/search/pdfDownload?applNo="+jQuery(this).attr('applNo')+'&type=slip';
             });
 
             jQuery("#idSearchBtn").on('click', function(event) {

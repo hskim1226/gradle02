@@ -65,6 +65,18 @@ public class FileUtil {
                 .append(getFinalMergedFileName(applNo)).toString();
     }
 
+    public static String getApplicationSlipFileFullPath(String uploadDirFullPath, String userId) {
+        return new StringBuilder()
+                .append(uploadDirFullPath).append("/")
+                .append(getApplicationSlipFileName(userId)).toString();
+    }
+
+    public static String getApplicationFormFileFullPath(String uploadDirFullPath, String userId) {
+        return new StringBuilder()
+                .append(uploadDirFullPath).append("/")
+                .append(getApplicationFormFileName(userId)).toString();
+    }
+
     public static String getFinalUserDownloadFileName(String userId) {
         return new StringBuilder()
                 .append(userId).append("-all-file.pdf").toString();

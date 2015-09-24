@@ -29,8 +29,9 @@
         </c:if>
         <div class="con_btn text-right">
             <a class="btn_set btnWhiteS" id="backBtn" href="#"><span>목록</span></a>
-            <a class="btn_set btnWhiteS" id="pdfDownBtn" href="#"><span>원서다운로드</span></a>
+            <a class="btn_set btnWhiteS" id="applFormPdfDownBtn" href="#"><span>원서다운로드</span></a>
             <a class="btn_set btnWhiteS" id="applSlipPdfDownBtn" href="#"><span>수험표다운로드</span></a>
+            <a class="btn_set btnWhiteS" id="pdfDownBtn" href="#"><span>묶음파일다운로드</span></a>
             <a class="btn_set btnRedS"  id="chgInfoBtn" href="#"><span>개인정보수정</span></a>
             <a class="btn_set btnBlueS" id="chgDeptBtn" href="#"><span>지원단위 변경요청</span></a>
             <a class="btn_set btnBlueS" id="chgEtcBtn" href="#"><span>기타정보 변경요청</span></a>
@@ -83,11 +84,17 @@
 
             jQuery("#pdfDownBtn").on('click', function(event){
                 event.preventDefault();
-                location.href = "${contextPath}/admin/search/pdfDownload?applNo=${applInfo.applNo}";
+                location.href = "${contextPath}/admin/search/pdfDownload?applNo=${applInfo.applNo}&type=merged";
             });
             jQuery('#applSlipPdfDownBtn').on('click', function(event) {
                 event.preventDefault();
-                location.href = "${contextPath}/admin/search/applSlipDownload?applNo=${applInfo.applNo}&admsTypeCode=${applInfo.admsNo.substring(applInfo.admsNo.length()-1)}";
+                //location.href = "${contextPath}/admin/search/applSlipDownload?applNo=${applInfo.applNo}&admsTypeCode=${applInfo.admsNo.substring(applInfo.admsNo.length()-1)}";
+                location.href = "${contextPath}/admin/search/pdfDownload?applNo=${applInfo.applNo}&type=slip";
+            });
+            jQuery('#applFormPdfDownBtn').on('click', function(event) {
+                event.preventDefault();
+                //location.href = "${contextPath}/admin/search/applSlipDownload?applNo=${applInfo.applNo}&admsTypeCode=${applInfo.admsNo.substring(applInfo.admsNo.length()-1)}";
+                location.href = "${contextPath}/admin/search/pdfDownload?applNo=${applInfo.applNo}&type=form";
             });
 
 

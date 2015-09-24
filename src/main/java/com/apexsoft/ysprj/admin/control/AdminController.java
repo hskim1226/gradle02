@@ -297,15 +297,26 @@ public class AdminController {
 
     @RequestMapping(value="/search/pdfDownload", produces = "application/pdf")
     @ResponseBody
-    public byte[] fileDownload(@RequestParam("applNo") int applNo, Principal principal, HttpServletResponse response)
+    public byte[] fileDownload(@RequestParam("applNo") int applNo,
+                               @RequestParam("type") String type,
+                               Principal principal, HttpServletResponse response)
             throws IOException {
 
         List<ApplicationDocument> applPaperInfosList =
                 documentService.retrieveApplicationPaperInfo(applNo); // DB에서 filePath가져온다
 
         String applPaperLocalFilePath = applPaperInfosList.get(0).getFilePath();
+        String tmpFileName = applPaperInfosList.get(0).getFileName();
+        String applicantId = tmpFileName.substring(tmpFileName.lastIndexOf('_') + 1, tmpFileName.indexOf(".pdf"));
         String s3FilePath = FileUtil.getS3PathFromLocalFullPath(applPaperLocalFilePath, fileBaseDir);
-        String filePath = FileUtil.getFinalMergedFileFullPath(s3FilePath, applNo);
+        String filePath = null;
+
+        if ("slip".equals(type))
+            filePath = FileUtil.getApplicationSlipFileFullPath(s3FilePath, applicantId);
+        if ("form".equals(type))
+            filePath = FileUtil.getApplicationFormFileFullPath(s3FilePath, applicantId);
+        if ("merged".equals(type))
+            filePath = FileUtil.getFinalMergedFileFullPath(s3FilePath, applNo);
 
         AmazonS3 s3 = new AmazonS3Client();
         S3Object object = s3.getObject(new GetObjectRequest(s3BucketName, filePath));
@@ -317,16 +328,16 @@ public class AdminController {
         ecRetrieve = postApplicationService.checkDocumentRead(applNo, userId);
         Map<String, Object> map = (Map<String, Object>)ecRetrieve.getData();
         ApplicantInfo appInfo = (ApplicantInfo) map.get("applInfo");
-        // 파일명 처리하세요.
-        String fileName;
-        if( admsNo.getGeneral().equals(appInfo.getAdmsNo())){
-            fileName = appInfo.getApplId() + "-" + appInfo.getKorName()+ "-"+ appInfo.getApplAttrName().replaceAll("\\p{Space}", "" )+ "-" + appInfo.getDeptName()+ "-" + appInfo.getCorsTypeName()  + ".pdf";
-        }else if ( admsNo.getForeign().equals(appInfo.getAdmsNo())){
-            fileName = appInfo.getApplId()+ "-" + appInfo.getEngName()+"-" + "외국인전형" + "-" + appInfo.getDeptName()+"-" + appInfo.getCorsTypeName()  + ".pdf";
-        }else{
-            fileName = appInfo.getApplId() + "-" + appInfo.getKorName()+"-" + "조기전형" + "-" + appInfo.getDeptName()+"-" + appInfo.getCorsTypeName()  + ".pdf";
-        }
-        response.setHeader("Content-Disposition", "attachment; filename=\"" + URLEncoder.encode("test.pdf", "UTF-8") + "\"");
+//         파일명 처리하세요.
+        String fileName = filePath.substring(filePath.lastIndexOf('/') + 1);
+//        if( admsNo.getGeneral().equals(appInfo.getAdmsNo())){
+//            fileName = appInfo.getApplId() + "-" + appInfo.getKorName()+ "-"+ appInfo.getApplAttrName().replaceAll("\\p{Space}", "" )+ "-" + appInfo.getDeptName()+ "-" + appInfo.getCorsTypeName()  + ".pdf";
+//        }else if ( admsNo.getForeign().equals(appInfo.getAdmsNo())){
+//            fileName = appInfo.getApplId()+ "-" + appInfo.getEngName()+"-" + "외국인전형" + "-" + appInfo.getDeptName()+"-" + appInfo.getCorsTypeName()  + ".pdf";
+//        }else{
+//            fileName = appInfo.getApplId() + "-" + appInfo.getKorName()+"-" + "조기전형" + "-" + appInfo.getDeptName()+"-" + appInfo.getCorsTypeName()  + ".pdf";
+//        }
+        response.setHeader("Content-Disposition", "attachment; filename=\"" + URLEncoder.encode(fileName, "UTF-8") + "\"");
         response.setHeader("Content-Transfer-Encoding", "binary;");
         response.setHeader("Pragma", "no-cache;");
         response.setHeader("Expires", "-1;");
@@ -343,11 +354,38 @@ public class AdminController {
      */
 
     @RequestMapping(value="/search/applSlipDownload", produces = "application/pdf")
-    public ModelAndView applDownload(@RequestParam("applNo") int applNo,
-                                     @RequestParam("admsTypeCode") String admsTypeCode,
-                                     Principal principal,
-                                     HttpServletResponse response,
-                                     ModelAndView mv) throws IOException {
+    public ModelAndView applSlipDownload(@RequestParam("applNo") int applNo,
+                                         @RequestParam("admsTypeCode") String admsTypeCode,
+                                         Principal principal,
+                                         HttpServletResponse response,
+                                         ModelAndView mv) throws IOException {
+
+        mv.setViewName("pdfSingleFormatBirtDownload");
+
+        Map<String, Object> bigDataMap = null;
+        String lang = "C".equals(admsTypeCode) || "D".equals(admsTypeCode) ? "en" : "kr";
+        String reportName = "yonsei-adms-" + lang;
+        mv.addObject("reportFormat", REPORT_FORMAT);
+        mv.addObject("reportName", reportName);
+        ExecutionContext ec = birtService.processBirt(applNo, reportName);
+        bigDataMap = (Map<String, Object>)ec.getData();
+        mv.addAllObjects(bigDataMap);
+
+        return mv;
+    }
+
+    /**
+     * 수험표 다운로드
+     * @return
+     * @throws java.io.IOException
+     */
+
+    @RequestMapping(value="/search/applFormDownload", produces = "application/pdf")
+    public ModelAndView applFormDownload(@RequestParam("applNo") int applNo,
+                                         @RequestParam("admsTypeCode") String admsTypeCode,
+                                         Principal principal,
+                                         HttpServletResponse response,
+                                         ModelAndView mv) throws IOException {
 
         mv.setViewName("pdfSingleFormatBirtDownload");
 
