@@ -35,8 +35,9 @@ public class TestBasis {
         js = (JavascriptExecutor) driver;
         driver.get(baseUrl + "/yonsei");
 
-        js.executeScript("scroll(0, 300)");
-        driver.findElement(By.id("toMyList")).click();
+//        js.executeScript("scroll(0, 300)");
+//        driver.findElement(By.id("toMyList")).click();
+        js.executeScript("$('#toMyList').click()");
 
         driver.findElement(By.id("username")).clear();
         driver.findElement(By.id("username")).sendKeys("Abc333");
@@ -75,16 +76,16 @@ public class TestBasis {
         selectElement.click();
         Select select = new Select(selectElement);
         select.selectByVisibleText("졸업예정");
-        List<WebElement> options = select.getOptions();
-        for (WebElement option : options) {
-            if ("00002".equals(option.getAttribute("value"))) {
-                System.err.println("======================");
-                System.err.println(option.getText());
-                System.err.println(option.getAttribute("value"));
-                System.err.println(option.isSelected());
-                System.err.println(option.isEnabled());
-            }
-        }
+//        List<WebElement> options = select.getOptions();
+//        for (WebElement option : options) {
+//            if ("00002".equals(option.getAttribute("value"))) {
+//                System.err.println("======================");
+//                System.err.println(option.getText());
+//                System.err.println(option.getAttribute("value"));
+//                System.err.println(option.isSelected());
+//                System.err.println(option.isEnabled());
+//            }
+//        }
 
         js.executeScript("$('#saveAcademy').click()");
         assertEquals("학력 정보를 성공적으로 저장했습니다.", closeAlertAndGetItsText());
