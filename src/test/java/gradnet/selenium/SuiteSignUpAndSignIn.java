@@ -7,6 +7,6 @@ import org.junit.runners.Suite;
  * Created by hanmomhanda on 15. 3. 31.
  */
 @RunWith(Suite.class)
-@Suite.SuiteClasses({ TestSignUp.class, TestBasis.class })
+@Suite.SuiteClasses({ TestUserSignUp.class, TestBasis.class })
 public class SuiteSignUpAndSignIn {
 }

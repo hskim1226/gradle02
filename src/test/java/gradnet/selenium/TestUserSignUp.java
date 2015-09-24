@@ -1,9 +1,6 @@
 package gradnet.selenium;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.FixMethodOrder;
-import org.junit.Test;
+import org.junit.*;
 import org.junit.runners.MethodSorters;
 import org.openqa.selenium.*;
 import org.openqa.selenium.firefox.FirefoxDriver;
@@ -19,17 +16,19 @@ import static org.hamcrest.CoreMatchers.*;
  * Created by hanmomhanda on 15. 3. 31.
  */
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class TestSignUp {
+public class TestUserSignUp {
 
-    private WebDriver driver;
-    private String baseUrl;
+    private static WebDriver driver;
+    private static String baseUrl;
     private boolean acceptNextAlert = true;
-    private StringBuffer verificationErrors = new StringBuffer();
-    private WebDriverWait wait;
-    private JavascriptExecutor js;
+    private static StringBuffer verificationErrors = new StringBuffer();
+    private static WebDriverWait wait;
+    private static JavascriptExecutor js;
+    private static String userId = "Abc777";
+    private static String password = "Abc77777";
 
-    @Before
-    public void setUp() throws Exception {
+    @BeforeClass
+    public static void setUp() throws Exception {
         driver = new FirefoxDriver();
 //        baseUrl = "http://www.gradnet.co.kr";
         baseUrl = "http://localhost:8080";
@@ -40,53 +39,67 @@ public class TestSignUp {
     }
 
     @Test
-    public void test1SignUp() throws Exception {
+    public void test1_회원가입() throws Exception {
+        // Given : 회원가입 페이지 이동
         js.executeScript("scroll(0, 300)");
         driver.findElement(By.id("toSignUp")).click();
+//        js.executeScript("$('#toSignUp').click()");
+//        driver.get(baseUrl + "/yonsei/user/agreement");
+//        driver.findElement(By.id("terms-agree")).click();
+        js.executeScript("$('#terms-agree').click()");
+//        driver.findElement(By.id("privacy-agree")).click();
+        js.executeScript("scroll(0, 1000)");
+        js.executeScript("$('#privacy-agree').click()");
+//        driver.findElement(By.xpath("//form[@id='sign-up-form']/div/div/div[4]/div/label")).click();
 
-        driver.findElement(By.id("terms-agree")).click();
-        js.executeScript("scroll(0, 800)");
-        driver.findElement(By.id("privacy-agree")).click();
         driver.findElement(By.id("sign-up-button")).click();
+//        js.executeScript("$('#sign-up-button').click()");
+//        driver.findElement(By.id("userId")).clear();
 
-        driver.findElement(By.id("userId")).clear();
-        driver.findElement(By.id("userId")).sendKeys("Abcd1234");
+        // When : 회원가입 정보 입력 및 가입 실행
+        driver.findElement(By.id("userId")).sendKeys(userId);
         driver.findElement(By.id("available-check-button")).click();
         assertEquals("사용 가능한 ID 입니다.", closeAlertAndGetItsText());
         driver.findElement(By.id("pswd1")).clear();
-        driver.findElement(By.id("pswd1")).sendKeys("Abcd1234");
+        driver.findElement(By.id("pswd1")).sendKeys(password);
         driver.findElement(By.id("pswd2")).clear();
-        driver.findElement(By.id("pswd2")).sendKeys("Abcd1234");
+        driver.findElement(By.id("pswd2")).sendKeys(password);
         driver.findElement(By.id("mailAddr")).clear();
         driver.findElement(By.id("mailAddr")).sendKeys("hanmomhanda@gmail.com");
-        driver.findElement(By.id("mobiNum")).click();
         driver.findElement(By.id("mobiNum")).clear();
-        driver.findElement(By.id("mobiNum")).sendKeys("01087543214");
+        driver.findElement(By.id("mobiNum")).sendKeys("01082982369");
         driver.findElement(By.id("name")).clear();
-        driver.findElement(By.id("name")).sendKeys("셀레늄");
+        driver.findElement(By.id("name")).sendKeys("오명운");
         js.executeScript("scroll(0, 400)");
         js.executeScript("document.getElementById('bornDay').value = '19900909'");
         driver.findElement(By.id("sign-up-button")).click();
 
-        assertEquals("환영합니다", driver.findElement(By.xpath("//*[@id=\"globalWrapper\"]/section/div/div/div/div/div[1]/span/b")).getAttribute("innerHTML"));
+        // Then : 회원가입 성공 메시지 확인
+        assertEquals("환영합니다", driver.findElement(By.id("welcome")).getText());
     }
 
     @Test
-    public void test2IDCheck() throws Exception {
+    public void test2_ID중복체크() throws Exception {
+        // Given : 회원 가입 페이지로 이동
+        driver.get(baseUrl + "/yonsei");
         js.executeScript("scroll(0, 300)");
         driver.findElement(By.id("toSignUp")).click();
-        driver.findElement(By.id("terms-agree")).click();
-        js.executeScript("scroll(0, 800)");
-        driver.findElement(By.id("privacy-agree")).click();
+        js.executeScript("$('#terms-agree').click()");
+        js.executeScript("scroll(0, 1000)");
+        js.executeScript("$('#privacy-agree').click()");
         driver.findElement(By.id("sign-up-button")).click();
+
+        // When : 방금 전에 가입한 ID로 중복검사
         driver.findElement(By.id("userId")).clear();
-        driver.findElement(By.id("userId")).sendKeys("Abcd1234");
+        driver.findElement(By.id("userId")).sendKeys(userId);
         driver.findElement(By.id("available-check-button")).click();
+
+        // Then : ID 중복 안내 확인
         assertEquals("이미 사용 중인 ID 입니다.", closeAlertAndGetItsText());
     }
 
-    @After
-    public void tearDown() throws Exception {
+    @AfterClass
+    public static void tearDown() throws Exception {
         driver.quit();
         String verificationErrorString = verificationErrors.toString();
         if (!"".equals(verificationErrorString)) {
