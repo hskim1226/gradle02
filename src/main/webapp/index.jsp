@@ -102,7 +102,7 @@
                 </div>
                 <article class="col-md-4">
                     <%--<a href="#">--%>
-                        <section id="toList" class="main_box1">
+                        <section id="toAdmsList" class="main_box1">
                             <h2 class="mtit1"><spring:message code="L00003"/><%--원서접수--%></h2>
                             <p class="txt1 word-keep-all"><spring:message code="L00004"/><%--연세대학교 대학원 입학 신청서를 작성할 수 있습니다.--%></p>
                         </section>
@@ -197,7 +197,7 @@
         form.method = 'post';
         form.submit();
     });
-    $('#toList').click(function(e){e.preventDefault(); location.href='${contextPath}/application/admsList'});
+    $('#toAdmsList').click(function(e){e.preventDefault(); location.href='${contextPath}/application/admsList'});
     $('#toMyList').click(function(e){e.preventDefault(); location.href='${contextPath}/application/mylist'});
     $('#toSignUp').click(function(e){e.preventDefault(); location.href='${contextPath}/user/agreement'});
     <%-- 단어 잘림 방지 --%>

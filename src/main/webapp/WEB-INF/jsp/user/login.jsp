@@ -130,7 +130,7 @@
                     <div class="spacer-tiny col-sm-12">&nbsp;</div>
                     <div>
                         <div class="col-sm-offset-1 col-sm-10">
-                            <button class="btn btn-primary btn-lg btn-block btn-login"><spring:message code="L00089"/><%--로그인--%></button>
+                            <button id='btnLogin' class="btn btn-primary btn-lg btn-block btn-login"><spring:message code="L00089"/><%--로그인--%></button>
                         </div>
                     </div>
                     <%-- 로케일 설정을 로그인이 아닌 인트로에서 하기로 하여 아래 내용 제거 --%>
