@@ -11,6 +11,7 @@ import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.apexsoft.framework.common.vo.ExecutionContext;
 import com.apexsoft.framework.exception.ErrorInfo;
 import com.apexsoft.framework.exception.YSBizException;
+import com.apexsoft.framework.persistence.file.exception.FileNoticeException;
 import com.apexsoft.framework.persistence.file.model.FileInfo;
 import com.apexsoft.framework.web.file.exception.UploadException;
 import com.apexsoft.ysprj.applicants.application.domain.ApplicationIdentifier;
@@ -28,7 +29,7 @@ import java.util.Map;
  */
 public class S3PersistenceManagerImpl implements FilePersistenceManager {
 
-    private static final Logger logger = LoggerFactory.getLogger(FilePersistenceManagerImpl.class);
+    private static final Logger logger = LoggerFactory.getLogger(S3PersistenceManagerImpl.class);
 
     private AmazonS3 s3;
 
@@ -89,6 +90,7 @@ public class S3PersistenceManagerImpl implements FilePersistenceManager {
         String filePath = s3MidPath + "/" + folder + "/" + fileName;
         int pageCnt = 0;
         long fileSize = 0;
+        InputStream uplaodFileInputStream = null;
 
         try {
             fileSize = inputStream.available();
@@ -104,11 +106,24 @@ public class S3PersistenceManagerImpl implements FilePersistenceManager {
             String fileExt = fileName.substring(fileName.lastIndexOf('.')+1);
             if ("pdf".equalsIgnoreCase(fileExt)) {
                 meta.setContentType("application/pdf");
+                PDDocument pdfFile = null;
                 try {
-                    PDDocument pdfFile = PDDocument.load(new ByteArrayInputStream(baos.toByteArray()));
+                    pdfFile = PDDocument.load(new ByteArrayInputStream(baos.toByteArray()));
                     pageCnt = pdfFile.getNumberOfPages();
+
+                    if (pdfFile.isEncrypted()) {
+                        throw new FileNoticeException(orgFileName);
+                    }
                 } catch (IOException e) {
-                    throw new UploadException("error counting pdf page " + orgFileName, e);
+                    throw new IOException(orgFileName, e);
+                } finally {
+                    if (pdfFile != null) {
+                        try {
+                            pdfFile.close();
+                        } catch (IOException e) {
+                            logger.error("PDF is NOT closed, DocumentController.fileUpload()");
+                        }
+                    }
                 }
             } else if ("jpg".equalsIgnoreCase(fileExt)) {
                 meta.setContentType("image/jpeg");
@@ -121,7 +136,7 @@ public class S3PersistenceManagerImpl implements FilePersistenceManager {
             meta.setContentLength(fileSize);
             meta.setHeader("x-amz-storage-class", s3StorageClass);
 
-            InputStream uplaodFileInputStream = new ByteArrayInputStream(baos.toByteArray());
+            uplaodFileInputStream = new ByteArrayInputStream(baos.toByteArray());
 
             s3.putObject(new PutObjectRequest(s3BucketName, filePath, uplaodFileInputStream, meta)
                     .withCannedAcl(CannedAccessControlList.AuthenticatedRead.PublicRead));
@@ -129,13 +144,16 @@ public class S3PersistenceManagerImpl implements FilePersistenceManager {
             throw e;
         } catch (AmazonServiceException ase) {
             throw ase;
-
         } catch (AmazonClientException ace) {
-            System.out.println("Caught an AmazonClientException, which means the client encountered "
+            logger.error("Caught an AmazonClientException, which means the client encountered "
                     + "a serious internal problem while trying to communicate with S3, "
                     + "such as not being able to access the network.");
-            System.out.println("Error Message: " + ace.getMessage());
+            logger.error("Error Message: " + ace.getMessage());
             throw new YSBizException(ace);
+        } finally {
+            try {
+                if (uplaodFileInputStream!= null) uplaodFileInputStream.close();
+            } catch (IOException e) {}
         }
         return new FileInfo(filePath.replace("\\", "/"), fileName, orgFileName, fileSize, pageCnt);
     }

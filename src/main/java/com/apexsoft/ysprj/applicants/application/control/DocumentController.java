@@ -372,40 +372,41 @@ public class DocumentController {
 //                            ec.setErrorInfo(new ErrorInfo(errorInfo));
 //                            throw new FileNoticeException(ec, "U04301", "ERR0060");
 //                        }
-                        // FOR MANAGE
-                        if (fileItem.getOriginalFileName().toLowerCase().endsWith("pdf")) {
-                            PDDocument pdf = null;
-                            try {
-                                pdf = PDDocument.load(fileItem.getFile());
 
-                                if (pdf.isEncrypted()) {
-                                    ec = new ExecutionContext(ExecutionContext.FAIL);
-                                    Map<String, String> errorInfo = new HashMap<String, String>();
-                                    errorInfo.put("applNo", String.valueOf(document.getApplNo()));
-                                    errorInfo.put("originalFileName", fileItem.getOriginalFileName());
-                                    ec.setErrorInfo(new ErrorInfo(errorInfo));
-                                    throw new FileNoticeException(ec, "U04514", "ERR0060");
-                                }
-                            } catch (IOException e) {
-                                logger.error("Upload PDF is NOT loaded to PDDocument, DocumentController.fileUpload()");
-                                logger.error("modId : " + document.getModId());
-                                logger.error("applNo: " + document.getApplNo());
-                                ec = new ExecutionContext(ExecutionContext.FAIL);
-                                Map<String, String> errorInfo = new HashMap<String, String>();
-                                errorInfo.put("applNo", String.valueOf(document.getApplNo()));
-                                errorInfo.put("originalFileName", fileItem.getOriginalFileName());
-                                ec.setErrorInfo(new ErrorInfo(errorInfo));
-                                throw new FileNoticeException(ec, "U04514", "ERR0060");
-                            } finally {
-                                if (pdf != null) {
-                                    try {
-                                        pdf.close();
-                                    } catch (IOException e) {
-                                        logger.error("PDF is NOT closed, DocumentController.fileUpload()");
-                                    }
-                                }
-                            }
-                        }
+
+                        // FOR MANAGE
+//                        if (fileItem.getOriginalFileName().toLowerCase().endsWith("pdf")) {
+//                            PDDocument pdf = null;
+//                            try {
+//                                pdf = PDDocument.load(fileItem.getFile());
+//                            } catch (FileNoticeException e) {
+//                                ec = new ExecutionContext(ExecutionContext.FAIL);
+//                                Map<String, String> errorInfo = new HashMap<String, String>();
+//                                errorInfo.put("applNo", String.valueOf(document.getApplNo()));
+//                                errorInfo.put("originalFileName", fileItem.getOriginalFileName());
+//                                ec.setErrorInfo(new ErrorInfo(errorInfo));
+//                                throw new FileNoticeException(ec, "U04514", "ERR0060");
+//                            } catch (IOException e) {
+//                                logger.error("Upload PDF is NOT loaded to PDDocument, DocumentController.fileUpload()");
+//                                logger.error("modId : " + document.getModId());
+//                                logger.error("applNo: " + document.getApplNo());
+//                                logger.error("orgFileName: " + fileItem.getOriginalFileName());
+//                                ec = new ExecutionContext(ExecutionContext.FAIL);
+//                                Map<String, String> errorInfo = new HashMap<String, String>();
+//                                errorInfo.put("applNo", String.valueOf(document.getApplNo()));
+//                                errorInfo.put("originalFileName", fileItem.getOriginalFileName());
+//                                ec.setErrorInfo(new ErrorInfo(errorInfo));
+//                                throw new FileNoticeException(ec, "U04518", "ERR0060");
+//                            } finally {
+//                                if (pdf != null) {
+//                                    try {
+//                                        pdf.close();
+//                                    } catch (IOException e) {
+//                                        logger.error("PDF is NOT closed, DocumentController.fileUpload()");
+//                                    }
+//                                }
+//                            }
+//                        }
 
                         FileInputStream fis = null;
                         String originalFileName = fileItem.getOriginalFileName();
@@ -417,8 +418,25 @@ public class DocumentController {
                                 fileInfo = persistence.save(uploadDir, uploadFileName, originalFileName,
                                         fis = new FileInputStream(fileItem.getFile())
                                 );
+                            } catch (FileNoticeException e) {
+                                ec = new ExecutionContext(ExecutionContext.FAIL);
+                                Map<String, String> errorInfo = new HashMap<String, String>();
+                                errorInfo.put("applNo", String.valueOf(document.getApplNo()));
+                                errorInfo.put("originalFileName", fileItem.getOriginalFileName());
+                                ec.setErrorInfo(new ErrorInfo(errorInfo));
+                                throw new FileNoticeException(ec, "U04514", "ERR0060");
                             } catch (IOException ioe) {
-                                throw getYSBizException(document, principal, "U339", "ERR0063");
+                                logger.error("Upload PDF is NOT loaded to PDDocument, DocumentController.fileUpload()");
+                                logger.error("modId : " + document.getModId());
+                                logger.error("applNo: " + document.getApplNo());
+                                logger.error("orgFileName: " + fileItem.getOriginalFileName());
+                                ec = new ExecutionContext(ExecutionContext.FAIL);
+                                Map<String, String> errorInfo = new HashMap<String, String>();
+                                errorInfo.put("applNo", String.valueOf(document.getApplNo()));
+                                errorInfo.put("originalFileName", fileItem.getOriginalFileName());
+                                ec.setErrorInfo(new ErrorInfo(errorInfo));
+                                throw new FileNoticeException(ec, "U04518", "ERR0060");
+//                                throw getYSBizException(document, principal, "U339", "ERR0063");
                             }
 
                             String path = fileInfo.getDirectory();
@@ -476,6 +494,8 @@ public class DocumentController {
                             e.printStackTrace();
                             throw getYSBizException(document, principal, "U339", "ERR0052");
                         }finally {
+                            File tmpFile = fileItem.getFile();
+                            if (tmpFile != null) tmpFile.delete();
                             try {
                                 if (fis!= null) fis.close();
                             } catch (IOException e) {}
