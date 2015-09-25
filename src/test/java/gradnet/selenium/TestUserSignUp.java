@@ -3,6 +3,7 @@ package gradnet.selenium;
 import org.junit.*;
 import org.junit.runners.MethodSorters;
 import org.openqa.selenium.*;
+import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -30,6 +31,9 @@ public class TestUserSignUp {
     @BeforeClass
     public static void setUp() throws Exception {
         driver = new FirefoxDriver();
+//        System.setProperty("webdriver.chrome.driver", "/home/hanmomhanda/chromedriver");
+//        driver = new ChromeDriver();
+        driver.manage().window().setSize(new Dimension(1800, 800));
 //        baseUrl = "http://www.gradnet.co.kr";
         baseUrl = "http://localhost:8080";
         driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
@@ -59,6 +63,7 @@ public class TestUserSignUp {
         // When : 회원가입 정보 입력 및 가입 실행
         driver.findElement(By.id("userId")).sendKeys(userId);
         driver.findElement(By.id("available-check-button")).click();
+        wait.withTimeout(500, TimeUnit.MILLISECONDS);
         assertEquals("사용 가능한 ID 입니다.", closeAlertAndGetItsText());
         driver.findElement(By.id("pswd1")).clear();
         driver.findElement(By.id("pswd1")).sendKeys(password);
