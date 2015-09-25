@@ -114,14 +114,15 @@ public class TestBasis {
         new Select(driver.findElement(By.id("applicationGeneral.emerContCode"))).selectByVisibleText("지인");
         driver.findElement(By.id("applicationGeneral.emerContTel")).clear();
         driver.findElement(By.id("applicationGeneral.emerContTel")).sendKeys("01032145698");
-//        driver.findElement(By.id("saveBasis")).click();
-//        assertEquals("기본 정보를 성공적으로 저장했습니다.", closeAlertAndGetItsText());
+        driver.findElement(By.id("saveBasis")).click();
+        assertEquals("기본 정보를 성공적으로 저장했습니다.", closeAlertAndGetItsText());
     }
 
     @Test
     public void test2_학력정보생성() throws Exception {
 
-        driver.findElement(By.id("modify0")).click();
+//        driver.findElement(By.id("modify1")).click();
+        js.executeScript("scrollTo(0, 10)");
         driver.findElement(By.linkText("2. 학력 정보")).click();
 
         js.executeScript("scrollByLines(10)");
@@ -146,18 +147,13 @@ public class TestBasis {
         WebElement selectElement2 = driver.findElement(By.id("collegeList0.gradFormCode"));
         selectElement2.click();
         new Select(selectElement2).selectByVisibleText("평량평균");
-//        driver.findElement(By.id("collegeList0.degrNo")).clear();
-//        driver.findElement(By.id("collegeList0.degrNo")).sendKeys("grad-874596");
-//        js.executeScript("scrollBy(0, -300)");
-
-//        driver.findElement(By.cssSelector("#collegeList0.gradFormCode option[value=\"00001\"]")).click();
-
+        js.executeScript("scrollBy(0, -300)");
         driver.findElement(By.id("collegeList0.gradAvr")).clear();
         driver.findElement(By.id("collegeList0.gradAvr")).sendKeys("4.25");
         driver.findElement(By.id("collegeList0.gradFull")).clear();
         driver.findElement(By.id("collegeList0.gradFull")).sendKeys("4.50");
 
-//        js.executeScript("scrollBy(0, -300)");
+//
 //        js.executeScript("scrollBy(0, -300)");
         js.executeScript("scrollByLines(30)");
         driver.findElement(By.id("saveAcademy")).click();
@@ -167,23 +163,28 @@ public class TestBasis {
 
     @Test
     public void test3_어학경력정보생성() throws Exception {
-//        driver.get(baseUrl + "/yonsei/application/mylist");
-        driver.findElement(By.id("modify0")).click();
+//        driver.findElement(By.id("modify1")).click();
+        js.executeScript("scrollTo(0, 10)");
         driver.findElement(By.linkText("3. 어학/경력 정보")).click();
+
         js.executeScript("scrollByLines(10)");
         driver.findElement(By.id("checkLang-0-0-0")).click();
-        driver.findElement(By.cssSelector("label")).click();
-        new Select(driver.findElement(By.id("languageGroupList0.langList0.subContainer0.subCode"))).selectByVisibleText("CBT");
+        WebElement selectElement = driver.findElement(By.id("languageGroupList0.langList0.subContainer0.subCode"));
+        selectElement.click();
+        new Select(selectElement).selectByVisibleText("CBT");
         js.executeScript("document.getElementById('languageGroupList0.langList0.subContainer0.examDay').value = '20141103'");
-        driver.findElement(By.id("languageGroupList0.langList0.subContainer0.langGrad")).clear();
-        driver.findElement(By.id("languageGroupList0.langList0.subContainer0.langGrad")).sendKeys("550");
-        js.executeScript("document.getElementById('languageGroupList0.langList0.subContainer0.langGrad').blur()");
-        assertEquals("300점 이하의 숫자를 입력해주세요.", closeAlertAndGetItsText());
+        js.executeScript("scrollBy(0, -300)");
+//        driver.findElement(By.id("languageGroupList0.langList0.subContainer0.langGrad")).clear();
+//        driver.findElement(By.id("languageGroupList0.langList0.subContainer0.langGrad")).sendKeys("550");
+//        js.executeScript("document.getElementById('languageGroupList0.langList0.subContainer0.langGrad').blur()");
+//        assertEquals("300점 이하의 숫자를 입력해주세요.", closeAlertAndGetItsText());
         driver.findElement(By.id("languageGroupList0.langList0.subContainer0.langGrad")).clear();
         driver.findElement(By.id("languageGroupList0.langList0.subContainer0.langGrad")).sendKeys("280");
         driver.findElement(By.id("checkLang-0-0-2")).click();
         js.executeScript("document.getElementById('languageGroupList0.langList0.subContainer2.examDay').value = '20141108'");
-        new Select(driver.findElement(By.id("languageGroupList0.langList0.subContainer2.langGrad"))).selectByVisibleText("8.0");
+        WebElement selectElement2 = driver.findElement(By.id("languageGroupList0.langList0.subContainer2.langGrad"));
+        selectElement2.click();
+        new Select(selectElement2).selectByVisibleText("8.0");
 
         js.executeScript("scrollBy(0, 800)");
         js.executeScript("document.getElementById('applicationExperienceList0.joinDay').value = '20100407'");
@@ -199,7 +200,8 @@ public class TestBasis {
     @Test
     public void test4_첨부파일정보생성() throws Exception {
 
-        driver.findElement(By.id("modify0")).click();
+//        driver.findElement(By.id("modify1")).click();
+        js.executeScript("scrollTo(0, 10)");
         driver.findElement(By.linkText("4. 파일 첨부 및 제출")).click();
 
         js.executeScript("scrollBy(0, 1000)");
@@ -232,7 +234,7 @@ public class TestBasis {
         driver.findElement(By.id("upload-button-1-0-0-1")).click();
         assertEquals("파일이 업로드 되었습니다.", closeAlertAndGetItsText());
 
-        js.executeScript("scrollByLines(5)");
+        js.executeScript("scrollByLines(10)");
 
         driver.findElement(By.id("file-input-2-0")).clear();
         driver.findElement(By.id("file-input-2-0")).sendKeys("/home/hanmomhanda/YS-DOC/83호_공학_트렌드_GIT_Flow를_활용한_효과적인_소스_형상_관리_Part_2.pdf");
@@ -244,7 +246,7 @@ public class TestBasis {
         driver.findElement(By.id("upload-button-2-1")).click();
         assertEquals("파일이 업로드 되었습니다.", closeAlertAndGetItsText());
 
-        js.executeScript("scrollBy(0, 800)");
+        js.executeScript("scrollByLines(10)");
 
         driver.findElement(By.id("documentContainerList3.subContainer0.checkedFg")).click();
         driver.findElement(By.id("documentContainerList3.subContainer0.docItemName")).clear();
@@ -261,6 +263,8 @@ public class TestBasis {
         driver.findElement(By.id("file-input-3-1")).sendKeys("/home/hanmomhanda/YS-DOC/114호_공학_트렌드_WEB_UI_개발_Part_1.pdf");
         driver.findElement(By.id("upload-button-3-1")).click();
         assertEquals("파일이 업로드 되었습니다.", closeAlertAndGetItsText());
+
+        js.executeScript("scrollByLines(30)");
     }
 
 //    @Test
