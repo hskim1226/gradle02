@@ -749,7 +749,7 @@
                     break;
             }
             if (this.value > maxScore) {
-                alert( maxScore + '<spring:message code="U03107"/>');
+                alert( maxScore + ' <spring:message code="U03107"/>');
                 this.focus();
             }
         });
