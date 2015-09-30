@@ -13,7 +13,9 @@ import com.apexsoft.framework.exception.StackTraceFilter;
 import com.apexsoft.framework.exception.YSBizException;
 import com.apexsoft.framework.message.MessageResolver;
 import com.apexsoft.framework.persistence.file.callback.FileUploadEventCallbackHandler;
+import com.apexsoft.framework.persistence.file.exception.EncryptedPDFException;
 import com.apexsoft.framework.persistence.file.exception.FileNoticeException;
+import com.apexsoft.framework.persistence.file.exception.PasswordedPDFException;
 import com.apexsoft.framework.persistence.file.handler.FileHandler;
 import com.apexsoft.framework.persistence.file.manager.FilePersistenceManager;
 import com.apexsoft.framework.persistence.file.model.FileInfo;
@@ -52,6 +54,7 @@ import java.security.Principal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.zip.DataFormatException;
 
 /**
  * Created by hanmomhanda on 15. 1. 26.
@@ -418,25 +421,34 @@ public class DocumentController {
                                 fileInfo = persistence.save(uploadDir, uploadFileName, originalFileName,
                                         fis = new FileInputStream(fileItem.getFile())
                                 );
-                            } catch (FileNoticeException e) {
+                            } catch (EncryptedPDFException e) {
                                 ec = new ExecutionContext(ExecutionContext.FAIL);
                                 Map<String, String> errorInfo = new HashMap<String, String>();
                                 errorInfo.put("applNo", String.valueOf(document.getApplNo()));
                                 errorInfo.put("originalFileName", fileItem.getOriginalFileName());
                                 ec.setErrorInfo(new ErrorInfo(errorInfo));
-                                throw new FileNoticeException(ec, "U04514", "ERR0060");
+                                throw new EncryptedPDFException(ec, "U04514", "ERR0052");
                             } catch (IOException ioe) {
-                                logger.error("Upload PDF is NOT loaded to PDDocument, DocumentController.fileUpload()");
-                                logger.error("modId : " + document.getModId());
-                                logger.error("applNo: " + document.getApplNo());
-                                logger.error("orgFileName: " + fileItem.getOriginalFileName());
-                                ec = new ExecutionContext(ExecutionContext.FAIL);
-                                Map<String, String> errorInfo = new HashMap<String, String>();
-                                errorInfo.put("applNo", String.valueOf(document.getApplNo()));
-                                errorInfo.put("originalFileName", fileItem.getOriginalFileName());
-                                ec.setErrorInfo(new ErrorInfo(errorInfo));
-                                throw new FileNoticeException(ec, "U04518", "ERR0060");
+                                if (ioe.getCause().getCause() instanceof DataFormatException) {
+                                    ec = new ExecutionContext(ExecutionContext.FAIL);
+                                    Map<String, String> errorInfo = new HashMap<String, String>();
+                                    errorInfo.put("applNo", String.valueOf(document.getApplNo()));
+                                    errorInfo.put("originalFileName", fileItem.getOriginalFileName());
+                                    ec.setErrorInfo(new ErrorInfo(errorInfo));
+                                    throw new PasswordedPDFException(ec, "U04515", "ERR0052");
+                                } else {
+                                    logger.error("Upload PDF is NOT loaded to PDDocument, DocumentController.fileUpload()");
+                                    logger.error("modId : " + document.getModId());
+                                    logger.error("applNo: " + document.getApplNo());
+                                    logger.error("orgFileName: " + fileItem.getOriginalFileName());
+                                    ec = new ExecutionContext(ExecutionContext.FAIL);
+                                    Map<String, String> errorInfo = new HashMap<String, String>();
+                                    errorInfo.put("applNo", String.valueOf(document.getApplNo()));
+                                    errorInfo.put("originalFileName", fileItem.getOriginalFileName());
+                                    ec.setErrorInfo(new ErrorInfo(errorInfo));
+                                    throw new FileNoticeException(ec, "U04518", "ERR0052");
 //                                throw getYSBizException(document, principal, "U339", "ERR0063");
+                                }
                             }
 
                             String path = fileInfo.getDirectory();
@@ -488,10 +500,14 @@ public class DocumentController {
                             errorInfo.put("AWS Error Message", ace.getMessage());
                             ec.setErrorInfo(new ErrorInfo(errorInfo));
                             throw new YSBizException(ec);
+                        } catch (EncryptedPDFException e) {
+                            throw e;
+                        } catch (PasswordedPDFException e) {
+                            throw e;
                         } catch (Exception e) {
                             logger.error("S3 저장시 아마존 예외 외의 오류");
                             logger.error(e.getMessage());
-                            e.printStackTrace();
+//                            e.printStackTrace();
                             throw getYSBizException(document, principal, "U339", "ERR0052");
                         }finally {
                             File tmpFile = fileItem.getFile();

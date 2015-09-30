@@ -11,6 +11,7 @@ import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.apexsoft.framework.common.vo.ExecutionContext;
 import com.apexsoft.framework.exception.ErrorInfo;
 import com.apexsoft.framework.exception.YSBizException;
+import com.apexsoft.framework.persistence.file.exception.EncryptedPDFException;
 import com.apexsoft.framework.persistence.file.exception.FileNoticeException;
 import com.apexsoft.framework.persistence.file.model.FileInfo;
 import com.apexsoft.framework.web.file.exception.UploadException;
@@ -112,7 +113,7 @@ public class S3PersistenceManagerImpl implements FilePersistenceManager {
                     pageCnt = pdfFile.getNumberOfPages();
 
                     if (pdfFile.isEncrypted()) {
-                        throw new FileNoticeException(orgFileName);
+                        throw new EncryptedPDFException(orgFileName);
                     }
                 } catch (IOException e) {
                     throw new IOException(orgFileName, e);

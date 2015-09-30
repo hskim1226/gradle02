@@ -2,8 +2,10 @@ package com.apexsoft.framework.exception;
 
 import com.apexsoft.framework.common.vo.ExecutionContext;
 import com.apexsoft.framework.message.MessageResolver;
+import com.apexsoft.framework.persistence.file.exception.EncryptedPDFException;
 import com.apexsoft.framework.persistence.file.exception.FileNoticeException;
 import com.apexsoft.framework.persistence.file.exception.FileUploadException;
+import com.apexsoft.framework.persistence.file.exception.PasswordedPDFException;
 import com.apexsoft.ysprj.applicants.common.util.StringUtil;
 import org.apache.commons.lang.exception.ExceptionUtils;
 import org.mybatis.spring.MyBatisSystemException;
@@ -79,6 +81,44 @@ public class GlobalExceptionHandler {
         logger.error("ErrorInfo :: " + eInfo != null ? eInfo.toString() : "");
         logger.error("ErrorType :: " + e.toString());
         logger.error("FilteredStackTrace ::" +
+                StackTraceFilter.getFilteredCallStack(e.getStackTrace(), "com.apexsoft", false));
+
+        return ec;
+    }
+
+    @ExceptionHandler(EncryptedPDFException.class)
+    @ResponseBody
+    public ExecutionContext handleEncryptedPDFException(HttpServletRequest request,
+                                                        EncryptedPDFException e){
+        ExecutionContext ec = e.getExecutionContext();
+        ErrorInfo eInfo = ec.getErrorInfo();
+        ec.setMessage(MessageResolver.getMessage(e.getUserMessageCode()));
+        logger.debug("FileNoticeException Occured :: URL=" + request.getRequestURL());
+        logger.debug("Message:: " + StringUtil.getEmptyIfNull(ec.getErrCode()));
+        logger.debug("ErrorCode:: " + StringUtil.getEmptyIfNull(e.getErrorCode()));
+        logger.debug("Cause:: " + e.getCause());
+        logger.debug("ErrorInfo :: " + eInfo != null ? eInfo.toString() : "");
+        logger.debug("ErrorType :: " + e.toString());
+        logger.debug("FilteredStackTrace ::" +
+                StackTraceFilter.getFilteredCallStack(e.getStackTrace(), "com.apexsoft", false));
+
+        return ec;
+    }
+
+    @ExceptionHandler(PasswordedPDFException.class)
+    @ResponseBody
+    public ExecutionContext handlePasswordedPDFException(HttpServletRequest request,
+                                                        PasswordedPDFException e){
+        ExecutionContext ec = e.getExecutionContext();
+        ErrorInfo eInfo = ec.getErrorInfo();
+        ec.setMessage(MessageResolver.getMessage(e.getUserMessageCode()));
+        logger.debug("FileNoticeException Occured :: URL=" + request.getRequestURL());
+        logger.debug("Message:: " + StringUtil.getEmptyIfNull(ec.getErrCode()));
+        logger.debug("ErrorCode:: " + StringUtil.getEmptyIfNull(e.getErrorCode()));
+        logger.debug("Cause:: " + e.getCause());
+        logger.debug("ErrorInfo :: " + eInfo != null ? eInfo.toString() : "");
+        logger.debug("ErrorType :: " + e.toString());
+        logger.debug("FilteredStackTrace ::" +
                 StackTraceFilter.getFilteredCallStack(e.getStackTrace(), "com.apexsoft", false));
 
         return ec;
