@@ -54,18 +54,18 @@
                 </div>
                 <div class="collapse navbar-collapse navbar-ex1-collapse">
                     <ul class="nav navbar-nav pull-right">
-                        <li><a href="${contextPath}"><i class="fa fa-home"></i><spring:message code="L00009"/><%--Home--%></a> </li>
-                        <li><a href="${contextPath}/application/admsList"><i class="fa fa-pencil-square-o"></i><spring:message code="L00003"/><%--원서접수--%></a> </li>
-                        <li><a href="${contextPath}/application/mylist"><i class="fa fa-list"></i><spring:message code="L00005"/><%--내 원서--%></a> </li>
-                        <li><a href="${contextPath}/user/info"><i class="fa fa-info-circle"></i><spring:message code="L00010"/><%--내 정보--%></a> </li>
+                        <li><a id="nav-home" href="${contextPath}"><i class="fa fa-home"></i><spring:message code="L00009"/><%--Home--%></a> </li>
+                        <li><a id="nav-admsList" href="${contextPath}/application/admsList"><i class="fa fa-pencil-square-o"></i><spring:message code="L00003"/><%--원서접수--%></a> </li>
+                        <li><a id="nav-myList" href="${contextPath}/application/mylist"><i class="fa fa-list"></i><spring:message code="L00005"/><%--내 원서--%></a> </li>
+                        <li><a id="nav-userInfo" href="${contextPath}/user/info"><i class="fa fa-info-circle"></i><spring:message code="L00010"/><%--내 정보--%></a> </li>
                         <sec:authorize access="!isAuthenticated()">
-                        <li><a href="${contextPath}/user/agreement"><i class="fa fa-user-plus"></i><spring:message code="L00083"/><%--회원가입--%></a> </li>
+                        <li><a id="nav-signUp" href="${contextPath}/user/agreement"><i class="fa fa-user-plus"></i><spring:message code="L00083"/><%--회원가입--%></a> </li>
                         </sec:authorize>
                         <sec:authorize access="!isAuthenticated()">
-                        <li><a href="${contextPath}/user/login"><i class="fa fa-sign-in"></i><spring:message code="L00081"/><%--로그인--%></a> </li>
+                        <li><a id="nav-logIn" href="${contextPath}/user/login"><i class="fa fa-sign-in"></i><spring:message code="L00081"/><%--로그인--%></a> </li>
                         </sec:authorize>
                         <sec:authorize access="hasAnyRole('ROLE_USER', 'ROLE_SYSADMIN')">
-                        <li><a href="${contextPath}/j_spring_security_logout.do"><i class="fa fa-sign-out"></i><spring:message code="L00011"/><%--로그아웃--%></a> </li>
+                        <li><a id="nav-logOut" href="${contextPath}/j_spring_security_logout.do"><i class="fa fa-sign-out"></i><spring:message code="L00011"/><%--로그아웃--%></a> </li>
                         </sec:authorize>
                         <sec:authorize access="hasRole('ROLE_SYSADMIN')">
                             <li class="dropdown">
@@ -84,7 +84,7 @@
                                 </ul>
                             </li>
                         </sec:authorize>
-                        <li><a href="${contextPath}/common/displayTransLang"><i class="fa fa-globe"></i><spring:message code="L00014"/></a></li>
+                        <li><a id="nav-transLang" href="${contextPath}/common/displayTransLang"><i class="fa fa-globe"></i><spring:message code="L00014"/></a></li>
                         <%--<li><span class="nav_lang"><a href="#">&middot; Korean</a><a href="#">&middot; English</a></span></li>--%>
                     </ul>
                 </div>

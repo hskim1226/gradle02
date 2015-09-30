@@ -869,15 +869,19 @@
 
             $('.gradFull').each( function() {
                 var gradAvgInput = document.getElementById(this.getAttribute('data-gradAvr-id'));
+                var gradFormCodeId = this.getAttribute('data-grad-form-code'),
+                        gradFormCode = document.getElementById(gradFormCodeId).value;
                 if (gradAvgInput.value.length > 0 && this.value.length > 0) {
-                    if (parseFloat(this.value) >= parseFloat(gradAvgInput.value)) {
-                        gradValid.push(true);
-                    } else {
-                        gradValid.push(false);
-                        alert('<spring:message code="U02111"/>');   /*평점은 만점 이하여야 합니다*/
-                        $("#overlay").hide();
-                        gradAvgInput.focus();
-                        return false;
+                    if (gradFormCode && (gradFormCode === '00001' || gradFormCode === '00002')) {
+                        if (parseFloat(this.value) >= parseFloat(gradAvgInput.value)) {
+                            gradValid.push(true);
+                        } else {
+                            gradValid.push(false);
+                            alert('<spring:message code="U02111"/>');   /*평점은 만점 이하여야 합니다*/
+                            $("#overlay").hide();
+                            gradAvgInput.focus();
+                            return false;
+                        }
                     }
                 }
             });
@@ -1196,6 +1200,8 @@
                 gradAvr = document.getElementById(gradAvrId),
                 gradFullId = this.getAttribute('data-grad-full'),
                 gradFull = document.getElementById(gradFullId);
+            gradAvr.value = '';
+            gradFull.value = '';
             if (this.value == '00001') {
                 gradAvr.setAttribute('placeholder', '<spring:message code="U02109"/>');
                 gradFull.setAttribute('placeholder', '<spring:message code="U02109"/>');
@@ -1215,8 +1221,10 @@
                     val = this.value;
             if (gradFormCode && gradFormCode == '00001') {
                 regexp = /^[0-9]\.?[0-9]*$/;
-            } else {
+            } else if (gradFormCode && gradFormCode == '00002') {
                 regexp = /^\d+/;
+            } else if (gradFormCode && gradFormCode == '00003') {
+                regexp = /\w+/;
             }
             if (!regexp.test(this.value)) {
                 this.value = val.substr(0, val.length-1);
@@ -1232,6 +1240,15 @@
                     if (!regexp.test(this.value) && this.value != '') {
                         validFlag.value = false;
                         alert('<spring:message code="U02110"/>');    /*소수점 둘째자리까지 작성해 주세요*/
+                        this.focus();
+                    } else {
+                        validFlag.value = true;
+                    }
+                } else if (gradFormCode && gradFormCode == '00002') {
+                    var regexp = /^\d+/;
+                    if (!regexp.test(this.value) && this.value != '') {
+                        validFlag.value = false;
+                        alert('<spring:message code="U02115"/>');    /*숫자로만 입력해 주세요*/
                         this.focus();
                     } else {
                         validFlag.value = true;
@@ -1254,14 +1271,25 @@
                         alert('<spring:message code="U02110"/>');    /*소수점 둘째자리까지 작성해 주세요*/
                         this.focus();
                     }
+                } else if (gradFormCode && gradFormCode == '00002') {
+                    var regexp = /^\d+/;
+                    if (!regexp.test(this.value) && this.value != '') {
+                        validFlag.value = false;
+                        alert('<spring:message code="U02115"/>');    /*숫자로만 입력해 주세요*/
+                        this.focus();
+                    } else {
+                        validFlag.value = true;
+                    }
                 }
 
-                if (parseFloat(this.value) >= parseFloat(gradAvgInput.value)) {
-                    validFlag.value = true;
-                } else {
-                    validFlag.value = false;
-                    alert('<spring:message code="U02111"/>');   /*평점은 만점 이하여야 합니다*/
-                    gradAvgInput.focus();
+                if (gradFormCode && (gradFormCode === '00001' || gradFormCode === '00002')) {
+                    if (parseFloat(this.value) >= parseFloat(gradAvgInput.value)) {
+                        validFlag.value = true;
+                    } else {
+                        validFlag.value = false;
+                        alert('<spring:message code="U02111"/>');   /*평점은 만점 이하여야 합니다*/
+                        gradAvgInput.focus();
+                    }
                 }
             }
         });

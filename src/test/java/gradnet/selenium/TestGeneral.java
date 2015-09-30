@@ -18,7 +18,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class TestBasis {
+public class TestGeneral {
     private static WebDriver driver;
     private static String baseUrl;
     private boolean acceptNextAlert = true;

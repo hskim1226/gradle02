@@ -25,10 +25,10 @@
                         <div class="form-group col-sm-12">
                             <div class="col-sm-offset-1 col-sm-10">
                                 <div class="col-sm-6">
-                                    <button class="btn btn-primary btn-lg btn-block btn-save input-text" data-lang="ko"><spring:message code="L00012"/><%--한국어--%></button>
+                                    <button id="korean" class="btn btn-primary btn-lg btn-block btn-save input-text" data-lang="ko"><spring:message code="L00012"/><%--한국어--%></button>
                                 </div>
                                 <div class="col-sm-6">
-                                    <button class="btn btn-info btn-lg btn-block btn-save input-text" data-lang="en"><spring:message code="L00013"/><%--영어--%></button>
+                                    <button id="english" class="btn btn-info btn-lg btn-block btn-save input-text" data-lang="en"><spring:message code="L00013"/><%--영어--%></button>
                                 </div>
                             </div>
                         </div>
