@@ -25,21 +25,27 @@ public class TestUserSignUp {
     private static StringBuffer verificationErrors = new StringBuffer();
     private static WebDriverWait wait;
     private static JavascriptExecutor js;
-    private static String userId = "Abc777";
-    private static String password = "Abc77777";
+    private static String userId = "Abc888";
+    private static String password = "Abc88888";
 
     @BeforeClass
     public static void setUp() throws Exception {
         driver = new FirefoxDriver();
 //        System.setProperty("webdriver.chrome.driver", "/home/hanmomhanda/chromedriver");
 //        driver = new ChromeDriver();
-        driver.manage().window().setSize(new Dimension(1800, 800));
+        driver.manage().window().setSize(new Dimension(1600, 1000));
 //        baseUrl = "http://www.gradnet.co.kr";
         baseUrl = "http://localhost:8080";
         driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
         wait = new WebDriverWait(driver, 15);
         js = (JavascriptExecutor) driver;
-        driver.get(baseUrl + "/yonsei");
+        driver.get(baseUrl + "/yonsei/user/login");
+
+        driver.findElement(By.id("username")).clear();
+        driver.findElement(By.id("username")).sendKeys(userId);
+        driver.findElement(By.id("password")).clear();
+        driver.findElement(By.id("password")).sendKeys(password);
+        driver.findElement(By.id("btnLogin")).click();
     }
 
     @Test
@@ -101,6 +107,50 @@ public class TestUserSignUp {
 
         // Then : ID 중복 안내 확인
         assertEquals("이미 사용 중인 ID 입니다.", closeAlertAndGetItsText());
+    }
+
+    @Test
+    public void test3_회원정보수정() throws Exception {
+        // Given : 회원정보 수정 화면 진입
+        driver.get(baseUrl + "/yonsei/application/mylist");
+        driver.findElement(By.cssSelector("i.fa.fa-info-circle")).click();
+        driver.findElement(By.id("pswd")).clear();
+        driver.findElement(By.id("pswd")).sendKeys("Abc88888");
+        driver.findElement(By.xpath("//form[@id='user']/div/div/div[4]/div/div/button")).click();
+
+        // When : 회원정보 수정
+        driver.findElement(By.id("name")).clear();
+        driver.findElement(By.id("name")).sendKeys("팔팔이");
+        driver.findElement(By.id("mobiNum")).clear();
+        driver.findElement(By.id("mobiNum")).sendKeys("01077778888");
+        driver.findElement(By.id("modify")).click();
+
+        // Then : 정보 수정 성공 확인
+        assertEquals("사용자 정보가 수정되었습니다.", closeAlertAndGetItsText());
+    }
+
+    @Test
+    public void test4_비밀번호수정() throws Exception {
+        // Given : 비밀번호 수정 화면 진입
+        driver.get(baseUrl + "/yonsei/application/mylist");
+        driver.findElement(By.cssSelector("i.fa.fa-info-circle")).click();
+        driver.findElement(By.id("pswd")).clear();
+        driver.findElement(By.id("pswd")).sendKeys("Abc88888");
+        driver.findElement(By.xpath("//form[@id='user']/div/div/div[4]/div/div/button")).click();
+        driver.findElement(By.id("change-pwd")).click();
+        driver.findElement(By.id("pswd")).clear();
+        driver.findElement(By.id("pswd")).sendKeys("Abc88888");
+        driver.findElement(By.xpath("//form[@id='user']/div/div/div[4]/div/div/button")).click();
+
+        // When : 비밀번호 수정
+        driver.findElement(By.id("pswd")).clear();
+        driver.findElement(By.id("pswd")).sendKeys("Abc88888");
+        driver.findElement(By.id("pswd2")).clear();
+        driver.findElement(By.id("pswd2")).sendKeys("Abc88888");
+        driver.findElement(By.xpath("//form[@id='user']/div/div/div[5]/div/button")).click();
+
+        // Then : 비밀번호 수정 성공 확인
+        assertEquals("비밀번호 재설정에 성공했습니다. 로그인 화면으로 이동합니다.", closeAlertAndGetItsText());
     }
 
     @AfterClass

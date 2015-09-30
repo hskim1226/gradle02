@@ -32,6 +32,7 @@ public class TestBasis {
     public static void setUp() throws Exception {
         driver = new FirefoxDriver();
         baseUrl = "http://localhost:8080";
+        driver.manage().window().setSize(new Dimension(1600, 1000));
         driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
         wait = new WebDriverWait(driver, 5);
         js = (JavascriptExecutor) driver;
