@@ -66,10 +66,10 @@
                             <div class="col-sm-12 nopadding">
                         <c:choose>
                             <c:when test="${recommendationList.size() < 2}">
-                                <button class="create btn btn-primary btn-lg btn-block btn-save input-text"><spring:message code="L06556"/><%--신규 요청--%></button>
+                                <button id="newRequest" class="create btn btn-primary btn-lg btn-block btn-save input-text"><spring:message code="L06556"/><%--신규 요청--%></button>
                             </c:when>
                             <c:otherwise>
-                                <button class="create btn btn-info btn-lg btn-block btn-save input-text" disabled><spring:message code="L06557"/><%--추천서 요청은 2개 까지만 가능합니다.--%></button>
+                                <button id="newRequest" class="create btn btn-info btn-lg btn-block btn-save input-text" disabled><spring:message code="L06557"/><%--추천서 요청은 2개 까지만 가능합니다.--%></button>
                             </c:otherwise>
                         </c:choose>
                             </div>

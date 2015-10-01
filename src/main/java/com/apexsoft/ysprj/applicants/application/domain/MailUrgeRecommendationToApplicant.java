@@ -48,12 +48,12 @@ public class MailUrgeRecommendationToApplicant extends Mail {
                         new Object[]{recommendation.getProfName()}))
                 .append(NEW_LINE1)
                 .append(MessageResolver.getMessage("MAIL_URGENCY_RECOMMENDATION_NOTICE_BODY02",
-                        new Object[]{applicantName, dueTimeString}))
+                        new Object[]{dueTimeString}))
                 .append(NEW_LINE2)
                 .append(MessageResolver.getMessage("MAIL_COMMON_FOOTER_01"))
-                .append(NEW_LINE1)
+                .append(NEW_LINE2)
                 .append(MessageResolver.getMessage("MAIL_COMMON_FOOTER_02"))
-                .append(NEW_LINE1)
+                .append(NEW_LINE2)
                 .append(MessageResolver.getMessage("MAIL_COMMON_SITE_URL"))
                 .toString());
     }

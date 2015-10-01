@@ -26,8 +26,8 @@ public class TestForeign {
     private static StringBuffer verificationErrors = new StringBuffer();
     private static WebDriverWait wait;
     private static JavascriptExecutor js;
-    private static String userId = "Abc777";
-    private static String password = "Abc77777";
+    private static String userId = "Abc888";
+    private static String password = "Abc88888";
 
     @BeforeClass
     public static void setUp() throws Exception {
@@ -221,11 +221,11 @@ public class TestForeign {
 //        driver.findElement(By.id("saveAcademy")).click();
 //        assertEquals("Academy background information is saved successfully.", closeAlertAndGetItsText());
 //    }
-
+//
 //    @Test
 //    public void test3_어학경력정보생성() throws Exception {
-//        driver.get(baseUrl + "/yonsei/application/mylist");
-//        driver.findElement(By.id("modify1")).click();
+////        driver.get(baseUrl + "/yonsei/application/mylist");
+////        driver.findElement(By.id("modify1")).click();
 //
 //        driver.findElement(By.linkText("3. Language Test and Career")).click();
 //
@@ -252,11 +252,11 @@ public class TestForeign {
 //        driver.findElement(By.id("saveLangCareer")).click();
 //        assertEquals("Language test result and career information is saved successfully.", closeAlertAndGetItsText());
 //    }
-
+//
 //    @Test
 //    public void test3_1_어학정보수정() throws Exception {
-//        driver.get(baseUrl + "/yonsei/application/mylist");
-//        driver.findElement(By.id("modify1")).click();
+////        driver.get(baseUrl + "/yonsei/application/mylist");
+////        driver.findElement(By.id("modify1")).click();
 //
 //        driver.findElement(By.linkText("3. Language Test and Career")).click();
 //
@@ -295,7 +295,7 @@ public class TestForeign {
     @Test
     public void test4_첨부파일정보생성() throws Exception {
         driver.get(baseUrl + "/yonsei/application/mylist");
-        driver.findElement(By.id("modify1")).click();
+        driver.findElement(By.id("modify0")).click();
 
         driver.findElement(By.linkText("4. File Submission and Submit")).click();
 
@@ -368,7 +368,7 @@ public class TestForeign {
         js.executeScript("scrollByLines(30)");
 
         driver.findElement(By.id("file-input-3-0-0")).clear();
-        driver.findElement(By.id("file-input-3-0-0")).sendKeys("/home/hanmomhanda/YS-DOC/ETSN-encrypted.pdf");
+        driver.findElement(By.id("file-input-3-0-0")).sendKeys("/home/hanmomhanda/YS-DOC/2014-국가직무능력표준 개발전문가 모집_작성양식_PDF.pdf");
         driver.findElement(By.id("upload-button-3-0-0")).click();
         assertEquals("File is uploaded successfully.", closeAlertAndGetItsText());
 

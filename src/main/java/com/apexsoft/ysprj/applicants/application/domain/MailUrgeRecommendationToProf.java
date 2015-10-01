@@ -58,20 +58,20 @@ public class MailUrgeRecommendationToProf extends Mail {
 //                .append(NEW_LINE1)
 //                .append(MessageResolver.getMessage("MAIL_REQUEST_RECOMMENDATION_BODY_INFO_MAJOR",
 //                        new Object[]{recommendation.getMajor()}))
-//                .append(NEW_LINE2)
+                .append(NEW_LINE2)
                 .append(MessageResolver.getMessage("MAIL_REQUEST_RECOMMENDATION_BODY_LINK_NOTICE"))
                 .append(NEW_LINE2)
                 .append(MessageResolver.getMessage("MAIL_REQUEST_RECOMMENDATION_BODY_LINK",
                         new Object[]{linkText}))
                 .append(NEW_LINE2)
                 .append(MessageResolver.getMessage("MAIL_URGENCY_RECOMMENDATION_FOOTER_01"))
-                .append(NEW_LINE1)
+                .append(NEW_LINE2)
                 .append(MessageResolver.getMessage("MAIL_URGENCY_RECOMMENDATION_FOOTER_02"))
-                .append(NEW_LINE1)
+                .append(NEW_LINE2)
                 .append(MessageResolver.getMessage("MAIL_COMMON_FOOTER_01"))
-                .append(NEW_LINE1)
+                .append(NEW_LINE2)
                 .append(MessageResolver.getMessage("MAIL_COMMON_FOOTER_02"))
-                .append(NEW_LINE1)
+                .append(NEW_LINE2)
                 .append(MessageResolver.getMessage("MAIL_COMMON_SITE_URL"))
                 .toString());
     }
