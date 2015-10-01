@@ -38,9 +38,6 @@ public class PaymentAdminController {
     @Autowired
     private CommonDAO commonDAO;
 
-    @Value("#{app['file.mergeTestDir']}")
-    private String MERGE_TEST_DIR;
-
     @Value("#{app['s3.midPath']}")
     private String MID_PATH;
 
