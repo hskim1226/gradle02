@@ -507,7 +507,6 @@ public class DocumentController {
                         } catch (Exception e) {
                             logger.error("S3 저장시 아마존 예외 외의 오류");
                             logger.error(e.getMessage());
-//                            e.printStackTrace();
                             throw getYSBizException(document, principal, "U339", "ERR0052");
                         }finally {
                             File tmpFile = fileItem.getFile();

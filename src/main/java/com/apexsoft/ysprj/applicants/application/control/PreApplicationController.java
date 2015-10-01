@@ -10,7 +10,9 @@ import com.apexsoft.framework.mail.Mail;
 import com.apexsoft.framework.message.MessageResolver;
 import com.apexsoft.framework.persistence.dao.CommonDAO;
 import com.apexsoft.framework.persistence.file.callback.FileUploadEventCallbackHandler;
+import com.apexsoft.framework.persistence.file.exception.EncryptedPDFException;
 import com.apexsoft.framework.persistence.file.exception.FileNoticeException;
+import com.apexsoft.framework.persistence.file.exception.PasswordedPDFException;
 import com.apexsoft.framework.persistence.file.handler.FileHandler;
 import com.apexsoft.framework.persistence.file.manager.FilePersistenceManager;
 import com.apexsoft.framework.persistence.file.model.FileInfo;
@@ -46,6 +48,7 @@ import org.springframework.web.util.WebUtils;
 import javax.annotation.Resource;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.security.Principal;
@@ -53,6 +56,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.zip.DataFormatException;
 
 /**
  * Created by hanmomhanda on 15. 2. 14.
@@ -514,40 +518,40 @@ public class PreApplicationController {
 //                            ec.setErrorInfo(new ErrorInfo(errorInfo));
 //                            throw new FileNoticeException(ec, "U04301", "ERR0060");
 //                        }
-                        // FOR MANAGE
-                        if (fileItem.getOriginalFileName().toLowerCase().endsWith("pdf")) {
-                            PDDocument pdf = null;
-                            try {
-                                pdf = PDDocument.load(fileItem.getFile());
-
-                                if (pdf.isEncrypted()) {
-                                    ec = new ExecutionContext(ExecutionContext.FAIL);
-                                    Map<String, String> errorInfo = new HashMap<String, String>();
-                                    errorInfo.put("applNo", String.valueOf(document.getApplNo()));
-                                    errorInfo.put("originalFileName", fileItem.getOriginalFileName());
-                                    ec.setErrorInfo(new ErrorInfo(errorInfo));
-                                    throw new FileNoticeException(ec, "U04514", "ERR0060");
-                                }
-                            } catch (IOException e) {
-                                logger.error("Upload PDF is NOT loaded to PDDocument, DocumentController.fileUpload()");
-                                logger.error("modId : " + document.getModId());
-                                logger.error("applNo: " + document.getApplNo());
-                                ec = new ExecutionContext(ExecutionContext.FAIL);
-                                Map<String, String> errorInfo = new HashMap<String, String>();
-                                errorInfo.put("applNo", String.valueOf(document.getApplNo()));
-                                errorInfo.put("originalFileName", fileItem.getOriginalFileName());
-                                ec.setErrorInfo(new ErrorInfo(errorInfo));
-                                throw new FileNoticeException(ec, "U04514", "ERR0060");
-                            } finally {
-                                if (pdf != null) {
-                                    try {
-                                        pdf.close();
-                                    } catch (IOException e) {
-                                        logger.error("PDF is NOT closed, DocumentController.fileUpload()");
-                                    }
-                                }
-                            }
-                        }
+//                        // FOR MANAGE
+//                        if (fileItem.getOriginalFileName().toLowerCase().endsWith("pdf")) {
+//                            PDDocument pdf = null;
+//                            try {
+//                                pdf = PDDocument.load(fileItem.getFile());
+//
+//                                if (pdf.isEncrypted()) {
+//                                    ec = new ExecutionContext(ExecutionContext.FAIL);
+//                                    Map<String, String> errorInfo = new HashMap<String, String>();
+//                                    errorInfo.put("applNo", String.valueOf(document.getApplNo()));
+//                                    errorInfo.put("originalFileName", fileItem.getOriginalFileName());
+//                                    ec.setErrorInfo(new ErrorInfo(errorInfo));
+//                                    throw new FileNoticeException(ec, "U04514", "ERR0060");
+//                                }
+//                            } catch (IOException e) {
+//                                logger.error("Upload PDF is NOT loaded to PDDocument, DocumentController.fileUpload()");
+//                                logger.error("modId : " + document.getModId());
+//                                logger.error("applNo: " + document.getApplNo());
+//                                ec = new ExecutionContext(ExecutionContext.FAIL);
+//                                Map<String, String> errorInfo = new HashMap<String, String>();
+//                                errorInfo.put("applNo", String.valueOf(document.getApplNo()));
+//                                errorInfo.put("originalFileName", fileItem.getOriginalFileName());
+//                                ec.setErrorInfo(new ErrorInfo(errorInfo));
+//                                throw new FileNoticeException(ec, "U04514", "ERR0060");
+//                            } finally {
+//                                if (pdf != null) {
+//                                    try {
+//                                        pdf.close();
+//                                    } catch (IOException e) {
+//                                        logger.error("PDF is NOT closed, DocumentController.fileUpload()");
+//                                    }
+//                                }
+//                            }
+//                        }
 
                         FileInputStream fis = null;
                         String originalFileName = fileItem.getOriginalFileName();
@@ -559,8 +563,34 @@ public class PreApplicationController {
                                 fileInfo = persistence.save(uploadDir, uploadFileName, originalFileName,
                                         fis = new FileInputStream(fileItem.getFile())
                                 );
+                            } catch (EncryptedPDFException e) {
+                                ec = new ExecutionContext(ExecutionContext.FAIL);
+                                Map<String, String> errorInfo = new HashMap<String, String>();
+                                errorInfo.put("applNo", String.valueOf(document.getApplNo()));
+                                errorInfo.put("originalFileName", fileItem.getOriginalFileName());
+                                ec.setErrorInfo(new ErrorInfo(errorInfo));
+                                throw new EncryptedPDFException(ec, "U04514", "ERR0052");
                             } catch (IOException ioe) {
-                                throw getYSBizException(document, fileMetaForm.getApplicantId(), "U339", "ERR0063");
+                                if (ioe.getCause().getCause() instanceof DataFormatException) {
+                                    ec = new ExecutionContext(ExecutionContext.FAIL);
+                                    Map<String, String> errorInfo = new HashMap<String, String>();
+                                    errorInfo.put("applNo", String.valueOf(document.getApplNo()));
+                                    errorInfo.put("originalFileName", fileItem.getOriginalFileName());
+                                    ec.setErrorInfo(new ErrorInfo(errorInfo));
+                                    throw new PasswordedPDFException(ec, "U04515", "ERR0052");
+                                } else {
+                                    logger.error("Upload PDF is NOT loaded to PDDocument, DocumentController.fileUpload()");
+                                    logger.error("modId : " + document.getModId());
+                                    logger.error("applNo: " + document.getApplNo());
+                                    logger.error("orgFileName: " + fileItem.getOriginalFileName());
+                                    ec = new ExecutionContext(ExecutionContext.FAIL);
+                                    Map<String, String> errorInfo = new HashMap<String, String>();
+                                    errorInfo.put("applNo", String.valueOf(document.getApplNo()));
+                                    errorInfo.put("originalFileName", fileItem.getOriginalFileName());
+                                    ec.setErrorInfo(new ErrorInfo(errorInfo));
+                                    throw new FileNoticeException(ec, "U04518", "ERR0052");
+//                                throw getYSBizException(document, principal, "U339", "ERR0063");
+                                }
                             }
 
                             String path = fileInfo.getDirectory();
@@ -612,12 +642,17 @@ public class PreApplicationController {
                             errorInfo.put("AWS Error Message", ace.getMessage());
                             ec.setErrorInfo(new ErrorInfo(errorInfo));
                             throw new YSBizException(ec);
+                        } catch (EncryptedPDFException e) {
+                            throw e;
+                        } catch (PasswordedPDFException e) {
+                            throw e;
                         } catch (Exception e) {
                             logger.error("S3 저장시 아마존 예외 외의 오류");
                             logger.error(e.getMessage());
-                            e.printStackTrace();
                             throw getYSBizException(document, fileMetaForm.getApplicantId(), "U339", "ERR0052");
                         }finally {
+                            File tmpFile = fileItem.getFile();
+                            if (tmpFile != null) tmpFile.delete();
                             try {
                                 if (fis!= null) fis.close();
                             } catch (IOException e) {}
@@ -666,7 +701,7 @@ public class PreApplicationController {
         return mv;
     }
 
-    @RequestMapping(value = "/sendUrgeRecommendationMail", method = RequestMethod.GET)
+    @RequestMapping(value = "/sendUrgeRecommendationMail", method = RequestMethod.POST)
     public void sendUrgeRecommendationMail(@RequestParam(value = "sendkey") String sendKey) {
         // 독려 메일 발송 키 확인
         if (SEND_KEY.equals(sendKey)) {

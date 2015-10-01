@@ -78,14 +78,14 @@
                             <%--</div>--%>
                             <div class="spacer-tiny">&nbsp;</div>
                             <div class="col-sm-6 text-gray">
-                                <label class="control-label"><spring:message code="L06736"/><%--추천서 양식--%></label>
+                                <label class="text-gray"><spring:message code="L06736"/><%--추천서 양식--%></label>
                             </div>
                             <div class="col-sm-6 text-gray">
                                 <a style='vertical-align: bottom;' href="<spring:eval expression="@app.getProperty(\"path.static\")" />/etc/LetterOfRecommendation.docx"><img src="<spring:eval expression="@app.getProperty('path.static')" />/img/logo-ms-word.jpg"/> LetterOfRecommendation.docx</a>
                             </div>
                             <div class="spacer-tiny">&nbsp;</div>
                             <div class="col-sm-6 text-gray">
-                                <label class="control-label"><spring:message code="L06731"/><%--추천서 등록--%></label>
+                                <label class="text-gray"><spring:message code="L06731"/><%--추천서 등록--%></label>
                             </div>
                             <div class="col-sm-6 text-gray">
                                 <input type="file" class="btn btn-file" id="fileRec" name="fileRec"/>
@@ -97,7 +97,7 @@
                             <%--</div>--%>
                             <div class="spacer-tiny">&nbsp;</div>
                             <div class="col-sm-12 text-gray">
-                                <label class="control-label"><spring:message code="U06733"/><%--지원자에게 추천서 등록 완료...--%></label>
+                                <label class="text-gray" style="text-align: left"><spring:message code="U06733"/><%--지원자에게 추천서 등록 완료...--%></label>
                             </div>
                             <div class="spacer-tiny">&nbsp;</div>
                             <div class="col-sm-12 text-gray">
@@ -292,15 +292,26 @@ $(document).ready(function() {
 
     <%-- 하단 버튼 처리 --%>
     $('#btnComplete').click(function(e) {
-        $("#overlay").show();
-        e.preventDefault();
-        form.action = "${contextPath}/application/recommend";
-        form.method = "post";
-        console.dir(document.getElementById('fileRec'));
-        if (confirm('<spring:message code="U06738"/>')) { // 추천서를 등록하시겠습니까?\\n\\n"확인"을 누르시면 추천서가 등록되며 다시 수정할 수 없습니다.
-            form.submit();
-        } else {
-            $("#overlay").hide();
+        var fileInput = document.getElementById('fileRec'),
+                fileName = fileInput.value,
+                regexpPDF = (/\.(pdf)$/i);
+        if ((fileInput.files && fileInput.files.length) || fileInput.value != "") {
+            if (regexpPDF.test(fileName)) {
+                $("#overlay").show();
+                e.preventDefault();
+                form.action = "${contextPath}/application/recommend";
+                form.method = "post";
+                console.dir(document.getElementById('fileRec'));
+                if (confirm('<spring:message code="U06738"/>')) { // 추천서를 등록하시겠습니까?\\n\\n"확인"을 누르시면 추천서가 등록되며 다시 수정할 수 없습니다.
+                    form.submit();
+                } else {
+                    $("#overlay").hide();
+                }
+            } else {
+                alert('<spring:message code="U04504"/>');//첨부파일은 PDF 파일만 업로드 할 수 있습니다.
+                $('#overlay').hide();
+                return false;
+            }
         }
     });
     <%-- 하단 버튼 처리 --%>
