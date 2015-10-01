@@ -180,9 +180,10 @@
                         <div class="col-sm-offset-1 col-sm-10 text-gray">
                             <div class="col-sm-12" style="text-align: left;"><b><spring:message code="U06514"/><%--추천서 진행 상태는 '내 원서 > 추천서 요청' 화면에서 확인할 수 있습니다.--%></b></div>
                             <div class="col-sm-12" style="text-align: left;"><b><spring:message code="U06515" arguments="${app.getProperty(\"recommendation.duedate\")}"/><%--추천서는 {0} 까지 제출되어야 합니다.--%></b></div>
-                            <div class="col-sm-12" style="text-align: left;"><b><spring:message code="U06516"/><%--GRADNET에서는 추천서 등록 마감일까지 완료되지 않은 요청건에 대해 메일을 재발송하여 추천인에게 알립니다.--%></b></div>
-                            <div class="col-sm-12" style="text-align: left;"><b><spring:message code="U06517"/><%--GRADNET은 마감일까지 등록되지 않은 추천서에 대해 책임을 지지 않습니다.--%></b></div>
-                            <div class="col-sm-12" style="text-align: left;"><b><spring:message code="U06518"/><%--지원자께서도 마감일까지 추천서가 등록되도록 추천인에게 개별적으로 연락하시길 부탁드립니다.--%></b></div>
+                            <div class="col-sm-12" style="text-align: left;"><b><spring:message code="U06516"/><%--추천서 진행 상태는 '내 원서 > 추천서 요청' 화면에서 확인할 수 있습니다.--%></b></div>
+                            <div class="col-sm-12" style="text-align: left;"><b><spring:message code="U06517"/><%--GRADNET에서는 추천서 등록 마감일까지 완료되지 않은 요청건에 대해 메일을 재발송하여 추천인에게 알립니다.--%></b></div>
+                            <div class="col-sm-12" style="text-align: left;"><b><spring:message code="U06518"/><%--GRADNET은 마감일까지 등록되지 않은 추천서에 대해 책임을 지지 않습니다.--%></b></div>
+                            <div class="col-sm-12" style="text-align: left;"><b><spring:message code="U06519"/><%--지원자께서도 마감일까지 추천서가 등록되도록 추천인에게 개별적으로 연락하시길 부탁드립니다.--%></b></div>
                         </div>
                     </div>
                     <div class="spacer-tiny">&nbsp;</div>
