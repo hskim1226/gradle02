@@ -64,6 +64,9 @@
                                 <div class="spacer-tiny">&nbsp;</div>
                                 <li class="big-font"><spring:message code="YONSEI_AGR107"/><%--개인 정보의 보유 및 이용 기간--%></li>
                                 <div><spring:message code="YONSEI_AGR108"/><%--개인정보 보유기간의 경과, 처리목적 달성 등 개인정보가 불필요하게 되었을 때에는 지체 없이 해당 개인정보를 파기--%></div>
+                                <div class="spacer-tiny">&nbsp;</div>
+                                <li class="big-font"><spring:message code="YONSEI_AGR113"/><%--동의하지 않을 권리 및 그에 따른 불이익--%></li>
+                                <div><spring:message code="YONSEI_AGR114"/><%--귀하는 개인정보의 수집 및 이용에 동의하지 않으실 수 있으나, 필수 정보 수집 동의 거부 시 입학지원서 접수가 불가합니다.--%></div>
                             </ul>
                             <div class="spacer-small">&nbsp;</div>
                             <div class="form-group" align="center">
@@ -82,6 +85,18 @@
                             <hr/>
                             <h3 class="slogan"><spring:message code="YONSEI_AGR201"/><%--고유식별정보 수집 및 이용에 대한 동의--%></h3>
                             <div><spring:message code="YONSEI_AGR202"/><%--학생선발에 관한 사무 및 합격자를 대상으로 하는 학적부 작성·관리 등 교육의 과정 기록에 관한 사무를 위해 고유식별정보(주민등록번호, 외국인등록번호, 여권번호)를 수집하고 있습니다(근거 법령 : 고등교육법 시행령 제73조(고유식별정보의 처리)).--%></div>
+                            <div class="spacer-tiny">&nbsp;</div>
+                            <ul>
+                                <li class="big-font"><spring:message code="YONSEI_AGR207"/><%--개인정보 수집·이용 목적--%></li>
+                                <div><spring:message code="YONSEI_AGR208"/><%--재외국민 및 외국인학생의 원서 접수 및 대입 전형--%></div>
+                                <div class="spacer-tiny">&nbsp;</div>
+                                <li class="big-font"><spring:message code="YONSEI_AGR209"/><%--개인정보 수집 항목--%></li>
+                                <div><spring:message code="YONSEI_AGR210"/><%--여권번호, 외국인등록번호--%></div>
+                                <div><spring:message code="YONSEI_AGR211"/><%--* 주민등록번호는 고등교육법 시행령 제73조 제1항에 따라 수집합니다.--%></div>
+                                <div class="spacer-tiny">&nbsp;</div>
+                                <li class="big-font"><spring:message code="YONSEI_AGR212"/><%--개인정보 보유기간--%></li>
+                                <div><spring:message code="YONSEI_AGR213"/><%--대학입학 전형관리 및 공정성 검증을 위한 보유기간 : 4년--%></div>
+                            </ul>
                             <div class="spacer-small">&nbsp;</div>
                             <div class="form-group" align="center">
                                 <label class="col-md-offset-1 col-md-6 big-font text-center slogan"><spring:message code="YONSEI_AGR203"/><%--고유식별정보 수집 및 이용에 동의하십니까?--%></label>
