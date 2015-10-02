@@ -96,6 +96,9 @@
                                 <div class="spacer-tiny">&nbsp;</div>
                                 <li class="big-font"><spring:message code="YONSEI_AGR212"/><%--개인정보 보유기간--%></li>
                                 <div><spring:message code="YONSEI_AGR213"/><%--대학입학 전형관리 및 공정성 검증을 위한 보유기간 : 4년--%></div>
+                                <div class="spacer-tiny">&nbsp;</div>
+                                <li class="big-font"><spring:message code="YONSEI_AGR214"/><%--동의하지 않을 권리 및 그에 따른 불이익--%></li>
+                                <div><spring:message code="YONSEI_AGR215"/><%--귀하는 개인정보의 수집 및 이용에 동의하지 않으실 수 있으나, 동의 거부 시 입학지원서 접수가 불가합니다.--%></div>
                             </ul>
                             <div class="spacer-small">&nbsp;</div>
                             <div class="form-group" align="center">
