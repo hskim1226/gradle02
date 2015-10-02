@@ -50,11 +50,11 @@
             <nav class="navbar navbar-default scrollMenu" role="navigation">
                 <div class="navbar-header">
                     <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse"> <span class="sr-only">Toggle navigation</span> <img src="<spring:eval expression="@app.getProperty('path.static')" />/img/btn_menu1.png" alt="전체메뉴보기"> </button>
-                    <a class="navbar-brand" href="${contextPath}"><img src="<spring:eval expression="@app.getProperty('path.static')" />/img/logo.png" alt="gradnet"></a>
+                    <a class="navbar-brand" href="${contextPath}/"><img src="<spring:eval expression="@app.getProperty('path.static')" />/img/logo.png" alt="gradnet"></a>
                 </div>
                 <div class="collapse navbar-collapse navbar-ex1-collapse">
                     <ul class="nav navbar-nav pull-right">
-                        <li><a id="nav-home" href="${contextPath}"><i class="fa fa-home"></i><spring:message code="L00009"/><%--Home--%></a> </li>
+                        <li><a id="nav-home" href="${contextPath}/"><i class="fa fa-home"></i><spring:message code="L00009"/><%--Home--%></a> </li>
                         <li><a id="nav-admsList" href="${contextPath}/application/admsList"><i class="fa fa-pencil-square-o"></i><spring:message code="L00003"/><%--원서접수--%></a> </li>
                         <li><a id="nav-myList" href="${contextPath}/application/mylist"><i class="fa fa-list"></i><spring:message code="L00005"/><%--내 원서--%></a> </li>
                         <li><a id="nav-userInfo" href="${contextPath}/user/info"><i class="fa fa-info-circle"></i><spring:message code="L00010"/><%--내 정보--%></a> </li>
