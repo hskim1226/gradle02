@@ -7,9 +7,15 @@ public class MailInfo {
 
     private String campName;
 
+    private String campNameXxen;
+
     private String collName;
 
+    private String collNameXxen;
+
     private String deptName;
+
+    private String deptNameXxen;
 
     private String userId;
 
@@ -33,6 +39,14 @@ public class MailInfo {
         this.campName = campName;
     }
 
+    public String getCampNameXxen() {
+        return campNameXxen;
+    }
+
+    public void setCampNameXxen(String campNameXxen) {
+        this.campNameXxen = campNameXxen;
+    }
+
     public String getCollName() {
         return collName;
     }
@@ -41,12 +55,28 @@ public class MailInfo {
         this.collName = collName;
     }
 
+    public String getCollNameXxen() {
+        return collNameXxen;
+    }
+
+    public void setCollNameXxen(String collNameXxen) {
+        this.collNameXxen = collNameXxen;
+    }
+
     public String getDeptName() {
         return deptName;
     }
 
     public void setDeptName(String deptName) {
         this.deptName = deptName;
+    }
+
+    public String getDeptNameXxen() {
+        return deptNameXxen;
+    }
+
+    public void setDeptNameXxen(String deptNameXxen) {
+        this.deptNameXxen = deptNameXxen;
     }
 
     public String getUserId() {

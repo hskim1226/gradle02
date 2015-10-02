@@ -27,6 +27,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by cosb071 on 15. 1. 22.
@@ -772,8 +773,17 @@ public class PaymentServiceImpl implements PaymentService {
         String campName = mailInfo.getCampName();
         String major = mailInfo.getDeptName();
         String applId = mailInfo.getApplId();
+        String admsNo = mailInfo.getAdmsNo();
+        Locale locale = null;
+        if (admsNo.endsWith("C") || admsNo.endsWith("D")) {
+            locale = Locale.US;
+            campName = mailInfo.getCampNameXxen();
+            major = mailInfo.getDeptNameXxen();
+        } else {
+            locale = Locale.KOREAN;
+        }
 
-        Mail mail = mailFactory.create(MailType.COMPLETE_NOTI);
+        Mail mail = mailFactory.create(MailType.COMPLETE_NOTI, locale);
         mail.setTo(new String[]{mailAddr});
         mail.withContentsParam(MailContentsParamKey.USER_NAME, userName)
                 .withContentsParam(MailContentsParamKey.USER_ID, userId)

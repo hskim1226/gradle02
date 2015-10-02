@@ -8,6 +8,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 import java.util.Map;
 
 /**
@@ -17,6 +18,15 @@ public class MailUrgeRecommendationToProf extends Mail {
 
     private final String NEW_LINE1 = "\n";
     private final String NEW_LINE2 = "\n\n";
+    private Locale locale = null;
+
+    public MailUrgeRecommendationToProf() {
+
+    }
+
+    public MailUrgeRecommendationToProf(Locale locale) {
+        this.locale = locale;
+    }
 
     @Override
     public void makeContents() {

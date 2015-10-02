@@ -5,6 +5,8 @@ import com.apexsoft.framework.message.MessageResolver;
 import com.apexsoft.ysprj.applicants.common.domain.MailContentsParamKey;
 import org.springframework.beans.factory.annotation.Value;
 
+import java.util.Locale;
+
 /**
  * Created by hanmomhanda on 15. 5. 12.
  */
@@ -12,6 +14,14 @@ public class MailCompletedRecommendation extends Mail {
 
     private final String NEW_LINE1 = "\n";
     private final String NEW_LINE2 = "\n\n";
+    private Locale locale = null;
+
+    public MailCompletedRecommendation() {
+    }
+
+    public MailCompletedRecommendation(Locale locale) {
+        this.locale = locale;
+    }
 
     @Override
     public void makeContents() {

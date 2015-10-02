@@ -6,12 +6,23 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
 import javax.servlet.ServletContext;
+import java.util.Locale;
 import java.util.Map;
 
 /**
  * Created by hanmomhanda on 15. 5. 12.
  */
 public class MailRequestRecommendation extends Mail {
+
+    private Locale locale = null;
+
+    public MailRequestRecommendation() {
+        this.locale = Locale.KOREAN;
+    }
+
+    public MailRequestRecommendation(Locale locale) {
+        this.locale = locale;
+    }
 
     @Override
     public void makeContents() {
