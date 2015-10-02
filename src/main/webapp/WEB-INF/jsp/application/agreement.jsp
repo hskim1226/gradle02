@@ -92,7 +92,6 @@
                                 <div class="spacer-tiny">&nbsp;</div>
                                 <li class="big-font"><spring:message code="YONSEI_AGR209"/><%--개인정보 수집 항목--%></li>
                                 <div><spring:message code="YONSEI_AGR210"/><%--여권번호, 외국인등록번호--%></div>
-                                <div><spring:message code="YONSEI_AGR211"/><%--* 주민등록번호는 고등교육법 시행령 제73조 제1항에 따라 수집합니다.--%></div>
                                 <div class="spacer-tiny">&nbsp;</div>
                                 <li class="big-font"><spring:message code="YONSEI_AGR212"/><%--개인정보 보유기간--%></li>
                                 <div><spring:message code="YONSEI_AGR213"/><%--대학입학 전형관리 및 공정성 검증을 위한 보유기간 : 4년--%></div>
