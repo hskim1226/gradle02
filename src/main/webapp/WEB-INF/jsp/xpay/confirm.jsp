@@ -196,13 +196,16 @@
                 &nbsp;&nbsp;&nbsp;&nbsp;64Bit 버전을 실행중이신 분은 ActiveX 설치에 문제가 발생합니다.<br>
                 2. 크롬, 사파리 등의 웹브라우저에서는 결제를 진행하실 수 없습니다.<br>
                 3. 국내 카드와 UnionPay가 지원됩니다.(해외 비자, 마스터 카드 불가)<br><br>
-                <font color="red" size="3"> [[ 결제가 불가능한 경우 ]] <br><br></font>
+                <font color="red" size="3"> [[ 결제가 불가능한 경우 ]] <br></font>
                 시스템에서 결제가 불가능한 경우 아래 계좌로 입금 후 메일을 주시기 바랍니다.<br>
                 <font color="blue">&nbsp;&nbsp;입금은행 : 하나은행<br>
-                &nbsp;&nbsp;계좌번호 : 178-910029-30904<br>
-                &nbsp;&nbsp;예금주명 : 에이펙스소프트<br><br></font>
-                <font color="orange">입금 완료 후 아이디와 입금자명을 반드시 기입하여<br>
-                help@apexsoft.co.kr 로 보내주시기 바랍니다.<br></font>
+                    &nbsp;&nbsp;계좌번호 : 178-910029-30904<br>
+                    &nbsp;&nbsp;예금주명 : 에이펙스소프트<br><br></font>
+                <font color="red">입금 완료 후 아이디, 지원자명, 출금계좌 예금주명, 입금증빙(사진)을<br>
+                    입력하여 help@apexsoft.co.kr 로 보내주시기 바랍니다.<br>
+                    (특히 자동화기기 송금, 해외 송금의 경우 입금증빙(사진) 필수)<br><br>
+                    해외 송금은 입금되는 원화금액이 전형료와 일치하도록 수수료 발신자<br>
+                    부담으로 하여 최종 지원처리에 문제가 없도록 해 주시기 바랍니다.</font>
             </strong></h4>
         </div>
         <div class="popupbody" style="display:${pageContext.response.locale == 'en' ?'visible':'none'}">
@@ -214,19 +217,19 @@
                 3. Browser except Internet Explorer (like Chrome, Safari, Firefox, ...)<br>
                 &nbsp;&nbsp;&nbsp;&nbsp;is NOT supported in payment.<br><br>
                 <font color="red" size="3"> [[ If payment is impossible in System ]] <br><br></font>
-                &nbsp;&nbsp;1. Paypal Payment<br>
-                <font color="blue">&nbsp;&nbsp;&nbsp;&nbsp;Send email with Gradnet UserID , Paypal account and Name<br>
-                &nbsp;&nbsp;&nbsp;&nbsp;to help@apexsoft.co.kr. Then You can receive Paypal Invoice.<br><br></font>
-                &nbsp;&nbsp;2. Wire Transfer<br>
-                <font color="blue">&nbsp;&nbsp;&nbsp;&nbsp;Send fee to this bank account.<br>
-                &nbsp;&nbsp;&nbsp;&nbsp;After that, You should send email with Gradnet UserID<br>
-                &nbsp;&nbsp;&nbsp;&nbsp;and Transfer Receipt(photo)<br>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-BANK NAME : HANA BANK<br>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-BANK SWIFT :  HNBNKRSE XXX<br>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-BRANCH ADDR.: 97, Wausan-ro, Mapo-gu, Seoul, KOREA<br>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-BRANCH NAME : SEOGYODONG<br>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-ACCOUNT NO. : 178-910029-30904<br>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-ACCOUNT NAME : APEXSOFT<br></font>
+                &nbsp;&nbsp;by Wire Transfer, Send admission fee to following bank account.<br>
+                <font color="blue">&nbsp;&nbsp;&nbsp;&nbsp;-BANK NAME : HANA BANK<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;-BANK SWIFT :  HNBNKRSE XXX<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;-BRANCH ADDR.: 97, Wausan-ro, Mapo-gu, Seoul, KOREA<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;-BRANCH NAME : SEOGYODONG<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;-ACCOUNT NO. : 178-910029-30904<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;-ACCOUNT NAME : APEXSOFT<br><br></font>
+                <font color="red">&nbsp;&nbsp;After that, You should send Email with User ID, Applicant Name,<br>
+                    &nbsp;&nbsp;Withdrawal Account Holder Name and Transfer Receipt(photo).<br>
+                    &nbsp;&nbsp;Email : help@apexsoft.co.kr <br><br>
+                    &nbsp;&nbsp;For receiving amount corresponds with admission fee,<br>
+                    &nbsp;&nbsp;the sender bear wire transfer expenses.</font>
+
             </strong></h4>
         </div>
         <a class="btn_close b-close" title="닫기"><img src="<spring:eval expression="@app.getProperty('path.static')" />/img/btn_close1.png" alt="닫기"></a>
@@ -339,20 +342,20 @@
                     success: function(data){
 
                         var container = JSON.parse(data),
-                            parsed = JSON.parse(container.data);
+                                parsed = JSON.parse(container.data);
 
                         document.getElementById('CST_PLATFORM').value = parsed.cst_PLATFORM,
-                        document.getElementById('CST_MID').value = parsed.cst_MID,
-                        document.getElementById('LGD_MID').value = parsed.lgd_MID,
-                        document.getElementById('LGD_OID').value = parsed.lgd_OID,
-                        document.getElementById('LGD_HASHDATA').value = parsed.lgd_HASHDATA,
-                        document.getElementById('LGD_BUYERIP').value = parsed.lgd_BUYERIP,
-                        document.getElementById('LGD_BUYEREMAIL').value = parsed.lgd_BUYEREMAIL,
-                        document.getElementById('LGD_CUSTOM_SKIN').value = parsed.lgd_CUSTOM_SKIN,
-                        document.getElementById('LGD_WINDOW_VER').value = parsed.lgd_WINDOW_VER,
-                        document.getElementById('LGD_CUSTOM_PROCESSTYPE').value = parsed.lgd_CUSTOM_PROCESSTYPE,
-                        document.getElementById('LGD_VERSION').value = parsed.lgd_VERSION,
-                        document.getElementById('LGD_CASNOTEURL').value = parsed.lgd_CASNOTEURL;
+                                document.getElementById('CST_MID').value = parsed.cst_MID,
+                                document.getElementById('LGD_MID').value = parsed.lgd_MID,
+                                document.getElementById('LGD_OID').value = parsed.lgd_OID,
+                                document.getElementById('LGD_HASHDATA').value = parsed.lgd_HASHDATA,
+                                document.getElementById('LGD_BUYERIP').value = parsed.lgd_BUYERIP,
+                                document.getElementById('LGD_BUYEREMAIL').value = parsed.lgd_BUYEREMAIL,
+                                document.getElementById('LGD_CUSTOM_SKIN').value = parsed.lgd_CUSTOM_SKIN,
+                                document.getElementById('LGD_WINDOW_VER').value = parsed.lgd_WINDOW_VER,
+                                document.getElementById('LGD_CUSTOM_PROCESSTYPE').value = parsed.lgd_CUSTOM_PROCESSTYPE,
+                                document.getElementById('LGD_VERSION').value = parsed.lgd_VERSION,
+                                document.getElementById('LGD_CASNOTEURL').value = parsed.lgd_CASNOTEURL;
 
 //                        alert(document.getElementById('LGD_MID').value);
 
