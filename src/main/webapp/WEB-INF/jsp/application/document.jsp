@@ -1036,6 +1036,9 @@
                 </div>
             </div>
             <div class="spacer-tiny"></div>
+            <div class="panel-body tab-content">
+                <span style="color: blue; font-size: 20px; font-weight: 900;"><spring:message code="U04521"/><%--첨부 파일 저장 버튼을 눌러서 저장한 후에만 원서 미리보기 생성 버튼이 활성화 됩니다.--%></span>
+            </div>
             <div class="btn-group btn-group-justified">
                 <div class="btn-group">
                     <button id="generateApplication" type="button" class="btn btn-warning btn-lg btn-save" data-saveType="generate" ${document.application.applStsCode != '00004' || resultMsg != msg.getMsg('U325') ? 'disabled="disabled"' : ''}><spring:message code="L04202"/><%--원서 미리보기 생성--%></button>
@@ -1049,6 +1052,7 @@
                     <div class="col-sm-12" style="font-size: 24px; color: #55aaff; text-align: center;"><spring:message code="U04512"/></div>  <%--Loading...--%>
                 </div>
             </div>
+
             <div class="btn-group btn-group-justified">
                 <div class="btn-group">
                     <button id="previewApplication" type="button" style="display: none;" class="btn btn-info btn-lg btn-save" data-saveType="preview" <c:if test="${document.application.applStsCode != '00004'}">disabled</c:if> ><spring:message code="L04203"/><%--원서 미리보기--%></button>
