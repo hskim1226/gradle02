@@ -19,6 +19,7 @@ import com.apexsoft.ysprj.applicants.common.service.PDFService;
 import com.apexsoft.ysprj.applicants.common.util.MailFactory;
 import com.apexsoft.ysprj.applicants.payment.domain.*;
 import lgdacom.XPayClient.XPayClient;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -766,9 +767,9 @@ public class PaymentServiceImpl implements PaymentService {
         MailInfo mailInfo = commonDAO.queryForObject("com.apexsoft.ysprj.applicants.common.sqlmap.CustomMailMapper.selectApplicationCompletedMailInfo",
                 application.getApplNo(), MailInfo.class);
         String mailAddr = application.getMailAddr();
-        String userName = application.getKorName().trim().length() > 0 ?
-                application.getKorName() :
-                application.getEngName() + " " + application.getEngSur();
+        String korName = application.getKorName();
+        boolean hasKorName = korName != null && !StringUtils.isEmpty(korName);
+        String userName = application.getEngName() + " " + application.getEngSur() + (hasKorName ? "(" + application.getKorName() + ")" : "");                    ;
         String userId = application.getUserId();
         String campName = mailInfo.getCampName();
         String major = mailInfo.getDeptName();

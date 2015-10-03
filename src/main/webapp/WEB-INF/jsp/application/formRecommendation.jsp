@@ -56,7 +56,7 @@
                                         <th><spring:message code="L06705"/><%--전공--%></th>
                                     </thead>
                                     <tbody>
-                                        <td>${applInfo.engName}(${applInfo.korName})</td>
+                                        <td>${applInfo.engName} ${applInfo.korName == "" || applInfo.korName == null ? "" : (applInfo.korName)}</td>
                                         <td>${applInfo.nationality}</td>
                                         <td>${applInfo.degree}</td>
                                         <td>${applInfo.dept}</td>

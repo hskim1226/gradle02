@@ -385,7 +385,7 @@
                                                 </div>
                                                 <div class="col-sm-6">
                                                     <form:hidden path="collegeList[${stat.index}].schlCode" />
-                                                    <form:input path="collegeList[${stat.index}].schlName" cssClass="form-control" readonly="true"/>
+                                                    <form:input path="collegeList[${stat.index}].schlName" cssClass="form-control" maxlength="50" readonly="true"/>
                                                 </div>
                                                 <div class="col-sm-3">
                                                     <label class="radio-inline">
@@ -407,7 +407,7 @@
                                             <form:label path="collegeList[${stat.index}].collName" cssClass="col-sm-2 control-label"><spring:message code="L02115"/><%--단과 대학--%></form:label>
                                             <div class="col-sm-9">
                                                 <div class="col-sm-12">
-                                                    <form:input path="collegeList[${stat.index}].collName" cssClass="form-control" />
+                                                    <form:input path="collegeList[${stat.index}].collName" cssClass="form-control" maxlength="50" />
                                                 </div>
                                         <spring:bind path="collegeList[${stat.index}].collName">
                                             <c:if test="${status.error}">
@@ -422,7 +422,7 @@
                                             <form:label path="collegeList[${stat.index}].majName" cssClass="col-sm-2 control-label"><spring:message code="L02116"/><%--학과 이름--%></form:label>
                                             <div class="col-sm-9">
                                                 <div class="col-sm-12">
-                                                    <form:input path="collegeList[${stat.index}].majName" cssClass="form-control" maxlength="35" placeholder="${msg.getMsg('U02108')}" />  <%--다수 전공은 컴마로 구분하여 모두 입력해 주세요.--%>
+                                                    <form:input path="collegeList[${stat.index}].majName" cssClass="form-control" maxlength="50" placeholder="${msg.getMsg('U02108')}" />  <%--다수 전공은 컴마로 구분하여 모두 입력해 주세요.--%>
                                                 </div>
                                         <spring:bind path="collegeList[${stat.index}].majName">
                                             <c:if test="${status.error}">
@@ -603,7 +603,7 @@
                                                 </div>
                                                 <div class="col-sm-6">
                                                     <form:hidden path="graduateList[${stat.index}].schlCode" />
-                                                    <form:input path="graduateList[${stat.index}].schlName" cssClass="form-control" readonly="true"/>
+                                                    <form:input path="graduateList[${stat.index}].schlName" cssClass="form-control" maxlength="50" readonly="true"/>
                                                 </div>
                                                 <div class="col-sm-3">
                                                     <label class="radio-inline">
@@ -625,7 +625,7 @@
                                             <form:label path="graduateList[${stat.index}].collName" cssClass="col-sm-2 control-label"><spring:message code="L02115"/><%--단과 대학--%></form:label>
                                             <div class="col-sm-9">
                                                 <div class="col-sm-12">
-                                                    <form:input path="graduateList[${stat.index}].collName" maxlength="35" cssClass="form-control" />
+                                                    <form:input path="graduateList[${stat.index}].collName" maxlength="50" cssClass="form-control" />
                                                 </div>
                                         <spring:bind path="graduateList[${stat.index}].collName">
                                             <c:if test="${status.error}">
@@ -640,7 +640,7 @@
                                             <form:label path="graduateList[${stat.index}].majName" cssClass="col-sm-2 control-label"><spring:message code="L02116"/><%--학과 이름--%></form:label>
                                             <div class="col-sm-9">
                                                 <div class="col-sm-12">
-                                                    <form:input path="graduateList[${stat.index}].majName" cssClass="form-control" maxlength="35" placeholder="${msg.getMsg('U02108')}" />   <%--다수 전공은 컴마로 구분하여 모두 입력해 주세요.--%>
+                                                    <form:input path="graduateList[${stat.index}].majName" cssClass="form-control" maxlength="50" placeholder="${msg.getMsg('U02108')}" />   <%--다수 전공은 컴마로 구분하여 모두 입력해 주세요.--%>
                                                 </div>
                                         <spring:bind path="graduateList[${stat.index}].majName">
                                             <c:if test="${status.error}">

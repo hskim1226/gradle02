@@ -19,6 +19,7 @@ import com.apexsoft.ysprj.applicants.common.util.CryptoUtil;
 import com.apexsoft.ysprj.applicants.common.util.FileUtil;
 import com.apexsoft.ysprj.applicants.common.util.MailFactory;
 import com.apexsoft.ysprj.applicants.common.util.StringUtil;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -471,7 +472,9 @@ public class RecommendationServiceImpl implements RecommendationService {
 //            String applicantName = StringUtil.getEmptyIfNull(application.getKorName()).length() > 0 ?
 //                    application.getKorName() :
 //                    application.getEngName();
-            String applicantName = application.getEngName() + "(" + application.getKorName() + ")";                    ;
+            String applicantKorName = application.getKorName();
+            boolean hasKorName = applicantKorName != null && !StringUtils.isEmpty(applicantKorName);
+            String applicantName = application.getEngName() + " " + (hasKorName ? "(" + application.getKorName() + ")" : "");                    ;
             mail.setTo(new String[]{application.getMailAddr()});
             mail.setSubject(MessageResolver.getMessage("MAIL_COMPLETED_RECOMMENDATION_SUBJECT"));
             Map<Object, String> contentsParam = mail.getContentsParam();

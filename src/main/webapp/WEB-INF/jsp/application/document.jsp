@@ -941,7 +941,8 @@
                                                     <div class="col-sm-10 nopadding">
                                                         <form:input path="documentContainerList[${lv1Status.index}].subContainer[${lv2EtcStatus.index}].docItemName"
                                                                     placeholder="${msg.getMsg('L04404', locale)}"
-                                                                    cssClass="form-control" />
+                                                                    cssClass="form-control"
+                                                                    maxlength="60" />
                                                     </div>
                                                 </label>
                                             </div>
