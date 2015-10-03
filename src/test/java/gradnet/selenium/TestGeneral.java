@@ -25,13 +25,14 @@ public class TestGeneral {
     private static StringBuffer verificationErrors = new StringBuffer();
     private static WebDriverWait wait;
     private static JavascriptExecutor js;
-    private static String userId = "Abc777";
-    private static String password = "Abc77777";
+    private static String userId = "Real333";
+    private static String password = "Real33333";
 
     @BeforeClass
     public static void setUp() throws Exception {
         driver = new FirefoxDriver();
-        baseUrl = "http://localhost:8080";
+//        baseUrl = "http://localhost:8080";
+        baseUrl = "http://www.gradnet.co.kr";
         driver.manage().window().setSize(new Dimension(1600, 1000));
         driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
         wait = new WebDriverWait(driver, 5);
@@ -201,13 +202,13 @@ public class TestGeneral {
     @Test
     public void test4_첨부파일정보생성() throws Exception {
 
-//        driver.findElement(By.id("modify1")).click();
+        driver.findElement(By.id("modify1")).click();
         js.executeScript("scrollTo(0, 10)");
         driver.findElement(By.linkText("4. 파일 첨부 및 제출")).click();
 
         js.executeScript("scrollBy(0, 1000)");
         driver.findElement(By.id("file-input-0-0-0")).clear();
-        driver.findElement(By.id("file-input-0-0-0")).sendKeys("/home/hanmomhanda/YS-DOC/공 백/LG_트롬 모델로_발탁된_배우_이민정_(20).jpg");
+        driver.findElement(By.id("file-input-0-0-0")).sendKeys("/home/hanmomhanda/YS-DOC/공 백/뚱석이.jpg");
         driver.findElement(By.id("upload-button-0-0-0")).click();
         assertEquals("파일이 업로드 되었습니다.", closeAlertAndGetItsText());
 

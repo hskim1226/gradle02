@@ -25,8 +25,8 @@ public class TestUserSignUp {
     private static StringBuffer verificationErrors = new StringBuffer();
     private static WebDriverWait wait;
     private static JavascriptExecutor js;
-    private static String userId = "Abc888";
-    private static String password = "Abc88888";
+    private static String userId = "Real333";
+    private static String password = "Real33333";
 
     @BeforeClass
     public static void setUp() throws Exception {
@@ -34,23 +34,24 @@ public class TestUserSignUp {
 //        System.setProperty("webdriver.chrome.driver", "/home/hanmomhanda/chromedriver");
 //        driver = new ChromeDriver();
         driver.manage().window().setSize(new Dimension(1600, 1000));
-//        baseUrl = "http://www.gradnet.co.kr";
-        baseUrl = "http://localhost:8080";
+        baseUrl = "http://www.gradnet.co.kr";
+//        baseUrl = "http://localhost:8080";
         driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
         wait = new WebDriverWait(driver, 15);
         js = (JavascriptExecutor) driver;
-        driver.get(baseUrl + "/yonsei/user/login");
-
-        driver.findElement(By.id("username")).clear();
-        driver.findElement(By.id("username")).sendKeys(userId);
-        driver.findElement(By.id("password")).clear();
-        driver.findElement(By.id("password")).sendKeys(password);
-        driver.findElement(By.id("btnLogin")).click();
+//        driver.get(baseUrl + "/yonsei/user/login");
+//
+//        driver.findElement(By.id("username")).clear();
+//        driver.findElement(By.id("username")).sendKeys(userId);
+//        driver.findElement(By.id("password")).clear();
+//        driver.findElement(By.id("password")).sendKeys(password);
+//        driver.findElement(By.id("btnLogin")).click();
     }
 
     @Test
     public void test1_회원가입() throws Exception {
         // Given : 회원가입 페이지 이동
+        driver.get(baseUrl + "/yonsei");
         js.executeScript("scroll(0, 300)");
         driver.findElement(By.id("toSignUp")).click();
 //        js.executeScript("$('#toSignUp').click()");
@@ -112,10 +113,18 @@ public class TestUserSignUp {
     @Test
     public void test3_회원정보수정() throws Exception {
         // Given : 회원정보 수정 화면 진입
+        driver.get(baseUrl + "/yonsei/user/login");
+
+        driver.findElement(By.id("username")).clear();
+        driver.findElement(By.id("username")).sendKeys(userId);
+        driver.findElement(By.id("password")).clear();
+        driver.findElement(By.id("password")).sendKeys(password);
+        driver.findElement(By.id("btnLogin")).click();
+
         driver.get(baseUrl + "/yonsei/application/mylist");
         driver.findElement(By.cssSelector("i.fa.fa-info-circle")).click();
         driver.findElement(By.id("pswd")).clear();
-        driver.findElement(By.id("pswd")).sendKeys("Abc88888");
+        driver.findElement(By.id("pswd")).sendKeys(password);
         driver.findElement(By.xpath("//form[@id='user']/div/div/div[4]/div/div/button")).click();
 
         // When : 회원정보 수정
@@ -135,18 +144,18 @@ public class TestUserSignUp {
         driver.get(baseUrl + "/yonsei/application/mylist");
         driver.findElement(By.cssSelector("i.fa.fa-info-circle")).click();
         driver.findElement(By.id("pswd")).clear();
-        driver.findElement(By.id("pswd")).sendKeys("Abc88888");
+        driver.findElement(By.id("pswd")).sendKeys(password);
         driver.findElement(By.xpath("//form[@id='user']/div/div/div[4]/div/div/button")).click();
         driver.findElement(By.id("change-pwd")).click();
         driver.findElement(By.id("pswd")).clear();
-        driver.findElement(By.id("pswd")).sendKeys("Abc88888");
+        driver.findElement(By.id("pswd")).sendKeys(password);
         driver.findElement(By.xpath("//form[@id='user']/div/div/div[4]/div/div/button")).click();
 
         // When : 비밀번호 수정
         driver.findElement(By.id("pswd")).clear();
-        driver.findElement(By.id("pswd")).sendKeys("Abc88888");
+        driver.findElement(By.id("pswd")).sendKeys(password);
         driver.findElement(By.id("pswd2")).clear();
-        driver.findElement(By.id("pswd2")).sendKeys("Abc88888");
+        driver.findElement(By.id("pswd2")).sendKeys(password);
         driver.findElement(By.xpath("//form[@id='user']/div/div/div[5]/div/button")).click();
 
         // Then : 비밀번호 수정 성공 확인
