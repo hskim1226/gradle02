@@ -20,7 +20,7 @@
     </context-param>
     <context-param>
         <param-name>spring.profiles.default</param-name>
-        <param-value>test</param-value>
+        <param-value>new</param-value>
     </context-param>
 
     <filter>
