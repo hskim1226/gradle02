@@ -233,6 +233,9 @@ public class RecommendationServiceImpl implements RecommendationService {
         }
 
         fillEtcInfo(recommendation);
+
+        int r1 = saveRecommendation(recommendation);
+
         Mail mail = MailFactory.create(MailType.RECOMMENDATION_REQUEST);
         mail.setInfo(recommendation);
         mail.setInfoType(Recommendation.class);
@@ -245,8 +248,6 @@ public class RecommendationServiceImpl implements RecommendationService {
         recommendation.setMailContents(mail.getContents());
 
         boolean isUpdate = recSeq > 0 || recNo > 0;
-
-        int r1 = saveRecommendation(recommendation); // 요청 완료
 
         if (r1 == 1) {
             ec.setResult(ExecutionContext.SUCCESS);
