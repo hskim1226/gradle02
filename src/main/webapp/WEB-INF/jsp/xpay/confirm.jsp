@@ -202,7 +202,7 @@
                     &nbsp;&nbsp;계좌번호 : 178-910029-30904<br>
                     &nbsp;&nbsp;예금주명 : 에이펙스소프트<br><br></font>
                 <font color="red">입금 완료 후 아이디, 지원자명, 출금계좌 예금주명, 입금증빙(사진)을<br>
-                    입력하여 help@apexsoft.co.kr 로 보내주시기 바랍니다.<br>
+                    입력하여 payment@apexsoft.co.kr 로 보내주시기 바랍니다.<br>
                     (특히 자동화기기 송금, 해외 송금의 경우 입금증빙(사진) 필수)<br><br>
                     해외 송금은 입금되는 원화금액이 전형료와 일치하도록 수수료 발신자<br>
                     부담으로 하여 최종 지원처리에 문제가 없도록 해 주시기 바랍니다.</font>
@@ -226,7 +226,7 @@
                     &nbsp;&nbsp;&nbsp;&nbsp;-ACCOUNT NAME : APEXSOFT<br><br></font>
                 <font color="red">&nbsp;&nbsp;After that, You should send Email with User ID, Applicant Name,<br>
                     &nbsp;&nbsp;Withdrawal Account Holder Name and Transfer Receipt(photo).<br>
-                    &nbsp;&nbsp;Email : help@apexsoft.co.kr <br><br>
+                    &nbsp;&nbsp;Email : payment@apexsoft.co.kr <br><br>
                     &nbsp;&nbsp;For receiving amount corresponds with admission fee,<br>
                     &nbsp;&nbsp;the sender bear wire transfer expenses.</font>
 

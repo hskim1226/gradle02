@@ -22,11 +22,11 @@
     <result column="MOD_DATE" property="modDate" jdbcType="TIMESTAMP" />
   </resultMap>
 
-    <select id="getSeq" resultType="int" parameterType="int">
-        SELECT IFNULL(MAX(B.PAY_SEQ),0) AS SEQ
-        FROM APPL A LEFT OUTER JOIN APPL_PAY B ON A.APPL_NO = B.APPL_NO
-        AND A.APPL_NO = #{applNo,jdbcType=INTEGER}
-    </select>
+  <select id="getSeq" resultType="int" parameterType="int">
+    SELECT IFNULL(MAX(B.PAY_SEQ),0) AS SEQ
+    FROM APPL A LEFT OUTER JOIN APPL_PAY B ON A.APPL_NO = B.APPL_NO
+    AND A.APPL_NO = #{applNo,jdbcType=INTEGER}
+  </select>
 
   <update id="updateByPrimaryKeySelective" parameterType="com.apexsoft.ysprj.applicants.payment.domain.ApplicationPayment" >
     <!--
@@ -71,7 +71,7 @@
       </if>
     </set>
     where APPL_NO = #{applNo,jdbcType=INTEGER}
-      and PAY_SEQ = #{paySeq,jdbcType=INTEGER}
+    and PAY_SEQ = #{paySeq,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.apexsoft.ysprj.applicants.payment.domain.ApplicationPayment" >
     <!--
@@ -81,18 +81,18 @@
     -->
     update APPL_PAY
     set EXP_PAY_AMT = #{expPayAmt,jdbcType=INTEGER},
-      PAY_TYPE_CODE = #{payTypeCode,jdbcType=VARCHAR},
-      PAY_AMT = #{payAmt,jdbcType=INTEGER},
-      PAY_DATE = #{payDate,jdbcType=VARCHAR},
-      PAY_STS_CODE = #{payStsCode,jdbcType=VARCHAR},
-      LGD_OID = #{lgdOid,jdbcType=VARCHAR},
-      LGD_TID = #{lgdTid,jdbcType=VARCHAR},
-      CRE_ID = #{creId,jdbcType=VARCHAR},
-      CRE_DATE = #{creDate,jdbcType=TIMESTAMP},
-      MOD_ID = #{modId,jdbcType=VARCHAR},
-      MOD_DATE = #{modDate,jdbcType=TIMESTAMP}
+    PAY_TYPE_CODE = #{payTypeCode,jdbcType=VARCHAR},
+    PAY_AMT = #{payAmt,jdbcType=INTEGER},
+    PAY_DATE = #{payDate,jdbcType=VARCHAR},
+    PAY_STS_CODE = #{payStsCode,jdbcType=VARCHAR},
+    LGD_OID = #{lgdOid,jdbcType=VARCHAR},
+    LGD_TID = #{lgdTid,jdbcType=VARCHAR},
+    CRE_ID = #{creId,jdbcType=VARCHAR},
+    CRE_DATE = #{creDate,jdbcType=TIMESTAMP},
+    MOD_ID = #{modId,jdbcType=VARCHAR},
+    MOD_DATE = #{modDate,jdbcType=TIMESTAMP}
     where APPL_NO = #{applNo,jdbcType=INTEGER}
-      and PAY_SEQ = #{paySeq,jdbcType=INTEGER}
+    and PAY_SEQ = #{paySeq,jdbcType=INTEGER}
   </update>
 
   <select id="selectPayInfoByApplNo"
@@ -120,10 +120,13 @@
     <result column="LGD_FINANCENAME" property="LGD_FINANCENAME" jdbcType="VARCHAR" />
     <result column="LGD_ACCOUNTNUM" property="LGD_ACCOUNTNUM" jdbcType="VARCHAR" />
     <result column="ADMS_STS" property="admsSts" jdbcType="VARCHAR" />
+    <result column="KOR_NAME" property="korName" jdbcType="VARCHAR" />
+    <result column="ENG_NAME" property="engName" jdbcType="VARCHAR" />
+    <result column="ENG_SUR" property="engSur" jdbcType="VARCHAR" />
   </resultMap>
 
   <select id="selectConfirmInfo" resultMap="confirmInfoMap" parameterType="int" >
-    SELECT A.APPL_NO, A.APPL_STS_CODE, B.ADMS_FEE, C.LGD_FINANCENAME, C.LGD_ACCOUNTNUM, D.ADMS_STS
+    SELECT A.APPL_NO, A.APPL_STS_CODE, B.ADMS_FEE, C.LGD_FINANCENAME, C.LGD_ACCOUNTNUM, D.ADMS_STS, A.KOR_NAME, A.ENG_NAME, A.ENG_SUR
     FROM APPL A, APPL_PAY_CS B LEFT OUTER JOIN XPAY_PAY_RSLT C ON B.LGD_TID = C.LGD_TID, ADMS D
     WHERE A.APPL_NO = B.APPL_NO
     AND A.ADMS_NO = D.ADMS_NO

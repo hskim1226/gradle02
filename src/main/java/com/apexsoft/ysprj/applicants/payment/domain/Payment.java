@@ -13,6 +13,12 @@ public class Payment {
 
     private String admsSts;
 
+    private String korName;
+
+    private String engName;
+
+    private String engSur;
+
     private String LGD_MID;
 
     private String LGD_OID;
@@ -265,5 +271,29 @@ public class Payment {
 
     public void setAdmsSts(String admsSts) {
         this.admsSts = admsSts;
+    }
+
+    public String getKorName() {
+        return korName;
+    }
+
+    public void setKorName(String korName) {
+        this.korName = korName;
+    }
+
+    public String getEngName() {
+        return engName;
+    }
+
+    public void setEngName(String engName) {
+        this.engName = engName;
+    }
+
+    public String getEngSur() {
+        return engSur;
+    }
+
+    public void setEngSur(String engSur) {
+        this.engSur = engSur;
     }
 }

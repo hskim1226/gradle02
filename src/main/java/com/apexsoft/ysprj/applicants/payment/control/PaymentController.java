@@ -12,6 +12,7 @@ import com.apexsoft.ysprj.applicants.payment.domain.PaymentConfig;
 import com.apexsoft.ysprj.applicants.payment.service.PaymentService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
@@ -64,21 +65,26 @@ public class PaymentController {
      */
     @RequestMapping(value = "/confirm", method = RequestMethod.POST)
     public ModelAndView confirmPayment( HttpSession httpSession,
-                                  HttpServletRequest request,
-                                  Payment payment,
-                                  Basis model,
-                                  ModelAndView mv) throws NoSuchAlgorithmException {
+                                        HttpServletRequest request,
+                                        Payment payment,
+                                        Basis model,
+                                        ModelAndView mv) throws NoSuchAlgorithmException {
 
         webUtil.blockGetMethod(request, model.getApplication());
         SecurityContext sc = (SecurityContext)httpSession.getAttribute("SPRING_SECURITY_CONTEXT");
         Authentication auth = sc.getAuthentication();
         UserSessionVO userSessionVO = (UserSessionVO)auth.getPrincipal();
 
-        payment.setLGD_BUYER(userSessionVO.getName());
         payment.setLGD_BUYERID(userSessionVO.getUsername());
         payment.setApplNo(model.getApplication().getApplNo());
 
         paymentService.retrieveConfirmInfo(payment);
+        String korName = payment.getKorName();
+        boolean hasKorName = korName != null && !StringUtils.isEmpty(korName);
+        String name = payment.getEngName() + " " + payment.getEngSur() + " " + (hasKorName ? "(" + payment.getKorName() + ")" : "" );
+        payment.setLGD_BUYER( name.trim() );
+
+        //payment.setLGD_BUYER(payment.getKorName());
 
         String retPage;
         if( "00021".equals(payment.getApplStsCode()) ) {
