@@ -118,6 +118,7 @@
             <input type="hidden" name="docItemCode" value="${docItemCode}"/>
             <input type="hidden" name="docItemName" value="${docItemName}"/>
             <input type="hidden" name="docItemNameXxen" value="${docItemNameXxen}"/>
+            <input type="hidden" id="lang" name="lang" value="${lang}"/>
 
             <input type="hidden" id="recKey"/>
         </form:form>

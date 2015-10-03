@@ -5,6 +5,7 @@ import com.apexsoft.ysprj.applicants.application.domain.Recommendation;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**

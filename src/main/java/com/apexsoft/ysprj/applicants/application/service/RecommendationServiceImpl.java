@@ -8,6 +8,9 @@ import com.apexsoft.framework.mail.MailType;
 import com.apexsoft.framework.mail.SESMailService;
 import com.apexsoft.framework.message.MessageResolver;
 import com.apexsoft.framework.persistence.dao.CommonDAO;
+import com.apexsoft.framework.persistence.file.exception.EncryptedPDFException;
+import com.apexsoft.framework.persistence.file.exception.FileNoticeException;
+import com.apexsoft.framework.persistence.file.exception.PasswordedPDFException;
 import com.apexsoft.framework.persistence.file.manager.FilePersistenceManager;
 import com.apexsoft.framework.persistence.file.model.FileInfo;
 import com.apexsoft.ysprj.applicants.application.domain.*;
@@ -16,6 +19,8 @@ import com.apexsoft.ysprj.applicants.common.util.CryptoUtil;
 import com.apexsoft.ysprj.applicants.common.util.FileUtil;
 import com.apexsoft.ysprj.applicants.common.util.MailFactory;
 import com.apexsoft.ysprj.applicants.common.util.StringUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -23,10 +28,12 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.*;
+import java.util.zip.DataFormatException;
 
 /**
  * Created by hanmomhanda on 15. 1. 13.
@@ -66,6 +73,8 @@ public class RecommendationServiceImpl implements RecommendationService {
     private FilePersistenceManager s3PersistenceManager;
 
     private final String sampleRecKey = "f865d2b5becebbf95b65871442fcccb95695340e7a5967ab247baf34183f4027";
+
+    private static final Logger logger = LoggerFactory.getLogger(RecommendationServiceImpl.class);
 
     @Override
     public ExecutionContext retrieveRecommendation(int recNo) {
@@ -329,6 +338,7 @@ public class RecommendationServiceImpl implements RecommendationService {
         int applNo = Integer.parseInt(multipartHttpServletRequest.getParameter("applNo"));
         String userId = multipartHttpServletRequest.getParameter("userId");
         String admsNo = multipartHttpServletRequest.getParameter("admsNo");
+        Locale locale = new Locale(multipartHttpServletRequest.getParameter("lang"));
 
         // 파일 업로드
         String uploadDir = FileUtil.getUploadDirectory(admsNo, userId, applNo);
@@ -339,8 +349,41 @@ public class RecommendationServiceImpl implements RecommendationService {
         try {
             fileInfo = s3PersistenceManager.save(uploadDir, uploadFileName, originalFileName,
                     multipartFile.getInputStream());
+        } catch (EncryptedPDFException e) {
+            ec = new ExecutionContext(ExecutionContext.FAIL);
+            Map<String, String> errorInfo = new HashMap<String, String>();
+            errorInfo.put("applNo", String.valueOf(applNo));
+            errorInfo.put("originalFileName", originalFileName);
+            ec.setErrorInfo(new ErrorInfo(errorInfo));
+//            throw new EncryptedPDFException(ec, "U04514", "ERR0052");
+            ec.setMessage(MessageResolver.getMessage("U04514", locale));
+            ec.setErrCode("ERR0052");
+            throw new YSBizException(ec);
         } catch (IOException ioe) {
-            throw new YSBizException(ioe);
+            if (ioe.getCause().getCause() instanceof DataFormatException) {
+                ec = new ExecutionContext(ExecutionContext.FAIL);
+                Map<String, String> errorInfo = new HashMap<String, String>();
+                errorInfo.put("applNo", String.valueOf(applNo));
+                errorInfo.put("originalFileName", originalFileName);
+                ec.setErrorInfo(new ErrorInfo(errorInfo));
+//                throw new PasswordedPDFException(ec, "U04515", "ERR0052");
+                ec.setMessage(MessageResolver.getMessage("U04515", locale));
+                ec.setErrCode("ERR0052");
+                throw new YSBizException(ec);
+            } else {
+                logger.error("Upload PDF is NOT loaded to PDDocument, DocumentController.fileUpload()");
+                logger.error("applNo: " + applNo);
+                logger.error("orgFileName: " + originalFileName);
+                ec = new ExecutionContext(ExecutionContext.FAIL);
+                Map<String, String> errorInfo = new HashMap<String, String>();
+                errorInfo.put("applNo", String.valueOf(applNo));
+                errorInfo.put("originalFileName", originalFileName);
+                ec.setErrorInfo(new ErrorInfo(errorInfo));
+//                throw new FileNoticeException(ec, "U04518", "ERR0052");
+                ec.setMessage(MessageResolver.getMessage("U04518", locale));
+                ec.setErrCode("ERR0052");
+                throw new YSBizException(ec);
+            }
         }
 
         // APPL_REC 업데이트
