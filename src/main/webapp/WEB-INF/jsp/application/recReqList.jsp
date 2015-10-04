@@ -10,6 +10,7 @@
     </style>
 </head>
 <body>
+<div id="overlay" class="web_dialog_overlay"></div>
 <section class="normal-white">
     <div class="container">
         <form:form cssClass="form-horizontal" id="rec-req" commandName="recommendationList" method="post" role="form">
@@ -98,6 +99,7 @@
 
             $('.btn-resend').click(function(e){
                 e.preventDefault();
+                $("#overlay").show();
                 var form = document.getElementById('rec-req');
                 document.getElementById('recNo').value = e.target.getAttribute('data-recNo');
                 document.getElementById('recSeq').value = e.target.getAttribute('data-recSeq');
