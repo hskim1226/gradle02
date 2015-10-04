@@ -193,18 +193,22 @@
         <div class="popupbody" style="display:${pageContext.response.locale == 'en' ?'none':'visible'}">
             <h4><strong>
                 1. 결제 모듈은 인터넷 익스플로러 (9.0 이상) 32Bit 버전만 지원됩니다.<br>
-                &nbsp;&nbsp;&nbsp;&nbsp;64Bit 버전을 실행중이신 분은 ActiveX 설치에 문제가 발생합니다.<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;64Bit 버전을 실행중이신 분은 ActiveX 설치에 문제가 발생할 수 있습니다.<br>
                 2. 크롬, 사파리 등의 웹브라우저에서는 결제를 진행하실 수 없습니다.<br>
-                3. 국내 카드와 UnionPay가 지원됩니다.(해외 비자, 마스터 카드 불가)<br><br>
+                3. 국내 카드와 UnionPay가 지원됩니다.(해외 비자, 마스터 카드 불가)<br>
+                4. 결제 프로그램의 설치에 관한 문제는 유플러스 전자결제(1544-7772)로 문의하시기 바랍니다.<br><br>
                 <font color="red" size="3"> [[ 결제가 불가능한 경우 ]] <br></font>
-                시스템에서 결제가 불가능한 경우 아래 계좌로 입금 후 메일을 주시기 바랍니다.<br>
+                시스템에서 결제가 불가능한 경우 아래 계좌로 입금 해주시기 바랍니다.<br>
+                <span style="color: red;">입금 완료 후 반드시 다음의 내용을 payment@apexsoft.co.kr로 보내주시기 바랍니다.</span><br/>
+                - 아이디, 지원자명, 출금계좌 예금주명, 입금증빙(사진)<br>
+                (특히 자동화기기 송금, 해외 송금의 경우 입금증빙(사진) 필수)<br><br>
                 <font color="blue">&nbsp;&nbsp;입금은행 : 하나은행<br>
                     &nbsp;&nbsp;계좌번호 : 178-910029-30904<br>
                     &nbsp;&nbsp;예금주명 : 에이펙스소프트<br><br></font>
-                <font color="red">입금 완료 후 아이디, 지원자명, 출금계좌 예금주명, 입금증빙(사진)을<br>
-                    입력하여 payment@apexsoft.co.kr 로 보내주시기 바랍니다.<br>
-                    (특히 자동화기기 송금, 해외 송금의 경우 입금증빙(사진) 필수)<br><br>
-                    해외 송금은 입금되는 원화금액이 전형료와 일치하도록 수수료 발신자 부담으로 하여 최종 지원처리에 문제가 없도록 해 주시기 바랍니다.</font>
+                <span style="color: red;">해외에서 송금할 경우 GRADNET에 입금되는 원화금액이 전형료와 일치하도록, 송금 수수료를 발신자가 부담해야 합니다.</span><br/>
+                <span style="color: red;">GRADNET에 입금된 금액이 전형료와 맞지 않을 경우 지원 처리가 완료되지 않을 수 있으며,</span><br/>
+                <span style="color: red;">GRADNET은 이에 대해 어떠한 책임도 지지 않습니다.</span><br/>
+
             </strong></h4>
         </div>
         <div class="popupbody" style="display:${pageContext.response.locale == 'en' ?'visible':'none'}">
@@ -224,11 +228,10 @@
                     &nbsp;&nbsp;&nbsp;&nbsp;-BRANCH NAME : SEOGYODONG<br>
                     &nbsp;&nbsp;&nbsp;&nbsp;-ACCOUNT NO. : 178-910029-30904<br>
                     &nbsp;&nbsp;&nbsp;&nbsp;-ACCOUNT NAME : APEXSOFT<br><br></font>
-                    <span style="color: red;">The amount of transferred money should be the same as the Admission Fee plus charge for Wire Transfer.</span><br>
+                    <span style="color: red;">You should pay for the charge of wire transfer, so that the final transferred money to GRADNET matches the Admission Fee.</span><br>
                     <span style="color: red;">IF NOT, your application may NOT be processed.</span><br>
                     <span style="color: red;">GRADNET is NOT responsible for the unprocessed application due to the inconsistency of the amount of transferred money.</span><br>
-                    After the wire transfer, You should send an Email with the following information.<br/>
-                    &nbsp;&nbsp;Email : payment@apexsoft.co.kr <br>
+                    <span style="color: red;">After the wire transfer, You should send an Email to payment@apexsoft.co.kr with the following information.</span><br/>
                     &nbsp;&nbsp;- User ID, Applicant Name, Withdrawal Account Holder Name and Transfer Receipt(photo).<br>
 
 
