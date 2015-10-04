@@ -1348,7 +1348,7 @@
         <%-- 한글 이름 공백 제거 --%>
 
         <%-- 영문 이름 처리 시작 --%>
-        apex.engNameCheck('engName', '<spring:message code="APEXJS_0001"/>'); // 영 대소문자와 공백, [.], [-]만 가능합니다.
+        apex.engNameCheck('engName', '<spring:message code="APEXJS_0001"/>'); // 영 대소문자와 공백, [.], [-], ['] 만 가능합니다.
         <%-- 영문 이름 처리 끝 --%>
 
         <%-- 숫자만 입력 - 주민번호, 휴대폰, 전화번호 --%>
