@@ -112,6 +112,7 @@
                             <li><spring:message code="L00039"/> <span><spring:message code="L00040"/></span></li>  <%--통신판매업신고번호--%>  <%--서울마포-1109호--%>
                             <li><spring:message code="L00041"/> <span><spring:message code="L00042"/></span></li>  <%--개인정보관리책임자--%>  <%--김도훈--%>
                             <li><spring:message code="L00043"/> <span><spring:message code="L00044"/></span></li>  <%--개인정보보유기간--%>  <%--회원 탈퇴시까지--%>
+                            <li><spring:message code="L00045"/> <span><spring:message code="L00046"/></span></li>  <%--문의--%>  <%--help@apexsoft.co.kr--%>
                         </ul>
                     </div>
                     <div class="col-md-3">
