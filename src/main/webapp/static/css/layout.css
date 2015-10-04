@@ -223,11 +223,11 @@ body {
 	color:#5e5e5e;
 }
 
-.main_box1#toList {
+.main_box1#toAdmsList {
 	background:url(../img/btn_main1_off.png) no-repeat center 80px;
 }
 
-.main_box1#toList:hover {
+.main_box1#toAdmsList:hover {
 	background:url(../img/btn_main1.png) no-repeat center 80px;
 }
 
