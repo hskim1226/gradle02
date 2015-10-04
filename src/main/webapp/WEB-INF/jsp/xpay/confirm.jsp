@@ -204,31 +204,33 @@
                 <font color="red">입금 완료 후 아이디, 지원자명, 출금계좌 예금주명, 입금증빙(사진)을<br>
                     입력하여 payment@apexsoft.co.kr 로 보내주시기 바랍니다.<br>
                     (특히 자동화기기 송금, 해외 송금의 경우 입금증빙(사진) 필수)<br><br>
-                    해외 송금은 입금되는 원화금액이 전형료와 일치하도록 수수료 발신자<br>
-                    부담으로 하여 최종 지원처리에 문제가 없도록 해 주시기 바랍니다.</font>
+                    해외 송금은 입금되는 원화금액이 전형료와 일치하도록 수수료 발신자 부담으로 하여 최종 지원처리에 문제가 없도록 해 주시기 바랍니다.</font>
             </strong></h4>
         </div>
         <div class="popupbody" style="display:${pageContext.response.locale == 'en' ?'visible':'none'}">
             <h4><strong>
-                1. CANNOT pay with VISA, MASTER.<br>
-                &nbsp;&nbsp;&nbsp;&nbsp;UnionPay and Korean Local Card is supported.<br>
-                2. Internet Explorer (9.0 or above) 32Bit is supported only.<br>
+                1. Only UnionPay Card and Korean Local Card is supported.<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;Visa card, Master card, etc. are NOT supported.<br>
+                2. Only Internet Explorer (9.0 or above) 32Bit is supported.<br>
                 &nbsp;&nbsp;&nbsp;&nbsp;You may have problem with ActiveX Installation in 64Bit version.<br>
-                3. Browser except Internet Explorer (like Chrome, Safari, Firefox, ...)<br>
-                &nbsp;&nbsp;&nbsp;&nbsp;is NOT supported in payment.<br><br>
-                <font color="red" size="3"> [[ If payment is impossible in System ]] <br><br></font>
-                &nbsp;&nbsp;by Wire Transfer, Send admission fee to following bank account.<br>
+                3. Browsers except Internet Explorer (like Chrome, Safari, Firefox, ...)<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;are NOT supported for payment.<br><br>
+                <font color="red" size="3"> [[ If the payment is NOT possible in the System ]] <br><br></font>
+                &nbsp;&nbsp;Please use Wire Transfer instead.<br/>
+                &nbsp;&nbsp;Information for Wire Transfer is as follows.<br/>
                 <font color="blue">&nbsp;&nbsp;&nbsp;&nbsp;-BANK NAME : HANA BANK<br>
                     &nbsp;&nbsp;&nbsp;&nbsp;-BANK SWIFT :  HNBNKRSE XXX<br>
                     &nbsp;&nbsp;&nbsp;&nbsp;-BRANCH ADDR.: 97, Wausan-ro, Mapo-gu, Seoul, KOREA<br>
                     &nbsp;&nbsp;&nbsp;&nbsp;-BRANCH NAME : SEOGYODONG<br>
                     &nbsp;&nbsp;&nbsp;&nbsp;-ACCOUNT NO. : 178-910029-30904<br>
                     &nbsp;&nbsp;&nbsp;&nbsp;-ACCOUNT NAME : APEXSOFT<br><br></font>
-                <font color="red">&nbsp;&nbsp;After that, You should send Email with User ID, Applicant Name,<br>
-                    &nbsp;&nbsp;Withdrawal Account Holder Name and Transfer Receipt(photo).<br>
-                    &nbsp;&nbsp;Email : payment@apexsoft.co.kr <br><br>
-                    &nbsp;&nbsp;For receiving amount corresponds with admission fee,<br>
-                    &nbsp;&nbsp;the sender bear wire transfer expenses.</font>
+                    <span style="color: red;">The amount of transferred money should be the same as the Admission Fee plus charge for Wire Transfer.</span><br>
+                    <span style="color: red;">IF NOT, your application may NOT be processed.</span><br>
+                    <span style="color: red;">GRADNET is NOT responsible for the unprocessed application due to the inconsistency of the amount of transferred money.</span><br>
+                    After the wire transfer, You should send an Email with the following information.<br/>
+                    &nbsp;&nbsp;Email : payment@apexsoft.co.kr <br>
+                    &nbsp;&nbsp;- User ID, Applicant Name, Withdrawal Account Holder Name and Transfer Receipt(photo).<br>
+
 
             </strong></h4>
         </div>
