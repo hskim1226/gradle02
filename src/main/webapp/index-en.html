@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang='ko'>
+<head>
+    <!-- BASICS -->
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="description" content="연세대학교 대학원">
+    <title>Yonsei Graduate School Application System</title>
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://s3-ap-northeast-1.amazonaws.com/src.gradnet.apexsoft/static/css/bootstrap.min.css"/>
+
+    <!-- Font-awesome -->
+    <link rel="stylesheet" href="https://s3-ap-northeast-1.amazonaws.com/src.gradnet.apexsoft/static/css/font-awesome.css"/>
+
+    <!-- Overwrite Bootstrap -->
+
+    <!-- custom style -->
+    <link rel="stylesheet" href="https://s3-ap-northeast-1.amazonaws.com/src.gradnet.apexsoft/static/css/style.css"/>
+    <link rel="stylesheet" href="https://s3-ap-northeast-1.amazonaws.com/src.gradnet.apexsoft/static/css/layout.css"/>
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src='https://s3-ap-northeast-1.amazonaws.com/src.gradnet.apexsoft/static/js/html5shiv.min.js'></script>
+    <script src='https://s3-ap-northeast-1.amazonaws.com/src.gradnet.apexsoft/static/js/respond.min.js'></script>
+    <script src='https://s3-ap-northeast-1.amazonaws.com/src.gradnet.apexsoft/static/js/html5.js'></script>
+    <script src='https://s3-ap-northeast-1.amazonaws.com/src.gradnet.apexsoft/static/js/css3-mediaqueries.js'></script>
+    <![endif]-->
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://s3-ap-northeast-1.amazonaws.com/src.gradnet.apexsoft/static/js/jquery.min.js"></script>
+    <style>
+    .main_box1 {
+        cursor: pointer;
+    }
+    .expire-notice {
+        width: 800px;
+        left: 50%;
+        margin-left: -400px;
+        margin-top: 200px;
+        position: fixed;
+        text-align: center;
+        z-index: 999;
+    }
+    #notice-container {
+        background-color: rgba(240, 240, 240, 0.7);
+        filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr='#a7ffffff', endColorstr='#a7ffffff'); /* IE */
+        padding-top: 10%;
+        padding-bottom: 6%;
+        color: #3355cc;
+        font-weight: 900;
+        font-size: 2em;
+        line-height: 1.5em;
+    }
+    </style>
+</head>
+<body data-spy="scroll" data-target="#scrollTarget" data-offset="150" style="background:#fff;padding-top:0;">
+<!-- globalWrapper -->
+<div id="globalWrapper" class="localscroll">
+
+    <!-- expire-notice -->
+    <div class="expire-notice">
+        <div class="col-sm-12" id="notice-container">
+            <div class="col-sm-12">Application period is over.</div>
+            <div class="col-sm-12">Only submitted application can be accessed through 'My List'</div>
+        </div>
+    </div>
+
+    <!-- main content -->
+    <div id="paralaxSlice1" data-stellar-background-ratio="0.5">
+        <div class="maskParent">
+            <div class="paralaxMask"></div>
+            <!--div class="paralaxText container">텍스트
+            </div-->
+        </div>
+    </div>
+
+    <section class="slice">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="mtit1">Yonsei Graduate School Application System</h1>
+                    <h2 class="sub_tit1 fs100"><a href="#" class="pr15 lang" data-lang="ko">Korean</a><img src="https://s3-ap-northeast-1.amazonaws.com/src.gradnet.apexsoft/static/img/bu_vline.png" alt=""/><a href="#" class="pl15 lang" data-lang="en">English</a> </h2>
+                </div>
+                <article class="col-md-4">
+                    <section id="toAdmsList" class="main_box1">
+                        <h2 class="mtit1">Application</h2>
+                        <p class="txt1 word-keep-all">Fill out the application form.</p>
+                    </section>
+                </article>
+                <article class="col-md-4">
+                    <section id="toMyList" class="main_box1">
+                        <h2 class="mtit1">My List</h2>
+                        <p class="txt1 word-keep-all">See your application.</p>
+                    </section>
+                </article>
+                <article class="col-md-4">
+                    <section id="toSignUp" class="main_box1">
+                        <h2 class="mtit1">Sign Up</h2>
+                        <p class="txt1 word-keep-all">Sign up to use the service.</p>
+                    </section>
+                </article>
+            </div>
+        </div>
+        <form id="introForm">
+            <input type="hidden" id="lang" name="lang"/>
+        </form>
+    </section>
+    <!-- /main_content -->
+
+    <!-- footer -->
+    <footer>
+        <section id="mainFooter">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-9">
+
+                        <ul class="txt_list1">
+                            <li><span>(C)ApexSoft</span></li>
+                            <li>1121 LG Palace Bldg. 156 YangHwaRo, Mapo, Seoul</li>
+                            <li>CEO <span>Dohoon, Kim</span></li>
+                            <li>CRN <span>105-87-66045</span></li>
+                            <li>Tel <span>1899-1016</span></li>
+                        </ul>
+
+                        <ul class="txt_list1">
+                            <li>e-commerce rgst no. <span>SeoulMapo-1109</span></li>
+                            <li>Personal Info. Manager <span>Dohoon, Kim</span></li>
+                            <li>Personal Info retention Period <span>Until Membership Withdrawal</span></li>
+                            <li>Contact <span>help@apexsoft.co.kr</span></li>
+                        </ul>
+
+                    </div>
+                    <div class="col-md-3">
+                        <p class="ft_right"><a href="http://bootstraptaste.com/" target="_blank" title="새창이동"><img src="https://s3-ap-northeast-1.amazonaws.com/src.gradnet.apexsoft/static/img/footer_img1.png" alt="Designed by Bootstraptaste"></a></p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </footer>
+    <!-- /footer -->
+</div>
+<!-- /global wrapper -->
+
+<script src="https://s3-ap-northeast-1.amazonaws.com/src.gradnet.apexsoft/static/js/modernizr-2.6.2-respond-1.1.0.min.js"></script>
+<script src="https://s3-ap-northeast-1.amazonaws.com/src.gradnet.apexsoft/static/js/bootstrap.min.js"></script>
+<script src="https://s3-ap-northeast-1.amazonaws.com/src.gradnet.apexsoft/static/js/jquery.easing.min.js"></script>
+<script src="https://s3-ap-northeast-1.amazonaws.com/src.gradnet.apexsoft/static/js/jquery.nicescroll.min.js"></script>
+<script src="https://s3-ap-northeast-1.amazonaws.com/src.gradnet.apexsoft/static/js/fancybox/jquery.fancybox.pack.js"></script>
+<script src="https://s3-ap-northeast-1.amazonaws.com/src.gradnet.apexsoft/static/js/skrollr.min.js"></script>
+<script src="https://s3-ap-northeast-1.amazonaws.com/src.gradnet.apexsoft/static/js/jquery.scrollTo.min.js"></script>
+<script src="https://s3-ap-northeast-1.amazonaws.com/src.gradnet.apexsoft/static/js/jquery.localScroll.min.js"></script>
+<script src="https://s3-ap-northeast-1.amazonaws.com/src.gradnet.apexsoft/static/js/jquery.appear.min.js"></script>
+<script src="https://s3-ap-northeast-1.amazonaws.com/src.gradnet.apexsoft/static/js/jquery.stellar.min.js"></script>
+<script src="https://s3-ap-northeast-1.amazonaws.com/src.gradnet.apexsoft/static/js/jquery.word-break-keep-all.min.js"></script>
+<script src="https://s3-ap-northeast-1.amazonaws.com/src.gradnet.apexsoft/static/js/main.js"></script>
+<script>
+    (function browser_check() {
+        var agt = navigator.userAgent.toUpperCase();
+        if( agt == null || typeof(agt) == "UNDEFINED" ) {
+        } else {
+            if( agt.indexOf("MSIE 7.0") != -1 || agt.indexOf("MSIE 8.0") != -1 || agt.indexOf("TRIDENT/4.0") != -1 ) {
+
+                alert("Internet Exploer 8.0 or below is NOT supported.\\n\\nInternet Exploer 9.0 or above is required to use this site.");
+            }
+        }
+    })();
+
+    $('.lang').click( function() {
+//        var lang = this.getAttribute('data-lang'),
+//                form = document.getElementById('introForm'),
+//                hiddenLang = document.getElementById('lang');
+//        hiddenLang.value = lang;
+//        form.action = '/yonsei/index';
+//        form.method = 'post';
+//        form.submit();
+        var lang = this.getAttribute('data-lang'),
+            targetLang = lang === 'ko' ? '' : '-en';
+        document.location.href='/yonsei/index' + targetLang + '.html';
+
+
+    });
+
+    var form = document.getElementById('introForm'),
+        hiddenLang = document.getElementById('lang');
+    hiddenLang.value = 'en';
+
+    $('#toAdmsList').click(function(e){
+        e.preventDefault();
+        form.action = '/yonsei/application/admsList';
+        form.method = 'post';
+        form.submit();
+    });
+    $('#toMyList').click(function(e){
+        e.preventDefault();
+        form.action = '/yonsei/application/mylist';
+        form.method = 'post';
+        form.submit();
+    });
+    $('#toSignUp').click(function(e){
+        e.preventDefault();
+        form.action = '/yonsei/user/agreement';
+        form.method = 'post';
+        form.submit();
+    });
+
+    $('.word-keep-all').wordBreakKeepAll();
+</script>
+</body>
+</html>

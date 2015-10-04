@@ -72,7 +72,7 @@ public class UserAccountController {
 
 
 
-    @RequestMapping(value = "/agreement", method = RequestMethod.GET)
+    @RequestMapping(value = "/agreement")
     public String displaySignupAgreementForm(Model model, HttpServletResponse response) {
         Map<String, String> contentFiles = new HashMap<String, String>();
         contentFiles.put("terms-of-service", "/WEB-INF/terms-of-service.txt");

@@ -1,22 +1,30 @@
-package com.apexsoft.ysprj.unused;
+package com.apexsoft.ysprj.applicants.common.control;
 
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.i18n.SessionLocaleResolver;
+import org.springframework.web.util.WebUtils;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.Locale;
 
 /**
- * Created with IntelliJ IDEA.
- * User: zbum
- * Date: 2014. 7. 20.
- * Time: 오후 6:20
- * To change this template use File | Settings | File Templates.
+ * Created by hanmomhanda on 15. 3. 19.
  */
 //@Controller
 @Deprecated
 public class IndexController {
 
-//    @RequestMapping(value="/index", method= RequestMethod.GET)
-//    public String displayIndex( ) {
-//        return "main/index";
+// Locale 처리를 LocaleFilter에서 처리하게 변경했으므로 불필요
+//    @RequestMapping(value="/index", method= RequestMethod.POST)
+//    public String index(@RequestParam(value="lang") String lang, HttpServletRequest request, ModelAndView mv) {
+//        WebUtils.setSessionAttribute(request, SessionLocaleResolver.LOCALE_SESSION_ATTRIBUTE_NAME, new Locale(lang));
+//        return "forward:/index.jsp";
+//
 //    }
+
 }

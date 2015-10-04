@@ -110,7 +110,7 @@ public class PreApplicationController {
      *
      * @return
      */
-    @RequestMapping(value = "/admsList", method = RequestMethod.GET)
+    @RequestMapping(value = "/admsList")
     public ModelAndView showList() {
         ModelAndView mv = new ModelAndView("application/admsList");
 

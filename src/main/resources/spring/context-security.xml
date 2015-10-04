@@ -58,6 +58,8 @@
     <http auto-config="false" use-expressions="true" entry-point-ref="loginEntryPoint" access-denied-page="/user/login.do?auth=true" >
         <custom-filter position="FORM_LOGIN_FILTER" ref="customLoginFilter" />
         <intercept-url pattern="/index"  access="isAnonymous() or isAuthenticated()"/>
+        <intercept-url pattern="/index.html"  access="isAnonymous() or isAuthenticated()"/>
+        <intercept-url pattern="/index-en.html"  access="isAnonymous() or isAuthenticated()"/>
         <intercept-url pattern="/index.jsp"  access="isAnonymous() or isAuthenticated()"/>
         <intercept-url pattern="/index-locale.jsp"  access="isAnonymous() or isAuthenticated()"/>
         <intercept-url pattern="/user/login*"  access="isAnonymous() or isAuthenticated()"/>

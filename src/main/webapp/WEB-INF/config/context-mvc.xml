@@ -51,6 +51,16 @@
         <!--<bean class="com.apexsoft.framework.interceptor.DomainLocaleConvertInterceptor">-->
             <!--<property name="converter" ref="converter" />-->
         <!--</bean>-->
+
+        <!--Spring Security에 의해 로그인 화면으로 옮겨질 때 request param이 소실되므로 interceptor를 filter로 대체-->
+        <!--<mvc:interceptor>-->
+            <!--<mvc:mapping path="/application/admsList"/>-->
+            <!--<mvc:mapping path="/application/mylist"/>-->
+            <!--<mvc:mapping path="/user/agreement"/>-->
+            <!--<mvc:mapping path="/user/login"/>-->
+            <!--<bean class="com.apexsoft.framework.interceptor.LocaleInterceptor"/>-->
+        <!--</mvc:interceptor>-->
+
         <mvc:interceptor>
             <mvc:mapping path="/application/**"/>
             <mvc:mapping path="/pdf/**"/>
