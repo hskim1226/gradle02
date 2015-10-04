@@ -60,8 +60,8 @@
         <intercept-url pattern="/index"  access="isAnonymous() or isAuthenticated()"/>
         <intercept-url pattern="/index.html"  access="isAnonymous() or isAuthenticated()"/>
         <intercept-url pattern="/index-en.html"  access="isAnonymous() or isAuthenticated()"/>
-        <intercept-url pattern="/index.jsp"  access="isAnonymous() or isAuthenticated()"/>
-        <intercept-url pattern="/index-locale.jsp"  access="isAnonymous() or isAuthenticated()"/>
+        <!--<intercept-url pattern="/index.jsp"  access="isAnonymous() or isAuthenticated()"/>-->
+        <!--<intercept-url pattern="/index-locale.jsp"  access="isAnonymous() or isAuthenticated()"/>-->
         <intercept-url pattern="/user/login*"  access="isAnonymous() or isAuthenticated()"/>
         <intercept-url pattern="/user/agreement"  access="isAnonymous() or isAuthenticated()"/>
         <intercept-url pattern="/user/signup"  access="isAnonymous() or isAuthenticated()"/>
