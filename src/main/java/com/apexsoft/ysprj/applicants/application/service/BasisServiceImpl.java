@@ -332,7 +332,11 @@ public class BasisServiceImpl implements BasisService {
 
         if ( r1 == 1 && (r2 + r3 == 1) ) {
             ec.setResult(ExecutionContext.SUCCESS);
-            ec.setMessage(MessageResolver.getMessage("U315"));
+            if ("C".equals(admsTypeCode) || "D".equals(admsTypeCode)) {
+                ec.setMessage(MessageResolver.getMessage("U315") + "\\n\\n" + MessageResolver.getMessage("U01701"));
+            } else {
+                ec.setMessage(MessageResolver.getMessage("U315"));
+            }
         } else {
             ec.setResult(ExecutionContext.FAIL);
             ec.setMessage(MessageResolver.getMessage("U316"));
