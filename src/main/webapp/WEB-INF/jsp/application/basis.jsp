@@ -445,10 +445,10 @@
                                         <div class="col-sm-9">
                                             <div class="col-sm-6">
                                                 <div class="input-group">
-                                                    <span class="input-group-addon">&nbsp;<spring:message code="L01204"/><%--성--%>&nbsp;</span>
-                                                    <form:input path="application.engSur" cssClass="form-control engName" maxlength="20" />
+                                                    <span class="input-group-addon"><spring:message code="L01205"/><%--이름--%></span>
+                                                    <form:input path="application.engName" cssClass="form-control engName" maxlength="20" />
                                                 </div>
-                                                <spring:bind path="application.engSur">
+                                                <spring:bind path="application.engName">
                                                     <c:if test="${status.error}">
                                                         <div>
                                                             <div class="validation-error">${status.errorMessage}</div>
@@ -458,10 +458,10 @@
                                             </div>
                                             <div class="col-sm-6">
                                                 <div class="input-group">
-                                                    <span class="input-group-addon"><spring:message code="L01205"/><%--이름--%></span>
-                                                    <form:input path="application.engName" cssClass="form-control engName" maxlength="20" />
+                                                    <span class="input-group-addon">&nbsp;<spring:message code="L01204"/><%--성--%>&nbsp;</span>
+                                                    <form:input path="application.engSur" cssClass="form-control engName" maxlength="20" />
                                                 </div>
-                                                <spring:bind path="application.engName">
+                                                <spring:bind path="application.engSur">
                                                     <c:if test="${status.error}">
                                                         <div>
                                                             <div class="validation-error">${status.errorMessage}</div>
