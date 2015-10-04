@@ -114,6 +114,7 @@
                             <li><spring:message code="L00043"/> <span><spring:message code="L00044"/></span></li>  <%--개인정보보유기간--%>  <%--회원 탈퇴시까지--%>
                             <li><spring:message code="L00045"/> <span><spring:message code="L00046"/></span></li>  <%--문의--%>  <%--help@apexsoft.co.kr--%>
                         </ul>
+
                     </div>
                     <div class="col-md-3">
                         <p class="ft_right"><a href="http://bootstraptaste.com/" target="_blank" title="새창이동"><img src="<spring:eval expression="@app.getProperty('path.static')" />/img/footer_img1.png" alt="Designed by Bootstraptaste"></a></p>
