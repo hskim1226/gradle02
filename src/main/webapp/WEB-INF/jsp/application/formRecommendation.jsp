@@ -103,6 +103,7 @@
                             <div class="col-sm-12 text-gray">
                                 <button id="btnComplete" class="btn btn-lg btn-primary btn-upload btn-group-justified"><spring:message code="L06733"/><%--추천서 등록 완료--%></button>
                             </div>
+                            <div id='waitMsg' class="col-sm-12" style="font-size: 24px; color: #55aaff; text-align: center; display: none;"><spring:message code="U06904"/></div>  <%--File is being generated. Over 1 min--%>
                         </div>
                     </div>
                 </div>
@@ -304,6 +305,7 @@ $(document).ready(function() {
                 form.method = "post";
                 console.dir(document.getElementById('fileRec'));
                 if (confirm('<spring:message code="U06738"/>')) { // 추천서를 등록하시겠습니까?\\n\\n"확인"을 누르시면 추천서가 등록되며 다시 수정할 수 없습니다.
+                    document.getElementById('waitMsg').style.display = 'block';
                     form.submit();
                 } else {
                     $("#overlay").hide();

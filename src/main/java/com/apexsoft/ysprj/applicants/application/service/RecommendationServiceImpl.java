@@ -15,6 +15,8 @@ import com.apexsoft.framework.persistence.file.manager.FilePersistenceManager;
 import com.apexsoft.framework.persistence.file.model.FileInfo;
 import com.apexsoft.ysprj.applicants.application.domain.*;
 import com.apexsoft.ysprj.applicants.common.domain.MailContentsParamKey;
+import com.apexsoft.ysprj.applicants.common.service.BirtService;
+import com.apexsoft.ysprj.applicants.common.service.PDFService;
 import com.apexsoft.ysprj.applicants.common.util.CryptoUtil;
 import com.apexsoft.ysprj.applicants.common.util.FileUtil;
 import com.apexsoft.ysprj.applicants.common.util.MailFactory;
@@ -49,6 +51,12 @@ public class RecommendationServiceImpl implements RecommendationService {
 
     @Autowired
     private SESMailService sesMailService;
+
+    @Autowired
+    private BirtService birtService;
+
+    @Autowired
+    private PDFService pdfService;
 
     @Autowired
     private ServletContext context;
@@ -461,17 +469,23 @@ public class RecommendationServiceImpl implements RecommendationService {
                 throw new YSBizException(ec);
             }
 
+            Application application =
+                    commonDAO.queryForObject(NAME_SPACE + "CustomRecommendationMapper.selectApplicantMailByRecNo",
+                            recNo, Application.class);
+
+
+            // 첨부 파일 저장 후이면 어차피 원서 미리보기 생성을 다시 해야 이메일 추천서 함침 여부를 알 수 있으므로 여기서 합쳐줄 필요 없음
+            // 작성 완료 단계이면 원서 수정모드로 갈 수 없으므로 이메일 추천서 합침 여부 확인은 결제 이후에나 가능. 여기서 합쳐줄 필요 없음
+            // 입금 대기의 경우도 작성 완료와 같으므로 여기서 합쳐줄 필요 없음
+            // 결국 이미 결제가 완료된 상태에서만 추천서 등록 시마다 다시 합쳐주면 됨.
+            if ("00020".equals(application.getApplStsCode())) {
+                genAndUploadApplicationFormAndSlipFile(application);
+            }
+
             // 메일 발송
             Mail mail = MailFactory.create(MailType.RECOMMENDATION_COMPLETED);
             mail.setInfo(result);
             mail.setInfoType(Recommendation.class);
-
-            Application application =
-                    commonDAO.queryForObject(NAME_SPACE + "CustomRecommendationMapper.selectApplicantMailByRecNo",
-                            recNo, Application.class);
-//            String applicantName = StringUtil.getEmptyIfNull(application.getKorName()).length() > 0 ?
-//                    application.getKorName() :
-//                    application.getEngName();
             String applicantKorName = application.getKorName();
             boolean hasKorName = applicantKorName != null && !StringUtils.isEmpty(applicantKorName);
             String applicantName = application.getEngName() + " " + (hasKorName ? "(" + application.getKorName() + ")" : "");                    ;
@@ -505,6 +519,34 @@ public class RecommendationServiceImpl implements RecommendationService {
             ec.setErrorInfo(new ErrorInfo(errorInfo));
 
             throw new YSBizException(ec);
+        }
+
+        return ec;
+    }
+
+    private ExecutionContext genAndUploadApplicationFormAndSlipFile(Application application) {
+        ExecutionContext ec = new ExecutionContext();
+
+        String admsTypeCode = application.getAdmsTypeCode();
+        String lang = "C".equals(admsTypeCode) || "D".equals(admsTypeCode) ? "en" : "kr";
+        String reportName = "yonsei-appl-" + lang;
+        ExecutionContext ecGenAppl = birtService.generateBirtFile(application.getApplNo(), reportName);
+        reportName = "yonsei-adms-" + lang;
+        ExecutionContext ecGenAdms = birtService.generateBirtFile(application.getApplNo(), reportName);
+        ExecutionContext ecPdfMerge = pdfService.genAndUploadPDFByApplicants(application);
+        if ( ExecutionContext.FAIL.equals(ecGenAppl.getResult()) ||
+                ExecutionContext.FAIL.equals(ecGenAdms.getResult()) ||
+                ExecutionContext.FAIL.equals(ecPdfMerge.getResult()) ) {
+            ExecutionContext ecError = new ExecutionContext(ExecutionContext.FAIL);
+
+            ecError.setMessage(MessageResolver.getMessage("U06903"));
+            ecError.setErrCode("ERR0073");
+
+            Map<String, String> errorInfo = new HashMap<String, String>();
+            errorInfo.put("applNo", String.valueOf(application.getApplNo()));
+
+            ecError.setErrorInfo(new ErrorInfo(errorInfo));
+            throw new YSBizException(ecError);
         }
 
         return ec;

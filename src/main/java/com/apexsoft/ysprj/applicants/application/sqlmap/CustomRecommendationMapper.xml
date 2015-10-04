@@ -294,7 +294,8 @@
 
     <select id="selectApplicantMailByRecNo" resultType="com.apexsoft.ysprj.applicants.application.domain.Application"
             parameterType="com.apexsoft.ysprj.applicants.application.domain.Recommendation">
-        select a.KOR_NAME, a.CHN_NAME, concat(a.ENG_NAME, ' ', a.ENG_SUR) as ENG_NAME, a.MAIL_ADDR
+        select a.KOR_NAME, a.CHN_NAME, concat(a.ENG_NAME, ' ', a.ENG_SUR) as ENG_NAME, a.MAIL_ADDR,
+               a.APPL_STS_CODE, a.ADMS_TYPE_CODE, a.APPL_NO, a.ADMS_NO, a.USER_ID
         from APPL a, APPL_REC b
         where b.REC_NO = #{recNo,jdbcType=INTEGER}
         and a.APPL_NO = b.APPL_NO
