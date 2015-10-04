@@ -366,12 +366,26 @@ public class SysAdminController {
         return mv;
     }
 
+    /**
+     * 수동 결제 화면
+     *
+     * @param principal
+     * @param mv
+     * @return
+     */
     @RequestMapping(value="/form-pay-manual")
     public ModelAndView paymanual( Principal principal, ModelAndView mv ) {
         mv.setViewName("sysadmin/formPayManual");
         return mv;
     }
 
+    /**
+     * 수동 결제 처리
+     *
+     * @param applPayTr
+     * @param mv
+     * @return
+     */
     @RequestMapping(value="/pay-manual")
     public ModelAndView exepaymanually( ApplicationPaymentTransaction applPayTr, ModelAndView mv ) {
         mv.setViewName("sysadmin/rsltPayManual");
@@ -393,20 +407,20 @@ public class SysAdminController {
         // 필요한 데이터 처리 (상태, 수험번호, 결제정보)
         paymentService.registerManualPay(applPayTr);
 
-        // 수험표, 지원서 생성 및 Merge
-        // 타 대학원 확장 시 TODO - 학교 이름을 파라미터로 받도록
-        String admsTypeCode = application.getAdmsTypeCode();
-        String lang = "C".equals(admsTypeCode) || "D".equals(admsTypeCode) ? "en" : "kr";
-        String reportName = "yonsei-appl-" + lang;
-        ExecutionContext ecGenAppl = birtService.generateBirtFile(application.getApplNo(), reportName);
-        reportName = "yonsei-adms-" + lang;
-        ExecutionContext ecGenAdms = birtService.generateBirtFile(application.getApplNo(), reportName);
-        ExecutionContext ecPdfMerge = pdfService.genAndUploadPDFByApplicants(application);
-        if ( ExecutionContext.FAIL.equals(ecGenAppl.getResult()) ||
-                ExecutionContext.FAIL.equals(ecGenAdms.getResult()) ||
-                ExecutionContext.FAIL.equals(ecPdfMerge.getResult()) ) {
-            throw new YSBizException();
-        }
+//        // 수험표, 지원서 생성 및 Merge
+//        // 타 대학원 확장 시 TODO - 학교 이름을 파라미터로 받도록
+//        String admsTypeCode = application.getAdmsTypeCode();
+//        String lang = "C".equals(admsTypeCode) || "D".equals(admsTypeCode) ? "en" : "kr";
+//        String reportName = "yonsei-appl-" + lang;
+//        ExecutionContext ecGenAppl = birtService.generateBirtFile(application.getApplNo(), reportName);
+//        reportName = "yonsei-adms-" + lang;
+//        ExecutionContext ecGenAdms = birtService.generateBirtFile(application.getApplNo(), reportName);
+//        ExecutionContext ecPdfMerge = pdfService.genAndUploadPDFByApplicants(application);
+//        if ( ExecutionContext.FAIL.equals(ecGenAppl.getResult()) ||
+//                ExecutionContext.FAIL.equals(ecGenAdms.getResult()) ||
+//                ExecutionContext.FAIL.equals(ecPdfMerge.getResult()) ) {
+//            throw new YSBizException();
+//        }
 
         return mv;
     }
