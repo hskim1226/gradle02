@@ -1273,6 +1273,8 @@
         $('.btn-upload').on('click', function (e) {
             e.preventDefault();
             $("#overlay").show();
+            // 원서 미리보기 생성 비활성화
+            document.getElementById('generateApplication').setAttribute('disabled', 'disabled');
             var actionUrl = "${contextPath}/application/document/fileUpload",
                     docItemName = document.getElementById(this.getAttribute('data-doc-prop-docItemName')),
                     fileInputId = this.getAttribute('data-file-input-id'),
@@ -1430,6 +1432,9 @@
         <%-- 파일 삭제 링크 이벤트 --%>
         $('.file-delete').on('click', function (e) {
             e.preventDefault();
+            $("#overlay").show();
+            // 원서 미리보기 생성 비활성화
+            document.getElementById('generateApplication').setAttribute('disabled', 'disabled');
             var targetCheckBox = document.getElementById(this.getAttribute('data-checkbox-id')),
                 targetDocItemName = document.getElementById(this.getAttribute('data-docitemname-id')),
                 targetUploadButton = document.getElementById(this.getAttribute('data-upload-button-id')),
@@ -1454,11 +1459,14 @@
                         } else {
                             alert('<spring:message code="U04507"/>');//파일 삭제에 실패했습니다.
                         }
+                        $('#overlay').hide();
                     },
                     error: function (data, status, e) {
                         alert('<spring:message code="U04507"/>');//파일 삭제에 실패했습니다.
                     }
                 });
+            } else {
+                $('#overlay').hide();
             }
         });
         <%-- 파일 삭제 링크 이벤트 --%>
