@@ -909,7 +909,14 @@ public class DocumentServiceImpl implements DocumentService {
                     pCont.setFilePath(aDoc.getFilePath());
                     pCont.setFileName(aDoc.getFileName());
                     pCont.setOrgFileName(aDoc.getOrgFileName());
-                    pCont.setPageCnt(aDoc.getPageCnt());
+                    if ("00007".equals(aDoc.getDocTypeCode()) && "00050".equals(aDoc.getDocItemCode())) {
+                        if (pCont.getPageCnt() == null)
+                            pCont.setPageCnt(aDoc.getPageCnt());
+                        else
+                            pCont.setPageCnt(pCont.getPageCnt() + aDoc.getPageCnt());
+                    } else {
+                        pCont.setPageCnt(aDoc.getPageCnt());
+                    }
                     pCont.setDocItemNameXxen(aDoc.getDocItemNameXxen());
                     pCont.setDocGrpName(aDoc.getDocGrpName());
                     pCont.setFileUploadFg(true);
@@ -924,6 +931,103 @@ public class DocumentServiceImpl implements DocumentService {
 
         return rContList;
     }
+
+//    private  List<TotalApplicationDocumentContainer> getSubCodeDocumentContainer( TotalApplicationDocumentContainer pCont,List<TotalApplicationDocumentContainer> pList){
+//        List<TotalApplicationDocumentContainer> rContList = null;
+//
+//        if (!"Y".equals( pCont.getLastYn())) {
+//            pCont.setGrpLabel( pCont.getDocItemName());
+//            pCont.setGrpLabelXxen( pCont.getDocItemNameXxen());
+//            pList.add(pCont);
+//            if( pCont.getMsgNo()!= null && pCont.getMsgNo()!= "" ) {
+//                pCont.setMsg(MessageResolver.getMessage(pCont.getMsgNo()));
+//            }
+//            rContList = commonDAO.queryForList(NAME_SPACE + "CustomApplicationDocumentMapper.selectTotalCodeApplicationDocumentList", pCont, TotalApplicationDocumentContainer.class);
+//            if (rContList != null) {
+//                for (TotalApplicationDocumentContainer aCont : rContList) {
+//                    aCont.setDocGrp(pCont.getDocGrp());
+//                    aCont.setApplNo(pCont.getApplNo());
+//                    aCont.setSubContainer(getSubCodeDocumentContainer(aCont,pList));
+//                }
+//            }
+//
+//        }else{
+//            //pCont에는  APPL_DOC 정보가 없이 필요한 문서정보와 저장 seq 만 있음
+//            //APPL_DOC에서 해당 문서가 저장되었는지 조회해야함
+//
+//            //문서Cnt가 2 이상이면 여러번 조회될 수 있도록 함
+//            if( 1 < pCont.getSendCnt() ) {
+//
+//                List<ApplicationDocument> aDocList;
+//
+//                aDocList = commonDAO.queryForList(NAME_SPACE + "CustomApplicationDocumentMapper.selectCodeApplicationDocumentByTotalDocument", pCont, ApplicationDocument.class);
+//                for (ApplicationDocument aDoc : aDocList) {
+//                    TotalApplicationDocumentContainer aCont = new TotalApplicationDocumentContainer();
+//
+//                    //기본 문서정보 셋팅
+//                    aCont.setGrpLabel(pCont.getGrpLabel());
+//                    aCont.setAdmsCodeGrp(pCont.getAdmsCodeGrp());
+//                    aCont.setAdmsCode(pCont.getAdmsCode());
+//                    aCont.setDocItemGrp(pCont.getDocItemGrp());
+//                    aCont.setDocTypeCode(pCont.getDocTypeCode());
+//                    aCont.setDocItemCode(pCont.getDocItemCode());
+//                    aCont.setDocItemName(pCont.getDocItemName());
+//                    aCont.setDocItemNameXxen(pCont.getDocItemNameXxen());
+//                    aCont.setUpCodeGrp(pCont.getUpCodeGrp());
+//                    aCont.setUpCode(pCont.getUpCode());
+//                    aCont.setSelCodeGrp(pCont.getSelCodeGrp());
+//                    aCont.setLastYn(pCont.getLastYn());
+//                    aCont.setMdtYn(pCont.getMdtYn());
+//                    aCont.setUploadYn(pCont.getUploadYn());
+//                    aCont.setSendCnt(pCont.getSendCnt());
+//                    aCont.setOrgnSendYn(pCont.getOrgnSendYn());
+//                    aCont.setChkCnd(pCont.getChkCnd());
+//                    aCont.setTmpltYn(pCont.getTmpltYn());
+//                    aCont.setMsgNo(pCont.getMsgNo());
+//
+//                    //파일별 업로드 정보 셋팅
+//                    aCont.setDocSeq(aDoc.getDocSeq());
+//                    aCont.setDocName(aDoc.getDocName());
+//                    aCont.setFileExt(aDoc.getFileExt());
+//                    aCont.setImgYn(aDoc.getImgYn());
+//                    aCont.setFilePath(aDoc.getFilePath());
+//                    aCont.setFileName(aDoc.getFileName());
+//                    aCont.setOrgFileName(aDoc.getOrgFileName());
+//                    aCont.setPageCnt(aDoc.getPageCnt());
+//                    aCont.setDocItemNameXxen(aDoc.getDocItemNameXxen());
+//                    aCont.setDocGrpName(aDoc.getDocGrpName());
+//                    aCont.setFileUploadFg(true);
+//
+//                    pList.add(aCont);
+//                }
+//            }
+//            //문서제출건이 1건 이하일때
+//            else {
+//                ApplicationDocument aDoc;
+//                aDoc = commonDAO.queryForObject(NAME_SPACE + "CustomApplicationDocumentMapper.selectCodeApplicationDocumentByTotalDocumentContainner", pCont, ApplicationDocument.class);
+//                if (aDoc != null) {
+//                    pCont.setDocSeq(aDoc.getDocSeq());
+//                    pCont.setDocName(aDoc.getDocName());
+//                    pCont.setFileExt(aDoc.getFileExt());
+//                    pCont.setImgYn(aDoc.getImgYn());
+//                    pCont.setFilePath(aDoc.getFilePath());
+//                    pCont.setFileName(aDoc.getFileName());
+//                    pCont.setOrgFileName(aDoc.getOrgFileName());
+//                    pCont.setPageCnt(aDoc.getPageCnt());
+//                    pCont.setDocItemNameXxen(aDoc.getDocItemNameXxen());
+//                    pCont.setDocGrpName(aDoc.getDocGrpName());
+//                    pCont.setFileUploadFg(true);
+//                    System.out.println("");
+//                }
+//                if (pCont.getMsgNo() != null && !"".equals(pCont.getMsgNo())) {
+//                    pCont.setMsg(MessageResolver.getMessage(pCont.getMsgNo()));
+//                }
+//                pList.add(pCont);
+//            }
+//        }
+//
+//        return rContList;
+//    }
 
     @Override
     public String retrievePhotoUri(int applNo) {
