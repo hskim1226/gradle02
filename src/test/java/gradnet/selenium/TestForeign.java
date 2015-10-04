@@ -219,7 +219,7 @@ public class TestForeign {
 //
 //        js.executeScript("scrollByLines(5)");
 //        driver.findElement(By.id("saveAcademy")).click();
-//        assertEquals("Academy background information is saved successfully.", closeAlertAndGetItsText());
+//        assertEquals("Educational background information is saved successfully.", closeAlertAndGetItsText());
 //    }
 //
 //    @Test
