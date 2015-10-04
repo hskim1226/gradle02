@@ -59,7 +59,7 @@
                         <li><a id="nav-myList" href="${contextPath}/application/mylist"><i class="fa fa-list"></i><spring:message code="L00005"/><%--내 원서--%></a> </li>
                         <li><a id="nav-userInfo" href="${contextPath}/user/info"><i class="fa fa-info-circle"></i><spring:message code="L00010"/><%--내 정보--%></a> </li>
                         <sec:authorize access="!isAuthenticated()">
-                        <li><a id="nav-signUp" href="${contextPath}/user/agreement"><i class="fa fa-user-plus"></i><spring:message code="L00083"/><%--회원가입--%></a> </li>
+                        <li><a id="nav-signUp" href="${contextPath}/user/agreement"><i class="fa fa-user"></i><spring:message code="L00083"/><%--회원가입--%></a> </li>
                         </sec:authorize>
                         <sec:authorize access="!isAuthenticated()">
                         <li><a id="nav-logIn" href="${contextPath}/user/login"><i class="fa fa-sign-in"></i><spring:message code="L00081"/><%--로그인--%></a> </li>
