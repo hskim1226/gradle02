@@ -1061,11 +1061,20 @@
             </div>
             <div class="spacer-tiny"></div>
             <div class="panel-body tab-content">
+                <span style="color: blue; font-size: 20px; font-weight: 900;"><spring:message code="U04522"/><%--첨부 파일 저장 버튼을 눌러서 저장한 후에만 원서 제출 버튼이 활성화 됩니다.--%></span><br/>
                 <span style="color: blue; font-size: 20px; font-weight: 900;"><spring:message code="U04511"/><%--원서 제출 후에는 지원 정보를 수정할 수 없습니다. 입력한 정보가 정확한 지 확인 후에 원서 제출을 진행해 주세요.--%></span>
             </div>
             <div class="btn-group btn-group-justified">
                 <div class="btn-group">
-                    <button id="submitApplication" type="button" class="btn btn-success btn-lg btn-save" data-saveType="submit" <c:if test="${document.application.applStsCode != '00004'}">disabled</c:if> ><spring:message code="L04204"/><%--원서 제출--%></button>
+                    <button id="submitApplication" type="button" class="btn btn-success btn-lg btn-save" data-saveType="submit" ${document.application.applStsCode != '00004' || resultMsg != msg.getMsg('U325') ? 'disabled="disabled"' : ''}><spring:message code="L04204"/><%--원서 제출--%></button>
+                </div>
+            </div>
+            <div id="spinner2" class="btn-group btn-group-justified" style="display: none;">
+                <div class="btn-group">
+                    <div class="col-sm-12">
+                        <div class="loader"></div>
+                    </div>
+                    <div class="col-sm-12" style="font-size: 24px; color: #55aaff; text-align: center;"><spring:message code="U04512"/></div>  <%--Loading...--%>
                 </div>
             </div>
         </div> <%--myTabContent--%>
@@ -1208,6 +1217,7 @@
                 form.submit();
             } else if (saveType == 'submit') {
                 $('#overlay').show();
+                document.getElementById('spinner2').style.display = 'block';
                 if (confirm('<spring:message code="U04509"/>')) {//원서 제출 후에는 원서 내용을 수정할 수 없습니다.\n\n계속하시겠습니까?
                     form.action = "${contextPath}/application/document/submit";
                     form.target = "_self";
@@ -1235,6 +1245,8 @@
             $("#overlay").show();
             // 원서 미리보기 생성 비활성화
             document.getElementById('generateApplication').setAttribute('disabled', 'disabled');
+            // 원서 제출 비활성화
+            document.getElementById('submitApplication').setAttribute('disabled', 'disabled');
             var actionUrl = "${contextPath}/application/document/fileUpload",
                     docItemName = document.getElementById(this.getAttribute('data-doc-prop-docItemName')),
                     fileInputId = this.getAttribute('data-file-input-id'),
@@ -1395,6 +1407,8 @@
             $("#overlay").show();
             // 원서 미리보기 생성 비활성화
             document.getElementById('generateApplication').setAttribute('disabled', 'disabled');
+            // 원서 제출 비활성화
+            document.getElementById('submitApplication').setAttribute('disabled', 'disabled');
             var targetCheckBox = document.getElementById(this.getAttribute('data-checkbox-id')),
                 targetDocItemName = document.getElementById(this.getAttribute('data-docitemname-id')),
                 targetUploadButton = document.getElementById(this.getAttribute('data-upload-button-id')),
