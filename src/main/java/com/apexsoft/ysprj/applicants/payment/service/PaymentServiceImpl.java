@@ -375,11 +375,11 @@ public class PaymentServiceImpl implements PaymentService {
         documentService.saveApplicationPaperInfo(application);
         documentService.saveAdmissionSlipPaperInfo(application);
 
-        // 입학 신청 완료 메일 발송
-        sendMail(application);
-
         // 원서 수험표, 생성, S3 업로드
         genAndUploadApplicationFormAndSlipFile(application);
+
+        // 입학 신청 완료 메일 발송
+        sendMail(application);
 
         return applPay.getApplNo();
 
