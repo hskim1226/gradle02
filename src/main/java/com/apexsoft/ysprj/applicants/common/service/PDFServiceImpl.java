@@ -84,7 +84,8 @@ public class PDFServiceImpl implements PDFService {
                                                          List<ApplicationDocument> encryptedPdfList) {
         List<ByteArrayOutputStream> unencryptedPdfBaosList = new ArrayList<ByteArrayOutputStream>();
         ExecutionContext ec = new ExecutionContext();
-
+//        PDFMergerUtility mergerUtility = new PDFMergerUtility();
+//        mergerUtility.addSource(new File(""));
 
         for (ApplicationDocument aDoc : pdfList) {
             String filePath = FileUtil.recoverAmpersand(aDoc.getFilePath());
@@ -137,13 +138,13 @@ public class PDFServiceImpl implements PDFService {
                         encryptedPdfList.add(aDoc);
 //                        throw new YSBizNoticeException(ec);
                     } else { // 암호화 안되었더라도 합치는 데 문제 생기는 파일 찾기
-                        PDFMergerUtility mergerUtility = new PDFMergerUtility();
-                        try {
-                            mergerUtility.addSource(new ByteArrayInputStream(baos.toByteArray()));
-                            mergerUtility.mergeDocuments();
-                        } catch (Exception e) {
-                            System.out.println("CAN NOT BE MERGED : " + fileName);
-                        }
+
+//                        try {
+//                            mergerUtility.addSource(new ByteArrayInputStream(baos.toByteArray()));
+//                            mergerUtility.mergeDocuments();
+//                        } catch (Exception e) {
+//                            System.out.println("CAN NOT BE MERGED : " + fileName);
+//                        }
 
                     }
                 } catch ( IOException e ) {

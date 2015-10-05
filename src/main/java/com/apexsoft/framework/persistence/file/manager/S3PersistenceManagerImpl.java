@@ -114,6 +114,10 @@ public class S3PersistenceManagerImpl implements FilePersistenceManager {
 
                     if (pdfFile.isEncrypted()) {
                         throw new EncryptedPDFException(orgFileName);
+//                    } else if (pdfFile.getCurrentAccessPermission().isReadOnly()) {
+//                        System.out.println("READONLY");
+//                    } else if (pdfFile.getCurrentAccessPermission().isReadOnly()) {
+//                        System.out.println("READONLY");
                     }
                 } catch (IOException e) {
                     throw new IOException(orgFileName, e);
