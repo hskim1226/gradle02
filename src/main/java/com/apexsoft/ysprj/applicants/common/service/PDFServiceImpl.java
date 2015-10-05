@@ -136,6 +136,15 @@ public class PDFServiceImpl implements PDFService {
                         ec.setErrCode("ERR1101");
                         encryptedPdfList.add(aDoc);
 //                        throw new YSBizNoticeException(ec);
+                    } else { // 암호화 안되었더라도 합치는 데 문제 생기는 파일 찾기
+                        PDFMergerUtility mergerUtility = new PDFMergerUtility();
+                        try {
+                            mergerUtility.addSource(new ByteArrayInputStream(baos.toByteArray()));
+                            mergerUtility.mergeDocuments();
+                        } catch (Exception e) {
+                            System.out.println("CAN NOT BE MERGED : " + fileName);
+                        }
+
                     }
                 } catch ( IOException e ) {
                     // 여기까지 왔으면 S3에서 받아온 inputStream이 문제가 없는 것이므로 IOException 발생할 일 없음
