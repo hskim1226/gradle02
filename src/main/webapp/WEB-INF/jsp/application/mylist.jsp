@@ -91,9 +91,9 @@
                                                             <div class="btn-group btn-block">
                                                                 <a type="button${itemStatus.index}" class="btn btn-block btn-success dropdown-toggle ${item.applStsCode=="00020"?"":"disabled"}" <c:if test="${item.applStsCode!='00020'}">disabled</c:if> data-toggle="dropdown" data-target="#"><spring:message code="L00311"/><%--지원서 보기--%><span class="caret"></span></a>
                                                                 <ul class="dropdown-menu" role="menu">
-                                                                    <li><a class="print" data-applNo="${item.applNo}" data-admsNo="${item.admsNo}" data-admsTypeCode="${item.admsTypeCode}" data-reqType="appl"><spring:message code="L00312"/><%--지원서(PDF)--%></a></li>
-                                                                    <li><a class="print" data-applNo="${item.applNo}" data-admsNo="${item.admsNo}" data-admsTypeCode="${item.admsTypeCode}" data-reqType="adms"><spring:message code="L00313"/><%--수험표(PDF)--%></a></li>
-                                                                    <li><a class="print" data-applNo="${item.applNo}" data-admsNo="${item.admsNo}" data-admsTypeCode="${item.admsTypeCode}" data-reqType="merged" data-format="pdf"><spring:message code="L00314"/><%--전체 파일(PDF)--%></a></li>
+                                                                    <li><a class="print" data-userid="${userId}" data-applNo="${item.applNo}" data-admsNo="${item.admsNo}" data-admsTypeCode="${item.admsTypeCode}" data-reqType="appl"><spring:message code="L00312"/><%--지원서(PDF)--%></a></li>
+                                                                    <li><a class="print" data-userid="${userId}" data-applNo="${item.applNo}" data-admsNo="${item.admsNo}" data-admsTypeCode="${item.admsTypeCode}" data-reqType="adms"><spring:message code="L00313"/><%--수험표(PDF)--%></a></li>
+                                                                    <li><a class="print" data-userid="${userId}" data-applNo="${item.applNo}" data-admsNo="${item.admsNo}" data-admsTypeCode="${item.admsTypeCode}" data-reqType="merged" data-format="pdf"><spring:message code="L00314"/><%--전체 파일(PDF)--%></a></li>
                                                                 </ul>
                                                             </div>
                                                         </div>
@@ -111,6 +111,7 @@
                             <input type="hidden" name="application.admsNo" id="admsNo"/>
                             <input type="hidden" name="application.entrYear" id="entrYear"/>
                             <input type="hidden" name="application.admsTypeCode" id="admsTypeCode"/>
+                            <input type="hidden" name="application.userId" id="userId"/>
                             <input type="hidden" name="reqType" id="reqType"/>
                         </div>
                     </div>
@@ -130,6 +131,7 @@
                 document.getElementById('entrYear').value = obj.getAttribute('data-entrYear');
                 document.getElementById('admsTypeCode').value = obj.getAttribute('data-admsTypeCode');
                 document.getElementById('reqType').value = obj.getAttribute('data-reqType');
+                document.getElementById('userId').value = obj.getAttribute('data-userid');
             };
 
             $('.modify').click(function(e){

@@ -54,7 +54,8 @@ public class PostApplicationController {
 
         Application application = birtRequest.getApplication();
         String admsNo = application.getAdmsNo();
-        String userId = principal.getName();
+//        String userId = principal.getName();
+        String userId = application.getUserId();
         int applNo = application.getApplNo();
 
         String uploadDirPath = FileUtil.getUploadDirectoryFullPath(fileBaseDir, s3MidPath, admsNo, userId, applNo);
