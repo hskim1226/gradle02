@@ -278,6 +278,14 @@ public class DocumentController {
         Application application = formData.getApplication();
         int applNo = application.getApplNo();
 
+        application.setUserId(principal.getName());
+        ExecutionContext ecSaveInfo = documentService.saveApplicationPaperInfo(application);
+        // 타 대학원 확장 시 TODO - 학교 이름을 파라미터로 받도록
+        String admsTypeCode = application.getAdmsTypeCode();
+        String lang = "C".equals(admsTypeCode) || "D".equals(admsTypeCode) ? "en" : "kr";
+        String reportName = "yonsei-" + "appl" + "-" + lang;
+        ExecutionContext ecGenerate = birtService.generateBirtFile(application.getApplNo(), reportName);
+
         try {
             ExecutionContext ec1 = pdfService.genAndUploadPDFByApplicants(application);
             if (ExecutionContext.SUCCESS.equals(ec1.getResult())) { // 파일 합치기를 해서 성공일때만 제출
