@@ -464,11 +464,11 @@ public class PaymentServiceImpl implements PaymentService {
         documentService.saveApplicationPaperInfo(application);
         documentService.saveAdmissionSlipPaperInfo(application);
 
-        // 입학 신청 완료 메일 발송
-        sendMail(application);
-
         // 원서 수험표, 생성, S3 업로드
         genAndUploadApplicationFormAndSlipFile(application);
+
+        // 입학 신청 완료 메일 발송
+        sendMail(application);
 
         return ec;
     }
@@ -606,8 +606,7 @@ public class PaymentServiceImpl implements PaymentService {
         documentService.saveApplicationPaperInfo(application);
         documentService.saveAdmissionSlipPaperInfo(application);
 
-        // 결제 완료 메일 발송
-        sendMail(application);
+
 
         // 원서 수험표, 생성, S3 업로드
         genAndUploadApplicationFormAndSlipFile(application);
@@ -638,9 +637,13 @@ public class PaymentServiceImpl implements PaymentService {
 
         if( r1>0 && r2>0 && r3>0 ) {
             ec.setResult(ExecutionContext.SUCCESS);
+            // 결제 완료 메일 발송
+            sendMail(application);
         } else {
             ec.setResult(ExecutionContext.FAIL);
         }
+
+
 
         return ec;
     }
