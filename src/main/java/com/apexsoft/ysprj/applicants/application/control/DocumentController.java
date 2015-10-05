@@ -496,7 +496,7 @@ public class DocumentController {
                                 mergerUtility.addSource(new ByteArrayInputStream(baos.toByteArray()));
                                 mergerUtility.mergeDocuments();
                             } catch (Exception e) {
-                                logger.error("merging PDF files fails, in DocumentController.handleEvent(), FileName : " + fileItem.getOriginalFileName());
+                                logger.debug("merging PDF files fails, in DocumentController.handleEvent(), FileName : " + fileItem.getOriginalFileName());
                                 ExecutionContext ec1 = new ExecutionContext(ExecutionContext.FAIL);
                                 ec1.setResult(ExecutionContext.FAIL);
                                 ec1.setMessage(MessageResolver.getMessage("U06102"));
@@ -542,10 +542,7 @@ public class DocumentController {
                                     ec.setErrorInfo(new ErrorInfo(errorInfo));
                                     throw new PasswordedPDFException(ec, "U04515", "ERR0052");
                                 } else {
-                                    logger.error("Upload PDF is NOT loaded to PDDocument, DocumentController.fileUpload()");
-                                    logger.error("modId : " + document.getModId());
-                                    logger.error("applNo: " + document.getApplNo());
-                                    logger.error("orgFileName: " + fileItem.getOriginalFileName());
+                                    logger.error("PDF NOT loaded to PDDocument, DocumentController.fileUpload(), modId : " + document.getModId() + ", applNo: " + document.getApplNo() + ", orgFileName: " + fileItem.getOriginalFileName());
                                     ec = new ExecutionContext(ExecutionContext.FAIL);
                                     Map<String, String> errorInfo = new HashMap<String, String>();
                                     errorInfo.put("applNo", String.valueOf(document.getApplNo()));
@@ -612,8 +609,7 @@ public class DocumentController {
                         } catch (WrongFileFormatException e) {
                             throw e;
                         } catch (Exception e) {
-                            logger.error("S3 저장시 아마존 예외 외의 오류");
-                            logger.error(e.getMessage());
+                            logger.error("S3 저장시 아마존 예외 외의 오류 : " + e.getMessage());
                             throw getYSBizException(document, principal, "U339", "ERR0052");
                         }finally {
                             File tmpFile = fileItem.getFile();
@@ -707,9 +703,7 @@ public class DocumentController {
 //                }
             }, FileMetaForm.class, TotalApplicationDocument.class);
         } catch (YSBizException ybe) {
-            logger.error("ErrorInfo :: " + ybe.getExecutionContext().getErrorInfo().toString());
-            logger.error("ErrorType :: " + ybe.toString());
-            logger.error("SimpleStackTrace ::" +
+            logger.error("ErrorInfo :: " + ybe.getExecutionContext().getErrorInfo().toString() + ", ErrorType :: " + ybe.toString() + ", SimpleStackTrace ::" +
                     StackTraceFilter.getFilteredCallStack(ybe.getStackTrace(), "com.apexsoft", false));
             ec = ybe.getExecutionContext();
         }
@@ -811,10 +805,7 @@ public class DocumentController {
         } catch (YSBizException ybe) {
             ec = ybe.getExecutionContext();
             ErrorInfo eInfo = ec.getErrorInfo();
-            logger.error("YSBizException Occured :: URL=" + request.getRequestURL());
-            logger.error("ErrorInfo :: " + eInfo.toString());
-            logger.error("ErrorType :: " + ybe.toString());
-            logger.error("SimpleStackTrace ::" +
+            logger.error("YSBizException Occured :: URL=" + request.getRequestURL() + ", ErrorInfo :: " + eInfo.toString() + ", ErrorType :: " + ybe.toString()+ ", SimpleStackTrace ::" +
                     StackTraceFilter.getFilteredCallStack(ybe.getStackTrace(), "com.apexsoft", false));
         }
 

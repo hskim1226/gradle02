@@ -102,11 +102,7 @@ public class PDFServiceImpl implements PDFService {
                 try {
                     object = s3.getObject(new GetObjectRequest(s3BucketName, filePath));
                 } catch (Exception e) {
-                    logger.error("Err in s3.getObject in PDFServiceImpl.genAndUploadPDFByApplicants");
-                    logger.error(e.getMessage());
-                    logger.error("bucketName : [" + s3BucketName + "]");
-//                    logger.error("applNo : [" + applNo + "]");
-                    logger.error("objectKey : [" + filePath +"]");
+                    logger.error("Err in s3.getObject in PDFServiceImpl.genAndUploadPDFByApplicants, bucketName : [" + s3BucketName + "], objectKey : [" + filePath +"]" + e.getMessage());
                     throw new YSBizException(e);
                 }
 
@@ -132,9 +128,7 @@ public class PDFServiceImpl implements PDFService {
                 try {
                     tPdf = PDDocument.load(new ByteArrayInputStream(baos.toByteArray()));
                     if (tPdf.isEncrypted()) {
-                        logger.error("file from S3 is encrypted");
-//                        logger.error("applNo : " + applNo);
-                        logger.error("filePath : " + filePath);
+                        logger.error("file from S3 is encrypted, filePath : " + filePath);
                         ec.setResult(ExecutionContext.FAIL);
                         ec.setMessage(MessageResolver.getMessage("U06101"));
                         ec.setErrCode("ERR1101");
@@ -155,7 +149,7 @@ public class PDFServiceImpl implements PDFService {
                             mergerUtility.addSource(new ByteArrayInputStream(baos.toByteArray()));
                             mergerUtility.mergeDocuments();
                         } catch (Exception e) {
-                            logger.error("merging PDF files fails, in PDFServiceImpl.getPdfListFromS3(), FileName : " + orgFileName);
+                            logger.debug("merging PDF files fails, in PDFServiceImpl.getPdfListFromS3(), FileName : " + orgFileName);
                             ec.setResult(ExecutionContext.FAIL);
                             ec.setMessage(MessageResolver.getMessage("U06102"));
                             ec.setErrCode("ERR1104");
@@ -228,10 +222,8 @@ public class PDFServiceImpl implements PDFService {
             mergerUtil.setIgnoreAcroFormErrors(true);
             mergerUtil.mergeDocuments();
         } catch (IOException e) {
-            logger.error("merge files from S3 failed");
-            logger.error("applNo : " + applNo);
+            logger.error("merge files from S3 failed, applNo : " + applNo + ", destFileName : " + mergerUtil.getDestinationFileName());
             logger.error(e.getMessage());
-            logger.error("destFileName : " + mergerUtil.getDestinationFileName());
             ec.setResult(ExecutionContext.FAIL);
             ec.setMessage(MessageResolver.getMessage("U06101"));
             ec.setErrCode("ERR1101");
@@ -248,7 +240,7 @@ public class PDFServiceImpl implements PDFService {
             ec.setErrorInfo(new ErrorInfo(errorInfo));
             throw new YSBizException(ec);
         } catch (Throwable t) {
-            logger.error("merging PDF files fails, in PDFServiceImpl.getRawMergedFile(), applNo : " + applNo);
+            logger.debug("merging PDF files fails, in PDFServiceImpl.getRawMergedFile(), applNo : " + applNo);
             ec.setResult(ExecutionContext.FAIL);
             ec.setMessage(MessageResolver.getMessage("U06102"));
             ec.setErrCode("ERR1104");
@@ -398,11 +390,8 @@ public class PDFServiceImpl implements PDFService {
                     .withMetadata(meta)
                     .withCannedAcl(CannedAccessControlList.AuthenticatedRead.PublicRead));
         } catch (Exception e) {
-            logger.error("Err in uploading final file to S3");
+            logger.error("Err in uploading final file to S3, s3BucketName : [" + s3BucketName + "], applNo : [" + applNo + "], ObjectKey : [" + FileUtil.getS3PathFromLocalFullPath(file.getAbsolutePath(), fileBaseDir) + "]");
             logger.error(e.getMessage());
-            logger.error("s3BucketName : [" + s3BucketName + "]");
-            logger.error("applNo : [" + applNo + "]");
-            logger.error("ObjectKey : [" + FileUtil.getS3PathFromLocalFullPath(file.getAbsolutePath(), fileBaseDir) + "]");
             throw new YSBizException(e);
         }
     }
