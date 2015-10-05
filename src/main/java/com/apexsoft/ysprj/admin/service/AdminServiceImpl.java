@@ -278,15 +278,18 @@ public class AdminServiceImpl implements AdminService{
         Map<String, Object> selectionMap = new HashMap<String, Object>();
         List<College> collList = null;
         List<CodeNameDepartment> deptList = null;
+        List<CommonCode> applAttrList = new ArrayList<CommonCode>();
 
         ParamForSetupCourses param = new ParamForSetupCourses();
         param.setAdmsNo(searchForm.getAdmsNo());
         param.setCollCode(searchForm.getCollCode());
         param.setDeptCode(searchForm.getDeptCode());
+        applAttrList= commonService.retrieveCommonCodeByCodeGroup("APPL_ATTR");
 
         selectionMap = getCouurseSelectionBasicMap(searchForm);
         if (collList != null)      selectionMap.put("collList", collList);
         if (deptList != null)      selectionMap.put("deptList", deptList);
+        if (applAttrList != null)  selectionMap.put("applAttrList", applAttrList);
 
         return selectionMap;
     }

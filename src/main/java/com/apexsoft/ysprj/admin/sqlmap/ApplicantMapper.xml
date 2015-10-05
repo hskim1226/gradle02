@@ -443,6 +443,9 @@
        <if test="admsNo != null and admsNo !=''">
            AND A.ADMS_NO =#{admsNo}
        </if>
+       <if test="applAttrCode != null and applAttrCode!=''">
+           AND A.APPL_ATTR_CODE =#{applAttrCode}
+       </if>
        <if test="campCode != null and campCode !=''">
            AND F.CAMP_CODE =#{campCode}
        </if>
@@ -473,9 +476,13 @@
     <if test="admsNo != null and admsNo!=''">
         AND a.ADMS_NO =#{admsNo}
     </if>
+   <if test="applAttrCode != null and applAttrCode!=''">
+       AND a.APPL_ATTR_CODE =#{applAttrCode}
+   </if>
     <if test="campCode != null and campCode!=''">
         AND F.CAMP_CODE =#{campCode}
     </if>
+
     <if test="collCode != null and collCode!=''">
         AND e.COLL_CODE =#{collCode}
     </if>

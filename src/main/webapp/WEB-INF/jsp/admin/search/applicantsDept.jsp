@@ -27,6 +27,13 @@
                     <form:options items="${selection.admsList}" itemValue="admsNo" itemLabel="admsName"/>
                 </form:select>&nbsp;&nbsp;&nbsp;
 
+                <label for="admsNo"><strong>지원자분류</strong></label>
+
+                <form:select path="applAttrCode" id="applAttrCode" class="ipt_slt1">
+                    <form:option value="" label="--전체--" />
+                    <form:options items="${selection.applAttrList}" itemValue="code" itemLabel="codeVal"/>
+                </form:select>&nbsp;&nbsp;&nbsp;
+
                 <label for="campCode"><strong>캠퍼스</strong></label>
                 <form:select path="campCode" id="campCode" class="ipt_slt1">
                     <form:option value="" label="--전체--" />
