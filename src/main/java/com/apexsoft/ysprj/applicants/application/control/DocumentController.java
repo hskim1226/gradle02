@@ -15,6 +15,7 @@ import com.apexsoft.framework.message.MessageResolver;
 import com.apexsoft.framework.persistence.file.callback.FileUploadEventCallbackHandler;
 import com.apexsoft.framework.persistence.file.exception.EncryptedPDFException;
 import com.apexsoft.framework.persistence.file.exception.FileNoticeException;
+import com.apexsoft.framework.persistence.file.exception.PDFMergeException;
 import com.apexsoft.framework.persistence.file.exception.PasswordedPDFException;
 import com.apexsoft.framework.persistence.file.handler.FileHandler;
 import com.apexsoft.framework.persistence.file.manager.FilePersistenceManager;
@@ -26,6 +27,7 @@ import com.apexsoft.ysprj.applicants.application.service.DocumentService;
 import com.apexsoft.ysprj.applicants.application.validator.DocumentValidator;
 import com.apexsoft.ysprj.applicants.common.service.BirtService;
 import com.apexsoft.ysprj.applicants.common.service.CommonService;
+import com.apexsoft.ysprj.applicants.common.service.PDFService;
 import com.apexsoft.ysprj.applicants.common.util.FileUtil;
 import com.apexsoft.ysprj.applicants.common.util.StringUtil;
 import com.apexsoft.ysprj.applicants.common.util.WebUtil;
@@ -73,6 +75,9 @@ public class DocumentController {
 
     @Autowired
     private BirtService birtService;
+
+    @Autowired
+    PDFService pdfService;
 
     @Autowired
     private DocumentValidator documentValidator;
@@ -270,29 +275,61 @@ public class DocumentController {
         }
 
         ExecutionContext ec = null;
-        String userId = principal.getName();
-
         Application application = formData.getApplication();
         int applNo = application.getApplNo();
+
+        try {
+            ExecutionContext ec1 = pdfService.genAndUploadPDFByApplicants(application);
+            if (ExecutionContext.SUCCESS.equals(ec1.getResult())) { // 파일 합치기를 해서 성공일때만 제출
+                String userId = application.getUserId();
+
 //        application.setUserId(userId);
-        application.setModId(userId);
+                application.setModId(userId);
 
-        ec = documentService.submit(formData);
+                ec = documentService.submit(formData);
 
-        if (ExecutionContext.SUCCESS.equals(ec.getResult())) {
+                if (ExecutionContext.SUCCESS.equals(ec.getResult())) {
 
-            ParamForApplication p = new ParamForApplication();
-            p.setUserId(principal.getName());
-            ExecutionContext ecRetrieve = documentService.retrieveInfoListByParamObj(p, "CustomApplicationMapper.selectApplByUserId", CustomMyList.class);
+                    ParamForApplication p = new ParamForApplication();
+                    p.setUserId(principal.getName());
+                    ExecutionContext ecRetrieve = documentService.retrieveInfoListByParamObj(p, "CustomApplicationMapper.selectApplByUserId", CustomMyList.class);
 
-            if (ExecutionContext.SUCCESS.equals(ecRetrieve.getResult())) {
-                mv.addObject("myList", ecRetrieve.getData());
-                mv.addObject("resultMsg", ec.getMessage());
-            } else {
-                mv = getErrorMV("common/error", ecRetrieve);
+                    if (ExecutionContext.SUCCESS.equals(ecRetrieve.getResult())) {
+                        mv.addObject("myList", ecRetrieve.getData());
+                        mv.addObject("resultMsg", ec.getMessage());
+                    } else {
+                        mv = getErrorMV("common/error", ecRetrieve);
+                    }
+                } else {
+                    mv = getErrorMV("common/error", ec);
+                }
+            } else { // 파일 합치기 실패하면
+                ec = new ExecutionContext(ExecutionContext.FAIL);
+                ec.setMessage(MessageResolver.getMessage("U06103"));
+                ec.setErrCode("ERR1104");
+                Map<String, String> errorInfo = new HashMap<String, String>();
+                errorInfo.put("applNo", String.valueOf(applNo));
+                ec.setErrorInfo(new ErrorInfo(errorInfo));
+                throw new YSBizException(ec);
             }
-        } else {
-            mv = getErrorMV("common/error", ec);
+        } catch (PDFMergeException e) { // 파일 합치기 실패하면
+            ec = new ExecutionContext(ExecutionContext.FAIL);
+            ec.setResult(ExecutionContext.FAIL);
+            ec.setMessage(MessageResolver.getMessage("U06104"));
+            ec.setErrCode("ERR1104");
+            Map<String, String> errorInfo = new HashMap<String, String>();
+            errorInfo.put("applNo", String.valueOf(applNo));
+            ec.setErrorInfo(new ErrorInfo(errorInfo));
+//            throw new YSBizException(ec);
+
+            ExecutionContext ecR = documentService.retrieveDocument(formData);
+            ecR.setResult(ExecutionContext.FAIL);
+            Map<String, Object> map = (Map<String, Object>)ecR.getData();
+            mv.setViewName(TARGET_VIEW);
+            addObjectToMV(mv, map, ecR);
+            mv.addObject("resultMsg", ec.getMessage());
+
+            return mv;
         }
 
         return mv;

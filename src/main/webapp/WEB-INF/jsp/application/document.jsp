@@ -1069,6 +1069,7 @@
                 </div>
             </div>
         </div> <%--myTabContent--%>
+            <input type="hidden" name="application.userId" id="userId" value="${document.application.userId}"/>
         </form:form>
     </div> <%--container--%>
 </section>
@@ -1202,51 +1203,8 @@
                 });
                 <%-- 지원서 파일 정보 DB 저장 --%>
 
-                <%-- 지원서 파일 정보 DB 저장 --%>
-                <%--$.ajax({--%>
-                    <%--type: 'POST',--%>
-                    <%--url: '${contextPath}/application/document/savePreview/application',--%>
-                    <%--data: formData,--%>
-                    <%--success: function (data) {--%>
-                        <%--var ec = JSON.parse(data);--%>
-                        <%--if (ec.result == 'SUCCESS') {--%>
-                            <%--console.log('원서 파일 정보 저장 완료');--%>
-                            <%--&lt;%&ndash; 파일 생성 &ndash;%&gt;--%>
-                            <%--document.getElementById('spinner').style.display = 'block';--%>
-
-                            <%--$.ajax({--%>
-                                <%--type: 'POST',--%>
-                                <%--url: '${contextPath}/application/generate/application',--%>
-                                <%--data: formData,--%>
-                                <%--success: function (data) {--%>
-                                    <%--console.log('원서 파일 생성 완료');--%>
-                                    <%--$.ajax({--%>
-                                        <%--type: 'POST',--%>
-                                        <%--url: '${contextPath}/pdf/merge/applicant',--%>
-                                        <%--data: formData,--%>
-                                        <%--success: function (data) {--%>
-                                            <%--console.log('머지 파일 생성 완료');--%>
-                                            <%--document.getElementById('spinner').style.display = 'none';--%>
-                                            <%--document.getElementById('previewApplication').style.display = 'block';--%>
-                                        <%--},--%>
-                                        <%--error: function (data, status, e) {--%>
-                                            <%--console.log('머지 파일 생성 실패');--%>
-                                        <%--}--%>
-                                    <%--});--%>
-                                <%--},--%>
-                                <%--error: function (data, status, e) {--%>
-                                    <%--console.log('원서 파일 생성 실패');--%>
-                                <%--}--%>
-                            <%--});--%>
-                            <%--&lt;%&ndash; 파일 생성 &ndash;%&gt;--%>
-                        <%--}--%>
-                    <%--}--%>
-                <%--});--%>
-                <%-- 지원서 파일 정보 DB 저장 --%>
-
             } else if (saveType == 'preview') {
                 form.action = "${contextPath}/pdf/download/tempMergedApplicationForm";
-//                form.target="_blank";
                 form.submit();
             } else if (saveType == 'submit') {
                 $('#overlay').show();

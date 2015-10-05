@@ -80,7 +80,7 @@ public class PDFController {
     public String generateTempMergedApplicationForm(BirtRequest birtRequest, Principal principal, HttpServletRequest request) {
 
         Application application = birtRequest.getApplication();
-        application.setUserId(principal.getName());
+//        application.setUserId(principal.getName());
         ExecutionContext ec = pdfService.genAndUploadPDFByApplicants(application);
         if (ExecutionContext.SUCCESS.equals(ec.getResult())) {
             return ExecutionContext.SUCCESS;
