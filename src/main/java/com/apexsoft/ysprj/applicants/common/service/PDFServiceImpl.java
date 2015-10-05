@@ -9,6 +9,8 @@ import com.apexsoft.framework.exception.YSBizException;
 import com.apexsoft.framework.exception.YSBizNoticeException;
 import com.apexsoft.framework.message.MessageResolver;
 import com.apexsoft.framework.persistence.dao.CommonDAO;
+import com.apexsoft.framework.persistence.file.exception.FileNoticeException;
+import com.apexsoft.framework.persistence.file.exception.PDFMergeException;
 import com.apexsoft.framework.persistence.file.manager.FilePersistenceManager;
 import com.apexsoft.ysprj.applicants.application.domain.Application;
 import com.apexsoft.ysprj.applicants.application.domain.ApplicationDocument;
@@ -191,6 +193,7 @@ public class PDFServiceImpl implements PDFService {
         }
 
         try {
+            mergerUtil.setIgnoreAcroFormErrors(true);
             mergerUtil.mergeDocuments();
         } catch (IOException e) {
             logger.error("merge files from S3 failed");
@@ -200,6 +203,9 @@ public class PDFServiceImpl implements PDFService {
             ec.setResult(ExecutionContext.FAIL);
             ec.setMessage(MessageResolver.getMessage("U06101"));
             ec.setErrCode("ERR1101");
+            Map<String, String> errorInfo = new HashMap<String, String>();
+            errorInfo.put("applNo", String.valueOf(applNo));
+            ec.setErrorInfo(new ErrorInfo(errorInfo));
             throw new YSBizNoticeException(ec);
         } catch (COSVisitorException e) {
             ec.setResult(ExecutionContext.FAIL);
@@ -209,6 +215,15 @@ public class PDFServiceImpl implements PDFService {
             errorInfo.put("applNo", String.valueOf(applNo));
             ec.setErrorInfo(new ErrorInfo(errorInfo));
             throw new YSBizException(ec);
+        } catch (Throwable t) {
+            logger.error("merging PDF files fails, in PDFServiceImpl.getRawMergedFile(), applNo : " + applNo);
+            ec.setResult(ExecutionContext.FAIL);
+            ec.setMessage(MessageResolver.getMessage("U06102"));
+            ec.setErrCode("ERR1104");
+            Map<String, String> errorInfo = new HashMap<String, String>();
+            errorInfo.put("applNo", String.valueOf(applNo));
+            ec.setErrorInfo(new ErrorInfo(errorInfo));
+            throw new PDFMergeException(ec, "U06102", "ERR1104");
         }
         return new File(rawMergedFileFullPath);
     }

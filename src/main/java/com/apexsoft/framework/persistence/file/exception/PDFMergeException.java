@@ -4,12 +4,12 @@ import com.apexsoft.framework.common.vo.ExecutionContext;
 import org.springframework.core.NestedRuntimeException;
 
 /**
- * 파일 핸들링 관련 사용자 알림 또는 디버그 성 예외
+ * PDF 파일이 합침이 되지 않을 때 발생
  *
  * @author Administrator
  */
 @SuppressWarnings("serial")
-public class FileNoticeException extends NestedRuntimeException {
+public class PDFMergeException extends NestedRuntimeException {
 
 	private static final long serialVersionUID = 1L;
 
@@ -23,7 +23,7 @@ public class FileNoticeException extends NestedRuntimeException {
 	 *
 	 * @param msg
 	 */
-	public FileNoticeException(String msg) {
+	public PDFMergeException(String msg) {
 		super(msg);
 	}
 
@@ -32,19 +32,19 @@ public class FileNoticeException extends NestedRuntimeException {
 	 * @param msg
 	 * @param ex
 	 */
-	public FileNoticeException(String msg, Exception ex) {
+	public PDFMergeException(String msg, Exception ex) {
 		super(msg, ex);
 	}
 
-	public FileNoticeException(ExecutionContext ec) {
+	public PDFMergeException(ExecutionContext ec) {
 		super(ec.getMessage());
 		this.ec = ec;
 	}
 
-	public FileNoticeException(ExecutionContext ec, String messageCode, String errorCode) {
+	public PDFMergeException(ExecutionContext ec, String userMessageCode, String errorCode) {
 		super(ec.getMessage());
 		this.ec = ec;
-		this.userMessageCode = messageCode;
+		this.userMessageCode = userMessageCode;
 		this.errorCode = errorCode;
 	}
 

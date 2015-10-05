@@ -37,7 +37,7 @@
     <link rel="stylesheet" href="<spring:eval expression="@app.getProperty('path.static')" />/css/style.css"/>
     <%--<link rel="stylesheet" href="${contextPath}/static/css/style.css"/>--%>
     <%--<link rel="stylesheet" href="<spring:eval expression="@app.getProperty('path.static')" />/css/layout.css"/>--%>
-    <link rel="stylesheet" href="${contextPath}/static/css/layout.css"/>
+    <link rel="stylesheet" href="<spring:eval expression="@app.getProperty('path.static')" />/css/layout.css"/>
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="<spring:eval expression="@app.getProperty('path.static')" />/js/jquery.min.js"></script>
     <decorator:head />
@@ -151,7 +151,7 @@
     <script src="<spring:eval expression="@app.getProperty('path.static')" />/js/json2.js"></script>
     <script src="<spring:eval expression="@app.getProperty('path.static')" />/js/main.js"></script>
     <%--<script src="<spring:eval expression="@app.getProperty('path.static')" />/js/apex.js"></script>--%>
-<script src="${contextPath}/static/js/apex.js"></script>
+    <script src="<spring:eval expression="@app.getProperty('path.static')" />/js/apex.js"></script>
 
     <decorator:getProperty property="page.local-script"/>
     <script>

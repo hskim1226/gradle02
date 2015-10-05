@@ -2,24 +2,31 @@ package com.apexsoft.framework.exception;
 
 import com.apexsoft.framework.common.vo.ExecutionContext;
 import com.apexsoft.framework.message.MessageResolver;
-import com.apexsoft.framework.persistence.file.exception.EncryptedPDFException;
-import com.apexsoft.framework.persistence.file.exception.FileNoticeException;
-import com.apexsoft.framework.persistence.file.exception.FileUploadException;
-import com.apexsoft.framework.persistence.file.exception.PasswordedPDFException;
+import com.apexsoft.framework.persistence.file.exception.*;
 import com.apexsoft.ysprj.applicants.common.util.StringUtil;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.lang.exception.ExceptionUtils;
 import org.mybatis.spring.MyBatisSystemException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by hanmomhanda on 15. 1. 25.
@@ -28,6 +35,9 @@ import java.sql.SQLException;
 public class GlobalExceptionHandler {
 
     private static final Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
+
+    @Autowired
+    private ObjectMapper jacksonObjectMapper;
 
     private final String DEFAULT_ERROR_VIEW_NAME = "common/error";
     private final String RUNTIME_ERROR = "런타임 오류";
@@ -78,7 +88,7 @@ public class GlobalExceptionHandler {
         logger.error("Message:: " + e.getMessage());
         logger.error("ErrorCode:: " + e.getErrorCode());
         logger.error("Cause:: " + e.getCause());
-        logger.error("ErrorInfo :: " + eInfo != null ? eInfo.toString() : "");
+        logger.error("ErrorInfo :: " + (eInfo != null ? eInfo.toString() : ""));
         logger.error("ErrorType :: " + e.toString());
         logger.error("FilteredStackTrace ::" +
                 StackTraceFilter.getFilteredCallStack(e.getStackTrace(), "com.apexsoft", false));
@@ -97,7 +107,7 @@ public class GlobalExceptionHandler {
         logger.debug("Message:: " + StringUtil.getEmptyIfNull(ec.getErrCode()));
         logger.debug("ErrorCode:: " + StringUtil.getEmptyIfNull(e.getErrorCode()));
         logger.debug("Cause:: " + e.getCause());
-        logger.debug("ErrorInfo :: " + eInfo != null ? eInfo.toString() : "");
+        logger.debug("ErrorInfo :: " + (eInfo != null ? eInfo.toString() : ""));
         logger.debug("ErrorType :: " + e.toString());
         logger.debug("FilteredStackTrace ::" +
                 StackTraceFilter.getFilteredCallStack(e.getStackTrace(), "com.apexsoft", false));
@@ -116,7 +126,7 @@ public class GlobalExceptionHandler {
         logger.debug("Message:: " + StringUtil.getEmptyIfNull(ec.getErrCode()));
         logger.debug("ErrorCode:: " + StringUtil.getEmptyIfNull(e.getErrorCode()));
         logger.debug("Cause:: " + e.getCause());
-        logger.debug("ErrorInfo :: " + eInfo != null ? eInfo.toString() : "");
+        logger.debug("ErrorInfo :: " + (eInfo != null ? eInfo.toString() : ""));
         logger.debug("ErrorType :: " + e.toString());
         logger.debug("FilteredStackTrace ::" +
                 StackTraceFilter.getFilteredCallStack(e.getStackTrace(), "com.apexsoft", false));
@@ -135,7 +145,26 @@ public class GlobalExceptionHandler {
         logger.debug("Message:: " + StringUtil.getEmptyIfNull(ec.getErrCode()));
         logger.debug("ErrorCode:: " + StringUtil.getEmptyIfNull(e.getErrorCode()));
         logger.debug("Cause:: " + e.getCause());
-        logger.debug("ErrorInfo :: " + eInfo != null ? eInfo.toString() : "");
+        logger.debug("ErrorInfo :: " + ( eInfo != null ? eInfo.toString() : ""));
+        logger.debug("ErrorType :: " + e.toString());
+        logger.debug("FilteredStackTrace ::" +
+                StackTraceFilter.getFilteredCallStack(e.getStackTrace(), "com.apexsoft", false));
+
+        return ec;
+    }
+
+    @ExceptionHandler(PDFMergeException.class)
+    @ResponseBody
+    public ExecutionContext handlePDFMergeException(HttpServletRequest request, HttpServletResponse response,
+                                                    PDFMergeException e){
+        ExecutionContext ec = e.getExecutionContext();
+        ErrorInfo eInfo = ec.getErrorInfo();
+        ec.setMessage(MessageResolver.getMessage(e.getUserMessageCode()));
+        logger.debug("PDFMergeException Occured :: URL=" + request.getRequestURL());
+        logger.debug("Message:: " + StringUtil.getEmptyIfNull(ec.getErrCode()));
+        logger.debug("ErrorCode:: " + StringUtil.getEmptyIfNull(e.getErrorCode()));
+        logger.debug("Cause:: " + e.getCause());
+        logger.debug("ErrorInfo :: " + (eInfo != null ? eInfo.toString() : ""));
         logger.debug("ErrorType :: " + e.toString());
         logger.debug("FilteredStackTrace ::" +
                 StackTraceFilter.getFilteredCallStack(e.getStackTrace(), "com.apexsoft", false));
@@ -190,7 +219,7 @@ public class GlobalExceptionHandler {
         logger.error("YSNoRedirectBizException Occured :: URL=" + request.getRequestURL());
         logger.error("Message:: " + e.getMessage());
         logger.error("Cause:: " + e.getCause());
-        logger.error("ErrorInfo :: " + eInfo != null ? eInfo.toString() : "");
+        logger.error("ErrorInfo :: " + (eInfo != null ? eInfo.toString() : ""));
         logger.error("ErrorType :: " + e.toString());
         logger.error("FilteredStackTrace ::" +
                 StackTraceFilter.getFilteredCallStack(e.getStackTrace(), "com.apexsoft", false));

@@ -1174,17 +1174,19 @@
                                 url: '${contextPath}/pdf/generate/tempMergedApplicationForm',
                                 data: formData,
                                 success: function (data) {
-                                    if (console) {
-                                        console.log('머지 파일 생성 완료');
+                                    var result = JSON.parse(data);
+                                    if (result.result === 'FAIL') { // 파일 합치기 실패
+                                        document.getElementById('spinner').style.display = 'none';
+                                        alert(result.message);
+                                    } else { //
+                                        document.getElementById('spinner').style.display = 'none';
+                                        document.getElementById('previewApplication').style.display = 'block';
                                     }
-                                    document.getElementById('spinner').style.display = 'none';
-                                    document.getElementById('previewApplication').style.display = 'block';
                                     $('#overlay').hide();
                                 },
                                 error: function (data, status, e) {
-                                    if (console) {
-                                        console.log('머지 파일 생성 실패');
-                                    }
+                                    document.getElementById('spinner').style.display = 'none';
+                                    alert(result.message);
                                     $('#overlay').hide();
                                 }
                             });
