@@ -84,6 +84,7 @@
                                                             <button id="pay${itemStatus.index}" class="btn btn-block btn-primary pay ${item.applStsCode=="00010"?"":(item.applStsCode=="00021"?"":"disabled")}"
                                                                     name="${item.entrYear} ${pageContext.response.locale == 'en' ? item.campNameXxen : item.campName} ${pageContext.response.locale == 'en' ? item.admsTypeNameXxen : item.admsTypeName} ${pageContext.response.locale == 'en' ? item.deptNameXxen : item.deptName} ${pageContext.response.locale == 'en' ? item.corsTypeNameXxen : item.corsTypeName}"
                                                                     data-applNo="${item.applNo}"
+                                                                    data-userId="${item.userId}"
                                                                     value="${item.admsFee}"
                                                                     <c:if test="${item.applStsCode!='00010' && item.applStsCode!='00021'}">disabled</c:if> ><spring:message code="L00310"/><%--전형료 결제하기--%></button>
                                                         </div>
@@ -159,6 +160,7 @@
                     document.getElementById('LGD_AMOUNT').value = e.target.value;
                     document.getElementById('LGD_PAYINFO').setAttribute("action", "${contextPath}/payment/confirm");
                     document.getElementById('applNo').value = e.target.getAttribute('data-applNo');
+                    document.getElementById('userId').value = e.target.getAttribute('data-userId');
                     $('#LGD_PAYINFO').submit();
                 }
             });

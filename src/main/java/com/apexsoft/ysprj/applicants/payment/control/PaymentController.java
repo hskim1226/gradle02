@@ -75,7 +75,8 @@ public class PaymentController {
         Authentication auth = sc.getAuthentication();
         UserSessionVO userSessionVO = (UserSessionVO)auth.getPrincipal();
 
-        payment.setLGD_BUYERID(userSessionVO.getUsername());
+//        payment.setLGD_BUYERID(userSessionVO.getUsername());
+        payment.setLGD_BUYERID(model.getApplication().getUserId());
         payment.setApplNo(model.getApplication().getApplNo());
 
         paymentService.retrieveConfirmInfo(payment);
