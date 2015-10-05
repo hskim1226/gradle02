@@ -1196,7 +1196,7 @@
                                 },
                                 error: function (data, status, e) {
                                     document.getElementById('spinner').style.display = 'none';
-                                    alert(result.message);
+//                                    alert(result.message);
                                     $('#overlay').hide();
                                 }
                             });
@@ -1245,6 +1245,8 @@
             $("#overlay").show();
             // 원서 미리보기 생성 비활성화
             document.getElementById('generateApplication').setAttribute('disabled', 'disabled');
+            // 원서 미리보기 비활성화
+            document.getElementById('previewApplication').setAttribute('disabled', 'disabled');
             // 원서 제출 비활성화
             document.getElementById('submitApplication').setAttribute('disabled', 'disabled');
             var actionUrl = "${contextPath}/application/document/fileUpload",
@@ -1409,6 +1411,8 @@
             $("#overlay").show();
             // 원서 미리보기 생성 비활성화
             document.getElementById('generateApplication').setAttribute('disabled', 'disabled');
+            // 원서 미리보기 비활성화
+            document.getElementById('previewApplication').setAttribute('disabled', 'disabled');
             // 원서 제출 비활성화
             document.getElementById('submitApplication').setAttribute('disabled', 'disabled');
             var targetCheckBox = document.getElementById(this.getAttribute('data-checkbox-id')),

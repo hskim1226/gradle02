@@ -114,23 +114,23 @@ public class S3PersistenceManagerImpl implements FilePersistenceManager {
                 try {
                     pdfFile = PDDocument.loadNonSeq(new ByteArrayInputStream(baos.toByteArray()), null);
                     pageCnt = pdfFile.getNumberOfPages();
-                    AccessPermission pdfPermission = pdfFile.getCurrentAccessPermission();
+//                    AccessPermission pdfPermission = pdfFile.getCurrentAccessPermission();
                     if (pdfFile.isEncrypted()) {
                         throw new EncryptedPDFException(orgFileName);
                     }
-                    if (pdfPermission.isReadOnly()) {
-                        System.out.println("isReadOnly");
-                    }if (pdfPermission.canAssembleDocument()) {
-                        System.out.println("canAssembleDocument");
-                    }if (pdfPermission.canExtractContent()) {
-                        System.out.println("canExtractContent");
-                    }if (pdfPermission.canExtractForAccessibility()) {
-                        System.out.println("canExtractForAccessibility");
-                    }if (pdfPermission.canFillInForm()) {
-                        System.out.println("canFillInForm");
-                    }if (pdfPermission.canModify()) {
-                        System.out.println("canModify");
-                    }
+//                    if (pdfPermission.isReadOnly()) {
+//                        System.out.println("isReadOnly");
+//                    }if (pdfPermission.canAssembleDocument()) {
+//                        System.out.println("canAssembleDocument");
+//                    }if (pdfPermission.canExtractContent()) {
+//                        System.out.println("canExtractContent");
+//                    }if (pdfPermission.canExtractForAccessibility()) {
+//                        System.out.println("canExtractForAccessibility");
+//                    }if (pdfPermission.canFillInForm()) {
+//                        System.out.println("canFillInForm");
+//                    }if (pdfPermission.canModify()) {
+//                        System.out.println("canModify");
+//                    }
                 } catch (IOException e) {
                     throw new WrongFileFormatException(orgFileName, e);
                 } finally {
