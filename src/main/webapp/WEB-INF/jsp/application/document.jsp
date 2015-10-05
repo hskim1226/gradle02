@@ -1372,6 +1372,8 @@
                                 alert(d.resultMessage);
                             } else {
                                 alert(data.message);
+                                document.getElementById(checkboxId).checked = false;
+                                docItemName.value = '';
                             }
 
                             $('#overlay').hide();
@@ -1381,11 +1383,11 @@
                             $(targetButton).removeClass("btn-default"),
                             $(targetButton).addClass("btn-danger"),
                             $(targetButton).val("<spring:message code="U04506"/>");//올리기 실패
-//                            if(console) {
-//                                console.log("data : ", data);
-//                                console.log("status : ", status);
-//                                console.log("e : ", e);
-//                            }
+                            if(console) {
+                                console.log("data : ", data);
+                                console.log("status : ", status);
+                                console.log("e : ", e);
+                            }
                             $('#overlay').hide();
                         }
                     });

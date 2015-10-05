@@ -9,7 +9,7 @@ import org.springframework.core.NestedRuntimeException;
  * @author Administrator
  */
 @SuppressWarnings("serial")
-public class PDFMergeException extends NestedRuntimeException {
+public class WrongFileFormatException extends NestedRuntimeException {
 
 	private static final long serialVersionUID = 1L;
 
@@ -21,11 +21,13 @@ public class PDFMergeException extends NestedRuntimeException {
 
 	private ExecutionContext ec;
 
+
+
 	/**
 	 *
 	 * @param msg
 	 */
-	public PDFMergeException(String msg) {
+	public WrongFileFormatException(String msg) {
 		super(msg);
 	}
 
@@ -34,23 +36,23 @@ public class PDFMergeException extends NestedRuntimeException {
 	 * @param msg
 	 * @param ex
 	 */
-	public PDFMergeException(String msg, Exception ex) {
+	public WrongFileFormatException(String msg, Exception ex) {
 		super(msg, ex);
 	}
 
-	public PDFMergeException(ExecutionContext ec) {
+	public WrongFileFormatException(ExecutionContext ec) {
 		super(ec.getMessage());
 		this.ec = ec;
 	}
 
-	public PDFMergeException(ExecutionContext ec, String userMessageCode, String errorCode) {
+	public WrongFileFormatException(ExecutionContext ec, String userMessageCode, String errorCode) {
 		super(ec.getMessage());
 		this.ec = ec;
 		this.userMessageCode = userMessageCode;
 		this.errorCode = errorCode;
 	}
 
-	public PDFMergeException(ExecutionContext ec, String userMessageCode, String errorCode, String errorFileName) {
+	public WrongFileFormatException(ExecutionContext ec, String userMessageCode, String errorCode, String errorFileName) {
 		super(ec.getMessage());
 		this.ec = ec;
 		this.userMessageCode = userMessageCode;

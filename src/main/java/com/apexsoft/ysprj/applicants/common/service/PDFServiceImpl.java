@@ -18,6 +18,7 @@ import com.apexsoft.ysprj.applicants.application.service.DocumentService;
 import com.apexsoft.ysprj.applicants.common.domain.ParamForPDFDocument;
 import com.apexsoft.ysprj.applicants.common.util.FileUtil;
 import com.apexsoft.ysprj.applicants.common.util.StringUtil;
+import org.apache.commons.io.FileUtils;
 import org.apache.pdfbox.exceptions.COSVisitorException;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
@@ -30,6 +31,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -84,12 +86,12 @@ public class PDFServiceImpl implements PDFService {
                                                          List<ApplicationDocument> encryptedPdfList) {
         List<ByteArrayOutputStream> unencryptedPdfBaosList = new ArrayList<ByteArrayOutputStream>();
         ExecutionContext ec = new ExecutionContext();
-//        PDFMergerUtility mergerUtility = new PDFMergerUtility();
-//        mergerUtility.addSource(new File(""));
+
 
         for (ApplicationDocument aDoc : pdfList) {
             String filePath = FileUtil.recoverAmpersand(aDoc.getFilePath());
             String fileName = FileUtil.recoverAmpersand(aDoc.getFileName());
+            String orgFileName = FileUtil.recoverAmpersand(aDoc.getOrgFileName());
             String docItemName = aDoc.getDocItemName();
             if (!"지원서".equals(docItemName) &&
                 !"수험표".equals(docItemName) &&
@@ -125,6 +127,7 @@ public class PDFServiceImpl implements PDFService {
                 }
 
                 // PDF 암호화 여부 확인
+                String tmpFileFullPath = "/opt/ysproject/temp/pdf-test-" + aDoc.getApplNo() + ".pdf";
                 PDDocument tPdf = null;
                 try {
                     tPdf = PDDocument.load(new ByteArrayInputStream(baos.toByteArray()));
@@ -138,13 +141,32 @@ public class PDFServiceImpl implements PDFService {
                         encryptedPdfList.add(aDoc);
 //                        throw new YSBizNoticeException(ec);
                     } else { // 암호화 안되었더라도 합치는 데 문제 생기는 파일 찾기
-
-//                        try {
-//                            mergerUtility.addSource(new ByteArrayInputStream(baos.toByteArray()));
-//                            mergerUtility.mergeDocuments();
-//                        } catch (Exception e) {
-//                            System.out.println("CAN NOT BE MERGED : " + fileName);
-//                        }
+                        PDFMergerUtility mergerUtility = new PDFMergerUtility();
+                        mergerUtility.setDestinationFileName(tmpFileFullPath);
+                        org.springframework.core.io.Resource pdfResource = new ClassPathResource("pdf/merge-sample.pdf");
+                        InputStream mergeSamplePdf = null;
+                        try {
+                            mergeSamplePdf = pdfResource.getInputStream();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        mergerUtility.addSource(mergeSamplePdf);
+                        try {
+                            mergerUtility.addSource(new ByteArrayInputStream(baos.toByteArray()));
+                            mergerUtility.mergeDocuments();
+                        } catch (Exception e) {
+                            logger.error("merging PDF files fails, in PDFServiceImpl.getPdfListFromS3(), FileName : " + orgFileName);
+                            ec.setResult(ExecutionContext.FAIL);
+                            ec.setMessage(MessageResolver.getMessage("U06102"));
+                            ec.setErrCode("ERR1104");
+                            Map<String, String> errorInfo = new HashMap<String, String>();
+                            errorInfo.put("applNo", String.valueOf(aDoc.getApplNo()));
+                            errorInfo.put("fileName", orgFileName);
+                            ec.setErrorInfo(new ErrorInfo(errorInfo));
+                            throw new PDFMergeException(ec, "U06105", "ERR1104");
+                        } finally {
+                            FileUtils.deleteQuietly(new File(tmpFileFullPath));
+                        }
 
                     }
                 } catch ( IOException e ) {

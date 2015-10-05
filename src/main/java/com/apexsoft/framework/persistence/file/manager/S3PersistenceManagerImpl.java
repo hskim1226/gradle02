@@ -11,12 +11,15 @@ import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.apexsoft.framework.common.vo.ExecutionContext;
 import com.apexsoft.framework.exception.ErrorInfo;
 import com.apexsoft.framework.exception.YSBizException;
+import com.apexsoft.framework.message.MessageResolver;
 import com.apexsoft.framework.persistence.file.exception.EncryptedPDFException;
 import com.apexsoft.framework.persistence.file.exception.FileNoticeException;
+import com.apexsoft.framework.persistence.file.exception.WrongFileFormatException;
 import com.apexsoft.framework.persistence.file.model.FileInfo;
 import com.apexsoft.framework.web.file.exception.UploadException;
 import com.apexsoft.ysprj.applicants.application.domain.ApplicationIdentifier;
 import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.pdmodel.encryption.AccessPermission;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -109,18 +112,27 @@ public class S3PersistenceManagerImpl implements FilePersistenceManager {
                 meta.setContentType("application/pdf");
                 PDDocument pdfFile = null;
                 try {
-                    pdfFile = PDDocument.load(new ByteArrayInputStream(baos.toByteArray()));
+                    pdfFile = PDDocument.loadNonSeq(new ByteArrayInputStream(baos.toByteArray()), null);
                     pageCnt = pdfFile.getNumberOfPages();
-
+                    AccessPermission pdfPermission = pdfFile.getCurrentAccessPermission();
                     if (pdfFile.isEncrypted()) {
                         throw new EncryptedPDFException(orgFileName);
-//                    } else if (pdfFile.getCurrentAccessPermission().isReadOnly()) {
-//                        System.out.println("READONLY");
-//                    } else if (pdfFile.getCurrentAccessPermission().isReadOnly()) {
-//                        System.out.println("READONLY");
+                    }
+                    if (pdfPermission.isReadOnly()) {
+                        System.out.println("isReadOnly");
+                    }if (pdfPermission.canAssembleDocument()) {
+                        System.out.println("canAssembleDocument");
+                    }if (pdfPermission.canExtractContent()) {
+                        System.out.println("canExtractContent");
+                    }if (pdfPermission.canExtractForAccessibility()) {
+                        System.out.println("canExtractForAccessibility");
+                    }if (pdfPermission.canFillInForm()) {
+                        System.out.println("canFillInForm");
+                    }if (pdfPermission.canModify()) {
+                        System.out.println("canModify");
                     }
                 } catch (IOException e) {
-                    throw new IOException(orgFileName, e);
+                    throw new WrongFileFormatException(orgFileName, e);
                 } finally {
                     if (pdfFile != null) {
                         try {

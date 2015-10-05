@@ -13,10 +13,7 @@ import com.apexsoft.framework.exception.StackTraceFilter;
 import com.apexsoft.framework.exception.YSBizException;
 import com.apexsoft.framework.message.MessageResolver;
 import com.apexsoft.framework.persistence.file.callback.FileUploadEventCallbackHandler;
-import com.apexsoft.framework.persistence.file.exception.EncryptedPDFException;
-import com.apexsoft.framework.persistence.file.exception.FileNoticeException;
-import com.apexsoft.framework.persistence.file.exception.PDFMergeException;
-import com.apexsoft.framework.persistence.file.exception.PasswordedPDFException;
+import com.apexsoft.framework.persistence.file.exception.*;
 import com.apexsoft.framework.persistence.file.handler.FileHandler;
 import com.apexsoft.framework.persistence.file.manager.FilePersistenceManager;
 import com.apexsoft.framework.persistence.file.model.FileInfo;
@@ -32,14 +29,17 @@ import com.apexsoft.ysprj.applicants.common.util.FileUtil;
 import com.apexsoft.ysprj.applicants.common.util.StringUtil;
 import com.apexsoft.ysprj.applicants.common.util.WebUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.util.PDFMergerUtility;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -448,7 +448,56 @@ public class DocumentController {
 //                            }
 //                        }
 
+                        // 합침 가능 여부 확인
+                        String tmpFileFullPath = "/opt/ysproject/temp/pdf-test-" + document.getApplNo() + ".pdf";
                         FileInputStream fis = null;
+                        try {
+                            fis = new FileInputStream(fileItem.getFile());
+                        } catch (FileNotFoundException e) {
+                            e.printStackTrace();
+                        }
+
+                        ByteArrayOutputStream baos = null;
+                        try {
+                            baos = new ByteArrayOutputStream();
+                            byte[] buffer = new byte[1024];
+                            int len;
+                            while ((len = fis.read(buffer)) != -1) {
+                                baos.write(buffer, 0, len);
+                            }
+                            baos.flush();
+                        } catch (IOException e) {
+                            throw new YSBizException(e);
+                        }
+
+                        PDFMergerUtility mergerUtility = new PDFMergerUtility();
+                        mergerUtility.setDestinationFileName(tmpFileFullPath);
+                        org.springframework.core.io.Resource pdfResource = new ClassPathResource("pdf/merge-sample.pdf");
+                        InputStream mergeSamplePdf = null;
+                        try {
+                            mergeSamplePdf = pdfResource.getInputStream();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        mergerUtility.addSource(mergeSamplePdf);
+                        try {
+                            mergerUtility.addSource(new ByteArrayInputStream(baos.toByteArray()));
+                            mergerUtility.mergeDocuments();
+                        } catch (Exception e) {
+                            logger.error("merging PDF files fails, in DocumentController.handleEvent(), FileName : " + fileItem.getOriginalFileName());
+                            ExecutionContext ec1 = new ExecutionContext(ExecutionContext.FAIL);
+                            ec1.setResult(ExecutionContext.FAIL);
+                            ec1.setMessage(MessageResolver.getMessage("U06102"));
+                            ec1.setErrCode("ERR1104");
+                            Map<String, String> errorInfo = new HashMap<String, String>();
+                            errorInfo.put("applNo", String.valueOf(document.getApplNo()));
+                            errorInfo.put("fileName", fileItem.getOriginalFileName());
+                            ec1.setErrorInfo(new ErrorInfo(errorInfo));
+                            throw new PDFMergeException(ec1, "U06105", "ERR1104");
+                        } finally {
+                            FileUtils.deleteQuietly(new File(tmpFileFullPath));
+                        }
+
                         String originalFileName = fileItem.getOriginalFileName();
 
                         try{
@@ -464,7 +513,14 @@ public class DocumentController {
                                 errorInfo.put("applNo", String.valueOf(document.getApplNo()));
                                 errorInfo.put("originalFileName", fileItem.getOriginalFileName());
                                 ec.setErrorInfo(new ErrorInfo(errorInfo));
-                                throw new EncryptedPDFException(ec, "U04514", "ERR0052");
+                                throw new EncryptedPDFException(ec, "U04514", "ERR1101");
+                            } catch (WrongFileFormatException e) {
+                                ec = new ExecutionContext(ExecutionContext.FAIL);
+                                Map<String, String> errorInfo = new HashMap<String, String>();
+                                errorInfo.put("applNo", String.valueOf(document.getApplNo()));
+                                errorInfo.put("originalFileName", fileItem.getOriginalFileName());
+                                ec.setErrorInfo(new ErrorInfo(errorInfo));
+                                throw new WrongFileFormatException(ec, "U06106", "ERR1101", fileItem.getOriginalFileName());
                             } catch (IOException ioe) {
                                 if (ioe.getCause().getCause() instanceof DataFormatException) {
                                     ec = new ExecutionContext(ExecutionContext.FAIL);
@@ -540,6 +596,8 @@ public class DocumentController {
                         } catch (EncryptedPDFException e) {
                             throw e;
                         } catch (PasswordedPDFException e) {
+                            throw e;
+                        } catch (WrongFileFormatException e) {
                             throw e;
                         } catch (Exception e) {
                             logger.error("S3 저장시 아마존 예외 외의 오류");

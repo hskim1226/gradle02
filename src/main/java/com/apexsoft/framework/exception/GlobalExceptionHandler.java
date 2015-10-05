@@ -159,8 +159,27 @@ public class GlobalExceptionHandler {
                                                     PDFMergeException e){
         ExecutionContext ec = e.getExecutionContext();
         ErrorInfo eInfo = ec.getErrorInfo();
-        ec.setMessage(MessageResolver.getMessage(e.getUserMessageCode()));
+        ec.setMessage(MessageResolver.getMessage(e.getUserMessageCode(), new Object[]{eInfo.getInfo().get("fileName")}));
         logger.debug("PDFMergeException Occured :: URL=" + request.getRequestURL());
+        logger.debug("Message:: " + StringUtil.getEmptyIfNull(ec.getErrCode()));
+        logger.debug("ErrorCode:: " + StringUtil.getEmptyIfNull(e.getErrorCode()));
+        logger.debug("Cause:: " + e.getCause());
+        logger.debug("ErrorInfo :: " + (eInfo != null ? eInfo.toString() : ""));
+        logger.debug("ErrorType :: " + e.toString());
+        logger.debug("FilteredStackTrace ::" +
+                StackTraceFilter.getFilteredCallStack(e.getStackTrace(), "com.apexsoft", false));
+
+        return ec;
+    }
+
+    @ExceptionHandler(WrongFileFormatException.class)
+    @ResponseBody
+    public ExecutionContext handleWrongFileFormatException(HttpServletRequest request, HttpServletResponse response,
+                                                    WrongFileFormatException e){
+        ExecutionContext ec = e.getExecutionContext();
+        ErrorInfo eInfo = ec.getErrorInfo();
+        ec.setMessage(MessageResolver.getMessage(e.getUserMessageCode(), new Object[]{eInfo.getInfo().get("originalFileName")}));
+        logger.debug("WrongFileFormatException Occured :: URL=" + request.getRequestURL());
         logger.debug("Message:: " + StringUtil.getEmptyIfNull(ec.getErrCode()));
         logger.debug("ErrorCode:: " + StringUtil.getEmptyIfNull(e.getErrorCode()));
         logger.debug("Cause:: " + e.getCause());
