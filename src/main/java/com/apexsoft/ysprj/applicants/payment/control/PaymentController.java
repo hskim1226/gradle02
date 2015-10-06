@@ -1,6 +1,8 @@
 package com.apexsoft.ysprj.applicants.payment.control;
 
 import com.apexsoft.framework.common.vo.ExecutionContext;
+import com.apexsoft.framework.exception.ErrorInfo;
+import com.apexsoft.framework.exception.YSBizException;
 import com.apexsoft.framework.message.MessageResolver;
 import com.apexsoft.framework.security.UserSessionVO;
 import com.apexsoft.framework.unused.xpay.service.TransactionVO;
@@ -13,6 +15,9 @@ import com.apexsoft.ysprj.applicants.payment.service.PaymentService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.lang3.StringUtils;
+import org.python.antlr.ast.Exec;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
@@ -30,6 +35,8 @@ import javax.servlet.http.HttpSession;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by cosb071 on 15. 1. 27.
@@ -39,6 +46,8 @@ import java.security.NoSuchAlgorithmException;
 @Controller
 @RequestMapping("/payment")
 public class PaymentController {
+
+    private static final Logger logger = LoggerFactory.getLogger(PaymentController.class);
 
     @Autowired
     private PaymentService paymentService;
@@ -171,6 +180,18 @@ public class PaymentController {
 
 //        payment.setApplNo(model.getApplication().getApplNo());
         Application application = model.getApplication();
+        if (application == null) {
+            logger.error("application is null in PaymentController.processXPay()");
+            ExecutionContext ec = new ExecutionContext(ExecutionContext.FAIL);
+            Map<String, String> errorMap = new HashMap<String, String>();
+            errorMap.put("payment.applNo", String.valueOf(payment.getApplNo()));
+            errorMap.put("payment.LGD_BUYERID", String.valueOf(payment.getLGD_BUYERID()));
+            errorMap.put("payment.LGD_OID", String.valueOf(payment.getLGD_OID()));
+            ErrorInfo errorInfo = new ErrorInfo();
+            errorInfo.setInfo(errorMap);
+            ec.setErrorInfo(errorInfo);
+            throw new YSBizException(MessageResolver.getMessage("U05108"), new NullPointerException(), MessageResolver.getMessage("ERR0301"));
+        }
         int applNo = application.getApplNo();
         payment.setApplNo(applNo);
         String respStr = paymentService.executePayment(payment, transactionVO);
