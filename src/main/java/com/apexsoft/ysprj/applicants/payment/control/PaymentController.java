@@ -180,6 +180,7 @@ public class PaymentController {
 
 //        payment.setApplNo(model.getApplication().getApplNo());
         Application application = model.getApplication();
+//        Application application = null;
         if (application == null) {
             logger.error("application is null in PaymentController.processXPay(), applNo : " + payment.getApplNo() +
                     ", LGD_BUYERID : " + payment.getLGD_BUYERID() + ", LGD_OID : " + payment.getLGD_OID());

@@ -773,11 +773,13 @@ public class PaymentServiceImpl implements PaymentService {
             ExecutionContext ecGenAdms = birtService.generateBirtFile(application.getApplNo(), reportName);
             stage = "before generate PDF and Upload";
             ExecutionContext ecPdfMerge = pdfService.genAndUploadPDFByApplicants(application);
+
             if ( ExecutionContext.FAIL.equals(ecGenAppl.getResult()) ||
                     ExecutionContext.FAIL.equals(ecGenAdms.getResult()) ||
                     ExecutionContext.FAIL.equals(ecPdfMerge.getResult()) ) {
                 throw new YSBizException();
             }
+
         } catch (Exception e) {
             logger.error("Error in PaymentServiceImpl.genAndUploadApplicationFormAndSlipFile(), stage : " + stage +
              "applNo : " + application.getApplNo() + ", userId" + application.getUserId() );
