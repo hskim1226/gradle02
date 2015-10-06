@@ -774,11 +774,12 @@ public class PaymentServiceImpl implements PaymentService {
             stage = "before generate PDF and Upload";
             ExecutionContext ecPdfMerge = pdfService.genAndUploadPDFByApplicants(application);
 
-            if ( ExecutionContext.FAIL.equals(ecGenAppl.getResult()) ||
-                    ExecutionContext.FAIL.equals(ecGenAdms.getResult()) ||
-                    ExecutionContext.FAIL.equals(ecPdfMerge.getResult()) ) {
-                throw new YSBizException();
-            }
+            if ( ExecutionContext.FAIL.equals(ecGenAppl.getResult()))
+                throw new YSBizException(ecGenAppl);
+            if ( ExecutionContext.FAIL.equals(ecGenAdms.getResult()))
+                throw new YSBizException(ecGenAdms);
+            if ( ExecutionContext.FAIL.equals(ecPdfMerge.getResult()))
+                throw new YSBizException(ecPdfMerge);
 
         } catch (Exception e) {
             logger.error("Error in PaymentServiceImpl.genAndUploadApplicationFormAndSlipFile(), stage : " + stage +

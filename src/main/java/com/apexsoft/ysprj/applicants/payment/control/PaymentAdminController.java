@@ -120,11 +120,13 @@ public class PaymentAdminController {
         reportName = "yonsei-adms-" + lang;
         ExecutionContext ecGenAdms = birtService.generateBirtFile(application.getApplNo(), reportName);
         ExecutionContext ecPdfMerge = pdfService.genAndUploadPDFByApplicants(application);
-        if ( ExecutionContext.FAIL.equals(ecGenAppl.getResult()) ||
-                ExecutionContext.FAIL.equals(ecGenAdms.getResult()) ||
-                ExecutionContext.FAIL.equals(ecPdfMerge.getResult()) ) {
-            throw new YSBizException();
-        }
+        if ( ExecutionContext.FAIL.equals(ecGenAppl.getResult()))
+            throw new YSBizException(ecGenAppl);
+        if ( ExecutionContext.FAIL.equals(ecGenAdms.getResult()))
+            throw new YSBizException(ecGenAdms);
+        if ( ExecutionContext.FAIL.equals(ecPdfMerge.getResult()))
+            throw new YSBizException(ecPdfMerge);
+
 
         return "xpay/resultpdf";
     }
