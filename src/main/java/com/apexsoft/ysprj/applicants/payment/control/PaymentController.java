@@ -181,7 +181,8 @@ public class PaymentController {
 //        payment.setApplNo(model.getApplication().getApplNo());
         Application application = model.getApplication();
         if (application == null) {
-            logger.error("application is null in PaymentController.processXPay()");
+            logger.error("application is null in PaymentController.processXPay(), applNo : " + payment.getApplNo() +
+                    ", LGD_BUYERID : " + payment.getLGD_BUYERID() + ", LGD_OID : " + payment.getLGD_OID());
             ExecutionContext ec = new ExecutionContext(ExecutionContext.FAIL);
             Map<String, String> errorMap = new HashMap<String, String>();
             errorMap.put("payment.applNo", String.valueOf(payment.getApplNo()));

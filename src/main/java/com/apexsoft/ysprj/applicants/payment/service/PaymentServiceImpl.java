@@ -1,6 +1,7 @@
 package com.apexsoft.ysprj.applicants.payment.service;
 
 import com.apexsoft.framework.common.vo.ExecutionContext;
+import com.apexsoft.framework.exception.ErrorInfo;
 import com.apexsoft.framework.exception.YSBizException;
 import com.apexsoft.framework.mail.Mail;
 import com.apexsoft.framework.mail.MailType;
@@ -20,15 +21,15 @@ import com.apexsoft.ysprj.applicants.common.util.MailFactory;
 import com.apexsoft.ysprj.applicants.payment.domain.*;
 import lgdacom.XPayClient.XPayClient;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
 
 /**
  * Created by cosb071 on 15. 1. 22.
@@ -39,6 +40,8 @@ import java.util.Locale;
 public class PaymentServiceImpl implements PaymentService {
 
     private final static String NAME_SPACE = "com.apexsoft.ysprj.applicants.payment.sqlmap.";
+
+    private static final Logger logger = LoggerFactory.getLogger(PaymentServiceImpl.class);
 
     @Autowired
     private CommonDAO commonDAO;
@@ -758,18 +761,34 @@ public class PaymentServiceImpl implements PaymentService {
 
     private ExecutionContext genAndUploadApplicationFormAndSlipFile(Application application) {
         ExecutionContext ec = new ExecutionContext();
-
-        String admsTypeCode = application.getAdmsTypeCode();
-        String lang = "C".equals(admsTypeCode) || "D".equals(admsTypeCode) ? "en" : "kr";
-        String reportName = "yonsei-appl-" + lang;
-        ExecutionContext ecGenAppl = birtService.generateBirtFile(application.getApplNo(), reportName);
-        reportName = "yonsei-adms-" + lang;
-        ExecutionContext ecGenAdms = birtService.generateBirtFile(application.getApplNo(), reportName);
-        ExecutionContext ecPdfMerge = pdfService.genAndUploadPDFByApplicants(application);
-        if ( ExecutionContext.FAIL.equals(ecGenAppl.getResult()) ||
-                ExecutionContext.FAIL.equals(ecGenAdms.getResult()) ||
-                ExecutionContext.FAIL.equals(ecPdfMerge.getResult()) ) {
-            throw new YSBizException();
+        String stage = null;
+        try {
+            String admsTypeCode = application.getAdmsTypeCode();
+            String lang = "C".equals(admsTypeCode) || "D".equals(admsTypeCode) ? "en" : "kr";
+            String reportName = "yonsei-appl-" + lang;
+            stage = "before generate ApplForm";
+            ExecutionContext ecGenAppl = birtService.generateBirtFile(application.getApplNo(), reportName);
+            reportName = "yonsei-adms-" + lang;
+            stage = "before generate ApplSlip";
+            ExecutionContext ecGenAdms = birtService.generateBirtFile(application.getApplNo(), reportName);
+            stage = "before generate PDF and Upload";
+            ExecutionContext ecPdfMerge = pdfService.genAndUploadPDFByApplicants(application);
+            if ( ExecutionContext.FAIL.equals(ecGenAppl.getResult()) ||
+                    ExecutionContext.FAIL.equals(ecGenAdms.getResult()) ||
+                    ExecutionContext.FAIL.equals(ecPdfMerge.getResult()) ) {
+                throw new YSBizException();
+            }
+        } catch (Exception e) {
+            logger.error("Error in PaymentServiceImpl.genAndUploadApplicationFormAndSlipFile(), stage : " + stage +
+             "applNo : " + application.getApplNo() + ", userId" + application.getUserId() );
+            ExecutionContext ec1 = new ExecutionContext(ExecutionContext.FAIL);
+            Map<String, String> errorMap = new HashMap<String, String>();
+            errorMap.put("applNo", String.valueOf(application.getApplNo()));
+            errorMap.put("userId", String.valueOf(application.getUserId()));
+            ErrorInfo errorInfo = new ErrorInfo();
+            errorInfo.setInfo(errorMap);
+            ec1.setErrorInfo(errorInfo);
+            throw new YSBizException(MessageResolver.getMessage("U05109"), new NullPointerException(), MessageResolver.getMessage("ERR0302"));
         }
 
         return ec;
