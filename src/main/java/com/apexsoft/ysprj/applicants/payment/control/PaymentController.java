@@ -222,7 +222,14 @@ public class PaymentController {
             ec.setErrorInfo(errorInfo);
             throw new YSBizException(MessageResolver.getMessage("U05108"), new NullPointerException(), MessageResolver.getMessage("ERR0301"));
         }
-        int applNo = application.getApplNo();
+        int applNo = 0;
+        try {
+            applNo = application.getApplNo();
+        } catch (Exception e) {
+            logger.error("Error in processXPay, cause : " + e.getCause() + ", application.applNo : " + application.getApplNo() + ", payment.applNo : " + payment.getApplNo() + ", userId : " + payment.getLGD_BUYERID());
+            throw new YSBizException(e);
+        }
+
         payment.setApplNo(applNo);
         String respStr = paymentService.executePayment(payment, transactionVO);
 
