@@ -109,6 +109,7 @@
                             <input type="hidden" name="LGD_PRODUCTINFO" id="LGD_PRODUCTINFO"/>
                             <input type="hidden" name="LGD_AMOUNT" id="LGD_AMOUNT"/>
                             <input type="hidden" name="application.applNo" id="applNo"/>
+                            <input type="hidden" name="applNo"             id="applNo2"/>
                             <input type="hidden" name="application.admsNo" id="admsNo"/>
                             <input type="hidden" name="application.entrYear" id="entrYear"/>
                             <input type="hidden" name="application.admsTypeCode" id="admsTypeCode"/>
@@ -128,6 +129,7 @@
 
             var setHidden = function (obj) {
                 document.getElementById('applNo').value = obj.getAttribute('data-applNo');
+                document.getElementById('applNo2').value = obj.getAttribute('data-applNo');
                 document.getElementById('admsNo').value = obj.getAttribute('data-admsNo');
                 document.getElementById('entrYear').value = obj.getAttribute('data-entrYear');
                 document.getElementById('admsTypeCode').value = obj.getAttribute('data-admsTypeCode');
@@ -160,6 +162,7 @@
                     document.getElementById('LGD_AMOUNT').value = e.target.value;
                     document.getElementById('LGD_PAYINFO').setAttribute("action", "${contextPath}/payment/confirm");
                     document.getElementById('applNo').value = e.target.getAttribute('data-applNo');
+                    document.getElementById('applNo2').value = e.target.getAttribute('data-applNo');
                     document.getElementById('userId').value = e.target.getAttribute('data-userId');
                     $('#LGD_PAYINFO').submit();
                 }
