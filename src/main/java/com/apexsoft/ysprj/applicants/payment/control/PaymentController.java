@@ -87,8 +87,13 @@ public class PaymentController {
 
 //        payment.setLGD_BUYERID(userSessionVO.getUsername());
         payment.setLGD_BUYERID(model.getApplication().getUserId());
-        payment.setApplNo(model.getApplication().getApplNo());
-
+        if (payment.getApplNo() == 0) {
+            logger.error("payment.applNo is 0 in PaymentController.confirmPayment(), payment.applNo : " + payment.getApplNo() +
+                    ", application.applNo : " + model.getApplication().getApplNo() +
+                    ", LGD_BUYERID : " + payment.getLGD_BUYERID() + ", LGD_OID : " + payment.getLGD_OID() +
+                    ", payment.setApplNo(model.getApplication().getApplNo()) 실행");
+            payment.setApplNo(model.getApplication().getApplNo());
+        }
         paymentService.retrieveConfirmInfo(payment);
         String korName = payment.getKorName();
         boolean hasKorName = korName != null && !StringUtils.isEmpty(korName);
@@ -106,7 +111,6 @@ public class PaymentController {
 //            retPage = "xpay/confirm";
             mv.setViewName("xpay/confirm");
         }
-
         return mv;
     }
 
