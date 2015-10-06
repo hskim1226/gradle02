@@ -23,6 +23,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -125,8 +126,21 @@ public class PaymentController {
 //    @RequestMapping(value="/info", method= RequestMethod.GET, produces="text/plain;charset=UTF-8")
     @RequestMapping(value="/info", method= RequestMethod.GET)
     @ResponseBody
-    public ExecutionContext getFullPaymentInfo( HttpServletRequest request, HttpSession httpSession, Payment payment, Basis model )
+    public ExecutionContext getFullPaymentInfo( HttpServletRequest request, HttpSession httpSession, Payment payment, Basis model,
+                                                BindingResult bindingResult)
             throws NoSuchAlgorithmException, JsonProcessingException, UnsupportedEncodingException {
+
+        if (bindingResult.hasErrors()) {
+            if (model.getApplication() == null) {
+                logger.error("applNo is in PaymentController.getFullPaymentInfo()" +
+                        ", LGD_BUYERID : " + payment.getLGD_BUYERID() + ", LGD_OID : " + payment.getLGD_OID());
+                payment.setApplNo(0);
+            } else {
+                logger.error("applNo is in PaymentController.getFullPaymentInfo(), applNo : " + model.getApplication().getApplNo() +
+                        ", LGD_BUYERID : " + payment.getLGD_BUYERID() + ", LGD_OID : " + payment.getLGD_OID());
+                payment.setApplNo(model.getApplication().getApplNo());
+            }
+        }
 
         ExecutionContext ec = new ExecutionContext();
         SecurityContext sc = (SecurityContext)httpSession.getAttribute("SPRING_SECURITY_CONTEXT");
@@ -176,7 +190,21 @@ public class PaymentController {
      * @throws NoSuchAlgorithmException
      */
     @RequestMapping(value = "/process", method = RequestMethod.POST)
-    public String processXPay( Payment payment, Basis model, @ModelAttribute TransactionVO transactionVO ) throws NoSuchAlgorithmException {
+    public String processXPay( Payment payment,
+                               Basis model,
+                               BindingResult bindingResult,
+                               @ModelAttribute TransactionVO transactionVO ) throws NoSuchAlgorithmException {
+        if (bindingResult.hasErrors()) {
+            if (model.getApplication() == null) {
+                logger.error("applNo is in PaymentController.processXPay()" +
+                        ", LGD_BUYERID : " + payment.getLGD_BUYERID() + ", LGD_OID : " + payment.getLGD_OID());
+                payment.setApplNo(0);
+            } else {
+                logger.error("applNo is in PaymentController.processXPay(), applNo : " + model.getApplication().getApplNo() +
+                        ", LGD_BUYERID : " + payment.getLGD_BUYERID() + ", LGD_OID : " + payment.getLGD_OID());
+                payment.setApplNo(model.getApplication().getApplNo());
+            }
+        }
 
 //        payment.setApplNo(model.getApplication().getApplNo());
         Application application = model.getApplication();

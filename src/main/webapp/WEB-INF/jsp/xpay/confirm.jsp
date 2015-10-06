@@ -181,7 +181,7 @@
             <input type="hidden" name="LGD_RESPMSG"            id="LGD_RESPMSG">
 
             <input type="hidden" name="application.applNo" id="applNo"/>
-            <input type="hidden" name="applNo" id="applNo2"/>
+            <%--<input type="hidden" name="applNo" id="applNo2"/>--%>
         </form>
     </div>
 
@@ -337,7 +337,8 @@
                 $("#overlay").show();
                 document.getElementById('LGD_TIMESTAMP').value = dateToFormat(new Date(), 'yyyyMMddhhmmss');
                 document.getElementById('applNo').value = "${payment.applNo}";
-                document.getElementById('applNo2').value = "${payment.applNo}";
+                <%--document.getElementById('applNo2').value = "${payment.applNo}";--%>
+//                document.getElementById('applNo2').value = "";
 
                 $.ajax( {
 
