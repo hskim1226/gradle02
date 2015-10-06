@@ -230,7 +230,11 @@ public class PaymentController {
         try {
             applNo = application.getApplNo();
         } catch (Exception e) {
-            logger.error("Error in processXPay, cause : " + e.getCause() + ", application.applNo : " + application.getApplNo() + ", payment.applNo : " + payment.getApplNo() + ", userId : " + payment.getLGD_BUYERID());
+            logger.error("Error in processXPay, cause : " + e.getCause() + ", application.applNo : " + application.getApplNo() +
+                    ", payment.applNo : " + payment.getApplNo() +
+                    ", userId : " + payment.getLGD_BUYERID() +
+                    ", LGD_OID : " + payment.getLGD_OID()
+            );
             throw new YSBizException(e);
         }
 
