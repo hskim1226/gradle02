@@ -450,7 +450,7 @@
                                     <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].fileExt" value="${lv2Container.fileExt}" />
                                     <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].imgYn" value="${lv2Container.imgYn}" />
                                     <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].filePath" value="${lv2Container.filePath}" />
-                                    <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].fileName" value="${lv2Container.fileName}" />
+                                    <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].fileName" value="${lv2Container.fileName}" class="hidden-file-name" data-doc-item-name="${lv2Container.docItemName}"/>
                                     <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].orgFileName" value="${lv2Container.orgFileName}" />
                                     <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].docItemNameXxen" value="${lv2Container.docItemNameXxen}" />
                                     <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].docGrpName" value="${lv2Container.docGrpName}" />
@@ -596,7 +596,7 @@
                                             <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].subContainer[${lv3Status.index}].fileExt" value="${lv3Container.fileExt}" />
                                             <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].subContainer[${lv3Status.index}].imgYn" value="${lv3Container.imgYn}" />
                                             <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].subContainer[${lv3Status.index}].filePath" value="${lv3Container.filePath}" />
-                                            <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].subContainer[${lv3Status.index}].fileName" value="${lv3Container.fileName}" />
+                                            <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].subContainer[${lv3Status.index}].fileName" value="${lv3Container.fileName}" class="hidden-file-name" data-doc-item-name="${lv3Container.docItemName}" />
                                             <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].subContainer[${lv3Status.index}].orgFileName" value="${lv3Container.orgFileName}" />
                                             <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].subContainer[${lv3Status.index}].docItemNameXxen" value="${lv3Container.docItemNameXxen}" />
                                             <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].subContainer[${lv3Status.index}].docGrpName" value="${lv3Container.docGrpName}" />
@@ -732,7 +732,7 @@
                                                     <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].subContainer[${lv3Status.index}].subContainer[${lv4Status.index}].fileExt" value="${lv4Container.fileExt}" />
                                                     <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].subContainer[${lv3Status.index}].subContainer[${lv4Status.index}].imgYn" value="${lv4Container.imgYn}" />
                                                     <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].subContainer[${lv3Status.index}].subContainer[${lv4Status.index}].filePath" value="${lv4Container.filePath}" />
-                                                    <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].subContainer[${lv3Status.index}].subContainer[${lv4Status.index}].fileName" value="${lv4Container.fileName}" />
+                                                    <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].subContainer[${lv3Status.index}].subContainer[${lv4Status.index}].fileName" value="${lv4Container.fileName}" class="hidden-file-name" data-doc-item-name="${lv4Container.docItemName}" />
                                                     <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].subContainer[${lv3Status.index}].subContainer[${lv4Status.index}].orgFileName" value="${lv4Container.orgFileName}" />
                                                     <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].subContainer[${lv3Status.index}].subContainer[${lv4Status.index}].docItemNameXxen" value="${lv4Container.docItemNameXxen}" />
                                                     <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].subContainer[${lv3Status.index}].subContainer[${lv4Status.index}].docGrpName" value="${lv4Container.docGrpName}" />
@@ -908,7 +908,7 @@
                                         <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2EtcStatus.index}].fileExt" />
                                         <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2EtcStatus.index}].imgYn" />
                                         <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2EtcStatus.index}].filePath" />
-                                        <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2EtcStatus.index}].fileName" />
+                                        <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2EtcStatus.index}].fileName"  class="hidden-file-name" data-doc-item-name="${documentContainerList[lv1Status.index].subContainer[lv2EtcStatus.index].docItemName}"/>
                                         <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2EtcStatus.index}].orgFileName" />
                                         <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2EtcStatus.index}].docItemNameXxen" />
                                         <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2EtcStatus.index}].docGrpName" />
@@ -1148,22 +1148,51 @@
             event.preventDefault();
 
             var form = document.forms[0],
-                formData,
+                formData, isSpecialCharactersInFileName
                 saveType = this.getAttribute('data-saveType');
             if (saveType == 'document') {
                 $('#overlay').show();
+
+                $('.hidden-file-name').each( function() {
+                    var docItemName = this.getAttribute('data-doc-item-name');
+                    var fileNameWithoutFake = this.value;
+                    if (fileNameWithoutFake.indexOf("\'") > -1 ||
+                            fileNameWithoutFake.indexOf('\"') > -1 ||
+                            fileNameWithoutFake.indexOf('&') > -1 ||
+                            fileNameWithoutFake.indexOf('\\') > -1 ||
+                            fileNameWithoutFake.indexOf('/') > -1 ||
+                            fileNameWithoutFake.indexOf(':') > -1 ||
+                            fileNameWithoutFake.indexOf('~') > -1 ||
+                            fileNameWithoutFake.indexOf('!') > -1 ||
+                            fileNameWithoutFake.indexOf('@') > -1 ||
+                            fileNameWithoutFake.indexOf('#') > -1 ||
+                            fileNameWithoutFake.indexOf('$') > -1 ||
+                            fileNameWithoutFake.indexOf('%') > -1 ||
+                            fileNameWithoutFake.indexOf('^') > -1 ||
+                            fileNameWithoutFake.indexOf('*') > -1 ||
+                            fileNameWithoutFake.indexOf('+') > -1
+                    ) {
+                        alert('<spring:message code="U04527"/> : ' + docItemName);  // 업로드 된 파일 이름에 특수 문자가 있습니다.\\n업로드 된 파일을 삭제하고, 업로드 할 파일 이름에서 특수 문자 제거 후 다시 업로드 해주세요.\\n\\n문서명
+                        $('#overlay').hide();
+                        isSpecialCharactersInFileName = true;
+                    }
+                });
+
                 var checkDocChckYn = document.getElementById('docChckYn');
                 if (!checkDocChckYn.checked) {
                     alert('<spring:message code="U04501"/>');//첨부 파일 안내 사항 확인란에 체크 하셔야 합니다.
                     $('#overlay').hide();
                     checkDocChckYn.focus();
                 } else {
-                    checkDocChckYn.value = "Y";
-                    form.action = "${contextPath}/application/document/save";
-                    form.submit();
+                    if (!isSpecialCharactersInFileName) {
+                        checkDocChckYn.value = "Y";
+                        form.action = "${contextPath}/application/document/save";
+                        form.submit();
+                    }
                 }
             } else if (saveType == 'generate') {
                 $('#overlay').show();
+                alert('<spring:message code="U04525"/>'); // 원서 미리보기 생성 및 원서 미리 보기에서 오류 발생 시 업로드 된 파일 이름에서 특수 문자를 제거한 후 다시 시도해 주십시오.
                 document.getElementById('spinner').style.display = 'block';
                 formData = $(form).serialize();
                 <%-- 지원서 파일 정보 DB 저장 --%>
@@ -1213,11 +1242,12 @@
                 <%-- 지원서 파일 정보 DB 저장 --%>
 
             } else if (saveType == 'preview') {
+                alert('<spring:message code="U04525"/>'); // 원서 미리보기 생성 및 원서 미리 보기에서 오류 발생 시 업로드 된 파일 이름에서 특수 문자를 제거한 후 다시 시도해 주십시오.
                 form.action = "${contextPath}/pdf/download/tempMergedApplicationForm";
                 form.submit();
             } else if (saveType == 'submit') {
                 $('#overlay').show();
-                if (confirm('<spring:message code="U04509"/>')) {//원서 제출 후에는 원서 내용을 수정할 수 없습니다.\n\n계속하시겠습니까?
+                if (confirm('<spring:message code="U04526"/>\n\n<spring:message code="U04509"/>')) {// 원서 제출에서 오류 발생 시 업로드 된 파일 이름에서 특수 문자를 제거한 후 다시 시도해 주십시오. 원서 제출 후에는 원서 내용을 수정할 수 없습니다.\n\n계속하시겠습니까?
                     document.getElementById('spinner2').style.display = 'block';
                     form.action = "${contextPath}/application/document/submit";
                     form.target = "_self";
@@ -1264,20 +1294,46 @@
                     regexpPDF = (/\.(pdf)$/i),
                     extIsOk = false,
                     checkboxId = this.getAttribute('data-checkbox-id'),
-                    targetButton = this;
+                    targetButton = this,
+                    fileNameWithoutFake = fileInput.files[0].name,
+                    fileSize = fileInput.files[0].size
+                    ;
             if (fileName.length > 80) {
                 alert('<spring:message code="U04513"/>');  /*파일 경로가 너무 깁니다. \\n\\n파일을 PC의 바탕화면이나 D: 드라이브 바로 아래로 복사하신 후에 업로드해 주세요.*/
                 $('#overlay').hide();
                 return false;
             }
+            if (fileNameWithoutFake.indexOf("\'") > -1 ||
+                    fileNameWithoutFake.indexOf('\"') > -1 ||
+                    fileNameWithoutFake.indexOf('&') > -1 ||
+                    fileNameWithoutFake.indexOf('\\') > -1 ||
+                    fileNameWithoutFake.indexOf('/') > -1 ||
+                    fileNameWithoutFake.indexOf(':') > -1 ||
+                    fileNameWithoutFake.indexOf('~') > -1 ||
+                    fileNameWithoutFake.indexOf('!') > -1 ||
+                    fileNameWithoutFake.indexOf('@') > -1 ||
+                    fileNameWithoutFake.indexOf('#') > -1 ||
+                    fileNameWithoutFake.indexOf('$') > -1 ||
+                    fileNameWithoutFake.indexOf('%') > -1 ||
+                    fileNameWithoutFake.indexOf('^') > -1 ||
+                    fileNameWithoutFake.indexOf('*') > -1 ||
+                    fileNameWithoutFake.indexOf('+') > -1
+            ) {
+                alert('<spring:message code="U04523"/>');  /*파일 이름에 특수 문자가 있습니다.\\n\\n파일 이름에서 특수 문자를 제거해 주세요.*/
+                $('#overlay').hide();
+                return false;
+            }
+             if (fileSize > 1024 * 1024 * 30) {
+                 alert('<spring:message code="U04524" arguments="30"/>');
+                 $('#overlay').hide();
+                 return false;
+             }
             if (docItemName && !docItemName.value.length > 0) {
                 alert('<spring:message code="U04502"/>');//서류명을 직접 입력해 주세요.
                 $('#overlay').hide();
                 docItemName.focus();
                 return false;
             }
-
-
             if ((fileInput.files && fileInput.files.length) || fileInput.value != "") {
                 if (imgYn == 'Y') {
                     if (regexpImage.test(fileName)) {
