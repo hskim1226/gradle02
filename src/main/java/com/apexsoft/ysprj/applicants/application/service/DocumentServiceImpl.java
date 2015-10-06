@@ -266,6 +266,12 @@ public class DocumentServiceImpl implements DocumentService {
             ec.setResult(ExecutionContext.FAIL);
             ec.setMessage(MessageResolver.getMessage("U337"));
             ec.setErrCode("ERR0035");
+            ErrorInfo errorInfo = new ErrorInfo();
+            Map<String, String> errorMap = new HashMap<String, String>();
+            errorMap.put("applNo", String.valueOf(docKey.getApplNo()));
+            errorMap.put("docSeq", String.valueOf(docKey.getDocSeq()));
+            errorInfo.setInfo(errorMap);
+            ec.setErrorInfo(errorInfo);
             throw new YSBizException(ec);
         }
         return ec;
