@@ -1016,7 +1016,7 @@
 
                                 for ( var i = 0 , len = tr.children.length; i < len; i++ ) {
                                     if (document.getElementById(targetInputId[i])) {
-                                        document.getElementById(targetInputId[i]).value = tr.children[i].firstChild.innerText;
+                                        document.getElementById(targetInputId[i]).value = tr.children[i].firstChild.innerHTML;
                                     }
                                 }
                                 hideDialog('#modal_popup3');
@@ -1036,7 +1036,7 @@
                             var tr = this, resultInputText;
 
                             if (document.getElementById(targetInputId[0])) {
-                                document.getElementById(targetInputId[0]).value = tr.children[0].firstChild.innerText;
+                                document.getElementById(targetInputId[0]).value = tr.children[0].firstChild.innerHTML;
                             }
                             if (document.getElementById(targetInputId[1])) {
                                 resultInputText = document.getElementById(targetInputId[1]);
