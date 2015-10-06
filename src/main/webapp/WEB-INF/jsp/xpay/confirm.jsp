@@ -276,7 +276,7 @@
                     });
 
                     if( "0000" == LGD_RESPCODE ) { //인증성공
-
+                        document.getElementById('applNo').value = "${payment.applNo}";
                         document.getElementById('LGD_PAYINFO').submit();
                         document.getElementById('spinner').style.display = 'block';
 
