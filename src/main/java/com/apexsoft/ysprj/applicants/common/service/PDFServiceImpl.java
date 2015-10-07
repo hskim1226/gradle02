@@ -10,6 +10,7 @@ import com.apexsoft.framework.exception.YSBizNoticeException;
 import com.apexsoft.framework.message.MessageResolver;
 import com.apexsoft.framework.persistence.dao.CommonDAO;
 import com.apexsoft.framework.persistence.file.exception.FileNoticeException;
+import com.apexsoft.framework.persistence.file.exception.NotFoundInS3Exception;
 import com.apexsoft.framework.persistence.file.exception.PDFMergeException;
 import com.apexsoft.framework.persistence.file.manager.FilePersistenceManager;
 import com.apexsoft.ysprj.applicants.application.domain.Application;
@@ -87,6 +88,7 @@ public class PDFServiceImpl implements PDFService {
         List<ByteArrayOutputStream> unencryptedPdfBaosList = new ArrayList<ByteArrayOutputStream>();
         ExecutionContext ec = new ExecutionContext();
 
+        Map<String, String> notFoundInS3Map = new HashMap<String, String>();
 
         for (ApplicationDocument aDoc : pdfList) {
             String filePath = FileUtil.recoverAmpersand(aDoc.getFilePath());
@@ -102,8 +104,13 @@ public class PDFServiceImpl implements PDFService {
                 try {
                     object = s3.getObject(new GetObjectRequest(s3BucketName, filePath));
                 } catch (Exception e) {
-                    logger.error("Err in s3.getObject in PDFServiceImpl.genAndUploadPDFByApplicants, bucketName : [" + s3BucketName + "], objectKey : [" + filePath +"]" + e.getMessage());
-                    throw new YSBizException(e);
+                    ExecutionContext ec1 = new ExecutionContext(ExecutionContext.FAIL);
+                    logger.error("Err in s3.getObject in PDFServiceImpl.genAndUploadPDFByApplicants, bucketName : [" +
+                            s3BucketName + "], objectKey : [" + filePath +"]" + e.getMessage());
+                    notFoundInS3Map.put("docItemName", docItemName);
+                    notFoundInS3Map.put("orgFileName", orgFileName);
+
+                    throw new NotFoundInS3Exception(ec1, "messageCode", "errorCode");
                 }
 
                 InputStream inputStream = object.getObjectContent();

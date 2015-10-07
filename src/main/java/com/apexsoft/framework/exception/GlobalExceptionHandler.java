@@ -103,7 +103,7 @@ public class GlobalExceptionHandler {
         ExecutionContext ec = e.getExecutionContext();
         ErrorInfo eInfo = ec.getErrorInfo();
         ec.setMessage(MessageResolver.getMessage(e.getUserMessageCode()));
-        logger.debug("FileNoticeException Occured :: URL=" + request.getRequestURL());
+        logger.debug("EncryptedPDFException Occured :: URL=" + request.getRequestURL());
         logger.debug("Message:: " + StringUtil.getEmptyIfNull(ec.getErrCode()));
         logger.debug("ErrorCode:: " + StringUtil.getEmptyIfNull(e.getErrorCode()));
         logger.debug("Cause:: " + e.getCause());
@@ -122,7 +122,7 @@ public class GlobalExceptionHandler {
         ExecutionContext ec = e.getExecutionContext();
         ErrorInfo eInfo = ec.getErrorInfo();
         ec.setMessage(MessageResolver.getMessage(e.getUserMessageCode()));
-        logger.debug("FileNoticeException Occured :: URL=" + request.getRequestURL());
+        logger.debug("PasswordedPDFException Occured :: URL=" + request.getRequestURL());
         logger.debug("Message:: " + StringUtil.getEmptyIfNull(ec.getErrCode()));
         logger.debug("ErrorCode:: " + StringUtil.getEmptyIfNull(e.getErrorCode()));
         logger.debug("Cause:: " + e.getCause());
@@ -185,6 +185,19 @@ public class GlobalExceptionHandler {
         logger.debug("Cause:: " + e.getCause());
         logger.debug("ErrorInfo :: " + (eInfo != null ? eInfo.toString() : ""));
         logger.debug("ErrorType :: " + e.toString());
+        logger.debug("FilteredStackTrace ::" +
+                StackTraceFilter.getFilteredCallStack(e.getStackTrace(), "com.apexsoft", false));
+
+        return ec;
+    }
+
+    @ExceptionHandler(NotFoundInS3Exception.class)
+    @ResponseBody
+    public ExecutionContext handleNotFoundInS3Exception(HttpServletRequest request, HttpServletResponse response,
+                                                        NotFoundInS3Exception e){
+        ExecutionContext ec = e.getEc();
+
+        logger.debug("NotFoundInS3Exception Occured :: URL=" + request.getRequestURL());
         logger.debug("FilteredStackTrace ::" +
                 StackTraceFilter.getFilteredCallStack(e.getStackTrace(), "com.apexsoft", false));
 
