@@ -450,7 +450,10 @@
                                     <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].fileExt" value="${lv2Container.fileExt}" />
                                     <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].imgYn" value="${lv2Container.imgYn}" />
                                     <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].filePath" value="${lv2Container.filePath}" />
-                                    <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].fileName" value="${lv2Container.fileName}" class="hidden-file-name" data-doc-item-name="${lv2Container.docItemName}"/>
+                                    <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].fileName" value="${lv2Container.fileName}"
+                                                 class="hidden-file-name"
+                                                 data-file-input-id="file-input-name${lv1Status.index}-${lv2Status.index}-${lv3Status.index}"
+                                                 data-doc-item-name="${lv2Container.docItemName}"/>
                                     <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].orgFileName" value="${lv2Container.orgFileName}" />
                                     <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].docItemNameXxen" value="${lv2Container.docItemNameXxen}" />
                                     <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].docGrpName" value="${lv2Container.docGrpName}" />
@@ -596,7 +599,10 @@
                                             <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].subContainer[${lv3Status.index}].fileExt" value="${lv3Container.fileExt}" />
                                             <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].subContainer[${lv3Status.index}].imgYn" value="${lv3Container.imgYn}" />
                                             <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].subContainer[${lv3Status.index}].filePath" value="${lv3Container.filePath}" />
-                                            <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].subContainer[${lv3Status.index}].fileName" value="${lv3Container.fileName}" class="hidden-file-name" data-doc-item-name="${lv3Container.docItemName}" />
+                                            <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].subContainer[${lv3Status.index}].fileName" value="${lv3Container.fileName}"
+                                                         class="hidden-file-name"
+                                                         data-file-input-id="file-input-name-${lv1Status.index}-${lv2Status.index}-${lv3Status.index}"
+                                                         data-doc-item-name="${lv3Container.docItemName}" />
                                             <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].subContainer[${lv3Status.index}].orgFileName" value="${lv3Container.orgFileName}" />
                                             <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].subContainer[${lv3Status.index}].docItemNameXxen" value="${lv3Container.docItemNameXxen}" />
                                             <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].subContainer[${lv3Status.index}].docGrpName" value="${lv3Container.docGrpName}" />
@@ -732,7 +738,10 @@
                                                     <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].subContainer[${lv3Status.index}].subContainer[${lv4Status.index}].fileExt" value="${lv4Container.fileExt}" />
                                                     <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].subContainer[${lv3Status.index}].subContainer[${lv4Status.index}].imgYn" value="${lv4Container.imgYn}" />
                                                     <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].subContainer[${lv3Status.index}].subContainer[${lv4Status.index}].filePath" value="${lv4Container.filePath}" />
-                                                    <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].subContainer[${lv3Status.index}].subContainer[${lv4Status.index}].fileName" value="${lv4Container.fileName}" class="hidden-file-name" data-doc-item-name="${lv4Container.docItemName}" />
+                                                    <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].subContainer[${lv3Status.index}].subContainer[${lv4Status.index}].fileName" value="${lv4Container.fileName}"
+                                                                 class="hidden-file-name"
+                                                                 data-file-input-id="file-input-name-${lv1Status.index}-${lv2Status.index}-${lv3Status.index}-${lv4Status.index}"
+                                                                 data-doc-item-name="${lv4Container.docItemName}" />
                                                     <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].subContainer[${lv3Status.index}].subContainer[${lv4Status.index}].orgFileName" value="${lv4Container.orgFileName}" />
                                                     <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].subContainer[${lv3Status.index}].subContainer[${lv4Status.index}].docItemNameXxen" value="${lv4Container.docItemNameXxen}" />
                                                     <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2Status.index}].subContainer[${lv3Status.index}].subContainer[${lv4Status.index}].docGrpName" value="${lv4Container.docGrpName}" />
@@ -908,7 +917,10 @@
                                         <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2EtcStatus.index}].fileExt" />
                                         <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2EtcStatus.index}].imgYn" />
                                         <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2EtcStatus.index}].filePath" />
-                                        <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2EtcStatus.index}].fileName"  class="hidden-file-name" data-doc-item-name="${documentContainerList[lv1Status.index].subContainer[lv2EtcStatus.index].docItemName}"/>
+                                        <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2EtcStatus.index}].fileName"
+                                                     class="hidden-file-name"
+                                                     data-file-input-id="file-input-name-${lv1Status.index}-${lv2EtcStatus.index}"
+                                                     data-doc-item-name="${documentContainerList[lv1Status.index].subContainer[lv2EtcStatus.index].docItemName}"/>
                                         <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2EtcStatus.index}].orgFileName" />
                                         <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2EtcStatus.index}].docItemNameXxen" />
                                         <form:hidden path="documentContainerList[${lv1Status.index}].subContainer[${lv2EtcStatus.index}].docGrpName" />
@@ -1155,7 +1167,19 @@
 
                 $('.hidden-file-name').each( function() {
                     var docItemName = this.getAttribute('data-doc-item-name');
-                    var fileNameWithoutFake = this.value;
+                    var fileName = this.value;
+
+//                    console.log('fileName', fileName);
+                    var fileNameWithoutFake = fileName.substring((this.getAttribute('data-file-input-id').length+1));
+//                    console.log(fileNameWithoutFake);
+//                    console.log('-------------------');
+
+                    if (fileNameWithoutFake.indexOf(':/')) {
+                        fileNameWithoutFake = fileNameWithoutFake.substring(fileNameWithoutFake.lastIndexOf('/')+1);
+//                        console.log(fileNameWithoutFake);
+//                        console.log('======================================================');
+                    }
+
                     if (fileNameWithoutFake.indexOf("\'") > -1 ||
                             fileNameWithoutFake.indexOf('\"') > -1 ||
                             fileNameWithoutFake.indexOf('&') > -1 ||
@@ -1171,8 +1195,9 @@
                             fileNameWithoutFake.indexOf('^') > -1 ||
                             fileNameWithoutFake.indexOf('*') > -1 ||
                             fileNameWithoutFake.indexOf('+') > -1
+
                     ) {
-                        alert('<spring:message code="U04527"/> : ' + docItemName);  // 업로드 된 파일 이름에 특수 문자가 있습니다.\\n업로드 된 파일을 삭제하고, 업로드 할 파일 이름에서 특수 문자 제거 후 다시 업로드 해주세요.\\n\\n문서명
+                        alert('<spring:message code="U04527"/> : ' + docItemName + " : " + fileNameWithoutFake);  // 업로드 된 파일 이름에 특수 문자가 있습니다.\\n업로드 된 파일을 삭제하고, 업로드 할 파일 이름에서 특수 문자 제거 후 다시 업로드 해주세요.\\n\\n문서명
                         $('#overlay').hide();
                         isSpecialCharactersInFileName = true;
                     }
@@ -1284,7 +1309,7 @@
                     fileInputId = this.getAttribute('data-file-input-id'),
                     fileInput = document.getElementById(fileInputId),
                     fileInputName = fileInput.getAttribute("name"),
-                    fileName = fileInput.value,
+                    fileName = fileInput.files[0].name,
                     imgYn = document.getElementById(this.getAttribute('data-img-yn-id')).value,
                     targetFileDownloadLinkId = this.getAttribute('data-file-download-link-id'),
                     targetFileDeleteLinkId = this.getAttribute('data-file-delete-link-id'),
