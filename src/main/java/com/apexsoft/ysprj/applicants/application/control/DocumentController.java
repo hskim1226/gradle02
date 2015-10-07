@@ -232,38 +232,38 @@ public class DocumentController {
                                           ModelAndView mv) {
         webUtil.blockGetMethod(request, formData.getApplication());
 
-        // FOR MANAGE
-        String adminID = principal.getName();
-        if (adminID.equals("Apex1234") || adminID.startsWith("Yssub")) {
-
-        } else {
-            DateTime now = new DateTime();
-            DateTimeZone seoul = DateTimeZone.forID("Asia/Seoul");
-            int year = Integer.parseInt(dueTime.substring(0, 4));
-            int month = Integer.parseInt(dueTime.substring(4, 6));
-            int date = Integer.parseInt(dueTime.substring(6, 8));
-            int hour = Integer.parseInt(dueTime.substring(8, 10));
-            int min = Integer.parseInt(dueTime.substring(10, 12));
-            int sec = Integer.parseInt(dueTime.substring(12, 14));
-//            DateTime dueTime = new DateTime(2015, 4, 10, 18, 50, 3, seoul);
-            DateTime dueTime = new DateTime(year, month, date, hour, min, sec, seoul);
-
-            Application tApplication = formData.getApplication();
-            String tUserId = tApplication != null ? tApplication.getUserId() : "APPLICATION IS NULL";
-            int tApplNo = tApplication != null ? tApplication.getApplNo() : -1;
-            if (now.isAfter(dueTime)) {
-                logger.error("DUE : " + dueTime);
-                logger.error("NOW : " + now);
-                logger.error("STATUS LATE");
-                logger.error("APPL STATUS CODE : " + tApplication.getApplStsCode());
-                logger.error("userId : [" + tUserId + "], " + "applNo : [" + tApplNo + "]" );
-                ExecutionContext ec = new ExecutionContext(ExecutionContext.FAIL);
-                ec.setMessage(MessageResolver.getMessage("U04517"));
-                ec.setErrCode("ERR3011");
-
-                throw new YSBizException(ec);
-            }
-        }
+//        // FOR MANAGE
+//        String adminID = principal.getName();
+//        if (adminID.equals("Apex1234") || adminID.startsWith("Yssub")) {
+//
+//        } else {
+//            DateTime now = new DateTime();
+//            DateTimeZone seoul = DateTimeZone.forID("Asia/Seoul");
+//            int year = Integer.parseInt(dueTime.substring(0, 4));
+//            int month = Integer.parseInt(dueTime.substring(4, 6));
+//            int date = Integer.parseInt(dueTime.substring(6, 8));
+//            int hour = Integer.parseInt(dueTime.substring(8, 10));
+//            int min = Integer.parseInt(dueTime.substring(10, 12));
+//            int sec = Integer.parseInt(dueTime.substring(12, 14));
+////            DateTime dueTime = new DateTime(2015, 4, 10, 18, 50, 3, seoul);
+//            DateTime dueTime = new DateTime(year, month, date, hour, min, sec, seoul);
+//
+//            Application tApplication = formData.getApplication();
+//            String tUserId = tApplication != null ? tApplication.getUserId() : "APPLICATION IS NULL";
+//            int tApplNo = tApplication != null ? tApplication.getApplNo() : -1;
+//            if (now.isAfter(dueTime)) {
+//                logger.error("DUE : " + dueTime);
+//                logger.error("NOW : " + now);
+//                logger.error("STATUS LATE");
+//                logger.error("APPL STATUS CODE : " + tApplication.getApplStsCode());
+//                logger.error("userId : [" + tUserId + "], " + "applNo : [" + tApplNo + "]" );
+//                ExecutionContext ec = new ExecutionContext(ExecutionContext.FAIL);
+//                ec.setMessage(MessageResolver.getMessage("U04517"));
+//                ec.setErrCode("ERR3011");
+//
+//                throw new YSBizException(ec);
+//            }
+//        }
         // FOR MANAGE
 
         documentValidator.validate(formData, bindingResult, localeResolver.resolveLocale(request));
