@@ -309,16 +309,17 @@
 </head>
 <body>
 <div id="overlay" class="web_dialog_overlay"></div>
+<%-- SYSADMIN 일 경우 안내 배너 표시 --%>
+<c:if test="${isSYSADMIN}">
+    <div>
+        <span style="position: fixed; z-index: 900; text-align: center;" class="btn-group-justified btn-lg btn-danger">THIS IS SYSADMIN, Real USER_ID : ${document.application.userId}</span>
+    </div>
+</c:if>
+<div class="spacer-tiny">&nbsp;</div>
+<%-- SYSADMIN 일 경우 안내 배너 표시 --%>
 <section class="application">
     <div class="container">
-        <%-- SYSADMIN 일 경우 안내 배너 표시 --%>
-        <c:if test="${isSYSADMIN}">
-            <div class="col-sm-12">
-                <span style="position: fixed; z-index: 900;" class="btn-group-justified btn-lg btn-danger">THIS IS SYSADMIN, Real USER_ID : ${document.application.userId}</span>
-            </div>
-        </c:if>
-        <div class="spacer-tiny">&nbsp;</div>
-        <%-- SYSADMIN 일 경우 안내 배너 표시 --%>
+
         <p id="stepStatusTitle" colspan=4 align="center" height="70px">${msg.getMsg('L01001', locale)}<%--원서 작성 현황--%></p>
         <!-- 진행상태바 시작 -->
         <div class="step_wrap">
@@ -1219,10 +1220,10 @@
                 } else {
                     if (!isSpecialCharactersInFileName) {
                         checkDocChckYn.value = "Y";
+                        form.action = "${contextPath}/application/document/save";
                         <c:if test="${isSYSADMIN}">
                         form.action = "${contextPath}/sysadmin/document/save";
                         </c:if>
-                        form.action = "${contextPath}/application/document/save";
                         form.submit();
                     }
                 }
@@ -1234,7 +1235,7 @@
                 <%-- 지원서 파일 정보 DB 저장 --%>
                 $.ajax({
                     type: 'POST',
-                    url: '${contextPath}/application/document/generate/appl',
+                    url: <c:choose><c:when test="${isSYSADMIN}">'${contextPath}/sysadmin/document/generate/appl'</c:when><c:otherwise>'${contextPath}/application/document/generate/appl'</c:otherwise></c:choose>,
                     data: formData,
                     success: function (data) {
                         var ec = JSON.parse(data);
@@ -1246,7 +1247,7 @@
 
                             $.ajax({
                                 type: 'POST',
-                                url: '${contextPath}/pdf/generate/tempMergedApplicationForm',
+                                url: <c:choose><c:when test="${isSYSADMIN}">'${contextPath}/sysadmin/document/generate/tempMergedApplicationForm'</c:when><c:otherwise>'${contextPath}/pdf/generate/tempMergedApplicationForm'</c:otherwise></c:choose>,
                                 data: formData,
                                 success: function (data) {
                                     var result = JSON.parse(data);
@@ -1279,13 +1280,16 @@
 
             } else if (saveType == 'preview') {
                 alert('<spring:message code="U04525"/>'); // 원서 미리보기 생성 및 원서 미리 보기에서 오류 발생 시 업로드 된 파일 이름에서 특수 문자를 제거한 후 다시 시도해 주십시오.
-                form.action = "${contextPath}/pdf/download/tempMergedApplicationForm";
+                form.action = <c:choose><c:when test="${isSYSADMIN}">'${contextPath}/sysadmin/document/pdf/download/tempMergedApplicationForm'</c:when><c:otherwise>"${contextPath}/pdf/download/tempMergedApplicationForm"</c:otherwise></c:choose>;
                 form.submit();
             } else if (saveType == 'submit') {
                 $('#overlay').show();
                 if (confirm('<spring:message code="U04526"/>\n\n<spring:message code="U04509"/>')) {// 원서 제출에서 오류 발생 시 업로드 된 파일 이름에서 특수 문자를 제거한 후 다시 시도해 주십시오. 원서 제출 후에는 원서 내용을 수정할 수 없습니다.\n\n계속하시겠습니까?
                     document.getElementById('spinner2').style.display = 'block';
                     form.action = "${contextPath}/application/document/submit";
+                    <c:if test="${isSYSADMIN}">
+                    form.action = "${contextPath}/sysadmin/document/submit";
+                    </c:if>
                     form.target = "_self";
                     form.submit();
                 } else {

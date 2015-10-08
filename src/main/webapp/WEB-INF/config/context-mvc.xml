@@ -64,11 +64,13 @@
         <mvc:interceptor>
             <mvc:mapping path="/application/**"/>
             <mvc:mapping path="/pdf/**"/>
+            <mvc:mapping path="/sysadmin/**"/>
             <bean class="com.apexsoft.framework.interceptor.KeyInfoBlockInterceptor"/>
         </mvc:interceptor>
         <mvc:interceptor>
             <mvc:mapping path="/application/**"/>
             <mvc:mapping path="/user/**"/>
+            <mvc:mapping path="/sysadmin/**"/>
             <bean class="com.apexsoft.framework.interceptor.MessageResolverInterceptor"/>
         </mvc:interceptor>
         <mvc:interceptor>

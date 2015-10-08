@@ -124,7 +124,7 @@ public class AcademyController {
         } else {
             mv = getErrorMV("common/error", ec);
         }
-
+        mv.addObject("isSYSADMIN", "Apex1234".equals(principal.getName()));
         return mv;
     }
 

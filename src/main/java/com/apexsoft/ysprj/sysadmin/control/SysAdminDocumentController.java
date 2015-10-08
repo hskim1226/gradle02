@@ -5,6 +5,7 @@ import com.amazonaws.AmazonServiceException;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.GetObjectRequest;
+import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.S3Object;
 import com.apexsoft.framework.common.vo.ExecutionContext;
 import com.apexsoft.framework.exception.ErrorInfo;
@@ -21,8 +22,8 @@ import com.apexsoft.framework.persistence.file.model.FileMetaForm;
 import com.apexsoft.ysprj.applicants.application.domain.*;
 import com.apexsoft.ysprj.applicants.application.service.DocumentService;
 import com.apexsoft.ysprj.applicants.application.validator.DocumentValidator;
+import com.apexsoft.ysprj.applicants.common.domain.BirtRequest;
 import com.apexsoft.ysprj.applicants.common.service.BirtService;
-import com.apexsoft.ysprj.applicants.common.service.CommonService;
 import com.apexsoft.ysprj.applicants.common.service.PDFService;
 import com.apexsoft.ysprj.applicants.common.util.FileUtil;
 import com.apexsoft.ysprj.applicants.common.util.StringUtil;
@@ -84,7 +85,7 @@ public class SysAdminDocumentController {
     private String fileBaseDir;
 
     @Value("#{app['s3.bucketName']}")
-    private String bucketName;
+    private String s3BucketName;
 
     @Value("#{app['constraint.dueTime.yyyyMMddhhmmss']}")
     private String dueTime;
@@ -187,7 +188,7 @@ public class SysAdminDocumentController {
         Application application = formData.getApplication();
         int applNo = application.getApplNo();
 //        application.setUserId(userId);
-//        application.setModId(userId);
+        application.setModId(application.getUserId());
 
         ec = documentService.saveDocument(formData);
 
@@ -203,136 +204,7 @@ public class SysAdminDocumentController {
         } else {
             mv = getErrorMV("common/error", ec);
         }
-
-        return mv;
-    }
-
-    /**
-     * 원서 작성 완료
-     *
-     * @param formData
-     * @param principal
-     * @param bindingResult
-     * @param mv
-     * @return
-     */
-    @RequestMapping(value="/submit", method = RequestMethod.POST)
-    public ModelAndView submitApplication(@ModelAttribute Document formData,
-                                          Principal principal,
-                                          BindingResult bindingResult,
-                                          HttpServletRequest request,
-                                          ModelAndView mv) {
-        webUtil.blockGetMethod(request, formData.getApplication());
-
-//        // FOR MANAGE
-//        String adminID = principal.getName();
-//        if (adminID.equals("Apex1234") || adminID.startsWith("Yssub")) {
-//
-//        } else {
-//            DateTime now = new DateTime();
-//            DateTimeZone seoul = DateTimeZone.forID("Asia/Seoul");
-//            int year = Integer.parseInt(dueTime.substring(0, 4));
-//            int month = Integer.parseInt(dueTime.substring(4, 6));
-//            int date = Integer.parseInt(dueTime.substring(6, 8));
-//            int hour = Integer.parseInt(dueTime.substring(8, 10));
-//            int min = Integer.parseInt(dueTime.substring(10, 12));
-//            int sec = Integer.parseInt(dueTime.substring(12, 14));
-////            DateTime dueTime = new DateTime(2015, 4, 10, 18, 50, 3, seoul);
-//            DateTime dueTime = new DateTime(year, month, date, hour, min, sec, seoul);
-//
-//            Application tApplication = formData.getApplication();
-//            String tUserId = tApplication != null ? tApplication.getUserId() : "APPLICATION IS NULL";
-//            int tApplNo = tApplication != null ? tApplication.getApplNo() : -1;
-//            if (now.isAfter(dueTime)) {
-//                logger.error("DUE : " + dueTime);
-//                logger.error("NOW : " + now);
-//                logger.error("STATUS LATE");
-//                logger.error("APPL STATUS CODE : " + tApplication.getApplStsCode());
-//                logger.error("userId : [" + tUserId + "], " + "applNo : [" + tApplNo + "]" );
-//                ExecutionContext ec = new ExecutionContext(ExecutionContext.FAIL);
-//                ec.setMessage(MessageResolver.getMessage("U04517"));
-//                ec.setErrCode("ERR3011");
-//
-//                throw new YSBizException(ec);
-//            }
-//        }
-        // FOR MANAGE
-
-        documentValidator.validate(formData, bindingResult, localeResolver.resolveLocale(request));
-        mv.setViewName("application/mylist");
-        if (bindingResult.hasErrors()) {
-            mv.setViewName("application/document");
-            mv.addObject("resultMsg", MessageResolver.getMessage("U334"));
-            return mv;
-        }
-
-        ExecutionContext ec = null;
-        Application application = formData.getApplication();
-        int applNo = application.getApplNo();
-
-//        application.setUserId(principal.getName());
-        ExecutionContext ecSaveInfo = documentService.saveApplicationPaperInfo(application);
-        // 타 대학원 확장 시 TODO - 학교 이름을 파라미터로 받도록
-        String admsTypeCode = application.getAdmsTypeCode();
-        String lang = "C".equals(admsTypeCode) || "D".equals(admsTypeCode) ? "en" : "kr";
-        String reportName = "yonsei-" + "appl" + "-" + lang;
-        ExecutionContext ecGenerate = birtService.generateBirtFile(application.getApplNo(), reportName);
-
-        try {
-            ExecutionContext ec1 = pdfService.genAndUploadPDFByApplicants(application);
-            if (ExecutionContext.SUCCESS.equals(ec1.getResult())) { // 파일 합치기를 해서 성공일때만 제출
-                String userId = application.getUserId();
-
-//        application.setUserId(userId);
-                application.setModId(userId);
-
-                ec = documentService.submit(formData);
-
-                if (ExecutionContext.SUCCESS.equals(ec.getResult())) {
-
-                    ParamForApplication p = new ParamForApplication();
-//                    p.setUserId(principal.getName());
-                    p.setUserId(userId);
-                    ExecutionContext ecRetrieve = documentService.retrieveInfoListByParamObj(p, "CustomApplicationMapper.selectApplByUserId", CustomMyList.class);
-
-                    if (ExecutionContext.SUCCESS.equals(ecRetrieve.getResult())) {
-                        mv.addObject("myList", ecRetrieve.getData());
-                        mv.addObject("resultMsg", ec.getMessage());
-                    } else {
-                        mv = getErrorMV("common/error", ecRetrieve);
-                    }
-                } else {
-                    mv = getErrorMV("common/error", ec);
-                }
-            } else { // 파일 합치기 실패하면
-                ec = new ExecutionContext(ExecutionContext.FAIL);
-                ec.setMessage(MessageResolver.getMessage("U06103"));
-                ec.setErrCode("ERR1104");
-                Map<String, String> errorInfo = new HashMap<String, String>();
-                errorInfo.put("applNo", String.valueOf(applNo));
-                ec.setErrorInfo(new ErrorInfo(errorInfo));
-                throw new YSBizException(ec);
-            }
-        } catch (PDFMergeException e) { // 파일 합치기 실패하면
-            ec = new ExecutionContext(ExecutionContext.FAIL);
-            ec.setResult(ExecutionContext.FAIL);
-            ec.setMessage(MessageResolver.getMessage("U06104"));
-            ec.setErrCode("ERR1104");
-            Map<String, String> errorInfo = new HashMap<String, String>();
-            errorInfo.put("applNo", String.valueOf(applNo));
-            ec.setErrorInfo(new ErrorInfo(errorInfo));
-//            throw new YSBizException(ec);
-
-            ExecutionContext ecR = documentService.retrieveDocument(formData);
-            ecR.setResult(ExecutionContext.FAIL);
-            Map<String, Object> map = (Map<String, Object>)ecR.getData();
-            mv.setViewName(TARGET_VIEW);
-            addObjectToMV(mv, map, ecR);
-            mv.addObject("resultMsg", ec.getMessage());
-
-            return mv;
-        }
-
+        mv.addObject("isSYSADMIN", "Apex1234".equals(principal.getName()));
         return mv;
     }
 
@@ -407,49 +279,6 @@ public class SysAdminDocumentController {
                     String uploadDir = getDirectory(fileMetaForm);
                     String uploadFileName = "";
                     for ( FileItem fileItem : fileItems){
-                        // FOR MANAGE
-//                        if (fileItem.getFile().length() > MAX_LENGTH) {
-//                            ec = new ExecutionContext(ExecutionContext.FAIL);
-//                            Map<String, String> errorInfo = new HashMap<String, String>();
-//                            errorInfo.put("applNo", String.valueOf(document.getApplNo()));
-//                            ec.setErrorInfo(new ErrorInfo(errorInfo));
-//                            throw new FileNoticeException(ec, "U04301", "ERR0060");
-//                        }
-
-
-                        // FOR MANAGE
-//                        if (fileItem.getOriginalFileName().toLowerCase().endsWith("pdf")) {
-//                            PDDocument pdf = null;
-//                            try {
-//                                pdf = PDDocument.load(fileItem.getFile());
-//                            } catch (FileNoticeException e) {
-//                                ec = new ExecutionContext(ExecutionContext.FAIL);
-//                                Map<String, String> errorInfo = new HashMap<String, String>();
-//                                errorInfo.put("applNo", String.valueOf(document.getApplNo()));
-//                                errorInfo.put("originalFileName", fileItem.getOriginalFileName());
-//                                ec.setErrorInfo(new ErrorInfo(errorInfo));
-//                                throw new FileNoticeException(ec, "U04514", "ERR0060");
-//                            } catch (IOException e) {
-//                                logger.error("Upload PDF is NOT loaded to PDDocument, DocumentController.fileUpload()");
-//                                logger.error("modId : " + document.getModId());
-//                                logger.error("applNo: " + document.getApplNo());
-//                                logger.error("orgFileName: " + fileItem.getOriginalFileName());
-//                                ec = new ExecutionContext(ExecutionContext.FAIL);
-//                                Map<String, String> errorInfo = new HashMap<String, String>();
-//                                errorInfo.put("applNo", String.valueOf(document.getApplNo()));
-//                                errorInfo.put("originalFileName", fileItem.getOriginalFileName());
-//                                ec.setErrorInfo(new ErrorInfo(errorInfo));
-//                                throw new FileNoticeException(ec, "U04518", "ERR0060");
-//                            } finally {
-//                                if (pdf != null) {
-//                                    try {
-//                                        pdf.close();
-//                                    } catch (IOException e) {
-//                                        logger.error("PDF is NOT closed, DocumentController.fileUpload()");
-//                                    }
-//                                }
-//                            }
-//                        }
                         String originalFileName = fileItem.getOriginalFileName();
 
                         String ext = originalFileName.substring(originalFileName.lastIndexOf('.')+1).toLowerCase();
@@ -618,85 +447,6 @@ public class SysAdminDocumentController {
 
                     return jsonFileMetaForm;
                 }
-//                public String handleEvent(List<FileItem> fileItems,
-//                                          FileMetaForm fileMetaForm,
-//                                          FilePersistenceManager persistence,
-//                                          TotalApplicationDocument document) {
-//                    ExecutionContext ec = null;
-//                    String jsonFileMetaForm = null;
-//                    FileInfo fileInfo;
-//                    String uploadDir = getDirectory(fileMetaForm);
-//                    String uploadFileName = "";
-//                    for ( FileItem fileItem : fileItems){
-//                        if (fileItem.getFile().length() > MAX_LENGTH) {
-//                            ec = new ExecutionContext(ExecutionContext.FAIL);
-//                            Map<String, String> errorInfo = new HashMap<String, String>();
-//                            errorInfo.put("applNo", String.valueOf(document.getApplNo()));
-//                            ec.setErrorInfo(new ErrorInfo(errorInfo));
-//                            throw new FileUploadException(ec, "U04301", "ERR0060");
-//                        }
-//                        FileInputStream fis = null;
-//                        String originalFileName = fileItem.getOriginalFileName();
-//                        try{
-//                            uploadDir = getDirectory(fileMetaForm);
-//                            uploadFileName = createFileName(fileMetaForm, fileItem);
-//                            fileInfo = persistence.save(uploadDir,
-//                                    uploadFileName,
-//                                    originalFileName,
-//                                    fis = new FileInputStream(fileItem.getFile()));
-////                            String path = fileInfo.getDirectory().replace('\\', '/');
-//                            String path = fileInfo.getDirectory();
-//                            String pathWithoutContextPath;
-//                            if (path.startsWith(fileBaseDir)) {
-//                                pathWithoutContextPath = path.substring(fileBaseDir.length());
-//                            } else {
-//                                throw new FileUploadException("ERR0057");
-//                            }
-//                            fileMetaForm.setPath(pathWithoutContextPath);
-//                            fileMetaForm.setFileName(fileInfo.getFileName());
-//                            fileMetaForm.setOriginalFileName(originalFileName);
-//
-////                            document.setFilePath(fileInfo.getDirectory().replace('\\', '/'));
-//                            document.setFilePath(fileInfo.getDirectory());
-//                            document.setFileName(fileInfo.getFileName());
-//                            document.setOrgFileName(originalFileName);
-//                            document.setFileExt(originalFileName.substring(originalFileName.lastIndexOf('.') + 1));
-//                            document.setPageCnt(fileInfo.getPageCnt());
-//                            document.setCreId(principal.getName());
-//
-//                            ec = documentService.saveOneDocument(document);
-//
-//                            if (ExecutionContext.SUCCESS.equals(ec.getResult())) {
-//                                fileMetaForm.setTotalApplicationDocument((TotalApplicationDocument)ec.getData());
-//                            }
-//
-//                            jsonFileMetaForm = objectMapper.writeValueAsString(fileMetaForm);
-//
-//                        } catch (FileNotFoundException fnfe) {
-//                            persistence.deleteFile(uploadDir, uploadFileName);
-//                            throw getYSBizException(document, principal, "U339", "ERR0058");
-//                        } catch (FileUploadException foe) {
-//                            persistence.deleteFile(uploadDir, uploadFileName);
-//                            throw getYSBizException(document, principal, "U339", foe.getMessage());
-//                        } catch (JsonProcessingException jpe) {
-//                            persistence.deleteFile(uploadDir, uploadFileName);
-//                            throw getYSBizException(document, principal, "U339", "ERR0201");
-//                        } catch (YSBizException ybe) {
-//                            persistence.deleteFile(uploadDir, uploadFileName);
-//                            throw ybe;
-//                        } catch (Exception e) {
-//                            persistence.deleteFile(uploadDir, uploadFileName);
-//                            throw getYSBizException(document, principal, "U339", "ERR0052");
-//                        }finally {
-//                            try {
-//                                if (fis!= null) fis.close();
-//                            } catch (IOException e) {}
-//                            FileUtils.deleteQuietly(fileItem.getFile());
-//                        }
-//                    }
-//
-//                    return jsonFileMetaForm;
-//                }
             }, FileMetaForm.class, TotalApplicationDocument.class);
         } catch (YSBizException ybe) {
             logger.error("ErrorInfo :: " + ybe.getExecutionContext().getErrorInfo().toString() + ", ErrorType :: " + ybe.toString() + ", SimpleStackTrace ::" +
@@ -734,7 +484,7 @@ public class SysAdminDocumentController {
         TotalApplicationDocument totalDoc = (TotalApplicationDocument)ec.getData();
 
         AmazonS3 s3 = new AmazonS3Client();
-        S3Object object = s3.getObject(new GetObjectRequest(bucketName, totalDoc.getFilePath()));
+        S3Object object = s3.getObject(new GetObjectRequest(s3BucketName, totalDoc.getFilePath()));
         InputStream inputStream = object.getObjectContent();
         byte[] bytes = IOUtils.toByteArray(inputStream);
 
@@ -839,23 +589,216 @@ public class SysAdminDocumentController {
     }
 
     /**
-     * 원서+첨부 파일 미리보기 용 원서 파일 정보 저장
+     * 사용자가 S3로 업로드 한 pdf 파일을 로컬에 다운받아서 하나로 합치고(B파일)
+     * #/# 형식의 쪽 번호를 우상단에 추가하여 로컬에 PDF로 저장(C파일)
+     * A파일과 C파일을 합친 PDF 파일을 로컬에 저장(D파일)
+     * D파일을 S3에 업로드(v03 - 원서 미리보기 시 서버 로컬에서의 다운로드 부하를 S3로 이전)
+     * 중간 작업 파일인 A파일, B파일, C파일 삭제
      *
-     * @param document
-     * @param principal
+     * @param birtRequest
+     * @param request
      * @return
-     * @throws IOException
      */
-    @RequestMapping(value="/savePreview/application", method=RequestMethod.POST)
+    @RequestMapping(value="/generate/tempMergedApplicationForm")
     @ResponseBody
-    public ExecutionContext saveApplicationPaperInfo(Document document, Principal principal) {
-//        document.getApplication().setUserId(principal.getName());
-        ExecutionContext ec = documentService.saveApplicationPaperInfo(document.getApplication());
+    public String generateTempMergedApplicationForm(BirtRequest birtRequest, Principal principal, HttpServletRequest request) {
 
-        //
-
-        return ec;
+        Application application = birtRequest.getApplication();
+//        application.setUserId(principal.getName());
+        ExecutionContext ec = pdfService.genAndUploadPDFByApplicants(application);
+        if (ExecutionContext.SUCCESS.equals(ec.getResult())) {
+            return ExecutionContext.SUCCESS;
+        } else {
+            return ExecutionContext.FAIL;
+        }
     }
+
+    /**
+     * DB에 저장된 원서 정보를 토대로 S3에서 원서+첨부파일 PDF 파일 다운로드
+     *
+     * @param basis
+     * @param principal
+     * @param response
+     * @return
+     * @throws java.io.IOException
+     */
+    @RequestMapping(value="/download/tempMergedApplicationForm", produces = "application/pdf")
+    @ResponseBody
+    public byte[] fileDownload(Basis basis,
+                               Principal principal,
+                               HttpServletRequest request,
+                               HttpServletResponse response) {
+        webUtil.blockGetMethod(request, basis.getApplication());
+//        String userId = principal.getName();
+        Application application = basis.getApplication();
+        String admsNo = application.getAdmsNo();
+        int applNo = application.getApplNo();
+        String userId = application.getUserId();
+        byte[] bytes = null;
+
+        List<ApplicationDocument> applPaperInfosList =
+                documentService.retrieveApplicationPaperInfo(applNo); // DB에서 filePath가져온다
+        if (applPaperInfosList.size() == 1) {
+            String uploadDirPath = applPaperInfosList.get(0).getFilePath();
+            String s3UploadDirPath = FileUtil.getS3PathFromLocalFullPath(uploadDirPath, fileBaseDir);
+            AmazonS3 s3 = new AmazonS3Client();
+            S3Object object = null;
+            try {
+                object = s3.getObject(new GetObjectRequest(s3BucketName, FileUtil.getFinalMergedFileFullPath(s3UploadDirPath, applNo)));
+            } catch (Exception e) {
+                logger.error("Err in s3.getObject FiledDownload in PDFController");
+                logger.error(e.getMessage());
+                ExecutionContext ec = new ExecutionContext(ExecutionContext.FAIL);
+                ec.setMessage(MessageResolver.getMessage("U00242"));
+                Map<String, Object> ecMap = new HashMap<String, Object>();
+                ecMap.put("s3BucketName", "[" + s3BucketName + "]");
+                ecMap.put("admsNo", "[" + admsNo + "]");
+                ecMap.put("userId", "[" + userId + "]");
+                ecMap.put("objectKey", "[" + FileUtil.getFinalMergedFileFullPath(s3UploadDirPath, applNo) + "]");
+                ec.setErrorInfo(new ErrorInfo(ecMap));
+                throw new YSBizException(ec);
+            }
+
+            InputStream inputStream = object.getObjectContent();
+            ObjectMetadata meta = object.getObjectMetadata();
+            try {
+                bytes = IOUtils.toByteArray(inputStream);
+            } catch (IOException e) {
+                ExecutionContext ecError = new ExecutionContext(ExecutionContext.FAIL);
+
+                ecError.setMessage(MessageResolver.getMessage("U350"));
+                ecError.setErrCode("ERR0062");
+
+                Map<String, String> errorInfo = new HashMap<String, String>();
+                errorInfo.put("applNo", String.valueOf(applNo));
+                errorInfo.put("userId", basis.getApplication().getUserId());
+
+                ecError.setErrorInfo(new ErrorInfo(errorInfo));
+                throw new YSBizException(ecError);
+            }
+
+            response.setContentType(meta.getContentType());
+            response.setHeader("Content-Length", String.valueOf(meta.getContentLength()));
+            response.setHeader("Content-Encoding", meta.getContentEncoding());
+            response.setHeader("ETag", meta.getETag());
+            response.setHeader("Last-Modified", meta.getLastModified().toString());
+//            아래 헤더 추가하면 파일명은 지정할 수 있으나 미리 보기는 안되고 다운로드만 됨
+            try {
+                response.setHeader("Content-Disposition", "attachment; filename=\"" + URLEncoder.encode(FileUtil.getFinalUserDownloadFileName(userId), "UTF-8") + "\"");
+            } catch (UnsupportedEncodingException e) {
+                throw new YSBizException(MessageResolver.getMessage("U04516"));  /*지원하지 않는 인코딩 방식입니다.*/
+            }
+
+        } else {
+            ExecutionContext ecError = new ExecutionContext(ExecutionContext.FAIL);
+
+            ecError.setMessage(MessageResolver.getMessage("U349"));
+            ecError.setErrCode("ERR0061");
+
+            Map<String, String> errorInfo = new HashMap<String, String>();
+            errorInfo.put("applNo", String.valueOf(applNo));
+            errorInfo.put("userId", basis.getApplication().getUserId());
+
+            ecError.setErrorInfo(new ErrorInfo(errorInfo));
+            throw new YSBizException(ecError);
+        }
+
+        return bytes;
+    }
+
+
+    /**
+     * 원서 작성 완료
+     *
+     * @param formData
+     * @param principal
+     * @param bindingResult
+     * @param mv
+     * @return
+     */
+    @RequestMapping(value="/submit", method = RequestMethod.POST)
+    public ModelAndView submitApplication(@ModelAttribute Document formData,
+                                          Principal principal,
+                                          BindingResult bindingResult,
+                                          HttpServletRequest request,
+                                          ModelAndView mv) {
+        webUtil.blockGetMethod(request, formData.getApplication());
+
+//        // FOR MANAGE
+//        String adminID = principal.getName();
+//        if (adminID.equals("Apex1234") || adminID.startsWith("Yssub")) {
+//
+//        } else {
+//            DateTime now = new DateTime();
+//            DateTimeZone seoul = DateTimeZone.forID("Asia/Seoul");
+//            int year = Integer.parseInt(dueTime.substring(0, 4));
+//            int month = Integer.parseInt(dueTime.substring(4, 6));
+//            int date = Integer.parseInt(dueTime.substring(6, 8));
+//            int hour = Integer.parseInt(dueTime.substring(8, 10));
+//            int min = Integer.parseInt(dueTime.substring(10, 12));
+//            int sec = Integer.parseInt(dueTime.substring(12, 14));
+////            DateTime dueTime = new DateTime(2015, 4, 10, 18, 50, 3, seoul);
+//            DateTime dueTime = new DateTime(year, month, date, hour, min, sec, seoul);
+//
+//            Application tApplication = formData.getApplication();
+//            String tUserId = tApplication != null ? tApplication.getUserId() : "APPLICATION IS NULL";
+//            int tApplNo = tApplication != null ? tApplication.getApplNo() : -1;
+//            if (now.isAfter(dueTime)) {
+//                logger.error("DUE : " + dueTime);
+//                logger.error("NOW : " + now);
+//                logger.error("STATUS LATE");
+//                logger.error("APPL STATUS CODE : " + tApplication.getApplStsCode());
+//                logger.error("userId : [" + tUserId + "], " + "applNo : [" + tApplNo + "]" );
+//                ExecutionContext ec = new ExecutionContext(ExecutionContext.FAIL);
+//                ec.setMessage(MessageResolver.getMessage("U04517"));
+//                ec.setErrCode("ERR3011");
+//
+//                throw new YSBizException(ec);
+//            }
+//        }
+        // FOR MANAGE
+
+        documentValidator.validate(formData, bindingResult, localeResolver.resolveLocale(request));
+        mv.setViewName("application/mylist");
+        if (bindingResult.hasErrors()) {
+            mv.setViewName("application/document");
+            mv.addObject("resultMsg", MessageResolver.getMessage("U334"));
+            return mv;
+        }
+
+        ExecutionContext ec = null;
+        Application application = formData.getApplication();
+        int applNo = application.getApplNo();
+        String userId = application.getUserId();
+
+//        application.setUserId(principal.getName());
+        ExecutionContext ecSaveInfo = documentService.saveApplicationPaperInfo(application);
+        // 타 대학원 확장 시 TODO - 학교 이름을 파라미터로 받도록
+
+        application.setModId(userId);
+
+        ec = documentService.submit(formData);
+
+        if (ExecutionContext.SUCCESS.equals(ec.getResult())) {
+
+            ParamForApplication p = new ParamForApplication();
+//                    p.setUserId(principal.getName());
+            p.setUserId(userId);
+            ExecutionContext ecRetrieve = documentService.retrieveInfoListByParamObj(p, "CustomApplicationMapper.selectApplByUserId", CustomMyList.class);
+
+            if (ExecutionContext.SUCCESS.equals(ecRetrieve.getResult())) {
+                mv.addObject("myList", ecRetrieve.getData());
+                mv.addObject("resultMsg", ec.getMessage());
+            } else {
+                mv = getErrorMV("common/error", ecRetrieve);
+            }
+        } else {
+            mv = getErrorMV("common/error", ec);
+        }
+        return mv;
+    }
+
+
 
     /**
      * 에러 발생 시 ExecutionContext를 model에 넣고 에러 페이지로 전달

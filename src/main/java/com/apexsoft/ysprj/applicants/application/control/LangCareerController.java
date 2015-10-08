@@ -111,7 +111,7 @@ public class LangCareerController {
             commonCodeMap.put( "topikLevelList", commonService.retrieveCommonCodeByCodeGroup("TOPK_LEVL") );
 
             mv.addObject("common", commonCodeMap);
-
+            mv.addObject("isSYSADMIN", "Apex1234".equals(principal.getName()));
             return mv;
         }
 

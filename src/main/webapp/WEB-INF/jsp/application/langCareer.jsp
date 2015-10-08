@@ -209,16 +209,16 @@
 </head>
 <body>
 <div id="overlay" class="web_dialog_overlay"></div>
+<%-- SYSADMIN 일 경우 안내 배너 표시 --%>
+<c:if test="${isSYSADMIN}">
+    <div>
+        <span style="position: fixed; z-index: 900; text-align: center;" class="btn-group-justified btn-lg btn-danger">THIS IS SYSADMIN, Real USER_ID : ${langCareer.application.userId}</span>
+    </div>
+</c:if>
+<div class="spacer-tiny">&nbsp;</div>
+<%-- SYSADMIN 일 경우 안내 배너 표시 --%>
 <section class="application">
     <div class="container">
-        <%-- SYSADMIN 일 경우 안내 배너 표시 --%>
-        <c:if test="${isSYSADMIN}">
-            <div class="col-sm-12">
-                <span style="position: fixed; z-index: 900;" class="btn-group-justified btn-lg btn-danger">THIS IS SYSADMIN, Real USER_ID : ${langCareer.application.userId}</span>
-            </div>
-        </c:if>
-        <div class="spacer-tiny">&nbsp;</div>
-        <%-- SYSADMIN 일 경우 안내 배너 표시 --%>
         <p id="stepStatusTitle" colspan=4 align="center" height="70px">${msg.getMsg('L01001', locale)}<%--원서 작성 현황--%></p>
         <!-- 진행상태바 시작 -->
         <div class="step_wrap">
