@@ -65,11 +65,14 @@ public class BasisController {
     public ModelAndView getBasis(@ModelAttribute Basis basis,
                                  BindingResult bindingResult,
                                  HttpServletRequest request,
+                                 Principal principal,
                                  ModelAndView mv) {
         mv.setViewName(TARGET_VIEW);
         if (bindingResult.hasErrors()) return mv;
 
         webUtil.blockGetMethod(request, basis.getApplication());
+
+        mv.addObject("isSYSADMIN", "Apex1234".equals(principal.getName()));
 
         ExecutionContext ec = removeHyphen(basisService.retrieveBasis(basis));
         try {

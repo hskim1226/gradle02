@@ -59,10 +59,13 @@ public class LangCareerController {
     public ModelAndView getLangCareer(@ModelAttribute LangCareer formData,
                                       BindingResult bindingResult,
                                       HttpServletRequest request,
+                                      Principal principal,
                                       ModelAndView mv) {
         webUtil.blockGetMethod(request, formData.getApplication());
         mv.setViewName(TARGET_VIEW);
         if (bindingResult.hasErrors()) return mv;
+
+        mv.addObject("isSYSADMIN", "Apex1234".equals(principal.getName()));
 
         ExecutionContext ec = langCareerService.retrieveLangCareer(formData);
 

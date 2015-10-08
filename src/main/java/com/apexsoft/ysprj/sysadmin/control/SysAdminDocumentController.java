@@ -1,4 +1,4 @@
-package com.apexsoft.ysprj.applicants.application.control;
+package com.apexsoft.ysprj.sysadmin.control;
 
 import com.amazonaws.AmazonClientException;
 import com.amazonaws.AmazonServiceException;
@@ -8,7 +8,6 @@ import com.amazonaws.services.s3.model.GetObjectRequest;
 import com.amazonaws.services.s3.model.S3Object;
 import com.apexsoft.framework.common.vo.ExecutionContext;
 import com.apexsoft.framework.exception.ErrorInfo;
-import com.apexsoft.framework.exception.GlobalExceptionHandler;
 import com.apexsoft.framework.exception.StackTraceFilter;
 import com.apexsoft.framework.exception.YSBizException;
 import com.apexsoft.framework.message.MessageResolver;
@@ -31,10 +30,7 @@ import com.apexsoft.ysprj.applicants.common.util.WebUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
-import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.util.PDFMergerUtility;
-import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,7 +43,6 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
@@ -64,14 +59,11 @@ import java.util.zip.DataFormatException;
  * 원서 어학/경력 정보 컨트롤러
  */
 @Controller
-@RequestMapping(value="/application/document")
-public class DocumentController {
+@RequestMapping(value="/sysadmin/document")
+public class SysAdminDocumentController {
 
     @Autowired
     private DocumentService documentService;
-
-    @Autowired
-    private CommonService commonService;
 
     @Autowired
     private BirtService birtService;
@@ -100,7 +92,7 @@ public class DocumentController {
     @Autowired
     WebUtil webUtil;
 
-    private static final Logger logger = LoggerFactory.getLogger(DocumentController.class);
+    private static final Logger logger = LoggerFactory.getLogger(SysAdminDocumentController.class);
     private final String TARGET_VIEW = "application/document";
 
 //    /**
@@ -150,13 +142,10 @@ public class DocumentController {
     public ModelAndView getDocument(@ModelAttribute Document formData,
                                     BindingResult bindingResult,
                                     HttpServletRequest request,
-                                    Principal principal,
                                     ModelAndView mv) {
         webUtil.blockGetMethod(request, formData.getApplication());
         mv.setViewName(TARGET_VIEW);
         if (bindingResult.hasErrors()) return mv;
-
-        mv.addObject("isSYSADMIN", "Apex1234".equals(principal.getName()));
 
         ExecutionContext ec = documentService.retrieveDocument(formData);
 
@@ -193,12 +182,12 @@ public class DocumentController {
         }
 
         ExecutionContext ec = null;
-        String userId = principal.getName();
+//        String userId = principal.getName();
 
         Application application = formData.getApplication();
         int applNo = application.getApplNo();
 //        application.setUserId(userId);
-        application.setModId(userId);
+//        application.setModId(userId);
 
         ec = documentService.saveDocument(formData);
 
@@ -281,7 +270,7 @@ public class DocumentController {
         Application application = formData.getApplication();
         int applNo = application.getApplNo();
 
-        application.setUserId(principal.getName());
+//        application.setUserId(principal.getName());
         ExecutionContext ecSaveInfo = documentService.saveApplicationPaperInfo(application);
         // 타 대학원 확장 시 TODO - 학교 이름을 파라미터로 받도록
         String admsTypeCode = application.getAdmsTypeCode();
@@ -302,7 +291,8 @@ public class DocumentController {
                 if (ExecutionContext.SUCCESS.equals(ec.getResult())) {
 
                     ParamForApplication p = new ParamForApplication();
-                    p.setUserId(principal.getName());
+//                    p.setUserId(principal.getName());
+                    p.setUserId(userId);
                     ExecutionContext ecRetrieve = documentService.retrieveInfoListByParamObj(p, "CustomApplicationMapper.selectApplByUserId", CustomMyList.class);
 
                     if (ExecutionContext.SUCCESS.equals(ecRetrieve.getResult())) {
@@ -366,6 +356,8 @@ public class DocumentController {
                                        FileHandler fileHandler) {
 
         ExecutionContext ec = new ExecutionContext();
+        Application application = document.getApplication();
+        final String userId = application.getUserId();
         String returnFileMetaForm = "";
         try {
             returnFileMetaForm = fileHandler.handleMultiPartRequest(new FileUploadEventCallbackHandler<String, FileMetaForm, TotalApplicationDocument>() {
@@ -380,7 +372,7 @@ public class DocumentController {
                 protected String getDirectory(FileMetaForm fileMetaForm) {
 
                     String admsNo = fileMetaForm.getAdmsNo();
-                    String userId = principal.getName();
+//                    String userId = principal.getName();
                     String applNo = fileMetaForm.getApplNo();
 
                     return FileUtil.getUploadDirectory(admsNo, userId, Integer.parseInt(applNo));
@@ -585,7 +577,8 @@ public class DocumentController {
                             ec.setMessage(MessageResolver.getMessage("U339"));
                             ec.setErrCode("ERR0052");
                             Map<String, String> errorInfo = new HashMap<String, String>();
-                            errorInfo.put("userId", String.valueOf(principal.getName()));
+//                            errorInfo.put("userId", String.valueOf(principal.getName()));
+                            errorInfo.put("userId", String.valueOf(userId));
                             errorInfo.put("applNo", String.valueOf(document.getApplNo()));
                             errorInfo.put("docSeq", String.valueOf(document.getDocSeq()));
                             errorInfo.put("AWS Error Message", ase.getMessage());
@@ -613,7 +606,7 @@ public class DocumentController {
                             throw e;
                         } catch (Exception e) {
                             logger.error("S3 저장시 아마존 예외 외의 오류 : " + e.getMessage());
-                            throw getYSBizException(document, principal, "U339", "ERR0052");
+                            throw getYSBizException(document, userId, "U339", "ERR0052");
                         }finally {
                             File tmpFile = fileItem.getFile();
                             if (tmpFile != null) tmpFile.delete();
@@ -829,7 +822,8 @@ public class DocumentController {
     public ExecutionContext generateApplicationFiles(Document document, Principal principal,
                                                      @PathVariable(value = "reqType") String reqType) {
         Application application = document.getApplication();
-        application.setUserId(principal.getName());
+//        application.setUserId(principal.getName());
+//        application.setUserId(application.getUserId());
         ExecutionContext ecSaveInfo = documentService.saveApplicationPaperInfo(application);
         // 타 대학원 확장 시 TODO - 학교 이름을 파라미터로 받도록
         String admsTypeCode = application.getAdmsTypeCode();
@@ -838,7 +832,7 @@ public class DocumentController {
         ExecutionContext ecGenerate = birtService.generateBirtFile(application.getApplNo(), reportName);
 
         if (ExecutionContext.SUCCESS.equals(ecSaveInfo.getResult()) &&
-            ExecutionContext.SUCCESS.equals(ecGenerate.getResult()) )
+                ExecutionContext.SUCCESS.equals(ecGenerate.getResult()) )
             return ecSaveInfo;
         else
             return new ExecutionContext(ExecutionContext.FAIL);
@@ -855,7 +849,7 @@ public class DocumentController {
     @RequestMapping(value="/savePreview/application", method=RequestMethod.POST)
     @ResponseBody
     public ExecutionContext saveApplicationPaperInfo(Document document, Principal principal) {
-        document.getApplication().setUserId(principal.getName());
+//        document.getApplication().setUserId(principal.getName());
         ExecutionContext ec = documentService.saveApplicationPaperInfo(document.getApplication());
 
         //
@@ -892,19 +886,17 @@ public class DocumentController {
      * 파일 핸들링 시 발생하는 예외에 대한 YSBizException Wrapper
      *
      * @param document
-     * @param principal
      * @param messageCode
      * @param errCode
      * @return
      */
-    private YSBizException getYSBizException( TotalApplicationDocument document, Principal principal,
+    private YSBizException getYSBizException( TotalApplicationDocument document, String userId,
                                               String messageCode, String errCode ) {
         ExecutionContext ec = new ExecutionContext(ExecutionContext.FAIL);
         String applNo = String.valueOf(document.getApplNo());
         String docSeq = String.valueOf(document.getDocSeq());
         String docItemCode = document.getDocItemCode();
         String docItemName = document.getDocItemName();
-        String userId = principal.getName();
         Map<String, String> eInfo = new HashMap<String, String>();
         eInfo.put("applNo", applNo);
         eInfo.put("userId", userId);

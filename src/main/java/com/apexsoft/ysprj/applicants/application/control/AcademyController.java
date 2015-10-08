@@ -51,8 +51,11 @@ public class AcademyController {
     public ModelAndView getAcademy(Academy formData,
                                    BindingResult bindingResult,
                                    HttpServletRequest request,
+                                   Principal principal,
                                    ModelAndView mv) {
         webUtil.blockGetMethod(request, formData.getApplication());
+
+        mv.addObject("isSYSADMIN", "Apex1234".equals(principal.getName()));
 
         mv.setViewName(TARGET_VIEW);
         if (bindingResult.hasErrors()) return mv;

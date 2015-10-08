@@ -55,6 +55,13 @@
     <script type="text/javascript">
         $(document).ready( function() {
 
+            $('#userId').focus();
+
+            $('body').on('keyup', function (e) {
+                if (e.keyCode == 13)
+                $('#showMyList').click();
+            });
+
             $('#showMyList').click( function(e) {
                 e.preventDefault();
                 var userId = document.getElementById('userId').value;
