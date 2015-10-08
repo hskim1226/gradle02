@@ -208,7 +208,9 @@
 <%-- SYSADMIN 일 경우 안내 배너 표시 --%>
 <c:if test="${isSYSADMIN}">
     <div>
-        <span style="position: fixed; z-index: 900; text-align: center;" class="btn-group-justified btn-lg btn-danger">THIS IS SYSADMIN, Real USER_ID : ${academy.application.userId}</span>
+        <span style="position: fixed; z-index: 900; text-align: center;" class="btn-group-justified btn-lg btn-danger">
+            THIS IS SYSADMIN, Real USER_ID : ${academy.application.userId}, APPL_NO : ${academy.application.applNo}
+        </span>
     </div>
 </c:if>
 <div class="spacer-tiny">&nbsp;</div>
