@@ -220,7 +220,7 @@ public class SysAdminDocumentController {
      */
     @RequestMapping(value = "/fileUpload", method = RequestMethod.POST)
     @ResponseBody
-    public ExecutionContext fileUpload(Document document,
+    public ExecutionContext fileUpload(Application application,
                                        BindingResult binding,
                                        final Principal principal,
                                        HttpServletRequest request,
@@ -228,7 +228,6 @@ public class SysAdminDocumentController {
                                        FileHandler fileHandler) {
 
         ExecutionContext ec = new ExecutionContext();
-        Application application = document.getApplication();
         final String userId = application.getUserId();
         String returnFileMetaForm = "";
         try {
