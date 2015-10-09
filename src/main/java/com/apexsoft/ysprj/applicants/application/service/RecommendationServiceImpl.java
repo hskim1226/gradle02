@@ -580,6 +580,7 @@ public class RecommendationServiceImpl implements RecommendationService {
             mailToProf.makeContents();
             if (!sendUrgeMail(mailToProf)) {
                 failedList.add(mailToProf);
+                // sendUrgeMail()에서 error 로그를 쏘므로 여기서는 별도 처리 안함
             }
 
             // 지원자에게는 안 보내기로 함(by 연대 담당자)
@@ -703,7 +704,16 @@ public class RecommendationServiceImpl implements RecommendationService {
             sesMailService.sendMail(mail);
             isSentToProf = true;
         } catch (Exception e) {
-            e.printStackTrace();
+            Object obj = mail.getInfo();
+            if (obj instanceof Recommendation) {
+                Recommendation recommendation = (Recommendation)obj;
+                int applNo = recommendation.getApplNo();
+                int recNo = recommendation.getRecNo();
+                String mailAddr = recommendation.getProfMailAddr();
+                logger.error("[SEND-URGE-MAIL-FAIL]applNo : " + applNo + ", recNo : " + recNo + ", mailAddr : " + mailAddr);
+            } else {
+                logger.error("[SEND-URGE-MAIL-FAIL]mail.getInfo() is NOT a Recommendation");
+            }
         }
         return isSentToProf;
 
