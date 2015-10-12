@@ -428,7 +428,13 @@ public class RecommendationServiceImpl implements RecommendationService {
 
             //기존 파일이 업로드 되어 있는 경우
             if( oneDocument.isFileUploadFg()){
+                ParamForDocOfRecommend param = new ParamForDocOfRecommend();
+                param.setApplNo(applNo);
+                param.setDocGrp(recNo);
+                ApplicationDocument aDoc = commonDAO.queryForObject(NAME_SPACE +
+                        "CustomApplicationDocumentMapper.selectApplicationDocumentOfRecommendation", param, ApplicationDocument.class);
                 rUpdate++;
+                oneDocument.setDocSeq(aDoc.getDocSeq());
                 oneDocument.setModDate(date);
                 oneDocument.setModId(userId);
                 update = update + commonDAO.updateItem(oneDocument, NAME_SPACE, "ApplicationDocumentMapper");

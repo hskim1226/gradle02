@@ -668,4 +668,12 @@
         and DOC_ITEM_CODE IS NULL
         order by DOC_SEQ DESC
     </select>
+
+    <select id="selectApplicationDocumentOfRecommendation" parameterType="com.apexsoft.ysprj.applicants.application.domain.ParamForDocOfRecommend" resultMap="applDoc">
+        select * from APPL_DOC
+        where 1 = 1
+        and APPL_NO = #{applNo,jdbcType=INTEGER}
+        and DOC_GRP = #{docGrp,jdbcType=INTEGER}
+    </select>
+
 </mapper>
