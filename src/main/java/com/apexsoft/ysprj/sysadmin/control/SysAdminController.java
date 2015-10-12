@@ -307,8 +307,8 @@ public class SysAdminController {
      * @return
      */
     @RequestMapping(value="/pdf-manual-multi")
-    public ModelAndView pdfManualMulti( @RequestParam("applNoList") String applNoList, ModelAndView mv ) {
-        mv.setViewName("sysadmin/rsltPdfManualMutli");
+    public ModelAndView pdfManualMulti( @RequestParam("noList") String applNoList, ModelAndView mv ) {
+        mv.setViewName("sysadmin/rsltPdfManualMulti");
         ExecutionContext ec;
 
         String[] applNos = applNoList.split(",");
@@ -323,10 +323,28 @@ public class SysAdminController {
             String admsTypeCode = application.getAdmsTypeCode();
             String lang = "C".equals(admsTypeCode) || "D".equals(admsTypeCode) ? "en" : "kr";
             String reportName = "yonsei-appl-" + lang;
-            ExecutionContext ecGenAppl = birtService.generateBirtFile(application.getApplNo(), reportName);
+            ExecutionContext ecGenAppl = new ExecutionContext();
+            try {
+                ecGenAppl = birtService.generateBirtFile(application.getApplNo(), reportName);
+            } catch (Exception e) {
+                ecGenAppl.setResult(ExecutionContext.FAIL);
+            }
+
             reportName = "yonsei-adms-" + lang;
-            ExecutionContext ecGenAdms = birtService.generateBirtFile(application.getApplNo(), reportName);
-            ExecutionContext ecPdfMerge = pdfService.genAndUploadPDFByApplicants(application);
+            ExecutionContext ecGenAdms = new ExecutionContext();
+            try {
+                ecGenAdms = birtService.generateBirtFile(application.getApplNo(), reportName);
+            } catch (Exception e) {
+                ecGenAdms.setResult(ExecutionContext.FAIL);
+            }
+
+            ExecutionContext ecPdfMerge = new ExecutionContext();
+            try {
+                ecPdfMerge = pdfService.genAndUploadPDFByApplicants(application);
+            } catch (Exception e) {
+                ecPdfMerge.setResult(ExecutionContext.FAIL);
+            }
+
             if ( ExecutionContext.FAIL.equals(ecGenAppl.getResult())) {
                 failedList.add(application);
             } else if ( ExecutionContext.FAIL.equals(ecGenAdms.getResult())) {
