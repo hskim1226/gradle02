@@ -289,6 +289,63 @@ public class SysAdminController {
     }
 
     /**
+     * 수험번호 박힌 최종 PDF파일 수동 생성을 위해 쉼표로 구분된 applNo를 입력받는 화면
+     *
+     * @param mv
+     * @return
+     */
+    @RequestMapping(value="/form-pdf-manual-multi")
+    public ModelAndView pdfManualMulti( ModelAndView mv ) {
+        mv.setViewName("sysadmin/formPdfManualMulti");
+        return mv;
+    }
+
+    /**
+     * 쉼표로 구분된 applNo로 수험번호 박힌 최종 PDF 파일 다건 생성
+     *
+     * @param mv
+     * @return
+     */
+    @RequestMapping(value="/pdf-manual-multi")
+    public ModelAndView pdfManualMulti( @RequestParam("applNoList") String applNoList, ModelAndView mv ) {
+        mv.setViewName("sysadmin/rsltPdfManualMutli");
+        ExecutionContext ec;
+
+        String[] applNos = applNoList.split(",");
+
+        List<Application> failedList = new ArrayList<Application>();
+        int okCount = 0;
+
+        for (String applNo : applNos) {
+            Application application = commonDAO.queryForObject("com.apexsoft.ysprj.applicants.application.sqlmap.ApplicationMapper.selectByPrimaryKey",
+                    Integer.parseInt(applNo), Application.class);
+//        ec = processReGenMergeUpload(application);
+            String admsTypeCode = application.getAdmsTypeCode();
+            String lang = "C".equals(admsTypeCode) || "D".equals(admsTypeCode) ? "en" : "kr";
+            String reportName = "yonsei-appl-" + lang;
+            ExecutionContext ecGenAppl = birtService.generateBirtFile(application.getApplNo(), reportName);
+            reportName = "yonsei-adms-" + lang;
+            ExecutionContext ecGenAdms = birtService.generateBirtFile(application.getApplNo(), reportName);
+            ExecutionContext ecPdfMerge = pdfService.genAndUploadPDFByApplicants(application);
+            if ( ExecutionContext.FAIL.equals(ecGenAppl.getResult())) {
+                failedList.add(application);
+            } else if ( ExecutionContext.FAIL.equals(ecGenAdms.getResult())) {
+                failedList.add(application);
+            } else if ( ExecutionContext.FAIL.equals(ecPdfMerge.getResult())) {
+                failedList.add(application);
+            } else {
+                okCount++;
+            }
+        }
+
+        mv.addObject("failedList", failedList);
+        mv.addObject("totalCount", applNos.length);
+        mv.addObject("okCount", okCount);
+
+        return mv;
+    }
+
+    /**
      * 결제 완료되었으나 최종 파일이 업로드 되지 않은 원서를
      * Batch로 파일 수동 생성 및 업로드 요청하는 화면
      *

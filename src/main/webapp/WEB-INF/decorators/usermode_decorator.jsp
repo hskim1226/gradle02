@@ -57,7 +57,7 @@
                     <ul class="nav navbar-nav pull-right">
                         <li><a id="nav-home" href="${contextPath}/index${requestScope.get('locale') == 'en' ? '-en' : ''}.html"><i class="fa fa-home"></i><spring:message code="L00009"/><%--Home--%></a> </li>
                         <%--마감 이후 링크 비활성화 --%>
-                        <%--<li><a id="nav-admsList" href="${contextPath}/application/admsList"><i class="fa fa-pencil-square-o"></i><spring:message code="L00003"/>&lt;%&ndash;원서접수&ndash;%&gt;</a> </li>--%>
+                        <li><a id="nav-admsList" href="${contextPath}/application/admsList"><i class="fa fa-pencil-square-o"></i><spring:message code="L00003"/><%--원서접수--%></a> </li>
                         <li><a id="nav-myList" href="${contextPath}/application/mylist"><i class="fa fa-list"></i><spring:message code="L00005"/><%--내 원서--%></a> </li>
                         <li><a id="nav-userInfo" href="${contextPath}/user/info"><i class="fa fa-info-circle"></i><spring:message code="L00010"/><%--내 정보--%></a> </li>
                         <sec:authorize access="!isAuthenticated()">
@@ -78,7 +78,8 @@
                                     <li><a href="${contextPath}/sysadmin/analyze/pdf">최종 PDF 분석</a></li>
                                     <li class="divider"></li>
                                     <li><a href="${contextPath}/sysadmin/form-pdf-manual">최종 PDF 생성 - 1건</a></li>
-                                    <li><a href="${contextPath}/sysadmin/form-batch-re-generate-merge-upload">최종 PDF 생성 - 다건</a></li>
+                                    <li><a href="${contextPath}/sysadmin/form-pdf-manual-multi">최종 PDF 생성 - 다건</a></li>
+                                    <li><a href="${contextPath}/sysadmin/form-batch-re-generate-merge-upload">최종 PDF 생성 - 배치</a></li>
                                     <li class="divider"></li>
                                     <li><a href="${contextPath}/sysadmin/form-batch-download-all">S3 다운로드</a></li>
                                     <li class="divider"></li>
