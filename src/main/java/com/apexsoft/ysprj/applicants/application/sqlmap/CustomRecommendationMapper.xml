@@ -307,6 +307,12 @@
         where a.REC_STS_CODE in ('00002', '00003')
     </select>
 
+    <select id="selectUncompletedRecsTest" resultMap="BaseResultMap">
+        select *
+        from APPL_REC a
+        where a.REC_NO = 3
+    </select>
+
     <select id="selectRecDocInfo" resultType="com.apexsoft.ysprj.applicants.application.domain.RecommendationDocument">
         select a.CODE as DOC_ITEM_CODE, a.CODE_VAL as DOC_ITEM_NAME, a.CODE_VAL_XXEN as DOC_ITEM_NAME_XXEN
         from COMM_CODE a

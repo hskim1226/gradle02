@@ -556,7 +556,8 @@ public class RecommendationServiceImpl implements RecommendationService {
     public ExecutionContext retrieveUncompletedRecommendationList() {
         ExecutionContext ec = new ExecutionContext();
         List<Recommendation> uncompletedRecList =
-                commonDAO.queryForList(NAME_SPACE + "CustomRecommendationMapper.selectUncompletedRecs", Recommendation.class);
+//                commonDAO.queryForList(NAME_SPACE + "CustomRecommendationMapper.selectUncompletedRecs", Recommendation.class);
+                commonDAO.queryForList(NAME_SPACE + "CustomRecommendationMapper.selectUncompletedRecsTest", Recommendation.class);
         ec.setData(uncompletedRecList);
         return ec;
     }
@@ -601,6 +602,12 @@ public class RecommendationServiceImpl implements RecommendationService {
 //            if (!sendUrgeMail(mailToApplicant)) {
 //                failedList.add(mailToApplicant);
 //            }
+        }
+        int i = 0;
+        Recommendation rec = null;
+        for (Mail mail : failedList) {
+            rec = (Recommendation)mail.getInfo();
+            System.out.println("[Failed : " + ++i + "] APPL_NO : " + rec.getApplNo() + ", To : " + mail.getTo());
         }
         return ec;
     }
