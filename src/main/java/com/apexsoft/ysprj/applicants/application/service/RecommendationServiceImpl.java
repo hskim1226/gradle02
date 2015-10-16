@@ -562,8 +562,8 @@ public class RecommendationServiceImpl implements RecommendationService {
     public ExecutionContext retrieveUncompletedRecommendationList() {
         ExecutionContext ec = new ExecutionContext();
         List<Recommendation> uncompletedRecList =
-//                commonDAO.queryForList(NAME_SPACE + "CustomRecommendationMapper.selectUncompletedRecs", Recommendation.class);
-                commonDAO.queryForList(NAME_SPACE + "CustomRecommendationMapper.selectUncompletedRecsTest", Recommendation.class);
+                commonDAO.queryForList(NAME_SPACE + "CustomRecommendationMapper.selectUncompletedRecs", Recommendation.class);
+//                commonDAO.queryForList(NAME_SPACE + "CustomRecommendationMapper.selectUncompletedRecsTest", Recommendation.class);
         ec.setData(uncompletedRecList);
         return ec;
     }
@@ -572,6 +572,7 @@ public class RecommendationServiceImpl implements RecommendationService {
     public ExecutionContext sendUrgeMail(List<Recommendation> recommendationList) {
         ExecutionContext ec = new ExecutionContext();
         List<Mail> failedList = new ArrayList<Mail>();
+        int num = 0;
         for (Recommendation recommendation : recommendationList) {
             fillEtcInfo(recommendation);
             Mail mailToProf = MailFactory.create(MailType.RECOMMENDATION_URGE);
@@ -588,6 +589,8 @@ public class RecommendationServiceImpl implements RecommendationService {
             if (!sendUrgeMail(mailToProf)) {
                 failedList.add(mailToProf);
                 // sendUrgeMail()에서 error 로그를 쏘므로 여기서는 별도 처리 안함
+            } else {
+                System.out.println("[Succeeded : " + ++num + "] APPL_NO : " + recommendation.getApplNo() + ", To : " + mailToProf.getTo());
             }
 
             // 지원자에게는 안 보내기로 함(by 연대 담당자)
