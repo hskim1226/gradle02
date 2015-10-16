@@ -447,25 +447,25 @@ public class PreApplicationController {
                                            MultipartHttpServletRequest multipartHttpServletRequest,
                                            @RequestParam("fileRec") MultipartFile file,
                                            ModelAndView mv) {
-        // MANAGE 등록 마감
-        mv.setViewName("application/recNotice");
-        mv.addObject("title", messageResolver.getMessage("L06903"));
-        mv.addObject("notice", messageResolver.getMessage("U06905"));
-        return mv;
-        // MANAGE
-//
+//        // MANAGE 등록 마감
 //        mv.setViewName("application/recNotice");
-//
-//        // 파일 업로드
-//
-//
-//        // 추천 상태 변경 DB 반영 및 지원자에게 메일 발송 처리
-//        ExecutionContext ec = recommendationService.registerRecommendationByProfessor(multipartHttpServletRequest, file, recommendation);
-//
-//        mv.addObject("title", messageResolver.getMessage("L06902"));
-//        mv.addObject("notice", messageResolver.getMessage("U06902"));
-//
+//        mv.addObject("title", messageResolver.getMessage("L06903"));
+//        mv.addObject("notice", messageResolver.getMessage("U06905"));
 //        return mv;
+//        // MANAGE
+
+        mv.setViewName("application/recNotice");
+
+        // 파일 업로드
+
+
+        // 추천 상태 변경 DB 반영 및 지원자에게 메일 발송 처리
+        ExecutionContext ec = recommendationService.registerRecommendationByProfessor(multipartHttpServletRequest, file, recommendation);
+
+        mv.addObject("title", messageResolver.getMessage("L06902"));
+        mv.addObject("notice", messageResolver.getMessage("U06902"));
+
+        return mv;
     }
 
     @RequestMapping(value = "/sendUrgeRecommendationMail", method = RequestMethod.POST)
