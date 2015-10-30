@@ -60,7 +60,7 @@
     <bean id="jacksonObjectMapper"
           class="com.fasterxml.jackson.databind.ObjectMapper"/>
 
-    <beans profile="local,dev,test,new,aws">
+    <beans profile="local,dev,svr2,new,aws">
     </beans>
 
 </beans>
