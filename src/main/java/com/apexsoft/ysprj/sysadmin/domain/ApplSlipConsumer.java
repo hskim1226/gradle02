@@ -12,8 +12,7 @@ import org.slf4j.LoggerFactory;
  */
 public class ApplSlipConsumer extends AbstractS3Consumer {
 
-    private String baseDir;
-    private String s3MidPath;
+
 
     private static final Logger logger = LoggerFactory.getLogger(ApplSlipConsumer.class);
 
@@ -27,7 +26,7 @@ public class ApplSlipConsumer extends AbstractS3Consumer {
     protected String getFilePath(BackUpApplDoc backUpApplDoc) {
         String uploadDirFullPath = FileUtil.getUploadDirectoryFullPath(baseDir, s3MidPath, backUpApplDoc.getAdmsNo(), backUpApplDoc.getUserId(), backUpApplDoc.getApplNo());
         String fullPath = FileUtil.getApplicationSlipFileFullPath(uploadDirFullPath, backUpApplDoc.getUserId());
-        String filePath = fullPath.substring(s3BucketName.length() + 1);
+        String filePath = fullPath.substring(baseDir.length() + 1);
         return filePath;
     }
 
@@ -50,19 +49,4 @@ public class ApplSlipConsumer extends AbstractS3Consumer {
         throw new YSBizException(ec);
     }
 
-    public String getBaseDir() {
-        return baseDir;
-    }
-
-    public void setBaseDir(String baseDir) {
-        this.baseDir = baseDir;
-    }
-
-    public String getS3MidPath() {
-        return s3MidPath;
-    }
-
-    public void setS3MidPath(String s3MidPath) {
-        this.s3MidPath = s3MidPath;
-    }
 }

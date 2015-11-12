@@ -26,6 +26,8 @@ public abstract class AbstractS3Consumer implements Runnable {
     public BlockingQueue<S3Object> s3ObjQue = null;
     public final AmazonS3Client s3Client;
     public final String s3BucketName;
+    public String baseDir;
+    public String s3MidPath;
     public int fileCount;
 
     public AbstractS3Consumer(AmazonS3Client s3Client, String s3BucketName, int fileCount) {
@@ -54,6 +56,22 @@ public abstract class AbstractS3Consumer implements Runnable {
         this.s3ObjQue = s3ObjQue;
     }
 
+    public String getBaseDir() {
+        return baseDir;
+    }
+
+    public void setBaseDir(String baseDir) {
+        this.baseDir = baseDir;
+    }
+
+    public String getS3MidPath() {
+        return s3MidPath;
+    }
+
+    public void setS3MidPath(String s3MidPath) {
+        this.s3MidPath = s3MidPath;
+    }
+
     @Override
     public void run() {
         try {
@@ -75,7 +93,8 @@ public abstract class AbstractS3Consumer implements Runnable {
                     } catch (Exception e) {
                         handleException(e, backUpApplDoc);
                     }
-                } else if (applInfoQue.peek() == null && count.intValue() == fileCount) {
+//                } else if (applInfoQue.peek() == null && count.intValue() == fileCount) {
+                } else if (applInfoQue.peek() == null) {
                     return;
                 }
             }

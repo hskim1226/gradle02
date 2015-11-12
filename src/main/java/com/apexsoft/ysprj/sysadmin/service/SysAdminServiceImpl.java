@@ -26,9 +26,7 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -159,6 +157,8 @@ public class SysAdminServiceImpl implements  SysAdminService {
         }
 
         AbstractS3Consumer s3Consumer = new ApplSlipConsumer(s3, s3BucketName, backUpApplDocList.size());
+        s3Consumer.setBaseDir(fileBaseDir);
+        s3Consumer.setS3MidPath(s3MidPath);
         Map<String, String> resultMap = savePdf(s3Consumer, backUpApplDocList);
 
         ec.setResult(ExecutionContext.SUCCESS);
@@ -275,8 +275,16 @@ System.out.println("job started : " + System.currentTimeMillis());
         }
 
 
+//        ExecutorService es = Executors.newCachedThreadPool();
+//        for ( int i = 0 ; i < 10 ; i++ ) {
+//            es.execute(new Thread(s3ObjConsumer));
+//        }
+//        es.shutdown();
+//        boolean finished = es.awaitTermination(1, TimeUnit.DAYS);
+
+
         long end = System.currentTimeMillis();
-        System.out.println("Backup elapsed time" + (end - start) / 1000 + " seconds");
+System.out.println("Backup elapsed time" + (end - start) / 1000 + " seconds");
 
         Map<String, String> resultMap = new HashMap<String, String>();
         resultMap.put("requestedCount", String.valueOf(backUpApplDocList.size()));
@@ -297,20 +305,21 @@ System.out.println("job started : " + System.currentTimeMillis());
 
         @Override
         public void run() {
-//            for (BackUpApplDoc backUpApplDoc : backUpApplDocList) {
-//                try {
-//                    applInfoQue.put(backUpApplDoc);
-//                } catch ( InterruptedException e ) {
-//                    e.printStackTrace();
-//                }
-//            }
-            for (int i = 0 ; i < 3 ; i++) {
+            for (BackUpApplDoc backUpApplDoc : backUpApplDocList) {
                 try {
-                    applInfoQue.put(backUpApplDocList.get(i));
+                    applInfoQue.put(backUpApplDoc);
                 } catch ( InterruptedException e ) {
                     e.printStackTrace();
                 }
             }
+//            For Test
+//            for (int i = 0 ; i < 3 ; i++) {
+//                try {
+//                    applInfoQue.put(backUpApplDocList.get(i));
+//                } catch ( InterruptedException e ) {
+//                    e.printStackTrace();
+//                }
+//            }
         }
     }
 
@@ -418,8 +427,9 @@ System.out.println("job started : " + System.currentTimeMillis());
                             logger.error("objectKey : [" + s3ObjUserMeta.get("filePath") +"]");
                             throw new YSBizException(ec);
                         }
-                    } else if (s3ObjQue.peek() == null && count.intValue() == fileCount) {
-System.out.println("job completed : " + (System.currentTimeMillis() - 5000));
+//                    } else if (s3ObjQue.peek() == null && count.intValue() == fileCount) {
+                    } else if (s3ObjQue.peek() == null) {
+System.out.println(count.intValue() + " job completed");
                         return;
                     }
                 }

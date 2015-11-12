@@ -14,9 +14,6 @@ import org.slf4j.LoggerFactory;
  */
 public class ApplAllConsumer extends AbstractS3Consumer {
 
-    private String baseDir;
-    private String s3MidPath;
-
     private static final Logger logger = LoggerFactory.getLogger(ApplAllConsumer.class);
 
     public ApplAllConsumer(AmazonS3Client s3Client,
@@ -60,19 +57,4 @@ public class ApplAllConsumer extends AbstractS3Consumer {
         throw new YSBizException(ec);
     }
 
-    public String getBaseDir() {
-        return baseDir;
-    }
-
-    public void setBaseDir(String baseDir) {
-        this.baseDir = baseDir;
-    }
-
-    public String getS3MidPath() {
-        return s3MidPath;
-    }
-
-    public void setS3MidPath(String s3MidPath) {
-        this.s3MidPath = s3MidPath;
-    }
 }
