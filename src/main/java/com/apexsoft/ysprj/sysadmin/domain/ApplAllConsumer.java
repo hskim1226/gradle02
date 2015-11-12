@@ -1,0 +1,78 @@
+package com.apexsoft.ysprj.sysadmin.domain;
+
+import com.amazonaws.services.s3.AmazonS3Client;
+import com.apexsoft.framework.common.vo.ExecutionContext;
+import com.apexsoft.framework.exception.YSBizException;
+import com.apexsoft.ysprj.applicants.application.domain.Application;
+import com.apexsoft.ysprj.applicants.common.util.FileUtil;
+import com.apexsoft.ysprj.applicants.common.util.StringUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+/**
+ * Created by hanmomhanda on 15. 11. 12.
+ */
+public class ApplAllConsumer extends AbstractS3Consumer {
+
+    private String baseDir;
+    private String s3MidPath;
+
+    private static final Logger logger = LoggerFactory.getLogger(ApplAllConsumer.class);
+
+    public ApplAllConsumer(AmazonS3Client s3Client,
+                           String s3BucketName,
+                           int fileCount) {
+        super(s3Client, s3BucketName, fileCount);
+    }
+
+    @Override
+    protected String getFilePath(BackUpApplDoc backUpApplDoc) {
+        Application appl = new Application();
+        appl.setApplNo(backUpApplDoc.getApplNo());
+        appl.setUserId(backUpApplDoc.getUserId());
+        appl.setAdmsNo(backUpApplDoc.getAdmsNo());
+        String fullPath = FileUtil.getFinalMergedFileFullPath(s3BucketName, s3MidPath, appl);
+        String filePath = fullPath.substring(s3BucketName.length() + 1);
+        return filePath;
+    }
+
+    @Override
+    protected String getTargetFilePath(BackUpApplDoc backUpApplDoc) {
+        String applicantName = StringUtil.getEmptyIfNull(backUpApplDoc.getKorName()).equals(StringUtil.EMPTY_STRING) ?
+                backUpApplDoc.getEngName() + "-" + backUpApplDoc.getEngSur() :
+                backUpApplDoc.getKorName();
+        String targetFilePath = new StringBuilder().append(s3MidPath).append("/")
+                .append(backUpApplDoc.getCampName()).append("/")
+                .append(backUpApplDoc.getCollName()).append("/")
+                .append(backUpApplDoc.getDeptName()).append("/")
+                .append(backUpApplDoc.getApplId()).append("_").append(applicantName).append(".pdf")
+                .toString();
+        return targetFilePath;
+    }
+
+    @Override
+    protected void handleException(Exception e, BackUpApplDoc backUpApplDoc) {
+        ExecutionContext ec = new ExecutionContext(ExecutionContext.FAIL);
+        logger.error(e.getMessage());
+        logger.error("bucketName : [" + s3BucketName + "]");
+        logger.error("applNo : [" + backUpApplDoc.getApplNo() + "]");
+        logger.error("objectKey : [" + getFilePath(backUpApplDoc) +"]");
+        throw new YSBizException(ec);
+    }
+
+    public String getBaseDir() {
+        return baseDir;
+    }
+
+    public void setBaseDir(String baseDir) {
+        this.baseDir = baseDir;
+    }
+
+    public String getS3MidPath() {
+        return s3MidPath;
+    }
+
+    public void setS3MidPath(String s3MidPath) {
+        this.s3MidPath = s3MidPath;
+    }
+}

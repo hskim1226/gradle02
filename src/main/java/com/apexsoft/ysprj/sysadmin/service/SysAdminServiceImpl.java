@@ -13,8 +13,7 @@ import com.apexsoft.ysprj.applicants.common.service.BirtService;
 import com.apexsoft.ysprj.applicants.common.service.PDFService;
 import com.apexsoft.ysprj.applicants.common.util.FileUtil;
 import com.apexsoft.ysprj.applicants.common.util.StringUtil;
-import com.apexsoft.ysprj.sysadmin.domain.BackUpApplDoc;
-import com.apexsoft.ysprj.sysadmin.domain.StudentNumber;
+import com.apexsoft.ysprj.sysadmin.domain.*;
 import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -137,7 +136,8 @@ public class SysAdminServiceImpl implements  SysAdminService {
             e.printStackTrace();
         }
 
-        Map<String, String> resultMap = savePdf(s3, backUpApplDocList);
+        AbstractS3Consumer s3Consumer = new ApplAllConsumer(s3, s3BucketName, backUpApplDocList.size());
+        Map<String, String> resultMap = savePdf(s3Consumer, backUpApplDocList);
 
         ec.setResult(ExecutionContext.SUCCESS);
         ec.setData(resultMap);
@@ -153,12 +153,13 @@ public class SysAdminServiceImpl implements  SysAdminService {
         AmazonS3Client s3 = new AmazonS3Client();
 
         try {
-            backUpApplDocList = commonDAO.queryForList(NAME_SPACE + "SysAdminMapper.selectAllSlipPdfInfo", BackUpApplDoc.class);
+            backUpApplDocList = commonDAO.queryForList(NAME_SPACE + "SysAdminMapper.selectAllPdfInfo", BackUpApplDoc.class);
         } catch (YSBizException e) {
             e.printStackTrace();
         }
 
-        Map<String, String> resultMap = savePdf(s3, backUpApplDocList);
+        AbstractS3Consumer s3Consumer = new ApplSlipConsumer(s3, s3BucketName, backUpApplDocList.size());
+        Map<String, String> resultMap = savePdf(s3Consumer, backUpApplDocList);
 
         ec.setResult(ExecutionContext.SUCCESS);
         ec.setData(resultMap);
@@ -206,7 +207,7 @@ System.err.println("Total Elapsed Time : " + (System.currentTimeMillis() - start
         return null;
     }
 
-    private Map<String, String> savePdf(AmazonS3Client s3Client, List<BackUpApplDoc> backUpApplDocList) {
+    private Map<String, String> savePdf(AbstractS3Consumer s3Consumer, List<BackUpApplDoc> backUpApplDocList) {
 
         int downloadedCount = 0;
         long start = System.currentTimeMillis();
@@ -258,9 +259,14 @@ System.out.println("job started : " + System.currentTimeMillis());
         ApplInfoProducer applInfoProducer = new ApplInfoProducer(applInfoQue, backUpApplDocList);
         new Thread(applInfoProducer).start();
 
-        ApplInfoConsumer applInfoConsumer = new ApplInfoConsumer(applInfoQue, s3ObjQue, s3Client, backUpApplDocList.size());
+//        ApplInfoConsumer applInfoConsumer = new ApplInfoConsumer(applInfoQue, s3ObjQue, s3Client, backUpApplDocList.size());
+//        for ( int i = 0 ; i < 100 ; i++ ) {
+//            new Thread(applInfoConsumer).start();
+//        }
+        s3Consumer.setApplInfoQue(applInfoQue);
+        s3Consumer.setS3ObjQue(s3ObjQue);
         for ( int i = 0 ; i < 100 ; i++ ) {
-            new Thread(applInfoConsumer).start();
+            new Thread(s3Consumer).start();
         }
 
         S3ObjConsumer s3ObjConsumer = new S3ObjConsumer(s3ObjQue, backUpApplDocList.size());
@@ -291,9 +297,16 @@ System.out.println("job started : " + System.currentTimeMillis());
 
         @Override
         public void run() {
-            for (BackUpApplDoc backUpApplDoc : backUpApplDocList) {
+//            for (BackUpApplDoc backUpApplDoc : backUpApplDocList) {
+//                try {
+//                    applInfoQue.put(backUpApplDoc);
+//                } catch ( InterruptedException e ) {
+//                    e.printStackTrace();
+//                }
+//            }
+            for (int i = 0 ; i < 3 ; i++) {
                 try {
-                    applInfoQue.put(backUpApplDoc);
+                    applInfoQue.put(backUpApplDocList.get(i));
                 } catch ( InterruptedException e ) {
                     e.printStackTrace();
                 }
@@ -301,75 +314,75 @@ System.out.println("job started : " + System.currentTimeMillis());
         }
     }
 
-    private class ApplInfoConsumer implements Runnable {
-        private AtomicInteger count = new AtomicInteger();
-        private AtomicLong totalVolume = new AtomicLong();
-
-        private final BlockingQueue<BackUpApplDoc> applInfoQue;
-        private final BlockingQueue<S3Object> s3ObjQue;
-        private final AmazonS3Client s3Client;
-        private int fileCount;
-
-        public ApplInfoConsumer( BlockingQueue<BackUpApplDoc> applInfoQue,
-                                 BlockingQueue<S3Object> s3ObjQue,
-                                 AmazonS3Client s3Client,
-                                 int fileCount) {
-            this.applInfoQue = applInfoQue;
-            this.s3ObjQue = s3ObjQue;
-            this.s3Client = s3Client;
-            this.fileCount = fileCount;
-        }
-
-        @Override
-        public void run() {
-            try {
-                while(true) {
-                    BackUpApplDoc backUpApplDoc = applInfoQue.poll(5, TimeUnit.SECONDS);
-
-                    if (backUpApplDoc != null) {
-                        S3Object s3Object = null;
-                        Application appl = new Application();
-                        appl.setApplNo(backUpApplDoc.getApplNo());
-                        appl.setUserId(backUpApplDoc.getUserId());
-                        appl.setAdmsNo(backUpApplDoc.getAdmsNo());
-                        String fullPath = FileUtil.getFinalMergedFileFullPath(s3BucketName, s3MidPath, appl);
-                        String filePath = fullPath.substring(s3BucketName.length() + 1);
-                        String applicantName = StringUtil.getEmptyIfNull(backUpApplDoc.getKorName()).equals(StringUtil.EMPTY_STRING) ?
-                                backUpApplDoc.getEngName() + "-" + backUpApplDoc.getEngSur() :
-                                backUpApplDoc.getKorName();
-                        String targetFilePath = new StringBuilder().append(s3MidPath).append("/")
-                                .append(backUpApplDoc.getCampName()).append("/")
-                                .append(backUpApplDoc.getCollName()).append("/")
-                                .append(backUpApplDoc.getDeptName()).append("/")
-                                .append(backUpApplDoc.getApplId()).append("_").append(applicantName).append(".pdf")
-                                .toString();
-                        try {
-                            s3Object = s3Client.getObject(new GetObjectRequest(s3BucketName, filePath));
-                            ObjectMetadata objMeta = s3Object.getObjectMetadata();
-                            objMeta.addUserMetadata("applNo", String.valueOf(backUpApplDoc.getApplNo()));
-                            objMeta.addUserMetadata("filePath", filePath);
-                            objMeta.addUserMetadata("targetFilePath", targetFilePath);
-                            s3ObjQue.put(s3Object);
-                            System.out.println("[DOWNLOAD] " + count.incrementAndGet() + "/" + fileCount + ", totalVolume - " + totalVolume.addAndGet(objMeta.getContentLength()) + " : " + targetFilePath);
-                        } catch (Exception e) {
-                            ExecutionContext ec = new ExecutionContext(ExecutionContext.FAIL);
-                            logger.error("Err in ApplInfoConsumer.run in SysAdminServiceImpl");
-                            logger.error(e.getMessage());
-                            logger.error("bucketName : [" + s3BucketName + "]");
-                            logger.error("applNo : [" + appl.getApplNo() + "]");
-                            logger.error("objectKey : [" + filePath +"]");
-                            throw new YSBizException(ec);
-                        }
-                    } else if (applInfoQue.peek() == null && count.intValue() == fileCount) {
-                        return;
-                    }
-                }
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-
-        }
-    }
+//    private class ApplInfoConsumer implements Runnable {
+//        private AtomicInteger count = new AtomicInteger();
+//        private AtomicLong totalVolume = new AtomicLong();
+//
+//        private final BlockingQueue<BackUpApplDoc> applInfoQue;
+//        private final BlockingQueue<S3Object> s3ObjQue;
+//        private final AmazonS3Client s3Client;
+//        private int fileCount;
+//
+//        public ApplInfoConsumer( BlockingQueue<BackUpApplDoc> applInfoQue,
+//                                 BlockingQueue<S3Object> s3ObjQue,
+//                                 AmazonS3Client s3Client,
+//                                 int fileCount) {
+//            this.applInfoQue = applInfoQue;
+//            this.s3ObjQue = s3ObjQue;
+//            this.s3Client = s3Client;
+//            this.fileCount = fileCount;
+//        }
+//
+//        @Override
+//        public void run() {
+//            try {
+//                while(true) {
+//                    BackUpApplDoc backUpApplDoc = applInfoQue.poll(5, TimeUnit.SECONDS);
+//
+//                    if (backUpApplDoc != null) {
+//                        S3Object s3Object = null;
+//                        Application appl = new Application();
+//                        appl.setApplNo(backUpApplDoc.getApplNo());
+//                        appl.setUserId(backUpApplDoc.getUserId());
+//                        appl.setAdmsNo(backUpApplDoc.getAdmsNo());
+//                        String fullPath = FileUtil.getFinalMergedFileFullPath(s3BucketName, s3MidPath, appl);
+//                        String filePath = fullPath.substring(s3BucketName.length() + 1);
+//                        String applicantName = StringUtil.getEmptyIfNull(backUpApplDoc.getKorName()).equals(StringUtil.EMPTY_STRING) ?
+//                                backUpApplDoc.getEngName() + "-" + backUpApplDoc.getEngSur() :
+//                                backUpApplDoc.getKorName();
+//                        String targetFilePath = new StringBuilder().append(s3MidPath).append("/")
+//                                .append(backUpApplDoc.getCampName()).append("/")
+//                                .append(backUpApplDoc.getCollName()).append("/")
+//                                .append(backUpApplDoc.getDeptName()).append("/")
+//                                .append(backUpApplDoc.getApplId()).append("_").append(applicantName).append(".pdf")
+//                                .toString();
+//                        try {
+//                            s3Object = s3Client.getObject(new GetObjectRequest(s3BucketName, filePath));
+//                            ObjectMetadata objMeta = s3Object.getObjectMetadata();
+//                            objMeta.addUserMetadata("applNo", String.valueOf(backUpApplDoc.getApplNo()));
+//                            objMeta.addUserMetadata("filePath", filePath);
+//                            objMeta.addUserMetadata("targetFilePath", targetFilePath);
+//                            s3ObjQue.put(s3Object);
+//                            System.out.println("[DOWNLOAD] " + count.incrementAndGet() + "/" + fileCount + ", totalVolume - " + totalVolume.addAndGet(objMeta.getContentLength()) + " : " + targetFilePath);
+//                        } catch (Exception e) {
+//                            ExecutionContext ec = new ExecutionContext(ExecutionContext.FAIL);
+//                            logger.error("Err in ApplInfoConsumer.run in SysAdminServiceImpl");
+//                            logger.error(e.getMessage());
+//                            logger.error("bucketName : [" + s3BucketName + "]");
+//                            logger.error("applNo : [" + appl.getApplNo() + "]");
+//                            logger.error("objectKey : [" + filePath +"]");
+//                            throw new YSBizException(ec);
+//                        }
+//                    } else if (applInfoQue.peek() == null && count.intValue() == fileCount) {
+//                        return;
+//                    }
+//                }
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
+//
+//        }
+//    }
 
     private class S3ObjConsumer implements Runnable {
         private AtomicInteger count = new AtomicInteger();

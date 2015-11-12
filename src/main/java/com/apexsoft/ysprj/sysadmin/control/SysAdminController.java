@@ -527,8 +527,8 @@ public class SysAdminController {
 
     @RequestMapping(value="/rslt-backup-all-slip-pdf")
     public ModelAndView rsltBackupAllSlipPdf(ModelAndView mv) {
-        mv.setViewName("sysadmin/rsltBackupAllPdf");
-        ExecutionContext ec = sysAdminService.downloadAllPdf();
+        mv.setViewName("sysadmin/rsltBackupAllSlipPdf");
+        ExecutionContext ec = sysAdminService.downloadAllSlipPdf();
         Map<String, String> map = (Map<String, String>)ec.getData();
         Set<Map.Entry<String, String>> entrySet = map.entrySet();
         for (Map.Entry<String, String> item : entrySet) {
