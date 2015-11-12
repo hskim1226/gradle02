@@ -25,6 +25,14 @@
     order by 1, 2, 3, 4;
   </select>
 
+  <select id="selectAllSlipPdfInfo" resultMap="BaseResultMap">
+    select D.USER_ID, D.APPL_NO, D.ADMS_NO
+    from APPL D
+    where 1=1
+    and   D.APPL_STS_CODE = '00020'
+    order by 1;
+  </select>
+
   <resultMap id="studentPicInfoMap" type="com.apexsoft.ysprj.sysadmin.domain.StudentNumber" >
     <id column="APPL_ID" property="applId" jdbcType="VARCHAR" />
     <result column="STUD_NAME" property="studName" jdbcType="VARCHAR" />

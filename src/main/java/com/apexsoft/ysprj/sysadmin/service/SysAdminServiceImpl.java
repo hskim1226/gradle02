@@ -151,7 +151,7 @@ public class SysAdminServiceImpl implements  SysAdminService {
         AmazonS3Client s3 = new AmazonS3Client();
 
         try {
-            backUpApplDocList = commonDAO.queryForList(NAME_SPACE + "SysAdminMapper.selectAllPdfInfo", BackUpApplDoc.class);
+            backUpApplDocList = commonDAO.queryForList(NAME_SPACE + "SysAdminMapper.selectAllSlipPdfInfo", BackUpApplDoc.class);
         } catch (YSBizException e) {
             e.printStackTrace();
         }
@@ -312,7 +312,7 @@ System.out.println("Backup elapsed time" + (end - start) / 1000 + " seconds");
                     e.printStackTrace();
                 }
             }
-//            For Test
+            //  For Test
 //            for (int i = 0 ; i < 3 ; i++) {
 //                try {
 //                    applInfoQue.put(backUpApplDocList.get(i));
