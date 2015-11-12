@@ -82,6 +82,8 @@
                                     <li><a href="${contextPath}/sysadmin/form-batch-re-generate-merge-upload">최종 PDF 생성 - 배치</a></li>
                                     <li class="divider"></li>
                                     <li><a href="${contextPath}/sysadmin/form-batch-download-all">S3 다운로드</a></li>
+                                    <li><a href="${contextPath}/sysadmin/form-backup-all-pdf">결제 완료 전체 원서+첨부파일 다운로드</a></li>
+                                    <li><a href="${contextPath}/sysadmin/form-backup-all-slip-pdf">결제 완료 전체 수험표 다운로드</a></li>
                                     <li class="divider"></li>
                                     <li><a href="${contextPath}/sysadmin/form-pay-manual">결제</a></li>
                                 </ul>

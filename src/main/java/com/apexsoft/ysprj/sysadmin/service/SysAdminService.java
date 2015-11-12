@@ -13,5 +13,7 @@ public interface SysAdminService {
 
     ExecutionContext downloadAllPdf();
 
+    ExecutionContext downloadAllSlipPdf();
+
     ExecutionContext downaloadRenamedPictures();
 }

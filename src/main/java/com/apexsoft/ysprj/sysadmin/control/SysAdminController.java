@@ -519,6 +519,24 @@ public class SysAdminController {
         return mv;
     }
 
+    @RequestMapping(value="/form-backup-all-slip-pdf")
+    public ModelAndView formBackupAllSlipPdf(ModelAndView mv) {
+        mv.setViewName("sysadmin/formBackupAllSlipPdf");
+        return mv;
+    }
+
+    @RequestMapping(value="/rslt-backup-all-slip-pdf")
+    public ModelAndView rsltBackupAllSlipPdf(ModelAndView mv) {
+        mv.setViewName("sysadmin/rsltBackupAllPdf");
+        ExecutionContext ec = sysAdminService.downloadAllPdf();
+        Map<String, String> map = (Map<String, String>)ec.getData();
+        Set<Map.Entry<String, String>> entrySet = map.entrySet();
+        for (Map.Entry<String, String> item : entrySet) {
+            mv.addObject(item.getKey(), item.getValue());
+        }
+        return mv;
+    }
+
     @RequestMapping(value="/form-generate-pic")
     public ModelAndView formGeneratePic(ModelAndView mv) {
         mv.setViewName("sysadmin/formGeneratePic");

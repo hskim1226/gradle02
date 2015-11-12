@@ -124,6 +124,7 @@ public class SysAdminServiceImpl implements  SysAdminService {
         return ecResult;
     }
 
+    @Override
     public ExecutionContext downloadAllPdf() {
 
         ExecutionContext ec = new ExecutionContext();
@@ -132,6 +133,27 @@ public class SysAdminServiceImpl implements  SysAdminService {
 
         try {
             backUpApplDocList = commonDAO.queryForList(NAME_SPACE + "SysAdminMapper.selectAllPdfInfo", BackUpApplDoc.class);
+        } catch (YSBizException e) {
+            e.printStackTrace();
+        }
+
+        Map<String, String> resultMap = savePdf(s3, backUpApplDocList);
+
+        ec.setResult(ExecutionContext.SUCCESS);
+        ec.setData(resultMap);
+
+        return ec;
+    }
+
+    @Override
+    public ExecutionContext downloadAllSlipPdf() {
+
+        ExecutionContext ec = new ExecutionContext();
+        List<BackUpApplDoc> backUpApplDocList = null;
+        AmazonS3Client s3 = new AmazonS3Client();
+
+        try {
+            backUpApplDocList = commonDAO.queryForList(NAME_SPACE + "SysAdminMapper.selectAllSlipPdfInfo", BackUpApplDoc.class);
         } catch (YSBizException e) {
             e.printStackTrace();
         }
