@@ -429,7 +429,7 @@ System.out.println("Backup elapsed time" + (end - start) / 1000 + " seconds");
                         }
 //                    } else if (s3ObjQue.peek() == null && count.intValue() == fileCount) {
                     } else if (s3ObjQue.peek() == null) {
-System.out.println(count.intValue() + " job completed");
+//System.out.println(count.intValue() + " job completed");
                         return;
                     }
                 }
