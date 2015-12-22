@@ -18,8 +18,8 @@
   <select id="selectAllPdfInfo" resultMap="BaseResultMap">
     select A.CAMP_NAME, B.COLL_NAME, C.DEPT_NAME, D.USER_ID, D.APPL_NO, D.APPL_ID, D.ADMS_NO, D.KOR_NAME, D.ENG_SUR, D.ENG_NAME
     from CAMP A, COLL B, DEPT C, APPL D
-    where A.CAMP_CODE = D.CAMP_CODE
-    and   B.COLL_CODE = D.COLL_CODE
+    where A.CAMP_CODE = B.CAMP_CODE
+    and   B.COLL_CODE = C.COLL_CODE
     and   C.DEPT_CODE = D.DEPT_CODE
     and   D.APPL_STS_CODE = '00020'
     order by 1, 2, 3, 4;
