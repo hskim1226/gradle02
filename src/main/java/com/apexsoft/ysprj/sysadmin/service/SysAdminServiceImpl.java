@@ -23,6 +23,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.File;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -134,7 +135,7 @@ public class SysAdminServiceImpl implements  SysAdminService {
             e.printStackTrace();
         }
 
-        AbstractS3Consumer s3Consumer = new ApplAllConsumer(s3, s3BucketName, backUpApplDocList.size());
+        AbstractS3Consumer s3Consumer = new ApplAllConsumer(s3, s3BucketName, s3MidPath, backUpApplDocList.size());
         Map<String, String> resultMap = savePdf(s3Consumer, backUpApplDocList);
 
         ec.setResult(ExecutionContext.SUCCESS);
@@ -156,9 +157,9 @@ public class SysAdminServiceImpl implements  SysAdminService {
             e.printStackTrace();
         }
 
-        AbstractS3Consumer s3Consumer = new ApplSlipConsumer(s3, s3BucketName, backUpApplDocList.size());
+        AbstractS3Consumer s3Consumer = new ApplSlipConsumer(s3, s3BucketName, s3MidPath, backUpApplDocList.size());
         s3Consumer.setBaseDir(fileBaseDir);
-        s3Consumer.setS3MidPath(s3MidPath);
+//        s3Consumer.setS3MidPath(s3MidPath);
         Map<String, String> resultMap = savePdf(s3Consumer, backUpApplDocList);
 
         ec.setResult(ExecutionContext.SUCCESS);
@@ -284,7 +285,7 @@ System.out.println("job started : " + System.currentTimeMillis());
 
 
         long end = System.currentTimeMillis();
-System.out.println("Backup elapsed time" + (end - start) / 1000 + " seconds");
+System.out.println("Backup elapsed time : " + (end - start) / 1000 + " seconds");
 
         Map<String, String> resultMap = new HashMap<String, String>();
         resultMap.put("requestedCount", String.valueOf(backUpApplDocList.size()));
@@ -305,21 +306,22 @@ System.out.println("Backup elapsed time" + (end - start) / 1000 + " seconds");
 
         @Override
         public void run() {
-            for (BackUpApplDoc backUpApplDoc : backUpApplDocList) {
-                try {
-                    applInfoQue.put(backUpApplDoc);
-                } catch ( InterruptedException e ) {
-                    e.printStackTrace();
-                }
-            }
-            //  For Test
-//            for (int i = 0 ; i < 3 ; i++) {
+//            for (BackUpApplDoc backUpApplDoc : backUpApplDocList) {
 //                try {
-//                    applInfoQue.put(backUpApplDocList.get(i));
+//                    applInfoQue.put(backUpApplDoc);
 //                } catch ( InterruptedException e ) {
 //                    e.printStackTrace();
 //                }
 //            }
+
+            //  For Test
+            for (int i = 0 ; i < 3 ; i++) {
+                try {
+                    applInfoQue.put(backUpApplDocList.get(i));
+                } catch ( InterruptedException e ) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
 

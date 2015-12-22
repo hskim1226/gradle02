@@ -18,8 +18,9 @@ public class ApplAllConsumer extends AbstractS3Consumer {
 
     public ApplAllConsumer(AmazonS3Client s3Client,
                            String s3BucketName,
+                           String s3MidPath,
                            int fileCount) {
-        super(s3Client, s3BucketName, fileCount);
+        super(s3Client, s3BucketName, s3MidPath, fileCount);
     }
 
     @Override

@@ -30,9 +30,10 @@ public abstract class AbstractS3Consumer implements Runnable {
     public String s3MidPath;
     public int fileCount;
 
-    public AbstractS3Consumer(AmazonS3Client s3Client, String s3BucketName, int fileCount) {
+    public AbstractS3Consumer(AmazonS3Client s3Client, String s3BucketName, String s3MidPath, int fileCount) {
         this.s3Client = s3Client;
         this.s3BucketName = s3BucketName;
+        this.s3MidPath = s3MidPath;
         this.fileCount = fileCount;
     }
 
