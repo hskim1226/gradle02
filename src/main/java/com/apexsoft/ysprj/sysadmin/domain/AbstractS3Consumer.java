@@ -75,9 +75,10 @@ public abstract class AbstractS3Consumer implements Runnable {
 
     @Override
     public void run() {
+        BackUpApplDoc backUpApplDoc = null;
         try {
             while(true) {
-                BackUpApplDoc backUpApplDoc = applInfoQue.poll(20, TimeUnit.SECONDS);
+                backUpApplDoc = applInfoQue.poll(20, TimeUnit.SECONDS);
 
                 if (backUpApplDoc != null) {
                     S3Object s3Object = null;
@@ -90,7 +91,7 @@ public abstract class AbstractS3Consumer implements Runnable {
                         objMeta.addUserMetadata("filePath", filePath);
                         objMeta.addUserMetadata("targetFilePath", targetFilePath);
                         s3ObjQue.put(s3Object);
-                        System.out.println("[DOWNLOAD] " + count.incrementAndGet() + "/" + fileCount + ", totalVolume - " + totalVolume.addAndGet(objMeta.getContentLength()) + " : " + targetFilePath);
+                        System.out.println("[DOWNLOAD] " + "<thread-" + Thread.currentThread().getId() + "> " + count.incrementAndGet() + "/" + fileCount + ", totalVolume - " + totalVolume.addAndGet(objMeta.getContentLength()) + " : " + targetFilePath);
                     } catch (Exception e) {
                         handleException(e, backUpApplDoc);
                     }
@@ -100,7 +101,7 @@ public abstract class AbstractS3Consumer implements Runnable {
                 }
             }
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            handleException(e, backUpApplDoc);
         }
 
     }

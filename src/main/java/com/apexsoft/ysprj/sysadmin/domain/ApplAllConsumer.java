@@ -52,10 +52,11 @@ public class ApplAllConsumer extends AbstractS3Consumer {
     protected void handleException(Exception e, BackUpApplDoc backUpApplDoc) {
         ExecutionContext ec = new ExecutionContext(ExecutionContext.FAIL);
         logger.error(e.getMessage());
+        logger.error("Thread : " + Thread.currentThread().getId());
         logger.error("bucketName : [" + s3BucketName + "]");
         logger.error("applNo : [" + backUpApplDoc.getApplNo() + "]");
         logger.error("objectKey : [" + getFilePath(backUpApplDoc) +"]");
-        throw new YSBizException(ec);
+//        throw new YSBizException(ec);
     }
 
 }

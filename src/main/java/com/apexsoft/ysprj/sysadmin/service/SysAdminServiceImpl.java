@@ -419,7 +419,7 @@ System.out.println("Backup elapsed time : " + (end - start) / 1000 + " seconds")
                         Map<String, String> s3ObjUserMeta = s3ObjMeta.getUserMetadata();
                         try {
                             FileUtils.copyInputStreamToFile(inputStream, new File(backupDir, s3ObjUserMeta.get("targetFilePath")));
-                            System.out.println("[LOCAL SAVE] " + count.incrementAndGet() + "/" + fileCount + ", totalVolume - " + totalVolume.addAndGet(s3ObjMeta.getContentLength()) + " : " + s3ObjUserMeta.get("targetFilePath"));
+                            System.out.println("[LOCAL SAVE] " + "<thread-" + Thread.currentThread().getId() + "> " + count.incrementAndGet() + "/" + fileCount + ", totalVolume - " + totalVolume.addAndGet(s3ObjMeta.getContentLength()) + " : " + s3ObjUserMeta.get("targetFilePath"));
                         } catch (Exception e) {
                             ExecutionContext ec = new ExecutionContext(ExecutionContext.FAIL);
                             logger.error("Err in S3ObjConsumer.run in SysAdminServiceImpl");
@@ -427,7 +427,7 @@ System.out.println("Backup elapsed time : " + (end - start) / 1000 + " seconds")
                             logger.error("bucketName : [" + s3BucketName + "]");
                             logger.error("applNo : [" + s3ObjUserMeta.get("applNo") + "]");
                             logger.error("objectKey : [" + s3ObjUserMeta.get("filePath") +"]");
-                            throw new YSBizException(ec);
+//                            throw new YSBizException(ec);
                         }
 //                    } else if (s3ObjQue.peek() == null && count.intValue() == fileCount) {
                     } else if (s3ObjQue.peek() == null) {
