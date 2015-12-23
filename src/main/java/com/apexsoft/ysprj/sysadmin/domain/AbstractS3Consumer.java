@@ -77,7 +77,7 @@ public abstract class AbstractS3Consumer implements Runnable {
     public void run() {
         try {
             while(true) {
-                BackUpApplDoc backUpApplDoc = applInfoQue.poll(5, TimeUnit.SECONDS);
+                BackUpApplDoc backUpApplDoc = applInfoQue.poll(20, TimeUnit.SECONDS);
 
                 if (backUpApplDoc != null) {
                     S3Object s3Object = null;
