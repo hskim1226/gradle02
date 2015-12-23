@@ -306,22 +306,22 @@ System.out.println("Backup elapsed time : " + (end - start) / 1000 + " seconds")
 
         @Override
         public void run() {
-//            for (BackUpApplDoc backUpApplDoc : backUpApplDocList) {
-//                try {
-//                    applInfoQue.put(backUpApplDoc);
-//                } catch ( InterruptedException e ) {
-//                    e.printStackTrace();
-//                }
-//            }
-
-            //  For Test
-            for (int i = 0 ; i < 3 ; i++) {
+            for (BackUpApplDoc backUpApplDoc : backUpApplDocList) {
                 try {
-                    applInfoQue.put(backUpApplDocList.get(i));
+                    applInfoQue.put(backUpApplDoc);
                 } catch ( InterruptedException e ) {
                     e.printStackTrace();
                 }
             }
+
+            //  For Test
+//            for (int i = 0 ; i < 3 ; i++) {
+//                try {
+//                    applInfoQue.put(backUpApplDocList.get(i));
+//                } catch ( InterruptedException e ) {
+//                    e.printStackTrace();
+//                }
+//            }
         }
     }
 
