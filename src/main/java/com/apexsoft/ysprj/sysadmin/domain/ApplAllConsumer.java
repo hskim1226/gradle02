@@ -51,16 +51,17 @@ public class ApplAllConsumer extends AbstractS3Consumer {
 
     @Override
     protected void handleException(Exception e, BackUpApplDoc backUpApplDoc, BlockingQueue<BackUpApplDoc> applInfoQue) {
-//        ExecutionContext ec = new ExecutionContext(ExecutionContext.FAIL);
-        logger.error(e.getMessage());
-        logger.error("Thread : " + Thread.currentThread().getId());
-        logger.error("bucketName : [" + s3BucketName + "]");
-        logger.error("applNo : [" + backUpApplDoc.getApplNo() + "]");
-        logger.error("objectKey : [" + getFilePath(backUpApplDoc) +"]");
-        logger.error("targetFilePath : [" + getTargetFilePath(backUpApplDoc) +"]");
-        logger.error("Putting applInfo of Err Object back to the queue");
+        String tId = "<Thread-" + Thread.currentThread().getId() + "> ";
+        System.err.println(tId +"^^ ERROR in " +
+                Thread.currentThread().getStackTrace()[1].getClassName() + "." +
+                Thread.currentThread().getStackTrace()[1].getMethodName());
+        System.err.println(tId + e.getMessage());
+        System.err.println(tId + "bucketName : [" + s3BucketName + "]");
+        System.err.println(tId + "applNo : [" + backUpApplDoc.getApplNo() + "]");
+        System.err.println(tId + "objectKey : [" + getFilePath(backUpApplDoc) +"]");
+        System.err.println(tId + "targetFilePath : [" + getTargetFilePath(backUpApplDoc) +"]");
+        System.err.println(tId + "Putting applInfo of Err Object back to the queue");
         applInfoQue.add(backUpApplDoc);
-//        throw new YSBizException(ec);
     }
 
 }

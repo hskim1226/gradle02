@@ -92,9 +92,10 @@ public abstract class AbstractS3Consumer implements Runnable {
                         s3ObjQue.put(s3Object);
                         System.out.println("[DOWNLOAD " + count.incrementAndGet() + "/" + fileCount + "] " + "<thread-" + Thread.currentThread().getId() + "> " + ", totalVolume - " + totalVolume.addAndGet(objMeta.getContentLength()) + " : " + targetFilePath);
                     } catch (Exception e) {
+                        s3Client = null;
+                        s3Client = new AmazonS3Client();
                         handleException(e, backUpApplDoc, applInfoQue);
                     }
-//                } else if (applInfoQue.peek() == null && count.intValue() == fileCount) {
                 } else if (applInfoQue.peek() == null) {
                     return;
                 }
