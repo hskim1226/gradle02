@@ -7,6 +7,8 @@ import com.apexsoft.ysprj.applicants.common.util.FileUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.concurrent.BlockingQueue;
+
 /**
  * Created by hanmomhanda on 15. 11. 12.
  */
@@ -20,7 +22,7 @@ public class ApplSlipConsumer extends AbstractS3Consumer {
                             String s3BucketName,
                             String s3MidPath,
                             int fileCount) {
-        super(s3Client, s3BucketName, s3MidPath, fileCount);
+        super(s3BucketName, s3MidPath, fileCount);
     }
 
     @Override
@@ -41,13 +43,16 @@ public class ApplSlipConsumer extends AbstractS3Consumer {
     }
 
     @Override
-    protected void handleException(Exception e, BackUpApplDoc backUpApplDoc) {
-        ExecutionContext ec = new ExecutionContext(ExecutionContext.FAIL);
+    protected void handleException(Exception e, BackUpApplDoc backUpApplDoc, BlockingQueue<BackUpApplDoc> applInfoQue) {
+//        ExecutionContext ec = new ExecutionContext(ExecutionContext.FAIL);
         logger.error(e.getMessage());
         logger.error("bucketName : [" + s3BucketName + "]");
         logger.error("applNo : [" + backUpApplDoc.getApplNo() + "]");
         logger.error("objectKey : [" + getFilePath(backUpApplDoc) +"]");
-        throw new YSBizException(ec);
+        logger.error("targetFilePath : [" + getTargetFilePath(backUpApplDoc) +"]");
+        logger.error("Putting applInfo of Err Object back to the queue");
+        applInfoQue.add(backUpApplDoc);
+//        throw new YSBizException(ec);
     }
 
 }

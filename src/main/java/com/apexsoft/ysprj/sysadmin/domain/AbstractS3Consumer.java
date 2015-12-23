@@ -24,14 +24,12 @@ public abstract class AbstractS3Consumer implements Runnable {
 
     public BlockingQueue<BackUpApplDoc> applInfoQue = null;
     public BlockingQueue<S3Object> s3ObjQue = null;
-    public final AmazonS3Client s3Client;
     public final String s3BucketName;
     public String baseDir;
     public String s3MidPath;
     public int fileCount;
 
-    public AbstractS3Consumer(AmazonS3Client s3Client, String s3BucketName, String s3MidPath, int fileCount) {
-        this.s3Client = s3Client;
+    public AbstractS3Consumer(String s3BucketName, String s3MidPath, int fileCount) {
         this.s3BucketName = s3BucketName;
         this.s3MidPath = s3MidPath;
         this.fileCount = fileCount;
@@ -39,7 +37,7 @@ public abstract class AbstractS3Consumer implements Runnable {
 
     protected abstract String getFilePath(BackUpApplDoc backUpApplDoc);
     protected abstract String getTargetFilePath(BackUpApplDoc backUpApplDoc);
-    protected abstract void handleException(Exception e, BackUpApplDoc backUpApplDoc);
+    protected abstract void handleException(Exception e, BackUpApplDoc backUpApplDoc, BlockingQueue<BackUpApplDoc> applInfoQue);
 
     public BlockingQueue<BackUpApplDoc> getApplInfoQue() {
         return applInfoQue;
@@ -76,6 +74,7 @@ public abstract class AbstractS3Consumer implements Runnable {
     @Override
     public void run() {
         BackUpApplDoc backUpApplDoc = null;
+        AmazonS3Client s3Client = new AmazonS3Client();
         try {
             while(true) {
                 backUpApplDoc = applInfoQue.poll(20, TimeUnit.SECONDS);
@@ -91,9 +90,9 @@ public abstract class AbstractS3Consumer implements Runnable {
                         objMeta.addUserMetadata("filePath", filePath);
                         objMeta.addUserMetadata("targetFilePath", targetFilePath);
                         s3ObjQue.put(s3Object);
-                        System.out.println("[DOWNLOAD] " + "<thread-" + Thread.currentThread().getId() + "> " + count.incrementAndGet() + "/" + fileCount + ", totalVolume - " + totalVolume.addAndGet(objMeta.getContentLength()) + " : " + targetFilePath);
+                        System.out.println("[DOWNLOAD " + count.incrementAndGet() + "/" + fileCount + "] " + "<thread-" + Thread.currentThread().getId() + "> " + ", totalVolume - " + totalVolume.addAndGet(objMeta.getContentLength()) + " : " + targetFilePath);
                     } catch (Exception e) {
-                        handleException(e, backUpApplDoc);
+                        handleException(e, backUpApplDoc, applInfoQue);
                     }
 //                } else if (applInfoQue.peek() == null && count.intValue() == fileCount) {
                 } else if (applInfoQue.peek() == null) {
@@ -101,8 +100,7 @@ public abstract class AbstractS3Consumer implements Runnable {
                 }
             }
         } catch (InterruptedException e) {
-            handleException(e, backUpApplDoc);
+            handleException(e, backUpApplDoc, applInfoQue);
         }
-
     }
 }

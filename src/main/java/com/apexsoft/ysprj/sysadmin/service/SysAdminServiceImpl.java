@@ -135,7 +135,7 @@ public class SysAdminServiceImpl implements  SysAdminService {
             e.printStackTrace();
         }
 
-        AbstractS3Consumer s3Consumer = new ApplAllConsumer(s3, s3BucketName, s3MidPath, backUpApplDocList.size());
+        AbstractS3Consumer s3Consumer = new ApplAllConsumer(s3BucketName, s3MidPath, backUpApplDocList.size());
         Map<String, String> resultMap = savePdf(s3Consumer, backUpApplDocList);
 
         ec.setResult(ExecutionContext.SUCCESS);
@@ -409,25 +409,20 @@ System.out.println("Backup elapsed time : " + (end - start) / 1000 + " seconds")
 
         @Override
         public void run() {
+            Map<String, String> s3ObjUserMeta = null;
+            S3Object s3Object = null;
             try {
                 while (true) {
-                    S3Object s3Object = s3ObjQue.poll(5, TimeUnit.SECONDS);
-
+                    s3Object = s3ObjQue.poll(5, TimeUnit.SECONDS);
                     if (s3Object != null) {
                         InputStream inputStream = s3Object.getObjectContent();
                         ObjectMetadata s3ObjMeta = s3Object.getObjectMetadata();
-                        Map<String, String> s3ObjUserMeta = s3ObjMeta.getUserMetadata();
+                        s3ObjUserMeta = s3ObjMeta.getUserMetadata();
                         try {
                             FileUtils.copyInputStreamToFile(inputStream, new File(backupDir, s3ObjUserMeta.get("targetFilePath")));
-                            System.out.println("[LOCAL SAVE] " + "<thread-" + Thread.currentThread().getId() + "> " + count.incrementAndGet() + "/" + fileCount + ", totalVolume - " + totalVolume.addAndGet(s3ObjMeta.getContentLength()) + " : " + s3ObjUserMeta.get("targetFilePath"));
+                            System.out.println("[LOCAL SAVE " + count.incrementAndGet() + "/" + fileCount + "] " + "<thread-" + Thread.currentThread().getId() + "> " + ", totalVolume - " + totalVolume.addAndGet(s3ObjMeta.getContentLength()) + " : " + s3ObjUserMeta.get("targetFilePath"));
                         } catch (Exception e) {
-                            ExecutionContext ec = new ExecutionContext(ExecutionContext.FAIL);
-                            logger.error("Err in S3ObjConsumer.run in SysAdminServiceImpl");
-                            logger.error(e.getMessage());
-                            logger.error("bucketName : [" + s3BucketName + "]");
-                            logger.error("applNo : [" + s3ObjUserMeta.get("applNo") + "]");
-                            logger.error("objectKey : [" + s3ObjUserMeta.get("filePath") +"]");
-//                            throw new YSBizException(ec);
+                            handleException(e, s3ObjUserMeta, s3Object, s3ObjQue);
                         }
 //                    } else if (s3ObjQue.peek() == null && count.intValue() == fileCount) {
                     } else if (s3ObjQue.peek() == null) {
@@ -436,8 +431,24 @@ System.out.println("Backup elapsed time : " + (end - start) / 1000 + " seconds")
                     }
                 }
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                logger.error("InterruptedException out of S3ObjConsumer Thread Loop");
+                handleException(e, s3ObjUserMeta, s3Object, s3ObjQue);
             }
+        }
+
+        private void handleException(Exception e,
+                                     Map<String, String> s3ObjUserMeta,
+                                     S3Object s3Object,
+                                     BlockingQueue<S3Object> s3ObjQue) {
+//        ExecutionContext ec = new ExecutionContext(ExecutionContext.FAIL);
+            logger.error("Err in S3ObjConsumer.run in SysAdminServiceImpl");
+            logger.error(e.getMessage());
+            logger.error("bucketName : [" + s3BucketName + "]");
+            logger.error("applNo : [" + s3ObjUserMeta.get("applNo") + "]");
+            logger.error("objectKey : [" + s3ObjUserMeta.get("filePath") +"]");
+            logger.error("targetFilePath : [" + s3ObjUserMeta.get("targetFilePath") +"]");
+            s3ObjQue.add(s3Object);
+//        throw new YSBizException(ec);
         }
     }
 }
