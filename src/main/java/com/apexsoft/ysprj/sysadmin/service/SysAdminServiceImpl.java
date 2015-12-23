@@ -254,7 +254,7 @@ System.err.println("Total Elapsed Time : " + (System.currentTimeMillis() - start
 
 
         BlockingQueue<BackUpApplDoc> applInfoQue = new ArrayBlockingQueue<BackUpApplDoc>(1024);
-        BlockingQueue<S3Object> s3ObjQue = new ArrayBlockingQueue<S3Object>(100);
+        BlockingQueue<S3Object> s3ObjQue = new ArrayBlockingQueue<S3Object>(300);
 
 System.out.println("job started : " + System.currentTimeMillis());
         ApplInfoProducer applInfoProducer = new ApplInfoProducer(applInfoQue, backUpApplDocList);
@@ -266,7 +266,7 @@ System.out.println("job started : " + System.currentTimeMillis());
 //        }
         s3Consumer.setApplInfoQue(applInfoQue);
         s3Consumer.setS3ObjQue(s3ObjQue);
-        for ( int i = 0 ; i < 4 ; i++ ) {
+        for ( int i = 0 ; i < 2 ; i++ ) {
             new Thread(s3Consumer).start();
         }
 
