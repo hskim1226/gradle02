@@ -15,7 +15,21 @@ public class ApplInfoProducer implements Runnable {
 
     @Override
     public void run() {
-        for (BackUpApplDoc backUpApplDoc : backUpApplDocList) {
+//        for (BackUpApplDoc backUpApplDoc : backUpApplDocList) {
+//            try {
+//                applInfoQue.put(backUpApplDoc);
+//            } catch ( InterruptedException e ) {
+//                String tId = "<Thread-" + Thread.currentThread().getId() + "> ";
+//                System.err.println(tId +"^^ ERROR in " +
+//                        Thread.currentThread().getStackTrace()[1].getClassName() + "." +
+//                        Thread.currentThread().getStackTrace()[1].getMethodName());
+//                System.err.print(tId + "applDocInfo : " + backUpApplDoc.getApplNo());
+//            }
+//        }
+
+        //  For Test
+        for (int i = 0 ; i < 500 ; i++) {
+            BackUpApplDoc backUpApplDoc = backUpApplDocList.get(i);
             try {
                 applInfoQue.put(backUpApplDoc);
             } catch ( InterruptedException e ) {
@@ -26,15 +40,6 @@ public class ApplInfoProducer implements Runnable {
                 System.err.print(tId + "applDocInfo : " + backUpApplDoc.getApplNo());
             }
         }
-
-        //  For Test
-//            for (int i = 0 ; i < 3 ; i++) {
-//                try {
-//                    applInfoQue.put(backUpApplDocList.get(i));
-//                } catch ( InterruptedException e ) {
-//                    e.printStackTrace();
-//                }
-//            }
     }
 }
 

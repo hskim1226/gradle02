@@ -127,7 +127,6 @@ public class SysAdminServiceImpl implements  SysAdminService {
 
         ExecutionContext ec = new ExecutionContext();
         List<BackUpApplDoc> backUpApplDocList = null;
-        AmazonS3Client s3 = new AmazonS3Client();
 
         try {
             backUpApplDocList = commonDAO.queryForList(NAME_SPACE + "SysAdminMapper.selectAllPdfInfo", BackUpApplDoc.class);
@@ -135,7 +134,7 @@ public class SysAdminServiceImpl implements  SysAdminService {
             e.printStackTrace();
         }
 
-        AbstractS3Consumer s3Consumer = new ApplAllConsumer(s3BucketName, s3MidPath, backUpApplDocList.size());
+        AbstractS3Consumer s3Consumer = new ApplAllConsumer(s3BucketName, s3MidPath, backUpApplDocList.size(), backupDir);
         Map<String, String> resultMap = savePdf(s3Consumer, backUpApplDocList);
 
         ec.setResult(ExecutionContext.SUCCESS);
@@ -149,7 +148,6 @@ public class SysAdminServiceImpl implements  SysAdminService {
 
         ExecutionContext ec = new ExecutionContext();
         List<BackUpApplDoc> backUpApplDocList = null;
-        AmazonS3Client s3 = new AmazonS3Client();
 
         try {
             backUpApplDocList = commonDAO.queryForList(NAME_SPACE + "SysAdminMapper.selectAllSlipPdfInfo", BackUpApplDoc.class);
@@ -157,7 +155,7 @@ public class SysAdminServiceImpl implements  SysAdminService {
             e.printStackTrace();
         }
 
-        AbstractS3Consumer s3Consumer = new ApplSlipConsumer(s3, s3BucketName, s3MidPath, backUpApplDocList.size());
+        AbstractS3Consumer s3Consumer = new ApplSlipConsumer(s3BucketName, s3MidPath, backUpApplDocList.size(), backupDir);
         s3Consumer.setBaseDir(fileBaseDir);
 //        s3Consumer.setS3MidPath(s3MidPath);
         Map<String, String> resultMap = savePdf(s3Consumer, backUpApplDocList);
@@ -254,7 +252,7 @@ System.err.println("Total Elapsed Time : " + (System.currentTimeMillis() - start
 
 
         BlockingQueue<BackUpApplDoc> applInfoQue = new ArrayBlockingQueue<BackUpApplDoc>(1024);
-        BlockingQueue<S3Object> s3ObjQue = new ArrayBlockingQueue<S3Object>(300);
+//        BlockingQueue<S3Object> s3ObjQue = new ArrayBlockingQueue<S3Object>(300);
 
 System.out.println("job started : " + System.currentTimeMillis());
         ApplInfoProducer applInfoProducer = new ApplInfoProducer(applInfoQue, backUpApplDocList);
@@ -265,15 +263,15 @@ System.out.println("job started : " + System.currentTimeMillis());
 //            new Thread(applInfoConsumer).start();
 //        }
         s3Consumer.setApplInfoQue(applInfoQue);
-        s3Consumer.setS3ObjQue(s3ObjQue);
-        for ( int i = 0 ; i < 2 ; i++ ) {
+//        s3Consumer.setS3ObjQue(s3ObjQue);
+        for ( int i = 0 ; i < 8 ; i++ ) {
             new Thread(s3Consumer).start();
         }
 
-        S3ObjConsumer s3ObjConsumer = new S3ObjConsumer(s3ObjQue, backUpApplDocList.size(), backupDir, s3BucketName);
-        for ( int i = 0 ; i < 2 ; i++ ) {
-            new Thread(s3ObjConsumer).start();
-        }
+//        S3ObjConsumer s3ObjConsumer = new S3ObjConsumer(s3ObjQue, backUpApplDocList.size(), backupDir, s3BucketName);
+//        for ( int i = 0 ; i < 2 ; i++ ) {
+//            new Thread(s3ObjConsumer).start();
+//        }
 
 
 //        ExecutorService es = Executors.newCachedThreadPool();

@@ -20,8 +20,9 @@ public class ApplAllConsumer extends AbstractS3Consumer {
 
     public ApplAllConsumer(String s3BucketName,
                            String s3MidPath,
-                           int fileCount) {
-        super(s3BucketName, s3MidPath, fileCount);
+                           int fileCount,
+                           String backupDir) {
+        super(s3BucketName, s3MidPath, fileCount, backupDir);
     }
 
     @Override
@@ -60,7 +61,7 @@ public class ApplAllConsumer extends AbstractS3Consumer {
         System.err.println(tId + "applNo : [" + backUpApplDoc.getApplNo() + "]");
         System.err.println(tId + "objectKey : [" + getFilePath(backUpApplDoc) +"]");
         System.err.println(tId + "targetFilePath : [" + getTargetFilePath(backUpApplDoc) +"]");
-        System.err.println(tId + "Putting applInfo of Err Object back to the queue");
+        System.err.println(tId + "Putting applInfo of Err Object back to the applInfoQue");
         applInfoQue.add(backUpApplDoc);
     }
 

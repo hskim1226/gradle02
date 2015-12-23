@@ -18,11 +18,11 @@ public class ApplSlipConsumer extends AbstractS3Consumer {
 
     private static final Logger logger = LoggerFactory.getLogger(ApplSlipConsumer.class);
 
-    public ApplSlipConsumer(AmazonS3Client s3Client,
-                            String s3BucketName,
+    public ApplSlipConsumer(String s3BucketName,
                             String s3MidPath,
-                            int fileCount) {
-        super(s3BucketName, s3MidPath, fileCount);
+                            int fileCount,
+                            String backupDir) {
+        super(s3BucketName, s3MidPath, fileCount, backupDir);
     }
 
     @Override

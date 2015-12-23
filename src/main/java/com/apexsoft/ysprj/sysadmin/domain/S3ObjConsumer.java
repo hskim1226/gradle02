@@ -73,6 +73,7 @@ public class S3ObjConsumer implements Runnable {
         System.err.println(tId + "applNo : [" + s3ObjUserMeta.get("applNo") + "]");
         System.err.println(tId + "objectKey : [" + s3ObjUserMeta.get("filePath") +"]");
         System.err.println(tId + "targetFilePath : [" + s3ObjUserMeta.get("targetFilePath") +"]");
+        System.err.println(tId + "Putting s3Object of Err Object back to the s3ObjQue");
         s3ObjQue.add(s3Object);
     }
 }

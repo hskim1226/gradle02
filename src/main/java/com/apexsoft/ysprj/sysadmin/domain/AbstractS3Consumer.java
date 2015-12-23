@@ -9,7 +9,9 @@ import com.apexsoft.framework.exception.YSBizException;
 import com.apexsoft.ysprj.applicants.application.domain.Application;
 import com.apexsoft.ysprj.applicants.common.util.FileUtil;
 import com.apexsoft.ysprj.applicants.common.util.StringUtil;
+import org.apache.commons.io.FileUtils;
 
+import java.io.File;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -26,13 +28,15 @@ public abstract class AbstractS3Consumer implements Runnable {
     public BlockingQueue<S3Object> s3ObjQue = null;
     public final String s3BucketName;
     public String baseDir;
+    public String backupDir;
     public String s3MidPath;
     public int fileCount;
 
-    public AbstractS3Consumer(String s3BucketName, String s3MidPath, int fileCount) {
+    public AbstractS3Consumer(String s3BucketName, String s3MidPath, int fileCount, String backupDir) {
         this.s3BucketName = s3BucketName;
         this.s3MidPath = s3MidPath;
         this.fileCount = fileCount;
+        this.backupDir = backupDir;
     }
 
     protected abstract String getFilePath(BackUpApplDoc backUpApplDoc);
@@ -86,11 +90,15 @@ public abstract class AbstractS3Consumer implements Runnable {
                     try {
                         s3Object = s3Client.getObject(new GetObjectRequest(s3BucketName, filePath));
                         ObjectMetadata objMeta = s3Object.getObjectMetadata();
-                        objMeta.addUserMetadata("applNo", String.valueOf(backUpApplDoc.getApplNo()));
-                        objMeta.addUserMetadata("filePath", filePath);
-                        objMeta.addUserMetadata("targetFilePath", targetFilePath);
-                        s3ObjQue.put(s3Object);
-                        System.out.println("[DOWNLOAD " + count.incrementAndGet() + "/" + fileCount + "] " + "<thread-" + Thread.currentThread().getId() + "> " + ", totalVolume - " + totalVolume.addAndGet(objMeta.getContentLength()) + " : " + targetFilePath);
+//                        objMeta.addUserMetadata("applNo", String.valueOf(backUpApplDoc.getApplNo()));
+//                        objMeta.addUserMetadata("filePath", filePath);
+//                        objMeta.addUserMetadata("targetFilePath", targetFilePath);
+                        String msg = count.incrementAndGet() + "/" + fileCount + "] " + "<thread-" + Thread.currentThread().getId() + "> " + ", totalVolume - " + totalVolume.addAndGet(objMeta.getContentLength()) + " : " + targetFilePath;
+                        System.out.println("[DOWNLOAD " + msg);
+                        FileUtils.copyInputStreamToFile(s3Object.getObjectContent(),
+                                new File(backupDir, targetFilePath));
+                        System.out.println("[LOCAL SAVE " + msg);
+//                        s3ObjQue.put(s3Object);
                     } catch (Exception e) {
                         s3Client = null;
                         s3Client = new AmazonS3Client();
