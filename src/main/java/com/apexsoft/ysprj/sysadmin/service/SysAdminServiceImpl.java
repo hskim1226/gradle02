@@ -266,12 +266,12 @@ System.out.println("job started : " + System.currentTimeMillis());
 //        }
         s3Consumer.setApplInfoQue(applInfoQue);
         s3Consumer.setS3ObjQue(s3ObjQue);
-        for ( int i = 0 ; i < 100 ; i++ ) {
+        for ( int i = 0 ; i < 8 ; i++ ) {
             new Thread(s3Consumer).start();
         }
 
         S3ObjConsumer s3ObjConsumer = new S3ObjConsumer(s3ObjQue, backUpApplDocList.size());
-        for ( int i = 0 ; i < 10 ; i++ ) {
+        for ( int i = 0 ; i < 4 ; i++ ) {
             new Thread(s3ObjConsumer).start();
         }
 
