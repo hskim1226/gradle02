@@ -370,14 +370,7 @@ public class BasisServiceImpl implements BasisService {
                 else if (r2 == 0 && !(application.isForeignAppl())) errCode = "ERR0008";
                 else if (r3 == 0 && (application.isForeignAppl())) errCode = "ERR0028";
             }
-            ec.setErrCode(errCode);
-            Map<String, String> errorInfo = new HashMap<String, String>();
-            errorInfo.put("applNo", String.valueOf(applNo));
-            errorInfo.put("userId", StringUtil.getEmptyIfNull(application.getUserId()));
-            errorInfo.put("modId", modId);
-            ec.setErrorInfo(new ErrorInfo(errorInfo));
-
-            throw new YSBizException(ec);
+            exceptionThrower(ec, application, modId, applNo, errCode);
 //            if (isInsert && !isValidInsertRequest) {
 //                원래 페이지로 돌아가는 테스트는 성공,
 //                단순 데이터는 복원해서 원래 페이지, 원래 상태로 되돌릴 수 있으나,
@@ -395,6 +388,17 @@ public class BasisServiceImpl implements BasisService {
         }
 
         return ec;
+    }
+
+    private void exceptionThrower(ExecutionContext ec, Application application, String modId, int applNo, String errCode) {
+        ec.setErrCode(errCode);
+        Map<String, String> errorInfo = new HashMap<String, String>();
+        errorInfo.put("applNo", String.valueOf(applNo));
+        errorInfo.put("userId", StringUtil.getEmptyIfNull(application.getUserId()));
+        errorInfo.put("modId", modId);
+        ec.setErrorInfo(new ErrorInfo(errorInfo));
+
+        throw new YSBizException(ec);
     }
 
     /**
@@ -459,14 +463,7 @@ public class BasisServiceImpl implements BasisService {
             } else {
                 if (r1 == 0) errCode = "ERR0003";
             }
-            ec.setErrCode(errCode);
-            Map<String, String> errorInfo = new HashMap<String, String>();
-            errorInfo.put("applNo", String.valueOf(applNo));
-            errorInfo.put("userId", StringUtil.getEmptyIfNull(application.getUserId()));
-            errorInfo.put("modId", modId);
-            ec.setErrorInfo(new ErrorInfo(errorInfo));
-
-            throw new YSBizException(ec);
+            exceptionThrower(ec, application, modId, applNo, errCode);
 //            if (isInsert && !isValidInsertRequest) {
 //                원래 페이지로 돌아가는 테스트는 성공,
 //                단순 데이터는 복원해서 원래 페이지, 원래 상태로 되돌릴 수 있으나,
