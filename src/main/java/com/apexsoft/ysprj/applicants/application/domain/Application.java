@@ -1277,11 +1277,52 @@ public class Application {
         this.modDate = modDate;
     }
 
+    /**
+     * 외국인 전형 지원자 여부
+     * @return
+     */
     public boolean isForeignAppl() {
         return "C".equals(getAdmsTypeCode()) || "D".equals(getAdmsTypeCode());
     }
 
+    /**
+     * 한국인 여부
+     * @return
+     */
     public boolean isKorean() {
         return "118".equals(getCitzCntrCode());
+    }
+
+    /**
+     * 일반지원자 여부
+     * @return
+     */
+    public boolean isApplicantGeneral() {
+        return "00001".equals(getApplAttrCode());
+    }
+
+    /**
+     * 학연산 지원자 여부
+     * @return
+     */
+    public boolean isApplicantAriInst() {
+        return "00002".equals(getApplAttrCode());
+    }
+
+    /**
+     * 군위탁 지원자 여부
+     * @return
+     */
+    public boolean isApplicantMilitary() {
+        return "00003".equals(getApplAttrCode());
+    }
+
+    /**
+     * 새터민 여부
+     * @return
+     */
+
+    public boolean isApplicantNKDefector() {
+        return "00004".equals(getApplAttrCode());
     }
 }

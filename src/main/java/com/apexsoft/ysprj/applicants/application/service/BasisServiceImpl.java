@@ -45,8 +45,48 @@ public class BasisServiceImpl implements BasisService {
         ExecutionContext ec = new ExecutionContext();
         Map<String, Object> ecDataMap = new HashMap<String, Object>();
         Map<String, Object> selectionMap = new HashMap<String, Object>();
-        Map<String, Object> foreignMap = new HashMap<String, Object>();
 
+
+        Application application = basis.getApplication();
+        // 아래 ParamForSetCourses는 그냥 Application으로 하는 것이 나으나
+        // CommonServiceImpl에 너무 많은 메서드가 이미 ParamForSetupCourses에 의존하고 있어 그냥 유지
+        ParamForSetupCourses param = new ParamForSetupCourses();
+        param.setAdmsNo(application.getAdmsNo());
+        param.setCampCode(application.getCampCode());
+        param.setCollCode(application.getCollCode());
+        param.setDeptCode(application.getDeptCode());
+        param.setCorsTypeCode(application.getCorsTypeCode());
+        param.setAriInstCode(application.getAriInstCode());
+
+        // 지원 과정 정보
+        setupCourseInfo(param, application, selectionMap);
+
+        // 지원자 구분 종류
+        selectionMap.put("applAttrList", commonService.retrieveCommonCodeByCodeGroup("APPL_ATTR"));
+
+        // 임시연락처 구분 종류
+        selectionMap.put("emerContList", commonService.retrieveCommonCodeByCodeGroup("EMER_CONT"));
+
+        // 외국인 전형 관련 정보
+        setupForeignInfo(basis, ecDataMap);
+
+        ec.setResult(ExecutionContext.SUCCESS);
+        ecDataMap.put("basis", basis);
+        ecDataMap.put("selection", selectionMap);
+        ecDataMap.put("ctznCntr", commonService.retrieveCountryByCode(application.getCitzCntrCode()));
+
+        ec.setData(ecDataMap);
+
+        return ec;
+    }
+
+    /**
+     * 지원과정 관련 정보 셋업
+     * @param param
+     * @param application
+     * @param selectionMap
+     */
+    private void setupCourseInfo(ParamForSetupCourses param, Application application, Map<String, Object> selectionMap) {
         // 지원사항 select 초기값 설정
         List<Campus> campList = null;
         List<AcademyResearchIndustryInstitution> ariInstList = null;
@@ -55,16 +95,7 @@ public class BasisServiceImpl implements BasisService {
         List<CodeNameCourse> corsTypeList = null;
         List<CodeNameDetailMajor> detlMajList = null;
 
-        ParamForSetupCourses param = new ParamForSetupCourses();
-        param.setAdmsNo(basis.getApplication().getAdmsNo());
-        param.setCampCode(basis.getApplication().getCampCode());
-        param.setCollCode(basis.getApplication().getCollCode());
-        param.setDeptCode(basis.getApplication().getDeptCode());
-        param.setCorsTypeCode(basis.getApplication().getCorsTypeCode());
-        param.setAriInstCode(basis.getApplication().getAriInstCode());
-
-        String applAttrCode = basis.getApplication().getApplAttrCode();
-        if ("00002".equals(applAttrCode)) { // "00002" : 학연산 지원자
+        if (application.isApplicantAriInst()) { // "00002" : 학연산 지원자
             ariInstList = commonService.retrieveAriInst();
             deptList = commonService.retrieveAriInstDepartmentByAdmsAriInst(param);
             corsTypeList = commonService.retrieveAriInstCourseByAdmsDeptAriInst(param);
@@ -74,11 +105,11 @@ public class BasisServiceImpl implements BasisService {
             collList = commonService.retrieveCollegeByAdmsCamp(param);
             deptList = commonService.retrieveGeneralDepartmentByAdmsColl(param);
             detlMajList = commonService.retrieveGeneralDetailMajorByAdmsDeptCors(param);
-            if ("00001".equals(applAttrCode)) // "00001" : 일반 지원자
+            if (application.isApplicantGeneral()) // "00001" : 일반 지원자
                 corsTypeList = commonService.retrieveGeneralCourseByAdmsDept(param);
-            if ("00003".equals(applAttrCode)) // "00003" : 군위탁 지원자
+            if (application.isApplicantMilitary()) // "00003" : 군위탁 지원자
                 corsTypeList = commonService.retrieveCommissionCourseByAdmsDept(param);
-            if ("00004".equals(applAttrCode))  // "00004" : 새터민
+            if (application.isApplicantNKDefector())  // "00004" : 새터민
                 corsTypeList = commonService.retrieveNorthDefectorCourseByAdmsDept(param);
         }
 
@@ -88,37 +119,31 @@ public class BasisServiceImpl implements BasisService {
         if (deptList != null)      selectionMap.put("deptList", deptList);
         if (corsTypeList != null)  selectionMap.put("corsTypeList", corsTypeList);
         if (detlMajList != null)   selectionMap.put("detlMajList", detlMajList);
+    }
 
-        selectionMap.put("applAttrList", commonService.retrieveCommonCodeByCodeGroup("APPL_ATTR"));
-        selectionMap.put("emerContList", commonService.retrieveCommonCodeByCodeGroup("EMER_CONT"));
+    /**
+     * 외국인전형 지원자 관련 정보
+     * @param basis
+     * @param ecDataMap
+     */
+    private void setupForeignInfo(Basis basis, Map<String, Object> ecDataMap) {
+        Map<String, Object> foreignMap = new HashMap<String, Object>();
 
-        String cntrCode = basis.getApplication().getCitzCntrCode();
-        cntrCode = cntrCode == null ? "" : cntrCode;
-        Country ctznCntr = commonService.retrieveCountryByCode(cntrCode);
+        Application application = basis.getApplication();
+        ApplicationForeigner applicationForeigner = basis.getApplicationForeigner();
 
-//        if ("C".equals(basis.getApplication().getAdmsTypeCode()) || "D".equals(basis.getApplication().getAdmsTypeCode())) {
-        if (basis.getApplication().isForeignAppl()) {
-            cntrCode = basis.getApplicationForeigner().getBornCntrCode();
+        //        if ("C".equals(basis.getApplication().getAdmsTypeCode()) || "D".equals(basis.getApplication().getAdmsTypeCode())) {
+        if (application.isForeignAppl()) {
+            String cntrCode = applicationForeigner.getBornCntrCode();
             cntrCode = cntrCode == null ? "" : cntrCode;
             Country bornCntr = commonService.retrieveCountryByCode(cntrCode);
 
             foreignMap.put("foreignTypeList", commonService.retrieveCommonCodeByCodeGroup("FORN_TYPE"));
             foreignMap.put("visaTypeList", commonService.retrieveCommonCodeByCodeGroup("VISA_TYPE"));
 
-
-
             ecDataMap.put("bornCntr", bornCntr);
             ecDataMap.put("foreign", foreignMap);
         }
-
-        ec.setResult(ExecutionContext.SUCCESS);
-        ecDataMap.put("basis", basis);
-        ecDataMap.put("selection", selectionMap);
-        ecDataMap.put("ctznCntr", ctznCntr);
-
-        ec.setData(ecDataMap);
-
-        return ec;
     }
 
     /**
