@@ -32,7 +32,8 @@ public class ApplicationValidator implements NamedValidator {
 //        String prefix = (!bindingResultTargetClassName.equals(className)) ? instanceName + "." : "";
         String prefix = className + ".";
 
-        if (!"C".equals(application.getAdmsTypeCode()) && !"D".equals(application.getAdmsTypeCode())) {
+//        if (!"C".equals(application.getAdmsTypeCode()) && !"D".equals(application.getAdmsTypeCode())) {
+        if (!application.isForeignAppl()) {
             // 외국인 전형 아닐 때만 필수인 것들
             if (application.getKorName() == null || application.getKorName().length() == 0) {
                 errors.rejectValue(prefix + "korName", "U331",
@@ -89,7 +90,8 @@ public class ApplicationValidator implements NamedValidator {
 
             // 주민번호 뒷자리는 국적 대한민국, 외국인 전형 아니고 최초 저장할 때만 validation
             if (application.getApplStsCode() == null || application.getApplStsCode().length() == 0) {
-                if (!"C".equals(application.getAdmsTypeCode()) && !"D".equals(application.getAdmsTypeCode())) {
+//                if (!"C".equals(application.getAdmsTypeCode()) && !"D".equals(application.getAdmsTypeCode())) {
+                if (!application.isForeignAppl()) {
                     if ( application.getRgstEncr() == null || application.getRgstEncr().length() == 0 ) {
                         errors.rejectValue(prefix + "rgstEncr", "U331",
                                 new Object[]{MessageResolver.getMessage("U01208")}, MessageResolver.getMessage("U332"));  /*"주민등록번호 뒷자리"*/

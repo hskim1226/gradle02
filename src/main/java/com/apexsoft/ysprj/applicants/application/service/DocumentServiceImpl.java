@@ -190,7 +190,8 @@ public class DocumentServiceImpl implements DocumentService {
 
         // 동일한 주민번호로 제출된 원서 존재 여부 확인
         if ("TRUE".equals(allowSameRRN)) {
-            if (!"C".equals(application.getAdmsTypeCode()) && !"D".equals(application.getAdmsTypeCode())) {
+//            if (!"C".equals(application.getAdmsTypeCode()) && !"D".equals(application.getAdmsTypeCode())) {
+            if (!application.isForeignAppl()) {
                 if (isRgstNoDuplicate(applNo)) {
                     ec.setResult(ExecutionContext.FAIL);
                     ec.setMessage(MessageResolver.getMessage("U346"));

@@ -152,7 +152,7 @@ public class BasisController {
     private void applyEncryptionForeigner(@ModelAttribute Basis formData, Application application) {
 
         try {
-            if ("C".equals(application.getAdmsTypeCode()) || "D".equals(application.getAdmsTypeCode())) {
+            if (application.isForeignAppl()) {
                 ApplicationForeigner applicationForeigner = formData.getApplicationForeigner();
                 String fornRgstNo = applicationForeigner.getFornRgstNo();
                 String paspNo = applicationForeigner.getPaspNo();

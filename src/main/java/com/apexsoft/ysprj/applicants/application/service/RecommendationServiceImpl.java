@@ -533,8 +533,7 @@ public class RecommendationServiceImpl implements RecommendationService {
     private ExecutionContext genAndUploadApplicationFormAndSlipFile(Application application) {
         ExecutionContext ec = new ExecutionContext();
 
-        String admsTypeCode = application.getAdmsTypeCode();
-        String lang = "C".equals(admsTypeCode) || "D".equals(admsTypeCode) ? "en" : "kr";
+        String lang = application.isForeignAppl() ? "en" : "kr";
         String reportName = "yonsei-appl-" + lang;
         ExecutionContext ecGenAppl = birtService.generateBirtFile(application.getApplNo(), reportName);
         reportName = "yonsei-adms-" + lang;
