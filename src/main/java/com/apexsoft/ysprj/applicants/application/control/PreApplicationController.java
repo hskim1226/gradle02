@@ -1,44 +1,27 @@
 package com.apexsoft.ysprj.applicants.application.control;
 
-import com.amazonaws.AmazonClientException;
-import com.amazonaws.AmazonServiceException;
 import com.apexsoft.framework.common.vo.ExecutionContext;
-import com.apexsoft.framework.exception.ErrorInfo;
-import com.apexsoft.framework.exception.StackTraceFilter;
 import com.apexsoft.framework.exception.YSBizException;
 import com.apexsoft.framework.mail.Mail;
 import com.apexsoft.framework.message.MessageResolver;
 import com.apexsoft.framework.persistence.dao.CommonDAO;
-import com.apexsoft.framework.persistence.file.callback.FileUploadEventCallbackHandler;
-import com.apexsoft.framework.persistence.file.exception.EncryptedPDFException;
-import com.apexsoft.framework.persistence.file.exception.FileNoticeException;
-import com.apexsoft.framework.persistence.file.exception.PasswordedPDFException;
-import com.apexsoft.framework.persistence.file.handler.FileHandler;
-import com.apexsoft.framework.persistence.file.manager.FilePersistenceManager;
-import com.apexsoft.framework.persistence.file.model.FileInfo;
-import com.apexsoft.framework.persistence.file.model.FileItem;
-import com.apexsoft.framework.persistence.file.model.FileMetaForm;
 import com.apexsoft.ysprj.applicants.admission.service.AdmissionService;
 import com.apexsoft.ysprj.applicants.application.domain.*;
-import com.apexsoft.ysprj.applicants.application.service.DocumentService;
 import com.apexsoft.ysprj.applicants.application.service.RecommendationService;
 import com.apexsoft.ysprj.applicants.application.validator.RecommendationValidator;
 import com.apexsoft.ysprj.applicants.common.util.CryptoUtil;
-import com.apexsoft.ysprj.applicants.common.util.FileUtil;
-import com.apexsoft.ysprj.applicants.common.util.StringUtil;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.apache.commons.fileupload.servlet.ServletFileUpload;
-import org.apache.pdfbox.pdmodel.PDDocument;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
-
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
@@ -48,15 +31,9 @@ import org.springframework.web.util.WebUtils;
 import javax.annotation.Resource;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
 import java.security.Principal;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
-import java.util.zip.DataFormatException;
 
 /**
  * Created by hanmomhanda on 15. 2. 14.
@@ -72,9 +49,6 @@ public class PreApplicationController {
     private AdmissionService admissionService;
 
     @Autowired
-    private DocumentService documentService;
-
-    @Autowired
     private RecommendationService recommendationService;
 
     @Autowired
@@ -88,10 +62,7 @@ public class PreApplicationController {
 
     @Autowired
     private CommonDAO commonDAO;
-
-    @Autowired
-    private PasswordEncoder encoder;
-
+    
     @Value("#{app['adms.general']}")
     private String admsGeneral;
 
@@ -123,7 +94,7 @@ public class PreApplicationController {
     }
 
     /**
-     * 일반 전형
+     * 일반 전형 안내 화면
      *
      * @return
      */
@@ -137,7 +108,7 @@ public class PreApplicationController {
     }
 
     /**
-     * 외국인 전형
+     * 외국인 전형 안내 화면
      *
      * @return
      */
@@ -151,7 +122,7 @@ public class PreApplicationController {
     }
 
     /**
-     * 조기 전형
+     * 조기 전형 안내 화면
      *
      * @return
      */
@@ -201,7 +172,7 @@ public class PreApplicationController {
     }
 
     /**
-     * 추천서 요청 목록
+     * 추천서 요청 목록 화면
      *
      * @param basis
      * @param mv
@@ -221,7 +192,7 @@ public class PreApplicationController {
     }
 
     /**
-     * 추천서 요청 작성
+     * 추천서 요청 작성 화면
      *
      * @param recommendation
      * @param mv
@@ -242,7 +213,7 @@ public class PreApplicationController {
     }
 
     /**
-     * 작성 중인 추천서 미리보기
+     * 작성 중인 추천서 미리보기 화면
      *
      * @param recommendation
      * @return
@@ -350,6 +321,14 @@ public class PreApplicationController {
         return mv;
     }
 
+    /**
+     * 교수에게 추천서 요청 메일 다시 보내기
+     * @param recommendation
+     * @param bindingResult
+     * @param principal
+     * @param mv
+     * @return
+     */
     @RequestMapping(value = "/recReq/resend", method = RequestMethod.POST)
     public ModelAndView resendRecommendationRequest(Recommendation recommendation,
                                                     BindingResult bindingResult,
@@ -456,9 +435,6 @@ public class PreApplicationController {
 
         mv.setViewName("application/recNotice");
 
-        // 파일 업로드
-
-
         // 추천 상태 변경 DB 반영 및 지원자에게 메일 발송 처리
         ExecutionContext ec = recommendationService.registerRecommendationByProfessor(multipartHttpServletRequest, file, recommendation);
 
@@ -468,6 +444,10 @@ public class PreApplicationController {
         return mv;
     }
 
+    /**
+     * 추천자에게 추천 처리 독려 메일 발송
+     * @param sendKey
+     */
     @RequestMapping(value = "/sendUrgeRecommendationMail", method = RequestMethod.POST)
     public void sendUrgeRecommendationMail(@RequestParam(value = "sendkey") String sendKey) {
         // 독려 메일 발송 키 확인
@@ -484,33 +464,5 @@ public class PreApplicationController {
         } else {
             // 어드민 아니면 파일로그에 남기고 종료
         }
-    }
-
-    /**
-     * 파일 핸들링 시 발생하는 예외에 대한 YSBizException Wrapper
-     *
-     * @param document
-     * @param userId
-     * @param messageCode
-     * @param errCode
-     * @return
-     */
-    private YSBizException getYSBizException( TotalApplicationDocument document, String userId,
-                                              String messageCode, String errCode ) {
-        ExecutionContext ec = new ExecutionContext(ExecutionContext.FAIL);
-        String applNo = String.valueOf(document.getApplNo());
-        String docSeq = String.valueOf(document.getDocSeq());
-        String docItemCode = document.getDocItemCode();
-        String docItemName = document.getDocItemName();
-        Map<String, String> eInfo = new HashMap<String, String>();
-        eInfo.put("applNo", applNo);
-        eInfo.put("userId", userId);
-        eInfo.put("docSeq", docSeq);
-        eInfo.put("docItemCode", docItemCode);
-        eInfo.put("docItemName", docItemName);
-        ec.setMessage(MessageResolver.getMessage(messageCode));
-        ec.setErrCode(errCode);
-        ec.setErrorInfo(new ErrorInfo(eInfo));
-        return new YSBizException(ec);
     }
 }

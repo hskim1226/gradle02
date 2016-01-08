@@ -50,16 +50,16 @@ public class ApplicationController {
      * SimpleForwardingController에서 이전
      * @return
      */
-    @RequestMapping(value = "/agreement", method = RequestMethod.POST)
-    public ModelAndView checkAgreement(@RequestParam(value = "admsNo") String admsNo,
-                                 @RequestParam(value = "entrYear") String entrYear,
-                                 @RequestParam(value = "admsTypeCode") String admsTypeCode) {
-        ModelAndView model = new ModelAndView("application/agreement");
-        model.addObject("admsNo", admsNo);
-        model.addObject("entrYear", entrYear);
-        model.addObject("admsTypeCode", admsTypeCode);
-        return model;
-    }
+//    @RequestMapping(value = "/agreement", method = RequestMethod.POST)
+//    public ModelAndView checkAgreement(@RequestParam(value = "admsNo") String admsNo,
+//                                 @RequestParam(value = "entrYear") String entrYear,
+//                                 @RequestParam(value = "admsTypeCode") String admsTypeCode) {
+//        ModelAndView model = new ModelAndView("application/agreement");
+//        model.addObject("admsNo", admsNo);
+//        model.addObject("entrYear", entrYear);
+//        model.addObject("admsTypeCode", admsTypeCode);
+//        return model;
+//    }
 
     /**
      * 내원서 화면
