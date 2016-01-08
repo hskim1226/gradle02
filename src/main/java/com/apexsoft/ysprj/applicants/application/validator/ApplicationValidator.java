@@ -78,11 +78,11 @@ public class ApplicationValidator implements NamedValidator {
                     new Object[]{MessageResolver.getMessage("L01205")}, MessageResolver.getMessage("U332"));  /*"영문 이름"*/
         }
         if ( application.getRgstBornDate() == null || application.getRgstBornDate().length() == 0 ) {
-            String itemName = "118".equals(application.getCitzCntrCode()) ? MessageResolver.getMessage("L01217") : MessageResolver.getMessage("L01216");  /*"주민등록 상 생년월일" : "생년월일"*/
+            String itemName = application.isKorean() ? MessageResolver.getMessage("L01217") : MessageResolver.getMessage("L01216");  /*"주민등록 상 생년월일" : "생년월일"*/
             errors.rejectValue(prefix + "rgstBornDate", "U331",
                     new Object[]{itemName}, MessageResolver.getMessage("U332"));
         }
-        if ("118".equals(application.getCitzCntrCode())) {
+        if (application.isKorean()) {
 //            if ( application.getRgstNo() == null || application.getRgstNo().length() == 0 ) {
 //                errors.rejectValue(prefix + "rgstNo", "U331",
 //                        new Object[]{"주민등록번호"}, MessageResolver.getMessage("U332"));

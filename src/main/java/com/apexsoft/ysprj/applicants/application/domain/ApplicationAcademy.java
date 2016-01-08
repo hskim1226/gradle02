@@ -684,4 +684,9 @@ public class ApplicationAcademy extends ApplicationAcademyKey {
     public void setModDate(Date modDate) {
         this.modDate = modDate;
     }
+
+    public boolean isKoreanSchool() {
+        return "118".equals(getSchlCntrCode());
+    }
+
 }

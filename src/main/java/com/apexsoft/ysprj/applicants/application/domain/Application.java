@@ -1280,4 +1280,8 @@ public class Application {
     public boolean isForeignAppl() {
         return "C".equals(getAdmsTypeCode()) || "D".equals(getAdmsTypeCode());
     }
+
+    public boolean isKorean() {
+        return "118".equals(getCitzCntrCode());
+    }
 }
