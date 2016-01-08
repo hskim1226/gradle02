@@ -25,14 +25,14 @@ public class TestGeneral {
     private static StringBuffer verificationErrors = new StringBuffer();
     private static WebDriverWait wait;
     private static JavascriptExecutor js;
-    private static String userId = "Real333";
-    private static String password = "Real33333";
+    private static String userId = "Abc333";
+    private static String password = "Abc33333";
 
     @BeforeClass
     public static void setUp() throws Exception {
         driver = new FirefoxDriver();
-//        baseUrl = "http://localhost:8080";
-        baseUrl = "http://www.gradnet.co.kr";
+        baseUrl = "http://localhost:8080";
+//        baseUrl = "http://www.gradnet.co.kr";
         driver.manage().window().setSize(new Dimension(1600, 1000));
         driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
         wait = new WebDriverWait(driver, 5);
@@ -146,9 +146,11 @@ public class TestGeneral {
         driver.findElement(By.id("collegeList0.collName")).sendKeys("경영대학");
         driver.findElement(By.id("collegeList0.majName")).clear();
         driver.findElement(By.id("collegeList0.majName")).sendKeys("경영학과");
-        WebElement selectElement2 = driver.findElement(By.id("collegeList0.gradFormCode"));
-        selectElement2.click();
-        new Select(selectElement2).selectByVisibleText("평량평균");
+//        WebElement selectElement2 = driver.findElement(By.id("collegeList0.gradFormCode"));
+//        selectElement2.click();
+//        new Select(selectElement2).selectByVisibleText("평량평균");
+//        new Select(selectElement2).selectByIndex(0);
+        new Select(driver.findElement(By.id("collegeList0.gradFormCode"))).selectByVisibleText("평량평균");
         js.executeScript("scrollBy(0, -300)");
         driver.findElement(By.id("collegeList0.gradAvr")).clear();
         driver.findElement(By.id("collegeList0.gradAvr")).sendKeys("4.25");
@@ -185,7 +187,7 @@ public class TestGeneral {
         driver.findElement(By.id("checkLang-0-0-2")).click();
         js.executeScript("document.getElementById('languageGroupList0.langList0.subContainer2.examDay').value = '20141108'");
         WebElement selectElement2 = driver.findElement(By.id("languageGroupList0.langList0.subContainer2.langGrad"));
-        selectElement2.click();
+//        selectElement2.click();
         new Select(selectElement2).selectByVisibleText("8.0");
 
         js.executeScript("scrollBy(0, 800)");
@@ -202,7 +204,7 @@ public class TestGeneral {
     @Test
     public void test4_첨부파일정보생성() throws Exception {
 
-        driver.findElement(By.id("modify1")).click();
+//        driver.findElement(By.id("modify1")).click();
         js.executeScript("scrollTo(0, 10)");
         driver.findElement(By.linkText("4. 파일 첨부 및 제출")).click();
 
