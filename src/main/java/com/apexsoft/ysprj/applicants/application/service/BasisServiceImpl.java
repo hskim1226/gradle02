@@ -35,6 +35,11 @@ public class BasisServiceImpl implements BasisService {
 
     private final String APP_INFO_SAVED = "00001";       // 기본정보 저장
 
+    /**
+     * 기본 정보 입력 화면의 select box에 표시될 정보 조회
+     * @param basis
+     * @return
+     */
     @Override
     public ExecutionContext retrieveSelectionMap(Basis basis) {
         ExecutionContext ec = new ExecutionContext();
@@ -59,7 +64,7 @@ public class BasisServiceImpl implements BasisService {
         param.setAriInstCode(basis.getApplication().getAriInstCode());
 
         String applAttrCode = basis.getApplication().getApplAttrCode();
-        if ("00002".equals(applAttrCode)) {
+        if ("00002".equals(applAttrCode)) { // "00002" : 학연산 지원자
             ariInstList = commonService.retrieveAriInst();
             deptList = commonService.retrieveAriInstDepartmentByAdmsAriInst(param);
             corsTypeList = commonService.retrieveAriInstCourseByAdmsDeptAriInst(param);
@@ -69,11 +74,11 @@ public class BasisServiceImpl implements BasisService {
             collList = commonService.retrieveCollegeByAdmsCamp(param);
             deptList = commonService.retrieveGeneralDepartmentByAdmsColl(param);
             detlMajList = commonService.retrieveGeneralDetailMajorByAdmsDeptCors(param);
-            if ("00001".equals(applAttrCode))
+            if ("00001".equals(applAttrCode)) // "00001" : 일반 지원자
                 corsTypeList = commonService.retrieveGeneralCourseByAdmsDept(param);
-            if ("00003".equals(applAttrCode))
+            if ("00003".equals(applAttrCode)) // "00003" : 군위탁 지원자
                 corsTypeList = commonService.retrieveCommissionCourseByAdmsDept(param);
-            if ("00004".equals(applAttrCode))
+            if ("00004".equals(applAttrCode))  // "00004" : 새터민
                 corsTypeList = commonService.retrieveNorthDefectorCourseByAdmsDept(param);
         }
 
@@ -91,7 +96,8 @@ public class BasisServiceImpl implements BasisService {
         cntrCode = cntrCode == null ? "" : cntrCode;
         Country ctznCntr = commonService.retrieveCountryByCode(cntrCode);
 
-        if ("C".equals(basis.getApplication().getAdmsTypeCode()) || "D".equals(basis.getApplication().getAdmsTypeCode())) {
+//        if ("C".equals(basis.getApplication().getAdmsTypeCode()) || "D".equals(basis.getApplication().getAdmsTypeCode())) {
+        if (basis.getApplication().isForeignAppl()) {
             cntrCode = basis.getApplicationForeigner().getBornCntrCode();
             cntrCode = cntrCode == null ? "" : cntrCode;
             Country bornCntr = commonService.retrieveCountryByCode(cntrCode);
@@ -115,14 +121,13 @@ public class BasisServiceImpl implements BasisService {
         return ec;
     }
 
+    /**
+     * applNo로 기본 정보 작성 화면을 위한 데이터 조회 및 구성
+     * @param applNo
+     * @return
+     */
     @Override
     public ExecutionContext retrieveBasis(int applNo) {
-        ExecutionContext ec = new ExecutionContext();
-
-        Map<String, Object> ecDataMap = new HashMap<String, Object>();
-        Map<String, Object> selectionMap = new HashMap<String, Object>();
-        Map<String, Object> foreignMap = new HashMap<String, Object>();
-
         Basis basis = new Basis();
         Application application;
 
@@ -130,7 +135,7 @@ public class BasisServiceImpl implements BasisService {
                 applNo, Application.class);
         application = application == null ? new Application() : application;
         basis.setApplication(application);
-        ec = retrieveBasis(basis);
+        ExecutionContext ec = retrieveBasis(basis);
 
         return ec;
     }
@@ -199,21 +204,6 @@ public class BasisServiceImpl implements BasisService {
             // 캐쉬에서 가져온 리스트를 변형하면 다른 요청에 영향을 미치므로
             // 캐쉬에서 가져온 리스트를 복사한 다른 리스트 저장
             selectionMap.put("applAttrList", getApplAttrForForeigner(basis, applAttrList));
-
-//            if( "C".equals(basis.getApplication().getAdmsTypeCode()) ||
-//                "D".equals(basis.getApplication().getAdmsTypeCode()) ||
-//                "W".equals(basis.getApplication().getAdmsTypeCode())){
-//
-//                for(int i = attrList.size()-1; i >= 0 ; i--){
-//                    if( !"00001".equals(attrList.get(i).getCode())){
-//                        attrList.remove(i);
-//                    } else {
-//                        CommonCode applAttr = attrList.get(i);
-//                        applAttr.setCodeVal("외국인 전형 지원자");
-//                        applAttr.setCodeValXxen("Foreigner Applicants");
-//                    }
-//                }
-//            }
             selectionMap.put("emerContList", commonService.retrieveCommonCodeByCodeGroup("EMER_CONT"));
 //            if( "15C".equals(basis.getApplication().getAdmsNo())){
 //
@@ -291,7 +281,8 @@ public class BasisServiceImpl implements BasisService {
                 r1 = commonDAO.insertItem(application, NAME_SPACE, "CustomApplicationMapper");
                 applNo = application.getApplNo();
 
-                if ("C".equals(admsTypeCode) || "D".equals(admsTypeCode)) {
+//                if ("C".equals(admsTypeCode) || "D".equals(admsTypeCode)) {
+                if (application.isForeignAppl()) {
                     applicationForeigner.setApplNo(applNo);
                     applicationForeigner.setCreId(modId);
                     applicationForeigner.setModId(null);
@@ -313,7 +304,8 @@ public class BasisServiceImpl implements BasisService {
             application.setModDate(date);
             r1 = commonDAO.updateItem(application, NAME_SPACE, "ApplicationMapper");
 
-            if ("C".equals(admsTypeCode) || "D".equals(admsTypeCode)) {
+//            if ("C".equals(admsTypeCode) || "D".equals(admsTypeCode)) {
+            if (application.isForeignAppl()) {
                 applicationForeigner.setApplNo(applNo);
                 applicationForeigner.setModId(modId);
                 applicationForeigner.setModDate(date);
@@ -332,7 +324,8 @@ public class BasisServiceImpl implements BasisService {
 
         if ( r1 == 1 && (r2 + r3 == 1) ) {
             ec.setResult(ExecutionContext.SUCCESS);
-            if ("C".equals(admsTypeCode) || "D".equals(admsTypeCode)) {
+//            if ("C".equals(admsTypeCode) || "D".equals(admsTypeCode)) {
+            if (application.isForeignAppl()) {
                 ec.setMessage(MessageResolver.getMessage("U315") + "\\n\\n" + MessageResolver.getMessage("U01701"));
             } else {
                 ec.setMessage(MessageResolver.getMessage("U315"));
@@ -343,12 +336,14 @@ public class BasisServiceImpl implements BasisService {
             String errCode = null;
             if (isInsert) {
                 if (r1 == 0) errCode = "ERR0001";
-                else if (r2 == 0 && !"C".equals(admsTypeCode) && !"D".equals(admsTypeCode)) errCode = "ERR0006";
-                else if (r3 == 0 && ("C".equals(admsTypeCode) || "D".equals(admsTypeCode))) errCode = "ERR0026";
+//                else if (r2 == 0 && !"C".equals(admsTypeCode) && !"D".equals(admsTypeCode)) errCode = "ERR0006";
+                else if (r2 == 0 && !(application.isForeignAppl())) errCode = "ERR0006";
+                else if (r3 == 0 && (application.isForeignAppl())) errCode = "ERR0026";
             } else {
                 if (r1 == 0) errCode = "ERR0003";
-                else if (r2 == 0 && !"C".equals(admsTypeCode) && !"D".equals(admsTypeCode)) errCode = "ERR0008";
-                else if (r3 == 0 && ("C".equals(admsTypeCode) || "D".equals(admsTypeCode))) errCode = "ERR0028";
+//                else if (r2 == 0 && !"C".equals(admsTypeCode) && !"D".equals(admsTypeCode)) errCode = "ERR0008";
+                else if (r2 == 0 && !(application.isForeignAppl())) errCode = "ERR0008";
+                else if (r3 == 0 && (application.isForeignAppl())) errCode = "ERR0028";
             }
             ec.setErrCode(errCode);
             Map<String, String> errorInfo = new HashMap<String, String>();

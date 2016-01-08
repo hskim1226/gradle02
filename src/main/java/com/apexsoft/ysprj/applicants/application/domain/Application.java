@@ -1276,4 +1276,8 @@ public class Application {
     public void setModDate(Date modDate) {
         this.modDate = modDate;
     }
+
+    public boolean isForeignAppl() {
+        return "C".equals(getAdmsTypeCode()) || "D".equals(getAdmsTypeCode());
+    }
 }
