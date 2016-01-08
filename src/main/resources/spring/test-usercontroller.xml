@@ -19,8 +19,8 @@
 
     <context:property-placeholder properties-ref="app"/>
 
-    <beans profile="new">
-        <util:properties id="app" location="classpath:properties/config/app.new.properties" />
+    <beans profile="dev">
+        <util:properties id="app" location="classpath:properties/config/app.dev.properties" />
         <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
             <property name="prefix" value="/WEB-INF/jsp/"/>
             <property name="suffix" value=".jsp"/>

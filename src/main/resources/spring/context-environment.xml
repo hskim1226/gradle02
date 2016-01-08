@@ -32,10 +32,6 @@
         <util:properties id="app" location="classpath:properties/config/app.svr2.properties" />
     </beans>
 
-	<beans profile="new">
-		<util:properties id="app" location="classpath:properties/config/app.new.properties" />
-	</beans>
-
     <beans profile="aws">
         <util:properties id="app" location="classpath:properties/config/app.aws.properties" />
     </beans>
