@@ -4,7 +4,6 @@ import org.apache.pdfbox.io.RandomAccessBufferedFileInputStream;
 import org.apache.pdfbox.io.RandomAccessRead;
 import org.apache.pdfbox.pdfparser.PDFParser;
 import org.apache.pdfbox.printing.PDFPageable;
-import org.apache.pdfbox.printing.PDFPrintable;
 
 import javax.print.*;
 import javax.print.attribute.HashPrintRequestAttributeSet;
@@ -35,30 +34,34 @@ public class PDFPrinter {
     public static void main(String[] args) throws Exception {
         InputStream is = new FileInputStream("/home/hanmomhanda/gitRepo/ysproject/src/main/java/com/apexsoft/framework/print/data.pdf");
 //        DocFlavor docFlavor = DocFlavor.INPUT_STREAM.PDF;
-        DocFlavor docFlavor = DocFlavor.SERVICE_FORMATTED.PAGEABLE;
-        PrintRequestAttributeSet aset = new HashPrintRequestAttributeSet();
-        aset.add(Sides.ONE_SIDED);
-
-
-        PrintService printService = PrintServiceLookup.lookupDefaultPrintService();
-        System.out.println("print service : " + printService.getName());
-
+////        DocFlavor docFlavor = DocFlavor.SERVICE_FORMATTED.PAGEABLE;
+//        PrintRequestAttributeSet aset = new HashPrintRequestAttributeSet();
+//        aset.add(Sides.ONE_SIDED);
+//
+//
+//        PrintService printService = PrintServiceLookup.lookupDefaultPrintService();
+//        System.out.println("print service : " + printService.getName());
+//
 
 
 //        PrintService[] printServices = PrintServiceLookup.lookupPrintServices(docFlavor, aset);
 //        if (printServices.length == 0){
 //            throw new IllegalStateException("No Printer Found");
 //        }
-        PrinterJob job = PrinterJob.getPrinterJob();
+//        PrinterJob job = PrinterJob.getPrinterJob();
 //        job.setPrintService(printServices[0]);
-        job.setPrintService(printService);
+//        job.setPrintService(printService);
 
-        File pdfFile = new File("/home/hanmomhanda/gitRepo/ysproject/src/main/java/com/apexsoft/framework/print/data.pdf");
-        RandomAccessRead raRead = new RandomAccessBufferedFileInputStream(pdfFile);
-        PDFParser pdfParser = new PDFParser(raRead);
-        pdfParser.parse();
-        job.setPageable(new PDFPageable(pdfParser.getPDDocument()));
-        job.print();
+
+
+//        File pdfFile = new File("/home/hanmomhanda/gitRepo/ysproject/src/main/java/com/apexsoft/framework/print/data.pdf");
+//        RandomAccessRead raRead = new RandomAccessBufferedFileInputStream(pdfFile);
+//        PDFParser pdfParser = new PDFParser(raRead);
+//        pdfParser.parse();
+//        job.setPageable(new PDFPageable(pdfParser.getPDDocument()));
+//        job.print();
+//        raRead.close();
+
 
 //        DocPrintJob docPrintJob = printService.createPrintJob();
 //        docPrintJob.addPrintJobListener(new JobCompleteMonitor());
@@ -68,6 +71,17 @@ public class PDFPrinter {
 //            Thread.sleep(1000);
 //        }
 //        System.out.println("Terminated");
+
+
+
+        PrinterJob job = PrinterJob.getPrinterJob();
+        File pdfFile = new File("/home/hanmomhanda/gitRepo/ysproject/src/main/java/com/apexsoft/framework/print/non-forgeproof.pdf");
+        RandomAccessRead raRead = new RandomAccessBufferedFileInputStream(pdfFile);
+        PDFParser pdfParser = new PDFParser(raRead);
+        pdfParser.parse();
+        job.setPageable(new PDFPageable(pdfParser.getPDDocument()));
+        job.print();
+
         is.close();
     }
 }
